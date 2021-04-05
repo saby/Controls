@@ -1,48 +1,3 @@
-<ws:template name="explorerWithoutMarkedKey">
-   <Controls.explorer:View
-           name="explorer"
-           itemActions="{{_itemActions}}"
-           itemActionVisibilityCallback="{{_itemActionVisibilityCallback}}"
-           showActionButton="{{false}}"
-           on:markedKeyChanged="_onMarkedKeyChanged()"
-           on:beforeMarkedKeyChanged="_onBeforeMarkedKeyChanged()"
-           on:actionClick="_onItemActionsClick()"
-           on:itemClick="_onItemClick()"
-           parentProperty="{{_options.parentProperty}}"
-           nodeProperty="{{_options.nodeProperty}}"
-           displayProperty="{{_options.displayProperty}}"
-           hasChildrenProperty="{{_options.hasChildrenProperty}}"
-           itemsFilterMethod="{{_itemsFilterMethod}}"
-           expanderDisplayMode="adaptive"
-           expanderVisibility="{{_options.expanderVisibility}}"
-           emptyTemplate="{{_options.emptyTemplate}}"
-           containerWidth="{{containerWidth}}"
-           columns="{{_columns}}"/>
-</ws:template>
-
-<ws:template name="explorerWithMarkedKey">
-   <Controls.explorer:View
-           name="explorer"
-           itemActions="{{_itemActions}}"
-           itemActionVisibilityCallback="{{_itemActionVisibilityCallback}}"
-           showActionButton="{{false}}"
-           on:markedKeyChanged="_onMarkedKeyChanged()"
-           on:beforeMarkedKeyChanged="_onBeforeMarkedKeyChanged()"
-           on:actionClick="_onItemActionsClick()"
-           on:itemClick="_onItemClick()"
-           parentProperty="{{_options.parentProperty}}"
-           nodeProperty="{{_options.nodeProperty}}"
-           displayProperty="{{_options.displayProperty}}"
-           hasChildrenProperty="{{_options.hasChildrenProperty}}"
-           itemsFilterMethod="{{_itemsFilterMethod}}"
-           expanderDisplayMode="adaptive"
-           expanderVisibility="{{_options.expanderVisibility}}"
-           emptyTemplate="{{_options.emptyTemplate}}"
-           containerWidth="{{containerWidth}}"
-           columns="{{_columns}}"
-           markedKey="{{_options.markedKey}}"/>
-</ws:template>
-
 <Controls._moverDialog.BaseTemplate>
    <ws:bodyContentTemplate>
       <Controls.browser:Browser source="{{_options.source}}"
@@ -54,11 +9,11 @@
                                 keyProperty="{{_options.keyProperty}}"
                                 searchParam="{{_options.searchParam}}">
             <div class="controls-MoveDialog__content">
-               <Controls.search:InputContainer attr:class="controls-MoveDialog__search controls-MoveDialog__search_theme-{{_options.theme}}">
+               <Controls.search:InputContainer attr:class="controls-MoveDialog__search ">
                   <Controls.search:Input/>
                </Controls.search:InputContainer>
                <ws:if data="{{_options.showRoot}}">
-                  <Controls.buttons:Button attr:class="controls-MoveDialog__root controls-MoveDialog__root_theme-{{_options.theme}}"
+                  <Controls.buttons:Button attr:class="controls-MoveDialog__root"
                                            viewMode="link"
                                            fontColorStyle="link"
                                            caption="{[В корень]}"
@@ -68,12 +23,26 @@
                </ws:if>
                <Controls.scroll:Container attr:class="controls-MoveDialog__scroll">
                   <Controls.list:Container>
-                     <ws:if data="{{ _options.hasOwnProperty('markedKey') }}">
-                        <ws:partial template="explorerWithMarkedKey" containerWidth="{{containerWidth}}"/>
-                     </ws:if>
-                     <ws:else>
-                        <ws:partial template="explorerWithoutMarkedKey" containerWidth="{{containerWidth}}"/>
-                     </ws:else>
+                     <Controls.explorer:View
+                             name="explorer"
+                             itemActions="{{_itemActions}}"
+                             itemActionVisibilityCallback="{{_itemActionVisibilityCallback}}"
+                             showActionButton="{{false}}"
+                             on:markedKeyChanged="_onMarkedKeyChanged()"
+                             on:beforeMarkedKeyChanged="_onBeforeMarkedKeyChanged()"
+                             on:actionClick="_onItemActionsClick()"
+                             on:itemClick="_onItemClick()"
+                             parentProperty="{{_options.parentProperty}}"
+                             nodeProperty="{{_options.nodeProperty}}"
+                             displayProperty="{{_options.displayProperty}}"
+                             hasChildrenProperty="{{_options.hasChildrenProperty}}"
+                             itemsFilterMethod="{{_itemsFilterMethod}}"
+                             expanderDisplayMode="adaptive"
+                             expanderVisibility="{{_options.expanderVisibility}}"
+                             emptyTemplate="{{_options.emptyTemplate}}"
+                             containerWidth="{{containerWidth}}"
+                             columns="{{_columns}}"
+                             markedKey="{{_options.markedKey}}"/>
                   </Controls.list:Container>
                </Controls.scroll:Container>
             </div>

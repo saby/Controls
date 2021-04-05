@@ -12,4 +12,7 @@ export default class DataCellCompatibility<T> {
     get column() {
         return this._$column;
     }
+    get index() {
+        return this.getOwner().index;
+    }
 }

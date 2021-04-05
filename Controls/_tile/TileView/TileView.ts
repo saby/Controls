@@ -2,8 +2,10 @@ import {ListView} from 'Controls/list';
 import template = require('wml!Controls/_tile/TileView/TileView');
 import defaultItemTpl = require('wml!Controls/_tile/TileView/TileTpl');
 import {TILE_SCALING_MODE, ZOOM_COEFFICIENT, ZOOM_DELAY} from './resources/Constants';
+import {SyntheticEvent} from 'Vdom/Vdom';
 import {TouchContextField} from 'Controls/context';
 import { getItemSize } from 'Controls/tileNew';
+import 'css!Controls/tile';
 
 var _private = {
     getPositionInContainer: function (itemNewSize, itemRect, containerRect, zoomCoefficient, withoutCorrection = false) {
@@ -102,13 +104,12 @@ var TileView = ListView.extend({
         TileView.superclass._afterMount.apply(this, arguments);
     },
 
-    _onResize: function () {
-       this._listModel.setHoveredItem(null);
-       if (this._options.initialWidth) {
-           const itemsContainerWidth = this.getItemsContainer().getBoundingClientRect().width;
-           if (itemsContainerWidth > 0) {
-               this._listModel.setCurrentWidth(itemsContainerWidth);
-           }
+    _onResize: function (event: SyntheticEvent<AnimationEvent>) {
+       /* FIXME: Если включены операции над записью с задержкой, то после завершения анимации попап стреляет Resize
+          TODO: https://online.sbis.ru/opendoc.html?guid=d8d0bf9e-fc25-4882-84d9-9ff5e20d52da
+        */
+       if (event?.type !== 'animationend') {
+           this._listModel.setHoveredItem(null);
        }
     },
 
@@ -126,11 +127,10 @@ var TileView = ListView.extend({
             const menuOptions = menuConfig.templateOptions;
             const itemContainer = clickEvent.target.closest('.controls-TileView__item');
             const imageWrapper = itemContainer.querySelector('.controls-TileView__imageWrapper');
-            const imageWrapperRect = imageWrapper.getBoundingClientRect();
             if (!imageWrapper) {
                 return null;
             }
-
+            const imageWrapperRect = imageWrapper.getBoundingClientRect();
             menuOptions.image = itemData.imageData.url;
             menuOptions.title = itemData.item.get(itemData.displayProperty);
             menuOptions.additionalText = itemData.item.get(menuOptions.headerAdditionalTextProperty);
@@ -373,6 +373,5 @@ TileView.contextTypes = function contextTypes() {
 };
 
 TileView._private = _private;
-TileView._theme = ['Controls/tile'];
 
 export = TileView;

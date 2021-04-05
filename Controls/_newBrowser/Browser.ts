@@ -29,7 +29,7 @@ import * as DefaultListItemTemplate from 'wml!Controls/_newBrowser/templates/Lis
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as DefaultTileItemTemplate from 'wml!Controls/_newBrowser/templates/TileItemTemplate';
-
+import 'css!Controls/listTemplates';
 //endregion
 
 interface IReceivedState {
@@ -694,7 +694,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
     //region • static utils
     static _theme: string[] = [
-        'Controls/listTemplates',
         'Controls/newBrowser'
     ];
 

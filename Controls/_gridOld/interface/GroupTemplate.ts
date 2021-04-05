@@ -12,8 +12,8 @@
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/grid:GroupTemplate" expanderVisible="{{ false }}" scope="{{ groupTemplate }}">
  *          <ws:contentTemplate>
- *             <ws:if data="{{contentTemplate.itemData.item === 'tasks'}}">Задачи</ws:if>
- *             <ws:if data="{{contentTemplate.itemData.item === 'error'}}">Ошибки</ws:if>
+ *             <ws:if data="{{contentTemplate.item.contents === 'tasks'}}">Задачи</ws:if>
+ *             <ws:if data="{{contentTemplate.item.contents === 'error'}}">Ошибки</ws:if>
  *          </ws:contentTemplate>
  *       </ws:partial>
  *    </ws:groupTemplate>

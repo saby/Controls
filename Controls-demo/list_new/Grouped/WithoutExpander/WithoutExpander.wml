@@ -5,7 +5,7 @@
                 source="{{_viewSource}}"
                 groupProperty="byDemand">
             <ws:groupTemplate>
-                <ws:partial template="Controls/list:GroupTemplate" itemData="{{itemData}}" expanderVisible="{{ false }}"/>
+                <ws:partial template="Controls/list:GroupTemplate" scope="{{ _options }}" expanderVisible="{{ false }}"/>
             </ws:groupTemplate>
         </Controls.list:View>
     </Controls.scroll:Container>

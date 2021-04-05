@@ -20,6 +20,7 @@ import { abbreviateNumber } from 'Controls/_decorator/resources/Formatter';
 //@ts-ignore
 import * as template from 'wml!Controls/_decorator/Money/Money';
 import 'css!Controls/decorator';
+import 'css!Controls/CommonClasses';
 
 /**
  * Тип данных для форматируемого значения
@@ -106,6 +107,13 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
      * @default 'right'
      */
     currencyPosition?: TCurrencyPosition;
+    /**
+     * @name Controls/_decorator/IMoney#precision
+     * @cfg {Number} Количество знаков после запятой.
+     * @default 2
+     * @demo Controls-demo/Decorator/Money/Precision/Index
+     */
+    precision?: number;
 }
 
 /**
@@ -177,9 +185,11 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         return false;
     }
 
-    private _parseNumber(): IPaths {
-        const value = Money.toFormat(Money.toString(this._value));
-        let exec: RegExpExecArray | string[] = Money.SEARCH_PATHS.exec(value);
+    private _parseNumber(precision: number): IPaths {
+        const value = Money.toFormat(Money.toString(this._value, precision), precision);
+
+        const searchPath: RegExp = new RegExp(`(-?[0-9]*?)(\\.[0-9]{${precision}})`);
+        let exec: RegExpExecArray | string[] = searchPath.exec(value);
 
         if (!exec) {
             Logger.error('Controls/_decorator/Money: That is not a valid option value: ' + this._value + '.', this);
@@ -200,7 +210,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         if (options.abbreviationType !== 'none') {
             return abbreviateNumber(options.value, options.abbreviationType);
         } else {
-            return this._parseNumber();
+            return this._parseNumber(options.precision);
         }
     }
 
@@ -233,15 +243,13 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         this._tooltip = this._getTooltip(newOptions);
     }
 
-    private static FRACTION_LENGTH: number = 2;
-    private static ZERO_FRACTION_PATH: string = '0'.repeat(Money.FRACTION_LENGTH);
+    // private static FRACTION_LENGTH: number = 2;
+    // private static ZERO_FRACTION_PATH: string = '0'.repeat(Money.FRACTION_LENGTH);
     private static SEARCH_PATHS: RegExp = new RegExp(`(-?[0-9]*?)(\\.[0-9]{${Money.FRACTION_LENGTH}})`);
 
-    static _theme: string[] = ['Controls/Classes'];
-
-    private static toString(value: string): string {
+    private static toString(value: string, precision: number): string {
         if (value === null) {
-            return '0.' + Money.ZERO_FRACTION_PATH;
+            return '0.' + Money.getZeroFractionPath(precision);
         }
         if (typeof value === 'number') {
             return numberToString(value);
@@ -254,19 +262,23 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
      * Приводит value к формату:
      * 1. Значение должно иметь {Money.FRACTION_LENGTH} знака в дробной части. Недостоющие знаки заменяются нулями.
      */
-    private static toFormat(value: string): string {
+    private static toFormat(value: string, precision: number): string {
         const dotPosition = value.indexOf('.');
 
         if (dotPosition === -1) {
-            return value + `.${Money.ZERO_FRACTION_PATH}`;
+            return value + `.${Money.getZeroFractionPath(precision)}`;
         }
 
         const fractionLength = value.length - dotPosition - 1;
-        if (fractionLength < Money.FRACTION_LENGTH) {
-            return value + '0'.repeat(Money.FRACTION_LENGTH - fractionLength);
+        if (fractionLength < precision) {
+            return value + '0'.repeat(precision - fractionLength);
         }
 
         return value;
+    }
+
+    private static getZeroFractionPath(precision: number): string {
+        return '0'.repeat(precision)
     }
 
     static getDefaultOptions(): Partial<IMoneyOptions> {
@@ -276,6 +288,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
             fontSize: 'm',
             fontWeight: 'default',
             useGrouping: true,
+            precision: 2,
             showEmptyDecimals: true,
             currencySize: 's',
             currencyPosition: 'right',
@@ -292,6 +305,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
             fontSize: descriptor(String),
             useGrouping: descriptor(Boolean),
             showEmptyDecimals: descriptor(Boolean),
+            precision: descriptor(Number),
             value: descriptor(String, Number, null),
             currencySize: descriptor(String),
             currencyPosition: descriptor(String),

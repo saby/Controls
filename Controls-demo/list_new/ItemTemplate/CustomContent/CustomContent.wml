@@ -4,8 +4,8 @@
             <ws:partial template="Controls/list:ItemTemplate">
                 <ws:contentTemplate>
                     <div>
-                        <div>{{itemTemplate.itemData.item.get('title')}}</div>
-                        <div style="font-size: 11px; color: grey">{{itemTemplate.itemData.item.get('description')}}
+                        <div>{{itemTemplate.item.contents.get('title')}}</div>
+                        <div style="font-size: 11px; color: grey">{{itemTemplate.item.contents.get('description')}}
                         </div>
                     </div>
                 </ws:contentTemplate>

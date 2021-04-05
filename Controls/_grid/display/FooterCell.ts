@@ -36,11 +36,10 @@ export default class FooterCell<T> extends Cell<T, FooterRow<T>> {
     // endregion
 
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
-        let wrapperClasses = 'controls-GridView__footer__cell'
-                          + ` controls-GridView__footer__cell_theme-${theme}`;
+        let wrapperClasses = 'controls-GridView__footer__cell';
 
         if (backgroundColorStyle) {
-            wrapperClasses += ` controls-background-${backgroundColorStyle}_theme-${theme}`;
+            wrapperClasses += ` controls-background-${backgroundColorStyle}`;
         }
 
         if (this._$owner.hasColumnScroll()) {
@@ -48,7 +47,7 @@ export default class FooterCell<T> extends Cell<T, FooterRow<T>> {
         }
 
         if (this.getOwner().getActionsTemplateConfig()?.itemActionsPosition === 'outside') {
-            wrapperClasses += ` controls-GridView__footer__itemActionsV_outside_theme-${theme}`;
+            wrapperClasses += ' controls-GridView__footer__itemActionsV_outside';
         }
 
         wrapperClasses += this._getHorizontalPaddingClasses(theme);

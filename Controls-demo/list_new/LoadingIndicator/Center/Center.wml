@@ -5,5 +5,5 @@
                 keyProperty="id"
                 source="{{_viewSource}}"/>
     </Controls.scroll:Container>
-    <a href="#" class="controls-text-link_theme-default" style="position: relative; z-index: 99999; margin-right: 10px" on:click="_reloadList()">Reload list</a>
+    <a href="#" class="controls-text-link" style="position: relative; z-index: 99999; margin-right: 10px" on:click="_reloadList()">Reload list</a>
 </div>

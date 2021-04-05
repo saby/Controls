@@ -83,8 +83,8 @@ describe('Controls/_treeGridNew/display/TreeGridNodeFooterRow', () => {
    });
 
    it('.getExpanderPaddingClasses()', () => {
-      CssClassesAssert.isSame(nodeFooterRow.getExpanderPaddingClasses(), 'controls-TreeGrid__row-expanderPadding controls-TreeGrid__node-footer-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_default_theme-default js-controls-ListView__notEditable');
-      CssClassesAssert.isSame(nodeFooterRow.getExpanderPaddingClasses('s'), 'controls-TreeGrid__row-expanderPadding controls-TreeGrid__node-footer-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_s_theme-default js-controls-ListView__notEditable');
+      CssClassesAssert.isSame(nodeFooterRow.getExpanderPaddingClasses(), 'controls-TreeGrid__node-footer-expanderPadding controls-TreeGrid__row-expanderPadding_size_default js-controls-ListView__notEditable');
+      CssClassesAssert.isSame(nodeFooterRow.getExpanderPaddingClasses('s'), 'controls-TreeGrid__node-footer-expanderPadding controls-TreeGrid__row-expanderPadding_size_s js-controls-ListView__notEditable');
    });
 
    it('.shouldDisplayVisibleFooter()', () => {

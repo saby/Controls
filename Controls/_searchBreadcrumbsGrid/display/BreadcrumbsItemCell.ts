@@ -33,18 +33,18 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
       let classes = 'controls-Grid__row-cell__content_colspaned ';
 
       if (!this.getOwner().hasMultiSelectColumn()) {
-         classes += `controls-Grid__cell_spacingFirstCol_${this.getOwner().getLeftPadding()}_theme-${theme} `;
+         classes += `controls-Grid__cell_spacingFirstCol_${this.getOwner().getLeftPadding()} `;
       }
 
-      classes += `controls-Grid__cell_spacingLastCol_${this.getOwner().getRightPadding()}_theme-${theme} `;
-      classes += `controls-Grid__row-cell_rowSpacingTop_${this.getOwner().getTopPadding()}_theme-${theme} `;
-      classes += `controls-Grid__row-cell_rowSpacingBottom_${this.getOwner().getBottomPadding()}_theme-${theme} `;
+      classes += `controls-Grid__cell_spacingLastCol_${this.getOwner().getRightPadding()} `;
+      classes += `controls-Grid__row-cell_rowSpacingTop_${this.getOwner().getTopPadding()} `;
+      classes += `controls-Grid__row-cell_rowSpacingBottom_${this.getOwner().getBottomPadding()} `;
 
       return classes;
    }
 
-   shouldDisplayEditArrow(): boolean {
-      if (this.getColumnIndex() > 0) {
+   shouldDisplayEditArrow(contentTemplate?: TemplateFunction): boolean {
+      if (!!contentTemplate || this.getColumnIndex() > 0) {
          return false;
       }
       const contents = this._$owner.getLast().getContents();

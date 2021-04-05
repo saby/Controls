@@ -147,6 +147,7 @@ export {
 };
 
 export {
+    IGridControl,
     TColumns,
     IColumn,
     IColspanParams,

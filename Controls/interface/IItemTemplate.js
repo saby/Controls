@@ -39,7 +39,7 @@ define('Controls/interface/IItemTemplate', [
     *    <ws:itemTemplate>
     *       <ws:partial template="Controls/list:ItemTemplate" marker="{{false}}" scope="{{itemTemplate}}">
     *          <ws:contentTemplate>
-    *             {{contentTemplate.itemData.item.title}}
+    *             {{contentTemplate.item.contents.title}}
     *          </ws:contentTemplate>
     *       </ws:partial>
     *    </ws:itemTemplate>
@@ -69,7 +69,7 @@ define('Controls/interface/IItemTemplate', [
     *       <ws:itemTemplate>
     *          <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
     *             <ws:contentTemplate>
-    *                <span>{{contentTemplate.itemData.item.description}}</span>
+    *                <span>{{contentTemplate.item.contents.description}}</span>
     *             </ws:contentTemplate>
     *          </ws:partial>
     *       </ws:itemTemplate>

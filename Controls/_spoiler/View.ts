@@ -8,7 +8,7 @@ import {IHeading, IHeadingOptions, default as Heading} from 'Controls/_spoiler/H
 import * as template from 'wml!Controls/_spoiler/View/View';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import Util from './Util';
-
+import 'css!Controls/spoiler';
 
 export interface IViewOptions extends IHeadingOptions {
     /**
@@ -80,8 +80,6 @@ class View extends Control<IViewOptions> implements IView {
         this._notify('expandedChanged', [state]);
         this._expanded = state;
     }
-
-    static _theme: string[] = ['Controls/spoiler'];
 
     static getDefaultOptions(): Partial<IViewOptions> {
         return Heading.getDefaultOptions();

@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemsContainerPadding/PaddingDefault/Index' }}">
             <a href="{{content.href}}">Стандартные отступы</a>
@@ -10,7 +10,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemsContainerPadding/PaddingNull/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру null</a>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemsContainerPadding/PaddingXS/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру XS</a>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemsContainerPadding/PaddingS/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру S</a>
@@ -37,7 +37,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemsContainerPadding/PaddingM/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру M</a>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemsContainerPadding/PaddingL/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру L</a>
@@ -55,7 +55,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemsContainerPadding/PaddingXL/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру XL</a>
@@ -64,7 +64,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemsContainerPadding/Padding2XL/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру 2XL</a>

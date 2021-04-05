@@ -24,7 +24,7 @@ export default class ColgroupCell<T> extends mixin<OptionsToPropertyMixin>(Optio
         let bodyClasses = 'controls-Grid__colgroup-column';
 
         if (this.isMultiSelectColumn()) {
-            bodyClasses += ` controls-Grid__colgroup-columnMultiSelect_theme-${theme}`;
+            bodyClasses += ` controls-Grid__colgroup-columnMultiSelect`;
         }
         return bodyClasses;
     }

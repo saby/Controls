@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper {{_options.theme.indexOf('large')<0 ? 'controlsDemo_fixedWidth500' : 'controlsDemo_fixedWidth800'}}">
 
     <div class="controlsDemo__cell ControlsDemo-grouped__base">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/grid/Grouped/TextVisibility/Base/Index' }}">
             <a href="{{content.href}}">Без текста</a>
@@ -10,7 +10,7 @@
     </div>
 
     <div class="controlsDemo__cell ControlsDemo-grouped__rightTemplate">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/grid/Grouped/TextVisibility/RightTemplate/Index' }}">
             <a href="{{content.href}}">Без текста, с шаблоном правой части разделителя</a>

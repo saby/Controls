@@ -5,7 +5,7 @@
                   name="Path"
                   displayMode="{{_options.breadcrumbsDisplayMode}}"
                   withoutBackButton="{{_withoutBackButton}}"
-                  attr:class="controls-Explorer__Path_theme-{{_options.theme}}"
+                  attr:class="controls-Explorer__Path"
                   on:backButtonClick="_notifyHandler('backButtonClick')"
                   on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
                   on:arrowActivated="_notifyHandler('arrowActivated')"
@@ -25,7 +25,7 @@
               shadowVisibility="{{_options.needShadow ? 'lastVisible' : 'hidden'}}"
               fixedZIndex="{{5}}"
               backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
-              attr:class="controls-Explorer__HeadingPath-{{_options.style}}_theme-{{_options.theme}}">
+              attr:class="controls-Explorer__HeadingPath-{{_options.style}}">
          <div class="controls-Explorer__PathWrapper">
             <ws:partial template="headingPath" />
          </div>

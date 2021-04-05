@@ -255,7 +255,6 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         const rowSeparatorSize = this.getRowSeparatorSize();
         let emptyTemplateClasses = 'controls-GridView__emptyTemplate js-controls-GridView__emptyTemplate';
         emptyTemplateClasses += ` controls-Grid__row-cell_withRowSeparator_size-${rowSeparatorSize}`;
-        emptyTemplateClasses += ` controls-Grid__row-cell_withRowSeparator_size-${rowSeparatorSize}_theme-${theme}`;
         return emptyTemplateClasses;
     }
 

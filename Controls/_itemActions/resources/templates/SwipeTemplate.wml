@@ -6,10 +6,10 @@
     </ws:if>
     <ws:else data="{{swipeConfig}}">
         <div class="controls-itemActionsV_swipe_animationContainer">
-            <div class="controls-Swipe_theme-{{ theme }}
-                controls-Swipe_{{ itemData.getSwipeAnimation() || none }}_theme-{{ theme }}"
+            <div class="controls-Swipe
+                controls-Swipe_{{ itemData.getSwipeAnimation() || none }}"
                 on:animationend="_onActionsSwipeAnimationEnd()">
-                <div class="controls-Swipe_{{swipeConfig.twoColumns ? 'columns' : actionAlignment}}_theme-{{ theme }}">
+                <div class="controls-Swipe_{{swipeConfig.twoColumns ? 'columns' : actionAlignment}}">
 
                     <ws:if data="{{swipeConfig.twoColumns}}">
                         <ws:partial

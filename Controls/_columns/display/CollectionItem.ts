@@ -46,7 +46,7 @@ export default class CollectionItem<T> extends BaseCollectionItem<T> {
     }
 
     getItemActionClasses(itemActionsPosition: string, theme?: string): string {
-        return `controls-ColumnsView__itemActionsV_${itemActionsPosition}_theme-${theme}`;
+        return `controls-ColumnsView__itemActionsV_${itemActionsPosition}`;
     }
 }
 

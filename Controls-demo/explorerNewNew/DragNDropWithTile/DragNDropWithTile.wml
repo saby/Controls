@@ -5,7 +5,7 @@
             <div>
                 <Controls.list:Mover name="listMover" parentProperty="parent"/>
                 <Controls.list:Container>
-                    <Controls.explorer:View
+                    <Controls.explorer:View useOldModel="{{ true }}"
                             bind:root="_root"
                             attr:class="demo-Explorer ControlsDemo-Explorer"
                             keyProperty="id"

@@ -97,7 +97,7 @@ function getMoreActions(): Array<{
         },
         {
             id: 12,
-            icon: 'icon-View icon-small',
+            icon: 'icon-View',
             title: 'view',
             showType: TItemActionShowType.TOOLBAR,
             // tslint:disable-next-line
@@ -105,7 +105,7 @@ function getMoreActions(): Array<{
         },
         {
             id: 13,
-            icon: 'icon-Motion icon-small',
+            icon: 'icon-Motion',
             title: 'motion',
             showType: TItemActionShowType.TOOLBAR,
             // tslint:disable-next-line

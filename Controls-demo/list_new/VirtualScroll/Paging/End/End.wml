@@ -1,6 +1,6 @@
 <ws:template name="contentTemplate">
     <ws:if data="{{_count}}">
-        <p class="controls-Paging__info_theme-default" style="text-align: center">{{_count}}</p>
+        <p class="controls-Paging__info" style="text-align: center">{{_count}}</p>
     </ws:if>
 </ws:template>
 

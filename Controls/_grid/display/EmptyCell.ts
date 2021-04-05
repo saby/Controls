@@ -24,12 +24,12 @@ export default class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompat
         if (this._$isFullColspan) {
             classes = '';
         } else if (this.isMultiSelectColumn()) {
-            classes = `controls-GridView__emptyTemplate__checkBoxCell ` +
-                `controls-Grid__row-cell-editing_theme-${theme} ` +
-                `controls-Grid__row-cell-background-editing_${backgroundColorStyle}_theme-${theme} `
+            classes = 'controls-GridView__emptyTemplate__checkBoxCell ' +
+                'controls-Grid__row-cell-editing ' +
+                `controls-Grid__row-cell-background-editing_${backgroundColorStyle} `;
         } else {
             classes = super.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) +
-                ` controls-Grid__row-cell-background-editing_default_theme-${theme}`
+                ' controls-Grid__row-cell-background-editing_default';
         }
 
         return classes;
@@ -38,20 +38,19 @@ export default class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompat
         let classes;
 
         if (this._$isFullColspan) {
-            classes = `controls-ListView__empty`
-                + ` controls-ListView__empty_theme-${theme}`
-                + ` controls-ListView__empty_topSpacing_${topSpacing}_theme-${theme}`
-                + ` controls-ListView__empty_bottomSpacing_${bottomSpacing}_theme-${theme}`;
+            classes = 'controls-ListView__empty'
+                + ' controls-ListView__empty_topSpacing_${topSpacing}'
+                + ' controls-ListView__empty_bottomSpacing_${bottomSpacing}';
         } else if (this.isMultiSelectColumn()) {
             classes = '';
         } else {
             classes = this._getHorizontalPaddingClasses(theme)
                 + this._getVerticalPaddingClasses(theme)
-                + ` controls-Grid__row-cell__content`
-                + ` controls-GridView__emptyTemplate__cell`
-                + ` controls-Grid__row-cell-editing_theme-${theme}`
-                + ` controls-Grid__row-cell__content_baseline_default_theme-${theme}`
-                + ` controls-Grid__row-cell-background-editing_default_theme-${theme}`;
+                + ' controls-Grid__row-cell__content'
+                + ' controls-GridView__emptyTemplate__cell'
+                + ' controls-Grid__row-cell-editing'
+                + ' controls-Grid__row-cell__content_baseline_default'
+                + ' controls-Grid__row-cell-background-editing_default';
         }
 
         return classes;

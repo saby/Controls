@@ -362,12 +362,12 @@ describe('Controls/_itemActions/Controller', () => {
         // T1.9. После установки набора операций, операции с иконками содержат в поле icon CSS класс
         // “controls-itemActionsV__action_icon icon-size” (оч сомнительный тест)
         // TODO Возможно, установка этого класса переедет в шаблон
-        it('should set "controls-itemActionsV__action_icon_theme-default" CSS class for' +
+        it('should set "controls-itemActionsV__action_icon" CSS class for' +
             'shown item actions icons', () => {
             const actionsOf5 = collection.getItemBySourceKey(5).getActions();
             assert.exists(actionsOf5, 'actions were not set to item 5');
-            assert.notEqual(actionsOf5.showed[0].icon.indexOf('controls-itemActionsV__action_icon_theme'), -1,
-                'Css class \'controls-itemActionsV__action_icon_theme-\' should be added to item');
+            assert.notEqual(actionsOf5.showed[0].icon.indexOf('controls-itemActionsV__action_icon'), -1,
+                'Css class \'controls-itemActionsV__action_icon\' should be added to item');
         });
 
         // T1.10. При реальной смене у операций элементов настроек all/showed должна изменяться версия модели
@@ -1556,8 +1556,8 @@ describe('Controls/_itemActions/Controller', () => {
             assert.equal(config.templateOptions.iconSize, 'm', 'default iconSize has not been applied');
         });
 
-        // T3.7. Для меню не нужно считать controls-itemActionsV__action_icon_theme-default
-        it('should not set "controls-itemActionsV__action_icon_theme-default" CSS class for menu item actions icons', () => {
+        // T3.7. Для меню не нужно считать controls-itemActionsV__action_icon
+        it('should not set "controls-itemActionsV__action_icon" CSS class for menu item actions icons', () => {
             const item3 = collection.getItemBySourceKey(3);
             const actionsOf3 = item3.getActions();
             const config = itemActionsController.prepareActionsMenuConfig(
@@ -1570,8 +1570,8 @@ describe('Controls/_itemActions/Controller', () => {
             // @ts-ignore
             const calculatedChildren = config.templateOptions.source;
             assert.exists(calculatedChildren, 'Menu actions source haven\'t been set in template options');
-            assert.notMatch(calculatedChildren.data[0].icon, /controls-itemActionsV__action_icon_theme/,
-                'Css class \'controls-itemActionsV__action_icon_theme-\' should not be added to menu item');
+            assert.notMatch(calculatedChildren.data[0].icon, /controls-itemActionsV__action_icon/,
+                'Css class \'controls-itemActionsV__action_icon\' should not be added to menu item');
         });
 
         // T3.8. В любом случае нужно посчитать fittingMode
@@ -1591,16 +1591,16 @@ describe('Controls/_itemActions/Controller', () => {
             assert.equal(config.fittingMode.horizontal, 'adaptive');
         });
 
-        // T3.9. Для Контекстного меню нужно обязательно добавлять CSS класс controls-ItemActions__popup__list_theme-default
-        it('should set config.className with value controls-ItemActions__popup__list_theme-default when parentAction isn\'t set', () => {
+        // T3.9. Для Контекстного меню нужно обязательно добавлять CSS класс controls-ItemActions__popup__list
+        it('should set config.className with value controls-ItemActions__popup__list when parentAction isn\'t set', () => {
             const item3 = collection.getItemBySourceKey(3);
             const actionsOf3 = item3.getActions();
             const config = itemActionsController.prepareActionsMenuConfig(item3, clickEvent, null, null, true);
-            assert.equal(config.className, 'controls-ItemActions__popup__list_theme-default');
+            assert.equal(config.className, 'controls-ItemActions__popup__list');
         });
 
-        // T3.10. Для Дополнительного меню нужно обязательно добавлять CSS класс controls-ItemActions__popup__list_theme-default
-        it('should set config.className with value controls-ItemActions__popup__list_theme-default when parentAction.isMenu===true', () => {
+        // T3.10. Для Дополнительного меню нужно обязательно добавлять CSS класс controls-ItemActions__popup__list
+        it('should set config.className with value controls-ItemActions__popup__list when parentAction.isMenu===true', () => {
             const item3 = collection.getItemBySourceKey(3);
             const actionsOf3 = item3.getActions();
             const config = itemActionsController.prepareActionsMenuConfig(
@@ -1610,11 +1610,11 @@ describe('Controls/_itemActions/Controller', () => {
                 null,
                 false
             );
-            assert.equal(config.className, 'controls-ItemActions__popup__list_theme-default');
+            assert.equal(config.className, 'controls-ItemActions__popup__list');
         });
 
-        // T3.11. Для Обычного Меню нужно обязательно добавлять CSS класс controls-MenuButton_link_iconSize-medium_popup theme_default
-        it('should set config.className with value controls-MenuButton_link_iconSize-medium_popup theme_default when parentAction.isMenu!==true', () => {
+        // T3.11. Для Обычного Меню нужно обязательно добавлять CSS класс controls-MenuButton_link_iconSize-medium_popup
+        it('should set config.className with value controls-MenuButton_link_iconSize-medium_popup when parentAction.isMenu!==true', () => {
             const item3 = collection.getItemBySourceKey(3);
             const config = itemActionsController.prepareActionsMenuConfig(
                 item3,
@@ -1623,7 +1623,7 @@ describe('Controls/_itemActions/Controller', () => {
                 null,
                 false
             );
-            assert.equal(config.className, 'controls-MenuButton_link_iconSize-medium_popup theme_default');
+            assert.equal(config.className, 'controls-MenuButton_link_iconSize-medium_popup');
         });
 
         // T3.12. Если в метод передан contextMenu=true, то будет расчитан config.targetPoint

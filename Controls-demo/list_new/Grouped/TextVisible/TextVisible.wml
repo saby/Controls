@@ -5,7 +5,7 @@
                 source="{{_viewSource}}"
                 groupProperty="brand">
             <ws:groupTemplate>
-                <ws:partial template="Controls/list:GroupTemplate" itemData="{{itemData}}" textVisible="{{false}}"/>
+                <ws:partial template="Controls/list:GroupTemplate" scope="{{ _options }}" textVisible="{{false}}"/>
             </ws:groupTemplate>
         </Controls.list:View>
     </Controls.scroll:Container>

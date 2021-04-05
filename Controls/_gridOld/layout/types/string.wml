@@ -1,5 +1,5 @@
-<span class="{{fontColorStyle ? 'controls-text-' + fontColorStyle + '_theme-' + _options.theme}}
-             {{fontSize ? 'controls-fontsize-' + fontSize + '_theme-' + _options.theme}}">
+<span class="{{fontColorStyle ? 'controls-text-' + fontColorStyle}}
+             {{fontSize ? 'controls-fontsize-' + fontSize}}">
     <ws:if data="{{searchValue}}">
         <Controls.decorator:Highlight highlightedValue="{{searchValue}}" value="{{value}}"/>
     </ws:if>

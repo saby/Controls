@@ -99,7 +99,7 @@ export default interface IBaseGroupTemplateOptions {
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/list:GroupTemplate" scope="{{groupTemplate}}">
  *          <ws:rightTemplate>
- *             {{ rightTemplate.itemData.metaData.groupResults[rightTemplate.itemData.item] }}
+ *             {{ rightTemplate.itemData.metaData.groupResults[rightTemplate.item.contents] }}
  *          </ws:rightTemplate>
  *       </ws:partial>
  *    </ws:groupTemplate>
@@ -120,7 +120,7 @@ export default interface IBaseGroupTemplateOptions {
  * <!-- file2.wml -->
  * <ws:partial template="Controls/list:GroupTemplate">
  *    <ws:rightTemplate>
- *       {{ rightTemplate.itemData.metaData.groupResults[rightTemplate.itemData.item] }}
+ *       {{ rightTemplate.itemData.metaData.groupResults[rightTemplate.item.contents] }}
  *    </ws:rightTemplate>
  * </ws:partial>
  * </pre>
@@ -142,7 +142,7 @@ export default interface IBaseGroupTemplateOptions {
  *
  * <pre class="brush: html">
  * <!-- file2.wml -->
- * {{ rightTemplate.itemData.metaData.groupResults[rightTemplate.itemData.item] }}
+ * {{ rightTemplate.itemData.metaData.groupResults[rightTemplate.item.contents] }}
  * </pre>
  */
 /**
@@ -169,8 +169,8 @@ export default interface IBaseGroupTemplateOptions {
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/list:GroupTemplate" scope="{{groupTemplate}}">
  *          <ws:contentTemplate>
- *             <ws:if data="{{contentTemplate.itemData.item === 'nonexclusive'}}">Неисключительные права</ws:if>
- *             <ws:if data="{{contentTemplate.itemData.item === 'works'}}">Работы</ws:if>
+ *             <ws:if data="{{contentTemplate.item.contents === 'nonexclusive'}}">Неисключительные права</ws:if>
+ *             <ws:if data="{{contentTemplate.item.contents === 'works'}}">Работы</ws:if>
  *          </ws:contentTemplate>
  *       </ws:partial>
  *    </ws:groupTemplate>
@@ -191,8 +191,8 @@ export default interface IBaseGroupTemplateOptions {
  * <!-- file2.wml -->
  * <ws:partial template="Controls/list:GroupTemplate">
  *    <ws:contentTemplate>
- *       <ws:if data="{{contentTemplate.itemData.item === 'nonexclusive'}}">Неисключительные права</ws:if>
- *       <ws:if data="{{contentTemplate.itemData.item === 'works'}}">Работы</ws:if>
+ *       <ws:if data="{{contentTemplate.item.contents === 'nonexclusive'}}">Неисключительные права</ws:if>
+ *       <ws:if data="{{contentTemplate.item.contents === 'works'}}">Работы</ws:if>
  *    </ws:contentTemplate>
  * <ws:partial>
  * </pre>
@@ -214,8 +214,8 @@ export default interface IBaseGroupTemplateOptions {
  *
  * <pre class="brush: html">
  * <!-- file2.wml -->
- * <ws:if data="{{itemData.item === 'nonexclusive'}}">Неисключительные права</ws:if>
- * <ws:if data="{{itemData.item === 'works'}}">Работы</ws:if>
+ * <ws:if data="{{item.contents === 'nonexclusive'}}">Неисключительные права</ws:if>
+ * <ws:if data="{{item.contents === 'works'}}">Работы</ws:if>
  * </pre>
  * @see textAlign
  * @see fontSize

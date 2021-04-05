@@ -224,7 +224,7 @@ export interface IColumn extends IColspanParams {
      * <!-- CountryRatingNumber.wml -->
      * <ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
      *     <ws:contentTemplate>
-     *         <span style="color: #f60">№ {{itemData.item['number']}}</span>
+     *         <span style="color: #f60">№ {{item.contents['number']}}</span>
      *     </ws:contentTemplate>
      * </ws:partial>
      * </pre>
@@ -265,7 +265,7 @@ export interface IColumn extends IColspanParams {
      * <!-- ExampleColumn.wml -->
      * <Controls.grid:ColumnTemplate itemData="{{itemData}}">
      *     <ws:contentTemplate>
-     *         <div class="controls-text-{{style}}_theme-{{_options.theme}}">{{itemData.item[displayProperty]}}</div>
+     *         <div class="controls-text-{{style}}_theme-{{_options.theme}}">{{item.contents[displayProperty]}}</div>
      *     </ws:contentTemplate>
      * </Controls.grid:ColumnTemplate>
      * </pre>
@@ -283,7 +283,7 @@ export interface IColumn extends IColspanParams {
      *
      * В разделе "Примеры" показано как с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию resultTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ResultColumnTemplate.
      *
-     * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/column/ руководстве разработчика}.
+     * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/template/ руководстве разработчика}.
      *
      * Для отображения строки итогов необходимо задать значение в опции {@link Controls/grid:View#resultsPosition resultsPosition}.
      * @example

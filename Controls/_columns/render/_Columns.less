@@ -2,37 +2,37 @@
    display: grid;
    flex-direction: row;
    justify-content: flex-start;
-   padding: 0 @item_offset-horizontal_columns;
+   padding: 0 var(--item_offset-horizontal_columns);
 }
 
 .controls-ColumnsView_column {
    height: 100%;
-   padding: 0 @item_offset-horizontal_columns;
+   padding: 0 var(--item_offset-horizontal_columns);
    box-sizing: border-box;
 }
 
 .controls-ColumnsView__itemV {
    user-select: none;
    box-sizing: border-box;
-   box-shadow: @item_shadow-size_columns @item_shadow-color_columns;
+   box-shadow: var(--item_shadow-size_columns) var(--item_shadow-color_columns);
    display: inline-block;
-   margin: @item_offset-vertical_columns 0;
+   margin: var(--item_offset-vertical_columns) 0;
    overflow: hidden;
    vertical-align: top;
    width: 100%;
 
    .controls-Checkbox {
-      margin: @checkbox_offset-top_columns @checkbox_offset-right_columns @checkbox_offset-bottom_columns @checkbox_offset-left_columns;
+      margin: var(--checkbox_offset-top_columns) var(--checkbox_offset-right_columns) var(--checkbox_offset-bottom_columns) var(--checkbox_offset-left_columns);
    }
 }
 
 .controls-ColumnsView__itemActionsV_inside {
-   padding-right: @offset-right_itemActions;
-   height: @height_itemActions_columns;
+   padding-right: var(--offset-right_itemActions);
+   height: var(--height_itemActions_columns);
 }
 
 .controls-ColumnsView__itemV:hover {
-   box-shadow: @item_shadow-size_columns @item_hover_shadow-color_columns;
+   box-shadow: var(--item_shadow-size_columns) var(--item_hover_shadow-color_columns);
 }
 
 .controls-ColumnsView_column,
@@ -48,6 +48,6 @@
    left: 0;
    right: 0;
    box-sizing: border-box;
-   border: 1px solid @item_marked_border-color_columns;
+   border: 1px solid var(--item_marked_border-color_columns);
    pointer-events: none;
 }

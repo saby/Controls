@@ -18,7 +18,7 @@ export interface IItemTemplateOptions {
      * - checkboxReadOnly {Boolean} — Флаг, позволяющий установить у checkbox в multiSelect режим "только для чтения".
      * - cursor {TCursor} — Устанавливает вид {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора мыши} при наведении на строку.
      *
-     * В области видимости шаблона доступен объект itemData, позволяющий получить доступ к данным рендеринга (например, элемент, ключ и т.д.).
+     * В области видимости шаблона доступен объект item, позволяющий получить доступ к данным рендеринга (например, элемент, ключ и т.д.).
      *
      * Подробнее о работе с шаблоном читайте в <a href="/doc/platform/developmentapl/interface-development/controls/list/list/item/">руководстве разработчика</a>.
      * @example
@@ -28,7 +28,7 @@ export interface IItemTemplateOptions {
      *    <ws:itemTemplate>
      *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
      *          <ws:contentTemplate>
-     *             <span>{{contentTemplate.itemData.item.description}}</span>
+     *             <span>{{contentTemplate.item.contents.description}}</span>
      *          </ws:contentTemplate>
      *       </ws:partial>
      *    </ws:itemTemplate>

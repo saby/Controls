@@ -46,7 +46,7 @@
 
     <!-- Отступ под последней записью вслучае, если в таблице есть операции над записью "вне строки" -->
     <ws:if data="{{_options._needBottomPadding}}">
-        <div class="controls-itemActionsV_outside-spacing_theme-{{_options.theme}}" style="{{_listModel.getBottomPaddingStyles()}}"></div>
+        <div class="controls-itemActionsV_outside-spacing" style="{{_listModel.getBottomPaddingStyles()}}"></div>
     </ws:if>
 
     <!-- Шаблон пустой таблицы -->
@@ -56,8 +56,7 @@
                         attr:class="
                         controls-OldGridView__emptyTemplate
                         js-controls-GridView__emptyTemplate
-                        controls-Grid__row-cell_withRowSeparator_size-{{_options.rowSeparatorSize}}
-                        controls-Grid__row-cell_withRowSeparator_size-{{_options.rowSeparatorSize}}_theme-{{_options.theme}}"
+                        controls-Grid__row-cell_withRowSeparator_size-{{_options.rowSeparatorSize}}"
                         prepareColumnsForEmptyEditingTemplate="{{ _prepareColumnsForEmptyEditingTemplate }}"
                         isFullGridSupport="{{ true }}"
                         containerSize="{{ _containerSize }}"

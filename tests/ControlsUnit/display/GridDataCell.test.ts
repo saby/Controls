@@ -55,6 +55,10 @@ describe('Controls/display/GridDataCell', () => {
             columnIndex = 3;
             assert.isFalse(initCell().shouldDisplayEditArrow());
         });
+        it('shouldDisplayEditArrow should not return true when custom contentTemplate is set', () => {
+            editArrowIsVisible = true;
+            assert.isFalse(initCell().shouldDisplayEditArrow(() => ''));
+        });
     });
 
     // endregion
@@ -110,7 +114,7 @@ describe('Controls/display/GridDataCell', () => {
             row.setColumnSeparatorSize('s');
             cell = row.getColumns()[1] as GridDataCell<Model, GridDataRow<Model>>;;
             const wrapperClasses = cell.getWrapperClasses('default', 'default', 'default', true);
-            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s_theme-default');
+            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s');
         });
 
         it('should add columnSeparatorSize based on current column\'s left columnSeparatorSize', () => {
@@ -118,7 +122,7 @@ describe('Controls/display/GridDataCell', () => {
             const row = getGridRow();
             cell = row.getColumns()[1] as GridDataCell<Model, GridDataRow<Model>>;;
             const wrapperClasses = cell.getWrapperClasses('default', 'default', 'default', true);
-            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s_theme-default');
+            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s');
         });
 
         it('should add columnSeparatorSize based on previous column\'s right columnSeparatorSize config', () => {
@@ -127,11 +131,11 @@ describe('Controls/display/GridDataCell', () => {
             let wrapperClasses: string;
             cell = row.getColumns()[1] as GridDataCell<Model, GridDataRow<Model>>;
             wrapperClasses = cell.getWrapperClasses('default', 'default', 'default', true);
-            assert.notInclude(wrapperClasses, 'controls-Grid__columnSeparator_size-s_theme-default');
+            assert.notInclude(wrapperClasses, 'controls-Grid__columnSeparator_size-s');
 
             cell = row.getColumns()[2] as GridDataCell<Model, GridDataRow<Model>>;
             wrapperClasses = cell.getWrapperClasses('default', 'default', 'default', true);
-            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s_theme-default');
+            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s');
         });
 
         it('should add columnSeparatorSize based on grid\'s columnSeparatorSize when multiSelect', () => {
@@ -140,7 +144,7 @@ describe('Controls/display/GridDataCell', () => {
             row.setColumnSeparatorSize('s');
             cell = row.getColumns()[2] as GridDataCell<Model, GridDataRow<Model>>;
             const wrapperClasses = cell.getWrapperClasses('default', 'default', 'default', true);
-            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s_theme-default');
+            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s');
         });
 
         it('should add columnSeparatorSize based on current column config when multiSelect', () => {
@@ -149,7 +153,7 @@ describe('Controls/display/GridDataCell', () => {
             const row = getGridRow();
             cell = row.getColumns()[2] as GridDataCell<Model, GridDataRow<Model>>;
             const wrapperClasses = cell.getWrapperClasses('default', 'default', 'default', true);
-            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s_theme-default');
+            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s');
         });
 
     });

@@ -1,8 +1,8 @@
-.ws-is-hover .controls-BaseControl_hover_disabled .controls-ListView__itemV .controls-EditingTemplateText_enabled_theme-@{themeName},
-.ws-is-hover .controls-BaseControl_hover_enabled .controls-ListView__itemV:hover .controls-EditingTemplateText_enabled_theme-@{themeName},
-.controls-OldGridView__emptyTemplate .controls-EditingTemplateText_enabled_theme-@{themeName},
-.controls-GridView__emptyTemplate .controls-EditingTemplateText_enabled_theme-@{themeName}{
-   background-color: @background-color_inputText;
+.ws-is-hover .controls-BaseControl_hover_disabled .controls-ListView__itemV .controls-EditingTemplateText_enabled,
+.ws-is-hover .controls-BaseControl_hover_enabled .controls-ListView__itemV:hover .controls-EditingTemplateText_enabled,
+.controls-OldGridView__emptyTemplate .controls-EditingTemplateText_enabled,
+.controls-GridView__emptyTemplate .controls-EditingTemplateText_enabled{
+   background-color: var(--background-color_inputText);
 
    // Курсор должен меняться только при наведении на текст, аналогично полям ввода. Он не должен меняться при
    // наведении на отступы от текста до границ.
@@ -11,11 +11,11 @@
    }
 }
 
-.ws-is-hover .controls-itemActionsV_menu-hidden .controls-EditingTemplateText_active_theme-@{themeName} {
-   background-color: @background-color_inputText;
+.ws-is-hover .controls-itemActionsV_menu-hidden .controls-EditingTemplateText_active {
+   background-color: var(--background-color_inputText);
 }
 
-.controls-EditingTemplateText__editorWrapper_theme-@{themeName} {
+.controls-EditingTemplateText__editorWrapper {
    flex-grow: 1;
    min-width: 0;
 
@@ -23,47 +23,47 @@
    Редактирование по месту растягивается на ширину строки + компенсация внутреннего отступа поля ввода.
    Про компенсацию см. классы controls-EditingTemplateText__editorWrapper_align_left и controls-EditingTemplateText__editorWrapper_align_right
    */
-   max-width: calc(100% + @padding-horizontal_inputText);
+   max-width: calc(100% + var(--padding-horizontal_inputText));
 }
 
-.ws-is-ie11 .controls-EditingTemplateText__editorWrapper_theme-@{themeName},
-.ws-is-ie10 .controls-EditingTemplateText__editorWrapper_theme-@{themeName} {
+.ws-is-ie11 .controls-EditingTemplateText__editorWrapper,
+.ws-is-ie10 .controls-EditingTemplateText__editorWrapper {
 
 // Fixing bug in IE: "Flex items are not correctly justified when max-width is used"
 // https://github.com/philipwalton/flexbugs#flexbug-17
    flex-basis: 100%;
 }
 
-.controls-EditingTemplateText__editorWrapper_align_left_theme-@{themeName} {
+.controls-EditingTemplateText__editorWrapper_align_left {
    /*
    Компенсация внутреннего отступа поля ввода.
    Контент строки вне режима редактирования имеет только свой собственный отступ.
    В режиме редактирования контент замещается полем ввода, который также имеет внутренний отступ.
    Чтобы контент строки, обернутый полем ввода, не смещался вправо при активнации редактирования по месту, eip смещается влево на величину внутреннего отступа поля ввода.
    */
-   margin-left: -@padding-horizontal_inputText;
+   margin-left: calc(-1 * var(--padding-horizontal_inputText));
 }
 
-.controls-EditingTemplateText__editorWrapper_align_right_theme-@{themeName} {
+.controls-EditingTemplateText__editorWrapper_align_right {
    /*
    Компенсация внутреннего отступа поля ввода.
    Контент строки вне режима редактирования имеет только свой собственный отступ.
    В режиме редактирования контент замещается полем ввода, который также имеет внутренний отступ.
    Чтобы контент строки, обернутый полем ввода, не смещался влево при активнации редактирования по месту, eip смещается вправо на величину внутреннего отступа поля ввода.
    */
-   margin-right: -@padding-horizontal_inputText;
+   margin-right: calc(-1 * var(--padding-horizontal_inputText));
 }
 
-.controls-EditingTemplateText_theme-@{themeName} {
+.controls-EditingTemplateText {
    .baseline-fix();
    flex-shrink: 1;
    display: inline-flex;
    align-items: center;
    box-sizing: border-box;
-   border-width: @border-thickness_inputText;
+   border-width: var(--border-thickness_inputText);
    border-style: solid;
    border-color: transparent;
-   padding: 0 @padding-horizontal_inputText;
+   padding: 0 var(--padding-horizontal_inputText);
    width: 100%;
 }
 
@@ -79,22 +79,22 @@
    display: inline-block;
 }
 
-.controls-EditingTemplateText_size_default_theme-@{themeName} {
-   height: @inline_height_default;
-   font-size: @font-size_default;
+.controls-EditingTemplateText_size_default {
+   height: var(--inline_height_default);
+   font-size: var(--font-size_default);
 }
 
-.controls-EditingTemplateText_size_m_theme-@{themeName} {
-   height: @inline_height_m;
-   font-size: @font-size_m;
+.controls-EditingTemplateText_size_m {
+   height: var(--inline_height_m);
+   font-size: var(--font-size_m);
 }
 
-.controls-EditingTemplateText_size_l_theme-@{themeName} {
-   height: @inline_height_m;
-   font-size: @font-size_3xl;
+.controls-EditingTemplateText_size_l {
+   height: var(--inline_height_m);
+   font-size: var(--font-size_3xl);
 }
 
-.controls-EditingTemplateText_size_s_theme-@{themeName} {
-   height: @inline_height_default;
-   font-size: @font-size_xs;
+.controls-EditingTemplateText_size_s {
+   height: var(--inline_height_default);
+   font-size: var(--font-size_xs);
 }

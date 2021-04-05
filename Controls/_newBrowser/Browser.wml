@@ -80,7 +80,7 @@
                <ws:itemTemplate>
                   <!-- В режиме "таблица" или "поиск" нужно использовать шаблон строки таблицы -->
                   <ws:if data="{{_appliedViewMode === _viewModeEnum.table || _appliedViewMode === _viewModeEnum.search}}">
-                     <Controls.treeGridOld:ItemTemplate
+                     <Controls.treeGrid:ItemTemplate
                              scope="{{itemTemplate}}"
                              listConfiguration="{{_listConfiguration}}"
                      />

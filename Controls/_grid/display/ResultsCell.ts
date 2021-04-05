@@ -51,15 +51,14 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
         const isMultiSelectColumn = this.isMultiSelectColumn();
 
         if (isMultiSelectColumn) {
-            return `controls-Grid__results-cell-checkbox_theme-${theme}`;
+            return 'controls-Grid__results-cell-checkbox';
         }
 
         let wrapperClasses = 'controls-Grid__results-cell'
                             + ` controls-Grid__cell_${style}`
-                            + ` controls-Grid__results-cell_theme-${theme}`
                             + ` ${this._getWrapperPaddingClasses(theme)}`
                             + ` ${this._getColumnSeparatorClasses(theme)}`
-                            + ` controls-background-${backgroundColorStyle || style}_theme-${theme}`;
+                            + ` controls-background-${backgroundColorStyle || style}`;
 
         if (this._$column.align) {
             wrapperClasses += ` controls-Grid__row-cell__content_halign_${this._$column.align}`;
@@ -97,17 +96,17 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
 
         if (!this.isFirstColumn()) {
             if (this._$owner.getMultiSelectVisibility() === 'hidden' || this.getColumnIndex() > 1) {
-                classes += ` controls-Grid__cell_spacingLeft${compatibleLeftPadding}_theme-${theme}`;
+                classes += ` controls-Grid__cell_spacingLeft${compatibleLeftPadding}`;
             }
         } else {
-            classes += ` controls-Grid__cell_spacingFirstCol_${leftPadding}_theme-${theme}`;
+            classes += ` controls-Grid__cell_spacingFirstCol_${leftPadding}`;
         }
 
         // right padding
         if (this.isLastColumn()) {
-            classes += ` controls-Grid__cell_spacingLastCol_${rightPadding}_theme-${theme}`;
+            classes += ` controls-Grid__cell_spacingLastCol_${rightPadding}`;
         } else {
-            classes += ` controls-Grid__cell_spacingRight${compatibleRightPadding}_theme-${theme}`;
+            classes += ` controls-Grid__cell_spacingRight${compatibleRightPadding}`;
         }
 
         return classes;
@@ -126,7 +125,7 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
         return zIndex;
     }
     getContentClasses(theme: string): string {
-        return `controls-Grid__results-cell__content controls-Grid__results-cell__content_theme-${theme}`;
+        return `controls-Grid__results-cell__content controls-Grid__results-cell__content`;
     }
 
     protected _prepareDataAndFormat(): void {

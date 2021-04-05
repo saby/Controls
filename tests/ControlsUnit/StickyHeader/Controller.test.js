@@ -59,6 +59,7 @@ define([
                      }
                   };
                },
+               setSyncDomOptimization: function () {},
                height: 10,
                resetSticky: sinon.fake(),
                restoreSticky: sinon.fake(),
@@ -129,6 +130,33 @@ define([
 
             return component.registerHandler(event, data, true).then(function() {
                sinon.assert.calledOnce(event.stopImmediatePropagation);
+            });
+         });
+
+         it('should call setSyncDomOptimization on header on registration', function() {
+            let event = {
+               blockUpdate: false,
+               stopImmediatePropagation: sinon.fake()
+            };
+            component.init(container);
+            sinon.stub(data.inst, 'setSyncDomOptimization');
+
+            return component.registerHandler(event, data, true, false, false).then(function() {
+               sinon.assert.calledOnce(data.inst.setSyncDomOptimization);
+            });
+         });
+
+         it('should not call setSyncDomOptimization on header on unregistration', function() {
+            let event = {
+               blockUpdate: false,
+               stopImmediatePropagation: sinon.fake()
+            };
+            component.init(container);
+            sinon.stub(data.inst, 'setSyncDomOptimization');
+            sinon.stub(component, '_unobserveStickyHeader');
+
+            return component.registerHandler(event, data, false, false, false).then(function() {
+               sinon.assert.notCalled(data.inst.setSyncDomOptimization);
             });
          });
 

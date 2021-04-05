@@ -1,4 +1,4 @@
-<Controls.explorer:View
+<Controls.explorer:View useOldModel="{{ true }}"
    parentProperty="parent"
    nodeProperty="type"
    displayProperty="title"

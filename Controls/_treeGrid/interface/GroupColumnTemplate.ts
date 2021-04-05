@@ -22,14 +22,14 @@
  *  Вариант 1. Текст заголовка группы выровнен автоматически по центру заголовка:
  *  В этом случае необходимо использовать Controls/treeGridNew:GroupColumnTemplate только в первом столбце.
  *
- *  В {@link Controls/_grid/interface/IGridControl#colspanCallback colspanCallback} для первого столбца группы необходимо вернуть количество колонок, которое он должен занимать.
+ *  В {@link Controls/_interface/grid/IGridControl#colspanCallback colspanCallback} для первого столбца группы необходимо вернуть количество колонок, которое он должен занимать.
  *  В опции {@link Controls/grid:IColumn#template template} шаблона колонки добавить условие, позволяющее выбрать на основе item.isGroupNode() шаблон колонки: {@link Controls/gridNew:ColumnTemplate} или Controls/treeGridNew:GroupColumnTemplate.
  *  В шаблон Controls/treeGridNew:GroupColumnTemplate передать необходимые опции (Полностью соответствуют {@link Controls/list:IBaseGroupTemplate}).
  *
  *  Вариант 2. Текст заголовка группы необходимо выровнять относительно столбца
  *  В этом случае необходимо использовать Controls/treeGridNew:GroupColumnTemplate в первом и следующем (с учётом colspan) столбце. Это необходимо для того, чтобы слева и справа от текста ,выровненного относительно колонки были отрисованы разделители.
  *
- *  В {@link Controls/_grid/interface/IGridControl#colspanCallback colspanCallback} для первого столбца группы необходимо вернуть количество колонок, которое должна занимать только его левая часть вместе с текстом и экспандером.
+ *  В {@link Controls/_interface/grid/IGridControl#colspanCallback colspanCallback} для первого столбца группы необходимо вернуть количество колонок, которое должна занимать только его левая часть вместе с текстом и экспандером.
  *  В опции {@link Controls/grid:IColumn#template template} шаблона колонки добавить условие, позволяющее выбрать на основе item.isGroupNode() шаблон колонки: {@link Controls/gridNew:ColumnTemplate} или Controls/treeGridNew:GroupColumnTemplate.
  *  Для первого столбца передать в шаблон Controls/treeGridNew:GroupColumnTemplate textAlign=right, и другие необходимые опции (Полностью соответствуют {@link Controls/list:IBaseGroupTemplate}).
  *  Для следующего (с учётом colspan) столбца передать в шаблон Controls/treeGridNew:GroupColumnTemplate textVisible=false.

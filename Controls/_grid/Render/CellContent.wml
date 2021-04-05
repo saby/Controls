@@ -62,7 +62,7 @@
                 theme="{{ theme }}"
                 tagTemplate="{{ tagTemplate }}"
                 tagStyle="{{ tagStyle }}"
-                editArrowTemplate="{{ editArrowTemplate }}"
+                shouldDisplayEditArrow="{{ (gridColumn || itemData).shouldDisplayEditArrow(contentTemplate) }}"
                 expanderTemplate="{{ expanderTemplate }}"
                 expanderIcon="{{ expanderIcon }}"
                 expanderSize="{{ expanderSize }}"/>

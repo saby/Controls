@@ -3,6 +3,8 @@ import TreeGridViewModel = require('Controls/_treeGridOld/TreeGridView/TreeGridV
 import entity = require('Types/entity');
 import TreeGridView = require('Controls/_treeGridOld/TreeGridView/TreeGridView');
 import { TreeControl } from 'Controls/tree';
+import 'css!Controls/grid';
+import 'css!Controls/treeGrid';
 
 
 /**
@@ -24,7 +26,7 @@ import { TreeControl } from 'Controls/tree';
     * @mixes Controls/_interface/IDraggable
     * @mixes Controls/_marker/interface/IMarkerList
     *
-    * 
+    *
     * @private
     * @author Авраменко А.С.
     */
@@ -52,7 +54,7 @@ import { TreeControl } from 'Controls/tree';
     * @mixes Controls/_interface/IDraggable
     * @mixes Controls/_marker/interface/IMarkerList
     *
-    * 
+    *
     * @private
     * @author Авраменко А.С.
     */
@@ -60,7 +62,6 @@ import { TreeControl } from 'Controls/tree';
    var Tree = Grid.extend(/** @lends Controls/TreeGrid */{
       _viewName: TreeGridView,
       _viewTemplate: TreeControl,
-      _theme: ['Controls/treeGrid', 'Controls/grid'],
 
       _getModelConstructor: function() {
          return TreeGridViewModel;

@@ -472,9 +472,9 @@ define('Controls/interface/IEditableList', [
     *     <ws:itemTemplate>
     *         <ws:partial template="Controls/list:ItemTemplate">
     *             <ws:contentTemplate>
-    *                 <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.itemData.item.title }}">
+    *                 <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.item.contents.title }}">
     *                     <ws:editorTemplate>
-    *                         <Controls.input:Text bind:value="itemTemplate.itemData.item.title" />
+    *                         <Controls.input:Text bind:value="itemTemplate.item.contents.title" />
     *                     </ws:editorTemplate>
     *                 </ws:partial>
     *             </ws:contentTemplate>
@@ -496,9 +496,9 @@ define('Controls/interface/IEditableList', [
     *     <ws:itemTemplate>
     *         <ws:partial template="Controls/list:ItemTemplate">
     *             <ws:contentTemplate>
-    *                 <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.itemData.item.title }}">
+    *                 <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.item.contents.title }}">
     *                     <ws:editorTemplate>
-    *                         <Controls.input:Text bind:value="itemTemplate.itemData.item.title" />
+    *                         <Controls.input:Text bind:value="itemTemplate.item.contents.title" />
     *                     </ws:editorTemplate>
     *                 </ws:partial>
     *             </ws:contentTemplate>

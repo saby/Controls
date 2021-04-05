@@ -4,7 +4,7 @@ import {Logger} from 'UI/Utils';
 import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
 import toString from 'Controls/_decorator/inputUtils/toString';
 import * as template from 'wml!Controls/_decorator/Number/Number';
-import { abbreviateNumber } from 'Controls/_decorator/resources/Formatter';
+import { abbreviateNumber, trimTrailingZeros, fillAdditionalZeros } from 'Controls/_decorator/resources/Formatter';
 // @ts-ignore
 import {
     INumberFormatOptions,
@@ -171,6 +171,13 @@ class NumberDecorator extends Control<INumberOptions> implements INumberFormat, 
                     strNumber = NumberDecorator._trunc(strNumber, precision);
                     break;
             }
+            if (format.showEmptyDecimals) {
+                strNumber = fillAdditionalZeros(strNumber, precision);
+            }
+        }
+
+        if (!format.showEmptyDecimals) {
+            strNumber = trimTrailingZeros(strNumber);
         }
 
         if (abbreviationType && abbreviationType !== 'none') {
@@ -208,6 +215,7 @@ class NumberDecorator extends Control<INumberOptions> implements INumberFormat, 
                 'trunc',
                 'round'
             ]),
+            showEmptyDecimals: descriptor(Boolean),
             abbreviationType: descriptor(String).oneOf([
                 'none',
                 'short',
@@ -222,6 +230,7 @@ class NumberDecorator extends Control<INumberOptions> implements INumberFormat, 
         return {
             useGrouping: true,
             roundMode: 'trunc',
+            showEmptyDecimals: false,
             abbreviationType: 'none',
             stroked: false,
             underline: 'none'

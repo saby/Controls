@@ -1,7 +1,7 @@
 <div class="controlsDemo__NavigationSwitcher">
     <div class="controlsDemo__NavigationSwitcher__header controlsDemo__mb1">
-        <a href="#" class="controls-text-link_theme-default controlsDemo__mr2" on:click="_switchNavigation()">С загрузкой</a>
-        <a href="#" class="controls-text-link_theme-default" on:click="_switchNavigation(_options.totalCount)">Без загрузки</a>
+        <a href="#" class="controls-text-link controlsDemo__mr2" on:click="_switchNavigation()">С загрузкой</a>
+        <a href="#" class="controls-text-link" on:click="_switchNavigation(_options.totalCount)">Без загрузки</a>
     </div>
     <ws:if data="{{_options.content}}">
         <div class="controlsDemo__NavigationSwitcher__content">

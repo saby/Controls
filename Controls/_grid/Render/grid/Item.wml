@@ -37,8 +37,8 @@
             </ws:partial>
         </ws:multiSelectTemplate>
         <ws:afterContentTemplate>
-            <!-- Стрелка редактирования. Если шаблон прикладной, то не показываем -->
-            <ws:if data="{{ !contentTemplate && (gridColumn || itemData).shouldDisplayEditArrow() && editArrowTemplate }}">
+            <!-- Стрелка редактирования -->
+            <ws:if data="{{ afterContentTemplate.shouldDisplayEditArrow && editArrowTemplate }}">
                 <ws:partial template="{{ editArrowTemplate }}" item="{{ (gridColumn || itemData).getOwner() }}" textOverflow="{{(gridColumn || itemData).config.textOverflow}}"/>
             </ws:if>
 

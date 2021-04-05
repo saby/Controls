@@ -683,7 +683,7 @@ define([
             lvm._options.multiSelectVisibility = 'visible';
             lvm._options.theme = 'default';
             var item = lvm.getItemDataByItem(lvm.getItemById('2', 'id'));
-            assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default');
+            assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList');
          });
 
 
@@ -692,14 +692,14 @@ define([
             lvm._options.theme = 'default';
             lvm.getItemById(2, 'id').setSelected(true);
             var item = lvm.getItemDataByItem(lvm.getItemById('2', 'id'));
-            assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default');
+            assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList');
          });
 
          it('getMultiSelectClassList onhover unselected', function() {
             lvm._options.multiSelectVisibility = 'onhover';
             lvm._options.theme = 'default';
             var item = lvm.getItemDataByItem(lvm.getItemById('1', 'id'));
-            assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-ListView__checkbox-onhover');
+            assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList controls-ListView__checkbox-onhover');
          });
 
 
@@ -709,22 +709,22 @@ define([
             };
 
             assert.equal(lists.ListViewModel._private.getMultiSelectClassList(current, false, 'default'),
-               'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default');
+               'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList');
 
             assert.equal(lists.ListViewModel._private.getMultiSelectClassList(current, true, 'default'),
-               'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-ListView__checkbox-onhover');
+               'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList controls-ListView__checkbox-onhover');
 
             current.isSelected = () => true;
             assert.equal(lists.ListViewModel._private.getMultiSelectClassList(current, true, 'default'),
-               'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default');
+               'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList');
 
             current.isSelected = () => null;
             assert.equal(lists.ListViewModel._private.getMultiSelectClassList(current, true, 'default'),
-               'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default');
+               'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList');
 
             current.isSelected = () => undefined;
             assert.equal(lists.ListViewModel._private.getMultiSelectClassList(current, true, 'default'),
-               'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-ListView__checkbox-onhover');
+               'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList controls-ListView__checkbox-onhover');
          });
 
          it('setDragTargetPosition', function() {
@@ -828,8 +828,8 @@ define([
                   '',
                   theme,
                   'hidden'
-               ), ` controls-ListView__itemContent controls-ListView__itemContent_default_theme-default controls-ListView__item_default-topPadding_default_theme-default controls-ListView__item_default-bottomPadding_default_theme-default` +
-                  ` controls-ListView__item-rightPadding_xs_theme-default controls-ListView__item-leftPadding_m_theme-default`);
+               ), ` controls-ListView__itemContent controls-ListView__itemContent_default controls-ListView__item_default-topPadding_default controls-ListView__item_default-bottomPadding_default` +
+                  ` controls-ListView__item-rightPadding_xs controls-ListView__item-leftPadding_m`);
                assert.equal(lists.ListViewModel._private.getSpacingClassList(
                   {
                      left: 'XS',
@@ -840,8 +840,8 @@ define([
                   '',
                   theme,
                   'visible'
-               ), ` controls-ListView__itemContent controls-ListView__itemContent_default_theme-default controls-ListView__item_default-topPadding_null_theme-default controls-ListView__item_default-bottomPadding_s_theme-default` +
-                  ` controls-ListView__item-rightPadding_m_theme-default controls-ListView__itemContent_withCheckboxes_theme-default`);
+               ), ` controls-ListView__itemContent controls-ListView__itemContent_default controls-ListView__item_default-topPadding_null controls-ListView__item_default-bottomPadding_s` +
+                  ` controls-ListView__item-rightPadding_m controls-ListView__itemContent_withCheckboxes`);
             });
 
             it('check search value', function() {

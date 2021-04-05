@@ -1,5 +1,5 @@
 import {Browser} from 'Controls/browser';
-import {Memory} from 'Types/source';
+import {Memory, PrefetchProxy, DataSet} from 'Types/source';
 import { RecordSet } from 'Types/collection';
 import { detection } from 'Env/Env';
 import {assert} from 'chai';
@@ -167,6 +167,24 @@ describe('Controls/browser:Browser', () => {
 
                 assert.ok(dataLoadCallbackCalled);
                 assert.deepStrictEqual(browser._filter, {filterField: 'filterValue'});
+            });
+
+            it('_beforeMount without receivedState and historyItems in options', async () => {
+                const options = getBrowserOptions();
+                options.filterButtonSource = [{
+                    name: 'filterField',
+                    value: '',
+                    textValue: ''
+                }];
+                options.historyItems = [{
+                    name: 'filterField',
+                    value: 'historyValue'
+                }];
+                options.filter = {};
+                const browser = getBrowser(options);
+                await browser._beforeMount(options, {});
+                browser.saveOptions(options);
+                assert.deepStrictEqual(browser._filter, {filterField: 'historyValue'});
             });
         });
 
@@ -387,6 +405,44 @@ describe('Controls/browser:Browser', () => {
 
             const result = await browser._beforeMount(options);
             assert.ok(result instanceof Error);
+        });
+
+        it('source as prefetchProxy', async () => {
+           const options = getBrowserOptions();
+           const source = options.source;
+           options.source = new PrefetchProxy({
+               target: source,
+               data: {
+                   query: new DataSet()
+               }
+           });
+            const browser = getBrowser(options);
+            await browser._beforeMount(options);
+            assert.ok(browser._source === options.source);
+        });
+
+        it('source as prefetchProxy and with receivedState', async () => {
+            const options = getBrowserOptions();
+            const receivedState = {
+                data: new RecordSet(),
+                historyItems: [
+                    {
+                        name: 'filterField',
+                        value: 'filterValue',
+                        textValue: 'filterTextValue'
+                    }
+                ]
+            };
+            const source = options.source;
+            options.source = new PrefetchProxy({
+                target: source,
+                data: {
+                    query: new DataSet()
+                }
+            });
+            const browser = getBrowser(options);
+            await browser._beforeMount(options, {}, [receivedState]);
+            assert.ok(browser._source === source);
         });
 
     });
