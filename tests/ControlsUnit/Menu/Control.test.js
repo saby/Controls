@@ -343,6 +343,47 @@ define(
             });
          });
 
+         describe('_toggleExpanded', function() {
+            let menuControl;
+            let filterIsRemoved;
+            let filterIsAdded;
+            let isClosed;
+
+            beforeEach(() => {
+               isClosed = false;
+               filterIsRemoved = false;
+               filterIsAdded = false;
+               menuControl = getMenu();
+               menuControl._listModel = {
+                  removeFilter: () => { filterIsRemoved = true; },
+                  addFilter: () => { filterIsAdded = true; }
+               };
+               menuControl._closeSubMenu = () => {
+                  isClosed = true;
+               };
+            });
+
+            it('expand', function() {
+               menuControl._expander = false;
+               menuControl._toggleExpanded();
+
+               assert.isTrue(isClosed);
+               assert.isTrue(menuControl._expander);
+               assert.isTrue(filterIsRemoved);
+               assert.isFalse(filterIsAdded);
+            });
+
+            it('collapse', function() {
+               menuControl._expander = true;
+               menuControl._toggleExpanded();
+
+               assert.isTrue(isClosed);
+               assert.isFalse(menuControl._expander);
+               assert.isFalse(filterIsRemoved);
+               assert.isTrue(filterIsAdded);
+            })
+         });
+
          describe('_itemClick', function() {
             let menuControl;
             let selectedItem, selectedKeys, pinItem, item;
