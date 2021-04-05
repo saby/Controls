@@ -53,16 +53,16 @@ export default class EmptyRow<T> extends Row<T> {
         if (this._$emptyTemplate) {
             const columns = this._$owner.getColumnsConfig();
 
-            // todo Множественный stickyProperties можно поддержать здесь:
-            const stickyLadderProperties = this.getStickyLadderProperties(columns[0]);
-            const stickyLadderCellsCount = stickyLadderProperties && stickyLadderProperties.length || 0;
-
             let endColumn = columns.length + 1;
 
             if (this._$owner.hasMultiSelectColumn()) {
                 endColumn++;
             }
-            if (stickyLadderCellsCount) {
+
+            if (this.isFullGridSupport()) {
+                // todo Множественный stickyProperties можно поддержать здесь:
+                const stickyLadderProperties = this.getStickyLadderProperties(columns[0]);
+                const stickyLadderCellsCount = stickyLadderProperties && stickyLadderProperties.length || 0;
                 endColumn += stickyLadderCellsCount;
             }
 
