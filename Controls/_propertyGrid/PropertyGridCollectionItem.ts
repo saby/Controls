@@ -1,6 +1,6 @@
 import {TreeItem} from 'Controls/display';
 import PropertyGridCollection from './PropertyGridCollection';
-import {DEFAULT_EDITORS, DEFAULT_VALIDATORS} from './Constants';
+import {DEFAULT_EDITORS, DEFAULT_VALIDATORS_BY_TYPE, DEFAULT_VALIDATOR_TEMPLATE} from './Constants';
 import {Enum} from 'Types/collection';
 import * as getType from 'Core/helpers/getType';
 import {Model} from 'Types/entity';
@@ -75,7 +75,7 @@ export default class PropertyGridCollectionItem<T> extends TreeItem<T> {
         const editorOptions = this.getEditorOptions();
         const type = this.getContents().get('type');
         if (editorOptions.validators) {
-            return editorOptions.validateTemplateName || DEFAULT_VALIDATORS[type];
+            return editorOptions.validateTemplateName || DEFAULT_VALIDATORS_BY_TYPE[type] || DEFAULT_VALIDATOR_TEMPLATE;
         }
         return '';
     }

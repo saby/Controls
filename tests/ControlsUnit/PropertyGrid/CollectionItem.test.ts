@@ -1,5 +1,8 @@
 import {PropertyGridCollection} from 'Controls/propertyGrid';
-import {PROPERTY_NAME_FIELD, DEFAULT_VALIDATORS, DEFAULT_EDITORS} from 'Controls/_propertyGrid/Constants';
+import {PROPERTY_NAME_FIELD,
+        DEFAULT_VALIDATOR_TEMPLATE,
+        DEFAULT_EDITORS
+} from 'Controls/_propertyGrid/Constants';
 import {assert} from 'chai';
 import {Model} from 'Types/entity';
 import {default as IPropertyGridItem} from 'Controls/_propertyGrid/IProperty';
@@ -136,7 +139,7 @@ describe('Controls/propertyGrid:CollectionItem', () => {
     describe('getValidateTemplateName', () => {
         it('returns default validator by property type', () => {
             const template = collection.getItemBySourceKey('validate').getValidateTemplateName();
-            assert.equal(template, DEFAULT_VALIDATORS.text);
+            assert.equal(template, DEFAULT_VALIDATOR_TEMPLATE);
         });
 
         it('returns validator from validateTemplateName property', () => {
