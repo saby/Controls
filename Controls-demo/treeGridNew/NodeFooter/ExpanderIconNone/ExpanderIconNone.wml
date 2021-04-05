@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell controlsDemo__flex controlsDemo__childMinWidth400">
         <div class="controlsDemo__cell">
-            <div class="controls-text-label_theme-{{_options.theme}}">Все элементы дерева - узлы, иконка разворота скрыта. <br/>Конфигурация на контроле.</div>
+            <div class="controls-text-label">Все элементы дерева - узлы, иконка разворота скрыта. <br/>Конфигурация на контроле.</div>
 
             <Controls.treeGridNew:View
                     keyProperty="id"
@@ -17,7 +17,7 @@
         </div>
 
         <div class="controlsDemo__cell">
-            <div class="controls-text-label_theme-{{_options.theme}}">Все элементы дерева - узлы, иконка разворота скрыта. <br/>Конфигурация на шаблоне.</div>
+            <div class="controls-text-label">Все элементы дерева - узлы, иконка разворота скрыта. <br/>Конфигурация на шаблоне.</div>
 
             <Controls.treeGridNew:View
                     keyProperty="id"
@@ -41,7 +41,7 @@
 
 
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">Без иерархического оступа</div>
+        <div class="controls-text-label">Без иерархического оступа</div>
 
         <Controls.treeGridNew:View
                 keyProperty="id"
@@ -64,7 +64,7 @@
 
 
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">Нестандартный размер отступов от экспандера</div>
+        <div class="controls-text-label">Нестандартный размер отступов от экспандера</div>
         <Controls.treeGridNew:View
                 keyProperty="id"
                 name="tree4"

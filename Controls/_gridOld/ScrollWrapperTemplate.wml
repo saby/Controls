@@ -18,7 +18,7 @@
                 shouldSetMarginTop="{{_shouldSetMarginTop}}"
                 gridSupport="{{_options.gridSupport}}"
                 trackVisible="{{_options.trackVisible}}"
-                attr:class="controls-ColumnScroll_theme-{{_options.theme}}"
+                attr:class="controls-ColumnScroll"
                 on:positionChanged="_localPositionHandler()"/>
     </Controls.scroll:StickyHeader>
 </ws:if>
@@ -32,6 +32,6 @@
                 shouldSetMarginTop="{{_shouldSetMarginTop}}"
                 gridSupport="{{_options.gridSupport}}"
                 trackVisible="{{_options.trackVisible}}"
-                attr:class="js-controls-Grid_columnScroll_thumb-wrapper controls-ColumnScroll_theme-{{_options.theme}}"
+                attr:class="js-controls-Grid_columnScroll_thumb-wrapper controls-ColumnScroll"
                 on:positionChanged="_localPositionHandler()"/>
 </ws:else>

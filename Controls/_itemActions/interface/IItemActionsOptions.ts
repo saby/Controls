@@ -96,14 +96,14 @@ export interface IItemActionsOptions {
      *
      * <pre class="brush: html; highlight: [4,5,6,7]">
      * <!-- customTemplateName.wml -->
-     * <div>{{itemData.item.title}}</div>
-     *    <ws:if data="{{!itemData.isSwiped()}}">
+     * <div>{{item.contents.title}}</div>
+     *    <ws:if data="{{!item.isSwiped()}}">
      *       <ws:partial template="{{itemActionsTemplate}}"
      *                  attr:class="some-custom-class-for-itemActions"
      *                  itemData="{{itemData}}"
      *                  scope="{{_options}}"/>
      *    </ws:if>
-     * <div>{{itemData.item.description}}</div>
+     * <div>{{item.contents.description}}</div>
      * </pre>
      * @see itemActions
      */
@@ -133,14 +133,14 @@ export interface IItemActionsOptions {
      *
      * customTemplateName.wml:
      * <pre>
-     *  <div>{{itemData.item.title}}</div>
-     *    <ws:if data="{{!itemData.isSwiped()}}">
+     *  <div>{{item.contents.title}}</div>
+     *    <ws:if data="{{!item.isSwiped()}}">
      *      <ws:partial template="{{itemActionsTemplate}}"
      *                  attr:class="some-custom-class-for-itemActions"
      *                  itemData="{{itemData}}"
      *                  scope="{{_options}}"/>
      *    </ws:if>
-     *  <div>{{itemData.item.description}}</div>
+     *  <div>{{item.contents.description}}</div>
      * </pre>
      *
      */

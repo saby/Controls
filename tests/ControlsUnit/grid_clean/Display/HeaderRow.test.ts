@@ -36,20 +36,20 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             const columnItems = headerRow.getColumns();
             assert.strictEqual(columnItems.length, 3);
 
-            assert.isTrue(columnItems[0].getWrapperClasses(THEME).indexOf(`controls-Grid__cell_spacingFirstCol_s_theme-${THEME}`) !== -1);
-            assert.isFalse(columnItems[0].getWrapperClasses(THEME).indexOf(`controls-Grid__cell_spacingLeft`) !== -1);
-            assert.isFalse(columnItems[0].getWrapperClasses(THEME).indexOf(`controls-Grid__cell_spacingLastCol`) !== -1);
-            assert.isTrue(columnItems[0].getWrapperClasses(THEME).indexOf(`controls-Grid__cell_spacingRight_s_theme-${THEME}`) !== -1);
+            assert.isTrue(columnItems[0].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingFirstCol_s') !== -1);
+            assert.isFalse(columnItems[0].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingLeft') !== -1);
+            assert.isFalse(columnItems[0].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingLastCol') !== -1);
+            assert.isTrue(columnItems[0].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingRight_s') !== -1);
 
-            assert.isFalse(columnItems[1].getWrapperClasses(THEME).indexOf(`controls-Grid__cell_spacingFirstCol`) !== -1);
-            assert.isTrue(columnItems[1].getWrapperClasses(THEME).indexOf(`controls-Grid__cell_spacingLeft_s_theme-${THEME}`) !== -1);
-            assert.isFalse(columnItems[1].getWrapperClasses(THEME).indexOf(`controls-Grid__cell_spacingLastCol`) !== -1);
-            assert.isTrue(columnItems[1].getWrapperClasses(THEME).indexOf(`controls-Grid__cell_spacingRight_s_theme-${THEME}`) !== -1);
+            assert.isFalse(columnItems[1].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingFirstCol') !== -1);
+            assert.isTrue(columnItems[1].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingLeft_s') !== -1);
+            assert.isFalse(columnItems[1].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingLastCol') !== -1);
+            assert.isTrue(columnItems[1].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingRight_s') !== -1);
 
-            assert.isFalse(columnItems[2].getWrapperClasses(THEME).indexOf(`controls-Grid__cell_spacingFirstCol`) !== -1);
-            assert.isTrue(columnItems[2].getWrapperClasses(THEME).indexOf(`controls-Grid__cell_spacingLeft_s_theme-${THEME}`) !== -1);
-            assert.isTrue(columnItems[2].getWrapperClasses(THEME).indexOf(`controls-Grid__cell_spacingLastCol_s_theme-${THEME}`) !== -1);
-            assert.isFalse(columnItems[2].getWrapperClasses(THEME).indexOf(`controls-Grid__cell_spacingRight`) !== -1);
+            assert.isFalse(columnItems[2].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingFirstCol') !== -1);
+            assert.isTrue(columnItems[2].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingLeft_s') !== -1);
+            assert.isTrue(columnItems[2].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingLastCol_s') !== -1);
+            assert.isFalse(columnItems[2].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingRight') !== -1);
         });
 
         it('Padding set in columns', () => {
@@ -98,20 +98,20 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             const columnItems = headerRow.getColumns();
             assert.strictEqual(columnItems.length, 3);
 
-            assert.include(columnItems[0].getWrapperClasses(THEME), `controls-Grid__cell_spacingFirstCol_s_theme-${THEME}`);
-            assert.notInclude(columnItems[0].getWrapperClasses(THEME), `controls-Grid__cell_spacingLeft`);
-            assert.notInclude(columnItems[0].getWrapperClasses(THEME), `controls-Grid__cell_spacingLastCol`);
-            assert.include(columnItems[0].getWrapperClasses(THEME), `controls-Grid__cell_spacingRight_l_theme-${THEME}`);
+            assert.include(columnItems[0].getWrapperClasses(THEME), 'controls-Grid__cell_spacingFirstCol_s');
+            assert.notInclude(columnItems[0].getWrapperClasses(THEME), 'controls-Grid__cell_spacingLeft');
+            assert.notInclude(columnItems[0].getWrapperClasses(THEME), 'controls-Grid__cell_spacingLastCol');
+            assert.include(columnItems[0].getWrapperClasses(THEME), 'controls-Grid__cell_spacingRight_l');
 
-            assert.notInclude(columnItems[1].getWrapperClasses(THEME), `controls-Grid__cell_spacingFirstCol`);
-            assert.include(columnItems[1].getWrapperClasses(THEME), `controls-Grid__cell_spacingLeft_xl_theme-${THEME}`);
-            assert.notInclude(columnItems[1].getWrapperClasses(THEME), `controls-Grid__cell_spacingLastCol`);
-            assert.include(columnItems[1].getWrapperClasses(THEME), `controls-Grid__cell_spacingRight_xl_theme-${THEME}`);
+            assert.notInclude(columnItems[1].getWrapperClasses(THEME), 'controls-Grid__cell_spacingFirstCol');
+            assert.include(columnItems[1].getWrapperClasses(THEME), 'controls-Grid__cell_spacingLeft_xl');
+            assert.notInclude(columnItems[1].getWrapperClasses(THEME), 'controls-Grid__cell_spacingLastCol');
+            assert.include(columnItems[1].getWrapperClasses(THEME), 'controls-Grid__cell_spacingRight_xl');
 
-            assert.notInclude(columnItems[2].getWrapperClasses(THEME), `controls-Grid__cell_spacingFirstCol`);
-            assert.include(columnItems[2].getWrapperClasses(THEME), `controls-Grid__cell_spacingLeft_xs_theme-${THEME}`);
-            assert.include(columnItems[2].getWrapperClasses(THEME), `controls-Grid__cell_spacingLastCol_s_theme-${THEME}`);
-            assert.notInclude(columnItems[2].getWrapperClasses(THEME), `controls-Grid__cell_spacingRight`);
+            assert.notInclude(columnItems[2].getWrapperClasses(THEME), 'controls-Grid__cell_spacingFirstCol');
+            assert.include(columnItems[2].getWrapperClasses(THEME), 'controls-Grid__cell_spacingLeft_xs');
+            assert.include(columnItems[2].getWrapperClasses(THEME), 'controls-Grid__cell_spacingLastCol_s');
+            assert.notInclude(columnItems[2].getWrapperClasses(THEME), 'controls-Grid__cell_spacingRight');
         });
         it('Padding set default value', () => {
             const columns = [{}, {}, {}];
@@ -144,20 +144,20 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             const columnItems = headerRow.getColumns();
             assert.strictEqual(columnItems.length, 3);
 
-            assert.include(columnItems[0].getWrapperClasses(THEME), `controls-Grid__cell_spacingFirstCol_default_theme-${THEME}`);
-            assert.notInclude(columnItems[0].getWrapperClasses(THEME), `controls-Grid__cell_spacingLeft`);
-            assert.notInclude(columnItems[0].getWrapperClasses(THEME), `controls-Grid__cell_spacingLastCol`);
-            assert.include(columnItems[0].getWrapperClasses(THEME), `controls-Grid__cell_spacingRight_theme-${THEME}`);
+            assert.include(columnItems[0].getWrapperClasses(THEME), 'controls-Grid__cell_spacingFirstCol_default');
+            assert.notInclude(columnItems[0].getWrapperClasses(THEME), 'controls-Grid__cell_spacingLeft');
+            assert.notInclude(columnItems[0].getWrapperClasses(THEME), 'controls-Grid__cell_spacingLastCol');
+            assert.include(columnItems[0].getWrapperClasses(THEME), 'controls-Grid__cell_spacingRight');
 
-            assert.notInclude(columnItems[1].getWrapperClasses(THEME), `controls-Grid__cell_spacingFirstCol`);
-            assert.include(columnItems[1].getWrapperClasses(THEME),`controls-Grid__cell_spacingLeft_theme-${THEME}`);
-            assert.notInclude(columnItems[1].getWrapperClasses(THEME), `controls-Grid__cell_spacingLastCol`);
-            assert.include(columnItems[1].getWrapperClasses(THEME), `controls-Grid__cell_spacingRight_theme-${THEME}`);
+            assert.notInclude(columnItems[1].getWrapperClasses(THEME), 'controls-Grid__cell_spacingFirstCol');
+            assert.include(columnItems[1].getWrapperClasses(THEME),'controls-Grid__cell_spacingLeft');
+            assert.notInclude(columnItems[1].getWrapperClasses(THEME), 'controls-Grid__cell_spacingLastCol');
+            assert.include(columnItems[1].getWrapperClasses(THEME), 'controls-Grid__cell_spacingRight');
 
-            assert.notInclude(columnItems[2].getWrapperClasses(THEME), `controls-Grid__cell_spacingFirstCol`);
-            assert.include(columnItems[2].getWrapperClasses(THEME), `controls-Grid__cell_spacingLeft_theme-${THEME}`);
-            assert.include(columnItems[2].getWrapperClasses(THEME), `controls-Grid__cell_spacingLastCol_default_theme-${THEME}`);
-            assert.notInclude(columnItems[2].getWrapperClasses(THEME), `controls-Grid__cell_spacingRight`);
+            assert.notInclude(columnItems[2].getWrapperClasses(THEME), 'controls-Grid__cell_spacingFirstCol');
+            assert.include(columnItems[2].getWrapperClasses(THEME), 'controls-Grid__cell_spacingLeft');
+            assert.include(columnItems[2].getWrapperClasses(THEME), 'controls-Grid__cell_spacingLastCol_default');
+            assert.notInclude(columnItems[2].getWrapperClasses(THEME), 'controls-Grid__cell_spacingRight');
         });
     });
 

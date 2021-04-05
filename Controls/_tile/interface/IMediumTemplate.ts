@@ -15,7 +15,7 @@
  * </Controls.tile:View>
  * </pre>
  * @public
- * @demo Controls-demo/Tile/DifferentItemTemplates/MediumTemplate/Index
+ * @demo Controls-demo/tileNew/DifferentItemTemplates/MediumTemplate/Index
  * @remark
  * Шаблон имеет фиксированную высоту. Опция tileHeight не учитывается.
  */

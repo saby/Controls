@@ -25,7 +25,7 @@
     </div>
 
     <div>
-        <div class="controls-text-label_theme-{{_options.theme}}">Старый способ. Без подвалов</div>
+        <div class="controls-text-label">Старый способ. Без подвалов</div>
         <div class="controlsDemo__wrapper controlsDemo__flexRow">
             <div class="controlsDemo__cell">
                 <Controls.gridNew:View

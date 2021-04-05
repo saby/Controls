@@ -24,7 +24,7 @@
   }
 
   50% {
-    transform: translateX(@animation_offset_swipe);
+    transform: translateX(var(--animation_offset_swipe));
   }
 
   100% {
@@ -44,14 +44,14 @@
   pointer-events: auto;
 }
 
-.controls-Swipe_theme-@{themeName} {
+.controls-Swipe {
   align-items: center;
   display: inline-flex;
   height: 100%;
   overflow: hidden;
   box-sizing: border-box;
   background-color: transparent;
-  background-image: linear-gradient(to right, transparent, @shadow-color_swipe @shadow-blur_swipe, @background-color_swipe @shadow-blur_swipe, @background-color_swipe 100%);
+  background-image: linear-gradient(to right, transparent, var(--shadow-color_swipe) var(--shadow-blur_swipe), var(--background-color_swipe) var(--shadow-blur_swipe), var(--background-color_swipe) 100%);
 }
 
 .controls-Swipe__action {
@@ -71,134 +71,134 @@
   justify-content: flex-start;
 }
 
-.controls-Swipe_open_theme-@{themeName} {
+.controls-Swipe_open {
   animation: itemActionsSwipeOpen 0.35s 0ms ease;
 }
 
-.controls-Swipe_close_theme-@{themeName} {
+.controls-Swipe_close {
   animation: itemActionsSwipeClose 0.35s 0ms ease;
   animation-fill-mode: forwards;
 }
 
-.controls-Swipe__action_padding_size_s_theme-@{themeName} {
-  padding-top: @item_s_vertical_padding-vertical_swipe;
-  padding-bottom: @item_s_vertical_padding-vertical_swipe;
+.controls-Swipe__action_padding_size_s {
+  padding-top: var(--item_s_vertical_padding-vertical_swipe);
+  padding-bottom: var(--item_s_vertical_padding-vertical_swipe);
 }
 
-.controls-Swipe__action_padding_size_m_theme-@{themeName} {
-  padding-top: @item_horizontal_padding-vertical_swipe;
-  padding-bottom: @item_horizontal_padding-vertical_swipe;
+.controls-Swipe__action_padding_size_m {
+  padding-top: var(--item_horizontal_padding-vertical_swipe);
+  padding-bottom: var(--item_horizontal_padding-vertical_swipe);
 }
 
-.controls-Swipe__action_padding_size_l_theme-@{themeName} {
-  padding-top: @item_l_vertical_padding-vertical_swipe;
-  padding-bottom: @item_l_vertical_padding-vertical_swipe;
+.controls-Swipe__action_padding_size_l {
+  padding-top: var(--item_l_vertical_padding-vertical_swipe);
+  padding-bottom: var(--item_l_vertical_padding-vertical_swipe);
 }
 
-.controls-Swipe__action_icon_size_m_theme-@{themeName} {
-  .icon(@item_s_icon-size_swipe, @item_s_icon_font-family_swipe);
+.controls-Swipe__action_icon_size_m {
+  .icon(var(--item_s_icon-size_swipe), var(--item_s_icon_font-family_swipe));
 }
 
-.controls-Swipe__action_icon_size_l_theme-@{themeName} {
-  .icon(@item_l_icon-size_swipe, @item_l_icon_font-family_swipe);
+.controls-Swipe__action_icon_size_l {
+  .icon(var(--item_l_icon-size_swipe), var(--item_l_icon_font-family_swipe));
 }
 
-.controls-Swipe__action_title_theme-@{themeName} {
-  color: @item_text-color_swipe;
+.controls-Swipe__action_title {
+  color: var(--item_text-color_swipe);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.controls-Swipe__action_title_position_right_theme-@{themeName} {
-  padding-left: @item_icon_offset-horizontal_swipe;
-  max-width: @item_horizontal_text_max-width_swipe;
+.controls-Swipe__action_title_position_right {
+  padding-left: var(--item_icon_offset-horizontal_swipe);
+  max-width: var(--item_horizontal_text_max-width_swipe);
 }
 
-.controls-Swipe__action_title_position_bottom_theme-@{themeName} {
-  max-width: @item_vertical_text_max-width_swipe;
+.controls-Swipe__action_title_position_bottom {
+  max-width: var(--item_vertical_text_max-width_swipe);
 }
 
-.controls-Swipe__action_title_size_m_theme-@{themeName} {
-  font-size: @item_s_font-size_swipe;
+.controls-Swipe__action_title_size_m {
+  font-size: var(--item_s_font-size_swipe);
 }
 
-.controls-Swipe__action_title_size_l_theme-@{themeName} {
-  font-size: @item_l_font-size_swipe;
+.controls-Swipe__action_title_size_l {
+  font-size: var(--item_l_font-size_swipe);
 }
 
-.controls-Swipe__separator_theme-@{themeName} {
-  background: @separator_color_swipe;
+.controls-Swipe__separator {
+  background: var(--separator_color_swipe);
   flex-shrink: 0;
   display: block;
 }
 
-.controls-Swipe__separator_horizontal_theme-@{themeName} {
-  width: @separator_thickness_swipe;
-  height: calc(100% ~'-' 2 * @separator_edge_padding-vertical_swipe);
-  margin-bottom: @separator_edge_padding-vertical_swipe;
-  margin-top: @separator_edge_padding-vertical_swipe;
+.controls-Swipe__separator_horizontal {
+  width: var(--separator_thickness_swipe);
+  height: calc(100% ~'-' 2 * var(--separator_edge_padding-vertical_swipe));
+  margin-bottom: var(--separator_edge_padding-vertical_swipe);
+  margin-top: var(--separator_edge_padding-vertical_swipe);
 }
 
-.controls-Swipe__separator_vertical_theme-@{themeName} {
+.controls-Swipe__separator_vertical {
   width: auto;
-  height: @separator_thickness_swipe;
-  margin-left: @separator_edge_padding-horizontal_swipe + @shadow-blur_swipe;
-  margin-right: @separator_edge_padding-horizontal_swipe;
+  height: var(--separator_thickness_swipe);
+  margin-left: calc(var(--separator_edge_padding-horizontal_swipe) + var(--shadow-blur_swipe));
+  margin-right: var(--separator_edge_padding-horizontal_swipe);
 }
 
-.controls-Swipe__separator_columns_first_theme-@{themeName} {
+.controls-Swipe__separator_columns_first {
   width: auto;
-  height: @separator_thickness_swipe;
-  margin-right: @separator_padding-horizontal_swipe;
+  height: var(--separator_thickness_swipe);
+  margin-right: var(--separator_padding-horizontal_swipe);
 }
 
-.controls-Swipe__separator_columns_second_theme-@{themeName} {
+.controls-Swipe__separator_columns_second {
   width: auto;
-  height: @separator_thickness_swipe;
-  margin-left: @separator_padding-horizontal_swipe;
+  height: var(--separator_thickness_swipe);
+  margin-left: var(--separator_padding-horizontal_swipe);
 }
 
-.controls-Swipe_horizontal_theme-@{themeName},
-.controls-Swipe_vertical_theme-@{themeName},
-.controls-Swipe_columns_theme-@{themeName} {
+.controls-Swipe_horizontal,
+.controls-Swipe_vertical,
+.controls-Swipe_columns {
   display: inline-flex;
   height: 100%;
 }
 
-.controls-Swipe_horizontal_theme-@{themeName},
-.controls-Swipe_columns_theme-@{themeName} {
-  padding-left:  @item_edge_padding-horizontal_swipe + @shadow-blur_swipe - @item_vertical_padding-horizontal_swipe;
-  padding-right: @item_edge_padding-horizontal_swipe - @item_vertical_padding-horizontal_swipe;
+.controls-Swipe_horizontal,
+.controls-Swipe_columns {
+  padding-left: calc(var(--item_edge_padding-horizontal_swipe) + var(--shadow-blur_swipe) - var(--item_vertical_padding-horizontal_swipe));
+  padding-right: calc(var(--item_edge_padding-horizontal_swipe) - var(--item_vertical_padding-horizontal_swipe));
 }
 
-.controls-Swipe_horizontal_theme-@{themeName} {
+.controls-Swipe_horizontal {
   align-items: center;
 }
 
-.controls-Swipe__action_columns_theme-@{themeName} {
+.controls-Swipe__action_columns {
   display: flex;
 }
 
-.controls-Swipe_vertical_theme-@{themeName},
-.controls-Swipe__action_columns_theme-@{themeName} {
+.controls-Swipe_vertical,
+.controls-Swipe__action_columns {
   flex-direction: column;
   justify-content: space-evenly;
 }
 
-.controls-Swipe__action_horizontal_theme-@{themeName} {
-  padding-left: @item_vertical_padding-horizontal_swipe;
-  padding-right: @item_vertical_padding-horizontal_swipe;
+.controls-Swipe__action_horizontal {
+  padding-left: var(--item_vertical_padding-horizontal_swipe);
+  padding-right: var(--item_vertical_padding-horizontal_swipe);
 }
-.controls-Swipe__action_vertical_theme-@{themeName} {
+.controls-Swipe__action_vertical {
   /*
    * Gradient takes some of the container's width on the left side, so we should compensate for it with larger padding.
    */
-  padding-left:  @item_edge_padding-horizontal_swipe + @shadow-blur_swipe;
-  padding-right: @item_edge_padding-horizontal_swipe;
+  padding-left: calc(var(--item_edge_padding-horizontal_swipe) + var(--shadow-blur_swipe));
+  padding-right: var(--item_edge_padding-horizontal_swipe);
 }
-.controls-Swipe__action_iconStyle_secondary_theme-@{themeName} {
-  color: @secondary_icon-color_swipe;
+.controls-Swipe__action_iconStyle_secondary {
+  color: var(--secondary_icon-color_swipe);
 }
 
 /**

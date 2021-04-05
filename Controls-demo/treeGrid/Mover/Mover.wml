@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMinWidth400">
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/treeGrid/Mover/Base/Index' }}">
             <a href="{{content.href}}">Базовая конфигурация перемещения</a>
@@ -8,7 +8,7 @@
         <Controls-demo.treeGrid.Mover.Base.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/treeGrid/Mover/Extended/Index' }}">
             <a href="{{content.href}}">Конфигурация перемещения с добавлением нового узла</a>

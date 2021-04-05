@@ -31,7 +31,6 @@ interface IColumnScrollOptions {
 }
 
 interface IActualizeOptions {
-    isOnMount?: boolean,
     scrollBar: ScrollBar,
     containers: {
         header: HTMLElement,
@@ -129,7 +128,7 @@ export default class ColumnScroll {
         if (this._options.columnScrollStartPosition === 'end') {
             let classes = '';
             if (this._options.hasMultiSelectColumn) {
-                classes += `controls-Grid__ColumnScroll__shadow_withMultiselect_theme-${this._options.theme} `;
+                classes += 'controls-Grid__ColumnScroll__shadow_withMultiselect ';
             }
             return classes + ColumnScrollController.getShadowClasses(position,{
                 isVisible: position === 'start',
@@ -179,7 +178,7 @@ export default class ColumnScroll {
                     this._options = this._updateOptions(options);
                     this._createColumnScroll(options);
                     this._columnScroll.updateSizes((newSizes) => {
-                        if (options.isOnMount && this._options.columnScrollStartPosition === 'end') {
+                        if (this._options.columnScrollStartPosition === 'end') {
                             this._columnScroll.setScrollPosition(newSizes.contentSize - newSizes.containerSize);
                         }
                         this._dragScroll?.updateScrollData({

@@ -9,9 +9,9 @@
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate">
                 <ws:contentTemplate>
-                    <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.itemData.item.beforeBeginEditTitle }}">
+                    <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.item.contents.beforeBeginEditTitle }}">
                         <ws:editorTemplate>
-                            <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.itemData.item.beforeBeginEditTitle"/>
+                            <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.item.contents.beforeBeginEditTitle"/>
                         </ws:editorTemplate>
                     </ws:partial>
                 </ws:contentTemplate>

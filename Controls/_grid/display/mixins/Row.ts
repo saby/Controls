@@ -78,12 +78,12 @@ export default abstract class Row<T> {
     }
 
     protected _getBaseItemClasses(style: string, theme: string): string {
-        return `controls-ListView__itemV controls-Grid__row controls-Grid__row_${style}_theme-${theme}`;
+        return `controls-ListView__itemV controls-Grid__row controls-Grid__row_${style}`;
     }
 
     protected _getItemHighlightClasses(style: string, theme: string, highlightOnHover?: boolean): string {
         if (highlightOnHover !== false && !this.isEditing()) {
-            return `controls-Grid__row_highlightOnHover_${style} controls-Grid__row_highlightOnHover_${style}_theme-${theme}`;
+            return `controls-Grid__row_highlightOnHover_${style}`;
         }
         return '';
     }
@@ -180,21 +180,21 @@ export default abstract class Row<T> {
 
         let contentClasses = 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable ';
         contentClasses += 'js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable ';
-        contentClasses += `controls-CheckboxMarker_inList_theme-${theme} `;
+        contentClasses += 'controls-CheckboxMarker_inList ';
 
         if (this._$owner.getMultiSelectVisibility() === 'onhover' && !this.isSelected()) {
             contentClasses += 'controls-ListView__checkbox-onhover ';
         }
 
         if (templateHighlightOnHover !== false && this.getEditingConfig()?.mode !== 'cell') {
-            contentClasses += `controls-Grid__item_background-hover_${hoverBackgroundStyle}_theme-${theme} `;
+            contentClasses += `controls-Grid__item_background-hover_${hoverBackgroundStyle} `;
         }
 
-        contentClasses += ` controls-GridView__checkbox_theme-${theme}`;
-        contentClasses += ` controls-GridView__checkbox_position-${this.getOwner().getMultiSelectPosition()}_theme-${theme}`;
+        contentClasses += ' controls-GridView__checkbox';
+        contentClasses += ` controls-GridView__checkbox_position-${this.getOwner().getMultiSelectPosition()}`;
 
         if (this.isDragged()) {
-            contentClasses += ` controls-ListView__itemContent_dragging_theme-${theme}`;
+            contentClasses += ' controls-ListView__itemContent_dragging';
         }
 
         return contentClasses;

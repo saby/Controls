@@ -1,10 +1,10 @@
-.controls-Explorer__Path_theme-@{themeName} {
-   padding-right: @breadcrumbs_padding-right_explorer;
-   min-height: @breadcrumbs_min-height_explorer;
+.controls-Explorer__Path {
+   padding-right: var(--breadcrumbs_padding-right_explorer);
+   min-height: var(--breadcrumbs_min-height_explorer);
 }
 
-.controls-Explorer__HeadingPath-master_theme-@{themeName} {
-   margin-right: @master_separator_thickness_list;
+.controls-Explorer__HeadingPath-master {
+   margin-right: var(--master_separator_thickness_list);
 }
 
 .controls-Explorer__PathWrapper {
@@ -14,8 +14,8 @@
 
 }
 .controls-Explorer__afterBreadCrumbsTemplate {
-   min-height: @breadcrumbs_min-height_explorer;
-   max-width: @after-bread-crumbs-template_max-width_explorer;
+   min-height: var(--breadcrumbs_min-height_explorer);
+   max-width: var(--after-bread-crumbs-template_max-width_explorer);
    flex-shrink: 0;
    overflow: hidden;
    text-overflow: ellipsis;
@@ -23,7 +23,7 @@
    .baseline-fix();
 
    &:before {
-     font-size: @line-height_breadcrumbsView;
+     font-size: var(--line-height_breadcrumbsView);
    }
 
    &_width_full {

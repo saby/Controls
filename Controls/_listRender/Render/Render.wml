@@ -24,7 +24,7 @@
       <ws:if data="{{ _options.stickyFooter }}">
          <Controls.scroll:StickyHeader
             position="bottom"
-            attr:class="controls-ListView__footer__paddingLeft_{{ _canHaveMultiselect(_options) ? 'withCheckboxes' : 'default' }}_theme-{{_options.theme}}">
+            attr:class="controls-ListView__footer__paddingLeft_{{ _canHaveMultiselect(_options) ? 'withCheckboxes' : 'default' }}">
             <div>
                <ws:partial template="{{ _options.footerTemplate }}" />
             </div>
@@ -32,7 +32,7 @@
       </ws:if>
       <ws:else>
          <div
-            attr:class="controls-ListView__footer__paddingLeft_{{ _canHaveMultiselect(_options) ? 'withCheckboxes' : 'default' }}_theme-{{_options.theme}}">
+            attr:class="controls-ListView__footer__paddingLeft_{{ _canHaveMultiselect(_options) ? 'withCheckboxes' : 'default' }}">
             <ws:partial template="{{ _options.footerTemplate }}" />
          </div>
       </ws:else>

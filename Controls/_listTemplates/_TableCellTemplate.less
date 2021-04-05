@@ -1,9 +1,9 @@
-.controls-listTemplates__tableCellTemplate__footer-theme-@{themeName} {
-   color: @unaccented_color;
-   font-size: @font-size_xs;
+.controls-listTemplates__tableCellTemplate__footer {
+   color: var(--unaccented_color);
+   font-size: var(--font-size_xs);
 }
 
-.controls-listTemplates__tableCellTemplate__content-theme-@{themeName} {
+.controls-listTemplates__tableCellTemplate__content {
    flex-direction: column;
    display: flex;
    width: 100%;
@@ -11,20 +11,20 @@
 }
 
 .controls-listTemplates__tableCellTemplate__content-withPhoto {
-   min-height: @inline_height_2xl;
-   margin-left: @inline_height_2xl + @offset_xs;
+   min-height: var(--inline_height_2xl);
+   margin-left: calc(var(--inline_height_2xl) + var(--offset_xs));
 }
 
-.controls-listTemplates__tableCellTemplate-theme-@{themeName} {
+.controls-listTemplates__tableCellTemplate {
    display: flex;
    width: 100%;
    position: relative;
 }
 
-.controls-listTemplates_tableCellTemplate-image-theme-@{themeName} {
-   height: @inline_height_2xl;
-   width: @inline_height_2xl;
-   border-radius: @border-radius_s_image;
+.controls-listTemplates_tableCellTemplate-image {
+   height: var(--inline_height_2xl);
+   width: var(--inline_height_2xl);
+   border-radius: var(--border-radius_s_image);
    flex-shrink: 0;
    position: absolute;
    top: 0;

@@ -36,7 +36,7 @@
 /**
  * @cfg {Controls/_list/interface/IList/ItemPadding.typedef} Конфигурация внешних отступов плитки.
  * @name Controls/_tile/interface/ITile#itemsContainerPadding
- * @demo Controls-demo/Tile/ItemsContainerPadding/Index
+ * @demo Controls-demo/tileNewNew/ItemsContainerPadding/Index
  */
 
 /**
@@ -61,7 +61,7 @@
 /**
  * @name Controls/_tile/interface/ITile#tileWidthProperty
  * @cfg {String} Название свойства на элементе, которое содержит минимальную ширину элемента, отображаемого в виде плитки.
- * @demo Controls-demo/Tile/TileWidthProperty/Index
+ * @demo Controls-demo/tileNew/TileWidthProperty/Index
  * @remark Эта опция необходима для расчета размеров элементов при отрисовке на сервере.
  * Если установить высоту с помощью css, компонент не будет отображен корректно.
  * @example
@@ -157,7 +157,7 @@
  *    parentProperty="Раздел"
  *    nodeProperty="Раздел@"/>
  * </pre>
- * @demo Controls-demo/Tile/TileMode/Index
+ * @demo Controls-demo/tileNew/TileMode/Index
  */
 
 /*
@@ -205,7 +205,7 @@
  * @name Controls/_tile/interface/ITile#imageHeightProperty
  * @cfg {String} Имя свойства, содержащего высоту оригинального изображения.
  * @default undefined
- * @demo Controls-demo/Tile/ImageFit/Index
+ * @demo Controls-demo/tileNew/ImageFit/Index
  * @example
  * В следующем примере показано, как задать поле с высотой'.
  * <pre class="brush: html">
@@ -227,7 +227,7 @@
  * @name Controls/_tile/interface/ITile#imageWidthProperty
  * @cfg {String} Имя свойства, содержащего ширину оригинального изображения.
  * @default undefined
- * @demo Controls-demo/Tile/ImageFit/Index
+ * @demo Controls-demo/tileNew/ImageFit/Index
  * @example
  * В следующем примере показано, как задать поле с шириной'.
  * <pre class="brush: html">
@@ -291,7 +291,7 @@
  *    </ws:itemTemplate>
  * </Controls.tile:View>
  * </pre>
-  * @demo Controls-demo/Tile/TileMode/Index
+  * @demo Controls-demo/tileNew/TileMode/Index
   * @remark
   *
  */
@@ -343,7 +343,7 @@
  *    </ws:itemTemplate>
  * </Controls.tile:View>
  * </pre>
- * @demo Controls-demo/Tile/DifferentItemTemplates/PreviewTemplate/Index
+ * @demo Controls-demo/tileNew/DifferentItemTemplates/PreviewTemplate/Index
  */
 
 /**
@@ -355,7 +355,7 @@
 /**
  * @name Controls/_tile/interface/ITile#actionMenuViewMode
  * @cfg {ActionMenuViewMode} Вид отображения меню опций записи.
- * @demo Controls-demo/Tile/DifferentItemTemplates/PreviewTemplate/Index
+ * @demo Controls-demo/tileNew/DifferentItemTemplates/PreviewTemplate/Index
  */
 
 /**
@@ -384,7 +384,7 @@
  *    </ws:itemTemplate>
  * </Controls.tile:View>
  * </pre>
- * @demo Controls-demo/Tile/ImageFit/Cover/Index
+ * @demo Controls-demo/tileNew/ImageFit/Cover/Index
  */
 
 /**
@@ -416,5 +416,5 @@
  *    </ws:itemTemplate>
  * </Controls.tile:View>
  * </pre>
- * @demo Controls-demo/Tile/ImageFit/Index
+ * @demo Controls-demo/tileNew/ImageFit/Index
  */

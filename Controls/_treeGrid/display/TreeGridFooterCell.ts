@@ -16,7 +16,7 @@ export default class TreeGridFooterCell extends GridFooterCell<any> {
 
       if (this._shouldDisplayExpanderPadding()) {
          const expanderSize = this.getOwner().getExpanderSize() || 'default';
-         classes += ` controls-TreeGridView__footer__expanderPadding-${expanderSize}_theme-${theme}`;
+         classes += ` controls-TreeGridView__footer__expanderPadding-${expanderSize}`;
       }
 
       return classes;

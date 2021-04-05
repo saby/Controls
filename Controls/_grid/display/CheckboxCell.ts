@@ -16,19 +16,18 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
         wrapperClasses += this._getWrapperSeparatorClasses(theme);
         wrapperClasses += ' js-controls-ListView__notEditable' +
             ' js-controls-ColumnScroll__notDraggable' +
-            ` controls-GridView__checkbox_theme-${theme}` +
-            ` controls-GridView__checkbox_position-default_theme-${theme}` +
-            ` controls-Grid__row-checkboxCell_rowSpacingTop_${topPadding}_theme-${theme}` +
-            ` controls-Grid__row-cell_rowSpacingBottom_${this.getOwner().getBottomPadding()}_theme-${theme} ` +
-            ` controls-Grid__row-cell-checkbox_theme-${theme}`;
+            ' controls-GridView__checkbox' +
+            ' controls-GridView__checkbox_position-default' +
+            ` controls-Grid__row-checkboxCell_rowSpacingTop_${topPadding}` +
+            ` controls-Grid__row-cell_rowSpacingBottom_${this.getOwner().getBottomPadding()} ` +
+            ' controls-Grid__row-cell-checkbox';
 
         if (this._$owner.isEditing()) {
             const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
-            wrapperClasses += ` controls-Grid__row-cell-editing_theme-${theme}`;
-            wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme}`;
+            wrapperClasses += ' controls-Grid__row-cell-editing';
+            wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}`;
         } else if (templateHighlightOnHover !== false) {
             wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle}`;
-            wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle}_theme-${theme}`;
         }
 
         if (this._$owner.hasColumnScroll()) {
@@ -36,7 +35,7 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
         }
 
         if (backgroundColorStyle) {
-            wrapperClasses += ` controls-background-${backgroundColorStyle}_theme-${theme}`;
+            wrapperClasses += ` controls-background-${backgroundColorStyle}`;
         }
 
         return wrapperClasses;

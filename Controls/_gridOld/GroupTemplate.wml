@@ -1,14 +1,14 @@
 <ws:template name="groupContentTemplate">
       <ws:if data="{{separatorVisibility !== false && textVisible !== false && (columnAlignGroup !== undefined || textAlign !== 'left')}}">
-         <div class="controls-ListView__groupSeparator_theme-{{itemData.theme}} controls-ListView__groupSeparator-left_theme-{{itemData.theme}}">&nbsp;</div>
+         <div class="controls-ListView__groupSeparator controls-ListView__groupSeparator-left">&nbsp;</div>
       </ws:if>
       <ws:if data="{{ textVisible !== false }}">
-         <div class="controls-ListView__groupContent-text controls-ListView__groupContent-text_theme-{{itemData.theme}}
+         <div class="controls-ListView__groupContent-text
             {{separatorVisibility === false && (columnAlignGroup !== undefined || textAlign !== 'left') ? 'controls-ListView__groupContent-withoutGroupSeparator'}}
-            {{fontSize ? ' controls-fontsize-' + fontSize + '_theme-' + itemData.theme : ' controls-ListView__groupContent-text_default_theme-' + itemData.theme}}
-            {{expanderVisible !== false ? (' controls-ListView__groupExpander controls-ListView__groupExpander_theme-' + itemData.theme) +
-            (expanderAlign === 'right' ? ' controls-ListView__groupExpander_right_theme-' + itemData.theme : ' controls-ListView__groupExpander_left_theme-' + itemData.theme) +
-            ' controls-ListView__groupExpander-iconSize_' + (iconSize || 'default') + '_theme-' + itemData.theme +
+            {{fontSize ? ' controls-fontsize-' + fontSize : ' controls-ListView__groupContent-text_default'}}
+            {{expanderVisible !== false ? (' controls-ListView__groupExpander controls-ListView__groupExpander') +
+            (expanderAlign === 'right' ? ' controls-ListView__groupExpander_right' : ' controls-ListView__groupExpander_left') +
+            ' controls-ListView__groupExpander-iconSize_' + (iconSize || 'default') +
             (!itemData.isGroupExpanded ?
             ' controls-ListView__groupExpander_collapsed' + (expanderAlign === 'right' ?
                ' controls-ListView__groupExpander_collapsed_right' : ' controls-ListView__groupExpander_collapsed_left') :'')}}">
@@ -20,11 +20,11 @@
       </ws:if>
       <ws:if data="{{columnAlignGroup === undefined || textVisible === false}}">
          <ws:if data="{{separatorVisibility !== false && (columnAlignGroup !== undefined || textAlign !== 'right' || textVisible === false)}}">
-            <div class="controls-ListView__groupSeparator_theme-{{itemData.theme}} {{textVisible !== false ? 'controls-ListView__groupSeparator-right_theme-' + itemData.theme}}">&nbsp;</div>
+            <div class="controls-ListView__groupSeparator {{textVisible !== false ? 'controls-ListView__groupSeparator-right'}}">&nbsp;</div>
          </ws:if>
          <ws:if data="{{!!rightTemplate}}">
             <ws:partial template="{{rightTemplate}}" itemData="{{itemData}}"
-                        attr:class="controls-ListView__groupContent-rightTemplate_theme-{{itemData.theme}}
+                        attr:class="controls-ListView__groupContent-rightTemplate
                        {{ !itemData.shouldFixGroupOnColumn(columnAlignGroup, textVisible) ? itemData.groupPaddingClasses.right }}
                        {{ separatorVisibility === false && (textVisible === false || (columnAlignGroup === undefined && textAlign !== 'right')) ? 'controls-ListView__groupContent-withoutGroupSeparator' }}
          " />
@@ -34,11 +34,11 @@
 <ws:template name="groupRightTemplate">
    <div class="controls-ListView__groupContent">
       <ws:if data="{{separatorVisibility !== false && (columnAlignGroup !== undefined || textAlign !== 'right')}}">
-         <div class="controls-ListView__groupSeparator_theme-{{itemData.theme}} controls-ListView__groupSeparator-right_theme-{{itemData.theme}}">&nbsp;</div>
+         <div class="controls-ListView__groupSeparator controls-ListView__groupSeparator-right">&nbsp;</div>
       </ws:if>
       <ws:if data="{{!!rightTemplate}}">
          <ws:partial template="{{rightTemplate}}"
-                     attr:class="controls-ListView__groupContent-rightTemplate_theme-{{itemData.theme}}
+                     attr:class="controls-ListView__groupContent-rightTemplate
                      {{separatorVisibility === false && (columnAlignGroup !== undefined || textAlign !== 'left') ? 'controls-ListView__groupContent-withoutGroupSeparator'}}"
                      itemData="{{itemData}}"/>
       </ws:if>
@@ -51,11 +51,11 @@
         attr:class="controls-ListView__stickyGroup_{{itemData.style}} controls-ListView__groupContent"
         fixedZIndex="{{4}}">
          <ws:if data="{{separatorVisibility !== false && (columnAlignGroup !== undefined || textAlign !== 'right')}}">
-            <div class="controls-ListView__groupSeparator_theme-{{itemData.theme}} controls-ListView__groupSeparator-right_theme-{{itemData.theme}}">&nbsp;</div>
+            <div class="controls-ListView__groupSeparator controls-ListView__groupSeparator-right">&nbsp;</div>
          </ws:if>
          <ws:if data="{{!!rightTemplate}}">
             <ws:partial template="{{rightTemplate}}"
-                        attr:class="controls-ListView__groupContent-rightTemplate_theme-{{itemData.theme}}
+                        attr:class="controls-ListView__groupContent-rightTemplate
                         {{separatorVisibility === false && (columnAlignGroup !== undefined || textAlign !== 'left') ? 'controls-ListView__groupContent-withoutGroupSeparator'}}"
                         itemData="{{itemData}}"/>
          </ws:if>

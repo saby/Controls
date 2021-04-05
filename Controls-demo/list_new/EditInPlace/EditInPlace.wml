@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__flexRow controlsDemo__childWidth400">
         <div class="controlsDemo__cell controlsDemo__mr4">
-            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+            <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/list_new/EditInPlace/AddItem/Index' }}">
                 <a href="{{content.href}}">Добавление записи кликом по кнопке</a>
@@ -10,7 +10,7 @@
         </div>
 
         <div class="controlsDemo__cell controlsDemo__mr4">
-            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+            <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/list_new/EditInPlace/Toolbar/Index' }}">
                 <a href="{{content.href}}">Toolbar при редактировании</a>
@@ -19,7 +19,7 @@
         </div>
 
         <div class="controlsDemo__cell controlsDemo__mr4">
-            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+            <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/list_new/EditInPlace/SequentialEditing/Index' }}">
                 <a href="{{content.href}}">Последовательное редактирование записей выключено</a>
@@ -28,7 +28,7 @@
         </div>
 
         <div class="controlsDemo__cell controlsDemo__mr4">
-            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+            <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/list_new/EditInPlace/AutoAdd/Index' }}">
                 <a href="{{content.href}}">Автодобавление после завершения редактирования последней записи</a>
@@ -37,7 +37,7 @@
         </div>
 
         <div class="controlsDemo__cell controlsDemo__mr4">
-            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+            <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/list_new/EditInPlace/Enabled/Index' }}">
                 <a href="{{content.href}}">Подсветка редактора при наведении</a>
@@ -46,7 +46,7 @@
         </div>
 
         <div class="controlsDemo__cell controlsDemo__mr4">
-            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+            <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/list_new/EditInPlace/SizeValue/Index' }}">
                 <a href="{{content.href}}">Размер шрифта для текста</a>
@@ -57,7 +57,7 @@
 
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/EditInPlace/AfterEdit/Index' }}">
             <a href="{{content.href}}">Варианты после начала и завершения редактирования</a>
@@ -66,7 +66,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/EditInPlace/BeginEdit/Index' }}">
             <a href="{{content.href}}">Варианты начала редактирования</a>
@@ -75,7 +75,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/EditInPlace/EndEdit/Index' }}">
             <a href="{{content.href}}">Варианты завершения редактирования</a>
@@ -84,7 +84,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/EditInPlace/EmptyActionsWithToolBar/Index' }}">
             <a href="{{content.href}}">Пустой массив экшенов</a>
@@ -93,7 +93,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/EditInPlace/Grouped/Index' }}">
             <a href="{{content.href}}">Редактирование по месту в списке с группировкой</a>
@@ -102,7 +102,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/EditInPlace/EditingOnMounting/Index' }}">
             <a href="{{content.href}}">Редактирование записи открыто при построении</a>
@@ -111,7 +111,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/EditInPlace/SlowAdding/Index' }}">
             <a href="{{content.href}}">Долгая загрузка при добавлении записи</a>

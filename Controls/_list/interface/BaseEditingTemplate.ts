@@ -14,12 +14,12 @@ import IEditingTemplateOptions from './EditingTemplate';
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
  *          <ws:contentTemplate>
- *              <ws:partial template="Controls/list:BaseEditingTemplate" value="{{ itemData.item.price }}" enabled="{{true}}">
+ *              <ws:partial template="Controls/list:BaseEditingTemplate" value="{{ item.contents.price }}" enabled="{{true}}">
  *                  <ws:viewTemplate>
  *                      Total price: {{ _countTotalPrice() }}$
  *                  </ws:viewTemplate>
  *                  <ws:editorTemplate>
- *                      <Controls.input:Money bind:value="contentTemplate.itemData.item.price" selectOnClick="{{ false }}" />
+ *                      <Controls.input:Money bind:value="contentTemplate.item.contents.price" selectOnClick="{{ false }}" />
  *                  </ws:editorTemplate>
  *              </ws:partial>
  *          </ws:contentTemplate>

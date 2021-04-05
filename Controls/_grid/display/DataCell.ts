@@ -64,19 +64,19 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
         let classes = super.getContentClasses(theme, backgroundColorStyle, cursor, templateHighlightOnHover);
 
         if (this._$hiddenForLadder) {
-            classes += ` controls-background-${this._$backgroundStyle}_theme-${theme}`;
+            classes += ` controls-background-${this._$backgroundStyle}`;
         }
 
         if (this._$owner.getEditingConfig()?.mode === 'cell') {
-            classes += ` controls-Grid__row-cell_editing-mode-single-cell_theme-${theme}`;
+            classes += ' controls-Grid__row-cell_editing-mode-single-cell';
 
             if (this.isEditing()) {
-                classes += ` controls-Grid__row-cell_single-cell_editing_theme-${theme}`;
+                classes += ' controls-Grid__row-cell_single-cell_editing';
             } else {
                 if (this.config.editable !== false && tmplIsEditable !== false) {
-                    classes += ` controls-Grid__row-cell_single-cell_editable_theme-${theme}`;
+                    classes += ' controls-Grid__row-cell_single-cell_editable';
                 } else {
-                    classes += ` js-controls-ListView__notEditable controls-Grid__row-cell_single-cell_not-editable_theme-${theme}`;
+                    classes += ' js-controls-ListView__notEditable controls-Grid__row-cell_single-cell_not-editable';
                 }
             }
         }
@@ -89,13 +89,13 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
 
         // нужен shouldDisplayMarker именно для всего элемента, т.к. эти стили навешиваются на все ячейки для текста
         if (this.getOwner().shouldDisplayMarker()) {
-            classes += ` controls-Grid__row-cell_selected controls-Grid__row-cell_selected-${style}_theme-${theme}`;
+            classes += ` controls-Grid__row-cell_selected controls-Grid__row-cell_selected-${style}`;
 
             if (this.isFirstColumn()) {
-                classes += ` controls-Grid__row-cell_selected__first-${style}_theme-${theme}`;
+                classes += ` controls-Grid__row-cell_selected__first-${style}`;
             }
             if (this.isLastColumn()) {
-                classes += ` controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-${style}_theme-${theme}`;
+                classes += ` controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-${style}`;
             }
         }
 
@@ -162,7 +162,7 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
      * @param theme
      */
     getTagClasses(theme: string): string {
-        return `controls-Grid__cell_tag_theme-${theme}`;
+        return `controls-Grid__cell_tag`;
     }
 
     // endregion

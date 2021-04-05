@@ -188,10 +188,10 @@ describe('Controls/columnScroll', () => {
             columnScroll.getShadowClasses('start'),
             [
                 'js-controls-ColumnScroll__shadow-start',
-                'controls-ColumnScroll__shadow_theme-default',
-                'controls-ColumnScroll__shadow_without-bottom-padding_theme-default',
-                'controls-ColumnScroll__shadow-start_theme-default',
-                'controls-horizontal-gradient-default_theme-default'
+                'controls-ColumnScroll__shadow',
+                'controls-ColumnScroll__shadow_without-bottom-padding',
+                'controls-ColumnScroll__shadow-start',
+                'controls-horizontal-gradient-default'
             ]
         );
 
@@ -199,10 +199,10 @@ describe('Controls/columnScroll', () => {
             columnScroll.getShadowClasses('end'),
             [
                 'js-controls-ColumnScroll__shadow-end',
-                'controls-ColumnScroll__shadow_theme-default',
-                'controls-ColumnScroll__shadow_without-bottom-padding_theme-default',
-                'controls-ColumnScroll__shadow-end_theme-default',
-                'controls-horizontal-gradient-default_theme-default'
+                'controls-ColumnScroll__shadow',
+                'controls-ColumnScroll__shadow_without-bottom-padding',
+                'controls-ColumnScroll__shadow-end',
+                'controls-horizontal-gradient-default'
             ]
         );
 

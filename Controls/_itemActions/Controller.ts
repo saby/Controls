@@ -30,7 +30,6 @@ import * as mStubs from 'Core/moduleStubs';
 import {getActions} from './measurers/ItemActionMeasurer';
 import {TItemActionsVisibility} from './interface/IItemActionsOptions';
 
-
 const DEFAULT_ACTION_ALIGNMENT = 'horizontal';
 
 const DEFAULT_ACTION_CAPTION_POSITION = 'none';
@@ -122,7 +121,7 @@ export interface IControllerOptions {
      * @name Controls/_itemActions/Controller/IControllerOptions#itemActionsVisibility
      * @cfg {Controls/_itemActions/interface/IItemActionsOptions/TItemActionsVisibility.typedef} Отображение опций записи с задержкой или без.
      */
-    itemActionsVisibility: TItemActionsVisibility
+    itemActionsVisibility: TItemActionsVisibility;
 }
 
 /**
@@ -295,7 +294,7 @@ export class Controller {
             // @ts-ignore
             target,
             templateOptions,
-            className: `controls-MenuButton_link_iconSize-medium_popup theme_${this._theme}`,
+            className: 'controls-MenuButton_link_iconSize-medium_popup',
             closeOnOutsideClick: true,
             autofocus: false,
             fittingMode: {
@@ -314,7 +313,7 @@ export class Controller {
                     vertical: 'top',
                     horizontal: 'right'
                 },
-                className: `controls-ItemActions__popup__list_theme-${this._theme}`,
+                className: 'controls-ItemActions__popup__list',
                 // @ts-ignore
                 nativeEvent: isContextMenu ? clickEvent.nativeEvent : null
             };
@@ -644,7 +643,7 @@ export class Controller {
 
     private _restoreItemActions(item: IItemActionsItem): void {
         if (this._savedItemActions) {
-            item.setActions(this._savedItemActions)
+            item.setActions(this._savedItemActions);
         }
     }
 
@@ -878,7 +877,7 @@ export class Controller {
     }
 
     private static _resolveItemActionClass(theme: string): string {
-        return `controls-itemActionsV__action_icon_theme-${theme}`;
+        return 'controls-itemActionsV__action_icon';
     }
 
     private static _isMatchingActionLists(

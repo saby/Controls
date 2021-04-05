@@ -228,16 +228,16 @@ var
                 currentColumn.getExpanderSize = current.getExpanderSize;
 
                 currentColumn.isExpanded = current.isExpanded;
-                currentColumn.classList.base += ` controls-TreeGrid__row-cell_theme-${theme} controls-TreeGrid__row-cell_${currentColumn.style || 'default'}_theme-${theme}`;
+                currentColumn.classList.base += ` controls-TreeGrid__row-cell controls-TreeGrid__row-cell_${currentColumn.style || 'default'}`;
 
                 currentColumn.getExpanderClasses = (expanderIcon, expanderSize) => current.getExpanderClasses(expanderIcon, expanderSize);
 
                 if (currentColumn.nodeType) {
-                    currentColumn.classList.base += ` controls-TreeGrid__row-cell__node_theme-${theme}`;
+                    currentColumn.classList.base += ' controls-TreeGrid__row-cell__node';
                 } else if (currentColumn.nodeType === false) {
-                    currentColumn.classList.base += ` controls-TreeGrid__row-cell__hiddenNode_theme-${theme}`;
+                    currentColumn.classList.base += ' controls-TreeGrid__row-cell__hiddenNode';
                 } else {
-                    currentColumn.classList.base += ` controls-TreeGrid__row-cell__item_theme-${theme}`;
+                    currentColumn.classList.base += ' controls-TreeGrid__row-cell__item';
                 }
 
                 // если текущая колонка первая и для нее не задан мультиселект, то убираем левый отступ
@@ -271,20 +271,19 @@ var
 
                     let classes =
                         'controls-TreeGrid__nodeFooterContent ' +
-                        `controls-TreeGrid__nodeFooterContent_theme-${theme} ` +
-                        `controls-TreeGrid__nodeFooterContent_rowSeparatorSize-${rowSeparatorSize}_theme-${theme}`;
+                        `controls-TreeGrid__nodeFooterContent_rowSeparatorSize-${rowSeparatorSize}`;
 
 
                     if (tmplOptions.colspan === false) {
                         if (index > 0) {
-                            classes += ` controls-TreeGrid__nodeFooterCell_columnSeparator-size_${current.getSeparatorForColumn(columns, index, current.columnSeparatorSize)}_theme-${theme}`;
+                            classes += ` controls-TreeGrid__nodeFooterCell_columnSeparator-size_${current.getSeparatorForColumn(columns, index, current.columnSeparatorSize)}`;
                         }
                         if (!current.hasMultiSelectColumn && index === 0) {
-                            classes += ` controls-TreeGrid__nodeFooterContent_spacingLeft-${current.itemPadding.left}_theme-${theme}`;
+                            classes += ` controls-TreeGrid__nodeFooterContent_spacingLeft-${current.itemPadding.left}`;
                         }
 
                         if (index === self._options.columns.length - 1) {
-                            classes += ` controls-TreeGrid__nodeFooterContent_spacingRight-${current.itemPadding.right}_theme-${theme}`;
+                            classes += ` controls-TreeGrid__nodeFooterContent_spacingRight-${current.itemPadding.right}`;
                         }
 
                         if (self._options.columnScroll && (index < self._options.stickyColumnsCount)) {
@@ -292,9 +291,9 @@ var
                         }
                     } else {
                         if (!current.hasMultiSelect) {
-                            classes += ` controls-TreeGrid__nodeFooterContent_spacingLeft-${current.itemPadding.left}_theme-${theme}`;
+                            classes += ` controls-TreeGrid__nodeFooterContent_spacingLeft-${current.itemPadding.left}`;
                         }
-                        classes += ` controls-TreeGrid__nodeFooterContent_spacingRight-${current.itemPadding.right}_theme-${theme}`;
+                        classes += ` controls-TreeGrid__nodeFooterContent_spacingRight-${current.itemPadding.right}`;
                         classes += ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} ${DRAG_SCROLL_JS_SELECTORS.NOT_DRAG_SCROLLABLE}`;
                     }
 
@@ -406,7 +405,7 @@ var
                 this._footer[expanderColumnIndex].getContentClasses = () => {
                     const expanderSize = this._options.expanderSize || 'default';
                     return superGetter.apply(this, arguments) +
-                        ` controls-TreeGridView__footer__expanderPadding-${expanderSize.toLowerCase()}_theme-${this._options.theme}`
+                        ` controls-TreeGridView__footer__expanderPadding-${expanderSize.toLowerCase()}`;
                 }
             }
         }

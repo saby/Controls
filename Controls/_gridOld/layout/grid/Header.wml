@@ -13,7 +13,7 @@
 <ws:template name="cellContent">
    <ws:if data="{{ !hasMultiSelect || headerColumn.index !== 0 || headerColumn.column.caption || headerColumn.column.title}}">
       <ws:if data="{{!!headerColumn.column.template}}">
-         <ws:partial attr:class="controls-Grid__header-cell__content controls-Grid__header-cell__content_theme-{{_options.theme}} {{headerModel.isMultiHeader() ? ' controls-Grid__row-multi-header__content_baseline' : ' controls-Grid__row-header__content_baseline'}}_theme-{{_options.theme}} {{headerColumn.cellContentClasses}}"
+         <ws:partial attr:class="controls-Grid__header-cell__content controls-Grid__header-cell__content {{headerModel.isMultiHeader() ? ' controls-Grid__row-multi-header__content_baseline' : ' controls-Grid__row-header__content_baseline'}} {{headerColumn.cellContentClasses}}"
                      template="{{headerColumn.column.template}}"
                      scope="{{ headerColumn.column.templateOptions }}"
                      colData="{{headerColumn}}"/>
@@ -21,7 +21,7 @@
       </ws:if>
       <ws:else>
          <ws:partial
-                 attr:class="{{headerModel.isMultiHeader() ? ' controls-Grid__row-multi-header__content_baseline' : ' controls-Grid__row-header__content_baseline'}}_theme-{{_options.theme}} {{headerColumn.cellContentClasses}}"
+                 attr:class="{{headerModel.isMultiHeader() ? ' controls-Grid__row-multi-header__content_baseline' : ' controls-Grid__row-header__content_baseline'}} {{headerColumn.cellContentClasses}}"
                  template="{{defaultHeaderContent}}"
                  colData="{{headerColumn}}"/>
       </ws:else>
@@ -61,7 +61,7 @@
 </ws:template>
 
 <ws:template name="header">
-      <div class="controls-Grid__header controls-Grid__header_theme-{{_options.theme}}">
+      <div class="controls-Grid__header">
          {{ headerModel.resetHeaderRows() }}
          <ws:for data="headerModel.resetHeaderRows(); headerModel.isEndHeaderRow(); headerModel.goToNextHeaderRow();">
             <ws:partial template="headContent" headerRow="{{ headerModel.getCurrentHeaderRow() }}"/>

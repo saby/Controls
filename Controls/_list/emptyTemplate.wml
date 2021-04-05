@@ -1,5 +1,5 @@
-<div class="controls-ListView__empty controls-ListView__empty_theme-{{theme}}
-            controls-ListView__empty_topSpacing_{{topSpacing || 'l'}}_theme-{{theme}}
-            controls-ListView__empty_bottomSpacing_{{bottomSpacing || 'l'}}_theme-{{theme}}">
+<div class="controls-ListView__empty
+            controls-ListView__empty_topSpacing_{{topSpacing || 'l'}}
+            controls-ListView__empty_bottomSpacing_{{bottomSpacing || 'l'}}">
     <ws:partial template="{{contentTemplate}}"/>
 </div>

@@ -10,6 +10,8 @@ import { Model } from 'Types/entity';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import ColumnScrollViewController, {COLUMN_SCROLL_JS_SELECTORS} from './ViewControllers/ColumnScroll';
 import { _Options } from 'UI/Vdom';
+import 'css!Controls/grid';
+import 'css!Controls/CommonClasses';
 
 const GridView = ListView.extend({
     _template: GridTemplate,
@@ -60,10 +62,7 @@ const GridView = ListView.extend({
 
     _afterMount(): void {
         GridView.superclass._afterMount.apply(this, arguments);
-        this._actualizeColumnScroll({
-            ...this._options,
-            isOnMount: true
-        }, this._options);
+        this._actualizeColumnScroll(this._options);
         this._isFullMounted = true;
     },
 
@@ -206,7 +205,7 @@ const GridView = ListView.extend({
     },
 
     _getGridViewClasses(options): string {
-        let classes = `controls-Grid controls-Grid_${options.style}_theme-${options.theme}`;
+        let classes = `controls-Grid controls-Grid_${options.style}`;
         if (GridLadderUtil.isSupportLadder(options.ladderProperties)) {
             classes += ' controls-Grid_support-ladder';
         }
@@ -215,7 +214,7 @@ const GridView = ListView.extend({
             !this._listModel.getFooter() &&
             !(this._listModel.getResults() && this._listModel.getResultsPosition() === 'bottom')
         ) {
-            classes += ` controls-GridView__paddingBottom__itemActionsV_outside_theme-${options.theme}`;
+            classes += ` controls-GridView__paddingBottom__itemActionsV_outside`;
         }
 
         classes += ` ${this._columnScrollContentClasses}`;
@@ -378,9 +377,11 @@ const GridView = ListView.extend({
         });
     },
 
-    _actualizeColumnScroll(options, oldOptions) {
+    _actualizeColumnScroll(newOptions, oldOptions = newOptions) {
+        const getHasMultiSelectColumn = (options) => options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
+
         return this._columnScrollViewController?.actualizeColumnScroll({
-            ...options,
+            ...newOptions,
             scrollBar: this._children.horizontalScrollBar,
             containers: {
                 header: this._children.header || this._children.results,
@@ -388,9 +389,12 @@ const GridView = ListView.extend({
                 content: this._children.grid as HTMLElement,
                 styles: this._children.columnScrollStylesContainer as HTMLStyleElement
             },
-            hasMultiSelectColumn: options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom',
-            isActivated: !this._showFakeGridWithColumnScroll,
-        }, oldOptions)?.then((result) => {
+            hasMultiSelectColumn: getHasMultiSelectColumn(newOptions),
+            isActivated: !this._showFakeGridWithColumnScroll
+        }, {
+            ...oldOptions,
+            hasMultiSelectColumn: getHasMultiSelectColumn(oldOptions)
+        })?.then((result) => {
             if (result.status !== 'destroyed') {
                 this._applyColumnScrollChanges();
             }
@@ -467,14 +471,12 @@ const GridView = ListView.extend({
 
     _resizeHandler(): void {
         if (this._columnScrollViewController && this.isColumnScrollVisible()) {
-            this._actualizeColumnScroll(this._options, this._options);
+            this._actualizeColumnScroll(this._options);
         }
     }
 
     //#endregion
 });
-
-GridView._theme = ['Controls/grid', 'Controls/Classes'];
 
 GridView.contextTypes = () => {
     return {

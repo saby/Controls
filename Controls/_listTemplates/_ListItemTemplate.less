@@ -20,11 +20,11 @@
 }
 
 .controls-listTemplates__listItemTemplate-image-padding_position-left {
-   padding-right: @offset_m;
+   padding-right: var(--offset_m);
 }
 
 .controls-listTemplates__listItemTemplate-image-padding_position-right {
-   padding-left: @offset_m;
+   padding-left: var(--offset_m);
 }
 
 .controls-listTemplates__listItemTemplate__itemContent {
@@ -34,7 +34,7 @@
    width: 100%;
 }
 // Временное решение до внедрения новых моделей в explorer для списка, чтобы не дорабатывать старые модели
-.controls-listTemplates__listItemTemplate .controls-CheckboxMarker_inList_theme-@{themeName} {
+.controls-listTemplates__listItemTemplate .controls-CheckboxMarker_inList {
    float: left;
-   margin-top: @checkbox_offset-top_list;
+   margin-top: var(--checkbox_offset-top_list);
 }

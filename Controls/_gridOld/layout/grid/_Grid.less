@@ -15,12 +15,12 @@
 .controls-GridView__emptyTemplate__cell {
    display: flex;
    align-items: baseline;
-   color: @label_text-color;
+   color: var(--label_text-color);
    cursor: pointer;
 }
 
 .controls-GridView__emptyTemplate__checkBoxCell {
-   min-width: @click-area_width_checkbox;
+   min-width: var(--click-area_width_checkbox);
 }
 
 .controls-Grid_dragging_process {
@@ -34,18 +34,18 @@
    }
 }
 
-.controls-GridView__itemV_marker-default_theme-@{themeName} {
+.controls-GridView__itemV_marker-default {
    position: absolute;
-   width: @marker_thickness_list;
-   background-color: @marker_color_list;
+   width: var(--marker_thickness_list);
+   background-color: var(--marker_color_list);
    top: 0;
    z-index: 2;
    max-height: 100%;
 }
 
-.controls-Grid__header_theme-@{themeName} {
+.controls-Grid__header {
    display: contents;
-   color: @header_text-color_grid;
+   color: var(--header_text-color_grid);
    cursor: default;
 }
 .controls-Grid__header-cell {
@@ -56,8 +56,8 @@
 .controls-Grid__header-cell_min-width {
    min-width: 0;
 }
-.controls-Grid__header-cell_theme-@{themeName} {
-   font-size: @header_font-size_grid;
+.controls-Grid__header-cell {
+   font-size: var(--header_font-size_grid);
    z-index: 1;
    display: inline-flex;
    flex-direction: column;
@@ -73,12 +73,12 @@
    justify-content: flex-end;
 }
 
-.controls-Grid__multi-header-cell_min-height_theme-@{themeName} {
-   min-height: @header_multiline_cell_min-height_grid;
+.controls-Grid__multi-header-cell_min-height {
+   min-height: var(--header_multiline_cell_min-height_grid);
 }
 
-.controls-Grid__header-cell_min-height_theme-@{themeName} {
-   min-height: @header_cell_min-height_grid;
+.controls-Grid__header-cell_min-height {
+   min-height: var(--header_cell_min-height_grid);
 }
 
 .controls-Grid_columnScroll .controls-Grid__header-cell,
@@ -107,9 +107,9 @@
    display: inline-block;
 }
 
-.controls-Grid__header-cell__content_theme-@{themeName} {
+.controls-Grid__header-cell__content {
    box-sizing: border-box;
-   min-height: @header_multiline_cell_min-height_grid;
+   min-height: var(--header_multiline_cell_min-height_grid);
    display: flex;
    justify-content: flex-start;
    align-items: baseline; //baseline align by default;
@@ -119,14 +119,14 @@
    display: inline-flex;
 }
 
-.controls-Grid__row-header__content_baseline_theme-@{themeName}:before {
+.controls-Grid__row-header__content_baseline:before {
    content: '\200b';
-   font-size: @header_max-font-size_grid;
+   font-size: var(--header_max-font-size_grid);
 }
 
-.controls-Grid__row-multi-header__content_baseline_theme-@{themeName}:before {
+.controls-Grid__row-multi-header__content_baseline:before {
    content: '\200b';
-   font-size: @header_multiline_max-font-size_grid;
+   font-size: var(--header_multiline_max-font-size_grid);
 }
 
 .controls-Grid__header-cell_valign_bottom {
@@ -146,38 +146,38 @@
    display: contents;
 }
 
-.controls-Grid__results-cell_theme-@{themeName} {
+.controls-Grid__results-cell {
    z-index: @z-index-Grid-results-cell;
    min-width: 0;
-   min-height: @results_cell_min-height_grid;
+   min-height: var(--results_cell_min-height_grid);
 }
 
-.controls-Grid__row-result-cell__content-font-weight_default_theme-@{themeName} {
-   font-weight: @font-weight;
+.controls-Grid__row-result-cell__content-font-weight_default {
+   font-weight: var(--font-weight);
 }
 
-.controls-Grid__row-result-cell__content-font-weight_bold_theme-@{themeName} {
+.controls-Grid__row-result-cell__content-font-weight_bold {
    font-weight: bold;
 }
 
-.controls-Grid__row-result-cell__content-font-color-style_secondary_theme-@{themeName} {
-   color: @secondary_text-color;
+.controls-Grid__row-result-cell__content-font-color-style_secondary {
+   color: var(--secondary_text-color);
 }
 
-.controls-Grid__row-result-cell__content-font-color-style_unaccented_theme-@{themeName} {
-   color: @unaccented_text-color;
+.controls-Grid__row-result-cell__content-font-color-style_unaccented {
+   color: var(--unaccented_text-color);
 }
 
-.controls-Grid__row-result-cell__content-font-color-style_readonly_theme-@{themeName} {
-   color: @readonly_color;
+.controls-Grid__row-result-cell__content-font-color-style_readonly {
+   color: var(--readonly_color);
 }
 
-.controls-Grid__row-result-cell__content-font-color-style_danger_theme-@{themeName} {
-   color: @danger_color;
+.controls-Grid__row-result-cell__content-font-color-style_danger {
+   color: var(--danger_color);
 }
 
-.controls-Grid__row-result-cell__content-font-color-style_success_theme-@{themeName} {
-   color: @success_color;
+.controls-Grid__row-result-cell__content-font-color-style_success {
+   color: var(--success_color);
 }
 
 .controls-GridViewV__itemsContainer {
@@ -200,47 +200,47 @@
    position: relative;
 }
 
-.controls-Grid__row-cell_background_danger_theme-@{themeName},
-.controls-Grid__row-cell__content_background_danger_theme-@{themeName} {
-   background-color: @danger_color;
+.controls-Grid__row-cell_background_danger,
+.controls-Grid__row-cell__content_background_danger {
+   background-color: var(--danger_color);
 }
 
-.controls-Grid__row-cell_background_success_theme-@{themeName},
-.controls-Grid__row-cell__content_background_success_theme-@{themeName} {
-   background-color: @success_color;
+.controls-Grid__row-cell_background_success,
+.controls-Grid__row-cell__content_background_success {
+   background-color: var(--success_color);
 }
 
-.controls-Grid__row-cell_background_warning_theme-@{themeName},
-.controls-Grid__row-cell__content_background_warning_theme-@{themeName} {
-   background-color: @warning_color;
+.controls-Grid__row-cell_background_warning,
+.controls-Grid__row-cell__content_background_warning {
+   background-color: var(--warning_color);
 }
 
-.controls-Grid__row-cell_background_primary_theme-@{themeName},
-.controls-Grid__row-cell__content_background_primary_theme-@{themeName} {
-   background-color: @primary_color;
+.controls-Grid__row-cell_background_primary,
+.controls-Grid__row-cell__content_background_primary {
+   background-color: var(--primary_color);
 }
 
-.controls-Grid__row-cell_background_secondary_theme-@{themeName},
-.controls-Grid__row-cell__content_background_secondary_theme-@{themeName} {
-   background-color: @secondary_color;
+.controls-Grid__row-cell_background_secondary,
+.controls-Grid__row-cell__content_background_secondary {
+   background-color: var(--secondary_color);
 }
 
-.controls-Grid__row-cell_background_unaccented_theme-@{themeName},
-.controls-Grid__row-cell__content_background_unaccented_theme-@{themeName} {
-   background-color: @unaccented_color;
+.controls-Grid__row-cell_background_unaccented,
+.controls-Grid__row-cell__content_background_unaccented {
+   background-color: var(--unaccented_color);
 }
 
-.controls-Grid__row-cell_background_readonly_theme-@{themeName},
-.controls-Grid__row-cell__content_background_readonly_theme-@{themeName} {
-   background-color: @readonly_color;
+.controls-Grid__row-cell_background_readonly,
+.controls-Grid__row-cell__content_background_readonly {
+   background-color: var(--readonly_color);
 }
 
-.controls-Grid__row-cell_default_min_height-theme-@{themeName} {
-   min-height: @cell_min-height_grid;
+.controls-Grid__row-cell_default_min_height {
+   min-height: var(--cell_min-height_grid);
 }
 
-.controls-Grid__row-cell_small_min_height-theme-@{themeName} {
-   min-height: @cell_small-min-height_grid;
+.controls-Grid__row-cell_small_min_height {
+   min-height: var(--cell_small-min-height_grid);
 }
 
 .controls-Grid__row-cell__content_colspaned {
@@ -259,32 +259,32 @@
    }
 }
 
-.controls-itemActionsV.controls-itemActionsV_outside_theme-@{themeName} {
+.controls-itemActionsV.controls-itemActionsV_outside {
    z-index: @z-index-Grid-results-cell + 1 // на 1 больше чем у results; только для весла, иначе будут поверх шапки
 }
 
 
-.controls-Grid__row-cell_default_theme-@{themeName} {
-   font-size: @item_font-size_m_grid;
+.controls-Grid__row-cell_default {
+   font-size: var(--item_font-size_m_grid);
 }
 
-.controls-Grid__row-cell_master_theme-@{themeName} {
-   font-size: @master_item_font-size_list;
+.controls-Grid__row-cell_master {
+   font-size: var(--master_item_font-size_list);
 }
 
-.controls-ColumnScroll_visible .controls-GridNew__cell_fixed_theme-@{themeName} {
+.controls-ColumnScroll_visible .controls-GridNew__cell_fixed {
    z-index: 3;
 }
 
 // Строка редактирования имеет свой z-index, который вешается на все ячейки.
 // У фиксированных необходимо увеличить для перекрывания скроллируемых.
-.controls-ColumnScroll_visible .controls-GridNew__cell_fixed.controls-Grid__row-cell-background-editing_theme-@{themeName},
-.controls-Grid__cell_fixed.controls-Grid__row-cell-background-editing_theme-@{themeName} {
+.controls-ColumnScroll_visible .controls-GridNew__cell_fixed.controls-Grid__row-cell-background-editing,
+.controls-Grid__cell_fixed.controls-Grid__row-cell-background-editing {
    z-index: 3;
 }
 
 // Чтобы перетаскиваемая запись при днд была выше всех и соседние записи не перекрывали тень у неё
-.controls-Grid__cell_fixed.controls-ListView__item_dragging_theme-@{themeName} {
+.controls-Grid__cell_fixed.controls-ListView__item_dragging {
    z-index: 4;
 }
 
@@ -331,31 +331,30 @@
 .controls-Grid__row_editing {
    display: contents;
 }
-.controls-Grid_partial-support_theme-@{themeName} .controls-Grid__row_editing {
+.controls-Grid_partial-support .controls-Grid__row_editing {
    display: grid;
    display: -ms-grid;
 }
 .ws-is-hover {
-
-   .controls-ListView__highlightOnHover_default_theme-@{themeName}:hover {
-      background-color: @item_hover_background-color_list;
+   .controls-ListView__highlightOnHover_default:hover {
+      background-color: var(--item_hover_background-color_list);
    }
-   .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-default_theme-@{themeName}:not(.controls-Grid__row-ladder-cell) {
-      background-color: @item_hover_background-color_list;
+   .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default:hover .controls-Grid__row-cell-background-hover-default:not(.controls-Grid__row-ladder-cell) {
+      background-color: var(--item_hover_background-color_list);
    }
-   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default,
-   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default_theme-@{themeName} {
-      background-color: @item_hover_background-color_list;
+   .controls-Grid__row_highlightOnHover_default:hover .controls-background-default,
+   .controls-Grid__row_highlightOnHover_default:hover .controls-background-default {
+      background-color: var(--item_hover_background-color_list);
    }
-   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-stack,
-   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-stack_theme-@{themeName} {
-      background-color: @item_hover_background-color_list;
+   .controls-Grid__row_highlightOnHover_default:hover .controls-background-stack,
+   .controls-Grid__row_highlightOnHover_default:hover .controls-background-stack {
+      background-color: var(--item_hover_background-color_list);
    }
-   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell__content_hiddenForLadder {
-      background-color: @item_hover_background-color_list;
+   .controls-Grid__row_highlightOnHover_default:hover .controls-Grid__row-cell__content_hiddenForLadder {
+      background-color: var(--item_hover_background-color_list);
    }
-   .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__item_background-hover_default_theme-@{themeName}:not(.controls-Grid__row-ladder-cell__content) {
-      background-color: @item_hover_background-color_list;
+   .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default:hover .controls-Grid__item_background-hover_default:not(.controls-Grid__row-ladder-cell__content) {
+      background-color: var(--item_hover_background-color_list);
    }
 
    /* region ItemActions display */
@@ -365,7 +364,7 @@
       > .controls-Grid__row-cell,
       > .controls-Grid__row-cell > .controls-Grid__table__relative-cell-wrapper,
       > .controls-Grid__row-cell .controls-Grid__row-cell__content {
-         .controls-itemActionsV_custom_theme-@{themeName},
+         .controls-itemActionsV_custom,
          > .controls-itemActionsV {
             animation: timeout .5s;
          }
@@ -379,7 +378,7 @@
       > .controls-Grid__row-cell,
       > .controls-Grid__row-cell > .controls-Grid__table__relative-cell-wrapper,
       > .controls-Grid__row-cell .controls-Grid__row-cell__content {
-         .controls-itemActionsV_custom_theme-@{themeName},
+         .controls-itemActionsV_custom,
          > .controls-itemActionsV {
             opacity: 1;
             visibility: visible;
@@ -389,14 +388,14 @@
 
    /* endregion ItemActions display */
 
-   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover {
+   .controls-Grid__row_highlightOnHover_default:hover {
       /** Общая проблема с background'ом у контролов, которые лежат в списке, решается через background: inherit **/
-      .controls-SelectedCollection__InfoBox_fixed_theme-@{themeName} {
-         background-color: @item_hover_background-color_list;
+      .controls-SelectedCollection__InfoBox_fixed {
+         background-color: var(--item_hover_background-color_list);
       }
 
-      .controls-SelectedCollection__InfoBox_fixed_theme-@{themeName}:after {
-         .horizontal-gradient(@item_hover_background-color_list, rgba(255, 255, 255, 0));
+      .controls-SelectedCollection__InfoBox_fixed:after {
+         .horizontal-gradient(var(--item_hover_background-color_list), rgba(255, 255, 255, 0));
       }
       /**********************************************/
    }
@@ -404,17 +403,17 @@
    .controls-BaseControl_showActions_visible .controls-ListView__item_showActions,
    .controls-BaseControl_showActions_delayed .controls-ListView__item_showActions:hover,
    .controls-BaseControl_showActions_onhover .controls-ListView__item_showActions:hover {
-      .controls-Grid__editArrow-wrapper_theme-@{themeName} {
+      .controls-Grid__editArrow-wrapper {
          visibility: visible;
       }
 
-      .controls-Grid__editArrow_theme-@{themeName}:hover {
-         fill: @edit-arrow_hover_icon-color_grid;
+      .controls-Grid__editArrow:hover {
+         fill: var(--edit-arrow_hover_icon-color_grid);
       }
    }
 }
 
-.controls-Grid__row-cell-editing_theme-@{themeName} {
+.controls-Grid__row-cell-editing {
    > .controls-itemActionsV,
    +.controls-itemActionsV__container > .controls-itemActionsV
    {
@@ -423,18 +422,18 @@
    }
 }
 
-.controls-Grid__row-cell-background-editing_default_theme-@{themeName} {
-   background-color: @item_editing_background-color_list;
+.controls-Grid__row-cell-background-editing_default {
+   background-color: var(--item_editing_background-color_list);
    /** При редактировании по месту, переопределяем фон содержимого ячейки */
    .controls-Grid__row-cell__content_colspaned,
    .controls-Grid__row-cell__content {
-      background-color: @item_editing_background-color_list;
+      background-color: var(--item_editing_background-color_list);
       z-index: 1;
    }
 }
 
 .controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
-   right: @cell_padding-right_default_grid;
+   right: var(--cell_padding-right_default_grid);
 }
 
 .controls-Grid__row-cell__content_halign_center .controls-Grid__row-cell__ladder-content_additional-with-main {
@@ -471,47 +470,47 @@
    такими как заголовки, резултаты и группировка, увеличиваем отступ (по умолчанию top: 0).
    Лесенка не прилипает ниже верхних заголовков, так как находится в своих стеках заголовков.
 */
-.controls-Grid__row-cell__ladder-spacing_theme-@{themeName} {
-   top: @item_line-height_l_grid !important;
+.controls-Grid__row-cell__ladder-spacing {
+   top: var(--item_line-height_l_grid) !important;
    height: 0;
 }
-.controls-Grid__row-cell__ladder-spacing_withGroup_theme-@{themeName} {
-   top: @item_line-height_l_grid + @grouping_height_list !important;
-   height: 0;
-}
-
-.controls-Grid__row-cell__ladder-spacing_withHeader_theme-@{themeName} {
-   top: @item_line-height_l_grid + @header_cell_min-height_grid !important;
+.controls-Grid__row-cell__ladder-spacing_withGroup {
+   top: calc(var(--item_line-height_l_grid) + var(--grouping_height_list)) !important;
    height: 0;
 }
 
-.controls-Grid__row-cell__ladder-spacing_withResults_theme-@{themeName} {
-   top: @item_line-height_l_grid + @results_cell_min-height_grid !important;
+.controls-Grid__row-cell__ladder-spacing_withHeader {
+   top: calc(var(--item_line-height_l_grid) + var(--header_cell_min-height_grid)) !important;
    height: 0;
 }
 
-.controls-Grid__row-cell__ladder-spacing_withHeader_withResults_theme-@{themeName} {
-   top: @item_line-height_l_grid + @header_cell_min-height_grid + @results_cell_min-height_grid !important;
+.controls-Grid__row-cell__ladder-spacing_withResults {
+   top: calc(var(--item_line-height_l_grid) + var(--results_cell_min-height_grid)) !important;
    height: 0;
 }
 
-.controls-Grid__row-cell__ladder-spacing_withHeader_withGroup_theme-@{themeName} {
-   top: @item_line-height_l_grid + @header_cell_min-height_grid + @grouping_height_list !important;
+.controls-Grid__row-cell__ladder-spacing_withHeader_withResults {
+   top: calc(var(--item_line-height_l_grid) + var(--header_cell_min-height_grid) + var(--results_cell_min-height_grid)) !important;
    height: 0;
 }
 
-.controls-Grid__row-cell__ladder-spacing_withResults_withGroup_theme-@{themeName} {
-   top: @item_line-height_l_grid + @results_cell_min-height_grid + @grouping_height_list !important;
+.controls-Grid__row-cell__ladder-spacing_withHeader_withGroup {
+   top: calc(var(--item_line-height_l_grid) + var(--header_cell_min-height_grid) + var(--grouping_height_list)) !important;
    height: 0;
 }
 
-.controls-Grid__row-cell__ladder-spacing_withHeader_withResults_withGroup_theme-@{themeName} {
-   top: @item_line-height_l_grid + @header_cell_min-height_grid + @results_cell_min-height_grid + @grouping_height_list !important;
+.controls-Grid__row-cell__ladder-spacing_withResults_withGroup {
+   top: calc(var(--item_line-height_l_grid) + var(--results_cell_min-height_grid) + var(--grouping_height_list)) !important;
    height: 0;
 }
 
-.controls-Grid__row-cell__ladder-main_spacing_withGroup_theme-@{themeName} {
-   top: @header_cell_min-height_grid !important;
+.controls-Grid__row-cell__ladder-spacing_withHeader_withResults_withGroup {
+   top: calc(var(--item_line-height_l_grid) + var(--header_cell_min-height_grid) + var(--results_cell_min-height_grid) + var(--grouping_height_list)) !important;
+   height: 0;
+}
+
+.controls-Grid__row-cell__ladder-main_spacing_withGroup {
+   top: var(--header_cell_min-height_grid) !important;
 }
 
 .controls-Grid__cell-content-wrapper_ladder {
@@ -520,7 +519,7 @@
    display: flex;
    &:before {
       content: '\200b';
-      font-size: @item_font-size_l_grid;
+      font-size: var(--item_font-size_l_grid);
    }
 }
 .controls-Grid__row-cell__ladder-content_additional-with-main {
@@ -537,14 +536,14 @@
    position: relative;
 }
 
-.controls-Grid__row-ladder-cell__content_default_theme-@{themeName} {
+.controls-Grid__row-ladder-cell__content_default {
    top: 0;
 }
-.controls-Grid__row-ladder-cell__content_m_theme-@{themeName} {
-   top: @item_padding-top_s_grid;
+.controls-Grid__row-ladder-cell__content_m {
+   top: var(--item_padding-top_s_grid);
 }
-.controls-Grid__row-ladder-cell__content_l_theme-@{themeName} {
-   top: @item_padding-top_l_grid;
+.controls-Grid__row-ladder-cell__content_l {
+   top: var(--item_padding-top_l_grid);
 }
 
 .controls-Grid__row-ladder-cell__content {
@@ -564,41 +563,41 @@
    controls-Grid__row-cell__content_baseline_S
    controls-Grid__row-cell__content_baseline_M
    controls-Grid__row-cell__content_baseline_L */
-.controls-Grid__row-cell__content_baseline_L_theme-@{themeName}:before {
+.controls-Grid__row-cell__content_baseline_L:before {
    content: '\200b';
-   font-size: @item_font-size_l_grid;
+   font-size: var(--item_font-size_l_grid);
 }
 
-.controls-Grid__row-cell__content_baseline_M_theme-@{themeName}:before {
+.controls-Grid__row-cell__content_baseline_M:before {
    content: '\200b';
-   font-size: @item_font-size_m_grid;
+   font-size: var(--item_font-size_m_grid);
 }
 
-.controls-Grid__row-cell__content_baseline_S_theme-@{themeName}:before {
+.controls-Grid__row-cell__content_baseline_S:before {
    content: '\200b';
-   font-size: @item_font-size_s_grid;
+   font-size: var(--item_font-size_s_grid);
 }
 
-.controls-Grid__header-cell_baseline_XL_theme-@{themeName}:before {
+.controls-Grid__header-cell_baseline_XL:before {
    content: '\200b';
-   font-size: @header_max-font-size_grid;
+   font-size: var(--header_max-font-size_grid);
 }
 
-.controls-Grid__row-cell__content_baseline_2XL_theme-@{themeName}:before {
+.controls-Grid__row-cell__content_baseline_2XL:before {
    content: '\200b';
-   font-size: @item_font-size_2xl_grid;
+   font-size: var(--item_font-size_2xl_grid);
 }
-.controls-Grid__row-cell__content_baseline_default_theme-@{themeName}:before {
+.controls-Grid__row-cell__content_baseline_default:before {
    content: '\200b';
-   font-size: @item_max-font-size_grid;
+   font-size: var(--item_max-font-size_grid);
 }
 
 .controls-Grid__header-cell-content-block:before {
    display: block;
 }
 
-.controls-Grid__groupContent__spacingLeft_withCheckboxes_theme-@{themeName} {
-   padding-left: @click-area_width_checkbox;
+.controls-Grid__groupContent__spacingLeft_withCheckboxes {
+   padding-left: var(--click-area_width_checkbox);
 }
 
 .controls-GridView__footer {
@@ -613,16 +612,16 @@
    box-sizing: border-box;
 }
 
-.controls-GridView__footer__cell_theme-@{themeName} {
+.controls-GridView__footer__cell {
    display: flex;
    align-items: baseline;
 }
 
-.controls-GridView__newFooter__cell_theme-@{themeName} {
-   min-height: @footer_min-height_list;
+.controls-GridView__newFooter__cell {
+   min-height: var(--footer_min-height_list);
    &::before {
       content: '\200b';
-      font-size: @footer_font-size_list;
+      font-size: var(--footer_font-size_list);
    }
 }
 
@@ -630,166 +629,166 @@
    display: contents;
 }
 
-.controls-Grid__cell_spacingFirstCol_default_theme-@{themeName},
-.controls-GridView__footer__cell__paddingLeft_default_theme-@{themeName},
-.controls-Grid__groupContent__spacingLeft_default_theme-@{themeName} {
-   padding-left: @item_padding-left_default_list;
+.controls-Grid__cell_spacingFirstCol_default,
+.controls-GridView__footer__cell__paddingLeft_default,
+.controls-Grid__groupContent__spacingLeft_default {
+   padding-left: var(--item_padding-left_default_list);
 }
 
-.controls-Grid__cell_spacingFirstCol_null_theme-@{themeName},
-.controls-GridView__footer__cell__paddingLeft_null_theme-@{themeName},
-.controls-Grid__groupContent__spacingLeft_null_theme-@{themeName} {
+.controls-Grid__cell_spacingFirstCol_null,
+.controls-GridView__footer__cell__paddingLeft_null,
+.controls-Grid__groupContent__spacingLeft_null {
    padding-left: 0;
 }
 
-.controls-Grid__cell_spacingFirstCol_xs_theme-@{themeName},
-.controls-GridView__footer__cell__paddingLeft_xs_theme-@{themeName},
-.controls-Grid__groupContent__spacingLeft_xs_theme-@{themeName} {
-   padding-left: @item_padding-left_xs_list;
+.controls-Grid__cell_spacingFirstCol_xs,
+.controls-GridView__footer__cell__paddingLeft_xs,
+.controls-Grid__groupContent__spacingLeft_xs {
+   padding-left: var(--item_padding-left_xs_list);
 }
 
-.controls-Grid__cell_spacingFirstCol_s_theme-@{themeName},
-.controls-GridView__footer__cell__paddingLeft_s_theme-@{themeName},
-.controls-Grid__groupContent__spacingLeft_s_theme-@{themeName} {
-   padding-left: @item_padding-left_s_list;
+.controls-Grid__cell_spacingFirstCol_s,
+.controls-GridView__footer__cell__paddingLeft_s,
+.controls-Grid__groupContent__spacingLeft_s {
+   padding-left: var(--item_padding-left_s_list);
 }
 
-.controls-Grid__cell_spacingFirstCol_m_theme-@{themeName},
-.controls-GridView__footer__cell__paddingLeft_m_theme-@{themeName},
-.controls-Grid__groupContent__spacingLeft_m_theme-@{themeName} {
-   padding-left: @item_padding-left_m_list;
+.controls-Grid__cell_spacingFirstCol_m,
+.controls-GridView__footer__cell__paddingLeft_m,
+.controls-Grid__groupContent__spacingLeft_m {
+   padding-left: var(--item_padding-left_m_list);
 }
 
-.controls-Grid__cell_spacingFirstCol_l_theme-@{themeName},
-.controls-GridView__footer__cell__paddingLeft_l_theme-@{themeName},
-.controls-Grid__groupContent__spacingLeft_l_theme-@{themeName} {
-   padding-left: @item_padding-left_l_list;
+.controls-Grid__cell_spacingFirstCol_l,
+.controls-GridView__footer__cell__paddingLeft_l,
+.controls-Grid__groupContent__spacingLeft_l {
+   padding-left: var(--item_padding-left_l_list);
 }
 
-.controls-Grid__cell_spacingFirstCol_xl_theme-@{themeName},
-.controls-GridView__footer__cell__paddingLeft_xl_theme-@{themeName},
-.controls-Grid__groupContent__spacingLeft_xl_theme-@{themeName} {
-   padding-left: @item_padding-left_xl_list;
+.controls-Grid__cell_spacingFirstCol_xl,
+.controls-GridView__footer__cell__paddingLeft_xl,
+.controls-Grid__groupContent__spacingLeft_xl {
+   padding-left: var(--item_padding-left_xl_list);
 }
 
-.controls-Grid__cell_spacingFirstCol_xxl_theme-@{themeName},
-.controls-GridView__footer__cell__paddingLeft_xxl_theme-@{themeName},
-.controls-Grid__groupContent__spacingLeft_xxl_theme-@{themeName} {
-   padding-left: @item_padding-left_2xl_list;
+.controls-Grid__cell_spacingFirstCol_xxl,
+.controls-GridView__footer__cell__paddingLeft_xxl,
+.controls-Grid__groupContent__spacingLeft_xxl {
+   padding-left: var(--item_padding-left_2xl_list);
 }
 
-.controls-Grid__cell_spacingLastCol_default_theme-@{themeName},
-.controls-GridView__footer__cell__paddingRight_default_theme-@{themeName},
-.controls-Grid__groupContent__spacingRight_default_theme-@{themeName} {
-   padding-right: @item_padding-right_default_list;
+.controls-Grid__cell_spacingLastCol_default,
+.controls-GridView__footer__cell__paddingRight_default,
+.controls-Grid__groupContent__spacingRight_default {
+   padding-right: var(--item_padding-right_default_list);
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
-      right: @cell_spacing-right_m_grid;
+      right: var(--cell_spacing-right_m_grid);
    }
 }
 
-.controls-Grid__cell_spacingLastCol_null_theme-@{themeName},
-.controls-GridView__footer__cell__paddingRight_null_theme-@{themeName},
-.controls-Grid__groupContent__spacingRight_null_theme-@{themeName} {
+.controls-Grid__cell_spacingLastCol_null,
+.controls-GridView__footer__cell__paddingRight_null,
+.controls-Grid__groupContent__spacingRight_null {
    padding-right: 0;
 }
 
-.controls-Grid__cell_spacingLastCol_xs_theme-@{themeName},
-.controls-GridView__footer__cell__paddingRight_xs_theme-@{themeName},
-.controls-Grid__groupContent__spacingRight_xs_theme-@{themeName} {
-   padding-right: @item_padding-right_xs_list;
+.controls-Grid__cell_spacingLastCol_xs,
+.controls-GridView__footer__cell__paddingRight_xs,
+.controls-Grid__groupContent__spacingRight_xs {
+   padding-right: var(--item_padding-right_xs_list);
 }
 
-.controls-Grid__cell_spacingLastCol_s_theme-@{themeName},
-.controls-GridView__footer__cell__paddingRight_s_theme-@{themeName},
-.controls-Grid__groupContent__spacingRight_s_theme-@{themeName} {
-   padding-right: @item_padding-right_s_list;
+.controls-Grid__cell_spacingLastCol_s,
+.controls-GridView__footer__cell__paddingRight_s,
+.controls-Grid__groupContent__spacingRight_s {
+   padding-right: var(--item_padding-right_s_list);
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
-      right: @cell_spacing-right_s_grid;
+      right: var(--cell_spacing-right_s_grid);
    }
 }
 
-.controls-Grid__cell_spacingLastCol_m_theme-@{themeName},
-.controls-GridView__footer__cell__paddingRight_m_theme-@{themeName},
-.controls-Grid__groupContent__spacingRight_m_theme-@{themeName} {
-   padding-right: @item_padding-right_m_list;
+.controls-Grid__cell_spacingLastCol_m,
+.controls-GridView__footer__cell__paddingRight_m,
+.controls-Grid__groupContent__spacingRight_m {
+   padding-right: var(--item_padding-right_m_list);
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
-      right: @cell_spacing-right_m_grid;
+      right: var(--cell_spacing-right_m_grid);
    }
 }
 
-.controls-Grid__cell_spacingLastCol_l_theme-@{themeName},
-.controls-GridView__footer__cell__paddingRight_l_theme-@{themeName},
-.controls-Grid__groupContent__spacingRight_l_theme-@{themeName} {
-   padding-right: @item_padding-right_l_list;
+.controls-Grid__cell_spacingLastCol_l,
+.controls-GridView__footer__cell__paddingRight_l,
+.controls-Grid__groupContent__spacingRight_l {
+   padding-right: var(--item_padding-right_l_list);
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
-      right: @cell_spacing-right_l_grid;
+      right: var(--cell_spacing-right_l_grid);
    }
 }
 
-.controls-Grid__cell_spacingLastCol_xl_theme-@{themeName},
-.controls-GridView__footer__cell__paddingRight_xl_theme-@{themeName},
-.controls-Grid__groupContent__spacingRight_xl_theme-@{themeName} {
-   padding-right: @item_padding-right_xl_list;
+.controls-Grid__cell_spacingLastCol_xl,
+.controls-GridView__footer__cell__paddingRight_xl,
+.controls-Grid__groupContent__spacingRight_xl {
+   padding-right: var(--item_padding-right_xl_list);
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
-      right: @cell_spacing-right_xl_grid;
+      right: var(--cell_spacing-right_xl_grid);
    }
 }
 
-.controls-Grid__cell_spacingLastCol_xxl_theme-@{themeName},
-.controls-GridView__footer__cell__paddingRight_xxl_theme-@{themeName},
-.controls-Grid__groupContent__spacingRight_xxl_theme-@{themeName} {
-   padding-right: @item_padding-right_2xl_list;
+.controls-Grid__cell_spacingLastCol_xxl,
+.controls-GridView__footer__cell__paddingRight_xxl,
+.controls-Grid__groupContent__spacingRight_xxl {
+   padding-right: var(--item_padding-right_2xl_list);
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
-      right: @cell_spacing-right_2xl_grid;
+      right: var(--cell_spacing-right_2xl_grid);
    }
 }
 
-.controls-Grid__cell_spacingBackButton_with_multiSelection_theme-@{themeName} {
-   margin-left: -@click-area_width_checkbox;
+.controls-Grid__cell_spacingBackButton_with_multiSelection {
+   margin-left: calc(-1 * var(--click-area_width_checkbox));
 }
-.controls-GridView__item_active_theme-@{themeName} {
-   background-color: @item_hover_background-color_list;
+.controls-GridView__item_active {
+   background-color: var(--item_hover_background-color_list);
 }
-.controls-GridView__item_active_theme-@{themeName} .controls-Grid__row-cell__content_hiddenForLadder_theme-@{themeName} {
-   background-color: @item_hover_background-color_list;
+.controls-GridView__item_active .controls-Grid__row-cell__content_hiddenForLadder {
+   background-color: var(--item_hover_background-color_list);
 }
 
 // Checkbox styles
-.controls-Grid__row-cell-checkbox_theme-@{themeName} {
-   min-width: @click-area_width_checkbox;
-   max-width: @click-area_width_checkbox;
+.controls-Grid__row-cell-checkbox {
+   min-width: var(--click-area_width_checkbox);
+   max-width: var(--click-area_width_checkbox);
 }
 
-.controls-Grid__header-cell-checkbox_theme-@{themeName} {
-   max-width: @click-area_width_checkbox;
+.controls-Grid__header-cell-checkbox {
+   max-width: var(--click-area_width_checkbox);
 }
 
 // При включенном скроле колонок также нужен min-width https://online.sbis.ru/opendoc.html?guid=fe24dbc6-e04f-4cf3-a397-39c8e074f5f8
-.controls-Grid_columnScroll .controls-Grid__header-cell-checkbox_theme-@{themeName}.controls-Grid__header-cell-checkbox_min-width_theme-@{themeName},
-.controls-Grid__header-cell-checkbox_min-width_theme-@{themeName} {
-   min-width: @click-area_width_checkbox;
+.controls-Grid_columnScroll .controls-Grid__header-cell-checkbox.controls-Grid__header-cell-checkbox_min-width,
+.controls-Grid__header-cell-checkbox_min-width {
+   min-width: var(--click-area_width_checkbox);
 }
 
-.controls-GridView__footer__paddingLeft_withCheckboxes_theme-@{themeName} {
-   padding-left: @click-area_width_checkbox;
+.controls-GridView__footer__paddingLeft_withCheckboxes {
+   padding-left: var(--click-area_width_checkbox);
 }
 
-.controls-GridView__paddingBottom__itemActionsV_outside_theme-@{themeName} {
-   padding-bottom: @height_outside_itemActions;
+.controls-GridView__paddingBottom__itemActionsV_outside {
+   padding-bottom: var(--height_outside_itemActions);
 }
 
-.controls-GridView__footer__itemActionsV_outside_theme-@{themeName} {
-   min-height: @height_outside_itemActions;
+.controls-GridView__footer__itemActionsV_outside {
+   min-height: var(--height_outside_itemActions);
 }
 
-.controls-GridView__checkbox_theme-@{themeName} {
+.controls-GridView__checkbox {
    position: relative;
 }
 
-.controls-GridView__checkbox_position-custom_theme-@{themeName} {
+.controls-GridView__checkbox_position-custom {
    display: inline-block;
    // Высота чекбокса 18px и он ломает 17px базовую линию.
-   margin-top: @item_max-font-size_grid - @true_marker_size_checkbox;
+   margin-top: calc(var(--item_max-font-size_grid) - var(--true_marker_size_checkbox));
 }
 
 .controls-Grid__row-cell__contentWrapper {
@@ -813,9 +812,9 @@
 
 //MasterList styles
 
-.ws-is-mobile-chrome-ios .controls-Grid__row-cell_selected-master_theme-@{themeName},
-.ws-is-desktop-safari .controls-Grid__row-cell_selected-master_theme-@{themeName},
-.ws-is-mobile-safari .controls-Grid__row-cell_selected-master_theme-@{themeName} {
+.ws-is-mobile-chrome-ios .controls-Grid__row-cell_selected-master,
+.ws-is-desktop-safari .controls-Grid__row-cell_selected-master,
+.ws-is-mobile-safari .controls-Grid__row-cell_selected-master {
    // ave safari 13
    // https://online.sbis.ru/opendoc.html?guid=6d560d7a-c140-4d06-a1b6-53b326efe950
    // иначе все position: absolute элементы внутри position: sticky
@@ -825,35 +824,35 @@
    transform: translateY(0);
 }
 
-.controls-Grid__row-cell_selected-master_theme-@{themeName} {
+.controls-Grid__row-cell_selected-master {
    font-weight: bold;
-   color: @master_item_selected_text-color_list;
-   font-size: @master_item_selected_font-size_list;
+   color: var(--master_item_selected_text-color_list);
+   font-size: var(--master_item_selected_font-size_list);
 }
 
-.controls-GridView__itemV_marker-master_theme-@{themeName} {
+.controls-GridView__itemV_marker-master {
    position: absolute;
    box-sizing: border-box;
-   width: @master-marker_thickness_list;
+   width: var(--master-marker_thickness_list);
    height: 100%;
-   background-color: @master-marker_color_list;
+   background-color: var(--master-marker_color_list);
    top: 0;
    left: 0;
 }
 
 .ws-is-hover .controls-BaseControl_hover_enabled {
 
-   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-master_theme-@{themeName} {
-      background-color: @master_item_hover_background-color_list;
+   .controls-Grid__row_highlightOnHover_master:hover .controls-Grid__row-cell-background-hover-master {
+      background-color: var(--master_item_hover_background-color_list);
    }
-   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-background-master,
-   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-background-master_theme-@{themeName} {
-      background-color: @master_item_hover_background-color_list;
+   .controls-Grid__row_highlightOnHover_master:hover .controls-background-master,
+   .controls-Grid__row_highlightOnHover_master:hover .controls-background-master {
+      background-color: var(--master_item_hover_background-color_list);
    }
 }
 
-.controls-background-listItem_theme-@{themeName} {
-   background-color: @background-color;
+.controls-background-listItem {
+   background-color: var(--background-color);
 }
 .controls-itemActionsV__container {
    position: sticky;
@@ -869,11 +868,11 @@
    }
 }
 
-.controls-Grid__cell_header-content_border-bottom_theme-@{themeName} {
-   border-bottom: @item-separator_s_thickness_list solid @item_edge_separator_s_color_list;
+.controls-Grid__cell_header-content_border-bottom {
+   border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
 }
-.controls-Grid__cell_header-content_border-transparent_theme-@{themeName} {
-   border-bottom: @item-separator_s_thickness_list solid transparent;
+.controls-Grid__cell_header-content_border-transparent {
+   border-bottom: var(--item-separator_s_thickness_list) solid transparent;
 }
 
 .controls-Grid__cell_header-relative {
@@ -907,11 +906,11 @@
    align-items: center;
 }
 
-.controls-Grid__editArrow-wrapper_theme-@{themeName} {
+.controls-Grid__editArrow-wrapper {
    visibility: hidden;
 }
 
-.controls-Grid__editArrow-wrapper_theme-@{themeName} {
+.controls-Grid__editArrow-wrapper {
    position: relative;
    flex-shrink: 9999999999;
    min-width: 0;
@@ -923,62 +922,62 @@
    flex-shrink:0;
    max-width: 100%;
 }
-.controls-Grid__editArrow-blur_theme-@{themeName} {
+.controls-Grid__editArrow-blur {
    height: 100%;
-   min-height: @edit-arrow_icon-size_grid;
+   min-height: var(--edit-arrow_icon-size_grid);
    display: inline-block;
-   width: @edit-arrow_offset_grid;
+   width: var(--edit-arrow_offset_grid);
    flex-shrink: 0;
    z-index: 0;
 }
 
-.controls-Grid__editArrow-blur_style-default_background_theme-@{themeName} {
-   background: linear-gradient(90deg, rgba(240,245,251,0), @item_hover_background-color_list);
+.controls-Grid__editArrow-blur_style-default_background {
+   background: linear-gradient(90deg, rgba(240,245,251,0), var(--item_hover_background-color_list));
 }
 
-.controls-Grid__editArrow-blur_style-master_background_theme-@{themeName} {
-   background: linear-gradient(90deg, rgba(240,245,251,0), @master_item_hover_background-color_list);
+.controls-Grid__editArrow-blur_style-master_background {
+   background: linear-gradient(90deg, rgba(240,245,251,0), var(--master_item_hover_background-color_list));
 }
 
 
-.controls-Grid__editArrow_theme-@{themeName} {
+.controls-Grid__editArrow {
    position: relative;
    z-index: 1;
-   fill: @edit-arrow_icon-color_grid;
-   width: @edit-arrow_icon-size_grid;
-   min-width: @edit-arrow_icon-size_grid;
+   fill: var(--edit-arrow_icon-color_grid);
+   width: var(--edit-arrow_icon-size_grid);
+   min-width: var(--edit-arrow_icon-size_grid);
    display: inline-flex;
    align-items: baseline;
    cursor: pointer;
 }
 
-.controls-Grid__editArrow-blur_style-default_background_theme-default:before,
-.controls-Grid__editArrow_style-default_background_theme-default:before,
-.controls-Grid__editArrow-wrapper_theme-default:before {
+.controls-Grid__editArrow-blur_style-default_background:before,
+.controls-Grid__editArrow_style-default_background:before,
+.controls-Grid__editArrow-wrapper:before {
    content: '\200b';
-   font-size: @item_max-font-size_grid;
+   font-size: var(--item_max-font-size_grid);
 }
-.controls-Grid__editArrow-icon_theme-@{themeName} {
-   height: @edit-arrow_icon-size_grid;
-   width: @edit-arrow_icon-size_grid;
-}
-
-.controls-Grid__editArrow_style-default_background_theme-@{themeName} {
-   background-color: @item_hover_background-color_list;
+.controls-Grid__editArrow-icon {
+   height: var(--edit-arrow_icon-size_grid);
+   width: var(--edit-arrow_icon-size_grid);
 }
 
-.controls-Grid__editArrow_style-master_background_theme-@{themeName} {
-   background-color: @master_item_hover_background-color_list;
+.controls-Grid__editArrow_style-default_background {
+   background-color: var(--item_hover_background-color_list);
 }
 
-.controls-Grid__editArrow-overflow-ellipsis_theme-@{themeName} {
-   margin-right: -@edit-arrow_icon-size_grid;
+.controls-Grid__editArrow_style-master_background {
+   background-color: var(--master_item_hover_background-color_list);
 }
 
-.controls-Grid__editArrow-withTextOverflow_theme-@{themeName} {
+.controls-Grid__editArrow-overflow-ellipsis {
+   margin-right: calc(-1 * var(--edit-arrow_icon-size_grid));
+}
+
+.controls-Grid__editArrow-withTextOverflow {
    flex-shrink: 1;
    min-width: 0;
-   width: @edit-arrow_icon-size_grid;
+   width: var(--edit-arrow_icon-size_grid);
 }
 
 .controls-Grid__cell_valign_top {
@@ -1000,11 +999,11 @@
    height: 100%;
 }
 
-.controls-Grid__cell_tag_theme-@{themeName} {
+.controls-Grid__cell_tag {
    position: relative;
-   right: -@tag_offset-horizontal_gridView;
+   right: calc(-1 * var(--tag_offset-horizontal_gridView));
 
-   .controls__tag_theme-@{themeName} {
-      top: -@tag_offset-vertical_gridView;
+   .controls__tag {
+      top: calc(-1 * var(--tag_offset-vertical_gridView));
    }
 }

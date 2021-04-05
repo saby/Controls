@@ -7,6 +7,8 @@ import {isEqual} from 'Types/object';
 import {RecordSet} from 'Types/collection';
 import {IFontColorStyleOptions, IFontSizeOptions} from 'Controls/interface';
 import {IViewMode} from 'Controls/buttons';
+import 'css!Controls/grid';
+import 'css!Controls/CommonClasses';
 
 type Order = 'ASC'|'DESC'|'';
 
@@ -167,8 +169,6 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
         item.set('value', newValue);
         this._orders[key] = newValue;
     }
-
-    static _theme: string[] = ['Controls/grid', 'Controls/Classes'];
 
     protected static _getIconStyleFromTextStyle(fontStyle: string): string {
         let iconStyle: string;

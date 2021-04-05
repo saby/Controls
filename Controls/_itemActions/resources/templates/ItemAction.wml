@@ -1,9 +1,9 @@
 <ws:template name="itemAction">
     <div attr:class="js-controls-ItemActions__ItemAction controls-itemActionsV__action
-            {{!action.isMenu ? 'controls-itemActionsV__action_padding' + (actionPadding && '_' + actionPadding || '') + '_theme-' + theme : ''}}
+            {{!action.isMenu ? 'controls-itemActionsV__action_padding' + (actionPadding && '_' + actionPadding || '') : ''}}
             controls-itemActionsV__action_style_{{actionStyle || action.style || 'secondary'}}
             {{((iconStyle || action.iconStyle || 'secondary') !== 'secondary') ?
-            ('controls-icon_style-' + (iconStyle || action.iconStyle)) : ('controls-action_iconStyle_secondary')}}_theme-{{theme}}
+            ('controls-icon_style-' + (iconStyle || action.iconStyle)) : ('controls-action_iconStyle_secondary')}}
             {{((action.showIcon && !action.showTitle) ? ('controls-itemActionsV__action-area_size') : '')}}
             {{actionMode === 'adaptive' ? 'controls-itemActionsV_action_adaptive'}}"
           attr:title="{{action.tooltip}}"
@@ -12,10 +12,10 @@
           on:click="_onItemActionClick(action, itemData)"
           attr:ws-no-focus="true">
         <ws:if data="{{action.showIcon}}">
-            <div attr:class="{{action.icon}} controls-itemActionsV__action_icon_size_{{size}}_theme-{{theme}} {{action.showTitle ? ' controls-itemActionsV__icon-with-title_theme-' + theme}}"></div>
+            <div attr:class="{{action.icon}} controls-itemActionsV__action_icon_size_{{size}} {{action.showTitle ? ' controls-itemActionsV__icon-with-title'}}"></div>
         </ws:if>
         <ws:if data="{{action.showTitle}}">
-            <span class="controls-itemActionsV__action_title controls-itemActionsV__action_title_theme-{{theme}}">{{action.title}}</span>
+            <span class="controls-itemActionsV__action_title controls-itemActionsV__action_title">{{action.title}}</span>
         </ws:if>
     </div>
 </ws:template>

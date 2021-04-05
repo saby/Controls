@@ -190,8 +190,8 @@ var
                 return '';
             }
             const expanderSize = itemData.getExpanderSize(tmplExpanderSize);
-            let expanderPaddingClasses = `controls-TreeGrid__row-expanderPadding controls-TreeGrid__${isNodeFooter ? 'node-footer' : 'row'}-expanderPadding` + `_theme-${itemData.theme}`;
-            expanderPaddingClasses += ' controls-TreeGrid__row-expanderPadding_size_' + (expanderSize || 'default') + `_theme-${itemData.theme}`;
+            let expanderPaddingClasses = `controls-TreeGrid__row-expanderPadding controls-TreeGrid__${isNodeFooter ? 'node-footer' : 'row'}-expanderPadding`;
+            expanderPaddingClasses += ' controls-TreeGrid__row-expanderPadding_size_' + (expanderSize || 'default');
             return expanderPaddingClasses;
         },
         getExpanderClasses(itemData, tmplExpanderIcon, tmplExpanderSize): string {
@@ -208,23 +208,23 @@ var
             const style = itemData.style || 'default';
             const itemType = itemData.item.get(itemData.nodeProperty);
 
-            let expanderClasses = `js-controls-Tree__row-expander controls-TreeGrid__row-expander_theme-${theme}`;
+            let expanderClasses = 'js-controls-Tree__row-expander controls-TreeGrid__row-expander';
             let expanderIconClass = '';
 
             let expanderIconStyle = itemData.style;
             if (expanderPosition === 'default') {
-                expanderClasses += ` controls-TreeGrid__row_${style}-expander_size_${(expanderSize || 'default')}_theme-${theme} `;
+                expanderClasses += ` controls-TreeGrid__row_${style}-expander_size_${(expanderSize || 'default')} `;
             } else {
-                expanderClasses += ` controls-TreeGrid__row_expander_position_right_theme-${theme} `;
+                expanderClasses += ' controls-TreeGrid__row_expander_position_right ';
                 expanderIconStyle = 'default';
             }
             expanderClasses += EDIT_IN_PLACE_JS_SELECTORS.NOT_EDITABLE;
 
-            expanderClasses += ` controls-TreeGrid__row-expander__spacingTop_${itemData.itemPadding.top}_theme-${theme}`;
-            expanderClasses += ` controls-TreeGrid__row-expander__spacingBottom_${itemData.itemPadding.bottom}_theme-${theme}`;
+            expanderClasses += ` controls-TreeGrid__row-expander__spacingTop_${itemData.itemPadding.top}`;
+            expanderClasses += ` controls-TreeGrid__row-expander__spacingBottom_${itemData.itemPadding.bottom}`;
 
             if (itemData.isDragging) {
-                expanderClasses += ` controls-ListView__itemContent_dragging_theme-${theme}`;
+                expanderClasses += ` controls-ListView__itemContent_dragging`;
             }
 
             if (expanderIcon) {
@@ -249,12 +249,12 @@ var
                 expanderIconClass += ` controls-TreeGrid__row-expander_${iconType}_${iconStyle}`;
             }
 
-            expanderClasses += expanderIconClass + `_theme-${theme}`;
+            expanderClasses += expanderIconClass;
 
             // добавляем класс свертнутости развернутости для тестов
             expanderClasses += ' controls-TreeGrid__row-expander' + (isExpanded ? '_expanded' : '_collapsed');
             // добавляем класс свертнутости развернутости стилевой
-            expanderClasses += expanderIconClass + (isExpanded ? '_expanded' : '_collapsed') + `_theme-${theme}`;
+            expanderClasses += expanderIconClass + (isExpanded ? '_expanded' : '_collapsed');
 
             return expanderClasses;
         },
@@ -696,7 +696,7 @@ var
             current.getLevelIndentClasses = (itemData, tmplExpanderSize: string, levelIndentSize: string): string => {
                 const expanderSize = itemData.getExpanderSize(tmplExpanderSize);
                 const correctLevelIndentSize = _private.getLevelIndentSize(expanderSize, levelIndentSize);
-                return `controls-TreeGrid__row-levelPadding_size_${correctLevelIndentSize}_theme-${current.theme}`;
+                return `controls-TreeGrid__row-levelPadding_size_${correctLevelIndentSize}`;
             };
 
             current.isExpanded = current.item && current.item.get && this.isExpanded(dispItem);

@@ -8,6 +8,9 @@ import {CollectionItem, Collection, EditInPlaceController, GroupItem} from 'Cont
 import {constants} from 'Env/Env';
 import {Opener as DropdownOpener} from 'Controls/dropdown';
 import {Model} from "Types/entity";
+import 'css!Controls/list';
+import 'css!Controls/itemActions';
+import 'css!Controls/CommonClasses';
 
 export interface IRenderOptions extends IControlOptions {
     listModel: Collection<unknown>;
@@ -227,8 +230,6 @@ export default class Render extends Control<IRenderOptions> {
             this._options.listModel.unsubscribe('onCollectionChange', this._onCollectionChange);
         }
     }
-
-    static _theme: string[] = ['Controls/list', 'Controls/itemActions', 'Controls/Classes'];
 
     static getDefaultOptions(): Partial<IRenderOptions> {
         return {

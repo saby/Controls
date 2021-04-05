@@ -4,14 +4,14 @@
             <ws:itemTemplate>
                 <ws:partial template="Controls/list:ItemTemplate">
                     <ws:contentTemplate>
-                        <ws:if data="{{itemTemplate.itemData.item.get('withList')}}">
+                        <ws:if data="{{itemTemplate.item.contents.get('withList')}}">
                             <div>
-                                <div>{{itemTemplate.itemData.item.get('title')}}</div>
+                                <div>{{itemTemplate.item.contents.get('title')}}</div>
                                 <Controls-demo.list_new.ComplexScroll.InnerList/>
                             </div>
                         </ws:if>
                         <ws:else>
-                            <div>{{itemTemplate.itemData.item.get('title')}}</div>
+                            <div>{{itemTemplate.item.contents.get('title')}}</div>
                         </ws:else>
                     </ws:contentTemplate>
                 </ws:partial>

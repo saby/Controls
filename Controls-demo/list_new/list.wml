@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Base/Index' }}">
             <a href="{{content.href}}">Базовая настройка списка</a>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-    <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+    <Router.router:Reference attr:class="controls-text-label"
                              state="/Controls-demo/app/:app"
                              app="{{ 'Controls-demo/list_new/EmptyList/Index' }}">
         <a href="{{content.href}}">Шаблон отображения пустого списка</a>
@@ -18,7 +18,7 @@
 </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/FooterTemplate/Index' }}">
             <a href="{{content.href}}">Шаблон подвала списка</a>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemPadding/Index' }}">
             <a href="{{content.href}}">Отступы в списке</a>
@@ -36,7 +36,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemTemplate/Index' }}">
             <a href="{{content.href}}">Шаблон строки</a>
@@ -45,7 +45,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Marker/Index' }}">
             <a href="{{content.href}}">Маркер активной строки</a>
@@ -54,7 +54,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Filtering/Index' }}">
             <a href="{{content.href}}">Фильтрация</a>
@@ -63,7 +63,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/MultiSelect/Index' }}">
             <a href="{{content.href}}">Множественный выбор</a>
@@ -72,7 +72,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Grouped/Index' }}">
             <a href="{{content.href}}">Группировка</a>
@@ -81,7 +81,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/EditInPlace/Index' }}">
             <a href="{{content.href}}">Редактирование по месту</a>
@@ -90,7 +90,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/Index' }}">
             <a href="{{content.href}}">Виртуальный скролл</a>
@@ -99,7 +99,7 @@
     </div>
 
 <!--    <div class="controlsDemo__cell">-->
-<!--        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"-->
+<!--        <Router.router:Reference attr:class="controls-text-label"-->
 <!--                                 state="/Controls-demo/app/:app"-->
 <!--                                 app="{{ 'Controls-demo/list_new/Navigation/Index' }}">-->
 <!--            <a href="{{content.href}}">Навигация</a>-->
@@ -108,7 +108,7 @@
 <!--    </div>-->
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemActions/Index' }}">
             <a href="{{content.href}}">Операции над записью</a>
@@ -117,7 +117,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__maxWidth500">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Sorting/Index' }}">
             <a href="{{content.href}}">Сортировка</a>
@@ -126,7 +126,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__maxWidth500">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Swipe/Index' }}">
             <a href="{{content.href}}">Swipe</a>
@@ -135,7 +135,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/LoadingIndicator/Index' }}">
             <a href="{{content.href}}">Индикатор загрузки</a>
@@ -145,7 +145,7 @@
 
 
     <!--<div class="controlsDemo__cell controlsDemo__maxWidth500">-->
-        <!--<Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"-->
+        <!--<Router.router:Reference attr:class="controls-text-label"-->
                                  <!--state="/Controls-demo/app/:app"-->
                                  <!--app="{{ 'Controls-demo/list_new/Searching/Index' }}">-->
             <!--<a href="{{content.href}}">Режим поиска в списке</a>-->
@@ -154,7 +154,7 @@
     <!--</div>-->
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/DragNDrop/Index' }}">
             <a href="{{content.href}}">DragNDrop</a>
@@ -163,7 +163,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ColumnsView/Index' }}">
             <a href="{{content.href}}">ColumnsView</a>
