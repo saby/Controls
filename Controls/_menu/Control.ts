@@ -374,6 +374,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     protected _toggleExpanded(): void {
+        this._closeSubMenu();
         this._expander = !this._expander;
         let toggleFilter = this._additionalFilter;
         if (!this._options.additionalProperty) {
