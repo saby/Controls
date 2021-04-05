@@ -206,7 +206,7 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     protected _beforeUpdate(cfg: IExplorerOptions): void {
         const isViewModeChanged = cfg.viewMode !== this._options.viewMode;
-        const isRootChanged = cfg.root !== this._options.root;
+        const isRootChanged = cfg.root !== this._getRoot(this._options.root);
 
         // Мы не должны ставить маркер до проваливания, т.к. это лишняя синхронизация.
         // Но если отменили проваливание, то нужно поставить маркер.
@@ -245,9 +245,14 @@ export default class Explorer extends Control<IExplorerOptions> {
         * */
         const navigationChanged = !isEqual(cfg.navigation, this._options.navigation);
 
-        if (this._isGoingBack && this._isCursorNavigation(this._options.navigation) && !navigationChanged) {
-            const newRootId = this._getRoot(this._options.root);
-            this._restorePositionNavigation(newRootId);
+        if (
+            this._isGoingBack &&
+            isRootChanged &&
+            !navigationChanged &&
+            this._isCursorNavigation(this._options.navigation)
+        ) {
+            const newRoot = this._getRoot(cfg.root);
+            this._restorePositionNavigation(newRoot);
         } else if (navigationChanged) {
             this._navigation = cfg.navigation;
         }
@@ -384,12 +389,6 @@ export default class Explorer extends Control<IExplorerOptions> {
                 return res;
             }
 
-            // При проваливании ОБЯЗАТЕЛЬНО дополняем restoredKeyObject узлом, в который проваливаемся.
-            // Дополнять restoredKeyObject нужно СИНХРОННО, иначе на момент вызова restoredKeyObject опции уже будут
-            // новые и маркер запомнится не для того root'а. Ошибка:
-            // https://online.sbis.ru/opendoc.html?guid=38d9ca66-7088-4ad4-ae50-95a63ae81ab6
-            this._setRestoredKeyObject(item);
-
             // Если в списке запущено редактирование, то проваливаемся только после успешного завершения.
             if (!this._children.treeControl.isEditing()) {
                 changeRoot();
@@ -444,10 +443,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     protected _onBreadCrumbsClick(event: SyntheticEvent, item: Model): void {
-        const itemKey = item.getKey();
-
-        this._cleanRestoredKeyObject(itemKey);
-        this._setRoot(itemKey);
+        this._setRoot(item.getKey());
         this._isGoingBack = true;
     }
 
@@ -583,47 +579,6 @@ export default class Explorer extends Control<IExplorerOptions> {
             if (this._isCursorNavigation(this._options.navigation)) {
                 currRootInfo.cursorPosition = this._getCursorPositionFor(root, this._options.navigation);
             }
-        }
-    }
-
-    private _cleanRestoredKeyObject(root: TKey): void {
-        this._pathCleaner(root);
-    }
-
-    private _pathCleaner(root: TKey): void {
-        if (this._restoredMarkedKeys[root]) {
-            if (this._restoredMarkedKeys[root].parent === undefined) {
-                const markedKey = this._restoredMarkedKeys[root].markedKey;
-                const cursorPosition = this._restoredMarkedKeys[root].cursorPosition;
-                this._restoredMarkedKeys = {
-                    [root]: {
-                        markedKey,
-                        cursorPosition
-                    }
-                };
-                return;
-            } else {
-                _remover(this._restoredMarkedKeys, root);
-            }
-        } else {
-            const curRoot = this._getRoot(this._options.root);
-            if (root !== curRoot) {
-                delete this._restoredMarkedKeys[curRoot];
-            }
-        }
-
-        function _remover(store: IMarkedKeysStore, key: TKey): void {
-            Object
-                .keys(store)
-                .forEach((cur) => {
-                    const info = store[cur];
-
-                    if (info && String(info.parent) === String(key)) {
-                        const nextKey = cur;
-                        delete store[cur];
-                        _remover(store, nextKey);
-                    }
-                });
         }
     }
 
@@ -906,22 +861,22 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     /**
      * Восстанавливает значение курсора для курсорной навигации при выходе из папки.
-     * Одна из частей механизма сохранения позиции скролла и отмеченной записи при проваливании в папку и выходе назад.
+     * Одна из частей механизма сохранения позиции скролла и отмеченной записи
+     * при проваливании в папку и выходе назад.
      *
-     * @param itemId id узла из которого выходим
+     * @param rootId id узла в который возвращаемся
      */
-    private _restorePositionNavigation(itemId: TKey): void {
-        const hasRestoreDataForCurrent = !!this._restoredMarkedKeys[itemId];
-        if (hasRestoreDataForCurrent) {
-            const parentId = this._restoredMarkedKeys[itemId].parent;
-            const restoreDataForParent = this._restoredMarkedKeys[parentId];
-            if (restoreDataForParent && typeof restoreDataForParent.cursorPosition !== 'undefined') {
-                this._navigation.sourceConfig.position = restoreDataForParent.cursorPosition;
-            } else {
-                const fromOptions = this._options._navigation &&
-                    this._options._navigation.sourceConfig && this._options._navigation.sourceConfig.position;
-                this._navigation.sourceConfig.position = fromOptions || null;
-            }
+    private _restorePositionNavigation(rootId: TKey): void {
+        const rootInfo = this._restoredMarkedKeys[rootId];
+        if (!rootInfo) {
+            return;
+        }
+
+        if (typeof rootInfo?.cursorPosition !== 'undefined') {
+            this._navigation.sourceConfig.position = rootInfo.cursorPosition;
+        } else {
+            const fromOptions = this._options._navigation?.sourceConfig?.position;
+            this._navigation.sourceConfig.position = fromOptions || null;
         }
     }
 
