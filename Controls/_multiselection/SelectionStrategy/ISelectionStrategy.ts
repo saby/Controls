@@ -63,6 +63,15 @@ export default interface ISelectionStrategy {
    unselectAll(selection: ISelection): ISelection;
 
    /**
+    * Возвращает selection с выбранными items
+    *
+    * @param {ISelection} selection текущее состояние выбранных ключей
+    * @param {Array<CollectionItem<Model>>} items массив элементов
+    * @return {ISelection} новое состояние выбранных элементов
+    */
+   selectRange(selection: ISelection, items: Array<CollectionItem<Model>>): ISelection;
+
+   /**
     * Возвращает состояние элементов для модели
     *
     * @param {ISelection} selection текущее состояние выбранных ключей

@@ -93,6 +93,23 @@ describe('Controls/_multiselection/Controller', () => {
       });
    });
 
+   describe('selectRange', () => {
+      it ('no lastCheckedKey', () => {
+         const result = controller.selectRange(1);
+         assert.deepEqual(result, { selected: [1], excluded: [] });
+      });
+      it ('lastCheckedKey = 1, new selected = 3', () => {
+         controller.toggleItem(1);
+         const result = controller.selectRange(3);
+         assert.deepEqual(result, { selected: [1, 2, 3], excluded: [] });
+      });
+      it ('lastCheckedKey = 3, new selected = 1', () => {
+         controller.toggleItem(3);
+         const result = controller.selectRange(1);
+         assert.deepEqual(result, { selected: [1, 2, 3], excluded: [] });
+      });
+   });
+
    describe('isAllSelected', () => {
       it('not all selected', () => {
          const result = controller.isAllSelected();
