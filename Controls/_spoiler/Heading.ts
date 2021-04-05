@@ -16,6 +16,7 @@ import {
 } from 'Controls/interface';
 import Util from './Util';
 import {getTextWidth} from 'Controls/sizeUtils';
+import 'css!Controls/spoiler';
 
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
@@ -147,7 +148,7 @@ class Heading extends Control<IHeadingOptions> implements IHeading {
         return getTextWidth(caption);
     }
 
-    static _theme: string[] = ['Controls/spoiler', 'Controls/Classes'];
+    static _theme: string[] = ['Controls/Classes'];
 
     private static _captionToString(caption?: string): string {
         if (typeof caption === 'string') {
