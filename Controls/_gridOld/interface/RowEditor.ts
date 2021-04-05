@@ -18,8 +18,10 @@
  * </Controls.grid:View>
  * </pre>
  * @public
+ * @deprecated Для редактирования строк используйте {@link /docs/js/Controls/grid/IGridControl/options/colspanCallback/ механизм объединения колонок строки (колспана)}.
+ *
  */
-
+ 
 export default interface IRowEditorOptions {
    /**
     * @name Controls/_gridOld/interface/RowEditor#content
