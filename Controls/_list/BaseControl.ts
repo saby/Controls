@@ -4842,7 +4842,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (!readOnly) {
             let newSelection;
 
-            if (e.nativeEvent.shiftKey) {
+            if (e.nativeEvent && e.nativeEvent.shiftKey) {
                 newSelection = _private.getSelectionController(this).selectRange(key);
             } else {
                 newSelection = _private.getSelectionController(this).toggleItem(key);
