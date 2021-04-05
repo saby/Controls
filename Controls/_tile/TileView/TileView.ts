@@ -127,11 +127,10 @@ var TileView = ListView.extend({
             const menuOptions = menuConfig.templateOptions;
             const itemContainer = clickEvent.target.closest('.controls-TileView__item');
             const imageWrapper = itemContainer.querySelector('.controls-TileView__imageWrapper');
-            const imageWrapperRect = imageWrapper.getBoundingClientRect();
             if (!imageWrapper) {
                 return null;
             }
-
+            const imageWrapperRect = imageWrapper.getBoundingClientRect();
             menuOptions.image = itemData.imageData.url;
             menuOptions.title = itemData.item.get(itemData.displayProperty);
             menuOptions.additionalText = itemData.item.get(menuOptions.headerAdditionalTextProperty);
