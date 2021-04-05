@@ -1,15 +1,14 @@
 <div class="controls-Cut__container">
    <div class="controls-Cut
-            controls-Cut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_maxHeight_theme-{{_options.theme}}
-            controls-Cut_lineHeight-{{_options.lineHeight}}_theme-{{_options.theme}}">
+            controls-Cut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_maxHeight
+            controls-Cut_lineHeight-{{_options.lineHeight}}">
       <ws:partial template="{{_options.content}}"/>
       <ws:if data="{{_options.lines !== null}}">
-         <div class="controls-Cut__ellipsisWrapper{{ _expanded ? '_expanded_lineHeight-' +  _options.lineHeight + '_theme-' + _options.theme}}
-               controls-Cut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_height_theme-{{_options.theme}}">
+         <div class="controls-Cut__ellipsisWrapper{{ _expanded ? '_expanded_lineHeight-' +  _options.lineHeight}}
+               controls-Cut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_height">
             <Controls._spoiler.CutButton
                     attr:class="controls-Cut__ellipsis
-                     controls-Cut__ellipsis_theme-{{_options.theme}}
-                     controls-background-{{_options.backgroundStyle}}_theme-{{_options.theme}}"
+                     controls-background-{{_options.backgroundStyle}}"
                     readOnly="{{ _options.readOnly }}"
                     buttonPosition="{{ _options.buttonPosition }}"
                     iconSize="{{ _options.iconSize }}"

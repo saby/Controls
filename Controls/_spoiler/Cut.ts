@@ -6,6 +6,7 @@ import Util from './Util';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as template from 'wml!Controls/_spoiler/Cut/Cut';
+import 'css!Controls/spoiler';
 
 /**
  * Интерфейс для опций контрола, ограничивающего контент заданным числом строк.
@@ -118,7 +119,7 @@ class Cut extends Control<ICutOptions> implements IBackgroundStyle, IExpandable 
         return expanded ? null : lines;
     }
 
-    static _theme: string[] = ['Controls/Classes', 'Controls/spoiler'];
+    static _theme: string[] = ['Controls/Classes'];
 
     static getOptionTypes(): object {
         return {
