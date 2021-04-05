@@ -7,6 +7,10 @@ import {IDialogPopupOptions} from 'Controls/_popup/interface/IDialog';
  * @class Controls/_popup/PopupHelper/Dialog
  * @implements Controls/_popup/interface/IDialogOpener
  *
+ * @remark
+ * Для предотвращения потенциальной утечки памяти не забывайте уничтожать экземпляр оперена
+ * с помощью метода {@link Controls/_popup/PopupHelper/Dialog#destroy destroy}.
+ *
  * @author Красильников А.С.
  * @public
  */

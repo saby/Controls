@@ -7,6 +7,10 @@ import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
  * @class Controls/_popup/PopupHelper/Sticky
  * @implements Controls/_popup/interface/IStickyOpener
  *
+ * @remark
+ * Для предотвращения потенциальной утечки памяти не забывайте уничтожать экземпляр оперена
+ * с помощью метода {@link Controls/_popup/PopupHelper/Sticky#destroy destroy}.
+ *
  * @author Красильников А.С.
  * @public
  */
