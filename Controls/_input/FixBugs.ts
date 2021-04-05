@@ -70,9 +70,6 @@ export class FixBugs {
         }
     }
 
-    inputHandler(field: HTMLInputElement, value: string): void {
-    }
-
     dataForInputProcessing(data: IInputData): IInputData {
         let processingResult: IInputData;
 
