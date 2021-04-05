@@ -8,6 +8,7 @@ import {IControlOptions} from 'UI/Base';
 export interface IPreviewerOptions extends IControlOptions {
     content?: Function;
     trigger: string;
+    actionOnScroll?: string;
     template?: string;
     templateOptions?: any;
     isCompoundTemplate?: boolean; // TODO Compatible
