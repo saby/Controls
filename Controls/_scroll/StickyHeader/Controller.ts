@@ -374,19 +374,21 @@ class StickyHeaderController {
     }
 
     _getLastFixedHeaderWithShadowId(position: POSITION): number {
-        let header: number;
+        let headerWithShadow: number;
         // Тень рисуем у последнего не заменяемого заголовка, либо у первого заменяемого.
         // Это позволяет не перерисовывать тени при откреплении/зареплении следующих заголовков.
         for (const headerId of this._headersStack[position]) {
+            const header = this._headers[headerId];
             if (this._fixedHeadersStack[position].includes(headerId) &&
-                this._headers[headerId].inst.shadowVisibility !== SHADOW_VISIBILITY.hidden) {
-                header = headerId;
-                if (this._headers[header].mode === 'replaceable') {
+                header.inst.shadowVisibility !== SHADOW_VISIBILITY.hidden &&
+                !isHidden(header.container)) {
+                headerWithShadow = headerId;
+                if (this._headers[headerId].mode === 'replaceable') {
                     break;
                 }
             }
         }
-        return header;
+        return headerWithShadow;
     }
 
     private _callFixedCallback(position: string): void {
