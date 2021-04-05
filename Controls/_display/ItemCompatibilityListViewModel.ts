@@ -40,4 +40,11 @@ export class ItemCompatibilityListViewModel implements IItemCompatibilityListVie
         }
         return this.getOwner().getSearchValue();
     }
+
+    get index(): number {
+        if (this.destroyed) {
+            return undefined;
+        }
+        return this.getOwner().getIndex(this);
+    }
 }
