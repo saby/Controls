@@ -439,8 +439,8 @@ const _private = {
         if (self._options.useNewModel) {
             // TODO restore marker + maybe should recreate the model completely
             if (!isEqualItems(oldCollection, items) || oldCollection !== items) {
+                self._onItemsReady(newOptions, items);
                 listModel.setCollection(items);
-                self._onItemsReady(newOptions, listModel.getCollection());
             }
 
             // При старой модели зовется из модели. Нужен чтобы в explorer поменять модель только уже при наличии данных
@@ -3462,6 +3462,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _initNewModel(cfg, data, viewModelConfig) {
         this._items = data;
+
+        this._onItemsReady(cfg, data);
         this._listViewModel = this._createNewModel(
             data,
             viewModelConfig,
@@ -3470,8 +3472,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         _private.setHasMoreData(this._listViewModel,
             _private.hasMoreDataInAnyDirection(this, this._sourceController), true);
-
-        this._onItemsReady(cfg, this._listViewModel.getCollection());
 
         if (this._listViewModel) {
             _private.initListViewModelHandler(this, this._listViewModel, true);
@@ -3513,12 +3513,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             viewModelConfig.supportVirtualScroll = self._needScrollCalculation;
             self._listViewModel = new newOptions.viewModelConstructor(viewModelConfig);
         } else if (newOptions.useNewModel && items) {
+            self._onItemsReady(newOptions, items);
             self._listViewModel = self._createNewModel(
                 items,
                 viewModelConfig,
                 newOptions.viewModelConstructor
             );
-            self._onItemsReady(newOptions, self._listViewModel.getCollection());
         }
 
         if (self._listViewModel) {
