@@ -4845,11 +4845,20 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _onCheckBoxClick(e: SyntheticEvent, item: CollectionItem<Model>, readOnly: boolean): void {
         const contents = _private.getPlainItemContents(item);
         const key = contents.getKey();
+
         if (!readOnly) {
-            const newSelection = _private.getSelectionController(this).toggleItem(key);
+            let newSelection;
+
+            if (e.nativeEvent && e.nativeEvent.shiftKey) {
+                newSelection = _private.getSelectionController(this).selectRange(key);
+            } else {
+                newSelection = _private.getSelectionController(this).toggleItem(key);
+            }
+
             this._notify('checkboxClick', [key, item.isSelected()]);
             _private.changeSelection(this, newSelection);
         }
+
         // если чекбокс readonly, то мы все равно должны проставить маркер
         this.setMarkedKey(key);
     }
