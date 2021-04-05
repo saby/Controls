@@ -1,5 +1,5 @@
 import {Browser} from 'Controls/browser';
-import {Memory} from 'Types/source';
+import {Memory, PrefetchProxy, DataSet} from 'Types/source';
 import { RecordSet } from 'Types/collection';
 import { detection } from 'Env/Env';
 import {assert} from 'chai';
@@ -138,8 +138,8 @@ describe('Controls/browser:Browser', () => {
 
             it('_beforeMount with receivedState and dataLoadCallback', async () => {
                 const receivedState = {
-                   items: new RecordSet(),
-                   filterItems: [
+                   data: new RecordSet(),
+                   historyItems: [
                        {
                            name: 'filterField',
                            value: 'filterValue',
@@ -162,11 +162,29 @@ describe('Controls/browser:Browser', () => {
                 };
                 options.filter = {};
                 const browser = getBrowser(options);
-                await browser._beforeMount(options, {}, receivedState);
+                await browser._beforeMount(options, {}, [receivedState]);
                 browser.saveOptions(options);
 
                 assert.ok(dataLoadCallbackCalled);
                 assert.deepStrictEqual(browser._filter, {filterField: 'filterValue'});
+            });
+
+            it('_beforeMount without receivedState and historyItems in options', async () => {
+                const options = getBrowserOptions();
+                options.filterButtonSource = [{
+                    name: 'filterField',
+                    value: '',
+                    textValue: ''
+                }];
+                options.historyItems = [{
+                    name: 'filterField',
+                    value: 'historyValue'
+                }];
+                options.filter = {};
+                const browser = getBrowser(options);
+                await browser._beforeMount(options, {});
+                browser.saveOptions(options);
+                assert.deepStrictEqual(browser._filter, {filterField: 'historyValue'});
             });
         });
 
@@ -363,14 +381,14 @@ describe('Controls/browser:Browser', () => {
                 };
 
                 browser = new Browser(newOptions);
-                browser._beforeMount(newOptions, {}, {items: recordSet, filterItems: {} });
+                browser._beforeMount(newOptions, {}, [{data: recordSet, historyItems: [] }]);
                 assert.equal(browser._topShadowVisibility, 'gridauto');
                 assert.equal(browser._bottomShadowVisibility, 'gridauto');
 
                 detection.isMobilePlatform = true;
 
                 browser = new Browser(newOptions);
-                browser._beforeMount(newOptions, {}, {items: recordSet, filterItems: {} });
+                browser._beforeMount(newOptions, {}, [{data: recordSet, historyItems: [] }]);
                 assert.equal(browser._topShadowVisibility, 'auto');
                 assert.equal(browser._bottomShadowVisibility, 'auto');
             });
@@ -387,6 +405,44 @@ describe('Controls/browser:Browser', () => {
 
             const result = await browser._beforeMount(options);
             assert.ok(result instanceof Error);
+        });
+
+        it('source as prefetchProxy', async () => {
+           const options = getBrowserOptions();
+           const source = options.source;
+           options.source = new PrefetchProxy({
+               target: source,
+               data: {
+                   query: new DataSet()
+               }
+           });
+            const browser = getBrowser(options);
+            await browser._beforeMount(options);
+            assert.ok(browser._source === options.source);
+        });
+
+        it('source as prefetchProxy and with receivedState', async () => {
+            const options = getBrowserOptions();
+            const receivedState = {
+                data: new RecordSet(),
+                historyItems: [
+                    {
+                        name: 'filterField',
+                        value: 'filterValue',
+                        textValue: 'filterTextValue'
+                    }
+                ]
+            };
+            const source = options.source;
+            options.source = new PrefetchProxy({
+                target: source,
+                data: {
+                    query: new DataSet()
+                }
+            });
+            const browser = getBrowser(options);
+            await browser._beforeMount(options, {}, [receivedState]);
+            assert.ok(browser._source === source);
         });
 
     });
@@ -446,7 +502,7 @@ describe('Controls/browser:Browser', () => {
                 options = {...options};
                 options.searchParam = 'newSearchParam';
                 await browser._beforeUpdate(options);
-                assert.ok(browser._searchController._options.searchParam === 'newSearchParam');
+                assert.ok(browser._getSearchControllerSync()._options.searchParam === 'newSearchParam');
             });
 
             it('update with searchValue', async () => {
@@ -719,7 +775,7 @@ describe('Controls/browser:Browser', () => {
             const browser = await getBrowserWithMountCall(options);
             await browser._getSearchController();
             await browser._reload(options);
-            assert.ok(browser._searchController._path === path);
+            assert.ok(browser._getSearchControllerSync()._path === path);
         });
     });
 
@@ -729,12 +785,12 @@ describe('Controls/browser:Browser', () => {
            const browser = getBrowser(options);
            await browser._beforeMount(options);
            browser.saveOptions(options);
-           browser._searchController = await browser._getSearchController();
+           await browser._getSearchController();
 
            browser._handleItemOpen('test123', undefined, 'test123');
 
            assert.equal(browser._root, 'test123');
-           assert.equal(browser._searchController._root, 'test123');
+           assert.equal(browser._getSearchControllerSync()._root, 'test123');
        });
 
        it('root changed, browser is in search mode', async () => {
@@ -754,7 +810,8 @@ describe('Controls/browser:Browser', () => {
        it ('root is changed, shearchController is not created', async () => {
             const options = getBrowserOptions();
             const browser = getBrowser(options);
-
+            await browser._beforeMount(options);
+            browser.saveOptions(options);
             browser._handleItemOpen('test123', undefined, 'test123');
 
             assert.equal(browser._root, 'test123');
@@ -765,7 +822,7 @@ describe('Controls/browser:Browser', () => {
             const browser = getBrowser(options);
             await browser._beforeMount(options);
             browser.saveOptions(options);
-            browser._searchController = await browser._getSearchController();
+            await browser._getSearchController();
             browser._handleItemOpen('test123', undefined, 'test123');
 
             assert.equal(browser._root, 'testRoot');

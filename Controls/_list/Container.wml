@@ -5,10 +5,14 @@
             on:markedKeyChanged="_notifyEventWithBubbling('listMarkedKeyChanged')"
             on:rootChanged="_notifyEventWithBubbling('listRootChanged')"
             on:sortingChanged="_notifyEventWithBubbling('listSortingChanged')"
+            on:listSelectedKeysCountChanged="_notifyEventWithBubbling('listSelectedKeysCountChanged')"
             filter="{{_dataOptions.filter}}"
             navigation="{{_dataOptions.navigation}}"
             sorting="{{_dataOptions.sorting}}"
             keyProperty="{{_dataOptions.keyProperty}}"
             scope="{{_options}}"
             source="{{_dataOptions.source}}"
-            sourceController="{{_dataOptions.sourceController}}"/>
+            sourceController="{{_dataOptions.sourceController}}"
+            selectedKeys="{{_options.id ? _dataOptions.selectedKeys : _options.selectedKeys}}"
+            excludedKeys="{{_options.id ? _dataOptions.excludedKeys : _options.excludedKeys}}"
+/>

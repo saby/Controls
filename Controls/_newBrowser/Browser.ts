@@ -29,7 +29,7 @@ import * as DefaultListItemTemplate from 'wml!Controls/_newBrowser/templates/Lis
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as DefaultTileItemTemplate from 'wml!Controls/_newBrowser/templates/TileItemTemplate';
-
+import 'css!Controls/listTemplates';
 //endregion
 
 interface IReceivedState {
@@ -136,7 +136,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * результатов поиска хранится в этом поле для того, что бы после сброса поиска
      * вернуть представление к исходному виду
      */
-    protected _rootBeforeSearch: TKey;
     //endregion
 
     //region templates options
@@ -342,7 +341,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
                 // Если меняют root когда находимся в режиме поиска, то нужно
                 // сбросить поиск и отобразить содержимое нового root
                 if (this.viewMode === DetailViewMode.search) {
-                    this._resetSearch(newRoots);
+                    this._resetSearch();
                     return;
                 }
 
@@ -421,26 +420,15 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     private _afterSearchDataLoaded(): void {
         this._searchValue = this._inputSearchString;
 
-        // Если сказано, что искать нужно не от текущего корня, то нужно
-        // запомнить текущий root и сбросить его в null
-        if (this._options.detail.searchStartingWith !== 'current') {
-            if (this.viewMode !== DetailViewMode.search) {
-                this._rootBeforeSearch = this.root;
-            }
-
-            // Если нужно уведомим пользователя об изменении root
+        if (this.root !== this._detailDataSource.root) {
             this._changeRoot(
-                {detailRoot: null, masterRoot: this._masterRoot},
+                {detailRoot: this._detailDataSource.root, masterRoot: this._masterRoot},
                 true
             );
-
-            this.root = null;
         }
 
         this._setViewMode(DetailViewMode.search);
         this._updateDetailBgColor();
-
-        this._detailDataSource.updateFilterAfterSearch();
         this._setDetailFilter(this._detailDataSource.getFilter());
     }
 
@@ -448,31 +436,20 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * Сбрасывает в _detailDataSource параметры фильтра, отвечающие за поиск,
      * и если нужно меняет у него root.
      */
-    private _resetSearch(newRoots?: IRootsData): void {
-        this._search = 'reset';
+    private _resetSearch(): void {
         this._detailDataSource.sourceController.cancelLoading();
 
         this._detailDataSource
             .resetSearchString()
             .then(() => {
-                let root = this.root;
-
-                if (newRoots) {
-                    root = newRoots.detailRoot;
-                    this._changeRoot(newRoots);
-                } else if (this._options.detail.searchStartingWith !== 'current') {
-                    root = this._rootBeforeSearch;
+                const newRoot = this._detailDataSource.getSearchControllerRoot();
+                if (this.root !== newRoot) {
                     this._changeRoot({
-                        detailRoot: this._rootBeforeSearch,
+                        detailRoot: newRoot,
                         masterRoot: this._masterRoot
                     });
-                    this._rootBeforeSearch = null;
                 }
-
-                this._detailDataSource.setRoot(root);
-                this._detailDataSource.updateFilterAfterSearch();
                 this._setDetailFilter(this._detailDataSource.getFilter());
-
                 this._searchValue = null;
                 this._inputSearchString = null;
             });
@@ -522,7 +499,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         if (this._inputSearchString) {
             this._afterSearchDataLoaded();
         }
-        this._search = false;
+        this._search = null;
 
         this._masterMarkedKey = this.root;
         this._processItemsMetadata(items);
@@ -585,17 +562,13 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._resetSearch();
     }
 
-    // TODO: implement
-    protected _onDetailArrowClick(): void {
-        return;
-    }
     //endregion
 
     //region 🗘 update state
     /**
      * Обновляет текущее состояние контрола в соответствии с переданными опциями
      */
-    private _initState(options: IOptions, oldOptions?: IOptions): void {
+    private _initState(options: IOptions): void {
         Browser.validateOptions(options);
 
         this._userViewMode = options.userViewMode;
@@ -721,7 +694,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
     //region • static utils
     static _theme: string[] = [
-        'Controls/listTemplates',
         'Controls/newBrowser'
     ];
 

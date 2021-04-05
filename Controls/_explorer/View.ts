@@ -2,7 +2,6 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as cInstance from 'Core/core-instance';
 import {EventUtils} from 'UI/Events';
 import * as randomId from 'Core/helpers/Number/randomId';
-import {SearchGridViewModel, SearchView, TreeGridView, ViewModel as TreeGridViewModel} from 'Controls/treeGridOld';
 import {constants} from 'Env/Env';
 import {Logger} from 'UI/Utils';
 import {Model} from 'Types/entity';
@@ -20,23 +19,25 @@ import {
     INavigationPositionSourceConfig as IPositionSourceConfig,
     INavigationSourceConfig,
     ISelectionObject, ISortingOptions, ISourceOptions,
-    TKey
+    TKey,
+    IGridControl
 } from 'Controls/interface';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {RecordSet} from 'Types/collection';
 import {NewSourceController, Path} from 'Controls/dataSource';
-import {SearchView as SearchViewNew} from 'Controls/searchBreadcrumbsGrid';
-import {TreeGridView as TreeGridViewNew} from 'Controls/treeGridNew';
+import {SearchView} from 'Controls/searchBreadcrumbsGrid';
+import {TreeGridView} from 'Controls/treeGridNew';
 import {SyntheticEvent} from 'UI/Vdom';
 import {IDragObject} from 'Controls/_dragnDrop/Container';
 import {ItemsEntity} from 'Controls/dragnDrop';
-import {IGridControl} from 'Controls/_grid/interface/IGridControl';
 import {TExplorerViewMode} from 'Controls/_explorer/interface/IExplorer';
 import {TreeControl} from 'Controls/tree';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as template from 'wml!Controls/_explorer/View/View';
 import {IEditableListOption} from 'Controls/_list/interface/IEditableList';
+import 'css!Controls/tile';
+import 'css!Controls/explorer';
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -47,6 +48,7 @@ const ITEM_TYPES = {
     leaf: null
 };
 const DEFAULT_VIEW_MODE = 'table';
+
 const VIEW_NAMES = {
     search: SearchView,
     tile: null,
@@ -54,30 +56,12 @@ const VIEW_NAMES = {
     list: ListView
 };
 const VIEW_MODEL_CONSTRUCTORS = {
-    search: SearchGridViewModel,
-    tile: null,
-    table: TreeGridViewModel,
-    list: TreeGridViewModel
-};
-const USE_NEW_MODEL_VALUES = {
-    search: false,
-    tile: false,
-    table: false,
-    list: false
-};
-const VIEW_NAMES_NEW = {
-    search: SearchViewNew,
-    tile: null,
-    table: TreeGridViewNew,
-    list: ListView
-};
-const VIEW_MODEL_CONSTRUCTORS_NEW = {
     search: 'Controls/searchBreadcrumbsGrid:SearchGridCollection',
     tile: null,
     table: 'Controls/treeGrid:TreeGridCollection',
     list: 'Controls/treeGrid:TreeGridCollection'
 };
-const USE_NEW_MODEL_VALUES_NEW = {
+const USE_NEW_MODEL_VALUES = {
     search: true,
     tile: false,
     table: true,
@@ -103,8 +87,8 @@ interface IExplorerOptions
         ISourceOptions,
         IFilterOptions,
         ISortingOptions {
-
     root?: TKey;
+
     viewMode?: TExplorerViewMode;
     searchNavigationMode?: string;
     displayMode?: string;
@@ -113,8 +97,8 @@ interface IExplorerOptions
     itemOpenHandler?: Function;
     searchStartingWith?: 'root' | 'current';
     sourceController?: NewSourceController;
-    useNewModel?: boolean;
     useNewTileModel?: boolean;
+    useOldModel?: boolean;
     expandByItemClick?: boolean;
 }
 
@@ -222,7 +206,7 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     protected _beforeUpdate(cfg: IExplorerOptions): void {
         const isViewModeChanged = cfg.viewMode !== this._options.viewMode;
-        const isRootChanged = cfg.root !== this._options.root;
+        const isRootChanged = cfg.root !== this._getRoot(this._options.root);
 
         // Мы не должны ставить маркер до проваливания, т.к. это лишняя синхронизация.
         // Но если отменили проваливание, то нужно поставить маркер.
@@ -261,9 +245,14 @@ export default class Explorer extends Control<IExplorerOptions> {
         * */
         const navigationChanged = !isEqual(cfg.navigation, this._options.navigation);
 
-        if (this._isGoingBack && this._isCursorNavigation(this._options.navigation) && !navigationChanged) {
-            const newRootId = this._getRoot(this._options.root);
-            this._restorePositionNavigation(newRootId);
+        if (
+            this._isGoingBack &&
+            isRootChanged &&
+            !navigationChanged &&
+            this._isCursorNavigation(this._options.navigation)
+        ) {
+            const newRoot = this._getRoot(cfg.root);
+            this._restorePositionNavigation(newRoot);
         } else if (navigationChanged) {
             this._navigation = cfg.navigation;
         }
@@ -400,12 +389,6 @@ export default class Explorer extends Control<IExplorerOptions> {
                 return res;
             }
 
-            // При проваливании ОБЯЗАТЕЛЬНО дополняем restoredKeyObject узлом, в который проваливаемся.
-            // Дополнять restoredKeyObject нужно СИНХРОННО, иначе на момент вызова restoredKeyObject опции уже будут
-            // новые и маркер запомнится не для того root'а. Ошибка:
-            // https://online.sbis.ru/opendoc.html?guid=38d9ca66-7088-4ad4-ae50-95a63ae81ab6
-            this._setRestoredKeyObject(item);
-
             // Если в списке запущено редактирование, то проваливаемся только после успешного завершения.
             if (!this._children.treeControl.isEditing()) {
                 changeRoot();
@@ -460,10 +443,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     protected _onBreadCrumbsClick(event: SyntheticEvent, item: Model): void {
-        const itemKey = item.getKey();
-
-        this._cleanRestoredKeyObject(itemKey);
-        this._setRoot(itemKey);
+        this._setRoot(item.getKey());
         this._isGoingBack = true;
     }
 
@@ -602,47 +582,6 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
     }
 
-    private _cleanRestoredKeyObject(root: TKey): void {
-        this._pathCleaner(root);
-    }
-
-    private _pathCleaner(root: TKey): void {
-        if (this._restoredMarkedKeys[root]) {
-            if (this._restoredMarkedKeys[root].parent === undefined) {
-                const markedKey = this._restoredMarkedKeys[root].markedKey;
-                const cursorPosition = this._restoredMarkedKeys[root].cursorPosition;
-                this._restoredMarkedKeys = {
-                    [root]: {
-                        markedKey,
-                        cursorPosition
-                    }
-                };
-                return;
-            } else {
-                _remover(this._restoredMarkedKeys, root);
-            }
-        } else {
-            const curRoot = this._getRoot(this._options.root);
-            if (root !== curRoot) {
-                delete this._restoredMarkedKeys[curRoot];
-            }
-        }
-
-        function _remover(store: IMarkedKeysStore, key: TKey): void {
-            Object
-                .keys(store)
-                .forEach((cur) => {
-                    const info = store[cur];
-
-                    if (info && String(info.parent) === String(key)) {
-                        const nextKey = cur;
-                        delete store[cur];
-                        _remover(store, nextKey);
-                    }
-                });
-        }
-    }
-
     private _initMarkedKeys(
         root: TKey,
         topRoot: TKey,
@@ -733,23 +672,15 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
     }
 
-    private _setViewConfig(viewMode: TExplorerViewMode, useNewModel: boolean): void {
-        // todo useNewModel - это ветка, к которой стремимся, условие (и всё что в else) можно убрать,
-        //  когда везде будет использоваться Controls/explorer:View на новой модели
-        if (useNewModel) {
-            this._viewName = VIEW_NAMES_NEW[viewMode];
-            this._useNewModel = USE_NEW_MODEL_VALUES_NEW[viewMode];
-            this._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS_NEW[viewMode];
-        } else {
-            this._viewName = VIEW_NAMES[viewMode];
-            this._useNewModel = USE_NEW_MODEL_VALUES[viewMode];
-            this._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS[viewMode];
-        }
+    private _setViewConfig(viewMode: TExplorerViewMode): void {
+        this._viewName = VIEW_NAMES[viewMode];
+        this._useNewModel = USE_NEW_MODEL_VALUES[viewMode];
+        this._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS[viewMode];
     }
 
     private _setViewModeSync(viewMode: TExplorerViewMode, cfg: IExplorerOptions): void {
         this._viewMode = viewMode;
-        this._setViewConfig(this._viewMode, cfg.useNewModel);
+        this._setViewConfig(this._viewMode);
         this._applyNewVisualOptions();
 
         if (this._isMounted) {
@@ -762,7 +693,11 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._updateRootOnViewModeChanged(viewMode, cfg);
         }
 
-        if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
+        if (cfg.useOldModel && !this._oldModelLoaded && viewMode !== 'tile') {
+            this._setViewModePromise = this._loadOldViewMode(cfg).then(() => {
+                this._setViewModeSync(viewMode, cfg);
+            });
+        } else if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
             this._setViewModePromise = this._loadTileViewMode(cfg).then(() => {
                 this._setViewModeSync(viewMode, cfg);
             });
@@ -832,9 +767,9 @@ export default class Explorer extends Control<IExplorerOptions> {
         if (options.useNewTileModel) {
             return new Promise((resolve) => {
                 import('Controls/treeTile').then((tile) => {
-                    VIEW_NAMES_NEW.tile = tile.TreeTileView;
-                    VIEW_MODEL_CONSTRUCTORS_NEW.tile = 'Controls/treeTile:TreeTileCollection';
-                    USE_NEW_MODEL_VALUES_NEW.tile = true;
+                    VIEW_NAMES.tile = tile.TreeTileView;
+                    VIEW_MODEL_CONSTRUCTORS.tile = 'Controls/treeTile:TreeTileCollection';
+                    USE_NEW_MODEL_VALUES.tile = true;
                     resolve();
                 }).catch((err) => {
                     Logger.error('Controls/_explorer/View: ' + err.message, this, err);
@@ -845,14 +780,34 @@ export default class Explorer extends Control<IExplorerOptions> {
                 import('Controls/tile').then((tile) => {
                     VIEW_NAMES.tile = tile.TreeView;
                     VIEW_MODEL_CONSTRUCTORS.tile = tile.TreeViewModel;
-                    VIEW_NAMES_NEW.tile = tile.TreeView;
-                    VIEW_MODEL_CONSTRUCTORS_NEW.tile = tile.TreeViewModel;
                     resolve();
                 }).catch((err) => {
                     Logger.error('Controls/_explorer/View: ' + err.message, this, err);
                 });
             });
         }
+    }
+
+    private _loadOldViewMode(options: IExplorerOptions): Promise<void> {
+        return new Promise((resolve) => {
+            import('Controls/treeGridOld').then((treeGridOld) => {
+                VIEW_NAMES.table = treeGridOld.TreeGridView;
+                VIEW_NAMES.search = treeGridOld.SearchView;
+
+                VIEW_MODEL_CONSTRUCTORS.table = treeGridOld.ViewModel;
+                VIEW_MODEL_CONSTRUCTORS.list = treeGridOld.ViewModel;
+                VIEW_MODEL_CONSTRUCTORS.search = treeGridOld.SearchGridViewModel;
+
+                USE_NEW_MODEL_VALUES.table = false;
+                USE_NEW_MODEL_VALUES.list = false;
+                USE_NEW_MODEL_VALUES.search = false;
+
+                this._oldModelLoaded = true;
+                resolve();
+            }).catch((err) => {
+                Logger.error('Controls/_explorer/View: ' + err.message, this, err);
+            });
+        });
     }
 
     private _canStartDragNDropFunc(): boolean {
@@ -906,22 +861,22 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     /**
      * Восстанавливает значение курсора для курсорной навигации при выходе из папки.
-     * Одна из частей механизма сохранения позиции скролла и отмеченной записи при проваливании в папку и выходе назад.
+     * Одна из частей механизма сохранения позиции скролла и отмеченной записи
+     * при проваливании в папку и выходе назад.
      *
-     * @param itemId id узла из которого выходим
+     * @param rootId id узла в который возвращаемся
      */
-    private _restorePositionNavigation(itemId: TKey): void {
-        const hasRestoreDataForCurrent = !!this._restoredMarkedKeys[itemId];
-        if (hasRestoreDataForCurrent) {
-            const parentId = this._restoredMarkedKeys[itemId].parent;
-            const restoreDataForParent = this._restoredMarkedKeys[parentId];
-            if (restoreDataForParent && typeof restoreDataForParent.cursorPosition !== 'undefined') {
-                this._navigation.sourceConfig.position = restoreDataForParent.cursorPosition;
-            } else {
-                const fromOptions = this._options._navigation &&
-                    this._options._navigation.sourceConfig && this._options._navigation.sourceConfig.position;
-                this._navigation.sourceConfig.position = fromOptions || null;
-            }
+    private _restorePositionNavigation(rootId: TKey): void {
+        const rootInfo = this._restoredMarkedKeys[rootId];
+        if (!rootInfo) {
+            return;
+        }
+
+        if (typeof rootInfo?.cursorPosition !== 'undefined') {
+            this._navigation.sourceConfig.position = rootInfo.cursorPosition;
+        } else {
+            const fromOptions = this._options._navigation?.sourceConfig?.position;
+            this._navigation.sourceConfig.position = fromOptions || null;
         }
     }
 
@@ -944,8 +899,6 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     static _constants: object = EXPLORER_CONSTANTS;
-
-    static _theme: string[] = ['Controls/explorer', 'Controls/tile'];
 
     static getDefaultOptions(): object {
         return {
@@ -1093,7 +1046,7 @@ Object.defineProperty(Explorer, 'defaultProps', {
  *
  * В разделе "Примеры" показано как с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию tileItemTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/tile:ItemTemplate.
  *
- * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/templates/ руководстве разработчика}.
+ * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/item/ руководстве разработчика}.
  * @example
  * <pre class="brush: html;">
  * <Controls.explorer:View>

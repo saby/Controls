@@ -1,5 +1,5 @@
 <ws:template name="itemTpl">
-   <div attr:class="controls-TileView__item {{itemData.itemClasses}} {{itemData.itemContentClasses}} controls-TileView__item_theme-{{theme}} controls-ListView__itemV controls-ListView__itemV_cursor-{{cursor || 'pointer'}}
+   <div attr:class="controls-TileView__item {{itemData.itemClasses}} {{itemData.itemContentClasses}} controls-ListView__itemV controls-ListView__itemV_cursor-{{cursor || 'pointer'}}
                      {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}">
       <ws:partial template="{{content}}"/>
    </div>
@@ -12,26 +12,26 @@
 </ws:template>
 
 <ws:template name="defaultContentTpl">
-   <div attr:class="controls-TileView__itemContent {{itemData.itemContentClasses}} controls-TileView__itemContent_theme-{{theme}} {{titleStyle === 'accent' ? 'controls-TileView__itemContent_accent'}}
+   <div attr:class="controls-TileView__itemContent {{itemData.itemContentClasses}} controls-TileView__itemContent {{titleStyle === 'accent' ? 'controls-TileView__itemContent_accent'}}
                {{height === 'auto' ? 'controls-TileView__item_autoHeight'}}
-               {{highlightOnHover === true ? ' controls-TileView__itemContent_highlightOnHover_theme-' + theme}}
-               {{backgroundColorStyle ? ' controls-TileView__itemContent_background_' + backgroundColorStyle +'_theme-' + theme}}
+               {{highlightOnHover === true ? ' controls-TileView__itemContent_highlightOnHover'}}
+               {{backgroundColorStyle ? ' controls-TileView__itemContent_background_' + backgroundColorStyle }}
                js-controls-ListView__measurableContainer
-               {{!!itemData.isActive() ? ' controls-TileView__item_active_theme-' + theme}}
-               {{!!itemData.isSwiped() ? ' controls-TileView__item_swiped_theme-' + theme}}
+               {{!!itemData.isActive() ? ' controls-TileView__item_active'}}
+               {{!!itemData.isSwiped() ? ' controls-TileView__item_swiped'}}
                {{itemData.isHovered ? ' controls-TileView__item_hovered'}}
                {{itemData.isUnfixed ? ' controls-TileView__item_unfixed' }}
                {{itemData.isUnscaleable ? ' controls-TileView__item_unscaleable'}}
                {{itemData.isScaled ? ' controls-TileView__item_scaled' }}
-               {{itemData.isFixed ? ' controls-TileView__item_fixed controls-TileView__item_fixed_theme-' + theme}}
+               {{itemData.isFixed ? ' controls-TileView__item_fixed '}}
                {{itemData.isAnimated ? ' controls-TileView__item_animated'}}
-               {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + theme + ' controls-ListView__itemContent_dragging_theme-' + theme}}
+               {{!!itemData.isDragging ? ' controls-ListView__item_dragging controls-ListView__itemContent_dragging' }}
                {{titleStyle === 'none' ? 'controls-TileView__item_withoutTitle'}}
-               {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility) + '_theme-' + theme}}
+               {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility)}}
                {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
-                  ' controls-TileView__item_withMarker controls-TileView__item_withMarker_theme-' + theme :
-                  border !== false ? ' controls-TileView__item_withoutMarker controls-TileView__item_withoutMarker_theme-' + theme
-                  :  'controls-TileView__item_withoutBorder controls-TileView__item_withoutBorder_theme-' + theme }}
+                  ' controls-TileView__item_withMarker ' :
+                  border !== false ? ' controls-TileView__item_withoutMarker '
+                  :  'controls-TileView__item_withoutBorder ' }}
                {{itemData.canShowActions ? ' controls-ListView__item_showActions'}}"
         attr:style="{{itemData.position ? itemData.position}} ">
       <ws:partial if="{{itemData.multiSelectVisibility !== 'hidden' && itemData.multiSelectPosition === 'default' }}" template="multiSelectTemplate"/>
@@ -52,7 +52,7 @@
                      scope="{{_options}}"/>
          <ws:if data="{{itemData.item[itemData.displayProperty] || (itemData.hasVisibleActions() || itemData.isEditing())}}">
             <ws:if data="{{titleStyle === 'accent'}}">
-               <div class="controls-TileView__title_accent_theme-{{theme}}"
+               <div class="controls-TileView__title_accent"
                     title="{{itemData.item[itemData.displayProperty]}}">
                   <div class="controls-TileView__title_accent_ellipsis">
                      <ws:if data="{{itemData.searchValue}}">
@@ -69,7 +69,7 @@
                </div>
             </ws:if>
             <ws:else>
-               <div class="controls-TileView__title controls-TileView__title_theme-{{theme}} {{(titleStyle === 'onhover' || titleStyle === undefined && !hasTitle) ? 'controls-TileView__title_invisible'}}"
+               <div class="controls-TileView__title {{(titleStyle === 'onhover' || titleStyle === undefined && !hasTitle) ? 'controls-TileView__title_invisible'}}"
                     title="{{itemData.item[itemData.displayProperty]}}">
                   <ws:if data="{{itemData.searchValue}}">
                      <Controls.decorator:Highlight highlightedValue="{{itemData.searchValue}}">
@@ -90,7 +90,7 @@
                   highlightOnHover="{{highlightOnHover}}"
                   actionPadding="{{itemActionsPadding}}"
                   itemData="{{itemData}}"
-                  itemActionsClass="{{itemActionsClass ? itemActionsClass : 'controls-TileView__itemActions_theme-' + theme + ' controls-TileView__itemActions_bottomRight'}}"/>
+                  itemActionsClass="{{itemActionsClass ? itemActionsClass : 'controls-TileView__itemActions' + ' controls-TileView__itemActions_bottomRight'}}"/>
       <ws:partial if="{{itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing())}}"
                   template="{{swipeTemplate}}"
                   itemData="{{itemData}}"
@@ -99,7 +99,7 @@
 </ws:template>
 
 <ws:if data="{{invisible}}">
-   <div attr:class="controls-TileView__item controls-TileView__item_theme-{{theme}} {{itemData.itemClasses}} controls-TileView__item_invisible" attr:style="{{'-ms-flex-preferred-size: ' + (width || itemData.defaultItemWidth) + 'px; flex-basis: ' + (width || itemData.defaultItemWidth) + 'px;'}}"></div>
+   <div attr:class="controls-TileView__item  {{itemData.itemClasses}} controls-TileView__item_invisible" attr:style="{{'-ms-flex-preferred-size: ' + (width || itemData.defaultItemWidth) + 'px; flex-basis: ' + (width || itemData.defaultItemWidth) + 'px;'}}"></div>
 </ws:if>
 <ws:else>
    <ws:if data="{{itemData.tileMode === 'dynamic'}}">

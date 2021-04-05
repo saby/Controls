@@ -41,7 +41,7 @@
                           on:click="_toggleExpanded()">
                         <Controls.Container.Async templateName="Controls/toggle:BigSeparator">
                            <ws:partial template="{{content.resolvedTemplate}}"
-                                       viewMode="arrow"
+                                       viewMode="ellipsis"
                                        iconSize="l"
                                        value="{{_expander}}"/>
                         </Controls.Container.Async>

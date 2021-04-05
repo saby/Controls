@@ -1,10 +1,10 @@
 <div class="controlsDemo__wrapper__padding-left">
     <div class="controlsDemo__cell controlsDemo__inline-block demo-ItemPaddingAll__vertical">
-        <div if="{{_showTitle}}" class="controls-text-label_theme-{{_options.theme}}">Вертикальные отступы</div>
+        <div if="{{_showTitle}}" class="controls-text-label">Вертикальные отступы</div>
         <div class="ws-flexbox ws-flex-wrap">
 
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m">
-                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру S</div>
+                <div class="controls-text-label">Отступы соответствующие размеру S</div>
                 <Controls.treeGridNew:View
                         keyProperty="id"
                         source="{{_viewSource}}"
@@ -16,7 +16,7 @@
             </div>
 
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-l">
-                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру L</div>
+                <div class="controls-text-label">Отступы соответствующие размеру L</div>
                 <Controls.treeGridNew:View
                         keyProperty="id"
                         source="{{_viewSource}}"

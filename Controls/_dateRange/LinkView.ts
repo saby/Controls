@@ -7,7 +7,7 @@ import {Logger} from 'UI/Utils';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {
    IFontColorStyle,
-   IFontColorStyleOptions
+   IFontColorStyleOptions, IUnderlineOptions
 } from 'Controls/interface';
 import {isLeftMouseButton} from 'Controls/popup';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -17,7 +17,7 @@ import {Base as dateUtils} from 'Controls/dateUtils';
 import 'css!Controls/dateRange';
 import 'css!Controls/CommonClasses';
 
-export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyleOptions {
+export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyleOptions, IUnderlineOptions {
 }
 /**
  * A link button that displays the period. Supports the change of periods to adjacent.
@@ -26,6 +26,8 @@ export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyl
  * @extends UI/Base:Control
  * @mixes Controls/_interface/IResetValues
  * @mixes Controls/_interface/IFontSize
+ * @mixes Controls/_interface/IDateConstructor
+ * @mixes Controls/_interface/IUnderline
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/_dateRange/interfaces/ICaptionFormatter
  *

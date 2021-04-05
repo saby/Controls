@@ -1,5 +1,8 @@
 //#region Imports
 import rk = require('i18n!Controls');
+import 'css!Controls/list';
+import 'css!Controls/itemActions';
+import 'css!Controls/CommonClasses';
 
 // Core imports
 import {Control, IControlOptions} from 'UI/Base';
@@ -436,8 +439,8 @@ const _private = {
         if (self._options.useNewModel) {
             // TODO restore marker + maybe should recreate the model completely
             if (!isEqualItems(oldCollection, items) || oldCollection !== items) {
+                self._onItemsReady(newOptions, items);
                 listModel.setCollection(items);
-                self._onItemsReady(newOptions, listModel.getCollection());
             }
 
             // При старой модели зовется из модели. Нужен чтобы в explorer поменять модель только уже при наличии данных
@@ -2338,10 +2341,10 @@ const _private = {
         return CssClassList.add('controls-BaseControl__loadingIndicator')
             .add(`controls-BaseControl__loadingIndicator__state-${state}`, !isAbsoluteTopIndicator)
             .add('controls-BaseControl__loadingIndicator__state-up-absolute', isAbsoluteTopIndicator)
-            .add(`controls-BaseControl__loadingIndicator__state-${state}_theme-${theme}`)
-            .add(`controls-BaseControl_empty__loadingIndicator__state-down_theme-${theme}`,
+            .add(`controls-BaseControl__loadingIndicator__state-${state}`)
+            .add(`controls-BaseControl_empty__loadingIndicator__state-down`,
                 !hasItems && loadingIndicatorState === 'down')
-            .add(`controls-BaseControl__loadingIndicator_style-portionedSearch_theme-${theme}`,
+            .add(`controls-BaseControl__loadingIndicator_style-portionedSearch`,
                 isPortionedSearchInProgress)
             .compile();
     },
@@ -3354,6 +3357,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     __errorController = null;
 
+    _editingItem: IEditableCollectionItem;
+
     _continuationEditingDirection: 'top' | 'bottom' = null;
 
     //#endregion
@@ -3457,6 +3462,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _initNewModel(cfg, data, viewModelConfig) {
         this._items = data;
+
+        this._onItemsReady(cfg, data);
         this._listViewModel = this._createNewModel(
             data,
             viewModelConfig,
@@ -3465,8 +3472,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         _private.setHasMoreData(this._listViewModel,
             _private.hasMoreDataInAnyDirection(this, this._sourceController), true);
-
-        this._onItemsReady(cfg, this._listViewModel.getCollection());
 
         if (this._listViewModel) {
             _private.initListViewModelHandler(this, this._listViewModel, true);
@@ -3508,12 +3513,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             viewModelConfig.supportVirtualScroll = self._needScrollCalculation;
             self._listViewModel = new newOptions.viewModelConstructor(viewModelConfig);
         } else if (newOptions.useNewModel && items) {
+            self._onItemsReady(newOptions, items);
             self._listViewModel = self._createNewModel(
                 items,
                 viewModelConfig,
                 newOptions.viewModelConstructor
             );
-            self._onItemsReady(newOptions, self._listViewModel.getCollection());
         }
 
         if (self._listViewModel) {
@@ -3629,7 +3634,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    loadMore(direction: IDirection): void {
+    // TODO Необходимо провести рефакторинг механизма подгрузки данных по задаче
+    //  https://online.sbis.ru/opendoc.html?guid=8a5f7598-c7c2-4f3e-905f-9b2430c0b996
+    protected _loadMore(direction: IDirection): void {
         if (this._options?.navigation?.view === 'infinity') {
             _private.loadToDirectionIfNeed(this, direction, this._options.filter);
         }
@@ -4650,13 +4657,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // Вызываем сдвиг диапазона в направлении видимого триггера
         this._shiftToDirection(direction);
     }
-    _shiftToDirection(direction): void {
+    protected _shiftToDirection(direction): void {
         this._scrollController.shiftToDirection(direction).then((result) => {
             if (result) {
                 _private.handleScrollControllerResult(this, result);
                 this._syncLoadingIndicatorState = direction;
             } else {
-                this.loadMore(direction);
+                this._loadMore(direction);
             }
         });
     }
@@ -4819,7 +4826,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 if (this._hasEnoughData(page)) {
                     this._shiftToDirection(direction);
                 } else {
-                    this.loadMore(direction);
+                    this._loadMore(direction);
                 }
             }
         }
@@ -4979,7 +4986,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             resDeferred.callback();
             Logger.error('BaseControl: Source option is undefined. Can\'t load data', self);
         }
-        return resDeferred;
+        return resDeferred.addCallback((result) => {
+            const hasColumnScroll = self._isMounted && self._children.listView &&
+                self._children.listView.isColumnScrollVisible && self._children.listView.isColumnScrollVisible();
+
+            if (hasColumnScroll) {
+                self._children.listView.resetColumnScroll();
+            }
+            return result;
+        });
     }
 
     // TODO удалить, когда будет выполнено наследование контролов (TreeControl <- BaseControl)
@@ -5034,7 +5049,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return this._options.moveMarkerOnScrollPaging;
     }
 
-    _hasMoreData(sourceController: SourceController, direction: Direction): boolean {
+    protected _hasMoreData(sourceController: SourceController, direction: Direction): boolean {
         return !!(sourceController?.hasMoreData(direction));
     }
 
@@ -5045,11 +5060,19 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (groupId === display.getGroup()(display.find((i) => i.isEditing()).contents)) {
                 this._cancelEdit().then((result) => {
                     if (!(result && result.canceled)) {
-                        GroupingController.toggleGroup(collection, groupId);
+                        if (this._options.useNewModel) {
+                            dispItem.setExpanded(!dispItem.isExpanded());
+                        } else {
+                            GroupingController.toggleGroup(collection, groupId);
+                        }
                     }
                 });
             } else {
-                GroupingController.toggleGroup(collection, groupId);
+                if (this._options.useNewModel) {
+                    dispItem.setExpanded(!dispItem.isExpanded());
+                } else {
+                    GroupingController.toggleGroup(collection, groupId);
+                }
             }
         };
 
@@ -5223,8 +5246,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 }
             }
 
+            const sourceController = this.getSourceController();
+            // Пока считаем что редактирование итемов без указания SourceController не поддерживается
+            if (!sourceController) {
+                return LIST_EDITING_CONSTANTS.CANCEL;
+            }
+
             if (isAdd && !((options && options.item) instanceof Model) && !((result && result.item) instanceof Model)) {
-                return this.getSourceController().create().then((item) => {
+                return sourceController.create().then((item) => {
                     if (item instanceof Model) {
                         return {item};
                     }
@@ -5810,7 +5839,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         _private.startDragNDrop(this, this._savedItemMouseDownEventArgs.domEvent, this._savedItemMouseDownEventArgs.itemData);
     }
 
-    protected _loadMore(e): void {
+    protected _onClickMoreButton(e): void {
         _private.loadToDirectionIfNeed(this, 'down');
     }
 
@@ -6842,8 +6871,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             isTouch: TouchContextField
         };
     }
-
-    static _theme = ['Controls/Classes', 'Controls/list', 'Controls/itemActions']
 }
 
 BaseControl._private = _private;

@@ -20,6 +20,7 @@ import PropertyGridCollection from './PropertyGridCollection';
 import PropertyGridCollectionItem from './PropertyGridCollectionItem';
 import {IItemAction, Controller as ItemActionsController} from 'Controls/itemActions';
 import {StickyOpener} from 'Controls/popup';
+import 'css!Controls/itemActions';
 
 export type TToggledEditors = Record<string, boolean>;
 type TPropertyGridCollection = PropertyGridCollection<PropertyGridCollectionItem<Model>>;
@@ -182,11 +183,14 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
                 newEditingObject[name] = value;
                 const format = Model.fromObject(newEditingObject, resultEditingObject.getAdapter()).getFormat();
                 const propertyFormat = format.at(format.getFieldIndex(name));
-                resultEditingObject.addField({
-                    name: propertyFormat.getName(),
-                    type: propertyFormat.getType(),
-                    defaultValue: value
-                });
+                resultEditingObject.addField(
+                    {
+                        name: propertyFormat.getName(),
+                        type: propertyFormat.getType()
+                    },
+                    void 0,
+                    value
+                );
             }
             resultEditingObject.set(name, value);
             this._listModel.setEditingObject(resultEditingObject);
@@ -323,7 +327,7 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
         return validatorResult;
     }
 
-    static _theme: string[] = ['Controls/propertyGrid', 'Controls/itemActions'];
+    static _theme: string[] = ['Controls/propertyGrid'];
 
     static getDefaultPropertyGridItem(): IPropertyGridItem {
         return {

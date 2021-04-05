@@ -63,7 +63,8 @@ export default {
              */
             nextArrowVisibility: false,
 
-            prevArrowVisibility: false
+            prevArrowVisibility: false,
+            underline: 'hovered'
 
             /**
              * @name Controls/_dateRange/interfaces/ILinkView#emptyCaption

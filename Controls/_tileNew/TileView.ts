@@ -11,6 +11,8 @@ import {SyntheticEvent} from 'UI/Vdom';
 import {Model} from 'Types/entity';
 import {constants} from 'Env/Env';
 import {getItemSize} from './utils/imageUtil';
+import 'css!Controls/tile';
+
 
 export default class TileView extends ListView {
     protected _template: TemplateFunction = template;
@@ -259,21 +261,20 @@ export default class TileView extends ListView {
     }
 
     getItemsPaddingContainerClasses(): string {
-        const theme = `_theme-${this._options.theme}`;
         let classes = 'controls-TileView__itemPaddingContainer ';
 
         if (this._listModel.getCount()) {
             const itemPadding = this._options.itemPadding;
             if (this._options.itemsContainerPadding) {
-                classes += `controls-TileView__itemsPaddingContainer_spacingLeft_${this._options.itemsContainerPadding.left || 'default'}_itemPadding_${itemPadding?.left || 'default'}${theme}`;
-                classes += ` controls-TileView__itemsPaddingContainer_spacingRight_${this._options.itemsContainerPadding.right || 'default'}_itemPadding_${itemPadding?.right || 'default'}${theme}`;
-                classes += ` controls-TileView__itemsPaddingContainer_spacingTop_${this._options.itemsContainerPadding.top || 'default'}_itemPadding_${itemPadding?.top || 'default'}${theme}`;
-                classes += ` controls-TileView__itemsPaddingContainer_spacingBottom_${this._options.itemsContainerPadding.bottom || 'default'}_itemPadding_${itemPadding?.bottom || 'default'}${theme}`;
+                classes += `controls-TileView__itemsPaddingContainer_spacingLeft_${this._options.itemsContainerPadding.left || 'default'}_itemPadding_${itemPadding?.left || 'default'}`;
+                classes += ` controls-TileView__itemsPaddingContainer_spacingRight_${this._options.itemsContainerPadding.right || 'default'}_itemPadding_${itemPadding?.right || 'default'}`;
+                classes += ` controls-TileView__itemsPaddingContainer_spacingTop_${this._options.itemsContainerPadding.top || 'default'}_itemPadding_${itemPadding?.top || 'default'}`;
+                classes += ` controls-TileView__itemsPaddingContainer_spacingBottom_${this._options.itemsContainerPadding.bottom || 'default'}_itemPadding_${itemPadding?.bottom || 'default'}`;
             } else {
-                classes += `controls-TileView__itemsPaddingContainer_spacingLeft_${itemPadding?.left || 'default'}${theme}`;
-                classes += ` controls-TileView__itemsPaddingContainer_spacingRight_${itemPadding?.right || 'default'}${theme}`;
-                classes += ` controls-TileView__itemsPaddingContainer_spacingTop_${itemPadding?.top || 'default'}${theme}`;
-                classes += ` controls-TileView__itemsPaddingContainer_spacingBottom_${itemPadding?.bottom || 'default'}${theme}`;
+                classes += `controls-TileView__itemsPaddingContainer_spacingLeft_${itemPadding?.left || 'default'}`;
+                classes += ` controls-TileView__itemsPaddingContainer_spacingRight_${itemPadding?.right || 'default'}`;
+                classes += ` controls-TileView__itemsPaddingContainer_spacingTop_${itemPadding?.top || 'default'}`;
+                classes += ` controls-TileView__itemsPaddingContainer_spacingBottom_${itemPadding?.bottom || 'default'}`;
             }
         }
 
@@ -378,8 +379,6 @@ export default class TileView extends ListView {
             !document.body.classList.contains('ws-is-drag')
         );
     }
-
-    static _theme: string[] = ['Controls/tile'];
 
     static getDefaultOptions(): object {
         return {

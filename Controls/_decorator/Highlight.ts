@@ -31,7 +31,7 @@ export interface IHighlightOptions extends IControlOptions {
      * Декорируемый текст.
      * @demo Controls-demo/Decorator/Highlight/Value/Index
      */
-    value: string;
+    value: string | number;
     /**
      * Подсвечиваемый текст.
      * @demo Controls-demo/Decorator/Highlight/HighlightedValue/Index
@@ -106,12 +106,13 @@ class Highlight extends Control<IHighlightOptions> {
     }
 
     private _prepareParsedText(options: IHighlightOptions): Element[] {
+        const newValue = typeof options.value === 'string' ? options.value : String(options.value);
         if (options.highlightedValue) {
-            return this._parseText(options.value, options.highlightedValue, options.highlightMode);
+            return this._parseText(newValue, options.highlightedValue, options.highlightMode);
         } else {
             return [{
                 type: 'plain',
-                value: options.value
+                value: newValue
             }];
         }
     }
@@ -284,7 +285,7 @@ class Highlight extends Control<IHighlightOptions> {
                 'word',
                 'substring'
             ]),
-            value: descriptor(String).required(),
+            value: descriptor(String, Number).required(),
             highlightedValue: descriptor(String).required()
         };
     }

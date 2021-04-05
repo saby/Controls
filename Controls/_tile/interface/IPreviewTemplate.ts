@@ -19,7 +19,7 @@ import {TemplateFunction} from 'UI/Base';
  * </Controls.tile:View>
  * </pre>
  * @public
- * @demo Controls-demo/Tile/DifferentItemTemplates/PreviewTemplate/Index
+ * @demo Controls-demo/tileNew/DifferentItemTemplates/PreviewTemplate/Index
  */
 
 export default interface IPreviewTemplateOptions {

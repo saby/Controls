@@ -1,36 +1,34 @@
-<div class="controls-PagingV {{_options.contrastBackground ? 'controls-Paging__contrast_theme-' + _options.theme : ''}}">
-    <div class="controls-Paging__wrapper controls-Paging__wrapper_theme-{{_options.theme}}">
+<div class="controls-PagingV {{_options.contrastBackground ? 'controls-Paging__contrast' : ''}}">
+    <div class="controls-Paging__wrapper">
         <ws:if data="{{_options.contentTemplate && _isShowContentTemplate()}}">
-         <span class="controls-Paging__content-Template controls-Paging__content-Template_theme-{{_options.theme}}">
+         <span class="controls-Paging__content-Template">
             <ws:partial template="{{_options.contentTemplate}}"/>
          </span>
         </ws:if>
         <ws:if data="{{_options.elementsCount && _options.pagingMode === 'numbers'}}">
-            <span class="controls-Paging__btn controls-Paging__btn_theme-{{_options.theme}}
-                         controls-Paging__btn-elements-count_theme-{{_options.theme}}
-                         controls-Paging__btn_first controls-Paging__arrow controls-Paging__arrow__state-normal">
-            <span class="controls-Paging__info_m_theme-{{_options.theme}}">{[Всего]} {{_options.elementsCount}}</span>
+            <span class="controls-Paging__btn
+                         controls-Paging__btn-elements-count
+                         controls-Paging__btn_first ">
+            <span class="controls-Paging__info_m">{[Всего]} {{_options.elementsCount}}</span>
          </span>
         </ws:if>
         <ws:if data="{{(!_options.showDigits || _options.pagingMode === 'numbers') &&
          (_getArrowStateVisibility('begin') !== 'hidden')}}">
-         <span class="controls-Paging__btn controls-Paging__btn-Begin controls-Paging__btn_theme-{{_options.theme}}
-                        controls-Paging__btn_first controls-Paging__arrow controls-Paging__arrow_theme-{{_options.theme}}
-                        controls-Paging__arrow__state-{{_stateTop}}
-                        controls-Paging__arrow__state-{{_stateTop}}_theme-{{_options.theme}}"
+         <span class="controls-Paging__btn controls-Paging__btn-Begin
+                        controls-Paging__btn_first controls-Paging__arrow
+                        controls-Paging__arrow__state-{{_stateTop}}"
                attr:title="{[В начало]}" on:click="_arrowClick('Begin', 'Top')">
-            <i class="controls-Paging_icon-Begin_{{_isDigit() ? 'digits_'}}theme-{{_options.theme}} controls-Paging__icon_theme-{{_options.theme}}"></i>
+            <i class="controls-Paging_icon-Begin{{_isDigit() ? '_digits'}} controls-Paging__icon"></i>
          </span>
         </ws:if>
         <ws:if data="{{_getArrowStateVisibility('prev') !== 'hidden'}}">
-          <span class="controls-Paging__btn controls-Paging__btn-Prev controls-Paging__btn_theme-{{_options.theme}}
+          <span class="controls-Paging__btn controls-Paging__btn-Prev
                          {{_options.showDigits ? ' controls-Paging__btn_first':
-                         ' controls-Paging__btn_separated controls-Paging__btn_separated_theme-' + _options.theme}}
-                         controls-Paging__arrow controls-Paging__arrow_theme-{{_options.theme}}
-                         controls-Paging__arrow__state-{{_stateBackward}}
-                         controls-Paging__arrow__state-{{_stateBackward}}_theme-{{_options.theme}}"
+                         ' controls-Paging__btn_separated '}}
+                         controls-Paging__arrow
+                         controls-Paging__arrow__state-{{_stateBackward}}"
                 attr:title="{[Назад]}" on:click="_arrowClick('Prev', 'Backward')">
-             <i class="controls-Paging_icon-Prev_{{_isDigit() ? 'digits_' : ''}}theme-{{_options.theme}} controls-Paging__icon_theme-{{_options.theme}}"></i>
+             <i class="controls-Paging_icon-Prev{{_isDigit() ? '_digits' : ''}} controls-Paging__icon"></i>
           </span>
         </ws:if>
         <ws:if data="{{_isDigit()}}">
@@ -42,25 +40,23 @@
                     count="{{_options.pagesCount}}"></Controls._paging.Paging.DigitButtons>
         </ws:if>
         <ws:if data="{{_getArrowStateVisibility('next') !== 'hidden'}}">
-          <span class="controls-Paging__btn controls-Paging__btn-Next controls-Paging__btn_theme-{{_options.theme}}
-                         {{!(_getArrowStateVisibility('end') !== 'hidden') ? ' controls-Paging__btn_last controls-Paging__btn_last_theme-' + _options.theme }}
-                         {{!_options.showDigits ? ' controls-Paging__btn_separated controls-Paging__btn_separated_theme-' + _options.theme}}
-                         controls-Paging__arrow controls-Paging__arrow_theme-{{_options.theme}}
-                         controls-Paging__arrow__state-{{_stateForward}}
-                         controls-Paging__arrow__state-{{_stateForward}}_theme-{{_options.theme}}"
+          <span class="controls-Paging__btn controls-Paging__btn-Next
+                         {{!(_getArrowStateVisibility('end') !== 'hidden') ? ' controls-Paging__btn_last ' }}
+                         {{!_options.showDigits ? ' controls-Paging__btn_separated '}}
+                         controls-Paging__arrow
+                         controls-Paging__arrow__state-{{_stateForward}}"
                 attr:title="{[Вперёд]}" on:click="_arrowClick('Next', 'Forward')">
-             <i class="controls-Paging_icon-Next_{{_isDigit() ? 'digits_'}}theme-{{_options.theme}} controls-Paging__icon_theme-{{_options.theme}}"></i>
+             <i class="controls-Paging_icon-Next{{_isDigit() ? '_digits'}} controls-Paging__icon"></i>
           </span>
         </ws:if>
         <ws:if data="{{_getArrowStateVisibility('end') !== 'hidden'}}">
-         <span class="controls-Paging__btn controls-Paging__btn-End controls-Paging__btn_theme-{{_options.theme}}
-                        {{!_options.showDigits ? ' controls-Paging__btn_separated controls-Paging__btn_separated_theme-' + _options.theme}}
-                        controls-Paging__arrow controls-Paging__arrow_theme-{{_options.theme}}
+         <span class="controls-Paging__btn controls-Paging__btn-End
+                        {{!_options.showDigits ? ' controls-Paging__btn_separated ' }}
+                        controls-Paging__arrow
                         controls-Paging__arrow__state-{{_stateBottom}}
-                        controls-Paging__arrow__state-{{_stateBottom}}_theme-{{_options.theme}}
                         {{(_options.contentTemplate && _options.pagingMode === 'end') ? 'controls-Paging__arrow_padding-left-null' : ''}}"
                attr:title="{[В конец]}" on:click="_arrowClick('End', 'Bottom')">
-            <i class="controls-Paging_icon-End_{{_isDigit() ? 'digits_'}}theme-{{_options.theme}} controls-Paging__icon_theme-{{_options.theme}}"></i>
+            <i class="controls-Paging_icon-End{{_isDigit() ? '_digits'}} controls-Paging__icon"></i>
          </span>
         </ws:if>
     </div>

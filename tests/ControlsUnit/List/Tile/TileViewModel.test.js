@@ -77,8 +77,8 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
             imageProperty: 'image',
             defaultItemWidth: 250,
             defaultShadowVisibility: 'visible',
-            itemClasses: 'controls-TileView__item_spacingLeft_default_theme-default controls-TileView__item_spacingRight_default_theme-default controls-TileView__item_spacingTop_default_theme-default controls-TileView__item_spacingBottom_default_theme-default',
-            itemContentClasses: 'controls-TileView__item_roundBorder_topLeft_default_theme-default controls-TileView__item_roundBorder_topRight_default_theme-default controls-TileView__item_roundBorder_bottomLeft_default_theme-default controls-TileView__item_roundBorder_bottomRight_default_theme-default',
+            itemClasses: 'controls-TileView__item_spacingLeft_default controls-TileView__item_spacingRight_default controls-TileView__item_spacingTop_default controls-TileView__item_spacingBottom_default',
+            itemContentClasses: 'controls-TileView__item_roundBorder_topLeft_default controls-TileView__item_roundBorder_topRight_default controls-TileView__item_roundBorder_bottomLeft_default controls-TileView__item_roundBorder_bottomRight_default',
             itemCompressionCoefficient: 0.7,
             displayProperty: 'title',
             imageWidthProperty: 'imageWidth',
@@ -106,27 +106,27 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
       it('getMultiSelectClassList visible', function() {
          tileViewModel.setMultiSelectVisibility('visible');
          var item = tileViewModel.getItemDataByItem(tileViewModel.getItemById(2, 'id'));
-         assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-TileView__checkbox_position-default_theme-default controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
+         assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList controls-TileView__checkbox_position-default controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
       });
 
 
       it('getMultiSelectClassList onhover unselected', function() {
          tileViewModel.setMultiSelectVisibility('onhover');
          var item = tileViewModel.getItemDataByItem(tileViewModel.getItemById(2, 'id'));
-         assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-ListView__checkbox-onhover controls-TileView__checkbox_position-default_theme-default controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
+         assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList controls-ListView__checkbox-onhover controls-TileView__checkbox_position-default controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
       });
 
       it('getMultiSelectClassList onhover selected', function() {
          tileViewModel.setMultiSelectVisibility('onhover');
          tileViewModel.getItemBySourceKey(2).setSelected(true);
          var item = tileViewModel.getItemDataByItem(tileViewModel.getItemById(2, 'id'));
-         assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-TileView__checkbox_position-default_theme-default controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
+         assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList controls-TileView__checkbox_position-default controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
       });
 
       it('getItemsPaddingContainerClasses', () => {
-         assert.equal(tileViewModel.getItemsPaddingContainerClasses(), 'controls-TileView__itemsPaddingContainer_spacingLeft_default_theme-default controls-TileView__itemsPaddingContainer_spacingRight_default_theme-default controls-TileView__itemsPaddingContainer_spacingTop_default_theme-default controls-TileView__itemsPaddingContainer_spacingBottom_default_theme-default');
+         assert.equal(tileViewModel.getItemsPaddingContainerClasses(), 'controls-TileView__itemsPaddingContainer_spacingLeft_default controls-TileView__itemsPaddingContainer_spacingRight_default controls-TileView__itemsPaddingContainer_spacingTop_default controls-TileView__itemsPaddingContainer_spacingBottom_default');
          tileViewModel.setItemPadding({left: 's', right: 'null'});
-         assert.equal(tileViewModel.getItemsPaddingContainerClasses(), 'controls-TileView__itemsPaddingContainer_spacingLeft_s_theme-default controls-TileView__itemsPaddingContainer_spacingRight_null_theme-default controls-TileView__itemsPaddingContainer_spacingTop_default_theme-default controls-TileView__itemsPaddingContainer_spacingBottom_default_theme-default');
+         assert.equal(tileViewModel.getItemsPaddingContainerClasses(), 'controls-TileView__itemsPaddingContainer_spacingLeft_s controls-TileView__itemsPaddingContainer_spacingRight_null controls-TileView__itemsPaddingContainer_spacingTop_default controls-TileView__itemsPaddingContainer_spacingBottom_default');
       });
 
       it('getItemsPaddingContainer with itemPaddingsContainerOptions', () => {
@@ -156,7 +156,7 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
             theme: 'default',
             displayProperty: 'title'
          });
-         assert.equal(tileViewModel2.getItemsPaddingContainerClasses(), 'controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding_default_theme-default controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_default_theme-default controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_default_theme-default controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_default_theme-default');
+         assert.equal(tileViewModel2.getItemsPaddingContainerClasses(), 'controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding_default controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_default controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_default controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_default');
       });
 
       describe('getTileWidth', () => {

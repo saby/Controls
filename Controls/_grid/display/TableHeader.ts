@@ -4,7 +4,7 @@ import TableHeaderRow from './TableHeaderRow';
 export default class TableHeader<T> extends Header<T> {
 
     getBodyClasses(theme: string = 'default'): string {
-        return `controls-Grid__header controls-Grid__header_theme-${theme}`;
+        return `controls-Grid__header`;
     }
 
     getRow(): never {

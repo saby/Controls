@@ -46,7 +46,7 @@
       <div>
          <Controls.list:Mover name="listMoverSecond" parentProperty="parent"/>
          <Controls.list:Container>
-            <Controls.explorer:View
+            <Controls.explorer:View useOldModel="{{ true }}"
                bind:root="_root"
                on:dragStart="_dragStartSecond()"
                on:dragEnd="_dragEndSecond()"
@@ -76,7 +76,7 @@
       <div>
          <Controls.list:Mover name="listMoverThird" parentProperty="parent"/>
          <Controls.list:Container>
-            <Controls.explorer:View
+            <Controls.explorer:View useOldModel="{{ true }}"
                on:dragStart="_dragStartThird()"
                on:dragEnd="_dragEndThird()"
                itemsDragNDrop="{{true}}"

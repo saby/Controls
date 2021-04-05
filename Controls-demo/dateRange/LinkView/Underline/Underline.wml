@@ -1,0 +1,26 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
+<div class="controlsDemo__cell">
+    <div class="controls-text-label">underline=hovered</div>
+    <Controls.dateRange:LinkView bind:startValue="_startValue"
+                                 bind:endValue="_endValue"
+                                 viewMode="selector"
+                                 value="{{_value}}"
+                                 underline="hovered"/>
+</div>
+<div class="controlsDemo__cell">
+    <div class="controls-text-label">underline=fixed</div>
+    <Controls.dateRange:LinkView bind:startValue="_startValue"
+                                 bind:endValue="_endValue"
+                                 viewMode="selector"
+                                 value="{{_value}}"
+                                 underline="fixed"/>
+</div>
+<div class="controlsDemo__cell">
+    <div class="controls-text-label">underline=none</div>
+    <Controls.dateRange:LinkView bind:startValue="_startValue"
+                                 bind:endValue="_endValue"
+                                 viewMode="selector"
+                                 value="{{_value}}"
+                                 underline="none"/>
+</div>
+</div>

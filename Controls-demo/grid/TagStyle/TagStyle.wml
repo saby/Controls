@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
 
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/grid/TagStyle/TagStyleFromCellData/Index' }}">
          <a href="{{content.href}}">Из данных в ячейке (tagStyleProperty)</a>
@@ -10,7 +10,7 @@
    </div>
 
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/grid/TagStyle/TagStyleFromTemplateParam/Index' }}">
          <a href="{{content.href}}">Из параметра шаблона для колонки (tagStyle)</a>

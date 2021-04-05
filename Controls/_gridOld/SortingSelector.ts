@@ -6,6 +6,9 @@ import {Memory} from 'Types/source';
 import {isEqual} from 'Types/object';
 import {RecordSet} from 'Types/collection';
 import {IFontColorStyleOptions, IFontSizeOptions} from 'Controls/interface';
+import {IViewMode} from 'Controls/buttons';
+import 'css!Controls/grid';
+import 'css!Controls/CommonClasses';
 
 type Order = 'ASC'|'DESC'|'';
 
@@ -16,11 +19,14 @@ export interface ISortingParam {
     icon: string;
     iconStyle: string;
     iconSize: 's' | 'm' | 'l';
+    titleAsc: string;
+    titleDesc: string;
 }
 export interface ISortingSelectorOptions extends IControlOptions, IFontColorStyleOptions, IFontSizeOptions {
     sortingParams: [ISortingParam];
     value: [object];
     header: string;
+    viewMode: IViewMode;
 }
 
 /**
@@ -37,6 +43,8 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
     protected _template: TemplateFunction = template;
     private _selectedKeys: [number|string];
     private _currentParamName: string = null;
+    private _currentIcon: string = '';
+    private _currentCaption: string = '';
     private _orders: object = {};
     private _source: Memory;
     private _saveLinkToItems: Function;
@@ -45,6 +53,7 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
     private _nocaption: boolean = false;
     private _arrowIconStyle: string;
     private _arrowIconHover: boolean;
+    private _singleField: boolean;
 
     protected _beforeMount(options: ISortingSelectorOptions): void {
         this._saveLinkToItems = this._saveLinkToItemsFnc.bind(this);
@@ -77,7 +86,7 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
 
     private updateConfig(sortingParams: [ISortingParam], value: [object]|undefined): void {
         const data = [];
-
+        this._singleField = sortingParams.length === 1;
         if (value && value.length) {
             this._currentParamName = Object.keys(value[0])[0];
             this._orders[this._currentParamName] = value[0][this._currentParamName];
@@ -93,10 +102,11 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
             if (dataElem.paramName === this._currentParamName) {
 
                 this._selectedKeys = [this._currentParamName];
-
+                this._currentCaption = dataElem.title;
                 if (dataElem.icon) {
                     this._nocaption = true;
                     this._arrowIconStyle = dataElem.iconStyle || 'secondary';
+                    this._currentIcon = dataElem.icon;
                 }
             }
             data.push(dataElem);
@@ -107,6 +117,22 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
 
     private _resetValue(): void {
         this._notify('valueChanged', [[]]);
+    }
+
+    private _getIcon(): string {
+        if (this._currentIcon) {
+            return this._currentIcon + '_' + (this._currentParamName ? (this._orders[this._currentParamName]) : '');
+        } else {
+            if (this._currentParamName) {
+                return 'Controls/sortIcons:arrow_' + this._orders[this._currentParamName];
+            }
+        }
+    }
+
+    private _getCaption(): string {
+        if (!this._currentIcon) {
+            return this._currentCaption;
+        }
     }
 
     protected _dropdownItemClick(e: SyntheticEvent<Event>, key: number|string): boolean | void {
@@ -143,8 +169,6 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
         this._orders[key] = newValue;
     }
 
-    static _theme: string[] = ['Controls/grid', 'Controls/Classes'];
-
     protected static _getIconStyleFromTextStyle(fontStyle: string): string {
         let iconStyle: string;
         if (fontStyle === 'link') {
@@ -170,7 +194,20 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
         }
         return 'DESC';
     }
+    static getDefaultOptions(): Partial<ISortingSelectorOptions> {
+        return {
+            viewMode: 'linkButton'
+        };
+    }
 }
+Object.defineProperty(SortingSelector, 'defaultProps', {
+    enumerable: true,
+    configurable: true,
+
+    get(): object {
+        return SortingSelector.getDefaultOptions();
+    }
+});
 /**
  * @typedef {Object} Controls/_gridOld/SortingSelector/SortingParam
  * @property {String|null} paramName Имя поля элемента, по которому может осуществляться сортировка. Чтобы задать сброс сортировки, нужно указать значение null.
@@ -181,9 +218,12 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
 /**
  * @name Controls/_gridOld/SortingSelector#sortingParams
  * @cfg {Array.<Controls/_gridOld/SortingSelector/SortingParam.typedef>} Параметры сортировки.
- * @demo Controls-demo/grid/Sorting/SortingSelector/Default/Index
- * @demo Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithReset/Index
- * @demo Controls-demo/grid/Sorting/SortingSelector/Icons/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/Default/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/SortingSelectorWithReset/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/Icons/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/ArrowTitle/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/IconsSvg/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/IconStyle/Index
  * @example
  * В опцию передается массив вида
  * <pre class="brush: js;">

@@ -7,7 +7,7 @@
                 <Controls.search:Input/>
             </Controls.search:InputContainer>
             <Controls.list:Container>
-                <Controls.explorer:View
+                <Controls.explorer:View useOldModel="{{ true }}"
                     bind:root="_root"
                     attr:class="demo-Explorer ControlsDemo-Explorer"
                     keyProperty="id"

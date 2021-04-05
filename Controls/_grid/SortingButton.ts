@@ -1,6 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import template = require('wml!Controls/_grid/Render/SortingButton/SortingButton');
-
+import 'css!Controls/grid';
 export interface ISortingButtonOptions extends IControlOptions {
     property: string;
 }
@@ -13,7 +13,7 @@ export interface ISortingButtonOptions extends IControlOptions {
  *
  * @private
  *
- * @see Controls/gridNew:SortingSelector
+ * @see Controls/grid:SortingSelector
  */
 class SortingButton extends Control<ISortingButtonOptions> {
     protected _template: TemplateFunction = template;
@@ -21,8 +21,6 @@ class SortingButton extends Control<ISortingButtonOptions> {
     protected _clickHandler(): void {
         this._notify('sortingChanged', [this._options.property], {bubbling: true});
     }
-
-    static _theme: [string] = ['Controls/grid'];
 }
 /**
  * @name Controls/_grid/SortingButton#property

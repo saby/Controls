@@ -22,20 +22,19 @@ export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeF
 
         let classes =
             'controls-TreeGrid__nodeFooterContent ' +
-            `controls-TreeGrid__nodeFooterContent_theme-${theme} ` +
-            `controls-TreeGrid__nodeFooterContent_rowSeparatorSize-${rowSeparatorSize}_theme-${theme} ` +
+            `controls-TreeGrid__nodeFooterContent_rowSeparatorSize-${rowSeparatorSize} ` +
             'controls-Grid_columnScroll__fixed js-controls-ColumnScroll__notDraggable ';
 
         /*if (!this.isFirstColumn()) {
-            classes += ` controls-TreeGrid__nodeFooterCell_columnSeparator-size_${current.getSeparatorForColumn(columns, index, current.columnSeparatorSize)}_theme-${theme}`;
+            classes += ` controls-TreeGrid__nodeFooterCell_columnSeparator-size_${current.getSeparatorForColumn(columns, index, current.columnSeparatorSize)}`;
         }*/
 
         if (!this._$owner.hasMultiSelectColumn() && this.isFirstColumn(colspan)) {
-            classes += `controls-TreeGrid__nodeFooterContent_spacingLeft-${this._$owner.getLeftPadding()}_theme-${theme} `;
+            classes += `controls-TreeGrid__nodeFooterContent_spacingLeft-${this._$owner.getLeftPadding()} `;
         }
 
         if (this.isLastColumn(colspan)) {
-            classes += `controls-TreeGrid__nodeFooterContent_spacingRight-${this._$owner.getRightPadding()}_theme-${theme} `;
+            classes += `controls-TreeGrid__nodeFooterContent_spacingRight-${this._$owner.getRightPadding()} `;
         }
 
         return classes;

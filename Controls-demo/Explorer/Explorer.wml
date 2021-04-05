@@ -6,7 +6,7 @@
          <Controls.operations:Controller bind:selectedKeys="_selectedKeys"
                                            bind:excludedKeys="_excludedKeys">
             <Controls.list:Container stickyHeader="{{ false }}">
-               <Controls.explorer:View
+               <Controls.explorer:View useOldModel="{{ true }}"
                   attr:class="demo-Explorer ControlsDemo-Explorer"
                   backgroundStyle="default"
                   keyProperty="id"

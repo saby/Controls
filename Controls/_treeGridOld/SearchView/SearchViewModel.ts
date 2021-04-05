@@ -81,7 +81,7 @@ var
             return data.resolvers.baseItemTemplate();
          };
          data.getLevelIndentClasses = (itemData, tmplExpanderSize: string, levelIndentSize: string): string => {
-             return `controls-TreeGrid__row-levelPadding_size_search_theme-${data.theme}`;
+             return 'controls-TreeGrid__row-levelPadding_size_search';
          }
          return data;
       },

@@ -6,6 +6,8 @@ import CalendarUtils from './Utils';
 
 /**
  * Модель для контролов, предназначенных для ввода диапазона дат.
+ * @class Controls/_dateRange/DateRangeModel
+ * @mixes Controls/_interface/IDateConstructor
  * @author Красильников А.С.
  * @private
  */

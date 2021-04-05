@@ -31,7 +31,7 @@ describe('Controls/grid_clean/Display/Ladder/StickyLadderCell/StickyHeaderClasse
             } as any,
             column
         });
-        assert.equal(gridDataRow.getStickyHeaderClasses(), ' controls-Grid__row-cell__ladder-spacing_theme-default');
+        assert.equal(gridDataRow.getStickyHeaderClasses(), ' controls-Grid__row-cell__ladder-spacing');
         firstLadderLength = 1;
         assert.equal(gridDataRow.getStickyHeaderClasses(), '');
     });
@@ -47,8 +47,8 @@ describe('Controls/grid_clean/Display/Ladder/StickyLadderCell/StickyHeaderClasse
             } as any,
             column
         });
-        assert.equal(gridDataRow.getStickyHeaderClasses(), ' controls-Grid__row-cell__ladder-spacing_withHeader_withResults_withGroup_theme-default');
+        assert.equal(gridDataRow.getStickyHeaderClasses(), ' controls-Grid__row-cell__ladder-spacing_withHeader_withResults_withGroup');
         firstLadderLength = 1;
-        assert.equal(gridDataRow.getStickyHeaderClasses(), ' controls-Grid__row-cell__ladder-main_spacing_withGroup_theme-default');
+        assert.equal(gridDataRow.getStickyHeaderClasses(), ' controls-Grid__row-cell__ladder-main_spacing_withGroup');
     });
 });

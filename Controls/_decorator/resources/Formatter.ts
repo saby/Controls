@@ -1,5 +1,6 @@
 import {IText, pasteWithRepositioning} from './Util';
 import {IFormat, IDelimiterGroups, IPairDelimiterData, ISingleDelimiterData} from './FormatBuilder';
+import {parse,  IParsedNumber} from './parse';
 import rk = require('i18n!Controls');
 
 type TValue = string | number | null;
@@ -168,4 +169,19 @@ export function abbreviateNumber(value: TValue, abbreviationType: TAbbreviationT
 
 function intlFormat(num: number): string {
     return new Intl.NumberFormat('ru-RU').format(Math.round(num * 10) / 10);
+}
+
+const valueWithoutTrailingZerosRegExp: RegExp = /-?[0-9 ]*(([1-9]|([0.])(?!0*$))*)?/;
+const valueWithOneTrailingZerosRegExp: RegExp = /-?[0-9 ]*(\.[0-9]([1-9]|0(?!0*$))*)?/;
+
+export function trimTrailingZeros(str: string, leaveOneZero: boolean = false): string {
+    const regExp = leaveOneZero ? valueWithOneTrailingZerosRegExp : valueWithoutTrailingZerosRegExp;
+    return str.match(regExp)[0];
+}
+
+export function fillAdditionalZeros(str: string, precision: number) {
+    const parsedString: IParsedNumber = parse(str);
+    const additionalZeros = precision - parsedString.fractional.length;
+    const zeros = '0'.repeat(additionalZeros);
+    return `${str}${zeros}`;
 }

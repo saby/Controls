@@ -28,6 +28,10 @@ export class DataSource {
         return this.sourceController.getFilter();
     }
 
+    getSearchControllerRoot(): TKey {
+        return this.searchController.getRoot();
+    }
+
     setFilter(filter: QueryWhereExpression<unknown>): void {
         this.sourceController.setFilter(filter);
     }

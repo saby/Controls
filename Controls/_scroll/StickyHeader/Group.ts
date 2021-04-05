@@ -61,6 +61,8 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
     protected _fixed: boolean = false;
     protected _cachedOffset: IOffsetCache = {};
 
+    private _syncDomOptimization: boolean = true;
+
     protected _stickyHeadersIds: IHeadersIds = {
         top: [],
         bottom: []
@@ -139,6 +141,14 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
 
     getChildrenHeaders(): TRegisterEventData[] {
         return Object.keys(this._headers).map(id => this._headers[id]);
+    }
+
+    setSyncDomOptimization(value: boolean): void {
+        if (this._syncDomOptimization !== value) {
+            for (let id in this._headers) {
+                this._headers[id].inst.setSyncDomOptimization(value);
+            }
+        }
     }
 
     private _setOffset(value: number, position: POSITION): void {
@@ -251,6 +261,8 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
                 data.inst[POSITION.top] = this._offset[POSITION.top];
                 data.inst[POSITION.bottom] = this._offset[POSITION.bottom];
             }
+
+            data.inst.setSyncDomOptimization(this._syncDomOptimization);
 
             // Register group after first header is registered
             if (!this._isRegistry) {

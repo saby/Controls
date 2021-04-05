@@ -9,7 +9,7 @@
                 </Controls.search:InputContainer>
                 <Controls.scroll:Container attr:class="controlsDemo__height300">
                     <Controls.list:Container stickyHeader="{{ false }}">
-                        <Controls.explorer:View
+                        <Controls.explorer:View useOldModel="{{ true }}"
                                 bind:root="_root"
                                 attr:class="demo-Explorer ControlsDemo-Explorer"
                                 keyProperty="id"

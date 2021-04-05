@@ -171,18 +171,17 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
 
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string): string {
         let wrapperClasses = `controls-Grid__header-cell controls-Grid__cell_${style}`
-                          + ` controls-Grid__header-cell_theme-${theme}`
                           + ` ${this._getWrapperPaddingClasses(theme)}`
                           + ` ${this._getColumnSeparatorClasses(theme)}`
-                          + ` controls-background-${backgroundColorStyle || style}_theme-${theme}`;
+                          + ` controls-background-${backgroundColorStyle || style}`;
 
         const isMultilineHeader = this._$owner.isMultiline();
         const isStickySupport = this._$owner.isStickyHeader();
 
         if (isMultilineHeader) {
-            wrapperClasses += ` controls-Grid__multi-header-cell_min-height_theme-${theme}`;
+            wrapperClasses += ` controls-Grid__multi-header-cell_min-height`;
         } else {
-            wrapperClasses += ` controls-Grid__header-cell_min-height_theme-${theme}`;
+            wrapperClasses += ` controls-Grid__header-cell_min-height`;
         }
         if (!isStickySupport) {
             wrapperClasses += ' controls-Grid__header-cell_static';
@@ -203,12 +202,11 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     getContentClasses(theme: string): string {
         const isMultiLineHeader = this._$owner.isMultiline();
         let contentClasses = 'controls-Grid__header-cell__content';
-        contentClasses += ` controls-Grid__header-cell__content_theme-${theme}`;
         contentClasses += this._getContentSeparatorClasses(theme);
         if (isMultiLineHeader) {
-            contentClasses += ` controls-Grid__row-multi-header__content_baseline_theme-${theme}`;
+            contentClasses += ` controls-Grid__row-multi-header__content_baseline`;
         } else {
-            contentClasses += ` controls-Grid__row-header__content_baseline_theme-${theme}`;
+            contentClasses += ` controls-Grid__row-header__content_baseline`;
         }
         if (this.contentOrientation.align) {
             contentClasses += ` controls-Grid__header-cell_justify_content_${this.contentOrientation.align}`;
@@ -222,7 +220,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         let classes = '';
         if (isMultiLineHeader) {
             if (this._$column.endRow !== headerEndRow && this._$column.endRow - this._$column.startRow === 1) {
-                classes += ` controls-Grid__cell_header-content_border-bottom_theme-${theme}`;
+                classes += ` controls-Grid__cell_header-content_border-bottom`;
             }
         }
         return classes;
@@ -310,18 +308,18 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         if (!isMultiSelectColumn) {
             if (!isFirstColumn) {
                 if (this._$owner.getMultiSelectVisibility() === 'hidden' || this.getColumnIndex() > 1) {
-                    paddingClasses += ` controls-Grid__cell_spacingLeft${compatibleLeftPadding}_theme-${theme}`;
+                    paddingClasses += ` controls-Grid__cell_spacingLeft${compatibleLeftPadding}`;
                 }
             } else {
-                paddingClasses += ` controls-Grid__cell_spacingFirstCol_${leftPadding}_theme-${theme}`;
+                paddingClasses += ` controls-Grid__cell_spacingFirstCol_${leftPadding}`;
             }
         }
 
         // right padding
         if (isLastColumn) {
-            paddingClasses += ` controls-Grid__cell_spacingLastCol_${rightPadding}_theme-${theme}`;
+            paddingClasses += ` controls-Grid__cell_spacingLastCol_${rightPadding}`;
         } else {
-            paddingClasses += ` controls-Grid__cell_spacingRight${compatibleRightPadding}_theme-${theme}`;
+            paddingClasses += ` controls-Grid__cell_spacingRight${compatibleRightPadding}`;
         }
 
         // Для хлебной крошки в первой ячейке хедера не нужен отступ слева.
@@ -331,7 +329,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         //  И здесь бы уже звали толкьо this._$column.getLeftPadding()
         //  https://online.sbis.ru/opendoc.html?guid=686fb34b-fb74-4a11-8306-67b71e3ded0c
         if (this._$column.isBreadCrumbs) {
-            paddingClasses += ` controls-Grid__cell_spacingFirstCol_null_theme-${theme}`;
+            paddingClasses += ` controls-Grid__cell_spacingFirstCol_null`;
         }
 
         return paddingClasses;

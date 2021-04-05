@@ -1,0 +1,27 @@
+<Controls.browser:Browser listsOptions="{{_listConfigurations}}"
+                          keyProperty="id"
+                          bind:selectedKeys="_selectedKeys"
+                          bind:excludedKeys="_excludedKeys">
+  <div>
+      <Controls.search:InputContainer>
+        <Controls.search:Input placeholder="Введите текст для поиска" attr:class="controlsDemo__browser_search"/>
+      </Controls.search:InputContainer>
+
+      <Controls.operations:PanelContainer>
+          <Controls.operations:Panel attr:class="controlsDemo__browser_operationsPanel"/>
+      </Controls.operations:PanelContainer>
+      <div class="ws-flexbox">
+          <div class="controlsDemo__browser_firstList">
+            <Controls.list:Container id="firstList">
+              <Controls.list:View multiSelectVisibility="visible"/>
+            </Controls.list:Container>
+          </div>
+
+          <div class="controlsDemo__browser_secondList">
+            <Controls.list:Container id="secondList">
+              <Controls.list:View multiSelectVisibility="visible"/>
+            </Controls.list:Container>
+        </div>
+      </div>
+    </div>
+</Controls.browser:Browser>

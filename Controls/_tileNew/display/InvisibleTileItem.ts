@@ -14,11 +14,11 @@ export default class InvisibleTileItem extends TileCollectionItem {
     }
 
     getInvisibleClasses(): string {
-        let classes = `controls-TileView__item controls-TileView__item_theme-${this.getTheme()}`;
-        classes += ` controls-TileView__item_spacingLeft_${this.getLeftPadding()}_theme-${this.getTheme()}`;
-        classes += ` controls-TileView__item_spacingRight_${this.getRightPadding()}_theme-${this.getTheme()}`;
-        classes += ` controls-TileView__item_spacingTop_${this.getTopPadding()}_theme-${this.getTheme()}`;
-        classes += ` controls-TileView__item_spacingBottom_${this.getBottomPadding()}_theme-${this.getTheme()}`;
+        let classes = 'controls-TileView__item';
+        classes += ` controls-TileView__item_spacingLeft_${this.getLeftPadding()}`;
+        classes += ` controls-TileView__item_spacingRight_${this.getRightPadding()}`;
+        classes += ` controls-TileView__item_spacingTop_${this.getTopPadding()}`;
+        classes += ` controls-TileView__item_spacingBottom_${this.getBottomPadding()}`;
         classes += ' controls-TileView__item_invisible';
         return classes;
     }

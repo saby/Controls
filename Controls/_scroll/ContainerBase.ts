@@ -90,6 +90,13 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         }
     }
 
+    protected _componentDidMount(): void {
+        // Если одна область заменяется на другую с однотипной версткой и встроенным скролл контейнером,
+        // то ядро не пересоздает dom контейнеры, и может так полуится, что вновь созданный скролл контейнер
+        // может быть сразу проскролен. Исправляем эту ситуацию.
+        this._children.content.scrollTop = 0;
+    }
+
     _afterMount(): void {
         if (!this._scrollModel) {
             this._createScrollModel();
@@ -251,11 +258,14 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         }
     }
 
-    protected _enableVirtualNavigationHandler(): void {
+    protected _enableVirtualNavigationHandler(event: SyntheticEvent): void {
+        event.stopImmediatePropagation()
         this._virtualNavigationRegistrar.start(true);
+
     }
 
-    protected _disableVirtualNavigationHandler(): void {
+    protected _disableVirtualNavigationHandler(event: SyntheticEvent): void {
+        event.stopImmediatePropagation()
         this._virtualNavigationRegistrar.start(false);
     }
 

@@ -18,6 +18,7 @@
                 <ws:partial
                         template="{{ (itemData.item.get && itemData.item.get(itemData.itemTemplateProperty)) || itemTemplate }}"
                         itemData="{{ itemData }}"
+                        item="{{ itemData }}"
 
                         itemActionsTemplate="{{ itemActionsTemplate }}"
                         itemActionsClass="{{ itemActionsClass }}"
@@ -44,6 +45,7 @@
             <ws:partial
                     template="{{ (itemData.item.get && itemData.item.get(itemData.itemTemplateProperty)) || itemTemplate }}"
                     itemData="{{ itemData }}"
+                    item="{{ itemData }}"
 
                     itemActionsTemplate="{{ itemActionsTemplate }}"
                     itemActionsClass="{{ itemActionsClass }}"

@@ -7,6 +7,7 @@ import {Record} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import 'css!Controls/CommonClasses';
 import 'css!Controls/editableArea';
+import 'css!Controls/list';
 
 'use strict';
 /**
@@ -189,8 +190,6 @@ export default class View extends Control<IViewControlOptions> {
        */
       this._editObject = this._options.editObject;
    }
-
-   static _theme: string[] = ['Controls/list'];
 
    static getDefaultOptions(): IViewControlOptions {
       return {

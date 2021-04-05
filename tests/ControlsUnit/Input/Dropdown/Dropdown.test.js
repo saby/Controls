@@ -146,7 +146,7 @@ define(
             assert.isTrue(isOpened);
          });
 
-         it('openMenu', () => {
+         it('openMenu', async () => {
             let actualOptions = null;
             let target;
             let ddl = getDropdown(config);
@@ -163,6 +163,15 @@ define(
             assert.isOk(actualOptions.templateOptions.selectorDialogResult);
             assert.equal(actualOptions.templateOptions.customTemplateOption, 'test2');
             assert.equal(actualOptions.newOptionsPopup, 'test2');
+
+            let actualKey;
+            const item = new entity.Model({ rawData: { id: 1 } });
+            ddl._controller.openMenu = () => Promise.resolve([item]);
+            ddl._selectedItemsChangedHandler = (items, keys) => {
+               actualKey = keys[0];
+            };
+            await ddl.openMenu();
+            assert.equal(actualKey, 1);
          });
 
          it('_dataLoadCallback', () => {

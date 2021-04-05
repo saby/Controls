@@ -5,11 +5,10 @@
          template="{{content.resolvedTemplate}}"
          shadowVisible="{{true}}">
          <ws:headerContentTemplate>
-            <div class="controls-TileView__itemActions__menu_header
-                  controls-TileView__itemActions__menu_header_theme-{{_options.theme}}">
-               <div class="controls-TileView__itemActions__menu_header_title_theme-{{_options.theme}}"
+            <div class="controls-TileView__itemActions__menu_header">
+               <div class="controls-TileView__itemActions__menu_header_title"
                     title="{{_options.title}}">{{_options.title}}</div>
-               <div class="controls-TileView__itemActions__menu_header_additionalTitle_theme-{{_options.theme}}"
+               <div class="controls-TileView__itemActions__menu_header_additionalTitle"
                     title="{{_options.additionalTitle}}">{{_options.additionalText}}</div>
             </div>
          </ws:headerContentTemplate>
@@ -23,7 +22,7 @@
                   <ws:partial
                      template="{{content.resolvedTemplate}}"
                      additionalProperty="{{null}}"
-                     attr:class="controls-TileView__itemActions__menu controls-TileView__itemActions__menu_theme-{{_options.theme}}"
+                     attr:class="controls-TileView__itemActions__menu"
                      source="{{_options.source}}"
                      parentProperty="{{_options.parentProperty}}"
                      on:itemClick="_sendResult('itemClick')"

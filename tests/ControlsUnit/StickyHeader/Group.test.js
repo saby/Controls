@@ -327,7 +327,8 @@ define([
          const data = {
             id: 2,
             inst: {
-               _container: {}
+               _container: {},
+               setSyncDomOptimization: () => {}
             },
             position: 'top'
          };

@@ -5,7 +5,7 @@ export default abstract class GroupCell<T> {
         let classes = '';
         // TODO необходимо разобраться с высотой групп.
         //  https://online.sbis.ru/opendoc.html?guid=6693d47c-515c-4751-949d-55be05fe124e
-        classes += ` controls-Grid__row-cell__content_baseline_S_theme-${theme}`;
+        classes += ` controls-Grid__row-cell__content_baseline_S`;
         classes += this._getHorizontalPaddingClasses(theme);
         classes += this._getContentAlignClasses();
         classes += ' controls-ListView__groupContent';
@@ -14,8 +14,7 @@ export default abstract class GroupCell<T> {
 
     getContentTextClasses(theme: string): string {
         return 'controls-ListView__groupContent-text ' +
-            `controls-ListView__groupContent-text_theme-${theme} ` +
-            `controls-ListView__groupContent-text_default_theme-${theme} `;
+            'controls-ListView__groupContent-text_default ';
     }
 
     getExpanderClasses(expanderVisible: boolean = true,
@@ -28,9 +27,9 @@ export default abstract class GroupCell<T> {
                 classes += ` controls-ListView__groupExpander_collapsed_${expanderAlign}`;
             }
 
-            classes += ` controls-ListView__groupExpander controls-ListView__groupExpander_theme-${theme}` +
-                ` controls-ListView__groupExpander_${expanderAlign}_theme-${theme}` +
-                ` controls-ListView__groupExpander-iconSize_default_theme-${theme}`;
+            classes += ` controls-ListView__groupExpander ` +
+                ` controls-ListView__groupExpander_${expanderAlign}` +
+                ` controls-ListView__groupExpander-iconSize_default`;
 
             classes += ' js-controls-Tree__row-expander';
         }
@@ -63,8 +62,8 @@ export default abstract class GroupCell<T> {
     protected _getWrapperBaseClasses(theme: string, style: string, templateHighlightOnHover: boolean): string {
         let classes = '';
         classes += ` controls-Grid__row-cell controls-Grid__cell_${style}`;
-        classes += ` controls-Grid__row-cell_${style}_theme-${theme}`;
-        classes += ` controls-Grid__row-cell_small_min_height-theme-${theme} `;
+        classes += ` controls-Grid__row-cell_${style}`;
+        classes += ' controls-Grid__row-cell_small_min_height ';
 
         return classes;
     }

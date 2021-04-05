@@ -31,7 +31,6 @@ interface IColumnScrollOptions {
 }
 
 interface IActualizeOptions {
-    isOnMount?: boolean,
     scrollBar: ScrollBar,
     containers: {
         header: HTMLElement,
@@ -74,6 +73,15 @@ export default class ColumnScroll {
 
     getScrollPosition(): number {
         return this._columnScroll.getScrollPosition();
+    }
+
+    reset(): void {
+        if (this._options.columnScrollStartPosition === 'start') {
+            this._setScrollPosition(0);
+        } else {
+            const { contentSize, containerSize } = this.getSizes();
+            this._setScrollPosition(contentSize - containerSize);
+        }
     }
 
     getClasses(target: 'wrapper'): string;
@@ -120,7 +128,7 @@ export default class ColumnScroll {
         if (this._options.columnScrollStartPosition === 'end') {
             let classes = '';
             if (this._options.hasMultiSelectColumn) {
-                classes += `controls-Grid__ColumnScroll__shadow_withMultiselect_theme-${this._options.theme} `;
+                classes += 'controls-Grid__ColumnScroll__shadow_withMultiselect ';
             }
             return classes + ColumnScrollController.getShadowClasses(position,{
                 isVisible: position === 'start',
@@ -170,7 +178,7 @@ export default class ColumnScroll {
                     this._options = this._updateOptions(options);
                     this._createColumnScroll(options);
                     this._columnScroll.updateSizes((newSizes) => {
-                        if (options.isOnMount && this._options.columnScrollStartPosition === 'end') {
+                        if (this._options.columnScrollStartPosition === 'end') {
                             this._columnScroll.setScrollPosition(newSizes.contentSize - newSizes.containerSize);
                         }
                         this._dragScroll?.updateScrollData({
@@ -347,6 +355,10 @@ export default class ColumnScroll {
     }
 
     onPositionChanged(newPosition: number): void {
+        this._setScrollPosition(newPosition);
+    }
+
+    _setScrollPosition(newPosition: number): void {
         this._columnScroll.setScrollPosition(newPosition);
         this._dragScroll?.setScrollPosition(this._columnScroll.getScrollPosition());
     }

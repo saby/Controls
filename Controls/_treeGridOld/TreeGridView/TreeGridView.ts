@@ -3,6 +3,8 @@ import {GridView, GridLayoutUtil} from 'Controls/gridOld';
 
 import * as GridItemTemplate from 'wml!Controls/_treeGridOld/TreeGridView/layout/grid/Item';
 import * as TableItemTemplate from 'wml!Controls/_treeGridOld/TreeGridView/layout/table/Item';
+import 'css!Controls/grid';
+import 'css!Controls/treeGrid';
 
 var
     TreeGridView = GridView.extend({
@@ -23,5 +25,4 @@ var
         }
     });
 
-TreeGridView._theme = ['Controls/grid', 'Controls/treeGrid'];
 export = TreeGridView;

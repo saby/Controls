@@ -1,9 +1,9 @@
 <ws:template name="searchIcon">
-    <div class="controls-BaseControl__continueSearch_icon controls-icon icon-Search2 controls-icon_size-{{iconSize}}_theme-{{_options.theme}}"></div>
+    <div class="controls-BaseControl__continueSearch_icon controls-icon icon-Search2 controls-icon_size-{{iconSize}}"></div>
 </ws:template>
 
 <ws:template name="searchWithoutFooter">
-    <div class="controls-BaseControl__continueSearch_wrapper_theme-{{_options.theme}} ws-inline-flexbox ws-align-items-center">
+    <div class="controls-BaseControl__continueSearch_wrapper ws-inline-flexbox ws-align-items-center">
         <ws:partial template="searchIcon" iconSize="m"/>
         <ws:partial template="{{_options.contentTemplate}}"/>
     </div>
@@ -12,21 +12,20 @@
 <ws:template name="searchWithFooter">
     <ws:partial template="searchIcon" iconSize="l"/>
     <div>
-        <div class="controls-BaseControl__continueSearch_wrapper_theme-{{_options.theme}} ws-inline-flexbox ws-align-items-center">
+        <div class="controls-BaseControl__continueSearch_wrapper ws-inline-flexbox ws-align-items-center">
             <ws:partial template="{{_options.contentTemplate}}"/>
         </div>
-        <div class="controls-BaseControl__continueSearch_footerTemplate_theme-{{_options.theme}}">
+        <div class="controls-BaseControl__continueSearch_footerTemplate">
             <ws:partial template="{{_options.footerTemplate}}"/>
         </div>
     </div>
 </ws:template>
 
 <div class="controls-BaseControl__continueSearch
-            controls-BaseControl__continueSearch_theme-{{_options.theme}}
-            {{ _options.pagingVisible ? ('controls-BaseControl_withPaging__continueSearch_theme-' + _options.theme) }}
+            {{ _options.pagingVisible ? ('controls-BaseControl_withPaging__continueSearch') }}
             ws-justify-content-center">
-    <div class="controls-BaseControl__loadingIndicatorImg controls-BaseControl__loadingIndicatorImg-wrapper_theme-{{_options.theme}}
-    controls-BaseControl__loadingIndicatorImg-wrapper_style-portionedSearch_theme-{{_options.theme}}">
+    <div class="controls-BaseControl__loadingIndicatorImg-wrapper
+    controls-BaseControl__loadingIndicatorImg-wrapper_style-portionedSearch">
         <ws:if data="{{_options.footerTemplate}}">
             <ws:partial template="searchWithFooter"/>
         </ws:if>

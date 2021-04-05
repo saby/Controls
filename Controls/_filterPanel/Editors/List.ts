@@ -28,7 +28,7 @@ export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISo
  * Контрол используют в качестве редактора для выбора значений из списка на {@link Controls/filterPanel:View панели фильтров}.
  * @class Controls/_filterPanel/Editors/List
  * @extends Core/Control
- * @mixes Controls/_grid/interface/IGridControl
+ * @mixes Controls/_interface/grid/IGridControl
  * @mixes Controls/_interface/INavigation
  * @author Мельникова Е.А.
  * @public
@@ -124,6 +124,7 @@ class ListEditor extends Control<IListEditorOptions> {
         });
         if (selectedKeys.length) {
             this._items.assign(result);
+            this._setFilter(selectedKeys, this._options.filter, this._options.keyProperty);
         }
         this._notifyPropertyValueChanged(selectedKeys, !this._options.multiSelect, result);
     }
