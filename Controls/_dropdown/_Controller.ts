@@ -305,6 +305,10 @@ export default class _Controller implements IDropdownController {
       }
       if (popupOptions) {
          this._popupOptions = popupOptions;
+         if (popupOptions.templateOptions?.source) {
+             this._options.source = popupOptions.templateOptions.source;
+             delete popupOptions.templateOptions.source;
+         }
       }
       const openPopup = () => {
          return this._sticky.open(this._getPopupOptions(this._popupOptions));
