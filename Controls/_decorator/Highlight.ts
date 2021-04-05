@@ -200,7 +200,7 @@ class Highlight extends Control<IHighlightOptions> {
         this._className = newOptions.className ? newOptions.className : 'controls-Highlight_highlight';
     }
 
-    private static WORD_SEPARATOR: RegExp = /\s+/g;
+    private static WORD_SEPARATOR: RegExp = /\s+|\p{P}/gu;
     private static MINIMUM_WORD_LENGTH: number = 2;
 
     private static _isNotEmpty(value: string): boolean {
