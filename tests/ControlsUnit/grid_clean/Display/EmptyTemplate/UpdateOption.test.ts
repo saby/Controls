@@ -83,12 +83,12 @@ describe('Controls/grid_clean/Display/EmptyTemplate/UpdateOption', () => {
         const emptyGridRow = gridCollection.getEmptyGridRow();
 
         const sandbox = sinon.createSandbox();
-        const spy = sandbox.spy(emptyGridRow, 'setEmptyTemplate');
+        const spy = sandbox.spy(emptyGridRow, 'setRowTemplate');
 
         gridCollection.setEmptyTemplate(newEmptyTemplate);
 
-        assert(emptyGridRow.setEmptyTemplate.calledOnce);
-        assert.strictEqual(emptyGridRow.setEmptyTemplate.getCall(0).args[0], newEmptyTemplate);
+        assert(emptyGridRow.setRowTemplate.calledOnce);
+        assert.strictEqual(emptyGridRow.setRowTemplate.getCall(0).args[0], newEmptyTemplate);
         assert.strictEqual(gridCollection.getVersion(), 1);
 
         spy.restore();

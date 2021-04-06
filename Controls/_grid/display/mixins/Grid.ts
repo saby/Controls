@@ -97,6 +97,7 @@ export interface IOptions {
     sorting?: Array<{[p: string]: string}>;
     emptyTemplateColumns?: IEmptyTemplateColumn[];
     columnSeparatorSize?: TColumnSeparatorSize;
+    multiSelectVisibility?: string;
 }
 
 export default abstract class Grid<S, T extends GridRowMixin<S>> {
@@ -196,6 +197,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             this.getFooter().setFooter(footerTemplate, footer);
         } else {
             this._$footer = this._initializeFooter({
+                multiSelectVisibility: this._$multiSelectVisibility,
                 footerTemplate,
                 footer,
                 columnSeparatorSize: this._$columnSeparatorSize
@@ -214,6 +216,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (!this._$results && this._resultsIsVisible()) {
             this._initializeResults({
                 columns: this._$columns,
+                multiSelectVisibility: this._$multiSelectVisibility,
                 resultsTemplate: this._$resultsTemplate,
                 resultsColspanCallback: this._$resultsColspanCallback
             });
@@ -381,6 +384,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _initializeFooter(options: IOptions): FooterRow<S> {
         return new FooterRow({
             owner: this,
+            multiSelectVisibility: options.multiSelectVisibility,
             columns: options.footer,
             rowTemplate: options.footerTemplate,
             rowTemplateOptions: {},
@@ -392,6 +396,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         const resultsRowClass = this.getResultsRowClass();
         this._$results = new resultsRowClass({
             owner: this,
+            multiSelectVisibility: options.multiSelectVisibility,
             columns: options.columns,
             rowTemplate: options.resultsTemplate,
             rowTemplateOptions: {},

@@ -62,20 +62,9 @@ export default class Collection<
     setMultiSelectVisibility(visibility: string): void {
         super.setMultiSelectVisibility(visibility);
 
-        if (this.getFooter()) {
-            this.getFooter().setMultiSelectVisibility(visibility);
-        }
-        if (this.getResults()) {
-            this.getResults().setMultiSelectVisibility(visibility);
-        }
-
-        if (this.getHeader()) {
-            this.getHeader().setMultiSelectVisibility(visibility);
-        }
-
-        if (this.getColgroup()) {
-            this.getColgroup().setMultiSelectVisibility(visibility);
-        }
+        [this.getColgroup(), this.getHeader(), this.getResults(), this.getFooter()].forEach((gridUnit) => {
+            gridUnit?.setMultiSelectVisibility(visibility);
+        });
     }
 
     setActionsTemplateConfig(config: IItemActionsTemplateConfig) {

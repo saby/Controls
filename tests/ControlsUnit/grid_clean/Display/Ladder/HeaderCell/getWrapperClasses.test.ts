@@ -23,7 +23,7 @@ describe('Controls/grid_clean/Display/Ladder/HeaderCell/getWrapperClasses', () =
                 hasItemActionsSeparatedCell: () => false
             } as any,
             column: headerColumn,
-            ladderCell: true
+            isLadderCell: true
         });
         const cellWrapperClasses = gridHeaderCell.getWrapperClasses('TestTheme', 'TestBGStyle', 'TestStyle');
         assert.notMatch(cellWrapperClasses, createRegExpForTestMatchClass('controls-Grid__cell_spacingLeft'));
