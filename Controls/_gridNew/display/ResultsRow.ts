@@ -44,7 +44,7 @@ export default class ResultsRow<T> extends Row<T> {
 
     setMetaResults(metaResults: EntityModel): void {
         this._$metaResults = metaResults;
-        this._$columnItems.forEach((c) => (c as ResultsCell<T>).setMetaResults(metaResults));
+        this._$columnItems?.forEach((c) => (c as ResultsCell<T>).setMetaResults(metaResults));
         this._nextVersion();
     }
 
