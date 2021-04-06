@@ -302,7 +302,7 @@ var ListView = BaseControl.extend(
             } else {
                 leftPadding = (this._options.itemPadding && this._options.itemPadding.left || 'default').toLowerCase();
             }
-            return `controls-ListView__footer__paddingLeft_${leftPadding}`;
+            return `controls-ListView__footer controls-ListView__footer__paddingLeft_${leftPadding}`;
         },
 
         activateEditingRow(enableScrollToElement?: boolean): boolean {

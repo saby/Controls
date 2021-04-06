@@ -43,7 +43,9 @@
          </ws:if>
          <ws:else>
             <div class="{{ _getFooterClasses() }}">
-               <ws:partial template="{{_options.footerTemplate}}"/>
+               <div class="controls-ListView__footer__content">
+                  <ws:partial template="{{_options.footerTemplate}}"/>
+               </div>
             </div>
          </ws:else>
       </ws:if>

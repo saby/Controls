@@ -163,6 +163,10 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     }
     // endregion
 
+    getRowspan(): number {
+        return 1;
+    }
+
     getRowspanStyles(): string {
         return '';
     }

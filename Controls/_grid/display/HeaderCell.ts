@@ -141,9 +141,14 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             rowspan: endRow - startRow
         };
     }
+
+    getRowspan(): number {
+        return this._getRowspanParams()?.rowspan || 1;
+    }
+
     getRowspanStyles(): string {
         if (!this._$owner.isFullGridSupport()) {
-            return '' + this._getRowspanParams().rowspan;
+            return '';
         }
         const {startRow, endRow} = this._getRowspanParams();
         return `grid-row: ${startRow} / ${endRow};`;
