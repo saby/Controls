@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import controlTemplate = require('wml!Controls-demo/Decorator/Number/Precision/Index');
+import controlTemplate = require('wml!Controls-demo/Decorator/Number/Precision/Template');
 
 class FractionSize extends Control<IControlOptions> {
     protected _value = '12345.67890';
