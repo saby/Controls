@@ -40,6 +40,12 @@ export default class ColumnsCollectionItem<T> extends CollectionItem<T> {
         return result;
     }
 
+    getMultiSelectClasses(theme: string): string {
+        let classes = super.getMultiSelectClasses.apply(this, arguments);;
+        classes = classes.replace('controls-ListView__checkbox_position', 'controls-ColumnsView__checkbox_position');
+        return classes;
+    }
+
     getContentClasses(): string {
         // Тут должен быть вызов метода суперкласса, НО нам не нужны почти все классы, которые он предлагает
         return ' controls-ColumnsView__itemContent';
