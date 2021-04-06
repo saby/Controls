@@ -1122,24 +1122,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         return result;
     }
 
-    protected _hasMoreData(sourceController: SourceController, direction: Direction): boolean {
-        if (sourceController) {
-            return this._getHasMoreData(sourceController, direction)
-        }
-        return false;
-    }
-
-    private _getHasMoreData(sourceController, direction): boolean {
-        const rootResult = sourceController.hasMoreData(direction, this._root);
-
-        // support for not multi root navigation
-        if (rootResult !== undefined) {
-            return rootResult;
-        } else {
-            return sourceController.hasMoreData(direction);
-        }
-    }
-
     // раскрытие узлов будет отрефакторено по задаче https://online.sbis.ru/opendoc.html?guid=2a2d9bc6-86e0-43fa-9bea-b636c45c0767
     _keyDownHandler(event): boolean {
         if (this._options.markerMoveMode === 'leaves') {

@@ -631,25 +631,6 @@ define([
          assert.deepEqual({}, treeViewModel.getHasMoreStorage());
       });
 
-      it('_private.getHasMoreData', function() {
-         const sourceController = {
-            hasMoreData: (direction, root) => {
-               return root ? undefined : true;
-            }
-         };
-         const treeControl = correctCreateTreeControl({
-            columns: [],
-            root: null,
-            parentProperty: 'testParentProperty',
-            source: new sourceLib.Memory({
-               data: [],
-               idProperty: 'id'
-            })
-         });
-
-         assert.isTrue(treeControl._getHasMoreData(sourceController));
-      });
-
       // it('TreeControl.afterReloadCallback created source controller with multi root navigation', function () {
       //    const source = new sourceLib.Memory({
       //       data: [],
