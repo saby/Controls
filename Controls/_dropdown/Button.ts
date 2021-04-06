@@ -190,16 +190,16 @@ export default class Button extends BaseDropdown {
       const isOpenMenuPopup = !(event.nativeEvent.relatedTarget
           && event.nativeEvent.relatedTarget.closest('.controls-Menu__popup'));
       if (this._options.menuPopupTrigger === 'hover' && isOpenMenuPopup) {
-         this.openMenu();
+         this.openMenu(undefined, true);
       }
     }
 
-   openMenu(popupOptions?: IStickyPopupOptions): void {
+   openMenu(popupOptions?: IStickyPopupOptions, isHover?: boolean): void {
       const config = this._getMenuPopupConfig();
       this._controller.setMenuPopupTarget(this._children.content);
 
       this._controller.openMenu(Merge(config, popupOptions || {})).then((result) => {
-         if (result) {
+         if (result && !isHover) {
             this._onItemClickHandler(result);
          }
       });
