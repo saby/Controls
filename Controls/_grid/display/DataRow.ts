@@ -60,7 +60,8 @@ export default class DataRow<T extends Model> extends Row<T> implements
             ...super._getColumnFactoryParams(column, columnIndex),
             searchValue: this._$searchValue,
             backgroundStyle: this._$backgroundStyle,
-            itemEditorTemplate: this._$owner.getItemEditorTemplate()
+            itemEditorTemplate: this._$owner.getItemEditorTemplate(),
+            markerPosition: this.getMarkerPosition()
         };
     }
 
