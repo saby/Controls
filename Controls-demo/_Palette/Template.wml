@@ -1,0 +1,55 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Controls.input:Number
+                integersLength="{{3}}"
+                precision="{{0}}"
+                bind:value="_hValue"
+                on:valueChanged="_mainParamChanged()"
+                fontSize="xl"
+                inlineHeight="xl"
+                textAlign="right"
+                selectOnClick="{{true}}"
+                placeholder="H"
+                class="controlsDemo_palette_field controls-margin_right-s"></Controls.input:Number>
+        <Controls.input:Number
+                integersLength="{{3}}"
+                precision="{{0}}"
+                bind:value="_sValue"
+                on:valueChanged="_mainParamChanged()"
+                fontSize="xl"
+                inlineHeight="xl"
+                textAlign="right"
+                selectOnClick="{{true}}"
+                placeholder="S"
+                class="controlsDemo_palette_field controls-margin_right-s"></Controls.input:Number>
+        <Controls.input:Number
+                integersLength="{{3}}"
+                precision="{{0}}"
+                bind:value="_lValue"
+                on:valueChanged="_mainParamChanged()"
+                fontSize="xl"
+                inlineHeight="xl"
+                textAlign="right"
+                selectOnClick="{{true}}"
+                placeholder="L"
+                class="controlsDemo_palette_field controls-margin_right-s"></Controls.input:Number>
+    </div>
+    <div class="controlsDemo__cell">
+        <Controls.grid:View
+                rowSeparatorSize="l"
+                multiSelectVisibility="hidden"
+                source="{{_source}}"
+                name="psina"
+                columns="{{_columns}}">
+            <ws:editingConfig>
+                <ws:Object editOnClick="{{true}}"/>
+            </ws:editingConfig>
+            <ws:itemTemplate>
+                <ws:partial template="Controls/grid:ItemTemplate"></ws:partial>
+            </ws:itemTemplate>
+        </Controls.grid:View>
+    </div>
+    <div class="clipboardContainer" data-vdomignore="true">
+        <input type="text" name="clipboard" class="input_clipboard"/>
+    </div>
+</div>
