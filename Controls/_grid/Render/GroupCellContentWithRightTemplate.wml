@@ -27,7 +27,9 @@ TODO Нужно удалить этот шаблон, когда починим 
                     {{ textVisible !== false ? 'controls-ListView__groupSeparator-right' }}">&nbsp;</div>
         </ws:if>
         <ws:if data="{{ !!rightTemplate }}">
-            <ws:partial template="{{ rightTemplate }}" itemData="{{ item || itemData }}"
+            <ws:partial template="{{ rightTemplate }}"
+                        item="{{ item || itemData }}"
+                        itemData="{{ item || itemData }}"
                         attr:class="{{ (gridColumn || itemData).getRightTemplateClasses(separatorVisibility, textVisible, columnAlignGroup, textAlign) }}" />
         </ws:if>
     </ws:if>
