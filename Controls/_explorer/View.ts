@@ -1035,6 +1035,11 @@ Object.defineProperty(Explorer, 'defaultProps', {
  */
 
 /**
+ * @name Controls/_explorer/View#afterBreadCrumbsTemplate
+ * @cfg {TemplateFunction|string} Пользовательский шаблон, который будет выведен справа от {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/breadcrumbs/ хлебных крошек}.
+ */
+
+/**
  * @name Controls/_explorer/View#tileItemTemplate
  * @cfg {String|TemplateFunction} Шаблон отображения элемента в режиме "Плитка".
  * @default undefined
