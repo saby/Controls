@@ -6,26 +6,48 @@ import {assert} from 'chai';
 describe('Controls/filterPanel:ListEditor', () => {
 
     describe('_beforeUpdate', () => {
-        const listEditor = new ListEditor({});
-        const options = {
-            propertyValue: [1],
-            filter: {},
-            keyProperty: 'id'
+        const getEditorOptions = () => {
+            return {
+                propertyValue: [1],
+                filter: {},
+                keyProperty: 'id'
+            };
         };
-        listEditor._beforeMount(options);
+        const getEditor = () => {
+            const listEditor = new ListEditor({});
+            const options = getEditorOptions();
+            listEditor._beforeMount(options);
+            listEditor.saveOptions(options);
+            return listEditor;
+        };
 
         it('propertyValue changed', () => {
             const newPropertyValue = [2];
+            const listEditor = getEditor();
+            const options = getEditorOptions();
             options.propertyValue = newPropertyValue;
             listEditor._beforeUpdate(options);
             assert.equal(listEditor._filter['id'], newPropertyValue);
         });
 
         it('propertyValue changed with multiSelect', () => {
+            const listEditor = getEditor();
             const newPropertyValue = [1];
+            const options = getEditorOptions();
             options.propertyValue = newPropertyValue;
             options.filter = listEditor._options.filter;
             options.multiSelect = true;
+            listEditor._beforeUpdate(options);
+            assert.notEqual(listEditor._filter['id'], newPropertyValue);
+        });
+
+        it('_beforeUpdate with same value in propertyValue', () => {
+            const listEditor = getEditor();
+            const newPropertyValue = [2];
+            const options = getEditorOptions();
+            options.propertyValue = newPropertyValue;
+
+            listEditor._selectedKeys = [2];
             listEditor._beforeUpdate(options);
             assert.notEqual(listEditor._filter['id'], newPropertyValue);
         });

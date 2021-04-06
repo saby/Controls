@@ -7,19 +7,26 @@ import * as AdditionalColumnTemplate from 'wml!Controls/_filterPanel/Editors/res
 import * as CircleTemplate from 'wml!Controls/_filterPanel/Editors/resources/CircleTemplate';
 import {StackOpener, DialogOpener} from 'Controls/popup';
 import {Model} from 'Types/entity';
-import {IFilterOptions, ISourceOptions, INavigationOptions, IItemActionsOptions, ISelectorDialogOptions} from 'Controls/interface';
+import {
+    IFilterOptions,
+    ISourceOptions,
+    INavigationOptions,
+    INavigationOptionValue,
+    IItemActionsOptions,
+    ISelectorDialogOptions
+} from 'Controls/interface';
 import {IList} from 'Controls/list';
 import {IColumn} from 'Controls/grid';
 import {List, RecordSet} from 'Types/collection';
 import {factory} from 'Types/chain';
+import {isEqual} from 'Types/object';
 
-export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISourceOptions, INavigationOptions,
-    IItemActionsOptions, IList, IColumn, ISelectorDialogOptions {
+export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISourceOptions,
+    INavigationOptions<unknown>, IItemActionsOptions, IList, IColumn, ISelectorDialogOptions {
     propertyValue: number[]|string[];
     showSelectorCaption?: string;
     additionalTextProperty: string;
     multiSelect: boolean;
-    navigation?: object;
 }
 
 /**
@@ -68,7 +75,7 @@ class ListEditor extends Control<IListEditorOptions> {
     protected _items: RecordSet = null;
     protected _selectedKeys: string[]|number[] = [];
     protected _filter: object = {};
-    protected _navigation: object = null;
+    protected _navigation: INavigationOptionValue<unknown> = null;
     private _itemsReadyCallback: Function = null;
 
     protected _beforeMount(options: IListEditorOptions): void {
@@ -77,19 +84,21 @@ class ListEditor extends Control<IListEditorOptions> {
         this._itemsReadyCallback = this._handleItemsReadyCallback.bind(this);
         this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
         if (!this._selectedKeys.length) {
-            this._navigation = options.navigation;
+            this._navigation = this._getNavigation(options);
         }
     }
 
     protected _beforeUpdate(options: IListEditorOptions): void {
-        const valueChanged = options.propertyValue !== this._options.propertyValue;
-        const filterChanged = options.filter !== this._options.filter;
+        const valueChanged =
+            !isEqual(options.propertyValue, this._options.propertyValue) &&
+            !isEqual(options.propertyValue, this._selectedKeys);
+        const filterChanged = !isEqual(options.filter, this._options.filter);
         const displayPropertyChanged = options.displayProperty !== this._options.displayProperty;
         const additionalDataChanged = options.additionalTextProperty !== this._options.additionalTextProperty;
         if (additionalDataChanged || valueChanged || displayPropertyChanged) {
             this._selectedKeys = options.propertyValue;
             this._setColumns(options.displayProperty, options.propertyValue, options.keyProperty, options.additionalTextProperty);
-            this._navigation = this._selectedKeys.length ? null : options.navigation;
+            this._navigation = this._getNavigation(options);
         }
         if (filterChanged || (valueChanged && !options.multiSelect)) {
             this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
@@ -125,6 +134,7 @@ class ListEditor extends Control<IListEditorOptions> {
             this._setFilter(selectedKeys, this._options.filter, this._options.keyProperty);
         }
         this._notifyPropertyValueChanged(selectedKeys, !this._options.multiSelect, result);
+        this._navigation = this._getNavigation(this._options);
     }
 
     protected _handleFooterClick(event: SyntheticEvent): void {
@@ -187,6 +197,10 @@ class ListEditor extends Control<IListEditorOptions> {
         if (selectedKeys && selectedKeys.length) {
             this._filter[keyProperty] = selectedKeys;
         }
+    }
+
+    private _getNavigation(options: IListEditorOptions): INavigationOptionValue<unknown> {
+        return this._selectedKeys.length ? null : options.navigation;
     }
 
     private _getSelectedItems(): List<Model> {
