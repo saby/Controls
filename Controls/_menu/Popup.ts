@@ -150,7 +150,7 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         const sizes = ['s', 'm', 'l'];
         let iconSize;
         let headingIconSize = -1;
-        if (this._headingIcon) {
+        if (this._initHeadingIcon) {
             const root = options.root !== undefined ? options.root : null;
             let needShowHeadingIcon = false;
             factory(items).each((item) => {
@@ -163,6 +163,7 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
             if (!needShowHeadingIcon) {
                 this._headingIcon = null;
             } else {
+                this._headingIcon = this._initHeadingIcon;
                 this._headingIconSize = sizes[headingIconSize] || options.iconSize;
             }
         }
@@ -227,14 +228,14 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
             this._headerTemplate = options.headerContentTemplate;
         } else if (options.searchParam) {
             this._headerTemplate = searchHeaderTemplate;
-            this._headingIcon = options.headingIcon;
+            this._initHeadingIcon = options.headingIcon;
         } else if (options.showHeader && options.headerTemplate !== null || options.headerTemplate) {
             if (options.headConfig) {
                 this._headingCaption = options.headConfig.caption;
             } else {
                 this._headingCaption = options.headingCaption;
             }
-            this._headingIcon = !options.headConfig?.menuStyle ? (options.headConfig?.icon || options.headingIcon) : '';
+            this._initHeadingIcon = !options.headConfig?.menuStyle ? (options.headConfig?.icon || options.headingIcon) : '';
 
             if (this._headingIcon && !options.headerTemplate) {
                 this._headerTemplate = headerTemplate;

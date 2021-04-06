@@ -17,19 +17,19 @@ function(menu, source, Clone, display, collection) {
                parent: null
             }]
          });
-         menuPopup._headingIcon = 'testIcon';
+         menuPopup._initHeadingIcon = 'testIcon';
          menuPopup._dataLoadCallback({ parentProperty: 'parent', root: null }, items);
          assert.equal(menuPopup._headingIcon, 'testIcon');
 
          menuPopup._dataLoadCallback({ parentProperty: 'parent', root: 4 }, items);
          assert.isNull(menuPopup._headingIcon);
 
-         menuPopup._headingIcon = 'testIcon';
+         menuPopup._initHeadingIcon = 'testIcon';
          items.at(0).set('icon', null);
          menuPopup._dataLoadCallback({ parentProperty: 'parent', root: null }, items);
          assert.isNull(menuPopup._headingIcon);
 
-         menuPopup._headingIcon = 'testIcon';
+         menuPopup._initHeadingIcon = 'testIcon';
          menuPopup._dataLoadCallback({ parentProperty: 'parent' }, items);
          assert.isNull(menuPopup._headingIcon);
       });
@@ -57,7 +57,7 @@ function(menu, source, Clone, display, collection) {
                parent: null
             }]
          });
-         menuPopup._headingIcon = 'testIcon';
+         menuPopup._initHeadingIcon = 'testIcon';
          menuPopup._dataLoadCallback({ parentProperty: 'parent', iconSize: 's', root: null }, items);
          assert.equal(menuPopup._headingIcon, 'testIcon');
          assert.equal(menuPopup._headingIconSize, 'm');
@@ -67,7 +67,7 @@ function(menu, source, Clone, display, collection) {
          assert.isNull(menuPopup._headingIcon);
          assert.isNull(menuPopup._headingIconSize);
 
-         menuPopup._headingIcon = 'testIcon';
+         menuPopup._initHeadingIcon = 'testIcon';
          items.at(0).set('iconSize', null);
          menuPopup._dataLoadCallback({ parentProperty: 'parent', iconSize: 's', root: null }, items);
          assert.equal(menuPopup._headingIcon, 'testIcon');
