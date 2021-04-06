@@ -44,6 +44,7 @@ export interface IOptions<T extends Model = Model> {
     rightPadding: string;
     topPadding: string;
     bottomPadding: string;
+    markerPosition: string;
 }
 
 export interface ISerializableState<T extends Model = Model> extends IDefaultSerializableState {
@@ -158,6 +159,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     protected _$topPadding: string;
 
     protected _$bottomPadding: string;
+
+    protected _$markerPosition: 'left' | 'right';
 
     protected _dragOutsideList: boolean;
 
@@ -392,8 +395,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     }
 
     getMarkerClasses(theme: string, style: string = 'default',
-                     markerClassName: TMarkerClassName = 'default', itemPadding: IItemPadding = {},
-                     markerPosition: 'left' | 'right' = 'left'): string {
+                     markerClassName: TMarkerClassName = 'default', itemPadding: IItemPadding = {}): string {
         let markerClass = 'controls-ListView__itemV_marker controls-ListView__itemV_marker_';
         if (markerClassName === 'default') {
             markerClass += 'height';
@@ -402,8 +404,12 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         }
         markerClass += ` controls-ListView__itemV_marker_${style}`;
         markerClass += ' controls-ListView__itemV_marker';
-        markerClass += ` controls-ListView__itemV_marker-${markerPosition}`;
+        markerClass += ` controls-ListView__itemV_marker-${this.getMarkerPosition()}`;
         return markerClass;
+    }
+
+    getMarkerPosition(): 'left' | 'right' {
+        return this._$markerPosition;
     }
 
     increaseCounter(name: string): number {
@@ -1005,6 +1011,7 @@ Object.assign(CollectionItem.prototype, {
     _$rightPadding: 'default',
     _$topPadding: 'default',
     _$bottomPadding: 'default',
+    _$markerPosition: undefined,
     _contentsIndex: undefined,
     _version: 0,
     _counters: null,

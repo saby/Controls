@@ -55,8 +55,8 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
         return multiSelectTemplate;
     }
 
-    shouldDisplayMarker(marker: boolean, markerPosition: 'left' | 'right' = 'left'): boolean {
-        return markerPosition !== 'right' && this._$owner.shouldDisplayMarker(marker);
+    shouldDisplayMarker(marker: boolean): boolean {
+        return this.getMarkerPosition() !== 'right' && this._$owner.shouldDisplayMarker(marker);
     }
 
     shouldDisplayItemActions(): boolean {
