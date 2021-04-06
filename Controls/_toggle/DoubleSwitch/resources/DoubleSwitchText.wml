@@ -1,8 +1,7 @@
 <span on:mouseover="_toggleSwitchHoverState(_toggleValue !== _nextValue)"
       on:mouseout="_toggleSwitchHoverState(false)"
       class="{{_orientation === 'vertical' ? ' controls-DoubleSwitch__text_vertical'}}
-            {{!_value ? (_enabled ? ' controls-DoubleSwitch__text_enabled_unselected' :
-            ' controls-DoubleSwitch__text_disabled_unselected') : ' controls-DoubleSwitch__text_enabled_selected'}}"
+               controls-DoubleSwitch__text_{{_enabled ? 'enabled' : 'disabled'}}_{{_value ? 'selected' : 'unselected'}}"
       on:click="_clickTextHandler(_nextValue)">
     <ws:if data="{{_caption}}">
         <ws:partial template="{{_caption}}"/>
