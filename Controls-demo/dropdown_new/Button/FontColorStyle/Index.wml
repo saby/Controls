@@ -50,19 +50,19 @@
               attr:class="controlsDemo-menuButton">
         </Controls.dropdown:Button>
       </div>
-      <div class="controlsDemo__cell controlsDemo__mb1">
-        <div class="demo-ButtonMenu__label controls-text-label_theme-{{_options.theme}}">Меню с fontColorStyle = unaccented</div>
-        <Controls.dropdown:Button
-              keyProperty="key"
-              caption="Create"
-              source="{{_source}}"
-              fontColorStyle="unaccented"
-              attr:class="controlsDemo-menuButton">
-        </Controls.dropdown:Button>
-      </div>
    </div>
 
    <div class="controlsDemo__flexColumn controlsDemo__ml1 {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth500' : 'controlsDemo_fixedWidth300'}}">
+      <div class="controlsDemo__cell controlsDemo__mb1">
+         <div class="demo-ButtonMenu__label controls-text-label_theme-{{_options.theme}}">Меню с fontColorStyle = unaccented</div>
+         <Controls.dropdown:Button
+                 keyProperty="key"
+                 caption="Create"
+                 source="{{_source}}"
+                 fontColorStyle="unaccented"
+                 attr:class="controlsDemo-menuButton">
+         </Controls.dropdown:Button>
+      </div>
       <div class="controlsDemo__cell controlsDemo__mb1">
         <div class="demo-ButtonMenu__label controls-text-label_theme-{{_options.theme}}">Меню с fontColorStyle = link</div>
         <Controls.dropdown:Button

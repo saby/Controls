@@ -12,8 +12,8 @@
             attr:colspan="{{ gridColumn.getColspan() }}"
             attr:rowspan="{{ gridColumn.getRowspanStyles() }}">
             <div class="{{ gridColumn.getRelativeCellWrapperClasses(theme) }}">
-                <div if="{{ gridColumn.Markable && gridColumn.shouldDisplayMarker(marker, markerPosition) }}"
-                     attr:class="{{ gridColumn.getMarkerClasses(theme, style, markerPosition) }}"></div>
+                <div if="{{ gridColumn.Markable && gridColumn.shouldDisplayMarker(marker) }}"
+                     attr:class="{{ gridColumn.getMarkerClasses(theme, style) }}"></div>
 
                 <ws:if data="{{item.shouldDisplayExpanderBlock(gridColumn)}}">
                     <ws:if data="{{ item.shouldDisplayLevelPadding(withoutLevelPadding) }}">

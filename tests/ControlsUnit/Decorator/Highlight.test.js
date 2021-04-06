@@ -39,11 +39,17 @@ define(
 
             ctrl._beforeMount(options);
 
-            assert.deepEqual([{type: 'plain', value: 'text1'}], ctrl._parsedText);
+            assert.deepEqual([{
+               type: 'plain',
+               value: 'text1'
+            }], ctrl._parsedText);
 
             ctrl._beforeUpdate(newOptions);
 
-            assert.deepEqual([{type: 'plain', value: 'text2'}], ctrl._parsedText);
+            assert.deepEqual([{
+               type: 'plain',
+               value: 'text2'
+            }], ctrl._parsedText);
 
             ctrl._beforeUpdate(newOptions2);
 
@@ -55,6 +61,85 @@ define(
                   type: 'plain',
                   value: '3'
                }], ctrl._parsedText);
+         });
+
+         it('Value of parsedText use separator', function() {
+            var
+               options = {
+                  value: 'text text1',
+                  highlightedValue: 'text'
+               },
+               newOptions = {
+                  value: 'text.text2',
+                  highlightedValue: 'text'
+               },
+               newOptions2 = {
+                  value: 'text,text3',
+                  highlightedValue: 'text'
+               };
+
+            ctrl._beforeMount(options);
+
+            assert.deepEqual([
+               {
+                  type: 'highlight',
+                  value: 'text'
+               },
+               {
+                  type: 'plain',
+                  value: ' '
+               },
+               {
+                  type: 'highlight',
+                  value: 'text'
+               },
+               {
+                  type: 'plain',
+                  value: '1'
+               }
+            ], ctrl._parsedText);
+
+            ctrl._beforeUpdate(newOptions);
+
+            assert.deepEqual([
+               {
+                  type: 'highlight',
+                  value: 'text'
+               },
+               {
+                  type: 'plain',
+                  value: '.'
+               },
+               {
+                  type: 'highlight',
+                  value: 'text'
+               },
+               {
+                  type: 'plain',
+                  value: '2'
+               }
+            ], ctrl._parsedText);
+
+            ctrl._beforeUpdate(newOptions2);
+
+            assert.deepEqual([
+               {
+                  type: 'highlight',
+                  value: 'text'
+               },
+               {
+                  type: 'plain',
+                  value: ','
+               },
+               {
+                  type: 'highlight',
+                  value: 'text'
+               },
+               {
+                  type: 'plain',
+                  value: '3'
+               }
+            ], ctrl._parsedText);
          });
 
          it('Template', function() {

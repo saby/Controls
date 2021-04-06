@@ -11,7 +11,7 @@ import { SyntheticEvent } from 'Vdom/Vdom';
  *
  * @remark
  * Полезные ссылки:
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_calendar.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/6156a9009ee88d96bf73c8b1200e197f9db1c3c8/Controls-default-theme/variables/_calendar.less переменные тем оформления}
  *
  * @class Controls/_calendar/Month
  * @extends UI/Base:Control

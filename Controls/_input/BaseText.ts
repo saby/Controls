@@ -25,7 +25,7 @@ export class BaseText extends Base<IBaseTextInputOptions> {
         super._beforeUpdate(newOptions);
 
         if (this._options.constraint !== newOptions.constraint) {
-            Text._validateConstraint(newOptions.constraint);
+            BaseText._validateConstraint(newOptions.constraint);
         }
     }
 

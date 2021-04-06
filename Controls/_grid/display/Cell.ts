@@ -60,6 +60,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$isLadderCell: boolean;
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
+    protected _$markerPosition: 'left' | 'right';
 
     constructor(options?: IOptions<T>) {
         super();
@@ -501,16 +502,19 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     // region Аспект "Маркер"
 
     // По умолчанию для абстрактной ячейки маркер отключен.
-    shouldDisplayMarker(marker: boolean, markerPosition: 'left' | 'right' = 'left'): boolean {
+    shouldDisplayMarker(marker: boolean): boolean {
         return false;
     }
 
     getMarkerClasses(theme: string,
                      style: string = 'default',
                      markerClassName: TMarkerClassName = 'default',
-                     itemPadding: IItemPadding = {},
-                     markerPosition: 'left' | 'right' = 'left'): string {
-        return this._$owner.getMarkerClasses(theme, style, markerClassName, itemPadding, markerPosition);
+                     itemPadding: IItemPadding = {}): string {
+        return this._$owner.getMarkerClasses(theme, style, markerClassName, itemPadding);
+    }
+
+    getMarkerPosition(): 'left' | 'right' {
+        return this._$markerPosition;
     }
     // endregion
 
@@ -549,6 +553,7 @@ Object.assign(Cell.prototype, {
     _$instanceId: null,
     _$rowSeparatorSize: null,
     _$columnSeparatorSize: null,
+    _$markerPosition: undefined,
 
     _$isFixed: null,
     _$isSingleCell: null,

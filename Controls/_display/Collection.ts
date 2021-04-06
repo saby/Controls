@@ -140,6 +140,7 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     itemActionsProperty?: string;
     navigation?: INavigationOptionValue;
     multiSelectAccessibilityProperty?: string;
+    markerPosition?: string;
 }
 
 export interface ICollectionCounters {
@@ -706,6 +707,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _$itemActionsProperty: string;
 
     protected _$markerVisibility: string;
+
+    protected _$markerPosition: 'left' | 'right';
 
     protected _$style: string;
 
@@ -3119,6 +3122,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.topPadding = this._$topPadding;
             options.bottomPadding = this._$bottomPadding;
             options.searchValue = this._$searchValue;
+            options.markerPosition = this._$markerPosition;
             return create(options.itemModule || this._itemModule, options);
         };
     }
@@ -3925,6 +3929,7 @@ Object.assign(Collection.prototype, {
     _$contextMenuConfig: null,
     _$itemActionsProperty: '',
     _$markerVisibility: 'onactivated',
+    _$markerPosition: 'left',
     _$multiSelectAccessibilityProperty: '',
     _$style: 'default',
     _$theme: 'default',
@@ -3951,4 +3956,3 @@ Object.assign(Collection.prototype, {
     _$emptyTemplateOptions: null,
     getIdProperty: Collection.prototype.getKeyProperty
 });
-

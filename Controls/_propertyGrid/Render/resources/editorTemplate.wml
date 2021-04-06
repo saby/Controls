@@ -21,7 +21,7 @@
                      propertyValue="{{collectionItem.getPropertyValue()}}"/>
                   <ws:content>
                      <ws:partial template="{{content.resolvedTemplate}}"
-                                 readOnly="{{readOnly}}"
+                                 readOnly="{{collectionItem.getEditorReadOnly(readOnly)}}"
                                  attr:key="{{collectionItem.getUid()}}"
                                  validationStatus="{{content.validationStatus}}"
                                  caption="{{caption}}"

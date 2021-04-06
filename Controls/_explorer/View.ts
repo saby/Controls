@@ -932,8 +932,8 @@ Object.defineProperty(Explorer, 'defaultProps', {
  *
  * Полезные ссылки:
  * * {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/ руководство разработчика}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_explorer.less переменные тем оформления explorer}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления list}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_explorer.less переменные тем оформления explorer}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_list.less переменные тем оформления list}
  *
  * @demo Controls-demo/Explorer/Explorer
  * @demo Controls-demo/Explorer/Search

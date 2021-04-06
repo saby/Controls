@@ -182,6 +182,7 @@ var TreeTileViewModel = TreeViewModel.extend({
     },
 
     setTileWidth(width: number): void {
+        this._options.tileWidth = width;
         this._tileModel.setTileWidth(width);
     },
 

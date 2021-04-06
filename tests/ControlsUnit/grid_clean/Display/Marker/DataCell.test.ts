@@ -35,23 +35,23 @@ describe('Controls/_grid/display/DataCell', () => {
            it('not should display marker', () => {
                shouldDisplayMarker = false;
 
-               const cell = new DataCell({owner});
-               assert.isFalse(cell.shouldDisplayMarker(true, 'right'));
+               const cell = new DataCell({owner, markerPosition: 'right'});
+               assert.isFalse(cell.shouldDisplayMarker(true));
            });
 
            it('should display marker and is last column', () => {
                shouldDisplayMarker = true;
 
-               const cell = new DataCell({owner});
-               assert.isTrue(cell.shouldDisplayMarker(true, 'right'));
+               const cell = new DataCell({owner, markerPosition: 'right'});
+               assert.isTrue(cell.shouldDisplayMarker(true));
            });
 
            it('should display marker and is not last column', () => {
                shouldDisplayMarker = true;
                columnsCount = 2;
 
-               const cell = new DataCell({owner});
-               assert.isFalse(cell.shouldDisplayMarker(true, 'right'));
+               const cell = new DataCell({owner, markerPosition: 'right'});
+               assert.isFalse(cell.shouldDisplayMarker(true));
            });
        });
 
@@ -59,15 +59,15 @@ describe('Controls/_grid/display/DataCell', () => {
            it('not should display marker', () => {
                shouldDisplayMarker = false;
 
-               const cell = new DataCell({owner});
-               assert.isFalse(cell.shouldDisplayMarker(true, 'left'));
+               const cell = new DataCell({owner, markerPosition: 'left'});
+               assert.isFalse(cell.shouldDisplayMarker(true));
            });
 
            it('should display marker and is first column', () => {
                shouldDisplayMarker = true;
 
-               const cell = new DataCell({owner});
-               assert.isTrue(cell.shouldDisplayMarker(true, 'left'));
+               const cell = new DataCell({owner, markerPosition: 'left'});
+               assert.isTrue(cell.shouldDisplayMarker(true));
            });
 
            it('should display marker and is not first column', () => {
@@ -75,8 +75,8 @@ describe('Controls/_grid/display/DataCell', () => {
                columnsCount = 2;
                columnIndex = 1;
 
-               const cell = new DataCell({owner});
-               assert.isFalse(cell.shouldDisplayMarker(true, 'left'));
+               const cell = new DataCell({owner, markerPosition: 'left'});
+               assert.isFalse(cell.shouldDisplayMarker(true));
            });
 
            it('should display marker, is first column, has multiselect column', () => {
@@ -84,8 +84,8 @@ describe('Controls/_grid/display/DataCell', () => {
                columnsCount = 2;
                hasMultiSelectColumn = true;
 
-               const cell = new DataCell({owner});
-               assert.isFalse(cell.shouldDisplayMarker(true, 'left'));
+               const cell = new DataCell({owner, markerPosition: 'left'});
+               assert.isFalse(cell.shouldDisplayMarker(true));
            });
        });
    });

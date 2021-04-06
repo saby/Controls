@@ -49,7 +49,7 @@ class ResultsRow<T> extends Row<T> {
 
     setMetaResults(metaResults: EntityModel): void {
         this._$metaResults = metaResults;
-        this._$columnItems.forEach((c) => {
+        this._$columnItems?.forEach((c) => {
             if (c['[Controls/_display/grid/ResultsCell]']) {
                 (c as unknown as ResultsCell<T>).setMetaResults(metaResults);
             }

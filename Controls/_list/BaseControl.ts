@@ -1101,11 +1101,13 @@ const _private = {
                  */
                 if (!self.__error) {
                     if (direction === 'up') {
-                        self._currentPage = 1;
-                        self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
-                        self._notify('doScroll', ['top'], { bubbling: true });
+                        self._finishScrollToEdgeOnDrawItems = function () {
+                            self._currentPage = 1;
+                            self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
+                            self._notify('doScroll', ['top'], { bubbling: true });
+                        };
                     } else {
-                        self._jumpToEndOnDrawItems = () => { _private.jumpToEnd(self) };
+                        self._finishScrollToEdgeOnDrawItems = () => { _private.jumpToEnd(self) };
                     }
                 }
             });
@@ -1334,14 +1336,18 @@ const _private = {
         }
 
         // hideIndicator вызывают после окончания порционного поиска и нужно пересчитать отображение ромашек(attachToNull)
+        // Ромашку нужно пересчитывать одновременно с отрисовкой новых элементов, иначе это вызовет лишний цикл синхронизации
+        // и из-за этого ромашка скроется раньше, чем отрисуются новые элементы. Поэтому появятся прыжки при подгрузке
         if (self._loadingState === 'down') {
-            _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
+            self._recountIndicatorAfterDrawItems = () => _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
         } else if (self._loadingState === 'up') {
-            const scrollTop = self._scrollTop;
-            if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
-                self._needScrollToFirstItem = false;
-                self._scrollTop = scrollTop;
-            }
+             self._recountIndicatorAfterDrawItems = () => {
+                const scrollTop = self._scrollTop;
+                if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
+                    self._needScrollToFirstItem = false;
+                    self._scrollTop = scrollTop;
+                }
+            };
         }
 
         self._loadingState = null;
@@ -2406,7 +2412,7 @@ const _private = {
             self._currentPage = self._pagingCfg.pagesCount;
             self._scrollPagingCtr.shiftToEdge('down', hasMoreData);
         }
-        if (self._jumpToEndOnDrawItems) {
+        if (self._finishScrollToEdgeOnDrawItems) {
 
             // Если для подскролла в конец делали reload, то индексы виртуального скролла
             // поставили такие, что последниц элемент уже отображается, scrollToItem не нужен.
@@ -2516,13 +2522,32 @@ const _private = {
 
         switch (typeName) {
             case 'selectAll':
+                selectionController.setLimit(0);
                 result = selectionController.selectAll();
                 break;
             case 'unselectAll':
+                selectionController.setLimit(0);
                 result = selectionController.unselectAll();
                 break;
             case 'toggleAll':
+                selectionController.setLimit(0);
                 result = selectionController.toggleAll();
+                break;
+            case 'count-10':
+                selectionController.increaseLimitByCount(10);
+                result = selectionController.selectAll();
+                break;
+            case 'count-25':
+                selectionController.increaseLimitByCount(25);
+                result = selectionController.selectAll();
+                break;
+            case 'count-50':
+                selectionController.increaseLimitByCount(50);
+                result = selectionController.selectAll();
+                break;
+            case 'count-100':
+                selectionController.increaseLimitByCount(100);
+                result = selectionController.selectAll();
                 break;
         }
 
@@ -4383,7 +4408,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             const container = this._container[0] || this._container;
             container.removeEventListener('dragstart', this._nativeDragStart);
         }
-
+        if (this._finishScrollToEdgeOnDrawItems) {
+            this._finishScrollToEdgeOnDrawItems = null;
+        }
         // Если sourceController есть в опциях, значит его создали наверху
         // например list:DataContainer, и разрушать его тоже должен создатель.
         if (this._sourceController) {
@@ -4578,6 +4605,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 this.checkTriggerVisibilityAfterRedraw();
             }
 
+            if (this._recountIndicatorAfterDrawItems) {
+                this._recountIndicatorAfterDrawItems();
+                this._recountIndicatorAfterDrawItems = null;
+            }
         }
         this._actualPagingVisible = this._pagingVisible;
 
@@ -4600,9 +4631,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         this._updateInProgress = false;
-        if (this._jumpToEndOnDrawItems && this._shouldNotifyOnDrawItems) {
-            this._jumpToEndOnDrawItems();
-            this._jumpToEndOnDrawItems = null;
+        if (this._finishScrollToEdgeOnDrawItems && this._shouldNotifyOnDrawItems) {
+            this._finishScrollToEdgeOnDrawItems();
+            this._finishScrollToEdgeOnDrawItems = null;
         }
         this._notifyOnDrawItems();
         if (this._callbackBeforePaint) {
@@ -4672,7 +4703,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._needScrollToFirstItem) {
             this._needScrollToFirstItem = false;
 
-            if (this._jumpToEndOnDrawItems) {
+            if (this._finishScrollToEdgeOnDrawItems) {
                 return;
             }
             const firstItem = this.getViewModel().at(0);

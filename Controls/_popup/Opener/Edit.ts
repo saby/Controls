@@ -14,7 +14,7 @@ interface IEditOpenerOptions extends IEditOptions, IControlOptions {}
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2FPopup%2FEdit%2FOpener демо-пример}
  * * {@link /doc/platform/developmentapl/interface-development/controls/list/actions/editing-dialog/#step4 руководство разработчика}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_popupTemplate.less переменные тем оформления}
  * @extends Controls/_popup/Opener
  * @implements Controls/popup:IBaseOpener
  * @public

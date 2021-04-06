@@ -7,7 +7,7 @@ import template = require('wml!Controls/_dateRange/RelationWrapper/RelationWrapp
  * 
  * @remark
  * Полезные ссылки:
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less переменные тем оформления} 
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dateRange.less переменные тем оформления} 
  *
  * @class Controls/_dateRange/RelationWrapper
  * @extends UI/Base:Control
