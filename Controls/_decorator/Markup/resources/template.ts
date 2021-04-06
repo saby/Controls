@@ -209,7 +209,7 @@ import { _FocusAttrs } from 'UI/Focus';
 
          // Mobile can't work with tags yet, so can be value like ["text"].
          // TODO: cancel this merge in https://online.sbis.ru/opendoc.html?guid=a8a904f8-6c0d-4754-9e02-d53da7d32c99
-         if (value.length === 1 && isString(value[0])) {
+         if (Array.isArray(value) && value.length === 1 && isString(value[0])) {
             value = ['div', value[0].split('\n').map(function(str, index) {
                // Newline symbol does not shown in the middle of tag.
                return index ? ['p', '\n' + str] : ['p', str];
