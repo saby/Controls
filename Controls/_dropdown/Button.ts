@@ -36,8 +36,8 @@ export interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHei
  *
  * * {@link /materials/Controls-demo/app/Controls-demo%2Fdropdown_new%2FButton%2FIndex демо-пример}
  * * {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/button/ руководство разработчика}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less переменные тем оформления dropdown}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less переменные тем оформления dropdownPopup}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdown.less переменные тем оформления dropdown}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdownPopup.less переменные тем оформления dropdownPopup}
  * @demo Controls-demo/dropdown_new/Button/Source/Index
  * @class Controls/_dropdown/Button
  * @extends Controls/_buttons/Button

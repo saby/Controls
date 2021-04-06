@@ -8,7 +8,7 @@ import {EventUtils} from 'UI/Events';
  *
  * @remark
  * Полезные ссылки:
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_input.less переменные тем оформления}
  *
  * @class Controls/_input/Adapter/Mask
  * @extends UI/_base/Control

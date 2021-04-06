@@ -61,7 +61,7 @@ export interface IMultiSelectorOptions extends IControlOptions {
  * @remark
  * Полезные ссылки:
  * * {@link /doc/platform/developmentapl/interface-development/controls/list/actions/operations/ руководство разработчика}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_operations.less переменные тем оформления}
  *
  * @class Controls/_operations/SimpleMultiSelector
  * @extends Core/Control

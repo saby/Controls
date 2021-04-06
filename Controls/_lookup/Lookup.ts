@@ -30,7 +30,7 @@ export interface ILookupOptions extends ILookupInputOptions {
  *
  * Полезные ссылки:
  * * {@link /doc/platform/developmentapl/interface-development/controls/directory/lookup/ руководство разработчика}
- * * {@link /materials/Controls-demo/app/Controls-demo%2FLookup%2FIndexпеременные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_lookup.less переменные тем оформления}
  *
  *
  * @class Controls/_lookup/Lookup

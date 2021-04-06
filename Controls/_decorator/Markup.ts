@@ -12,7 +12,7 @@ import 'css!Controls/decorator';
     * <a href="/doc/platform/developmentapl/service-development/service-contract/logic/json-markup-language/markup/">Руководство разработчика.</a>
     * @remark
     * Полезные ссылки:
-    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less переменные тем оформления}
+    * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_decorator.less переменные тем оформления}
     *
     * @class Controls/_decorator/Markup
     * @extends UI/Base:Control

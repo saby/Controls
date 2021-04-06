@@ -133,7 +133,7 @@ export interface IMenuOptions {
  * @remark
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2FToolbar%2FBase%2FIndex демо-пример}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toolbars.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/69b02f939005820476d32a184ca50b72f9533076/Controls-default-theme/variables/_toolbars.less переменные тем оформления}
  *
  * @class Controls/_toolbars/View
  * @extends UI/Base:Control

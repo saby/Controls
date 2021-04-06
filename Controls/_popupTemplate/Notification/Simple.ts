@@ -15,7 +15,7 @@ export interface INotificationSimpleOptions extends IControlOptions, INotificati
  * @remark
  * Полезные ссылки:
  * * {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/ руководство разработчика}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_popupTemplate.less переменные тем оформления}
  *
  * @class Controls/_popupTemplate/Notification/Simple
  * @extends UI/Base:Control
