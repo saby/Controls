@@ -66,9 +66,12 @@ export default class PropertyGridCollectionItem<T> extends TreeItem<T> {
     }
 
     getEditorOptions(): object {
-        const itemContents = this.getContents();
-        const editorOptions = itemContents.get('editorOptions') || {};
-        return editorOptions;
+        return this.getContents().get('editorOptions') || {};
+    }
+
+    getEditorReadOnly(templateReadOnly: boolean): boolean {
+        const editorOptions = this.getEditorOptions();
+        return editorOptions.hasOwnProperty('readOnly') ? editorOptions.readOnly : templateReadOnly;
     }
 
     getValidateTemplateName(): string {
