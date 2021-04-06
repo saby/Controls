@@ -480,6 +480,9 @@
              <li>
                <a href="Controls-demo%252FSpoiler%252FHeading%252FFontWeight%252FIndex">FontWeight</a>
              </li>
+             <li>
+                <a href="Controls-demo%252FSpoiler%252FHeading%252FIndex">Index</a>
+             </li>
            </ul>
          </Controls.spoiler:View>
          <Controls.spoiler:View captions="Header">
@@ -506,6 +509,9 @@
             <li>
               <a href="Controls-demo%252FSpoiler%252FView%252FHeaderContentTemplate%252FIndex">HeaderContentTemplate</a>
             </li>
+            <li>
+              <a href="Controls-demo%252FSpoiler%252FView%252FIndex">Index</a>
+            </li>
           </ul>
          </Controls.spoiler:View>
          <Controls.spoiler:View captions="Cut">
@@ -524,6 +530,9 @@
             </li>
             <li>
               <a href="Controls-demo%252FSpoiler%252FCut%252FBackgroundStyle%252FIndex">BackgroundStyle</a>
+            </li>
+            <li>
+              <a href="Controls-demo%252FSpoiler%252FCut%252FIndex">Index</a>
             </li>
           </ul>
          </Controls.spoiler:View>
