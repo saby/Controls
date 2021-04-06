@@ -8,8 +8,7 @@
             itemActionsPosition="custom"
             name="gridView">
         <ws:itemTemplate>
-            <ws:partial template="Controls/treeGridNew:ItemTemplate"
-                        itemActionsClass="my-super-class"/>
+            <ws:partial template="Controls/treeGridNew:ItemTemplate"/>
         </ws:itemTemplate>
         <ws:columns>
             <ws:Array>
