@@ -122,7 +122,7 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
  *
  * @remark
  * Полезные ссылки:
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_decorator.less переменные тем оформления}
  *
  * @class Controls/_decorator/Money
  * @extends UI/Base:Control

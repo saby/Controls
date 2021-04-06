@@ -26,10 +26,11 @@ export class Controller {
    private _selectedKeys: TKeys = [];
    private _excludedKeys: TKeys = [];
    private _strategy: ISelectionStrategy;
-   private _limit: number|undefined;
+   private _limit: number = 0;
    private _searchValue: string;
    private _filter: any;
    private _filterChanged: boolean;
+   private _lastCheckedKey: CrudEntityKey;
 
    private get _selection(): ISelection {
       return {
@@ -116,7 +117,19 @@ export class Controller {
     * @public
     */
    setLimit(limit: number|undefined): void {
-      this._limit = limit;
+      if (!(limit === undefined)) {
+         this._limit = limit;
+      }
+   }
+
+   /**
+    * Увеличивает лимит на указанное количество
+    * @param {number} count Количество
+    * @void
+    * @public
+    */
+   increaseLimitByCount(count: number): void {
+      this._limit += count;
    }
 
    /**
@@ -204,6 +217,7 @@ export class Controller {
          }
       }
 
+      this._lastCheckedKey = key;
       return newSelection;
    }
 
@@ -231,6 +245,33 @@ export class Controller {
     */
    unselectAll(): ISelection {
       return this._strategy.unselectAll(this._selection);
+   }
+
+   /**
+    * Выбирает элементы с переданного ключа до предыдущего выбранного
+    * @return {ISelection}
+    */
+   selectRange(key: CrudEntityKey): ISelection {
+      if (key === this._lastCheckedKey) {
+         return this._selection;
+      }
+
+      let newSelection;
+
+      if (!this._lastCheckedKey) {
+         newSelection =  this.toggleItem(key);
+      } else {
+         const firstIndex = this._model.getIndexByKey(key);
+         const secondIndex = this._model.getIndexByKey(this._lastCheckedKey);
+         const sliceStart = secondIndex > firstIndex ? firstIndex : secondIndex;
+         const sliceEnd = sliceStart === secondIndex ? firstIndex + 1 : secondIndex + 1;
+         const items = this._model.getItems().slice(sliceStart, sliceEnd);
+
+         newSelection = this._strategy.selectRange(this._selection, items);
+      }
+
+      this._lastCheckedKey = key;
+      return newSelection;
    }
 
    /**

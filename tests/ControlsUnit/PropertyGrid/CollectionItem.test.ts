@@ -1,5 +1,8 @@
 import {PropertyGridCollection} from 'Controls/propertyGrid';
-import {PROPERTY_NAME_FIELD, DEFAULT_VALIDATORS, DEFAULT_EDITORS} from 'Controls/_propertyGrid/Constants';
+import {PROPERTY_NAME_FIELD,
+        DEFAULT_VALIDATOR_TEMPLATE,
+        DEFAULT_EDITORS
+} from 'Controls/_propertyGrid/Constants';
 import {assert} from 'chai';
 import {Model} from 'Types/entity';
 import {default as IPropertyGridItem} from 'Controls/_propertyGrid/IProperty';
@@ -26,7 +29,8 @@ const source = new RecordSet<IPropertyGridItem>({
             name: 'description',
             caption: 'Описание',
             editorOptions: {
-                minLines: 3
+                minLines: 3,
+                readOnly: true
             },
             editorClass: 'controls-demo-pg-text-editor',
             group: 'text',
@@ -136,7 +140,7 @@ describe('Controls/propertyGrid:CollectionItem', () => {
     describe('getValidateTemplateName', () => {
         it('returns default validator by property type', () => {
             const template = collection.getItemBySourceKey('validate').getValidateTemplateName();
-            assert.equal(template, DEFAULT_VALIDATORS.text);
+            assert.equal(template, DEFAULT_VALIDATOR_TEMPLATE);
         });
 
         it('returns validator from validateTemplateName property', () => {
@@ -158,5 +162,17 @@ describe('Controls/propertyGrid:CollectionItem', () => {
             const propertyValue = collection.getItemBySourceKey('description').getPropertyValue();
             assert.equal(propertyValue, 'This is http://mysite.com');
         });
-    })
+    });
+
+    describe('getEditorReadOnly', () => {
+        it('returns readOnly from editorOptions', () => {
+            const readOnly = collection.getItemBySourceIndex(0).getEditorReadOnly(false);
+            assert.isTrue(readOnly);
+        });
+
+        it('returns readOnly from arguments', () => {
+            const readOnly = collection.getItemBySourceIndex(1).getEditorReadOnly(false);
+            assert.isFalse(readOnly);
+        });
+    });
 });

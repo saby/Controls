@@ -126,6 +126,13 @@ const _private = {
         itemsModelCurrent.getContents = () => (
             itemsModelCurrent.dispItem.getContents ? itemsModelCurrent.dispItem.getContents() : null
         );
+        Object.defineProperty(itemsModelCurrent, 'contents', {
+            get: () => {
+                return itemsModelCurrent.getContents();
+            },
+            enumerable: false,
+            configurable: true
+        });
         itemsModelCurrent.hasVisibleActions = (): boolean => (
             itemsModelCurrent.dispItem.hasVisibleActions !== undefined ? itemsModelCurrent.dispItem.hasVisibleActions() : false
         );

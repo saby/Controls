@@ -9,7 +9,7 @@ import * as ViewModel from 'Controls/_input/Phone/ViewModel';
  *
  * Полезные ссылки:
  * * {@link /doc/platform/developmentapl/interface-development/controls/input/phone/ руководство разработчика}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_input.less переменные тем оформления}
  * * {@link http://axure.tensor.ru/standarts/v7/%D0%BF%D0%BE%D0%BB%D0%B5_%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0__%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F_03_.html стандарт}
  *
  * @class Controls/_input/Phone

@@ -12,8 +12,8 @@
       </Controls.editableArea:View>
    </div>
    <div class="ws-flexbox">
-      <Controls.buttons:Button caption="Начать редактирование" on:click="_beginEdit()"/>
-      <Controls.buttons:Button caption="Отменить редактирование" on:click="_cancelEdit()"/>
-      <Controls.buttons:Button caption="Сохранить изменения и завершить редактирование" on:click="_commitEdit()"/>
+      <Controls.buttons:Button attr:class="demo-EditableArea__beginEdit" caption="Начать редактирование" on:click="_beginEdit()"/>
+      <Controls.buttons:Button attr:class="demo-EditableArea__cancelEdit" caption="Отменить редактирование" on:click="_cancelEdit()"/>
+      <Controls.buttons:Button attr:class="demo-EditableArea__commitEdit" caption="Сохранить изменения и завершить редактирование" on:click="_commitEdit()"/>
    </div>
 </div>

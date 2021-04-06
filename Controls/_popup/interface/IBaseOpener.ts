@@ -235,7 +235,7 @@ export interface IBaseOpener {
 
 /**
  * @name Controls/_popup/interface/IBaseOpener#templateOptions
- * @cfg {String|TemplateFunction} Опции для контрола, переданного в {@link template}
+ * @cfg {Object} Опции для контрола, переданного в {@link template}
  */
 
 /*

@@ -14,7 +14,7 @@ const CALM_DELAY: number = 300; // During what time should not move the mouse to
  * @class Controls/_popup/Previewer
  * @remark
  * Полезные ссылки:
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_popupTemplate.less переменные тем оформления}
  *
  * @extends UI/Base:Control
  *
@@ -143,7 +143,9 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
     }
 
     protected _scrollHandler(event: SyntheticEvent<MouseEvent>): void {
-        this._close(event);
+        if (this._options.actionOnScroll === 'close') {
+            this._close(event);
+        }
     }
 
     protected _contentMouseenterHandler(event: SyntheticEvent<MouseEvent>): void {
@@ -245,7 +247,8 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
 
     static getDefaultOptions(): IPreviewerOptions {
         return {
-            trigger: 'hoverAndClick'
+            trigger: 'hoverAndClick',
+            actionOnScroll: 'close'
         };
     }
 }

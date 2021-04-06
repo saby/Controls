@@ -439,8 +439,8 @@ const _private = {
         if (self._options.useNewModel) {
             // TODO restore marker + maybe should recreate the model completely
             if (!isEqualItems(oldCollection, items) || oldCollection !== items) {
+                self._onItemsReady(newOptions, items);
                 listModel.setCollection(items);
-                self._onItemsReady(newOptions, listModel.getCollection());
             }
 
             // При старой модели зовется из модели. Нужен чтобы в explorer поменять модель только уже при наличии данных
@@ -1101,11 +1101,13 @@ const _private = {
                  */
                 if (!self.__error) {
                     if (direction === 'up') {
-                        self._currentPage = 1;
-                        self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
-                        self._notify('doScroll', ['top'], { bubbling: true });
+                        self._finishScrollToEdgeOnDrawItems = function () {
+                            self._currentPage = 1;
+                            self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
+                            self._notify('doScroll', ['top'], { bubbling: true });
+                        };
                     } else {
-                        self._jumpToEndOnDrawItems = () => { _private.jumpToEnd(self) };
+                        self._finishScrollToEdgeOnDrawItems = () => { _private.jumpToEnd(self) };
                     }
                 }
             });
@@ -1334,14 +1336,18 @@ const _private = {
         }
 
         // hideIndicator вызывают после окончания порционного поиска и нужно пересчитать отображение ромашек(attachToNull)
+        // Ромашку нужно пересчитывать одновременно с отрисовкой новых элементов, иначе это вызовет лишний цикл синхронизации
+        // и из-за этого ромашка скроется раньше, чем отрисуются новые элементы. Поэтому появятся прыжки при подгрузке
         if (self._loadingState === 'down') {
-            _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
+            self._recountIndicatorAfterDrawItems = () => _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
         } else if (self._loadingState === 'up') {
-            const scrollTop = self._scrollTop;
-            if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
-                self._needScrollToFirstItem = false;
-                self._scrollTop = scrollTop;
-            }
+             self._recountIndicatorAfterDrawItems = () => {
+                const scrollTop = self._scrollTop;
+                if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
+                    self._needScrollToFirstItem = false;
+                    self._scrollTop = scrollTop;
+                }
+            };
         }
 
         self._loadingState = null;
@@ -2406,7 +2412,7 @@ const _private = {
             self._currentPage = self._pagingCfg.pagesCount;
             self._scrollPagingCtr.shiftToEdge('down', hasMoreData);
         }
-        if (self._jumpToEndOnDrawItems) {
+        if (self._finishScrollToEdgeOnDrawItems) {
 
             // Если для подскролла в конец делали reload, то индексы виртуального скролла
             // поставили такие, что последниц элемент уже отображается, scrollToItem не нужен.
@@ -2516,13 +2522,32 @@ const _private = {
 
         switch (typeName) {
             case 'selectAll':
+                selectionController.setLimit(0);
                 result = selectionController.selectAll();
                 break;
             case 'unselectAll':
+                selectionController.setLimit(0);
                 result = selectionController.unselectAll();
                 break;
             case 'toggleAll':
+                selectionController.setLimit(0);
                 result = selectionController.toggleAll();
+                break;
+            case 'count-10':
+                selectionController.increaseLimitByCount(10);
+                result = selectionController.selectAll();
+                break;
+            case 'count-25':
+                selectionController.increaseLimitByCount(25);
+                result = selectionController.selectAll();
+                break;
+            case 'count-50':
+                selectionController.increaseLimitByCount(50);
+                result = selectionController.selectAll();
+                break;
+            case 'count-100':
+                selectionController.increaseLimitByCount(100);
+                result = selectionController.selectAll();
                 break;
         }
 
@@ -3462,6 +3487,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _initNewModel(cfg, data, viewModelConfig) {
         this._items = data;
+
+        this._onItemsReady(cfg, data);
         this._listViewModel = this._createNewModel(
             data,
             viewModelConfig,
@@ -3470,8 +3497,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         _private.setHasMoreData(this._listViewModel,
             _private.hasMoreDataInAnyDirection(this, this._sourceController), true);
-
-        this._onItemsReady(cfg, this._listViewModel.getCollection());
 
         if (this._listViewModel) {
             _private.initListViewModelHandler(this, this._listViewModel, true);
@@ -3513,12 +3538,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             viewModelConfig.supportVirtualScroll = self._needScrollCalculation;
             self._listViewModel = new newOptions.viewModelConstructor(viewModelConfig);
         } else if (newOptions.useNewModel && items) {
+            self._onItemsReady(newOptions, items);
             self._listViewModel = self._createNewModel(
                 items,
                 viewModelConfig,
                 newOptions.viewModelConstructor
             );
-            self._onItemsReady(newOptions, self._listViewModel.getCollection());
         }
 
         if (self._listViewModel) {
@@ -4383,7 +4408,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             const container = this._container[0] || this._container;
             container.removeEventListener('dragstart', this._nativeDragStart);
         }
-
+        if (this._finishScrollToEdgeOnDrawItems) {
+            this._finishScrollToEdgeOnDrawItems = null;
+        }
         // Если sourceController есть в опциях, значит его создали наверху
         // например list:DataContainer, и разрушать его тоже должен создатель.
         if (this._sourceController) {
@@ -4578,6 +4605,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 this.checkTriggerVisibilityAfterRedraw();
             }
 
+            if (this._recountIndicatorAfterDrawItems) {
+                this._recountIndicatorAfterDrawItems();
+                this._recountIndicatorAfterDrawItems = null;
+            }
         }
         this._actualPagingVisible = this._pagingVisible;
 
@@ -4600,9 +4631,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         this._updateInProgress = false;
-        if (this._jumpToEndOnDrawItems && this._shouldNotifyOnDrawItems) {
-            this._jumpToEndOnDrawItems();
-            this._jumpToEndOnDrawItems = null;
+        if (this._finishScrollToEdgeOnDrawItems && this._shouldNotifyOnDrawItems) {
+            this._finishScrollToEdgeOnDrawItems();
+            this._finishScrollToEdgeOnDrawItems = null;
         }
         this._notifyOnDrawItems();
         if (this._callbackBeforePaint) {
@@ -4672,7 +4703,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._needScrollToFirstItem) {
             this._needScrollToFirstItem = false;
 
-            if (this._jumpToEndOnDrawItems) {
+            if (this._finishScrollToEdgeOnDrawItems) {
                 return;
             }
             const firstItem = this.getViewModel().at(0);
@@ -4845,11 +4876,20 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _onCheckBoxClick(e: SyntheticEvent, item: CollectionItem<Model>, readOnly: boolean): void {
         const contents = _private.getPlainItemContents(item);
         const key = contents.getKey();
+
         if (!readOnly) {
-            const newSelection = _private.getSelectionController(this).toggleItem(key);
+            let newSelection;
+
+            if (e.nativeEvent && e.nativeEvent.shiftKey) {
+                newSelection = _private.getSelectionController(this).selectRange(key);
+            } else {
+                newSelection = _private.getSelectionController(this).toggleItem(key);
+            }
+
             this._notify('checkboxClick', [key, item.isSelected()]);
             _private.changeSelection(this, newSelection);
         }
+
         // если чекбокс readonly, то мы все равно должны проставить маркер
         this.setMarkedKey(key);
     }

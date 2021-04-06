@@ -24,7 +24,7 @@ import 'css!Controls/list';
  * Для того, чтобы избежать этого, рекомендуется навесить CSS-класс **controls-Input_negativeOffset** на редактируемую область.
  *
  * Полезные ссылки:
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_editableArea.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_editableArea.less переменные тем оформления}
  *
  * @demo Controls-demo/EditableArea/View/Index
  */

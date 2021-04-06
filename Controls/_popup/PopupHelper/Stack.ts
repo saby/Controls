@@ -8,6 +8,10 @@ import {IStackPopupOptions} from 'Controls/_popup/interface/IStack';
  * @implements Controls/_interface/IPropStorage
  * @implements Controls/_popup/interface/IStackOpener
  *
+ * @remark
+ * Для предотвращения потенциальной утечки памяти не забывайте уничтожать экземпляр оперена
+ * с помощью метода {@link Controls/_popup/PopupHelper/Stack#destroy destroy}.
+ *
  * @author Красильников А.С.
  * @public
  */
