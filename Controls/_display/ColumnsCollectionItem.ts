@@ -41,8 +41,8 @@ export default class ColumnsCollectionItem<T> extends CollectionItem<T> {
     }
 
     getMultiSelectClasses(theme: string): string {
-        let classes = super.getMultiSelectClasses.apply(this, arguments);;
-        classes = classes.replace('controls-ListView__checkbox_position', 'controls-ColumnsView__checkbox_position');
+        let classes = super.getMultiSelectClasses.apply(this, arguments);
+        classes += `controls-ColumnsView__checkbox_position-${this.getOwner().getMultiSelectPosition()}_theme-${theme} `;
         return classes;
     }
 
