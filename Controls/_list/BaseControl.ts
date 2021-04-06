@@ -1101,11 +1101,13 @@ const _private = {
                  */
                 if (!self.__error) {
                     if (direction === 'up') {
-                        self._currentPage = 1;
-                        self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
-                        self._notify('doScroll', ['top'], { bubbling: true });
+                        self._finishScrollToEdgeOnDrawItems = function () {
+                            self._currentPage = 1;
+                            self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
+                            self._notify('doScroll', ['top'], { bubbling: true });
+                        };
                     } else {
-                        self._jumpToEndOnDrawItems = () => { _private.jumpToEnd(self) };
+                        self._finishScrollToEdgeOnDrawItems = () => { _private.jumpToEnd(self) };
                     }
                 }
             });
@@ -2406,7 +2408,7 @@ const _private = {
             self._currentPage = self._pagingCfg.pagesCount;
             self._scrollPagingCtr.shiftToEdge('down', hasMoreData);
         }
-        if (self._jumpToEndOnDrawItems) {
+        if (self._finishScrollToEdgeOnDrawItems) {
 
             // Если для подскролла в конец делали reload, то индексы виртуального скролла
             // поставили такие, что последниц элемент уже отображается, scrollToItem не нужен.
@@ -4383,7 +4385,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             const container = this._container[0] || this._container;
             container.removeEventListener('dragstart', this._nativeDragStart);
         }
-
+        if (this._finishScrollToEdgeOnDrawItems) {
+            this._finishScrollToEdgeOnDrawItems = null;
+        }
         // Если sourceController есть в опциях, значит его создали наверху
         // например list:DataContainer, и разрушать его тоже должен создатель.
         if (this._sourceController) {
@@ -4600,9 +4604,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         this._updateInProgress = false;
-        if (this._jumpToEndOnDrawItems && this._shouldNotifyOnDrawItems) {
-            this._jumpToEndOnDrawItems();
-            this._jumpToEndOnDrawItems = null;
+        if (this._finishScrollToEdgeOnDrawItems && this._shouldNotifyOnDrawItems) {
+            this._finishScrollToEdgeOnDrawItems();
+            this._finishScrollToEdgeOnDrawItems = null;
         }
         this._notifyOnDrawItems();
         if (this._callbackBeforePaint) {
@@ -4672,7 +4676,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._needScrollToFirstItem) {
             this._needScrollToFirstItem = false;
 
-            if (this._jumpToEndOnDrawItems) {
+            if (this._finishScrollToEdgeOnDrawItems) {
                 return;
             }
             const firstItem = this.getViewModel().at(0);
@@ -4845,11 +4849,20 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _onCheckBoxClick(e: SyntheticEvent, item: CollectionItem<Model>, readOnly: boolean): void {
         const contents = _private.getPlainItemContents(item);
         const key = contents.getKey();
+
         if (!readOnly) {
-            const newSelection = _private.getSelectionController(this).toggleItem(key);
+            let newSelection;
+
+            if (e.nativeEvent && e.nativeEvent.shiftKey) {
+                newSelection = _private.getSelectionController(this).selectRange(key);
+            } else {
+                newSelection = _private.getSelectionController(this).toggleItem(key);
+            }
+
             this._notify('checkboxClick', [key, item.isSelected()]);
             _private.changeSelection(this, newSelection);
         }
+
         // если чекбокс readonly, то мы все равно должны проставить маркер
         this.setMarkedKey(key);
     }
