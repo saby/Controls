@@ -1,6 +1,8 @@
-<div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo__flexColumn controls-ControlsDemo__stretch">
+<div class="controlsDemo__wrapper {{_expanded ? 'controlsDemo__height300'}} controlsDemo_fixedWidth300 controlsDemo__flexColumn controls-ControlsDemo__stretch"
+     on:register="_registerHandler()"
+     on:unregister="_unregisterHandler()">
     <Controls.scroll:Container attr:class="controls-ControlsDemo__stretch">
-        <div >
+        <div>
             <ws:for data="key in 2">
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -14,4 +16,5 @@
             </ws:for>
         </div>
     </Controls.scroll:Container>
+    <Controls.buttons:Button caption="{[Уменьшить размер контейнера]}" on:click="_expandContainer()"/>
 </div>
