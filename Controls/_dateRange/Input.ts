@@ -1,6 +1,7 @@
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {IDateRangeValidators, IDateRangeValidatorsOptions} from 'Controls/interface';
+import {IDateRangeOptions} from './interfaces/IDateRange';
 import {EventUtils} from 'UI/Events';
 import DateRangeModel from './DateRangeModel';
 import {Range, Popup as PopupUtil} from 'Controls/dateUtils';
@@ -11,7 +12,7 @@ import {Logger} from 'UI/Utils';
 import 'css!Controls/dateRange';
 import 'css!Controls/CommonClasses';
 
-interface IDateRangeInputOptions extends IDateRangeValidatorsOptions {
+interface IDateRangeInputOptions extends IDateRangeValidatorsOptions, IControlOptions, IDateRangeOptions {
 }
 
 /**
@@ -67,14 +68,14 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
     private _dependenciesTimer: DependencyTimer = null;
     private _loadCalendarPopupPromise: Promise<unknown> = null;
 
-    protected _rangeModel;
+    protected _rangeModel: DateRangeModel;
 
     protected _startValueValidators: Function[] = [];
     protected _endValueValidators: Function[] = [];
     private _shouldValidate: boolean;
     private _state: string;
 
-    protected _beforeMount(options: IDateRangeInputOptions) {
+    protected _beforeMount(options: IDateRangeInputOptions): void {
         this._rangeModel = new DateRangeModel({dateConstructor: this._options.dateConstructor});
         this._rangeModel.update(options);
         EventUtils.proxyModelEvents(
@@ -86,7 +87,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         this._stateChangedCallback = this._stateChangedCallback.bind(this);
     }
 
-    protected _beforeUpdate(options: IDateRangeInputOptions) {
+    protected _beforeUpdate(options: IDateRangeInputOptions): void {
         if (this._options.startValue !== options.startValue ||
             this._options.endValue !== options.endValue) {
             this._rangeModel.update(options);
@@ -101,12 +102,12 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         }
     }
 
-    protected _beforeUnmount() {
+    protected _beforeUnmount(): void {
         this._rangeModel.destroy();
     }
 
     openPopup(event: SyntheticEvent): void {
-        var cfg = {
+        const cfg = {
             ...PopupUtil.getCommonOptions(this),
             target: this._container,
             template: 'Controls/datePopup',
@@ -161,7 +162,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         this._onResult(startValue, endValue);
     }
 
-    protected _afterUpdate(options): void {
+    protected _afterUpdate(options: IDateRangeInputOptions): void {
         if (this._shouldValidate) {
             this._shouldValidate = false;
             this._children.startValueField.validate();
@@ -180,7 +181,8 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         this._shouldValidate = true;
     }
 
-    protected _inputControlHandler(event: SyntheticEvent, value: unknown, displayValue: string, selection: ISelection): void {
+    protected _inputControlHandler(event: SyntheticEvent, value: unknown,
+                                   displayValue: string, selection: ISelection): void {
         if (selection.end === displayValue.length) {
             this._children.endValueField.activate({enableScreenKeyboard: true});
         }
@@ -207,12 +209,20 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
 
     private _updateStartValueValidators(validators?: Function[]): void {
         const startValueValidators: Function[] = validators || this._options.startValueValidators;
-        this._startValueValidators = Range.getRangeValueValidators(startValueValidators, this._rangeModel, this._rangeModel.startValue);
+        this._startValueValidators = Range.getRangeValueValidators(
+            startValueValidators,
+            this._rangeModel,
+            this._rangeModel.startValue
+        );
     }
 
     private _updateEndValueValidators(validators?: Function[]): void {
         const endValueValidators: Function[] = validators || this._options.endValueValidators;
-        this._endValueValidators = Range.getRangeValueValidators(endValueValidators, this._rangeModel, this._rangeModel.endValue);
+        this._endValueValidators = Range.getRangeValueValidators(
+            endValueValidators,
+            this._rangeModel,
+            this._rangeModel.endValue
+        );
     }
 
     static getDefaultOptions(): Partial<IDateRangeInputOptions> {

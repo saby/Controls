@@ -1,6 +1,6 @@
-import BaseSelector from './BaseSelector';
+import BaseSelector, {IBaseSelectorOptions} from './BaseSelector';
 import isEmpty = require('Core/helpers/Object/isEmpty');
-import {IDateRangeOptions} from "./interfaces/IDateRange";
+import {IDateRangeOptions} from './interfaces/IDateRange';
 import ILinkView from './interfaces/ILinkView';
 import IDateRangeSelectable = require('./interfaces/IDateRangeSelectable');
 import componentTmpl = require('wml!Controls/_dateRange/RangeSelector/RangeSelector');
@@ -9,6 +9,8 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
 import 'css!Controls/dateRange';
 
+interface IRangeSelector extends IControlOptions, IDateRangeOptions, IBaseSelectorOptions {
+}
 /**
  * Контрол позволяет пользователю выбрать диапазон дат с начальным и конечным значениями в календаре.
  * Выбор происходит с помощью панели большого выбора периода.
@@ -52,23 +54,24 @@ import 'css!Controls/dateRange';
  * @demo Controls-demo/Input/Date/RangeLink
  *
  */
-export default class RangeSelector extends BaseSelector<IControlOptions> {
+export default class RangeSelector extends BaseSelector<IRangeSelector> {
     protected _template: TemplateFunction = componentTmpl;
     protected _emptyCaption: string;
+    EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
 
-    protected _beforeMount(options): void {
+    protected _beforeMount(options: IRangeSelector): void {
         this._updateValues(options);
         super._beforeMount(options);
         this._setEmptyCaption(options);
     }
 
-    protected _beforeUpdate(options): void {
+    protected _beforeUpdate(options: IRangeSelector): void {
         this._updateValues(options);
         super._beforeUpdate(options);
         this._setEmptyCaption(options);
     }
 
-    private _setEmptyCaption(options): void {
+    private _setEmptyCaption(options: IRangeSelector): void {
         if (options.emptyCaption) {
             if (this._emptyCaption !== options.emptyCaption) {
                 this._emptyCaption = options.emptyCaption;
@@ -82,7 +85,7 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
         }
     }
 
-    _updateValues(options): void {
+    _updateValues(options: IRangeSelector): void {
         if (options.startValue || options.startValue === null) {
             this._startValue = options.startValue;
         } else {
@@ -99,7 +102,7 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
         }
     }
 
-    _updateRangeModel(options: IDateRangeOptions): void {
+    _updateRangeModel(options: IRangeSelector): void {
         const opts: IDateRangeOptions = {};
         if (!(options.selectionType === IDateRangeSelectable.SELECTION_TYPES.single &&
             this._startValue === null && this._endValue === null)) {
@@ -188,8 +191,6 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
             ...ILinkView.getOptionTypes()
         };
     }
-
-    EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
 }
 /**
  * @event Происходит при изменении диапазона.

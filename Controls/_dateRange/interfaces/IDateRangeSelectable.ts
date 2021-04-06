@@ -3,13 +3,25 @@ import entity = require('Types/entity');
 import IRangeSelectable from './IRangeSelectable';
 'use strict';
 
+export type TSelectionType = 'range' | 'single' | 'quantum' | 'disable';
+
+export interface IRangeSelectableOptions {
+   selectionType: TSelectionType;
+}
+
+export interface IDateRangeSelectableOptions {
+   ranges: {
+      [key: string]: number[]
+   };
+}
+
 /**
  * Интерфейс для выбора диапазона дат.
  * @interface Controls/_dateRange/interfaces/IDateRangeSelectable
  * @public
  * @author Красильников А.С.
  */
-var selectionTypes = coreMerge({'quantum': 'quantum'}, IRangeSelectable.SELECTION_TYPES);
+const selectionTypes = coreMerge({'quantum': 'quantum'}, IRangeSelectable.SELECTION_TYPES);
 const minRange = {
    day: 'day',
    month: 'month'
