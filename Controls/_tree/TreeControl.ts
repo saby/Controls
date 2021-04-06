@@ -590,7 +590,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
      * @private
      */
     private _shouldLoadLastExpandedNodeData(direction: Direction, item: TreeItem, parentKey: CrudEntityKey): boolean {
-        if (direction !== 'down') {
+        if (!item || direction !== 'down') {
             return false;
         }
         const hasMoreParentData = this._sourceController.hasMoreData('down', parentKey);
