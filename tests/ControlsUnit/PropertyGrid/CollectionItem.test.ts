@@ -26,7 +26,8 @@ const source = new RecordSet<IPropertyGridItem>({
             name: 'description',
             caption: 'Описание',
             editorOptions: {
-                minLines: 3
+                minLines: 3,
+                readOnly: true
             },
             editorClass: 'controls-demo-pg-text-editor',
             group: 'text',
@@ -158,5 +159,17 @@ describe('Controls/propertyGrid:CollectionItem', () => {
             const propertyValue = collection.getItemBySourceKey('description').getPropertyValue();
             assert.equal(propertyValue, 'This is http://mysite.com');
         });
-    })
+    });
+
+    describe('getEditorReadOnly', () => {
+        it('returns readOnly from editorOptions', () => {
+            const readOnly = collection.getItemBySourceIndex(0).getEditorReadOnly(false);
+            assert.isTrue(readOnly);
+        });
+
+        it('returns readOnly from arguments', () => {
+            const readOnly = collection.getItemBySourceIndex(1).getEditorReadOnly(false);
+            assert.isFalse(readOnly);
+        });
+    });
 });
