@@ -85,10 +85,15 @@ export default {
                 document.body.insertBefore(managerContainer, document.body.firstChild);
 
                 ManagerWrapperCreatingPromise = new Promise((resolve, reject) => {
-                    const compatibleDeps = [import('UI/Base'), import('Controls/compatiblePopup')];
+                    const compatibleDeps = [import('UI/Base'), import('Controls/compatiblePopup'), import('Controls/Popup/Compatible/ManagerWrapper/Controller')];
 
-                    Promise.all(compatibleDeps).then(([base, compatiblePopup]) => {
-                        base.AsyncCreator(compatiblePopup.ManagerWrapper, {}, managerContainer).then(resolve);
+                    Promise.all(compatibleDeps).then(([base, compatiblePopup, compatibleController]) => {
+                        const theme = compatibleController.default.getTheme();
+                        const managerCfg = {};
+                        if (theme) {
+                            managerCfg.theme = theme;
+                        }
+                        base.AsyncCreator(compatiblePopup.ManagerWrapper, managerCfg, managerContainer).then(resolve);
                     }).catch(reject);
                 });
             } else {
