@@ -1,27 +1,14 @@
 <div class="ControlsDemo-Popup-DialogDirection">
    <Controls.popupTemplate:Dialog
-           attr:style="height: {{_applyHeight}}px; width: {{_applyWidth}}px;"
+           attr:style="height: {{_height}}px; width: {{_width}}px;"
       headingCaption="PopupManager"
       draggable="{{ true }}">
       <ws:bodyContentTemplate>
          <div class="ControlsDemo-Popup-DialogDirection__content">
             <div class="ControlsDemo-Popup-DialogDirection__inputWrapper">
-               <Controls.input:Label caption="Height"/>
-               <Controls.input:Number attr:class="controlsDemo__input controlsDemo__input-height" bind:value="_height"
-                                    on:valueChanged="_sizeChangedHandler()"
-                                    placeholder="Введите высоту"/>
-            </div>
-            <div class="ControlsDemo-Popup-DialogDirection__inputWrapper">
-               <Controls.input:Label caption="Width"/>
-               <Controls.input:Number attr:class="controlsDemo__input controlsDemo__input-width" bind:value="_width"
-                                      attr:style="margin-left:5px"
-                                    on:valueChanged="_sizeChangedHandler()"
-                                    placeholder="Введите ширину"/>
-            </div>
-            <div attr:style="width:50%; margin:0 auto; padding:10px 0 5px">
-               <Controls.buttons:Button attr:class='controlsDemo-DialogDirection__button'
-                                        caption="Применить"
-                                        on:click="_handleClick()"></Controls.buttons:Button>
+                  <Controls.buttons:Button attr:class='controlsDemo-DialogDirection__button'
+                                           caption="{{_buttonCaption}}"
+                                           on:click="_handleResizeClick()"></Controls.buttons:Button>
             </div>
          </div>
       </ws:bodyContentTemplate>
