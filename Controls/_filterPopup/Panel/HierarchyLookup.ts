@@ -9,7 +9,7 @@ import {factory} from 'Types/chain';
  *
  * @remark
  * Полезные ссылки:
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_filterPopup.less переменные тем оформления}
  *
  * @class Controls/_filterPopup/Panel/HierarchyLookup
  * @extends UI/Base:Control

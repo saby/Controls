@@ -24,7 +24,7 @@ interface IFilterPanelLookupOptions extends IControlOptions, ILookupOptions {
  * Если хотите расположить поле связи с кнопкой-ссылкой в одну строку, необходимо на корневой элемет навесить класс 'ws-flexbox'.
  *
  * Полезные ссылки:
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_filterPopup.less переменные тем оформления}
  *
  * @class Controls/_filterPopup/Panel/Lookup
  * @extends UI/Base:Control

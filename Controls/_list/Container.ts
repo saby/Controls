@@ -29,7 +29,7 @@ export interface IListContainerOptions extends IControlOptions {
  * 
  * Полезные ссылки:
  * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/ руководство разработчика}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_list.less переменные тем оформления}
  * * {@link Controls/list:DataContainer}
  *
  * @class Controls/_list/Container

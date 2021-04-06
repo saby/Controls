@@ -24,7 +24,7 @@ const DEFAULT_MIN_VISIBLE_ITEMS = 2;
  *
  * @remark
  * Полезные ссылки:
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_filterPopup.less переменные тем оформления}
  *
  * @class Controls/_filterPopup/SimplePanel
  * @extends UI/Base:Control
