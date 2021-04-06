@@ -16,5 +16,5 @@
             </ws:for>
         </div>
     </Controls.scroll:Container>
-    <Controls.buttons:Button class="controlsDemo__scrollContainer-toggleHeight" caption="{[Уменьшить размер контейнера]}" on:click="_expandContainer()"/>
+    <Controls.buttons:Button class="controlsDemo__scrollContainer-toggleHeight" caption="{[Изменить размер контейнера]}" on:click="_expandContainer()"/>
 </div>
