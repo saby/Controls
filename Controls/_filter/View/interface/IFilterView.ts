@@ -424,7 +424,7 @@ export interface IFilterView {
 
 /**
  * @name Controls/_filter/View/interface/IFilterView#itemTemplate
- * @cfg {String|TemplateFunction} Устанавливает шаблон отображения фильтров на панели.
+ * @cfg {String|TemplateFunction} Устанавливает шаблон отображения элемента в строке выбранных значений рядом с кнопкой.
  * @default Controls/filter:ViewItemTemplate
  * @demo Controls-demo/FilterView/ItemTemplates/Index
  * @example
