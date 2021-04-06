@@ -42,11 +42,14 @@
                 name="psina"
                 columns="{{_columns}}">
             <ws:editingConfig>
-                <ws:Object editOnClick="{{true}}" backgroundStyle="transparent"/>
+                <ws:Object editOnClick="{{true}}"/>
             </ws:editingConfig>
             <ws:itemTemplate>
                 <ws:partial template="Controls/grid:ItemTemplate"></ws:partial>
             </ws:itemTemplate>
         </Controls.grid:View>
+    </div>
+    <div class="clipboardContainer" data-vdomignore="true">
+        <input type="text" name="clipboard" class="input_clipboard"/>
     </div>
 </div>
