@@ -13,7 +13,15 @@ export default class ContainerBaseDemo extends Control<IControlOptions> {
         this._resizeRegister = new RegisterClass({register: 'controlResize'});
     }
 
+    _beforeUnmount(): void {
+        this._resizeRegister.destroy();
+    }
+
     _afterRender(): void {
+        this._startResizeRegister();
+    }
+
+    private _startResizeRegister(event?: SyntheticEvent): void {
         const eventCfg = {
             type: 'controlResize',
             target: this,
