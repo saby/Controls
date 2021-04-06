@@ -22,7 +22,7 @@ interface IStickyOpenerOptions extends IStickyPopupOptions, IBaseOpenerOptions {
  * @remark
  * Полезные ссылки:
  * * {@link /doc/platform/developmentapl/interface-development/controls/openers/sticky/ руководство разработчика}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_popupTemplate.less переменные тем оформления}
  * Для открытия прилипающих окон из кода используйте {@link Controls/popup:StickyOpener}.
  * @author Красильников А.С.
  * @implements Controls/popup:IBaseOpener

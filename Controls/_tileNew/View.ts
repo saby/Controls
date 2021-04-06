@@ -8,8 +8,8 @@ import TileView = require('./TileView');
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2FExplorer%2FDemo демо-пример}
  * * {@link /doc/platform/developmentapl/interface-development/controls/list/tile/ руководство разработчика}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_tile.less переменные тем оформления tile}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/69b02f939005820476d32a184ca50b72f9533076/Controls-default-theme/variables/_tile.less переменные тем оформления tile}
+ * * {@link https://github.com/saby/wasaby-controls/blob/69b02f939005820476d32a184ca50b72f9533076/Controls-default-theme/variables/_list.less переменные тем оформления}
  *
  *
  * @class Controls/_tile/View

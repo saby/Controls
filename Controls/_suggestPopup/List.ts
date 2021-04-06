@@ -82,7 +82,7 @@ const _private = {
  *
  * Полезные ссылки:
  * * {@link /doc/platform/developmentapl/interface-development/controls/suggest/ руководство разработчика}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_suggestPopup.less переменные тем оформления}
+ * * {@link https://github.com/saby/wasaby-controls/blob/69b02f939005820476d32a184ca50b72f9533076/Controls-default-theme/variables/_suggestPopup.less переменные тем оформления}
  * @example
  *
  * <pre class="brush: js">
