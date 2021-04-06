@@ -5,13 +5,13 @@
  * @author Красильников А.С.
  */
 
-var Mixin = {
+const Mixin = {
 
     /**
      * Проксирует событие из компонента
      * @protected
      */
-    _proxyEvent: function (event) {
+    _proxyEvent: (event: Event): void => {
         this._notify(event.type, Array.prototype.slice.call(arguments, 1));
     }
 };

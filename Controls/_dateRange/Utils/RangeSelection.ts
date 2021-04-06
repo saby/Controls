@@ -9,7 +9,12 @@ const PERIOD_TYPE = {
 
 type PeriodType = 'day' | 'month' | 'year';
 
-const isPeriodsEqual = (date1: Date, date2: Date, cfg: object): boolean => {
+interface IPeriodConfig {
+   cssPrefix: string;
+   periodQuantum: PeriodType;
+}
+
+const isPeriodsEqual = (date1: Date, date2: Date, cfg: IPeriodConfig): boolean => {
    const periodType: PeriodType = cfg ? cfg.periodQuantum : 'day';
    let isEqual;
    if (periodType === PERIOD_TYPE.year) {
@@ -22,28 +27,30 @@ const isPeriodsEqual = (date1: Date, date2: Date, cfg: object): boolean => {
    return isEqual(date1, date2);
 };
 
-var Utils = {
-   PERIOD_TYPE: PERIOD_TYPE,
+const Utils = {
+   PERIOD_TYPE,
 
    /**
     * Returns a string containing css selection classes
     * @returns {String}
     */
-   prepareSelectionClass: function(itemValue, startValue, endValue, selectionProcessing, baseSelectionValue,
-                                   hoveredSelectionValue, hoveredStartValue, hoveredEndValue, cfg?: object) {
-      var css = [],
-         start,
-         end,
-         selected,
-         isStart,
-         isEnd,
-         range;
+   prepareSelectionClass: (itemValue: Date, startValue: Date, endValue: Date, selectionProcessing: boolean,
+                           baseSelectionValue: Date, hoveredSelectionValue: Date, hoveredStartValue: Date,
+                           hoveredEndValue: Date, cfg?: IPeriodConfig): string => {
+      const css = [];
+      let start;
+      let end;
+      let selected;
+      let isStart;
+      let isEnd;
+      let range;
 
-      if (!(startValue || startValue === null || endValue || endValue === null) && !selectionProcessing && !(hoveredStartValue || hoveredEndValue)) {
+      if (!(startValue || startValue === null || endValue || endValue === null)
+          && !selectionProcessing && !(hoveredStartValue || hoveredEndValue)) {
          return '';
       }
 
-      range = this.getRange(startValue, endValue, selectionProcessing, baseSelectionValue, hoveredSelectionValue);
+      range = Utils.getRange(startValue, endValue, selectionProcessing, baseSelectionValue, hoveredSelectionValue);
       start = range[0];
       end = range[1];
 
@@ -80,37 +87,40 @@ var Utils = {
       return Utils.buildCssClass(cfg, css);
    },
 
-   isHovered: function(itemValue, hoveredSelectionValue, hoveredStartValue, hoveredEndValue, cfg) {
+   isHovered: (itemValue: Date, hoveredSelectionValue: Date, hoveredStartValue: Date,
+               hoveredEndValue: Date, cfg?: IPeriodConfig): boolean => {
       return isPeriodsEqual(itemValue, hoveredSelectionValue, cfg) ||
           (hoveredStartValue && hoveredEndValue && itemValue >= hoveredStartValue && itemValue <= hoveredEndValue);
    },
 
-   prepareHoveredClass: function(itemValue, hoveredStartValue, hoveredEndValue, cfg) {
-      if (this.isHovered(itemValue, hoveredStartValue, hoveredEndValue, cfg)) {
+   prepareHoveredClass: (itemValue: Date, hoveredStartValue: Date, hoveredEndValue: Date,
+                         cfg: IPeriodConfig): string => {
+      if (Utils.isHovered(itemValue, hoveredStartValue, hoveredEndValue, cfg)) {
          return Utils.buildCssClass(cfg, ['hovered']);
       }
       return '';
    },
 
-   buildCssClass: function(cfg: object, parts: string[]): string {
+   buildCssClass: (cfg: IPeriodConfig, parts: string[]): string => {
       if (!parts.length) {
          return DEFAULT_CSS_CLASS_BASE;
       }
-      let cssClass = ((cfg && cfg.cssPrefix) || (DEFAULT_CSS_CLASS_BASE + '__')) + parts.join('-');
-      return cssClass;
+      return ((cfg && cfg.cssPrefix) || (DEFAULT_CSS_CLASS_BASE + '__')) + parts.join('-');
    },
 
-   isSelected: function(itemValue, startValue, endValue, selectionProcessing, baseSelectionValue,
-                        hoveredSelectionValue) {
-      var range = this.getRange(startValue, endValue, selectionProcessing, baseSelectionValue,
-         hoveredSelectionValue),
-         start = range[0],
-         end = range[1];
+   isSelected: (itemValue: Date, startValue: Date, endValue: Date, selectionProcessing: boolean,
+                baseSelectionValue: Date, hoveredSelectionValue: Date): boolean => {
+      const range = Utils.getRange(startValue, endValue, selectionProcessing, baseSelectionValue, hoveredSelectionValue);
+      const start = range[0];
+      const end = range[1];
       return start && end && itemValue >= start && itemValue <= end;
    },
 
-   getRange: function(startValue, endValue, selectionProcessing, baseSelectionValue, hoveredSelectionValue) {
-      var range, start, end;
+   getRange: (startValue: Date, endValue: Date, selectionProcessing: boolean,
+              baseSelectionValue: Date, hoveredSelectionValue: Date): Date[] => {
+      let range;
+      let start;
+      let end;
 
       if (selectionProcessing) {
          range = (baseSelectionValue > hoveredSelectionValue && hoveredSelectionValue !== null)
