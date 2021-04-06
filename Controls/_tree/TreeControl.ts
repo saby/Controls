@@ -957,46 +957,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         EventUtils.keysHandler(event, HOT_KEYS, _private, this);
     }
 
-    protected protected _reload(cfg, sourceConfig?: IBasePositionSourceConfig | IBasePageSourceConfig): Promise<any> {
-        const filter: IHashMap<unknown> = cClone(cfg.filter);
-        const sorting = cClone(cfg.sorting);
-        const navigation = cClone(cfg.navigation);
-
-        this._prepareModelBeforeReload(filter, sorting, navigation, cfg);
-        return super._reload(cfg, sourceConfig);
-    }
-
-    protected _prepareModelBeforeReload(filter, sorting, navigation, cfg): void {
-        if (this._options.parentProperty === undefined) {
-            return;
-        }
-        let expandedItemsKeys: Array<number | string | null> = [];
-        let isExpandAll: boolean;
-
-        if (this._listViewModel && !this._updateExpandedItemsAfterReload) {
-            isExpandAll = this._listViewModel.isExpandAll();
-            if (!isExpandAll) {
-                this._listViewModel.getExpandedItems().forEach((key) => {
-                    expandedItemsKeys.push(key);
-                });
-            }
-        } else {
-            expandedItemsKeys = cfg.expandedItems || [];
-            isExpandAll = _private.isExpandAll(expandedItemsKeys);
-        }
-
-        const needResetExpandedItems = !(_private.isDeepReload(cfg, this._deepReload) &&
-            expandedItemsKeys.length &&
-            !isExpandAll);
-        // состояние _needResetExpandedItems устанавливается при смене корня
-        // переменная needResetExpandedItems вычисляется по опциям и состояниям
-        if (needResetExpandedItems || this._needResetExpandedItems) {
-            this.getSourceController().setExpandedItems([]);
-        } else if (!this._needResetExpandedItems && expandedItemsKeys.length) {
-            this.getSourceController().setExpandedItems(expandedItemsKeys);
-        }
-    }
-
     protected _afterReloadCallback(options: TOptions, loadedList?: RecordSet) {
         if (this._listViewModel) {
             const modelRoot = this._listViewModel.getRoot();
