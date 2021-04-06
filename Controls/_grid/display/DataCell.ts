@@ -15,6 +15,7 @@ import {TemplateFunction} from 'UI/Base';
 
 export interface IOptions<T> extends ICellOptions<T>, IDisplaySearchValueOptions {
     backgroundStyle: string;
+    markerPosition: string;
 }
 
 export default class DataCell<T extends Model, TOwner extends DataRow<T>> extends mixin<
@@ -124,8 +125,8 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
     // endregion
 
     // region Аспект "Маркер"
-    shouldDisplayMarker(marker?: boolean, markerPosition: 'left' | 'right' = 'left'): boolean {
-        if (markerPosition === 'right') {
+    shouldDisplayMarker(marker?: boolean): boolean {
+        if (this.getMarkerPosition() === 'right') {
             return this._$owner.shouldDisplayMarker(marker) && this.isLastColumn();
         } else {
             return this._$owner.shouldDisplayMarker(marker) &&
