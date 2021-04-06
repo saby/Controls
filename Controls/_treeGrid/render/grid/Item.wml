@@ -1,6 +1,6 @@
 <ws:template name="COLUMN">
    <div if="{{ gridColumn.shouldDisplayMarker(marker) }}"
-        class="{{ gridColumn.getMarkerClasses(theme, style, markerClassName, itemPadding, markerPosition) }}"></div>
+        class="{{ gridColumn.getMarkerClasses(theme, style, markerClassName, itemPadding) }}"></div>
 
    <ws:if data="{{(item || itemData).shouldDisplayExpanderBlock(gridColumn)}}">
       <ws:if data="{{ (item || itemData).shouldDisplayLevelPadding(withoutLevelPadding) }}">

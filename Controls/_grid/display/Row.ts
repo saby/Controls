@@ -50,15 +50,14 @@ export default class Row<T>
        theme: string,
        style: string = 'default',
        markerClassName: TMarkerClassName = 'default',
-       itemPadding: IItemPadding = {},
-       markerPosition: 'left' | 'right' = 'left'
+       itemPadding: IItemPadding = {}
     ): string {
         let classes = 'controls-GridView__itemV_marker ';
         classes += `controls-GridView__itemV_marker-${style} `;
         classes += `controls-GridView__itemV_marker-${style}_rowSpacingBottom-${itemPadding.bottom} `;
         classes += `controls-GridView__itemV_marker-${style}_rowSpacingTop-${itemPadding.top} `;
         classes += `controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'height' : ('padding-' + (itemPadding.top || 'l') + '_' + markerClassName)} `;
-        classes += `controls-ListView__itemV_marker-${markerPosition} `;
+        classes += `controls-ListView__itemV_marker-${this.getMarkerPosition()} `;
         return classes;
     }
 
