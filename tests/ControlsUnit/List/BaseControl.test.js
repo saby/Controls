@@ -5382,7 +5382,7 @@ define([
 
       });
 
-      it('reloadItem', function() {
+      it('reloadItem', async function() {
          var filter = {};
          var cfg = {
             viewName: 'Controls/List/ListView',
@@ -5397,6 +5397,7 @@ define([
             keyProperty: 'id',
             source: source,
             filter: filter,
+            items: rs,
             navigation: {
                source: 'page',
                view: 'page',
@@ -5407,37 +5408,32 @@ define([
                }
             }
          };
-         var baseCtrl = correctCreateBaseControl(cfg);
+         var baseCtrl = await correctCreateBaseControlAsync(cfg);
+         await baseCtrl._beforeMount(cfg);
          baseCtrl.saveOptions(cfg);
 
-         return new Promise(function(resolve) {
-            baseCtrl._beforeMount(cfg);
-            assert.isTrue(baseCtrl._sourceController.hasMoreData('down'));
+         assert.isTrue(baseCtrl._sourceController.hasMoreData('down'));
 
-            baseCtrl.reloadItem(1).addCallback(function(item) {
-               assert.equal(item.get('id'), 1);
-               assert.equal(item.get('title'), 'Первый');
-               assert.isTrue(baseCtrl._sourceController.hasMoreData('down'), 'wrong navigation after reload item');
-               assert.isTrue(baseCtrl._itemReloaded);
+         const reloadedItem = await baseCtrl.reloadItem(1);
+         assert.equal(reloadedItem.get('id'), 1);
+         assert.equal(reloadedItem.get('title'), 'Первый');
+         assert.isTrue(baseCtrl._sourceController.hasMoreData('down'), 'wrong navigation after reload item');
+         assert.isTrue(baseCtrl._itemReloaded);
+         assert.isTrue(baseCtrl._items.getCount() === 2);
 
-               baseCtrl.reloadItem(1, null, true, 'query').addCallback(function(items) {
-                     assert.isTrue(!!items.getCount);
-                     assert.equal(items.getCount(), 1);
-                     assert.equal(items.at(0).get('id'), 1);
-                     assert.isTrue(baseCtrl._sourceController.hasMoreData('down'), 'wrong navigation after reload item');
+         let reloadedItems = await baseCtrl.reloadItem(1, null, true, 'query');
+         assert.isTrue(!!reloadedItems.getCount);
+         assert.equal(reloadedItems.getCount(), 1);
+         assert.equal(reloadedItems.at(0).get('id'), 1);
+         assert.isTrue(baseCtrl._sourceController.hasMoreData('down'), 'wrong navigation after reload item');
 
-                     let recordSet = new collection.RecordSet({
-                        keyProperty: 'id',
-                        rawData: [{ id: 'test' }]
-                     });
-                     baseCtrl._listViewModel.setItems(recordSet);
-                     baseCtrl.reloadItem('test', null, true, 'query').addCallback(function(reloadedItems) {
-                        assert.isTrue(reloadedItems.getCount() === 0);
-                        resolve();
-                     });
-                  });
-            });
+         let recordSet = new collection.RecordSet({
+            keyProperty: 'id',
+            rawData: [{ id: 'test' }]
          });
+         baseCtrl._listViewModel.setItems(recordSet);
+         reloadedItems = await baseCtrl.reloadItem('test', null, true, 'query');
+         assert.isTrue(reloadedItems.getCount() === 0);
       });
 
       it('reloadItem with new model', function() {
