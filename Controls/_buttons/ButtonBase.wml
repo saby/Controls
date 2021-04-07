@@ -4,7 +4,7 @@
                                 {{_height ? ' controls-Button__wrapper_' + _viewMode + '_' + _height}}" tabindex="0">
         <ws:if data="{{!!_icon}}">
             <ws:if data="{{_isSVGIcon}}">
-                <svg attr:class="controls-Button__icon controls-BaseButton__icon
+                <svg fill-rule="evenodd" attr:class="controls-Button__icon controls-BaseButton__icon
                         {{_iconSize ? 'controls-icon_size-' + _iconSize : ''}}
                         {{_iconStyle ? 'controls-icon_style-' + _iconStyle: ''}}">
                     <use xlink:href="{{_icon}}"/>
