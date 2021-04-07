@@ -309,11 +309,13 @@ const _private = {
             return;
         }
         const editingConfig = self._listViewModel.getEditingConfig();
-        // Если нет опций записи, проперти, и тулбар для редактируемой записи выставлен в false, то не надо
-        // инициализировать контроллер
+        // Если нет опций записи, проперти, стрелка редактирования скрыта,
+        // и тулбар для редактируемой записи выставлен в false,
+        // то не надо инициализировать контроллер
         if (
             (options && !options.itemActions && !options.itemActionsProperty) &&
-            !editingConfig?.toolbarVisibility
+            !editingConfig?.toolbarVisibility &&
+            !(options.showEditArrow && self._context?.isTouch?.isTouch)
         ) {
             return;
         }
@@ -2799,7 +2801,7 @@ const _private = {
         if (options.itemActionsVisibility === 'visible') {
             style = 'transparent';
         } else {
-            style = options.hoverBackgroundStyle || options.style
+            style = options.hoverBackgroundStyle || options.style;
         }
         const itemActionsChangeResult = itemActionsController.update({
             editingItem: editingCollectionItem as CollectionItem<Model>,
