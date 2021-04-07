@@ -3,15 +3,17 @@ import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
 import isEmpty = require('Core/helpers/Object/isEmpty');
 import {IDateRangeSelectable} from 'Controls/dateRange';
+import {string} from "prop-types";
 
 export default {
     /**
      * Returns whether the mode of the year can be displayed
      * @returns {Boolean}
      */
-    isYearStateEnabled: function (options) {
-        var quantum = options.ranges;
-        return (options.selectionType === IDateRangeSelectable.SELECTION_TYPES.single && options.minRange === IDateRangeSelectable.minRange.month) ||
+    isYearStateEnabled: (options: object): boolean => {
+        const quantum = options.ranges;
+        return (options.selectionType === IDateRangeSelectable.SELECTION_TYPES.single
+            && options.minRange === IDateRangeSelectable.minRange.month) ||
             (options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.single && (!quantum ||
                 (isEmpty(quantum) || 'months' in quantum || 'quarters' in quantum ||
                     'halfyears' in quantum || 'years' in quantum)));
@@ -21,8 +23,8 @@ export default {
      * Returns whether the month view can be displayed
      * @returns {Boolean}
      */
-    isMonthStateEnabled: function (options) {
-        var quantum = options.ranges;
+    isMonthStateEnabled: (options: object): boolean => {
+        const quantum = options.ranges;
         return (quantum && ('days' in quantum || 'weeks' in quantum)) ||
             ((!quantum || isEmpty(quantum)) && options.minRange === 'day');
     },
@@ -31,15 +33,15 @@ export default {
      * Returns whether the month and year mode switch button can be displayed
      * @returns {Boolean}
      */
-    isStateButtonDisplayed: function (options) {
+    isStateButtonDisplayed: (options: {}): boolean => {
         return this.isYearStateEnabled(options) && this.isMonthStateEnabled(options);
     },
 
-    dateToDataString: function(date) {
+    dateToDataString: (date: Date): string => {
         return formatDate(date, 'YYYY.M');
     },
-    dataStringToDate: function (str) {
-        var d = str.split('.');
+    dataStringToDate: (str: string): WSDate => {
+        const d = str.split('.');
         return new WSDate(d[0], parseInt(d[1], 10) - 1);
     }
 };

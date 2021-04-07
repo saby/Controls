@@ -742,7 +742,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             options.hasNodeWithChildren = this._hasNodeWithChildren;
 
             const key = object.getPropertyValue<CrudEntityKey>(options.contents, this._$keyProperty);
-            options.expanded = this._expandedItems?.includes(key) && !this._collapsedItems?.includes(key);
+            options.expanded = this._expandedItems?.includes(key) || this._expandedItems?.includes(null) && !this._collapsedItems?.includes(key);
             if (!('node' in options)) {
                 options.node = object.getPropertyValue<boolean>(options.contents, this._$nodeProperty);
             }

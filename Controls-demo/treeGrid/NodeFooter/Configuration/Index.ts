@@ -9,7 +9,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat();
+    protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat().map((c) => ({...c, compatibleWidth: '140px'}));
     protected _hoveredCellIndex: number = -1;
 
     private _expandedItems1 = [];

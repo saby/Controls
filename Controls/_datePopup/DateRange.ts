@@ -4,12 +4,19 @@ import * as monthHeaderTmpl from 'wml!Controls/_datePopup/DateRangeMonthHeaderTe
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
 import { SyntheticEvent } from 'Vdom/Vdom';
-import {DateRangeModel, Utils as DateControlsUtils, dateRangeQuantum as quantumUtils} from 'Controls/dateRange';
+import {DateRangeModel, Utils as DateControlsUtils, dateRangeQuantum as quantumUtils, IDateRangeOptions} from 'Controls/dateRange';
 import {EventUtils} from 'UI/Events';
 import {MonthModel} from 'Controls/calendar';
 import {Base as dateUtils} from 'Controls/dateUtils';
 import {detection} from 'Env/Env';
+import {IRangeSelectableOptions, IDateRangeSelectableOptions} from 'Controls/dateRange';
+import {IDateConstructorOptions} from 'Controls/interface';
 import 'css!Controls/datePopup';
+
+interface IDatePopupDateRangeOptions extends IControlOptions, IDateConstructorOptions,
+    IRangeSelectableOptions, IDateRangeSelectableOptions, IDateRangeOptions {
+    position: Date;
+}
 
 /**
  * Component that allows you to select periods of multiple days.
@@ -21,7 +28,7 @@ import 'css!Controls/datePopup';
  * @private
  */
 
-export default class DateRange extends Control<IControlOptions> {
+export default class DateRange extends Control<IDatePopupDateRangeOptions> {
     protected _template: TemplateFunction = template;
     protected _monthHeaderTmpl: TemplateFunction = monthHeaderTmpl;
     protected _monthViewModel: MonthModel = MonthModel;
@@ -31,12 +38,12 @@ export default class DateRange extends Control<IControlOptions> {
 
     private _rangeModel: typeof DateRangeModel;
     private _position: Date;
-    private _monthsPosition: any;
+    private _monthsPosition: Date;
 
     private _singleDayHover: boolean = true;
     private _shouldUpdateMonthsPosition: boolean = true;
 
-    constructor(options) {
+    constructor(options: IDatePopupDateRangeOptions) {
         super(options);
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
         EventUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged']);
@@ -49,7 +56,7 @@ export default class DateRange extends Control<IControlOptions> {
         }
     }
 
-    protected _beforeMount(options): void {
+    protected _beforeMount(options: IDatePopupDateRangeOptions): void {
         if (options.position) {
             this._monthsPosition = new Date(options.position.getFullYear(), 0);
             const markedKeyDate = new Date(options.position.getFullYear(), options.position.getMonth());
@@ -58,7 +65,7 @@ export default class DateRange extends Control<IControlOptions> {
         this._updateView(options);
     }
 
-    protected _beforeUpdate(options): void {
+    protected _beforeUpdate(options: IDatePopupDateRangeOptions): void {
         this._updateView(options);
     }
 
@@ -66,19 +73,20 @@ export default class DateRange extends Control<IControlOptions> {
         this._rangeModel.destroy();
     }
 
-    protected _monthObserverHandler(event, entries): void {
+    protected _monthObserverHandler(event: Event, entry: IntersectionObserverEntry): void {
         // Меняем маркер выбранного месяца если месяц стал полностью видимым.
         // На Android значение intersectionRatio никогда не равно 1. Нам подойдет любое значение больше или равное 0.9.
-        const fullItemIntersectionRatio = detection.isMobileAndroid ? 0.9 : 1;
-        if (entries.nativeEntry.intersectionRatio >= fullItemIntersectionRatio) {
-            if (entries.data.getFullYear() !== this._monthsPosition.getFullYear()) {
+        const androidIntersectionRatio = 0.9;
+        const fullItemIntersectionRatio = detection.isMobileAndroid ? androidIntersectionRatio : 1;
+        if (entry.nativeEntry.intersectionRatio >= fullItemIntersectionRatio) {
+            if (entry.data.getFullYear() !== this._monthsPosition.getFullYear()) {
                 if (this._shouldUpdateMonthsPosition ) {
-                    this._monthsPosition = new Date(entries.data.getFullYear(), 0);
+                    this._monthsPosition = new Date(entry.data.getFullYear(), 0);
                 } else {
                     this._shouldUpdateMonthsPosition = true;
                 }
             }
-            this._markedKey = this._dateToId(entries.data);
+            this._markedKey = this._dateToId(entry.data);
         }
     }
 
@@ -108,13 +116,13 @@ export default class DateRange extends Control<IControlOptions> {
      * @param cfgArr
      * @private
      */
-    protected _prepareCssClass(prefix, style, cfgArr): string {
-        var cssClass = prefix;
+    protected _prepareCssClass(prefix: string, style: string, cfgArr: []): string {
+        let cssClass = prefix;
         if (style) {
             cssClass += '-' + style;
         }
-        return cfgArr.reduce(function (previousValue, currentValue, index) {
-            var valueToAdd = currentValue[0] ? currentValue[1] : currentValue[2];
+        return cfgArr.reduce((previousValue: string, currentValue: string) => {
+            const valueToAdd = currentValue[0] ? currentValue[1] : currentValue[2];
             if (valueToAdd) {
                 return previousValue + '-' + valueToAdd;
             }
@@ -122,22 +130,24 @@ export default class DateRange extends Control<IControlOptions> {
         }, cssClass);
     }
 
-    protected _onItemClick(e): void {
-        e.stopPropagation();
+    protected _onItemClick(event: Event): void {
+        event.stopPropagation();
     }
 
-    protected _scrollToMonth(e, year, month): void {
+    protected _scrollToMonth(event: Event, year: number, month: number): void {
         const newDate = new this._options.dateConstructor(year, month);
         this._notifyPositionChanged(newDate);
         if (newDate.getFullYear() !== this._monthsPosition.getFullYear()) {
             this._monthsPosition = new this._options.dateConstructor(newDate.getFullYear(), 0);
         }
         this._markedKey = this._dateToId(newDate);
-        e.stopPropagation();
+        event.stopPropagation();
     }
 
-    protected _formatMonth(month): Date {
-        return formatDate(new Date(2000, month), 'MMMM');
+    protected _formatMonth(month: number): string {
+        // Берем любой год, т.к. нам важен только месяц для форматирования.
+        const year = 2000;
+        return formatDate(new Date(year, month), 'MMMM');
     }
 
    protected _onPositionChanged(e: Event, position: Date): void {
@@ -185,11 +195,11 @@ export default class DateRange extends Control<IControlOptions> {
         event.stopPropagation();
     }
 
-    protected _proxyEvent(event): void {
+    protected _proxyEvent(event: Event): void {
         this._notify(event.type, Array.prototype.slice.call(arguments, 1));
     }
 
-    private _updateView(options): void {
+    private _updateView(options: IDatePopupDateRangeOptions): void {
         this._rangeModel.update(options);
         this._monthSelectionEnabled = !options.readOnly && (options.selectionType === 'range' ||
             (options.selectionType === 'quantum' && quantumUtils.monthSelectionEnabled(options.ranges) &&
@@ -203,7 +213,7 @@ export default class DateRange extends Control<IControlOptions> {
         }
     }
 
-    private _notifyPositionChanged(position): void {
+    private _notifyPositionChanged(position: Date): void {
         this._notify('positionChanged', [position]);
     }
 

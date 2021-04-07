@@ -6,6 +6,7 @@ import IDateTimeMask from 'Controls/_input/interface/IDateTimeMask';
 import {EventUtils} from 'UI/Events';
 import {Popup as PopupUtil} from 'Controls/dateUtils';
 import 'css!Controls/input';
+import 'css!Controls/CommonClasses';
 
 import template = require('wml!Controls/_input/Date/Picker/Picker');
 
@@ -118,8 +119,6 @@ class Picker extends Control<IControlOptions> {
     static getOptionTypes(): object {
         return coreMerge({}, IDateTimeMask.getOptionTypes());
     }
-
-    static _theme: string[] = ['Controls/Classes'];
 }
 
 Object.defineProperty(Picker, 'defaultProps', {

@@ -23,6 +23,8 @@ export {default as ArrowButtonConsumer} from './_dateRange/ArrowButtonConsumer';
 export {default as RangeSelectorConsumer} from './_dateRange/RangeSelectorConsumer';
 export {default as DateSelectorConsumer} from './_dateRange/DateSelectorConsumer';
 export {default as RangeShortSelectorConsumer} from './_dateRange/RangeShortSelectorConsumer';
+export {IDateRangeSelectableOptions, IRangeSelectableOptions, TSelectionType} from 'Controls/_dateRange/interfaces/IDateRangeSelectable';
+export {IDateRangeOptions} from 'Controls/_dateRange/interfaces/IDateRange';
 import IDateRangeSelectable = require('Controls/_dateRange/interfaces/IDateRangeSelectable');
 export {default as ICaptionFormatter} from 'Controls/_dateRange/interfaces/ICaptionFormatter';
 
