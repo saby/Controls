@@ -27,7 +27,8 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
         load: (direction: string, root: string) => {
             const query = new Query().where({root});
             return source.query(query);
-        }
+        },
+        setExpandedItems: () => {}
     };
 
     function initTreeControl(cfg: Partial<ITreeControlOptions> = {}): TreeControl {
