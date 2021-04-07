@@ -43,8 +43,8 @@ export default class ColumnsControl<TOptions extends IColumnsControlOptions = IC
         this._resizeHandler();
     }
 
-    protected _onItemsReady(options, items) {
-        super._onItemsReady(options, items);
+    protected _afterItemsSet(options): void {
+        super._afterItemsSet(options);
         if (options.columnsMode === 'auto' && options.initialWidth) {
             this._recalculateColumnsCountByWidth(options.initialWidth, options.columnMinWidth);
         } else {
