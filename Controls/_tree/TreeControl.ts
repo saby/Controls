@@ -103,6 +103,7 @@ const _private = {
 
         if (!options.hasOwnProperty('expandedItems')) {
             model.toggleExpanded(item);
+            self.getSourceController().setExpandedItems(newExpandedItems);
         }
 
         self._notify('expandedItemsChanged', [newExpandedItems]);
