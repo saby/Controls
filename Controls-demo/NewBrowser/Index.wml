@@ -54,17 +54,6 @@
          imageProperty="photo"
          columns="{{_detailTableColumns}}"
       >
-         <ws:afterBreadCrumbsTemplate>
-            <Controls.search:InputContainer
-               searchDelay="{{300}}"
-               minSearchLength="{{3}}"
-            >
-               <Controls.search:Input
-                  placeholder="{[Найти...]}"
-                  contrastBackground="{{ true }}"
-               />
-            </Controls.search:InputContainer>
-         </ws:afterBreadCrumbsTemplate>
          <ws:itemTemplate>
             <ws:partial
                template="Controls/listTemplates:ListItemTemplate"

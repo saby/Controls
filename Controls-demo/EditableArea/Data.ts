@@ -17,6 +17,6 @@ export const secondary: Record = new Record({
 export const date: Record = new Record({
     rawData: {
         id: 3,
-        date: new Date('01.01.2020')
+        date: new Date(2020, 0)
     }
 });
