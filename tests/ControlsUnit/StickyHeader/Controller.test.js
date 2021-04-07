@@ -861,6 +861,16 @@ define([
                      updateShadowVisibility: sinon.stub()
                   },
                   mode: StickyHeaderUtils.MODE.replaceable
+               },
+               header6: {
+                  inst: {
+                     shadowVisibility: 'visible',
+                     updateShadowVisibility: sinon.stub(),
+                     container: {
+                        closest: () => true
+                     }
+                  },
+                  mode: StickyHeaderUtils.MODE.replaceable
                }
             };
             component._fixedHeadersStack.top = ['header0', 'header1', 'header2'];
@@ -905,6 +915,15 @@ define([
                SHADOW_VISIBILITY_BY_CONTROLLER.hidden
             ],
             scrollShadowVisibility: 'visible'
+         }, {
+            _headersStack: ['header0', 'header5', 'header6'],
+            fixedHeadersStack: ['header0', 'header5', 'header6'],
+            resp: [
+               SHADOW_VISIBILITY_BY_CONTROLLER.visible,
+               SHADOW_VISIBILITY_BY_CONTROLLER.visible,
+               SHADOW_VISIBILITY_BY_CONTROLLER.hidden
+            ],
+            scrollShadowVisibility: 'visible'
          }].forEach((test, index) => {
             it('test ' + index, () => {
                component._shadowVisibility = {
@@ -917,7 +936,8 @@ define([
                }
                component._updateShadowsVisibility();
                for (let i = 0; i < component._headersStack.top.length; i++) {
-                  sinon.assert.calledWith(component._headers[component._headersStack.top[i]].inst.updateShadowVisibility, test.resp[i]);
+                  sinon.assert.calledWith(
+                     component._headers[component._headersStack.top[i]].inst.updateShadowVisibility, test.resp[i]);
                }
             });
          });
