@@ -10,24 +10,24 @@
       <ws:if data="{{item.isNode()}}">
          <ws:if data="{{contentTemplate}}">
             <ws:partial
-               template="{{contentTemplate}}"
-               scope="{{_options}}"/>
+                    template="{{contentTemplate}}"
+                    scope="{{_options}}"/>
          </ws:if>
       </ws:if>
       <ws:else>
          <ws:if data="{{_options.imageViewMode !== 'none'}}">
             <ws:partial
-               template="imageTemplate"
-               viewMode="{{_options.imageViewMode}}"
-               imageProperty="{{_options.imageProperty}}"
-               scope="{{_options}}"/>
+                    template="imageTemplate"
+                    viewMode="{{_options.imageViewMode}}"
+                    imageProperty="{{_options.imageProperty}}"
+                    scope="{{_options}}"/>
          </ws:if>
          <div class="controls-listTemplates__tableCellTemplate__content
                      {{_options.imageViewMode !== 'none' ? 'controls-listTemplates__tableCellTemplate__content-withPhoto'}} ws-ellipsis">
             <ws:if data="{{contentTemplate}}">
                <ws:partial
-                  template="{{contentTemplate}}"
-                  scope="{{_options}}"/>
+                       template="{{contentTemplate}}"
+                       scope="{{_options}}"/>
             </ws:if>
             <ws:if data="{{footerTemplate}}">
                <ws:partial
@@ -44,9 +44,9 @@
             scope="{{_options}}">
    <ws:contentTemplate>
       <ws:partial
-         template="itemContentTpl"
-         imageProperty="{{_options.imageProperty}}"
-         imageViewMode="{{_options.imageViewMode}}"
-         scope="{{contentTemplate}}"/>
+              template="itemContentTpl"
+              imageProperty="{{_options.imageProperty}}"
+              imageViewMode="{{_options.imageViewMode}}"
+              scope="{{contentTemplate}}"/>
    </ws:contentTemplate>
 </ws:partial>

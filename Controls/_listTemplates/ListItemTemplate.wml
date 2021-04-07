@@ -8,12 +8,12 @@
 </ws:template>
 
 <ws:template name="footerTemplate">
-   <div class="controls-listTemplates_listItemTemplate__footer">
-      <ws:if data="{{_options.footerTemplate}}">
+   <ws:if data="{{_options.footerTemplate}}">
+      <div class="controls-listTemplates_listItemTemplate__footer">
          <ws:partial template="{{_options.footerTemplate}}"
                      itemData="{{_options.itemData}}"/>
-      </ws:if>
-   </div>
+      </div>
+   </ws:if>
 </ws:template>
 
 <ws:template name="itemContentTpl">
