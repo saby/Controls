@@ -380,12 +380,9 @@ const _private = {
     supportAttachLoadTriggerToNull(options: any, direction: 'up'|'down'): boolean {
         // Поведение отложенной загрузки вверх нужно опциональное, например, для контактов
         // https://online.sbis.ru/opendoc.html?guid=f07ea1a9-743c-42e4-a2ae-8411d59bcdce
-        // Для мобильных устройств данный функционал включать нельзя из-за инерционного скролла:
-        // https://online.sbis.ru/opendoc.html?guid=45921906-4b0e-4d72-bb80-179c076412d5
         if (
             direction === 'up' && options.attachLoadTopTriggerToNull === false ||
-            direction === 'down' && options.attachLoadDownTriggerToNull === false ||
-            detection.isMobilePlatform
+            direction === 'down' && options.attachLoadDownTriggerToNull === false
         ) {
             return false;
         }
@@ -3844,6 +3841,17 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._attachLoadTopTriggerToNull = false;
             this._hideTopTrigger = false;
             this._attachLoadDownTriggerToNull = false;
+        }
+
+        // на мобильных устройствах не сработает mouseEnter, поэтому ромашку сверху добавляем сразу после моунта
+        if (detection.isMobilePlatform) {
+            // нельзя делать это в процессе загрузки
+            if (!this._loadingState && !this._scrollController?.getScrollTop()) {
+                _private.attachLoadTopTriggerToNullIfNeed(this, this._options);
+            }
+            if (this._hideTopTrigger && !this._needScrollToFirstItem) {
+                this._hideTopTrigger = false;
+            }
         }
     }
 
