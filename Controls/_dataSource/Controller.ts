@@ -109,6 +109,7 @@ export default class Controller {
     private _items: RecordSet;
     private _loadPromise: CancelablePromise<RecordSet|Error>;
     private _loadError: Error;
+    private _processCollectionChangeEvent: boolean = true;
 
     private _dataLoadCallback: Function;
     // Необходимо для совместимости в случае, если dataLoadCallback задают на списке, а где-то сверху есть dataContainer
@@ -474,6 +475,7 @@ export default class Controller {
             this._items.setMetaData(items.getMetaData());
         }
 
+        this._toggleProcessOfCollectionChangeEvent(false);
         if (direction === 'up') {
             this._prependItems(items);
         } else if (direction === 'down' && this._items) {
@@ -483,6 +485,7 @@ export default class Controller {
         } else {
             this._setItems(items);
         }
+        this._toggleProcessOfCollectionChangeEvent(true);
 
         return items;
     }
@@ -520,6 +523,14 @@ export default class Controller {
         if (cfg.navigationParamsChangedCallback) {
             this._navigationParamsChangedCallback = cfg.navigationParamsChangedCallback;
         }
+    }
+
+    private _toggleProcessOfCollectionChangeEvent(allowProcess: boolean): void {
+        this._processCollectionChangeEvent = allowProcess;
+    }
+
+    private _isNeedProcessCollectionChangeEvent(): boolean {
+        return this._processCollectionChangeEvent;
     }
 
     private _load({direction, key, navigationSourceConfig, filter}: ILoadConfig): LoadResult {
@@ -685,7 +696,7 @@ export default class Controller {
     }
 
     private _collectionChange(): void {
-        if (this._hasNavigationBySource()) {
+        if (this._hasNavigationBySource() && this._isNeedProcessCollectionChangeEvent()) {
             // Навигация при изменении ReocrdSet'a должно обновляться только по записям из корня,
             // поэтому получение элементов с границ recordSet'a
             // нельзя делать обычным получением первого и последнего элемента,
