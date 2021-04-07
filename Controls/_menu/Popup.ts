@@ -21,6 +21,8 @@ const SEARCH_DEPS = [
     'Controls/search'
 ];
 
+type CancelableError = Error & { canceled?: boolean, isCanceled: boolean };
+
 /**
  * Базовый шаблон для {@link Controls/menu:Control}, отображаемого в прилипающем блоке.
  * @mixes Controls/_menu/interface/IMenuPopup
@@ -175,10 +177,12 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         }
     }
 
-    protected _dataLoadErrback(options: IMenuPopupOptions, error: Error): void {
-        this._headerVisible = false;
-        this._headingCaption = null;
-        this._headerTemplate = null;
+    protected _dataLoadErrback(options: IMenuPopupOptions, error: CancelableError): void {
+        if (!error.canceled && !error.isCanceled) {
+            this._headerVisible = false;
+            this._headingCaption = null;
+            this._headerTemplate = null;
+        }
         if (options.dataLoadErrback) {
             options.dataLoadErrback(error);
         }
