@@ -60,8 +60,8 @@ const _private = {
         const newExpandedState = !item.isExpanded();
         const itemKey = item.getContents().getKey();
 
-        const newExpandedItems = options.expandedItems instanceof Array ? [...options.expandedItems] : [];
-        const newCollapsedItems = options.collapsedItems instanceof Array ? [...options.collapsedItems] : [];
+        const newExpandedItems = options.expandedItems instanceof Array ? [...options.expandedItems] : [...model.getExpandedItems()];
+        const newCollapsedItems = options.collapsedItems instanceof Array ? [...options.collapsedItems] : [...model.getCollapsedItems()];
 
         if (newExpandedState) {
             // развернули узел
