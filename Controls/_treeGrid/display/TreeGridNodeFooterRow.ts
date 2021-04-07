@@ -16,6 +16,10 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     // Он задается на темплейте, поэтмоу в моделе мы о нем не знаем
     private _colspan: boolean;
 
+    get node(): TreeItem<Model> {
+        return this.getNode();
+    }
+
     getNode(): TreeItem<Model> {
         return this.getParent();
     }
