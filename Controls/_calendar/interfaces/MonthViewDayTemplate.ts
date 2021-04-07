@@ -11,12 +11,12 @@
  * @remark
  * Опция добавляет постфикс к слеудющим классам. (Для примера возьмем backgroundStyle = 'secondary')
  *
- * * controls-MonthView__backgroundColor-selected_theme-{theme}_style-secondary
- * * controls-MonthView__backgroundColor-selected-startend-unfinished_theme-{theme}_style-secondary
- * * controls-MonthView__backgroundColor-otherMonthDay-unselected_theme-{theme}_style-secondary
- * * controls-MonthView__backgroundColor-selected-readOnly_theme-{theme}_style-secondary
- * * controls-MonthView__backgroundColor-selected-startend-unfinished-readOnly_theme-{theme}_style-secondary
- * * controls-MonthView__backgroundColor-otherMonthDay-unselected-readOnly_theme-{theme}_style-secondary
+ * * controls-MonthView__backgroundColor-selected_style-secondary
+ * * controls-MonthView__backgroundColor-selected-startend-unfinished_style-secondary
+ * * controls-MonthView__backgroundColor-otherMonthDay-unselected_style-secondary
+ * * controls-MonthView__backgroundColor-selected-readOnly_style-secondary
+ * * controls-MonthView__backgroundColor-selected-startend-unfinished-readOnly_style-secondary
+ * * controls-MonthView__backgroundColor-otherMonthDay-unselected-readOnly_style-secondary
  * @example
  * <pre class="brush: html">
  * <Controls.calendar:MonthList>
@@ -30,7 +30,7 @@
  * </Controls.calendar:MonthList>
  * </pre>
  * <pre class="brush: css">
- *  .controls-MonthView__backgroundColor-otherMonthDay-unselected_theme-default_style-secondary {
+ *  .controls-MonthView__backgroundColor-otherMonthDay-unselected_style-secondary {
  *      background-color: red;
  * }
  * </pre>
@@ -40,7 +40,7 @@
  * @name Controls/calendar:MonthViewDayTemplate#sizeStyle
  * @cfg {String} Постфикс стиля для настройки размера ячейки.
  * @remark
- * Опция добавляет постфикс к классау controls-MonthView__item_theme-{theme}_style-secondary
+ * Опция добавляет постфикс к классау controls-MonthView__item_style-secondary
  * (Для примера возьмем sizeStyle = 'secondary')
  * @example
  * <pre class="brush: html">
@@ -55,7 +55,7 @@
  * </Controls.calendar:MonthList>
  * </pre>
  * <pre class="brush: css">
- * .controls-MonthViewVDOM__item_theme-default_style-secondary {
+ * .controls-MonthViewVDOM__item_style-secondary {
  *      width: 50px;
  *      height: 50px;
  *      margin: 1px;
@@ -69,10 +69,10 @@
  * @remark
  * Опция пдобавляет постфикс к следующим классам. (Для примера возьмем fontColorStyle = 'secondary')
  *
- * * controls-MonthView__textColor-currentMonthDay-weekend_theme-{theme}_style-secondary
- * * controls-MonthView__textColor-currentMonthDay-workday_theme-{theme}_style-secondary
- * * controls-MonthView__textColor-otherMonthDay-weekend_theme-{theme}_style-secondary
- * * controls-MonthView__textColor-otherMonthDay-workday_theme-{theme}_style-secondary
+ * * controls-MonthView__textColor-currentMonthDay-weekend_style-secondary
+ * * controls-MonthView__textColor-currentMonthDay-workday_style-secondary
+ * * controls-MonthView__textColor-otherMonthDay-weekend_style-secondary
+ * * controls-MonthView__textColor-otherMonthDay-workday_style-secondary
  * @example
  * <pre class="brush: html">
  * <Controls.calendar:MonthList>
@@ -86,7 +86,7 @@
  * </Controls.calendar:MonthList>
  * </pre>
  * <pre class="brush: css">
- * .controls-MonthView__textColor-currentMonthDay-weekend_theme-default_style-secondary {
+ * .controls-MonthView__textColor-currentMonthDay-weekend_style-secondary {
  *      color: red;
  * }
  * </pre>
