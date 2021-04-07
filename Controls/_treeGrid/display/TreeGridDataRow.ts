@@ -102,7 +102,9 @@ export default class TreeGridDataRow<T extends Model = Model>
         this._$searchValue = searchValue;
         if (this._$columnItems) {
             this._$columnItems.forEach((cell, cellIndex) => {
-                cell.setSearchValue(searchValue);
+                if (cell.DisplaySearchValue) {
+                    cell.setSearchValue(searchValue);
+                }
             });
         }
         this._nextVersion();

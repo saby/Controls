@@ -1,12 +1,19 @@
-import {Control} from 'UI/Base';
+import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
-import {DateRangeModel} from 'Controls/dateRange';
+import {DateRangeModel, IDateRangeSelectableOptions,
+    IRangeSelectableOptions, IDateRangeOptions} from 'Controls/dateRange';
 import {EventUtils} from 'UI/Events';
 import {Base as dateUtils} from 'Controls/dateUtils';
 import MonthsRangeItem from './MonthsRangeItem';
 import * as componentTmpl from 'wml!Controls/_datePopup/MonthsRange';
 import 'css!Controls/datePopup';
+import {IDateConstructorOptions} from 'Controls/_interface/IDateConstructor';
+
+interface IMonthsRangeOptions extends IControlOptions, IDateConstructorOptions,
+    IRangeSelectableOptions, IDateRangeSelectableOptions, IDateRangeOptions {
+    position: Date;
+}
 
 /**
  * Component that allows you to select a period of multiple months.
@@ -18,8 +25,8 @@ import 'css!Controls/datePopup';
  * @private
  */
 
-class Component extends Control {
-    protected _template: Function = componentTmpl;
+class Component extends Control<IMonthsRangeOptions> {
+    protected _template: TemplateFunction = componentTmpl;
 
     _proxyEvent: Function = EventUtils.tmplNotify;
 
@@ -30,19 +37,19 @@ class Component extends Control {
 
     _selectionViewType: string;
 
-    constructor(options) {
-        super();
+    constructor(options: IMonthsRangeOptions) {
+        super(options);
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
         EventUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged']);
     }
 
-    _beforeMount(options) {
+    protected _beforeMount(options: IMonthsRangeOptions): void {
         this._position = dateUtils.getStartOfYear(options.position || new options.dateConstructor());
         this._rangeModel.update(options);
         this._updateSelectionType(options);
     }
 
-    _beforeUpdate(options) {
+    protected _beforeUpdate(options: IMonthsRangeOptions): void {
         this._rangeModel.update(options);
         if (options.position.getFullYear() !== this._position.getFullYear()) {
             this._position = dateUtils.getStartOfYear(options.position);
@@ -54,19 +61,19 @@ class Component extends Control {
         }
     }
 
-    _beforeUnmount() {
+    protected _beforeUnmount(): void {
         this._rangeModel.destroy();
     }
 
-    _onItemClick(e) {
-        e.stopPropagation();
+    protected _onItemClick(event: Event): void {
+        event.stopPropagation();
     }
 
-    _onPositionChanged(e: Event, position: Date) {
+    protected _onPositionChanged(e: Event, position: Date): void {
         this._notify('positionChanged', [position]);
     }
 
-    private _updateSelectionType(options): void {
+    private _updateSelectionType(options: IMonthsRangeOptions): void {
         if (dateUtils.isStartOfMonth(options.startValue) && dateUtils.isEndOfMonth(options.endValue)) {
             this._selectionViewType = MonthsRangeItem.SELECTION_VIEW_TYPES.months;
         } else {
@@ -76,7 +83,7 @@ class Component extends Control {
 }
 Component.SELECTION_VIEW_TYPES = MonthsRangeItem.SELECTION_VIEW_TYPES;
 
-Component.getDefaultOptions = function() {
+Component.getDefaultOptions = (): {} => {
     return {
         selectionViewType: MonthsRangeItem.SELECTION_VIEW_TYPES.days,
         dateConstructor: WSDate

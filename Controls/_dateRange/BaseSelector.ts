@@ -9,12 +9,14 @@ import LinkView from './LinkView';
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
 import {IFontSizeOptions, IUnderlineOptions} from 'Controls/interface';
 
-interface IBaseSelectorOptions extends IControlOptions, IFontSizeOptions, IUnderlineOptions {
+export interface IBaseSelectorOptions extends IControlOptions, IFontSizeOptions, IUnderlineOptions {
     prevArrowVisibility: boolean;
     dateConstructor: Function;
 }
 
 export default class BaseSelector<T> extends Control<T> {
+    protected _startValue: Date | null;
+    protected _endValue: Date | null;
     protected _dependenciesTimer: DependencyTimer = null;
     protected _loadCalendarPopupPromise: Promise<unknown> = null;
     protected _rangeModel: DateRangeModel = null;
@@ -29,7 +31,7 @@ export default class BaseSelector<T> extends Control<T> {
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
         EventUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
         this._updateRangeModel(options);
-        this._updateIsMinWidth(options);
+        this._updateIsMinWidth(options.prevArrowVisibility);
         this._stateChangedCallback = this._stateChangedCallback.bind(this);
         this.shiftPeriod = this.shiftPeriod.bind(this);
     }
@@ -40,14 +42,14 @@ export default class BaseSelector<T> extends Control<T> {
 
     protected _beforeUpdate(options: IBaseSelectorOptions): void {
         this._updateRangeModel(options);
-        this._updateIsMinWidth(options);
+        this._updateIsMinWidth(options.prevArrowVisibility);
     }
 
-    private _updateIsMinWidth(options): void {
+    private _updateIsMinWidth(prevArrowVisibility: boolean): void {
         // при добавлении управляющих стрелок устанавливаем минимальную ширину блока,
         // чтобы стрелки всегда были зафиксированы и не смещались.
         // https://online.sbis.ru/opendoc.html?guid=ae195d05-0e33-4532-a77a-7bd8c9783ef1
-        this._isMinWidth = options.prevArrowVisibility;
+        this._isMinWidth = prevArrowVisibility;
     }
 
     protected _updateRangeModel(options: IBaseSelectorOptions): void {
@@ -111,7 +113,7 @@ export default class BaseSelector<T> extends Control<T> {
         this._dependenciesTimer?.stop();
     }
 
-    protected _loadDependencies(module: string, loadCss: any): Promise<unknown> {
+    protected _loadDependencies(module: string, loadCss: Function): Promise<unknown> {
         try {
             if (!this._loadCalendarPopupPromise) {
                 this._loadCalendarPopupPromise = import(module)

@@ -16,6 +16,9 @@ const baseSource = new DemoSource({
 });
 
 function findParentFolderId(itemId: TKey): TKey {
+    if (!itemId) {
+        return null;
+    }
     const data = FlatHierarchy.getData();
     const item = data.find((dataItem) => dataItem.id === itemId);
 

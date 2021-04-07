@@ -60,8 +60,8 @@ const _private = {
         const newExpandedState = !item.isExpanded();
         const itemKey = item.getContents().getKey();
 
-        const newExpandedItems = options.expandedItems instanceof Array ? [...options.expandedItems] : [];
-        const newCollapsedItems = options.collapsedItems instanceof Array ? [...options.collapsedItems] : [];
+        const newExpandedItems = options.expandedItems instanceof Array ? [...options.expandedItems] : [...model.getExpandedItems()];
+        const newCollapsedItems = options.collapsedItems instanceof Array ? [...options.collapsedItems] : [...model.getCollapsedItems()];
 
         if (newExpandedState) {
             // развернули узел
@@ -103,6 +103,7 @@ const _private = {
 
         if (!options.hasOwnProperty('expandedItems')) {
             model.toggleExpanded(item);
+            self.getSourceController().setExpandedItems(newExpandedItems);
         }
 
         self._notify('expandedItemsChanged', [newExpandedItems]);
@@ -590,7 +591,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
      * @private
      */
     private _shouldLoadLastExpandedNodeData(direction: Direction, item: TreeItem, parentKey: CrudEntityKey): boolean {
-        if (direction !== 'down') {
+        if (!item || direction !== 'down') {
             return false;
         }
         const hasMoreParentData = this._sourceController.hasMoreData('down', parentKey);
@@ -957,46 +958,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         EventUtils.keysHandler(event, HOT_KEYS, _private, this);
     }
 
-    protected protected _reload(cfg, sourceConfig?: IBasePositionSourceConfig | IBasePageSourceConfig): Promise<any> {
-        const filter: IHashMap<unknown> = cClone(cfg.filter);
-        const sorting = cClone(cfg.sorting);
-        const navigation = cClone(cfg.navigation);
-
-        this._prepareModelBeforeReload(filter, sorting, navigation, cfg);
-        return super._reload(cfg, sourceConfig);
-    }
-
-    protected _prepareModelBeforeReload(filter, sorting, navigation, cfg): void {
-        if (this._options.parentProperty === undefined) {
-            return;
-        }
-        let expandedItemsKeys: Array<number | string | null> = [];
-        let isExpandAll: boolean;
-
-        if (this._listViewModel && !this._updateExpandedItemsAfterReload) {
-            isExpandAll = this._listViewModel.isExpandAll();
-            if (!isExpandAll) {
-                this._listViewModel.getExpandedItems().forEach((key) => {
-                    expandedItemsKeys.push(key);
-                });
-            }
-        } else {
-            expandedItemsKeys = cfg.expandedItems || [];
-            isExpandAll = _private.isExpandAll(expandedItemsKeys);
-        }
-
-        const needResetExpandedItems = !(_private.isDeepReload(cfg, this._deepReload) &&
-            expandedItemsKeys.length &&
-            !isExpandAll);
-        // состояние _needResetExpandedItems устанавливается при смене корня
-        // переменная needResetExpandedItems вычисляется по опциям и состояниям
-        if (needResetExpandedItems || this._needResetExpandedItems) {
-            this.getSourceController().setExpandedItems([]);
-        } else if (!this._needResetExpandedItems && expandedItemsKeys.length) {
-            this.getSourceController().setExpandedItems(expandedItemsKeys);
-        }
-    }
-
     protected _afterReloadCallback(options: TOptions, loadedList?: RecordSet) {
         if (this._listViewModel) {
             const modelRoot = this._listViewModel.getRoot();
@@ -1120,24 +1081,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
 
         return result;
-    }
-
-    protected _hasMoreData(sourceController: SourceController, direction: Direction): boolean {
-        if (sourceController) {
-            return this._getHasMoreData(sourceController, direction)
-        }
-        return false;
-    }
-
-    private _getHasMoreData(sourceController, direction): boolean {
-        const rootResult = sourceController.hasMoreData(direction, this._root);
-
-        // support for not multi root navigation
-        if (rootResult !== undefined) {
-            return rootResult;
-        } else {
-            return sourceController.hasMoreData(direction);
-        }
     }
 
     // раскрытие узлов будет отрефакторено по задаче https://online.sbis.ru/opendoc.html?guid=2a2d9bc6-86e0-43fa-9bea-b636c45c0767

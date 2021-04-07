@@ -101,9 +101,9 @@ export class DataSource {
             });
     }
 
-    updateOptions(ops: IDetailOptions): void {
+    updateOptions(ops: IDetailOptions): boolean {
         this.sourceOptions = ops;
-        this.sourceController.updateOptions(ops);
+        return this.sourceController.updateOptions(ops);
     }
 
     private getSearchController(): Promise<SearchController> {

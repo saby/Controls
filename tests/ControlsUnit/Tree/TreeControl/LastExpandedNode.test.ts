@@ -13,7 +13,7 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
     let data = [];
 
     const fakeSourceController = {
-        hasMoreData: (direction: string, root: string) => root !== null,
+        hasMoreData: (direction: string, root: string) => root !== null && root !== '3',
         setDataLoadCallback: () => {},
         getState: () => ({}),
         getItems: () => new RecordSet({
@@ -27,12 +27,14 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
         load: (direction: string, root: string) => {
             const query = new Query().where({root});
             return source.query(query);
-        }
+        },
+        setExpandedItems: () => {}
     };
 
     function initTreeControl(cfg: Partial<ITreeControlOptions> = {}): TreeControl {
         const config: ITreeControlOptions = {
             viewName: 'Controls/List/TreeGridView',
+            root: null,
             useNewModel: true,
             keyProperty: 'id',
             parentProperty: 'parent',
@@ -75,7 +77,7 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
             }
         ];
     });
-/*
+
     it ('should load from root when items are collapsed', async () => {
         source = new HierarchicalMemory({
             keyProperty: 'id',
@@ -105,6 +107,30 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
         const spyQuery = spy(source, 'query');
         const treeControl = initTreeControl();
         treeControl.toggleExpanded('2');
+
+        await treeControl.handleTriggerVisible('down');
+        sinonAssert.notCalled(spyQuery);
+        spyQuery.restore();
+    });
+
+    it ('should load from root when expanded item is empty', async () => {
+        // hasMoreData for '3' will return false (see fakeSourceController)
+        data = [
+            ...data,
+            {
+                id: '3',
+                parent: null,
+                type: true
+            }
+        ];
+        source = new HierarchicalMemory({
+            keyProperty: 'id',
+            data
+        });
+
+        const spyQuery = spy(source, 'query');
+        const treeControl = initTreeControl();
+        treeControl.toggleExpanded('3');
 
         await treeControl.handleTriggerVisible('down');
         sinonAssert.notCalled(spyQuery);
@@ -146,5 +172,4 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
         sinonAssert.notCalled(spyQuery);
         spyQuery.restore();
     });
-    */
 });

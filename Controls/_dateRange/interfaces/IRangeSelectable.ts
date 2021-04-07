@@ -6,7 +6,7 @@ import {descriptor} from 'Types/entity';
  * @public
  * @author Красильников А.С.
  */
-var selectionTypes = {
+const selectionTypes = {
     range: 'range',
     single: 'single',
     quantum: 'quantum',
