@@ -9,8 +9,15 @@ const coef = [
     {name: 'icon_hover', S: 1.4, L: 0.7},
     {name: 'border_color', S: 1.05, L: 1.15},
     {name: 'border_hover', S: 1.4, L: 0.7},
+    {name: 'fill_color', S: 1.5, L: 1.25},
     {name: 'fill_hover', S: 1.6, L: 1.16},
-    {name: 'fill_active', S: 1.92, L: 1.32}
+    {name: 'fill_active', S: 1.92, L: 1.32},
+    {name: 'bg_fill_color', S: 100, L: 96, isStrict: true},
+    {name: 'bg_fill_hover', S: 100, L: 93, isStrict: true},
+    {name: 'bg_fill_active', S: 100, L: 90, isStrict: true},
+    {name: 'background_color', S: 100, L: 98, isStrict: true},
+    {name: 'background_hover', S: 100, L: 96, isStrict: true},
+    {name: 'background_active', S: 100, L: 93, isStrict: true}
 ];
 
 const coefAcc = [
