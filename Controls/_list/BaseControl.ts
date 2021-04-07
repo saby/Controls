@@ -441,6 +441,7 @@ const _private = {
             if (!isEqualItems(oldCollection, items) || oldCollection !== items) {
                 self._onItemsReady(newOptions, items);
                 listModel.setCollection(items);
+                self._afterItemsSet(newOptions);
             }
 
             // При старой модели зовется из модели. Нужен чтобы в explorer поменять модель только уже при наличии данных
@@ -455,6 +456,7 @@ const _private = {
             if (wasItemsReplaced) {
                 self._onItemsReady(newOptions, self._items);
             }
+            self._afterItemsSet(newOptions);
 
             // todo Опция task1178907511 предназначена для восстановления скролла к низу списка после его перезагрузки.
             // Используется в админке: https://online.sbis.ru/opendoc.html?guid=55dfcace-ec7d-43b1-8de8-3c1a8d102f8c.
@@ -3494,6 +3496,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             viewModelConfig,
             cfg.viewModelConstructor
         );
+        this._afterItemsSet(cfg);
 
         _private.setHasMoreData(this._listViewModel,
             _private.hasMoreDataInAnyDirection(this, this._sourceController), true);
@@ -3509,6 +3512,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (options.itemsReadyCallback) {
             options.itemsReadyCallback(items);
         }
+    }
+    protected _afterItemsSet(options): void {
+        // для переопределения
     }
 
     _prepareItemsOnMount(self, newOptions, receivedState: IReceivedState = {}): Promise<unknown> | void {
@@ -3544,6 +3550,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 viewModelConfig,
                 newOptions.viewModelConstructor
             );
+            self._afterItemsSet(newOptions);
         }
 
         if (self._listViewModel) {
@@ -4307,7 +4314,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     reloadItem(key: string, readMeta: object, replaceItem: boolean, reloadType: string = 'read'): Promise<Model> {
         const items = this._listViewModel.getCollection();
         const currentItemIndex = items.getIndexByValue(this._keyProperty, key);
-        const sourceController = _private.getSourceController(this, this._options);
+        const sourceController = _private.getSourceController(this, {...this._options, items: null});
 
         let reloadItemDeferred;
         let filter;
