@@ -473,6 +473,22 @@ describe('Controls/dataSource:SourceController', () => {
             await controller.reload();
             ok(isNavigationParamsChangedCallbackCalled);
         });
+
+        it('updateOptions with new sorting',  async () => {
+            let controllerOptions = getControllerOptions();
+            controllerOptions.sorting = [{testField: 'DESC'}];
+            const controller = getController(controllerOptions);
+
+            // the same sorting
+            controllerOptions = {...controllerOptions};
+            controllerOptions.sorting = [{testField: 'DESC'}];
+            ok(!controller.updateOptions(controllerOptions));
+
+            // another sorting
+            controllerOptions = {...controllerOptions};
+            controllerOptions.sorting = [{testField: 'ASC'}];
+            ok(controller.updateOptions(controllerOptions));
+        });
     });
 
     describe('reload', () => {
