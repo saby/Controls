@@ -70,7 +70,9 @@
 
 
          <Controls.popup:Confirmation name="popupOpener" />
-
+          <div attr:style="padding:10px 5px;" class="controls-MyFormController__text">
+              Состояние: {{ _savedState ? 'Сохранено' : 'Не сохранено'}}
+          </div>
          <ws:if data="{{!_options.isFormControllerDemo}}">
             <div>
                <Controls.buttons:Button name="testStack" caption="testStack" on:click="openTestStack()" attr:class="ControlsDemo-PopupPage__testStackFC"/>
