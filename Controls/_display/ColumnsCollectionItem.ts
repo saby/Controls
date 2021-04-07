@@ -40,6 +40,10 @@ export default class ColumnsCollectionItem<T> extends CollectionItem<T> {
         return result;
     }
 
+    getMultiSelectOffsetClass(theme: string): string {
+        return `controls-ColumnsView__checkbox_position-${this.getOwner().getMultiSelectPosition()}_theme-${theme} `;
+    }
+
     getContentClasses(): string {
         // Тут должен быть вызов метода суперкласса, НО нам не нужны почти все классы, которые он предлагает
         return ' controls-ColumnsView__itemContent';
