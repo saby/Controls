@@ -1836,7 +1836,7 @@
   "--yearlist_quarters_hover_border-color_datePicker": "rgba(0, 0, 0, 0.1)",
   "--yearlist_halfyears_hover_border-color_datePicker": "var(--yearlist_quarters_hover_border-color_datePicker)",
   "--yearlist_item_hover_background-color_datePicker": "#E6ECFA",
-  "--yearlist_month_padding_datePicker": "0, var(--offset_2xs) var(--offset_2xs) var(--offset_2xs)",
+  "--yearlist_month_padding_datePicker": "0 var(--offset_2xs) var(--offset_2xs) var(--offset_2xs)",
   "--yearlist_month_width_datePicker": "100px",
   "--yearlist_month_height_datePicker": "100px",
   "--yearlist_month_heading_text-color_datePicker": "var(--secondary_text-color)",
