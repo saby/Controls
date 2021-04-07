@@ -1,8 +1,11 @@
 import BaseViewModel from '../BaseViewModel';
-import {decimalSplitter, decimalSplitters} from 'Controls/_input/Number/constant';
+import {numberConstant} from 'Controls/decorator';
 import {format} from 'Controls/_input/Number/format';
 import {InputType, ISplitValue} from '../resources/Types';
 import {IText, paste, replaceWithRepositioning, concatTriads, toString, Formatter, Parser} from 'Controls/decorator';
+
+const decimalSplitter = numberConstant.decimalSplitter;
+const decimalSplitters = numberConstant.decimalSplitters;
 
 interface IViewModelOptions {
     useGrouping: boolean;
