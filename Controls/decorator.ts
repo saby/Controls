@@ -17,6 +17,7 @@
 import * as Formatter from './_decorator/resources/Formatter';
 import * as FormatBuilder from './_decorator/resources/FormatBuilder';
 import * as Parser from './_decorator/resources/parse';
+import * as numberConstant from './_decorator/resources/NumberConstant';
 
 export {default as Markup} from './_decorator/Markup';
 export {default as Number, INumberOptions, RoundMode} from 'Controls/_decorator/Number';
@@ -30,7 +31,7 @@ export {default as Date, IDateOptions} from 'Controls/_decorator/Date';
 export * from './_decorator/resources/IMask';
 export * from './_decorator/resources/Util';
 export * from './_decorator/Phone/phoneMask';
-export {Formatter, FormatBuilder, Parser};
+export {Formatter, FormatBuilder, Parser, numberConstant};
 
 import * as Converter from './_decorator/Markup/Converter';
 import {default as InnerText} from './_decorator/Markup/resolvers/innerText';
