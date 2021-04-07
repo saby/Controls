@@ -3535,7 +3535,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             collapsedGroups: collapsedGroups || newOptions.collapsedGroups
         };
 
-        if (newOptions.groupProperty) {
+        if (newOptions.groupProperty && !newOptions.task1181512586) {
             self._groupingLoader = new GroupingLoader({});
         }
 
@@ -4144,7 +4144,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
 
         const groupPropertyChanged = newOptions.groupProperty !== this._options.groupProperty;
-        const needGroupingLoader = !!newOptions.groupProperty && !_private.isDemandNavigation(newOptions.navigation);
+        const needGroupingLoader = !!newOptions.groupProperty && !_private.isDemandNavigation(newOptions.navigation) && !newOptions.task1181512586;
         const hasGroupingLoader = !!this._groupingLoader;
         if (needGroupingLoader) {
             if (hasGroupingLoader) {
