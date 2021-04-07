@@ -21,7 +21,7 @@
 
 <ws:template name="multiSelectTemplate">
     <ws:partial template="{{multiSelectTpl}}" _preventMergeOptions="{{ !!preventMergeOptions }}">
-        <ws:templateOptions item="{{ itemData.dispItem }}" checkboxReadOnly="{{checkboxReadOnly}}" itemData="{{itemData}}"/>
+        <ws:templateOptions item="{{ itemData.dispItem }}" itemData="{{itemData}}"/>
     </ws:partial>
 </ws:template>
 

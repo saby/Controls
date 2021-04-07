@@ -187,8 +187,6 @@ export interface ITreeControlOptions extends IControlOptions {
  * @cfg {TemplateFunction} Шаблон отображения элемента с хлебными крошками в {@link Controls/treeGrid:View дереве} при {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/mode/ режиме поиска}.
  * @remark
  * По умолчанию используется базовый шаблон "Controls/treeGrid:SearchBreadCrumbsItemTemplate", который поддерживает следующий параметр:
- *
- * * checkboxReadOnly {Boolean} — флаг, позволяющий установить у checkbox в multiSelect режим "только для чтения".
  */
 
 /*
@@ -196,9 +194,6 @@ export interface ITreeControlOptions extends IControlOptions {
  * @cfg {TemplateFunction} Element template with breadcrumbs in a {@link Controls/treeGrid:View tree} in search mode.
  * @remark
  * The default template is "Controls/treeGrid:SearchBreadCrumbsItemTemplate".
- *
- * Template supports the following parameters:
- * - checkboxReadOnly {Boolean} — A flag that allows the checkbox to be set to read-only mode.
  */
 
 /**

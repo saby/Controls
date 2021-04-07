@@ -29,11 +29,10 @@
                         if="{{ gridColumn.LadderContentCell && (item || itemData).shouldDrawLadderContent(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"
                         attr:class="{{ (item || itemData).getLadderWrapperClasses(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"/>
         </ws:ladderWrapper>
-        <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
-                            checkboxReadOnly="{{ checkboxReadOnly }}"/>
+        <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"/>
         <ws:multiSelectTemplate>
             <ws:partial template="{{multiSelectTpl}}" _preventMergeOptions="{{ true }}">
-                <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+                <ws:templateOptions item="{{ item }}"/>
             </ws:partial>
         </ws:multiSelectTemplate>
         <ws:afterContentTemplate>

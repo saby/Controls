@@ -6,8 +6,8 @@
 </ws:template>
 
 <ws:template name="multiSelectTemplate">
-   <ws:partial template="{{multiSelectTpl}}" checkboxReadOnly="{{checkboxReadOnly}}">
-      <ws:templateOptions item="{{ itemData.dispItem }}" checkboxReadOnly="{{checkboxReadOnly}}" itemData="{{itemData}}"/>
+   <ws:partial template="{{multiSelectTpl}}">
+      <ws:templateOptions item="{{ itemData.dispItem }}" itemData="{{itemData}}"/>
    </ws:partial>
 </ws:template>
 

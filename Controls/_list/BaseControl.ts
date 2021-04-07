@@ -662,9 +662,10 @@ const _private = {
             return;
         }
 
-        if (!self._options.checkboxReadOnly) {
-            const markerController = _private.getMarkerController(self);
-            let toggledItemId = markerController.getMarkedKey();
+        const markerController = _private.getMarkerController(self);
+        let toggledItemId = markerController.getMarkedKey();
+        const item = self._listViewModel.getItemBySourceKey(toggledItemId);
+        if (item && !item.isReadonlyCheckbox()) {
             if (toggledItemId === null || toggledItemId === undefined) {
                 toggledItemId = markerController.getNextMarkedKey();
             }
