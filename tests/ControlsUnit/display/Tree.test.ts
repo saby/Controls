@@ -1737,6 +1737,45 @@ describe('Controls/_display/Tree', () => {
                 }
             });
         });
+
+        describe('create item with right expanded state', () => {
+            it('all expandable', () => {
+                rsTree.setExpandedItems([null]);
+                const contents = new Model({
+                    rawData: {
+                        id: 123456
+                    },
+                    keyProperty: 'id'
+                });
+                const newItem = rsTree.createItem({contents});
+                assert.isTrue(newItem.isExpanded());
+            });
+
+            it('all expandable, but one is collapsed', () => {
+                rsTree.setExpandedItems([null]);
+                rsTree.setCollapsedItems([123456]);
+                const contents = new Model({
+                    rawData: {
+                        id: 123456
+                    },
+                    keyProperty: 'id'
+                });
+                const newItem = rsTree.createItem({contents});
+                assert.isFalse(newItem.isExpanded());
+            });
+
+            it('one expanded', () => {
+                rsTree.setExpandedItems([123456]);
+                const contents = new Model({
+                    rawData: {
+                        id: 123456
+                    },
+                    keyProperty: 'id'
+                });
+                const newItem = rsTree.createItem({contents});
+                assert.isTrue(newItem.isExpanded());
+            });
+        });
     });
 
     describe('hasNodeWithChildren', () => {
