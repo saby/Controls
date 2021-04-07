@@ -27,7 +27,7 @@
  * @includes GroupTemplate Controls/dropdown:GroupTemplate
  * @includes IFooterTemplate Controls/_dropdown/interface/IFooterTemplate
  * @includes IHeaderTemplate Controls/_dropdown/interface/IHeaderTemplate
- * @includes inputDefaultContentTemplate wml!Controls/_dropdown/Input/resources/defaultContentTemplate
+ * @includes inputDefaultContentTemplate wml!Controls/_dropdown/Selector/resources/defaultContentTemplate
  * @includes IIconSize Controls/_dropdown/interface/IIconSize
  * @public
  * @author Крайнов Д.О.
@@ -42,8 +42,8 @@ import HeaderTemplate = require('wml!Controls/_dropdown/HeaderTemplate');
 
 import MenuUtils = require('Controls/_dropdown/Button/MenuUtils');
 import dropdownHistoryUtils = require('Controls/_dropdown/dropdownHistoryUtils');
-import inputDefaultContentTemplate = require('wml!Controls/_dropdown/Input/resources/defaultContentTemplate');
-import defaultContentTemplateWithIcon = require('wml!Controls/_dropdown/Input/resources/defaultContentTemplateWithIcon');
+import inputDefaultContentTemplate = require('wml!Controls/_dropdown/Selector/resources/defaultContentTemplate');
+import defaultContentTemplateWithIcon = require('wml!Controls/_dropdown/Selector/resources/defaultContentTemplateWithIcon');
 
 export {default as IGrouped, IGroupedOptions} from 'Controls/_dropdown/interface/IGrouped';
 export {default as IDropdownSource} from 'Controls/_dropdown/interface/IDropdownSource';
