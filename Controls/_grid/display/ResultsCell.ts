@@ -11,7 +11,7 @@ const FIXED_RESULTS_Z_INDEX = 4;
 const STICKY_RESULTS_Z_INDEX = 3;
 
 class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
-    protected readonly DEFAULT_CELL_TEMPLATE: string = 'Controls/grid:ResultColumnTemplate';
+    protected readonly _defaultCellTemplate: string = 'Controls/grid:ResultColumnTemplate';
     protected _$metaResults: EntityModel;
     protected _data: string | number;
     protected _format: string;
@@ -26,7 +26,7 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
     //  Если результаты будут иметь отдельную опцию под конфиг, то будет полная однородность, метод будет не нужен.
     getTemplate(): TemplateFunction | string {
         const customTemplate = this._$isSingleCell ? this._$column.template : this._$column.resultTemplate;
-        return customTemplate || this.DEFAULT_CELL_TEMPLATE;
+        return customTemplate || this._defaultCellTemplate;
     }
 
     //region Аспект "Данные и формат"

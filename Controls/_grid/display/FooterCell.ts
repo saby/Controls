@@ -2,7 +2,7 @@ import FooterRow from './FooterRow';
 import Cell, {IOptions as IBaseCellOptions} from './Cell';
 
 class FooterCell<T> extends Cell<T, FooterRow<T>> {
-    protected readonly DEFAULT_CELL_TEMPLATE: string = 'Controls/grid:FooterColumnTemplate';
+    protected readonly _defaultCellTemplate: string = 'Controls/grid:FooterColumnTemplate';
 
     //region Аспект "Стилевое оформление"
     getWrapperClasses(theme: string,
@@ -34,6 +34,10 @@ class FooterCell<T> extends Cell<T, FooterRow<T>> {
 
     getContentClasses(theme: string): string {
         return 'controls-GridView__footer__cell__content';
+    }
+
+    getInnerContentWrapperClasses(): string {
+        return 'controls-GridView__footer__cell__inner-content-wrapper';
     }
     //endregion
 }

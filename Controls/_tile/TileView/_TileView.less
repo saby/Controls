@@ -1074,6 +1074,22 @@
    width: 100%;
    margin-left: calc(var(--item_offset_tile) / 2);
 }
+.controls-TileView__footer__wrapperContent {
+   min-height: var(--footer_min-height_list);
+   display: flex;
+   flex-grow: 1;
+   align-items: baseline;
+}
+
+.controls-TileView__footer__wrapperContent::before {
+   content: '\200b';
+   font-size: var(--footer_font-size_list);
+}
+
+.controls-TileView__footer__content {
+   flex-grow: 1;
+}
+
 // FIXME: https://online.sbis.ru/opendoc.html?guid=8b2c991d-05d9-4513-be30-350a1b16fed9
 .controls-TileView__footer:empty {
    margin-left: 0;

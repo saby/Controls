@@ -49,7 +49,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     VersionableMixin
 ) implements IInstantiable, IVersionable {
     readonly '[Types/_entity/IInstantiable]': boolean;
-    protected readonly DEFAULT_CELL_TEMPLATE: string = DEFAULT_CELL_TEMPLATE;
+    protected readonly _defaultCellTemplate: string = DEFAULT_CELL_TEMPLATE;
     protected readonly _$owner: TOwner;
     protected readonly _$column: IColumn;
     protected _$isHiddenForLadder: boolean;
@@ -68,7 +68,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     }
 
     getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction | string {
-        return this._$column.template || this.DEFAULT_CELL_TEMPLATE;
+        return this._$column.template || this._defaultCellTemplate;
     }
 
     hasCellContentRender(): boolean {

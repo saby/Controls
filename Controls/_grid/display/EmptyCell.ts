@@ -4,7 +4,7 @@ import Cell, {IOptions as IBaseCellOptions} from './Cell';
 import CellCompatibility from './compatibility/DataCell';
 
 class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompatibility>(Cell, CellCompatibility) {
-    protected readonly DEFAULT_CELL_TEMPLATE: 'Controls/grid:EmptyColumnTemplate';
+    protected readonly _defaultCellTemplate: string = 'Controls/grid:EmptyColumnTemplate';
 
     //region Аспект "Стилевое оформление"
     getWrapperClasses(theme: string, backgroundColorStyle: string = 'default', style: string = 'default', highlightOnHover?: boolean): string {

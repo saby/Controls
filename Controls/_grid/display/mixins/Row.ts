@@ -660,6 +660,9 @@ export default abstract class Row<T> {
     setRowTemplateOptions(rowTemplateOptions: object): void {
         if (!isEqual(this._$rowTemplateOptions, rowTemplateOptions)) {
             this._$rowTemplateOptions = rowTemplateOptions;
+            if (this._$rowTemplate && this._$columns) {
+                this._$columns[this._$columns.length - 1].templateOptions = this._$rowTemplateOptions;
+            }
             this._reinitializeColumns(true);
         }
     }

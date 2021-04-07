@@ -37,7 +37,7 @@ const FIXED_HEADER_Z_INDEX = 4;
 const STICKY_HEADER_Z_INDEX = 3;
 
 export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
-    protected readonly DEFAULT_CELL_TEMPLATE: string = 'Controls/grid:HeaderContent';
+    protected readonly _defaultCellTemplate: string = 'Controls/grid:HeaderContent';
 
     protected _$owner: HeaderRow<T>;
     protected _$column: IHeaderCell;

@@ -6887,6 +6887,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
     // endregion
 
+    _getFooterClasses(options): string {
+        const hasCheckboxes = options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
+        return `controls__BaseControl__footer controls__BaseControl__footer__paddingLeft_${hasCheckboxes ? 'withCheckboxes' : (options.itemPadding?.left || 'default')}`;
+    }
+
     static getDefaultOptions(): Partial<IBaseControlOptions> {
         return {
             attachLoadTopTriggerToNull: true,
