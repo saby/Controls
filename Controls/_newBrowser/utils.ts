@@ -63,11 +63,11 @@ export class TileConfig {
     ) {}
 
     getDescription(itemData: any): string {
-        return itemData.item.get(this.browserOptions.detail.descriptionProperty);
+        return itemData.item?.get(this.browserOptions.detail.descriptionProperty);
     }
 
     getDescriptionLines(itemData: any): string | number {
-        const cfg = itemData.dispItem.isNode() ? this.cfg.tile.node : this.cfg.tile.leaf;
+        const cfg = itemData.dispItem?.isNode() ? this.cfg.tile.node : this.cfg.tile.leaf;
         return cfg.descriptionLines;
     }
 
@@ -75,7 +75,7 @@ export class TileConfig {
      * Возвразщает цвет градиента плитки на основании типа узла и данных узла
      */
     getGradientColor(itemData: any): string {
-        const imageGradient = itemData.dispItem.isNode()
+        const imageGradient = itemData.dispItem?.isNode()
             ? this.cfg.tile.node.imageGradient
             : this.cfg.tile.leaf.imageGradient;
 
@@ -92,7 +92,7 @@ export class TileConfig {
     }
 
     getImageEffect(itemData: any): string {
-        const imageGradient = itemData.dispItem.isNode()
+        const imageGradient = itemData.dispItem?.isNode()
             ? this.cfg.tile.node.imageGradient
             : this.cfg.tile.leaf.imageGradient;
 
@@ -106,9 +106,15 @@ export class TileConfig {
     }
 
     getImageViewMode(itemData: any): string {
-        return  itemData.dispItem.isNode()
+        return  itemData.dispItem?.isNode()
             ? this.cfg.tile.node.imageViewMode
             : this.cfg.tile.leaf.imageViewMode;
+    }
+
+    getImageProportion(itemData: any): string {
+        return  itemData.dispItem?.isNode()
+            ? this.cfg.tile.node.imageProportion
+            : this.cfg.tile.leaf.imageProportion;
     }
 }
 
@@ -122,7 +128,12 @@ export class ListConfig {
     }
 
     get imageViewMode(): string {
-        return ImageViewMode.rectangle;
+        return this.cfg.list.list.imageViewMode;
+    }
+
+    getDescriptionLines(itemData: any): number {
+        return itemData.isNode() ? this.cfg.list.node.descriptionLines :
+            this.cfg.list.leaf.descriptionLines;
     }
 
     constructor(
