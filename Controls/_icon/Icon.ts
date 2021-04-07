@@ -4,7 +4,7 @@ import {IIconSize, IIconSizeOptions, IIconStyle, IIconStyleOptions, IIcon, IIcon
 import {getIcon, isSVGIcon} from 'Controls/Utils/Icon';
 import 'css!Controls/CommonClasses';
 
-interface IIconControlOptions extends IControlOptions, IIconStyleOptions, IIconSizeOptions, IIconOptions {}
+export interface IIconControlOptions extends IControlOptions, IIconStyleOptions, IIconSizeOptions, IIconOptions {}
 
 /**
  * Иконка
