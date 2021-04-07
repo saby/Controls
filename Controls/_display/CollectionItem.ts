@@ -400,7 +400,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         if (markerClassName === 'default') {
             markerClass += 'height';
         } else {
-            markerClass += `padding-${(itemPadding.top || 'l')}_${markerClassName})`;
+            markerClass += `padding-${(itemPadding.top || 'l')}_${markerClassName}`;
         }
         markerClass += ` controls-ListView__itemV_marker_${style}`;
         markerClass += ' controls-ListView__itemV_marker';
