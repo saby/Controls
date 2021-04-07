@@ -473,7 +473,7 @@ export interface IFilterView {
 
 /**
  * @event Происходит при изменении структуры фильтра.
- * @name Controls/_filter/View/interface/IFilterView#sourceChanged
+ * @name Controls/_filter/View/interface/IFilterView#itemsChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Controls/_filter/View/interface/IFilterItem/FilterItem>} items Новая структура фильтра.
  * @see filterChanged
