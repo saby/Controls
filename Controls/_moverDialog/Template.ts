@@ -144,7 +144,8 @@ export default class extends Control<IMoverDialogTemplateOptions> {
 /**
  * @name Controls/_moverDialog/Template#showRoot
  * @cfg {Boolean} Разрешить перемещение записей в корень иерархии.
- * @remark
+ * @default
+ * @remark false
  * - true Отображается кнопка "В корень" над списком. Клик по кнопке перемещает записи в корень иерархии (см. {@link /materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo демо-пример}).
  * - false Кнопка скрыта.
  */
