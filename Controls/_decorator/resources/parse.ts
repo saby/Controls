@@ -1,4 +1,4 @@
-import {decimalSplitters} from 'Controls/_input/Number/constant';
+import {decimalSplitters} from 'Controls/_decorator/resources/NumberConstant';
 
 export interface IParsedNumber {
     negative: number;
