@@ -15,7 +15,7 @@
                <Controls.Container.Async
                   templateName="{{collectionItem.getEditorTemplateName()}}"
                   attr:data-qa="controls-PropertyGrid__editor_{{item[keyProperty]}}"
-                  class="{{item.editorClass}}">
+                  attr:class="{{item.editorClass}}">
                   <ws:templateOptions
                      validationStatus="{{content.validationStatus}}"
                      propertyValue="{{collectionItem.getPropertyValue()}}"/>
@@ -36,7 +36,7 @@
 <ws:else>
    <ws:if data="{{collectionItem.getEditorTemplateName()}}">
       <Controls.Container.Async templateName="{{collectionItem.getEditorTemplateName()}}"
-                                class="{{item.editorClass}}">
+                                attr:class="{{item.editorClass}}">
          <ws:templateOptions
             propertyValue="{{collectionItem.getPropertyValue()}}"/>
          <ws:content>
