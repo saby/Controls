@@ -253,7 +253,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
      * Колбэк, определяющий для каких узлов нужен подвал
      * @protected
      */
-    protected _$footerVisibilityCallback: (nodeContents: S) => boolean;
+    protected _$nodeFooterVisibilityCallback: (nodeContents: S) => boolean;
 
     /**
      * Стратегия перетаскивания записей
@@ -1005,7 +1005,7 @@ Object.assign(Tree.prototype, {
     _$root: undefined,
     _$rootEnumerable: false,
     _$nodeFooterTemplate: null,
-    _$footerVisibilityCallback: null,
+    _$nodeFooterVisibilityCallback: null,
     _$nodeFooterTemplateMoreButton: null,
     _root: null
 });
