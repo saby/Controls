@@ -423,15 +423,15 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         return this._counters;
     }
 
-    getMulticelectOffsetClass(theme: string): string {
+    getMultiSelectOffsetClass(): string {
         return `controls-ListView__checkbox_position-${this.getOwner().getMultiSelectPosition()} `;
     }
 
-    getMultiSelectClasses(theme: string): string {
+    getMultiSelectClasses(): string {
         let classes = 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable ';
         classes += 'js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable ';
         classes += 'controls-CheckboxMarker_inList controls-ListView__checkbox ';
-        classes += this.getMulticelectOffsetClass(theme);
+        classes += this.getMultiSelectOffsetClass();
 
         if (this.getMultiSelectVisibility() === 'onhover' && !this.isSelected()) {
             classes += 'controls-ListView__checkbox-onhover';

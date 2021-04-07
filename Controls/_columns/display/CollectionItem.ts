@@ -40,7 +40,7 @@ export default class CollectionItem<T> extends BaseCollectionItem<T> {
         return result;
     }
 
-    getMulticelectOffsetClass(theme: string): string {
+    getMultiSelectOffsetClass(): string {
         return `controls-ColumnsView__checkbox_position-${this.getOwner().getMultiSelectPosition()} `;
     }
 
