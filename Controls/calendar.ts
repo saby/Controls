@@ -51,11 +51,13 @@ export {IMonthListSource} from './_calendar/interfaces/IMonthListSource';
 export {IMonthListVirtualPageSize} from './_calendar/interfaces/IMonthListVirtualPageSize';
 
 import * as MonthViewDayTemplate from 'wml!Controls/_calendar/MonthView/dayTemplate';
+import * as MonthViewDayHeaderTemplate from 'wml!Controls/_calendar/MonthView/dayHeaderTemplate';
 import * as MonthListYearTemplate from 'wml!Controls/_calendar/MonthList/YearTemplate';
 import * as MonthListMonthTemplate from 'wml!Controls/_calendar/MonthList/MonthTemplate';
 
 export {
    MonthViewDayTemplate,
+   MonthViewDayHeaderTemplate,
    MonthListYearTemplate,
    MonthListMonthTemplate
 };
