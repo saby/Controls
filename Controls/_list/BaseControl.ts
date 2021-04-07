@@ -664,20 +664,18 @@ const _private = {
 
         const markerController = _private.getMarkerController(self);
         let toggledItemId = markerController.getMarkedKey();
+        if (toggledItemId === null || toggledItemId === undefined) {
+            toggledItemId = markerController.getNextMarkedKey();
+        }
+
         const item = self._listViewModel.getItemBySourceKey(toggledItemId);
         if (item && !item.isReadonlyCheckbox()) {
-            if (toggledItemId === null || toggledItemId === undefined) {
-                toggledItemId = markerController.getNextMarkedKey();
-            }
+            const result = _private.getSelectionController(self).toggleItem(toggledItemId);
+            _private.changeSelection(self, result);
 
-            if (toggledItemId) {
-                const result = _private.getSelectionController(self).toggleItem(toggledItemId);
-                _private.changeSelection(self, result);
-
-                // Пробел блокируется, пока не применем новое состояние, то есть пока не произойдет _beforeUpdate,
-                // чтобы адекватно отрабатывать при зажатом пробеле
-                self._spaceBlocked = true;
-            }
+            // Пробел блокируется, пока не применем новое состояние, то есть пока не произойдет _beforeUpdate,
+            // чтобы адекватно отрабатывать при зажатом пробеле
+            self._spaceBlocked = true;
         }
 
         _private.moveMarkerToNext(self, event);
