@@ -75,20 +75,22 @@ export default class PropertyGridCollectionItem<T> extends TreeItem<T> {
     }
 
     getValidateTemplateName(): string {
-        const editorOptions = this.getEditorOptions();
         const type = this.getContents().get('type');
-        if (editorOptions.validators) {
-            return editorOptions.validateTemplateName || DEFAULT_VALIDATORS_BY_TYPE[type] || DEFAULT_VALIDATOR_TEMPLATE;
+        const validators = this.getValidators();
+        if (validators) {
+            return this.getContents().get('validateTemplateName') ||
+                   DEFAULT_VALIDATORS_BY_TYPE[type] ||
+                   DEFAULT_VALIDATOR_TEMPLATE;
         }
         return '';
     }
 
-    getValidateTemplateOptions(): Record<string, any> {
-        return this.getEditorOptions().validateTemplateOptions || {};
+    getValidateTemplateOptions(): Record<string, unknown> {
+        return this.getContents().get('validateTemplateOptions') || {};
     }
 
     getValidators(): Function[] | null {
-        return this.getEditorOptions().validators;
+        return this.getContents().get('validators');
     }
 
     getUid(): string {
