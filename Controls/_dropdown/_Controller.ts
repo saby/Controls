@@ -206,14 +206,14 @@ export default class _Controller implements IDropdownController {
       });
    }
 
-   loadDependencies(needLoadMenuTemplates: boolean = true): Promise<unknown[]> {
+   loadDependencies(needLoadMenuTemplates: boolean = true, source?: ICrudPlus): Promise<unknown[]> {
       const deps = [];
       if (needLoadMenuTemplates) {
          deps.push(this._loadMenuTemplates(this._options));
       }
 
       if (!this._items) {
-         deps.push(this._getLoadItemsPromise()
+         deps.push(this._getLoadItemsPromise(source)
              .then(() => this._loadItemsTemplates(this._options))
              .catch((error) => {
                return Promise.reject(error);
@@ -303,10 +303,12 @@ export default class _Controller implements IDropdownController {
       if (this._options.readOnly) {
          return Promise.resolve();
       }
+
+      let source;
       if (popupOptions) {
          this._popupOptions = popupOptions;
          if (popupOptions.templateOptions?.source) {
-             this._options.source = popupOptions.templateOptions.source;
+             source = popupOptions.templateOptions.source;
              delete popupOptions.templateOptions.source;
          }
       }
@@ -317,7 +319,7 @@ export default class _Controller implements IDropdownController {
          this._source = this._options.source;
          this._resolveLoadedItems(this._options, this._preloadedItems);
       }
-      return this.loadDependencies(!this._preloadedItems).then(
+      return this.loadDependencies(!this._preloadedItems, source).then(
           () => {
              const count = this._items.getCount();
              if (count > 1 || count === 1 && (this._options.emptyText || this._options.footerContentTemplate)) {
@@ -339,14 +341,14 @@ export default class _Controller implements IDropdownController {
       );
    }
 
-   private _getLoadItemsPromise(): Promise<any> {
+   private _getLoadItemsPromise(source?: ICrudPlus): Promise<any> {
       if (this._items) {
          // Обновляем данные в источнике, нужно для работы истории
          this._setItems(this._items);
          this._loadItemsPromise = Promise.resolve();
       } else if (!this._loadItemsPromise || this._loadItemsPromise.resolved && !this._items) {
          if (this._options.source && !this._items) {
-            this._loadItemsPromise = this._loadItems(this._options);
+            this._loadItemsPromise = this._loadItems(this._options, source);
          } else {
             this._loadItemsPromise = Promise.resolve();
          }
@@ -421,13 +423,13 @@ export default class _Controller implements IDropdownController {
       return filter;
    }
 
-   private _getSourceController(options): Promise<SourceController> {
+   private _getSourceController(options, source?: ICrudPlus): Promise<SourceController> {
       let sourcePromise;
 
       if (this._hasHistory(options) && this._isLocalSource(options.source) && !options.historyNew) {
          sourcePromise = getSource(this._source || options.source, options);
       } else {
-         sourcePromise = Promise.resolve(options.source);
+         sourcePromise = Promise.resolve(source || options.source);
       }
       return sourcePromise.then((source) => {
          this._source = source;
@@ -439,8 +441,8 @@ export default class _Controller implements IDropdownController {
       });
    }
 
-   private _loadItems(options: IDropdownControllerOptions): Promise<RecordSet|Error> {
-      return this._getSourceController(options).then((sourceController) => {
+   private _loadItems(options: IDropdownControllerOptions, source: ICrudPlus): Promise<RecordSet|Error> {
+      return this._getSourceController(options, source).then((sourceController) => {
           return sourceController.load().then((items) => {
              return this._resolveLoadedItems(options, items);
           }, (error) => {
