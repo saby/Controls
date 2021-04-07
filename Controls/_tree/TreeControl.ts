@@ -21,6 +21,7 @@ import 'css!Controls/list';
 import 'css!Controls/itemActions';
 import 'css!Controls/CommonClasses';
 import 'css!Controls/treeGrid';
+import 'wml!Controls/_treeGridOld/TreeGridView/layout/common/NodeFooterChooser';
 
 const HOT_KEYS = {
     expandMarkedItem: constants.key.right,

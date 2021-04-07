@@ -5,6 +5,7 @@ import * as GridItemTemplate from 'wml!Controls/_treeGridOld/TreeGridView/layout
 import * as TableItemTemplate from 'wml!Controls/_treeGridOld/TreeGridView/layout/table/Item';
 import 'css!Controls/grid';
 import 'css!Controls/treeGrid';
+import 'wml!Controls/_treeGridOld/TreeGridView/layout/common/NodeFooterChooser';
 
 var
     TreeGridView = GridView.extend({
