@@ -195,7 +195,7 @@ export default class Button extends BaseDropdown {
       }
    }
 
-   _openMenu(popupOptions?: IStickyPopupOptions): Promise<any> | void {
+   _openMenu(popupOptions?: IStickyPopupOptions): Promise<any> {
       const config = this._getMenuPopupConfig();
       this._controller.setMenuPopupTarget(this._children.content);
 
