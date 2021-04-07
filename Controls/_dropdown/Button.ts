@@ -203,7 +203,7 @@ export default class Button extends BaseDropdown {
    }
 
    openMenu(popupOptions?: IStickyPopupOptions): void {
-      this._openMenu().then((result) => {
+      this._openMenu(popupOptions).then((result) => {
          if (result) {
             this._onItemClickHandler(result);
          }
