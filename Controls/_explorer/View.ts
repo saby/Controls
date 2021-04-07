@@ -61,12 +61,6 @@ const VIEW_MODEL_CONSTRUCTORS = {
     table: 'Controls/treeGrid:TreeGridCollection',
     list: 'Controls/treeGrid:TreeGridCollection'
 };
-const USE_NEW_MODEL_VALUES = {
-    search: true,
-    tile: false,
-    table: true,
-    list: true
-};
 
 const EXPLORER_CONSTANTS = {
     DEFAULT_VIEW_MODE,
@@ -97,7 +91,6 @@ interface IExplorerOptions
     itemOpenHandler?: Function;
     searchStartingWith?: 'root' | 'current';
     sourceController?: NewSourceController;
-    useNewTileModel?: boolean;
     useOldModel?: boolean;
     expandByItemClick?: boolean;
 }
@@ -124,7 +117,6 @@ export default class Explorer extends Control<IExplorerOptions> {
     protected _breadCrumbsDragHighlighter: Function;
     protected _canStartDragNDrop: Function;
     protected _headerVisibility: string;
-    protected _useNewModel: boolean;
     protected _children: {
         treeControl: TreeControl
     };
@@ -674,7 +666,6 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     private _setViewConfig(viewMode: TExplorerViewMode): void {
         this._viewName = VIEW_NAMES[viewMode];
-        this._useNewModel = USE_NEW_MODEL_VALUES[viewMode];
         this._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS[viewMode];
     }
 
@@ -693,7 +684,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._updateRootOnViewModeChanged(viewMode, cfg);
         }
 
-        if (cfg.useOldModel && !this._oldModelLoaded && viewMode !== 'tile') {
+        if (cfg.useOldModel && viewMode !== 'tile') {
             this._setViewModePromise = this._loadOldViewMode(cfg).then(() => {
                 this._setViewModeSync(viewMode, cfg);
             });
@@ -764,12 +755,11 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     private _loadTileViewMode(options: IExplorerOptions): Promise<void> {
-        if (options.useNewTileModel) {
+        if (!options.useOldModel) {
             return new Promise((resolve) => {
                 import('Controls/treeTile').then((tile) => {
                     VIEW_NAMES.tile = tile.TreeTileView;
                     VIEW_MODEL_CONSTRUCTORS.tile = 'Controls/treeTile:TreeTileCollection';
-                    USE_NEW_MODEL_VALUES.tile = true;
                     resolve();
                 }).catch((err) => {
                     Logger.error('Controls/_explorer/View: ' + err.message, this, err);
@@ -797,12 +787,6 @@ export default class Explorer extends Control<IExplorerOptions> {
                 VIEW_MODEL_CONSTRUCTORS.table = treeGridOld.ViewModel;
                 VIEW_MODEL_CONSTRUCTORS.list = treeGridOld.ViewModel;
                 VIEW_MODEL_CONSTRUCTORS.search = treeGridOld.SearchGridViewModel;
-
-                USE_NEW_MODEL_VALUES.table = false;
-                USE_NEW_MODEL_VALUES.list = false;
-                USE_NEW_MODEL_VALUES.search = false;
-
-                this._oldModelLoaded = true;
                 resolve();
             }).catch((err) => {
                 Logger.error('Controls/_explorer/View: ' + err.message, this, err);

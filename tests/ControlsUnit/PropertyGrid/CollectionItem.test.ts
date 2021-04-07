@@ -80,9 +80,9 @@ const source = new RecordSet<IPropertyGridItem>({
             type: 'text',
             editorClass: 'controls-demo-pg-text-editor',
             editorTemplateName: 'editorTemplate',
+            validators: [() => true],
             editorOptions: {
                 placeholder: 'Условие валидации',
-                validators: [() => true],
                 minLines: 3
             }
         },
@@ -92,11 +92,11 @@ const source = new RecordSet<IPropertyGridItem>({
             toggleEditorButtonIcon: 'icon-CreateFolder',
             type: 'text',
             editorClass: 'controls-demo-pg-text-editor',
+            validateTemplateName: 'validateTemplate',
+            validators: [() => true],
             editorTemplateName: 'editorTemplate',
             editorOptions: {
                 placeholder: 'Условие валидации',
-                validateTemplateName: 'validateTemplate',
-                validators: [() => true],
                 minLines: 3
             }
         },

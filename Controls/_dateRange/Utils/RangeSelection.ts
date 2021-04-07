@@ -110,7 +110,8 @@ const Utils = {
 
    isSelected: (itemValue: Date, startValue: Date, endValue: Date, selectionProcessing: boolean,
                 baseSelectionValue: Date, hoveredSelectionValue: Date): boolean => {
-      const range = Utils.getRange(startValue, endValue, selectionProcessing, baseSelectionValue, hoveredSelectionValue);
+      const range = Utils.getRange(startValue, endValue, selectionProcessing,
+          baseSelectionValue, hoveredSelectionValue);
       const start = range[0];
       const end = range[1];
       return start && end && itemValue >= start && itemValue <= end;

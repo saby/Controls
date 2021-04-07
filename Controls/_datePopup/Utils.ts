@@ -1,9 +1,7 @@
-import {detection} from 'Env/Env';
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
 import isEmpty = require('Core/helpers/Object/isEmpty');
 import {IDateRangeSelectable} from 'Controls/dateRange';
-import {string} from "prop-types";
 
 export default {
     /**
