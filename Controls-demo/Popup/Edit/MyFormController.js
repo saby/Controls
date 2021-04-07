@@ -16,6 +16,7 @@ define('Controls-demo/Popup/Edit/MyFormController',
          _template: template,
          _record: null,
          _key: null,
+         _savedState: false,
          _beforeMount: function (options) {
             this._record = options.record;
             if (!options.source) {
@@ -60,9 +61,19 @@ define('Controls-demo/Popup/Edit/MyFormController',
                this._record = opt.record;
             }
          },
-
+         _afterMount: function () {
+            this._onPropertyChangeHandler = this._changeStateOnNotSaved.bind(this);
+            this._record.subscribe('onPropertyChange', this._onPropertyChangeHandler);
+         },
+         _changeStateOnNotSaved: function(){
+            this._savedState = false;
+         },
+         _changeStateOnSaved: function(){
+            this._savedState = true;
+         },
          _update: function () {
-            return this._children.formControllerInst.update();
+            this._changeStateHandler = this._changeStateOnSaved.bind(this);
+            return this._children.formControllerInst.update().then(this._changeStateHandler);
          },
 
          _delete: function () {
