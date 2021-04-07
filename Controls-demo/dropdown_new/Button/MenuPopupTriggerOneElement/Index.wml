@@ -1,0 +1,33 @@
+<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper">
+    <div class="controls-text-label_theme-{{_options.theme}}">menuPopupTrigger=click</div>
+    <Controls.dropdown:Button
+        keyProperty="key"
+        caption="Create"
+        source="{{_source}}"
+        menuPopupTrigger="click"
+        on:menuItemActivate="_menuItemActivate()"
+        attr:class="controlsDemo-menuButton">
+    </Controls.dropdown:Button>
+</div>
+<div class="controlsDemo__wrapper">
+    <div class="controls-text-label_theme-{{_options.theme}}">menuPopupTrigger=hover</div>
+    <Controls.dropdown:Button
+        keyProperty="key"
+        caption="Create"
+        source="{{_source}}"
+        menuPopupTrigger="hover"
+        on:menuItemActivate="_menuItemActivate()"
+        attr:class="controlsDemo-menuButton">
+    </Controls.dropdown:Button>
+</div>
+<div class="controlsDemo__cell">
+    <div class="controlsDemo_fixedWidth500">
+        Выбранный элемент:
+        {{ _chosenItem }}
+    </div>
+</div>
+<div class="controlsDemo__cell">
+    <Controls.buttons:Button caption="Очистить" on:click="_clear()"></Controls.buttons:Button>
+</div>
+</div>
