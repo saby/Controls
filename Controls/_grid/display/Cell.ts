@@ -35,6 +35,7 @@ export interface IOptions<T> extends IColspanParams {
     ladderCell?: boolean;
     columnSeparatorSize?: string;
     rowSeparatorSize?: string;
+    backgroundStyle: string;
 }
 
 export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
@@ -61,6 +62,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
     protected _$markerPosition: 'left' | 'right';
+    protected _$backgroundStyle: string;
 
     constructor(options?: IOptions<T>) {
         super();
@@ -209,21 +211,38 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     ): string {
         let wrapperClasses = '';
         const isSingleCellEditableMode = this._$owner.getEditingConfig()?.mode === 'cell';
-        if (this._$owner.isEditing() && !isSingleCellEditableMode) {
-            const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
-            wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
-        } else if (!isSingleCellEditableMode && templateHighlightOnHover !== false) {
-            wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle} `;
+        if (!isSingleCellEditableMode) {
+            if (this._$owner.isEditing()) {
+                const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
+                wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
+            } else {
+                // Если зафиксированная колонка или лесенка
+                if (this._$isFixed || this._$hiddenForLadder) {
+                    wrapperClasses += ` controls-background-${this._resolveBackgroundStyle(backgroundColorStyle, style)}`;
 
-            if (backgroundColorStyle !== 'default') {
-                wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle}`;
-            }
+                // Если в шаблоне установили стиль для строки или колонки
+                } else if (backgroundColorStyle) {
+                    wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle} `;
+                }
 
-            if (backgroundColorStyle || this.getOwner().hasColumnScroll()) {
-                wrapperClasses += ` controls-background-${backgroundColorStyle || style}`;
+                // Если есть подсветка по ховеру
+                if (templateHighlightOnHover !== false) {
+                    wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle} `;
+                }
             }
         }
         return wrapperClasses;
+    }
+
+    /**
+     * Учитываем приоритет style над backgroundStyle для стики-элементов
+     * @param backgroundColorStyle
+     * @param style
+     */
+    private _resolveBackgroundStyle(backgroundColorStyle: string = 'default', style: string = 'default'): string {
+        const resolvedStyle = backgroundColorStyle !== 'default' ? backgroundColorStyle : style;
+        return resolvedStyle === 'default' && this._$backgroundStyle !== 'default' ?
+            this._$backgroundStyle : resolvedStyle;
     }
 
     // Only for partial grid support
@@ -528,5 +547,6 @@ Object.assign(Cell.prototype, {
     _$ladderCell: null,
     _$columnSeparatorSize: null,
     _$markerPosition: undefined,
-    _$rowSeparatorSize: null
+    _$rowSeparatorSize: null,
+    _$backgroundStyle: 'default'
 });

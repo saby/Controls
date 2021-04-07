@@ -12,14 +12,19 @@ describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
         getLeftPadding: () => 'default',
         getRightPadding: () => 'default',
         getEditingConfig: () => ({
-            mode: 'cell'
+            mode: 'default'
         }),
         getColumnIndex: () => 0,
         getColumnsCount: () => 0,
-        getMultiSelectVisibility: () => 'hidden'
+        getMultiSelectVisibility: () => 'hidden',
+        hasColumnScroll: () => true,
+        getEditingBackgroundStyle: () => 'default',
+        isActive: () => true,
+        hasMultiSelectColumn: () => false,
+        shouldDisplayMarker: () => false
     };
 
-    it('.getContentClasses() should contain background-color classes when hiddenForLadder', () => {
+    it('.getWrapperClasses() should contain background-color classes when hiddenForLadder', () => {
         const cell = new GridDataCell({
             backgroundStyle: 'custom',
             owner: {
@@ -31,13 +36,13 @@ describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
         });
 
         cAssert.notInclude(
-            cell.getContentClasses('default', 'default'),
+            cell.getWrapperClasses('default', 'default', 'default', false),
             'controls-background-custom'
         );
 
         cell.setHiddenForLadder(true);
         cAssert.include(
-            cell.getContentClasses('default', 'default'),
+            cell.getWrapperClasses('default', 'default', 'default', false),
             'controls-background-custom'
         );
     });

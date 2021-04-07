@@ -97,6 +97,7 @@ export interface IOptions {
     sorting?: Array<{[p: string]: string}>;
     emptyTemplateColumns?: IEmptyTemplateColumn[];
     columnSeparatorSize?: TColumnSeparatorSize;
+    itemActionsPosition?: 'inside' | 'outside' | 'custom';
 }
 
 export default abstract class Grid<S, T extends GridRowMixin<S>> {
@@ -128,6 +129,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$emptyTemplate: TemplateFunction;
     protected _$sorting: Array<{[p: string]: string}>;
     protected _$emptyTemplateColumns: IEmptyTemplateColumn[];
+
+    protected _$itemActionsPosition: 'inside' | 'outside' | 'custom';
 
     protected constructor(options: IOptions) {
         const supportLadder = GridLadderUtil.isSupportLadder(this._$ladderProperties);
@@ -479,7 +482,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     hasItemActionsSeparatedCell(): boolean {
-        return !!this.getColumnsConfig() && this.hasColumnScroll() && (this.getActionsTemplateConfig()?.itemActionsPosition !== 'custom');
+        return !!this.getColumnsConfig() && this.hasColumnScroll() && (this._$itemActionsPosition !== 'custom');
     }
 
     // FIXME: Временное решение - аналог RowEditor из старых таблиц(редактирование во всю строку).
@@ -528,5 +531,6 @@ Object.assign(Grid.prototype, {
     _$stickyColumnsCount: 1,
     _$sorting: null,
     _$emptyTemplateColumns: null,
-    _$itemEditorTemplate: null
+    _$itemEditorTemplate: null,
+    _$itemActionsPosition: 'inside'
 });
