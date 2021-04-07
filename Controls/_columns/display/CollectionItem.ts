@@ -40,10 +40,8 @@ export default class CollectionItem<T> extends BaseCollectionItem<T> {
         return result;
     }
 
-    getMultiSelectClasses(theme: string): string {
-        let classes = super.getMultiSelectClasses.apply(this, arguments);
-        classes += `controls-ColumnsView__checkbox_position-${this.getOwner().getMultiSelectPosition()}_theme-${theme} `;
-        return classes;
+    getMulticelectOffsetClass(theme: string): string {
+        return `controls-ColumnsView__checkbox_position-${this.getOwner().getMultiSelectPosition()}_theme-${theme} `;
     }
 
     getContentClasses(): string {
