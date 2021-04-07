@@ -321,13 +321,13 @@ export default class _Controller implements IDropdownController {
           () => {
              const count = this._items.getCount();
              const isOpenPopupWithOneItem = count === 1 &&
-                 (this._options.emptyText || this._options.footerContentTemplate || this._options.trigger === 'hover');
+                 (this._options.emptyText || this._options.footerContentTemplate);
              const isOpenPopup = count > 1 || isOpenPopupWithOneItem;
              if (isOpenPopup) {
                 this._createMenuSource(this._items);
                 this._isOpened = true;
                 return openPopup();
-             } else if (count === 1) {
+             } else if (count === 1 && this._options.trigger !== 'hover') {
                 return Promise.resolve([this._items.at(0)]);
              }
           },
