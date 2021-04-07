@@ -2,31 +2,11 @@
 @import "_monthsRange";
 @import "_dateRange";
 
-// TODO: выпилить после того как приведут стили List в порядок
-.controls-PeriodDialog {
-   .controls-ListView__itemContent {
-      margin: 0;
-      padding: 0;
-   }
-
-   .controls-ListView__itemV {
-      border-left: none;
-      cursor: auto;
-   }
-
-   .controls-ListView__itemV:hover {
-       background-color: transparent !important;
-   }
-}
-
 .controls-PeriodDialog {
    flex-shrink: 1;
    display: flex;
    min-height: 1px;
    flex-direction: column;
-}
-
-.controls-PeriodDialog {
    background-color: var(--background-color_datePicker);
    box-shadow: var(--box-shadow-size_datePicker) var(--box-shadow-color_datePicker);
    border-radius: var(--border-radius_datePicker);
@@ -77,6 +57,14 @@
    cursor: pointer;
 }
 
+.controls-PeriodDialog_stateButton_icon {
+   font-size: var(--switcher_icon-size_datePicker);
+   line-height: var(--switcher_icon-size_datePicker);
+   font-family: var(--icon_font-family_s);
+   fill: var(--switcher_icon-color_datePicker);
+   color: var(--switcher_icon-color_datePicker);
+}
+
 .ws-is-hover {
    .controls-PeriodDialog_stateButton_icon:hover {
       fill: var(--switcher_hover_icon-color_datePicker);
@@ -89,14 +77,6 @@
       fill: var(--switcher_hover_icon-color_datePicker);
       color: var(--switcher_hover_icon-color_datePicker);
    }
-}
-
-.controls-PeriodDialog_stateButton_icon {
-   font-size: var(--switcher_icon-size_datePicker);
-   line-height: var(--switcher_icon-size_datePicker);
-   font-family: var(--icon_font-family_s);
-   fill: var(--switcher_icon-color_datePicker);
-   color: var(--switcher_icon-color_datePicker);
 }
 
 .controls-PeriodDialog__header-period_link {
@@ -119,17 +99,18 @@
      Демо пример https://jsfiddle.net/yxf25pjh/3/
    */
 
-.ws-is-mobile-safari,
-.ws-is-firefox {
-   .controls-PeriodDialog__header-period_link::before {
-      font-size: calc(var(--header_lineheight_dialog) - 1px);
-   }
-}
 .controls-PeriodDialog__header-period_link::before {
    content: '\200b';
    display: inline-block;
    width: 0;
    font-size: var(--header_lineheight_dialog);
+}
+
+.ws-is-mobile-safari,
+.ws-is-firefox {
+   .controls-PeriodDialog__header-period_link::before {
+      font-size: calc(var(--header_lineheight_dialog) - 1px);
+   }
 }
 
 .controls-PeriodDialog__header_inputs {
