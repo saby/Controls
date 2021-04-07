@@ -4307,7 +4307,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     reloadItem(key: string, readMeta: object, replaceItem: boolean, reloadType: string = 'read'): Promise<Model> {
         const items = this._listViewModel.getCollection();
         const currentItemIndex = items.getIndexByValue(this._keyProperty, key);
-        const sourceController = _private.getSourceController(this, this._options);
+        const sourceController = _private.getSourceController(this, {...this._options, items: null});
 
         let reloadItemDeferred;
         let filter;
