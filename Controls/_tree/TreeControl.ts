@@ -750,8 +750,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
-    protected _componentDidUpdate() {
-        super._componentDidUpdate(...arguments);
+    protected _afterRender() {
+        super._afterRender(...arguments);
         if (this._scrollToLeaf && !this._scrollToLeafOnDrawItems) {
             this._scrollToLeaf();
             this._scrollToLeaf = null;
