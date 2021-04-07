@@ -44,7 +44,7 @@ export default class MonthsRangeItem extends Control<IMonthsRangeItemOptions> {
     protected _quarterHovered: boolean;
     protected _halfYearHovered: boolean;
     protected _selectionViewType: string;
-    protected _months: number[];
+    protected _months: WSDate[];
     protected _yearStructure: object[] = [{
         name: 'I',
         startMonth: 0,
@@ -86,7 +86,8 @@ export default class MonthsRangeItem extends Control<IMonthsRangeItemOptions> {
             this._yearSelectionEnabled = 'years' in options.ranges;
         }
         this._months = [];
-        for (let i = 0; i < 12; i++) {
+        const monthsInYear = 12;
+        for (let i = 0; i < monthsInYear; i++) {
             this._months.push(new WSDate(year, i, 1));
         }
     }
