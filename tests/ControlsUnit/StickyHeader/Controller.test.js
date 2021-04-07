@@ -146,17 +146,20 @@ define([
             });
          });
 
-         it('should not call setSyncDomOptimization on header on unregistration', function() {
+         it('should not call setSyncDomOptimization and delete header from height cache on header on unregistration', function() {
             let event = {
                blockUpdate: false,
                stopImmediatePropagation: sinon.fake()
             };
             component.init(container);
+            component._headers[data.id] = data;
             sinon.stub(data.inst, 'setSyncDomOptimization');
+            sinon.stub(component, '_deleteElementFromElementsHeightStack');
             sinon.stub(component, '_unobserveStickyHeader');
 
             return component.registerHandler(event, data, false, false, false).then(function() {
                sinon.assert.notCalled(data.inst.setSyncDomOptimization);
+               sinon.assert.calledOnce(component._deleteElementFromElementsHeightStack);
             });
          });
 
