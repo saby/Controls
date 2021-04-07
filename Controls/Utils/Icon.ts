@@ -11,7 +11,8 @@ interface IIconData {
 export function getIcon(url: string): string {
     const iconData = getIconData(url);
     if (iconData.isSvg) {
-        const fileUrl = getResourceUrl(`${constants.resourceRoot}${iconData.iconModule}/${iconData.iconPackage}.svg`);
+        const iconUrl = `${constants.resourceRoot}${iconData.iconModule}/${iconData.iconPackage}.svg`;
+        const fileUrl = getResourceUrl(iconUrl, true);
         return `${fileUrl}#${iconData.icon}`;
     } else {
         return iconData.icon;
