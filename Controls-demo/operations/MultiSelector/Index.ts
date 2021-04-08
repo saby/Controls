@@ -22,5 +22,9 @@ export default class MultiSelectorCheckboxDemo extends Control {
         });
     }
 
+    _limitChangedHandler(limit): void {
+        alert(limit);
+    }
+
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
