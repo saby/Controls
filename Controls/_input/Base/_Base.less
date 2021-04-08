@@ -121,15 +121,14 @@
       .controls-InputBase__stretcher-block_margin-xs {
          padding-right: @value;
       }
+      .controls-InputBase__stretcher-block_margin-null {
+         padding-right: @value - 2;
+      }
    }
    .expansionFix(2px);
 
    .ws-is-ie12 {
       .expansionFix(4px);
-
-      .controls-InputBase__stretcher-block_margin-null {
-         padding-right: 2px;
-      }
    }
 }
 
