@@ -7,7 +7,7 @@ import {Model} from 'Types/entity';
 var DEFAULT_FOLDER_WIDTH = 250;
 
 var TreeTileViewModel = TreeViewModel.extend({
-    '[Controls/_tileOld/Tile]': true,
+    '[Controls/_tile/Tile]': true,
 
     constructor: function (cfg) {
         TreeTileViewModel.superclass.constructor.apply(this, arguments);
