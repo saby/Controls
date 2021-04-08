@@ -32,7 +32,7 @@ export default class GroupCell<T>
     // region overrides
 
     getWrapperStyles(): string {
-        return this.getColspan();
+        return this.getColspanStyles();
     }
 
     getZIndex(): number {

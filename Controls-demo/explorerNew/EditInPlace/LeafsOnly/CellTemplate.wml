@@ -1,0 +1,25 @@
+<ws:if data="{{ item.contents['parent@'] !== null }}">
+    <ws:partial template="Controls/grid:ColumnTemplate" scope="{{_options}}"
+                attr:class="js-controls-ListView__notEditable"/>
+</ws:if>
+<ws:else>
+<ws:partial template="Controls/grid:ColumnTemplate" scope="{{_options}}">
+    <ws:contentTemplate>
+        <ws:partial template="Controls/list:EditingTemplate"
+                    value="{{ item.contents['title'] }}"
+                    scope="{{_options}}"
+                    enabled="{{true}}">
+            <ws:editorTemplate>
+                <Controls.validate:InputContainer name="InputValidate">
+                    <ws:validators>
+                        <ws:Function value="{{item.contents['title']}}">Controls/validate:isRequired</ws:Function>
+                    </ws:validators>
+                    <ws:content>
+                        <Controls.input:Text bind:value="item.contents['title']" selectOnClick="{{ false }}"/>
+                    </ws:content>
+                </Controls.validate:InputContainer>
+            </ws:editorTemplate>
+        </ws:partial>
+    </ws:contentTemplate>
+</ws:partial>
+</ws:else>

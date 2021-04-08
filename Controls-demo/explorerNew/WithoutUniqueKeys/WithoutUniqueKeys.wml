@@ -1,0 +1,13 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-base-treeGridView">
+    <Controls.explorer:View
+            source="{{_viewSource}}"
+            bind:root="_root"
+            uniqueKeys="{{true}}"
+            keyProperty="keyUnique"
+            displayProperty="key"
+            parentProperty="parentUnique"
+            nodeProperty="type"
+            viewMode="table"
+            columns="{{_columns}}">
+    </Controls.explorer:View>
+</div>

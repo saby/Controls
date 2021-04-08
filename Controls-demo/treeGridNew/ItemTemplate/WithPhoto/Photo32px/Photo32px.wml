@@ -8,7 +8,9 @@
         nodeProperty="type"
         bind:expandedItems="_expandedItems">
         <ws:footerTemplate>
-            <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+            <ws:partial template="Controls/gridNew:FooterTemplate">
+                <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+            </ws:partial>
         </ws:footerTemplate>
     </Controls.treeGridNew:View>
 </div>

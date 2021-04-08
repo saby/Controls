@@ -1,4 +1,4 @@
-<Controls.popupTemplate:Stack headingCaption="Диалог редактирования" attr:style="width:{{_options.width || _options.stackWidth || 900}}px">
+<Controls.popupTemplate:Stack headingCaption="Диалог редактирования" attr:style="width:{{_options.width || _options.stackWidth || 900}}px" on:close="_closeHandler()">
    <ws:headerContentTemplate>
       <div style="display: flex;justify-content: flex-end;flex-grow: 1;">
          <Controls.buttons:Button iconSize="m" iconStyle="danger" icon="icon-Erase" on:click="_delete()" viewMode="linkButton" fontColorStyle="link"
@@ -71,7 +71,7 @@
 
          <Controls.popup:Confirmation name="popupOpener" />
           <div attr:style="padding:10px 5px;" class="controls-MyFormController__text">
-              Состояние: {{ _savedState ? 'Сохранено' : 'Не сохранено'}}
+              Состояние: {{ _savedState }}
           </div>
          <ws:if data="{{!_options.isFormControllerDemo}}">
             <div>

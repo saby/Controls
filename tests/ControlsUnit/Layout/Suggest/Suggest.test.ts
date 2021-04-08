@@ -1198,6 +1198,30 @@ describe('Controls/suggest', () => {
             inputController._beforeUpdate(options);
             assert.ok(!inputController._searchResolverController._delayTimer);
          });
+
+         it('value is cleared', async () => {
+            let options = {
+               emptyTemplate: 'anyTpl',
+               footerTemplate: 'anyTp',
+               suggestState: false,
+               value: 'newValue',
+               trim: true,
+               searchParam: 'testSearchParam',
+               minSearchLength: 3,
+               source: new Memory()
+            };
+
+            const inputController = getComponentObject(options);
+            await inputController._beforeMount(options);
+            inputController.saveOptions(options);
+            await inputController._getSearchResolver();
+
+            options = {...options};
+            options.value = '';
+            options.suggestState = true;
+            inputController._beforeUpdate(options);
+            assert.ok(!inputController._searchValue);
+         });
       });
 
       it('PrefetchProxy source should became to original source type', async () => {

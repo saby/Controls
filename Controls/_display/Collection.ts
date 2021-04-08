@@ -2438,11 +2438,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return false;
     }
 
-    setEmptyTemplateOptions(options: object): void {
+    setEmptyTemplateOptions(options: object): boolean {
         if (!isEqual(this._$emptyTemplateOptions, options)) {
             this._$emptyTemplateOptions = options;
             this._nextVersion();
+            return true;
         }
+        return false;
     }
 
     setEditingConfig(config: IEditingConfig): void {

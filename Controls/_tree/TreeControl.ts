@@ -591,7 +591,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
      * @private
      */
     private _shouldLoadLastExpandedNodeData(direction: Direction, item: TreeItem, parentKey: CrudEntityKey): boolean {
-        if (!item || direction !== 'down') {
+        // Иногда item это breadcrumbsItemRow, он не TreeItem
+        if (!item || !item['[Controls/_display/TreeItem]'] || direction !== 'down') {
             return false;
         }
         const hasMoreParentData = this._sourceController.hasMoreData('down', parentKey);
@@ -984,13 +985,15 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 const expandedItems = _private.getExpandedItems(this, options, loadedList);
                 let hasMoreData: unknown;
 
-                expandedItems.forEach((key) => {
-                    hasMoreData = sourceController.hasMoreData('down', key);
+                if (sourceController) {
+                    expandedItems.forEach((key) => {
+                        hasMoreData = sourceController.hasMoreData('down', key);
 
-                    if (hasMoreData !== undefined) {
-                        hasMore[key] = hasMoreData;
-                    }
-                });
+                        if (hasMoreData !== undefined) {
+                            hasMore[key] = hasMoreData;
+                        }
+                    });
+                }
 
                 // if method does not support multi navigation hasMore object will be empty
                 if (!isEqual({}, hasMore)) {
@@ -1262,6 +1265,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _isExpanded(item, model): boolean {
         return model.getExpandedItems().indexOf(item.getContents().get(this._keyProperty)) > -1;
+    }
+
+    protected _getFooterClasses(options): string {
+        return super._getFooterClasses(options) + ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
     }
 
     static getDefaultOptions() {

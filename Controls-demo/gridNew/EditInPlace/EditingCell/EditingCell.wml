@@ -21,7 +21,9 @@
                                 <ws:Object editOnClick="{{true}}" autoAdd="{{true}}"/>
                             </ws:editingConfig>
                             <ws:footerTemplate>
-                                <Controls.list:AddButton caption="Add record" on:click="_beginAdd()" class="test_add_record_1"/>
+                                <ws:partial template="Controls/grid:FooterTemplate">
+                                    <Controls.list:AddButton caption="Add record" on:click="_beginAdd()" class="test_add_record_1"/>
+                                </ws:partial>
                             </ws:footerTemplate>
                         </Controls.gridNew:View>
                     </Controls.list:Container>

@@ -1,20 +1,20 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/explorerNewNew/DragNDropWithTile/DragNDropWithTile';
+import * as Template from 'wml!Controls-demo/explorerNew/DragNDrop/DragNDrop';
 import * as ListEntity from 'Controls-demo/DragNDrop/ListEntity';
-import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
+import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
+import {Gadgets} from '../DataHelpers/DataCatalog';
+import { IColumn } from 'Controls/grid';
 import { TRoot, TItemsReadyCallback } from 'Controls-demo/types';
 import {RecordSet} from 'Types/collection';
-import { IColumn } from 'Controls/gridOld';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';
-import { Gadgets } from 'Controls-demo/Explorer_new/DataHelpers/DataCatalog';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: MemorySource;
     protected _columns: IColumn[] = Gadgets.getColumns();
-    protected _viewMode: string = 'tile';
+    protected _viewMode: string = 'table';
     protected _root: TRoot = null;
     protected _selectedKeys: Number[] = [];
     protected _itemsReadyCallback: TItemsReadyCallback = this._itemsReady.bind(this);
@@ -51,7 +51,6 @@ export default class extends Control {
     }
 
     protected _dragEnd(_: SyntheticEvent, entity: Collection<Model>, target: unknown, position: string): void {
-        // tslint:disable-next-line
         this._children.listMover.moveItems(entity.getItems(), target, position);
     }
 
