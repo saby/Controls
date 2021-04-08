@@ -631,9 +631,19 @@ export default class InputContainer extends Control<IInputControllerOptions> {
                                          this._options.navigation !== newOptions.navigation ||
                                          this._options.sorting !== newOptions.sorting ||
                                          filterChanged;
+      const needUpdateSearchValue = (needSearchOnValueChanged || valueCleared) &&
+                                    this._searchValue !== newOptions.value;
 
       if (needUpdateSourceController && this._sourceController) {
          this._sourceController.updateOptions(this._getSourceControllerOptions(newOptions));
+      }
+
+      if (needUpdateSearchValue) {
+         this._searchValue = newOptions.value;
+      }
+
+      if (needSearchOnValueChanged || valueCleared || filterChanged) {
+         this._setFilter(newOptions.filter, newOptions);
       }
 
       if (newOptions.suggestState !== this._options.suggestState) {
@@ -661,21 +671,14 @@ export default class InputContainer extends Control<IInputControllerOptions> {
          }
       }
 
-      if ((needSearchOnValueChanged || valueCleared) && this._searchValue !== newOptions.value) {
-         this._searchValue = newOptions.value;
+      if (this._options.suggestState && newOptions.suggestState && needUpdateSearchValue) {
+         this._updateSuggestState();
 
-         if (this._options.suggestState && newOptions.suggestState) {
-            this._updateSuggestState();
-
-            if (this._showContent) {
-               this._setFilterAndLoad(newOptions.filter, newOptions);
-            }
+         if (this._showContent) {
+            this._setFilterAndLoad(newOptions.filter, newOptions);
          }
       }
 
-      if (needSearchOnValueChanged || valueCleared || filterChanged) {
-         this._setFilter(newOptions.filter, newOptions);
-      }
       if (filterChanged && (this._showContent || this._sourceController?.isLoading())) {
          if (this._searchValue) {
             this._resolveSearch(this._searchValue, newOptions);
