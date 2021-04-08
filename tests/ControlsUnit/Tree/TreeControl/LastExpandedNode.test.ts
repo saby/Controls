@@ -175,7 +175,7 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
         spyQuery.restore();
     });
 
-    it ('should not fall with non TreeItem', async () => {
+    it ('should not try to load and fall with non TreeItem', async () => {
         source = new HierarchicalMemory({
             keyProperty: 'id',
             data
