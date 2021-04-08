@@ -107,6 +107,13 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
 
     // region Аспект "Объединение колонок"
     _getColspanParams(): IColspanParams {
+        if (this.isCheckBoxCell()) {
+            return {
+                startColumn: 1,
+                endColumn: 2,
+                colspan: 1
+            };
+        }
         if (this._$column.startColumn && this._$column.endColumn) {
             const multiSelectOffset = this.isCheckBoxCell() ? 0 : +this._$owner.hasMultiSelectColumn();
             return {
