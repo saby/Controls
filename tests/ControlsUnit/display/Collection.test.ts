@@ -3685,7 +3685,7 @@ describe('Controls/_display/Collection', () => {
             const display = new CollectionDisplay({
                 collection: list
             });
-            const expected = ['before', 'on', 'after'];
+            const expected = ['before', 'after', 'before', 'on', 'after'];
             const given = [];
             const handlerBefore = () => {
                 given.push('before');
