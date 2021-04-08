@@ -878,7 +878,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     protected _notifyItemClick([e, item, originalEvent, columnIndex]: [SyntheticEvent, Model, SyntheticEvent, number?], returnExpandResult: boolean /* for tests */) {
         if (originalEvent.target.closest('.js-controls-Tree__row-expander')) {
             e?.stopImmediatePropagation();
-            return;
+            return false;
         }
         const superResult = super._notifyItemClick(...arguments);
         if (e.isStopped()) {
