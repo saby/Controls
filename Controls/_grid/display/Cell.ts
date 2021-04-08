@@ -248,10 +248,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
                     wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle} `;
                 }
 
-                // Если  шаблоне установили любой стиль для строки или колонки, или зафиксирована колонка или лесенка
-                if (backgroundColorStyle ||
-                    (this.getOwner().hasColumnScroll() && this._$isFixed) ||
-                    this._$isHiddenForLadder) {
+                // Если  шаблоне установили любой стиль для строки или колонки, или зафиксирована колонка
+                if (backgroundColorStyle || (this.getOwner().hasColumnScroll() && this._$isFixed)) {
                     wrapperClasses += ` controls-background-${this._resolveBackgroundStyle(backgroundColorStyle, style)}`;
                 }
 
@@ -328,6 +326,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
         if (this._$isHiddenForLadder) {
             contentClasses += ' controls-Grid__row-cell__content_hiddenForLadder';
+            // Фон лесенки должен быть именно у контента, т.к. класс hiddenForLadder задаёт необходимыйц z-index
+            contentClasses += ` controls-background-${this._resolveBackgroundStyle(backgroundColorStyle)}`;
         }
 
         if (backgroundColorStyle) {

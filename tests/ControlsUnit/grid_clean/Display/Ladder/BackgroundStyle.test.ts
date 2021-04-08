@@ -1,7 +1,7 @@
 import {GridDataCell} from 'Controls/gridNew';
 import {CssClassesAssert as cAssert} from 'ControlsUnit/CustomAsserts';
 
-describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
+describe('Controls/grid_clean/Display/DataCell/BackgroundStyle', () => {
 
     const mockedOwner = {
         getHoverBackgroundStyle: () => 'default',
@@ -16,15 +16,10 @@ describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
         }),
         getColumnIndex: () => 0,
         getColumnsCount: () => 0,
-        getMultiSelectVisibility: () => 'hidden',
-        hasColumnScroll: () => true,
-        getEditingBackgroundStyle: () => 'default',
-        isActive: () => true,
-        hasMultiSelectColumn: () => false,
-        shouldDisplayMarker: () => false
+        getMultiSelectVisibility: () => 'hidden'
     };
 
-    it('.getWrapperClasses() should contain background-color classes when hiddenForLadder', () => {
+    it('.getContentClasses() should contain background-color classes when hiddenForLadder', () => {
         const cell = new GridDataCell({
             backgroundStyle: 'custom',
             owner: {
@@ -36,13 +31,13 @@ describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
         });
 
         cAssert.notInclude(
-            cell.getWrapperClasses('default', undefined, 'default', false),
+            cell.getContentClasses('default', undefined, 'default', false),
             'controls-background-custom'
         );
 
         cell.setHiddenForLadder(true);
         cAssert.include(
-            cell.getWrapperClasses('default', undefined, 'default', false),
+            cell.getContentClasses('default', undefined, 'default', false),
             'controls-background-custom'
         );
     });
