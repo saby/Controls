@@ -19,7 +19,7 @@
  * @cfg {Number} Высота элементов, отображаемых в виде плитки.
  * @default 150
  * @remark 
- * Опция работает, если {@link /docs/js/Controls/tile/ItemTemplate/options/staticHeight/ staticHeight} установлена в значение "true".
+ * Опция работает, если {@link Controls/tile:ItemTemplate#staticHeight staticHeight} установлена в значение "true".
  * Эта опция необходима для расчета размеров элементов при отрисовке на сервере.
  * Если установить высоту с помощью css, компонент не будет отображен корректно.
  * @example
@@ -33,7 +33,6 @@
  *    parentProperty="Раздел"
  *    nodeProperty="Раздел@"/>
  * </pre>
- * @see staticHeight
  */
 
 /**
