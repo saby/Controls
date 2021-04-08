@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/LoadingIndicator/Up/NotEnoughData/NotHasMore/NotHasMore';
+import * as Template from 'wml!Controls-demo/gridNew/LoadingIndicator/Up/NotEnoughData/NotHasMore/NotHasMore';
 import {Memory} from 'Types/source';
 import { generateData } from 'Controls-demo/list_new/DemoHelpers/DataCatalog';
 

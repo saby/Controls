@@ -1,6 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGrid/ResultsFromMeta/CustomResultsCells/CustomResultsCells';
-import * as resTpl from 'wml!Controls-demo/treeGrid/ResultsFromMeta/CustomResultsCells/resultCell';
+import * as Template from 'wml!Controls-demo/treeGridNew/ResultsFromMeta/CustomResultsCells/CustomResultsCells';
+import * as resTpl from 'wml!Controls-demo/treeGridNew/ResultsFromMeta/CustomResultsCells/resultCell';
 import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';

@@ -6,7 +6,7 @@ import {IColumn, TCellAlign} from 'Controls/grid';
 
 import {Gadgets, IData} from '../../DemoHelpers/DataCatalog';
 
-import * as template from 'wml!Controls-demo/treeGrid/TagStyle/TagStyleFromCellData/TagStyleFromCellData';
+import * as template from 'wml!Controls-demo/treeGridNew/TagStyle/TagStyleFromCellData/TagStyleFromCellData';
 
 const MAXITEM = 7;
 

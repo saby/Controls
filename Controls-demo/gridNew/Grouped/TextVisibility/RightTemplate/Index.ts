@@ -3,7 +3,7 @@ import { Memory } from 'Types/source';
 import { IColumn } from 'Controls/grid';
 
 import { getTasks } from '../../../DemoHelpers/DataCatalog';
-import * as Template from 'wml!Controls-demo/grid/Grouped/TextVisibility/RightTemplate/RightTemplate';
+import * as Template from 'wml!Controls-demo/gridNew/Grouped/TextVisibility/RightTemplate/RightTemplate';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

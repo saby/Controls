@@ -3,19 +3,19 @@
    <div class="controlsDemo__cell demo-EditArrow__SimpleTree">
       <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
-                               app="{{ 'Controls-demo/treeGrid/EditArrow/Base/Index' }}">
+                               app="{{ 'Controls-demo/treeGridNew/EditArrow/Base/Index' }}">
          <a href="{{content.href}}">Base</a>
       </Router.router:Reference>
-      <Controls-demo.treeGrid.EditArrow.Base.Index/>
+      <Controls-demo.treeGridNew.EditArrow.Base.Index/>
    </div>
 
    <div class="controlsDemo__cell demo-EditArrow__CustomColumnTemplate">
       <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
-                               app="{{ 'Controls-demo/treeGrid/EditArrow/WithColumnTemplate/Index' }}">
+                               app="{{ 'Controls-demo/treeGridNew/EditArrow/WithColumnTemplate/Index' }}">
          <a href="{{content.href}}">Custom column template</a>
       </Router.router:Reference>
-      <Controls-demo.treeGrid.EditArrow.WithColumnTemplate.Index/>
+      <Controls-demo.treeGridNew.EditArrow.WithColumnTemplate.Index/>
    </div>
 
 </div>

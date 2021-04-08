@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto/WithPhoto';
+import * as Template from 'wml!Controls-demo/treeGridNew/ItemTemplate/WithPhoto/WithPhoto';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
@@ -27,5 +27,5 @@ export default class extends Control {
 
    }
 
-   static _styles: string[] = ['Controls-demo/treeGrid/ItemTemplate/WithPhoto/styles', 'Controls-demo/Controls-demo'];
+   static _styles: string[] = ['Controls-demo/treeGridNew/ItemTemplate/WithPhoto/styles', 'Controls-demo/Controls-demo'];
 }

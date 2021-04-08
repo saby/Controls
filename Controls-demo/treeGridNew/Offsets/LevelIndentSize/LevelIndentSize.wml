@@ -4,10 +4,10 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGrid/Offsets/LevelIndentSize/All/Index' }}">
+                                 app="{{ 'Controls-demo/treeGridNew/Offsets/LevelIndentSize/All/Index' }}">
             <a href="{{content.href}}">Все размеры</a>
         </Router.router:Reference>
-        <Controls-demo.treeGrid.Offsets.LevelIndentSize.All.Index/>
+        <Controls-demo.treeGridNew.Offsets.LevelIndentSize.All.Index/>
     </div>
 
 </div>

@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/Ladder/DragNDrop/DragNDrop';
+import * as Template from 'wml!Controls-demo/gridNew/Ladder/DragNDrop/DragNDrop';
 import {Memory} from 'Types/source';
 import {getTasks} from '../../DemoHelpers/DataCatalog';
 import * as Dnd from 'Controls/dragnDrop';

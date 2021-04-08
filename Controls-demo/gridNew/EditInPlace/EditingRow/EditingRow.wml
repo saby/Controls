@@ -9,7 +9,7 @@
             <ws:Array>
                 <ws:Object width="100px" displayProperty="invoice">
                     <ws:template>
-                        <ws:partial template="wml!Controls-demo/grid/EditInPlace/EditingRow/cellTemplate"
+                        <ws:partial template="wml!Controls-demo/gridNew/EditInPlace/EditingRow/cellTemplate"
                                     itemData="{{template.gridColumn}}"
                                     documentSignMemory="{{_documentSignMemory}}"
                                     onChange1="{{onChange1}}"

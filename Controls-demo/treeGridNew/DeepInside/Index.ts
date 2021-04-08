@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGrid/DeepInside/DeepInside';
+import * as Template from 'wml!Controls-demo/treeGridNew/DeepInside/DeepInside';
 import {HierarchicalMemory} from 'Types/source';
 import {DeepInside} from '../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';

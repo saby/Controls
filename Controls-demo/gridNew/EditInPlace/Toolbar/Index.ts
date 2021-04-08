@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/EditInPlace/Toolbar/Toolbar';
-import * as editingCellNumber from 'wml!Controls-demo/grid/EditInPlace/Toolbar/editingCellNumber';
-import * as editingCellText from 'wml!Controls-demo/grid/EditInPlace/Toolbar/editingCellText';
+import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/Toolbar/Toolbar';
+import * as editingCellNumber from 'wml!Controls-demo/gridNew/EditInPlace/Toolbar/editingCellNumber';
+import * as editingCellText from 'wml!Controls-demo/gridNew/EditInPlace/Toolbar/editingCellText';
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';

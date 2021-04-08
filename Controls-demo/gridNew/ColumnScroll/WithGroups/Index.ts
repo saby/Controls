@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/ColumnScroll/WithGroups/WithGroups';
+import * as Template from 'wml!Controls-demo/gridNew/ColumnScroll/WithGroups/WithGroups';
 import {Memory} from 'Types/source';
 import {getTasks} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';

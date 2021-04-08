@@ -2,18 +2,18 @@
    <div class="controlsDemo__cell">
       <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
-                               app="{{ 'Controls-demo/grid/Results/SingleRecordResults/Simple/Index' }}">
+                               app="{{ 'Controls-demo/gridNew/Results/SingleRecordResults/Simple/Index' }}">
          <a href="{{content.href}}">Без опции "Всегда отображать строку итогов"</a>
       </Router.router:Reference>
-      <Controls-demo.grid.Results.SingleRecordResults.Simple.Index/>
+      <Controls-demo.gridNew.Results.SingleRecordResults.Simple.Index/>
    </div>
 
    <div class="controlsDemo__cell">
       <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
-                               app="{{ 'Controls-demo/grid/Results/SingleRecordResults/Visible/Index' }}">
+                               app="{{ 'Controls-demo/gridNew/Results/SingleRecordResults/Visible/Index' }}">
          <a href="{{content.href}}">С опцией "Всегда отображать строку итогов"</a>
       </Router.router:Reference>
-      <Controls-demo.grid.Results.SingleRecordResults.Visible.Index/>
+      <Controls-demo.gridNew.Results.SingleRecordResults.Visible.Index/>
    </div>
 </div>

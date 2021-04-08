@@ -3,7 +3,7 @@ import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import { IHeader } from 'Controls-demo/types';
-import * as Template from 'wml!Controls-demo/grid/Results/SingleRecordResults/Visible/Visible';
+import * as Template from 'wml!Controls-demo/gridNew/Results/SingleRecordResults/Visible/Visible';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

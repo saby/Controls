@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/ColumnScroll/WithItemActions/Inside/Inside';
+import * as Template from 'wml!Controls-demo/gridNew/ColumnScroll/WithItemActions/Inside/Inside';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../../../list_new/DemoHelpers/ItemActionsCatalog';

@@ -6,8 +6,8 @@ import {Record} from 'Types/entity';
 
 import {getTasks} from '../../DemoHelpers/DataCatalog';
 
-import * as Template from 'wml!Controls-demo/grid/Ladder/Sticky/Sticky';
-import * as ResultsTpl from 'wml!Controls-demo/grid/Ladder/Sticky/ResultsCell';
+import * as Template from 'wml!Controls-demo/gridNew/Ladder/Sticky/Sticky';
+import * as ResultsTpl from 'wml!Controls-demo/gridNew/Ladder/Sticky/ResultsCell';
 
 import {ListItems} from 'Controls/dragnDrop';
 

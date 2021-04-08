@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/Header/HeaderVisibility/Default/Default';
+import * as Template from 'wml!Controls-demo/gridNew/Header/HeaderVisibility/Default/Default';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 import {IHeader} from 'Controls-demo/types';

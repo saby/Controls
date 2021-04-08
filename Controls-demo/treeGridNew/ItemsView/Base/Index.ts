@@ -1,6 +1,6 @@
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
-import * as Template from 'wml!Controls-demo/treeGrid/ItemsView/Base/Index';
+import * as Template from 'wml!Controls-demo/treeGridNew/ItemsView/Base/Index';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import {Control, TemplateFunction} from 'UI/Base';
 import {RecordSet} from 'Types/collection';

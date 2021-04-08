@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/ColumnSeparator/PartialColumnSeparator/PartialColumnSeparator';
+import * as Template from 'wml!Controls-demo/gridNew/ColumnSeparator/PartialColumnSeparator/PartialColumnSeparator';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import * as clone from 'Core/core-clone';

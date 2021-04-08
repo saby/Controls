@@ -1,5 +1,5 @@
-import * as CntTpl from 'wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto/content';
-import * as CntTwoLvlTpl from 'wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto/contentTwoLvl';
+import * as CntTpl from 'wml!Controls-demo/treeGridNew/ItemTemplate/WithPhoto/content';
+import * as CntTwoLvlTpl from 'wml!Controls-demo/treeGridNew/ItemTemplate/WithPhoto/contentTwoLvl';
 import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 
 import { IHeader } from 'Controls-demo/types';

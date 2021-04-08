@@ -2,19 +2,19 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGrid/Base/TreeView/Index' }}">
+                                 app="{{ 'Controls-demo/treeGridNew/Base/TreeView/Index' }}">
             <a href="{{content.href}}">Базовая настройка дерева (одна колонка)</a>
         </Router.router:Reference>
-        <Controls-demo.treeGrid.Base.TreeView.Index/>
+        <Controls-demo.treeGridNew.Base.TreeView.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGrid/Base/TreeGridView/Index' }}">
+                                 app="{{ 'Controls-demo/treeGridNew/Base/TreeGridView/Index' }}">
             <a href="{{content.href}}">Базовая настройка дерева (много колонок)</a>
         </Router.router:Reference>
-        <Controls-demo.treeGrid.Base.TreeGridView.Index/>
+        <Controls-demo.treeGridNew.Base.TreeGridView.Index/>
     </div>
 
 </div>

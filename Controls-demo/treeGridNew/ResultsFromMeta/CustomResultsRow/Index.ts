@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGrid/ResultsFromMeta/CustomResultsRow/CustomResultsRow';
+import * as Template from 'wml!Controls-demo/treeGridNew/ResultsFromMeta/CustomResultsRow/CustomResultsRow';
 import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';

@@ -5,7 +5,7 @@ import {Record} from 'Types/entity';
 
 import {getCountriesStats, IData} from '../../DemoHelpers/DataCatalog';
 
-import * as template from 'wml!Controls-demo/grid/TagStyle/TagStyleFromTemplateParam/TagStyleFromTemplateParam';
+import * as template from 'wml!Controls-demo/gridNew/TagStyle/TagStyleFromTemplateParam/TagStyleFromTemplateParam';
 
 const MAXITEM = 7;
 

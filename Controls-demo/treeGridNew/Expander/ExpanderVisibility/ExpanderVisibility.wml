@@ -4,24 +4,24 @@
       <Router.router:Reference
          attr:class="controls-text-label"
          state="/Controls-demo/app/:app"
-         app="{{ 'Controls-demo/treeGrid/Expander/ExpanderVisibility/HasChildren/Index' }}"
+         app="{{ 'Controls-demo/treeGridNew/Expander/ExpanderVisibility/HasChildren/Index' }}"
       >
          <a href="{{content.href}}">Экспандер только у узлов с дочерними элементами</a>
       </Router.router:Reference>
-      <Controls-demo.treeGrid.Expander.ExpanderVisibility.HasChildren.Index/>
+      <Controls-demo.treeGridNew.Expander.ExpanderVisibility.HasChildren.Index/>
    </div>
 
    <div class="controlsDemo__cell">
       <Router.router:Reference
          attr:class="controls-text-label"
          state="/Controls-demo/app/:app"
-         app="{{ 'Controls-demo/treeGrid/Expander/ExpanderVisibility/HasChildrenOrHover/Index' }}"
+         app="{{ 'Controls-demo/treeGridNew/Expander/ExpanderVisibility/HasChildrenOrHover/Index' }}"
       >
          <a href="{{content.href}}">
             Контурный экспандер при наведении или раскрытии узлов без дочерних элементов
          </a>
       </Router.router:Reference>
-      <Controls-demo.treeGrid.Expander.ExpanderVisibility.HasChildrenOrHover.Index/>
+      <Controls-demo.treeGridNew.Expander.ExpanderVisibility.HasChildrenOrHover.Index/>
    </div>
 
 </div>

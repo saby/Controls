@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/ColumnTemplate/ColumnTemplate';
-import * as withBackgroundColorStyle from 'wml!Controls-demo/grid/ColumnTemplate/withBackgroundColorStyle';
+import * as Template from 'wml!Controls-demo/gridNew/ColumnTemplate/ColumnTemplate';
+import * as withBackgroundColorStyle from 'wml!Controls-demo/gridNew/ColumnTemplate/withBackgroundColorStyle';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';

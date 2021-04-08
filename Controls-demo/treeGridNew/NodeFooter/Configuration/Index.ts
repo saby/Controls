@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGrid/NodeFooter/Configuration/Configuration';
+import * as Template from 'wml!Controls-demo/treeGridNew/NodeFooter/Configuration/Configuration';
 import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
@@ -107,6 +107,6 @@ export default class extends Control {
 
     static _styles: string[] = [
         'Controls-demo/Controls-demo',
-        'Controls-demo/treeGrid/NodeFooter/Configuration/Configuration'
+        'Controls-demo/treeGridNew/NodeFooter/Configuration/Configuration'
     ];
 }

@@ -3,7 +3,7 @@ import { Memory } from 'Types/source';
 import { IColumn } from 'Controls/grid';
 
 import { getTasks } from '../../DemoHelpers/DataCatalog';
-import * as Template from 'wml!Controls-demo/grid/Grouped/RightTemplate/RightTemplate';
+import * as Template from 'wml!Controls-demo/gridNew/Grouped/RightTemplate/RightTemplate';
 
 interface IItem {
     get: (item: string) => string;

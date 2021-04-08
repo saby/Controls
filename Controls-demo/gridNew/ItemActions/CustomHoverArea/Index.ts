@@ -5,7 +5,7 @@ import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../../list_new/DemoHelpers/ItemActionsCatalog';
 import {TColspanCallbackResult} from 'Controls/display';
 
-import * as Template from 'wml!Controls-demo/grid/ItemActions/CustomHoverArea/CustomHoverArea';
+import * as Template from 'wml!Controls-demo/gridNew/ItemActions/CustomHoverArea/CustomHoverArea';
 
 const MAXINDEX = 4;
 
@@ -25,5 +25,5 @@ export default class extends Control {
         return 'end';
     }
 
-    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/grid/ItemActions/CustomHoverArea/CustomHoverArea'];
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/gridNew/ItemActions/CustomHoverArea/CustomHoverArea'];
 }

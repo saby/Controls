@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/CellPadding/CellPadding';
+import * as Template from 'wml!Controls-demo/gridNew/CellPadding/CellPadding';
 import {Memory} from 'Types/source';
 import {cellPadding} from '../DemoHelpers/DataCatalog';
 import { IHeader } from 'Controls-demo/types';

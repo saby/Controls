@@ -2,19 +2,19 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGrid/ResultsFromMeta/CustomResultsCells/Index' }}">
+                                 app="{{ 'Controls-demo/treeGridNew/ResultsFromMeta/CustomResultsCells/Index' }}">
             <a href="{{content.href}}">Результаты из метаданных в ячейках</a>
         </Router.router:Reference>
-        <Controls-demo.treeGrid.ResultsFromMeta.CustomResultsCells.Index/>
+        <Controls-demo.treeGridNew.ResultsFromMeta.CustomResultsCells.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGrid/ResultsFromMeta/CustomResultsRow/Index' }}">
+                                 app="{{ 'Controls-demo/treeGridNew/ResultsFromMeta/CustomResultsRow/Index' }}">
             <a href="{{content.href}}">Результаты из метаданных в переопределенной строке итогов</a>
         </Router.router:Reference>
-        <Controls-demo.treeGrid.ResultsFromMeta.CustomResultsRow.Index/>
+        <Controls-demo.treeGridNew.ResultsFromMeta.CustomResultsRow.Index/>
     </div>
 
 </div>

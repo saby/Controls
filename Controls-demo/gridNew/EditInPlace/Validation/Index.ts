@@ -1,11 +1,11 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/EditInPlace/Validation/Validation';
+import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/Validation/Validation';
 import {Memory} from 'Types/source';
 import {getEditing} from '../../DemoHelpers/DataCatalog';
-import 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditor';
-import 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorDate';
-import 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorRequired';
-import 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorTitle';
+import 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditor';
+import 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorDate';
+import 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorRequired';
+import 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorTitle';
 import {LengthChecker, ChangedChecker} from './Custom';
 import {getMoreActions} from '../../../list_new/DemoHelpers/ItemActionsCatalog';
 import { IColumn } from 'Controls/grid';

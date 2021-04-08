@@ -2,181 +2,181 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Base/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/Base/Index' }}">
             <a href="{{content.href}}">Базовая настройка таблицы</a>
         </Router.router:Reference>
-        <Controls-demo.grid.Base.Index/>
+        <Controls-demo.gridNew.Base.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/ItemTemplate/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/ItemTemplate/Index' }}">
             <a href="{{content.href}}">Шаблон отображения строки</a>
         </Router.router:Reference>
-        <Controls-demo.grid.ItemTemplate.Index/>
+        <Controls-demo.gridNew.ItemTemplate.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/EmptyGrid/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/EmptyGrid/Index' }}">
             <a href="{{content.href}}">Шаблон отображения пустой таблицы</a>
         </Router.router:Reference>
-        <Controls-demo.grid.EmptyGrid.Index/>
+        <Controls-demo.gridNew.EmptyGrid.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Header/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/Header/Index' }}">
             <a href="{{content.href}}">Заголовки в таблице</a>
         </Router.router:Reference>
-        <Controls-demo.grid.Header.Index/>
+        <Controls-demo.gridNew.Header.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Results/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/Results/Index' }}">
             <a href="{{content.href}}">Строка итогов</a>
         </Router.router:Reference>
-        <Controls-demo.grid.Results.Index/>
+        <Controls-demo.gridNew.Results.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Sorting/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/Sorting/Index' }}">
             <a href="{{content.href}}">Сортировка</a>
         </Router.router:Reference>
-        <Controls-demo.grid.Sorting.Index/>
+        <Controls-demo.gridNew.Sorting.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/EditInPlace/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/EditInPlace/Index' }}">
             <a href="{{content.href}}">Редактирование записей</a>
         </Router.router:Reference>
-        <Controls-demo.grid.EditInPlace.Index/>
+        <Controls-demo.gridNew.EditInPlace.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/ColumnScroll/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/ColumnScroll/Index' }}">
             <a href="{{content.href}}">Горизонтальная прокрутка</a>
         </Router.router:Reference>
-        <Controls-demo.grid.ColumnScroll.Index/>
+        <Controls-demo.gridNew.ColumnScroll.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Columns/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/Columns/Index' }}">
             <a href="{{content.href}}">Шаблон ячейки</a>
         </Router.router:Reference>
-        <Controls-demo.grid.Columns.Index/>
+        <Controls-demo.gridNew.Columns.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Multiselect/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/Multiselect/Index' }}">
             <a href="{{content.href}}">Множественный выбор</a>
         </Router.router:Reference>
-        <Controls-demo.grid.Multiselect.Index/>
+        <Controls-demo.gridNew.Multiselect.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/CustomPosition/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/CustomPosition/Index' }}">
             <a href="{{content.href}}">Нестандартное расположение чекбоксов</a>
         </Router.router:Reference>
-        <Controls-demo.grid.CustomPosition.Index/>
+        <Controls-demo.gridNew.CustomPosition.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Ladder/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/Ladder/Index' }}">
             <a href="{{content.href}}">"Лесенка"</a>
         </Router.router:Reference>
-        <Controls-demo.grid.Ladder.Index/>
+        <Controls-demo.gridNew.Ladder.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/VirtualScroll/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/VirtualScroll/Index' }}">
             <a href="{{content.href}}">Виртуальный скролл</a>
         </Router.router:Reference>
-        <Controls-demo.grid.VirtualScroll.Index/>
+        <Controls-demo.gridNew.VirtualScroll.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/RowSeparator/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/RowSeparator/Index' }}">
             <a href="{{content.href}}">Межстрочный разделитель</a>
         </Router.router:Reference>
-        <Controls-demo.grid.RowSeparator.Index/>
+        <Controls-demo.gridNew.RowSeparator.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/ColumnSeparator/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/ColumnSeparator/Index' }}">
             <a href="{{content.href}}">Разделитель колонок</a>
         </Router.router:Reference>
-        <Controls-demo.grid.ColumnSeparator.Index/>
+        <Controls-demo.gridNew.ColumnSeparator.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Search/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/Search/Index' }}">
             <a href="{{content.href}}">Поиск по стране</a>
         </Router.router:Reference>
-        <Controls-demo.grid.Search.Index/>
+        <Controls-demo.gridNew.Search.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/DragNDrop/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/DragNDrop/Index' }}">
             <a href="{{content.href}}">DragNDrop</a>
         </Router.router:Reference>
-        <Controls-demo.grid.DragNDrop.Index/>
+        <Controls-demo.gridNew.DragNDrop.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Grouped/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/Grouped/Index' }}">
             <a href="{{content.href}}">Grouped</a>
         </Router.router:Reference>
-        <Controls-demo.grid.Grouped.Index/>
+        <Controls-demo.gridNew.Grouped.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/ItemActions/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/ItemActions/Index' }}">
             <a href="{{content.href}}">Операции на записью</a>
         </Router.router:Reference>
-        <Controls-demo.grid.ItemActions.Index/>
+        <Controls-demo.gridNew.ItemActions.Index/>
     </div>
 
    <div class="controlsDemo__cell">
       <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
-                               app="{{ 'Controls-demo/grid/TagStyle/Index' }}">
+                               app="{{ 'Controls-demo/gridNew/TagStyle/Index' }}">
          <a href="{{content.href}}">Применение tagStyle или tagStyleProperty к колонкам</a>
       </Router.router:Reference>
-      <Controls-demo.grid.TagStyle.Index/>
+      <Controls-demo.gridNew.TagStyle.Index/>
    </div>
 
 </div>

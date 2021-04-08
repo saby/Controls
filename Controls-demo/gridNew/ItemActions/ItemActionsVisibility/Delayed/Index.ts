@@ -5,7 +5,7 @@ import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../../../list_new/DemoHelpers/ItemActionsCatalog';
 
-import * as template from 'wml!Controls-demo/grid/ItemActions/ItemActionsVisibility/Delayed/ItemActions';
+import * as template from 'wml!Controls-demo/gridNew/ItemActions/ItemActionsVisibility/Delayed/ItemActions';
 
 const MAXINDEX = 4;
 

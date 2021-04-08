@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/DragScrolling';
+import * as Template from 'wml!Controls-demo/gridNew/ColumnScroll/DragScrolling/DragScrolling';
 import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -52,5 +52,5 @@ export default class extends Control {
         this._children.listMover.moveItems(entity.getItems(), target, position);
     }
 
-    static _styles: string[] = ['Controls-demo/grid/ColumnScroll/DragScrolling/DragScrolling', 'Controls-demo/Controls-demo'];
+    static _styles: string[] = ['Controls-demo/gridNew/ColumnScroll/DragScrolling/DragScrolling', 'Controls-demo/Controls-demo'];
 }

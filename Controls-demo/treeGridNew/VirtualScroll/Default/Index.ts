@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGrid/VirtualScroll/Default/Default';
+import * as Template from 'wml!Controls-demo/treeGridNew/VirtualScroll/Default/Default';
 import {HierarchicalMemory as Memory} from 'Types/source';
 import {Gadgets, VirtualScrollHasMore} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';

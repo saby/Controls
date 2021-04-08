@@ -7,7 +7,7 @@ import { TColspanCallbackResult } from 'Controls/display';
 
 import {generateData, getColumns} from './DataCatalog';
 
-import * as Template from 'wml!Controls-demo/treeGrid/VirtualScroll/LastNodeExpanded/LastNodeExpanded';
+import * as Template from 'wml!Controls-demo/treeGridNew/VirtualScroll/LastNodeExpanded/LastNodeExpanded';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;

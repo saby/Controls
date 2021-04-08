@@ -5,7 +5,7 @@ import {Record} from 'Types/entity';
 
 import {Gadgets, IData} from '../../DemoHelpers/DataCatalog';
 
-import * as template from 'wml!Controls-demo/treeGrid/TagStyle/TagStyleFromTemplateParam/TagStyleFromTemplateParam';
+import * as template from 'wml!Controls-demo/treeGridNew/TagStyle/TagStyleFromTemplateParam/TagStyleFromTemplateParam';
 
 const MAXITEM = 7;
 

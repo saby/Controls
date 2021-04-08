@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGrid/MultiSelect/SelectDescendants/DoNotSelectDescendants/DoNotSelectDescendants';
+import * as Template from 'wml!Controls-demo/treeGridNew/MultiSelect/SelectDescendants/DoNotSelectDescendants/DoNotSelectDescendants';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../../DemoHelpers/DataCatalog';
 

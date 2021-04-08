@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/LoadingIndicator/PortionedSearch/PortionedSearch';
+import * as Template from 'wml!Controls-demo/gridNew/LoadingIndicator/PortionedSearch/PortionedSearch';
 import PortionedSearchSource from 'Controls-demo/list_new/Searching/PortionedSearch/Source';
 import {Memory} from 'Types/source';
 import {generateData} from 'Controls-demo/list_new/DemoHelpers/DataCatalog';

@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGrid/Base/TreeView/TreeView';
+import * as Template from 'wml!Controls-demo/treeGridNew/Base/TreeView/TreeView';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 

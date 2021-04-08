@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGrid/EditInPlace/Colspan/Colspan';
-import * as ColumnTemplate from 'wml!Controls-demo/treeGrid/EditInPlace/Colspan/ColumnTemplate';
+import * as Template from 'wml!Controls-demo/treeGridNew/EditInPlace/Colspan/Colspan';
+import * as ColumnTemplate from 'wml!Controls-demo/treeGridNew/EditInPlace/Colspan/ColumnTemplate';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';

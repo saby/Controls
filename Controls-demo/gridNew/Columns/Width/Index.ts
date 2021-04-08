@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/Columns/Width/Width';
+import * as Template from 'wml!Controls-demo/gridNew/Columns/Width/Width';
 import {Memory} from 'Types/source';
 import {forShowWidths} from '../../DemoHelpers/DataCatalog';
 import { IHeader } from 'Controls-demo/types';

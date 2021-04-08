@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGrid/Expander/ExpanderIcon/None/None';
+import * as Template from 'wml!Controls-demo/treeGridNew/Expander/ExpanderIcon/None/None';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';

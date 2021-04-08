@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGrid/Offsets/WithoutLevelPadding/WithoutLevelPadding';
+import * as Template from 'wml!Controls-demo/treeGridNew/Offsets/WithoutLevelPadding/WithoutLevelPadding';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';

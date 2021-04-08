@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/EditInPlace/EditingCell/EditingCell';
+import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/EditingCell';
 import {Memory} from 'Types/source';
 import {getEditing, IColumnRes} from '../../DemoHelpers/DataCatalog';
 import {showType} from 'Controls/toolbars';
-import 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor';
+import 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor';
 import {Model, Record} from 'Types/entity';
 import { TItemsReadyCallback } from 'Controls-demo/types';
 import {RecordSet} from 'Types/collection';

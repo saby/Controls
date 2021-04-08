@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGrid/BackgroundHoverStyle/BackgroundHoverStyle';
+import * as Template from 'wml!Controls-demo/treeGridNew/BackgroundHoverStyle/BackgroundHoverStyle';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../DemoHelpers/DataCatalog';
 
@@ -17,6 +17,6 @@ export default class extends Control {
 
     static _styles: string[] = [
         'Controls-demo/Controls-demo',
-        'Controls-demo/treeGrid/BackgroundHoverStyle/BackgroundHoverStyle'
+        'Controls-demo/treeGridNew/BackgroundHoverStyle/BackgroundHoverStyle'
     ];
 }

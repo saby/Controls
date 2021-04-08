@@ -1,11 +1,11 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/EmptyGrid/Editing/Editing';
+import * as Template from 'wml!Controls-demo/gridNew/EmptyGrid/Editing/Editing';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import { IHeader } from 'Controls-demo/types';
 import {Record as entityRecord} from 'Types/entity';
-import * as editingCell from 'wml!Controls-demo/grid/EmptyGrid/Editing/cellEditor';
+import * as editingCell from 'wml!Controls-demo/gridNew/EmptyGrid/Editing/cellEditor';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

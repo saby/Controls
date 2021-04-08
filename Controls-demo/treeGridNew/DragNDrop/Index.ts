@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGrid/DragNDrop/DragNDrop';
+import * as Template from 'wml!Controls-demo/treeGridNew/DragNDrop/DragNDrop';
 import * as ListEntity from 'Controls-demo/DragNDrop/ListEntity';
 import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../DemoHelpers/DataCatalog';

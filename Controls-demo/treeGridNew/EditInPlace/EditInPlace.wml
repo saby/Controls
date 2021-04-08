@@ -2,19 +2,19 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGrid/EditInPlace/InputFontSize/Index' }}">
+                                 app="{{ 'Controls-demo/treeGridNew/EditInPlace/InputFontSize/Index' }}">
             <a href="{{content.href}}">Размер шрифта при редактировании по месту </a>
         </Router.router:Reference>
-        <Controls-demo.treeGrid.EditInPlace.InputFontSize.Index/>
+        <Controls-demo.treeGridNew.EditInPlace.InputFontSize.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGrid/EditInPlace/RowEditor/Index' }}">
+                                 app="{{ 'Controls-demo/treeGridNew/EditInPlace/RowEditor/Index' }}">
             <a href="{{content.href}}">Шаблон расширенного редактирования</a>
         </Router.router:Reference>
-        <Controls-demo.treeGrid.EditInPlace.RowEditor.Index/>
+        <Controls-demo.treeGridNew.EditInPlace.RowEditor.Index/>
     </div>
 
 </div>

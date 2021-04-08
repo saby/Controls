@@ -4,10 +4,10 @@ import { Model } from 'Types/entity';
 
 import { IColumn } from 'Controls/grid';
 
-import * as Template from 'wml!Controls-demo/treeGrid/EditArrow/WithColumnTemplate/WithColumnTemplate';
+import * as Template from 'wml!Controls-demo/treeGridNew/EditArrow/WithColumnTemplate/WithColumnTemplate';
 import * as TreeMemory from 'Controls-demo/List/Tree/TreeMemory';
 import * as memorySourceFilter from 'Controls-demo/Utils/MemorySourceFilter';
-import { TreeData, TreeColumnsWithTemplate, TreeHeader } from 'Controls-demo/treeGrid/EditArrow/resources/resources';
+import { TreeData, TreeColumnsWithTemplate, TreeHeader } from 'Controls-demo/treeGridNew/EditArrow/resources/resources';
 import { IHeader } from 'Controls-demo/types';
 
 export default class WithColumnTemplate extends Control<IControlOptions> {
@@ -37,6 +37,6 @@ export default class WithColumnTemplate extends Control<IControlOptions> {
         console.log(item);
     }
 
-    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/treeGrid/EditArrow/resources/EditArrow'];
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/treeGridNew/EditArrow/resources/EditArrow'];
 
 }

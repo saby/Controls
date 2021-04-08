@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/Results/FromMeta/CustomResultsCells/CustomResultsCells';
-import * as sqResTpl from 'wml!Controls-demo/grid/Results/FromMeta/CustomResultsCells/resultCell';
-import * as defResTpl from 'wml!Controls-demo/grid/Results/FromMeta/CustomResultsCells/resultCellDefault';
+import * as Template from 'wml!Controls-demo/gridNew/Results/FromMeta/CustomResultsCells/CustomResultsCells';
+import * as sqResTpl from 'wml!Controls-demo/gridNew/Results/FromMeta/CustomResultsCells/resultCell';
+import * as defResTpl from 'wml!Controls-demo/gridNew/Results/FromMeta/CustomResultsCells/resultCellDefault';
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';

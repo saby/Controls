@@ -3,46 +3,46 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Header/Multiheader/Base/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/Header/Multiheader/Base/Index' }}">
             <a href="{{content.href}}">Текстовые заголовки</a>
         </Router.router:Reference>
-        <Controls-demo.grid.Header.Multiheader.Base.Index/>
+        <Controls-demo.gridNew.Header.Multiheader.Base.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Header/Multiheader/GridCaption/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/Header/Multiheader/GridCaption/Index' }}">
             <a href="{{content.href}}">Название таблицы в заголовке</a>
         </Router.router:Reference>
-        <Controls-demo.grid.Header.Multiheader.GridCaption.Index/>
+        <Controls-demo.gridNew.Header.Multiheader.GridCaption.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Header/Multiheader/AddButton/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/Header/Multiheader/AddButton/Index' }}">
             <a href="{{content.href}}">Кнопка добавления в заголовке</a>
         </Router.router:Reference>
-        <Controls-demo.grid.Header.Multiheader.AddButton.Index/>
+        <Controls-demo.gridNew.Header.Multiheader.AddButton.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Header/Multiheader/ColumnScroll/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/Header/Multiheader/ColumnScroll/Index' }}">
             <a href="{{content.href}}">Прокручивающиеся колонки</a>
         </Router.router:Reference>
-        <Controls-demo.grid.Header.Multiheader.ColumnScroll.Index/>
+        <Controls-demo.gridNew.Header.Multiheader.ColumnScroll.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Header/Multiheader/TextOverflow/Index' }}">
+                                 app="{{ 'Controls-demo/gridNew/Header/Multiheader/TextOverflow/Index' }}">
             <a href="{{content.href}}">Длинные текстовые заголовки</a>
         </Router.router:Reference>
-        <Controls-demo.grid.Header.Multiheader.TextOverflow.Index/>
+        <Controls-demo.gridNew.Header.Multiheader.TextOverflow.Index/>
     </div>
 
 </div>

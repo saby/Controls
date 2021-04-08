@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithHeader/SortingSelectorWithHeader';
+import * as Template from 'wml!Controls-demo/gridNew/Sorting/SortingSelector/SortingSelectorWithHeader/SortingSelectorWithHeader';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 

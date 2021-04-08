@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/Header/CellTemplate/CellTemplate';
-import * as PopulationTemplate from 'wml!Controls-demo/grid/Header/CellTemplate/populationDensity';
-import * as SquareTemplate from 'wml!Controls-demo/grid/Header/CellTemplate/squareTemplate';
+import * as Template from 'wml!Controls-demo/gridNew/Header/CellTemplate/CellTemplate';
+import * as PopulationTemplate from 'wml!Controls-demo/gridNew/Header/CellTemplate/populationDensity';
+import * as SquareTemplate from 'wml!Controls-demo/gridNew/Header/CellTemplate/squareTemplate';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
