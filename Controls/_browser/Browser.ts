@@ -529,6 +529,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._filter = filterController.getFilter() as QueryWhereExpression<unknown>;
             this._filterButtonItems = filterController.getFilterButtonItems();
             this._fastFilterItems = filterController.getFastFilterItems();
+        } else {
+            this._filter = options.filter || {};
         }
     }
 
@@ -885,7 +887,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     private static _hasFilterSourceInOptions(options: IBrowserOptions): boolean {
         return Browser._getListsOptions(options).filter((listOptions) => {
-            return listOptions.filterButtonSource || listOptions.fastFilterSource;
+            return listOptions.filterButtonSource || listOptions.fastFilterSource || listOptions.searchValue;
         }).length > 0;
     }
 
