@@ -147,7 +147,11 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     private _formattedNumber: string | IPaths;
     private _fontColorStyle: string;
     private _fractionFontSize: string;
-    private _currency: string;
+    private _currencies: {} = {
+        Ruble: '₽',
+        Dollar: '$',
+        Euro: '€'
+    };
 
     readonly '[Controls/_interface/ITooltip]': boolean = true;
     readonly '[Controls/_interface/IFontColorStyle]': boolean = true;
@@ -229,19 +233,8 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         }
     }
 
-    private _setCurrency(options: IMoneyOptions): void {
-        if (options.currency === 'Ruble') {
-            this._currency = '₽';
-        } else if (options.currency === 'Dollar') {
-            this._currency = '$';
-        } else if (options.currency === 'Euro') {
-            this._currency = '€';
-        }
-    }
-
     protected _beforeMount(options: IMoneyOptions): void {
         this._setFontState(options);
-        this._setCurrency(options);
         this._changeState(options, true);
         this._formattedNumber = this._formatNumber(options);
         this._tooltip = this._getTooltip(options);
@@ -249,7 +242,6 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
 
     protected _beforeUpdate(newOptions: IMoneyOptions): void {
         this._setFontState(newOptions);
-        this._setCurrency(newOptions);
         if (this._changeState(newOptions, false)) {
             this._formattedNumber = this._formatNumber(newOptions);
         }
