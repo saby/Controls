@@ -1,0 +1,34 @@
+<div class="controls-TileView__itemPaddingContainer {{!!_listModel.getCount() ? _listModel.getItemsPaddingContainerClasses()}}">
+    <div class="controls-ListView controls-TileView" name="tileContainer" on:keyDown="_onTileViewKeyDown()">
+        <ws:if data="{{_listModel}}">
+            <ws:partial
+                    template="Controls/list:_forTemplate"
+                    listModel="{{_listModel}}"
+                    itemActionsTemplate="{{_options.itemActionsTemplate}}"
+                    itemActionsClass="{{_options.itemActionsClass}}"
+                    swipeTemplate="{{_options.swipeTemplate}}"
+                    multiSelectTpl="{{_options.multiSelectTpl}}"
+                    itemOutputWrapper="{{_itemOutputWrapper}}"
+                    itemTemplate="{{_itemTemplate}}">
+                <ws:groupTemplate>
+                    <ws:partial
+                        template="{{_groupTemplate}}"
+                        attr:class="controls-TileView__group"
+                        scope="{{groupTemplate}}"/>
+                </ws:groupTemplate>
+            </ws:partial>
+            <ws:if data="{{_options.tileMode === 'static' && !!_listModel.getCount()}}">
+                <ws:partial template="wml!Controls/_tileOld/TileView/resources/InvisibleFor" type="leaf"
+                            itemTemplate="{{_itemTemplate}}" listModel="{{_listModel}}"/>
+            </ws:if>
+            <ws:if data="{{_options.emptyTemplate}}">
+                <ws:partial template="{{_options.emptyTemplate}}" attr:class="controls-TileView__flex-grow"/>
+            </ws:if>
+            <ws:if data="{{_options.footerTemplate}}">
+                <div class="controls-TileView__footer">
+                    <ws:partial template="{{_options.footerTemplate}}"/>
+                </div>
+            </ws:if>
+        </ws:if>
+    </div>
+</div>

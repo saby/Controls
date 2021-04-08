@@ -18,7 +18,7 @@
       source="{{_viewSource}}">
       <ws:itemTemplate>
          <ws:partial
-            template="Controls/tileNew:PreviewTemplate"
+            template="Controls/tile:PreviewTemplate"
             titleStyle="{{itemTemplate.itemData.item.titleStyle}}"
             gradientType="{{itemTemplate.itemData.item.gradientType}}"
             gradientColor="{{itemTemplate.itemData.item.gradientColor}}"

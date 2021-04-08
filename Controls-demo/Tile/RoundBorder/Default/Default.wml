@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-default">
-        <Controls.tile:View
+        <Controls.tileOld:View
                 tileMode="dynamic"
                 displayProperty="title"
                 imageProperty="image"

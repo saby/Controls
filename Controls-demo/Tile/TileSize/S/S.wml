@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <Controls.tile:View
+    <Controls.tileOld:View
             displayProperty="title"
             parentProperty="parent"
             nodeProperty="parent@"
@@ -17,7 +17,7 @@
         <ws:roundBorder tl="m" tr="m" bl="m" br="m"/>
         <ws:itemTemplate>
             <ws:partial
-                    template="Controls/tile:RichTemplate"
+                    template="Controls/tileOld:RichTemplate"
                     titleLines="{{3}}"
                     descriptionLines="{{2}}"
                     imageProportion="3:4"
@@ -26,5 +26,5 @@
                     scope="{{itemTemplate}}">
             </ws:partial>
         </ws:itemTemplate>
-    </Controls.tile:View>
+    </Controls.tileOld:View>
 </div>

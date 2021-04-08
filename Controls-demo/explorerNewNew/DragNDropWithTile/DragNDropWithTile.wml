@@ -23,7 +23,7 @@
                             useNewModel="{{true}}">
                         <ws:tileItemTemplate>
                             <ws:partial
-                                    template="Controls/tileNew:ItemTemplate"
+                                    template="Controls/tile:ItemTemplate"
                                     folderWidth="{{250}}"
                                     itemWidth="{{250}}"
                                     hasTitle="{{true}}">

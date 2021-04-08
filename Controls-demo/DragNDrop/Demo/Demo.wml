@@ -96,7 +96,7 @@
                   </ws:partial>
                </ws:draggingTemplate>
                <ws:tileItemTemplate>
-                  <ws:partial template="Controls/tile:ItemTemplate" hasTitle="{{true}}">
+                  <ws:partial template="Controls/tileOld:ItemTemplate" hasTitle="{{true}}">
                   </ws:partial>
                </ws:tileItemTemplate>
             </Controls.explorer:View>
