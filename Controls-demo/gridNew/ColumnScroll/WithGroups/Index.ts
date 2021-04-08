@@ -19,6 +19,7 @@ export default class extends Control {
             width: '150px'
         }
     ];
+    protected _header = this._columns.map((c) => ({caption: c.displayProperty}));
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
