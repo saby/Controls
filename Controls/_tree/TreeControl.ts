@@ -984,13 +984,15 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 const expandedItems = _private.getExpandedItems(this, options, loadedList);
                 let hasMoreData: unknown;
 
-                expandedItems.forEach((key) => {
-                    hasMoreData = sourceController.hasMoreData('down', key);
+                if (sourceController) {
+                    expandedItems.forEach((key) => {
+                        hasMoreData = sourceController.hasMoreData('down', key);
 
-                    if (hasMoreData !== undefined) {
-                        hasMore[key] = hasMoreData;
-                    }
-                });
+                        if (hasMoreData !== undefined) {
+                            hasMore[key] = hasMoreData;
+                        }
+                    });
+                }
 
                 // if method does not support multi navigation hasMore object will be empty
                 if (!isEqual({}, hasMore)) {
