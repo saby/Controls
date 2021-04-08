@@ -123,13 +123,23 @@ export class Controller {
    }
 
    /**
+    * Возвращает ограничение на количество единоразово выбранных записей
+    * @param {number} limit Ограничение
+    * @void
+    * @public
+    */
+   getLimit(): number {
+      return this._limit;
+   }
+
+   /**
     * Увеличивает лимит на указанное количество
     * @param {number} count Количество
     * @void
     * @public
     */
-   increaseLimitByCount(count: number): void {
-      this._limit += count;
+   increaseLimitByCount(count: number): number {
+      return this._limit += count;
    }
 
    /**
