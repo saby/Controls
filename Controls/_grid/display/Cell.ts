@@ -249,7 +249,9 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
                 }
 
                 // Если зафиксированная колонка или лесенка
-                if ((this.getOwner().hasColumnScroll() && this._$isFixed) || this._$isHiddenForLadder) {
+                if (backgroundColorStyle ||
+                    (this.getOwner().hasColumnScroll() && this._$isFixed) ||
+                    this._$isHiddenForLadder) {
                     wrapperClasses += ` controls-background-${this._resolveBackgroundStyle(backgroundColorStyle, style)}`;
                 }
 
