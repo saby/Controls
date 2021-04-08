@@ -1,7 +1,7 @@
 import rk = require('i18n!Controls');
-import {Control, TemplateFunction} from 'UI/Base';
-import template = require('wml!Controls/_dropdown/Input/Input');
-import defaultContentTemplate = require('wml!Controls/_dropdown/Input/resources/defaultContentTemplate');
+import {TemplateFunction} from 'UI/Base';
+import template = require('wml!Controls/_dropdown/Selector/Selector');
+import defaultContentTemplate = require('wml!Controls/_dropdown/Selector/resources/defaultContentTemplate');
 import * as Utils from 'Types/util';
 import {factory} from 'Types/chain';
 import {Model} from 'Types/entity';

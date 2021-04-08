@@ -1,6 +1,7 @@
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as template from 'wml!Controls/_list/ItemsView';
+import {EventUtils} from 'UI/Events';
 import {RecordSet} from 'Types/collection';
 import {default as BaseControl} from 'Controls/_list/BaseControl';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
@@ -32,5 +33,12 @@ export default class ItemsView<TOptions extends IItemsViewOptions = IItemsViewOp
     protected _viewName: Function = ListView;
 
     protected _viewModelConstructor: string = 'Controls/display:Collection';
+    //endregion
+
+    //region helper props for the template
+    /**
+     * Обработчик который используется в шаблоне для проксирования событий логическому родителю.
+     */
+    protected _notifyHandler: typeof EventUtils.tmplNotify = EventUtils.tmplNotify;
     //endregion
 }
