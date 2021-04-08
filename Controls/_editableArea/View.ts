@@ -1,5 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_editableArea/View';
+import {Controller} from 'Controls/validate';
 import {IViewOptions} from './interface/IView';
 import * as Deferred from 'Core/Deferred';
 import buttonsTemplate from 'Controls/_editableArea/Templates/Buttons';
@@ -39,6 +40,9 @@ export default class View extends Control<IViewControlOptions> {
    protected _buttonsTemplate: typeof buttonsTemplate = buttonsTemplate;
    protected _isEditing: boolean = false;
    protected _editObject: Record;
+   protected _children: {
+      formController: Controller
+   };
    private _isStartEditing: boolean = false;
 
    protected _beforeMount(newOptions: IViewControlOptions): void {
@@ -131,7 +135,9 @@ export default class View extends Control<IViewControlOptions> {
    }
 
    private _validate(): Promise<unknown> {
-      return this._children.formController.submit();
+      return this._children.formController.submit({
+         activateInput: false
+      });
    }
    private _afterEndEdit(commit: boolean): Promise<void> {
       if (commit) {
