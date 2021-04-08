@@ -592,6 +592,7 @@ define(
             expectedOptions.root = 1;
             expectedOptions.bodyContentTemplate = 'Controls/_menu/Control';
             expectedOptions.dataLoadCallback = null;
+            expectedOptions.items = undefined;
             expectedOptions.source = new source.PrefetchProxy({
                target: menuControl._options.source,
                data: {

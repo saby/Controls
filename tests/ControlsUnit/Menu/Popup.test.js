@@ -7,6 +7,26 @@ define([
 ],
 function(menu, source, Clone, display, collection) {
    describe('Menu:Popup', function() {
+      it ('_beforeMount', function() {
+         let iconIsUpdated = false;
+         const menuPopup = new menu.Popup();
+         menuPopup._updateHeadingIcon = () => {
+            iconIsUpdated = true;
+         };
+         const options = {
+            items: new collection.RecordSet({
+               rawData: [{
+                  id: 1,
+                  title: 'text',
+                  icon: 'icon',
+                  parent: null
+               }]
+            })
+         };
+         menuPopup._beforeMount(options);
+         assert.isTrue(iconIsUpdated);
+      });
+
       it('_dataLoadCallback', function() {
          let menuPopup = new menu.Popup();
          let items = new collection.RecordSet({

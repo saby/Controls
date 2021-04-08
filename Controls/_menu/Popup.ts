@@ -64,6 +64,10 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         this._prepareHeaderConfig(options);
         this._setItemPadding(options);
 
+        if (options.items) {
+            this._updateHeadingIcon(options, options.items);
+        }
+
         if (options.trigger === 'hover') {
             if (!options.root) {
                 this._hoverController = new HoverController(
@@ -149,25 +153,7 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     }
 
     protected _dataLoadCallback(options: IMenuPopupOptions, items: RecordSet): void {
-        const sizes = ['s', 'm', 'l'];
-        let iconSize;
-        let headingIconSize = -1;
-        if (this._headingIcon) {
-            const root = options.root !== undefined ? options.root : null;
-            let needShowHeadingIcon = false;
-            factory(items).each((item) => {
-                if (item.get('icon') && (!options.parentProperty || item.get(options.parentProperty) === root)) {
-                    iconSize = sizes.indexOf(item.get('iconSize'));
-                    headingIconSize = iconSize > headingIconSize ? iconSize : headingIconSize;
-                    needShowHeadingIcon = true;
-                }
-            });
-            if (!needShowHeadingIcon) {
-                this._headingIcon = null;
-            } else {
-                this._headingIconSize = sizes[headingIconSize] || options.iconSize;
-            }
-        }
+        this._updateHeadingIcon(options, items);
         if (options.dataLoadCallback) {
             options.dataLoadCallback(items);
         }
@@ -248,6 +234,28 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         } else {
             this._headerTemplate = null;
             this._headingCaption = '';
+        }
+    }
+
+    private _updateHeadingIcon(options: IMenuPopupOptions, items: RecordSet): void {
+        const sizes = ['s', 'm', 'l'];
+        let iconSize;
+        let headingIconSize = -1;
+        if (this._headingIcon) {
+            const root = options.root !== undefined ? options.root : null;
+            let needShowHeadingIcon = false;
+            factory(items).each((item) => {
+                if (item.get('icon') && (!options.parentProperty || item.get(options.parentProperty) === root)) {
+                    iconSize = sizes.indexOf(item.get('iconSize'));
+                    headingIconSize = iconSize > headingIconSize ? iconSize : headingIconSize;
+                    needShowHeadingIcon = true;
+                }
+            });
+            if (!needShowHeadingIcon) {
+                this._headingIcon = null;
+            } else {
+                this._headingIconSize = sizes[headingIconSize] || options.iconSize;
+            }
         }
     }
 
