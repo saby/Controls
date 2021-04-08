@@ -1,34 +1,24 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth550">
     <Controls.buttons:Button caption="Toggle multiselectVisibility" on:click="_onToggle()"/>
     <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
         <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
             <div>
                 <Controls.list:Mover name="listMover" parentProperty="parent"/>
                 <Controls.list:Container>
-                    <Controls.explorer:View useOldModel="{{ true }}"
+                    <Controls.explorer:View
                             bind:root="_root"
                             attr:class="demo-Explorer ControlsDemo-Explorer"
                             keyProperty="id"
                             on:dragStart="_dragStart()"
                             on:dragEnd="_dragEnd()"
                             parentProperty="parent"
-                            nodeProperty="parent@"
                             multiSelectVisibility="{{_multiselect}}"
-                            imageProperty="image"
+                            nodeProperty="parent@"
                             viewMode="{{_viewMode}}"
                             displayProperty="title"
                             itemsDragNDrop="{{true}}"
                             itemsReadyCallback="{{_itemsReadyCallback}}"
-                            columns="{{_columns}}"
-                            useNewModel="{{true}}">
-                        <ws:tileItemTemplate>
-                            <ws:partial
-                                    template="Controls/tileNew:ItemTemplate"
-                                    folderWidth="{{250}}"
-                                    itemWidth="{{250}}"
-                                    hasTitle="{{true}}">
-                            </ws:partial>
-                        </ws:tileItemTemplate>
+                            columns="{{_columns}}">
                         <ws:draggingTemplate>
                             <ws:partial template="Controls/dragnDrop:DraggingTemplate"
                                         mainText="{{draggingTemplate.entity._options.mainText}}"

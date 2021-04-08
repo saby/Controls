@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper">
+    <Controls.explorer:View
+            source="{{_viewSource}}"
+            keyProperty="id"
+            parentProperty="parent"
+            nodeProperty="parent@"
+            viewMode="{{_viewMode}}"
+            columns="{{_columns}}">
+        <ws:editingConfig editOnClick="{{true}}" enabled="{{true}}"/>
+    </Controls.explorer:View>
+</div>
