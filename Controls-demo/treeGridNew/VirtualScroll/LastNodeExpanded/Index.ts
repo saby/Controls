@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import {HierarchicalMemory} from 'Types/source';
 import {Guid, Model} from 'Types/entity';
 
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 import { TColspanCallbackResult } from 'Controls/display';
 
 import {generateData, getColumns} from './DataCatalog';

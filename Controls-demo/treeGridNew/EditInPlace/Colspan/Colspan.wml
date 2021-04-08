@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
-    <Controls.treeGridNew:View
+    <Controls.treeGrid:View
             keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"
@@ -8,5 +8,5 @@
             nodeProperty="type">
         <ws:editingConfig editOnClick="{{true}}" enabled="{{true}}" equentialEditing="{{true}}"
                           toolbarVisibility="{{true}}"/>
-    </Controls.treeGridNew:View>
+    </Controls.treeGrid:View>
 </div>

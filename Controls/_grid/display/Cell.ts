@@ -17,11 +17,11 @@ import { COLUMN_SCROLL_JS_SELECTORS } from 'Controls/columnScroll';
 
 import Row from './Row';
 
-const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:ColumnTemplate';
-const MONEY_RENDER = 'Controls/gridNew:MoneyTypeRender';
-const NUMBER_RENDER = 'Controls/gridNew:NumberTypeRender';
-const STRING_RENDER = 'Controls/gridNew:StringTypeRender';
-const STRING_SEARCH_RENDER = 'Controls/gridNew:StringSearchTypeRender';
+const DEFAULT_CELL_TEMPLATE = 'Controls/grid:ColumnTemplate';
+const MONEY_RENDER = 'Controls/grid:MoneyTypeRender';
+const NUMBER_RENDER = 'Controls/grid:NumberTypeRender';
+const STRING_RENDER = 'Controls/grid:StringTypeRender';
+const STRING_SEARCH_RENDER = 'Controls/grid:StringSearchTypeRender';
 
 export interface IOptions<T> extends IColspanParams {
     owner: Row<T>;
@@ -549,7 +549,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
 Object.assign(Cell.prototype, {
     '[Controls/_display/grid/Cell]': true,
-    _moduleName: 'Controls/gridNew:GridCell',
+    _moduleName: 'Controls/grid:GridCell',
     _instancePrefix: 'grid-cell-',
     _$owner: null,
     _$column: null,

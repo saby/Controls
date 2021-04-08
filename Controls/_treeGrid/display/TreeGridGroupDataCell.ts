@@ -1,6 +1,6 @@
 import {Model} from 'Types/entity';
 import {mixin} from 'Types/util';
-import {GridGroupCellMixin, IGridRowOptions} from 'Controls/gridNew';
+import {GridGroupCellMixin, IGridRowOptions} from 'Controls/grid';
 import TreeGridDataCell from 'Controls/_treeGrid/display/TreeGridDataCell';
 
 export default class TreeGridGroupDataCell<T extends Model>

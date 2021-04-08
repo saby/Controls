@@ -70,5 +70,5 @@ Object.assign(FooterRow.prototype, {
     '[Controls/_display/grid/FooterRow]': true,
     _moduleName: 'Controls/display:GridFooterRow',
     _instancePrefix: 'grid-footer-row-',
-    _cellModule: 'Controls/gridNew:GridFooterCell'
+    _cellModule: 'Controls/grid:GridFooterCell'
 });

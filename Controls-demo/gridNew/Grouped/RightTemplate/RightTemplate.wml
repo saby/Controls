@@ -4,7 +4,7 @@
     </div>
     <Controls.scroll:Container attr:style="height: 250px; width: 530px;">
         <Controls.list:Container>
-            <Controls.gridNew:View
+            <Controls.grid:View
                     attr:class=""
                     keyProperty="id"
                     source="{{_viewSource}}"
@@ -12,7 +12,7 @@
                     columns="{{_columns}}"
                     groupProperty="fullName">
                 <ws:groupTemplate>
-                    <ws:partial template="Controls/gridNew:GroupTemplate"
+                    <ws:partial template="Controls/grid:GroupTemplate"
                                 itemData="{{itemData}}"
                                 separatorVisibility="{{_separatorVisibility}}"
                                 expanderVisible="{{true}}"
@@ -22,7 +22,7 @@
                         </ws:rightTemplate>
                     </ws:partial>
                 </ws:groupTemplate>
-            </Controls.gridNew:View>
+            </Controls.grid:View>
         </Controls.list:Container>
     </Controls.scroll:Container>
 </div>

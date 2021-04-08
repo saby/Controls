@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { TreeGridFooterCell } from 'Controls/treeGridNew';
+import { TreeGridFooterCell } from 'Controls/treeGrid';
 import { createRegExpForTestMatchClass } from 'ControlsUnit/_unitUtils/RegExp';
 
 describe('Controls/treeGrid_clean/Display/MultiSelectVisibility/FooterCell/getWrapperClasses', () => {
