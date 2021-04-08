@@ -47,7 +47,8 @@ class Label extends Control<ILabelOptions> implements ICaption, IFontSize, IHref
 
     static getDefaultOptions(): object {
         return {
-            underline: 'none'
+            underline: 'none',
+            fontSize: 'm'
         };
     }
 

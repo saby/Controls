@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">fontSize=m</div>
+      <Controls.input:Label caption="google" fontSize="m"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">fontSize=xs</div>
+      <Controls.input:Label caption="google" fontSize="xs"/>
+   </div>
+</div>
