@@ -1,5 +1,5 @@
-import { IColumn } from 'Controls/gridNew';
-import * as ColumnTemplate from 'wml!Controls-demo/treeGridNew/EditArrow/resources/ColumnTemplate';
+import { IColumn } from 'Controls/grid';
+import * as ColumnTemplate from 'wml!Controls-demo/treeGrid/EditArrow/resources/ColumnTemplate';
 import { IHeader } from 'Controls-demo/types';
 
 export const TreeHeader: IHeader[] = [

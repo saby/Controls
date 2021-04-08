@@ -1,24 +1,24 @@
-import * as numberResultTpl from 'wml!Controls-demo/gridNew/resources/ResultCellTemplates/Number';
-import * as countryRatingNumber from 'wml!Controls-demo/gridNew/resources/CellTemplates/CountryRatingNumber';
+import * as numberResultTpl from 'wml!Controls-demo/grid/resources/ResultCellTemplates/Number';
+import * as countryRatingNumber from 'wml!Controls-demo/grid/resources/CellTemplates/CountryRatingNumber';
 import {constants} from 'Env/Env';
-import 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksPhoto';
-import 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksDescription';
-import 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksReceived';
-import 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderMultilineDateTime';
-import 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderMultilineName';
-import * as baseEditor from 'wml!Controls-demo/gridNew/EditInPlace/Decorators/baseEditor';
-import * as moneyEditor from 'wml!Controls-demo/gridNew/EditInPlace/Decorators/moneyEditor';
-import * as numberEditor from 'wml!Controls-demo/gridNew/EditInPlace/Decorators/numberEditor';
-import * as defaultEditor from 'wml!Controls-demo/gridNew/EditInPlace/Decorators/defaultEditor';
+import 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksPhoto';
+import 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksDescription';
+import 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksReceived';
+import 'wml!Controls-demo/grid/resources/CellTemplates/LadderMultilineDateTime';
+import 'wml!Controls-demo/grid/resources/CellTemplates/LadderMultilineName';
+import * as baseEditor from 'wml!Controls-demo/grid/EditInPlace/Decorators/baseEditor';
+import * as moneyEditor from 'wml!Controls-demo/grid/EditInPlace/Decorators/moneyEditor';
+import * as numberEditor from 'wml!Controls-demo/grid/EditInPlace/Decorators/numberEditor';
+import * as defaultEditor from 'wml!Controls-demo/grid/EditInPlace/Decorators/defaultEditor';
 import * as Images from 'Controls-demo/DragNDrop/Images';
-import * as itemTpl from 'wml!Controls-demo/gridNew/resources/CellTemplates/CellWithBgc';
-import * as itemCountr from 'wml!Controls-demo/gridNew/resources/CellTemplates/CountryTemp';
-import * as resTpl from 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/resultsTpl';
-import * as notScrollableCell from 'wml!Controls-demo/gridNew/ColumnScroll/DragScrolling/notScrollableCell';
-import * as notDraggableCell from 'wml!Controls-demo/gridNew/ColumnScroll/DragScrolling/notDraggableCell';
-import * as dragScrollPopulationCell from 'wml!Controls-demo/gridNew/ColumnScroll/DragScrolling/populationCell';
+import * as itemTpl from 'wml!Controls-demo/grid/resources/CellTemplates/CellWithBgc';
+import * as itemCountr from 'wml!Controls-demo/grid/resources/CellTemplates/CountryTemp';
+import * as resTpl from 'wml!Controls-demo/grid/EditInPlace/EditingCell/resultsTpl';
+import * as notScrollableCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/notScrollableCell';
+import * as notDraggableCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/notDraggableCell';
+import * as dragScrollPopulationCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/populationCell';
 
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 import { IHeader } from 'Controls-demo/types';
 
 export interface IData {
@@ -1010,12 +1010,12 @@ const getMultilineLadder = () => {
         ],
         getColumns: () => [
             {
-                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderMultilineDateTime',
+                template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderMultilineDateTime',
                 width: '125px',
                 stickyProperty: ['date', 'time']
             },
             {
-                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderMultilineName',
+                template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderMultilineName',
                 width: '300px'
             }
         ],
@@ -1133,15 +1133,15 @@ const getTasks = () => {
         ],
         getColumns: () => [
             {
-                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksPhoto',
+                template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksPhoto',
                 width: '98px'
             },
             {
-                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksDescription',
+                template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksDescription',
                 width: '1fr'
             },
             {
-                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksReceived',
+                template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksReceived',
                 width: '200px'
             }
         ],
@@ -1167,12 +1167,12 @@ const getTasks = () => {
             {
                 displayProperty: 'state',
                 width: '200px',
-                template: 'wml!Controls-demo/gridNew/Grouped/WithEditing/_cellEditor'
+                template: 'wml!Controls-demo/grid/Grouped/WithEditing/_cellEditor'
             },
             {
                 displayProperty: 'date',
                 width: '100px',
-                template: 'wml!Controls-demo/gridNew/Grouped/WithEditing/_cellEditor'
+                template: 'wml!Controls-demo/grid/Grouped/WithEditing/_cellEditor'
             }
         ]
     };
@@ -1293,15 +1293,15 @@ const getTasksWithHiddenGroup = () => {
         ],
         getColumns: () => [
             {
-                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksPhoto',
+                template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksPhoto',
                 width: '98px'
             },
             {
-                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksDescription',
+                template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksDescription',
                 width: '1fr'
             },
             {
-                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksReceived',
+                template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksReceived',
                 width: '200px'
             }
         ],
@@ -1327,12 +1327,12 @@ const getTasksWithHiddenGroup = () => {
             {
                 displayProperty: 'state',
                 width: '200px',
-                template: 'wml!Controls-demo/gridNew/Grouped/WithEditing/_cellEditor'
+                template: 'wml!Controls-demo/grid/Grouped/WithEditing/_cellEditor'
             },
             {
                 displayProperty: 'date',
                 width: '100px',
-                template: 'wml!Controls-demo/gridNew/Grouped/WithEditing/_cellEditor'
+                template: 'wml!Controls-demo/grid/Grouped/WithEditing/_cellEditor'
             }
         ]
     };
@@ -1543,38 +1543,38 @@ const getEditing = () => {
             {
                 displayProperty: 'title',
                 width: '180px',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor'
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor'
             },
             {
                 displayProperty: 'price',
                 width: '100px',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor',
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
                 resultTemplate: resTpl,
                 results: 3
             },
             {
                 displayProperty: 'balance',
                 width: '100px',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor',
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
                 resultTemplate: resTpl,
                 results: 3
             },
             {
                 displayProperty: 'description',
                 width: '200px',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor'
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor'
             },
             {
                 displayProperty: 'costPrice',
                 width: '100px',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor',
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
                 resultTemplate: resTpl,
                 results: 9
             },
             {
                 displayProperty: 'balanceCostSumm',
                 width: '100px',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor',
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
                 resultTemplate: resTpl,
                 results: 6
             }
@@ -1583,13 +1583,13 @@ const getEditing = () => {
             {
                 displayProperty: 'title',
                 width: '180px',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/Align/_cellEditor',
+                template: 'wml!Controls-demo/grid/EditInPlace/Align/_cellEditor',
                 align: 'right'
             },
             {
                 displayProperty: 'description',
                 width: '100px',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/Align/_cellEditor',
+                template: 'wml!Controls-demo/grid/EditInPlace/Align/_cellEditor',
                 align: 'right'
             }
         ],
@@ -1597,34 +1597,34 @@ const getEditing = () => {
             {
                 displayProperty: 'title',
                 width: '180px',
-                template: `wml!Controls-demo/gridNew/EditInPlace/Size/${size}/_cellEditor`,
+                template: `wml!Controls-demo/grid/EditInPlace/Size/${size}/_cellEditor`,
             },
             {
                 displayProperty: 'description',
                 width: '100px',
-                template: `wml!Controls-demo/gridNew/EditInPlace/Size/${size}/_cellEditor`,
+                template: `wml!Controls-demo/grid/EditInPlace/Size/${size}/_cellEditor`,
             }
         ],
         getEditingColumnsValidation: () => [
             {
                 displayProperty: 'email',
                 width: '200px',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditor'
+                template: 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditor'
             },
             {
                 displayProperty: 'required',
                 width: 'max-content',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorRequired'
+                template: 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorRequired'
             },
             {
                 displayProperty: 'length',
                 width: 'max-content',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorDate'
+                template: 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorDate'
             },
             {
                 displayProperty: 'title',
                 width: 'max-content',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorTitle'
+                template: 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorTitle'
             }
         ],
         getEditingHeaderValidations: (): IHeader[] => [

@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/Columns/Type/Type';
+import * as Template from 'wml!Controls-demo/grid/Columns/Type/Type';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from 'Controls-demo/grid/DemoHelpers/DataCatalog';
 

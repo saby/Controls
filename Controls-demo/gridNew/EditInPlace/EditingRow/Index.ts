@@ -1,10 +1,10 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/EditingRow/EditingRow';
+import * as Template from 'wml!Controls-demo/grid/EditInPlace/EditingRow/EditingRow';
 import {Memory} from 'Types/source';
 import {getPorts} from '../../DemoHelpers/DataCatalog';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
-import * as cellTemplate from 'wml!Controls-demo/gridNew/EditInPlace/EditingRow/cellTemplate';
+import * as cellTemplate from 'wml!Controls-demo/grid/EditInPlace/EditingRow/cellTemplate';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

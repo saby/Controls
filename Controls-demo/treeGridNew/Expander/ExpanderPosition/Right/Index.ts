@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGridNew/Expander/ExpanderPosition/Right/Right';
+import * as Template from 'wml!Controls-demo/treeGrid/Expander/ExpanderPosition/Right/Right';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../../DemoHelpers/DataCatalog';
-import {IColumn} from 'Controls/gridNew';
+import {IColumn} from 'Controls/grid';
 import { TExpandOrColapsItems } from 'Controls-demo/types';
 
 export default class extends Control {

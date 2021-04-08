@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGridNew/EditInPlace/EditInPlace';
+import * as Template from 'wml!Controls-demo/treeGrid/EditInPlace/EditInPlace';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

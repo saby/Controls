@@ -1,9 +1,9 @@
 import { Control, TemplateFunction } from 'UI/Base';
 import { Memory } from 'Types/source';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 
 import { getTasks } from '../../../DemoHelpers/DataCatalog';
-import * as Template from 'wml!Controls-demo/gridNew/Grouped/TextVisibility/Base/Base';
+import * as Template from 'wml!Controls-demo/grid/Grouped/TextVisibility/Base/Base';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

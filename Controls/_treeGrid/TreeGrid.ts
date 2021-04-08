@@ -1,4 +1,4 @@
-import { View as Grid } from 'Controls/gridNew';
+import { View as Grid } from 'Controls/grid';
 import { TreeControl } from 'Controls/tree';
 import { TemplateFunction } from 'UI/Base';
 import {Logger} from 'UI/Utils';

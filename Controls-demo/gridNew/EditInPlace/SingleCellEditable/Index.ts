@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
-import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/SingleCellEditable/SingleCellEditable';
-import * as cellTemplate from 'wml!Controls-demo/gridNew/EditInPlace/SingleCellEditable/cellTemplate';
-import * as firstCellTemplate from 'wml!Controls-demo/gridNew/EditInPlace/SingleCellEditable/firstCellTemplate';
+import * as Template from 'wml!Controls-demo/grid/EditInPlace/SingleCellEditable/SingleCellEditable';
+import * as cellTemplate from 'wml!Controls-demo/grid/EditInPlace/SingleCellEditable/cellTemplate';
+import * as firstCellTemplate from 'wml!Controls-demo/grid/EditInPlace/SingleCellEditable/firstCellTemplate';
 import {getEditing, IColumnRes} from '../../DemoHelpers/DataCatalog';
 import { IItemAction, TItemActionShowType } from 'Controls/itemActions';
 

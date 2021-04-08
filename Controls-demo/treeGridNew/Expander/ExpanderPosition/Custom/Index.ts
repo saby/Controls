@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGridNew/Expander/ExpanderPosition/Custom/Custom';
-import * as CntTpl from 'wml!Controls-demo/treeGridNew/Expander/ExpanderPosition/Custom/content';
+import * as Template from 'wml!Controls-demo/treeGrid/Expander/ExpanderPosition/Custom/Custom';
+import * as CntTpl from 'wml!Controls-demo/treeGrid/Expander/ExpanderPosition/Custom/content';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../../DemoHelpers/DataCatalog';
-import {IColumn} from 'Controls/gridNew';
+import {IColumn} from 'Controls/grid';
 import { TExpandOrColapsItems } from 'Controls-demo/types';
 
 export default class extends Control {

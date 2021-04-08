@@ -155,7 +155,7 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
 
 Object.assign(ResultsCell.prototype, {
     '[Controls/_display/grid/ResultsCell]': true,
-    _moduleName: 'Controls/gridNew:GridResultsCell',
+    _moduleName: 'Controls/grid:GridResultsCell',
     _instancePrefix: 'grid-results-cell-',
     _$metaResults: null
 });

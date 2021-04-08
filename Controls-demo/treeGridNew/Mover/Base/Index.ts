@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGridNew/Mover/Base/Base';
+import * as Template from 'wml!Controls-demo/treeGrid/Mover/Base/Base';
 import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 import {TExpandOrColapsItems} from 'Controls-demo/types';
 import {ISelectionObject} from 'Controls/interface';
 

@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/Header/Default/Default';
+import * as Template from 'wml!Controls-demo/grid/Header/Default/Default';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IHeader } from 'Controls-demo/types';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 
 const MAXITEM = 10;
 

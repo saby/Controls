@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/Header/Multiheader/VerticalAlign/VerticalAlign';
+import * as Template from 'wml!Controls-demo/grid/Header/Multiheader/VerticalAlign/VerticalAlign';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
-import 'wml!Controls-demo/gridNew/Header/Multiheader/VerticalAlign/VerticalAlignHeaderCell';
-import { IColumn } from 'Controls/gridNew';
+import 'wml!Controls-demo/grid/Header/Multiheader/VerticalAlign/VerticalAlignHeaderCell';
+import { IColumn } from 'Controls/grid';
 import { IHeader } from 'Controls-demo/types';
 
 export default class extends Control {

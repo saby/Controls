@@ -3,19 +3,19 @@
     <div class="controlsDemo__cell controlsDemo__ladder_bind demo_Multiselect__base">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/gridNew/Multiselect/Base/Index' }}">
+                                 app="{{ 'Controls-demo/grid/Multiselect/Base/Index' }}">
             <a href="{{content.href}}">Варианты отображения чекбоксов</a>
         </Router.router:Reference>
-        <Controls-demo.gridNew.Multiselect.Base.Index/>
+        <Controls-demo.grid.Multiselect.Base.Index/>
     </div>
 
     <div class="controlsDemo__cell controlsDemo__ladder_bind demo_Multiselect__customPosition">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/gridNew/Multiselect/CustomPosition/Index' }}">
+                                 app="{{ 'Controls-demo/grid/Multiselect/CustomPosition/Index' }}">
             <a href="{{content.href}}">Нестандартное положение чекбоксов</a>
         </Router.router:Reference>
-        <Controls-demo.gridNew.Multiselect.CustomPosition.Index/>
+        <Controls-demo.grid.Multiselect.CustomPosition.Index/>
     </div>
 
 </div>

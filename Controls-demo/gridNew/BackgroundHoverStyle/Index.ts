@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/BackgroundHoverStyle/BackgroundHoverStyle';
+import * as Template from 'wml!Controls-demo/grid/BackgroundHoverStyle/BackgroundHoverStyle';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 
 const MAXINDEX = 5;
 
@@ -20,6 +20,6 @@ export default class extends Control {
 
     static _styles: string[] = [
         'Controls-demo/Controls-demo',
-        'Controls-demo/gridNew/BackgroundHoverStyle/BackgroundHoverStyle'
+        'Controls-demo/grid/BackgroundHoverStyle/BackgroundHoverStyle'
     ];
 }

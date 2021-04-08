@@ -1,7 +1,7 @@
 import { Control, TemplateFunction } from 'UI/Base';
 import { HierarchicalMemory, DataSet, Query } from 'Types/source';
 import { Gadgets } from '../../DemoHelpers/DataCatalog';
-import * as Template from 'wml!Controls-demo/treeGridNew/_tests/BreakNodeLoading/BreakNodeLoading';
+import * as Template from 'wml!Controls-demo/treeGrid/_tests/BreakNodeLoading/BreakNodeLoading';
 
 class HierarchicalMemoryWithBreakNodeLoading extends HierarchicalMemory {
     protected _restoreLoadingFn: Function;

@@ -2,209 +2,209 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/Base/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/Base/Index' }}">
             <a href="{{content.href}}">Базовая настройка дерева</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.Base.Index/>
+        <Controls-demo.treeGrid.Base.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/ItemTemplate/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/ItemTemplate/Index' }}">
             <a href="{{content.href}}">Настройка шаблона записи</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.ItemTemplate.Index/>
+        <Controls-demo.treeGrid.ItemTemplate.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/Grouping/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/Grouping/Index' }}">
             <a href="{{content.href}}">Группировка</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.Grouping.Index/>
+        <Controls-demo.treeGrid.Grouping.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/FrozenTree/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/FrozenTree/Index' }}">
             <a href="{{content.href}}">Разворот и сворачивание узлов невозможны</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.FrozenTree.Index/>
+        <Controls-demo.treeGrid.FrozenTree.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/Mover/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/Mover/Index' }}">
             <a href="{{content.href}}">Перемещение</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.Mover.Index/>
+        <Controls-demo.treeGrid.Mover.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/MultiSelect/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/MultiSelect/Index' }}">
             <a href="{{content.href}}">Множественный выбор</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.MultiSelect.Index/>
+        <Controls-demo.treeGrid.MultiSelect.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/MarkerVisibility/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/MarkerVisibility/Index' }}">
             <a href="{{content.href}}">Маркер активной записи</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.MarkerVisibility.Index/>
+        <Controls-demo.treeGrid.MarkerVisibility.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/ItemPadding/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/ItemPadding/Index' }}">
             <a href="{{content.href}}">Отступы записей</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.ItemPadding.Index/>
+        <Controls-demo.treeGrid.ItemPadding.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/NodeFooter/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/NodeFooter/Index' }}">
             <a href="{{content.href}}">Подвалы узлов</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.NodeFooter.Index/>
+        <Controls-demo.treeGrid.NodeFooter.Index/>
     </div>
 
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/Header/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/Header/Index' }}">
             <a href="{{content.href}}">Заголовки в таблице</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.Header.Index/>
+        <Controls-demo.treeGrid.Header.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/Expander/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/Expander/Index' }}">
             <a href="{{content.href}}">Экспандер</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.Expander.Index/>
+        <Controls-demo.treeGrid.Expander.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/ExpandedItems/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/ExpandedItems/Index' }}">
             <a href="{{content.href}}">Установка изначально раскрытых узлов</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.ExpandedItems.Index/>
+        <Controls-demo.treeGrid.ExpandedItems.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/EditInPlace/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/EditInPlace/Index' }}">
             <a href="{{content.href}}">Редактирование по месту</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.EditInPlace.Index/>
+        <Controls-demo.treeGrid.EditInPlace.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/CollapsedItems/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/CollapsedItems/Index' }}">
             <a href="{{content.href}}">Установка изначально свёрнутых узлов</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.CollapsedItems.Index/>
+        <Controls-demo.treeGrid.CollapsedItems.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/ReverseType/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/ReverseType/Index' }}">
             <a href="{{content.href}}">Режим разорота узла</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.ReverseType.Index/>
+        <Controls-demo.treeGrid.ReverseType.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/Offsets/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/Offsets/Index' }}">
             <a href="{{content.href}}">Иерархические отступы</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.Offsets.Index/>
+        <Controls-demo.treeGrid.Offsets.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/DeepInside/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/DeepInside/Index' }}">
             <a href="{{content.href}}">Проверка кнопок "Ещё" при глубокой вложенности</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.DeepInside.Index/>
+        <Controls-demo.treeGrid.DeepInside.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/VirtualScroll/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/VirtualScroll/Index' }}">
             <a href="{{content.href}}">Виртуальный скролл</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.VirtualScroll.Index/>
+        <Controls-demo.treeGrid.VirtualScroll.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/CellPadding/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/CellPadding/Index' }}">
             <a href="{{content.href}}">Отсупы в ячейках</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.CellPadding.Index/>
+        <Controls-demo.treeGrid.CellPadding.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/LoadMore/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/LoadMore/Index' }}">
             <a href="{{content.href}}">Load More</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.LoadMore.Index/>
+        <Controls-demo.treeGrid.LoadMore.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/DragNDrop/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/DragNDrop/Index' }}">
             <a href="{{content.href}}">DragNDrop</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.DragNDrop.Index/>
+        <Controls-demo.treeGrid.DragNDrop.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/ItemActions/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/ItemActions/Index' }}">
             <a href="{{content.href}}">DragNDrop</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.ItemActions.Index/>
+        <Controls-demo.treeGrid.ItemActions.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/ResultsFromMeta/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/ResultsFromMeta/Index' }}">
             <a href="{{content.href}}">Результаты из метаданных</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.ResultsFromMeta.Index/>
+        <Controls-demo.treeGrid.ResultsFromMeta.Index/>
     </div>
 
 </div>

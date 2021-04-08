@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/ItemTemplate/NoHighlight/NoHighlight';
+import * as Template from 'wml!Controls-demo/grid/ItemTemplate/NoHighlight/NoHighlight';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 
 const MAXINDEX = 5;
 

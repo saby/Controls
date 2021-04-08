@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGridNew/EditInPlace/RowEditor/RowEditor';
+import * as Template from 'wml!Controls-demo/treeGrid/EditInPlace/RowEditor/RowEditor';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

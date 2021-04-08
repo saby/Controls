@@ -3,28 +3,28 @@
     <div class="controlsDemo__cell">
        <Router.router:Reference attr:class="controls-text-label"
                                 state="/Controls-demo/app/:app"
-                                app="{{ 'Controls-demo/treeGridNew/Expander/ExpanderVisibility/Index' }}">
+                                app="{{ 'Controls-demo/treeGrid/Expander/ExpanderVisibility/Index' }}">
           <a href="{{content.href}}">Видимость экспандера</a>
        </Router.router:Reference>
-       <Controls-demo.treeGridNew.Expander.ExpanderVisibility.Index/>
+       <Controls-demo.treeGrid.Expander.ExpanderVisibility.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/Expander/ExpanderSize/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/Expander/ExpanderSize/Index' }}">
             <a href="{{content.href}}">Размеры отступа экспандера</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.Expander.ExpanderSize.Index/>
+        <Controls-demo.treeGrid.Expander.ExpanderSize.Index/>
     </div>
 
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/Expander/ExpanderIcon/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/Expander/ExpanderIcon/Index' }}">
             <a href="{{content.href}}">Тип иконки экспандера</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.Expander.ExpanderIcon.Index/>
+        <Controls-demo.treeGrid.Expander.ExpanderIcon.Index/>
     </div>
 
 </div>

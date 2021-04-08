@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGridNew/MultiSelect/CustomPosition/CustomPosition';
+import * as Template from 'wml!Controls-demo/treeGrid/MultiSelect/CustomPosition/CustomPosition';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
-import * as cellTemplate from 'wml!Controls-demo/treeGridNew/MultiSelect/CustomPosition/CellTemplate';
+import * as cellTemplate from 'wml!Controls-demo/treeGrid/MultiSelect/CustomPosition/CellTemplate';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

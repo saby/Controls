@@ -1,10 +1,10 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {Memory} from 'Types/source';
-import {IColumn} from 'Controls/gridNew';
+import {IColumn} from 'Controls/grid';
 
 import {getTasksWithHiddenGroup} from '../../DemoHelpers/DataCatalog';
 
-import * as Template from 'wml!Controls-demo/gridNew/Grouped/HiddenGroup/HiddenGroup';
+import * as Template from 'wml!Controls-demo/grid/Grouped/HiddenGroup/HiddenGroup';
 
 export default class extends Control<IControlOptions> {
     protected _template: TemplateFunction = Template;

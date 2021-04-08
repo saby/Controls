@@ -10,7 +10,7 @@
                             parentProperty="parent"
                             on:afterItemsMove="_afterItemsMove()"
                             on:beforeItemsMove="_beforeItemsMove()">
-                        <ws:moveDialogTemplate templateName="Controls-demo/treeGridNew/Mover/Extended/ExtendedMoverDialog">
+                        <ws:moveDialogTemplate templateName="Controls-demo/treeGrid/Mover/Extended/ExtendedMoverDialog">
                             <ws:templateOptions
                                     name="extendedMover"
                                     source="{{_viewSource}}"
@@ -18,7 +18,7 @@
                         </ws:moveDialogTemplate>
                     </Controls.list:Mover>
                     <Controls.list:Container>
-                        <Controls.treeGridNew:View
+                        <Controls.treeGrid:View
                                 name="treeGrid"
                                 multiSelectVisibility="visible"
                                 parentProperty="parent"

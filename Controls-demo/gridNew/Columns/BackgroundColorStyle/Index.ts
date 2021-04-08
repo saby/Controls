@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/Columns/BackgroundColorStyle/BackgroundColorStyle';
+import * as Template from 'wml!Controls-demo/grid/Columns/BackgroundColorStyle/BackgroundColorStyle';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from 'Controls-demo/grid/DemoHelpers/DataCatalog';
 

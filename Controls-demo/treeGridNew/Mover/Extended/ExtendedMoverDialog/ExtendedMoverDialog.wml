@@ -33,7 +33,7 @@
     <ws:headerContentTemplate>
         <div class="ControlsDemo-ExtendedMoveDialog__createFolder">
             <Controls.buttons:Button icon="icon-CreateFolder" on:click="_createFolderButtonClick()" viewMode="linkButton"/>
-            <Controls.popup:Dialog name="dialogOpener" modal="{{true}}" template="Controls-demo/treeGridNew/Mover/Extended/CreateDialog"/>
+            <Controls.popup:Dialog name="dialogOpener" modal="{{true}}" template="Controls-demo/treeGrid/Mover/Extended/CreateDialog"/>
         </div>
     </ws:headerContentTemplate>
 </Controls.moverDialog:BaseTemplate>

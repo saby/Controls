@@ -2,11 +2,11 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
 import {CollectionItem} from 'Controls/display';
 import {Record} from 'Types/entity';
-import {IColumn, TCellAlign} from 'Controls/gridNew';
+import {IColumn, TCellAlign} from 'Controls/grid';
 
 import {Gadgets, IData} from '../../DemoHelpers/DataCatalog';
 
-import * as template from 'wml!Controls-demo/treeGridNew/TagStyle/TagStyleFromCellData/TagStyleFromCellData';
+import * as template from 'wml!Controls-demo/treeGrid/TagStyle/TagStyleFromCellData/TagStyleFromCellData';
 
 const MAXITEM = 7;
 

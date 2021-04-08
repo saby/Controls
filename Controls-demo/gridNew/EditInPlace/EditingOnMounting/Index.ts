@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/EditingOnMounting/EditingOnMounting';
-import * as EditingTemplate from 'wml!Controls-demo/gridNew/EditInPlace/EditingOnMounting/EditingTemplate';
+import * as Template from 'wml!Controls-demo/grid/EditInPlace/EditingOnMounting/EditingOnMounting';
+import * as EditingTemplate from 'wml!Controls-demo/grid/EditInPlace/EditingOnMounting/EditingTemplate';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 import { TColspanCallbackResult } from 'Controls/display';
 
 export default class extends Control {

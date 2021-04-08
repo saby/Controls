@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/Multiselect/CustomPosition/CustomPosition';
+import * as Template from 'wml!Controls-demo/grid/Multiselect/CustomPosition/CustomPosition';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridNew';
-import * as cellTemplate from 'wml!Controls-demo/gridNew/Multiselect/CustomPosition/CellTemplate';
+import { IColumn } from 'Controls/grid';
+import * as cellTemplate from 'wml!Controls-demo/grid/Multiselect/CustomPosition/CellTemplate';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

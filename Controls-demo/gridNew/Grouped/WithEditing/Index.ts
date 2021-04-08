@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/Grouped/WithEditing/WithEditing';
+import * as Template from 'wml!Controls-demo/grid/Grouped/WithEditing/WithEditing';
 import {Memory} from 'Types/source';
 import {getTasks} from '../../DemoHelpers/DataCatalog';
-import 'wml!Controls-demo/gridNew/Grouped/WithEditing/_cellEditor';
-import { IColumn } from 'Controls/gridNew';
+import 'wml!Controls-demo/grid/Grouped/WithEditing/_cellEditor';
+import { IColumn } from 'Controls/grid';
 
 interface IItem {
     get: (item: string) => string;

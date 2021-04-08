@@ -3,10 +3,10 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/Expander/ExpanderSize/All/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/Expander/ExpanderSize/All/Index' }}">
             <a href="{{content.href}}">Все размеры</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.Expander.ExpanderSize.All.Index/>
+        <Controls-demo.treeGrid.Expander.ExpanderSize.All.Index/>
     </div>
 </div>
 

@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/Grouped/TextVisibility/TextVisibility';
+import * as Template from 'wml!Controls-demo/grid/Grouped/TextVisibility/TextVisibility';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

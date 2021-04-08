@@ -2,14 +2,14 @@ import { Control, TemplateFunction, IControlOptions } from 'UI/Base';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import { Model } from 'Types/entity';
 
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 
-import * as Template from 'wml!Controls-demo/treeGridNew/EditArrow/Base/Base';
+import * as Template from 'wml!Controls-demo/treeGrid/EditArrow/Base/Base';
 import * as TreeMemory from 'Controls-demo/List/Tree/TreeMemory';
 import * as memorySourceFilter from 'Controls-demo/Utils/MemorySourceFilter';
 import { IHeader } from 'Controls-demo/types';
 
-import { TreeData, TreeColumns, TreeHeader } from 'Controls-demo/treeGridNew/EditArrow/resources/resources';
+import { TreeData, TreeColumns, TreeHeader } from 'Controls-demo/treeGrid/EditArrow/resources/resources';
 
 export default class Base extends Control<IControlOptions> {
     _template: TemplateFunction = Template;
@@ -32,6 +32,6 @@ export default class Base extends Control<IControlOptions> {
         console.log(item);
     }
 
-    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/treeGridNew/EditArrow/resources/EditArrow'];
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/treeGrid/EditArrow/resources/EditArrow'];
 
 }

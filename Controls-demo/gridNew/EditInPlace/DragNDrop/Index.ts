@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/DragNDrop/DragNDrop';
-import * as FirstColumn from 'wml!Controls-demo/gridNew/EditInPlace/DragNDrop/FirstColumn';
+import * as Template from 'wml!Controls-demo/grid/EditInPlace/DragNDrop/DragNDrop';
+import * as FirstColumn from 'wml!Controls-demo/grid/EditInPlace/DragNDrop/FirstColumn';
 import {Memory} from 'Types/source';
 import {getPorts} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import * as Dnd from '../../../../Controls/dragnDrop';

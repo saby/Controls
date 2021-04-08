@@ -14,7 +14,7 @@
                 <Controls.list:Container>
                     <Controls.scroll:Container attr:class="controlsDemo__inline-flex"
                                                attr:style="width: 700px; height: 500px;">
-                        <Controls.gridNew:View
+                        <Controls.grid:View
                                 header="{{_header}}"
                                 columns="{{_columns}}"
                                 multiSelectVisibility="onhover"
@@ -33,7 +33,7 @@
                                             mainText="{{draggingTemplate.entity._options.title}}">
                                 </ws:partial>
                             </ws:draggingTemplate>
-                        </Controls.gridNew:View>
+                        </Controls.grid:View>
                     </Controls.scroll:Container>
                 </Controls.list:Container>
             </Controls.operations:Controller>

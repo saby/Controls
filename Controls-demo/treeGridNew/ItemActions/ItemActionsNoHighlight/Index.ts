@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGridNew/ItemActions/ItemActionsNoHighlight/ItemActionsNoHighlight';
+import * as Template from 'wml!Controls-demo/treeGrid/ItemActions/ItemActionsNoHighlight/ItemActionsNoHighlight';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../../list_new/DemoHelpers/ItemActionsCatalog';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 import { IItemAction } from 'Controls/itemActions';
 
 export default class extends Control {

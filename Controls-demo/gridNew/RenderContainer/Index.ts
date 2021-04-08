@@ -1,10 +1,10 @@
 import { Control, TemplateFunction } from 'UI/Base';
 
-import template = require('wml!Controls-demo/gridNew/RenderContainer/RenderContainer');
+import template = require('wml!Controls-demo/grid/RenderContainer/RenderContainer');
 import { RecordSet } from 'Types/collection';
 
-import titleColumnTpl = require('wml!Controls-demo/gridNew/RenderContainer/titleColumn');
-import subtitleColumnTpl = require('wml!Controls-demo/gridNew/RenderContainer/subtitleColumn');
+import titleColumnTpl = require('wml!Controls-demo/grid/RenderContainer/titleColumn');
+import subtitleColumnTpl = require('wml!Controls-demo/grid/RenderContainer/subtitleColumn');
 import { IItemAction } from 'Controls/itemActions';
 
 const MAXITEMCOUNT = 100;

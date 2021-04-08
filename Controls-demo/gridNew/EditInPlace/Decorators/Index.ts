@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/Decorators/Decorators';
+import * as Template from 'wml!Controls-demo/grid/EditInPlace/Decorators/Decorators';
 import {Memory} from 'Types/source';
 import {getEditing} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 import { IHeader } from 'Controls-demo/types';
 
 export default class extends Control {

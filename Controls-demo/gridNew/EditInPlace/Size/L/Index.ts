@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/Size/L/L';
+import * as Template from 'wml!Controls-demo/grid/EditInPlace/Size/L/L';
 import {Memory} from 'Types/source';
 import {getEditing, IColumnRes} from '../../../DemoHelpers/DataCatalog';
-import 'wml!Controls-demo/gridNew/EditInPlace/Size/L/_cellEditor';
+import 'wml!Controls-demo/grid/EditInPlace/Size/L/_cellEditor';
 import {RecordSet} from 'Types/collection';
 
 export default class extends Control {

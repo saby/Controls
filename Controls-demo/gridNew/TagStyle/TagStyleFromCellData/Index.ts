@@ -4,9 +4,9 @@ import {CollectionItem} from 'Controls/display';
 import {Record} from 'Types/entity';
 
 import {getCountriesStats, IData} from '../../DemoHelpers/DataCatalog';
-import {IColumn} from 'Controls/gridNew';
+import {IColumn} from 'Controls/grid';
 
-import * as template from 'wml!Controls-demo/gridNew/TagStyle/TagStyleFromCellData/TagStyleFromCellData';
+import * as template from 'wml!Controls-demo/grid/TagStyle/TagStyleFromCellData/TagStyleFromCellData';
 
 const MAXITEM = 7;
 

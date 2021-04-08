@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_wrapper-treeGrid-base-treeView">
-    <Controls.treeGridNew:View
+    <Controls.treeGrid:View
             keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"

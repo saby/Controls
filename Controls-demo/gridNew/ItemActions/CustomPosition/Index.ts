@@ -4,7 +4,7 @@ import {IItemAction} from 'Controls/itemActions';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../../list_new/DemoHelpers/ItemActionsCatalog';
 
-import * as Template from 'wml!Controls-demo/gridNew/ItemActions/CustomPosition/CustomPosition';
+import * as Template from 'wml!Controls-demo/grid/ItemActions/CustomPosition/CustomPosition';
 
 const MAXINDEX = 4;
 

@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/Grouped/Custom/Custom';
+import * as Template from 'wml!Controls-demo/grid/Grouped/Custom/Custom';
 import {Memory} from 'Types/source';
 import {getTasks} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 
 interface IItem {
     get: (item: string) => string;

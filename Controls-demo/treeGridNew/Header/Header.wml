@@ -2,27 +2,27 @@
     <div class="controlsDemo__cell demo-treeGrid__oneRowHeader">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/Header/Default/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/Header/Default/Index' }}">
             <a href="{{content.href}}">Однострочные тестовые заголовки</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.Header.Default.Index/>
+        <Controls-demo.treeGrid.Header.Default.Index/>
     </div>
 
     <div class="controlsDemo__cell demo-treeGrid__longHeader">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/Header/LongHeader/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/Header/LongHeader/Index' }}">
             <a href="{{content.href}}">Длинные заголовки</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.Header.LongHeader.Index/>
+        <Controls-demo.treeGrid.Header.LongHeader.Index/>
     </div>
 
     <div class="controlsDemo__cell demo-treeGrid__multiLevelHeader">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/Header/MultiHeader/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/Header/MultiHeader/Index' }}">
             <a href="{{content.href}}">Многоуровневый заголовок</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.Header.MultiHeader.Index/>
+        <Controls-demo.treeGrid.Header.MultiHeader.Index/>
     </div>
 </div>

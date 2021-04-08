@@ -1,1 +1,1 @@
-<ws:partial template="Controls/gridNew:ResultColumnTemplate" scope="{{_options}}"/>
+<ws:partial template="Controls/grid:ResultColumnTemplate" scope="{{_options}}"/>

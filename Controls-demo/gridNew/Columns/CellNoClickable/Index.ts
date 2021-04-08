@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/Columns/CellNoClickable/CellNoClickable';
+import * as Template from 'wml!Controls-demo/grid/Columns/CellNoClickable/CellNoClickable';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 

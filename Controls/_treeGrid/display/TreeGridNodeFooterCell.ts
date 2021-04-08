@@ -1,5 +1,5 @@
 import { TemplateFunction } from 'UI/Base';
-import { GridCell } from 'Controls/gridNew';
+import { GridCell } from 'Controls/grid';
 import TreeGridNodeFooterRow from './TreeGridNodeFooterRow';
 
 export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeFooterRow> {

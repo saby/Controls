@@ -1,10 +1,10 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/Header/AddButton/AddButton';
+import * as Template from 'wml!Controls-demo/grid/Header/AddButton/AddButton';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import 'wml!Controls-demo/gridNew/Header/AddButton/FirstHeaderCellTemplate';
-import 'wml!Controls-demo/gridNew/Header/AddButton/Cell';
-import { IColumn } from 'Controls/gridNew';
+import 'wml!Controls-demo/grid/Header/AddButton/FirstHeaderCellTemplate';
+import 'wml!Controls-demo/grid/Header/AddButton/Cell';
+import { IColumn } from 'Controls/grid';
 import { IHeader } from 'Controls-demo/types';
 
 const MAXITEM = 10;
@@ -20,13 +20,13 @@ export default class extends Control {
 
         this._header.forEach((hColumn) => {
             // tslint:disable-next-line
-            hColumn.template = 'wml!Controls-demo/gridNew/Header/AddButton/Cell';
+            hColumn.template = 'wml!Controls-demo/grid/Header/AddButton/Cell';
         });
 
         this._header[0] = {
             ...this._header[0],
             // tslint:disable-next-line
-            template: 'wml!Controls-demo/gridNew/Header/AddButton/FirstHeaderCellTemplate',
+            template: 'wml!Controls-demo/grid/Header/AddButton/FirstHeaderCellTemplate',
             captionForGrid: this._gridCaption
         };
 

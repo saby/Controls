@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <Controls.scroll:Container attr:class="controlsDemo__height400">
         <Controls.scroll:HotKeysContainer>
-            <Controls.gridNew:View
+            <Controls.grid:View
                     name="view"
                     keyProperty="id"
                     source="{{_viewSource}}"
@@ -28,7 +28,7 @@
                         </ws:footerTemplate>
                     </ws:partial>
                 </ws:continueSearchTemplate>
-            </Controls.gridNew:View>
+            </Controls.grid:View>
         </Controls.scroll:HotKeysContainer>
     </Controls.scroll:Container>
     <a href="#" class="controls-text-link_theme-default ControlsDemo-portionedSearch_startSearch" style="position: relative; z-index: 99999; margin-right: 10px" on:click="_startSearch()">start search</a>

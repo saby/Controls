@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 import {Gadgets} from '../DemoHelpers/DataCatalog';
 
-import * as Template from 'wml!Controls-demo/treeGridNew/ItemPadding/ItemPadding';
+import * as Template from 'wml!Controls-demo/treeGrid/ItemPadding/ItemPadding';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

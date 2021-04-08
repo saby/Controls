@@ -3,7 +3,7 @@ import {Memory} from 'Types/source';
 
 import {getTasks} from '../../DemoHelpers/DataCatalog';
 
-import * as Template from 'wml!Controls-demo/gridNew/Ladder/NoSticky/NoSticky';
+import * as Template from 'wml!Controls-demo/grid/Ladder/NoSticky/NoSticky';
 
 interface INoStickyLadderColumn {
     template: string;

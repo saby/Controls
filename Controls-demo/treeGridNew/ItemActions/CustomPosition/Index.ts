@@ -4,7 +4,7 @@ import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../../list_new/DemoHelpers/ItemActionsCatalog';
 import {IItemAction} from 'Controls/itemActions';
 
-import * as Template from 'wml!Controls-demo/treeGridNew/ItemActions/CustomPosition/CustomPosition';
+import * as Template from 'wml!Controls-demo/treeGrid/ItemActions/CustomPosition/CustomPosition';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

@@ -201,9 +201,9 @@ export default class HeaderRow<T> extends Row<T> {
 
 Object.assign(HeaderRow.prototype, {
     '[Controls/_display/grid/HeaderRow]': true,
-    _moduleName: 'Controls/gridNew:GridHeaderRow',
+    _moduleName: 'Controls/grid:GridHeaderRow',
     _instancePrefix: 'grid-header-row-',
-    _cellModule: 'Controls/gridNew:GridHeaderCell',
+    _cellModule: 'Controls/grid:GridHeaderCell',
     _$header: null,
     _$headerModel: null
 });

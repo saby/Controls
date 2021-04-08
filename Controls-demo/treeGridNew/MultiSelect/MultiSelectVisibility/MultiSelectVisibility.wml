@@ -2,19 +2,19 @@
     <div class="controlsDemo__cell demo-treeGridMultiSelect__checkboxesAlways">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/MultiSelect/MultiSelectVisibility/Visible/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/MultiSelect/MultiSelectVisibility/Visible/Index' }}">
             <a href="{{content.href}}">Чекбоксы всегда показываются</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.MultiSelect.MultiSelectVisibility.Visible.Index/>
+        <Controls-demo.treeGrid.MultiSelect.MultiSelectVisibility.Visible.Index/>
     </div>
 
 
     <div class="controlsDemo__cell demo-treeGridMultiSelect__checkboxesOnHover">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGridNew/MultiSelect/MultiSelectVisibility/OnHover/Index' }}">
+                                 app="{{ 'Controls-demo/treeGrid/MultiSelect/MultiSelectVisibility/OnHover/Index' }}">
             <a href="{{content.href}}">Чекбоксы показываются только при наведении</a>
         </Router.router:Reference>
-        <Controls-demo.treeGridNew.MultiSelect.MultiSelectVisibility.OnHover.Index/>
+        <Controls-demo.treeGrid.MultiSelect.MultiSelectVisibility.OnHover.Index/>
     </div>
 </div>

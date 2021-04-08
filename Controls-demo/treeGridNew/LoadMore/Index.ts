@@ -1,8 +1,8 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGridNew/LoadMore/LoadMore';
+import * as Template from 'wml!Controls-demo/treeGrid/LoadMore/LoadMore';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 import { INavigation } from 'Controls-demo/types';
 
 export default class extends Control {

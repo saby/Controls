@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/ItemActions/ItemActionsNoHighlight/ItemActionsNoHighlight';
+import * as Template from 'wml!Controls-demo/grid/ItemActions/ItemActionsNoHighlight/ItemActionsNoHighlight';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../../list_new/DemoHelpers/ItemActionsCatalog';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 import { IItemAction } from 'Controls/itemActions';
 
 const MAXINDEX = 4;
