@@ -13,7 +13,7 @@ import {DataSet} from 'Types/source';
 import {
    INavigationSourceConfig,
    INavigationPositionSourceConfig as IPositionSourceConfig,
-   INavigationOptionValue as INavigation
+   INavigationOptionValue as INavigation, TKey
 } from 'Controls/interface';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {ISelectionObject} from 'Controls/interface';
@@ -187,6 +187,9 @@ var
                _private.checkedChangeViewMode(self, self._pendingViewMode, self._options);
                self._pendingViewMode = null;
             }
+
+            const curRoot = _private.getRoot(self, self._options.root);
+            self._headerVisibility = self.getHeaderVisibility(curRoot, self._options.headerVisibility);
          },
 
          setViewConfig: function (self, viewMode) {
@@ -477,6 +480,7 @@ var
       _itemTemplate: undefined,
       _isMounted: false,
       _setViewModePromise: null,
+      _needUpdateHeaderVisibility: false,
 
       _resolveItemsPromise() {
          this._itemsResolver();
@@ -518,7 +522,7 @@ var
             }
          };
 
-         this._headerVisibility = root === null ? cfg.headerVisibility || 'hasdata' : 'visible';
+         this._headerVisibility = this.getHeaderVisibility(root, cfg.headerVisibility);
 
          // TODO: для 20.5100. в 20.6000 можно удалить
          if (cfg.displayMode) {
@@ -550,7 +554,15 @@ var
               (cfg.source !== this._options.source));
          const isSourceControllerLoading = cfg.sourceController && cfg.sourceController.isLoading();
          this._resetScrollAfterViewModeChange = isViewModeChanged && !isRootChanged;
-         this._headerVisibility = cfg.root === null ? cfg.headerVisibility || 'hasdata' : 'visible';
+
+         // Видимость заголовка зависит непосредственно от рута и от данных в нем.
+         // Поэтому при смене рута мы не можем менять видимость прямо тут, нужно дождаться получения данных
+         // иначе перерисовка может быть в два этапа. Например, показываем пустые результаты поиска в режиме
+         // searchStartingWith === 'root', после сбрасываем поиск и возвращаем root в предыдущую папку после чего
+         // этот код покажет заголовок и только после получения данных они отрисуются
+         if (!isRootChanged) {
+            this._headerVisibility = this.getHeaderVisibility(cfg.root, cfg.headerVisibility);
+         }
 
          if (!isEqual(cfg.itemPadding, this._options.itemPadding)) {
             this._newItemPadding = cfg.itemPadding;
@@ -812,6 +824,19 @@ var
          let item = this._children.treeControl._children.baseControl.getViewModel().getMarkedItem().getContents();
          this._notifyHandler(e, 'arrowClick', item);
       },
+
+      /**
+       * На основании переданного root и значения опции headerVisibility.
+       * Вычисляет итоговую видимость заголовка таблицы.
+       *    * Если находимся в корне то видимость берем либо из headerVisibility
+       *    либо проставляем 'hasdata'.
+       *    * Если находимся не в корне, то заголовок всегда делаем видимым
+       *    https://online.sbis.ru/doc/19106882-fada-47f7-96bd-516f9fb0522f
+       */
+      getHeaderVisibility(root: TKey, headerVisibility: string): string {
+         return root === null ? (headerVisibility || 'hasdata') : 'visible';
+      },
+
       _notifyHandler: EventUtils.tmplNotify
    });
 
