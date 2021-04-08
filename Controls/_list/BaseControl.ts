@@ -1671,6 +1671,11 @@ const _private = {
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
                 _private.resetPortionedSearchAndCheckLoadToDirection(self, self._options);
             }
+
+            if (self._scrollPagingCtr && action === IObservable.ACTION_RESET) {
+                self._scrollPagingCtr = null;
+            }
+
             if (self._scrollController) {
                 if (action) {
                     const collectionStartIndex = self._listViewModel.getStartIndex();
