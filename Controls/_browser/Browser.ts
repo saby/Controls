@@ -147,7 +147,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                                  context?: typeof ContextOptions,
                                  receivedState?: TReceivedState): void | Promise<TReceivedState | Error | void> {
         if (Browser._checkLoadResult(Browser._getListsOptions(options), receivedState as IReceivedState[])) {
-            this._updateFilterAndFilterItems();
+            this._updateFilterAndFilterItems(options);
             this._defineShadowVisibility(receivedState[0].data);
             this._setItemsAndUpdateContext();
             if (options.source && options.dataLoadCallback) {
@@ -158,7 +158,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 Logger.warn('Browser: контрол Controls/deprecatedFilter:Fast является устаревшим и будет удалён в 21.3100', this);
             }
             return this._dataLoader.load<ILoadDataResult>().then((result) => {
-                this._updateFilterAndFilterItems();
+                this._updateFilterAndFilterItems(options);
                 this._defineShadowVisibility(result[0].data);
 
                 if (Browser._checkLoadResult(Browser._getListsOptions(options), result as IReceivedState[])) {
@@ -301,8 +301,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._listMarkedKey = this._getOperationsController().setListMarkedKey(newOptions.markedKey);
         }
 
-        if (this._dataLoader.getFilterController().update(this._getFilterControllerOptions(newOptions))) {
-            this._updateFilterAndFilterItems();
+        if (this._dataLoader.getFilterController()?.update(this._getFilterControllerOptions(newOptions))) {
+            this._updateFilterAndFilterItems(newOptions);
         }
 
         if (sourceChanged) {
@@ -464,7 +464,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     protected _filterChanged(event: SyntheticEvent, filter: QueryWhereExpression<unknown>): void {
         event?.stopPropagation();
-        this._dataLoader.getFilterController().setFilter(filter);
+        this._dataLoader.getFilterController()?.setFilter(filter);
         this._filter = filter;
         this._notify('filterChanged', [this._filter]);
     }
@@ -484,7 +484,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     protected _filterItemsChanged(event: SyntheticEvent, items: IFilterItem[]): void {
         this._dataLoader.getFilterController().updateFilterItems(items);
-        this._updateFilterAndFilterItems();
+        this._updateFilterAndFilterItems(this._options);
         this._dataOptionsContext.filter = this._filter;
         this._notify('filterChanged', [this._filter]);
     }
@@ -523,11 +523,13 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         this._dataLoader.getFilterController().updateHistory(history);
     }
 
-    private _updateFilterAndFilterItems(): void {
-        const filterController = this._dataLoader.getFilterController();
-        this._filter = filterController.getFilter() as QueryWhereExpression<unknown>;
-        this._filterButtonItems = filterController.getFilterButtonItems();
-        this._fastFilterItems = filterController.getFastFilterItems();
+    private _updateFilterAndFilterItems(options: IBrowserOptions): void {
+        if (Browser._hasFilterSourceInOptions(options)) {
+            const filterController = this._dataLoader.getFilterController();
+            this._filter = filterController.getFilter() as QueryWhereExpression<unknown>;
+            this._filterButtonItems = filterController.getFilterButtonItems();
+            this._fastFilterItems = filterController.getFastFilterItems();
+        }
     }
 
     protected _processLoadError(error: Error): void {
@@ -812,7 +814,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     private _dataLoadCallback(data: RecordSet, direction?: Direction): void {
-        this._dataLoader.getFilterController().handleDataLoad(data);
+        this._dataLoader.getFilterController()?.handleDataLoad(data);
         this._handleDataLoad(data);
 
         if (this._options.dataLoadCallback) {
@@ -821,7 +823,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     private _dataLoadErrback(error: Error): void {
-        this._dataLoader.getFilterController().handleDataError();
+        this._dataLoader.getFilterController()?.handleDataError();
         if (this._options.dataLoadErrback) {
             this._options.dataLoadErrback(error);
         }
