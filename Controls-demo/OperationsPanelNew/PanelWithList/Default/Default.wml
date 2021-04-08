@@ -26,7 +26,7 @@
 
             <Controls.list:Container>
                <Controls.list:HotKeysContainer>
-                  <Controls.treeGridOld:View
+                  <Controls.treeGrid:View
                         name="list"
                         attr:class="demo-Grid__control"
                         markerVisibility="{{_expandedOperationsPanel ? 'visible' : _options.markerVisibility}}"
@@ -42,7 +42,7 @@
                            <ws:contentTemplate>No data available!</ws:contentTemplate>
                         </ws:partial>
                      </ws:emptyTemplate>
-                  </Controls.treeGridOld:View>
+                  </Controls.treeGrid:View>
                </Controls.list:HotKeysContainer>
             </Controls.list:Container>
          </div>
