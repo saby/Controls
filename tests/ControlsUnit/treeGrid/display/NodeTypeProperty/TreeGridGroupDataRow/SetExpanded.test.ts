@@ -8,9 +8,13 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/SetExp
         getStickyColumnsCount: () => 0,
         hasMultiSelectColumn: () => false,
         notifyItemChange: () => {},
-        hasItemActionsSeparatedCell: () => false
+        hasItemActionsSeparatedCell: () => false,
+        isFullGridSupport: () => true
     } as undefined as TreeGridCollection<any>;
 
+    const columns = [
+        { width: '100px' }
+    ];
     const groupRow = new TreeGridGroupDataRow({
         contents: new Model({
             rawData: {
@@ -22,10 +26,11 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/SetExp
             },
             keyProperty: 'id'
         }),
-        columns: [
-            { width: '100px' }
-        ],
-        owner
+        columns,
+        owner: {
+            ...owner,
+            getColumnsConfig: () => columns
+        }
     });
 
     it('setExpanded set expanded state to columns', () => {

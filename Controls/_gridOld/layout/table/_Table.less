@@ -112,7 +112,14 @@
   // В IE необходимо добавить дополнительный блок при колспане подвала.
   // Чтобы сохранить выравнивание, необходимо навесть псевдоэлемент на внутренний блок, а не на прослойку.
   // TODO: Убрать при переходе на новую модель.
-  .controls-GridView__footer__cell::before {
+   // ЭТО ВСЁ ТОЛЬКО ДЛЯ СТАРЫХ СПИСКОВ, ДО 3100!
+   .controls-GridView__footer_old > .controls-GridView__footer__cell::before {
+    display: none;
+  }
+
+   // ЭТО ВСЁ ТОЛЬКО ДЛЯ СТАРЫХ СПИСКОВ, ДО 3100!
+   // TODO: Убрать при переходе на новую модель.
+  .controls-GridView__footer_old > .controls-GridView__footer__cell {
     display: none;
   }
 

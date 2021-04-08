@@ -66,6 +66,7 @@ export default class GroupRow<T> extends mixin<
         }
     }
 
+    // FIXME: перебитие метода с другой сигнатурой + сайд эффект в виде установки шаблона при вызове метода getSmth
     getTemplate(
         itemTemplateProperty: string,
         userItemTemplate: TemplateFunction|string,

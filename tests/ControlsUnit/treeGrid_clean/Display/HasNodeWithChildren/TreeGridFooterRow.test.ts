@@ -7,7 +7,8 @@ const mockedOwner = {
     getColumnsConfig: () => columns,
     getStickyColumnsCount: () => 0,
     hasMultiSelectColumn: () => false,
-    hasItemActionsSeparatedCell: () => true
+    hasItemActionsSeparatedCell: () => true,
+    isFullGridSupport: () => true
 } as any;
 
 describe('Controls/treeGrid_clean/Display/HasNodeWithChildren/TreeGridFooterRow', () => {
