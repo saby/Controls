@@ -3,6 +3,7 @@
         on:mouseEnter="_mouseEvent()"
         on:mouseLeave="_mouseEvent()">
       <Controls.popupTemplate:Sticky
+              attr:data-index="{{_options.subMenuLevel || 0}}"
               attr:class="controls-Popup__isolatedFocusingContext
                           controls-Menu__popup-template
                           controls-Menu__popup-background-{{_options.backgroundStyle}}
