@@ -248,7 +248,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
                     wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle} `;
                 }
 
-                // Если зафиксированная колонка или лесенка
+                // Если  шаблоне установили любой стиль для строки или колонки, или зафиксирована колонка или лесенка
                 if (backgroundColorStyle ||
                     (this.getOwner().hasColumnScroll() && this._$isFixed) ||
                     this._$isHiddenForLadder) {

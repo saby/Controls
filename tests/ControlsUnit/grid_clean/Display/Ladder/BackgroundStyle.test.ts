@@ -36,13 +36,13 @@ describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
         });
 
         cAssert.notInclude(
-            cell.getWrapperClasses('default', 'default', 'default', false),
+            cell.getWrapperClasses('default', undefined, 'default', false),
             'controls-background-custom'
         );
 
         cell.setHiddenForLadder(true);
         cAssert.include(
-            cell.getWrapperClasses('default', 'default', 'default', false),
+            cell.getWrapperClasses('default', undefined, 'default', false),
             'controls-background-custom'
         );
     });
