@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {stub} from 'sinon';
+import {stub, restore} from 'sinon';
 import Marker from 'Controls/_tabs/Buttons/Marker';
 
 describe('Controls/_tabs/Buttons/Marker', () => {
@@ -42,7 +42,7 @@ describe('Controls/_tabs/Buttons/Marker', () => {
 
         assert.strictEqual(marker.getWidth(), 30, 'Wrong width if selected item is set');
         assert.strictEqual(marker.getLeft(), 30,'Wrong left if selected item is set');
-
+        restore();
     });
 
 });
