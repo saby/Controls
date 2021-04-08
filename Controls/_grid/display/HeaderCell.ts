@@ -123,6 +123,13 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         }
         return super._getColspanParams();
     }
+
+    getColspan(): number {
+        // TODO: Перейти на базовый метод
+        const params = this._getColspanParams() || {};
+        return (params.endColumn - params.startColumn) || 1;
+    }
+
     // endregion
 
     // region Аспект "Объединение строк"
@@ -181,7 +188,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         return zIndex;
     }
 
-    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string): string {
+    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default'): string {
         let wrapperClasses = `controls-Grid__header-cell controls-Grid__cell_${style}`
                           + ` ${this._getWrapperPaddingClasses(theme)}`
                           + ` ${this._getColumnSeparatorClasses(theme)}`
