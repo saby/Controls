@@ -1,0 +1,7 @@
+<ws:partial template="Controls/grid:ColumnTemplate"
+            attr:class="js-controls-ListView__notEditable"
+            scope="{{_options}}">
+    <ws:contentTemplate>
+        <div>Не редактируемая ячейка</div>
+    </ws:contentTemplate>
+</ws:partial>

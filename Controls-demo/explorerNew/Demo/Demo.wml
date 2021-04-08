@@ -1,0 +1,114 @@
+<Controls.scroll:Container attr:class="demo_Tile__scroll">
+   <div class="demo-Tile">
+      <h1>Плитка</h1>
+      <h2>Плитка с одинаковой шириной</h2>
+      <Controls.explorer:View
+         attr:class="demo-Tile__static demo-Tile__staticEqualWidth"
+         parentProperty="parent"
+         nodeProperty="type"
+         displayProperty="title"
+         imageProperty="image"
+         viewMode="tile"
+         keyProperty="id"
+         source="{{_viewSource}}"
+         tileScalingMode="outside"
+         multiSelectVisibility="visible"
+         markerVisibility="hidden"
+         itemActions="{{_itemActions}}"
+         bind:selectedKeys="_selectedKeys"
+         bind:excludedKeys="_excludedKeys"
+         itemsReadyCallback="{{_itemsReadyCallbackThird}}">
+         <ws:tileItemTemplate>
+            <ws:partial template="Controls/tile:ItemTemplate" hasTitle="{{tileItemTemplate.item.contents.isDocument}}"/>
+         </ws:tileItemTemplate>
+         <ws:emptyTemplate>
+            <ws:partial template="Controls/grid:EmptyTemplate">
+               <ws:contentTemplate>
+                  Нет данных
+               </ws:contentTemplate>
+            </ws:partial>
+         </ws:emptyTemplate>
+      </Controls.explorer:View>
+      <h2>Плитка с разной шириной (без увеличения)</h2>
+      <Controls.tile:View
+         attr:class="demo-Tile__dynamic demo-Tile__dynamicDifferentWidth"
+         tileMode="dynamic"
+         displayProperty="title"
+         imageProperty="image"
+         keyProperty="id"
+         parentProperty="parent"
+         nodeProperty="type"
+         source="{{_viewSourceDynamic}}"
+         itemActions="{{_itemActions}}"
+         itemsReadyCallback="{{_itemsReadyCallbackThird}}">
+         <ws:itemTemplate>
+            <ws:partial
+                        shadowVisibility="onhover"
+                        template="Controls/tile:ItemTemplate"
+                        hasTitle="{{itemTemplate.item.contents.isDocument}}"
+                        itemWidth="{{itemTemplate.item.contents.get('width')}}"/>
+         </ws:itemTemplate>
+      </Controls.tile:View>
+      <h2>Плитка с разной шириной (с увеличением)</h2>
+      <Controls.tile:View
+         attr:class="demo-Tile__dynamic demo-Tile__dynamic_zoom"
+         tileMode="dynamic"
+         displayProperty="title"
+         imageProperty="image"
+         parentProperty="parent"
+         nodeProperty="type"
+         keyProperty="id"
+         tileScalingMode="outside"
+         source="{{_viewSourceDynamic}}"
+         itemActions="{{_itemActions}}"
+         itemsReadyCallback="{{_itemsReadyCallbackThird}}">
+         <ws:itemTemplate>
+            <ws:partial
+                        shadowVisibility="hidden"
+                        template="Controls/tile:ItemTemplate"
+                        hasTitle="{{itemTemplate.item.contents.isDocument}}"
+                        itemWidth="{{itemTemplate.item.contents.get('width')}}"/>
+         </ws:itemTemplate>
+      </Controls.tile:View>
+      <h2>Плитка с одинаковой шириной(увеличение внутри контейнера)</h2>
+      <Controls.tile:View
+         attr:class="demo-Tile__static demo-Tile__staticContainerEqualWidth"
+         parentProperty="parent"
+         nodeProperty="type"
+         displayProperty="title"
+         imageProperty="image"
+         viewMode="tile"
+         keyProperty="id"
+         source="{{_viewSource}}"
+         tileScalingMode="inside"
+         multiSelectVisibility="visible"
+         itemActions="{{_itemActions}}"
+         bind:selectedKeys="_selectedKeys"
+         bind:excludedKeys="_excludedKeys"
+         itemsReadyCallback="{{_itemsReadyCallbackThird}}">
+         <ws:itemTemplate>
+            <ws:partial template="Controls/tile:ItemTemplate" markerVisibility="{{false}}" hasTitle="{{itemTemplate.item.contents.isDocument}}"/>
+         </ws:itemTemplate>
+      </Controls.tile:View>
+      <h2>Плитка с группировкой</h2>
+      <Controls.tile:View
+         attr:class="demo-Tile__static demo-Tile__staticGroup"
+         tileMode="static"
+         parentProperty="parent"
+         nodeProperty="type"
+         displayProperty="title"
+         imageProperty="image"
+         keyProperty="id"
+         source="{{_viewSourceDynamic}}"
+         groupingKeyCallback="{{_groupingKeyCallback}}"
+         itemActions="{{_itemActions}}"
+         itemsReadyCallback="{{_itemsReadyCallbackThird}}">
+         <ws:itemTemplate>
+            <ws:partial
+                        shadowVisibility="onhover"
+                        template="Controls/tile:ItemTemplate"
+                        hasTitle="{{itemTemplate.item.contents.isDocument}}"/>
+         </ws:itemTemplate>
+      </Controls.tile:View>
+   </div>
+</Controls.scroll:Container>
