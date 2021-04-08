@@ -4,7 +4,6 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {ControllerClass as OperationsController} from 'Controls/operations';
 import {ControllerClass as SearchController} from 'Controls/search';
 import {IFilterItem} from 'Controls/filter';
-import * as filterLib from 'Controls/filter';
 import {IFilterControllerOptions, IFilterHistoryData} from 'Controls/_filter/ControllerClass';
 import {EventUtils} from 'UI/Events';
 import {RecordSet} from 'Types/collection';
@@ -37,6 +36,7 @@ import {isEqual} from 'Types/object';
 import {DataLoader, IDataLoaderOptions, ILoadDataResult} from 'Controls/dataSource';
 import {Logger} from 'UI/Utils';
 import {descriptor, Model} from 'Types/entity';
+import {loadAsync, isLoaded} from 'WasabyLoader/ModulesLoader';
 
 type Key = string|number|null;
 
@@ -111,7 +111,6 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _filter: QueryWhereExpression<unknown>;
     private _filterButtonItems: IFilterItem[];
     private _fastFilterItems: IFilterItem[];
-    private _filterLib = filterLib;
 
     private _groupHistoryId: string;
     private _errorRegister: RegisterClass;
@@ -139,6 +138,14 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         this._initStates(options, receivedState);
         this._dataLoader = new DataLoader(this._getDataLoaderOptions(options, receivedState));
 
+        return this._loadDependencies(options, () => {
+            return this._beforeMountInternal(options, context, receivedState);
+        });
+    }
+
+    private _beforeMountInternal(options: IBrowserOptions,
+                                 context?: typeof ContextOptions,
+                                 receivedState?: TReceivedState): void | Promise<TReceivedState | Error | void> {
         if (Browser._checkLoadResult(Browser._getListsOptions(options), receivedState as IReceivedState[])) {
             this._updateFilterAndFilterItems();
             this._defineShadowVisibility(receivedState[0].data);
@@ -157,10 +164,10 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 if (Browser._checkLoadResult(Browser._getListsOptions(options), result as IReceivedState[])) {
                     this._setItemsAndUpdateContext();
                     return result.map(({data, historyItems}) => {
-                       return {
-                           historyItems,
-                           data
-                       };
+                        return {
+                            historyItems,
+                            data
+                        };
                     });
                 } else {
                     this._updateContext();
@@ -169,6 +176,26 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             });
         } else {
             this._updateContext();
+        }
+    }
+
+    private _loadDependencies<T>(options: IBrowserOptions, callback: Function): Promise<T>|void {
+        const deps = [];
+
+        if (Browser._hasSearchParamInOptions(options) && !isLoaded('Controls/search')) {
+            deps.push(loadAsync('Controls/search'));
+        }
+
+        if (Browser._hasFilterSourceInOptions(options) && !isLoaded('Controls/filter')) {
+            deps.push(loadAsync('Controls/filter'));
+        }
+
+        if (deps.length) {
+            return Promise.all(deps).then(() => {
+               return callback();
+            });
+        } else {
+            return callback();
         }
     }
 
@@ -251,6 +278,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     protected _beforeUpdate(newOptions: IBrowserOptions, context: typeof ContextOptions): void | Promise<RecordSet> {
+        return this._loadDependencies(newOptions, () => {
+            return this._beforeUpdateInternal(newOptions, context);
+        });
+    }
+
+    protected _beforeUpdateInternal(newOptions: IBrowserOptions, context: typeof ContextOptions): void | Promise<RecordSet> {
         if (newOptions.listsOptions) {
             // TODO доделать обновление по listsOptions
             return;
@@ -840,6 +873,18 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     private static _getListsOptions(options: IBrowserOptions): IListConfiguration[] {
         return options.listsOptions || [options];
+    }
+
+    private static _hasSearchParamInOptions(options: IBrowserOptions): boolean {
+        return Browser._getListsOptions(options).filter((listOptions) => {
+            return listOptions.searchParam;
+        }).length > 0;
+    }
+
+    private static _hasFilterSourceInOptions(options: IBrowserOptions): boolean {
+        return Browser._getListsOptions(options).filter((listOptions) => {
+            return listOptions.filterButtonSource || listOptions.fastFilterSource;
+        }).length > 0;
     }
 
     static contextTypes(): object {
