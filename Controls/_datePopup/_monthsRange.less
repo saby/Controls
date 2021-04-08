@@ -7,9 +7,6 @@
 
 .controls-PeriodDialog-MonthsRange__header {
    text-align: center;
-}
-
-.controls-PeriodDialog-MonthsRange__header {
    height: var(--yearlist_heading_height_datePicker);
    line-height: var(--yearlist_heading_height_datePicker);
    color: var(--yearlist_heading_text-color_datePicker);
@@ -46,10 +43,6 @@
    display: flex;
    align-items: center;
    justify-content: center;
-}
-
-.controls-PeriodDialog-MonthsRange__halfYearsPanel-button,
-.controls-PeriodDialog-MonthsRange__quarterButton {
    width: calc(var(--yearnav_arrow_width_datePicker) - (var(--yearlist_block-separator_thickness_datePicker) - var(--yearlist_item_border-thickness_datePicker)));
    border-bottom: var(--yearlist_item_border-thickness_datePicker) solid var(--yearlist_block-separator_color_datePicker);
 }
@@ -62,17 +55,28 @@
    background-color: var(--yearlist_quarters_background-color_datePicker);
    border-right: var(--yearlist_block-separator_thickness_datePicker) solid var(--yearlist_block-separator_color_datePicker);
 }
+
 .controls-PeriodDialog-MonthsRange__quarter-hovered {
    .controls-PeriodDialog-MonthsRange__quarterButton {
+      z-index: 3;
+      border-bottom-color: transparent;
       background-color: transparent;
       border-right-color: transparent;
-   }
-}
 
-.controls-PeriodDialog-MonthsRange__halfYear-hovered {
-   .controls-PeriodDialog-MonthsRange__halfYearsPanel-button {
-      border-left-color: transparent;
-      background-color: transparent;
+      /* В IE на сайте слой обводки controls-PeriodDialog-MonthsRange__quarter-hovered (before) перекрывает кнопку, несмотря на одинаковые
+      -index-ы. position: relative у кнопки решает проблему */
+      position: relative;
+   }
+
+   &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      z-index: 3;
+      top: calc(-1 * var(--yearlist_item_border-thickness_datePicker));
+      left: calc(-1 * var(--yearlist_item_border-thickness_datePicker));
+      border: solid var(--yearlist_item_border-thickness_datePicker) var(--yearlist_quarters_hover_border-color_datePicker);
    }
 }
 
@@ -93,13 +97,10 @@
 .controls-PeriodDialog-MonthsRange__item-selected {
    .box-sizing(border-box);
    .flex-shrink(0);
+
    z-index: 2;
    display: flex;
    flex-direction: column;
-}
-
-.controls-PeriodDialog-MonthsRange__item-unselected,
-.controls-PeriodDialog-MonthsRange__item-selected {
    padding: var(--yearlist_month_padding_datePicker);
    width: calc(var(--yearlist_month_width_datePicker) - 2 * var(--yearlist_item_border-thickness_datePicker));
    margin-bottom: var(--yearlist_item_border-thickness_datePicker);
@@ -119,9 +120,6 @@
 .controls-PeriodDialog-MonthsRange__month_title {
    text-align: center;
    font-weight: normal;
-}
-
-.controls-PeriodDialog-MonthsRange__month_title {
    color: var(--yearlist_month_heading_text-color_datePicker);
    font-size: var(--yearlist_month_heading_font-size_datePicker);
    height: var(--yearlist_monthview_heading_height_datePicker);
@@ -136,13 +134,9 @@
 }
 
 .controls-PeriodDialog-MonthsRange__halfYear-hovered {
-   &:before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      z-index: 3;
-   }
    .controls-PeriodDialog-MonthsRange__halfYearsPanel-button {
+      border-left-color: transparent;
+      background-color: transparent;
       z-index: 3;
       border-bottom-color: transparent;
 
@@ -150,40 +144,16 @@
      -index-ы. position: relative у кнопки решает проблему */
       position: relative;
    }
-}
 
-.controls-PeriodDialog-MonthsRange__halfYear-hovered {
-   &:before {
+   &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      z-index: 3;
       top: calc(-1 * var(--yearlist_item_border-thickness_datePicker));
       left: calc(var(--yearlist_halfyears_width_datePicker) + var(--yearlist_block-separator_thickness_datePicker));
       right: calc(-1 * var(--yearlist_item_border-thickness_datePicker));
       border: solid var(--yearlist_item_border-thickness_datePicker) var(--yearlist_halfyears_hover_border-color_datePicker);
-   }
-}
-
-.controls-PeriodDialog-MonthsRange__quarter-hovered {
-   &:before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      z-index: 3;
-   }
-   .controls-PeriodDialog-MonthsRange__quarterButton {
-      z-index: 3;
-      border-bottom-color: transparent;
-
-      /* В IE на сайте слой обводки controls-PeriodDialog-MonthsRange__quarter-hovered (before) перекрывает кнопку, несмотря на одинаковые
-      -index-ы. position: relative у кнопки решает проблему */
-      position: relative;
-   }
-}
-
-.controls-PeriodDialog-MonthsRange__quarter-hovered {
-   &:before {
-      top: calc(-1 * var(--yearlist_item_border-thickness_datePicker));
-      left: calc(-1 * var(--yearlist_item_border-thickness_datePicker));
-      border: solid var(--yearlist_item_border-thickness_datePicker) var(--yearlist_quarters_hover_border-color_datePicker);
    }
 }
 
@@ -193,9 +163,6 @@
    flex-grow: 1;
    align-items: flex-end;
    justify-content: center;
-}
-
-.controls-PeriodDialog-MonthsRange__monthWrapper {
    padding-bottom: var(--yearlist_monthview_bottom-offset_datePicker);
    font-size: var(--yearlist_monthview_item_font-size_datePicker);
 }
@@ -238,26 +205,22 @@
    z-index: 1; //При масштабе 150% соседние блоки наезжают на outline
 }
 
-.controls-MonthView__item-border-start_style-monthRangeItem:before,
-.controls-MonthView__item-border-end_style-monthRangeItem:after {
-   width: var(--yearlist_monthview_selection-border_thickness_datePicker);
-   background-color: var(--rangeSelection_border_color_datePicker);
-}
-
-.controls-MonthView__item-border-start_style-monthRangeItem:before,
-.controls-MonthView__item-border-end_style-monthRangeItem:after {
+.controls-MonthView__item-border-start_style-monthRangeItem::before,
+.controls-MonthView__item-border-end_style-monthRangeItem::after {
    content: "";
    position: absolute;
    height: 100%;
    top: 0;
+   width: var(--yearlist_monthview_selection-border_thickness_datePicker);
+   background-color: var(--rangeSelection_border_color_datePicker);
 }
 
-.controls-MonthView__item-border-start_style-monthRangeItem:before {
+.controls-MonthView__item-border-start_style-monthRangeItem::before {
    left: 0;
    z-index: 1;
 }
 
-.controls-MonthView__item-border-end_style-monthRangeItem:after {
+.controls-MonthView__item-border-end_style-monthRangeItem::after {
    right: -1px;
 }
 
@@ -273,6 +236,10 @@
    cursor: pointer;
 }
 
+.controls-PeriodDialog-MonthsRange__monthWrapper_clickable:active {
+   border-color: var(--yearlist_item_hover_border-color_datePicker);
+}
+
 .ws-is-hover {
    .controls-PeriodDialog-MonthsRange__month {
       .controls-MonthView__backgroundColor-currentMonthDay-unselected:hover {
@@ -283,8 +250,4 @@
    .controls-PeriodDialog-MonthsRange__monthWrapper_clickable:hover {
       border-color: var(--yearlist_item_hover_border-color_datePicker);
    }
-}
-
-.controls-PeriodDialog-MonthsRange__monthWrapper_clickable:active {
-   border-color: var(--yearlist_item_hover_border-color_datePicker);
 }

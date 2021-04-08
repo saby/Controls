@@ -5,8 +5,10 @@ import { TreeGridCollection } from 'Controls/treeGridNew';
 import { register } from 'Types/di';
 import { assert } from 'chai';
 import { stub, spy, assert as sinonAssert } from 'sinon';
+import {SearchGridCollection} from 'Controls/searchBreadcrumbsGrid';
 
 register('Controls/treeGrid:TreeGridCollection', TreeGridCollection, {instantiate: false});
+register('Controls/searchBreadcrumbsGrid:SearchGridCollection', SearchGridCollection, {instantiate: false});
 
 describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
     let source: HierarchicalMemory;
@@ -167,6 +169,23 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
             nodeFooterTemplate: () => {}
         });
         treeControl.toggleExpanded('2');
+
+        await treeControl.handleTriggerVisible('down');
+        sinonAssert.notCalled(spyQuery);
+        spyQuery.restore();
+    });
+
+    it ('should not try loading for BreadcrumbsItem', async () => {
+        source = new HierarchicalMemory({
+            keyProperty: 'id',
+            data
+        });
+
+        const spyQuery = spy(source, 'query');
+        // Инициализируем TreeControl с поисковой моделью (чтобы получть Breadcrumbs)
+        const treeControl = initTreeControl({
+            viewModelConstructor: 'Controls/searchBreadcrumbsGrid:SearchGridCollection'
+        });
 
         await treeControl.handleTriggerVisible('down');
         sinonAssert.notCalled(spyQuery);

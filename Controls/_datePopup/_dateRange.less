@@ -11,9 +11,6 @@
    display: flex;
    flex-shrink: 0;
    align-items: center;
-}
-
-.controls-PeriodDialog-DateRange__header {
    height: var(--calendar-header_height_datePicker);
    border-bottom: var(--calendar-header_border-bottom-thickness_datePicker) solid transparent;
 }
@@ -28,9 +25,6 @@
 .controls-PeriodDialog-DateRange__year {
    flex-shrink: 0;
    box-sizing: border-box;
-}
-
-.controls-PeriodDialog-DateRange__year {
    width: var(--monthnav_width_datePicker);
    padding-left: var(--calendar-header_padding-left_datePicker);
    color: var(--current-year_text-color_datePicker);
@@ -42,9 +36,6 @@
    display: flex;
    flex-shrink: 1;
    flex-grow: 1;
-}
-
-.controls-PeriodDialog-DateRange-header-weekdays {
    font-size: var(--weekdays_font-size_datePicker);
 }
 
@@ -121,7 +112,7 @@
 }
 
 .controls-PeriodDialog-DateRangeItem__months-btn:active,
-.ws-is-hover .controls-PeriodDialog-DateRangeItem__months-btn:hover{
+.ws-is-hover .controls-PeriodDialog-DateRangeItem__months-btn:hover {
    border-color: var(--monthnav_item_hover_border-color_datePicker);
    background-color: var(--monthnav_item_hover_background-color_datePicker);
 }
@@ -169,9 +160,11 @@
    cursor: pointer;
 }
 
-.controls-PeriodDialog-DateRangeItem__monthList_title_selectable:hover {
-   border: var(--monthlist_heading_border-thickness_datePicker) solid var(--monthlist_heading_hover_border-color_datePicker);
-   background-color: var(--monthlist_heading_hover_background-color_datePicker);
+.ws-is-hover {
+   .controls-PeriodDialog-DateRangeItem__monthList_title_selectable:hover {
+      border: var(--monthlist_heading_border-thickness_datePicker) solid var(--monthlist_heading_hover_border-color_datePicker);
+      background-color: var(--monthlist_heading_hover_background-color_datePicker);
+   }
 }
 
 .controls-PeriodDialog-DateRangeItem__item {
@@ -217,7 +210,7 @@
       background: var(--monthlist_monthview_item_selected_hover_background-color_datePicker);
    }
 
-   .controls-MonthViewVDOM__item-selectedStartEnd.controls-MonthView__backgroundColor-currentMonthDay-selected_style-DateRangeItem:hover{
+   .controls-MonthViewVDOM__item-selectedStartEnd.controls-MonthView__backgroundColor-currentMonthDay-selected_style-DateRangeItem:hover {
       outline: var(--monthlist_monthview_selection-border_single_thickness_datePicker) solid var(--monthlist_monthview_selection-border_single_color_datePicker);
    }
 }

@@ -309,11 +309,13 @@ const _private = {
             return;
         }
         const editingConfig = self._listViewModel.getEditingConfig();
-        // Если нет опций записи, проперти, и тулбар для редактируемой записи выставлен в false, то не надо
-        // инициализировать контроллер
+        // Если нет опций записи, проперти, стрелка редактирования скрыта,
+        // и тулбар для редактируемой записи выставлен в false,
+        // то не надо инициализировать контроллер
         if (
             (options && !options.itemActions && !options.itemActionsProperty) &&
-            !editingConfig?.toolbarVisibility
+            !editingConfig?.toolbarVisibility &&
+            !(options.showEditArrow && self._context?.isTouch?.isTouch)
         ) {
             return;
         }
@@ -2801,7 +2803,7 @@ const _private = {
         if (options.itemActionsVisibility === 'visible') {
             style = 'transparent';
         } else {
-            style = options.hoverBackgroundStyle || options.style
+            style = options.hoverBackgroundStyle || options.style;
         }
         const itemActionsChangeResult = itemActionsController.update({
             editingItem: editingCollectionItem as CollectionItem<Model>,
@@ -3535,7 +3537,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             collapsedGroups: collapsedGroups || newOptions.collapsedGroups
         };
 
-        if (newOptions.groupProperty) {
+        if (newOptions.groupProperty && !newOptions.task1181512586) {
             self._groupingLoader = new GroupingLoader({});
         }
 
@@ -4144,7 +4146,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
 
         const groupPropertyChanged = newOptions.groupProperty !== this._options.groupProperty;
-        const needGroupingLoader = !!newOptions.groupProperty && !_private.isDemandNavigation(newOptions.navigation);
+        const needGroupingLoader = !!newOptions.groupProperty && !_private.isDemandNavigation(newOptions.navigation) && !newOptions.task1181512586;
         const hasGroupingLoader = !!this._groupingLoader;
         if (needGroupingLoader) {
             if (hasGroupingLoader) {

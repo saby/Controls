@@ -270,6 +270,7 @@ describe('Controls/browser:Browser', () => {
                     assert.isTrue(propagationStopped);
                     assert.isFalse(browser._loading);
                     assert.deepStrictEqual(browser._filter, {name: 'test'});
+                    assert.ok(browser._searchValue === 'test');
                 });
 
                 it('double search call will create searchController once', async () => {

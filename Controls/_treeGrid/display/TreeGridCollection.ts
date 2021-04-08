@@ -225,7 +225,7 @@ export default class TreeGridCollection<
         // TODO нужно определить когда точно нужна эта стратегия и добавлять только в этом случае
         composer.append(itemsStrategy.NodeFooter, {
             display: this,
-            footerVisibilityCallback: this._$footerVisibilityCallback
+            nodeFooterVisibilityCallback: this._$nodeFooterVisibilityCallback
         });
 
         return composer;
