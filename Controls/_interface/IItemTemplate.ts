@@ -15,7 +15,6 @@ export interface IItemTemplateOptions {
      * Базовый шаблон itemTemplate поддерживает следующие параметры:
      * - contentTemplate {Function} — Шаблон содержимого элемента;
      * - highlightOnHover {Boolean} — Выделять элемент при наведении на него курсора мыши.
-     * - checkboxReadOnly {Boolean} — Флаг, позволяющий установить у checkbox в multiSelect режим "только для чтения".
      * - cursor {TCursor} — Устанавливает вид {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора мыши} при наведении на строку.
      *
      * В области видимости шаблона доступен объект item, позволяющий получить доступ к данным рендеринга (например, элемент, ключ и т.д.).

@@ -13,7 +13,6 @@ export default interface IBaseItemTemplateOptions {
    cursor?: TCursor;
    marker?: boolean;
    itemActionsClass?: string;
-   checkboxReadOnly?: boolean;
    backgroundColorStyle?: string;
    markerClassName?: TMarkerClassName;
 }
