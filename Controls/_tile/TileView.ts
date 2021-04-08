@@ -34,13 +34,23 @@ export default class TileView extends ListView {
         super._afterMount(options);
     }
 
-    _onResize(): void {
-        this._listModel.setHoveredItem(null);
+    _onResize(event: SyntheticEvent<AnimationEvent>): void {
+        // TODO Если включены операции над записью с задержкой, то после завершения анимации попап стреляет Resize
+        //  https://online.sbis.ru/opendoc.html?guid=d8d0bf9e-fc25-4882-84d9-9ff5e20d52da
+        if (event?.type !== 'animationend') {
+            this._listModel.setHoveredItem(null);
+        }
     }
 
     _beforeUpdate(newOptions: any): void {
+        super._beforeUpdate(newOptions);
+
+        // region Update Model
         if (this._options.tileMode !== newOptions.tileMode) {
             this._listModel.setTileMode(newOptions.tileMode);
+        }
+        if (this._options.tileSize !== newOptions.tileSize) {
+            this._listModel.setTileSize(newOptions.tileSize);
         }
         if (this._options.itemsContainerPadding !== newOptions.itemsContainerPadding) {
             this._listModel.setItemsContainerPadding(newOptions.itemsContainerPadding);
@@ -48,13 +58,41 @@ export default class TileView extends ListView {
         if (this._options.tileHeight !== newOptions.tileHeight) {
             this._listModel.setTileHeight(newOptions.tileHeight);
         }
+        if (this._options.tileWidth !== newOptions.tileWidth) {
+            this._listModel.setTileWidth(newOptions.tileWidth);
+        }
+        if (this._options.tileWidthProperty !== newOptions.tileWidthProperty) {
+            this._listModel.setTileWidthProperty(newOptions.tileWidthProperty);
+        }
+        if (this._options.tileFitProperty !== newOptions.tileFitProperty) {
+            this._listModel.setTileFitProperty(newOptions.tileFitProperty);
+        }
+        if (this._options.tileScalingMode !== newOptions.tileScalingMode) {
+            this._listModel.setTileScalingMode(newOptions.tileScalingMode);
+        }
+        if (this._options.imageProperty !== newOptions.imageProperty) {
+            this._listModel.setImageProperty(newOptions.imageProperty);
+        }
+        if (this._options.imageFit !== newOptions.imageFit) {
+            this._listModel.setImageFit(newOptions.imageFit);
+        }
+        if (this._options.imageHeightProperty !== newOptions.imageHeightProperty) {
+            this._listModel.setImageHeightProperty(newOptions.imageHeightProperty);
+        }
+        if (this._options.imageWidthProperty !== newOptions.imageWidthProperty) {
+            this._listModel.setImageWidthProperty(newOptions.imageWidthProperty);
+        }
+        if (this._options.imageUrlResolver !== newOptions.imageUrlResolver) {
+            this._listModel.setImageUrlResolver(newOptions.imageUrlResolver);
+        }
         if (!isEqual(this._options.roundBorder, newOptions.roundBorder)) {
             this._listModel.setRoundBorder(newOptions.roundBorder);
         }
-        super._beforeUpdate(newOptions);
+        // endregion Update Model
+
         if (newOptions.listModel !== this._listModel) {
             this._animatedItem = null;
-            this._setHoveredItem(this, null);
+            this._setHoveredItem(this, null, null);
         }
         this._shouldPerformAnimation =
             this._animatedItem && !this._animatedItem.destroyed && this._animatedItem.isFixed();
@@ -97,10 +135,11 @@ export default class TileView extends ListView {
             const menuOptions = menuConfig.templateOptions;
             const itemContainer = clickEvent.target.closest('.controls-TileView__item');
             const imageWrapper = itemContainer.querySelector('.controls-TileView__imageWrapper');
-            const imageWrapperRect = imageWrapper.getBoundingClientRect();
             if (!imageWrapper) {
                 return null;
             }
+
+            const imageWrapperRect = imageWrapper.getBoundingClientRect();
             menuOptions.image = item.getImageUrl();
             menuOptions.title = item.getDisplayValue();
             menuOptions.additionalText = item.item.get(menuOptions.headerAdditionalTextProperty);

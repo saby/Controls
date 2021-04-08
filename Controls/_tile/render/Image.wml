@@ -3,8 +3,8 @@
       <!--Делаем всегда object-fit: contain(background-size: contain) кроссбраузерно, пока поддерживаем ie11-->
       <svg role="image"
            xmlns="http://www.w3.org/2000/svg"
-           height="100%"
-           width="100%"
+           height="{{ item.getImageHeightAttribute(itemType) }}"
+           width="{{ item.getImageWidthAttribute(itemType) }}"
            class="{{ (item || itemData).getImageClasses(itemType, width, imageAlign, imageViewMode, imageProportion, imagePosition, imageSize, imageFit, imageProportionOnItem) }}"
            preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}">
          <image preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}" height="100%" width="100%" xlink:href="{{ (item || itemData).getImageUrl(width, imageFit) }}"></image>
