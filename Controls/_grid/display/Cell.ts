@@ -243,13 +243,14 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
                 const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
                 wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
             } else {
-                // Если зафиксированная колонка или лесенка
-                if (this._$isFixed || this._$isHiddenForLadder) {
-                    wrapperClasses += ` controls-background-${this._resolveBackgroundStyle(backgroundColorStyle, style)}`;
-
                 // Если в шаблоне установили стиль для строки или колонки
-                } else if (backgroundColorStyle) {
+                if (backgroundColorStyle && backgroundColorStyle !== 'default') {
                     wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle} `;
+                }
+
+                // Если зафиксированная колонка или лесенка
+                if ((this.getOwner().hasColumnScroll() && this._$isFixed) || this._$isHiddenForLadder) {
+                    wrapperClasses += ` controls-background-${this._resolveBackgroundStyle(backgroundColorStyle, style)}`;
                 }
 
                 // Если есть подсветка по ховеру
