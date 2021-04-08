@@ -3162,7 +3162,7 @@ const _private = {
      */
     needHoverFreezeController(self): boolean {
         return !self.__error && self._listViewModel && self._options.itemActionsPosition === 'outside' &&
-            (self._options.itemActions || self._options.itemActionsProperty) &&
+            ((self._options.itemActions && self._options.itemActions.length > 0) || self._options.itemActionsProperty) &&
             _private.isAllowedHoverFreeze(self);
     },
 
