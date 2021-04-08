@@ -320,7 +320,7 @@ function onCollectionChange<T>(
             this._reGroup(newItemsIndex, newItems.length);
             this._reSort();
             this._reFilter();
-            this._finishUpdateSession(session, false);
+            this._finishUpdateSession(session, true);
             this._notifyCollectionItemsChange(newItems, newItemsIndex, session);
             this._nextVersion();
             this._handleCollectionActionChange(newItems);

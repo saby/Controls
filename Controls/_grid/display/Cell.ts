@@ -229,7 +229,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
     protected _getBackgroundColorWrapperClasses(
        theme: string,
-       style: string,
+       style: string = 'default',
        templateHighlightOnHover?: boolean,
        backgroundColorStyle?: string,
        hoverBackgroundStyle?: string
