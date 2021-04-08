@@ -76,7 +76,7 @@ describe('Controls/_display/itemsStrategy/NodeFooter', () => {
         strategy = new NodeFooter({
             display: tree,
             source,
-            footerVisibilityCallback: () => true
+            nodeFooterVisibilityCallback: () => true
         });
     });
 
