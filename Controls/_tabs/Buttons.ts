@@ -6,6 +6,7 @@ import {CrudWrapper} from 'Controls/dataSource';
 import {RecordSet} from 'Types/collection';
 import {SbisService} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {RegisterUtil} from 'Controls/event';
 import {isLeftMouseButton} from 'Controls/popup';
 import {IItems, IItemTemplateOptions} from 'Controls/interface';
 import {ITabsButtons, ITabsButtonsOptions} from './interface/ITabsButtons';
@@ -117,6 +118,10 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
                 }
             });
         }
+    }
+
+    protected _afterMount(): void {
+        RegisterUtil(this, 'controlResize', this._resizeHandler);
     }
 
     protected _beforeUpdate(newOptions: ITabsOptions): void {
