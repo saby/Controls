@@ -1,4 +1,4 @@
-<ws:partial template="Controls/gridNew:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL" scope="{{_options}}">
+<ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL" scope="{{_options}}">
     <ws:contentTemplate>
         <div class="ws-ellipsis">{{itemData.item['title']}}</div>
     </ws:contentTemplate>

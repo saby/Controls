@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {RecordSet} from 'Types/collection';
-import {TreeGridCollection} from 'Controls/treeGridNew';
+import {TreeGridCollection} from 'Controls/treeGrid';
 
 describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridCollection/NodeTypeProperty', () => {
     let collection: TreeGridCollection<any>;

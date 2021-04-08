@@ -114,8 +114,8 @@ export default class DataRow<T extends Model> extends Row<T> implements
 
 Object.assign(DataRow.prototype, {
     '[Controls/_display/grid/DataRow]': true,
-    _moduleName: 'Controls/gridNew:GridDataRow',
-    _cellModule: 'Controls/gridNew:GridDataCell',
+    _moduleName: 'Controls/grid:GridDataRow',
+    _cellModule: 'Controls/grid:GridDataCell',
     _instancePrefix: 'grid-data-row-',
     _$editingColumnIndex: null,
     _$searchValue: '',

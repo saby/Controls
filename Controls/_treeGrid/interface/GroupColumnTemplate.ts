@@ -1,11 +1,11 @@
 /**
- * Шаблон, который используется для отображения ячейки заголовка группы в {@link Controls/treeGridNew:View дереве} и {@link Controls/explorer:View иерархическом проводнике}.
+ * Шаблон, который используется для отображения ячейки заголовка группы в {@link Controls/treeGrid:View дереве} и {@link Controls/explorer:View иерархическом проводнике}.
  *
  * @class Controls/_treeGrid/interface/GroupColumnTemplate
  * @mixes Controls/list:IBaseGroupTemplate
  * @author Аверкиев П.А.
  * @remark
- * Шаблон Controls/treeGridNew:GroupColumnTemplate можно использовать для отображения узла дерева в виде заголовка группы. Это может потребоваться в двух случаях:
+ * Шаблон Controls/treeGrid:GroupColumnTemplate можно использовать для отображения узла дерева в виде заголовка группы. Это может потребоваться в двух случаях:
  * 1) Необходимо отобразить итоги по таблице в строке заголовка группы.
  * 2) Необходимо подгружать данные группы по кнопке "Ещё".
  *
@@ -18,21 +18,21 @@
  * В {@link Controls/grid:IColumn#template шаблон колонки} платформа передаёт item, который реализует интерфейс {@link Controls/display:IGroupNode}.
  * При помощи метода isGroupNode() можно определить, что текущий item является узлом-группой.
  *
- * Для первого случая существует два основных варианта использования шаблона Controls/treeGridNew:GroupColumnTemplate.
+ * Для первого случая существует два основных варианта использования шаблона Controls/treeGrid:GroupColumnTemplate.
  *  Вариант 1. Текст заголовка группы выровнен автоматически по центру заголовка:
- *  В этом случае необходимо использовать Controls/treeGridNew:GroupColumnTemplate только в первом столбце.
+ *  В этом случае необходимо использовать Controls/treeGrid:GroupColumnTemplate только в первом столбце.
  *
  *  В {@link Controls/_interface/grid/IGridControl#colspanCallback colspanCallback} для первого столбца группы необходимо вернуть количество колонок, которое он должен занимать.
- *  В опции {@link Controls/grid:IColumn#template template} шаблона колонки добавить условие, позволяющее выбрать на основе item.isGroupNode() шаблон колонки: {@link Controls/gridNew:ColumnTemplate} или Controls/treeGridNew:GroupColumnTemplate.
- *  В шаблон Controls/treeGridNew:GroupColumnTemplate передать необходимые опции (Полностью соответствуют {@link Controls/list:IBaseGroupTemplate}).
+ *  В опции {@link Controls/grid:IColumn#template template} шаблона колонки добавить условие, позволяющее выбрать на основе item.isGroupNode() шаблон колонки: {@link Controls/grid:ColumnTemplate} или Controls/treeGrid:GroupColumnTemplate.
+ *  В шаблон Controls/treeGrid:GroupColumnTemplate передать необходимые опции (Полностью соответствуют {@link Controls/list:IBaseGroupTemplate}).
  *
  *  Вариант 2. Текст заголовка группы необходимо выровнять относительно столбца
- *  В этом случае необходимо использовать Controls/treeGridNew:GroupColumnTemplate в первом и следующем (с учётом colspan) столбце. Это необходимо для того, чтобы слева и справа от текста ,выровненного относительно колонки были отрисованы разделители.
+ *  В этом случае необходимо использовать Controls/treeGrid:GroupColumnTemplate в первом и следующем (с учётом colspan) столбце. Это необходимо для того, чтобы слева и справа от текста ,выровненного относительно колонки были отрисованы разделители.
  *
  *  В {@link Controls/_interface/grid/IGridControl#colspanCallback colspanCallback} для первого столбца группы необходимо вернуть количество колонок, которое должна занимать только его левая часть вместе с текстом и экспандером.
- *  В опции {@link Controls/grid:IColumn#template template} шаблона колонки добавить условие, позволяющее выбрать на основе item.isGroupNode() шаблон колонки: {@link Controls/gridNew:ColumnTemplate} или Controls/treeGridNew:GroupColumnTemplate.
- *  Для первого столбца передать в шаблон Controls/treeGridNew:GroupColumnTemplate textAlign=right, и другие необходимые опции (Полностью соответствуют {@link Controls/list:IBaseGroupTemplate}).
- *  Для следующего (с учётом colspan) столбца передать в шаблон Controls/treeGridNew:GroupColumnTemplate textVisible=false.
+ *  В опции {@link Controls/grid:IColumn#template template} шаблона колонки добавить условие, позволяющее выбрать на основе item.isGroupNode() шаблон колонки: {@link Controls/grid:ColumnTemplate} или Controls/treeGrid:GroupColumnTemplate.
+ *  Для первого столбца передать в шаблон Controls/treeGrid:GroupColumnTemplate textAlign=right, и другие необходимые опции (Полностью соответствуют {@link Controls/list:IBaseGroupTemplate}).
+ *  Для следующего (с учётом colspan) столбца передать в шаблон Controls/treeGrid:GroupColumnTemplate textVisible=false.
  *  Замечание: В этом случае порядок стобцов играет важное значение. В случае, если в первом и следующем за ним столбцах будет скрыт текст, то между разделителями будет присутствовать пустое место.
  *
  * @example
@@ -52,7 +52,7 @@
  *
  * <pre class="brush: html">
  * <!-- WML -->
- * <Controls.treeGridNew:View
+ * <Controls.treeGrid:View
  *    colspanCallback={{_colspanCallback}}
  *    nodeTypeProperty="customNodeType">
  *    <ws:columns>
@@ -60,10 +60,10 @@
  *           <ws:Object displayProperty="title" width="300px">
  *               <ws:template>
  *                   <ws:if data="{{ template.item.isGroupNode() }}">
- *                       <ws:partial template="Controls/treeGridNew:GroupColumnTemplate"/>
+ *                       <ws:partial template="Controls/treeGrid:GroupColumnTemplate"/>
  *                   </ws:if>
  *                   <ws:else>
- *                       <ws:partial template="Controls/gridNew:ColumnTemplate"/>
+ *                       <ws:partial template="Controls/grid:ColumnTemplate"/>
  *                   </ws:else>
  *               </ws:template>
  *           </ws:Object>
@@ -73,7 +73,7 @@
  *           <ws:Object displayProperty="tax" width="150px"/>
  *       </ws:Array>
  *   </ws:columns>
- * </Controls.treeGridNew:View>
+ * </Controls.treeGrid:View>
  * </pre>
  *
  * В следующем примере показано, как в шаблоне настроить выравнивание текста заголовка группы относительно колонки
@@ -91,7 +91,7 @@
  *
  * <pre class="brush: html">
  * <!-- WML -->
- * <Controls.treeGridNew:View
+ * <Controls.treeGrid:View
  *    colspanCallback={{_colspanCallback}}
  *    nodeTypeProperty="customNodeType">
  *    <ws:columns>
@@ -99,11 +99,11 @@
  *           <ws:Object displayProperty="title" width="300px">
  *               <ws:template>
  *                   <ws:if data="{{ template.item.isGroupNode() }}">
- *                       <ws:partial template="Controls/treeGridNew:GroupColumnTemplate"
+ *                       <ws:partial template="Controls/treeGrid:GroupColumnTemplate"
  *                                   textAlign="right"/>
  *                   </ws:if>
  *                   <ws:else>
- *                       <ws:partial template="Controls/gridNew:ColumnTemplate"/>
+ *                       <ws:partial template="Controls/grid:ColumnTemplate"/>
  *                   </ws:else>
  *               </ws:template>
  *           </ws:Object>
@@ -111,11 +111,11 @@
  *           <ws:Object displayProperty="name" width="150px">
  *               <ws:template>
  *                   <ws:if data="{{ template.item.isGroupNode() }}">
- *                       <ws:partial template="Controls/treeGridNew:GroupColumnTemplate"
+ *                       <ws:partial template="Controls/treeGrid:GroupColumnTemplate"
  *                                   textVisible="{{false}}"/>
  *                   </ws:if>
  *                   <ws:else>
- *                       <ws:partial template="Controls/gridNew:ColumnTemplate"/>
+ *                       <ws:partial template="Controls/grid:ColumnTemplate"/>
  *                   </ws:else>
  *               </ws:template>
  *           </ws:Object>
@@ -123,7 +123,7 @@
  *           <ws:Object displayProperty="tax" width="150px"/>
  *       </ws:Array>
  *   </ws:columns>
- * </Controls.treeGridNew:View>
+ * </Controls.treeGrid:View>
  * </pre>
  * @public
  */

@@ -25,7 +25,7 @@ export default interface ITreeGrid {
  * В следующем примере показано, как настроить список на использование узлов-групп
  * <pre class="brush: html">
  * <!-- WML -->
- * <Controls.treeGridNew:View
+ * <Controls.treeGrid:View
  *    source: {{_source}}
  *    nodeProperty="{{parent@}}"
  *    parentProperty="{{parent}}"

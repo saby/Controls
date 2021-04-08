@@ -110,6 +110,6 @@ export default class Row<T>
 Object.assign(Row.prototype, {
     '[Controls/_display/IEditableCollectionItem]': false,
     '[Controls/_display/grid/Row]': true,
-    _moduleName: 'Controls/gridNew:GridRow',
+    _moduleName: 'Controls/grid:GridRow',
     _instancePrefix: 'grid-row-'
 });

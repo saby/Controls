@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth1700">
-    <Controls.treeGridNew:View
+    <Controls.treeGrid:View
         attr:class="demoTreeWithProto__treeGrid32"
         keyProperty="id"
         source="{{_viewSource}}"
@@ -8,9 +8,9 @@
         nodeProperty="type"
         bind:expandedItems="_expandedItems">
         <ws:footerTemplate>
-            <ws:partial template="Controls/gridNew:FooterTemplate">
+            <ws:partial template="Controls/grid:FooterTemplate">
                 <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
             </ws:partial>
         </ws:footerTemplate>
-    </Controls.treeGridNew:View>
+    </Controls.treeGrid:View>
 </div>

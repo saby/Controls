@@ -143,8 +143,8 @@ export default class GroupRow<T> extends mixin<
 Object.assign(GroupRow.prototype, {
     '[Controls/_display/GroupItem]': true,
     '[Controls/_display/grid/GroupRow]': true,
-    _moduleName: 'Controls/gridNew:GridGroupRow',
-    _cellModule: 'Controls/gridNew:GridGroupCell',
+    _moduleName: 'Controls/grid:GridGroupRow',
+    _cellModule: 'Controls/grid:GridGroupCell',
     _instancePrefix: 'grid-group-item-',
     _$columns: null
 });

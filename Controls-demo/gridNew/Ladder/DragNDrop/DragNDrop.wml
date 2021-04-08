@@ -2,7 +2,7 @@
     <Controls.scroll:Container attr:class="controlsDemo__height400">
         <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
             <Controls.list:Container>
-                <Controls.gridNew:View
+                <Controls.grid:View
                         on:dragStart="_dragStart()"
                         on:dragEnd="_dragEnd()"
                         name="list"
@@ -16,7 +16,7 @@
                                     mainText="{{draggingTemplate.entity._options.title}}">
                         </ws:partial>
                     </ws:draggingTemplate>
-                </Controls.gridNew:View>
+                </Controls.grid:View>
             </Controls.list:Container>
         </Controls.list:DataContainer>
     </Controls.scroll:Container>

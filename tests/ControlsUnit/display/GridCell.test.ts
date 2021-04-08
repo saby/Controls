@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 
-import {GridCell, GridCollection, GridRow} from 'Controls/gridNew';
+import {GridCell, GridCollection, GridRow} from 'Controls/grid';
 import {Model} from 'Types/entity';
 import {IColumn} from 'Controls/interface';
 
@@ -107,19 +107,19 @@ describe('Controls/display:Cell', () => {
     describe('.getCellContentRender()', () => {
         const cases: TCaseSet<string> = [{
             caseName: 'money render',
-            assertValue: 'Controls/gridNew:MoneyTypeRender',
+            assertValue: 'Controls/grid:MoneyTypeRender',
             cellConfig: {
                 displayType: 'money'
             }
         }, {
             caseName: 'number render',
-            assertValue: 'Controls/gridNew:NumberTypeRender',
+            assertValue: 'Controls/grid:NumberTypeRender',
             cellConfig: {
                 displayType: 'number'
             }
         }, {
             caseName: 'default render',
-            assertValue: 'Controls/gridNew:StringTypeRender',
+            assertValue: 'Controls/grid:StringTypeRender',
             cellConfig: {}
         }];
 
