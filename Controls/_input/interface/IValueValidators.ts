@@ -48,7 +48,7 @@ export default interface IValueValidators {
  * Поле ввода даты с валидатором, который проверяет, что в поле введено значение. Так же этот валидатор устанавливается
  * в поле ввода в диалоге выбора даты, который открывается по клику на кнопку рядом с полем ввода.
  * <pre>
- * <Controls.input:Date>
+ * <Controls.input:DateBase>
  *     <ws:valueValidators>
  *         <ws:Array>
  *             <ws:Function>Controls/validate:isRequired</ws:Function>
