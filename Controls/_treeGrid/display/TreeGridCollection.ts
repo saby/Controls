@@ -16,6 +16,7 @@ import {
 } from 'Controls/grid';
 import TreeGridFooterRow from './TreeGridFooterRow';
 import {Model as EntityModel, Model} from 'Types/entity';
+import {IObservable} from 'Types/collection';
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
@@ -139,12 +140,20 @@ export default class TreeGridCollection<
         this._updateItemsColumns();
     }
 
-    protected _handleAfterCollectionChange(changedItems: TreeGridDataRow[]): void {
-        super._handleAfterCollectionChange(changedItems);
+    protected _handleAfterCollectionChange(changedItems: TreeGridDataRow[], changeAction?: string): void {
+        super._handleAfterCollectionChange(changedItems, changeAction);
         if (GridLadderUtil.isSupportLadder(this._$ladderProperties)) {
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
+
+        // Если изменение произошло в следствии смены записей, то нужно сбросить модель заголовка
+        // для того, что бы заголовок перерисовался по новым данным, т.к. видимость заголовка
+        // может зависеть от наличия данных (headerVisibility === 'hasdata')
+        if (changeAction === IObservable.ACTION_RESET) {
+            this._$headerModel = null;
+        }
+
         this._$results = null;
     }
 
