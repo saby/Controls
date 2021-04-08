@@ -115,19 +115,16 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
         return this.source.getCollectionIndex(index);
     }
 
-    splice(start: number, deleteCount: number, added: S[] = [], action?: string): T[] {
+    splice(start: number, deleteCount: number, added: S[] = []): T[] {
         this._itemsOrder = null;
 
-        // Если метод вызывают по move, то элементы в этой стратегии не нужно перещать, т.к. они здесь уже перемещены
-        if (action !== IObservable.ACTION_MOVE) {
-            // Drag содержит свой список перетаскиваемых элементов, т.к. перетаскиваемая запись - это "призрачная запись"
-            const reallyAdded: T[] = added.map(
-                (contents) => contents instanceof CollectionItem ? contents as any as T : this._createItem(contents)
-            );
-            if (this._items) {
-                this._items.splice(start, deleteCount, ...reallyAdded);
-            }
-        }
+        /*
+            Нужно сбрасывать список элементов, чтобы потом из source взять свежие данные, иначе возникает рассинхрон
+            Например, дерево - порядок элементов и проставление родитель-ребенок соответствий выполняет AdjacencyList
+            и только он должен это делать. То есть когда добавляются элементы, данную логику должен выполнить
+            AdjacencyList, а мы у него взять готовые элементы, над которыми сделаем уже свои манипуляции
+         */
+        this._items = null;
 
         return this.source.splice(
             start,

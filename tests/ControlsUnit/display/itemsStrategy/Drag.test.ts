@@ -160,11 +160,9 @@ describe('Controls/_display/itemsStrategy/Drag', () => {
    });
 
    it('splice', () => {
-      strategy.splice(0, 1, [], IObservable.ACTION_MOVE);
+      strategy.splice(0, 1, []);
+      assert.isNull(strategy._items);
       assert.equal(strategy.count, 3);
-
-      strategy.splice(0, 1, [], IObservable.ACTION_REMOVE);
-      assert.equal(strategy.count, 2);
    });
 
    it('drag all items', () => {
