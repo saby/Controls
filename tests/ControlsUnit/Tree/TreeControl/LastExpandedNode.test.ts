@@ -5,8 +5,10 @@ import { TreeGridCollection } from 'Controls/treeGridNew';
 import { register } from 'Types/di';
 import { assert } from 'chai';
 import { stub, spy, assert as sinonAssert } from 'sinon';
+import {Search} from 'Controls/display';
 
 register('Controls/treeGrid:TreeGridCollection', TreeGridCollection, {instantiate: false});
+register('Controls/display:Search', Search, {instantiate: false});
 
 describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
     let source: HierarchicalMemory;
@@ -167,6 +169,22 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
             nodeFooterTemplate: () => {}
         });
         treeControl.toggleExpanded('2');
+
+        await treeControl.handleTriggerVisible('down');
+        sinonAssert.notCalled(spyQuery);
+        spyQuery.restore();
+    });
+
+    it ('should not fall with non TreeItem', async () => {
+        source = new HierarchicalMemory({
+            keyProperty: 'id',
+            data
+        });
+
+        const spyQuery = spy(source, 'query');
+        const treeControl = initTreeControl({
+            viewModelConstructor: 'Controls/display:Search'
+        });
 
         await treeControl.handleTriggerVisible('down');
         sinonAssert.notCalled(spyQuery);

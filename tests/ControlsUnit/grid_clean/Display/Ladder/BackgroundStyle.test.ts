@@ -12,7 +12,7 @@ describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
         getLeftPadding: () => 'default',
         getRightPadding: () => 'default',
         getEditingConfig: () => ({
-            mode: 'cel
+            mode: 'cell'
         }),
         getColumnIndex: () => 0,
         getColumnsCount: () => 0,
