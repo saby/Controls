@@ -84,6 +84,56 @@ export interface IGridControl extends IList {
  * @name Controls/_interface/grid/IGridControl#header
  * @cfg {Array.<Controls/interface:IHeaderCell>} Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ шапки} таблицы.
  * @demo Controls-demo/grid/Header/Default/Index
+ * @example
+ * Пример 1. Для первой ячейки задаём пользовательский шаблон.
+ * <pre class="brush: html; highlight: [2,3,4,5,6,7,8]">
+ *    <Controls.grid:View>
+ *       <ws:header>
+ *          <ws:Array>
+ *              <ws:template>
+ *                  <ws:partial template="Controls/grid:HeaderContent" attr:class="controls-Grid__cell_spacing_money"  scope="{{_options}}" />
+ *              </ws:template>
+ *          </ws:Array>
+ *       </ws:header>
+ *    </Controls.grid:View>
+ * </pre>
+ * @example
+ * Пример 2. Настройка опции задаётся в хуке и передаётся в шаблон.
+ * <pre class="brush: js">
+ * _header: null,
+ * _beforeMount: function(options) {
+ *    this._header = [
+ *       {
+ *          caption: 'Name',
+ *          startRow: 1,
+ *          endRow: 3,
+ *          startColumn: 1,
+ *          endColumn: 2
+ *       },
+ *       {
+ *          caption: 'Price',
+ *          startRow: 1,
+ *          endRow: 2,
+ *          startColumn: 2,
+ *          endColumn: 4
+ *       },
+ *       {
+ *          caption: 'Cell',
+ *          startRow: 2,
+ *          endRow: 3,
+ *          startColumn: 2,
+ *          endColumn: 3
+ *       },
+ *       {
+ *          caption: 'Residue',
+ *          startRow: 2,
+ *          endRow: 3,
+ *          startColumn: 3,
+ *          endColumn: 4
+ *       }
+ *    ]
+ * }
+ * </pre>
  */
 
 /*
