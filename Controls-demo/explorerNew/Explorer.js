@@ -1,10 +1,10 @@
-define('Controls-demo/Explorer/Explorer', [
+define('Controls-demo/explorerNew/Explorer', [
    'Env/Env',
    'UI/Base',
-   'wml!Controls-demo/Explorer/Explorer',
+   'wml!Controls-demo/explorerNew/Explorer',
    'Controls/toolbars',
-   'Controls-demo/Explorer/ExplorerMemory',
-   'Controls-demo/Explorer/ExplorerImages',
+   'Controls-demo/explorerNew/ExplorerMemory',
+   'Controls-demo/explorerNew/ExplorerImages',
    'Controls/explorer'
 ], function(Env, Base, template, Toolbar, MemorySource, explorerImages) {
    'use strict';
@@ -485,7 +485,7 @@ define('Controls-demo/Explorer/Explorer', [
          }
       });
 
-   ModuleClass._styles = ['Controls-demo/Explorer/Explorer'];
+   ModuleClass._styles = ['Controls-demo/explorerNew/Explorer'];
 
    return ModuleClass;
 });

@@ -1,7 +1,7 @@
 import {Control} from 'UI/Base';
-import template = require('wml!Controls-demo/Explorer/CheckboxOnHover/CheckboxOnHover');
+import template = require('wml!Controls-demo/explorerNew/CheckboxOnHover/CheckboxOnHover');
 import {groupConstants as constView} from 'Controls/list';
-import ExplorerImages = require('Controls-demo/Explorer/ExplorerImages');
+import ExplorerImages = require('Controls-demo/explorerNew/ExplorerImages');
 import {HierarchicalMemory} from 'Types/source';
 import {showType} from 'Controls/toolbars';
 
@@ -244,7 +244,7 @@ class Demo extends Control {
     }
 
 
-    static _styles: string[] = ['Controls-demo/Explorer/Demo/Demo'];
+    static _styles: string[] = ['Controls-demo/explorerNew/Demo/Demo'];
 }
 
 export = Demo;

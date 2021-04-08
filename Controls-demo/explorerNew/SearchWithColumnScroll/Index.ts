@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/explorerNew/SearchWithColumnScroll/
 import * as cellTemplate from 'wml!Controls-demo/explorerNew/SearchWithColumnScroll/cellTemplate';
 import {Gadgets} from '../DataHelpers/DataCatalog';
 import {Memory} from 'Types/source';
-import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
+import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

@@ -1,7 +1,7 @@
-define('Controls-demo/Explorer/ExplorerLayout', [
-   'Controls-demo/Explorer/Explorer',
-   'Controls-demo/Explorer/ExplorerImagesLayout',
-   'Controls-demo/Explorer/ExplorerMemory',
+define('Controls-demo/explorerNew/ExplorerLayout', [
+   'Controls-demo/explorerNew/Explorer',
+   'Controls-demo/explorerNew/ExplorerImagesLayout',
+   'Controls-demo/explorerNew/ExplorerMemory',
 ], function(Explorer, explorerImagesLayout, MemorySource) {
    'use strict';
    var

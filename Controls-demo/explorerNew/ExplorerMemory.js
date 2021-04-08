@@ -1,4 +1,4 @@
-define('Controls-demo/Explorer/ExplorerMemory', [
+define('Controls-demo/explorerNew/ExplorerMemory', [
    'Types/source',
    'Types/collection',
    'Core/Deferred',

@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/explorerNew/DragNDrop/DragNDrop';
 import * as ListEntity from 'Controls-demo/DragNDrop/ListEntity';
-import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
+import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 import {Gadgets} from '../DataHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import { TRoot, TItemsReadyCallback } from 'Controls-demo/types';

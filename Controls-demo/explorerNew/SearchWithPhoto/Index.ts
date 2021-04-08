@@ -4,7 +4,7 @@ import {Gadgets} from '../DataHelpers/DataCatalog';
 import {Memory} from 'Types/source';
 import {IItemAction} from 'Controls/itemActions';
 import {IRemovableList} from 'Controls/list';
-import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
+import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 import { IColumn } from 'Controls/grid';
 import { TRoot } from 'Controls-demo/types';
 

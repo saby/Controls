@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/explorerNew/EditInPlace/LeafsOnly/LeafsOnly';
 import {Gadgets} from '../../DataHelpers/DataCatalog';
-import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
+import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 import * as CellTemplate from 'wml!Controls-demo/explorerNew/EditInPlace/LeafsOnly/CellTemplate';
 import { IColumn } from 'Controls/grid';
 

@@ -1,6 +1,6 @@
-import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
-import * as editingColumnTemplate from 'wml!Controls-demo/Explorer/Editing/editingCellTemplate';
-import * as notEditableTemplate from 'wml!Controls-demo/Explorer/Editing/notEditableCell';
+import * as explorerImages from 'Controls-demo/explorerNew/ExplorerImagesLayout';
+import * as editingColumnTemplate from 'wml!Controls-demo/explorerNew/Editing/editingCellTemplate';
+import * as notEditableTemplate from 'wml!Controls-demo/explorerNew/Editing/notEditableCell';
 import * as CntTpl from 'wml!Controls-demo/explorerNew/SearchWithPhoto/content';
 import * as CntTplLadder from 'wml!Controls-demo/explorerNew/SearchWithLadderPhoto/content';
 import {IHeader} from 'Controls-demo/types';

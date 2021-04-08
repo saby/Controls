@@ -27,7 +27,7 @@
                         itemWidth="{{250}}"
                         hasTitle="{{tileItemTemplate.item.contents.isDocument}}">
                         <ws:contentTemplate>
-                           <ws:partial template="wml!Controls-demo/Explorer/resources/CustomItemContent"/>
+                           <ws:partial template="wml!Controls-demo/explorerNew/resources/CustomItemContent"/>
                         </ws:contentTemplate>
                      </ws:partial>
                   </ws:tileItemTemplate>

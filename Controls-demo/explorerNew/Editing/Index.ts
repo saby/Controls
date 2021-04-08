@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/Explorer/Editing/Editing"
-import Memory = require('Controls-demo/Explorer/ExplorerMemory')
+import * as Template from "wml!Controls-demo/explorerNew/Editing/Editing"
+import Memory = require('Controls-demo/explorerNew/ExplorerMemory')
 import {Gadgets} from '../../Explorer_new/DataHelpers/DataCatalog';
 
 export default class extends Control {

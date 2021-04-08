@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
+import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 import * as Template from 'wml!Controls-demo/explorerNew/SearchWithScroll/SearchWithScroll';
 import {TRoot} from 'Controls-demo/types';
 import {DataWithLongFolderName} from '../DataHelpers/DataCatalog';

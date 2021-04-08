@@ -1,7 +1,7 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import * as ExplorerMemory from 'Controls-demo/Explorer/ExplorerMemory';
-import * as template from 'wml!Controls-demo/Explorer/SearchExpandNew/SearchExpandNew';
+import * as ExplorerMemory from 'Controls-demo/explorerNew/ExplorerMemory';
+import * as template from 'wml!Controls-demo/explorerNew/SearchExpandNew/SearchExpandNew';
 
 interface ISearchExpandData {
    id: number;
@@ -140,5 +140,5 @@ export default class SearchExpand extends Control<IControlOptions> {
       console.log('markedKey: ', markedKey);
    }
 
-   static _styles: string[] = ['Controls-demo/Explorer/Search'];
+   static _styles: string[] = ['Controls-demo/explorerNew/Search'];
 }

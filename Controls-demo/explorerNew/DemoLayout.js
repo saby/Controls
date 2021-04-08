@@ -1,6 +1,6 @@
-define('Controls-demo/Explorer/DemoLayout', [
-   'Controls-demo/Explorer/Demo',
-   'Controls-demo/Explorer/ExplorerImagesLayout',
+define('Controls-demo/explorerNew/DemoLayout', [
+   'Controls-demo/explorerNew/Demo',
+   'Controls-demo/explorerNew/ExplorerImagesLayout',
    'Types/source',
 ], function(Demo, explorerImagesLayout, source) {
    'use strict';

@@ -1,7 +1,7 @@
-define('Controls-demo/Explorer/Search', [
+define('Controls-demo/explorerNew/Search', [
    'UI/Base',
-   'wml!Controls-demo/Explorer/Search',
-   'Controls-demo/Explorer/ExplorerMemory',
+   'wml!Controls-demo/explorerNew/Search',
+   'Controls-demo/explorerNew/ExplorerMemory',
    'Types/source',
    'Controls/explorer'
 ], function(Base, template, MemorySource, source) {
@@ -151,7 +151,7 @@ define('Controls-demo/Explorer/Search', [
          }
       });
 
-   ModuleClass._styles = ['Controls-demo/Explorer/Search'];
+   ModuleClass._styles = ['Controls-demo/explorerNew/Search'];
 
    return ModuleClass;
 });

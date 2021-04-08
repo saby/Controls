@@ -1,10 +1,10 @@
-define('Controls-demo/Explorer/Demo', [
+define('Controls-demo/explorerNew/Demo', [
    'UI/Base',
-   'wml!Controls-demo/Explorer/Demo/Demo',
+   'wml!Controls-demo/explorerNew/Demo/Demo',
    'Types/source',
    'Controls/toolbars',
    'Controls/list',
-   'Controls-demo/Explorer/ExplorerImages',
+   'Controls-demo/explorerNew/ExplorerImages',
    'Controls/explorer'
 ], function(Base, template, source, Toolbar, constants, explorerImages) {
    'use strict';
@@ -209,7 +209,7 @@ define('Controls-demo/Explorer/Demo', [
          }
       });
 
-   ModuleClass._styles = ['Controls-demo/Explorer/Demo/Demo'];
+   ModuleClass._styles = ['Controls-demo/explorerNew/Demo/Demo'];
 
    return ModuleClass;
 });
