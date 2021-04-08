@@ -234,15 +234,21 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return wrapperClasses;
     }
 
-    /**
-     * Учитываем приоритет style над backgroundStyle для стики-элементов
-     * @param backgroundColorStyle
-     * @param style
-     */
     private _resolveBackgroundStyle(backgroundColorStyle: string = 'default', style: string = 'default'): string {
-        const resolvedStyle = backgroundColorStyle !== 'default' ? backgroundColorStyle : style;
-        return resolvedStyle === 'default' && this._$backgroundStyle !== 'default' ?
-            this._$backgroundStyle : resolvedStyle;
+        let result: string;
+        // Если указан backgroundColorStyle, он должен быть и тут
+        if (backgroundColorStyle !== 'default') {
+            result = backgroundColorStyle;
+
+        // Если стиль списка default, но указан backgroundStyle, то возвращаем backgroundStyle
+        } else if (style === 'default' && this._$backgroundStyle !== 'default') {
+            result = this._$backgroundStyle;
+
+        // Если стиль списка не default, то он имеет больший приоритет, чем backgroundStyle
+        } else {
+            result = style;
+        }
+        return result;
     }
 
     // Only for partial grid support
