@@ -11,12 +11,14 @@
                     <div class="controlsDemo-Input-DateTime__row-item">
                         <Controls.input:DateBase
                                 value="{{null}}"
-                                mask="{{mask}}"/>
+                                mask="{{mask}}"
+                                readOnly="{{_inputReadOnly}}"/>
                     </div>
                     <div class="controlsDemo-Input-DateTime__row-item">
                         <Controls.input:DateBase
                                 bind:value="_date"
-                                mask="{{mask}}"/>
+                                mask="{{mask}}"
+                                readOnly="{{_inputReadOnly}}"/>
                     </div>
                 </div>
             </ws:for>
@@ -30,11 +32,13 @@
             <div class="controlsDemo-Input-DateTime__row-item controlsDemo-Input-DateTime__row-item_grow">
                 <Controls.input:DateBase
                         bind:value="_startTime"
-                        mask="HH:mm"/>
+                        mask="HH:mm"
+                        readOnly="{{_inputReadOnly}}"/>
                 -
                 <Controls.input:DateBase
                         bind:value="_endTime"
-                        mask="HH:mm"/>
+                        mask="HH:mm"
+                        readOnly="{{_inputReadOnly}}"/>
             </div>
         </div>
 
@@ -47,8 +51,12 @@
                 <Controls.input:DateBase
                         value="{{_date}}"
                         mask="{{mask}}"
-                        tagStyle="{{'primary'}}"/>
+                        tagStyle="{{'primary'}}"
+                        readOnly="{{_inputReadOnly}}"/>
             </div>
+        </div>
+        <div class="controlsDemo-Input-DateTime__toggleButton" attr:style="padding:15px 0">
+            <Controls.toggle:DoubleSwitch bind:value="_inputReadOnly" captions="{{ ['readOnly=true', 'readOnly=false'] }}"/>
         </div>
             <div class="controlsDemo-Input-DateTime__row-item controlsDemo-Input-DateTime__row-item_grow">
                 <div style="width: 100px">
