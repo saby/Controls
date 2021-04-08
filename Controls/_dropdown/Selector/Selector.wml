@@ -26,7 +26,7 @@
                     footerTemplate="{{_options.footerTemplate || _options.footerContentTemplate}}"/>
     </ws:content>
     <ws:template>
-        <ws:partial template="wml!Controls/_dropdown/Input/resources/infoBoxContentTemplate"
+        <ws:partial template="wml!Controls/_dropdown/Selector/resources/infoBoxContentTemplate"
                     selectedItems="{{_selectedItems}}"
                     displayProperty="{{_options.displayProperty}}"/>
     </ws:template>
