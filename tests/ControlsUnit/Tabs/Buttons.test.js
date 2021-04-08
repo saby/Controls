@@ -2,11 +2,14 @@
  * Created by ps.borisov on 16.02.2018.
  */
 define([
+   'sinon',
+   'Controls/event',
    'Controls/tabs',
+   'Controls/_tabs/Buttons/Marker',
    'Types/source',
    'Types/entity',
    'Types/collection'
-], function(tabsMod, sourceLib, entity, collection) {
+], function(sinon, event, tabsMod, Marker, sourceLib, entity, collection) {
    describe('Controls/_tabs/Buttons', function() {
       const data = [
          {
@@ -239,7 +242,18 @@ define([
             done();
          });
       });
-      it('_beforeUpdate', function() {
+
+      describe('_afterMount', function() {
+         it('should subscribe on resize events', function() {
+            const tabs = new tabsMod.Buttons();
+            sinon.stub(event, 'RegisterUtil');
+            tabs._afterMount();
+            sinon.assert.calledOnce(event.RegisterUtil);
+            sinon.restore();
+         });
+      });
+
+      it('_afterMount', function() {
          var tabs = new tabsMod.Buttons(),
             data = [
                {
@@ -265,6 +279,17 @@ define([
          };
          tabs._beforeUpdate(options);
       });
+
+      describe('_beforeUnmount', function() {
+         it('should subscribe on resize events', function() {
+            const tabs = new tabsMod.Buttons();
+            sinon.stub(event, 'UnregisterUtil');
+            tabs._beforeUnmount();
+            sinon.assert.calledOnce(event.UnregisterUtil);
+            sinon.restore();
+         });
+      });
+
       it('_onItemClick', function() {
          var tabs = new tabsMod.Buttons(),
             notifyCorrectCalled = false;
@@ -290,6 +315,9 @@ define([
       describe('_updateMarker', () => {
          it('should update marker model', () => {
             const tabs = new tabsMod.Buttons();
+
+            sinon.stub(Marker.default, 'getComputedStyle').returns({ borderLeftWidth: 0 });
+
             let items = new collection.RecordSet({
                rawData: data,
                keyProperty: 'id'
