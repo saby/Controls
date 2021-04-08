@@ -97,6 +97,7 @@ export interface IOptions {
     sorting?: Array<{[p: string]: string}>;
     emptyTemplateColumns?: IEmptyTemplateColumn[];
     columnSeparatorSize?: TColumnSeparatorSize;
+    multiSelectVisibility?: string;
 }
 
 export default abstract class Grid<S, T extends GridRowMixin<S>> {
@@ -195,7 +196,12 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (this.getFooter()) {
             this.getFooter().setFooter(footerTemplate, footer);
         } else {
-            this._$footer = this._initializeFooter({footerTemplate, footer, columns: this.getColumnsConfig()});
+            this._$footer = this._initializeFooter({
+                multiSelectVisibility: this._$multiSelectVisibility,
+                footerTemplate,
+                footer,
+                columnSeparatorSize: this._$columnSeparatorSize
+            });
         }
         if (!silent) {
             this._nextVersion();
@@ -209,12 +215,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     getResults(): ResultsRow<S> {
         if (!this._$results && this._resultsIsVisible()) {
             this._initializeResults({
-                owner: this,
                 columns: this._$columns,
-                metaResults: this.getMetaResults(),
                 multiSelectVisibility: this._$multiSelectVisibility,
-                resultsColspanCallback: this._$resultsColspanCallback,
-                resultsTemplate: this._$resultsTemplate
+                resultsTemplate: this._$resultsTemplate,
+                resultsColspanCallback: this._$resultsColspanCallback
             });
         }
         return this._$results;
@@ -238,7 +242,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         this._$resultsColspanCallback = resultsColspanCallback;
         const results = this.getResults();
         if (results) {
-            results.setResultsColspanCallback(resultsColspanCallback);
+            results.setColspanCallback(resultsColspanCallback);
         }
         this._nextVersion();
     }
@@ -319,9 +323,9 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _initializeEmptyRow(): void {
         this._$emptyGridRow = new EmptyRow<S>({
             owner: this,
-            emptyTemplate: this._$emptyTemplate,
-            emptyTemplateColumns: this._$emptyTemplateColumns,
-            emptyTemplateOptions: this._$emptyTemplateOptions
+            columns: this._$emptyTemplateColumns,
+            rowTemplate: this._$emptyTemplate,
+            rowTemplateOptions: this._$emptyTemplateOptions,
         });
     }
 
@@ -379,22 +383,25 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     protected _initializeFooter(options: IOptions): FooterRow<S> {
         return new FooterRow({
-            ...options,
             owner: this,
-            footer: options.footer,
-            footerTemplate: options.footerTemplate,
-            multiSelectVisibility: this.getMultiSelectVisibility()
+            multiSelectVisibility: options.multiSelectVisibility,
+            columns: options.footer,
+            rowTemplate: options.footerTemplate,
+            rowTemplateOptions: {},
+            columnSeparatorSize: options.columnSeparatorSize
         });
     }
 
     protected _initializeResults(options: IOptions): void {
         const resultsRowClass = this.getResultsRowClass();
         this._$results = new resultsRowClass({
-            ...options,
             owner: this,
+            multiSelectVisibility: options.multiSelectVisibility,
+            columns: options.columns,
+            rowTemplate: options.resultsTemplate,
+            rowTemplateOptions: {},
             metaResults: this.getMetaResults(),
-            resultsColspanCallback: options.resultsColspanCallback,
-            resultsTemplate: options.resultsTemplate
+            colspanCallback: options.resultsColspanCallback
         });
     }
 

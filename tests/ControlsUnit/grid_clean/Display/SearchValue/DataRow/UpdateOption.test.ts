@@ -49,7 +49,8 @@ describe('Controls/grid_clean/Display/SearchValue/DataRow/UpdateOption', () => {
                 getColumnsConfig: () => columns,
                 hasMultiSelectColumn: () => false,
                 hasItemActionsSeparatedCell: () => false,
-                getItemEditorTemplate: () => {}
+                getItemEditorTemplate: () => {},
+                isFullGridSupport: () => true
             } as any,
             columns
         });
@@ -79,7 +80,8 @@ describe('Controls/grid_clean/Display/SearchValue/DataRow/UpdateOption', () => {
                 getColumnsConfig: () => columns,
                 hasMultiSelectColumn: () => true,
                 hasItemActionsSeparatedCell: () => false,
-                getItemEditorTemplate: () => {}
+                getItemEditorTemplate: () => {},
+                isFullGridSupport: () => true
             } as any,
             columns
         });
