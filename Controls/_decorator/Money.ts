@@ -147,7 +147,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     private _formattedNumber: string | IPaths;
     private _fontColorStyle: string;
     private _fractionFontSize: string;
-    private _currencies: {} = {
+    private _currencies: Record<string, string> = {
         Ruble: '₽',
         Dollar: '$',
         Euro: '€'
