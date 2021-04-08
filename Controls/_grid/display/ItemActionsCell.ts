@@ -9,6 +9,7 @@ const DEFAULT_CELL_CONTENT = 'Controls/grid:ItemActionsCellContent';
 
 export default class ItemActionsCell<T> extends Cell<T, Row<T>> implements IItemActionsCell {
     readonly ItemActionsCell = true;
+    protected _$rowspan: number;
 
     getTemplate(): string {
         return DEFAULT_CELL_CONTENT;
@@ -26,7 +27,11 @@ export default class ItemActionsCell<T> extends Cell<T, Row<T>> implements IItem
     }
 
     getWrapperStyles(): string {
-        return 'width: 0px; min-width: 0px; max-width: 0px; padding: 0px; z-index: 2;';
+        let styles = 'width: 0px; min-width: 0px; max-width: 0px; padding: 0px; z-index: 2;';
+        if (this._$rowspan) {
+            styles += ` grid-row: 1 / ${1 + this._$rowspan};`;
+        }
+        return styles;
     }
 
     shouldDisplayItemActions(): boolean {
@@ -37,5 +42,6 @@ export default class ItemActionsCell<T> extends Cell<T, Row<T>> implements IItem
 Object.assign(ItemActionsCell.prototype, {
     '[Controls/_display/grid/ItemActionsCell]': true,
     _moduleName: 'Controls/display:ItemActionsCell',
-    _instancePrefix: 'grid-item-actions-cell-'
+    _instancePrefix: 'grid-item-actions-cell-',
+    _$rowspan: null
 });
