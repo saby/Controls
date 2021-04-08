@@ -9,14 +9,14 @@
       <ws:partial if="{{ (item || itemData).shouldDisplayMultiSelectTemplate() }}"
                   template="{{ multiSelectTpl }}"
                   attr:style="{{ (item || itemData).getMultiSelectStyles(itemType) }}">
-         <ws:templateOptions item="{{ (item || itemData) }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+         <ws:templateOptions item="{{ (item || itemData) }}"/>
       </ws:partial>
 
 
       <ws:partial template="{{ (item || itemData).getContentTemplate(itemType, contentTemplate, nodeContentTemplate) }}" scope="{{_options}}">
          <ws:multiSelectTemplate>
             <ws:partial template="{{ multiSelectTpl }}">
-               <ws:templateOptions item="{{ (item || itemData) }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+               <ws:templateOptions item="{{ (item || itemData) }}"/>
             </ws:partial>
          </ws:multiSelectTemplate>
       </ws:partial>

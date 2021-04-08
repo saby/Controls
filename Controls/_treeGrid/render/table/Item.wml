@@ -51,11 +51,10 @@
                                     attr:class="{{ (item || itemData).getLadderWrapperClasses(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"/>
                     </ws:ladderWrapper>
                     <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
-                                        key="{{ (item || itemData).key }}"
-                                        checkboxReadOnly="{{ checkboxReadOnly }}"/>
+                                        key="{{ (item || itemData).key }}"/>
                     <ws:multiSelectTemplate>
                         <ws:partial template="{{multiSelectTpl}}" _preventMergeOptions="{{ true }}" attr:class="{{(item || itemData).getMultiSelectClasses(theme)}}">
-                            <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+                            <ws:templateOptions item="{{ item }}"/>
                         </ws:partial>
                     </ws:multiSelectTemplate>
                     <ws:afterContentTemplate>

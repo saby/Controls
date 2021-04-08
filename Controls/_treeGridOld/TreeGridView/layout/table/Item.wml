@@ -22,7 +22,6 @@
 <ws:template name="multiSelectTemplate">
     <ws:partial template="{{multiSelectTpl}}" _preventMergeOptions="{{ preventMergeOptions }}">
         <ws:templateOptions triState="{{itemData.item[itemData.nodeProperty] !== null}}"
-                            checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"
                             item="{{ itemData.dispItem }}"
                             itemData="{{itemData}}"/>
     </ws:partial>

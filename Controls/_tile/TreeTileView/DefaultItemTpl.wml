@@ -18,7 +18,7 @@
       itemActionsTemplate="{{itemActionsTemplate}}"
       itemActionsPosition="{{itemActionsPosition}}"
       swipeTemplate="{{swipeTemplate}}"
-      checkboxReadOnly="{{checkboxReadOnly}}"
+
       cursor="{{cursor}}"
       backgroundColorStyle="{{backgroundColorStyle}}"
       multiSelectTpl="{{multiSelectTpl}}"/>
@@ -28,7 +28,7 @@
    <ws:partial
       template="wml!Controls/_tile/TileView/TileTpl"
       width="{{width || itemData.itemWidth || itemData.defaultItemWidth}}"
-      checkboxReadOnly="{{checkboxReadOnly}}"
+
       itemActionsPosition="{{itemActionsPosition}}"
       itemActionsPadding="{{itemActionsPadding}}"
       cursor="{{cursor}}"

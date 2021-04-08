@@ -12,6 +12,12 @@ export default class extends Control {
     protected _beforeMount(): void {
         const data = getData();
 
+        data[0].checkboxState = false;
+        data[1].checkboxState = false;
+        data[2].checkboxState = false;
+        data[3].checkboxState = false;
+        data[4].checkboxState = false;
+
         this._viewSource = new Memory({
             keyProperty: 'id',
             data

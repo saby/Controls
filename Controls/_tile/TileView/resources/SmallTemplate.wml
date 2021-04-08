@@ -19,7 +19,7 @@
       <ws:partial if="{{itemData.hasMultiSelect}}"
                   template="{{multiSelectTpl}}">
          <ws:templateOptions triState="{{true}}"
-                             checkboxReadOnly="{{checkboxReadOnly}}"
+
                              item="{{ itemData.dispItem }}"
                              itemData="{{itemData}}"/>
       </ws:partial>
