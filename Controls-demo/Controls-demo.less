@@ -451,3 +451,18 @@
 .controlsDemo__List__CustomMultiSelectPosition__title {
   font-size: 16px;
 }
+.controls-custom-template__caption_unselected {
+  color: var(--unselected_text-color_radioGroup);
+}
+.controls-custom-template__caption_selected {
+  color: var(--text-color_radioGroup);
+}
+.controls-custom-template__wrapper {
+  width:100%;
+  display:flex;
+  &:hover{
+    .controls-custom-template__caption_unselected {
+      text-decoration: underline;
+    }
+  }
+}
