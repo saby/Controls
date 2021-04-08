@@ -1,0 +1,22 @@
+<div class="controlsDemo__wrapper controlsDemo__grid-tagStyle">
+    <div class="controlsDemo-toolbar-panel">
+        &nbsp;&nbsp;{{_currentEvent && _currentColumnIndex && _currentValue ? (_currentEvent + ' на колонке №' +
+        _currentColumnIndex + ' со значением ' + _currentValue) : ''}}
+    </div>
+    <Controls.explorer:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            multiSelectVisibility="hidden"
+            parentProperty="parent"
+            nodeProperty="parent@"
+            header="{{ _header }}"
+            rowSeparatorSize="s"
+            columnSeparatorSize="s"
+            bind:root="_root"
+            bind:expandedItems="_expandedItems"
+            on:tagClick="_onTagClickCustomHandler()"
+            on:tagHover="_onTagHoverCustomHandler()"
+    >
+    </Controls.explorer:View>
+</div>
