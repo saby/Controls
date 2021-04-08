@@ -591,7 +591,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
      * @private
      */
     private _shouldLoadLastExpandedNodeData(direction: Direction, item: TreeItem, parentKey: CrudEntityKey): boolean {
-        if (!item || direction !== 'down') {
+        // Иногда item это breadcrumbsItemRow, он не TreeItem
+        if (!item || !item['[Controls/_display/TreeItem]'] || direction !== 'down') {
             return false;
         }
         const hasMoreParentData = this._sourceController.hasMoreData('down', parentKey);
