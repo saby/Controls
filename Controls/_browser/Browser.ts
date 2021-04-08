@@ -702,6 +702,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _processSearchError(error: Error): void|Error {
         if (!error.isCanceled) {
             this._loading = false;
+            this._updateParams();
             this._filterChanged(null, this._dataLoader.getSearchControllerSync().getFilter());
             this._getErrorRegister().start({
                 error,
