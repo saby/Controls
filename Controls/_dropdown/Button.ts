@@ -202,8 +202,8 @@ export default class Button extends BaseDropdown {
       return this._controller.openMenu(Merge(config, popupOptions || {}));
    }
 
-   openMenu(popupOptions?: IStickyPopupOptions): void {
-      this._openMenu(popupOptions).then((result) => {
+   openMenu(popupOptions?: IStickyPopupOptions): Promise<any> {
+      return this._openMenu(popupOptions).then((result) => {
          if (result) {
             this._onItemClickHandler(result);
          }
