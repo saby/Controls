@@ -2555,7 +2555,7 @@ const _private = {
                 break;
         }
 
-        this._notify('limitChanged', [selectionController.getLimit()], {bubbling: true});
+        this._notify('limitChanged', [selectionController.getLimit()]);
 
         _private.changeSelection(this, result);
     },
