@@ -88,6 +88,11 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     }
 
     // TODO удалить после https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
+    getStickyColumnsCount(): number {
+        return this.getOwner().getStickyColumnsCount();
+    }
+
+    // TODO удалить после https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
     protected _processStickyLadderCells(): void { }
 }
 

@@ -726,6 +726,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 (searchValueChanged && newOptions.sourceController)) {
                 if (viewModel) {
                     viewModel.setExpandedItems(newOptions.expandedItems);
+                    const expandedItems = _private.getExpandedItems(this, this._options, viewModel.getCollection());
+                    viewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems));
                 }
             } else {
                 this._updateExpandedItemsAfterReload = true;
