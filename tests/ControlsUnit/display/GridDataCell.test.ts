@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { Model as EntityModel, Model } from 'Types/entity';
 
-import { GridCollection, GridDataCell, GridDataRow, TColspanCallback } from 'Controls/gridNew';
+import { GridCollection, GridDataCell, GridDataRow, TColspanCallback } from 'Controls/grid';
 import { IColumn } from 'Controls/interface';
 
 describe('Controls/display/GridDataCell', () => {

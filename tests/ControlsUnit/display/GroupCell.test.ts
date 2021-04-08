@@ -6,7 +6,7 @@ import { IColumn } from 'Controls/interface';
 import {
     GridGroupCell as GroupCell,
     GridGroupRow as GroupItem
-} from 'Controls/gridNew';
+} from 'Controls/grid';
 import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
 
 describe('Controls/_display/GroupCell', () => {

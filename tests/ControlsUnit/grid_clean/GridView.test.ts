@@ -1,7 +1,7 @@
-import { GridView } from 'Controls/gridNew';
+import { GridView } from 'Controls/grid';
 import { assert } from 'chai';
 import { RecordSet } from 'Types/collection';
-import { GridCollection } from 'Controls/gridNew';
+import { GridCollection } from 'Controls/grid';
 
 
 describe('Controls/grid_clean/GridView', () => {
