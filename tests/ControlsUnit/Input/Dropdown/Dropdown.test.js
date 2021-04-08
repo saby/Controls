@@ -9,7 +9,7 @@ define(
       'Controls/_dropdown/Util'
 ],
    (dropdown, Clone, sourceLib, collection, entity, popup, dropdownUtil) => {
-      describe('Input/Dropdown', () => {
+      describe('Controls/_dropdown:Selector', () => {
          let items = [
             {
                id: '1',

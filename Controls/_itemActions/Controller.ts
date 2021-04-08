@@ -192,7 +192,7 @@ export class Controller {
             this._itemActionsProperty !== options.itemActionsProperty ||
             this._itemActionVisibilityCallback !== options.visibilityCallback
         ) {
-            this._commonItemActions = options.itemActions;
+            this._commonItemActions = (!options.itemActions && options.editArrowAction) ? [] : options.itemActions;
             this._itemActionsProperty = options.itemActionsProperty;
             this._itemActionVisibilityCallback = options.visibilityCallback ||
                 ((action: IItemAction, item: Model, isEditing: boolean) => true);
