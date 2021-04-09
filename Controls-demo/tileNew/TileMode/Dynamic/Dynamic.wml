@@ -15,7 +15,7 @@
       imageProperty="image"
       actionMenuViewMode="preview"
       actionMode="adaptive"
-      itemTemplate="Controls/tileNew:PreviewTemplate"
+      itemTemplate="Controls/tile:PreviewTemplate"
       keyProperty="id"
       source="{{_viewSource}}"/>
 </div>

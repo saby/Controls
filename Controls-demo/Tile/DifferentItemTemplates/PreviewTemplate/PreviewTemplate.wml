@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-   <Controls.tile:View
+   <Controls.tileOld:View
       displayProperty="title"
       parentProperty="parent"
       nodeProperty="parent@"
@@ -18,7 +18,7 @@
       source="{{_viewSource}}">
       <ws:itemTemplate>
          <ws:partial
-            template="Controls/tile:PreviewTemplate"
+            template="Controls/tileOld:PreviewTemplate"
             titleStyle="{{itemTemplate.itemData.item.titleStyle}}"
             gradientType="{{itemTemplate.itemData.item.gradientType}}"
             gradientColor="{{itemTemplate.itemData.item.gradientColor}}"
@@ -33,5 +33,5 @@
             </ws:bottomRightTemplate>
          </ws:partial>
       </ws:itemTemplate>
-   </Controls.tile:View>
+   </Controls.tileOld:View>
 </div>

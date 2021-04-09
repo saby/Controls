@@ -7,6 +7,6 @@
       itemActions="{{_itemActions}}"
       actionMenuViewMode="preview"
       actionMode="adaptive"
-      itemTemplate="Controls/tileNew:PreviewTemplate"
+      itemTemplate="Controls/tile:PreviewTemplate"
       source="{{_viewSource}}"/>
 </div>

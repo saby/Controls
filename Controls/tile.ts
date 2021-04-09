@@ -1,51 +1,59 @@
 /**
- * Библиотека контролов, которые реализуют иерархический список, отображающийся в виде плитки.
- * @library Controls/tile
+ * Библиотека контролов, которые реализуют список, отображающийся в виде плитки.
+ * @library Controls/tileNew
  * @includes ItemTemplate Controls/_tile/interface/ItemTemplate
  * @includes ITile Controls/_tile/interface/ITile
  * @includes SmallItemTemplate Controls/_tile/interface/ISmallTemplate
  * @includes PreviewTemplate Controls/_tile/interface/IPreviewTemplate
  * @includes RichTemplate Controls/_tile/interface/IRichTemplate
  * @public
- * @author Крайнов Д.О.
+ * @author Панихин К.А.
  */
 
-/*
- * tile library
- * @library Controls/tile
- * @includes ItemTemplate Controls/_tile/interface/ItemTemplate
- * @includes ITile Controls/_tile/interface/ITile
- * @includes IDraggable Controls/_interface/IDraggable
- * @includes SmallItemTemplate Controls/_tile/interface/SmallTemplate
- * @includes PreviewTemplate Controls/_tile/interface/PreviewTemplate
- * @includes RichTemplate Controls/_tile/interface/RichTemplate
- * @public
- * @author Крайнов Д.О.
- */
+import {register} from 'Types/di';
 
 import {default as View} from 'Controls/_tile/View';
-import ItemTemplate = require('wml!Controls/_tile/ItemTemplateChooser');
-import FolderItemTemplate = require("wml!Controls/_tile/TreeTileView/FolderTpl");
-import TileItemTemplate = require("wml!Controls/_tile/TileView/TileTpl");
-import * as SmallItemTemplate from 'wml!Controls/_tile/TileView/resources/SmallTemplate';
-import * as MediumTemplate from 'wml!Controls/_tile/TileView/resources/MediumTemplate';
-import * as PreviewTemplate from 'wml!Controls/_tile/TileView/resources/PreviewTemplate';
-import * as RichTemplate from 'wml!Controls/_tile/TileView/resources/RichTemplate';
-import {default as ActionsMenu} from 'Controls/_tile/ItemActions/Menu';
+import * as ItemTemplate from 'wml!Controls/_tile/render/items/Default';
+import * as SmallItemTemplate from 'wml!Controls/_tile/render/items/Small';
+import * as MediumTemplate from 'wml!Controls/_tile/render/items/Medium';
+import * as PreviewTemplate from 'wml!Controls/_tile/render/items/Preview';
+import * as RichTemplate from 'wml!Controls/_tile/render/items/Rich';
+import {default as ActionsMenu} from 'Controls/_tile/itemActions/Menu';
+import {getImageUrl, getImageSize, getImageClasses, getImageRestrictions, getItemSize} from 'Controls/_tile/utils/imageUtil';
 
-import TreeViewModel = require('Controls/_tile/TreeTileView/TreeTileViewModel');
-import TreeView = require('Controls/_tile/TreeTileView/TreeTileView');
+import TileCollection from 'Controls/_tile/display/TileCollection';
+import TileCollectionItem from 'Controls/_tile/display/TileCollectionItem';
+import InvisibleTileItem from 'Controls/_tile/display/InvisibleTileItem';
+import Tile from 'Controls/_tile/display/mixins/Tile';
+import TileItem from 'Controls/_tile/display/mixins/TileItem';
+import InvisibleStrategy, { COUNT_INVISIBLE_ITEMS } from 'Controls/_tile/display/strategies/Invisible';
+import TileView from 'Controls/_tile/TileView';
+import ItemsView from 'Controls/_tile/ItemsView';
 
 export {
-   View,
-   ItemTemplate,
-   FolderItemTemplate,
-   TileItemTemplate,
-   SmallItemTemplate,
-   MediumTemplate,
-   PreviewTemplate,
-   RichTemplate,
-   ActionsMenu,
-   TreeViewModel,
-   TreeView
+    View,
+    ItemsView,
+    TileView,
+    ItemTemplate,
+    SmallItemTemplate,
+    MediumTemplate,
+    PreviewTemplate,
+    RichTemplate,
+    ActionsMenu,
+    TileCollection,
+    TileCollectionItem,
+    Tile as TileMixin,
+    TileItem as TileItemMixin,
+    InvisibleTileItem,
+    InvisibleStrategy,
+    COUNT_INVISIBLE_ITEMS,
+    getImageUrl,
+    getImageSize,
+    getImageClasses,
+    getImageRestrictions,
+    getItemSize
 };
+
+register('Controls/tile:TileCollection', TileCollection, {instantiate: false});
+register('Controls/tile:TileCollectionItem', TileCollectionItem, {instantiate: false});
+register('Controls/tile:InvisibleTileItem', InvisibleTileItem, {instantiate: false});
