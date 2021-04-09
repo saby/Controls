@@ -62,14 +62,6 @@ export default interface IBaseItemTemplateOptions {
  * Дополнительно об использовании опции читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/position/#inside здесь}.
  * @demo Controls-demo/list_new/ItemTemplate/ItemActionsClass/Index
  */
-/**
- * @name Controls/_list/interface/IBaseItemTemplate#checkboxReadOnly
- * @cfg {Boolean} Флаг, позволяющий установить у checkbox в multiSelect режим "только для чтения".
- * @remark
- * В значении true режим "только для чтения" включен.
- * @default false
- * @deprecated Опция устарела. Используйте опцию {@link Controls/list:IList#multiSelectAccessibilityProperty multiSelectAccessibilityProperty}, чтобы перевести чекбокс в режим "только для чтения".
- */
 /*
  * @cfg {boolean} Flag, allowing to set "readonly" state for checkbox within multiSelect.
  * @default false
