@@ -3,7 +3,6 @@
    <Controls.scroll:Container attr:class="controlsDemo__height400 controlsDemo__minWidth600">
       <Controls.columns:View
          keyProperty="id"
-         useNewModel="{{true}}"
          source="{{ _viewSource }}"
          columnsMode="auto"
          bind:selectedKeys="_selectedKeys"
