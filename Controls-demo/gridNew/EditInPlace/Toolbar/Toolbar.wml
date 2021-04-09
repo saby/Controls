@@ -2,7 +2,7 @@
     <Controls.list:DataContainer attr:class="controlsDemo__inline-flex" keyProperty="id" source="{{_viewSource}}">
         <div>
             <Controls.list:Remover name="remover" on:afterItemsRemove="_afterItemsRemove()"/>
-            <Controls.gridNew:View
+            <Controls.grid:View
                     name="grid"
                     columns="{{_columns}}"
                     itemActions="{{_itemActions}}"
@@ -13,7 +13,7 @@
                 <ws:footerTemplate>
                     <Controls.list:AddButton caption="Add record" on:click="_beginAdd()"/>
                 </ws:footerTemplate>
-            </Controls.gridNew:View>
+            </Controls.grid:View>
         </div>
     </Controls.list:DataContainer>
 </div>

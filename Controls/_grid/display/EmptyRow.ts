@@ -35,8 +35,8 @@ class EmptyRow<T> extends Row<T> {
 
 Object.assign(EmptyRow.prototype, {
     '[Controls/_display/grid/EmptyRow]': true,
-    _moduleName: 'Controls/gridNew:GridEmptyRow',
-    _cellModule: 'Controls/gridNew:GridEmptyCell',
+    _moduleName: 'Controls/grid:GridEmptyRow',
+    _cellModule: 'Controls/grid:GridEmptyCell',
     _instancePrefix: 'grid-empty-row-'
 });
 

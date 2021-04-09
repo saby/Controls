@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {RecordSet} from 'Types/collection';
-import {TreeGridCollection, TreeGridDataRow, TreeGridGroupDataRow} from 'Controls/treeGridNew';
+import {TreeGridCollection, TreeGridDataRow, TreeGridGroupDataRow} from 'Controls/treeGrid';
 
 describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridCollection/ItemsFactoryResolver', () => {
     let collection: TreeGridCollection<any>;

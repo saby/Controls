@@ -1,4 +1,4 @@
-import {GridCollection, GridHeader} from 'Controls/gridNew';
+import {GridCollection, GridHeader} from 'Controls/grid';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {assert} from 'chai';

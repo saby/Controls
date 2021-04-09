@@ -84,10 +84,10 @@ export default class HeaderRow<T> extends Row<T> {
         if (this._$header) {
             this._$columnItems = [];
             const factory = this.getColumnsFactory();
+            let totalColspan = 0;
             this._$columnItems = this._$header.map((column, index) => {
-                const isFixed = typeof column.endColumn !== 'undefined' ?
-                    (column.endColumn - 1) <= this.getStickyColumnsCount() : index < this.getStickyColumnsCount();
-
+                const isFixed = totalColspan < this.getStickyColumnsCount();
+                totalColspan += (column.endColumn - column.startColumn) || 1;
                 return factory({
                     column,
                     isFixed,
@@ -201,9 +201,9 @@ export default class HeaderRow<T> extends Row<T> {
 
 Object.assign(HeaderRow.prototype, {
     '[Controls/_display/grid/HeaderRow]': true,
-    _moduleName: 'Controls/gridNew:GridHeaderRow',
+    _moduleName: 'Controls/grid:GridHeaderRow',
     _instancePrefix: 'grid-header-row-',
-    _cellModule: 'Controls/gridNew:GridHeaderCell',
+    _cellModule: 'Controls/grid:GridHeaderCell',
     _$header: null,
     _$headerModel: null
 });

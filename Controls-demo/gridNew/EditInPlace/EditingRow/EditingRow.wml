@@ -1,5 +1,5 @@
 <div class="controlsDemo__cell">
-    <Controls.gridNew:View
+    <Controls.grid:View
             keyProperty="id"
             source="{{_viewSource}}"
             colspanCallback="{{ _colspanCallback }}"
@@ -23,5 +23,5 @@
                 <ws:Object width="200px" displayProperty="taxBase"/>
             </ws:Array>
         </ws:columns>
-    </Controls.gridNew:View>
+    </Controls.grid:View>
 </div>

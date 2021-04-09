@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {Model} from 'Types/entity';
-import {TreeGridCollection, TreeGridGroupDataRow} from 'Controls/treeGridNew';
+import {TreeGridCollection, TreeGridGroupDataRow} from 'Controls/treeGrid';
 import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
 
 describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetItemClasses', () => {

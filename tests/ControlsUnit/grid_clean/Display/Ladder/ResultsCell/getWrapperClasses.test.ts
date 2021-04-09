@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { createRegExpForTestMatchClass } from 'ControlsUnit/_unitUtils/RegExp';
-import { GridResultsCell } from 'Controls/gridNew';
+import { GridResultsCell } from 'Controls/grid';
 
 const column = { displayProperty: 'col1' };
 const resultsColumn = {};

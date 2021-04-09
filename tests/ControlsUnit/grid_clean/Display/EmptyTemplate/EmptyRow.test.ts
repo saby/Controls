@@ -1,5 +1,5 @@
 import {assert} from "chai";
-import {GridCollection, GridEmptyRow} from 'Controls/gridNew';
+import {GridCollection, GridEmptyRow} from 'Controls/grid';
 
 describe('Controls/grid_clean/Display/EmptyTemplate/EmptyRow', () => {
     const columns = [

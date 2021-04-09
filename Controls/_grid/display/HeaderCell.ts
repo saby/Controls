@@ -107,6 +107,13 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
 
     // region Аспект "Объединение колонок"
     _getColspanParams(): IColspanParams {
+        if (this.isCheckBoxCell()) {
+            return {
+                startColumn: 1,
+                endColumn: 2,
+                colspan: 1
+            };
+        }
         if (this._$column.startColumn && this._$column.endColumn) {
             const multiSelectOffset = this.isCheckBoxCell() ? 0 : +this._$owner.hasMultiSelectColumn();
             return {
@@ -116,6 +123,13 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         }
         return super._getColspanParams();
     }
+
+    getColspan(): number {
+        // TODO: Перейти на базовый метод
+        const params = this._getColspanParams() || {};
+        return (params.endColumn - params.startColumn) || 1;
+    }
+
     // endregion
 
     // region Аспект "Объединение строк"
@@ -174,7 +188,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         return zIndex;
     }
 
-    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string): string {
+    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default'): string {
         let wrapperClasses = `controls-Grid__header-cell controls-Grid__cell_${style}`
                           + ` ${this._getWrapperPaddingClasses(theme)}`
                           + ` ${this._getColumnSeparatorClasses(theme)}`
@@ -339,7 +353,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
 
 Object.assign(HeaderCell.prototype, {
     '[Controls/_display/grid/HeaderCell]': true,
-    _moduleName: 'Controls/gridNew:GridHeaderCell',
+    _moduleName: 'Controls/grid:GridHeaderCell',
     _instancePrefix: 'grid-header-cell-',
     _$cellPadding: null,
     _$shadowVisibility: null,

@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridResultsCell } from 'Controls/gridNew';
+import { GridResultsCell } from 'Controls/grid';
 
 const column = { displayProperty: 'col1' };
 const resultsColumn = {};

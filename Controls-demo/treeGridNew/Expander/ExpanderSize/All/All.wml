@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
         <div class="controls-text-label">Настройка отступов</div>
-        <Controls.treeGridNew:View
+        <Controls.treeGrid:View
                 source="{{_viewSource}}"
                 keyProperty="id"
                 columns="{{_columns}}"
@@ -9,14 +9,14 @@
                 bind:expandedItems="_expandedItems"
                 nodeProperty="Раздел@">
             <ws:itemTemplate>
-                <ws:partial template="Controls/treeGridNew:ItemTemplate" expanderSize="xl"/>
+                <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="xl"/>
             </ws:itemTemplate>
-        </Controls.treeGridNew:View>
+        </Controls.treeGrid:View>
     </div>
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
         <div class="controls-text-label">Отступы соответствующие размеру S</div>
         <div class="controlsDemo__wrapper">
-            <Controls.treeGridNew:View
+            <Controls.treeGrid:View
                     source="{{_viewSource}}"
                     keyProperty="id"
                     columns="{{_columns}}"
@@ -24,16 +24,16 @@
                     bind:expandedItems="_expandedItemsS"
                     nodeProperty="Раздел@">
                 <ws:itemTemplate>
-                    <ws:partial template="Controls/treeGridNew:ItemTemplate" expanderSize="s"/>
+                    <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="s"/>
                 </ws:itemTemplate>
-            </Controls.treeGridNew:View>
+            </Controls.treeGrid:View>
         </div>
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
         <div class="controls-text-label">Отступы соответствующие размеру M</div>
         <div class="controlsDemo__wrapper">
-            <Controls.treeGridNew:View
+            <Controls.treeGrid:View
                     source="{{_viewSource}}"
                     keyProperty="id"
                     columns="{{_columns}}"
@@ -41,16 +41,16 @@
                     bind:expandedItems="_expandedItemsM"
                     nodeProperty="Раздел@">
                 <ws:itemTemplate>
-                    <ws:partial template="Controls/treeGridNew:ItemTemplate" expanderSize="m"/>
+                    <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="m"/>
                 </ws:itemTemplate>
-            </Controls.treeGridNew:View>
+            </Controls.treeGrid:View>
         </div>
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
         <div class="controls-text-label">Отступы соответствующие размеру L</div>
         <div class="controlsDemo__wrapper">
-            <Controls.treeGridNew:View
+            <Controls.treeGrid:View
                     source="{{_viewSource}}"
                     keyProperty="id"
                     columns="{{_columns}}"
@@ -58,16 +58,16 @@
                     bind:expandedItems="_expandedItemsL"
                     nodeProperty="Раздел@">
                 <ws:itemTemplate>
-                    <ws:partial template="Controls/treeGridNew:ItemTemplate" expanderSize="l"/>
+                    <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="l"/>
                 </ws:itemTemplate>
-            </Controls.treeGridNew:View>
+            </Controls.treeGrid:View>
         </div>
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
         <div class="controls-text-label">Отступы соответствующие размеру XL</div>
         <div class="controlsDemo__wrapper">
-            <Controls.treeGridNew:View
+            <Controls.treeGrid:View
                     source="{{_viewSource}}"
                     keyProperty="id"
                     columns="{{_columns}}"
@@ -75,9 +75,9 @@
                     bind:expandedItems="_expandedItemsXl"
                     nodeProperty="Раздел@">
                 <ws:itemTemplate>
-                    <ws:partial template="Controls/treeGridNew:ItemTemplate" expanderSize="xl"/>
+                    <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="xl"/>
                 </ws:itemTemplate>
-            </Controls.treeGridNew:View>
+            </Controls.treeGrid:View>
         </div>
     </div>
 
