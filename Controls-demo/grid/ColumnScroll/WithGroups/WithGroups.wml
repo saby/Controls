@@ -9,6 +9,7 @@
                     keyProperty="id"
                     source="{{_viewSource}}"
                     rowSeparatorSize="s"
+                    header="{{_header}}"
                     columns="{{_columns}}"
                     columnScroll="{{true}}"
                     stickyColumnsCount="{{2}}"

@@ -6,7 +6,7 @@
         keyProperty="id"
         source="{{_viewSource}}">
   <ws:itemTemplate>
-    <ws:partial template="Controls/tileNew:ItemTemplate"
+    <ws:partial template="Controls/tile:ItemTemplate"
                 backgroundColorStyle="success">
     </ws:partial>
   </ws:itemTemplate>

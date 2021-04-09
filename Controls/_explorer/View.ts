@@ -779,7 +779,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             });
         } else {
             return new Promise((resolve) => {
-                import('Controls/tile').then((tile) => {
+                import('Controls/tileOld').then((tile) => {
                     VIEW_NAMES.tile = tile.TreeView;
                     VIEW_TABLE_NAMES.tile = tile.TreeView;
                     VIEW_MODEL_CONSTRUCTORS.tile = tile.TreeViewModel;

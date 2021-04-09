@@ -22,7 +22,7 @@
                             columns="{{_columns}}">
                         <ws:tileItemTemplate>
                             <ws:partial
-                                    template="Controls/tile:ItemTemplate"
+                                    template="Controls/tileOld:ItemTemplate"
                                     folderWidth="{{250}}"
                                     itemWidth="{{250}}"
                                     hasTitle="{{true}}">

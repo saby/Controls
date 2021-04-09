@@ -843,7 +843,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
         const dndListController = this.getDndListController();
         const targetIsNotDraggableItem = dndListController.getDraggableItem()?.getContents() !== dispItem.getContents();
-        if (dispItem.isNode() && targetIsNotDraggableItem) {
+        if (dispItem && dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() && targetIsNotDraggableItem) {
             const targetElement = _private.getTargetRow(this, nativeEvent);
             const mouseOffsetInTargetItem = this._calculateOffset(nativeEvent, targetElement);
             const dragTargetPosition = dndListController.calculateDragPosition({
@@ -878,7 +878,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     protected _notifyItemClick([e, item, originalEvent, columnIndex]: [SyntheticEvent, Model, SyntheticEvent, number?], returnExpandResult: boolean /* for tests */) {
         if (originalEvent.target.closest('.js-controls-Tree__row-expander')) {
             e?.stopImmediatePropagation();
-            return;
+            return false;
         }
         const superResult = super._notifyItemClick(...arguments);
         if (e.isStopped()) {

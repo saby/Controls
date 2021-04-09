@@ -8,7 +8,7 @@
         <ws:itemTemplate>
                 <ws:partial
                         itemWidth="{{200}}"
-                        template="Controls/tileNew:ItemTemplate"
+                        template="Controls/tile:ItemTemplate"
                         hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
         </ws:itemTemplate>
 </Controls.treeTile:View>
