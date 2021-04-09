@@ -14,7 +14,7 @@
  *       <ws:Array>
  *          <ws:Object>
  *             <ws:template>
- *                <ws:partial template="Controls/grid:HeaderContent">
+ *                <ws:partial template="Controls/grid:HeaderContent" scope="{{_options}}">
  *                   <ws:contentTemplate>
  *                      {{contentTemplate.column.config.title}}
  *                   </ws:contentTemplate>
@@ -40,7 +40,7 @@ export default interface IHeaderContentOptions {
     *       <ws:Array>
     *          <ws:Object>
     *             <ws:template>
-    *                <ws:partial template="Controls/grid:HeaderContent">
+    *                <ws:partial template="Controls/grid:HeaderContent" scope="{{_options}}">
     *                   <ws:contentTemplate>
     *                      {{contentTemplate.column.config.title}}
     *                   </ws:contentTemplate>
@@ -70,7 +70,7 @@ export default interface IHeaderContentOptions {
     * 
     * <pre class="brush: html">
     * <!-- file2.wml -->
-    * <ws:partial template="Controls/grid:HeaderContent">
+    * <ws:partial template="Controls/grid:HeaderContent" scope="{{_options}}">
     *    <ws:contentTemplate>
     *       {{contentTemplate.column.config.title}}
     *    </ws:contentTemplate>
@@ -86,7 +86,7 @@ export default interface IHeaderContentOptions {
     *       <ws:Array>
     *          <ws:Object>
     *             <ws:template>
-    *                <ws:partial template="Controls/grid:HeaderContent">
+    *                <ws:partial template="Controls/grid:HeaderContent" scope="{{_options}}">
     *                   <ws:contentTemplate>
     *                      <ws:partial template="wml!file2" scope="{{contentTemplate}}"/>
     *                   </ws:contentTemplate>
