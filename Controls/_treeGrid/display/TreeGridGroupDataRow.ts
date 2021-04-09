@@ -1,5 +1,5 @@
 import TreeGridDataRow from 'Controls/_treeGrid/display/TreeGridDataRow';
-import {GridCell, IGridDataCellOptions, IItemTemplateParams} from 'Controls/gridNew';
+import {GridCell, IGridDataCellOptions, IItemTemplateParams} from 'Controls/grid';
 import { Model } from 'Types/entity';
 import {IColumn} from 'Controls/_grid/interface/IColumn';
 import {IGroupNode} from 'Controls/display';

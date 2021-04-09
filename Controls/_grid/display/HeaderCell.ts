@@ -353,7 +353,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
 
 Object.assign(HeaderCell.prototype, {
     '[Controls/_display/grid/HeaderCell]': true,
-    _moduleName: 'Controls/gridNew:GridHeaderCell',
+    _moduleName: 'Controls/grid:GridHeaderCell',
     _instancePrefix: 'grid-header-cell-',
     _$cellPadding: null,
     _$shadowVisibility: null,

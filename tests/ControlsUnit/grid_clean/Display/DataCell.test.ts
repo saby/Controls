@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridDataCell, GridDataRow } from 'Controls/gridNew';
+import { GridDataCell, GridDataRow } from 'Controls/grid';
 import {CssClassesAssert as cAssert} from './../../CustomAsserts';
 
 describe('Controls/grid_clean/Display/DataCell', () => {

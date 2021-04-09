@@ -3,7 +3,7 @@
         &nbsp;&nbsp;{{_currentEvent && _currentColumnIndex && _currentValue ? (_currentEvent + ' на колонке №' +
         _currentColumnIndex + ' со значением ' + _currentValue) : ''}}
     </div>
-    <Controls.gridNew:View
+    <Controls.grid:View
             keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"
@@ -11,5 +11,5 @@
             on:tagClick="_onTagClickCustomHandler()"
             on:tagHover="_onTagHoverCustomHandler()"
     >
-    </Controls.gridNew:View>
+    </Controls.grid:View>
 </div>

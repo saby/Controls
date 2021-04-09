@@ -1,4 +1,4 @@
-import {GridDataCell} from 'Controls/gridNew';
+import {GridDataCell} from 'Controls/grid';
 import {CssClassesAssert as cAssert} from 'ControlsUnit/CustomAsserts';
 
 describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {

@@ -1,4 +1,4 @@
-import { GridFooterRow } from 'Controls/gridNew';
+import { GridFooterRow } from 'Controls/grid';
 import TreeGridFooterCell from './TreeGridFooterCell';
 
 export default class TreeGridFooterRow extends GridFooterRow<any> {

@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridHeaderRow } from 'Controls/gridNew';
+import { GridHeaderRow } from 'Controls/grid';
 
 const THEME = 'UnitTests';
 

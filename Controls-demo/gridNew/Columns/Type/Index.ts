@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/Columns/Type/Type';
 import {Memory} from 'Types/source';
-import {getCountriesStats} from 'Controls-demo/grid/DemoHelpers/DataCatalog';
+import {getCountriesStats} from 'Controls-demo/gridNew/DemoHelpers/DataCatalog';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

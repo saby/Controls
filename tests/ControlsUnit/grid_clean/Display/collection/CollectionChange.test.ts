@@ -1,4 +1,4 @@
-import {GridCollection, GridResultsRow} from "Controls/gridNew";
+import {GridCollection, GridResultsRow} from "Controls/grid";
 import {RecordSet} from 'Types/collection';
 import {assert} from 'chai';
 import * as sinon from 'sinon';

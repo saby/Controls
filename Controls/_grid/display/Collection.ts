@@ -170,6 +170,6 @@ export default class Collection<
 
 Object.assign(Collection.prototype, {
     '[Controls/_display/grid/Collection]': true,
-    _moduleName: 'Controls/gridNew:GridCollection',
-    _itemModule: 'Controls/gridNew:GridDataRow'
+    _moduleName: 'Controls/grid:GridCollection',
+    _itemModule: 'Controls/grid:GridDataRow'
 });

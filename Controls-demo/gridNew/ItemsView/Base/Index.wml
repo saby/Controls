@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-   <Controls.gridNew:ItemsView
+   <Controls.grid:ItemsView
       items="{{_items}}"
       columns="{{_columns}}"
    />
