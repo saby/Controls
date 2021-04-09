@@ -1,4 +1,4 @@
-import {TileView} from 'Controls/tileNew';
+import {TileView} from 'Controls/tile';
 import TreeTileCollectionItem from 'Controls/_treeTile/display/TreeTileCollectionItem';
 import {SyntheticEvent} from 'UI/Vdom';
 

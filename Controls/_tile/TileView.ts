@@ -161,7 +161,7 @@ export default class TileView extends ListView {
                     vertical: 'overflow'
                 },
                 opener: menuConfig.opener,
-                template: 'Controls/tileNew:ActionsMenu',
+                template: 'Controls/tile:ActionsMenu',
                 actionOnScroll: 'close',
                 fittingMode: {
                     vertical: 'overflow'

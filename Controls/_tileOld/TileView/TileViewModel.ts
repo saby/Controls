@@ -4,7 +4,7 @@ import cMerge = require('Core/core-merge');
 import {Logger} from 'UI/Utils';
 import {object} from 'Types/util';
 import {Model} from 'Types/entity';
-import {getImageClasses, getImageRestrictions, getImageSize, getImageUrl} from 'Controls/tileNew';
+import {getImageClasses, getImageRestrictions, getImageSize, getImageUrl} from 'Controls/tile';
 
 const DEFAULT_ITEM_WIDTH = 250;
 const DEFAULT_ITEM_HEIGHT = 200;

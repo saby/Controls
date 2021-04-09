@@ -1,10 +1,9 @@
-import {COUNT_INVISIBLE_ITEMS, InvisibleStrategy as TileInvisibleStrategy } from 'Controls/tileNew';
+import {COUNT_INVISIBLE_ITEMS, InvisibleStrategy as TileInvisibleStrategy } from 'Controls/tile';
 import {Model} from 'Types/entity';
 import TreeTileCollectionItem from '../TreeTileCollectionItem';
 import TreeTileCollection from '../TreeTileCollection';
 import InvisibleTreeTileItem from '../InvisibleTreeTileItem';
-import TileCollectionItem from "Controls/_tileNew/display/TileCollectionItem";
-
+import {TileCollectionItem} from 'Controls/tile';
 
 interface ISortOptions<S extends Model = Model, T extends TreeTileCollectionItem<S>> {
     display: TreeTileCollection<S, T>;
