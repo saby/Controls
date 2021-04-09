@@ -529,6 +529,19 @@ describe('Controls/dataSource:SourceController', () => {
             controller.updateOptions(options);
             deepStrictEqual(controller.getExpandedItems(), []);
         });
+
+        it('expandedItems is [null]',  async () => {
+            let options = {...getControllerWithHierarchyOptions()};
+            options.expandedItems = [null];
+            const controller = getControllerWithHierarchy(options);
+
+            deepStrictEqual(controller.getExpandedItems(), [null]);
+
+            options = {...options};
+            options.filter = {newFilterField: 'newFilterValue'};
+            controller.updateOptions(options);
+            deepStrictEqual(controller.getExpandedItems(), [null]);
+        });
     });
 
     describe('reload', () => {
