@@ -35,6 +35,7 @@ export interface IOptions<T> extends IColspanParams {
     isLadderCell?: boolean;
     columnSeparatorSize?: string;
     rowSeparatorSize?: string;
+    backgroundStyle: string;
 }
 
 export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
@@ -61,6 +62,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
     protected _$markerPosition: 'left' | 'right';
+    protected _$backgroundStyle: string;
 
     constructor(options?: IOptions<T>) {
         super();
@@ -236,21 +238,46 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     ): string {
         let wrapperClasses = '';
         const isSingleCellEditableMode = this._$owner.getEditingConfig()?.mode === 'cell';
-        if (this._$owner.isEditing() && !isSingleCellEditableMode) {
-            const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
-            wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
-        } else if (!isSingleCellEditableMode && templateHighlightOnHover !== false) {
-            wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle} `;
+        if (!isSingleCellEditableMode) {
+            if (this._$owner.isEditing()) {
+                const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
+                wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
+            } else {
 
-            if (backgroundColorStyle !== 'default') {
-                wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle}`;
-            }
+                // Если колонка не зафиксирована и в шаблоне установили собственный стиль для строки или колонки
+                if (backgroundColorStyle && backgroundColorStyle !== 'default') {
+                    wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle || style} `;
+                }
 
-            if (backgroundColorStyle || this.getOwner().hasColumnScroll()) {
-                wrapperClasses += ` controls-background-${backgroundColorStyle || style}`;
+                // Если  шаблоне установили собственный стиль для строки или колонки, или включен скролл колонок
+                if (backgroundColorStyle || this.getOwner().hasColumnScroll()) {
+                    wrapperClasses += ` controls-background-${this._resolveBackgroundStyle(backgroundColorStyle, style)}`;
+                }
+
+                // Если есть подсветка по ховеру
+                if (templateHighlightOnHover !== false) {
+                    wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle} `;
+                }
             }
         }
         return wrapperClasses;
+    }
+
+    private _resolveBackgroundStyle(backgroundColorStyle: string = 'default', style: string = 'default'): string {
+        let result: string;
+        // Если указан backgroundColorStyle, он должен быть и тут
+        if (backgroundColorStyle !== 'default') {
+            result = backgroundColorStyle;
+
+        // Если стиль списка default, но указан backgroundStyle, то возвращаем backgroundStyle
+        } else if (style === 'default' && this._$backgroundStyle !== 'default') {
+            result = this._$backgroundStyle;
+
+        // Если стиль списка не default, то он имеет больший приоритет, чем backgroundStyle
+        } else {
+            result = style;
+        }
+        return result;
     }
 
     // Only for partial grid support
@@ -300,6 +327,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
         if (this._$isHiddenForLadder) {
             contentClasses += ' controls-Grid__row-cell__content_hiddenForLadder';
+            // Фон лесенки должен быть именно у контента, т.к. класс hiddenForLadder задаёт необходимыйц z-index
+            contentClasses += ` controls-background-${this._resolveBackgroundStyle(backgroundColorStyle)}`;
         }
 
         if (backgroundColorStyle) {
@@ -558,7 +587,7 @@ Object.assign(Cell.prototype, {
     _$rowSeparatorSize: null,
     _$columnSeparatorSize: null,
     _$markerPosition: undefined,
-
+    _$backgroundStyle: 'default',
     _$isFixed: null,
     _$isSingleCell: null,
     _$isLadderCell: null,

@@ -1,7 +1,7 @@
 import {GridDataCell} from 'Controls/grid';
 import {CssClassesAssert as cAssert} from 'ControlsUnit/CustomAsserts';
 
-describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
+describe('Controls/grid_clean/Display/DataCell/BackgroundStyle', () => {
 
     const mockedOwner = {
         getHoverBackgroundStyle: () => 'default',
@@ -12,7 +12,7 @@ describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
         getLeftPadding: () => 'default',
         getRightPadding: () => 'default',
         getEditingConfig: () => ({
-            mode: 'cell'
+            mode: 'default'
         }),
         getColumnIndex: () => 0,
         getColumnsCount: () => 0,
@@ -31,13 +31,13 @@ describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
         });
 
         cAssert.notInclude(
-            cell.getContentClasses('default', 'default'),
+            cell.getContentClasses('default', undefined, 'default', false),
             'controls-background-custom'
         );
 
         cell.setHiddenForLadder(true);
         cAssert.include(
-            cell.getContentClasses('default', 'default'),
+            cell.getContentClasses('default', undefined, 'default', false),
             'controls-background-custom'
         );
     });
