@@ -157,22 +157,23 @@ define([
          });
       });
 
-      describe('_inputControlHandler', function() {
+      describe('_startFieldInputControlHandler', function() {
          let sandbox, component;
          beforeEach(() => {
             sandbox = sinon.createSandbox();
             component = calendarTestUtils.createComponent(dateRange.Input, options);
             sandbox.stub(component._children.endValueField, 'activate');
+            component._children.endValueField.setValidationResult = () => 0;
          });
          it('Move to the next field', function() {
-            component._inputControlHandler({}, '', '12.12.12', {
+            component._startFieldInputControlHandler({}, '', '12.12.12', {
                start: 8,
                end: 8
             });
             sinon.assert.called(component._children.endValueField.activate);
          });
          it('Stayed the current field', function() {
-            component._inputControlHandler({}, '', '12.12.12', {
+            component._startFieldInputControlHandler({}, '', '12.12.12', {
                start: 0,
                end: 0
             });

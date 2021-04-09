@@ -68,7 +68,13 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
 
     protected _startValueValidators: Function[] = [];
     protected _endValueValidators: Function[] = [];
-    private _shouldValidate: boolean;
+    private _shouldValidate: {
+        startValue: boolean;
+        endValue: boolean;
+    } = {
+        startValue: false,
+        endValue: false
+    };
     private _state: string;
 
     protected _beforeMount(options: IDateRangeInputOptions) {
@@ -159,9 +165,12 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
     }
 
     protected _afterUpdate(options): void {
-        if (this._shouldValidate) {
-            this._shouldValidate = false;
+        if (this._shouldValidate.startValue) {
+            this._shouldValidate.startValue = false;
             this._children.startValueField.validate();
+        }
+        if (this._shouldValidate.endValue) {
+            this._shouldValidate.endValue = false;
             this._children.endValueField.validate();
         }
     }
@@ -174,12 +183,35 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
          * Вызываем валидацию, т.к. при выборе периода из календаря не вызывается событие valueChanged
          * Валидация срабатывает раньше, чем значение меняется, поэтому откладываем ее до _afterUpdate
          */
-        this._shouldValidate = true;
+        this._shouldValidate.startValue = true;
+        this._shouldValidate.endValue = true;
     }
 
-    protected _inputControlHandler(event: SyntheticEvent, value: unknown, displayValue: string, selection: ISelection): void {
+    protected _startFieldInputControlHandler(event: SyntheticEvent, value: unknown, displayValue: string, selection: ISelection): void {
         if (selection.end === displayValue.length) {
             this._children.endValueField.activate({enableScreenKeyboard: true});
+        }
+        this._validateAfterInputControl('endValue');
+    }
+
+    protected _endFieldInputControlHandler(): void {
+        this._validateAfterInputControl('startValue');
+    }
+
+    private _validateAfterInputControl(fieldName: string): void {
+        // После смены значения в поле ввода сбрасывается результат валидации.
+        // Проблема в том, что результат валидации не сбрасывается в другом поле. Из-за этого появляется инфобокс при
+        // наведении https://online.sbis.ru/opendoc.html?guid=42046d94-7a30-491a-b8b6-1ce710bddbaa
+        // Будем обнавлять другое поле сами.
+        // Если устанолвена опция validateByFocusOut true, будем валидировать поле на afterUpdate, когда значение
+        // поменяется. Если validateByFocusOut false, то просто сбросим результат валидации.
+        const inputName = fieldName + 'Field';
+        if (this._options.validateByFocusOut) {
+            if (this._rangeModel[fieldName] !== null) {
+                this._shouldValidate[fieldName] = true;
+            }
+        } else {
+            this._children[inputName].setValidationResult(null);
         }
     }
 
