@@ -63,6 +63,8 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
     private _contentType: CONTENT_TYPE = CONTENT_TYPE.regular;
 
+    private _isUnmounted: boolean = false;
+
     _beforeMount(options: IContainerBaseOptions, context?, receivedState?) {
         this._virtualNavigationRegistrar = new RegisterClass({register: 'virtualNavigation'});
         this._resizeObserver = new ResizeObserverUtil(this, this._resizeObserverCallback, this._resizeHandler);
@@ -159,6 +161,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         }
         this._scrollModel = null;
         this._oldScrollState = null;
+        this._isUnmounted = true;
     }
 
     _controlResizeHandler(): void {
@@ -745,13 +748,16 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             }
 
             this._scrollMoveTimer = setTimeout(() => {
-                this._sendByListScrollRegistrar('scrollMove', {
-                    scrollTop: this._scrollModel.scrollTop,
-                    position: this._scrollModel.verticalPosition,
-                    clientHeight: this._scrollModel.clientHeight,
-                    scrollHeight: this._scrollModel.scrollHeight
-                });
-                this._scrollMoveTimer = null;
+                // Т.к код выполняется асинхронно, может получиться, что контрол к моменту вызова функции уже уничтожился
+                if (!this._isUnmounted) {
+                    this._sendByListScrollRegistrar('scrollMove', {
+                        scrollTop: this._scrollModel.scrollTop,
+                        position: this._scrollModel.verticalPosition,
+                        clientHeight: this._scrollModel.clientHeight,
+                        scrollHeight: this._scrollModel.scrollHeight
+                    });
+                    this._scrollMoveTimer = null;
+                }
             }, 0);
     }
 
