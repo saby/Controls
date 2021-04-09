@@ -2,7 +2,7 @@ import { GridView } from 'Controls/grid';
 import { assert } from 'chai';
 import { RecordSet } from 'Types/collection';
 import { GridCollection } from 'Controls/grid';
-
+import { assert as sinonAssert, spy} from 'sinon';
 
 describe('Controls/grid_clean/GridView', () => {
 
@@ -103,6 +103,30 @@ describe('Controls/grid_clean/GridView', () => {
                 mockListViewModel.getCount = () => 10;
                 mockListViewModel.getColumnsConfig = () => columns;
                 assert.equal(gridView._getGridTemplateColumns(options), 'grid-template-columns: 1fr 1fr 0px;');
+            });
+        });
+        describe('_getHorizontalScrollBarStyles', () => {
+            it('should call _columnScrollViewController.getScrollBarStyles with correct arguments', () => {
+                let testArguments = [];
+                const columns = [{}, {}];
+                options.columns = columns;
+                options.multiSelectVisibility = 'hidden';
+                options.columnScroll = true;
+
+                gridView._beforeMount(options);
+
+                mockListViewModel.getCount = () => 10;
+                mockListViewModel.getColumnsConfig = () => columns;
+
+                gridView._columnScrollViewController = {
+                    isVisible: () => true,
+                    getScrollBarStyles: () => {
+                        // @ts-ignore
+                        testArguments = arguments;
+                    }
+                };
+                gridView._getHorizontalScrollBarStyles();
+                assert.equal(testArguments.length, 2);
             });
         });
     });
