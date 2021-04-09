@@ -11,21 +11,47 @@
    .controls-CutButton__container_extended::before {
       content: "";
       position: absolute;
-      width: 100%;
-      height: var(--height__line_CutButton);
+      left: 0;
+      height: var(--separator_thickness_AreaCut);
+      background: var(--border-color);
+   }
+
+   .controls-CutButton__container_extended::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      height: var(--separator_thickness_AreaCut);
       background: var(--border-color);
    }
 
    .controls-CutButton__container_extended_size-s::before {
       top: calc(var(--icon_collapsed_height_s_BigSeparator) + var(--margin-top_s_CutButton));
+      width: calc((100% - var(--width_s_BigSeparator)) / 2 - var(--margin-horizontal_s_AreaCut));
+   }
+
+   .controls-CutButton__container_extended_size-s::after {
+      top: calc(var(--icon_collapsed_height_s_BigSeparator) + var(--margin-top_s_CutButton));
+      width: calc((100% - var(--width_s_BigSeparator)) / 2 - var(--margin-horizontal_s_AreaCut));
    }
 
    .controls-CutButton__container_extended_size-m::before {
       top: calc(var(--icon_collapsed_height_m_BigSeparator) + var(--margin-top_m_CutButton));
+      width: calc((100% - var(--width_m_BigSeparator)) / 2 - var(--margin-horizontal_m_AreaCut));
+   }
+
+   .controls-CutButton__container_extended_size-m::after {
+      top: calc(var(--icon_collapsed_height_m_BigSeparator) + var(--margin-top_m_CutButton));
+      width: calc((100% - var(--width_m_BigSeparator)) / 2 - var(--margin-horizontal_m_AreaCut));
    }
 
    .controls-CutButton__container_extended_size-l::before {
       top: calc(var(--icon_collapsed_height_l_BigSeparator) + var(--margin-top_l_CutButton));
+      width: calc((100% - var(--width_l_BigSeparator)) / 2 - var(--margin-horizontal_l_AreaCut));
+   }
+
+   .controls-CutButton__container_extended_size-l::after {
+      top: calc(var(--icon_collapsed_height_l_BigSeparator) + var(--margin-top_l_CutButton));
+      width: calc((100% - var(--width_l_BigSeparator)) / 2 - var(--margin-horizontal_l_AreaCut));
    }
 }
 

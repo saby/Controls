@@ -7,7 +7,7 @@
         <ws:if data="{{ _options.content }}">
             <ws:partial template="{{_options.content}}"
                         scope="{{ _options }}"
-                        value="{{ _value }}"
+                        value="{{ _options.value }}"
                         on:valueChanged="_valueChangedHandler()"
                         on:mousedown="_mousedownHandler()"/>
         </ws:if>
