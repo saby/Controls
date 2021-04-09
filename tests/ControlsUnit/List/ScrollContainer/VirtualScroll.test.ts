@@ -298,6 +298,20 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             assert.isFalse(instance.isNeedToRestorePosition);
         });
     });
+    describe('insertItemsHeights', () => {
+        it('addItems', () => {
+            const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 300});
+            instance.resetRange(0, 5);
+            // @ts-ignore
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60]));
+            instance.addItems(0, 2, {up: false, down: false});
+            // @ts-ignore
+            assert.deepEqual(instance._itemsHeightData, {
+                itemsHeights: [0, 0, 60, 60, 60, 60, 60],
+                itemsOffsets: [0, 0, 0, 60, 120, 180, 240]
+            });
+        });
+    });
     describe('.canScrollToItem', () => {
         // tslint:disable-next-line:no-magic-numbers
         const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 600});
