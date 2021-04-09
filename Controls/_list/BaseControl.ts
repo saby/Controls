@@ -3162,7 +3162,7 @@ const _private = {
      */
     needHoverFreezeController(self): boolean {
         return !self.__error && self._listViewModel && self._options.itemActionsPosition === 'outside' &&
-            (self._options.itemActions || self._options.itemActionsProperty) &&
+            ((self._options.itemActions && self._options.itemActions.length > 0) || self._options.itemActionsProperty) &&
             _private.isAllowedHoverFreeze(self);
     },
 
@@ -3394,6 +3394,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _editingItem: IEditableCollectionItem;
 
     _continuationEditingDirection: 'top' | 'bottom' = null;
+
+    _hoverFreezeController: HoverFreeze;
 
     //#endregion
 
@@ -6028,7 +6030,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _onItemActionsMouseEnter(event: SyntheticEvent<MouseEvent>, itemData: CollectionItem<Model>): void {
-        if (_private.hasHoverFreezeController(this) && _private.isAllowedHoverFreeze(this) && !this._itemActionsMenuId) {
+        if (_private.hasHoverFreezeController(this) &&
+            _private.isAllowedHoverFreeze(this) &&
+            itemData.ItemActionsItem &&
+            !this._itemActionsMenuId) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
             this._hoverFreezeController.startFreezeHoverTimeout(itemKey, itemIndex);
@@ -6068,7 +6073,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._dndListController && this._dndListController.isDragging()) {
             this._notifyDraggingItemMouseMove(itemData, nativeEvent);
         }
-        if (hoverFreezeController) {
+        if (hoverFreezeController && itemData.ItemActionsItem) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
             hoverFreezeController.setDelayedHoverItem(itemKey, itemIndex);
