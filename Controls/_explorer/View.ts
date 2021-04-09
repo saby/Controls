@@ -13,7 +13,7 @@ import {DataSet} from 'Types/source';
 import {
    INavigationSourceConfig,
    INavigationPositionSourceConfig as IPositionSourceConfig,
-   INavigationOptionValue as INavigation
+   INavigationOptionValue as INavigation, TKey
 } from 'Controls/interface';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {ISelectionObject} from 'Controls/interface';
@@ -506,6 +506,22 @@ var
             return domEvent.target.closest('.js-controls-ListView__checkbox')
                || item instanceof Array || item.get(this._options.nodeProperty) !== ITEM_TYPES.node;
          };
+         this._dataLoadCallback = (items, direction) => {
+            // После получения данных обновим видимость заголовка т.к. мы не можем это сделать на
+            // beforeUpdate в следствии того, что между сменой root и получением данных есть задержка
+            // и в противном случае перерисовка будет в два этапа, сначала обновится видимость заголовка,
+            // а потом придут и отрисуются данные
+            if (!direction) {
+               const curRoot = this._options.sourceController
+                   ? this._options.sourceController.getRoot()
+                   : _private.getRoot(this, this._options.root);
+               this._headerVisibility = this.getHeaderVisibility(curRoot, this._options.headerVisibility);
+            }
+
+            if (this._options.dataLoadCallback) {
+               this._options.dataLoadCallback(items, direction);
+            }
+         };
 
          this._itemsPromise = new Promise((res) => { this._itemsResolver = res; });
          if (!cfg.source || (cfg.sourceController && cfg.sourceController.getLoadError())) {
@@ -518,7 +534,7 @@ var
             }
          };
 
-         this._headerVisibility = root === null ? cfg.headerVisibility || 'hasdata' : 'visible';
+         this._headerVisibility = this.getHeaderVisibility(root, cfg.headerVisibility);
 
          // TODO: для 20.5100. в 20.6000 можно удалить
          if (cfg.displayMode) {
@@ -550,7 +566,15 @@ var
               (cfg.source !== this._options.source));
          const isSourceControllerLoading = cfg.sourceController && cfg.sourceController.isLoading();
          this._resetScrollAfterViewModeChange = isViewModeChanged && !isRootChanged;
-         this._headerVisibility = cfg.root === null ? cfg.headerVisibility || 'hasdata' : 'visible';
+
+         // Видимость заголовка зависит непосредственно от рута и от данных в нем.
+         // Поэтому при смене рута мы не можем менять видимость прямо тут, нужно дождаться получения данных
+         // иначе перерисовка может быть в два этапа. Например, показываем пустые результаты поиска в режиме
+         // searchStartingWith === 'root', после сбрасываем поиск и возвращаем root в предыдущую папку после чего
+         // этот код покажет заголовок и только после получения данных они отрисуются
+         if (!isRootChanged) {
+            this._headerVisibility = this.getHeaderVisibility(cfg.root, cfg.headerVisibility);
+         }
 
          if (!isEqual(cfg.itemPadding, this._options.itemPadding)) {
             this._newItemPadding = cfg.itemPadding;
@@ -812,6 +836,19 @@ var
          let item = this._children.treeControl._children.baseControl.getViewModel().getMarkedItem().getContents();
          this._notifyHandler(e, 'arrowClick', item);
       },
+
+      /**
+       * На основании переданного root и значения опции headerVisibility вычисляет
+       * итоговую видимость заголовка таблицы.
+       *    * Если находимся в корне то видимость берем либо из headerVisibility
+       *    либо проставляем 'hasdata'.
+       *    * Если находимся не в корне, то заголовок всегда делаем видимым
+       *    https://online.sbis.ru/doc/19106882-fada-47f7-96bd-516f9fb0522f
+       */
+      getHeaderVisibility(root: TKey, headerVisibility: string): string {
+         return root === null ? (headerVisibility || 'hasdata') : 'visible';
+      },
+
       _notifyHandler: EventUtils.tmplNotify
    });
 

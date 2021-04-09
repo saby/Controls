@@ -73,6 +73,7 @@
                                        itemsReadyCallback="{{_itemsReadyCallback}}"
                                        serviceDataLoadCallback="{{_serviceDataLoadCallback}}"
                                        itemsSetCallback="{{_itemsSetCallback}}"
+                                       dataLoadCallback="{{_dataLoadCallback}}"
                                        _needSetMarkerCallback="{{_needSetMarkerCallback}}"/>
          </Controls._explorer.PathController>
       </Controls.dragnDrop:Container>
