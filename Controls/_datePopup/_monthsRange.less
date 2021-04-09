@@ -91,6 +91,11 @@
 .controls-PeriodDialog-MonthsRange__halfYear-hovered,
 .controls-PeriodDialog-MonthsRange__quarter-hovered {
    background-color: var(--yearlist_item_hover_background-color_datePicker);
+
+   .controls-PeriodDialog-MonthsRange__item-selected,
+   .controls-PeriodDialog-MonthsRange__item-unselected {
+      background-color: transparent;
+   }
 }
 
 .controls-PeriodDialog-MonthsRange__item-unselected,
@@ -123,14 +128,6 @@
    color: var(--yearlist_month_heading_text-color_datePicker);
    font-size: var(--yearlist_month_heading_font-size_datePicker);
    height: var(--yearlist_monthview_heading_height_datePicker);
-}
-
-.controls-PeriodDialog-MonthsRange__halfYear-hovered,
-.controls-PeriodDialog-MonthsRange__quarter-hovered {
-   .controls-PeriodDialog-MonthsRange__item-selected,
-   .controls-PeriodDialog-MonthsRange__item-unselected {
-      background-color: transparent;
-   }
 }
 
 .controls-PeriodDialog-MonthsRange__halfYear-hovered {
