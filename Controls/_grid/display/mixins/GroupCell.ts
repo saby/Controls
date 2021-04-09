@@ -12,9 +12,16 @@ export default abstract class GroupCell<T> {
         return classes;
     }
 
-    getContentTextClasses(theme: string): string {
-        return 'controls-ListView__groupContent-text ' +
-            'controls-ListView__groupContent-text_default ';
+    getContentTextClasses(separatorVisibility: boolean,
+                          textAlign: 'right' | 'left',
+                          theme: string): string {
+        let classes = 'controls-ListView__groupContent-text ' +
+            'controls-ListView__groupContent-text_default';
+
+        if (separatorVisibility === false && textAlign === 'right') {
+            classes += ' controls-ListView__groupContent-withoutGroupSeparator';
+        }
+        return classes;
     }
 
     getExpanderClasses(expanderVisible: boolean = true,
