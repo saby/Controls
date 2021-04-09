@@ -1,7 +1,7 @@
-define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/entity'], function(TileViewModel, collection, entity) {
+define(['Controls/_tileOld/TileView/TileViewModel', 'Types/collection', 'Types/entity'], function(TileViewModel, collection, entity) {
    'use strict';
 
-   describe('Controls/_tile/TileView/TileViewModel', function() {
+   describe('Controls/_tileOld/TileView/TileViewModel', function() {
       const urlResolver = () => '';
       var
          tileViewModel = new TileViewModel({

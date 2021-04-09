@@ -1,12 +1,12 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-2xl">
-        <Controls.tile:View
+        <Controls.tileOld:View
                 tileMode="dynamic"
                 displayProperty="title"
                 imageProperty="image"
                 keyProperty="id"
                 source="{{_viewSource}}">
             <ws:itemPadding left="2xl" right="2xl"/>
-        </Controls.tile:View>
+        </Controls.tileOld:View>
     </div>
 </div>

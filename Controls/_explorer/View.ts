@@ -26,7 +26,7 @@ import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {RecordSet} from 'Types/collection';
 import {NewSourceController, Path} from 'Controls/dataSource';
 import {SearchView} from 'Controls/searchBreadcrumbsGrid';
-import {TreeGridView} from 'Controls/treeGridNew';
+import {TreeGridView} from 'Controls/treeGrid';
 import {SyntheticEvent} from 'UI/Vdom';
 import {IDragObject} from 'Controls/_dragnDrop/Container';
 import {ItemsEntity} from 'Controls/dragnDrop';
@@ -767,7 +767,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             });
         } else {
             return new Promise((resolve) => {
-                import('Controls/tile').then((tile) => {
+                import('Controls/tileOld').then((tile) => {
                     VIEW_NAMES.tile = tile.TreeView;
                     VIEW_MODEL_CONSTRUCTORS.tile = tile.TreeViewModel;
                     resolve();

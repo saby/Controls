@@ -40,7 +40,7 @@
    </div>
 </ws:template>
 
-<ws:partial template="Controls/gridNew:ColumnTemplate"
+<ws:partial template="Controls/grid:ColumnTemplate"
             scope="{{_options}}">
    <ws:contentTemplate>
       <ws:partial
