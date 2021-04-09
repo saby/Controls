@@ -17,13 +17,28 @@ define([
 ) {
    'use strict';
 
+   const RealDate = Date;
+
+   class MockDate {
+      constructor() {
+         return new RealDate(2020, 1, 2);
+      }
+   }
+
+   const setMockDate = () => {
+      Date = MockDate;
+   };
+
+   const resetMockDate = () => {
+      Date = RealDate;
+   };
+
    let
       options = {
          mask: 'DD.MM.YYYY',
          value: new Date(2018, 0, 1),
          replacer: '_',
       },
-      now = new Date(),
       masks = DateControlsUtils.Range.dateMaskConstants;
 
    describe('Controls/_input/DateTime/StringValueConverter', function() {
@@ -80,6 +95,7 @@ define([
       });
 
       describe('.getValueByString', function() {
+         const now = new MockDate();
          let year = now.getFullYear(),
             month = now.getMonth(),
             date = now.getDate(),
@@ -90,18 +106,18 @@ define([
          [
             // The day and month are filled
             // We substitute the current year
-            { mask: 'DD.MM.YY', stringValue: '11.12.__', value: new Date(year, 11, 11) },
+            { mask: 'DD.MM.YY', stringValue: '11.12.__', value: new Date(year, 11, 11), shouldMockDate: true },
             // Automatically fill the current month and year
-            { mask: 'DD.MM.YY', stringValue: '11.__.__', value: new Date(year, month, 11) },
-            { mask: 'DD.MM.YYYY', stringValue: '11.__.____', value: new Date(year, month, 11) },
+            { mask: 'DD.MM.YY', stringValue: '11.__.__', value: new Date(year, month, 11), shouldMockDate: true },
+            { mask: 'DD.MM.YYYY', stringValue: '11.__.____', value: new Date(year, month, 11), shouldMockDate: true },
             // Current year is filled
             // Autofill current month
-            { mask: 'DD.MM.YY', stringValue: `11.__.${shortYearStr}`, value: new Date(year, month, 11) },
+            { mask: 'DD.MM.YY', stringValue: `11.__.${shortYearStr}`, value: new Date(year, month, 11), shouldMockDate: true },
             // The current day and month are auto-charged
-            { mask: 'DD.MM.YY', stringValue: `__.__.${shortYearStr}`, value: new Date(year, month, date) },
+            { mask: 'DD.MM.YY', stringValue: `__.__.${shortYearStr}`, value: new Date(year, month, date), shouldMockDate: true },
             // Current year and month are filled
             // Autofill current day
-            { mask: 'DD.MM.YY', stringValue: `__.${monthStr}.${shortYearStr}`, value: new Date(year, month, date) },
+            { mask: 'DD.MM.YY', stringValue: `__.${monthStr}.${shortYearStr}`, value: new Date(year, month, date), shouldMockDate: true },
             // A year is different from the current one
             // Autofill 01
             { mask: 'DD.MM.YY', stringValue: '11.__.00', value: new Date(2000, 0, 11) },
@@ -164,7 +180,13 @@ define([
                let converter = new input.StringValueConverter(),
                   rDate;
                converter.update(cMerge({ mask: test.mask, dateConstructor: Date, yearSeparatesCenturies: test.yearSeparatesCenturies }, options, { preferSource: true }));
+               if (test.shouldMockDate) {
+                  setMockDate();
+               }
                rDate = converter.getValueByString(test.stringValue, test.baseDate, test.autocomplete || true);
+               if (test.shouldMockDate) {
+                  resetMockDate();
+               }
                assert(dateUtils.Base.isDatesEqual(rDate, test.value), `${rDate} is not equal ${test.value}`);
             });
          });
