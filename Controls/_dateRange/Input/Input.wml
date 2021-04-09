@@ -20,7 +20,7 @@
               autocompleteType="start"
               valueValidators="{{_startValueValidators}}"
               validateByFocusOut="{{_options.validateByFocusOut}}"
-              on:inputControl="_inputControlHandler()"
+              on:inputControl="_startFieldInputControlHandler()"
               on:inputCompleted="_notifyInputCompleted()"
               on:tagClick="_proxyEvent('startTagClick')"
               on:tagHover="_proxyEvent('startTagHover')">
@@ -57,6 +57,7 @@
               autocompleteType="end"
               valueValidators="{{_endValueValidators}}"
               validateByFocusOut="{{_options.validateByFocusOut}}"
+              on:inputControl="_endFieldInputControlHandler()"
               on:inputCompleted="_notifyInputCompleted()"
               on:tagClick="_proxyEvent('endTagClick')"
               on:tagHover="_proxyEvent('endTagHover')">
