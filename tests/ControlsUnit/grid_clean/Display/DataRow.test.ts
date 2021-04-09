@@ -169,4 +169,24 @@ describe('Controls/grid_clean/Display/DataRow', () => {
         assert.isFalse(columns[0].isEditing());
         assert.isTrue(columns[1].isEditing());
     });
+
+    it('editing with itemEditorTemplate', () => {
+        const gridRow = new GridDataRow({
+            owner: {
+                ...mockedCollection,
+                getEditingConfig: () => ({
+                }),
+                getItemEditorTemplate: () => 'ITEM_EDITOR_TEMPLATE'
+            },
+            columns: [{
+                displayProperty: 'key'
+            }, {
+                displayProperty: 'caption'
+            }],
+            contents: record
+        });
+
+        gridRow.setEditing(true, gridRow.contents, false, 1);
+        assert.equal(gridRow.getColumns().length, 1);
+    });
 });
