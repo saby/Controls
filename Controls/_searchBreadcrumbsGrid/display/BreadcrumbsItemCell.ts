@@ -1,4 +1,4 @@
-import { GridDataCell } from 'Controls/gridNew';
+import { GridDataCell } from 'Controls/grid';
 import { Model } from 'Types/entity';
 import BreadcrumbsItemRow from 'Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemRow';
 import { TemplateFunction } from 'UI/Base';

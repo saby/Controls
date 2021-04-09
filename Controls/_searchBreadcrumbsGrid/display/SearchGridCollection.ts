@@ -1,4 +1,4 @@
-import { TreeGridCollection } from 'Controls/treeGridNew';
+import { TreeGridCollection } from 'Controls/treeGrid';
 import { Model } from 'Types/entity';
 import { TemplateFunction } from 'UI/Base';
 import SearchGridDataRow from './SearchGridDataRow';
