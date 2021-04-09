@@ -345,7 +345,7 @@ export default class Controller extends mixin<
             !isEqual(newOptions.sorting, this._options.sorting) ||
             (this._parentProperty && rootChanged);
 
-        if (isChanged && !(isExpadedItemsChanged || this._isDeepReload())) {
+        if (isChanged && !(isExpadedItemsChanged || this._isDeepReload() || Controller._isExpandAll(this.getExpandedItems()))) {
             this.setExpandedItems([]);
         }
         this._options = newOptions;
@@ -942,6 +942,10 @@ export default class Controller extends mixin<
         }
 
         return resultSource;
+    }
+
+    private static _isExpandAll(expandedItems: TKey[]): boolean {
+        return expandedItems instanceof Array && expandedItems[0] === null;
     }
 
 }
