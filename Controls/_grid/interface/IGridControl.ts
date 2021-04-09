@@ -92,7 +92,7 @@ export interface IGridControl extends IList {
  *       <ws:header>
  *          <ws:Array>
  *              <ws:template>
- *                  <ws:partial template="Controls/grid:HeaderContent" attr:class="controls-Grid__cell_spacing_money" colData="{{colData}}" />
+ *                  <ws:partial template="Controls/grid:HeaderContent" attr:class="controls-Grid__cell_spacing_money"  scope="{{_options}}" />
  *              </ws:template>
  *          </ws:Array>
  *       </ws:header>
