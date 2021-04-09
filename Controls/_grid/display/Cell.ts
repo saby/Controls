@@ -243,9 +243,10 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
                 const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
                 wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
             } else {
-                // Если в шаблоне установили стиль для строки или колонки
-                if (backgroundColorStyle && backgroundColorStyle !== 'default') {
-                    wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle} `;
+
+                // Если колонка не зафиксирована, надо установить ей цвет по умолчанию
+                if (backgroundColorStyle || this.getOwner().hasColumnScroll() && !this._$isFixed) {
+                    wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle || style} `;
                 }
 
                 // Если  шаблоне установили любой стиль для строки или колонки, или зафиксирована колонка
