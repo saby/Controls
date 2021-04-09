@@ -1,4 +1,4 @@
-import {View as TreeGrid} from 'Controls/treeGridNew';
+import {View as TreeGrid} from 'Controls/treeGrid';
 import { TemplateFunction } from 'UI/Base';
 import SearchView from 'Controls/_searchBreadcrumbsGrid/SearchView';
 

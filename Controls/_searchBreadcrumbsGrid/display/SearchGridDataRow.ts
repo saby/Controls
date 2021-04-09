@@ -1,5 +1,5 @@
 import { Model } from 'Types/entity';
-import { TreeGridDataRow } from 'Controls/treeGridNew';
+import { TreeGridDataRow } from 'Controls/treeGrid';
 
 export default class SearchGridDataRow<S extends Model> extends TreeGridDataRow<S> {
    getWrapperClasses(
