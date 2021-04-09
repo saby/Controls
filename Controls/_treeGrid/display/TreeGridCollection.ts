@@ -147,10 +147,11 @@ export default class TreeGridCollection<
             this._updateItemsLadder();
         }
 
-        // Если изменение произошло в следствии смены записей, то нужно сбросить модель заголовка
-        // для того, что бы заголовок перерисовался по новым данным, т.к. видимость заголовка
-        // может зависеть от наличия данных (headerVisibility === 'hasdata')
-        if (changeAction === IObservable.ACTION_RESET) {
+        // Сбрасываем модель заголовка если его видимость зависит от наличия данных и текущее действие
+        // это смена записей.
+        // При headerVisibility === 'visible' вроде как пока не требуется перерисовывать заголовок, т.к.
+        // он есть всегда. Но если потребуется, то нужно поправить это условие
+        if (this._$headerVisibility === 'hasdata' && changeAction === IObservable.ACTION_RESET) {
             this._$headerModel = null;
         }
 
