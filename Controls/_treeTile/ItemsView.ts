@@ -1,4 +1,4 @@
-import { ItemsView as BaseItemsView } from 'Controls/tileNew';
+import { ItemsView as BaseItemsView } from 'Controls/tile';
 import {TreeControl} from 'Controls/tree';
 import TreeTileView from 'Controls/_treeTile/TreeTileView';
 

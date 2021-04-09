@@ -1,5 +1,5 @@
 import { TreeItem } from 'Controls/display';
-import {InvisibleTileItem} from 'Controls/tileNew';
+import {InvisibleTileItem} from 'Controls/tile';
 
 export default class InvisibleTreeTileItem extends InvisibleTileItem {
     protected _$node: boolean|null;
