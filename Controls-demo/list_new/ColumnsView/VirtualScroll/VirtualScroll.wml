@@ -2,7 +2,6 @@
    <Controls.scroll:Container attr:class="controlsDemo__height400 controlsDemo__minWidth600 controlsDemo__maxWidth800">
       <Controls.columns:View
          keyProperty="id"
-         useNewModel="{{true}}"
          source="{{ _viewSource }}"
          itemActions="{{_itemActions}}"
          markerVisibility="visible"

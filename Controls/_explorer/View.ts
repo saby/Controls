@@ -25,8 +25,8 @@ import {
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {RecordSet} from 'Types/collection';
 import {NewSourceController, Path} from 'Controls/dataSource';
-import {SearchView} from 'Controls/searchBreadcrumbsGrid';
-import {TreeGridView} from 'Controls/treeGrid';
+import {SearchView, SearchViewTable} from 'Controls/searchBreadcrumbsGrid';
+import {TreeGridView, TreeGridViewTable } from 'Controls/treeGrid';
 import {SyntheticEvent} from 'UI/Vdom';
 import {IDragObject} from 'Controls/_dragnDrop/Container';
 import {ItemsEntity} from 'Controls/dragnDrop';
@@ -38,6 +38,7 @@ import * as template from 'wml!Controls/_explorer/View/View';
 import {IEditableListOption} from 'Controls/_list/interface/IEditableList';
 import 'css!Controls/tile';
 import 'css!Controls/explorer';
+import { isFullGridSupport } from 'Controls/display';
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -53,6 +54,12 @@ const VIEW_NAMES = {
     search: SearchView,
     tile: null,
     table: TreeGridView,
+    list: ListView
+};
+const VIEW_TABLE_NAMES = {
+    search: SearchViewTable,
+    tile: null,
+    table: TreeGridViewTable,
     list: ListView
 };
 const VIEW_MODEL_CONSTRUCTORS = {
@@ -120,6 +127,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     protected _children: {
         treeControl: TreeControl
     };
+    protected _dataLoadCallback: Function;
 
     /**
      * Идентификатор узла данные которого отображаются в текущий момент.
@@ -172,12 +180,28 @@ export default class Explorer extends Control<IExplorerOptions> {
             return !!(domEvent.target as HTMLElement).closest('.js-controls-ListView__checkbox')
                 || item instanceof Array || item.get(this._options.nodeProperty) !== ITEM_TYPES.node;
         };
+        this._dataLoadCallback = (items, direction) => {
+            // После получения данных обновим видимость заголовка т.к. мы не можем это сделать на
+            // beforeUpdate в следствии того, что между сменой root и получением данных есть задержка
+            // и в противном случае перерисовка будет в два этапа, сначала обновится видимость заголовка,
+            // а потом придут и отрисуются данные
+            if (!direction) {
+                const curRoot = this._options.sourceController
+                    ? this._options.sourceController.getRoot()
+                    : this._getRoot(this._options.root);
+                this._headerVisibility = this._getHeaderVisibility(curRoot, this._options.headerVisibility);
+            }
+
+            if (this._options.dataLoadCallback) {
+                this._options.dataLoadCallback(items, direction);
+            }
+        };
 
         this._dragControlId = randomId();
         this._navigation = cfg.navigation;
 
         const root = this._getRoot(cfg.root);
-        this._headerVisibility = root === null ? cfg.headerVisibility || 'hasdata' : 'visible';
+        this._headerVisibility = this._getHeaderVisibility(root, cfg.headerVisibility);
         this._restoredMarkedKeys = {
             [root]: {
                 markedKey: null
@@ -209,7 +233,14 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         const isSourceControllerLoading = cfg.sourceController && cfg.sourceController.isLoading();
         this._resetScrollAfterViewModeChange = isViewModeChanged && !isRootChanged;
-        this._headerVisibility = cfg.root === null ? cfg.headerVisibility || 'hasdata' : 'visible';
+        // Видимость заголовка зависит непосредственно от рута и от данных в нем.
+        // Поэтому при смене рута мы не можем менять видимость прямо тут, нужно дождаться получения данных
+        // иначе перерисовка может быть в два этапа. Например, показываем пустые результаты поиска в режиме
+        // searchStartingWith === 'root', после сбрасываем поиск и возвращаем root в предыдущую папку после чего
+        // этот код покажет заголовок и только после получения данных они отрисуются
+        if (!isRootChanged) {
+            this._headerVisibility = this._getHeaderVisibility(cfg.root, cfg.headerVisibility);
+        }
 
         if (!isEqual(cfg.itemPadding, this._options.itemPadding)) {
             this._newItemPadding = cfg.itemPadding;
@@ -616,6 +647,18 @@ export default class Explorer extends Control<IExplorerOptions> {
         });
     }
 
+    /**
+     * На основании переданного root и значения опции headerVisibility вычисляет
+     * итоговую видимость заголовка таблицы.
+     *    * Если находимся в корне то видимость берем либо из headerVisibility
+     *    либо проставляем 'hasdata'.
+     *    * Если находимся не в корне, то заголовок всегда делаем видимым
+     *    https://online.sbis.ru/doc/19106882-fada-47f7-96bd-516f9fb0522f
+     */
+    private _getHeaderVisibility(root: TKey, headerVisibility: string): string {
+        return root === null ? (headerVisibility || 'hasdata') : 'visible';
+    }
+
     private _itemsReadyCallbackFunc(items: RecordSet): void {
         this._items = items;
         if (this._options.itemsReadyCallback) {
@@ -665,7 +708,11 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     private _setViewConfig(viewMode: TExplorerViewMode): void {
-        this._viewName = VIEW_NAMES[viewMode];
+        if (isFullGridSupport()) {
+            this._viewName = VIEW_NAMES[viewMode];
+        } else {
+            this._viewName = VIEW_TABLE_NAMES[viewMode];
+        }
         this._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS[viewMode];
     }
 
@@ -759,6 +806,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             return new Promise((resolve) => {
                 import('Controls/treeTile').then((tile) => {
                     VIEW_NAMES.tile = tile.TreeTileView;
+                    VIEW_TABLE_NAMES.tile = tile.TreeTileView;
                     VIEW_MODEL_CONSTRUCTORS.tile = 'Controls/treeTile:TreeTileCollection';
                     resolve();
                 }).catch((err) => {
@@ -769,6 +817,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             return new Promise((resolve) => {
                 import('Controls/tileOld').then((tile) => {
                     VIEW_NAMES.tile = tile.TreeView;
+                    VIEW_TABLE_NAMES.tile = tile.TreeView;
                     VIEW_MODEL_CONSTRUCTORS.tile = tile.TreeViewModel;
                     resolve();
                 }).catch((err) => {
@@ -783,6 +832,8 @@ export default class Explorer extends Control<IExplorerOptions> {
             import('Controls/treeGridOld').then((treeGridOld) => {
                 VIEW_NAMES.table = treeGridOld.TreeGridView;
                 VIEW_NAMES.search = treeGridOld.SearchView;
+                VIEW_TABLE_NAMES.table = treeGridOld.TreeGridView;
+                VIEW_TABLE_NAMES.search = treeGridOld.SearchView;
 
                 VIEW_MODEL_CONSTRUCTORS.table = treeGridOld.ViewModel;
                 VIEW_MODEL_CONSTRUCTORS.list = treeGridOld.ViewModel;
@@ -892,7 +943,8 @@ export default class Explorer extends Control<IExplorerOptions> {
             backButtonFontColorStyle: 'secondary',
             stickyHeader: true,
             searchStartingWith: 'root',
-            showActionButton: false
+            showActionButton: false,
+            isFullGridSupport: isFullGridSupport()
         };
     }
 }

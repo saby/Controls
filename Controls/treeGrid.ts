@@ -28,6 +28,7 @@ export {
     View,
     ItemsView,
     TreeGridView,
+    TreeGridViewTable,
     ItemTemplate,
     NodeFooterTemplate,
     GroupColumnTemplate
@@ -44,6 +45,7 @@ import TreeGridFooterCell from 'Controls/_treeGrid/display/TreeGridFooterCell';
 import { isFullGridSupport } from 'Controls/display';
 import TreeGridGroupDataRow from 'Controls/_treeGrid/display/TreeGridGroupDataRow';
 import TreeGridGroupDataCell from 'Controls/_treeGrid/display/TreeGridGroupDataCell';
+import TreeGridViewTable from './_treeGrid/TreeGridViewTable';
 
 export {
     TreeGridFooterCell,
