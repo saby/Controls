@@ -4,8 +4,8 @@
             <ws:for data="index, item in _items">
                 <ws:partial template="{{item[_options.itemTemplateProperty] || _options.itemTemplate || _defaultItemTemplate}}"
                             on:click="_selectKeyChanged(item, _options.keyProperty)"
-                            attr:class="controls-RadioGroup_defaultItem_{{_options.direction}}
-                                        controls-RadioItem__wrapper"
+                            attr:class="{{(_options.direction == 'horizontal' && index !== 0) || _options.direction == 'vertical' ? 'controls-RadioGroup_defaultItem_' + _options.direction}}
+                                         controls-RadioItem__wrapper"
                             item="{{item}}"
                             readOnly="{{_options.readOnly || item['readOnly']}}"
                             selected="{{item[_options.keyProperty] === _options.selectedKey}}"/>
