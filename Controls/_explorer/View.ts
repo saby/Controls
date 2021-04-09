@@ -25,8 +25,8 @@ import {
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {RecordSet} from 'Types/collection';
 import {NewSourceController, Path} from 'Controls/dataSource';
-import {SearchView} from 'Controls/searchBreadcrumbsGrid';
-import {TreeGridView} from 'Controls/treeGridNew';
+import {SearchView, SearchViewTable} from 'Controls/searchBreadcrumbsGrid';
+import {TreeGridView, TreeGridViewTable } from 'Controls/treeGrid';
 import {SyntheticEvent} from 'UI/Vdom';
 import {IDragObject} from 'Controls/_dragnDrop/Container';
 import {ItemsEntity} from 'Controls/dragnDrop';
@@ -38,6 +38,7 @@ import * as template from 'wml!Controls/_explorer/View/View';
 import {IEditableListOption} from 'Controls/_list/interface/IEditableList';
 import 'css!Controls/tile';
 import 'css!Controls/explorer';
+import { isFullGridSupport } from 'Controls/display';
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -53,6 +54,12 @@ const VIEW_NAMES = {
     search: SearchView,
     tile: null,
     table: TreeGridView,
+    list: ListView
+};
+const VIEW_TABLE_NAMES = {
+    search: SearchViewTable,
+    tile: null,
+    table: TreeGridViewTable,
     list: ListView
 };
 const VIEW_MODEL_CONSTRUCTORS = {
@@ -665,7 +672,11 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     private _setViewConfig(viewMode: TExplorerViewMode): void {
-        this._viewName = VIEW_NAMES[viewMode];
+        if (isFullGridSupport()) {
+            this._viewName = VIEW_NAMES[viewMode];
+        } else {
+            this._viewName = VIEW_TABLE_NAMES[viewMode];
+        }
         this._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS[viewMode];
     }
 
@@ -759,6 +770,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             return new Promise((resolve) => {
                 import('Controls/treeTile').then((tile) => {
                     VIEW_NAMES.tile = tile.TreeTileView;
+                    VIEW_TABLE_NAMES.tile = tile.TreeTileView;
                     VIEW_MODEL_CONSTRUCTORS.tile = 'Controls/treeTile:TreeTileCollection';
                     resolve();
                 }).catch((err) => {
@@ -769,6 +781,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             return new Promise((resolve) => {
                 import('Controls/tile').then((tile) => {
                     VIEW_NAMES.tile = tile.TreeView;
+                    VIEW_TABLE_NAMES.tile = tile.TreeView;
                     VIEW_MODEL_CONSTRUCTORS.tile = tile.TreeViewModel;
                     resolve();
                 }).catch((err) => {
@@ -783,6 +796,8 @@ export default class Explorer extends Control<IExplorerOptions> {
             import('Controls/treeGridOld').then((treeGridOld) => {
                 VIEW_NAMES.table = treeGridOld.TreeGridView;
                 VIEW_NAMES.search = treeGridOld.SearchView;
+                VIEW_TABLE_NAMES.table = treeGridOld.TreeGridView;
+                VIEW_TABLE_NAMES.search = treeGridOld.SearchView;
 
                 VIEW_MODEL_CONSTRUCTORS.table = treeGridOld.ViewModel;
                 VIEW_MODEL_CONSTRUCTORS.list = treeGridOld.ViewModel;
@@ -892,7 +907,8 @@ export default class Explorer extends Control<IExplorerOptions> {
             backButtonFontColorStyle: 'secondary',
             stickyHeader: true,
             searchStartingWith: 'root',
-            showActionButton: false
+            showActionButton: false,
+            isFullGridSupport: isFullGridSupport()
         };
     }
 }
