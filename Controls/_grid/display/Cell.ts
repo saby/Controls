@@ -244,13 +244,13 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
                 wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
             } else {
 
-                // Если колонка не зафиксирована, надо установить ей цвет по умолчанию
-                if (backgroundColorStyle || this.getOwner().hasColumnScroll() && !this._$isFixed) {
+                // Если колонка не зафиксирована и в шаблоне установили собственный стиль для строки или колонки
+                if (backgroundColorStyle && backgroundColorStyle !== 'default') {
                     wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle || style} `;
                 }
 
-                // Если  шаблоне установили любой стиль для строки или колонки, или зафиксирована колонка
-                if (backgroundColorStyle || (this.getOwner().hasColumnScroll() && this._$isFixed)) {
+                // Если  шаблоне установили собственный стиль для строки или колонки, или включен скролл колонок
+                if (backgroundColorStyle || this.getOwner().hasColumnScroll()) {
                     wrapperClasses += ` controls-background-${this._resolveBackgroundStyle(backgroundColorStyle, style)}`;
                 }
 
