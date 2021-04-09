@@ -1,46 +1,36 @@
-import { TemplateFunction } from 'UI/Base';
 import {mixin} from 'Types/util';
 import EmptyRow from './EmptyRow';
-import Cell, {IOptions as ICellOptions} from './Cell';
+import Cell, {IOptions as IBaseCellOptions} from './Cell';
 import CellCompatibility from './compatibility/DataCell';
 
-export interface IOptions<T> extends ICellOptions<T> {
-    owner: EmptyRow<T>;
-    template?: TemplateFunction;
-    isFullColspan?: boolean;
-}
+class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompatibility>(Cell, CellCompatibility) {
+    protected readonly _defaultCellTemplate: string = 'Controls/grid:EmptyColumnTemplate';
 
-const DEFAULT_CELL_TEMPLATE = 'Controls/grid:EmptyColumnTemplate';
-
-export default class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompatibility>(Cell, CellCompatibility) {
-    protected _$isFullColspan: boolean;
-
-    getTemplate(): TemplateFunction|string {
-        return this._$column.template || DEFAULT_CELL_TEMPLATE;
-    }
+    //region Аспект "Стилевое оформление"
     getWrapperClasses(theme: string, backgroundColorStyle: string = 'default', style: string = 'default', highlightOnHover?: boolean): string {
         let classes;
 
-        if (this._$isFullColspan) {
+        if (this._$isSingleCell) {
             classes = '';
         } else if (this.isMultiSelectColumn()) {
-            classes = 'controls-GridView__emptyTemplate__checkBoxCell ' +
-                'controls-Grid__row-cell-editing ' +
-                `controls-Grid__row-cell-background-editing_${backgroundColorStyle} `;
+            classes = 'controls-GridView__emptyTemplate__checkBoxCell '
+                + 'controls-Grid__row-cell-editing '
+                + `controls-Grid__row-cell-background-editing_${backgroundColorStyle}`;
         } else {
-            classes = super.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) +
-                ' controls-Grid__row-cell-background-editing_default';
+            classes = super.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover)
+                + ' controls-Grid__row-cell-background-editing_default';
         }
 
         return classes;
     }
+
     getContentClasses(theme: string, topSpacing: string = 'default', bottomSpacing: string = 'default'): string {
         let classes;
 
-        if (this._$isFullColspan) {
+        if (this._$isSingleCell) {
             classes = 'controls-ListView__empty'
-                + ' controls-ListView__empty_topSpacing_${topSpacing}'
-                + ' controls-ListView__empty_bottomSpacing_${bottomSpacing}';
+                + ` controls-ListView__empty_topSpacing_${topSpacing}`
+                + ` controls-ListView__empty_bottomSpacing_${bottomSpacing}`;
         } else if (this.isMultiSelectColumn()) {
             classes = '';
         } else {
@@ -55,11 +45,18 @@ export default class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompat
 
         return classes;
     }
+
+    //endregion
 }
 
 Object.assign(EmptyCell.prototype, {
     '[Controls/_display/grid/EmptyCell]': true,
-    _moduleName: 'Controls/gridNew:GridEmptyCell',
-    _instancePrefix: 'grid-empty-cell-',
-    _$isFullColspan: false
+    _moduleName: 'Controls/grid:GridEmptyCell',
+    _instancePrefix: 'grid-empty-cell-'
 });
+
+export default EmptyCell;
+export {
+    EmptyCell,
+    IBaseCellOptions as IEmptyCellOptions
+};

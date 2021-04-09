@@ -1,4 +1,4 @@
-import { TreeGridFooterCell } from 'Controls/treeGridNew';
+import { TreeGridFooterCell } from 'Controls/treeGrid';
 import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
 
 describe('Controls/treeGrid_clean/Display/HasNodeWithChildren/TreeGridFooterCell', () => {

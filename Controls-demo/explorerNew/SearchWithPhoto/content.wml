@@ -1,0 +1,11 @@
+<ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL" scope="{{_options}}">
+    <ws:contentTemplate>
+        <ws:if data="{{item.getColumnIndex() === 0 && item.contents['image']}}">
+            <img attr:class="demoExplorerWithPhoto__imageBlock" src="{{item.contents['image']}}"/>
+        </ws:if>
+        <ws:else data="{{item.contents['type'] === null}}">
+            <div class="demoExplorerWithPhoto__imageBlock"></div>
+        </ws:else>
+        <span>{{item.contents['title']}}</span>
+    </ws:contentTemplate>
+</ws:partial>

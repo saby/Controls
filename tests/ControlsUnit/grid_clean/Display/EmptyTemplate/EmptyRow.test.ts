@@ -1,5 +1,5 @@
 import {assert} from "chai";
-import {GridCollection, GridEmptyRow} from 'Controls/gridNew';
+import {GridCollection, GridEmptyRow} from 'Controls/grid';
 
 describe('Controls/grid_clean/Display/EmptyTemplate/EmptyRow', () => {
     const columns = [
@@ -14,13 +14,14 @@ describe('Controls/grid_clean/Display/EmptyTemplate/EmptyRow', () => {
                 getColumnsConfig: () => columns,
                 hasMultiSelectColumn: () => true,
                 getStickyColumnsCount: () => {},
-                isFullGridSupport: () => true
+                isFullGridSupport: () => true,
+                hasItemActionsSeparatedCell: () => false
             } as GridCollection<unknown>,
-            emptyTemplate: () => 'EMPTY_TEMPLATE'
+            rowTemplate: () => 'EMPTY_TEMPLATE'
         });
 
         const emptyColumns = emptyRow.getColumns();
         assert.equal(emptyColumns.length, 1);
-        assert.equal(emptyColumns[0].getColspan(), 'grid-column: 1 / 5;')
+        assert.equal(emptyColumns[0].getColspan(), 4);
     });
 });

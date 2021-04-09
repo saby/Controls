@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridCollection, GridResultsRow } from 'Controls/gridNew';
+import { GridCollection, GridResultsRow } from 'Controls/grid';
 import * as sinon from 'sinon';
 
 const getMockedOwner = (extendedProps = {}): GridCollection<unknown> => {

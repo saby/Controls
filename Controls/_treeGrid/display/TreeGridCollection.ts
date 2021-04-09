@@ -13,7 +13,7 @@ import {
     GridGroupRow,
     GridMixin,
     IGridCollectionOptions
-} from 'Controls/gridNew';
+} from 'Controls/grid';
 import TreeGridFooterRow from './TreeGridFooterRow';
 import {Model as EntityModel, Model} from 'Types/entity';
 
@@ -79,7 +79,7 @@ export default class TreeGridCollection<
         if (superResult) {
             if (this._$emptyTemplate) {
                 if (this._$emptyGridRow) {
-                    this._$emptyGridRow.setEmptyTemplate(this._$emptyTemplate);
+                    this._$emptyGridRow.setRowTemplate(this._$emptyTemplate);
                 } else {
                     this._initializeEmptyRow();
                 }

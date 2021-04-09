@@ -45,8 +45,8 @@ export default class HeaderRow<T> extends Row<T> {
         return 'header' as unknown as T;
     }
 
-    getItemClasses(params): string {
-        return `controls-Grid__header`;
+    getItemClasses(): string {
+        return 'controls-Grid__header';
     }
 
     protected _processStickyLadderCells(): void {
@@ -57,7 +57,7 @@ export default class HeaderRow<T> extends Row<T> {
         if (stickyLadderCellsCount) {
             this._$columnItems.splice(1, 0, new HeaderCell({
                 column: this._$header[0],
-                ladderCell: true,
+                isLadderCell: true,
                 owner: this,
                 backgroundStyle: 'transparent',
                 shadowVisibility: 'hidden'
@@ -68,7 +68,7 @@ export default class HeaderRow<T> extends Row<T> {
             this._$columnItems = ([
                 new HeaderCell({
                     column: this._$header[0],
-                    ladderCell: true,
+                    isLadderCell: true,
                     owner: this,
                     shadowVisibility: 'hidden',
                     backgroundStyle: 'transparent'
@@ -84,10 +84,10 @@ export default class HeaderRow<T> extends Row<T> {
         if (this._$header) {
             this._$columnItems = [];
             const factory = this.getColumnsFactory();
+            let totalColspan = 0;
             this._$columnItems = this._$header.map((column, index) => {
-                const isFixed = typeof column.endColumn !== 'undefined' ?
-                    (column.endColumn - 1) <= this.getStickyColumnsCount() : index < this.getStickyColumnsCount();
-
+                const isFixed = totalColspan < this.getStickyColumnsCount();
+                totalColspan += (column.endColumn - column.startColumn) || 1;
                 return factory({
                     column,
                     isFixed,
@@ -201,9 +201,9 @@ export default class HeaderRow<T> extends Row<T> {
 
 Object.assign(HeaderRow.prototype, {
     '[Controls/_display/grid/HeaderRow]': true,
-    _moduleName: 'Controls/gridNew:GridHeaderRow',
+    _moduleName: 'Controls/grid:GridHeaderRow',
     _instancePrefix: 'grid-header-row-',
-    _cellModule: 'Controls/gridNew:GridHeaderCell',
+    _cellModule: 'Controls/grid:GridHeaderCell',
     _$header: null,
     _$headerModel: null
 });

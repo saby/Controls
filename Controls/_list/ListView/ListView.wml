@@ -31,19 +31,23 @@
       <ws:if data="{{_options.emptyTemplate}}">
          <ws:partial template="{{_options.emptyTemplate}}"/>
       </ws:if>
-      <ws:if data="{{_options.stickyFooter}}">
-         <Controls.scroll:StickyHeader position="bottom"  attr:class="{{ _getFooterClasses() }}">
-            <ws:content>
-               <div>
+      <ws:if data="{{ _options.footerTemplate }}">
+         <ws:if data="{{_options.stickyFooter}}">
+            <Controls.scroll:StickyHeader position="bottom"  attr:class="{{ _getFooterClasses() }}">
+               <ws:content>
+                  <div>
+                     <ws:partial template="{{_options.footerTemplate}}"/>
+                  </div>
+               </ws:content>
+            </Controls.scroll:StickyHeader>
+         </ws:if>
+         <ws:else>
+            <div class="{{ _getFooterClasses() }}">
+               <div class="controls-ListView__footer__content">
                   <ws:partial template="{{_options.footerTemplate}}"/>
                </div>
-            </ws:content>
-         </Controls.scroll:StickyHeader>
+            </div>
+         </ws:else>
       </ws:if>
-      <ws:else>
-         <div class="{{ _getFooterClasses() }}">
-            <ws:partial template="{{_options.footerTemplate}}"/>
-         </div>
-      </ws:else>
    </ws:if>
 </div>

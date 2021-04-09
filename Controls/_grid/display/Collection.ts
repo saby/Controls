@@ -38,7 +38,7 @@ export default class Collection<
         if (superResult) {
             if (this._$emptyTemplate) {
                 if (this._$emptyGridRow) {
-                    this._$emptyGridRow.setEmptyTemplate(this._$emptyTemplate);
+                    this._$emptyGridRow.setRowTemplate(this._$emptyTemplate);
                 } else {
                     this._initializeEmptyRow();
                 }
@@ -50,29 +50,21 @@ export default class Collection<
     }
 
     setEmptyTemplateOptions(options: object): boolean {
-        super.setEmptyTemplateOptions(options);
-        if (this.getEmptyGridRow()) {
-            this.getEmptyGridRow().setEmptyTemplateOptions(options);
+        if (super.setEmptyTemplateOptions(options)) {
+            if (this.getEmptyGridRow()) {
+                this.getEmptyGridRow().setRowTemplateOptions(options);
+            }
+            return true;
         }
+        return false;
     }
 
     setMultiSelectVisibility(visibility: string): void {
         super.setMultiSelectVisibility(visibility);
 
-        if (this.getFooter()) {
-            this.getFooter().setMultiSelectVisibility(visibility);
-        }
-        if (this.getResults()) {
-            this.getResults().setMultiSelectVisibility(visibility);
-        }
-
-        if (this.getHeader()) {
-            this.getHeader().setMultiSelectVisibility(visibility);
-        }
-
-        if (this.getColgroup()) {
-            this.getColgroup().setMultiSelectVisibility(visibility);
-        }
+        [this.getColgroup(), this.getHeader(), this.getResults(), this.getFooter()].forEach((gridUnit) => {
+            gridUnit?.setMultiSelectVisibility(visibility);
+        });
     }
 
     setActionsTemplateConfig(config: IItemActionsTemplateConfig) {
@@ -178,6 +170,6 @@ export default class Collection<
 
 Object.assign(Collection.prototype, {
     '[Controls/_display/grid/Collection]': true,
-    _moduleName: 'Controls/gridNew:GridCollection',
-    _itemModule: 'Controls/gridNew:GridDataRow'
+    _moduleName: 'Controls/grid:GridCollection',
+    _itemModule: 'Controls/grid:GridDataRow'
 });

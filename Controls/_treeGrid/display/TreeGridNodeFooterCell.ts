@@ -1,5 +1,5 @@
 import { TemplateFunction } from 'UI/Base';
-import { GridCell } from 'Controls/gridNew';
+import { GridCell } from 'Controls/grid';
 import TreeGridNodeFooterRow from './TreeGridNodeFooterRow';
 
 export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeFooterRow> {
@@ -41,7 +41,7 @@ export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeF
     }
 
     // TODO нужно удалить, когда перепишем колспан для футеров узлов
-    getColspan(colspan?: boolean): string {
+    getColspanStyles(colspan?: boolean): string {
         if (this.getOwner().isSupportLadder()) {
             return colspan !== false ? 'grid-column: 2 / ' + (this._$owner.getColumnsConfig().length + 2) : '';
         } else {

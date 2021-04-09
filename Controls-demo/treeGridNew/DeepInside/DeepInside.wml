@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth800 controlsDemo_treeGrid-deepInside">
-    <Controls.treeGridNew:View
+    <Controls.treeGrid:View
             useTableInOldBrowsers="{{true}}"
             source="{{_viewSource}}"
             keyProperty="id"
@@ -12,9 +12,9 @@
             <ws:sourceConfig pageSize="{{21}}" page="{{0}}" hasMore="{{false}}"/>
         </ws:navigation>
         <ws:nodeFooterTemplate>
-            <ws:partial template="Controls/treeGridNew:NodeFooterTemplate">
+            <ws:partial template="Controls/treeGrid:NodeFooterTemplate">
                 <Controls.list:AddButton caption="Добавить товар"/>
             </ws:partial>
         </ws:nodeFooterTemplate>
-    </Controls.treeGridNew:View>
+    </Controls.treeGrid:View>
 </div>

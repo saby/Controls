@@ -81,7 +81,7 @@
                 containerSize="{{ _containerSize }}"
                 hasColumnScroll="{{ _containerSize && _isColumnScrollVisible }}"
                 hasMultiSelect="{{ _options.multiSelectVisibility !=='hidden' }}"
-                attr:class="{{ _options.footer ? 'controls-GridView__footer' }}"
+                attr:class="{{ _options.footer ? 'controls-GridView__footer' }} {{_options.footerTemplate ? 'controls-GridView__footer_old' }}"
                 backgroundStyle="{{_options.backgroundStyle || _options.style}}"
                 isFullGridSupport="{{ false }}"/>
 </table>

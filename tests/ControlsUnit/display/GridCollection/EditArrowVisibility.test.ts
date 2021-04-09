@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridCollection } from 'Controls/gridNew';
+import { GridCollection } from 'Controls/grid';
 import { Model } from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import {TEditArrowVisibilityCallback} from 'Controls/_grid/display/mixins/Grid';

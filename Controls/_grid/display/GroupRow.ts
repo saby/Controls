@@ -66,6 +66,7 @@ export default class GroupRow<T> extends mixin<
         }
     }
 
+    // FIXME: перебитие метода с другой сигнатурой + сайд эффект в виде установки шаблона при вызове метода getSmth
     getTemplate(
         itemTemplateProperty: string,
         userItemTemplate: TemplateFunction|string,
@@ -142,8 +143,8 @@ export default class GroupRow<T> extends mixin<
 Object.assign(GroupRow.prototype, {
     '[Controls/_display/GroupItem]': true,
     '[Controls/_display/grid/GroupRow]': true,
-    _moduleName: 'Controls/gridNew:GridGroupRow',
-    _cellModule: 'Controls/gridNew:GridGroupCell',
+    _moduleName: 'Controls/grid:GridGroupRow',
+    _cellModule: 'Controls/grid:GridGroupCell',
     _instancePrefix: 'grid-group-item-',
     _$columns: null
 });

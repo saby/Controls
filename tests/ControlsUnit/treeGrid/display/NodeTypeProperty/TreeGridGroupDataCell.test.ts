@@ -1,4 +1,4 @@
-import {TreeGridGroupDataRow, TreeGridGroupDataCell} from 'Controls/treeGridNew';
+import {TreeGridGroupDataRow, TreeGridGroupDataCell} from 'Controls/treeGrid';
 import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
 
 describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataCell', () => {

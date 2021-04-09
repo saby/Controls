@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height500">
-        <Controls.treeGridNew:View
+        <Controls.treeGrid:View
                 name="treeGrid"
                 source="{{_viewSource}}"
                 keyProperty="key"

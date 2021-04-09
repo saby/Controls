@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { RecordSet } from 'Types/collection';
-import { GridCollection } from 'Controls/gridNew';
+import { GridCollection } from 'Controls/grid';
 
 const rawData = [
     { key: 1, col1: 'c1-1', col2: 'с2-1', col3: 'с3-1' },
@@ -83,12 +83,12 @@ describe('Controls/grid_clean/Display/EmptyTemplate/UpdateOption', () => {
         const emptyGridRow = gridCollection.getEmptyGridRow();
 
         const sandbox = sinon.createSandbox();
-        const spy = sandbox.spy(emptyGridRow, 'setEmptyTemplate');
+        const spy = sandbox.spy(emptyGridRow, 'setRowTemplate');
 
         gridCollection.setEmptyTemplate(newEmptyTemplate);
 
-        assert(emptyGridRow.setEmptyTemplate.calledOnce);
-        assert.strictEqual(emptyGridRow.setEmptyTemplate.getCall(0).args[0], newEmptyTemplate);
+        assert(emptyGridRow.setRowTemplate.calledOnce);
+        assert.strictEqual(emptyGridRow.setRowTemplate.getCall(0).args[0], newEmptyTemplate);
         assert.strictEqual(gridCollection.getVersion(), 1);
 
         spy.restore();

@@ -18,17 +18,17 @@ describe('Controls/_grid/display/Cell/getCellContentRender', () => {
         contents.get = () => '1';
 
         const cell = new Cell({owner});
-        assert.equal(cell.getCellContentRender(), 'Controls/gridNew:StringTypeRender');
+        assert.equal(cell.getCellContentRender(), 'Controls/grid:StringTypeRender');
 
         searchValue = '123';
-        assert.equal(cell.getCellContentRender(), 'Controls/gridNew:StringSearchTypeRender');
+        assert.equal(cell.getCellContentRender(), 'Controls/grid:StringSearchTypeRender');
     });
 
     it('not exists display value', () => {
         const cell = new Cell({owner});
-        assert.equal(cell.getCellContentRender(), 'Controls/gridNew:StringTypeRender');
+        assert.equal(cell.getCellContentRender(), 'Controls/grid:StringTypeRender');
 
         searchValue = '123';
-        assert.equal(cell.getCellContentRender(), 'Controls/gridNew:StringTypeRender');
+        assert.equal(cell.getCellContentRender(), 'Controls/grid:StringTypeRender');
     });
 });

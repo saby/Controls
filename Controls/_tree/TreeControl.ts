@@ -1267,6 +1267,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         return model.getExpandedItems().indexOf(item.getContents().get(this._keyProperty)) > -1;
     }
 
+    protected _getFooterClasses(options): string {
+        return super._getFooterClasses(options) + ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
+    }
+
     static getDefaultOptions() {
         return {
             ...BaseControl.getDefaultOptions(),

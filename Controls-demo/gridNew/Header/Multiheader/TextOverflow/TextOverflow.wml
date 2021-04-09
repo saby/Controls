@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__grid-header-multiHeader-base controlsDemo__height400 controlsDemo_widthFit">
     <Controls.scroll:Container attr:class="controlsDemo__height400 controlsDemo__width800px">
-        <Controls.gridNew:View
+        <Controls.grid:View
                 backgroundStyle="default"
                 keyProperty="id"
                 source="{{_viewSource}}"

@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/NodeTypeProperty/AlignedByColumn/AlignedByColumn';
 import {HierarchicalMemory} from 'Types/source';
 import {data} from '../data/NodeTypePropertyData';
-import {TColspanCallbackResult} from 'Controls/gridNew';
+import {TColspanCallbackResult} from 'Controls/grid';
 import {Model} from 'Types/entity';
 
 const NODE_TYPE_PROPERTY = 'nodeType';

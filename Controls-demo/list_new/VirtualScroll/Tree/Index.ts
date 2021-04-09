@@ -33,7 +33,7 @@ class PositionSourceMock extends Memory {
             items.push({
                 id: position,
                 title: `Запись #${position}`,
-                parent: position > COUNTNUMBER ? COUNTNUMBER : undefined,
+                parent: position > COUNTNUMBER ? COUNTNUMBER : null,
                 node: position === COUNTNUMBER ? true : null
             });
         }

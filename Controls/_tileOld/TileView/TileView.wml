@@ -26,7 +26,11 @@
             </ws:if>
             <ws:if data="{{_options.footerTemplate}}">
                 <div class="controls-TileView__footer">
-                    <ws:partial template="{{_options.footerTemplate}}"/>
+                    <div class="controls-TileView__footer__wrapperContent">
+                        <div class="controls-TileView__footer__content">
+                            <ws:partial template="{{_options.footerTemplate}}"/>
+                        </div>
+                    </div>
                 </div>
             </ws:if>
         </ws:if>

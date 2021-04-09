@@ -1,7 +1,7 @@
 import {HierarchicalMemory, Query} from 'Types/source';
 import {ITreeControlOptions, TreeControl} from 'Controls/tree';
 import { RecordSet } from 'Types/collection';
-import { TreeGridCollection } from 'Controls/treeGridNew';
+import { TreeGridCollection } from 'Controls/treeGrid';
 import { register } from 'Types/di';
 import { assert } from 'chai';
 import { stub, spy, assert as sinonAssert } from 'sinon';

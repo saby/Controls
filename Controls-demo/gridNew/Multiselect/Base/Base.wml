@@ -6,7 +6,7 @@
             source="{{_radioSource}}"
     />
     <div class="controlsDemo__wrapper">
-        <Controls.gridNew:View
+        <Controls.grid:View
                 keyProperty="id"
                 multiSelectVisibility="{{_multiselect}}"
                 source="{{_viewSource}}"

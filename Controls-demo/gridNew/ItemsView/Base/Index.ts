@@ -1,7 +1,7 @@
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as Template from 'wml!Controls-demo/gridNew/ItemsView/Base/Index';
-import {IColumn} from 'Controls/gridNew';
+import {IColumn} from 'Controls/grid';
 import {RecordSet} from 'Types/collection';
 import {Control, TemplateFunction} from 'UI/Base';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';

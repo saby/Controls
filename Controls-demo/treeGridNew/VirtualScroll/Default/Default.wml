@@ -3,7 +3,7 @@
     <Controls-demo.list_new.VirtualScroll.NavigationSwitcher.Index totalCount="{{30}}" pageSize="{{9}}">
         <ws:content>
             <Controls.scroll:Container attr:style="height: 250px">
-                <Controls.treeGridNew:View
+                <Controls.treeGrid:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
@@ -11,7 +11,7 @@
                         nodeProperty="type"
                         navigation="{{_options.navigation}}">
                     <ws:virtualScrollConfig pageSize="{{40}}"/>
-                </Controls.treeGridNew:View>
+                </Controls.treeGrid:View>
             </Controls.scroll:Container>
         </ws:content>
     </Controls-demo.list_new.VirtualScroll.NavigationSwitcher.Index>

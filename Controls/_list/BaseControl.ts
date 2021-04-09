@@ -1671,6 +1671,11 @@ const _private = {
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
                 _private.resetPortionedSearchAndCheckLoadToDirection(self, self._options);
             }
+
+            if (self._scrollPagingCtr && action === IObservable.ACTION_RESET) {
+                self._scrollPagingCtr = null;
+            }
+
             if (self._scrollController) {
                 if (action) {
                     const collectionStartIndex = self._listViewModel.getStartIndex();
@@ -6888,6 +6893,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._notify('unregister', ['touchend', this], {bubbling: true});
     }
     // endregion
+
+    _getFooterClasses(options): string {
+        const hasCheckboxes = options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
+        return `controls__BaseControl__footer controls__BaseControl__footer__paddingLeft_${hasCheckboxes ? 'withCheckboxes' : (options.itemPadding?.left || 'default')}`;
+    }
 
     static getDefaultOptions(): Partial<IBaseControlOptions> {
         return {

@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {RecordSet} from 'Types/collection';
-import {GridCollection} from 'Controls/gridNew';
+import {GridCollection} from 'Controls/grid';
 import * as sinon from 'sinon';
 
 describe('Controls/display/collection/BackgroundStyle', () => {

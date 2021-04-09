@@ -6,7 +6,6 @@ import Row, {IOptions as IRowOptions} from './Row';
 import DataCell, { IOptions as IGridDataCellOptions } from './DataCell';
 import ILadderSupport from './interface/ILadderSupport';
 import { IDisplaySearchValue, IDisplaySearchValueOptions } from './interface/IDisplaySearchValue';
-import ItemActionsCell from './ItemActionsCell';
 import {IColumn} from 'Controls/interface';
 import { Model } from 'Types/entity';
 import {TColspanCallbackResult} from 'Controls/_grid/display/mixins/Grid';
@@ -41,18 +40,6 @@ export default class DataRow<T extends Model> extends Row<T> implements
     getTemplate(itemTemplateProperty: string, userTemplate: TemplateFunction|string): TemplateFunction|string {
         const templateFromProperty = itemTemplateProperty ? this.getContents().get(itemTemplateProperty) : '';
         return templateFromProperty || userTemplate || this.getDefaultTemplate();
-    }
-
-    protected _initializeColumns(): void {
-        super._initializeColumns();
-
-        if (this._$columns && this.hasItemActionsSeparatedCell()) {
-            this._$columnItems.push(new ItemActionsCell({
-                owner: this,
-                isFixed: true,
-                column: {}
-            }));
-        }
     }
 
     protected _getColumnFactoryParams(column: IColumn, columnIndex: number): Partial<IGridDataCellOptions<T>> {
@@ -127,8 +114,8 @@ export default class DataRow<T extends Model> extends Row<T> implements
 
 Object.assign(DataRow.prototype, {
     '[Controls/_display/grid/DataRow]': true,
-    _moduleName: 'Controls/gridNew:GridDataRow',
-    _cellModule: 'Controls/gridNew:GridDataCell',
+    _moduleName: 'Controls/grid:GridDataRow',
+    _cellModule: 'Controls/grid:GridDataCell',
     _instancePrefix: 'grid-data-row-',
     _$editingColumnIndex: null,
     _$searchValue: '',

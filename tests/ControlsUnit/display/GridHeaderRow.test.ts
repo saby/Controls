@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridHeaderRow } from 'Controls/gridNew';
+import { GridHeaderRow } from 'Controls/grid';
 
 describe('Controls/_display:GridHeaderRow', () => {
 
@@ -29,6 +29,6 @@ describe('Controls/_display:GridHeaderRow', () => {
             }
         });
         assert.equal(headerRow.getColumns().length, 2);
-        assert.equal(headerRow.getColumns()[0].getRowspan(), 'grid-row: 1 / 3;');
+        assert.equal(headerRow.getColumns()[0].getRowspanStyles(), 'grid-row: 1 / 3;');
     });
 });

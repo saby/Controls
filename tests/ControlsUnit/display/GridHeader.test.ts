@@ -1,7 +1,7 @@
 import { assert } from 'chai';
-import { GridHeader, GridHeaderRow } from 'Controls/gridNew';
+import { GridHeader, GridHeaderRow } from 'Controls/grid';
 
-describe('Controls/gridNew:GridHeader', () => {
+describe('Controls/grid:GridHeader', () => {
 
     describe('.isSticked()', () => {
         const getOwnerMock = (isStickyHeader, isFullGridSupport) => ({
