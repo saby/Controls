@@ -6,7 +6,6 @@ import {Body as PageBody, Head as PageHead} from 'Application/Page';
 
 import * as cBodyClasses from 'Core/BodyClasses';
 import * as getResourceUrl from 'Core/helpers/getResourceUrl';
-import TimeTesterInv from 'Core/TimeTesterInv';
 import {detection, compatibility, constants, IoC} from 'Env/Env';
 import {TouchDetect} from 'Env/Touch';
 import {Bus} from 'Env/Event';
@@ -21,7 +20,6 @@ import {ManagerClass as PopupManager, GlobalController as PopupGlobalController,
 import {TouchContextField} from 'Controls/context';
 import {RegisterClass} from 'Controls/event';
 import {ControllerClass as DnDController} from 'Controls/dragnDrop';
-import { getConfig } from 'Application/Env';
 
 // Нужно чтобы oldCss прилетал первым на страницу. Есть контролы (например itemsActions), стили которыйх
 // Завязаны на порядок css.
@@ -76,8 +74,6 @@ interface IHeadLinkConfig {
 interface IApplication extends IControlOptions{
    bodyClass?: string;
    title?: string;
-   RUMEnabled?: boolean;
-   pageName?: string;
    resourceRoot?: string;
    loadDataProviders?: boolean;
    isAdaptive?: boolean;
@@ -108,8 +104,6 @@ const BODY_CLASSES = {
 };
 
 export default class Application extends Control<IApplication> {
-   RUMEnabled: boolean;
-   pageName: string;
    resourceRoot: string;
    head: object;
 
@@ -130,8 +124,6 @@ export default class Application extends Control<IApplication> {
       this._checkDeprecatedOptions(options);
 
       const appData = AppData.getAppData();
-      this.RUMEnabled = getConfig('RUMEnabled') || false;
-      this.pageName = options.pageName || appData.pageName || '';
       this.resourceRoot = options.resourceRoot || constants.resourceRoot;
 
       // Чтобы при загрузке слоя совместимости, понять нужно ли грузить провайдеры(extensions, userInfo, rights),
@@ -165,8 +157,7 @@ export default class Application extends Control<IApplication> {
       // сообщает так же про изменение экрана после показа клавиатуры и/или зуме страницы.
       // Подписка на body стреляет не всегда. в 2100 включаю только для 13ios, в перспективе можно включить
       // везде, где есть visualViewport
-      const timeTester = new TimeTesterInv(this.RUMEnabled, this.pageName);
-      timeTester.load();
+
       if (Application._isIOS13()) {
          window.visualViewport.addEventListener('resize', this._resizePage.bind(this));
          window.addEventListener('orientationchange', this._orientationChange);
