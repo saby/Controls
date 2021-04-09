@@ -195,14 +195,44 @@ define([
                theme: 'default'
             },
             expected = 'controls-Tabs_style_secondary__item_state_selected ' +
-               'controls-Tabs__item_state_selected ' +
-               ' controls-Tabs_style_secondary__item-marker_state_selected',
+               'controls-Tabs__item_state_selected ',
             expected2 = 'controls-Tabs__item_state_default';
          const tabs = new tabsMod.Buttons();
          tabs.saveOptions(options);
          assert.equal(expected, tabs._prepareItemSelectedClass(item), 'wrong order cross-brwoser styles');
          assert.equal(expected2, tabs._prepareItemSelectedClass(item2), 'wrong order cross-brwoser styles');
           tabs.destroy();
+      });
+
+      it('_prepareItemMarkerClass', function() {
+         var
+            item = {
+               karambola: '15',
+               _order: '2',
+               type: 'photo'
+            },
+            item2 = {
+               karambola: '10',
+               _order: '2',
+               type: 'photo'
+            },
+            options = {
+               style: 'additional',
+               selectedKey: '15',
+               keyProperty: 'karambola',
+               theme: 'default'
+            };
+         const tabs = new tabsMod.Buttons();
+         tabs.saveOptions(options);
+
+         assert.equal(
+            tabs._prepareItemMarkerClass(item),
+            'controls-Tabs__itemClickableArea_marker controls-Tabs__itemClickableArea_markerThickness-undefined controls-Tabs_style_secondary__item-marker_state_selected');
+         assert.equal(
+            tabs._prepareItemMarkerClass(item2),
+            'controls-Tabs__itemClickableArea_marker controls-Tabs__itemClickableArea_markerThickness-undefined controls-Tabs__item-marker_state_default');
+
+         tabs.destroy();
       });
 
       it('_beforeMount with received state', function() {
