@@ -2560,6 +2560,8 @@ const _private = {
                 break;
         }
 
+        this._notify('selectedLimitChanged', [selectionController.getLimit()]);
+
         _private.changeSelection(this, result);
     },
 
