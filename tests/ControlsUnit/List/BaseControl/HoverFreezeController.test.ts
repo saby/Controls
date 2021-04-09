@@ -15,7 +15,7 @@ describe('Controls/_list/BaseControl/HoverFreezeController', () => {
     const itemData = {
         ItemActionsItem: true,
         getContents: () => record
-    }
+    };
 
     beforeEach(() => {
         const config = {
@@ -43,7 +43,11 @@ describe('Controls/_list/BaseControl/HoverFreezeController', () => {
         };
 
         // @ts-ignore
-        BaseControl._private.initHoverFreezeController(baseControl);
+        baseControl._hoverFreezeController = {
+            getCurrentItemKey: () => 1,
+            startFreezeHoverTimeout: (): void => {},
+            setDelayedHoverItem: (): void => {}
+        };
     });
 
     describe('_onItemActionsMouseEnter', () => {
