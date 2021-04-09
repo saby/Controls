@@ -17,4 +17,13 @@
         <Controls-demo.gridNew.Grouped.WithEditing.Index/>
     </div>
 
+    <div class="controlsDemo__cell ControlsDemo-grouped__withEditing">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Grouped/TextAlign/Index' }}">
+            <a href="{{content.href}}">Позиционирование текста без разделителя</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Grouped.TextAlign.Index/>
+    </div>
+
 </div>
