@@ -19,7 +19,7 @@
                                            caption="{[В корень]}"
                                            on:click="_onItemActionsClick('move', _options.root)"
                                            icon="icon-Undo2"
-                                           data-qa="controls-MoveDialog__rootButton"
+                                           data-qa="controls-MoveDialog__root"
                                            iconSize="s" iconStyle="secondary"/>
                </ws:if>
                <Controls.scroll:Container attr:class="controls-MoveDialog__scroll">
