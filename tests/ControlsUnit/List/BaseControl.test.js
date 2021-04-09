@@ -2530,7 +2530,7 @@ define([
 
                assert.isTrue(ctrl._scrollPageLocked, 'Paging should be locked after paging Next until _afterUpdate');
                ctrl._afterUpdate(cfg);
-               ctrl._componentDidUpdate();
+               ctrl._afterRender();
                assert.isFalse(ctrl._scrollPageLocked, 'Paging should be unlocked in _afterUpdate');
 
                ctrl.__onPagingArrowClick({}, 'Prev');
@@ -2538,7 +2538,7 @@ define([
 
                assert.isTrue(ctrl._scrollPageLocked, 'Paging should be locked after paging Prev until _afterUpdate');
                ctrl._afterUpdate(cfg);
-               ctrl._componentDidUpdate();
+               ctrl._afterRender();
                assert.isFalse(ctrl._scrollPageLocked, 'Paging should be unlocked in _afterUpdate');
 
                ctrl.__onPagingArrowClick({}, 'Prev');
@@ -2977,14 +2977,14 @@ define([
             await baseControl._reload(cfg);
             assert.isFalse(baseControl._resetScrollAfterReload);
             await baseControl._afterUpdate(cfg);
-            baseControl._componentDidUpdate();
+            baseControl._afterRender();
             assert.isFalse(doScrollNotified);
          });
          it('with scroll', async function() {
             baseControl._isScrollShown = true;
             await baseControl._reload(cfg);
             await baseControl._afterUpdate(cfg);
-            baseControl._componentDidUpdate();
+            baseControl._afterRender();
             assert.isFalse(doScrollNotified);
             baseControl._shouldNotifyOnDrawItems = true;
             baseControl._resetScrollAfterReload = true;
@@ -5658,7 +5658,7 @@ define([
          await instance._beforeMount(cfg);
          instance._beforeUpdate(cfg);
          instance._afterUpdate(cfg);
-         instance._componentDidUpdate();
+         instance._afterRender();
 
          var fakeNotify = sandbox.spy(instance, '_notify')
             .withArgs('drawItems');
@@ -5669,7 +5669,7 @@ define([
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
          instance._afterUpdate(cfg);
-         instance._componentDidUpdate();
+         instance._afterRender();
          assert.isTrue(fakeNotify.calledOnce);
       });
 
@@ -5715,7 +5715,7 @@ define([
          await instance._beforeMount(cfg);
          instance._beforeUpdate(cfg);
          instance._afterUpdate(cfg);
-         instance._componentDidUpdate();
+         instance._afterRender();
 
          instance.saveOptions({
             ...cfg,
@@ -5734,7 +5734,7 @@ define([
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
          instance._afterUpdate(cfg);
-         instance._componentDidUpdate();
+         instance._afterRender();
          assert.isFalse(fakeNotify.calledOnce);
 
          const redrawChange = [{ sourceItem: true}];
@@ -5745,7 +5745,7 @@ define([
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
          instance._afterUpdate(cfg);
-         instance._componentDidUpdate();
+         instance._afterRender();
          assert.isTrue(fakeNotify.calledOnce);
       });
 
@@ -5766,7 +5766,7 @@ define([
          await instance._beforeMount(cfg);
          instance._beforeUpdate(cfg);
          instance._afterUpdate(cfg);
-         instance._componentDidUpdate();
+         instance._afterRender();
 
          instance.saveOptions({
             ...cfg,
@@ -5785,7 +5785,7 @@ define([
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
          instance._afterUpdate(cfg);
-         instance._componentDidUpdate();
+         instance._afterRender();
          assert.isFalse(fakeNotify.calledOnce);
 
          const redrawChange = [{ sourceItem: true}];
@@ -5796,7 +5796,7 @@ define([
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
          instance._afterUpdate(cfg);
-         instance._componentDidUpdate();
+         instance._afterRender();
          assert.isTrue(fakeNotify.calledOnce);
       });
 
@@ -5820,7 +5820,7 @@ define([
          await instance._beforeMount(cfg);
          instance._beforeUpdate(cfg);
          instance._afterUpdate(cfg);
-         instance._componentDidUpdate();
+         instance._afterRender();
          var fakeNotify = sandbox.spy(instance, '_notify')
             .withArgs('drawItems');
 
@@ -5830,7 +5830,7 @@ define([
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
          instance._afterUpdate(cfg);
-         instance._componentDidUpdate();
+         instance._afterRender();
          assert.isTrue(fakeNotify.calledOnce);
       });
 
@@ -5942,7 +5942,7 @@ define([
 
          instance._beforeUpdate(cfg);
          instance._afterUpdate(cfg);
-         instance._componentDidUpdate();
+         instance._afterRender();
 
          lists.BaseControl._private.showIndicator(instance, 'down');
          assert.equal(instance._loadingState, 'down');
@@ -5950,7 +5950,7 @@ define([
          cfgClone.loading = true;
          instance.saveOptions(cfg);
          instance._afterUpdate(cfg);
-         instance._componentDidUpdate();
+         instance._afterRender();
          assert.equal(instance._loadingState, 'down');
       });
 
@@ -6002,7 +6002,7 @@ define([
          cfgClone.searchValue = 'testSearchValue';
          instance._beforeUpdate(cfgClone);
          instance._afterUpdate(cfgClone);
-         instance._componentDidUpdate();
+         instance._afterRender();
 
          assert.isTrue(portionSearchReseted);
          portionSearchReseted = false;
@@ -6011,7 +6011,7 @@ define([
          instance._beforeUpdate(cfgClone);
          assert.isTrue(instance._listViewModel._options.searchValue !== cfgClone.searchValue);
          instance._afterUpdate({});
-         instance._componentDidUpdate();
+         instance._afterRender();
          assert.isTrue(instance._listViewModel._options.searchValue === cfgClone.searchValue);
 
          assert.isTrue(portionSearchReseted);
@@ -6348,7 +6348,7 @@ define([
          baseControl._getItemsContainer = () => {
             isGetItemsContainerCalled = true;
          };
-         baseControl._componentDidUpdate();
+         baseControl._afterRender();
          assert.isFalse(isGetItemsContainerCalled);
          assert.isNull(baseControl._scrollController);
       });
@@ -6414,22 +6414,22 @@ define([
 
          baseControl._loadingIndicatorState = 'down';
          baseControl._loadTriggerVisibility = {down: false};
-         baseControl._componentDidUpdate();
+         baseControl._afterRender();
          assert.isNull(baseControl._loadingIndicatorState);
 
          baseControl._loadingIndicatorState = 'up';
          baseControl._loadTriggerVisibility = {up: false};
-         baseControl._componentDidUpdate();
+         baseControl._afterRender();
          assert.isNull(baseControl._loadingIndicatorState);
 
          baseControl._loadingIndicatorState = 'down';
          baseControl._loadTriggerVisibility = {down: true};
-         baseControl._componentDidUpdate();
+         baseControl._afterRender();
          assert.equal(baseControl._loadingIndicatorState, 'down');
 
          baseControl._loadingIndicatorState = 'up';
          baseControl._loadTriggerVisibility = {up: true};
-         baseControl._componentDidUpdate();
+         baseControl._afterRender();
          assert.equal(baseControl._loadingIndicatorState, 'up');
       });
 

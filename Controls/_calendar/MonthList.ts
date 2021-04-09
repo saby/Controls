@@ -194,7 +194,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
     }
 
     // Хуки на момент вызова группируются, нужно использовать _beforePaint вместо _afterRender (так же как в списке).
-    protected _componentDidUpdate(): void {
+    protected _afterRender(): void {
         this._updateScrollAfterViewModification();
     }
 
