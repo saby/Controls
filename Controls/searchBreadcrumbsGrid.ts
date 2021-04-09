@@ -7,6 +7,7 @@ import BreadcrumbsItemCell from 'Controls/_searchBreadcrumbsGrid/display/Breadcr
 import SearchSeparatorRow from 'Controls/_searchBreadcrumbsGrid/display/SearchSeparatorRow';
 import SearchSeparatorCell from 'Controls/_searchBreadcrumbsGrid/display/SearchSeparatorCell';
 import SearchView from 'Controls/_searchBreadcrumbsGrid/SearchView';
+import SearchViewTable from 'Controls/_searchBreadcrumbsGrid/SearchViewTable';
 import View from 'Controls/_searchBreadcrumbsGrid/Search';
 import * as SearchBreadcrumbsItemTemplate from 'wml!Controls/_searchBreadcrumbsGrid/render/Item';
 import * as SearchSeparatorTemplate from 'wml!Controls/_searchBreadcrumbsGrid/render/SearchSeparatorTemplate';
@@ -15,6 +16,7 @@ import TreeGridItemDecorator from 'Controls/_searchBreadcrumbsGrid/display/TreeG
 export {
    View,
    SearchView,
+   SearchViewTable,
    SearchGridCollection,
    BreadcrumbsItemRow,
    SearchSeparatorRow,
