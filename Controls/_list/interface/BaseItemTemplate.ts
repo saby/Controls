@@ -56,7 +56,7 @@ export default interface IBaseItemTemplateOptions {
  */
 /**
  * @name Controls/_list/interface/IBaseItemTemplate#itemActionsClass
- * @cfg {Controls/_list/interface/IBaseItemTemplate/ItemActionsClass.typedef} Класс, используемый для позиционирования {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи} при отображении её внутри элемента списка (опция {@link Controls/_itemActions/interface/IItemActionsOptions#itemActionsPosition itemActionsPosition}).
+ * @cfg {Controls/_list/interface/IBaseItemTemplate/ItemActionsClass.typedef} Класс, используемый для позиционирования {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи} при отображении её внутри элемента списка (опция {@link Controls/itemActions:IItemActionsOptions#itemActionsPosition itemActionsPosition}).
  * @default controls-itemActionsV_position_bottomRight
  * @remark
  * Дополнительно об использовании опции читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/position/#inside здесь}.
@@ -84,9 +84,24 @@ export default interface IBaseItemTemplateOptions {
  * Подробнее о настройке фона строки читайте {@link /doc/platform/developmentapl/interface-development/controls/list/list/background/#highlight здесь}.
  * @demo Controls-demo/list_new/ItemTemplate/BackgroundColorStyle/Index
  */
+
+/**
+ * @typedef {String} Controls/_list/interface/IBaseItemTemplate/TMarkerClassName
+ * @variant default Маркер по высоте растягивается на весь контейнер записи.
+ * @variant image-l Используется для размещения маркера рядом с изображением размера "l".
+ * @variant image-m Используется для размещения маркера рядом с изображением размера "m".
+ * @variant image-s Используется для размещения маркера рядом с изображением размера "s".
+ * @variant image-xs Используется для размещения маркера рядом с изображением размера "xs".
+ * @variant text-2xl Используется для размещения маркера рядом с текстом размера "2xl".
+ * @variant text-xl Используется для размещения маркера рядом с текстом размера "xl".
+ * @variant text-l Используется для размещения маркера рядом с текстом размера "l".
+ * @variant text-m Используется для размещения маркера рядом с текстом размера "m".
+ * @variant text-xs Используется для размещения маркера рядом с текстом размера "xs".
+ */
+
 /**
  * @name Controls/_list/interface/IBaseItemTemplate#markerClassName
- * @cfg {Controls/_display/interface/IMarkable/TMarkerClassName.typedef} Размер {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркера}.
+ * @cfg {Controls/_list/interface/IBaseItemTemplate/TMarkerClassName.typedef} Размер {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркера}.
  * @default default
  * @see marker
  */
