@@ -328,7 +328,7 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     }
 
-    protected _afterRender(): void {
+    protected _componentDidUpdate(): void {
         if (this._markerForRestoredScroll !== null) {
             this.scrollToItem(this._markerForRestoredScroll);
             this._markerForRestoredScroll = null;
