@@ -4,7 +4,7 @@ import defaultItemTpl = require('wml!Controls/_tileOld/TileView/TileTpl');
 import {TILE_SCALING_MODE, ZOOM_COEFFICIENT, ZOOM_DELAY} from './resources/Constants';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {TouchContextField} from 'Controls/context';
-import { getItemSize } from 'Controls/tileNew';
+import { getItemSize } from 'Controls/tile';
 import 'css!Controls/tile';
 
 var _private = {

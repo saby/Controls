@@ -1,6 +1,6 @@
 import {Model} from 'Types/entity';
 import { mixin } from 'Types/util';
-import {TileMixin} from 'Controls/tileNew';
+import {TileMixin} from 'Controls/tile';
 import TreeTileCollectionItem from './TreeTileCollectionItem';
 import {ItemsFactory, itemsStrategy, Tree, TreeItem} from 'Controls/display';
 import InvisibleStrategy from './strategy/Invisible';
