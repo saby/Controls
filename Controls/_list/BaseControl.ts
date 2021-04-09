@@ -2160,6 +2160,7 @@ const _private = {
     hideError(self: BaseControl): void {
         if (self.__error) {
             self.__error = null;
+            _private.createScrollController(self, self._options);
         }
     },
 
