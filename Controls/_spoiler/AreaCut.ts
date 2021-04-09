@@ -4,7 +4,7 @@ import * as template from 'wml!Controls/_spoiler/AreaCut/AreaCut';
 import {ICutOptions} from './interface/ICut';
 import {IAreaOptions} from 'Controls/input';
 
-interface IAreaCutOptions extends IAreaOptions, ICutOptions{}
+interface IAreaCutOptions extends IAreaOptions, ICutOptions {}
 
 /**
  * Графический контрол, который ограничивает контент заданным числом строк в полях ввода.
@@ -22,13 +22,11 @@ interface IAreaCutOptions extends IAreaOptions, ICutOptions{}
 class AreaCut extends Cut {
     protected _template: TemplateFunction = template;
     protected _expanded: boolean = true;
-    protected _value: string;
     protected _firstEditPassed: boolean = false;
 
     protected _beforeMount(options: IAreaCutOptions): void {
         super._beforeMount(options);
-        this._value = options.value;
-        if (this._value) {
+        if (options.value) {
             this._firstEditPassed = true;
         }
     }
@@ -36,7 +34,7 @@ class AreaCut extends Cut {
     protected _beforeUpdate(options: IAreaCutOptions): void {
         if (this._options.readOnly === false && options.readOnly === true) {
             this._expanded = false;
-            if (options.readOnly && this._value) {
+            if (options.readOnly && options.value) {
                 this._firstEditPassed = true;
             }
         }
@@ -44,7 +42,6 @@ class AreaCut extends Cut {
     }
 
     protected _valueChangedHandler(event: Event, value: string) {
-        this._value = value;
         this._notify('valueChanged', [value]);
     }
 
