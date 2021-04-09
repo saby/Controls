@@ -162,10 +162,7 @@ export default class TileView extends ListView {
                 },
                 opener: menuConfig.opener,
                 template: 'Controls/tileNew:ActionsMenu',
-                actionOnScroll: 'close',
-                fittingMode: {
-                    vertical: 'overflow'
-                }
+                actionOnScroll: 'close'
             };
         } else {
             return null;
