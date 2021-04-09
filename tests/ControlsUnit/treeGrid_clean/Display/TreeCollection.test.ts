@@ -1,4 +1,4 @@
-import { TreeGridCollection } from 'Controls/treeGridNew';
+import { TreeGridCollection } from 'Controls/treeGrid';
 import { assert } from 'chai';
 import { RecordSet } from 'Types/collection';
 

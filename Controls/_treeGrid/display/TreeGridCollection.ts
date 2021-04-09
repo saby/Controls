@@ -13,7 +13,7 @@ import {
     GridGroupRow,
     GridMixin,
     IGridCollectionOptions
-} from 'Controls/gridNew';
+} from 'Controls/grid';
 import TreeGridFooterRow from './TreeGridFooterRow';
 import {Model as EntityModel, Model} from 'Types/entity';
 

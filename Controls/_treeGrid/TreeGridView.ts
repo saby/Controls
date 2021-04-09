@@ -1,6 +1,6 @@
 import * as Item from 'wml!Controls/_treeGrid/render/grid/Item';
 
-import { GridView } from 'Controls/gridNew';
+import { GridView } from 'Controls/grid';
 import { TemplateFunction } from 'UI/Base';
 import { TreeItem } from 'Controls/display';
 import { SyntheticEvent } from 'UI/Vdom';

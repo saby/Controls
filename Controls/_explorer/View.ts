@@ -26,7 +26,7 @@ import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {RecordSet} from 'Types/collection';
 import {NewSourceController, Path} from 'Controls/dataSource';
 import {SearchView} from 'Controls/searchBreadcrumbsGrid';
-import {TreeGridView} from 'Controls/treeGridNew';
+import {TreeGridView} from 'Controls/treeGrid';
 import {SyntheticEvent} from 'UI/Vdom';
 import {IDragObject} from 'Controls/_dragnDrop/Container';
 import {ItemsEntity} from 'Controls/dragnDrop';

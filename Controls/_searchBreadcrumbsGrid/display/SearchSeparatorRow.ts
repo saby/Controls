@@ -1,4 +1,4 @@
-import { GridRow, TColspanCallbackResult } from 'Controls/gridNew';
+import { GridRow, TColspanCallbackResult } from 'Controls/grid';
 import SearchGridCollection from './SearchGridCollection';
 import { IColumn } from 'Controls/interface';
 

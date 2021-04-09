@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridFooterRow } from 'Controls/gridNew';
+import { GridFooterRow } from 'Controls/grid';
 
 const columns = [ { displayProperty: 'col1' }, { displayProperty: 'col2' }, { displayProperty: 'col3' } ];
 const mockedOwner = {

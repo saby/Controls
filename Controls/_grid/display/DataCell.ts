@@ -202,7 +202,7 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
 
 Object.assign(DataCell.prototype, {
     '[Controls/_display/grid/DataCell]': true,
-    _moduleName: 'Controls/gridNew:GridDataCell',
+    _moduleName: 'Controls/grid:GridDataCell',
     _$backgroundStyle: 'default',
     _$searchValue: '',
     _instancePrefix: 'grid-data-cell-',

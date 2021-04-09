@@ -5,26 +5,26 @@
 
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m">
                 <div class="controls-text-label">Отступы соответствующие размеру S</div>
-                <Controls.treeGridNew:View
+                <Controls.treeGrid:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
                         parentProperty="parent"
                         nodeProperty="type">
                     <ws:itemPadding top="s" bottom="S"/>
-                </Controls.treeGridNew:View>
+                </Controls.treeGrid:View>
             </div>
 
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-l">
                 <div class="controls-text-label">Отступы соответствующие размеру L</div>
-                <Controls.treeGridNew:View
+                <Controls.treeGrid:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
                         parentProperty="parent"
                         nodeProperty="type">
                     <ws:itemPadding top="L" bottom="L"/>
-                </Controls.treeGridNew:View>
+                </Controls.treeGrid:View>
             </div>
         </div>
     </div>

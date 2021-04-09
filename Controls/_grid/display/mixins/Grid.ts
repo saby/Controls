@@ -48,7 +48,7 @@ export type TColspanCallbackResult = number | 'end';
  * @param {Controls/interface:IColumn} column Колонка грида
  * @param {Number} columnIndex Индекс колонки грида
  * @param {Boolean} isEditing Актуальное состояние редактирования элемента
- * @returns {Controls/gridNew:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
+ * @returns {Controls/grid:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
  */
 export type TColspanCallback = (item: EntityModel, column: IColumn, columnIndex: number, isEditing: boolean) => TColspanCallbackResult;
 
@@ -58,7 +58,7 @@ export type TColspanCallback = (item: EntityModel, column: IColumn, columnIndex:
  * Функция обратного вызова для расчёта объединения колонок строки (колспана).
  * @param {Controls/interface:IColumn} column Колонка грида
  * @param {Number} columnIndex Индекс колонки грида
- * @returns {Controls/gridNew:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
+ * @returns {Controls/grid:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
  */
 export type TResultsColspanCallback = (column: IColumn, columnIndex: number) => TColspanCallbackResult;
 

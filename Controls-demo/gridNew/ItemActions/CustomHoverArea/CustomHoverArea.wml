@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
-    <Controls.gridNew:View
+    <Controls.grid:View
             keyProperty="id"
             source="{{_viewSource}}"
             itemActions="{{_itemActions}}"
@@ -7,7 +7,7 @@
             colspanCallback="{{ _colspanCallback }}"
             name="gridView">
         <ws:itemTemplate>
-            <ws:partial template="Controls/gridNew:ItemTemplate"
+            <ws:partial template="Controls/grid:ItemTemplate"
                         highlightOnHover="{{ false }}"
                         showItemActionsOnHover="{{ false }}"
                         itemActionsClass="my-super-class"/>
@@ -16,7 +16,7 @@
             <ws:Array>
                 <ws:Object displayProperty="number" width="30px">
                     <ws:template>
-                        <ws:partial template="Controls/gridNew:ColumnTemplate">
+                        <ws:partial template="Controls/grid:ColumnTemplate">
                             <ws:contentTemplate>
                                 <div class="cloud controls-ListView__item_showActions controls-ListView__highlightOnHover_default_theme-default">
                                     <div class="cloud-content">
@@ -42,5 +42,5 @@
                 <ws:Object displayProperty="populationDensity" width="120px"/>
             </ws:Array>
         </ws:columns>
-    </Controls.gridNew:View>
+    </Controls.grid:View>
 </div>

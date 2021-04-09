@@ -1,4 +1,4 @@
-<ws:partial template="Controls/gridNew:ColumnTemplate" scope="{{_options}}"
+<ws:partial template="Controls/grid:ColumnTemplate" scope="{{_options}}"
             attr:style="--hValue: {{H}}; --sValue: {{item.contents.get('isStrict') ? item.contents.get('S') : Math.round(item.contents.get('S') * S)}}%; --lValue: {{item.contents.get('isStrict') ? item.contents.get('L') :Math.round(item.contents.get('L') * L)}}%">
     <ws:contentTemplate>
         <span class="controlsDemo_copyColor" on:click="_copyColor(H, item.contents.get('isStrict') ? item.contents.get('S') : Math.round(item.contents.get('S') * S), item.contents.get('isStrict') ? item.contents.get('L') : Math.round(item.contents.get('L') * L))">COPY</span>

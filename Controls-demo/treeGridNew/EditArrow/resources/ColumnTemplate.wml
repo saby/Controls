@@ -1,4 +1,4 @@
-<ws:partial template="Controls/gridNew:ColumnTemplate"
+<ws:partial template="Controls/grid:ColumnTemplate"
             attr:class="controls-Grid__row-cell__content_baseline_L"
             scope="{{ _options }}"
 >

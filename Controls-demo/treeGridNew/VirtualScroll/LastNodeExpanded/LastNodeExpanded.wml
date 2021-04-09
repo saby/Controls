@@ -3,7 +3,7 @@
         <a href="#" class="controls-text-link_theme-default controlsDemo-addButton-virtual-scroll_autotest" on:click="_beginAdd()">Добавить запись в конец</a>
     </div>
     <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height500">
-        <Controls.treeGridNew:View
+        <Controls.treeGrid:View
                 name="list"
                 useTableInOldBrowsers="{{ true }}"
                 keyProperty="id"
@@ -16,6 +16,6 @@
             <ws:navigation source="page" view="infinity">
                 <ws:sourceConfig pageSize="{{40}}" page="{{0}}" hasMore="{{false}}"/>
             </ws:navigation>
-        </Controls.treeGridNew:View>
+        </Controls.treeGrid:View>
     </Controls.scroll:Container>
 </div>

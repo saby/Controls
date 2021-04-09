@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__cell">
-        <Controls.gridNew:View
+        <Controls.grid:View
                 attr:class="controlsDemo__inline-flex"
                 keyProperty="id"
                 source="{{_viewSource}}">
@@ -18,6 +18,6 @@
                                fontSize="2xl"/>
                 </ws:Array>
             </ws:columns>
-        </Controls.gridNew:View>
+        </Controls.grid:View>
     </div>
 </div>

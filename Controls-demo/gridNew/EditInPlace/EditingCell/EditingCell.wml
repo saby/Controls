@@ -5,7 +5,7 @@
                 <div>
                     <Controls.list:Remover name="remover" on:afterItemsRemove="_afterItemsRemove()"/>
                     <Controls.list:Container>
-                        <Controls.gridNew:View
+                        <Controls.grid:View
                                 name="list"
                                 attr:class="controlsDemo__inline-flex controlsDemo__maxWidth800"
                                 bind:markedKey="_markedKey"
@@ -25,7 +25,7 @@
                                     <Controls.list:AddButton caption="Add record" on:click="_beginAdd()" class="test_add_record_1"/>
                                 </ws:partial>
                             </ws:footerTemplate>
-                        </Controls.gridNew:View>
+                        </Controls.grid:View>
                     </Controls.list:Container>
                 </div>
             </ws:content>

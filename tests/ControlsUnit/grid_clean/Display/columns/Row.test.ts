@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridDataRow, GridCollection } from 'Controls/gridNew';
+import { GridDataRow, GridCollection } from 'Controls/grid';
 import { Model } from 'Types/entity';
 
 const mockedCollection = {

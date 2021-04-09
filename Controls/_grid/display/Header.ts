@@ -114,8 +114,8 @@ export default class Header<T> {
 
 Object.assign(Header.prototype, {
     '[Controls/_display/grid/Header]': true,
-    _moduleName: 'Controls/gridNew:GridHeader',
+    _moduleName: 'Controls/grid:GridHeader',
     _instancePrefix: 'grid-header-',
-    _rowModule: 'Controls/gridNew:GridHeaderRow',
-    _cellModule: 'Controls/gridNew:GridHeaderCell'
+    _rowModule: 'Controls/grid:GridHeaderRow',
+    _cellModule: 'Controls/grid:GridHeaderCell'
 });

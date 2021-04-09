@@ -4,7 +4,7 @@ import { TemplateFunction } from 'UI/Base';
 import SearchGridDataRow from './SearchGridDataRow';
 import { TreeChildren } from 'Controls/display';
 import SearchGridCollection from './SearchGridCollection';
-import { GridDataRow, TColspanCallbackResult } from 'Controls/gridNew';
+import { GridDataRow, TColspanCallbackResult } from 'Controls/grid';
 import { IColumn } from 'Controls/interface';
 
 export interface IOptions<T extends Model> {
