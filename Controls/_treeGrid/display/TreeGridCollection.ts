@@ -13,7 +13,7 @@ import {
     GridGroupRow,
     GridMixin,
     IGridCollectionOptions
-} from 'Controls/gridNew';
+} from 'Controls/grid';
 import TreeGridFooterRow from './TreeGridFooterRow';
 import {Model as EntityModel, Model} from 'Types/entity';
 
@@ -79,7 +79,7 @@ export default class TreeGridCollection<
         if (superResult) {
             if (this._$emptyTemplate) {
                 if (this._$emptyGridRow) {
-                    this._$emptyGridRow.setEmptyTemplate(this._$emptyTemplate);
+                    this._$emptyGridRow.setRowTemplate(this._$emptyTemplate);
                 } else {
                     this._initializeEmptyRow();
                 }
@@ -225,7 +225,7 @@ export default class TreeGridCollection<
         // TODO нужно определить когда точно нужна эта стратегия и добавлять только в этом случае
         composer.append(itemsStrategy.NodeFooter, {
             display: this,
-            footerVisibilityCallback: this._$footerVisibilityCallback
+            nodeFooterVisibilityCallback: this._$nodeFooterVisibilityCallback
         });
 
         return composer;

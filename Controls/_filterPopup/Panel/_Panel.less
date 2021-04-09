@@ -79,12 +79,10 @@
 
 .controls-FilterPanel__resetButton {
    margin-right: var(--reset-button_offset-right_filterPanel);
-   color: var(--reset-button_color_filterPanel);
-   line-height: var(--inline_height_m);
 }
 
-.controls-FilterPanel__resetButton {
-   display: inline-block;
+.controls-text-filterResetButton {
+   color: var(--reset-button_color_filterPanel);
 }
 
 .controls-FilterPanel__filterButton {
@@ -166,9 +164,13 @@
    .controls-text-filterPanelItem:hover {
       color: var(--item_hover_text-color_filterPanel);
    }
+
    .controls-FilterPanel__resetButton:hover {
       text-decoration: underline;
       cursor: pointer;
+   }
+
+   .controls-text-filterResetButton {
       color: var(--reset-button_hover_color_filterPanel);
    }
 }

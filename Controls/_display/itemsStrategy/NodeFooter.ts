@@ -6,13 +6,13 @@ import {Model} from 'Types/entity';
 interface IOptions<S, T extends TreeItem<S>> {
     source: IItemsStrategy<S, T>;
     display: Tree<S, T>;
-    footerVisibilityCallback?: (nodeItem: S) => boolean;
+    nodeFooterVisibilityCallback?: (nodeItem: S) => boolean;
 }
 
 interface ISortOptions<S, T extends TreeItem<S>> {
     display: Tree<S, T>;
     nodeFooters: Array<T>;
-    footerVisibilityCallback?: (nodeItem: S) => boolean;
+    nodeFooterVisibilityCallback?: (nodeItem: S) => boolean;
 }
 
 export default class NodeFooter<S, T extends TreeItem<S> = TreeItem<S>> implements IItemsStrategy<S, T> {
@@ -134,7 +134,7 @@ export default class NodeFooter<S, T extends TreeItem<S> = TreeItem<S>> implemen
         return NodeFooter.sortItems<S, T>(this.source.items, {
             display: this.options.display,
             nodeFooters: this._nodeFooters,
-            footerVisibilityCallback: this.options.footerVisibilityCallback
+            nodeFooterVisibilityCallback: this.options.nodeFooterVisibilityCallback
         });
     }
 
@@ -163,7 +163,7 @@ export default class NodeFooter<S, T extends TreeItem<S> = TreeItem<S>> implemen
             //  UPD: временно до решения проблемы, отображаем скрытый див
             if (
                 nodeFooterContents.includes(nodeFooterContent)
-                || options.footerVisibilityCallback instanceof Function && !options.footerVisibilityCallback(item.getContents())
+                || options.nodeFooterVisibilityCallback instanceof Function && !options.nodeFooterVisibilityCallback(item.getContents())
             ) {
                 continue;
             }

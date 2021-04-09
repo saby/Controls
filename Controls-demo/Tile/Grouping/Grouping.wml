@@ -1,4 +1,4 @@
-<Controls.tile:View
+<Controls.tileOld:View
    attr:class="demo-Tile__static demo-Tile__staticGroup"
    tileMode="static"
    parentProperty="parent"
@@ -11,7 +11,7 @@
    <ws:itemTemplate>
       <ws:partial
          shadowVisibility="onhover"
-         template="Controls/tile:ItemTemplate"
+         template="Controls/tileOld:ItemTemplate"
          hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
    </ws:itemTemplate>
-</Controls.tile:View>
+</Controls.tileOld:View>

@@ -8,7 +8,7 @@ type TNodeFooterVisibilityCallback = (item: Model) => boolean;
 type TNodeLoadCallback = (list: RecordSet, nodeKey: number | string) => void;
 
 /**
- * Интерфейс для древовидных списков.
+ * Интерфейс для древовидных списков, например для контрола {@link Controls/treeGrid:View Дерево}.
  *
  * @interface Controls/_tree/interface/ITreeControl
  * @public
@@ -52,13 +52,10 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControl#expandByItemClick
- * @cfg {Boolean} Режим разворачивания и сворачивания узлов в {@link Controls/treeGrid:View дереве}.
+ * @cfg {Boolean} Развертывание узлов кликом по элементу в {@link Controls/treeGrid:View дереве}.
  * @default false
- * @remark
- * Доступные значения:
- *
- * * true — осуществляется по клику на него.
- * * false — осуществляется только по клику на экспандер.
+ * @variant true Развертывание происходит кликом по элементу, а также кликом по кнопке-экспандеру.
+ * @variant false Развертывание происходит только кликом по {@link /doc/platform/developmentapl/interface-development/controls/list/tree/node/expander/ кнопке-экспандеру}.
  * @see expandedItems
  * @see expanderVisibility
  */
@@ -80,6 +77,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * Настройка не работает, если источник данных задан через {@link Types/source:Memory}.
  * @see expandByItemClick
  * @see expanderVisibility
+ * @see collapsedItems
  */
 
 /*
@@ -104,7 +102,6 @@ export interface ITreeControlOptions extends IControlOptions {
  * @remark
  * Этот параметр используется, когда {@link expandedItems} установлена в значение [null].
  * @see expandedItems
- *
  */
 
 /*
@@ -124,7 +121,8 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControl#nodeFooterTemplate
- * @cfg {Function} Шаблон подвала раскрытого узла в {@link Controls/treeGrid:View дереве}.
+ * @cfg {TemplateFunction|String} Шаблон подвала развернутого узла в {@link Controls/treeGrid:View дереве}.
+ * @default undefined
  * @remark
  * В области видимости шаблона доступен объект itemData, внутри доступно свойство item - запись, под которой отрисовывается шаблон.
  * @demo Controls-demo/treeGrid/NodeFooter/NodeFooterTemplate/Index
@@ -140,7 +138,7 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControl#nodeFooterVisibilityCallback
- * @cfg {Function} Функция обратного вызова для определения видимости шаблона подвала раскрытого узла в {@link Controls/treeGrid:View дереве}.
+ * @cfg {Function} Функция обратного вызова для определения видимости шаблона подвала развернутого узла в {@link Controls/treeGrid:View дереве}.
  * @remark
  * Функция принимает единственный аргумент:
  *
@@ -184,7 +182,8 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControl#searchBreadCrumbsItemTemplate
- * @cfg {TemplateFunction} Шаблон отображения элемента с хлебными крошками в {@link Controls/treeGrid:View дереве} при {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/mode/ режиме поиска}.
+ * @cfg {TemplateFunction|String} Пользовательский шаблон отображения элемента с хлебными крошками в {@link Controls/treeGrid:View дереве} при {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/mode/ режиме поиска}.
+ * @default undefined
  * @remark
  * По умолчанию используется базовый шаблон "Controls/treeGrid:SearchBreadCrumbsItemTemplate", который поддерживает следующий параметр:
  *
@@ -203,18 +202,17 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @typedef {String} Controls/_tree/interface/ITreeControl/ExpanderVisibility
- * @variant visible Всегда показывать экспандер для узлов и отступ для листьев.
- * @variant hasChildren Показывать экспандер только для узлов с дочерними элементами. В этом значении опция, также, отключает отступ для листьев, если в текущей папке нет записей с дочерними элементами.
+ * @description Допустимые значения для опции {@link expanderVisibility}.
+ * @variant visible Всегда показывать кнопку-экспандер для узлов и отступ для листьев.
+ * @variant hasChildren Показывать кнопку-экспандер только для узлов с дочерними элементами. В этом значении опция, также, отключает отступ для листьев, если в текущей папке нет записей с дочерними элементами.
  * @variant hasChildrenOrHover Работает аналогично hasChildren, но в дополнение для узлов без дочерних элементов:
- * <ul>
- *     <li>показывает контурный экспандер если такой узел является развернутым</li>
- *     <li>показывает контурный экспандер при наведении на свернутый узел</li>
- * </ul>
+ * * показывает контурную кнопку-экспандер, если такой узел является развернутым.
+ * * показывает контурную кнопку-экспандер, при наведении на свернутый узел.
  */
 
 /**
  * @name Controls/_tree/interface/ITreeControl#expanderVisibility
- * @cfg {Controls/_tree/interface/ITreeControl/ExpanderVisibility.typedef} Режим отображения экспандера в {@link Controls/treeGrid:View дереве}.
+ * @cfg {Controls/_tree/interface/ITreeControl/ExpanderVisibility.typedef} Режим отображения {@link /doc/platform/developmentapl/interface-development/controls/list/tree/node/expander/ кнопки-экспандера} в {@link Controls/treeGrid:View дереве}.
  * @default visible
  * @demo Controls-demo/treeGrid/Expander/ExpanderIcon/Node/Index В следующем примере для контрола опция expanderVisibility установлена в значение visible.
  * @demo Controls-demo/treeGrid/Expander/ExpanderVisibility/HasChildren/Index В следующем примере для контрола опция expanderVisibility установлена в значение hasChildren.
@@ -239,6 +237,7 @@ export interface ITreeControlOptions extends IControlOptions {
 /**
  * @name Controls/_tree/interface/ITreeControl#nodeLoadCallback
  * @cfg {Function} Функция обратного вызова для определения загрузки содержимого узла в {@link Controls/treeGrid:View дереве}.
+ * @default undefined
  * @see nodeFooterTemplate
  * @see nodeFooterVisibilityCallback
  */
@@ -252,11 +251,11 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControl#deepReload
- * @cfg {Boolean} Опередяет, нужно ли выполнять перезагрузку с сохранением раскрытых узлов.
+ * @cfg {Boolean} Опередяет, нужно ли выполнять перезагрузку с сохранением развернутых узлов.
  * @remark
- * Перезагрузка выполняется с сохранением раскрытых узлов, даже при изменении опций filter, source, sorting и тд.
- * В поле фильтра, указанное в parentProperty будет отправлен массив раскрытых узлов.
- * Если в результате запроса для этих узлов будут присланы дочерние элементы, то узлы останутся раскрытыми, иначе они будут свёрнуты.
+ * Перезагрузка выполняется с сохранением развернутых узлов, даже при изменении опций filter, source, sorting и тд.
+ * В поле фильтра, указанное в parentProperty будет отправлен массив развернутых узлов.
+ * Если в результате запроса для этих узлов будут присланы дочерние элементы, то узлы останутся развернутыми, иначе они будут свёрнуты.
  * **Примечание.** Постраничная навигация в запросе передается для корня и её параметр {@link Controls/_interface/INavigation/INavigationPageSourceConfig.typedef pageSize} необходимо применять для всех узлов.
  * @example
  * Пример списочного метода БЛ
@@ -284,7 +283,7 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControl#selectAncestors
- * @cfg {Boolean} Определяет, будут ли отмечаться родительские узлы записи при отметке чекбоксом.
+ * @cfg {Boolean} Определяет, будут ли отмечаться родительские узлы элементы при {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/ отметке узла чекбоксом}.
  * @default true
  * @demo Controls-demo/treeGrid/MultiSelect/SelectAncestors/DoNotSelectAncestors/Index
  * @example
@@ -298,7 +297,7 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControl#selectDescendants
- * @cfg {Boolean} Определяет, будут ли отмечаться дети при отметке узла чекбоксом.
+ * @cfg {Boolean} Определяет, будут ли отмечаться дочерние элементы при {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/ отметке узла чекбоксом}.
  * @default true
  * @demo Controls-demo/treeGrid/MultiSelect/SelectDescendants/DoNotSelectDescendants/Index
  * @example
@@ -312,13 +311,15 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControl#markItemByExpanderClick
- * @cfg {Boolean} Определяет, нужно ли выделять узел маркером.
+ * @cfg {Boolean} Определяет, нужно ли выделять узел {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркером}.
+ * @default true
  * @remark Узел отмечается маркером при клике на иконку разворота узла, если значение true.
  * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  */
 
 /**
  * @typedef {String} Controls/_tree/interface/ITreeControl/ExpanderSize
+ * @description Допустимые значения для опции {@link expanderSize}.
  * @variant s
  * @variant m
  * @variant l
@@ -330,34 +331,31 @@ export interface ITreeControlOptions extends IControlOptions {
  * @cfg {Controls/_tree/interface/ITreeControl/ExpanderSize.typedef} Размер области, который отведён под иконку узла или скрытого узла.
  * @default s
  * @remark
- * Опции {@link Controls/_tree/interface/ITreeControl#expanderSize expanderSize на контроле} и {@link Controls/treeGrid:ItemTemplate#expanderSize expanderSize на шаблоне элемента} не являются взаимоисключающими.
- * {@link Controls/_tree/interface/ITreeControl#expanderSize expanderSize на контроле} определяет размер области отведённой под иконку узла или скрытого узла для всего списка,
- * включая автоматическую конфигурацию {@link Controls/_tree/interface/ITreeControl#nodeFooterTemplate шаблона подвалов узлов}.
- * Опция {@link Controls/treeGrid:ItemTemplate#expanderSize expanderSize на шаблоне элемента} приоритетнее, чем {@link Controls/_tree/interface/ITreeControl#expanderSize expanderSize на контроле}.
- * В случае, если для разных элементов дерева заданы разные значения опции, то для корректного выравнивания подвалов узлов необходимо продублировать опцию на
- * {@link Controls/_tree/interface/ITreeControl#nodeFooterTemplate шаблоне подвалов узлов}.
+ * Опции expanderSize на контроле и {@link Controls/treeGrid:ItemTemplate#expanderSize expanderSize на шаблоне элемента} не являются взаимоисключающими.
+ * Опция expanderSize на контроле определяет размер области, отведённой под иконку узла или скрытого узла для всего списка, включая автоматическую конфигурацию {@link nodeFooterTemplate шаблона подвалов узлов}.
+ * Опция {@link Controls/treeGrid:ItemTemplate#expanderSize expanderSize на шаблоне элемента} приоритетнее, чем expanderSize на контроле.
+ * В случае, если для разных элементов дерева заданы разные значения опции, то для корректного выравнивания подвалов узлов необходимо продублировать опцию на {@link nodeFooterTemplate шаблоне подвалов узлов}.
  * @see expanderIcon
  * @see expanderVisibility
  */
 
 /**
  * @typedef {String} Controls/_tree/interface/ITreeControl/ExpanderIcon
- * @variant none Иконки всех узлов не отображаются.
- * @variant node Иконки всех узлов отображаются как иконки узлов.
- * @variant hiddenNode Иконки всех узлов отображаются как иконки скрытых узлов."
+ * @description Допустимые значения для опции {@link expanderIcon}.
+ * @variant none Иконки всех узлов и скрытых узлов не отображаются.
+ * @variant node Иконки всех узлов и скрытых узлов отображаются как иконки узлов.
+ * @variant hiddenNode Иконки всех узлов и скрытых узлов отображаются как иконки скрытых узлов.
  */
 /**
  * @name Controls/_tree/interface/ITreeControl#expanderIcon
- * @cfg {Controls/_tree/interface/ITreeControl/ExpanderIcon.typedef|undefined} Стиль отображения иконки для узла и скрытого узла.
+ * @cfg {Controls/_tree/interface/ITreeControl/ExpanderIcon.typedef|undefined} Стиль отображения иконки для всех узлов и скрытых узлов дерева.
  * @default undefined
  * @remark
  * Когда в опции задано undefined, используются иконки узлов и скрытых узлов.
- * Опции {@link Controls/_tree/interface/ITreeControl#expanderIcon expanderIcon на контроле} и {@link Controls/treeGrid:ItemTemplate#expanderIcon expanderIcon на шаблоне элемента} не являются взаимоисключающими.
- * {@link Controls/_tree/interface/ITreeControl#expanderIcon expanderIcon на контроле} определяет стиль отображения иконки для узла и скрытого узла для всего списка,
- * включая автоматическую конфигурацию {@link Controls/_tree/interface/ITreeControl#nodeFooterTemplate шаблона подвалов узлов}.
- * Опция {@link Controls/treeGrid:ItemTemplate#expanderIcon expanderIcon на шаблоне элемента} приоритетнее, чем {@link Controls/_tree/interface/ITreeControl#expanderIcon expanderIcon на контроле}.
- * В случае, если для разных элементов дерева заданы разные значения опции, то для корректного выравнивания подвалов узлов необходимо продублировать опцию на
- * {@link Controls/_tree/interface/ITreeControl#nodeFooterTemplate шаблоне подвалов узлов}.
+ * Опции expanderIcon на контроле и {@link Controls/treeGrid:ItemTemplate#expanderIcon expanderIcon на шаблоне элемента} не являются взаимоисключающими.
+ * Опции expanderIcon на контроле определяет стиль отображения иконки для узла и скрытого узла для всего списка, включая автоматическую конфигурацию {@link nodeFooterTemplate шаблона подвалов узлов}.
+ * Опция {@link Controls/treeGrid:ItemTemplate#expanderIcon expanderIcon на шаблоне элемента} приоритетнее, чем expanderIcon на контроле.
+ * В случае, если для разных элементов дерева заданы разные значения опции, то для корректного выравнивания подвалов узлов необходимо продублировать опцию на {@link nodeFooterTemplate шаблоне подвалов узлов}.
  * @see expanderSize
  * @see expanderVisibility
  */
@@ -369,6 +367,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @param {Types/entity:Model} node Развёрнутый узел.
  * @remark
  * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ * @see beforeItemExpand
  */
 
 /**
@@ -378,6 +377,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @param {Types/entity:Model} node Разворачиваемый узел.
  * @remark
  * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ * @see afterItemExpand
  */
 
 /**
@@ -433,6 +433,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @param {Types/entity:Model} node Сворачиваемый узел.
  * @remark
  * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ * @see itemCollapsed
  */
 
 /**
@@ -457,6 +458,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @name Controls/_tree/interface/ITreeControl#expandedItemsChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} expandedItems Идентификаторы развернутых узлов.
+ * @see collapsedItemsChanged
  */
 
 /**
@@ -464,14 +466,15 @@ export interface ITreeControlOptions extends IControlOptions {
  * @name Controls/_tree/interface/ITreeControl#collapsedItemsChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} expandedItems Идентификаторы свернутых узлов.
+ * @see expandedItemsChanged
  */
 
 /**
  * @name Controls/_tree/interface/ITreeControl#selectionType
  * @cfg {String} Тип записей, которые можно выбрать.
- * @variant node только узлы доступны для выбора
- * @variant leaf только листья доступны для выбора
- * @variant all все типы записей доступны для выбора
+ * @variant node Только узлы доступны для выбора.
+ * @variant leaf Только листья доступны для выбора.
+ * @variant all Все типы записей доступны для выбора.
  * @remark Опция {@link Controls/_list/interface/IList#multiSelectAccessibilityProperty multiSelectAccessibilityProperty} преобладает над этой опцией
  */
 
@@ -479,8 +482,9 @@ export interface ITreeControlOptions extends IControlOptions {
  * @name Controls/_tree/interface/ITreeControl#singleExpand 
  * @cfg {Boolean} Режим единого развернутого узла.
  * @remark
- * В дереве можно задать такое поведение, при котором единовременно может быть раскрыт только один узел в рамках одного уровня иерархии. При раскрытии нового узла предыдущий будет автоматически сворачиваться.
+ * В дереве можно задать такое поведение, при котором единовременно может быть развернут только один узел в рамках одного уровня иерархии. При развертывании нового узла предыдущий будет автоматически сворачиваться.
  * @default false
  * @variant true
  * @variant false
+ * @demo Controls-demo/treeGrid/ReverseType/SingleExpand/Index
  */

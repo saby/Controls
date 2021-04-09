@@ -14,7 +14,7 @@ export default class extends Control {
         }
         return cur;
     });
-    
+
     protected _header: IHeader[] = getCountriesStats().getDefaultHeader();
 
     protected _beforeMount(): void {

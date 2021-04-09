@@ -591,7 +591,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
      * @private
      */
     private _shouldLoadLastExpandedNodeData(direction: Direction, item: TreeItem, parentKey: CrudEntityKey): boolean {
-        if (!item || direction !== 'down') {
+        // Иногда item это breadcrumbsItemRow, он не TreeItem
+        if (!item || !item['[Controls/_display/TreeItem]'] || direction !== 'down') {
             return false;
         }
         const hasMoreParentData = this._sourceController.hasMoreData('down', parentKey);
@@ -725,6 +726,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 (searchValueChanged && newOptions.sourceController)) {
                 if (viewModel) {
                     viewModel.setExpandedItems(newOptions.expandedItems);
+                    const expandedItems = _private.getExpandedItems(this, this._options, viewModel.getCollection());
+                    viewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems));
                 }
             } else {
                 this._updateExpandedItemsAfterReload = true;
@@ -751,8 +754,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
-    protected _componentDidUpdate() {
-        super._componentDidUpdate(...arguments);
+    protected _afterRender() {
+        super._afterRender(...arguments);
         if (this._scrollToLeaf && !this._scrollToLeafOnDrawItems) {
             this._scrollToLeaf();
             this._scrollToLeaf = null;
@@ -842,7 +845,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
         const dndListController = this.getDndListController();
         const targetIsNotDraggableItem = dndListController.getDraggableItem()?.getContents() !== dispItem.getContents();
-        if (dispItem.isNode() && targetIsNotDraggableItem) {
+        if (dispItem && dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() && targetIsNotDraggableItem) {
             const targetElement = _private.getTargetRow(this, nativeEvent);
             const mouseOffsetInTargetItem = this._calculateOffset(nativeEvent, targetElement);
             const dragTargetPosition = dndListController.calculateDragPosition({
@@ -877,7 +880,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     protected _notifyItemClick([e, item, originalEvent, columnIndex]: [SyntheticEvent, Model, SyntheticEvent, number?], returnExpandResult: boolean /* for tests */) {
         if (originalEvent.target.closest('.js-controls-Tree__row-expander')) {
             e?.stopImmediatePropagation();
-            return;
+            return false;
         }
         const superResult = super._notifyItemClick(...arguments);
         if (e.isStopped()) {
@@ -984,13 +987,15 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 const expandedItems = _private.getExpandedItems(this, options, loadedList);
                 let hasMoreData: unknown;
 
-                expandedItems.forEach((key) => {
-                    hasMoreData = sourceController.hasMoreData('down', key);
+                if (sourceController) {
+                    expandedItems.forEach((key) => {
+                        hasMoreData = sourceController.hasMoreData('down', key);
 
-                    if (hasMoreData !== undefined) {
-                        hasMore[key] = hasMoreData;
-                    }
-                });
+                        if (hasMoreData !== undefined) {
+                            hasMore[key] = hasMoreData;
+                        }
+                    });
+                }
 
                 // if method does not support multi navigation hasMore object will be empty
                 if (!isEqual({}, hasMore)) {
@@ -1262,6 +1267,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _isExpanded(item, model): boolean {
         return model.getExpandedItems().indexOf(item.getContents().get(this._keyProperty)) > -1;
+    }
+
+    protected _getFooterClasses(options): string {
+        return super._getFooterClasses(options) + ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
     }
 
     static getDefaultOptions() {

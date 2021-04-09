@@ -105,23 +105,23 @@ import GridGroupCell, {IOptions as IGridGroupCellOptions} from 'Controls/_grid/d
 
 import { IDisplaySearchValueOptions, IDisplaySearchValue } from 'Controls/_grid/display/interface/IDisplaySearchValue';
 
-register('Controls/gridNew:GridCollection', GridCollection, {instantiate: false});
-register('Controls/gridNew:GridRow', GridRow, {instantiate: false});
-register('Controls/gridNew:GridCell', GridCell, {instantiate: false});
-register('Controls/gridNew:GridHeader', GridHeader, {instantiate: false});
-register('Controls/gridNew:GridTableHeader', GridTableHeader, {instantiate: false});
-register('Controls/gridNew:GridHeaderRow', GridHeaderRow, {instantiate: false});
-register('Controls/gridNew:GridTableHeaderRow', GridTableHeaderRow, {instantiate: false});
-register('Controls/gridNew:GridHeaderCell', GridHeaderCell, {instantiate: false});
-register('Controls/gridNew:GridEmptyRow', GridEmptyRow, {instantiate: false});
-register('Controls/gridNew:GridEmptyCell', GridEmptyCell, {instantiate: false});
-register('Controls/gridNew:GridDataRow', GridDataRow, {instantiate: false});
-register('Controls/gridNew:GridDataCell', GridDataCell, {instantiate: false});
-register('Controls/gridNew:GridFooterCell', GridFooterCell, {instantiate: false});
-register('Controls/gridNew:GridResultsCell', GridResultsCell, {instantiate: false});
+register('Controls/grid:GridCollection', GridCollection, {instantiate: false});
+register('Controls/grid:GridRow', GridRow, {instantiate: false});
+register('Controls/grid:GridCell', GridCell, {instantiate: false});
+register('Controls/grid:GridHeader', GridHeader, {instantiate: false});
+register('Controls/grid:GridTableHeader', GridTableHeader, {instantiate: false});
+register('Controls/grid:GridHeaderRow', GridHeaderRow, {instantiate: false});
+register('Controls/grid:GridTableHeaderRow', GridTableHeaderRow, {instantiate: false});
+register('Controls/grid:GridHeaderCell', GridHeaderCell, {instantiate: false});
+register('Controls/grid:GridEmptyRow', GridEmptyRow, {instantiate: false});
+register('Controls/grid:GridEmptyCell', GridEmptyCell, {instantiate: false});
+register('Controls/grid:GridDataRow', GridDataRow, {instantiate: false});
+register('Controls/grid:GridDataCell', GridDataCell, {instantiate: false});
+register('Controls/grid:GridFooterCell', GridFooterCell, {instantiate: false});
+register('Controls/grid:GridResultsCell', GridResultsCell, {instantiate: false});
 register('Controls/display:GridGroupCell', GridGroupCell, {instantiate: false});
-register('Controls/gridNew:GridGroupCell', GridGroupCell, {instantiate: false});
-register('Controls/gridNew:GridGroupRow', GridGroupRow, {instantiate: false});
+register('Controls/grid:GridGroupCell', GridGroupCell, {instantiate: false});
+register('Controls/grid:GridGroupRow', GridGroupRow, {instantiate: false});
 
 export {
     GridCollection, IGridCollectionOptions,

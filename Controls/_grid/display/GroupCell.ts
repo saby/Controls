@@ -32,7 +32,7 @@ export default class GroupCell<T>
     // region overrides
 
     getWrapperStyles(): string {
-        return this.getColspan();
+        return this.getColspanStyles();
     }
 
     getZIndex(): number {
@@ -107,11 +107,11 @@ export default class GroupCell<T>
 
 Object.assign(GroupCell.prototype, {
     '[Controls/_display/grid/GroupCell]': true,
-    _moduleName: 'Controls/gridNew:GridGroupCell',
+    _moduleName: 'Controls/grid:GridGroupCell',
     _instancePrefix: 'grid-group-cell-',
     _$owner: null,
     _$columnsLength: null,
     _$zIndex: 2,
     _$contents: null,
-    _$groupTemplate: 'Controls/gridNew:GroupTemplate'
+    _$groupTemplate: 'Controls/grid:GroupTemplate'
 });

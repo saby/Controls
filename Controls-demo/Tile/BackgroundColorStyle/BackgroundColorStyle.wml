@@ -1,14 +1,14 @@
 <div class="controlsDemo__wrapper controlDemo_Tile_default">
-<Controls.tile:View
+<Controls.tileOld:View
         displayProperty="title"
         tileMode="dynamic"
         imageProperty="image"
         keyProperty="id"
         source="{{_viewSource}}">
   <ws:itemTemplate>
-    <ws:partial template="Controls/tile:ItemTemplate"
+    <ws:partial template="Controls/tileOld:ItemTemplate"
                 backgroundColorStyle="success">
     </ws:partial>
   </ws:itemTemplate>
-</Controls.tile:View>
+</Controls.tileOld:View>
 </div>

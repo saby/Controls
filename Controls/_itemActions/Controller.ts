@@ -192,7 +192,7 @@ export class Controller {
             this._itemActionsProperty !== options.itemActionsProperty ||
             this._itemActionVisibilityCallback !== options.visibilityCallback
         ) {
-            this._commonItemActions = options.itemActions;
+            this._commonItemActions = (!options.itemActions && options.editArrowAction) ? [] : options.itemActions;
             this._itemActionsProperty = options.itemActionsProperty;
             this._itemActionVisibilityCallback = options.visibilityCallback ||
                 ((action: IItemAction, item: Model, isEditing: boolean) => true);
@@ -450,7 +450,7 @@ export class Controller {
         let hasChanges = false;
         const changedItemsIds: Array<number | string> = [];
         const assignActionsOnItem = (item): void => {
-            if (!item['[Controls/_display/GroupItem]'] && !item['[Controls/_display/SearchSeparator]'] && !item['[Controls/treeGrid:TreeGridNodeFooterRow]'] && !item['[Controls/_tileNew/InvisibleTileItem]']) {
+            if (!item['[Controls/_display/GroupItem]'] && !item['[Controls/_display/SearchSeparator]'] && !item['[Controls/treeGrid:TreeGridNodeFooterRow]'] && !item['[Controls/_tile/InvisibleTileItem]']) {
                 const contents = Controller._getItemContents(item);
                 const actionsObject = this._fixActionsDisplayOptions(this._getActionsObject(item));
                 const itemChanged = Controller._setItemActions(item, actionsObject, this._actionMode);

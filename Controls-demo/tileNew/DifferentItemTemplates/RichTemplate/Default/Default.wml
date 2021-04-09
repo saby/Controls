@@ -13,7 +13,7 @@
       source="{{_viewSource}}">
       <ws:itemTemplate>
          <ws:partial
-            template="Controls/tileNew:RichTemplate"
+            template="Controls/tile:RichTemplate"
             gradientColor="{{itemTemplate.itemData.item.gradientColor}}"
             titleLines="{{itemTemplate.itemData.item.titleLines}}"
             descriptionLines="{{itemTemplate.itemData.item.titleLines}}"

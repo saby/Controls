@@ -116,6 +116,10 @@ class DateTime extends Control {
         return this._children.validator.validate();
     }
 
+    setValidationResult(validationResult): void {
+        this._children.validator.setValidationResult(validationResult);
+    }
+
     protected _onKeyDown(event: SyntheticEvent<KeyboardEvent>): void {
         let key = event.nativeEvent.keyCode;
         if (key === constants.key.insert && !event.nativeEvent.shiftKey && !event.nativeEvent.ctrlKey) {

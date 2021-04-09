@@ -35,7 +35,7 @@
                                           canStartDragNDrop="{{ _canStartDragNDrop }}"
                                           markerVisibility="{{ _options.markerVisibility }}"
                                           navigation="{{ _navigation }}"
-                                          useNewModel="{{_useNewModel}}"
+                                          useNewModel="{{!_options.useOldModel}}"
                                           backgroundStyle="{{ _backgroundStyle }}"
                                           headerVisibility="{{ _headerVisibility }}"
                                           headerInEmptyListVisible="{{ _headerVisibility }}"
@@ -80,6 +80,7 @@
                                           on:tagHover="_notifyHandler('tagHover')"
                                           itemsReadyCallback="{{_itemsReadyCallback}}"
                                           itemsSetCallback="{{_itemsSetCallback}}"
+                                          dataLoadCallback="{{_dataLoadCallback}}"
                                           _needSetMarkerCallback="{{_needSetMarkerCallback}}"/>
             </Controls._explorer.PathController>
          </Controls.dragnDrop:Container>

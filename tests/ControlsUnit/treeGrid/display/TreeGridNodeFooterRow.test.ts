@@ -1,10 +1,10 @@
 import { RecordSet } from 'Types/collection';
-import { TreeGridCollection } from 'Controls/treeGridNew';
+import { TreeGridCollection } from 'Controls/treeGrid';
 import { assert } from 'chai';
 import { CssClassesAssert } from 'ControlsUnit/CustomAsserts';
 import TreeGridNodeFooterRow from 'Controls/_treeGrid/display/TreeGridNodeFooterRow';
 
-describe('Controls/_treeGridNew/display/TreeGridNodeFooterRow', () => {
+describe('Controls/_treeGrid/display/TreeGridNodeFooterRow', () => {
    const recordSet = new RecordSet({
       rawData: [{
          id: 1,

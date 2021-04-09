@@ -12,6 +12,7 @@ define('Controls-demo/Input/DateTime/DateTime', [
       _date: new Date(2017, 0, 1, 12, 15, 30, 123),
       _startTime: new Date(0, 0, 0, 10, 15, 0, 0),
       _endTime: new Date(0, 0, 0, 12, 40, 0, 0),
+      _inputReadOnly: false,
 
       _masks: [{
          title: 'Main date and time formats',

@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridCollection } from 'Controls/gridNew';
+import { GridCollection } from 'Controls/grid';
 import { RecordSet } from 'Types/collection';
 
 const rawData = [
@@ -48,9 +48,12 @@ describe('Controls/grid_clean/Display/ResultsColspan', () => {
 
         let columnItems = gridCollection.getResults().getColumns();
         assert.strictEqual(columnItems.length, 3);
-        assert.strictEqual(columnItems[0].getColspan(), '');
-        assert.strictEqual(columnItems[1].getColspan(), '');
-        assert.strictEqual(columnItems[2].getColspan(), '');
+        assert.strictEqual(columnItems[0].getColspan(), 1);
+        assert.strictEqual(columnItems[0].getColspanStyles(), '');
+        assert.strictEqual(columnItems[1].getColspan(), 1);
+        assert.strictEqual(columnItems[1].getColspanStyles(), '');
+        assert.strictEqual(columnItems[2].getColspan(), 1);
+        assert.strictEqual(columnItems[2].getColspanStyles(), '');
     });
 
     it('Initialize with resultsColspanCallback = () => "end"', () => {
@@ -65,7 +68,8 @@ describe('Controls/grid_clean/Display/ResultsColspan', () => {
 
         let columnItems = gridCollection.getResults().getColumns();
         assert.strictEqual(columnItems.length, 1);
-        assert.strictEqual(columnItems[0].getColspan(), 'grid-column: 1 / 4;');
+        assert.strictEqual(columnItems[0].getColspan(), 3);
+        assert.strictEqual(columnItems[0].getColspanStyles(), 'grid-column: 1 / 4;');
     });
 
     it('Initialize with resultsColspanCallback = (column, columnIndex) => columnIndex === 1 ? "end" : undefined ', () => {
@@ -80,8 +84,10 @@ describe('Controls/grid_clean/Display/ResultsColspan', () => {
 
         let columnItems = gridCollection.getResults().getColumns();
         assert.strictEqual(columnItems.length, 2);
-        assert.strictEqual(columnItems[0].getColspan(), '');
-        assert.strictEqual(columnItems[1].getColspan(), 'grid-column: 2 / 4;');
+        assert.strictEqual(columnItems[0].getColspan(), 1);
+        assert.strictEqual(columnItems[0].getColspanStyles(), '');
+        assert.strictEqual(columnItems[1].getColspan(), 2);
+        assert.strictEqual(columnItems[1].getColspanStyles(), 'grid-column: 2 / 4;');
     });
 
     it('Initialize with resultsColspanCallback = (column, columnIndex) => columnIndex === 2 ? "end" : undefined ', () => {
@@ -96,9 +102,12 @@ describe('Controls/grid_clean/Display/ResultsColspan', () => {
 
         let columnItems = gridCollection.getResults().getColumns();
         assert.strictEqual(columnItems.length, 3);
-        assert.strictEqual(columnItems[0].getColspan(), '');
-        assert.strictEqual(columnItems[1].getColspan(), '');
-        assert.strictEqual(columnItems[2].getColspan(), '');
+        assert.strictEqual(columnItems[0].getColspan(), 1);
+        assert.strictEqual(columnItems[0].getColspanStyles(), '');
+        assert.strictEqual(columnItems[1].getColspan(), 1);
+        assert.strictEqual(columnItems[1].getColspanStyles(), '');
+        assert.strictEqual(columnItems[2].getColspan(), 1);
+        assert.strictEqual(columnItems[2].getColspanStyles(), '');
     });
 
     it('Initialize with resultsColspanCallback and reset callback', () => {
@@ -114,15 +123,19 @@ describe('Controls/grid_clean/Display/ResultsColspan', () => {
         // initialize
         let columnItems = gridCollection.getResults().getColumns();
         assert.strictEqual(columnItems.length, 1);
-        assert.strictEqual(columnItems[0].getColspan(), 'grid-column: 1 / 4;');
+        assert.strictEqual(columnItems[0].getColspan(), 3);
+        assert.strictEqual(columnItems[0].getColspanStyles(), 'grid-column: 1 / 4;');
 
         // reset callback
         gridCollection.setResultsColspanCallback(undefined);
         columnItems = gridCollection.getResults().getColumns();
         assert.strictEqual(columnItems.length, 3);
-        assert.strictEqual(columnItems[0].getColspan(), '');
-        assert.strictEqual(columnItems[1].getColspan(), '');
-        assert.strictEqual(columnItems[2].getColspan(), '');
+        assert.strictEqual(columnItems[0].getColspan(), 1);
+        assert.strictEqual(columnItems[0].getColspanStyles(), '');
+        assert.strictEqual(columnItems[1].getColspan(), 1);
+        assert.strictEqual(columnItems[1].getColspanStyles(), '');
+        assert.strictEqual(columnItems[2].getColspan(), 1);
+        assert.strictEqual(columnItems[2].getColspanStyles(), '');
     });
 
     it('Initialize without resultsColspanCallback and set callback', () => {
@@ -137,15 +150,20 @@ describe('Controls/grid_clean/Display/ResultsColspan', () => {
         // initialize
         let columnItems = gridCollection.getResults().getColumns();
         assert.strictEqual(columnItems.length, 3);
-        assert.strictEqual(columnItems[0].getColspan(), '');
-        assert.strictEqual(columnItems[1].getColspan(), '');
-        assert.strictEqual(columnItems[2].getColspan(), '');
+        assert.strictEqual(columnItems[0].getColspan(), 1);
+        assert.strictEqual(columnItems[0].getColspanStyles(), '');
+        assert.strictEqual(columnItems[1].getColspan(), 1);
+        assert.strictEqual(columnItems[1].getColspanStyles(), '');
+        assert.strictEqual(columnItems[2].getColspan(), 1);
+        assert.strictEqual(columnItems[2].getColspanStyles(), '');
 
         // reset callback
         gridCollection.setResultsColspanCallback((column, columnIndex) => columnIndex === 0 ? 2 : undefined);
         columnItems = gridCollection.getResults().getColumns();
         assert.strictEqual(columnItems.length, 2);
-        assert.strictEqual(columnItems[0].getColspan(), 'grid-column: 1 / 3;');
-        assert.strictEqual(columnItems[1].getColspan(), '');
+        assert.strictEqual(columnItems[0].getColspan(), 2);
+        assert.strictEqual(columnItems[0].getColspanStyles(), 'grid-column: 1 / 3;');
+        assert.strictEqual(columnItems[1].getColspan(), 1);
+        assert.strictEqual(columnItems[1].getColspanStyles(), '');
     });
 });

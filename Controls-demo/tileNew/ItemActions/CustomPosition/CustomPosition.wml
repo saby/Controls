@@ -10,7 +10,7 @@
         <ws:itemTemplate>
             <ws:partial
                     itemWidth="{{itemTemplate.itemData.item.width}}"
-                    template="Controls/tileNew:ItemTemplate"
+                    template="Controls/tile:ItemTemplate"
                     hasTitle="{{itemTemplate.itemData.item.isDocument}}">
                 <ws:contentTemplate>
                     <div class="controlsDemo__customTileTpl controlsDemo__Tile_ItemActions_customPosition_contentTemplate">

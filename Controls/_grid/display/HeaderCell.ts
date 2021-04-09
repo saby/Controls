@@ -33,12 +33,12 @@ interface ICellContentOrientation {
     valign: 'top' | 'center' | 'baseline' | 'bottom';
 }
 
-const DEFAULT_CELL_TEMPLATE = 'Controls/grid:HeaderContent';
-
 const FIXED_HEADER_Z_INDEX = 4;
 const STICKY_HEADER_Z_INDEX = 3;
 
 export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
+    protected readonly _defaultCellTemplate: string = 'Controls/grid:HeaderContent';
+
     protected _$owner: HeaderRow<T>;
     protected _$column: IHeaderCell;
     protected _$cellPadding: IItemPadding;
@@ -107,6 +107,13 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
 
     // region Аспект "Объединение колонок"
     _getColspanParams(): IColspanParams {
+        if (this.isCheckBoxCell()) {
+            return {
+                startColumn: 1,
+                endColumn: 2,
+                colspan: 1
+            };
+        }
         if (this._$column.startColumn && this._$column.endColumn) {
             const multiSelectOffset = this.isCheckBoxCell() ? 0 : +this._$owner.hasMultiSelectColumn();
             return {
@@ -116,6 +123,13 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         }
         return super._getColspanParams();
     }
+
+    getColspan(): number {
+        // TODO: Перейти на базовый метод
+        const params = this._getColspanParams() || {};
+        return (params.endColumn - params.startColumn) || 1;
+    }
+
     // endregion
 
     // region Аспект "Объединение строк"
@@ -141,9 +155,14 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             rowspan: endRow - startRow
         };
     }
-    getRowspan(): string {
+
+    getRowspan(): number {
+        return this._getRowspanParams()?.rowspan || 1;
+    }
+
+    getRowspanStyles(): string {
         if (!this._$owner.isFullGridSupport()) {
-            return '' + this._getRowspanParams().rowspan;
+            return '';
         }
         const {startRow, endRow} = this._getRowspanParams();
         return `grid-row: ${startRow} / ${endRow};`;
@@ -153,7 +172,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     getWrapperStyles(): string {
         let styles = super.getWrapperStyles();
         if (this._$owner.isFullGridSupport()) {
-            styles += this.getRowspan();
+            styles += this.getRowspanStyles();
         }
         styles += ` z-index: ${this.getZIndex()};`;
         return styles;
@@ -169,7 +188,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         return zIndex;
     }
 
-    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string): string {
+    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default'): string {
         let wrapperClasses = `controls-Grid__header-cell controls-Grid__cell_${style}`
                           + ` ${this._getWrapperPaddingClasses(theme)}`
                           + ` ${this._getColumnSeparatorClasses(theme)}`
@@ -224,10 +243,6 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             }
         }
         return classes;
-    }
-
-    getTemplate(): TemplateFunction|string {
-        return this._$column.template || DEFAULT_CELL_TEMPLATE;
     }
 
     getCaption(): string {
@@ -286,7 +301,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     protected _getWrapperPaddingClasses(theme: string): string {
         // Для ячейки, создаваемой в связи с множественной лесенкой не нужны отступы, иначе будут проблемы с наложением
         // тени: https://online.sbis.ru/opendoc.html?guid=758f38c7-f5e7-447e-ab79-d81546b9f76e
-        if (this._$ladderCell) {
+        if (this._$isLadderCell) {
             return '';
         }
 
@@ -338,7 +353,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
 
 Object.assign(HeaderCell.prototype, {
     '[Controls/_display/grid/HeaderCell]': true,
-    _moduleName: 'Controls/gridNew:GridHeaderCell',
+    _moduleName: 'Controls/grid:GridHeaderCell',
     _instancePrefix: 'grid-header-cell-',
     _$cellPadding: null,
     _$shadowVisibility: null,

@@ -25,8 +25,8 @@ import {
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {RecordSet} from 'Types/collection';
 import {NewSourceController, Path} from 'Controls/dataSource';
-import {SearchView} from 'Controls/searchBreadcrumbsGrid';
-import {TreeGridView} from 'Controls/treeGridNew';
+import {SearchView, SearchViewTable} from 'Controls/searchBreadcrumbsGrid';
+import {TreeGridView, TreeGridViewTable } from 'Controls/treeGrid';
 import {SyntheticEvent} from 'UI/Vdom';
 import {IDragObject} from 'Controls/_dragnDrop/Container';
 import {ItemsEntity} from 'Controls/dragnDrop';
@@ -38,6 +38,7 @@ import * as template from 'wml!Controls/_explorer/View/View';
 import {IEditableListOption} from 'Controls/_list/interface/IEditableList';
 import 'css!Controls/tile';
 import 'css!Controls/explorer';
+import { isFullGridSupport } from 'Controls/display';
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -55,17 +56,17 @@ const VIEW_NAMES = {
     table: TreeGridView,
     list: ListView
 };
+const VIEW_TABLE_NAMES = {
+    search: SearchViewTable,
+    tile: null,
+    table: TreeGridViewTable,
+    list: ListView
+};
 const VIEW_MODEL_CONSTRUCTORS = {
     search: 'Controls/searchBreadcrumbsGrid:SearchGridCollection',
     tile: null,
     table: 'Controls/treeGrid:TreeGridCollection',
     list: 'Controls/treeGrid:TreeGridCollection'
-};
-const USE_NEW_MODEL_VALUES = {
-    search: true,
-    tile: false,
-    table: true,
-    list: true
 };
 
 const EXPLORER_CONSTANTS = {
@@ -97,7 +98,6 @@ interface IExplorerOptions
     itemOpenHandler?: Function;
     searchStartingWith?: 'root' | 'current';
     sourceController?: NewSourceController;
-    useNewTileModel?: boolean;
     useOldModel?: boolean;
     expandByItemClick?: boolean;
 }
@@ -124,10 +124,10 @@ export default class Explorer extends Control<IExplorerOptions> {
     protected _breadCrumbsDragHighlighter: Function;
     protected _canStartDragNDrop: Function;
     protected _headerVisibility: string;
-    protected _useNewModel: boolean;
     protected _children: {
         treeControl: TreeControl
     };
+    protected _dataLoadCallback: Function;
 
     /**
      * Идентификатор узла данные которого отображаются в текущий момент.
@@ -180,12 +180,28 @@ export default class Explorer extends Control<IExplorerOptions> {
             return !!(domEvent.target as HTMLElement).closest('.js-controls-ListView__checkbox')
                 || item instanceof Array || item.get(this._options.nodeProperty) !== ITEM_TYPES.node;
         };
+        this._dataLoadCallback = (items, direction) => {
+            // После получения данных обновим видимость заголовка т.к. мы не можем это сделать на
+            // beforeUpdate в следствии того, что между сменой root и получением данных есть задержка
+            // и в противном случае перерисовка будет в два этапа, сначала обновится видимость заголовка,
+            // а потом придут и отрисуются данные
+            if (!direction) {
+                const curRoot = this._options.sourceController
+                    ? this._options.sourceController.getRoot()
+                    : this._getRoot(this._options.root);
+                this._headerVisibility = this._getHeaderVisibility(curRoot, this._options.headerVisibility);
+            }
+
+            if (this._options.dataLoadCallback) {
+                this._options.dataLoadCallback(items, direction);
+            }
+        };
 
         this._dragControlId = randomId();
         this._navigation = cfg.navigation;
 
         const root = this._getRoot(cfg.root);
-        this._headerVisibility = root === null ? cfg.headerVisibility || 'hasdata' : 'visible';
+        this._headerVisibility = this._getHeaderVisibility(root, cfg.headerVisibility);
         this._restoredMarkedKeys = {
             [root]: {
                 markedKey: null
@@ -217,7 +233,14 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         const isSourceControllerLoading = cfg.sourceController && cfg.sourceController.isLoading();
         this._resetScrollAfterViewModeChange = isViewModeChanged && !isRootChanged;
-        this._headerVisibility = cfg.root === null ? cfg.headerVisibility || 'hasdata' : 'visible';
+        // Видимость заголовка зависит непосредственно от рута и от данных в нем.
+        // Поэтому при смене рута мы не можем менять видимость прямо тут, нужно дождаться получения данных
+        // иначе перерисовка может быть в два этапа. Например, показываем пустые результаты поиска в режиме
+        // searchStartingWith === 'root', после сбрасываем поиск и возвращаем root в предыдущую папку после чего
+        // этот код покажет заголовок и только после получения данных они отрисуются
+        if (!isRootChanged) {
+            this._headerVisibility = this._getHeaderVisibility(cfg.root, cfg.headerVisibility);
+        }
 
         if (!isEqual(cfg.itemPadding, this._options.itemPadding)) {
             this._newItemPadding = cfg.itemPadding;
@@ -305,7 +328,7 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     }
 
-    protected _componentDidUpdate(): void {
+    protected _afterRender(): void {
         if (this._markerForRestoredScroll !== null) {
             this.scrollToItem(this._markerForRestoredScroll);
             this._markerForRestoredScroll = null;
@@ -624,6 +647,18 @@ export default class Explorer extends Control<IExplorerOptions> {
         });
     }
 
+    /**
+     * На основании переданного root и значения опции headerVisibility вычисляет
+     * итоговую видимость заголовка таблицы.
+     *    * Если находимся в корне то видимость берем либо из headerVisibility
+     *    либо проставляем 'hasdata'.
+     *    * Если находимся не в корне, то заголовок всегда делаем видимым
+     *    https://online.sbis.ru/doc/19106882-fada-47f7-96bd-516f9fb0522f
+     */
+    private _getHeaderVisibility(root: TKey, headerVisibility: string): string {
+        return root === null ? (headerVisibility || 'hasdata') : 'visible';
+    }
+
     private _itemsReadyCallbackFunc(items: RecordSet): void {
         this._items = items;
         if (this._options.itemsReadyCallback) {
@@ -673,8 +708,11 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     private _setViewConfig(viewMode: TExplorerViewMode): void {
-        this._viewName = VIEW_NAMES[viewMode];
-        this._useNewModel = USE_NEW_MODEL_VALUES[viewMode];
+        if (isFullGridSupport()) {
+            this._viewName = VIEW_NAMES[viewMode];
+        } else {
+            this._viewName = VIEW_TABLE_NAMES[viewMode];
+        }
         this._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS[viewMode];
     }
 
@@ -693,7 +731,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._updateRootOnViewModeChanged(viewMode, cfg);
         }
 
-        if (cfg.useOldModel && !this._oldModelLoaded && viewMode !== 'tile') {
+        if (cfg.useOldModel && viewMode !== 'tile') {
             this._setViewModePromise = this._loadOldViewMode(cfg).then(() => {
                 this._setViewModeSync(viewMode, cfg);
             });
@@ -764,12 +802,12 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     private _loadTileViewMode(options: IExplorerOptions): Promise<void> {
-        if (options.useNewTileModel) {
+        if (!options.useOldModel) {
             return new Promise((resolve) => {
                 import('Controls/treeTile').then((tile) => {
                     VIEW_NAMES.tile = tile.TreeTileView;
+                    VIEW_TABLE_NAMES.tile = tile.TreeTileView;
                     VIEW_MODEL_CONSTRUCTORS.tile = 'Controls/treeTile:TreeTileCollection';
-                    USE_NEW_MODEL_VALUES.tile = true;
                     resolve();
                 }).catch((err) => {
                     Logger.error('Controls/_explorer/View: ' + err.message, this, err);
@@ -777,8 +815,9 @@ export default class Explorer extends Control<IExplorerOptions> {
             });
         } else {
             return new Promise((resolve) => {
-                import('Controls/tile').then((tile) => {
+                import('Controls/tileOld').then((tile) => {
                     VIEW_NAMES.tile = tile.TreeView;
+                    VIEW_TABLE_NAMES.tile = tile.TreeView;
                     VIEW_MODEL_CONSTRUCTORS.tile = tile.TreeViewModel;
                     resolve();
                 }).catch((err) => {
@@ -793,16 +832,12 @@ export default class Explorer extends Control<IExplorerOptions> {
             import('Controls/treeGridOld').then((treeGridOld) => {
                 VIEW_NAMES.table = treeGridOld.TreeGridView;
                 VIEW_NAMES.search = treeGridOld.SearchView;
+                VIEW_TABLE_NAMES.table = treeGridOld.TreeGridView;
+                VIEW_TABLE_NAMES.search = treeGridOld.SearchView;
 
                 VIEW_MODEL_CONSTRUCTORS.table = treeGridOld.ViewModel;
                 VIEW_MODEL_CONSTRUCTORS.list = treeGridOld.ViewModel;
                 VIEW_MODEL_CONSTRUCTORS.search = treeGridOld.SearchGridViewModel;
-
-                USE_NEW_MODEL_VALUES.table = false;
-                USE_NEW_MODEL_VALUES.list = false;
-                USE_NEW_MODEL_VALUES.search = false;
-
-                this._oldModelLoaded = true;
                 resolve();
             }).catch((err) => {
                 Logger.error('Controls/_explorer/View: ' + err.message, this, err);
@@ -908,7 +943,8 @@ export default class Explorer extends Control<IExplorerOptions> {
             backButtonFontColorStyle: 'secondary',
             stickyHeader: true,
             searchStartingWith: 'root',
-            showActionButton: false
+            showActionButton: false,
+            isFullGridSupport: isFullGridSupport()
         };
     }
 }
@@ -923,9 +959,11 @@ Object.defineProperty(Explorer, 'defaultProps', {
 });
 
 /**
- * Контрол "Иерархический проводник".
- * Отображает данные иерархического списка, узел которого можно развернуть и перейти в него.
- * Позволяет переключать отображение элементов в режимы "таблица", "список" и "плитка".
+ * Контрол "Иерархический проводник" позволяет отображать данные из различных источников данных в одном из четырех режимов: плоский список, дерево, плитка и поиск.
+ * В режимах отображения "дерево" и "поиск" над контролом отображаются хлебные крошки, используемые для навигации по разделам.
+ * В контроле можно включить поведение проваливания в узел, когда при клике по узлу — такой узел становится корнем иерархии.
+ * При этом контрол будет отображать только содержимое выбранного узла.
+ * Если для контрола настроена навигация, тогда после проваливания в узел начинает работать подгрузка дочерних элементов по скроллу.
  *
  * @remark
  * Сортировка применяется к запросу к источнику данных. Полученные от источника записи дополнительно не сортируются.

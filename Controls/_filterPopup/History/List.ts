@@ -259,7 +259,7 @@ class HistoryList extends Control<IHistoryListOptions> {
             horizontal: 'left'
          },
          eventHandlers: {
-            onResult: this._editDialogResult
+            onResult: this._editDialogResult.bind(this)
          },
          templateOptions
       };

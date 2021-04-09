@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { createRegExpForTestMatchClass } from 'ControlsUnit/_unitUtils/RegExp';
-import { GridResultsCell } from 'Controls/gridNew';
+import { GridResultsCell } from 'Controls/grid';
 
 const column = { displayProperty: 'col1' };
 const resultsColumn = {};
@@ -23,7 +23,7 @@ describe('Controls/grid_clean/Display/Ladder/ResultsCell/getWrapperClasses', () 
                 hasItemActionsSeparatedCell: () => false
             } as any,
             column: resultsColumn,
-            ladderCell: true
+            isLadderCell: true
         });
         const cellWrapperClasses = gridResultsCell.getWrapperClasses('TestTheme', 'TestBGStyle', 'TestStyle', false);
         assert.notMatch(cellWrapperClasses, createRegExpForTestMatchClass('controls-Grid__cell_spacingLeft'));

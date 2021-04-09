@@ -11,7 +11,7 @@ export default class ItemsGrid<TOptions extends IItemsViewOptions = IItemsViewOp
     //region override base template props
     protected _viewName: Function = null;
     protected _viewTemplate: Function = viewTemplate;
-    protected _viewModelConstructor: string = 'Controls/gridNew:GridCollection';
+    protected _viewModelConstructor: string = 'Controls/grid:GridCollection';
     //endregion
 
     _beforeMount(options: TOptions): void | Promise<void> {

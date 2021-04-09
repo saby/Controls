@@ -1,11 +1,10 @@
-.controlsDemo-StickyHeader-Mode__headers {
-  display: grid;
-}
-
 .controlsDemo-StickyHeader-Mode__headers-wrapper {
   display: contents;
 }
 
-.controlsDemo-StickyHeader-Mode__content {
-  grid-area: ~"3 / 1 / 3 / 3";
+// Демка была сделана с гридами, в ИЕ они работают криво.
+// В ИЕ стикиХэдеры обёрнуты в дивы, на котором нет классов, приходится до них добираться используя каскады
+.controlsDemo-StickyHeader-Mode__headers-wrapper > div {
+  display: inline-block;
+  width: 50%;
 }

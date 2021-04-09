@@ -1,4 +1,4 @@
-<ws:partial template="Controls/gridNew:ColumnTemplate" item="{{item}}" gridColumn="{{gridColumn}}">
+<ws:partial template="Controls/grid:ColumnTemplate" item="{{item}}" gridColumn="{{gridColumn}}">
     <ws:contentTemplate>
         <div>
             {{ contentTemplate.item.item.get('title') }}

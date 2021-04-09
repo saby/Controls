@@ -1,12 +1,17 @@
-<ws:partial template="Controls/gridNew:ColumnTemplate" scope="{{_options}}">
+<ws:partial template="Controls/grid:ColumnTemplate" scope="{{_options}}">
     <ws:contentTemplate>
-        <ws:partial template="Controls/list:EditingTemplate"
-                    value="{{ item.contents[column.config.displayProperty] }}"
-                    scope="{{contentTemplate}}"
-                    enabled="{{true}}">
-            <ws:editorTemplate>
-                <Controls.input:Number contrastBackground="{{true}}" bind:value="item.contents[column.config.displayProperty]" />
-            </ws:editorTemplate>
-        </ws:partial>
+        <ws:if data="{{!item.contents.isStrict}}">
+            <ws:partial template="Controls/list:EditingTemplate"
+                        value="{{ item.contents[column.config.displayProperty] }}"
+                        scope="{{contentTemplate}}"
+                        enabled="{{true}}">
+                <ws:editorTemplate>
+                    <Controls.input:Number contrastBackground="{{true}}" bind:value="item.contents[column.config.displayProperty]" />
+                </ws:editorTemplate>
+            </ws:partial>
+        </ws:if>
+        <ws:else>
+            <invisible-node/>
+        </ws:else>
     </ws:contentTemplate>
 </ws:partial>

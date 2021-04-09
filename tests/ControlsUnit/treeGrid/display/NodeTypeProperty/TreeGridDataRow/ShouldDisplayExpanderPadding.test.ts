@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {Model} from 'Types/entity';
 import {TreeItem} from 'Controls/display';
-import {TreeGridCollection, TreeGridDataRow, TreeGridGroupDataRow} from 'Controls/treeGridNew';
+import {TreeGridCollection, TreeGridDataRow, TreeGridGroupDataRow} from 'Controls/treeGrid';
 
 describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridDataRow/ShouldDisplayExpanderPadding', () => {
     const owner = {

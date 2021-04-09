@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/ColumnScroll/WithGroups/WithGroups';
 import {Memory} from 'Types/source';
 import {getTasks} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridNew';
+import { IColumn } from 'Controls/grid';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -19,6 +19,7 @@ export default class extends Control {
             width: '150px'
         }
     ];
+    protected _header = this._columns.map((c) => ({caption: c.displayProperty}));
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({

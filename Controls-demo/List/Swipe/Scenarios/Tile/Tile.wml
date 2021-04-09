@@ -9,6 +9,6 @@
    actionAlignment="vertical"
    itemActions="{{_itemActions}}">
    <ws:tileItemTemplate>
-      <ws:partial template="Controls/tile:ItemTemplate" hasTitle="{{tileItemTemplate.itemData.item.isDocument}}"/>
+      <ws:partial template="Controls/tileOld:ItemTemplate" hasTitle="{{tileItemTemplate.itemData.item.isDocument}}"/>
    </ws:tileItemTemplate>
 </Controls.explorer:View>

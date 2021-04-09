@@ -14,15 +14,6 @@
    display: inline-flex;
    position: relative;
    .tabs-baseline();
-
-   &:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1;
-   }
 }
 
 .controls-Tabs__itemClickableArea_type-default {
@@ -44,6 +35,17 @@
    &:before {
       line-height: var(--item_height_l_tabs);
       font-size: var(--unselected_item_font-size_tabs);
+   }
+}
+
+.controls-Tabs__itemClickableArea_marker {
+   &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1;
    }
 }
 
@@ -192,7 +194,7 @@
 }
 
 .ws-is-hover {
-   .controls-Tabs__item_state_default:hover {
+   .controls-Tabs__item-marker_state_default:hover {
       &:after {
          background: var(--marker_hover_color_tabs);
       }
@@ -309,7 +311,7 @@
    overflow: hidden;
    text-overflow: ellipsis;
    max-width: 100%;
-   display: inline-flex;
+   display: inline-block;
    white-space: nowrap;
    height: 100%;
 }

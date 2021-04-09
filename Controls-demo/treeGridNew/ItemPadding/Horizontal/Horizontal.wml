@@ -5,7 +5,7 @@
 
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-null">
                 <div class="controls-text-label">Отступы размер null</div>
-                <Controls.treeGridNew:View
+                <Controls.treeGrid:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
@@ -13,14 +13,16 @@
                         nodeProperty="type">
                     <ws:itemPadding left="null" right="null"/>
                     <ws:footerTemplate>
-                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                        <ws:partial template="Controls/grid:FooterTemplate">
+                            <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                        </ws:partial>
                     </ws:footerTemplate>
-                </Controls.treeGridNew:View>
+                </Controls.treeGrid:View>
             </div>
 
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-s">
                 <div class="controls-text-label">Отступы размер S</div>
-                <Controls.treeGridNew:View
+                <Controls.treeGrid:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
@@ -28,14 +30,16 @@
                         nodeProperty="type">
                     <ws:itemPadding left="s" right="s"/>
                     <ws:footerTemplate>
-                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                        <ws:partial template="Controls/grid:FooterTemplate">
+                            <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                        </ws:partial>
                     </ws:footerTemplate>
-                </Controls.treeGridNew:View>
+                </Controls.treeGrid:View>
             </div>
 
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-m">
                 <div class="controls-text-label">Отступы размер M</div>
-                <Controls.treeGridNew:View
+                <Controls.treeGrid:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
@@ -43,14 +47,16 @@
                         nodeProperty="type">
                     <ws:itemPadding left="m" right="m"/>
                     <ws:footerTemplate>
-                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                        <ws:partial template="Controls/grid:FooterTemplate">
+                            <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                        </ws:partial>
                     </ws:footerTemplate>
-                </Controls.treeGridNew:View>
+                </Controls.treeGrid:View>
             </div>
 
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-l">
                 <div class="controls-text-label">Отступы размер L</div>
-                <Controls.treeGridNew:View
+                <Controls.treeGrid:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
@@ -58,14 +64,16 @@
                         nodeProperty="type">
                     <ws:itemPadding left="L" right="L"/>
                     <ws:footerTemplate>
-                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                        <ws:partial template="Controls/grid:FooterTemplate">
+                            <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                        </ws:partial>
                     </ws:footerTemplate>
-                </Controls.treeGridNew:View>
+                </Controls.treeGrid:View>
             </div>
 
             <div class="controlsDemo__cell  controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-xl">
                 <div class="controls-text-label">Отступы размер XL</div>
-                <Controls.treeGridNew:View
+                <Controls.treeGrid:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
@@ -73,14 +81,16 @@
                         nodeProperty="type">
                     <ws:itemPadding left="XL" right="XL"/>
                     <ws:footerTemplate>
-                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                        <ws:partial template="Controls/grid:FooterTemplate">
+                            <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                        </ws:partial>
                     </ws:footerTemplate>
-                </Controls.treeGridNew:View>
+                </Controls.treeGrid:View>
             </div>
 
             <div class="controlsDemo__cell  controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-xxl">
                 <div class="controls-text-label">Отступы размер XXL</div>
-                <Controls.treeGridNew:View
+                <Controls.treeGrid:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
@@ -88,9 +98,11 @@
                         nodeProperty="type">
                     <ws:itemPadding left="XXL" right="XXL"/>
                     <ws:footerTemplate>
-                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                        <ws:partial template="Controls/grid:FooterTemplate">
+                            <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                        </ws:partial>
                     </ws:footerTemplate>
-                </Controls.treeGridNew:View>
+                </Controls.treeGrid:View>
             </div>
         </div>
     </div>

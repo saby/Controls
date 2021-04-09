@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridDataRow, GridCollection } from 'Controls/gridNew';
+import { GridDataRow, GridCollection } from 'Controls/grid';
 import { Model } from 'Types/entity';
 
 const rawData = { key: 1, firstStickyProperty: 'first', secondStickyProperty: 'second', caption: 'item_1' };
@@ -18,7 +18,8 @@ const mockedCollection = {
     getColumnsConfig: () => columns,
     getIndex: () => 0,
     notifyItemChange: () => {},
-    getItemEditorTemplate: () => {}
+    getItemEditorTemplate: () => {},
+    isFullGridSupport: () => true
 } as GridCollection<Model>;
 
 describe('Controls/grid_clean/Display/DataRow', () => {

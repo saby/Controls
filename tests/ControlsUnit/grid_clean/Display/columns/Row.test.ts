@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridDataRow, GridCollection } from 'Controls/gridNew';
+import { GridDataRow, GridCollection } from 'Controls/grid';
 import { Model } from 'Types/entity';
 
 const mockedCollection = {
@@ -8,7 +8,8 @@ const mockedCollection = {
     hasItemActionsSeparatedCell: () => false,
     getIndex: () => 0,
     notifyItemChange: () => {},
-    getItemEditorTemplate: () => {}
+    getItemEditorTemplate: () => {},
+    isFullGridSupport: () => true
 } as GridCollection<Model>;
 
 describe('Controls/grid_clean/Display/columns/Row', () => {
@@ -27,7 +28,10 @@ describe('Controls/grid_clean/Display/columns/Row', () => {
 
     it('.setColumns()', () => {
         const gridRow = new GridDataRow({
-            owner: mockedCollection,
+            owner: {
+                ...mockedCollection,
+                getColumnsConfig: () => [{displayProperty: 'before'}]
+            },
             columns: [{displayProperty: 'before'}],
             contents: record
         });

@@ -7,7 +7,7 @@
                     <Controls.search:Input/>
                 </Controls.search:InputContainer>
                 <Controls.list:Container>
-                    <Controls.gridNew:View
+                    <Controls.grid:View
                             keyProperty="id"
                             source="{{_viewSource}}"
                             columns="{{_columns}}"/>

@@ -1,4 +1,4 @@
-define(['Controls/_tileNew/utils/imageUtil'], function(ItemSizeUtils) {
+define(['Controls/_tile/utils/imageUtil'], function(ItemSizeUtils) {
    'use strict';
 
    function mockHTMLElement(width, height) {
@@ -33,7 +33,7 @@ define(['Controls/_tileNew/utils/imageUtil'], function(ItemSizeUtils) {
          }
       };
 
-   describe('Controls/_tile/TileView/resources/ItemSizeUtils', function() {
+   describe('Controls/_tileOld/TileView/resources/ItemSizeUtils', function() {
       it('without imageWrapper', function() {
          var hasError = false;
 

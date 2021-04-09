@@ -1,36 +1,41 @@
-import { TemplateFunction } from 'UI/Base';
-import { Model as EntityModel } from 'Types/entity';
+import {TemplateFunction} from 'UI/Base';
+import {Model as EntityModel} from 'Types/entity';
 import ResultsRow from './ResultsRow';
-import Cell, {IOptions as ICellOptions} from './Cell';
+import Cell, {IOptions as IBaseCellOptions} from './Cell';
 
-export interface IOptions<T> extends ICellOptions<T> {
-    owner: ResultsRow<T>;
-    template?: TemplateFunction;
-    align?: string;
-    displayProperty?: string;
+interface IResultsCellOptions<T> extends IBaseCellOptions<T> {
     metaResults?: EntityModel;
 }
 
-const DEFAULT_CELL_TEMPLATE = 'Controls/grid:ResultColumnTemplate';
 const FIXED_RESULTS_Z_INDEX = 4;
 const STICKY_RESULTS_Z_INDEX = 3;
 
-export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
-    protected _$data: string|number;
-    protected _$format: string;
+class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
+    protected readonly _defaultCellTemplate: string = 'Controls/grid:ResultColumnTemplate';
     protected _$metaResults: EntityModel;
+    protected _data: string | number;
+    protected _format: string;
 
-    constructor(options?: IOptions<T>) {
+    constructor(options?: IResultsCellOptions<T>) {
         super(options);
         this._prepareDataAndFormat();
     }
 
+    // TODO: Рассмотреть возможность перевода на отдельную опцию.
+    //  Перегрузка необходима из за того, что конфигурация результатов объединена с колонками.
+    //  Если результаты будут иметь отдельную опцию под конфиг, то будет полная однородность, метод будет не нужен.
+    getTemplate(): TemplateFunction | string {
+        const customTemplate = this._$isSingleCell ? this._$column.template : this._$column.resultTemplate;
+        return customTemplate || this._defaultCellTemplate;
+    }
+
+    //region Аспект "Данные и формат"
     get data(): string | number {
-        return this._$data;
+        return this._data;
     }
 
     get format(): string {
-        return this._$format;
+        return this._format;
     }
 
     setMetaResults(metaResults: EntityModel): void {
@@ -43,11 +48,26 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
         return this._$metaResults;
     }
 
-    getTemplate(): TemplateFunction|string {
-        return this._$column.resultTemplate || DEFAULT_CELL_TEMPLATE;
+    protected _prepareDataAndFormat(): void {
+        const results = this.getMetaResults();
+        const displayProperty = this._$column && this._$column.displayProperty;
+        if (results && displayProperty) {
+            const metaResultsFormat = results.getFormat();
+            const displayPropertyFormatIndex = metaResultsFormat.getIndexByValue('name', displayProperty);
+            this._data = results.get(displayProperty);
+            if (displayPropertyFormatIndex !== -1) {
+                this._format = metaResultsFormat.at(displayPropertyFormatIndex).getType() as string;
+            }
+        }
     }
 
-    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
+    //endregion
+
+    //region Аспект "Стилевое оформление"
+    getWrapperClasses(theme: string,
+                      backgroundColorStyle: string,
+                      style: string = 'default',
+                      templateHighlightOnHover: boolean): string {
         const isMultiSelectColumn = this.isMultiSelectColumn();
 
         if (isMultiSelectColumn) {
@@ -80,7 +100,7 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
     _getWrapperPaddingClasses(theme: string): string {
         // Для ячейки, создаваемой в связи с множественной лесенкой не нужны отступы, иначе будут проблемы с наложением
         // тени: https://online.sbis.ru/opendoc.html?guid=758f38c7-f5e7-447e-ab79-d81546b9f76e
-        if (this._$ladderCell) {
+        if (this._$isLadderCell) {
             return '';
         }
 
@@ -115,6 +135,7 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
     getWrapperStyles(): string {
         return `${super.getWrapperStyles()} z-index: ${this.getZIndex()};`;
     }
+
     getZIndex(): number {
         let zIndex;
         if (this._$owner.hasColumnScroll()) {
@@ -124,29 +145,23 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
         }
         return zIndex;
     }
+
     getContentClasses(theme: string): string {
-        return `controls-Grid__results-cell__content controls-Grid__results-cell__content`;
+        return 'controls-Grid__results-cell__content controls-Grid__results-cell__content';
     }
 
-    protected _prepareDataAndFormat(): void {
-        const results = this.getMetaResults();
-        const displayProperty = this._$column && this._$column.displayProperty;
-        if (results && displayProperty) {
-            const metaResultsFormat = results.getFormat();
-            const displayPropertyFormatIndex = metaResultsFormat.getIndexByValue('name', displayProperty);
-            this._$data = results.get(displayProperty);
-            if (displayPropertyFormatIndex !== -1) {
-                this._$format = metaResultsFormat.at(displayPropertyFormatIndex).getType() as string;
-            }
-        }
-    }
+    //endregion
 }
 
 Object.assign(ResultsCell.prototype, {
     '[Controls/_display/grid/ResultsCell]': true,
-    _moduleName: 'Controls/gridNew:GridResultsCell',
+    _moduleName: 'Controls/grid:GridResultsCell',
     _instancePrefix: 'grid-results-cell-',
-    _$metaResults: null,
-    _$data: null,
-    _$format: null
+    _$metaResults: null
 });
+
+export default ResultsCell;
+export {
+    ResultsCell,
+    IResultsCellOptions
+};

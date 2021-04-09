@@ -54,15 +54,15 @@
             </ws:if>
             <div class="controls-FilterPanel__header__buttons">
                <ws:if data="{{_hasResetValue && _isChanged}}">
-                  <div
-                          class="controls-FilterPanel__resetButton
-                          controls-inlineheight-m
-                          controls-fontsize-m"
-                          on:click="_resetFilter()"
-                          name="resetButton"
-                          tabindex="-1"
-                          title="{[По умолчанию]}">{[По умолчанию]}
-                  </div>
+                  <Controls.buttons:Button class="controls-FilterPanel__resetButton"
+                                           on:click="_resetFilter()"
+                                           viewMode="link"
+                                           name="resetButton"
+                                           fontColorStyle="filterResetButton"
+                                           tabindex="-1"
+                                           inlineHeight="m"
+                                           caption="{[По умолчанию]}"
+                                           tooltip="{[По умолчанию]}" />
                </ws:if>
                <Controls.buttons:Button viewMode="button" buttonStyle="primary" caption="{{_options.applyButtonCaption}}" on:click="_applyFilter()"
                                         attr:tabindex="1"

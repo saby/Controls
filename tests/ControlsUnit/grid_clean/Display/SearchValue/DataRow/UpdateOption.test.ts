@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { Model } from 'Types/entity';
-import { GridDataRow } from 'Controls/gridNew';
+import { GridDataRow } from 'Controls/grid';
 
 const TEST_SEARCH_VALUE = 'test';
 const rawData = { key: 1, col1: 'c1-1', col2: 'с2-1', col3: 'с3-1' };
@@ -49,7 +49,8 @@ describe('Controls/grid_clean/Display/SearchValue/DataRow/UpdateOption', () => {
                 getColumnsConfig: () => columns,
                 hasMultiSelectColumn: () => false,
                 hasItemActionsSeparatedCell: () => false,
-                getItemEditorTemplate: () => {}
+                getItemEditorTemplate: () => {},
+                isFullGridSupport: () => true
             } as any,
             columns
         });
@@ -79,7 +80,8 @@ describe('Controls/grid_clean/Display/SearchValue/DataRow/UpdateOption', () => {
                 getColumnsConfig: () => columns,
                 hasMultiSelectColumn: () => true,
                 hasItemActionsSeparatedCell: () => false,
-                getItemEditorTemplate: () => {}
+                getItemEditorTemplate: () => {},
+                isFullGridSupport: () => true
             } as any,
             columns
         });

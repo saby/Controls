@@ -1,12 +1,13 @@
 import { assert } from 'chai';
-import { GridFooterRow } from 'Controls/gridNew';
+import { GridFooterRow } from 'Controls/grid';
 
 const columns = [ { displayProperty: 'col1' }, { displayProperty: 'col2' }, { displayProperty: 'col3' } ];
 const mockedOwner = {
     getColumnsConfig: () => columns,
     getStickyColumnsCount: () => 0,
     hasMultiSelectColumn: () => false,
-    hasItemActionsSeparatedCell: () => false
+    hasItemActionsSeparatedCell: () => false,
+    isFullGridSupport: () => true
 } as any;
 
 describe('Controls/grid_clean/Display/Footer/FooterRow/UpdateOption', () => {
@@ -17,9 +18,8 @@ describe('Controls/grid_clean/Display/Footer/FooterRow/UpdateOption', () => {
 
     it('Initialize with footerTemplate', () => {
         const footerRow = new GridFooterRow({
-            columns,
             owner: mockedOwner,
-            footerTemplate: firstFooterTemplate
+            rowTemplate: firstFooterTemplate
         });
 
         assert.strictEqual(footerRow.getVersion(), 0);
@@ -30,9 +30,8 @@ describe('Controls/grid_clean/Display/Footer/FooterRow/UpdateOption', () => {
 
     it('Initialize with footer', () => {
         const footerRow = new GridFooterRow({
-            columns,
             owner: mockedOwner,
-            footer: [
+            columns: [
                 { template: firstFooterCellTemplate },
                 { template: secondFooterCellTemplate }
             ]
@@ -47,10 +46,9 @@ describe('Controls/grid_clean/Display/Footer/FooterRow/UpdateOption', () => {
 
     it('Initialize with footerTemplate and footer', () => {
         const footerRow = new GridFooterRow({
-            columns,
             owner: mockedOwner,
-            footerTemplate: firstFooterTemplate,
-            footer: [
+            rowTemplate: firstFooterTemplate,
+            columns: [
                 { template: firstFooterCellTemplate },
                 { template: secondFooterCellTemplate }
             ]
@@ -58,16 +56,14 @@ describe('Controls/grid_clean/Display/Footer/FooterRow/UpdateOption', () => {
 
         assert.strictEqual(footerRow.getVersion(), 0);
         const footerColumns = footerRow.getColumns();
-        assert.strictEqual(footerColumns.length, 2);
-        assert.strictEqual(footerColumns[0].getTemplate(), firstFooterCellTemplate);
-        assert.strictEqual(footerColumns[1].getTemplate(), secondFooterCellTemplate);
+        assert.strictEqual(footerColumns.length, 1);
+        assert.strictEqual(footerColumns[0].getTemplate(), firstFooterTemplate);
     });
 
     it('Initialize with footerTemplate and setFooter', () => {
         const footerRow = new GridFooterRow({
-            columns,
             owner: mockedOwner,
-            footerTemplate: firstFooterTemplate
+            rowTemplate: firstFooterTemplate
         });
 
         let footerColumns = footerRow.getColumns();
@@ -80,11 +76,19 @@ describe('Controls/grid_clean/Display/Footer/FooterRow/UpdateOption', () => {
         assert.strictEqual(footerColumns[0].getTemplate(), secondFooterTemplate);
 
         // set new "footerTemplate" and "footer"
-        footerRow.setFooter(firstFooterTemplate, [
+        const newColumns = [
             { template: firstFooterCellTemplate },
             { template: secondFooterCellTemplate }
-        ]);
+        ];
+        footerRow.setFooter(firstFooterTemplate, newColumns);
         assert.strictEqual(footerRow.getVersion(), 2);
+        footerColumns = footerRow.getColumns();
+        assert.strictEqual(footerColumns.length, 1);
+        assert.strictEqual(footerColumns[0].getTemplate(), firstFooterTemplate);
+
+        // clear "footerTemplate"
+        footerRow.setFooter(undefined, newColumns);
+        assert.strictEqual(footerRow.getVersion(), 3);
         footerColumns = footerRow.getColumns();
         assert.strictEqual(footerColumns.length, 2);
         assert.strictEqual(footerColumns[0].getTemplate(), firstFooterCellTemplate);

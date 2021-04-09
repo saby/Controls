@@ -309,11 +309,13 @@ const _private = {
             return;
         }
         const editingConfig = self._listViewModel.getEditingConfig();
-        // Если нет опций записи, проперти, и тулбар для редактируемой записи выставлен в false, то не надо
-        // инициализировать контроллер
+        // Если нет опций записи, проперти, стрелка редактирования скрыта,
+        // и тулбар для редактируемой записи выставлен в false,
+        // то не надо инициализировать контроллер
         if (
             (options && !options.itemActions && !options.itemActionsProperty) &&
-            !editingConfig?.toolbarVisibility
+            !editingConfig?.toolbarVisibility &&
+            !(options.showEditArrow && self._context?.isTouch?.isTouch)
         ) {
             return;
         }
@@ -1669,6 +1671,11 @@ const _private = {
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
                 _private.resetPortionedSearchAndCheckLoadToDirection(self, self._options);
             }
+
+            if (self._scrollPagingCtr && action === IObservable.ACTION_RESET) {
+                self._scrollPagingCtr = null;
+            }
+
             if (self._scrollController) {
                 if (action) {
                     const collectionStartIndex = self._listViewModel.getStartIndex();
@@ -2553,6 +2560,8 @@ const _private = {
                 break;
         }
 
+        this._notify('selectedLimitChanged', [selectionController.getLimit()]);
+
         _private.changeSelection(this, result);
     },
 
@@ -2801,7 +2810,7 @@ const _private = {
         if (options.itemActionsVisibility === 'visible') {
             style = 'transparent';
         } else {
-            style = options.hoverBackgroundStyle || options.style
+            style = options.hoverBackgroundStyle || options.style;
         }
         const itemActionsChangeResult = itemActionsController.update({
             editingItem: editingCollectionItem as CollectionItem<Model>,
@@ -3155,7 +3164,7 @@ const _private = {
      */
     needHoverFreezeController(self): boolean {
         return !self.__error && self._listViewModel && self._options.itemActionsPosition === 'outside' &&
-            (self._options.itemActions || self._options.itemActionsProperty) &&
+            ((self._options.itemActions && self._options.itemActions.length > 0) || self._options.itemActionsProperty) &&
             _private.isAllowedHoverFreeze(self);
     },
 
@@ -3388,6 +3397,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _continuationEditingDirection: 'top' | 'bottom' = null;
 
+    _hoverFreezeController: HoverFreeze;
+
     //#endregion
 
     constructor(options) {
@@ -3535,7 +3546,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             collapsedGroups: collapsedGroups || newOptions.collapsedGroups
         };
 
-        if (newOptions.groupProperty) {
+        if (newOptions.groupProperty && !newOptions.task1181512586) {
             self._groupingLoader = new GroupingLoader({});
         }
 
@@ -4144,7 +4155,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
 
         const groupPropertyChanged = newOptions.groupProperty !== this._options.groupProperty;
-        const needGroupingLoader = !!newOptions.groupProperty && !_private.isDemandNavigation(newOptions.navigation);
+        const needGroupingLoader = !!newOptions.groupProperty && !_private.isDemandNavigation(newOptions.navigation) && !newOptions.task1181512586;
         const hasGroupingLoader = !!this._groupingLoader;
         if (needGroupingLoader) {
             if (hasGroupingLoader) {
@@ -4509,7 +4520,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    _componentDidUpdate(): void {
+    _afterRender(): void {
         let positionRestored = false
 
         // TODO: https://online.sbis.ru/opendoc.html?guid=2be6f8ad-2fc2-4ce5-80bf-6931d4663d64
@@ -6021,7 +6032,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _onItemActionsMouseEnter(event: SyntheticEvent<MouseEvent>, itemData: CollectionItem<Model>): void {
-        if (_private.hasHoverFreezeController(this) && _private.isAllowedHoverFreeze(this) && !this._itemActionsMenuId) {
+        if (_private.hasHoverFreezeController(this) &&
+            _private.isAllowedHoverFreeze(this) &&
+            itemData.ItemActionsItem &&
+            !this._itemActionsMenuId) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
             this._hoverFreezeController.startFreezeHoverTimeout(itemKey, itemIndex);
@@ -6061,7 +6075,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._dndListController && this._dndListController.isDragging()) {
             this._notifyDraggingItemMouseMove(itemData, nativeEvent);
         }
-        if (hoverFreezeController) {
+        if (hoverFreezeController && itemData.ItemActionsItem) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
             hoverFreezeController.setDelayedHoverItem(itemKey, itemIndex);
@@ -6886,6 +6900,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._notify('unregister', ['touchend', this], {bubbling: true});
     }
     // endregion
+
+    _getFooterClasses(options): string {
+        const hasCheckboxes = options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
+        return `controls__BaseControl__footer controls__BaseControl__footer__paddingLeft_${hasCheckboxes ? 'withCheckboxes' : (options.itemPadding?.left || 'default')}`;
+    }
 
     static getDefaultOptions(): Partial<IBaseControlOptions> {
         return {

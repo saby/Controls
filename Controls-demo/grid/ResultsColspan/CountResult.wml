@@ -1,3 +1,0 @@
-<ws:partial template="Controls/gridNew:ResultColumnTemplate" scope="{{_options}}">
-    {{ content.results.get('count') }}
-</ws:partial>

@@ -8,6 +8,7 @@ import {Memory} from 'Types/source';
 import 'wml!Controls-demo/_Palette/Cell';
 import 'wml!Controls-demo/_Palette/Color';
 import {query} from 'Application/Env';
+import {editing} from 'Controls/list';
 
 class Palette extends Control<IControlOptions> {
     protected _template: TemplateFunction = ControlTemplate;
@@ -66,6 +67,12 @@ class Palette extends Control<IControlOptions> {
                 }
             }
         ];
+    }
+
+    _beforeBeginEditHandler(e, options): string {
+        if (options.item.get('isStrict')) {
+            return editing.CANCEL;
+        }
     }
 
     protected _mainParamChanged(): void {
