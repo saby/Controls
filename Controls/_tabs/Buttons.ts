@@ -243,13 +243,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         if (item[options.keyProperty] === options.selectedKey) {
             classes.push(`controls-Tabs_style_${style}__item_state_selected`);
             classes.push('controls-Tabs__item_state_selected ' );
-
-            // Если маркеры которые рисуются с абсолютной позицией не инициализированы, то нарисуем маркер
-            // внтри вкладки. Это можно сделать быстрее. Но невозможно анимировано передвигать его между вкладками.
-            // Инициализируем и переключимся на другой механизм маркеров после ховера.
-            if (!this._marker.isInitialized()) {
-                classes.push(`controls-Tabs_style_${style}__item-marker_state_selected`);
-            }
         } else {
             classes.push('controls-Tabs__item_state_default');
         }
@@ -259,6 +252,25 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _prepareItemTypeClass(item: ITabButtonItem): string {
         const itemType: string = item.type || 'default';
         return `controls-Tabs__itemClickableArea_type-${itemType}`;
+    }
+
+    protected _prepareItemMarkerClass(item: ITabButtonItem): string {
+        const classes = [];
+        const options = this._options;
+        const style = TabsButtons._prepareStyle(options.style);
+
+        classes.push('controls-Tabs__itemClickableArea_marker');
+        classes.push(`controls-Tabs__itemClickableArea_markerThickness-${options.markerThickness}`);
+
+        if (!this._marker.isInitialized() && item[options.keyProperty] === options.selectedKey) {
+            // Если маркеры которые рисуются с абсолютной позицией не инициализированы, то нарисуем маркер
+            // внтри вкладки. Это можно сделать быстрее. Но невозможно анимировано передвигать его между вкладками.
+            // Инициализируем и переключимся на другой механизм маркеров после ховера.
+            classes.push(`controls-Tabs_style_${style}__item-marker_state_selected`);
+        } else {
+            classes.push('controls-Tabs__item-marker_state_default');
+        }
+        return classes.join(' ');
     }
 
     protected _prepareItemOrder(index: number): string {
