@@ -11,7 +11,7 @@
       source="{{_viewSource}}">
       <ws:itemTemplate>
          <ws:partial
-            template="Controls/tileNew:ItemTemplate"
+            template="Controls/tile:ItemTemplate"
             scope="{{itemTemplate}}"
             hasTitle="{{false}}"/>
       </ws:itemTemplate>

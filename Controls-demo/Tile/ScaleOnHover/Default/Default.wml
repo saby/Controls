@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlDemo_Tile_scale-default">
-<Controls.tile:View
+<Controls.tileOld:View
         attr:class="demo-ScaleOnHover__default"
         tileMode="dynamic"
         displayProperty="title"
@@ -9,8 +9,8 @@
         source="{{_viewSource}}">
         <ws:itemTemplate>
                 <ws:partial
-                        template="Controls/tile:ItemTemplate"
+                        template="Controls/tileOld:ItemTemplate"
                         hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
         </ws:itemTemplate>
-</Controls.tile:View>
+</Controls.tileOld:View>
 </div>

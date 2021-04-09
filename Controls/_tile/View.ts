@@ -1,10 +1,6 @@
 import {View as List} from 'Controls/list';
-import {TreeControl} from 'Controls/tree';
-import TreeTileViewModel = require('Controls/_tile/TreeTileView/TreeTileViewModel');
-import TreeTileView = require('Controls/_tile/TreeTileView/TreeTileView');
-import {TILE_SCALING_MODE, ZOOM_COEFFICIENT} from 'Controls/_tile/TileView/resources/Constants';
-
-'use strict';
+import { TemplateFunction } from 'UI/Base';
+import TileView = require('./TileView');
 
 /**
  * Контрол "Плитка" позволяет отображать данные из различных источников в виде элементов плитки и располагать несколько элементов в одну строку. Контрол поддерживает широкий набор возможностей, позволяющих разработчику максимально гибко настраивать отображение данных.
@@ -72,26 +68,25 @@ import {TILE_SCALING_MODE, ZOOM_COEFFICIENT} from 'Controls/_tile/TileView/resou
  */
 
 export default class View extends List {
-    protected _viewName = TreeTileView;
-    protected _viewTemplate = TreeControl;
-    protected _supportNewModel: boolean = false;
+    protected _viewName: TemplateFunction = TileView;
+    protected _supportNewModel: boolean = true;
 
     protected _beforeMount(): void {
         this._viewModelConstructor = this._getModelConstructor();
     }
 
-    private _shouldOpenExtendedMenu(isActionMenu, isContextMenu, item): boolean {
+    private _shouldOpenExtendedMenu(isActionMenu: boolean, isContextMenu: boolean, item): boolean {
         const isScalingTile = this._options.tileScalingMode !== 'none' &&
             this._options.tileScalingMode !== 'overlap' &&
             !item.isNode();
         return this._options.actionMenuViewMode === 'preview' && !isActionMenu && !(isScalingTile && isContextMenu);
     }
 
-    protected _getModelConstructor() {
-        return TreeTileViewModel;
+    protected _getModelConstructor(): string {
+        return 'Controls/tile:TileCollection';
     }
 
-    static getDefaultOptions() {
+    static getDefaultOptions(): object {
         return {
             actionAlignment: 'vertical',
             actionCaptionPosition: 'none'

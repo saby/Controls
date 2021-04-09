@@ -82,7 +82,7 @@
          </ws:itemTemplate>
          <ws:tileItemTemplate>
             <ws:partial
-               template="Controls/tile:RichTemplate"
+               template="Controls/tileOld:RichTemplate"
                scope="{{tileItemTemplate}}"
                imageSize="{{tileItemTemplate.tileCfg.imageSize}}"
                imagePosition="{{tileItemTemplate.tileCfg.imagePosition}}"

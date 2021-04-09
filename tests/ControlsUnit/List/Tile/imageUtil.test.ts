@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {getImageClasses, getImageUrl, getImageSize, IMAGE_FIT, getImageRestrictions} from 'Controls/_tileNew/utils/imageUtil';
+import {getImageClasses, getImageUrl, getImageSize, IMAGE_FIT, getImageRestrictions} from 'Controls/_tile/utils/imageUtil';
 
 describe('tileImageUtil', () => {
     describe('getImageClasses', () => {

@@ -36,7 +36,7 @@
 /**
  * @cfg {Controls/_list/interface/IList/ItemPadding.typedef} Конфигурация внешних отступов плитки.
  * @name Controls/_tile/interface/ITile#itemsContainerPadding
- * @demo Controls-demo/tileNewNew/ItemsContainerPadding/Index
+ * @demo Controls-demo/tileNew/ItemsContainerPadding/Index
  */
 
 /**
@@ -195,9 +195,11 @@
  *    source="{{_viewSource}}"
  *    keyProperty="id"
  *    parentProperty="Раздел"
- *    nodeProperty="Раздел@"
- *    imageProperty="img">
- * </Controls.tile:View>
+ *    nodeProperty="Раздел@">
+ *    <ws:itemTemplate>
+ *       <ws:partial template="Controls/tile:ItemTemplate" imageProperty="img" >
+ *    </ws:itemTemplate>
+ *    </Controls.tile:View>
  * </pre>
  */
 

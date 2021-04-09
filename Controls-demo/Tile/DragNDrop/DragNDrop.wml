@@ -4,7 +4,7 @@
         <div>
             <Controls.list:Mover name="listMover"/>
             <Controls.list:Container>
-                <Controls.tile:View
+                <Controls.tileOld:View
                         tileMode="dynamic"
                         on:dragStart="_dragStart()"
                         on:dragEnd="_dragEnd()"
@@ -20,7 +20,7 @@
                                     image="{{draggingTemplate.entity._options.image}}">
                         </ws:partial>
                     </ws:draggingTemplate>
-                </Controls.tile:View>
+                </Controls.tileOld:View>
             </Controls.list:Container>
         </div>
     </Controls.operations:Controller>

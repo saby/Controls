@@ -9,7 +9,7 @@
         source="{{_viewSource}}">
         <ws:itemTemplate>
                 <ws:partial
-                        template="Controls/tileNew:ItemTemplate"
+                        template="Controls/tile:ItemTemplate"
                         hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
         </ws:itemTemplate>
 </Controls.treeTile:View>

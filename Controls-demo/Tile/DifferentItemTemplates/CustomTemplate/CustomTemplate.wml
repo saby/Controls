@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlDemo_Tile_custom-tpl">
-<Controls.tile:View
+<Controls.tileOld:View
         tileMode="dynamic"
         displayProperty="title"
         imageProperty="image"
@@ -8,7 +8,7 @@
     <ws:itemTemplate>
         <ws:partial
                 itemWidth="{{itemTemplate.itemData.item.width}}"
-                template="Controls/tile:ItemTemplate"
+                template="Controls/tileOld:ItemTemplate"
                 hasTitle="{{itemTemplate.itemData.item.isDocument}}">
             <ws:contentTemplate>
                 <div class="controlsDemo__customTileTpl">
@@ -18,5 +18,5 @@
             </ws:contentTemplate>
         </ws:partial>
     </ws:itemTemplate>
-</Controls.tile:View>
+</Controls.tileOld:View>
 </div>
