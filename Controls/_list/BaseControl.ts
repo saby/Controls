@@ -2761,6 +2761,10 @@ const _private = {
             const controller = _private.getMarkerController(self);
             const newMarkedKey = controller.getNextMarkedKey();
             if (newMarkedKey !== controller.getMarkedKey()) {
+                const lastItem = self._listViewModel.getLast();
+                if (lastItem.key === newMarkedKey) {
+                    self.loadMore('down');
+                }
                 const result = _private.changeMarkedKey(self, newMarkedKey);
                 if (result instanceof Promise) {
                     /**
