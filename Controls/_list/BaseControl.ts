@@ -1048,6 +1048,10 @@ const _private = {
     },
 
     scrollToEdge(self, direction) {
+        let scrollToEdgePromiseResolver;
+        const scrollToEdgePromise = new Promise((res) => {
+            scrollToEdgePromiseResolver = res;
+        });
         _private.setMarkerAfterScroll(self);
         let hasMoreData = {
             up: self._hasMoreData(self._sourceController, 'up'),
@@ -1106,27 +1110,39 @@ const _private = {
                             self._currentPage = 1;
                             self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
                             self._notify('doScroll', ['top'], { bubbling: true });
+                            scrollToEdgePromiseResolver();
                         };
                     } else {
-                        self._finishScrollToEdgeOnDrawItems = () => { _private.jumpToEnd(self) };
+                        self._finishScrollToEdgeOnDrawItems = () => {
+                            _private.jumpToEnd(self).then(() => {
+                                scrollToEdgePromiseResolver();
+                            });
+                        };
                     }
+                } else {
+                    scrollToEdgePromiseResolver();
                 }
             });
         } else if (direction === 'up') {
             self._needScrollToFirstItem = true;
-            self._scrollToFirstItemIfNeed();
-            self._notify('doScroll', ['top'], { bubbling: true });
-            if (self._scrollPagingCtr) {
-                self._currentPage = 1;
-                self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
-            }
+            self._scrollToFirstItemIfNeed().then(() => {
+                self._notify('doScroll', ['top'], { bubbling: true });
+                if (self._scrollPagingCtr) {
+                    self._currentPage = 1;
+                    self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
+                }
+                scrollToEdgePromiseResolver();
+            });
         } else {
-            _private.jumpToEnd(self);
-            if (self._scrollPagingCtr) {
-                self._currentPage = self._pagingCfg.pagesCount;
-                self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
-            }
+            _private.jumpToEnd(self).then(() => {
+                if (self._scrollPagingCtr) {
+                    self._currentPage = self._pagingCfg.pagesCount;
+                    self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
+                }
+                scrollToEdgePromiseResolver();
+            });
         }
+        return scrollToEdgePromise;
     },
     scrollPage(self, direction) {
         if (!self._scrollPageLocked) {
@@ -2400,7 +2416,7 @@ const _private = {
             model.setHasMoreData(hasMoreData, silent);
         }
     },
-    jumpToEnd(self): void {
+    jumpToEnd(self): Promise<void> {
         const lastItem =
             self._options.useNewModel
             ? self._listViewModel.getLast()?.getContents()
@@ -2424,11 +2440,12 @@ const _private = {
             // поставили такие, что последниц элемент уже отображается, scrollToItem не нужен.
             self._notify('doScroll', [self._scrollController?.calculateVirtualScrollHeight() || 'down'], { bubbling: true });
             _private.updateScrollPagingButtons(self, self._getScrollParams());
+            return Promise.resolve();
         } else {
 
             // Последняя страница уже загружена но конец списка не обязательно отображается,
             // если включен виртуальный скролл. ScrollContainer учитывает это в scrollToItem
-            _private.scrollToItem(self, lastItemKey, true, true).then(() => {
+            return _private.scrollToItem(self, lastItemKey, true, true).then(() => {
 
                 // После того как последний item гарантированно отобразился,
                 // нужно попросить ScrollWatcher прокрутить вниз, чтобы
@@ -3112,7 +3129,7 @@ const _private = {
     activateEditingRow(self, enableScrollToElement: boolean = true): void {
         // Контакты используют новый рендер, на котором нет обертки для редактируемой строки.
         // В новом рендере она не нужна
-        if (self._children.listView.activateEditingRow) {
+        if (self._children.listView && self._children.listView.activateEditingRow) {
             const activator = () => {
                 if (self._children.listView.beforeRowActivated) {
                     self._children.listView.beforeRowActivated();
@@ -4725,19 +4742,19 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _scrollToFirstItemIfNeed(): void {
+    _scrollToFirstItemIfNeed(): Promise<void> {
         if (this._needScrollToFirstItem) {
             this._needScrollToFirstItem = false;
 
-            if (this._finishScrollToEdgeOnDrawItems) {
-                return;
-            }
-            const firstItem = this.getViewModel().at(0);
-            const firstItemKey = firstItem && firstItem.key !== undefined ? firstItem.key : null;
-            if (firstItemKey !== null) {
-                _private.scrollToItem(this, firstItemKey, false, true);
+            if (!this._finishScrollToEdgeOnDrawItems) {
+                const firstItem = this.getViewModel().at(0);
+                const firstItemKey = firstItem && firstItem.key !== undefined ? firstItem.key : null;
+                if (firstItemKey !== null) {
+                    return _private.scrollToItem(this, firstItemKey, false, true);
+                }
             }
         }
+        return Promise.resolve();
     }
 
     _notifyOnDrawItems(): void {
@@ -5330,6 +5347,20 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
 
             return result;
+        }).then((result) => {
+            const editingConfig = this._getEditingConfig();
+
+            // Скролим к началу/концу списка. Данная операция может и скорее всего потребует перезагрузки списка.
+            // Не вся бизнес логика поддерживает загрузку первой/последней страницы при курсорной навигации.
+            // TODO: Поддержать везде по задаче
+            //  https://online.sbis.ru/opendoc.html?guid=000ff88b-f37e-4aa6-9bd3-3705bb721014
+            if (editingConfig.task1181625554) {
+                return _private.scrollToEdge(this, editingConfig.addPosition === 'top' ? 'up' : 'down').then(() => {
+                    return result;
+                });
+            } else {
+                return result;
+            }
         }).finally(() => {
             this._savedItemClickArgs = null;
         });
@@ -5675,7 +5706,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             autoAddOnInit: !!editingConfig.autoAddOnInit,
             backgroundStyle: editingConfig.backgroundStyle || 'default',
             autoAddByApplyButton: editingConfig.autoAddByApplyButton === false ? false : !!(editingConfig.autoAddByApplyButton || editingConfig.autoAdd),
-            toolbarVisibility: !!editingConfig.toolbarVisibility
+            toolbarVisibility: !!editingConfig.toolbarVisibility,
+
+            task1181625554: !!editingConfig.task1181625554
         };
     }
 
