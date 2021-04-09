@@ -23,7 +23,6 @@ define([
          value: new Date(2018, 0, 1),
          replacer: '_',
       },
-      now = new Date(),
       masks = DateControlsUtils.Range.dateMaskConstants;
 
    describe('Controls/_input/DateTime/StringValueConverter', function() {
@@ -80,6 +79,7 @@ define([
       });
 
       describe('.getValueByString', function() {
+         const now = new Date();
          let year = now.getFullYear(),
             month = now.getMonth(),
             date = now.getDate(),
