@@ -67,9 +67,12 @@ export default {
     },
     getMinWidth(items: Record[], options: IBreadCrumbsOptions, index: number, getTextWidth: Function): number {
         const text = items[index].get(options.displayProperty);
-        let textWidth = getTextWidth(text.substring(0, 3) + '...', options.fontSize) + PADDING_RIGHT;
-        textWidth = index === 0 ? textWidth : textWidth + ARROW_WIDTH;
-        return textWidth;
+        if (text) {
+            let textWidth = getTextWidth(text.substring(0, 3) + '...', options.fontSize) + PADDING_RIGHT;
+            textWidth = index === 0 ? textWidth : textWidth + ARROW_WIDTH;
+            return textWidth;
+        }
+        return 0;
     },
     calculateItemsWithDots(items: Record[], options: IBreadCrumbsOptions, indexEdge: number, width: number, dotsWidth: number, getTextWidth: Function = this.getTextWidth): Record[] {
         let secondContainerWidth = 0;

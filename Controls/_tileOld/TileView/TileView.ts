@@ -104,13 +104,8 @@ var TileView = ListView.extend({
         TileView.superclass._afterMount.apply(this, arguments);
     },
 
-    _onResize: function (event: SyntheticEvent<AnimationEvent>) {
-       /* FIXME: Если включены операции над записью с задержкой, то после завершения анимации попап стреляет Resize
-          TODO: https://online.sbis.ru/opendoc.html?guid=d8d0bf9e-fc25-4882-84d9-9ff5e20d52da
-        */
-       if (event?.type !== 'animationend') {
-           this._listModel.setHoveredItem(null);
-       }
+    _onResize: function() {
+        this._listModel.setHoveredItem(null);
     },
 
     getActionsMenuConfig(

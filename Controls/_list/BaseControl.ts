@@ -382,12 +382,9 @@ const _private = {
     supportAttachLoadTriggerToNull(options: any, direction: 'up'|'down'): boolean {
         // Поведение отложенной загрузки вверх нужно опциональное, например, для контактов
         // https://online.sbis.ru/opendoc.html?guid=f07ea1a9-743c-42e4-a2ae-8411d59bcdce
-        // Для мобильных устройств данный функционал включать нельзя из-за инерционного скролла:
-        // https://online.sbis.ru/opendoc.html?guid=45921906-4b0e-4d72-bb80-179c076412d5
         if (
             direction === 'up' && options.attachLoadTopTriggerToNull === false ||
-            direction === 'down' && options.attachLoadDownTriggerToNull === false ||
-            detection.isMobilePlatform
+            direction === 'down' && options.attachLoadDownTriggerToNull === false
         ) {
             return false;
         }
@@ -2560,6 +2557,8 @@ const _private = {
                 break;
         }
 
+        this._notify('selectedLimitChanged', [selectionController.getLimit()]);
+
         _private.changeSelection(this, result);
     },
 
@@ -3162,7 +3161,7 @@ const _private = {
      */
     needHoverFreezeController(self): boolean {
         return !self.__error && self._listViewModel && self._options.itemActionsPosition === 'outside' &&
-            (self._options.itemActions || self._options.itemActionsProperty) &&
+            ((self._options.itemActions && self._options.itemActions.length > 0) || self._options.itemActionsProperty) &&
             _private.isAllowedHoverFreeze(self);
     },
 
@@ -3394,6 +3393,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _editingItem: IEditableCollectionItem;
 
     _continuationEditingDirection: 'top' | 'bottom' = null;
+
+    _hoverFreezeController: HoverFreeze;
 
     //#endregion
 
@@ -3851,6 +3852,17 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._attachLoadTopTriggerToNull = false;
             this._hideTopTrigger = false;
             this._attachLoadDownTriggerToNull = false;
+        }
+
+        // на мобильных устройствах не сработает mouseEnter, поэтому ромашку сверху добавляем сразу после моунта
+        if (detection.isMobilePlatform) {
+            // нельзя делать это в процессе загрузки
+            if (!this._loadingState && !this._scrollController?.getScrollTop()) {
+                _private.attachLoadTopTriggerToNullIfNeed(this, this._options);
+            }
+            if (this._hideTopTrigger && !this._needScrollToFirstItem) {
+                this._hideTopTrigger = false;
+            }
         }
     }
 
@@ -6028,7 +6040,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _onItemActionsMouseEnter(event: SyntheticEvent<MouseEvent>, itemData: CollectionItem<Model>): void {
-        if (_private.hasHoverFreezeController(this) && _private.isAllowedHoverFreeze(this) && !this._itemActionsMenuId) {
+        if (_private.hasHoverFreezeController(this) &&
+            _private.isAllowedHoverFreeze(this) &&
+            itemData.ItemActionsItem &&
+            !this._itemActionsMenuId) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
             this._hoverFreezeController.startFreezeHoverTimeout(itemKey, itemIndex);
@@ -6068,7 +6083,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._dndListController && this._dndListController.isDragging()) {
             this._notifyDraggingItemMouseMove(itemData, nativeEvent);
         }
-        if (hoverFreezeController) {
+        if (hoverFreezeController && itemData.ItemActionsItem) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
             hoverFreezeController.setDelayedHoverItem(itemKey, itemIndex);
