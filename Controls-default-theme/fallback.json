@@ -901,7 +901,7 @@
   "--extended_content_padding-left_filterPanel": "var(--basic_content_padding-left_filterPanel)",
   "--extended_content_padding-right_filterPanel": "var(--basic_content_padding-right_filterPanel)",
   "--extended_offset_filterPanel": "var(--offset_m)",
-  "--extended_max-height_filterPanel": "calc(var(--extended_item_height_filterPanel) * 5))",
+  "--extended_max-height_filterPanel": "calc(var(--extended_item_height_filterPanel) * 5)",
   "--extended_group_height_filterPanel": "40px",
   "--extended_heading_font-size_filterPanel": "var(--font-size_l)",
   "--extended_heading_text-color_filterPanel": "var(--secondary_text-color_heading)",
