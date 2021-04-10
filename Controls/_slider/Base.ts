@@ -185,7 +185,8 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
       return {
          ...{
             value: EntityDescriptor(Number),
-            intervals: EntityDescriptor(Array)
+            intervals: EntityDescriptor(Array),
+            sliderClickCallback: EntityDescriptor(Function)
          }, ...SliderBase.getOptionTypes()
       };
 
