@@ -1,11 +1,14 @@
-<div class="controls-CutButton__container controls-CutButton__container_lineHeight-{{ _options.lineHeight }}
+<div class="controls-CutButton__container controls-CutButton__container_{{ _options.expanded ? 'extended' : 'notExtended'}}_size-{{ _options.iconSize }}
+            controls-CutButton__container_{{ _options.expanded ? 'extended' : 'notExtended'}} controls-CutButton__container_lineHeight-{{ _options.lineHeight }}
             controls-CutButton__container_position-{{ _options.buttonPosition }}">
-    <Controls.toggle:BigSeparator
-            attr:class="controls-CutButton controls-CutButton_size-{{ _options.iconSize }}"
-            iconSize="{{ _options.iconSize }}"
-            value="{{ _options.expanded }}"
-            readOnly="{{ _options.readOnly }}"
-            contrastBackground="{{ _options.contrastBackground }}"
-            on:click="_clickHandler()"
-    />
+    <div class="controls-CutButton controls-CutButton_background-{{ _options.backgroundStyle }} controls-CutButton_size-{{ _options.iconSize }}">
+        <Controls.toggle:BigSeparator
+                attr:class="controls-CutButton__separator"
+                iconSize="{{ _options.iconSize }}"
+                value="{{ _options.expanded }}"
+                readOnly="{{ _options.readOnly }}"
+                contrastBackground="{{ _options.contrastBackground }}"
+                on:click="_clickHandler()"
+        />
+    </div>
 </div>

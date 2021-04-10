@@ -1,0 +1,13 @@
+<div class="controlsDemo__wrapper">
+    <span>readOnly={{ _readOnly ? 'true' : 'false' }}</span>
+    <div class="controlsDemo__flex">
+        <div class="controlsDemo__margin-top">
+                <Controls.spoiler:AreaCut lines="{{ 4 }}" readOnly="{{ _readOnly }}" bind:value="_areaValue1" placeholder="Enter your name">
+                    <Controls.input:Area attr:class="controlsDemo__input"/>
+                </Controls.spoiler:AreaCut>
+        </div>
+    </div>
+    <div class="controlsDemo__cell">
+        <Controls.buttons:Button attr:ws-no-focus="true" caption="Toggle readonly" on:click="_toggleReadOnly()"/>
+    </div>
+</div>
