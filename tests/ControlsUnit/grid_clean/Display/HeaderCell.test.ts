@@ -1,6 +1,5 @@
 import { assert } from 'chai';
-import { GridHeaderCell } from 'Controls/gridNew';
-
+import { GridHeaderCell } from 'Controls/grid';
 
 describe('Controls/grid_clean/Display/HeaderCell', () => {
     describe('Controls/grid_clean/Display/HeaderCell/getColspanStyles', () => {

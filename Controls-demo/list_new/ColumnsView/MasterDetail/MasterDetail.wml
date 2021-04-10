@@ -49,7 +49,6 @@
                      <Controls.list:Container>
                         <Controls.columns:View
                                 keyProperty="id"
-                                useNewModel="{{true}}"
                                 source="{{ _viewSource }}"
                                 columnsMode="auto"
                                 name="detailList"

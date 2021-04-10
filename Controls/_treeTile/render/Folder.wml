@@ -1,1 +1,1 @@
-<ws:partial template="Controls/tileNew:SmallItemTemplate" scope="{{_options}}"/>
+<ws:partial template="Controls/tile:SmallItemTemplate" scope="{{_options}}"/>

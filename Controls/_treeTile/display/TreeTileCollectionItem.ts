@@ -1,6 +1,6 @@
 import {Model} from 'Types/entity';
 import { mixin } from 'Types/util';
-import {TileItemMixin} from 'Controls/tileNew';
+import {TileItemMixin} from 'Controls/tile';
 import { TreeItem } from 'Controls/display';
 import { TemplateFunction } from 'UI/Base';
 import * as FolderIcon from 'wml!Controls/_treeTile/render/FolderIcon';

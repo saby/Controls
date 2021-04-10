@@ -18,8 +18,11 @@
  * @name Controls/_tile/interface/ITile#tileHeight
  * @cfg {Number} Высота элементов, отображаемых в виде плитки.
  * @default 150
- * @remark Эта опция необходима для расчета размеров элементов при отрисовке на сервере.
+ * @remark 
+ * Эта опция необходима для расчета размеров элементов при отрисовке на сервере.
  * Если установить высоту с помощью css, компонент не будет отображен корректно.
+ * Если опция {@link Controls/tile:ItemTemplate#staticHeight staticHeight} не установлена в значение "true", опция tileHeight задает минимальную высоту, а дальше плитка пропорционально растягивается от ширины (см. {@link Controls/tile:ItemTemplate#tileWidth tileWidth} и {@link Controls/tile:ItemTemplate#folderWidth folderWidth}).
+ * 
  * @example
  * В следующем примере показано, как установить высоту элементов - 200 пикселей.
  * <pre class="brush: html">

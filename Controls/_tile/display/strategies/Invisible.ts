@@ -196,6 +196,6 @@ export default class InvisibleStrategy<
 Object.assign(InvisibleStrategy.prototype, {
     '[Controls/_display/IItemsStrategy]': true,
     '[Controls/_tile/strategy/Invisible]': true,
-    _moduleName: 'Controls/tileNew:InvisibleStrategy',
+    _moduleName: 'Controls/tile:InvisibleStrategy',
     _itemsOrder: null
 });

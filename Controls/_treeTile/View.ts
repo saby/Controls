@@ -1,4 +1,4 @@
-import { View as TileView } from 'Controls/tileNew';
+import { View as TileView } from 'Controls/tile';
 import {TemplateFunction} from 'UI/Base';
 import TreeTileView from './TreeTileView';
 
