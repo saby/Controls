@@ -5,6 +5,7 @@ import 'Controls/decorator';
 import 'wml!Controls/_treeGridOld/SearchView/SearchBreadCrumbsContent';
 import * as GridItemTemplate from 'wml!Controls/_treeGridOld/TreeGridView/layout/grid/Item';
 import * as TableItemTemplate from 'wml!Controls/_treeGridOld/TreeGridView/layout/table/Item';
+import * as NodeFooterTemplate from 'wml!Controls/_treeGridOld/TreeGridView/layout/common/NodeFooterChooser';
 
 var
     SearchView = GridView.extend({
