@@ -340,14 +340,17 @@ const _private = {
         }
 
         const reset = () => {
-            if (self._options.useNewModel) {
-                viewModel.setExpandedItems([]);
-                self._notify('expandedItemsChanged', [[]]);
+            const isAllExpanded = self._options.expandedItems instanceof Array && self._options.expandedItems[0] === null;
+            if (!isAllExpanded) {
+                if (self._options.useNewModel) {
+                    viewModel.setExpandedItems([]);
+                    self._notify('expandedItemsChanged', [[]]);
 
-                viewModel.setCollapsedItems([]);
-                self._notify('collapsedItemsChanged', [[]]);
-            } else {
-                viewModel.resetExpandedItems();
+                    viewModel.setCollapsedItems([]);
+                    self._notify('collapsedItemsChanged', [[]]);
+                } else {
+                    viewModel.resetExpandedItems();
+                }
             }
             viewModel.setHasMoreStorage({});
         };

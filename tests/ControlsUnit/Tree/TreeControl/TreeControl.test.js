@@ -1881,5 +1881,34 @@ define([
             assert.isFalse(spyNotify.withArgs('itemActivate').called);
          });
       });
+
+      describe('resetExpandedItems', async () => {
+         const source = new sourceLib.Memory({
+            rawData: getHierarchyData(),
+            keyProperty: 'id',
+            filter: () => true
+         });
+
+         // 0
+         // |-1
+         // | |-3
+         // |-2
+         // 4
+         const cfg = {
+            source: source,
+            columns: [],
+            keyProperty: 'id',
+            parentProperty: 'Раздел',
+            nodeProperty: 'Раздел@',
+            expandedItems: [null]
+         };
+         const treeControl = await correctCreateTreeControlAsync(cfg);
+
+         it('not should resetExpandedItems if expanded all', () => {
+            treeControl.resetExpandedItems();
+            const expandedItems = treeControl.getViewModel().getExpandedItems();
+            assert.deepEqual(expandedItems, [null]);
+         });
+      });
    });
 });

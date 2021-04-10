@@ -15,6 +15,15 @@ import {IValidationStatusOptions, ValidationStatus} from '../_interface/IValidat
 import rk = require('i18n!Controls');
 import {IHashMap} from 'Types/declarations';
 
+export interface ISelectorButtonOptions extends IControlOptions, IValidationStatusOptions, ILookupOptions {
+   fontColorStyle?: string;
+   fontSize?: string;
+   buttonStyle: string;
+   maxVisibleItems: number;
+   itemTemplate: TemplateFunction;
+   showSelectorCaption: string;
+}
+
 /**
  * Кнопка-ссылка с возможностью выбора значений из справочника.
  *
@@ -75,16 +84,6 @@ import {IHashMap} from 'Types/declarations';
  * </Controls.lookup:Selector>
  * </pre>
  */
-
-export interface ISelectorButtonOptions extends IControlOptions, IValidationStatusOptions, ILookupOptions {
-   fontColorStyle?: string;
-   fontSize?: string;
-   buttonStyle: string;
-   maxVisibleItems: number;
-   itemTemplate: TemplateFunction;
-   showSelectorCaption: string;
-}
-
 export default class Button extends BaseLookup<ISelectorButtonOptions> {
    protected _template: TemplateFunction = template;
    protected _notifyHandler: Function = EventUtils.tmplNotify;

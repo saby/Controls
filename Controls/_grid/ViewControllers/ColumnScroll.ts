@@ -325,7 +325,7 @@ export default class ColumnScroll {
         });
     }
 
-    getScrollBarStyles(itemActionsPosition, stickyColumns: number = 0): string {
+    getScrollBarStyles(itemActionsPosition: 'inside' | 'outside' | 'custom', stickyColumns: number = 0): string {
         let offset = 0;
         let lastCellOffset = 0;
 
