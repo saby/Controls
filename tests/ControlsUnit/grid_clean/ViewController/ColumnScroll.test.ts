@@ -41,7 +41,15 @@ describe('Controls/grid_clean/ViewController/ColumnScroll', () => {
                 recalcSizes: () => {},
                 setPosition: () => {}
             },
-            containers: mockContainersWithColumnScroll
+            containers: {
+                ...mockContainersWithColumnScroll,
+                header: {
+                    ...mockContainersWithColumnScroll.header,
+                    querySelectorAll: () => [{
+                        getBoundingClientRect: () => ({left: 10})
+                    }]
+                }
+            }
         });
 
         const methodNames: Array<[keyof ColumnScroll, unknown[]]> = [
