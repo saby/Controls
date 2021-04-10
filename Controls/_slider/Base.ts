@@ -15,6 +15,7 @@ export interface ISliderBaseOptions extends IControlOptions, ISliderOptions {
    value: number;
    intervals: IInterval[];
    intervalTemplate: Function;
+   sliderClickCallback?: Function;
 }
 
 const maxPercentValue = 100;
@@ -146,6 +147,9 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
       if (!this._options.readOnly) {
          const newValue = this._getValue(event);
          this._setValue(newValue);
+         if (this._options.sliderClickCallback) {
+            this._options.sliderClickCallback(newValue);
+         }
          this._children.dragNDrop.startDragNDrop(this._children.point, event);
       }
    }
@@ -225,6 +229,12 @@ Object.defineProperty(Base, 'defaultProps', {
  * <pre>
  *    this._value = 40;
  * </pre>
+ */
+
+/**
+ * @name Controls/_slider/Base#sliderClickCallback
+ * @cfg {Function} Функция, которая вызывается, когда произошло нажатие на шкалу слайдера. В качестве аргумента передается новое значение слайдера.
+ * @demo Controls-demo/Slider/Base/SliderClickCallback/Index
  */
 
 /**
