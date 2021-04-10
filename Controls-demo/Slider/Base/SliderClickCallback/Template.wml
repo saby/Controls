@@ -1,0 +1,8 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <Controls.slider:Base
+            maxValue="{{100}}"
+            minValue="{{0}}"
+            sliderClickCallback="{{_sliderClickCallback}}"
+    />
+<p class="controlsDemo__wrapper__padding-top">{{_info}}</p>
+</div>
