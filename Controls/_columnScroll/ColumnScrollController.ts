@@ -9,6 +9,7 @@ export interface IControllerOptions {
     isEmptyTemplateShown?: boolean;
     isFullGridSupport?: boolean;
     stickyLadderCellsCount?: number;
+    getFixedPartWidth?: () => number;
 
     theme?: string;
     backgroundStyle?: string;
@@ -229,7 +230,6 @@ export default class ColumnScrollController {
         }
         this._scrollableColumns = [];
         let htmlColumns: NodeList;
-        let htmlColumns: NodeList;
         if (!container) {
             return this._scrollableColumns;
         }
@@ -397,6 +397,10 @@ export default class ColumnScrollController {
     private _calculateFixedColumnWidth(): number {
         if (!this._options.stickyColumnsCount) {
             return 0;
+        }
+
+        if (typeof this._options.getFixedPartWidth === 'function') {
+            return this._options.getFixedPartWidth();
         }
 
         const columnOffset = (this._options.hasMultiSelect ? 1 : 0) + (this._options.stickyLadderCellsCount || 0);
