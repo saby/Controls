@@ -1,0 +1,18 @@
+<div class="controls-PropertyGrid-TabbedView">
+    <Controls.tabs:Buttons attr:class="controls-PropertyGrid-TabbedView"
+                           scope="{{_options.tabsConfig}}"
+                           keyProperty="key"
+                           bind:selectedKey="_selectedKey"
+                           source="{{_tabsSource}}"/>
+    <Controls.switchableArea:View
+            selectedKey="{{_selectedKey}}"
+            items="{{_tabsInner}}">
+        <ws:itemTemplate>
+            <Controls._propertyGrid.PropertyGrid
+                scope="{{_options}}"
+                source="{{itemTemplate.templateOptions.source}}"
+                editingObject="{{_options.editingObject}}"
+                on:editingObjectChanged="_handleObjectChange()"/>
+        </ws:itemTemplate>
+    </Controls.switchableArea:View>
+</div>
