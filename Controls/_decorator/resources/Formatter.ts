@@ -37,8 +37,8 @@ export function clearData(format: IFormat, value: string): ICleanData {
     const groups: string[] = splitValue(format, value);
 
     groups.forEach((groupValue: string, groupIndex: number): void => {
-        // TODO: этот код лишний, но без него падают тесты. Нужно разобраться в проблеме и убрать его.
-        // https://online.sbis.ru/opendoc.html?guid=3236bcfd-4ae8-4f90-a1c8-7e2caddde339
+        // При разборе регулярки можем получить пустое значение, поэтому не обрабатываем его
+        // https://regex101.com/r/KGL2Xa/1
         if (groupValue === '') {
             return;
         }
