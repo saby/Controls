@@ -99,6 +99,7 @@ export interface IOptions {
     columnSeparatorSize?: TColumnSeparatorSize;
     multiSelectVisibility?: string;
     itemActionsPosition?: 'inside' | 'outside' | 'custom';
+    isFullGridSupport?: boolean;
 }
 
 export default abstract class Grid<S, T extends GridRowMixin<S>> {
