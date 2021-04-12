@@ -1,4 +1,4 @@
-<span class="ws-flexbox controls-DecoratorMoney controls-DecoratorMoney_style-{{_options.style}} {{ _options.underline === 'hovered' ? 'controls-DecoratorMoney__underline' }}"
+<span class="ws-inline-flexbox controls-DecoratorMoney controls-DecoratorMoney_style-{{_options.style}} {{ _options.underline === 'hovered' ? 'controls-DecoratorMoney__underline' }}"
       title="{{_tooltip}}">
     <ws:if data="{{_options.currency && _options.currencyPosition === 'left'}}">
             <div class="controls-fontsize-{{_options.currencySize}} controls-text-{{_options.fontColorStyle}} controls-fontweight-{{_options.fontWeight}}">{{_currencies[_options.currency]}}&nbsp;</div>
