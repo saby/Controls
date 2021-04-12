@@ -278,7 +278,6 @@ export class Controller {
          const items = this._model.getItems().slice(sliceStart, sliceEnd);
 
          newSelection = this._strategy.selectRange(items);
-         this._lastCheckedKey = items[0].key;
       }
       return newSelection;
    }
