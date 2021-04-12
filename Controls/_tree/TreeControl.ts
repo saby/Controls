@@ -99,7 +99,7 @@ const _private = {
         }
 
         if (!options.hasOwnProperty('expandedItems')) {
-            model.toggleExpanded(item);
+            model.setExpandedItems(newExpandedItems);
             self.getSourceController().setExpandedItems(newExpandedItems);
         }
 
