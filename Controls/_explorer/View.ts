@@ -856,7 +856,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             // а код ниже вызывает изменение версии модели что приводит к лишней
             // перерисовке до изменения viewMode
             .then(() => {
-                if (cfg.searchNavigationMode !== 'expand') {
+                if (cfg.searchNavigationMode !== 'expand' && !!this._children.treeControl.getViewModel()) {
                     this._children.treeControl.resetExpandedItems();
                 }
             });
