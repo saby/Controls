@@ -3714,7 +3714,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         if (this._options?.navigation?.view === 'infinity') {
             return _private.loadToDirectionIfNeed(this, direction, this._options.filter);
         }
-        return new Promise.resolve();
+        return Promise.resolve();
     },
     _loadMore(event, direction): void {
         this.loadMore(direction);
