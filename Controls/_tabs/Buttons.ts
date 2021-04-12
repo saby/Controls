@@ -77,7 +77,7 @@ const isTemplateObject = (tmpl: any): boolean => {
  * @mixes Controls/interface:ISingleSelectable
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IItems
- * @mixes Controls/_tabs/interface/ITabsButtons
+ * @mixes Controls/tabs:ITabsButtonsOptions
  * @mixes Controls/tabs:ITabsTemplateOptions
  *
  * @public
