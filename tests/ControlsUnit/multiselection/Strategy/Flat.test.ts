@@ -123,8 +123,7 @@ describe('Controls/_multiselection/SelectionStrategy/Flat', () => {
 
    describe('selectRange', () => {
       it('select range', () => {
-         let selection = { selected: [], excluded: [] };
-         selection = strategy.selectRange(selection, model.getItems());
+         let selection = strategy.selectRange(model.getItems());
          assert.deepEqual(selection.selected, [1, 2, 3]);
          assert.deepEqual(selection.excluded, []);
       });
