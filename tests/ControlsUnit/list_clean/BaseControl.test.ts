@@ -922,38 +922,41 @@ describe('Controls/list_clean/BaseControl', () => {
         });
     });
 
-    describe('loadMore by marker move', () => {
+    describe('shiftToDirection by space', () => {
         const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
             keyProperty: 'key',
             viewModelConstructor: ListViewModel,
+            multiSelectVisibility: 'visible',
             markerVisibility: 'visible',
+            selectedKeys: [],
+            excludedKeys: [],
             markedKey: 0,
             source: new Memory({
                 keyProperty: 'key',
-                data: getData(3)
+                data: getData(2)
             })
         });
         let baseControl;
-        let loadMoreStub;
+        let shiftToDirectionStub;
         beforeEach(() => {
             baseControl = new BaseControl(baseControlCfg);
             baseControl._beforeMount(baseControlCfg);
             baseControl.saveOptions(baseControlCfg);
 
-            loadMoreStub = sinon.stub(baseControl, 'loadMore').callsFake(() => Promise.resolve());
+            shiftToDirectionStub = sinon.stub(baseControl, '_shiftToDirection').callsFake(() => Promise.resolve());
         });
         afterEach(() => {
-            loadMoreStub.restore();
+            shiftToDirectionStub.restore();
             baseControl.destroy();
             baseControl = undefined;
         });
         it('moveMarkerToNext', () => {
-            BaseControl._private.moveMarkerToNext(baseControl, { preventDefault: () => null });
-            assert.isFalse(loadMoreStub.called);
+            BaseControl._private.spaceHandler(baseControl, { preventDefault: () => null });
+            assert.isFalse(shiftToDirectionStub.called);
             baseControl._beforeUpdate({...baseControlCfg, markedKey: 1});
-            BaseControl._private.moveMarkerToNext(baseControl, { preventDefault: () => null });
-            assert.isTrue(loadMoreStub.calledOnce);
+            BaseControl._private.spaceHandler(baseControl, { preventDefault: () => null });
+            assert.isTrue(shiftToDirectionStub.calledOnce);
         });
     });
 
