@@ -28,7 +28,7 @@ const POPUP_CONTROLLER = 'Controls/popupTemplate:StackController';
  * @implements Controls/_interface/IPropStorage
  * @author Красильников А.С.
  * @implements Controls/popup:IBaseOpener
- * @demo Controls-demo/Popup/Opener/StackDemo
+ * @demo Controls-demo/Popup/Stack/Index
  * @public
  */
 
