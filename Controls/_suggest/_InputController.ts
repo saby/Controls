@@ -266,12 +266,12 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       }
    }
 
-   private _inputActivated(): Promise<void | RecordSet> {
-
+   private _inputActivated(event: SyntheticEvent): Promise<void | RecordSet> {
+      const target = (event?.nativeEvent?.target || this._getActiveElement()) as HTMLElement;
       // toDO Временный костыль, в .320 убрать, должно исправиться с этой ошибкой
       // https://online.sbis.ru/opendoc.html?guid=d0f7513f-7fc8-47f8-8147-8535d69b99d6
       if ((this._options.autoDropDown || this._options.historyId) && !this._options.readOnly
-         && !this._getActiveElement().classList.contains('controls-Lookup__icon')) {
+         && !target.classList.contains('controls-Lookup__icon')) {
 
          if (!this._options.suggestState &&
             this._options.source &&
@@ -933,10 +933,10 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       this._inputActive = false;
    }
 
-   protected _inputClicked(): Promise<void> {
+   protected _inputClicked(event: SyntheticEvent<MouseEvent>): Promise<void> {
       this._inputActive = true;
       if (!this._options.suggestState) {
-         return this._inputActivated();
+         return this._inputActivated(event);
       }
       return Promise.resolve();
    }
