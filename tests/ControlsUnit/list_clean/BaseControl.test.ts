@@ -966,7 +966,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._beforeMount(baseControlCfg);
             baseControl.saveOptions(baseControlCfg);
 
-            loadMoreStub = sinon.stub(baseControl, 'loadMore').callsFake(() => Promise.resolve());
+            loadMoreStub = sinon.stub(baseControl, '_loadMore').callsFake(() => Promise.resolve());
         });
         afterEach(() => {
             loadMoreStub.restore();
