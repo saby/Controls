@@ -2,6 +2,7 @@ import {Model} from 'Types/entity';
 import TileItem, { IOptions } from 'Controls/_tile/display/mixins/TileItem';
 import {isEqual} from 'Types/object';
 import { IViewIterator } from 'Controls/display';
+import {createPositionInBounds} from 'Controls/_tile/utils/createPosition';
 
 export const DEFAULT_TILE_HEIGHT = 200;
 export const DEFAULT_TILE_WIDTH = 250;
@@ -392,7 +393,7 @@ export default abstract class Tile<
         const rightOffset = viewContainerRect.right - itemRect.right - additionalWidth;
         const bottomOffset = viewContainerRect.bottom - itemRect.bottom - additionalHeight - additionalHeightBottom;
 
-        return this._createPositionInBounds(leftOffset, topOffset, rightOffset, bottomOffset);
+        return createPositionInBounds(leftOffset, topOffset, rightOffset, bottomOffset);
     }
 
     getItemContainerStartPosition(
@@ -417,7 +418,7 @@ export default abstract class Tile<
         const right = targetItemPosition.right + documentRect.width - viewContainerRect.right;
         const bottom = targetItemPosition.bottom + documentRect.height - viewContainerRect.bottom;
 
-        return this._createPositionInBounds(left, top, right, bottom);
+        return createPositionInBounds(left, top, right, bottom);
     }
 
     setItemsContainerPadding(itemsContainerPadding: IItemPadding): void {
@@ -453,34 +454,6 @@ export default abstract class Tile<
             return 'default';
         }
         return this._$itemsContainerPadding?.right;
-    }
-
-    protected _createPositionInBounds(
-        left: number,
-        top: number,
-        right: number,
-        bottom: number
-    ): ITileItemPosition {
-        if (left < 0) {
-            right += left;
-            left = 0;
-        } else if (right < 0) {
-            left += right;
-            right = 0;
-        }
-        if (top < 0) {
-            bottom += top;
-            top = 0;
-        } else if (bottom < 0) {
-            top += bottom;
-            bottom = 0;
-        }
-
-        if (left < 0 || right < 0 || top < 0 || bottom < 0) {
-            return null;
-        } else {
-            return { left, top, right, bottom };
-        }
     }
 
     protected _getItemsFactoryParams(params: IOptions<S>): IOptions<S> {
