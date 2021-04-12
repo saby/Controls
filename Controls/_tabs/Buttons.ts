@@ -121,7 +121,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _afterMount(): void {
-        RegisterUtil(this, 'controlResize', this._resizeHandler);
+        RegisterUtil(this, 'controlResize', this._resizeHandler, { listenAll: true });
     }
 
     protected _beforeUpdate(newOptions: ITabsOptions): void {
@@ -145,7 +145,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _beforeUnmount(): void {
-        UnregisterUtil(this, 'controlResize');
+        UnregisterUtil(this, 'controlResize', { listenAll: true });
     }
 
     protected _mouseEnterHandler(): void {

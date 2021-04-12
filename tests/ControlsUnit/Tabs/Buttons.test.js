@@ -279,6 +279,7 @@ define([
             sinon.stub(event, 'RegisterUtil');
             tabs._afterMount();
             sinon.assert.calledOnce(event.RegisterUtil);
+            sinon.assert.calledWith(event.RegisterUtil, tabs, 'controlResize', tabs._resizeHandler, { listenAll: true });
             sinon.restore();
          });
       });
@@ -316,6 +317,7 @@ define([
             sinon.stub(event, 'UnregisterUtil');
             tabs._beforeUnmount();
             sinon.assert.calledOnce(event.UnregisterUtil);
+            sinon.assert.calledWith(event.UnregisterUtil, tabs, 'controlResize', { listenAll: true });
             sinon.restore();
          });
       });
