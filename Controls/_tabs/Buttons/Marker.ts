@@ -55,7 +55,10 @@ export default class Marker extends mixin<VersionableMixin>(VersionableMixin) im
      * @param index
      */
     setSelectedIndex(index: number): void {
-        this._selectedIndex = index;
+        if (index !== this._selectedIndex) {
+            this._nextVersion();
+            this._selectedIndex = index;
+        }
     }
 
     /**
