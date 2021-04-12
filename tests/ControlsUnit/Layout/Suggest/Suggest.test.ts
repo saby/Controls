@@ -1518,7 +1518,11 @@ describe('Controls/suggest', () => {
       it('Suggest::_inputClicked', () => {
          const suggestComponent = getComponentObject();
 
-         suggestComponent._inputClicked();
+         suggestComponent._inputClicked({
+            nativeEvent: {
+               target: {}
+            }
+         });
          assert.isTrue(suggestComponent._inputActive);
       });
 
