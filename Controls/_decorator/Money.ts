@@ -147,6 +147,11 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     private _formattedNumber: string | IPaths;
     private _fontColorStyle: string;
     private _fractionFontSize: string;
+    private _currencies: Record<string, string> = {
+        Ruble: '₽',
+        Dollar: '$',
+        Euro: '€'
+    };
 
     readonly '[Controls/_interface/ITooltip]': boolean = true;
     readonly '[Controls/_interface/IFontColorStyle]': boolean = true;
