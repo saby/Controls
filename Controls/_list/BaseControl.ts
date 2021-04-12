@@ -4783,7 +4783,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (oldOptions.hasOwnProperty('loading') && oldOptions.loading !== this._options.loading) {
             if (this._options.loading && this._loadingState === null) {
                 _private.showIndicator(this);
-            } else if (!this._sourceController.isLoading() && this._loadingState === 'all') {
+            } else if (this._loadingState === 'all') {
                 _private.hideIndicator(this);
             }
         }
