@@ -11,6 +11,7 @@ import {SyntheticEvent} from 'UI/Vdom';
 import {Model} from 'Types/entity';
 import {constants} from 'Env/Env';
 import {getItemSize} from './utils/imageUtil';
+import {createPositionInBounds} from './utils/createPosition';
 import 'css!Controls/tile';
 
 export default class TileView extends ListView {
@@ -344,7 +345,7 @@ export default class TileView extends ListView {
             right = containerRect.right - (itemRect.right + additionalWidth),
             bottom = containerRect.bottom - (itemRect.bottom + additionalHeight + additionalHeightBottom);
 
-        return withoutCorrection ? {left, right, top, bottom} : this.getCorrectPosition(top, right, bottom, left);
+        return withoutCorrection ? {left, right, top, bottom} : createPositionInBounds(top, right, bottom, left);
     }
 
     private _getPositionInDocument(position: object, containerRect: object, documentRect: object, withoutCorrection: boolean = false): object {
@@ -354,30 +355,7 @@ export default class TileView extends ListView {
             top = position.top + containerRect.top,
             bottom = position.bottom + (documentRect.height - containerRect.bottom);
 
-        return withoutCorrection ? {left, right, top, bottom} : this.getCorrectPosition(top, right, bottom, left);
-    }
-
-    private getCorrectPosition(top: number, right: number, bottom: number, left: number): object {
-        if (left < 0) {
-            right += left;
-            left = 0;
-        } else if (right < 0) {
-            left += right;
-            right = 0;
-        }
-        if (top < 0) {
-            bottom += top;
-            top = 0;
-        } else if (bottom < 0) {
-            top += bottom;
-            bottom = 0;
-        }
-
-        if (left < 0 || right < 0 || top < 0 || bottom < 0) {
-            return null;
-        } else {
-            return {left, right, top, bottom};
-        }
+        return withoutCorrection ? {left, right, top, bottom} : createPositionInBounds(top, right, bottom, left);
     }
 
     private _getItemStartPosition(itemContainerRect: object, containerRect: object): object {
