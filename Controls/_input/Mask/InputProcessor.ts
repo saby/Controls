@@ -16,23 +16,12 @@ import {Formatter} from 'Controls/decorator';
              *    }|undefined
              * }
              */
-            getDataBySplitValue: function(format, splitValue, replacer, inputType) {
-               // TODO: продумать механизм обработки ошибок в форматных полях.
-               // https://online.sbis.ru/opendoc.html?guid=3236bcfd-4ae8-4f90-a1c8-7e2caddde339
+            getDataBySplitValue: function(format, splitValue) {
                try {
-                  let data;
-                  // TODO: нужен комментарий или удалить код. https://online.sbis.ru/opendoc.html?guid=3236bcfd-4ae8-4f90-a1c8-7e2caddde339
-                  if (inputType === 'insert' && replacer) {
-                     data = Formatter.formatData(format, {
-                        value: splitValue.before + splitValue.after,
-                        carriagePosition: splitValue.before.replace(new RegExp(replacer + '*$', 'g'), '').length
-                     });
-                  } else {
-                     data = Formatter.formatData(format, {
-                        value: splitValue.before + splitValue.after,
-                        carriagePosition: splitValue.before.length
-                     });
-                  }
+                  const data = Formatter.formatData(format, {
+                     value: splitValue.before + splitValue.after,
+                     carriagePosition: splitValue.before.length
+                  });
                   const {value, carriagePosition: position} = data;
                   return {value, position};
                } catch (e) {
@@ -96,7 +85,7 @@ import {Formatter} from 'Controls/decorator';
                         after: oldClearSplitValue.after.slice(0, -1)
                      };
 
-                     data = _private.getDataBySplitValue(format, newClearSplitValue, replacer, 'insert');
+                     data = _private.getDataBySplitValue(format, newClearSplitValue);
                   } else {
                      // Добавляем символ без замены следующего.
                      newClearSplitValue = {
@@ -104,7 +93,7 @@ import {Formatter} from 'Controls/decorator';
                         after: oldClearSplitValue.after
                      };
 
-                     data = _private.getDataBySplitValue(format, newClearSplitValue, replacer, 'insert');
+                     data = _private.getDataBySplitValue(format, newClearSplitValue);
 
                      // Если не получилось, то поробуем заменить.
                      if (!data) {
@@ -113,7 +102,7 @@ import {Formatter} from 'Controls/decorator';
                            after: oldClearSplitValue.after.substring(1)
                         };
 
-                        data = _private.getDataBySplitValue(format, newClearSplitValue, replacer, 'insert');
+                        data = _private.getDataBySplitValue(format, newClearSplitValue);
                      }
                   }
 
@@ -138,7 +127,7 @@ import {Formatter} from 'Controls/decorator';
                return _private.getDataBySplitValue(format, {
                   before: clearSplitValue.before,
                   after: clearSplitValue.delete.replace(/./g, replacer) + clearSplitValue.after
-               }, replacer, 'delete');
+               });
             },
 
             /**
@@ -163,7 +152,7 @@ import {Formatter} from 'Controls/decorator';
                   };
                }
 
-               return _private.getDataBySplitValue(format, newClearSplitValue, replacer, 'deleteForward');
+               return _private.getDataBySplitValue(format, newClearSplitValue);
             },
 
             /**
@@ -188,7 +177,7 @@ import {Formatter} from 'Controls/decorator';
                   };
                }
 
-               return _private.getDataBySplitValue(format, newClearSplitValue, replacer, 'deleteBackward');
+               return _private.getDataBySplitValue(format, newClearSplitValue);
             },
 
             /**
