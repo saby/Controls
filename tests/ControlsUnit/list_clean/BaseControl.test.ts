@@ -922,6 +922,41 @@ describe('Controls/list_clean/BaseControl', () => {
         });
     });
 
+    describe('loadMore by marker move', () => {
+        const baseControlCfg = getCorrectBaseControlConfig({
+            viewName: 'Controls/List/ListView',
+            keyProperty: 'key',
+            viewModelConstructor: ListViewModel,
+            markerVisibility: 'visible',
+            markedKey: 0,
+            source: new Memory({
+                keyProperty: 'key',
+                data: getData(3)
+            })
+        });
+        let baseControl;
+        let loadMoreStub;
+        beforeEach(() => {
+            baseControl = new BaseControl(baseControlCfg);
+            baseControl._beforeMount(baseControlCfg);
+            baseControl.saveOptions(baseControlCfg);
+
+            loadMoreStub = sinon.stub(baseControl, 'loadMore').callsFake(() => Promise.resolve());
+        });
+        afterEach(() => {
+            loadMoreStub.restore();
+            baseControl.destroy();
+            baseControl = undefined;
+        });
+        it('moveMarkerToNext', () => {
+            BaseControl._private.moveMarkerToNext(baseControl, { preventDefault: () => null });
+            assert.isFalse(loadMoreStub.called);
+            baseControl._beforeUpdate({...baseControlCfg, markedKey: 1});
+            BaseControl._private.moveMarkerToNext(baseControl, { preventDefault: () => null });
+            assert.isTrue(loadMoreStub.calledOnce);
+        });
+    });
+
     describe('Edit in place', () => {
         type TEditingConfig = IEditableListOption['editingConfig'];
 
