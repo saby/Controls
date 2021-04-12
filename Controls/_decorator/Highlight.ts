@@ -1,6 +1,6 @@
 import {Logger} from 'UI/Utils';
 import {descriptor} from 'Types/entity';
-import {escapeSpecialChars, addWordCheck} from 'Controls/_decorator/inputUtils/RegExp';
+import {addWordCheck, escapeSpecialChars} from 'Controls/_decorator/inputUtils/RegExp';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 //@ts-ignore
 import * as template from 'wml!Controls/_decorator/Highlight/Highlight';
@@ -95,7 +95,7 @@ class Highlight extends Control<IHighlightOptions> {
          */
         const maxLength: number = 10000;
         const limitHighlight: string = highlight.length > maxLength ? highlight.substring(0, maxLength) : highlight;
-        const escapedHighlight: string = escapeSpecialChars(limitHighlight);
+        const escapedHighlight: string = escapeSpecialChars(limitHighlight).replace(/\\./g, '.');
         const searchResultByAnd: Element[] = this._searchBy(value, escapedHighlight, highlightMode, 'and');
 
         if (searchResultByAnd.length) {
