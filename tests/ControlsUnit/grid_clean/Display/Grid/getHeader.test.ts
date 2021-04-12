@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { RecordSet } from 'Types/collection';
 import { Model } from 'Types/entity';
-import { GridCollection } from 'Controls/gridNew';
+import { GridCollection } from 'Controls/grid';
 
 describe('Controls/grid_clean/Display/Grid/getHeader', () => {
 
