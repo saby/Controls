@@ -140,7 +140,7 @@ define(['Controls/_suggestPopup/Layer/__PopupContent', 'wml!Controls/_suggestPop
          PopupContent.default._private.getBorderWidth = originGetBorderWidth;
       });
 
-      it('_componentDidUpdate', function() {
+      it('_afterRender', function() {
          const layer = new PopupContent.default();
          let isScrollToBottom = false;
 
@@ -150,11 +150,11 @@ define(['Controls/_suggestPopup/Layer/__PopupContent', 'wml!Controls/_suggestPop
             }
          };
 
-         layer._componentDidUpdate();
+         layer._afterRender();
          assert.isFalse(isScrollToBottom);
 
          layer._shouldScrollToBottom = true;
-         layer._componentDidUpdate();
+         layer._afterRender();
          assert.isTrue(isScrollToBottom);
       });
 

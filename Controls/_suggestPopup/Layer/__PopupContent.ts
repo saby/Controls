@@ -65,7 +65,7 @@ var __PopupContent = Control.extend({
       }
    },
 
-   _componentDidUpdate(): void {
+   _afterRender(): void {
       if (this._shouldScrollToBottom) {
          this._children.scrollContainer.scrollToBottom();
          this._shouldScrollToBottom = false;
