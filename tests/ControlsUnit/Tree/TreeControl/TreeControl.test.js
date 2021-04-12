@@ -2190,7 +2190,7 @@ define([
          treeControl._children.baseControl.getViewModel().setItems(rs, cfg);
          treeControl._beforeMountCallback({
             viewModel: treeControl._children.baseControl.getViewModel(),
-            markerController: treeControl._children.baseControl._getMarkedLeafrController()
+            markerController: treeControl._children.baseControl.getMarkerController()
          });
          treeControl._afterMount();
          assert.equal(treeControl._markedLeaf, 'last');
