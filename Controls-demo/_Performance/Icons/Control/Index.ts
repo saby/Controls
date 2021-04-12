@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls-demo/Performance/Icons/InlineSvg/template';
+import * as template from 'wml!Controls-demo/_Performance/Icons/Control/template';
 import {getData} from '../Data';
 import {Memory} from 'Types/source';
 import 'css!Controls/CommonClasses';
