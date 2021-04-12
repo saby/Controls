@@ -95,13 +95,13 @@ class Highlight extends Control<IHighlightOptions> {
          */
         const maxLength: number = 10000;
         const limitHighlight: string = highlight.length > maxLength ? highlight.substring(0, maxLength) : highlight;
-        const escapedHighlight: string = escapeSpecialChars(limitHighlight).replace(/\\./g, '.');
+        let escapedHighlight: string = escapeSpecialChars(limitHighlight);
         const searchResultByAnd: Element[] = this._searchBy(value, escapedHighlight, highlightMode, 'and');
 
         if (searchResultByAnd.length) {
             return searchResultByAnd;
         }
-
+        escapedHighlight = escapedHighlight.replace(/\\./g, '.');
         return this._searchBy(value, escapedHighlight, highlightMode, 'or');
     }
 
