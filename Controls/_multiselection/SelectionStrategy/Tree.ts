@@ -173,15 +173,13 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       return cloneSelection;
    }
 
-   selectRange(selection: ISelection, items: Array<CollectionItem<Model>>): ISelection {
-      let newSelection = selection;
+   selectRange(items: Array<CollectionItem<Model>>): ISelection {
+      let newSelection = {selected: [], excluded: []};
 
       items.forEach((elem) => {
          if (elem.SelectableItem && (!elem.isNode() || elem.isNode() && !elem.isExpanded())) {
             const elemKey = this._getKey(elem);
-            if (!newSelection.selected.includes(elemKey)) {
-               newSelection = this.select(newSelection, elemKey);
-            }
+            newSelection = this.select(newSelection, elemKey);
          }
       });
 
