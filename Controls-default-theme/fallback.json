@@ -1134,6 +1134,7 @@
   "--readonly_track_color_slider": "var(--readonly_color)",
   "--track_border-radius_slider": "0",
   "--scale_font-size_slider": "var(--font-size_m)",
+  "--scale_cursor_slider": "auto",
   "--scale_text-color_slider": "var(--unaccented_text-color)",
   "--readonly_scale_text-color_slider": "var(--readonly_color)",
   "--tick_height_slider": "4px",
