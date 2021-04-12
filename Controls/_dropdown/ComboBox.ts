@@ -189,7 +189,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
    _setText({emptyText, emptyKey, keyProperty, displayProperty, placeholder}: Partial<IComboboxOptions>,
             selectedItems): void {
       this._isEmptyItem = getPropValue(selectedItems[0], keyProperty) === emptyKey || selectedItems[0] === null;
-      if (this._isEmptyItem) {
+      if (this._isEmptyItem && emptyText) {
          this._value = '';
          this._placeholder = prepareEmpty(emptyText);
       } else {
