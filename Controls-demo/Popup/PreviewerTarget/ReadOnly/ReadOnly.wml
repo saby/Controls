@@ -17,16 +17,6 @@
         </ws:content>
     </Controls.popup:PreviewerTarget>
 </div>
-
-<div class="controls-text-label_theme-{{_options.theme}}">readOnly=true content readOnly=false</div>
-<div class="controlsDemo__cell controlsDemo_m3">
-    <Controls.popup:PreviewerTarget readOnly="{{true}}" trigger="hoverAndClick"
-                                    template="Controls-demo/Popup/Edit/MyFormController">
-        <ws:content>
-            <Controls.input:Text bind:value="_text" readOnly="{{false}}"/>
-        </ws:content>
-    </Controls.popup:PreviewerTarget>
-</div>
 <div class="controls-text-label_theme-{{_options.theme}}">readOnly=false and content readOnly true</div>
 <div class="controlsDemo__cell controlsDemo_m3">
     <Controls.popup:PreviewerTarget readOnly="{{false}}" trigger="hoverAndClick"
