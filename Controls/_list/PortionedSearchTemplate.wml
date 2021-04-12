@@ -1,6 +1,5 @@
 <ws:if data="{{_options.showLoadingIndicator}}">
-   <div class="controls-BaseControl__loadingIndicatorImg
-               controls-BaseControl__loadingIndicatorImg-wrapper
+   <div class="controls-BaseControl__loadingIndicatorImg-wrapper
                controls-BaseControl__loadingIndicatorImg-wrapper_style-portionedSearch">
       <div class="controls-BaseControl__loadingIndicatorImg"></div>
       <ws:if data="{{_options.portionedSearchInProgress}}">
