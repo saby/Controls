@@ -90,12 +90,13 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
      */
     style?: string;
     /**
-     *
+     * @cfg {Boolean} Видимость вертикальных разделителей вкладок.
+     * @default true
      * @demo Controls-demo/Tabs/Buttons/SeparatorVisible/Index
      */
     separatorVisible?: boolean;
     /**
-     * Определяет наличие подчеркивания вкладок
+     * @cfg {Boolean} Видимость горизонтальной линии, которая подчеркивает вкладки снизу.
      * @default true
      * @demo Controls-demo/Tabs/Buttons/BorderVisible/Index
      */
