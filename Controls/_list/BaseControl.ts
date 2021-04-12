@@ -648,7 +648,7 @@ const _private = {
             const markedKey = markerController.getMarkedKey();
             if (markedKey !== null) {
                 const markedItem = self.getItems().getRecordById(markedKey);
-                self._notifyItemClick([undefined, markedItem, event]);
+                self._notifyItemClick([event, markedItem, event]);
                 if (event && !event.isStopped()) {
                     self._notify('itemActivate', [markedItem, event], {bubbling: true});
                 }
