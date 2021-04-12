@@ -10,5 +10,6 @@
         <div class="controls-text-warning">controls-text-warning</div>
         <div class="controls-text-unaccented">controls-text-unaccented</div>
         <div class="controls-text-readonly">controls-text-readonly</div>
+        <div class="controls-text-counter">controls-text-counter</div>
     </div>
 </div>
