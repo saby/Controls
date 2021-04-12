@@ -88,6 +88,18 @@ define(
                assert.equal('', combobox._value);
                assert.equal('Не выбрано', combobox._placeholder);
             });
+
+            it('_setText key = emptyKey', function() {
+               let emptyItems = new collection.RecordSet({
+                  keyProperty: 'id',
+                  rawData: [{ id: null, title: 'Не выбрано' }]
+               });
+               combobox._options.emptyText = null;
+               combobox._options.emptyKey = null;
+               combobox._setText(combobox._options, [emptyItems.at(0)]);
+               assert.equal('Не выбрано', combobox._value);
+               assert.equal('This is placeholder', combobox._placeholder);
+            });
          });
 
          it('_selectedItemsChangedHandler', function() {
