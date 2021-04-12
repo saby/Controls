@@ -16,7 +16,7 @@ import 'css!Controls/filterPopup';
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_filterPopup.less переменные тем оформления}
  *
  * @class Controls/_filterPopup/Panel/Dropdown
- * @extends Controls/_dropdown/Selector
+ * @extends Controls/dropdown:Selector
  * @public
  * @author Герасимов А.М.
  */
