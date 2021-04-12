@@ -277,10 +277,9 @@ export class Controller {
          const sliceEnd = sliceStart === secondIndex ? firstIndex + 1 : secondIndex + 1;
          const items = this._model.getItems().slice(sliceStart, sliceEnd);
 
-         newSelection = this._strategy.selectRange(this._selection, items);
+         newSelection = this._strategy.selectRange({selected: [], excluded: []}, items);
+         this._lastCheckedKey = items[0].key;
       }
-
-      this._lastCheckedKey = key;
       return newSelection;
    }
 
