@@ -106,15 +106,16 @@ export function transliterateInput(value: string, selection: ISelection): Promis
     ) || value;
     const firstLocale = i18Controller.currentLocale.indexOf('ru') !== -1 ? 'ru' : 'en';
     const secondLocale = firstLocale === 'ru' ? 'en' : 'ru';
-    const {changeLayout} = import('I18n/keyboard');
-    return changeLayout(text, firstLocale, secondLocale).then((revertedText) => {
-        if (revertedText === text) {
-            return changeLayout(text, secondLocale, firstLocale).then((revertedText) => {
+    return import('I18n/keyboard').then(({changeLayout}) => {
+        return changeLayout(text, firstLocale, secondLocale).then((revertedText) => {
+            if (revertedText === text) {
+                return changeLayout(text, secondLocale, firstLocale).then((revertedText) => {
+                    return transliterateSelectedText(revertedText, value, selection);
+                });
+            } else {
                 return transliterateSelectedText(revertedText, value, selection);
-            });
-        } else {
-            return transliterateSelectedText(revertedText, value, selection);
-        }
+            }
+        });
     });
 }
 
