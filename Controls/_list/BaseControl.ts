@@ -2715,6 +2715,10 @@ const _private = {
             const newMarkedKey = controller.getNextMarkedKey();
             if (newMarkedKey !== controller.getMarkedKey()) {
                 const result = self._changeMarkedKey(newMarkedKey);
+                const lastItem = self._listViewModel.getLast();
+                if (lastItem.key === newMarkedKey) {
+                    self._loadMore('down');
+                }
                 if (result instanceof Promise) {
                     /**
                      * Передавая в force true, видимый элемент подскролливается наверх.
