@@ -22,20 +22,20 @@ define('Controls/_icon/Icon', ['UI/Executor', 'Controls/Utils/Icon', 'css!Contro
                'fill-rule': 'evenodd',
                'class': classes
             },
-            'events': typeof window === 'undefined' ? {} : {},
+            'events': {},
             'key': key + '0_0_'
          }, [markupGenerator.createTag('use', {
             'attributes': { 'xlink:href': icon },
-            'events': typeof window === 'undefined' ? {} : {},
+            'events': {},
             'key': key + '0_0_0_'
          }, [], attr ? {
             context: attr.context,
             key: key + '0_0_0_'
-         } : {}, defCollection, viewController),], attr, defCollection, viewController),]) : ([markupGenerator.createTag('div', {
-            'attributes': { 'class': classes},
-            'events': typeof window === 'undefined' ? {} : {},
+         } : {}, defCollection, viewController)], attr, defCollection, viewController)]) : ([markupGenerator.createTag('div', {
+            'attributes': { 'class': classes },
+            'events': {},
             'key': key + '1_0_'
-         }, [], attr, defCollection, viewController),])),], key, defCollection);
+         }, [], attr, defCollection, viewController)]))], key, defCollection);
          if (defCollection && defCollection.def) {
             out = markupGenerator.chain(out, defCollection, this);
          }
