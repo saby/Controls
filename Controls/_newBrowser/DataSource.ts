@@ -125,8 +125,8 @@ export class DataSource {
                 searchDelay: 300,
                 minSearchLength: 3,
                 searchValueTrim: true,
-                searchParam: (this.sourceOptions as any).searchParam,
-                searchNavigationMode: (this.sourceOptions as any).searchNavigationMode
+                searchParam: this.sourceOptions.searchParam,
+                searchNavigationMode: this.sourceOptions.searchNavigationMode
             });
         });
     }
