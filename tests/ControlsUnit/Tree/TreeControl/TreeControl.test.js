@@ -1910,5 +1910,39 @@ define([
             assert.deepEqual(expandedItems, [null]);
          });
       });
+
+      describe('toggleExpanded', () => {
+         const items = new collection.RecordSet({
+            rawData: getHierarchyData(),
+            keyProperty: 'id'
+         });
+
+         // 0
+         // |-1
+         // | |-3
+         // |-2
+         // 4
+         const cfg = {
+            items,
+            keyProperty: 'id',
+            parentProperty: 'Раздел',
+            nodeProperty: 'Раздел@',
+            expandedItems: [null]
+         };
+         let treeControl, model;
+
+         beforeEach(async () => {
+            treeControl = await correctCreateTreeControlAsync(cfg);
+            model = treeControl.getViewModel();
+         });
+
+         it('expanded items is [null]', async () => {
+            await treeControl.toggleExpanded(0);
+            assert.isFalse(model.getItemBySourceKey(0).isExpanded());
+
+            await treeControl.toggleExpanded(0);
+            assert.isTrue(model.getItemBySourceKey(0).isExpanded());
+         });
+      });
    });
 });

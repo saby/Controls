@@ -75,20 +75,17 @@ const _private = {
                 }
             }
 
-            if (!newExpandedItems.includes(itemKey)) {
-                newExpandedItems.push(itemKey);
-            }
             if (newCollapsedItems.includes(itemKey)) {
                 newCollapsedItems.splice(newCollapsedItems.indexOf(itemKey), 1);
+            } else if (!newExpandedItems.includes(itemKey)) {
+                newExpandedItems.push(itemKey);
             }
         } else {
             // свернули узел
 
             if (newExpandedItems.includes(itemKey)) {
                 newExpandedItems.splice(newExpandedItems.indexOf(itemKey), 1);
-            }
-
-            if (!newCollapsedItems.includes(itemKey)) {
+            } else if (!newCollapsedItems.includes(itemKey)) {
                 newCollapsedItems.push(itemKey);
             }
         }
@@ -104,6 +101,10 @@ const _private = {
         if (!options.hasOwnProperty('expandedItems')) {
             model.toggleExpanded(item);
             self.getSourceController().setExpandedItems(newExpandedItems);
+        }
+
+        if (!options.hasOwnProperty('collapsedItems')) {
+            model.setCollapsedItems(newCollapsedItems);
         }
 
         self._notify('expandedItemsChanged', [newExpandedItems]);
@@ -1013,7 +1014,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     if (item.get(options.nodeProperty) !== null) {
                         const itemKey = item.getId();
                         const dispItem = this._listViewModel.getItemBySourceKey(itemKey);
-                        if (dispItem && this._listViewModel.getChildren(dispItem, undefined, loadedList).length) {
+                        if (sourceController && dispItem && this._listViewModel.getChildren(dispItem, undefined, loadedList).length) {
                             modelHasMoreStorage[itemKey] = sourceController.hasMoreData('down', itemKey);
                         }
                     }
