@@ -54,6 +54,7 @@
                                         attr:class="controlsDemo-EditableArea__input"
                                         keyProperty="id"
                                         displayProperty="title"
+                                        horizontalPadding="xs"
                                         source="{{_periodType}}"
                                         bind:selectedKey="_periodTypeKey"
                                 />
@@ -61,6 +62,7 @@
                                         attr:class="controlsDemo-EditableArea__input"
                                         keyProperty="id"
                                         displayProperty="title"
+                                        horizontalPadding="xs"
                                         source="{{_periodQuarter}}"
                                         bind:selectedKey="_periodQuarterKey"
                                 />
