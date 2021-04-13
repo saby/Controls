@@ -8,18 +8,9 @@ import Util from './Util';
 import * as template from 'wml!Controls/_spoiler/Cut/Cut';
 import 'css!Controls/spoiler';
 
-/**
- * Интерфейс для опций контрола, ограничивающего контент заданным числом строк.
- * @implements Control/interface:IBackgroundStyle
- * @implements Control/interface:IExpandable
- * @implements Controls/interface:IIconSize
- * @implements Control/interface:IContrastBackground
- * @public
- * @author Красильников А.С.
- */
-
 export interface ICutOptions extends IControlOptions, IBackgroundStyleOptions, IExpandableOptions, ICutButton {
     /**
+     * @name Controls/_spoiler/ICut
      * @cfg {String} Высота строки.
      * @variant xs
      * @variant s
@@ -40,6 +31,7 @@ export interface ICutOptions extends IControlOptions, IBackgroundStyleOptions, I
      */
     lineHeight: string;
     /**
+     * @name Controls/_spoiler/ICut
      * @cfg {Number|null} Количество строк.
      * @remark
      * Указав значение null контент не будет иметь ограничение.
@@ -48,12 +40,13 @@ export interface ICutOptions extends IControlOptions, IBackgroundStyleOptions, I
      */
     lines: number | null;
     /**
+     * @name Controls/_spoiler/ICut
      * @cfg {TemplateFunction|String} Контент контрола.
      * @demo Controls-demo/Spoiler/Cut/Content/Index
      */
     content: TemplateFunction | string;
     /**
-     * @name Controls/_spoiler/ICutOptions#buttonPosition
+     * @name Controls/_spoiler/ICut#buttonPosition
      * @cfg {String} Положение кнопки развертывания.
      * @variant start по левому краю контентной области
      * @variant center по центру контентной области
@@ -61,12 +54,12 @@ export interface ICutOptions extends IControlOptions, IBackgroundStyleOptions, I
      * @demo Controls-demo/Spoiler/Cut/ButtonPosition/Index
      */
     /**
-     * @name Controls/_spoiler/ICutOptions#iconSize
+     * @name Controls/_spoiler/ICut#iconSize
      * @cfg
      * @demo Controls-demo/Spoiler/Cut/IconSize/Index
      */
     /**
-     * @name Controls/_spoiler/ICutOptions#contrastBackground
+     * @name Controls/_spoiler/ICut#contrastBackground
      * @cfg
      * @demo Controls-demo/Spoiler/Cut/ContrastBackground/Index
      */
@@ -78,7 +71,7 @@ export interface ICutOptions extends IControlOptions, IBackgroundStyleOptions, I
  *
  * @class Controls/_spoiler/Cut
  * @extends UI/Base:Control
- * @implements Controls/spoiler:ICutOptions
+ * @implements Controls/spoiler:ICut
  * @public
  * @demo Controls-demo/Spoiler/Cut/Index
  *
@@ -147,3 +140,15 @@ Object.defineProperty(Cut, 'defaultProps', {
 });
 
 export default Cut;
+
+
+/**
+ * Интерфейс для опций контрола, ограничивающего контент заданным числом строк.
+ * @interface Controls/_spoiler/ICut
+ * @implements Control/interface:IBackgroundStyle
+ * @implements Control/interface:IExpandable
+ * @implements Controls/interface:IIconSize
+ * @implements Control/interface:IContrastBackground
+ * @public
+ * @author Красильников А.С.
+ */
