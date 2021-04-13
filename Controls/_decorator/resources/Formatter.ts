@@ -163,7 +163,7 @@ export function abbreviateNumber(value: TValue, abbreviationType: TAbbreviationT
         return intlFormat(value / 1000000) + `${abbreviationType === 'long' ? ' ' + rk('млн') : 'М'}`;
     }
     if (value >= 1000 || value <= -1000) {
-        return intlFormat(value / 1000) + `${abbreviationType === 'long' ? ' ' + rk('тыс.') : 'К'}`;
+        return intlFormat(value / 1000) + `${abbreviationType === 'long' ? ' ' + rk('тыс') : 'К'}`;
     }
 }
 
