@@ -157,8 +157,10 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _resizeHandler(): void {
-        this._marker.reset();
-        this._updateMarker();
+        if (this._marker.isInitialized()) {
+            this._marker.reset();
+            this._updateMarker();
+        }
     }
 
     protected _updateMarker(): void {
