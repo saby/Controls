@@ -156,7 +156,7 @@ export class CrudWrapper {
             const result = dataSet.getAll ? dataSet.getAll() : dataSet as RecordSet;
 
             if (!(result instanceof RecordSet)) {
-                Logger.error('Controls/dataSource:CrudWrapper источник врнул невалидное занчение из метода query. Результатом работы метода query должен быть recordSet.');
+                Logger.error('Controls/dataSource:CrudWrapper источник данных вернул невалидное значение из метода query. Результатом работы метода query должен быть Types/collection:RecordSet.');
             }
             return result;
         }).catch(this._boundPromiseCatchCallback);
