@@ -4027,6 +4027,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         if (!this.__error && !this._scrollController) {
+            // Создаем заново sourceController после выхода из состояния ошибки
             _private.createScrollController(self, newOptions);
         }
         const needReload =
