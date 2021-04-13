@@ -677,7 +677,6 @@ const _private = {
                 self._spaceBlocked = true;
             }
         }
-
         _private.moveMarkerToNext(self, event);
     },
 
@@ -1031,13 +1030,14 @@ const _private = {
             if (self._dndListController?.isDragging()) {
                 self._checkTriggersAfterEndDrag = true;
             } else {
-                _private.loadToDirection(
+                return _private.loadToDirection(
                    self,
                    direction,
                    filter
                 );
             }
         }
+        return Promise.resolve();
     },
 
     // Метод, вызываемый при прокрутке скролла до триггера
@@ -2712,19 +2712,32 @@ const _private = {
             event.preventDefault();
 
             const controller = _private.getMarkerController(self);
-            const newMarkedKey = controller.getNextMarkedKey();
-            if (newMarkedKey !== controller.getMarkedKey()) {
-                const result = self._changeMarkedKey(newMarkedKey);
-                if (result instanceof Promise) {
-                    /**
-                     * Передавая в force true, видимый элемент подскролливается наверх.
-                     * https://online.sbis.ru/opendoc.html?guid=6b6973b2-31cf-4447-acaf-a64d37957bc6
-                     */
-                    result.then((key) => _private.scrollToItem(self, key));
-                } else if (result !== undefined) {
-                    _private.scrollToItem(self, result, true, false);
+            const moveMarker = () => {
+                const newMarkedKey = controller.getNextMarkedKey();
+                if (newMarkedKey !== controller.getMarkedKey()) {
+                    const result = self._changeMarkedKey(newMarkedKey);
+                    if (result instanceof Promise) {
+                        /**
+                         * Передавая в force true, видимый элемент подскролливается наверх.
+                         * https://online.sbis.ru/opendoc.html?guid=6b6973b2-31cf-4447-acaf-a64d37957bc6
+                         */
+                        result.then((key) => _private.scrollToItem(self, key));
+                    } else if (result !== undefined) {
+                        _private.scrollToItem(self, result, true, false);
+                    }
                 }
+            };
+
+            const currentMarkedKey = controller.getMarkedKey();
+            const lastItem = self._listViewModel.at(self._listViewModel.getStopIndex() - 1);
+            if (lastItem.key === currentMarkedKey) {
+                self._shiftToDirection('down').then(() => {
+                    moveMarker();
+                });
+            } else {
+                moveMarker();
             }
+
         }
     },
 
@@ -3695,8 +3708,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     //  https://online.sbis.ru/opendoc.html?guid=8a5f7598-c7c2-4f3e-905f-9b2430c0b996
     protected _loadMore(direction: IDirection): void {
         if (this._options?.navigation?.view === 'infinity') {
-            _private.loadToDirectionIfNeed(this, direction, this._options.filter);
+            return _private.loadToDirectionIfNeed(this, direction, this._options.filter);
         }
+        return Promise.resolve();
     }
 
     triggerVisibilityChangedHandler(direction: IDirection, state: boolean): void {
@@ -4731,15 +4745,21 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // Вызываем сдвиг диапазона в направлении видимого триггера
         this._shiftToDirection(direction);
     }
-    protected _shiftToDirection(direction): void {
+    protected _shiftToDirection(direction): Promise {
+        let resolver;
+        const shiftPromise = new Promise((res) => { resolver = res; });
         this._scrollController.shiftToDirection(direction).then((result) => {
             if (result) {
                 _private.handleScrollControllerResult(this, result);
                 this._syncLoadingIndicatorState = direction;
+                resolver();
             } else {
-                this._loadMore(direction);
+                this._loadMore(direction).then(() => {
+                    resolver();
+                });
             }
         });
+        return shiftPromise;
     }
 
     _scrollToFirstItemIfNeed(): Promise<void> {
