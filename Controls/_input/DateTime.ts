@@ -31,14 +31,14 @@ import template = require('wml!Controls/_input/DateTime/DateTime');
  *
  * @class Controls/_input/DateTime
  * @extends UI/Base:Control
- * @mixes Controls/_input/interface/IInputDateTime
+ * @mixes Controls/input:IInputDateTime
  * @mixes Controls/_interface/IDateConstructor
- * @mixes Controls/_input/interface/IDateTimeMask
- * @mixes Controls/_interface/IInputTag
- * @mixes Controls/_input/interface/IBase
- * @mixes Controls/_input/interface/IBorderVisibility
+ * @mixes Controls/input:IDateTimeMask
+ * @mixes Controls/interface:IInputTag
+ * @mixes Controls/input:IBase
+ * @mixes Controls/input:IBorderVisibility
  * @mixes Controls/interface:IInputPlaceholder
- * @mixes Controls/_input/interface/IValueValidators
+ * @mixes Controls/input:IValueValidators
  *
  *
  * @public
