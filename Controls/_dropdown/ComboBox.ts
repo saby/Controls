@@ -14,7 +14,7 @@ import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownCo
 import {IStickyPopupOptions} from 'Controls/popup';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/popup';
-import {generateStates} from 'Controls/input';
+import {generateStates, getDefaultBorderVisibilityOptions, getDefaultPaddingOptions} from 'Controls/input';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 import 'css!Controls/dropdown';
@@ -252,6 +252,8 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
 
    static getDefaultOptions(): object {
       return {
+         ...getDefaultBorderVisibilityOptions(),
+         ...getDefaultPaddingOptions(),
          placeholder: rk('Выберите') + '...',
          validationStatus: 'valid',
          textAlign: 'left',
@@ -259,8 +261,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
          fontSize: 'm',
          fontColorStyle: 'default',
          tooltip: '',
-         emptyKey: null,
-         borderVisibility: 'visible'
+         emptyKey: null
       };
    }
 }
