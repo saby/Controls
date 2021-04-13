@@ -29,9 +29,13 @@ define([
       var
          treeControl,
          createPromise,
+         cfgTreeControl = cfg;
+
+      if (!cfg.hasOwnProperty('viewModelConstructor')) {
          cfgTreeControl = cMerge(cfg, {
             viewModelConstructor: treeGrid.ViewModel
          });
+      }
 
       cfgTreeControl = Object.assign(tree.TreeControl.getDefaultOptions(), cfgTreeControl);
       // Костыль с получением данных из источника по приватному полю
@@ -1928,18 +1932,30 @@ define([
             parentProperty: 'Раздел',
             nodeProperty: 'Раздел@',
             useNewModel: true,
-            viewModelConstructor: 'Controls/display:Tree'
+            viewModelConstructor: 'Controls/display:Tree',
+            selectedKeys: [],
+            excludedKeys: []
          };
          let treeControl, model, notifySpy;
 
-         beforeEach(async () => {
+         beforeEach(async() => {
             treeControl = await correctCreateTreeControlAsync(cfg);
             notifySpy = sinon.spy(treeControl, '_notify');
             model = treeControl.getViewModel();
+
+            treeControl._sourceController = {
+               setExpandedItems: () => null,
+               getExpandedItems: () => null,
+               getState: () => {
+                  return {};
+               },
+               updateOptions: () => null,
+               hasLoaded: () => true
+            };
          });
 
-         it('expanded items is [null]', async () => {
-            treeControl.saveOptions({...cfg, expandedItems: [null]});
+         it('expanded items is [null]', async() => {
+            treeControl._beforeUpdate({...cfg, expandedItems: [null]});
 
             await treeControl.toggleExpanded(0);
             assert.isTrue(model.getItemBySourceKey(0).isExpanded());
@@ -1949,37 +1965,38 @@ define([
          });
 
          it('check expandedItems and collapsedItems options', async() => {
-            treeControl._beforeUpdate({...cfg, expandedItems: [0], collapsedItems: []});
+            model.setExpandedItems([0]);
             treeControl.saveOptions({...cfg, expandedItems: [0], collapsedItems: []});
+            notifySpy.resetHistory();
             await treeControl.toggleExpanded(0);
 
             assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[]]).called);
             assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
-            notifySpy.resetHistory();
 
-            treeControl._beforeUpdate({...cfg, expandedItems: [], collapsedItems: [0]});
+            model.setCollapsedItems([0]);
             treeControl.saveOptions({...cfg, expandedItems: [], collapsedItems: [0]});
+            notifySpy.resetHistory();
             await treeControl.toggleExpanded(0);
 
             assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[]]).called);
             assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
-            notifySpy.resetHistory();
 
-            treeControl._beforeUpdate({...cfg, expandedItems: [null], collapsedItems: []});
+            model.setExpandedItems([null]);
             treeControl.saveOptions({...cfg, expandedItems: [null], collapsedItems: []});
+            notifySpy.resetHistory();
             await treeControl.toggleExpanded(0);
 
             assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[null]]).called);
             assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[0]]).called);
-            notifySpy.resetHistory();
 
-            treeControl._beforeUpdate({...cfg, expandedItems: [null], collapsedItems: [0]});
+            model.setExpandedItems([null]);
+            model.setCollapsedItems([0]);
             treeControl.saveOptions({...cfg, expandedItems: [null], collapsedItems: [0]});
+            notifySpy.resetHistory();
             await treeControl.toggleExpanded(0);
 
             assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[null]]).called);
             assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
-            notifySpy.resetHistory();
          });
       });
    });
