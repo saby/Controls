@@ -7,3 +7,4 @@
 export {default as Cut, ICutOptions} from 'Controls/_spoiler/Cut';
 export {default as View, IView, IViewOptions} from 'Controls/_spoiler/View';
 export {default as Heading, IHeading, IHeadingOptions} from 'Controls/_spoiler/Heading';
+export {default as AreaCut} from 'Controls/_spoiler/AreaCut';
