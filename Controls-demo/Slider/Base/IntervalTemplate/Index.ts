@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import Template = require('wml!Controls-demo/Slider/Base/IntervalTemplale/Template');
+import Template = require('wml!Controls-demo/Slider/Base/IntervalTemplate/Template');
 
 interface IPositionedInterval {
     color: string;
