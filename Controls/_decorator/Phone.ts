@@ -8,12 +8,6 @@ import * as template from 'wml!Controls/_decorator/Phone/Phone';
 
 import toString from 'Controls/_decorator/inputUtils/toString';
 
-/**
- * Интерфейс для опций контрола {@link Controls/decorator:Phone}.
- * @interface Controls/_decorator/IPhone
- * @public
- * @author Красильников А.С.
- */
 export interface IPhoneOptions extends IControlOptions {
     /**
      * @name Controls/_decorator/IPhone#value
@@ -40,7 +34,7 @@ export interface IPhoneOptions extends IControlOptions {
  *
  * @class Controls/_decorator/Phone
  * @extends UI/Base:Control
- * @mixes Controls/_decorator/IPhone
+ * @mixes Controls/decorator:IPhone
  * @public
  * @demo Controls-demo/Decorator/Phone/Index
  *
@@ -97,3 +91,10 @@ Object.defineProperty(Phone, 'defaultProps', {
 });
 
 export default Phone;
+
+/**
+ * Интерфейс для опций контрола {@link Controls/decorator:Phone}.
+ * @interface Controls/_decorator/IPhone
+ * @public
+ * @author Красильников А.С.
+ */
