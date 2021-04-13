@@ -427,11 +427,11 @@
 /**
  * @typedef {String} Controls/_tile/interface/ITile/TRoundBorderSize
  * @variant null Без скругления.
- * @variant XS Радиус скругления 2px.
- * @variant S Радиус скругления 4px.
- * @variant M Радиус скругления 6px.
- * @variant L Радиус скругления 8px.
- * @variant XL Радиус скругления 12 px.
+ * @variant XS Минимальный радиус скругления.
+ * @variant S Малый радиус скругления.
+ * @variant M Средний радиус скругления.
+ * @variant L Большой радиус скругления.
+ * @variant XL Максимальный радиус скругления.
  */
 
 /**
