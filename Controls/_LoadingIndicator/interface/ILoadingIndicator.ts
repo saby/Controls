@@ -58,7 +58,7 @@ export default interface ILoadingIndicator {
  */
 
 /**
- * @typedef {String} Small
+ * @typedef {String} Controls/LoadingIndicator/interface/ILoadingIndicator/Small
  * @description Значения, которыми настраивается размер индикатора.
  * @variant '' Стандартный размер индикатора
  * @variant small Делает индикатор меньше.
@@ -66,7 +66,7 @@ export default interface ILoadingIndicator {
 
 /**
  * @name Controls/LoadingIndicator/interface/ILoadingIndicator#small
- * @cfg {Small} Размер параметров индикатора (полей, фона, границы, ширины, высоты).
+ * @cfg {Controls/LoadingIndicator/interface/ILoadingIndicator/Small.typedef} Размер параметров индикатора (полей, фона, границы, ширины, высоты).
  * @default '' (пустая строка)
  * @demo Controls-demo/LoadingIndicator/Small/Index
  */
