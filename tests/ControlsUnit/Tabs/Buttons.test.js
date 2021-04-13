@@ -375,5 +375,20 @@ define([
          });
 
       });
+
+      describe('_resizeHandler', () => {
+         it('should\'t update model if model does not initialized', () => {
+            const tabs = new tabsMod.Buttons();
+
+            sinon.stub(tabs._marker, 'reset');
+
+            tabs._resizeHandler();
+
+            sinon.assert.notCalled(tabs._marker.reset);
+            sinon.restore();
+            tabs.destroy();
+         });
+
+      });
    });
 });
