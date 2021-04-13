@@ -332,10 +332,7 @@ define([
             let resetExpandedItemsCalled = false;
             instance._children = {
                treeControl: {
-                  resetExpandedItems: () => resetExpandedItemsCalled = true,
-                  getViewModel: () => {
-                     return {};
-                  }
+                  resetExpandedItems: () => resetExpandedItemsCalled = true
                }
             };
 
