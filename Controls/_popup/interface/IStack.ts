@@ -6,87 +6,10 @@ import { IOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpene
  * @author Красильников А.С.
  */
 export interface IStackPopupOptions extends IBasePopupOptions {
-    /**
-     * @name Controls/_popup/interface/IStackOpener#minWidth
-     * @cfg {Number} Минимально допустимая ширина стековой панели.
-     * @remark
-     * Значение может быть задано как на опциях Controls/popup:Stack, так и на дефолтных опциях шаблона {@link template}.
-     * Приоритетнее то, которое задано на Controls/popup:Stack.
-     */
-    /*
-     * @name Controls/_popup/interface/IStackOpener#minWidth
-     * @cfg {Number} The minimum width of popup.
-     */
     minWidth?: number;
-    /**
-     * @name Controls/_popup/interface/IStackOpener#width
-     * @cfg {Number} Текущая ширина стековой панели.
-     * @remark
-     * Значение может быть задано как на опциях Controls/popup:Stack, так и на дефолтных опциях шаблона {@link template}.
-     * Приоритетнее то, которое задано на Controls/popup:Stack.
-     */
-    /*
-    * @name Controls/_popup/interface/IStackOpener#width
-    * @cfg {Number} Width of popup.
-    */
     width?: number;
-    /**
-     * @name Controls/_popup/interface/IStackOpener#maxWidth
-     * @cfg {Number} Максимально допустимая ширина стековой панели.
-     * @remark
-     * Значение может быть задано как на опциях Controls/popup:Stack, так и на дефолтных опциях шаблона {@link template}.
-     * Приоритетнее то, которое задано на Controls/popup:Stack.
-     */
-    /*
-    * @name Controls/_popup/interface/IStackOpener#maxWidth
-    * @cfg {Number} The maximum width of popup.
-    */
     maxWidth?: number;
-    /**
-     * @name Controls/_popup/interface/IStackOpener#propStorageId
-     * @cfg {String} Уникальный идентификатор контрола, по которому будет сохраняться конфигурация в хранилище данных.
-     * С помощью этой опции включается функционал движения границ.
-     * Помимо propStorageId необходимо задать опции {@link width}, {@link minWidth}, {@link maxWidth}.
-     */
     propStorageId?: number;
-    /**
-     * @name Controls/_popup/interface/IStackOpener#restrictiveContainer
-     * @cfg {String} Опция задает контейнер (через <b>селектор</b>), внутри которого будет позиционироваться окно. Окно не может спозиционироваться за пределами restrictiveContainer.
-     * @remark
-     * Алгоритм поиска контейнера, внутри которого будут строиться окна:
-     * 
-     * * Если задана опция restrictiveContainer, то ищем глобальным поиском класс по селектору, заданному в опции.
-     * Если ничего не нашли или опция не задана см. следующий шаг.
-     * * Если у окна есть родитель, то опрашиваем родителя, в каком контейнере он спозиционировался и выбираем его.
-     * * Если родителя нет, то ищем глобальным селектором класс controls-Popup__stack-target-container.
-     *
-     * Класс controls-Popup__stack-target-container является зарезервированным и должен быть объявлен на странице только 1 раз.
-     * Классом должен быть добавлен на контейнер, по которому позиционируются стековые окна по умолчанию.
-     * @example
-     * <pre class="brush: html">
-     * <!-- WML -->
-     * <div class='myRestrictiveContainer'>Контейнер со своими размерами</div>
-     * <Controls.buttons:Button caption="open stack" on:click="_openStack()"/>
-     * </pre>
-     * 
-     * <pre class="brush: js">
-     * import {StackOpener} from 'Controls/popup';
-     * _beforeMount(): void{
-     *    this._stackOpener = new StackOpener();
-     * }
-     * _openStack(): void {
-     *    const config = {
-     *       template: 'Controls-demo/Popup/TestStack',
-     *       closeOnOutsideClick: true,
-     *       autofocus: true,
-     *       opener: null,
-     *       restrictiveContainer: '.myRestrictiveContainer'
-     *    };
-     *    this._stackOpener.open(config);
-     * }
-     * </pre>
-     * @demo Controls-demo/Popup/Stack/RestrictiveContainer/Index
-     */
     restrictiveContainer?: string;
 }
 
@@ -184,4 +107,85 @@ export interface IStackOpener extends IOpener {
  * @property {Number} width Width of popup.
  * @property {Node} opener Read more {@link /doc/platform/developmentapl/interface-development/ui-library/focus/index/#control-opener there}.
  * @property {Controls/_popup/interface/IBaseOpener/EventHandlers.typedef} eventHandlers Callback functions on popup events.
+ */
+
+/**
+ * @name Controls/_popup/interface/IStackOpener#minWidth
+ * @cfg {Number} Минимально допустимая ширина стековой панели.
+ * @remark
+ * Значение может быть задано как на опциях Controls/popup:Stack, так и на дефолтных опциях шаблона {@link template}.
+ * Приоритетнее то, которое задано на Controls/popup:Stack.
+ */
+/*
+* @name Controls/_popup/interface/IStackOpener#minWidth
+* @cfg {Number} The minimum width of popup.
+*/
+
+/**
+ * @name Controls/_popup/interface/IStackOpener#width
+ * @cfg {Number} Текущая ширина стековой панели.
+ * @remark
+ * Значение может быть задано как на опциях Controls/popup:Stack, так и на дефолтных опциях шаблона {@link template}.
+ * Приоритетнее то, которое задано на Controls/popup:Stack.
+ */
+/*
+* @name Controls/_popup/interface/IStackOpener#width
+* @cfg {Number} Width of popup.
+*/
+
+    /**
+ * @name Controls/_popup/interface/IStackOpener#maxWidth
+ * @cfg {Number} Максимально допустимая ширина стековой панели.
+ * @remark
+ * Значение может быть задано как на опциях Controls/popup:Stack, так и на дефолтных опциях шаблона {@link template}.
+ * Приоритетнее то, которое задано на Controls/popup:Stack.
+ */
+/*
+* @name Controls/_popup/interface/IStackOpener#maxWidth
+* @cfg {Number} The maximum width of popup.
+*/
+/**
+ * @name Controls/_popup/interface/IStackOpener#propStorageId
+ * @cfg {String} Уникальный идентификатор контрола, по которому будет сохраняться конфигурация в хранилище данных.
+ * С помощью этой опции включается функционал движения границ.
+ * Помимо propStorageId необходимо задать опции {@link width}, {@link minWidth}, {@link maxWidth}.
+ */
+
+/**
+ * @name Controls/_popup/interface/IStackOpener#restrictiveContainer
+ * @cfg {String} Опция задает контейнер (через <b>селектор</b>), внутри которого будет позиционироваться окно. Окно не может спозиционироваться за пределами restrictiveContainer.
+ * @remark
+ * Алгоритм поиска контейнера, внутри которого будут строиться окна:
+ * 
+ * * Если задана опция restrictiveContainer, то ищем глобальным поиском класс по селектору, заданному в опции.
+ * Если ничего не нашли или опция не задана см. следующий шаг.
+ * * Если у окна есть родитель, то опрашиваем родителя, в каком контейнере он спозиционировался и выбираем его.
+ * * Если родителя нет, то ищем глобальным селектором класс controls-Popup__stack-target-container.
+ *
+ * Класс controls-Popup__stack-target-container является зарезервированным и должен быть объявлен на странице только 1 раз.
+ * Классом должен быть добавлен на контейнер, по которому позиционируются стековые окна по умолчанию.
+ * @example
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <div class='myRestrictiveContainer'>Контейнер со своими размерами</div>
+ * <Controls.buttons:Button caption="open stack" on:click="_openStack()"/>
+ * </pre>
+ * 
+ * <pre class="brush: js">
+ * import {StackOpener} from 'Controls/popup';
+ * _beforeMount(): void{
+ *    this._stackOpener = new StackOpener();
+ * }
+ * _openStack(): void {
+ *    const config = {
+ *       template: 'Controls-demo/Popup/TestStack',
+ *       closeOnOutsideClick: true,
+ *       autofocus: true,
+ *       opener: null,
+ *       restrictiveContainer: '.myRestrictiveContainer'
+ *    };
+ *    this._stackOpener.open(config);
+ * }
+ * </pre>
+ * @demo Controls-demo/Popup/Stack/RestrictiveContainer/Index
  */
