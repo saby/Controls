@@ -161,11 +161,11 @@ class ListEditor extends Control<IListEditorOptions> {
         });
     }
 
-    protected _notifyPropertyValueChanged(value: string[]|number[], needColapse?: boolean, selectorResult?: Model[]): void {
+    protected _notifyPropertyValueChanged(value: string[] | number[] , needCollapse?: boolean, selectorResult?: Model[]): void {
         const extendedValue = {
             value,
             textValue: this._getTextValue(selectorResult || value),
-            needColapse
+            needCollapse
         };
         this._selectedKeys = value;
         this._setColumns(this._options.displayProperty, this._selectedKeys, this._options.keyProperty, this._options.additionalTextProperty);

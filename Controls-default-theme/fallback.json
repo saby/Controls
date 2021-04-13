@@ -1202,7 +1202,7 @@
   "--margin-left_m_CutButton": "var(--offset_xs)",
   "--margin-left_l_CutButton":"var(--offset_s)",
 
-  "--width_filterViewPanel": "250px",
+  "--width_filterViewPanel": "280px",
   "--padding-left_filterViewPanel": "var(--offset_2xl)",
   "--padding-bottom_filterViewPanel": "var(--offset_m)",
   "--padding-right_filterViewPanel": "var(--offset_m)",

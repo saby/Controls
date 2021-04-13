@@ -2,6 +2,8 @@
                               attr:class="controls-FilterViewPanel__popup-template">
     <ws:bodyContentTemplate>
         <Controls.filterPanel:View source="{{_options.items}}"
+                                   backgroundStyle="contrast"
+                                   viewMode="filterPanelStack"
                                    collapsedGroups="{{_options.collapsedGroups}}"
                                    on:collapsedGroupsChanged="_collapsedGroupsChanged()"/>
     </ws:bodyContentTemplate>
