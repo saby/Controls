@@ -2,7 +2,6 @@ import {detection} from 'Env/Env';
 import {IText} from 'Controls/decorator';
 import {ISelection, ISplitValue, InputType, NativeInputType} from './Types';
 import {SyntheticEvent} from 'UI/Vdom';
-import {changeLayout} from 'I18n/keyboard';
 import {controller as i18Controller} from 'I18n/i18n';
 
 export const MINUS: string = '-';
@@ -107,14 +106,16 @@ export function transliterateInput(value: string, selection: ISelection): Promis
     ) || value;
     const firstLocale = i18Controller.currentLocale.indexOf('ru') !== -1 ? 'ru' : 'en';
     const secondLocale = firstLocale === 'ru' ? 'en' : 'ru';
-    return changeLayout(text, firstLocale, secondLocale).then((revertedText) => {
-        if (revertedText === text) {
-            return changeLayout(text, secondLocale, firstLocale).then((revertedText) => {
+    return import('I18n/keyboard').then(({changeLayout}) => {
+        return changeLayout(text, firstLocale, secondLocale).then((revertedText) => {
+            if (revertedText === text) {
+                return changeLayout(text, secondLocale, firstLocale).then((revertedText) => {
+                    return transliterateSelectedText(revertedText, value, selection);
+                });
+            } else {
                 return transliterateSelectedText(revertedText, value, selection);
-            });
-        } else {
-            return transliterateSelectedText(revertedText, value, selection);
-        }
+            }
+        });
     });
 }
 

@@ -118,6 +118,16 @@ export default class Collection<
         this._$results = null;
     }
 
+    protected _removeItems(start: number, count?: number): T[] {
+        const result = super._removeItems(start, count);
+
+        if (this._$headerModel && !this._headerIsVisible(this._$header)) {
+            this._$headerModel = null;
+        }
+
+        return result;
+    }
+
     protected _getItemsFactory(): ItemsFactory<T> {
         const superFactory = super._getItemsFactory();
         return function CollectionItemsFactory(options?: IRowOptions<S>): T {
