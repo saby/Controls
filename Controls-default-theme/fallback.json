@@ -1963,7 +1963,6 @@
   "--toggled_hover_icon-color_dateRangeRelationButton": "var(--link_hover_text-color)",
   "--toggled_active_icon-color_dateRangeRelationButton": "var(--toggled_hover_icon-color_dateRangeRelationButton)",
   "--icon-size_dateRangeRelationButton": "var(--icon-size_s)",
-
   "--shift-top_fontSize-s_expression_PeriodLiteDialog-selector":  "(-1 * (var(--annually_header_height_shortDatePicker) + var(--item_layout_line-height_expression_shortDatePicker) / 2 - (var(--height_rangeShortSelectorLink) - var(--item_font-size_shortDatePicker))))",
   "--shift-top_fontSize-s_PeriodLiteDialog-selector": "calc(var(--shift-top_fontSize-s_expression_PeriodLiteDialog-selector))",
   "--shift-top_fontSize-m_expression_PeriodLiteDialog-selector":  "(var(--shift-top_fontSize-s_expression_PeriodLiteDialog-selector) + 1px)",
