@@ -1945,7 +1945,7 @@ define([
             assert.isTrue(model.getItemBySourceKey(0).isExpanded());
 
             await treeControl.toggleExpanded(0);
-            assert.isFalse(model.getItemBySourceKey(0).isExpanded());+
+            assert.isFalse(model.getItemBySourceKey(0).isExpanded());
          });
 
          it('check expandedItems and collapsedItems options', async() => {
