@@ -1,18 +1,19 @@
 import {IControlOptions} from 'UI/Base';
 import {SbisService} from 'Types/source';
 import {ISingleSelectableOptions, IItemsOptions} from 'Controls/interface';
-export interface ITabsButtons {
-    readonly '[Controls/_tabs/interface/ITabsButtons]': boolean;
-}
 
 /**
  * Интерфейс для опций контрола вкладок.
  * @public
  * @author Красильников А.С.
  */
+export interface ITabsButtons {
+    readonly '[Controls/_tabs/interface/ITabsButtons]': boolean;
+}
 
 export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableOptions, IItemsOptions<object> {
     /**
+     * @name Controls/_tabs/interface/ITabsButtons#source
      * @cfg {Types/source:Base} Объект, реализующий ISource интерфейс для доступа к данным.
      * @default undefined
      * @remark
@@ -55,13 +56,14 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
      */
     source?: SbisService;
     /**
-     * @typedef {String} Controls/_tabs/interface/ITabsButtonsOptions/Style
+     * @typedef {String} Controls/_tabs/interface/ITabsButtons/Style
      * @variant primary
      * @variant secondary
      * @variant unaccented
      */
     /**
-     * @cfg {Controls/_tabs/interface/ITabsButtonsOptions/Style.typedef} Стиль отображения вкладок.
+     * @name Controls/_tabs/interface/ITabsButtons#style
+     * @cfg {Controls/_tabs/interface/ITabsButtons/Style.typedef} Стиль отображения вкладок.
      * @default primary
      * @demo Controls-demo/Tabs/Buttons/Style/Index
      * @remark
@@ -90,35 +92,39 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
      */
     style?: string;
     /**
+     * @name Controls/_tabs/interface/ITabsButtons#separatorVisible
      * @cfg {Boolean} Определяет видимость вертикальных разделителей вкладок.
      * @default true
      * @demo Controls-demo/Tabs/Buttons/SeparatorVisible/Index
      */
     separatorVisible?: boolean;
     /**
+     * @name Controls/_tabs/interface/ITabsButtons#borderVisible
      * @cfg {Boolean} Определяет видимость горизонтальной линии, которая подчеркивает вкладки снизу.
      * @default true
      * @demo Controls-demo/Tabs/Buttons/BorderVisible/Index
      */
     borderVisible?: boolean;
     /**
-     * @typedef {String} Controls/_tabs/interface/ITabsButtonsOptions/InlineHeight
+     * @typedef {String} Controls/_tabs/interface/ITabsButtons/InlineHeight
      * @variant s
      * @variant l
      */
     /**
-     * @cfg {Controls/_tabs/interface/ITabsButtonsOptions/InlineHeight.typedef} Определяет высоту вкладок
+     * @name Controls/_tabs/interface/ITabsButtons#inlineHeight
+     * @cfg {Controls/_tabs/interface/ITabsButtons/InlineHeight.typedef} Определяет высоту вкладок
      * @default s
      * @demo Controls-demo/Tabs/Buttons/MarkerThickness/Index
      */
     inlineHeight?: string;
     /**
-     * @typedef {String} Controls/_tabs/interface/ITabsButtonsOptions/MarkerThickness
+     * @typedef {String} Controls/_tabs/interface/ITabsButtons/MarkerThickness
      * @variant s
      * @variant l
      */
     /**
-     * @cfg {Controls/_tabs/interface/ITabsButtonsOptions/MarkerThickness.typedef} Определяет толщину подчеркивания вкладок
+     * @name Controls/_tabs/interface/ITabsButtons#markerThickness
+     * @cfg {Controls/_tabs/interface/ITabsButtons/MarkerThickness.typedef} Определяет толщину подчеркивания вкладок
      * @default s
      * @demo Controls-demo/Tabs/Buttons/MarkerThickness/Index
      */
