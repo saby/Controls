@@ -9,7 +9,7 @@
             <ws:partial itemWidth="{{200}}"
                         titleStyle="accent"
                         hasTitle="{{ true }}"
-                        template="Controls/tileNew:ItemTemplate"/>
+                        template="Controls/tile:ItemTemplate"/>
         </ws:itemTemplate>
 </Controls.treeTile:View>
 </div>

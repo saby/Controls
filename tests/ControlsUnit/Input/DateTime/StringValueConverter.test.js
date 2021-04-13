@@ -23,7 +23,6 @@ define([
          value: new Date(2018, 0, 1),
          replacer: '_',
       },
-      now = new Date(),
       masks = DateControlsUtils.Range.dateMaskConstants;
 
    describe('Controls/_input/DateTime/StringValueConverter', function() {
@@ -80,6 +79,7 @@ define([
       });
 
       describe('.getValueByString', function() {
+         const now = new Date(2021, 2, 4);
          let year = now.getFullYear(),
             month = now.getMonth(),
             date = now.getDate(),
@@ -163,9 +163,11 @@ define([
             it(`should return ${test.value} if "${test.stringValue}" is passed`, function() {
                let converter = new input.StringValueConverter(),
                   rDate;
+               sinon.stub(converter, '_getNewDate').returns(now);
                converter.update(cMerge({ mask: test.mask, dateConstructor: Date, yearSeparatesCenturies: test.yearSeparatesCenturies }, options, { preferSource: true }));
                rDate = converter.getValueByString(test.stringValue, test.baseDate, test.autocomplete || true);
                assert(dateUtils.Base.isDatesEqual(rDate, test.value), `${rDate} is not equal ${test.value}`);
+               sinon.restore();
             });
          });
 

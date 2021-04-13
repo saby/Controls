@@ -1,4 +1,4 @@
-import { TreeGridView } from 'Controls/treeGridNew';
+import { TreeGridView } from 'Controls/treeGrid';
 import { SyntheticEvent } from 'UI/Vdom';
 import SearchGridDataRow from 'Controls/_searchBreadcrumbsGrid/display/SearchGridDataRow';
 import { Model } from 'Types/entity';

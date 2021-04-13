@@ -93,8 +93,8 @@ class ResultsRow<T> extends Row<T> {
 
 Object.assign(ResultsRow.prototype, {
     '[Controls/_display/grid/ResultsRow]': true,
-    _moduleName: 'Controls/gridNew:GridResults',
-    _cellModule: 'Controls/gridNew:GridResultsCell',
+    _moduleName: 'Controls/grid:GridResults',
+    _cellModule: 'Controls/grid:GridResultsCell',
     _$metaResults: null
 });
 

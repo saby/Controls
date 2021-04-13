@@ -8,6 +8,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {constants} from 'Env/Env';
+import 'css!Controls/LoadingIndicator';
 
 let ManagerController;
 /**
@@ -30,7 +31,7 @@ let ManagerController;
  *
  * @class Controls/LoadingIndicator
  * @extends UI/Base:Control
- * 
+ *
  * @implements Controls/_LoadingIndicator/interface/ILoadingIndicator
  * @author Красильников А.С.
  * @public
@@ -67,7 +68,7 @@ let ManagerController;
  * @class Controls/LoadingIndicator
  * @extends UI/Base:Control
  * @implements Controls/_LoadingIndicator/interface/ILoadingIndicator
- * 
+ *
  * @author Красильников А.С.
  * @public
  * @demo Controls-demo/LoadingIndicator/Overlay/Index
@@ -300,8 +301,9 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
 
         if (!config.waitPromise && waitPromise) {
             config.waitPromise = waitPromise;
-            config.waitPromise.then(this._waitPromiseHandler.bind(this, config));
-            config.waitPromise.catch(this._waitPromiseHandler.bind(this, config));
+            config.waitPromise
+                .then(this._waitPromiseHandler.bind(this, config))
+                .catch(this._waitPromiseHandler.bind(this, config))
         }
         return config;
     }
@@ -545,7 +547,7 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
     }
 
     private _getThemedClassName(simpleClassName: string): string {
-        return simpleClassName + ' ' + simpleClassName + '_theme-' + this.theme;
+        return simpleClassName + ' ' + simpleClassName;
     }
 
     private _eventsHandler(event: Event): void {
@@ -565,8 +567,6 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
         event.stopPropagation();
         event.stopImmediatePropagation();
     }
-
-    static _theme: string[] = ['Controls/_LoadingIndicator/LoadingIndicator'];
 }
 
 export {default as IndicatorOpener} from 'Controls/_LoadingIndicator/LoadingIndicatorOpener';

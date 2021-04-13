@@ -273,7 +273,16 @@ export default class ColumnScroll {
             theme: this._options.theme,
             backgroundStyle: this._options.backgroundStyle,
             stickyLadderCellsCount: this._options.stickyLadderCellsCount,
-            isEmptyTemplateShown: options.needShowEmptyTemplate
+            isEmptyTemplateShown: options.needShowEmptyTemplate,
+            getFixedPartWidth: () => {
+                // Находим последнюю фиксированную ячейку заголовка / результата
+                const fixedElements = options.containers.header.querySelectorAll(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`);
+                const lastFixedCell = fixedElements[fixedElements.length - 1] as HTMLElement;
+
+                // Ширина фиксированной части должна учитывать отступ таблицы от внешнего контейнера
+                const fixedCellOffsetLeft = lastFixedCell.getBoundingClientRect().left - options.containers.content.getBoundingClientRect().left;
+                return fixedCellOffsetLeft + lastFixedCell.offsetWidth;
+            }
         });
         this._classes.columnScroll.wrapper = `${COLUMN_SCROLL_JS_SELECTORS.CONTAINER} ${this._columnScroll.getTransformSelector()}`;
         this._classes.columnScroll.content = `${COLUMN_SCROLL_JS_SELECTORS.CONTENT}`;

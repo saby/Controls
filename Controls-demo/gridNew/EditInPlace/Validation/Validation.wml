@@ -5,7 +5,7 @@
         <ws:content>
             <div>
                 <Controls.list:Container>
-                    <Controls.gridNew:View
+                    <Controls.grid:View
                             name="list"
                             bind:markedKey="_markedKey"
                             dataLoadCallback="{{_dataLoadCallback}}"
@@ -16,7 +16,7 @@
                         <ws:editingConfig>
                             <ws:Object editOnClick="{{true}}" autoAdd="{{true}}" toolbarVisibility="{{true}}"/>
                         </ws:editingConfig>
-                    </Controls.gridNew:View>
+                    </Controls.grid:View>
                 </Controls.list:Container>
             </div>
         </ws:content>

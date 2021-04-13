@@ -1,4 +1,4 @@
-import { GridCell } from 'Controls/gridNew';
+import { GridCell } from 'Controls/grid';
 import SearchSeparatorRow from 'Controls/_searchBreadcrumbsGrid/display/SearchSeparatorRow';
 
 export default class SearchSeparatorCell extends GridCell<string, SearchSeparatorRow> {

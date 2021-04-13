@@ -313,18 +313,16 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
    describe('selectRange', () => {
       it('without expanded nodes', () => {
-         let selection = { selected: [], excluded: [] };
-         selection = strategy.selectRange(selection, model.getItems());
+         let selection = strategy.selectRange(model.getItems());
          assert.deepEqual(selection.selected, [1, 2, 3, 4, 5, 6, 7]);
          assert.deepEqual(selection.excluded, []);
       });
       it('with expanded nodes', () => {
-         let selection = { selected: [], excluded: [] };
          const items = model.getItems();
          items[0].setExpanded(true);
          items[1].setNode(true);
          items[1].setExpanded(true);
-         selection = strategy.selectRange(selection, items);
+         let selection = strategy.selectRange(items);
          assert.deepEqual(selection.selected, [3, 4, 5, 6, 7]);
          assert.deepEqual(selection.excluded, []);
       });

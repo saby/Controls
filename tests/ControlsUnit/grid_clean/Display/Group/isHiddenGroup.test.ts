@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { RecordSet } from 'Types/collection';
-import { GridGroupRow, GridCollection} from 'Controls/gridNew';
+import { GridGroupRow, GridCollection} from 'Controls/grid';
 import { CssClassesAssert } from 'ControlsUnit/CustomAsserts';
 
 const rawData = [

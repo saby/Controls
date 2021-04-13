@@ -177,12 +177,7 @@ export default class HeaderRow<T> extends Row<T> {
 
     setSorting(sorting: Array<{[p: string]: string}>): void {
         this._$sorting = sorting;
-        this.getColumns().forEach((cell: HeaderCell<Model> | ItemActionsCell<void>) => {
-            if (cell instanceof HeaderCell) {
-                cell.setSorting(this._getSortingBySortingProperty(cell.getSortingProperty()));
-            }
-        });
-        this._nextVersion();
+        this._reinitializeColumns(true);
     }
 
     private _getSortingBySortingProperty(property: string): string {
@@ -201,9 +196,9 @@ export default class HeaderRow<T> extends Row<T> {
 
 Object.assign(HeaderRow.prototype, {
     '[Controls/_display/grid/HeaderRow]': true,
-    _moduleName: 'Controls/gridNew:GridHeaderRow',
+    _moduleName: 'Controls/grid:GridHeaderRow',
     _instancePrefix: 'grid-header-row-',
-    _cellModule: 'Controls/gridNew:GridHeaderCell',
+    _cellModule: 'Controls/grid:GridHeaderCell',
     _$header: null,
     _$headerModel: null
 });

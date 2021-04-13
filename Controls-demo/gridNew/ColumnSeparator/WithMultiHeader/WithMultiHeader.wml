@@ -3,7 +3,7 @@
         <Controls.toggle:Checkbox bind:value="_rowSeparator" caption="Show row separator"/>
         <Controls.toggle:Checkbox bind:value="_columnSeparator" caption="Show column separator"/>
     </div>
-    <Controls.gridNew:View
+    <Controls.grid:View
             keyProperty="id"
             source="{{_viewSource}}"
             header="{{_header}}"
@@ -11,5 +11,5 @@
             multiSelectVisibility="visible"
             rowSeparatorSize="{{ _rowSeparator ? 's' }}"
             columnSeparatorSize="{{ _columnSeparator ? 's' }}">
-    </Controls.gridNew:View>
+    </Controls.grid:View>
 </div>

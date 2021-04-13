@@ -722,8 +722,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // region Protected methods
 
-    protected _handleAfterCollectionChange(changedItems: ISessionItems<T> = []): void {
-        super._handleAfterCollectionChange(changedItems);
+    protected _handleAfterCollectionChange(changedItems: ISessionItems<T> = [], changeAction?: string): void {
+        super._handleAfterCollectionChange(changedItems, changeAction);
 
         const changedProperties = changedItems.properties;
         if (changedProperties && (changedProperties === 'expanded' || changedProperties.hasOwnProperty('expanded'))) {

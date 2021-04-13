@@ -17,7 +17,7 @@
             bind:excludedKeys="_excludedKeys"
             itemsReadyCallback="{{_itemsReadyCallbackThird}}">
         <ws:tileItemTemplate>
-            <ws:partial template="Controls/tile:ItemTemplate" markerVisibility="hidden" hasTitle="{{tileItemTemplate.itemData.item.isDocument}}"/>
+            <ws:partial template="Controls/tileOld:ItemTemplate" markerVisibility="hidden" hasTitle="{{tileItemTemplate.itemData.item.isDocument}}"/>
         </ws:tileItemTemplate>
         <ws:emptyTemplate>
             <ws:partial template="Controls/list:EmptyTemplate">
@@ -28,7 +28,7 @@
         </ws:emptyTemplate>
     </Controls.explorer:View>
     <h2>Плитка с разной шириной (без увеличения)</h2>
-    <Controls.tile:View
+    <Controls.tileOld:View
             attr:class="demo-Tile__dynamic"
             tileMode="dynamic"
             displayProperty="title"
@@ -42,13 +42,13 @@
         <ws:itemTemplate>
             <ws:partial
                     shadowVisibility="onhover"
-                    template="Controls/tile:ItemTemplate"
+                    template="Controls/tileOld:ItemTemplate"
                     hasTitle="{{itemTemplate.itemData.item.isDocument}}"
                     itemWidth="{{itemTemplate.itemData.item.get('width')}}"/>
         </ws:itemTemplate>
-    </Controls.tile:View>
+    </Controls.tileOld:View>
     <h2>Плитка с разной шириной (с увеличением)</h2>
-    <Controls.tile:View
+    <Controls.tileOld:View
             attr:class="demo-Tile__dynamic demo-Tile__dynamic_zoom"
             tileMode="dynamic"
             displayProperty="title"
@@ -63,13 +63,13 @@
         <ws:itemTemplate>
             <ws:partial
                     shadowVisibility="hidden"
-                    template="Controls/tile:ItemTemplate"
+                    template="Controls/tileOld:ItemTemplate"
                     hasTitle="{{itemTemplate.itemData.item.isDocument}}"
                     itemWidth="{{itemTemplate.itemData.item.get('width')}}"/>
         </ws:itemTemplate>
-    </Controls.tile:View>
+    </Controls.tileOld:View>
     <h2>Плитка с одинаковой шириной(увеличение внутри контейнера)</h2>
-    <Controls.tile:View
+    <Controls.tileOld:View
             attr:class="demo-Tile__static"
             parentProperty="parent"
             nodeProperty="type"
@@ -85,11 +85,11 @@
             bind:excludedKeys="_excludedKeys"
             itemsReadyCallback="{{_itemsReadyCallbackThird}}">
         <ws:itemTemplate>
-            <ws:partial template="Controls/tile:ItemTemplate" markerVisibility="{{false}}" hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+            <ws:partial template="Controls/tileOld:ItemTemplate" markerVisibility="{{false}}" hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
         </ws:itemTemplate>
-    </Controls.tile:View>
+    </Controls.tileOld:View>
     <h2>Плитка с группировкой</h2>
-    <Controls.tile:View
+    <Controls.tileOld:View
             attr:class="demo-Tile__static"
             tileMode="static"
             displayProperty="title"
@@ -104,8 +104,8 @@
         <ws:itemTemplate>
             <ws:partial
                     shadowVisibility="onhover"
-                    template="Controls/tile:ItemTemplate"
+                    template="Controls/tileOld:ItemTemplate"
                     hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
         </ws:itemTemplate>
-    </Controls.tile:View>
+    </Controls.tileOld:View>
 </div>

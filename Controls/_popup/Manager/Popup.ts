@@ -229,7 +229,6 @@ class Popup extends Control<IPopupControlOptions> {
     }
 
     protected _animated(event: SyntheticEvent<AnimationEvent>): void {
-        this._startResizeRegister(event);
         ManagerController.notifyToManager('popupAnimated', [this._options.id]);
     }
 

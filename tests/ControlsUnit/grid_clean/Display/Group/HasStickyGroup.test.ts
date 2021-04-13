@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { RecordSet } from 'Types/collection';
 import * as sinon from 'sinon';
-import { GridCollection, GridDataRow } from 'Controls/gridNew';
+import { GridCollection, GridDataRow } from 'Controls/grid';
 
 const rawData = [
     { key: 1, col1: 'c1-1', col2: 'с2-1', group: 'g1' },

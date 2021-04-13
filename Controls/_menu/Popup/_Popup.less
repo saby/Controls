@@ -154,3 +154,14 @@
 .controls-Menu_withoutClose__applyButton {
    right: var(--apply-button_offset_menuPopup);
 }
+
+// в edge не работает box-shadow с calc
+.ws-is-ie {
+   .controls-Menu__popup-direction-vertical-top.controls-Menu__popup-shadow-suggestionsContainer {
+      box-shadow: rgba(0, 0, 0, 0.2) -6px 0 6px -6px, rgba(0, 0, 0, 0.2) 6px 0 6px -6px, rgba(0, 0, 0, 0.2) 0 -6px 6px -6px;
+   }
+
+   .controls-Menu__popup-direction-vertical-bottom.controls-Menu__popup-shadow-suggestionsContainer {
+      box-shadow: rgba(0, 0, 0, 0.2) -6px 0 6px -6px, rgba(0, 0, 0, 0.2) 6px 0 6px -6px, rgba(0, 0, 0, 0.2) 0 6px 6px -6px;
+   }
+}

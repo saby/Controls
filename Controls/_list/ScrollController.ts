@@ -642,7 +642,7 @@ export default class ScrollController {
             this._triggerVisibility,
             direction
         );
-        if (shift && this._options.collection.getCount() - items.length > this._options.virtualScrollConfig.pageSize) {
+        if (shift && this._options.collection.getCount() - items.length >= this._options.virtualScrollConfig.pageSize) {
             rangeShiftResult = this._virtualScroll.shiftRange(direction);
         }
         this._setCollectionIndices(this._options.collection, rangeShiftResult.range, false,

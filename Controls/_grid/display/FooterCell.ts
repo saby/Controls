@@ -44,7 +44,7 @@ class FooterCell<T> extends Cell<T, FooterRow<T>> {
 
 Object.assign(FooterCell.prototype, {
     '[Controls/_display/grid/FooterCell]': true,
-    _moduleName: 'Controls/gridNew:GridFooterCell',
+    _moduleName: 'Controls/grid:GridFooterCell',
     _instancePrefix: 'grid-footer-cell-'
 });
 

@@ -157,7 +157,7 @@ describe('Controls/list_clean/BaseControl', () => {
             await baseControl._beforeMount(baseControlCfg);
             baseControl._beforeUpdate(baseControlCfg);
             baseControl._afterUpdate(baseControlCfg);
-            baseControl._componentDidUpdate();
+            baseControl._afterRender();
             baseControl._container = {
                 getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}]),
                 clientHeight: 800
@@ -177,7 +177,7 @@ describe('Controls/list_clean/BaseControl', () => {
             await baseControl._beforeMount(baseControlCfg);
             baseControl._beforeUpdate(baseControlCfg);
             baseControl._afterUpdate(baseControlCfg);
-            baseControl._componentDidUpdate();
+            baseControl._afterRender();
             baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
             assert.isFalse(baseControl._pagingVisible);
             baseControl._viewportSize = 0;
@@ -191,7 +191,7 @@ describe('Controls/list_clean/BaseControl', () => {
             await baseControl._beforeMount(baseControlCfg);
             baseControl._beforeUpdate(baseControlCfg);
             baseControl._afterUpdate(baseControlCfg);
-            baseControl._componentDidUpdate();
+            baseControl._afterRender();
             baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
             assert.isFalse(baseControl._pagingVisible);
             baseControl._viewportSize = 200;
@@ -213,7 +213,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._afterMount();
             baseControl._beforeUpdate(baseControlCfg);
             baseControl._afterUpdate(baseControlCfg);
-            baseControl._componentDidUpdate();
+            baseControl._afterRender();
             baseControl._container = {
                 clientHeight: 1000,
                 getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}]),
@@ -944,6 +944,44 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl.saveOptions(baseControlOptions);
 
             assert.ok(baseControl.getItems() === items);
+        });
+    });
+
+    describe('shiftToDirection by space', () => {
+        const baseControlCfg = getCorrectBaseControlConfig({
+            viewName: 'Controls/List/ListView',
+            keyProperty: 'key',
+            viewModelConstructor: ListViewModel,
+            multiSelectVisibility: 'visible',
+            markerVisibility: 'visible',
+            selectedKeys: [],
+            excludedKeys: [],
+            markedKey: 0,
+            source: new Memory({
+                keyProperty: 'key',
+                data: getData(2)
+            })
+        });
+        let baseControl;
+        let shiftToDirectionStub;
+        beforeEach(() => {
+            baseControl = new BaseControl(baseControlCfg);
+            baseControl._beforeMount(baseControlCfg);
+            baseControl.saveOptions(baseControlCfg);
+
+            shiftToDirectionStub = sinon.stub(baseControl, '_shiftToDirection').callsFake(() => Promise.resolve());
+        });
+        afterEach(() => {
+            shiftToDirectionStub.restore();
+            baseControl.destroy();
+            baseControl = undefined;
+        });
+        it('moveMarkerToNext', () => {
+            BaseControl._private.spaceHandler(baseControl, { preventDefault: () => null });
+            assert.isFalse(shiftToDirectionStub.called);
+            baseControl._beforeUpdate({...baseControlCfg, markedKey: 1});
+            BaseControl._private.spaceHandler(baseControl, { preventDefault: () => null });
+            assert.isTrue(shiftToDirectionStub.calledOnce);
         });
     });
 

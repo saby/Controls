@@ -382,12 +382,9 @@ const _private = {
     supportAttachLoadTriggerToNull(options: any, direction: 'up'|'down'): boolean {
         // Поведение отложенной загрузки вверх нужно опциональное, например, для контактов
         // https://online.sbis.ru/opendoc.html?guid=f07ea1a9-743c-42e4-a2ae-8411d59bcdce
-        // Для мобильных устройств данный функционал включать нельзя из-за инерционного скролла:
-        // https://online.sbis.ru/opendoc.html?guid=45921906-4b0e-4d72-bb80-179c076412d5
         if (
             direction === 'up' && options.attachLoadTopTriggerToNull === false ||
-            direction === 'down' && options.attachLoadDownTriggerToNull === false ||
-            detection.isMobilePlatform
+            direction === 'down' && options.attachLoadDownTriggerToNull === false
         ) {
             return false;
         }
@@ -651,7 +648,7 @@ const _private = {
             const markedKey = markerController.getMarkedKey();
             if (markedKey !== null) {
                 const markedItem = self.getItems().getRecordById(markedKey);
-                self._notifyItemClick([undefined, markedItem, event]);
+                self._notifyItemClick([event, markedItem, event]);
                 if (event && !event.isStopped()) {
                     self._notify('itemActivate', [markedItem, event], {bubbling: true});
                 }
@@ -680,7 +677,6 @@ const _private = {
                 self._spaceBlocked = true;
             }
         }
-
         _private.moveMarkerToNext(self, event);
     },
 
@@ -1034,13 +1030,14 @@ const _private = {
             if (self._dndListController?.isDragging()) {
                 self._checkTriggersAfterEndDrag = true;
             } else {
-                _private.loadToDirection(
+                return _private.loadToDirection(
                    self,
                    direction,
                    filter
                 );
             }
         }
+        return Promise.resolve();
     },
 
     // Метод, вызываемый при прокрутке скролла до триггера
@@ -1051,6 +1048,10 @@ const _private = {
     },
 
     scrollToEdge(self, direction) {
+        let scrollToEdgePromiseResolver;
+        const scrollToEdgePromise = new Promise((res) => {
+            scrollToEdgePromiseResolver = res;
+        });
         _private.setMarkerAfterScroll(self);
         let hasMoreData = {
             up: self._hasMoreData(self._sourceController, 'up'),
@@ -1109,27 +1110,39 @@ const _private = {
                             self._currentPage = 1;
                             self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
                             self._notify('doScroll', ['top'], { bubbling: true });
+                            scrollToEdgePromiseResolver();
                         };
                     } else {
-                        self._finishScrollToEdgeOnDrawItems = () => { _private.jumpToEnd(self) };
+                        self._finishScrollToEdgeOnDrawItems = () => {
+                            _private.jumpToEnd(self).then(() => {
+                                scrollToEdgePromiseResolver();
+                            });
+                        };
                     }
+                } else {
+                    scrollToEdgePromiseResolver();
                 }
             });
         } else if (direction === 'up') {
             self._needScrollToFirstItem = true;
-            self._scrollToFirstItemIfNeed();
-            self._notify('doScroll', ['top'], { bubbling: true });
-            if (self._scrollPagingCtr) {
-                self._currentPage = 1;
-                self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
-            }
+            self._scrollToFirstItemIfNeed().then(() => {
+                self._notify('doScroll', ['top'], { bubbling: true });
+                if (self._scrollPagingCtr) {
+                    self._currentPage = 1;
+                    self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
+                }
+                scrollToEdgePromiseResolver();
+            });
         } else {
-            _private.jumpToEnd(self);
-            if (self._scrollPagingCtr) {
-                self._currentPage = self._pagingCfg.pagesCount;
-                self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
-            }
+            _private.jumpToEnd(self).then(() => {
+                if (self._scrollPagingCtr) {
+                    self._currentPage = self._pagingCfg.pagesCount;
+                    self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
+                }
+                scrollToEdgePromiseResolver();
+            });
         }
+        return scrollToEdgePromise;
     },
     scrollPage(self, direction) {
         if (!self._scrollPageLocked) {
@@ -2403,7 +2416,7 @@ const _private = {
             model.setHasMoreData(hasMoreData, silent);
         }
     },
-    jumpToEnd(self): void {
+    jumpToEnd(self): Promise<void> {
         const lastItem =
             self._options.useNewModel
             ? self._listViewModel.getLast()?.getContents()
@@ -2427,11 +2440,12 @@ const _private = {
             // поставили такие, что последниц элемент уже отображается, scrollToItem не нужен.
             self._notify('doScroll', [self._scrollController?.calculateVirtualScrollHeight() || 'down'], { bubbling: true });
             _private.updateScrollPagingButtons(self, self._getScrollParams());
+            return Promise.resolve();
         } else {
 
             // Последняя страница уже загружена но конец списка не обязательно отображается,
             // если включен виртуальный скролл. ScrollContainer учитывает это в scrollToItem
-            _private.scrollToItem(self, lastItemKey, true, true).then(() => {
+            return _private.scrollToItem(self, lastItemKey, true, true).then(() => {
 
                 // После того как последний item гарантированно отобразился,
                 // нужно попросить ScrollWatcher прокрутить вниз, чтобы
@@ -2559,6 +2573,8 @@ const _private = {
                 result = selectionController.selectAll();
                 break;
         }
+
+        this._notify('selectedLimitChanged', [selectionController.getLimit()]);
 
         _private.changeSelection(this, result);
     },
@@ -2696,19 +2712,32 @@ const _private = {
             event.preventDefault();
 
             const controller = _private.getMarkerController(self);
-            const newMarkedKey = controller.getNextMarkedKey();
-            if (newMarkedKey !== controller.getMarkedKey()) {
-                const result = self._changeMarkedKey(newMarkedKey);
-                if (result instanceof Promise) {
-                    /**
-                     * Передавая в force true, видимый элемент подскролливается наверх.
-                     * https://online.sbis.ru/opendoc.html?guid=6b6973b2-31cf-4447-acaf-a64d37957bc6
-                     */
-                    result.then((key) => _private.scrollToItem(self, key));
-                } else if (result !== undefined) {
-                    _private.scrollToItem(self, result, true, false);
+            const moveMarker = () => {
+                const newMarkedKey = controller.getNextMarkedKey();
+                if (newMarkedKey !== controller.getMarkedKey()) {
+                    const result = self._changeMarkedKey(newMarkedKey);
+                    if (result instanceof Promise) {
+                        /**
+                         * Передавая в force true, видимый элемент подскролливается наверх.
+                         * https://online.sbis.ru/opendoc.html?guid=6b6973b2-31cf-4447-acaf-a64d37957bc6
+                         */
+                        result.then((key) => _private.scrollToItem(self, key));
+                    } else if (result !== undefined) {
+                        _private.scrollToItem(self, result, true, false);
+                    }
                 }
+            };
+
+            const currentMarkedKey = controller.getMarkedKey();
+            const lastItem = self._listViewModel.at(self._listViewModel.getStopIndex() - 1);
+            if (lastItem.key === currentMarkedKey) {
+                self._shiftToDirection('down').then(() => {
+                    moveMarker();
+                });
+            } else {
+                moveMarker();
             }
+
         }
     },
 
@@ -3113,7 +3142,7 @@ const _private = {
     activateEditingRow(self, enableScrollToElement: boolean = true): void {
         // Контакты используют новый рендер, на котором нет обертки для редактируемой строки.
         // В новом рендере она не нужна
-        if (self._children.listView.activateEditingRow) {
+        if (self._children.listView && self._children.listView.activateEditingRow) {
             const activator = () => {
                 if (self._children.listView.beforeRowActivated) {
                     self._children.listView.beforeRowActivated();
@@ -3162,7 +3191,7 @@ const _private = {
      */
     needHoverFreezeController(self): boolean {
         return !self.__error && self._listViewModel && self._options.itemActionsPosition === 'outside' &&
-            (self._options.itemActions || self._options.itemActionsProperty) &&
+            ((self._options.itemActions && self._options.itemActions.length > 0) || self._options.itemActionsProperty) &&
             _private.isAllowedHoverFreeze(self);
     },
 
@@ -3394,6 +3423,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _editingItem: IEditableCollectionItem;
 
     _continuationEditingDirection: 'top' | 'bottom' = null;
+
+    _hoverFreezeController: HoverFreeze;
 
     //#endregion
 
@@ -3677,8 +3708,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     //  https://online.sbis.ru/opendoc.html?guid=8a5f7598-c7c2-4f3e-905f-9b2430c0b996
     protected _loadMore(direction: IDirection): void {
         if (this._options?.navigation?.view === 'infinity') {
-            _private.loadToDirectionIfNeed(this, direction, this._options.filter);
+            return _private.loadToDirectionIfNeed(this, direction, this._options.filter);
         }
+        return Promise.resolve();
     }
 
     triggerVisibilityChangedHandler(direction: IDirection, state: boolean): void {
@@ -3851,6 +3883,17 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._attachLoadTopTriggerToNull = false;
             this._hideTopTrigger = false;
             this._attachLoadDownTriggerToNull = false;
+        }
+
+        // на мобильных устройствах не сработает mouseEnter, поэтому ромашку сверху добавляем сразу после моунта
+        if (detection.isMobilePlatform) {
+            // нельзя делать это в процессе загрузки
+            if (!this._loadingState && !this._scrollController?.getScrollTop()) {
+                _private.attachLoadTopTriggerToNullIfNeed(this, this._options);
+            }
+            if (this._hideTopTrigger && !this._needScrollToFirstItem) {
+                this._hideTopTrigger = false;
+            }
         }
     }
 
@@ -4239,6 +4282,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 !this._sourceController.isLoading() &&
                 this._options.loading !== newOptions.loading;
 
+            if (searchValueChanged || this._loadedBySourceController) {
+                _private.getPortionedSearch(this).reset();
+            }
             // После нажатии на enter или лупу в строке поиска, будут загружены данные и установлены в recordSet,
             // если при этом в списке кол-во записей было 0 (ноль) и поисковой запрос тоже вернул 0 записей,
             // onCollectionChange у рекордсета не стрельнёт, и не сработает код,
@@ -4516,7 +4562,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    _componentDidUpdate(): void {
+    _afterRender(): void {
         let positionRestored = false
 
         // TODO: https://online.sbis.ru/opendoc.html?guid=2be6f8ad-2fc2-4ce5-80bf-6931d4663d64
@@ -4702,30 +4748,36 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // Вызываем сдвиг диапазона в направлении видимого триггера
         this._shiftToDirection(direction);
     }
-    protected _shiftToDirection(direction): void {
+    protected _shiftToDirection(direction): Promise {
+        let resolver;
+        const shiftPromise = new Promise((res) => { resolver = res; });
         this._scrollController.shiftToDirection(direction).then((result) => {
             if (result) {
                 _private.handleScrollControllerResult(this, result);
                 this._syncLoadingIndicatorState = direction;
+                resolver();
             } else {
-                this._loadMore(direction);
+                this._loadMore(direction).then(() => {
+                    resolver();
+                });
             }
         });
+        return shiftPromise;
     }
 
-    _scrollToFirstItemIfNeed(): void {
+    _scrollToFirstItemIfNeed(): Promise<void> {
         if (this._needScrollToFirstItem) {
             this._needScrollToFirstItem = false;
 
-            if (this._finishScrollToEdgeOnDrawItems) {
-                return;
-            }
-            const firstItem = this.getViewModel().at(0);
-            const firstItemKey = firstItem && firstItem.key !== undefined ? firstItem.key : null;
-            if (firstItemKey !== null) {
-                _private.scrollToItem(this, firstItemKey, false, true);
+            if (!this._finishScrollToEdgeOnDrawItems) {
+                const firstItem = this.getViewModel().at(0);
+                const firstItemKey = firstItem && firstItem.key !== undefined ? firstItem.key : null;
+                if (firstItemKey !== null) {
+                    return _private.scrollToItem(this, firstItemKey, false, true);
+                }
             }
         }
+        return Promise.resolve();
     }
 
     _notifyOnDrawItems(): void {
@@ -5318,6 +5370,20 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
 
             return result;
+        }).then((result) => {
+            const editingConfig = this._getEditingConfig();
+
+            // Скролим к началу/концу списка. Данная операция может и скорее всего потребует перезагрузки списка.
+            // Не вся бизнес логика поддерживает загрузку первой/последней страницы при курсорной навигации.
+            // TODO: Поддержать везде по задаче
+            //  https://online.sbis.ru/opendoc.html?guid=000ff88b-f37e-4aa6-9bd3-3705bb721014
+            if (editingConfig.task1181625554) {
+                return _private.scrollToEdge(this, editingConfig.addPosition === 'top' ? 'up' : 'down').then(() => {
+                    return result;
+                });
+            } else {
+                return result;
+            }
         }).finally(() => {
             this._savedItemClickArgs = null;
         });
@@ -5663,7 +5729,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             autoAddOnInit: !!editingConfig.autoAddOnInit,
             backgroundStyle: editingConfig.backgroundStyle || 'default',
             autoAddByApplyButton: editingConfig.autoAddByApplyButton === false ? false : !!(editingConfig.autoAddByApplyButton || editingConfig.autoAdd),
-            toolbarVisibility: !!editingConfig.toolbarVisibility
+            toolbarVisibility: !!editingConfig.toolbarVisibility,
+
+            task1181625554: !!editingConfig.task1181625554
         };
     }
 
@@ -6028,7 +6096,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _onItemActionsMouseEnter(event: SyntheticEvent<MouseEvent>, itemData: CollectionItem<Model>): void {
-        if (_private.hasHoverFreezeController(this) && _private.isAllowedHoverFreeze(this) && !this._itemActionsMenuId) {
+        if (_private.hasHoverFreezeController(this) &&
+            _private.isAllowedHoverFreeze(this) &&
+            itemData.ItemActionsItem &&
+            !this._itemActionsMenuId) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
             this._hoverFreezeController.startFreezeHoverTimeout(itemKey, itemIndex);
@@ -6068,7 +6139,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._dndListController && this._dndListController.isDragging()) {
             this._notifyDraggingItemMouseMove(itemData, nativeEvent);
         }
-        if (hoverFreezeController) {
+        if (hoverFreezeController && itemData.ItemActionsItem) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
             hoverFreezeController.setDelayedHoverItem(itemKey, itemIndex);

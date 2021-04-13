@@ -77,7 +77,7 @@ const isTemplateObject = (tmpl: any): boolean => {
  * @mixes Controls/interface:ISingleSelectable
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IItems
- * @mixes Controls/_tabs/interface/ITabsButtons
+ * @mixes Controls/tabs:ITabsButtonsOptions
  * @mixes Controls/tabs:ITabsTemplateOptions
  *
  * @public
@@ -121,7 +121,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _afterMount(): void {
-        RegisterUtil(this, 'controlResize', this._resizeHandler);
+        RegisterUtil(this, 'controlResize', this._resizeHandler, { listenAll: true });
     }
 
     protected _beforeUpdate(newOptions: ITabsOptions): void {
@@ -145,7 +145,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _beforeUnmount(): void {
-        UnregisterUtil(this, 'controlResize');
+        UnregisterUtil(this, 'controlResize', { listenAll: true });
     }
 
     protected _mouseEnterHandler(): void {
@@ -157,8 +157,10 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _resizeHandler(): void {
-        this._marker.reset();
-        this._updateMarker();
+        if (this._marker.isInitialized()) {
+            this._marker.reset();
+            this._updateMarker();
+        }
     }
 
     protected _updateMarker(): void {
@@ -194,6 +196,9 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _onItemClick(event: SyntheticEvent<MouseEvent>, key: string): void {
         if (isLeftMouseButton(event)) {
             this._notify('selectedKeyChanged', [key]);
+            // selectedKey может вернуться в контрол значительно позже если снуржи есть асинхронный код.
+            // Например так происходит на страницах онлайна. Запустим анимацию маркера как можно быстрее.
+            this._updateMarkerSelectedIndex({...this._options, selectedKey: key});
         }
     }
 
@@ -243,13 +248,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         if (item[options.keyProperty] === options.selectedKey) {
             classes.push(`controls-Tabs_style_${style}__item_state_selected`);
             classes.push('controls-Tabs__item_state_selected ' );
-
-            // Если маркеры которые рисуются с абсолютной позицией не инициализированы, то нарисуем маркер
-            // внтри вкладки. Это можно сделать быстрее. Но невозможно анимировано передвигать его между вкладками.
-            // Инициализируем и переключимся на другой механизм маркеров после ховера.
-            if (!this._marker.isInitialized()) {
-                classes.push(`controls-Tabs_style_${style}__item-marker_state_selected`);
-            }
         } else {
             classes.push('controls-Tabs__item_state_default');
         }
@@ -259,6 +257,25 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _prepareItemTypeClass(item: ITabButtonItem): string {
         const itemType: string = item.type || 'default';
         return `controls-Tabs__itemClickableArea_type-${itemType}`;
+    }
+
+    protected _prepareItemMarkerClass(item: ITabButtonItem): string {
+        const classes = [];
+        const options = this._options;
+        const style = TabsButtons._prepareStyle(options.style);
+
+        classes.push('controls-Tabs__itemClickableArea_marker');
+        classes.push(`controls-Tabs__itemClickableArea_markerThickness-${options.markerThickness}`);
+
+        if (!this._marker.isInitialized() && item[options.keyProperty] === options.selectedKey) {
+            // Если маркеры которые рисуются с абсолютной позицией не инициализированы, то нарисуем маркер
+            // внтри вкладки. Это можно сделать быстрее. Но невозможно анимировано передвигать его между вкладками.
+            // Инициализируем и переключимся на другой механизм маркеров после ховера.
+            classes.push(`controls-Tabs_style_${style}__item-marker_state_selected`);
+        } else {
+            classes.push('controls-Tabs__item-marker_state_default');
+        }
+        return classes.join(' ');
     }
 
     protected _prepareItemOrder(index: number): string {

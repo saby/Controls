@@ -340,14 +340,17 @@ const _private = {
         }
 
         const reset = () => {
-            if (self._options.useNewModel) {
-                viewModel.setExpandedItems([]);
-                self._notify('expandedItemsChanged', [[]]);
+            const isAllExpanded = self._options.expandedItems instanceof Array && self._options.expandedItems[0] === null;
+            if (!isAllExpanded) {
+                if (self._options.useNewModel) {
+                    viewModel.setExpandedItems([]);
+                    self._notify('expandedItemsChanged', [[]]);
 
-                viewModel.setCollapsedItems([]);
-                self._notify('collapsedItemsChanged', [[]]);
-            } else {
-                viewModel.resetExpandedItems();
+                    viewModel.setCollapsedItems([]);
+                    self._notify('collapsedItemsChanged', [[]]);
+                } else {
+                    viewModel.resetExpandedItems();
+                }
             }
             viewModel.setHasMoreStorage({});
         };
@@ -605,16 +608,16 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
      * @param item
      * @private
      */
-    private _loadNodeChildrenRecursive(item: TreeItem): void {
+    private _loadNodeChildrenRecursive(item: TreeItem): Promise {
         const nodeKey = item.getContents().getKey();
         const hasMoreData = this._sourceController.hasMoreData('down', nodeKey);
         if (hasMoreData) {
             // Вызов метода, который подгружает дочерние записи узла
-            _private.loadNodeChildren(this, nodeKey);
+            return _private.loadNodeChildren(this, nodeKey);
         } else {
             const lastItem = this._getLastItem(item);
             if (this._shouldLoadLastExpandedNodeData('down', lastItem, nodeKey)) {
-                this._loadNodeChildrenRecursive(lastItem);
+                return this._loadNodeChildrenRecursive(lastItem);
             }
         }
     }
@@ -626,14 +629,14 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
      * @param direction
      * @private
      */
-    protected _loadMore(direction: Direction): void {
+    protected _loadMore(direction: Direction): Promise {
         const lastRootItem = this._getLastItem(this._listViewModel.getRoot());
         if (this._shouldLoadLastExpandedNodeData(direction, lastRootItem, this._options.root)) {
-            this._loadNodeChildrenRecursive(lastRootItem);
+            return this._loadNodeChildrenRecursive(lastRootItem);
 
         } else {
             // Вызов метода подгрузки данных по умолчанию (по сути - loadToDirectionIfNeed).
-            super._loadMore(direction);
+            return super._loadMore(direction);
         }
     }
 
@@ -726,6 +729,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 (searchValueChanged && newOptions.sourceController)) {
                 if (viewModel) {
                     viewModel.setExpandedItems(newOptions.expandedItems);
+                    const expandedItems = _private.getExpandedItems(this, this._options, viewModel.getCollection());
+                    viewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems));
                 }
             } else {
                 this._updateExpandedItemsAfterReload = true;
@@ -752,8 +757,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
-    protected _componentDidUpdate() {
-        super._componentDidUpdate(...arguments);
+    protected _afterRender() {
+        super._afterRender(...arguments);
         if (this._scrollToLeaf && !this._scrollToLeafOnDrawItems) {
             this._scrollToLeaf();
             this._scrollToLeaf = null;
@@ -843,7 +848,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
         const dndListController = this.getDndListController();
         const targetIsNotDraggableItem = dndListController.getDraggableItem()?.getContents() !== dispItem.getContents();
-        if (dispItem.isNode() && targetIsNotDraggableItem) {
+        if (dispItem && dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() && targetIsNotDraggableItem) {
             const targetElement = _private.getTargetRow(this, nativeEvent);
             const mouseOffsetInTargetItem = this._calculateOffset(nativeEvent, targetElement);
             const dragTargetPosition = dndListController.calculateDragPosition({
@@ -878,7 +883,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     protected _notifyItemClick([e, item, originalEvent, columnIndex]: [SyntheticEvent, Model, SyntheticEvent, number?], returnExpandResult: boolean /* for tests */) {
         if (originalEvent.target.closest('.js-controls-Tree__row-expander')) {
             e?.stopImmediatePropagation();
-            return;
+            return false;
         }
         const superResult = super._notifyItemClick(...arguments);
         if (e.isStopped()) {

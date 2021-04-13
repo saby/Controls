@@ -1,5 +1,5 @@
 <ws:template name="decoratedPriceColumnTemplate">
-    <ws:partial template="Controls/gridNew:ColumnTemplate">
+    <ws:partial template="Controls/grid:ColumnTemplate">
         <ws:contentTemplate>
             <ws:if data="{{contentTemplate.itemData.getDefaultDisplayValue() !== ''}}">
                 <Controls.decorator:Money value="{{ contentTemplate.itemData.getDefaultDisplayValue() }}"
@@ -11,7 +11,7 @@
 </ws:template>
 
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-base-treeGridView">
-    <Controls.treeGridNew:View
+    <Controls.treeGrid:View
             keyProperty="id"
             source="{{ _viewSource }}"
             parentProperty="parent"
@@ -27,17 +27,17 @@
                 <ws:Object displayProperty="title" width="300px">
                     <ws:template>
                         <ws:if data="{{ template.item.isGroupNode() }}">
-                            <ws:partial template="Controls/treeGridNew:GroupColumnTemplate"/>
+                            <ws:partial template="Controls/treeGrid:GroupColumnTemplate"/>
                         </ws:if>
                         <ws:else>
-                            <ws:partial template="Controls/gridNew:ColumnTemplate"/>
+                            <ws:partial template="Controls/grid:ColumnTemplate"/>
                         </ws:else>
                     </ws:template>
                 </ws:Object>
                 <ws:Object displayProperty="count" width="100px" align="right"/>
                 <ws:Object displayProperty="price" width="100px" align="right">
                     <ws:template>
-                        <ws:partial template="Controls/gridNew:ColumnTemplate">
+                        <ws:partial template="Controls/grid:ColumnTemplate">
                             <ws:contentTemplate>
                                 <Controls.decorator:Money value="{{contentTemplate.itemData.getDefaultDisplayValue()}}"
                                                           fontColorStyle="{{ contentTemplate.item.isGroupNode() ? 'group' : 'default' }}"
@@ -65,9 +65,9 @@
             </ws:Array>
         </ws:columns>
         <ws:nodeFooterTemplate>
-            <ws:partial template="Controls/treeGridNew:NodeFooterTemplate">
+            <ws:partial template="Controls/treeGrid:NodeFooterTemplate">
                 <Controls.list:AddButton caption="Добавить товар"/>
             </ws:partial>
         </ws:nodeFooterTemplate>
-    </Controls.treeGridNew:View>
+    </Controls.treeGrid:View>
 </div>

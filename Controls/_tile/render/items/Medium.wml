@@ -1,0 +1,6 @@
+<ws:partial template="wml!Controls/_tile/render/items/Default"
+            height="160"
+            highlightOnHover="{{false}}"
+            staticHeight="{{true}}"
+            scope="{{_options}}"
+            itemType="medium"/>

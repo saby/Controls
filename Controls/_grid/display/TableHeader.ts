@@ -51,7 +51,7 @@ export default class TableHeader<T> extends Header<T> {
 
 Object.assign(TableHeader.prototype, {
     '[Controls/_display/grid/TableHeader]': true,
-    _moduleName: 'Controls/gridNew:GridTableHeader',
+    _moduleName: 'Controls/grid:GridTableHeader',
     _instancePrefix: 'grid-table-header-',
-    _rowModule: 'Controls/gridNew:GridTableHeaderRow',
+    _rowModule: 'Controls/grid:GridTableHeaderRow',
 });

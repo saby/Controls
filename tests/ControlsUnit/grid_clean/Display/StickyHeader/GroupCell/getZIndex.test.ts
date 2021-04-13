@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridGroupCell } from 'Controls/gridNew';
+import { GridGroupCell } from 'Controls/grid';
 
 const column = { displayProperty: 'col1' };
 

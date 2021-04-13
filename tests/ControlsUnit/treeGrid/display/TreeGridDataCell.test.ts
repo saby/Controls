@@ -1,10 +1,10 @@
 import { RecordSet } from 'Types/collection';
-import { TreeGridCollection } from 'Controls/treeGridNew';
+import { TreeGridCollection } from 'Controls/treeGrid';
 import { CssClassesAssert } from 'ControlsUnit/CustomAsserts';
 import * as Display from 'Controls/display';
 import * as sinon from 'sinon';
 
-describe('Controls/_treeGridNew/display/TreeGridDataCell', () => {
+describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
    const recordSet = new RecordSet({
       rawData: [{
          id: 1,

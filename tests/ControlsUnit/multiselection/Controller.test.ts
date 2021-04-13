@@ -108,6 +108,24 @@ describe('Controls/_multiselection/Controller', () => {
          const result = controller.selectRange(1);
          assert.deepEqual(result, { selected: [1, 2, 3], excluded: [] });
       });
+      it ('lastCheckedKey = 2, new selected = 3, not empty selection', () => {
+         controller.setSelection({selected: [1], excluded: []});
+         controller.toggleItem(2);
+         const result = controller.selectRange(3);
+         assert.deepEqual(result, { selected: [2, 3], excluded: [] });
+      });
+      it ('select checkbox in selected range', () => {
+         controller.setSelection({selected: [1, 2, 3], excluded: []});
+         controller.toggleItem(1);
+         const result = controller.selectRange(2);
+         assert.deepEqual(result, { selected: [1, 2], excluded: [] });
+      });
+      it ('change direction', () => {
+         controller.setSelection({selected: [2, 3], excluded: []});
+         controller.toggleItem(2);
+         const result = controller.selectRange(1);
+         assert.deepEqual(result, { selected: [1, 2], excluded: [] });
+      });
    });
 
    describe('isAllSelected', () => {

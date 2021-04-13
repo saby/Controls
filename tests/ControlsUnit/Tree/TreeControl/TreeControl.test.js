@@ -1840,5 +1840,75 @@ define([
          treeControl.saveOptions(newCfg);
          assert.equal(treeControl._markedLeaf, 'last');
       });
+
+      describe('_notifyItemClick', async () => {
+         const source = new sourceLib.Memory({
+            rawData: getHierarchyData(),
+            keyProperty: 'id',
+            filter: () => true
+         });
+
+         // 0
+         // |-1
+         // | |-3
+         // |-2
+         // 4
+         const cfg = {
+            source: source,
+            columns: [],
+            keyProperty: 'id',
+            parentProperty: 'Раздел',
+            nodeProperty: 'Раздел@',
+            markerMoveMode: 'leaves',
+            expandedItems: [],
+            markedKey: 4
+         };
+         const treeControl = await correctCreateTreeControlAsync(cfg);
+
+         it('not should notify itemActivate when click on expander', () => {
+            const event = {
+               target: {
+                  closest: (s) => {
+                     return s === '.js-controls-Tree__row-expander';
+                  }
+               },
+               stopImmediatePropagation: () => null
+            };
+            const spyNotify = sinon.spy(treeControl._notify);
+
+            const item = treeControl._listViewModel.getItemBySourceKey(0);
+            treeControl._onItemClick({isStopped: () => false, isBubbling: () => false, stopImmediatePropagation: () => null}, item, event);
+            assert.isFalse(spyNotify.withArgs('itemActivate').called);
+         });
+      });
+
+      describe('resetExpandedItems', async () => {
+         const source = new sourceLib.Memory({
+            rawData: getHierarchyData(),
+            keyProperty: 'id',
+            filter: () => true
+         });
+
+         // 0
+         // |-1
+         // | |-3
+         // |-2
+         // 4
+         const cfg = {
+            source: source,
+            columns: [],
+            keyProperty: 'id',
+            parentProperty: 'Раздел',
+            nodeProperty: 'Раздел@',
+            expandedItems: [null]
+         };
+         const treeControl = await correctCreateTreeControlAsync(cfg);
+
+         it('not should resetExpandedItems if expanded all', () => {
+            treeControl.resetExpandedItems();
+            const expandedItems = treeControl.getViewModel().getExpandedItems();
+            assert.deepEqual(expandedItems, [null]);
+         });
+      });
    });
 });

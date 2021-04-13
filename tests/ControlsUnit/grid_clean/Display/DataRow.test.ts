@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridDataRow, GridCollection } from 'Controls/gridNew';
+import { GridDataRow, GridCollection } from 'Controls/grid';
 import { Model } from 'Types/entity';
 
 const rawData = { key: 1, firstStickyProperty: 'first', secondStickyProperty: 'second', caption: 'item_1' };
@@ -168,5 +168,25 @@ describe('Controls/grid_clean/Display/DataRow', () => {
         const columns = gridRow.getColumns();
         assert.isFalse(columns[0].isEditing());
         assert.isTrue(columns[1].isEditing());
+    });
+
+    it('editing with itemEditorTemplate', () => {
+        const gridRow = new GridDataRow({
+            owner: {
+                ...mockedCollection,
+                getEditingConfig: () => ({
+                }),
+                getItemEditorTemplate: () => 'ITEM_EDITOR_TEMPLATE'
+            },
+            columns: [{
+                displayProperty: 'key'
+            }, {
+                displayProperty: 'caption'
+            }],
+            contents: record
+        });
+
+        gridRow.setEditing(true, gridRow.contents, false, 1);
+        assert.equal(gridRow.getColumns().length, 1);
     });
 });

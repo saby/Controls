@@ -1,6 +1,6 @@
 import {Logger} from 'UI/Utils';
 import {descriptor} from 'Types/entity';
-import {escapeSpecialChars, addWordCheck} from 'Controls/_decorator/inputUtils/RegExp';
+import {addWordCheck, escapeSpecialChars} from 'Controls/_decorator/inputUtils/RegExp';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 //@ts-ignore
 import * as template from 'wml!Controls/_decorator/Highlight/Highlight';
@@ -95,13 +95,15 @@ class Highlight extends Control<IHighlightOptions> {
          */
         const maxLength: number = 10000;
         const limitHighlight: string = highlight.length > maxLength ? highlight.substring(0, maxLength) : highlight;
-        const escapedHighlight: string = escapeSpecialChars(limitHighlight);
+        let escapedHighlight: string = escapeSpecialChars(limitHighlight);
         const searchResultByAnd: Element[] = this._searchBy(value, escapedHighlight, highlightMode, 'and');
 
         if (searchResultByAnd.length) {
             return searchResultByAnd;
         }
-
+        // Так как мы экранируем точку, то при or точка является разделителем, из-за чего получаем регулярку text\|text.
+        // Хотя ожидаем text|text, поэтому отменяем экранирование для точки.
+        escapedHighlight = escapedHighlight.replace(/\\./g, '.');
         return this._searchBy(value, escapedHighlight, highlightMode, 'or');
     }
 

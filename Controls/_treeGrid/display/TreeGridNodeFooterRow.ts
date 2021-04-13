@@ -2,7 +2,7 @@ import { TemplateFunction } from 'UI/Base';
 import { TreeItem } from 'Controls/display';
 import { Model } from 'Types/entity';
 import TreeGridDataRow from './TreeGridDataRow';
-import {GridRow as Row, GridCell as Cell, IColumn} from 'Controls/gridNew';
+import {GridRow as Row, GridCell as Cell, IColumn} from 'Controls/grid';
 
 export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     readonly '[Controls/treeGrid:TreeGridNodeFooterRow]': boolean;
@@ -85,6 +85,11 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     isSupportLadder(): boolean {
         const ladderProperties = this.getOwner().getLadderProperties();
         return ladderProperties && ladderProperties.length;
+    }
+
+    // TODO удалить после https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
+    getStickyColumnsCount(): number {
+        return this.getOwner().getStickyColumnsCount();
     }
 
     // TODO удалить после https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
