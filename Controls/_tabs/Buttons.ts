@@ -77,7 +77,7 @@ const isTemplateObject = (tmpl: any): boolean => {
  * @mixes Controls/interface:ISingleSelectable
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IItems
- * @mixes Controls/_tabs/interface/ITabsButtons
+ * @mixes Controls/tabs:ITabsButtonsOptions
  * @mixes Controls/tabs:ITabsTemplateOptions
  *
  * @public
@@ -121,7 +121,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _afterMount(): void {
-        RegisterUtil(this, 'controlResize', this._resizeHandler);
+        RegisterUtil(this, 'controlResize', this._resizeHandler, { listenAll: true });
     }
 
     protected _beforeUpdate(newOptions: ITabsOptions): void {
@@ -145,7 +145,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _beforeUnmount(): void {
-        UnregisterUtil(this, 'controlResize');
+        UnregisterUtil(this, 'controlResize', { listenAll: true });
     }
 
     protected _mouseEnterHandler(): void {
@@ -194,6 +194,9 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _onItemClick(event: SyntheticEvent<MouseEvent>, key: string): void {
         if (isLeftMouseButton(event)) {
             this._notify('selectedKeyChanged', [key]);
+            // selectedKey может вернуться в контрол значительно позже если снуржи есть асинхронный код.
+            // Например так происходит на страницах онлайна. Запустим анимацию маркера как можно быстрее.
+            this._updateMarkerSelectedIndex({...this._options, selectedKey: key});
         }
     }
 

@@ -1,5 +1,4 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import template = require('wml!Controls/_popup/Previewer/Previewer');
 import {IPreviewerPopupOptions} from 'Controls/_popup/interface/IPreviewerOpener';
 import {IPreviewer, IPreviewerOptions} from 'Controls/_popup/interface/IPreviewer';
 import {debounce} from 'Types/function';
@@ -7,6 +6,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import PreviewerOpener from './Opener/Previewer';
 import {goUpByControlTree} from 'UI/Focus';
 import 'css!Controls/popup';
+import template = require('wml!Controls/_popup/Previewer/Previewer');
 
 const CALM_DELAY: number = 300; // During what time should not move the mouse to start opening the popup.
 /**
@@ -158,7 +158,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
     }
 
     protected _contentMouseleaveHandler(event: SyntheticEvent<MouseEvent>): void {
-        if (this._options.trigger === 'hover' || this._options.trigger === 'hoverAndClick') {
+        if (!this._options.readOnly && (this._options.trigger === 'hover' || this._options.trigger === 'hoverAndClick')) {
             this._clearWaitTimer();
             if (this._isPopupOpened()) {
                 this._debouncedAction('_close', [event]);
@@ -169,7 +169,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
     }
 
     protected _contentMousemoveHandler(event: SyntheticEvent<MouseEvent>): void {
-        if (this._options.trigger === 'hover' || this._options.trigger === 'hoverAndClick') {
+        if (!this._options.readOnly && (this._options.trigger === 'hover' || this._options.trigger === 'hoverAndClick')) {
             // wait, until user stop mouse on target.
             // Don't open popup, if mouse moves through the target
             this._clearWaitTimer();
@@ -184,7 +184,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
 
     protected _contentMouseDownHandler(event: SyntheticEvent<MouseEvent>): void {
         const isLeftMouseButton = event.nativeEvent.which === 1;
-        if ((this._options.trigger === 'click' || this._options.trigger === 'hoverAndClick')
+        if (!this._options.readOnly && (this._options.trigger === 'click' || this._options.trigger === 'hoverAndClick')
             && isLeftMouseButton) {
             /**
              * When trigger is set to 'hover', preview shouldn't be shown when user clicks on content.
@@ -254,12 +254,12 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
 }
 
 Object.defineProperty(PreviewerTarget, 'defaultProps', {
-   enumerable: true,
-   configurable: true,
+    enumerable: true,
+    configurable: true,
 
-   get(): object {
-      return PreviewerTarget.getDefaultOptions();
-   }
+    get(): object {
+        return PreviewerTarget.getDefaultOptions();
+    }
 });
 
 export default PreviewerTarget;
