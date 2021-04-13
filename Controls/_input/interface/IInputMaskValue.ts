@@ -1,15 +1,9 @@
-/**
- * Интерфейс для ввода текста в поле с маской.
- * @public
- * @author Красильников А.С.
- */
-
 export interface IInputMaskValueOptions {
     value: string;
 }
 
 /**
- * @name Controls/_input/interface/IInputMaskValueOptions#value
+ * @name Controls/_input/interface/IInputMaskValue#value
  * @cfg {String} Значение контрола ввода.
  * Параметр представляет собой текст в поле ввода без разделителей.
  * @default '' (пустая строка)
@@ -39,7 +33,7 @@ export interface IInputMaskValueOptions {
 
 /**
  * @event Происходит при изменении значения поля ввода.
- * @name Controls/_input/interface/IInputMaskValueOptions#valueChanged
+ * @name Controls/_input/interface/IInputMaskValue#valueChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} value Значение поля без разделителей.
  * @param {String} displayValue Значение поля с разделителями.
@@ -74,7 +68,7 @@ export interface IInputMaskValueOptions {
 
 /**
  * @event Происходит при завершении ввода (поле потеряло фокус или пользователь нажал клавишу "enter").
- * @name Controls/_input/interface/IInputMaskValueOptions#inputCompleted
+ * @name Controls/_input/interface/IInputMaskValue#inputCompleted
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} value Значение поля.
  * @param {String} displayValue Текстовое значение поля.
@@ -98,6 +92,12 @@ export interface IInputMaskValueOptions {
  * @see value
  */
 
+
+/**
+ * Интерфейс для ввода текста в поле с маской.
+ * @public
+ * @author Красильников А.С.
+ */
 export interface IInputMaskValue {
     readonly '[Controls/_input/interface/IInputMaskValue]': boolean;
 }
