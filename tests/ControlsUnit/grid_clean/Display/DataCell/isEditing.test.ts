@@ -1,8 +1,8 @@
 import { assert } from 'chai';
-import { GridDataCell, GridDataRow } from 'Controls/grid';
-import {CssClassesAssert as cAssert} from './../../CustomAsserts';
+import { GridDataCell } from 'Controls/grid';
+import {CssClassesAssert as cAssert} from './../../../CustomAsserts';
 
-describe('Controls/grid_clean/Display/DataCell', () => {
+describe('Controls/grid_clean/Display/DataCell/isEditing', () => {
     beforeEach(() => {
     });
 

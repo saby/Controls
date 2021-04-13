@@ -292,12 +292,6 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
         contentClasses += this._getContentAlignClasses();
 
-        // todo Чтобы работало многоточие - нужна ещё одна обертка над contentTemplate. Задача пересекается с настройкой
-        //      шаблона колонки (например, cursor на демо CellNoClickable)
-        if (this._$column.textOverflow) {
-            contentClasses += ` controls-Grid__cell_${this._$column.textOverflow}`;
-        }
-
         if (this._$isHiddenForLadder) {
             contentClasses += ' controls-Grid__row-cell__content_hiddenForLadder';
         }
