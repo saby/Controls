@@ -482,6 +482,8 @@
   "--maximized-button_offset-right_stack": "var(--offset_s)",
   "--resizingLine_mobile_offset-left_stack": "15px",
   "--resizingLine_mobile_thickness_stack": "25px",
+  "--resizingLine_mobile_offset-left_masterDetail": "15px",
+  "--resizingLine_mobile_thickness_masterDetail": "25px",
   "--width_s_confirmation": "350px",
   "--width_l_confirmation": "440px",
   "--content_padding_confirmation": "32px",
