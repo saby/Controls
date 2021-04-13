@@ -11,7 +11,7 @@
             viewMode="{{_viewMode}}"
             columns="{{_columns}}">
             <ws:afterBreadCrumbsTemplate>
-                <span class="controlsDemo-Explorer-afterBreadCrumbsTemplate">Текущий корень: {{_root}}</span>
+<!--                <span class="controlsDemo-Explorer-afterBreadCrumbsTemplate">Текущий корень: {{_root}}</span>-->
             </ws:afterBreadCrumbsTemplate>
         </Controls.explorer:View>
 </div>
