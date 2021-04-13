@@ -99,6 +99,8 @@
 
 <ws:template name="viewTpl">
     <div class="controls-BaseControl__viewContainer controls-ScrollController" name="viewContainer">
+        <ws:partial if="{{ _shouldDisplayMiddleLoadingIndicator() }}" template="loadingIndicator"/>
+
         <div name="topVirtualScrollTrigger" style="position: relative; top: 0;{{_hideTopTrigger ? ' display: none;'}}"></div>
         <ws:partial
                 attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
@@ -205,7 +207,6 @@
 
         <ws:if data="{{_listViewModel}}">
             <ws:partial template="loadingIndicator" loadingIndicatorState="up"/>
-            <ws:partial if="{{ _shouldDisplayMiddleLoadingIndicator() }}" template="loadingIndicator"/>
 
             <ws:partial template="viewTpl"
                         name="listView"
