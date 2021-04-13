@@ -200,5 +200,6 @@ Object.assign(HeaderRow.prototype, {
     _instancePrefix: 'grid-header-row-',
     _cellModule: 'Controls/grid:GridHeaderCell',
     _$header: null,
-    _$headerModel: null
+    _$headerModel: null,
+    _$sorting: null
 });
