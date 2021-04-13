@@ -1911,8 +1911,8 @@ define([
          });
 
          it('call when model is not created', () => {
-            const treeControl = new tree.TreeControl({});
-            treeControl._beforeMount({});
+            const treeControl = new tree.TreeControl({keyProperty: 'id'});
+            treeControl._beforeMount({keyProperty: 'id'});
             assert.doesNotThrow(treeControl.resetExpandedItems.bind(treeControl));
          });
       });
