@@ -301,8 +301,9 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
 
         if (!config.waitPromise && waitPromise) {
             config.waitPromise = waitPromise;
-            config.waitPromise.then(this._waitPromiseHandler.bind(this, config));
-            config.waitPromise.catch(this._waitPromiseHandler.bind(this, config));
+            config.waitPromise
+                .then(this._waitPromiseHandler.bind(this, config))
+                .catch(this._waitPromiseHandler.bind(this, config))
         }
         return config;
     }
