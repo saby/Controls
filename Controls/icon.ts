@@ -4,4 +4,5 @@
  * Библиотека для работ с иконками.
  * Содержит контрол для отображения иконки.
  */
-export {default as Icon} from './_icon/Icon';
+import * as Icon from 'Controls/_icon/Icon';
+export {Icon};
