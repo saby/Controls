@@ -65,7 +65,7 @@ export interface INumberOptions extends IControlOptions, INumberFormatOptions, I
     /**
      * @name Controls/_decorator/INumber#precision
      * @cfg {Number} Количество знаков после запятой. Диапазон от 0 до 20.
-     * @demo Controls-demo/Decorator/Number/precision/Index
+     * @demo Controls-demo/Decorator/Number/Precision/Index
      */
     precision?: number;
     /**
