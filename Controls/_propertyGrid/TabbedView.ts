@@ -64,27 +64,34 @@ export default class TabbedView extends Control<IOptions> {
     } {
         const tabs: Record<string, IPropertyGridProperty[]> = {};
 
-        options.source.forEach((item) => {
-            if (!tabs[item.tab]) {
-                tabs[item.tab] = [];
-            }
+        let tabsSource: Memory;
+        let tabsInner: ITabInnerItem[];
 
-            tabs[item.tab].push(item);
+        options.source.forEach((item) => {
+            tabs[item.tab] = [...(tabs[item.tab] || []), item];
+        });
+
+        tabsSource = new Memory({
+            data: Object.keys(tabs).map((item) => ({
+                key: item,
+                title: item,
+                align: 'left'
+            })),
+            keyProperty: 'key'
+        });
+
+        tabsInner = Object.entries(tabs).map(([key, source]) => {
+            return {
+                key,
+                templateOptions: {
+                    source
+                }
+            };
         });
 
         return {
-            tabs: new Memory({
-                data: Object.keys(tabs).map((item) => ({key: item, title: item})),
-                keyProperty: 'key'
-            }),
-            tabsInner: Object.entries(tabs).map(([key, source]) => {
-               return {
-                   key,
-                   templateOptions: {
-                       source
-                   }
-               };
-            })
+            tabs: tabsSource,
+            tabsInner
         };
     }
 }
