@@ -9,7 +9,7 @@
  * </ol>
  * @class Controls/_input/Time/Picker
  * @mixes Controls/input:IValue
- * @mixes Controls/_input/interface/IInputDateTime
+ * @mixes Controls/input:IInputDateTime
  * @mixes Controls/input:ITimeMask
  * @mixes Controls/interface/IValidation
  * @private
