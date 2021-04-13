@@ -153,7 +153,12 @@ export class CrudWrapper {
             if (keyProperty && dataSet.getKeyProperty && keyProperty !== dataSet.getKeyProperty()) {
                 dataSet.setKeyProperty(keyProperty);
             }
-            return dataSet.getAll ? dataSet.getAll() : dataSet as RecordSet;
+            const result = dataSet.getAll ? dataSet.getAll() : dataSet as RecordSet;
+
+            if (!(result instanceof RecordSet)) {
+                Logger.error('Controls/dataSource:CrudWrapper источник врнул невалидное занчение из метода query. Результатом работы метода query должен быть recordSet.');
+            }
+            return result;
         }).catch(this._boundPromiseCatchCallback);
     }
 
