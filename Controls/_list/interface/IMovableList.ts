@@ -21,17 +21,7 @@ export interface IMoveDialogTemplate {
     templateOptions: IMoverDialogTemplateOptions,
 }
 
-/**
- * Интерфейс опций контрола View, который обладает возможностью перемещения записей.
- * @public
- * @author Аверкиев П.А.
- */
 export interface IMovableOptions {
-    /**
-     * @cfg {IMoveDialogTemplate} Шаблон диалогового окна выбора целевой записи для перемещения.
-     * Рекомендуется использовать стандартный шаблон {@link Controls/moverDialog:Template}.
-     * @see Controls/moverDialog:Template
-     */
     moveDialogTemplate?: IMoveDialogTemplate
 }
 
@@ -75,3 +65,17 @@ export interface IMovableList {
      */
     moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet>;
 }
+
+/**
+ * Интерфейс опций контрола View, который обладает возможностью перемещения записей.
+ * @interface Controls/_list/interface/IMovable
+ * @public
+ * @author Аверкиев П.А.
+ */
+
+/**
+ * @name Controls/_list/interface/IMovable#moveDialogTemplate
+ * @cfg {Controls/list:IMoveDialogTemplate} Шаблон диалогового окна выбора целевой записи для перемещения.
+ * Рекомендуется использовать стандартный шаблон {@link Controls/moverDialog:Template}.
+ * @see Controls/moverDialog:Template
+ */
