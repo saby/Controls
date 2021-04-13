@@ -423,3 +423,26 @@
  * </pre>
  * @demo Controls-demo/tileNew/ImageFit/Index
  */
+
+/**
+ * @typedef {String} TRoundBorderSize
+ * @variant null Без скругления.
+ * @variant XS Радиус скругления 2px.
+ * @variant S Радиус скругления 4px.
+ * @variant M Радиус скругления 6px.
+ * @variant L Радиус скругления 8px.
+ * @variant XL Радиус скругления 12 px.
+ */
+
+/**
+ * @typedef {Object} Controls/_tile/interface/ITile/TRoundBorder
+ * @property {TRoundBorderSize} tr Правый верхний угол.
+ * @property {TRoundBorderSize} tl Левый верхний угол.
+ * @property {TRoundBorderSize} br Правый нижний угол.
+ * @property {TRoundBorderSize} bl Левый нижний угол.
+ */
+
+/**
+ * @name Controls/_tile/interface/ITile#roundBorder
+ * @cfg {TRoundBorder} Cкругление углов элемента плитки.
+ */
