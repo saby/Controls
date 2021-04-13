@@ -16,9 +16,9 @@ import { SyntheticEvent } from 'Vdom/Vdom';
  * @class Controls/_calendar/Month
  * @extends UI/Base:Control
  * @mixes Controls/_calendar/interfaces/IMonth
- * @mixes Controls/_interface/IDayTemplate
+ * @mixes Controls/dateRange:IDayTemplate
  * @mixes Controls/_dateRange/interfaces/IRangeSelectable
- * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
+ * @mixes Controls/dateRange:IDateRangeSelectable
  *
  * @public
  * @author Красильников А.С.
