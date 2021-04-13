@@ -1,6 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls-demo/PropertyGridNew/CaptionColumnOptions/Index';
-import {getEditingObject, getHierarchySource} from 'Controls-demo/PropertyGridNew/resources/Data';
+import {getEditingObject, getSource} from 'Controls-demo/PropertyGridNew/resources/Data';
 
 export default class Demo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
@@ -9,7 +9,7 @@ export default class Demo extends Control<IControlOptions> {
 
     protected _beforeMount(): void {
         this._editingObject = getEditingObject();
-        this._source = getHierarchySource();
+        this._source = getSource();
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo',
