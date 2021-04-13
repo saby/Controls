@@ -4,7 +4,8 @@
         <span class="controls-fontsize-{{_options.fontSize}}
                      controls-text-{{_fontColorStyle}}
                      controls-fontweight-{{_options.fontWeight}}
-                     {{_options.currencyPosition === 'left' ? 'controls-margin_left-2xs'}}">
+                     {{_options.currencyPosition === 'left' ? 'controls-margin_left-2xs'}}
+                     {{_options.currencyPosition === 'right' && !_isDisplayFractionPath(_formattedNumber.fraction, _options.showEmptyDecimals) ? 'controls-margin_right-2xs'}}">
             {{_formattedNumber.integer}}
         </span>
         <ws:if data="{{_isDisplayFractionPath(_formattedNumber.fraction, _options.showEmptyDecimals) && _options.abbreviationType !== 'long'}}">
