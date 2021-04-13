@@ -1,7 +1,16 @@
-<span attr:class="controls-demo-radioGroup__itemWrapper">
-    <ws:partial attr:class="controls-RadioItem__RadioCircle" template='Controls/toggle:switchCircleTemplate' item="{{item}}" readOnly="{{readOnly}}" selected="{{selected}}"/>
-    <span attr:class="controls-text-secondary">{{item.title}}</span>
-    <span attr:class="controls-RadioItem__caption_{{selected ? 'selected' : 'unselected'}}_{{readOnly ? 'disabled' : 'enabled'}}
-                      controls-RadioItem__caption"> {{item.caption}}
-    </span>
-</span>
+<ws:partial template='Controls/toggle:ItemTemplate'
+            item="{{item}}"
+            readOnly="{{readOnly}}"
+            selected="{{selected}}"
+            displayProperty="caption">
+    <ws:contentTemplate>
+        <div class="controls-custom-template__wrapper">
+            <div class="controls-text-secondary">
+                {{item.title}}
+            </div>
+            <div class="controls-custom-template__caption_{{ selected ? 'selected' : 'unselected' }}">
+                {{item.caption}}
+            </div>
+        </div>
+    </ws:contentTemplate>
+</ws:partial>
