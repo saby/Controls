@@ -608,16 +608,16 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
      * @param item
      * @private
      */
-    private _loadNodeChildrenRecursive(item: TreeItem): void {
+    private _loadNodeChildrenRecursive(item: TreeItem): Promise {
         const nodeKey = item.getContents().getKey();
         const hasMoreData = this._sourceController.hasMoreData('down', nodeKey);
         if (hasMoreData) {
             // Вызов метода, который подгружает дочерние записи узла
-            _private.loadNodeChildren(this, nodeKey);
+            return _private.loadNodeChildren(this, nodeKey);
         } else {
             const lastItem = this._getLastItem(item);
             if (this._shouldLoadLastExpandedNodeData('down', lastItem, nodeKey)) {
-                this._loadNodeChildrenRecursive(lastItem);
+                return this._loadNodeChildrenRecursive(lastItem);
             }
         }
     }
@@ -629,14 +629,14 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
      * @param direction
      * @private
      */
-    protected _loadMore(direction: Direction): void {
+    protected _loadMore(direction: Direction): Promise {
         const lastRootItem = this._getLastItem(this._listViewModel.getRoot());
         if (this._shouldLoadLastExpandedNodeData(direction, lastRootItem, this._options.root)) {
-            this._loadNodeChildrenRecursive(lastRootItem);
+            return this._loadNodeChildrenRecursive(lastRootItem);
 
         } else {
             // Вызов метода подгрузки данных по умолчанию (по сути - loadToDirectionIfNeed).
-            super._loadMore(direction);
+            return super._loadMore(direction);
         }
     }
 
