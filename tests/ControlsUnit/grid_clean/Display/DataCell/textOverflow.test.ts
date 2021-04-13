@@ -2,8 +2,8 @@ import { assert } from 'chai';
 import { GridDataCell } from 'Controls/grid';
 import { CssClassesAssert as cAssert } from './../../../CustomAsserts';
 
-describe('Controls/grid_clean/Display/DataCell/isEditing', () => {
-    let editArrowIsVisible = false;
+describe('Controls/grid_clean/Display/DataCell/textOverflow', () => {
+    let editArrowIsVisible: boolean;
 
     const mockedOwner = {
         getHoverBackgroundStyle: () => 'default',
@@ -20,8 +20,13 @@ describe('Controls/grid_clean/Display/DataCell/isEditing', () => {
         getColumnsCount: () => 0,
         getMultiSelectVisibility: () => 'hidden',
         editArrowIsVisible: () => editArrowIsVisible,
-        getDefaultDisplayValue: () => 'value'
+        getDefaultDisplayValue: () => 'value',
+        getContents: () => ({ key: 'key'}),
     };
+
+    beforeEach(() => {
+        editArrowIsVisible = false;
+    })
 
     describe('getTextOverflowClasses', () => {
 
@@ -71,21 +76,21 @@ describe('Controls/grid_clean/Display/DataCell/isEditing', () => {
                 owner: mockedOwner,
                 column: {displayProperty: 'key', textOverflow: 'ellipsis'}
             });
-            assert.isTrue(cell.getTextOverflowTitle());
+            assert.equal('key', cell.getTextOverflowTitle());
         });
         it('should not return title when textOverflow and custom template', () => {
             const cell = new GridDataCell({
                 owner: mockedOwner,
                 column: {displayProperty: 'key', textOverflow: 'ellipsis', template: {}}
             });
-            assert.isFalse(cell.getTextOverflowTitle());
+            assert.isEmpty(cell.getTextOverflowTitle());
         });
         it('should not return title when textOverflow and tooltipProperty', () => {
             const cell = new GridDataCell({
                 owner: mockedOwner,
                 column: {displayProperty: 'key', textOverflow: 'ellipsis', tooltipProperty: 'tooltip'}
             });
-            assert.isFalse(cell.getTextOverflowTitle());
+            assert.isEmpty(cell.getTextOverflowTitle());
         });
     });
 });
