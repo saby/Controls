@@ -88,6 +88,7 @@
 
 
   "--icon-offset_button": "var(--offset_xs)",
+  "--text-decoration_hover_button_link": "underline",
   "--padding-horizontal_xs_button": "var(--offset_m)",
   "--padding-horizontal_s_button": "var(--offset_m)",
   "--padding-horizontal_m_button": "var(--offset_m)",
@@ -1014,6 +1015,7 @@
   "--icon_offset_dropdownSelector": "var(--offset_xs)",
   "--invalid_border-thickness_dropdownSelector": "var(--border-thickness)",
   "--invalid_border-color_dropdownSelector": "var(--danger_color)",
+  "--text-decoration_hover_dropdownSelector": "underline",
   "--empty-item_text-color_dropdownSelector": "#ccc",
   "--popup_max-width_menuPopup": "700px",
   "--popup_box-shadow-offset_menuPopup": "6px",
