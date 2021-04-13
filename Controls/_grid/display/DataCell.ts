@@ -185,7 +185,8 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
     getTextOverflowClasses(): string {
         let classes =  `controls-Grid__cell_${this.config.textOverflow || 'none'} `;
 
-        // платформенный textOverflow работает только при использовании платформенного contentTemplate
+        // Для правильного отображения стрелки редактирования рядом с текстом, который
+        // обрезается нужно повесить на контейнер с этим текстом специальные CSS классы
         if (this.config.textOverflow && this.shouldDisplayEditArrow(null)) {
             classes += `controls-Grid__editArrow-cellContent controls-Grid__editArrow-overflow-${this.config.textOverflow}`;
         }
