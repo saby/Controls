@@ -52,7 +52,8 @@
                     attr:class="controls-newBrowser__detail-list"
                     root="{{root}}"
                     on:rootChanged="_onDetailRootChanged()"
-
+                    on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
+                    on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
                     tileSize="{{_tileCfg.imageSize}}"
 
                     viewMode="{{viewMode}}"
