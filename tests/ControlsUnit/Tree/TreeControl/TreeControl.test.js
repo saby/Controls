@@ -1927,21 +1927,59 @@ define([
             keyProperty: 'id',
             parentProperty: 'Раздел',
             nodeProperty: 'Раздел@',
-            expandedItems: [null]
+            useNewModel: true,
+            viewModelConstructor: 'Controls/display:Tree'
          };
-         let treeControl, model;
+         let treeControl, model, notifySpy;
 
          beforeEach(async () => {
             treeControl = await correctCreateTreeControlAsync(cfg);
+            notifySpy = sinon.spy(treeControl, '_notify');
             model = treeControl.getViewModel();
          });
 
          it('expanded items is [null]', async () => {
-            await treeControl.toggleExpanded(0);
-            assert.isFalse(model.getItemBySourceKey(0).isExpanded());
+            treeControl.saveOptions({...cfg, expandedItems: [null]});
 
             await treeControl.toggleExpanded(0);
             assert.isTrue(model.getItemBySourceKey(0).isExpanded());
+
+            await treeControl.toggleExpanded(0);
+            assert.isFalse(model.getItemBySourceKey(0).isExpanded());+
+         });
+
+         it('check expandedItems and collapsedItems options', async() => {
+            treeControl._beforeUpdate({...cfg, expandedItems: [0], collapsedItems: []});
+            treeControl.saveOptions({...cfg, expandedItems: [0], collapsedItems: []});
+            await treeControl.toggleExpanded(0);
+
+            assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[]]).called);
+            assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
+            notifySpy.resetHistory();
+
+            treeControl._beforeUpdate({...cfg, expandedItems: [], collapsedItems: [0]});
+            treeControl.saveOptions({...cfg, expandedItems: [], collapsedItems: [0]});
+            await treeControl.toggleExpanded(0);
+
+            assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[]]).called);
+            assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
+            notifySpy.resetHistory();
+
+            treeControl._beforeUpdate({...cfg, expandedItems: [null], collapsedItems: []});
+            treeControl.saveOptions({...cfg, expandedItems: [null], collapsedItems: []});
+            await treeControl.toggleExpanded(0);
+
+            assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[null]]).called);
+            assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[0]]).called);
+            notifySpy.resetHistory();
+
+            treeControl._beforeUpdate({...cfg, expandedItems: [null], collapsedItems: [0]});
+            treeControl.saveOptions({...cfg, expandedItems: [null], collapsedItems: [0]});
+            await treeControl.toggleExpanded(0);
+
+            assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[null]]).called);
+            assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
+            notifySpy.resetHistory();
          });
       });
    });
