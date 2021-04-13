@@ -29,21 +29,21 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterCell', () => {
     describe('getColspanStyles', () => {
         it('default', () => {
             const cell = new TreeGridNodeFooterCell({owner: mockedOwner});
-            assert.equal(cell.getColspanStyles(), 'grid-column: 0 / 1');
+            assert.equal(cell.getColspanStyles(), 'grid-column: 1 / 2');
         });
 
         it('has multiSelect', () => {
             mockedOwner.hasMultiSelectColumn = () => true;
             mockedOwner.getColumnsConfig = () => [1, 2];
             const cell = new TreeGridNodeFooterCell({owner: mockedOwner});
-            assert.equal(cell.getColspanStyles(), 'grid-column: 1 / 2');
+            assert.equal(cell.getColspanStyles(), 'grid-column: 2 / 3');
         });
 
         it('hasItemActionsSeparatedCell', () => {
             mockedOwner.hasItemActionsSeparatedCell = () => true;
             mockedOwner.getColumnsConfig = () => [1];
             const cell = new TreeGridNodeFooterCell({owner: mockedOwner});
-            assert.equal(cell.getColspanStyles(), 'grid-column: 0 / 2');
+            assert.equal(cell.getColspanStyles(), 'grid-column: 1 / 3');
         });
 
         it('hasMultiSelectColumn && hasItemActionsSeparatedCell', () => {
@@ -51,7 +51,7 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterCell', () => {
             mockedOwner.hasItemActionsSeparatedCell = () => true;
             mockedOwner.getColumnsConfig = () => [1, 2];
             const cell = new TreeGridNodeFooterCell({owner: mockedOwner});
-            assert.equal(cell.getColspanStyles(), 'grid-column: 1 / 3');
+            assert.equal(cell.getColspanStyles(), 'grid-column: 2 / 4');
         });
 
         it('has sticky columns', () => {
@@ -59,7 +59,7 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterCell', () => {
             mockedOwner.getStickyColumnsCount = () => 1;
             mockedOwner.isFullGridSupport = () => true;
             const cell = new TreeGridNodeFooterCell({owner: mockedOwner});
-            assert.equal(cell.getColspanStyles(), 'grid-column: 1 / 2');
+            assert.equal(cell.getColspanStyles(), 'grid-column: 2 / 3');
         });
     });
 });

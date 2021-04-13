@@ -43,8 +43,8 @@ export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeF
     // TODO нужно удалить, когда перепишем колспан для футеров узлов
     getColspanStyles(colspan?: boolean): string {
         if (colspan !== false) {
-            let start = 0;
-            let end = this.getOwner().getColumnsConfig().length;
+            let start = 1;
+            let end = this.getOwner().getColumnsConfig().length + 1;
 
             if (this.getOwner().hasMultiSelectColumn()) {
                 start += 1;
