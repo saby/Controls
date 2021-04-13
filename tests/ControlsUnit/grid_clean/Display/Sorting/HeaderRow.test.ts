@@ -1,8 +1,6 @@
 import { assert } from 'chai';
 import { GridHeaderRow } from 'Controls/grid';
 
-const THEME = 'UnitTests';
-
 describe('Controls/grid_clean/Display/Sorting/HeaderRow', () => {
     it('set sorting on creating', () => {
         const columns = [{}, {}, {}];
