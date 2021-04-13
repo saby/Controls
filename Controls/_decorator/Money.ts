@@ -15,7 +15,7 @@ import {Logger} from 'UI/Utils';
 import {descriptor, DescriptorValidator} from 'Types/entity';
 import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
 import numberToString from 'Controls/_decorator/inputUtils/toString';
-import { abbreviateNumber } from 'Controls/_decorator/resources/Formatter';
+import {abbreviateNumber} from 'Controls/_decorator/resources/Formatter';
 // tslint:disable-next-line:ban-ts-ignore
 //@ts-ignore
 import * as template from 'wml!Controls/_decorator/Money/Money';
@@ -190,18 +190,24 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         return false;
     }
 
-    private _parseNumber(precision: number): IPaths {
-        const value = Money.toFormat(Money.toString(this._value, precision), precision);
+    private _formatNumber(options: IMoneyOptions): string | IPaths {
+        const value = Money.toFormat(Money.toString(this._value, options.precision), options.precision);
 
-        const searchPath: RegExp = new RegExp(`(-?[0-9]*?)(\\.[0-9]{${precision}})`);
+        const searchPath: RegExp = new RegExp(`(-?[0-9]*?)(\\.[0-9]{${options.precision}})`);
         let exec: RegExpExecArray | string[] = searchPath.exec(value);
-
         if (!exec) {
             Logger.error('Controls/_decorator/Money: That is not a valid option value: ' + this._value + '.', this);
             exec = ['0.00', '0', '.00'];
         }
 
-        const integer = this._useGrouping ? splitIntoTriads(exec[1]) : exec[1];
+        let integer;
+
+        if (options.abbreviationType === 'long') {
+            integer = abbreviateNumber(options.value, options.abbreviationType);
+        } else {
+            integer = this._useGrouping ? splitIntoTriads(exec[1]) : exec[1];
+        }
+
         const fraction = exec[2];
 
         return {
@@ -211,14 +217,6 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         };
     }
 
-    private _formatNumber(options: IMoneyOptions): string | IPaths {
-        if (options.abbreviationType !== 'none') {
-            return abbreviateNumber(options.value, options.abbreviationType);
-        } else {
-            return this._parseNumber(options.precision);
-        }
-    }
-
     private _setFontState(options: IMoneyOptions): void {
         if (options.readOnly || options.stroked) {
             this._fontColorStyle = 'readonly';
@@ -226,7 +224,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
             this._fontColorStyle = options.fontColorStyle;
         }
 
-        if (options.fontSize === '6xl' || options.fontSize === '8xl' ) {
+        if (options.fontSize === '6xl' || options.fontSize === '8xl') {
             this._fractionFontSize = '3xl';
         } else {
             this._fractionFontSize = 'xs';
@@ -325,12 +323,12 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
 }
 
 Object.defineProperty(Money, 'defaultProps', {
-   enumerable: true,
-   configurable: true,
+    enumerable: true,
+    configurable: true,
 
-   get(): object {
-      return Money.getDefaultOptions();
-   }
+    get(): object {
+        return Money.getDefaultOptions();
+    }
 });
 
 export default Money;
