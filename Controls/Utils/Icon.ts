@@ -23,6 +23,11 @@ export function isSVGIcon(icon: string = ''): boolean {
     return !!(icon && getIconData(icon).isSvg);
 }
 
+export function getClasses(iconSize: string, iconStyle: string, isSvgIcon: boolean, icon: string): string {
+    return `${iconSize ? 'controls-icon_size-' + iconSize : ''} ${iconStyle ? 'controls-icon_style-' + iconStyle : ''}
+            ${!isSvgIcon ? icon + ' controls-icon' : ''}`;
+}
+
 function getIconData(icon: string): IIconData {
     const data: IIconData = {
         icon,
