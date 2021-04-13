@@ -107,16 +107,16 @@ export function getDefaultOptions(): object {
  * @class Controls/_buttons/Button
  * @extends UI/Base:Control
  * @mixes Controls/interface:IHref
- * @mixes Controls/_buttons/interface/IButton
- * @mixes Controls/_interface/ICaption
- * @mixes Controls/_buttons/interface/IClick
- * @mixes Controls/_interface/IIcon
- * @mixes Controls/_interface/IIconStyle
- * @mixes Controls/_interface/IIconSize
- * @mixes Controls/_interface/IFontColorStyle
- * @mixes Controls/_interface/IFontSize
- * @mixes Controls/_interface/IHeight
- * @mixes Controls/_interface/ITooltip
+ * @mixes Controls/buttons:IButton
+ * @mixes Controls/interface:ICaption
+ * @mixes Controls/buttons:IClick
+ * @mixes Controls/interface:IIcon
+ * @mixes Controls/interface:IIconStyle
+ * @mixes Controls/interface:IIconSize
+ * @mixes Controls/interface:IFontColorStyle
+ * @mixes Controls/interface:IFontSize
+ * @mixes Controls/interface:IHeight
+ * @mixes Controls/interface:ITooltip
  *
  * @public
  * @author Красильников А.С.
@@ -131,16 +131,16 @@ export function getDefaultOptions(): object {
  * @class Controls/_buttons/Button
  * @extends UI/Base:Control
  * @mixes Controls/interface:IHref
- * @mixes Controls/_buttons/interface/IButton
- * @mixes Controls/_interface/ICaption
- * @mixes Controls/_buttons/interface/IClick
- * @mixes Controls/_interface/IIcon
- * @mixes Controls/_interface/IIconStyle
- * @mixes Controls/_interface/IIconSize
- * @mixes Controls/_interface/IFontColorStyle
- * @mixes Controls/_interface/IFontSize
- * @mixes Controls/_interface/IHeight
- * @mixes Controls/_interface/ITooltip
+ * @mixes Controls/buttons:IButton
+ * @mixes Controls/interface:ICaption
+ * @mixes Controls/buttons:IClick
+ * @mixes Controls/interface:IIcon
+ * @mixes Controls/interface:IIconStyle
+ * @mixes Controls/interface:IIconSize
+ * @mixes Controls/interface:IFontColorStyle
+ * @mixes Controls/interface:IFontSize
+ * @mixes Controls/interface:IHeight
+ * @mixes Controls/interface:ITooltip
  *
  * @public
  * @author Красильников А.С.
