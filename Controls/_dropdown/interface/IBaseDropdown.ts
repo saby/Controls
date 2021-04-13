@@ -99,7 +99,7 @@ export default interface IBaseDropdown {
 
 /**
  * @name Controls/_dropdown/interface/IBaseDropdown#menuPopupOptions
- * @cfg {Controls/popup:IStickyPopupOptions} Опции для окна выпадающего списка
+ * @cfg {Controls/popup:IStickyPopup} Опции для окна выпадающего списка
  * @example
  * Открываем окно выпадающего списка влево. По умолчанию окно открывается вправо.
  * <pre class="brush: html">
