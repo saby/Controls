@@ -2,6 +2,12 @@
  * Библиотека контролов, которые предназначены для преобразования данных к какому-либо внешнему виду.
  * @library Controls/decorator
  * @includes RegExp Controls/_decorator/inputUtils/RegExp
+ * @includes IDate Controls/_decorator/IDate
+ * @includes IHighlight Controls/_decorator/IHighlight
+ * @includes IMoney Controls/_decorator/IMoney
+ * @includes INumber Controls/_decorator/INumber
+ * @includes IPhone Controls/_decorator/IPhone
+ * @includes IWrapURLs Controls/_decorator/IWrapURLs
  * @public
  * @author Крайнов Д.О.
  */
