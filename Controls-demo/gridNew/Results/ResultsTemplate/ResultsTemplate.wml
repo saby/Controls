@@ -10,7 +10,7 @@
                 columns="{{_columns}}"
                 resultsPosition="bottom">
             <ws:resultsTemplate>
-                <ws:partial template="Controls/grid:ResultsTemplate" scope="{{_options}}">
+                <ws:partial template="Controls/grid:ResultsTemplate" scope="{{resultsTemplate}}">
                     <ws:contentTemplate>
                         <div style="color: #313E78; background-color: #F5F5F5; padding: 5px 2px; font-size: 13px; font-weight: 600">
                             Итого: 2 страны с населением более миллиарда человек
