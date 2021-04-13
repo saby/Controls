@@ -4282,6 +4282,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 !this._sourceController.isLoading() &&
                 this._options.loading !== newOptions.loading;
 
+            if (searchValueChanged || this._loadedBySourceController) {
+                _private.getPortionedSearch(this).reset();
+            }
             // После нажатии на enter или лупу в строке поиска, будут загружены данные и установлены в recordSet,
             // если при этом в списке кол-во записей было 0 (ноль) и поисковой запрос тоже вернул 0 записей,
             // onCollectionChange у рекордсета не стрельнёт, и не сработает код,
