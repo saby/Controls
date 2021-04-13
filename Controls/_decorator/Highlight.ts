@@ -101,6 +101,8 @@ class Highlight extends Control<IHighlightOptions> {
         if (searchResultByAnd.length) {
             return searchResultByAnd;
         }
+        // Так как мы экранируем точку, то при or точка является разделителем, из-за чего получаем регулярку text\|text.
+        // Хотя ожидаем text|text, поэтому отменяем экранирование для точки.
         escapedHighlight = escapedHighlight.replace(/\\./g, '.');
         return this._searchBy(value, escapedHighlight, highlightMode, 'or');
     }
