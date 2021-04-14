@@ -3,7 +3,7 @@
                               source="{{_source}}" navigation="{{_navigation}}" keyProperty="id">
         <div class="controlsDemo__flexRow">
             <Controls.filterPanel:Container>
-                <Controls.filterPanel:View applyButtonCaption="Отобрать" attr:class="controls-demo__filterButton"/>
+                <Controls.filterPanel:View attr:class="controls-demo__filterButton"/>
             </Controls.filterPanel:Container>
             <Controls.list:Container>
                 <Controls.list:View emptyTemplate="Не найдено">
