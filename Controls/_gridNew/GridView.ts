@@ -350,7 +350,7 @@ const GridView = ListView.extend({
         if (!(this._columnScrollViewController && this.isColumnScrollVisible())) {
             return 'display: none;';
         }
-        return this._columnScrollViewController.getScrollBarStyles(GridLadderUtil.stickyLadderCellsCount(
+        return this._columnScrollViewController.getScrollBarStyles(this._options.itemActionsPosition, GridLadderUtil.stickyLadderCellsCount(
             this._options.columns,
             this._options.stickyColumn,
             this._listModel.getDraggableItem()
