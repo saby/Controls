@@ -102,7 +102,7 @@ class ListEditor extends Control<IListEditorOptions> {
             this._setColumns(options.displayProperty, options.propertyValue, options.keyProperty, options.additionalTextProperty);
             this._navigation = this._getNavigation(options);
         }
-        if (filterChanged || (valueChanged && !options.multiSelect)) {
+        if (filterChanged || (valueChanged && !this._selectedKeys.length)) {
             this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
         }
     }
