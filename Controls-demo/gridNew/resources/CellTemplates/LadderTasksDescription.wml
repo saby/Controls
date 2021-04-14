@@ -1,8 +1,10 @@
-<ws:partial template="Controls/grid:ColumnTemplate" attr:class="js-controls-ListView__notEditable controls-Grid__row-cell__content_baseline_L" itemData="{{gridColumn}}">
+<ws:partial template="Controls/grid:ColumnTemplate"
+            attr:class="js-controls-ListView__notEditable"
+            scope="{{ _options }}">
     <ws:contentTemplate>
         <div>
-            <div>{{itemData.item['fullName']}}</div>
-            <div>{{itemData.item['message']}}</div>
+            <div>{{ item.contents.fullName }}</div>
+            <div>{{ item.contents.message }}</div>
         </div>
     </ws:contentTemplate>
 </ws:partial>

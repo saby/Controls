@@ -1,9 +1,10 @@
 <ws:partial template="Controls/grid:ColumnTemplate"
-            attr:class="js-controls-ListView__notEditable controls-Grid__row-cell__content_baseline_L"
-            itemData="{{gridColumn}}">
+            attr:class="js-controls-ListView__notEditable"
+            scope="{{ _options }}">
     <ws:contentTemplate>
-        <ws:partial template="{{ladderWrapper}}" ladderProperty="photo">
-            <img src="{{itemData.item['photo']}}"/>
+        <ws:partial template="{{contentTemplate.ladderWrapper}}"
+                    ladderProperty="photo">
+            <img src="{{item.contents.photo}}"/>
         </ws:partial>
     </ws:contentTemplate>
 </ws:partial>
