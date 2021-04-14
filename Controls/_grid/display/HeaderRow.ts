@@ -54,7 +54,7 @@ export default class HeaderRow<T> extends Row<T> {
         const stickyLadderProperties = this.getStickyLadderProperties(this._$columns[0]);
         const stickyLadderCellsCount = stickyLadderProperties && stickyLadderProperties.length || 0;
 
-        if (stickyLadderCellsCount) {
+        if (stickyLadderCellsCount === 2) {
             this._$columnItems.splice(1, 0, new HeaderCell({
                 column: this._$header[0],
                 isLadderCell: true,
@@ -64,7 +64,7 @@ export default class HeaderRow<T> extends Row<T> {
             }));
         }
 
-        if (stickyLadderCellsCount === 2) {
+        if (stickyLadderCellsCount) {
             this._$columnItems = ([
                 new HeaderCell({
                     column: this._$header[0],
