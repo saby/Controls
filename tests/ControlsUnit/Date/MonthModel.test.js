@@ -1,4 +1,3 @@
-
 define([
    'Core/core-merge',
    'Controls/_calendar/Month/Model',
@@ -15,7 +14,7 @@ define([
    MonthModel = MonthModel.default;
 
    let config = {
-      month: new Date(2017, 0, 1)
+      month: new Date(2017, 0, 2)
    };
 
    describe('Controls/Date/Month/MonthModel', function() {
