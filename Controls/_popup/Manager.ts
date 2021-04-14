@@ -10,6 +10,7 @@ import {goUpByControlTree} from 'UI/Focus';
 import {List} from 'Types/collection';
 import {Bus as EventBus} from 'Env/Event';
 import {constants, detection} from 'Env/Env';
+import { TouchDetect } from 'Env/Touch';
 import {debounce} from 'Types/function';
 import * as randomId from 'Core/helpers/Number/randomId';
 import * as Deferred from 'Core/Deferred';
@@ -28,12 +29,6 @@ const ORIENTATION_CHANGE_DELAY = 50;
 interface IManagerOptions extends IControlOptions {
     popupHeaderTheme: string;
     popupSettingsController: Control;
-}
-
-interface IManagerTouchContext {
-    isTouch: {
-        isTouch: boolean;
-    };
 }
 
 const RESIZE_DELAY = 10;
@@ -59,8 +54,8 @@ class Manager {
         ManagerController.setTheme(options.theme);
     }
 
-    init(context: IManagerTouchContext): void {
-        this._updateContext(context);
+    init(): void {
+        this._updateContext();
         ManagerController.setManager(this);
         EventBus.channel('navigation').subscribe('onBeforeNavigate', this._navigationHandler.bind(this));
 
@@ -82,8 +77,8 @@ class Manager {
         }
     }
 
-    updateOptions(popupHeaderTheme: string, context: IManagerTouchContext): void {
-        this._updateContext(context);
+    updateOptions(popupHeaderTheme: string): void {
+        this._updateContext();
         // Theme of the popup header can be changed dynamically.
         // The option is not inherited, so in order for change option in 1 synchronization cycle,
         // we have to make an event model on ManagerController.
@@ -256,8 +251,8 @@ class Manager {
         }
     }
 
-    private _updateContext(context: IManagerTouchContext): void {
-        this._contextIsTouch = context && context.isTouch && context.isTouch.isTouch;
+    private _updateContext(): void {
+        this._contextIsTouch = TouchDetect.getInstance().isTouch();
     }
 
     private _createItemConfig(options: IPopupOptions, controller: IPopupController): IPopupItem {

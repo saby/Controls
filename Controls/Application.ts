@@ -182,7 +182,7 @@ export default class Application extends Control<IApplication> {
       channelPopupManager.subscribe('managerPopupBeforeDestroyed', this._popupBeforeDestroyedHandler, this);
 
       this._globalPopup.registerGlobalPopup();
-      this._popupManager.init(this._getChildContext());
+      this._popupManager.init();
 
    }
    protected _beforeUpdate(options: IApplication): void {
@@ -203,7 +203,7 @@ export default class Application extends Control<IApplication> {
          }
          elements[0].textContent = this._options.title;
       }
-      this._popupManager.updateOptions(this._options.popupHeaderTheme, this._getChildContext());
+      this._popupManager.updateOptions(this._options.popupHeaderTheme);
    }
    protected _beforeUnmount(): void {
       for (const register in this._registers) {

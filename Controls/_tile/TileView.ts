@@ -1,7 +1,7 @@
 import {ListView} from 'Controls/list';
 import template = require('wml!Controls/_tile/render/TileView');
 import defaultItemTpl = require('wml!Controls/_tile/render/items/Default');
-import {TouchContextField} from 'Controls/context';
+import { TouchDetect } from 'Env/Touch';
 import { TILE_SCALING_MODE, ZOOM_COEFFICIENT, ZOOM_DELAY} from './utils/Constants';
 import {isEqual} from 'Types/object';
 import { TemplateFunction } from 'UI/Base';
@@ -186,7 +186,7 @@ export default class TileView extends ListView {
     }
 
     protected _onItemMouseLeave(event: SyntheticEvent, item: TileCollectionItem): void {
-        if (!this._context?.isTouch?.isTouch && !item.isActive()) {
+        if (!TouchDetect.getInstance().isTouch() && !item.isActive()) {
             this._setHoveredItem(this, null, event);
         }
         this._clearMouseMoveTimeout();
@@ -389,7 +389,7 @@ export default class TileView extends ListView {
     // https://online.sbis.ru/opendoc.html?guid=a838cfd3-a49b-43a8-821a-838c1344288b
     private _shouldProcessHover(): boolean {
         return (
-            !this._context?.isTouch?.isTouch &&
+            !TouchDetect.getInstance().isTouch() &&
             !document.body.classList.contains('ws-is-drag')
         );
     }
@@ -399,12 +399,6 @@ export default class TileView extends ListView {
             itemsHeight: 150,
             tileMode: 'static',
             tileScalingMode: TILE_SCALING_MODE.NONE
-        };
-    }
-
-    static contextTypes(): object {
-        return {
-            isTouch: TouchContextField
         };
     }
 }
