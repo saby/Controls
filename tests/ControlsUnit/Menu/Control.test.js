@@ -7,9 +7,10 @@ define(
       'Types/collection',
       'Types/entity',
       'Controls/list',
-      'Controls/popup'
+      'Controls/popup',
+      'Env/Touch'
    ],
-   function(menu, source, Clone, display, collection, entity, ControlsConstants, popup) {
+   function(menu, source, Clone, display, collection, entity, ControlsConstants, popup, EnvTouch) {
       describe('Menu:Control', function() {
          function getDefaultItems() {
             return [
@@ -386,14 +387,14 @@ define(
 
          describe('_itemClick', function() {
             let menuControl;
-            let selectedItem, selectedKeys, pinItem, item;
+            let selectedItem, selectedKeys, pinItem, item, sandbox;
+            let isTouchStub;
 
             beforeEach(function() {
                menuControl = getMenu();
                menuControl._listModel = getListModel();
-               menuControl._context = {
-                  isTouch: { isTouch: false }
-               };
+               sandbox = sinon.createSandbox();
+               isTouchStub = sandbox.stub(EnvTouch.TouchDetect.getInstance(), 'isTouch').returns(false);
 
                menuControl._notify = (e, data) => {
                   if (e === 'selectedKeysChanged') {
@@ -408,6 +409,9 @@ define(
                   rawData: defaultItems[1],
                   keyProperty: 'key'
                });
+            });
+            afterEach(function() {
+               sandbox.restore();
             });
             it('check selected item', function() {
                menuControl._markerController = null;
@@ -494,7 +498,7 @@ define(
 
             describe('check touch devices', function() {
                beforeEach(() => {
-                  menuControl._context.isTouch.isTouch = true;
+                  isTouchStub.returns(true);
                   selectedItem = null;
                });
 
@@ -524,17 +528,20 @@ define(
 
          describe('_itemMouseEnter', function() {
             let menuControl, handleStub;
-            let sandbox = sinon.createSandbox();
+            let sandbox;
+            let isTouchStub;
             let collectionItem = new display.CollectionItem({
                contents: new entity.Model()
             });
 
             beforeEach(() => {
+               sandbox = sinon.createSandbox();
                menuControl = getMenu();
-               menuControl._context = {
-                  isTouch: { isTouch: false }
-               };
+               isTouchStub = sandbox.stub(EnvTouch.TouchDetect.getInstance(), 'isTouch').returns(false);
                handleStub = sandbox.stub(menuControl, '_startOpeningTimeout');
+            });
+            afterEach(() => {
+               sandbox.restore();
             });
 
             it('on groupItem', function() {
@@ -550,7 +557,7 @@ define(
             });
 
             it('on touch devices', function() {
-               menuControl._context.isTouch.isTouch = true;
+               isTouchStub.returns(true);
                menuControl._itemMouseEnter('mouseenter', collectionItem, {});
                assert.isTrue(handleStub.notCalled);
             });
