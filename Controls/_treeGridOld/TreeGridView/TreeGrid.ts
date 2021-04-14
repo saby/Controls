@@ -13,14 +13,14 @@ import 'css!Controls/treeGrid';
     *
     * @class Controls/TreeGrid
     * @extends Controls/Grid
-    * @mixes Controls/_interface/ISource
+    * @mixes Controls/interface:ISource
     * @mixes Controls/interface/IPromisedSelectable
     * @mixes Controls/interface/IGroupedGrid
-    * @mixes Controls/_interface/INavigation
-    * @mixes Controls/_interface/IFilterChanged
+    * @mixes Controls/interface:INavigation
+    * @mixes Controls/interface:IFilterChanged
     * @mixes Controls/_list/interface/IList
     * @mixes Controls/_itemActions/interface/IItemActionsOptions
-    * @mixes Controls/_interface/IHierarchy
+    * @mixes Controls/interface:IHierarchy
     * @implements Controls/_tree/interface/ITreeControl
     * @mixes Controls/interface/ITreeGridItemTemplate
     * @mixes Controls/_interface/IDraggable
@@ -40,15 +40,15 @@ import 'css!Controls/treeGrid';
     *
     * @class Controls/TreeGrid
     * @extends Controls/Grid
-    * @mixes Controls/_interface/ISource
+    * @mixes Controls/interface:ISource
     * @mixes Controls/interface/IPromisedSelectable
     * @mixes Controls/interface/IGroupedGrid
-    * @mixes Controls/_interface/INavigation
-    * @mixes Controls/_interface/IFilterChanged
+    * @mixes Controls/interface:INavigation
+    * @mixes Controls/interface:IFilterChanged
     * @mixes Controls/_list/interface/IList
     * @mixes Controls/_itemActions/interface/IItemActionsOptions
     * @mixes Controls/_interface/ISorting
-    * @mixes Controls/_interface/IHierarchy
+    * @mixes Controls/interface:IHierarchy
     * @implements Controls/_tree/interface/ITreeControl
     * @mixes Controls/interface/ITreeGridItemTemplate
     * @mixes Controls/_interface/IDraggable

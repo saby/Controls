@@ -39,19 +39,19 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/_interface/ISelectorDialog
  * @mixes Controls/interface/ISuggest
- * @mixes Controls/_interface/ISearch
- * @mixes Controls/_interface/ISource
- * @mixes Controls/_interface/IFilterChanged
- * @mixes Controls/_interface/INavigation
+ * @mixes Controls/interface:ISearch
+ * @mixes Controls/interface:ISource
+ * @mixes Controls/interface:IFilterChanged
+ * @mixes Controls/interface:INavigation
  * @mixes Controls/_interface/IMultiSelectable
  * @mixes Controls/_interface/ITextValue
  * @mixes Controls/_interface/ISorting
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/interface:IInputPlaceholder
  * @mixes Controls/_input/interface/IText
- * @mixes Controls/_interface/IHeight
- * @mixes Controls/_interface/IFontSize
- * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/interface:IHeight
+ * @mixes Controls/interface:IFontSize
+ * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/_interface/IInputTag
  * @mixes Controls/input:IValue
  * @mixes Controls/_interface/IValidationStatus
@@ -76,18 +76,18 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/interface/ISelectorDialog
  * @mixes Controls/interface/ISuggest
- * @mixes Controls/_interface/ISearch
- * @mixes Controls/_interface/ISource
- * @mixes Controls/_interface/IFilterChanged
- * @mixes Controls/_interface/INavigation
+ * @mixes Controls/interface:ISearch
+ * @mixes Controls/interface:ISource
+ * @mixes Controls/interface:IFilterChanged
+ * @mixes Controls/interface:INavigation
  * @mixes Controls/_interface/IMultiSelectable
  * @mixes Controls/_interface/ITextValue
  * @mixes Controls/_interface/ISorting
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/_input/interface/IText
- * @mixes Controls/_interface/IHeight
- * @mixes Controls/_interface/IFontSize
- * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/interface:IHeight
+ * @mixes Controls/interface:IFontSize
+ * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/_interface/IInputTag
  * @mixes Controls/input:IValue
  *

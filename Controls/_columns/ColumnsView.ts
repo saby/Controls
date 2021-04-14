@@ -10,11 +10,11 @@
  * @extends UI/Base:Control
  * @implements Controls/_interface/IErrorController
  * @implements Controls/_list/interface/IListNavigation
- * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface:ISource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/interface/IPromisedSelectable
- * @mixes Controls/_interface/INavigation
- * @mixes Controls/_interface/IFilterChanged
+ * @mixes Controls/interface:INavigation
+ * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/_list/interface/IList
  * @mixes Controls/_itemActions/interface/IItemActionsOptions
  * @mixes Controls/interface/IEditableList

@@ -14,7 +14,7 @@ import {error as loadDataError} from 'Controls/dataSource';
  * @extends UI/Base:Control
  * @mixes Controls/_toolbars/IToolbarSource
  * @mixes Controls/interface/IItemTemplate
- * @mixes Controls/_interface/IHierarchy
+ * @mixes Controls/interface:IHierarchy
  * 
  * @public
  * @author Герасимов А.М.
