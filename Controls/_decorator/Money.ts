@@ -186,22 +186,13 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     private _formatNumber(options: IMoneyOptions): string | IPaths {
         const value = Money.toFormat(Money.toString(this._value));
 
-        const exec = this._splitValueIntoParts(value);
-
-        if (!exec) {
-            Logger.error('Controls/_decorator/Money: That is not a valid option value: ' + this._value + '.', this);
-            exec = ['0.00', '0', '.00'];
-        }
-
-        let integer;
+        let [integer, fraction] = this._splitValueIntoParts(value);
 
         if (options.abbreviationType === 'long') {
             integer = abbreviateNumber(options.value, options.abbreviationType);
         } else {
-            integer = this._useGrouping ? splitIntoTriads(exec[1]) : exec[1];
+            integer = this._useGrouping ? splitIntoTriads(integer) : integer;
         }
-
-        const fraction = exec[2];
 
         return {
             integer,
@@ -211,11 +202,10 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     }
 
     private _splitValueIntoParts(value: string): string[] {
-        const exec = value.split('.');
-        exec[1] = '.' + exec[1];
-        exec.unshift(exec[0] + exec[1]);
+        let [integer, fraction] = value.split('.');
+        fraction = '.' + fraction;
 
-        return exec;
+        return [integer, fraction];
     }
 
     private _setFontState(options: IMoneyOptions): void {
