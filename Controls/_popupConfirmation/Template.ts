@@ -23,7 +23,7 @@ interface IConfirmationTemplate extends IControlOptions {
  * @public
  * @author Красильников А.С.
  * @mixes Controls/_popupConfirmation/Template/mixin
- * @demo Controls-demo/Popup/Templates/ConfirmationTemplatePG
+ * @demo Controls-demo/Popup/Confirmation/Template
  * @demo Controls-demo/PopupTemplate/Confirmation/Footer/Index
  */
 class Template extends Control<IConfirmationTemplate> {
