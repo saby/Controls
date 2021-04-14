@@ -1,4 +1,6 @@
 export interface IOptions {
+    parentProperty: string;
+    nodeProperty: string;
     nodeTypeProperty?: string;
     groupProperty?: string;
 }
