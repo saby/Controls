@@ -368,7 +368,7 @@ define([
 
             tabs._beforeUpdate({ items, selectedKey: 1 });
             tabs._updateMarker();
-            assert.equal(tabs._marker.getLeft(), 0, 'leftButtonClick _onItemClick');
+            assert.equal(tabs._marker.getOffset(), 0, 'leftButtonClick _onItemClick');
             assert.equal(tabs._marker.getWidth(), 10, 'leftButtonClick _onItemClick');
 
             tabs.destroy();
