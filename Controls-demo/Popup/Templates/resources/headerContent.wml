@@ -1,3 +1,0 @@
-<div style="display: flex;justify-content: flex-end;flex-grow: 1;">
-<Controls.buttons:Button caption="Button"/>
-</div>
