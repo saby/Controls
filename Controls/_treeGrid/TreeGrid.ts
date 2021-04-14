@@ -23,11 +23,11 @@ export default class TreeGrid extends Grid implements ITreeGrid {
         }
 
         if (!options.nodeProperty) {
-            Logger.error('Задайте опцию nodeProperty.', this);
+            Logger.error('Не задана опция nodeProperty, обязательная для работы Controls/treeGrid:View', this);
         }
 
         if (!options.parentProperty) {
-            Logger.error('Задайте опцию parentProperty.', this);
+            Logger.error('Не задана опция parentProperty, обязательная для работы Controls/treeGrid:View', this);
         }
 
         const superResult = super._beforeMount(options);
