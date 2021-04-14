@@ -32,7 +32,7 @@ describe('Controls/grid_clean/Display/Ladder/HeaderRow/initializeColumns', () =>
                 columns,
                 owner: mockedHeaderOwner
             });
-            assert.equal(headerRow.getColumns()[0].shadowVisibility, true);
+            assert.equal(headerRow.getColumns()[0].shadowVisibility, 'hidden');
         });
         it('two sticky properties', () => {
             columns = [{stickyProperty: ['first', 'second']}, {}, {}];
@@ -42,8 +42,8 @@ describe('Controls/grid_clean/Display/Ladder/HeaderRow/initializeColumns', () =>
                 columns,
                 owner: mockedHeaderOwner
             });
-            assert.equal(headerRow.getColumns()[0].shadowVisibility, true);
-            assert.equal(headerRow.getColumns()[2].shadowVisibility, true);
+            assert.equal(headerRow.getColumns()[0].shadowVisibility, 'hidden');
+            assert.equal(headerRow.getColumns()[2].shadowVisibility, 'hidden');
         });
     });
 
