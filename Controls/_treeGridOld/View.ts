@@ -167,6 +167,15 @@ export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
  * @variant all - маркер движется по всем записям.
  * @variant leaves - маркер движется по листьям. Узлы раскрываются до ближайшего листа.
  */
+/**
+ * @name Controls/_treeGridOld/View#markedLeafChangeCallback
+ * @cfg {Function} Функция обратного вызова, которая будет вызываться при смене выделенного листа в режиме markerMoveMode=leaves.
+ * Единственный аргумент: положение выделенного листа:
+ * 'first' - Выделенный лист является первым листом в дереве
+ * 'last' - Выделенный лист является последним листом в дереве
+ * 'middle' - Выделенный лист между первым и последним листом в дереве
+ * 'single' - Выделенный лист единственный в дереве
+ */
 
 Object.defineProperty(Tree, 'defaultProps', {
    enumerable: true,
