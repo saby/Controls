@@ -87,11 +87,11 @@ type TSuggestDirection = 'up' | 'down';
  *
  * @class Controls/_suggest/_InputController
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ISearch
- * @mixes Controls/_interface/ISource
- * @mixes Controls/_interface/IFilterChanged
+ * @mixes Controls/interface:ISearch
+ * @mixes Controls/interface:ISource
+ * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/_suggest/ISuggest
- * @mixes Controls/_interface/INavigation
+ * @mixes Controls/interface:INavigation
  *
  * @private
  */
@@ -101,11 +101,11 @@ type TSuggestDirection = 'up' | 'down';
  *
  * @class Controls/_suggest/_InputController
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ISearch
- * @mixes Controls/_interface/ISource
- * @mixes Controls/_interface/IFilterChanged
+ * @mixes Controls/interface:ISearch
+ * @mixes Controls/interface:ISource
+ * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/_suggest/ISuggest
- * @mixes Controls/_interface/INavigation
+ * @mixes Controls/interface:INavigation
  *
  * @private
  */

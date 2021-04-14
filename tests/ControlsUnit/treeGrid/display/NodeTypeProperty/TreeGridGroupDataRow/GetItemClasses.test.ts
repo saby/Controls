@@ -9,7 +9,9 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetIte
         getNavigation: () => {},
         getItems: () => ([groupRow]),
         getCount: () => 1,
-        getRootLevel: () => 0
+        getRootLevel: () => 0,
+        getCollectionCount: () => 1,
+        getSourceIndexByItem: () => 0
     } as undefined as TreeGridCollection<any>;
 
     groupRow = new TreeGridGroupDataRow({

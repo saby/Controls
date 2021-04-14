@@ -97,7 +97,7 @@
            'showItemActionsOnHover': showItemActionsOnHover
        }) }}">
          <ws:for data="column in (item || itemData).getColumns()">
-            <Controls.scroll:StickyHeader position="topbottom"
+            <Controls.scroll:StickyHeader position="{{ (item || itemData).getStickyHeaderPosition() }}"
                                           mode="{{ (item || itemData).getStickyHeaderMode() }}"
                                           shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
                                           backgroundStyle="{{ backgroundStyle }}"

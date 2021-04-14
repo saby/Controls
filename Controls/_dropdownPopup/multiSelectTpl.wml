@@ -1,8 +1,0 @@
-<Controls.Container.Async templateName="Controls/toggle:Checkbox"
-                          attr:class="controls-DropdownList__row-checkbox
-                                      controls-DropdownList__row-checkbox-{{checkBoxAlign === 'right' ? 'right' : 'left'}}
-                                      controls-DropdownList__row-checkbox_{{itemData._isSelected ? 'active' : 'default'}}
-                                      controls-Menu__row-checkbox_{{itemData.isEmptyItem ? 'invisible' :
-                                      treeItem.isSelected() ? 'active' : 'default'}}">
-   <ws:templateOptions value="{{treeItem.isSelected()}}"/>
-</Controls.Container.Async>

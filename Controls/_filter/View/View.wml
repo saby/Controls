@@ -65,7 +65,8 @@
          </ws:if>
       </ws:if>
    </div>
-   <ws:if data="{{(_options.detailPanelTemplateName || (_isFastReseted() && _needShowFastFilter(_source))) && !_options.readOnly}}">
+   <ws:if data="{{(_options.detailPanelOpenMode !== 'sticky' || _options.detailPanelTemplateName ||
+                  (_isFastReseted() && _needShowFastFilter(_source))) && !_options.readOnly}}">
       <ws:if data="{{!_options.emptyText || _options.detailPanelTemplateName}}">
          <div name="detailPanelTarget" class="controls-FilterView__icon
                                               controls-FilterView-button-{{_options.alignment}}

@@ -87,13 +87,6 @@ export interface ISelectionModel extends IBaseCollection<Model, ISelectionItem> 
    getItems(): ISelectionItem[];
 }
 
-/**
- * Интерфейс описывающий опции для контроллера множественного выбора
- *
- * @interface Controls/_multiselection/ISelectionController
- * @public
- * @author Панихин К.А.
- */
 export interface ISelectionControllerOptions {
    filter: any;
    model: ISelectionModel;
@@ -104,13 +97,6 @@ export interface ISelectionControllerOptions {
    searchValue?: string;
 }
 
-/**
- * Интерфейс описывающий опции для деревянной стратегии множественного выбора
- *
- * @interface Controls/_multiselection/ITreeSelectionStrategy
- * @public
- * @author Панихин К.А.
- */
 export interface ITreeSelectionStrategyOptions extends IFlatSelectionStrategyOptions {
    selectAncestors: boolean;
    selectDescendants: boolean;
@@ -121,13 +107,6 @@ export interface ITreeSelectionStrategyOptions extends IFlatSelectionStrategyOpt
    recursiveSelection: boolean;
 }
 
-/**
- * Интерфейс описывающий опции для плоской стратегии множественного выбора
- *
- * @interface Controls/_multiselection/IFlatSelectionStrategy
- * @public
- * @author Панихин К.А.
- */
 export interface IFlatSelectionStrategyOptions {
    model: ISelectionModel;
 }
@@ -177,3 +156,27 @@ export interface IEntryPathItem {
    id: CrudEntityKey;
    parent: CrudEntityKey;
 }
+
+/**
+ * Интерфейс описывающий опции для плоской стратегии множественного выбора
+ *
+ * @interface Controls/_multiselection/IFlatSelectionStrategy
+ * @public
+ * @author Панихин К.А.
+ */
+
+/**
+ * Интерфейс описывающий опции для контроллера множественного выбора
+ *
+ * @interface Controls/_multiselection/ISelectionController
+ * @public
+ * @author Панихин К.А.
+ */
+
+/**
+ * Интерфейс описывающий опции для деревянной стратегии множественного выбора
+ *
+ * @interface Controls/_multiselection/ITreeSelectionStrategy
+ * @public
+ * @author Панихин К.А.
+ */

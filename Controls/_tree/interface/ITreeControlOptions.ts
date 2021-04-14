@@ -7,21 +7,7 @@ type TNodeFooterVisibilityCallback = (item: Model) => boolean;
 
 type TNodeLoadCallback = (list: RecordSet, nodeKey: number | string) => void;
 
-/**
- * Интерфейс для древовидных списков, например для контрола {@link Controls/treeGrid:View Дерево}.
- *
- * @interface Controls/_tree/interface/ITreeControl
- * @public
- * @author Авраменко А.С.
- */
 
-/*
- * Interface for tree-like lists.
- *
- * @interface Controls/_tree/interface/ITreeControl
- * @public
- * @author Авраменко А.С.
- */
 export interface ITreeControlOptions extends IControlOptions {
     expandByItemClick?: boolean;
     expandedItems?: Array<number | string>;
@@ -38,6 +24,23 @@ export interface ITreeControlOptions extends IControlOptions {
     markItemByExpanderClick?: boolean;
     expanderSize?: 's'|'m'|'l'|'xl';
 }
+
+/**
+ * Интерфейс для древовидных списков, например для контрола {@link Controls/treeGrid:View Дерево}.
+ *
+ * @interface Controls/_tree/interface/ITreeControl
+ * @public
+ * @author Авраменко А.С.
+ */
+
+/*
+ * Interface for tree-like lists.
+ *
+ * @interface Controls/_tree/interface/ITreeControl
+ * @public
+ * @author Авраменко А.С.
+ */
+
 /**
  * @typedef {String} Controls/_tree/interface/ITreeControl/HierarchyViewModeEnum
  * @variant tree Дерево.

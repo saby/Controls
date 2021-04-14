@@ -113,6 +113,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     protected _viewModelConstructor: string;
     private _navigation: object;
     protected _itemTemplate: TemplateFunction;
+    protected _groupTemplate: TemplateFunction;
     protected _notifyHandler: typeof EventUtils.tmplNotify = EventUtils.tmplNotify;
     protected _backgroundStyle: string;
     protected _header: object;
@@ -164,6 +165,9 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
         if (cfg.itemTemplate) {
             this._itemTemplate = cfg.itemTemplate;
+        }
+        if (cfg.groupTemplate) {
+            this._groupTemplate = cfg.groupTemplate;
         }
         if (cfg.backgroundStyle) {
             this._backgroundStyle = cfg.backgroundStyle;
@@ -1099,8 +1103,27 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * </Controls.explorer:View>
  * </pre>
  * @see itemTemplate
- * @see itemTemplateProprty
+ * @see itemTemplateProperty
  */
+
+/**
+ * @name Controls/_explorer/View#tileGroupTemplate
+ * @cfg {String|TemplateFunction} Шаблон отображения группы в режиме "Плитка".
+ * @default undefined
+ * @markdown@remark
+ * Позволяет установить пользовательский шаблон отображения группы (**именно шаблон**, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/list:GroupTemplate}.
+ * @example
+ * <pre class="brush: html;">
+ * <Controls.explorer:View>
+ *     <ws:tileGroupTemplate>
+ *         <ws:partial template="Controls/list:GroupTemplate"/>
+ *     </ws:tileGroupTemplate>
+ * </Controls.explorer:View>
+ * </pre>
+ * @see itemTemplate
+ * @see itemTemplateProperty
+ */
+
 /**
  * @event Происходит при клике на кнопку "Просмотр записи".
  * @name Controls/_explorer/View#arrowClick

@@ -22,11 +22,11 @@
                     <ws:content>
                         <ws:if data="{{ (gridColumn || itemData).hasCellContentRender() }}">
                             <!-- Контент по умолчанию, обрезка длинного текста с многоточием -->
-                            <div class="controls-Grid__cell_{{(gridColumn || itemData).config.textOverflow}}">
-                                <ws:partial template="{{(gridColumn || itemData).getCellContentRender()}}"
-                                            value="{{(gridColumn || itemData).getDefaultDisplayValue()}}"
-                                            searchValue="{{(gridColumn || itemData).getSearchValue()}}"
-                                            scope="{{(gridColumn || itemData).config}}"/>
+                            <div class="{{ (gridColumn || itemData).getTextOverflowClasses() }}">
+                                <ws:partial template="{{ (gridColumn || itemData).getCellContentRender() }}"
+                                            value="{{ (gridColumn || itemData).getDefaultDisplayValue() }}"
+                                            searchValue="{{ (gridColumn || itemData).getSearchValue() }}"
+                                            scope="{{ (gridColumn || itemData).config }}"/>
                             </div>
                         </ws:if>
                         <ws:else>
@@ -43,8 +43,9 @@
         <ws:else>
             <ws:if data="{{ (gridColumn || itemData).hasCellContentRender() }}">
                 <!-- Контент по умолчанию, обрезка длинного текста с многоточием -->
-                <div class="controls-Grid__cell_{{(gridColumn || itemData).config.textOverflow}}">
+                <div class="{{ (gridColumn || itemData).getTextOverflowClasses() }}">
                     <ws:partial template="{{(gridColumn || itemData).getCellContentRender()}}"
+                                title="{{ (gridColumn || itemData).getTextOverflowTitle() }}"
                                 value="{{(gridColumn || itemData).getDefaultDisplayValue()}}"
                                 searchValue="{{(gridColumn || itemData).getSearchValue()}}"
                                 scope="{{(gridColumn || itemData).config}}"/>

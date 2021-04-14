@@ -29,9 +29,13 @@ define([
       var
          treeControl,
          createPromise,
+         cfgTreeControl = cfg;
+
+      if (!cfg.hasOwnProperty('viewModelConstructor')) {
          cfgTreeControl = cMerge(cfg, {
             viewModelConstructor: treeGrid.ViewModel
          });
+      }
 
       cfgTreeControl = Object.assign(tree.TreeControl.getDefaultOptions(), cfgTreeControl);
       // Костыль с получением данных из источника по приватному полю
@@ -1908,6 +1912,91 @@ define([
             treeControl.resetExpandedItems();
             const expandedItems = treeControl.getViewModel().getExpandedItems();
             assert.deepEqual(expandedItems, [null]);
+         });
+      });
+
+      describe('toggleExpanded', () => {
+         const items = new collection.RecordSet({
+            rawData: getHierarchyData(),
+            keyProperty: 'id'
+         });
+
+         // 0
+         // |-1
+         // | |-3
+         // |-2
+         // 4
+         const cfg = {
+            items,
+            keyProperty: 'id',
+            parentProperty: 'Раздел',
+            nodeProperty: 'Раздел@',
+            useNewModel: true,
+            viewModelConstructor: 'Controls/display:Tree',
+            selectedKeys: [],
+            excludedKeys: []
+         };
+         let treeControl, model, notifySpy;
+
+         beforeEach(async() => {
+            treeControl = await correctCreateTreeControlAsync(cfg);
+            notifySpy = sinon.spy(treeControl, '_notify');
+            model = treeControl.getViewModel();
+
+            treeControl._sourceController = {
+               setExpandedItems: () => null,
+               getExpandedItems: () => null,
+               getState: () => {
+                  return {};
+               },
+               updateOptions: () => null,
+               hasLoaded: () => true
+            };
+         });
+
+         it('expanded items is [null]', async() => {
+            treeControl._beforeUpdate({...cfg, expandedItems: [null]});
+
+            await treeControl.toggleExpanded(0);
+            assert.isTrue(model.getItemBySourceKey(0).isExpanded());
+
+            await treeControl.toggleExpanded(0);
+            assert.isFalse(model.getItemBySourceKey(0).isExpanded());
+         });
+
+         it('check expandedItems and collapsedItems options', async() => {
+            model.setExpandedItems([0]);
+            treeControl.saveOptions({...cfg, expandedItems: [0], collapsedItems: []});
+            notifySpy.resetHistory();
+            await treeControl.toggleExpanded(0);
+
+            assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[]]).called);
+            assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
+
+            model.setCollapsedItems([0]);
+            treeControl.saveOptions({...cfg, expandedItems: [], collapsedItems: [0]});
+            notifySpy.resetHistory();
+            await treeControl.toggleExpanded(0);
+
+            assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[]]).called);
+            assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
+
+            model.setExpandedItems([null]);
+            treeControl.saveOptions({...cfg, expandedItems: [null], collapsedItems: []});
+            notifySpy.resetHistory();
+            await treeControl.toggleExpanded(0);
+
+            assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[null]]).called);
+            assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[0]]).called);
+
+            model.setExpandedItems([null]);
+            model.setCollapsedItems([0]);
+            treeControl.saveOptions({...cfg, expandedItems: [null], collapsedItems: [0]});
+            notifySpy.resetHistory();
+            await treeControl.toggleExpanded(0);
+
+            assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[null]]).called);
+            assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
          });
       });
    });

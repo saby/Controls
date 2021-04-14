@@ -1,7 +1,7 @@
 define(
    [
       'Controls/filterPopup',
-      'Controls/_dropdownPopup/DropdownViewModel',
+      'Controls/_filterPopup/SimplePanel/DropdownViewModel',
       'Types/collection'
    ],
    function(filterPopup, DropdownViewModel, collection) {

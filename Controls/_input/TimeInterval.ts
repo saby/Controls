@@ -19,7 +19,7 @@ type IOptions = IModelOptions;
  * @extends Controls/_input/Base
  * @ignoreOptions Controls/_input/Base#value
  *
- * @mixes Controls/_input/interface/ITimeInterval
+ * @mixes Controls/input:ITimeInterval
  *
  * @ignoreOptions Controls/_input/Base#placeholder
  *

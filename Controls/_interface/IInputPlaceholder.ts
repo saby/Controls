@@ -1,16 +1,10 @@
-/**
- * Интерфейс для текста подсказки в поле ввода.
- *
- * @public
- * @author Красильников А.С.
- */
 
 export interface IInputPlaceholderOptions {
     placeholder?: string | Function;
 }
 
 /**
- * @name Controls/_interface/IInputPlaceholderOptions#placeholder
+ * @name Controls/_interface/IInputPlaceholder#placeholder
  * @cfg {String|TemplateFunction} Текст, который отображается в пустом поле ввода.
  * @remark
  * Отображает текст в пустом поле ввода. Мы не используем собственные HTML-подсказки и не отображаем подсказки как div, наложенный поверх поля, чтобы разрешить использование пользовательских шаблонов.
@@ -38,6 +32,12 @@ export interface IInputPlaceholderOptions {
  * </pre>
  */
 
+/**
+ * Интерфейс для текста подсказки в поле ввода.
+ *
+ * @public
+ * @author Красильников А.С.
+ */
 export interface IInputPlaceholder {
     readonly '[Controls/_interface/IInputPlaceholder]': boolean;
 }

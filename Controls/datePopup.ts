@@ -61,14 +61,14 @@ const popupMask = coreMerge({auto: 'auto'}, Range.dateMaskConstants);
  *
  * @class Controls/datePopup
  * @extends UI/Base:Control
- * @mixes Controls/_interface/IResetValues
- * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
- * @mixes Controls/_interface/IDayTemplate
+ * @mixes Controls/interface:IResetValues
+ * @mixes Controls/dateRange:IDateRangeSelectable
+ * @mixes Controls/dateRange:IDayTemplate
  * @mixes Controls/_interface/IDateConstructor
- * @mixes Controls/_interface/IDateMask
- * @mixes Controls/_dateRange/interfaces/IDateRange
- * @mixes Controls/_interface/IDateRangeValidators
- * @mixes Controls/_dateRange/interfaces/ICaptionFormatter
+ * @mixes Controls/interface:IDateMask
+ * @mixes Controls/dateRange:IDateRange
+ * @mixes Controls/interface:IDateRangeValidators
+ * @mixes Controls/dateRange:ICaptionFormatter
  *
  * @public
  * @author Красильников А.С.
@@ -81,11 +81,11 @@ const popupMask = coreMerge({auto: 'auto'}, Range.dateMaskConstants);
  *
  * @class Controls/datePopup
  * @extends UI/Base:Control
- * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
- * @mixes Controls/_interface/IDayTemplate
- * @mixes Controls/_interface/IDateMask
- * @mixes Controls/_dateRange/interfaces/IDateRange
- * @mixes Controls/_interface/IDateRangeValidators
+ * @mixes Controls/dateRange:IDateRangeSelectable
+ * @mixes Controls/dateRange:IDayTemplate
+ * @mixes Controls/interface:IDateMask
+ * @mixes Controls/dateRange:IDateRange
+ * @mixes Controls/interface:IDateRangeValidators
  *
  * @public
  * @author Красильников А.С.

@@ -1,6 +1,7 @@
 /**
  * Библиотека, которая предоставляет операции с записью коллекции.
  * @library Controls/itemActions
+ * @includes IItemActions Controls/_itemActions/interface/IItemActions
  * @public
  * @author Аверкиев П.А.
  */

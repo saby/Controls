@@ -13,15 +13,15 @@ import 'css!Controls/dateRange';
  *
  * @class Controls/_dateRange/DateSelector
  * @extends UI/Base:Control
- * @mixes Controls/_interface/IResetValues
+ * @mixes Controls/interface:IResetValues
  * @mixes Controls/interface/IDateRange
  * @mixes Controls/_dateRange/interfaces/ILinkView
  * @mixes Controls/_interface/IOpenPopup
  * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
- * @mixes Controls/_interface/IDayTemplate
- * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/dateRange:IDayTemplate
+ * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/_interface/IUnderline
- * @mixes Controls/_dateRange/interfaces/ICaptionFormatter
+ * @mixes Controls/dateRange:ICaptionFormatter
  * @mixes Controls/_dateRange/interfaces/IDateSelector
  *
  * @public
@@ -39,8 +39,8 @@ import 'css!Controls/dateRange';
  * @mixes Controls/_dateRange/interfaces/ILinkView
  * @mixes Controls/_interface/IOpenPopup
  * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
- * @mixes Controls/_interface/IDayTemplate
- * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/dateRange:IDayTemplate
+ * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/_dateRange/interfaces/IDateSelector
  *
  * @public

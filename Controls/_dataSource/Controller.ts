@@ -586,7 +586,7 @@ export default class Controller extends mixin<
             this._items = items;
         }
 
-        this._breadcrumbsRecordSet = this._items.getMetaData().path;
+        this._breadcrumbsRecordSet = this._items instanceof RecordSet ? this._items.getMetaData().path : null;
         this._subscribeBreadcrumbsChange(this._breadcrumbsRecordSet);
         this._updateBreadcrumbsData();
     }

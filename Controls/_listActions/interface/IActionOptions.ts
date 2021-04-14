@@ -3,12 +3,6 @@ import {INavigationOptionValue} from 'Controls/interface';
 import {IColumn} from 'Controls/interface';
 import {RecordSet} from 'Types/collection';
 
-/**
- * Интерфейс стандартного набора опций для действия над записью
- * @interface Controls/_listActions/interface/IAction
- * @public
- * @author Крайнов Д.О.
- */
 export default interface IActionOptions {
     source: ICrud;
     filter: object;
@@ -25,7 +19,14 @@ export default interface IActionOptions {
 }
 
 /**
- * @typedef {Object} ISelection
+ * Интерфейс стандартного набора опций для действия над записью
+ * @interface Controls/_listActions/interface/IAction
+ * @public
+ * @author Крайнов Д.О.
+ */
+
+/**
+ * @typedef {Object} Controls/_listActions/interface/IAction/ISelection
  * @description Выборка записей
  * @property {Array<Types/source:CrudEntityKey>} selected Массив ключей выбранных записей
  * @property {Array<Types/source:CrudEntityKey>} excluded Массив ключей исключенных записей
@@ -63,7 +64,7 @@ export default interface IActionOptions {
 
 /**
  * @name Controls/_listActions/interface/IAction#selection
- * @cfg {ISelection} Объект выборки
+ * @cfg {Controls/_listActions/interface/IAction/ISelection.typedef} Объект выборки
  */
 
 /**

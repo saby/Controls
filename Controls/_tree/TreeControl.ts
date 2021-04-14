@@ -75,20 +75,17 @@ const _private = {
                 }
             }
 
-            if (!newExpandedItems.includes(itemKey)) {
-                newExpandedItems.push(itemKey);
-            }
             if (newCollapsedItems.includes(itemKey)) {
                 newCollapsedItems.splice(newCollapsedItems.indexOf(itemKey), 1);
+            } else if (!newExpandedItems.includes(itemKey)) {
+                newExpandedItems.push(itemKey);
             }
         } else {
             // свернули узел
 
             if (newExpandedItems.includes(itemKey)) {
                 newExpandedItems.splice(newExpandedItems.indexOf(itemKey), 1);
-            }
-
-            if (!newCollapsedItems.includes(itemKey)) {
+            } else if (!newCollapsedItems.includes(itemKey)) {
                 newCollapsedItems.push(itemKey);
             }
         }
@@ -102,8 +99,12 @@ const _private = {
         }
 
         if (!options.hasOwnProperty('expandedItems')) {
-            model.toggleExpanded(item);
+            model.setExpandedItems(newExpandedItems);
             self.getSourceController().setExpandedItems(newExpandedItems);
+        }
+
+        if (!options.hasOwnProperty('collapsedItems')) {
+            model.setCollapsedItems(newCollapsedItems);
         }
 
         self._notify('expandedItemsChanged', [newExpandedItems]);
@@ -1013,7 +1014,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     if (item.get(options.nodeProperty) !== null) {
                         const itemKey = item.getId();
                         const dispItem = this._listViewModel.getItemBySourceKey(itemKey);
-                        if (dispItem && this._listViewModel.getChildren(dispItem, undefined, loadedList).length) {
+                        if (sourceController && dispItem && this._listViewModel.getChildren(dispItem, undefined, loadedList).length) {
                             modelHasMoreStorage[itemKey] = sourceController.hasMoreData('down', itemKey);
                         }
                     }
@@ -1124,11 +1125,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
-    private _getMarkedLeaf(key: CrudEntityKey, model): 'first' | 'last' | 'middle' {
+    private _getMarkedLeaf(key: CrudEntityKey, model): 'first' | 'last' | 'middle' | 'single' {
         const index = model.getIndexByKey(key);
-        if (index === model.getCount() - 1) {
-            return 'last';
-        }
+        const hasNextLeaf = index < model.getCount() - 1;
         let hasPrevLeaf = false;
         for (let i = index - 1; i >= 0; i--) {
             if (model.at(i).isNode() === null || !this._isExpanded(model.at(i), model)) {
@@ -1136,9 +1135,19 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 break;
             }
         }
-        return hasPrevLeaf ? 'middle' : 'first';
+        if (hasNextLeaf && hasPrevLeaf) {
+            return 'middle';
+        }
+        if (!hasNextLeaf && !hasPrevLeaf) {
+            return 'single';
+        }
+        if (!hasNextLeaf && hasPrevLeaf) {
+            return 'last';
+        }
+        if (hasNextLeaf && !hasPrevLeaf) {
+            return 'first';
+        }
     }
-
     goToNext(listModel?, mController?): Promise {
         return new Promise((resolve) => {
             // Это исправляет ошибку плана 0 || null

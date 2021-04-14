@@ -7,38 +7,36 @@ import * as template from 'wml!Controls/_decorator/Highlight/Highlight';
 import 'css!Controls/decorator';
 
 /**
- * @typedef HighlightMode
+ * @typedef Controls/_decorator/IHighlight/HighlightMode
  * @variant word Подсветка осуществляется по словам.
  * Слово - это набор символов,  длина не менее 2. Слова разделяются пробелом и пунктуацией.
  * @variant substring Подсветка осуществляется по подстрокам.
  */
 export type HighlightMode = 'word' | 'substring';
 
-/**
- * Интерфейс для опций контрола {@link Controls/decorator:Highlight}.
- * @interface Controls/_decorator/IHighlight
- * @public
- * @author Красильников А.С.
- */
 export interface IHighlightOptions extends IControlOptions {
     /**
-     * Класс обеспечивающий внешнее отображение подсветки.
+     * @name Controls/_decorator/IHighlight#className
+     * @cfg {string} Класс обеспечивающий внешнее отображение подсветки.
      * @default controls-Highlight_highlight
      * @demo Controls-demo/Decorator/Highlight/ClassName/Index
      */
     className: string;
     /**
-     * Декорируемый текст.
+     * @name Controls/_decorator/IHighlight#className
+     * @cfg {string} Декорируемый текст.
      * @demo Controls-demo/Decorator/Highlight/Value/Index
      */
     value: string | number;
     /**
-     * Подсвечиваемый текст.
+     * @name Controls/_decorator/IHighlight#highlightedValue
+     * @cfg {string} Подсвечиваемый текст.
      * @demo Controls-demo/Decorator/Highlight/HighlightedValue/Index
      */
     highlightedValue: string;
     /**
-     * Режим подсветки.
+     * @name Controls/_decorator/IHighlight#highlightMode
+     * @cfg {Controls/_decorator/IHighlight/HighlightMode.typedef} Режим подсветки.
      * @type HighlightMode
      * @default substring
      * @demo Controls-demo/Decorator/Highlight/HighlightMode/Index
@@ -76,7 +74,7 @@ type Element = IHighlight | IPlain;
  *
  * @class Controls/_decorator/Highlight
  * @extends UI/Base:Control
- * @mixes Controls/_decorator/IHighlight
+ * @mixes Controls/decorator:IHighlight
  * @public
  * @demo Controls-demo/Decorator/Highlight/Index
  *
@@ -303,3 +301,10 @@ Object.defineProperty(Highlight, 'defaultProps', {
 });
 
 export default Highlight;
+
+/**
+ * Интерфейс для опций контрола {@link Controls/decorator:Highlight}.
+ * @interface Controls/_decorator/IHighlight
+ * @public
+ * @author Красильников А.С.
+ */

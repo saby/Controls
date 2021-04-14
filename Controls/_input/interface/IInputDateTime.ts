@@ -1,10 +1,3 @@
-/**
- * Интерфейс для ввода даты/времени.
- *
- * @public
- * @author Красильников А.С.
- */
-
 export interface IInputDateTimeOptions {
     value: Date;
 }
@@ -96,7 +89,6 @@ export interface IInputDateTimeOptions {
 /**
  * Интерфейс ввода даты/времени.
  *
- * @interface Controls/_input/interface/IInputDateTime
  * @public
  * @author Красильников А.С.
  */

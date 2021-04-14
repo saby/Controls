@@ -19,16 +19,16 @@ import template = require('wml!Controls/_input/Date/Picker/Picker');
  *
  * @class Controls/_input/Date/Picker
  * @extends UI/Base:Control
- * @mixes Controls/_input/interface/IInputDateTime
- * @mixes Controls/_interface/IDateMask
- * @mixes Controls/_interface/IInputTag
- * @mixes Controls/_input/interface/IBorderVisibility
+ * @mixes Controls/input:IInputDateTime
+ * @mixes Controls/interface:IDateMask
+ * @mixes Controls/interface:IInputTag
+ * @mixes Controls/input:IBorderVisibility
  * @mixes Controls/_interface/IDateConstructor
- * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
- * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
- * @mixes Controls/_input/interface/IBase
- * @mixes Controls/_input/interface/IValueValidators
- * @mixes Controls/_interface/IOpenPopup
+ * @mixes Controls/dateRange:IDatePickerSelectors
+ * @mixes Controls/dateRange:IDateRangeSelectable
+ * @mixes Controls/input:IBase
+ * @mixes Controls/input:IValueValidators
+ * @mixes Controls/interface:IOpenPopup
  * @public
  * @demo Controls-demo/Input/Date/Picker
  * @author Красильников А.С.

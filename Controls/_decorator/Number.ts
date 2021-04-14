@@ -20,13 +20,13 @@ import 'css!Controls/decorator';
 
 /**
  * Тип данных для форматируемого значения
- * @typedef {string|number|null} TValue
+ * @typedef {string|number|null} Controls/_decorator/INumber/TValue
  */
 type TValue = string | number | null;
 
 /**
  * Тип данных для аббревиатуры
- * @typedef {string} TAbbreviationType
+ * @typedef {string} Controls/_decorator/INumber/TAbbreviationType
  * @variant short
  * @variant long
  * @variant none
@@ -35,23 +35,17 @@ type TAbbreviationType = 'none' | 'short' | 'long';
 type RoundingFn = (number: string, precision: number) => string;
 
 /**
- * @typedef RoundMode
+ * @typedef Controls/_decorator/INumber/RoundMode
  * @variant round При необходимости число округляется, а дробная часть дополняется нулями, чтобы она имела заданную длину.
  * @variant trunc Усекает (отсекает) цифры справа от точки так, чтобы дробная часть имела заданную длину, независимо от того, является ли аргумент положительным или отрицательным числом.
  */
 export type RoundMode = 'round' | 'trunc';
 
-/**
- * Интерфейс для опций контрола {@link Controls/decorator:Number}.
- * @interface Controls/_decorator/INumber
- * @public
- * @author Красильников А.С.
- */
 export interface INumberOptions extends IControlOptions, INumberFormatOptions, IFontColorStyleOptions,
     IFontWeightOptions, IFontSizeOptions {
     /**
      * @name Controls/_decorator/INumber#value
-     * @cfg {TValue} Декорируемое число.
+     * @cfg {Controls/_decorator/INumber/TValue.typedef} Декорируемое число.
      * @demo Controls-demo/Decorator/Number/Value/Index
      */
     value: TValue;
@@ -65,19 +59,19 @@ export interface INumberOptions extends IControlOptions, INumberFormatOptions, I
     /**
      * @name Controls/_decorator/INumber#precision
      * @cfg {Number} Количество знаков после запятой. Диапазон от 0 до 20.
-     * @demo Controls-demo/Decorator/Number/precision/Index
+     * @demo Controls-demo/Decorator/Number/Precision/Index
      */
     precision?: number;
     /**
      * @name Controls/_decorator/INumber#roundMode
-     * @cfg {RoundMode} Режим форматирования дробной части числа.
+     * @cfg {Controls/_decorator/INumber/RoundMode.typedef} Режим форматирования дробной части числа.
      * @default trunc
      * @demo Controls-demo/Decorator/Number/RoundMode/Index
      */
     roundMode: RoundMode;
     /**
      * @name Controls/_decorator/INumber#abbreviationType
-     * @cfg {TAbbreviationType} Тип аббревиатуры.
+     * @cfg {Controls/_decorator/INumber/TAbbreviationType.typedef} Тип аббревиатуры.
      * @default 'none'
      * @demo Controls-demo/Decorator/Number/Abbreviation/Index
      */
@@ -94,7 +88,7 @@ export interface INumberOptions extends IControlOptions, INumberFormatOptions, I
  *
  * @class Controls/_decorator/Number
  * @extends UI/Base:Control
- * @mixes Controls/_decorator/INumber
+ * @mixes Controls/decorator:INumber
  * @public
  * @demo Controls-demo/Decorator/Number/Index
  *
@@ -248,3 +242,10 @@ Object.defineProperty(NumberDecorator, 'defaultProps', {
 });
 
 export default NumberDecorator;
+
+/**
+ * Интерфейс для опций контрола {@link Controls/decorator:Number}.
+ * @interface Controls/_decorator/INumber
+ * @public
+ * @author Красильников А.С.
+ */

@@ -36,17 +36,17 @@ interface IRangeShortSelectorOptions extends IControlOptions {
  *
  * @class Controls/_dateRange/RangeShortSelector
  * @extends UI/Base:Control
- * @mixes Controls/_interface/IResetValues
+ * @mixes Controls/interface:IResetValues
  * @mixes Controls/_dateRange/interfaces/ILinkView
  * @mixes Controls/_dateRange/interfaces/IPeriodLiteDialog
- * @mixes Controls/_dateRange/interfaces/IDateRange
+ * @mixes Controls/dateRange:IDateRange
  * @mixes Controls/_interface/IDisplayedRanges
  * @mixes Controls/_interface/IDateConstructor
  * @mixes Controls/_interface/IOpenPopup
- * @mixes Controls/_interface/IFontSize
+ * @mixes Controls/interface:IFontSize
  * @mixes Controls/_interface/IUnderline
- * @mixes Controls/_interface/IFontColorStyle
- * @mixes Controls/_dateRange/interfaces/ICaptionFormatter
+ * @mixes Controls/interface:IFontColorStyle
+ * @mixes Controls/dateRange:ICaptionFormatter
  *
  * @public
  * @author Красильников А.С.

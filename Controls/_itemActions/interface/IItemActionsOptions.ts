@@ -17,22 +17,9 @@ import {TActionAlignment} from './IItemActionsTemplateConfig';
  */
 export type TItemActionsVisibility = 'onhover'|'delayed'|'visible';
 
-/**
- * Интерфейс опций контрола, который работает с {@link Controls/_itemActions/Controller контроллером опций записи}.
- * @interface Controls/_itemActions/interface/IItemActions
- * @public
- * @author Аверкиев П.А.
- */
-
-/*
- * Interface of options of Control that works with {@link Controls/_itemActions/Controller Actions controller}
- * @interface Controls/_itemActions/interface/IItemActions
- * @public
- * @author Аверкиев П.А.
- */
-
 export interface IItemActionsOptions {
     /**
+     * @name Controls/_itemActions/interface/IItemActions#contextMenuVisibility
      * @cfg {Boolean} Видимость {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/menu-visibility/ контекстного меню} опций записи.
      * @default true
      * @remark
@@ -41,12 +28,14 @@ export interface IItemActionsOptions {
      */
 
     /*ENG
+     * @name Controls/_itemActions/interface/IItemActions#contextMenuVisibility
      * @cfg {Boolean} Determines whether context menu should be shown on right-click.
      * @default true
      */
     contextMenuVisibility?: boolean;
 
     /**
+     * @name Controls/_itemActions/interface/IItemActions#contextMenuConfig
      * @cfg {Controls/itemActions:IContextMenuConfig} Визуальное представление {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/show-type/ меню опций записи} и {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/menu-visibility/ контекстного меню}.
      * @remark
      * Подробнее о настроке читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/context-menu-config/ здесь}.
@@ -54,12 +43,14 @@ export interface IItemActionsOptions {
      */
 
     /*ENG
+     * @name Controls/_itemActions/interface/IItemActions#contextMenuConfig
      * @cfg {Controls/itemActions:IContextMenuConfig} item actions menu config
      * @default true
      */
     contextMenuConfig?: IContextMenuConfig;
 
     /**
+     * @name Controls/_itemActions/interface/IItemActions#itemActions
      * @cfg {Array.<Controls/itemActions:IItemAction>} Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи}.
      * @remark
      * Для корректной работы опций записи для контрола нужно задать значение в опции {@link Controls/list:View#keyProperty keyProperty}.
@@ -67,12 +58,14 @@ export interface IItemActionsOptions {
      */
 
     /*ENG
+     * @name Controls/_itemActions/interface/IItemActions#itemActions
      * @cfg {Array.<Controls/itemActions:IItemAction>} Array of configuration objects for buttons which will be shown when the user hovers over an item.
      * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemActionsPG">Example</a>.
      */
     itemActions?: IItemAction[];
 
     /**
+     * @name Controls/_itemActions/interface/IItemActions#itemActionsPosition
      * @cfg {Controls/itemActions.TItemActionsPosition} Позиционирование панели {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/position/ опций записи}.
      * @remark
      * Пример использования значения custom можно посмотреть в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/position/#custom-position статье}.
@@ -109,6 +102,7 @@ export interface IItemActionsOptions {
      */
 
     /*ENG
+     * @name Controls/_itemActions/interface/IItemActions#itemActionsPosition
      * @cfg {TItemActionsPosition} Position of item actions.
      * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemActionsPG">Example</a>.
      * @variant inside Item actions will be positioned inside the item's row.
@@ -147,7 +141,8 @@ export interface IItemActionsOptions {
     itemActionsPosition?: TItemActionsPosition;
 
     /**
-     * @cfg {String} Имя поля записи, в котором хранится конфигурация для панели с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опциями записи}.
+     * @name Controls/_itemActions/interface/IItemActions#itemActionsProperty
+     * cfg {String} Имя поля записи, в котором хранится конфигурация для панели с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опциями записи}.
      * @remark
      * С помощью этой опции можно задать конфигурацию набора опций для каждой записи.
      * Подробнее об использовании функционала читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/separate-set-options/#item-actions-property здесь}.
@@ -190,12 +185,14 @@ export interface IItemActionsOptions {
      */
 
     /*ENG
+     * 
      * @name Controls/_itemActions/interface/IItemActions#itemActionsProperty
      * @cfg {String} Name of the item's property that contains item actions.
      */
     itemActionsProperty?: string;
 
     /**
+     * @name Controls/_itemActions/interface/IItemActions#actionAlignment
      * @cfg {TActionAlignment} Выравнивание {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи}, когда они отображаются в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/swipe-mobile/ режиме swipe}.
      * @demo Controls-demo/List/Swipe/Scenarios
      * @see itemActions
@@ -203,6 +200,7 @@ export interface IItemActionsOptions {
      */
 
     /*ENG
+     * @name Controls/_itemActions/interface/IItemActions#actionAlignment
      * @cfg {TActionAlignment} Determines how item actions will be aligned on swipe.
      * @demo Controls-demo/List/Swipe/Scenarios
      * @variant horizontal Actions will be displayed in a line.
@@ -211,6 +209,7 @@ export interface IItemActionsOptions {
     actionAlignment?: TActionAlignment;
 
     /**
+     * @name Controls/_itemActions/interface/IItemActions#actionCaptionPosition
      * @cfg {Controls/itemActions.TActionCaptionPosition} Позиция заголовка для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи}, когда они отображаются в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/swipe-mobile/ режиме swipe}.
      * @demo Controls-demo/List/Swipe/Scenarios
      * @see itemActions
@@ -218,6 +217,7 @@ export interface IItemActionsOptions {
      */
 
     /*ENG
+     * @name Controls/_itemActions/interface/IItemActions#actionCaptionPosition
      * @cfg {Controls/itemActions.TActionCaptionPosition} Determines where the caption of an item action will be displayed on swipe.
      * @demo Controls-demo/List/Swipe/Scenarios
      * @variant right Title will be displayed to the right of the action's icon.
@@ -227,6 +227,7 @@ export interface IItemActionsOptions {
     actionCaptionPosition?: TActionCaptionPosition;
 
     /**
+     * @name Controls/_itemActions/interface/IItemActions#itemActionsVisibility
      * @cfg {TItemActionsVisibility} Отображение {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи} с задержкой или без.
      * @remark
      * Подробнее о каждом режиме отображения читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/item-actions-visibility/ здесь}.
@@ -234,11 +235,13 @@ export interface IItemActionsOptions {
      */
 
     /*
+     * @name Controls/_itemActions/interface/IItemActions#itemActionsVisibility
      * @cfg {TItemActionsVisibility} Setting of ItemActions visibility
      */
     itemActionsVisibility?: TItemActionsVisibility;
 
     /**
+     * @name Controls/_itemActions/interface/IItemActions#itemActionVisibilityCallback
      * @cfg {Function} Функция обратного вызова для определения видимости {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи}.
      * @remark
      * Функция принимает два аргумента:
@@ -287,6 +290,7 @@ export interface IItemActionsOptions {
      */
 
     /*ENG
+     * @name Controls/_itemActions/interface/IItemActions#itemActionVisibilityCallback
      * @cfg {Function} item operation visibility filter function
      * @param {ItemAction} action Object with configuration of an action.
      * @param {Types/entity:Model} item Instance of the item whose action is being processed.
@@ -319,11 +323,13 @@ export interface IItemActionsOptions {
     itemActionVisibilityCallback?: TItemActionVisibilityCallback;
 
     /**
+     * @name Controls/_itemActions/interface/IItemActions#itemActionsClass
      * @cfg {String} CSS класс, позволяющий задать отступы и позицию панели с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опциями записи} внутри элемента.
      * @default controls-itemActionsV_position_bottomRight
      * @deprecated Используйте {@link Controls/list:ItemTemplate#itemActionsClass itemActionsClass} как опцию {@link Controls/list:ItemTemplate}.
      */
     /*
+     * @name Controls/_itemActions/interface/IItemActions#itemActionsClass
      * @cfg {Controls/itemActions:TActionCaptionPosition} CSS class, allowing to set position and padding for actions panel relative to record
      */
     /*
@@ -357,4 +363,18 @@ export interface IItemActionsOptions {
  * @param {Types/entity:Model} item Instance of the item whose action was clicked.
  * @param {HTMLElement} itemContainer Container of the item whose action was clicked.
  * @param {Event} nativeEvent Native browser event
+ */
+
+/**
+ * Интерфейс опций контрола, который работает с {@link Controls/_itemActions/Controller контроллером опций записи}.
+ * @interface Controls/_itemActions/interface/IItemActions
+ * @public
+ * @author Аверкиев П.А.
+ */
+
+/*
+ * Interface of options of Control that works with {@link Controls/_itemActions/Controller Actions controller}
+ * @interface Controls/_itemActions/interface/IItemActions
+ * @public
+ * @author Аверкиев П.А.
  */

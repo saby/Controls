@@ -2754,15 +2754,27 @@ const _private = {
             event.preventDefault();
 
             const controller = _private.getMarkerController(self);
-            const newMarkedKey = controller.getPrevMarkedKey();
-            if (newMarkedKey !== controller.getMarkedKey()) {
-                const result = self._changeMarkedKey(newMarkedKey);
-                if (result instanceof Promise) {
-                    result.then((key) => _private.scrollToItem(self, key, true));
-                } else if (result !== undefined) {
-                    _private.scrollToItem(self, result);
+            const moveMarker = () => {
+                const newMarkedKey = controller.getPrevMarkedKey();
+                if (newMarkedKey !== controller.getMarkedKey()) {
+                    const result = self._changeMarkedKey(newMarkedKey);
+                    if (result instanceof Promise) {
+                        result.then((key) => _private.scrollToItem(self, key, true));
+                    } else if (result !== undefined) {
+                        _private.scrollToItem(self, result);
+                    }
                 }
             }
+            const currentMarkedKey = controller.getMarkedKey();
+            const lastItem = self._listViewModel.at(self._listViewModel.getStartIndex());
+            if (lastItem.key === currentMarkedKey) {
+                self._shiftToDirection('up').then(() => {
+                    moveMarker();
+                });
+            } else {
+                moveMarker();
+            }
+
         }
     },
 
@@ -3232,12 +3244,12 @@ const _private = {
  * Компонент плоского списка, с произвольным шаблоном отображения каждого элемента. Обладает возможностью загрузки/подгрузки данных из источника.
  * @class Controls/_list/BaseControl
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface:ISource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface/IGroupedList
- * @mixes Controls/_interface/INavigation
- * @mixes Controls/_interface/IFilterChanged
+ * @mixes Controls/interface:INavigation
+ * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/interface/IEditableList
  * @mixes Controls/_list/BaseControl/Styles
  * @mixes Controls/_list/interface/IList
@@ -4026,6 +4038,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.setReloadingState(this, true);
         }
 
+        if (!this.__error && !this._scrollController) {
+            // Создаем заново sourceController после выхода из состояния ошибки
+            _private.createScrollController(self, newOptions);
+        }
         const needReload =
             !this._loadedBySourceController &&
             !isSourceControllerLoadingNow &&
@@ -4806,7 +4822,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (oldOptions.hasOwnProperty('loading') && oldOptions.loading !== this._options.loading) {
             if (this._options.loading && this._loadingState === null) {
                 _private.showIndicator(this);
-            } else if (!this._sourceController.isLoading() && this._loadingState === 'all') {
+            } else if (this._loadingState === 'all') {
                 _private.hideIndicator(this);
             }
         }

@@ -8,9 +8,9 @@ import 'css!Controls/CommonClasses';
  * Контрол шапка меню.
  * @class Controls/menu:HeaderTemplate
  * @extends UI/_base/Control
- * @mixes Controls/_interface/ICaption
- * @mixes Controls/_interface/IIcon
- * @mixes Controls/_interface/IIconSize
+ * @mixes Controls/interface:ICaption
+ * @mixes Controls/interface:IIcon
+ * @mixes Controls/interface:IIconSize
  * @public
  *
  * @author Герасимов А.М.

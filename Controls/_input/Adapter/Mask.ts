@@ -12,7 +12,7 @@ import {EventUtils} from 'UI/Events';
  *
  * @class Controls/_input/Adapter/Mask
  * @extends UI/_base/Control
- * @mixes Controls/_decorator/resources/IMask
+ * @mixes Controls/decorator:IMask
  * @public
  * @demo Controls-demo/Input/AdapterMask/Index
  *

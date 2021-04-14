@@ -1,6 +1,8 @@
 /**
  * Библиотека контролов, которые служат для задания набора шаблонов, из которых в каждый момент времени может отображаться только один, с возможностью переключения между этими шаблонами.
  * @library Controls/tabs
+ * @includes ITabsTemplate Controls/_tabs/ITabsTemplate
+ * @includes ITabsAdaptiveButtons Controls/_tabs/ITabsAdaptiveButtons
  * @public
  * @author Крайнов Д.О.
  */

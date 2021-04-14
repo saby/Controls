@@ -11,7 +11,7 @@ interface IOptions extends IActionOptions {
 /**
  * Действие "удаление записи"
  * @class Controls/_actions/Remove
- * @implements Controls/_listActions/interface/IAction
+ * @implements Controls/listActions:IAction
  * @public
  * @author Крайнов Д.О.
  */

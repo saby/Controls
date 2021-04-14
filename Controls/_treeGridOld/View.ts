@@ -20,15 +20,15 @@ import { Model } from 'Types/entity';
  *
  * @class Controls/_treeGridOld/View
  * @extends Controls/_grid/Grid
- * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface:ISource
  * @mixes Controls/_list/interface/IClickableView
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface/IGroupedGrid
- * @mixes Controls/_interface/INavigation
- * @mixes Controls/_interface/IFilterChanged
+ * @mixes Controls/interface:INavigation
+ * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/_list/interface/IList
  * @mixes Controls/_itemActions/interface/IItemActionsOptions
- * @mixes Controls/_interface/IHierarchy
+ * @mixes Controls/interface:IHierarchy
  * @implements Controls/_tree/interface/ITreeControl
  * @mixes Controls/interface/ITreeGridItemTemplate
  * @mixes Controls/_interface/IDraggable
@@ -56,15 +56,15 @@ import { Model } from 'Types/entity';
  *
  * @class Controls/_treeGridOld/View
  * @extends Controls/_grid/Grid
- * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface:ISource
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface/IGroupedGrid
- * @mixes Controls/_interface/INavigation
- * @mixes Controls/_interface/IFilterChanged
+ * @mixes Controls/interface:INavigation
+ * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/_list/interface/IList
  * @mixes Controls/_itemActions/interface/IItemActionsOptions
  * @mixes Controls/_interface/ISorting
- * @mixes Controls/_interface/IHierarchy
+ * @mixes Controls/interface:IHierarchy
  * @implements Controls/_tree/interface/ITreeControl
  * @mixes Controls/interface/ITreeGridItemTemplate
  * @mixes Controls/_interface/IDraggable
@@ -166,6 +166,15 @@ export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
  * @cfg {String} режим перемещения маркера по кнопкам вверх/вниз.
  * @variant all - маркер движется по всем записям.
  * @variant leaves - маркер движется по листьям. Узлы раскрываются до ближайшего листа.
+ */
+/**
+ * @name Controls/_treeGridOld/View#markedLeafChangeCallback
+ * @cfg {Function} Функция обратного вызова, которая будет вызываться при смене выделенного листа в режиме markerMoveMode=leaves.
+ * Единственный аргумент: положение выделенного листа:
+ * 'first' - Выделенный лист является первым листом в дереве
+ * 'last' - Выделенный лист является последним листом в дереве
+ * 'middle' - Выделенный лист между первым и последним листом в дереве
+ * 'single' - Выделенный лист единственный в дереве
  */
 
 Object.defineProperty(Tree, 'defaultProps', {

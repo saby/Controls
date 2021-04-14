@@ -1,10 +1,3 @@
-/**
- * Интерфейс для поля ввода времени с маской.
- *
- * @public
- * @author Красильников А.С.
- */
-
 export interface ITimeMaskOptions {
    mask: 'HH:II:SS.UUU' | 'HH:II:SS' | 'HH:II';
 }
@@ -24,6 +17,13 @@ export interface ITimeMaskOptions {
  * @variant 'HH:II'
  */
 
+
+/**
+ * Интерфейс для поля ввода времени с маской.
+ *
+ * @public
+ * @author Красильников А.С.
+ */
 export interface ITimeMask {
    readonly '[Controls/_input/interface/ITimeMask]': boolean;
 }

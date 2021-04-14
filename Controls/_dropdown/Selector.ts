@@ -70,10 +70,10 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * To work with single selectedKeys option you can use control with {@link Controls/source:SelectedKey}.
  * @class Controls/_dropdown/Input
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ISource
- * @mixes Controls/_interface/IHierarchy
- * @mixes Controls/_interface/IFilterChanged
- * @mixes Controls/_interface/INavigation
+ * @mixes Controls/interface:ISource
+ * @mixes Controls/interface:IHierarchy
+ * @mixes Controls/interface:IFilterChanged
+ * @mixes Controls/interface:INavigation
  * @mixes Controls/Input/interface/IValidation
  * @mixes Controls/_interface/IMultiSelectable
  * @mixes Controls/_dropdown/interface/IFooterTemplate

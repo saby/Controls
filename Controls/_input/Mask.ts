@@ -28,8 +28,8 @@ const regExpQuantifiers: RegExp = /\\({.*?}|.)/;
  * @ignoreOptions Controls/_input/Base#value
  * @ignoreEvents Controls/_input/Base#valueChanged Controls/_input/Base#inputCompleted
  *
- * @mixes Controls/_input/interface/IInputMaskValue
- * @mixes Controls/_decorator/resources/IMask
+ * @mixes Controls/input:IInputMaskValue
+ * @mixes Controls/decorator:IMask
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Input/Masks/Index

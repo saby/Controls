@@ -1,18 +1,19 @@
 import {TemplateFunction} from 'UI/Base';
 import {ITextOptions} from 'Controls/_input/interface/IText';
 
-/**
- * Интерфейс многострочного поля ввода.
- * @interface Controls/_input/interface/IArea
- * @public
- * @author Красильников А.С.
- */
 export interface IAreaOptions extends ITextOptions {
     maxLines?: number;
     minLines?: number;
     optimizeShadow?: boolean;
     footerTemplate?: string | TemplateFunction;
 }
+
+/**
+ * Интерфейс многострочного поля ввода.
+ * @interface Controls/_input/interface/IArea
+ * @public
+ * @author Красильников А.С.
+ */
 
 /**
  * @name Controls/_input/interface/IArea#minLines

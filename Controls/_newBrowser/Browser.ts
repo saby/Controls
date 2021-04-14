@@ -13,6 +13,7 @@ import {MasterVisibilityEnum} from 'Controls/_newBrowser/interfaces/IMasterOptio
 import {BeforeChangeRootResult, IRootsData} from 'Controls/_newBrowser/interfaces/IRootsData';
 import {IBrowserViewConfig, NodesPosition} from 'Controls/_newBrowser/interfaces/IBrowserViewConfig';
 import {isEqual} from 'Types/object';
+import {EventUtils} from 'UI/Events';
 import {
     buildDetailOptions,
     buildMasterOptions,
@@ -64,6 +65,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * Шаблон отображения компонента
      */
     protected _template: TemplateFunction = ViewTemplate;
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
 
     /**
      * Enum со списком доступных вариантов отображения контента в detail-колонке.

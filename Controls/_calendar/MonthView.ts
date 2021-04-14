@@ -30,7 +30,7 @@ import 'css!Controls/calendar';
  * @class Controls/_calendar/MonthView
  * @extends UI/Base:Control
  * @mixes Controls/_calendar/interfaces/IMonth
- * @mixes Controls/_interface/IDayTemplate
+ * @mixes Controls/dateRange:IDayTemplate
  *
  * @public
  * @author Красильников А.С.
