@@ -20,19 +20,22 @@
                     </ws:if>
                 </ws:if>
 
-                <!-- Вынести шаблон кнопки в отдельный шаблон и возвращать его из функции, при этом не затягивая лишние либы. -->
-                <!-- https://online.sbis.ru/opendoc.html?guid=15b9412b-159f-463c-9f4e-fa15a64fda4b -->
-                <ws:if data="{{ column.getTemplate(content) }}">
-                    <ws:partial template="{{column.getTemplate(content)}}" item="{{item.getNode()}}" itemData="{{item.getNode()}}" column="{{ column }}" gridColumn="{{ column }}"/>
+                <!--Контент нужно вывести только в первой ячейке. Если колспаним то она одна, если не колспаним то только в первой-->
+                <ws:if data="{{ index === 0 }}">
+                    <!-- Вынести шаблон кнопки в отдельный шаблон и возвращать его из функции, при этом не затягивая лишние либы. -->
+                    <!-- https://online.sbis.ru/opendoc.html?guid=15b9412b-159f-463c-9f4e-fa15a64fda4b -->
+                    <ws:if data="{{ column.getTemplate(content) }}">
+                        <ws:partial template="{{column.getTemplate(content)}}" item="{{item.getNode()}}" itemData="{{item.getNode()}}" column="{{ column }}" gridColumn="{{ column }}"/>
+                    </ws:if>
+                    <ws:else>
+                        <Controls.buttons:Button attr:class="controls-TreeGrid__nodeFooterLoadMore js-controls-TreeGrid__nodeFooter__LoadMoreButton"
+                                                 fontSize="xs"
+                                                 viewMode="link"
+                                                 fontColorStyle="{{ item.getNode().moreFontColorStyle }}"
+                                                 caption="{{rk('Еще') + '...'}}"
+                                                 readOnly="{{false}}"/>
+                    </ws:else>
                 </ws:if>
-                <ws:else>
-                    <Controls.buttons:Button attr:class="controls-TreeGrid__nodeFooterLoadMore js-controls-TreeGrid__nodeFooter__LoadMoreButton"
-                                             fontSize="xs"
-                                             viewMode="link"
-                                             fontColorStyle="{{ item.getNode().moreFontColorStyle }}"
-                                             caption="{{rk('Еще') + '...'}}"
-                                             readOnly="{{false}}"/>
-                </ws:else>
             </div>
         </ws:for>
     </div>
