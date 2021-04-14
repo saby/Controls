@@ -4,7 +4,7 @@
     <ws:contentTemplate>
         <div>
             <ws:partial template="{{contentTemplate.ladderWrapper}}"
-                        stickyProperty="{{contentTemplate.stickyProperty}}"
+                        stickyProperty="{{stickyProperty}}"
                         ladderProperty="date">
                 <div class="ControlsDemo_dateTime-cell ControlsDemo_date-cell">
                     {{ item.contents.date }}
