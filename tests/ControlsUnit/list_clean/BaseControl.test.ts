@@ -947,7 +947,7 @@ describe('Controls/list_clean/BaseControl', () => {
         });
     });
 
-    describe('shiftToDirection by space', () => {
+    describe('shiftToDirection by moving marker', () => {
         const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
             keyProperty: 'key',
@@ -976,12 +976,26 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl.destroy();
             baseControl = undefined;
         });
-        it('moveMarkerToNext', () => {
+        it('space', () => {
             BaseControl._private.spaceHandler(baseControl, { preventDefault: () => null });
             assert.isFalse(shiftToDirectionStub.called);
             baseControl._beforeUpdate({...baseControlCfg, markedKey: 1});
             BaseControl._private.spaceHandler(baseControl, { preventDefault: () => null });
             assert.isTrue(shiftToDirectionStub.calledOnce);
+            assert.isTrue(shiftToDirectionStub.calledWith('down'));
+        });
+        it('moveMarkerToNext', () => {
+            BaseControl._private.moveMarkerToNext(baseControl, { preventDefault: () => null });
+            assert.isFalse(shiftToDirectionStub.called);
+            baseControl._beforeUpdate({...baseControlCfg, markedKey: 1});
+            BaseControl._private.moveMarkerToNext(baseControl, { preventDefault: () => null });
+            assert.isTrue(shiftToDirectionStub.calledOnce);
+            assert.isTrue(shiftToDirectionStub.calledWith('down'));
+        });
+        it('moveMarkerToPrevious', () => {
+            BaseControl._private.moveMarkerToPrevious(baseControl, { preventDefault: () => null });
+            assert.isTrue(shiftToDirectionStub.calledOnce);
+            assert.isTrue(shiftToDirectionStub.calledWith('up'));
         });
     });
 
