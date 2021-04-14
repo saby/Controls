@@ -12,6 +12,7 @@ define([
    'Core/Deferred',
    'Core/core-instance',
    'Env/Env',
+   'Env/Touch',
    'Core/core-clone',
    'Types/entity',
    'Controls/Application/SettingsController',
@@ -22,7 +23,7 @@ define([
    'Controls/itemActions',
    'Controls/dataSource',
    'Core/polyfill/PromiseAPIDeferred'
-], function(sourceLib, collection, lists, tree, treeGrid, grid, tUtil, cDeferred, cInstance, Env, clone, entity, SettingsController, popup, listDragNDrop, dragNDrop, listRender, itemActions, dataSource) {
+], function(sourceLib, collection, lists, tree, treeGrid, grid, tUtil, cDeferred, cInstance, Env, EnvTouch, clone, entity, SettingsController, popup, listDragNDrop, dragNDrop, listRender, itemActions, dataSource) {
    describe('Controls.List.BaseControl', function() {
       var data, result, source, rs, sandbox;
 
@@ -4009,12 +4010,12 @@ define([
             assert.equal(args[1], 2);
          };
 
-         self._context = { isTouch: { isTouch: true } };
+         const isTouchStub = sandbox.stub(EnvTouch.TouchDetect.getInstance(), 'isTouch').returns(true);
 
          lists.BaseControl._private.startDragNDrop(self, domEvent, itemData);
          assert.isFalse(notifyCalled, 'On touch device can\'t drag');
 
-         self._context.isTouch.isTouch = false;
+         isTouchStub.returns(false);
 
          lists.BaseControl._private.startDragNDrop(self, domEvent, itemData);
          assert.isTrue(notifyCalled);
