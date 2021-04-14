@@ -4,18 +4,10 @@ import * as template from 'wml!Controls/_propertyGrid/TabbedView/TabbedView';
 import {Memory} from 'Types/source';
 
 import {IPropertyGridOptions} from './IPropertyGrid';
-import IPropertyGridProperty from './IProperty';
+import TabsController, {ISwitchableAreaItem} from './TabbedView/TabsController';
 
-import {ITabsButtonsOptions} from 'Controls/tabs';
-
-interface IOptions extends IPropertyGridOptions {
+export interface IOptions extends IPropertyGridOptions {
     tabProperty: string;
-    tabsConfig: ITabsButtonsOptions;
-}
-
-interface ISwitchableAreaItem {
-    key: string;
-    templateOptions: Partial<IPropertyGridOptions>;
 }
 
 /**
@@ -30,68 +22,38 @@ interface ISwitchableAreaItem {
 export default class TabbedView extends Control<IOptions> {
     protected _template: TemplateFunction = template;
 
+    private _tabsController: TabsController;
+
     protected _tabsSource: Memory;
     protected _switchableAreaItems: ISwitchableAreaItem[];
 
     protected _selectedKey: string;
 
     protected _beforeMount(options: IOptions): void {
-        this._applyNewStateFromOptions(options);
+        this._tabsController = new TabsController(options);
+        this._applyNewStateFromController();
     }
 
     protected _beforeUpdate(options: IOptions): void {
-        if (this._options.source !== options.source) {
-            this._applyNewStateFromOptions(options);
+        if (this._tabsController.updateOptions(options)) {
+            this._applyNewStateFromController();
         }
     }
 
-    protected _applyNewStateFromOptions(options: IOptions): void {
-        const config = this._createTabsConfig(options);
+    protected _applyNewStateFromController(): void {
+        this._tabsSource = this._tabsController.getTabsSource();
+        this._switchableAreaItems = this._tabsController.getSwitchableAreaItems();
 
-        this._tabsSource = config.tabsSource;
-        this._switchableAreaItems = config.switchableAreaItems;
-
-        this._selectedKey = config.switchableAreaItems[0].key;
+        this._selectedKey = this._switchableAreaItems[0].key;
     }
 
     protected _handleObjectChange(_: Event, obj: object): void {
         this._notify('editingObjectChanged', [obj]);
     }
 
-    protected _createTabsConfig(options: IOptions): {
-        tabsSource: Memory,
-        switchableAreaItems: ISwitchableAreaItem[]
-    } {
-        const tabs: Record<string, IPropertyGridProperty[]> = {};
-
-        let tabsSource: Memory;
-        let switchableAreaItems: ISwitchableAreaItem[];
-
-        options.source.forEach((item) => {
-            tabs[item.tab] = [...(tabs[item.tab] || []), item];
-        });
-
-        tabsSource = new Memory({
-            data: Object.keys(tabs).map((item) => ({
-                key: item,
-                title: item,
-                align: 'left'
-            })),
-            keyProperty: 'key'
-        });
-
-        switchableAreaItems = Object.entries(tabs).map(([key, source]) => {
-            return {
-                key,
-                templateOptions: {
-                    source
-                }
-            };
-        });
-
+    static get defaultProps(): Partial<IOptions> {
         return {
-            tabsSource,
-            switchableAreaItems
+            tabProperty: 'tab'
         };
     }
 }
