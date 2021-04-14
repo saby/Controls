@@ -1,5 +1,5 @@
 import { TemplateFunction } from 'UI/Base';
-import { OptionsToPropertyMixin } from 'Types/entity';
+import {Model as EntityModel, OptionsToPropertyMixin} from 'Types/entity';
 import { mixin } from 'Types/util';
 
 import { IColspanParams, IColumn } from 'Controls/interface';
@@ -15,6 +15,7 @@ export interface IOptions<T> {
     contents: string;
     groupTemplate: TemplateFunction|string;
     zIndex?: number;
+    metaResults: EntityModel;
 }
 
 export default class GroupCell<T>
@@ -23,6 +24,7 @@ export default class GroupCell<T>
     protected _$contents: string;
     protected _$zIndex: number;
     protected _$groupTemplate: TemplateFunction|string;
+    protected _$metaResults: EntityModel;
 
     constructor(options?: IOptions<T>) {
         super(options);
@@ -92,6 +94,10 @@ export default class GroupCell<T>
         return classes;
     }
 
+    getMetaResults(): EntityModel {
+        return this._$metaResults;
+    }
+
     isExpanded(): boolean {
         return this._$owner.isExpanded();
     }
@@ -113,5 +119,6 @@ Object.assign(GroupCell.prototype, {
     _$columnsLength: null,
     _$zIndex: 2,
     _$contents: null,
-    _$groupTemplate: 'Controls/grid:GroupTemplate'
+    _$groupTemplate: 'Controls/grid:GroupTemplate',
+    _$metaResults: null
 });

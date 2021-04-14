@@ -21,6 +21,7 @@ const GROUP_Z_INDEX_DEFAULT = 2;
 const GROUP_Z_INDEX_WITHOUT_HEADERS_AND_RESULTS = 3;
 export interface IOptions<T> extends IBaseCollectionItemOptions<T>, IExpandableMixinOptions {
     owner: Collection<T>;
+    metaResults: EntityModel;
 }
 
 export default class GroupRow<T> extends mixin<
@@ -141,6 +142,7 @@ export default class GroupRow<T> extends mixin<
             columnsLength: this._$columns.length,
             contents: this.getContents(),
 			zIndex: this.getStickyHeaderZIndex(),
+            metaResults: this.getMetaResults(),
             groupTemplate: this._groupTemplate
         };
     }
