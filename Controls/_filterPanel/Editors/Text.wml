@@ -1,0 +1,7 @@
+<Controls._filterPanel.BaseEditor scope="{{_options}}"
+                                  on:extendedCaptionClick="_extendedCaptionClickHandler()"
+                                  extendedCaption="{{_options.extendedCaption}}">
+    <ws:editorTemplate>
+        <div> {{_options.extendedCaption}} </div>
+    </ws:editorTemplate>
+</Controls._filterPanel.BaseEditor>
