@@ -61,10 +61,10 @@ type ReceivedState = RecordSet | Error;
  * * {@link Controls/list:Container}
  *
  * @class Controls/_list/Data
- * @mixes Controls/_interface/IFilterChanged
- * @mixes Controls/_interface/INavigation
- * @mixes Controls/_interface/IHierarchy
- * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface:IFilterChanged
+ * @mixes Controls/interface:INavigation
+ * @mixes Controls/interface:IHierarchy
+ * @mixes Controls/interface:ISource
  * @extends UI/Base:Control
  *
  * @public
@@ -98,10 +98,10 @@ type ReceivedState = RecordSet | Error;
  * Here you can see a <a href="/materials/Controls-demo/app/Controls-demo%2FFilterSearch%2FFilterSearch">demo</a>.
  *
  * @class Controls/_list/Data
- * @mixes Controls/_interface/IFilterChanged
- * @mixes Controls/_interface/INavigation
- * @mixes Controls/_interface/IHierarchy
- * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface:IFilterChanged
+ * @mixes Controls/interface:INavigation
+ * @mixes Controls/interface:IHierarchy
+ * @mixes Controls/interface:ISource
  * @extends UI/Base:Control
  *
  * @public

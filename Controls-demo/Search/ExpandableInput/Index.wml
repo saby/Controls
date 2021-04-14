@@ -2,17 +2,19 @@
     <Controls.browser:Browser source="{{_source}}" keyProperty="id" bind:filter="_filter"
                               searchParam="department">
         <ws:content>
-            <Controls.search:InputContainer>
-                <Controls.search:ExpandableInput bind:value="_searchValue" attr:class="controlsDemo__ml1"/>
-            </Controls.search:InputContainer>
+            <div>
+                <Controls.search:InputContainer>
+                    <Controls.search:ExpandableInput bind:value="_searchValue" attr:class="controlsDemo__ml1"/>
+                </Controls.search:InputContainer>
 
-            <Controls.list:Container>
-                <Controls.list:View emptyTemplate="Не найдено">
-                    <ws:itemTemplate>
-                        <ws:partial template="Controls/list:ItemTemplate"/>
-                    </ws:itemTemplate>
-                </Controls.list:View>
-            </Controls.list:Container>
+                <Controls.list:Container>
+                    <Controls.list:View emptyTemplate="Не найдено">
+                        <ws:itemTemplate>
+                            <ws:partial template="Controls/list:ItemTemplate"/>
+                        </ws:itemTemplate>
+                    </Controls.list:View>
+                </Controls.list:Container>
+            </div>
         </ws:content>
     </Controls.browser:Browser>
 </div>

@@ -28,14 +28,14 @@ interface IDateRangeInputOptions extends IDateRangeValidatorsOptions, IControlOp
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/interface:IInputPlaceholder
  * @mixes Controls/_dateRange/interfaces/IInput
- * @mixes Controls/_dateRange/interfaces/IDateRange
+ * @mixes Controls/dateRange:IDateRange
  * @mixes Controls/_dateRange/interfaces/IRangeInputTag
  * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
- * @mixes Controls/_interface/IDayTemplate
- * @mixes Controls/_interface/IDateMask
+ * @mixes Controls/dateRange:IDayTemplate
+ * @mixes Controls/interface:IDateMask
  * @mixes Controls/_interface/IOpenPopup
- * @mixes Controls/_interface/IDateRangeValidators
- * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
+ * @mixes Controls/interface:IDateRangeValidators
+ * @mixes Controls/dateRange:IDateRangeSelectable
  *
  * @public
  * @demo Controls-demo/dateRange/Input/Default/Index
@@ -48,10 +48,10 @@ interface IDateRangeInputOptions extends IDateRangeValidatorsOptions, IControlOp
  * @extends UI/Base:Control
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/_dateRange/interfaces/IInput
- * @mixes Controls/_dateRange/interfaces/IDateRange
+ * @mixes Controls/dateRange:IDateRange
  * @mixes Controls/_dateRange/interfaces/IRangeInputTag
- * @mixes Controls/_interface/IDateMask
- * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
+ * @mixes Controls/interface:IDateMask
+ * @mixes Controls/dateRange:IDateRangeSelectable
  *
  *
  * @public

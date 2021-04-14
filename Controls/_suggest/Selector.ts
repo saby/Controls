@@ -55,11 +55,11 @@ var _private = {
  *
  * @class Controls/_suggest/Selector
  * @extends Controls/input:Text
- * @mixes Controls/_interface/ISearch
- * @mixes Controls/_interface/ISource
- * @mixes Controls/_interface/IFilterChanged
+ * @mixes Controls/interface:ISearch
+ * @mixes Controls/interface:ISource
+ * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/_suggest/ISuggest
- * @mixes Controls/_interface/INavigation
+ * @mixes Controls/interface:INavigation
  *
  * @author Герасимов А.М.
  * @public
@@ -71,11 +71,11 @@ var _private = {
  *
  * @class Controls/_suggest/Selector
  * @extends Controls/input:Text
- * @mixes Controls/_interface/ISearch
- * @mixes Controls/_interface/ISource
- * @mixes Controls/_interface/IFilterChanged
+ * @mixes Controls/interface:ISearch
+ * @mixes Controls/interface:ISource
+ * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/_suggest/ISuggest
- * @mixes Controls/_interface/INavigation
+ * @mixes Controls/interface:INavigation
  *
  * @public
  */

@@ -22,12 +22,12 @@ describe('Controls/filterPanel:ListEditor', () => {
         };
 
         it('propertyValue changed', () => {
-            const newPropertyValue = [2];
+            const newPropertyValue = [];
             const listEditor = getEditor();
             const options = getEditorOptions();
             options.propertyValue = newPropertyValue;
             listEditor._beforeUpdate(options);
-            assert.equal(listEditor._filter['id'], newPropertyValue);
+            assert.deepEqual(listEditor._filter, {});
         });
 
         it('propertyValue changed with multiSelect', () => {

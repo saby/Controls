@@ -27,11 +27,11 @@ import 'css!Controls/list';
  * @class Controls/_list/List
  * @extends UI/Base:Control
  * @implements Controls/_interface/IErrorController
- * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface:ISource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/interface/IPromisedSelectable
- * @mixes Controls/_interface/INavigation
- * @mixes Controls/_interface/IFilterChanged
+ * @mixes Controls/interface:INavigation
+ * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/_list/interface/IList
  * @mixes Controls/_itemActions/interface/IItemActionsOptions
  * @mixes Controls/interface/IEditableList
@@ -59,12 +59,12 @@ import 'css!Controls/list';
  * @class Controls/_list/List
  * @extends UI/Base:Control
  * @implements Controls/_interface/IErrorController
- * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface:ISource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface/IGroupedList
- * @mixes Controls/_interface/INavigation
- * @mixes Controls/_interface/IFilterChanged
+ * @mixes Controls/interface:INavigation
+ * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/_list/interface/IList
  * @mixes Controls/_itemActions/interface/IItemActionsOptions
  * @mixes Controls/_interface/ISorting
