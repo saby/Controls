@@ -1,33 +1,95 @@
-<div class="controls-FilterViewPanel">
+<div class="{{!_viewModel.hasExtendedItems() ? 'controls-FilterViewPanel-background'}} controls-FilterViewPanel">
    <Controls.scroll:Container attr:class="controls-FilterViewPanel__scroll">
-      <Controls.scroll:StickyHeader backgroundStyle="transparent">
-         <div class="controls-FilterViewPanel__header">
+      <ws:if data="{{_viewModel.hasBasicItems()}}">
+         <ws:if data="{{_options.viewMode === 'filterPanelStack'}}">
+            <Controls.scroll:StickyHeader backgroundStyle="transparent">
+               <div class="controls-FilterViewPanel__header
+                           controls-FilterViewPanel__header_backgroundStyle-{{_options.backgroundStyle}}">
+                     <Controls.icon:Icon icon="icon-FilterNew"
+                                         attr:class="controls-FilterViewPanel__filter-icon"/>
+                     <Controls.heading:Title caption="{{rk('Отбираются')}}"
+                                             fontSize="3xl"
+                                             readOnly="{{true}}"
+                                             fontColorStyle="secondary"
+                                             attr:class="controls-FilterViewPanel__filter-caption"/>
+                     <Controls.buttons:Button viewMode="functionalButton"
+                                              icon="icon-Yes"
+                                              iconSize="s"
+                                              iconStyle="contrast"
+                                              buttonStyle="success"
+                                              caption="{{null}}"
+                                              inlineHeight="filterPanel"
+                                              attr:class="controls-FilterViewPanel__applyButton"
+                                              on:click="_applyFilter()"/>
+                     <Controls.buttons:Button viewMode="linkButton"
+                                              caption="{{rk('Сбросить')}}"
+                                              fontColorStyle="label"
+                                              fontSize="xs"
+                                              readOnly="{{_viewModel.isFilterReseted()}}"
+                                              on:click="_resetFilter()"/>
+               </div>
+            </Controls.scroll:StickyHeader>
+         </ws:if>
+
+         <Controls.propertyGrid:PropertyGrid
+                 editingObject="{{_viewModel.getEditingObject()}}"
+                 source="{{_viewModel.getBasicFilterItems()}}"
+                 collapsedGroups="{{_viewModel.getCollapsedGroups()}}"
+                 itemPadding="{{_itemPadding}}"
+                 on:editingObjectChanged="_editingObjectChanged()"
+                 on:groupClick="_groupClick()"
+                 attr:class="controls-FilterViewPanel__propertyGrid controls-FilterViewPanel__propertyGrid-{{_options.backgroundStyle}}
+                             controls-FilterViewPanel__propertyGrid_viewMode-{{_options.viewMode}}">
+            <ws:itemTemplate>
+               <ws:partial template="Controls/propertyGrid:ItemTemplate" attr:class="controls-FilterViewPanel__propertyGrid_itemTemplate"/>
+            </ws:itemTemplate>
+            <ws:groupTemplate>
+               <ws:partial template="wml!Controls/_filterPanel/View/groupTemplate"
+                           scope="{{groupTemplate}}"
+                           resetCaption="{{_resetCaption}}"
+                           groupItems="{{_viewModel.getGroupItems()}}"/>
+            </ws:groupTemplate>
+         </Controls.propertyGrid:PropertyGrid>
+      </ws:if>
+      <ws:if data="{{_options.viewMode === 'default'}}">
+         <Controls.scroll:StickyHeader backgroundStyle="filterPanel"
+                                       position="bottom"
+                                       attr:class="controls-FilterViewPanel__applyButton-{{_options.viewMode}}">
             <Controls.buttons:Button viewMode="linkButton"
-                                     caption="{{rk('Сбросить')}}"
-                                     fontColorStyle="label"
-                                     readOnly="{{_filterReseted}}"
+                                     caption="{{rk('Сбросить все')}}"
+                                     fontColorStyle="link"
+                                     fontSize="m"
+                                     attr:class="controls-FilterViewPanel__applyButton"
                                      on:click="_resetFilter()"/>
-            <ws:if data="{{_options.applyButtonCaption}}">
-               <div class="controls-FilterViewPanel__applyButton"
-                    on:click="_applyFilter()"> {{rk(_options.applyButtonCaption)}}
+         </Controls.scroll:StickyHeader>
+      </ws:if>
+      <ws:if data="{{_viewModel.hasExtendedItems()}}">
+         <div class="controls-FilterViewPanel__additional-editors-container">
+            <ws:if data="{{_viewModel.hasBasicItems()}}">
+               <div class="controls-FilterViewPanel__additional-caption controls-FilterViewPanel__additional-_options.backgroundStyle">
+                  {{rk('Еще можно отобрать')}}
                </div>
             </ws:if>
+            <ws:else>
+               <div class="controls-FilterViewPanel__additional-header">
+                  <Controls.icon:Icon icon="icon-FilterNew"
+                                      attr:class="controls-FilterViewPanel__filter-icon"/>
+                  <Controls.heading:Title caption="{{rk('Можно отобрать')}}"
+                                          fontSize="3xl"
+                                          readOnly="{{true}}"
+                                          fontColorStyle="secondary"
+                                          attr:class="controls-FilterViewPanel__filter-caption"/>
+               </div>
+            </ws:else>
+            <div class="controls-FilterViewPanel__additional-editors">
+               <ws:for data="filter in _viewModel.getExtendedFilterItems()">
+                  <ws:partial template="{{filter.editorTemplateName}}"
+                              scope="{{filter.editorOptions}}"
+                              viewMode="{{filter.viewMode}}"
+                              on:propertyValueChanged="_propertyValueChanged(filter)"/>
+               </ws:for>
+            </div>
          </div>
-      </Controls.scroll:StickyHeader>
-      <Controls.propertyGrid:PropertyGrid
-              editingObject="{{_editingObject}}"
-              source="{{_source}}"
-              collapsedGroups="{{_collapsedGroups}}"
-              itemPadding="{{_itemPadding}}"
-              on:editingObjectChanged="_editingObjectChanged()"
-              on:groupClick="_groupClick()"
-              attr:class="controls-FilterViewPanel__propertyGrid">
-         <ws:itemTemplate>
-            <ws:partial template="Controls/propertyGrid:ItemTemplate" attr:class="controls-FilterViewPanel__propertyGrid_itemTemplate"/>
-         </ws:itemTemplate>
-         <ws:groupTemplate>
-            <ws:partial template="wml!Controls/_filterPanel/View/groupTemplate" resetCaption="{{_resetCaption}}" groupItems="{{_groupItems}}"/>
-         </ws:groupTemplate>
-      </Controls.propertyGrid:PropertyGrid>
+      </ws:if>
    </Controls.scroll:Container>
 </div>
