@@ -3,7 +3,7 @@
             itemData="{{gridColumn}}">
     <ws:contentTemplate>
         <div>
-            <ws:partial template="{{ladderWrapper}}" ladderProperty="date">
+            <ws:partial template="{{contentTemplate.ladderWrapper}}" ladderProperty="date">
                 <div>
                     {{itemData.item['date']}}
                 </div>
