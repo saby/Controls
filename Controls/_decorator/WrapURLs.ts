@@ -4,12 +4,6 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_decorator/WrapURLs/WrapURLs';
 import 'css!Controls/CommonClasses';
 
-/**
- * Интерфейс для опций контрола {@link Controls/decorator:WrapURLs}.
- * @interface Controls/_decorator/IWrapURLs
- * @public
- * @author Красильников А.С.
- */
 export interface IWrapURLsOptions extends IControlOptions {
     /**
      * @name Controls/_decorator/IWrapURLs#value
@@ -71,7 +65,7 @@ type Path = ILink | IEmail | IPlain;
  *
  * @class Controls/_decorator/WrapURLs
  * @extends UI/Base:Control
- * @mixes Controls/_decorator/IWrapURLs
+ * @mixes Controls/decorator:IWrapURLs
  * @public
  * @demo Controls-demo/Decorator/WrapURLs/Index
  *
@@ -214,3 +208,10 @@ Object.defineProperty(WrapURLs, 'defaultProps', {
 });
 
 export default WrapURLs;
+
+/**
+ * Интерфейс для опций контрола {@link Controls/decorator:WrapURLs}.
+ * @interface Controls/_decorator/IWrapURLs
+ * @public
+ * @author Красильников А.С.
+ */

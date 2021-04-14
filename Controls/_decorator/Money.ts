@@ -24,20 +24,20 @@ import 'css!Controls/CommonClasses';
 
 /**
  * Тип данных для форматируемого значения
- * @typedef {string|number|null} TValue
+ * @typedef {string|number|null} Controls/_decorator/IMoney/TValue
  */
 type TValue = string | number | null;
 
 /**
  * Тип данных для аббревиатуры
- * @typedef {string} TAbbreviationType
+ * @typedef {string} Controls/_decorator/IMoney/TAbbreviationType
  * @variant long
  * @variant none
  */
 type TAbbreviationType = 'long' | 'none';
 /**
  * Тип данных для отображаемой валюты
- * @typedef {string} TCurrency
+ * @typedef {string} Controls/_decorator/IMoney/TCurrency
  * @variant Ruble
  * @variant Euro
  * @variant Dollar
@@ -45,14 +45,14 @@ type TAbbreviationType = 'long' | 'none';
 type TCurrency = 'Ruble' | 'Euro' | 'Dollar';
 /**
  * Тип данных для позиции отображаемой валюты
- * @typedef {string} TCurrencyPosition
+ * @typedef {string} Controls/_decorator/IMoney/TCurrencyPosition
  * @variant right
  * @variant left
  */
 type TCurrencyPosition = 'right' | 'left';
 /**
  * Тип данных для размера отображаемой валюты
- * @typedef {string} TCurrencySize
+ * @typedef {string} Controls/_decorator/IMoney/TCurrencySize
  * @variant 2xs
  * @variant xs
  * @variant s
@@ -67,44 +67,38 @@ interface IPaths {
     number: string;
 }
 
-/**
- * Интерфейс для опций контрола {@link Controls/decorator:Money}.
- * @interface Controls/_decorator/Money/IMoney
- * @public
- * @author Красильников А.С.
- */
 export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, ITooltipOptions,
     IFontColorStyleOptions, IFontWeightOptions, IFontSizeOptions {
     /**
      * @name Controls/_decorator/IMoney#value
-     * @cfg {TValue} Декорируемое число.
+     * @cfg {Controls/_decorator/IMoney/TValue.typedef} Декорируемое число.
      * @default null
      * @demo Controls-demo/Decorator/Money/Value/Index
      */
     value: TValue;
     /**
      * @name Controls/_decorator/IMoney#abbreviationType
-     * @cfg {TAbbreviationType} Тип аббревиатуры.
-     * @default 'none'
+     * @cfg {Controls/_decorator/IMoney/TAbbreviationType.typedef} Тип аббревиатуры.
+     * @default none
      * @demo Controls-demo/Decorator/Money/Abbreviation/Index
      */
     abbreviationType?: TAbbreviationType;
     /**
      * @name Controls/_decorator/IMoney#currency
-     * @cfg {TCurrency} Отображаемая валюта.
+     * @cfg {Controls/_decorator/IMoney/TCurrency.typedef} Отображаемая валюта.
      * @demo Controls-demo/Decorator/Money/Currency/Index
      */
     currency?: TCurrency;
     /**
      * @name Controls/_decorator/IMoney#currencySize
-     * @cfg {TCurrencySize} Размер отображаемой валюты.
-     * @default 's'
+     * @cfg {Controls/_decorator/IMoney/TCurrencySize.typedef} Размер отображаемой валюты.
+     * @default s
      */
     currencySize?: TCurrencySize;
     /**
      * @name Controls/_decorator/IMoney#currencyPosition
-     * @cfg {TCurrencyPosition} Позиция отображаемой валюты относительно суммы.
-     * @default 'right'
+     * @cfg {Controls/_decorator/IMoney/TCurrencyPosition.typedef} Позиция отображаемой валюты относительно суммы.
+     * @default right
      */
     currencyPosition?: TCurrencyPosition;
     /**
@@ -132,7 +126,7 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
  * @mixes Controls/interface:IFontWeightOptions
  * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:INumberFormat
- * @mixes Controls/_decorator/Money/IMoney
+ * @mixes Controls/decorator:IMoney
  *
  * @public
  * @demo Controls-demo/Decorator/Money/Index
@@ -334,6 +328,14 @@ Object.defineProperty(Money, 'defaultProps', {
 });
 
 export default Money;
+
+/**
+ * Интерфейс для опций контрола {@link Controls/decorator:Money}.
+ * @interface Controls/_decorator/IMoney
+ * @public
+ * @author Красильников А.С.
+ */
+
 /**
  * @name Controls/_decorator/Money#useGrouping
  * @cfg

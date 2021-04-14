@@ -22,8 +22,7 @@ export function getOptionBorderVisibilityTypes(): object {
 
 /**
  * Интерфейс для контролов, которые поддерживают разное количество видимых границ.
- *
- * @interface Controls/_input/interface/IBorderVisibility
+ * @public
  * @author Красильников А.С.
  */
 export interface IBorderVisibility {
@@ -31,13 +30,13 @@ export interface IBorderVisibility {
 }
 
 /**
- * @typedef {String} TBorderVisibility
+ * @typedef {String} Controls/_input/interface/IBorderVisibility/TBorderVisibility
  * @variant visible
  * @variant partial
  * @variant hidden
  */
 /**
  * @name Controls/_input/interface/IBorderVisibility#borderVisibility
- * @cfg {TBorderVisibility} Видимость границ контрола.
+ * @cfg {Controls/_input/interface/IBorderVisibility/TBorderVisibility.typedef} Видимость границ контрола.
  * @demo Controls-demo/Input/BorderVisibility/Index
  */
