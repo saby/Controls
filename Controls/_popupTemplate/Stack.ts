@@ -87,7 +87,7 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
     }
 
     protected changeMaximizedState(): void {
-        this.maximizedState();
+        this.toggleMaximizeState();
     }
 
     private _calculateMaximized(options: IStackTemplateOptions) : boolean {
