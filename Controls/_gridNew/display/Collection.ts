@@ -137,7 +137,6 @@ export default class Collection<
             options.columnSeparatorSize = this._$columnSeparatorSize;
             options.rowSeparatorSize = this._$rowSeparatorSize;
             options.hasStickyGroup = this._$hasStickyGroup;
-            options.metaResults = this._$metaResults;
             return superFactory.call(this, options);
         };
     }

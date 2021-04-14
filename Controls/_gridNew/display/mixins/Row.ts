@@ -37,7 +37,6 @@ export interface IOptions<T> extends IBaseOptions<T> {
     colspanCallback?: TColspanCallback;
     columnSeparatorSize?: TColumnSeparatorSize;
     hasStickyGroup?: boolean;
-    metaResults?: EntityModel;
 }
 
 export default abstract class Row<T> {
@@ -53,7 +52,6 @@ export default abstract class Row<T> {
     protected _$stickyLadder: TLadderElement<IStickyLadderConfig>;
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
-    protected _$metaResults: EntityModel;
 
     getDefaultTemplate(): string {
         return DEFAULT_GRID_ROW_TEMPLATE;
@@ -285,10 +283,6 @@ export default abstract class Row<T> {
 
     getStickyHeaderPosition(): string {
         return 'topbottom';
-    }
-
-    getMetaResults(): EntityModel {
-        return this._$metaResults;
     }
 
     protected _reinitializeColumns(): void {

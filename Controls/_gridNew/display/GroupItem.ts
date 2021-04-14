@@ -1,5 +1,6 @@
 import { TemplateFunction } from 'UI/Base';
-import {mixin} from 'Types/util';
+import { mixin } from 'Types/util';
+import { Model as EntityModel } from 'Types/entity';
 
 import {
     ExpandableMixin,
@@ -37,6 +38,7 @@ export default class GroupItem<T> extends mixin<
     readonly '[Controls/_display/grid/GroupItem]': true;
 
     protected _$columnItems: Array<Cell<T>>;
+    protected _$metaResults: EntityModel;
     protected _groupTemplate: TemplateFunction|string;
 
     constructor(options?: IOptions<T>) {
@@ -114,6 +116,9 @@ export default class GroupItem<T> extends mixin<
         this._nextVersion();
     }
 
+    getMetaResults(): EntityModel {
+        return this._$metaResults;
+    }
 }
 
 Object.assign(GroupItem.prototype, {
@@ -121,5 +126,6 @@ Object.assign(GroupItem.prototype, {
     '[Controls/_display/grid/GroupItem]': true,
     _moduleName: 'Controls/display:GridGroupItem',
     _instancePrefix: 'grid-group-item-',
-    _$columns: null
+    _$columns: null,
+    _$metaResults: null
 });
