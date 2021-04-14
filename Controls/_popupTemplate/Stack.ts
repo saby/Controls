@@ -168,7 +168,7 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
  *  <Controls.popupTemplate:Stack name="my_stack">
  *      <ws:bodyContentTemplate>
  *          <Controls.input:Text value="_value" />
- *          <Controls.buttons:Button name="maximizedState" caption="maximized" on:click="_maximized()"/>
+ *          <Controls.buttons:Button caption="maximized" on:click="_maximized()"/>
  *      </ws:bodyContentTemplate>
  *  </Controls.popupTemplate:Stack>
  * </ws:template>
@@ -189,7 +189,7 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
  *    }
  *
  *    _maximized() {
- *       this._children.my_stack.maximizedState()
+ *       this._children.my_stack.toggleMaximizeState()
  *    }
  *
  *    ...
