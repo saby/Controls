@@ -62,7 +62,7 @@ describe('Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemRow', () => {
          searchGridCollection = new SearchGridCollection({
             collection: getRecordSet(),
             root: null,
-            keyProperty: 'id',ч
+            keyProperty: 'id',
             parentProperty: 'parent',
             nodeProperty: 'node',
             columnScroll: true,
