@@ -1,14 +1,13 @@
 <ws:partial template="Controls/grid:ColumnTemplate"
-            attr:class="js-controls-ListView__notEditable controls-Grid__row-cell__content_baseline_L"
-            itemData="{{gridColumn}}">
+            attr:class="js-controls-ListView__notEditable"
+            scope="{{ _options }}">
     <ws:contentTemplate>
         <div>
-            <ws:partial template="{{ladderWrapper}}" ladderProperty="date">
-                <div>
-                    {{itemData.item['date']}}
-                </div>
+            <ws:partial template="{{contentTemplate.ladderWrapper}}"
+                        ladderProperty="date">
+                <div>{{item.contents.date}}</div>
             </ws:partial>
-            <div>{{itemData.item['state']}}</div>
+            <div>{{ item.contents.state }}</div>
         </div>
     </ws:contentTemplate>
 </ws:partial>

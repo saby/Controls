@@ -1202,7 +1202,7 @@
   "--margin-left_m_CutButton": "var(--offset_xs)",
   "--margin-left_l_CutButton":"var(--offset_s)",
 
-  "--width_filterViewPanel": "250px",
+  "--width_filterViewPanel": "280px",
   "--padding-left_filterViewPanel": "var(--offset_2xl)",
   "--padding-bottom_filterViewPanel": "var(--offset_m)",
   "--padding-right_filterViewPanel": "var(--offset_m)",
@@ -1278,7 +1278,7 @@
   "--item_editing_background-color_list": "#F3F3F3",
   "--item_dragging_opacity_list": "0.6",
   "--item_dragging_shadow-height_list": "3px",
-  "--item_dragging_shadow-color_list": "#e0e0e0",
+  "--item_dragging_shadow-color_list": "rgba(0, 0, 0, 0.12)",
   "--item_dragging_shadow-spread_list": "4px",
   "--item_dragging_counter_border-radius_list": "10px",
   "--item_dragging_counter_height_list": "20px",
