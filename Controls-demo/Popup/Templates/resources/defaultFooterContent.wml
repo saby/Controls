@@ -1,4 +1,0 @@
-<div attr:style="display: flex;align-items: center; justify-content: flex-end; height: 50px">
-    <Controls.buttons:Button caption="Принять" buttonStyle="primary" attr:style="margin-right: 18px"/>
-    <Controls.buttons:Button caption="Отклонить" attr:style="margin-right: 18px"/>
-</div>
