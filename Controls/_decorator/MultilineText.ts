@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls/_decorator/Multiline/Multiline';
+import * as template from 'wml!Controls/_decorator/MultilineText/MultilineText';
 import {descriptor} from 'Types/entity';
 
 interface IMultilineTextDecoratorOptions extends IControlOptions {
@@ -12,16 +12,15 @@ const LINE_BREAK_SEPARATOR = '\n';
  * Графический контрол, служащий для отображения в верстке многострочного текста.
  *
  * @remark
- * Служит для отображения многострочного текста введенного через контрол Controls/input:Area
+ * Служит для корректного отображения многострочного текста введенного через контрол Controls/input:Area
  *
- * @class Controls/_decorator/Multiline
+ * @class Controls/_decorator/MultilineText
  * @extends UI/Base:Control
  * @public
- * @demo Controls-demo/Decorator/Phone/Index
  *
  * @author Красильников А.С.
  */
-class Multiline extends Control<IMultilineTextDecoratorOptions> {
+class MultilineText extends Control<IMultilineTextDecoratorOptions> {
     protected _textLines: string[] = [];
 
     protected _template: TemplateFunction = template;
@@ -53,4 +52,4 @@ class Multiline extends Control<IMultilineTextDecoratorOptions> {
     }
 }
 
-export default Multiline;
+export default MultilineText;
