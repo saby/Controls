@@ -117,7 +117,7 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         if (this.isNode()) {
             classes += ' controls-TreeTileView__node';
             if (this.isDragTargetNode()) {
-                classes += ' controls-controls-TreeTileView__dragTargetNode';
+                classes += ` controls-TileView__dragTargetNode`;
             }
         }
 

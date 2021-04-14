@@ -343,9 +343,6 @@ describe('Controls/_display/TreeItem', () => {
             item = new TreeItem({ owner, theme: 'default', style: 'default' });
             item.setExpanded(false, true);
             CssClassesAssert.isSame(item.getExpanderClasses(), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed');
-
-            item.setDragged(true, true);
-            CssClassesAssert.isSame(item.getExpanderClasses(), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-ListView__itemContent_dragging controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed');
         });
     });
 
