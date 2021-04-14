@@ -2,7 +2,7 @@ import { assert } from 'chai';
 
 import { Model } from 'Types/entity';
 import { RecordSet } from 'Types/collection';
-import { GridCollection, GridGroupRow } from 'Controls/gridNew';
+import { GridCollection, GridGroupRow } from 'Controls/grid';
 
 const rawData = [
     { key: 1, col1: 'c1-1', col2: 'с2-1', group: 'g1' },
