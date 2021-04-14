@@ -350,6 +350,39 @@
    margin-left: var(--grouping_padding-horizontal_menu);
 }
 
+@padding-right_menu-multiSelect: calc(var(--apply-button_inline-height_menuPopup) + var(--apply-button_offset_menuPopup) * 2);
+
+.controls-ListView__item-rightPadding_menu-multiselect {
+   padding-right: @padding-right_menu-multiSelect;
+}
+
+.controls-ListView__item-rightPadding_menu-expander {
+   padding-right: calc(var(--hierarchy_icon_offset-right_menu) + var(--hierarchy_icon-size_menu) + var(--hierarchy_icon_offset-left_menu));
+}
+
+@padding-right_menu-close: calc(var(--close-button_offset-left_sticky) + var(--width_closeButton_link) + var(--close-button_offset-right_sticky));
+
+.controls-ListView__item-rightPadding_menu-close {
+   padding-right: @padding-right_menu-close;
+}
+
+.controls-ListView__item-rightPadding_menu-close-multiselect {
+   padding-right: calc(@padding-right_menu-close + @padding-right_menu-multiSelect);
+}
+
+.controls-ListView__item-rightPadding_menu-pin {
+   padding-right: calc(var(--pin-button_offset-left_menu) + var(--pin-button_icon-size_menu) + var(--pin-button_offset-right_menu));
+}
+
+.controls-ListView__item-rightPadding_menu-xs {
+   padding-right: var(--item_padding-horizontal_s_menu);
+}
+
+.controls-ListView__item-leftPadding_menu-xs {
+   padding-left: var(--item_padding-horizontal_s_menu);
+}
+
+
 .ws-is-hover {
    .controls-Menu__row_state_default:hover {
       background: var(--item_hover_background-color_menu);
