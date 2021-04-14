@@ -337,12 +337,11 @@ export default class TreeItem<T extends Model = Model> extends mixin<
 
             // могут передать node или hiddenNode в этом случае добавляем наши классы для master/default
             if ((expanderIcon === 'node') || (expanderIcon === 'hiddenNode') || (expanderIcon === 'emptyNode')) {
-                expanderIconClass += '_' + (this.getStyle() === 'master' || this.getStyle() === 'masterClassic' ? 'master' : 'default');
+                expanderIconClass += '_' + (this.getStyle() === 'master' || this.getStyle() === 'masterNew' ? 'master' : 'default');
             }
         } else {
             expanderIconClass = ' controls-TreeGrid__row-expander_' + (this.isNode() ? 'node_' : 'hiddenNode_')
-                + (this.getStyle() === 'master' || this.getStyle() === 'masterClassic' ? 'master' : 'default');
-        }
+                + (this.getStyle() === 'master' || this.getStyle() === 'masterNew' ? 'master' : 'default');        }
 
         expanderClasses += expanderIconClass;
 
