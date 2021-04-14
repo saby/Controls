@@ -17,6 +17,7 @@ define('Controls-demo/Popup/Edit/MyFormController',
          _record: null,
          _key: null,
          _savedState: '',
+         _deleteState: false,
          _beforeMount: function (options) {
             this._record = options.record;
             if (!options.source) {
@@ -81,9 +82,12 @@ define('Controls-demo/Popup/Edit/MyFormController',
             }
          },
          _delete: function () {
-            return this._children.formControllerInst.delete();
+            this._savedState = 'Запись удалена';
+            if (!this._deleteState && this._record.get('id')) {
+               this._children.formControllerInst.delete();
+               this._deleteState = true;
+            }
          },
-
          _readSuccessedHandler: function (event, record) {
             this._record = record;
          },
