@@ -1,5 +1,6 @@
 import { TemplateFunction } from 'UI/Base';
-import {mixin} from 'Types/util';
+import { mixin } from 'Types/util';
+import { Model as EntityModel } from 'Types/entity';
 
 import {
     ExpandableMixin,
@@ -41,6 +42,7 @@ export default class GroupRow<T> extends mixin<
 
     protected _$columnItems: Array<DataCell<T>>;
     protected _groupTemplate: TemplateFunction|string;
+    protected _$metaResults: EntityModel;
 
     constructor(options?: IOptions<T>) {
         super({...options, columns: options.owner.getColumnsConfig()});
@@ -118,6 +120,10 @@ export default class GroupRow<T> extends mixin<
         this._nextVersion();
     }
 
+    getMetaResults(): EntityModel {
+        return this._$metaResults;
+    }
+
     protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
         return 'end';
     }
@@ -146,5 +152,6 @@ Object.assign(GroupRow.prototype, {
     _moduleName: 'Controls/grid:GridGroupRow',
     _cellModule: 'Controls/grid:GridGroupCell',
     _instancePrefix: 'grid-group-item-',
-    _$columns: null
+    _$columns: null,
+    _$metaResults: null
 });
