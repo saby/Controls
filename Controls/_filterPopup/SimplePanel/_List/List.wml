@@ -1,16 +1,42 @@
 <div>
-   <ws:partial template="Controls/dropdownPopup:_ForTemplate"
-               listModel="{{_listModel}}"
-               selectedKeys="{{_options.selectedKeys}}"
-               displayProperty="{{_options.displayProperty}}"
-               nodeProperty="{{_options.nodeProperty}}"
-               itemTemplate="{{_options.itemTemplate}}"
-               multiSelect="{{_options.multiSelect}}"
-               checkBoxAlign="right"
-               showClose="{{true}}"
-               defaultItemTemplate="{{_defaultItemTemplate}}"
-               emptyTemplate="{{_emptyItemTemplate}}"
-   />
+   <ws:if data="{{_listModel.getEmptyItem()}}">
+      <ws:partial
+              on:click="_itemClickHandler(_listModel.getEmptyItem().item)"
+              template="{{_emptyItemTemplate || itemTemplate || _defaultItemTemplate}}"
+              itemData="{{_listModel.getEmptyItem()}}"
+              item="{{_listModel.getEmptyItem()}}"
+              displayProperty="{{_options.displayProperty}}"
+              showClose="{{true}}"
+              class="controls-Menu__row-separator controls-Menu__row_state_default">
+      </ws:partial>
+   </ws:if>
+   <ws:for data="_listModel.reset(); _listModel.isEnd(); _listModel.goToNext();">
+      <ws:partial
+              on:swipe="_onItemSwipe(_listModel.getCurrent().item)"
+              on:click="_itemClickHandler(_listModel.getCurrent().item)"
+              template="{{_listModel.getCurrent().template || _options.itemTemplate || _defaultItemTemplate}}"
+              itemData="{{_listModel.getCurrent()}}"
+              item="{{_listModel.getCurrent()}}"
+              treeItem="{{_listModel.getCurrent().treeItem}}"
+              marker="{{_options.multiSelect ? false : marker}}"
+              multiSelect="{{_options.multiSelect}}"
+              checkBoxAlign="right"
+              displayProperty="{{_options.displayProperty}}"
+              showClose="{{true}}"
+              parentProperty="{{_options.parentProperty}}"
+              nodeProperty="{{_options.nodeProperty}}"
+              class="controls-Menu__defaultItem controls-Menu__row_state_default {{!_listModel.isLast() && !_listModel.isGroupNext() ? 'controls-DropdownList__row-separator'}}">
+         <ws:multiSelectTpl>
+            <Controls.Container.Async templateName="Controls/toggle:Checkbox"
+                                      attr:class="controls-Menu__row-checkbox
+                                   controls-Menu__row-checkbox-right
+                                   controls-Menu__row-checkbox_{{multiSelectTpl.itemData.isEmptyItem ? 'invisible' :
+                                   multiSelectTpl.treeItem.isSelected() ? 'active' : 'default'}}">
+               <ws:templateOptions value="{{multiSelectTpl.treeItem.isSelected()}}"/>
+            </Controls.Container.Async>
+         </ws:multiSelectTpl>
+      </ws:partial>
+   </ws:for>
    <ws:if data="{{_options.hasMoreButton && _options.selectorTemplate}}">
       <Controls.buttons:Button viewMode="link"
                                class="controls-SimplePanel-List__hasMoreButton

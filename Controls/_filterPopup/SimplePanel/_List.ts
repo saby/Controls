@@ -2,7 +2,7 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls/_filterPopup/SimplePanel/_List/List';
 import {ItemTemplate as defaultItemTemplate} from 'Controls/dropdown';
 import * as emptyItemTemplate from 'wml!Controls/_filterPopup/SimplePanel/_List/emptyItemTemplate';
-import {DropdownViewModel} from 'Controls/dropdownPopup';
+import * as DropdownViewModel from 'Controls/_filterPopup/SimplePanel/DropdownViewModel';
 import {IFilterItem} from 'Controls/filter';
 import collection = require('Types/collection');
 import Merge = require('Core/core-merge');
@@ -74,19 +74,14 @@ class List extends Control<ISimplePanelListOptions> {
         }
     }
 
-    _itemMouseEnter() {
-        // Заглушка для обработчика на шаблоне dropdownPopup:For
-    }
-
     _openSelectorDialog() {
-        const selectorOpener = this._options.selectorOpener;
         const selectorTemplate = this._options.selectorTemplate;
         const selectorOpener = this._options.selectorTemplate.mode === 'dialog' ? this._options.dialogOpener : this._options.selectorOpener;
         const selectorDialogResult = this._options.selectorDialogResult;
         const selectedItems = [];
 
         // TODO: Selector/Controller сейчас не поддерживает работу с ключами: https://online.sbis.ru/opendoc.html?guid=936f6546-2e34-4753-85af-8e644c320c8b
-        factory(this._options.selectedKeys).each((key) => {
+        factory(this._listModel.getSelectedKeys()).each((key) => {
             if (key !== undefined && key !== null && this._options.selectorItems.getRecordById(key)) {
                 selectedItems.push(this._options.selectorItems.getRecordById(key));
             }
@@ -120,7 +115,7 @@ class List extends Control<ISimplePanelListOptions> {
 
     private _isNeedUpdateSelectedKeys(target: HTMLElement, item: Model) {
         const clickOnEmptyItem = item.get(this._options.keyProperty) === this._options.emptyKey;
-        const clickOnCheckBox = target.closest('.controls-DropdownList__row-checkbox');
+        const clickOnCheckBox = target.closest('.controls-Menu__row-checkbox');
         const clickOnFolder = item.get(this._options.nodeProperty);
         return this._options.multiSelect && !clickOnEmptyItem && (clickOnCheckBox || this._selectionChanged) && !clickOnFolder;
     }
