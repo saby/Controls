@@ -11,15 +11,15 @@
                 <ws:if data="{{ index === 0 }}">
                     <!-- Отступы для выравнивания с экспандером -->
                     <ws:if data="{{item.shouldDisplayExpanderBlock(column)}}">
-                    <ws:if data="{{!withoutLevelPadding && item.getLevel() > 1}}">
-                        <ws:for data="i in item.getLevel() - 1">
-                            <div class="{{item.getLevelIndentClasses(expanderSize, levelIndentSize, theme)}}"></div>
-                        </ws:for>
+                        <ws:if data="{{!withoutLevelPadding && item.getLevel() > 1}}">
+                            <ws:for data="i in item.getLevel() - 1">
+                                <div class="{{item.getLevelIndentClasses(expanderSize, levelIndentSize, theme)}}"></div>
+                            </ws:for>
+                        </ws:if>
+                        <ws:if data="{{item.shouldDisplayExpanderPadding(expanderIcon)}}">
+                            <div class="{{item.getExpanderPaddingClasses(expanderSize)}}"></div>
+                        </ws:if>
                     </ws:if>
-                    <ws:if data="{{item.shouldDisplayExpanderPadding(expanderIcon)}}">
-                        <div class="{{item.getExpanderPaddingClasses(expanderSize)}}"></div>
-                    </ws:if>
-                </ws:if>
 
                     <!-- Вынести шаблон кнопки в отдельный шаблон и возвращать его из функции, при этом не затягивая лишние либы. -->
                     <!-- https://online.sbis.ru/opendoc.html?guid=15b9412b-159f-463c-9f4e-fa15a64fda4b -->
