@@ -8,7 +8,6 @@ import {RecordSet} from 'Types/collection';
 import {isEqual} from 'Types/object';
 import {HistoryUtils, IFilterItem} from 'Controls/filter';
 import 'css!Controls/filterPopup';
-import 'css!Controls/dropdownPopup';
 import 'css!Controls/menu';
 
 interface ISimplePanelOptions extends IControlOptions {

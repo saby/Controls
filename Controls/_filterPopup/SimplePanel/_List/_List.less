@@ -6,6 +6,54 @@
    flex-shrink: 0;
 }
 
+.controls-SimplePanel-List__row_pinned {
+   font-weight: bold;
+}
+
 .controls-SimplePanel-List__hierarchy-hasMoreButton {
    margin-left: var(--hierarchy-item_offset-left_filterSimplePanel);
+}
+
+.controls-SimplePanel-List__item-rightPadding_multiSelect {
+   padding-right: calc(var(--apply-button_offset-left_filterSimplePanel) + var(--inline_height_l) + var(--apply-button_offset-right_filterSimplePanel) + var(--width_closeButton_link) + var(--close-button_offset-right_sticky) + var(--border-thickness_sticky));
+}
+
+.controls-SimplePanel-List__hierarchyItem-leftPadding_default {
+   padding-left: calc(var(--item_padding-horizontal_l_menu) + var(--hierarchy-item_offset-left_filterSimplePanel));
+}
+
+.controls-SimplePanel-List__hierarchyItem-leftPadding {
+   padding-left: calc(var(--item_padding-horizontal_s_menu) + var(--hierarchy-item_offset-left_filterSimplePanel));
+}
+
+.controls-SimplePanel-List__item-leftPadding_default {
+   padding-left: var(--item_padding-horizontal_l_menu);
+}
+
+.controls-SimplePanel-List__item-leftPadding_xs {
+   padding-left: var(--item_padding-horizontal_s_menu);
+}
+
+.controls-SimplePanel-List__emptyItem-leftPadding_multiSelect {
+   padding-left: var(--click-area_width_checkbox);
+}
+
+.controls-SimplePanel-List__item-rightPadding_default {
+   padding-right: var(--item_padding-horizontal_l_menu);
+}
+
+.controls-SimplePanel-List__item-rightPadding_hierarchy {
+   padding-right: calc(var(--hierarchy_icon_offset-right_menu) + var(--hierarchy_icon-size_menu) + var(--hierarchy_icon_offset-left_menu));
+}
+
+.controls-SimplePanel-List__item-rightPadding_close {
+   padding-right: calc(var(--close-button_offset-left_sticky) + var(--width_closeButton_link) + var(--close-button_offset-right_sticky));
+}
+
+.controls-SimplePanel-List__item-rightPadding_history {
+   padding-right: calc(var(--pin-button_offset-left_menu) + var(--pin-button_icon-size_menu) + var(--pin-button_offset-right_menu));
+}
+
+.controls-SimplePanel-List__item-rightPadding_xs {
+   padding-right: var(--item_padding-horizontal_s_menu);
 }
