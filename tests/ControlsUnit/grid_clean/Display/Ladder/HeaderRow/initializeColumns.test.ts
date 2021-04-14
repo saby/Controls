@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { GridHeaderRow } from 'Controls/grid';
 
 describe('Controls/grid_clean/Display/Ladder/HeaderRow/initializeColumns', () => {
-    describe('Add cells for sticky ladder  in correct places', () => {
+    describe('hide shadow for sticky ladder in correct places', () => {
         let columns = [{}, {}, {}];
         const header = [{}, {}, {}];
 
@@ -32,7 +32,7 @@ describe('Controls/grid_clean/Display/Ladder/HeaderRow/initializeColumns', () =>
                 columns,
                 owner: mockedHeaderOwner
             });
-            assert.equal(headerRow.getColumns()[0]._$isLadderCell, true);
+            assert.equal(headerRow.getColumns()[0].shadowVisibility, true);
         });
         it('two sticky properties', () => {
             columns = [{stickyProperty: ['first', 'second']}, {}, {}];
@@ -42,8 +42,8 @@ describe('Controls/grid_clean/Display/Ladder/HeaderRow/initializeColumns', () =>
                 columns,
                 owner: mockedHeaderOwner
             });
-            assert.equal(headerRow.getColumns()[0]._$isLadderCell, true);
-            assert.equal(headerRow.getColumns()[2]._$isLadderCell, true);
+            assert.equal(headerRow.getColumns()[0].shadowVisibility, true);
+            assert.equal(headerRow.getColumns()[2].shadowVisibility, true);
         });
     });
 
