@@ -1,0 +1,130 @@
+<div class="controlsDemo__wrapper controls-demo_MasterDetail-background">
+   <div class="controlsDemo__masterDetail-container">
+      <div class="controls-text-label_theme-{{_options.theme}}">grid:View в мастере</div>
+      <Controls.masterDetail:Base style="masterDetailNew">
+         <ws:master>
+            <Controls.scroll:Container>
+               <Controls.masterDetail:List bind:markedKey="_markedKey">
+                  <Controls.grid:View
+                          source="{{_masterSource}}"
+                          keyProperty="id"
+                          markerVisibility="visible"
+                          itemActions="{{_itemActions}}"
+                          columns="{{_gridColumns}}"
+                  >
+                  </Controls.grid:View>
+               </Controls.masterDetail:List>
+            </Controls.scroll:Container>
+         </ws:master>
+         <ws:detail>
+            <Controls.scroll:Container attr:class="controlsDemo_fixedWidth500">
+               <Controls.list:View
+                       keyProperty="id"
+                       source="{{_detailSource}}"
+                       backgroundStyle="detail">
+                  <ws:filter myOpt="{{detail.selectedMasterValue || '0'}}">
+                  </ws:filter>
+                  <ws:itemTemplate>
+                     <ws:partial template="Controls/list:ItemTemplate">
+                        <ws:contentTemplate>
+                           <ws:partial
+                                   item="{{itemTemplate.itemData.item}}"
+                                   template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
+                           />
+                        </ws:contentTemplate>
+                     </ws:partial>
+                  </ws:itemTemplate>
+               </Controls.list:View>
+            </Controls.scroll:Container>
+         </ws:detail>
+      </Controls.masterDetail:Base>
+   </div>
+   <div class="controlsDemo__masterDetail-container">
+      <div class="controls-text-label_theme-{{_options.theme}}">list:View в мастере</div>
+      <Controls.masterDetail:Base style="masterDetailNew">
+         <ws:master>
+            <Controls.scroll:Container>
+               <Controls.masterDetail:List bind:markedKey="_markedKey1">
+                  <Controls.list:View
+                          source="{{_masterSource}}"
+                          keyProperty="id"
+                          markerVisibility="visible"
+                          itemActions="{{_itemActions}}"
+                          columns="{{_gridColumns}}">
+                     <ws:itemTemplate>
+                        <ws:partial template="Controls/list:ItemTemplate">
+                           <ws:contentTemplate>
+                              <div class="controls-demo_MasterDetail-item-list">{{itemTemplate.itemData.item.name}}</div>
+                           </ws:contentTemplate>
+                        </ws:partial>
+                     </ws:itemTemplate>
+                  </Controls.list:View>
+               </Controls.masterDetail:List>
+            </Controls.scroll:Container>
+         </ws:master>
+         <ws:detail>
+            <Controls.scroll:Container attr:class="controlsDemo_fixedWidth500">
+               <Controls.list:View
+                       keyProperty="id"
+                       source="{{_detailSource}}"
+                       backgroundStyle="detail">
+                  <ws:filter myOpt="{{detail.selectedMasterValue || '0'}}">
+                  </ws:filter>
+                  <ws:itemTemplate>
+                     <ws:partial template="Controls/list:ItemTemplate">
+                        <ws:contentTemplate>
+                           <ws:partial
+                                   item="{{itemTemplate.itemData.item}}"
+                                   template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
+                           />
+                        </ws:contentTemplate>
+                     </ws:partial>
+                  </ws:itemTemplate>
+               </Controls.list:View>
+            </Controls.scroll:Container>
+         </ws:detail>
+      </Controls.masterDetail:Base>
+   </div>
+   <div class="controlsDemo__masterDetail-container">
+      <div class="controls-text-label_theme-{{_options.theme}}">treeGrid:View в мастере</div>
+      <Controls.masterDetail:Base style="masterDetailNew">
+         <ws:master>
+            <Controls.scroll:Container>
+               <Controls.masterDetail:List>
+                  <Controls.treeGrid:View
+                          source="{{_masterSource}}"
+                          keyProperty="id"
+                          parentProperty="Раздел"
+                          nodeProperty="Раздел@"
+                          markerVisibility="visible"
+                          itemActions="{{_itemActions}}"
+                          columns="{{_gridColumns}}"
+                  >
+                  </Controls.treeGrid:View>
+               </Controls.masterDetail:List>
+            </Controls.scroll:Container>
+         </ws:master>
+         <ws:detail>
+            <Controls.scroll:Container attr:class="controlsDemo_fixedWidth500">
+               <Controls.list:View
+                       keyProperty="id"
+                       source="{{_detailSource}}"
+                       backgroundStyle="detail">
+                  <ws:filter myOpt="{{detail.selectedMasterValue || '0'}}">
+                  </ws:filter>
+                  <ws:itemTemplate>
+                     <ws:partial template="Controls/list:ItemTemplate">
+                        <ws:contentTemplate>
+                           <ws:partial
+                                   item="{{itemTemplate.itemData.item}}"
+                                   template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
+                           />
+                        </ws:contentTemplate>
+                     </ws:partial>
+                  </ws:itemTemplate>
+               </Controls.list:View>
+            </Controls.scroll:Container>
+         </ws:detail>
+      </Controls.masterDetail:Base>
+   </div>
+</div>
