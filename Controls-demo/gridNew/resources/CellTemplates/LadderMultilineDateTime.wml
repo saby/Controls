@@ -1,13 +1,21 @@
 <ws:partial template="Controls/grid:ColumnTemplate"
             attr:class="js-controls-ListView__notEditable"
-            itemData="{{gridColumn}}">
+            scope="{{ _options }}">
     <ws:contentTemplate>
-        <div class="{{ladderWrapperClass}}">
-            <ws:partial template="{{ladderWrapper}}" stickyProperty="{{stickyProperty}}" ladderProperty="date">
-                <div class="ControlsDemo_dateTime-cell ControlsDemo_date-cell">{{itemData.item['date']}}</div>
+        <div>
+            <ws:partial template="{{contentTemplate.ladderWrapper}}"
+                        stickyProperty="{{stickyProperty}}"
+                        ladderProperty="date">
+                <div class="ControlsDemo_dateTime-cell ControlsDemo_date-cell">
+                    {{ item.contents.date }}
+                </div>
             </ws:partial>
-            <ws:partial template="{{ladderWrapper}}" stickyProperty="{{stickyProperty}}"  ladderProperty="time">
-                <div class="ControlsDemo_dateTime-cell ControlsDemo_time-cell">{{itemData.item['time']}}</div>
+            <ws:partial template="{{contentTemplate.ladderWrapper}}"
+                        stickyProperty="{{stickyProperty}}"
+                        ladderProperty="time">
+                <div class="ControlsDemo_dateTime-cell ControlsDemo_time-cell">
+                    {{item.contents.time}}
+                </div>
             </ws:partial>
         </div>
     </ws:contentTemplate>
