@@ -46,7 +46,7 @@ const GridView = ListView.extend({
             // таблица перемонтируется. Простая проверка на window нам не подходит, т.к. нас интересует только первая отрисовка view
             // списочного контрола.
             // TODO: Включить по задаче https://online.sbis.ru/opendoc.html?guid=07aaefb8-3790-4e8b-bd58-6ac7613a1c8b
-            this._showFakeGridWithColumnScroll = false && !options.preventServerSideColumnScroll;
+            this._showFakeGridWithColumnScroll = !options.preventServerSideColumnScroll ? 2 : 0;
         }
 
         if (options.columnScroll) {
@@ -62,7 +62,9 @@ const GridView = ListView.extend({
 
     _afterMount(): void {
         GridView.superclass._afterMount.apply(this, arguments);
-        this._actualizeColumnScroll(this._options);
+        if (!this._showFakeGridWithColumnScroll) {
+            this._actualizeColumnScroll(this._options);
+        }
         this._isFullMounted = true;
     },
 
@@ -143,7 +145,11 @@ const GridView = ListView.extend({
 
     _afterUpdate(oldOptions): void {
         GridView.superclass._afterUpdate.apply(this, arguments);
-        this._actualizeColumnScroll(this._options, oldOptions);
+        if (this._showFakeGridWithColumnScroll < 2) {
+            this._actualizeColumnScroll(this._options).then(() => {
+                this._showFakeGridWithColumnScroll = 0;
+            });
+        }
     },
 
     _beforeUnmount(): void {
@@ -318,8 +324,8 @@ const GridView = ListView.extend({
     _onWrapperMouseEnter: function() {
         // При загрузке таблицы с проскроленным в конец горизонтальным скролом следует оживить таблицу при
         // вводе в нее указателя мыши, но после отрисовки thumb'а (скрыт через visibility) во избежание скачков
-        if (this._showFakeGridWithColumnScroll) {
-            this._showFakeGridWithColumnScroll = false;
+        if (this._showFakeGridWithColumnScroll === 2) {
+            this._showFakeGridWithColumnScroll--;
         }
     },
 
