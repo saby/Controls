@@ -2,7 +2,7 @@ import { assert } from 'chai';
 
 import { Model } from 'Types/entity';
 import { RecordSet } from 'Types/collection';
-import { GridCollection, GridGroupItem } from 'Controls/gridNew';
+import { GridCollection, GridGroupRow } from 'Controls/gridNew';
 
 const rawData = [
     { key: 1, col1: 'c1-1', col2: 'с2-1', group: 'g1' },
@@ -33,6 +33,6 @@ describe('Controls/grid_clean/Display/Group/metaResults', () => {
             columns
         });
 
-        assert.equal((gridCollection.at(0) as GridGroupItem<any>).getMetaResults(), results);
+        assert.equal((gridCollection.at(0) as GridGroupRow<any>).getMetaResults(), results);
     });
 });
