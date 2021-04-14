@@ -6,7 +6,6 @@ import {Body as PageBody, Head as PageHead} from 'Application/Page';
 
 import * as cBodyClasses from 'Core/BodyClasses';
 import * as getResourceUrl from 'Core/helpers/getResourceUrl';
-import TimeTesterInv from 'Core/TimeTesterInv';
 import {detection, compatibility, constants, IoC} from 'Env/Env';
 import {TouchDetect} from 'Env/Touch';
 import {Bus} from 'Env/Event';
@@ -165,8 +164,7 @@ export default class Application extends Control<IApplication> {
       // сообщает так же про изменение экрана после показа клавиатуры и/или зуме страницы.
       // Подписка на body стреляет не всегда. в 2100 включаю только для 13ios, в перспективе можно включить
       // везде, где есть visualViewport
-      const timeTester = new TimeTesterInv(this.RUMEnabled, this.pageName);
-      timeTester.load();
+
       if (Application._isIOS13()) {
          window.visualViewport.addEventListener('resize', this._resizePage.bind(this));
          window.addEventListener('orientationchange', this._orientationChange);
