@@ -1159,11 +1159,9 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
             return expanded;
         }
     },
-    _getMarkedLeaf(key: CrudEntityKey, model): 'first' | 'last' | 'middle' {
+    _getMarkedLeaf(key: CrudEntityKey, model): 'first' | 'last' | 'middle' | 'single' {
         const index = model.getIndexByKey(key);
-        if (index === model.getCount() - 1) {
-            return 'last';
-        }
+        const hasNextLeaf = index < model.getCount() - 1;
         let hasPrevLeaf = false;
         for (let i = index - 1; i >= 0; i--) {
             if (model.at(i).isNode() === null || !this._isExpanded(model.at(i), model)) {
@@ -1171,7 +1169,18 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
                 break;
             }
         }
-        return hasPrevLeaf ? 'middle' : 'first';
+        if (hasNextLeaf && hasPrevLeaf) {
+            return 'middle';
+        }
+        if (!hasNextLeaf && !hasPrevLeaf) {
+            return 'single';
+        }
+        if (!hasNextLeaf && hasPrevLeaf) {
+            return 'last';
+        }
+        if (hasNextLeaf && !hasPrevLeaf) {
+            return 'first';
+        }
     },
     goToNext(listModel?, mController?): Promise {
         return new Promise((resolve) => {
