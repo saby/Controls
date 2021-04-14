@@ -21,7 +21,7 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
    }
 
    getDisplayProperty(): string {
-      return this.getOwner().getDisplayProperty();
+      return super.getDisplayProperty();
    }
 
    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
