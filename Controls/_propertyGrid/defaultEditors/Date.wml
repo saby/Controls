@@ -1,5 +1,4 @@
-<div class="controls-PropertyGrid__editor_date_control ws-flexbox">
-    <Controls.input:Date scope="{{_options}}"
-                         bind:value="_value"
-                         on:inputCompleted="_handleInputCompleted()"/>
-</div>
+<Controls.input:Date scope="{{_options}}"
+                     bind:value="_value"
+                     on:inputCompleted="_handleInputCompleted()"
+                     attr:class="controls-PropertyGrid__editor_date_control"/>
