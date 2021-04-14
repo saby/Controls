@@ -15,14 +15,14 @@ import 'css!Controls/suggest';
  * @class Controls/_suggest/Input
  * @extends UI/Base:Control
  * @mixes Controls/_suggest/ISuggest
- * @mixes Controls/_interface/ISearch
+ * @mixes Controls/interface:ISearch
  * @mixes Controls/interface/IBorderStyle
- * @mixes Controls/_interface/ISource
- * @mixes Controls/_interface/IFilterChanged
- * @mixes Controls/_interface/INavigation
- * @mixes Controls/_interface/IFontColorStyle
- * @mixes Controls/_interface/IFontSize
- * @mixes Controls/_interface/IHeight
+ * @mixes Controls/interface:ISource
+ * @mixes Controls/interface:IFilterChanged
+ * @mixes Controls/interface:INavigation
+ * @mixes Controls/interface:IFontColorStyle
+ * @mixes Controls/interface:IFontSize
+ * @mixes Controls/interface:IHeight
  * @mixes Controls/_interface/IValidationStatus
  * @mixes Controls/_interface/IContrastBackground
  * @mixes Controls/_input/interface/ITag
@@ -44,10 +44,10 @@ import 'css!Controls/suggest';
  * @class Controls/_suggest/Input
  * @extends UI/Base:Control
  * @mixes Controls/_suggest/ISuggest
- * @mixes Controls/_interface/ISearch
- * @mixes Controls/_interface/ISource
- * @mixes Controls/_interface/IFilterChanged
- * @mixes Controls/_interface/INavigation
+ * @mixes Controls/interface:ISearch
+ * @mixes Controls/interface:ISource
+ * @mixes Controls/interface:IFilterChanged
+ * @mixes Controls/interface:INavigation
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/_input/interface/IText
  *

@@ -350,7 +350,7 @@ export interface IFilterView {
 
 /**
  * @name Controls/_filter/View/interface/IFilterView#detailPanelPopupOptions
- * @cfg {Controls/popup:IStickyPopupOptions} Опции для Sticky-опенера, открывающего панель фильтров.
+ * @cfg {Controls/popup:IStickyPopup} Опции для Sticky-опенера, открывающего панель фильтров.
  * @example
  * <pre class="brush: html">
  * <!-- MyModule.wml -->

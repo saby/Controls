@@ -1,11 +1,5 @@
 import {TemplateFunction} from 'UI/Base';
-/**
- * Базовый интерфейс для стандартных шаблонов окон.
- *
- * @interface Controls/_popupTemplate/interface/IPopupTemplateBase
- * @public
- * @author Красильников А.С.
- */
+
 export interface IPopupTemplateBaseOptions {
     headerContentTemplate?: TemplateFunction;
     bodyContentTemplate?: TemplateFunction;
@@ -16,6 +10,13 @@ export interface IPopupTemplateBaseOptions {
     closeButtonVisibility?: boolean;
 }
 
+/**
+ * Базовый интерфейс для стандартных шаблонов окон.
+ *
+ * @interface Controls/_popupTemplate/interface/IPopupTemplateBase
+ * @public
+ * @author Красильников А.С.
+ */
 export default interface IPopupTemplateBase {
     readonly '[Controls/_popupTemplate/interface/IPopupTemplateBase]': boolean;
 }

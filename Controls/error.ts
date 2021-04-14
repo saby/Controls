@@ -2,6 +2,7 @@
  * Библиотека компонентов для обработки ошибок.
  * Вместо этой библиотеки следует использовать библиотеку {@link Controls/dataSource:error}.
  * @library Controls/error
+ * @includes IProcess Controls/_error/
  * @public
  * @author Северьянов А.А.
  */

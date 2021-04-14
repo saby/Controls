@@ -1,6 +1,7 @@
 /**
  * Библиотека стандартных действий над записями
  * @library Controls/listActions
+ * @includes IAction Controls/_listActions/interface/IAction
  */
 
 import IAction from './_listActions/interface/IAction';

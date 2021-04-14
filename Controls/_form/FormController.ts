@@ -84,7 +84,7 @@ export const enum INITIALIZING_WAY {
  *
  * @class Controls/_form/FormController
  * @extends Controls/_form/ControllerBase
- * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface:ISource
  * @mixes Controls/_form/interface/IFormController
  * @implements Controls/_interface/IErrorController
  * @public
@@ -98,7 +98,7 @@ export const enum INITIALIZING_WAY {
  * <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/editing-dialog/">More information and details.</a>.
  * @class Controls/_form/FormController
  * @extends Controls/_form/ControllerBase
- * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface:ISource
  * @mixes Controls/_form/interface/IFormController
  * @implements Controls/_interface/IErrorController
  * @demo Controls-demo/Popup/Edit/Opener
