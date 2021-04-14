@@ -3,11 +3,13 @@ import { assert } from 'chai';
 import IItemsStrategy from 'Controls/_display/IItemsStrategy';
 
 import {
-   Collection as CollectionDisplay, CollectionItem
+   Collection as CollectionDisplay, CollectionItem, Tree
 } from 'Controls/display';
 import Drag from 'Controls/_display/itemsStrategy/Drag';
 import { Model } from 'Types/entity';
-import {IObservable, RecordSet} from 'Types/collection';
+import {RecordSet} from 'Types/collection';
+import Direct from "Controls/_display/itemsStrategy/Direct";
+import AdjacencyList from "Controls/_display/itemsStrategy/AdjacencyList";
 
 describe('Controls/_display/itemsStrategy/Drag', () => {
    function wrapItem<S extends Model = Model, T = CollectionItem>(item: S): T {
@@ -160,11 +162,9 @@ describe('Controls/_display/itemsStrategy/Drag', () => {
    });
 
    it('splice', () => {
-      strategy.splice(0, 1, [], IObservable.ACTION_MOVE);
+      strategy.splice(0, 1, []);
+      assert.isNull(strategy._items);
       assert.equal(strategy.count, 3);
-
-      strategy.splice(0, 1, [], IObservable.ACTION_REMOVE);
-      assert.equal(strategy.count, 2);
    });
 
    it('drag all items', () => {
@@ -196,5 +196,54 @@ describe('Controls/_display/itemsStrategy/Drag', () => {
       strategy.invalidate();
       items = strategy.items;
       assert.equal(items.length, 3);
+   });
+
+   it('test drag strategy with adjacency strategy', () => {
+      const recordSet = new RecordSet({
+         rawData: [{
+            id: 1,
+            parent: null,
+            node: true
+         }, {
+            id: 2,
+            parent: 1,
+            node: false
+         }, {
+            id: 3,
+            parent: null,
+            node: true
+         }],
+         keyProperty: 'id'
+      });
+      const tree = new Tree({
+         collection: recordSet,
+         root: null,
+         keyProperty: 'id',
+         parentProperty: 'parent',
+         nodeProperty: 'node'
+      });
+      const directStrategy = new Direct({
+         display: tree
+      });
+      const adjacencyListStrategy = new AdjacencyList({
+         source: directStrategy,
+         keyProperty: 'id',
+         parentProperty: 'parent'
+      });
+      const dragStrategy = new Drag({
+         source: adjacencyListStrategy,
+         display,
+         draggableItem: display.getItemBySourceKey(1),
+         draggedItemsKeys: [1],
+         targetIndex: 0
+      });
+
+      const newItem = new Model({rawData: {id: 4, parent: 1, node: false}, keyProperty: 'id'});
+      dragStrategy.splice(2, 0, [newItem]);
+
+      const adjacencyKeys = adjacencyListStrategy.items.map((it) => it.key);
+      const dragKeys = dragStrategy.items.map((it) => it.key);
+
+      assert.deepEqual(adjacencyKeys, dragKeys);
    });
 });
