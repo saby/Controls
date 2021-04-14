@@ -6,35 +6,36 @@ import { Handler, ViewConfig } from './Handler';
 import ErrorController, { getPopupHelper } from './Controller';
 import { IPopupHelper, PopupId } from './Popup';
 
-/**
- * Парамертры показа дружелюбного диалога.
- * @public
- * @author Северьянов А.А.
- */
 export interface IProcessOptions {
     /**
-     * Ошибка, которую надо обработать.
+     * @name Controls/_error/IProcess#error
+     * @cfg {Error} Ошибка, которую надо обработать.
      */
     error: Error;
 
     /**
-     * Дополнительные обработчики ошибки, которые вызываются перед платформенными.
+     * @name Controls/_error/IProcess#handlers
+     * @cfg {Handler[]} Дополнительные обработчики ошибки, которые вызываются перед платформенными.
      */
     handlers?: Handler[];
     opener?: Control;
     dialogEventHandlers?: Record<string, Function>;
 
     /**
-     * Параметры открываемого диалогового окна.
+     * @name Controls/_error/IProcess#dialogOptions
+     * @cfg {IBasePopupOptions} Параметры открываемого диалогового окна.
      */
     dialogOptions?: IBasePopupOptions;
 
     /**
-     * Дополнительные обработчики ошибки, которые вызываются после платформенных.
+     * @name Controls/_error/IProcess#postHandlers
+     * @cfg {Handler[]} Дополнительные обработчики ошибки, которые вызываются после платформенных.
      */
     postHandlers?: Handler[];
 
     /**
+     * @name Controls/_error/IProcess
+     * @function
      * Функция, в которую передаётся конфиг для показа ошибки.
      * Функция вызывается перед показом диалога, в ней можно поменять конфигурацию для показа ошибки.
      */
@@ -143,3 +144,10 @@ function logServerSideError(error: Error, viewConfig: ViewConfig<{ message?: str
 
     logger.error(message);
 }
+
+/**
+ * Парамертры показа дружелюбного диалога.
+ * @interface Controls/_error/IProcess
+ * @public
+ * @author Северьянов А.А.
+ */

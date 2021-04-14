@@ -21,14 +21,10 @@ const MORE_BUTTON_TEXT = rk('Ещё...');
 interface IReceivedState {
     items: RecordSet<object>;
 }
-/**
- * Интерфейс для опций контрола адаптивных вкладок.
- * @interface Controls/_tabs/ITabsAdaptiveButtons
- * @public
- * @author Красильников А.С.
- */
+
 export interface ITabsAdaptiveButtonsOptions extends ITabsButtonsOptions {
     /**
+     * @name Controls/_tabs/ITabsAdaptiveButtons#align
      * @cfg {String} Выравнивание вкладок по правому или левому краю.
      * @variant left Вкладки выравниваются по левому краю.
      * @variant right Вкладки выравниваются по правому краю.
@@ -36,10 +32,18 @@ export interface ITabsAdaptiveButtonsOptions extends ITabsButtonsOptions {
      */
     align?: string;
     /**
+     * @name Controls/_tabs/ITabsAdaptiveButtons#containerWidth
      * @cfg {Number} Ширина контейнера вкладок. Необходимо указывать для правильного расчета ширины вкладок.
      */
     containerWidth: number;
 }
+
+/**
+ * Интерфейс для опций контрола адаптивных вкладок.
+ * @interface Controls/_tabs/ITabsAdaptiveButtons
+ * @public
+ * @author Красильников А.С.
+ */
 
 /**
  * Контрол предоставляет пользователю возможность выбрать между двумя или более адаптивными под ширину вкладками.
@@ -47,7 +51,7 @@ export interface ITabsAdaptiveButtonsOptions extends ITabsButtonsOptions {
  * @class Controls/_tabs/AdaptiveButtons
  * @extends UI/Base:Control
  * @mixes Controls/tabs:ITabsButtons
- * @mixes Controls/tabs:ITabsAdaptiveButtonsOptions
+ * @mixes Controls/tabs:ITabsAdaptiveButtons
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IItems
  *

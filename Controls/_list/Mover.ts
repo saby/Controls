@@ -381,7 +381,7 @@ var _private = {
  * @class Controls/_list/Mover
  * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IMovable
- * @mixes Controls/_interface/IHierarchy
+ * @mixes Controls/interface:IHierarchy
  * @deprecated Класс устарел и буден удалён. Используйте методы интерфейса {@link Controls/list:IMovableList}, который по умолчанию подключен в списки.
  * @demo Controls-demo/treeGrid/Mover/Base/Index
  * @public
@@ -397,7 +397,7 @@ var _private = {
  * @class Controls/_list/Mover
  * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IMovable
- * @mixes Controls/_interface/IHierarchy
+ * @mixes Controls/interface:IHierarchy
  *
  * @public
  * @author Авраменко А.С.

@@ -11,7 +11,7 @@ import {EventUtils} from 'UI/Events';
  * @class Controls/_filter/Editors/DateRange
  * @extends UI/Base:Control
  * @mixes Controls/_dateRange/interfaces/ILinkView
- * @mixes Controls/_dateRange/interfaces/IDateRange
+ * @mixes Controls/dateRange:IDateRange
  * @public
  * @author Герасимов А.М.
  *

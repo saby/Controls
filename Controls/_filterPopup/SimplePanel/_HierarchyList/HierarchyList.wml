@@ -3,6 +3,7 @@
                itemData="{{_listModel.getEmptyItem()}}"
                displayProperty="{{_options.displayProperty}}"
                hasApplyButton="{{_options.hasApplyButton}}"
+               attr:class="controls-Menu__row_state_default"
                on:click="_emptyItemClickHandler()"/>
 
    <ws:for data="index, item in _folders">

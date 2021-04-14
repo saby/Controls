@@ -12,12 +12,6 @@ import {date} from 'Types/formatter';
 import * as template from 'wml!Controls/_decorator/Date/Date';
 import 'css!Controls/decorator';
 
-/**
- * Интерфейс для опций контрола {@link Controls/decorator:Date}.
- * @interface Controls/_decorator/IDate
- * @public
- * @author Сиряков М.К.
- */
 export interface IDateOptions extends IControlOptions, IFontColorStyleOptions, IFontWeightOptions, IFontSizeOptions {
     /**
      * @name Controls/_decorator/IDate#value
@@ -44,7 +38,7 @@ export interface IDateOptions extends IControlOptions, IFontColorStyleOptions, I
  *
  * @class Controls/_decorator/Date
  * @extends UI/Base:Control
- * @mixes Controls/_decorator/IDate
+ * @mixes Controls/decorator:IDate
  * @public
  * @demo Controls-demo/Decorator/Date/Index
  *
@@ -83,3 +77,10 @@ class DateDecorator extends Control<IDateOptions> implements IFontColorStyle, IF
 }
 
 export default DateDecorator;
+
+/**
+ * Интерфейс для опций контрола {@link Controls/decorator:Date}.
+ * @interface Controls/_decorator/IDate
+ * @public
+ * @author Сиряков М.К.
+ */

@@ -14,7 +14,7 @@ import 'css!Controls/search';
   * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/search/change-layout/ Поиск со сменой раскладки}
   * 
   * @class Controls/_search/Misspell
-  * @mixes Controls/_interface/ICaption
+  * @mixes Controls/interface:ICaption
   * @extends UI/Base:Control
   *
   * @public
@@ -23,7 +23,7 @@ import 'css!Controls/search';
 /*
  * //TODO KONGO A control that displays a tooltip if misspell was in search text was found.
  * @class Controls/_search/Misspell
- * @mixes Controls/_interface/ICaption
+ * @mixes Controls/interface:ICaption
  * @extends UI/Base:Control
  *
  * @public

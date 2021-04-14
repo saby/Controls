@@ -30,11 +30,6 @@ export interface ITabsTemplate {
     readonly '[Controls/_tabs/ITabsTemplate]': boolean;
 }
 
-/**
- * Интерфейс для шаблонных опций контрола вкладок.
- * @interface Controls/_tabs/ITabsTemplate
- * @public
- */
 export interface ITabsTemplateOptions extends IItemTemplateOptions {
     leftTemplateProperty?: string;
     rightTemplateProperty?: string;
@@ -77,8 +72,8 @@ const isTemplateObject = (tmpl: any): boolean => {
  * @mixes Controls/interface:ISingleSelectable
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IItems
- * @mixes Controls/tabs:ITabsButtonsOptions
- * @mixes Controls/tabs:ITabsTemplateOptions
+ * @mixes Controls/tabs:ITabsButtons
+ * @mixes Controls/tabs:ITabsTemplate
  *
  * @public
  * @author Красильников А.С.
@@ -417,6 +412,12 @@ Object.defineProperty(TabsButtons, 'defaultProps', {
       return TabsButtons.getDefaultOptions();
    }
 });
+
+/**
+ * Интерфейс для шаблонных опций контрола вкладок.
+ * @interface Controls/_tabs/ITabsTemplate
+ * @public
+ */
 
 /**
  * @name Controls/_tabs/ITabsTemplate#tabSpaceTemplate

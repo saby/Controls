@@ -5,7 +5,6 @@ import {BaseViewModel, ItemsUtil, ItemsViewModel} from 'Controls/list';
 import {Utils} from 'Controls/itemActions';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
-import * as multiSelectTpl from 'wml!Controls/_dropdownPopup/multiSelectTpl';
 import entity = require('Types/entity');
 
 var _private = {
@@ -74,21 +73,21 @@ var _private = {
 
          getClassList: function(options, itemData, hasHierarchy) {
             const item = itemData.item;
-            let classes = 'controls-DropdownList__row_state_' + (item.get('readOnly')  ? 'readOnly' : 'default') ;
+            let classes = 'controls-SimplePanel-List__row_state_' + (item.get('readOnly')  ? 'readOnly' : 'default') ;
 
             if (item.get('pinned') === true && !itemData.hasParent) {
-               classes += ' controls-DropdownList__row_pinned';
+               classes += ' controls-SimplePanel-List__row_pinned';
             }
 
             const paddings = options.itemPadding || {};
             if (options.multiSelect && itemData.emptyText) {
-               classes += ' controls-DropdownList__emptyItem-leftPadding_multiSelect';
+               classes += ' controls-SimplePanel-List__emptyItem-leftPadding_multiSelect';
             } else if (!options.multiSelect && (!options.nodeProperty || item.get(options.nodeProperty))) {
-               classes += ' controls-DropdownList__item-leftPadding_' + (paddings.left || 'default');
+               classes += ' controls-SimplePanel-List__item-leftPadding_' + (paddings.left || 'default');
             } else if (!options.multiSelect) {
-               classes += ' controls-DropdownList__hierarchyItem-leftPadding_' + (paddings.left || 'default');
+               classes += ' controls-SimplePanel-List__hierarchyItem-leftPadding_' + (paddings.left || 'default');
             }
-            classes += ' controls-DropdownList__item-rightPadding_' +
+            classes += ' controls-SimplePanel-List__item-rightPadding_' +
                 _private.getRightPadding(options, paddings.right, itemData, hasHierarchy, options.hasApplyButton);
             return classes;
          },
@@ -244,7 +243,6 @@ var _private = {
             itemsModelCurrent.hasClose = this._options.hasClose;
             itemsModelCurrent.hasPinned = this._options.hasIconPin && itemsModelCurrent.item.has('pinned');
             itemsModelCurrent.itemClassList = _private.getClassList(this._options, itemsModelCurrent, this.hasHierarchy());
-            itemsModelCurrent.multiSelectTpl = multiSelectTpl;
 
             // Для совместимости с menu:Control
             itemsModelCurrent.treeItem = _private.getNewTreeItem(itemsModelCurrent);

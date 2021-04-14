@@ -4,8 +4,8 @@ import {factory} from 'Types/chain';
 import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import emptyItemTemplate = require('wml!Controls/_filterPopup/SimplePanel/_List/emptyItemTemplate');
-import {DropdownViewModel} from 'Controls/dropdownPopup';
 import hierarchyItemTemplate = require('wml!Controls/_filterPopup/SimplePanel/_HierarchyList/hierarchyItemTemplate');
+import * as DropdownViewModel from 'Controls/_filterPopup/SimplePanel/DropdownViewModel';
 import 'css!Controls/filterPopup';
 
 interface IHierarchyListFolder {

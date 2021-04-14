@@ -276,7 +276,7 @@ interface ISuggest {
 
       /**
        * @name Controls/interface/ISuggest#suggestPopupOptions
-       * @cfg {Controls/popup:IStickyPopupOptions} Конфигурация всплывающего блока {@link /doc/platform/developmentapl/interface-development/controls/input/suggest/ автодополнения}.
+       * @cfg {Controls/popup:IStickyPopup} Конфигурация всплывающего блока {@link /doc/platform/developmentapl/interface-development/controls/input/suggest/ автодополнения}.
        * @example
        * В этом примере автодополнение будет открыто вверх.
        * <pre class="brush: js">
@@ -309,7 +309,7 @@ interface ISuggest {
        */
 
       /*
-       * @cfg {Controls/popup:IStickyPopupOptions} Suggest popup configuration.
+       * @cfg {Controls/popup:IStickyPopup} Suggest popup configuration.
        * @example
        * In this example, suggest will open up.
        * <pre class="brush: js">

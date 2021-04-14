@@ -8,76 +8,19 @@ import {IBackgroundStyleOptions} from 'Controls/interface';
  * @author Красильников А.С.
  */
 export interface IStickyPopupOptions extends IBasePopupOptions, IBackgroundStyleOptions {
-    /**
-     * @cfg {Number} Минимальная ширина всплывающего окна.
-     */
     minWidth?: number;
-    /**
-     * @cfg {Number} Текущая ширина всплывающего окна
-     */
     width?: number;
-    /**
-     * @cfg {Number} Максимальная ширина всплывающего окна.
-     */
     maxWidth?: number;
-    /**
-     * @cfg {Number} Минимальная высота всплывающего окна.
-     */
     minHeight?: number;
-    /**
-     * @cfg {Number} Текущая высота всплывающего окна
-     */
     height?: number;
-    /**
-     * @cfg {Number} Максимальная высота всплывающего окна.
-     */
     maxHeight?: number;
-    /**
-     * @cfg {Node|Control} Элемент (DOM-элемент или контрол), относительно которого позиционируется всплывающее окно.
-     */
-    target?: HTMLElement | EventTarget | Control;
-    /**
-     * @cfg {String} Определяет реакцию всплывающего окна на скролл родительской области
-     * @variant close Всплывающее окно закрывается
-     * @variant track  Всплывающее окно движется вместе со своей точкой позиционирования.
-     * @variant none Всплывающее окно остается на месте расположения, вне зависимости от движения точки позиционирования.
-     * @default none
-     * @remark Для работы данной опции необходимо, чтоб контрол Controls.popup:Sticky находился в верстке.
-     */
 
-    /*
-    * @cfg {String} Determines the popup action on scroll.
-    * @variant close
-    * @variant track
-    * @variant none
-    * @default none
-    */
+    target?: HTMLElement | EventTarget | Control;
     actionOnScroll?: 'close' | 'track' | 'none';
     restrictiveContainer?: string | HTMLElement | Control;
-    /**
-     * @cfg {Controls/_popup/interface/IStickyOpener/Direction.typedef} Точка позиционирования всплывающего окна относительно вызывающего элемента.
-     */
-    /*
-    * @cfg {Controls/_popup/interface/IStickyOpener/Direction.typedef} Point positioning of the target relative to sticky.
-    */
     targetPoint?: IStickyPosition;
-    /**
-     * @cfg {Controls/_popup/interface/IStickyOpener/Direction.typedef} Устанавливает выравнивание всплывающего окна относительно точки позиционирования.
-     */
-    /*
-    * @cfg {Controls/_popup/interface/IStickyOpener/Direction.typedef} Sets the alignment of the popup.
-    */
     direction?: IStickyPosition;
-    /**
-     * @cfg {Controls/_popup/interface/IStickyOpener/Offset.typedef} Устанавливает отступы от точки позиционирования до всплывающего окна
-     */
-    /*
-    * @cfg {Controls/_popup/interface/IStickyOpener/Offset.typedef} Sets the offset of the targetPoint.
-    */
     offset?: IStickyPositionOffset;
-    /**
-     * @cfg {Controls/_popup/interface/IStickyOpener/FittingMode.typedef} Определеяет поведение окна, в случае, если оно не помещается на экране с заданным позиционированием.
-     */
     fittingMode?: string | IStickyPosition;
 }
 
