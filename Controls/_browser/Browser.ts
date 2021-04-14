@@ -472,6 +472,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     protected _rootChanged(event: SyntheticEvent, root: Key): void {
         if (this._options.root === undefined) {
             this._root = root;
+            // Стейт _root не реактивный, поэтому необходимо звать forceUpdate
+            this._forceUpdate();
         }
         this._notify('rootChanged', [root]);
     }
