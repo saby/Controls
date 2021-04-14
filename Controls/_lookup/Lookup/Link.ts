@@ -12,8 +12,8 @@ import 'css!Controls/lookup';
  *
  * @class Controls/_lookup/Lookup/Link
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ICaption
- * @mixes Controls/_interface/IHeight
+ * @mixes Controls/interface:ICaption
+ * @mixes Controls/interface:IHeight
  *
  * @public
  * @author Герасимов А.М.
