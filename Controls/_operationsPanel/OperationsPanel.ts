@@ -20,9 +20,9 @@ import 'css!Controls/operationsPanel';
  *
  * @class Controls/_operationsPanel/OperationsPanel
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface:ISource
  * @mixes Controls/interface/IItemTemplate
- * @mixes Controls/_interface/IHierarchy
+ * @mixes Controls/interface:IHierarchy
  *
  * @private
  * @author Авраменко А.С.
@@ -37,9 +37,9 @@ import 'css!Controls/operationsPanel';
  *
  * @class Controls/_operations/OperationsPanel
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface:ISource
  * @mixes Controls/interface/IItemTemplate
- * @mixes Controls/_interface/IHierarchy
+ * @mixes Controls/interface:IHierarchy
  *
  * @private
  * @author Авраменко А.С.

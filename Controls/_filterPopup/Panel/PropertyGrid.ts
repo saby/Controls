@@ -20,7 +20,7 @@ interface IFilterPropertyGridOptions extends IControlOptions {
  * @class Controls/_filterPopup/Panel/PropertyGrid
  * @extends UI/Base:Control
  * @mixes Controls/interface/IPropertyGrid
- * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface:ISource
  * @mixes Controls/interface/IItemTemplate
  *
  * @private
