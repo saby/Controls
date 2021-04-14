@@ -11,7 +11,6 @@ TODO Нужно удалить этот шаблон, когда починим 
         <div class="{{ (gridColumn || itemData).getContentTextClasses(separatorVisibility, textAlign, theme) }}
                     {{ (gridColumn || itemData).getExpanderClasses(expanderVisible, expanderAlign, theme) }}">
             <ws:if data="{{ contentTemplate }}">
-                <!-- @TODO Убрать костыль с проверкой после того как прикладники перестанут сюда бросать тупой скоуп -->
                 <ws:partial template="{{ contentTemplate }}"
                             item="{{ item || itemData }}"
                             itemData="{{ item || itemData }}"
