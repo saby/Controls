@@ -265,6 +265,8 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         const fractionLength = value.length - dotPosition - 1;
         if (fractionLength < Money.FRACTION_LENGTH) {
             return value + '0'.repeat(Money.FRACTION_LENGTH - fractionLength);
+        } else if (fractionLength > Money.FRACTION_LENGTH) {
+            return value.substr(0, dotPosition + Money.FRACTION_LENGTH + 1);
         }
 
         return value;
