@@ -12,6 +12,14 @@
    position: sticky;
 }
 
+// В админке цвет фона плавающих панелей и в мастере(MasterDetail) не такой как на страницах. Аналогично костылю для теней скрол контейнера.
+// TODO Избавиться от каскада https://online.sbis.ru/opendoc.html?guid=758cfffc-cfde-4a52-8df0-94984c72dc4e
+.controls-StackTemplate {
+   .controls-StickyHeader {
+      background-color: @background-color_stack;
+   }
+}
+
 // Прилипающий заголовок дергается при скролле в горизонтальных списках на macOS, т.к. на корневой ноде списка висит свойство transformX.
 // Устанавливаем свойство will-change для оптимизации данного кейса.
 .ws-is-desktop-safari {
