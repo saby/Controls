@@ -3,6 +3,4 @@
     source="{{_source}}"
     groupProperty="group"
     tabProperty="tab">
-    <ws:tabsConfig separatorVisible="{{false}}"
-                   markerThickness="s"/>
 </Controls.propertyGrid:TabbedView>

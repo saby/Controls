@@ -13,7 +13,7 @@ interface IOptions extends IPropertyGridOptions {
     tabsConfig: ITabsButtonsOptions;
 }
 
-interface ITabInnerItem {
+interface ISwitchableAreaItem {
     key: string;
     templateOptions: Partial<IPropertyGridOptions>;
 }
@@ -31,7 +31,7 @@ export default class TabbedView extends Control<IOptions> {
     protected _template: TemplateFunction = template;
 
     protected _tabsSource: Memory;
-    protected _tabsInner: unknown[];
+    protected _switchableAreaItems: ISwitchableAreaItem[];
 
     protected _selectedKey: string;
 
@@ -48,10 +48,10 @@ export default class TabbedView extends Control<IOptions> {
     protected _applyNewStateFromOptions(options: IOptions): void {
         const config = this._createTabsConfig(options);
 
-        this._tabsSource = config.tabs;
-        this._tabsInner = config.tabsInner;
+        this._tabsSource = config.tabsSource;
+        this._switchableAreaItems = config.switchableAreaItems;
 
-        this._selectedKey = config.tabsInner[0].key;
+        this._selectedKey = config.switchableAreaItems[0].key;
     }
 
     protected _handleObjectChange(_: Event, obj: object): void {
@@ -59,13 +59,13 @@ export default class TabbedView extends Control<IOptions> {
     }
 
     protected _createTabsConfig(options: IOptions): {
-        tabs: Memory,
-        tabsInner: ITabInnerItem[]
+        tabsSource: Memory,
+        switchableAreaItems: ISwitchableAreaItem[]
     } {
         const tabs: Record<string, IPropertyGridProperty[]> = {};
 
         let tabsSource: Memory;
-        let tabsInner: ITabInnerItem[];
+        let switchableAreaItems: ISwitchableAreaItem[];
 
         options.source.forEach((item) => {
             tabs[item.tab] = [...(tabs[item.tab] || []), item];
@@ -80,7 +80,7 @@ export default class TabbedView extends Control<IOptions> {
             keyProperty: 'key'
         });
 
-        tabsInner = Object.entries(tabs).map(([key, source]) => {
+        switchableAreaItems = Object.entries(tabs).map(([key, source]) => {
             return {
                 key,
                 templateOptions: {
@@ -90,8 +90,8 @@ export default class TabbedView extends Control<IOptions> {
         });
 
         return {
-            tabs: tabsSource,
-            tabsInner
+            tabsSource,
+            switchableAreaItems
         };
     }
 }
@@ -99,9 +99,4 @@ export default class TabbedView extends Control<IOptions> {
 /**
  * @name Controls/_propertyGrid/TabbedView#tabProperty
  * @cfg {string} Имя свойства, содержащего идентификатор таба элемента редактора свойств.
- */
-
-/**
- * @name Controls/_propertyGrid/TabbedView#tabsConfig
- * @cfg {ITabsButtonsOptions} Конфигурация внешнего вида вкладок
  */
