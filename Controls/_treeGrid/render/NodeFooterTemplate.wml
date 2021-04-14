@@ -8,33 +8,31 @@
     })}}" attr:key="{{item.key}}">
         <ws:for data="index,column in item.getColumns(colspan)">
             <div class="{{ column.getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover, colspan) }} {{ cellClassName || '' }}" attr:key="{{item.key}}_column_{{index}}" style="{{ column.getColspanStyles(colspan)  }}">
-                <ws:if data="{{ index === 0 }}">
-                    <!-- Отступы для выравнивания с экспандером -->
-                    <ws:if data="{{item.shouldDisplayExpanderBlock(column)}}">
-                        <ws:if data="{{!withoutLevelPadding && item.getLevel() > 1}}">
-                            <ws:for data="i in item.getLevel() - 1">
-                                <div class="{{item.getLevelIndentClasses(expanderSize, levelIndentSize, theme)}}"></div>
-                            </ws:for>
-                        </ws:if>
-                        <ws:if data="{{item.shouldDisplayExpanderPadding(expanderIcon)}}">
-                            <div class="{{item.getExpanderPaddingClasses(expanderSize)}}"></div>
-                        </ws:if>
+                <!-- Отступы для выравнивания с экспандером -->
+                <ws:if data="{{item.shouldDisplayExpanderBlock(column)}}">
+                    <ws:if data="{{!withoutLevelPadding && item.getLevel() > 1}}">
+                        <ws:for data="i in item.getLevel() - 1">
+                            <div class="{{item.getLevelIndentClasses(expanderSize, levelIndentSize, theme)}}"></div>
+                        </ws:for>
                     </ws:if>
-
-                    <!-- Вынести шаблон кнопки в отдельный шаблон и возвращать его из функции, при этом не затягивая лишние либы. -->
-                    <!-- https://online.sbis.ru/opendoc.html?guid=15b9412b-159f-463c-9f4e-fa15a64fda4b -->
-                    <ws:if data="{{ column.getTemplate(content) }}">
-                        <ws:partial template="{{column.getTemplate(content)}}" item="{{item.getNode()}}" itemData="{{item.getNode()}}" column="{{ column }}" gridColumn="{{ column }}"/>
+                    <ws:if data="{{item.shouldDisplayExpanderPadding(expanderIcon)}}">
+                        <div class="{{item.getExpanderPaddingClasses(expanderSize)}}"></div>
                     </ws:if>
-                    <ws:else>
-                        <Controls.buttons:Button attr:class="controls-TreeGrid__nodeFooterLoadMore js-controls-TreeGrid__nodeFooter__LoadMoreButton"
-                                                 fontSize="xs"
-                                                 viewMode="link"
-                                                 fontColorStyle="{{ item.getNode().moreFontColorStyle }}"
-                                                 caption="{{rk('Еще') + '...'}}"
-                                                 readOnly="{{false}}"/>
-                    </ws:else>
                 </ws:if>
+
+                <!-- Вынести шаблон кнопки в отдельный шаблон и возвращать его из функции, при этом не затягивая лишние либы. -->
+                <!-- https://online.sbis.ru/opendoc.html?guid=15b9412b-159f-463c-9f4e-fa15a64fda4b -->
+                <ws:if data="{{ column.getTemplate(content) }}">
+                    <ws:partial template="{{column.getTemplate(content)}}" item="{{item.getNode()}}" itemData="{{item.getNode()}}" column="{{ column }}" gridColumn="{{ column }}"/>
+                </ws:if>
+                <ws:else>
+                    <Controls.buttons:Button attr:class="controls-TreeGrid__nodeFooterLoadMore js-controls-TreeGrid__nodeFooter__LoadMoreButton"
+                                             fontSize="xs"
+                                             viewMode="link"
+                                             fontColorStyle="{{ item.getNode().moreFontColorStyle }}"
+                                             caption="{{rk('Еще') + '...'}}"
+                                             readOnly="{{false}}"/>
+                </ws:else>
             </div>
         </ws:for>
     </div>

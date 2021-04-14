@@ -52,9 +52,15 @@ export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeF
             if (this.getOwner().hasItemActionsSeparatedCell()) {
                 end += 1;
             }
-            if (this.getOwner().isFullGridSupport()) {
+            if (this.getOwner().isFullGridSupport() && this.getOwner().hasColumnScroll()) {
                 start += this.getOwner().getStickyColumnsCount();
                 end += this.getOwner().getStickyColumnsCount();
+            }
+            // В данный момент поддержан только один сценарий лесенки и футеров узлов: лесенка для первого столбца.
+            // Чтобы поддержать все сценарии нужно переписать nodeFooterTemplate::colspan на Tree::colspanCallback
+            if (this.getOwner().isSupportLadder()) {
+                start += 1;
+                end += 1;
             }
 
             return `grid-column: ${start} / ${end}`;

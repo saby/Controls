@@ -22,7 +22,9 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterCell', () => {
             getColumnsConfig: () => [1],
             getStickyColumnsCount: () => 0,
             hasMultiSelectColumn: () => false,
-            isFullGridSupport: () => false
+            isFullGridSupport: () => false,
+            isSupportLadder: () => false,
+            hasColumnScroll: () => false
         };
     });
 
@@ -58,6 +60,15 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterCell', () => {
             mockedOwner.getColumnsConfig = () => [1];
             mockedOwner.getStickyColumnsCount = () => 1;
             mockedOwner.isFullGridSupport = () => true;
+            const cell = new TreeGridNodeFooterCell({owner: mockedOwner});
+            assert.equal(cell.getColspanStyles(), 'grid-column: 1 / 2');
+        });
+
+        it('has ladder in first column', () => {
+            mockedOwner.getColumnsConfig = () => [1];
+            mockedOwner.getStickyColumnsCount = () => 1;
+            mockedOwner.isFullGridSupport = () => true;
+            mockedOwner.isSupportLadder = () => true;
             const cell = new TreeGridNodeFooterCell({owner: mockedOwner});
             assert.equal(cell.getColspanStyles(), 'grid-column: 2 / 3');
         });
