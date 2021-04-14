@@ -149,7 +149,8 @@ export default abstract class
     static getDefaultOptions(): object {
         return {
             ...getDefaultBorderVisibilityOptions(),
-            multiSelect: false
+            multiSelect: false,
+            contrastBackground: false
         };
     }
 
