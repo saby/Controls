@@ -13,7 +13,7 @@ import DateRangeSelectorConsumer from 'Controls/_dateRange/_DateRangeSelectorCon
  * @mixes Controls/_interface/IOpenPopup
  * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
  * @mixes Controls/dateRange:IDayTemplate
- * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/_interface/IUnderline
  * @mixes Controls/dateRange:ICaptionFormatter
  * @mixes Controls/_dateRange/interfaces/IDateSelector

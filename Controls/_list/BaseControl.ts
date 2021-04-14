@@ -3232,12 +3232,12 @@ const _private = {
  * Компонент плоского списка, с произвольным шаблоном отображения каждого элемента. Обладает возможностью загрузки/подгрузки данных из источника.
  * @class Controls/_list/BaseControl
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface:ISource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface/IGroupedList
- * @mixes Controls/_interface/INavigation
- * @mixes Controls/_interface/IFilterChanged
+ * @mixes Controls/interface:INavigation
+ * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/interface/IEditableList
  * @mixes Controls/_list/BaseControl/Styles
  * @mixes Controls/_list/interface/IList

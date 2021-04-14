@@ -15,7 +15,7 @@ import 'css!Controls/popupTemplate';
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/PopupTemplate/CloseButton/ViewModes/Index
- * @mixes Controls/_buttons/interface/IClick
+ * @mixes Controls/buttons:IClick
  *
  */
 
