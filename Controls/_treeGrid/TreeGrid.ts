@@ -30,6 +30,11 @@ export default class TreeGrid extends Grid implements ITreeGrid {
             Logger.error('Не задана опция parentProperty, обязательная для работы Controls/treeGrid:View', this);
         }
 
+        if (options.expanderVisibility === 'hasChildren' && !options.hasChildrenProperty) {
+            Logger.error('Задана опция expanderVisibility=\'hasChildren\', но не задана опция hasChildrenProperty, ' +
+                'обязательная для работы выбранного значения expanderVisibility', this);
+        }
+
         const superResult = super._beforeMount(options);
         this._viewName = isFullGridSupport() ? TreeGridView : TreeGridViewTable;
         return superResult;
