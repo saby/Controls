@@ -52,7 +52,7 @@
          </Controls.propertyGrid:PropertyGrid>
       </ws:if>
       <ws:if data="{{_options.viewMode === 'default'}}">
-         <Controls.scroll:StickyHeader backgroundStyle="transparent"
+         <Controls.scroll:StickyHeader backgroundStyle="filterPanel"
                                        position="bottom"
                                        attr:class="controls-FilterViewPanel__applyButton-{{_options.viewMode}}">
             <Controls.buttons:Button viewMode="linkButton"
