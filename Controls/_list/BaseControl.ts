@@ -2754,15 +2754,27 @@ const _private = {
             event.preventDefault();
 
             const controller = _private.getMarkerController(self);
-            const newMarkedKey = controller.getPrevMarkedKey();
-            if (newMarkedKey !== controller.getMarkedKey()) {
-                const result = self._changeMarkedKey(newMarkedKey);
-                if (result instanceof Promise) {
-                    result.then((key) => _private.scrollToItem(self, key, true));
-                } else if (result !== undefined) {
-                    _private.scrollToItem(self, result);
+            const moveMarker = () => {
+                const newMarkedKey = controller.getPrevMarkedKey();
+                if (newMarkedKey !== controller.getMarkedKey()) {
+                    const result = self._changeMarkedKey(newMarkedKey);
+                    if (result instanceof Promise) {
+                        result.then((key) => _private.scrollToItem(self, key, true));
+                    } else if (result !== undefined) {
+                        _private.scrollToItem(self, result);
+                    }
                 }
             }
+            const currentMarkedKey = controller.getMarkedKey();
+            const lastItem = self._listViewModel.at(self._listViewModel.getStartIndex());
+            if (lastItem.key === currentMarkedKey) {
+                self._shiftToDirection('up').then(() => {
+                    moveMarker();
+                });
+            } else {
+                moveMarker();
+            }
+
         }
     },
 
