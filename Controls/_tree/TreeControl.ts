@@ -1006,7 +1006,7 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
         const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
         const dndListController = this._children.baseControl.getDndListController();
         const targetIsNotDraggableItem = dndListController.getDraggableItem()?.getContents() !== dispItem.getContents();
-        if (dispItem && dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() && targetIsNotDraggableItem) {
+        if (dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() && targetIsNotDraggableItem) {
             const dndListController = this._children.baseControl.getDndListController();
             const targetElement = _private.getTargetRow(this, nativeEvent);
             const mouseOffsetInTargetItem = this._calculateOffset(nativeEvent, targetElement);
