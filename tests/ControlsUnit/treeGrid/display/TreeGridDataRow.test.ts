@@ -1,6 +1,6 @@
 import { assert } from 'chai';
-import {RecordSet} from "Types/collection";
-import {TreeGridCollection, TreeGridDataRow} from "Controls/treeGrid";
+import {RecordSet} from 'Types/collection';
+import {TreeGridCollection, TreeGridDataRow} from 'Controls/treeGrid';
 
 describe('Controls/treeGrid/Display/TreeGridDataRow', () => {
     const recordSet = new RecordSet({
