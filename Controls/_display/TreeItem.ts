@@ -319,10 +319,7 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         const expanderPosition = this._$owner.getExpanderPosition();
 
         let expanderClasses = 'js-controls-Tree__row-expander controls-TreeGrid__row-expander';
-
-        if (this.isDragged()) {
-            expanderClasses += ' controls-ListView__itemContent_dragging';
-        }
+        let expanderIconClass = '';
 
         if (expanderPosition === 'default') {
             expanderClasses += ` controls-TreeGrid__row_${this.getStyle()}-expander_size_${(expanderSize || 'default')} `;
@@ -334,7 +331,6 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         expanderClasses += ` controls-TreeGrid__row-expander__spacingTop_${this.getOwner().getTopPadding()}`;
         expanderClasses += ` controls-TreeGrid__row-expander__spacingBottom_${this.getOwner().getBottomPadding()}`;
 
-        let expanderIconClass = '';
         if (expanderIcon) {
             expanderIconClass = ' controls-TreeGrid__row-expander_' + expanderIcon;
             expanderClasses += expanderIconClass;
