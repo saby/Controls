@@ -13,12 +13,18 @@ import {ITabsButtons, ITabsButtonsOptions} from './interface/ITabsButtons';
 import {constants} from 'Env/Env';
 import {adapter} from 'Types/entity';
 import {factory} from 'Types/chain';
-import Marker from './Buttons/Marker';
+import Marker, {AUTO_ALIGN} from './Buttons/Marker';
 
 import TabButtonsTpl = require('wml!Controls/_tabs/Buttons/Buttons');
 import ItemTemplate = require('wml!Controls/_tabs/Buttons/ItemTemplate');
 
 import 'css!Controls/tabs';
+
+
+enum ITEM_ALIGN {
+    left = 'left',
+    right = 'right'
+}
 
 interface ITabButtonItem {
     isMainTab?: boolean;
@@ -60,6 +66,8 @@ const isTemplateObject = (tmpl: any): boolean => {
     return isTemplate(tmpl);
 };
 
+const ANIMATION_DURATION = 300;
+
 /**
  * Контрол предоставляет пользователю возможность выбрать между двумя или более вкладками.
  *
@@ -95,6 +103,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     private _lastRightOrder: number;
     private _items: RecordSet;
     private _crudWrapper: CrudWrapper;
+    private _needResetMarkerAlign: boolean = true;
+    private _resetMarkerAlignTimeout: number;
 
     protected _beforeMount(options: ITabsOptions,
                            context: object,
@@ -139,8 +149,29 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
     }
 
+    protected _afterUpdate() {
+        // Если переключили на вкладку у которой другое выравнивание, то меняется
+        // тип позиционирования маркера left|right. Из-за этого анимации не будет.
+        // Запускаем анимацию с текущим позиционированием, а здесь переключим его после
+        // завершения анимации.
+        if (this._needResetMarkerAlign) {
+            if (this._resetMarkerAlignTimeout) {
+                clearTimeout(this._resetMarkerAlignTimeout);
+            }
+            this._resetMarkerAlignTimeout = setTimeout(() => {
+                this._marker.setAlign(AUTO_ALIGN.auto);
+                this._resetMarkerAlignTimeout = null;
+                this._needResetMarkerAlign = false;
+            }, ANIMATION_DURATION);
+
+        }
+    }
+
     protected _beforeUnmount(): void {
         UnregisterUtil(this, 'controlResize', { listenAll: true });
+        if (this._resetMarkerAlignTimeout) {
+            clearTimeout(this._resetMarkerAlignTimeout);
+        }
     }
 
     protected _mouseEnterHandler(): void {
@@ -163,7 +194,10 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             return;
         }
         const tabElements: HTMLElement[] = this._itemsArray.map((item: ITabButtonItem, key: number) => {
-            return this._children[`Tab${key}`];
+            return {
+                element: this._children[`Tab${key}`],
+                align: item.align || ITEM_ALIGN.right
+            };
         });
         this._marker.updatePosition(tabElements, this._container);
         this._updateMarkerSelectedIndex(this._options);
@@ -179,7 +213,16 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const index: number = this._itemsArray.findIndex((item: ITabButtonItem) => {
             return item[options.keyProperty] === options.selectedKey;
         });
+        const align = this._marker.getAlign();
         this._marker.setSelectedIndex(index);
+        // Если переключили на вкладку у которой другое выравнивание, то меняется
+        // тип позиционирования маркера left|right. Из-за этого анимации не будет.
+        // Запускаем анимацию с текущим позиционированием, и переключим его после
+        // завершения анимации.
+        if (align && align !== this._marker.getAlign()) {
+            this._marker.setAlign(align);
+            this._needResetMarkerAlign = true;
+        }
     }
 
     protected _updateMarkerCssClass(options: ITabsButtonsOptions): void {
