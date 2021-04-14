@@ -28,12 +28,6 @@ export enum DetailViewMode {
     search = 'search'
 }
 
-/**
- * Интерфейс описывает структуру настроек detail-колонки компонента {@link Controls/newBrowser:Browser}
- * @interface Controls/newBrowser:IDetailOptions
- * @public
- * @author Уфимцев Д.Ю.
- */
 export
     interface IDetailOptions
     extends
@@ -47,7 +41,8 @@ export
 
     //region source options
     /**
-     * Источник данных, который будет использован списочным представлением внутри detail-колонки.
+     * @name Controls/newBrowser:IDetail#source
+     * @cfg {ICrudPlus} Источник данных, который будет использован списочным представлением внутри detail-колонки.
      * Если не задан, то будет использован источник данных, который указан в основной конфигурации
      * {@link ICatalogOptions.source}
      *
@@ -56,14 +51,16 @@ export
     source?: ICrudPlus;
 
     /**
-     * Имя свойства записи detail-списка, содержащего информацию о её идентификаторе.
+     * @name Controls/newBrowser:IDetail#keyProperty
+     * @cfg {String} Имя свойства записи detail-списка, содержащего информацию о её идентификаторе.
      */
     keyProperty?: string;
     //endregion
 
     //region templates
     /**
-     * Кастомный шаблон отображения итема плоского списка.
+     * @name Controls/newBrowser:IDetail#customItemTemplate
+     * @cfg {TemplateFunction|string} Кастомный шаблон отображения итема плоского списка.
      *
      * @remark
      * Имеет смысл задавать, если нужно польностью переопределить
@@ -72,35 +69,41 @@ export
     customItemTemplate?: TemplateFunction | string;
 
     /**
-     * Кастомный шаблон отображения итема плитки
+     * @name Controls/newBrowser:IDetail#customTileItemTemplate
+     * @cfg {TemplateFunction|string} Кастомный шаблон отображения итема плитки
      */
     customTileItemTemplate?: TemplateFunction | string;
 
     /**
-     * Пользовательский шаблон отображения пустого списка.
+     * @name Controls/newBrowser:IDetail#emptyTemplate
+     * @cfg {TemplateFunction|string} Пользовательский шаблон отображения пустого списка.
      */
     emptyTemplate?: TemplateFunction | string;
 
     /**
-     * Пользовательский шаблон, который будет выведен справа от хлебных
+     * @name Controls/newBrowser:IDetail#afterBreadCrumbsTemplate
+     * @cfg {TemplateFunction|string} Пользовательский шаблон, который будет выведен справа от хлебных
      * крошек
      */
     afterBreadCrumbsTemplate?: TemplateFunction | string;
     //endregion
 
     /**
-     * Название поле записи в котором лежит ссылка на картинку
+     * @name Controls/newBrowser:IDetail#imageProperty
+     * @cfg {string} Название поле записи в котором лежит ссылка на картинку
      */
     imageProperty?: string;
 
     /**
-     * Имя поля записи в котором лежит описание итема и которое
+     * @name Controls/newBrowser:IDetail#descriptionProperty
+     * @cfg {string} Имя поля записи в котором лежит описание итема и которое
      * нужно вывести в области контента
      */
     descriptionProperty?: string;
 
     /**
-     * Имя поля записи в котором лежит цвет градиента для итема.
+     * @name Controls/newBrowser:IDetail#gradientColorProperty
+     * @cfg {string} Имя поля записи в котором лежит цвет градиента для итема.
      * Можно указывать в любом формате, который поддерживается в CSS.
      */
     gradientColorProperty?: string;
@@ -110,17 +113,20 @@ export
     hasChildrenProperty?: string;
 
     /**
-     * Конфигурация колонок таблицы.
+     * @name Controls/newBrowser:IDetail#columns
+     * @cfg {IColumn[]} Конфигурация колонок таблицы.
      */
     columns?: IColumn[];
 
     /**
-     * Конфигурация заголовка таблицы.
+     * @name Controls/newBrowser:IDetail#header
+     * @cfg {IHeaderCell} Конфигурация заголовка таблицы.
      */
     header?: IHeaderCell;
 
     /**
-     * Цвет фона detail-колонки
+     * @name Controls/newBrowser:IDetail#backgroundColor
+     * @cfg {String} Цвет фона detail-колонки
      */
     backgroundColor?: string;
 
@@ -128,3 +134,10 @@ export
 
     dataLoadCallback?: (items: RecordSet, direction: string) => void;
 }
+
+/**
+ * Интерфейс описывает структуру настроек detail-колонки компонента {@link Controls/newBrowser:Browser}
+ * @interface Controls/newBrowser:IDetail
+ * @public
+ * @author Уфимцев Д.Ю.
+ */

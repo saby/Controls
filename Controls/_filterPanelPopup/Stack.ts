@@ -20,7 +20,7 @@ import 'css!Controls/filterPanelPopup';
 export default class Stack extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
 
-    protected _collapsedGroupsChanged(event: SyntheticEvent, collapsedFilters: string[]|number[]): void {
+    protected _collapsedGroupsChanged(event: SyntheticEvent, collapsedFilters: string[] | number[]): void {
         this._notify('sendResult', [{action: 'collapsedFiltersChanged', collapsedFilters}], {bubbling: true});
     }
 }
