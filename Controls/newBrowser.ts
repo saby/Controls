@@ -5,6 +5,8 @@
  * содержимое каталога выбранного в master колонке.
  *
  * @library Controls/newBrowser
+ * @includes IMaster Controls/newBrowser:IMaster
+ * @includes IDetail Controls/newBrowser:IDetail
  * @author Уфимцев Д.Ю.
  */
 // tslint:disable-next-line:ban-ts-ignore
