@@ -73,13 +73,17 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
         this._notify('close', [], {bubbling: true});
     }
 
-    maximizedState(): void {
+    toggleMaximizeState(maximized?: boolean): void {
         /**
          * @event maximized
          * Occurs when you click the expand / collapse button of the panels.
          */
-        const maximized = this._calculateMaximized(this._options);
-        this._notify('maximized', [!maximized], {bubbling: true});
+        if (maximized === undefined) {
+            const calcMaximized = this._calculateMaximized(this._options);
+            this._notify('maximized', [!calcMaximized], {bubbling: true});
+        } else {
+            this._notify('maximized', [!maximized], {bubbling: true});
+        }
     }
 
     protected changeMaximizedState(): void {
@@ -153,9 +157,10 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
  */
 
 /**
- * @name Controls/_popupTemplate/Stack#maximizedState
+ * @name Controls/_popupTemplate/Stack#toggleMaximizeState
  * @function
  * @description Метод для переключения панели в максимизированное состояние.
+ * @param {Boolean} maximize Текущее состояние. Если аргумент не передан, то состояние рассчитывается автоматически.
  * @example
  * <pre class="brush: html">
  * <!-- WML -->
