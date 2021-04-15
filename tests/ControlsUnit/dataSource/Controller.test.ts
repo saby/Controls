@@ -205,6 +205,21 @@ describe('Controls/dataSource:SourceController', () => {
             ok(loadPromiseWasCanceled);
         });
 
+        it('load call while loading',  async () => {
+            const navigation = getPagingNavigation();
+            let navigationParamsChangedCallbackCalled = false;
+            const options = {...getControllerOptions(), navigation};
+            options.navigationParamsChangedCallback = () => {
+                navigationParamsChangedCallbackCalled = true;
+            };
+            const controller = getController(options);
+
+            const reloadPromise = controller.reload();
+            controller.cancelLoading();
+            await reloadPromise;
+            ok(!navigationParamsChangedCallbackCalled);
+        });
+
         it('load with parentProperty and selectedKeys',  async () => {
             let controller = getControllerWithHierarchy({
                 selectedKeys: [0],

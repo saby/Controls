@@ -143,6 +143,7 @@ export default class Controller extends mixin<
      */
     private _breadcrumbsRecordSet: RecordSet;
     private _loadPromise: CancelablePromise<RecordSet|Error>;
+    private _prepareFilterPromise: CancelablePromise<QueryWhereExpression<unknown>|Error>;
     private _loadError: Error;
     private _processCollectionChangeEvent: boolean = true;
 
@@ -435,6 +436,10 @@ export default class Controller extends mixin<
             this._loadPromise.cancel();
             this._loadPromise = null;
         }
+        if (this._prepareFilterPromise) {
+            this._prepareFilterPromise.cancel();
+            this._prepareFilterPromise = null;
+        }
     }
 
     getOptions(): IControllerOptions {
@@ -631,8 +636,9 @@ export default class Controller extends mixin<
                 Promise.resolve(filter) :
                 this._prepareFilterForQuery(filter || this._filter, key);
             this.cancelLoading();
+            this._prepareFilterPromise = new CancelablePromise(filterPromise);
             this._loadPromise = new CancelablePromise(
-                filterPromise.then((preparedFilter: QueryWhereExpression<unknown>) => {
+                this._prepareFilterPromise.promise.then((preparedFilter: QueryWhereExpression<unknown>) => {
                     if (this._options.loadTimeout) {
                         return wrapTimeout(
                             this._query(preparedFilter, key, navigationSourceConfig, direction),
