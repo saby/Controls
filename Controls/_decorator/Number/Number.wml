@@ -1,4 +1,4 @@
-<span class="controls-DecoratorNumber controls-fontsize-{{_options.fontSize}} controls-text-{{_fontColorStyle}} controls-fontweight-{{_options.fontWeight}} {{ _options.stroked ? 'controls-DecoratorNumber__stroked' }} {{ _options.underline === 'hovered' ? 'controls-DecoratorNumber__underline' }}"
+<span class="controls-DecoratorNumber {{_options.fontSize ? ' controls-fontsize-' + _options.fontSize}} {{_fontColorStyle ? 'controls-text-' + _fontColorStyle}} {{_options.fontWeight ? 'controls-fontweight-' + _options.fontWeight}} {{_options.stroked ? 'controls-DecoratorNumber__stroked'}} {{_options.underline === 'hovered' ? 'controls-DecoratorNumber__underline'}}"
       title="{{_options.tooltip || _formattedNumber}}">
         {{_formattedNumber}}
 </span>
