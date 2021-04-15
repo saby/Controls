@@ -73,13 +73,20 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
         this._notify('close', [], {bubbling: true});
     }
 
-    protected changeMaximizedState(): void {
+    toggleMaximizeState(maximized?: boolean): void {
         /**
          * @event maximized
          * Occurs when you click the expand / collapse button of the panels.
          */
-        const maximized = this._calculateMaximized(this._options);
-        this._notify('maximized', [!maximized], {bubbling: true});
+        let calcMaximized = maximized;
+        if (calcMaximized === undefined) {
+            calcMaximized = !this._calculateMaximized(this._options);
+        }
+        this._notify('maximized', [calcMaximized], {bubbling: true});
+    }
+
+    protected changeMaximizedState(): void {
+        this.toggleMaximizeState();
     }
 
     private _calculateMaximized(options: IStackTemplateOptions) : boolean {
@@ -146,6 +153,47 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
  * @cfg {Number} Текущая ширина шаблона стековой панели
  * @remark
  * Опция только для чтения, значение устанавливается контролом Controls/popup исходя из заданной конфигурации окна
+ */
+
+/**
+ * @name Controls/_popupTemplate/Stack#toggleMaximizeState
+ * @function
+ * @description Переключает состояние разворота панели.
+ * @param {Boolean} maximize Определяет новое состояние разворота панели. Если аргумент не передан, то новое состояние задается противоположным текущему.
+ * @example
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <ws:template name="StackTemplate">
+ *  <Controls.popupTemplate:Stack name="my_stack">
+ *      <ws:bodyContentTemplate>
+ *          <Controls.input:Text value="_value" />
+ *          <Controls.buttons:Button caption="maximized" on:click="_maximized()"/>
+ *      </ws:bodyContentTemplate>
+ *  </Controls.popupTemplate:Stack>
+ * </ws:template>
+ *
+ * <Controls.popup:Stack name="stack" template="StackTemplate"/>
+ *
+ * </pre>
+ * <pre class="brush: js">
+ * // JavaScript
+ * class MyControl extends Control<IControlOptions>{
+ *    ...
+ *
+ *    _beforeMount() {
+ *      var popupOptions = {
+ *          autofocus: true
+ *      }
+ *      this._children.stack.open(popupOptions)
+ *    }
+ *
+ *    _maximized() {
+ *       this._children.my_stack.toggleMaximizeState()
+ *    }
+ *
+ *    ...
+ * }
+ * </pre>
  */
 
 export default StackTemplate;
