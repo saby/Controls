@@ -443,6 +443,9 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                 display: {
                     getMultiSelectVisibility() {
                         return 'hidden';
+                    },
+                    getMetaResults() {
+                        return {};
                     }
                 },
                 groups,
@@ -469,6 +472,9 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                 display: {
                     getMultiSelectVisibility() {
                         return 'hidden';
+                    },
+                    getMetaResults() {
+                        return {};
                     }
                 },
                 groups,
@@ -510,6 +516,9 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                     display: {
                         getMultiSelectVisibility() {
                             return 'hidden';
+                        },
+                        getMetaResults() {
+                            return {};
                         }
                     },
                     groups,
@@ -548,6 +557,9 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                     display: {
                         getMultiSelectVisibility() {
                             return 'hidden';
+                        },
+                        getMetaResults() {
+                            return {};
                         }
                     },
                     groups,
@@ -581,6 +593,9 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                 display: {
                     getMultiSelectVisibility() {
                         return 'hidden';
+                    },
+                    getMetaResults() {
+                        return {};
                     }
                 },
                 groups,
