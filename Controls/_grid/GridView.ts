@@ -1,6 +1,5 @@
 import { ListView } from 'Controls/list';
 import { TemplateFunction } from 'UI/Base';
-import { TouchContextField as isTouch } from 'Controls/context';
 import { Logger} from 'UI/Utils';
 import { GridCollection, GridRow, GridLadderUtil, GridLayoutUtil, isFullGridSupport } from 'Controls/display';
 import * as GridTemplate from 'wml!Controls/_grid/Render/grid/GridView';
@@ -477,11 +476,5 @@ const GridView = ListView.extend({
 
     //#endregion
 });
-
-GridView.contextTypes = () => {
-    return {
-        isTouch
-    };
-};
 
 export default GridView;

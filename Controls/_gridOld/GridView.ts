@@ -2,7 +2,7 @@ import {TemplateFunction} from 'UI/Base';
 import {ListView, CssClassList} from 'Controls/list';
 import * as GridLayoutUtil from 'Controls/_gridOld/utils/GridLayoutUtil';
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
-import {TouchContextField as isTouch} from 'Controls/context';
+import { TouchDetect } from 'Env/Touch';
 import {EventUtils} from 'UI/Events';
 import {prepareEmptyEditingColumns} from 'Controls/Utils/GridEmptyTemplateUtil';
 import {
@@ -888,7 +888,7 @@ var
             // При загрузке таблицы с проскроленным в конец горизонтальным скролом следует оживить таблицу при
             // вводе в нее указателя мыши, но после отрисовки thumb'а (скрыт через visibility) во избежание скачков
             if (this._showFakeGridWithColumnScroll && newPosition !== 0) {
-                if (this._context?.isTouch?.isTouch || this._canShowRealGridWithColumnScroll) {
+                if (TouchDetect.getInstance().isTouch() || this._canShowRealGridWithColumnScroll) {
                     this._showFakeGridWithColumnScroll = false;
                 }
                 this._canShowRealGridWithColumnScroll = true;
@@ -1030,10 +1030,5 @@ var
     });
 
 GridView._private = _private;
-GridView.contextTypes = () => {
-    return {
-        isTouch
-    };
-};
 
 export = GridView;
