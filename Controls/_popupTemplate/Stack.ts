@@ -78,12 +78,11 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
          * @event maximized
          * Occurs when you click the expand / collapse button of the panels.
          */
-        if (maximized === undefined) {
-            const calcMaximized = this._calculateMaximized(this._options);
-            this._notify('maximized', [!calcMaximized], {bubbling: true});
-        } else {
-            this._notify('maximized', [!maximized], {bubbling: true});
+        let calcMaximized = maximized;
+        if (calcMaximized === undefined) {
+            calcMaximized = this._calculateMaximized(this._options);
         }
+        this._notify('maximized', [!calcMaximized], {bubbling: true});
     }
 
     protected changeMaximizedState(): void {
