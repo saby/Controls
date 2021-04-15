@@ -2,7 +2,10 @@
     <div class="controls-ListView__groupSeparator-left_theme-{{theme}}">&nbsp;</div>
     <div class="{{ gridColumn.getCaptionClasses(expanderAlign, expanderVisible, theme) }}">
         <ws:if data="{{contentTemplate}}">
-            <ws:partial template="{{contentTemplate}}" itemData="{{ item || itemData }}"/>
+            <ws:partial template="{{contentTemplate}}"
+                        itemData="{{ item || itemData }}"
+                        results="{{ (item || itemData).getMetaResults() }}"
+            />
         </ws:if>
         <ws:else>{{gridColumn.getCaption()}}</ws:else>
     </div>
