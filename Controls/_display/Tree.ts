@@ -263,6 +263,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     private _expandedItems: CrudEntityKey[] = [];
     private _collapsedItems: CrudEntityKey[] = [];
 
+    private _hierarchyRelation: relation.Hierarchy;
+
     /**
      * Признак, означающий что есть узел с детьми
      * @protected
@@ -291,6 +293,13 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (this.getExpanderVisibility() === 'hasChildren') {
             this._recountHasNodeWithChildren();
         }
+
+        this._hierarchyRelation = new relation.Hierarchy({
+            keyProperty: this.getKeyProperty(),
+            parentProperty: this.getParentProperty(),
+            nodeProperty: this.getNodeProperty(),
+            declaredChildrenProperty: this.getHasChildrenProperty()
+        });
     }
 
     destroy(): void {
@@ -431,6 +440,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (adjacencyList) {
             adjacencyList.keyProperty = keyProperty;
         }
+        this._hierarchyRelation.setKeyProperty(keyProperty);
     }
 
     protected _extractItemId(item: T): string {
@@ -467,6 +477,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     setParentProperty(name: string): void {
         this._unsetImportantProperty(this._$parentProperty);
         this._$parentProperty = name;
+        this._hierarchyRelation.setParentProperty(name);
 
         this._resetItemsStrategy();
         this._setImportantProperty(name);
@@ -483,6 +494,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     setNodeProperty(nodeProperty: string): void {
         if (this._$nodeProperty !== nodeProperty) {
             this._$nodeProperty = nodeProperty;
+            this._hierarchyRelation.setNodeProperty(nodeProperty);
             this._nextVersion();
         }
     }
@@ -497,6 +509,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     setChildrenProperty(childrenProperty: string): void {
         if (this._$childrenProperty !== childrenProperty) {
             this._$childrenProperty = childrenProperty;
+            this._hierarchyRelation.setDeclaredChildrenProperty(childrenProperty);
             this._nextVersion();
         }
     }
@@ -919,13 +932,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     private _getChildrenByRecordSet(parent: S): S[] {
-        const hierarchyRelation = new relation.Hierarchy({
-            keyProperty: this.getKeyProperty(),
-            parentProperty: this.getParentProperty(),
-            nodeProperty: this.getNodeProperty(),
-            declaredChildrenProperty: this.getHasChildrenProperty()
-        });
-        return hierarchyRelation.getChildren(parent, this.getCollection() as any as RecordSet) as any[] as S[];
+        return this._hierarchyRelation.getChildren(parent, this.getCollection() as any as RecordSet) as any[] as S[];
     }
 
     protected _getNearbyItem(
