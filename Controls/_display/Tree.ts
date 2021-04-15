@@ -621,15 +621,20 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         const diff = ArraySimpleValuesUtil.getArrayDifference(this._expandedItems, expandedKeys);
 
         if (diff.removed[0] === null) {
-            this.each((it) => it.setExpanded(false));
+            this.each((it) => it.Expandable && it.setExpanded(false));
         } else {
-            diff.removed.forEach((it) => this.getItemBySourceKey(it)?.setExpanded(false));
+            diff.removed.forEach((it) => {
+                const item = this.getItemBySourceKey(it);
+                if (item && item.Expandable) {
+                    item.setExpanded(false);
+                }
+            });
         }
 
         this._expandedItems = [...expandedKeys];
         if (expandedKeys[0] === null) {
             const expandAllChildesNodes = (parent) => {
-                if (!parent['[Controls/_display/TreeItem]']) {
+                if (!parent.Expandable) {
                     return;
                 }
 
@@ -660,7 +665,12 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
         // TODO зарефакторить по задаче https://online.sbis.ru/opendoc.html?guid=5d8d38d0-3ade-4393-bced-5d7fbd1ca40b
         const diff = ArraySimpleValuesUtil.getArrayDifference(this._collapsedItems, collapsedKeys);
-        diff.removed.forEach((it) => this.getItemBySourceKey(it)?.setExpanded(true));
+        diff.removed.forEach((it) => {
+            const item = this.getItemBySourceKey(it);
+            if (item && item.Expandable) {
+                item.setExpanded(true);
+            }
+        });
 
         this._collapsedItems = [...collapsedKeys];
 

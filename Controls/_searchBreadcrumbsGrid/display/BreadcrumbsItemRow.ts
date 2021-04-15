@@ -103,8 +103,6 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
         return false;
     }
 
-    setExpanded(): void {/* хлебная крошка не умеет сворачиваться/разворачиваться */}
-
    getTemplate(): TemplateFunction | string {
       // В старой поисковой модели в menu хлебные крошки отрисовывают с помощью itemTemplate,
       // у себы мы рисуем хлебные крошки с помощью searchBreadCrumbsItemTemplate
