@@ -20,7 +20,7 @@
         <ws:if data="{{ _options.columnScroll && realGridView && (_listModel.getHeader() || (_listModel.getResults() && _listModel.getResultsPosition() === 'top')) }}">
             <Controls.columnScroll:ScrollBar
                     name="horizontalScrollBar"
-                    attr:style="{{ _getHorizontalScrollBarStyles() }} width: {{ _horizontalScrollWidth }};"
+                    cssStyle="{{ _getHorizontalScrollBarStyles() }} width: {{ _horizontalScrollWidth }};"
                     attr:class="{{ _showFakeGridWithColumnScroll ? 'controls-Grid__ColumnScroll_hidden' }}"
                     stickyHeader="{{ true }}"
                     trackVisible="{{ true }}"
