@@ -310,7 +310,7 @@ function onCollectionChange<T>(
                 projectionOldItems,
                 0
             );
-            this._handleAfterCollectionChange();
+            this._handleAfterCollectionChange(undefined, action);
             if (!needReset) {
                 this._handleCollectionActionChange(newItems);
             }
@@ -4072,7 +4072,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         this._notify('onAfterCollectionChange');
     }
 
-    protected _handleAfterCollectionChange(): void {
+    protected _handleAfterCollectionChange(changedItems: ISessionItems<T> = [], changeAction?: string): void {
         this._notifyAfterCollectionChange();
         this._updateItemsMultiSelectVisibility(this._$multiSelectVisibility);
     }

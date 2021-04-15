@@ -14,6 +14,7 @@ import Row, {IOptions as IRowOptions} from './Row';
 import DataRow from './DataRow';
 import { TemplateFunction } from 'UI/Base';
 import {Model as EntityModel} from 'Types/entity';
+import {IObservable} from 'Types/collection';
 
 export interface IOptions<
     S,
@@ -109,12 +110,21 @@ export default class Collection<
         this._updateItemsColumns();
     }
 
-    protected _handleAfterCollectionChange(): void {
-        super._handleAfterCollectionChange();
+    protected _handleAfterCollectionChange(changedItems: T[] = [], changeAction?: string): void {
+        super._handleAfterCollectionChange(changedItems, changeAction);
         if (GridLadderUtil.isSupportLadder(this._$ladderProperties)) {
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
+
+        // Сбрасываем модель заголовка если его видимость зависит от наличия данных и текущее действие
+        // это смена записей.
+        // При headerVisibility === 'visible' вроде как пока не требуется перерисовывать заголовок, т.к.
+        // он есть всегда. Но если потребуется, то нужно поправить это условие
+        if (this._$headerVisibility === 'hasdata' && changeAction === IObservable.ACTION_RESET) {
+            this._$headerModel = null;
+        }
+
         this._updateHasStickyGroup();
         this._$results = null;
     }
