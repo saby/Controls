@@ -1,8 +1,8 @@
-<Controls._suggestPopup.List>
-   <Controls.list:View keyProperty="{{_options.keyProperty}}"
-                       sourceController="{{_options.sourceController}}">
-      <ws:itemTemplate>
-         <ws:partial template="Controls/list:ItemTemplate" displayProperty="{{displayProperty}}"/>
-      </ws:itemTemplate>
-   </Controls.list:View>
-</Controls._suggestPopup.List>
+<ws:partial template="wml!Controls/_suggestPopup/WrappedList">
+  <Controls.list:View keyProperty="{{_options.keyProperty}}"
+                      sourceController="{{_options.sourceController}}">
+    <ws:itemTemplate>
+      <ws:partial template="Controls/list:ItemTemplate" displayProperty="{{displayProperty}}"/>
+    </ws:itemTemplate>
+  </Controls.list:View>
+</ws:partial>
