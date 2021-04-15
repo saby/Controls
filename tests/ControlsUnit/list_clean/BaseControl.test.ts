@@ -779,46 +779,6 @@ describe('Controls/list_clean/BaseControl', () => {
             assert.isFalse(loadStarted);
         });
 
-        it('portioned search is started after sourceController load without searchValue', async () => {
-            let baseControlOptions = getBaseControlOptionsWithEmptyItems();
-            let loadStarted = false;
-            const navigation = {
-                view: 'infinity',
-                source: 'page',
-                sourceConfig: {
-                    pageSize: 10,
-                    page: 0,
-                    hasMore: false
-                }
-            };
-
-            baseControlOptions.navigation = navigation;
-            baseControlOptions.sourceController = new NewSourceController({
-                source: new Memory(),
-                navigation,
-                keyProperty: 'key'
-            });
-            baseControlOptions.sourceController.hasMoreData = () => true;
-            baseControlOptions.sourceController.load = () => {
-                loadStarted = true;
-                return Promise.reject();
-            };
-            baseControlOptions.sourceController.getItems = () => {
-                const rs = new RecordSet();
-                rs.setMetaData({iterative: true});
-                return rs;
-            };
-
-            const baseControl = new BaseControl(baseControlOptions);
-            await baseControl._beforeMount(baseControlOptions);
-            baseControl.saveOptions(baseControlOptions);
-
-            baseControlOptions = {...baseControlOptions};
-            baseControlOptions.source = new Memory();
-            baseControl._beforeUpdate(baseControlOptions);
-            assert.isTrue(loadStarted);
-        });
-
         it('search returns empty recordSet with iterative in meta', async () => {
             let baseControlOptions = getBaseControlOptionsWithEmptyItems();
             let loadStarted = false;
@@ -1040,7 +1000,8 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._beforeUpdate({
                 ...baseControlCfg,
                 filter: {field: 'ASC'},
-                useNewModel: true
+                useNewModel: true,
+                loading: true
             });
             assert.isTrue(isEditingCancelled);
         });
@@ -1143,8 +1104,10 @@ describe('Controls/list_clean/BaseControl', () => {
                 sourceController.updateOptions(sourceControllerOptions);
                 await sourceController.reload().catch(() => {});
                 baseControlOptions.source = new Memory();
+                baseControlOptions.loading = true;
                 assert.doesNotThrow(() => {
                     baseControl._beforeUpdate(baseControlOptions);
+                    baseControl.saveOptions(baseControlOptions);
                 });
 
                 baseControl.__error = {testErrorField: 'testErrorValue'};
@@ -1154,6 +1117,7 @@ describe('Controls/list_clean/BaseControl', () => {
                 await sourceController.reload();
                 baseControlOptions = {...baseControlOptions};
                 baseControlOptions.source = new Memory();
+                baseControlOptions.loading = false;
                 baseControl._beforeUpdate(baseControlOptions);
                 assert.ok(!baseControl.__error);
             });
