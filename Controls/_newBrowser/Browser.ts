@@ -31,6 +31,7 @@ import * as DefaultListItemTemplate from 'wml!Controls/_newBrowser/templates/Lis
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as DefaultTileItemTemplate from 'wml!Controls/_newBrowser/templates/TileItemTemplate';
+import {View} from 'Controls/explorer';
 import 'css!Controls/listTemplates';
 //endregion
 
@@ -66,6 +67,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      */
     protected _template: TemplateFunction = ViewTemplate;
     protected _notifyHandler: Function = EventUtils.tmplNotify;
+    protected _children: {
+        detailList: View
+    };
 
     /**
      * Enum со списком доступных вариантов отображения контента в detail-колонке.
@@ -311,6 +315,32 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     reload(): Promise<RecordSet> {
         return this._detailDataSource.loadData();
     }
+
+    reloadItem(): unknown {
+        const detailExplorer = this._children.detailList;
+        return detailExplorer.reloadItem.apply(detailExplorer, arguments);
+    }
+
+    moveItemsWithDialog(): unknown {
+        const detailExplorer = this._children.detailList;
+        return detailExplorer.moveItemsWithDialog.apply(detailExplorer, arguments);
+    }
+
+    moveItems(): unknown {
+        const detailExplorer = this._children.detailList;
+        return detailExplorer.moveItems.apply(detailExplorer, arguments);
+    }
+
+    moveItemUp(): unknown {
+        const detailExplorer = this._children.detailList;
+        return detailExplorer.moveItemUp.apply(detailExplorer, arguments);
+    }
+
+    moveItemDown(): unknown {
+        const detailExplorer = this._children.detailList;
+        return detailExplorer.moveItemDown.apply(detailExplorer, arguments);
+    }
+
     //endregion
 
     /**
@@ -736,17 +766,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         return MasterVisibilityEnum.hidden;
     }
 
-    static getDefaultOptions(): IOptions {
-        return {
-            master: {
-                visibility: MasterVisibilityEnum.hidden
-            },
-            detail: {
-                searchStartingWith: 'root'
-            }
-        };
-    }
-
     static validateOptions(options: IOptions): void {
         // Если базовый источник данных не задан, то проверим
         // заданы ли источники данных для master и detail колонок
@@ -836,7 +855,16 @@ Object.defineProperty(Browser, 'defaultProps', {
     enumerable: true,
     configurable: true,
 
-    get(): object {
-        return Browser.getDefaultOptions();
+    get(): Partial<IOptions> {
+        return {
+            master: {
+                visibility: MasterVisibilityEnum.hidden
+            },
+            detail: {
+                searchStartingWith: 'root'
+            },
+            wrapDetailInScroll: false,
+            wrapMasterInScroll: false
+        };
     }
 });
