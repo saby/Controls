@@ -1,0 +1,34 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo-RageLink__componentWrap controlsDemo-RangeLink_capture">
+        <div attr:style="padding:10px 0 5px">fontSize = s</div>
+        <Controls.dateRange:RangeSelector
+                bind:startValue="_startValue"
+                bind:endValue="_endValue"
+                fontSize="s"
+        />
+        <div attr:style="padding:10px 0 5px">fontSize = m</div>
+        <Controls.dateRange:RangeSelector
+                bind:startValue="_startValue"
+                bind:endValue="_endValue"
+                fontSize="m"
+        />
+        <div attr:style="padding:10px 0 5px">fontSize = l</div>
+        <Controls.dateRange:RangeSelector
+                bind:startValue="_startValue"
+                bind:endValue="_endValue"
+                fontSize="l"
+        />
+        <div attr:style="padding:10px 0 5px">fontSize = xl</div>
+        <Controls.dateRange:RangeSelector
+                bind:startValue="_startValue"
+                bind:endValue="_endValue"
+                fontSize="xl"
+        />
+        <div attr:style="padding:10px 0 5px">fontSize = 4xl</div>
+        <Controls.dateRange:RangeSelector
+                bind:startValue="_startValue"
+                bind:endValue="_endValue"
+                fontSize="4xl"
+        />
+    </div>
+</div>

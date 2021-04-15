@@ -55,6 +55,11 @@ import 'css!Controls/suggest';
  * @demo Controls-demo/Suggest_new/Input/DisplayProperty/DisplayProperty
  * @author Gerasimov A.M.
  */
+/**
+ * @name Controls/_suggest/Input#fontSize
+ * @cfg
+ * @demo Controls-demo/Suggest_new/Input/FontSize/Index
+ */
 var Suggest = Control.extend({
 
    _template: template,

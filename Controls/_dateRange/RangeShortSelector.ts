@@ -54,6 +54,12 @@ interface IRangeShortSelectorOptions extends IControlOptions {
  *
  */
 
+/**
+ * @name Controls/_dateRange/RangeShortSelector#fontSize
+ * @cfg
+ * @demo Controls-demo/dateRange/LiteSelector/FontSize/Index
+ */
+
 export default class RangeShortSelector extends BaseSelector<IRangeShortSelectorOptions> {
     protected _template: TemplateFunction = template;
     protected _fittingMode: string = 'overflow';

@@ -77,6 +77,12 @@ let OUTER_INDENT_INPUT = 0;
  * @public
  * @author Герасимов А.М.
  */
+
+/**
+ * @name Controls/_lookup/MultipleInput#fontSize
+ * @cfg
+ * @demo Controls-demo/Lookup/MultipleInput/Index
+ */
 export default class MultipleInput extends BaseLookupInput {
     protected _rootContainerClasses: string = 'controls-Lookup controls-MultipleInput';
     protected _itemTemplateClasses: string = 'controls-MultipleInput__SelectedCollection_item';
