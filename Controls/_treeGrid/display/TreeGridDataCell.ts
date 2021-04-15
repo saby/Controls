@@ -16,11 +16,11 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
         }
 
         if (this._$owner.isDragTargetNode()) {
-            classes += ` controls-TreeGridView__dragTargetNode`;
+            classes += ' controls-TreeGridView__dragTargetNode';
             if (this.isFirstColumn()) {
-                classes += ` controls-TreeGridView__dragTargetNode_first`;
+                classes += ' controls-TreeGridView__dragTargetNode_first';
             } else if (this.isLastColumn()) {
-                classes += ` controls-TreeGridView__dragTargetNode_last`;
+                classes += ' controls-TreeGridView__dragTargetNode_last';
             }
 
             // controls-Grid__no-rowSeparator перебивает стили dragTargetNode

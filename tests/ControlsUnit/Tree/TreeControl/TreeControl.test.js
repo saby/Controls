@@ -1982,6 +1982,7 @@ define([
             assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
 
             model.setExpandedItems([null]);
+            model.setCollapsedItems([]);
             treeControl.saveOptions({...cfg, expandedItems: [null], collapsedItems: []});
             notifySpy.resetHistory();
             await treeControl.toggleExpanded(0);
