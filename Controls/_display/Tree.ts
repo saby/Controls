@@ -274,6 +274,12 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     constructor(options?: IOptions<S, T>) {
         super(validateOptions<S, T>(options));
 
+        // super классы уже могут вызвать методы, которые создатут _hierarchyRelation.
+        // Например, стратегии которые создают элементы(AdjacencyList)
+        if (!this._hierarchyRelation) {
+            this._createHierarchyRelation();
+        }
+
         if (this._$parentProperty) {
             this._setImportantProperty(this._$parentProperty);
         }
@@ -293,13 +299,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (this.getExpanderVisibility() === 'hasChildren') {
             this._recountHasNodeWithChildren();
         }
-
-        this._hierarchyRelation = new relation.Hierarchy({
-            keyProperty: this.getKeyProperty(),
-            parentProperty: this.getParentProperty(),
-            nodeProperty: this.getNodeProperty(),
-            declaredChildrenProperty: this.getHasChildrenProperty()
-        });
     }
 
     destroy(): void {
@@ -932,6 +931,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     private _getChildrenByRecordSet(parent: S): S[] {
+        // метод может быть позван, до того как полностью отработает конструктор
+        if (!this._hierarchyRelation) {
+            this._createHierarchyRelation();
+        }
         return this._hierarchyRelation.getChildren(parent, this.getCollection() as any as RecordSet) as any[] as S[];
     }
 
@@ -1012,6 +1015,15 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     // endregion HasNodeWithChildren
+
+    private _createHierarchyRelation(): void {
+        this._hierarchyRelation = new relation.Hierarchy({
+            keyProperty: this.getKeyProperty(),
+            parentProperty: this.getParentProperty(),
+            nodeProperty: this.getNodeProperty(),
+            declaredChildrenProperty: this.getHasChildrenProperty()
+        });
+    }
 }
 
 Object.assign(Tree.prototype, {
