@@ -612,14 +612,19 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     setExpandedItems(expandedKeys: CrudEntityKey[]): void {
-        if (!this.getCount()) {
+        if (!this.getCount() || isEqual(this._expandedItems, expandedKeys)) {
             return;
         }
 
         // TODO зарефакторить по задаче https://online.sbis.ru/opendoc.html?guid=5d8d38d0-3ade-4393-bced-5d7fbd1ca40b
 
         const diff = ArraySimpleValuesUtil.getArrayDifference(this._expandedItems, expandedKeys);
-        diff.removed.forEach((it) => this.getItemBySourceKey(it)?.setExpanded(false));
+
+        if (diff.removed[0] === null) {
+            this.each((it) => it.setExpanded(false));
+        } else {
+            diff.removed.forEach((it) => this.getItemBySourceKey(it)?.setExpanded(false));
+        }
 
         this._expandedItems = [...expandedKeys];
         if (expandedKeys[0] === null) {
@@ -649,7 +654,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     setCollapsedItems(collapsedKeys: CrudEntityKey[]): void {
-        if (!this.getCount()) {
+        if (!this.getCount() || isEqual(this._collapsedItems, collapsedKeys)) {
             return;
         }
 
