@@ -1,8 +1,14 @@
 <div class="ControlDemo__SlidingPanelTemplate">
+   <Controls.toggle:DoubleSwitch
+           attr:class="engine-demo-View__button"
+           on:valueChanged="_isMobileChanged()"
+           value="{{ _isMobile }}"
+           captions="{{ ['Мобильный', 'Десктоп'] }}"/>
    <div class="ControlDemo__SlidingPanelTemplate-example">
       <div class="ControlDemo__SlidingPanelTemplate-example-caption">Контроллер виден</div>
       <div class="ControlDemo__SlidingPanelTemplate-example-control">
          <Controls.popupSliding:Template
+            slidingPanelOptions="{{ _slidingPanelOptions }}"
             controlButtonVisibility="{{ true }}">
             <ws:bodyContentTemplate>
                <ws:partial template="Controls-demo/Popup/BaseTemplate"></ws:partial>
@@ -14,6 +20,7 @@
       <div class="ControlDemo__SlidingPanelTemplate-example-caption">Контроллер спрятан</div>
       <div class="ControlDemo__SlidingPanelTemplate-example-control">
          <Controls.popupSliding:Template
+            slidingPanelOptions="{{ _slidingPanelOptions }}"
             controlButtonVisibility="{{ false }}">
             <ws:bodyContentTemplate>
                <ws:partial template="Controls-demo/Popup/BaseTemplate"></ws:partial>
@@ -25,6 +32,7 @@
       <div class="ControlDemo__SlidingPanelTemplate-example-caption">Контроллер виден, кастомный фон</div>
       <div class="ControlDemo__SlidingPanelTemplate-example-control">
          <Controls.popupSliding:Template
+            slidingPanelOptions="{{ _slidingPanelOptions }}"
             controlButtonVisibility="{{ false }}">
             <ws:bodyContentTemplate>
                <div class="ControlDemo__SlidingPanelTemplate-example-customContentColor">
