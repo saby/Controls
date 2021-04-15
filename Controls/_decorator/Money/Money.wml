@@ -1,32 +1,22 @@
-<span class="ws-inline-flexbox controls-DecoratorMoney controls-DecoratorMoney_style-{{_options.style}} {{ _options.underline === 'hovered' ? 'controls-DecoratorMoney__underline' }}"
+<span class="ws-inline-flexbox {{_options.currency && _options.currencyPosition === 'left' ? 'ws-flex-row-reverse'}} controls-DecoratorMoney controls-DecoratorMoney_style-{{_options.style}} {{ _options.underline === 'hovered' ? 'controls-DecoratorMoney__underline' }}"
       title="{{_tooltip}}">
-    <ws:if data="{{_options.currency && _options.currencyPosition === 'left'}}">
-            <div class="controls-fontsize-{{_options.currencySize}} controls-text-{{_options.fontColorStyle}} controls-fontweight-{{_options.fontWeight}}">{{_currencies[_options.currency]}}&nbsp;</div>
-    </ws:if>
-    <ws:if data="{{_options.abbreviationType === 'long'}}">
+    <span class="{{ _options.stroked ? 'controls-DecoratorMoney__stroked' }}">
         <span class="controls-fontsize-{{_options.fontSize}}
-                 controls-text-{{_fontColorStyle}}
-                 controls-fontweight-{{_options.fontWeight}}
-                 {{ _options.stroked ? 'controls-DecoratorMoney__stroked' }}">
-            {{_formattedNumber}}
+                     controls-text-{{_fontColorStyle}}
+                     controls-fontweight-{{_options.fontWeight}}
+                     {{_options.currency && _options.currencyPosition === 'left' ? 'controls-margin_left-2xs'}}
+                     {{_options.currency && _options.currencyPosition === 'right' && !_isDisplayFractionPath(_formattedNumber.fraction, _options.showEmptyDecimals) ? 'controls-margin_right-2xs'}}">
+            {{_formattedNumber.integer}}
         </span>
-    </ws:if>
-    <ws:else>
-        <span class="{{ _options.stroked ? 'controls-DecoratorMoney__stroked' }}">
-            <span class="controls-fontsize-{{_options.fontSize}}
-                    controls-text-{{_fontColorStyle}}
-                    controls-fontweight-{{_options.fontWeight}}">
-                {{_formattedNumber.integer}}
+        <ws:if data="{{_isDisplayFractionPath(_formattedNumber.fraction, _options.showEmptyDecimals) && _options.abbreviationType !== 'long'}}">
+            <span class="controls-DecoratorMoney__fraction__colorStyle-{{ _formattedNumber.fraction === '.00' ? 'readonly' : _fontColorStyle}}
+                         controls-fontsize-{{_fractionFontSize}}
+                         {{_options.currency && _options.currencyPosition === 'right' ? 'controls-margin_right-2xs'}}">
+                {{_formattedNumber.fraction}}
             </span>
-            <ws:if data="{{_isDisplayFractionPath(_formattedNumber.fraction, _options.showEmptyDecimals)}}">
-                <span class="controls-DecoratorMoney__fraction__colorStyle-{{ _formattedNumber.fraction === '.00' ? 'readonly' : _fontColorStyle}}
-                            controls-fontsize-{{_fractionFontSize}}">
-                    {{_formattedNumber.fraction}}
-                </span>
-            </ws:if>
-        </span>
-    </ws:else>
-    <ws:if data="{{_options.currency && _options.currencyPosition === 'right'}}">
-            <div class="controls-fontsize-{{_options.currencySize}} controls-text-{{_options.fontColorStyle}} controls-fontweight-{{_options.fontWeight}}">&nbsp;{{_currencies[_options.currency]}}</div>
+        </ws:if>
+    </span>
+    <ws:if data="{{_options.currency}}">
+            <div class="controls-fontsize-{{_options.currencySize}} controls-text-{{_options.fontColorStyle}} controls-fontweight-{{_options.fontWeight}}">{{_currencies[_options.currency]}}</div>
     </ws:if>
 </span>
