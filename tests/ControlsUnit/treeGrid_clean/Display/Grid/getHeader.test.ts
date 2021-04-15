@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { RecordSet } from 'Types/collection';
 import { Model } from 'Types/entity';
-import { TreeGridCollection } from 'Controls/treeGridNew';
+import { TreeGridCollection } from 'Controls/treeGrid';
 
 describe('Controls/treeGrid_clean/Display/Grid/getHeader', () => {
 
