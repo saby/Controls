@@ -15,6 +15,50 @@ interface IData {
    isShadow: boolean;
 }
 
+const additionalInfo = [
+    [
+        {
+            icon: 'icon-Actor',
+            title: '1 Текст при наведении',
+            iconSize: 's',
+            caption: 'Человек'
+        },
+        {
+            icon: 'icon-Bell',
+            title: '2 Текст при наведении',
+            iconSize: 's',
+            caption: 'Колокол'
+        },
+        {
+            icon: 'icon-Bike',
+            title: '3 Текст при наведении',
+            iconSize: 's',
+            caption: 'Велосипед'
+        }
+    ],
+    [
+        {
+            icon: 'icon-Actor',
+            iconSize: 's',
+            title: 'Человек'
+        },
+        {
+            icon: 'icon-Bell',
+            iconSize: 's',
+            title: 'Колокол'
+        },
+        {
+            icon: 'icon-Bike',
+            iconSize: 's',
+            title: 'Велосипед'
+        },
+        {
+            icon: 'icon-Love',
+            iconSize: 's',
+            title: 'Сердце'
+        }
+    ]
+];
 export const Gadgets = {
    getData: (): IData[] => [{
       id: 1,
@@ -272,7 +316,8 @@ export const Gadgets = {
             'parent@': false,
             imageHeight: 's',
             image: explorerImages[8],
-            isShadow: true
+            isShadow: true,
+            additionalInfo: additionalInfo[0]
         }, {
             id: 2,
             parent: null,
@@ -286,7 +331,8 @@ export const Gadgets = {
             imageViewMode: 'ellipse',
             imageHeight: 'm',
             image: explorerImages[8],
-            isShadow: true
+            isShadow: true,
+            additionalInfo: additionalInfo[1]
         }, {
             id: 3,
             parent: null,

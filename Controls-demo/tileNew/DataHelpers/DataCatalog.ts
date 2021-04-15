@@ -14,7 +14,39 @@ interface IData {
    width: string | number;
    isShadow: boolean;
 }
-
+const additionalInfo = [
+    [
+        {
+            icon: 'icon-Actor',
+            title: '1 Текст при наведении',
+            caption: 'Человек'
+        },
+        {
+            icon: 'icon-Bell',
+            title: '2 Текст при наведении',
+            caption: 'Колокол'
+        },
+        {
+            icon: 'icon-Bike',
+            title: '3 Текст при наведении',
+            caption: 'Велосипед'
+        }
+    ],
+    [
+        {
+            icon: 'icon-Actor',
+            title: 'Человек при навелении',
+        },
+        {
+            icon: 'icon-Bell',
+            title: 'Колокол при наведении'
+        },
+        {
+            icon: 'icon-Bike',
+            title: 'Велосипед при наведении'
+        }
+    ]
+];
 export const Gadgets = {
    getData: (): IData[] => [{
       id: 1,
@@ -272,7 +304,8 @@ export const Gadgets = {
             'parent@': null,
             imageHeight: 's',
             image: explorerImages[8],
-            isShadow: true
+            isShadow: true,
+            additionalInfo: additionalInfo[0]
         }, {
             id: 2,
             parent: null,
@@ -286,7 +319,8 @@ export const Gadgets = {
             imageViewMode: 'ellipse',
             imageHeight: 'm',
             image: explorerImages[8],
-            isShadow: true
+            isShadow: true,
+            additionalInfo: additionalInfo[1]
         }, {
             id: 3,
             parent: null,
