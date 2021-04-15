@@ -158,8 +158,8 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
 /**
  * @name Controls/_popupTemplate/Stack#toggleMaximizeState
  * @function
- * @description Метод для переключения панели в максимизированное состояние.
- * @param {Boolean} maximize Текущее состояние. Если аргумент не передан, то состояние рассчитывается автоматически.
+ * @description Переключает состояние панели.
+ * @param {Boolean} maximize Текущее состояние панели. Если аргумент не передан, то состояние определяется автоматически.
  * @example
  * <pre class="brush: html">
  * <!-- WML -->
