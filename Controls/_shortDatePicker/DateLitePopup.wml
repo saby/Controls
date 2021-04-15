@@ -31,10 +31,12 @@
             </div>
             <Controls.buttons:ArrowButton direction="up" inlineHeight="l" attr:title="{[Предыдущий год]}"
                                           on:click="_changeYear (-1)"
+                                          readOnly="{{ _prevArrowButtonReadOnly }}"
                                           attr:class="controls-PeriodLiteDialog__arrowUp
                                                       controls-PeriodLiteDialog__year-prev"/>
             <Controls.buttons:ArrowButton direction="down" inlineHeight="l" attr:title="{[Следующий год]}"
                                           on:click="_changeYear (1)"
+                                          readOnly="{{ _nextArrowButtonReadOnly }}"
                                           attr:class="controls-PeriodLiteDialog__arrowDown
                                                       controls-PeriodLiteDialog__year-next"/>
          </div>
@@ -70,6 +72,7 @@
       <div class="controls-PeriodLiteDialog__years-next">
          <Controls.buttons:ArrowButton direction="up" inlineHeight="l" attr:title="{[Предыдущий год]}"
                                        on:click="_changeYear(1)"
+                                       readOnly="{{ _nextArrowButtonReadOnly }}"
                                        attr:class="controls-PeriodLiteDialog__arrowUp"/>
       </div>
       <div class="controls-PeriodLiteDialog__close
@@ -106,6 +109,7 @@
       <div class="controls-PeriodLiteDialog__years-prev">
          <Controls.buttons:ArrowButton direction="down" inlineHeight="l" attr:title="{[Следующий год]}"
                                        on:click="_changeYear(-1)"
+                                       readOnly="{{ _prevArrowButtonReadOnly }}"
                                        attr:class="controls-PeriodLiteDialog__arrowDown"/>
       </div>
    </ws:if>
