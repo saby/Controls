@@ -181,9 +181,8 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     //endregion
 
     //region ⎆ life circle hooks
-
-
-    protected _initSourceControllersFromContext(listsConfigs): void {
+    protected _initSourceControllersFromContext(): void {
+        const listsConfigs = this._dataOptions.listsConfigs;
         this._detailDataSource = listsConfigs.detail.sourceController;
         this._masterDataSource = listsConfigs.master.sourceController;
     }
@@ -196,6 +195,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._dataOptions = contexts.dataOptions;
         let result;
         if (this._dataOptions.listsConfigs) {
+            this._initSourceControllersFromContext();
             this._initState(options);
             this._processItemsMetadata(this._detailDataSource.getItems(), options);
             this._afterViewModeChanged(options);
@@ -233,30 +233,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         const detailOps = this._buildDetailExplorerOptions(this._dataOptions || newOptions);
         if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
             this._createTemplateControllers(newOptions.listConfiguration, newOptions);
-        }
-
-        const isChanged = this._detailDataSource.updateOptions(detailOps);
-        if (isChanged) {
-            this._detailDataSource.reload();
-        }
-        // Обязательно вызываем setFilter иначе фильтр в sourceController может
-        // не обновиться при updateOptions. Потому что updateOptions сравнивает
-        // не внутреннее поле _filter, фильтр который был передан в опциях при создании,
-        // либо при последнем updateOptions
-        this._detailDataSource.setFilter(detailOps.filter);
-
-        if (detailOps.searchValue && detailOps.searchValue !== this._searchValue) {
-            this._setSearchString(newOptions.searchValue);
-            return;
-        }
-
-        if (!newOptions.searchValue && this._searchValue) {;
-            return;
-        }
-
-        // Все что нужно применится в detailDataLoadCallback
-        if (this._search === 'search') {
-            return;
         }
 
         this._userViewMode = newOptions.userViewMode;
@@ -311,6 +287,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
     protected _beforeUnmount(): void {
         this._detailDataSource.destroy();
+        this._masterDataSource.destroy();
     }
     //endregion
 
@@ -544,14 +521,14 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         }
 
         //region update detail fields
-        this._detailExplorerOptions = this._buildDetailExplorerOptions(this._dataOptions.listConfigs.detail || options);
+        this._detailExplorerOptions = this._buildDetailExplorerOptions(this._dataOptions.listConfigs || options);
 
         this._root = this._detailExplorerOptions.root;
         //endregion
 
         //region update master fields
         // На основании полученного состояния соберем опции для master-списка
-        this._masterExplorerOptions = this._buildMasterExplorerOption(this._dataOptions.listConfigs.master || options);
+        this._masterExplorerOptions = this._buildMasterExplorerOption(this._dataOptions.listConfigs || options);
 
         this._masterMarkedKey = this._root;
         this._masterRoot = this._masterExplorerOptions.root;
