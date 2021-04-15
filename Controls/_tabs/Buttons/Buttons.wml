@@ -59,7 +59,8 @@
     </div>
     <ws:if data="{{_marker.isInitialized()}}">
         <div class="controls-Tabs__marker {{_markerCssClass}}"
-             style="width:{{_marker.getWidth()}}px; left:{{_marker.getLeft()}}px;"></div>
+             style="width:{{_marker.getWidth()}}px; {{_marker.getAlign()}}: {{_marker.getOffset()}}px;"
+             on:transitionend="_transitionEndHandler()"></div>
     </ws:if>
 
 </div>

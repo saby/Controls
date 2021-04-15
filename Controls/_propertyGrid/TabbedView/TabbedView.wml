@@ -1,0 +1,22 @@
+<div class="controls-PropertyGrid-TabbedView">
+    <Controls.tabs:Buttons attr:class="controls-PropertyGrid-TabbedView__tabs"
+                           keyProperty="key"
+                           markerThickness="s"
+                           inlineHeight="s"
+                           borderVisible="{{false}}"
+                           bind:selectedKey="_selectedKey"
+                           source="{{_tabsSource}}"/>
+    <Controls.switchableArea:View
+            attr:class="controls-PropertyGrid-TabbedView__switchableArea"
+            selectedKey="{{_selectedKey}}"
+            items="{{_switchableAreaItems}}">
+        <ws:itemTemplate>
+            <Controls._propertyGrid.PropertyGrid
+                attr:class="controls-PropertyGrid-TabbedView__editor"
+                scope="{{_options}}"
+                source="{{itemTemplate.templateOptions.source}}"
+                editingObject="{{_options.editingObject}}"
+                on:editingObjectChanged="_handleObjectChange()"/>
+        </ws:itemTemplate>
+    </Controls.switchableArea:View>
+</div>
