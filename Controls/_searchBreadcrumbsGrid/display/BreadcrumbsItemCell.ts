@@ -6,7 +6,7 @@ import { TemplateFunction } from 'UI/Base';
 export default class BreadcrumbsItemCell<S extends Model, TOwner extends BreadcrumbsItemRow<S>> extends GridDataCell<any, any> {
    getTemplate(): TemplateFunction|string {
       // В хлебной крошке только для первой ячейки отображаем контент
-      if (this.isFirstColumn()) {
+      if (this.isFirstColumn() || this.getOwner().hasMultiSelectColumn() && this.getColumnIndex() === 1) {
          return this.getOwner().getCellTemplate();
       } else {
          return null;
