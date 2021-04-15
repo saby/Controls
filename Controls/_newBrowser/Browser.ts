@@ -315,27 +315,27 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
     reloadItem(): unknown {
         const detailExplorer = this._children.detailList;
-        return this._children.detailList.reloadItem.apply(detailExplorer, arguments);
+        return detailExplorer.reloadItem.apply(detailExplorer, arguments);
     }
 
     moveItemsWithDialog(): unknown {
         const detailExplorer = this._children.detailList;
-        return this._children.detailList.moveItemsWithDialog.apply(detailExplorer, arguments);
+        return detailExplorer.moveItemsWithDialog.apply(detailExplorer, arguments);
     }
 
     moveItems(): unknown {
         const detailExplorer = this._children.detailList;
-        return this._children.detailList.moveItems.apply(detailExplorer, arguments);
+        return detailExplorer.moveItems.apply(detailExplorer, arguments);
     }
 
     moveItemUp(): unknown {
         const detailExplorer = this._children.detailList;
-        return this._children.detailList.moveItemUp.apply(detailExplorer, arguments);
+        return detailExplorer.moveItemUp.apply(detailExplorer, arguments);
     }
 
     moveItemDown(): unknown {
         const detailExplorer = this._children.detailList;
-        return this._children.detailList.moveItemDown.apply(detailExplorer, arguments);
+        return detailExplorer.moveItemDown.apply(detailExplorer, arguments);
     }
 
     //endregion
