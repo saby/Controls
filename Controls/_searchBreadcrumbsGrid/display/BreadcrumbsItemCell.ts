@@ -4,12 +4,12 @@ import BreadcrumbsItemRow from 'Controls/_searchBreadcrumbsGrid/display/Breadcru
 import { TemplateFunction } from 'UI/Base';
 
 export default class BreadcrumbsItemCell<S extends Model, TOwner extends BreadcrumbsItemRow<S>> extends GridDataCell<any, any> {
-   getTemplate(): TemplateFunction|string {
-      // В хлебной крошке только для первой ячейки отображаем контент
+   getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {
+      // Только в первой ячейке отображаем хлебную крошку
       if (this.isFirstColumn() || this.getOwner().hasMultiSelectColumn() && this.getColumnIndex() === 1) {
          return this.getOwner().getCellTemplate();
       } else {
-         return null;
+         return super.getTemplate(multiSelectTemplate);
       }
    }
 
