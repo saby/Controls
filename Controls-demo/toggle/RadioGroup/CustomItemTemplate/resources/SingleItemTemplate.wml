@@ -4,7 +4,7 @@
             selected="{{selected}}"
             displayProperty="caption">
     <ws:contentTemplate>
-        <div class="controls-custom-template__wrapper">
+        <div class="controls-custom-template__wrapper controls-RadioItem__caption">
             <div class="controls-text-secondary">
                 {{item.title}}
             </div>
