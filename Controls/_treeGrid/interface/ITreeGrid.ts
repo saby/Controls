@@ -1,6 +1,12 @@
+export type TExpanderVisibility = 'visible'|'hasChildren'|'hasChildrenOrHover';
+
 export interface IOptions {
+    parentProperty: string;
+    nodeProperty: string;
     nodeTypeProperty?: string;
     groupProperty?: string;
+    hasChildrenProperty?: string;
+    expanderVisibility?: TExpanderVisibility;
 }
 
 /**

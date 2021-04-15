@@ -22,6 +22,14 @@ export default class TreeGrid extends Grid implements ITreeGrid {
                 'groupProperty и через nodeTypeProperty.', this);
         }
 
+        if (!options.nodeProperty) {
+            Logger.error('Не задана опция nodeProperty, обязательная для работы Controls/treeGrid:View', this);
+        }
+
+        if (!options.parentProperty) {
+            Logger.error('Не задана опция parentProperty, обязательная для работы Controls/treeGrid:View', this);
+        }
+
         const superResult = super._beforeMount(options);
         this._viewName = isFullGridSupport() ? TreeGridView : TreeGridViewTable;
         return superResult;

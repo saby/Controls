@@ -12,7 +12,11 @@ export default class extends Control {
             width: 'max-content'
         }
     ];
-    private _dataArray: unknown = generateData({count: 10, entityTemplate: {title: 'lorem'}});
+    private _dataArray: unknown = generateData({count: 10,
+        entityTemplate: {title: 'string'},
+        beforeCreateItemCallback: (item) => {
+            item.title = (item.id + 1) + ') Запись с id = ' + item.id;
+        }});
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
