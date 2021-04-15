@@ -175,6 +175,16 @@ export default class TreeGridCollection<
         this._nextVersion();
     }
 
+    protected _removeItems(start: number, count?: number): T[] {
+        const result = super._removeItems(start, count);
+
+        if (this._$headerModel && !this._headerIsVisible(this._$header)) {
+            this._$headerModel = null;
+        }
+
+        return result;
+    }
+
     // endregion
 
     // region HasNodeWithChildren

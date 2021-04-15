@@ -1,3 +1,4 @@
+import { TreeGridCollection } from 'Controls/treeGridNew';
 import { TreeGridCollection } from 'Controls/treeGrid';
 import { assert } from 'chai';
 import { RecordSet } from 'Types/collection';
@@ -32,6 +33,7 @@ describe('Controls/treeGrid_clean/Display/TreeCollection', () => {
         }));
         assert.strictEqual(treeGridCollection.getCount(), 3);
     });
+
 
     describe('Reset header model on collection change', () => {
 
@@ -138,4 +140,5 @@ describe('Controls/treeGrid_clean/Display/TreeCollection', () => {
         });
 
     });
+
 });

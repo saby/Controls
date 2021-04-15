@@ -1,3 +1,4 @@
+import {GridCollection, GridResultsRow} from "Controls/gridNew";
 import {GridCollection, GridResultsRow} from "Controls/grid";
 import {RecordSet} from 'Types/collection';
 import {assert} from 'chai';
@@ -46,6 +47,104 @@ describe('Controls/_display/collection/CollectionChange', () => {
             assert.isNull(collection.getResults());
         });
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     describe('Reset header model on collection change', () => {
 
@@ -144,4 +243,5 @@ describe('Controls/_display/collection/CollectionChange', () => {
         });
 
     });
+
 });
