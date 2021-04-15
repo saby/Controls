@@ -79,7 +79,9 @@ export default abstract class Row<T> {
     }
 
     isLastItem(): boolean {
-        return (this.getOwner().getItems()[this.getOwner().getCount() - 1] === this);
+        const collectionCount = this.getOwner().getCollectionCount();
+        const getCollectionIndex = this.getOwner().getSourceIndexByItem(this);
+        return getCollectionIndex === collectionCount - 1;
     }
 
     getItemSpacing(): { left: string, right: string, row: string } {

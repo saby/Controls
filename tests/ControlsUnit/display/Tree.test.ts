@@ -1706,7 +1706,12 @@ describe('Controls/_display/Tree', () => {
     });
 
     describe('expandable/collapsed', () => {
-        const rsTree = getRecordSetTree();
+        let rsTree;
+
+        beforeEach(() => {
+            rsTree = getRecordSetTree();
+        });
+
         it('setExpandedItems', () => {
             assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
             const expandedItems = [1];
@@ -1715,12 +1720,39 @@ describe('Controls/_display/Tree', () => {
             assert.notEqual(rsTree.getExpandedItems(), expandedItems);
         });
 
+        it('setExpandedItems with same expanded items', () => {
+            rsTree.setExpandedItems([1]);
+            const currentVersion = rsTree.getVersion();
+            rsTree.setExpandedItems([1]);
+            assert.equal(currentVersion, rsTree.getVersion());
+        });
+
+        it('setExpandedItems with removed null', () => {
+            rsTree.setExpandedItems([null]);
+            assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
+
+            rsTree.setExpandedItems([]);
+            assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
+        });
+
         it('setCollapsedItems', () => {
+            rsTree.setExpandedItems([1]);
             assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
             const collapsedItems = [1];
             rsTree.setCollapsedItems(collapsedItems);
             assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
             assert.notEqual(rsTree.getCollapsedItems(), collapsedItems);
+
+            const currentVersion = rsTree.getVersion();
+            rsTree.setCollapsedItems(collapsedItems);
+            assert.equal(currentVersion, rsTree.getVersion());
+        });
+
+        it('setCollapsedItems with same expanded items', () => {
+            rsTree.setCollapsedItems([1]);
+            const currentVersion = rsTree.getVersion();
+            rsTree.setCollapsedItems([1]);
+            assert.equal(currentVersion, rsTree.getVersion());
         });
 
         it('toggleItem will not change version for another items', () => {

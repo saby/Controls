@@ -110,7 +110,7 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
    }
 
    protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
-      return this.hasColumnScroll() ? 1 : 'end';
+      return 'end';
    }
 
    protected _getMultiSelectAccessibility(): boolean|null {

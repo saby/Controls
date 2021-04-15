@@ -1,7 +1,10 @@
-<div class="controls-FilterEditors__toggleTumbler">
-   <Controls.toggle:Tumbler items="{{_options.items}}"
-                            selectedKey="{{_options.propertyValue}}"
-                            readOnly="{{_options.readOnly}}"
-                            on:selectedKeyChanged="_selectedKeyChangedHandler()"/>
-</div>
-
+<Controls._filterPanel.BaseEditor scope="{{_options}}"
+                                  on:extendedCaptionClick="_extendedCaptionClickHandler()"
+                                  extendedCaption="{{_options.extendedCaption}}">
+   <ws:editorTemplate>
+      <Controls.toggle:Tumbler items="{{_options.items}}"
+                               selectedKey="{{_options.propertyValue}}"
+                               readOnly="{{_options.readOnly}}"
+                               on:selectedKeyChanged="_selectedKeyChangedHandler()"/>
+   </ws:editorTemplate>
+</Controls._filterPanel.BaseEditor>

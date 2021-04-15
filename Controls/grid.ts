@@ -104,6 +104,7 @@ import GridGroupRow, {IOptions as IGridGroupRowOptions} from 'Controls/_grid/dis
 import GridGroupCell, {IOptions as IGridGroupCellOptions} from 'Controls/_grid/display/GroupCell';
 
 import { IDisplaySearchValueOptions, IDisplaySearchValue } from 'Controls/_grid/display/interface/IDisplaySearchValue';
+import CheckboxCell from './_grid/display/CheckboxCell';
 
 register('Controls/grid:GridCollection', GridCollection, {instantiate: false});
 register('Controls/grid:GridRow', GridRow, {instantiate: false});
@@ -143,7 +144,8 @@ export {
     GridFooterCell, IGridFooterCellOptions,
     GridGroupRow, IGridGroupRowOptions,
     GridGroupCell, IGridGroupCellOptions,
-    IDisplaySearchValueOptions, IDisplaySearchValue
+    IDisplaySearchValueOptions, IDisplaySearchValue,
+    CheckboxCell
 };
 
 export {

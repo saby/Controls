@@ -3,7 +3,7 @@
  * @library Controls/multiselection
  * @includes IFlatSelectionStrategy Controls/_multiselection/IFlatSelectionStrategy
  * @includes ISelectionController Controls/_multiselection/ISelectionController
- * @includes ISelectionController Controls/_multiselection/ITreeSelectionStrategy
+ * @includes ITreeSelectionStrategy Controls/_multiselection/ITreeSelectionStrategy
  * @public
  * @author Панихин К.А.
  */

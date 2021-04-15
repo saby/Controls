@@ -36,11 +36,14 @@ export default class TreeGridFooterRow extends GridFooterRow<any> {
    }
 
    protected _updateColumnsHasNodeWithChildren(hasNodeWithChildren: boolean): void {
-      this._$columnItems.forEach((cell: TreeGridFooterCell) => {
-         if (cell['[Controls/treeGrid:TreeGridFooterCell]']) {
-            cell.setHasNodeWithChildren(hasNodeWithChildren);
-         }
-      });
+      // После пересчета hasNodeWithChildren _$columnItems могут быть не созданы, т.к. они создаются лениво
+      if (this._$columnItems) {
+         this._$columnItems.forEach((cell: TreeGridFooterCell) => {
+            if (cell['[Controls/treeGrid:TreeGridFooterCell]']) {
+               cell.setHasNodeWithChildren(hasNodeWithChildren);
+            }
+         });
+      }
    }
 
    // endregion HasNodeWithChildren
