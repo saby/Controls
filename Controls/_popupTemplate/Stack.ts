@@ -80,9 +80,9 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
          */
         let calcMaximized = maximized;
         if (calcMaximized === undefined) {
-            calcMaximized = this._calculateMaximized(this._options);
+            calcMaximized = !this._calculateMaximized(this._options);
         }
-        this._notify('maximized', [!calcMaximized], {bubbling: true});
+        this._notify('maximized', [calcMaximized], {bubbling: true});
     }
 
     protected changeMaximizedState(): void {
@@ -158,8 +158,8 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
 /**
  * @name Controls/_popupTemplate/Stack#toggleMaximizeState
  * @function
- * @description Переключает состояние панели.
- * @param {Boolean} maximize Текущее состояние панели. Если аргумент не передан, то состояние определяется автоматически.
+ * @description Переключает состояние разворота панели.
+ * @param {Boolean} maximize Определяет новое состояние разворота панели. Если аргумент не передан, то новое состояние задается противоположным текущему.
  * @example
  * <pre class="brush: html">
  * <!-- WML -->
