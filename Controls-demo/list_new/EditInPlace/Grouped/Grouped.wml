@@ -21,10 +21,12 @@
             <Controls.list:AddButton caption="Add record" on:click="_beginAdd()" attr:style="margin-right: 20px"/>
             <Controls.buttons:Button on:click="_setPosition('top')"
                                      buttonStyle="{{ _addPosition === 'top' ? 'primary' : 'secondary' }}"
-                                     caption="Add position: TOP" attr:style="margin-right: 10px"/>
+                                     caption="Add position: TOP" attr:style="margin-right: 10px"
+                                     attr:class="demo-EditInPlace__addTop"/>
             <Controls.buttons:Button on:click="_setPosition('bottom')"
                                      buttonStyle="{{ _addPosition === 'bottom' ? 'primary' : 'secondary' }}"
-                                     caption="Add position: BOTTOM"/>
+                                     caption="Add position: BOTTOM"
+                                     attr:class="demo-EditInPlace__addBottom"/>
         </ws:footerTemplate>
     </Controls.list:View>
 </div>

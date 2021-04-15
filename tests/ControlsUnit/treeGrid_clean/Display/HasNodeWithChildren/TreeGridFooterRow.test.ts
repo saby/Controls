@@ -31,4 +31,19 @@ describe('Controls/treeGrid_clean/Display/HasNodeWithChildren/TreeGridFooterRow'
         assert.isTrue(footerRow._$hasNodeWithChildren);
         assert.isTrue(footerRow.getColumns()[0]._$hasNodeWithChildren);
     });
+
+    it('setHasNodeWithChildren when not created columns', () => {
+        const footerRow = new TreeGridFooterRow({
+            hasNodeWithChildren: false,
+            columns,
+            owner: mockedOwner,
+            footer: [
+                { startColumn: 1, endColumn: 3 },
+                { startColumn: 3, endColumn: 4 },
+                { startColumn: 4, endColumn: 7 }
+            ]
+        });
+
+        assert.doesNotThrow(footerRow.setHasNodeWithChildren.bind(footerRow, true));
+    });
 });
