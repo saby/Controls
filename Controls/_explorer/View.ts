@@ -992,9 +992,9 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/list:IList
- * @mixes Controls/itemActions:IItemActionsOptions
+ * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:IHierarchy
- * @implements Controls/tree/ITreeControlOptions
+ * @implements Controls/tree/ITreeControl
  * @mixes Controls/explorer:IExplorer
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/tile:ITile
@@ -1028,9 +1028,9 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/list:IList
- * @mixes Controls/itemActions:IItemActionsOptions
+ * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:IHierarchy
- * @implements Controls/tree/ITreeControlOptions
+ * @implements Controls/tree/ITreeControl
  * @mixes Controls/explorer:IExplorer
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/tile:ITile
