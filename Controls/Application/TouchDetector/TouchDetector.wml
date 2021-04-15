@@ -1,5 +1,3 @@
-<Controls.context:TouchContextProvider isTouch="{{ _touchDetector.isTouch() }}">
-       <ws:partial
-               template="{{_options.content}}"
-       />
-</Controls.context:TouchContextProvider>
+<ws:partial
+        template="{{_options.content}}"
+/>
