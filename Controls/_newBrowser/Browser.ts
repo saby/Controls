@@ -229,7 +229,10 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         }
 
         if (!newOptions.searchValue && this._searchValue) {
-            this._resetSearch();
+            this._resetSearch({
+                masterRoot: masterOps.root,
+                detailRoot: detailOps.root
+            });
             return;
         }
 
