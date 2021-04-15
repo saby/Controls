@@ -5,7 +5,12 @@ import { TemplateFunction } from 'UI/Base';
 
 export default class BreadcrumbsItemCell<S extends Model, TOwner extends BreadcrumbsItemRow<S>> extends GridDataCell<any, any> {
    getTemplate(): TemplateFunction|string {
-      return this.getOwner().getCellTemplate();
+      // В хлебной крошке только для первой ячейки отображаем контент
+      if (this.isFirstColumn()) {
+         return this.getOwner().getCellTemplate();
+      } else {
+         return null;
+      }
    }
 
    getSearchValue(): string {
