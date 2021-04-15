@@ -5,7 +5,8 @@ import {IDialogPopupOptions} from 'Controls/_popup/interface/IDialog';
 /**
  * Хелпер для открытия диалоговых окон.
  * @class Controls/_popup/PopupHelper/Dialog
- * @implements Controls/_popup/interface/IDialogOpener
+ * @implements Controls/popup:IDialogOpener
+ * @implements Controls/popup:IBaseOpener
  *
  * @remark
  * Для предотвращения потенциальной утечки памяти не забывайте уничтожать экземпляр оперена
