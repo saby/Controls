@@ -863,7 +863,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     const changedPosition = dndListController.setDragPosition(dragTargetPosition);
                     if (changedPosition) {
                         this._clearTimeoutForExpandOnDrag();
-                        if (!dispItem.isExpanded() && targetIsNotDraggableItem && dragTargetPosition.position === 'on') {
+                        if (!dispItem['[Controls/_tile/mixins/TileItem]'] && !dispItem.isExpanded() && targetIsNotDraggableItem && dragTargetPosition.position === 'on') {
                             this._startCountDownForExpandNode(dispItem, this._expandNodeOnDrag);
                         }
                     }

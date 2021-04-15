@@ -65,5 +65,6 @@ export default class SearchGridCollection<S extends Model = Model, T extends Sea
 Object.assign(SearchGridCollection.prototype, {
    '[Controls/searchBreadcrumbsGrid:SearchGridCollection]': true,
    _moduleName: 'Controls/searchBreadcrumbsGrid:SearchGridCollection',
-   _$searchBreadcrumbsItemTemplate: 'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate'
+   _$searchBreadcrumbsItemTemplate: 'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate',
+   _$dedicatedItemProperty: ''
 });

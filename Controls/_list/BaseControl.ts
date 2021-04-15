@@ -5907,7 +5907,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             return;
         }
         let hasDragScrolling = false;
-        this._mouseDownItemKey = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
+        const contents = _private.getPlainItemContents(this._options.useNewModel ? itemData : itemData.dispItem);
+        this._mouseDownItemKey = contents.getKey();
         if (this._options.columnScroll) {
             // Не должно быть завязки на горизонтальный скролл.
             // https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
@@ -5930,7 +5931,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this.isLoading() && !_private.isPortionedLoad(this)) {
             return;
         }
-        const key = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
+        const contents = _private.getPlainItemContents(this._options.useNewModel ? itemData : itemData.dispItem);
+        const key = contents.getKey();
         // Маркер должен ставиться именно по событию mouseUp, т.к. есть сценарии при которых блок над которым произошло
         // событие mouseDown и блок над которым произошло событие mouseUp - это разные блоки.
         // Например, записи в мастере или запись в списке с dragScrolling'ом.
