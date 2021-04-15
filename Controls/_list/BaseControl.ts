@@ -3960,6 +3960,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             _private.setReloadingState(this, true);
         }
 
+        if (!this.__error && !this._scrollController) {
+            // Создаем заново sourceController после выхода из состояния ошибки
+            _private.createScrollController(self, newOptions);
+        }
         const needReload =
             !this._loadedBySourceController &&
             !isSourceControllerLoadingNow &&
