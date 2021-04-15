@@ -244,7 +244,7 @@ var
                 // В случае если expanderVisibility === 'hasChildrenOrHover' и у узла нет дочерних элементов, то
                 // рисуем иконку пустого узла. Во всех остальных случаях рисуем иконку в зависимости от типа узла.
                 const iconType = needEmptyFolderIcon ? 'emptyNode' : itemType === true ? 'node' : 'hiddenNode';
-                const iconStyle = expanderIconStyle === 'master' ? 'master' : 'default';
+                const iconStyle = expanderIconStyle === 'master' || expanderIconStyle === 'masterNew' ? 'master' : 'default';
 
                 expanderIconClass += ` controls-TreeGrid__row-expander_${iconType}_${iconStyle}`;
             }

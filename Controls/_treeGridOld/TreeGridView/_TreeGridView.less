@@ -22,27 +22,32 @@
    padding-right: var(--expander_default_padding-right_treeGrid);
 }
 
-.controls-TreeGrid__row_master-expander_size_default {
+.controls-TreeGrid__row_master-expander_size_default,
+.controls-TreeGrid__row_masterNew-expander_size_default {
    padding-left: var(--expander_default_padding-left_treeGrid);
    padding-right: var(--expander_default_padding-right_treeGrid);
 }
 
-.controls-TreeGrid__row_master-expander_size_s {
+.controls-TreeGrid__row_master-expander_size_s,
+.controls-TreeGrid__row_masterNew-expander_size_s {
    padding-left: var(--expander_s_padding-left_treeGrid);
    padding-right: var(--expander_s_padding-right_treeGrid);
 }
 
-.controls-TreeGrid__row_master-expander_size_m {
+.controls-TreeGrid__row_master-expander_size_m,
+.controls-TreeGrid__row_masterNew-expander_size_m {
    padding-left: var(--expander_m_padding-left_treeGrid);
    padding-right: var(--expander_m_padding-right_treeGrid);
 }
 
-.controls-TreeGrid__row_master-expander_size_l {
+.controls-TreeGrid__row_master-expander_size_l,
+.controls-TreeGrid__row_masterNew-expander_size_l {
    padding-left: var(--expander_l_padding-left_treeGrid);
    padding-right: var(--expander_l_padding-right_treeGrid);
 }
 
-.controls-TreeGrid__row_master-expander_size_xl {
+.controls-TreeGrid__row_master-expander_size_xl,
+.controls-TreeGrid__row_masterNew-expander_size_xl {
    padding-left: var(--expander_xl_padding-left_treeGrid);
    padding-right: var(--expander_xl_padding-right_treeGrid);
 }
@@ -115,14 +120,16 @@
    bottom: calc(-1 * var(--expander_padding_icon-hidden-node-treeGrid));
 }
 
-.controls-TreeGrid__row-expander_node_master:before {
+.controls-TreeGrid__row-expander_node_master:before,
+.controls-TreeGrid__row-expander_node_masterNew:before {
    color: var(--master_node_expander_icon-color_treeGrid);
    font-family: var(--node_expander_icon_font-family_treeGrid);
    font-size: var(--master_node_expander_icon-size_treeGrid);
    padding-left: calc(var(--expander_width_treeGrid) - var(--master_node_expander_icon-size_treeGrid));
 }
 
-.controls-TreeGrid__row-expander_hiddenNode_master:before {
+.controls-TreeGrid__row-expander_hiddenNode_master:before,
+.controls-TreeGrid__row-expander_hiddenNode_masterNew:before {
    color: var(--master_hidden-node_expander_icon-color_treeGrid);
    font-family: var(--hidden-node_expander_icon_font-family_treeGrid);
    font-size: var(--master_hidden-node_expander_icon-size_treeGrid);
@@ -138,29 +145,35 @@
    font-weight: normal; // https://online.sbis.ru/opendoc.html?guid=c9f0873b-3b20-4b73-a084-f67cc2c3071f
 }
 .controls-TreeGrid__row-expander_node_default_collapsed:before,
-.controls-TreeGrid__row-expander_node_master_collapsed:before {
+.controls-TreeGrid__row-expander_node_master_collapsed:before,
+.controls-TreeGrid__row-expander_node_masterNew_collapsed:before {
    content: var(--node_expander_collapsed_icon-content_treeGrid);
 }
 .controls-TreeGrid__row-expander_node_default_expanded:before,
-.controls-TreeGrid__row-expander_node_master_expanded:before {
+.controls-TreeGrid__row-expander_node_master_expanded:before,
+.controls-TreeGrid__row-expander_node_masterNew_expanded:before {
    content: var(--node_expander_icon-content_treeGrid);
 }
 
 .controls-TreeGrid__row-expander_emptyNode_default_collapsed:before,
-.controls-TreeGrid__row-expander_emptyNode_master_collapsed:before {
+.controls-TreeGrid__row-expander_emptyNode_master_collapsed:before,
+.controls-TreeGrid__row-expander_emptyNode_masterNew_collapsed:before {
    content: var(--empty-node_expander_collapsed_icon-content_treeGrid);
 }
 
 .controls-TreeGrid__row-expander_emptyNode_default_expanded:before,
-.controls-TreeGrid__row-expander_emptyNode_master_expanded:before {
+.controls-TreeGrid__row-expander_emptyNode_master_expanded:before,
+.controls-TreeGrid__row-expander_emptyNode_masterNew_expanded:before {
    content: var(--empty-node_expander_icon-content_treeGrid);
 }
 .controls-TreeGrid__row-expander_hiddenNode_default_collapsed:before,
-.controls-TreeGrid__row-expander_hiddenNode_master_collapsed:before {
+.controls-TreeGrid__row-expander_hiddenNode_master_collapsed:before,
+.controls-TreeGrid__row-expander_hiddenNode_masterNew_collapsed:before {
    content: var(--hidden-node_expander_collapsed_icon-content_treeGrid);
 }
 .controls-TreeGrid__row-expander_hiddenNode_default_expanded:before,
-.controls-TreeGrid__row-expander_hiddenNode_master_expanded:before {
+.controls-TreeGrid__row-expander_hiddenNode_master_expanded:before,
+.controls-TreeGrid__row-expander_hiddenNode_masterNew_expanded:before {
    content: var(--hidden-node_expander_icon-content_treeGrid);
 }
 
@@ -382,10 +395,12 @@
    .controls-TreeGrid__row-expander_hiddenNode_default:hover:before {
       color: var(--hidden-node_expander_hover_icon-color_treeGrid);
    }
-   .controls-TreeGrid__row-expander_node_master:hover:before {
+   .controls-TreeGrid__row-expander_node_master:hover:before,
+   .controls-TreeGrid__row-expander_node_masterNew:hover:before {
       color: var(--master_node_expander_hover_icon-color_treeGrid);
    }
-   .controls-TreeGrid__row-expander_hiddenNode_master:hover:before {
+   .controls-TreeGrid__row-expander_hiddenNode_master:hover:before,
+   .controls-TreeGrid__row-expander_hiddenNode_masterNew:hover:before {
       color: var(--master_hidden-node_expander_hover_icon-color_treeGrid);
    }
 
