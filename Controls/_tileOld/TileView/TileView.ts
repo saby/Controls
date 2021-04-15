@@ -3,7 +3,7 @@ import template = require('wml!Controls/_tileOld/TileView/TileView');
 import defaultItemTpl = require('wml!Controls/_tileOld/TileView/TileTpl');
 import {TILE_SCALING_MODE, ZOOM_COEFFICIENT, ZOOM_DELAY} from './resources/Constants';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {TouchContextField} from 'Controls/context';
+import { TouchDetect } from 'Env/Touch';
 import { getItemSize } from 'Controls/tile';
 import 'css!Controls/tile';
 
@@ -68,7 +68,7 @@ var _private = {
         self._mouseMoveTimeout = null;
     },
     isTouch: function (self) {
-        return self._context?.isTouch?.isTouch;
+        return TouchDetect.getInstance().isTouch();
     },
     getPositionStyle: function (position) {
         var result = '';
@@ -360,12 +360,6 @@ Object.defineProperty(TileView, 'defaultProps', {
       return TileView.getDefaultOptions();
    }
 });
-
-TileView.contextTypes = function contextTypes() {
-    return {
-        isTouch: TouchContextField
-    };
-};
 
 TileView._private = _private;
 

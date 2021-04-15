@@ -25,7 +25,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {ControllerClass, Container as ValidateContainer} from 'Controls/validate';
 import {Logger} from 'UI/Utils';
 
-import {TouchContextField} from 'Controls/context';
+import { TouchDetect } from 'Env/Touch';
 import {error as dataSourceError, NewSourceController as SourceController, isEqualItems} from 'Controls/dataSource';
 import {
     INavigationOptionValue,
@@ -315,7 +315,7 @@ const _private = {
         if (
             (options && !options.itemActions && !options.itemActionsProperty) &&
             !editingConfig?.toolbarVisibility &&
-            !(options.showEditArrow && self._context?.isTouch?.isTouch)
+            !(options.showEditArrow && TouchDetect.getInstance().isTouch())
         ) {
             return;
         }
@@ -2943,7 +2943,7 @@ const _private = {
     startDragNDrop(self, domEvent, item): void {
         if (
             !self._options.readOnly && self._options.itemsDragNDrop
-            && DndController.canStartDragNDrop(self._options.canStartDragNDrop, domEvent, !!self._context?.isTouch?.isTouch)
+            && DndController.canStartDragNDrop(self._options.canStartDragNDrop, domEvent, TouchDetect.getInstance().isTouch())
         ) {
             const key = item.getContents().getKey();
 
@@ -3862,7 +3862,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // В beforeMount инициализировать пейджер нельзя, т.к. не корректно посчитаются его размеры.
         // isMobilePlatform использовать для проверки не целесообразно, т.к. на интерфейсах с
         // touch режимом isMobilePlatform может быть false
-        if (!!this._context?.isTouch?.isTouch) {
+        if (TouchDetect.getInstance().isTouch()) {
             _private.initPaging(this);
         }
 
@@ -6670,7 +6670,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // В тач режиме itemActions создаются непосредственно при свайпе
         // isMobilePlatform использовать для проверки не целесообразно, т.к. на интерфейсах с
         // touch режимом isMobilePlatform может быть false
-        if (!this._context?.isTouch?.isTouch) {
+        if (!TouchDetect.getInstance().isTouch()) {
             _private.updateItemActionsOnce(this, this._options);
         }
         // Использовать itemMouseMove тут нельзя, т.к. отслеживать перемещение мышки надо вне itemsContainer
@@ -7009,12 +7009,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             // FIXME: https://online.sbis.ru/opendoc.html?guid=12b8b9b1-b9d2-4fda-85d6-f871ecc5474c
             stickyHeader: true,
             stickyColumnsCount: 1,
-        };
-    }
-
-    static contextTypes() {
-        return {
-            isTouch: TouchContextField
         };
     }
 }

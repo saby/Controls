@@ -14,7 +14,7 @@ import {isEqual, merge} from 'Types/object';
 import * as cInstance from 'Core/core-instance';
 import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
 import {groupConstants as constView} from 'Controls/list';
-import {TouchContextField} from 'Controls/context';
+import { TouchDetect } from 'Env/Touch';
 import {IItemAction, Controller as ItemActionsController} from 'Controls/itemActions';
 import {error as dataSourceError, NewSourceController as SourceController} from 'Controls/dataSource';
 import {ISelectorTemplate} from 'Controls/_interface/ISelectorDialog';
@@ -363,7 +363,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _isTouch(): boolean {
-        return this._context?.isTouch?.isTouch;
+        return TouchDetect.getInstance().isTouch();
     }
 
     protected _checkBoxClick(event: SyntheticEvent<MouseEvent>): void {
@@ -1079,12 +1079,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             groupTemplate,
             itemPadding: {},
             markerVisibility: 'onactivated'
-        };
-    }
-
-    static contextTypes(): object {
-        return {
-            isTouch: TouchContextField
         };
     }
 }

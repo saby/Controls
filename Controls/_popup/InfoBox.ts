@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import InfoBoxOpener from 'Controls/_popup/Opener/InfoBox';
 import {IInfoBox, IInfoBoxOptions} from 'Controls/_popup/interface/IInfoBox';
 import {IInfoBoxPopupOptions} from 'Controls/_popup/interface/IInfoBoxOpener';
-import {TouchContextField} from 'Controls/context';
+import { TouchDetect } from 'Env/Touch';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {descriptor} from 'Types/entity';
 import * as getZIndex from 'Controls/Utils/getZIndex';
@@ -11,11 +11,6 @@ import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 
 const CALM_DELAY: number = 100; // During what time should not move the mouse to start opening the popup.
 
-interface IInfoBoxTouchContext {
-    isTouch: {
-        isTouch: boolean;
-    };
-}
 /**
  * Контрол, отображающий всплывающую подсказку относительно указанного элемента.
  * Всплывающую подсказку вызывает событие, указанное в опции trigger.
@@ -154,7 +149,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
             this._clearWaitTimer();
             this._waitTimer = setTimeout(() => {
                 this._waitTimer = null;
-                if (!this._opened && !this._context.isTouch.isTouch) {
+                if (!this._opened && !TouchDetect.getInstance().isTouch()) {
                     this._startOpeningPopup();
                 }
             }, CALM_DELAY);
@@ -207,12 +202,6 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
 
     protected _scrollHandler(): void {
         this.close(0);
-    }
-
-    static contextTypes(): IInfoBoxTouchContext {
-        return {
-            isTouch: TouchContextField
-        };
     }
 
     static getOptionTypes(): Record<string, Function> {
