@@ -39,9 +39,7 @@
             <ws:partial
                 template="{{_options.detailContentTemplate}}"
                 attr:class="controls-newBrowser__detail-list"
-                root="{{_root}}"
                 on:rootChanged="_onDetailRootChanged()"
-                searchValue="{{_searchValue}}"
                 on:arrowClick="_onDetailArrowClick()"
                 on:itemClick="_onExplorerItemClick(false)"
                 on:viewModeChanged="_onDetailExplorerChangedViewMode()"
@@ -54,10 +52,9 @@
             >
                <Controls.explorer:View
                        attr:class="controls-newBrowser__detail-list"
-                       root="{{_root}}"
                        on:rootChanged="_onDetailRootChanged()"
-                    on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
-                    on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
+                       on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
+                       on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
                        tileSize="{{_tileCfg.imageSize}}"
 
                        viewMode="{{viewMode}}"
@@ -68,7 +65,6 @@
                      ? 'hidden'
                      : 'visible'
                }}"
-                       searchValue="{{_searchValue}}"
 
                        on:arrowClick="_onDetailArrowClick()"
                        on:itemClick="_onExplorerItemClick(false)"
@@ -94,7 +90,7 @@
                      <ws:else>
                         <ws:partial
                                 scope="{{itemTemplate}}"
-                                template="{{_detailExplorerOptions.itemTemplate}}"
+                                template="{{_detailExplorerOptions.itemTemplate || _options.detail.itemTemplate || _defaultListItemTemplate}}"
                                 listConfiguration="{{_listConfiguration}}"
                                 listCfg="{{_listCfg}}"
                         />
@@ -104,7 +100,7 @@
                   <ws:tileItemTemplate>
                      <ws:partial
                              scope="{{tileItemTemplate}}"
-                             template="{{_detailExplorerOptions.tileItemTemplate}}"
+                             template="{{_detailExplorerOptions.tileItemTemplate || _options.detail.tileItemTemplate  || _defaultTileItemTemplate}}"
                              listConfiguration="{{_listConfiguration}}"
                              tileCfg="{{_tileCfg}}"
                      />

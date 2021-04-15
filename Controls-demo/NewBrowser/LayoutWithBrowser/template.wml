@@ -3,7 +3,8 @@
             listsOptions="{{_listConfigurations}}">
         <div>
         <Controls.search:InputContainer>
-            <Controls.search:Input attr:style="width: 300px;"/>
+            <Controls.search:Input
+                    attr:style="width: 300px;"/>
         </Controls.search:InputContainer>
         <Controls.newBrowser:Browser
                 name="browser"

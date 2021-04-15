@@ -66,6 +66,8 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      */
     protected _template: TemplateFunction = ViewTemplate;
     protected _notifyHandler: Function = EventUtils.tmplNotify;
+    protected _defaultTileItemTemplate: TemplateFunction = DefaultTileItemTemplate;
+    protected _defaultListItemTemplate: TemplateFunction = DefaultListItemTemplate;
 
     protected _detailDataSource: SourceController = null;
 
@@ -104,34 +106,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     private _viewMode: DetailViewMode;
     protected _appliedViewMode: DetailViewMode;
 
-    /**
-     * Идентификатор текущего корневой узла относительно которого
-     * отображаются данные в detail-колонке
-     */
-    protected _root: TKey = null;
-
-    /**
-     * Идентификатор текущего корневого узла относительно которого
-     * отображаются данные в master-колонке
-     */
-    protected _masterRoot: TKey;
-
     protected _masterMarkedKey: TKey;
-
-    /**
-     * Поисковая строка введенная в search-input, проставляется
-     * когда он генерит событие search или resetSearch
-     */
-    protected _inputSearchString: string;
-
-    /**
-     * Значение опции searchValue, которое прокидывается в explorer.
-     * Проставляется после того как получены результаты поиска
-     */
-    protected _searchValue: string;
-
-    private _search: 'search' | 'reset' | false = false;
-
     /**
      * В случае если для detail-списка указана опция searchStartingWith === 'root'
      * то после поиска сбрасывается текущее значение root, которое на время отображения
@@ -193,34 +168,11 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         receivedState?: IReceivedState
     ): Promise<IReceivedState> | void {
         this._dataOptions = contexts.dataOptions;
-        let result;
         if (this._dataOptions.listsConfigs) {
-            this._initSourceControllersFromContext();
             this._initState(options);
             this._processItemsMetadata(this._detailDataSource.getItems(), options);
             this._afterViewModeChanged(options);
-        } else {
-            this._initState(options);
-
-            if (receivedState) {
-                this._detailDataSource.setItems(receivedState.detailItems);
-                this._processItemsMetadata(receivedState.detailItems, options);
-                this._afterViewModeChanged(options);
-            } else if (!contexts.dataOptions.listsConfigs) {
-                result = Promise
-                    .all([
-                        this._detailDataSource.loadData()
-                    ])
-                    .then(
-                        ([detailItems]) => {
-                            this._afterViewModeChanged(options);
-                            return {detailItems};
-                        }
-                    );
-            }
         }
-
-        return result;
     }
 
     protected _componentDidMount(options?: IOptions, contexts?: unknown): void {
@@ -229,27 +181,14 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
     protected _beforeUpdate(newOptions?: IOptions, contexts?: unknown): void {
         this._dataOptions = contexts.dataOptions;
-        const masterOps = this._buildMasterExplorerOption(this._dataOptions || newOptions);
-        const detailOps = this._buildDetailExplorerOptions(this._dataOptions || newOptions);
+        const isDetailRootChanged = this._detailExplorerOptions.root !== this._dataOptions.listsConfigs.detail.root;
         if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
             this._createTemplateControllers(newOptions.listConfiguration, newOptions);
         }
 
         this._userViewMode = newOptions.userViewMode;
-
-        this._detailExplorerOptions = detailOps;
-        this._masterExplorerOptions = masterOps;
-        const isDetailRootChanged = this._root !== this._detailExplorerOptions.root;
-
-        this._root = this._detailExplorerOptions.root;
-        this._masterMarkedKey = this._root;
-
-        // Обновляем фон только если не менялся root, т.к. в этом случае фон нужно обносить после загрузки данных,
-        // и переключаются не на плитку или переключение на плитку уже состоялось ранее, т.к. в этом случае
-        // модель и шаблон для плитки уже загружены и переключение не будет асинхронным
-        if (!isDetailRootChanged && (this.viewMode !== DetailViewMode.tile || this._isTileLoaded)) {
-            this._updateDetailBgColor(newOptions);
-        }
+        this._detailExplorerOptions = this._dataOptions.listConfigs.detail;
+        this._masterExplorerOptions = this._dataOptions.listConfigs.master;
 
         //region update master
         const newMasterVisibility = Browser.calcMasterVisibility(newOptions);
@@ -289,76 +228,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._detailDataSource.destroy();
         this._masterDataSource.destroy();
     }
-    //endregion
-
-    //region public methods
-    /**
-     * Вызывает перезагрузку данных в detail-колонке
-     */
-    reload(): Promise<RecordSet> {
-        return this._detailDataSource.loadData();
-    }
-    //endregion
-
-    /**
-     * Меняет корневую директорию относительно которой отображаются данные.
-     * Перед тем как изменить корень генерит событие beforeRootChanged с помощью
-     * которого пользователи могут либо отменить смену корня либо подменить корень,
-     * в том числе и корень для master-списка.
-     *
-     * @see BeforeChangeRootResult
-     */
-    private _setRoot(root: TKey | IRootsData): Promise<void> {
-        let roots = root && typeof root === 'object' && (root as IRootsData);
-        // По умолчанию master- и detail-root меняются синхронно
-        roots = roots || {
-            detailRoot: (root as TKey),
-            masterRoot: (root as TKey)
-        };
-
-        // Перед тем как менять root уведомим об этом пользователя.
-        // Что бы он мог либо отменить обработку либо подменить root.
-        return Promise.resolve(
-            this._notify('beforeRootChanged', [roots])
-        )
-            // Обработаем результат события
-            .then((beforeChangeResult: BeforeChangeRootResult) => {
-                // Если вернули false, значит нужно отменить смену root
-                if (beforeChangeResult === false) {
-                    return undefined;
-                }
-
-                // Если вернулся не undefined значит считаем что root сменили
-                if (beforeChangeResult !== undefined) {
-                    roots = beforeChangeResult;
-                }
-
-                return roots;
-            })
-            // Обновим состояние чтобы загрузились новые данные
-            .then((newRoots) => {
-                // Если меняют root когда находимся в режиме поиска, то нужно
-                // сбросить поиск и отобразить содержимое нового root
-                if (this.viewMode === DetailViewMode.search) {
-                    return;
-                }
-
-                this._changeRoot(newRoots);
-            });
-    }
-
-    private _changeRoot(roots?: IRootsData, afterSearch: boolean = false): void {
-        const detailRootChanged = roots?.detailRoot !== this._root;
-        const masterRootChanged = roots?.masterRoot !== this._masterRoot;
-
-        if (detailRootChanged) {
-            this._notify('rootChanged', [roots?.detailRoot, afterSearch]);
-        }
-
-        if (masterRootChanged) {
-            this._notify('masterRootChanged', [roots?.masterRoot]);
-        }
-    }
 
     private _setViewMode(value: DetailViewMode): void {
         let result = value;
@@ -394,26 +263,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._notify('viewModeChanged', [this.viewMode]);
     }
 
-    /**
-     * Запоминает значение, введенное в строку поиска, и запускает запрос
-     * для получения результатов поиска.
-     * Результаты поиска обработаются в _onDetailDataLoadCallback
-     */
-    private _setSearchString(searchString: string): void {
-        this._search = 'search';
-        this._inputSearchString = searchString;
-
-        // Перед поиском в режиме searchStartingWith === 'root' сбросим root
-        // в sourceController иначе результаты неправильно проставятся в items
-        if (this._options.detail.searchStartingWith !== 'current') {
-            this._detailDataSource.sourceController.setRoot(null);
-        }
-
-        this._detailDataSource
-            .setSearchString(searchString)
-            .then();
-    }
-
     private _processItemsMetadata(items: RecordSet, options: IOptions = this._options): void {
         // Применим новую конфигурацию к отображению detail-списка
         this._applyListConfiguration(getListConfiguration(items), options);
@@ -433,18 +282,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._updateMasterVisibility(options);
 
         this._notify('listConfigurationChanged', [cfg]);
-    }
-
-    //region ⇑ events handlers
-    private _onDetailDataLoadCallback(items: RecordSet, direction: string): void {
-        // Не обрабатываем последующие загрузки страниц. Нас интересует только
-        // загрузка первой страницы
-        if (direction) {
-            return;
-        }
-
-        this._masterMarkedKey = this._root;
-        this._processItemsMetadata(items);
     }
 
     /**
@@ -468,7 +305,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
         const isNode = item.get(explorerOptions.nodeProperty) !== null;
         if (isNode) {
-            this._setRoot(item.get(explorerOptions.keyProperty)).then();
             return false;
         }
 
@@ -477,23 +313,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             // могли открыть карточку при клике по листу дерева
             return this._notify('itemClick', [item, clickEvent, columnIndex]);
         }
-    }
-
-    /**
-     * Обработчик события которое генерит detail-explorer когда в нем меняется root.
-     * Сюда попадем только при клике по хлебным крошкам, т.к. explorer сам обрабатывает клик
-     * по ним и ни как его не протаскивает. А клик по итему списка обрабатывается в ф-ии
-     * {@link _onExplorerItemClick}
-     */
-    protected _onDetailRootChanged(event: SyntheticEvent, root: TKey): void {
-        this._setRoot(root).then();
-    }
-
-    /**
-     * Обработчик события которое генерит master-explorer когда в нем меняется root
-     */
-    protected _onMasterRootChanged(event: SyntheticEvent, root: TKey): void {
-        this._setRoot(root).then();
     }
 
     protected _createTemplateControllers(cfg: IBrowserViewConfig, options: IOptions): void {
@@ -511,6 +330,11 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     private _initState(options: IOptions): void {
         this._userViewMode = options.userViewMode;
         this._appliedViewMode = options.userViewMode;
+        const listsConfigs = this._dataOptions.listsConfigs;
+        this._detailExplorerOptions = listsConfigs.detail;
+        this._masterExplorerOptions = listsConfigs.master;
+        this._detailDataSource = listsConfigs.detail.sourceController;
+        this._masterDataSource = listsConfigs.master.sourceController;
         if (options.listConfiguration) {
             this._createTemplateControllers(options.listConfiguration, options);
         }
@@ -519,76 +343,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         if (this.viewMode === DetailViewMode.tile) {
             this._isTileLoaded = true;
         }
-
-        //region update detail fields
-        this._detailExplorerOptions = this._buildDetailExplorerOptions(this._dataOptions.listConfigs || options);
-
-        this._root = this._detailExplorerOptions.root;
-        //endregion
-
-        //region update master fields
-        // На основании полученного состояния соберем опции для master-списка
-        this._masterExplorerOptions = this._buildMasterExplorerOption(this._dataOptions.listConfigs || options);
-
-        this._masterMarkedKey = this._root;
-        this._masterRoot = this._masterExplorerOptions.root;
-
         this._updateMasterVisibility(options);
-        //endregion
-
-        // Если передан кастомный идентификатор хранилища, то на основании него собираем
-        // базовую часть нашего идентификатора для того, что бы в дальнейшем использовать
-        // её для генерации ключей в которых будем хранить свои настройки
-        if (typeof options.propStorageId === 'string') {
-            this._basePropStorageId = `Controls.newBrowser:Browser_${options.propStorageId}_`;
-        }
-    }
-
-    /**
-     * По переданным опциям собирает конфигурацию для Controls/explorer:View,
-     * расположенном в master-колонке.
-     */
-    private _buildMasterExplorerOption(options: IOptions): IExplorerOptions {
-        const compiledOptions = buildMasterOptions(options);
-        return {
-            style: 'master',
-            backgroundStyle: 'master',
-            viewMode: DetailViewMode.table,
-            markItemByExpanderClick: true,
-            markerVisibility: 'onactivated',
-            expanderVisibility: 'hasChildren',
-
-            ...compiledOptions
-        };
-    }
-
-    /**
-     * По переданным опциям собирает конфигурацию для Controls/explorer:View,
-     * расположенном в detail-колонке.
-     */
-    private _buildDetailExplorerOptions(options: IOptions): IExplorerOptions {
-        const compiledOptions = buildDetailOptions(options);
-
-        return {
-            // Дефолтные опции
-            style: 'default',
-
-            // Пользовательские опции
-            ...compiledOptions,
-
-            itemTemplate: compiledOptions.itemTemplate || DefaultListItemTemplate,
-            tileItemTemplate: compiledOptions.tileItemTemplate || DefaultTileItemTemplate,
-
-            sourceController: this._detailDataSource?.sourceController,
-
-            dataLoadCallback: (items, direction) => {
-                this._onDetailDataLoadCallback(items, direction);
-
-                if (compiledOptions.dataLoadCallback) {
-                    compiledOptions.dataLoadCallback(items, direction);
-                }
-            }
-        };
     }
 
     /**
