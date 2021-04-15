@@ -29,7 +29,8 @@ define(
                source: new source.Memory({
                   keyProperty: 'key',
                   data: getDefaultItems()
-               })
+               }),
+               itemPadding: {}
             };
          }
 
@@ -262,7 +263,8 @@ define(
 
             it ('check group', function() {
                let listModel = menuControl._getCollection(items, {
-                  groupProperty: 'group'
+                  groupProperty: 'group',
+                  itemPadding: {}
                });
                assert.instanceOf(listModel.at(0), display.GroupItem);
             });
@@ -278,7 +280,7 @@ define(
                   ],
                   keyProperty: 'key'
                });
-               let listModel = menuControl._getCollection(doubleItems, { keyProperty: 'key' });
+               let listModel = menuControl._getCollection(doubleItems, { keyProperty: 'key', itemPadding: {} });
                assert.equal(listModel.getCount(), 1);
             });
 
@@ -289,10 +291,127 @@ define(
                };
                menuControl._getCollection(items, {
                   allowPin: true,
-                  root: null
+                  root: null,
+                  itemPadding: {}
                });
 
                assert.isTrue(isFilterApply);
+            });
+         });
+
+
+         it('_getLeftPadding', function() {
+            const menu = getMenu();
+            let menuOptions = {
+               itemPadding: {}
+            };
+            let leftSpacing = menu._getLeftPadding(menuOptions);
+            assert.equal(leftSpacing, 'm');
+
+            menuOptions.multiSelect = true;
+            leftSpacing = menu._getLeftPadding(menuOptions);
+            assert.equal(leftSpacing, 'm');
+
+            menuOptions.itemPadding.left = 'xs';
+            leftSpacing = menu._getLeftPadding(menuOptions);
+            assert.equal(leftSpacing, 'xs');
+         });
+
+         it('_getRightPadding', function() {
+            let menuRender = getMenu();
+            let menuOptions = {
+               itemPadding: {},
+               nodeProperty: 'node'
+            };
+            const items = new collection.RecordSet({
+               rawData: defaultItems,
+               keyProperty: 'key'
+            });
+
+            let rightSpacing = menuRender._getRightPadding(menuOptions, items);
+            assert.equal(rightSpacing, 'm');
+
+            items.at(0).set('node', true);
+            rightSpacing = menuRender._getRightPadding(menuOptions, items);
+            assert.equal(rightSpacing, 'menu-expander');
+
+            menuOptions.itemPadding.right = 'xs';
+            rightSpacing = menuRender._getRightPadding(menuOptions, items);
+            assert.equal(rightSpacing, 'xs');
+
+            menuOptions.itemPadding.right = null;
+            menuOptions.multiSelect = true;
+            rightSpacing = menuRender._getRightPadding(menuOptions, items);
+            assert.equal(rightSpacing, 'menu-multiSelect');
+
+            menuOptions.itemPadding.right = 'menu-close';
+            menuOptions.multiSelect = true;
+            rightSpacing = menuRender._getRightPadding(menuOptions, items);
+            assert.equal(rightSpacing, 'menu-close-multiSelect');
+         });
+
+         describe('_addEmptyItem', function() {
+            let menuRender, menuOptions, items;
+            beforeEach(function() {
+               menuRender = getMenu();
+               items = new collection.RecordSet({
+                  rawData: {
+                     _type: 'recordset',
+                     d: [],
+                     s: [
+                        { n: 'id', t: 'Строка' },
+                        { n: 'title', t: 'Строка' },
+                        { n: 'parent', t: 'Строка' },
+                        { n: 'node', t: 'Строка' }
+                     ]
+                  },
+                  keyProperty: 'id',
+                  adapter: new entity.adapter.Sbis()
+               });
+               menuOptions = {
+                  emptyText: 'Not selected',
+                  emptyKey: null,
+                  keyProperty: 'id',
+                  displayProperty: 'title',
+                  selectedKeys: []
+               };
+            });
+
+            it('check items count', function() {
+               menuRender._addEmptyItem(items, menuOptions);
+               assert.equal(items.getCount(), 1);
+               assert.equal(items.at(0).get('title'), 'Not selected');
+               assert.equal(items.at(0).get('id'), null);
+            });
+
+            it('check parentProperty', function() {
+               menuRender._addEmptyItem(items, {...menuOptions, parentProperty: 'parent', root: null});
+               assert.equal(items.getCount(), 1);
+               assert.equal(items.at(0).get('parent'), null);
+            });
+
+            it('check nodeProperty', function() {
+               menuRender._addEmptyItem(items, {...menuOptions, nodeProperty: 'node'});
+               assert.equal(items.at(0).get('node'), false);
+            });
+
+            it('check model', function() {
+               let isCreatedModel;
+               let sandbox = sinon.createSandbox();
+               sandbox.replace(menuRender, '_createModel', (model, config) => {
+                  isCreatedModel = true;
+                  return new entity.Model(config);
+               });
+
+               items = new collection.RecordSet({
+                  rawData: Clone(defaultItems),
+                  keyProperty: 'id'
+               });
+
+               menuRender._addEmptyItem(items, menuOptions);
+               assert.equal(items.at(0).get('id'), null);
+               assert.isTrue(isCreatedModel);
+               sandbox.restore();
             });
          });
 
@@ -1028,7 +1147,8 @@ define(
             let menuControl = getMenu();
             let listModel = menuControl._getCollection(new collection.RecordSet(), {
                searchParam: 'title',
-               searchValue: 'searchText'
+               searchValue: 'searchText',
+               itemPadding: {}
             });
             assert.instanceOf(listModel, display.Search);
          });
