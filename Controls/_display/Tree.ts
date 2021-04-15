@@ -1,11 +1,11 @@
 import Collection, {
-    ItemsFactory,
     IOptions as ICollectionOptions,
-    ISessionItemState,
     ISerializableState as IDefaultSerializableState,
+    ISessionItems,
+    ISessionItemState,
     ISplicedArray,
-    StrategyConstructor,
-    ISessionItems
+    ItemsFactory,
+    StrategyConstructor
 } from './Collection';
 import CollectionEnumerator from './CollectionEnumerator';
 import CollectionItem from './CollectionItem';
@@ -19,15 +19,15 @@ import IItemsStrategy from './IItemsStrategy';
 import RootStrategy from './itemsStrategy/Root';
 import {object} from 'Types/util';
 import {Object as EventObject} from 'Env/Event';
-import { TemplateFunction } from 'UI/Base';
-import { CrudEntityKey } from 'Types/source';
+import {TemplateFunction} from 'UI/Base';
+import {CrudEntityKey} from 'Types/source';
 import NodeFooter from 'Controls/_display/itemsStrategy/NodeFooter';
-import { Model } from 'Types/entity';
-import { IDragPosition } from './interface/IDragPosition';
+import {Model, relation} from 'Types/entity';
+import {IDragPosition} from './interface/IDragPosition';
 import TreeDrag from './itemsStrategy/TreeDrag';
+import {isEqual} from 'Types/object';
+import {IObservable, RecordSet} from 'Types/collection';
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
-import { isEqual } from 'Types/object';
-import { IObservable } from 'Types/collection';
 
 export interface ISerializableState<S, T> extends IDefaultSerializableState<S, T> {
     _root: T;
@@ -742,7 +742,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         const parent = super._getItemsFactory();
 
         return function TreeItemsFactory(options: IItemsFactoryOptions<S>): T {
-            options.hasChildren = object.getPropertyValue<boolean>(options.contents, this._$hasChildrenProperty);
+            options.hasChildren = this._$hasChildrenProperty
+                ? object.getPropertyValue<boolean>(options.contents, this._$hasChildrenProperty)
+                : !!this._getChildrenByRecordSet(options.contents).length;
+
             options.expanderTemplate = this._$expanderTemplate;
             options.hasNodeWithChildren = this._hasNodeWithChildren;
 
@@ -913,6 +916,16 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         }
 
         return this._childrenMap[key];
+    }
+
+    private _getChildrenByRecordSet(parent: S): S[] {
+        const hierarchyRelation = new relation.Hierarchy({
+            keyProperty: this.getKeyProperty(),
+            parentProperty: this.getParentProperty(),
+            nodeProperty: this.getNodeProperty(),
+            declaredChildrenProperty: this.getHasChildrenProperty()
+        });
+        return hierarchyRelation.getChildren(parent, this.getCollection() as any as RecordSet) as any[] as S[];
     }
 
     protected _getNearbyItem(
