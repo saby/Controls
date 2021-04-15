@@ -110,7 +110,6 @@ const _private = {
  *       attr:class="demo-SuggestList"/>
  * </Controls.suggestPopup:ListContainer>
  * </pre>
- * @demo Controls-demo/Input/Suggest/Suggest
  * @demo Controls-demo/LookupNew/Input/SuggestPopupOptions/Index
  * @class Controls/_suggestPopup/List
  * @extends UI/Base:Control
