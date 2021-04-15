@@ -2,6 +2,7 @@
  * Библиотека контролов, которые реализуют propertyGrid и набор стандартных редакторов типов.
  * @library Controls/propertyGrid
  * @includes PropertyGrid Controls/_propertyGrid/PropertyGrid
+ * @includes TabbedView Controls/_propertyGrid/TabbedView
  * @includes GroupTemplate Controls/propertyGrid:GroupTemplate
  * @includes BooleanEditor Controls/_propertyGrid/defaultEditors/Boolean
  * @includes StringEditor Controls/_propertyGrid/defaultEditors/String
@@ -59,6 +60,8 @@ import {default as CheckboxGroupEditor} from 'Controls/_propertyGrid/extendedEdi
 import {default as TimeIntervalEditor} from 'Controls/_propertyGrid/extendedEditors/TimeInterval';
 import {default as LogicEditor} from 'Controls/_propertyGrid/extendedEditors/Logic';
 
+import {default as TabbedView} from 'Controls/_propertyGrid/TabbedView';
+
 import IPropertyGrid = require("Controls/_propertyGrid/IPropertyGrid");
 import IEditor = require("Controls/_propertyGrid/IEditor");
 import {default as IProperty} from 'Controls/_propertyGrid/IProperty';
@@ -86,7 +89,8 @@ export {
     GroupTemplate,
     ItemTemplate,
     PropertyGridCollectionItem,
-    PropertyGridCollection
+    PropertyGridCollection,
+    TabbedView
 };
 
 register('Controls/propertyGrid:PropertyGridCollectionItem', PropertyGridCollectionItem, {instantiate: false});

@@ -1,0 +1,6 @@
+<Controls.propertyGrid:TabbedView
+    bind:editingObject="_editingObject"
+    source="{{_source}}"
+    groupProperty="group"
+    tabProperty="tab">
+</Controls.propertyGrid:TabbedView>
