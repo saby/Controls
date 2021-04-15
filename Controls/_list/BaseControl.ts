@@ -4038,10 +4038,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.setReloadingState(this, true);
         }
 
-        if (!this.__error && !this._scrollController) {
-            // Создаем заново sourceController после выхода из состояния ошибки
-            _private.createScrollController(self, newOptions);
-        }
         const needReload =
             !this._loadedBySourceController &&
             !isSourceControllerLoadingNow &&
@@ -4207,6 +4203,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
         }
 
+        if (!this.__error && !this._scrollController) {
+            // Создаем заново sourceController после выхода из состояния ошибки
+            _private.createScrollController(self, newOptions);
+        }
         this._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
 
         const groupPropertyChanged = newOptions.groupProperty !== this._options.groupProperty;
