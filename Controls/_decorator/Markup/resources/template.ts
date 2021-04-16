@@ -53,12 +53,11 @@ import { _FocusAttrs } from 'UI/Focus';
    }
 
    function isKeyExist(obj: object, find: string): boolean {
-      const keys = Object.keys(obj);
-      for (let i = 0; i < keys.length; i++) {
-         if (find.toLowerCase() === keys[i].toLowerCase()) {
-            return obj[keys[i]];
-         }
-      }
+      const keys = Object.keys(obj).map((k) => k.toLowerCase());
+		const soughtKey = find.toLowerCase();
+		if (keys.includes(soughtKey)) {
+			return obj[soughtKey];
+		}
       return false;
    }
 
