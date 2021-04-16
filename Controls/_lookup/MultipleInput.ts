@@ -77,7 +77,6 @@ let OUTER_INDENT_INPUT = 0;
  * @public
  * @author Герасимов А.М.
  */
-
 export default class MultipleInput extends BaseLookupInput {
     protected _rootContainerClasses: string = 'controls-Lookup controls-MultipleInput';
     protected _itemTemplateClasses: string = 'controls-MultipleInput__SelectedCollection_item';

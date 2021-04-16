@@ -40,7 +40,6 @@ interface IRangeSelector extends IControlOptions, IDateRangeOptions, IBaseSelect
  * @demo Controls-demo/Input/Date/RangeLink
  *
  */
-
 /*
  * Controls that allows user to select date with start and end values in calendar.
  *
