@@ -157,6 +157,11 @@ export default class MultipleInput extends BaseLookupInput {
     }
 }
 
+/**
+ * @name Controls/_lookup/MultipleInput#fontSize
+ * @demo Controls-demo/Lookup/MultipleInput/Index
+ */
+
 Object.defineProperty(MultipleInput, 'defaultProps', {
    enumerable: true,
    configurable: true,
