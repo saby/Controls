@@ -197,11 +197,12 @@ class View extends Control<IDateLitePopupOptions> {
                 const startOfRange = displayedRange[0];
                 const endOfRange = displayedRange[1];
                 if (startOfRange === null || endOfRange === null) {
+                    amountOfDisplayedItems = Infinity;
                     break;
                 }
                 amountOfDisplayedItems += endOfRange.getFullYear() - startOfRange.getFullYear();
             }
-            if (amountOfDisplayedItems && amountOfVisibleItems > amountOfDisplayedItems) {
+            if (amountOfVisibleItems > amountOfDisplayedItems) {
                 return false;
             }
         }
