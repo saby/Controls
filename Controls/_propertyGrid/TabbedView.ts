@@ -15,7 +15,7 @@ export interface IOptions extends IPropertyGridOptions {
  * @author Герасимов А.М.
  * @control
  * @class Controls/_propertyGrid/TabbedView
- * @mixes Controls/_propertyGrid/IPropertyGrid
+ * @mixes Controls/propertyGrid:IPropertyGrid
  * @demo Controls-demo/PropertyGridNew/TabbedView/Index
  * @extends UI/Base:Control
  */

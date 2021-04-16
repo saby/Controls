@@ -28,7 +28,7 @@ export interface IInfoboxTemplateOptions extends IControlOptions, IValidationSta
  *
  * @public
  * @author Красильников А.С.
- * @mixes Controls/_interface/IValidationStatus
+ * @mixes Controls/interface:IValidationStatus
  * @demo Controls-demo/PopupTemplate/Infobox/Index
  */
 export default class InfoboxTemplate extends Control<IInfoboxTemplateOptions> {

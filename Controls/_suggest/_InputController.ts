@@ -90,7 +90,7 @@ type TSuggestDirection = 'up' | 'down';
  * @mixes Controls/interface:ISearch
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_suggest/ISuggest
+ * @mixes Controls/suggest:ISuggest
  * @mixes Controls/interface:INavigation
  *
  * @private
@@ -104,7 +104,7 @@ type TSuggestDirection = 'up' | 'down';
  * @mixes Controls/interface:ISearch
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_suggest/ISuggest
+ * @mixes Controls/suggest:ISuggest
  * @mixes Controls/interface:INavigation
  *
  * @private

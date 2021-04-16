@@ -27,7 +27,7 @@ interface IPrefetchData {  // TODO: Compatible предзагрузка
  * Control Popup
  * @class Controls/_popup/Manager/Popup
  * @mixes Controls/interface/IOpenerOwner
- * @mixes Controls/_interface/ICanBeDefaultOpener
+ * @mixes Controls/interface:ICanBeDefaultOpener
  * @extends UI/Base:Control
  *
  * @private

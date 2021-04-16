@@ -35,7 +35,7 @@ let _private = {
  * @class Controls/_search/Input/Search
  * @extends Controls/_input/Base
  *
- * @mixes Controls/_input/interface/IText
+ * @mixes Controls/input:IText
  * @implements Controls/interface:IContrastBackground
  *
  * @ignoreOptions style
@@ -59,7 +59,7 @@ let _private = {
  * @class Controls/_search/Input/Search
  * @extends Controls/_input/Base
  *
- * @mixes Controls/_input/interface/IText
+ * @mixes Controls/input:IText
  * @implements Controls/interface:IContrastBackground
  *
  * @ignoreOptions style

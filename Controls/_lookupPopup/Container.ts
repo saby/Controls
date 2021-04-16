@@ -326,7 +326,7 @@ var _private = {
  * @extends UI/Base:Control
  *
  * @mixes Controls/interface:ISource
- * @mixes Controls/_interface/ISelectionType
+ * @mixes Controls/interface:ISelectionType
  * @public
  * @author Герасимов Александр Максимович
  */

@@ -146,7 +146,7 @@ let _private = {
  *
  * @class Controls/_lookupPopup/List/Container
  * @extends UI/Base:Control
- * @mixes Controls/_interface/IMultiSelectable
+ * @mixes Controls/interface:IMultiSelectable
  * 
  * @public
  * @author Герасимов А.М.
@@ -164,7 +164,7 @@ let _private = {
  *
  * @class Controls/_lookupPopup/List/Container
  * @extends UI/Base:Control
- * @mixes Controls/_interface/IMultiSelectable
+ * @mixes Controls/interface:IMultiSelectable
  * 
  * @public
  * @author Герасимов Александр Максимович

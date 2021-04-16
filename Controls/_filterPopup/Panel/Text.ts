@@ -12,7 +12,7 @@ import 'css!Controls/filterPopup';
  *
  * @class Controls/_filterPopup/Panel/Text
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ITextValue
+ * @mixes Controls/interface:ITextValue
  * @public
  * @author Герасимов А.М.
  */

@@ -80,7 +80,7 @@ type TErrbackConfig = dataSourceError.ViewConfig & { error: Error };
  * @class Controls/browser:Browser
  * @public
  * @author Герасимов А.М.
- * @mixes Controls/_browser/interface/IBrowser
+ * @mixes Controls/browser:IBrowser
  * @mixes Controls/filter:IPrefetch
  * @mixes Controls/interface:IFilter
  * @mixes Controls/interface:IFilterChanged

@@ -10,7 +10,7 @@ import {EventUtils} from 'UI/Events';
  * Подробнее о настройке объединенного фильтра с выбором периода читайте {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/base-settings/#step-3 здесь}.
  * @class Controls/_filter/Editors/DateRange
  * @extends UI/Base:Control
- * @mixes Controls/_dateRange/interfaces/ILinkView
+ * @mixes Controls/dateRange:ILinkView
  * @mixes Controls/dateRange:IDateRange
  * @public
  * @author Герасимов А.М.
