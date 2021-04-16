@@ -1,4 +1,9 @@
 <div class="ControlDemo__SlidingPanel">
+   <Controls.toggle:DoubleSwitch
+           attr:class="engine-demo-View__button"
+           on:valueChanged="_isMobileChanged()"
+           value="{{ _isMobile }}"
+           captions="{{ ['Мобильный', 'Десктоп'] }}"/>
    <div class="ControlDemo__SlidingPanel-setting">
       <Controls.input:Label caption="minHeight"/>
       <Controls.input:Number bind:value="_minHeight"/>
