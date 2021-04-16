@@ -620,6 +620,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             if (this._shouldLoadLastExpandedNodeData('down', lastItem, nodeKey)) {
                 return this._loadNodeChildrenRecursive(lastItem);
             }
+            return Promise.resolve();
         }
     }
 
