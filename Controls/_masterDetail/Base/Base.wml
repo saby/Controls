@@ -23,7 +23,7 @@
    </ws:if>
    <Controls.event:Register name="resizeDetectDetail" register="controlResize" attr:fixCompatible="1">
       <ws:partial
-         attr:class="controls-MasterDetail_details {{!_options.contrastBackground  ? 'controls-MasterDetail_details-new' :
+         attr:class="controls-MasterDetail_details {{_options.contrastBackground  ? 'controls-MasterDetail_details-new' :
                      'controls-MasterDetail_details_bg-same'}}"
          template="{{_options.detail}}"
          selectedMasterValue="{{_selected}}"/>
