@@ -96,10 +96,11 @@ function onCollectionChange<T>(
     this.instance._finishUpdateSession(session, false);
     this.instance._checkItemsDiff(session, nodes, state);
 
-    if (action === IObservable.ACTION_RESET || action === IObservable.ACTION_ADD) {
+    if (action === IObservable.ACTION_RESET || action === IObservable.ACTION_ADD || action === IObservable.ACTION_REMOVE) {
         if (this.instance.getExpanderVisibility() === 'hasChildren') {
             this.instance._recountHasNodeWithChildren();
         }
+        this.instance._recountHasNode();
     }
 
     if (action === IObservable.ACTION_RESET) {
@@ -272,6 +273,12 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
      */
     protected _hasNodeWithChildren: boolean;
 
+    /**
+     * Признак, означающий чтов списке есть узел
+     * @protected
+     */
+    protected _hasNode: boolean;
+
     constructor(options?: IOptions<S, T>) {
         super(validateOptions<S, T>(options));
 
@@ -300,6 +307,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (this.getExpanderVisibility() === 'hasChildren') {
             this._recountHasNodeWithChildren();
         }
+
+        this._recountHasNode();
     }
 
     destroy(): void {
@@ -1024,6 +1033,32 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     // endregion HasNodeWithChildren
+
+    // region HasNode
+
+    protected _recountHasNode(): void {
+        const itemsInRoot = this.getChildren(this.getRoot());
+
+        let hasNode;
+        for (let i = 0; i < itemsInRoot.getCount(); i++) {
+            const item = itemsInRoot.at(i);
+            if (item.isNode() !== null) {
+                hasNode = true;
+                break;
+            }
+        }
+
+        if (this._hasNode !== hasNode) {
+            this._hasNode = hasNode;
+            this._nextVersion();
+        }
+    }
+
+    hasNode(): boolean {
+        return this._hasNode;
+    }
+
+    // endregion HasNode
 
     private _createHierarchyRelation(): void {
         this._hierarchyRelation = new relation.Hierarchy({

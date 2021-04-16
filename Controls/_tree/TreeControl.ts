@@ -1291,7 +1291,13 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     }
 
     protected _getFooterClasses(options): string {
-        return super._getFooterClasses(options) + ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
+        let result = super._getFooterClasses(options);
+
+        if (!(this._listViewModel.getExpanderIcon() === 'none' || !this._listViewModel.hasNode() || this._listViewModel.getExpanderVisibility() === 'hasChildren' && !this._listViewModel.hasNodeWithChildren())) {
+            result += ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
+        }
+
+        return result;
     }
 
     static getDefaultOptions() {
