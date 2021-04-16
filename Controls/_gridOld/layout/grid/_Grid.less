@@ -269,10 +269,6 @@
 }
 
 .controls-Grid__row-cell_master {
-   font-size: var(--master_item_font-size_list);
-}
-
-.controls-Grid__row-cell_masterNew {
    height: var(--cell_min-height_grid);
    font-size: var(--master_item_font-size_list);
    margin-left: var(--master_item_horizontal-offset_list);
@@ -867,27 +863,11 @@
 
 .controls-Grid__row-cell_selected-master {
    font-weight: bold;
-   color: var(--master_item_selected_text-color_list);
    font-size: var(--master_item_selected_font-size_list);
-}
-
-.controls-Grid__row-cell_selected-masterNew {
-   font-weight: bold;
-   font-size: var(--master_item_selected_font-size_list);
-   background-color: var(--master-new_item_selected_background-color_list);
+   background-color: var(--master_item_hover_background-color_list);
 }
 
 .controls-GridView__itemV_marker-master {
-   position: absolute;
-   box-sizing: border-box;
-   width: var(--master-marker_thickness_list);
-   height: 100%;
-   background-color: var(--master-marker_color_list);
-   top: 0;
-   left: 0;
-}
-
-.controls-GridView__itemV_marker-masterNew {
    display: none;
 }
 
@@ -897,12 +877,6 @@
    .controls-Grid__row_highlightOnHover_master:hover .controls-background-master,
    .controls-Grid__row_highlightOnHover_master:hover .controls-background-master {
       background-color: var(--master_item_hover_background-color_list);
-   }
-
-   .controls-Grid__row_highlightOnHover_masterNew:hover .controls-Grid__row-cell-background-hover-masterNew,
-   .controls-Grid__row_highlightOnHover_masterNew:hover .controls-background-masterNew,
-   .controls-Grid__row_highlightOnHover_masterNew:hover .controls-background-masterNew {
-      background-color: var(--master-new_item_hover_background-color_list);
    }
 }
 
@@ -991,8 +965,7 @@
    background: linear-gradient(90deg, rgba(240,245,251,0), var(--item_hover_background-color_list));
 }
 
-.controls-Grid__editArrow-blur_style-master_background,
-.controls-Grid__editArrow-blur_style-masterNew_background {
+.controls-Grid__editArrow-blur_style-master_background {
    background: linear-gradient(90deg, rgba(240,245,251,0), var(--master_item_hover_background-color_list));
 }
 
@@ -1023,8 +996,7 @@
    background-color: var(--item_hover_background-color_list);
 }
 
-.controls-Grid__editArrow_style-master_background,
-.controls-Grid__editArrow_style-masterNew_background {
+.controls-Grid__editArrow_style-master_background {
    background-color: var(--master_item_hover_background-color_list);
 }
 

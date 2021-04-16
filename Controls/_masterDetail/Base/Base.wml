@@ -1,4 +1,4 @@
-<div class="controls-MasterDetail controls-MasterDetail-{{_options.style}}">
+<div class="controls-MasterDetail {{_options.contrastBackground ? 'controls-MasterDetail_background'}}">
    <ws:if data="{{_options.masterVisibility !== 'hidden'}}">
       <div class="controls-MasterDetail_master controls-MasterDetail_master-{{_options.style}}" style="width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}"
            on:touchstart="_touchstartHandler()"
@@ -7,10 +7,8 @@
          <Controls.event:Register name="resizeDetectMaster" register="controlResize" attr:fixCompatible="1">
             <ws:partial
                template="{{_options.master}}"
-               style="{{_masterStyle}}"
-               backgroundStyle="{{_masterStyle}}"
-               attr:class="controls-MasterDetail_{{_masterStyle}}-template
-                           controls-MasterDetail_{{_masterStyle}}-template-{{_options.contrastBackground ? 'contrast' : 'same'}}"
+               attr:class="controls-MasterDetail_master-template
+                           controls-MasterDetail_master-template-{{_options.contrastBackground ? 'contrast' : 'same'}}"
                on:selectedMasterValueChanged="_selectedMasterValueChangedHandler()"/>
          </Controls.event:Register>
          <ws:if data="{{_canResizing}}">
@@ -25,8 +23,8 @@
    </ws:if>
    <Controls.event:Register name="resizeDetectDetail" register="controlResize" attr:fixCompatible="1">
       <ws:partial
-         attr:class="controls-MasterDetail_details {{_options.style === 'masterDetailNew' ? 'controls-MasterDetail_details-new' :
-                     'controls-MasterDetail_details_bg-' + (_options.contrastBackground ? 'contrast' : 'same')}}"
+         attr:class="controls-MasterDetail_details {{!_options.contrastBackground  ? 'controls-MasterDetail_details-new' :
+                     'controls-MasterDetail_details_bg-same'}}"
          template="{{_options.detail}}"
          selectedMasterValue="{{_selected}}"/>
    </Controls.event:Register>

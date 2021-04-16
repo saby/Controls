@@ -663,7 +663,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     protected _isSupportSticky(style: string = 'default'): boolean {
         return this.getOwner().isStickyMarkedItem() !== false &&
-            (style === 'master' || style === 'masterNew');
+            (style === 'master');
     }
 
     /**

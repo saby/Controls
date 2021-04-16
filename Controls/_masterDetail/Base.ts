@@ -130,13 +130,11 @@ class Base extends Control<IMasterDetail> {
     protected _currentMinWidth: string;
     protected _containerWidth: number;
     private _touchstartPosition: number;
-    private _masterStyle: string;
 
     protected _beforeMount(options: IMasterDetail, context: object, receivedState: string): Promise<number> | void {
         this._updateOffsetDebounced = debounce(this._updateOffsetDebounced.bind(this), RESIZE_DELAY);
         this._canResizing = this._isCanResizing(options);
         this._prepareLimitSizes(options);
-        this._masterStyle = options.style === 'masterDetailNew' ? 'masterNew' : 'master';
         if (receivedState) {
             this._currentWidth = receivedState;
         } else if (options.propStorageId) {
@@ -222,10 +220,6 @@ class Base extends Control<IMasterDetail> {
             return this._getSettings(options).then((storage) => {
                 this._updateSizesByPropStorageId(storage, options);
             });
-        }
-
-        if (options.style !== this._options.style) {
-            this._masterStyle = options.style === 'masterDetailNew' ? 'masterNew' : 'master';
         }
     }
 
@@ -406,8 +400,7 @@ class Base extends Control<IMasterDetail> {
             masterMinWidth: 30,
             masterMaxWidth: '50%',
             contrastBackground: true,
-            masterVisibility: 'visible',
-            style: 'default'
+            masterVisibility: 'visible'
         };
     }
 }
