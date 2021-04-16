@@ -21,6 +21,7 @@ import 'css!Controls/dropdown';
 import 'css!Controls/CommonClasses';
 
 interface IInputOptions extends IBaseDropdownOptions {
+   maxVisibleItems?: number;
    fontColorStyle?: string;
    fontSize?: string;
    showHeader?: boolean;
@@ -152,7 +153,7 @@ export default class Selector extends BaseDropdown {
    }
 
    _selectedItemsChangedHandler(items: Model[], newSelectedKeys: TKey[]): void|unknown {
-      const text = this._getText(items[0], this._options) + this._getMoreText(items);
+      const text = this._getText(items, this._options) + this._getMoreText(items, this._options.maxVisibleItems);
       this._notify('textValueChanged', [text]);
 
       if (!isEqual(this._options.selectedKeys, newSelectedKeys) || this._options.task1178744737) {
@@ -179,9 +180,9 @@ export default class Selector extends BaseDropdown {
          this._isEmptyItem = isEmptyItem(this._item, options.emptyText,
              options.keyProperty, options.emptyKey);
          this._icon = this._isEmptyItem ? null : getPropValue(this._item, 'icon');
-         this._text = this._getText(items[0], options);
-         this._hasMoreText = this._getMoreText(items);
-         this._tooltip = this._getTooltip(items, options.displayProperty);
+         this._text = this._getText(items, options);
+         this._hasMoreText = this._getMoreText(items, options.maxVisibleItems);
+         this._tooltip = this._getFullText(items, options.displayProperty);
       }
    }
 
@@ -266,29 +267,34 @@ export default class Selector extends BaseDropdown {
       return keys;
    }
 
-   private _getTooltip(items: Model[], displayProperty: string): string {
-      const tooltips = [];
+   private _getFullText(items: Model[], displayProperty: string, maxVisibleItems?: number): string {
+      const texts = [];
       factory(items).each((item) => {
-         tooltips.push(getPropValue(item, displayProperty));
+         if (!maxVisibleItems || texts.length < maxVisibleItems) {
+            texts.push(getPropValue(item, displayProperty));
+         }
       });
-      return tooltips.join(', ');
+      return texts.join(', ');
    }
 
-   private _getText(item: Model,
-                    {emptyText, emptyKey, keyProperty, displayProperty}: Partial<IInputOptions>): string {
+   private _getText(items: Model[],
+                    {emptyText, emptyKey, keyProperty, displayProperty, maxVisibleItems}: Partial<IInputOptions>): string {
+      const item = items[0];
       let text = '';
       if (isEmptyItem(item, emptyText, keyProperty, emptyKey)) {
          text = prepareEmpty(emptyText);
       } else {
-         text = getPropValue(item, displayProperty);
+         text = this._getFullText(items, displayProperty, maxVisibleItems);
       }
       return text;
    }
 
-   private _getMoreText(items: Model[]): string {
+   private _getMoreText(items: Model[], maxVisibleItems): string {
       let moreText = '';
-      if (items.length > 1) {
-         moreText = ', ' + rk('еще') + ' ' + (items.length - 1);
+      if (maxVisibleItems) {
+         if (items.length > maxVisibleItems) {
+            moreText = ', ' + rk('еще') + ' ' + (items.length - maxVisibleItems);
+         }
       }
       return moreText;
    }
@@ -297,13 +303,49 @@ export default class Selector extends BaseDropdown {
       this.closeMenu();
    }
 
-   static getDefaultOptions(): Partial<IBaseDropdownOptions> {
+   static getDefaultOptions(): Partial<IInputOptions> {
       return {
          iconSize: 's',
-         emptyKey: null
+         emptyKey: null,
+         maxVisibleItems: 1
       };
    }
 }
+/**
+ * @name Controls/_dropdown/Selector#maxVisibleItems
+ * @cfg {Number} Максимальное количество выбранных записей, которые будут отображены.
+ * @default 1
+ * @demo Controls-demo/dropdown_new/Input/MaxVisibleItems/Index
+ * @example
+ * Отображение всех выбранных записей.
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.dropdown:Selector
+ *    bind:selectedKeys="_selectedKeys"
+ *    keyProperty="key"
+ *    displayProperty="title"
+ *    source="{{_source)}}"
+ *    multiSelect="{{true}}"
+ *    maxVisibleItems="{{null}}">
+ * </Controls.dropdown:Selector>
+ * </pre>
+ * <pre class="brush: js">
+ * // JavaScript
+ * this._source = new Memory({
+ *    keyProperty: 'key',
+ *    data: [
+ *        {key: 1, title: 'Ярославль'},
+ *        {key: 2, title: 'Москва'},
+ *        {key: 3, title: 'Санкт-Петербург'},
+ *        {key: 4, title: 'Новосибирск'},
+ *        {key: 5, title: 'Нижний новгород'},
+ *        {key: 6, title: 'Кострома'},
+ *        {key: 7, title: 'Рыбинск'}
+ *    ]
+ * });
+ * </pre>
+ */
+
 /**
  * @name Controls/_dropdown/Selector#contentTemplate
  * @cfg {Function} Шаблон, который будет отображать вызываемый элемент.

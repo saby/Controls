@@ -55,6 +55,7 @@ define(
             selectedKeys: ['2'],
             displayProperty: 'title',
             keyProperty: 'id',
+            maxVisibleItems: 1,
             source: new sourceLib.Memory({
                keyProperty: 'id',
                data: items
@@ -96,17 +97,54 @@ define(
             assert.isTrue(isSelectedItemsLoad);
          });
 
-         it('_prepareDisplayState hasMoreText', () => {
+         it('_getMoreText', () => {
             let ddl = getDropdown(config);
-            ddl._prepareDisplayState(config, [itemsRecords.at(1), itemsRecords.at(3), itemsRecords.at(5)]);
-            assert.equal(ddl._text, 'Запись 2');
-            assert.equal(ddl._tooltip, 'Запись 2, Запись 4, Запись 6');
-            assert.equal(ddl._hasMoreText, ', еще 2');
 
-            ddl._prepareDisplayState(config, [itemsRecords.at(1)]);
-            assert.equal(ddl._text, 'Запись 2');
-            assert.equal(ddl._tooltip, 'Запись 2');
-            assert.equal(ddl._hasMoreText, '');
+            // maxVisibleItems = null
+            let moreText = ddl._getMoreText([itemsRecords.at(1), itemsRecords.at(3), itemsRecords.at(5)], null);
+            assert.equal(moreText, '');
+
+            // maxVisibleItems = 1
+            moreText = ddl._getMoreText([itemsRecords.at(1), itemsRecords.at(3), itemsRecords.at(5)], 1);
+            assert.equal(moreText, ', еще 2');
+
+            // maxVisibleItems = 2
+            moreText = ddl._getMoreText([itemsRecords.at(1), itemsRecords.at(3), itemsRecords.at(5)], 2);
+            assert.equal(moreText, ', еще 1');
+
+            // maxVisibleItems = 2
+            moreText = ddl._getMoreText([itemsRecords.at(1), itemsRecords.at(3)], 2);
+            assert.equal(moreText, '');
+         });
+
+         it('_getText', () => {
+            let ddl = getDropdown(config);
+            let selectedItems = [itemsRecords.at(0), itemsRecords.at(2), itemsRecords.at(4)];
+            const options = {
+               maxVisibleItems: 1,
+               displayProperty: 'title'
+            };
+
+            // maxVisibleItems = null
+            let text = ddl._getText([], {
+               emptyText: 'emptyText',
+               emptyKey: null
+            });
+            assert.equal(text, 'emptyText');
+
+            // maxVisibleItems = 1
+            text = ddl._getText(selectedItems, options);
+            assert.equal(text, 'Запись 1');
+
+            // maxVisibleItems = 2
+            options.maxVisibleItems = 2;
+            text = ddl._getText(selectedItems, options);
+            assert.equal(text, 'Запись 1, Запись 3');
+
+            // maxVisibleItems = null
+            options.maxVisibleItems = null;
+            text = ddl._getText(selectedItems, options);
+            assert.equal(text, 'Запись 1, Запись 3, Запись 5');
          });
 
          it('check selectedItemsChanged event', () => {
