@@ -450,7 +450,7 @@
   "--background-color_dialog": "var(--background-color)",
   "--unaccented_background-color_dialog": "#f4f4f4",
   "--header_background-color_dialog": "var(--background-color)",
-  "--unaccented_header_background-color_dialog": "#f4f4f4",
+  "--unaccented_header_background-color_dialog": "#f8f8f8",
   "--footer_background-color_dialog": "#f5f5f5",
   "--border-color_dialog": "#bdbdbd",
   "--border-thickness_dialog": "var(--border-thickness)",
