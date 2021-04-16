@@ -1858,4 +1858,86 @@ describe('Controls/_display/Tree', () => {
            });
         });
     });
+
+    describe('hasChildren', () => {
+       describe('by option', () => {
+           it('has children', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: true, node: false, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs);
+               assert.isTrue(tree.at(0).isHasChildren());
+               assert.isFalse(tree.at(0).isHasChildrenByRecordSet());
+           });
+
+           it('not has children', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: false, node: false, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs);
+               assert.isFalse(tree.at(0).isHasChildren());
+               assert.isFalse(tree.at(0).isHasChildrenByRecordSet());
+           });
+        });
+
+       describe('by recordset', () => {
+           it('has children', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: true, node: false, pid: 0},
+                       {id: 2, hasChildren: true, node: false, pid: 1}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs, {hasChildrenProperty: ''});
+               assert.isTrue(tree.at(0).isHasChildren());
+               assert.isTrue(tree.at(0).isHasChildrenByRecordSet());
+           });
+
+           it('not has children', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: false, node: false, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs, {hasChildrenProperty: ''});
+               assert.isFalse(tree.at(0).isHasChildren());
+               assert.isFalse(tree.at(0).isHasChildrenByRecordSet());
+           });
+        });
+
+       describe('hasChildrenProperty is priority', () => {
+           it('has children by recordset, but not has by property', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: false, node: false, pid: 0},
+                       {id: 2, hasChildren: false, node: false, pid: 1}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs);
+               assert.isFalse(tree.at(0).isHasChildren());
+               assert.isTrue(tree.at(0).isHasChildrenByRecordSet());
+           });
+
+           it('not has children by recordset, but has by property', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: true, node: false, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs);
+               assert.isTrue(tree.at(0).isHasChildren());
+               assert.isFalse(tree.at(0).isHasChildrenByRecordSet());
+           });
+       });
+    });
 });
