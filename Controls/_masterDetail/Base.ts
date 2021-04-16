@@ -16,7 +16,6 @@ interface IMasterDetail extends IControlOptions, IPropStorageOptions {
     masterMaxWidth: number | string;
     contrastBackground: boolean;
     masterVisibility: string;
-    style?: string;
 }
 /**
  * Контрол, который обеспечивает связь между двумя контролами для отображения подробной информации по выбранному элементу.
