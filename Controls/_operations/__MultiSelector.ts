@@ -156,7 +156,7 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       } else if (options.selectionViewMode === 'all' && options.selectedKeys.length && !options.isAllSelected) {
          additionalItems.push(SHOW_SELECTED_ITEM);
       } else if (options.selectionViewMode === 'partial') {
-         if (this._options.selectedKeys.length) {
+         if (options.selectedKeys.length) {
             additionalItems.push(...SHOW_SELECT_COUNT_SELECTED_ITEMS);
          } else {
             additionalItems.push(...SHOW_SELECT_COUNT);
