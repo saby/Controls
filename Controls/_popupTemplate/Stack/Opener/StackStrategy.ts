@@ -22,9 +22,9 @@ const _private = {
     getPanelWidth(item: IPopupItem, tCoords, maxPanelWidth: number): number {
         let panelWidth;
         const maxPanelWidthWithOffset = maxPanelWidth - tCoords.right;
-        const isCompoundTemplate = item.popupOptions.isCompoundTemplate;
-        let minWidth = parseInt(item.popupOptions.minWidth, 10);
-        const maxWidth = parseInt(item.popupOptions.maxWidth, 10);
+        let minWidth = item.popupOptions.minWidth ? parseInt(item.popupOptions.minWidth, 10) : 0;
+        const maxWidth = item.popupOptions.maxWidth ?
+            parseInt(item.popupOptions.maxWidth, 10) : maxPanelWidthWithOffset;
 
         // todo:https://online.sbis.ru/opendoc.html?guid=8f7f8cea-b39d-4046-b5b2-f8dddae143ad
         if (_private.isMaximizedPanel(item) && !item.popupOptions.propStorageId) {
