@@ -12,11 +12,13 @@ import {Stack} from 'Controls/popup';
 import {NewSourceController} from 'Controls/dataSource';
 import HoverController from 'Controls/_menu/HoverController';
 import {default as IBackgroundStyle, IBackgroundStyleOptions} from "Controls/_interface/IBackgroundStyle";
+import {RecordSet} from 'Types/collection';
 
 export type TKey = string|number|null;
 
 export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions, IBackgroundStyle,
     IBackgroundStyleOptions, INavigationOptions<INavigationSourceConfig>, IFilterOptions, ISelectorDialogOptions {
+    items?: RecordSet;
     sourceProperty: string;
     nodeFooterTemplate?: TemplateFunction;
     root?: TKey;
