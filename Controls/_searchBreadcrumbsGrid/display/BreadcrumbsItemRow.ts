@@ -127,7 +127,13 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
     }
 
     protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
-        return this._$colspanBreadcrumbs ? 'end' : 1;
+        let result = super._getColspan(column, columnIndex);
+
+        if (!result) {
+            result = this._$colspanBreadcrumbs ? 'end' : 1;
+        }
+
+        return result;
     }
 
     protected _getMultiSelectAccessibility(): boolean | null {
