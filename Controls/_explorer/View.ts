@@ -226,7 +226,9 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     protected _beforeUpdate(cfg: IExplorerOptions): void {
         const isViewModeChanged = cfg.viewMode !== this._options.viewMode;
-        const isRootChanged = cfg.root !== this._getRoot(this._options.root);
+        // Проверяем именно root в опциях
+        // https://online.sbis.ru/opendoc.html?guid=4b67d75e-1770-4e79-9629-d37ee767203b
+        const isRootChanged = cfg.root !== this._options.root;
 
         // Мы не должны ставить маркер до проваливания, т.к. это лишняя синхронизация.
         // Но если отменили проваливание, то нужно поставить маркер.
