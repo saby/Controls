@@ -1,11 +1,11 @@
-import { object } from 'Types/util';
-import { Model } from 'Types/entity';
-import { TemplateFunction } from 'UI/Base';
+import {object} from 'Types/util';
+import {Model} from 'Types/entity';
+import {TemplateFunction} from 'UI/Base';
 import SearchGridDataRow from './SearchGridDataRow';
-import { TreeChildren } from 'Controls/display';
+import {TreeChildren} from 'Controls/display';
 import SearchGridCollection from './SearchGridCollection';
-import { GridDataRow, TColspanCallbackResult } from 'Controls/grid';
-import { IColumn } from 'Controls/interface';
+import {GridDataRow, TColspanCallbackResult} from 'Controls/grid';
+import {IColumn} from 'Controls/interface';
 
 export interface IOptions<T extends Model> {
     owner?: SearchGridCollection<T>;
@@ -20,80 +20,82 @@ export interface IOptions<T extends Model> {
  * @author Мальцев А.А.
  */
 export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDataRow<T> {
-   readonly '[Controls/_display/IEditableCollectionItem]': boolean = false;
-   readonly Markable: boolean = false;
+    readonly '[Controls/_display/IEditableCollectionItem]': boolean = false;
+    readonly Markable: boolean = false;
 
-   protected _$owner: SearchGridCollection<T>;
+    protected _$owner: SearchGridCollection<T>;
 
-   /**
-   * Последний элемент хлебной крошки
-   */
-   protected _$last: SearchGridDataRow<T>;
+    /**
+     * Последний элемент хлебной крошки
+     */
+    protected _$last: SearchGridDataRow<T>;
 
-   protected _$cellTemplate: TemplateFunction;
+    protected _$cellTemplate: TemplateFunction;
 
-   protected get _first(): SearchGridDataRow<T> {
-      const root = this._$owner ? this._$owner.getRoot() : {};
-      let current = this._$last;
+    protected _$colspanBreadcrumbs: boolean = true;
 
-      while (current) {
-           const parent = current.getParent();
-           if (!parent || parent === root) {
-                 break;
-           }
-           current = parent;
-      }
+    protected get _first(): SearchGridDataRow<T> {
+        const root = this._$owner ? this._$owner.getRoot() : {};
+        let current = this._$last;
 
-      return current;
-   }
+        while (current) {
+            const parent = current.getParent();
+            if (!parent || parent === root) {
+                break;
+            }
+            current = parent;
+        }
 
-   // region Public methods
+        return current;
+    }
 
-   getContents(): T[] {
-     const root = this._$owner ? this._$owner.getRoot() : {};
-     let current = this._$last;
-     const contents = [];
+    // region Public methods
 
-     // Go up from last item until end
-     while (current) {
-         contents.unshift(current.getContents());
-         current = current.getParent();
-         if (current === root) {
-             break;
-         }
-     }
+    getContents(): T[] {
+        const root = this._$owner ? this._$owner.getRoot() : {};
+        let current = this._$last;
+        const contents = [];
 
-     return contents as any;
-   }
+        // Go up from last item until end
+        while (current) {
+            contents.unshift(current.getContents());
+            current = current.getParent();
+            if (current === root) {
+                break;
+            }
+        }
 
-   setContents(): void {
-     throw new ReferenceError('BreadcrumbsItem contents is read only.');
-   }
+        return contents as any;
+    }
 
-   /**
-   * Returns branch level in tree
-   */
-   getLevel(): number {
-      const first = this._first;
-      return first ? first.getLevel() : 0;
-   }
+    setContents(): void {
+        throw new ReferenceError('BreadcrumbsItem contents is read only.');
+    }
 
-   getLast(): SearchGridDataRow<T> {
-      return this._$last;
-   }
+    /**
+     * Returns branch level in tree
+     */
+    getLevel(): number {
+        const first = this._first;
+        return first ? first.getLevel() : 0;
+    }
 
-   getParent(): SearchGridDataRow<T> {
-      // Родителем хлебной крошки всегда является корневой узел, т.к. хлебная крошка это путь до корневого узла
-      return this._$owner.getRoot();
-   }
+    getLast(): SearchGridDataRow<T> {
+        return this._$last;
+    }
 
-   getChildren(withFilter: boolean = true): TreeChildren<T> {
-      return this._$owner.getChildren(this, withFilter);
-   }
+    getParent(): SearchGridDataRow<T> {
+        // Родителем хлебной крошки всегда является корневой узел, т.к. хлебная крошка это путь до корневого узла
+        return this._$owner.getRoot();
+    }
 
-   isHasChildren(): boolean {
-      return this.getLast().isHasChildren();
-   }
+    getChildren(withFilter: boolean = true): TreeChildren<T> {
+        return this._$owner.getChildren(this, withFilter);
+    }
+
+    isHasChildren(): boolean {
+        return this.getLast().isHasChildren();
+    }
 
     isRoot(): boolean {
         return false;
@@ -103,39 +105,47 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
         return false;
     }
 
-   getTemplate(): TemplateFunction | string {
-      // В старой поисковой модели в menu хлебные крошки отрисовывают с помощью itemTemplate,
-      // у себы мы рисуем хлебные крошки с помощью searchBreadCrumbsItemTemplate
-      if (this._$owner['[Controls/_display/Search]']) {
-         return super.getTemplate.apply(this, arguments);
-      } else {
-         return this.getDefaultTemplate();
-      }
-   }
+    getTemplate(): TemplateFunction | string {
+        // В старой поисковой модели в menu хлебные крошки отрисовывают с помощью itemTemplate,
+        // у себы мы рисуем хлебные крошки с помощью searchBreadCrumbsItemTemplate
+        if (this._$owner['[Controls/_display/Search]']) {
+            return super.getTemplate.apply(this, arguments);
+        } else {
+            return this.getDefaultTemplate();
+        }
+    }
 
-   getCellTemplate(): TemplateFunction | string {
-      return this._$cellTemplate;
-   }
+    getCellTemplate(): TemplateFunction | string {
+        return this._$cellTemplate;
+    }
 
-   protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
-      return this.hasColumnScroll() ? 1 : 'end';
-   }
+    setColspanBreadcrumbs(colspanBreadcrumbs: boolean): void {
+        if (this._$colspanBreadcrumbs !== colspanBreadcrumbs) {
+            this._$colspanBreadcrumbs = colspanBreadcrumbs;
+            this._reinitializeColumns();
+        }
+    }
 
-   protected _getMultiSelectAccessibility(): boolean|null {
-      const value = object.getPropertyValue<boolean|null>(this.getLast().getContents(), this._$multiSelectAccessibilityProperty);
-      return value === undefined ? true : value;
-   }
+    protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
+        return this._$colspanBreadcrumbs ? 'end' : 1;
+    }
 
-   // endregion
+    protected _getMultiSelectAccessibility(): boolean | null {
+        const value = object.getPropertyValue<boolean | null>(this.getLast().getContents(), this._$multiSelectAccessibilityProperty);
+        return value === undefined ? true : value;
+    }
+
+    // endregion
 }
 
 Object.assign(BreadcrumbsItemRow.prototype, {
-   '[Controls/_searchBreadcrumbsGrid/BreadcrumbsItemRow]': true,
-   '[Controls/_display/BreadcrumbsItem]': true,
-   _moduleName: 'Controls/searchBreadcrumbsGrid:BreadcrumbsItemRow',
-   _instancePrefix: 'search-breadcrumbs-grid-row-',
-   _cellModule: 'Controls/searchBreadcrumbsGrid:BreadcrumbsItemCell',
-   _$cellTemplate: 'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate',
-   _$last: null,
-   _$hasNodeWithChildren: false
+    '[Controls/_searchBreadcrumbsGrid/BreadcrumbsItemRow]': true,
+    '[Controls/_display/BreadcrumbsItem]': true,
+    _moduleName: 'Controls/searchBreadcrumbsGrid:BreadcrumbsItemRow',
+    _instancePrefix: 'search-breadcrumbs-grid-row-',
+    _cellModule: 'Controls/searchBreadcrumbsGrid:BreadcrumbsItemCell',
+    _$cellTemplate: 'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate',
+    _$last: null,
+    _$colspanBreadcrumbs: true,
+    _$hasNodeWithChildren: false
 });

@@ -77,7 +77,7 @@ describe('Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemRow', () => {
             }]
          });
          const item = searchGridCollection.at(0);
-         assert.equal(item.getColumnsCount(), 3);
+         assert.equal(item.getColumnsCount(), 2);
       });
    });
 

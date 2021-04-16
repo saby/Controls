@@ -2,8 +2,10 @@ import { TreeGridCollection } from 'Controls/treeGrid';
 import { Model } from 'Types/entity';
 import { TemplateFunction } from 'UI/Base';
 import SearchGridDataRow from './SearchGridDataRow';
-import { itemsStrategy } from 'Controls/display';
+import {ItemsFactory, itemsStrategy } from 'Controls/display';
 import BreadcrumbsItemRow from './BreadcrumbsItemRow';
+import {object} from "Types/util";
+import {CrudEntityKey} from "Types/source";
 
 export default class SearchGridCollection<S extends Model = Model, T extends SearchGridDataRow<S> = SearchGridDataRow<S>> extends TreeGridCollection<S, T> {
    /**
@@ -14,6 +16,8 @@ export default class SearchGridCollection<S extends Model = Model, T extends Sea
    protected _$dedicatedItemProperty: string;
 
    protected _$searchBreadcrumbsItemTemplate: TemplateFunction;
+
+   protected _$colspanBreadcrumbs: boolean = true;
 
    getSearchBreadcrumbsItemTemplate(): TemplateFunction|string {
       return this._$searchBreadcrumbsItemTemplate;
@@ -36,6 +40,27 @@ export default class SearchGridCollection<S extends Model = Model, T extends Sea
          owner: this
       });
       return item;
+   }
+
+   setColspanBreadcrumbs(colspanBreadcrumbs: boolean): void {
+      if (this._$colspanBreadcrumbs !== colspanBreadcrumbs) {
+         this._$colspanBreadcrumbs = colspanBreadcrumbs;
+         this._updateItemsColspanBreadcrumbs(colspanBreadcrumbs);
+         this._nextVersion();
+      }
+   }
+
+   private _updateItemsColspanBreadcrumbs(colspanBreadcrumbs: boolean): void {
+      this.each((it) => it['[Controls/_display/BreadcrumbsItem]'] && it.setColspanBreadcrumbs(colspanBreadcrumbs));
+   }
+
+   protected _getItemsFactory(): ItemsFactory<T> {
+      const parent = super._getItemsFactory();
+
+      return function TreeItemsFactory(options: any): T {
+         options.colspanBreadcrumbs = this._$colspanBreadcrumbs;
+         return parent.call(this, options);
+      };
    }
 
    protected _createComposer(): itemsStrategy.Composer<S, T> {

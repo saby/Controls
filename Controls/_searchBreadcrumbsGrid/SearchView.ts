@@ -13,6 +13,14 @@ export default class SearchView extends TreeGridView {
       return super._beforeMount(options);
    }
 
+   _beforeUpdate(newOptions: any): void {
+      super._beforeUpdate(newOptions);
+
+      if (newOptions.columnScroll) {
+         this._listModel.setColspanBreadcrumbs(!this.isColumnScrollVisible(), true);
+      }
+   }
+
    protected _onBreadcrumbClick(e: SyntheticEvent, item: BreadcrumbsItemRow<Array<Model>>): void {
       if (!this._itemClickNotifiedByPathClick) {
          const lastBreadcrumbItem = item.getContents()[item.getContents().length - 1];
