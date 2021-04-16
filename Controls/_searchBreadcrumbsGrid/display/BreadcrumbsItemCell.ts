@@ -31,17 +31,27 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
    }
 
    getContentClasses(theme: string, style: string = 'default'): string {
-      let classes = 'controls-Grid__row-cell__content_colspaned ';
+      // Только в первой ячейке выводятся хлебные крошки
+      if (this.isFirstColumn() || this.getOwner().hasMultiSelectColumn() && this.getColumnIndex() === 1) {
+         let classes = 'controls-Grid__row-cell__content_colspaned ';
 
-      if (!this.getOwner().hasMultiSelectColumn()) {
-         classes += `controls-Grid__cell_spacingFirstCol_${this.getOwner().getLeftPadding()} `;
+         if (!this.getOwner().hasMultiSelectColumn()) {
+            classes += `controls-Grid__cell_spacingFirstCol_${this.getOwner().getLeftPadding()} `;
+         }
+
+         classes += `controls-Grid__row-cell_rowSpacingTop_${this.getOwner().getTopPadding()} `;
+         classes += `controls-Grid__row-cell_rowSpacingBottom_${this.getOwner().getBottomPadding()} `;
+
+         if (this.isLastColumn()) {
+            classes += `controls-Grid__cell_spacingLastCol_${this.getOwner().getRightPadding()} `;
+         } else {
+            classes += ' controls-Grid__cell_spacingRight';
+         }
+
+         return classes;
+      } else {
+         return super.getContentClasses(theme, style);
       }
-
-      classes += `controls-Grid__cell_spacingLastCol_${this.getOwner().getRightPadding()} `;
-      classes += `controls-Grid__row-cell_rowSpacingTop_${this.getOwner().getTopPadding()} `;
-      classes += `controls-Grid__row-cell_rowSpacingBottom_${this.getOwner().getBottomPadding()} `;
-
-      return classes;
    }
 
    shouldDisplayEditArrow(contentTemplate?: TemplateFunction): boolean {
