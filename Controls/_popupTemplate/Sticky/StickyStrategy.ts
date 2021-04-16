@@ -235,7 +235,7 @@ const INVERTING_CONST = {
             из-за чего возникают дробные размеры контейнеров > body,
             из-за которых позиционирование по какому-то краю приводит к overflow < 1px
           */
-         if (positionOverflow > 1) {
+         if (positionOverflow >= 1) {
             if (popupCfg.fittingMode[direction] === 'fixed') {
                resultPosition = _private.calculateFixedModePosition(popupCfg, property, targetCoords, position, positionOverflow);
             } else if (popupCfg.fittingMode[direction] === 'overflow') {
