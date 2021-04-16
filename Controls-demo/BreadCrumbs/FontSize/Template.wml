@@ -18,35 +18,4 @@
             <Controls.breadcrumbs:HeadingPath keyProperty="id" items="{{_items}}" fontSize="l" />
         </div>
     </div>
-    <div class="controlsDemo__wrapper">
-        <h3>View</h3>
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=xs</div>
-        <Controls._breadcrumbs.View items="{{_items}}"
-                                    visibleItems="{{_visibleItems}}"
-                                    keyProperty="id"
-                                    fontColorStyle="secondary"
-                                    displayProperty="title"
-                                    fontSize="xs"/>
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=s</div>
-        <Controls._breadcrumbs.View items="{{_items}}"
-                                    visibleItems="{{_visibleItems}}"
-                                    keyProperty="id"
-                                    fontColorStyle="secondary"
-                                    displayProperty="title"
-                                    fontSize="s"/>
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=m</div>
-        <Controls._breadcrumbs.View items="{{_items}}"
-                                    visibleItems="{{_visibleItems}}"
-                                    keyProperty="id"
-                                    fontColorStyle="secondary"
-                                    displayProperty="title"
-                                    fontSize="m"/>
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=l</div>
-        <Controls._breadcrumbs.View items="{{_items}}"
-                                    visibleItems="{{_visibleItems}}"
-                                    keyProperty="id"
-                                    fontColorStyle="secondary"
-                                    displayProperty="title"
-                                    fontSize="l"/>
-    </div>
 </div>

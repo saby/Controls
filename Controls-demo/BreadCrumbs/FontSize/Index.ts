@@ -1,13 +1,11 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/BreadCrumbs/FontSize/Template');
 import {Model} from "Types/entity";
-import PrepareDataUtil from 'Controls/_breadcrumbs/PrepareDataUtil';
 
 class DemoControl extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
 
     protected _items: Model[];
-    protected  _visibleItems:any[];
 
     protected _beforeMount(): void {
         this._items = [
@@ -20,7 +18,6 @@ class DemoControl extends Control<IControlOptions> {
                 keyProperty: 'id'
             });
         });
-        this._visibleItems = PrepareDataUtil.drawBreadCrumbsItems(this._items);
     }
 
     static _theme: string[] = ['Controls/Classes'];
