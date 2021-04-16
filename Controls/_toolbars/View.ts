@@ -350,6 +350,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             },
             templateOptions: {
                 source,
+                items: options.items,
                 root,
                 ...this._getMenuTemplateOptions(),
                 showHeader: item.get('showHeader'),

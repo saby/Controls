@@ -14,7 +14,7 @@ import 'Controls/toggle';
  * 
  * @class Controls/_propertyGrid/defaultEditors/Boolean
  * @extends UI/Base:Control
- * @mixes Controls/_propertyGrid/IEditor
+ * @mixes Controls/propertyGrid:IEditor
  * 
  * @public
  * @author Герасимов А.М.
@@ -24,7 +24,7 @@ import 'Controls/toggle';
  * Editor for boolean type.
  * @class Controls/_propertyGrid/defaultEditors/Boolean
  * @extends UI/Base:Control
- * @mixes Controls/_propertyGrid/IEditor
+ * @mixes Controls/propertyGrid:IEditor
  * 
  * @public
  * @author Герасимов А.М.

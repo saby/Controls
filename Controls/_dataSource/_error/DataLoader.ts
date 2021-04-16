@@ -21,7 +21,7 @@ interface IErrorContainerOptions extends IControlOptions {
  * данных, будет выведена соответствующая ошибка.
  * @class Controls/_dataSource/_error/DataLoader
  * @extends UI/Base:Control
- * @implements Controls/_interface/IErrorController
+ * @implements Controls/interface:IErrorController
  * 
  * @public
  * @author Сухоручкин А.С.

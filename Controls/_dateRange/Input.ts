@@ -25,15 +25,15 @@ interface IDateRangeInputOptions extends IDateRangeValidatorsOptions, IControlOp
  * * {@link https://github.com/saby/wasaby-controls/blob/6156a9009ee88d96bf73c8b1200e197f9db1c3c8/Controls-default-theme/variables/_dateRange.less переменные тем оформления}
  * @class Controls/_dateRange/Input
  * @extends UI/Base:Control
- * @mixes Controls/_input/interface/IBase
+ * @mixes Controls/input:IBase
  * @mixes Controls/interface:IInputPlaceholder
- * @mixes Controls/_dateRange/interfaces/IInput
+ * @mixes Controls/dateRange:IInput
  * @mixes Controls/dateRange:IDateRange
- * @mixes Controls/_dateRange/interfaces/IRangeInputTag
- * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
+ * @mixes Controls/dateRange:IRangeInputTag
+ * @mixes Controls/dateRange:IDatePickerSelectors
  * @mixes Controls/dateRange:IDayTemplate
  * @mixes Controls/interface:IDateMask
- * @mixes Controls/_interface/IOpenPopup
+ * @mixes Controls/interface:IOpenPopup
  * @mixes Controls/interface:IDateRangeValidators
  * @mixes Controls/dateRange:IDateRangeSelectable
  *
@@ -46,10 +46,10 @@ interface IDateRangeInputOptions extends IDateRangeValidatorsOptions, IControlOp
  * Control for entering date range.
  * @class Controls/_dateRange/Input
  * @extends UI/Base:Control
- * @mixes Controls/_input/interface/IBase
- * @mixes Controls/_dateRange/interfaces/IInput
+ * @mixes Controls/input:IBase
+ * @mixes Controls/dateRange:IInput
  * @mixes Controls/dateRange:IDateRange
- * @mixes Controls/_dateRange/interfaces/IRangeInputTag
+ * @mixes Controls/dateRange:IRangeInputTag
  * @mixes Controls/interface:IDateMask
  * @mixes Controls/dateRange:IDateRangeSelectable
  *

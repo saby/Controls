@@ -3252,14 +3252,14 @@ const _private = {
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/interface/IEditableList
  * @mixes Controls/_list/BaseControl/Styles
- * @mixes Controls/_list/interface/IList
- * @mixes Controls/_itemActions/interface/IItemActionsOptions
- * @mixes Controls/_interface/ISorting
- * @mixes Controls/_list/interface/IMovableList
- * @mixes Controls/_marker/interface/IMarkerList
- * @mixes Controls/_list/interface/IMovableList
- * @implements Controls/_list/interface/IListNavigation
- * @implements Controls/_interface/IErrorController
+ * @mixes Controls/list:IList
+ * @mixes Controls/itemActions:IItemActions
+ * @mixes Controls/interface:ISorting
+ * @mixes Controls/list:IMovableList
+ * @mixes Controls/marker:IMarkerList
+ * @mixes Controls/list:IMovableList
+ * @implements Controls/list:IListNavigation
+ * @implements Controls/interface:IErrorController
  *
  * @private
  * @author Авраменко А.С.

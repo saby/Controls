@@ -26,8 +26,8 @@ export interface IRadioGroupOptions extends IControlOptions,
  * @class Controls/_toggle/RadioGroup
  * @extends UI/Base:Control
  * @mixes Controls/interface:ISource
- * @mixes Controls/_interface/ISingleSelectable
- * @mixes Controls/_interface/IValidationStatus
+ * @mixes Controls/interface:ISingleSelectable
+ * @mixes Controls/interface:IValidationStatus
  * @implements Controls/_toggle/interface/IToggleGroup
  * 
  * @public
@@ -43,7 +43,7 @@ export interface IRadioGroupOptions extends IControlOptions,
  * @class Controls/_toggle/RadioGroup
  * @extends UI/Base:Control
  * @mixes Controls/interface:ISource
- * @mixes Controls/_interface/ISingleSelectable
+ * @mixes Controls/interface:ISingleSelectable
  * @implements Controls/_toggle/interface/IToggleGroup
  * 
  * @public
