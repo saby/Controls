@@ -354,7 +354,7 @@ export default class Application extends Control<IApplication> {
       for (const key in bodyClassesToUpdate) {
          if (bodyClassesToUpdate.hasOwnProperty(key)) {
             classesToAdd = classesToAdd.concat(bodyClassesToUpdate[key].split(' ').filter(Application._isExist))
-            classesToDelete = classesToAdd.concat(this._bodyClasses[key].split(' ').filter(Application._isExist))
+            classesToDelete = classesToDelete.concat(this._bodyClasses[key].split(' ').filter(Application._isExist))
             this._bodyClasses[key] = bodyClassesToUpdate[key];
          }
       }
