@@ -34,6 +34,7 @@ import 'css!Controls/input';
  * @implements Controls/input:IValue
  * @implements Controls/interface:IInputPlaceholder
  * @implements Controls/input:IText
+ * @implements Controls/interface:IContrastBackground
  * @public
  *
  * @demo Controls-demo/Input/Area/MinMaxLines/Index
