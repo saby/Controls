@@ -245,6 +245,11 @@ Object.defineProperty(BreadCrumbsPath, 'defaultProps', {
  */
 
 /**
+ * @name Controls/_breadcrumbs/HeadingPath#fontSize
+ * @demo Controls-domo/BreadCrumbs/FontSize/Index
+ */
+
+/**
  * @event Происходит при клике на кнопку "Просмотр записи".
  * @name Controls/_breadcrumbs/HeadingPath#arrowActivated
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
