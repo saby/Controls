@@ -1950,7 +1950,8 @@ define([
                   return {};
                },
                updateOptions: () => null,
-               hasLoaded: () => true
+               hasLoaded: () => true,
+               getKeyProperty: () => 'id'
             };
          });
 
