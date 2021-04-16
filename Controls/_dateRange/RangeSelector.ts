@@ -41,11 +41,6 @@ interface IRangeSelector extends IControlOptions, IDateRangeOptions, IBaseSelect
  *
  */
 
-/**
- * @name Controls/_dateRange/RangeSelector#fontSize
- * @cfg
- * @demo Controls-demo/dateRange/RangeSelector/FontSize/Index
- */
 /*
  * Controls that allows user to select date with start and end values in calendar.
  *
@@ -204,6 +199,11 @@ export default class RangeSelector extends BaseSelector<IRangeSelector> {
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} startValue верхняя граница диапазона дат
  * @param {Date} endValue нижняя граница диапазона дат
+ */
+
+/**
+ * @name Controls/_dateRange/RangeSelector#fontSize
+ * @demo Controls-demo/dateRange/RangeSelector/FontSize/Index
  */
 
 Object.defineProperty(RangeSelector, 'defaultProps', {
