@@ -35,9 +35,9 @@ interface IFilterPanelLookupOptions extends IControlOptions, ILookupOptions {
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/interface:INavigation
- * @mixes Controls/_interface/IMultiSelectable
- * @mixes Controls/_interface/ISorting
- * @mixes Controls/_input/interface/IBase
+ * @mixes Controls/interface:IMultiSelectable
+ * @mixes Controls/interface:ISorting
+ * @mixes Controls/input:IBase
  * @mixes Controls/interface:IInputPlaceholder
  * @mixes Controls/_input/interface/IText
  * @mixes Controls/interface:IHeight
@@ -67,9 +67,9 @@ interface IFilterPanelLookupOptions extends IControlOptions, ILookupOptions {
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/interface:INavigation
- * @mixes Controls/_interface/IMultiSelectable
- * @mixes Controls/_interface/ISorting
- * @mixes Controls/_input/interface/IBase
+ * @mixes Controls/interface:IMultiSelectable
+ * @mixes Controls/interface:ISorting
+ * @mixes Controls/input:IBase
  * @mixes Controls/_input/interface/IText
  * @mixes Controls/interface:IHeight
  * @mixes Controls/interface:IFontSize

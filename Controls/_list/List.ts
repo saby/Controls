@@ -26,25 +26,25 @@ import 'css!Controls/list';
  *
  * @class Controls/_list/List
  * @extends UI/Base:Control
- * @implements Controls/_interface/IErrorController
+ * @implements Controls/interface:IErrorController
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_list/interface/IList
- * @mixes Controls/_itemActions/interface/IItemActionsOptions
+ * @mixes Controls/list:IList
+ * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface/IEditableList
- * @mixes Controls/_interface/ISorting
- * @mixes Controls/_interface/IDraggable
+ * @mixes Controls/interface:ISorting
+ * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface/IGroupedList
- * @mixes Controls/_list/interface/IClickableView
- * @mixes Controls/_list/interface/IReloadableList
- * @mixes Controls/_marker/interface/IMarkerList
+ * @mixes Controls/list:IClickableView
+ * @mixes Controls/list:IReloadableList
+ * @mixes Controls/marker:IMarkerList
  *
- * @mixes Controls/_list/interface/IVirtualScrollConfig
+ * @mixes Controls/list:IVirtualScrollConfig
  *
- * @implements Controls/_list/interface/IListNavigation
+ * @implements Controls/list:IListNavigation
  *
  *
  * @author Авраменко А.С.
@@ -58,24 +58,24 @@ import 'css!Controls/list';
  *
  * @class Controls/_list/List
  * @extends UI/Base:Control
- * @implements Controls/_interface/IErrorController
+ * @implements Controls/interface:IErrorController
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_list/interface/IList
- * @mixes Controls/_itemActions/interface/IItemActionsOptions
- * @mixes Controls/_interface/ISorting
+ * @mixes Controls/list:IList
+ * @mixes Controls/itemActions:IItemActions
+ * @mixes Controls/interface:ISorting
  * @mixes Controls/interface/IEditableList
- * @mixes Controls/_interface/IDraggable
+ * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface/IGroupedList
- * @mixes Controls/_list/interface/IClickableView
- * @mixes Controls/_list/interface/IReloadableList
- * @mixes Controls/_marker/interface/IMarkerList
+ * @mixes Controls/list:IClickableView
+ * @mixes Controls/list:IReloadableList
+ * @mixes Controls/marker:IMarkerList
  *
- * @mixes Controls/_list/interface/IVirtualScrollConfig
+ * @mixes Controls/list:IVirtualScrollConfig
  *
  *
  * @author Авраменко А.С.

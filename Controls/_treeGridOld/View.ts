@@ -21,22 +21,22 @@ import { Model } from 'Types/entity';
  * @class Controls/_treeGridOld/View
  * @extends Controls/_grid/Grid
  * @mixes Controls/interface:ISource
- * @mixes Controls/_list/interface/IClickableView
+ * @mixes Controls/list:IClickableView
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface/IGroupedGrid
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_list/interface/IList
- * @mixes Controls/_itemActions/interface/IItemActionsOptions
+ * @mixes Controls/list:IList
+ * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:IHierarchy
  * @implements Controls/_tree/interface/ITreeControl
  * @mixes Controls/interface/ITreeGridItemTemplate
- * @mixes Controls/_interface/IDraggable
- * @mixes Controls/_interface/grid/IGridControl
+ * @mixes Controls/interface:IDraggable
+ * @mixes Controls/interface:IGridControl
  * @mixes Controls/_grid/interface/IPropStorage
  * @mixes Controls/_treeGridOld/interface/IReloadableTreeGrid
  *
- * @mixes Controls/_list/interface/IVirtualScrollConfig
+ * @mixes Controls/list:IVirtualScrollConfig
  *
  *
  * @public
@@ -61,16 +61,16 @@ import { Model } from 'Types/entity';
  * @mixes Controls/interface/IGroupedGrid
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_list/interface/IList
- * @mixes Controls/_itemActions/interface/IItemActionsOptions
- * @mixes Controls/_interface/ISorting
+ * @mixes Controls/list:IList
+ * @mixes Controls/itemActions:IItemActions
+ * @mixes Controls/interface:ISorting
  * @mixes Controls/interface:IHierarchy
  * @implements Controls/_tree/interface/ITreeControl
  * @mixes Controls/interface/ITreeGridItemTemplate
- * @mixes Controls/_interface/IDraggable
- * @mixes Controls/_interface/grid/IGridControl
+ * @mixes Controls/interface:IDraggable
+ * @mixes Controls/interface:IGridControl
  * @mixes Controls/_grid/interface/IPropStorage
- * @mixes Controls/_list/interface/IVirtualScrollConfig
+ * @mixes Controls/list:IVirtualScrollConfig
  * @mixes Controls/_treeGridOld/interface/IReloadableTreeGrid
  *
  *

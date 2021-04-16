@@ -27,7 +27,7 @@ export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyl
  * @mixes Controls/interface:IResetValues
  * @mixes Controls/interface:IFontSize
  * @mixes Controls/_interface/IDateConstructor
- * @mixes Controls/_interface/IUnderline
+ * @mixes Controls/interface:IUnderline
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/dateRange:ICaptionFormatter
  *

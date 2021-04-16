@@ -26,7 +26,7 @@ import 'css!Controls/suggest';
  * @mixes Controls/_interface/IValidationStatus
  * @mixes Controls/_interface/IContrastBackground
  * @mixes Controls/_input/interface/ITag
- * @mixes Controls/_input/interface/IBase
+ * @mixes Controls/input:IBase
  * @mixes Controls/interface:IInputPlaceholder
  * @mixes Controls/_input/interface/IText
  * @mixes Controls/_input/interface/IValue
@@ -48,7 +48,7 @@ import 'css!Controls/suggest';
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/interface:INavigation
- * @mixes Controls/_input/interface/IBase
+ * @mixes Controls/input:IBase
  * @mixes Controls/_input/interface/IText
  *
  * @public

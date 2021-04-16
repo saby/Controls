@@ -513,7 +513,7 @@ const _private = {
  *
  * @class Controls/_tree/TreeControl
  * @mixes Controls/interface/IEditableList
- * @mixes Controls/_list/interface/IMovableList
+ * @mixes Controls/list:IMovableList
  * @extends Controls/_list/BaseControl
  *
  * @private

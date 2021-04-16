@@ -31,11 +31,11 @@ let OUTER_INDENT_INPUT = 0;
  * @mixes Controls/interface:ISearch
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_interface/ITextValue
+ * @mixes Controls/interface:ITextValue
  * @mixes Controls/interface:INavigation
- * @mixes Controls/_interface/IMultiSelectable
- * @mixes Controls/_interface/ISorting
- * @mixes Controls/_input/interface/IBase
+ * @mixes Controls/interface:IMultiSelectable
+ * @mixes Controls/interface:ISorting
+ * @mixes Controls/input:IBase
  * @mixes Controls/interface:IInputPlaceholder
  * @mixes Controls/_input/interface/IText
  * @mixes Controls/interface:IHeight
@@ -62,11 +62,11 @@ let OUTER_INDENT_INPUT = 0;
  * @mixes Controls/interface:ISearch
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_interface/ITextValue
+ * @mixes Controls/interface:ITextValue
  * @mixes Controls/interface:INavigation
- * @mixes Controls/_interface/IMultiSelectable
- * @mixes Controls/_interface/ISorting
- * @mixes Controls/_input/interface/IBase
+ * @mixes Controls/interface:IMultiSelectable
+ * @mixes Controls/interface:ISorting
+ * @mixes Controls/input:IBase
  * @mixes Controls/_input/interface/IText
  * @mixes Controls/interface:IHeight
  * @mixes Controls/interface:IFontSize

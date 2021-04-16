@@ -13,8 +13,8 @@ import {object} from 'Types/util';
  *
  * @class Controls/_filterPopup/Panel/Select
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ITextValue
- * @mixes Controls/_interface/IMultiSelectable
+ * @mixes Controls/interface:ITextValue
+ * @mixes Controls/interface:IMultiSelectable
  * @mixes Controls/_interface/IItemTemplate
  * 
  * @public
@@ -28,8 +28,8 @@ import {object} from 'Types/util';
  * @class Controls/_filterPopup/Panel/Select
  * @extends UI/Base:Control
  * 
- * @mixes Controls/_interface/ITextValue
- * @mixes Controls/_interface/IMultiSelectable
+ * @mixes Controls/interface:ITextValue
+ * @mixes Controls/interface:IMultiSelectable
  * @public
  * @author Герасимов А.М.
  */

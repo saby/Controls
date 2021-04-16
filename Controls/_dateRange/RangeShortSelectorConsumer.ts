@@ -8,13 +8,13 @@ import DateRangeSelectorConsumer from 'Controls/_dateRange/_DateRangeSelectorCon
  * @class Controls/_dateRange/RangeShortSelectorConsumer
  * @extends UI/Base:Control
  * @mixes Controls/interface:IResetValues
- * @mixes Controls/_dateRange/interfaces/ILinkView
- * @mixes Controls/_dateRange/interfaces/IPeriodLiteDialog
+ * @mixes Controls/dateRange:ILinkView
+ * @mixes Controls/dateRange:IPeriodLiteDialog
  * @mixes Controls/dateRange:IDateRange
- * @mixes Controls/_interface/IDisplayedRanges
- * @mixes Controls/_interface/IOpenPopup
+ * @mixes Controls/interface:IDisplayedRanges
+ * @mixes Controls/interface:IOpenPopup
  * @mixes Controls/interface:IFontSize
- * @mixes Controls/_interface/IUnderline
+ * @mixes Controls/interface:IUnderline
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/dateRange:ICaptionFormatter
  * @remark
