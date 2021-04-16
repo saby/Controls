@@ -1007,7 +1007,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         let hasNodeWithChildren = false;
         for (let i = 0; i < itemsInRoot.getCount(); i++) {
             const item = itemsInRoot.at(i);
-            if (item.isNode() !== null && item.isHasChildren()) {
+            if (item['[Controls/_display/TreeItem]'] && item.isNode() !== null && item.isHasChildren()) {
                 hasNodeWithChildren = true;
                 break;
             }
@@ -1042,7 +1042,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         let hasNode;
         for (let i = 0; i < itemsInRoot.getCount(); i++) {
             const item = itemsInRoot.at(i);
-            if (item.isNode() !== null) {
+            if (item['[Controls/_display/TreeItem]'] && item.isNode() !== null) {
                 hasNode = true;
                 break;
             }
