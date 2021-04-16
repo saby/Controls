@@ -52,6 +52,16 @@ import { _FocusAttrs } from 'UI/Focus';
       return typeof value === 'string' || value instanceof String;
    }
 
+   function isKeyExist(obj: object, find: string): boolean {
+      const keys = Object.keys(obj);
+      for (let i = 0; i < keys.length; i++) {
+         if (find.toLowerCase() === keys[i].toLowerCase()) {
+            return obj[keys[i]];
+         }
+      }
+      return false;
+   }
+
    function logError(text: string, node?: any[]|string|object) {
        let strNode: string;
        try {
@@ -100,13 +110,13 @@ import { _FocusAttrs } from 'UI/Focus';
          if (!sourceAttributes.hasOwnProperty(attributeName)) {
             continue;
          }
-         const sourceAttributeValue = sourceAttributes[attributeName];
+         const sourceAttributeValue = isKeyExist(sourceAttributes, attributeName);
          if (!isString(sourceAttributeValue)) {
             logError(`Невалидное значение атрибута ${attributeName}, ожидается строковое значение`, sourceAttributes);
             continue;
          }
-         const isStrictValid = validAttributes[attributeName];
-         const isAdditionalValid = additionalValidAttributes && additionalValidAttributes[attributeName];
+         const isStrictValid = isKeyExist(validAttributes, attributeName);
+         const isAdditionalValid = additionalValidAttributes && isKeyExist(additionalValidAttributes, attributeName);
          if (!isStrictValid && !isAdditionalValid && !dataAttributeRegExp.test(attributeName)) {
             continue;
          }
@@ -158,7 +168,7 @@ import { _FocusAttrs } from 'UI/Focus';
             events: {},
             key: key
          };
-      const validNodesValue = currentValidHtml.validNodes[tagName];
+      const validNodesValue = isKeyExist(currentValidHtml.validNodes, tagName);
       let additionalValidAttributes;
       if (!validNodesValue) {
          resolverMode ^= wasResolved;
