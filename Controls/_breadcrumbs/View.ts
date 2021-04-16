@@ -184,9 +184,4 @@ Object.defineProperty(BreadCrumbsView, 'defaultProps', {
    }
 });
 
-/**
- * @name Controls/_breadcrumbs/View#fontSize
- * @demo Controls-domo/BreadCrumbs/FontSize/Index
- */
-
 export default BreadCrumbsView;
