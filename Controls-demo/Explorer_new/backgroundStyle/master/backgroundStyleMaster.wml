@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper__padding-left controls-background-master">
+<div class="controlsDemo__wrapper__padding-left controlsDemo__explorer-background">
     <div class="controlsDemo__cell controlsDemo__inline-block demo-ItemPaddingAll__vertical">
         <div class="ws-flexbox ws-flex-wrap">
             <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m controlsDemo_backgroundStyle-first" style="width: 485px">
