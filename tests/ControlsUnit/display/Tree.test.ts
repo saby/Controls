@@ -1870,6 +1870,7 @@ describe('Controls/_display/Tree', () => {
                });
                const tree = getTree(rs);
                assert.isTrue(tree.at(0).isHasChildren());
+               assert.isFalse(tree.at(0).isHasChildrenByRecordSet());
            });
 
            it('not has children', () => {
@@ -1881,6 +1882,7 @@ describe('Controls/_display/Tree', () => {
                });
                const tree = getTree(rs);
                assert.isFalse(tree.at(0).isHasChildren());
+               assert.isFalse(tree.at(0).isHasChildrenByRecordSet());
            });
         });
 
@@ -1895,6 +1897,7 @@ describe('Controls/_display/Tree', () => {
                });
                const tree = getTree(rs, {hasChildrenProperty: ''});
                assert.isTrue(tree.at(0).isHasChildren());
+               assert.isTrue(tree.at(0).isHasChildrenByRecordSet());
            });
 
            it('not has children', () => {
@@ -1906,6 +1909,7 @@ describe('Controls/_display/Tree', () => {
                });
                const tree = getTree(rs, {hasChildrenProperty: ''});
                assert.isFalse(tree.at(0).isHasChildren());
+               assert.isFalse(tree.at(0).isHasChildrenByRecordSet());
            });
         });
 
@@ -1920,6 +1924,7 @@ describe('Controls/_display/Tree', () => {
                });
                const tree = getTree(rs);
                assert.isFalse(tree.at(0).isHasChildren());
+               assert.isTrue(tree.at(0).isHasChildrenByRecordSet());
            });
 
            it('not has children by recordset, but has by property', () => {
@@ -1931,6 +1936,7 @@ describe('Controls/_display/Tree', () => {
                });
                const tree = getTree(rs);
                assert.isTrue(tree.at(0).isHasChildren());
+               assert.isFalse(tree.at(0).isHasChildrenByRecordSet());
            });
        });
     });

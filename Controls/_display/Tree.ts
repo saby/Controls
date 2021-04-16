@@ -44,6 +44,7 @@ export interface ITreeSessionItemState<T> extends ISessionItemState<T> {
 interface IItemsFactoryOptions<S> {
     contents?: S;
     hasChildren?: boolean;
+    hasChildrenByRecordSet?: boolean;
     node?: boolean;
     expanderTemplate?: TemplateFunction;
     hasNodeWithChildren?: boolean;
@@ -754,10 +755,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         const parent = super._getItemsFactory();
 
         return function TreeItemsFactory(options: IItemsFactoryOptions<S>): T {
-            options.hasChildren = this._$hasChildrenProperty
-                ? object.getPropertyValue<boolean>(options.contents, this._$hasChildrenProperty)
-                : !!this._getChildrenByRecordSet(options.contents).length;
-
+            options.hasChildren = object.getPropertyValue<boolean>(options.contents, this._$hasChildrenProperty);
+            options.hasChildrenByRecordSet = !!this._getChildrenByRecordSet(options.contents).length;
             options.expanderTemplate = this._$expanderTemplate;
             options.hasNodeWithChildren = this._hasNodeWithChildren;
 
