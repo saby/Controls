@@ -22,7 +22,9 @@
             <ws:partial if="{{bottomRightTpl}}" template="{{bottomRightTpl}}" scope="{{_options}}"/>
         </div>
     </ws:if>
-
+    <ws:if data="{{additionalInfo && additionalInfo.length}}">
+        <ws:partial template="Controls/list:AdditionalInfoTemplate" data="{{additionalInfo}}"></ws:partial>
+    </ws:if>
     <ws:if data="{{ item.shouldDisplayDescription(itemType, description, descriptionLines) }}">
         <div class="{{ item.getDescriptionClasses(itemType, descriptionLines) }}"
              style="{{ item.getDescriptionStyles(itemType, descriptionLines) }}"

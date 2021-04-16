@@ -20,20 +20,32 @@ const additionalInfo = [
         {
             icon: 'icon-Actor',
             title: '1 Текст при наведении',
-            iconSize: 's',
             caption: 'Человек'
         },
         {
             icon: 'icon-Bell',
             title: '2 Текст при наведении',
-            iconSize: 's',
             caption: 'Колокол'
         },
         {
             icon: 'icon-Bike',
             title: '3 Текст при наведении',
-            iconSize: 's',
             caption: 'Велосипед'
+        },
+        {
+            icon: 'icon-Admin',
+            title: '4 Текст при наведении',
+            caption: 'Гаечный Ключ'
+        },
+        {
+            icon: 'icon-Android',
+            title: '5 Текст при наведении',
+            caption: 'Андроид'
+        },
+        {
+            icon: 'icon-Attach',
+            title: '6 Текст при наведении',
+            caption: 'Скрепка'
         }
     ],
     [

@@ -30,21 +30,45 @@ const additionalInfo = [
             icon: 'icon-Bike',
             title: '3 Текст при наведении',
             caption: 'Велосипед'
+        },
+        {
+            icon: 'icon-Admin',
+            title: '4 Текст при наведении',
+            caption: 'Гаечный Ключ'
+        },
+        {
+            icon: 'icon-Android',
+            title: '5 Текст при наведении',
+            caption: 'Андроид'
+        },
+        {
+            icon: 'icon-Attach',
+            title: '6 Текст при наведении',
+            caption: 'Скрепка'
         }
     ],
     [
+
         {
             icon: 'icon-Actor',
-            title: 'Человек при навелении',
+            iconSize: 's',
+            title: 'Человек'
         },
         {
             icon: 'icon-Bell',
-            title: 'Колокол при наведении'
+            iconSize: 's',
+            title: 'Колокол'
         },
         {
             icon: 'icon-Bike',
-            title: 'Велосипед при наведении'
-        }
+            iconSize: 's',
+            title: 'Велосипед'
+        },
+        {
+            icon: 'icon-Love',
+            iconSize: 's',
+            title: 'Сердце'
+        },
     ]
 ];
 export const Gadgets = {

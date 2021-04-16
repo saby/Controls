@@ -1,18 +1,18 @@
 <ws:template name="INFO_ITEM_TEMPLATE">
-    <div class="Controls-list_AdditionalTInfo-item" title="{{title}}">
+    <div class="controls-list_AdditionalInfo-item" title="{{title}}">
         <ws:if data="{{icon}}">
-            <Controls.icon:Icon attr:class="Controls-list_AdditionalTInfo-item_icon"
+            <Controls.icon:Icon attr:class="controls-list_AdditionalInfo-item_icon"
                                 icon="{{icon}}"
                                 iconSize="{{iconSize || 's'}}"
                                 iconStyle="{{iconStyle || 'label'}}"
             ></Controls.icon:Icon>
         </ws:if>
         <ws:if data="{{caption}}">
-            <div class="controls-text-{{fontStyle || 'label'}} Controls-list_AdditionalTInfo-item_caption">{{caption}}</div>
+            <div class="controls-fontsize-{{fontSize || 's'}} controls-text-{{fontStyle || 'label'}} controls-list_AdditionalInfo-item_caption">{{caption}}</div>
         </ws:if>
     </div>
 </ws:template>
-<div class="Controls-list_AdditionalTInfo">
+<div class="controls-list_AdditionalInfo">
 <ws:for data="item in data">
     <ws:partial template="INFO_ITEM_TEMPLATE" scope="{{item}}"/>
 </ws:for>

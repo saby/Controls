@@ -89,7 +89,7 @@ export {IMoveItemsParams, IMover, IRemover, BEFORE_ITEMS_MOVE_RESULT} from 'Cont
 import * as ForTemplate from 'wml!Controls/_list/Render/For';
 export {ForTemplate};
 
-import * as AdditionalInfoTemplate from 'wml!Controls/_list/resources/AdditionalInfoTemplate';
+import * as AdditionalInfoTemplate from 'wml!Controls/_list/AdditionalInfoTemplate/AdditionalInfoTemplate';
 export {AdditionalInfoTemplate};
 
 export {MoveController, IMoveControllerOptions}  from 'Controls/_list/Controllers/MoveController';

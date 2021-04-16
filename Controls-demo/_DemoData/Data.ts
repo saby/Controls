@@ -16,8 +16,65 @@ export interface IHierarchyData {
     year?: string;
     note?: string;
     hasSubNodes?: boolean;
+    additionalInfo?: object[];
 }
 
+const additionalInfo = [
+    [
+        {
+            icon: 'icon-Actor',
+            title: '1 Текст при наведении',
+            caption: 'Человек'
+        },
+        {
+            icon: 'icon-Bell',
+            title: '2 Текст при наведении',
+            caption: 'Колокол'
+        },
+        {
+            icon: 'icon-Bike',
+            title: '3 Текст при наведении',
+            caption: 'Велосипед'
+        },
+        {
+            icon: 'icon-Admin',
+            title: '4 Текст при наведении',
+            caption: 'Гаечный Ключ'
+        },
+        {
+            icon: 'icon-Android',
+            title: '5 Текст при наведении',
+            caption: 'Андроид'
+        },
+        {
+            icon: 'icon-Attach',
+            title: '6 Текст при наведении',
+            caption: 'Скрепка'
+        }
+    ],
+    [
+        {
+            icon: 'icon-Actor',
+            iconSize: 's',
+            title: 'Человек'
+        },
+        {
+            icon: 'icon-Bell',
+            iconSize: 's',
+            title: 'Колокол'
+        },
+        {
+            icon: 'icon-Bike',
+            iconSize: 's',
+            title: 'Велосипед'
+        },
+        {
+            icon: 'icon-Love',
+            iconSize: 's',
+            title: 'Сердце'
+        }
+    ]
+];
 export const FlatHierarchy = {
     getData(): IHierarchyData[] {
         return [
@@ -31,7 +88,8 @@ export const FlatHierarchy = {
                 type: true,
                 hasChild: true,
                 hasSubNodes: true,
-                photo: BrandsImages.apple
+                photo: BrandsImages.apple,
+                additionalInfo: additionalInfo[0]
             },
                 {
                     id: 11,
@@ -41,7 +99,8 @@ export const FlatHierarchy = {
                     rating: '9.2',
                     type: true,
                     hasChild: true,
-                    photo: GadgetsImages.mac
+                    photo: GadgetsImages.mac,
+                    additionalInfo: additionalInfo[1]
                 },
                     {
                         id: 111,
@@ -60,7 +119,8 @@ export const FlatHierarchy = {
                     rating: '9.2',
                     type: true,
                     hasChild: true,
-                    photo: GadgetsImages.iPad
+                    photo: GadgetsImages.iPad,
+                    additionalInfo: additionalInfo[1]
                 },
                 {
                     id: 13,
@@ -70,7 +130,8 @@ export const FlatHierarchy = {
                     rating: '9.2',
                     type: true,
                     hasChild: true,
-                    photo: GadgetsImages.iPhone
+                    photo: GadgetsImages.iPhone,
+                    additionalInfo: additionalInfo[0]
                 },
                 {
                     id: 14,
