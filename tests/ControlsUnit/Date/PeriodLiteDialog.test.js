@@ -200,28 +200,83 @@ define([
             component._expandPopup();
             assert.deepEqual(component._isExpandedPopup, true);
          });
-         it('_getExpandButtonVisibility', function() {
-            const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {
-               stickyPosition: {
-                  position: {
-                     top: 5
-                  },
-                  targetPosition: {
-                     top: 10
-                  },
-                  margins: {
-                     top: 5
+         describe('_getExpandButtonVisibility', function() {
+            it('should not show expand button on mobile', () => {
+               const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {
+                  stickyPosition: {
+                     position: {
+                        top: 5
+                     },
+                     targetPosition: {
+                        top: 10
+                     },
+                     margins: {
+                        top: 5
+                     }
                   }
-               }
-            });
-            //на мобилках скрываем кнопку разворота окна
-            Env.detection.isMobilePlatform = true;
-            component._isExpandButtonVisible = component._getExpandButtonVisibility(component._options);
-            assert.deepEqual(component._isExpandButtonVisible, false);
+               });
 
-            Env.detection.isMobilePlatform = false;
-            component._isExpandButtonVisible = component._getExpandButtonVisibility(component._options);
-            assert.deepEqual(component._isExpandButtonVisible, true);
+               Env.detection.isMobilePlatform = true;
+               component._isExpandButtonVisible = component._getExpandButtonVisibility(component._options);
+               assert.isFalse(component._isExpandButtonVisible);
+            });
+
+            it('should show expand button', () => {
+               const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {
+                  stickyPosition: {
+                     position: {
+                        top: 5
+                     },
+                     targetPosition: {
+                        top: 10
+                     },
+                     margins: {
+                        top: 5
+                     }
+                  }
+               });
+               Env.detection.isMobilePlatform = false;
+               component._isExpandButtonVisible = component._getExpandButtonVisibility(component._options);
+               assert.isTrue(component._isExpandButtonVisible);
+            });
+
+            it('should not show expand button if displayedRanges has less years than needed', () => {
+               const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {
+                  stickyPosition: {
+                     position: {
+                        top: 5
+                     },
+                     targetPosition: {
+                        top: 10
+                     },
+                     margins: {
+                        top: 5
+                     }
+                  },
+                  displayedRanges: [[new Date(2018, 0), new Date(2019, 0)]]
+               });
+               component._isExpandButtonVisible = component._getExpandButtonVisibility(component._options);
+               assert.isFalse(component._isExpandButtonVisible);
+            });
+
+            it('should show expand button if displayedRanges has enough years', () => {
+               const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {
+                  stickyPosition: {
+                     position: {
+                        top: 5
+                     },
+                     targetPosition: {
+                        top: 10
+                     },
+                     margins: {
+                        top: 5
+                     }
+                  },
+                  displayedRanges: [[new Date(2018, 0), new Date(2025, 0)]]
+               });
+               component._isExpandButtonVisible = component._getExpandButtonVisibility(component._options);
+               assert.isTrue(component._isExpandButtonVisible);
+            });
          });
          it('_updateCloseBtnPosition', function() {
             const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {
