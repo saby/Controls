@@ -375,10 +375,13 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     protected _onItemClick(
         event: SyntheticEvent,
-        item: Model,
+        item: Model|Model[],
         clickEvent: SyntheticEvent,
         columnIndex?: number
     ): boolean {
+        if (item instanceof Array) {
+            item = item[item.length - 1];
+        }
 
         const res = this._notify('itemClick', [item, clickEvent, columnIndex]) as boolean;
         event.stopPropagation();
