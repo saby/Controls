@@ -58,7 +58,13 @@
         on:selectedPageChanged="__pagingChangePage()" />
 </ws:template>
 
-<ws:template name="footerTemplateIf">
+<!--
+ Внутренний футер, содержащий:
+   * контрол для пейджинации
+   * кнопку "Ещё"
+   * cut-кнопку "(•••)"
+-->
+<ws:template name="sysFooterTemplate">
     <div class="{{ _getFooterClasses(_options) }}">
         <ws:if data="{{_pagingNavigation && _pagingNavigationVisible}}">
             <div class="controls-BaseControl__footerPaging_wrapper">
@@ -73,7 +79,12 @@
             </div>
         </ws:if>
         <ws:if data="{{_shouldDrawFooter}}">
-            <ws:partial template="wml!Controls/_list/BaseControl/Footer" moreFontColorStyle="{{_options.moreFontColorStyle}}" loadMoreCaption="{{_loadMoreCaption}}" theme="{{_options.theme}}"/>
+            <ws:partial
+               template="wml!Controls/_list/BaseControl/Footer"
+               moreFontColorStyle="{{_options.moreFontColorStyle}}"
+               loadMoreCaption="{{_loadMoreCaption}}"
+               theme="{{_options.theme}}"
+            />
         </ws:if>
         <ws:if data="{{_shouldDrawCut}}">
             <ws:partial template="wml!Controls/_list/BaseControl/Cut" bind:expanded="_expanded" cutSize="{{_cutSize}}"/>
@@ -98,10 +109,11 @@
 </ws:template>
 
 <ws:template name="viewTpl">
-    <div class="controls-BaseControl__viewContainer controls-ScrollController" name="viewContainer">
+    <div class="controls-BaseControl__viewContainer" name="viewContainer">
         <ws:partial if="{{ _shouldDisplayMiddleLoadingIndicator() }}" template="loadingIndicator"/>
 
         <div name="topVirtualScrollTrigger" style="position: relative; top: 0;{{_hideTopTrigger ? ' display: none;'}}"></div>
+       <!-- render _viewName -->
         <ws:partial
                 attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
                 attr:style="{{_attachLoadTopTriggerToNull ? 'padding-top: ' + _attachedToNullLoadTopTriggerOffset + 'px;'}}"
@@ -176,7 +188,7 @@
             </ws:emptyTemplate>
         </ws:partial>
 
-        <ws:partial template="footerTemplateIf"/>
+        <ws:partial template="sysFooterTemplate"/>
 
         <div name="bottomVirtualScrollTrigger" style="position: relative; bottom: 0;"></div>
         <ws:if data="{{_needScrollCalculation}}">

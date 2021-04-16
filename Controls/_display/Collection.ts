@@ -2358,11 +2358,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         });
     }
 
-    setItemPadding(itemPadding: IItemPadding, silent?: boolean): void {
-        this._setItemPadding(itemPadding, silent);
-        if (!silent) {
-            this._nextVersion();
-        }
+    setItemPadding(itemPadding: IItemPadding): void {
+        this._setItemPadding(itemPadding);
+        this._nextVersion();
     }
 
     setMarkedKey(key: string|number, status: boolean): void {

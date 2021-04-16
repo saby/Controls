@@ -20,6 +20,7 @@ describe('Controls/grid_clean/GridView', () => {
                 columns: [{}],
             };
             const gridOptions = {
+                useNewModel: true,
                 listModel: new GridCollection(collectionOptions),
                 keyProperty: 'key',
                 footerTemplate: () => '',
@@ -29,6 +30,44 @@ describe('Controls/grid_clean/GridView', () => {
             let gridView = new GridView(gridOptions);
             await gridView._beforeMount(gridOptions);
             assert.strictEqual(gridView.getListModel().getVersion(), 0, 'Version must be equals zero! No other variants!');
+        });
+
+        it('Check initialize footer', () => {
+            const collectionOptions = {
+                collection: new RecordSet({
+                    rawData: [{
+                        key: 1,
+                        title: 'item_1'
+                    }],
+                    keyProperty: 'key'
+                }),
+                keyProperty: 'key',
+                columns: [{}],
+            };
+
+            // В опциях переданы только колонки для футера -> футер должен проинициализироваться
+            const gridOptions1 = {
+                useNewModel: true,
+                listModel: new GridCollection(collectionOptions),
+                keyProperty: 'key',
+                footer: []
+            };
+            let gridView = new GridView(gridOptions1);
+            await gridView._beforeMount(gridOptions1);
+
+            assert.isTrue(gridView.getListModel().getFooter());
+
+            // В опциях переданы только шаблон для футера -> футер должен проинициализироваться
+            const gridOptions2 = {
+                useNewModel: true,
+                listModel: new GridCollection(collectionOptions),
+                keyProperty: 'key',
+                footerTemplate: () => ''
+            };
+            gridView = new GridView(gridOptions2);
+            await gridView._beforeMount(gridOptions2);
+
+            assert.isTrue(gridView.getListModel().getFooter());
         });
     });
 
