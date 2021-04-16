@@ -39,10 +39,10 @@ export interface IMoverDialogTemplateOptions extends IControlOptions {
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IGridControl
- * @implements Controls/_tree/interface/ITreeControl
+ * @implements Controls/tree:ITreeControl
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
- * @mixes Controls/_explorer/interface/IExplorer
+ * @mixes Controls/explorer:IExplorer
  * @mixes Controls/interface:INavigation
  *
  * @public

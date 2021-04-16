@@ -24,7 +24,7 @@ let OUTER_INDENT_INPUT = 0;
  *
  * @class Controls/_lookup/MultipleInput
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ILookup
+ * @mixes Controls/interface:ILookup
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/interface/ISelectorDialog
  * @mixes Controls/interface/ISuggest
@@ -37,11 +37,11 @@ let OUTER_INDENT_INPUT = 0;
  * @mixes Controls/interface:ISorting
  * @mixes Controls/input:IBase
  * @mixes Controls/interface:IInputPlaceholder
- * @mixes Controls/_input/interface/IText
+ * @mixes Controls/input:IText
  * @mixes Controls/interface:IHeight
  * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:IFontColorStyle
- * @mixes Controls/_interface/IInputTag
+ * @mixes Controls/interface:IInputTag
  * @mixes Controls/input:IValue
  *
  * @public
@@ -55,7 +55,7 @@ let OUTER_INDENT_INPUT = 0;
  *
  * @class Controls/_lookup/MultipleInput
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ILookup
+ * @mixes Controls/interface:ILookup
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/interface/ISelectorDialog
  * @mixes Controls/interface/ISuggest
@@ -67,11 +67,11 @@ let OUTER_INDENT_INPUT = 0;
  * @mixes Controls/interface:IMultiSelectable
  * @mixes Controls/interface:ISorting
  * @mixes Controls/input:IBase
- * @mixes Controls/_input/interface/IText
+ * @mixes Controls/input:IText
  * @mixes Controls/interface:IHeight
  * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:IFontColorStyle
- * @mixes Controls/_interface/IInputTag
+ * @mixes Controls/interface:IInputTag
  * @mixes Controls/input:IValue
  *
  * @public

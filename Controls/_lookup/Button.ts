@@ -38,10 +38,10 @@ export interface ISelectorButtonOptions extends IControlOptions, IValidationStat
  *
  * @class Controls/_lookup/Button
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ILookup
+ * @mixes Controls/interface:ILookup
  * @mixes Controls/interface:ICaption
  * @mixes Controls/interface/ISelectedCollection
- * @mixes Controls/_interface/ISelectorDialog
+ * @mixes Controls/interface:ISelectorDialog
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/interface:IMultiSelectable
  * @mixes Controls/interface:ISource

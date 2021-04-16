@@ -29,12 +29,12 @@ import { Model } from 'Types/entity';
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:IHierarchy
- * @implements Controls/_tree/interface/ITreeControl
+ * @implements Controls/tree:ITreeControl
  * @mixes Controls/interface/ITreeGridItemTemplate
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface:IGridControl
- * @mixes Controls/_grid/interface/IPropStorage
- * @mixes Controls/_treeGridOld/interface/IReloadableTreeGrid
+ * @mixes Controls/grid:IPropStorage
+ * @mixes Controls/treeGrid:IReloadableTreeGrid
  *
  * @mixes Controls/list:IVirtualScrollConfig
  *
@@ -65,13 +65,13 @@ import { Model } from 'Types/entity';
  * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:ISorting
  * @mixes Controls/interface:IHierarchy
- * @implements Controls/_tree/interface/ITreeControl
+ * @implements Controls/tree:ITreeControl
  * @mixes Controls/interface/ITreeGridItemTemplate
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface:IGridControl
- * @mixes Controls/_grid/interface/IPropStorage
+ * @mixes Controls/grid:IPropStorage
  * @mixes Controls/list:IVirtualScrollConfig
- * @mixes Controls/_treeGridOld/interface/IReloadableTreeGrid
+ * @mixes Controls/treeGrid:IReloadableTreeGrid
  *
  *
  * @public

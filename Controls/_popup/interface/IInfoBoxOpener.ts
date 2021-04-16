@@ -7,7 +7,7 @@ import {List} from 'Types/collection';
  * Интерфейс для опций всплывающих подсказок.
  *
  * @interface Controls/_popup/interface/IInfoBoxOpener
- * @mixes Controls/_interface/IValidationStatus
+ * @mixes Controls/interface:IValidationStatus
  * @private
  * @author Красильников А.С.
  */

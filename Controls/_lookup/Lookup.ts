@@ -35,9 +35,9 @@ export interface ILookupOptions extends ILookupInputOptions {
  *
  * @class Controls/_lookup/Lookup
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ILookup
+ * @mixes Controls/interface:ILookup
  * @mixes Controls/interface/ISelectedCollection
- * @mixes Controls/_interface/ISelectorDialog
+ * @mixes Controls/interface:ISelectorDialog
  * @mixes Controls/interface/ISuggest
  * @mixes Controls/interface:ISearch
  * @mixes Controls/interface:ISource
@@ -48,13 +48,13 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @mixes Controls/interface:ISorting
  * @mixes Controls/input:IBase
  * @mixes Controls/interface:IInputPlaceholder
- * @mixes Controls/_input/interface/IText
+ * @mixes Controls/input:IText
  * @mixes Controls/interface:IHeight
  * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:IFontColorStyle
- * @mixes Controls/_interface/IInputTag
+ * @mixes Controls/interface:IInputTag
  * @mixes Controls/input:IValue
- * @mixes Controls/_interface/IValidationStatus
+ * @mixes Controls/interface:IValidationStatus
  * @mixes Controls/input:IBorderVisibility
  * @mixes Controls/input:IPadding
  *
@@ -72,7 +72,7 @@ export interface ILookupOptions extends ILookupInputOptions {
  *
  * @class Controls/_lookup/Lookup
  * @extends UI/Base:Control
- * @mixes Controls/_interface/ILookup
+ * @mixes Controls/interface:ILookup
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/interface/ISelectorDialog
  * @mixes Controls/interface/ISuggest
@@ -84,11 +84,11 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @mixes Controls/interface:ITextValue
  * @mixes Controls/interface:ISorting
  * @mixes Controls/input:IBase
- * @mixes Controls/_input/interface/IText
+ * @mixes Controls/input:IText
  * @mixes Controls/interface:IHeight
  * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:IFontColorStyle
- * @mixes Controls/_interface/IInputTag
+ * @mixes Controls/interface:IInputTag
  * @mixes Controls/input:IValue
  *
  * @public

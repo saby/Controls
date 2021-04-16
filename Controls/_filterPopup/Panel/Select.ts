@@ -15,7 +15,7 @@ import {object} from 'Types/util';
  * @extends UI/Base:Control
  * @mixes Controls/interface:ITextValue
  * @mixes Controls/interface:IMultiSelectable
- * @mixes Controls/_interface/IItemTemplate
+ * @mixes Controls/interface/IItemTemplate
  * 
  * @public
  * @author Герасимов А.М.

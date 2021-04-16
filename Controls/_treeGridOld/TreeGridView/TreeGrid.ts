@@ -21,7 +21,7 @@ import 'css!Controls/treeGrid';
     * @mixes Controls/list:IList
     * @mixes Controls/itemActions:IItemActions
     * @mixes Controls/interface:IHierarchy
-    * @implements Controls/_tree/interface/ITreeControl
+    * @implements Controls/tree:ITreeControl
     * @mixes Controls/interface/ITreeGridItemTemplate
     * @mixes Controls/interface:IDraggable
     * @mixes Controls/marker:IMarkerList
@@ -49,7 +49,7 @@ import 'css!Controls/treeGrid';
     * @mixes Controls/itemActions:IItemActions
     * @mixes Controls/interface:ISorting
     * @mixes Controls/interface:IHierarchy
-    * @implements Controls/_tree/interface/ITreeControl
+    * @implements Controls/tree:ITreeControl
     * @mixes Controls/interface/ITreeGridItemTemplate
     * @mixes Controls/interface:IDraggable
     * @mixes Controls/marker:IMarkerList

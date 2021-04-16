@@ -25,9 +25,9 @@ type CancelableError = Error & { canceled?: boolean, isCanceled: boolean };
 
 /**
  * Базовый шаблон для {@link Controls/menu:Control}, отображаемого в прилипающем блоке.
- * @mixes Controls/_menu/interface/IMenuPopup
- * @mixes Controls/_menu/interface/IMenuControl
- * @mixes Controls/_menu/interface/IMenuBase
+ * @mixes Controls/menu:IMenuPopup
+ * @mixes Controls/menu:IMenuControl
+ * @mixes Controls/menu:IMenuBase
  * @mixes Controls/interface:IHierarchy
  * @mixes Controls/interface:IIconSize
  * @mixes Controls/interface:IIconStyle

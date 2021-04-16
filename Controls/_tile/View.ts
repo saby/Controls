@@ -24,9 +24,9 @@ import TileView = require('./TileView');
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:IHierarchy
- * @implements Controls/_tree/interface/ITreeControl
+ * @implements Controls/tree:ITreeControl
  * @mixes Controls/interface:IDraggable
- * @mixes Controls/_tile/interface/ITile
+ * @mixes Controls/tile:ITile
  * @mixes Controls/list:IClickableView
  * @mixes Controls/marker:IMarkerList
  *
@@ -54,7 +54,7 @@ import TileView = require('./TileView');
  * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:ISorting
  * @mixes Controls/interface:IHierarchy
- * @implements Controls/_tree/interface/ITreeControl
+ * @implements Controls/tree:ITreeControl
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/List/interface/ITile
  * @mixes Controls/list:IClickableView
