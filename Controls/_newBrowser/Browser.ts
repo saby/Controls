@@ -187,8 +187,8 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         }
 
         this._userViewMode = newOptions.userViewMode;
-        this._detailExplorerOptions = this._dataOptions.listConfigs.detail;
-        this._masterExplorerOptions = this._dataOptions.listConfigs.master;
+        this._detailExplorerOptions = this._dataOptions.listsConfigs.detail;
+        this._masterExplorerOptions = this._dataOptions.listsConfigs.master;
 
         //region update master
         const newMasterVisibility = Browser.calcMasterVisibility(newOptions);
@@ -300,19 +300,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         clickEvent: unknown,
         columnIndex?: number
     ): unknown {
-
-        const explorerOptions = isMaster ? this._masterExplorerOptions : this._detailExplorerOptions;
-
-        const isNode = item.get(explorerOptions.nodeProperty) !== null;
-        if (isNode) {
-            return false;
-        }
-
-        if (!isMaster) {
-            // Перегенерим событие, т.к. explorer его без bubbling шлет, что бы пользователи
-            // могли открыть карточку при клике по листу дерева
-            return this._notify('itemClick', [item, clickEvent, columnIndex]);
-        }
+        return this._notify('itemClick', [item, clickEvent, columnIndex]);
     }
 
     protected _createTemplateControllers(cfg: IBrowserViewConfig, options: IOptions): void {

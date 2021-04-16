@@ -19,7 +19,6 @@
                scope="{{_masterExplorerOptions}}"
                sourceController="{{_masterDataSource}}"
                root="{{_masterRoot}}"
-               on:rootChanged="_onMasterRootChanged()"
                bind:markedKey="_masterMarkedKey"
                on:itemClick="_onExplorerItemClick(true)"
             />
@@ -39,7 +38,6 @@
             <ws:partial
                 template="{{_options.detailContentTemplate}}"
                 attr:class="controls-newBrowser__detail-list"
-                on:rootChanged="_onDetailRootChanged()"
                 on:arrowClick="_onDetailArrowClick()"
                 on:itemClick="_onExplorerItemClick(false)"
                 on:viewModeChanged="_onDetailExplorerChangedViewMode()"
@@ -52,7 +50,6 @@
             >
                <Controls.explorer:View
                        attr:class="controls-newBrowser__detail-list"
-                       on:rootChanged="_onDetailRootChanged()"
                        on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
                        on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
                        tileSize="{{_tileCfg.imageSize}}"
