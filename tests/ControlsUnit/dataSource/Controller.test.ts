@@ -205,6 +205,25 @@ describe('Controls/dataSource:SourceController', () => {
             ok(loadPromiseWasCanceled);
         });
 
+        it('load call while preparing filter', async () => {
+            return new Promise((resolve) => {
+                const navigation = getPagingNavigation();
+                let navigationParamsChangedCallbackCalled = false;
+                const options = {...getControllerOptions(), navigation};
+                options.navigationParamsChangedCallback = () => {
+                    navigationParamsChangedCallbackCalled = true;
+                };
+                const controller = getController(options);
+
+                const reloadPromise = controller.reload();
+                controller.cancelLoading();
+                reloadPromise.finally(() => {
+                    ok(!navigationParamsChangedCallbackCalled);
+                    resolve();
+                });
+            });
+        });
+
         it('load with parentProperty and selectedKeys',  async () => {
             let controller = getControllerWithHierarchy({
                 selectedKeys: [0],
