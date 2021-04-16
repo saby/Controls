@@ -64,7 +64,7 @@ const popupMask = coreMerge({auto: 'auto'}, Range.dateMaskConstants);
  * @mixes Controls/interface:IResetValues
  * @mixes Controls/dateRange:IDateRangeSelectable
  * @mixes Controls/dateRange:IDayTemplate
- * @mixes Controls/_interface/IDateConstructor
+ * 
  * @mixes Controls/interface:IDateMask
  * @mixes Controls/dateRange:IDateRange
  * @mixes Controls/interface:IDateRangeValidators

@@ -59,7 +59,7 @@ const ENRICH_ITEMS_DELAY = 200;
  *
  * @class Controls/_calendar/MonthList
  * @extends UI/Base:Control
- * @mixes Controls/_calendar/interfaces/IMonthListSource
+ * @mixes Controls/calendar:IMonthListSource
  * @mixes Controls/dateRange:IDayTemplate
  *
  * @public

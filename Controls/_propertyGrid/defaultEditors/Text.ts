@@ -10,7 +10,7 @@ import StringEditor = require('Controls/_propertyGrid/defaultEditors/String');
  * 
  * @class Controls/_propertyGrid/defaultEditors/Text
  * @extends UI/Base:Control
- * @mixes Controls/_propertyGrid/IEditor
+ * @mixes Controls/propertyGrid:IEditor
  * 
  * @public
  * @author Герасимов А.М.
@@ -20,7 +20,7 @@ import StringEditor = require('Controls/_propertyGrid/defaultEditors/String');
  * Editor for multiline string type.
  * @class Controls/_propertyGrid/defaultEditors/Text
  * @extends UI/Base:Control
- * @mixes Controls/_propertyGrid/IEditor
+ * @mixes Controls/propertyGrid:IEditor
  * 
  * @public
  * @author Герасимов А.М.

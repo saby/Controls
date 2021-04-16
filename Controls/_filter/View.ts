@@ -112,7 +112,6 @@ const FILTER_PANEL_POPUP = 'Controls/filterPanelPopup';
  *
  * @class Controls/_filter/View
  * @extends UI/Base:Control
- * @mixes Controls/_filter/interface/IFilterView
  *
  * @public
  * @author Золотова Э.Е.

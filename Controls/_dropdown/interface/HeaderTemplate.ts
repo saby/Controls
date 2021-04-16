@@ -3,7 +3,7 @@
  * @class Controls/dropdown:HeaderTemplate
  * @mixes Controls/interface:ICaption
  * @mixes Controls/interface:IIcon
- * @mixes Controls/_dropdown/interface/IIconSize
+ * @mixes Controls/dropdown:IIconSize
  * @public
  * @author Герасимов А.М.
  * @example
