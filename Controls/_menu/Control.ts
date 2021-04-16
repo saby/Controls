@@ -108,6 +108,9 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             } else {
                 return this._setItems(options.sourceController.getItems(), options);
             }
+        } else if (options.items) {
+            this._getSourceController(options).setItems(options.items);
+            this._setItems(options.items, options);
         } else if (options.source) {
             return this._loadItems(options).then((items) => {
                 this._setItems(items, options);
@@ -914,6 +917,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                 searchParam: null,
                 itemPadding: null,
                 source,
+                items: isLoadedChildItems ? this._options.items : null,
                 subMenuLevel: this._options.subMenuLevel ? this._options.subMenuLevel + 1 : 1,
                 iWantBeWS3: false // FIXME https://online.sbis.ru/opendoc.html?guid=9bd2e071-8306-4808-93a7-0e59829a317a
             };
