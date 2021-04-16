@@ -5565,7 +5565,7 @@ define([
                isEIPDestroyed = true;
             }
          };
-         instance._beforeUpdate({...cfg, filter: {qw: ''}, sourceController: null});
+         instance._beforeUpdate({...cfg, filter: {qw: ''}, loading: true});
          return cancelPromise.then(() => {
             assert.isTrue(isEditingCanceled);
             assert.isFalse(isEIPDestroyed);
@@ -8548,7 +8548,8 @@ define([
                const newCfg = {
                   ...cfg,
                   markedKey: 2,
-                  sourceController
+                  sourceController,
+                  loading: true
                };
                baseControl._beforeUpdate(newCfg);
 
