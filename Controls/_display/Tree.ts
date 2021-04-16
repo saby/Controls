@@ -621,11 +621,11 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         const diff = ArraySimpleValuesUtil.getArrayDifference(this._expandedItems, expandedKeys);
 
         if (diff.removed[0] === null) {
-            this.each((it) => it.Expandable && it.setExpanded(false));
+            this.each((it) => it['[Controls/_display/TreeItem]'] && it.setExpanded(false));
         } else {
             diff.removed.forEach((it) => {
                 const item = this.getItemBySourceKey(it);
-                if (item && item.Expandable) {
+                if (item && item['[Controls/_display/TreeItem]']) {
                     item.setExpanded(false);
                 }
             });
@@ -634,7 +634,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._expandedItems = [...expandedKeys];
         if (expandedKeys[0] === null) {
             const expandAllChildesNodes = (parent) => {
-                if (!parent.Expandable) {
+                if (!parent['[Controls/_display/TreeItem]']) {
                     return;
                 }
 
@@ -650,7 +650,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         } else {
             expandedKeys.forEach((key) => {
                 const item = this.getItemBySourceKey(key);
-                if (item && item.Expandable) {
+                if (item && item['[Controls/_display/TreeItem]']) {
                     // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
                     item.setExpanded(true);
                 }
@@ -667,7 +667,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         const diff = ArraySimpleValuesUtil.getArrayDifference(this._collapsedItems, collapsedKeys);
         diff.removed.forEach((it) => {
             const item = this.getItemBySourceKey(it);
-            if (item && item.Expandable) {
+            if (item && item['[Controls/_display/TreeItem]']) {
                 item.setExpanded(true);
             }
         });
@@ -676,7 +676,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
         collapsedKeys.forEach((key) => {
             const item = this.getItemBySourceKey(key);
-            if (item && item.Expandable) {
+            if (item && item['[Controls/_display/TreeItem]']) {
                 // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
                 item.setExpanded(false);
             }
@@ -688,7 +688,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             return;
         }
 
-        this.getItems().filter((it) => it.Expandable && it.isExpanded()).forEach((it) => {
+        this.getItems().filter((it) => it['[Controls/_display/TreeItem]'] && it.isExpanded()).forEach((it) => {
             if (it['[Controls/_display/TreeItem]']) {
                 it.setExpanded(false);
             }
