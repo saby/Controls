@@ -3719,7 +3719,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     // TODO Необходимо провести рефакторинг механизма подгрузки данных по задаче
     //  https://online.sbis.ru/opendoc.html?guid=8a5f7598-c7c2-4f3e-905f-9b2430c0b996
     protected _loadMore(direction: IDirection): void {
-        if (this._options?.navigation?.view === 'infinity') {
+        if (_private.isInfinityNavigation(this._options?.navigation) || _private.isDemandNavigation(this._options?.navigation)) {
             return _private.loadToDirectionIfNeed(this, direction, this._options.filter);
         }
         return Promise.resolve();

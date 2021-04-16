@@ -1127,7 +1127,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _getMarkedLeaf(key: CrudEntityKey, model): 'first' | 'last' | 'middle' | 'single' {
         const index = model.getIndexByKey(key);
-        const hasNextLeaf = index < model.getCount() - 1;
+        const hasNextLeaf = index < model.getCount() - 1 || model.getHasMoreData();
         let hasPrevLeaf = false;
         for (let i = index - 1; i >= 0; i--) {
             if (model.at(i).isNode() === null || !this._isExpanded(model.at(i), model)) {
@@ -1152,42 +1152,50 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         return new Promise((resolve) => {
             // Это исправляет ошибку плана 0 || null
             const key = this._tempItem === undefined || this._tempItem === null ? this._currentItem : this._tempItem;
-            const item = this.getNextItem(key, listModel);
             const model = listModel || this._listViewModel;
-            const markerController = mController || this.getMarkerController();
-            if (item) {
-                this._tempItem = item.getKey();
-                const dispItem = model.getItemBySourceKey(this._tempItem);
-                if (item.get(this._options.nodeProperty) !== null) {
-                    this._doAfterItemExpanded = () => {
-                        this._doAfterItemExpanded = null;
-                        this.goToNext(model, markerController);
-                    };
-                    if (this._isExpanded(dispItem, model)) {
-                        this._doAfterItemExpanded();
-                        resolve();
-                    } else {
-                        this._scrollToLeafOnDrawItems = true;
-                        const expandResult = this.toggleExpanded(this._tempItem, model);
-                        if (expandResult instanceof Promise) {
-                            expandResult.then(() => {
-                                resolve();
-                            });
-                        } else {
+            const goToNextItem = () => {
+                const item = this.getNextItem(key, model);
+                const markerController = mController || this.getMarkerController();
+                if (item) {
+                    this._tempItem = item.getKey();
+                    const dispItem = model.getItemBySourceKey(this._tempItem);
+                    if (item.get(this._options.nodeProperty) !== null) {
+                        this._doAfterItemExpanded = () => {
+                            this._doAfterItemExpanded = null;
+                            this.goToNext(model, markerController);
+                        };
+                        if (this._isExpanded(dispItem, model)) {
+                            this._doAfterItemExpanded();
                             resolve();
+                        } else {
+                            this._scrollToLeafOnDrawItems = true;
+                            const expandResult = this.toggleExpanded(this._tempItem, model);
+                            if (expandResult instanceof Promise) {
+                                expandResult.then(() => {
+                                    resolve();
+                                });
+                            } else {
+                                resolve();
+                            }
                         }
+                    } else {
+                        const itemKey = this._tempItem;
+                        this._applyMarkedLeaf(this._tempItem, model, markerController);
+                        this._scrollToLeaf = () => {
+                            this.scrollToItem(itemKey, true);
+                        };
+                        resolve();
                     }
                 } else {
-                    const itemKey = this._tempItem;
-                    this._applyMarkedLeaf(this._tempItem, model, markerController);
-                    this._scrollToLeaf = () => {
-                        this.scrollToItem(itemKey, true);
-                    };
+                    this._tempItem = null;
                     resolve();
                 }
+            };
+
+            if (key === model.at(model.getStopIndex() - 1).key) {
+                this._shiftToDirection('down').then(goToNextItem);
             } else {
-                this._tempItem = null;
-                resolve();
+                goToNextItem();
             }
         });
     }
