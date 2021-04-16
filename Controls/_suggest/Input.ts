@@ -157,4 +157,10 @@ Object.defineProperty(Suggest, 'defaultProps', {
  * @name Controls/_suggest/Input#showSelector
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  */
+
+/**
+ * @name Controls/_suggest/Input#fontSize
+ * @demo Controls-demo/Suggest_new/Input/FontSize/Index
+ */
+
 export = Suggest;
