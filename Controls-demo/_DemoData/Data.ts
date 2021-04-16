@@ -16,62 +16,58 @@ export interface IHierarchyData {
     year?: string;
     note?: string;
     hasSubNodes?: boolean;
-    additionalInfo?: object[];
+    characteristics?: object[];
 }
 
-const additionalInfo = [
+const characteristics = [
     [
         {
             icon: 'icon-Actor',
-            title: '1 Текст при наведении',
-            caption: 'Человек'
+            tooltip: '1 Текст при наведении',
+            title: 'Человек'
         },
         {
             icon: 'icon-Bell',
-            title: '2 Текст при наведении',
-            caption: 'Колокол'
+            tooltip: '2 Текст при наведении',
+            title: 'Колокол'
         },
         {
             icon: 'icon-Bike',
-            title: '3 Текст при наведении',
-            caption: 'Велосипед'
+            tooltip: '3 Текст при наведении',
+            title: 'Велосипед'
         },
         {
             icon: 'icon-Admin',
-            title: '4 Текст при наведении',
-            caption: 'Гаечный Ключ'
+            tooltip: '4 Текст при наведении',
+            title: 'Гаечный Ключ'
         },
         {
             icon: 'icon-Android',
-            title: '5 Текст при наведении',
-            caption: 'Андроид'
+            tooltip: '5 Текст при наведении',
+            title: 'Андроид'
         },
         {
             icon: 'icon-Attach',
-            title: '6 Текст при наведении',
-            caption: 'Скрепка'
+            tooltip: '6 Текст при наведении',
+            title: 'Скрепка'
         }
     ],
     [
         {
             icon: 'icon-Actor',
-            iconSize: 's',
-            title: 'Человек'
+            tooltip: 'Человек'
         },
         {
             icon: 'icon-Bell',
-            iconSize: 's',
-            title: 'Колокол'
+            tooltip: 'Колокол'
         },
         {
             icon: 'icon-Bike',
-            iconSize: 's',
-            title: 'Велосипед'
+            tooltip: 'Велосипед'
         },
         {
             icon: 'icon-Love',
-            iconSize: 's',
-            title: 'Сердце'
+            tooltip: 'Сердце'
         }
     ]
 ];
@@ -89,7 +85,7 @@ export const FlatHierarchy = {
                 hasChild: true,
                 hasSubNodes: true,
                 photo: BrandsImages.apple,
-                additionalInfo: additionalInfo[0]
+                characteristics: characteristics[0]
             },
                 {
                     id: 11,
@@ -100,7 +96,7 @@ export const FlatHierarchy = {
                     type: true,
                     hasChild: true,
                     photo: GadgetsImages.mac,
-                    additionalInfo: additionalInfo[1]
+                    characteristics: characteristics[1]
                 },
                     {
                         id: 111,
@@ -120,7 +116,7 @@ export const FlatHierarchy = {
                     type: true,
                     hasChild: true,
                     photo: GadgetsImages.iPad,
-                    additionalInfo: additionalInfo[1]
+                    characteristics: characteristics[1]
                 },
                 {
                     id: 13,
@@ -131,7 +127,7 @@ export const FlatHierarchy = {
                     type: true,
                     hasChild: true,
                     photo: GadgetsImages.iPhone,
-                    additionalInfo: additionalInfo[0]
+                    characteristics: characteristics[0]
                 },
                 {
                     id: 14,

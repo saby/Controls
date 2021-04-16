@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-   <Controls.tileOld:View
+   <Controls.treeTile:View
            displayProperty="title"
            parentProperty="parent"
            nodeProperty="parent@"
@@ -13,7 +13,7 @@
            source="{{_viewSource}}">
       <ws:itemTemplate>
          <ws:partial
-                 template="Controls/tileOld:RichTemplate"
+                 template="Controls/tile:RichTemplate"
                  gradientColor="{{itemTemplate.itemData.item.gradientColor}}"
                  titleLines="{{itemTemplate.itemData.item.titleLines}}"
                  descriptionLines="{{itemTemplate.itemData.item.titleLines}}"
@@ -23,11 +23,11 @@
                  description="{{itemTemplate.itemData.item.description}}"
                  imageProportion="{{itemTemplate.itemData.item.imageProportion}}"
                  imageEffect="gradient"
-                 additionalInfo="{{itemTemplate.itemData.item.additionalInfo}}"
+                 characteristics="{{itemTemplate.itemData.item.characteristics}}"
                  scope="{{itemTemplate}}">
          </ws:partial>
       </ws:itemTemplate>
-   </Controls.tileOld:View>
+   </Controls.treeTile:View>
    <svg class="clip-svg" width="0" height="0">
       <defs>
          <clipPath id="NavigationPanels-Accordion__image_ellipse" clipPathUnits="objectBoundingBox">

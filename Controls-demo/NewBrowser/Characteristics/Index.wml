@@ -62,7 +62,7 @@
                imagePosition="{{itemTemplate.listCfg.imagePosition}}"
                imageViewMode="{{itemTemplate.listCfg.imageViewMode}}"
                imageProperty="{{itemTemplate.listCfg.imageProperty}}"
-               additionalInfo="{{itemTemplate.itemData.item.additionalInfo}}"
+               characteristics="{{itemTemplate.itemData.item.characteristics}}"
             >
                <ws:captionTemplate>
                   <Controls.heading:Title
@@ -93,7 +93,7 @@
                gradientColor="{{tileItemTemplate.tileCfg.getGradientColor(tileItemTemplate.itemData)}}"
                description="{{tileItemTemplate.tileCfg.getDescription(tileItemTemplate.itemData)}}"
                descriptionLines="{{tileItemTemplate.tileCfg.getDescriptionLines(tileItemTemplate.itemData)}}"
-               additionalInfo="{{tileItemTemplate.itemData.item.additionalInfo}}"
+               characteristics="{{tileItemTemplate.itemData.item.characteristics}}"
             />
          </ws:tileItemTemplate>
       </ws:detail>

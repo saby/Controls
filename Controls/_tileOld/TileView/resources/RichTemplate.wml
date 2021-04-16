@@ -29,8 +29,8 @@
                   controls-fontweight-bold"
            title="{{itemData.item[itemData.displayProperty]}}"
            style="-webkit-line-clamp: {{titleLines || 1}};">{{itemData.item[itemData.displayProperty]}}</div>
-      <ws:if data="{{additionalInfo && additionalInfo.length}}">
-          <ws:partial template="Controls/list:AdditionalInfoTemplate" data="{{additionalInfo}}"></ws:partial>
+      <ws:if data="{{characteristics && characteristics.length}}">
+          <ws:partial template="Controls/list:CharacteristicsTemplate" data="{{characteristics}}"/>
       </ws:if>
       <ws:if data="{{description && descriptionLines !== 0}}">
          <div class="controls-TileView__richTemplate_description
