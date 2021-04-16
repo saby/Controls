@@ -1,6 +1,7 @@
 /**
  * Библиотека контролов, которые служат для поддержки навигации, позволяющей  пользователю перейти c текущей страницы/документа на любой уровень вложенности.
  * @library Controls/breadcrumbs
+ * @includes IBreadCrumbs Controls/_breadcrumbs/interface/IBreadCrumbs
  * @author Авраменко А. С.
  */
 

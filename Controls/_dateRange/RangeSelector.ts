@@ -23,15 +23,15 @@ interface IRangeSelector extends IControlOptions, IDateRangeOptions, IBaseSelect
  * @class Controls/_dateRange/RangeSelector
  * @extends UI/Base:Control
  * @mixes Controls/interface:IResetValues
- * @mixes Controls/_dateRange/interfaces/ILinkView
+ * @mixes Controls/dateRange:ILinkView
  * @mixes Controls/dateRange:IDateRange
- * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
+ * @mixes Controls/dateRange:IDatePickerSelectors
  * @mixes Controls/dateRange:IDayTemplate
  * @mixes Controls/dateRange:IDateRangeSelectable
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IFontSize
- * @mixes Controls/_interface/IUnderline
- * @mixes Controls/_interface/IOpenPopup
+ * @mixes Controls/interface:IUnderline
+ * @mixes Controls/interface:IOpenPopup
  * @mixes Controls/dateRange:ICaptionFormatter
  * @mixes Controls/interface:IDateRangeValidators
  *
@@ -45,7 +45,7 @@ interface IRangeSelector extends IControlOptions, IDateRangeOptions, IBaseSelect
  *
  * @class Controls/_dateRange/RangeSelector
  * @extends UI/Base:Control
- * @mixes Controls/_dateRange/interfaces/ILinkView
+ * @mixes Controls/dateRange:ILinkView
  * @mixes Controls/interface:IFontSize
  * @mixes Controls/dateRange:IDateRangeSelectable
  *

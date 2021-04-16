@@ -12,7 +12,7 @@ import IEditor from 'Controls/_propertyGrid/IEditor';
  * 
  * @class Controls/_propertyGrid/defaultEditors/String
  * @extends UI/Base:Control
- * @mixes Controls/_propertyGrid/IEditor
+ * @mixes Controls/propertyGrid:IEditor
  * 
  * @public
  * @author Герасимов А.М.
@@ -22,7 +22,7 @@ import IEditor from 'Controls/_propertyGrid/IEditor';
  * Editor for string type.
  * @class Controls/_propertyGrid/defaultEditors/String
  * @extends UI/Base:Control
- * @mixes Controls/_propertyGrid/IEditor
+ * @mixes Controls/propertyGrid:IEditor
  * 
  * @public
  * @author Герасимов А.М.

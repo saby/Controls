@@ -134,7 +134,7 @@ var _private = {
  *
  * @class Controls/_filter/Button
  * @extends UI/Base:Control
- * @mixes Controls/_filter/interface/IFilterButton
+ * @mixes Controls/filterPopup:IFilterButton
  * @demo Controls-demo/Filter/Button/PanelVDom
  * @deprecated Данный контрол устарел и будет удалён. Вместо него используйте {@link Controls/filter:View}.
  *
@@ -153,7 +153,7 @@ var _private = {
  *
  * @class Controls/_filter/Button
  * @extends UI/Base:Control
- * @mixes Controls/_filter/interface/IFilterButton
+ * @mixes Controls/filterPopup:IFilterButton
  * @demo Controls-demo/Filter/Button/PanelVDom
  * @public
  * @author Герасимов А.М.

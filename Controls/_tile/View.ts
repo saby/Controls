@@ -21,16 +21,16 @@ import TileView = require('./TileView');
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_list/interface/IList
- * @mixes Controls/_itemActions/interface/IItemActionsOptions
+ * @mixes Controls/list:IList
+ * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:IHierarchy
- * @implements Controls/_tree/interface/ITreeControl
- * @mixes Controls/_interface/IDraggable
- * @mixes Controls/_tile/interface/ITile
- * @mixes Controls/_list/interface/IClickableView
- * @mixes Controls/_marker/interface/IMarkerList
+ * @implements Controls/tree:ITreeControl
+ * @mixes Controls/interface:IDraggable
+ * @mixes Controls/tile:ITile
+ * @mixes Controls/list:IClickableView
+ * @mixes Controls/marker:IMarkerList
  *
- * @mixes Controls/_list/interface/IVirtualScrollConfig
+ * @mixes Controls/list:IVirtualScrollConfig
  *
  *
  * @author Авраменко А.С.
@@ -50,17 +50,17 @@ import TileView = require('./TileView');
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_list/interface/IList
- * @mixes Controls/_itemActions/interface/IItemActionsOptions
- * @mixes Controls/_interface/ISorting
+ * @mixes Controls/list:IList
+ * @mixes Controls/itemActions:IItemActions
+ * @mixes Controls/interface:ISorting
  * @mixes Controls/interface:IHierarchy
- * @implements Controls/_tree/interface/ITreeControl
- * @mixes Controls/_interface/IDraggable
+ * @implements Controls/tree:ITreeControl
+ * @mixes Controls/interface:IDraggable
  * @mixes Controls/List/interface/ITile
- * @mixes Controls/_list/interface/IClickableView
- * @mixes Controls/_marker/interface/IMarkerList
+ * @mixes Controls/list:IClickableView
+ * @mixes Controls/marker:IMarkerList
  *
- * @mixes Controls/_list/interface/IVirtualScrollConfig
+ * @mixes Controls/list:IVirtualScrollConfig
  *
  *
  * @author Авраменко А.С.
