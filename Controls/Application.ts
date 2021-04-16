@@ -348,35 +348,22 @@ export default class Application extends Control<IApplication> {
    private _updateBodyClasses(updated?: Partial<IBodyClassesField>): void {
       const BodyAPI = PageBody.getInstance();
       const bodyClassesToUpdate = updated || this._bodyClasses;
-      let oldValue;
-      let newValue;
-      let classesToDelete;
-      let classesToAdd;
+      let classesToDelete = [];
+      let classesToAdd = [];
 
       for (const key in bodyClassesToUpdate) {
          if (bodyClassesToUpdate.hasOwnProperty(key)) {
-            oldValue = this._bodyClasses[key];
-            newValue = bodyClassesToUpdate[key];
-            if (oldValue !== newValue) {
-               classesToAdd = newValue.split(' ').filter(Application._isExist);
-
-               /** Отфильтруем классы для удаления: может нам и не надо ничего удалять, а только добавить? */
-               classesToDelete = oldValue.split(' ')
-                   .filter(Application._isExist)
-                   // eslint-disable-next-line no-loop-func
-                   .filter((value: string) => {
-                      return !classesToAdd.includes(value);
-                   });
-
-               if (classesToDelete.length) {
-                  BodyAPI.removeClass.apply(BodyAPI, classesToDelete);
-               }
-               BodyAPI.addClass.apply(BodyAPI, classesToAdd);
-
-               this._bodyClasses[key] = newValue;
-            }
+            classesToAdd = classesToAdd.concat(bodyClassesToUpdate[key].split(' ').filter(Application._isExist))
+            classesToDelete = classesToDelete.concat(this._bodyClasses[key].split(' ').filter(Application._isExist))
+            this._bodyClasses[key] = bodyClassesToUpdate[key];
          }
       }
+
+      classesToDelete = classesToDelete.filter((value: string) => {
+         return !classesToAdd.includes(value);
+      });
+
+      BodyAPI.replaceClasses(classesToDelete || [], classesToAdd || []);
    }
    private _updateFromOptionsClass(options: IApplication): void {
       this._updateBodyClasses({
