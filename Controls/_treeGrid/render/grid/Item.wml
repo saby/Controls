@@ -1,3 +1,7 @@
+<ws:template name="EXPANDER">
+   <div class="{{ item.getExpanderClasses(item.getExpanderIcon(expanderIcon), item.getExpanderSize(expanderSize)) }}"></div>
+</ws:template>
+
 <ws:template name="COLUMN">
    <div if="{{ gridColumn.shouldDisplayMarker(marker) }}"
         class="{{ gridColumn.getMarkerClasses(theme, style, markerClassName, itemPadding) }}"></div>
@@ -9,7 +13,7 @@
          </ws:for>
       </ws:if>
       <ws:if data="{{ (item || itemData).shouldDisplayExpander(expanderIcon, 'default') }}">
-         <div class="{{(item || itemData).getExpanderClasses((item || itemData).getExpanderIcon(expanderIcon), (item || itemData).getExpanderSize(expanderSize))}}"></div>
+         <ws:partial template="EXPANDER" item="{{ (item || itemData) }}"/>
       </ws:if>
       <ws:else data="{{(item || itemData).shouldDisplayExpanderPadding(expanderIcon, expanderSize)}}">
          <div class="{{(item || itemData).getExpanderPaddingClasses(expanderSize)}}"></div>
@@ -62,9 +66,12 @@
 
          <!-- Экспандер -->
          <ws:if data="{{ item.shouldDisplayExpanderBlock(gridColumn) && item.shouldDisplayExpander(afterContentTemplate.expanderIcon, 'right') }}">
-            <div class="{{item.getExpanderClasses(item.getExpanderIcon(expanderIcon), item.getExpanderSize(expanderSize))}}"></div>
+            <ws:partial template="EXPANDER" item="{{ (item || itemData) }}"/>
          </ws:if>
       </ws:afterContentTemplate>
+      <ws:expanderTemplate>
+         <ws:partial template="EXPANDER" item="{{ (item || itemData) }}"/>
+      </ws:expanderTemplate>
    </ws:partial>
 
    <ws:if data="{{ gridColumn.ItemActionsCell && gridColumn.shouldDisplayItemActions() }}">
