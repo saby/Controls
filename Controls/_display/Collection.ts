@@ -3934,7 +3934,7 @@ Object.assign(Collection.prototype, {
     _$style: 'default',
     _$theme: 'default',
     _$hoverBackgroundStyle: 'default',
-    _$backgroundStyle: null,
+    _$backgroundStyle: 'default',
     _$rowSeparatorSize: null,
     _localize: false,
     _itemModule: 'Controls/display:CollectionItem',

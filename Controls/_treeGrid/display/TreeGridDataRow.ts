@@ -4,6 +4,8 @@ import { IGridRowOptions, GridCell, GridRowMixin, IDisplaySearchValue, IDisplayS
 import TreeGridCollection from './TreeGridCollection';
 import { IColumn } from 'Controls/interface';
 import { Model } from 'Types/entity';
+import ResultsCell from "Controls/_grid/display/ResultsCell";
+import TreeCheckboxCell from "Controls/_treeGrid/display/TreeCheckboxCell";
 
 export interface IOptions<T extends Model> extends IGridRowOptions<T>, ITreeItemOptions<T>, IDisplaySearchValueOptions {
     owner: TreeGridCollection<T>;
@@ -54,6 +56,7 @@ export default class TreeGridDataRow<T extends Model = Model>
 
     setEditing(editing: boolean, editingContents?: T, silent?: boolean): void {
         super.setEditing(editing, editingContents, silent);
+        this.setRowTemplate(editing ? this._$owner.getItemEditorTemplate() : undefined);
         const colspanCallback = this._$owner.getColspanCallback();
         if (colspanCallback) {
             this._reinitializeColumns();
@@ -151,6 +154,14 @@ export default class TreeGridDataRow<T extends Model = Model>
 
     isGroupNode(): boolean {
         return false;
+    }
+
+    protected _initializeColumns(): void {
+        super._initializeColumns({
+            extensionCellsConstructors: {
+                multiSelectCell: TreeCheckboxCell
+            }
+        });
     }
 }
 

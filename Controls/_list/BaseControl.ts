@@ -3719,7 +3719,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     // TODO Необходимо провести рефакторинг механизма подгрузки данных по задаче
     //  https://online.sbis.ru/opendoc.html?guid=8a5f7598-c7c2-4f3e-905f-9b2430c0b996
     protected _loadMore(direction: IDirection): void {
-        if (this._options?.navigation?.view === 'infinity') {
+        if (_private.isInfinityNavigation(this._options?.navigation) || _private.isDemandNavigation(this._options?.navigation)) {
             return _private.loadToDirectionIfNeed(this, direction, this._options.filter);
         }
         return Promise.resolve();
@@ -4038,10 +4038,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.setReloadingState(this, true);
         }
 
-        if (!this.__error && !this._scrollController) {
-            // Создаем заново sourceController после выхода из состояния ошибки
-            _private.createScrollController(self, newOptions);
-        }
         const needReload =
             !this._loadedBySourceController &&
             !isSourceControllerLoadingNow &&
@@ -4207,6 +4203,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
         }
 
+        if (!this.__error && !this._scrollController) {
+            // Создаем заново sourceController после выхода из состояния ошибки
+            _private.createScrollController(self, newOptions);
+        }
         this._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
 
         const groupPropertyChanged = newOptions.groupProperty !== this._options.groupProperty;
