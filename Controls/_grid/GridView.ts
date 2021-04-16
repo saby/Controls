@@ -88,13 +88,13 @@ const GridView = ListView.extend({
         const changedOptions = _Options.getChangedOptions(newOptions, this._options);
 
         if (changedOptions) {
-            if (changedOptions.footer || changedOptions.footerTemplate) {
+            if (changedOptions.hasOwnProperty('footer') || changedOptions.hasOwnProperty('footerTemplate')) {
                 changes.push('footer');
             }
-            if (changedOptions.header) {
+            if (changedOptions.hasOwnProperty('header')) {
                 changes.push('header');
             }
-            if (changedOptions.columns) {
+            if (changedOptions.hasOwnProperty('columns')) {
                 changes.push('columns');
             }
         }
