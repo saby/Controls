@@ -20,14 +20,16 @@ export function getOptionBorderVisibilityTypes(): object {
     };
 }
 
-/**
- * Интерфейс для контролов, которые поддерживают разное количество видимых границ.
- * @public
- * @author Красильников А.С.
- */
 export interface IBorderVisibility {
     readonly '[Controls/interface/IBorderVisibility]': boolean;
 }
+
+/**
+ * Интерфейс для контролов, которые поддерживают разное количество видимых границ.
+ * @interface Controls/_input/interface/IBorderVisibility
+ * @public
+ * @author Красильников А.С.
+ */
 
 /**
  * @typedef {String} Controls/_input/interface/IBorderVisibility/TBorderVisibility
