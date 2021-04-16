@@ -355,7 +355,7 @@ export default class Application extends Control<IApplication> {
          if (bodyClassesToUpdate.hasOwnProperty(key)) {
             classesToAdd = classesToAdd.concat(bodyClassesToUpdate[key].split(' ').filter(Application._isExist))
             classesToDelete = classesToAdd.concat(this._bodyClasses[key].split(' ').filter(Application._isExist))
-            this._bodyClasses[key] = newValue;
+            this._bodyClasses[key] = bodyClassesToUpdate[key];
          }
       }
 
