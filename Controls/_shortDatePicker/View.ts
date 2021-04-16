@@ -188,6 +188,25 @@ class View extends Control<IDateLitePopupOptions> {
             return false;
         }
 
+        // Не будем рисовать кнопку развернуть, при маленьком количестве эллементов
+        if (options.displayedRanges) {
+            const amountOfVisibleItems = options.chooseQuarters && !options.chooseMonths ? 4 : 2;
+            let amountOfDisplayedItems = 0;
+            for (let i = 0; i < this._displayedRanges.length; i++) {
+                const displayedRange = this._displayedRanges[i];
+                const startOfRange = displayedRange[0];
+                const endOfRange = displayedRange[1];
+                if (startOfRange === null || endOfRange === null) {
+                    amountOfDisplayedItems = Infinity;
+                    break;
+                }
+                amountOfDisplayedItems += endOfRange.getFullYear() - startOfRange.getFullYear();
+            }
+            if (amountOfVisibleItems > amountOfDisplayedItems) {
+                return false;
+            }
+        }
+
         if (options.stickyPosition) {
             const openerTop = options.stickyPosition.targetPosition?.top;
             const popupTop = options.stickyPosition.position?.top + Math.abs(options.stickyPosition.margins?.top);

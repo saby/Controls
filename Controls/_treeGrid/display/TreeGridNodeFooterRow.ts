@@ -29,10 +29,10 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
         this._colspan = colspan;
         let columns = super.getColumns();
         if (colspan !== false) {
-            // Сейчас ладдер для футера узла поддержан только для первой ячейки
-            //  TODO переписать когда перепишем колспан для футеров узлов https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
+            // В данный момент поддержан только один сценарий лесенки и футеров узлов: лесенка для первого столбца.
+            // Чтобы поддержать все сценарии нужно переписать nodeFooterTemplate::colspan на Tree::colspanCallback            //  TODO переписать когда перепишем колспан для футеров узлов https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
             if (this.isSupportLadder() && columns[0]['[Controls/_display/StickyLadderCell]']) {
-                columns = columns.slice(0, 2);
+                columns = columns.slice(1, 2);
             } else {
                 columns = columns.slice(0, 1);
             }
@@ -86,14 +86,6 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
         const ladderProperties = this.getOwner().getLadderProperties();
         return ladderProperties && ladderProperties.length;
     }
-
-    // TODO удалить после https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
-    getStickyColumnsCount(): number {
-        return this.getOwner().getStickyColumnsCount();
-    }
-
-    // TODO удалить после https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
-    protected _processStickyLadderCells(): void { }
 }
 
 Object.assign(TreeGridNodeFooterRow.prototype, {

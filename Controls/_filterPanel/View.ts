@@ -41,15 +41,8 @@ import {default as ViewModel} from './View/ViewModel';
  * @demo Controls-demo/filterPanel/View/Index
  */
 
-/**
- * @name Controls/_filterPanel/View#applyButtonCaption
- * @cfg {String} Текст на кнопке применения фильтрации.
- * @demo Controls-demo/filterPanel/View/Index
- */
-
 interface IViewPanelOptions {
     source: IFilterItem[];
-    applyButtonCaption: string;
     collapsedGroups: string[] | number[];
     backgroundStyle: string;
     viewMode: string;
@@ -88,7 +81,7 @@ export default class View extends Control<IViewPanelOptions> {
 
     protected _editingObjectChanged(event: SyntheticEvent, editingObject: Record<string, any>): void {
         this._viewModel.setEditingObject(editingObject);
-        if (!this._options.applyButtonCaption) {
+        if (this._options.viewMode === 'default') {
             this._applyFilter();
         }
     }

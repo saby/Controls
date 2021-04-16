@@ -80,4 +80,18 @@ describe('Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemRow', () => {
          assert.equal(item.getColumnsCount(), 3);
       });
    });
+
+   describe('isRoot', () => {
+      it('can not be root', () => {
+         const item = searchGridCollection.at(0);
+         assert.isFalse(item.isRoot());
+      });
+   });
+
+   describe('isGroupNode', () => {
+      it('can not be group node', () => {
+         const item = searchGridCollection.at(0);
+         assert.isFalse(item.isGroupNode());
+      });
+   });
 });

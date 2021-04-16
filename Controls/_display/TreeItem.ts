@@ -55,6 +55,7 @@ export default class TreeItem<T extends Model = Model> extends mixin<
      * Есть ли дети у узла.
      */
     protected _$hasChildren: boolean;
+    protected _$hasChildrenByRecordSet: boolean;
 
     /**
      * Название свойства, содержащего дочерние элементы узла. Используется для анализа на наличие дочерних элементов.
@@ -204,6 +205,10 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         return this._$hasChildren;
     }
 
+    isHasChildrenByRecordSet(): boolean {
+        return this._$hasChildrenByRecordSet;
+    }
+
     /**
      * Устанавливает признак наличия детей у узла
      */
@@ -264,7 +269,8 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         }
 
         const correctPosition = this.getOwner().getExpanderPosition() === position;
-        return (this._$owner.getExpanderVisibility() === 'visible' || this.isHasChildren()) && correctPosition;
+        const hasChildren = this.getOwner().getHasChildrenProperty() ? this.isHasChildren() : this._$hasChildrenByRecordSet;
+        return (this._$owner.getExpanderVisibility() === 'visible' || hasChildren) && correctPosition;
     }
 
     shouldDisplayExpanderPadding(tmplExpanderIcon?: string, tmplExpanderSize?: string): boolean {
@@ -410,6 +416,7 @@ Object.assign(TreeItem.prototype, {
     _$node: null,
     _$expanded: false,
     _$hasChildren: false,
+    _$hasChildrenByRecordSet: false,
     _$childrenProperty: '',
     _$hasNodeWithChildren: true,
     _instancePrefix: 'tree-item-'

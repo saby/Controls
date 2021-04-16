@@ -177,7 +177,8 @@ describe('Controls/_display/TreeItem', () => {
             const owner = {
                 getExpanderVisibility: () => 'visible',
                 getExpanderIcon: () => undefined,
-                getExpanderPosition: () => expanderPosition
+                getExpanderPosition: () => expanderPosition,
+                getHasChildrenProperty: () => 'hasChildren'
             };
             const item = new TreeItem({ owner, node: true });
 
