@@ -21,19 +21,13 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
             ` controls-Grid__row-checkboxCell_rowSpacingTop_${topPadding}_theme-${theme}`;
 
         if (this._$owner.isEditing()) {
-            const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
             wrapperClasses += ` controls-Grid__row-cell-editing_theme-${theme}`;
-            wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme}`;
-        } else if (templateHighlightOnHover !== false) {
-            wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle}_theme-${theme}`;
         }
+
+        wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(theme, style, templateHighlightOnHover, backgroundColorStyle, hoverBackgroundStyle)}`;
 
         if (this._$owner.hasColumnScroll()) {
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
-        }
-
-        if (backgroundColorStyle) {
-            wrapperClasses += ` controls-background-${backgroundColorStyle || style}_theme-${theme}`;
         }
 
         return wrapperClasses;
