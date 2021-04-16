@@ -131,6 +131,10 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
 
         if (!result) {
             result = this._$colspanBreadcrumbs ? 'end' : 1;
+        } else if (!this._$colspanBreadcrumbs) {
+            // Если colspanBreadcrumbs=false, то это значит что нельзя колспанинить хлебные крошки.
+            // Например, если включен горизонтальный скролл.
+            result = 1;
         }
 
         return result;
