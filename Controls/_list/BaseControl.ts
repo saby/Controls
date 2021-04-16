@@ -4033,11 +4033,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.setReloadingState(this, true);
         }
 
-        if (!this.__error && !this._scrollController) {
-            // Создаем заново sourceController после выхода из состояния ошибки
-            _private.createScrollController(this, newOptions);
-        }
-
         this._prevRootId = this._options.root;
         if (navigationChanged) {
             // При смене страницы, должно закрыться редактирование записи.
@@ -4196,6 +4191,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     _private.prepareFooter(this, newOptions, this._sourceController);
                 }
             }
+        }
+
+        if (!this.__error && !this._scrollController) {
+            // Создаем заново sourceController после выхода из состояния ошибки
+            _private.createScrollController(this, newOptions);
         }
 
         this._needBottomPadding = _private.needBottomPadding(newOptions, this._listViewModel);
