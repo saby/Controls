@@ -1,0 +1,18 @@
+<div class="root controlsDemo_fixedWidth500 {{_options.theme !== 'default' ? ' root__dark_background'}}">
+    <div class="separator">IsMainTab = true</div>
+    <div class="demo-TabButtons ControlsDemo-Tabs__rightAlign">
+        <Controls.tabs:Buttons
+                bind:selectedKey='SelectedKey1'
+                keyProperty="id"
+                items="{{_items1}}"
+        />
+    </div>
+    <div class="separator">IsMainTab = false</div>
+    <div class="demo-TabButtons ControlsDemo-Tabs__mainSeparate">
+        <Controls.tabs:Buttons
+                bind:selectedKey='SelectedKey2'
+                keyProperty="id"
+                items="{{_items2}}"
+        />
+    </div>
+</div>
