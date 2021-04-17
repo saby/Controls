@@ -224,8 +224,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _getMarkerStyle(): string {
-        const isAccentTab = this._activeElement && this._activeElement.hasOwnProperty('isMainTab') &&
-            !this._activeElement.isMainTab;
+        const isAccentTab = this._activeElement && this._activeElement.isMainTab === false;
         if (isAccentTab) {
             return `${this._marker.getAlign()}: ${this._marker.getOffset()}px`;
         } else {
@@ -263,8 +262,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const style = TabsButtons._prepareStyle(options.style);
         this._markerCssClass = `controls-Tabs__marker_style-${style} ` +
             `controls-Tabs__marker_thickness-${options.markerThickness}`;
-        const isAccentTab = this._activeElement && this._activeElement.hasOwnProperty('isMainTab') &&
-            !this._activeElement.isMainTab;
+        const isAccentTab = this._activeElement && this._activeElement.isMainTab === false;
         if (isAccentTab) {
             this._markerCssClass += ' controls-Tabs__markerAccent';
         }
@@ -324,8 +322,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const classes = [];
         const options = this._options;
         const style = TabsButtons._prepareStyle(options.style);
-        const isAccentTab = item.hasOwnProperty('isMainTab') && !item.isMainTab;
-        if (isAccentTab) {
+        if (item.isMainTab === false) {
             classes.push('controls-Tabs__item_state_accent');
         } else {
             if (item[options.keyProperty] === options.selectedKey) {
@@ -356,7 +353,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             // внтри вкладки. Это можно сделать быстрее. Но невозможно анимировано передвигать его между вкладками.
             // Инициализируем и переключимся на другой механизм маркеров после ховера.
             classes.push(`controls-Tabs_style_${style}__item-marker_state_selected`);
-            if (item.hasOwnProperty('isMainTab') && !item.isMainTab) {
+            if (item.isMainTab === false) {
                 classes.push('controls-Tabs__itemClickableArea_markerAccent');
             }
         } else {
