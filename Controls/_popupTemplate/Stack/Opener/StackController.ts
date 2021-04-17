@@ -10,6 +10,7 @@ import {parse as parserLib} from 'Core/library';
 import StackContent = require('Controls/_popupTemplate/Stack/Opener/StackContent');
 import {detection} from 'Env/Env';
 import {Bus} from 'Env/Event';
+import Store from 'Controls/Store';
 
 /**
  * Stack Popup Controller
@@ -279,6 +280,7 @@ class StackController extends BaseController {
     private _getDefaultConfig(item: IPopupItem): void {
         this._prepareSizeWithoutDOM(item);
         this._setStackContent(item);
+        this._setRightPanel(item);
         if (StackStrategy.isMaximizedPanel(item)) {
             // set default values
             item.popupOptions.templateOptions.showMaximizedButton = undefined; // for vdom dirtyChecking
@@ -429,6 +431,10 @@ class StackController extends BaseController {
 
     private _setStackContent(item: IPopupItem): void {
         item.popupOptions.content = StackContent;
+    }
+
+    private _setRightPanel(item: IPopupItem): void {
+        item.popupOptions.rightPanel = Store.get('_stackRightPanel') as string;
     }
 
     private _getDefaultOptions(item: IPopupItem): IPopupOptions {
