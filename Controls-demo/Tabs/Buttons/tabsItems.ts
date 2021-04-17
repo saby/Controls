@@ -13,6 +13,22 @@ export const data = {
             title: 'Orders'
         }
     ]),
+    getIsMainTabItems: () => ([
+        {
+            id: '1',
+            title: 'Document',
+            isMainTab: false
+        },
+        {
+            id: '2',
+            title: 'Files',
+            isMainTab: false
+        },
+        {
+            id: '3',
+            title: 'Orders'
+        }
+    ]),
 
     getCustomItems: () => ([
         {

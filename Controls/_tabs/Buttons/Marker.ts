@@ -17,11 +17,13 @@ interface IPosition {
     left: number;
     right: number;
     align: ALIGN;
+    isMainTab: boolean;
 }
 
 export interface IMarkerElement {
     element: HTMLElement;
     align?: ALIGN;
+    isMainTab?: boolean;
 }
 
 /**
@@ -66,7 +68,8 @@ export default class Marker extends mixin<VersionableMixin>(VersionableMixin) im
                     width: clientRect.width,
                     left: clientRect.left - baseClientRect.left - borderLeftWidth,
                     right: baseClientRect.right - clientRect.right + borderRightWidth,
-                    align: element.align || ALIGN.left
+                    align: element.align || ALIGN.left,
+                    isMainTab: (element.isMainTab === undefined ? true : element.isMainTab)
                 });
             }
             this._nextVersion();
@@ -105,6 +108,10 @@ export default class Marker extends mixin<VersionableMixin>(VersionableMixin) im
      * Возвращает смещение маркера для выбранного в данный момент элемента
      */
     getAlign(): ALIGN {
+        const isMainTab = this._position[this._selectedIndex]?.isMainTab;
+        if (isMainTab !== undefined && !isMainTab) {
+            return ALIGN.left;
+        }
         return this._align !== AUTO_ALIGN.auto ? this._align as ALIGN : this._position[this._selectedIndex]?.align;
     }
 

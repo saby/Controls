@@ -129,5 +129,31 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
      * @demo Controls-demo/Tabs/Buttons/MarkerThickness/Index
      */
     markerThickness?: string;
+    /**
+     * @typedef {String} Controls/_tabs/interface/ITabsButtons/BorderThickness
+     * @variant s
+     * @variant l
+     * @variant null
+     */
+    /**
+     * @name Controls/_tabs/interface/ITabsButtons#borderThickness
+     * @cfg {Controls/_tabs/interface/ITabsButtons/BorderThickness.typedef} Определяет толщину нижней разделительной линии.
+     * @default s
+     * @demo Controls-demo/Tabs/Buttons/BorderThickness/Index
+     */
+    borderThickness?: string;
+
+    /**
+     * @typedef {String} Controls/_tabs/interface/ITabsButtons/HorizontalPadding
+     * @variant xs
+     * @variant null
+     */
+    /**
+     * @name Controls/_tabs/interface/ITabsButtons#horizontalPadding
+     * @cfg {Controls/_tabs/interface/ITabsButtons/HorizontalPadding.typedef} Определяет размер отступов контрола по горизонтали.
+     * @default full
+     * @demo Controls-demo/Tabs/Buttons/HorizontalPadding/Index
+     */
+    horizontalPadding?: string;
     displayProperty?: string;
 }
