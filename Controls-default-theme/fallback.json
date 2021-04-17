@@ -1388,7 +1388,7 @@
   "--master-marker_color_list": "#349CEE",
   "--master_item_background-color_list": "#F8F8F8",
   "--master_item_hover_background-color_list": "#FFFFFF",
-  "--master_item_selected_background-color_list": "var(--master_item_background-color_list)",
+  "--master_item_selected_background-color_list": "#f1f2f5",
   "--master_item_selected_text-color_list": "#D94700",
   "--master_item_font-size_list": "var(--font-size_l)",
   "--master_item_selected_font-size_list": "var(--font-size_l)",

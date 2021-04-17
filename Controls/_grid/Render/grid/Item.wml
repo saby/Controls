@@ -85,7 +85,7 @@
             <ws:for data="column in (item || itemData).getColumns()">
                 <Controls.scroll:StickyHeader position="{{ (item || itemData).getStickyHeaderPosition() }}"
                                               mode="{{ (item || itemData).getStickyHeaderMode() }}"
-                                              backgroundStyle="{{backgroundStyle}}"
+                                              backgroundStyle="{{(itemData.style || style) + '_sticked'}}"
                                               shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
                                               fixedZIndex="{{ column.getZIndex()}}"
                                               attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
