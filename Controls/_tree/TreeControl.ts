@@ -88,6 +88,15 @@ const _private = {
             } else if (!newCollapsedItems.includes(itemKey)) {
                 newCollapsedItems.push(itemKey);
             }
+
+            // удаляем из expandedItems ключи детей свернутого узла
+            const childsOfCollapsedItem = model.getChildren(model.getItemBySourceKey(itemKey));
+            childsOfCollapsedItem.forEach((it) => {
+                const key = it.getContents().getKey();
+                if (newExpandedItems.includes(key)) {
+                    newExpandedItems.splice(newExpandedItems.indexOf(key), 1);
+                }
+            });
         }
 
         if (options.singleExpand) {
@@ -513,7 +522,7 @@ const _private = {
  *
  * @class Controls/_tree/TreeControl
  * @mixes Controls/interface/IEditableList
- * @mixes Controls/_list/interface/IMovableList
+ * @mixes Controls/list:IMovableList
  * @extends Controls/_list/BaseControl
  *
  * @private

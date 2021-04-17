@@ -29,7 +29,7 @@ import 'css!Controls/calendar';
  *
  * @class Controls/_calendar/MonthView
  * @extends UI/Base:Control
- * @mixes Controls/_calendar/interfaces/IMonth
+ * @mixes Controls/calendar:IMonth
  * @mixes Controls/dateRange:IDayTemplate
  *
  * @public

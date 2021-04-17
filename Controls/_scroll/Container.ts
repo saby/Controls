@@ -59,8 +59,8 @@ const DEFAULT_BACKGROUND_STYLE = 'default';
  *
  * @class Controls/_scroll/Container
  * @extends Controls/_scroll/ContainerBase
- * @mixes Controls/_scroll/Container/Interface/IScrollbars
- * @mixes Controls/_scroll/Container/Interface/IShadows
+ * @mixes Controls/scroll:IScrollbars
+ * @mixes Controls/scroll:IShadows
  *
  * @public
  * @author Миронов А.Ю.

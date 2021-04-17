@@ -32,7 +32,7 @@ const SIZES = {
  *
  * @class Controls/_breadcrumbs/HeadingPath
  * @extends UI/Base:Control
- * @mixes Controls/_breadcrumbs/interface/IBreadCrumbs
+ * @mixes Controls/breadcrumbs:IBreadCrumbs
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IFontSize
  * @public
@@ -46,7 +46,7 @@ const SIZES = {
  *
  * @class Controls/_breadcrumbs/HeadingPath
  * @extends UI/Base:Control
- * @mixes Controls/_breadcrumbs/interface/IBreadCrumbs
+ * @mixes Controls/breadcrumbs:IBreadCrumbs
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IFontSize
  * @public
@@ -242,6 +242,11 @@ Object.defineProperty(BreadCrumbsPath, 'defaultProps', {
  * @variant multiline
  * @default default
  * @demo Controls-demo/BreadCrumbs/DisplayMode/Index
+ */
+
+/**
+ * @name Controls/_breadcrumbs/HeadingPath#fontSize
+ * @demo Controls-domo/BreadCrumbs/FontSize/Index
  */
 
 /**
