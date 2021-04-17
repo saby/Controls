@@ -100,7 +100,7 @@
             <Controls.scroll:StickyHeader position="{{ (item || itemData).getStickyHeaderPosition() }}"
                                           mode="{{ (item || itemData).getStickyHeaderMode() }}"
                                           shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
-                                          backgroundStyle="{{ backgroundStyle + '_sticked'}}"
+                                          backgroundStyle="{{ backgroundStyle }}"
                                           fixedZIndex="{{ column.getZIndex()}}"
                                           attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
                                           attr:style="{{ column.getWrapperStyles(containerSize) }}">

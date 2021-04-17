@@ -3,6 +3,7 @@
    <!--https://online.sbis.ru/opendoc.html?guid=e692216c-8a18-4b42-8523-5434d436a502-->
    <div class="controls-StickyHeader
    controls-background-{{ _options.backgroundStyle }}
+   controls-background-{{ _options.backgroundStyle }}_sticked
    controls-background-{{ _options.backgroundStyle }}_theme-{{ _options.theme }}
    controls-StickyHeader_position" style="{{_style + (_options.style || '')}}"
         name="content">
