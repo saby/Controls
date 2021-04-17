@@ -166,7 +166,7 @@ define([
                ' controls-Tabs__item_canShrink',
             expected4 = 'controls-Tabs__item' +
                ' controls-Tabs__item_inlineHeight-s' +
-               ' controls-Tabs_horizontal-padding-xs2' +
+               ' controls-Tabs_horizontal-padding-xs' +
                ' controls-Tabs__item_align_right' +
                ' controls-Tabs__item_extreme' +
                ' controls-Tabs__item_extreme_last' +
