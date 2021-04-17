@@ -1,8 +1,9 @@
 <div class="controls-Tabs controls-Tabs_inlineHeight-{{_options.inlineHeight}}
-            {{_options.borderVisible ? 'controls-Tabs_border-' + _options.markerThickness}}">
+            {{_borderVisible ? 'controls-Tabs_border-' + _borderThickness}}
+            controls-Tabs_horizontal-padding-{{_options.horizontalPadding}}">
     <div class="controls-Tabs-wrapper" on:mouseenter="_mouseEnterHandler()" on:touchstart="_touchStartHandler()">
         <ws:for data="index, item in _itemsArray">
-            <div attr:class="{{_prepareItemClass(item, index)}}"
+            <div attr:class="{{_prepareItemClass(item, index)}} {{_prepareItemMarkerClass(item)}}"
                  attr:style="{{_prepareItemOrder(index)}}"
                  attr:title="{{ item[_options.displayProperty] }}"
                  on:mousedown="_onItemClick(item[_options.keyProperty])">
@@ -15,7 +16,6 @@
                 <div name="Tab{{index}}"
                      class="controls-Tabs__itemClickableArea
                             controls-Tabs__itemClickableArea_inlineHeight-{{_options.inlineHeight}}
-                            {{_prepareItemMarkerClass(item)}}
                             {{_prepareItemTypeClass(item)}}">
                     <ws:partial
                                 class="{{_prepareItemSelectedClass(item)}}"
@@ -59,7 +59,7 @@
     </div>
     <ws:if data="{{_marker.isInitialized()}}">
         <div class="controls-Tabs__marker {{_markerCssClass}}"
-             style="width:{{_marker.getWidth()}}px; {{_marker.getAlign()}}: {{_marker.getOffset()}}px;"
+             attr:style="{{_getMarkerStyle()}}"
              on:transitionend="_transitionEndHandler()"></div>
     </ws:if>
 
