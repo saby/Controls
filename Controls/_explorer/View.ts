@@ -5,7 +5,8 @@ import * as randomId from 'Core/helpers/Number/randomId';
 import {constants} from 'Env/Env';
 import {Logger} from 'UI/Utils';
 import {Model} from 'Types/entity';
-import {IItemPadding, IList, ListView} from 'Controls/list';
+import {IItemPadding, IList} from 'Controls/list';
+import {ViewTemplate as ColumnsViewTemplate} from 'Controls/columns';
 import {isEqual} from 'Types/object';
 import {CrudEntityKey, DataSet, LOCAL_MOVE_POSITION} from 'Types/source';
 import {
@@ -54,19 +55,19 @@ const VIEW_NAMES = {
     search: SearchView,
     tile: null,
     table: TreeGridView,
-    list: ListView
+    list: ColumnsViewTemplate
 };
 const VIEW_TABLE_NAMES = {
     search: SearchViewTable,
     tile: null,
     table: TreeGridViewTable,
-    list: ListView
+    list: ColumnsViewTemplate
 };
 const VIEW_MODEL_CONSTRUCTORS = {
     search: 'Controls/searchBreadcrumbsGrid:SearchGridCollection',
     tile: null,
     table: 'Controls/treeGrid:TreeGridCollection',
-    list: 'Controls/treeGrid:TreeGridCollection'
+    list: 'Controls/columns:ColumnsCollection'
 };
 
 const EXPLORER_CONSTANTS = {

@@ -4,13 +4,8 @@ import Collection from 'Controls/_columns/display/Collection';
 import {Model} from 'Types/entity';
 import CollectionItem from 'Controls/_columns/display/CollectionItem';
 import {scrollToElement} from 'Controls/scroll';
-import {CrudEntityKey} from 'Types/source';
 import {constants} from 'Env/Env';
-
-const SPACING = 12;
-const DEFAULT_MIN_WIDTH = 270;
-const DEFAULT_MAX_WIDTH = 400;
-const DEFAULT_COLUMNS_COUNT = 2;
+import {DEFAULT_MIN_WIDTH, DEFAULT_MAX_WIDTH, DEFAULT_COLUMNS_COUNT} from 'Controls/_columns/Constants';
 
 export interface IColumnsControlOptions extends IBaseControlOptions {
     columnMinWidth: number;
@@ -22,10 +17,13 @@ export interface IColumnsControlOptions extends IBaseControlOptions {
 
 export default class ColumnsControl<TOptions extends IColumnsControlOptions = IColumnsControlOptions> extends BaseControl<TOptions> {
     private _columnsCount: number;
-    private _spacing: number = SPACING;
     protected _listViewModel: Collection<Model>;
 
-    protected _beforeMount(newOptions: TOptions, context?, receivedState: IReceivedState = {}): void | Promise<unknown> {
+    protected _beforeMount(
+        newOptions: TOptions,
+        context?,
+        receivedState: IReceivedState = {}
+        ): void | Promise<unknown> {
         const superMountResult = super._beforeMount(newOptions, context, receivedState);
         if (superMountResult instanceof Promise) {
             superMountResult.then((result) => {
@@ -40,30 +38,21 @@ export default class ColumnsControl<TOptions extends IColumnsControlOptions = IC
 
     protected _afterMount(): void {
         super._afterMount();
-        this._resizeHandler();
     }
 
-    protected _afterItemsSet(options): void {
+    protected _afterItemsSet(options: IColumnsControlOptions): void {
         super._afterItemsSet(options);
         if (options.columnsMode === 'auto' && options.initialWidth) {
-            this._recalculateColumnsCountByWidth(options.initialWidth, options.columnMinWidth);
+            this._listViewModel.setCurrentWidth(options.initialWidth, options.columnMinWidth);
         } else {
-            if (options.columnsCount) {
-                this._columnsCount = options.columnsCount;
-            } else {
-                this._columnsCount = DEFAULT_COLUMNS_COUNT;
-            }
+            this._listViewModel.setColumnsCount(options.columnsCount || DEFAULT_COLUMNS_COUNT);
         }
-        this._listViewModel?.setColumnsCount(this._columnsCount);
     }
 
     protected _beforeUpdate(options: TOptions): void {
         super._beforeUpdate(options);
         if (options.columnsMode === 'fixed' && options.columnsCount !== this._options.columnsCount) {
-            this._columnsCount = options.columnsCount;
             this._listViewModel.setColumnsCount(this._columnsCount);
-        } else {
-            this._resizeHandler();
         }
     }
 
@@ -73,29 +62,6 @@ export default class ColumnsControl<TOptions extends IColumnsControlOptions = IC
 
     protected _isPlainItemsContainer(): boolean {
         return false;
-    }
-
-    protected _viewResize(): void {
-        super._viewResize();
-        this._resizeHandler();
-    }
-
-    protected _resizeHandler(): void {
-        const itemsContainer = this._getItemsContainer();
-        const currentWidth = itemsContainer.getBoundingClientRect().width;
-
-        // если currentWidth === 0, значит контрол скрыт (на вкладке switchbleArea), и не нужно пересчитывать
-        if (this._options.columnsMode === 'auto' && currentWidth > 0) {
-            this._recalculateColumnsCountByWidth(currentWidth, this._options.columnMinWidth);
-        }
-    }
-
-    private _recalculateColumnsCountByWidth(width: number, columnMinWidth: number): void {
-        const newColumnsCount = Math.floor(width / ((columnMinWidth || DEFAULT_MIN_WIDTH) + this._spacing));
-        if (newColumnsCount !== this._columnsCount) {
-            this._columnsCount = newColumnsCount;
-            this._listViewModel.setColumnsCount(this._columnsCount);
-        }
     }
 
     private moveMarker(direction: string): void {

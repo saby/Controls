@@ -5,6 +5,7 @@ import defaultItemTemplate = require('wml!Controls/_columns/render/resources/Ite
 
 import {ListView, IList} from 'Controls/list';
 import Collection from 'Controls/_columns/display/Collection';
+import {DEFAULT_COLUMNS_COUNT, DEFAULT_MAX_WIDTH, DEFAULT_MIN_WIDTH} from '../Constants';
 
 export interface IColumnsRenderOptions extends IList {
     columnMinWidth: number;
@@ -24,8 +25,15 @@ export default class Columns extends ListView {
         super._beforeMount(options);
         this._templateKeyPrefix = 'columns-render';
     }
+
+    protected _afterMount(options: IColumnsRenderOptions): void {
+        super._afterMount(options);
+        this._resizeHandler();
+    }
     protected _resizeHandler(): void {
-        this._notify('controlResize', []);
+        const itemsContainer = this.getItemsContainer();
+        const currentWidth = itemsContainer.getBoundingClientRect().width;
+        this._listModel.setCurrentWidth(currentWidth, this._options.columnMinWidth);
     }
 
     protected _getItemsContainerStyle(): string {
@@ -46,9 +54,14 @@ export default class Columns extends ListView {
         const spacing = this._options.listModel.getSpacing();
         return this._getMinMaxMidthStyle(this._options.columnMinWidth + spacing, this._options.columnMaxWidth + spacing) + `-ms-grid-column: ${index + 1};`
     }
+
     static getDefaultOptions(): Partial<IColumnsRenderOptions> {
         return {
-            itemTemplate: defaultItemTemplate
+            itemTemplate: defaultItemTemplate,
+            columnMinWidth: DEFAULT_MIN_WIDTH,
+            columnMaxWidth: DEFAULT_MAX_WIDTH,
+            columnsMode: 'auto',
+            columnsCount: DEFAULT_COLUMNS_COUNT
         };
     }
 }

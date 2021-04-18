@@ -1,14 +1,16 @@
 <div class="controlsDemo__wrapper">
-        <Controls.explorer:View useOldModel="{{ true }}"
+        <Controls.explorer:View
             source="{{_viewSource}}"
             bind:root="_root"
             attr:class="demo-Explorer ControlsDemo-Explorer"
             backgroundStyle="default"
             keyProperty="id"
+            columnsMode="auto"
+            columnsCount={{2}}
             displayProperty="title"
             parentProperty="parent"
             nodeProperty="parent@"
-            viewMode="{{_viewMode}}"
+            viewMode="{{'list'}}"
             header="{{_gridHeader}}"
             columns="{{_columns}}">
         </Controls.explorer:View>
