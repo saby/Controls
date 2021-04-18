@@ -1,5 +1,5 @@
 <div class="controls-Tabs controls-Tabs_inlineHeight-{{_options.inlineHeight}}
-            {{_borderVisible ? 'controls-Tabs_border-' + _borderThickness}}
+            {{_options.borderVisible !== false ? 'controls-Tabs_border-' + _borderThickness}}
             controls-Tabs_horizontal-padding-{{_options.horizontalPadding}}">
     <div class="controls-Tabs-wrapper" on:mouseenter="_mouseEnterHandler()" on:touchstart="_touchStartHandler()">
         <ws:for data="index, item in _itemsArray">

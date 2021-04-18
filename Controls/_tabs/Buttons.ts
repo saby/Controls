@@ -112,7 +112,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
                            context: object,
                            receivedState: IReceivedState): void | Promise<IReceivedState> {
         this._checkDeprecated(options);
-        this._updateBorderVisibility(options);
         this._updateBorderThickness(options);
 
         if (receivedState) {
@@ -136,9 +135,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _beforeUpdate(newOptions: ITabsOptions): void {
-        if (newOptions.borderVisible !== this._options.borderVisible) {
-            this._updateBorderVisibility(newOptions);
-        }
         if (newOptions.borderThickness !== this._options.borderThickness) {
             this._updateBorderThickness(newOptions);
         }
@@ -171,14 +167,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _checkDeprecated(cfg: ITabsOptions): void {
         if (cfg.borderVisible !== undefined) {
             Logger.warn('Buttons: Option "borderVisible" is deprecated and removed in 20.3000. Use option "borderrThickness".');
-        }
-    }
-
-    protected _updateBorderVisibility(options: ITabsOptions): void {
-        if (options.borderVisible !== undefined) {
-            this._borderVisible = options.borderVisible;
-        } else {
-            this._borderVisible = true;
         }
     }
 
@@ -486,7 +474,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             style: 'primary',
             inlineHeight: 's',
             markerThickness: 'l',
-            borderVisible: true,
             separatorVisible: true,
             displayProperty: 'title',
             horizontalPadding: 'xs'

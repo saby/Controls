@@ -100,9 +100,10 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
     separatorVisible?: boolean;
     /**
      * @name Controls/_tabs/interface/ITabsButtons#borderVisible
-     * @cfg {Boolean} Определяет видимость горизонтальной линии, которая подчеркивает вкладки снизу.
+     * @cfg {Boolean} Определяет видимость горизонтальной линии, которая подчеркивает вкладки снизу. Опция не актуальна, вместо нее стоит использовать borderThickness.
      * @default true
      * @demo Controls-demo/Tabs/Buttons/BorderVisible/Index
+     * @see Controls/_tabs/interface/ITabsButtons#borderThickness
      */
     borderVisible?: boolean;
     /**
