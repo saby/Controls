@@ -1,4 +1,4 @@
-import {IControlOptions, TemplateFunction} from 'UI/_base/Control';
+import {IControlOptions, TemplateFunction} from 'UI/Base';
 import {IFilterItem} from 'Controls/_filter/View/interface/IFilterItem';
 
 export interface IFilterViewOptions extends IControlOptions {
