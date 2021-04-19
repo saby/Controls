@@ -14,7 +14,7 @@ import 'css!Controls/spoiler';
  *
  * @class Controls/_spoiler/Cut
  * @extends UI/Base:Control
- * @implements Controls/_spoiler/interface/ICut
+ * @implements Controls/spoiler:ICut
  * @public
  * @demo Controls-demo/Spoiler/Cut/Index
  *

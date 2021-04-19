@@ -16,7 +16,7 @@ import DateRangeSelectorConsumer from 'Controls/_dateRange/_DateRangeSelectorCon
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IUnderline
  * @mixes Controls/dateRange:ICaptionFormatter
- * @mixes Controls/_dateRange/interfaces/IDateSelector
+ * @mixes Controls/dateRange:IDateSelector
  * @remark
  * Контрол используется для работы с кнопками dateRange:ArrowButtonConsumer, которые двигают период.
  * Стоит использовать контрол только в связке с dateRange:DateRangeContextProvider.
