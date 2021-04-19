@@ -229,6 +229,10 @@ export default class TileView extends ListView {
             viewContainerRect
         );
 
+        if (!targetItemPosition) {
+            return;
+        }
+
         const documentRect = constants.isBrowserPlatform && document.documentElement.getBoundingClientRect();
         const targetItemPositionInDocument = this._listModel.getItemContainerPositionInDocument(
             targetItemPosition,
@@ -390,7 +394,7 @@ export default class TileView extends ListView {
     private _shouldProcessHover(): boolean {
         return (
             !TouchDetect.getInstance().isTouch() &&
-            !document.body.classList.contains('ws-is-drag')
+            !document?.body?.classList?.contains('ws-is-drag')
         );
     }
 
