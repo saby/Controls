@@ -71,7 +71,8 @@ describe('Controls/_display/itemsStrategy/TreeDrag', () => {
          keyProperty: ListData.KEY_PROPERTY,
          parentProperty: ListData.PARENT_PROPERTY,
          nodeProperty: ListData.NODE_PROPERTY,
-         hasChildrenProperty: ListData.HAS_CHILDREN_PROPERTY
+         hasChildrenProperty: ListData.HAS_CHILDREN_PROPERTY,
+         groupProperty: 'group'
       });
       source = getSource(display.getItems());
       strategy = new TreeDrag({
@@ -94,5 +95,11 @@ describe('Controls/_display/itemsStrategy/TreeDrag', () => {
 
       strategy.setPosition({index: 1, position: 'before', dispItem: display.getItemBySourceKey(2)});
       assert.equal(strategy.avatarItem.getParent(), display.getItemBySourceKey(1));
+   });
+
+   it('setPosition on group', () => {
+      strategy.items;
+      strategy.setPosition({index: 1, position: 'before', dispItem: display.getItemBySourceKey(222)});
+      assert.equal(strategy.avatarItem.getParent(), display.getRoot());
    });
 });
