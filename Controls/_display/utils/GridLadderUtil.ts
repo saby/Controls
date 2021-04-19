@@ -72,13 +72,7 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
         // isEqual works with any types
         if (isEqual(value, prevValue) && !hasMainLadder) {
             state.ladderLength++;
-            if (params.hasNodeFooter) {
-                state.ladderLength++;
-            }
         } else {
-            if (params.hasNodeFooter) {
-                state.ladderLength++;
-            }
             params.ladder.ladderLength = state.ladderLength;
             state.ladderLength = 1;
         }
@@ -143,7 +137,6 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
                     state: ladderState[ladderProperties[fIdx]],
                     ladder: ladder[idx][ladderProperties[fIdx]],
                     mainLadder: ladder[idx][ladderProperties[fIdx - 1]],
-                    hasNodeFooter: params.task1181099336 && nodeProperty && item.get && item.get(nodeProperty)
                 });
             }
         }
@@ -163,7 +156,6 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
                     state: stickyLadderState[stickyProperties[fIdx]],
                     ladder: stickyLadder[idx][stickyProperties[fIdx]],
                     mainLadder: stickyLadder[idx][stickyProperties[fIdx - 1]],
-                    hasNodeFooter: params.task1181099336 && nodeProperty && item.get && item.get(nodeProperty)
                 });
             }
         }
