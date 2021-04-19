@@ -299,46 +299,80 @@ export default class _Controller implements IDropdownController {
       });
    }
 
-   private _open(popupOptions?: object): Promise<unknown[]> {
+   private _open(popupOptions: object = {}): Promise<unknown[]> {
       if (this._options.readOnly) {
          return Promise.resolve();
       }
 
       let source;
-      if (popupOptions) {
-         this._popupOptions = popupOptions;
-         if (popupOptions.templateOptions?.source) {
-             source = popupOptions.templateOptions.source;
-             delete popupOptions.templateOptions.source;
-         }
+      this._popupOptions = popupOptions;
+      if (popupOptions.templateOptions?.source) {
+          source = popupOptions.templateOptions.source;
+          delete popupOptions.templateOptions.source;
       }
-      const openPopup = () => {
-         return this._sticky.open(this._getPopupOptions(this._popupOptions));
-      };
+
       if (this._preloadedItems) {
          this._source = this._options.source;
          this._resolveLoadedItems(this._options, this._preloadedItems);
       }
       return this.loadDependencies(!this._preloadedItems, source).then(
           () => {
-             const count = this._items.getCount();
-             if (count > 1 || count === 1 && (this._options.emptyText || this._options.footerContentTemplate)) {
-                this._createMenuSource(this._items);
-                this._isOpened = true;
-                return openPopup();
-             } else if (count === 1) {
-                return Promise.resolve([this._items.at(0)]);
-             }
+             return this._processLoadedItems();
           },
           (error) => {
              // Если не загрузился модуль меню, то просто выводим сообщение о ошибке загрузки
              if (!requirejs.defined('Controls/menu')) {
                 dataSourceError.process({error});
              } else if (this._menuSource) {
-                return openPopup();
+                return this._openSticky();
              }
           }
       );
+   }
+
+   private _openSticky(): void {
+      return this._sticky.open(this._getPopupOptions(this._popupOptions));
+   }
+
+   private _processLoadedItems(): Promise {
+      let result = null;
+      const count = this._items.getCount();
+      const root = this._options.root || this._popupOptions?.templateOptions?.root;
+      const itemRoot = this._items.getRecordById(root);
+      const hasChildrenRoot = this._hasChildrenRoot(root);
+
+      if (!hasChildrenRoot) {
+         result = [itemRoot];
+      } else if (count === 1) {
+         result = [this._items.at(0)];
+      }
+
+      if ((count > 1 ||
+          count === 1 && (this._options.emptyText || this._options.footerContentTemplate)) && hasChildrenRoot) {
+         if (this._options.sourceProperty) {
+            this._popupOptions.templateOptions = {
+               ...this._popupOptions.templateOptions,
+               source: itemRoot.get(this._options.sourceProperty),
+               root: undefined
+            }
+         }
+         this._createMenuSource(this._items);
+         this._isOpened = true;
+         return this._openSticky();
+      } else {
+         return Promise.resolve(result);
+      }
+   }
+
+   private _hasChildrenRoot(root: string): boolean {
+      let result = true;
+      if (root) {
+         const item = this._items.getRecordById(root);
+         const isNode = item.get(this._options.nodeProperty);
+         const hasChildren = this._items.getIndexByValue(this._options.parentProperty, item.getKey()) !== -1;
+         result = isNode && hasChildren;
+      }
+      return result;
    }
 
    private _getLoadItemsPromise(source?: ICrudPlus): Promise<any> {
