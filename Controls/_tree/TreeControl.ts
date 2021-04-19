@@ -11,11 +11,16 @@ import { isEqual } from 'Types/object';
 import { RecordSet } from 'Types/collection';
 import { Model } from 'Types/entity';
 
-import { Direction, TKey } from 'Controls/interface';
+import {Direction, IHierarchyOptions, TKey} from 'Controls/interface';
 import { BaseControl, IBaseControlOptions } from 'Controls/list';
 import { Collection, Tree, TreeItem } from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
-import { NewSourceController as SourceController, NewSourceController } from 'Controls/dataSource';
+import {
+    EXPANDABLE_STATE_KEY_PREFIX,
+    expandableStateUtil,
+    NewSourceController as SourceController,
+    NewSourceController
+} from 'Controls/dataSource';
 import { MouseButtons, MouseUp } from 'Controls/popup';
 import 'css!Controls/list';
 import 'css!Controls/itemActions';
@@ -34,7 +39,7 @@ const DEFAULT_COLUMNS_VALUE = [];
 type TNodeFooterVisibilityCallback = (item: Model) => boolean;
 type TNodeLoadCallback = (list: RecordSet, nodeKey: number | string) => void;
 
-export interface ITreeControlOptions extends IBaseControlOptions {
+export interface ITreeControlOptions extends IBaseControlOptions, IHierarchyOptions {
     parentProperty: string;
     markerMoveMode?;
     root?;
@@ -175,6 +180,8 @@ const _private = {
 
         function doExpand() {
 
+            _private.storeNodeState(self, item, expanded);
+
             // todo: удалить события itemExpand и itemCollapse в 20.2000.
             self._notify(expanded ? 'itemExpand' : 'itemCollapse', [item]);
             if (
@@ -246,6 +253,27 @@ const _private = {
         } else {
             return doExpand().then(expandToFirstLeafIfNeed);
         }
+    },
+
+    storeNodeState(self: TreeControl, item: Model, expanded: boolean): void {
+        if (!self._options.nodeHistoryId) {
+            return;
+        }
+        let expandedItems = _private.getExpandedItems(self, self._options, self._listViewModel.getCollection());
+        const itemKey = item.getKey();
+
+        // TODO нужна эта проверка ?
+        if (expanded && !expandedItems) {
+            expandedItems = [];
+        }
+
+        const expandedNodeIndex = expandedItems.indexOf(itemKey);
+        if (expandedNodeIndex === -1 && expanded) {
+            expandedItems.push(itemKey);
+        } else {
+            expandedItems.splice(expandedNodeIndex, 1);
+        }
+        expandableStateUtil.store(expandedItems, self._options.nodeHistoryId, EXPANDABLE_STATE_KEY_PREFIX.GROUP);
     },
 
     hasInParents(collection: Collection, childKey, stepParentKey): boolean {

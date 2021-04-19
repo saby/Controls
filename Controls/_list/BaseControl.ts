@@ -77,7 +77,7 @@ import {IEditableListOption} from './interface/IEditableList';
 
 import {default as ScrollController, IScrollParams} from './ScrollController';
 
-import {groupUtil} from 'Controls/dataSource';
+import {expandableStateUtil, EXPANDABLE_STATE_KEY_PREFIX} from 'Controls/dataSource';
 import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {IDirection} from './interface/IVirtualScroll';
 import {CssClassList} from './resources/utils/CssClassList';
@@ -2064,12 +2064,14 @@ const _private = {
         self._onItemActionsMenuResult = self._onItemActionsMenuResult.bind(self);
     },
 
-    groupsExpandChangeHandler(self, changes) {
+    groupsExpandChangeHandler(self, changes): void {
         self._notify(changes.changeType === 'expand' ? 'groupExpanded' : 'groupCollapsed', [changes.group], { bubbling: true });
         self._notify('collapsedGroupsChanged', [changes.collapsedGroups]);
         _private.prepareFooter(self, self._options, self._sourceController);
         if (self._options.historyIdCollapsedGroups || self._options.groupHistoryId) {
-            groupUtil.storeCollapsedGroups(changes.collapsedGroups, self._options.historyIdCollapsedGroups || self._options.groupHistoryId);
+            expandableStateUtil.store(changes.collapsedGroups,
+                                      self._options.historyIdCollapsedGroups || self._options.groupHistoryId,
+                                      EXPANDABLE_STATE_KEY_PREFIX.GROUP);
         }
     },
 
