@@ -15,7 +15,7 @@ export interface IArrowButtonOptions extends IControlOptions {
  * @class Controls/_buttons/ArrowButton
  * @extends UI/Base:Control
  * @public
- * @implements Controls/_interface/IIconSize
+ * @implements Controls/interface:IIconSize
  * @author Красильников А.С.
  * @demo Controls-demo/Buttons/ArrowButton/Index
  */
