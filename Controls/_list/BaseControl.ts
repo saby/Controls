@@ -1638,6 +1638,9 @@ const _private = {
         removedItems: Array<CollectionItem<Model>>,
         removedItemsIndex: number
     ): void {
+
+        self._onCollectionChanged && self._onCollectionChanged(event, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex);
+
         // TODO Понять, какое ускорение мы получим, если будем лучше фильтровать
         // изменения по changesType в новой модели
         // TODO: убрать флаг newModelChanged, когда не будет "старой" модели
@@ -3565,6 +3568,17 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
     protected _afterItemsSet(options): void {
         // для переопределения
+    }
+    protected _onCollectionChanged(
+        event: SyntheticEvent,
+        changesType: string,
+        action: string,
+        newItems: Array<CollectionItem<Model>>,
+        newItemsIndex: number,
+        removedItems: Array<CollectionItem<Model>>,
+        removedItemsIndex: number): void {
+        // для переопределения.
+        // отрефакторить по https://online.sbis.ru/opendoc.html?guid=21fbd9de-1f65-4357-bb5a-7ce2b9f67798
     }
 
     _prepareItemsOnMount(self, newOptions, receivedState: IReceivedState = {}): Promise<unknown> | void {
