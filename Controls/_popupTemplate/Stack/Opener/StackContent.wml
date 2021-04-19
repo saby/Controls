@@ -18,4 +18,9 @@
                workspaceWidth="{{_options.workspaceWidth}}"
                stackMinWidth="{{_options.stackMinWidth}}"
                stackMaxWidth="{{_options.stackMaxWidth}}"/>
+   <ws:if data="{{_options.rightPanel}}">
+      <Controls.Container.Async templateName="{{_options.rightPanel}}">
+         <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}"/>
+      </Controls.Container.Async>
+   </ws:if>
 </div>
