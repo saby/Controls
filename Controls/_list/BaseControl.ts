@@ -3186,7 +3186,9 @@ const _private = {
     },
 
     removeHoverEnabledClass(self): void {
-        self._addHoverEnabledClass = false;
+        if (!self._destroyed) {
+            self._addHoverEnabledClass = false;
+        }
     },
 
     getViewUniqueClass(self): string {
@@ -6150,7 +6152,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (hoverFreezeController && itemData.ItemActionsItem) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
-            hoverFreezeController.setDelayedHoverItem(itemKey, itemIndex);
+            hoverFreezeController.setDelayedHoverItem(itemKey, itemIndex, this._listViewModel.getStartIndex());
         }
     }
 
