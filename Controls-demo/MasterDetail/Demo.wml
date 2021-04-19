@@ -4,7 +4,7 @@
       <h3>Ширина мастера может меняться от 200px до 50% контейнера. Начальная ширина 27%. </h3>
       <div class="ws-link controlsDemo__ml1" on:click="_firstHandler()">Set width = 1000</div>
    </div>
-   <Controls.event:Register name="resizeDetect" register="controlResize">
+   <Controls.event:Register name="resizeDetect" register="controlResize" contrastBackground="{{false}}">
       <Controls.masterDetail:Base attr:class="controls-demo_MasterDetail controls-demo_First" attr:style="width: {{_firstBaseWidth}}" masterMinWidth="{{200}}" masterMaxWidth="50%" masterWidth="27%" propStorageId="master111" name="MasterDetailBase">
          <ws:master>
             <div>
@@ -58,7 +58,7 @@
    </Controls.event:Register>
 
    <h3>Ширина мастера может меняться от 200px до 500px. Начальная ширина 27%. </h3>
-   <Controls.masterDetail:Base attr:class="controls-demo_MasterDetail controls-demo_Second"  masterMinWidth="{{200}}" masterMaxWidth="{{500}}" masterWidth="27%" propStorageId="master222">
+   <Controls.masterDetail:Base contrastBackground="{{false}}" attr:class="controls-demo_MasterDetail controls-demo_Second"  masterMinWidth="{{200}}" masterMaxWidth="{{500}}" masterWidth="27%" propStorageId="master222">
       <ws:master>
          <div>
             <div class="controls-demo_MasterDetail_master_search">
@@ -119,7 +119,7 @@
       <div class="ws-link controlsDemo__ml1" on:click="_secondHandlerDecrease()">Set width = 1000</div>
    </div>
    <Controls.event:Register name="resizeDetect1" register="controlResize">
-      <Controls.masterDetail:Base attr:class="controls-demo_MasterDetail controls-demo_Third" attr:style="width: {{_secondBaseWidth}}" propStorageId="master333" masterMinWidth="10%" masterMaxWidth="50%" masterWidth="10%" name="masterDetailBase1">
+      <Controls.masterDetail:Base contrastBackground="{{false}}" attr:class="controls-demo_MasterDetail controls-demo_Third" attr:style="width: {{_secondBaseWidth}}" propStorageId="master333" masterMinWidth="10%" masterMaxWidth="50%" masterWidth="10%" name="masterDetailBase1">
          <ws:master>
 
             <div>
