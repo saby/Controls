@@ -53,7 +53,7 @@
         <div class="controls-Tabs__space
                     controls-Tabs__space_inlineHeight-{{_options.inlineHeight}}">
             <ws:if data="{{ _options.tabSpaceTemplate }}">
-                <ws:partial template="{{_options.tabSpaceTemplate}}" scope="{{_options}}"/>
+                <ws:partial template="{{_options.tabSpaceTemplate}}" scope="{{_options}}" horizontalPadding="{{undefined}}"/>
             </ws:if>
         </div>
     </div>

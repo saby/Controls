@@ -227,6 +227,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _prepareItemClass(item: ITabButtonItem, index: number): string {
         const order: number = this._itemsOrder[index];
         const options: ITabsButtonsOptions = this._options;
+        const horizontalPadding: string = options.horizontalPadding;
         const classes: string[] = ['controls-Tabs__item' +
         ' controls-Tabs__item_inlineHeight-' + options.inlineHeight];
 
@@ -240,11 +241,11 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             classes.push('controls-Tabs__item_extreme');
         }
         if (order === 1) {
-            classes.push('controls-Tabs__item_extreme_first');
+            classes.push(`controls-Tabs__item_extreme_first_horizontalPadding-${horizontalPadding}`);
         } else if (isLastItem) {
-            classes.push('controls-Tabs__item_extreme_last');
+            classes.push(`controls-Tabs__item_extreme_last_horizontalPadding-${horizontalPadding}`);
         } else {
-            classes.push('controls-Tabs__item_default');
+            classes.push(`controls-Tabs__item_default_horizontalPadding-${horizontalPadding}`);
         }
 
         const itemType: string = item.type;
@@ -426,7 +427,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             markerThickness: 'l',
             borderVisible: true,
             separatorVisible: true,
-            displayProperty: 'title'
+            displayProperty: 'title',
+            horizontalPadding: 'm'
         };
     }
 }
