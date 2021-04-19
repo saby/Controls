@@ -28,7 +28,7 @@ const setPropValue = Utils.object.setPropertyValue.bind(Utils);
  *
  * @class Controls/_filterPopup/DetailPanel
  * @extends UI/Base:Control
- * @mixes Controls/_filterPopup/interface/IFilterPanel
+ * @mixes Controls/filterPopup:IFilterButton
  * @public
  * @author Михайлов С.Е.
  *
@@ -50,7 +50,7 @@ const setPropValue = Utils.object.setPropertyValue.bind(Utils);
  *
  * @class Controls/_filterPopup/DetailPanel
  * @extends UI/Base:Control
- * @mixes Controls/_filterPopup/interface/IFilterPanel
+ * @mixes Controls/filterPopup:IFilterButton
  * @demo Controls-demo/Filter_new/DetailPanel/ApplyButtonCaption/Index
  * @public
  * @author Михайлов С.Е.

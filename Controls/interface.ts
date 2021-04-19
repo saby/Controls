@@ -4,6 +4,7 @@
  * @includes ITextValue Controls/_interface/ITextValue
  * @includes ICanBeDefaultOpener Controls/_interface/ICanBeDefaultOpener
  * @includes IContrastBackground Controls/_interface/IContrastBackground
+ * @includes ISeparatorVisible Controls/_interface/ISeparatorVisible
  * @public
  * @author Крайнов Д.О.
  */
