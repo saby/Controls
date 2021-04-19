@@ -20,6 +20,7 @@ describe('Controls/grid_clean/Display/Collection', () => {
         assert.isTrue(!!collection.getFooter());
 
         // В опциях передан только шаблон для футера -> футер должен проинициализироваться
+        const footerTemplate = 'my custom footer template';
         collection = new GridCollection({
             collection: new RecordSet({
                 rawData: [{
@@ -30,8 +31,9 @@ describe('Controls/grid_clean/Display/Collection', () => {
             }),
             keyProperty: 'key',
             columns: [{}],
-            footerTemplate: () => ''
+            footerTemplate
         });
         assert.isTrue(!!collection.getFooter());
+        assert.isTrue(footerTemplate === collection.getFooter().getColumns()[0].getTemplate());
     });
 });
