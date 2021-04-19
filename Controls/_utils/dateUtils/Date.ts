@@ -17,7 +17,7 @@ const MIN_YEAR_VALUE = 1400;
  */
 export function isValidDate(date: Date): boolean {
     // If date is Invalid Date, "instanceof Date" will return true, so check getTime
-    return date instanceof Date && !isNaN(date.getTime()) && (date.getFullYear() > MIN_YEAR_VALUE);
+    return date instanceof Date && !isNaN(date.getTime()) && (date.getFullYear() >= MIN_YEAR_VALUE);
 }
 
 /**
