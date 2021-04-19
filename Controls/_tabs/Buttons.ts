@@ -228,8 +228,11 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const order: number = this._itemsOrder[index];
         const options: ITabsButtonsOptions = this._options;
         const classes: string[] = ['controls-Tabs__item' +
-        ' controls-Tabs__item_inlineHeight-' + options.inlineHeight +
-        ` controls-Tabs_horizontal-padding-${options.horizontalPadding}`];
+        ' controls-Tabs__item_inlineHeight-' + options.inlineHeight];
+
+        if (index === 0) {
+            classes.push(`controls-Tabs_horizontal-padding-${options.horizontalPadding}_first`);
+        }
 
         const itemAlign: string = item.align;
         const align: string = itemAlign ? itemAlign : 'right';
@@ -244,6 +247,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             classes.push('controls-Tabs__item_extreme_first');
         } else if (isLastItem) {
             classes.push('controls-Tabs__item_extreme_last');
+            classes.push(`controls-Tabs_horizontal-padding-${options.horizontalPadding}_last`);
         } else {
             classes.push('controls-Tabs__item_default');
         }

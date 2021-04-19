@@ -137,7 +137,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
     /**
      * @name Controls/_tabs/interface/ITabsButtons#horizontalPadding
      * @cfg {Controls/_tabs/interface/ITabsButtons/HorizontalPadding.typedef} Определяет размер отступов контрола по горизонтали.
-     * @default full
+     * @default xs
      * @demo Controls-demo/Tabs/Buttons/HorizontalPadding/Index
      */
     horizontalPadding?: string;
