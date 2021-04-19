@@ -1,5 +1,6 @@
 {
   "--background-color": "#ffffff",
+  "--unaccented_background-color": "#f8f8f8",
   "--hover_background-color": "#f0f5fb",
   "--danger_color": "#d04d4d",
   "--success_color": "#069922",
@@ -85,6 +86,7 @@
   "--box-shadow-blur_block": "6px",
   "--margin_block": "-6px",
   "--padding_block": "6px",
+  "--background-image": "url(/cdn/OnlineCDN/themes/1.0.0/background.jpg) #dad9e0",
 
 
   "--icon-offset_button": "var(--offset_xs)",
