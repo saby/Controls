@@ -6,6 +6,7 @@
            on:touchend="_touchendHandler()">
          <Controls.event:Register name="resizeDetectMaster" register="controlResize" attr:fixCompatible="1">
             <ws:partial
+               backgroundStyle="{{_options.backgroundStyle || 'master'}}"
                template="{{_options.master}}"
                attr:class="controls-MasterDetail_{{_options.style || 'master'}}-template
                            controls-MasterDetail_{{_options.style || 'master'}}-template-{{_options.contrastBackground ? 'contrast' : 'same'}}"
