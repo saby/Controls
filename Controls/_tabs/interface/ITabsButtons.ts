@@ -129,5 +129,9 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
      * @demo Controls-demo/Tabs/Buttons/MarkerThickness/Index
      */
     markerThickness?: string;
+    /**
+     * @name Controls/_tabs/interface/ITabsButtons#displayProperty
+     * @cfg {String} Устанавливает имя поля элемента, значение которого будет отображено.
+     */
     displayProperty?: string;
 }

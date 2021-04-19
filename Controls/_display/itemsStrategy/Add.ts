@@ -16,7 +16,7 @@ interface IOptions<S extends Model, T extends CollectionItem<S>> {
  * @class Controls/_display/ItemsStrategy/Add
  * @mixes Types/_entity/DestroyableMixin
  * @mixes Types/_entity/SerializableMixin
- * @implements Controls/_display/IItemsStrategy
+ * 
  * @author Родионов Е.А.
  * @private
  */

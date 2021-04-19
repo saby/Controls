@@ -497,10 +497,6 @@ export default abstract class TileItem<T extends Model = Model> {
     }
 
     getImageClasses(itemType: string = 'default', widthTpl?: number, imageAlign: string = 'center', imageViewMode?: string, imageProportion?: number, imagePosition?: string, imageSize?: string, imageFit?: string, imageProportionOnItem?: string): string {
-        const imageRestrictions = this.getImageFit() === 'cover'
-            ? getImageRestrictions(this.getImageHeight(), this.getImageWidth(), this.getTileHeight(), this.getTileWidth(widthTpl))
-            : {};
-
         let classes = '';
 
         switch (itemType) {
@@ -509,6 +505,10 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'medium':
                 classes += ' controls-TileView__image';
                 classes += ` controls-TileView__image_align_${imageAlign} `;
+
+                const imageRestrictions = this.getImageFit() === 'cover'
+                    ? getImageRestrictions(this.getImageHeight(), this.getImageWidth(), this.getTileHeight(), this.getTileWidth(widthTpl))
+                    : {};
                 classes += getImageClasses(this.getImageFit(), imageRestrictions);
                 break;
             case 'small':
@@ -519,7 +519,7 @@ export default abstract class TileItem<T extends Model = Model> {
                 classes += ' controls-TileView__richTemplate_image';
                 classes += ` controls-TileView__richTemplate_image_viewMode_${imageViewMode}`;
 
-                if (imagePosition === 'top' && (imageViewMode === 'rectangle' && imageProportion || imageSize === 'xl')) {
+                if (imagePosition === 'top' && (imageViewMode === 'rectangle' && imageProportion !== 1 || imageSize === 'xl')) {
                     classes += ' controls-TileView__image controls-TileView__image_align_center';
                 }
 

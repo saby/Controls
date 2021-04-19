@@ -17,7 +17,7 @@ interface ITumbler {
  * Контрол используют в качестве редактора кнопочного переключателя.
  * @class Controls/_filterPanel/Editors/Tumbler
  * @extends UI/Base:Control
- * @mixes Controls/_toggle/Tumbler
+ * @mixes Controls/toggle:Tumbler
  * @author Мельникова Е.А.
  * @public
  */
