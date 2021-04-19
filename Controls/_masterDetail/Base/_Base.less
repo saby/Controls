@@ -1,8 +1,5 @@
 .controls-MasterDetail {
    display: flex;
-}
-
-.controls-MasterDetail_master {
    background-color: var(--master_item_background-color_list);
 }
 
@@ -13,29 +10,23 @@
 }
 
 .controls-MasterDetail_master-template {
-   border-right-style: solid;
-   border-right-width: var(--master_separator_thickness_list);
-   box-sizing: border-box;
-}
-
-.controls-MasterDetail_master-template-contrast {
-   border-color: var(--master_separator_contrast-color_list);
+   padding-left: var(--master_item_horizontal-offset_list);
+   padding-right: var(--master_item_horizontal-offset_list);
 }
 
 .controls-MasterDetail_master-template-same {
    border-color: var(--master_separator_color_list);
+   border-right-style: solid;
+   border-right-width: var(--master_separator_thickness_list);
+   box-sizing: border-box;
 }
 
 .controls-MasterDetail_details {
    min-width: 1px;
 }
 
-.controls-MasterDetail_details_bg-contrast {
-   background-color: var(--detail_contrast_background-color_masterDetail);
-}
-
 .controls-MasterDetail_details_bg-same {
-   background-color: var(--detail_background-color_masterDetail);
+   background-color: var(--detail-new_background_masterDetail);
 }
 
 .controls-MasterDetail_resizing-line {
@@ -50,13 +41,7 @@
    // https://online.sbis.ru/opendoc.html?guid=add422e3-ea09-494b-821f-514acab083f1
    z-index: 9999;
 }
-// хлебные крошки перешли на css variable, поэтому добавляем класс без theme.
-// Удалить после перехода на css variable
-.controls-background-master {
-   background-color: var(--master_item_background-color_list);
-}
-// Класс для установки фона контрола через backgroundStyle
-// применяется к хлебным крошкам, группам. Для выбранной застиканной строки стили ниже
+
 .controls-background-master {
    background-color: var(--master_item_background-color_list);
 }
