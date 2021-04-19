@@ -349,11 +349,11 @@ export default abstract class TileItem<T extends Model = Model> {
                 classes += ' controls-TreeTileView__itemActions_center';
                 break;
             case 'medium':
-                classes += ` controls-TileView__mediumTemplate_itemActions`;
+                classes += ' controls-TileView__mediumTemplate_itemActions';
                 classes += ' controls-TileView__itemActions_bottomRight';
                 break;
             case 'rich':
-                classes += ` controls-TileView__richTemplate_itemActions`;
+                classes += ' controls-TileView__richTemplate_itemActions';
                 classes += ' controls-TileView__richTemplate_itemActions controls-TileView__itemActions_topRight';
                 break;
             case 'preview':
@@ -367,6 +367,8 @@ export default abstract class TileItem<T extends Model = Model> {
     getActionMode(itemType: string = 'default'): string {
         if (itemType === 'preview') {
             return 'adaptive';
+        } else if (itemType === 'small') {
+            return 'strict';
         }
 
         return '';
