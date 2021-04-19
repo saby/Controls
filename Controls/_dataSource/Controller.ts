@@ -710,7 +710,7 @@ export default class Controller extends mixin<
         let resultFilter: QueryWhereExpression<unknown>;
 
         if (parentProperty) {
-            return this._resolveExpandedItems(options).then((expandedItems) => {
+            return this._resolveExpandedHierarchyItems(options).then((expandedItems) => {
                 resultFilter = {...initialFilter};
                 const isDeepReload = this._isDeepReload() && root === this._root;
 
@@ -725,7 +725,7 @@ export default class Controller extends mixin<
                     resultFilter[parentProperty] = root;
                 }
 
-                // Учитываем выбранные в multiSelect элементы
+                // Учитываем в запросе выбранные в multiSelect элементы
                 if (options.selectedKeys && options.selectedKeys.length) {
                     import('Controls/operations').then((operations) => {
                         resultFilter.entries = operations.selectionToRecord({
@@ -747,17 +747,17 @@ export default class Controller extends mixin<
      * @param options
      * @private
      */
-    private _resolveExpandedItems(options: IControllerOptions): Promise<CrudEntityKey[]> {
+    private _resolveExpandedHierarchyItems(options: IControllerOptions): Promise<CrudEntityKey[]> {
         const expandedItems = this._expandedItems || options.expandedItems;
-        if (expandedItems && expandedItems.length) {
-            return Promise.resolve(expandedItems);
-        } else if (options.nodeHistoryId) {
+        // Берём из истории только тогда, когда не заданы expandedItems
+        if (!expandedItems && options.nodeHistoryId) {
             return expandableStateUtil
                 .restore(options.nodeHistoryId, EXPANDABLE_STATE_KEY_PREFIX.NODE).then((restored) => {
                     this._expandedItems = restored;
                     return restored;
                 });
         }
+        return Promise.resolve(expandedItems);
     }
 
     private _prepareFilterForQuery(

@@ -273,7 +273,7 @@ const _private = {
         } else {
             expandedItems.splice(expandedNodeIndex, 1);
         }
-        expandableStateUtil.store(expandedItems, self._options.nodeHistoryId, EXPANDABLE_STATE_KEY_PREFIX.GROUP);
+        expandableStateUtil.store(expandedItems, self._options.nodeHistoryId, EXPANDABLE_STATE_KEY_PREFIX.NODE);
     },
 
     hasInParents(collection: Collection, childKey, stepParentKey): boolean {
@@ -597,6 +597,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     options.root !== undefined && options.root !== sourceControllerState.root) {
                     options.sourceController.updateOptions({...options, keyProperty: this._keyProperty});
                 }
+
+                if (this._listViewModel && options.nodeHistoryId && !options.expandedItems) {
+                    this._listViewModel.setExpandedItems(this._sourceController.getExpandedItems());
+                }
             }
         };
         return !superResult ? doBeforeMount() : superResult.then(doBeforeMount);
@@ -778,6 +782,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 sourceController.setExpandedItems(newOptions.expandedItems);
             }
         }
+        // else if (!isEqual(newOptions.nodeHistoryId, this._options.nodeHistoryId) && viewModel) {
+        //     viewModel.setExpandedItems(sourceController.getExpandedItems());
+        // }
 
         if (newOptions.parentProperty !== this._options.parentProperty) {
             updateSourceController = true;
