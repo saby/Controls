@@ -15,11 +15,10 @@ import {adapter} from 'Types/entity';
 import {factory} from 'Types/chain';
 import Marker, {AUTO_ALIGN} from './Buttons/Marker';
 
-import TabButtonsTpl = require('wml!Controls/_tabs/Buttons/Buttons');
-import ItemTemplate = require('wml!Controls/_tabs/Buttons/ItemTemplate');
+import * as TabButtonsTpl from 'wml!Controls/_tabs/Buttons/Buttons';
+import * as ItemTemplate from 'wml!Controls/_tabs/Buttons/ItemTemplate';
 
 import 'css!Controls/tabs';
-
 
 enum ITEM_ALIGN {
     left = 'left',
@@ -29,6 +28,7 @@ enum ITEM_ALIGN {
 interface ITabButtonItem {
     isMainTab?: boolean;
     align?: 'left' | 'right';
+
     [key: string]: any;
 }
 
@@ -125,7 +125,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _afterMount(): void {
-        RegisterUtil(this, 'controlResize', this._resizeHandler, { listenAll: true });
+        RegisterUtil(this, 'controlResize', this._resizeHandler, {listenAll: true});
     }
 
     protected _beforeUpdate(newOptions: ITabsOptions): void {
@@ -149,7 +149,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _beforeUnmount(): void {
-        UnregisterUtil(this, 'controlResize', { listenAll: true });
+        UnregisterUtil(this, 'controlResize', {listenAll: true});
         this._isUnmounted = true;
     }
 
@@ -212,7 +212,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _updateMarkerCssClass(options: ITabsButtonsOptions): void {
         const style = TabsButtons._prepareStyle(options.style);
         this._markerCssClass = `controls-Tabs__marker_style-${style} ` +
-                               `controls-Tabs__marker_thickness-${options.markerThickness}`;
+            `controls-Tabs__marker_thickness-${options.markerThickness}`;
     }
 
     protected _onItemClick(event: SyntheticEvent<MouseEvent>, key: string): void {
@@ -228,7 +228,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const order: number = this._itemsOrder[index];
         const options: ITabsButtonsOptions = this._options;
         const classes: string[] = ['controls-Tabs__item' +
-        ' controls-Tabs__item_inlineHeight-' + options.inlineHeight];
+        ' controls-Tabs__item_inlineHeight-' + options.inlineHeight +
+        ` controls-Tabs_horizontal-padding-${options.horizontalPadding}`];
 
         const itemAlign: string = item.align;
         const align: string = itemAlign ? itemAlign : 'right';
@@ -269,7 +270,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const style = TabsButtons._prepareStyle(options.style);
         if (item[options.keyProperty] === options.selectedKey) {
             classes.push(`controls-Tabs_style_${style}__item_state_selected`);
-            classes.push('controls-Tabs__item_state_selected ' );
+            classes.push('controls-Tabs__item_state_selected ');
         } else {
             classes.push('controls-Tabs__item_state_default');
         }
@@ -426,18 +427,19 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             markerThickness: 'l',
             borderVisible: true,
             separatorVisible: true,
-            displayProperty: 'title'
+            displayProperty: 'title',
+            horizontalPadding: 'xs'
         };
     }
 }
 
 Object.defineProperty(TabsButtons, 'defaultProps', {
-   enumerable: true,
-   configurable: true,
+    enumerable: true,
+    configurable: true,
 
-   get(): object {
-      return TabsButtons.getDefaultOptions();
-   }
+    get(): object {
+        return TabsButtons.getDefaultOptions();
+    }
 });
 
 /**

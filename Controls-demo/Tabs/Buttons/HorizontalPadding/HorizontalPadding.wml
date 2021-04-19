@@ -1,0 +1,20 @@
+<div class="root {{_options.theme !== 'default' ? ' root__dark_background'}}">
+<div class="separator">horizontalPadding = 'xs'</div>
+<div class="controlsDemo__flex">
+    <Controls.tabs:Buttons
+        bind:selectedKey='SelectedKey1'
+        keyProperty="id"
+        horizontalPadding="xs"
+        items="{{_items1}}"
+    />
+</div>
+<div class="separator">horizontalPadding = 'null'</div>
+<div class="controlsDemo__flex">
+    <Controls.tabs:Buttons
+        bind:selectedKey='SelectedKey2'
+        keyProperty="id"
+        horizontalPadding="null"
+        items="{{_items1}}"
+    />
+</div>
+</div>
