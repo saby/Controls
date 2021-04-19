@@ -1,6 +1,7 @@
 import {IText, pasteWithRepositioning} from './Util';
-import {IFormat, IDelimiterGroups, IPairDelimiterData, ISingleDelimiterData} from './FormatBuilder';
-import {parse,  IParsedNumber} from './parse';
+import {IDelimiterGroups, IFormat, IPairDelimiterData, ISingleDelimiterData} from './FormatBuilder';
+import {IParsedNumber, parse} from './parse';
+import {Logger} from 'UI/Utils';
 import rk = require('i18n!Controls');
 
 type TValue = string | number | null;
@@ -8,7 +9,7 @@ type TAbbreviationType = 'none' | 'short' | 'long';
 
 /**
  * Разобрать значение на группы.
- * Успешный рабор будет, только в том случае, если значение полностью подходит формату маски.
+ * Успешный разбор будет, только в том случае, если значение полностью подходит формату маски.
  * @return значения групп.
  */
 export function splitValue(format: IFormat, value: string): string[] {
@@ -20,7 +21,8 @@ export function splitValue(format: IFormat, value: string): string[] {
         });
     }
 
-    throw Error('Значение не соответствует формату маски.');
+    Logger.error('Значение не соответствует формату маски.');
+    return null;
 }
 
 export interface ICleanData {
@@ -36,28 +38,30 @@ export function clearData(format: IFormat, value: string): ICleanData {
     };
     const groups: string[] = splitValue(format, value);
 
-    groups.forEach((groupValue: string, groupIndex: number): void => {
-        // При разборе регулярки можем получить пустое значение, поэтому не обрабатываем его
-        // https://regex101.com/r/KGL2Xa/1
-        if (groupValue === '') {
-            return;
-        }
-        if (groupIndex in format.delimiterGroups) {
-            const delimiterLength: number = format.delimiterGroups[groupIndex].value.length;
-            for (let i = 0; i < delimiterLength; i++) {
-                cleanData.positions.push(currentPosition);
+    if (groups) {
+        groups.forEach((groupValue: string, groupIndex: number): void => {
+            // При разборе регулярки можем получить пустое значение, поэтому не обрабатываем его
+            // https://regex101.com/r/KGL2Xa/1
+            if (groupValue === '') {
+                return;
             }
-        } else {
-            cleanData.value += groupValue;
-            const groupLength: number = groupValue.length;
-            for (let i = 0; i < groupLength; i++) {
-                cleanData.positions.push(currentPosition);
-                currentPosition++;
+            if (groupIndex in format.delimiterGroups) {
+                const delimiterLength: number = format.delimiterGroups[groupIndex].value.length;
+                for (let i = 0; i < delimiterLength; i++) {
+                    cleanData.positions.push(currentPosition);
+                }
+            } else {
+                cleanData.value += groupValue;
+                const groupLength: number = groupValue.length;
+                for (let i = 0; i < groupLength; i++) {
+                    cleanData.positions.push(currentPosition);
+                    currentPosition++;
+                }
             }
-        }
-    });
-
-    return cleanData;
+        });
+        return cleanData;
+    }
+    return null;
 }
 
 interface IRawDelimiters {
@@ -116,37 +120,39 @@ export function formatData(format: IFormat, cleanText: IText): IText {
         ending: null
     };
     const groups: string[] = splitValue(format, cleanText.value);
-    const lastGroupOfKeys: number = indexLastGroupOfKeys(groups, format.delimiterGroups);
+    if (groups) {
+        const lastGroupOfKeys: number = indexLastGroupOfKeys(groups, format.delimiterGroups);
 
-    groups.forEach((groupValue: string, groupIndex: number) => {
-        rawDelimiters.ending = groupIndex > lastGroupOfKeys;
-        if (groupIndex in format.delimiterGroups) {
-            if (groupValue) {
-                text.carriagePosition -= groupValue.length;
+        groups.forEach((groupValue: string, groupIndex: number) => {
+            rawDelimiters.ending = groupIndex > lastGroupOfKeys;
+            if (groupIndex in format.delimiterGroups) {
+                if (groupValue) {
+                    text.carriagePosition -= groupValue.length;
+                }
+                const delimiterType: string = format.delimiterGroups[groupIndex].type;
+
+                if (delimiterType === 'singleDelimiter') {
+                    processingSingleDelimiter(
+                        text, rawDelimiters,
+                        format.delimiterGroups[groupIndex] as ISingleDelimiterData
+                    );
+                } else if (delimiterType === 'pairDelimiter') {
+                    processingPairDelimiter(
+                        text, rawDelimiters,
+                        format.delimiterGroups[groupIndex] as IPairDelimiterData
+                    );
+                }
+            } else {
+                pasteWithRepositioning(text, rawDelimiters.value, text.value.length);
+                text.value += groupValue;
+
+                rawDelimiters.value = '';
+                rawDelimiters.starting = false;
             }
-            const delimiterType: string = format.delimiterGroups[groupIndex].type;
-
-            if (delimiterType === 'singleDelimiter') {
-                processingSingleDelimiter(
-                    text, rawDelimiters,
-                    format.delimiterGroups[groupIndex] as ISingleDelimiterData
-                );
-            } else if (delimiterType === 'pairDelimiter') {
-                processingPairDelimiter(
-                    text, rawDelimiters,
-                    format.delimiterGroups[groupIndex] as IPairDelimiterData
-                );
-            }
-        } else {
-            pasteWithRepositioning(text, rawDelimiters.value, text.value.length);
-            text.value += groupValue;
-
-            rawDelimiters.value = '';
-            rawDelimiters.starting = false;
-        }
-    });
-
-    return text;
+        });
+        return text;
+    }
+    return null;
 }
 
 export function abbreviateNumber(value: TValue, abbreviationType: TAbbreviationType): string {
