@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { TileCollectionItem } from 'Controls/tile';
-import {CssClassesAssert} from "ControlsUnit/CustomAsserts";
+import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
 
 describe('Controls/_tile/display/mixins/TileItem', () => {
     describe('.getImageHeightAttribute', () => {
@@ -19,7 +19,8 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
         describe('rich', () => {
             it('by default', () => {
                 const item = new TileCollectionItem();
-                CssClassesAssert.isSame(item.getImageClasses('rich', undefined, 'rectangle'), 'controls-TileView__richTemplate_image controls-TileView__richTemplate_image_viewMode_rectangle');
+                const result = item.getImageClasses('rich', undefined, 'center', 'rectangle', 1, 'top', 's');
+                CssClassesAssert.isSame(result, 'controls-TileView__richTemplate_image controls-TileView__richTemplate_image_viewMode_rectangle controls-TileView__richTemplate_image_size_s_position_top_viewMode_rectangle controls-TileView__richTemplate_image_size_s_position_top');
             });
 
             it('contains controls-TileView__image', () => {
