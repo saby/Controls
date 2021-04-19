@@ -367,6 +367,10 @@ export default class ControllerClass {
       return this._searchPromise =
           this._sourceController
               .load(undefined, undefined, filter)
+              .catch((error) => {
+                 this._sourceController.setFilter(filter);
+                 return Promise.reject(error);
+              })
               .finally(() => {
                  this._searchEnded();
                  this._searchPromise = null;
