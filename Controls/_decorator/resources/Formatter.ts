@@ -21,7 +21,7 @@ export function splitValue(format: IFormat, value: string): string[] {
         });
     }
 
-    Logger.error('Значение не соответствует формату маски.');
+    Logger.warn('Значение не соответствует формату маски.');
     return null;
 }
 
