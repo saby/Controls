@@ -13,7 +13,7 @@ interface IOpenerStaticMethods {
 /**
  * Базовый хелпер для открытия всплывающих окон.
  * @class Controls/_popup/PopupHelper/Base
- * @implements Controls/_popup/interface/IBaseOpener
+ * @implements Controls/popup:IBaseOpener
  *
  * @author Красильников А.С.
  * @private
