@@ -1,7 +1,8 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/Application/ApplicationWrapper';
 import {constants} from 'Env/Env';
-import 'css!Controls/application';
+import 'css!Controls/Application/Application';
+import 'css!Controls/Application/ApplicationWrapper';
 
 export = class ApplicationWrapper extends Control<IControlOptions> {
    protected _template: TemplateFunction = template;
