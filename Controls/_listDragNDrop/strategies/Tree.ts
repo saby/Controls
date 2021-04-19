@@ -43,7 +43,7 @@ export default class Tree extends Flat<IDraggableTreeItem, IDraggableTreeCollect
 
         const moveTileNodeToLeaves = this._model['[Controls/_tile/TreeTileViewModel]'] && this._draggableItem.isNode()
             && targetItem && !targetItem.isNode();
-        if (targetItem && targetItem.isNode() && !moveTileNodeToLeaves && mouseOffsetInTargetItem) {
+        if (targetItem && targetItem['[Controls/_display/TreeItem]'] && targetItem.isNode() && !moveTileNodeToLeaves && mouseOffsetInTargetItem) {
             result = this._calculatePositionRelativeNode(targetItem, mouseOffsetInTargetItem);
         } else {
             // В плитке нельзя смешивать узлы и листья, если перетаскивают узел в листья, то мы не меняем позицию
