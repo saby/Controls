@@ -67,6 +67,7 @@ export interface IPopupOptions extends IBasePopupOptions {
    id?: string;
    maximize?: boolean;
    content?: Function;
+   rightPanel?: string;
 }
 
 export interface IPopupController {
