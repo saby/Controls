@@ -27,7 +27,8 @@ import {
 } from 'Types/entity';
 import {Logger} from 'UI/Utils';
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
-import {expandableStateUtil, EXPANDABLE_STATE_KEY_PREFIX} from './expandableStateUtil';
+import {default as GroupUtil} from './GroupUtil';
+import {expandableStateUtil} from './expandableStateUtil';
 import {isEqual} from 'Types/object';
 import {mixin} from 'Types/util';
 // @ts-ignore
@@ -751,8 +752,7 @@ export default class Controller extends mixin<
         const expandedItems = this._expandedItems || options.expandedItems;
         // Берём из истории только тогда, когда не заданы expandedItems
         if (!expandedItems && options.nodeHistoryId) {
-            return expandableStateUtil
-                .restore(options.nodeHistoryId, EXPANDABLE_STATE_KEY_PREFIX.NODE).then((restored) => {
+            return expandableStateUtil.restore(options.nodeHistoryId).then((restored) => {
                     this._expandedItems = restored;
                     return restored;
                 });
@@ -965,7 +965,7 @@ export default class Controller extends mixin<
         if (collapsedGroups && collapsedGroups.length) {
             resultFilterPromise = Promise.resolve(getFilterWithCollapsedGroups(collapsedGroups));
         } else if (historyId) {
-            resultFilterPromise = expandableStateUtil.restore(historyId, EXPANDABLE_STATE_KEY_PREFIX.GROUP).then(
+            resultFilterPromise = GroupUtil.restoreCollapsedGroups(historyId).then(
                 (restoredCollapsedGroups?: TArrayGroupId) =>
                     getFilterWithCollapsedGroups(this._collapsedGroups = restoredCollapsedGroups)
             );

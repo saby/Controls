@@ -16,7 +16,6 @@ import { BaseControl, IBaseControlOptions } from 'Controls/list';
 import { Collection, Tree, TreeItem } from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
 import {
-    EXPANDABLE_STATE_KEY_PREFIX,
     expandableStateUtil,
     NewSourceController as SourceController,
     NewSourceController
@@ -273,7 +272,7 @@ const _private = {
         } else {
             expandedItems.splice(expandedNodeIndex, 1);
         }
-        expandableStateUtil.store(expandedItems, self._options.nodeHistoryId, EXPANDABLE_STATE_KEY_PREFIX.NODE);
+        expandableStateUtil.store(expandedItems, self._options.nodeHistoryId);
     },
 
     hasInParents(collection: Collection, childKey, stepParentKey): boolean {
