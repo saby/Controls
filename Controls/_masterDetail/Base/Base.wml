@@ -1,14 +1,13 @@
 <div class="controls-MasterDetail">
    <ws:if data="{{_options.masterVisibility !== 'hidden'}}">
-      <div class="controls-MasterDetail_master " style="width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}"
+      <div class="controls-MasterDetail_master" style="width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}"
            on:touchstart="_touchstartHandler()"
            on:touchmove="_touchMoveHandler()"
            on:touchend="_touchendHandler()">
          <Controls.event:Register name="resizeDetectMaster" register="controlResize" attr:fixCompatible="1">
             <ws:partial
                template="{{_options.master}}"
-               backgroundStyle="master"
-               attr:class="controls-MasterDetail_master-template controls-MasterDetail_{{_options.style || 'master'}}-template
+               attr:class="controls-MasterDetail_{{_options.style || 'master'}}-template
                            controls-MasterDetail_{{_options.style || 'master'}}-template-{{_options.contrastBackground ? 'contrast' : 'same'}}"
                on:selectedMasterValueChanged="_selectedMasterValueChangedHandler()"/>
          </Controls.event:Register>
@@ -24,7 +23,8 @@
    </ws:if>
    <Controls.event:Register name="resizeDetectDetail" register="controlResize" attr:fixCompatible="1">
       <ws:partial
-         attr:class="controls-MasterDetail_details controls-MasterDetail_details_bg-{{_options.contrastBackground ? 'contrast' : 'same'}}"
+         attr:class="controls-MasterDetail_details {{_options.contrastBackground  ? 'controls__block' :
+                     'controls-MasterDetail_details_bg-same'}}"
          template="{{_options.detail}}"
          selectedMasterValue="{{_selected}}"/>
    </Controls.event:Register>
