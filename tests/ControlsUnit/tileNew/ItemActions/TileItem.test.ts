@@ -45,5 +45,10 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
             const item = new TileCollectionItem();
             CssClassesAssert.isSame(item.getItemActionsClasses('preview'), 'controls-TileView__previewTemplate_itemActions');
         });
+
+        it('pass itemActionsClass', () => {
+            const item = new TileCollectionItem();
+            CssClassesAssert.isSame(item.getItemActionsClasses('default', 'customItemActionsClass'), 'customItemActionsClass controls-TileView__itemActions controls-TileView__itemActions_bottomRight');
+        });
     });
 });

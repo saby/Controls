@@ -336,8 +336,8 @@ export default abstract class TileItem<T extends Model = Model> {
         return this.isSwiped() && (this.hasVisibleActions() || this.isEditing());
     }
 
-    getItemActionsClasses(itemType: string = 'default'): string {
-        let classes = '';
+    getItemActionsClasses(itemType: string = 'default', itemActionsClass: string = ''): string {
+        let classes = itemActionsClass;
 
         switch (itemType) {
             case 'default':
