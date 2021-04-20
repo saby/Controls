@@ -202,6 +202,7 @@ export default class RangeSelector extends BaseSelector<IRangeSelector> {
 
 /**
  * @name Controls/_dateRange/RangeSelector#fontSize
+ * @cfg
  * @demo Controls-demo/dateRange/RangeSelector/FontSize/Index
  */
 
