@@ -1,6 +1,7 @@
 <ws:partial template="wml!Controls/_menu/Popup/headerWrapperTemplate" scope="{{_options}}">
    <ws:partial template="{{'Controls/search:InputContainer'}}"
-               attr:class="controls-Menu__popup_header_search
+               attr:class="controls_theme-{{_options.searchHeaderTheme}}
+                           controls-Menu__popup_header_search
                            controls-Menu__popup_header_search_width_{{_options.searchWidth || 's'}}
                            {{_options.multiSelect ? 'controls-Menu__popup_headerSearch-multiSelect'}}">
       <ws:partial template="{{'Controls/search:Input'}}"

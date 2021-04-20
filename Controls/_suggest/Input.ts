@@ -135,7 +135,6 @@ var Suggest = Control.extend({
 Suggest.getOptionTypes = getOptionTypes;
 Suggest.getDefaultOptions = function() {
    return {
-      borderVisibility: 'visible',
       minSearchLength: 3
    };
 };

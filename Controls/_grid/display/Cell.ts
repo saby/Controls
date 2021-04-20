@@ -224,6 +224,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
         }
 
+        wrapperClasses += ' js-controls-ListView__measurableContainer';
+
         return wrapperClasses;
     }
 
@@ -307,8 +309,6 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         if (this.getOwner().isDragged()) {
             contentClasses += ' controls-ListView__itemContent_dragging';
         }
-
-        contentClasses += ' js-controls-ListView__measurableContainer';
 
         return contentClasses;
     }
