@@ -41,7 +41,6 @@
 .controls-itemActionsV_outside {
   right: 0;
   height: var(--height_outside_itemActions);
-  background-color: var(--background-color_outside_itemActions);
    padding-top: var(--offset-top_outside_itemActions);
    padding-right: var(--offset-right_outside_itemActions);
    padding-bottom: var(--offset-bottom_outside_itemActions);
@@ -65,6 +64,14 @@
 
   &.controls-itemActionsV_editingToolbarVisible {
     height: var(--height_editing_outside_itemActions);
+  }
+
+  &.controls-itemActionsV_style_default:before {
+    border-top-color: var(--background-color_itemActions);
+  }
+
+  &.controls-itemActionsV_style_master:before {
+    border-top-color: var(--master_background-color_itemActions);
   }
 }
 

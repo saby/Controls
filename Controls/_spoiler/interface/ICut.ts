@@ -1,4 +1,4 @@
-import {TemplateFunction} from 'UI/_base/Control';
+import {TemplateFunction} from 'UI/Base';
 import {ICutButton} from '../CutButton';
 import {IBackgroundStyleOptions, IExpandableOptions} from 'Controls/interface';
 

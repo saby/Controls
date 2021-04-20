@@ -18,6 +18,7 @@ describe('Controls/grid_clean/Display/Collection', () => {
                     header: [{
                         template: () => 'header'
                     }],
+                    emptyTemplate: 'emptyTemplate',
                     resultsPosition: 'top',
                     rowSeparatorSize: 's'
                 });
@@ -35,6 +36,10 @@ describe('Controls/grid_clean/Display/Collection', () => {
                 let footerItems = gridCollection.getFooter().getColumns();
                 assert.strictEqual(footerItems.length, 1);
 
+                let emptyGridItems = gridCollection.getEmptyGridRow().getColumns();
+                assert.strictEqual(emptyGridItems.length, 1);
+                assert.strictEqual(emptyGridItems[0].getColspan(), 1);
+
                 // setMultiSelectVisibility
                 gridCollection.setMultiSelectVisibility('visible');
 
@@ -51,6 +56,10 @@ describe('Controls/grid_clean/Display/Collection', () => {
 
                 footerItems = gridCollection.getFooter().getColumns();
                 assert.strictEqual(footerItems.length, 2);
+
+                emptyGridItems = gridCollection.getEmptyGridRow().getColumns();
+                assert.strictEqual(emptyGridItems.length, 1);
+                assert.strictEqual(emptyGridItems[0].getColspan(), 2);
             });
 
             it('Initialize with multiSelectVisibility==="visible" and set it to "hidden"', () => {
@@ -67,6 +76,7 @@ describe('Controls/grid_clean/Display/Collection', () => {
                     header: [{
                         template: () => 'header'
                     }],
+                    emptyTemplate: 'emptyTemplate',
                     resultsPosition: 'top',
                     multiSelectVisibility: 'visible',
                     rowSeparatorSize: 's'
@@ -86,6 +96,10 @@ describe('Controls/grid_clean/Display/Collection', () => {
                 let footerItems = gridCollection.getFooter().getColumns();
                 assert.strictEqual(footerItems.length, 2);
 
+                let emptyGridItems = gridCollection.getEmptyGridRow().getColumns();
+                assert.strictEqual(emptyGridItems.length, 1);
+                assert.strictEqual(emptyGridItems[0].getColspan(), 2);
+
                 // setMultiSelectVisibility
                 gridCollection.setMultiSelectVisibility('hidden');
 
@@ -101,6 +115,10 @@ describe('Controls/grid_clean/Display/Collection', () => {
 
                 footerItems = gridCollection.getFooter().getColumns();
                 assert.strictEqual(footerItems.length, 1);
+
+                emptyGridItems = gridCollection.getEmptyGridRow().getColumns();
+                assert.strictEqual(emptyGridItems.length, 1);
+                assert.strictEqual(emptyGridItems[0].getColspan(), 1);
             });
         });
     });

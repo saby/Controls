@@ -1,11 +1,6 @@
 import {IConfirmationFooterOptions} from 'Controls/_popup/interface/IConfirmationFooter';
 import {IControlOptions} from 'UI/Base';
 
-/**
- * Опции интерфейса описаны {@link Controls/_popup/interface/IConfirmationOpener здесь}.
- * @public
- * @author Красильников А.С.
- */
 export interface IConfirmationOptions extends IConfirmationFooterOptions, IControlOptions {
     style?: string;
     size?: string;
@@ -59,7 +54,7 @@ export interface IConfirmationOpener {
  * Метод открытия окна подтверждения.
  * @name Controls/_popup/interface/IConfirmationOpener#open
  * @function
- * @param {Controls/popup:IConfirmationOptions} IConfirmationOptions Конфигурация диалога подтверждения.
+ * @param {Controls/popup:IConfirmationOpener} IConfirmationOptions Конфигурация диалога подтверждения.
  * @returns {Deferred} Результат будет возвращен после того, как пользователь закроет всплывающее окно.
  * @remark
  * 1. Если требуется открыть окно, без создания popup:Confirmation в верстке, следует использовать статический метод {@link openPopup}
@@ -113,7 +108,7 @@ export interface IConfirmationOpener {
  * {@link /doc/platform/developmentapl/interface-development/controls/openers/confirmation/#open-popup Подробнее}.
  * @name Controls/_popup/interface/IConfirmationOpener#openPopup
  * @function
- * @param {Controls/popup:IConfirmationOptions} IConfirmationOptions Конфигурация окна подтверждения
+ * @param {Controls/popup:IConfirmationOpener} IConfirmationOptions Конфигурация окна подтверждения
  * @return {Promise<boolean>} Результат будет возвращен после того, как пользователь закроет всплывающее окно.
  * @static
  * @see open

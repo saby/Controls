@@ -61,7 +61,8 @@
                             multiSelectVisibility="{{ _hasMultiSelect ? 'visible' : 'hidden'}}"
                             columnScroll="{{ true }}"
                             stickyColumnsCount="{{ _isStickyColumnsCount + 1 }}"
-                            columnScrollStartPosition="end">
+                            columnScrollStartPosition="end"
+                            colspanCallback="{{ _colspanCallback }}">
                         <ws:searchBreadCrumbsItemTemplate>
                             <ws:partial template="Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate"
                                         colspan="{{ _canSetConfig ? _colspanBreadcrumbs : undefined }}"/>

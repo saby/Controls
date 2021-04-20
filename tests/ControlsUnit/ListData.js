@@ -20,37 +20,44 @@ define('ControlsUnit/ListData', function() {
             'id': 1,
             'Раздел': null,
             'Раздел@': true,
-            'Раздел$': true
+            'Раздел$': true,
+            'group': 111
          }, {
             'id': 2,
             'Раздел': 1,
             'Раздел@': false,
-            'Раздел$': false
+            'Раздел$': false,
+            'group': 111
          }, {
             'id': 3,
             'Раздел': 2,
             'Раздел@': false,
-            'Раздел$': false
+            'Раздел$': false,
+            'group': 111
          }, {
             'id': 4,
             'Раздел': 2,
             'Раздел@': null,
-            'Раздел$': false
+            'Раздел$': false,
+            'group': 111
          }, {
             'id': 5,
             'Раздел': 1,
             'Раздел@': null,
-            'Раздел$': false
+            'Раздел$': false,
+            'group': 111
          }, {
             'id': 6,
             'Раздел': null,
             'Раздел@': true,
-            'Раздел$': false
+            'Раздел$': false,
+            'group': 111
          }, {
             'id': 7,
             'Раздел': null,
             'Раздел@': null,
-            'Раздел$': false
+            'Раздел$': false,
+            'group': 222
          }];
       },
 

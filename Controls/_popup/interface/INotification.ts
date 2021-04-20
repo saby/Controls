@@ -1,11 +1,6 @@
 import { IOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
 
 
-/**
- * Опции интерфейса описаны {@link Controls/_popup/interface/INotificationOpener здесь}.
- * @public
- * @author Красильников А.С.
- */
 export interface INotificationPopupOptions extends IBasePopupOptions {
     autoClose?: boolean;
 }

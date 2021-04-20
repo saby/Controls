@@ -33,7 +33,7 @@ export interface IMoveControllerOptions {
      */
     parentProperty: string;
     /**
-     * @cfg {Controls/popup:IBasePopupOptions} опции диалога перемещения
+     * @cfg {Controls/popup:IBaseOpener} опции диалога перемещения
      */
     popupOptions?: IBasePopupOptions;
     /**
