@@ -94,17 +94,9 @@ export default class TreeGridCollection<
     setMultiSelectVisibility(visibility: string): void {
         super.setMultiSelectVisibility(visibility);
 
-        if (this.getFooter()) {
-            this.getFooter().setMultiSelectVisibility(visibility);
-        }
-
-        if (this.getResults()) {
-            this.getResults().setMultiSelectVisibility(visibility);
-        }
-
-        if (this.getHeader()) {
-            this.getHeader().setMultiSelectVisibility(visibility);
-        }
+        [this.getColgroup(), this.getHeader(), this.getResults(), this.getFooter(), this.getEmptyGridRow()].forEach((gridUnit) => {
+            gridUnit?.setMultiSelectVisibility(visibility);
+        });
 
         this._$colgroup?.reBuild();
     }
