@@ -704,6 +704,17 @@ define([
          });
       });
 
+      describe('resizeContainerHandler', () => {
+         it('should call resizeHandler if _needUpdateHeadersAfterVisibleChange = true', () => {
+            let stub = sinon.stub(component, 'resizeHandler');
+            component._needUpdateHeadersAfterVisibleChange = true;
+            component.resizeContainerHandler();
+
+            sinon.assert.calledOnce(stub);
+            stub.restore();
+         });
+      });
+
       describe('_resizeObserverCallback', () => {
          it('should push new elements to array of heights', () => {
             const entries = [
