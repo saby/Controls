@@ -19,7 +19,7 @@
                 <ws:if data="{{_options.closeButtonVisibility && !_stackRightPanel}}">
                     <Controls._popupTemplate.CloseButton
                        attr:class="controls-StackTemplate__close_button"
-                       data-qa="controls-Button__close"
+                       data-qa="controls-stack-Button__close"
                        viewMode="{{_options.closeButtonViewMode}}"
                        transparent="{{_options.closeButtonTransparent}}"
                        on:click="close()"/>
@@ -50,7 +50,7 @@
     <ws:if data="{{_stackRightPanel}}">
         <div class="controls-StackTemplate__rightPanel">
             <Controls.buttons:Button
-               data-qa="controls-Button__close"
+               data-qa="controls-stack-Button__close"
                icon="icon-Close"
                iconStyle="secondary"
                buttonStyle="secondary"
