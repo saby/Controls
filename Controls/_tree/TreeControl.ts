@@ -257,14 +257,8 @@ const _private = {
         if (!self._options.nodeHistoryId) {
             return;
         }
-        let expandedItems = _private.getExpandedItems(self, self._options, self._listViewModel.getCollection());
+        const expandedItems = _private.getExpandedItems(self, self._options, self._listViewModel.getCollection()) || [];
         const itemKey = item.getKey();
-
-        // TODO нужна эта проверка ?
-        if (expanded && !expandedItems) {
-            expandedItems = [];
-        }
-
         const expandedNodeIndex = expandedItems.indexOf(itemKey);
         if (expandedNodeIndex === -1 && expanded) {
             expandedItems.push(itemKey);
