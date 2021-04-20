@@ -1,10 +1,10 @@
-import {IFormatMaskChars, getDefaultMaskOptions, FormatBuilder, Formatter} from 'Controls/decorator';
+import {FormatBuilder, Formatter, getDefaultMaskOptions, IFormatMaskChars} from 'Controls/decorator';
 
 const DEFAULT_OPTIONS = getDefaultMaskOptions();
 
 /**
  * Модуль возвращает функцию isFormatValid, которая проверяет соответствие значения формату маски.
- * 
+ *
  * @class Controls/_input/Mask/isFormatValid
  * @author Красильников А.С.
  * @remark
@@ -23,8 +23,7 @@ function isFormatValid(
 ): boolean {
     try {
         const format = FormatBuilder.getFormat(mask, formatMaskChars, replacer);
-        Formatter.splitValue(format, value);
-        return true;
+        return Formatter.splitValue(format, value) !== null;
     } catch {
         return false;
     }
