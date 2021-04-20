@@ -52,10 +52,6 @@ const GridView = ListView.extend({
             this._columnScrollViewController = this._createColumnScroll(options);
         }
 
-        if (options.footerTemplate || options.footer) {
-            this._listModel.setFooter(options.footerTemplate, options.footer, true);
-        }
-
         return result;
     },
 

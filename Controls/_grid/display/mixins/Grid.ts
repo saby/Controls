@@ -195,9 +195,12 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         return this._$emptyGridRow;
     }
 
-    setFooter(footerTemplate: TemplateFunction, footer: TFooter, silent?: boolean): void {
-        if (this.getFooter()) {
-            this.getFooter().setFooter(footerTemplate, footer);
+    setFooter(footerTemplate: TemplateFunction, footer: TFooter): void {
+        const footerModel = this.getFooter();
+
+        if (footerModel) {
+            footerModel.setRowTemplate(footerTemplate);
+            footerModel.setColumns(footer);
         } else {
             this._$footer = this._initializeFooter({
                 multiSelectVisibility: this._$multiSelectVisibility,
@@ -206,9 +209,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 columnSeparatorSize: this._$columnSeparatorSize
             });
         }
-        if (!silent) {
-            this._nextVersion();
-        }
+
+        this._nextVersion();
     }
 
     getFooter(): FooterRow<S> {
