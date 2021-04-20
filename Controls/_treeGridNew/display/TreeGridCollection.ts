@@ -17,6 +17,7 @@ import TreeGridFooterRow from './TreeGridFooterRow';
 import {Model as EntityModel, Model} from 'Types/entity';
 import TreeGridNodeFooterRow from './TreeGridNodeFooterRow';
 import {TemplateFunction} from "UI/Base";
+import {IObservable} from 'Types/collection';
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {}
@@ -127,12 +128,21 @@ export default class TreeGridCollection<
         this._updateItemsColumns();
     }
 
-    protected _handleAfterCollectionChange(): void {
-        super._handleAfterCollectionChange();
+    protected _handleAfterCollectionChange(changedItems: TreeGridDataRow[], changeAction?: string): void {
+        super._handleAfterCollectionChange(changedItems, changeAction);
         if (GridLadderUtil.isSupportLadder(this._$ladderProperties)) {
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
+
+        // Сбрасываем модель заголовка если его видимость зависит от наличия данных и текущее действие
+        // это смена записей.
+        // При headerVisibility === 'visible' вроде как пока не требуется перерисовывать заголовок, т.к.
+        // он есть всегда. Но если потребуется, то нужно поправить это условие
+        if (this._$headerVisibility === 'hasdata' && changeAction === IObservable.ACTION_RESET) {
+            this._$headerModel = null;
+        }
+
         this._$results = null;
     }
 
@@ -158,6 +168,16 @@ export default class TreeGridCollection<
             this._$headerModel = null;
         }
         this._nextVersion();
+    }
+
+    protected _removeItems(start: number, count?: number): T[] {
+        const result = super._removeItems(start, count);
+
+        if (this._$headerModel && !this._headerIsVisible(this._$header)) {
+            this._$headerModel = null;
+        }
+
+        return result;
     }
 
     // endregion
