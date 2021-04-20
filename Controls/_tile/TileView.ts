@@ -229,6 +229,11 @@ export default class TileView extends ListView {
             viewContainerRect
         );
 
+        // Если один из параметров позиции посчитается отрицательным, то позиция не корректна и возвращается null
+        if (!targetItemPosition) {
+            return;
+        }
+
         const documentRect = constants.isBrowserPlatform && document.documentElement.getBoundingClientRect();
         const targetItemPositionInDocument = this._listModel.getItemContainerPositionInDocument(
             targetItemPosition,
@@ -388,9 +393,10 @@ export default class TileView extends ListView {
     // TODO Нужен синглтон, который говорит, идет ли сейчас перетаскивание
     // https://online.sbis.ru/opendoc.html?guid=a838cfd3-a49b-43a8-821a-838c1344288b
     private _shouldProcessHover(): boolean {
+        // document не инициализирован в юнит тестах
         return (
             !TouchDetect.getInstance().isTouch() &&
-            !document.body.classList.contains('ws-is-drag')
+            !document?.body?.classList?.contains('ws-is-drag')
         );
     }
 
