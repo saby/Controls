@@ -4,8 +4,13 @@ import BreadcrumbsItemRow from 'Controls/_searchBreadcrumbsGrid/display/Breadcru
 import { TemplateFunction } from 'UI/Base';
 
 export default class BreadcrumbsItemCell<S extends Model, TOwner extends BreadcrumbsItemRow<S>> extends GridDataCell<any, any> {
-   getTemplate(): TemplateFunction|string {
-      return this.getOwner().getCellTemplate();
+   getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {
+      // Только в первой ячейке отображаем хлебную крошку
+      if (this.isFirstColumn() || this.getOwner().hasMultiSelectColumn() && this.getColumnIndex() === 1) {
+         return this.getOwner().getCellTemplate();
+      } else {
+         return super.getTemplate(multiSelectTemplate);
+      }
    }
 
    getSearchValue(): string {
@@ -20,27 +25,33 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
       return this.getOwner().getKeyProperty();
    }
 
-   getDisplayProperty(): string {
-      return this.getOwner().getDisplayProperty();
-   }
-
    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
       return super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover)
          + ' controls-TreeGrid__row__searchBreadCrumbs js-controls-ListView__notEditable';
    }
 
    getContentClasses(theme: string, style: string = 'default'): string {
-      let classes = 'controls-Grid__row-cell__content_colspaned ';
+      // Только в первой ячейке выводятся хлебные крошки
+      if (this.isFirstColumn() || this.getOwner().hasMultiSelectColumn() && this.getColumnIndex() === 1) {
+         let classes = 'controls-Grid__row-cell__content_colspaned ';
 
-      if (!this.getOwner().hasMultiSelectColumn()) {
-         classes += `controls-Grid__cell_spacingFirstCol_${this.getOwner().getLeftPadding()} `;
+         if (!this.getOwner().hasMultiSelectColumn()) {
+            classes += `controls-Grid__cell_spacingFirstCol_${this.getOwner().getLeftPadding()} `;
+         }
+
+         classes += `controls-Grid__row-cell_rowSpacingTop_${this.getOwner().getTopPadding()} `;
+         classes += `controls-Grid__row-cell_rowSpacingBottom_${this.getOwner().getBottomPadding()} `;
+
+         if (this.isLastColumn()) {
+            classes += `controls-Grid__cell_spacingLastCol_${this.getOwner().getRightPadding()} `;
+         } else {
+            classes += ' controls-Grid__cell_spacingRight';
+         }
+
+         return classes;
+      } else {
+         return super.getContentClasses(theme, style);
       }
-
-      classes += `controls-Grid__cell_spacingLastCol_${this.getOwner().getRightPadding()} `;
-      classes += `controls-Grid__row-cell_rowSpacingTop_${this.getOwner().getTopPadding()} `;
-      classes += `controls-Grid__row-cell_rowSpacingBottom_${this.getOwner().getBottomPadding()} `;
-
-      return classes;
    }
 
    shouldDisplayEditArrow(contentTemplate?: TemplateFunction): boolean {
