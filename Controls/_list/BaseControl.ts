@@ -77,7 +77,7 @@ import {IEditableListOption} from './interface/IEditableList';
 
 import {default as ScrollController, IScrollParams} from './ScrollController';
 
-import {GroupUtil} from 'Controls/dataSource';
+import {groupUtil} from 'Controls/dataSource';
 import {IDirection} from './interface/IVirtualScroll';
 import {CssClassList} from './resources/utils/CssClassList';
 import {
@@ -2068,7 +2068,7 @@ const _private = {
         self._notify('collapsedGroupsChanged', [changes.collapsedGroups]);
         _private.prepareFooter(self, self._options, self._sourceController);
         if (self._options.historyIdCollapsedGroups || self._options.groupHistoryId) {
-            GroupUtil.storeCollapsedGroups(changes.collapsedGroups, self._options.historyIdCollapsedGroups || self._options.groupHistoryId);
+            groupUtil.storeCollapsedGroups(changes.collapsedGroups, self._options.historyIdCollapsedGroups || self._options.groupHistoryId);
         }
     },
 
