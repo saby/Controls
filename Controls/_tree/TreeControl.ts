@@ -1043,6 +1043,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         newItemsIndex: number,
         removedItems: Array<CollectionItem<Model>>,
         removedItemsIndex: number): void {
+        
+        super._onCollectionChanged.apply(this, arguments);
+
         if (action === 'rs') {
             if (this._options.markerMoveMode === 'leaves') {
                 const markerController = this.getMarkerController();

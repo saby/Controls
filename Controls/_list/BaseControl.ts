@@ -1639,8 +1639,6 @@ const _private = {
         removedItemsIndex: number
     ): void {
 
-        self._onCollectionChanged && self._onCollectionChanged(event, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex);
-
         // TODO Понять, какое ускорение мы получим, если будем лучше фильтровать
         // изменения по changesType в новой модели
         // TODO: убрать флаг newModelChanged, когда не будет "старой" модели
@@ -1857,10 +1855,9 @@ const _private = {
     initListViewModelHandler(self, model, useNewModel: boolean) {
         if (useNewModel) {
             model.subscribe('onCollectionChange', (...args: any[]) => {
-                _private.onCollectionChanged.apply(
+                self._onCollectionChanged.apply(
                     null,
                     [
-                        self,
                         args[0], // event
                         null, // changes type
                         ...args.slice(1) // the rest of the arguments
@@ -1879,7 +1876,7 @@ const _private = {
                 );
             });
         } else {
-            model.subscribe('onListChange', _private.onCollectionChanged.bind(null, self));
+            model.subscribe('onListChange', self._onCollectionChanged.bind(self));
             model.subscribe('onAfterCollectionChange', _private.onAfterCollectionChanged.bind(null, self));
         }
 
@@ -3577,8 +3574,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         newItemsIndex: number,
         removedItems: Array<CollectionItem<Model>>,
         removedItemsIndex: number): void {
-        // для переопределения.
-        // отрефакторить по https://online.sbis.ru/opendoc.html?guid=21fbd9de-1f65-4357-bb5a-7ce2b9f67798
+        _private.onCollectionChanged(this, event, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex);
     }
 
     _prepareItemsOnMount(self, newOptions, receivedState: IReceivedState = {}): Promise<unknown> | void {
