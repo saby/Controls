@@ -682,19 +682,24 @@ class StickyHeaderController {
                         if (!this._isLastIndex(this._headersStack[position], i)) {
                             const nextHeaderId = this._headersStack[position][i + 1];
                             nextHeader = this._headers[nextHeaderId];
-                            for (let j = 0; j <= i; j++) {
+                            for (let j = i; j >= 0; j--) {
                                 prevHeader = this._headers[this._headersStack[position][j]];
                                 parentElementOfPrevHeader = prevHeader.inst.getHeaderContainer().parentElement;
                                 parentElementOfNextHeader = nextHeader.inst.getHeaderContainer().parentElement;
                                 while (parentElementOfNextHeader !== parentElementOfPrevHeader && parentElementOfNextHeader !== document.body) {
                                     parentElementOfNextHeader = parentElementOfNextHeader.parentElement;
                                 }
+                                const height: number = header.inst.height + header.inst.offsetTop;
                                 if (parentElementOfNextHeader === parentElementOfPrevHeader) {
-                                    const height: number = header.inst.height + header.inst.offsetTop;
                                     // Сохраним высоты по которым рассчитали позицию заголовков,
                                     // что бы при последующих изменениях понимать, надо ли пересчитывать их позиции.
                                     this._updateElementsHeight(header.inst.getHeaderContainer(), height);
                                     return offset + height;
+                                } else if (j > 0) {
+                                    // Бывают ситуации, когда какие-то из предыдущих заголовков могут находиться
+                                    // в контейнерах, которые не являются родительским для текущего.
+                                    // Значит нужно их не учитывать в смещении.
+                                    offset -= height;
                                 }
                             }
                             return 0;
