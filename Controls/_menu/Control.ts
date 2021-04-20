@@ -111,9 +111,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             } else {
                 return this._setItems(options.sourceController.getItems(), options);
             }
-        } else if (options.items) {
-            this._getSourceController(options).setItems(options.items);
-            this._setItems(options.items, options);
         } else if (options.source) {
             return this._loadItems(options).then((items) => {
                 this._setItems(items, options);
