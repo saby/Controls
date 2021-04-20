@@ -386,7 +386,7 @@ class StickyHeaderController {
             const header = this._headers[headerId];
             if (this._fixedHeadersStack[position].includes(headerId) &&
                 header.inst.shadowVisibility !== SHADOW_VISIBILITY.hidden &&
-                !isHidden(header.container)) {
+                !isHidden(header.inst.getHeaderContainer())) {
                 headerWithShadow = headerId;
                 if (this._headers[headerId].mode === 'replaceable') {
                     break;
