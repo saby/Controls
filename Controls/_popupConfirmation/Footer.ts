@@ -13,7 +13,7 @@ export interface IFooterOptions extends IControlOptions, IConfirmationFooterOpti
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_popupTemplate.less переменные тем оформления}
  *
  * @class Controls/_popupConfirmation/Footer
- * @implements Controls/_popup/interface/IConfirmationFooter
+ * @implements Controls/popupConfirmation:IConfirmationFooter
  * @extends UI/Base:Control
  *
  * @public

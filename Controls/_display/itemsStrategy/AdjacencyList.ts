@@ -218,7 +218,7 @@ function buildTreeIndex<T>(options: ITreeIndexOptions<T>, parentIndex?: number):
  * @class Controls/_display/ItemsStrategy/AdjacencyList
  * @mixes Types/_entity/DestroyableMixin
  * @mixes Types/_entity/SerializableMixin
- * @implements Controls/_display/IItemsStrategy
+ * 
  * @author Мальцев А.А.
  * @private
  */
