@@ -329,6 +329,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             columns: this._$emptyTemplateColumns,
             rowTemplate: this._$emptyTemplate,
             rowTemplateOptions: this._$emptyTemplateOptions,
+            multiSelectVisibility: this._$multiSelectVisibility
         });
     }
 
