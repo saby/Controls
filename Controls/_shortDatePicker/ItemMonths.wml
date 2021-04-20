@@ -9,6 +9,7 @@
                 <ws:partial
                         on:click="_onMonthClick(month.date)"
                         template="{{_options.monthTemplate}}"
+                        defaultMonthTemplate="{{ _options.defaultMonthTemplate }}"
                         month="{{month}}"
                         formatDate="{{_formatDate}}"
                         extData="{{_options.extData && _options.extData[month.date.getMonth()]}}"

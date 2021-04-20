@@ -90,7 +90,9 @@ export default {
 
             /**
              * @name Controls/shortDatePicker/IDateLitePopup#monthTemplate
-             * @remark Шаблон может принимать 2 опции:
+             * @remark
+             * В шаблон передается defaultMonthTemplate - стандартный шаблон месяца
+             * Опции шаблона:
              * <ul>
              *     <li>contentTemplate : В шаблон передается value, где хранится дата месяца.</li>
              *     <li>iconTemplate: в качестве опций получает value (Дату) и extData(данные загруженные через источник данных source).</li>
@@ -101,7 +103,7 @@ export default {
              *     <Controls.shortDatePicker:View>
              *         <ws:monthTemplate>
              *             <ws:partial
-             *                template='Controls.shortDatePicker:MonthTemplate'>
+             *                template='{{ monthTemplate.defaultMonthTemplate }}'>
              *                <ws:contentTemplate>
              *                   <div>{{_getMonthCaption(contentTemplate.date)}}</div>
              *                </ws:contentTemplate>

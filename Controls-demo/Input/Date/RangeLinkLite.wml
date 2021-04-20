@@ -6,7 +6,7 @@
             <Controls.dateRange:RangeShortSelector
                attr:test_name="default_range">
                <ws:monthTemplate>
-                  <ws:partial periods="{{_periods}}" template="Controls/shortDatePicker:MonthTemplate"/>
+                  <ws:partial periods="{{_periods}}" template="{{ monthTemplate.defaultMonthTemplate }}"/>
                </ws:monthTemplate>
             </Controls.dateRange:RangeShortSelector>
          </div>
@@ -29,7 +29,7 @@
 			   attr:test_name="months_range"
             >
                <ws:monthTemplate>
-                  <ws:partial periods="{{_periods}}" template="Controls/shortDatePicker:MonthTemplate"/>
+                  <ws:partial periods="{{_periods}}" template="{{ monthTemplate.defaultMonthTemplate }}"/>
                </ws:monthTemplate>
             </Controls.dateRange:RangeShortSelector>
          </div>

@@ -27,6 +27,7 @@
                 attr:data-date="{{_dateToDataString(yearTemplate.date)}}"
                 scope="{{_options}}"
                 monthTemplate="{{monthTemplate}}"
+                defaultMonthTemplate="{{ defaultMonthTemplate }}"
                 _position="{{_position}}"
                 _yearHovered="{{_yearHovered}}"
                 formatDate="{{formatDate}}"

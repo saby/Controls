@@ -50,6 +50,7 @@
                  _displayedRanges="{{_displayedRanges}}"
                  _position="{{_position}}"
                  monthTemplate="{{_options.monthTemplate}}"
+                 defaultMonthTemplate="{{ _defaultMonthTemplate }}"
                  _yearHovered="{{_yearHovered}}"
                  formatDate="{{_formatDate}}"
                  isExpandedPopup="{{ _isExpandedPopup }}"
