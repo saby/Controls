@@ -1,10 +1,10 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__mr4">
         <Controls.dropdown:Selector bind:selectedKeys="_selectedKeys"
-                                 contentTemplate="Controls/dropdown:defaultContentTemplateWithIcon"
-                                 keyProperty="id"
-                                 displayProperty="title"
-                                 source="{{_source}}">
+                                    contentTemplate="Controls/dropdown:defaultContentTemplateWithIcon"
+                                    keyProperty="id"
+                                    displayProperty="title"
+                                    source="{{_source}}">
         </Controls.dropdown:Selector>
     </div>
 </div>

@@ -1,0 +1,26 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label">Отображаются все выбранные записи</div>
+        <Controls.dropdown:Selector attr:class="ControlsDemo-DropdownSelector-maxWidth"
+                                    bind:selectedKeys="_selectedKeysMax"
+                                    emptyText="{[Не выбрано]}"
+                                    maxVisibleItems="{{null}}"
+                                    multiSelect="{{true}}"
+                                    keyProperty="key"
+                                    displayProperty="title"
+                                    source="{{_source}}">
+        </Controls.dropdown:Selector>
+    </div>
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label">Отображаются 3 выбранных записи</div>
+        <Controls.dropdown:Selector attr:class="ControlsDemo-DropdownSelector-maxWidth"
+                                    bind:selectedKeys="_selectedKeys"
+                                    emptyText="{[Не выбрано]}"
+                                    maxVisibleItems="{{3}}"
+                                    multiSelect="{{true}}"
+                                    keyProperty="key"
+                                    displayProperty="title"
+                                    source="{{_source}}">
+        </Controls.dropdown:Selector>
+    </div>
+</div>
