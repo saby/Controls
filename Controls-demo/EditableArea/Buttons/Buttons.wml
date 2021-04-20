@@ -53,6 +53,7 @@
                                 <Controls.dropdown:Combobox
                                         attr:class="controlsDemo-EditableArea__input"
                                         keyProperty="id"
+                                        contrastBackground="{{true}}"
                                         displayProperty="title"
                                         source="{{_periodType}}"
                                         bind:selectedKey="_periodTypeKey"
@@ -60,6 +61,7 @@
                                 <Controls.dropdown:Combobox
                                         attr:class="controlsDemo-EditableArea__input"
                                         keyProperty="id"
+                                        contrastBackground="{{true}}"
                                         displayProperty="title"
                                         source="{{_periodQuarter}}"
                                         bind:selectedKey="_periodQuarterKey"
