@@ -15,7 +15,7 @@ interface IExpandableInputOptions extends IBaseOptions, ITextOptions,
  *
  * @class Controls/_search/Input/ExpandableInput/Search
  * @extends UI/Base:Control
- * @mixes Controls/_search/Input/Search
+ * @mixes Controls/search:Input
  * @public
  * @demo Controls-demo/Search/ExpandableInput/Index
  * @author Мельникова Е.А.

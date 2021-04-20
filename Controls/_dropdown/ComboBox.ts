@@ -39,19 +39,19 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  *
  * @class Controls/_dropdown/ComboBox
  * @extends UI/Base:Control
- * @implements Controls/_interface/ISource
- * @implements Controls/_dropdown/interface/IBaseDropdown
- * @implements Controls/_menu/interface/IMenuBase
- * @implements Controls/_interface/IFilterChanged
- * @implements Controls/_interface/ISingleSelectable
+ * @implements Controls/interface:ISource
+ * @implements Controls/dropdown:IBaseDropdown
+ * @implements Controls/menu:IMenuBase
+ * @implements Controls/interface:IFilterChanged
+ * @implements Controls/interface:ISingleSelectable
  * @implements Controls/interface:IInputPlaceholder
- * @implements Controls/_input/interface/ITag
- * @implements Controls/_interface/IValidationStatus
- * @implements Controls/_interface/IFontSize
+ * @implements Controls/input:ITag
+ * @implements Controls/interface:IValidationStatus
+ * @implements Controls/interface:IFontSize
  * @implements Controls/interface:IFontColorStyle
- * @implements Controls/_interface/ITooltip
- * @implements Controls/_interface/IHeight
- * @implements Controls/_input/interface/IBorderVisibility
+ * @implements Controls/interface:ITooltip
+ * @implements Controls/interface:IHeight
+ * @implements Controls/input:IBorderVisibility
  *
  * @public
  * @author Золотова Э.Е.
@@ -64,11 +64,11 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * <a href="/materials/Controls-demo/app/Controls-demo%2FCombobox%2FComboboxVDom">Demo-example</a>.
  * @class Controls/_dropdown/ComboBox
  * @extends UI/Base:Control
- * @implements Controls/_interface/ISource
+ * @implements Controls/interface:ISource
  * @implements Controls/interface/IItemTemplate
- * @implements Controls/_interface/IFilterChanged
- * @implements Controls/_interface/ISingleSelectable
- * @implements Controls/_input/interface/IBase
+ * @implements Controls/interface:IFilterChanged
+ * @implements Controls/interface:ISingleSelectable
+ * @implements Controls/input:IBase
  *
  * @public
  * @author Золотова Э.Е.

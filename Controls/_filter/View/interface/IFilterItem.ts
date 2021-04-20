@@ -5,7 +5,7 @@ import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interfac
 
 export type TNavigation = INavigationOptionValue<INavigationSourceConfig>;
 
-export type TKey = null | string | number;
+export type TKey = boolean | string | number;
 
 export interface IEditorOptions {
     source?: ICrudPlus | HistorySource;
