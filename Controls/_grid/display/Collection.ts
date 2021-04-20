@@ -63,7 +63,7 @@ export default class Collection<
     setMultiSelectVisibility(visibility: string): void {
         super.setMultiSelectVisibility(visibility);
 
-        [this.getColgroup(), this.getHeader(), this.getResults(), this.getFooter()].forEach((gridUnit) => {
+        [this.getColgroup(), this.getHeader(), this.getResults(), this.getFooter(), this.getEmptyGridRow()].forEach((gridUnit) => {
             gridUnit?.setMultiSelectVisibility(visibility);
         });
     }
