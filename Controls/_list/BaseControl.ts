@@ -1856,7 +1856,7 @@ const _private = {
         if (useNewModel) {
             model.subscribe('onCollectionChange', (...args: any[]) => {
                 self._onCollectionChanged.apply(
-                    null,
+                    self,
                     [
                         args[0], // event
                         null, // changes type
