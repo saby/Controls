@@ -1181,6 +1181,7 @@ define([
             });
 
             const cfg = {
+               keyProperty: 'id',
                nodeProperty: 'type',
                parentProperty: 'parent',
                navigation: {
@@ -1194,7 +1195,6 @@ define([
             const explorer = new explorerMod.View(cfg);
             explorer.saveOptions(cfg);
             explorer._navigation = cfg.navigation;
-            explorer._root = childItem.getKey();
             explorer._restoredMarkedKeys = {
                null: {
                   markedKey: 1,
@@ -1210,10 +1210,7 @@ define([
                   parent: 1
                }
             };
-            explorer._viewMode = undefined;
-            explorer._forceUpdate = () => {
-               explorer._beforeUpdate(cfg);
-            };
+            explorer._forceUpdate = () => undefined;
 
             // Сразу из текущий папки возвращаемся в самый верхний корень
             explorer._backByPath([rootItem]);
@@ -1225,7 +1222,6 @@ define([
             );
 
             // Восстанавливаем состояние к исходному
-            explorer._root = childItem.getKey();
             explorer._restoredMarkedKeys = {
                null: {
                   markedKey: 1,
