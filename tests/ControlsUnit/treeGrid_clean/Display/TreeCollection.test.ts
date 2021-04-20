@@ -33,6 +33,39 @@ describe('Controls/treeGrid_clean/Display/TreeCollection', () => {
         assert.strictEqual(treeGridCollection.getCount(), 3);
     });
 
+    it('Init footer in constructor', () => {
+        const recordSet = new RecordSet({
+            rawData: [ { key: 1, parent: null, type: true } ],
+            keyProperty: 'key'
+        });
+
+        // В опциях переданы только колонки для футера -> футер должен проинициализироваться
+        let collection = new TreeGridCollection({
+            collection: recordSet,
+            keyProperty: 'key',
+            parentProperty: 'parent',
+            nodeProperty: 'type',
+            root: null,
+            columns: [{}],
+            footer: []
+        });
+        assert.isTrue(!!collection.getFooter());
+
+        // В опциях передан только шаблон для футера -> футер должен проинициализироваться
+        const footerTemplate = 'my custom footer template';
+        collection = new TreeGridCollection({
+            collection: recordSet,
+            keyProperty: 'key',
+            parentProperty: 'parent',
+            nodeProperty: 'type',
+            root: null,
+            columns: [{}],
+            footerTemplate
+        });
+        assert.isTrue(!!collection.getFooter());
+        assert.isTrue(footerTemplate === collection.getFooter().getColumns()[0].getTemplate());
+    });
+
     describe('Reset header model on collection change', () => {
 
         describe('headerVisibility === \'hasdata\'', () => {
