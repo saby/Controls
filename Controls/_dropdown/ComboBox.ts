@@ -14,7 +14,6 @@ import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownCo
 import {IStickyPopupOptions} from 'Controls/popup';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/popup';
-import {generateStates} from 'Controls/input';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 import 'css!Controls/dropdown';
@@ -97,7 +96,6 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
          vertical: 'bottom'
       };
 
-      generateStates(this, options);
       this._controller = new Controller(this._getControllerOptions(options));
       this._borderStyle = this._getBorderStyle(options.borderStyle, options.validationStatus);
       return loadItems(this._controller, receivedState, options.source);
