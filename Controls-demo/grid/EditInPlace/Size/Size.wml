@@ -1,6 +1,6 @@
-<div class="controlsDemo__wrapper controlDemo__RowWrapper controlsDemo_fixedWidth800">
+<div class="controlsDemo__wrapper controlDemo__RowWrapper">
     <div class="controlsDemo__flexColumn demo-EditInPlaceSize_column1">
-        <div class="controlsDemo__cell">
+        <div class="controlsDemo__cell demo-EditInPlaceSize_default">
             <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/grid/EditInPlace/Size/Default/Index' }}">
@@ -9,7 +9,7 @@
             <Controls-demo.grid.EditInPlace.Size.Default.Index/>
         </div>
 
-        <div class="controlsDemo__cell">
+        <div class="controlsDemo__cell demo-EditInPlaceSize_s">
             <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/grid/EditInPlace/Size/S/Index' }}">
@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="controlsDemo__flexColumn controlsDemo__wrapper__padding-left demo-EditInPlaceSize_column2">
-        <div class="controlsDemo__cell">
+        <div class="controlsDemo__cell demo-EditInPlaceSize_m">
             <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/grid/EditInPlace/Size/M/Index' }}">
@@ -28,7 +28,7 @@
             <Controls-demo.grid.EditInPlace.Size.M.Index/>
         </div>
 
-        <div class="controlsDemo__cell">
+        <div class="controlsDemo__cell demo-EditInPlaceSize_l">
             <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/grid/EditInPlace/Size/L/Index' }}">
