@@ -20,7 +20,7 @@ interface ISerializableState extends IDefaultSerializableState {
  * @class Controls/_display/ItemsStrategy/User
  * @mixes Types/_entity/DestroyableMixin
  * @mixes Types/_entity/SerializableMixin
- * @implements Controls/_display/IItemsStrategy
+ * 
  * @author Мальцев А.А.
  * @private
  */

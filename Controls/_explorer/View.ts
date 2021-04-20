@@ -994,7 +994,7 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:IHierarchy
- * @implements Controls/tree/ITreeControl
+ * @implements Controls/tree:ITreeControl
  * @mixes Controls/explorer:IExplorer
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/tile:ITile
@@ -1030,7 +1030,7 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:IHierarchy
- * @implements Controls/tree/ITreeControl
+ * @implements Controls/tree:ITreeControl
  * @mixes Controls/explorer:IExplorer
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/tile:ITile

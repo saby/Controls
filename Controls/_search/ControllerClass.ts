@@ -62,8 +62,8 @@ const SERVICE_FILTERS = {
  * </pre>
  *
  * @class Controls/_search/ControllerClass
- * @implements Controls/_interface/ISearch
- * @implements Controls/_interface/IHierarchy
+ * @implements Controls/interface:ISearch
+ * @implements Controls/interface:IHierarchy
  * @implements Controls/interface/IHierarchySearch
  * @public
  * @demo Controls-demo/Search/FlatList/Index Поиск в плоском списке
