@@ -1,6 +1,7 @@
 import { assert } from 'chai';
-import { GridDataRow, GridCollection } from 'Controls/grid';
+import {GridDataRow, GridCollection, TColspanCallbackResult} from 'Controls/grid';
 import { Model } from 'Types/entity';
+import * as sinon from 'sinon';
 
 const rawData = { key: 1, firstStickyProperty: 'first', secondStickyProperty: 'second', caption: 'item_1' };
 const columns = [{
@@ -80,6 +81,49 @@ describe('Controls/grid_clean/Display/DataRow', () => {
         assert.strictEqual(columns.length, 2);
         assert.strictEqual(columns[0].getInstanceId(), '1_column_0');
         assert.strictEqual(columns[1].getInstanceId(), '1_column_1');
+    });
+
+    it('Initialize with one column', () => {
+        const sandbox = sinon.createSandbox();
+
+        const gridRow = new GridDataRow({
+            owner: mockedCollection,
+            columns: [{ displayProperty: 'firstColumn' }],
+            contents: record
+        });
+
+        const fakeFactoryMethod = (options) => {
+            assert.isNotTrue(options.isSingleCell);
+        };
+
+        sandbox.replace(gridRow, 'getColumnsFactory', () => fakeFactoryMethod);
+
+        gridRow.getColumns();
+
+        sandbox.restore();
+    });
+
+    it('Initialize with two columns and colspan', () => {
+        const sandbox = sinon.createSandbox();
+
+        const gridRow = new GridDataRow({
+            owner: mockedCollection,
+            columns: [{ displayProperty: 'firstColumn' }, { displayProperty: 'secondColumn' }],
+            colspanCallback: (): TColspanCallbackResult => {
+                return 'end';
+            },
+            contents: record
+        });
+
+        const fakeFactoryMethod = (options) => {
+            assert.isTrue(options.isSingleCell);
+        };
+
+        sandbox.replace(gridRow, 'getColumnsFactory', () => fakeFactoryMethod);
+
+        gridRow.getColumns();
+
+        sandbox.restore();
     });
 
     it('Initialize with ladder', () => {
