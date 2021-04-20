@@ -1,10 +1,10 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/NodeTypeProperty/ChildNodes/ChildNodes';
-import {HierarchicalMemory} from 'Types/source';
+import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
 import {extendedData as data} from '../data/NodeTypePropertyData';
 import {TColspanCallbackResult} from 'Controls/grid';
 import {Model} from 'Types/entity';
-import {INavigation, TExpandOrColapsItems} from 'Controls-demo/types';
+import {INavigation} from 'Controls-demo/types';
 
 const NODE_TYPE_PROPERTY = 'nodeType';
 
@@ -12,8 +12,8 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
     protected _nodeTypeProperty: string = NODE_TYPE_PROPERTY;
-    protected _expandedItems: TExpandOrColapsItems = [null];
-    protected _collapsedItems: TExpandOrColapsItems = undefined;
+    protected _expandedItems: CrudEntityKey[] = [null];
+    protected _collapsedItems: CrudEntityKey[] = undefined;
 
     protected _navigation: INavigation = {
         source: 'page',
