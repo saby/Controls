@@ -149,7 +149,8 @@ export default class Controller extends mixin<
      * RecordSet в котором хранятся данные хлебных крошек.
      * Нужен только для того, что бы иметь возможность подписаться и отписаться от события
      * onCollectionChange. Т.к. данные хлебных крошек могут меняться из UI, например,
-     * при редактировании названия папки в которой находимся.
+     * при редактиров
+     * ании названия папки в которой находимся.
      */
     private _breadcrumbsRecordSet: RecordSet;
     private _loadPromise: CancelablePromise<RecordSet|Error>;
@@ -728,7 +729,7 @@ export default class Controller extends mixin<
 
                 // Учитываем в запросе выбранные в multiSelect элементы
                 if (options.selectedKeys && options.selectedKeys.length) {
-                    import('Controls/operations').then((operations) => {
+                    return import('Controls/operations').then((operations) => {
                         resultFilter.entries = operations.selectionToRecord({
                             selected: options.selectedKeys,
                             excluded: options.excludedKeys || []
