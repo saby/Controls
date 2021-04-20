@@ -159,6 +159,7 @@ Object.defineProperty(Suggest, 'defaultProps', {
 
 /**
  * @name Controls/_suggest/Input#fontSize
+ * @cfg
  * @demo Controls-demo/Suggest_new/Input/FontSize/Index
  */
 

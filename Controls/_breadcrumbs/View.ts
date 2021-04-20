@@ -29,6 +29,13 @@ const MIN_COUNT_OF_LETTER = 3;
  * @author Авраменко А.С.
  */
 
+/**
+ * @name Controls/_breadcrumbs/View#fontSize
+ * @cfg
+ * @demo Controls-demo/BreadCrumbs/FontSize/Index
+ */
+
+
 class BreadCrumbsView extends Control<IControlOptions> {
     protected _template: TemplateFunction =  template;
     protected _itemsTemplate: TemplateFunction = itemsTemplate;
