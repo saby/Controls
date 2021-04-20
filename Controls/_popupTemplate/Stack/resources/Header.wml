@@ -27,7 +27,7 @@
             <div class="controls-StackTemplate__maximized_button" on:click="changeMaximizedState()"
                  attr:title="{{_options._maximizeButtonTitle}}"></div>
          </ws:if>
-         <ws:if data="{{_options.closeButtonVisibility}}">
+         <ws:if data="{{_options.closeButtonVisibility && !_stackRightPanel}}">
             <Controls._popupTemplate.CloseButton attr:class="controls-StackTemplate__close_button"
                                                  viewMode="{{_options.closeButtonViewMode}}"
                                                  transparent="{{_options.closeButtonTransparent}}"
