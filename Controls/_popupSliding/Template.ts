@@ -23,7 +23,7 @@ const MOBILE_TEMPLATE = 'Controls/popupSliding:_SlidingPanel';
  *    2) Если скролл находится не в корне {@link Controls/_popupSliding/interface/ISlidingPanelTemplate#bodyContentTemplate bodyContentTemplate},
  *    то нужно проксировать выше событие ScrollContainer scrollStateChanged
  * @class Controls/_popupSliding/Template
- * @implements Controls/_popupSliding/interface/ISlidingPanelTemplate
+ * @implements Controls/popupSliding:ISlidingPanelTemplate
  * @public
  * @demo Controls-demo/PopupTemplate/SlidingPanel/Index
  * @author Красильников А.С.

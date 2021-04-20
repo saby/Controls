@@ -5,11 +5,6 @@ import {RecordSet} from 'Types/Collection';
 
 type TOpenerOptions = IStickyPopupOptions|IStackPopupOptions|IDialogPopupOptions;
 
-/**
- * Опции интерфейса описаны в {@link Controls/_popup/interface/IEditOpener}.
- * @public
- * @author Красильников А.С.
- */
 export interface IEditOptions {
     items?: RecordSet;
     mode?: string;

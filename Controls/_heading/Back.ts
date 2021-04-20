@@ -31,11 +31,11 @@ const MODERN_IE_VERSION = 11;
  *
  * @class Controls/_heading/Back
  * @extends UI/Base:Control
- * @implements Controls/_interface/ICaption
- * @implements Controls/_buttons/interface/IClick
- * @implements Controls/_interface/ITooltip
+ * @implements Controls/interface:ICaption
+ * @implements Controls/buttons:IClick
+ * @implements Controls/interface:ITooltip
  * @implements Controls/interface:IFontColorStyle
- * @implements Controls/_interface/IFontSize
+ * @implements Controls/interface:IFontSize
  * @implements Controls/interface:IIconSize
  * @implements Controls/interface:IIconStyle
  * 
@@ -55,7 +55,7 @@ const MODERN_IE_VERSION = 11;
  * @mixes Controls/buttons:IClick
  * @mixes Controls/interface:ITooltip
  * @implements Controls/interface:IFontColorStyle
- * @implements Controls/_interface/IFontSize
+ * @implements Controls/interface:IFontSize
  * @implements Controls/interface:IIconSize
  * @implements Controls/interface:IIconStyle
  * 

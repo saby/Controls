@@ -126,7 +126,7 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
  * Strategy-decorator which supposed to join expanded nodes into one element.
  * @class Controls/_display/ItemsStrategy/Search
  * @mixes Types/_entity/DestroyableMixin
- * @implements Controls/_display/IItemsStrategy
+ * 
  * @mixes Types/_entity/SerializableMixin
  * @author Мальцев А.А.
  * @private

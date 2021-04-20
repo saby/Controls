@@ -59,6 +59,7 @@ class StickyHeaderController {
         top: SCROLL_SHADOW_VISIBILITY.AUTO,
         bottom: SCROLL_SHADOW_VISIBILITY.AUTO
     };
+    private _needUpdateHeadersAfterVisibleChange: boolean = false;
 
     // TODO: Избавиться от передачи контрола доработав логику ResizeObserverUtil
     // https://online.sbis.ru/opendoc.html?guid=4091b62e-cca4-45d8-834b-324f3b441892
@@ -291,6 +292,7 @@ class StickyHeaderController {
             this._elementsHeight.forEach((item, index) => {
                 if (item.key === element) {
                     this._elementsHeight.splice(index, 1);
+                    this._needUpdateHeadersAfterVisibleChange = true;
                     return true;
                 }
             });
@@ -317,6 +319,7 @@ class StickyHeaderController {
                 // событие, а просто сохраним текущую высоту если это первое событие для элемента и высоту
                 // этого элемента мы еще не сохранили.
                 this._elementsHeight.push({key: element, value: height});
+                this._needUpdateHeadersAfterVisibleChange = true;
             }
         }
         return heightChanged;
@@ -383,7 +386,7 @@ class StickyHeaderController {
             const header = this._headers[headerId];
             if (this._fixedHeadersStack[position].includes(headerId) &&
                 header.inst.shadowVisibility !== SHADOW_VISIBILITY.hidden &&
-                !isHidden(header.container)) {
+                !isHidden(header.inst.getHeaderContainer())) {
                 headerWithShadow = headerId;
                 if (this._headers[headerId].mode === 'replaceable') {
                     break;
@@ -413,6 +416,15 @@ class StickyHeaderController {
 
     controlResizeHandler(): void {
         this._stickyHeaderResizeObserver.controlResizeHandler();
+    }
+
+    resizeContainerHandler(): void {
+        // Если какие-то заголовки были скрыты (или какие-то отобразились, например, сняли display: none),
+        // то нужно пересчитать все заголовки
+        if (this._needUpdateHeadersAfterVisibleChange) {
+            this.resizeHandler();
+            this._needUpdateHeadersAfterVisibleChange = false;
+        }
     }
 
     resizeHandler() {

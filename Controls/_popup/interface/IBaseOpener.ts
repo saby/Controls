@@ -4,10 +4,6 @@ import {List} from 'Types/collection';
 import {IControlOptions} from 'UI/Base';
 import {ILoadingIndicatorOptions} from 'Controls/LoadingIndicator';
 
-/**
- * Опции интерфейса подробно описаны {@link Controls/_popup/interface/IBaseOpener здесь}.
- * @public
- */
 export interface IBasePopupOptions {
     id?: string;
     className?: string;
