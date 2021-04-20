@@ -12,8 +12,9 @@ interface IAreaCutOptions extends IAreaOptions, ICutOptions {}
  *
  * @class Controls/_spoiler/AreaCut
  * @extends UI/Base:Control
- * @mixes Controls/spoiler:ICut
+ * @implements Controls/spoiler:ICut
  * @see Controls/_input/Area
+ * @public
  * @demo Controls-demo/Spoiler/AreaCut/Index
  *
  * @author Красильников А.С.
