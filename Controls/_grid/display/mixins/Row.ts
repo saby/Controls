@@ -426,7 +426,7 @@ export default abstract class Row<T> {
             });
         }
 
-        if (creatingColumnsParams.length === 1) {
+        if (columns.length > 1 && creatingColumnsParams.length === 1) {
             creatingColumnsParams[0].isSingleCell = true;
         }
 
