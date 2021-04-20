@@ -251,6 +251,10 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
                 this._updateShadowMode();
             }
 
+            if (this._wasMouseEnter && this._scrollModel?.scrollHeight !== this._oldScrollState?.scrollHeight) {
+                this._stickyHeaderController.resizeContainerHandler();
+            }
+
             // Если включены тени через стили, то нам все равно надо посчитать состояние теней
             // для фиксированных заголовков если они есть.
             if (!this._isOptimizeShadowEnabled ||
