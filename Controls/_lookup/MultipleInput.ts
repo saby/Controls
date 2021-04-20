@@ -159,6 +159,7 @@ export default class MultipleInput extends BaseLookupInput {
 
 /**
  * @name Controls/_lookup/MultipleInput#fontSize
+ * @cfg
  * @demo Controls-demo/Lookup/MultipleInput/Index
  */
 
