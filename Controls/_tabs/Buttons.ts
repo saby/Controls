@@ -66,8 +66,6 @@ const isTemplateObject = (tmpl: any): boolean => {
     return isTemplate(tmpl);
 };
 
-const ANIMATION_DURATION = 300;
-
 /**
  * Контрол предоставляет пользователю возможность выбрать между двумя или более вкладками.
  *
@@ -203,6 +201,13 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
     }
 
+    protected _isBottomMarkerVisible(): boolean {
+        const selectedItem: ITabButtonItem = this._itemsArray.find((item: ITabButtonItem) => {
+            return item[this._options.keyProperty] === this._options.selectedKey;
+        });
+        return !selectedItem?.isMainTab;
+    }
+
     protected _transitionEndHandler() {
         if (!this._isUnmounted) {
             this._marker.setAlign(AUTO_ALIGN.auto);
@@ -286,17 +291,24 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const options = this._options;
         const style = TabsButtons._prepareStyle(options.style);
 
-        classes.push('controls-Tabs__itemClickableArea_marker');
-        classes.push(`controls-Tabs__itemClickableArea_markerThickness-${options.markerThickness}`);
-
-        if (!this._marker.isInitialized() && item[options.keyProperty] === options.selectedKey) {
-            // Если маркеры которые рисуются с абсолютной позицией не инициализированы, то нарисуем маркер
-            // внтри вкладки. Это можно сделать быстрее. Но невозможно анимировано передвигать его между вкладками.
-            // Инициализируем и переключимся на другой механизм маркеров после ховера.
-            classes.push(`controls-Tabs_style_${style}__item-marker_state_selected`);
+        if (item.isMainTab) {
+            if (item[options.keyProperty] === options.selectedKey) {
+                classes.push('controls-Tabs__main-marker');
+            }
         } else {
-            classes.push('controls-Tabs__item-marker_state_default');
+            classes.push('controls-Tabs__itemClickableArea_marker');
+            classes.push(`controls-Tabs__itemClickableArea_markerThickness-${options.markerThickness}`);
+
+            if (!this._marker.isInitialized() && item[options.keyProperty] === options.selectedKey) {
+                // Если маркеры которые рисуются с абсолютной позицией не инициализированы, то нарисуем маркер
+                // внутри вкладки. Это можно сделать быстрее. Но невозможно анимировано передвигать его между вкладками.
+                // Инициализируем и переключимся на другой механизм маркеров после ховера.
+                classes.push(`controls-Tabs_style_${style}__item-marker_state_selected`);
+            } else {
+                classes.push('controls-Tabs__item-marker_state_default');
+            }
         }
+
         return classes.join(' ');
     }
 

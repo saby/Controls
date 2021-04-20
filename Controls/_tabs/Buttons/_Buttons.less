@@ -307,6 +307,20 @@
    background: var(--secondary_marker_color_tabs);
 }
 
+.controls-Tabs__main-marker {
+   &:after {
+      content: '';
+      pointer-events: none;
+      position: absolute;
+      left: calc(-1 * var(--padding-horizontal_tabs));
+      top: calc(50%~'-'var(--main-tab-marker_length_tabs) / 2);
+      height: var(--main-tab-marker_length_tabs);
+      width: var(--main-tab-marker_thickness_tabs);
+      background: var(--primary_marker_color_tabs);
+      border-radius: 0 var(--main-tab-marker_border-radius_tabs) var(--main-tab-marker_border-radius_tabs) 0;
+   }
+}
+
 .controls-Tabs__item_overflow {
    overflow: hidden;
    text-overflow: ellipsis;
