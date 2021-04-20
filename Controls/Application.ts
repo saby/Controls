@@ -17,7 +17,6 @@ import {setController as setSettingsController, IPopupSettingsController} from
        'Controls/Application/SettingsController';
 import {ManagerClass as PopupManager, GlobalController as PopupGlobalController, IPopupItem} from
        'Controls/popup';
-import {TouchContextField} from 'Controls/context';
 import {RegisterClass} from 'Controls/event';
 import {ControllerClass as DnDController} from 'Controls/dragnDrop';
 import { getConfig } from 'Application/Env';
@@ -122,7 +121,6 @@ export default class Application extends Control<IApplication> {
    private _isPopupShow: boolean;
    private _isSuggestShow: boolean;
    private _touchController: TouchDetect;
-   private _touchObjectContext: TouchContextField;
 
    // start hooks
    protected _beforeMount(options: IApplication): void {
@@ -456,7 +454,6 @@ export default class Application extends Control<IApplication> {
    }
    private _createTouchDetector(): void {
       this._touchController = TouchDetect.getInstance();
-      this._touchObjectContext = new TouchContextField.create();
    }
    // end create helpers
 
@@ -547,12 +544,6 @@ export default class Application extends Control<IApplication> {
 
    private _isHover(touchClass: string, dragClass: string): boolean {
       return touchClass === 'ws-is-no-touch' && dragClass === 'ws-is-no-drag';
-   }
-
-   private _getChildContext(): object {
-      return {
-         isTouch: this._touchObjectContext
-      };
    }
 
    private static _isIOS13(): boolean {
