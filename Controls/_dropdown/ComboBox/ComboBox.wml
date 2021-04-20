@@ -1,9 +1,9 @@
 <div class="controls-ComboBox
             controls-ComboBox-{{_readOnly ? 'readOnly' : 'borderStyle-' + _borderStyle}} {{_isOpened ? 'controls-ComboBox__opened'}}
             {{_isOpened ? 'controls-Popup__isolatedFocusingContext'}}
-            controls-text-{{_fontColorStyle}}
-            controls-inlineheight-{{_inlineHeight}}
-            controls-Combobox-fontsize-{{_fontSize}}
+            controls-text-{{_options.fontColorStyle}}
+            controls-inlineheight-{{_options.inlineHeight}}
+            controls-Combobox-fontsize-{{_options.fontSize}}
             controls-ComboBox_textAlign-{{_options.textAlign}}
             controls-ComboBox_border-{{_options.borderVisibility}}"
      title="{{_options.tooltip || _value}}"
