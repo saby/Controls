@@ -56,4 +56,30 @@ describe('Controls/_tile/TileView', () => {
             assert.equal(model.getHoveredItem().key, 1);
         });
     });
+
+    describe('_onItemMouseMove', () => {
+        it('not set item is hovered', () => {
+            const event = {
+                closest: () => {
+                    return {
+                        getBoundingClientRect: () => {
+                            return {
+                                bottom: 473,
+                                height: 240,
+                                left: 360,
+                                right: 1560,
+                                top: 233,
+                                width: 1200,
+                                x: 360,
+                                y: 233
+                            };
+                        }
+                    };
+                }
+            };
+            const item = model.getItemBySourceKey(1);
+            tileView._onItemMouseMove(event, item);
+            assert.isFalse(item.isHovered());
+        });
+    });
 });
