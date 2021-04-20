@@ -191,8 +191,7 @@ define([
             options = {
                style: 'additional',
                selectedKey: '15',
-               keyProperty: 'karambola',
-               theme: 'default'
+               keyProperty: 'karambola'
             },
             expected = 'controls-Tabs_style_secondary__item_state_selected ' +
                'controls-Tabs__item_state_selected ',
@@ -202,6 +201,34 @@ define([
          assert.equal(expected, tabs._prepareItemSelectedClass(item), 'wrong order cross-brwoser styles');
          assert.equal(expected2, tabs._prepareItemSelectedClass(item2), 'wrong order cross-brwoser styles');
           tabs.destroy();
+      });
+
+      describe('_prepareItemMarkerClass', () => {
+         const item = {
+            karambola: '15',
+            isMainTab: true
+         };
+         const options = {
+            selectedKey: '15',
+            keyProperty: 'karambola'
+         };
+         it('should return marker css class if tab selected', () => {
+            const tabs = new tabsMod.Buttons();
+            tabs.saveOptions(options);
+
+            assert.equal(tabs._prepareItemMarkerClass(item),'controls-Tabs__main-marker');
+
+            tabs.destroy();
+         });
+
+         it('should\'t return marker css class if tab selected', () => {
+            const tabs = new tabsMod.Buttons();
+            tabs.saveOptions({ selectedKey: '16', keyProperty: 'karambola'} );
+
+            assert.equal(tabs._prepareItemMarkerClass(item),'');
+
+            tabs.destroy();
+         });
       });
 
       it('_prepareItemMarkerClass', function() {
