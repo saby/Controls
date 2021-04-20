@@ -4,7 +4,7 @@ import {ok, deepStrictEqual} from 'assert';
 import {RecordSet} from 'Types/collection';
 import {INavigationPageSourceConfig, INavigationOptionValue} from 'Controls/interface';
 import {createSandbox, stub, useFakeTimers} from 'sinon';
-import {expandableStateUtil} from '../../../Controls/_dataSource/expandableStateUtil';
+import {default as groupUtil} from '../../../Controls/_dataSource/groupUtil';
 
 const filterByEntries = (item, filter): boolean => {
     return filter.entries ? filter.entries.get('marked').includes(String(item.get('key'))) : true;

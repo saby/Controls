@@ -3,7 +3,7 @@ import {Memory} from 'Types/source';
 import {ok, deepStrictEqual} from 'assert';
 import {NewSourceController} from 'Controls/dataSource';
 import {createSandbox} from 'sinon';
-import {default as groupUtil} from '../../../Controls/_dataSource/expandableStateUtil';
+import {default as groupUtil} from '../../../Controls/_dataSource/groupUtil';
 
 function getDataArray(): object[] {
     return [

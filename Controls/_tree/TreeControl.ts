@@ -17,7 +17,6 @@ import { Collection, Tree, TreeItem } from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
 import {
     expandableStateUtil,
-    NewSourceController as SourceController,
     NewSourceController
 } from 'Controls/dataSource';
 import { MouseButtons, MouseUp } from 'Controls/popup';
@@ -781,9 +780,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 sourceController.setExpandedItems(newOptions.expandedItems);
             }
         }
-        // else if (!isEqual(newOptions.nodeHistoryId, this._options.nodeHistoryId) && viewModel) {
-        //     viewModel.setExpandedItems(sourceController.getExpandedItems());
-        // }
+
+        if (newOptions.nodeHistoryId !== this._options.nodeHistoryId) {
+            updateSourceController = true;
+        }
 
         if (newOptions.parentProperty !== this._options.parentProperty) {
             updateSourceController = true;
