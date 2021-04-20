@@ -184,6 +184,10 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         }
     }
 
+    public closeSubMenu(): void {
+        this._closeSubMenu();
+    }
+
     protected _mouseEnterHandler(): void {
         this._updateItemActions(this._listModel, this._options);
     }
