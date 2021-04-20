@@ -11,7 +11,7 @@
             <ws:itemTemplate>
                 <ws:partial template="Controls/breadcrumbs:ItemTemplate">
                     <ws:contentTemplate>
-                        <Controls.decorator:Highlight highlightedValue="{{gridColumn.getSearchValue()}}" value="{{contentTemplate.itemData.item.get(gridColumn.getDisplayProperty()) || ''}}"/>
+                        <Controls.decorator:Highlight highlightedValue="{{gridColumn.getSearchValue()}}" value="{{contentTemplate.itemData.item.get(gridColumn.getDisplayProperty())}}"/>
                     </ws:contentTemplate>
                 </ws:partial>
             </ws:itemTemplate>

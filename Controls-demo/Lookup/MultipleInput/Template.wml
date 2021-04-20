@@ -1,0 +1,68 @@
+<div class="controlsDemo__wrapper controlsDemo__flexColumn" attr:style="max-width:300px">
+    <div attr:style="padding:10px">fontSize = s</div>
+    <Controls.lookup:MultipleInput
+            name="lookupCustomPlaceholder2"
+            bind:value="_valueCustomPlaceholder2"
+            bind:selectedKeys="_selectedKeyCustomPlaceholder"
+            fontSize="s"
+            source="{{_source}}"
+            searchParam="title"
+            keyProperty="id"
+            multiSelect="{{true}}"
+            navigation="{{_navigation}}"
+            selectorTemplate="{{_selectorTemplateWithTabs}}"
+            maxVisibleItems="2"
+            on:selectorCallback="selectorCallback()">
+        <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+        <ws:itemTemplate>
+            <ws:partial template="Controls/lookup:ItemTemplate"
+                        style="{{_selectedKeyStyle}}"
+                        size="{{_selectedKeySize}}"
+                        displayProperty="title"></ws:partial>
+        </ws:itemTemplate>
+    </Controls.lookup:MultipleInput>
+    <div attr:style="padding:10px">fontSize = m</div>
+    <Controls.lookup:MultipleInput
+            name="lookupCustomPlaceholder2"
+            bind:value="_valueCustomPlaceholder2"
+            bind:selectedKeys="_selectedKeyCustomPlaceholder"
+            fontSize="m"
+            source="{{_source}}"
+            searchParam="title"
+            keyProperty="id"
+            multiSelect="{{true}}"
+            navigation="{{_navigation}}"
+            selectorTemplate="{{_selectorTemplateWithTabs}}"
+            maxVisibleItems="2"
+            on:selectorCallback="selectorCallback()">
+        <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+        <ws:itemTemplate>
+            <ws:partial template="Controls/lookup:ItemTemplate"
+                        style="{{_selectedKeyStyle}}"
+                        size="{{_selectedKeySize}}"
+                        displayProperty="title"></ws:partial>
+        </ws:itemTemplate>
+    </Controls.lookup:MultipleInput>
+    <div attr:style="padding:10px">fontSize = l</div>
+    <Controls.lookup:MultipleInput
+        name="lookupCustomPlaceholder2"
+        bind:value="_valueCustomPlaceholder2"
+        bind:selectedKeys="_selectedKeyCustomPlaceholder"
+        fontSize="l"
+        source="{{_source}}"
+        searchParam="title"
+        keyProperty="id"
+        multiSelect="{{true}}"
+        navigation="{{_navigation}}"
+        selectorTemplate="{{_selectorTemplateWithTabs}}"
+        maxVisibleItems="2"
+        on:selectorCallback="selectorCallback()">
+    <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+    <ws:itemTemplate>
+        <ws:partial template="Controls/lookup:ItemTemplate"
+                    style="{{_selectedKeyStyle}}"
+                    size="{{_selectedKeySize}}"
+                    displayProperty="title"></ws:partial>
+    </ws:itemTemplate>
+</Controls.lookup:MultipleInput>
+</div>

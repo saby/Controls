@@ -27,7 +27,11 @@ export default class TreeDrag<S extends Model = Model, T extends TreeItem<S> = T
 
       const targetItem = newPosition.dispItem;
       const relativePosition = newPosition.position;
-      if (targetItem.isNode()) {
+
+      if (!targetItem['[Controls/_display/TreeItem]']) {
+         // targetItem может быть, например, группа. Она не наследуется от TreeItem и её родителем будет корень.
+         parent = this.options.display.getRoot();
+      } else if (targetItem.isNode()) {
          if (relativePosition === 'before' || relativePosition === 'after' && !targetItem.isExpanded()) {
             parent = targetItem.getParent();
          } else if (relativePosition === 'after' && targetItem.isExpanded()) {

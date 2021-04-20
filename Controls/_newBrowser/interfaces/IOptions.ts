@@ -87,6 +87,18 @@ export interface IOptions extends IControlOptions, ISourceOptions {
      * Controls.masterDetail:Base
      */
     propStorageId?: string;
+    /**
+     * @cfg
+     * Флаг, указывающий на необходимость обернуть контент внутри master в scroll
+     */
+    wrapMasterInScroll: boolean;
+
+    /**
+     * @cfg
+     * Флаг, указывающий на необходимость обернуть контент внутри detail в scroll
+     */
+    wrapDetailInScroll: boolean;
+
 
     /**
      * @cfg

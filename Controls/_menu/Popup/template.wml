@@ -58,6 +58,7 @@
                               on:click="_headerClick()"/>
                </ws:if>
                <Controls._menu.Control
+                       name="menuControl"
                        attr:class="controls-Menu__popup-list controls-Menu__popup-list-padding-{{_verticalDirection}}"
                        selectorOpenCallback="{{_options.selectorOpenCallback}}"
                        nodeFooterTemplate="{{_options.nodeFooterTemplate}}"
@@ -76,6 +77,7 @@
                        markerVisibility="{{_options.markerVisibility}}"
                        emptyTemplate="{{_options.emptyTemplate}}"
                        source="{{_options.source}}"
+                       items="{{_options.items}}"
                        navigation="{{_options.navigation}}"
                        filter="{{filter || _options.filter}}"
                        parentProperty="{{_options.parentProperty}}"
@@ -121,6 +123,7 @@
       <ws:partial template="menuPopup">
          <ws:footerContent>
             <ws:partial template="{{_options.footerContentTemplate || _options.footerTemplate}}"
+                        on:mouseenter="_onFooterMouseEnter()"
                         hoverController="{{_hoverController}}"></ws:partial>
          </ws:footerContent>
       </ws:partial>

@@ -3,25 +3,21 @@ import { assert } from 'chai';
 import getRecordSet from 'ControlsUnit/searchBreadcrumbsGrid/display/getRecordSet';
 
 describe('Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemRow', () => {
-   let searchGridCollection;
-
-   beforeEach(() => {
-      searchGridCollection = new SearchGridCollection({
-         collection: getRecordSet(),
-         root: null,
-         keyProperty: 'id',
-         parentProperty: 'parent',
-         nodeProperty: 'node',
-         columns: [{
-            displayProperty: 'title',
-            width: '300px',
-            template: 'wml!template1'
-         }, {
-            displayProperty: 'taxBase',
-            width: '200px',
-            template: 'wml!template1'
-         }]
-      });
+   const searchGridCollection = new SearchGridCollection({
+      collection: getRecordSet(),
+      root: null,
+      keyProperty: 'id',
+      parentProperty: 'parent',
+      nodeProperty: 'node',
+      columns: [{
+         displayProperty: 'title',
+         width: '300px',
+         template: 'wml!template1'
+      }, {
+         displayProperty: 'taxBase',
+         width: '200px',
+         template: 'wml!template1'
+      }]
    });
 
    describe('getCellTemplate', () => {
@@ -52,32 +48,17 @@ describe('Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemRow', () => {
       });
    });
 
-   describe('colspan', () => {
-      it('default', () => {
+   describe('isRoot', () => {
+      it('can not be root', () => {
          const item = searchGridCollection.at(0);
-         assert.equal(item.getColumnsCount(), 1);
+         assert.isFalse(item.isRoot());
       });
+   });
 
-      it('hasColumnScroll', () => {
-         searchGridCollection = new SearchGridCollection({
-            collection: getRecordSet(),
-            root: null,
-            keyProperty: 'id',
-            parentProperty: 'parent',
-            nodeProperty: 'node',
-            columnScroll: true,
-            columns: [{
-               displayProperty: 'title',
-               width: '300px',
-               template: 'wml!template1'
-            }, {
-               displayProperty: 'taxBase',
-               width: '200px',
-               template: 'wml!template1'
-            }]
-         });
+   describe('isGroupNode', () => {
+      it('can not be group node', () => {
          const item = searchGridCollection.at(0);
-         assert.equal(item.getColumnsCount(), 3);
+         assert.isFalse(item.isGroupNode());
       });
    });
 });

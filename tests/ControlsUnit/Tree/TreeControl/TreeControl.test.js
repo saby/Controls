@@ -1950,7 +1950,8 @@ define([
                   return {};
                },
                updateOptions: () => null,
-               hasLoaded: () => true
+               hasLoaded: () => true,
+               getKeyProperty: () => 'id'
             };
          });
 
@@ -1982,6 +1983,7 @@ define([
             assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
 
             model.setExpandedItems([null]);
+            model.setCollapsedItems([]);
             treeControl.saveOptions({...cfg, expandedItems: [null], collapsedItems: []});
             notifySpy.resetHistory();
             await treeControl.toggleExpanded(0);
@@ -1997,6 +1999,14 @@ define([
 
             assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[null]]).called);
             assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
+         });
+
+         it('remove child keys from expanded items', async () => {
+            model.setExpandedItems([0, 1]);
+            treeControl.saveOptions({...cfg, expandedItems: [0, 1], collapsedItems: []});
+            notifySpy.resetHistory();
+            await treeControl.toggleExpanded(0);
+            assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[]]).called);
          });
       });
    });

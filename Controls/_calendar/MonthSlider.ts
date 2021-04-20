@@ -19,8 +19,8 @@ import 'css!Controls/calendar';
  *
  * @class Controls/_calendar/MonthSlider
  * @extends UI/Base:Control
- * @mixes Controls/_calendar/interfaces/IMonth
- * @mixes Controls/_dateRange/interfaces/IRangeSelectable
+ * @mixes Controls/calendar:IMonth
+ * @mixes Controls/dateRange:IRangeSelectable
  * @mixes Controls/dateRange:IDateRangeSelectable
  * @mixes Controls/dateRange:IDayTemplate
  *

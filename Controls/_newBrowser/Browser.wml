@@ -1,3 +1,109 @@
+<ws:template name="masterTemplate">
+   <ws:if data="{{_options.masterHeaderTemplate}}">
+      <ws:partial template="{{_options.masterHeaderTemplate}}"/>
+   </ws:if>
+   <Controls.explorer:View
+           scope="{{_masterExplorerOptions}}"
+
+           root="{{_masterRoot}}"
+           on:rootChanged="_onMasterRootChanged()"
+           bind:markedKey="_masterMarkedKey"
+           on:itemClick="_onExplorerItemClick(true)"
+   />
+</ws:template>
+
+<ws:template name="detailTemplate">
+
+   <div class="controls-newBrowser__detail" style="background-color: {{_detailBgColor}};">
+      <ws:if data="{{_options.detailHeaderTemplate}}">
+         <ws:partial template="{{_options.detailHeaderTemplate}}"/>
+      </ws:if>
+
+      <ws:if data="{{_options.detailContentTemplate}}">
+         <ws:partial
+                 template="{{_options.detailContentTemplate}}"
+                 attr:class="controls-newBrowser__detail-list"
+                 root="{{root}}"
+                 on:rootChanged="_onDetailRootChanged()"
+                 searchValue="{{_searchValue}}"
+                 on:arrowClick="_onDetailArrowClick()"
+                 on:itemClick="_onExplorerItemClick(false)"
+                 on:viewModeChanged="_onDetailExplorerChangedViewMode()"
+                 scope="{{_detailExplorerOptions}}"
+         />
+      </ws:if>
+      <ws:else>
+         <!-- beforeBeginEdit юзают для отмены редактирования узлов, нужна доработка списков
+              beforeEndEdit юзают для кастомной логики сохранения записи, т.к не хотят менять БЛ -->
+         <Controls.explorer:View
+                 attr:class="controls-newBrowser__detail-list"
+                 name="detailList"
+                 root="{{root}}"
+                 on:rootChanged="_onDetailRootChanged()"
+                 on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
+                 on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
+                 on:beforeBeginEdit="_notifyHandler('beforeBeginEdit')"
+                 on:beforeEndEdit="_notifyHandler('beforeEndEdit')"
+                 on:afterBeginEdit="_notifyHandler('afterBeginEdit')"
+                 on:afterEndEdit="_notifyHandler('afterEndEdit')"
+                 tileSize="{{_tileCfg.imageSize}}"
+
+                 viewMode="{{viewMode}}"
+                 scope="{{_detailExplorerOptions}}"
+                 breadcrumbsVisibility="{{
+               (_masterVisibility === _masterVisibilityEnum.visible || _appliedViewMode === _viewModeEnum.search)
+                  ? 'hidden'
+                  : 'visible'
+            }}"
+                 searchValue="{{_searchValue}}"
+
+                 on:arrowClick="_onDetailArrowClick()"
+                 on:itemClick="_onExplorerItemClick(false)"
+                 on:viewModeChanged="_onDetailExplorerChangedViewMode()"
+         >
+            <ws:afterBreadCrumbsTemplate>
+               <ws:if data="{{_options.detail.afterBreadCrumbsTemplate}}">
+                  <ws:partial template="{{_options.detail.afterBreadCrumbsTemplate}}"/>
+               </ws:if>
+               <ws:else>
+                  <invisible-node/>
+               </ws:else>
+            </ws:afterBreadCrumbsTemplate>
+
+            <ws:itemTemplate>
+               <!-- В режиме "таблица" или "поиск" нужно использовать шаблон строки таблицы -->
+               <ws:if data="{{_appliedViewMode === _viewModeEnum.table || _appliedViewMode === _viewModeEnum.search}}">
+                  <Controls.treeGrid:ItemTemplate
+                          scope="{{itemTemplate}}"
+                          listConfiguration="{{_listConfiguration}}"
+                  />
+               </ws:if>
+               <ws:else>
+                  <ws:partial
+                          scope="{{itemTemplate}}"
+                          template="{{_detailExplorerOptions.itemTemplate}}"
+                          listConfiguration="{{_listConfiguration}}"
+                          listCfg="{{_listCfg}}"
+                  />
+               </ws:else>
+            </ws:itemTemplate>
+
+            <ws:tileItemTemplate>
+               <ws:partial
+                       scope="{{tileItemTemplate}}"
+                       template="{{_detailExplorerOptions.tileItemTemplate}}"
+                       listConfiguration="{{_listConfiguration}}"
+                       tileCfg="{{_tileCfg}}"
+               />
+            </ws:tileItemTemplate>
+         </Controls.explorer:View>
+      </ws:else>
+      <ws:if data="{{_options.detailFooterTemplate}}">
+         <ws:partial template="{{_options.detailFooterTemplate}}"/>
+      </ws:if>
+   </div>
+</ws:template>
+
 <Controls.masterDetail:Base
    attr:class="controls-newBrowser"
    masterVisibility="{{_masterVisibility}}"
@@ -8,108 +114,24 @@
 >
 
    <ws:master>
-      <Controls.scroll:Container
-         attr:class="controls-newBrowser__master"
-      >
-         <ws:if data="{{_options.masterHeaderTemplate}}">
-            <ws:partial template="{{_options.masterHeaderTemplate}}"/>
-         </ws:if>
-         <Controls.explorer:View
-            scope="{{_masterExplorerOptions}}"
-
-            root="{{_masterRoot}}"
-            on:rootChanged="_onMasterRootChanged()"
-            bind:markedKey="_masterMarkedKey"
-            on:itemClick="_onExplorerItemClick(true)"
-         />
-      </Controls.scroll:Container>
+      <ws:if data="{{_options.wrapMasterInScroll}}">
+         <Controls.scroll:Container attr:class="controls-newBrowser__scroll">
+            <ws:partial template="masterTemplate"/>
+         </Controls.scroll:Container>
+      </ws:if>
+      <ws:else>
+         <ws:partial template="masterTemplate"/>
+      </ws:else>
    </ws:master>
 
    <ws:detail>
-      <div
-         class="controls-newBrowser__detail"
-         style="background-color: {{_detailBgColor}};"
-      >
-         <ws:if data="{{_options.detailHeaderTemplate}}">
-            <ws:partial template="{{_options.detailHeaderTemplate}}"/>
-         </ws:if>
-
-         <ws:if data="{{_options.detailContentTemplate}}">
-            <ws:partial
-                template="{{_options.detailContentTemplate}}"
-                attr:class="controls-newBrowser__detail-list"
-                root="{{root}}"
-                on:rootChanged="_onDetailRootChanged()"
-                searchValue="{{_searchValue}}"
-                on:arrowClick="_onDetailArrowClick()"
-                on:itemClick="_onExplorerItemClick(false)"
-                on:viewModeChanged="_onDetailExplorerChangedViewMode()"
-                scope="{{_detailExplorerOptions}}"
-            />
-         </ws:if>
-         <ws:else>
-            <Controls.explorer:View
-                    attr:class="controls-newBrowser__detail-list"
-                    root="{{root}}"
-                    on:rootChanged="_onDetailRootChanged()"
-                    on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
-                    on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
-                    tileSize="{{_tileCfg.imageSize}}"
-
-                    viewMode="{{viewMode}}"
-                    scope="{{_detailExplorerOptions}}"
-                    breadcrumbsVisibility="{{
-               (_masterVisibility === _masterVisibilityEnum.visible || _appliedViewMode === _viewModeEnum.search)
-                  ? 'hidden'
-                  : 'visible'
-            }}"
-                    searchValue="{{_searchValue}}"
-
-                    on:arrowClick="_onDetailArrowClick()"
-                    on:itemClick="_onExplorerItemClick(false)"
-                    on:viewModeChanged="_onDetailExplorerChangedViewMode()"
-            >
-               <ws:afterBreadCrumbsTemplate>
-                  <ws:if data="{{_options.detail.afterBreadCrumbsTemplate}}">
-                     <ws:partial template="{{_options.detail.afterBreadCrumbsTemplate}}"/>
-                  </ws:if>
-                  <ws:else>
-                     <invisible-node/>
-                  </ws:else>
-               </ws:afterBreadCrumbsTemplate>
-
-               <ws:itemTemplate>
-                  <!-- В режиме "таблица" или "поиск" нужно использовать шаблон строки таблицы -->
-                  <ws:if data="{{_appliedViewMode === _viewModeEnum.table || _appliedViewMode === _viewModeEnum.search}}">
-                     <Controls.treeGrid:ItemTemplate
-                             scope="{{itemTemplate}}"
-                             listConfiguration="{{_listConfiguration}}"
-                     />
-                  </ws:if>
-                  <ws:else>
-                     <ws:partial
-                             scope="{{itemTemplate}}"
-                             template="{{_detailExplorerOptions.itemTemplate}}"
-                             listConfiguration="{{_listConfiguration}}"
-                             listCfg="{{_listCfg}}"
-                     />
-                  </ws:else>
-               </ws:itemTemplate>
-
-               <ws:tileItemTemplate>
-                  <ws:partial
-                          scope="{{tileItemTemplate}}"
-                          template="{{_detailExplorerOptions.tileItemTemplate}}"
-                          listConfiguration="{{_listConfiguration}}"
-                          tileCfg="{{_tileCfg}}"
-                  />
-               </ws:tileItemTemplate>
-            </Controls.explorer:View>
-         </ws:else>
-         <ws:if data="{{_options.detailFooterTemplate}}">
-            <ws:partial template="{{_options.detailFooterTemplate}}"/>
-         </ws:if>
-      </div>
+      <ws:if data="{{_options.wrapDetailInScroll}}">
+         <Controls.scroll:Container attr:class="controls-newBrowser__scroll">
+            <ws:partial template="detailTemplate"/>
+         </Controls.scroll:Container>
+      </ws:if>
+      <ws:else>
+         <ws:partial template="detailTemplate"/>
+      </ws:else>
    </ws:detail>
-
 </Controls.masterDetail:Base>

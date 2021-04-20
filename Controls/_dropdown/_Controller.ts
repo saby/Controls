@@ -685,7 +685,7 @@ export default class _Controller implements IDropdownController {
          keyProperty: this._isHistoryMenu() ? 'copyOriginalId' : baseConfig.keyProperty,
          headerTemplate: this._options.headTemplate || this._options.headerTemplate,
          footerContentTemplate: this._options.footerContentTemplate,
-         items: this._items,
+         items: !this._isHistoryMenu() ? this._items : null,
          source: this._menuSource,
          filter: this._filter,
          // FIXME this._container[0] delete after

@@ -175,6 +175,32 @@ export interface IMenuOptions {
  * @demo Controls-demo/Toolbar/IconStyle/Index
  */
 
+/**
+ * @name Controls/_toolbars/View#itemTemplate
+ * @cfg {String | TemplateFunction} Пользовательский шаблон отображения элемента внутри тулбара.
+ * Для того чтобы задать шаблон элемента и в тулбаре и в выпадающем списке используйте опцию {@link Controls/interface/IItemTemplate itemTemplateProperty}.
+ *
+ * @example
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <div class="controlsDemo__wrapper">
+ *   <div class="controlsDemo__cell">
+ *      <Controls.toolbars:View
+ *          source="{{_toolbarSource}}"
+ *          keyProperty="id">
+ *              <ws:itemTemplate>
+ *                  <div style="background: #E1E1E1">
+ *                      <ws:partial template="Controls/toolbars:ItemTemplate" />
+ *                  </div>
+ *               </ws:itemTemplate>
+ *      </Controls.toolbars:View>
+ *    </div>
+ * </div>
+ * </pre>
+ *
+ * @demo Controls-demo/Toolbar/ItemTemplate/Index
+ */
+
 class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IIconSize, IItemTemplate,
     IGrouped, IToolbarSource, IItems, IFontColorStyle, IIconStyle, IFilter {
     /*
@@ -324,6 +350,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             },
             templateOptions: {
                 source,
+                items: options.items,
                 root,
                 ...this._getMenuTemplateOptions(),
                 showHeader: item.get('showHeader'),

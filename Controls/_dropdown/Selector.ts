@@ -75,12 +75,12 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/interface:INavigation
  * @mixes Controls/Input/interface/IValidation
- * @mixes Controls/_interface/IMultiSelectable
- * @mixes Controls/_dropdown/interface/IFooterTemplate
- * @mixes Controls/_dropdown/interface/IHeaderTemplate
+ * @mixes Controls/interface:IMultiSelectable
+ * @mixes Controls/dropdown:IFooterTemplate
+ * @mixes Controls/dropdown:IHeaderTemplate
  * @mixes Controls/interface/ISelectorDialog
- * @mixes Controls/_dropdown/interface/IGrouped
- * @mixes Controls/_interface/ITextValue
+ * @mixes Controls/dropdown:IGrouped
+ * @mixes Controls/interface:ITextValue
  * 
  * @public
  * @author Золотова Э.Е.

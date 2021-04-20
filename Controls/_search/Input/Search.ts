@@ -32,10 +32,10 @@ let _private = {
  * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/ руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия}
  * * {@link https://github.com/saby/wasaby-controls/blob/691ea993b54186e06053160a2c88d66fb629f4ed/Controls-default-theme/variables/_search.less переменные тем оформления}
  *
- * @class Controls/_search/Input/Search
+ * @mixes Controls/search:Input
  * @extends Controls/_input/Base
  *
- * @mixes Controls/_input/interface/IText
+ * @mixes Controls/input:IText
  * @implements Controls/interface:IContrastBackground
  *
  * @ignoreOptions style
@@ -56,10 +56,10 @@ let _private = {
  * <a href="/materials/Controls-demo/app/Controls-demo%2FSearch%2FContainer">Demo with Input/Search and List control</a>.
  * <a href="/materials/Controls-demo/app/Controls-demo%2FFilterSearch%2FFilterSearch">Demo with Filter/Button, Input/Search and List control</a>.
  *
- * @class Controls/_search/Input/Search
+ * @mixes Controls/search:Input
  * @extends Controls/_input/Base
  *
- * @mixes Controls/_input/interface/IText
+ * @mixes Controls/input:IText
  * @implements Controls/interface:IContrastBackground
  *
  * @ignoreOptions style

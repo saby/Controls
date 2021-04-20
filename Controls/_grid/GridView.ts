@@ -89,13 +89,13 @@ const GridView = ListView.extend({
         const changedOptions = _Options.getChangedOptions(newOptions, this._options);
 
         if (changedOptions) {
-            if (changedOptions.footer || changedOptions.footerTemplate) {
+            if (changedOptions.hasOwnProperty('footer') || changedOptions.hasOwnProperty('footerTemplate')) {
                 changes.push('footer');
             }
-            if (changedOptions.header) {
+            if (changedOptions.hasOwnProperty('header')) {
                 changes.push('header');
             }
-            if (changedOptions.columns) {
+            if (changedOptions.hasOwnProperty('columns')) {
                 changes.push('columns');
             }
         }
@@ -349,6 +349,7 @@ const GridView = ListView.extend({
 
     _getHorizontalScrollBarStyles(): string {
         if (!(this._columnScrollViewController && this.isColumnScrollVisible())) {
+            this._horizontalScrollWidth = 0;
             return 'display: none;';
         }
         return this._columnScrollViewController.getScrollBarStyles(this._options.itemActionsPosition, GridLadderUtil.stickyLadderCellsCount(

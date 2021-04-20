@@ -154,6 +154,8 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _newBackgroundStyle: string;
     private _newHeader: IHeaderCell[];
     private _isGoingBack: boolean;
+    // Восстановленное значение курсора при возврате назад по хлебным крошкам
+    private _restoredCursor: unknown;
     private _pendingViewMode: TExplorerViewMode;
 
     private _items: RecordSet;
@@ -226,7 +228,9 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     protected _beforeUpdate(cfg: IExplorerOptions): void {
         const isViewModeChanged = cfg.viewMode !== this._options.viewMode;
-        const isRootChanged = cfg.root !== this._getRoot(this._options.root);
+        // Проверяем именно root в опциях
+        // https://online.sbis.ru/opendoc.html?guid=4b67d75e-1770-4e79-9629-d37ee767203b
+        const isRootChanged = cfg.root !== this._options.root;
 
         // Мы не должны ставить маркер до проваливания, т.к. это лишняя синхронизация.
         // Но если отменили проваливание, то нужно поставить маркер.
@@ -262,25 +266,8 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._newHeader = cfg.viewMode === 'tile' ? undefined : cfg.header;
         }
 
-        /*
-        * Позиция скрола при выходе из папки восстанавливается через скроллирование к отмеченной записи.
-        * Чтобы список мог восстановить позицию скрола по отмеченой записи, она должна быть в наборе данных.
-        * Чтобы обеспечить ее присутствие, нужно загружать именно ту страницу, на которой она есть.
-        * Восстановление работает только при курсорной навигации.
-        * Если в момент возвращения из папки был изменен тип навигации, не нужно восстанавливать, иначе будут смешаны опции
-        * курсорной и постраничной навигаций.
-        * */
         const navigationChanged = !isEqual(cfg.navigation, this._options.navigation);
-
-        if (
-            this._isGoingBack &&
-            isRootChanged &&
-            !navigationChanged &&
-            this._isCursorNavigation(this._options.navigation)
-        ) {
-            const newRoot = this._getRoot(cfg.root);
-            this._restorePositionNavigation(newRoot);
-        } else if (navigationChanged) {
+        if (navigationChanged) {
             this._navigation = cfg.navigation;
         }
 
@@ -389,6 +376,15 @@ export default class Explorer extends Control<IExplorerOptions> {
             if (this._options.searchNavigationMode !== 'expand') {
                 this._isGoingFront = true;
             }
+
+            // При проваливании нужно сбросить восстановленное значение курсора
+            // иначе данные загрузятся не корректные
+            if (
+                this._isCursorNavigation(this._navigation) &&
+                this._restoredCursor === this._navigation.sourceConfig.position
+            ) {
+                this._navigation.sourceConfig.position = null;
+            }
         };
 
         // Не нужно проваливаться в папку, если должно начаться ее редактирование.
@@ -470,8 +466,33 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     protected _onBreadCrumbsClick(event: SyntheticEvent, item: Model): void {
-        this._setRoot(item.getKey());
+        const newRoot = item.getKey();
+        const rootChanged = this._setRoot(newRoot);
+
+        // Если смену root отменили, то и делать ничего не надо, т.к.
+        // остаемся в текущей папке
+        if (rootChanged === false) {
+            return;
+        }
+
         this._isGoingBack = true;
+
+        /**
+         * Позиция скрола при выходе из папки восстанавливается через скроллирование к отмеченной записи.
+         * Чтобы список мог восстановить позицию скрола по отмеченой записи, она должна быть в наборе данных.
+         * Чтобы обеспечить ее присутствие, нужно загружать именно ту страницу, на которой она есть.
+         * Восстановление работает только при курсорной навигации.
+         *
+         * Далее какой-то странный сценарий, непонятно на сколько он актуальный:
+         * Если в момент возвращения из папки был изменен тип навигации, не нужно восстанавливать, иначе будут
+         * смешаны опции курсорной и постраничной навигаций.
+         */
+        // Если загрузка данных осуществляется снаружи explorer и включена навигация по курсору,
+        // то нужно восстановить курсор что бы тот, кто грузит данные сверху выполнил запрос с
+        // корректным значением курсора
+        if (this._isCursorNavigation(this._options.navigation)) {
+            this._restoredCursor = this._restorePositionNavigation(newRoot);
+        }
     }
 
     protected _onExternalKeyDown(event: SyntheticEvent): void {
@@ -560,6 +581,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     // endregion remover
+
     /**
      * Возвращает идентификатор текущего корневого узла
      */
@@ -572,7 +594,12 @@ export default class Explorer extends Control<IExplorerOptions> {
             ? 'controls-BreadCrumbsView__dropTarget_' + (hasArrow ? 'withArrow' : 'withoutArrow') : '';
     }
 
-    private _setRoot(root: TKey, dataRoot: TKey = null): void {
+    /**
+     * Посылает событие о смене root и возвращает результат обработки этого события
+     */
+    private _setRoot(root: TKey, dataRoot: TKey = null): boolean {
+        let result = true;
+
         if (!this._options.hasOwnProperty('root')) {
             this._root = root;
         } else {
@@ -584,29 +611,11 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
 
         if (this._isMounted) {
-            this._notify('rootChanged', [root]);
+            result = this._notify('rootChanged', [root]);
         }
 
         this._forceUpdate();
-    }
-
-    private _setRestoredKeyObject(root: Model): void {
-        const rootId = root.getKey();
-        const curRoot = this._getRoot(this._options.root);
-
-        this._restoredMarkedKeys[rootId] = {
-            parent: curRoot,
-            markedKey: null
-        };
-
-        const currRootInfo = this._restoredMarkedKeys[curRoot];
-        if (currRootInfo) {
-            currRootInfo.markedKey = rootId;
-
-            if (this._isCursorNavigation(this._options.navigation)) {
-                currRootInfo.cursorPosition = this._getCursorPositionFor(root, this._options.navigation);
-            }
-        }
+        return result;
     }
 
     private _initMarkedKeys(
@@ -868,8 +877,13 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     protected _backByPath(breadcrumbs: Path): void {
         if (breadcrumbs?.length) {
-            this._isGoingBack = true;
-            this._setRoot(breadcrumbs[breadcrumbs.length - 1].get(this._options.parentProperty));
+            const keyProp = this._options.keyProperty;
+            this._onBreadCrumbsClick(null, new Model({
+                keyProperty: keyProp,
+                rawData: {
+                    [keyProp]: breadcrumbs[breadcrumbs.length - 1].get(this._options.parentProperty)
+                }
+            }));
         }
     }
 
@@ -905,18 +919,21 @@ export default class Explorer extends Control<IExplorerOptions> {
      *
      * @param rootId id узла в который возвращаемся
      */
-    private _restorePositionNavigation(rootId: TKey): void {
+    private _restorePositionNavigation(rootId: TKey): unknown {
         const rootInfo = this._restoredMarkedKeys[rootId];
         if (!rootInfo) {
             return;
         }
 
+        let cursor;
         if (typeof rootInfo?.cursorPosition !== 'undefined') {
-            this._navigation.sourceConfig.position = rootInfo.cursorPosition;
+            cursor = rootInfo.cursorPosition;
         } else {
-            const fromOptions = this._options._navigation?.sourceConfig?.position;
-            this._navigation.sourceConfig.position = fromOptions || null;
+            cursor = this._options._navigation?.sourceConfig?.position;
         }
+
+        this._navigation.sourceConfig.position = cursor || null;
+        return cursor;
     }
 
     private _setPendingViewMode(viewMode: TExplorerViewMode, options: IExplorerOptions): void {
@@ -992,9 +1009,9 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/list:IList
- * @mixes Controls/itemActions:IItemActionsOptions
+ * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:IHierarchy
- * @implements Controls/tree/ITreeControlOptions
+ * @implements Controls/tree:ITreeControl
  * @mixes Controls/explorer:IExplorer
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/tile:ITile
@@ -1028,9 +1045,9 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/list:IList
- * @mixes Controls/itemActions:IItemActionsOptions
+ * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:IHierarchy
- * @implements Controls/tree/ITreeControlOptions
+ * @implements Controls/tree:ITreeControl
  * @mixes Controls/explorer:IExplorer
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/tile:ITile

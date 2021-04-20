@@ -14,6 +14,7 @@ export default interface IContrastBackground {
 /**
  * @name Controls/_interface/IContrastBackground#contrastBackground
  * @cfg {Boolean} Определяет контрастность фона контрола по отношению к его окружению.
+ * @default false
  * @variant true Контрастный фон.
  * @variant false Фон, гармонично сочетающийся с окружением.
  */

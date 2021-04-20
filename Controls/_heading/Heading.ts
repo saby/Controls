@@ -32,10 +32,10 @@ export interface IHeadingOptions
  *
  * @class Controls/_heading/Heading
  * @extends UI/Base:Control
- * @implements Controls/_interface/ITooltip
- * @implements Controls/_interface/ICaption
+ * @implements Controls/interface:ITooltip
+ * @implements Controls/interface:ICaption
  * @implements Controls/interface:IFontColorStyle
- * @implements Controls/_interface/IFontSize
+ * @implements Controls/interface:IFontSize
  * @public
  * @author Красильников А.С.
  *

@@ -229,7 +229,13 @@ const INVERTING_CONST = {
          let position = _private.getPosition(popupCfg, targetCoords, direction);
          let resultPosition = position;
          let positionOverflow = _private.checkOverflow(popupCfg, targetCoords, position, direction);
-         if (positionOverflow > 0) {
+
+         /*
+            При масштабировании иногда браузер криво считает размеры контейнера,
+            из-за чего возникают дробные размеры контейнеров > body,
+            из-за которых позиционирование по какому-то краю приводит к overflow < 1px
+          */
+         if (positionOverflow >= 1) {
             if (popupCfg.fittingMode[direction] === 'fixed') {
                resultPosition = _private.calculateFixedModePosition(popupCfg, property, targetCoords, position, positionOverflow);
             } else if (popupCfg.fittingMode[direction] === 'overflow') {

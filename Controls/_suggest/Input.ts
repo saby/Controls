@@ -14,7 +14,7 @@ import 'css!Controls/suggest';
  *
  * @class Controls/_suggest/Input
  * @extends UI/Base:Control
- * @mixes Controls/_suggest/ISuggest
+ * @mixes Controls/suggest:ISuggest
  * @mixes Controls/interface:ISearch
  * @mixes Controls/interface/IBorderStyle
  * @mixes Controls/interface:ISource
@@ -23,13 +23,13 @@ import 'css!Controls/suggest';
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:IHeight
- * @mixes Controls/_interface/IValidationStatus
- * @mixes Controls/_interface/IContrastBackground
- * @mixes Controls/_input/interface/ITag
- * @mixes Controls/_input/interface/IBase
+ * @mixes Controls/interface:IValidationStatus
+ * @mixes Controls/interface:IContrastBackground
+ * @mixes Controls/input:ITag
+ * @mixes Controls/input:IBase
  * @mixes Controls/interface:IInputPlaceholder
- * @mixes Controls/_input/interface/IText
- * @mixes Controls/_input/interface/IValue
+ * @mixes Controls/input:IText
+ * @mixes Controls/input:IValue
  *
  * @public
  * @demo Controls-demo/Suggest_new/Input/DisplayProperty/DisplayProperty
@@ -43,13 +43,13 @@ import 'css!Controls/suggest';
  *
  * @class Controls/_suggest/Input
  * @extends UI/Base:Control
- * @mixes Controls/_suggest/ISuggest
+ * @mixes Controls/suggest:ISuggest
  * @mixes Controls/interface:ISearch
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/interface:INavigation
- * @mixes Controls/_input/interface/IBase
- * @mixes Controls/_input/interface/IText
+ * @mixes Controls/input:IBase
+ * @mixes Controls/input:IText
  *
  * @public
  * @demo Controls-demo/Suggest_new/Input/DisplayProperty/DisplayProperty
@@ -135,7 +135,6 @@ var Suggest = Control.extend({
 Suggest.getOptionTypes = getOptionTypes;
 Suggest.getDefaultOptions = function() {
    return {
-      borderVisibility: 'visible',
       minSearchLength: 3
    };
 };
@@ -157,4 +156,10 @@ Object.defineProperty(Suggest, 'defaultProps', {
  * @name Controls/_suggest/Input#showSelector
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  */
+
+/**
+ * @name Controls/_suggest/Input#fontSize
+ * @demo Controls-demo/Suggest_new/Input/FontSize/Index
+ */
+
 export = Suggest;

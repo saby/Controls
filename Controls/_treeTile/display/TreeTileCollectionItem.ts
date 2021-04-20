@@ -75,13 +75,13 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         return super.getImageWrapperClasses(itemType, templateHasTitle, templateTitleStyle, imageViewMode);
     }
 
-    getItemActionsClasses(itemTypeTpl: string = 'default'): string {
+    getItemActionsClasses(itemTypeTpl: string = 'default', itemActionsClass: string = ''): string {
         let itemType = itemTypeTpl;
         if (itemType === 'default' && this.isNode()) {
             itemType = 'small';
         }
 
-        let classes = super.getItemActionsClasses(itemType);
+        let classes = super.getItemActionsClasses(itemType, itemActionsClass);
 
         if (itemType === 'preview' && this.isNode()) {
             classes += ' controls-TileView__previewTemplate_itemActions_node';
@@ -117,7 +117,7 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         if (this.isNode()) {
             classes += ' controls-TreeTileView__node';
             if (this.isDragTargetNode()) {
-                classes += ' controls-controls-TreeTileView__dragTargetNode';
+                classes += ` controls-TileView__dragTargetNode`;
             }
         }
 

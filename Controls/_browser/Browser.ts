@@ -80,7 +80,7 @@ type TErrbackConfig = dataSourceError.ViewConfig & { error: Error };
  * @class Controls/browser:Browser
  * @public
  * @author Герасимов А.М.
- * @mixes Controls/_browser/interface/IBrowser
+ * @mixes Controls/browser:IBrowser
  * @mixes Controls/filter:IPrefetch
  * @mixes Controls/interface:IFilter
  * @mixes Controls/interface:IFilterChanged
@@ -240,6 +240,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         }
     }
 
+    private _validateSearchOptions(options: IBrowserOptions): void {
+        if (options.hasOwnProperty('searchValue') && options.searchValue === undefined) {
+            Logger.error('Controls/browser:Browser опция searchValue имеет некорректный тип, необходимо передавать строкой', this);
+        }
+    }
+
     protected _operationPanelItemClick(
         event: SyntheticEvent,
         item: Model,
@@ -363,6 +369,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     private _updateSearchController(newOptions: IBrowserOptions): Promise<void> {
         return this._getSearchController().then((searchController) => {
+            this._validateSearchOptions(newOptions);
             const updateResult = searchController.update({
                 ...newOptions,
                 sourceController: this._getSourceController()

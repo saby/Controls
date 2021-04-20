@@ -23,17 +23,3 @@
 .controls-TreeTileView__separator {
    width: 100%;
 }
-
-.controls-TreeTileView__dragTargetNode:after {
-   content: '\200b';
-   border: var(--item_droppable_border_thickness_treeGrid) solid var(--item_droppable_border_color_treeGrid);
-   position: absolute;
-   top: 0;
-   left: 0;
-   right: 0;
-   bottom: 0;
-
-   //the z-index is larger than itemActions so that itemActions does not overlap the folder border when drag'n'drop.
-   //Will be deleted by task: https://online.sbis.ru/opendoc.html?guid=7503eaab-e38a-4c6e-8f0d-940646d8bd28
-   z-index: 2;
-}

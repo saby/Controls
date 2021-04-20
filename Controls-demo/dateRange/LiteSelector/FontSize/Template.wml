@@ -1,0 +1,17 @@
+<div class="controlsDemo__flexColumn" attr:style="padding-left:10px">
+    <div attr:style="padding:10px 0 5px">fontSize = s</div>
+    <Controls.dateRange:RangeShortSelector
+            bind:startValue="_startValue"
+            bind:endValue="_endValue"
+            fontSize="s"/>
+    <div attr:style="padding:10px 0 5px">fontSize = m</div>
+    <Controls.dateRange:RangeShortSelector
+            bind:startValue="_startValue"
+            bind:endValue="_endValue"
+            fontSize="m"/>
+    <div attr:style="padding:10px 0 5px">fontSize = l</div>
+    <Controls.dateRange:RangeShortSelector
+            bind:startValue="_startValue"
+            bind:endValue="_endValue"
+            fontSize="l"/>
+</div>

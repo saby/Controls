@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <Controls.scroll:Container attr:class="demo-Explorer__scrollContainer">
-        <Controls.browser:Browser attr:class="controlsDemo_fixedWidth550" source="{{_viewSource}}" keyProperty="id"
+        <Controls.browser:Browser attr:class="demo-Explorer__browser controlsDemo_fixedWidth550" source="{{_viewSource}}" keyProperty="id"
                                   searchParam="title" minSearchLength="{{3}}"
                                   searchStartingWith="root">
             <div class="ws-fragment">

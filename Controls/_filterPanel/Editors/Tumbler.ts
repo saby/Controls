@@ -17,7 +17,7 @@ interface ITumbler {
  * Контрол используют в качестве редактора кнопочного переключателя.
  * @class Controls/_filterPanel/Editors/Tumbler
  * @extends UI/Base:Control
- * @mixes Controls/_toggle/Tumbler
+ * @mixes Controls/toggle:Tumbler
  * @author Мельникова Е.А.
  * @public
  */
@@ -32,6 +32,11 @@ class Tumbler extends Control<ITumblerOptions> implements ITumbler {
             textValue: this._getTextValue(value)
         };
         this._notify('propertyValueChanged', [extendedValue], {bubbling: true});
+    }
+
+    protected _extendedCaptionClickHandler(event: SyntheticEvent): void {
+        const value = this._options.items.at(0).getKey();
+        this._selectedKeyChangedHandler(event, value);
     }
 
     private _getTextValue(id: string|number): string {

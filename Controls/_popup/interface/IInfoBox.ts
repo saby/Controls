@@ -1,11 +1,5 @@
 import {IControlOptions} from 'UI/Base';
 
-/**
- * Опции интерфейса описаны {@link Controls/_popup/interface/IInfoBox здесь}.
- * @public
- * @author Красильников А.С.
- */
-
 export interface IInfoBoxOptions extends IControlOptions {
     targetSide?: string;
     position?: string; // old option.

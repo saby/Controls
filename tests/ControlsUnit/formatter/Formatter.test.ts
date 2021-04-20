@@ -39,10 +39,6 @@ describe('Controls.formatter:MaskFormatter', () => {
             const actual = MaskFormatter.splitValue(formatWithQuantifiers, '(1234qwe)(567rtyu)');
             assert.deepEqual(actual, ['(', '1234qwe', ')', '(', '567rtyu', ')']);
         });
-        it('Error', () => {
-            const actual = MaskFormatter.splitValue.bind(MaskFormatter, dateFormat, 'qw.er');
-            assert.throws(actual, Error, 'Значение не соответствует формату маски.');
-        });
     });
 
     describe('clearData', () => {

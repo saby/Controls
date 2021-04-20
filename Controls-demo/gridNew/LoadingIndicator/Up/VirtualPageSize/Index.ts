@@ -9,7 +9,7 @@ export default class extends Control {
     protected _columns: [] = [
         {
             displayProperty: 'title',
-            width: 'max-content'
+            width: '1fr'
         }
     ];
     private _dataArray: unknown = generateData({count: 40, entityTemplate: {title: 'lorem'}});

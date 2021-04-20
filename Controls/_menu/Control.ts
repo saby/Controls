@@ -108,6 +108,9 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             } else {
                 return this._setItems(options.sourceController.getItems(), options);
             }
+        } else if (options.items) {
+            this._getSourceController(options).setItems(options.items);
+            this._setItems(options.items, options);
         } else if (options.source) {
             return this._loadItems(options).then((items) => {
                 this._setItems(items, options);
@@ -179,6 +182,10 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             this._errorController.destroy();
             this._errorController = null;
         }
+    }
+
+    public closeSubMenu(): void {
+        this._closeSubMenu();
     }
 
     protected _mouseEnterHandler(): void {
@@ -914,6 +921,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                 searchParam: null,
                 itemPadding: null,
                 source,
+                items: isLoadedChildItems ? this._options.items : null,
                 subMenuLevel: this._options.subMenuLevel ? this._options.subMenuLevel + 1 : 1,
                 iWantBeWS3: false // FIXME https://online.sbis.ru/opendoc.html?guid=9bd2e071-8306-4808-93a7-0e59829a317a
             };
@@ -962,12 +970,16 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _subMenuDataLoadCallback(items: RecordSet): void {
-        if (this._listModel.getCollection().getFormat().getIndexByValue('name', this._options.parentProperty) === -1) {
-            this._listModel.getCollection().addField({
-                name: this._options.parentProperty,
-                type: 'string'
-            });
-        }
+        const origCollectionFormat = this._listModel.getCollection().getFormat();
+        items.getFormat().forEach((field) => {
+            const name = field.getName();
+            if (origCollectionFormat.getFieldIndex(name) === -1) {
+                this._listModel.getCollection().addField({
+                    name,
+                    type: 'string'
+                });
+            }
+        });
         this._listModel.getCollection().append(items);
     }
 

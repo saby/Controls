@@ -976,6 +976,56 @@ define(
             StickyStrategy._private.invertPosition = invertPosition;
          });
 
+
+         it('calculatePosition with float position(overflow < 1px)', () => {
+            let popupCfg = {
+               direction: {
+                  vertical: 'top'
+               },
+               sizes: {
+                  width: 200,
+                  height: 200
+               },
+               fittingMode: {
+                  vertical: 'adaptive',
+                  horizontal: 'adaptive'
+               }
+            };
+
+            const overflowPosition = BASE_VIEWPORT.height + 0.4;
+            const targetCoordinates = {
+               top: overflowPosition,
+               bottom: overflowPosition,
+               topScroll: 0
+            };
+            let positionInverted = false;
+
+            let getMargins = StickyStrategy._private.getMargins;
+            StickyStrategy._private.getMargins = () => 0;
+
+            let getTargetCoords = StickyStrategy._private.getTargetCoords;
+            StickyStrategy._private.getTargetCoords = () => {
+               return targetCoordinates.bottom;
+            };
+
+            let invertPosition = StickyStrategy._private.invertPosition;
+            StickyStrategy._private.invertPosition = () => { positionInverted = true; };
+
+            const getWindowSizes = StickyStrategy._private.getWindowSizes;
+            StickyStrategy._private.getWindowSizes = () => ({...BASE_VIEWPORT});
+            StickyStrategy._private.getVisualViewport = () => ({...BASE_VIEWPORT});
+            StickyStrategy._private.getBody = () => ({...BASE_VIEWPORT});
+
+            StickyStrategy._private.calculatePosition(popupCfg, targetCoordinates,'vertical');
+
+            assert.equal(positionInverted, false);
+
+            StickyStrategy._private.getWindowSizes = getWindowSizes;
+            StickyStrategy._private.getMargins = getMargins;
+            StickyStrategy._private.getTargetCoords = getTargetCoords;
+            StickyStrategy._private.invertPosition = invertPosition;
+         });
+
          it('getPositionProperty', () => {
             const positionRightBottom = {
                right: 100,

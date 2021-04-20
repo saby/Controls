@@ -1,0 +1,15 @@
+<div class="{{!_options.hideBackground ? 'popup-page-background'}}">
+    <div class="{{!_options.hideBackground ? 'controls-Popup__stack-target-container popup-page-target-container'}}">
+        <Controls.popup:Dialog name="dialog"
+                               template="Controls-demo/Popup/Opener/resources/DialogTpl">
+        </Controls.popup:Dialog>
+        <div class="{{!_options.hideBackground ? 'popup-page-buttons'}}">
+            <div>
+                <Controls.buttons:Button attr:class="demo-StackDemo__dialog" name="button3" caption="Open Dialog" on:click="openDialog()"/>
+            </div>
+            <div>
+                <Controls.buttons:Button attr:class="demo-StackDemo__modalDialog" name="button5" caption="Open Modal Dialog" on:click="openModalDialog()"/>
+            </div>
+        </div>
+    </div>
+</div>
