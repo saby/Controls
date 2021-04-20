@@ -3,7 +3,7 @@ import {HierarchicalMemory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {register} from 'Types/di';
 import {TreeGridCollection} from 'Controls/treeGrid';
-import {expandableStateUtil} from '../../../Controls/_dataSource/expandableStateUtil';
+import {nodeHistoryUtil} from '../../../Controls/_dataSource/nodeHistoryUtil';
 import {TreeControl} from 'Controls/tree';
 import {ITreeControlOptions} from 'Controls/_tree/TreeControl';
 
@@ -92,7 +92,7 @@ describe('Controls/Tree/TreeControl/NodeHistoryId', () => {
     // На списке есть NodeHistoryId. Раскрываем узел. Должен произойти запрос на сохранение настроек.
     it('should save UserConfig when nodeHistoryId is set', () => {
         source = new HierarchicalMemory();
-        const spyStore = spy(expandableStateUtil, 'store');
+        const spyStore = spy(nodeHistoryUtil, 'store');
 
         const treeControl = initTreeControl({nodeHistoryId: 'HISTORY_ID'});
         treeControl.toggleExpanded(1);
@@ -107,7 +107,7 @@ describe('Controls/Tree/TreeControl/NodeHistoryId', () => {
             keyProperty: 'id',
             data
         });
-        const spyStore = spy(expandableStateUtil, 'store');
+        const spyStore = spy(nodeHistoryUtil, 'store');
 
         const treeControl = initTreeControl({nodeHistoryId: 'HISTORY_ID'});
 

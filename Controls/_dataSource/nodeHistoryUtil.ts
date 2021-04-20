@@ -4,7 +4,7 @@ import { Logger } from 'UI/Utils';
 
 const EXPANDABLE_STATE_KEY_PREFIX = 'LIST_EXPANDED_NODE_';
 
-export const expandableStateUtil = {
+export const nodeHistoryUtil = {
     /**
      * Store state of expandable items to UserConfig
      * @param items Array of expandable items
@@ -18,7 +18,6 @@ export const expandableStateUtil = {
     /**
      * Restore state of expandable items from UserConfig
      * @param storeKey Key to store array of expandable items
-     * @param prefix Prefix to distinguish types of expandable items
      */
     restore(storeKey: string): Promise<CrudEntityKey[]> {
         return new Promise<CrudEntityKey[]>((resolve, reject) => {
@@ -31,12 +30,12 @@ export const expandableStateUtil = {
                         resolve();
                     }
                 } catch (e) {
-                    const msg = 'ExpandableStateUtil: Invalid value format for key "' + preparedStoreKey + '"';
+                    const msg = 'nodeHistoryUtil: Invalid value format for key "' + preparedStoreKey + '"';
                     Logger.error(msg, this);
                     reject(msg);
                 }
             }).catch((e) => {
-                const msg = `ExpandableStateUtil: An error occurred while getting data.\nError: ${e.message}`;
+                const msg = `nodeHistoryUtil: An error occurred while getting data.\nError: ${e.message}`;
                 Logger.warn(msg);
                 reject(msg);
             });

@@ -28,7 +28,7 @@ import {
 import {Logger} from 'UI/Utils';
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
 import {default as GroupUtil} from './GroupUtil';
-import {expandableStateUtil} from './expandableStateUtil';
+import {nodeHistoryUtil} from './nodeHistoryUtil';
 import {isEqual} from 'Types/object';
 import {mixin} from 'Types/util';
 // @ts-ignore
@@ -752,7 +752,7 @@ export default class Controller extends mixin<
         const expandedItems = this._expandedItems || options.expandedItems;
         // Берём из истории только тогда, когда не заданы expandedItems
         if (!expandedItems && options.nodeHistoryId) {
-            return expandableStateUtil.restore(options.nodeHistoryId).then((restored) => {
+            return nodeHistoryUtil.restore(options.nodeHistoryId).then((restored) => {
                     this._expandedItems = restored;
                     return restored;
                 });

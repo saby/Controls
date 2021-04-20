@@ -10,8 +10,8 @@
 import * as parking from 'Controls/_dataSource/parking';
 import * as error from 'Controls/_dataSource/error';
 import requestDataUtil from 'Controls/_dataSource/requestDataUtil';
-import {expandableStateUtil} from 'Controls/_dataSource/expandableStateUtil';
-import {default as GroupUtil} from 'Controls/_dataSource/GroupUtil';
+import {nodeHistoryUtil} from 'Controls/_dataSource/nodeHistoryUtil';
+import groupUtil from 'Controls/_dataSource/GroupUtil';
 import {ILoadDataConfig, ILoadDataResult, IDataLoaderOptions} from './_dataSource/DataLoader';
 
 export {
@@ -20,8 +20,8 @@ export {
     requestDataUtil,
     ILoadDataConfig as ISourceConfig,
     ILoadDataResult as IRequestDataResult,
-    GroupUtil,
-    expandableStateUtil,
+    groupUtil,
+    nodeHistoryUtil,
     ILoadDataConfig,
     ILoadDataResult,
     IDataLoaderOptions

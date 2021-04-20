@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import * as sinon from 'sinon';
 import {ISourceControllerOptions, NewSourceController} from 'Controls/dataSource';
-import {expandableStateUtil} from '../../../Controls/_dataSource/expandableStateUtil';
+import {nodeHistoryUtil} from '../../../Controls/_dataSource/nodeHistoryUtil';
 import {Memory} from 'Types/source';
 
 const hierarchyItems = [
@@ -66,7 +66,7 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
             nodeHistoryId: 'NODE_HISTORY_ID'
         });
 
-        sinonSandbox.replace(expandableStateUtil, 'restore', (id) => {
+        sinonSandbox.replace(nodeHistoryUtil, 'restore', (id) => {
             assert.equal(id, 'NODE_HISTORY_ID');
             return Promise.resolve([1]);
         });
@@ -81,7 +81,7 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
             expandedItems: [1],
             nodeHistoryId: 'NODE_HISTORY_ID'
         });
-        const spyRestore = sinon.spy(expandableStateUtil, 'restore');
+        const spyRestore = sinon.spy(nodeHistoryUtil, 'restore');
         await controller.load(null, 0);
 
         sinon.assert.notCalled(spyRestore);
@@ -94,7 +94,7 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
             expandedItems: [1],
             nodeHistoryId: undefined
         });
-        const stubRestore = sinon.spy(expandableStateUtil, 'restore');
+        const stubRestore = sinon.spy(nodeHistoryUtil, 'restore');
         await controller.load(null, 0);
 
         sinon.assert.notCalled(stubRestore);

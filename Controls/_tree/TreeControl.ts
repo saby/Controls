@@ -16,7 +16,7 @@ import { BaseControl, IBaseControlOptions } from 'Controls/list';
 import { Collection, Tree, TreeItem } from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
 import {
-    expandableStateUtil,
+    nodeHistoryUtil,
     NewSourceController
 } from 'Controls/dataSource';
 import { MouseButtons, MouseUp } from 'Controls/popup';
@@ -271,7 +271,7 @@ const _private = {
         } else {
             expandedItems.splice(expandedNodeIndex, 1);
         }
-        expandableStateUtil.store(expandedItems, self._options.nodeHistoryId);
+        nodeHistoryUtil.store(expandedItems, self._options.nodeHistoryId);
     },
 
     hasInParents(collection: Collection, childKey, stepParentKey): boolean {
