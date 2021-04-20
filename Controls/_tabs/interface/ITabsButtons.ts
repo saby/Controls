@@ -130,6 +130,18 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
      */
     markerThickness?: string;
     /**
+     * @typedef {String} Controls/_tabs/interface/ITabsButtons/HorizontalPadding
+     * @variant xs
+     * @variant null
+     */
+    /**
+     * @name Controls/_tabs/interface/ITabsButtons#horizontalPadding
+     * @cfg {Controls/_tabs/interface/ITabsButtons/HorizontalPadding.typedef} Определяет размер отступов контрола по горизонтали.
+     * @default xs
+     * @demo Controls-demo/Tabs/Buttons/HorizontalPadding/Index
+     */
+    horizontalPadding?: string;
+    /**
      * @name Controls/_tabs/interface/ITabsButtons#displayProperty
      * @cfg {String} Устанавливает имя поля элемента, значение которого будет отображено.
      */
