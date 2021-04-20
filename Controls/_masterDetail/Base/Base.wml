@@ -28,7 +28,7 @@
 
 <ws:template name="detail">
 <Controls.event:Register name="resizeDetectDetail" register="controlResize" attr:fixCompatible="1">
-   <div name="detail" class="ws-flex-grow-1">
+   <div name="detail" class="ws-flexbox ws-flex-grow-1">
       <ws:partial
               attr:class="controls-MasterDetail_details controls-MasterDetail_details_bg-{{_options.contrastBackground ? 'contrast' : 'same'}}"
               template="{{_options.detail}}"
