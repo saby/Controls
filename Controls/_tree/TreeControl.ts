@@ -1043,31 +1043,35 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         newItemsIndex: number,
         removedItems: Array<CollectionItem<Model>>,
         removedItemsIndex: number): void {
-        
+
         super._onCollectionChanged.apply(this, arguments);
 
         if (action === 'rs') {
             if (this._options.markerMoveMode === 'leaves') {
-                const markerController = this.getMarkerController();
-                const model = this._listViewModel;
-                const list = model.getCollection();
-                const current = list.getRecordById(this._options.markedKey) || list.at(0);
-                if (current) {
-                    if (current.get(this._options.nodeProperty) !== null) {
-                        this._tempItem = current.getKey();
-                        this._currentItem = this._tempItem;
-                        this._doAfterItemExpanded = (itemKey) => {
-                            this._doAfterItemExpanded = null;
-                            this._applyMarkedLeaf(itemKey, model, markerController);
-                        };
-                        this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, this._options);
-                        if (this._expandedItemsToNotify) {
-                            model.setExpandedItems(this._expandedItemsToNotify);
-                        }
-                    } else {
-                        this._applyMarkedLeaf(current.getKey(), model, markerController);
-                    }
+                this.setMarkerOnFirstLeaf();
+            }
+        }
+    }
+
+    private setMarkerOnFirstLeaf() {
+        const markerController = this.getMarkerController();
+        const model = this._listViewModel;
+        const list = model.getCollection();
+        const current = list.getRecordById(this._options.markedKey) || list.at(0);
+        if (current) {
+            if (current.get(this._options.nodeProperty) !== null) {
+                this._tempItem = current.getKey();
+                this._currentItem = this._tempItem;
+                this._doAfterItemExpanded = (itemKey) => {
+                    this._doAfterItemExpanded = null;
+                    this._applyMarkedLeaf(itemKey, model, markerController);
+                };
+                this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, this._options);
+                if (this._expandedItemsToNotify) {
+                    model.setExpandedItems(this._expandedItemsToNotify);
                 }
+            } else {
+                this._applyMarkedLeaf(current.getKey(), model, markerController);
             }
         }
     }
