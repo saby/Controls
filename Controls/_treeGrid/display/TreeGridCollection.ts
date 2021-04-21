@@ -17,6 +17,7 @@ import {
 import TreeGridFooterRow from './TreeGridFooterRow';
 import {Model as EntityModel, Model} from 'Types/entity';
 import {IObservable} from 'Types/collection';
+import {ISplicedArray} from "Controls/_display/Collection";
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
@@ -150,6 +151,36 @@ export default class TreeGridCollection<
         this._$results = null;
     }
 
+    protected _addItems(start: number, items: S[]): number {
+        const result = super._addItems(start, items);
+        this._updateEdgeItems();
+        return result;
+    }
+
+    protected _removeItems(start: number, count?: number): T[] {
+        const result = super._removeItems(start, count);
+
+        if (this._$headerModel && !this._headerIsVisible(this._$header)) {
+            this._$headerModel = null;
+        }
+
+        this._updateEdgeItems();
+
+        return result;
+    }
+
+    protected _replaceItems(start: number, newItems: S[]): ISplicedArray<T> {
+        const result = super._replaceItems(start, newItems);
+        this._updateEdgeItems();
+        return result;
+    }
+
+    protected _moveItems(newIndex: number, oldIndex: number, items: any[]): T[] {
+        const result = super._moveItems(newIndex, oldIndex, items);
+        this._updateEdgeItems();
+        return result;
+    }
+
     protected _getItemsFactory(): ItemsFactory<T> {
         const superFactory = super._getItemsFactory();
         return this._itemsFactoryResolver.bind(this, superFactory);
@@ -167,14 +198,6 @@ export default class TreeGridCollection<
         this._nextVersion();
     }
 
-    // Проверки
-    // 1. Дерево и последняя запись - не нода
-    // 2. Дерево и последняя запись - закрытая нода
-    // 3. Дерево и последняя запись - открытая нода
-    // 4. Дерево и последняя запись - открытая нода
-    // 5. Дерево и последняя запись - открытая скрытая нода
-    // 6. Поиск. Есть хлебные крошки
-    // 7. Поиск. Есть searchSeparator
     getLastItem(): S {
         return this._getLastItemRecursive(this.getRoot().getContents());
     }
@@ -209,6 +232,8 @@ export default class TreeGridCollection<
         options.colspanCallback = this._$colspanCallback;
         options.columnSeparatorSize = this._$columnSeparatorSize;
         options.rowSeparatorSize = this._$rowSeparatorSize;
+        options.isLastItem = this._checkIsLastItem(options.contents);
+        options.isFirstItem = this._checkIsFirstItem(options.contents);
 
         // Строит обычную фабрику
         const CollectionItemsFactory = (factoryOptions?: ITreeGridRowOptions<S>): ItemsFactory<T> => {

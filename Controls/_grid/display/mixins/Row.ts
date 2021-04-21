@@ -41,6 +41,8 @@ export interface IOptions<T> extends IBaseOptions<T> {
     rowTemplate: TemplateFunction;
     rowTemplateOptions: object;
     columnSeparatorSize?: TColumnSeparatorSize;
+    isLastItem?: boolean;
+    isFirstItem?: boolean;
 }
 
 export default abstract class Row<T> {
@@ -60,6 +62,8 @@ export default abstract class Row<T> {
     protected _$rowTemplateOptions: object;
     protected _$columns: TColumns;
     protected _savedColumns: TColumns;
+    protected _$isLastItem: boolean;
+    protected _$isFirstItem: boolean;
 
     protected constructor(options?: IOptions<T>) {
         if (this._$rowTemplate) {
@@ -76,10 +80,6 @@ export default abstract class Row<T> {
 
     getDefaultTemplate(): string {
         return DEFAULT_GRID_ROW_TEMPLATE;
-    }
-
-    isLastItem(): boolean {
-        return this.getContents().getKey() === this.getOwner().getLastItem().getKey();
     }
 
     getItemSpacing(): { left: string, right: string, row: string } {
@@ -107,13 +107,11 @@ export default abstract class Row<T> {
         if (params.showItemActionsOnHover !== false) {
             itemClasses += ' controls-ListView__item_showActions';
         }
-
-        const navigation = this.getOwner().getNavigation();
-        const isLastItem = (!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
-            && this.isLastItem();
-
-        if (isLastItem) {
+        if (this._$isLastItem) {
             itemClasses += ' controls-Grid__row_last';
+        }
+        if (this._$isFirstItem) {
+            itemClasses += ' controls-Grid__row_first';
         }
 
         return itemClasses;
@@ -162,6 +160,20 @@ export default abstract class Row<T> {
     }
 
     //endregion
+
+    // region Аспект "крайние колонки"
+
+    setIsFirstItem(state: boolean): void {
+        this._$isFirstItem = state;
+        this._nextVersion();
+    }
+
+    setIsLastItem(state: boolean): void {
+        this._$isFirstItem = state;
+        this._nextVersion();
+    }
+
+    // endregion Аспект "крайние колонки"
 
     //region Аспект "Лесенка"
 
@@ -702,5 +714,7 @@ Object.assign(Row.prototype, {
     _$rowTemplateOptions: null,
     _$colspanCallback: null,
     _$columnSeparatorSize: null,
-    _$editingColumnIndex: null
+    _$editingColumnIndex: null,
+    _$isLastItem: false,
+    _$isFirstItem: false
 });

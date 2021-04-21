@@ -5,10 +5,10 @@ import {
     THeader,
     IColumn,
     TColumns,
-    TColumnSeparatorSize
+    TColumnSeparatorSize, INavigationOptionValue
 } from 'Controls/interface';
 
-import { IViewIterator, GridLadderUtil, ILadderObject} from 'Controls/display';
+import { IViewIterator, GridLadderUtil, ILadderObject, IBaseCollection } from 'Controls/display';
 
 import Header from '../Header';
 import TableHeader from '../TableHeader';
@@ -132,6 +132,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$sorting: Array<{[p: string]: string}>;
     protected _$emptyTemplateColumns: IEmptyTemplateColumn[];
     protected _$itemActionsPosition: 'inside' | 'outside' | 'custom';
+    protected _firstItem: EntityModel;
+    protected _lastItem: EntityModel;
 
     protected constructor(options: IOptions) {
         const supportLadder = GridLadderUtil.isSupportLadder(this._$ladderProperties);
@@ -160,6 +162,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (supportLadder) {
             this._updateItemsLadder();
         }
+        this._firstItem = this.getFirstItem();
+        this._lastItem = this.getLastItem();
     }
 
     getColumnsConfig(): TColumns {
@@ -322,6 +326,34 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     getLadderProperties(): string[] {
         return this._$ladderProperties;
     }
+
+    // region Аспект "крайние колонки"
+
+    protected _checkIsLastItem(item: EntityModel): boolean {
+        const navigation = this.getNavigation();
+        return item.getKey() === this._lastItem.getKey() &&
+               (!navigation || navigation.view !== 'infinity' || !this.getHasMoreData());
+    }
+
+    protected _checkIsFirstItem(item: EntityModel): boolean {
+        return item.getKey() === this._firstItem.getKey();
+    }
+
+    protected _updateEdgeItems(): void {
+        if (this._firstItem) {
+            const firstItem = this.getItemBySourceKey(this._firstItem.getKey());
+            firstItem.setIsFirstItem(false);
+        }
+        if (this._lastItem) {
+            const lastItem = this.getItemBySourceKey(this._lastItem.getKey());
+            lastItem.setIsLastItem(false);
+        }
+        this._firstItem = this.getFirstItem();
+        this._lastItem = this.getLastItem();
+        this._nextVersion();
+    }
+
+    // endregion Аспект "крайние колонки"
 
     protected _initializeEmptyRow(): void {
         this._$emptyGridRow = new EmptyRow<S>({
@@ -518,6 +550,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     abstract getMultiSelectVisibility(): string;
     abstract getMultiSelectPosition(): string;
     abstract getItemBySourceItem(item: S): T;
+    abstract getFirstItem(): EntityModel;
+    abstract getLastItem(): EntityModel;
+    abstract getNavigation(): INavigationOptionValue<any>;
+    abstract getItemBySourceKey(key: string|number): GridRow<any>;
 
     protected abstract _nextVersion(): void;
 

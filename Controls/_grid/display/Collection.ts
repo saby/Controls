@@ -15,6 +15,7 @@ import DataRow from './DataRow';
 import { TemplateFunction } from 'UI/Base';
 import {Model as EntityModel} from 'Types/entity';
 import {IObservable} from 'Types/collection';
+import {ISplicedArray} from "Controls/_display/Collection";
 
 export interface IOptions<
     S,
@@ -118,6 +119,12 @@ export default class Collection<
         this._$results = null;
     }
 
+    protected _addItems(start: number, items: S[]): number {
+        const result = super._addItems(start, items);
+        this._updateEdgeItems();
+        return result;
+    }
+
     protected _removeItems(start: number, count?: number): T[] {
         const result = super._removeItems(start, count);
 
@@ -125,6 +132,20 @@ export default class Collection<
             this._$headerModel = null;
         }
 
+        this._updateEdgeItems();
+
+        return result;
+    }
+
+    protected _replaceItems(start: number, newItems: S[]): ISplicedArray<T> {
+        const result = super._replaceItems(start, newItems);
+        this._updateEdgeItems();
+        return result;
+    }
+
+    protected _moveItems(newIndex: number, oldIndex: number, items: any[]): T[] {
+        const result = super._moveItems(newIndex, oldIndex, items);
+        this._updateEdgeItems();
         return result;
     }
 
@@ -136,6 +157,8 @@ export default class Collection<
             options.columnSeparatorSize = this._$columnSeparatorSize;
             options.rowSeparatorSize = this._$rowSeparatorSize;
             options.hasStickyGroup = this._$hasStickyGroup;
+            options.isLastItem = this._checkIsLastRow(options.contents);
+            options.isFirstItem = this._checkIsFirstRow(options.contents);
             return superFactory.call(this, options);
         };
     }
