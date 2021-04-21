@@ -30,10 +30,18 @@ export default class Columns extends ListView {
         super._afterMount(options);
         this._resizeHandler();
     }
+
+    protected _beforeUpdate(options: IColumnsRenderOptions): void {
+        super._beforeUpdate(options);
+        if (options.columnsMode === 'fixed' && options.columnsCount !== this._options.columnsCount) {
+            this._options.listModel.setColumnsCount(options.columnsCount);
+        }
+    }
+
     protected _resizeHandler(): void {
         const itemsContainer = this.getItemsContainer();
         const currentWidth = itemsContainer.getBoundingClientRect().width;
-        this._listModel.setCurrentWidth(currentWidth, this._options.columnMinWidth);
+        this._options.listModel.setCurrentWidth(currentWidth, this._options.columnMinWidth);
     }
 
     protected _getItemsContainerStyle(): string {
@@ -50,6 +58,7 @@ export default class Columns extends ListView {
     protected _getPlaceholderStyle(): string {
         return this._getMinMaxMidthStyle(this._options.columnMinWidth, this._options.columnMaxWidth);
     }
+
     protected _getColumnStyle(index: number): string {
         const spacing = this._options.listModel.getSpacing();
         return this._getMinMaxMidthStyle(this._options.columnMinWidth + spacing, this._options.columnMaxWidth + spacing) + `-ms-grid-column: ${index + 1};`

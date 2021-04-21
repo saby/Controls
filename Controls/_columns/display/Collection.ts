@@ -5,13 +5,14 @@ import { Model } from 'Types/entity';
 import IColumnsStrategy from '../interface/IColumnsStrategy';
 import Auto from './columnsStrategy/Auto';
 import Fixed from './columnsStrategy/Auto';
-import {DEFAULT_MIN_WIDTH, SPACING} from '../Constants';
+import {DEFAULT_COLUMNS_COUNT, DEFAULT_MIN_WIDTH, SPACING} from '../Constants';
 
 export default class Collection<
     S extends Model = Model,
     T extends CollectionItem<S> = CollectionItem<S>
 > extends BaseCollection<S, T> {
     protected _$columnProperty: string;
+    readonly SupportExpand: boolean = false;
     protected _dragStrategy: ColumnsDragStrategy<S, T> = ColumnsDragStrategy;
     protected _columnsStrategy: IColumnsStrategy;
     protected _addingColumnsCounter: number;
@@ -25,6 +26,11 @@ export default class Collection<
     constructor(options) {
         super(options);
         this._columnsStrategy = options.columnsMode === 'fixed' ? new Fixed() : new Auto();
+        if (options.columnsMode === 'auto' && options.initialWidth) {
+            this.setCurrentWidth(options.initialWidth, options.columnMinWidth);
+        } else {
+            this.setColumnsCount(options.columnsCount || DEFAULT_COLUMNS_COUNT);
+        }
         this.updateColumns();
     }
 

@@ -6,7 +6,8 @@ import {constants} from 'Env/Env';
 import {Logger} from 'UI/Utils';
 import {Model} from 'Types/entity';
 import {IItemPadding, IList} from 'Controls/list';
-import {ViewTemplate as ColumnsViewTemplate} from 'Controls/columns';
+import {ViewTemplate as ColumnsViewTemplate, ItemContainerGetter} from 'Controls/columns';
+import {SingleColumnStrategy, MultiColumnStrategy} from 'Controls/marker';
 import {isEqual} from 'Types/object';
 import {CrudEntityKey, DataSet, LOCAL_MOVE_POSITION} from 'Types/source';
 import {
@@ -57,6 +58,17 @@ const VIEW_NAMES = {
     table: TreeGridView,
     list: ColumnsViewTemplate
 };
+
+const MARKER_STRATEGY = {
+    list: MultiColumnStrategy,
+    tile: SingleColumnStrategy,
+    table: SingleColumnStrategy
+};
+
+const ITEM_GETTER = {
+    list: ItemContainerGetter
+};
+
 const VIEW_TABLE_NAMES = {
     search: SearchViewTable,
     tile: null,
@@ -110,6 +122,7 @@ interface IMarkedKeysStore {
 export default class Explorer extends Control<IExplorerOptions> {
     protected _template: TemplateFunction = template;
     protected _viewName: string;
+    protected _markerStrategy: string;
     protected _viewMode: TExplorerViewMode;
     protected _viewModelConstructor: string;
     private _navigation: object;
@@ -718,7 +731,9 @@ export default class Explorer extends Control<IExplorerOptions> {
         } else {
             this._viewName = VIEW_TABLE_NAMES[viewMode];
         }
+        this._markerStrategy = MARKER_STRATEGY[viewMode];
         this._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS[viewMode];
+        this._itemContainerGetter = ITEM_GETTER[viewMode];
     }
 
     private _setViewModeSync(viewMode: TExplorerViewMode, cfg: IExplorerOptions): void {
