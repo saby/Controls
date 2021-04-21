@@ -213,8 +213,8 @@ export default class TreeGridCollection<
         return new TreeGridFooterRow({
             ...options,
             owner: this,
-            footer: options.footer,
-            footerTemplate: options.footerTemplate,
+            columns: options.footer,
+            rowTemplate: options.footerTemplate,
             hasNodeWithChildren: this._hasNodeWithChildren
         });
     }
