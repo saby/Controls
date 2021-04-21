@@ -754,8 +754,10 @@ describe('Controls/browser:Browser', () => {
             const browser = await getBrowserWithMountCall(options);
 
             browser._viewMode = 'search';
-            browser._searchValue = '';
+            browser._dataLoadCallback(new RecordSet());
+            assert.ok(browser._searchValue === 'Sash');
 
+            browser._searchValue = '';
             browser._dataLoadCallback(new RecordSet());
             assert.isUndefined(browser._viewMode);
             assert.ok(browser._misspellValue === '');
