@@ -167,6 +167,28 @@ export default class TreeGridCollection<
         this._nextVersion();
     }
 
+    // Проверки
+    // 1. Дерево и последняя запись - не нода
+    // 2. Дерево и последняя запись - закрытая нода
+    // 3. Дерево и последняя запись - открытая нода
+    // 4. Дерево и последняя запись - открытая нода
+    // 5. Дерево и последняя запись - открытая скрытая нода
+    // 6. Поиск. Есть хлебные крошки
+    // 7. Поиск. Есть searchSeparator
+    getLastItem(): S {
+        return this._getLastItemRecursive(this.getRoot().getContents());
+    }
+
+    private _getLastItemRecursive(root: S): S {
+        const children = this._getChildrenByRecordSet(root);
+        const lastChild: S = children[children.length - 1];
+        const item = this.getItemBySourceKey(lastChild.getKey());
+        if (item.isNode() !== null && item.isExpanded()) {
+            return this._getLastItemRecursive(lastChild);
+        }
+        return lastChild;
+    }
+
     // endregion
 
     // region HasNodeWithChildren
