@@ -184,8 +184,7 @@
    --footer_background-color_stack: #f8f8f8;
    --background-color_stack-right_panel: #f8f8f8;
    --width_stack-right_panel: 52px;
-   --border_width_stack-right_panel: 2px;
-   --border_stack-right_panel: var(--border_width_stack-right_panel) solid rgba(0, 0, 0, 0.04);
+   --border_stack-right_panel: 2px solid rgba(0, 0, 0, 0.04);
 
    // Границы
 
@@ -201,9 +200,9 @@
    // Кнопки закрытия и изменения размера
 
    --close-button_offset-top_stack: 5px;
+   --close-button_offset-top_stack__panel: var(--offset_2xs);
    --maximized-button_offset-top_stack: 7px;
    --maximized-button_offset-right_stack: var(--offset_s);
-   --maximized-button_offset-right_stack__with_panel: calc(var(--offset_s) + var(--width_stack-right_panel) + var(--border_width_stack-right_panel));
 
    // Изменение размера
    --resizingLine_mobile_offset-left_stack: 15px;

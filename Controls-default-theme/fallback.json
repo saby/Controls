@@ -484,6 +484,7 @@
   "--footer_top-border-thickness_stack": "1px",
   "--footer_top-border-color_stack": "#F0F0F0",
   "--close-button_offset-top_stack": "5px",
+  "--close-button_offset-top_stack__panel": "var(--offset_2xs)",
   "--maximized-button_offset-top_stack": "7px",
   "--maximized-button_offset-right_stack": "var(--offset_s)",
   "--resizingLine_mobile_offset-left_stack": "15px",

@@ -63,6 +63,7 @@
                    inlineHeight="xl"
                    tooltip="{[Закрыть]}"
                    readOnly={{false}}
+                   attr:class="controls-stack-Button__close"
                    on:click="close()"
                 />
                 <Controls.Container.Async templateName="{{_stackRightPanel}}">
