@@ -37,6 +37,7 @@ function isItemsEqual(oldItems: Path, newItems: Path): boolean {
  * * Если возможно, то патчит первую ячейку заголовка таблицы добавляя туда хлебные крошки
  * * Вычисляет нужна ли тень у хлебных крошек
  * * Обрабатывает клик по кнопке назад из заголовка таблицы
+ * * Предоставляет метод goBack, который инициирует возвращение на предыдущий уровень в иерархии проваливания
  */
 export default class PathController extends Control<IOptions> {
     protected _template: TemplateFunction = template;
@@ -68,7 +69,10 @@ export default class PathController extends Control<IOptions> {
         }
     }
 
-    protected _onBackButtonClick(e: SyntheticEvent): void {
+    /**
+     * Инициирует возвращение на предыдущий уровень в иерархии проваливания
+     */
+    goBack(e: Event): void {
         require(['Controls/breadcrumbs'], (breadcrumbs) => {
             breadcrumbs.HeadingPathCommon.onBackButtonClick.call(this, e);
         });

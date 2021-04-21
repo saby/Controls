@@ -8,6 +8,8 @@
       <ws:content>
          <Controls.dragnDrop:Container on:documentDragStart="_documentDragStart()" on:documentDragEnd="_documentDragEnd()">
             <Controls._explorer.PathController
+               name="pathController"
+
                scope="{{_options}}"
                header="{{_header}}"
                rootVisible="{{_dragOnBreadCrumbs}}"

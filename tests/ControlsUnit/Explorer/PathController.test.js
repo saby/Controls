@@ -371,7 +371,7 @@ define([
                assert.equal(instance._options.items[instance._options.items.length - 2].get('parent'), args[0].get('parent'));
             }
          };
-         instance._onBackButtonClick({
+         instance.goBack({
             stopPropagation: function() {
 
             }
