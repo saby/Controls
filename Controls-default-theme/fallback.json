@@ -469,6 +469,8 @@
   "--header-content_padding-right_stack": "var(--offset_l)",
   "--header_caption_offset-right_stack": "var(--offset_m)",
   "--background-color_stack": "var(--background-color)",
+  "--background-color_stack-right_panel": "#f8f8f8",
+  "--width_stack-right_panel": "52px",
   "--header_background-color_stack": "#F8F8F8",
   "--footer_background-color_stack": "#F8F8F8",
   "--border-color_stack": "#bdbdbd",

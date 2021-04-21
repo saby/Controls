@@ -12,12 +12,14 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
     protected _nodeTypeProperty: string = NODE_TYPE_PROPERTY;
-    protected _expandedItems: TExpandOrColapsItems = [1, 2, 3];
+    protected _expandedItems: TExpandOrColapsItems = undefined;
+    protected _collapsedItems: TExpandOrColapsItems = undefined;
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
             keyProperty: 'id',
-            data
+            data,
+            filter: (): boolean => true
         });
     }
 

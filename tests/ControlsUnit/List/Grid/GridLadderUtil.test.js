@@ -1,4 +1,4 @@
-define(['Types/collection', 'Controls/display', 'Env/Env'], function(Collection, Display, Env) {
+define(['Types/collection', 'Controls/display', 'Env/Env', 'Controls/treeGrid'], function(Collection, Display, Env, TreeGrid) {
    const Util = Display.GridLadderUtil;
 
    describe('Controls/_gridOld/GridLadderUtil', function() {
@@ -228,34 +228,91 @@ define(['Types/collection', 'Controls/display', 'Env/Env'], function(Collection,
          assert.deepEqual(ladder.ladder, resultLadder, 'Incorrect value prepared ladder.');
          assert.deepEqual(ladder.stickyLadder, resultStickyLadder, 'Incorrect value prepared stickyLadder.');
       });
-   });
 
-   it('should return z-index styles for sticky column', () => {
-      const items = new Collection.RecordSet({
-         keyProperty: 'key',
-         rawData: [
-            { key: 0, title: 'i0', first: 1, second: 1 },
-            { key: 1, title: 'i1', first: 2, second: 1 },
-            { key: 2, title: 'i2', first: 3, second: 2 },
-            { key: 3, title: 'i3', first: 3, second: 2 }
-         ]
-      });
-      const columns = [
-         {
-            width: '1fr',
-            displayProperty: 'title',
-            stickyProperty: ['first', 'second']
-         }];
-      const display = new Display.Collection({ collection: items, keyProperty: 'id' });
-      const ladder = Util.prepareLadder({
-         display,
-         columns: columns,
-         ladderProperties: ['first', 'second'],
-         startIndex: 0,
-         stopIndex: 4,
-         hasColumnScroll: true
-      });
+      it('should return z-index styles for sticky column', () => {
+         const items = new Collection.RecordSet({
+            keyProperty: 'key',
+            rawData: [
+               { key: 0, title: 'i0', first: 1, second: 1 },
+               { key: 1, title: 'i1', first: 2, second: 1 },
+               { key: 2, title: 'i2', first: 3, second: 2 },
+               { key: 3, title: 'i3', first: 3, second: 2 }
+            ]
+         });
+         const columns = [
+            {
+               width: '1fr',
+               displayProperty: 'title',
+               stickyProperty: ['first', 'second']
+            }];
+         const display = new Display.Collection({ collection: items, keyProperty: 'id' });
+         const ladder = Util.prepareLadder({
+            display,
+            columns: columns,
+            ladderProperties: ['first', 'second'],
+            startIndex: 0,
+            stopIndex: 4,
+            hasColumnScroll: true
+         });
 
-      assert.equal(ladder.stickyLadder[0].first.headingStyle, 'grid-row: span 1; z-index: 4;');
+         assert.equal(ladder.stickyLadder[0].first.headingStyle, 'grid-row: span 1; z-index: 4;');
+      });
+      it('ladder through nodeFooter', () => {
+         const recordSet = new Collection.RecordSet({
+            keyProperty: 'key',
+            rawData: [
+               { key: 1, parent: null, type: true, title: '1', first: 1 },
+               { key: 11, parent: 1, type: null,  title: '11', first: 1 },
+               { key: 2, parent: null, type: null,  title: '2', first: 1 },
+               { key: 3, parent: null, type: null,  title: '3', first: 2 }
+            ]
+         });
+         const columns = [
+            {
+               width: '1fr',
+               displayProperty: 'title',
+               stickyProperty: ['first']
+            }];
+         const display = new TreeGrid.TreeGridCollection({
+            collection: recordSet,
+            keyProperty: 'key',
+            parentProperty: 'parent',
+            nodeProperty: 'type',
+            root: null,
+            columns: [{}],
+            expandedItems: [null]
+         });
+         const ladder = Util.prepareLadder({
+            display,
+            columns: columns,
+            ladderProperties: ['first'],
+            startIndex: 0,
+            stopIndex: 5,
+            hasColumnScroll: true
+         });
+         const resultLadder = {
+            0: {
+               first: {
+                  ladderLength: 4
+               }
+            },
+            1: {
+               first: {}
+            },
+            2: {
+               first: {}
+            },
+            3: {
+               first: {}
+            },
+            4: {
+               first: {
+                  ladderLength: 1
+               }
+            }
+         };
+
+         assert.deepEqual(ladder.ladder, resultLadder);
+      });
    });
 });
