@@ -5856,6 +5856,7 @@ define([
                _listViewModel: {
                   getCount: () => 5
                },
+               _onCollectionChange: () => 0,
                changeSelection: () => {}
             };
             items = [{}];
