@@ -3232,6 +3232,15 @@ const _private = {
                 if (self._children.listView.beforeRowActivated) {
                     self._children.listView.beforeRowActivated();
                 }
+                // todo Нативный scrollIntoView приводит к прокрутке в том числе и по горизонтали и запретить её никак.
+                // Решением стало отключить прокрутку при видимом горизонтальном скролле.
+                // https://online.sbis.ru/opendoc.html?guid=d07d149e-7eaf-491f-a69a-c87a50596dfe
+                const hasColumnScroll = this._children.listView &&
+                    this._children.listView.isColumnScrollVisible &&
+                    this._children.listView.isColumnScrollVisible();
+                if (hasColumnScroll) {
+                    enableScrollToElement = false;
+                }
                 const rowActivator = self._children.listView.activateEditingRow.bind(self._children.listView, enableScrollToElement);
                 return rowActivator();
             };
