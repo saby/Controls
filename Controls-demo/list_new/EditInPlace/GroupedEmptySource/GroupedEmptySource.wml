@@ -3,7 +3,6 @@
             keyProperty="id"
             name="list"
             source="{{_viewSource}}"
-            on:beforeBeginEdit="_onBeforeBeginEdit()"
             groupingKeyCallback="{{_groupingKeyCallback}}"
             editingConfig="{{_editingConfig}}">
         <ws:itemTemplate>
