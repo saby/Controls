@@ -1,6 +1,7 @@
 <div>
     <Controls.browser:Browser
-            listsOptions="{{_listConfigurations}}">
+            listsOptions="{{_listConfigurations}}"
+            on:rootChanged="_rootChanged()">
         <div>
         <Controls.search:InputContainer>
             <Controls.search:Input

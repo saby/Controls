@@ -669,12 +669,10 @@ describe('Controls/browser:Browser', () => {
                 payload: 'something'
             };
             let options = {...getBrowserOptions(), searchValue: '123', filter};
-            browser.saveOptions(options);
-
             await browser._beforeMount(options);
             browser.saveOptions(options);
 
-            const sourceController = browser._getSourceController(options);
+            const sourceController = browser._getSourceController();
             sourceController.setFilter({...filter, name: 'test123'});
             const filterChangedStub = sandbox.stub(browser, '_filterChanged');
 
@@ -858,6 +856,7 @@ describe('Controls/browser:Browser', () => {
             testField: 'testValue',
             PrefetchSessionId: 'test'
         };
+        await import('Controls/filter');
         let options = {...getBrowserOptions(), filter};
         const browser = getBrowser(options);
         await browser._beforeMount(options);

@@ -46,7 +46,19 @@ export default class BrowserLayoutDemo extends Control<IControlOptions> {
             keyProperty: 'id',
             nodeProperty: 'type',
             parentProperty: 'parent',
-            hasChildrenProperty: 'hasChild'
+            hasChildrenProperty: 'hasChild',
+            filterButtonSource: [
+                {
+                    name: 'title',
+                    value: undefined,
+                    resetValue: undefined
+                }
+            ]
         }];
+    }
+
+    protected _rootChanged(event, root, id): void {
+        this._listConfigurations = this._listConfigurations.slice();
+        this._listConfigurations[1].root = root;
     }
 }
