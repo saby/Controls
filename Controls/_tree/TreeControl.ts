@@ -900,6 +900,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         if (e.isStopped()) {
             return;
         }
+        if (this.isLoading()) {
+            return;
+        }
         e.stopPropagation();
         const eventResult = superResult;
 
