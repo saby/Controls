@@ -306,7 +306,7 @@ export interface IColumn extends IColspanParams {
      * </pre>
      * @see template
      */
-    resultTemplate?: TemplateFunction;
+    resultTemplate?: TemplateFunction|string;
     /**
      * @cfg {TCellAlign} Горизонтальное выравнивание для содержимого ячейки.
      * @default left
