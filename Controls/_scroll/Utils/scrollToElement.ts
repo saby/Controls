@@ -1,6 +1,6 @@
 import cInstance = require('Core/core-instance');
 import {getDimensions} from 'Controls/sizeUtils';
-import {POSITION, TYPE_FIXED_HEADERS} from 'Controls/_scroll/StickyHeader/Utils';
+import {getGapFixSize, POSITION, TYPE_FIXED_HEADERS} from 'Controls/_scroll/StickyHeader/Utils';
 
 const SCROLL_CONTAINERS_SELECTOR = '.controls-Scroll, .controls-Scroll-Container';
 
@@ -121,6 +121,7 @@ export function scrollToElement(element: HTMLElement, toBottomOrPosition?: Boole
           const innerStickyHeader = element.querySelector(`.${stickyHeaderClass}`);
           if (innerStickyHeader) {
               innerStickyHeaderHeight = innerStickyHeader.clientHeight;
+              innerStickyHeaderHeight -= getGapFixSize();
           }
       }
       if (innerStickyHeaderHeight) {
