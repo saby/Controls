@@ -1638,6 +1638,7 @@ const _private = {
         removedItems: Array<CollectionItem<Model>>,
         removedItemsIndex: number
     ): void {
+
         // TODO Понять, какое ускорение мы получим, если будем лучше фильтровать
         // изменения по changesType в новой модели
         // TODO: убрать флаг newModelChanged, когда не будет "старой" модели
@@ -1854,10 +1855,9 @@ const _private = {
     initListViewModelHandler(self, model, useNewModel: boolean) {
         if (useNewModel) {
             model.subscribe('onCollectionChange', (...args: any[]) => {
-                _private.onCollectionChanged.apply(
-                    null,
+                self._onCollectionChanged.apply(
+                    self,
                     [
-                        self,
                         args[0], // event
                         null, // changes type
                         ...args.slice(1) // the rest of the arguments
@@ -1876,7 +1876,7 @@ const _private = {
                 );
             });
         } else {
-            model.subscribe('onListChange', _private.onCollectionChanged.bind(null, self));
+            model.subscribe('onListChange', self._onCollectionChanged.bind(self));
             model.subscribe('onAfterCollectionChange', _private.onAfterCollectionChanged.bind(null, self));
         }
 
@@ -3568,7 +3568,22 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     protected _afterItemsSet(options): void {
         // для переопределения
     }
-
+    protected _onCollectionChanged(
+        event: SyntheticEvent,
+        changesType: string,
+        action: string,
+        newItems: Array<CollectionItem<Model>>,
+        newItemsIndex: number,
+        removedItems: Array<CollectionItem<Model>>,
+        removedItemsIndex: number): void {
+        _private.onCollectionChanged(this, event, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex);
+        if (action === IObservable.ACTION_RESET) {
+            this._afterCollectionReset();
+        }
+    }
+    protected _afterCollectionReset(): void {
+        // для переопределения
+    }
     _prepareItemsOnMount(self, newOptions, receivedState: IReceivedState = {}): Promise<unknown> | void {
         let items;
         let collapsedGroups;
@@ -4113,7 +4128,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._updateScrollController(newOptions);
         }
 
-        if (_private.hasMarkerController(this)) {
+        if (_private.hasMarkerController(this) && this._listViewModel) {
             _private.getMarkerController(this).updateOptions({
                 model: this._listViewModel,
                 markerVisibility: newOptions.markerVisibility
@@ -4152,6 +4167,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (items && (this._listViewModel && !this._listViewModel.getCollection() || this._items !== items)) {
                 if (!this._listViewModel) {
                     _private.initializeModel(this, newOptions, items);
+                    if (_private.hasMarkerController(this)) {
+                        _private.getMarkerController(this).updateOptions({
+                            model: this._listViewModel,
+                            markerVisibility: newOptions.markerVisibility
+                        });
+                    }
                 }
 
                 const isActionsAssigned = this._listViewModel.isActionsAssigned();
