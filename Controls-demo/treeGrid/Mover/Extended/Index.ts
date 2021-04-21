@@ -1,15 +1,14 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGrid/Mover/Extended/Extended';
-import {HierarchicalMemory} from 'Types/source';
+import {HierarchicalMemory, CrudEntityKey} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import {TColumns} from 'Controls/gridOld';
-import {TExpandOrColapsItems} from 'Controls-demo/types';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
     private _selectedKeys: [] = [];
-    private _excludedKeys: TExpandOrColapsItems = [];
+    private _excludedKeys: CrudEntityKey[] = [];
     private _filter: object = {};
     protected _columns: TColumns;
     protected _beforeItemsMoveText: string = '';
