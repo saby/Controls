@@ -704,6 +704,17 @@ define([
          });
       });
 
+      describe('resizeContainerHandler', () => {
+         it('should call resizeHandler if _needUpdateHeadersAfterVisibleChange = true', () => {
+            let stub = sinon.stub(component, 'resizeHandler');
+            component._needUpdateHeadersAfterVisibleChange = true;
+            component.resizeContainerHandler();
+
+            sinon.assert.calledOnce(stub);
+            stub.restore();
+         });
+      });
+
       describe('_resizeObserverCallback', () => {
          it('should push new elements to array of heights', () => {
             const entries = [
@@ -824,44 +835,86 @@ define([
          });
       });
 
+      describe('_getLastFixedHeaderWithShadowId', () => {
+         it('should ignore hidden header when getting header with the last shadow', function() {
+            sinon.restore();
+            let position = 'top';
+            component._headersStack[position] = ['header0', 'header1'];
+            component._fixedHeadersStack[position] = ['header0', 'header1'];
+
+            component._headers = {
+               header0: {
+                  inst: {
+                     shadowVisibility: 'auto',
+                     getHeaderContainer: () => 'visible'
+                  }
+               },
+               header1: {
+                  inst: {
+                     shadowVisibility: 'auto',
+                     getHeaderContainer: () => 'hidden'
+                  }
+               }
+            };
+
+            sinon.replace(StickyHeaderUtils, 'isHidden', (container) => {
+               if (container === 'hidden') {
+                  return true;
+               }
+               return false;
+            });
+
+            let headerWithShadow = component._getLastFixedHeaderWithShadowId(position);
+
+            assert.equal(headerWithShadow, 'header0');
+            sinon.restore();
+         });
+      });
+
       describe('_updateShadowsVisibility', () => {
          beforeEach(() => {
             component._headers = {
                header0: {
                   inst: {
                      shadowVisibility: 'visible',
-                     updateShadowVisibility: sinon.stub()
+                     updateShadowVisibility: sinon.stub(),
+                     getHeaderContainer: sinon.stub()
                   }
                },
                header1: {
                   inst: {
                      shadowVisibility: 'lastVisible',
-                     updateShadowVisibility: sinon.stub()
+                     updateShadowVisibility: sinon.stub(),
+                     getHeaderContainer: sinon.stub()
                   }
                },
                header2: {
                   inst: {
                      shadowVisibility: 'visible',
-                     updateShadowVisibility: sinon.stub()
+                     updateShadowVisibility: sinon.stub(),
+                     getHeaderContainer: sinon.stub()
                   }
                },
                header3: {
                   inst: {
                      shadowVisibility: 'hidden',
-                     updateShadowVisibility: sinon.stub()
+                     updateShadowVisibility: sinon.stub(),
+                     getHeaderContainer: sinon.stub()
                   }
                },
                header4: {
                   inst: {
                      shadowVisibility: 'visible',
-                     updateShadowVisibility: sinon.stub()
+                     updateShadowVisibility: sinon.stub(),
+                     getHeaderContainer: sinon.stub()
                   },
                   mode: StickyHeaderUtils.MODE.replaceable
                },
                header5: {
                   inst: {
                      shadowVisibility: 'visible',
-                     updateShadowVisibility: sinon.stub()
+                     updateShadowVisibility: sinon.stub(),
+                     getHeaderContainer: sinon.stub()
                   },
                   mode: StickyHeaderUtils.MODE.replaceable
                },
@@ -869,6 +922,7 @@ define([
                   inst: {
                      shadowVisibility: 'visible',
                      updateShadowVisibility: sinon.stub(),
+                     getHeaderContainer: sinon.stub(),
                      container: {
                         closest: () => true
                      }

@@ -8,6 +8,8 @@
       <ws:content>
          <Controls.dragnDrop:Container on:documentDragStart="_documentDragStart()" on:documentDragEnd="_documentDragEnd()">
             <Controls._explorer.PathController
+               name="pathController"
+
                scope="{{_options}}"
                header="{{_header}}"
                rootVisible="{{_dragOnBreadCrumbs}}"
@@ -39,7 +41,6 @@
                                           useNewModel="{{!_options.useOldModel}}"
                                           backgroundStyle="{{ _backgroundStyle }}"
                                           headerVisibility="{{ _headerVisibility }}"
-                                          headerInEmptyListVisible="{{ _headerVisibility }}"
                                           root="{{content._options.root}}"
                                           on:itemClick="_onItemClick()"
                                           on:itemMouseDown="_notifyHandler('itemMouseDown')"

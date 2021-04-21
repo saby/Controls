@@ -33,8 +33,6 @@ interface IPrepareLadderParams extends IStickyColumnsParams{
     stopIndex: number;
     display: any;
     hasColumnScroll?: boolean;
-
-    task1181099336?: boolean;
 }
 
 export function isSupportLadder(ladderProperties ?: string[]): boolean {
@@ -74,13 +72,7 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
         // isEqual works with any types
         if (isEqual(value, prevValue) && !hasMainLadder) {
             state.ladderLength++;
-            if (params.hasNodeFooter) {
-                state.ladderLength++;
-            }
         } else {
-            if (params.hasNodeFooter) {
-                state.ladderLength++;
-            }
             params.ladder.ladderLength = state.ladderLength;
             state.ladderLength = 1;
         }
@@ -127,12 +119,17 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
         if (!item || dispItem.isEditing()) {
             continue;
         }
-        prevItem = prevDispItem ? prevDispItem.getContents() : null;
-
+        if (!prevDispItem || !prevDispItem['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
+            prevItem = prevDispItem ? prevDispItem.getContents() : null;
+        }
         if (supportLadder) {
             ladder[idx] = {};
             for (fIdx = 0; fIdx < ladderProperties.length; fIdx++) {
                 ladder[idx][ladderProperties[fIdx]] = {};
+                if (dispItem['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
+                    ladderState[ladderProperties[fIdx]].ladderLength++;
+                    continue;
+                }
                 processLadder({
                     itemIndex: idx,
                     value: item.get ? item.get(ladderProperties[fIdx]) : undefined,
@@ -140,7 +137,6 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
                     state: ladderState[ladderProperties[fIdx]],
                     ladder: ladder[idx][ladderProperties[fIdx]],
                     mainLadder: ladder[idx][ladderProperties[fIdx - 1]],
-                    hasNodeFooter: params.task1181099336 && nodeProperty && item.get && item.get(nodeProperty)
                 });
             }
         }
@@ -149,6 +145,10 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
             stickyLadder[idx] = {};
             for (fIdx = 0; fIdx < stickyProperties.length; fIdx++) {
                 stickyLadder[idx][stickyProperties[fIdx]] = {};
+                if (dispItem['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
+                    stickyLadderState[stickyProperties[fIdx]].ladderLength++;
+                    continue;
+                }
                 processStickyLadder({
                     itemIndex: idx,
                     value: item.get ? item.get(stickyProperties[fIdx]) : undefined,
@@ -156,7 +156,6 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
                     state: stickyLadderState[stickyProperties[fIdx]],
                     ladder: stickyLadder[idx][stickyProperties[fIdx]],
                     mainLadder: stickyLadder[idx][stickyProperties[fIdx - 1]],
-                    hasNodeFooter: params.task1181099336 && nodeProperty && item.get && item.get(nodeProperty)
                 });
             }
         }

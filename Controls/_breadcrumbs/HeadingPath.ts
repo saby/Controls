@@ -246,7 +246,8 @@ Object.defineProperty(BreadCrumbsPath, 'defaultProps', {
 
 /**
  * @name Controls/_breadcrumbs/HeadingPath#fontSize
- * @demo Controls-domo/BreadCrumbs/FontSize/Index
+ * @cfg
+ * @demo Controls-demo/BreadCrumbs/FontSize/Index
  */
 
 /**

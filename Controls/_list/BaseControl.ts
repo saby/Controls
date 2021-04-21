@@ -3186,7 +3186,9 @@ const _private = {
     },
 
     removeHoverEnabledClass(self): void {
-        self._addHoverEnabledClass = false;
+        if (!self._destroyed) {
+            self._addHoverEnabledClass = false;
+        }
     },
 
     getViewUniqueClass(self): string {
@@ -3389,7 +3391,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _addShowActionsClass = false;
 
     // По умолчанию считаем, что необходимо разрешить hover на списке
-    _addHoverEnabledClass = true;
+    _addHoverEnabledClass: boolean = true;
 
     // Идентификатор текущего открытого popup
     _itemActionsMenuId = null;
@@ -5253,9 +5255,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _onItemClick(e, item, originalEvent, columnIndex = null) {
         _private.closeSwipe(this);
-        if (this.isLoading() && !_private.isPortionedLoad(this)) {
-            return;
-        }
         if (this._itemActionMouseDown) {
             // Не нужно кликать по Item, если MouseDown был сделан по ItemAction
             this._itemActionMouseDown = null;
@@ -5643,7 +5642,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             let shouldActivateInput = true;
             if (this._listViewModel['[Controls/_display/grid/mixins/Grid]']) {
                 shouldActivateInput = false;
-                this._editInPlaceInputHelper.setInputForFastEdit(nativeEvent.target, collection.getIndexBySourceItem(item));
+                this._editInPlaceInputHelper.setInputForFastEdit(nativeEvent.target, direction);
             }
             return this._beginEdit({ item }, { shouldActivateInput, columnIndex });
         };
@@ -5887,9 +5886,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _itemMouseDown(event, itemData, domEvent) {
-        if (this.isLoading() && !_private.isPortionedLoad(this)) {
-            return;
-        }
         // При клике в операцию записи не нужно посылать событие itemMouseDown. Останавливать mouseDown в
         // методе _onItemActionMouseDown нельзя, т.к. тогда оно не добросится до Application
         this._itemActionMouseDown = null;
@@ -5899,7 +5895,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             return;
         }
         let hasDragScrolling = false;
-        this._mouseDownItemKey = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
+        if (this._options.useNewModel) {
+            const contents = _private.getPlainItemContents(itemData);
+            this._mouseDownItemKey = contents.getKey();
+        } else {
+            this._mouseDownItemKey = itemData.key;
+        }
         if (this._options.columnScroll) {
             // Не должно быть завязки на горизонтальный скролл.
             // https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
@@ -5919,10 +5920,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _itemMouseUp(e, itemData, domEvent): void {
-        if (this.isLoading() && !_private.isPortionedLoad(this)) {
-            return;
+        let key;
+        if (this._options.useNewModel) {
+            const contents = _private.getPlainItemContents(itemData);
+            key = contents.getKey();
+        } else {
+            key = itemData.key;
         }
-        const key = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
         // Маркер должен ставиться именно по событию mouseUp, т.к. есть сценарии при которых блок над которым произошло
         // событие mouseDown и блок над которым произошло событие mouseUp - это разные блоки.
         // Например, записи в мастере или запись в списке с dragScrolling'ом.
@@ -6110,7 +6114,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             !this._itemActionsMenuId) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
-            this._hoverFreezeController.startFreezeHoverTimeout(itemKey, itemIndex);
+            this._hoverFreezeController.startFreezeHoverTimeout(itemKey, itemIndex, this._listViewModel.getStartIndex());
         }
     }
 
@@ -6127,7 +6131,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 if (!_private.hasHoverFreezeController(this)) {
                     _private.initHoverFreezeController(this);
                 }
-                this._hoverFreezeController.startFreezeHoverTimeout(itemKey, itemIndex);
+                this._hoverFreezeController.startFreezeHoverTimeout(itemKey, itemIndex, this._listViewModel.getStartIndex());
             }
         }
         this._notify('itemMouseEnter', [itemData.item, nativeEvent]);
@@ -6150,7 +6154,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (hoverFreezeController && itemData.ItemActionsItem) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
-            hoverFreezeController.setDelayedHoverItem(itemKey, itemIndex);
+            hoverFreezeController.setDelayedHoverItem(itemKey, itemIndex, this._listViewModel.getStartIndex());
         }
     }
 

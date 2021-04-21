@@ -22,7 +22,7 @@ import 'css!Controls/dateRange';
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IUnderline
  * @mixes Controls/dateRange:ICaptionFormatter
- * @mixes Controls/_dateRange/interfaces/IDateSelector
+ * @mixes Controls/dateRange:IDateSelector
  *
  * @public
  * @author Красильников А.С.
@@ -41,7 +41,7 @@ import 'css!Controls/dateRange';
  * @mixes Controls/dateRange:IDatePickerSelectors
  * @mixes Controls/dateRange:IDayTemplate
  * @mixes Controls/interface:IFontColorStyle
- * @mixes Controls/_dateRange/interfaces/IDateSelector
+ * @mixes Controls/dateRange:IDateSelector
  *
  * @public
  * @author Красильников А.С.

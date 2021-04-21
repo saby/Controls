@@ -75,13 +75,13 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         return super.getImageWrapperClasses(itemType, templateHasTitle, templateTitleStyle, imageViewMode);
     }
 
-    getItemActionsClasses(itemTypeTpl: string = 'default'): string {
+    getItemActionsClasses(itemTypeTpl: string = 'default', itemActionsClass: string = ''): string {
         let itemType = itemTypeTpl;
         if (itemType === 'default' && this.isNode()) {
             itemType = 'small';
         }
 
-        let classes = super.getItemActionsClasses(itemType);
+        let classes = super.getItemActionsClasses(itemType, itemActionsClass);
 
         if (itemType === 'preview' && this.isNode()) {
             classes += ' controls-TileView__previewTemplate_itemActions_node';
@@ -117,7 +117,7 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         if (this.isNode()) {
             classes += ' controls-TreeTileView__node';
             if (this.isDragTargetNode()) {
-                classes += ` controls-TileView__dragTargetNode`;
+                classes += ' controls-TreeTileView__dragTargetNode';
             }
         }
 
@@ -145,10 +145,16 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         return classes;
     }
 
-    getItemStyles(itemType: string, templateWidth?: number, staticHeight?: number): string {
+    getItemStyles(itemType: string = 'default', templateWidth?: number, staticHeight?: boolean): string {
         if (this.isNode() && (itemType === 'default' || itemType === 'small')) {
             const width = this.getTileWidth(templateWidth);
-            return `-ms-flex-preferred-size: ${width}px; flex-basis: ${width}px;`;
+            let styles = `-ms-flex-preferred-size: ${width}px; flex-basis: ${width}px;`;
+
+            if (staticHeight) {
+                styles += ` height: ${this.getNodesHeight()}px;`;
+            }
+
+            return styles;
         } else {
             return super.getItemStyles(itemType, templateWidth, staticHeight);
         }
