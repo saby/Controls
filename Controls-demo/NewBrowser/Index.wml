@@ -82,15 +82,15 @@
          </ws:itemTemplate>
          <ws:tileItemTemplate>
             <ws:partial
-               template="Controls/tileOld:RichTemplate"
+               template="Controls/tile:RichTemplate"
                scope="{{tileItemTemplate}}"
                imageSize="{{tileItemTemplate.tileCfg.imageSize}}"
                imagePosition="{{tileItemTemplate.tileCfg.imagePosition}}"
-               imageEffect="{{tileItemTemplate.tileCfg.getImageEffect(tileItemTemplate.itemData)}}"
-               imageViewMode="{{tileItemTemplate.tileCfg.getImageViewMode(tileItemTemplate.itemData)}}"
-               gradientColor="{{tileItemTemplate.tileCfg.getGradientColor(tileItemTemplate.itemData)}}"
-               description="{{tileItemTemplate.tileCfg.getDescription(tileItemTemplate.itemData)}}"
-               descriptionLines="{{tileItemTemplate.tileCfg.getDescriptionLines(tileItemTemplate.itemData)}}"
+               imageEffect="{{tileItemTemplate.tileCfg.getImageEffect(tileItemTemplate.item)}}"
+               imageViewMode="{{tileItemTemplate.tileCfg.getImageViewMode(tileItemTemplate.item)}}"
+               gradientColor="{{tileItemTemplate.tileCfg.getGradientColor(tileItemTemplate.item)}}"
+               description="{{tileItemTemplate.tileCfg.getDescription(tileItemTemplate.item)}}"
+               descriptionLines="{{tileItemTemplate.tileCfg.getDescriptionLines(tileItemTemplate.item)}}"
             />
          </ws:tileItemTemplate>
       </ws:detail>
