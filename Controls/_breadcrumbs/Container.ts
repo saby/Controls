@@ -14,53 +14,47 @@ export default class BreadCrumbsContainer extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _dataOptions: ISourceControllerState = null;
     protected _sourceController: SourceController;
-    protected _items: Path;
+    protected _breadCrumbsItems: Path;
+    protected _keyProperty: string;
+    protected _parentProperty: string;
 
     protected _beforeMount(options: IControlOptions, context: IDataContext): void {
         this._collectionChange = this._collectionChange.bind(this);
         this._dataOptions = context.dataOptions;
-        this._setPathItems(options);
+        this._keyProperty = BreadCrumbsContainer._getKeyProperty(options, this._dataOptions);
+        this._parentProperty = BreadCrumbsContainer._getParentProperty(options, this._dataOptions);
+
+        this._setBreadCrumbsItems(options, this._dataOptions);
     }
 
     protected _beforeUpdate(options: IControlOptions, context: IDataContext): void {
         this._dataOptions = context.dataOptions;
-        this._setPathItems(options);
+        this._setBreadCrumbsItems(options, this._dataOptions);
     }
-
 
     protected _beforeUnmount(): void {
         if (this._sourceController) {
-            this._sourceController.unsubscribe('onCollectionChange', this._collectionChange);
+            this._sourceController.getItems().unsubscribe('onCollectionChange', this._collectionChange);
             this._sourceController.destroy();
         }
     }
 
     protected _itemClickHandler(e: SyntheticEvent, item: Model): void {
-        const sourceController = this._dataOptions.sourceController || this._options.sourceController;
-        if (sourceController) {
-            sourceController.setRoot(item.getKey());
-            sourceController.reload();
+        if (this._sourceController) {
+            this._sourceController.setRoot(item.getKey());
+            this._sourceController.reload();
+        } else {
+            this._notify('rootChanged', [item.getKey()], {bubbling: true});
         }
     }
 
-    private _setPathItems(options): void {
-        let sourceController = this._getSourceController(options);
-        if (sourceController) {
-            this._items = this._getPathItems(sourceController.getItems());
-        }
+    private _getPathItems(options): Path {
+        this._sourceController = options.sourceController;
+        this._sourceController.getItems().subscribe('onCollectionChange', this._collectionChange);
+        return this._getCalculatePath(this._sourceController.getItems());
     }
 
-    private _getSourceController(options): SourceController {
-        if (this._dataOptions.sourceController) {
-            this._sourceController = this._dataOptions.sourceController;
-        } else if (options.sourceController && this._sourceController !== options.sourceController) {
-            this._sourceController = options.sourceController;
-            this._sourceController.getItems().subscribe('onCollectionChange', this._collectionChange);
-        }
-        return this._sourceController;
-    }
-
-    private _getPathItems(items): Path {
+    private _getCalculatePath(items): Path {
         return calculatePath(items).path;
     }
 
@@ -72,8 +66,23 @@ export default class BreadCrumbsContainer extends Control<IControlOptions> {
                               oldItemsIndex: number,
                               reason: string): void {
         if (reason === 'assign') {
-            this._items = this._getPathItems(this._sourceController.getItems());
+            this._breadCrumbsItems = this._getCalculatePath(this._sourceController.getItems());
         }
+    }
+
+    private _setBreadCrumbsItems(options, context: ISourceControllerState): void {
+        if (context.breadCrumbsItems !== undefined) {
+            this._breadCrumbsItems = context.breadCrumbsItems;
+        } else if (this._sourceController !== options.sourceController) {
+            this._breadCrumbsItems = this._getPathItems(options);
+        }
+    }
+
+    private static _getKeyProperty(options, context: ISourceControllerState): string {
+        return context.keyProperty || options.sourceController && options.sourceController.getKeyProperty()
+    }
+    private static _getParentProperty(options, context: ISourceControllerState): string {
+        return context.parentProperty || options.sourceController && options.sourceController.getParentProperty()
     }
 
     static contextTypes(): IDataContext {
