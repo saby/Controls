@@ -145,10 +145,16 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         return classes;
     }
 
-    getItemStyles(itemType: string, templateWidth?: number, staticHeight?: number): string {
+    getItemStyles(itemType: string = 'default', templateWidth?: number, staticHeight?: boolean): string {
         if (this.isNode() && (itemType === 'default' || itemType === 'small')) {
             const width = this.getTileWidth(templateWidth);
-            return `-ms-flex-preferred-size: ${width}px; flex-basis: ${width}px;`;
+            let styles = `-ms-flex-preferred-size: ${width}px; flex-basis: ${width}px;`;
+
+            if (staticHeight) {
+                styles += ` height: ${this.getNodesHeight()}px;`;
+            }
+
+            return styles;
         } else {
             return super.getItemStyles(itemType, templateWidth, staticHeight);
         }

@@ -231,7 +231,7 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region AutoResizer
 
-    shouldDisplayAutoResizer(itemType: string, staticHeight: boolean, imagePosition?: string, imageViewMode?: string, imageProportion?: number): boolean {
+    shouldDisplayAutoResizer(itemType: string = 'default', staticHeight: boolean, imagePosition?: string, imageViewMode?: string, imageProportion?: number): boolean {
         if (itemType === 'rich') {
             return imagePosition === 'top' && imageViewMode === 'rectangle' && !!imageProportion;
         } else {
@@ -239,14 +239,14 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getAutoResizerStyles(itemType: string, width?: number, imageProportion?: number): string {
+    getAutoResizerStyles(itemType: string = 'default', width?: number, imageProportion?: number): string {
         if (itemType === 'rich') {
             return ` padding-top: ${100 * imageProportion}%`;
         }
         return `padding-top: ${(this.getTileHeight() / this.getTileWidth(width)) * 100}%;`;
     }
 
-    getAutoResizerClasses(itemType: string, staticHeight?: boolean, hasTitle?: boolean): string {
+    getAutoResizerClasses(itemType: string = 'default', staticHeight?: boolean, hasTitle?: boolean): string {
         if (itemType === 'preview') {
             return '';
         }
@@ -324,7 +324,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return this._$canShowActions;
     }
 
-    shouldDisplayItemActions(itemType: string, itemActionsPositionTemplate: string): boolean {
+    shouldDisplayItemActions(itemType: string = 'default', itemActionsPositionTemplate: string): boolean {
         if (itemType === 'preview') {
             return false;
         }
@@ -727,7 +727,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getItemStyles(itemType: string, templateWidth?: number, staticHeight?: boolean): string {
+    getItemStyles(itemType: string = 'default', templateWidth?: number, staticHeight?: boolean): string {
         const width = this.getTileWidth(templateWidth);
         if (this.getTileMode() === 'dynamic') {
             const flexBasis = width * this.getCompressionCoefficient();
