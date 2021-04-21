@@ -21,7 +21,6 @@ import FooterRow, { TFooter } from '../FooterRow';
 import ResultsRow, { TResultsPosition } from '../ResultsRow';
 import GridRowMixin from './Row';
 import EmptyRow from '../EmptyRow';
-import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 
 
 type THeaderVisibility = 'visible' | 'hasdata';
