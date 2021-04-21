@@ -1,20 +1,33 @@
-<div>
-    <ws:if data="{{_options._yearHovered === _options.currentYear}}">
-        <div class="controls-PeriodLiteDialog__item-background-hovered
+<ws:template name="itemTemplate">
+    <div>
+        <ws:if data="{{_options._yearHovered === _options.currentYear}}">
+            <div class="controls-PeriodLiteDialog__item-background-hovered
                border-top-hidden"></div>
-    </ws:if>
-    <ws:for data="halfYear in _yearModel">
-        <ws:for data="quarter in halfYear.quarters">
-            <ws:for data="month in quarter.months">
-                <ws:partial
-                        on:click="_onMonthClick(month.date)"
-                        template="{{_options.monthTemplate}}"
-                        defaultMonthTemplate="{{ _options.defaultMonthTemplate }}"
-                        month="{{month}}"
-                        formatDate="{{_formatDate}}"
-                        extData="{{_options.extData && _options.extData[month.date.getMonth()]}}"
-                />
+        </ws:if>
+        <ws:for data="halfYear in _yearModel">
+            <ws:for data="quarter in halfYear.quarters">
+                <ws:for data="month in quarter.months">
+                    <ws:partial
+                            on:click="_onMonthClick(month.date)"
+                            template="{{monthTemplate}}"
+                            defaultMonthTemplate="{{ _options.defaultMonthTemplate }}"
+                            month="{{month}}"
+                            formatDate="{{_formatDate}}"
+                            extData="{{_options.extData && _options.extData[month.date.getMonth()]}}"
+                    />
+                </ws:for>
             </ws:for>
         </ws:for>
-    </ws:for>
-</div>
+    </div>
+</ws:template>
+
+<ws:if data="{{ _isMonthsTemplateString }}">
+<Controls.Container.Async templateName="{{ _options.monthTemplate }}">
+    <ws:partial template="itemTemplate"
+                monthTemplate="{{ content.resolvedTemplate }}"/>
+</Controls.Container.Async>
+</ws:if>
+<ws:else>
+    <ws:partial template="itemTemplate"
+            monthTemplate="{{ _options.monthTemplate }}"/>
+</ws:else>
