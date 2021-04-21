@@ -68,6 +68,9 @@ abstract class Base<T extends IBaseOptions = IBaseOptions>
 
     protected _beforeUpdate(options?: T, contexts?: any): void {
         this._setStateByOptions(options);
+        if (this._options.value !== options.value) {
+            this._setShowFromAbove(options);
+        }
 
         super._beforeUpdate(options, contexts);
     }
