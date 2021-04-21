@@ -4,6 +4,23 @@ import {Logger} from 'UI/Utils';
 import {constants} from 'Env/Env';
 import { _FocusAttrs } from 'UI/Focus';
 
+const lowerValidNodes = Object.assign(
+	...Object.keys(validHtml.validNodes).map((key) => {
+		return { [key.toLowerCase()]: validHtml.validNodes[key] };
+	})
+);
+
+const lowerValidAttributes = Object.assign(
+	...Object.keys(validHtml.validAttributes).map((key) => {
+		return { [key.toLowerCase()]: validHtml.validAttributes[key] };
+	})
+);
+
+const lowerValidHtml = {
+	validNodes: lowerValidNodes,
+	validAttributes: lowerValidAttributes
+};
+
    var markupGenerator,
       defCollection,
       control,
@@ -53,7 +70,7 @@ import { _FocusAttrs } from 'UI/Focus';
    }
 
    function isKeyExist(obj: object, find: string): boolean {
-      const keys = Object.keys(obj).map((k) => k.toLowerCase());
+      const keys = Object.keys(obj);
       const soughtKey = find.toLowerCase();
       return keys.includes(soughtKey) ? obj[soughtKey] : false;
    }
@@ -194,7 +211,7 @@ import { _FocusAttrs } from 'UI/Focus';
       resolver = control._options.tagResolver;
       resolverParams = control._options.resolverParams || {};
       resolverMode = 1;
-      currentValidHtml = control._options.validHtml || validHtml;
+      currentValidHtml = control._options.validHtml || lowerValidHtml;
 
       const events = attr.events || {};
       if (constants.isBrowserPlatform) {
