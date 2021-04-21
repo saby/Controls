@@ -15,6 +15,7 @@ import template = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
 import {EventUtils} from 'UI/Events';
 import {isHidden} from './StickyHeader/Utils';
 import {getHeadersHeight} from './StickyHeader/Utils/getHeadersHeight';
+import {location} from 'Application/Env';
 
 export interface IContainerBaseOptions extends IControlOptions {
     _notScrollableContent?: boolean; // Для HintWrapper, который сверстан максмально неудобно для скроллКонтейнера.
@@ -93,7 +94,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         // Если одна область заменяется на другую с однотипной версткой и встроенным скролл контейнером,
         // то ядро не пересоздает dom контейнеры, и может так полуится, что вновь созданный скролл контейнер
         // может быть сразу проскролен. Исправляем эту ситуацию.
-        this._children.content.scrollTop = 0;
+        // Не будем скроллить в случае, если на странице есть нативные якоря для скролла,
+        // т.е. в ссылке присутсвует хэш
+        if (!location.hash) {
+            this._children.content.scrollTop = 0;
+        }
     }
 
     _afterMount(): void {
