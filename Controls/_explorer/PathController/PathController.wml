@@ -18,7 +18,7 @@
       scope="{{_options}}"
       header="{{_header}}"
 
-      on:backButtonClick="_onBackButtonClick()"
+      on:backButtonClick="goBack()"
       on:arrowClick="_notifyHandler('arrowClick')"
    />
 </div>
