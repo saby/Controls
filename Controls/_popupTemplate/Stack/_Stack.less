@@ -1,12 +1,31 @@
-.controls-StackTemplate {
+.controls-StackTemplate,
+.controls-StackTemplate-content {
    display: flex;
-   flex-direction: column;
    flex-grow: 1;
    flex-shrink: 1;
    height: 100%;
    width: 100%;
-   position: relative;
    background-color: var(--background-color_stack);
+}
+
+.controls-StackTemplate {
+   flex-direction: row;
+   position: relative;
+}
+
+.controls-StackTemplate-content {
+   flex-direction: column;
+}
+
+.controls-StackTemplate__rightPanel {
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   flex-shrink: 0;
+   justify-content: space-between;
+   min-width: 1px;
+   width: var(--width_stack-right_panel);
+   background-color: var(--background-color_stack-right_panel);
 }
 
 .controls-StackTemplate-shadow {
@@ -125,4 +144,8 @@
 .controls-StackTemplate__bottomArea {
    background: var(--footer_background-color_stack);
    border-top: var(--footer_top-border-thickness_stack) solid var(--footer_top-border-color_stack);
+}
+
+.controls-background-stackHeader {
+   background-color: var(--header_background-color_stack);
 }

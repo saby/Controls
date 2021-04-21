@@ -329,6 +329,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             columns: this._$emptyTemplateColumns,
             rowTemplate: this._$emptyTemplate,
             rowTemplateOptions: this._$emptyTemplateOptions,
+            multiSelectVisibility: this._$multiSelectVisibility
         });
     }
 
@@ -473,6 +474,11 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     hasMultiSelectColumn(): boolean {
         return this.getMultiSelectVisibility() !== 'hidden' && this.getMultiSelectPosition() !== 'custom';
+    }
+
+    setColumnScroll(columnScroll: boolean) {
+        this._$columnScroll = columnScroll;
+        this._nextVersion();
     }
 
     hasColumnScroll(): boolean {

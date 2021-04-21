@@ -28,7 +28,7 @@ const POPUP_CONTROLLER = 'Controls/popupTemplate:DialogController';
  * Для открытия диалоговых окон из кода используйте {@link Controls/popup:DialogOpener}.
  * @implements Controls/popup:IBaseOpener
  * @author Красильников А.С.
- * @demo Controls-demo/Popup/Opener/StackDemo
+ * @demo Controls-demo/Popup/Dialog/Index
  * @public
  */
 class Dialog extends BaseOpener<IDialogOpenerOptions> implements IDialogOpener, IPropStorage {

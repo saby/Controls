@@ -3,6 +3,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_popupTemplate/Stack/Stack');
 import {Controller as ManagerController} from 'Controls/popup';
 import {default as IPopupTemplate, IPopupTemplateOptions} from "./interface/IPopupTemplate";
+import Store from 'Controls/Store';
 import 'css!Controls/popupTemplate';
 
 export interface IStackTemplateOptions extends IControlOptions, IPopupTemplateOptions{
@@ -33,8 +34,8 @@ const MINIMIZED_STEP_FOR_MAXIMIZED_BUTTON = 100;
  *
  * @public
  * @author Красильников А.С.
- * @implements Controls/_popupTemplate/interface/IPopupTemplate
- * @implements Controls/_popupTemplate/interface/IPopupTemplateBase
+ * @implements Controls/popupTemplate:IPopupTemplate
+ * @implements Controls/popupTemplate:IPopupTemplateBase
  * @demo Controls-demo/PopupTemplate/Stack/HeaderBorderVisible/Index
  */
 
@@ -42,6 +43,7 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
     '[Controls/_popupTemplate/interface/IPopupTemplate]': boolean = true;
     protected _template: TemplateFunction = template;
     protected _headerTheme: string;
+    protected _stackRightPanel: string;
     protected _maximizeButtonTitle: string;
     protected _maximizeButtonVisibility: boolean = false;
 
@@ -49,6 +51,7 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
         this._maximizeButtonTitle = `${rk('Свернуть')}/${rk('Развернуть', 'окно')}`;
         this._updateMaximizeButton(options);
         this._prepareTheme();
+        this._stackRightPanel = Store.get('_stackRightPanel') as string;
     }
 
     protected _beforeUpdate(options: IStackTemplateOptions): void {

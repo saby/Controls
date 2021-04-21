@@ -53,6 +53,7 @@ export {IDateRangeSelectable};
  * @includes IDateRange Controls/_dateRange/interfaces/IDateRange
  * @includes IDayTemplate Controls/_interface/IDayTemplate
  * @includes IRangeInputTag Controls/_dateRange/interfaces/IRangeInputTag
+ * @includes IDateSelector Controls/_dateRange/interfaces/IDateSelector
  * @public
  * @author Красильников А.С.
  */
@@ -79,6 +80,7 @@ export {IDateRangeSelectable};
  * @includes IDateRange Controls/_dateRange/interfaces/IDateRange
  * @includes IDayTemplate Controls/_interface/IDayTemplate
  * @includes IRangeInputTag Controls/_dateRange/interfaces/IRangeInputTag
+ * @includes IDateSelector Controls/_dateRange/interfaces/IDateSelector
  * @public
  * @author Красильников А.С.
  */

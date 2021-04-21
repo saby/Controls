@@ -1,46 +1,68 @@
 <div class="controls-StackTemplate" ws-tab-cycling="true">
     <div class="controls-StackTemplate-shadow"></div>
-    <ws:if data="{{_options.caption || _options.headingCaption || _options.topArea || _options.headerContentTemplate}}">
-        <ws:partial template="Controls/_popupTemplate/Stack/resources/Header" scope="{{_options}}"
-                    close="{{close}}"
-                    theme="{{_headerTheme}}"
-                    stackOptions="{{_options}}"
-                    _maximizeButtonTitle="{{_maximizeButtonTitle}}"
-                    changeMaximizedState="{{changeMaximizedState}}"
-                    _maximizeButtonVisibility="{{_maximizeButtonVisibility}}" />
-    </ws:if>
-    <ws:else>
-        <div class="controls-StackTemplate__command_buttons_without_head">
-            <ws:if data="{{_options.showMaximizedButton || _maximizeButtonVisibility}}">
-                <div class="controls-StackTemplate__maximized_button" on:click="changeMaximizedState()" attr:title="{{_maximizeButtonTitle}}"></div>
-            </ws:if>
-            <ws:if data="{{_options.closeButtonVisibility}}">
-                <Controls._popupTemplate.CloseButton
-                    attr:class="controls-StackTemplate__close_button"
-                    viewMode="{{_options.closeButtonViewMode}}"
-                    transparent="{{_options.closeButtonTransparent}}"
-                    on:click="close()"/>
-            </ws:if>
-        </div>
-    </ws:else>
+    <div class="controls-StackTemplate-content">
+        <ws:if data="{{_options.caption || _options.headingCaption || _options.topArea || _options.headerContentTemplate}}">
+            <ws:partial template="Controls/_popupTemplate/Stack/resources/Header" scope="{{_options}}"
+                        close="{{close}}"
+                        theme="{{_headerTheme}}"
+                        stackOptions="{{_options}}"
+                        _stackRightPanel="{{_stackRightPanel}}"
+                        _maximizeButtonTitle="{{_maximizeButtonTitle}}"
+                        changeMaximizedState="{{changeMaximizedState}}"
+                        _maximizeButtonVisibility="{{_maximizeButtonVisibility}}" />
+        </ws:if>
+        <ws:else>
+            <div class="controls-StackTemplate__command_buttons_without_head">
+                <ws:if data="{{_options.showMaximizedButton || _maximizeButtonVisibility}}">
+                    <div class="controls-StackTemplate__maximized_button" on:click="changeMaximizedState()" attr:title="{{_maximizeButtonTitle}}"></div>
+                </ws:if>
+                <ws:if data="{{_options.closeButtonVisibility && !_stackRightPanel}}">
+                    <Controls._popupTemplate.CloseButton
+                       attr:class="controls-StackTemplate__close_button"
+                       data-qa="controls-stack-Button__close"
+                       viewMode="{{_options.closeButtonViewMode}}"
+                       transparent="{{_options.closeButtonTransparent}}"
+                       on:click="close()"/>
+                </ws:if>
+            </div>
+        </ws:else>
 
-    <div class="controls-StackTemplate__content-area">
-        <ws:partial template="{{_options.bodyContentTemplate}}"
-                    scope="{{_options}}"
-                    bodyContentTemplate="{{null}}"
-                    headerContentTemplate="{{null}}"
-                    footerContentTemplate="{{null}}">  <!-- Опция с тем же названием есть на выпадающем списке.
-                                                            Чтобы опция не пролетала до выпадающего списка, который лежит в стеке -->
-        </ws:partial>
-    </div>
-
-    <ws:if data="{{_options.footerContentTemplate }}">
-        <div class="controls-StackTemplate__bottomArea">
-            <ws:partial template="{{_options.footerContentTemplate}}"
+        <div class="controls-StackTemplate__content-area">
+            <ws:partial template="{{_options.bodyContentTemplate}}"
                         scope="{{_options}}"
                         bodyContentTemplate="{{null}}"
                         headerContentTemplate="{{null}}"
-                        footerContentTemplate="{{null}}"/>
+                        footerContentTemplate="{{null}}">  <!-- Опция с тем же названием есть на выпадающем списке.
+                                                                Чтобы опция не пролетала до выпадающего списка, который лежит в стеке -->
+            </ws:partial>
+        </div>
+
+        <ws:if data="{{_options.footerContentTemplate }}">
+            <div class="controls-StackTemplate__bottomArea">
+                <ws:partial template="{{_options.footerContentTemplate}}"
+                            scope="{{_options}}"
+                            bodyContentTemplate="{{null}}"
+                            headerContentTemplate="{{null}}"
+                            footerContentTemplate="{{null}}"/>
+            </div>
+        </ws:if>
+    </div>
+    <ws:if data="{{_stackRightPanel}}">
+        <div class="controls-StackTemplate__rightPanel">
+            <Controls.buttons:Button
+               data-qa="controls-stack-Button__close"
+               icon="icon-Close"
+               iconStyle="secondary"
+               buttonStyle="secondary"
+               iconSize="m"
+               viewMode="onlinePageHeader"
+               inlineHeight="xl"
+               tooltip="{[Закрыть]}"
+               on:click="close()"
+            />
+            <Controls.Container.Async templateName="{{_stackRightPanel}}">
+                <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}"/>
+            </Controls.Container.Async>
         </div>
     </ws:if>
 </div>

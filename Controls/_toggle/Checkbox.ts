@@ -27,10 +27,10 @@ const mapBoolState = {true: false, false: true, null: true};
  *
  * @class Controls/_toggle/Checkbox
  * @extends UI/Base:Control
- * @implements Controls/_interface/ICaption
- * @implements Controls/_interface/IIcon
- * @implements Controls/_interface/ITooltip
- * @implements Controls/_interface/IValidationStatus
+ * @implements Controls/interface:ICaption
+ * @implements Controls/interface:IIcon
+ * @implements Controls/interface:ITooltip
+ * @implements Controls/interface:IValidationStatus
  * 
  * @public
  * @author Красильников А.С.
@@ -44,9 +44,9 @@ const mapBoolState = {true: false, false: true, null: true};
  *
  * @class Controls/_toggle/Checkbox
  * @extends UI/Base:Control
- * @implements Controls/_interface/ICaption
- * @implements Controls/_interface/IIcon
- * @implements Controls/_interface/ITooltip
+ * @implements Controls/interface:ICaption
+ * @implements Controls/interface:IIcon
+ * @implements Controls/interface:ITooltip
  * @implements Controls/interface:IIconStyle
  * @implements Controls/interface:IIconSize
  * 

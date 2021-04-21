@@ -20,8 +20,8 @@ export interface ISwitchOptions extends IControlOptions, ICheckableOptions, IToo
  *
  * @class Controls/_toggle/Switch
  * @extends UI/Base:Control
- * @implements Controls/_toggle/interface/ICheckable
- * @implements Controls/_interface/ITooltip
+ * @implements Controls/toggle:ICheckable
+ * @implements Controls/interface:ITooltip
  * 
  * @public
  * @author Красильников А.С.
@@ -35,8 +35,8 @@ export interface ISwitchOptions extends IControlOptions, ICheckableOptions, IToo
  *
  * @class Controls/_toggle/Switch
  * @extends UI/Base:Control
- * @implements Controls/_toggle/interface/ICheckable
- * @implements Controls/_interface/ITooltip
+ * @implements Controls/toggle:ICheckable
+ * @implements Controls/interface:ITooltip
  * 
  * @public
  * @author Красильников А.С.
