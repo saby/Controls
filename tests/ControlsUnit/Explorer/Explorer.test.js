@@ -1161,6 +1161,12 @@ define([
          });
 
          it('step back', () => {
+            const root = new entityLib.Model({
+               keyProperty: 'id',
+               rawData: {
+                  id: null,
+               }
+            });
             const rootItem = new entityLib.Model({
                keyProperty: 'id',
                rawData: {
@@ -1213,7 +1219,7 @@ define([
             explorer._forceUpdate = () => undefined;
 
             // Сразу из текущий папки возвращаемся в самый верхний корень
-            explorer._backByPath([rootItem]);
+            explorer._onBreadCrumbsClick(null, root);
             // В соответствии с _restoredMarkedKeys position должен выставиться в
             // ['Title1', 1]
             assert.deepEqual(
@@ -1238,7 +1244,7 @@ define([
                }
             };
             // Возвращаемся в rootItem
-            explorer._backByPath([rootItem, childItem]);
+            explorer._onBreadCrumbsClick(null, rootItem);
             // В соответствии с _restoredMarkedKeys position должен выставиться в
             // ['Title2', 2]
             assert.deepEqual(
@@ -1247,7 +1253,7 @@ define([
             );
 
             // Возвращаемся в самый верхний корень
-            explorer._backByPath([rootItem]);
+            explorer._onBreadCrumbsClick(null, root);
             // В соответствии с _restoredMarkedKeys position должен выставиться в
             // ['Title1', 1]
             assert.deepEqual(
