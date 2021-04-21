@@ -294,7 +294,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         };
     }
 
-    private _getMenuConfigByItem(item: TItem, source: ICrudPlus, root: number): IStickyPopupOptions {
+    private _getMenuConfigByItem(item: TItem, source: ICrudPlus, root: number, items: RecordSet): IStickyPopupOptions {
         const options = this._options;
         return {
             ...this._getMenuOptions(),
@@ -309,7 +309,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             },
             templateOptions: {
                 source,
-                items: options.items,
+                items,
                 root,
                 ...this._getMenuTemplateOptions(),
                 showHeader: item.get('showHeader'),
@@ -494,7 +494,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
                 const root = item.get(this._options.keyProperty);
                 let menuSource = source;
 
-                const config = this._getMenuConfigByItem(item, menuSource, root);
+                const config = this._getMenuConfigByItem(item, menuSource, root, this._menuItems[root]);
                 this._openMenu({
                     ...config,
                     target: event.currentTarget
