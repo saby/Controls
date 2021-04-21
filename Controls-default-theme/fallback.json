@@ -471,6 +471,8 @@
   "--background-color_stack": "var(--background-color)",
   "--background-color_stack-right_panel": "#f8f8f8",
   "--width_stack-right_panel": "52px",
+  "--border_width_stack-right_panel": "2px",
+  "--border_stack-right_panel": "var(--border_width_stack-right_panel) solid rgba(0, 0, 0, 0.04)",
   "--header_background-color_stack": "#F8F8F8",
   "--footer_background-color_stack": "#F8F8F8",
   "--border-color_stack": "#bdbdbd",
