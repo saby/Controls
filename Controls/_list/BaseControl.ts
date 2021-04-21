@@ -5645,7 +5645,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             let shouldActivateInput = true;
             if (this._listViewModel['[Controls/_display/grid/mixins/Grid]']) {
                 shouldActivateInput = false;
-                this._editInPlaceInputHelper.setInputForFastEdit(nativeEvent.target, collection.getIndexBySourceItem(item));
+                this._editInPlaceInputHelper.setInputForFastEdit(nativeEvent.target, direction);
             }
             return this._beginEdit({ item }, { shouldActivateInput, columnIndex });
         };
