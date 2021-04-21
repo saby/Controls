@@ -45,27 +45,33 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterRow', () => {
       keyProperty: 'id'
    });
 
-   const treeGridCollection = new TreeGridCollection({
-      collection: recordSet,
-      root: null,
-      keyProperty: 'id',
-      parentProperty: 'parent',
-      nodeProperty: 'node',
-      hasChildrenProperty: 'hasChildren',
-      columns: [{
-         displayProperty: 'title',
-         width: '300px',
-         template: 'wml!template1'
-      },
-         {
-            displayProperty: 'taxBase',
-            width: '200px',
+   let treeGridCollection;
+   let nodeFooterRow;
+
+   beforeEach(() => {
+      treeGridCollection = new TreeGridCollection({
+         collection: recordSet,
+         root: null,
+         keyProperty: 'id',
+         parentProperty: 'parent',
+         nodeProperty: 'node',
+         hasChildrenProperty: 'hasChildren',
+         columns: [{
+            displayProperty: 'title',
+            width: '300px',
             template: 'wml!template1'
-         }
-      ],
-      expandedItems: [null]
+         },
+            {
+               displayProperty: 'taxBase',
+               width: '200px',
+               template: 'wml!template1'
+            }
+         ],
+         expandedItems: [null]
+      });
+
+      nodeFooterRow = treeGridCollection.at(3) as TreeGridNodeFooterRow;
    });
-   const nodeFooterRow = treeGridCollection.at(3) as TreeGridNodeFooterRow;
 
    it('.getColumns()', () => {
       let columns = nodeFooterRow.getColumns(false);
@@ -76,6 +82,12 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterRow', () => {
 
       columns = nodeFooterRow.getColumns();
       assert.equal(columns.length, 1);
+
+      treeGridCollection.setMultiSelectVisibility('visible');
+      columns = nodeFooterRow.getColumns();
+      assert.equal(columns.length, 2);
+      columns = nodeFooterRow.getColumns(false);
+      assert.equal(columns.length, 3);
    });
 
    it('.getItemClasses()', () => {
