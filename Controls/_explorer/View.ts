@@ -1,3 +1,6 @@
+// tslint:disable-next-line:ban-ts-ignore
+// @ts-ignore
+import * as template from 'wml!Controls/_explorer/View/View';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as cInstance from 'Core/core-instance';
 import {EventUtils} from 'UI/Events';
@@ -32,13 +35,11 @@ import {IDragObject} from 'Controls/_dragnDrop/Container';
 import {ItemsEntity} from 'Controls/dragnDrop';
 import {TExplorerViewMode} from 'Controls/_explorer/interface/IExplorer';
 import {TreeControl} from 'Controls/tree';
-// tslint:disable-next-line:ban-ts-ignore
-// @ts-ignore
-import * as template from 'wml!Controls/_explorer/View/View';
 import {IEditableListOption} from 'Controls/_list/interface/IEditableList';
 import 'css!Controls/tile';
 import 'css!Controls/explorer';
 import { isFullGridSupport } from 'Controls/display';
+import PathController from 'Controls/_explorer/PathController';
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -126,7 +127,8 @@ export default class Explorer extends Control<IExplorerOptions> {
     protected _canStartDragNDrop: Function;
     protected _headerVisibility: string;
     protected _children: {
-        treeControl: TreeControl
+        treeControl: TreeControl,
+        pathController: PathController
     };
     protected _dataLoadCallback: Function;
 
@@ -506,7 +508,19 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     protected _onExplorerKeyDown(event: SyntheticEvent): void {
-        EventUtils.keysHandler(event, HOT_KEYS, this, this);
+        // Хитрая система обработки нажатия клавиш.
+        // В данном случае обрабатываем только Backspace, вызывая наш метод _backByPath,
+        // в который первым аргументом придет null (4й аргумент ф-ии keysHandler),
+        // а вторым объект события (1й аргумент ф-ии keysHandler)
+        EventUtils.keysHandler(event, HOT_KEYS, this, null, false);
+    }
+
+    /**
+     * Обработчик нажатия клавиши Backspace
+     * @see _onExplorerKeyDown
+     */
+    protected _backByPath(scope: unknown, event: Event): void {
+        this._children.pathController.goBack(event);
     }
 
     protected _onArrowClick(e: SyntheticEvent): void {
@@ -876,18 +890,6 @@ export default class Explorer extends Control<IExplorerOptions> {
                     this._children.treeControl.resetExpandedItems();
                 }
             });
-    }
-
-    protected _backByPath(breadcrumbs: Path): void {
-        if (breadcrumbs?.length) {
-            const keyProp = this._options.keyProperty;
-            this._onBreadCrumbsClick(null, new Model({
-                keyProperty: keyProp,
-                rawData: {
-                    [keyProp]: breadcrumbs[breadcrumbs.length - 1].get(this._options.parentProperty)
-                }
-            }));
-        }
     }
 
     private _isCursorNavigation(navigation: INavigation<INavigationSourceConfig>): boolean {

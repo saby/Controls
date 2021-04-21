@@ -81,6 +81,28 @@ const GridView = ListView.extend({
         if (changes.includes('header')) {
             listModel.setHeader(options.header);
         }
+
+        if (changes.includes('columnScroll')) {
+            listModel.setColumnScroll(options.columnScroll);
+        }
+    },
+
+    _applyChangedOptions(options, changes): void {
+        if (changes.includes('columnScroll')) {
+            // Создание или разрушение контроллеров горизонтального скролла и скроллирования мышкой при изменении опций
+            // columnScroll и dragScroll.
+            if (this._columnScrollViewController) {
+                const action = this._columnScrollViewController?.updateControllers(options);
+                if (action === 'columnScrollDisabled') {
+                    this._columnScrollViewController.destroy();
+                    this._columnScrollViewController = null;
+                }
+            } else {
+                this._doAfterUpdate(() => {
+                    this._columnScrollViewController = this._createColumnScroll(options);
+                });
+            }
+        }
     },
 
     _applyNewOptionsAfterReload(oldOptions, newOptions): void {
@@ -98,6 +120,9 @@ const GridView = ListView.extend({
             if (changedOptions.hasOwnProperty('columns')) {
                 changes.push('columns');
             }
+            if (changedOptions.hasOwnProperty('columnScroll')) {
+                changes.push('columnScroll');
+            }
         }
 
         if (changes.length) {
@@ -105,6 +130,7 @@ const GridView = ListView.extend({
             // перерисовывается с новым набором колонок, но со старыми данными. Пример ошибки:
             // https://online.sbis.ru/opendoc.html?guid=91de986a-8cb4-4232-b364-5de985a8ed11
             this._doAfterReload(() => {
+                this._applyChangedOptions(newOptions, changes);
                 this._applyChangedOptionsToModel(this._listModel, newOptions, changes);
             });
         }
@@ -119,19 +145,6 @@ const GridView = ListView.extend({
             this._listModel.setSorting(newOptions.sorting);
         }
 
-        // Создание или разрушение контроллеров горизонтального скролла и скроллирования мышкой при изменении опций
-        // columnScroll и dragScroll.
-        if (this._columnScrollViewController) {
-            const action = this._columnScrollViewController?.updateControllers(newOptions);
-            if (action === 'columnScrollDisabled') {
-                this._columnScrollViewController.destroy();
-                this._applyColumnScrollChanges();
-                this._columnScrollViewController = null;
-            }
-        } else if (newOptions.columnScroll) {
-            this._columnScrollViewController = this._createColumnScroll(newOptions);
-        }
-
         if (this._options.columnSeparatorSize !== newOptions.columnSeparatorSize) {
             this._listModel.setColumnSeparatorSize(newOptions.columnSeparatorSize);
         }
@@ -142,8 +155,12 @@ const GridView = ListView.extend({
     },
 
     _afterUpdate(oldOptions): void {
-        GridView.superclass._afterUpdate.apply(this, arguments);
+        // todo ColumnScroll #1. Не должно быть безусловной актуализации columnScroll. Нужно учесть, что columnScroll
+        // могло ранее не существовать - он мог создаться в afterUpdate. Тогда не нужно производить его обновление.
+        // Иначе говоря должны быть точно и прозрачно обозначены точки обновления columnScroll.
+        // https://online.sbis.ru/opendoc.html?guid=b6c5fe05-5a07-49b1-83db-e1193dbe55f5
         this._actualizeColumnScroll(this._options, oldOptions);
+        GridView.superclass._afterUpdate.apply(this, arguments);
     },
 
     _beforeUnmount(): void {
@@ -353,7 +370,7 @@ const GridView = ListView.extend({
             return 'display: none;';
         }
         return this._columnScrollViewController.getScrollBarStyles(this._options.itemActionsPosition, GridLadderUtil.stickyLadderCellsCount(
-            this._options.columns,
+            this._listModel.getColumnsConfig(),
             this._options.stickyColumn,
             this._listModel.getDraggableItem()
         ));
