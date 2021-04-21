@@ -505,7 +505,9 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'default':
             case 'preview':
             case 'medium':
-                classes += ' controls-TileView__image';
+                if (imageAlign !== 'top') {
+                    classes += ' controls-TileView__image';
+                }
                 classes += ` controls-TileView__image_align_${imageAlign} `;
 
                 const imageRestrictions = this.getImageFit() === 'cover'

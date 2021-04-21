@@ -56,5 +56,25 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
                 CssClassesAssert.include(result, 'controls-TileView__richTemplate_image_size_s_position_vertical');
             });
         });
+
+        describe('default item', () => {
+            it('by default', () => {
+                const item = new TileCollectionItem();
+                const result = item.getImageClasses('default', undefined, 'center');
+                CssClassesAssert.isSame(result, 'controls-TileView__image controls-TileView__image_align_center');
+            });
+
+            it('image align top', () => {
+                const item = new TileCollectionItem();
+                const result = item.getImageClasses('default', undefined, 'top');
+                CssClassesAssert.isSame(result, 'controls-TileView__image_align_top');
+            });
+
+            it('image fit is cover', () => {
+                const item = new TileCollectionItem({imageFit: 'cover'});
+                const result = item.getImageClasses('default', undefined, 'top');
+                CssClassesAssert.isSame(result, 'controls-TileView__image_align_top controls-TileView__image_fullHeight controls-TileView__image_fullWidth');
+            });
+        });
     });
 });
