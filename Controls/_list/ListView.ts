@@ -56,6 +56,7 @@ var ListView = BaseControl.extend(
         _pendingRedraw: false,
         _reloadInProgress: false,
         _callbackAfterReload: null,
+        _callbackAfterUpdate: null,
         _forTemplate: null,
 
         constructor: function() {
@@ -93,6 +94,18 @@ var ListView = BaseControl.extend(
                     this._callbackAfterReload.push(callback);
                 } else {
                     this._callbackAfterReload = [callback];
+                }
+            } else {
+                callback();
+            }
+        },
+
+        _doAfterUpdate(callback): void {
+            if (this._updateInProgress) {
+                if (this._callbackAfterUpdate) {
+                    this._callbackAfterUpdate.push(callback);
+                } else {
+                    this._callbackAfterUpdate = [callback];
                 }
             } else {
                 callback();
@@ -142,6 +155,7 @@ var ListView = BaseControl.extend(
         },
 
         _beforeUpdate: function(newOptions) {
+            this._updateInProgress = true;
             if (newOptions.listModel && (this._listModel != newOptions.listModel)) {
                 this._listModel = newOptions.listModel;
                 this._listModel.subscribe('onListChange', this._onListChangeFnc);
@@ -150,6 +164,16 @@ var ListView = BaseControl.extend(
                 this._groupTemplate = newOptions.groupTemplate;
             }
             this._itemTemplate = this._resolveItemTemplate(newOptions);
+        },
+
+        _afterUpdate() {
+            this._updateInProgress = false;
+            if (this._callbackAfterUpdate) {
+                this._callbackAfterUpdate.forEach((callback) => {
+                    callback();
+                });
+                this._callbackAfterUpdate = null;
+            }
         },
 
         _resolveItemTemplate(options) {
