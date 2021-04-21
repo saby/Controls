@@ -478,6 +478,11 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         return this.getMultiSelectVisibility() !== 'hidden' && this.getMultiSelectPosition() !== 'custom';
     }
 
+    setColumnScroll(columnScroll: boolean) {
+        this._$columnScroll = columnScroll;
+        this._nextVersion();
+    }
+
     hasColumnScroll(): boolean {
         return this._$columnScroll;
     }
