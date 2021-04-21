@@ -17,8 +17,14 @@ const LINE_BREAK_SEPARATOR = '\n';
  * @class Controls/_decorator/MultilineText
  * @extends UI/Base:Control
  * @public
+ * @demo Controls-demo/Decorators/MultilineText/Index
  *
  * @author Красильников А.С.
+ */
+/**
+ * @name Controls/_decorator/MultilineText#value
+ * @cfg {string} Текст для отображения
+ * @demo Controls-demo/Decorator/Number/Value/Index
  */
 class MultilineText extends Control<IMultilineTextDecoratorOptions> {
     protected _textLines: string[] = [];
