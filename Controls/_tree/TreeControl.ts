@@ -1035,24 +1035,18 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         this._deepReload = false;
     }
 
-    protected _onCollectionChanged(
-        event: SyntheticEvent,
-        changesType: string,
-        action: string,
-        newItems: Array<CollectionItem<Model>>,
-        newItemsIndex: number,
-        removedItems: Array<CollectionItem<Model>>,
-        removedItemsIndex: number): void {
-
-        super._onCollectionChanged.apply(this, arguments);
-
-        if (action === 'rs') {
-            if (this._options.markerMoveMode === 'leaves') {
-                this.setMarkerOnFirstLeaf();
-            }
+    protected _afterItemsSet(options): void {
+        super._afterItemsSet.apply(this, arguments);
+        if (options.markerMoveMode === 'leaves') {
+            this.setMarkerOnFirstLeaf();
         }
     }
-
+    protected _afterCollectionReset(): void {
+        super._afterCollectionReset.apply(this, arguments);
+        if (this._options.markerMoveMode === 'leaves') {
+            this.setMarkerOnFirstLeaf();
+        }
+    }
     private setMarkerOnFirstLeaf() {
         const markerController = this.getMarkerController();
         const model = this._listViewModel;

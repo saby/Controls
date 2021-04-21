@@ -3575,8 +3575,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         removedItems: Array<CollectionItem<Model>>,
         removedItemsIndex: number): void {
         _private.onCollectionChanged(this, event, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex);
+        if (action === IObservable.ACTION_RESET) {
+            this._afterCollectionReset();
+        }
     }
-
+    protected _afterCollectionReset(): void {
+        // для переопределения
+    }
     _prepareItemsOnMount(self, newOptions, receivedState: IReceivedState = {}): Promise<unknown> | void {
         let items;
         let collapsedGroups;
@@ -4121,7 +4126,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._updateScrollController(newOptions);
         }
 
-        if (_private.hasMarkerController(this)) {
+        if (_private.hasMarkerController(this) && this._listViewModel) {
             _private.getMarkerController(this).updateOptions({
                 model: this._listViewModel,
                 markerVisibility: newOptions.markerVisibility
@@ -4160,6 +4165,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (items && (this._listViewModel && !this._listViewModel.getCollection() || this._items !== items)) {
                 if (!this._listViewModel) {
                     _private.initializeModel(this, newOptions, items);
+                    if (_private.hasMarkerController(this)) {
+                        _private.getMarkerController(this).updateOptions({
+                            model: this._listViewModel,
+                            markerVisibility: newOptions.markerVisibility
+                        });
+                    }
                 }
 
                 const isActionsAssigned = this._listViewModel.isActionsAssigned();
