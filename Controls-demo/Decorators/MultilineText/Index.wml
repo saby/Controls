@@ -7,7 +7,7 @@
                 bind:value="_value"/>
     </div>
     <div class="controlsDemo-MultilineTextDecorator__line ws-flexbox">
-        <Controls.input:Label caption="Введите текст:"/>
+        <Controls.input:Label caption="Вывод текста:"/>
         <Controls.decorator:MultilineText
                 attr:class="controlsDemo-MultilineTextDecorator__decorator"
                 value="{{_value}}"/>
