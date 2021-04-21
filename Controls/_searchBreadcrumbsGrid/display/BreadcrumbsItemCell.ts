@@ -61,6 +61,10 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
       const contents = this._$owner.getLast().getContents();
       return this._$owner.editArrowIsVisible(contents);
    }
+
+   getDisplayProperty(): string {
+      return this._$owner.getDisplayProperty();
+   }
 }
 
 Object.assign(BreadcrumbsItemCell.prototype, {
