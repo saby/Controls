@@ -272,6 +272,15 @@
    font-size: var(--master_item_font-size_list);
 }
 
+.controls-Grid__row-cell_masterNew {
+   height: var(--cell_min-height_grid);
+   font-size: var(--master_item_font-size_list);
+   margin-left: var(--master_item_horizontal-offset_list);
+   margin-right: var(--master_item_horizontal-offset_list);
+   margin-bottom: var(--master_item_vartical-offset_list);
+   border-radius: var(--master_item_border-radius_list);
+}
+
 .controls-ColumnScroll_visible .controls-GridNew__cell_fixed {
    z-index: 3;
 }
@@ -862,6 +871,12 @@
    font-size: var(--master_item_selected_font-size_list);
 }
 
+.controls-Grid__row-cell_selected-masterNew {
+   font-weight: bold;
+   font-size: var(--master_item_selected_font-size_list);
+   background-color: var(--master-new_item_selected_background-color_list);
+}
+
 .controls-GridView__itemV_marker-master {
    position: absolute;
    box-sizing: border-box;
@@ -872,11 +887,13 @@
    left: 0;
 }
 
+.controls-GridView__itemV_marker-masterNew {
+   display: none;
+}
+
 .ws-is-hover .controls-BaseControl_hover_enabled {
 
-   .controls-Grid__row_highlightOnHover_master:hover .controls-Grid__row-cell-background-hover-master {
-      background-color: var(--master_item_hover_background-color_list);
-   }
+   .controls-Grid__row_highlightOnHover_master:hover .controls-Grid__row-cell-background-hover-master,
    .controls-Grid__row_highlightOnHover_master:hover .controls-background-master {
       background-color: var(--master_item_hover_background-color_list);
    }
