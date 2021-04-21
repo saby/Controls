@@ -25,7 +25,7 @@ import { getConfig } from 'Application/Env';
 // Нужно чтобы oldCss прилетал первым на страницу. Есть контролы (например itemsActions), стили которыйх
 // Завязаны на порядок css.
 import 'css!Controls/Application/oldCss';
-import 'css!Controls/Application/Application';
+import 'css!Controls/application';
 import 'css!Controls/dragnDrop';
 import 'css!Controls/CommonClasses';
 
