@@ -37,10 +37,16 @@ export default class MonthsSource extends Memory {
         this._header = options.header;
         this._stubTemplate = options.stubTemplate;
         this._dateConstructor = options.dateConstructor || WSDate;
-        // Ограничиваем период с 1400 года по (текущий год + 1000)
-        const defaultEndOfDisplayedRanges = new Date( new Date().getFullYear() + 1000, 0 );
-        const defaultDisplayedRanges = [[new Date(1400, 0), defaultEndOfDisplayedRanges]];
-        this._displayedRanges = options.displayedRanges || defaultDisplayedRanges;
+
+        const getDefaultDisplayedRanges = () => {
+            // Ограничиваем период с 1400 года по (текущий год + 1000)
+            const minRange = 1400;
+            const additionalYears = 1000;
+            const maxRange = new Date().getFullYear() + additionalYears;
+            return [[new Date(minRange, 0), new Date( maxRange, 11)]];
+        };
+
+        this._displayedRanges = options.displayedRanges || getDefaultDisplayedRanges();
         this._viewMode = options.viewMode;
         this._order = options.order;
     }

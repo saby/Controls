@@ -81,5 +81,22 @@ define([
             assert.equal(component._lastYear, cachedYear + 1);
          });
       });
+      describe('_updateModel', () => {
+         [{
+            lastYear: 10000
+         }, {
+            lastYear: 1200
+         }].forEach((test) => {
+            it('should not let _lastYears get out of valid range', () => {
+               const component = calendarTestUtils.createComponent(YearsRange, { year: year });
+               const minRange = 1400;
+               const additionalYears = 1000;
+               const maxRange = new Date().getFullYear() + additionalYears;
+               component._lastYear = test.lastYear;
+               component._updateModel();
+               assert.isTrue(component._lastYear >= minRange && component._lastYear <= maxRange);
+            });
+         });
+      });
    });
 });
