@@ -939,7 +939,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         return this._childrenMap[key];
     }
 
-    private _getChildrenByRecordSet(parent: S): S[] {
+    protected _getChildrenByRecordSet(parent: S): S[] {
         // метод может быть позван, до того как полностью отработает конструктор
         if (!this._hierarchyRelation) {
             this._createHierarchyRelation();
