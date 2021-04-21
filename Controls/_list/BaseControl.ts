@@ -5255,9 +5255,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _onItemClick(e, item, originalEvent, columnIndex = null) {
         _private.closeSwipe(this);
-        if (this.isLoading() && !_private.isPortionedLoad(this)) {
-            return;
-        }
         if (this._itemActionMouseDown) {
             // Не нужно кликать по Item, если MouseDown был сделан по ItemAction
             this._itemActionMouseDown = null;
@@ -5645,7 +5642,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             let shouldActivateInput = true;
             if (this._listViewModel['[Controls/_display/grid/mixins/Grid]']) {
                 shouldActivateInput = false;
-                this._editInPlaceInputHelper.setInputForFastEdit(nativeEvent.target, collection.getIndexBySourceItem(item));
+                this._editInPlaceInputHelper.setInputForFastEdit(nativeEvent.target, direction);
             }
             return this._beginEdit({ item }, { shouldActivateInput, columnIndex });
         };
@@ -5889,9 +5886,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _itemMouseDown(event, itemData, domEvent) {
-        if (this.isLoading() && !_private.isPortionedLoad(this)) {
-            return;
-        }
         // При клике в операцию записи не нужно посылать событие itemMouseDown. Останавливать mouseDown в
         // методе _onItemActionMouseDown нельзя, т.к. тогда оно не добросится до Application
         this._itemActionMouseDown = null;
@@ -5926,9 +5920,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _itemMouseUp(e, itemData, domEvent): void {
-        if (this.isLoading() && !_private.isPortionedLoad(this)) {
-            return;
-        }
         let key;
         if (this._options.useNewModel) {
             const contents = _private.getPlainItemContents(itemData);
