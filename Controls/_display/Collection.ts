@@ -37,6 +37,7 @@ import { ICollection, ISourceCollection, IItemPadding } from './interface/IColle
 import { IDragPosition } from './interface/IDragPosition';
 import {INavigationOptionValue} from 'Controls/interface';
 import {IRoundBorder} from "Controls/_tile/display/mixins/Tile";
+import {Footer} from 'Controls/_display/Footer';
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
@@ -142,6 +143,8 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     multiSelectAccessibilityProperty?: string;
     markerPosition?: string;
     hiddenGroupPosition?: IHiddenGroupPosition;
+    footerTemplate?: TemplateFunction | string;
+    stickyFooter?: boolean;
 }
 
 export interface ICollectionCounters {
@@ -677,6 +680,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$multiSelectPosition: 'default' | 'custom';
 
+    protected _$footerTemplate: TemplateFunction | string;
+
+    protected _$stickyFooter: boolean;
+
     /**
      * Задает доступность чекбокса
      * @protected
@@ -844,6 +851,11 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _hoveredItem: T;
 
     /**
+     * Модель заголовка футера списка
+     */
+    protected _footer: Footer;
+
+    /**
      * ссылка на текущий активный Item
      */
     protected _$activeItem: T;
@@ -958,6 +970,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             // TODO What's a better way of doing this?
             this.addFilter(groupingFilter);
         }
+
+        this._footer = this._initializeFooter(options);
     }
 
     _initializeCollection(): void {
@@ -2905,6 +2919,54 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$markerVisibility;
     }
 
+    /**
+     * Возвращает модель для рендера футера списка
+     */
+    getFooter(): Footer {
+        return this._footer;
+    }
+
+    /**
+     * Пересоздает модель по которой рендерится футера списка
+     */
+    setFooter(options: IOptions<S, T>): void {
+        let hasChanges: boolean;
+        const footer = this.getFooter();
+
+        // Если футер уже есть и в новых опциях задан шаблон для футера, то нужно обновить данные футера
+        if (footer && options.footerTemplate) {
+            hasChanges =
+                this._$stickyFooter !== options.stickyFooter ||
+                this._$footerTemplate !== options.footerTemplate;
+
+            this._$stickyFooter = options.stickyFooter;
+            this._$footerTemplate = options.footerTemplate;
+
+            footer.setStickedToBottom(options.stickyFooter);
+            footer.setContentTemplate(options.footerTemplate);
+        }
+
+        // Если футер уже есть и в новых опциях не задан шаблон для футера, то нужно сбросить футер
+        if (footer && !options.footerTemplate) {
+            hasChanges = true;
+            this._footer = null;
+            this._$stickyFooter = false;
+            this._$footerTemplate = null;
+        }
+
+        // Если футера не было и в новых опциях он есть, то нужно создать его
+        if (!footer && options.footerTemplate) {
+            hasChanges = true;
+            this._$stickyFooter = options.stickyFooter;
+            this._$footerTemplate = options.footerTemplate;
+            this._footer = this._initializeFooter(options);
+        }
+
+        if (hasChanges) {
+            this._nextVersion();
+        }
+    }
+
     // region SerializableMixin
 
     _getSerializableState(state: IDefaultSerializableState): ISerializableState<S, T> {
@@ -3188,6 +3250,20 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
 
     // endregion
+
+    //region Initialization
+    protected _initializeFooter(options: IOptions<S, T>): Footer {
+        if (!options.footerTemplate) {
+            return;
+        }
+
+        return new Footer({
+            owner: this,
+            sticky: options.stickyFooter,
+            contentTemplate: options.footerTemplate
+        });
+    }
+    //endregion
 
     // region Navigation
 
@@ -4042,6 +4118,8 @@ Object.assign(Collection.prototype, {
     _$backgroundStyle: 'default',
     _$rowSeparatorSize: null,
     _$hiddenGroupPosition: 'first',
+    _$footerTemplate: null,
+    _$stickyFooter: false,
     _localize: false,
     _itemModule: 'Controls/display:CollectionItem',
     _itemsFactory: null,

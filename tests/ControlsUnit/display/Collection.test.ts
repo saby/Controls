@@ -4497,4 +4497,87 @@ describe('Controls/_display/Collection', () => {
             assert.equal(collection.at(3).getContents(), groupConstants.hiddenGroup);
         });
     });
+
+    describe('footer', () => {
+        it('initialize footer', () => {
+            // Создаем коллекцию без опции footerTemplate, футер проинициализироваться не должен
+            let collection = new CollectionDisplay({
+                collection: []
+            });
+            assert.isFalse(!!collection.getFooter());
+
+            // Создаем коллекцию с опцией footerTemplate, футер должен проинициализироваться
+            const footerTemplate = 'footer template';
+            collection = new CollectionDisplay({
+                collection: [],
+                footerTemplate
+            });
+            assert.isTrue(!!collection.getFooter());
+            assert.equal(collection.getFooter().getContentTemplate(), footerTemplate);
+        });
+
+        it('set footer by template', () => {
+            // Создаем модель без футера
+            const collection = new CollectionDisplay({
+                collection: []
+            });
+            let collectionVersion = collection.getVersion();
+            const footerTemplate = 'footer template';
+
+            // Зададим коллекции футер
+            collection.setFooter({footerTemplate});
+            assert.isTrue(!!collection.getFooter(), 'Футер должен существовать');
+            assert.equal(collection.getFooter().getContentTemplate(), footerTemplate);
+            assert.isTrue(collection.getVersion() > collectionVersion, 'Версия коллекции должна увеличиться');
+
+            // Присваиваем тот же шаблон футера в коллекцию
+            collectionVersion = collection.getVersion();
+            collection.setFooter({footerTemplate});
+            assert.equal(collection.getFooter().getContentTemplate(), footerTemplate);
+            assert.isTrue(collection.getVersion() === collectionVersion, 'Версия не должна измениться');
+
+            // Присваиваем новый футер в коллекцию
+            const newFooterTemplate = 'new footer template';
+            collectionVersion = collection.getVersion();
+            collection.setFooter({footerTemplate: newFooterTemplate});
+            assert.equal(collection.getFooter().getContentTemplate(), newFooterTemplate);
+            assert.isTrue(
+                collection.getVersion() > collectionVersion,
+                'Версия коллекции должна увеличиться после присвоения нового шаблона'
+            );
+
+            // Сбрасываем футер в коллекции
+            collectionVersion = collection.getVersion();
+            collection.setFooter({footerTemplate: undefined});
+            assert.isFalse(!!collection.getFooter(), 'Футера не должно существовать');
+            assert.isTrue(
+                collection.getVersion() > collectionVersion,
+                'Версия коллекции должна увеличиться после сброса футера'
+            );
+        });
+
+        it('set footer by sticky', () => {
+            const footerTemplate = 'footer template';
+            const collection = new CollectionDisplay({
+                collection: [],
+                footerTemplate
+            });
+
+            // Фиксируем футер
+            let collectionVersion = collection.getVersion();
+            collection.setFooter({
+                footerTemplate,
+                stickyFooter: true
+            });
+            assert.isTrue(collection.getVersion() > collectionVersion, 'Версия коллекции должна увеличиться');
+
+            // Еще раз присваиваем новое тоже значение stickyFooter
+            collectionVersion = collection.getVersion();
+            collection.setFooter({
+                footerTemplate,
+                stickyFooter: true
+            });
+            assert.isTrue(collection.getVersion() === collectionVersion, 'Версия не должна измениться');
+        });
+    });
 });

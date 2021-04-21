@@ -1,12 +1,13 @@
 import {TemplateFunction} from 'UI/Base';
 import {isEqual} from 'Types/object';
 import {IColumn, TColumns} from 'Controls/interface';
-import {IHasMoreData, IItemActionsTemplateConfig} from 'Controls/display';
+import {Footer, IHasMoreData, IItemActionsTemplateConfig} from 'Controls/display';
 import Row from './Row';
 import FooterCell, {IOptions as IFooterCellOptions} from 'Controls/_grid/display/FooterCell';
 import {TColspanCallbackResult} from 'Controls/_grid/display/mixins/Grid';
+import {mixin} from 'Types/util';
 
-export default class FooterRow<T> extends Row<string> {
+export default class FooterRow<T> extends mixin<Row<string>, Footer>(Row, Footer) {
     private _hasMoreData: IHasMoreData;
     private _actionsTemplateConfig: IItemActionsTemplateConfig;
     protected _$shouldAddFooterPadding: boolean;
