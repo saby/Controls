@@ -77,6 +77,9 @@ define([
       let component, container, result;
 
       beforeEach(function() {
+         global.document = {
+            body: {}
+         };
          component = new scroll._stickyHeaderController({
             _notify: () => undefined
 
@@ -94,6 +97,7 @@ define([
 
       afterEach(function() {
          sinon.restore();
+         global.document = undefined;
       });
 
 
@@ -560,6 +564,7 @@ define([
          });
          it('should return the correct height after a new header has been registered.', function () {
             sinon.stub(component, '_observeStickyHeader');
+
             component.init(container);
             return component.registerHandler(event, data, true).then(function() {
                assert.equal(component.getHeadersHeight('top'), 0);
