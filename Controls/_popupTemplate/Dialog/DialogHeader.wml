@@ -25,7 +25,8 @@
       </ws:if>
       <ws:if data="{{_options.closeButtonVisibility}}">
          <Controls._popupTemplate.CloseButton name="closeButton"
-                                              attr:class="controls-DialogTemplate__close_button"
+                                              attr:class="controls-DialogTemplate__close_button
+                                              controls-DialogTemplate__close_{{_options.closeButtonTransparent}}"
                                               on:click="close()" transparent="{{_options.closeButtonTransparent}}"
                                               viewMode="{{_options.closeButtonViewMode}}" />
       </ws:if>
