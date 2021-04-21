@@ -29,7 +29,7 @@
          </ws:if>
          <ws:if data="{{_options.closeButtonVisibility && !_options._stackRightPanel}}">
             <Controls._popupTemplate.CloseButton attr:class="controls-StackTemplate__close_button"
-                                                 data-qa="controls-stack-Button__close"
+                                                 attr:data-qa="controls-stack-Button__close"
                                                  viewMode="{{_options.closeButtonViewMode}}"
                                                  transparent="{{_options.closeButtonTransparent}}"
                                                  on:click="close()"/>
