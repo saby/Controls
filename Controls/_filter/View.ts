@@ -36,6 +36,7 @@ import {
 import {hasResetValue, resetFilter} from 'Controls/_filter/resetFilterUtils';
 import converterFilterItems = require('Controls/_filter/converterFilterItems');
 import mergeSource from 'Controls/_filter/Utils/mergeSource';
+import {descriptor} from 'Types/entity';
 
 import {IFilterItem, IEditorOptions, TKey, TNavigation} from './View/interface/IFilterItem';
 import {IFilterView, IFilterViewOptions} from './View/interface/IFilterView';
@@ -1182,7 +1183,13 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             panelTemplateName: 'Controls/filterPopup:SimplePanel',
             alignment: 'right',
             itemTemplate: defaultItemTemplate,
-            detailPanelOpenMode: 'sticky'
+            detailPanelOpenMode: 'sticky',
+            source: []
+        };
+    }
+    static getOptionTypes(): object {
+        return {
+            source: descriptor(Array)
         };
     }
 }
