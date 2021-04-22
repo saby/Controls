@@ -283,6 +283,14 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         // Строки данных, группы
         this._updateItemsColumns();
 
+        // В столбцах может измениться stickyProperty, поэтому нужно пересчитать ladder
+        // Проверка, что точно изменился stickyProperty, это не быстрая операция, т.к. columns - массив объектов
+        const supportLadder = GridLadderUtil.isSupportLadder(this._$ladderProperties);
+        if (supportLadder) {
+            this._prepareLadder(this._$ladderProperties, this._$columns);
+            this._updateItemsLadder();
+        }
+
         [this.getColgroup(), this.getHeader(), this.getResults(), this.getFooter()].forEach((gridUnit) => {
             gridUnit?.setColumns(newColumns);
         });

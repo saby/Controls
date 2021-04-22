@@ -668,6 +668,15 @@ class StickyHeaderController {
         return index === (srcArray.length - 1);
     }
 
+    private _getGeneralParentNode(header0: TRegisterEventData, header1: TRegisterEventData): Node {
+        let parentElementOfHeader0 = header0.inst.getHeaderContainer().parentElement;
+        const parentElementOfHeader1 = header1.inst.getHeaderContainer().parentElement;
+        while (parentElementOfHeader0 !== parentElementOfHeader1 && parentElementOfHeader0 !== document.body) {
+            parentElementOfHeader0 = parentElementOfHeader0.parentElement;
+        }
+        return parentElementOfHeader0;
+    }
+
     private _updateTopBottomDelayed(): void {
         const offsets: Record<POSITION, Record<string, number>> = {
                 top: {},
@@ -678,35 +687,35 @@ class StickyHeaderController {
 
         fastUpdate.measure(() => {
             let header: TRegisterEventData,
-                nextHeader: TRegisterEventData,
-                prevHeader: TRegisterEventData,
-                parentElementOfNextHeader: Node,
-                parentElementOfPrevHeader: Node;
+                curHeader: TRegisterEventData,
+                prevHeader: TRegisterEventData;
 
+            // Проверяем, имеет ли заголовок в родителях прямых родителей предыдущих заголовков.
+            // Если имеет, значит заголовки находятся в одном контейнере -> высчитываем offset и добавляем к заголовку.
             for (const position of [POSITION.top, POSITION.bottom]) {
                 this._headersStack[position].reduce((offset, headerId, i) => {
                     header = this._headers[headerId];
-                    nextHeader = null;
+                    curHeader = null;
                     offsets[position][headerId] = offset;
                     if (header.mode === 'stackable' && !isHidden(header.inst.getHeaderContainer())) {
-                        // Проверяем, имеет ли заголовок в родителях прямых родителей предыдущих заголовков.
-                        // Если имеет, значит заголовки находятся в одном контейнере -> высчитываем offset.
                         if (!this._isLastIndex(this._headersStack[position], i)) {
-                            const nextHeaderId = this._headersStack[position][i + 1];
-                            nextHeader = this._headers[nextHeaderId];
-                            for (let j = 0; j <= i; j++) {
+                            const curHeaderId = this._headersStack[position][i + 1];
+                            curHeader = this._headers[curHeaderId];
+                            // От текущего заголовка по стэку двигаемся к началу и ищем прямых родителей
+                            for (let j = i; j >= 0; j--) {
                                 prevHeader = this._headers[this._headersStack[position][j]];
-                                parentElementOfPrevHeader = prevHeader.inst.getHeaderContainer().parentElement;
-                                parentElementOfNextHeader = nextHeader.inst.getHeaderContainer().parentElement;
-                                while (parentElementOfNextHeader !== parentElementOfPrevHeader && parentElementOfNextHeader !== document.body) {
-                                    parentElementOfNextHeader = parentElementOfNextHeader.parentElement;
-                                }
-                                if (parentElementOfNextHeader === parentElementOfPrevHeader) {
-                                    const height: number = header.inst.height + header.inst.offsetTop;
+                                const height: number = header.inst.height + header.inst.offsetTop;
+                                const generalParentNode = this._getGeneralParentNode(curHeader, prevHeader);
+                                if (generalParentNode !== document.body) {
                                     // Сохраним высоты по которым рассчитали позицию заголовков,
                                     // что бы при последующих изменениях понимать, надо ли пересчитывать их позиции.
                                     this._updateElementsHeight(header.inst.getHeaderContainer(), height);
                                     return offset + height;
+                                } else if (j > 0) {
+                                    // Бывают ситуации, когда какие-то из предыдущих заголовков могут находиться
+                                    // в контейнерах, которые не являются родительским для текущего.
+                                    // Значит нужно их не учитывать в смещении.
+                                    offset -= height;
                                 }
                             }
                             return 0;
