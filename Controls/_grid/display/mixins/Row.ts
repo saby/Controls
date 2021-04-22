@@ -107,7 +107,9 @@ export default abstract class Row<T> {
         if (params.showItemActionsOnHover !== false) {
             itemClasses += ' controls-ListView__item_showActions';
         }
-        if (this._$isLastItem) {
+        const navigation = this.getOwner().getNavigation();
+        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
+            && this._$isLastItem) {
             itemClasses += ' controls-Grid__row_last';
         }
         if (this._$isFirstItem) {
@@ -169,7 +171,7 @@ export default abstract class Row<T> {
     }
 
     setIsLastItem(state: boolean): void {
-        this._$isFirstItem = state;
+        this._$isLastItem = state;
         this._nextVersion();
     }
 

@@ -367,6 +367,7 @@ function onCollectionChange<T>(
     }
 
     this._finishUpdateSession(session);
+    this._afterFinishUpdateSession(action);
     this._nextVersion();
 }
 
@@ -3891,6 +3892,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _handleAfterCollectionChange(changedItems: ISessionItems<T> = [], changeAction?: string): void {
         this._notifyAfterCollectionChange();
         this._updateItemsMultiSelectVisibility(this._$multiSelectVisibility);
+    }
+
+    protected _afterFinishUpdateSession(action: string): void {
+        // Implement me
     }
 
     protected _handleAfterCollectionItemChange(item: T, index: number, properties?: object): void {}

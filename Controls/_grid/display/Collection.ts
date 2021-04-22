@@ -119,10 +119,9 @@ export default class Collection<
         this._$results = null;
     }
 
-    protected _addItems(start: number, items: S[]): number {
-        const result = super._addItems(start, items);
-        this._updateEdgeItems();
-        return result;
+    protected _afterFinishUpdateSession(action: string): void {
+        this.resetLastItem();
+        this.resetFirstItem();
     }
 
     protected _removeItems(start: number, count?: number): T[] {
@@ -132,20 +131,6 @@ export default class Collection<
             this._$headerModel = null;
         }
 
-        this._updateEdgeItems();
-
-        return result;
-    }
-
-    protected _replaceItems(start: number, newItems: S[]): ISplicedArray<T> {
-        const result = super._replaceItems(start, newItems);
-        this._updateEdgeItems();
-        return result;
-    }
-
-    protected _moveItems(newIndex: number, oldIndex: number, items: any[]): T[] {
-        const result = super._moveItems(newIndex, oldIndex, items);
-        this._updateEdgeItems();
         return result;
     }
 
@@ -157,8 +142,8 @@ export default class Collection<
             options.columnSeparatorSize = this._$columnSeparatorSize;
             options.rowSeparatorSize = this._$rowSeparatorSize;
             options.hasStickyGroup = this._$hasStickyGroup;
-            options.isLastItem = this._checkIsLastRow(options.contents);
-            options.isFirstItem = this._checkIsFirstRow(options.contents);
+            options.isLastItem = this.isLastItem(options.contents);
+            options.isFirstItem = this.isFirstItem(options.contents);
             return superFactory.call(this, options);
         };
     }

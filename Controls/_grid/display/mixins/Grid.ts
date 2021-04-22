@@ -329,28 +329,42 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     // region Аспект "крайние колонки"
 
-    protected _checkIsLastItem(item: EntityModel): boolean {
-        const navigation = this.getNavigation();
-        return item.getKey() === this._lastItem.getKey() &&
-               (!navigation || navigation.view !== 'infinity' || !this.getHasMoreData());
+    getLastItem(): EntityModel {
+        if (!!this._lastItem) {
+            return this._lastItem;
+        }
+        return this._lastItem = this.getCollection().at(this.getCollection().getCount() - 1);
     }
 
-    protected _checkIsFirstItem(item: EntityModel): boolean {
-        return item.getKey() === this._firstItem.getKey();
+    isLastItem(item: EntityModel): boolean {
+        return this.getLastItem().getKey() === item.getKey();
     }
 
-    protected _updateEdgeItems(): void {
-        if (this._firstItem) {
-            const firstItem = this.getItemBySourceKey(this._firstItem.getKey());
-            firstItem.setIsFirstItem(false);
+    resetLastItem(): void {
+        const lastCollectionItem = this.getItemBySourceKey(this.getLastItem().getKey());
+        if (lastCollectionItem) {
+            lastCollectionItem.setIsLastItem(false);
         }
-        if (this._lastItem) {
-            const lastItem = this.getItemBySourceKey(this._lastItem.getKey());
-            lastItem.setIsLastItem(false);
+        this._lastItem = null;
+    }
+
+    getFirstItem(): EntityModel<any> {
+        if (!!this._firstItem) {
+            return this._firstItem;
         }
-        this._firstItem = this.getFirstItem();
-        this._lastItem = this.getLastItem();
-        this._nextVersion();
+        return this._firstItem = this.getCollection().at(0);
+    }
+
+    isFirstItem(item: EntityModel): boolean {
+        return this.getFirstItem().getKey() === item.getKey();
+    }
+
+    resetFirstItem(): void {
+        const firstCollectionItem = this.getItemBySourceKey(this.getFirstItem().getKey());
+        if (firstCollectionItem) {
+            firstCollectionItem.setIsFirstItem(false);
+        }
+        this._firstItem = null;
     }
 
     // endregion Аспект "крайние колонки"
@@ -550,10 +564,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     abstract getMultiSelectVisibility(): string;
     abstract getMultiSelectPosition(): string;
     abstract getItemBySourceItem(item: S): T;
-    abstract getFirstItem(): EntityModel;
-    abstract getLastItem(): EntityModel;
-    abstract getNavigation(): INavigationOptionValue<any>;
-    abstract getItemBySourceKey(key: string|number): GridRow<any>;
+    abstract getItemBySourceKey(key: string | number): T;
+    abstract getCollection(): IBaseCollection<S, T>;
 
     protected abstract _nextVersion(): void;
 
