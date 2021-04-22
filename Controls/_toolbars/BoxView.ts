@@ -39,7 +39,7 @@ export interface IToolbarBoxOptions extends IControlOptions, IHierarchyOptions, 
  *
  * @class Controls/_toolbars/BoxView
  * @extends UI/Base:Control
- * @implements Controls/_interface/ISeparatorVisible
+ * @implements Controls/interface:ISeparatorVisible
  * @implements Controls/interface/IItemTemplate
  * @implements Controls/toolbars:IToolbarSource
  * @demo Controls-demo/Toolbar/BoxView/Index

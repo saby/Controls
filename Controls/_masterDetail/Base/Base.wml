@@ -1,33 +1,51 @@
-<div class="controls-MasterDetail">
+<ws:template name="master">
    <ws:if data="{{_options.masterVisibility !== 'hidden'}}">
-      <div class="controls-MasterDetail_master " style="width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}"
+      <div name="master" on:wheel="_wheelHandler()" class="controls-MasterDetail_master" style="width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}"
            on:touchstart="_touchstartHandler()"
            on:touchmove="_touchMoveHandler()"
            on:touchend="_touchendHandler()">
          <Controls.event:Register name="resizeDetectMaster" register="controlResize" attr:fixCompatible="1">
             <ws:partial
-               template="{{_options.master}}"
-               backgroundStyle="master"
-               attr:class="controls-MasterDetail_master-template controls-MasterDetail_{{_options.style || 'master'}}-template
+                    backgroundStyle="master"
+                    template="{{_options.master}}"
+                    attr:style="{{_masterStyle}}"
+                    attr:class="controls-MasterDetail_{{_options.style || 'master'}}-template
                            controls-MasterDetail_{{_options.style || 'master'}}-template-{{_options.contrastBackground ? 'contrast' : 'same'}}"
-               on:selectedMasterValueChanged="_selectedMasterValueChangedHandler()"/>
+                    on:selectedMasterValueChanged="_selectedMasterValueChangedHandler()"/>
          </Controls.event:Register>
          <ws:if data="{{_canResizing}}">
             <Controls.dragnDrop:ResizingLine name="resizingLine"
-                                             attr:class="controls-MasterDetail_resizing-line"
+                                             attr:class="controls-MasterDetail_resizing-line controls-MasterDetail_resizing-line-{{_options.masterPosition}}"
                                              minOffset="{{_minOffset}}"
                                              maxOffset="{{_maxOffset}}"
+                                             direction="{{ _options.masterPosition === 'left' ? 'direct' : 'reverse' }}"
                                              on:dragStart="_dragStartHandler()"
                                              on:offset="_offsetHandler()"/>
          </ws:if>
       </div>
    </ws:if>
-   <Controls.event:Register name="resizeDetectDetail" register="controlResize" attr:fixCompatible="1">
-      <ws:partial
-         attr:class="controls-MasterDetail_details controls-MasterDetail_details_bg-{{_options.contrastBackground ? 'contrast' : 'same'}}"
-         template="{{_options.detail}}"
-         selectedMasterValue="{{_selected}}"/>
-   </Controls.event:Register>
+</ws:template>
 
+<ws:template name="detail">
+<Controls.event:Register name="resizeDetectDetail" register="controlResize" attr:fixCompatible="1">
+   <div name="detail" class="ws-flexbox ws-flex-grow-1">
+      <ws:partial
+              attr:class="controls-MasterDetail_details {{_options.contrastBackground  ? 'controls__block' :
+                     'controls-MasterDetail_details_bg-same'}}"
+              template="{{_options.detail}}"
+              selectedMasterValue="{{_selected}}"/>
+   </div>
+</Controls.event:Register>
+</ws:template>
+
+<div class="controls-MasterDetail ws-flexbox">
+   <ws:if data="{{_options.masterPosition === 'right'}}">
+      <ws:partial template="detail" />
+      <ws:partial template="master" />
+   </ws:if>
+   <ws:else>
+      <ws:partial template="master" />
+      <ws:partial template="detail" />
+   </ws:else>
    <Controls.event:Listener event="controlResize" on:controlResize="_resizeHandler()"/>
 </div>

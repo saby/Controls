@@ -283,6 +283,14 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         // Строки данных, группы
         this._updateItemsColumns();
 
+        // В столбцах может измениться stickyProperty, поэтому нужно пересчитать ladder
+        // Проверка, что точно изменился stickyProperty, это не быстрая операция, т.к. columns - массив объектов
+        const supportLadder = GridLadderUtil.isSupportLadder(this._$ladderProperties);
+        if (supportLadder) {
+            this._prepareLadder(this._$ladderProperties, this._$columns);
+            this._updateItemsLadder();
+        }
+
         [this.getColgroup(), this.getHeader(), this.getResults(), this.getFooter()].forEach((gridUnit) => {
             gridUnit?.setColumns(newColumns);
         });
@@ -329,6 +337,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             columns: this._$emptyTemplateColumns,
             rowTemplate: this._$emptyTemplate,
             rowTemplateOptions: this._$emptyTemplateOptions,
+            multiSelectVisibility: this._$multiSelectVisibility
         });
     }
 
@@ -473,6 +482,11 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     hasMultiSelectColumn(): boolean {
         return this.getMultiSelectVisibility() !== 'hidden' && this.getMultiSelectPosition() !== 'custom';
+    }
+
+    setColumnScroll(columnScroll: boolean) {
+        this._$columnScroll = columnScroll;
+        this._nextVersion();
     }
 
     hasColumnScroll(): boolean {

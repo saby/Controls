@@ -25,27 +25,33 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
       rawData: [{
          id: 1,
          parent: null,
-         node: true
+         node: true,
+         group: 111
       }, {
          id: 2,
          parent: 1,
-         node: true
+         node: true,
+         group: 111
       }, {
          id: 3,
          parent: 1,
-         node: null
+         node: null,
+         group: 111
       }, {
          id: 4,
          parent: 2,
-         node: null
+         node: null,
+         group: 111
       }, {
          id: 5,
          parent: null,
-         node: true
+         node: true,
+         group: 111
       }, {
          id: 6,
          parent: null,
-         node: null
+         node: null,
+         group: 222
       }],
       keyProperty: 'id'
    });
@@ -53,7 +59,8 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
       items,
       keyProperty: 'id',
       parentProperty: 'parent',
-      nodeProperty: 'node'
+      nodeProperty: 'node',
+      groupProperty: 'group'
    };
    let model;
    let strategy;
@@ -76,11 +83,11 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
           const targetItem = model.getItemBySourceKey(5);
           const mouseOffsetInTargetItem = {top: 0.2, bottom: 25};
-          const currentPosition = { index: 0, position: 'on', dispItem: targetItem };
+          const currentPosition = { index: 1, position: 'on', dispItem: targetItem };
           const position = strategy.calculatePosition({targetItem, currentPosition, mouseOffsetInTargetItem });
 
           equalPosition(position, {
-              index: 1,
+              index: 2,
               position: 'before',
               dispItem: targetItem
           });
@@ -95,7 +102,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 1,
+               index: 2,
                position: 'before',
                dispItem: targetNode
             });
@@ -109,7 +116,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 1,
+               index: 2,
                position: 'after',
                dispItem: targetNode
             });
@@ -123,7 +130,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 2,
+               index: 4,
                position: 'after',
                dispItem: targetNode
             });
@@ -137,7 +144,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 2,
+               index: 4,
                position: 'after',
                dispItem: targetNode
             });
@@ -151,7 +158,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 1,
+               index: 2,
                position: 'on',
                dispItem: targetNode
             });
@@ -165,7 +172,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 0,
+               index: 1,
                position: 'on',
                dispItem: targetNode
             });
@@ -179,7 +186,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 0,
+               index: 1,
                position: 'before',
                dispItem: targetNode
             });
@@ -193,7 +200,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 0,
+               index: 1,
                position: 'after',
                dispItem: targetNode
             });
@@ -210,7 +217,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 1,
+               index: 2,
                position: 'before',
                dispItem: model.getItemBySourceKey(2)
             });
@@ -227,7 +234,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             let newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 1,
+               index: 2,
                position: 'before',
                dispItem: targetNode
             });
@@ -235,7 +242,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
             mouseOffsetInTargetItem = {top: 0.8, bottom: 0.2};
             newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 1,
+               index: 2,
                position: 'after',
                dispItem: model.getItemBySourceKey(2)
             });
@@ -255,7 +262,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 1,
+               index: 2,
                position: 'before',
                dispItem: targetNode
             });
@@ -269,7 +276,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 1,
+               index: 2,
                position: 'after',
                dispItem: targetNode
             });
@@ -283,7 +290,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 0,
+               index: 1,
                position: 'before',
                dispItem: model.getItemBySourceKey(1)
             });
@@ -297,7 +304,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 0,
+               index: 1,
                position: 'before',
                dispItem: model.getItemBySourceKey(1)
             });
@@ -311,7 +318,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 1,
+               index: 2,
                position: 'on',
                dispItem: targetNode
             });
@@ -325,7 +332,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 0,
+               index: 1,
                position: 'on',
                dispItem: targetNode
             });
@@ -339,7 +346,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 0,
+               index: 1,
                position: 'on',
                dispItem: targetNode
             });
@@ -353,10 +360,24 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 0,
+               index: 1,
                position: 'on',
                dispItem: targetNode
             });
+         });
+      });
+
+      it('before group', () => {
+         strategy = new TreeStrategy(model, model.getItemBySourceKey(6));
+
+         const targetItem = model.getItemBySourceKey(222);
+         const mouseOffsetInTargetItem = {top: 0.2, bottom: 25};
+         const currentPosition = { index: 7, position: 'on', dispItem: targetItem };
+         const position = strategy.calculatePosition({targetItem, currentPosition, mouseOffsetInTargetItem });
+         equalPosition(position, {
+            index: 3,
+            position: 'after',
+            dispItem: model.getItemBySourceKey(222)
          });
       });
    });

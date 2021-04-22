@@ -28,8 +28,8 @@ interface IDragObject {
  *
  * @public
  * @author Красильников А.С.
- * @implements Controls/_popupTemplate/interface/IPopupTemplate
- * @implements Controls/_popupTemplate/interface/IPopupTemplateBase
+ * @implements Controls/popupTemplate:IPopupTemplate
+ * @implements Controls/popupTemplate:IPopupTemplateBase
  * @demo Controls-demo/PopupTemplate/Dialog/Index
  */
 
@@ -86,7 +86,7 @@ class DialogTemplate extends Control<IDialogTemplateOptions> implements IPopupTe
             backgroundStyle: 'default',
             headingFontSize: '3xl',
             closeButtonVisibility: true,
-            closeButtonViewMode: 'toolButton',
+            closeButtonViewMode: 'linkButton',
             closeButtonTransparent: true
         };
     }

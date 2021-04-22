@@ -19,6 +19,7 @@ const HOVER_LEFT_ANGLE_CORRECTION_CONST: number = 10;
 interface IHoverFreezeItemData {
     key: CrudEntityKey;
     index: number;
+    startIndex?: number;
 }
 
 interface IPoint {
@@ -87,9 +88,10 @@ export default class HoverFreeze {
      * сделали ховер по новой записи впервые или после "разморозки", или по текущей записи в "заморозке"
      * @param itemKey
      * @param itemIndex
+     * @param startIndex
      */
-    startFreezeHoverTimeout(itemKey: CrudEntityKey, itemIndex: number): void {
-        this._startFreezeHoverTimeout(itemKey, itemIndex, HOVER_FREEZE_TIMEOUT);
+    startFreezeHoverTimeout(itemKey: CrudEntityKey, itemIndex: number, startIndex: number): void {
+        this._startFreezeHoverTimeout(itemKey, itemIndex, startIndex, HOVER_FREEZE_TIMEOUT);
     }
 
     startUnfreezeHoverTimeout(event: SyntheticEvent): void {
@@ -106,7 +108,11 @@ export default class HoverFreeze {
                 this.unfreezeHover();
                 if (this._delayedItemData) {
                     const timeout = HOVER_FREEZE_TIMEOUT - HOVER_UNFREEZE_TIMEOUT;
-                    this._startFreezeHoverTimeout(this._delayedItemData.key, this._delayedItemData.index, timeout);
+                    this._startFreezeHoverTimeout(
+                        this._delayedItemData.key,
+                        this._delayedItemData.index,
+                        this._delayedItemData.startIndex,
+                        timeout);
                 }
             }, HOVER_UNFREEZE_TIMEOUT);
         } else {
@@ -121,10 +127,11 @@ export default class HoverFreeze {
      * Используется при движении курсора мыши внутри записи.
      * @param itemKey
      * @param itemIndex
+     * @param startIndex
      */
-    setDelayedHoverItem(itemKey: CrudEntityKey, itemIndex: number): void {
+    setDelayedHoverItem(itemKey: CrudEntityKey, itemIndex: number, startIndex: number): void {
         if (this._itemData !== null && !!this._itemUnfreezeHoverTimeout) {
-            this._setDelayedItemData(itemKey, itemIndex);
+            this._setDelayedItemData(itemKey, itemIndex, startIndex);
         }
     }
 
@@ -156,7 +163,7 @@ export default class HoverFreeze {
         }
     }
 
-    private _startFreezeHoverTimeout(itemKey: CrudEntityKey, itemIndex: number, timeout: number): void {
+    private _startFreezeHoverTimeout(itemKey: CrudEntityKey, itemIndex: number, startIndex: number, timeout: number): void {
         if (this._itemData === null || this._itemData?.key === itemKey) {
             // если уже были таймеры разлипания/залипания, то глушим их
             this._clearUnfreezeHoverTimeout();
@@ -167,7 +174,7 @@ export default class HoverFreeze {
             // Стартуем новый таймер залипания.
             this._itemFreezeHoverTimeout = setTimeout(() => {
                 // Выставляем новую запись как залипшую:
-                this._freezeHover(itemKey, itemIndex);
+                this._freezeHover(itemKey, itemIndex, startIndex);
             }, timeout);
         }
     }
@@ -176,8 +183,8 @@ export default class HoverFreeze {
         this._itemData = { key, index };
     }
 
-    private _setDelayedItemData(key: CrudEntityKey, index: number): void {
-        this._delayedItemData = { key, index };
+    private _setDelayedItemData(key: CrudEntityKey, index: number, startIndex: number): void {
+        this._delayedItemData = { key, index, startIndex };
     }
 
     /**
@@ -239,28 +246,31 @@ export default class HoverFreeze {
      * Устанавливает необходимые CSS классы и выполняет _freezeHoverCallback
      * @param itemKey
      * @param itemIndex
+     * @param startIndex
      * @private
      */
-    private _freezeHover(itemKey: CrudEntityKey, itemIndex: number): void {
+    private _freezeHover(itemKey: CrudEntityKey, itemIndex: number, startIndex: number): void {
         this._clearFreezeHoverTimeout();
-        const htmlNodeIndex = itemIndex + 1;
+        const htmlNodeIndex = itemIndex - startIndex + 1;
         const hoveredContainers = this._getHoveredItemContainers(htmlNodeIndex);
+        if (hoveredContainers.length) {
+            // zero element in grid will be row itself; it doesn't have any background color, then lets take the last one
+            const lastContainer = hoveredContainers[hoveredContainers.length - 1];
+            const hoverBackgroundColor = getComputedStyle(lastContainer).backgroundColor;
 
-        // zero element in grid will be row itself; it doesn't have any background color, then lets take the last one
-        const hoverBackgroundColor = getComputedStyle(hoveredContainers[hoveredContainers.length - 1]).backgroundColor;
-
-        this._itemAreaRect = this._calculateItemAreaRect(hoveredContainers);
-        this._stylesContainer.innerHTML += HoverFreeze._getItemHoverFreezeStyles(
-            this._uniqueClass,
-            htmlNodeIndex,
-            hoverBackgroundColor);
-        if (this._freezeHoverCallback) {
-            this._freezeHoverCallback();
+            this._itemAreaRect = this._calculateItemAreaRect(hoveredContainers);
+            this._stylesContainer.innerHTML += HoverFreeze._getItemHoverFreezeStyles(
+                this._uniqueClass,
+                htmlNodeIndex,
+                hoverBackgroundColor);
+            if (this._freezeHoverCallback) {
+                this._freezeHoverCallback();
+            }
+            // сохранили текущее наведённое значение
+            this._setItemData(itemKey, itemIndex);
+            // Сбросили отложенный ховер
+            this._delayedItemData = null;
         }
-        // сохранили текущее наведённое значение
-        this._setItemData(itemKey, itemIndex);
-        // Сбросили отложенный ховер
-        this._delayedItemData = null;
     }
 
     /**

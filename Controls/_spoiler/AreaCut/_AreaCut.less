@@ -62,6 +62,12 @@
    width: 100%;
 }
 
+.controls-AreaCut__ellipsisWrapper_notExpanded_active {
+   cursor: pointer;
+   overflow: hidden;
+   z-index: 1;
+}
+
 .controls-AreaCut__ellipsisWrapper_expanded {
    position: absolute;
    left: 0;
@@ -88,7 +94,7 @@
          max-height: @heightLines;
       }
       .controls-AreaCut_lineHeight-@{lineHeight}_lines-@{lines}_height {
-         margin-top: @heightLines;
+         height: @heightLines;
       }
       .controls-AreaCut__ellipsisWrapper_expanded_lineHeight-@{lineHeight}_lines-@{lines} {
          top: @cutButtonTop;

@@ -18,8 +18,9 @@
             nodeProperty="type"
             nodeTypeProperty="{{ _nodeTypeProperty }}"
             rowSeparatorSize="s"
-            expandedItems="{{[null]}}"
-            colspanCallback="{{ _colspanCallback }}">
+            colspanCallback="{{ _colspanCallback }}"
+            bind:expandedItems="_expandedItems"
+            bind:collapsedItems="_collapsedItems">
         <ws:columns>
             <ws:Array>
                 <ws:Object displayProperty="title" width="300px">

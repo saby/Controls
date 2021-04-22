@@ -25,7 +25,7 @@
                             highlightOnHover="{{false}}"
                             itemData="{{(item || itemData)}}"
                             item="{{(item || itemData)}}"
-                            itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType) }}"/>
+                            itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType, itemActionsClass) }}"/>
             </ws:partial>
         </ws:itemActionsTpl>
     </ws:partial>

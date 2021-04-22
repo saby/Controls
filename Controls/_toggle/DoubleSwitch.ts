@@ -24,8 +24,8 @@ const CAPTIONS_LENGTH = 2;
  *
  * @class Controls/_toggle/DoubleSwitch
  * @extends UI/Base:Control
- * @implements Controls/_toggle/interface/ICheckable
- * @implements Controls/_interface/ITooltip
+ * @implements Controls/toggle:ICheckable
+ * @implements Controls/interface:ITooltip
  * 
  * @public
  * @author Красильников А.С.
@@ -38,8 +38,8 @@ const CAPTIONS_LENGTH = 2;
  *
  * @class Controls/_toggle/DoubleSwitch
  * @extends UI/Base:Control
- * @implements Controls/_toggle/interface/ICheckable
- * @implements Controls/_interface/ITooltip
+ * @implements Controls/toggle:ICheckable
+ * @implements Controls/interface:ITooltip
  * 
  * @public
  * @author Красильников А.С.

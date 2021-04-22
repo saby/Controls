@@ -56,7 +56,7 @@ export default interface IBaseItemTemplateOptions {
  */
 /**
  * @name Controls/_list/interface/IBaseItemTemplate#itemActionsClass
- * @cfg {Controls/_list/interface/IBaseItemTemplate/ItemActionsClass.typedef} Класс, используемый для позиционирования {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи} при отображении её внутри элемента списка (опция {@link Controls/itemActions:IItemActionsOptions#itemActionsPosition itemActionsPosition}).
+ * @cfg {Controls/_list/interface/IBaseItemTemplate/ItemActionsClass.typedef} Класс, используемый для позиционирования {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи} при отображении её внутри элемента списка (опция {@link Controls/itemActions:IItemActions#itemActionsPosition itemActionsPosition}).
  * @default controls-itemActionsV_position_bottomRight
  * @remark
  * Дополнительно об использовании опции читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/position/#inside здесь}.

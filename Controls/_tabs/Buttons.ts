@@ -15,11 +15,11 @@ import {adapter} from 'Types/entity';
 import {factory} from 'Types/chain';
 import Marker, {AUTO_ALIGN} from './Buttons/Marker';
 
-import TabButtonsTpl = require('wml!Controls/_tabs/Buttons/Buttons');
-import ItemTemplate = require('wml!Controls/_tabs/Buttons/ItemTemplate');
+import * as TabButtonsTpl from 'wml!Controls/_tabs/Buttons/Buttons';
+import * as ItemTemplate from 'wml!Controls/_tabs/Buttons/ItemTemplate';
 
 import 'css!Controls/tabs';
-
+import {Logger} from "UICommon/Utils";
 
 enum ITEM_ALIGN {
     left = 'left',
@@ -29,6 +29,7 @@ enum ITEM_ALIGN {
 interface ITabButtonItem {
     isMainTab?: boolean;
     align?: 'left' | 'right';
+
     [key: string]: any;
 }
 
@@ -65,8 +66,6 @@ const isTemplateArray = (templateArray: any): boolean => {
 const isTemplateObject = (tmpl: any): boolean => {
     return isTemplate(tmpl);
 };
-
-const ANIMATION_DURATION = 300;
 
 /**
  * Контрол предоставляет пользователю возможность выбрать между двумя или более вкладками.
@@ -121,11 +120,13 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
                     return result;
                 }
             });
+        } else {
+            Logger.error('Controls/tabs:Buttons: Опции items и source не заданы.', this);
         }
     }
 
     protected _afterMount(): void {
-        RegisterUtil(this, 'controlResize', this._resizeHandler, { listenAll: true });
+        RegisterUtil(this, 'controlResize', this._resizeHandler, {listenAll: true});
     }
 
     protected _beforeUpdate(newOptions: ITabsOptions): void {
@@ -149,7 +150,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _beforeUnmount(): void {
-        UnregisterUtil(this, 'controlResize', { listenAll: true });
+        UnregisterUtil(this, 'controlResize', {listenAll: true});
         this._isUnmounted = true;
     }
 
@@ -169,7 +170,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _updateMarker(): void {
-        if (this._marker.isInitialized()) {
+        if (this._marker.isInitialized() || !this._itemsArray) {
             return;
         }
         const tabElements: HTMLElement[] = this._itemsArray.map((item: ITabButtonItem, key: number) => {
@@ -203,6 +204,13 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
     }
 
+    protected _isBottomMarkerVisible(): boolean {
+        const selectedItem: ITabButtonItem = this._itemsArray.find((item: ITabButtonItem) => {
+            return item[this._options.keyProperty] === this._options.selectedKey;
+        });
+        return !selectedItem?.isMainTab;
+    }
+
     protected _transitionEndHandler() {
         if (!this._isUnmounted) {
             this._marker.setAlign(AUTO_ALIGN.auto);
@@ -212,7 +220,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _updateMarkerCssClass(options: ITabsButtonsOptions): void {
         const style = TabsButtons._prepareStyle(options.style);
         this._markerCssClass = `controls-Tabs__marker_style-${style} ` +
-                               `controls-Tabs__marker_thickness-${options.markerThickness}`;
+            `controls-Tabs__marker_thickness-${options.markerThickness}`;
     }
 
     protected _onItemClick(event: SyntheticEvent<MouseEvent>, key: string): void {
@@ -230,6 +238,10 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const classes: string[] = ['controls-Tabs__item' +
         ' controls-Tabs__item_inlineHeight-' + options.inlineHeight];
 
+        if (index === 0) {
+            classes.push(`controls-Tabs_horizontal-padding-${options.horizontalPadding}_first`);
+        }
+
         const itemAlign: string = item.align;
         const align: string = itemAlign ? itemAlign : 'right';
 
@@ -243,6 +255,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             classes.push('controls-Tabs__item_extreme_first');
         } else if (isLastItem) {
             classes.push('controls-Tabs__item_extreme_last');
+            classes.push(`controls-Tabs_horizontal-padding-${options.horizontalPadding}_last`);
         } else {
             classes.push('controls-Tabs__item_default');
         }
@@ -269,7 +282,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const style = TabsButtons._prepareStyle(options.style);
         if (item[options.keyProperty] === options.selectedKey) {
             classes.push(`controls-Tabs_style_${style}__item_state_selected`);
-            classes.push('controls-Tabs__item_state_selected ' );
+            classes.push('controls-Tabs__item_state_selected ');
         } else {
             classes.push('controls-Tabs__item_state_default');
         }
@@ -286,17 +299,24 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const options = this._options;
         const style = TabsButtons._prepareStyle(options.style);
 
-        classes.push('controls-Tabs__itemClickableArea_marker');
-        classes.push(`controls-Tabs__itemClickableArea_markerThickness-${options.markerThickness}`);
-
-        if (!this._marker.isInitialized() && item[options.keyProperty] === options.selectedKey) {
-            // Если маркеры которые рисуются с абсолютной позицией не инициализированы, то нарисуем маркер
-            // внтри вкладки. Это можно сделать быстрее. Но невозможно анимировано передвигать его между вкладками.
-            // Инициализируем и переключимся на другой механизм маркеров после ховера.
-            classes.push(`controls-Tabs_style_${style}__item-marker_state_selected`);
+        if (item.isMainTab) {
+            if (item[options.keyProperty] === options.selectedKey) {
+                classes.push('controls-Tabs__main-marker');
+            }
         } else {
-            classes.push('controls-Tabs__item-marker_state_default');
+            classes.push('controls-Tabs__itemClickableArea_marker');
+            classes.push(`controls-Tabs__itemClickableArea_markerThickness-${options.markerThickness}`);
+
+            if (!this._marker.isInitialized() && item[options.keyProperty] === options.selectedKey) {
+                // Если маркеры которые рисуются с абсолютной позицией не инициализированы, то нарисуем маркер
+                // внутри вкладки. Это можно сделать быстрее. Но невозможно анимировано передвигать его между вкладками.
+                // Инициализируем и переключимся на другой механизм маркеров после ховера.
+                classes.push(`controls-Tabs_style_${style}__item-marker_state_selected`);
+            } else {
+                classes.push('controls-Tabs__item-marker_state_default');
+            }
         }
+
         return classes.join(' ');
     }
 
@@ -426,18 +446,19 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             markerThickness: 'l',
             borderVisible: true,
             separatorVisible: true,
-            displayProperty: 'title'
+            displayProperty: 'title',
+            horizontalPadding: 'xs'
         };
     }
 }
 
 Object.defineProperty(TabsButtons, 'defaultProps', {
-   enumerable: true,
-   configurable: true,
+    enumerable: true,
+    configurable: true,
 
-   get(): object {
-      return TabsButtons.getDefaultOptions();
-   }
+    get(): object {
+        return TabsButtons.getDefaultOptions();
+    }
 });
 
 /**

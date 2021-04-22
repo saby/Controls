@@ -169,6 +169,7 @@ class Manager {
         if (item) {
             const oldOptions: IPopupOptions = item.popupOptions;
             item.popupOptions = options;
+            this._moveToTop(item);
             const updateOptionsResult: null | Promise<null> =
                 item.controller.elementUpdateOptions(item, this._getItemContainer(id));
             if (updateOptionsResult instanceof Promise) {
@@ -242,6 +243,29 @@ class Manager {
         return item && (item.popupState === item.controller.POPUP_STATE_START_DESTROYING ||
              item.popupState === item.controller.POPUP_STATE_DESTROYING ||
              item.popupState === item.controller.POPUP_STATE_DESTROYED);
+    }
+
+    // Если из текушего окна не открыто других окон, то поднимем его выше среди окон того же уровня (с тем же родителем)
+    // при переоткрытии.
+    private _moveToTop(item: IPopupItem): void {
+        let itemIndex;
+        let newIndex;
+        const hasChild = item.childs.length > 0;
+        if (hasChild) {
+            return;
+        }
+        this._popupItems.each((elem: IPopupItem, index: number) => {
+           if (item === elem) {
+               itemIndex = index;
+           } else if (itemIndex !== undefined) {
+               if (elem.parentId === item.parentId) {
+                   newIndex = index;
+               }
+           }
+        });
+        if (itemIndex !== undefined && newIndex !== undefined) {
+            this._popupItems.move(itemIndex, newIndex);
+        }
     }
 
     private orientationChangeHandler(): void {

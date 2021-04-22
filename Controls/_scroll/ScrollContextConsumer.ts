@@ -11,6 +11,28 @@ interface IScrollContextConsumerContext {
  * Обёртка над scroll/Container, которая получает pagingVisible из контекста и отдаёт его в опции.
  * Если бы не публичные методы, было бы достаточно одного шаблона.
  */
+
+/**
+ * Контейнер с тонким скроллом.
+ *
+ * @remark
+ * Контрол работает как нативный скролл: скроллбар появляется, когда высота контента больше высоты контрола. Для корректной работы контрола необходимо ограничить его высоту.
+ * Для корректной работы внутри WS3 необходимо поместить контрол в контроллер Controls/dragnDrop:Compound, который обеспечит работу функционала Drag-n-Drop.
+ *
+ * Полезные ссылки:
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less переменные тем оформления}
+ *
+ * @class Controls/_scroll/Container
+ * @extends Controls/_scroll/ContainerBase
+ * @mixes Controls/scroll:IScrollbars
+ * @mixes Controls/scroll:IShadows
+ *
+ * @public
+ * @author Миронов А.Ю.
+ * @demo Controls-demo/Scroll/Container/Default/Index
+ *
+ */
+
 export default class ScrollContextConsumer extends Control {
    _template: TemplateFunction = template;
    protected _children: {
@@ -19,7 +41,9 @@ export default class ScrollContextConsumer extends Control {
    protected _pagingVisible: boolean;
 
    protected _beforeMount(options: unknown, context: IScrollContextConsumerContext): void {
-      this._pagingVisible = context.scrollContext.pagingVisible;
+      if (context.scrollContext) {
+         this._pagingVisible = context.scrollContext.pagingVisible;
+      }
    }
 
    protected _beforeUpdate(newOptions: unknown, newContext: IScrollContextConsumerContext): void {
@@ -81,3 +105,60 @@ export default class ScrollContextConsumer extends Control {
       return this._children.scrollContainer.getScrollTop(...args);
    }
 }
+
+/**
+ * @name Controls/_scroll/Container#content
+ * @cfg {Content} Содержимое контейнера.
+ */
+
+/**
+ * @name Controls/_scroll/Container#style
+ * @cfg {String} Цветовая схема (цвета тени и скролла).
+ * @variant normal Тема по умолчанию (для ярких фонов).
+ * @variant inverted Преобразованная тема (для темных фонов).
+ * @see backgroundStyle
+ */
+
+/**
+ * @name Controls/_scroll/Container#backgroundStyle
+ * @cfg {String} Определяет префикс стиля для настройки элементов, которые зависят от цвета фона.
+ * @default default
+ * @demo Controls-demo/Scroll/Container/BackgroundStyle/Index
+ * @see style
+ */
+
+/**
+ * @typedef {String} TPagingModeScroll
+ * @variant hidden Предназначен для отключения отображения пейджинга в реестре.
+ * @variant basic Предназначен для пейджинга в реестре с подгрузкой по скроллу.
+ * @variant edge Предназначен для пейджинга с отображением одной команды прокрутки. Отображается кнопка в конец, либо в начало, в зависимости от положения.
+ * @variant end Предназначен для пейджинга с отображением одной команды прокрутки. Отображается только кнопка в конец.
+ */
+
+/**
+ * @name Controls/_scroll/Container#pagingMode
+ * @cfg {TPagingModeScroll} Определяет стиль отображения пэйджинга.
+ * @default hidden
+ * @demo Controls-demo/Scroll/Paging/Basic/Index
+ * @demo Controls-demo/Scroll/Paging/Edge/Index
+ * @demo Controls-demo/Scroll/Paging/End/Index
+ */
+
+/**
+ * @name Controls/_scroll/Container#pagingContentTemplate
+ * @cfg {Function} Опция управляет отображением произвольного шаблона внутри пэйджинга.
+ * @demo Controls-demo/Scroll/Paging/ContentTemplate/Index
+ */
+
+/**
+ * @name Controls/_scroll/Container#pagingPosition
+ * @property {TPagingPosition} pagingPosition Опция управляет позицией пэйджинга.
+ * @default right
+ * @demo Controls-demo/Scroll/Paging/PositionLeft/Index
+ */
+
+/**
+ * @name Controls/_scroll/Container#shadowStyle
+ * @cfg {String} Определяет постфикс у класса тени
+ * @default default
+ */

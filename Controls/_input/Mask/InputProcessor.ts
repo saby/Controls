@@ -17,16 +17,15 @@ import {Formatter} from 'Controls/decorator';
              * }
              */
             getDataBySplitValue: function(format, splitValue) {
-               try {
-                  const data = Formatter.formatData(format, {
-                     value: splitValue.before + splitValue.after,
-                     carriagePosition: splitValue.before.length
-                  });
+               const data = Formatter.formatData(format, {
+                  value: splitValue.before + splitValue.after,
+                  carriagePosition: splitValue.before.length
+               });
+               if (data) {
                   const {value, carriagePosition: position} = data;
                   return {value, position};
-               } catch (e) {
-                  return false;
                }
+               return false;
             }
          },
          InputProcessor = {
