@@ -30,6 +30,9 @@
             <ws:partial template="{{_options.captionTemplate}}"
                         itemData="{{_options.itemData}}"/>
          </ws:if>
+         <ws:if data="{{characteristics && characteristics.length}}">
+            <ws:partial template="Controls/list:CharacteristicsTemplate" data="{{characteristics}}"></ws:partial>
+         </ws:if>
          <ws:if data="{{_options.contentTemplate}}">
             <ws:partial template="{{_options.contentTemplate}}"
                         itemData="{{_options.itemData}}"/>
