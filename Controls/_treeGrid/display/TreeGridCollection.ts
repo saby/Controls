@@ -151,11 +151,6 @@ export default class TreeGridCollection<
         this._$results = null;
     }
 
-    protected _afterFinishUpdateSession(action: string): void {
-        this.resetLastItem();
-        this.resetFirstItem();
-    }
-
     protected _getItemsFactory(): ItemsFactory<T> {
         const superFactory = super._getItemsFactory();
         return this._itemsFactoryResolver.bind(this, superFactory);

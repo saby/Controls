@@ -2,7 +2,7 @@ import {Model} from 'Types/entity';
 import {Collection, CollectionItem} from 'Controls/display';
 import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
 
-describe('tests/ControlsUnit/display/CollectionItem/firstAndLastItem', () => {
+describe('Controls/display/CollectionItem/firstAndLastItem', () => {
     let item: CollectionItem<Model>;
     let navigationView: string;
     let hasMoreData: boolean;
@@ -14,7 +14,12 @@ describe('tests/ControlsUnit/display/CollectionItem/firstAndLastItem', () => {
         getCount: () => 1,
         getCollectionCount: () => 1,
         getSourceIndexByItem: () => 0,
-        getHasMoreData: () => hasMoreData
+        getHasMoreData: () => hasMoreData,
+        getRowSeparatorSize: () => 's',
+        getTopPadding: () => 'default',
+        getBottomPadding: () => 'default',
+        getRightPadding: () => 'default',
+        getLeftPadding: () => 'default'
     } as undefined as Collection<any>;
 
     beforeEach(() => {
@@ -31,7 +36,7 @@ describe('tests/ControlsUnit/display/CollectionItem/firstAndLastItem', () => {
             isLastItem: true,
             owner
         });
-        CssClassesAssert.include(item.getItemClasses({ theme: 'default' }), ['controls-Grid__row_last']);
+        CssClassesAssert.include(item.getContentClasses('default'), ['controls-ListView__itemV_last']);
     });
 
     it('getContentClasses() should not return classes for last group item when hasMoreData', () => {
@@ -45,7 +50,7 @@ describe('tests/ControlsUnit/display/CollectionItem/firstAndLastItem', () => {
             isLastItem: true,
             owner
         });
-        CssClassesAssert.include(item.getItemClasses({ theme: 'default' }), ['controls-Grid__row_last']);
+        CssClassesAssert.include(item.getContentClasses('default'), ['controls-ListView__itemV_last']);
     });
 
     it('getContentClasses() should not return classes for last group item when navigation === \'infinity\'', () => {
@@ -59,7 +64,7 @@ describe('tests/ControlsUnit/display/CollectionItem/firstAndLastItem', () => {
             isLastItem: true,
             owner
         });
-        CssClassesAssert.include(item.getItemClasses({ theme: 'default' }), ['controls-Grid__row_last']);
+        CssClassesAssert.include(item.getContentClasses('default'), ['controls-ListView__itemV_last']);
     });
 
     it('getContentClasses() should return classes for first group item', () => {
@@ -71,6 +76,6 @@ describe('tests/ControlsUnit/display/CollectionItem/firstAndLastItem', () => {
             isFirstItem: true,
             owner
         });
-        CssClassesAssert.include(item.getItemClasses({ theme: 'default' }), ['controls-Grid__row_first']);
+        CssClassesAssert.include(item.getContentClasses('default'), ['controls-ListView__itemV_first']);
     });
 });

@@ -2521,20 +2521,24 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             return false;
         }
         const lastItem = this.getLastItem();
-        return !!lastItem && lastItem.getKey() === item.getKey();
+        if (!!lastItem) {
+            const lastItemKey = lastItem.getKey ? lastItem.getKey() : lastItem[this._$keyProperty]
+            return lastItemKey === item.getKey();
+        }
+        return false;
     }
 
     resetLastItem(): void {
-        const setLastItem = (key: number | string, value: boolean) => {
-            const lastCollectionItem = this.getItemBySourceKey(key);
-            if (lastCollectionItem) {
-                lastCollectionItem.setIsLastItem(value);
-            }
-        };
-        setLastItem(this.getLastItem().getKey(), false);
+        let lastCollectionItem = this.getItemBySourceKey(this.getLastItem().getKey());
+        if (lastCollectionItem) {
+            lastCollectionItem.setIsLastItem(false);
+        }
+
         this._lastItem = null;
-        if (this.getCollectionCount() !== 0) {
-            setLastItem(this.getLastItem().getKey(), true);
+
+        lastCollectionItem = this.getItemBySourceKey(this.getLastItem().getKey());
+        if (lastCollectionItem) {
+            lastCollectionItem.setIsLastItem(true);
         }
     }
 
@@ -2554,18 +2558,16 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
 
     resetFirstItem(): void {
-        const setFirstItem = (key: number | string, value: boolean) => {
-            const firstCollectionItem = this.getItemBySourceKey(key);
-            if (firstCollectionItem) {
-                firstCollectionItem.setIsFirstItem(value);
-            }
-        };
+        let firstCollectionItem = this.getItemBySourceKey(this.getFirstItem().getKey());
+        if (firstCollectionItem) {
+            firstCollectionItem.setIsFirstItem(false);
+        }
 
-        setFirstItem(this.getFirstItem().getKey(), false);
         this._firstItem = null;
 
-        if (this.getCollectionCount() !== 0) {
-            setFirstItem(this.getFirstItem().getKey(), true);
+        firstCollectionItem = this.getItemBySourceKey(this.getFirstItem().getKey());
+        if (firstCollectionItem) {
+            firstCollectionItem.setIsFirstItem(true);
         }
     }
 
@@ -3951,7 +3953,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
 
     protected _afterFinishUpdateSession(action: string): void {
-        // Implement me
+        this.resetLastItem();
+        this.resetFirstItem();
     }
 
     protected _handleAfterCollectionItemChange(item: T, index: number, properties?: object): void {}

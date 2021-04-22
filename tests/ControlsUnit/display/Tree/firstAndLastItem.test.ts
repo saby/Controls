@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import {Tree} from 'Controls/display';
-import {List} from 'Types/collection';
+import {RecordSet} from 'Types/collection';
 
 interface IData {
     id: number;
@@ -9,18 +9,15 @@ interface IData {
     title?: string;
 }
 
-function getItems(items: IData[]): List<IData> {
-    return new List({ items });
+function getItems(rawData: IData[]): RecordSet<IData> {
+    return new RecordSet({ rawData, keyProperty: 'id' });
 }
 
-function getTree(items: List<IData>, options: object = {}): Tree<IData> {
+function getTree(items: RecordSet<IData>, options: object = {}): Tree<IData> {
     return new Tree({
         ...options,
         collection: items,
-        root: {
-            id: 0,
-            title: 'Root'
-        },
+        root: null,
         keyProperty: 'id',
         parentProperty: 'pid',
         nodeProperty: 'node',
@@ -34,7 +31,7 @@ describe('Controls/display/Tree/firstAndLastItem', () => {
     describe('last item is not a node', () => {
         const data: IData[] = [{
             id: 1,
-            pid: 0,
+            pid: null,
             node: true,
             title: 'A'
         }, {
@@ -44,7 +41,7 @@ describe('Controls/display/Tree/firstAndLastItem', () => {
             title: 'AA'
         }, {
             id: 2,
-            pid: 0,
+            pid: null,
             node: null,
             title: 'C'
         }];
@@ -63,7 +60,7 @@ describe('Controls/display/Tree/firstAndLastItem', () => {
     describe('last item is a collapsed node', () => {
         const data: IData[] = [{
             id: 1,
-            pid: 0,
+            pid: null,
             node: true,
             title: 'A'
         }, {
@@ -73,7 +70,7 @@ describe('Controls/display/Tree/firstAndLastItem', () => {
             title: 'AA'
         }, {
             id: 2,
-            pid: 0,
+            pid: null,
             node: true,
             title: 'B'
         }, {
@@ -97,7 +94,7 @@ describe('Controls/display/Tree/firstAndLastItem', () => {
     describe('last item is a expanded node', () => {
         const data: IData[] = [{
             id: 1,
-            pid: 0,
+            pid: null,
             node: true,
             title: 'A'
         }, {
@@ -107,7 +104,7 @@ describe('Controls/display/Tree/firstAndLastItem', () => {
             title: 'AA'
         }, {
             id: 2,
-            pid: 0,
+            pid: null,
             node: true,
             title: 'B'
         }, {
@@ -133,7 +130,7 @@ describe('Controls/display/Tree/firstAndLastItem', () => {
     describe('last item is a expanded empty node', () => {
         const data: IData[] = [{
             id: 1,
-            pid: 0,
+            pid: null,
             node: true,
             title: 'A'
         }, {
@@ -143,7 +140,7 @@ describe('Controls/display/Tree/firstAndLastItem', () => {
             title: 'AA'
         }, {
             id: 2,
-            pid: 0,
+            pid: null,
             node: true,
             title: 'B'
         }];
@@ -164,7 +161,7 @@ describe('Controls/display/Tree/firstAndLastItem', () => {
     describe('last item is a expanded hidden node', () => {
         const data: IData[] = [{
             id: 1,
-            pid: 0,
+            pid: null,
             node: true,
             title: 'A'
         }, {
@@ -174,7 +171,7 @@ describe('Controls/display/Tree/firstAndLastItem', () => {
             title: 'AA'
         }, {
             id: 2,
-            pid: 0,
+            pid: null,
             node: false,
             title: 'B'
         }, {

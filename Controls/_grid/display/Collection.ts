@@ -118,11 +118,6 @@ export default class Collection<
         this._$results = null;
     }
 
-    protected _afterFinishUpdateSession(action: string): void {
-        this.resetLastItem();
-        this.resetFirstItem();
-    }
-
     protected _removeItems(start: number, count?: number): T[] {
         const result = super._removeItems(start, count);
 

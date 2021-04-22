@@ -747,9 +747,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     private _getLastItemRecursive(root: S): S {
-        if (root && (!root.getKeyProperty() || root.getKey() === undefined)) {
-            return root;
-        }
         // Обращаемся к иерархии для получения детей
         const children = this._getChildrenByRecordSet(root);
         const lastChild: S = children[children.length - 1];
