@@ -99,11 +99,14 @@ export default class ScrollbarModel extends mixin<VersionableMixin>(VersionableM
     }
 
     updatePlaceholdersSize(size: IStartEnd): boolean {
-        const changed = size.start !== this._placeholders.start || size.end !== this._placeholders.end;
-        this._placeholders = {
-            ...this._placeholders,
-            ...size
-        };
+        let changed: boolean = false;
+        for (const key of Object.keys(size)) {
+            if (typeof size[key] === 'number' && size[key] !== this._placeholders[key]) {
+                this._placeholders[key] = size[key];
+                changed = true;
+            }
+        }
+
         if (changed) {
             this._updateContentSize();
             this._updatePosition();
