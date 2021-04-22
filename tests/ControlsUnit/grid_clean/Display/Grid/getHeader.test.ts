@@ -1,6 +1,7 @@
 import { assert } from 'chai';
 import { RecordSet } from 'Types/collection';
 import { Model } from 'Types/entity';
+import * as sinon from 'sinon';
 import { GridCollection } from 'Controls/grid';
 
 describe('Controls/grid_clean/Display/Grid/getHeader', () => {
@@ -88,6 +89,38 @@ describe('Controls/grid_clean/Display/Grid/getHeader', () => {
 
                 assert.isTrue(!!collection.getHeader());
             });
+        });
+    });
+
+    describe('constructor', () => {
+        let sandbox: sinon.SinonSandbox;
+
+        beforeEach(() => {
+            sandbox = sinon.createSandbox();
+        });
+
+        afterEach(() => {
+            sandbox.restore();
+        });
+
+        it('constructor options', () => {
+            const collection = new GridCollection({
+                collection: new RecordSet({
+                    keyProperty: 'key',
+                    rawData: []
+                }),
+                columns: [{ width: ''}],
+                headerVisibility: 'visible',
+                multiSelectVisibility: 'visible'
+            });
+
+            const fakeGetHeaderConstructorMethod = (options) => {
+                assert.strictEqual(options.multiSelectVisibility, 'visible');
+            };
+            sandbox.replace(collection, 'getHeaderConstructor', () => fakeGetHeaderConstructorMethod);
+
+            collection.setHeader([{ caption: ''}]);
+            collection.getHeader();
         });
     });
 });
