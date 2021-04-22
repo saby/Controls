@@ -19,6 +19,7 @@ import * as TabButtonsTpl from 'wml!Controls/_tabs/Buttons/Buttons';
 import * as ItemTemplate from 'wml!Controls/_tabs/Buttons/ItemTemplate';
 
 import 'css!Controls/tabs';
+import {Logger} from "UICommon/Utils";
 
 enum ITEM_ALIGN {
     left = 'left',
@@ -119,6 +120,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
                     return result;
                 }
             });
+        } else {
+            Logger.error('Controls/tabs:Buttons: Опции items и source не заданы.', this);
         }
     }
 
@@ -167,7 +170,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _updateMarker(): void {
-        if (this._marker.isInitialized()) {
+        if (this._marker.isInitialized() || !this._itemsArray) {
             return;
         }
         const tabElements: HTMLElement[] = this._itemsArray.map((item: ITabButtonItem, key: number) => {
