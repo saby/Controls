@@ -237,7 +237,7 @@ import { _FocusAttrs } from 'UI/Focus';
       }
 
       if (!elements.length) {
-         elements = [!control._isMarkupConverter ? markupGenerator.createTag('div', { key: key + '0_' }, [],
+         elements = [!control._isMarkupConverter ? markupGenerator.createTag('div', { key: key + Date.now() + '_' }, [],
             attrsToDecorate, defCollection, control, key + '0_') : ''];
       }
 
