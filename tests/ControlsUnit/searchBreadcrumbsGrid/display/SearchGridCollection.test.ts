@@ -9,6 +9,7 @@ describe('Controls/_searchBreadcrumbsGrid/display/SearchGridCollection', () => {
       keyProperty: 'id',
       parentProperty: 'parent',
       nodeProperty: 'node',
+      displayProperty: 'collection display property',
       columns: [{
          displayProperty: 'title',
          width: '300px',
@@ -33,6 +34,12 @@ describe('Controls/_searchBreadcrumbsGrid/display/SearchGridCollection', () => {
       it('createBreadcrumbsItem', () => {
          const item = searchGridCollection.createBreadcrumbsItem({});
          assert.instanceOf(item, BreadcrumbsItemRow);
+      });
+
+      it('Breadcrumbs display property', () => {
+         const item = searchGridCollection.createBreadcrumbsItem({});
+         const breadcrumbsCell = item.getColumns()[0];
+         assert.isTrue(breadcrumbsCell.getDisplayProperty() === 'collection display property');
       });
    });
 
