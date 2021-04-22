@@ -36,4 +36,31 @@ describe('Controls/grid_clean/Display/Collection', () => {
         assert.isTrue(!!collection.getFooter());
         assert.isTrue(footerTemplate === collection.getFooter().getColumns()[0].getTemplate());
     });
+
+    it('Footer template options', () => {
+        const template = 'my custom template';
+        const templateOptions = {
+            customOption1: 1,
+            customOptions2: 2
+        };
+        const collection = new GridCollection({
+            collection: new RecordSet({
+                keyProperty: 'key',
+                rawData: [{
+                    key: 1,
+                    title: 'item_1'
+                }]
+            }),
+            keyProperty: 'key',
+            columns: [{}],
+            footer: [{
+                template,
+                templateOptions
+            }]
+        });
+
+        const footerCell = collection.getFooter().getColumns()[0];
+        assert.isTrue(template === footerCell.getTemplate());
+        assert.deepEqual(footerCell.config.templateOptions, templateOptions);
+    });
 });

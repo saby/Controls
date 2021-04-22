@@ -217,6 +217,7 @@ export interface IGridControl extends IList {
  * @property {Number} [startColumn=undefined] Индекс колонки таблицы, с которой начинается ячейка подвала. Если поле не определено, тогда берется endColumn предыдущей ячейки или 1 (если это первая колонка).
  * @property {Number} [endColumn=undefined] Индекс колонки таблицы, на которой заканчивается ячейка подвала. Если поле не определено, тогда берется startColumn текущей ячейки, увеличенный на один.
  * @property {String|TemplateFunction} [template=undefined] Шаблон содержимого колонки подвала. Если поле не определено, тогда содержимое колонки будет пустым.
+ * @property {Object} [templateOptions=undefined] Дополнительные опции, которые будут переданы в шаблон, указанный в опции {@link IFooterColumn#template}
  * @remark
  * Значения опций startColumn и endColumn задаются в соответствии с GridLayout CSS, т.е. с единицы. Индексы считаются по границам колонок.
  * Например, чтобы отобразить объединенную ячейку подвала под второй и третей колонкой таблицы, нужно задать startColumn и endColumn в значения
@@ -230,6 +231,7 @@ export interface IGridControl extends IList {
  * @property {Number} [startColumn] The index of the table column that the footer cell starts with. An optional field, if undefined, is taken from the endColumn of the previous cell or 1 (if this is the first column).
  * @property {Number} [endColumn] The index of the table column that the footer cell ends with. An optional field, if undefined, the startColumn of the current cell is taken, incremented by one.
  * @property {Number} [template] Footer cell content template. Optional field, if undefined, cell content will be empty.
+ * @property {Object} [templateOptions] Additional options that will be passed into template specified in option {@link IFooterColumn#template}
  * @remark
  * The startColumn and endColumn options are set according to the GridLayout CSS, i.e. from one. Indexes are calculated along the column boundaries.
  * For example, to display the merged footer cell under the second and third columns of the table, you need to set startColumn and endColumn to values
