@@ -141,8 +141,6 @@ export default class Collection<
             options.columnSeparatorSize = this._$columnSeparatorSize;
             options.rowSeparatorSize = this._$rowSeparatorSize;
             options.hasStickyGroup = this._$hasStickyGroup;
-            options.isLastItem = this.isLastItem(options.contents);
-            options.isFirstItem = this.isFirstItem(options.contents);
             return superFactory.call(this, options);
         };
     }

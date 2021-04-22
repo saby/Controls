@@ -836,6 +836,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _dragStrategy: StrategyConstructor<DragStrategy> = DragStrategy;
     protected _isDragOutsideList: boolean = false;
+    protected _firstItem: EntityModel;
+    protected _lastItem: EntityModel;
 
     // Фон застиканных записей и лесенки
     protected _$backgroundStyle?: string;
@@ -2505,17 +2507,69 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this.getIndex(this.getItemBySourceKey(key) as T);
     }
 
-    getFirstItem(): S {
-        if (this.getCount() > 0) {
-            return this.getFirst().getContents();
+    // region Аспект "крайние записи"
+
+    getLastItem(): EntityModel {
+        if (!!this._lastItem) {
+            return this._lastItem;
+        }
+        return this._lastItem = this.getCollection().at(this.getCollection().getCount() - 1);
+    }
+
+    isLastItem(item: EntityModel): boolean {
+        if (!item || !item.getKey) {
+            return false;
+        }
+        const lastItem = this.getLastItem();
+        return !!lastItem && lastItem.getKey() === item.getKey();
+    }
+
+    resetLastItem(): void {
+        const setLastItem = (key: number | string, value: boolean) => {
+            const lastCollectionItem = this.getItemBySourceKey(key);
+            if (lastCollectionItem) {
+                lastCollectionItem.setIsLastItem(value);
+            }
+        };
+        setLastItem(this.getLastItem().getKey(), false);
+        this._lastItem = null;
+        if (this.getCollectionCount() !== 0) {
+            setLastItem(this.getLastItem().getKey(), true);
         }
     }
 
-    getLastItem(): S {
-        if (this.getCount() > 0) {
-            return this.getLast().getContents();
+    getFirstItem(): EntityModel<any> {
+        if (!!this._firstItem) {
+            return this._firstItem;
+        }
+        return this._firstItem = this.getCollection().at(0);
+    }
+
+    isFirstItem(item: EntityModel): boolean {
+        if (!item || !item.getKey) {
+            return false;
+        }
+        const firstItem = this.getFirstItem();
+        return firstItem && firstItem.getKey() === item.getKey();
+    }
+
+    resetFirstItem(): void {
+        const setFirstItem = (key: number | string, value: boolean) => {
+            const firstCollectionItem = this.getItemBySourceKey(key);
+            if (firstCollectionItem) {
+                firstCollectionItem.setIsFirstItem(value);
+            }
+        };
+
+        setFirstItem(this.getFirstItem().getKey(), false);
+        this._firstItem = null;
+
+        if (this.getCollectionCount() !== 0) {
+            setFirstItem(this.getFirstItem().getKey(), true);
         }
     }
+
+    // endregion Аспект "крайние записи"
 
     getHasMoreData(): boolean {
         return this._$hasMoreData;
@@ -3124,6 +3178,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.bottomPadding = this._$bottomPadding;
             options.searchValue = this._$searchValue;
             options.markerPosition = this._$markerPosition;
+            options.isLastItem = this.isLastItem(options.contents);
+            options.isFirstItem = this.isFirstItem(options.contents);
             return create(options.itemModule || this._itemModule, options);
         };
     }

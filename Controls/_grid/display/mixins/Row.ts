@@ -41,8 +41,6 @@ export interface IOptions<T> extends IBaseOptions<T> {
     rowTemplate: TemplateFunction;
     rowTemplateOptions: object;
     columnSeparatorSize?: TColumnSeparatorSize;
-    isLastItem?: boolean;
-    isFirstItem?: boolean;
 }
 
 export default abstract class Row<T> {
@@ -62,8 +60,6 @@ export default abstract class Row<T> {
     protected _$rowTemplateOptions: object;
     protected _$columns: TColumns;
     protected _savedColumns: TColumns;
-    protected _$isLastItem: boolean;
-    protected _$isFirstItem: boolean;
 
     protected constructor(options?: IOptions<T>) {
         if (this._$rowTemplate) {
@@ -109,11 +105,11 @@ export default abstract class Row<T> {
         }
         const navigation = this.getOwner().getNavigation();
         if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
-            && this._$isLastItem) {
-            itemClasses += ' controls-Grid__row_last';
+            && this.getIsLastItem()) {
+            itemClasses += ' controls-ListView__itemV_last';
         }
-        if (this._$isFirstItem) {
-            itemClasses += ' controls-Grid__row_first';
+        if (this.getIsFirstItem()) {
+            itemClasses += ' controls-ListView__itemV_first';
         }
 
         return itemClasses;
@@ -162,28 +158,6 @@ export default abstract class Row<T> {
     }
 
     //endregion
-
-    // region Аспект "крайние записи"
-
-    setIsFirstItem(state: boolean): void {
-        this._$isFirstItem = state;
-        this._nextVersion();
-    }
-
-    getIsFirstItem(): boolean {
-        return this._$isFirstItem;
-    }
-
-    setIsLastItem(state: boolean): void {
-        this._$isLastItem = state;
-        this._nextVersion();
-    }
-
-    getIsLastItem(): boolean {
-        return this._$isLastItem;
-    }
-
-    // endregion Аспект "крайние записи"
 
     //region Аспект "Лесенка"
 
@@ -708,6 +682,10 @@ export default abstract class Row<T> {
 
     abstract isSticked(): boolean;
 
+    abstract getIsFirstItem(): boolean;
+
+    abstract getIsLastItem(): boolean;
+
     protected abstract _getCursorClasses(cursor: string, clickable: boolean): string;
 
     protected abstract _nextVersion(): void;
@@ -725,6 +703,4 @@ Object.assign(Row.prototype, {
     _$colspanCallback: null,
     _$columnSeparatorSize: null,
     _$editingColumnIndex: null,
-    _$isLastItem: false,
-    _$isFirstItem: false
 });

@@ -745,13 +745,24 @@
    border-top-color: var(--item_separator_l_color_list);
 }
 
+// Первая граница списка, самая верхняя
+.controls-ListView__itemV_first {
+   .controls-Grid__rowSeparator_size-s {
+      border-top-color: var(--item_edge_separator_s_color_list);
+   }
+
+   .controls-Grid__rowSeparator_size-l {
+      border-top-color: var(--item_edge_separator_l_color_list);
+   }
+}
+
 // Последняя граница списка, самая нижняя
-.controls-ListView__itemV:last-child {
-   .controls-ListView__rowSeparator_size-s {
+.controls-ListView__itemV_last {
+   .controls-Grid__rowSeparator_size-s {
       border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
    }
 
-   .controls-ListView__rowSeparator_size-l {
+   .controls-Grid__rowSeparator_size-l {
       border-bottom: var(--item-separator_l_thickness_list) solid var(--item_edge_separator_l_color_list);
    }
 }

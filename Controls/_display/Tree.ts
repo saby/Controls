@@ -22,7 +22,7 @@ import {Object as EventObject} from 'Env/Event';
 import {TemplateFunction} from 'UI/Base';
 import {CrudEntityKey} from 'Types/source';
 import NodeFooter from 'Controls/_display/itemsStrategy/NodeFooter';
-import {Model, relation} from 'Types/entity';
+import {Model as EntityModel, Model, relation} from 'Types/entity';
 import {IDragPosition} from './interface/IDragPosition';
 import TreeDrag from './itemsStrategy/TreeDrag';
 import {isEqual} from 'Types/object';
@@ -669,6 +669,9 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 }
             });
         }
+
+        this.resetLastItem();
+        this.resetFirstItem();
     }
 
     setCollapsedItems(collapsedKeys: CrudEntityKey[]): void {
@@ -733,6 +736,41 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     // endregion Expanded/Collapsed
+
+    // region Аспект "крайние записи"
+
+    getLastItem(): EntityModel {
+        if (!!this._lastItem) {
+            return this._lastItem;
+        }
+        return this._lastItem = this._getLastItemRecursive(this.getRoot().getContents());
+    }
+
+    private _getLastItemRecursive(root: S): S {
+        if (root && (!root.getKeyProperty() || root.getKey() === undefined)) {
+            return root;
+        }
+        // Обращаемся к иерархии для получения детей
+        const children = this._getChildrenByRecordSet(root);
+        const lastChild: S = children[children.length - 1];
+        // Если узел и у него нет детей, то он последний
+        if (children.length === 0) {
+            return root;
+        }
+        const isNode = lastChild.get(this._$nodeProperty) !== null;
+
+        // expandedItems появляются только после того, как был вызван Tree.setExpandedItems
+        const expandedItems = this.getExpandedItems();
+        if (isNode && expandedItems && (
+            this.isExpandAll() ||
+            (expandedItems && expandedItems.indexOf(lastChild.getKey() !== -1))
+        )) {
+            return this._getLastItemRecursive(lastChild);
+        }
+        return lastChild;
+    }
+
+    // endregion Аспект "крайние записи"
 
     setHasMoreStorage(storage: Record<string, boolean>): void {
         if (!isEqual(this._$hasMoreStorage, storage)) {
