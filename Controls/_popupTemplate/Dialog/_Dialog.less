@@ -9,6 +9,7 @@
    overflow: hidden;
    box-shadow: var(--box-shadow_dialog);
    border: var(--border-thickness_dialog) solid var(--border-color_dialog);
+   border-radius: var(--border-radius_dialog);
 }
 
 .controls-DialogTemplate_backgroundStyle-default {
@@ -72,6 +73,11 @@
    align-self: flex-start;
    flex-shrink: 0;
    margin-top: var(--close-button_offset-top_dialog);
+}
+
+.controls-DialogTemplate__close_linkButton {
+   margin-top: var(--close-link-button_offset-top_dialog);
+   margin-right: var(--close-link-button_offset-right_dialog);
 }
 
 .controls-DialogTemplate__close-button_without_head {
