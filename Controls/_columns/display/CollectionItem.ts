@@ -1,4 +1,4 @@
-import {CollectionItem as BaseCollectionItem, ICollectionItemOptions as IBaseOptions} from 'Controls/display';
+import {TreeItem as BaseCollectionItem, ICollectionItemOptions as IBaseOptions} from 'Controls/display';
 import Collection from './Collection';
 
 export interface IOptions<T> extends IBaseOptions<T> {
