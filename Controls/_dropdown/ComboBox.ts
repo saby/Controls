@@ -8,19 +8,20 @@ import Controller from 'Controls/_dropdown/_Controller';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {ISingleSelectableOptions, IBorderStyleOptions, IValidationStatusOptions, IInputPlaceholder,
-   IInputPlaceholderOptions} from 'Controls/interface';
+   IInputPlaceholderOptions, IContrastBackgroundOptions} from 'Controls/interface';
 import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import {IStickyPopupOptions} from 'Controls/popup';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/popup';
+import {generateStates} from 'Controls/input';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 import 'css!Controls/dropdown';
 import 'css!Controls/CommonClasses';
 
 interface IComboboxOptions extends IBaseDropdownOptions, ISingleSelectableOptions, IBorderStyleOptions,
-    IValidationStatusOptions, IInputPlaceholderOptions {
+    IValidationStatusOptions, IPaddingOptions, IContrastBackgroundOptions {
    value?: string;
 }
 
@@ -85,6 +86,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
    protected _isEmptyItem: boolean;
    protected _value: string;
    protected _placeholder: string | Function;
+   protected _horizontalPadding: string;
 
    _beforeMount(options: IComboboxOptions,
                 context: object,
@@ -92,6 +94,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
       this._placeholder = options.placeholder;
       this._value = options.value;
       this._readOnly = options.readOnly;
+      this._updateHorizontalPadding(options);
       this._targetPoint = {
          vertical: 'bottom'
       };
@@ -112,6 +115,9 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
    protected _beforeUpdate(newOptions: IComboboxOptions): void {
       if (newOptions.readOnly !== this._options.readOnly) {
          this._readOnly = this._getReadOnly(newOptions.readOnly);
+      }
+      if (newOptions.contrastBackground !== this._options.contrastBackground || newOptions.horizontalPadding !== this._options.horizontalPadding) {
+         this._updateHorizontalPadding(newOptions);
       }
       this._controller.update(this._getControllerOptions(newOptions));
       this._borderStyle = this._getBorderStyle(newOptions.borderStyle, newOptions.validationStatus);
@@ -234,6 +240,18 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
       }
    }
 
+   private _updateHorizontalPadding(options: IComboboxOptions): void {
+      let padding;
+      if (options.horizontalPadding) {
+         padding = options.horizontalPadding;
+      } else if (options.contrastBackground) {
+         padding = 'xs';
+      } else {
+         padding = 'null';
+      }
+      this._horizontalPadding = padding;
+   }
+
    //FIXME delete after https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
    private _getContainerNode(container:[HTMLElement]|HTMLElement): HTMLElement {
       return container[0] || container;
@@ -258,6 +276,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
          fontColorStyle: 'default',
          tooltip: '',
          emptyKey: null,
+         contrastBackground: false,
          borderVisibility: 'visible'
       };
    }
