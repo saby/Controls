@@ -229,11 +229,11 @@ export default class ColumnScrollController {
             return this._scrollableColumns;
         }
         this._scrollableColumns = [];
-        let htmlColumns: NodeList;
+        let htmlColumns: HTMLElement[];
         if (!container) {
             return this._scrollableColumns;
         }
-        htmlColumns = container.querySelectorAll(`.${JS_SELECTORS.SCROLLABLE_ELEMENT}`);
+        htmlColumns = Array.from(container.querySelectorAll(`.${JS_SELECTORS.SCROLLABLE_ELEMENT}`));
         if (htmlColumns) {
             htmlColumns.forEach((column: HTMLElement) => {
                 if (column.offsetWidth) {
