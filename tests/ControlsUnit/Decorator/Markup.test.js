@@ -735,7 +735,7 @@ define([
          });
          it('case sensitivity', function() {
             var json = [['svg', {'viewbox': '0 0 100 100'}]];
-            var goodHtml = '<svg viewbox="0 0 100 100"></svg>';
+            var goodHtml = '<div><svg viewbox="0 0 100 100"></svg></div>';
             var checkHtml = decorator.Converter.jsonToHtml(json);
             equalsHtml(checkHtml, goodHtml);
          });
