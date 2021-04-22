@@ -2521,24 +2521,30 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             return false;
         }
         const lastItem = this.getLastItem();
-        if (!!lastItem) {
-            const lastItemKey = lastItem.getKey ? lastItem.getKey() : lastItem[this._$keyProperty]
-            return lastItemKey === item.getKey();
+        if (!lastItem || !lastItem.getKey) {
+            return false;
         }
-        return false;
+        return lastItem.getKey() === item.getKey();
     }
 
     resetLastItem(): void {
-        let lastCollectionItem = this.getItemBySourceKey(this.getLastItem().getKey());
-        if (lastCollectionItem) {
-            lastCollectionItem.setIsLastItem(false);
+        let lastItem = this.getLastItem();
+        let lastCollectionItem: CollectionItem<EntityModel>;
+        if (lastItem && lastItem.getKey) {
+            lastCollectionItem = this.getItemBySourceKey(lastItem.getKey());
+            if (lastCollectionItem) {
+                lastCollectionItem.setIsLastItem(false);
+            }
         }
 
         this._lastItem = null;
 
-        lastCollectionItem = this.getItemBySourceKey(this.getLastItem().getKey());
-        if (lastCollectionItem) {
-            lastCollectionItem.setIsLastItem(true);
+        lastItem = this.getLastItem();
+        if (lastItem && lastItem.getKey) {
+            lastCollectionItem = this.getItemBySourceKey(lastItem.getKey());
+            if (lastCollectionItem) {
+                lastCollectionItem.setIsLastItem(true);
+            }
         }
     }
 
@@ -2558,16 +2564,23 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
 
     resetFirstItem(): void {
-        let firstCollectionItem = this.getItemBySourceKey(this.getFirstItem().getKey());
-        if (firstCollectionItem) {
-            firstCollectionItem.setIsFirstItem(false);
+        let firstItem = this.getFirstItem();
+        let firstCollectionItem: CollectionItem<EntityModel>;
+        if (firstItem && firstItem.getKey) {
+            firstCollectionItem = this.getItemBySourceKey(firstItem.getKey());
+            if (firstCollectionItem) {
+                firstCollectionItem.setIsFirstItem(false);
+            }
         }
 
         this._firstItem = null;
 
-        firstCollectionItem = this.getItemBySourceKey(this.getFirstItem().getKey());
-        if (firstCollectionItem) {
-            firstCollectionItem.setIsFirstItem(true);
+        firstItem = this.getFirstItem();
+        if (firstItem && firstItem.getKey) {
+            firstCollectionItem = this.getItemBySourceKey(firstItem.getKey());
+            if (firstCollectionItem) {
+                firstCollectionItem.setIsFirstItem(true);
+            }
         }
     }
 

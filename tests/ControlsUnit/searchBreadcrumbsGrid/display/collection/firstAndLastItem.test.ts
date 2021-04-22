@@ -60,12 +60,12 @@ describe('Controls/searchBreadcrumbsGrid/display/collection/firstAndLastItem', (
         }];
         it('getLastItem', () => {
             const collection = getCollection(getRecordSet(data));
-            assert.equal(collection.getLastItem(), collection.at(2).getContents());
+            assert.equal(collection.getLastItem(), collection.at(2).getLast().getContents());
         });
 
         it('getFirstItem', () => {
             const collection = getCollection(getRecordSet(data));
-            assert.equal(collection.getFirstItem(), collection.at(0).getContents());
+            assert.equal(collection.getFirstItem(), collection.at(0).getLast().getContents());
         });
     });
 
@@ -95,7 +95,7 @@ describe('Controls/searchBreadcrumbsGrid/display/collection/firstAndLastItem', (
 
         it('getFirstItem', () => {
             const collection = getCollection(getRecordSet(data));
-            assert.equal(collection.getFirstItem(), collection.at(0).getContents());
+            assert.equal(collection.getFirstItem(), collection.at(0).getLast().getContents());
         });
     });
 });
