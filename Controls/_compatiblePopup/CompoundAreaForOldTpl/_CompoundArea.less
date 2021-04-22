@@ -145,6 +145,12 @@ body:not(.rtl-Body) .controls-CompoundArea {
    margin-top: var(--close-button_offset-top_stack);
 }
 
+// крестик закрытия в rightPanel находится ниже чем нужно и перекрывается .ws-window-titlebar
+.controls-CompoundArea-close_button .controls-stack-Button__close {
+   z-index: 11;
+   margin-top: -35px;
+}
+
 .controls-Stack__waiting, .controls-Stack__open, .controls-Stack__close {
    .controls-CompoundArea__container {
       contain: paint;
