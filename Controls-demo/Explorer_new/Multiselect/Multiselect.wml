@@ -1,6 +1,7 @@
 <div class="controlsDemo__wrapper demo_GridMultiselect__base {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth800' : 'controlsDemo_fixedWidth550'}}">
         <Controls.toggle:RadioGroup
                 bind:selectedKey="_selectedKey"
+                attr:style="padding-left:12px"
                 keyProperty="id"
                 direction="horizontal"
                 source="{{_radioSource}}"
