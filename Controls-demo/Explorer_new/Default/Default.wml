@@ -5,12 +5,10 @@
             attr:class="demo-Explorer ControlsDemo-Explorer"
             backgroundStyle="default"
             keyProperty="id"
-            columnsMode="auto"
-            columnsCount={{2}}
             displayProperty="title"
             parentProperty="parent"
             nodeProperty="parent@"
-            viewMode="{{'list'}}"
+            viewMode="{{_viewMode}}"
             header="{{_gridHeader}}"
             columns="{{_columns}}">
         </Controls.explorer:View>

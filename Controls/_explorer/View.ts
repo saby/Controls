@@ -961,6 +961,8 @@ export default class Explorer extends Control<IExplorerOptions> {
             viewMode: DEFAULT_VIEW_MODE,
             backButtonIconStyle: 'primary',
             backButtonFontColorStyle: 'secondary',
+            columnsMode: 'adaptive',
+            columnsCount: 1,
             stickyHeader: true,
             searchStartingWith: 'root',
             showActionButton: false,

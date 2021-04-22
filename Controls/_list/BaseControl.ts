@@ -2707,9 +2707,9 @@ const _private = {
         return self._markerController;
     },
 
-    moveMarkerToDirection(self, event: SyntheticEvent, direction: string): void {
+    moveMarkerToDirection(self, event: SyntheticEvent, direction: TMarkerMove): void {
         if (self._options.markerVisibility !== 'hidden') {
-            const isMovingForward = direction === 'Bottom' || direction === 'Right';
+            const isMovingForward = direction === 'Forward' || direction === 'Right' || direction === 'Down';
             // activate list when marker is moving. It let us press enter and open current row
             // must check mounted to avoid fails on unit tests
             if (self._mounted) {
@@ -2722,8 +2722,14 @@ const _private = {
 
             const controller = _private.getMarkerController(self);
             const moveMarker = () => {
-                const newMarkedKey = direction === 'Forward' ? controller.getNextMarkedKey() :
-                                controller.getMarkedKeyByDirection(direction);
+                let newMarkedKey;
+                if (direction === 'Backward') {
+                    newMarkedKey = controller.getPrevMarkedKey();
+                } else if (direction === 'Forward') {
+                    newMarkedKey = controller.getNextMarkedKey();
+                } else {
+                    newMarkedKey = controller.getMarkedKeyByDirection(direction);
+                }
                 if (newMarkedKey !== controller.getMarkedKey()) {
                     const result = self._changeMarkedKey(newMarkedKey);
                     if (result instanceof Promise) {

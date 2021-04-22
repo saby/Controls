@@ -26,7 +26,7 @@ export default class SingleColumnMarkerStrategy extends AbstractStrategy {
     }
 
     getPrevMarkedKey(index: number): CrudEntityKey | void {
-        return this.getMarkedKeyByDirection(index, 'Top');
+        return this.getMarkedKeyByDirection(index, 'Up');
     }
 
     shouldMoveMarkerOnScrollPaging(): boolean {

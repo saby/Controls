@@ -83,7 +83,7 @@ export class Controller {
     */
    getNextMarkedKey(): CrudEntityKey | void {
       const index = this._model.getIndex(this._model.getItemBySourceKey(this._markedKey));
-      const nextMarkedKey = this._markerStrategy.getNextMarkedKey(index);
+      const nextMarkedKey = this._markerStrategy.getNextMarkedKey(index + 1);
       return nextMarkedKey === null ? this._markedKey : nextMarkedKey;
    }
 
@@ -99,7 +99,7 @@ export class Controller {
     */
    getPrevMarkedKey(): CrudEntityKey | void {
       const index = this._model.getIndex(this._model.getItemBySourceKey(this._markedKey));
-      const prevMarkedKey = this._markerStrategy.getPrevMarkedKey(index);
+      const prevMarkedKey = this._markerStrategy.getPrevMarkedKey(index - 1);
       return prevMarkedKey === null ? this._markedKey : prevMarkedKey;
    }
 
