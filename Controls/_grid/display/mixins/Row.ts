@@ -163,7 +163,7 @@ export default abstract class Row<T> {
 
     //endregion
 
-    // region Аспект "крайние колонки"
+    // region Аспект "крайние записи"
 
     setIsFirstItem(state: boolean): void {
         this._$isFirstItem = state;
@@ -175,7 +175,7 @@ export default abstract class Row<T> {
         this._nextVersion();
     }
 
-    // endregion Аспект "крайние колонки"
+    // endregion Аспект "крайние записи"
 
     //region Аспект "Лесенка"
 

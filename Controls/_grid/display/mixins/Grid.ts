@@ -162,8 +162,6 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (supportLadder) {
             this._updateItemsLadder();
         }
-        this._firstItem = this.getFirstItem();
-        this._lastItem = this.getLastItem();
     }
 
     getColumnsConfig(): TColumns {
@@ -327,7 +325,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         return this._$ladderProperties;
     }
 
-    // region Аспект "крайние колонки"
+    // region Аспект "крайние записи"
 
     getLastItem(): EntityModel {
         if (!!this._lastItem) {
@@ -337,15 +335,23 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     isLastItem(item: EntityModel): boolean {
+        if (!item || !item.getKey) {
+            return false;
+        }
         return this.getLastItem().getKey() === item.getKey();
     }
 
     resetLastItem(): void {
-        const lastCollectionItem = this.getItemBySourceKey(this.getLastItem().getKey());
-        if (lastCollectionItem) {
-            lastCollectionItem.setIsLastItem(false);
-        }
+        const setLastItem = (key: number | string, value: boolean) => {
+            const lastCollectionItem = this.getItemBySourceKey(key);
+            if (lastCollectionItem) {
+                lastCollectionItem.setIsLastItem(value);
+            }
+        };
+        setLastItem(this.getLastItem().getKey(), false);
         this._lastItem = null;
+
+        setLastItem(this.getLastItem().getKey(), true);
     }
 
     getFirstItem(): EntityModel<any> {
@@ -356,18 +362,27 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     isFirstItem(item: EntityModel): boolean {
+        if (!item || !item.getKey) {
+            return false;
+        }
         return this.getFirstItem().getKey() === item.getKey();
     }
 
     resetFirstItem(): void {
-        const firstCollectionItem = this.getItemBySourceKey(this.getFirstItem().getKey());
-        if (firstCollectionItem) {
-            firstCollectionItem.setIsFirstItem(false);
-        }
+        const setFirstItem = (key: number | string, value: boolean) => {
+            const firstCollectionItem = this.getItemBySourceKey(key);
+            if (firstCollectionItem) {
+                firstCollectionItem.setIsFirstItem(value);
+            }
+        };
+
+        setFirstItem(this.getFirstItem().getKey(), false);
         this._firstItem = null;
+
+        setFirstItem(this.getFirstItem().getKey(), true);
     }
 
-    // endregion Аспект "крайние колонки"
+    // endregion Аспект "крайние записи"
 
     protected _initializeEmptyRow(): void {
         this._$emptyGridRow = new EmptyRow<S>({
