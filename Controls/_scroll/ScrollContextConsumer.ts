@@ -41,7 +41,9 @@ export default class ScrollContextConsumer extends Control {
    protected _pagingVisible: boolean;
 
    protected _beforeMount(options: unknown, context: IScrollContextConsumerContext): void {
-      this._pagingVisible = context.scrollContext.pagingVisible;
+      if (context.scrollContext) {
+         this._pagingVisible = context.scrollContext.pagingVisible;
+      }
    }
 
    protected _beforeUpdate(newOptions: unknown, newContext: IScrollContextConsumerContext): void {
