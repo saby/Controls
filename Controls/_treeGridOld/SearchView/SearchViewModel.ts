@@ -47,7 +47,7 @@ var
          }
 
          // Use "duck typing" to detect breadCrumbs (faster than "instanceOf Array")
-         data.breadCrumbs = data.item && !!data.item.forEach;
+         data.breadCrumbs = data.dispItem && !!data.dispItem.isBreadcrumbs;
          data.breadCrumbsDisplayProperty = this._options.displayProperty;
          data.searchBreadCrumbsItemTemplate = this._options.searchBreadCrumbsItemTemplate || 'Controls/treeGridOld:SearchBreadCrumbsItemTemplate';
          data.searchBreadCrumbsItemContent = "Controls/breadcrumbs:ItemTemplate";

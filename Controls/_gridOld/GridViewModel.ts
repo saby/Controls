@@ -712,9 +712,9 @@ var
             if (!options.editArrowVisibilityCallback) {
                 return options.showEditArrow;
             }
-            if (item['[Controls/_display/BreadcrumbsItem]']) {
+            /*if (item['[Controls/_display/BreadcrumbsItem]']) {
                 contents = contents[(contents as any).length - 1];
-            }
+            }*/
             return options.showEditArrow && options.editArrowVisibilityCallback(contents);
         }
     },
