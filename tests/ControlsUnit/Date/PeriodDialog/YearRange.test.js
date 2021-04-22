@@ -81,5 +81,20 @@ define([
             assert.equal(component._lastYear, cachedYear + 1);
          });
       });
+      describe('_updateModel', () => {
+         [{
+            lastYear: 10000
+         }, {
+            lastYear: 1200
+         }].forEach((test) => {
+            it('should not let _lastYears get out of valid range', () => {
+               const component = calendarTestUtils.createComponent(YearsRange, { year: year });
+               component._lastYear = test.lastYear;
+               component._updateModel();
+               assert.isTrue(component._lastYear >= dateUtils.Base.MIN_YEAR_VALUE &&
+                   component._lastYear <= dateUtils.Base.MAX_YEAR_VALUE);
+            });
+         });
+      });
    });
 });
