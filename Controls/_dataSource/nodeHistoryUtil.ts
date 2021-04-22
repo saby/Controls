@@ -2,8 +2,6 @@ import { DataSet, CrudEntityKey } from 'Types/source';
 import { UserConfig } from 'EnvConfig/Config';
 import { Logger } from 'UI/Utils';
 
-const EXPANDABLE_STATE_KEY_PREFIX = 'LIST_EXPANDED_NODE_';
-
 export const nodeHistoryUtil = {
     /**
      * Store state of expandable items to UserConfig
@@ -12,7 +10,7 @@ export const nodeHistoryUtil = {
      */
     store(items: CrudEntityKey[], storeKey: string): Promise<DataSet | boolean> {
         const preparedGroups = JSON.stringify(items);
-        return UserConfig.setParam(EXPANDABLE_STATE_KEY_PREFIX + storeKey, preparedGroups);
+        return UserConfig.setParam(storeKey, preparedGroups);
     },
 
     /**
@@ -21,7 +19,7 @@ export const nodeHistoryUtil = {
      */
     restore(storeKey: string): Promise<CrudEntityKey[]> {
         return new Promise<CrudEntityKey[]>((resolve, reject) => {
-            const preparedStoreKey = EXPANDABLE_STATE_KEY_PREFIX + storeKey;
+            const preparedStoreKey = storeKey;
             UserConfig.getParam(preparedStoreKey).addCallback((storedGroups) => {
                 try {
                     if (storedGroups !== undefined) {

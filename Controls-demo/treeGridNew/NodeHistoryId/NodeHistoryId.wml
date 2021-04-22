@@ -4,14 +4,15 @@
             <div class="controlsDemo__button ControlsDemo-SwitchableArea__button" on:click="onClickToggle()">{{ _nodeHistoryId ? 'Выключить' : 'Включить' }} nodeHistoryId</div>
         </div>
     </div>
-
+<Controls.list:Container>
     <Controls.treeGrid:View
-            keyProperty="id"
+            source="{{ _viewSource }}"
             parentProperty="parent"
             nodeProperty="type"
-            source="{{ _viewSource }}"
-            columns="{{ _columns }}"
             nodeHistoryId="{{ _nodeHistoryId }}"
             bind:expandedItems="_expandedItems"
-            bind:collapsedItems="_collapsedItems"/>
+            bind:collapsedItems="_collapsedItems"
+            keyProperty="id"
+            columns="{{ _columns }}"/>
+</Controls.list:Container>
 </div>

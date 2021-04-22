@@ -589,10 +589,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     options.root !== undefined && options.root !== sourceControllerState.root) {
                     options.sourceController.updateOptions({...options, keyProperty: this._keyProperty});
                 }
-
-                if (this._listViewModel && options.nodeHistoryId && !options.expandedItems) {
-                    this._listViewModel.setExpandedItems(this._sourceController.getExpandedItems());
-                }
             }
         };
         return !superResult ? doBeforeMount() : superResult.then(doBeforeMount);
@@ -773,10 +769,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             if (sourceController && !isEqual(newOptions.expandedItems, sourceController.getExpandedItems())) {
                 sourceController.setExpandedItems(newOptions.expandedItems);
             }
-        }
-
-        if (newOptions.nodeHistoryId !== this._options.nodeHistoryId) {
-            updateSourceController = true;
         }
 
         if (newOptions.parentProperty !== this._options.parentProperty) {

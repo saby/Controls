@@ -56,6 +56,8 @@ export interface IControllerState {
 
     sourceController: Controller;
     dataLoadCallback: Function;
+
+    expandedItems: CrudEntityKey[];
 }
 
 export interface IControllerOptions extends
@@ -387,7 +389,8 @@ export default class Controller extends mixin<
             // FIXME sourceController не должен создаваться, если нет source
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
-            dataLoadCallback: this._options.dataLoadCallback
+            dataLoadCallback: this._options.dataLoadCallback,
+            expandedItems: this._expandedItems
         };
     }
 
@@ -751,11 +754,9 @@ export default class Controller extends mixin<
      */
     private _resolveExpandedHierarchyItems(options: IControllerOptions): Promise<CrudEntityKey[]> {
         const expandedItems = this._expandedItems || options.expandedItems;
-        // Берём из истории только тогда, когда не заданы expandedItems
-        if (!expandedItems && options.nodeHistoryId) {
+        if (options.nodeHistoryId) {
             return nodeHistoryUtil.restore(options.nodeHistoryId).then((restored) => {
-                    this._expandedItems = restored;
-                    return restored;
+                    return restored || expandedItems;
                 });
         }
         return Promise.resolve(expandedItems);

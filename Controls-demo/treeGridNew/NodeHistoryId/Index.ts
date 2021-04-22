@@ -13,7 +13,7 @@ export default class extends Control {
     protected _columns: unknown[] = Gadgets.getGridColumnsForFlat();
     protected _nodeHistoryId: string = 'MY_NEWS';
     protected _collapsedItems: TExpandOrColapsItems = undefined;
-    protected _expandedItems: TExpandOrColapsItems = undefined;
+    protected _expandedItems: TExpandOrColapsItems = [1];
     protected readonly NODE_HISTORY_ID_NAME: string = 'MY_NEWS';
 
     protected _beforeMount(): void {
