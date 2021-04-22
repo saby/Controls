@@ -9,8 +9,8 @@ interface IData {
     title?: string;
 }
 
-function getRecordSet(items: IData[]): RecordSet<IData> {
-    return new RecordSet({ items, keyProperty: 'id' });
+function getRecordSet(rawData: IData[]): RecordSet<IData> {
+    return new RecordSet({ rawData, keyProperty: 'id' });
 }
 
 function getCollection(collection: RecordSet<IData>, options: object = {}): SearchGridCollection {
@@ -39,7 +39,7 @@ describe('Controls/searchBreadcrumbsGrid/display/collection/firstAndLastItem', (
     describe('has breadcrumbs', () => {
         const data: IData[] = [{
             id: 1,
-            pid: 0,
+            pid: null,
             node: true,
             title: 'A'
         }, {
@@ -49,7 +49,7 @@ describe('Controls/searchBreadcrumbsGrid/display/collection/firstAndLastItem', (
             title: 'AA'
         }, {
             id: 2,
-            pid: 0,
+            pid: null,
             node: true,
             title: 'B'
         }, {
@@ -60,7 +60,7 @@ describe('Controls/searchBreadcrumbsGrid/display/collection/firstAndLastItem', (
         }];
         it('getLastItem', () => {
             const collection = getCollection(getRecordSet(data));
-            assert.equal(collection.getLastItem(), collection.at(2).getLast().getContents());
+            assert.equal(collection.getLastItem(), collection.at(3).getContents());
         });
 
         it('getFirstItem', () => {
@@ -73,7 +73,7 @@ describe('Controls/searchBreadcrumbsGrid/display/collection/firstAndLastItem', (
     describe('searchSeparator', () => {
         const data: IData[] = [{
             id: 1,
-            pid: 0,
+            pid: null,
             node: true,
             title: 'A'
         }, {
@@ -83,7 +83,7 @@ describe('Controls/searchBreadcrumbsGrid/display/collection/firstAndLastItem', (
             title: 'AA'
         }, {
             id: 2,
-            pid: 0,
+            pid: null,
             node: null,
             title: 'C'
         }];
