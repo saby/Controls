@@ -40,7 +40,6 @@
 
 .controls-MasterDetail_resizing-line {
    position: absolute;
-   right: 0;
    top: 0;
    height: 100%;
    // Движение границ всегда должно быть выше любого прикладного элемента в контроле.
@@ -50,6 +49,15 @@
    // https://online.sbis.ru/opendoc.html?guid=add422e3-ea09-494b-821f-514acab083f1
    z-index: 9999;
 }
+
+.controls-MasterDetail_resizing-line-left {
+   right: 0;
+}
+
+.controls-MasterDetail_resizing-line-right {
+   left: 0;
+}
+
 // хлебные крошки перешли на css variable, поэтому добавляем класс без theme.
 // Удалить после перехода на css variable
 .controls-background-master {
