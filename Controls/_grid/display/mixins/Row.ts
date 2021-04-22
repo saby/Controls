@@ -637,6 +637,12 @@ export default abstract class Row<T> {
     //endregion
 
     //region Аспект "Шаблон всей строки. Состояние, когда в строке одна ячейка, растянутая на все колонки"
+
+    // todo https://online.sbis.ru/opendoc.html?guid=024784a6-cc47-4d1a-9179-08c897edcf72
+    getRowTemplate(): TemplateFunction {
+        return this._$rowTemplate;
+    }
+
     setRowTemplate(rowTemplate: TemplateFunction): void {
         if (rowTemplate) {
             // Произошла установка шаблона стрки. Если строка рисовалась по колонкам, сохраним их,

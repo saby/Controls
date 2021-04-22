@@ -10,7 +10,10 @@ class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompatibility>(Cell, 
     getWrapperClasses(theme: string, backgroundColorStyle: string = 'default', style: string = 'default', highlightOnHover?: boolean): string {
         let classes;
 
-        if (this._$isSingleCell) {
+        // todo https://online.sbis.ru/opendoc.html?guid=024784a6-cc47-4d1a-9179-08c897edcf72
+        const hasRowTemplate = this._$owner.getRowTemplate();
+
+        if (this._$isSingleCell && hasRowTemplate) {
             classes = '';
         } else if (this.isMultiSelectColumn()) {
             classes = 'controls-GridView__emptyTemplate__checkBoxCell '
@@ -27,7 +30,10 @@ class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompatibility>(Cell, 
     getContentClasses(theme: string, topSpacing: string = 'default', bottomSpacing: string = 'default'): string {
         let classes;
 
-        if (this._$isSingleCell) {
+        // todo https://online.sbis.ru/opendoc.html?guid=024784a6-cc47-4d1a-9179-08c897edcf72
+        const hasRowTemplate = this._$owner.getRowTemplate();
+
+        if (this._$isSingleCell && hasRowTemplate) {
             classes = 'controls-ListView__empty'
                 + ` controls-ListView__empty_topSpacing_${topSpacing}`
                 + ` controls-ListView__empty_bottomSpacing_${bottomSpacing}`;
