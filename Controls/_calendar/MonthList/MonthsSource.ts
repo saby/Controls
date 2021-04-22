@@ -4,6 +4,7 @@ import { Memory, Query } from 'Types/source';
 import ITEM_TYPES from './ItemTypes';
 import {TemplateFunction} from 'UI/Base';
 import monthListUtils from './Utils';
+import {Base as dateUtils} from 'Controls/dateUtils';
 
 /**
  * Источник данных который возвращает данные для построения календарей в списочных контролах.
@@ -37,9 +38,16 @@ export default class MonthsSource extends Memory {
         this._header = options.header;
         this._stubTemplate = options.stubTemplate;
         this._dateConstructor = options.dateConstructor || WSDate;
-        this._displayedRanges = options.displayedRanges;
+
+        this._displayedRanges = options.displayedRanges || this._getDefaultDisplayedRanges();
         this._viewMode = options.viewMode;
         this._order = options.order;
+    }
+
+    private _getDefaultDisplayedRanges(): [Date[]] {
+        // Ограничиваем период с 1400 года по (текущий год + 1000)
+        const lastMonth = 11;
+        return [[new Date(dateUtils.MIN_YEAR_VALUE, 0), new Date( dateUtils.MAX_YEAR_VALUE, lastMonth)]];
     }
 
     query(query: Query)/*: ExtendPromise<DataSet>*/ {
