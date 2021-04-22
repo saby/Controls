@@ -39,6 +39,7 @@
             attr:class="controlsDemo__margin-top"
             source="{{ _isBigData ? _viewSource2 : _viewSource1 }}"
             keyProperty="id"
+            displayProperty="title"
             searchParam="title" minSearchLength="{{ 3 }}"
             searchStartingWith="{{ _searchStartingWith }}"
             bind:filter="_filter">
