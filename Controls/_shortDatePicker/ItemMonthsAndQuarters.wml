@@ -1,0 +1,38 @@
+<div class="controls-PeriodLiteDialog_monthsAndQuarters">
+    <ws:if data="{{_options._yearHovered === _options.currentYear}}">
+        <div class="controls-PeriodLiteDialog__item-background-hovered border-top-hidden"></div>
+    </ws:if>
+    <ws:for data="halfYearIndex as halfYear in _yearModel">
+        <ws:for data="quarter in halfYear.quarters">
+            <div class="controls-PeriodLiteDialog_monthsAndQuarters-item__quarter" title="{{ quarter.tooltip }}">
+                <div if="{{(_quarterHovered === quarter.number)}}"
+                     class="controls-PeriodLiteDialog__item-background-hovered"></div>
+                <div class="controls-PeriodLiteDialog_monthsAndQuarters-item__month-wrapper
+                           controls-PeriodLiteDialog-item__month-background{{ _options._yearHovered === _options.currentYear || (_halfYearHovered === halfYear.number)?
+                           '-transparent'}}">
+                    <ws:for data="month in quarter.months">
+                        <ws:partial
+                                on:click="_onMonthClick(month.date)"
+                                attr:class="controls-PeriodLiteDialog-item__month-caption"
+                                template="{{_options.monthTemplate}}"
+                                month="{{month}}"
+                                formatDate="{{_formatDate}}"
+                                extData="{{_options.extData && _options.extData[month.date.getMonth()]}}"
+                        />
+                    </ws:for>
+                </div>
+                <div class="controls-PeriodLiteDialog-item__quarter-caption
+                           controls-PeriodLiteDialog-item__quarter-background{{ _options._yearHovered === _options.currentYear || (_quarterHovered === quarter.number) ||
+                           (_halfYearHovered === halfYear.number) ? '-transparent'}}"
+                     on:click="_onQuarterClick(quarter.number, _options.currentYear)"
+                     on:mouseenter="_onQuarterMouseEnter(quarter.number, _options.currentYear)"
+                     on:touchstart="_onQuarterMouseEnter(quarter.number, _options.currentYear)"
+                     on:mouseleave="_onQuarterMouseLeave(quarter.number)"
+                     on:touchmove="_onQuarterMouseLeave(quarter.number)"
+                >
+                    {{ quarter.name }}
+                </div>
+            </div>
+        </ws:for>
+    </ws:for>
+</div>

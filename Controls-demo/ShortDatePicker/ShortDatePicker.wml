@@ -33,4 +33,14 @@
                 startValue="{{_startValue}}"
                 endValue="{{_endValue}}"/>
     </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">chooseHalfyears=false; chooseMonths=true; chooseQuarters=true; chooseYears=true;</div>
+        <Controls.shortDatePicker:View
+                startValue="{{_startValue}}"
+                endValue="{{_endValue}}"
+                chooseHalfyears="{{false}}"
+                chooseMonths="{{true}}"
+                chooseQuarters="{{true}}"
+        />
+    </div>
 </div>

@@ -17,7 +17,7 @@
                        {{ _options.chooseYears && _yearHovered === yearHeaderTemplate.date.getFullYear() ?  'controls-PeriodLiteDialog__fullYear-listElement-hovered' +
                        ' controls-PeriodLiteDialog__fullYear-listElement-hovered controls-PeriodLiteDialog__yearHeader-background-hovered'}}
                        controls-PeriodLiteDialog__vLayoutItem-caption controls-PeriodLiteDialog__text-align-left
-                    {{_isFullPicker ? 'controls-PeriodLiteDialog__fullPicker'}}">
+                    {{ _options.chooseMonths && _options.chooseQuarters ? 'controls-PeriodLiteDialog__fullPicker'}}">
             {{ yearHeaderTemplate.date.getFullYear() }}
         </div>
     </ws:yearHeaderTemplate>
