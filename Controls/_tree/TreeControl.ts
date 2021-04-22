@@ -835,12 +835,18 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         this._forceUpdate();
     }
 
-    protected reload(keepScroll, sourceConfig) {
+    reload(keepScroll, sourceConfig): Promise<any> {
         //deep reload is needed only if reload was called from public API.
         //otherwise, option changing will work incorrect.
         //option changing may be caused by search or filtering
         this._deepReload = true;
-        return super.reload(keepScroll, sourceConfig);
+        return super.reload(keepScroll, sourceConfig).then((result) => {
+            // После перезагрузки нужно сбросить hasMoreStorage, иначе при разворотое узла не будут подгружаться дети
+            if (this._listViewModel) {
+                this._listViewModel.setHasMoreStorage({});
+            }
+            return result;
+        });
     }
 
     protected reloadItem(key, readMeta, direction): Promise<unknown> {
