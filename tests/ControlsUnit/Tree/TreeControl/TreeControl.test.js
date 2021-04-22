@@ -2014,5 +2014,35 @@ define([
             assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[]]).called);
          });
       });
+
+      describe('reload', async () => {
+         const source = new sourceLib.Memory({
+            rawData: getHierarchyData(),
+            keyProperty: 'id',
+            filter: () => true
+         });
+
+         // 0
+         // |-1
+         // | |-3
+         // |-2
+         // 4
+         const cfg = {
+            source: source,
+            columns: [],
+            keyProperty: 'id',
+            parentProperty: 'Раздел',
+            nodeProperty: 'Раздел@',
+            expandedItems: [null]
+         };
+         const treeControl = await correctCreateTreeControlAsync(cfg);
+
+         it('reset has more storage after reload', async() => {
+            const model = treeControl.getViewModel();
+            model.setHasMoreStorage({1: true});
+            await treeControl.reload();
+            assert.deepEqual(model.getHasMoreStorage(), {});
+         });
+      });
    });
 });
