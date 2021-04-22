@@ -69,7 +69,7 @@ const lowerValidHtml = {
       return typeof value === 'string' || value instanceof String;
    }
 
-   function isKeyExist(obj: object, find: string): boolean {
+   function isKeyExist(obj: object, find: string = ''): boolean {
       const keys = Object.keys(obj);
       const soughtKey = find.toLowerCase();
       return keys.includes(soughtKey) ? obj[soughtKey] : false;
