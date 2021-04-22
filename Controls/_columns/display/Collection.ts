@@ -1,26 +1,43 @@
-import {Collection as BaseCollection, ItemsFactory, IDragPosition} from 'Controls/display';
+import {Tree as BaseCollection, ItemsFactory, IDragPosition} from 'Controls/display';
 import CollectionItem, {IOptions as ICollectionItemOptions} from './CollectionItem';
 import ColumnsDragStrategy from './itemsStrategy/ColumnsDrag';
 import { Model } from 'Types/entity';
 import IColumnsStrategy from '../interface/IColumnsStrategy';
 import Auto from './columnsStrategy/Auto';
 import Fixed from './columnsStrategy/Auto';
+import Adaptive from './columnsStrategy/Adaptive';
+
+const STRATEGY_BY_MODE = {
+    adaptive: Adaptive,
+    fixed: Fixed,
+    auto: Auto
+};
+
+import {DEFAULT_COLUMNS_COUNT, DEFAULT_MIN_WIDTH, SPACING} from '../Constants';
 
 export default class Collection<
     S extends Model = Model,
     T extends CollectionItem<S> = CollectionItem<S>
 > extends BaseCollection<S, T> {
     protected _$columnProperty: string;
+    readonly SupportExpand: boolean = false;
     protected _dragStrategy: ColumnsDragStrategy<S, T> = ColumnsDragStrategy;
     protected _columnsStrategy: IColumnsStrategy;
     protected _addingColumnsCounter: number;
     protected _columnsIndexes: number[][];
     protected _$columnsCount: number;
     protected _$columnsMode: 'auto' | 'fixed';
-    protected _$spacing: number;
+    protected _$columnMinWidth: number;
+    protected _currentWidth: number;
+    protected _$spacing: number = SPACING;
     constructor(options) {
         super(options);
-        this._columnsStrategy = options.columnsMode === 'fixed' ? new Fixed() : new Auto();
+        this._columnsStrategy = new STRATEGY_BY_MODE[options.columnsMode || 'auto']();
+        if (options.columnsMode === 'auto' && options.initialWidth) {
+            this.setCurrentWidth(options.initialWidth, options.columnMinWidth);
+        } else {
+            this.setColumnsCount(options.columnsCount || DEFAULT_COLUMNS_COUNT);
+        }
         this.updateColumns();
     }
 
@@ -32,7 +49,7 @@ export default class Collection<
             this._nextVersion();
         }
     }
-    
+
     protected _notifyCollectionChange(
         action: string,
         newItems: T[],
@@ -66,8 +83,43 @@ export default class Collection<
         }
     }
 
+    setCurrentWidth(width: number, columnMinWidth: number): void {
+        if (width > 0 && this._currentWidth !== width && this._$columnsMode === 'auto') {
+            this._recalculateColumnsCountByWidth(width, this._$columnMinWidth || columnMinWidth);
+        }
+        this._currentWidth = width;
+    }
+
+    private _recalculateColumnsCountByWidth(width: number, columnMinWidth: number): void {
+        const newColumnsCount = Math.floor(width / ((columnMinWidth || DEFAULT_MIN_WIDTH) + this._$spacing));
+        if (newColumnsCount !== this._$columnsCount) {
+            this._$columnsCount = newColumnsCount;
+            this.setColumnsCount(this._$columnsCount);
+        }
+    }
+
+    getCurrentWidth(): number {
+        return this._currentWidth;
+    }
+
     getColumnsCount(): number {
         return this._$columnsCount;
+    }
+
+    getColumnMinWidthStyle(): string {
+        return this._columnsStrategy.getColumnMinWidth(this._$columnMinWidth, this._$spacing, this._$columnsCount);
+    }
+
+    getColumnMaxWidthStyle(): string {
+        return this._columnsStrategy.getColumnMaxWidth(this._$columnMaxWidth, this._$spacing, this._$columnsCount);
+    }
+
+    getColumnMinWidth(): number {
+        return this._$columnMinWidth;
+    }
+
+    getColumnMaxWidth(): number {
+        return this._columnMaxWidth;
     }
 
     setSpacing(spacing: number): void {
@@ -108,17 +160,17 @@ export default class Collection<
 
     processRemovingItem(item: any): boolean {
         let done = true;
-    
+
         if (!this.find((it) => it.getColumn() === item.column) && this._addingColumnsCounter > 0) {
             this._addingColumnsCounter--;
         }
-    
+
         if (item.columnIndex >= this._columnsIndexes[item.column].length) {
             done = false;
             while (!done && (item.column + 1) < this._$columnsCount) {
-    
+
                 if (this._columnsIndexes[item.column + 1].length > 0) {
-    
+
                     if (this._columnsIndexes[item.column + 1].length > 1) {
                         done = true;
                     }
@@ -132,7 +184,7 @@ export default class Collection<
         }
         return !done;
     }
-   
+
     processRemoving(removedItemsIndex: number, removedItems: CollectionItem<Model>[]): void {
         const removedItemsIndexes = removedItems.map((item, index) => {
             const column = item.getColumn();
@@ -144,7 +196,7 @@ export default class Collection<
         });
         this.updateColumnIndexesByItems();
         const needLoadMore = removedItemsIndexes.some(this.processRemovingItem.bind(this));
-    
+
         if (needLoadMore) {
             this._notify('loadMore', ['down']);
         }
@@ -272,6 +324,7 @@ Object.assign(Collection.prototype, {
     _moduleName: 'Controls/columns:ColumnsCollection',
     _itemModule: 'Controls/columns:ColumnsCollectionItem',
     _$columnsCount: 2,
-    _$spacing: 0,
-    _$columnsMode: 'auto'
+    _$spacing: SPACING,
+    _$columnsMode: 'auto',
+    _$columnMaxWidth: 0
 });
