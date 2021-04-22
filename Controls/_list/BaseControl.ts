@@ -5114,6 +5114,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     _private.resolveIsLoadNeededByNavigationAfterReload(self, cfg, list);
                 });
             }).addErrback(function(error: Error) {
+                if (self._destroyed) {
+                    return;
+                }
                 _private.hideIndicator(self);
                 return _private.processError(self, {
                     error
