@@ -15,7 +15,6 @@ import DataRow from './DataRow';
 import { TemplateFunction } from 'UI/Base';
 import {Model as EntityModel} from 'Types/entity';
 import {IObservable} from 'Types/collection';
-import {ISplicedArray} from "Controls/_display/Collection";
 
 export interface IOptions<
     S,

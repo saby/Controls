@@ -128,7 +128,7 @@ describe('Controls/treeGrid_clean/Display/TreeCollection', () => {
                 assert.isTrue(!!firstHeaderModel, 'Header model should exist');
 
                 // Добавим данные в RecordSet
-                recordSet.assign([new Model({keyProperty: 'id', rawData: {}})]);
+                recordSet.assign([new Model({keyProperty: 'id', rawData: { parent: null }})]);
 
                 // Проверяем что после изменения коллекции модель заголовка осталась той же
                 const secondHeaderModel = collection.getHeader();
