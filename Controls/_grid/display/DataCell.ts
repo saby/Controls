@@ -57,6 +57,10 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
             classes += ` controls-background-${this._$backgroundStyle}`;
         }
 
+        if (this._$owner.isAnimatedForSelection()) {
+            classes += ' controls-ListView__item_rightSwipeAnimation';
+        }
+
         if (this._$owner.getEditingConfig()?.mode === 'cell') {
             classes += ' controls-Grid__row-cell_editing-mode-single-cell';
 
