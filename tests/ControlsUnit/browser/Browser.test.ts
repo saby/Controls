@@ -613,6 +613,29 @@ describe('Controls/browser:Browser', () => {
             assert.ok(browser._items.at(0).get('title') === 'Интерфейсный фреймворк');
         });
 
+        it('update source while loading', async () => {
+            let options = getBrowserOptions();
+            const browser = getBrowser();
+            const errorStub = sinon.stub(browser, '_onDataError');
+
+            await browser._beforeMount(options);
+
+            options = {...options};
+            options.source = new Memory({
+                data: browserHierarchyData,
+                keyProperty: 'key'
+            });
+            browser._beforeUpdate(options);
+
+            options.source = new Memory({
+                data: browserHierarchyData,
+                keyProperty: 'key'
+            });
+            await browser._beforeUpdate(options);
+
+            assert.ok(errorStub.notCalled);
+        });
+
         it('source returns error, then _beforeUpdate', async () => {
             let options = getBrowserOptions();
             const browser = getBrowser();
