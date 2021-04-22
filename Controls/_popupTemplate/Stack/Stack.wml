@@ -62,7 +62,7 @@
                    viewMode="onlinePageHeader"
                    inlineHeight="xl"
                    tooltip="{[Закрыть]}"
-                   readOnly={{false}}
+                   readOnly="{{false}}"
                    attr:class="controls-stack-Button__close"
                    on:click="close()"
                 />
