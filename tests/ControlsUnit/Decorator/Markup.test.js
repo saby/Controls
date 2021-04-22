@@ -733,25 +733,7 @@ define([
                equalsHtml(checkHtml, goodHtml, 'fail in index ' + i);
             }
          });
-         it('uppercase tag', function() {
-            var json = [['SVG', {'viewBox': '0 0 100 100'}]];
-            var goodHtml = '<SVG viewBox="0 0 100 100"></SVG>';
-            var checkHtml = decorator.Converter.jsonToHtml(json);
-            equalsHtml(checkHtml, goodHtml);
-         });
-         it('lowercase tag', function() {
-            var json = [['svg', {'viewBox': '0 0 100 100'}]];
-            var goodHtml = '<svg viewBox="0 0 100 100"></svg>';
-            var checkHtml = decorator.Converter.jsonToHtml(json);
-            equalsHtml(checkHtml, goodHtml);
-         });
-         it('uppercase attribute', function() {
-            var json = [['svg', {'VIEWBOX': '0 0 100 100'}]];
-            var goodHtml = '<svg VIEWBOX="0 0 100 100"></svg>';
-            var checkHtml = decorator.Converter.jsonToHtml(json);
-            equalsHtml(checkHtml, goodHtml);
-         });
-         it('lowercase attribute', function() {
+         it('case sensitivity', function() {
             var json = [['svg', {'viewbox': '0 0 100 100'}]];
             var goodHtml = '<svg viewbox="0 0 100 100"></svg>';
             var checkHtml = decorator.Converter.jsonToHtml(json);
