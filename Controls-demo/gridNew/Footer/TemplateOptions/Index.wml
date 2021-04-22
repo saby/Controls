@@ -1,0 +1,7 @@
+<div class="controlsDemo__wrapper">
+   <Controls.grid:View
+      source="{{_viewSource}}"
+      columns="{{_columns}}"
+      footer="{{_footerCfg}}"
+   />
+</div>
