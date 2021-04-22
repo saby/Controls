@@ -1,8 +1,8 @@
 import {GridDataCell} from 'Controls/grid';
 import {CssClassesAssert as cAssert} from 'ControlsUnit/CustomAsserts';
 
-describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
-
+describe('Controls/grid_clean/Display/Swipe/Animation/DataCell.test.ts', () => {
+    let isAnimatedForSelection;
     const mockedOwner = {
         getHoverBackgroundStyle: () => 'default',
         isDragged: () => false,
@@ -17,10 +17,10 @@ describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
         getColumnIndex: () => 0,
         getColumnsCount: () => 0,
         getMultiSelectVisibility: () => 'hidden',
-        isAnimatedForSelection: () => false
+        isAnimatedForSelection: () => isAnimatedForSelection
     };
 
-    it('.getContentClasses() should contain background-color classes when hiddenForLadder', () => {
+    it('.getContentClasses() should contain animation classes when animated', () => {
         const cell = new GridDataCell({
             backgroundStyle: 'custom',
             owner: {
@@ -31,15 +31,16 @@ describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
             column: {displayProperty: 'key'}
         });
 
+        isAnimatedForSelection = false;
         cAssert.notInclude(
             cell.getContentClasses('default', 'default'),
-            'controls-background-custom'
+            'controls-ListView__item_rightSwipeAnimation'
         );
 
-        cell.setHiddenForLadder(true);
+        isAnimatedForSelection = true;
         cAssert.include(
             cell.getContentClasses('default', 'default'),
-            'controls-background-custom'
+            'controls-ListView__item_rightSwipeAnimation'
         );
     });
 });
