@@ -170,9 +170,17 @@ export default abstract class Row<T> {
         this._nextVersion();
     }
 
+    getIsFirstItem(): boolean {
+        return this._$isFirstItem;
+    }
+
     setIsLastItem(state: boolean): void {
         this._$isLastItem = state;
         this._nextVersion();
+    }
+
+    getIsLastItem(): boolean {
+        return this._$isLastItem;
     }
 
     // endregion Аспект "крайние записи"

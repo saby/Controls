@@ -28,6 +28,7 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetIte
         columns: [
             { width: '100px' }
         ],
+        isLastItem: true,
         owner
     });
 

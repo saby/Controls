@@ -191,6 +191,10 @@ export default class TreeGridCollection<
     }
 
     private _getLastItemRecursive(root: S): S {
+        if (root && (!root.getKeyProperty() || root.getKey() === undefined)) {
+            return root;
+        }
+        // Обращаемся к иерархии для получения детей
         const children = this._getChildrenByRecordSet(root);
         const lastChild: S = children[children.length - 1];
         // Если узел и у него нет детей, то он последний

@@ -338,7 +338,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (!item || !item.getKey) {
             return false;
         }
-        return this.getLastItem().getKey() === item.getKey();
+        const lastItem = this.getLastItem();
+        return !!lastItem && lastItem.getKey() === item.getKey();
     }
 
     resetLastItem(): void {
@@ -350,8 +351,9 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         };
         setLastItem(this.getLastItem().getKey(), false);
         this._lastItem = null;
-
-        setLastItem(this.getLastItem().getKey(), true);
+        if (this.getCollectionCount() !== 0) {
+            setLastItem(this.getLastItem().getKey(), true);
+        }
     }
 
     getFirstItem(): EntityModel<any> {
@@ -365,7 +367,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (!item || !item.getKey) {
             return false;
         }
-        return this.getFirstItem().getKey() === item.getKey();
+        const firstItem = this.getFirstItem();
+        return firstItem && firstItem.getKey() === item.getKey();
     }
 
     resetFirstItem(): void {
@@ -379,7 +382,9 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         setFirstItem(this.getFirstItem().getKey(), false);
         this._firstItem = null;
 
-        setFirstItem(this.getFirstItem().getKey(), true);
+        if (this.getCollectionCount() !== 0) {
+            setFirstItem(this.getFirstItem().getKey(), true);
+        }
     }
 
     // endregion Аспект "крайние записи"
