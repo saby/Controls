@@ -131,11 +131,8 @@ export default class YearsRange extends Control<IYearsRangeOptions> {
 
     private _updateModel(options?: IYearsRangeOptions): void {
         // Ограничиваем период с 1400 года по (текущий год + 1000)
-        const minYearValue = 1400;
-        const minRange = minYearValue + BUTTONS_COUNT - 1;
-
-        const additionalYears = 1000;
-        const maxRange = new Date().getFullYear() + additionalYears;
+        const minRange = dateUtils.MIN_YEAR_VALUE + BUTTONS_COUNT - 1;
+        const maxRange = dateUtils.MAX_YEAR_VALUE;
         if (this._lastYear < minRange) {
             this._lastYear = minRange;
         }
