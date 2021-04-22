@@ -1,12 +1,5 @@
 import { IOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
 
-/**
- *
- * Опции интерфейса подробно описаны {@link Controls/_popup/interface/IDialogOpener здесь}.
- * @public
- * @author Красильников А.С.
- */
-
 export interface IDialogPopupOptions extends IBasePopupOptions {
     minWidth?: number;
     width?: number;
