@@ -22,7 +22,7 @@ export default class SingleColumnMarkerStrategy extends AbstractStrategy {
     }
 
     getNextMarkedKey(index: number): CrudEntityKey | void {
-        this.getMarkedKeyByDirection(index, 'Down');
+        return this.getMarkedKeyByDirection(index, 'Down');
     }
 
     getPrevMarkedKey(index: number): CrudEntityKey | void {

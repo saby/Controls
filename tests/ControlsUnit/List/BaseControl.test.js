@@ -2067,7 +2067,8 @@ define([
                getBoundingClientRect: function() { return {}; }
             };
             ctrl._getItemsContainer = () => ({
-               children: []
+               children: [],
+               querySelectorAll: () => []
             });
             // эмулируем появление скролла
             await lists.BaseControl._private.onScrollShow(ctrl, heightParams);
@@ -2182,7 +2183,8 @@ define([
             getBoundingClientRect: function() { return {}; }
          };
          ctrl._getItemsContainer = () => ({
-            children: []
+            children: [],
+            querySelectorAll: () => []
          });
          lists.BaseControl._private.onScrollShow(ctrl, heightParams);
          ctrl._updateShadowModeHandler({}, {top: 0, bottom: 0});
@@ -2479,7 +2481,8 @@ define([
             getBoundingClientRect: function() { return {}; }
          };
          ctrl._getItemsContainer = () => ({
-            children: []
+            children: [],
+            querySelectorAll: () => []
          });
          // эмулируем появление скролла
          lists.BaseControl._private.onScrollShow(ctrl, heightParams);
@@ -8261,7 +8264,8 @@ define([
             beforeEach(() => {
                baseControl._mounted = true;
                baseControl._getItemsContainer = () => ({
-                  children: []
+                  children: [],
+                  querySelectorAll: () => []
                });
                baseControl.activate = () => activateCalled = true;
                return baseControl.setMarkedKey(2);
@@ -8583,7 +8587,8 @@ define([
             baseControl = new lists.BaseControl();
             baseControl.saveOptions(cfg);
             baseControl._getItemsContainer = () => ({
-               children: []
+               children: [],
+               querySelectorAll: () => []
             });
             return (baseControl._beforeMount(cfg) || Promise.resolve()).then(() => viewModel = baseControl.getViewModel());
          });
