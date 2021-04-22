@@ -171,6 +171,8 @@ export function abbreviateNumber(value: TValue, abbreviationType: TAbbreviationT
     if (value >= 1000 || value <= -1000) {
         return intlFormat(value / 1000) + `${abbreviationType === 'long' ? ' ' + rk('тыс') : 'К'}`;
     }
+
+    return Math.round(value).toString();
 }
 
 function intlFormat(num: number): string {
