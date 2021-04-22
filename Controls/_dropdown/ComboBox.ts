@@ -14,14 +14,13 @@ import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownCo
 import {IStickyPopupOptions} from 'Controls/popup';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/popup';
-import {generateStates} from 'Controls/input';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 import 'css!Controls/dropdown';
 import 'css!Controls/CommonClasses';
 
 interface IComboboxOptions extends IBaseDropdownOptions, ISingleSelectableOptions, IBorderStyleOptions,
-    IValidationStatusOptions, IPaddingOptions, IContrastBackgroundOptions {
+    IValidationStatusOptions, IContrastBackgroundOptions {
    value?: string;
 }
 
