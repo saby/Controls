@@ -86,7 +86,7 @@ class DialogTemplate extends Control<IDialogTemplateOptions> implements IPopupTe
             backgroundStyle: 'default',
             headingFontSize: '3xl',
             closeButtonVisibility: true,
-            closeButtonViewMode: 'toolButton',
+            closeButtonViewMode: 'linkButton',
             closeButtonTransparent: true
         };
     }
