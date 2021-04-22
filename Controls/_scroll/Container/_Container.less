@@ -107,23 +107,3 @@
                         linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
    }
 }
-
-// В темах, где фон задан как прозрачный этот воркэраунд неактуален.
-// Помимо этого мы получаем прозрачные закрыватели теней, которые не закрывают тени.
-.controls-MasterDetail_details_bg-contrast when not (alpha(@detail_contrast_background-color_masterDetail) = 0) {
-   .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
-      background-image: linear-gradient(@detail_contrast_background-color_masterDetail 25%, rgba(@detail_contrast_background-color_masterDetail, 0)),
-                        linear-gradient(rgba(@detail_contrast_background-color_masterDetail, 0), @detail_contrast_background-color_masterDetail 75%),
-                        linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
-                        linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
-   }
-}
-
-.controls-MasterDetail_details_bg-same {
-   .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
-      background-image: linear-gradient(@detail_background-color_masterDetail 25%, rgba(@detail_background-color_masterDetail, 0)),
-                        linear-gradient(rgba(@detail_background-color_masterDetail, 0), @detail_background-color_masterDetail 75%),
-                        linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
-                        linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
-   }
-}
