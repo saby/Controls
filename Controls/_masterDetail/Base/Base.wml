@@ -7,6 +7,7 @@
          <Controls.event:Register name="resizeDetectMaster" register="controlResize" attr:fixCompatible="1">
             <ws:partial
                     backgroundStyle="master"
+                    style="{{_newDesign ? 'masterNew' : 'master'}}"
                     template="{{_options.master}}"
                     attr:style="{{_masterStyle}}"
                     attr:class="controls-MasterDetail_{{_options.style || 'master'}}-template
@@ -30,7 +31,8 @@
 <Controls.event:Register name="resizeDetectDetail" register="controlResize" attr:fixCompatible="1">
    <div name="detail" class="controls-MasterDetail_details ws-flexbox ws-flex-grow-1">
       <ws:partial
-              attr:class="controls-MasterDetail_detailsContent {{_options.contrastBackground  ? 'tlr controls__block_theme-' + _options.theme :
+              attr:class="controls-MasterDetail_detailsContent {{_options.contrastBackground ?
+               'controls-MasterDetail_details-bg-contrast ' + (_newDesign ? 'controls-MasterDetail_details-masterNew') :
                      'controls-MasterDetail_details_bg-same'}}"
               template="{{_options.detail}}"
               selectedMasterValue="{{_selected}}"/>

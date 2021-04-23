@@ -144,13 +144,17 @@
 
 .controls-ListView__item_default-topPadding_null,
 .controls-ListView__item_master-topPadding_null,
-.controls-ListView__itemV_marker_master_topPadding-null {
+.controls-ListView__itemV_marker_master_topPadding-null,
+.controls-ListView__item_masterNew-topPadding_null,
+.controls-ListView__itemV_marker_masterNew_topPadding-null {
    padding-top: 0;
 }
 
 .controls-ListView__item_default-topPadding_s,
 .controls-ListView__item_master-topPadding_s,
-.controls-ListView__itemV_marker_master_topPadding-s {
+.controls-ListView__itemV_marker_master_topPadding-s,
+.controls-ListView__item_masterNew-topPadding_s,
+.controls-ListView__itemV_marker_masterNew_topPadding-s {
    padding-top: calc(var(--item_padding-top_s_list) + var(--item-separator_s_thickness_list));
    &.controls-ListView__rowSeparator_size-s {
       padding-top: var(--item_padding-top_s_list);
@@ -162,7 +166,9 @@
 
 .controls-ListView__item_default-topPadding_l,
 .controls-ListView__item_master-topPadding_l,
-.controls-ListView__itemV_marker_master_topPadding-l {
+.controls-ListView__itemV_marker_master_topPadding-l,
+.controls-ListView__item_masterNew-topPadding_l,
+.controls-ListView__itemV_marker_masterNew_topPadding-l {
    padding-top: calc(var(--item_padding-top_l_list) + var(--item-separator_s_thickness_list));
    &.controls-ListView__rowSeparator_size-s {
       padding-top: var(--item_padding-top_l_list);
@@ -182,25 +188,32 @@
    }
 }
 
-.controls-ListView__item_master-topPadding_default {
+.controls-ListView__item_master-topPadding_default,
+.controls-ListView__item_masterNew-topPadding_default {
    padding-top: var(--master_item_padding-top_list);
 }
 
 .controls-ListView__item_default-bottomPadding_null,
 .controls-ListView__item_master-bottomPadding_null,
-.controls-ListView__itemV_marker_master_bottomPadding-null {
+.controls-ListView__itemV_marker_master_bottomPadding-null,
+.controls-ListView__item_masterNew-bottomPadding_null,
+.controls-ListView__itemV_marker_masterNew_bottomPadding-null {
    padding-bottom: 0;
 }
 
 .controls-ListView__item_default-bottomPadding_s,
 .controls-ListView__item_master-bottomPadding_s,
-.controls-ListView__itemV_marker_master_bottomPadding-s {
+.controls-ListView__itemV_marker_master_bottomPadding-s,
+.controls-ListView__item_masterNew-bottomPadding_s,
+.controls-ListView__itemV_marker_masterNew_bottomPadding-s {
    padding-bottom: var(--item_padding-bottom_s_list);
 }
 
 .controls-ListView__item_default-bottomPadding_l,
 .controls-ListView__item_master-bottomPadding_l,
-.controls-ListView__itemV_marker_master_bottomPadding-l {
+.controls-ListView__itemV_marker_master_bottomPadding-l,
+.controls-ListView__item_masterNew-bottomPadding_l,
+.controls-ListView__itemV_marker_masterNew_bottomPadding-l {
    padding-bottom: var(--item_padding-bottom_l_list);
 }
 
@@ -208,7 +221,8 @@
    padding-bottom: var(--item_padding-bottom_default_list);
 }
 
-.controls-ListView__item_master-bottomPadding_default {
+.controls-ListView__item_master-bottomPadding_default,
+.controls-ListView__item_masterNew-bottomPadding_default {
    padding-bottom: var(--master_item_padding-bottom_list);
 }
 
@@ -595,19 +609,26 @@
 
 .controls-ListView_master {
    box-sizing: border-box;
+}
+
+.controls-ListView_masterNew {
+   box-sizing: border-box;
    border-radius: var(--master_item_border-radius_list);
 }
 
-.controls-ListView__item__marked_master {
+.controls-ListView__item__marked_master,
+.controls-ListView__item__marked_masterNew {
    font-size: var(--master_item_selected_font-size_list);
    font-weight: bold;
 }
 
-.controls-ListView__item__unmarked_master {
+.controls-ListView__item__unmarked_master,
+.controls-ListView__item__unmarked_masterNew {
    font-size: var(--master_item_font-size_list);
 }
 
-.controls-ListView__itemContent_master {
+.controls-ListView__itemContent_master,
+.controls-ListView__itemContent_masterNew {
    display: flex;
    align-items: baseline;
 
@@ -619,7 +640,10 @@
 
 .ws-is-mobile-chrome-ios .controls-ListView__item__marked_master,
 .ws-is-desktop-safari .controls-ListView__item__marked_master,
-.ws-is-mobile-safari .controls-ListView__item__marked_master {
+.ws-is-mobile-safari .controls-ListView__item__marked_master,
+.ws-is-mobile-chrome-ios .controls-ListView__item__marked_masterNew,
+.ws-is-desktop-safari .controls-ListView__item__marked_masterNew,
+.ws-is-mobile-safari .controls-ListView__item__marked_masterNew {
    // ave safari 13
    // https://online.sbis.ru/opendoc.html?guid=6d560d7a-c140-4d06-a1b6-53b326efe950
    // иначе все position: absolute элементы внутри position: sticky
@@ -627,7 +651,8 @@
    transform: translateZ(0);
 }
 
-.controls-ListView__itemV_marker_master {
+.controls-ListView__itemV_marker_master,
+.controls-ListView__itemV_marker_masterNew {
    display: none;
 }
 
@@ -646,10 +671,16 @@
 .controls-ListView__item_master {
    padding-top: var(--master_item_separator_thickness_list);
    padding-bottom: var(--master_item_separator_thickness_list);
+}
+
+.controls-ListView__item_masterNew {
+   padding-top: var(--master_item_separator_thickness_list);
+   padding-bottom: var(--master_item_separator_thickness_list);
    border-radius: var(--master_item_border-radius_list);
 }
 
-.controls-ListView__itemContent_master.controls-ListView__item-leftPadding_default {
+.controls-ListView__itemContent_master.controls-ListView__item-leftPadding_default,
+.controls-ListView__itemContent_masterNew.controls-ListView__item-leftPadding_default {
    padding-left: var(--item_padding-left_s_list);
 }
 
@@ -657,7 +688,9 @@
 //TODO: после этой задачи нужно убрать not https://online.sbis.ru/opendoc.html?guid=87ddbeeb-fa7e-4462-b69b-c15188df61da
 .ws-is-hover:not(.ws-is-mobile-platform) {
    .controls-ListView__item_master
-   .controls-ListView__itemContent_master {
+   .controls-ListView__itemContent_master,
+   .controls-ListView__item_masterNew,
+   .controls-ListView__itemContent_masterNew {
       &:hover {
          background-color: var(--master_item_hover_background-color_list);
       }
