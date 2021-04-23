@@ -98,6 +98,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _itemsArray: ITabButtonItem[];
     protected _marker: Marker = new Marker();
     protected _markerCssClass: string = '';
+    protected _animationProcessed: boolean = false;
     private _itemsOrder: number[];
     private _lastRightOrder: number;
     private _items: RecordSet;
@@ -194,13 +195,10 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             return item[options.keyProperty] === options.selectedKey;
         });
         const align = this._marker.getAlign();
-        this._marker.setSelectedIndex(index);
-        // Если переключили на вкладку у которой другое выравнивание, то меняется
-        // тип позиционирования маркера left|right. Из-за этого анимации не будет.
-        // Запускаем анимацию с текущим позиционированием, и переключим его после
-        // завершения анимации в _transitionEndHandler
-        if (align && align !== this._marker.getAlign()) {
-            this._marker.setAlign(align);
+        const changed = this._marker.setSelectedIndex(index);
+        // Не заускаем анимацию при переключении с группы вкладок слева на кгруппу вкладок справа.
+        if (changed && align && align === this._marker.getAlign()) {
+            this._animationProcessed = true;
         }
     }
 
@@ -213,7 +211,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
 
     protected _transitionEndHandler() {
         if (!this._isUnmounted) {
-            this._marker.setAlign(AUTO_ALIGN.auto);
+            this._animationProcessed = false;
         }
     }
 
@@ -307,7 +305,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             classes.push('controls-Tabs__itemClickableArea_marker');
             classes.push(`controls-Tabs__itemClickableArea_markerThickness-${options.markerThickness}`);
 
-            if (!this._marker.isInitialized() && item[options.keyProperty] === options.selectedKey) {
+            if (!(this._marker.isInitialized() && this._animationProcessed) && item[options.keyProperty] === options.selectedKey ) {
                 // Если маркеры которые рисуются с абсолютной позицией не инициализированы, то нарисуем маркер
                 // внутри вкладки. Это можно сделать быстрее. Но невозможно анимировано передвигать его между вкладками.
                 // Инициализируем и переключимся на другой механизм маркеров после ховера.

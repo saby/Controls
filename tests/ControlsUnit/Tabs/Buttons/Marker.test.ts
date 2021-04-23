@@ -57,15 +57,19 @@ describe('Controls/_tabs/Buttons/Marker', () => {
     describe('setSelectedIndex', () => {
         it('should\'t update version if selectedIndex changed', () => {
             const marker: Marker = new Marker();
+            let changed: boolean;
             marker.updatePosition(elements, baseElement);
-            marker.setSelectedIndex(0);
+            changed = marker.setSelectedIndex(0)
+            assert.isTrue(changed);
             const version: number = marker.getVersion();
-            marker.setSelectedIndex(0);
+            changed = marker.setSelectedIndex(0)
+            assert.isFalse(changed);
             assert.strictEqual(marker.getVersion(), version);
         });
 
         it('should update model and version if selectedIndex changed', () => {
             const marker: Marker = new Marker();
+            let changed: boolean;
             marker.updatePosition(elements, baseElement);
             marker.setSelectedIndex(0);
 
