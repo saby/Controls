@@ -445,4 +445,19 @@
 /**
  * @name Controls/_tile/interface/ITile#roundBorder
  * @cfg {Controls/_tile/interface/ITile/TRoundBorder.typedef} Cкругление углов элемента плитки.
- */ 
+ */
+
+/**
+ * @name Controls/_tile/interface/ITile#itemWidth
+ * @cfg {Number} Ширина плитки. Значение задаётся в px.
+ * @remark Ширина папки настраивается в опции {@link folderWidth}.
+ * @see staticHeight
+ * @see folderWidth
+ */
+
+/**
+ * @name Controls/_tile/interface/ITile#folderWidth
+ * @cfg {Number} Ширина папки. Значение задаётся в px.
+ * @see itemWidth
+ * @see staticHeight
+ */
