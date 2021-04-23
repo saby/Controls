@@ -44,7 +44,7 @@ export interface ITreeSessionItemState<T> extends ISessionItemState<T> {
 
 interface IItemsFactoryOptions<S> {
     contents?: S;
-    hasChildren?: boolean;
+    hasChildrenProperty?: string;
     hasChildrenByRecordSet?: boolean;
     node?: boolean;
     expanderTemplate?: TemplateFunction;
@@ -530,7 +530,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     setChildrenProperty(childrenProperty: string): void {
         if (this._$childrenProperty !== childrenProperty) {
             this._$childrenProperty = childrenProperty;
-            this._hierarchyRelation.setDeclaredChildrenProperty(childrenProperty);
             this._nextVersion();
         }
     }
@@ -540,6 +539,15 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
      */
     getHasChildrenProperty(): string {
         return this._$hasChildrenProperty;
+    }
+
+    setHasChildrenProperty(hasChildrenProperty: string): void {
+        if (this._$hasChildrenProperty !== hasChildrenProperty) {
+            this._$hasChildrenProperty = hasChildrenProperty;
+            this._hierarchyRelation.setDeclaredChildrenProperty(hasChildrenProperty);
+            this._updateItemsProperty('setHasChildrenProperty', hasChildrenProperty, '[Controls/_display/TreeItem]');
+            this._nextVersion();
+        }
     }
 
     protected getLoadedProperty(): string {
@@ -829,8 +837,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         const parent = super._getItemsFactory();
 
         return function TreeItemsFactory(options: IItemsFactoryOptions<S>): T {
-            options.hasChildren = object.getPropertyValue<boolean>(options.contents, this._$hasChildrenProperty);
-            options.hasChildrenByRecordSet = !!this.getChildrenByRecordSet(options.contents).length;
+            options.hasChildrenProperty = this.getHasChildrenProperty();
+            options.hasChildrenByRecordSet = !!this._getChildrenByRecordSet(options.contents).length;
             options.expanderTemplate = this._$expanderTemplate;
             options.hasNodeWithChildren = this._hasNodeWithChildren;
 
