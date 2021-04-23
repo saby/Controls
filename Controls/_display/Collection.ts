@@ -324,8 +324,6 @@ function onCollectionChange<T>(
             this._reFilter();
             this._finishUpdateSession(session, true);
             this._notifyCollectionItemsChange(newItems, newItemsIndex, session);
-            this.resetLastItem();
-            this.resetFirstItem()
             this._nextVersion();
             this._handleCollectionActionChange(newItems);
             return;
