@@ -7,10 +7,9 @@
          <Controls.event:Register name="resizeDetectMaster" register="controlResize" attr:fixCompatible="1">
             <ws:partial
                     backgroundStyle="master"
-                    style="{{_newDesign ? 'masterNew' : 'master'}}"
                     template="{{_options.master}}"
                     attr:style="{{_masterStyle}}"
-                    attr:class="controls-MasterDetail_{{_options.style || 'master'}}-template
+                    attr:class="controls-MasterDetail_{{_options.style || 'master'}}-template {{_newDesign ? 'controls-master-template-newDesign'}}
                            controls-MasterDetail_{{_options.style || 'master'}}-template-{{_options.contrastBackground ? 'contrast' : 'same'}}"
                     on:selectedMasterValueChanged="_selectedMasterValueChangedHandler()"/>
          </Controls.event:Register>

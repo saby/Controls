@@ -276,12 +276,7 @@
    border-top-width: var(--master_item_separator_thickness_list);
 }
 
-.controls-Grid__row-cell_masterNew {
-   font-size: var(--master_item_font-size_list);
-   border-color: var(--master_item_background-color_list);
-   border-style: solid;
-   border-bottom-width: var(--master_item_separator_thickness_list);
-   border-top-width: var(--master_item_separator_thickness_list);
+.controls-master-template-newDesign .controls-Grid__row-cell_master {
    border-radius: var(--master_item_border-radius_list);
 }
 
@@ -788,12 +783,9 @@
    }
 }
 
-.controls-Grid__row_highlightOnHover_master .controls-GridView__item_active,
-.controls-Grid__row_highlightOnHover_masterNew .controls-GridView__item_active {
+.controls-Grid__row_highlightOnHover_master .controls-GridView__item_active {
    .controls-Grid__row-cell-background-hover-master,
-   .controls-background-master,
-   .controls-Grid__row-cell-background-hover-masterNew,
-   .controls-background-masterNew {
+   .controls-background-master {
       background-color: var(--master_item_hover_background-color_list);
    }
 }
@@ -862,10 +854,7 @@
 
 .ws-is-mobile-chrome-ios .controls-Grid__row-cell_selected-master,
 .ws-is-desktop-safari .controls-Grid__row-cell_selected-master,
-.ws-is-mobile-safari .controls-Grid__row-cell_selected-master,
-.ws-is-mobile-chrome-ios .controls-Grid__row-cell_selected-masterNew,
-.ws-is-desktop-safari .controls-Grid__row-cell_selected-masterNew,
-.ws-is-mobile-safari .controls-Grid__row-cell_selected-masterNew {
+.ws-is-mobile-safari .controls-Grid__row-cell_selected-master {
    // ave safari 13
    // https://online.sbis.ru/opendoc.html?guid=6d560d7a-c140-4d06-a1b6-53b326efe950
    // иначе все position: absolute элементы внутри position: sticky
@@ -875,29 +864,24 @@
    transform: translateY(0);
 }
 
-.controls-Grid__row-cell_selected-master,
-.controls-Grid__row-cell_selected-masterNew {
+.controls-Grid__row-cell_selected-master {
    font-weight: bold;
    font-size: var(--master_item_selected_font-size_list);
 }
 
-.controls-Grid__cell_master,
-.controls-Grid__cell_masterNew {
+.controls-Grid__cell_master {
    background-color: var(--master_item_background-color_list);
 }
 
-.controls-Grid__cell_master.controls-Grid__cell_spacingFirstCol_default,
-.controls-Grid__cell_masterNew.controls-Grid__cell_spacingFirstCol_default {
+.controls-master-template-newDesign .controls-Grid__cell_spacingFirstCol_default {
    padding-left: var(--item_padding-left_s_list);
 }
 
-.controls-Grid__row-cell_selected-master.controls-background-master,
-.controls-Grid__row-cell_selected-masterNew.controls-background-masterNew {
+.controls-Grid__row-cell_selected-master.controls-background-master {
    background-color: var(--master_item_hover_background-color_list);
 }
 
-.controls-GridView__itemV_marker-master,
-.controls-GridView__itemV_marker-masterNew {
+.controls-GridView__itemV_marker-master {
    display: none;
 }
 
@@ -905,10 +889,7 @@
 
    .controls-Grid__row_highlightOnHover_master:hover .controls-Grid__row-cell-background-hover-master,
    .controls-Grid__row_highlightOnHover_master:hover .controls-background-master,
-   .controls-Grid__row_highlightOnHover_master:hover .controls-background-master,
-   .controls-Grid__row_highlightOnHover_masterNew:hover .controls-Grid__row-cell-background-hover-masterNew,
-   .controls-Grid__row_highlightOnHover_masterNew:hover .controls-background-masterNew,
-   .controls-Grid__row_highlightOnHover_masterNew:hover .controls-background-masterNew {
+   .controls-Grid__row_highlightOnHover_master:hover .controls-background-master {
       background-color: var(--master_item_hover_background-color_list);
    }
 }
@@ -998,8 +979,7 @@
    background: linear-gradient(90deg, rgba(240,245,251,0), var(--item_hover_background-color_list));
 }
 
-.controls-Grid__editArrow-blur_style-master_background,
-.controls-Grid__editArrow-blur_style-masterNew_background {
+.controls-Grid__editArrow-blur_style-master_background {
    background: linear-gradient(90deg, rgba(240,245,251,0), var(--master_item_hover_background-color_list));
 }
 
@@ -1030,8 +1010,7 @@
    background-color: var(--item_hover_background-color_list);
 }
 
-.controls-Grid__editArrow_style-master_background,
-.controls-Grid__editArrow_style-masterNew_background {
+.controls-Grid__editArrow_style-master_background {
    background-color: var(--master_item_hover_background-color_list);
 }
 
