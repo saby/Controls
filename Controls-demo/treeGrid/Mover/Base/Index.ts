@@ -1,9 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGrid/Mover/Base/Base';
-import {HierarchicalMemory} from 'Types/source';
+import {HierarchicalMemory, CrudEntityKey} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/gridOld';
-import {TExpandOrColapsItems} from 'Controls-demo/types';
 import {ISelectionObject} from 'Controls/interface';
 
 export default class extends Control {
@@ -11,7 +10,7 @@ export default class extends Control {
     protected _viewSource: HierarchicalMemory;
     protected _columns: IColumn[];
     private _selectedKeys: [];
-    private _excludedKeys: TExpandOrColapsItems;
+    private _excludedKeys: CrudEntityKey[];
 
     protected _beforeMount(): void {
         this._columns = [{

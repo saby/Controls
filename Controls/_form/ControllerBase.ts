@@ -25,7 +25,7 @@ import {Logger} from 'UI/Utils';
  *
  * @class Controls/_form/ControllerBase
  * @extends UI/Base:Control
- * @mixes Controls/_form/interface/IControllerBase
+ * @mixes Controls/form:IControllerBase
  * @public
  * @author Красильников А.С.
  *

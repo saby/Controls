@@ -2,9 +2,13 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Popup/SlidingPanel/Index/Index');
 import {SlidingPanelOpener} from 'Controls/popup';
 import {Memory} from 'Types/source';
+import {detection} from 'Env/Env';
+import {SyntheticEvent} from 'UI/Vdom';
 
 class Index extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
+    protected _isMobile: boolean = true;
+    protected _originIsMobile: boolean;
     protected _minHeight: number = 300;
     protected _maxHeight: number = 700;
     protected _position: string[] = ['bottom'];
@@ -27,8 +31,21 @@ class Index extends Control<IControlOptions> {
     });
     private _dialogOpener: SlidingPanelOpener;
 
-    protected _afterMount(options?: IControlOptions, contexts?: any): void {
+    protected _beforeMount(): void {
+        this._originIsMobile = detection.isPhone;
+        // По умолчанию показываем версию для мобилки
+        detection.isPhone = this._isMobile;
+    }
+    protected _afterMount(): void {
         this._dialogOpener = new SlidingPanelOpener();
+    }
+    protected _beforeUnmount(): void {
+        // На случай если в демках появится SPA, чтобы не поломать другие демки
+        detection.isPhone = this._originIsMobile;
+    }
+    protected _isMobileChanged(event: SyntheticEvent, value: boolean): void {
+        this._isMobile = value;
+        detection.isPhone = false;
     }
 
     protected _selectedModeChanged(): void {

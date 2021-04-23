@@ -18,7 +18,7 @@ interface IReceivedState {
  * * {@link https://github.com/saby/wasaby-controls/blob/6156a9009ee88d96bf73c8b1200e197f9db1c3c8/Controls-default-theme/variables/_breadcrumbs.less переменные тем оформления}
  * @class Controls/_breadcrumbs/Path
  * @extends UI/Base:Control
- * @mixes Controls/_breadcrumbs/interface/IBreadCrumbs
+ * @mixes Controls/breadcrumbs:IBreadCrumbs
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IFontSize
  * @public
@@ -33,7 +33,7 @@ interface IReceivedState {
  *
  * @class Controls/_breadcrumbs/Path
  * @extends UI/Base:Control
- * @mixes Controls/_breadcrumbs/interface/IBreadCrumbs
+ * @mixes Controls/breadcrumbs:IBreadCrumbs
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IFontSize
  * @private

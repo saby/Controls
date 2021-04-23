@@ -1,7 +1,7 @@
 <div class="{{ (gridColumn || colData).getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
      style="{{ (gridColumn || colData).getContentStyles() }}">
-    <ws:if data="{{ !!contentTemplate }}">
-        <ws:partial template="{{ contentTemplate }}" colData="{{ gridColumn || colData }}" column="{{ gridColumn || colData }}"/>
+    <ws:if data="{{ !!content || !!contentTemplate }}">
+        <ws:partial template="{{ content || contentTemplate }}" colData="{{ gridColumn || colData }}" column="{{ gridColumn || colData }}"/>
     </ws:if>
     <ws:else>
         <ws:if data="{{ (gridColumn || colData).getSortingProperty() }}">

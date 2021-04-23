@@ -19,8 +19,9 @@ export default interface IPopupTemplate {
  * @name Controls/_popupTemplate/interface/IPopupTemplate#closeButtonViewMode
  * @cfg {String} Стиль отображения кнопки закрытия
  * @variant toolButton
+ * @variant linkButton
  * @variant link
- * @default toolButton
+ * @default linkButton
  */
 
 /**

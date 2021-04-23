@@ -12,7 +12,7 @@ import {error as loadDataError} from 'Controls/dataSource';
  *
  * @class Controls/_operations/Panel
  * @extends UI/Base:Control
- * @mixes Controls/_toolbars/IToolbarSource
+ * @mixes Controls/toolbars:IToolbarSource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/interface:IHierarchy
  * 

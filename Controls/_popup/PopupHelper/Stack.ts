@@ -5,8 +5,8 @@ import {IStackPopupOptions} from 'Controls/_popup/interface/IStack';
 /**
  * Хелпер для открытия стековых окон.
  * @class Controls/_popup/PopupHelper/Stack
- * @implements Controls/_interface/IPropStorage
- * @implements Controls/_popup/interface/IStackOpener
+ * @implements Controls/interface:IPropStorage
+ * @implements Controls/popup:IStackOpener
  *
  * @remark
  * Для предотвращения потенциальной утечки памяти не забывайте уничтожать экземпляр оперена

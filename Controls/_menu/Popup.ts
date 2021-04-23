@@ -1,6 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import IMenuPopup, {IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
 import PopupTemplate = require('wml!Controls/_menu/Popup/template');
+import {default as MenuControl} from 'Controls/_menu/Control';
 import {default as searchHeaderTemplate} from 'Controls/_menu/Popup/searchHeaderTemplate';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {default as headerTemplate} from 'Controls/_menu/Popup/headerTemplate';
@@ -9,7 +10,6 @@ import {RecordSet} from 'Types/collection';
 import {factory} from 'Types/chain';
 import {Model} from 'Types/entity';
 import {TSelectedKeys} from 'Controls/interface';
-import {CollectionItem} from 'Controls/display';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
 import HoverController from 'Controls/_menu/HoverController';
 import 'css!Controls/menu';
@@ -25,9 +25,9 @@ type CancelableError = Error & { canceled?: boolean, isCanceled: boolean };
 
 /**
  * Базовый шаблон для {@link Controls/menu:Control}, отображаемого в прилипающем блоке.
- * @mixes Controls/_menu/interface/IMenuPopup
- * @mixes Controls/_menu/interface/IMenuControl
- * @mixes Controls/_menu/interface/IMenuBase
+ * @mixes Controls/menu:IMenuPopup
+ * @mixes Controls/menu:IMenuControl
+ * @mixes Controls/menu:IMenuBase
  * @mixes Controls/interface:IHierarchy
  * @mixes Controls/interface:IIconSize
  * @mixes Controls/interface:IIconStyle
@@ -41,6 +41,9 @@ type CancelableError = Error & { canceled?: boolean, isCanceled: boolean };
 
 class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     readonly '[Controls/_menu/interface/IMenuPopup]': boolean;
+    protected _children: {
+        menuControl: MenuControl
+    };
     protected _template: TemplateFunction = PopupTemplate;
     protected _headerVisible: boolean = true;
     protected _headerTemplate: TemplateFunction;
@@ -64,6 +67,10 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         this._setCloseButtonVisibility(options);
         this._prepareHeaderConfig(options);
         this._setItemPadding(options);
+
+        if (options.items) {
+            this._updateHeadingIcon(options, options.items);
+        }
 
         if (options.trigger === 'hover') {
             if (!options.root) {
@@ -153,25 +160,7 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     }
 
     protected _dataLoadCallback(options: IMenuPopupOptions, items: RecordSet): void {
-        const sizes = ['s', 'm', 'l'];
-        let iconSize;
-        let headingIconSize = -1;
-        if (this._headingIcon) {
-            const root = options.root !== undefined ? options.root : null;
-            let needShowHeadingIcon = false;
-            factory(items).each((item) => {
-                if (item.get('icon') && (!options.parentProperty || item.get(options.parentProperty) === root)) {
-                    iconSize = sizes.indexOf(item.get('iconSize'));
-                    headingIconSize = iconSize > headingIconSize ? iconSize : headingIconSize;
-                    needShowHeadingIcon = true;
-                }
-            });
-            if (!needShowHeadingIcon) {
-                this._headingIcon = null;
-            } else {
-                this._headingIconSize = sizes[headingIconSize] || options.iconSize;
-            }
-        }
+        this._updateHeadingIcon(options, items);
         if (options.dataLoadCallback) {
             options.dataLoadCallback(items);
         }
@@ -201,11 +190,14 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         this._updateApplyButton();
     }
 
+    protected _onFooterMouseEnter(): void {
+        this._children.menuControl.closeSubMenu();
+    }
+
     private _updateApplyButton(): void {
         const isApplyButtonVisible: boolean = this._applyButtonVisible;
-        const newSelectedKeys: TSelectedKeys = factory(this._selectedItems).map(
-            (item: CollectionItem<Model>) =>
-                item.get(this._options.keyProperty)
+        const newSelectedKeys = factory(this._selectedItems).map(
+            (item) => item.get(this._options.keyProperty)
         ).value();
         this._applyButtonVisible = this._isSelectedKeysChanged(newSelectedKeys, this._options.selectedKeys);
 
@@ -252,6 +244,28 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         } else {
             this._headerTemplate = null;
             this._headingCaption = '';
+        }
+    }
+
+    private _updateHeadingIcon(options: IMenuPopupOptions, items: RecordSet): void {
+        const sizes = ['s', 'm', 'l'];
+        let iconSize;
+        let headingIconSize = -1;
+        if (this._headingIcon) {
+            const root = options.root !== undefined ? options.root : null;
+            let needShowHeadingIcon = false;
+            factory(items).each((item) => {
+                if (item.get('icon') && (!options.parentProperty || item.get(options.parentProperty) === root)) {
+                    iconSize = sizes.indexOf(item.get('iconSize'));
+                    headingIconSize = iconSize > headingIconSize ? iconSize : headingIconSize;
+                    needShowHeadingIcon = true;
+                }
+            });
+            if (!needShowHeadingIcon) {
+                this._headingIcon = null;
+            } else {
+                this._headingIconSize = sizes[headingIconSize] || options.iconSize;
+            }
         }
     }
 

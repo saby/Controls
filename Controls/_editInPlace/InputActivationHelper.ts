@@ -95,7 +95,7 @@ export class InputActivationHelper {
     /**
      * Сохраняет информацию о поле ввода, в которое необходимо ставить фокус
      */
-    setInputForFastEdit(currentTarget: HTMLElement, nextEditableIndex: number): void {
+    setInputForFastEdit(currentTarget: HTMLElement, direction: 'top' | 'bottom'): void {
         // Ячейка, с которй уходит фокус
         const cell = currentTarget.closest('.controls-Grid__row-cell');
         if (!cell) { return; }
@@ -114,10 +114,17 @@ export class InputActivationHelper {
             return;
         }
 
-        // Получение индекса строки в которой продолжится редактирование
+        // Получение индекса строки в которой продолжится редактирование. Вычисляем аналогично ячейке - через DOM.
+        // https://online.sbis.ru/opendoc.html?guid=02f1dead-d957-4346-b6c1-306606b6fb9c
         const container = currentTarget.closest('.controls-GridViewV__itemsContainer');
         const currentRow = currentTarget.closest('.controls-Grid__row');
-        const nextRowIndex = nextEditableIndex + 1;
+        let nextRowIndex = 1 + Array.prototype.indexOf.call(currentRow.parentElement.children, currentRow);
+
+        if (direction === 'bottom') {
+            nextRowIndex += 1;
+        } else {
+            nextRowIndex -= 1;
+        }
 
         // Получение индекса колонки в которой продолжится редактирование
         const columnIndex = 1 + Array.prototype.indexOf.call(currentRow.children, cell);

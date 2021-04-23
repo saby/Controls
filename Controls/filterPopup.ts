@@ -31,6 +31,7 @@
  * @includes Lookup Controls/_filterPopup/Panel/Lookup
  * @includes HierarchyLookup Controls/_filterPopup/Panel/HierarchyLookup
  * @includes AdditionalPanelTemplate Controls/_filterPopup/Panel/AdditionalParams/Render
+ * @includes IFilterButton Controls/_filterPopup/interface/IFilterPanel
  * @public
  * @author Крайнов Д.О.
  */

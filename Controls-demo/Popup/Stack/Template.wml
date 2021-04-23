@@ -1,0 +1,22 @@
+<div class="{{!_options.hideBackground ? 'popup-page-background'}}">
+    <div class="{{!_options.hideBackground ? 'controls-Popup__stack-target-container popup-page-target-container'}}">
+        <Controls.popup:Stack name="stack"/>
+        <div class="{{!_options.hideBackground ? 'popup-page-buttons'}}">
+            <div>
+                <Controls.buttons:Button attr:class="demo-StackDemo__stack" name="button1" caption="Open Stack" on:click="openStack()"/>
+            </div>
+            <div>
+                <Controls.buttons:Button attr:class="demo-StackDemo__maxStack" name="button2" caption="Open Maximized Stack" on:click="openMaximizedStack()"/>
+            </div>
+            <div>
+                <Controls.buttons:Button attr:class="demo-StackDemo__modalStack" name="button4" caption="Open Modal Stack" on:click="openModalStack()"/>
+            </div>
+            <div>
+                <Controls.buttons:Button attr:class="demo-StackDemo__headerStack" name="button6" caption="Open Stack with headerTemplate" on:click="openStackCustomHeader()"/>
+            </div>
+            <div>
+                <Controls.buttons:Button attr:class="demo-StackDemo__withoutHeadStack" name="button7" caption="Open Stack without head" on:click="openStackWithoutHead()"/>
+            </div>
+        </div>
+    </div>
+</div>

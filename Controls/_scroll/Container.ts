@@ -59,8 +59,8 @@ const DEFAULT_BACKGROUND_STYLE = 'default';
  *
  * @class Controls/_scroll/Container
  * @extends Controls/_scroll/ContainerBase
- * @mixes Controls/_scroll/Container/Interface/IScrollbars
- * @mixes Controls/_scroll/Container/Interface/IShadows
+ * @mixes Controls/scroll:IScrollbars
+ * @mixes Controls/scroll:IShadows
  *
  * @public
  * @author Миронов А.Ю.
@@ -249,6 +249,10 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         if (isUpdated) {
             if (this._wasMouseEnter && this._scrollModel?.canVerticalScroll && !this._oldScrollState.canVerticalScroll) {
                 this._updateShadowMode();
+            }
+
+            if (this._wasMouseEnter && this._scrollModel?.scrollHeight !== this._oldScrollState?.scrollHeight) {
+                this._stickyHeaderController.resizeContainerHandler();
             }
 
             // Если включены тени через стили, то нам все равно надо посчитать состояние теней

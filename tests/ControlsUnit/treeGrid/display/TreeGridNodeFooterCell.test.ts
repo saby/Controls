@@ -23,7 +23,7 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterCell', () => {
             getStickyColumnsCount: () => 0,
             hasMultiSelectColumn: () => false,
             isFullGridSupport: () => false,
-            isSupportLadder: () => false,
+            isSupportStickyLadder: () => false,
             hasColumnScroll: () => false
         };
     });
@@ -38,7 +38,7 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterCell', () => {
             mockedOwner.hasMultiSelectColumn = () => true;
             mockedOwner.getColumnsConfig = () => [1, 2];
             const cell = new TreeGridNodeFooterCell({owner: mockedOwner});
-            assert.equal(cell.getColspanStyles(), 'grid-column: 2 / 3');
+            assert.equal(cell.getColspanStyles(), 'grid-column: 2 / 4');
         });
 
         it('hasItemActionsSeparatedCell', () => {
@@ -53,7 +53,7 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterCell', () => {
             mockedOwner.hasItemActionsSeparatedCell = () => true;
             mockedOwner.getColumnsConfig = () => [1, 2];
             const cell = new TreeGridNodeFooterCell({owner: mockedOwner});
-            assert.equal(cell.getColspanStyles(), 'grid-column: 2 / 4');
+            assert.equal(cell.getColspanStyles(), 'grid-column: 2 / 5');
         });
 
         it('has sticky columns', () => {
@@ -68,7 +68,7 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterCell', () => {
             mockedOwner.getColumnsConfig = () => [1];
             mockedOwner.getStickyColumnsCount = () => 1;
             mockedOwner.isFullGridSupport = () => true;
-            mockedOwner.isSupportLadder = () => true;
+            mockedOwner.isSupportStickyLadder = () => true;
             const cell = new TreeGridNodeFooterCell({owner: mockedOwner});
             assert.equal(cell.getColspanStyles(), 'grid-column: 2 / 3');
         });

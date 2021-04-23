@@ -2,11 +2,6 @@ import {IBasePopupOptions, IOpener} from 'Controls/_popup/interface/IBaseOpener'
 import {Control} from 'UI/Base';
 import {IBackgroundStyleOptions} from 'Controls/interface';
 
-/**
- * Опции интерфейса описаны {@link Controls/_popup/interface/IStickyOpener здесь}.
- * @public
- * @author Красильников А.С.
- */
 export interface IStickyPopupOptions extends IBasePopupOptions, IBackgroundStyleOptions {
     minWidth?: number;
     width?: number;

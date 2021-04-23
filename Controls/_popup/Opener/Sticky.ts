@@ -26,7 +26,7 @@ interface IStickyOpenerOptions extends IStickyPopupOptions, IBaseOpenerOptions {
  * Для открытия прилипающих окон из кода используйте {@link Controls/popup:StickyOpener}.
  * @author Красильников А.С.
  * @implements Controls/popup:IBaseOpener
- * @demo Controls-demo/Popup/Opener/StickyPG
+ * @demo Controls-demo/Popup/Sticky/Index
  * @public
  */
 class Sticky extends BaseOpener<IStickyOpenerOptions> implements IStickyOpener {

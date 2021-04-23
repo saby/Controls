@@ -572,6 +572,32 @@ define(
             Manager.destroy();
          });
 
+         it('moveToTop', () => {
+            Manager = getManager();
+            const item1 = {
+               id: 1
+            };
+            const item2 = {
+               id: 2
+            };
+            const item3 = {
+               id: 3
+            };
+            const controller = {
+               getDefaultConfig: () => {},
+               elementUpdateOptions: () => {}
+            };
+            Manager.show(item1, controller);
+            Manager.show(item2, controller);
+            Manager.show(item3, controller);
+            Manager._popupItems.at(0).popupState = 'created';
+
+            Manager.show(item1, controller);
+
+            assert.equal(Manager._popupItems.at(2).id, item1.id);
+            Manager.destroy();
+         });
+
          it('finishPendings', () => {
             Manager = getManager();
             let popupId = Manager.show({

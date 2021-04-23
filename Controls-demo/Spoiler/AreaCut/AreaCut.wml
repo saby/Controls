@@ -2,8 +2,8 @@
     <span>readOnly={{ _readOnly ? 'true' : 'false' }}</span>
     <div class="controlsDemo__flex">
         <div class="controlsDemo__margin-top">
-                <Controls.spoiler:AreaCut lines="{{ 4 }}" readOnly="{{ _readOnly }}" bind:value="_areaValue1" placeholder="Enter your name">
-                    <Controls.input:Area attr:class="controlsDemo__input"/>
+                <Controls.spoiler:AreaCut lines="{{ 4 }}" readOnly="{{ _readOnly }}">
+                    <Controls.input:Area attr:class="controlsDemo__input" bind:value="_areaValue1" placeholder="Enter your name"/>
                 </Controls.spoiler:AreaCut>
         </div>
     </div>

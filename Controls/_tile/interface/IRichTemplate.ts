@@ -1,6 +1,19 @@
 import {TemplateFunction} from 'UI/Base';
 
 /**
+ * @typedef {Object} ICharacteristicsItem
+ * @description Элемент харастеристики для отображения на плитке.
+ * @property {String} icon Название иконки.
+ * @property {String} title Подпись рядом с иконкой.
+ * @property {String} tooltip Текст при наведении на характеристику.
+ */
+interface ICharacteristicsItem {
+    icon: string;
+    title: string;
+    tooltip: string;
+}
+
+/**
  * "Богатый" шаблон отображения элементов в  {@link Controls/tile:View плитке}.
  * @class Controls/_tile/interface/IRichTemplate
  * @mixes Controls/tile:ItemTemplate
@@ -122,4 +135,9 @@ export default interface IRichTemplateOptions {
      * @cfg {TemplateFunction | String} Шаблон подвала элемента.
      */
     footerTemplate?: TemplateFunction | string;
+
+    /**
+     * @cfg {Array<ICharacteristicsItem>} Конфигурация характеристик для вывода под заголовком плитки.
+     */
+    characteristics?: ICharacteristicsItem;
 }

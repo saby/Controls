@@ -2,7 +2,7 @@ import { TemplateFunction } from 'UI/Base';
 import { TreeItem } from 'Controls/display';
 import { Model } from 'Types/entity';
 import TreeGridDataRow from './TreeGridDataRow';
-import {GridRow as Row, GridCell as Cell, IColumn} from 'Controls/grid';
+import {GridRow as Row, GridCell as Cell} from 'Controls/grid';
 
 export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     readonly '[Controls/treeGrid:TreeGridNodeFooterRow]': boolean;
@@ -29,13 +29,22 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
         this._colspan = colspan;
         let columns = super.getColumns();
         if (colspan !== false) {
+            let start = 0;
+            let end = 1;
+
             // В данный момент поддержан только один сценарий лесенки и футеров узлов: лесенка для первого столбца.
-            // Чтобы поддержать все сценарии нужно переписать nodeFooterTemplate::colspan на Tree::colspanCallback            //  TODO переписать когда перепишем колспан для футеров узлов https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
-            if (this.isSupportLadder() && columns[0]['[Controls/_display/StickyLadderCell]']) {
-                columns = columns.slice(1, 2);
-            } else {
-                columns = columns.slice(0, 1);
+            // Чтобы поддержать все сценарии нужно переписать nodeFooterTemplate::colspan на Tree::colspanCallback
+            //  TODO переписать когда перепишем колспан для футеров узлов https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
+            if (this.isSupportStickyLadder() && columns[0]['[Controls/_display/StickyLadderCell]']) {
+                start++;
+                end++;
             }
+
+            if (this.hasMultiSelectColumn()) {
+                end++;
+            }
+
+            columns = columns.slice(start, end);
         }
         return columns;
     }
@@ -81,10 +90,17 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
         return this.hasMoreStorage() || !!content;
     }
 
+    shouldDisplayContent(column: Cell<null, TreeGridNodeFooterRow>, colspan?: boolean): boolean {
+        const columns = this.getColumns(colspan);
+        const firstFooterCell = columns.find((it) => it['[Controls/treeGrid:TreeGridNodeFooterCell]']);
+        // Отображаем контент только для первой ячейки, которая является TreeGridNodeFooterCell
+        return firstFooterCell === column;
+    }
+
     // TODO удалить после https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
-    isSupportLadder(): boolean {
-        const ladderProperties = this.getOwner().getLadderProperties();
-        return ladderProperties && ladderProperties.length;
+    isSupportStickyLadder(): boolean {
+        const ladderProperties = this.getStickyLadder();
+        return ladderProperties && !!Object.keys(ladderProperties).length;
     }
 }
 

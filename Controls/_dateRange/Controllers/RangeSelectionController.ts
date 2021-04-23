@@ -15,7 +15,7 @@ import IRangeSelectable from './../interfaces/IRangeSelectable';
  *
  * @class Controls/_dateRange/Controllers/RangeSelectionController
  * @extends UI/Base:Control
- * @mixes Controls/_dateRange/interfaces/IRangeSelectable
+ * @mixes Controls/dateRange:IRangeSelectable
  * @author Красильников А.С.
  * @public
  */

@@ -35,7 +35,7 @@ export interface ISortingSelectorOptions extends IControlOptions, IFontColorStyl
  * @extends UI/Base:Control
  * @public
  * @implements Controls/interface:IFontColorStyle
- * @implements Controls/_interface/IFontSize
+ * @implements Controls/interface:IFontSize
  * @demo Controls-demo/grid/Sorting/SortingSelector/Default/Index
  * @demo Controls-demo/grid/Sorting/SortingSelector/Icons/Index
  * @author Авраменко А.С.
@@ -214,7 +214,10 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
  * @typedef {Object} SortingParam
  * @property {String|null} paramName Имя поля элемента, по которому может осуществляться сортировка. Чтобы задать сброс сортировки, нужно указать значение null.
  * @property {String} title Подпись пункта меню, соответствующего данному полю.
- * @remark Если не задан пункт, сбрасывающий сортировку, то необходимо указать непустую конфигурацию сортировки в опции value.
+ * @property {String} icon Иконка для пункта меню. Задается в формате 'Controls/sortIcons:<Имя иконки>'. Доступные иконки можно посмотреть на демо-примере.
+ * @remark Если не задан пункт, сбрасывающий сортировку, то необходимо указать непустую конфигурацию сортировки в опции value..
+ *
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/IconsSvg/Index
  */
 
 /**

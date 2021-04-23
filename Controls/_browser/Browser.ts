@@ -80,7 +80,7 @@ type TErrbackConfig = dataSourceError.ViewConfig & { error: Error };
  * @class Controls/browser:Browser
  * @public
  * @author Герасимов А.М.
- * @mixes Controls/_browser/interface/IBrowser
+ * @mixes Controls/browser:IBrowser
  * @mixes Controls/filter:IPrefetch
  * @mixes Controls/interface:IFilter
  * @mixes Controls/interface:IFilterChanged
@@ -544,10 +544,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     protected _processLoadError(error: Error): void {
-        this._onDataError(null, {
-            error,
-            mode: dataSourceError.Mode.include
-        } as TErrbackConfig);
+        if (error && !error.isCanceled) {
+            this._onDataError(null, {
+                error,
+                mode: dataSourceError.Mode.include
+            } as TErrbackConfig);
+        }
     }
 
     protected _onDataError(event: SyntheticEvent, errbackConfig: TErrbackConfig): void {

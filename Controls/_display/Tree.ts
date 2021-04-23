@@ -1,11 +1,11 @@
 import Collection, {
-    ItemsFactory,
     IOptions as ICollectionOptions,
-    ISessionItemState,
     ISerializableState as IDefaultSerializableState,
+    ISessionItems,
+    ISessionItemState,
     ISplicedArray,
-    StrategyConstructor,
-    ISessionItems
+    ItemsFactory,
+    StrategyConstructor
 } from './Collection';
 import CollectionEnumerator from './CollectionEnumerator';
 import CollectionItem from './CollectionItem';
@@ -19,15 +19,15 @@ import IItemsStrategy from './IItemsStrategy';
 import RootStrategy from './itemsStrategy/Root';
 import {object} from 'Types/util';
 import {Object as EventObject} from 'Env/Event';
-import { TemplateFunction } from 'UI/Base';
-import { CrudEntityKey } from 'Types/source';
+import {TemplateFunction} from 'UI/Base';
+import {CrudEntityKey} from 'Types/source';
 import NodeFooter from 'Controls/_display/itemsStrategy/NodeFooter';
-import { Model } from 'Types/entity';
-import { IDragPosition } from './interface/IDragPosition';
+import {Model, relation} from 'Types/entity';
+import {IDragPosition} from './interface/IDragPosition';
 import TreeDrag from './itemsStrategy/TreeDrag';
+import {isEqual} from 'Types/object';
+import {IObservable, RecordSet} from 'Types/collection';
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
-import { isEqual } from 'Types/object';
-import { IObservable } from 'Types/collection';
 
 export interface ISerializableState<S, T> extends IDefaultSerializableState<S, T> {
     _root: T;
@@ -44,6 +44,7 @@ export interface ITreeSessionItemState<T> extends ISessionItemState<T> {
 interface IItemsFactoryOptions<S> {
     contents?: S;
     hasChildren?: boolean;
+    hasChildrenByRecordSet?: boolean;
     node?: boolean;
     expanderTemplate?: TemplateFunction;
     hasNodeWithChildren?: boolean;
@@ -263,6 +264,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     private _expandedItems: CrudEntityKey[] = [];
     private _collapsedItems: CrudEntityKey[] = [];
 
+    private _hierarchyRelation: relation.Hierarchy;
+
     /**
      * Признак, означающий что есть узел с детьми
      * @protected
@@ -271,6 +274,12 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     constructor(options?: IOptions<S, T>) {
         super(validateOptions<S, T>(options));
+
+        // super классы уже могут вызвать методы, которые создатут _hierarchyRelation.
+        // Например, стратегии которые создают элементы(AdjacencyList)
+        if (!this._hierarchyRelation) {
+            this._createHierarchyRelation();
+        }
 
         if (this._$parentProperty) {
             this._setImportantProperty(this._$parentProperty);
@@ -431,6 +440,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (adjacencyList) {
             adjacencyList.keyProperty = keyProperty;
         }
+        this._hierarchyRelation.setKeyProperty(keyProperty);
     }
 
     protected _extractItemId(item: T): string {
@@ -467,6 +477,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     setParentProperty(name: string): void {
         this._unsetImportantProperty(this._$parentProperty);
         this._$parentProperty = name;
+        this._hierarchyRelation.setParentProperty(name);
 
         this._resetItemsStrategy();
         this._setImportantProperty(name);
@@ -483,6 +494,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     setNodeProperty(nodeProperty: string): void {
         if (this._$nodeProperty !== nodeProperty) {
             this._$nodeProperty = nodeProperty;
+            this._hierarchyRelation.setNodeProperty(nodeProperty);
             this._nextVersion();
         }
     }
@@ -497,6 +509,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     setChildrenProperty(childrenProperty: string): void {
         if (this._$childrenProperty !== childrenProperty) {
             this._$childrenProperty = childrenProperty;
+            this._hierarchyRelation.setDeclaredChildrenProperty(childrenProperty);
             this._nextVersion();
         }
     }
@@ -621,9 +634,14 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         const diff = ArraySimpleValuesUtil.getArrayDifference(this._expandedItems, expandedKeys);
 
         if (diff.removed[0] === null) {
-            this.each((it) => it.setExpanded(false));
+            this.each((it) => it['[Controls/_display/TreeItem]'] && it.setExpanded(false));
         } else {
-            diff.removed.forEach((it) => this.getItemBySourceKey(it)?.setExpanded(false));
+            diff.removed.forEach((it) => {
+                const item = this.getItemBySourceKey(it);
+                if (item && item['[Controls/_display/TreeItem]']) {
+                    item.setExpanded(false);
+                }
+            });
         }
 
         this._expandedItems = [...expandedKeys];
@@ -645,7 +663,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         } else {
             expandedKeys.forEach((key) => {
                 const item = this.getItemBySourceKey(key);
-                if (item && item.Expandable) {
+                if (item && item['[Controls/_display/TreeItem]']) {
                     // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
                     item.setExpanded(true);
                 }
@@ -660,13 +678,18 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
         // TODO зарефакторить по задаче https://online.sbis.ru/opendoc.html?guid=5d8d38d0-3ade-4393-bced-5d7fbd1ca40b
         const diff = ArraySimpleValuesUtil.getArrayDifference(this._collapsedItems, collapsedKeys);
-        diff.removed.forEach((it) => this.getItemBySourceKey(it)?.setExpanded(true));
+        diff.removed.forEach((it) => {
+            const item = this.getItemBySourceKey(it);
+            if (item && item['[Controls/_display/TreeItem]']) {
+                item.setExpanded(true);
+            }
+        });
 
         this._collapsedItems = [...collapsedKeys];
 
         collapsedKeys.forEach((key) => {
             const item = this.getItemBySourceKey(key);
-            if (item && item.Expandable) {
+            if (item && item['[Controls/_display/TreeItem]']) {
                 // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
                 item.setExpanded(false);
             }
@@ -678,7 +701,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             return;
         }
 
-        this.getItems().filter((it) => it.Expandable && it.isExpanded()).forEach((it) => {
+        this.getItems().filter((it) => it['[Controls/_display/TreeItem]'] && it.isExpanded()).forEach((it) => {
             if (it['[Controls/_display/TreeItem]']) {
                 it.setExpanded(false);
             }
@@ -743,6 +766,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
         return function TreeItemsFactory(options: IItemsFactoryOptions<S>): T {
             options.hasChildren = object.getPropertyValue<boolean>(options.contents, this._$hasChildrenProperty);
+            options.hasChildrenByRecordSet = !!this._getChildrenByRecordSet(options.contents).length;
             options.expanderTemplate = this._$expanderTemplate;
             options.hasNodeWithChildren = this._hasNodeWithChildren;
 
@@ -915,6 +939,14 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         return this._childrenMap[key];
     }
 
+    private _getChildrenByRecordSet(parent: S): S[] {
+        // метод может быть позван, до того как полностью отработает конструктор
+        if (!this._hierarchyRelation) {
+            this._createHierarchyRelation();
+        }
+        return this._hierarchyRelation.getChildren(parent, this.getCollection() as any as RecordSet) as any[] as S[];
+    }
+
     protected _getNearbyItem(
         enumerator: CollectionEnumerator<T>,
         item: T,
@@ -992,6 +1024,15 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     // endregion HasNodeWithChildren
+
+    private _createHierarchyRelation(): void {
+        this._hierarchyRelation = new relation.Hierarchy({
+            keyProperty: this.getKeyProperty(),
+            parentProperty: this.getParentProperty(),
+            nodeProperty: this.getNodeProperty(),
+            declaredChildrenProperty: this.getHasChildrenProperty()
+        });
+    }
 }
 
 Object.assign(Tree.prototype, {

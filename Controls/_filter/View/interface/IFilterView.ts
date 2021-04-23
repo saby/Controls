@@ -1,4 +1,4 @@
-import {IControlOptions, TemplateFunction} from 'UI/_base/Control';
+import {IControlOptions, TemplateFunction} from 'UI/Base';
 import {IFilterItem} from 'Controls/_filter/View/interface/IFilterItem';
 
 export interface IFilterViewOptions extends IControlOptions {
@@ -350,7 +350,7 @@ export interface IFilterView {
 
 /**
  * @name Controls/_filter/View/interface/IFilterView#detailPanelPopupOptions
- * @cfg {Controls/popup:IStickyPopup} Опции для Sticky-опенера, открывающего панель фильтров.
+ * @cfg {Controls/popup:IStickyOpener} Опции для Sticky-опенера, открывающего панель фильтров.
  * @example
  * <pre class="brush: html">
  * <!-- MyModule.wml -->

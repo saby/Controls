@@ -5,7 +5,7 @@ import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
 /**
  * Хелпер для открытия прилипающих окон
  * @class Controls/_popup/PopupHelper/Sticky
- * @implements Controls/_popup/interface/IStickyOpener
+ * @implements Controls/popup:IStickyOpener
  *
  * @remark
  * Для предотвращения потенциальной утечки памяти не забывайте уничтожать экземпляр оперена

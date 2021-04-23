@@ -29,10 +29,10 @@ export interface ICheckboxGroupOptions extends IControlOptions,
  *
  * @class Controls/_toggle/CheckboxGroup
  * @extends UI/Base:Control
- * @implements Controls/_interface/ISource
- * @implements Controls/_interface/IMultiSelectable
- * @implements Controls/_interface/IHierarchy
- * @implements Controls/_toggle/interface/IToggleGroup
+ * @implements Controls/interface:ISource
+ * @implements Controls/interface:IMultiSelectable
+ * @implements Controls/interface:IHierarchy
+ * @implements Controls/toggle:IToggleGroup
  * 
  * @public
  * @author Красильников А.С.
@@ -45,9 +45,9 @@ export interface ICheckboxGroupOptions extends IControlOptions,
  * @class Controls/_toggle/CheckboxGroup
  * @extends UI/Base:Control
  * @mixes Controls/interface:ISource
- * @mixes Controls/_interface/IMultiSelectable
+ * @mixes Controls/interface:IMultiSelectable
  * @mixes Controls/interface:IHierarchy
- * @implements Controls/_toggle/interface/IToggleGroup
+ * @implements Controls/toggle:IToggleGroup
  * 
  * @public
  * @author Красильников А.С.

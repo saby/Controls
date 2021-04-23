@@ -12,8 +12,9 @@ interface IAreaCutOptions extends IAreaOptions, ICutOptions {}
  *
  * @class Controls/_spoiler/AreaCut
  * @extends UI/Base:Control
- * @mixes Controls/_spoiler/interface/ICut
+ * @implements Controls/spoiler:ICut
  * @see Controls/_input/Area
+ * @public
  * @demo Controls-demo/Spoiler/AreaCut/Index
  *
  * @author Красильников А.С.
@@ -22,31 +23,32 @@ interface IAreaCutOptions extends IAreaOptions, ICutOptions {}
 class AreaCut extends Cut {
     protected _template: TemplateFunction = template;
     protected _expanded: boolean = true;
+    protected _value: string | null;
     protected _firstEditPassed: boolean = false;
 
-    protected _beforeMount(options: IAreaCutOptions): void {
-        super._beforeMount(options);
-        if (options.value) {
-            this._firstEditPassed = true;
-        }
-    }
-
     protected _beforeUpdate(options: IAreaCutOptions): void {
-        if (this._options.readOnly === false && options.readOnly === true) {
+        if (!options.readOnly && !this._firstEditPassed) {
+            this._expanded = true;
+        }
+        if (!this._options.readOnly && options.readOnly) {
             this._expanded = false;
-            if (options.readOnly && options.value) {
+            if (options.readOnly && this._value) {
                 this._firstEditPassed = true;
             }
         }
         super._beforeUpdate(options);
     }
 
-    protected _valueChangedHandler(event: Event, value: string) {
+    protected _valueChangedHandler(event: Event, value: string): void {
+        this._value = value;
         this._notify('valueChanged', [value]);
     }
 
-    protected _mousedownHandler(): void {
-        this._expanded = true;
+    protected _mousedownHandler(event: Event): void {
+        if (!this._options.readOnly) {
+            this._expanded = true;
+        }
+        event.preventDefault();
     }
 
     static getDefaultOptions(): object {

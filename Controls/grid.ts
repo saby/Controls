@@ -96,7 +96,7 @@ import GridDataRow, {IOptions as IGridDataRowOptions} from 'Controls/_grid/displ
 import GridDataCell, {IOptions as IGridDataCellOptions} from 'Controls/_grid/display/DataCell';
 
 import GridResultsRow, {IOptions as IGridResultsRowOptions} from 'Controls/_grid/display/ResultsRow';
-import GridResultsCell, {IOptions as IGridResultsCellOptions} from 'Controls/_grid/display/ResultsCell';
+import GridResultsCell, { GRID_RESULTS_CELL_DEFAULT_TEMPLATE, IOptions as IGridResultsCellOptions } from 'Controls/_grid/display/ResultsCell';
 
 import GridFooterRow, {IOptions as IGridFooterRowOptions} from 'Controls/_grid/display/FooterRow';
 import GridFooterCell, {IOptions as IGridFooterCellOptions} from 'Controls/_grid/display/FooterCell';
@@ -139,7 +139,7 @@ export {
     GridDataRow, IGridDataRowOptions,
     GridDataCell, IGridDataCellOptions,
     GridResultsRow, IGridResultsRowOptions,
-    GridResultsCell, IGridResultsCellOptions,
+    GridResultsCell, GRID_RESULTS_CELL_DEFAULT_TEMPLATE, IGridResultsCellOptions,
     GridFooterRow, IGridFooterRowOptions,
     GridFooterCell, IGridFooterCellOptions,
     GridGroupRow, IGridGroupRowOptions,

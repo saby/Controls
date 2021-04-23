@@ -2,8 +2,6 @@ import {FormatBuilder, Formatter} from 'Controls/decorator';
 import InputProcessor = require('Controls/_input/Mask/InputProcessor');
 import BaseViewModel = require('Controls/_input/Base/ViewModel');
 
-
-
       /**
        * @class Controls/_input/Text/ViewModel
        * @private
@@ -41,7 +39,7 @@ import BaseViewModel = require('Controls/_input/Base/ViewModel');
 
          _convertToValue(displayValue) {
             this._format = FormatBuilder.getFormat(this.options.mask, this.options.formatMaskChars, this.options.replacer);
-            const value = Formatter.clearData(this._format, displayValue).value;
+            const value = Formatter.clearData(this._format, displayValue)?.value || '';
             return value;
          }
          _convertToDisplayValue(value) {
@@ -49,10 +47,10 @@ import BaseViewModel = require('Controls/_input/Base/ViewModel');
             this._nextVersion();
             const fValue = value === null ? '' : value;
             _private.updateFormatMaskChars(this, this.options.formatMaskChars);
-            try {
-               const fDate = Formatter.formatData(this._format, { value: fValue, carriagePosition: 0 });
+            const fDate = Formatter.formatData(this._format, {value: fValue, carriagePosition: 0});
+            if (fDate) {
                return fDate.value;
-            } catch (e) {
+            } else {
                if (this.options.replacer) {
                   return this._options.mask.replace(this.formatMaskCharsRegExp, this.options.replacer);
                }
