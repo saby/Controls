@@ -77,6 +77,7 @@ describe('Controls/marker/Controller', () => {
 
          // Версия именно 1, т.к. мы при RESET установили первый элемент списка и обновили ему версию.
          assert.equal(model.getItemBySourceKey(1).getVersion(), 1);
+         assert.equal(model.getItemBySourceKey(3).getVersion(), 1);
          assert.isFalse(model.getItemBySourceKey(1).isMarked());
 
          controller.setMarkedKey(1);
@@ -89,7 +90,7 @@ describe('Controls/marker/Controller', () => {
          assert.equal(model.getVersion(), 3);
          assert.equal(model.getItemBySourceKey(1).getVersion(), 2);
          assert.equal(model.getItemBySourceKey(2).getVersion(), 0);
-         assert.equal(model.getItemBySourceKey(3).getVersion(), 0);
+         assert.equal(model.getItemBySourceKey(3).getVersion(), 1);
       });
 
       it('another key', () => {
