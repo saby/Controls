@@ -55,6 +55,7 @@
                                         keyProperty="id"
                                         displayProperty="title"
                                         source="{{_periodType}}"
+                                        contrastBackground="{{true}}"
                                         bind:selectedKey="_periodTypeKey"
                                 />
                                 <Controls.dropdown:Combobox
@@ -62,6 +63,7 @@
                                         keyProperty="id"
                                         displayProperty="title"
                                         source="{{_periodQuarter}}"
+                                        contrastBackground="{{true}}"
                                         bind:selectedKey="_periodQuarterKey"
                                 />
                             </div>
