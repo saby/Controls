@@ -30,7 +30,7 @@
 <Controls.event:Register name="resizeDetectDetail" register="controlResize" attr:fixCompatible="1">
    <div name="detail" class="controls-MasterDetail_details ws-flexbox ws-flex-grow-1">
       <ws:partial
-              attr:class="controls-MasterDetail_detailsContent {{_options.contrastBackground  ? 'controls__block' :
+              attr:class="controls-MasterDetail_detailsContent {{_options.contrastBackground  ? 'tlr controls__block_theme-' + _options.theme :
                      'controls-MasterDetail_details_bg-same'}}"
               template="{{_options.detail}}"
               selectedMasterValue="{{_selected}}"/>
