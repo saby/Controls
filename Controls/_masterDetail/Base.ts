@@ -171,13 +171,16 @@ class Base extends Control<IMasterDetail, string> {
     private _scrollState: string;
     private _marginTop: number;
     protected _masterStyle: string;
-    protected _newDesign: boolean;
+    protected _newDesign: boolean = false;
 
     protected _beforeMount(options: IMasterDetail, context: object, receivedState: string): Promise<string> | void {
+        const masterDetailOptions = context?.MasterDetailOptions;
         this._updateOffsetDebounced = debounce(this._updateOffsetDebounced.bind(this), RESIZE_DELAY);
         this._canResizing = this._isCanResizing(options);
         this._prepareLimitSizes(options);
-        this._newDesign = context.MasterDetailOptions?.newDesign;
+        if (masterDetailOptions) {
+            this._newDesign = masterDetailOptions.newDesign;
+        }
         if (receivedState) {
             this._currentWidth = receivedState;
         } else if (options.propStorageId) {
