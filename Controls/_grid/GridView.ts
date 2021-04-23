@@ -463,7 +463,8 @@ const GridView = ListView.extend({
     },
 
     _onStartDragScrolling(e, startBy: 'mouse' | 'touch'): void {
-        if (this._columnScrollViewController && this.isColumnScrollVisible()) {
+        // DragScrolling нужен, чтобы тащить скроллируемые колонки. Не надо звать его везде
+        if (e.target.closest(COLUMN_SCROLL_JS_SELECTORS.SCROLLABLE_ELEMENT) && this._columnScrollViewController && this.isColumnScrollVisible()) {
             this._columnScrollViewController?.startDragScrolling(e, startBy);
             this._applyColumnScrollChanges();
         }
