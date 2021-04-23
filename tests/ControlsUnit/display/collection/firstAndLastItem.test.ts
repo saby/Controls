@@ -13,7 +13,7 @@ describe('ControlsUnit/display/collection/firstAndLastItem', () => {
                 collection: recordSet
             });
             assert.isTrue(collection.at(0).getIsFirstItem());
-            assert.isTrue(collection.at(1).getIsLastItem());
+            assert.isTrue(collection.at(1).isLastItem());
         });
     });
 
@@ -44,14 +44,14 @@ describe('ControlsUnit/display/collection/firstAndLastItem', () => {
             });
 
             assert.isTrue(collection.at(0).getIsFirstItem());
-            assert.isTrue(collection.at(1).getIsLastItem());
+            assert.isTrue(collection.at(1).isLastItem());
 
             recordSet.merge(new RecordSet({ rawData: [{id: 3}, {id: 4}], keyProperty: 'id' }), {remove: false, inject: true });
 
             assert.isTrue(collection.at(0).getIsFirstItem());
-            assert.isFalse(collection.at(1).getIsLastItem());
+            assert.isFalse(collection.at(1).isLastItem());
             assert.isFalse(collection.at(2).getIsFirstItem());
-            assert.isTrue(collection.at(3).getIsLastItem());
+            assert.isTrue(collection.at(3).isLastItem());
         });
 
         // 12. Добавились items. у текущих first и last поменялась версия
@@ -86,9 +86,9 @@ describe('ControlsUnit/display/collection/firstAndLastItem', () => {
             recordSet.removeAt(0);
             assert.isTrue(itemAt1.getIsFirstItem());
 
-            assert.isFalse(itemAt2.getIsLastItem());
+            assert.isFalse(itemAt2.isLastItem());
             recordSet.removeAt(2);
-            assert.isTrue(itemAt2.getIsLastItem());
+            assert.isTrue(itemAt2.isLastItem());
         });
     });
 

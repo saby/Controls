@@ -640,7 +640,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._nextVersion();
     }
 
-    getIsLastItem(): boolean {
+    isLastItem(): boolean {
         return this._$isLastItem;
     }
 
@@ -790,7 +790,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
         const navigation = this.getOwner().getNavigation();
         if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
-            && this.getIsLastItem()) {
+            && this.isLastItem()) {
             contentClasses += ' controls-ListView__itemV_last';
         }
         if (this.getIsFirstItem()) {

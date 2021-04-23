@@ -105,7 +105,7 @@ export default abstract class Row<T> {
         }
         const navigation = this.getOwner().getNavigation();
         if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
-            && this.getIsLastItem()) {
+            && this.isLastItem()) {
             itemClasses += ' controls-ListView__itemV_last';
         }
         if (this.getIsFirstItem()) {
@@ -690,7 +690,7 @@ export default abstract class Row<T> {
 
     abstract getIsFirstItem(): boolean;
 
-    abstract getIsLastItem(): boolean;
+    abstract isLastItem(): boolean;
 
     protected abstract _getCursorClasses(cursor: string, clickable: boolean): string;
 
