@@ -191,7 +191,7 @@ const _private = {
         return options.rowSeparatorSize ? options.rowSeparatorSize.toLowerCase() : null;
     },
 
-    getQAClasses(marker: boolean): string {
+    getQAClasses(marker: boolean = true): string {
         let classes = '';
         if (this.isMarked() && marker) {
             classes += ' qa-controls-list-marked-item ';
