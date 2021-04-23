@@ -35,7 +35,8 @@ export default class Demo extends Control<IControlOptions> {
                     name: 'description',
                     caption: 'Описание',
                     editorOptions: {
-                        minLines: 3
+                        minLines: 3,
+                        contrastBackground: true
                     },
                     editorClass: 'controls-demo-pg-text-editor',
                     group: 'text',
