@@ -1857,6 +1857,33 @@ describe('Controls/_display/Tree', () => {
                const tree = getTree(rs, {expanderVisibility: 'hasChildren'});
                assert.isFalse(tree.hasNodeWithChildren());
            });
+
+           it('after reset should right recount state', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: true, node: false, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs, {expanderVisibility: 'hasChildren'});
+               assert.isTrue(tree.hasNodeWithChildren());
+
+               rs.assign(new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: false, node: false, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               }));
+               assert.isFalse(tree.hasNodeWithChildren());
+
+               rs.assign(new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: true, node: false, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               }));
+               assert.isTrue(tree.hasNodeWithChildren());
+           });
         });
        describe('default nodes', () => {
            it('has node with children', () => {

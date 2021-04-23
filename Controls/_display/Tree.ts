@@ -28,6 +28,7 @@ import TreeDrag from './itemsStrategy/TreeDrag';
 import {isEqual} from 'Types/object';
 import {IObservable, RecordSet} from 'Types/collection';
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
+import { ISourceCollection } from './interface/ICollection';
 
 export interface ISerializableState<S, T> extends IDefaultSerializableState<S, T> {
     _root: T;
@@ -336,10 +337,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // region Collection
 
-    getNodeFooterTemplateMoreButton(): TemplateFunction {
-        return this._$nodeFooterTemplateMoreButton;
-    }
-
     // region Expander
 
     getExpanderTemplate(expanderTemplate?: TemplateFunction): TemplateFunction {
@@ -422,6 +419,12 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // endregion Drag-n-drop
 
+    // region NodeFooter
+
+    getNodeFooterTemplateMoreButton(): TemplateFunction {
+        return this._$nodeFooterTemplateMoreButton;
+    }
+
     getNodeFooterTemplate(): TemplateFunction {
         return this._$nodeFooterTemplate;
     }
@@ -430,6 +433,18 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (this._$nodeFooterTemplate !== nodeFooterTemplate) {
             this._$nodeFooterTemplate = nodeFooterTemplate;
             this._nextVersion();
+        }
+    }
+
+    // endregion NodeFooter
+
+    setCollection(newCollection: ISourceCollection<S>): void {
+        super.setCollection(newCollection);
+        if (this.getExpanderVisibility() === 'hasChildren') {
+            this._recountHasNodeWithChildren();
+        }
+        if (!this.getHasChildrenProperty()) {
+            this._recountHasChildrenByRecordSet();
         }
     }
 
@@ -1080,16 +1095,18 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     // region HasNodeWithChildren
 
     protected _recountHasNodeWithChildren(): void {
-        if (!this.getCount()) {
+        // hasNodeWithChildren нужно считать по рекордсету,
+        // т.к. ,когда срабатывает событие reset, элементы проекции еще не созданы
+        if (!this.getCollection().getCount()) {
             return;
         }
 
-        const itemsInRoot = this.getChildren(this.getRoot());
-
         let hasNodeWithChildren = false;
-        for (let i = 0; i < itemsInRoot.getCount(); i++) {
-            const item = itemsInRoot.at(i);
-            if (item.isNode() !== null && item.hasChildren()) {
+
+        const collection = this.getCollection();
+        for (let i = 0; i < collection.getCount(); i++) {
+            const item = collection.at(i);
+            if (item.get(this.getNodeProperty()) !== null && item.get(this.getHasChildrenProperty())) {
                 hasNodeWithChildren = true;
                 break;
             }
