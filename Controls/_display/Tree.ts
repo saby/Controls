@@ -963,7 +963,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     private _recountHasChildrenByRecordSet(): void {
-        const nodes = this._getItems().filter((it) => it.isNode() !== null);
+        const nodes = this._getItems().filter((it) => it['[Controls/_display/TreeItem]'] && it.isNode() !== null);
         let changed = false;
 
         nodes.forEach((it) => {
