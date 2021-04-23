@@ -2510,24 +2510,14 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     // region Аспект "крайние записи"
 
-    isLastItem(item: EntityModel): boolean {
-        const lastItem = this.getLastItem();
-        return this._getItemKey(lastItem) === this._getItemKey(item);
-    }
-
-    isFirstItem(item: EntityModel): boolean {
-        const firstItem = this.getFirstItem();
-        return this._getItemKey(firstItem) === this._getItemKey(item);
-    }
-
-    protected getLastItem(): EntityModel {
+    getLastItem(): EntityModel {
         if (!this._lastItem) {
             this._lastItem = this.getCollection().at(this.getCollection().getCount() - 1);
         }
         return this._lastItem;
     }
 
-    protected getFirstItem(): EntityModel<any> {
+    getFirstItem(): EntityModel<any> {
         if (!this._firstItem) {
             this._firstItem = this.getCollection().at(0);
         }
@@ -2541,8 +2531,18 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }
     }
 
+    protected _isLastItem(item: EntityModel): boolean {
+        const lastItem = this.getLastItem();
+        return this._getItemKey(lastItem) === this._getItemKey(item);
+    }
+
+    protected _isFirstItem(item: EntityModel): boolean {
+        const firstItem = this.getFirstItem();
+        return this._getItemKey(firstItem) === this._getItemKey(item);;
+    }
+
     private _getItemKey(item: EntityModel | object): number | string {
-        return item && (item as EntityModel).getKey ? (item as EntityModel).getKey() : item[this._$keyProperty];
+        return item && ((item as EntityModel).getKey ? (item as EntityModel).getKey() : item[this._$keyProperty]);
     }
 
     private _setFirstCollectionItemState(firstItem: EntityModel, value: boolean): void {

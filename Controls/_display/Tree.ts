@@ -737,7 +737,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // region Аспект "крайние записи"
 
-    protected getLastItem(): EntityModel {
+    getLastItem(): EntityModel {
         if (!this._lastItem) {
             this._lastItem = this._getLastItemRecursive(this.getRoot().getContents());
         }
@@ -745,27 +745,25 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     private _getLastItemRecursive(root: S): S {
-        if (this._$collection['[Types/_collection/RecordSet]']) {
-            // Обращаемся к иерархии для получения детей
-            const children = this._getChildrenByRecordSet(root);
-            const lastChild: S = children[children.length - 1];
-            // Если узел и у него нет детей, то он последний
-            if (children.length === 0) {
-                return root;
-            }
-            const isNode = (lastChild.get ? lastChild.get(this._$nodeProperty) : lastChild[this._$nodeProperty]) !== null;
-            const lastChildKey = lastChild.getKey ? lastChild.getKey() : lastChild[this._$keyProperty];
-
-            // expandedItems появляются только после того, как был вызван Tree.setExpandedItems
-            const expandedItems = this.getExpandedItems();
-            if (isNode && expandedItems && (
-                this.isExpandAll() ||
-                (expandedItems && expandedItems.indexOf(lastChildKey) !== -1)
-            )) {
-                return this._getLastItemRecursive(lastChild);
-            }
-            return lastChild;
+        // Обращаемся к иерархии для получения детей
+        const children = this._getChildrenByRecordSet(root);
+        const lastChild: S = children[children.length - 1];
+        // Если узел и у него нет детей, то он последний
+        if (children.length === 0) {
+            return root;
         }
+        const isNode = (lastChild.get ? lastChild.get(this._$nodeProperty) : lastChild[this._$nodeProperty]) !== null;
+        const lastChildKey = lastChild.getKey ? lastChild.getKey() : lastChild[this._$keyProperty];
+
+        // expandedItems появляются только после того, как был вызван Tree.setExpandedItems
+        const expandedItems = this.getExpandedItems();
+        if (isNode && expandedItems && (
+            this.isExpandAll() ||
+            (expandedItems && expandedItems.indexOf(lastChildKey) !== -1)
+        )) {
+            return this._getLastItemRecursive(lastChild);
+        }
+        return lastChild;
     }
 
     // endregion Аспект "крайние записи"
