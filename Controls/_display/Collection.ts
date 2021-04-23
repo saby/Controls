@@ -1419,7 +1419,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             // Такой записи еще нет в наборе данных.
             if (sourceIndex === -1 && this._$isEditing) {
                 this.each((el, index: number) => {
-                    if (el.isEditing() && el.isAdd && el.contents.getKey() === item.contents.getKey()) {
+                    if (el.isEditing() && el.isAdd && el.contents.getKey() === item.getKey()) {
                         sourceIndex = index;
                     }
                 });
