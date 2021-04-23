@@ -2,6 +2,7 @@ import MonthsSource from 'Controls/_calendar/MonthList/MonthsSource';
 import {Query} from 'Types/source';
 import monthListUtils from 'Controls/_calendar/MonthList/Utils';
 import ITEM_TYPES from 'Controls/_calendar/MonthList/ItemTypes';
+import {Base as dateUtils} from 'Controls/dateUtils';
 
 describe('Controls/_calendar/MonthList/MonthsSource', () => {
 
@@ -328,6 +329,20 @@ describe('Controls/_calendar/MonthList/MonthsSource', () => {
                     });
                 });
             });
+        });
+    });
+
+    describe('_getDefaultDisplayedRanges', () => {
+        it('should return correct default displayedRanges', () => {
+            const source = new MonthsSource({});
+            const result = source._getDefaultDisplayedRanges();
+            const lastMonth = 11;
+            const defaultDisplayedRanges = [[
+                new Date(dateUtils.MIN_YEAR_VALUE, 0),
+                new Date(dateUtils.MAX_YEAR_VALUE, lastMonth)
+            ]];
+            assert.isTrue(dateUtils.isDatesEqual(result[0][0], defaultDisplayedRanges[0][0]));
+            assert.isTrue(dateUtils.isDatesEqual(result[0][1], defaultDisplayedRanges[0][1]));
         });
     });
 
