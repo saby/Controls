@@ -148,12 +148,12 @@ describe('Controls/_display/TreeItemDecorator', () => {
         });
     });
 
-    describe('.isHasChildren()', () => {
+    describe('.hasChildren()', () => {
         it('should return source has children', () => {
             const hasChildren = true;
             const source = new TreeItem({hasChildren});
             const item = new TreeItemDecorator({source});
-            assert.strictEqual(item.isHasChildren(), hasChildren);
+            assert.strictEqual(item.hasChildren(), hasChildren);
         });
     });
 
@@ -163,7 +163,7 @@ describe('Controls/_display/TreeItemDecorator', () => {
             const source = new TreeItem();
             const item = new TreeItemDecorator({source});
             item.setHasChildren(hasChildren);
-            assert.strictEqual(source.isHasChildren(), hasChildren);
+            assert.strictEqual(source.hasChildren(), hasChildren);
         });
     });
 

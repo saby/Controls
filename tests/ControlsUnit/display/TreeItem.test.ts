@@ -228,7 +228,8 @@ describe('Controls/_display/TreeItem', () => {
                 getExpanderVisibility: () => 'visible',
                 getExpanderIcon: () => undefined,
                 getExpanderPosition: () => 'default',
-                getExpanderSize: () => undefined
+                getExpanderSize: () => undefined,
+                getHasChildrenProperty: () => 'hasChildren'
             };
             const item = new TreeItem({ owner });
 
@@ -350,15 +351,15 @@ describe('Controls/_display/TreeItem', () => {
         });
     });
 
-    describe('.isHasChildren()', () => {
+    describe('.hasChildren()', () => {
         it('should return false by default', () => {
             const item = new TreeItem();
-            assert.isFalse(item.isHasChildren());
+            assert.isFalse(item.hasChildren());
         });
 
         it('should return value passed to the constructor', () => {
             const item = new TreeItem({hasChildren: false});
-            assert.isFalse(item.isHasChildren());
+            assert.isFalse(item.hasChildren());
         });
     });
 
@@ -367,10 +368,10 @@ describe('Controls/_display/TreeItem', () => {
             const item = new TreeItem();
 
             item.setHasChildren(false);
-            assert.isFalse(item.isHasChildren());
+            assert.isFalse(item.hasChildren());
 
             item.setHasChildren(true);
-            assert.isTrue(item.isHasChildren());
+            assert.isTrue(item.hasChildren());
         });
     });
 

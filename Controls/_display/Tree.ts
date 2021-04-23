@@ -96,9 +96,12 @@ function onCollectionChange<T>(
     this.instance._finishUpdateSession(session, false);
     this.instance._checkItemsDiff(session, nodes, state);
 
-    if (action === IObservable.ACTION_RESET || action === IObservable.ACTION_ADD) {
+    if (action === IObservable.ACTION_RESET || action === IObservable.ACTION_ADD || action === IObservable.ACTION_REMOVE) {
         if (this.instance.getExpanderVisibility() === 'hasChildren') {
             this.instance._recountHasNodeWithChildren();
+        }
+        if (!this.instance.getHasChildrenProperty()) {
+            this.instance._recountHasChildrenByRecordSet();
         }
     }
 
@@ -114,8 +117,11 @@ function onCollectionChange<T>(
  * @param index Индекс измененного элемента.
  * @param properties Объект содержащий измененные свойства элемента
  */
-function onCollectionItemChange<T>(event: EventObject, item: T, index: number, properties: object): void {
+function onCollectionItemChange<T>(event: EventObject, item: T, index: number, properties: Object): void {
     this.instance._reIndex();
+    if (!this.instance.getHasChildrenProperty() && properties.hasOwnProperty(this.instance.getParentProperty())) {
+        this.instance._recountHasChildrenByRecordSet();
+    }
     this.prev(event, item, index, properties);
 }
 
@@ -956,6 +962,20 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         return this._hierarchyRelation.getChildren(parent, this.getCollection() as any as RecordSet) as any[] as S[];
     }
 
+    private _recountHasChildrenByRecordSet(): void {
+        const nodes = this._getItems().filter((it) => it.isNode() !== null);
+        let changed = false;
+
+        nodes.forEach((it) => {
+            const hasChildrenByRecordSet = !!this._getChildrenByRecordSet(it.getContents()).length;
+            changed = changed || it.setHasChildrenByRecordSet(hasChildrenByRecordSet);
+        });
+
+        if (changed) {
+            this._nextVersion();
+        }
+    }
+
     protected _getNearbyItem(
         enumerator: CollectionEnumerator<T>,
         item: T,
@@ -1007,7 +1027,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         let hasNodeWithChildren = false;
         for (let i = 0; i < itemsInRoot.getCount(); i++) {
             const item = itemsInRoot.at(i);
-            if (item.isNode() !== null && item.isHasChildren()) {
+            if (item.isNode() !== null && item.hasChildren()) {
                 hasNodeWithChildren = true;
                 break;
             }
