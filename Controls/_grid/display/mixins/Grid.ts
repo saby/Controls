@@ -236,11 +236,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     setColspanCallback(colspanCallback: TColspanCallback): void {
         this._$colspanCallback = colspanCallback;
-        this.getViewIterator().each((item: GridRowMixin<S>) => {
-            if (item.setColspanCallback) {
-                item.setColspanCallback(colspanCallback);
-            }
-        });
+        this._updateItemsProperty('setColspanCallback', this._$colspanCallback, 'setColspanCallback');
         this._nextVersion();
     }
 
@@ -284,7 +280,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         this._$columns = newColumns;
         this._nextVersion();
         // Строки данных, группы
-        this._updateItemsColumns();
+        this._updateItemsProperty('setColumns', this._$columns);
 
         // В столбцах может измениться stickyProperty, поэтому нужно пересчитать ladder
         // Проверка, что точно изменился stickyProperty, это не быстрая операция, т.к. columns - массив объектов
@@ -322,11 +318,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (header) {
             header.setColumnSeparatorSize(columnSeparatorSize);
         }
-        this.getViewIterator().each((item: GridRowMixin<S>) => {
-            if (item.LadderSupport) {
-                item.setColumnSeparatorSize(columnSeparatorSize);
-            }
-        });
+        this._updateItemsProperty('setColumnSeparatorSize', this._$columnSeparatorSize, 'setColumnSeparatorSize');
     }
 
     // TODO удалить после https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
@@ -355,7 +347,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _updateItemsLadder(): void {
-        this.getViewIterator().each((item: GridRowMixin<S>, index: number) => {
+        this._getItems().forEach((item: GridRowMixin<S>, index: number) => {
             let ladder;
             let stickyLadder;
             if (this._$ladder) {
@@ -369,12 +361,6 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             if (item.LadderSupport) {
                 item.updateLadder(ladder, stickyLadder);
             }
-        });
-    }
-
-    protected _updateItemsColumns(): void {
-        this.getViewIterator().each((item: GridRowMixin<S>) => {
-            item.setColumns(this._$columns);
         });
     }
 
@@ -536,6 +522,11 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     abstract getItemBySourceItem(item: S): T;
 
     protected abstract _nextVersion(): void;
+    protected abstract _getItems(): T[];
+    protected abstract _updateItemsProperty(updateMethodName: string,
+                                            newPropertyValue: any,
+                                            conditionProperty?: string,
+                                            silent?: boolean): void;
 
     // endregion
 }

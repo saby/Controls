@@ -1019,11 +1019,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     protected _setHasNodeWithChildren(hasNodeWithChildren: boolean): void {
         if (this._hasNodeWithChildren !== hasNodeWithChildren) {
             this._hasNodeWithChildren = hasNodeWithChildren;
-            this.getViewIterator().each((item: TreeItem) => {
-                if (item.setHasNodeWithChildren) {
-                    item.setHasNodeWithChildren(hasNodeWithChildren);
-                }
-            });
+            this._updateItemsProperty('setHasNodeWithChildren', this._hasNodeWithChildren, 'setHasNodeWithChildren');
             this._nextVersion();
         }
     }

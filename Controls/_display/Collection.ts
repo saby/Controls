@@ -1,6 +1,5 @@
 import {TemplateFunction} from 'UI/Base';
 import Abstract, {IEnumerable, IOptions as IAbstractOptions} from './Abstract';
-import * as cMerge from 'Core/core-merge';
 import CollectionEnumerator from './CollectionEnumerator';
 import CollectionItem, {IOptions as ICollectionItemOptions, ICollectionItemCounters} from './CollectionItem';
 import GroupItem from './GroupItem';
@@ -2284,9 +2283,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setRowSeparatorSize(rowSeparatorSize: string): void {
         this._$rowSeparatorSize = rowSeparatorSize;
         this._nextVersion();
-        this.getViewIterator().each((item: CollectionItem<S>) => {
-            item.setRowSeparatorSize(rowSeparatorSize);
-        });
+        this._updateItemsProperty('setRowSeparatorSize', this._$rowSeparatorSize);
     }
 
     getMultiSelectVisibility(): string {
@@ -2299,7 +2296,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }
         this._$multiSelectVisibility = visibility;
         this._nextVersion();
-        this._updateItemsMultiSelectVisibility(visibility);
+        // Нельзя проверять SelectableItem, т.к. элементы которые нельзя выбирать
+        // тоже должны перерисоваться при изменении видимости чекбоксов
+        this._updateItemsProperty('setMultiSelectVisibility', this._$multiSelectVisibility, 'setMultiSelectVisibility');
     }
 
     setMultiSelectAccessibilityProperty(property: string): void {
@@ -2308,7 +2307,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }
         this._$multiSelectAccessibilityProperty = property;
         this._nextVersion();
-        this._updateItemsMultiSelectAccessibilityProperty(property);
+        this._updateItemsProperty('setMultiSelectAccessibilityProperty', this._$multiSelectAccessibilityProperty, 'setMultiSelectAccessibilityProperty');
     }
 
     getMultiSelectAccessibilityProperty(): string {
@@ -2327,35 +2326,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$multiSelectPosition;
     }
 
-    protected _updateItemsMultiSelectVisibility(visibility: string): void {
-        this.getViewIterator().each((item: CollectionItem<T>) => {
-            // Нельзя проверять SelectableItem, т.к. элементы которые нельзя выбирать
-            // тоже должны перерисоваться при изменении видимости чекбоксов
-            if (item.setMultiSelectVisibility) {
-                item.setMultiSelectVisibility(visibility);
-            }
-        });
-    }
-
-    protected _updateItemsMultiSelectAccessibilityProperty(property: string): void {
-        this.getViewIterator().each((item: CollectionItem) => {
-            if (item.setMultiSelectAccessibilityProperty) {
-                item.setMultiSelectAccessibilityProperty(property);
-            }
-        });
-    }
-
     protected _setItemPadding(itemPadding: IItemPadding, silent?: boolean): void {
         this._$topPadding = itemPadding.top || 'default';
         this._$bottomPadding = itemPadding.bottom || 'default';
         this._$leftPadding = itemPadding.left || 'default';
         this._$rightPadding = itemPadding.right || 'default';
 
-        this.getViewIterator().each((item: CollectionItem) => {
-            if (item.setItemPadding) {
-                item.setItemPadding(itemPadding, silent);
-            }
-        });
+        this._updateItemsProperty('setItemPadding', itemPadding, 'setItemPadding', silent);
     }
 
     setItemPadding(itemPadding: IItemPadding): void {
@@ -2460,11 +2437,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setSearchValue(searchValue: string): void {
         if (this._$searchValue !== searchValue) {
             this._$searchValue = searchValue;
-            this.getViewIterator().each((item: T) => {
-                if (item.DisplaySearchValue) {
-                    item.setSearchValue(searchValue);
-                }
-            });
+            this._updateItemsProperty('setSearchValue', this._$searchValue, 'DisplaySearchValue');
             this._nextVersion();
         }
     }
@@ -2598,7 +2571,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     setIndexes(start: number, stop: number): void {
         this.getViewIterator().setIndices(start, stop);
-        this._updateItemsMultiSelectVisibility(this._$multiSelectVisibility);
+        // Нельзя проверять SelectableItem, т.к. элементы которые нельзя выбирать
+        // тоже должны перерисоваться при изменении видимости чекбоксов
+        this._updateItemsProperty('setMultiSelectVisibility', this._$multiSelectVisibility, 'setMultiSelectVisibility');
     }
 
     getViewIterator(): IViewIterator {
@@ -3024,6 +2999,17 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     // endregion
 
     // region Protected methods
+
+    protected _updateItemsProperty(updateMethodName: string,
+                                   newPropertyValue: any,
+                                   conditionProperty?: string,
+                                   silent?: boolean): void {
+        this._getItems().forEach((item: CollectionItem<S>) => {
+            if (!conditionProperty || item[conditionProperty]) {
+                item[updateMethodName](newPropertyValue, silent);
+            }
+        });
+    }
 
     // region Access
 
@@ -3888,7 +3874,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _handleAfterCollectionChange(changedItems: ISessionItems<T> = [], changeAction?: string): void {
         this._notifyAfterCollectionChange();
-        this._updateItemsMultiSelectVisibility(this._$multiSelectVisibility);
+        // Нельзя проверять SelectableItem, т.к. элементы которые нельзя выбирать
+        // тоже должны перерисоваться при изменении видимости чекбоксов
+        this._updateItemsProperty('setMultiSelectVisibility', this._$multiSelectVisibility, 'setMultiSelectVisibility');
     }
 
     protected _handleAfterCollectionItemChange(item: T, index: number, properties?: object): void {}

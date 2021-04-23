@@ -81,17 +81,9 @@ export default abstract class Tile<
     setTileMode(tileMode: string): void {
         if (this._$tileMode !== tileMode) {
             this._$tileMode = tileMode;
-            this._updateItemsTileMode(tileMode);
+            this._updateItemsProperty('setTileMode', this._$tileMode, 'setTileMode');
             this._nextVersion();
         }
-    }
-
-    private _updateItemsTileMode(tileMode: string): void {
-        this.getViewIterator().each((item: TileItem<S>) => {
-            if (item.setTileMode) {
-                item.setTileMode(tileMode);
-            }
-        });
     }
 
     getTileSize(): 's'|'m'|'l' {
@@ -101,17 +93,9 @@ export default abstract class Tile<
     setTileSize(tileSize: 's'|'m'|'l'): void {
         if (this._$tileSize !== tileSize) {
             this._$tileSize = tileSize;
-            this._updateItemsTileSize(tileSize);
+            this._updateItemsProperty('setTileSize', this._$tileSize, 'setTileSize');
             this._nextVersion();
         }
-    }
-
-    private _updateItemsTileSize(tileSize: 's'|'m'|'l'): void {
-        this.getViewIterator().each((item: TileItem<S>) => {
-            if (item.setTileSize) {
-                item.setTileSize(tileSize);
-            }
-        });
     }
 
     getTileHeight(): number {
@@ -121,17 +105,9 @@ export default abstract class Tile<
     setTileHeight(tileHeight: number): void {
         if (this._$tileHeight !== tileHeight) {
             this._$tileHeight = tileHeight;
-            this._updateItemsTileHeight(tileHeight);
+            this._updateItemsProperty('setTileHeight', this._$tileHeight, 'setTileHeight');
             this._nextVersion();
         }
-    }
-
-    private _updateItemsTileHeight(tileHeight: number): void {
-        this.getViewIterator().each((item: TileItem<S>) => {
-            if (item.setTileHeight) {
-                item.setTileHeight(tileHeight);
-            }
-        });
     }
 
     getTileWidth(): number {
@@ -141,17 +117,9 @@ export default abstract class Tile<
     setTileWidth(tileWidth: number): void {
         if (this._$tileWidth !== tileWidth) {
             this._$tileWidth = tileWidth;
-            this._updateItemsTileWidth(tileWidth);
+            this._updateItemsProperty('setTileWidth', this._$tileWidth, 'setTileWidth');
             this._nextVersion();
         }
-    }
-
-    private _updateItemsTileWidth(tileWidth: number): void {
-        this.getViewIterator().each((item: TileItem<S>) => {
-            if (item.setTileWidth) {
-                item.setTileWidth(tileWidth);
-            }
-        });
     }
 
     getTileWidthProperty(): string {
@@ -161,17 +129,9 @@ export default abstract class Tile<
     setTileWidthProperty(tileWidthProperty: string): void {
         if (this._$tileWidthProperty !== tileWidthProperty) {
             this._$tileWidthProperty = tileWidthProperty;
-            this._updateItemsTileWidthProperty(tileWidthProperty);
+            this._updateItemsProperty('setTileWidthProperty', this._$tileWidthProperty, 'setTileWidthProperty');
             this._nextVersion();
         }
-    }
-
-    private _updateItemsTileWidthProperty(tileWidthProperty: string): void {
-        this.getViewIterator().each((item: TileItem<S>) => {
-            if (item.setTileWidthProperty) {
-                item.setTileWidthProperty(tileWidthProperty);
-            }
-        });
     }
 
     getTileFitProperty(): string {
@@ -181,17 +141,9 @@ export default abstract class Tile<
     setTileFitProperty(tileFitProperty: string): void {
         if (this._$tileFitProperty !== tileFitProperty) {
             this._$tileFitProperty = tileFitProperty;
-            this._updateItemsTileFitProperty(tileFitProperty);
+            this._updateItemsProperty('setTileFitProperty', this._$tileFitProperty, 'setTileFitProperty');
             this._nextVersion();
         }
-    }
-
-    private _updateItemsTileFitProperty(tileFitProperty: string): void {
-        this.getViewIterator().each((item: TileItem<S>) => {
-            if (item.setTileFitProperty) {
-                item.setTileFitProperty(tileFitProperty);
-            }
-        });
     }
 
     getTileScalingMode(): string {
@@ -201,17 +153,9 @@ export default abstract class Tile<
     setTileScalingMode(tileScalingMode: string): void {
         if (this._$tileScalingMode !== tileScalingMode) {
             this._$tileScalingMode = tileScalingMode;
-            this._updateItemsTileScalingMode(tileScalingMode);
+            this._updateItemsProperty('setTileScalingMode', this._$tileScalingMode, 'setTileScalingMode');
             this._nextVersion();
         }
-    }
-
-    private _updateItemsTileScalingMode(tileScalingMode: string): void {
-        this.getViewIterator().each((item: TileItem<S>) => {
-            if (item.setTileScalingMode) {
-                item.setTileScalingMode(tileScalingMode);
-            }
-        });
     }
 
     getImageProperty(): string {
@@ -221,17 +165,9 @@ export default abstract class Tile<
     setImageProperty(imageProperty: string): void {
         if (imageProperty !== this._$imageProperty) {
             this._$imageProperty = imageProperty;
-            this._updateItemsImageProperty(imageProperty);
+            this._updateItemsProperty('setImageProperty', this._$imageProperty, 'setImageProperty');
             this._nextVersion();
         }
-    }
-
-    private _updateItemsImageProperty(imageProperty: string): void {
-        this.getViewIterator().each((item: TileItem<S>) => {
-            if (item.setImageProperty) {
-                item.setImageProperty(imageProperty);
-            }
-        });
     }
 
     getImageFit(): string {
@@ -241,17 +177,9 @@ export default abstract class Tile<
     setImageFit(imageFit: string): void {
         if (imageFit !== this._$imageFit) {
             this._$imageFit = imageFit;
-            this._updateItemsImageFit(imageFit);
+            this._updateItemsProperty('setImageFit', this._$imageFit, 'setImageFit');
             this._nextVersion();
         }
-    }
-
-    private _updateItemsImageFit(imageFit: string): void {
-        this.getViewIterator().each((item: TileItem<S>) => {
-            if (item.setImageFit) {
-                item.setImageFit(imageFit);
-            }
-        });
     }
 
     getImageHeightProperty(): string {
@@ -261,17 +189,9 @@ export default abstract class Tile<
     setImageHeightProperty(imageHeightProperty: string): void {
         if (imageHeightProperty !== this._$imageHeightProperty) {
             this._$imageHeightProperty = imageHeightProperty;
-            this._updateItemsImageHeightProperty(imageHeightProperty);
+            this._updateItemsProperty('setImageHeightProperty', this._$imageHeightProperty, 'setImageHeightProperty');
             this._nextVersion();
         }
-    }
-
-    private _updateItemsImageHeightProperty(imageHeightProperty: string): void {
-        this.getViewIterator().each((item: TileItem<S>) => {
-            if (item.setImageHeightProperty) {
-                item.setImageHeightProperty(imageHeightProperty);
-            }
-        });
     }
 
     getImageWidthProperty(): string {
@@ -281,17 +201,9 @@ export default abstract class Tile<
     setImageWidthProperty(imageWidthProperty: string): void {
         if (imageWidthProperty !== this._$imageWidthProperty) {
             this._$imageWidthProperty = imageWidthProperty;
-            this._updateItemsImageWidthProperty(imageWidthProperty);
+            this._updateItemsProperty('setImageWidthProperty', this._$imageWidthProperty, 'setImageWidthProperty');
             this._nextVersion();
         }
-    }
-
-    private _updateItemsImageWidthProperty(imageWidthProperty: string): void {
-        this.getViewIterator().each((item: TileItem<S>) => {
-            if (item.setImageWidthProperty) {
-                item.setImageWidthProperty(imageWidthProperty);
-            }
-        });
     }
 
     getImageUrlResolver(): Function {
@@ -301,17 +213,9 @@ export default abstract class Tile<
     setImageUrlResolver(imageUrlResolver: Function): void {
         if (imageUrlResolver !== this._$imageUrlResolver) {
             this._$imageUrlResolver = imageUrlResolver;
-            this._updateItemsImageUrlResolver(imageUrlResolver);
+            this._updateItemsProperty('setImageUrlResolver', this._$imageUrlResolver, 'setImageUrlResolver');
             this._nextVersion();
         }
-    }
-
-    private _updateItemsImageUrlResolver(imageUrlResolver: Function): void {
-        this.getViewIterator().each((item: TileItem<S>) => {
-            if (item.setImageUrlResolver) {
-                item.setImageUrlResolver(imageUrlResolver);
-            }
-        });
     }
 
     getCompressionCoefficient(): number {
@@ -325,17 +229,9 @@ export default abstract class Tile<
     setRoundBorder(roundBorder: IRoundBorder): void {
         if (!isEqual(this._$roundBorder, roundBorder)) {
             this._$roundBorder = roundBorder;
-            this._updateItemsRoundBorder(roundBorder);
+            this._updateItemsProperty('setRoundBorder', this._$roundBorder, 'setRoundBorder');
             this._nextVersion();
         }
-    }
-
-    private _updateItemsRoundBorder(roundBorder: IRoundBorder): void {
-        this.getViewIterator().each((item: TileItem<S>) => {
-            if (item.setRoundBorder) {
-                item.setRoundBorder(roundBorder);
-            }
-        });
     }
 
     getZoomCoefficient(): number {
@@ -478,6 +374,10 @@ export default abstract class Tile<
     abstract getRightPadding(): string;
     abstract getTopPadding(): string;
     abstract getBottomPadding(): string;
+    protected abstract _updateItemsProperty(updateMethodName: string,
+                                            newPropertyValue: any,
+                                            conditionProperty?: string,
+                                            silent?: boolean): void;
     protected abstract _nextVersion(): void;
 }
 
