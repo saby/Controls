@@ -72,7 +72,10 @@ describe('Controls/grid_clean/GridView', () => {
                 };
                 handlers.forEach((hName) => {
                     gridView[hName]({
-                        stopPropagation: () => {}
+                        stopPropagation: () => {},
+                        target: {
+                            closest: (selector) => null
+                        }
                     });
                 });
                 assert.equal(columnScrollCallCount, 0);
