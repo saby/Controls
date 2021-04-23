@@ -310,8 +310,7 @@ function onCollectionChange<T>(
             if (!needReset) {
                 this._handleCollectionActionChange(newItems);
             }
-            this.resetLastItem();
-            this.resetFirstItem()
+            this._updateEdgeItems();
             this._nextVersion();
             return;
 
@@ -369,8 +368,7 @@ function onCollectionChange<T>(
     }
 
     this._finishUpdateSession(session);
-    this.resetLastItem();
-    this.resetFirstItem()
+    this._updateEdgeItems();
     this._nextVersion();
 }
 
@@ -2512,79 +2510,65 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     // region Аспект "крайние записи"
 
-    getLastItem(): EntityModel {
-        if (!!this._lastItem) {
-            return this._lastItem;
-        }
-        return this._lastItem = this.getCollection().at(this.getCollection().getCount() - 1);
-    }
-
     isLastItem(item: EntityModel): boolean {
-        if (!item || !item.getKey) {
-            return false;
-        }
         const lastItem = this.getLastItem();
-        if (!lastItem || !lastItem.getKey) {
-            return false;
-        }
-        return lastItem.getKey() === item.getKey();
-    }
-
-    resetLastItem(): void {
-        let lastItem = this.getLastItem();
-        let lastCollectionItem: CollectionItem<EntityModel>;
-        if (lastItem && lastItem.getKey) {
-            lastCollectionItem = this.getItemBySourceItem(lastItem);
-            if (lastCollectionItem) {
-                lastCollectionItem.setIsLastItem(false);
-            }
-        }
-
-        this._lastItem = null;
-
-        lastItem = this.getLastItem();
-        if (lastItem && lastItem.getKey) {
-            lastCollectionItem = this.getItemBySourceItem(lastItem);
-            if (lastCollectionItem) {
-                lastCollectionItem.setIsLastItem(true);
-            }
-        }
-    }
-
-    getFirstItem(): EntityModel<any> {
-        if (!!this._firstItem) {
-            return this._firstItem;
-        }
-        return this._firstItem = this.getCollection().at(0);
+        return this._getItemKey(lastItem) === this._getItemKey(item);
     }
 
     isFirstItem(item: EntityModel): boolean {
-        if (!item || !item.getKey) {
-            return false;
-        }
         const firstItem = this.getFirstItem();
-        return firstItem && firstItem.getKey() === item.getKey();
+        return this._getItemKey(firstItem) === this._getItemKey(item);
     }
 
-    resetFirstItem(): void {
-        let firstItem = this.getFirstItem();
-        let firstCollectionItem: CollectionItem<EntityModel>;
-        if (firstItem && firstItem.getKey) {
-            firstCollectionItem = this.getItemBySourceItem(firstItem);
-            if (firstCollectionItem) {
-                firstCollectionItem.setIsFirstItem(false);
-            }
+    protected getLastItem(): EntityModel {
+        if (!this._lastItem) {
+            this._lastItem = this.getCollection().at(this.getCollection().getCount() - 1);
         }
+        return this._lastItem;
+    }
 
+    protected getFirstItem(): EntityModel<any> {
+        if (!this._firstItem) {
+            this._firstItem = this.getCollection().at(0);
+        }
+        return this._firstItem;
+    }
+
+    protected _updateEdgeItems(): void {
+        if (this._$collection['[Types/_collection/RecordSet]']) {
+            this._updateLastItem();
+            this._updateFirstItem();
+        }
+    }
+
+    private _getItemKey(item: EntityModel | object): number | string {
+        return item && (item as EntityModel).getKey ? (item as EntityModel).getKey() : item[this._$keyProperty];
+    }
+
+    private _setFirstCollectionItemState(firstItem: EntityModel, value: boolean): void {
+        const firstCollectionItem = this.getItemBySourceItem(firstItem);
+        if (firstCollectionItem) {
+            firstCollectionItem.setIsFirstItem(value);
+        }
+    }
+
+    private _setLastCollectionItemState(lastItem: EntityModel, value: boolean): void {
+        const lastCollectionItem = this.getItemBySourceItem(lastItem);
+        if (lastCollectionItem) {
+            lastCollectionItem.setIsLastItem(value);
+        }
+    }
+
+    private _updateFirstItem(): void {
+        this._setFirstCollectionItemState(this.getFirstItem(), false);
         this._firstItem = null;
+        this._setFirstCollectionItemState(this.getFirstItem(), true);
+    }
 
-        firstItem = this.getFirstItem();
-        if (firstItem && firstItem.getKey) {
-            firstCollectionItem = this.getItemBySourceItem(firstItem);
-            if (firstCollectionItem) {
-                firstCollectionItem.setIsFirstItem(true);
-            }
-        }
+    private _updateLastItem(): void {
+        this._setLastCollectionItemState(this.getLastItem(), false);
+        this._lastItem = null;
+        this._setLastCollectionItemState(this.getLastItem(), true);
     }
 
     // endregion Аспект "крайние записи"
@@ -3196,8 +3180,12 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.bottomPadding = this._$bottomPadding;
             options.searchValue = this._$searchValue;
             options.markerPosition = this._$markerPosition;
-            options.isLastItem = this.isLastItem(options.contents);
-            options.isFirstItem = this.isFirstItem(options.contents);
+
+            if (this._$collection['[Types/_collection/RecordSet]']) {
+                options.isLastItem = this._isLastItem(options.contents);
+                options.isFirstItem = this._isFirstItem(options.contents);
+            }
+
             return create(options.itemModule || this._itemModule, options);
         };
     }
