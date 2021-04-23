@@ -33,8 +33,8 @@ const MAX_VISIBLE_YEARS = 14;
  * @class Controls/shortDatePicker
  * @extends UI/Base:Control
  * @mixes Controls/shortDatePicker/IDateLitePopup
- * @mixes Controls/_interface/IDateConstructor
- * @mixes Controls/_interface/IDisplayedRanges
+ * 
+ * @mixes Controls/interface:IDisplayedRanges
  * @mixes Controls/dateRange:ICaptionFormatter
  *
  * @public
@@ -186,6 +186,25 @@ class View extends Control<IDateLitePopupOptions> {
         // от dateRange:RangeShortSelector
         if (detection.isMobilePlatform) {
             return false;
+        }
+
+        // Не будем рисовать кнопку развернуть, при маленьком количестве эллементов
+        if (options.displayedRanges) {
+            const amountOfVisibleItems = options.chooseQuarters && !options.chooseMonths ? 4 : 2;
+            let amountOfDisplayedItems = 0;
+            for (let i = 0; i < this._displayedRanges.length; i++) {
+                const displayedRange = this._displayedRanges[i];
+                const startOfRange = displayedRange[0];
+                const endOfRange = displayedRange[1];
+                if (startOfRange === null || endOfRange === null) {
+                    amountOfDisplayedItems = Infinity;
+                    break;
+                }
+                amountOfDisplayedItems += endOfRange.getFullYear() - startOfRange.getFullYear();
+            }
+            if (amountOfVisibleItems > amountOfDisplayedItems) {
+                return false;
+            }
         }
 
         if (options.stickyPosition) {

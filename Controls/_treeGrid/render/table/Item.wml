@@ -1,3 +1,7 @@
+<ws:template name="EXPANDER">
+    <div class="{{ item.getExpanderClasses(item.getExpanderIcon(expanderIcon), item.getExpanderSize(expanderSize)) }}"></div>
+</ws:template>
+
 <tr attr:class="{{ item.getItemClasses({
         'highlightOnHover': highlightOnHover,
         'theme': theme,
@@ -22,7 +26,7 @@
                         </ws:for>
                     </ws:if>
                     <ws:if data="{{ item.shouldDisplayExpander(expanderIcon, 'default') }}">
-                        <div class="{{(item || itemData).getExpanderClasses((item || itemData).getExpanderIcon(expanderIcon), (item || itemData).getExpanderSize(expanderSize))}}"></div>
+                        <ws:partial template="EXPANDER" item="{{ (item || itemData) }}"/>
                     </ws:if>
                     <ws:else data="{{item.shouldDisplayExpanderPadding(expanderIcon, expanderSize)}}">
                         <div class="{{item.getExpanderPaddingClasses(expanderSize)}}"></div>
@@ -75,9 +79,12 @@
 
                         <!-- Экспандер -->
                         <ws:if data="{{ item.shouldDisplayExpanderBlock(gridColumn) && item.shouldDisplayExpander(afterContentTemplate.expanderIcon, 'right') }}">
-                            <div class="{{item.getExpanderClasses(item.getExpanderIcon(expanderIcon), item.getExpanderSize(expanderSize))}}"></div>
+                            <ws:partial template="EXPANDER" item="{{ (item || itemData) }}"/>
                         </ws:if>
                     </ws:afterContentTemplate>
+                    <ws:expanderTemplate>
+                        <ws:partial template="EXPANDER" item="{{ (item || itemData) }}"/>
+                    </ws:expanderTemplate>
                 </ws:partial>
                 <ws:if data="{{ gridColumn.ItemActionsCell && gridColumn.shouldDisplayItemActions() }}">
                     <ws:if data="{{ (item || itemData).isSwiped() && itemActionsPosition !== 'outside' }}">

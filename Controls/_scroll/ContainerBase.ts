@@ -15,6 +15,7 @@ import template = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
 import {EventUtils} from 'UI/Events';
 import {isHidden} from './StickyHeader/Utils';
 import {getHeadersHeight} from './StickyHeader/Utils/getHeadersHeight';
+import {location} from 'Application/Env';
 
 export interface IContainerBaseOptions extends IControlOptions {
     _notScrollableContent?: boolean; // Для HintWrapper, который сверстан максмально неудобно для скроллКонтейнера.
@@ -96,7 +97,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         // Если одна область заменяется на другую с однотипной версткой и встроенным скролл контейнером,
         // то ядро не пересоздает dom контейнеры, и может так полуится, что вновь созданный скролл контейнер
         // может быть сразу проскролен. Исправляем эту ситуацию.
-        this._children.content.scrollTop = 0;
+        // Не будем скроллить в случае, если на странице есть нативные якоря для скролла,
+        // т.е. в ссылке присутсвует хэш
+        if (!location.hash) {
+            this._children.content.scrollTop = 0;
+        }
     }
 
     _afterMount(): void {
@@ -505,7 +510,15 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                 newState.clientHeight = entry.contentRect.height;
                 newState.clientWidth = entry.contentRect.width;
             } else if (entry.target === this._children.userContent.children[0] && this._options.scrollMode === SCROLL_MODE.VERTICAL_HORIZONTAL) {
-                newState.scrollWidth = entry.contentRect.width;
+                // Списки имуют ширину равную ширине скролл контейнера, но в данном сценарии используется дерево
+                // и контент вылазит по горизонтали за пределы корня списка и соответсвенно скролл контейнера.
+                // Иконки должны прижиматься к правому краю и, в том числе по этой причине, мы не можем растянуть
+                // корневой контейнер списка шире скролл контейнера. Поэтому берем ширину с помощью scrollWidth.
+                // В данном сценарии мы не можем отследить изменение ширины потому что она не меняется,
+                // меняется высота. Но этого триггера достаточно, т.к. добавление людого контента в списках приводят
+                // к изменению высоты. Нормально решение будет делаться в рамках проекта.
+                // https://online.sbis.ru/opendoc.html?guid=b0f50709-5cc2-484f-ba2b-8502ccfa77f8
+                newState.scrollWidth = this._children.content.scrollWidth;
             } else {
                 this._updateContentType();
                 // Свойство borderBoxSize учитывает размеры отступов при расчете. Поддерживается не во всех браузерах.

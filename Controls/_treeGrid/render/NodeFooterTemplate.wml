@@ -8,7 +8,7 @@
     })}}" attr:key="{{item.key}}">
         <ws:for data="index,column in item.getColumns(colspan)">
             <div class="{{ column.getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover, colspan) }} {{ cellClassName || '' }}" attr:key="{{item.key}}_column_{{index}}" style="{{ column.getColspanStyles(colspan)  }}">
-                <ws:if data="{{ index === 0 }}">
+                <ws:if data="{{ item.shouldDisplayContent(column) }}">
                     <!-- Отступы для выравнивания с экспандером -->
                     <ws:if data="{{item.shouldDisplayExpanderBlock(column)}}">
                         <ws:if data="{{!withoutLevelPadding && item.getLevel() > 1}}">

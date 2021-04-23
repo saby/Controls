@@ -1706,7 +1706,12 @@ describe('Controls/_display/Tree', () => {
     });
 
     describe('expandable/collapsed', () => {
-        const rsTree = getRecordSetTree();
+        let rsTree;
+
+        beforeEach(() => {
+            rsTree = getRecordSetTree();
+        });
+
         it('setExpandedItems', () => {
             assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
             const expandedItems = [1];
@@ -1715,12 +1720,39 @@ describe('Controls/_display/Tree', () => {
             assert.notEqual(rsTree.getExpandedItems(), expandedItems);
         });
 
+        it('setExpandedItems with same expanded items', () => {
+            rsTree.setExpandedItems([1]);
+            const currentVersion = rsTree.getVersion();
+            rsTree.setExpandedItems([1]);
+            assert.equal(currentVersion, rsTree.getVersion());
+        });
+
+        it('setExpandedItems with removed null', () => {
+            rsTree.setExpandedItems([null]);
+            assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
+
+            rsTree.setExpandedItems([]);
+            assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
+        });
+
         it('setCollapsedItems', () => {
+            rsTree.setExpandedItems([1]);
             assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
             const collapsedItems = [1];
             rsTree.setCollapsedItems(collapsedItems);
             assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
             assert.notEqual(rsTree.getCollapsedItems(), collapsedItems);
+
+            const currentVersion = rsTree.getVersion();
+            rsTree.setCollapsedItems(collapsedItems);
+            assert.equal(currentVersion, rsTree.getVersion());
+        });
+
+        it('setCollapsedItems with same expanded items', () => {
+            rsTree.setCollapsedItems([1]);
+            const currentVersion = rsTree.getVersion();
+            rsTree.setCollapsedItems([1]);
+            assert.equal(currentVersion, rsTree.getVersion());
         });
 
         it('toggleItem will not change version for another items', () => {
@@ -1825,5 +1857,87 @@ describe('Controls/_display/Tree', () => {
                assert.isFalse(tree.hasNodeWithChildren());
            });
         });
+    });
+
+    describe('hasChildren', () => {
+       describe('by option', () => {
+           it('has children', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: true, node: false, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs);
+               assert.isTrue(tree.at(0).isHasChildren());
+               assert.isFalse(tree.at(0).isHasChildrenByRecordSet());
+           });
+
+           it('not has children', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: false, node: false, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs);
+               assert.isFalse(tree.at(0).isHasChildren());
+               assert.isFalse(tree.at(0).isHasChildrenByRecordSet());
+           });
+        });
+
+       describe('by recordset', () => {
+           it('has children', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: true, node: false, pid: 0},
+                       {id: 2, hasChildren: true, node: false, pid: 1}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs, {hasChildrenProperty: ''});
+               assert.isTrue(tree.at(0).isHasChildren());
+               assert.isTrue(tree.at(0).isHasChildrenByRecordSet());
+           });
+
+           it('not has children', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: false, node: false, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs, {hasChildrenProperty: ''});
+               assert.isFalse(tree.at(0).isHasChildren());
+               assert.isFalse(tree.at(0).isHasChildrenByRecordSet());
+           });
+        });
+
+       describe('hasChildrenProperty is priority', () => {
+           it('has children by recordset, but not has by property', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: false, node: false, pid: 0},
+                       {id: 2, hasChildren: false, node: false, pid: 1}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs);
+               assert.isFalse(tree.at(0).isHasChildren());
+               assert.isTrue(tree.at(0).isHasChildrenByRecordSet());
+           });
+
+           it('not has children by recordset, but has by property', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: true, node: false, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs);
+               assert.isTrue(tree.at(0).isHasChildren());
+               assert.isFalse(tree.at(0).isHasChildrenByRecordSet());
+           });
+       });
     });
 });

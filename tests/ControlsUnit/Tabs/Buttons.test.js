@@ -141,30 +141,33 @@ define([
                inlineHeight: 's',
                selectedKey: '15',
                keyProperty: 'karambola',
-               theme: 'default'
+               theme: 'default',
+               horizontalPadding: 'xs'
             },
-            expected = 'controls-Tabs__item ' +
-               'controls-Tabs__item_inlineHeight-s ' +
-               'controls-Tabs__item_align_left' +
-               ' controls-Tabs__item_extreme ' +
-               'controls-Tabs__item_extreme_first ' +
-               'controls-Tabs__item_notShrink',
+            expected = 'controls-Tabs__item' +
+               ' controls-Tabs__item_inlineHeight-s' +
+               ' controls-Tabs_horizontal-padding-xs_first' +
+               ' controls-Tabs__item_align_left' +
+               ' controls-Tabs__item_extreme' +
+               ' controls-Tabs__item_extreme_first' +
+               ' controls-Tabs__item_notShrink',
             expected2 = 'controls-Tabs__item' +
                ' controls-Tabs__item_inlineHeight-s' +
                ' controls-Tabs__item_align_right' +
                ' controls-Tabs__item_default' +
-               ' controls-Tabs__item_type_photo ' +
-               'controls-Tabs__item_notShrink',
-            expected3 = 'controls-Tabs__item ' +
-               'controls-Tabs__item_inlineHeight-s ' +
-               'controls-Tabs__item_align_right' +
+               ' controls-Tabs__item_type_photo' +
+               ' controls-Tabs__item_notShrink',
+            expected3 = 'controls-Tabs__item' +
+               ' controls-Tabs__item_inlineHeight-s' +
+               ' controls-Tabs__item_align_right' +
                ' controls-Tabs__item_default' +
                ' controls-Tabs__item_canShrink',
-            expected4 = 'controls-Tabs__item ' +
-               'controls-Tabs__item_inlineHeight-s ' +
-               'controls-Tabs__item_align_right' +
+            expected4 = 'controls-Tabs__item' +
+               ' controls-Tabs__item_inlineHeight-s' +
+               ' controls-Tabs__item_align_right' +
                ' controls-Tabs__item_extreme' +
                ' controls-Tabs__item_extreme_last' +
+               ' controls-Tabs_horizontal-padding-xs_last' +
                ' controls-Tabs__item_notShrink';
           const tabInstance = new tabsMod.Buttons();
           tabInstance.saveOptions(options);
@@ -191,8 +194,7 @@ define([
             options = {
                style: 'additional',
                selectedKey: '15',
-               keyProperty: 'karambola',
-               theme: 'default'
+               keyProperty: 'karambola'
             },
             expected = 'controls-Tabs_style_secondary__item_state_selected ' +
                'controls-Tabs__item_state_selected ',
@@ -202,6 +204,57 @@ define([
          assert.equal(expected, tabs._prepareItemSelectedClass(item), 'wrong order cross-brwoser styles');
          assert.equal(expected2, tabs._prepareItemSelectedClass(item2), 'wrong order cross-brwoser styles');
           tabs.destroy();
+      });
+
+      describe('_prepareItemMarkerClass', () => {
+         describe('Main tab', () => {
+            const item = {
+               karambola: '15',
+               isMainTab: true
+            };
+            const options = {
+               selectedKey: '15',
+               keyProperty: 'karambola'
+            };
+            it('should return marker css class if tab selected', () => {
+               const tabs = new tabsMod.Buttons();
+               tabs.saveOptions(options);
+
+               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__main-marker');
+
+               tabs.destroy();
+            });
+
+            it('should\'t return marker css class if tab not selected', () => {
+               const tabs = new tabsMod.Buttons();
+               tabs.saveOptions({ selectedKey: '16', keyProperty: 'karambola'} );
+
+               assert.equal(tabs._prepareItemMarkerClass(item), '');
+
+               tabs.destroy();
+            });
+         });
+
+         describe('Regular tab', () => {
+            const item = {
+               karambola: '15'
+            };
+            const options = {
+               selectedKey: '15',
+               keyProperty: 'karambola'
+            };
+            it('should return marker css class if tab selected', () => {
+               const tabs = new tabsMod.Buttons();
+               tabs.saveOptions(options);
+
+               assert.equal(
+                  tabs._prepareItemMarkerClass(item),
+                  'controls-Tabs__itemClickableArea_marker controls-Tabs__itemClickableArea_markerThickness-undefined controls-Tabs_style_undefined__item-marker_state_selected'
+               );
+
+               tabs.destroy();
+            });
+         });
       });
 
       it('_prepareItemMarkerClass', function() {
@@ -368,7 +421,7 @@ define([
 
             tabs._beforeUpdate({ items, selectedKey: 1 });
             tabs._updateMarker();
-            assert.equal(tabs._marker.getLeft(), 0, 'leftButtonClick _onItemClick');
+            assert.equal(tabs._marker.getOffset(), 0, 'leftButtonClick _onItemClick');
             assert.equal(tabs._marker.getWidth(), 10, 'leftButtonClick _onItemClick');
 
             tabs.destroy();

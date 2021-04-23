@@ -80,7 +80,7 @@ type TErrbackConfig = dataSourceError.ViewConfig & { error: Error };
  * @class Controls/browser:Browser
  * @public
  * @author Герасимов А.М.
- * @mixes Controls/_browser/interface/IBrowser
+ * @mixes Controls/browser:IBrowser
  * @mixes Controls/filter:IPrefetch
  * @mixes Controls/interface:IFilter
  * @mixes Controls/interface:IFilterChanged
@@ -240,6 +240,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         }
     }
 
+    private _validateSearchOptions(options: IBrowserOptions): void {
+        if (options.hasOwnProperty('searchValue') && options.searchValue === undefined) {
+            Logger.error('Controls/browser:Browser опция searchValue имеет некорректный тип, необходимо передавать строкой', this);
+        }
+    }
+
     protected _operationPanelItemClick(
         event: SyntheticEvent,
         item: Model,
@@ -363,6 +369,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     private _updateSearchController(newOptions: IBrowserOptions): Promise<void> {
         return this._getSearchController().then((searchController) => {
+            this._validateSearchOptions(newOptions);
             const updateResult = searchController.update({
                 ...newOptions,
                 sourceController: this._getSourceController()
@@ -472,6 +479,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     protected _rootChanged(event: SyntheticEvent, root: Key): void {
         if (this._options.root === undefined) {
             this._root = root;
+            // Стейт _root не реактивный, поэтому необходимо звать forceUpdate
+            this._forceUpdate();
         }
         this._notify('rootChanged', [root]);
     }
@@ -535,10 +544,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     protected _processLoadError(error: Error): void {
-        this._onDataError(null, {
-            error,
-            mode: dataSourceError.Mode.include
-        } as TErrbackConfig);
+        if (error && !error.isCanceled) {
+            this._onDataError(null, {
+                error,
+                mode: dataSourceError.Mode.include
+            } as TErrbackConfig);
+        }
     }
 
     protected _onDataError(event: SyntheticEvent, errbackConfig: TErrbackConfig): void {

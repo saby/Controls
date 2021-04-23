@@ -21,13 +21,20 @@ const MIN_COUNT_OF_LETTER = 3;
  *
  * @class Controls/_breadcrumbs/View
  * @extends UI/Base:Control
- * @mixes Controls/_breadcrumbs/interface/IBreadCrumbs
+ * @mixes Controls/breadcrumbs:IBreadCrumbs
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IFontSize
  *
  * @private
  * @author Авраменко А.С.
  */
+
+/**
+ * @name Controls/_breadcrumbs/View#fontSize
+ * @cfg
+ * @demo Controls-demo/BreadCrumbs/FontSize/Index
+ */
+
 
 class BreadCrumbsView extends Control<IControlOptions> {
     protected _template: TemplateFunction =  template;

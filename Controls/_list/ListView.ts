@@ -56,6 +56,7 @@ var ListView = BaseControl.extend(
         _pendingRedraw: false,
         _reloadInProgress: false,
         _callbackAfterReload: null,
+        _callbackAfterUpdate: null,
         _forTemplate: null,
 
         constructor: function() {
@@ -63,6 +64,9 @@ var ListView = BaseControl.extend(
             this._debouncedSetHoveredItem = cDebounce(_private.setHoveredItem, DEBOUNCE_HOVERED_ITEM_CHANGED);
            // TODO при полном переходе на новую модель нужно переписать, уберется параметр changesType
            this._onListChangeFnc = (event, changesType, action, newItems) => {
+               if (this._destroyed) {
+                   return;
+               }
                // todo refactor by task https://online.sbis.ru/opendoc.html?guid=80fbcf1f-5804-4234-b635-a3c1fc8ccc73
                // Из новой коллекции нотифается collectionChanged, в котором тип изменений указан в newItems.properties
                let itemChangesType;
@@ -93,6 +97,18 @@ var ListView = BaseControl.extend(
                     this._callbackAfterReload.push(callback);
                 } else {
                     this._callbackAfterReload = [callback];
+                }
+            } else {
+                callback();
+            }
+        },
+
+        _doAfterUpdate(callback): void {
+            if (this._updateInProgress) {
+                if (this._callbackAfterUpdate) {
+                    this._callbackAfterUpdate.push(callback);
+                } else {
+                    this._callbackAfterUpdate = [callback];
                 }
             } else {
                 callback();
@@ -142,6 +158,7 @@ var ListView = BaseControl.extend(
         },
 
         _beforeUpdate: function(newOptions) {
+            this._updateInProgress = true;
             if (newOptions.listModel && (this._listModel != newOptions.listModel)) {
                 this._listModel = newOptions.listModel;
                 this._listModel.subscribe('onListChange', this._onListChangeFnc);
@@ -150,6 +167,16 @@ var ListView = BaseControl.extend(
                 this._groupTemplate = newOptions.groupTemplate;
             }
             this._itemTemplate = this._resolveItemTemplate(newOptions);
+        },
+
+        _afterUpdate() {
+            this._updateInProgress = false;
+            if (this._callbackAfterUpdate) {
+                this._callbackAfterUpdate.forEach((callback) => {
+                    callback();
+                });
+                this._callbackAfterUpdate = null;
+            }
         },
 
         _resolveItemTemplate(options) {

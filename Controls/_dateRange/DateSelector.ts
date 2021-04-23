@@ -15,14 +15,14 @@ import 'css!Controls/dateRange';
  * @extends UI/Base:Control
  * @mixes Controls/interface:IResetValues
  * @mixes Controls/interface/IDateRange
- * @mixes Controls/_dateRange/interfaces/ILinkView
- * @mixes Controls/_interface/IOpenPopup
- * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
+ * @mixes Controls/dateRange:ILinkView
+ * @mixes Controls/interface:IOpenPopup
+ * @mixes Controls/dateRange:IDatePickerSelectors
  * @mixes Controls/dateRange:IDayTemplate
  * @mixes Controls/interface:IFontColorStyle
- * @mixes Controls/_interface/IUnderline
+ * @mixes Controls/interface:IUnderline
  * @mixes Controls/dateRange:ICaptionFormatter
- * @mixes Controls/_dateRange/interfaces/IDateSelector
+ * @mixes Controls/dateRange:IDateSelector
  *
  * @public
  * @author Красильников А.С.
@@ -36,12 +36,12 @@ import 'css!Controls/dateRange';
  * @class Controls/_dateRange/DateSelector
  * @extends UI/Base:Control
  * @mixes Controls/interface/IDateRange
- * @mixes Controls/_dateRange/interfaces/ILinkView
- * @mixes Controls/_interface/IOpenPopup
- * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
+ * @mixes Controls/dateRange:ILinkView
+ * @mixes Controls/interface:IOpenPopup
+ * @mixes Controls/dateRange:IDatePickerSelectors
  * @mixes Controls/dateRange:IDayTemplate
  * @mixes Controls/interface:IFontColorStyle
- * @mixes Controls/_dateRange/interfaces/IDateSelector
+ * @mixes Controls/dateRange:IDateSelector
  *
  * @public
  * @author Красильников А.С.

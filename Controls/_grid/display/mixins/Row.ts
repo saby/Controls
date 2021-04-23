@@ -79,7 +79,9 @@ export default abstract class Row<T> {
     }
 
     isLastItem(): boolean {
-        return (this.getOwner().getItems()[this.getOwner().getCount() - 1] === this);
+        const collectionCount = this.getOwner().getCollectionCount();
+        const getCollectionIndex = this.getOwner().getSourceIndexByItem(this);
+        return getCollectionIndex === collectionCount - 1;
     }
 
     getItemSpacing(): { left: string, right: string, row: string } {
@@ -635,6 +637,12 @@ export default abstract class Row<T> {
     //endregion
 
     //region Аспект "Шаблон всей строки. Состояние, когда в строке одна ячейка, растянутая на все колонки"
+
+    // todo https://online.sbis.ru/opendoc.html?guid=024784a6-cc47-4d1a-9179-08c897edcf72
+    getRowTemplate(): TemplateFunction {
+        return this._$rowTemplate;
+    }
+
     setRowTemplate(rowTemplate: TemplateFunction): void {
         if (rowTemplate) {
             // Произошла установка шаблона стрки. Если строка рисовалась по колонкам, сохраним их,

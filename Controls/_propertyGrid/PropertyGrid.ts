@@ -37,7 +37,7 @@ type TPropertyGridCollection = PropertyGridCollection<PropertyGridCollectionItem
  *
  * @class Controls/_propertyGrid/PropertyGrid
  * @extends UI/Base:Control
- * @mixes Controls/_propertyGrid/IPropertyGrid
+ * @mixes Controls/propertyGrid:IPropertyGrid
  * @demo Controls-demo/PropertyGridNew/Group/Expander/Index
  *
  * @public
@@ -50,7 +50,7 @@ type TPropertyGridCollection = PropertyGridCollection<PropertyGridCollectionItem
  * By default the propertyGrid will autogenerate all the properties for a given object
  * @class Controls/_propertyGrid/PropertyGrid
  * @extends UI/Base:Control
- * @mixes Controls/_propertyGrid/IPropertyGrid
+ * @mixes Controls/propertyGrid:IPropertyGrid
  *
  * @public
  * @author Герасимов А.М.

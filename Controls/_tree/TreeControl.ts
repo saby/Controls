@@ -13,7 +13,7 @@ import { Model } from 'Types/entity';
 
 import { Direction, TKey } from 'Controls/interface';
 import { BaseControl, IBaseControlOptions } from 'Controls/list';
-import { Collection, Tree, TreeItem } from 'Controls/display';
+import {Collection, CollectionItem, Tree, TreeItem} from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
 import { NewSourceController as SourceController, NewSourceController } from 'Controls/dataSource';
 import { MouseButtons, MouseUp } from 'Controls/popup';
@@ -88,6 +88,15 @@ const _private = {
             } else if (!newCollapsedItems.includes(itemKey)) {
                 newCollapsedItems.push(itemKey);
             }
+
+            // удаляем из expandedItems ключи детей свернутого узла
+            const childsOfCollapsedItem = model.getChildren(model.getItemBySourceKey(itemKey));
+            childsOfCollapsedItem.forEach((it) => {
+                const key = it.getContents().getKey();
+                if (newExpandedItems.includes(key)) {
+                    newExpandedItems.splice(newExpandedItems.indexOf(key), 1);
+                }
+            });
         }
 
         if (options.singleExpand) {
@@ -513,7 +522,7 @@ const _private = {
  *
  * @class Controls/_tree/TreeControl
  * @mixes Controls/interface/IEditableList
- * @mixes Controls/_list/interface/IMovableList
+ * @mixes Controls/list:IMovableList
  * @extends Controls/_list/BaseControl
  *
  * @private
@@ -620,6 +629,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             if (this._shouldLoadLastExpandedNodeData('down', lastItem, nodeKey)) {
                 return this._loadNodeChildrenRecursive(lastItem);
             }
+            return Promise.resolve();
         }
     }
 
@@ -849,7 +859,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
         const dndListController = this.getDndListController();
         const targetIsNotDraggableItem = dndListController.getDraggableItem()?.getContents() !== dispItem.getContents();
-        if (dispItem && dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() && targetIsNotDraggableItem) {
+        if (dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() && targetIsNotDraggableItem) {
             const targetElement = _private.getTargetRow(this, nativeEvent);
             const mouseOffsetInTargetItem = this._calculateOffset(nativeEvent, targetElement);
             const dragTargetPosition = dndListController.calculateDragPosition({
@@ -863,7 +873,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     const changedPosition = dndListController.setDragPosition(dragTargetPosition);
                     if (changedPosition) {
                         this._clearTimeoutForExpandOnDrag();
-                        if (!dispItem.isExpanded() && targetIsNotDraggableItem && dragTargetPosition.position === 'on') {
+                        if (!dispItem['[Controls/_tile/mixins/TileItem]'] && !dispItem.isExpanded() && targetIsNotDraggableItem && dragTargetPosition.position === 'on') {
                             this._startCountDownForExpandNode(dispItem, this._expandNodeOnDrag);
                         }
                     }
@@ -888,6 +898,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
         const superResult = super._notifyItemClick(...arguments);
         if (e.isStopped()) {
+            return;
+        }
+        if (this.isLoading()) {
             return;
         }
         e.stopPropagation();
@@ -1020,36 +1033,45 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     }
                 });
             }
-
-        // После релоад разворачиваем узлы до первого leaf и ставим на него маркер
-        if (options.markerMoveMode === 'leaves') {
-            if (options.markerMoveMode === 'leaves') {
-                const markerController = this.getMarkerController();
-                const model = this._listViewModel;
-                const current = loadedList.getRecordById(options.markedKey) || loadedList.at(0);
-                if (current) {
-                    if (current.get(options.nodeProperty) !== null) {
-                        this._tempItem = current.getKey();
-                        this._currentItem = this._tempItem;
-                        this._doAfterItemExpanded = (itemKey) => {
-                            this._doAfterItemExpanded = null;
-                            this._applyMarkedLeaf(itemKey, model, markerController);
-                        };
-                        this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, loadedList, options);
-                        if (this._expandedItemsToNotify) {
-                            model.setExpandedItems(this._expandedItemsToNotify);
-                        }
-                    } else {
-                        this._applyMarkedLeaf(current.getKey(), model, markerController);
-                    }
-                }
-            }
         }
-    }
         // reset deepReload after loading data (see reload method or constructor)
         this._deepReload = false;
     }
 
+    protected _afterItemsSet(options): void {
+        super._afterItemsSet.apply(this, arguments);
+        if (options.markerMoveMode === 'leaves') {
+            this.setMarkerOnFirstLeaf();
+        }
+    }
+    protected _afterCollectionReset(): void {
+        super._afterCollectionReset.apply(this, arguments);
+        if (this._options.markerMoveMode === 'leaves') {
+            this.setMarkerOnFirstLeaf();
+        }
+    }
+    private setMarkerOnFirstLeaf() {
+        const markerController = this.getMarkerController();
+        const model = this._listViewModel;
+        const list = model.getCollection();
+        const current = list.getRecordById(this._options.markedKey) || list.at(0);
+        if (current) {
+            if (current.get(this._options.nodeProperty) !== null) {
+                this._tempItem = current.getKey();
+                this._currentItem = this._tempItem;
+                this._doAfterItemExpanded = (itemKey) => {
+                    this._doAfterItemExpanded = null;
+                    this._applyMarkedLeaf(itemKey, model, markerController);
+                };
+                this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, this._options);
+                if (this._expandedItemsToNotify) {
+                    model.setExpandedItems(this._expandedItemsToNotify);
+                }
+            } else {
+                this._applyMarkedLeaf(current.getKey(), model, markerController);
+            }
+        }
+    }
     private _startCountDownForExpandNode(item: TreeItem<Model>, expandNode: Function): void {
         if (!this._itemOnWhichStartCountDown && item.isNode()) {
             this._itemOnWhichStartCountDown = item;
@@ -1106,20 +1128,20 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
-    private _expandToFirstLeaf(key: CrudEntityKey, items, options): CrudEntityKey[] {
+    private _expandToFirstLeaf(key: CrudEntityKey, items): CrudEntityKey[] {
         if (items.getCount()) {
             const model = this._listViewModel;
             const expanded = [key];
             const item = model.getItemBySourceKey(key);
             // TODO после полного перехода на новую модель в getChildren передавать только элемент списка
             //  https://online.sbis.ru/opendoc.html?guid=624e1380-3b9b-45dd-9825-a7188dd7c52e
-            let curItem = model.getChildren(item, undefined, items)[0];
-            while (curItem && curItem.isNode() !== null) {
-                expanded.push(curItem.getContents().getKey());
-                curItem = model.getChildren(curItem, undefined, items)[0];
+            let curItem = model._getChildrenByRecordSet(item.getContents())[0];
+            while (curItem && curItem.get(this._options.nodeProperty) !== null) {
+                expanded.push(curItem.getKey());
+                curItem = model._getChildrenByRecordSet(curItem)[0];
             }
             if (curItem && this._doAfterItemExpanded) {
-                this._doAfterItemExpanded(curItem.getContents().getKey());
+                this._doAfterItemExpanded(curItem.getKey());
             }
             return expanded;
         }
@@ -1127,7 +1149,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _getMarkedLeaf(key: CrudEntityKey, model): 'first' | 'last' | 'middle' | 'single' {
         const index = model.getIndexByKey(key);
-        const hasNextLeaf = index < model.getCount() - 1;
+        const hasNextLeaf = index < model.getCount() - 1 || model.getHasMoreData();
         let hasPrevLeaf = false;
         for (let i = index - 1; i >= 0; i--) {
             if (model.at(i).isNode() === null || !this._isExpanded(model.at(i), model)) {
@@ -1152,42 +1174,50 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         return new Promise((resolve) => {
             // Это исправляет ошибку плана 0 || null
             const key = this._tempItem === undefined || this._tempItem === null ? this._currentItem : this._tempItem;
-            const item = this.getNextItem(key, listModel);
             const model = listModel || this._listViewModel;
-            const markerController = mController || this.getMarkerController();
-            if (item) {
-                this._tempItem = item.getKey();
-                const dispItem = model.getItemBySourceKey(this._tempItem);
-                if (item.get(this._options.nodeProperty) !== null) {
-                    this._doAfterItemExpanded = () => {
-                        this._doAfterItemExpanded = null;
-                        this.goToNext(model, markerController);
-                    };
-                    if (this._isExpanded(dispItem, model)) {
-                        this._doAfterItemExpanded();
-                        resolve();
-                    } else {
-                        this._scrollToLeafOnDrawItems = true;
-                        const expandResult = this.toggleExpanded(this._tempItem, model);
-                        if (expandResult instanceof Promise) {
-                            expandResult.then(() => {
-                                resolve();
-                            });
-                        } else {
+            const goToNextItem = () => {
+                const item = this.getNextItem(key, model);
+                const markerController = mController || this.getMarkerController();
+                if (item) {
+                    this._tempItem = item.getKey();
+                    const dispItem = model.getItemBySourceKey(this._tempItem);
+                    if (item.get(this._options.nodeProperty) !== null) {
+                        this._doAfterItemExpanded = () => {
+                            this._doAfterItemExpanded = null;
+                            this.goToNext(model, markerController);
+                        };
+                        if (this._isExpanded(dispItem, model)) {
+                            this._doAfterItemExpanded();
                             resolve();
+                        } else {
+                            this._scrollToLeafOnDrawItems = true;
+                            const expandResult = this.toggleExpanded(this._tempItem, model);
+                            if (expandResult instanceof Promise) {
+                                expandResult.then(() => {
+                                    resolve();
+                                });
+                            } else {
+                                resolve();
+                            }
                         }
+                    } else {
+                        const itemKey = this._tempItem;
+                        this._applyMarkedLeaf(this._tempItem, model, markerController);
+                        this._scrollToLeaf = () => {
+                            this.scrollToItem(itemKey, true);
+                        };
+                        resolve();
                     }
                 } else {
-                    const itemKey = this._tempItem;
-                    this._applyMarkedLeaf(this._tempItem, model, markerController);
-                    this._scrollToLeaf = () => {
-                        this.scrollToItem(itemKey, true);
-                    };
+                    this._tempItem = null;
                     resolve();
                 }
+            };
+
+            if (key === model.at(model.getStopIndex() - 1).key) {
+                this._shiftToDirection('down').then(goToNextItem);
             } else {
-                this._tempItem = null;
-                resolve();
+                goToNextItem();
             }
         });
     }
@@ -1215,11 +1245,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                         const expandResult = this.toggleExpanded(itemKey);
                         if (expandResult instanceof Promise) {
                             expandResult.then(() => {
-                                this._expandToFirstLeaf(itemKey, model.getItems(), this._options);
+                                this._expandToFirstLeaf(itemKey, model.getCollection(), this._options);
                                 resolve();
                             });
                         } else {
-                            this._expandToFirstLeaf(itemKey, model.getItems(), this._options);
+                            this._expandToFirstLeaf(itemKey, model.getCollection(), this._options);
                             resolve();
                         }
                     }

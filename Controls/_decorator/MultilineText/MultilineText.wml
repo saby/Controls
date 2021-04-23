@@ -1,0 +1,8 @@
+<span>
+    <ws:for data="index, text in _textLines">
+        <ws:if data="{{ index > 0 }}">
+            <br/>
+        </ws:if>
+        {{text}}
+    </ws:for>
+</span>

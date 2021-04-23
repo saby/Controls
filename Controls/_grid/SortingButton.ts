@@ -11,7 +11,7 @@ export interface ISortingButtonOptions extends IControlOptions {
  * @extends UI/Base:Control
  * @mixes Controls/_grid/SortingButton/Styles
  *
- * @private
+ * @public
  *
  * @see Controls/grid:SortingSelector
  */

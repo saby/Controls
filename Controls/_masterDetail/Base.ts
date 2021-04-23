@@ -2,6 +2,8 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_masterDetail/Base/Base';
 import {debounce} from 'Types/function';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {ResizingLine} from 'Controls/dragnDrop';
+import {Register} from 'Controls/event';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
 import {IPropStorageOptions} from 'Controls/interface';
 import 'css!Controls/masterDetail';
@@ -16,6 +18,10 @@ interface IMasterDetail extends IControlOptions, IPropStorageOptions {
     masterMaxWidth: number | string;
     contrastBackground: boolean;
     masterVisibility: string;
+    scrollTop?: number;
+    scrollOffsetTop?: number;
+    masterOffsetTop?: number;
+    masterPosition: 'left' | 'right';
 }
 /**
  * Контрол, который обеспечивает связь между двумя контролами для отображения подробной информации по выбранному элементу.
@@ -24,7 +30,7 @@ interface IMasterDetail extends IControlOptions, IPropStorageOptions {
  * * {@link /doc/platform/developmentapl/interface-development/controls/list/master-detail/ руководство разработчик}
  * @class Controls/_masterDetail/Base
  * @extends UI/Base:Control
- * @mixes Controls/_interface/IPropStorage
+ * @mixes Controls/interface:IPropStorage
  *
  * @author Авраменко А.С.
  * @public
@@ -41,7 +47,7 @@ interface IMasterDetail extends IControlOptions, IPropStorageOptions {
  * @public
  * @demo Controls-demo/MasterDetail/Demo
  */
-class Base extends Control<IMasterDetail> {
+class Base extends Control<IMasterDetail, string> {
     /**
      * @typedef {String} MasterVisibility
      * @variant visible Мастер отображается.
@@ -109,6 +115,31 @@ class Base extends Control<IMasterDetail> {
      * * false - фон, гармонично сочетающийся с окружением.
      */
 
+    /**
+     * @name Controls/_masterDetail/Base#scrollTop
+     * @cfg {Number} Количество пикселей, прокрученных от верха скроллируемой области, в которой лежит контрол.
+     */
+
+    /**
+     * @name Controls/_masterDetail/Base#scrollOffsetTop
+     * @cfg {Number} Определяет смещение позиции прилипания внутри скроллируемой области.
+     * Подробнее {@link Controls/_scroll/StickyHeader#offsetTop}
+     */
+
+    /**
+     * @name Controls/_masterDetail/Base#masterOffsetTop
+     * @cfg {Number} Определяет отступ от верхней части скроллируемой области, при котором колонка с мастером будет зафиксирована.
+     */
+
+    /**
+     * @name Controls/_masterDetail/Base#masterPosition
+     * @cfg {Boolean} Определяет положение колонки {@link master} относительно колонки {@link detail}.
+     * @default left
+     * @remark
+     * * left - Мастер располагается слева от детейла.
+     * * right - Мастер располагается справа от детейла.
+     */
+
     /*
      * @event Происходит при изменении ширины мастера.
      * @name Controls/_masterDetail/Base#masterWidthChanged
@@ -119,6 +150,13 @@ class Base extends Control<IMasterDetail> {
      */
 
     protected _template: TemplateFunction = template;
+    protected _children: {
+        master: HTMLElement;
+        detail: HTMLElement;
+        resizingLine: ResizingLine;
+        resizeDetectMaster: Register;
+        resizeDetectDetail: Register;
+    };
     protected _selected: boolean | null;
     protected _canResizing: boolean = false;
     protected _minOffset: number;
@@ -130,7 +168,11 @@ class Base extends Control<IMasterDetail> {
     protected _containerWidth: number;
     private _touchstartPosition: number;
 
-    protected _beforeMount(options: IMasterDetail, context: object, receivedState: string): Promise<number> | void {
+    private _scrollState: string;
+    private _marginTop: number;
+    protected _masterStyle: string;
+
+    protected _beforeMount(options: IMasterDetail, context: object, receivedState: string): Promise<string> | void {
         this._updateOffsetDebounced = debounce(this._updateOffsetDebounced.bind(this), RESIZE_DELAY);
         this._canResizing = this._isCanResizing(options);
         this._prepareLimitSizes(options);
@@ -152,8 +194,78 @@ class Base extends Control<IMasterDetail> {
     private _getSettings(options: IMasterDetail): Promise<object> {
         return getSettings([options.propStorageId]);
     }
-    private _dragStartHandler(): void {
+    protected _dragStartHandler(): void {
         this._beginResize();
+    }
+
+    protected _wheelHandler(): void {
+        if (this._isMasterFixed(this._options)) {
+            this._scrollState = 'margin';
+            this._updateMasterStyle(this._options);
+        }
+    }
+
+    private _updateScrollState(options: IMasterDetail): string {
+        const scrollHeight =  this._getMasterScrollHeight();
+        const detailScrollHeight = this._children.detail.scrollHeight;
+        if (scrollHeight >= detailScrollHeight) {
+            this._scrollState = 'unfixed';
+        } else {
+            const fullOffsetHeight = this._getFullOffsetHeight(options);
+            const bodyHeight = document.body.clientHeight;
+            const fixedScrollTop = fullOffsetHeight + scrollHeight - bodyHeight;
+            const direction = this._options.scrollTop < options.scrollTop ? 'down' : 'up';
+            const compactScrollHeight = fullOffsetHeight - options.masterOffsetTop;
+            const isMasterScrolled = fixedScrollTop > 0;
+            if (isMasterScrolled && options.scrollTop >= fixedScrollTop) {
+                if (direction === 'up') {
+                    if (this._marginTop + compactScrollHeight > options.scrollTop) {
+                        this._scrollState = 'fixedTop';
+                    } else if (this._scrollState !== 'fixedTop') {
+                        this._scrollState = 'margin';
+                    }
+                } else {
+                    if (options.scrollTop - this._marginTop >= fixedScrollTop) {
+                        this._scrollState = 'fixedBottom';
+                    }
+                }
+            } else {
+                if (!isMasterScrolled) {
+                    this._scrollState = 'fixedTop';
+                } else if (options.scrollTop < compactScrollHeight) {
+                    this._scrollState = 'unfixed';
+                } else if (direction === 'up') {
+                    this._scrollState = 'fixedTop';
+                }
+            }
+        }
+        return this._scrollState;
+    }
+    private _updateMasterStyle(options: IMasterDetail): void {
+        const bodyHeight = document.body.clientHeight;
+        const scrollHeight = this._getMasterScrollHeight();
+        const fullOffsetHeight = this._getFullOffsetHeight(options);
+        this._marginTop = 0;
+        if (this._scrollState === 'fixedBottom') {
+            this._masterStyle = 'position: fixed; bottom: 0';
+        } else if (this._scrollState === 'fixedTop') {
+            this._masterStyle = `position: fixed; top: ${options.masterOffsetTop}px;`;
+        } else if (this._scrollState === 'margin') {
+            this._marginTop = this._options.scrollTop - fullOffsetHeight + (bodyHeight - scrollHeight);
+            this._masterStyle = `margin-top: ${this._marginTop}px;`;
+        } else if (this._scrollState === 'unfixed') {
+            this._masterStyle = '';
+        }
+    }
+
+    private _getFullOffsetHeight(options: IMasterDetail): number {
+        return options.scrollOffsetTop + options.masterOffsetTop;
+    }
+
+    private _getMasterScrollHeight(): number {
+        // На partial повесить имя нельзя. Сам div с мастером растягивается по высоте контента, в зависимости от detail
+        // Через children получаю высоту контента, непосредственно заданного прикладным разработчиком.
+        return this._children.master.children[0].scrollHeight;
     }
 
     private _beginResize(): void {
@@ -215,11 +327,23 @@ class Base extends Control<IMasterDetail> {
             this._updateOffset(options);
         }
 
+        if (this._isMasterFixed(options)) {
+            const oldState = this._scrollState;
+            const newState = this._updateScrollState(options);
+            if (oldState !== newState) {
+                this._updateMasterStyle(options);
+            }
+        }
+
         if (options.propStorageId !== this._options.propStorageId) {
             return this._getSettings(options).then((storage) => {
                 this._updateSizesByPropStorageId(storage, options);
             });
         }
+    }
+
+    private _isMasterFixed(options: IMasterDetail): boolean {
+        return options.scrollTop;
     }
 
     private _updateSizesByPropStorageId(storage: object, options: IMasterDetail): void {
@@ -399,6 +523,7 @@ class Base extends Control<IMasterDetail> {
             masterMinWidth: 30,
             masterMaxWidth: '50%',
             contrastBackground: true,
+            masterPosition: 'left',
             masterVisibility: 'visible'
         };
     }

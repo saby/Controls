@@ -6,7 +6,6 @@
    box-sizing: border-box;
    min-height: 0;
    height: 100%;
-   overflow: hidden;
    border: var(--border-thickness_sticky) solid var(--border-color_sticky);
 }
 
@@ -48,7 +47,9 @@
 .controls-StickyTemplate__content-area {
    display: flex;
    flex-direction: column;
-   overflow: hidden;
+   height: 100%;
+   flex-shrink: 1;
+   min-height: 1px;
 }
 
 .controls-StickyTemplate__close_button {
@@ -84,4 +85,5 @@
 .controls-StickyTemplate__footer {
    display: flex;
    align-items: center;
+   flex-shrink: 0;
 }

@@ -30,7 +30,7 @@ const maxPercentValue = 100;
  * @public
  * @extends UI/Base:Control
  * @class Controls/_slider/Base
- * @mixes Controls/_slider/interface/ISlider
+ * @mixes Controls/slider:ISlider
  * @author Красильников А.С.
  * @demo Controls-demo/Slider/Base/Base/Index
  */
@@ -42,7 +42,7 @@ const maxPercentValue = 100;
  * @public
  * @extends UI/Base:Control
  * @class Controls/_slider/Base
- * @mixes Controls/_slider/interface/ISlider
+ * @mixes Controls/slider:ISlider
  * @author Колесов В.А.
  * @demo Controls-demo/Slider/Base/Base/Index
  */

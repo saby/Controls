@@ -28,8 +28,8 @@ interface IReceivedState {
  * Контрол "Хлебные крошки", отображающиеся в две строки.
  * @class Controls/_breadcrumbs/MultilinePath
  * @extends UI/Base:Control
- * @mixes Controls/_breadcrumbs/interface/IBreadCrumbs
- * @implements Controls/_interface/IFontSize
+ * @mixes Controls/breadcrumbs:IBreadCrumbs
+ * @implements Controls/interface:IFontSize
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/BreadCrumbs/Multiline/Index

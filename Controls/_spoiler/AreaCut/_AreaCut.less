@@ -1,0 +1,114 @@
+.controls-AreaCut__container {
+   overflow: hidden;
+}
+
+.controls-AreaCut {
+   overflow: visible;
+   position: relative;
+}
+
+.controls-AreaCut_active {
+   .controls-CutButton__container_extended::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      height: var(--separator_thickness_AreaCut);
+      background: var(--border-color);
+   }
+
+   .controls-CutButton__container_extended::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      height: var(--separator_thickness_AreaCut);
+      background: var(--border-color);
+   }
+
+   .controls-CutButton__container_extended_size-s::before {
+      top: calc(var(--icon_collapsed_height_s_BigSeparator) + var(--margin-top_s_CutButton));
+      width: calc((100% - var(--width_s_BigSeparator)) / 2 - var(--margin-horizontal_s_AreaCut));
+   }
+
+   .controls-CutButton__container_extended_size-s::after {
+      top: calc(var(--icon_collapsed_height_s_BigSeparator) + var(--margin-top_s_CutButton));
+      width: calc((100% - var(--width_s_BigSeparator)) / 2 - var(--margin-horizontal_s_AreaCut));
+   }
+
+   .controls-CutButton__container_extended_size-m::before {
+      top: calc(var(--icon_collapsed_height_m_BigSeparator) + var(--margin-top_m_CutButton));
+      width: calc((100% - var(--width_m_BigSeparator)) / 2 - var(--margin-horizontal_m_AreaCut));
+   }
+
+   .controls-CutButton__container_extended_size-m::after {
+      top: calc(var(--icon_collapsed_height_m_BigSeparator) + var(--margin-top_m_CutButton));
+      width: calc((100% - var(--width_m_BigSeparator)) / 2 - var(--margin-horizontal_m_AreaCut));
+   }
+
+   .controls-CutButton__container_extended_size-l::before {
+      top: calc(var(--icon_collapsed_height_l_BigSeparator) + var(--margin-top_l_CutButton));
+      width: calc((100% - var(--width_l_BigSeparator)) / 2 - var(--margin-horizontal_l_AreaCut));
+   }
+
+   .controls-CutButton__container_extended_size-l::after {
+      top: calc(var(--icon_collapsed_height_l_BigSeparator) + var(--margin-top_l_CutButton));
+      width: calc((100% - var(--width_l_BigSeparator)) / 2 - var(--margin-horizontal_l_AreaCut));
+   }
+}
+
+.controls-AreaCut__ellipsisWrapper {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+}
+
+.controls-AreaCut__ellipsisWrapper_notExpanded_active {
+   cursor: pointer;
+   overflow: hidden;
+   z-index: 1;
+}
+
+.controls-AreaCut__ellipsisWrapper_expanded {
+   position: absolute;
+   left: 0;
+   width: 100%;
+}
+
+.controls-AreaCut__ellipsis {
+   position: absolute;
+   bottom: 0;
+   width: 100%;
+}
+
+& {
+   @sizes: xs, s, m, l, xl, 2xl, 3xl, 4xl, 5xl;
+   @countSupportLines: 10;
+
+   .for(@countSupportLines * length(@sizes), {
+      @lines: mod(@_i - 1, @countSupportLines) + 1;
+      @lineHeight: extract(@sizes, ceil(@_i / @countSupportLines));
+      @lineHeightVariable: "--line-height_@{lineHeight}_inputArea";
+      @heightLines: calc((@lines + 1) * ~"var(@{lineHeightVariable})");
+      @cutButtonTop: calc((@lines + 2) * ~"var(@{lineHeightVariable})"  + var(--border-thickness_inputText) + var(--padding-vertical_inputArea));
+      .controls-AreaCut_lineHeight-@{lineHeight}_lines-@{lines}_maxHeight {
+         max-height: @heightLines;
+      }
+      .controls-AreaCut_lineHeight-@{lineHeight}_lines-@{lines}_height {
+         height: @heightLines;
+      }
+      .controls-AreaCut__ellipsisWrapper_expanded_lineHeight-@{lineHeight}_lines-@{lines} {
+         top: @cutButtonTop;
+      }
+   });
+
+   .for(@sizes, {
+      @lineHeight: @{_item};
+      @lineHeightVariable: "--line-height_@{lineHeight}_inputArea";
+      .controls-AreaCut__ellipsisWrapper_expanded_lineHeight-@{lineHeight} {
+         bottom: calc(-1 * ~"var(@{lineHeightVariable})" + var(--border-thickness_inputText));
+      }
+      .controls-AreaCut_expanded_lineHeight-@{lineHeight} {
+         margin-bottom: ~"var(@{lineHeightVariable})";
+      }
+   });
+}

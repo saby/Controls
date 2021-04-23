@@ -6,17 +6,12 @@ export enum MasterVisibilityEnum {
     hidden = 'hidden'
 }
 
-/**
- * Интерфейс описывает структуру настроек master-колонки компонента {@link Controls/catalog:Browser}
- * @interface Controls/catalog:IMasterOptions
- * @public
- * @author Уфимцев Д.Ю.
- */
 export interface IMasterOptions extends ISourceOptions {
 
     //region source options
     /**
-     * Источник данных, который будет использован списочным представлением внутри master-колонки.
+     * @name Controls/newBrowser:IMaster#source
+     * @cfg {ICrudPlus} Источник данных, который будет использован списочным представлением внутри master-колонки.
      * Если не задан, то будет использован источник данных, который указан в основной конфигурации
      * {@link ICatalogOptions.source}
      * @see ICatalogOptions.source
@@ -24,34 +19,46 @@ export interface IMasterOptions extends ISourceOptions {
     source?: ICrudPlus;
 
     /**
-     * Имя свойства записи master-списка, содержащего информацию о её идентификаторе.
+     * @name Controls/newBrowser:IMaster#keyProperty
+     * @cfg {string} Имя свойства записи master-списка, содержащего информацию о её идентификаторе.
      */
     keyProperty?: string;
     //endregion
 
     //region display options
     /**
-     * Ширина контентной области master при построении контрола. Значение можно задавать как в пикселях,
+     * @name Controls/newBrowser:IMaster#width
+     * @cfg {string | number} Ширина контентной области master при построении контрола. Значение можно задавать как в пикселях,
      * так и в процентах.
      */
     width?: string | number;
 
     /**
-     * Минимальная ширина контентной области до которой может быть уменьшена ширина master. Значение можно задавать
+     * @name Controls/newBrowser:IMaster#minWidth
+     * @cfg {string | number} Минимальная ширина контентной области до которой может быть уменьшена ширина master. Значение можно задавать
      * как в пикселях, так и в процентах.
      */
     minWidth?: string | number;
 
     /**
-     * Максимальная ширина контентной области до которой может быть увеличена ширина master. Значение можно задавать
+     * @name Controls/newBrowser:IMaster#maxWidth
+     * @cfg {string | number} Максимальная ширина контентной области до которой может быть увеличена ширина master. Значение можно задавать
      * как в пикселях, так и в процентах.
      */
     maxWidth?: string | number;
 
     /**
-     * Регулирует видимость master-колонки
+     * @name Controls/newBrowser:IMaster#visibility
+     * @cfg {MasterVisibilityEnum} Регулирует видимость master-колонки
      * @default 'hidden'
      */
     visibility?: MasterVisibilityEnum;
     //endregion
 }
+
+/**
+ * Интерфейс описывает структуру настроек master-колонки компонента {@link Controls/catalog:Browser}
+ * @interface Controls/newBrowser:IMaster
+ * @public
+ * @author Уфимцев Д.Ю.
+ */

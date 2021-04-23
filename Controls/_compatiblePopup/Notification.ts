@@ -1,5 +1,5 @@
-import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as CommandDispatcher from 'Core/CommandDispatcher';
+import * as Control from 'Lib/Control/CompoundControl/CompoundControl';
 import * as template from 'wml!Controls/_compatiblePopup/Notification/Notification';
 import 'css!Controls/compatiblePopup';
 
@@ -41,28 +41,28 @@ import 'css!Controls/compatiblePopup';
  * @name Controls/Popup/Templates/Notification/Compatible#_def
  * @cfg {Core/Deferred} Deffered в callback которого приходит инстанс компонента.
  */
-export default class Compatible extends Control<IControlOptions> {
-   _dotTplFn: TemplateFunction = template;
+const Compatible = Control.extend({
+   _dotTplFn: template,
 
    $constructor(): void {
       /**
        * Поддерка комманды close брошеная из дочерних контролов.
        */
       CommandDispatcher.declareCommand(this, 'close', this.close.bind(this));
-   }
+   },
 
    init(): void {
       Compatible.superclass.init.apply(this, arguments);
 
       this._options._def.callback(this);
-   }
+   },
 
    /**
     * Прикладники обращаются к методу open для открытия. Раньше они имели popup, а сейчас текущий компонент.
     */
    open(): void {
       this._options._opener.open();
-   }
+   },
 
    /**
     * Прикладники обращаются к методу close для закрытия. Раньше они имели popup, а сейчас текущий компонент.
@@ -74,4 +74,5 @@ export default class Compatible extends Control<IControlOptions> {
          vdomNotificationTemplate._notify('close', [], { bubbling: true });
       }
    }
-}
+});
+export default Compatible;

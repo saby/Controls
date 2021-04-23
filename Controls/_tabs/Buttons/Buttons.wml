@@ -57,9 +57,10 @@
             </ws:if>
         </div>
     </div>
-    <ws:if data="{{_marker.isInitialized()}}">
-        <div class="controls-Tabs__marker {{_markerCssClass}}"
-             style="width:{{_marker.getWidth()}}px; left:{{_marker.getLeft()}}px;"></div>
-    </ws:if>
+    <div class="controls-Tabs__marker {{_markerCssClass}}
+                {{!(_marker.isInitialized() && _isBottomMarkerVisible() && _animationProcessed) ? 'ws-invisible'}}
+                {{_animationProcessed ? 'controls-Tabs__marker_animation'}}"
+         style="width:{{_marker.getWidth()}}px; {{_marker.getAlign()}}: {{_marker.getOffset()}}px;"
+         on:transitionend="_transitionEndHandler()"></div>
 
 </div>

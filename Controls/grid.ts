@@ -96,7 +96,7 @@ import GridDataRow, {IOptions as IGridDataRowOptions} from 'Controls/_grid/displ
 import GridDataCell, {IOptions as IGridDataCellOptions} from 'Controls/_grid/display/DataCell';
 
 import GridResultsRow, {IOptions as IGridResultsRowOptions} from 'Controls/_grid/display/ResultsRow';
-import GridResultsCell, {IOptions as IGridResultsCellOptions} from 'Controls/_grid/display/ResultsCell';
+import GridResultsCell, { GRID_RESULTS_CELL_DEFAULT_TEMPLATE, IOptions as IGridResultsCellOptions } from 'Controls/_grid/display/ResultsCell';
 
 import GridFooterRow, {IOptions as IGridFooterRowOptions} from 'Controls/_grid/display/FooterRow';
 import GridFooterCell, {IOptions as IGridFooterCellOptions} from 'Controls/_grid/display/FooterCell';
@@ -104,6 +104,7 @@ import GridGroupRow, {IOptions as IGridGroupRowOptions} from 'Controls/_grid/dis
 import GridGroupCell, {IOptions as IGridGroupCellOptions} from 'Controls/_grid/display/GroupCell';
 
 import { IDisplaySearchValueOptions, IDisplaySearchValue } from 'Controls/_grid/display/interface/IDisplaySearchValue';
+import CheckboxCell from './_grid/display/CheckboxCell';
 
 register('Controls/grid:GridCollection', GridCollection, {instantiate: false});
 register('Controls/grid:GridRow', GridRow, {instantiate: false});
@@ -138,12 +139,13 @@ export {
     GridDataRow, IGridDataRowOptions,
     GridDataCell, IGridDataCellOptions,
     GridResultsRow, IGridResultsRowOptions,
-    GridResultsCell, IGridResultsCellOptions,
+    GridResultsCell, GRID_RESULTS_CELL_DEFAULT_TEMPLATE, IGridResultsCellOptions,
     GridFooterRow, IGridFooterRowOptions,
     GridFooterCell, IGridFooterCellOptions,
     GridGroupRow, IGridGroupRowOptions,
     GridGroupCell, IGridGroupCellOptions,
-    IDisplaySearchValueOptions, IDisplaySearchValue
+    IDisplaySearchValueOptions, IDisplaySearchValue,
+    CheckboxCell
 };
 
 export {

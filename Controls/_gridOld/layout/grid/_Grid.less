@@ -270,6 +270,11 @@
 
 .controls-Grid__row-cell_master {
    font-size: var(--master_item_font-size_list);
+   border-color: var(--master_item_background-color_list);
+   border-style: solid;
+   border-bottom-width: var(--master_item_separator_thickness_list);
+   border-top-width: var(--master_item_separator_thickness_list);
+   border-radius: var(--master_item_border-radius_list);
 }
 
 .controls-ColumnScroll_visible .controls-GridNew__cell_fixed {
@@ -653,12 +658,6 @@
    padding-left: var(--item_padding-left_default_list);
 }
 
-.controls-Grid__cell_spacingFirstCol_null,
-.controls-GridView__footer__cell__paddingLeft_null,
-.controls-Grid__groupContent__spacingLeft_null {
-   padding-left: 0;
-}
-
 .controls-Grid__cell_spacingFirstCol_xs,
 .controls-GridView__footer__cell__paddingLeft_xs,
 .controls-Grid__groupContent__spacingLeft_xs {
@@ -693,6 +692,12 @@
 .controls-GridView__footer__cell__paddingLeft_xxl,
 .controls-Grid__groupContent__spacingLeft_xxl {
    padding-left: var(--item_padding-left_2xl_list);
+}
+
+.controls-Grid__cell_spacingFirstCol_null,
+.controls-GridView__footer__cell__paddingLeft_null,
+.controls-Grid__groupContent__spacingLeft_null {
+   padding-left: 0;
 }
 
 .controls-Grid__cell_spacingLastCol_default,
@@ -858,25 +863,25 @@
 
 .controls-Grid__row-cell_selected-master {
    font-weight: bold;
-   color: var(--master_item_selected_text-color_list);
    font-size: var(--master_item_selected_font-size_list);
 }
 
+.controls-Grid__cell_master {
+   background-color: var(--master_item_background-color_list);
+}
+
+.controls-Grid__row-cell_selected-master.controls-background-master {
+   background-color: var(--master_item_hover_background-color_list);
+}
+
 .controls-GridView__itemV_marker-master {
-   position: absolute;
-   box-sizing: border-box;
-   width: var(--master-marker_thickness_list);
-   height: 100%;
-   background-color: var(--master-marker_color_list);
-   top: 0;
-   left: 0;
+   display: none;
 }
 
 .ws-is-hover .controls-BaseControl_hover_enabled {
 
-   .controls-Grid__row_highlightOnHover_master:hover .controls-Grid__row-cell-background-hover-master {
-      background-color: var(--master_item_hover_background-color_list);
-   }
+   .controls-Grid__row_highlightOnHover_master:hover .controls-Grid__row-cell-background-hover-master,
+   .controls-Grid__row_highlightOnHover_master:hover .controls-background-master,
    .controls-Grid__row_highlightOnHover_master:hover .controls-background-master {
       background-color: var(--master_item_hover_background-color_list);
    }

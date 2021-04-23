@@ -21,7 +21,7 @@ import 'Controls/search';
  * @mixes Controls/interface:ISearch
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_suggest/ISuggest
+ * @mixes Controls/suggest:ISuggest
  * @mixes Controls/interface:INavigation
  * @demo Controls-demo/Suggest_new/SearchInput/AutoDropDown/AutoDropDown
  * @public
@@ -37,7 +37,7 @@ import 'Controls/search';
  * @mixes Controls/interface:ISearch
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_suggest/ISuggest
+ * @mixes Controls/suggest:ISuggest
  * @mixes Controls/interface:INavigation
  * @demo Controls-demo/Suggest_new/SearchInput/AutoDropDown/AutoDropDown
  * @public

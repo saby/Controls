@@ -86,7 +86,7 @@ export default class ScrollController {
     // tslint:disable-next-line
     constructor(options: any) {
         this._options = {...ScrollController.getDefaultOptions(), ...options};
-        if (options.needScrollCalculation) {
+        if (options.needScrollCalculation && options.virtualScrollConfig) {
             if (options.useNewModel && options.collection) {
                 ScrollController._setCollectionIterator(options.collection, options.virtualScrollConfig.mode);
             }

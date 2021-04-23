@@ -1,0 +1,34 @@
+<div class="controls-AreaCut__container">
+    <div class="controls-AreaCut controls-AreaCut_{{ _options.readOnly ? 'readOnly' : 'active' }} {{ _options.borderVisible ? 'controls-AreaCut__border' }}
+            controls-AreaCut_{{ _expanded ? 'expanded' : 'notExpanded'}}
+            controls-AreaCut_{{ _expanded ? 'expanded' : 'notExpanded'}}_lineHeight-{{ _options.lineHeight }}
+            controls-AreaCut_lineHeight-{{ _options.lineHeight }}
+            controls-AreaCut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_maxHeight">
+        <ws:if data="{{ _options.content }}">
+            <ws:partial template="{{_options.content}}"
+                        scope="{{ _options }}"
+                        on:valueChanged="_valueChangedHandler()"/>
+        </ws:if>
+        <ws:if data="{{_options.lines !== null && (_firstEditPassed || _options.readOnly) }}">
+            <div class="controls-AreaCut__ellipsisWrapper{{ _expanded ? '_expanded' }}
+            controls-AreaCut__ellipsisWrapper_{{_expanded ? 'expanded' : 'notExpanded'}}_{{ _options.readOnly ? 'readOnly' : 'active' }}
+            controls-AreaCut__ellipsisWrapper_{{ _expanded ? 'expanded' : 'notExpanded' }}_lineHeight-{{ _options.lineHeight }}
+            controls-AreaCut__ellipsisWrapper{{ _expanded ? '_expanded_lineHeight-' +  _options.lineHeight + '_lines-' + _options.lines}}
+               controls-AreaCut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_height"
+                 on:mousedown="_mousedownHandler()">
+                <Controls._spoiler.CutButton
+                        attr:class="controls-AreaCut__ellipsis
+                     controls-AreaCut__ellipsis
+                     controls-background-{{_options.backgroundStyle}}"
+                        readOnly="{{ false }}"
+                        buttonPosition="{{ _options.buttonPosition }}"
+                        backgroundStyle="{{ _options.backgroundStyle }}"
+                        iconSize="{{ _options.iconSize }}"
+                        lineHeight="{{ _options.lineHeight }}"
+                        contrastBackground="{{ _options.contrastBackground }}"
+                        on:expandedChanged="_onExpandedChangedHandler()"
+                        expanded="{{ _expanded }}"/>
+            </div>
+        </ws:if>
+    </div>
+</div>

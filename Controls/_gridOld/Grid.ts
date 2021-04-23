@@ -18,15 +18,15 @@ import viewName = require('Controls/_gridOld/GridView');
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_list/interface/IList
- * @mixes Controls/_itemActions/interface/IItemActionsOptions
- * @mixes Controls/_interface/grid/IGridControl
+ * @mixes Controls/list:IList
+ * @mixes Controls/itemActions:IItemActions
+ * @mixes Controls/interface:IGridControl
  * @mixes Controls/interface/IGridItemTemplate
- * @mixes Controls/_interface/IDraggable
+ * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface/IGroupedGrid
  * @mixes Controls/interface/IGridItemTemplate
  * @mixes Controls/_gridOld/interface/IPropStorage
- * @mixes Controls/_marker/interface/IMarkerList
+ * @mixes Controls/marker:IMarkerList
  *
  * @public
  * @author Авраменко А.С.
@@ -48,14 +48,14 @@ import viewName = require('Controls/_gridOld/GridView');
  * @mixes Controls/interface/IGroupedGrid
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_list/interface/IList
- * @mixes Controls/_itemActions/interface/IItemActionsOptions
- * @mixes Controls/_interface/ISorting
- * @mixes Controls/_interface/grid/IGridControl
+ * @mixes Controls/list:IList
+ * @mixes Controls/itemActions:IItemActions
+ * @mixes Controls/interface:ISorting
+ * @mixes Controls/interface:IGridControl
  * @mixes Controls/interface/IGridItemTemplate
- * @mixes Controls/_interface/IDraggable
+ * @mixes Controls/interface:IDraggable
  * @mixes Controls/_gridOld/interface/IPropStorage
- * @mixes Controls/_marker/interface/IMarkerList
+ * @mixes Controls/marker:IMarkerList
  *
  *
  * @public

@@ -64,7 +64,6 @@ export default class TabButtonsDemo extends Control {
                 {
                     id: '2',
                     title: 'Files',
-                    isMainTab: true,
                     align: 'left'
                 },
                 {

@@ -378,7 +378,6 @@ var _private = {
  * @class Controls/_filter/Fast
  * @extends UI/Base:Control
  * @mixes Controls/_filter/interface/IFastFilter
- * @mixes Controls/_filter/Fast/FastStyles
  *
  * @public
  * @author Герасимов А.М.

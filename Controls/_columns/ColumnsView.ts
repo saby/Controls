@@ -8,25 +8,25 @@
  *
  * @class Controls/columns:View
  * @extends UI/Base:Control
- * @implements Controls/_interface/IErrorController
- * @implements Controls/_list/interface/IListNavigation
+ * @implements Controls/interface:IErrorController
+ * @implements Controls/list:IListNavigation
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/_list/interface/IList
- * @mixes Controls/_itemActions/interface/IItemActionsOptions
+ * @mixes Controls/list:IList
+ * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface/IEditableList
- * @mixes Controls/_interface/ISorting
- * @mixes Controls/_interface/IDraggable
+ * @mixes Controls/interface:ISorting
+ * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface/IGroupedList
- * @mixes Controls/_list/interface/IClickableView
- * @mixes Controls/_list/interface/IReloadableList
- * @mixes Controls/_list/interface/IMovableList
- * @mixes Controls/_list/interface/IRemovableList
- * @mixes Controls/_list/interface/IVirtualScrollConfig
- * @mixes Controls/_marker/interface/IMarkerList
+ * @mixes Controls/list:IClickableView
+ * @mixes Controls/list:IReloadableList
+ * @mixes Controls/list:IMovableList
+ * @mixes Controls/list:IRemovableList
+ * @mixes Controls/list:IVirtualScrollConfig
+ * @mixes Controls/marker:IMarkerList
  * @author Авраменко А.С.
  * @public
  * @example

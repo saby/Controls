@@ -137,7 +137,7 @@
    --header_padding-left_dialog: var(--offset_m);
    --header-min-height_dialog: 44px;
    --header_lineheight_dialog: 27px;
-   --header-content_padding-right_dialog: var(--offset_l);
+   --header-content_padding-right_dialog: var(--offset_m);
    --header_min-width_dialog: 30px;
    --footer_min-height_dialog: 64px;
    --header_caption_offset-right_dialog: var(--offset_m);
@@ -145,15 +145,16 @@
    // Цвета фона
 
    --background-color_dialog: var(--background-color);
-   --unaccented_background-color_dialog: #f4f4f4;
+   --unaccented_background-color_dialog: #f8f8f8;
    --header_background-color_dialog: var(--background-color);
-   --unaccented_header_background-color_dialog: #f4f4f4;
+   --unaccented_header_background-color_dialog: #f8f8f8;
    --footer_background-color_dialog: #f5f5f5;
 
    // Границы
 
    --border-color_dialog: #bdbdbd;
    --border-thickness_dialog: var(--border-thickness);
+   --border-radius_dialog: 8px;
    --box-shadow_dialog: 0 0 6px 0 rgba(0, 0, 0, 0.35);
    --header_bottom-border-thickness_dialog: 1px;
    --header_bottom-border-color_dialog: #F0F0F0;
@@ -163,6 +164,8 @@
    // Кнопка закрытия
 
    --close-button_offset-top_dialog: var(--offset_s);
+   --close-link-button_offset-top_dialog: 10px;
+   --close-link-button_offset-right_dialog: var(--offset_xs);
 
 
    // Переменные для стековой панели
@@ -174,6 +177,7 @@
    --header_min-width_stack: 30px;
    --header_padding-left_stack: var(--offset_m);
    --header-content_padding-right_stack: var(--offset_l);
+   --header-content_padding-right_stack_withPanel: var(--offset_s);
    --header_caption_offset-right_stack: var(--offset_m);
 
    // Цвета фона
@@ -181,6 +185,9 @@
    --background-color_stack: var(--background-color);
    --header_background-color_stack: #f8f8f8;
    --footer_background-color_stack: #f8f8f8;
+   --background-color_stack-right_panel: #f8f8f8;
+   --width_stack-right_panel: 52px;
+   --border_stack-right_panel: 2px solid rgba(0, 0, 0, 0.04);
 
    // Границы
 
@@ -196,16 +203,15 @@
    // Кнопки закрытия и изменения размера
 
    --close-button_offset-top_stack: 5px;
+   --close-button_offset-top_stack__panel: var(--offset_2xs);
    --maximized-button_offset-top_stack: 7px;
    --maximized-button_offset-right_stack: var(--offset_s);
 
    // Изменение размера
    --resizingLine_mobile_offset-left_stack: 15px;
    --resizingLine_mobile_thickness_stack: 25px;
-
    --resizingLine_mobile_offset-left_masterDetail: 15px;
    --resizingLine_mobile_thickness_masterDetail: 25px;
-
 
    // Переменные для окна подтверждения
    //

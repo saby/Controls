@@ -8,6 +8,7 @@
 
 .controls-PropertyGrid__flex-row {
    display: flex;
+   align-items: baseline;
 }
 
 .controls-PropertyGrid__row_captionPosition-top {
@@ -141,7 +142,9 @@
    padding-right: @cell_padding-right_l_grid;
 }
 
-.controls-PropertyGrid__editor_dropdown_control {
+.controls-PropertyGrid__editor_dropdown_control,
+.controls-PropertyGrid__editor_time-interval_control,
+.controls-PropertyGrid__editor_date_control {
    max-width: 100%;
    margin-right: auto;
 }
