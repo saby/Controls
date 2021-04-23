@@ -6023,34 +6023,6 @@ define([
          assert.isTrue(portionSearchReseted);
       });
 
-      it('_beforeUpdate with new groupingLoader', async function() {
-         let cfg = {
-            viewName: 'Controls/List/ListView',
-            viewModelConfig: {
-               items: [],
-               keyProperty: 'id'
-            },
-            viewModelConstructor: lists.ListViewModel,
-            keyProperty: 'id',
-            source: source
-         };
-         let instance = correctCreateBaseControl(cfg);
-         instance.saveOptions(cfg);
-         await instance._beforeMount(cfg);
-
-         assert.isFalse(!!instance._groupingLoader);
-         instance._beforeUpdate({ ...cfg, groupProperty: 'NewProp' });
-         instance._options.groupProperty = 'NewProp';
-         assert.isTrue(!!instance._groupingLoader);
-         instance._beforeUpdate({ ...cfg, groupProperty: undefined });
-         assert.isFalse(!!instance._groupingLoader);
-         cfg.navigation = {
-            view: 'demand'
-         };
-         instance._beforeUpdate({ ...cfg, groupProperty: 'NewProp' });
-         assert.isFalse(!!instance._groupingLoader);
-      });
-
       // Иногда необходимо переинициализировать опции записи в момент обновления контрола
       describe('Update ItemActions in beforeUpdate hook', function() {
          let cfg;

@@ -62,7 +62,6 @@ import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
 import ListViewModel from 'Controls/_list/ListViewModel';
 import ScrollPagingController from 'Controls/_list/Controllers/ScrollPaging';
 import PortionedSearch from 'Controls/_list/Controllers/PortionedSearch';
-import GroupingLoader from 'Controls/_list/Controllers/GroupingLoader';
 import * as GroupingController from 'Controls/_list/Controllers/Grouping';
 import HoverFreeze from 'Controls/_list/Controllers/HoverFreeze';
 import {ISwipeEvent} from 'Controls/listRender';
@@ -489,9 +488,6 @@ const _private = {
         // https://online.sbis.ru/opendoc.html?guid=79e62139-de7a-43f1-9a2c-290317d848d0
         if (!self._destroyed && options.useNewModel && list) {
             self._initNewModel(options, list, options);
-            if (self._groupingLoader) {
-                self._groupingLoader.resetLoadedGroups(listModel);
-            }
             self._shouldNotifyOnDrawItems = true;
         }
     },
@@ -3295,7 +3291,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _markedKeyForRestoredScroll = null;
 
     _updateInProgress = false;
-    _groupingLoader = null;
 
     _isMounted = false;
 
@@ -3610,10 +3605,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             items,
             collapsedGroups: collapsedGroups || newOptions.collapsedGroups
         };
-
-        if (newOptions.groupProperty && !newOptions.task1181512586) {
-            self._groupingLoader = new GroupingLoader({});
-        }
 
         self._viewModelConstructor = newOptions.viewModelConstructor;
         if (!newOptions.useNewModel && newOptions.viewModelConstructor) {
@@ -4232,23 +4223,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         this._needBottomPadding = _private.needBottomPadding(newOptions, this._listViewModel);
 
-        const groupPropertyChanged = newOptions.groupProperty !== this._options.groupProperty;
-        const needGroupingLoader = !!newOptions.groupProperty && !_private.isDemandNavigation(newOptions.navigation) && !newOptions.task1181512586;
-        const hasGroupingLoader = !!this._groupingLoader;
-        if (needGroupingLoader) {
-            if (hasGroupingLoader) {
-                if (groupPropertyChanged) {
-                    this._groupingLoader.destroy();
-                    this._groupingLoader = new GroupingLoader({});
-                }
-            } else {
-                this._groupingLoader = new GroupingLoader({});
-            }
-        } else if (hasGroupingLoader) {
-            this._groupingLoader.destroy();
-            this._groupingLoader = null;
-        }
-
         const shouldProcessMarker = newOptions.markerVisibility === 'visible'
             || newOptions.markerVisibility === 'onactivated' && newOptions.markedKey !== undefined || this._modelRecreated;
 
@@ -4524,10 +4498,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (this._notifyPlaceholdersChanged) {
             this._notifyPlaceholdersChanged = null;
-        }
-
-        if (this._groupingLoader) {
-            this._groupingLoader.destroy();
         }
 
         if (this._scrollPagingCtr) {
@@ -5077,10 +5047,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     }
 
                     if (listModel) {
-                        if (self._groupingLoader) {
-                            self._groupingLoader.resetLoadedGroups(listModel);
-                        }
-
                         if (self._sourceController) {
                             if (self._sourceController.getItems() !== self._items || !self._items) {
                                 // Нужно передавать именно self._options, т.к. опции с которыми был вызван reload могут устареть
@@ -5227,21 +5193,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (baseEvent.target.closest('.controls-ListView__groupExpander')) {
             const collection = this._listViewModel;
-            const groupingLoader = this._groupingLoader;
             if (this._options.useNewModel) {
                 const needExpandGroup = !dispItem.isExpanded();
-                if (groupingLoader && needExpandGroup && !groupingLoader.isLoadedGroup(groupId)) {
-                    const source = this._options.source;
-                    const filter = this._options.filter;
-                    const sorting = this._options.sorting;
-                    groupingLoader.loadGroup(collection, groupId, source, filter, sorting).then(() => {
-                        dispItem.setExpanded(needExpandGroup);
-                    });
-                } else if (!needExpandGroup && this.isEditing()) {
-                    collapseGroupAfterEndEdit(collection);
-                } else {
-                    dispItem.setExpanded(needExpandGroup);
-                }
+                dispItem.setExpanded(needExpandGroup);
 
                 // TODO временное решение для новой модели https://online.sbis.ru/opendoc.html?guid=e20934c7-95fa-44f3-a7c2-c2a3ec32e8a3
                 const collapsedGroups = collection.getCollapsedGroups() || [];
@@ -5264,19 +5218,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 _private.groupsExpandChangeHandler(this, changes);
             } else {
                 const needExpandGroup = !collection.isGroupExpanded(groupId);
-                if (groupingLoader && needExpandGroup && !groupingLoader.isLoadedGroup(groupId)) {
-                    const source = this._options.source;
-                    const filter = this._options.filter;
-                    const sorting = this._options.sorting;
-                    groupingLoader.loadGroup(collection, groupId, source, filter, sorting).then(() => {
-                        GroupingController.toggleGroup(collection, groupId);
-                    });
+                if (this.isEditing()) {
+                    collapseGroupAfterEndEdit(collection);
                 } else {
-                    if (!needExpandGroup && this.isEditing()) {
-                        collapseGroupAfterEndEdit(collection);
-                    } else {
-                        GroupingController.toggleGroup(collection, groupId);
-                    }
+                    GroupingController.toggleGroup(collection, groupId);
                 }
             }
         }
