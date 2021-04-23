@@ -639,6 +639,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             diff.removed.forEach((it) => {
                 const item = this.getItemBySourceKey(it);
                 if (item && item['[Controls/_display/TreeItem]']) {
+                    this._collapseChilds(item);
                     item.setExpanded(false);
                 }
             });
@@ -691,6 +692,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             const item = this.getItemBySourceKey(key);
             if (item && item['[Controls/_display/TreeItem]']) {
                 // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
+                this._collapseChilds(item);
                 item.setExpanded(false);
             }
         });
@@ -730,6 +732,13 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 this._collapsedItems.push(itemKey);
             }
         }
+    }
+
+    private _collapseChilds(item: T): void {
+        const childs = this.getChildren(item);
+        childs.forEach((it) => {
+            it.setExpanded(false);
+        });
     }
 
     // endregion Expanded/Collapsed
