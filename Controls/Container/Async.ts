@@ -5,6 +5,7 @@ import rk = require('i18n!Controls');
 import {ViewConfig} from "../_error/Handler";
 import {IoC} from "Env/Env";
 import {Controller, ParkingController} from "Controls/error";
+import { IControlOptions } from 'UICommon/Base';
 
 export interface IOptions extends IAsyncOptions {
    errorCallback: (viewConfig: void|ViewConfig, error: unknown) => void;
@@ -52,6 +53,10 @@ export default class Async extends BaseAsync {
          });
       });
    }
+
+   static defaultProps: IControlOptions = {
+      notLoadThemes: true
+   };
 }
 
 /**
