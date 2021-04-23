@@ -323,18 +323,7 @@ export default class Application extends Control<IApplication> {
    }
    private _initIsAdaptiveClass(cfg: IApplication): void {// TODO: toso
       if (cfg.isAdaptive) {
-         let HeadAPI = PageHead.getInstance();
-         let tagsId = HeadAPI.getTag('meta', { name: 'viewport' });
-         if (tagsId) {
-            if (tagsId instanceof Array) {
-               tagsId.forEach(function(tagId) {
-                  HeadAPI.deleteTag(tagId);
-               });
-            } else {
-               HeadAPI.deleteTag(tagsId);
-            }
-         }
-         HeadAPI.createTag('meta', {
+         PageHead.getInstance().createTag('meta', {
             name: 'viewport',
             content: 'width=device-width, initial-scale=1.0, user-scalable=no'
          });
