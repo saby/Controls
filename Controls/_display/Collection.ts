@@ -4,7 +4,7 @@ import * as cMerge from 'Core/core-merge';
 import CollectionEnumerator from './CollectionEnumerator';
 import CollectionItem, {IOptions as ICollectionItemOptions, ICollectionItemCounters} from './CollectionItem';
 import GroupItem from './GroupItem';
-import { Model as EntityModel } from 'Types/entity';
+import {Model as EntityModel, Record} from 'Types/entity';
 import IItemsStrategy from './IItemsStrategy';
 import ItemsStrategyComposer from './itemsStrategy/Composer';
 import DirectItemsStrategy from './itemsStrategy/Direct';
@@ -1359,6 +1359,56 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this.getPrevious(item);
     }
 
+    /**
+     * Возвращает следующий элемент проекции относительно элемента с ключом key
+     * @param {string | number} key ключ элемента проекции
+     * @param {boolean} onlyDataItems поиск только по записям с данными
+     * @return {Controls/_display/CollectionItem}
+     */
+    getNextItem(key: string|number, onlyDataItems?: boolean): T {
+        const item = this.getItemBySourceKey(key);
+        return this._getItemToDirection(this._getUtilityEnumerator(), item, true, onlyDataItems);
+    }
+
+    /**
+     * Возвращает предыдущий элемент проекции относительно элемента с ключом key
+     * @param {string | number} key ключ элемента проекции
+     * @param {boolean} onlyDataItems поиск только по записям с данными
+     * @return {Controls/_display/CollectionItem}
+     */
+    getPrevItem(key: string|number, onlyDataItems?: boolean): T {
+        const item = this.getItemBySourceKey(key);
+        return this._getItemToDirection(this._getUtilityEnumerator(), item, false, onlyDataItems);
+    }
+    /**
+     * Возвращает соседний элемент проекции
+     * @param enumerator Энумератор элементов
+     * @param item Элемент проекции относительно которого искать
+     * @param isNext Следующий или предыдущий элемент
+     * @param [onlyDataItems=false] Поиск только по записям с данными
+     * @protected
+     */
+    protected _getItemToDirection(
+        enumerator: CollectionEnumerator<T>,
+        item: T,
+        isNext: boolean,
+        onlyDataItems?: boolean
+    ): T {
+        const method = isNext ? 'moveNext' : 'movePrevious';
+        let resultItem;
+
+        enumerator.setCurrent(item);
+        while (enumerator[method]()) {
+            resultItem = enumerator.getCurrent();
+            if (onlyDataItems && !(resultItem.getContents() instanceof Record)) {
+                resultItem = undefined;
+                continue;
+            }
+            break;
+        }
+
+        return resultItem;
+    }
     getNextByIndex(index: number): T {
         return this.at(index + 1);
     }

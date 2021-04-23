@@ -766,7 +766,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
         return function TreeItemsFactory(options: IItemsFactoryOptions<S>): T {
             options.hasChildren = object.getPropertyValue<boolean>(options.contents, this._$hasChildrenProperty);
-            options.hasChildrenByRecordSet = !!this._getChildrenByRecordSet(options.contents).length;
+            options.hasChildrenByRecordSet = !!this.getChildrenByRecordSet(options.contents).length;
             options.expanderTemplate = this._$expanderTemplate;
             options.hasNodeWithChildren = this._hasNodeWithChildren;
 
@@ -939,7 +939,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         return this._childrenMap[key];
     }
 
-    private _getChildrenByRecordSet(parent: S): S[] {
+    getChildrenByRecordSet(parent: S): S[] {
         // метод может быть позван, до того как полностью отработает конструктор
         if (!this._hierarchyRelation) {
             this._createHierarchyRelation();

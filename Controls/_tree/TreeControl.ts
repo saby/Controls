@@ -107,7 +107,7 @@ const _private = {
             });
         }
 
-        if (!options.hasOwnProperty('expandedItems')) {
+        if (!options.hasOwnProperty('expandedItems') || options.markerMoveMode === 'leaves') {
             model.setExpandedItems(newExpandedItems);
             self.getSourceController().setExpandedItems(newExpandedItems);
         }
@@ -1041,16 +1041,16 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     protected _afterItemsSet(options): void {
         super._afterItemsSet.apply(this, arguments);
         if (options.markerMoveMode === 'leaves') {
-            this.setMarkerOnFirstLeaf();
+            this.setMarkerOnFirstLeaf(options);
         }
     }
     protected _afterCollectionReset(): void {
         super._afterCollectionReset.apply(this, arguments);
         if (this._options.markerMoveMode === 'leaves') {
-            this.setMarkerOnFirstLeaf();
+            this.setMarkerOnFirstLeaf(this._options);
         }
     }
-    private setMarkerOnFirstLeaf() {
+    private setMarkerOnFirstLeaf(options) {
         const markerController = this.getMarkerController();
         const model = this._listViewModel;
         const list = model.getCollection();
@@ -1063,7 +1063,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     this._doAfterItemExpanded = null;
                     this._applyMarkedLeaf(itemKey, model, markerController);
                 };
-                this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, this._options);
+                this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, options);
                 if (this._expandedItemsToNotify) {
                     model.setExpandedItems(this._expandedItemsToNotify);
                 }
@@ -1128,17 +1128,17 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
-    private _expandToFirstLeaf(key: CrudEntityKey, items): CrudEntityKey[] {
+    private _expandToFirstLeaf(key: CrudEntityKey, items, options): CrudEntityKey[] {
         if (items.getCount()) {
             const model = this._listViewModel;
             const expanded = [key];
             const item = model.getItemBySourceKey(key);
             // TODO после полного перехода на новую модель в getChildren передавать только элемент списка
             //  https://online.sbis.ru/opendoc.html?guid=624e1380-3b9b-45dd-9825-a7188dd7c52e
-            let curItem = model._getChildrenByRecordSet(item.getContents())[0];
-            while (curItem && curItem.get(this._options.nodeProperty) !== null) {
+            let curItem = model.getChildrenByRecordSet(item.getContents())[0];
+            while (curItem && curItem.get(options.nodeProperty) !== null) {
                 expanded.push(curItem.getKey());
-                curItem = model._getChildrenByRecordSet(curItem)[0];
+                curItem = model.getChildrenByRecordSet(curItem)[0];
             }
             if (curItem && this._doAfterItemExpanded) {
                 this._doAfterItemExpanded(curItem.getKey());
@@ -1280,6 +1280,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
         if (this._isMounted) {
             this._changeMarkedKey(this._currentItem);
+        } else {
+            markerController.setMarkedKey(this._currentItem);
         }
 
         this._tempItem = null;
@@ -1297,13 +1299,13 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     getNextItem(key: CrudEntityKey, model?): Model {
         const listModel = model || this._listViewModel;
-        const nextItem = listModel.getNextByKey(key);
+        const nextItem = listModel.getNextItem(key, true);
         return nextItem ? nextItem.getContents() : null;
     }
 
     getPrevItem(key: CrudEntityKey, model?): Model {
         const listModel = model || this._listViewModel;
-        const prevItem = listModel.getPrevByKey(key);
+        const prevItem = listModel.getPrevItem(key, true);
         return prevItem ? prevItem.getContents() : null;
     }
 
