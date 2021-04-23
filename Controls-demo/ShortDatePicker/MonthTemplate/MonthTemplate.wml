@@ -1,0 +1,6 @@
+<div class="controlsDemo__wrapper">
+    <Controls.dateRange:RangeShortSelector
+            bind:startValue="_startValue"
+            bind:endValue="_endValue"
+            monthTemplate="Controls-demo/ShortDatePicker/MonthTemplate/resources/MonthTemplate:MonthTemplate"/>
+</div>

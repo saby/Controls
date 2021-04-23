@@ -369,6 +369,16 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         return hasHeader && (this._$headerVisibility === 'visible' || this.getCount() > 0);
     }
 
+    setResultsPosition(resultsPosition: TResultsPosition): void {
+        if (this._$resultsPosition !== resultsPosition) {
+            this._$resultsPosition = resultsPosition;
+            if (!this._$resultsPosition) {
+                this._$results = null;
+            }
+            this._nextVersion();
+        }
+    }
+
     protected _resultsIsVisible(): boolean {
         return !!this._$resultsPosition && (this._$resultsVisibility === 'visible' || this.getCollectionCount() > 1);
     }

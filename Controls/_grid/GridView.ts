@@ -80,6 +80,10 @@ const GridView = ListView.extend({
         if (changes.includes('columnScroll')) {
             listModel.setColumnScroll(options.columnScroll);
         }
+
+        if (changes.includes('resultsPosition')) {
+            listModel.setResultsPosition(options.resultsPosition);
+        }
     },
 
     _applyChangedOptions(options, changes): void {
@@ -117,6 +121,9 @@ const GridView = ListView.extend({
             }
             if (changedOptions.hasOwnProperty('columnScroll')) {
                 changes.push('columnScroll');
+            }
+            if (changedOptions.hasOwnProperty('resultsPosition')) {
+                changes.push('resultsPosition');
             }
         }
 
