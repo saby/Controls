@@ -118,7 +118,7 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
 
         if (!this.isFirstColumn()) {
             if (this._$owner.getMultiSelectVisibility() === 'hidden' || this.getColumnIndex() > 1) {
-                classes += ` controls-Grid__cell_spacingLeft${compatibleLeftPadding}`;
+                classes += ` controls-Grid__cell_spacingLeft_${compatibleLeftPadding}`;
             }
         } else {
             classes += ` controls-Grid__cell_spacingFirstCol_${leftPadding}`;
@@ -128,7 +128,7 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
         if (this.isLastColumn()) {
             classes += ` controls-Grid__cell_spacingLastCol_${rightPadding}`;
         } else {
-            classes += ` controls-Grid__cell_spacingRight${compatibleRightPadding}`;
+            classes += ` controls-Grid__cell_spacingRight_${compatibleRightPadding}`;
         }
 
         return classes;
