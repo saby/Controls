@@ -1,3 +1,4 @@
+import { assert } from 'chai';
 import ScrollbarsModel from 'Controls/_scroll/Container/ScrollbarsModel';
 import {getDefaultOptions as getScrollbarsDefaultOptions} from 'Controls/_scroll/Container/Interface/IScrollbars';
 import {SCROLL_MODE} from 'Controls/_scroll/Container/Type';
@@ -152,28 +153,34 @@ describe('Controls/scroll:Container ScrollbarsModel', () => {
             scrollHeight: 30,
             scrollWidth: 40
         };
-        const placeholders = { top: 10, bottom: 10, left: 10, right: 10 };
 
-        it('should update position and contentSize.', () => {
-            const
-                model: ScrollbarsModel = new ScrollbarsModel({
-                    ...getScrollbarsDefaultOptions(),
-                    scrollMode: SCROLL_MODE.VERTICAL_HORIZONTAL
-                });
+        [{
+            placeholders: { top: 10, bottom: 10, left: 10, right: 10 }
+        }, {
+            placeholders: { top: 10, bottom: 10 }
+        }].forEach((test) => {
+            it('should update position and contentSize.', () => {
+                const
+                    model: ScrollbarsModel = new ScrollbarsModel({
+                        ...getScrollbarsDefaultOptions(),
+                        scrollMode: SCROLL_MODE.VERTICAL_HORIZONTAL
+                    });
 
-            // В реальнности метод задебоунсен, в тестах выключаем дебоунс.
-            model._updateContainerSizes = ScrollbarsModel.prototype._updateContainerSizes;
+                // В реальнности метод задебоунсен, в тестах выключаем дебоунс.
+                model._updateContainerSizes = ScrollbarsModel.prototype._updateContainerSizes;
 
-            model.updateScrollState(scrollState, { offsetHeight: 50 });
-            model.updatePlaceholdersSize({ top: 10, bottom: 10, left: 10, right: 10 });
+                model.updateScrollState(scrollState, { offsetHeight: 50 });
+                model.updatePlaceholdersSize(test.placeholders);
 
-            assert.strictEqual(model._models.vertical.position, scrollState.scrollTop + placeholders.top);
-            assert.strictEqual(model._models.horizontal.position, scrollState.scrollLeft + placeholders.left);
-            assert.strictEqual(model._models.vertical.contentSize,
-                scrollState.scrollHeight + placeholders.top + placeholders.bottom);
-            assert.strictEqual(model._models.horizontal.contentSize,
-                scrollState.scrollWidth + placeholders.left + placeholders.right);
+                assert.strictEqual(model._models.vertical.position, scrollState.scrollTop + (test.placeholders.top || 0));
+                assert.strictEqual(model._models.horizontal.position, scrollState.scrollLeft + (test.placeholders.left || 0));
+                assert.strictEqual(model._models.vertical.contentSize,
+                    scrollState.scrollHeight + (test.placeholders.top || 0) + (test.placeholders.bottom || 0));
+                assert.strictEqual(model._models.horizontal.contentSize,
+                    scrollState.scrollWidth + (test.placeholders.left || 0) + (test.placeholders.right || 0));
+            });
         });
-    })
+
+    });
 
 });

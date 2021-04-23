@@ -64,6 +64,9 @@ var ListView = BaseControl.extend(
             this._debouncedSetHoveredItem = cDebounce(_private.setHoveredItem, DEBOUNCE_HOVERED_ITEM_CHANGED);
            // TODO при полном переходе на новую модель нужно переписать, уберется параметр changesType
            this._onListChangeFnc = (event, changesType, action, newItems) => {
+               if (this._destroyed) {
+                   return;
+               }
                // todo refactor by task https://online.sbis.ru/opendoc.html?guid=80fbcf1f-5804-4234-b635-a3c1fc8ccc73
                // Из новой коллекции нотифается collectionChanged, в котором тип изменений указан в newItems.properties
                let itemChangesType;

@@ -142,7 +142,7 @@ export interface IItemActionsOptions {
 
     /**
      * @name Controls/_itemActions/interface/IItemActions#itemActionsProperty
-     * cfg {String} Имя поля записи, в котором хранится конфигурация для панели с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опциями записи}.
+     * @cfg {String} Имя поля записи, в котором хранится конфигурация для панели с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опциями записи}.
      * @remark
      * С помощью этой опции можно задать конфигурацию набора опций для каждой записи.
      * Подробнее об использовании функционала читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/separate-set-options/#item-actions-property здесь}.

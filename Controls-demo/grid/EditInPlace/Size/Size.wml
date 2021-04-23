@@ -1,38 +1,40 @@
-<div class="controlsDemo__wrapper">
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/EditInPlace/Size/Default/Index' }}">
-            <a href="{{content.href}}">Размер шрифта соответствует - default</a>
-        </Router.router:Reference>
-        <Controls-demo.grid.EditInPlace.Size.Default.Index/>
-    </div>
+<div class="controlsDemo__wrapper controlDemo__RowWrapper">
+    <div class="controlsDemo__flexColumn demo-EditInPlaceSize_column1">
+        <div class="controlsDemo__cell demo-EditInPlaceSize_default">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/grid/EditInPlace/Size/Default/Index' }}">
+                <a href="{{content.href}}">Размер шрифта соответствует - default</a>
+            </Router.router:Reference>
+            <Controls-demo.grid.EditInPlace.Size.Default.Index/>
+        </div>
 
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/EditInPlace/Size/S/Index' }}">
-            <a href="{{content.href}}">Размер шрифта соответствует - s</a>
-        </Router.router:Reference>
-        <Controls-demo.grid.EditInPlace.Size.S.Index/>
+        <div class="controlsDemo__cell demo-EditInPlaceSize_s">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/grid/EditInPlace/Size/S/Index' }}">
+                <a href="{{content.href}}">Размер шрифта соответствует - s</a>
+            </Router.router:Reference>
+            <Controls-demo.grid.EditInPlace.Size.S.Index/>
+        </div>
     </div>
+    <div class="controlsDemo__flexColumn controlsDemo__wrapper__padding-left demo-EditInPlaceSize_column2">
+        <div class="controlsDemo__cell demo-EditInPlaceSize_m">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/grid/EditInPlace/Size/M/Index' }}">
+                <a href="{{content.href}}">Размер шрифта соответствует - m</a>
+            </Router.router:Reference>
+            <Controls-demo.grid.EditInPlace.Size.M.Index/>
+        </div>
 
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/EditInPlace/Size/M/Index' }}">
-            <a href="{{content.href}}">Размер шрифта соответствует - m</a>
-        </Router.router:Reference>
-        <Controls-demo.grid.EditInPlace.Size.M.Index/>
+        <div class="controlsDemo__cell demo-EditInPlaceSize_l">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/grid/EditInPlace/Size/L/Index' }}">
+                <a href="{{content.href}}">Размер шрифта соответствует - l</a>
+            </Router.router:Reference>
+            <Controls-demo.grid.EditInPlace.Size.L.Index/>
+        </div>
     </div>
-
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/EditInPlace/Size/L/Index' }}">
-            <a href="{{content.href}}">Размер шрифта соответствует - l</a>
-        </Router.router:Reference>
-        <Controls-demo.grid.EditInPlace.Size.L.Index/>
-    </div>
-
 </div>

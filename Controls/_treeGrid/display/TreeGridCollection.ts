@@ -130,7 +130,7 @@ export default class TreeGridCollection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
-        this._updateItemsColumns();
+        this._updateItemsProperty('setColumns', this._$columns);
     }
 
     protected _handleAfterCollectionChange(changedItems: TreeGridDataRow[], changeAction?: string): void {
