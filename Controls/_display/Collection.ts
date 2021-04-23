@@ -310,6 +310,8 @@ function onCollectionChange<T>(
             if (!needReset) {
                 this._handleCollectionActionChange(newItems);
             }
+            this.resetLastItem();
+            this.resetFirstItem()
             this._nextVersion();
             return;
 
@@ -322,6 +324,8 @@ function onCollectionChange<T>(
             this._reFilter();
             this._finishUpdateSession(session, true);
             this._notifyCollectionItemsChange(newItems, newItemsIndex, session);
+            this.resetLastItem();
+            this.resetFirstItem()
             this._nextVersion();
             this._handleCollectionActionChange(newItems);
             return;
@@ -367,7 +371,8 @@ function onCollectionChange<T>(
     }
 
     this._finishUpdateSession(session);
-    this._afterFinishUpdateSession(action);
+    this.resetLastItem();
+    this.resetFirstItem()
     this._nextVersion();
 }
 
@@ -3963,11 +3968,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _handleAfterCollectionChange(changedItems: ISessionItems<T> = [], changeAction?: string): void {
         this._notifyAfterCollectionChange();
         this._updateItemsMultiSelectVisibility(this._$multiSelectVisibility);
-    }
-
-    protected _afterFinishUpdateSession(action: string): void {
-        this.resetLastItem();
-        this.resetFirstItem();
     }
 
     protected _handleAfterCollectionItemChange(item: T, index: number, properties?: object): void {}
