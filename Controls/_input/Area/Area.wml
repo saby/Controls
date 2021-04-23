@@ -13,6 +13,7 @@
                         fontWeight="{{_options.fontWeight}}"
                         fontColorStyle="{{_options.fontColorStyle}}"
                         borderStyle="{{_options.borderStyle}}"
+                        contrastBackground="{{_options.contrastBackground}}"
                         on:mouseenter="_mouseEnterHandler()"
                         on:tagClick="_notifyHandler('tagClick')"
                         on:tagHover="_notifyHandler('tagHover')">

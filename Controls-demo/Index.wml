@@ -8,9 +8,6 @@
                          dataLoaderModule="Controls-demo/DataLoader"
                          loadDataProviders="{{false}}"
                          settingsController="{{_settigsController}}">
-      <ws:head>
-         <link data-vdomignore="true" rel="shortcut icon" href="{{_options.resourceRoot}}Controls-demo/wasaby.ico?v=1" type="image/x-icon"/>
-      </ws:head>
       <ws:content>
          <Controls-demo.RootRouter
             correctTemplate="{{_correctTemplate}}"
