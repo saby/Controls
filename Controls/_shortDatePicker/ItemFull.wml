@@ -20,7 +20,6 @@
                                 on:click="_onMonthClick(month.date)"
                                 attr:class="controls-PeriodLiteDialog-item__month-caption"
                                 template="{{monthTemplate}}"
-                                defaultMonthTemplate="{{ _options.defaultMonthTemplate }}"
                                 month="{{month}}"
                                 formatDate="{{_formatDate}}"
                                 extData="{{_options.extData && _options.extData[month.date.getMonth()]}}"

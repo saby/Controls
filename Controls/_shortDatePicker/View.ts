@@ -49,7 +49,6 @@ const MAX_VISIBLE_YEARS = 14;
 class View extends Control<IDateLitePopupOptions> {
     protected _template: TemplateFunction = componentTmpl;
     protected _defaultListTemplate: TemplateFunction = listTmpl;
-    protected _defaultMonthTemplate: TemplateFunction = monthTmpl;
     protected _position: Date;
     protected _yearHovered: Date;
     protected _range: Date[];

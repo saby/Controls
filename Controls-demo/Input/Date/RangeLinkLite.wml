@@ -4,11 +4,7 @@
       <div class="PageBlock__content">
          <div class="PageBlock__componentWrap">
             <Controls.dateRange:RangeShortSelector
-               attr:test_name="default_range">
-               <ws:monthTemplate>
-                  <ws:partial periods="{{_periods}}" template="{{ monthTemplate.defaultMonthTemplate }}"/>
-               </ws:monthTemplate>
-            </Controls.dateRange:RangeShortSelector>
+               attr:test_name="default_range"/>
          </div>
          <div class="PageBlock__componentWrap ControlsDemo-RangeLinkLite_capture">
             <Controls.dateRange:RangeShortSelector
@@ -26,12 +22,7 @@
                chooseHalfyears="{{false}}"
                chooseQuarters="{{false}}"
                fontColorStyle="link" viewMode="link"
-			   attr:test_name="months_range"
-            >
-               <ws:monthTemplate>
-                  <ws:partial periods="{{_periods}}" template="{{ monthTemplate.defaultMonthTemplate }}"/>
-               </ws:monthTemplate>
-            </Controls.dateRange:RangeShortSelector>
+			   attr:test_name="months_range"/>
          </div>
          <div class="PageBlock__componentWrap">
             <Controls.dateRange:RangeShortSelector
