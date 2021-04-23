@@ -669,11 +669,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 }
             });
         }
-
-        // Перестраиваем проекцию при смене expandedItems, чтобы удалить из кэша свернутые элементы.
-        // Так нужно делать, т.к. в итераторе они отсутствуют и опции для них обновляться не будут.
-        // В итоге при последующем развороте у них будут неправильные (устаревшие) опции.
-        this._reBuild(true);
     }
 
     setCollapsedItems(collapsedKeys: CrudEntityKey[]): void {
@@ -1015,11 +1010,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     protected _setHasNodeWithChildren(hasNodeWithChildren: boolean): void {
         if (this._hasNodeWithChildren !== hasNodeWithChildren) {
             this._hasNodeWithChildren = hasNodeWithChildren;
-            this.getViewIterator().each((item: TreeItem) => {
-                if (item.setHasNodeWithChildren) {
-                    item.setHasNodeWithChildren(hasNodeWithChildren);
-                }
-            });
+            this._updateItemsProperty('setHasNodeWithChildren', this._hasNodeWithChildren, 'setHasNodeWithChildren');
             this._nextVersion();
         }
     }
