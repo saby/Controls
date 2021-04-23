@@ -108,8 +108,8 @@ export default class TreeItemDecorator<T> extends TreeItem<T> implements IGroupN
         return this._$source && this._$source.toggleExpanded();
     }
 
-    isHasChildren(): boolean {
-        return this._$source && this._$source.isHasChildren();
+    hasChildren(): boolean {
+        return this._$source && this._$source.hasChildren();
     }
 
     setHasChildren(value: boolean): void {

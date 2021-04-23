@@ -94,8 +94,8 @@ export default class BreadcrumbsItem<T extends Model = Model> extends Collection
         return this._$owner.getChildren(this, withFilter);
     }
 
-    isHasChildren(): boolean {
-        return this.getLast().isHasChildren();
+    hasChildren(): boolean {
+        return this.getLast().hasChildren();
     }
 
     isRoot(): boolean {

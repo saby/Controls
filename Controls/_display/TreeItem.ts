@@ -201,11 +201,11 @@ export default class TreeItem<T extends Model = Model> extends mixin<
     /**
      * Возвращает признак наличия детей у узла
      */
-    isHasChildren(): boolean {
+    hasChildren(): boolean {
         return this._$hasChildren;
     }
 
-    isHasChildrenByRecordSet(): boolean {
+    hasChildrenByRecordSet(): boolean {
         return this._$hasChildrenByRecordSet;
     }
 
@@ -214,6 +214,18 @@ export default class TreeItem<T extends Model = Model> extends mixin<
      */
     setHasChildren(value: boolean): void {
         this._$hasChildren = value;
+    }
+
+    /**
+     * Устанавливает признак наличия детей у узла, посчитанный по рекордсету
+     */
+    setHasChildrenByRecordSet(value: boolean): boolean {
+        const changed = this._$hasChildrenByRecordSet !== value;
+        if (changed) {
+            this._$hasChildrenByRecordSet = value;
+            this._nextVersion();
+        }
+        return changed;
     }
 
     /**
@@ -269,7 +281,7 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         }
 
         const correctPosition = this.getOwner().getExpanderPosition() === position;
-        const hasChildren = this.getOwner().getHasChildrenProperty() ? this.isHasChildren() : this._$hasChildrenByRecordSet;
+        const hasChildren = this.getOwner().getHasChildrenProperty() ? this.hasChildren() : this.hasChildrenByRecordSet();
         return (this._$owner.getExpanderVisibility() === 'visible' || hasChildren) && correctPosition;
     }
 
@@ -279,7 +291,8 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         const expanderSize = this.getExpanderSize(tmplExpanderSize);
 
         if (this._$owner.getExpanderVisibility() === 'hasChildren') {
-            return !this.isHasChildren() && expanderIcon !== 'none' && expanderPosition === 'default';
+            const hasChildren = this.getOwner().getHasChildrenProperty() ? this.hasChildren() : this.hasChildrenByRecordSet();
+            return !hasChildren && expanderIcon !== 'none' && expanderPosition === 'default';
         } else {
             return !expanderSize && expanderIcon !== 'none' && expanderPosition === 'default';
         }
