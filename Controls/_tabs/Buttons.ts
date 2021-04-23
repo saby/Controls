@@ -13,7 +13,7 @@ import {ITabsButtons, ITabsButtonsOptions} from './interface/ITabsButtons';
 import {constants} from 'Env/Env';
 import {adapter} from 'Types/entity';
 import {factory} from 'Types/chain';
-import Marker, {AUTO_ALIGN} from './Buttons/Marker';
+import Marker from './Buttons/Marker';
 
 import * as TabButtonsTpl from 'wml!Controls/_tabs/Buttons/Buttons';
 import * as ItemTemplate from 'wml!Controls/_tabs/Buttons/ItemTemplate';
@@ -104,6 +104,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     private _items: RecordSet;
     private _crudWrapper: CrudWrapper;
     private _isUnmounted: boolean = false;
+    private _isUpdatedItems: boolean = false;
 
     protected _beforeMount(options: ITabsOptions,
                            context: object,
@@ -135,18 +136,27 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             this._initItems(newOptions.source).then((result) => {
                 this._prepareState(result);
                 this._marker.reset();
+                this._isUpdatedItems = true;
             });
         }
         if (newOptions.items && newOptions.items !== this._options.items) {
             const itemsData = this._prepareItems(newOptions.items);
             this._prepareState(itemsData);
             this._marker.reset();
+            this._isUpdatedItems = true;
         }
         if (newOptions.selectedKey !== this._options.selectedKey) {
             this._updateMarkerSelectedIndex(newOptions);
         }
         if (newOptions.style !== this._options.style || newOptions.markerThickness !== this._options.markerThickness) {
             this._updateMarkerCssClass(newOptions);
+        }
+    }
+
+    protected _beforeRender(): void {
+        if (this._isUpdatedItems && this._marker.isInitialized()) {
+            this._marker.reset();
+            this._isUpdatedItems = false;
         }
     }
 
@@ -174,16 +184,29 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         if (this._marker.isInitialized() || !this._itemsArray) {
             return;
         }
+        let isUpdateMarker = true;
         const tabElements: HTMLElement[] = this._itemsArray.map((item: ITabButtonItem, key: number) => {
-            return {
-                element: this._children[`Tab${key}`],
-                align: item.align || ITEM_ALIGN.right
-            };
+            const children = this._children[`Tab${key}`];
+            if (children) {
+                return {
+                    element: children,
+                    align: item.align || ITEM_ALIGN.right
+                };
+            } else {
+                isUpdateMarker = false;
+            }
         });
-        this._marker.updatePosition(tabElements, this._container);
-        this._updateMarkerSelectedIndex(this._options);
-        if (!this._markerCssClass) {
-            this._updateMarkerCssClass(this._options);
+        /**
+         * Может произойти ситуация, когда обновляется source, при этом курсор находится на контролле.
+         * В таком случае на контроле снова срабатывает mouseenter, при этом содержимое контрола не перерисовалось.
+         * Поэтому чтобы контрол не падал с ошибкой, проверяем что есть все дети.
+         */
+        if (isUpdateMarker) {
+            this._marker.updatePosition(tabElements, this._container);
+            this._updateMarkerSelectedIndex(this._options);
+            if (!this._markerCssClass) {
+                this._updateMarkerCssClass(this._options);
+            }
         }
     }
 
