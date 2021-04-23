@@ -4,6 +4,7 @@ import {ITextOptions} from 'Controls/_input/interface/IText';
 export interface IAreaOptions extends ITextOptions {
     maxLines?: number;
     minLines?: number;
+    value?: string;
     optimizeShadow?: boolean;
     footerTemplate?: string | TemplateFunction;
 }
