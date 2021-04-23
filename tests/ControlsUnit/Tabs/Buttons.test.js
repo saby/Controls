@@ -220,7 +220,7 @@ define([
                const tabs = new tabsMod.Buttons();
                tabs.saveOptions(options);
 
-               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__main-marker');
+               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__item_state_main controls-Tabs__main-marker');
 
                tabs.destroy();
             });
@@ -229,7 +229,7 @@ define([
                const tabs = new tabsMod.Buttons();
                tabs.saveOptions({ selectedKey: '16', keyProperty: 'karambola'} );
 
-               assert.equal(tabs._prepareItemMarkerClass(item), '');
+               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__item_state_main');
 
                tabs.destroy();
             });
