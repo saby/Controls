@@ -144,5 +144,4 @@ describe('Controls/_display/collection/CollectionChange', () => {
         });
 
     });
-
 });
