@@ -754,13 +754,14 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (children.length === 0) {
             return root;
         }
-        const isNode = lastChild.get(this._$nodeProperty) !== null;
+        const isNode = (lastChild.get ? lastChild.get(this._$nodeProperty) : lastChild[this._$nodeProperty]) !== null;
+        const lastChildKey = lastChild.getKey ? lastChild.getKey() : lastChild[this._$keyProperty];
 
         // expandedItems появляются только после того, как был вызван Tree.setExpandedItems
         const expandedItems = this.getExpandedItems();
         if (isNode && expandedItems && (
             this.isExpandAll() ||
-            (expandedItems && expandedItems.indexOf(lastChild.getKey() !== -1))
+            (expandedItems && expandedItems.indexOf(lastChildKey) !== -1)
         )) {
             return this._getLastItemRecursive(lastChild);
         }

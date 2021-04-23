@@ -2531,7 +2531,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         let lastItem = this.getLastItem();
         let lastCollectionItem: CollectionItem<EntityModel>;
         if (lastItem && lastItem.getKey) {
-            lastCollectionItem = this.getItemBySourceKey(lastItem.getKey());
+            lastCollectionItem = this.getItemBySourceItem(lastItem);
             if (lastCollectionItem) {
                 lastCollectionItem.setIsLastItem(false);
             }
@@ -2541,7 +2541,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         lastItem = this.getLastItem();
         if (lastItem && lastItem.getKey) {
-            lastCollectionItem = this.getItemBySourceKey(lastItem.getKey());
+            lastCollectionItem = this.getItemBySourceItem(lastItem);
             if (lastCollectionItem) {
                 lastCollectionItem.setIsLastItem(true);
             }
@@ -2567,7 +2567,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         let firstItem = this.getFirstItem();
         let firstCollectionItem: CollectionItem<EntityModel>;
         if (firstItem && firstItem.getKey) {
-            firstCollectionItem = this.getItemBySourceKey(firstItem.getKey());
+            firstCollectionItem = this.getItemBySourceItem(firstItem);
             if (firstCollectionItem) {
                 firstCollectionItem.setIsFirstItem(false);
             }
@@ -2577,7 +2577,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         firstItem = this.getFirstItem();
         if (firstItem && firstItem.getKey) {
-            firstCollectionItem = this.getItemBySourceKey(firstItem.getKey());
+            firstCollectionItem = this.getItemBySourceItem(firstItem);
             if (firstCollectionItem) {
                 firstCollectionItem.setIsFirstItem(true);
             }
