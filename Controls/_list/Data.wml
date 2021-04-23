@@ -1,3 +1,4 @@
+<Controls.context:ContextOptionsProvider value="{{ _contextState }}">
 <ws:partial template="{{_options.content}}"
             on:filterChanged="_filterChanged()"
             on:rootChanged="_rootChanged()"
@@ -20,3 +21,4 @@
             sorting="{{_sourceControllerState.sorting}}"
             source="{{_sourceControllerState.source}}"
             root="{{_sourceControllerState.root}}"/>
+</Controls.context:ContextOptionsProvider>
