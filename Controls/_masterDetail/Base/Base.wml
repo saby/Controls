@@ -31,7 +31,7 @@
    <div name="detail" class="controls-MasterDetail_details ws-flexbox ws-flex-grow-1">
       <ws:partial
               attr:class="controls-MasterDetail_detailsContent {{_options.contrastBackground ?
-               'controls-MasterDetail_details-bg-contrast ' + (_newDesign ? 'controls-MasterDetail_details-masterNew') :
+               'controls-MasterDetail_details-bg-contrast ' + (_newDesign ? 'controls-MasterDetail_details-newDesign') :
                      'controls-MasterDetail_details_bg-same'}}"
               template="{{_options.detail}}"
               selectedMasterValue="{{_selected}}"/>
