@@ -207,30 +207,53 @@ define([
       });
 
       describe('_prepareItemMarkerClass', () => {
-         const item = {
-            karambola: '15',
-            isMainTab: true
-         };
-         const options = {
-            selectedKey: '15',
-            keyProperty: 'karambola'
-         };
-         it('should return marker css class if tab selected', () => {
-            const tabs = new tabsMod.Buttons();
-            tabs.saveOptions(options);
+         describe('Main tab', () => {
+            const item = {
+               karambola: '15',
+               isMainTab: true
+            };
+            const options = {
+               selectedKey: '15',
+               keyProperty: 'karambola'
+            };
+            it('should return marker css class if tab selected', () => {
+               const tabs = new tabsMod.Buttons();
+               tabs.saveOptions(options);
 
-            assert.equal(tabs._prepareItemMarkerClass(item),'controls-Tabs__main-marker');
+               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__main-marker');
 
-            tabs.destroy();
+               tabs.destroy();
+            });
+
+            it('should\'t return marker css class if tab not selected', () => {
+               const tabs = new tabsMod.Buttons();
+               tabs.saveOptions({ selectedKey: '16', keyProperty: 'karambola'} );
+
+               assert.equal(tabs._prepareItemMarkerClass(item), '');
+
+               tabs.destroy();
+            });
          });
 
-         it('should\'t return marker css class if tab selected', () => {
-            const tabs = new tabsMod.Buttons();
-            tabs.saveOptions({ selectedKey: '16', keyProperty: 'karambola'} );
+         describe('Regular tab', () => {
+            const item = {
+               karambola: '15'
+            };
+            const options = {
+               selectedKey: '15',
+               keyProperty: 'karambola'
+            };
+            it('should return marker css class if tab selected', () => {
+               const tabs = new tabsMod.Buttons();
+               tabs.saveOptions(options);
 
-            assert.equal(tabs._prepareItemMarkerClass(item),'');
+               assert.equal(
+                  tabs._prepareItemMarkerClass(item),
+                  'controls-Tabs__itemClickableArea_marker controls-Tabs__itemClickableArea_markerThickness-undefined controls-Tabs_style_undefined__item-marker_state_selected'
+               );
 
-            tabs.destroy();
+               tabs.destroy();
+            });
          });
       });
 
