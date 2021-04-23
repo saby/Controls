@@ -4,7 +4,6 @@ import {Base as dateUtils} from 'Controls/dateUtils';
 import itemMonthsTmpl = require('wml!Controls/_shortDatePicker/ItemMonths');
 import MonthCaption = require('wml!Controls/_shortDatePicker/MonthCaption');
 import itemFullTmpl = require('wml!Controls/_shortDatePicker/ItemFull');
-import itemMonthsAndQuartersTmpl = require('wml!Controls/_shortDatePicker/ItemMonthsAndQuarters');
 import itemQuartersTmpl = require('wml!Controls/_shortDatePicker/ItemQuarters');
 import {Date as WSDate} from 'Types/entity';
 import {IDateConstructor, IDateConstructorOptions} from 'Controls/interface';
@@ -45,10 +44,8 @@ class BodyItem extends Control<IShortDatePickerOptions> implements IDateConstruc
     }
 
     protected _getItemTmplByType(options: IShortDatePickerOptions): TemplateFunction {
-        if (options.chooseHalfyears && options.chooseQuarters && options.chooseMonths) {
+        if (options.chooseQuarters && options.chooseMonths) {
             return itemFullTmpl;
-        } else if (options.chooseQuarters && options.chooseMonths) {
-            return itemMonthsAndQuartersTmpl;
         } else if (options.chooseMonths) {
             return itemMonthsTmpl;
         } else if (options.chooseQuarters) {
