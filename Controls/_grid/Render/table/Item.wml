@@ -1,4 +1,5 @@
-<tr attr:class="{{ item.getItemClasses({
+<tr attr:class="{{item.getQAClasses(marker)}}
+    {{ item.getItemClasses({
         'highlightOnHover': highlightOnHover,
         'theme': theme,
         'style': style,
