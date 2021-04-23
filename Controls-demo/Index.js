@@ -57,6 +57,11 @@ define('Controls-demo/Index', [
          },
          _afterMount: function() {
             window.localStorage.setItem('controlSettingsStorage', JSON.stringify({}));
+
+            // активация системы фокусов
+            if (!Env.detection.isMobilePlatform) {
+               this.activate();
+            }
          },
 
          _prepareLinks: function(options) {
