@@ -73,6 +73,9 @@ export default class Area extends BaseText<IAreaOptions> {
         if (this._options.minLines !== newOptions.minLines || this._options.maxLines !== newOptions.maxLines) {
             this._validateLines(newOptions.minLines, newOptions.maxLines);
         }
+        if (this._options.value !== newOptions.value) {
+            this._fixSyncFakeArea();
+        }
     }
 
     protected _beforeUnmount(): void {
