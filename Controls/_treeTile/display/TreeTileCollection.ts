@@ -58,17 +58,9 @@ export default class TreeTileCollection<
     setNodesHeight(nodesHeight: number): void {
         if (this._$nodesHeight !== nodesHeight) {
             this._$nodesHeight = nodesHeight;
-            this._updateItemsNodesHeight(nodesHeight);
+            this._updateItemsProperty('setNodesHeight', this._$nodesHeight, 'setNodesHeight');
             this._nextVersion();
         }
-    }
-
-    protected _updateItemsNodesHeight(nodesHeight: number): void {
-        this.getViewIterator().each((item: TreeTileCollectionItem<S>) => {
-            if (item.setNodesHeight) {
-                item.setNodesHeight(nodesHeight);
-            }
-        });
     }
 
     getFolderWidth(): number {
@@ -78,17 +70,9 @@ export default class TreeTileCollection<
     setFolderWidth(folderWidth: number): void {
         if (this._$folderWidth !== folderWidth) {
             this._$folderWidth = folderWidth;
-            this._updateItemsFolderWidth(folderWidth);
+            this._updateItemsProperty('setFolderWidth', this._$folderWidth, 'setFolderWidth');
             this._nextVersion();
         }
-    }
-
-    protected _updateItemsFolderWidth(folderWidth: number): void {
-        this.getViewIterator().each((item: TreeTileCollectionItem<S>) => {
-            if (item.setFolderWidth) {
-                item.setFolderWidth(folderWidth);
-            }
-        });
     }
 
     protected _getItemsFactory(): ItemsFactory<T> {
