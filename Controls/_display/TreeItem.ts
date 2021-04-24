@@ -197,6 +197,9 @@ export default class TreeItem<T extends Model = Model> extends mixin<
      * Возвращает признак наличия детей у узла
      */
     hasChildren(): boolean {
+        // hasChildren могут менять динамически, поэтому нужно брать его всегда из рекорда,
+        // т.к. это дешевле, чем отслеживать изменение и изменять состояние итема
+
         let hasChildren;
 
         if (this.getHasChildrenProperty()) {
