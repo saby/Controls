@@ -122,8 +122,11 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
         if (this.getMarkerPosition() === 'right') {
             return this._$owner.shouldDisplayMarker(marker) && this.isLastColumn();
         } else {
+            const isFirstDataColumn = this.getOwner().getColumns().find((it) => {
+                return !it['[Controls/_display/StickyLadderCell]'];
+            }) === this;
             return this._$owner.shouldDisplayMarker(marker) &&
-                !this._$owner.hasMultiSelectColumn() && this.isFirstColumn();
+                !this._$owner.hasMultiSelectColumn() && isFirstDataColumn;
         }
     }
     // endregion

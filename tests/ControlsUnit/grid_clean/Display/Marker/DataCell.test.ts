@@ -1,11 +1,14 @@
 import {assert} from 'chai';
 import DataCell from 'Controls/_grid/display/DataCell';
 import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
+import {RecordSet} from 'Types/collection';
+import {GridCollection} from 'Controls/grid';
 
 describe('Controls/_grid/display/DataCell', () => {
     let shouldDisplayMarker, hasMultiSelectColumn, columnsCount, columnIndex;
 
     const owner = {
+        getColumns: () => [],
         shouldDisplayMarker: () => shouldDisplayMarker,
         hasMultiSelectColumn: () => hasMultiSelectColumn,
         hasItemActionsSeparatedCell: () => false,
@@ -23,7 +26,7 @@ describe('Controls/_grid/display/DataCell', () => {
         getEditingConfig: () => ({})
     };
 
-   describe('shouldDisplayMarker', () => {
+    describe('shouldDisplayMarker', () => {
        beforeEach(() => {
            shouldDisplayMarker = false;
            hasMultiSelectColumn = false;
@@ -60,6 +63,7 @@ describe('Controls/_grid/display/DataCell', () => {
                shouldDisplayMarker = false;
 
                const cell = new DataCell({owner, markerPosition: 'left'});
+               owner.getColumns = () => [cell];
                assert.isFalse(cell.shouldDisplayMarker(true));
            });
 
@@ -67,6 +71,7 @@ describe('Controls/_grid/display/DataCell', () => {
                shouldDisplayMarker = true;
 
                const cell = new DataCell({owner, markerPosition: 'left'});
+               owner.getColumns = () => [cell];
                assert.isTrue(cell.shouldDisplayMarker(true));
            });
 
@@ -76,6 +81,7 @@ describe('Controls/_grid/display/DataCell', () => {
                columnIndex = 1;
 
                const cell = new DataCell({owner, markerPosition: 'left'});
+               owner.getColumns = () => [{}, cell];
                assert.isFalse(cell.shouldDisplayMarker(true));
            });
 
@@ -85,7 +91,25 @@ describe('Controls/_grid/display/DataCell', () => {
                hasMultiSelectColumn = true;
 
                const cell = new DataCell({owner, markerPosition: 'left'});
+               owner.getColumns = () => [cell, {}];
                assert.isFalse(cell.shouldDisplayMarker(true));
+           });
+
+           it('has StickyLadderCell in start', () => {
+               const recordSet = new RecordSet({ rawData: [{id: 1, aaa: 1}, {id: 2, aaa: 1}], keyProperty: 'id' });
+               const collection = new GridCollection({
+                   keyProperty: 'id',
+                   collection: recordSet,
+                   backgroundStyle: 'custom',
+                   ladderProperties: ['aaa'],
+                   columns: [{width: '1px', stickyProperty: 'aaa'}, {width: '1px'}]
+               });
+               collection.setMarkedKey(1, true);
+
+               const item = collection.getItemBySourceKey(1);
+               assert.isFalse(item.getColumns()[0].shouldDisplayMarker());
+               assert.isTrue(item.getColumns()[1].shouldDisplayMarker());
+               assert.isFalse(item.getColumns()[2].shouldDisplayMarker());
            });
        });
    });
