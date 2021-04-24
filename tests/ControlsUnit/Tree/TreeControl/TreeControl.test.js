@@ -2013,6 +2013,12 @@ define([
             await treeControl.toggleExpanded(0);
             assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[]]).called);
          });
+
+         it('reset flag _needResetExpandedItems', async () => {
+            treeControl._needResetExpandedItems = true;
+            await treeControl.toggleExpanded(0);
+            assert.isFalse(treeControl._needResetExpandedItems);
+         });
       });
    });
 });
