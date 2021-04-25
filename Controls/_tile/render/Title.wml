@@ -9,7 +9,7 @@
         <div class="{{ item.getTitleClasses(itemType, titleStyle, hasTitle, titleLines, titleColorStyle) }}" title="{{ item.getDisplayValue() }}">
             <div class="{{ item.getEllipsisClasses(itemType, titleLines, staticHeight, hasTitle) }}" style="{{ item.getTitleStyles(itemType, titleLines) }}">
                 <ws:if data="{{ item.getSearchValue() }}">
-                    <Controls.decorator:Highlight highlightedValue="{{ item.getSearchValue() }}">
+                    <Controls.decorator:Highlight highlightedValue="{{ item.getSearchValue() }}" className="{{highlightClassName}}">
                         <ws:value>
                             <ws:String>{{ item.getDisplayValue() }}</ws:String>
                         </ws:value>
