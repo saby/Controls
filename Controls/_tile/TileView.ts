@@ -1,4 +1,4 @@
-import {ListView} from 'Controls/list';
+import {IItemPadding, ListView} from 'Controls/list';
 import template = require('wml!Controls/_tile/render/TileView');
 import defaultItemTpl = require('wml!Controls/_tile/render/items/Default');
 import {TouchContextField} from 'Controls/context';
@@ -13,6 +13,10 @@ import {constants} from 'Env/Env';
 import {getItemSize} from './utils/imageUtil';
 import {createPositionInBounds} from './utils/createPosition';
 import 'css!Controls/tile';
+
+const AVAILABLE_CONTAINER_VERTICAL_PADDINGS = ['null', 'default'];
+const AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS = ['null', 'default', 'xs', 's', 'm', 'l', 'xl', '2xl'];
+const AVAILABLE_ITEM_PADDINGS = ['null', 'default', '3xs', '2xs', 'xs', 's', 'm'];
 
 export default class TileView extends ListView {
     protected _template: TemplateFunction = template;
@@ -302,25 +306,55 @@ export default class TileView extends ListView {
             : 1;
     }
 
-    getItemsPaddingContainerClasses(): string {
-        let classes = 'controls-TileView__itemPaddingContainer ';
+    private _getPadding(paddingOption: string): IItemPadding {
+        return {
+            left: this._options[paddingOption]?.left || 'default',
+            right: this._options[paddingOption]?.right || 'default',
+            top: this._options[paddingOption]?.top || 'default',
+            bottom: this._options[paddingOption]?.bottom || 'default'
+        };
+    }
 
-        if (this._listModel.getCount()) {
-            const itemPadding = this._options.itemPadding;
-            if (this._options.itemsContainerPadding) {
-                classes += `controls-TileView__itemsPaddingContainer_spacingLeft_${this._options.itemsContainerPadding.left || 'default'}_itemPadding_${itemPadding?.left || 'default'}`;
-                classes += ` controls-TileView__itemsPaddingContainer_spacingRight_${this._options.itemsContainerPadding.right || 'default'}_itemPadding_${itemPadding?.right || 'default'}`;
-                classes += ` controls-TileView__itemsPaddingContainer_spacingTop_${this._options.itemsContainerPadding.top || 'default'}_itemPadding_${itemPadding?.top || 'default'}`;
-                classes += ` controls-TileView__itemsPaddingContainer_spacingBottom_${this._options.itemsContainerPadding.bottom || 'default'}_itemPadding_${itemPadding?.bottom || 'default'}`;
-            } else {
-                classes += `controls-TileView__itemsPaddingContainer_spacingLeft_${itemPadding?.left || 'default'}`;
-                classes += ` controls-TileView__itemsPaddingContainer_spacingRight_${itemPadding?.right || 'default'}`;
-                classes += ` controls-TileView__itemsPaddingContainer_spacingTop_${itemPadding?.top || 'default'}`;
-                classes += ` controls-TileView__itemsPaddingContainer_spacingBottom_${itemPadding?.bottom || 'default'}`;
+    private _preparePadding(availablePadding: string[], padding: IItemPadding): void {
+        Object.keys(padding).forEach((key) => {
+            if (!availablePadding.includes(padding[key])) {
+                padding[key] = 'default';
             }
-        }
+        });
+    }
 
-        return classes;
+    getItemsPaddingContainerClasses(): string {
+        const itemPadding = this._getPadding('itemPadding');
+        let leftSpacingClass = '';
+        let rightSpacingClass = '';
+        let bottomSpacingClass = '';
+        let topSpacingClass = '';
+        if (this._options.itemsContainerPadding) {
+            const itemsContainerPadding = this._getPadding('itemsContainerPadding');
+            this._preparePadding(AVAILABLE_ITEM_PADDINGS, itemPadding);
+            if (!AVAILABLE_CONTAINER_VERTICAL_PADDINGS.includes(itemsContainerPadding.top)) {
+                itemsContainerPadding.top = 'default';
+            }
+            if (!AVAILABLE_CONTAINER_VERTICAL_PADDINGS.includes(itemsContainerPadding.bottom)) {
+                itemsContainerPadding.bottom = 'default';
+            }
+            if (!AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS.includes(itemsContainerPadding.left)) {
+                itemsContainerPadding.left = 'default';
+            }
+            if (!AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS.includes(itemsContainerPadding.right)) {
+                itemsContainerPadding.right = 'default';
+            }
+            leftSpacingClass = `controls-TileView__itemsPaddingContainer_spacingLeft_${itemsContainerPadding.left}_itemPadding_${itemPadding.left}`;
+            rightSpacingClass = `controls-TileView__itemsPaddingContainer_spacingRight_${itemsContainerPadding.right}_itemPadding_${itemPadding.right}`;
+            topSpacingClass = `controls-TileView__itemsPaddingContainer_spacingTop_${itemsContainerPadding.top}_itemPadding_${itemPadding.top}`;
+            bottomSpacingClass = `controls-TileView__itemsPaddingContainer_spacingBottom_${itemsContainerPadding.bottom}_itemPadding_${itemPadding.bottom}`;
+        } else {
+            leftSpacingClass = `controls-TileView__itemsPaddingContainer_spacingLeft_${itemPadding.left}`;
+            rightSpacingClass = `controls-TileView__itemsPaddingContainer_spacingRight_${itemPadding.right}`;
+            topSpacingClass = `controls-TileView__itemsPaddingContainer_spacingTop_${itemPadding.top}`;
+            bottomSpacingClass = `controls-TileView__itemsPaddingContainer_spacingBottom_${itemPadding.bottom}`;
+        }
+        return `${leftSpacingClass} ${rightSpacingClass} ${topSpacingClass} ${bottomSpacingClass}`;
     }
 
     _onItemWheel(): void {
