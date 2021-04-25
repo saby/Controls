@@ -200,13 +200,11 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         // hasChildren могут менять динамически, поэтому нужно брать его всегда из рекорда,
         // т.к. это дешевле, чем отслеживать изменение и изменять состояние итема
 
-        let hasChildren;
+        let hasChildren = object.getPropertyValue<boolean>(this.getContents(), this.getHasChildrenProperty());
 
-        if (this.getHasChildrenProperty()) {
-            hasChildren = !!object.getPropertyValue<boolean>(this.getContents(), this.getHasChildrenProperty());
-        } else {
-            // Если hasChildren не задали, то для узла по дефолту есть дети
-            hasChildren = this._$node || this._$node === false;
+        // Если hasChildren не задали, то для узла по дефолту есть дети
+        if (hasChildren === undefined) {
+            hasChildren = this._$node !== null;
         }
 
         return hasChildren;
