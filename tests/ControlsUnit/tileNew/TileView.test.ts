@@ -82,4 +82,25 @@ describe('Controls/_tile/TileView', () => {
             assert.isFalse(item.isHovered());
         });
     });
+
+    describe('getItemsPaddingContainerClasses', () => {
+        it('getItemsPaddingContainerClasses', () => {
+            tileView.saveOptions({});
+            assert.equal(tileView.getItemsPaddingContainerClasses(), 'controls-TileView__itemsPaddingContainer_spacingLeft_default controls-TileView__itemsPaddingContainer_spacingRight_default controls-TileView__itemsPaddingContainer_spacingTop_default controls-TileView__itemsPaddingContainer_spacingBottom_default');
+            tileView.saveOptions({
+                itemPadding: {left: 's', right: 'null'}
+            });
+            assert.equal(tileView.getItemsPaddingContainerClasses(), 'controls-TileView__itemsPaddingContainer_spacingLeft_s controls-TileView__itemsPaddingContainer_spacingRight_null controls-TileView__itemsPaddingContainer_spacingTop_default controls-TileView__itemsPaddingContainer_spacingBottom_default');
+        });
+
+        it('with itemPaddingsContainerOptions', () => {
+            tileView.saveOptions({
+                itemsContainerPadding: {
+                    left: 's',
+                    right: 'null'
+                }
+            });
+            assert.equal(tileView.getItemsPaddingContainerClasses(), 'controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding_default controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_default controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_default controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_default');
+        });
+    });
 });
