@@ -696,6 +696,7 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'rich':
                 classes += ' controls-TileView__richTemplate_item';
                 classes += ` controls-ListView__item_shadow_${this.getShadowVisibility(templateShadowVisibility)}`;
+                classes += this.getMarkerClasses(templateMarker, border);
                 break;
             case 'preview':
                 classes += ' controls-TileView__previewTemplate';
@@ -775,7 +776,10 @@ export default abstract class TileItem<T extends Model = Model> {
             classes += ` controls-TileView__itemContent_background_${backgroundColorStyle}`;
         }
 
-        classes += this.getMarkerClasses(marker, border);
+        // в rich этот класс повесится в itemClasses
+        if (itemType !== 'rich') {
+            classes += this.getMarkerClasses(marker, border);
+        }
 
         classes += ` controls-ListView__item_shadow_${this.getShadowVisibility(templateShadowVisibility)}`;
         if (this.isActive()) {
