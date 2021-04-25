@@ -324,11 +324,9 @@ export default class TileView extends ListView {
     }
 
     getItemsPaddingContainerClasses(): string {
+        let classes = 'controls-TileView__itemPaddingContainer';
+
         const itemPadding = this._getPadding('itemPadding');
-        let leftSpacingClass = '';
-        let rightSpacingClass = '';
-        let bottomSpacingClass = '';
-        let topSpacingClass = '';
         if (this._options.itemsContainerPadding) {
             const itemsContainerPadding = this._getPadding('itemsContainerPadding');
             this._preparePadding(AVAILABLE_ITEM_PADDINGS, itemPadding);
@@ -344,17 +342,17 @@ export default class TileView extends ListView {
             if (!AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS.includes(itemsContainerPadding.right)) {
                 itemsContainerPadding.right = 'default';
             }
-            leftSpacingClass = `controls-TileView__itemsPaddingContainer_spacingLeft_${itemsContainerPadding.left}_itemPadding_${itemPadding.left}`;
-            rightSpacingClass = `controls-TileView__itemsPaddingContainer_spacingRight_${itemsContainerPadding.right}_itemPadding_${itemPadding.right}`;
-            topSpacingClass = `controls-TileView__itemsPaddingContainer_spacingTop_${itemsContainerPadding.top}_itemPadding_${itemPadding.top}`;
-            bottomSpacingClass = `controls-TileView__itemsPaddingContainer_spacingBottom_${itemsContainerPadding.bottom}_itemPadding_${itemPadding.bottom}`;
+            classes += ` controls-TileView__itemsPaddingContainer_spacingLeft_${itemsContainerPadding.left}_itemPadding_${itemPadding.left}`;
+            classes += ` controls-TileView__itemsPaddingContainer_spacingRight_${itemsContainerPadding.right}_itemPadding_${itemPadding.right}`;
+            classes += ` controls-TileView__itemsPaddingContainer_spacingTop_${itemsContainerPadding.top}_itemPadding_${itemPadding.top}`;
+            classes += ` controls-TileView__itemsPaddingContainer_spacingBottom_${itemsContainerPadding.bottom}_itemPadding_${itemPadding.bottom}`;
         } else {
-            leftSpacingClass = `controls-TileView__itemsPaddingContainer_spacingLeft_${itemPadding.left}`;
-            rightSpacingClass = `controls-TileView__itemsPaddingContainer_spacingRight_${itemPadding.right}`;
-            topSpacingClass = `controls-TileView__itemsPaddingContainer_spacingTop_${itemPadding.top}`;
-            bottomSpacingClass = `controls-TileView__itemsPaddingContainer_spacingBottom_${itemPadding.bottom}`;
+            classes += ` controls-TileView__itemsPaddingContainer_spacingLeft_${itemPadding.left}`;
+            classes += ` controls-TileView__itemsPaddingContainer_spacingRight_${itemPadding.right}`;
+            classes += ` controls-TileView__itemsPaddingContainer_spacingTop_${itemPadding.top}`;
+            classes += ` controls-TileView__itemsPaddingContainer_spacingBottom_${itemPadding.bottom}`;
         }
-        return `${leftSpacingClass} ${rightSpacingClass} ${topSpacingClass} ${bottomSpacingClass}`;
+        return classes;
     }
 
     _onItemWheel(): void {
