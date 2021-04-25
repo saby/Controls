@@ -679,7 +679,6 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-
     getItemClasses(itemType: string = 'default', templateClickable?: boolean, hasTitle?: boolean, cursor: string = 'pointer', templateMarker?: boolean, templateShadowVisibility?: string, border?: boolean): string {
         let classes = 'controls-TileView__item controls-ListView__itemV';
 
@@ -690,12 +689,6 @@ export default abstract class TileItem<T extends Model = Model> {
         classes += ` ${this.getItemPaddingClasses()}`;
         classes += ` ${this.getRoundBorderClasses()}`;
 
-        /* TODO не забыть в Tree добавить {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}`
-            <ws:if data="{{!!itemData.dragTargetNode}}">
-               <div attr:class="controls-TileView__smallTemplate_dragTargetNode_theme-{{theme}}"></div>
-            </ws:if>
-        */
-
         switch (itemType) {
             case 'default':
             case 'medium':
@@ -703,7 +696,6 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'rich':
                 classes += ' controls-TileView__richTemplate_item';
                 classes += ` controls-ListView__item_shadow_${this.getShadowVisibility(templateShadowVisibility)}`;
-                classes += this.getMarkerClasses(templateMarker, border);
                 break;
             case 'preview':
                 classes += ' controls-TileView__previewTemplate';
