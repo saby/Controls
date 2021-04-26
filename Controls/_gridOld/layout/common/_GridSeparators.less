@@ -27,6 +27,7 @@
 
 // Первая граница списка, самая верхняя
 .controls-Grid__row:first-child,
+.controls-Grid__row.controls-ListView__itemV_first,
 .controls-ListView__groupHidden + .controls-Grid__row {
    .controls-Grid__rowSeparator_size-s {
       border-top-color: var(--item_edge_separator_s_color_list);
@@ -38,6 +39,7 @@
 }
 
 // Последняя граница списка, самая нижняя
+.controls-Grid__row.controls-ListView__itemV_last,
 .controls-Grid__row_last {
    .controls-Grid__rowSeparator_size-s {
       border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
