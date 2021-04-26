@@ -1,66 +1,66 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = 1240, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = 1240, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{1240}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = 1240.23, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = 1240.23, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{1240.23}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = -1240, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = -1240, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{-1240}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = -1240.23, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = -1240.23, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{-1240.23}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = 1240480, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = 1240480, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{1240480}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = 1240480.23, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = 1240480.23, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{1240480.23}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = -1240480, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = -1240480, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{-1240480}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = -1240480.23, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = -1240480.23, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{-1240480.23}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = 1240480000, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = 1240480000, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{1240480000}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = 1240480000.23, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = 1240480000.23, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{1240480000.23}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = -1240480000, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = -1240480000, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{-1240480000}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = -1240480000.23, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = -1240480000.23, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{-1240480000.23}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = 1240480000000, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = 1240480000000, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{1240480000000}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = 1240480000000.23, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = 1240480000000.23, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{1240480000000.23}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = -1240480000000, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = -1240480000000, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{-1240480000000}}" abbreviationType="long"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = -1240480000000.23, abbreviationType = 'long'</div>
+        <div class="controls-text-label">value = -1240480000000.23, abbreviationType = 'long'</div>
         <Controls.decorator:Money value="{{-1240480000000.23}}" abbreviationType="long"/>
     </div>
 </div>
