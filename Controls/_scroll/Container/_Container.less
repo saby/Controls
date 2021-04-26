@@ -107,17 +107,3 @@
                         linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
    }
 }
-
-.controls-background-BlockLayout__block,
-.controls-BlockLayout__block {
-  .for(6, {
-    &_style_@{_i} {
-      .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
-        background-image: linear-gradient(~"@{background-color_@{_i}_block}" 25%, rgba(~"@{background-color_@{_i}_block}", 0)),
-        linear-gradient(rgba(~"@{background-color_@{_i}_block}", 0), ~"@{background-color_@{_i}_block}" 75%),
-        linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
-        linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
-      }
-    }
-  });
-}

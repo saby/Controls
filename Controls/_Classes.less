@@ -376,6 +376,17 @@
   background-color: var(--background-color_stack);
 }
 
+.controls-background- {
+  .for(6, {
+    &blockLayout_@{_i} {
+      background-image: linear-gradient(~"@{background-color_@{_i}_block}" 25%, rgba(~"@{background-color_@{_i}_block}", 0)),
+      linear-gradient(rgba(~"@{background-color_@{_i}_block}", 0), ~"@{background-color_@{_i}_block}" 75%),
+      linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
+      linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
+    }
+  })
+}
+
 .controls-InfoBox__message_theme-@{themeName} {
   font-size: var(--font-size_infobox);
 }
