@@ -1,7 +1,7 @@
 import {TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Logger} from 'UI/Utils';
-import {detection, constants} from 'Env/Env';
+import {constants, detection} from 'Env/Env';
 import {descriptor} from 'Types/entity';
 import {delay as runDelayed} from 'Types/function';
 
@@ -300,7 +300,9 @@ export default class Area extends BaseText<IAreaOptions> {
          * возникают проблемы 1-2. Чтобы избежать проблем меняем значение fakeField в обработчике.
          */
         if (detection.isMacOSDesktop || detection.chrome) {
-            this._children.fakeField.innerText = this._viewModel.displayValue + this._field.scope.emptySymbol;
+            if (this._children.hasOwnProperty('fakeField')) {
+                this._children.fakeField.innerText = this._viewModel.displayValue + this._field.scope.emptySymbol;
+            }
         }
     }
 
