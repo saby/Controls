@@ -9,7 +9,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {isLeftMouseButton} from 'Controls/popup';
 import {IItems, IItemTemplateOptions} from 'Controls/interface';
-import {ITabsButtons, ITabsButtonsOptions} from './interface/ITabsButtons';
+import {ITabsButtons, ITabsButtonsOptions, ITabButtonItem} from './interface/ITabsButtons';
 import {constants} from 'Env/Env';
 import {adapter} from 'Types/entity';
 import {factory} from 'Types/chain';
@@ -19,19 +19,11 @@ import * as TabButtonsTpl from 'wml!Controls/_tabs/Buttons/Buttons';
 import * as ItemTemplate from 'wml!Controls/_tabs/Buttons/ItemTemplate';
 
 import 'css!Controls/tabs';
-import {Logger} from "UICommon/Utils";
+import {Logger} from 'UICommon/Utils';
 
 enum ITEM_ALIGN {
     left = 'left',
     right = 'right'
-}
-
-interface ITabButtonItem {
-    isMainTab?: boolean;
-    align?: 'left' | 'right';
-    canShrink: boolean;
-
-    [key: string]: any;
 }
 
 export interface ITabsTemplate {
@@ -50,7 +42,7 @@ export interface ITabsOptions extends ITabsButtonsOptions, ITabsTemplateOptions 
 }
 
 interface IReceivedState {
-    items: RecordSet;
+    items: RecordSet<ITabButtonItem>;
     itemsOrder: number[];
     lastRightOrder: number;
     itemsArray: ITabButtonItem[];
@@ -275,6 +267,38 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         return classes.join(' ');
     }
 
+    /**
+     * Если ширина задана числом, то считаем, что это пиксели, если строка - то проценты, строку отадем как есть.
+     * @param value
+     * @private
+     */
+    private _getWidthValue(value: number | string): string {
+        return typeof value === 'number' ? value + 'px' : value;
+    }
+
+    /**
+     * Получение набора инлайновых стилей для айтема вкладки.
+     * @param minWidth
+     * @param maxWidth
+     * @param width
+     * @param stretchWidth
+     * @param index
+     * @protected
+     */
+    protected _prepareItemStyles({minWidth, maxWidth, width, stretchWidth}: ITabButtonItem, index: number): string {
+        let style = this._prepareItemOrder(index);
+        if (maxWidth !== undefined) {
+            style += `max-width: ${this._getWidthValue(maxWidth)};`;
+        }
+        if (width !== undefined) {
+            style += `width: ${this._getWidthValue(width)}; flex-shrink: 0;`;
+        }
+        if (minWidth !== undefined) {
+            style += `min-width: ${this._getWidthValue(minWidth)};`;
+        }
+        return style;
+    }
+
     protected _prepareItemSelectedClass(item: ITabButtonItem): string {
         const classes = [];
         const options = this._options;
@@ -322,7 +346,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
 
     protected _prepareItemOrder(index: number): string {
         const order = this._itemsOrder[index];
-        return '-ms-flex-order:' + order + '; order:' + order;
+        return `-ms-flex-order: ${order}; order: ${order};`;
     }
 
     protected _getTemplate(
