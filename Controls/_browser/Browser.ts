@@ -771,7 +771,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _afterSearch(recordSet: RecordSet): void {
         this._updateParams();
         this._filterChanged(null, this._getSearchControllerSync().getFilter());
-        if (this._getSearchControllerSync().needChangeSearchValueToSwitchedString(recordSet)) {
+        if (this._getSearchControllerSync().needChangeSearchValueToSwitchedString(recordSet) && this._misspellValue) {
             this._setSearchValue(this._misspellValue);
         }
     }
