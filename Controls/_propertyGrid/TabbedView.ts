@@ -62,5 +62,5 @@ export default class TabbedView extends Control<IOptions> {
 /**
  * @name Controls/_propertyGrid/TabbedView#tabProperty
  * @cfg {string} Имя свойства, содержащего идентификатор таба элемента редактора свойств.
- * @demo Controls-demo/PropertyGridNew/TabbedView/TabbedView/Index
+ * @demo Controls-demo/PropertyGridNew/TabbedView/Index
  */
