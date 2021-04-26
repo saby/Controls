@@ -343,4 +343,23 @@ describe('Controls/search:ControllerClass', () => {
          assert.isTrue(resetStub.called);
       });
    });
+
+   it('search returns error', async () => {
+      const source = new Memory();
+      source.query = () => {
+         return Promise.reject();
+      };
+      const sourceController = getSourceController({
+         source
+      });
+      const searchController = getSearchController({sourceController});
+      await searchController.search('testSearchValue').catch(() => {});
+      assert.deepStrictEqual(
+          sourceController.getFilter(),
+          {
+             payload: 'something',
+             testParam: 'testSearchValue'
+          }
+      );
+   });
 });

@@ -46,6 +46,10 @@ export default class SearchSeparatorRow extends GridRow<string> {
         return false;
     }
 
+    isLastItem(): boolean {
+        return false;
+    }
+
     protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
         return 'end';
     }

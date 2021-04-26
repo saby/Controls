@@ -160,9 +160,11 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         }
     }
 
-    getWrapperStyles(itemTypeTpl: string = 'default'): string {
+    getWrapperStyles(itemTypeTpl: string = 'default', nodeContentTemplate?: TemplateFunction): string {
         let itemType = itemTypeTpl;
-        if (itemType === 'default' && this.isNode()) {
+
+        // Если nodeContentTemplate задан значит, что для узла используется определенныйы itemType
+        if (itemType === 'default' && this.isNode() && !nodeContentTemplate) {
             itemType = 'small';
         }
         return super.getWrapperStyles(itemType);

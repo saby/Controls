@@ -303,6 +303,18 @@ describe('Controls/browser:Browser', () => {
                     await searchPromise;
                     assert.ok(!browser._loading);
                 });
+
+                it('empty searchParam in options', async () => {
+                    const browserOptions = getBrowserOptions();
+                    delete browserOptions.searchParam;
+                    const browser = getBrowser(browserOptions);
+                    await browser._beforeMount(browserOptions);
+                    browser.saveOptions(browserOptions);
+                    const searchPromise = browser._search(null, 'test');
+                    assert.ok(!browser._loading);
+                    await searchPromise;
+                    assert.ok(!browser._loading);
+                });
             });
 
             describe('_searchReset', () => {
@@ -777,8 +789,10 @@ describe('Controls/browser:Browser', () => {
             const browser = await getBrowserWithMountCall(options);
 
             browser._viewMode = 'search';
-            browser._searchValue = '';
+            browser._dataLoadCallback(new RecordSet());
+            assert.ok(browser._searchValue === 'Sash');
 
+            browser._searchValue = '';
             browser._dataLoadCallback(new RecordSet());
             assert.isUndefined(browser._viewMode);
             assert.ok(browser._misspellValue === '');
