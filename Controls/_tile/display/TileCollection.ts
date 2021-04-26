@@ -12,6 +12,7 @@ export default class TileCollection<
 > extends mixin<Collection<S, T>, Tile>(Collection, Tile) {
     constructor(options: any) {
         super(options);
+        Tile.call(this, options);
     }
 
     setActiveItem(item: T): void {

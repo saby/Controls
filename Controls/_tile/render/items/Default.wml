@@ -7,7 +7,7 @@
          <div style="{{ (item || itemData).getAutoResizerStyles(itemType, width || itemWidth, imageProportion, imagePosition, imageViewMode) }}"></div>
       </ws:if>
 
-      <div attr:class="{{ (item || itemData).getWrapperClasses(itemType, shadowVisibility, marker, highlightOnHover, backgroundColorStyle, height, border) }}"
+      <div attr:class="{{ (item || itemData).getWrapperClasses(itemType, shadowVisibility, marker, highlightOnHover, backgroundColorStyle, height, border, titleStyle) }}"
            attr:style="{{ (item || itemData).getWrapperStyles(itemType, nodeContentTemplate) }}">
 
          <ws:partial if="{{ (item || itemData).shouldDisplayMultiSelectTemplate() }}"

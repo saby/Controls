@@ -751,7 +751,7 @@ export default abstract class TileItem<T extends Model = Model> {
             }
         } else {
             let styles = `-ms-flex-preferred-size: ${width}px; flex-basis: ${width}px;`;
-            if (staticHeight && itemType !== 'rich') {
+            if (staticHeight && itemType !== 'rich' && itemType !== 'invisible') {
                 styles += ` height: ${this.getTileHeight()}px;`;
             }
             return styles;
@@ -766,13 +766,14 @@ export default abstract class TileItem<T extends Model = Model> {
         highlightOnHover?: boolean,
         backgroundColorStyle?: string,
         height?: string,
-        border?: boolean
+        border?: boolean,
+        titleStyle: string = 'light'
     ): string {
         if (itemType === 'small') {
             return this.canShowActions() ? 'controls-ListView__item_showActions' : '';
         }
 
-        let classes = 'controls-TileView__itemContent controls-TileView__itemContent js-controls-ListView__measurableContainer';
+        let classes = 'controls-TileView__itemContent js-controls-ListView__measurableContainer';
 
         if (height === 'auto') {
             classes += ' controls-TileView__item_autoHeight';
@@ -791,9 +792,13 @@ export default abstract class TileItem<T extends Model = Model> {
             classes += this.getMarkerClasses(marker, border);
         }
 
+        if (titleStyle === 'accent') {
+            classes += ' controls-TileView__itemContent_accent';
+        }
+
         classes += ` controls-ListView__item_shadow_${this.getShadowVisibility(templateShadowVisibility)}`;
         if (this.isActive()) {
-            classes += ` controls-TileView__item_active`;
+            classes += ' controls-TileView__item_active';
         }
         if (this.isHovered()) {
             classes += ' controls-TileView__item_hovered';
@@ -814,13 +819,13 @@ export default abstract class TileItem<T extends Model = Model> {
             classes += ' controls-TileView__item_animated';
         }
         if (this.isDragged()) {
-            classes += ` controls-ListView__item_dragging controls-ListView__itemContent_dragging`;
+            classes += ' controls-ListView__item_dragging controls-ListView__itemContent_dragging';
         }
         if (this.canShowActions()) {
             classes += ' controls-ListView__item_showActions';
         }
         if (this.isSwiped()) {
-            classes += ` controls-TileView__item_swiped`;
+            classes += ' controls-TileView__item_swiped';
         }
 
         return classes;

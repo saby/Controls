@@ -1,4 +1,4 @@
-<div attr:class="{{ (item || itemData).getInvisibleClasses() }}" attr:style="{{ (item || itemData).getItemStyles(itemType, width || itemWidth, staticHeight, imagePosition, imageViewMode) }}"></div>
+<div attr:class="{{ (item || itemData).getInvisibleClasses() }}" attr:style="{{ (item || itemData).getItemStyles('invisible', width || itemWidth, staticHeight, imagePosition, imageViewMode) }}"></div>
 <ws:if data="{{ (item || itemData).isLastInvisibleItem() }}">
     <div class="controls-TreeTileView__separator js-controls-List_invisible-for-VirtualScroll" attr:key="separator-{{ item.key }}"></div>
 </ws:if>
