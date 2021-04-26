@@ -115,9 +115,17 @@ function onCollectionChange<T>(
  * @param index Индекс измененного элемента.
  * @param properties Объект содержащий измененные свойства элемента
  */
-function onCollectionItemChange<T>(event: EventObject, item: T, index: number, properties: object): void {
+function onCollectionItemChange<T extends Model>(event: EventObject, item: T, index: number, properties: Object): void {
     this.instance._reIndex();
     this.prev(event, item, index, properties);
+
+    if (properties.hasOwnProperty(this.instance.getNodeProperty())) {
+        // TODO лучше в TreeItem всегда брать значение из рекорда, но чтобы так сделать, надо переписать много юнитов
+        const displayItem = this.instance.getItemBySourceItem(item);
+        displayItem.setNode(item.get(this.instance.getNodeProperty()));
+
+        this.instance.resetHasNode();
+    }
 }
 
 /**
