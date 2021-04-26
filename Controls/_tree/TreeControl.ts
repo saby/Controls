@@ -154,13 +154,16 @@ const _private = {
         }
     },
 
-    toggleExpanded(self: TreeControl, dispItem, model?) {
+    toggleExpanded(self: TreeControl, dispItem, model?): Promise<any>|any {
         const listViewModel = model || self._listViewModel;
         const item = dispItem.getContents();
         const nodeKey = item.getId();
         const baseSourceController = self.getSourceController();
         const expanded = self._options.useNewModel ? !dispItem.isExpanded() : !listViewModel.isExpanded(dispItem);
         const options = self._options;
+
+        // Если вызвали разворот узла, то сбрасывать развернутые узлы уже точно не нужно
+        self._needResetExpandedItems = false;
 
         const eventResult = self._notify(expanded ? 'beforeItemExpand' : 'beforeItemCollapse', [dispItem.getContents()]);
 
