@@ -14,7 +14,6 @@ import DataCellCompatibility from './compatibility/DataCell';
 import {TemplateFunction} from 'UI/Base';
 
 export interface IOptions<T> extends ICellOptions<T>, IDisplaySearchValueOptions {
-    backgroundStyle: string;
     markerPosition: string;
 }
 
@@ -33,8 +32,6 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
     readonly ItemActionsCell: boolean = true;
     readonly LadderContentCell: boolean = true;
 
-    protected _$backgroundStyle: string;
-
     protected _$searchValue: string;
 
     get ladder(): TLadderElement<ILadderConfig> {
@@ -52,10 +49,6 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
                       templateHighlightOnHover: boolean = true,
                       tmplIsEditable: boolean = true): string {
         let classes = super.getContentClasses(theme, backgroundColorStyle, cursor, templateHighlightOnHover);
-
-        if (this._$isHiddenForLadder) {
-            classes += ` controls-background-${this._$backgroundStyle}`;
-        }
 
         if (this._$owner.isAnimatedForSelection()) {
             classes += ' controls-ListView__item_rightSwipeAnimation';
@@ -217,7 +210,6 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
 Object.assign(DataCell.prototype, {
     '[Controls/_display/grid/DataCell]': true,
     _moduleName: 'Controls/grid:GridDataCell',
-    _$backgroundStyle: 'default',
     _$searchValue: '',
     _instancePrefix: 'grid-data-cell-'
 });

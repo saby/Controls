@@ -34,6 +34,7 @@ export interface IOptions<T> extends IColspanParams {
     isFixed?: boolean;
     isLadderCell?: boolean;
     columnSeparatorSize?: string;
+    backgroundStyle: string;
     rowSeparatorSize?: string;
 }
 
@@ -61,6 +62,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
     protected _$markerPosition: 'left' | 'right';
+    protected _$backgroundStyle: string;
 
     constructor(options?: IOptions<T>) {
         super();
@@ -296,6 +298,9 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
         if (this._$isHiddenForLadder) {
             contentClasses += ' controls-Grid__row-cell__content_hiddenForLadder';
+
+            // Для лесенки критична установка этого стиля именно в Content
+            contentClasses += ` controls-background-${this._$backgroundStyle}`;
         }
 
         if (backgroundColorStyle) {
@@ -552,6 +557,7 @@ Object.assign(Cell.prototype, {
     _$rowSeparatorSize: null,
     _$columnSeparatorSize: null,
     _$markerPosition: undefined,
+    _$backgroundStyle: 'default',
 
     _$isFixed: null,
     _$isSingleCell: null,
