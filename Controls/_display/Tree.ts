@@ -939,12 +939,40 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         return this._childrenMap[key];
     }
 
-    getChildrenByRecordSet(parent: S): S[] {
+    getChildrenByRecordSet(parent: S | CrudEntityKey | null): S[] {
         // метод может быть позван, до того как полностью отработает конструктор
         if (!this._hierarchyRelation) {
             this._createHierarchyRelation();
         }
         return this._hierarchyRelation.getChildren(parent, this.getCollection() as any as RecordSet) as any[] as S[];
+    }
+
+    getNextInRecordSetProjection(key: CrudEntityKey, expandedItems: CrudEntityKey[]): S {
+        const projection = this.getRecordSetProjection(null, expandedItems);
+        const nextItemIndex = projection.findIndex((record) => record.getKey() === key) + 1;
+        return projection[nextItemIndex];
+    }
+    getPrevInRecordSetProjection(key: CrudEntityKey, expandedItems: CrudEntityKey[]): S {
+        const projection = this.getRecordSetProjection(null, expandedItems);
+        const prevItemIndex = projection.findIndex((record) => record.getKey() === key) - 1;
+        return projection[prevItemIndex];
+    }
+
+    getRecordSetProjection(root: CrudEntityKey | null = null, expandedItems: CrudEntityKey[] = []): S[] {
+        const collection = this.getCollection() as unknown as RecordSet;
+        if (!collection || !collection.getCount()) {
+            return [];
+        }
+        const projection = [];
+        const isExpandAll = expandedItems.indexOf(null) !== -1;
+        const children = this.getChildrenByRecordSet(root);
+        for (let i = 0; i < children.length; i++) {
+            projection.push(children[i]);
+            if (isExpandAll || expandedItems.indexOf(children[i].getKey()) !== -1) {
+                projection.push(...this.getRecordSetProjection(children[i].getKey(), expandedItems));
+            }
+        }
+        return projection;
     }
 
     protected _getNearbyItem(

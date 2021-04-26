@@ -1064,9 +1064,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     this._applyMarkedLeaf(itemKey, model, markerController);
                 };
                 this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, options);
-                if (this._expandedItemsToNotify) {
-                    model.setExpandedItems(this._expandedItemsToNotify);
-                }
+                // if (this._expandedItemsToNotify) {
+                //     model.setExpandedItems(this._expandedItemsToNotify);
+                // }
             } else {
                 this._applyMarkedLeaf(current.getKey(), model, markerController);
             }
@@ -1152,7 +1152,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const hasNextLeaf = index < model.getCount() - 1 || model.getHasMoreData();
         let hasPrevLeaf = false;
         for (let i = index - 1; i >= 0; i--) {
-            if (model.at(i).isNode() === null || !this._isExpanded(model.at(i), model)) {
+            if (model.at(i).isNode() === null || !this._isExpanded(model.at(i).getContents(), model)) {
                 hasPrevLeaf = true;
                 break;
             }
@@ -1186,7 +1186,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                             this._doAfterItemExpanded = null;
                             this.goToNext(model, markerController);
                         };
-                        if (this._isExpanded(dispItem, model)) {
+                        if (this._isExpanded(item, model)) {
                             this._doAfterItemExpanded();
                             resolve();
                         } else {
@@ -1235,7 +1235,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                         this._doAfterItemExpanded = null;
                         this.goToPrev(model, markerController);
                     };
-                    if (this._isExpanded(dispItem, model)) {
+                    if (this._isExpanded(item, model)) {
                         this._tempItem = itemKey;
                         this._doAfterItemExpanded();
                         resolve();
@@ -1299,18 +1299,18 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     getNextItem(key: CrudEntityKey, model?): Model {
         const listModel = model || this._listViewModel;
-        const nextItem = listModel.getNextItem(key, true);
-        return nextItem ? nextItem.getContents() : null;
+        const nextItem = listModel.getNextInRecordSetProjection(key, listModel.getExpandedItems());
+        return nextItem || null;
     }
 
     getPrevItem(key: CrudEntityKey, model?): Model {
         const listModel = model || this._listViewModel;
-        const prevItem = listModel.getPrevItem(key, true);
-        return prevItem ? prevItem.getContents() : null;
+        const prevItem = listModel.getPrevInRecordSetProjection(key, listModel.getExpandedItems());
+        return prevItem || null;
     }
 
     private _isExpanded(item, model): boolean {
-        return model.getExpandedItems().indexOf(item.getContents().get(this._keyProperty)) > -1;
+        return model.getExpandedItems().indexOf(item.get(this._keyProperty)) > -1;
     }
 
     protected _getFooterClasses(options): string {

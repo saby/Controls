@@ -2729,8 +2729,8 @@ const _private = {
             };
 
             const currentMarkedKey = controller.getMarkedKey();
-            const lastItemKey = controller.getSuitableMarkedKey(self._listViewModel.at(self._listViewModel.getStopIndex() - 1));
-            if (lastItemKey === currentMarkedKey) {
+            const lastItem = self._listViewModel.at(self._listViewModel.getStopIndex() - 1);
+            if (lastItem.key === currentMarkedKey) {
                 self._shiftToDirection('down').then(() => {
                     moveMarker();
                 });
@@ -2766,8 +2766,8 @@ const _private = {
                 }
             }
             const currentMarkedKey = controller.getMarkedKey();
-            const fistItemKey = controller.getSuitableMarkedKey(self._listViewModel.at(self._listViewModel.getStartIndex()));
-            if (fistItemKey === currentMarkedKey) {
+            const lastItem = self._listViewModel.at(self._listViewModel.getStartIndex());
+            if (lastItem.key === currentMarkedKey) {
                 self._shiftToDirection('up').then(() => {
                     moveMarker();
                 });
