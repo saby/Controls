@@ -64,6 +64,11 @@ export default class Base {
         this._openPopup(config, popupController);
     }
 
+    /**
+     * Решение на одну версию в 2000 удалено
+     * https://online.sbis.ru/opendoc.html?guid=683b8dbe-7dbe-40b8-81ae-4d5eaeb42d03
+     * @param popupId
+     */
     protected _popupIsDestroying(popupId: string): boolean {
         return ManagerController.isDestroying(this._popupId);
     }
