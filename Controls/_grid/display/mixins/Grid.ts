@@ -5,10 +5,10 @@ import {
     THeader,
     IColumn,
     TColumns,
-    TColumnSeparatorSize
+    TColumnSeparatorSize, INavigationOptionValue
 } from 'Controls/interface';
 
-import { IViewIterator, GridLadderUtil, ILadderObject} from 'Controls/display';
+import { IViewIterator, GridLadderUtil, ILadderObject, IBaseCollection } from 'Controls/display';
 
 import Header from '../Header';
 import TableHeader from '../TableHeader';
@@ -530,6 +530,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     abstract getMultiSelectVisibility(): string;
     abstract getMultiSelectPosition(): string;
     abstract getItemBySourceItem(item: S): T;
+    abstract getItemBySourceKey(key: string | number): T;
+    abstract getCollection(): IBaseCollection<S, T>;
 
     protected abstract _nextVersion(): void;
     protected abstract _getItems(): T[];

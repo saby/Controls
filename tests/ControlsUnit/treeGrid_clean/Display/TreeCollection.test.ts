@@ -71,7 +71,7 @@ describe('Controls/treeGrid_clean/Display/TreeCollection', () => {
         describe('headerVisibility === \'hasdata\'', () => {
             // Поверяем что при очистке данных коллекции модель заголовка сбрасывается
             it('Should reset header model to null on clear collection', () => {
-                const recordSet = new RecordSet({rawData: [{}, {}]});
+                const recordSet = new RecordSet({rawData: [{id: 0}, {id: 1}], keyProperty: 'id'});
                 // Создадим коллекцию с данными и видимостью заголовка, зависящую от наличия данных
                 const collection = new TreeGridCollection({
                     keyProperty: 'id',
@@ -93,7 +93,7 @@ describe('Controls/treeGrid_clean/Display/TreeCollection', () => {
 
             // Поверяем что при заполнении коллекции модель заголовка создается
             it('Should create header model on fill collection', () => {
-                const recordSet = new RecordSet({rawData: []});
+                const recordSet = new RecordSet({rawData: [], keyProperty: 'id'});
                 // Создадим коллекцию без данных и видимостью заголовка, зависящую от наличия данных
                 const collection = new TreeGridCollection({
                     keyProperty: 'id',
@@ -108,7 +108,7 @@ describe('Controls/treeGrid_clean/Display/TreeCollection', () => {
                 // 1. Проверим что заголовка нет
                 assert.isFalse(!!collection.getHeader());
                 // 2. Присвоим в RecordSet новые данные
-                recordSet.assign([new Model({keyProperty: 'id', rawData: {}})]);
+                recordSet.assign([new Model({keyProperty: 'id', rawData: {id: 1}})]);
                 // 3. Модель заголовка должна быть, т.к. появились данные
                 assert.isTrue(!!collection.getHeader(), 'Header model should exist');
             });
@@ -117,7 +117,7 @@ describe('Controls/treeGrid_clean/Display/TreeCollection', () => {
         describe('headerVisibility === \'visible\'', () => {
             // Поверяем что при очистке данных коллекции модель заголовка не пересоздается
             it('Should not recreate header model on clear collection', () => {
-                const recordSet = new RecordSet({rawData: [{}, {}]});
+                const recordSet = new RecordSet({rawData: [{id: 1}, {id: 2}], keyProperty: 'id'});
                 // Создадим коллекцию с данными и всегда видимым заголовком
                 const collection = new TreeGridCollection({
                     keyProperty: 'id',
@@ -144,7 +144,7 @@ describe('Controls/treeGrid_clean/Display/TreeCollection', () => {
 
             // Поверяем что при заполнении коллекции модель заголовка не пересоздается
             it('Should recreate header model on fill collection', () => {
-                const recordSet = new RecordSet({rawData: []});
+                const recordSet = new RecordSet({rawData: [], keyProperty: 'id'});
                 // Создадим коллекцию без данных и всегда видимым заголовком
                 const collection = new TreeGridCollection({
                     keyProperty: 'id',
@@ -161,7 +161,7 @@ describe('Controls/treeGrid_clean/Display/TreeCollection', () => {
                 assert.isTrue(!!firstHeaderModel, 'Header model should exist');
 
                 // Добавим данные в RecordSet
-                recordSet.assign([new Model({keyProperty: 'id', rawData: {}})]);
+                recordSet.assign([new Model({keyProperty: 'id', rawData: { parent: null }})]);
 
                 // Проверяем что после изменения коллекции модель заголовка осталась той же
                 const secondHeaderModel = collection.getHeader();
