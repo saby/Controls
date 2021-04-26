@@ -188,6 +188,12 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         let isUpdateMarker = true;
         const tabElements: HTMLElement[] = this._itemsArray.map((item: ITabButtonItem, key: number) => {
             const children = this._children[`Tab${key}`];
+            /**
+             * Может произойти ситуация, когда обновляется source, при этом курсор находится на контролле.
+             * В таком случае на контроле снова срабатывает mouseenter, при этом содержимое контрола еще не перерисовалось.
+             * Из-за чего children может отсутствовать.
+             * Поэтому чтобы контрол не падал с ошибкой, проверяем что есть все children.
+             */
             if (children) {
                 return {
                     element: children,
@@ -197,11 +203,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
                 isUpdateMarker = false;
             }
         });
-        /**
-         * Может произойти ситуация, когда обновляется source, при этом курсор находится на контролле.
-         * В таком случае на контроле снова срабатывает mouseenter, при этом содержимое контрола не перерисовалось.
-         * Поэтому чтобы контрол не падал с ошибкой, проверяем что есть все дети.
-         */
+
         if (isUpdateMarker) {
             this._marker.updatePosition(tabElements, this._container);
             this._updateMarkerSelectedIndex(this._options);
