@@ -17,6 +17,7 @@ import {
 import TreeGridFooterRow from './TreeGridFooterRow';
 import {Model as EntityModel, Model} from 'Types/entity';
 import {IObservable} from 'Types/collection';
+import {CrudEntityKey} from "Types/source";
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
@@ -129,7 +130,7 @@ export default class TreeGridCollection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
-        this._updateItemsColumns();
+        this._updateItemsProperty('setColumns', this._$columns);
     }
 
     protected _handleAfterCollectionChange(changedItems: TreeGridDataRow[], changeAction?: string): void {
@@ -165,6 +166,10 @@ export default class TreeGridCollection<
             this._$headerModel = null;
         }
         this._nextVersion();
+    }
+
+    setExpandedItems(expandedKeys: CrudEntityKey[]): void {
+        super.setExpandedItems(expandedKeys);
     }
 
     // endregion

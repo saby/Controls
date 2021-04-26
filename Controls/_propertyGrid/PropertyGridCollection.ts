@@ -36,7 +36,9 @@ export default class PropertyGridCollection<S, T extends PropertyGridCollectionI
 
     setEditingObject(editingObject: Object | Model | Record<string, any>): void {
         this._$editingObject = editingObject;
-        this._updateItemsEditingObject();
+        this._updateItemsProperty('setPropertyValue',
+            this._$editingObject,
+            '[Controls/_propertyGrid/PropertyGridCollectionItem]');
         this.nextVersion();
     }
 
@@ -47,14 +49,6 @@ export default class PropertyGridCollection<S, T extends PropertyGridCollectionI
             options.keyProperty = this._$keyProperty;
             return superFactory.call(this, options);
         };
-    }
-
-    protected _updateItemsEditingObject(): void {
-        this.getViewIterator().each((item: PropertyGridCollectionItem<T>) => {
-            if (item['[Controls/_propertyGrid/PropertyGridCollectionItem]']) {
-                item.setPropertyValue(this._$editingObject);
-            }
-        });
     }
 }
 

@@ -22,7 +22,7 @@ import {Object as EventObject} from 'Env/Event';
 import {TemplateFunction} from 'UI/Base';
 import {CrudEntityKey} from 'Types/source';
 import NodeFooter from 'Controls/_display/itemsStrategy/NodeFooter';
-import {Model, relation} from 'Types/entity';
+import {Model as EntityModel, Model, relation} from 'Types/entity';
 import {IDragPosition} from './interface/IDragPosition';
 import TreeDrag from './itemsStrategy/TreeDrag';
 import {isEqual} from 'Types/object';
@@ -639,6 +639,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             diff.removed.forEach((it) => {
                 const item = this.getItemBySourceKey(it);
                 if (item && item['[Controls/_display/TreeItem]']) {
+                    this._collapseChilds(item);
                     item.setExpanded(false);
                 }
             });
@@ -669,6 +670,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 }
             });
         }
+        this._updateEdgeItems();
     }
 
     setCollapsedItems(collapsedKeys: CrudEntityKey[]): void {
@@ -691,6 +693,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             const item = this.getItemBySourceKey(key);
             if (item && item['[Controls/_display/TreeItem]']) {
                 // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
+                this._collapseChilds(item);
                 item.setExpanded(false);
             }
         });
@@ -732,7 +735,47 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         }
     }
 
+    private _collapseChilds(item: T): void {
+        const childs = this.getChildren(item);
+        childs.forEach((it) => {
+            it.setExpanded(false);
+        });
+    }
+
     // endregion Expanded/Collapsed
+
+    // region Аспект "крайние записи"
+
+    getLastItem(): EntityModel {
+        if (!this._lastItem) {
+            this._lastItem = this._getLastItemRecursive(this.getRoot().getContents());
+        }
+        return this._lastItem;
+    }
+
+    private _getLastItemRecursive(root: S): S {
+        // Обращаемся к иерархии для получения детей
+        const children = this._getChildrenByRecordSet(root);
+        const lastChild: S = children[children.length - 1];
+        // Если узел и у него нет детей, то он последний
+        if (children.length === 0) {
+            return root;
+        }
+        const isNode = (lastChild.get ? lastChild.get(this._$nodeProperty) : lastChild[this._$nodeProperty]) !== null;
+        const lastChildKey = lastChild.getKey ? lastChild.getKey() : lastChild[this._$keyProperty];
+
+        // expandedItems появляются только после того, как был вызван Tree.setExpandedItems
+        const expandedItems = this.getExpandedItems();
+        if (isNode && expandedItems && (
+            this.isExpandAll() ||
+            (expandedItems && expandedItems.indexOf(lastChildKey) !== -1)
+        )) {
+            return this._getLastItemRecursive(lastChild);
+        }
+        return lastChild;
+    }
+
+    // endregion Аспект "крайние записи"
 
     setHasMoreStorage(storage: Record<string, boolean>): void {
         if (!isEqual(this._$hasMoreStorage, storage)) {
@@ -939,7 +982,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         return this._childrenMap[key];
     }
 
-    private _getChildrenByRecordSet(parent: S): S[] {
+    protected _getChildrenByRecordSet(parent: S): S[] {
         // метод может быть позван, до того как полностью отработает конструктор
         if (!this._hierarchyRelation) {
             this._createHierarchyRelation();
@@ -1010,11 +1053,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     protected _setHasNodeWithChildren(hasNodeWithChildren: boolean): void {
         if (this._hasNodeWithChildren !== hasNodeWithChildren) {
             this._hasNodeWithChildren = hasNodeWithChildren;
-            this.getViewIterator().each((item: TreeItem) => {
-                if (item.setHasNodeWithChildren) {
-                    item.setHasNodeWithChildren(hasNodeWithChildren);
-                }
-            });
+            this._updateItemsProperty('setHasNodeWithChildren', this._hasNodeWithChildren, 'setHasNodeWithChildren');
             this._nextVersion();
         }
     }
