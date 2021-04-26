@@ -9,10 +9,12 @@
                  class="controls-PeriodLiteDialog__item-background-hovered">
             </div>
             <ws:for data="quarter in halfYear.quarters">
-               <div class="controls-PeriodLiteDialog-item__quarter" title="{{ quarter.tooltip }}">
+               <div class="controls-PeriodLiteDialog{{ !_options.chooseHalfyears ? '_monthsAndQuarters'}}-item__quarter
+                   {{ quarter.number === 3 ? 'controls-PeriodLiteDialog' + ( !_options.chooseHalfyears ? '_monthsAndQuarters') + '-lastItem__quarter' }}"
+                 title="{{ quarter.tooltip }}">
                   <div if="{{(_quarterHovered === quarter.number)}}"
                        class="controls-PeriodLiteDialog__item-background-hovered"></div>
-                  <div class="controls-PeriodLiteDialog-item__month-wrapper
+                  <div class="controls-PeriodLiteDialog{{ !_options.chooseHalfyears ? '_monthsAndQuarters'}}-item__month-wrapper
                            controls-PeriodLiteDialog-item__month-background{{ _options._yearHovered === _options.currentYear || (_halfYearHovered === halfYear.number)?
                            '-transparent'}}">
                      <ws:for data="month in quarter.months">
@@ -39,6 +41,7 @@
                   </div>
                </div>
             </ws:for>
+            <ws:if data="{{ _options.chooseHalfyears }}">
             <div class="controls-PeriodLiteDialog-item__halfYear-caption
                      controls-PeriodLiteDialog-item__halfYear-background{{ _options._yearHovered === _options.currentYear ||
                      (_halfYearHovered === halfYear.number) ? '-transparent'}}"
@@ -51,7 +54,8 @@
             >
                {{ halfYear.name }}
             </div>
-         </div>
+         </ws:if>
+      </div>
       </ws:for>
    </div>
 </ws:template>
