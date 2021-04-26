@@ -303,6 +303,18 @@ describe('Controls/browser:Browser', () => {
                     await searchPromise;
                     assert.ok(!browser._loading);
                 });
+
+                it('empty searchParam in options', async () => {
+                    const browserOptions = getBrowserOptions();
+                    delete browserOptions.searchParam;
+                    const browser = getBrowser(browserOptions);
+                    await browser._beforeMount(browserOptions);
+                    browser.saveOptions(browserOptions);
+                    const searchPromise = browser._search(null, 'test');
+                    assert.ok(!browser._loading);
+                    await searchPromise;
+                    assert.ok(!browser._loading);
+                });
             });
 
             describe('_searchReset', () => {
