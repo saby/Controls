@@ -1064,9 +1064,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     this._applyMarkedLeaf(itemKey, model, markerController);
                 };
                 this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, options);
-                // if (this._expandedItemsToNotify) {
-                //     model.setExpandedItems(this._expandedItemsToNotify);
-                // }
             } else {
                 this._applyMarkedLeaf(current.getKey(), model, markerController);
             }
