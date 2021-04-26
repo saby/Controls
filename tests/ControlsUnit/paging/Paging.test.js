@@ -221,4 +221,15 @@ define([
       });
       assert.equal(pg._getArrowStateVisibility('begin'), 'visible');
    });
+   it('_needLeftPadding', () => {
+      const pg = new pagingLib.Paging();
+
+      // Если в режиме 'end' или 'edge' есть contentTemplate, то крайний левый отступ будет на нем, а не на кнопке
+      assert.isFalse(pg._needLeftPadding('end', {}));
+      assert.isFalse(pg._needLeftPadding('edge', {}));
+      assert.isTrue(pg._needLeftPadding('end'));
+      assert.isTrue(pg._needLeftPadding('edge'));
+      assert.isTrue(pg._needLeftPadding('basic'));
+      assert.isTrue(pg._needLeftPadding('numbers'));
+   });
 });
