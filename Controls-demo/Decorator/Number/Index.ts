@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Decorator/Number/Number');
-import 'css!Controls/Classes';
+import 'css!Controls/CommonClasses';
 import 'css!Controls-demo/Controls-demo';
 
 class Number extends Control<IControlOptions> {
