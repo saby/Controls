@@ -294,26 +294,25 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
             }
         }
     }
+
     private _callInfoBox(cfg): void {
-        if (!this._destroyed) {
-            // todo https://online.sbis.ru/opendoc.html?guid=dedf534a-3498-4b93-b09c-0f36f7c91ab5
-            if (this._isNewEnvironment) {
-                this._notify('openInfoBox', [cfg], {bubbling: true});
-            } else {
-                // Если окружение старое, создаем ManagerWrapper, в котором рисуются dom окна в старом окружении
-                // В том числе инфобоксы.
-                requirejs(['Controls/popup'], (popup) => {
-                    popup.BaseOpener.getManager().then(() => {
-                        const GlobalPopup = this._getGlobalPopup();
-                        if (GlobalPopup) {
-                            const event = {
-                                target: this._container
-                            };
-                            GlobalPopup.openInfoBoxHandler(event, cfg);
-                        }
-                    });
+        // todo https://online.sbis.ru/opendoc.html?guid=dedf534a-3498-4b93-b09c-0f36f7c91ab5
+        if (this._isNewEnvironment) {
+            this._notify('openInfoBox', [cfg], {bubbling: true});
+        } else {
+            // Если окружение старое, создаем ManagerWrapper, в котором рисуются dom окна в старом окружении
+            // В том числе инфобоксы.
+            requirejs(['Controls/popup'], (popup) => {
+                popup.BaseOpener.getManager().then(() => {
+                    const GlobalPopup = this._getGlobalPopup();
+                    if (GlobalPopup) {
+                        const event = {
+                            target: this._container
+                        };
+                        GlobalPopup.openInfoBoxHandler(event, cfg);
+                    }
                 });
-            }
+            });
         }
     }
 
