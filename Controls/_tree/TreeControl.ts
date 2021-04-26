@@ -273,8 +273,7 @@ const _private = {
         const items = viewModel.getCollection();
 
         const sourceController = self.getSourceController();
-        const isAlreadyLoaded = (sourceController ? sourceController.hasLoaded(nodeKey) : !!self._options.items) ||
-            viewModel.getHasMoreStorage().hasOwnProperty(nodeKey);
+        const isAlreadyLoaded = (sourceController ? sourceController.hasLoaded(nodeKey) : !!self._options.items);
 
         if (isAlreadyLoaded) {
             return false;
