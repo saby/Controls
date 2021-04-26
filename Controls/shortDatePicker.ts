@@ -4,4 +4,4 @@ export {default as View} from 'Controls/_shortDatePicker/View';
 
 export {
     MonthTemplate
-}
+};

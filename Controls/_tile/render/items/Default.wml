@@ -4,7 +4,7 @@
    </ws:if>
 
    <div attr:class="{{ (item || itemData).getWrapperClasses(itemType, shadowVisibility, marker, highlightOnHover, backgroundColorStyle, height, border) }}"
-        attr:style="{{ (item || itemData).getWrapperStyles(itemType) }}">
+        attr:style="{{ (item || itemData).getWrapperStyles(itemType, nodeContentTemplate) }}">
 
       <ws:partial if="{{ (item || itemData).shouldDisplayMultiSelectTemplate() }}"
                   template="{{ multiSelectTpl }}"
@@ -24,6 +24,7 @@
       <ws:partial if="{{ (item || itemData).shouldDisplayItemActions(itemType, itemActionsPosition) }}"
                   template="{{itemActionsTemplate}}"
                   scope="{{_options}}"
+                  actionMode="{{ (item || itemData).getActionMode(itemType) }}"
                   itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType, itemActionsClass) }}"/>
       <ws:partial if="{{ (item || itemData).shouldDisplaySwipeTemplate() }}"
                   template="{{swipeTemplate}}"

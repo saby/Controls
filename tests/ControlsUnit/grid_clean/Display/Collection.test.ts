@@ -121,5 +121,62 @@ describe('Controls/grid_clean/Display/Collection', () => {
                 assert.strictEqual(emptyGridItems[0].getColspan(), 1);
             });
         });
+        describe('resultsPosition', () => {
+            it('Initialize with resultsPosition==="top"', () => {
+                const gridCollection = new GridCollection({
+                    collection: [{ key: 1 }, { key: 2 }, { key: 3 }],
+                    keyProperty: 'key',
+                    columns: [{
+                        displayProperty: 'id',
+                        resultTemplate: () => 'result'
+                    }],
+                    resultsPosition: 'top'
+                });
+
+                assert.exists(gridCollection.getResults());
+            });
+
+            it('Initialize with resultsPosition==="top" and set it to "undefined"', () => {
+                const gridCollection = new GridCollection({
+                    collection: [{ key: 1 }, { key: 2 }, { key: 3 }],
+                    keyProperty: 'key',
+                    columns: [{
+                        displayProperty: 'id',
+                        resultTemplate: () => 'result'
+                    }],
+                    resultsPosition: 'top'
+                });
+
+                gridCollection.setResultsPosition(undefined);
+                assert.notExists(gridCollection.getResults());
+            });
+
+            it('Initialize with resultsPosition==="undefined"', () => {
+                const gridCollection = new GridCollection({
+                    collection: [{ key: 1 }, { key: 2 }, { key: 3 }],
+                    keyProperty: 'key',
+                    columns: [{
+                        displayProperty: 'id',
+                        resultTemplate: () => 'result'
+                    }]
+                });
+
+                assert.notExists(gridCollection.getResults());
+            });
+
+            it('Initialize with resultsPosition==="undefined" and set it to "top"', () => {
+                const gridCollection = new GridCollection({
+                    collection: [{ key: 1 }, { key: 2 }, { key: 3 }],
+                    keyProperty: 'key',
+                    columns: [{
+                        displayProperty: 'id',
+                        resultTemplate: () => 'result'
+                    }]
+                });
+
+                gridCollection.setResultsPosition('top');
+                assert.exists(gridCollection.getResults());
+            });
+        });
     });
 });

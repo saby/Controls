@@ -257,14 +257,39 @@ abstract class BaseController {
         const itemRestrictiveContainer = getRestrictiveContainer(item);
         item.calculatedRestrictiveContainer = itemRestrictiveContainer;
         const bodySelector = 'body';
-
-        const restrictiveContainers = [itemRestrictiveContainer, baseRootSelector, bodySelector];
-        for (const restrictiveContainer of restrictiveContainers) {
-            if (restrictiveContainer) {
-                const coordsByContainer = BaseController.getCoordsByContainer(restrictiveContainer);
+        const getCoords = (container) => {
+            if (container) {
+                const coordsByContainer = BaseController.getCoordsByContainer(container);
                 if (coordsByContainer) {
                     return coordsByContainer;
                 }
+            }
+        };
+
+        // Если задан restrictiveContainer или он задан у родителя, то берем его координату
+        const itemRestrictiveContainerCoords = getCoords(itemRestrictiveContainer);
+        if (itemRestrictiveContainerCoords) {
+            return  itemRestrictiveContainerCoords;
+        }
+
+        // Если приложение сообщило размеры контента - берем их
+        const contentData = ManagerController.getContentData();
+        if (contentData) {
+            const bodyCoords = BaseController.getCoordsByContainer(bodySelector);
+            return {
+                right: contentData.left + contentData.width,
+                top: contentData.top,
+                height: bodyCoords.height,
+                topScroll: bodyCoords.topScroll,
+                leftScroll: bodyCoords.leftScroll
+            };
+        }
+
+        const restrictiveContainers = [baseRootSelector, bodySelector];
+        for (const restrictiveContainer of restrictiveContainers) {
+            const coords = getCoords(restrictiveContainer);
+            if (coords) {
+                return coords;
             }
         }
     }

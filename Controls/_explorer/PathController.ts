@@ -62,7 +62,8 @@ export default class PathController extends Control<IOptions> {
         if (
             headerChanged ||
             !isItemsEqual(this._options.items, newOptions.items) ||
-            this._options.rootVisible !== newOptions.rootVisible
+            this._options.rootVisible !== newOptions.rootVisible ||
+            this._options.multiSelectVisibility !== newOptions.multiSelectVisibility
         ) {
             this._header = PathController._getHeader(newOptions, newOptions.items);
             this._needShadow = PathController._isNeedShadow(this._header);

@@ -544,10 +544,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     protected _processLoadError(error: Error): void {
-        this._onDataError(null, {
-            error,
-            mode: dataSourceError.Mode.include
-        } as TErrbackConfig);
+        if (error && !error.isCanceled) {
+            this._onDataError(null, {
+                error,
+                mode: dataSourceError.Mode.include
+            } as TErrbackConfig);
+        }
     }
 
     protected _onDataError(event: SyntheticEvent, errbackConfig: TErrbackConfig): void {

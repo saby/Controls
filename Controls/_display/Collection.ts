@@ -1,6 +1,5 @@
 import {TemplateFunction} from 'UI/Base';
 import Abstract, {IEnumerable, IOptions as IAbstractOptions} from './Abstract';
-import * as cMerge from 'Core/core-merge';
 import CollectionEnumerator from './CollectionEnumerator';
 import CollectionItem, {IOptions as ICollectionItemOptions, ICollectionItemCounters} from './CollectionItem';
 import GroupItem from './GroupItem';
@@ -310,6 +309,7 @@ function onCollectionChange<T>(
             if (!needReset) {
                 this._handleCollectionActionChange(newItems);
             }
+            this._updateEdgeItems();
             this._nextVersion();
             return;
 
@@ -367,6 +367,7 @@ function onCollectionChange<T>(
     }
 
     this._finishUpdateSession(session);
+    this._updateEdgeItems();
     this._nextVersion();
 }
 
@@ -835,6 +836,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _dragStrategy: StrategyConstructor<DragStrategy> = DragStrategy;
     protected _isDragOutsideList: boolean = false;
+    protected _firstItem: EntityModel;
+    protected _lastItem: EntityModel;
 
     // Фон застиканных записей и лесенки
     protected _$backgroundStyle?: string;
@@ -1415,7 +1418,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             // Такой записи еще нет в наборе данных.
             if (sourceIndex === -1 && this._$isEditing) {
                 this.each((el, index: number) => {
-                    if (el.isEditing() && el.isAdd && el.contents.getKey() === item.contents.getKey()) {
+                    if (el.isEditing() && el.isAdd && el.contents.getKey() === item.getKey()) {
                         sourceIndex = index;
                     }
                 });
@@ -2284,9 +2287,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setRowSeparatorSize(rowSeparatorSize: string): void {
         this._$rowSeparatorSize = rowSeparatorSize;
         this._nextVersion();
-        this.getViewIterator().each((item: CollectionItem<S>) => {
-            item.setRowSeparatorSize(rowSeparatorSize);
-        });
+        this._updateItemsProperty('setRowSeparatorSize', this._$rowSeparatorSize);
     }
 
     getMultiSelectVisibility(): string {
@@ -2299,7 +2300,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }
         this._$multiSelectVisibility = visibility;
         this._nextVersion();
-        this._updateItemsMultiSelectVisibility(visibility);
+        // Нельзя проверять SelectableItem, т.к. элементы которые нельзя выбирать
+        // тоже должны перерисоваться при изменении видимости чекбоксов
+        this._updateItemsProperty('setMultiSelectVisibility', this._$multiSelectVisibility, 'setMultiSelectVisibility');
     }
 
     setMultiSelectAccessibilityProperty(property: string): void {
@@ -2308,7 +2311,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }
         this._$multiSelectAccessibilityProperty = property;
         this._nextVersion();
-        this._updateItemsMultiSelectAccessibilityProperty(property);
+        this._updateItemsProperty('setMultiSelectAccessibilityProperty', this._$multiSelectAccessibilityProperty, 'setMultiSelectAccessibilityProperty');
     }
 
     getMultiSelectAccessibilityProperty(): string {
@@ -2327,35 +2330,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$multiSelectPosition;
     }
 
-    protected _updateItemsMultiSelectVisibility(visibility: string): void {
-        this.getViewIterator().each((item: CollectionItem<T>) => {
-            // Нельзя проверять SelectableItem, т.к. элементы которые нельзя выбирать
-            // тоже должны перерисоваться при изменении видимости чекбоксов
-            if (item.setMultiSelectVisibility) {
-                item.setMultiSelectVisibility(visibility);
-            }
-        });
-    }
-
-    protected _updateItemsMultiSelectAccessibilityProperty(property: string): void {
-        this.getViewIterator().each((item: CollectionItem) => {
-            if (item.setMultiSelectAccessibilityProperty) {
-                item.setMultiSelectAccessibilityProperty(property);
-            }
-        });
-    }
-
     protected _setItemPadding(itemPadding: IItemPadding, silent?: boolean): void {
         this._$topPadding = itemPadding.top || 'default';
         this._$bottomPadding = itemPadding.bottom || 'default';
         this._$leftPadding = itemPadding.left || 'default';
         this._$rightPadding = itemPadding.right || 'default';
 
-        this.getViewIterator().each((item: CollectionItem) => {
-            if (item.setItemPadding) {
-                item.setItemPadding(itemPadding, silent);
-            }
-        });
+        this._updateItemsProperty('setItemPadding', itemPadding, 'setItemPadding', silent);
     }
 
     setItemPadding(itemPadding: IItemPadding, silent?: boolean): void {
@@ -2462,11 +2443,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setSearchValue(searchValue: string): void {
         if (this._$searchValue !== searchValue) {
             this._$searchValue = searchValue;
-            this.getViewIterator().each((item: T) => {
-                if (item.DisplaySearchValue) {
-                    item.setSearchValue(searchValue);
-                }
-            });
+            this._updateItemsProperty('setSearchValue', this._$searchValue, 'DisplaySearchValue');
             this._nextVersion();
         }
     }
@@ -2504,17 +2481,70 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this.getIndex(this.getItemBySourceKey(key) as T);
     }
 
-    getFirstItem(): S {
-        if (this.getCount() > 0) {
-            return this.getFirst().getContents();
+    // region Аспект "крайние записи"
+
+    getLastItem(): EntityModel {
+        if (!this._lastItem) {
+            this._lastItem = this.getCollection().at(this.getCollection().getCount() - 1);
+        }
+        return this._lastItem;
+    }
+
+    getFirstItem(): EntityModel<any> {
+        if (!this._firstItem) {
+            this._firstItem = this.getCollection().at(0);
+        }
+        return this._firstItem;
+    }
+
+    protected _updateEdgeItems(): void {
+        if (this._$collection['[Types/_collection/RecordSet]']) {
+            this._updateLastItem();
+            this._updateFirstItem();
         }
     }
 
-    getLastItem(): S {
-        if (this.getCount() > 0) {
-            return this.getLast().getContents();
+    protected _isLastItem(item: EntityModel): boolean {
+        const lastItem = this.getLastItem();
+        return this._getItemKey(lastItem) === this._getItemKey(item);
+    }
+
+    protected _isFirstItem(item: EntityModel): boolean {
+        const firstItem = this.getFirstItem();
+        return this._getItemKey(firstItem) === this._getItemKey(item);;
+    }
+
+    private _getItemKey(item: EntityModel | object): number | string {
+        return item && ((item as EntityModel).getKey ? (item as EntityModel).getKey() : item[this._$keyProperty]);
+    }
+
+    private _setFirstCollectionItemState(firstItem: EntityModel, value: boolean): void {
+        const firstCollectionItem = this.getItemBySourceItem(firstItem);
+        if (firstCollectionItem) {
+            firstCollectionItem.setIsFirstItem(value);
         }
     }
+
+    private _setLastCollectionItemState(lastItem: EntityModel, value: boolean): void {
+        const lastCollectionItem = this.getItemBySourceItem(lastItem);
+        if (lastCollectionItem) {
+            lastCollectionItem.setIsLastItem(value);
+        }
+    }
+
+    private _updateFirstItem(): void {
+        this._setFirstCollectionItemState(this.getFirstItem(), false);
+        this._firstItem = null;
+        this._setFirstCollectionItemState(this.getFirstItem(), true);
+    }
+
+    private _updateLastItem(): void {
+        this._setLastCollectionItemState(this.getLastItem(), false);
+        this._lastItem = null;
+        this._setLastCollectionItemState(this.getLastItem(), true);
+    }
+
+    // endregion Аспект "крайние записи"
 
     getHasMoreData(): boolean {
         return this._$hasMoreData;
@@ -2600,7 +2630,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     setIndexes(start: number, stop: number): void {
         this.getViewIterator().setIndices(start, stop);
-        this._updateItemsMultiSelectVisibility(this._$multiSelectVisibility);
+        // Нельзя проверять SelectableItem, т.к. элементы которые нельзя выбирать
+        // тоже должны перерисоваться при изменении видимости чекбоксов
+        this._updateItemsProperty('setMultiSelectVisibility', this._$multiSelectVisibility, 'setMultiSelectVisibility');
     }
 
     getViewIterator(): IViewIterator {
@@ -3027,6 +3059,17 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     // region Protected methods
 
+    protected _updateItemsProperty(updateMethodName: string,
+                                   newPropertyValue: any,
+                                   conditionProperty?: string,
+                                   silent?: boolean): void {
+        this._getItems().forEach((item: CollectionItem<S>) => {
+            if (!conditionProperty || item[conditionProperty]) {
+                item[updateMethodName](newPropertyValue, silent);
+            }
+        });
+    }
+
     // region Access
 
     /**
@@ -3123,6 +3166,12 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.bottomPadding = this._$bottomPadding;
             options.searchValue = this._$searchValue;
             options.markerPosition = this._$markerPosition;
+
+            if (this._$collection['[Types/_collection/RecordSet]']) {
+                options.isLastItem = this._isLastItem(options.contents);
+                options.isFirstItem = this._isFirstItem(options.contents);
+            }
+
             return create(options.itemModule || this._itemModule, options);
         };
     }
@@ -3890,7 +3939,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _handleAfterCollectionChange(changedItems: ISessionItems<T> = [], changeAction?: string): void {
         this._notifyAfterCollectionChange();
-        this._updateItemsMultiSelectVisibility(this._$multiSelectVisibility);
+        // Нельзя проверять SelectableItem, т.к. элементы которые нельзя выбирать
+        // тоже должны перерисоваться при изменении видимости чекбоксов
+        this._updateItemsProperty('setMultiSelectVisibility', this._$multiSelectVisibility, 'setMultiSelectVisibility');
     }
 
     protected _handleAfterCollectionItemChange(item: T, index: number, properties?: object): void {}

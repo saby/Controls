@@ -223,6 +223,12 @@
    }
 }
 
+.controls-Tabs__item_state_main {
+   color: var(--main_item_text-color_tabs);
+   font-size: var(--main_item_font-size_tabs);
+   font-weight: bold;
+}
+
 .controls-Tabs__item_state_selected {
    font-weight: var(--item_selected_font-weight_tabs);
    font-size: var(--secondary_item_font-size_tabs);
@@ -284,8 +290,11 @@
 .controls-Tabs__marker {
    position: absolute;
    bottom: 0;
-   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
    z-index: 1;
+}
+
+.controls-Tabs__marker_animation {
+   transition: left 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, right 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, width 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .controls-Tabs__marker_thickness-s {

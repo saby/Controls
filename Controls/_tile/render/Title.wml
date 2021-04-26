@@ -9,7 +9,7 @@
         <div class="{{ item.getTitleClasses(itemType, titleStyle, hasTitle, titleLines, titleColorStyle) }}" title="{{ item.getDisplayValue() }}">
             <div class="{{ item.getEllipsisClasses(itemType, titleLines, staticHeight, hasTitle) }}" style="{{ item.getTitleStyles(itemType, titleLines) }}">
                 <ws:if data="{{ item.getSearchValue() }}">
-                    <Controls.decorator:Highlight highlightedValue="{{ item.getSearchValue() }}">
+                    <Controls.decorator:Highlight highlightedValue="{{ item.getSearchValue() }}" className="{{highlightClassName}}">
                         <ws:value>
                             <ws:String>{{ item.getDisplayValue() }}</ws:String>
                         </ws:value>
@@ -22,7 +22,9 @@
             <ws:partial if="{{bottomRightTpl}}" template="{{bottomRightTpl}}" scope="{{_options}}"/>
         </div>
     </ws:if>
-
+    <ws:if data="{{characteristics && characteristics.length}}">
+        <ws:partial template="Controls/list:CharacteristicsTemplate" data="{{characteristics}}"></ws:partial>
+    </ws:if>
     <ws:if data="{{ item.shouldDisplayDescription(itemType, description, descriptionLines) }}">
         <div class="{{ item.getDescriptionClasses(itemType, descriptionLines) }}"
              style="{{ item.getDescriptionStyles(itemType, descriptionLines) }}"
@@ -32,6 +34,5 @@
     </ws:if>
 
     <ws:partial if="{{itemActionsTpl}}" template="{{itemActionsTpl}}" scope="{{_options}}"/>
-
     <ws:partial if="{{footerTpl}}" template="{{footerTpl}}" scope="{{_options}}"/>
 </div>

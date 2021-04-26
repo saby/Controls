@@ -14,12 +14,12 @@ export default class extends Control {
                 icon: 'Controls/sortIcons:non_sort'
             },
             {
-                title: 'По алфивиту (рус)',
+                title: 'По алфавиту (рус)',
                 paramName: 'alphabet_ru',
                 icon: 'Controls/sortIcons:alphabet_ru'
             },
             {
-                title: 'По алфивиту (eng)',
+                title: 'По алфавиту (eng)',
                 paramName: 'alphabet_en',
                 icon: 'Controls/sortIcons:alphabet_en'
             },
@@ -87,6 +87,11 @@ export default class extends Control {
                 title: 'По сложности',
                 paramName: 'difficult_sort',
                 icon: 'Controls/sortIcons:difficult_sort'
+            },
+            {
+                title: 'По номеру',
+                paramName: 'custom',
+                icon: 'Controls/sortIcons:custom'
             }
         ];
     }

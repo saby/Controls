@@ -1,5 +1,6 @@
 .controls-StackTemplate,
-.controls-StackTemplate-content {
+.controls-StackTemplate-content,
+.controls-StackTemplate-content_wrapper {
    display: flex;
    flex-grow: 1;
    flex-shrink: 1;
@@ -9,8 +10,11 @@
 }
 
 .controls-StackTemplate {
-   flex-direction: row;
    position: relative;
+}
+
+.controls-StackTemplate-content_wrapper {
+   flex-direction: row;
 }
 
 .controls-StackTemplate-content {
@@ -18,6 +22,10 @@
 }
 
 .controls-StackTemplate__rightPanel {
+   position: absolute;
+   right: calc(var(--width_stack-right_panel) * -1);
+   top: 0;
+   height: 100%;
    display: flex;
    flex-direction: column;
    flex-grow: 1;
@@ -26,6 +34,12 @@
    min-width: 1px;
    width: var(--width_stack-right_panel);
    background-color: var(--background-color_stack-right_panel);
+   border-left: var(--border_stack-right_panel);
+   align-items: center;
+}
+
+.controls-stack-Button__close {
+   margin-top: var(--close-button_offset-top_stack__panel);
 }
 
 .controls-StackTemplate-shadow {
@@ -40,6 +54,8 @@
 
 .controls-StackTemplate__top-area {
    min-height: var(--header_min-height_stack);
+   display: flex;
+   flex-shrink: 0;
 }
 
 .controls-StackTemplate__top-area-background {
@@ -48,11 +64,6 @@
 
 .controls-StackTemplate__top-area-border {
    border-bottom: var(--header_bottom-border-thickness_stack) solid var(--header_bottom-border-color_stack);
-}
-
-.controls-StackTemplate__top-area {
-   display: flex;
-   flex-shrink: 0;
 }
 
 .controls-StackTemplate__content-area {
@@ -88,6 +99,7 @@
    height: 100%;
    align-items: center;
    padding-right: var(--header-content_padding-right_stack);
+
    &:empty {
       padding-right: 0;
    }
@@ -106,6 +118,10 @@
    right: 0;
    top: 0;
    display: flex;
+}
+
+.controls-StackTemplate__command_buttons_without_head__with_panel {
+   right: var(--width_stack-right_panel);
 }
 
 .controls-StackTemplate__maximized_button {
@@ -135,7 +151,8 @@
    overflow: hidden;
    white-space: nowrap;
    flex-shrink: 1;
-   &:before {
+
+   &::before {
       content: '\200b';
       font-size: var(--header_lineheight_stack);
    }

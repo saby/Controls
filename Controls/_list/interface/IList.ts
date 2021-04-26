@@ -689,7 +689,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
- * @typedef {String} ButtonName
+ * @typedef {String} Controls/_list/interface/IList/ButtonName
  * @description Допустимые значения для аргумента события {@link Controls/list:IList#pagingArrowClick pagingArrowClick}.
  * @variant Begin Кнопка "В начало".
  * @variant End Кнопка "В конец".
@@ -699,5 +699,5 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * @event Происходит при клике по кнопкам перехода к первой и последней странице.
  * @name Controls/_list/interface/IList#pagingArrowClick
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
- * @param {ButtonName} buttonName.
+ * @param {Controls/_list/interface/IList/ButtonName.typedef} buttonName Кнопка, по которой кликнули.
  */

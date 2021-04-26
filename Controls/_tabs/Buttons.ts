@@ -9,7 +9,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {isLeftMouseButton} from 'Controls/popup';
 import {IItems, IItemTemplateOptions} from 'Controls/interface';
-import {ITabsButtons, ITabsButtonsOptions} from './interface/ITabsButtons';
+import {ITabsButtons, ITabsButtonsOptions, ITabButtonItem} from './interface/ITabsButtons';
 import {constants} from 'Env/Env';
 import {adapter} from 'Types/entity';
 import {factory} from 'Types/chain';
@@ -19,17 +19,11 @@ import * as TabButtonsTpl from 'wml!Controls/_tabs/Buttons/Buttons';
 import * as ItemTemplate from 'wml!Controls/_tabs/Buttons/ItemTemplate';
 
 import 'css!Controls/tabs';
+import {Logger} from 'UICommon/Utils';
 
 enum ITEM_ALIGN {
     left = 'left',
     right = 'right'
-}
-
-interface ITabButtonItem {
-    isMainTab?: boolean;
-    align?: 'left' | 'right';
-
-    [key: string]: any;
 }
 
 export interface ITabsTemplate {
@@ -48,7 +42,7 @@ export interface ITabsOptions extends ITabsButtonsOptions, ITabsTemplateOptions 
 }
 
 interface IReceivedState {
-    items: RecordSet;
+    items: RecordSet<ITabButtonItem>;
     itemsOrder: number[];
     lastRightOrder: number;
     itemsArray: ITabButtonItem[];
@@ -97,6 +91,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _itemsArray: ITabButtonItem[];
     protected _marker: Marker = new Marker();
     protected _markerCssClass: string = '';
+    protected _animationProcessed: boolean = false;
     private _itemsOrder: number[];
     private _lastRightOrder: number;
     private _items: RecordSet;
@@ -119,6 +114,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
                     return result;
                 }
             });
+        } else {
+            Logger.error('Controls/tabs:Buttons: Опции items и source не заданы.', this);
         }
     }
 
@@ -167,7 +164,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _updateMarker(): void {
-        if (this._marker.isInitialized()) {
+        if (this._marker.isInitialized() || !this._itemsArray) {
             return;
         }
         const tabElements: HTMLElement[] = this._itemsArray.map((item: ITabButtonItem, key: number) => {
@@ -191,13 +188,10 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             return item[options.keyProperty] === options.selectedKey;
         });
         const align = this._marker.getAlign();
-        this._marker.setSelectedIndex(index);
-        // Если переключили на вкладку у которой другое выравнивание, то меняется
-        // тип позиционирования маркера left|right. Из-за этого анимации не будет.
-        // Запускаем анимацию с текущим позиционированием, и переключим его после
-        // завершения анимации в _transitionEndHandler
-        if (align && align !== this._marker.getAlign()) {
-            this._marker.setAlign(align);
+        const changed = this._marker.setSelectedIndex(index);
+        // Не заускаем анимацию при переключении с группы вкладок слева на кгруппу вкладок справа.
+        if (changed && align && align === this._marker.getAlign()) {
+            this._animationProcessed = true;
         }
     }
 
@@ -210,7 +204,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
 
     protected _transitionEndHandler() {
         if (!this._isUnmounted) {
-            this._marker.setAlign(AUTO_ALIGN.auto);
+            this._animationProcessed = false;
         }
     }
 
@@ -265,12 +259,44 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         // TODO: по поручению опишут как и что должно сжиматься.
         // Пока сжимаем только те вкладки, которые прикладники явно пометили
         // https://online.sbis.ru/opendoc.html?guid=cf3f0514-ac78-46cd-9d6a-beb17de3aed8
-        if (item.isMainTab) {
+        if (item.isMainTab || item.canShrink) {
             classes.push('controls-Tabs__item_canShrink');
         } else {
             classes.push('controls-Tabs__item_notShrink');
         }
         return classes.join(' ');
+    }
+
+    /**
+     * Если ширина задана числом, то считаем, что это пиксели, если строка - то проценты, строку отадем как есть.
+     * @param value
+     * @private
+     */
+    private _getWidthValue(value: number | string): string {
+        return typeof value === 'number' ? value + 'px' : value;
+    }
+
+    /**
+     * Получение набора инлайновых стилей для айтема вкладки.
+     * @param minWidth
+     * @param maxWidth
+     * @param width
+     * @param stretchWidth
+     * @param index
+     * @protected
+     */
+    protected _prepareItemStyles({minWidth, maxWidth, width, stretchWidth}: ITabButtonItem, index: number): string {
+        let style = this._prepareItemOrder(index);
+        if (maxWidth !== undefined) {
+            style += `max-width: ${this._getWidthValue(maxWidth)};`;
+        }
+        if (width !== undefined) {
+            style += `width: ${this._getWidthValue(width)}; flex-shrink: 0;`;
+        }
+        if (minWidth !== undefined) {
+            style += `min-width: ${this._getWidthValue(minWidth)};`;
+        }
+        return style;
     }
 
     protected _prepareItemSelectedClass(item: ITabButtonItem): string {
@@ -297,6 +323,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const style = TabsButtons._prepareStyle(options.style);
 
         if (item.isMainTab) {
+            classes.push('controls-Tabs__item_state_main');
             if (item[options.keyProperty] === options.selectedKey) {
                 classes.push('controls-Tabs__main-marker');
             }
@@ -304,7 +331,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             classes.push('controls-Tabs__itemClickableArea_marker');
             classes.push(`controls-Tabs__itemClickableArea_markerThickness-${options.markerThickness}`);
 
-            if (!this._marker.isInitialized() && item[options.keyProperty] === options.selectedKey) {
+            if (!(this._marker.isInitialized() && this._animationProcessed) && item[options.keyProperty] === options.selectedKey ) {
                 // Если маркеры которые рисуются с абсолютной позицией не инициализированы, то нарисуем маркер
                 // внутри вкладки. Это можно сделать быстрее. Но невозможно анимировано передвигать его между вкладками.
                 // Инициализируем и переключимся на другой механизм маркеров после ховера.
@@ -319,7 +346,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
 
     protected _prepareItemOrder(index: number): string {
         const order = this._itemsOrder[index];
-        return '-ms-flex-order:' + order + '; order:' + order;
+        return `-ms-flex-order: ${order}; order: ${order};`;
     }
 
     protected _getTemplate(

@@ -1735,6 +1735,19 @@ describe('Controls/_display/Tree', () => {
             assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
         });
 
+        it('setExpandedItems collapse childs', () => {
+            rsTree.setExpandedItems([1]);
+            rsTree.getItemBySourceKey(11).setExpanded(true);
+            assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
+            assert.isTrue(rsTree.getItemBySourceKey(11).isExpanded());
+            rsTree.setExpandedItems([]);
+            assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
+            assert.isFalse(rsTree.getItemBySourceKey(11).isExpanded());
+            rsTree.setExpandedItems([1]);
+            assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
+            assert.isFalse(rsTree.getItemBySourceKey(11).isExpanded());
+        });
+
         it('setCollapsedItems', () => {
             rsTree.setExpandedItems([1]);
             assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
@@ -1768,6 +1781,15 @@ describe('Controls/_display/Tree', () => {
                     assert.equal(it.version, rsTree.getItemBySourceKey(it.key).getVersion());
                 }
             });
+        });
+
+        it('setCollapsedItems collapse childs', () => {
+            rsTree.setExpandedItems([null]);
+            assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
+            assert.isTrue(rsTree.getItemBySourceKey(11).isExpanded());
+            rsTree.setCollapsedItems([1]);
+            assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
+            assert.isFalse(rsTree.getItemBySourceKey(11).isExpanded());
         });
 
         describe('create item with right expanded state', () => {
