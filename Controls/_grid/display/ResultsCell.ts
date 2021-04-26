@@ -26,7 +26,7 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
     //  Перегрузка необходима из за того, что конфигурация результатов объединена с колонками.
     //  Если результаты будут иметь отдельную опцию под конфиг, то будет полная однородность, метод будет не нужен.
     getTemplate(): TemplateFunction | string {
-        const customTemplate = this._$isSingleCell ?
+        const customTemplate = this._$isSingleColspanedCell ?
             (this._$column.resultTemplate || this._$column.template) : this._$column.resultTemplate;
         return customTemplate || this._defaultCellTemplate;
     }
