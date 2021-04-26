@@ -3,13 +3,13 @@
                               keyProperty="id"
                               parentProperty="parent"
                               nodeProperty="type"
-                              nodeHistoryId="NODE_HISTORY">
-        <Controls.list:Container>
+                              nodeHistoryId="NODE_HISTORY"
+                              bind:expandedItems="_expandedItems"
+                              bind:collapsedItems="_collapsedItems">
             <Controls.treeGrid:View keyProperty="id"
                                     columns="{{ _columns }}"
                                     parentProperty="parent"
                                     nodeProperty="type"
                                     nodeHistoryId="NODE_HISTORY"/>
-        </Controls.list:Container>
     </Controls.list:DataContainer>
 </div>
