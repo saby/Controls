@@ -7,7 +7,7 @@
             <Controls.search:Input
                     attr:style="width: 300px;"/>
         </Controls.search:InputContainer>
-        <Controls.newBrowser:Browser
+        <Controls.newBrowser:View
                 name="browser"
                 propStorageId="catalogDemoBase"
                 userViewMode="{{_viewMode}}"
@@ -74,7 +74,7 @@
                     />
                 </ws:tileItemTemplate>
             </ws:detail>
-        </Controls.newBrowser:Browser>
+        </Controls.newBrowser:View>
         </div>
     </Controls.browser:Browser>
 </div>
