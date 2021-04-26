@@ -171,11 +171,16 @@ class Base extends Control<IMasterDetail, string> {
     private _scrollState: string;
     private _marginTop: number;
     protected _masterStyle: string;
+    protected _newDesign: boolean = false;
 
     protected _beforeMount(options: IMasterDetail, context: object, receivedState: string): Promise<string> | void {
+        const masterDetailOptions = context?.MasterDetailOptions;
         this._updateOffsetDebounced = debounce(this._updateOffsetDebounced.bind(this), RESIZE_DELAY);
         this._canResizing = this._isCanResizing(options);
         this._prepareLimitSizes(options);
+        if (masterDetailOptions) {
+            this._newDesign = masterDetailOptions.newDesign;
+        }
         if (receivedState) {
             this._currentWidth = receivedState;
         } else if (options.propStorageId) {
@@ -315,7 +320,12 @@ class Base extends Control<IMasterDetail, string> {
         this._prevCurrentWidth = this._currentWidth;
     }
 
-    protected _beforeUpdate(options: IMasterDetail): void|Promise<unknown> {
+    protected _beforeUpdate(options: IMasterDetail, context: object): void|Promise<unknown> {
+        const masterDetailOptions = context?.MasterDetailOptions;
+        if (masterDetailOptions) {
+            this._newDesign = masterDetailOptions.newDesign;
+        }
+
         // Если изменилась текущая ширина, то сбросим состояние, иначе работаем с тем, что выставил пользователь
         if (options.masterWidth !== this._options.masterWidth) {
             this._currentWidth = null;
