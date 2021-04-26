@@ -87,6 +87,11 @@ export default class extends Control {
                 title: 'По сложности',
                 paramName: 'difficult_sort',
                 icon: 'Controls/sortIcons:difficult_sort'
+            },
+            {
+                title: 'По номеру',
+                paramName: 'custom',
+                icon: 'Controls/sortIcons:custom'
             }
         ];
     }
