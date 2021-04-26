@@ -2027,6 +2027,24 @@ describe('Controls/_display/Tree', () => {
 
                 assert.isTrue(tree.at(0).hasChildrenByRecordSet());
             });
+
+            it('expander padding, when node hidden by group', () => {
+                const rs = new RecordSet({
+                    rawData: [
+                        {id: 1, hasChildren: true, node: true, pid: 0, group: 'group-1'},
+                        {id: 11, hasChildren: false, node: null, pid: 1, group: 'group-1'},
+                        {id: 2, hasChildren: false, node: true, pid: 0, group: 'group-2'}
+                    ],
+                    keyProperty: 'id'
+                });
+                let tree = getTree(rs, {groupProperty: 'group', expanderVisibility: 'hasChildren', collapsedGroups: ['group-1']});
+                let item = tree.getItemBySourceKey(2);
+                assert.isTrue(item.shouldDisplayExpanderPadding());
+
+                tree = getTree(rs, {hasChildrenProperty: '', groupProperty: 'group', expanderVisibility: 'hasChildren', collapsedGroups: ['group-1']});
+                item = tree.getItemBySourceKey(2);
+                assert.isTrue(item.shouldDisplayExpanderPadding());
+            });
         });
     });
 });

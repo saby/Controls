@@ -1024,7 +1024,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         let changed = false;
 
         nodes.forEach((it) => {
-            const hasChildrenByRecordSet = !!this._getChildrenByRecordSet(it.getContents()).length;
+            const hasChildrenByRecordSet = !!this.getChildrenByRecordSet(it.getContents()).length;
             changed = changed || it.setHasChildrenByRecordSet(hasChildrenByRecordSet);
         });
 
