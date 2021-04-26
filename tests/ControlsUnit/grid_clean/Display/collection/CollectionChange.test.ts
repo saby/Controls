@@ -27,13 +27,13 @@ describe('Controls/_display/collection/CollectionChange', () => {
             });
 
             assert.isUndefined(collection.getResults());
-            recordSet.append(new RecordSet({rawData: [{}, {}, {}]}));
+            recordSet.append(new RecordSet({rawData: [{id: 1}, {id: 2}, {id: 3}], keyProperty: 'id'}));
 
             assert.instanceOf(collection.getResults(), GridResultsRow);
         });
 
         it('[has results] -> [has no results]. Should destroy results.', () => {
-            const recordSet = new RecordSet({rawData: [{}, {}, {}]});
+            const recordSet = new RecordSet({rawData: [{id: 1}, {id: 2}, {id: 3}], keyProperty: 'id'});
             const collection = new GridCollection({
                 keyProperty: 'id',
                 columns: [],
@@ -52,7 +52,7 @@ describe('Controls/_display/collection/CollectionChange', () => {
         describe('headerVisibility === \'hasdata\'', () => {
             // Поверяем что при очистке данных коллекции модель заголовка сбрасывается
             it('Should reset header model to null on clear collection', () => {
-                const recordSet = new RecordSet({rawData: [{}, {}]});
+                const recordSet = new RecordSet({rawData: [{id: 1}, {id: 2}], keyProperty: 'id'});
                 // Создадим коллекцию с данными и видимостью заголовка, зависящую от наличия данных
                 const collection = new GridCollection({
                     keyProperty: 'id',
@@ -94,7 +94,7 @@ describe('Controls/_display/collection/CollectionChange', () => {
         describe('headerVisibility === \'visible\'', () => {
             // Поверяем что при очистке данных коллекции модель заголовка не пересоздается
             it('Should not recreate header model on clear collection', () => {
-                const recordSet = new RecordSet({rawData: [{}, {}]});
+                const recordSet = new RecordSet({rawData: [{id: 1}, {id: 2}], keyProperty: 'id'});
                 // Создадим коллекцию с данными и всегда видимым заголовком
                 const collection = new GridCollection({
                     keyProperty: 'id',

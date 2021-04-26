@@ -78,12 +78,6 @@ export default abstract class Row<T> {
         return DEFAULT_GRID_ROW_TEMPLATE;
     }
 
-    isLastItem(): boolean {
-        const collectionCount = this.getOwner().getCollectionCount();
-        const getCollectionIndex = this.getOwner().getSourceIndexByItem(this);
-        return getCollectionIndex === collectionCount - 1;
-    }
-
     getItemSpacing(): { left: string, right: string, row: string } {
         return {
             left: this._$owner.getLeftPadding().toLowerCase(),
@@ -109,13 +103,13 @@ export default abstract class Row<T> {
         if (params.showItemActionsOnHover !== false) {
             itemClasses += ' controls-ListView__item_showActions';
         }
-
         const navigation = this.getOwner().getNavigation();
-        const isLastItem = (!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
-            && this.isLastItem();
-
-        if (isLastItem) {
-            itemClasses += ' controls-Grid__row_last';
+        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
+            && this.isLastItem()) {
+            itemClasses += ' controls-ListView__itemV_last';
+        }
+        if (this.getIsFirstItem()) {
+            itemClasses += ' controls-ListView__itemV_first';
         }
 
         return itemClasses;
@@ -694,6 +688,10 @@ export default abstract class Row<T> {
 
     abstract isSticked(): boolean;
 
+    abstract getIsFirstItem(): boolean;
+
+    abstract isLastItem(): boolean;
+
     protected abstract _getCursorClasses(cursor: string, clickable: boolean): string;
 
     protected abstract _nextVersion(): void;
@@ -710,5 +708,5 @@ Object.assign(Row.prototype, {
     _$rowTemplateOptions: null,
     _$colspanCallback: null,
     _$columnSeparatorSize: null,
-    _$editingColumnIndex: null
+    _$editingColumnIndex: null,
 });
