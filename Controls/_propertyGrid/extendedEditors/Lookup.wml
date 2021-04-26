@@ -1,0 +1,4 @@
+<Controls.lookup:Input scope="{{_options}}"
+                       bind:selectedKeys="_selectedKeys"
+                       on:selectedKeysChanged="_handleSelectedKeysChanged()"/>
+

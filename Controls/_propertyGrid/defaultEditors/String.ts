@@ -9,11 +9,11 @@ import IEditor from 'Controls/_propertyGrid/IEditor';
  * @remark
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_propertyGrid.less переменные тем оформления}
- * 
+ *
  * @class Controls/_propertyGrid/defaultEditors/String
  * @extends UI/Base:Control
  * @mixes Controls/propertyGrid:IEditor
- * 
+ *
  * @public
  * @author Герасимов А.М.
  */
@@ -23,7 +23,7 @@ import IEditor from 'Controls/_propertyGrid/IEditor';
  * @class Controls/_propertyGrid/defaultEditors/String
  * @extends UI/Base:Control
  * @mixes Controls/propertyGrid:IEditor
- * 
+ *
  * @public
  * @author Герасимов А.М.
  */
@@ -54,6 +54,21 @@ class StringEditor extends Control implements IEditor {
             this._notify('propertyValueChanged', [value], {bubbling: true});
         }
     }
+
+    static getDefaultOptions(): Partial<IEditorOptions> {
+        return {
+            propertyValue: ''
+        };
+    }
 }
+
+Object.defineProperty(StringEditor, 'defaultProps', {
+    enumerable: true,
+    configurable: true,
+
+    get(): object {
+        return StringEditor.getDefaultOptions();
+    }
+});
 
 export = StringEditor;
