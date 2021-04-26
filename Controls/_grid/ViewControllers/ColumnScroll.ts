@@ -9,7 +9,7 @@ import {
 export {
     COLUMN_SCROLL_JS_SELECTORS,
     DRAG_SCROLL_JS_SELECTORS
-}
+};
 
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
 
@@ -209,7 +209,20 @@ export default class ColumnScroll {
                         // Создание columnScroll на beforeUpdate невозможно, т.к. контроллер создается только по мере необходимости.
                         resolvePromise({ status: 'updated' });
                     } else {
-                        resolvePromise({ status: 'actual' });
+                        const newContentSize = options.containers.content.scrollWidth;
+                        const newContainerSize = options.isFullGridSupport ? options.containers.content.offsetWidth : options.containers.wrapper.offsetWidth;
+                        const actualSizes = this.getSizes();
+
+                        const isResized = actualSizes.containerSize !== newContainerSize || actualSizes.contentSize !== newContentSize;
+
+                        if (isResized) {
+                            // Смена колонок может не вызвать событие resize на обёртке грида(ColumnScroll), если общая ширина колонок до обновления и после одинакова.
+                            this._columnScroll.updateSizes(() => {
+                                resolvePromise({ status: 'updated' });
+                            });
+                        } else {
+                            resolvePromise({ status: 'actual' });
+                        }
                     }
                     this._scrollBar.recalcSizes();
                     this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
