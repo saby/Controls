@@ -96,7 +96,7 @@ export default class Collection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
-        this._updateItemsColumns();
+        this._updateItemsProperty('setColumns', this._$columns);
     }
 
     protected _handleAfterCollectionChange(changedItems: T[] = [], changeAction?: string): void {
@@ -172,11 +172,7 @@ export default class Collection<
         const hasStickyGroup = this._hasStickyGroup();
         if (this._$hasStickyGroup !== hasStickyGroup) {
             this._$hasStickyGroup = hasStickyGroup;
-            this.getViewIterator().each((item: DataRow<S>) => {
-                if (item.LadderSupport) {
-                    item.setHasStickyGroup(hasStickyGroup);
-                }
-            });
+            this._updateItemsProperty('setHasStickyGroup', this._$hasStickyGroup, 'LadderSupport');
         }
     }
 

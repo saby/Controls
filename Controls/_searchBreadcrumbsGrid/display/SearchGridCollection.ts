@@ -45,13 +45,9 @@ export default class SearchGridCollection<S extends Model = Model, T extends Sea
    setColspanBreadcrumbs(colspanBreadcrumbs: boolean): void {
       if (this._$colspanBreadcrumbs !== colspanBreadcrumbs) {
          this._$colspanBreadcrumbs = colspanBreadcrumbs;
-         this._updateItemsColspanBreadcrumbs(colspanBreadcrumbs);
+         this._updateItemsProperty('setColspanBreadcrumbs', this._$colspanBreadcrumbs, '[Controls/_display/BreadcrumbsItem]');
          this._nextVersion();
       }
-   }
-
-   private _updateItemsColspanBreadcrumbs(colspanBreadcrumbs: boolean): void {
-      this.each((it) => it['[Controls/_display/BreadcrumbsItem]'] && it.setColspanBreadcrumbs(colspanBreadcrumbs));
    }
 
    protected _getItemsFactory(): ItemsFactory<T> {

@@ -1185,6 +1185,8 @@
   "--primary_item_font-size_tabs": "var(--font-size_l)",
   "--unselected_item_font-size_tabs": "var(--font-size_l)",
   "--item_selected_font-weight_tabs": "bold",
+  "--main_item_font-size_tabs": "var(--font-size_4xl)",
+  "--main_item_text-color_tabs": "var(--text-color)",
   "--secondary_item_text-color_tabs": "var(--link_text-color)",
   "--primary_item_text-color_tabs": "var(--primary_text-color)",
   "--unaccented_item_text-color_tabs": "var(--text-color)",

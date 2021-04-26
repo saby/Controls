@@ -34,22 +34,9 @@ export default interface IItemTemplateOptions {
     */
    hasTitle?: string;
    /**
-    * @cfg {Number} Ширина плитки. Значение задаётся в px.
-    * @remark Ширина папки настраивается в опции {@link folderWidth}.
-    * @see staticHeight
-    * @see folderWidth
-    */
-   itemWidth?: number;
-   /**
     * @cfg {Number} Будет ли автоматически изменяться высота плитки, когда плитка отображается со статической шириной, т.е. опция {@link tileMode} установлена в значение static.
     */
    staticHeight?: boolean;
-   /**
-    * @cfg {Number} Ширина папки. Значение задаётся в px.
-    * @see itemWidth
-    * @see staticHeight
-    */
-   folderWidth?: number;
    /**
     * @typedef {String} ShadowVisibility
     * @variant visible Отображается.

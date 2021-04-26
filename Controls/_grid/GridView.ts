@@ -85,6 +85,10 @@ const GridView = ListView.extend({
         if (changes.includes('columnScroll')) {
             listModel.setColumnScroll(options.columnScroll);
         }
+
+        if (changes.includes('resultsPosition')) {
+            listModel.setResultsPosition(options.resultsPosition);
+        }
     },
 
     _applyChangedOptions(options, changes): void {
@@ -122,6 +126,9 @@ const GridView = ListView.extend({
             }
             if (changedOptions.hasOwnProperty('columnScroll')) {
                 changes.push('columnScroll');
+            }
+            if (changedOptions.hasOwnProperty('resultsPosition')) {
+                changes.push('resultsPosition');
             }
         }
 
@@ -463,7 +470,9 @@ const GridView = ListView.extend({
     },
 
     _onStartDragScrolling(e, startBy: 'mouse' | 'touch'): void {
-        if (this._columnScrollViewController && this.isColumnScrollVisible()) {
+        // DragScrolling нужен только чтобы тащить скроллируемые колонки.
+        if (e.target.closest(`.${COLUMN_SCROLL_JS_SELECTORS.SCROLLABLE_ELEMENT}`) &&
+            this._columnScrollViewController && this.isColumnScrollVisible()) {
             this._columnScrollViewController?.startDragScrolling(e, startBy);
             this._applyColumnScrollChanges();
         }

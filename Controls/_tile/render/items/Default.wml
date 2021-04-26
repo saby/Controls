@@ -24,6 +24,7 @@
       <ws:partial if="{{ (item || itemData).shouldDisplayItemActions(itemType, itemActionsPosition) }}"
                   template="{{itemActionsTemplate}}"
                   scope="{{_options}}"
+                  actionMode="{{ (item || itemData).getActionMode(itemType) }}"
                   itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType, itemActionsClass) }}"/>
       <ws:partial if="{{ (item || itemData).shouldDisplaySwipeTemplate() }}"
                   template="{{swipeTemplate}}"
