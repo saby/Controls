@@ -217,9 +217,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _onItemClick(event: SyntheticEvent<MouseEvent>, key: string): void {
         if (isLeftMouseButton(event)) {
             this._notify('selectedKeyChanged', [key]);
-            // selectedKey может вернуться в контрол значительно позже если снуржи есть асинхронный код.
-            // Например так происходит на страницах онлайна. Запустим анимацию маркера как можно быстрее.
-            this._updateMarkerSelectedIndex({...this._options, selectedKey: key});
         }
     }
 
