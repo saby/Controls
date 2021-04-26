@@ -27,7 +27,7 @@ import {
 } from 'Types/entity';
 import {Logger} from 'UI/Utils';
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
-import {default as GroupUtil} from './GroupUtil';
+import {default as groupUtil} from './GroupUtil';
 import {nodeHistoryUtil} from './nodeHistoryUtil';
 import {isEqual} from 'Types/object';
 import {mixin} from 'Types/util';
@@ -151,8 +151,7 @@ export default class Controller extends mixin<
      * RecordSet в котором хранятся данные хлебных крошек.
      * Нужен только для того, что бы иметь возможность подписаться и отписаться от события
      * onCollectionChange. Т.к. данные хлебных крошек могут меняться из UI, например,
-     * при редактиров
-     * ании названия папки в которой находимся.
+     * при редактировании названия папки в которой находимся.
      */
     private _breadcrumbsRecordSet: RecordSet;
     private _loadPromise: CancelablePromise<RecordSet|Error>;
@@ -716,6 +715,7 @@ export default class Controller extends mixin<
 
         if (parentProperty) {
             return this._resolveExpandedHierarchyItems(options).then((expandedItems) => {
+                this.setExpandedItems(expandedItems);
                 resultFilter = {...initialFilter};
                 const isDeepReload = this._isDeepReload() && root === this._root;
 
@@ -755,8 +755,13 @@ export default class Controller extends mixin<
     private _resolveExpandedHierarchyItems(options: IControllerOptions): Promise<CrudEntityKey[]> {
         const expandedItems = this._expandedItems || options.expandedItems;
         if (options.nodeHistoryId) {
-            return nodeHistoryUtil.restore(options.nodeHistoryId).then((restored) => {
+            return nodeHistoryUtil.restore(options.nodeHistoryId)
+                .then((restored) => {
                     return restored || expandedItems;
+                })
+                .catch((e) => {
+                    Logger.warn(e.message);
+                    return expandedItems;
                 });
         }
         return Promise.resolve(expandedItems);
@@ -967,7 +972,7 @@ export default class Controller extends mixin<
         if (collapsedGroups && collapsedGroups.length) {
             resultFilterPromise = Promise.resolve(getFilterWithCollapsedGroups(collapsedGroups));
         } else if (historyId) {
-            resultFilterPromise = GroupUtil.restoreCollapsedGroups(historyId).then(
+            resultFilterPromise = groupUtil.restoreCollapsedGroups(historyId).then(
                 (restoredCollapsedGroups?: TArrayGroupId) =>
                     getFilterWithCollapsedGroups(this._collapsedGroups = restoredCollapsedGroups)
             );

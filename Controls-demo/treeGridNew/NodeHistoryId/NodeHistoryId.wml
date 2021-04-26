@@ -1,18 +1,15 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlDemo__treeGrid-nodeHistoryId">
-    <div class="controlsDemo__cell">
-        <div class='controlsDemo_fixedWidth500 controlsDemo__flex'>
-            <div class="controlsDemo__button ControlsDemo-SwitchableArea__button" on:click="onClickToggle()">{{ _nodeHistoryId ? 'Выключить' : 'Включить' }} nodeHistoryId</div>
-        </div>
-    </div>
-<Controls.list:Container>
-    <Controls.treeGrid:View
-            source="{{ _viewSource }}"
-            parentProperty="parent"
-            nodeProperty="type"
-            nodeHistoryId="{{ _nodeHistoryId }}"
-            bind:expandedItems="_expandedItems"
-            bind:collapsedItems="_collapsedItems"
-            keyProperty="id"
-            columns="{{ _columns }}"/>
-</Controls.list:Container>
+    <Controls.list:DataContainer source="{{_viewSource}}"
+                              keyProperty="id"
+                              parentProperty="parent"
+                              nodeProperty="type"
+                              nodeHistoryId="NODE_HISTORY">
+        <Controls.list:Container>
+            <Controls.treeGrid:View keyProperty="id"
+                                    columns="{{ _columns }}"
+                                    parentProperty="parent"
+                                    nodeProperty="type"
+                                    nodeHistoryId="NODE_HISTORY"/>
+        </Controls.list:Container>
+    </Controls.list:DataContainer>
 </div>
