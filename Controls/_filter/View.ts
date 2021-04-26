@@ -33,7 +33,7 @@ import {
     getUniqItems,
     deleteHistorySourceFromConfig
 } from 'Controls/_filter/HistoryUtils';
-import {hasResetValue, resetFilter} from 'Controls/_filter/resetFilterUtils';
+import {hasResetValue, resetFilter, resetFilterItem} from 'Controls/_filter/resetFilterUtils';
 import converterFilterItems = require('Controls/_filter/converterFilterItems');
 import mergeSource from 'Controls/_filter/Utils/mergeSource';
 import {descriptor} from 'Types/entity';
@@ -371,11 +371,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             // Быстрые фильтры и фильтр выбора периода
             // не должны сбрасываться по клику на крестик строки выбранных параметров
             if (!this._isFrequentItem(item) && item.type !== 'dateRange') {
-                item.value = item.resetValue;
-                if (object.getPropertyValue(item, 'visibility') !== undefined) {
-                    object.setPropertyValue(item, 'visibility', false);
-                }
-                item.textValue = '';
+                resetFilterItem(item);
             }
         });
         this._notifyChanges(this._source);
