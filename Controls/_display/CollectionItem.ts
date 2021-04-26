@@ -45,6 +45,8 @@ export interface IOptions<T extends Model = Model> {
     topPadding: string;
     bottomPadding: string;
     markerPosition: string;
+    isLastItem?: boolean;
+    isFirstItem?: boolean;
 }
 
 export interface ISerializableState<T extends Model = Model> extends IDefaultSerializableState {
@@ -172,6 +174,9 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
      * Индекс содержимого элемента в коллекции (используется для сериализации)
      */
     protected _contentsIndex: number;
+
+    protected _$isLastItem: boolean;
+    protected _$isFirstItem: boolean;
 
     readonly '[Types/_entity/IVersionable]': boolean;
 
@@ -619,6 +624,28 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._nextVersion();
     }
 
+    // region Аспект "крайние записи"
+
+    setIsFirstItem(state: boolean): void {
+        this._$isFirstItem = state;
+        this._nextVersion();
+    }
+
+    getIsFirstItem(): boolean {
+        return this._$isFirstItem;
+    }
+
+    setIsLastItem(state: boolean): void {
+        this._$isLastItem = state;
+        this._nextVersion();
+    }
+
+    isLastItem(): boolean {
+        return this._$isLastItem;
+    }
+
+    // endregion Аспект "крайние записи"
+
     // region Drag-n-drop
 
     setDragged(dragged: boolean, silent?: boolean): void {
@@ -760,6 +787,16 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         if (rowSeparatorSize) {
             contentClasses += ` controls-ListView__rowSeparator_size-${rowSeparatorSize}`;
         }
+
+        const navigation = this.getOwner().getNavigation();
+        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
+            && this.isLastItem()) {
+            contentClasses += ' controls-ListView__itemV_last';
+        }
+        if (this.getIsFirstItem()) {
+            contentClasses += ' controls-ListView__itemV_first';
+        }
+
         if (isAnimatedForSelection) {
             contentClasses += ' controls-ListView__item_rightSwipeAnimation';
         }
@@ -1016,6 +1053,8 @@ Object.assign(CollectionItem.prototype, {
     _$topPadding: 'default',
     _$bottomPadding: 'default',
     _$markerPosition: undefined,
+    _$isLastItem: false,
+    _$isFirstItem: false,
     _contentsIndex: undefined,
     _version: 0,
     _counters: null,

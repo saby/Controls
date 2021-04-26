@@ -309,6 +309,7 @@ function onCollectionChange<T>(
             if (!needReset) {
                 this._handleCollectionActionChange(newItems);
             }
+            this._updateEdgeItems();
             this._nextVersion();
             return;
 
@@ -366,6 +367,7 @@ function onCollectionChange<T>(
     }
 
     this._finishUpdateSession(session);
+    this._updateEdgeItems();
     this._nextVersion();
 }
 
@@ -834,6 +836,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _dragStrategy: StrategyConstructor<DragStrategy> = DragStrategy;
     protected _isDragOutsideList: boolean = false;
+    protected _firstItem: EntityModel;
+    protected _lastItem: EntityModel;
 
     // Фон застиканных записей и лесенки
     protected _$backgroundStyle?: string;
@@ -1414,7 +1418,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             // Такой записи еще нет в наборе данных.
             if (sourceIndex === -1 && this._$isEditing) {
                 this.each((el, index: number) => {
-                    if (el.isEditing() && el.isAdd && el.contents.getKey() === item.contents.getKey()) {
+                    if (el.isEditing() && el.isAdd && el.contents.getKey() === item.getKey()) {
                         sourceIndex = index;
                     }
                 });
@@ -2477,17 +2481,70 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this.getIndex(this.getItemBySourceKey(key) as T);
     }
 
-    getFirstItem(): S {
-        if (this.getCount() > 0) {
-            return this.getFirst().getContents();
+    // region Аспект "крайние записи"
+
+    getLastItem(): EntityModel {
+        if (!this._lastItem) {
+            this._lastItem = this.getCollection().at(this.getCollection().getCount() - 1);
+        }
+        return this._lastItem;
+    }
+
+    getFirstItem(): EntityModel<any> {
+        if (!this._firstItem) {
+            this._firstItem = this.getCollection().at(0);
+        }
+        return this._firstItem;
+    }
+
+    protected _updateEdgeItems(): void {
+        if (this._$collection['[Types/_collection/RecordSet]']) {
+            this._updateLastItem();
+            this._updateFirstItem();
         }
     }
 
-    getLastItem(): S {
-        if (this.getCount() > 0) {
-            return this.getLast().getContents();
+    protected _isLastItem(item: EntityModel): boolean {
+        const lastItem = this.getLastItem();
+        return this._getItemKey(lastItem) === this._getItemKey(item);
+    }
+
+    protected _isFirstItem(item: EntityModel): boolean {
+        const firstItem = this.getFirstItem();
+        return this._getItemKey(firstItem) === this._getItemKey(item);;
+    }
+
+    private _getItemKey(item: EntityModel | object): number | string {
+        return item && ((item as EntityModel).getKey ? (item as EntityModel).getKey() : item[this._$keyProperty]);
+    }
+
+    private _setFirstCollectionItemState(firstItem: EntityModel, value: boolean): void {
+        const firstCollectionItem = this.getItemBySourceItem(firstItem);
+        if (firstCollectionItem) {
+            firstCollectionItem.setIsFirstItem(value);
         }
     }
+
+    private _setLastCollectionItemState(lastItem: EntityModel, value: boolean): void {
+        const lastCollectionItem = this.getItemBySourceItem(lastItem);
+        if (lastCollectionItem) {
+            lastCollectionItem.setIsLastItem(value);
+        }
+    }
+
+    private _updateFirstItem(): void {
+        this._setFirstCollectionItemState(this.getFirstItem(), false);
+        this._firstItem = null;
+        this._setFirstCollectionItemState(this.getFirstItem(), true);
+    }
+
+    private _updateLastItem(): void {
+        this._setLastCollectionItemState(this.getLastItem(), false);
+        this._lastItem = null;
+        this._setLastCollectionItemState(this.getLastItem(), true);
+    }
+
+    // endregion Аспект "крайние записи"
 
     getHasMoreData(): boolean {
         return this._$hasMoreData;
@@ -3109,6 +3166,12 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.bottomPadding = this._$bottomPadding;
             options.searchValue = this._$searchValue;
             options.markerPosition = this._$markerPosition;
+
+            if (this._$collection['[Types/_collection/RecordSet]']) {
+                options.isLastItem = this._isLastItem(options.contents);
+                options.isFirstItem = this._isFirstItem(options.contents);
+            }
+
             return create(options.itemModule || this._itemModule, options);
         };
     }

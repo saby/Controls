@@ -1,0 +1,27 @@
+<div class="ControlsDemo-Tabs__width">
+    <Controls.tabs:Buttons
+            bind:selectedKey='_selectedKey'
+            keyProperty="id"
+            items="{{_items}}"/>
+    <div class="ControlsDemo-Tabs__width-tabsCount ws-flexbox">
+        <Controls.input:Label caption="tabs count:"/>
+        <Controls.input:Number
+                value="{{ _count }}"
+                on:valueChanged="_valueChanged()"/>
+    </div>
+    <div class="ControlsDemo-Tabs__configurator ws-flexbox">
+        <ws:for data="index, item in _itemsArray">
+            <div class="ws-flexbox">
+                <div attr:class="ControlsDemo-Tabs__configurator-item">
+                    <Controls.heading:Title
+                        caption="{{index}}"
+                        />
+                </div>
+                <Controls.propertyGrid:PropertyGrid
+                    editingObject="{{ item }}"
+                    on:editingObjectChanged="_itemSettingsChanged(index)"
+                    source="{{_propertyGridSource}}"/>
+            </div>
+        </ws:for>
+    </div>
+</div>
