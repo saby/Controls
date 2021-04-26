@@ -49,18 +49,22 @@
 }
 
 .controls-PeriodLiteDialog__width-medium {
-   width: var(--monthly_width_shortDatePicker);
+   width: calc(var(--quarterly-monthly_width_shortDatePicker) + 2 * var(--border-thickness_shortDatePicker));
 }
 
 .controls-PeriodLiteDialog__height-medium {
-   max-height: var(--height_shortDatePicker)
+   max-height: var(--height_shortDatePicker);
 }
 
 .controls-PeriodLiteDialog__width-small {
-   width: calc(var(--width_shortDatePicker) + 2 * var(--border-thickness_shortDatePicker));
+   width: var(--monthly_width_shortDatePicker);
 }
 
 .controls-PeriodLiteDialog__height-small {
+   max-height: var(--height_shortDatePicker);
+}
+
+.controls-PeriodLiteDialog__width-year-list {
    width: calc(var(--width_shortDatePicker) + 2 * var(--border-thickness_shortDatePicker));
 }
 
@@ -301,6 +305,10 @@
    margin: 0 calc((var(--quarterly_quarters_width_shortDatePicker) + var(--separator_thickness_shortDatePicker))) 0 0;
 }
 
+.controls-PeriodLiteDialog_monthsAndQuarters-item__month-wrapper {
+   width: calc(var(--quarterly-monthly_width_shortDatePicker) - var(--separator_thickness_shortDatePicker) - var(--quarterly_quarters_width_shortDatePicker));
+}
+
 .controls-PeriodLiteDialog-item__month-background {
    background-color: var(--background-color_shortDatePicker);
 }
@@ -389,6 +397,15 @@
 .controls-PeriodLiteDialog_calendarBody {
    position: relative;
    border-bottom: var(--separator_thickness_shortDatePicker) solid var(--separator_color_shortDatePicker);
+}
+
+.controls-PeriodLiteDialog_monthsAndQuarters-item__quarter {
+   position: relative;
+   margin: 0 0 var(--separator_thickness_shortDatePicker) 0;
+}
+
+.controls-PeriodLiteDialog_monthsAndQuarters-item__quarter:nth-last-of-type(1) {
+   margin-bottom: 0;
 }
 
 .ws-is-mobile-android {
