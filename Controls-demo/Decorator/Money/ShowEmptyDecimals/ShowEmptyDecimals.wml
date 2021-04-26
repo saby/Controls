@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label">value = 1234.00, showEmptyDecimals = true</div>
+      <Controls.decorator:Money value="{{1234.00}}" showEmptyDecimals="{{true}}"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label">value = 1234.00, showEmptyDecimals = false</div>
+      <Controls.decorator:Money value="{{1234.00}}" showEmptyDecimals="{{false}}"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label">value = 1234.56, showEmptyDecimals = false</div>
+      <Controls.decorator:Money value="{{1234.56}}" showEmptyDecimals="{{false}}"/>
+   </div>
+</div>
