@@ -1,0 +1,24 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell ws-flexbox ws-flex-column">
+        <div class="controlsDemo__mb1">
+            <div class="controls-text-label_theme-{{_options.theme}}">visible={{_visible}}</div>
+        </div>
+        <Controls.LoadingIndicator
+                name="LocalIndicator2"
+                attr:class="controls-demo__indicator_inst"
+                isGlobal="{{false}}"
+                overlay="dark"
+                delay="{{0}}"
+                visible="{{_visible}}">
+            <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+            </div>
+        </Controls.LoadingIndicator>
+        <div attr:style="padding-top:20px">
+            <Controls.buttons:Button attr:class='controlsDemo__viewMode-button1'
+                                     on:click="_handleClick()"
+                                     caption="{{_visible ? 'not visible' : 'visible'}}"></Controls.buttons:Button>
+        </div>
+    </div>
+</div>
