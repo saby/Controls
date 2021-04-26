@@ -107,7 +107,7 @@ const _private = {
             });
         }
 
-        if (!options.hasOwnProperty('expandedItems')) {
+        if (!options.hasOwnProperty('expandedItems') || options.markerMoveMode === 'leaves') {
             model.setExpandedItems(newExpandedItems);
             self.getSourceController().setExpandedItems(newExpandedItems);
         }
@@ -1044,16 +1044,16 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     protected _afterItemsSet(options): void {
         super._afterItemsSet.apply(this, arguments);
         if (options.markerMoveMode === 'leaves') {
-            this.setMarkerOnFirstLeaf();
+            this.setMarkerOnFirstLeaf(options);
         }
     }
     protected _afterCollectionReset(): void {
         super._afterCollectionReset.apply(this, arguments);
         if (this._options.markerMoveMode === 'leaves') {
-            this.setMarkerOnFirstLeaf();
+            this.setMarkerOnFirstLeaf(this._options);
         }
     }
-    private setMarkerOnFirstLeaf() {
+    private setMarkerOnFirstLeaf(options) {
         const markerController = this.getMarkerController();
         const model = this._listViewModel;
         const list = model.getCollection();
@@ -1066,10 +1066,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     this._doAfterItemExpanded = null;
                     this._applyMarkedLeaf(itemKey, model, markerController);
                 };
-                this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, this._options);
-                if (this._expandedItemsToNotify) {
-                    model.setExpandedItems(this._expandedItemsToNotify);
-                }
+                this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, options);
             } else {
                 this._applyMarkedLeaf(current.getKey(), model, markerController);
             }
@@ -1131,17 +1128,17 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
-    private _expandToFirstLeaf(key: CrudEntityKey, items): CrudEntityKey[] {
+    private _expandToFirstLeaf(key: CrudEntityKey, items, options): CrudEntityKey[] {
         if (items.getCount()) {
             const model = this._listViewModel;
             const expanded = [key];
             const item = model.getItemBySourceKey(key);
             // TODO после полного перехода на новую модель в getChildren передавать только элемент списка
             //  https://online.sbis.ru/opendoc.html?guid=624e1380-3b9b-45dd-9825-a7188dd7c52e
-            let curItem = model._getChildrenByRecordSet(item.getContents())[0];
-            while (curItem && curItem.get(this._options.nodeProperty) !== null) {
+            let curItem = model.getChildrenByRecordSet(item.getContents())[0];
+            while (curItem && curItem.get(options.nodeProperty) !== null) {
                 expanded.push(curItem.getKey());
-                curItem = model._getChildrenByRecordSet(curItem)[0];
+                curItem = model.getChildrenByRecordSet(curItem)[0];
             }
             if (curItem && this._doAfterItemExpanded) {
                 this._doAfterItemExpanded(curItem.getKey());
@@ -1152,10 +1149,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _getMarkedLeaf(key: CrudEntityKey, model): 'first' | 'last' | 'middle' | 'single' {
         const index = model.getIndexByKey(key);
-        const hasNextLeaf = index < model.getCount() - 1 || model.getHasMoreData();
+        const hasNextLeaf = model.getLastItem().get(model.getKeyProperty()) !== key || model.getHasMoreData();
         let hasPrevLeaf = false;
         for (let i = index - 1; i >= 0; i--) {
-            if (model.at(i).isNode() === null || !this._isExpanded(model.at(i), model)) {
+            if (model.at(i).isNode() === null || !this._isExpanded(model.at(i).getContents(), model)) {
                 hasPrevLeaf = true;
                 break;
             }
@@ -1189,7 +1186,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                             this._doAfterItemExpanded = null;
                             this.goToNext(model, markerController);
                         };
-                        if (this._isExpanded(dispItem, model)) {
+                        if (this._isExpanded(item, model)) {
                             this._doAfterItemExpanded();
                             resolve();
                         } else {
@@ -1217,7 +1214,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 }
             };
 
-            if (key === model.at(model.getStopIndex() - 1).key) {
+            if (key === model.getLastItem().key) {
                 this._shiftToDirection('down').then(goToNextItem);
             } else {
                 goToNextItem();
@@ -1238,7 +1235,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                         this._doAfterItemExpanded = null;
                         this.goToPrev(model, markerController);
                     };
-                    if (this._isExpanded(dispItem, model)) {
+                    if (this._isExpanded(item, model)) {
                         this._tempItem = itemKey;
                         this._doAfterItemExpanded();
                         resolve();
@@ -1283,6 +1280,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
         if (this._isMounted) {
             this._changeMarkedKey(this._currentItem);
+        } else {
+            markerController.setMarkedKey(this._currentItem);
         }
 
         this._tempItem = null;
@@ -1300,18 +1299,18 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     getNextItem(key: CrudEntityKey, model?): Model {
         const listModel = model || this._listViewModel;
-        const nextItem = listModel.getNextByKey(key);
-        return nextItem ? nextItem.getContents() : null;
+        const nextItem = listModel.getNextInRecordSetProjection(key, listModel.getExpandedItems());
+        return nextItem || null;
     }
 
     getPrevItem(key: CrudEntityKey, model?): Model {
         const listModel = model || this._listViewModel;
-        const prevItem = listModel.getPrevByKey(key);
-        return prevItem ? prevItem.getContents() : null;
+        const prevItem = listModel.getPrevInRecordSetProjection(key, listModel.getExpandedItems());
+        return prevItem || null;
     }
 
     private _isExpanded(item, model): boolean {
-        return model.getExpandedItems().indexOf(item.getContents().get(this._keyProperty)) > -1;
+        return model.getExpandedItems().indexOf(item.get(this._keyProperty)) > -1;
     }
 
     protected _getFooterClasses(options): string {
