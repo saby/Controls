@@ -29,6 +29,7 @@ enum ITEM_ALIGN {
 interface ITabButtonItem {
     isMainTab?: boolean;
     align?: 'left' | 'right';
+    canShrink: boolean;
 
     [key: string]: any;
 }
@@ -289,7 +290,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         // TODO: по поручению опишут как и что должно сжиматься.
         // Пока сжимаем только те вкладки, которые прикладники явно пометили
         // https://online.sbis.ru/opendoc.html?guid=cf3f0514-ac78-46cd-9d6a-beb17de3aed8
-        if (item.isMainTab) {
+        if (item.isMainTab || item.canShrink) {
             classes.push('controls-Tabs__item_canShrink');
         } else {
             classes.push('controls-Tabs__item_notShrink');
@@ -321,6 +322,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const style = TabsButtons._prepareStyle(options.style);
 
         if (item.isMainTab) {
+            classes.push('controls-Tabs__item_state_main');
             if (item[options.keyProperty] === options.selectedKey) {
                 classes.push('controls-Tabs__main-marker');
             }
