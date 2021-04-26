@@ -424,6 +424,10 @@ export default abstract class Row<T> {
             creatingColumnsParams[0].isSingleCell = true;
         }
 
+        if (creatingColumnsParams.length > 0) {
+            creatingColumnsParams[0].isFirstDataCell = true;
+        }
+
         return creatingColumnsParams.map((params) => factory(params));
     }
 
