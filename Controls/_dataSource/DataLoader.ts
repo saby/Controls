@@ -93,7 +93,16 @@ function getFilterController(options: IFilterControllerOptions): FilterControlle
 }
 
 function getSourceController(options: ILoadDataConfig): NewSourceController {
-    return (options.sourceController || new NewSourceController(options));
+    let sourceController;
+
+    if (options.sourceController) {
+        sourceController = options.sourceController;
+        sourceController.updateOptions(options);
+    } else {
+        sourceController = new NewSourceController(options);
+    }
+
+    return sourceController;
 }
 
 function getFilterControllerWithHistoryFromLoader(loadConfig: ILoadDataConfig): Promise<IFilterResult> {
