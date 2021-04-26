@@ -17,7 +17,7 @@
          <span class="controls-Paging__btn controls-Paging__btn-Begin
                         controls-Paging__btn_first controls-Paging__arrow
                         controls-Paging__arrow__state-{{_stateTop}}
-                        {{_needLeftPadding('begin', _options.pagingMode, _options.contentTemplate) ? '' : 'controls-Paging__arrow_padding-left-null'}}"
+                        {{_needLeftPadding(_options.pagingMode, _options.contentTemplate) ? '' : 'controls-Paging__arrow_padding-left-null'}}"
                attr:title="{[В начало]}" on:click="_arrowClick('Begin', 'Top')">
             <i class="controls-Paging_icon-Begin{{_isDigit() ? '_digits'}} controls-Paging__icon"></i>
          </span>
@@ -55,7 +55,7 @@
                         {{!_options.showDigits ? ' controls-Paging__btn_separated ' }}
                         controls-Paging__arrow
                         controls-Paging__arrow__state-{{_stateBottom}}
-                        {{_needLeftPadding('end', _options.pagingMode, _options.contentTemplate) ? '' : 'controls-Paging__arrow_padding-left-null'}}"
+                        {{_needLeftPadding(_options.pagingMode, _options.contentTemplate) ? '' : 'controls-Paging__arrow_padding-left-null'}}"
                attr:title="{[В конец]}" on:click="_arrowClick('End', 'Bottom')">
             <i class="controls-Paging_icon-End{{_isDigit() ? '_digits'}} controls-Paging__icon"></i>
          </span>
