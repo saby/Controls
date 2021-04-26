@@ -43,11 +43,11 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         }
     }
 
-    getTileWidth(widthTpl?: number): number {
-        if (this.isNode()) {
+    getTileWidth(widthTpl?: number, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): number {
+        if (this.isNode() && !this.getTileSize()) {
             return widthTpl || this.getFolderWidth() || DEFAULT_FOLDER_WIDTH;
         } else {
-            return super.getTileWidth(widthTpl);
+            return super.getTileWidth(widthTpl, imagePosition, imageViewMode);
         }
     }
 
@@ -145,9 +145,9 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         return classes;
     }
 
-    getItemStyles(itemType: string = 'default', templateWidth?: number, staticHeight?: boolean): string {
+    getItemStyles(itemType: string = 'default', templateWidth?: number, staticHeight?: boolean, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
         if (this.isNode() && (itemType === 'default' || itemType === 'small')) {
-            const width = this.getTileWidth(templateWidth);
+            const width = this.getTileWidth(templateWidth, imagePosition, imageViewMode);
             let styles = `-ms-flex-preferred-size: ${width}px; flex-basis: ${width}px;`;
 
             if (staticHeight) {
@@ -156,7 +156,7 @@ export default class TreeTileCollectionItem<T extends Model = Model>
 
             return styles;
         } else {
-            return super.getItemStyles(itemType, templateWidth, staticHeight);
+            return super.getItemStyles(itemType, templateWidth, staticHeight, imagePosition, imageViewMode);
         }
     }
 

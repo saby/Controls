@@ -183,6 +183,7 @@ export default class InvisibleStrategy<
         return {
             ...options,
             itemModule: 'Controls/tile:InvisibleTileItem',
+            contents: prevItem.getContents(),
             theme: display.getTheme(),
             tileWidth: prevItem ? prevItem.getTileWidth() : display.getTileWidth(),
             leftPadding: display.getLeftPadding(),

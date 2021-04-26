@@ -1,53 +1,22 @@
-import { TreeItem } from 'Controls/display';
-import {InvisibleTileItem} from 'Controls/tile';
+import { InvisibleItem } from 'Controls/tile';
+import {mixin} from 'Types/util';
+import TreeTileCollectionItem from './TreeTileCollectionItem';
 
-export default class InvisibleTreeTileItem extends InvisibleTileItem {
-    protected _$node: boolean|null;
-
-    protected _$parent: TreeItem;
-
-    protected _$folderWidth: number;
-
-    isNode(): boolean|null {
-        return this._$node;
+export default class InvisibleTreeTileItem extends mixin<TreeTileCollectionItem, InvisibleItem>(TreeTileCollectionItem, InvisibleItem) {
+    constructor(options: any) {
+        super(options);
+        InvisibleItem.call(this, options);
     }
 
-    setNode(node: boolean|null): void {
-        if (this._$node !== node) {
-            this._$node = node;
-            this._nextVersion();
-        }
-    }
-
-    getFolderWidth(): number {
-        return this._$folderWidth;
-    }
-
-    setFolderWidth(folderWidth: number): void {
-        if (this._$folderWidth !== folderWidth) {
-            this._$folderWidth = folderWidth;
-            this._nextVersion();
-        }
-    }
-
-    getTileWidth(): number {
-        if (this.isNode()) {
-            return this.getFolderWidth() || super.getTileWidth();
-        } else {
-            return super.getTileWidth();
-        }
-    }
-
-    getParent(): TreeItem {
-        return this._$parent;
+    // переопределяем key, т.к. по дефолту он берется из contents, но в пачке невидимых элементов одинаковый contents,
+    // поэтому падает ошибка с дубликатами ключе в верстке
+    get key(): string {
+        return this._instancePrefix + this.getInstanceId();
     }
 }
 
 Object.assign(InvisibleTreeTileItem.prototype, {
     '[Controls/_treeTile/InvisibleTreeTileItem]': true,
     _moduleName: 'Controls/treeTile:InvisibleTreeTileItem',
-    _instancePrefix: 'invisible-tree-tile-item-',
-    _$folderWidth: null,
-    _$node: null,
-    _$parent: null
+    _instancePrefix: 'invisible-tree-tile-item-'
 });
