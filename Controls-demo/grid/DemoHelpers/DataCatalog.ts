@@ -415,21 +415,21 @@ const getCountriesStats = () => {
                 width: 'max-content',
                 result: 3956986345,
                 resultTemplate: resultCellTpl,
-                compatibleWidth: '100px'
+                compatibleWidth: '118px'
             },
             {
                 displayProperty: 'square',
                 width: 'max-content',
                 result: 12423523,
                 resultTemplate: resultCellTpl,
-                compatibleWidth: '83px'
+                compatibleWidth: '156px'
             },
             {
                 displayProperty: 'populationDensity',
                 width: 'max-content',
                 result: 5.8,
                 resultTemplate: resultCellTpl,
-                compatibleWidth: '175px'
+                compatibleWidth: '60px'
             }
         ],
         getColumnsForDragScrolling: (): IColumn[] => ([
