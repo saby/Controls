@@ -80,6 +80,10 @@ class Paging extends Control<IPagingOptions> {
         return (state === 'visible') ? 'normal' : 'disabled';
     }
 
+    private _needLeftPadding(pagingMode, contentTemplate) {
+        return !(contentTemplate && (pagingMode === 'edge' || pagingMode === 'end'))
+    }
+
     private _getArrowStateVisibility(state: string): string {
         if (this._options.arrowState) {
             return this._options.arrowState[state] || 'visible';

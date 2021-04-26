@@ -9,9 +9,10 @@ interface IResultsCellOptions<T> extends IBaseCellOptions<T> {
 
 const FIXED_RESULTS_Z_INDEX = 4;
 const STICKY_RESULTS_Z_INDEX = 3;
+export const GRID_RESULTS_CELL_DEFAULT_TEMPLATE: string = 'Controls/grid:ResultColumnTemplate';
 
 class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
-    protected readonly _defaultCellTemplate: string = 'Controls/grid:ResultColumnTemplate';
+    protected readonly _defaultCellTemplate: string = GRID_RESULTS_CELL_DEFAULT_TEMPLATE;
     protected _$metaResults: EntityModel;
     protected _data: string | number;
     protected _format: string;
@@ -25,7 +26,8 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
     //  Перегрузка необходима из за того, что конфигурация результатов объединена с колонками.
     //  Если результаты будут иметь отдельную опцию под конфиг, то будет полная однородность, метод будет не нужен.
     getTemplate(): TemplateFunction | string {
-        const customTemplate = this._$isSingleCell ? this._$column.template : this._$column.resultTemplate;
+        const customTemplate = this._$isSingleCell ?
+            (this._$column.resultTemplate || this._$column.template) : this._$column.resultTemplate;
         return customTemplate || this._defaultCellTemplate;
     }
 
@@ -116,7 +118,10 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
 
         if (!this.isFirstColumn()) {
             if (this._$owner.getMultiSelectVisibility() === 'hidden' || this.getColumnIndex() > 1) {
-                classes += ` controls-Grid__cell_spacingLeft${compatibleLeftPadding}`;
+                classes += ' controls-Grid__cell_spacingLeft';
+                if (compatibleLeftPadding) {
+                    classes += `_${compatibleLeftPadding}`;
+                }
             }
         } else {
             classes += ` controls-Grid__cell_spacingFirstCol_${leftPadding}`;
@@ -126,7 +131,10 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
         if (this.isLastColumn()) {
             classes += ` controls-Grid__cell_spacingLastCol_${rightPadding}`;
         } else {
-            classes += ` controls-Grid__cell_spacingRight${compatibleRightPadding}`;
+            classes += ' controls-Grid__cell_spacingRight';
+            if (compatibleRightPadding) {
+                classes += `_${compatibleRightPadding}`;
+            }
         }
 
         return classes;

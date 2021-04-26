@@ -135,7 +135,6 @@ var Suggest = Control.extend({
 Suggest.getOptionTypes = getOptionTypes;
 Suggest.getDefaultOptions = function() {
    return {
-      borderVisibility: 'visible',
       minSearchLength: 3
    };
 };
@@ -157,4 +156,11 @@ Object.defineProperty(Suggest, 'defaultProps', {
  * @name Controls/_suggest/Input#showSelector
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  */
+
+/**
+ * @name Controls/_suggest/Input#fontSize
+ * @cfg
+ * @demo Controls-demo/Suggest_new/Input/FontSize/Index
+ */
+
 export = Suggest;

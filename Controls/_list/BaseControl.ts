@@ -1638,6 +1638,7 @@ const _private = {
         removedItems: Array<CollectionItem<Model>>,
         removedItemsIndex: number
     ): void {
+
         // TODO Понять, какое ускорение мы получим, если будем лучше фильтровать
         // изменения по changesType в новой модели
         // TODO: убрать флаг newModelChanged, когда не будет "старой" модели
@@ -1854,10 +1855,9 @@ const _private = {
     initListViewModelHandler(self, model, useNewModel: boolean) {
         if (useNewModel) {
             model.subscribe('onCollectionChange', (...args: any[]) => {
-                _private.onCollectionChanged.apply(
-                    null,
+                self._onCollectionChanged.apply(
+                    self,
                     [
-                        self,
                         args[0], // event
                         null, // changes type
                         ...args.slice(1) // the rest of the arguments
@@ -1876,7 +1876,7 @@ const _private = {
                 );
             });
         } else {
-            model.subscribe('onListChange', _private.onCollectionChanged.bind(null, self));
+            model.subscribe('onListChange', self._onCollectionChanged.bind(self));
             model.subscribe('onAfterCollectionChange', _private.onAfterCollectionChanged.bind(null, self));
         }
 
@@ -3159,6 +3159,15 @@ const _private = {
                 if (self._children.listView.beforeRowActivated) {
                     self._children.listView.beforeRowActivated();
                 }
+                // todo Нативный scrollIntoView приводит к прокрутке в том числе и по горизонтали и запретить её никак.
+                // Решением стало отключить прокрутку при видимом горизонтальном скролле.
+                // https://online.sbis.ru/opendoc.html?guid=d07d149e-7eaf-491f-a69a-c87a50596dfe
+                const hasColumnScroll = self._children.listView &&
+                    self._children.listView.isColumnScrollVisible &&
+                    self._children.listView.isColumnScrollVisible();
+                if (hasColumnScroll) {
+                    enableScrollToElement = false;
+                }
                 const rowActivator = self._children.listView.activateEditingRow.bind(self._children.listView, enableScrollToElement);
                 return rowActivator();
             };
@@ -3186,7 +3195,9 @@ const _private = {
     },
 
     removeHoverEnabledClass(self): void {
-        self._addHoverEnabledClass = false;
+        if (!self._destroyed) {
+            self._addHoverEnabledClass = false;
+        }
     },
 
     getViewUniqueClass(self): string {
@@ -3389,7 +3400,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _addShowActionsClass = false;
 
     // По умолчанию считаем, что необходимо разрешить hover на списке
-    _addHoverEnabledClass = true;
+    _addHoverEnabledClass: boolean = true;
 
     // Идентификатор текущего открытого popup
     _itemActionsMenuId = null;
@@ -3566,7 +3577,22 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     protected _afterItemsSet(options): void {
         // для переопределения
     }
-
+    protected _onCollectionChanged(
+        event: SyntheticEvent,
+        changesType: string,
+        action: string,
+        newItems: Array<CollectionItem<Model>>,
+        newItemsIndex: number,
+        removedItems: Array<CollectionItem<Model>>,
+        removedItemsIndex: number): void {
+        _private.onCollectionChanged(this, event, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex);
+        if (action === IObservable.ACTION_RESET) {
+            this._afterCollectionReset();
+        }
+    }
+    protected _afterCollectionReset(): void {
+        // для переопределения
+    }
     _prepareItemsOnMount(self, newOptions, receivedState: IReceivedState = {}): Promise<unknown> | void {
         let items;
         let collapsedGroups;
@@ -4111,7 +4137,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._updateScrollController(newOptions);
         }
 
-        if (_private.hasMarkerController(this)) {
+        if (_private.hasMarkerController(this) && this._listViewModel) {
             _private.getMarkerController(this).updateOptions({
                 model: this._listViewModel,
                 markerVisibility: newOptions.markerVisibility
@@ -4150,6 +4176,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (items && (this._listViewModel && !this._listViewModel.getCollection() || this._items !== items)) {
                 if (!this._listViewModel) {
                     _private.initializeModel(this, newOptions, items);
+                    if (_private.hasMarkerController(this)) {
+                        _private.getMarkerController(this).updateOptions({
+                            model: this._listViewModel,
+                            markerVisibility: newOptions.markerVisibility
+                        });
+                    }
                 }
 
                 const isActionsAssigned = this._listViewModel.isActionsAssigned();
@@ -4738,7 +4770,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     // Проверяем видимость триггеров после перерисовки.
     // Если видимость не изменилась, то события не будет, а обработать нужно.
     checkTriggersVisibility(): void {
-        if (this._destroyed) {
+        if (this._destroyed || this.__error) {
             return;
         }
         const triggerDown = this._loadTriggerVisibility.down;
@@ -5082,6 +5114,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     _private.resolveIsLoadNeededByNavigationAfterReload(self, cfg, list);
                 });
             }).addErrback(function(error: Error) {
+                if (self._destroyed) {
+                    return;
+                }
                 _private.hideIndicator(self);
                 return _private.processError(self, {
                     error
@@ -5253,9 +5288,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _onItemClick(e, item, originalEvent, columnIndex = null) {
         _private.closeSwipe(this);
-        if (this.isLoading() && !_private.isPortionedLoad(this)) {
-            return;
-        }
         if (this._itemActionMouseDown) {
             // Не нужно кликать по Item, если MouseDown был сделан по ItemAction
             this._itemActionMouseDown = null;
@@ -5643,7 +5675,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             let shouldActivateInput = true;
             if (this._listViewModel['[Controls/_display/grid/mixins/Grid]']) {
                 shouldActivateInput = false;
-                this._editInPlaceInputHelper.setInputForFastEdit(nativeEvent.target, collection.getIndexBySourceItem(item));
+                this._editInPlaceInputHelper.setInputForFastEdit(nativeEvent.target, direction);
             }
             return this._beginEdit({ item }, { shouldActivateInput, columnIndex });
         };
@@ -5887,9 +5919,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _itemMouseDown(event, itemData, domEvent) {
-        if (this.isLoading() && !_private.isPortionedLoad(this)) {
-            return;
-        }
         // При клике в операцию записи не нужно посылать событие itemMouseDown. Останавливать mouseDown в
         // методе _onItemActionMouseDown нельзя, т.к. тогда оно не добросится до Application
         this._itemActionMouseDown = null;
@@ -5899,7 +5928,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             return;
         }
         let hasDragScrolling = false;
-        this._mouseDownItemKey = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
+        if (this._options.useNewModel) {
+            const contents = _private.getPlainItemContents(itemData);
+            this._mouseDownItemKey = contents.getKey();
+        } else {
+            this._mouseDownItemKey = itemData.key;
+        }
         if (this._options.columnScroll) {
             // Не должно быть завязки на горизонтальный скролл.
             // https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
@@ -5919,10 +5953,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _itemMouseUp(e, itemData, domEvent): void {
-        if (this.isLoading() && !_private.isPortionedLoad(this)) {
-            return;
+        let key;
+        if (this._options.useNewModel) {
+            const contents = _private.getPlainItemContents(itemData);
+            key = contents.getKey();
+        } else {
+            key = itemData.key;
         }
-        const key = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
         // Маркер должен ставиться именно по событию mouseUp, т.к. есть сценарии при которых блок над которым произошло
         // событие mouseDown и блок над которым произошло событие mouseUp - это разные блоки.
         // Например, записи в мастере или запись в списке с dragScrolling'ом.
@@ -6110,7 +6147,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             !this._itemActionsMenuId) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
-            this._hoverFreezeController.startFreezeHoverTimeout(itemKey, itemIndex);
+            this._hoverFreezeController.startFreezeHoverTimeout(itemKey, itemIndex, this._listViewModel.getStartIndex());
         }
     }
 
@@ -6127,7 +6164,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 if (!_private.hasHoverFreezeController(this)) {
                     _private.initHoverFreezeController(this);
                 }
-                this._hoverFreezeController.startFreezeHoverTimeout(itemKey, itemIndex);
+                this._hoverFreezeController.startFreezeHoverTimeout(itemKey, itemIndex, this._listViewModel.getStartIndex());
             }
         }
         this._notify('itemMouseEnter', [itemData.item, nativeEvent]);
@@ -6150,7 +6187,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (hoverFreezeController && itemData.ItemActionsItem) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
-            hoverFreezeController.setDelayedHoverItem(itemKey, itemIndex);
+            hoverFreezeController.setDelayedHoverItem(itemKey, itemIndex, this._listViewModel.getStartIndex());
         }
     }
 

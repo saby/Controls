@@ -1,0 +1,19 @@
+<div class="{{!_options.hideBackground ? 'popup-page-background'}}">
+    <div class="{{!_options.hideBackground ? 'controls-Popup__stack-target-container popup-page-target-container'}}">
+        <Controls.popup:Sticky name="sticky"
+                               template="Controls-demo/Popup/Opener/resources/DialogTpl">
+            <ws:direction
+                    vertical = 'bottom'
+                    horizontal = 'left'/>
+            <ws:targetPoint vertical="bottom" horizontal="left"/>
+        </Controls.popup:Sticky>
+        <div class="{{!_options.hideBackground ? 'popup-page-buttons'}}">
+            <div >
+                <Controls.buttons:Button attr:class="demo-StackDemo__stickyClose" caption="Open Sticky(close on scroll)" name="stickyButton" on:click="openStickyScroll()"/>
+            </div>
+            <div >
+                <Controls.buttons:Button attr:class="demo-StackDemo__stickyTrack" caption="Open Sticky(track on scroll)" name="stickyButton2" on:click="openSticky()"/>
+            </div>
+        </div>
+    </div>
+</div>

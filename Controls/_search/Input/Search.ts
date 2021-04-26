@@ -6,6 +6,7 @@ import {descriptor} from 'Types/entity';
 import {constants} from 'Env/Env';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {default as Store} from 'Controls/Store';
+import {ContextOptions} from 'Controls/context';
 import 'css!Controls/search';
 
 // timer for search, when user click on search button or pressed enter.
@@ -22,6 +23,12 @@ let _private = {
     }
 };
 
+interface IContrastBackgroundContext {
+    searchOptions: {
+        contrastBackground: boolean
+    };
+}
+
 /**
  * Контрол "Строка поиска". Является однострочным полем ввода. Контрол используют в реестрах для ввода поискового запроса.
  * Функционал контрола идентичен полям ввода из библиотеки {@link Controls/input}, однако в отличие от них имеет собственное визуальное оформление.
@@ -32,7 +39,7 @@ let _private = {
  * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/ руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия}
  * * {@link https://github.com/saby/wasaby-controls/blob/691ea993b54186e06053160a2c88d66fb629f4ed/Controls-default-theme/variables/_search.less переменные тем оформления}
  *
- * @class Controls/_search/Input/Search
+ * @mixes Controls/search:Input
  * @extends Controls/_input/Base
  *
  * @mixes Controls/input:IText
@@ -56,7 +63,7 @@ let _private = {
  * <a href="/materials/Controls-demo/app/Controls-demo%2FSearch%2FContainer">Demo with Input/Search and List control</a>.
  * <a href="/materials/Controls-demo/app/Controls-demo%2FFilterSearch%2FFilterSearch">Demo with Filter/Button, Input/Search and List control</a>.
  *
- * @class Controls/_search/Input/Search
+ * @mixes Controls/search:Input
  * @extends Controls/_input/Base
  *
  * @mixes Controls/input:IText
@@ -95,7 +102,7 @@ class Search extends Base {
 
     protected _renderStyle(): string {
         let style: string;
-        if (this._options.contrastBackground) {
+        if (this._options.contrastBackground || this._context?.searchOptions?.contrastBackground) {
             style = 'searchContrast';
         } else {
             style = 'search';
@@ -203,6 +210,12 @@ class Search extends Base {
     }
 
     static _private = _private;
+
+    static contextTypes(): IContrastBackgroundContext {
+        return {
+            searchOptions: ContextOptions
+        };
+    }
 
     static getDefaultOptions(): object {
        let defaultOptions = Base.getDefaultOptions();

@@ -5,6 +5,7 @@
  * @includes AdapterMask Controls/_input/Adapter/Mask
  * @includes ISelection Controls/_input/interface/ISelection
  * @includes IArea Controls/_input/interface/IArea
+ * @includes IBorderVisibility Controls/_input/interface/IBorderVisibility
  * @public
  * @author Крайнов Д.О.
  */

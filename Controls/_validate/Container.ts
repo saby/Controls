@@ -274,24 +274,27 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
     }
 
     private _openInfoBox(): void {
-        this._clearCloseId();
-        if (this._validationResult && this._validationResult.length && !this._isOpened) {
-            this._isOpened = true;
-            const cfg = {
-                target: this._container,
-                validationStatus: 'invalid',
-                template: this._options.errorTemplate,
-                templateOptions: {errors: this._validationResult},
-                closeOnOutsideClick: false,
-                eventHandlers: {
-                    onResult: this._mouseInfoboxHandler.bind(this),
-                    onClose: this._closeHandler.bind(this)
-                }
-            };
+        if (!this._destroyed) {
+            this._clearCloseId();
+            if (this._validationResult && this._validationResult.length && !this._isOpened) {
+                this._isOpened = true;
+                const cfg = {
+                    target: this._container,
+                    validationStatus: 'invalid',
+                    template: this._options.errorTemplate,
+                    templateOptions: {errors: this._validationResult},
+                    closeOnOutsideClick: false,
+                    eventHandlers: {
+                        onResult: this._mouseInfoboxHandler.bind(this),
+                        onClose: this._closeHandler.bind(this)
+                    }
+                };
 
-            this._callInfoBox(cfg);
+                this._callInfoBox(cfg);
+            }
         }
     }
+
     private _callInfoBox(cfg): void {
         // todo https://online.sbis.ru/opendoc.html?guid=dedf534a-3498-4b93-b09c-0f36f7c91ab5
         if (this._isNewEnvironment) {

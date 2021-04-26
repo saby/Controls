@@ -1,10 +1,5 @@
 import {IControlOptions} from 'UI/Base';
 
-/**
- * Опции интерфейса описаны {@link Controls/_popup/interface/IPreviewer здесь}.
- * @public
- * @author Красильников А.С.
- */
 export interface IPreviewerOptions extends IControlOptions {
     content?: Function;
     trigger: string;

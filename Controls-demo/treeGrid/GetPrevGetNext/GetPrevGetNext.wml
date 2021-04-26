@@ -4,7 +4,7 @@
         <button attr:disabled="{{_markedLeaf === 'last'}}" on:click="_goToNext()">Следующая</button>
     </div>
     <Controls.scroll:Container>
-        <Controls.treeGridOld:View
+        <Controls.treeGrid:View
                 keyProperty="id"
                 name="tree"
                 markerVisibility="visible"

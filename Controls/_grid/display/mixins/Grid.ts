@@ -5,10 +5,10 @@ import {
     THeader,
     IColumn,
     TColumns,
-    TColumnSeparatorSize
+    TColumnSeparatorSize, INavigationOptionValue
 } from 'Controls/interface';
 
-import { IViewIterator, GridLadderUtil, ILadderObject} from 'Controls/display';
+import { IViewIterator, GridLadderUtil, ILadderObject, IBaseCollection } from 'Controls/display';
 
 import Header from '../Header';
 import TableHeader from '../TableHeader';
@@ -180,7 +180,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 columns: this._$columns,
                 owner: this,
                 header: this._$header,
-                sorting: this._$sorting
+                sorting: this._$sorting,
+                multiSelectVisibility: this._$multiSelectVisibility
             } as IOptions);
         }
 
@@ -233,11 +234,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     setColspanCallback(colspanCallback: TColspanCallback): void {
         this._$colspanCallback = colspanCallback;
-        this.getViewIterator().each((item: GridRowMixin<S>) => {
-            if (item.setColspanCallback) {
-                item.setColspanCallback(colspanCallback);
-            }
-        });
+        this._updateItemsProperty('setColspanCallback', this._$colspanCallback, 'setColspanCallback');
         this._nextVersion();
     }
 
@@ -281,7 +278,15 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         this._$columns = newColumns;
         this._nextVersion();
         // Строки данных, группы
-        this._updateItemsColumns();
+        this._updateItemsProperty('setColumns', this._$columns);
+
+        // В столбцах может измениться stickyProperty, поэтому нужно пересчитать ladder
+        // Проверка, что точно изменился stickyProperty, это не быстрая операция, т.к. columns - массив объектов
+        const supportLadder = GridLadderUtil.isSupportLadder(this._$ladderProperties);
+        if (supportLadder) {
+            this._prepareLadder(this._$ladderProperties, this._$columns);
+            this._updateItemsLadder();
+        }
 
         [this.getColgroup(), this.getHeader(), this.getResults(), this.getFooter()].forEach((gridUnit) => {
             gridUnit?.setColumns(newColumns);
@@ -311,11 +316,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (header) {
             header.setColumnSeparatorSize(columnSeparatorSize);
         }
-        this.getViewIterator().each((item: GridRowMixin<S>) => {
-            if (item.LadderSupport) {
-                item.setColumnSeparatorSize(columnSeparatorSize);
-            }
-        });
+        this._updateItemsProperty('setColumnSeparatorSize', this._$columnSeparatorSize, 'setColumnSeparatorSize');
     }
 
     // TODO удалить после https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
@@ -329,6 +330,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             columns: this._$emptyTemplateColumns,
             rowTemplate: this._$emptyTemplate,
             rowTemplateOptions: this._$emptyTemplateOptions,
+            multiSelectVisibility: this._$multiSelectVisibility
         });
     }
 
@@ -343,7 +345,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _updateItemsLadder(): void {
-        this.getViewIterator().each((item: GridRowMixin<S>, index: number) => {
+        this._getItems().forEach((item: GridRowMixin<S>, index: number) => {
             let ladder;
             let stickyLadder;
             if (this._$ladder) {
@@ -360,28 +362,37 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         });
     }
 
-    protected _updateItemsColumns(): void {
-        this.getViewIterator().each((item: GridRowMixin<S>) => {
-            item.setColumns(this._$columns);
-        });
-    }
-
     protected _headerIsVisible(header: THeader): boolean {
         const hasHeader = header && header.length;
         return hasHeader && (this._$headerVisibility === 'visible' || this.getCount() > 0);
+    }
+
+    setResultsPosition(resultsPosition: TResultsPosition): void {
+        if (this._$resultsPosition !== resultsPosition) {
+            this._$resultsPosition = resultsPosition;
+            if (!this._$resultsPosition) {
+                this._$results = null;
+            }
+            this._nextVersion();
+        }
     }
 
     protected _resultsIsVisible(): boolean {
         return !!this._$resultsPosition && (this._$resultsVisibility === 'visible' || this.getCollectionCount() > 1);
     }
 
-    protected _initializeHeader(options: IOptions): Header<S> {
-        const _options = {
+    protected _initializeHeader(options: IOptions): void {
+        const cOptions = {
             ...options,
             owner: this,
             header: options.header
         };
-        this._$headerModel = (this._$isFullGridSupport ? new Header(_options) : new TableHeader(_options));
+        const headerConstructor = this.getHeaderConstructor();
+        this._$headerModel = new headerConstructor(cOptions);
+    }
+
+    getHeaderConstructor(): typeof Header {
+        return this._$isFullGridSupport ? Header : TableHeader;
     }
 
     protected _initializeFooter(options: IOptions): FooterRow<S> {
@@ -475,6 +486,11 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         return this.getMultiSelectVisibility() !== 'hidden' && this.getMultiSelectPosition() !== 'custom';
     }
 
+    setColumnScroll(columnScroll: boolean) {
+        this._$columnScroll = columnScroll;
+        this._nextVersion();
+    }
+
     hasColumnScroll(): boolean {
         return this._$columnScroll;
     }
@@ -512,8 +528,15 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     abstract getMultiSelectVisibility(): string;
     abstract getMultiSelectPosition(): string;
     abstract getItemBySourceItem(item: S): T;
+    abstract getItemBySourceKey(key: string | number): T;
+    abstract getCollection(): IBaseCollection<S, T>;
 
     protected abstract _nextVersion(): void;
+    protected abstract _getItems(): T[];
+    protected abstract _updateItemsProperty(updateMethodName: string,
+                                            newPropertyValue: any,
+                                            conditionProperty?: string,
+                                            silent?: boolean): void;
 
     // endregion
 }

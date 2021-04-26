@@ -23,7 +23,7 @@ export interface ISeparatorOptions extends IControlOptions, ICheckableOptions {
  * 
  * @public
  * @author Красильников А.С.
- * @implements Controls/_toggle/interface/ICheckable
+ * @implements Controls/toggle:ICheckable
  *
  * @demo Controls-demo/toggle/Separator/Index
  *
@@ -40,7 +40,7 @@ export interface ISeparatorOptions extends IControlOptions, ICheckableOptions {
  * 
  * @public
  * @author Красильников А.С.
- * @implements Controls/_toggle/interface/ICheckable
+ * @implements Controls/toggle:ICheckable
  *
  * @demo Controls-demo/toggle/Separator/Index
  *

@@ -77,11 +77,14 @@ export default class Marker extends mixin<VersionableMixin>(VersionableMixin) im
      * Устанавливает номер выбранного элемента
      * @param index
      */
-    setSelectedIndex(index: number): void {
+    setSelectedIndex(index: number): boolean {
+        let changed: boolean = false;
         if (index !== this._selectedIndex) {
             this._nextVersion();
             this._selectedIndex = index;
+            changed = true;
         }
+        return changed;
     }
 
     /**

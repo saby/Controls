@@ -544,10 +544,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     protected _processLoadError(error: Error): void {
-        this._onDataError(null, {
-            error,
-            mode: dataSourceError.Mode.include
-        } as TErrbackConfig);
+        if (error && !error.isCanceled) {
+            this._onDataError(null, {
+                error,
+                mode: dataSourceError.Mode.include
+            } as TErrbackConfig);
+        }
     }
 
     protected _onDataError(event: SyntheticEvent, errbackConfig: TErrbackConfig): void {
@@ -709,10 +711,10 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         const searchPromises = [];
 
         this._inputSearchValue = value;
-        this._loading = true;
         event?.stopPropagation();
         this._dataLoader.each((config, id) => {
             if (config.searchParam) {
+                this._loading = true;
                 searchPromises.push(this._dataLoader.getSearchController(id).then((searchController) => {
                     return searchController.search(value);
                 }));
@@ -769,7 +771,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _afterSearch(recordSet: RecordSet): void {
         this._updateParams();
         this._filterChanged(null, this._getSearchControllerSync().getFilter());
-        if (this._getSearchControllerSync().needChangeSearchValueToSwitchedString(recordSet)) {
+        if (this._getSearchControllerSync().needChangeSearchValueToSwitchedString(recordSet) && this._misspellValue) {
             this._setSearchValue(this._misspellValue);
         }
     }

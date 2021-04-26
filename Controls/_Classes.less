@@ -339,6 +339,24 @@
   }
 }
 
+.controls__block {
+  background-color: var(--background-color);
+  border-radius: var(--border-radius_default_block);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+  &.tl {
+    border-radius: var(--border-radius_default_block) 0 0 0;
+  }
+  &.tr {
+    border-radius: 0 var(--border-radius_default_block) 0 0;
+  }
+  &.tlr {
+    border-radius: var(--border-radius_default_block) var(--border-radius_default_block) 0 0;
+  }
+  &.none {
+    border-radius: 0;
+  }
+}
+
 // набор классов для корректного отображения окон
 // Класс для установки фона шапки контрола через backgroundStyle (stackHeader)
 .controls-background-stackHeader_theme-@{themeName} {
@@ -356,6 +374,17 @@
 // Класс для установки фона контрола через backgroundStyle (stack)
 .controls-background-stack_theme-@{themeName} {
   background-color: var(--background-color_stack);
+}
+
+.controls-background- {
+  .for(6, {
+    &blockLayout_@{_i} {
+      background-image: linear-gradient(~"@{background-color_@{_i}_block}" 25%, rgba(~"@{background-color_@{_i}_block}", 0)),
+      linear-gradient(rgba(~"@{background-color_@{_i}_block}", 0), ~"@{background-color_@{_i}_block}" 75%),
+      linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
+      linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
+    }
+  })
 }
 
 .controls-InfoBox__message_theme-@{themeName} {

@@ -34,13 +34,17 @@ class BodyItem extends Control<IShortDatePickerOptions> implements IDateConstruc
 
     protected _formatDate: Function = formatDate;
 
+    protected _isMonthsTemplateString: boolean;
+
     protected _beforeMount(options: IShortDatePickerOptions): void {
         this._template = this._getItemTmplByType(options);
         this._yearModel = this._getYearModel(options.currentYear, options.dateConstructor);
+        this._isMonthsTemplateString = typeof options.monthTemplate === 'string';
     }
 
     protected _beforeUpdate(newOptions: IShortDatePickerOptions): void {
         this._yearModel = this._getYearModel(newOptions.currentYear, newOptions.dateConstructor);
+        this._isMonthsTemplateString = typeof newOptions.monthTemplate === 'string';
     }
 
     protected _getItemTmplByType(options: IShortDatePickerOptions): TemplateFunction {

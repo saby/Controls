@@ -1,0 +1,19 @@
+<ws:template name="INFO_ITEM_TEMPLATE">
+    <div class="controls-list_Characteristics-item" title="{{tooltip}}">
+        <ws:if data="{{icon}}">
+            <Controls.icon:Icon attr:class="controls-list_Characteristics-item_icon"
+                                icon="{{icon}}"
+                                iconSize="s"
+                                iconStyle="label"
+            />
+        </ws:if>
+        <ws:if data="{{title}}">
+            <div class="controls-fontsize-s controls-text-label controls-list_Characteristics-item_title">{{title}}</div>
+        </ws:if>
+    </div>
+</ws:template>
+<div class="controls-list_Characteristics">
+<ws:for data="item in data">
+    <ws:partial template="INFO_ITEM_TEMPLATE" scope="{{item}}"/>
+</ws:for>
+</div>

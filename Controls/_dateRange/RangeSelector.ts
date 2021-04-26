@@ -200,6 +200,12 @@ export default class RangeSelector extends BaseSelector<IRangeSelector> {
  * @param {Date} endValue нижняя граница диапазона дат
  */
 
+/**
+ * @name Controls/_dateRange/RangeSelector#fontSize
+ * @cfg
+ * @demo Controls-demo/dateRange/RangeSelector/FontSize/Index
+ */
+
 Object.defineProperty(RangeSelector, 'defaultProps', {
    enumerable: true,
    configurable: true,

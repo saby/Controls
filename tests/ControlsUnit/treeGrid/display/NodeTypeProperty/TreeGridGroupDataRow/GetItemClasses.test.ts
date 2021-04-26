@@ -28,6 +28,7 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetIte
         columns: [
             { width: '100px' }
         ],
+        isLastItem: true,
         owner
     });
 
@@ -38,7 +39,7 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetIte
             'controls-Grid__row_undefined',
             'controls-ListView__itemV_cursor-pointer',
             'controls-ListView__item_showActions',
-            'controls-Grid__row_last',
+            'controls-ListView__itemV_last',
             'controls-ListView__group'].join(' '));
     });
 });

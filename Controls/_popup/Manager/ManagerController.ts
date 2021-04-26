@@ -4,6 +4,13 @@
 import {Control} from 'UI/Base';
 import Container from 'Controls/_popup/Manager/Container';
 import {IPopupItem, IPopupOptions, IPopupController} from 'Controls/_popup/interface/IPopup';
+
+interface IContentData {
+    left: number;
+    top: number;
+    width: number;
+}
+
 // Модуль, необходимый для работы окон/панелей в слое совместимости
 // В WS2/WS3 модулях нет возможности работать через события, чтобы вызвать методы по работе с окнами
 // т.к. хелперы/инстансы старых компонентов могут не лежать в верстке.
@@ -13,6 +20,8 @@ export default {
     _manager: null,
     _container: null,
     _indicator: null,
+    _contentData: null,
+    _rightTemplate: null,
     _popupHeaderTheme: undefined,
     _theme: undefined,
     _popupSettingsController: undefined,
@@ -119,5 +128,21 @@ export default {
 
     notifyToManager(actionName: string, args: any[]): void {
         this._callManager('eventHandler', [actionName, args]);
+    },
+
+    setContentData(data: IContentData): void {
+        this._contentData = data;
+    },
+
+    getContentData(): IContentData {
+        return this._contentData;
+    },
+
+    setRightTemplate(rightTemplate: string): void {
+        this._rightTemplate = rightTemplate;
+    },
+
+    getRightTemplate(): void {
+        return this._rightTemplate;
     }
 };

@@ -155,6 +155,12 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
     }
 }
 
+/**
+ * @name Controls/_dateRange/RangeShortSelector#fontSize
+ * @cfg
+ * @demo Controls-demo/dateRange/LiteSelector/FontSize/Index
+ */
+
 Object.defineProperty(RangeShortSelector, 'defaultProps', {
    enumerable: true,
    configurable: true,

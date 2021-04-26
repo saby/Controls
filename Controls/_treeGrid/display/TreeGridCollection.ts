@@ -17,6 +17,7 @@ import {
 import TreeGridFooterRow from './TreeGridFooterRow';
 import {Model as EntityModel, Model} from 'Types/entity';
 import {IObservable} from 'Types/collection';
+import {CrudEntityKey} from "Types/source";
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
@@ -94,17 +95,9 @@ export default class TreeGridCollection<
     setMultiSelectVisibility(visibility: string): void {
         super.setMultiSelectVisibility(visibility);
 
-        if (this.getFooter()) {
-            this.getFooter().setMultiSelectVisibility(visibility);
-        }
-
-        if (this.getResults()) {
-            this.getResults().setMultiSelectVisibility(visibility);
-        }
-
-        if (this.getHeader()) {
-            this.getHeader().setMultiSelectVisibility(visibility);
-        }
+        [this.getColgroup(), this.getHeader(), this.getResults(), this.getFooter(), this.getEmptyGridRow()].forEach((gridUnit) => {
+            gridUnit?.setMultiSelectVisibility(visibility);
+        });
 
         this._$colgroup?.reBuild();
     }
@@ -137,7 +130,7 @@ export default class TreeGridCollection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
-        this._updateItemsColumns();
+        this._updateItemsProperty('setColumns', this._$columns);
     }
 
     protected _handleAfterCollectionChange(changedItems: TreeGridDataRow[], changeAction?: string): void {
@@ -173,6 +166,10 @@ export default class TreeGridCollection<
             this._$headerModel = null;
         }
         this._nextVersion();
+    }
+
+    setExpandedItems(expandedKeys: CrudEntityKey[]): void {
+        super.setExpandedItems(expandedKeys);
     }
 
     // endregion
@@ -221,8 +218,8 @@ export default class TreeGridCollection<
         return new TreeGridFooterRow({
             ...options,
             owner: this,
-            footer: options.footer,
-            footerTemplate: options.footerTemplate,
+            columns: options.footer,
+            rowTemplate: options.footerTemplate,
             hasNodeWithChildren: this._hasNodeWithChildren
         });
     }

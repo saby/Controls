@@ -1113,6 +1113,26 @@ define(
             });
          });
 
+         it('_subMenuDataLoadCallback', function() {
+            const menuControl = getMenu();
+            const listModelItems = getDefaultItems();
+            menuControl._listModel = {
+               getCollection: () => new collection.RecordSet({
+                  rawData: listModelItems
+               })
+            };
+            let items = new collection.RecordSet({
+               rawData: [{
+                  key: '1',
+                  icon: 'icon',
+                  caption: 'caption'
+               }]
+            });
+
+            menuControl._subMenuDataLoadCallback(items);
+            assert.equal(menuControl._listModel.getCollection().getFormat().getCount(), 4);
+         });
+
          describe('multiSelect: true', () => {
             it('_beforeUpdate hook', async() => {
                const options = {

@@ -16,7 +16,8 @@ describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
         }),
         getColumnIndex: () => 0,
         getColumnsCount: () => 0,
-        getMultiSelectVisibility: () => 'hidden'
+        getMultiSelectVisibility: () => 'hidden',
+        isAnimatedForSelection: () => false
     };
 
     it('.getContentClasses() should contain background-color classes when hiddenForLadder', () => {

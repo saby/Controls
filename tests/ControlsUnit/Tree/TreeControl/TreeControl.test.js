@@ -1805,6 +1805,8 @@ define([
             source: source,
             columns: [],
             keyProperty: 'id',
+            useNewModel: true,
+            viewModelConstructor: 'Controls/display:Tree',
             parentProperty: 'Раздел',
             nodeProperty: 'Раздел@',
             markerMoveMode: 'leaves',
@@ -1823,7 +1825,7 @@ define([
                newCfg.markedKey = args[0];
             }
          };
-         treeControl.getViewModel().setItems(rs, cfg);
+         treeControl.getViewModel().setCollection(rs);
          treeControl._afterReloadCallback(cfg, rs);
          treeControl._afterMount();
          assert.equal(treeControl._markedLeaf, 'last');
@@ -1951,7 +1953,8 @@ define([
                },
                updateOptions: () => null,
                hasLoaded: () => true,
-               getKeyProperty: () => 'id'
+               getKeyProperty: () => 'id',
+               hasMoreData: () => false
             };
          });
 
@@ -1999,6 +2002,29 @@ define([
 
             assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[null]]).called);
             assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
+         });
+
+         it('remove child keys from expanded items', async () => {
+            model.setExpandedItems([0, 1]);
+            treeControl.saveOptions({...cfg, expandedItems: [0, 1], collapsedItems: []});
+            notifySpy.resetHistory();
+            await treeControl.toggleExpanded(0);
+            assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[]]).called);
+         });
+
+         it('reset flag _needResetExpandedItems', async () => {
+            const source = new sourceLib.Memory({
+               rawData: getHierarchyData(),
+               keyProperty: 'id',
+               filter: () => true
+            });
+
+            treeControl._beforeUpdate({...cfg, root: null, expandedItems: [1], source });
+            treeControl.saveOptions({...cfg, root: null, expandedItems: [1], source });
+            treeControl._beforeUpdate({...cfg, root: 0, expandedItems: [1], source });
+            await treeControl.toggleExpanded(2);
+            treeControl._beforeUpdate({...cfg, root: 0, expandedItems: [1, 2], source });
+            assert.deepEqual(treeControl.getViewModel().getExpandedItems(), [1, 2]);
          });
       });
    });

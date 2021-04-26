@@ -32,7 +32,7 @@ let ManagerController;
  * @class Controls/LoadingIndicator
  * @extends UI/Base:Control
  *
- * @implements Controls/_LoadingIndicator/interface/ILoadingIndicator
+ * @implements Controls/LoadingIndicator/interface/ILoadingIndicator
  * @author Красильников А.С.
  * @public
  * @demo Controls-demo/LoadingIndicator/Overlay/Index
@@ -67,7 +67,7 @@ let ManagerController;
  *
  * @class Controls/LoadingIndicator
  * @extends UI/Base:Control
- * @implements Controls/_LoadingIndicator/interface/ILoadingIndicator
+ * @implements Controls/LoadingIndicator/interface/ILoadingIndicator
  *
  * @author Красильников А.С.
  * @public

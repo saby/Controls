@@ -141,6 +141,7 @@
 .controls-ListView__footer__paddingLeft_default {
    padding-left: var(--item_padding-left_m_list);
 }
+
 .controls-ListView__item_default-topPadding_null,
 .controls-ListView__item_master-topPadding_null,
 .controls-ListView__itemV_marker_master_topPadding-null {
@@ -181,11 +182,9 @@
    }
 }
 
-.controls-ListView__item_master-topPadding_default,
-.controls-ListView__itemV_marker_master_topPadding-default {
+.controls-ListView__item_master-topPadding_default {
    padding-top: var(--master_item_padding-top_list);
 }
-
 
 .controls-ListView__item_default-bottomPadding_null,
 .controls-ListView__item_master-bottomPadding_null,
@@ -209,8 +208,7 @@
    padding-bottom: var(--item_padding-bottom_default_list);
 }
 
-.controls-ListView__item_master-bottomPadding_default,
-.controls-ListView__itemV_marker_master_bottomPadding-default {
+.controls-ListView__item_master-bottomPadding_default {
    padding-bottom: var(--master_item_padding-bottom_list);
 }
 
@@ -597,6 +595,12 @@
 
 .controls-ListView_master {
    box-sizing: border-box;
+   border-radius: var(--master_item_border-radius_list);
+}
+
+.controls-ListView__item__marked_master {
+   font-size: var(--master_item_selected_font-size_list);
+   font-weight: bold;
 }
 
 .controls-ListView__item__unmarked_master {
@@ -623,20 +627,8 @@
    transform: translateZ(0);
 }
 
-.controls-ListView__item__marked_master {
-   font-size: var(--master_item_selected_font-size_list);
-   font-weight: bold;
-   color: var(--master_item_selected_text-color_list);
-}
-
 .controls-ListView__itemV_marker_master {
-   position: absolute;
-   box-sizing: border-box;
-   width: var(--master-marker_thickness_list);
-   background-color: var(--master-marker_color_list);
-   height: 100%;
-   top: 0;
-   left: 0;
+   display: none;
 }
 
 .controls-ListView__groupContent_cursor-default {
@@ -651,10 +643,17 @@
    cursor: pointer;
 }
 
+.controls-ListView__item_master {
+   padding-top: var(--master_item_separator_thickness_list);
+   padding-bottom: var(--master_item_separator_thickness_list);
+   border-radius: var(--master_item_border-radius_list);
+}
+
 //Пока страница не ожила, мы не знаем тач устройство или нет, так что на мобильных устройствах нужно скрыть операции над записью
 //TODO: после этой задачи нужно убрать not https://online.sbis.ru/opendoc.html?guid=87ddbeeb-fa7e-4462-b69b-c15188df61da
 .ws-is-hover:not(.ws-is-mobile-platform) {
-   .controls-ListView__item_master {
+   .controls-ListView__item_master
+   .controls-ListView__itemContent_master {
       &:hover {
          background-color: var(--master_item_hover_background-color_list);
       }
@@ -745,13 +744,24 @@
    border-top-color: var(--item_separator_l_color_list);
 }
 
+// Первая граница списка, самая верхняя
+.controls-ListView__itemV_first {
+   .controls-Grid__rowSeparator_size-s {
+      border-top-color: var(--item_edge_separator_s_color_list);
+   }
+
+   .controls-Grid__rowSeparator_size-l {
+      border-top-color: var(--item_edge_separator_l_color_list);
+   }
+}
+
 // Последняя граница списка, самая нижняя
-.controls-ListView__itemV:last-child {
-   .controls-ListView__rowSeparator_size-s {
+.controls-ListView__itemV_last {
+   .controls-Grid__rowSeparator_size-s {
       border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
    }
 
-   .controls-ListView__rowSeparator_size-l {
+   .controls-Grid__rowSeparator_size-l {
       border-bottom: var(--item-separator_l_thickness_list) solid var(--item_edge_separator_l_color_list);
    }
 }

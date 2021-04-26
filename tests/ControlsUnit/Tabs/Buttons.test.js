@@ -73,7 +73,7 @@ define([
 
       it('prepareItemOrder', function() {
          var
-            expected = '-ms-flex-order:2; order:2';
+            expected = '-ms-flex-order: 2; order: 2;';
          const tabInstance = new tabsMod.Buttons();
          tabInstance._itemsOrder = [2];
          assert.equal(expected, tabInstance._prepareItemOrder(0), 'wrong order cross-brwoser styles');
@@ -141,28 +141,31 @@ define([
                inlineHeight: 's',
                selectedKey: '15',
                keyProperty: 'karambola',
-               theme: 'default'
+               theme: 'default',
+               horizontalPadding: 'xs'
             },
-            expected = 'controls-Tabs__item ' +
-               'controls-Tabs__item_inlineHeight-s ' +
-               'controls-Tabs__item_align_left' +
-               ' controls-Tabs__item_extreme ' +
-               'controls-Tabs__item_extreme_first ' +
-               'controls-Tabs__item_notShrink',
+            expected = 'controls-Tabs__item' +
+               ' controls-Tabs__item_inlineHeight-s' +
+               ' controls-Tabs_horizontal-padding-xs_first' +
+               ' controls-Tabs__item_align_left' +
+               ' controls-Tabs__item_extreme' +
+               ' controls-Tabs__item_extreme_first' +
+               ' controls-Tabs__item_notShrink',
             expected2 = 'controls-Tabs__item' +
                ' controls-Tabs__item_inlineHeight-s' +
                ' controls-Tabs__item_align_right' +
                ' controls-Tabs__item_default' +
-               ' controls-Tabs__item_type_photo ' +
-               'controls-Tabs__item_notShrink',
-            expected3 = 'controls-Tabs__item ' +
-               'controls-Tabs__item_inlineHeight-s ' +
-               'controls-Tabs__item_align_right' +
+               ' controls-Tabs__item_type_photo' +
+               ' controls-Tabs__item_notShrink',
+            expected3 = 'controls-Tabs__item' +
+               ' controls-Tabs__item_inlineHeight-s' +
+               ' controls-Tabs__item_align_right' +
                ' controls-Tabs__item_default' +
                ' controls-Tabs__item_canShrink',
-            expected4 = 'controls-Tabs__item ' +
-               'controls-Tabs__item_inlineHeight-s ' +
-               'controls-Tabs__item_align_right' +
+            expected4 = 'controls-Tabs__item' +
+               ' controls-Tabs__item_inlineHeight-s' +
+               ' controls-Tabs_horizontal-padding-xs_last' +
+               ' controls-Tabs__item_align_right' +
                ' controls-Tabs__item_extreme' +
                ' controls-Tabs__item_extreme_last' +
                ' controls-Tabs__item_notShrink';
@@ -191,8 +194,7 @@ define([
             options = {
                style: 'additional',
                selectedKey: '15',
-               keyProperty: 'karambola',
-               theme: 'default'
+               keyProperty: 'karambola'
             },
             expected = 'controls-Tabs_style_secondary__item_state_selected ' +
                'controls-Tabs__item_state_selected ',
@@ -202,6 +204,57 @@ define([
          assert.equal(expected, tabs._prepareItemSelectedClass(item), 'wrong order cross-brwoser styles');
          assert.equal(expected2, tabs._prepareItemSelectedClass(item2), 'wrong order cross-brwoser styles');
           tabs.destroy();
+      });
+
+      describe('_prepareItemMarkerClass', () => {
+         describe('Main tab', () => {
+            const item = {
+               karambola: '15',
+               isMainTab: true
+            };
+            const options = {
+               selectedKey: '15',
+               keyProperty: 'karambola'
+            };
+            it('should return marker css class if tab selected', () => {
+               const tabs = new tabsMod.Buttons();
+               tabs.saveOptions(options);
+
+               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__item_state_main controls-Tabs__main-marker');
+
+               tabs.destroy();
+            });
+
+            it('should\'t return marker css class if tab not selected', () => {
+               const tabs = new tabsMod.Buttons();
+               tabs.saveOptions({ selectedKey: '16', keyProperty: 'karambola'} );
+
+               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__item_state_main');
+
+               tabs.destroy();
+            });
+         });
+
+         describe('Regular tab', () => {
+            const item = {
+               karambola: '15'
+            };
+            const options = {
+               selectedKey: '15',
+               keyProperty: 'karambola'
+            };
+            it('should return marker css class if tab selected', () => {
+               const tabs = new tabsMod.Buttons();
+               tabs.saveOptions(options);
+
+               assert.equal(
+                  tabs._prepareItemMarkerClass(item),
+                  'controls-Tabs__itemClickableArea_marker controls-Tabs__itemClickableArea_markerThickness-undefined controls-Tabs_style_undefined__item-marker_state_selected'
+               );
+
+               tabs.destroy();
+            });
+         });
       });
 
       it('_prepareItemMarkerClass', function() {
@@ -389,6 +442,47 @@ define([
             tabs.destroy();
          });
 
+      });
+      describe('_prepareItemStyles', () => {
+         it('flex-order without width restrictions', () => {
+            const tabs = new tabsMod.Buttons();
+            const orders = [1, 2, 3, 4];
+            tabs._itemsOrder = orders;
+            const item = {};
+            const index = 3;
+            const styleValue = tabs._prepareItemStyles(item, index);
+            assert.isTrue(styleValue.includes(`order: ${orders[index]};`));
+         });
+         it('number width restrictions', () => {
+            const tabs = new tabsMod.Buttons();
+            tabs._itemsOrder = [1, 2, 3, 4];
+            const item = {
+               width: 123,
+               maxWidth: 1234,
+               minWidth: 12
+            };
+            const index = 3;
+            const styleValue = tabs._prepareItemStyles(item, index);
+            assert.isTrue(styleValue.includes(`width: ${item.width}px`));
+            assert.isTrue(styleValue.includes('flex-shrink: 0'));
+            assert.isTrue(styleValue.includes(`max-width: ${item.maxWidth}px`));
+            assert.isTrue(styleValue.includes(`min-width: ${item.minWidth}px`));
+         });
+         it('percent width restrictions', () => {
+            const tabs = new tabsMod.Buttons();
+            tabs._itemsOrder = [1, 2, 3, 4];
+            const item = {
+               width: '20%',
+               maxWidth: '25%',
+               minWidth: '10%'
+            };
+            const index = 3;
+            const styleValue = tabs._prepareItemStyles(item, index);
+            assert.isTrue(styleValue.includes(`width: ${item.width}`));
+            assert.isTrue(styleValue.includes('flex-shrink: 0'));
+            assert.isTrue(styleValue.includes(`max-width: ${item.maxWidth}`));
+            assert.isTrue(styleValue.includes(`min-width: ${item.minWidth}`));
+         });
       });
    });
 });

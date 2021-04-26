@@ -62,8 +62,8 @@ const SERVICE_FILTERS = {
  * </pre>
  *
  * @class Controls/_search/ControllerClass
- * @implements Controls/_interface/ISearch
- * @implements Controls/_interface/IHierarchy
+ * @implements Controls/interface:ISearch
+ * @implements Controls/interface:IHierarchy
  * @implements Controls/interface/IHierarchySearch
  * @public
  * @demo Controls-demo/Search/FlatList/Index Поиск в плоском списке
@@ -367,6 +367,10 @@ export default class ControllerClass {
       return this._searchPromise =
           this._sourceController
               .load(undefined, undefined, filter)
+              .catch((error) => {
+                 this._sourceController.setFilter(filter);
+                 return Promise.reject(error);
+              })
               .finally(() => {
                  this._searchEnded();
                  this._searchPromise = null;

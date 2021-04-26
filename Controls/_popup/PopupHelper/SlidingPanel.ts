@@ -34,7 +34,7 @@ class SlidingPanelOpener extends BaseOpener {
 /**
  * Хелпер для открытия Шторки.
  * @class Controls/_popup/PopupHelper/SlidingPanel
- * @implements Controls/_popup/interface/ISlidingPanel
+ * @implements Controls/popup:ISlidingPanel
  *
  * @author Красильников А.С.
  * @demo Controls-demo/Popup/SlidingPanel/Index

@@ -13,6 +13,7 @@ export interface IOptions extends IPropertyGridOptions {
 /**
  * Контрол, который позволяет пользователям просматривать и редактировать свойства объекта с возможностью группировки по вкладкам
  * @author Герасимов А.М.
+ * @public
  * @control
  * @class Controls/_propertyGrid/TabbedView
  * @mixes Controls/propertyGrid:IPropertyGrid
@@ -61,5 +62,5 @@ export default class TabbedView extends Control<IOptions> {
 /**
  * @name Controls/_propertyGrid/TabbedView#tabProperty
  * @cfg {string} Имя свойства, содержащего идентификатор таба элемента редактора свойств.
- * @demo Controls-demo/PropertyGridNew/TabbedView/TabbedView/Index
+ * @demo Controls-demo/PropertyGridNew/TabbedView/Index
  */

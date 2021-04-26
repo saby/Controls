@@ -37,6 +37,8 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
 
     protected _$searchValue: string;
 
+    private _$isFirstDataCell: boolean;
+
     get ladder(): TLadderElement<ILadderConfig> {
         return this.getOwner().getLadder();
     }
@@ -55,6 +57,10 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
 
         if (this._$isHiddenForLadder) {
             classes += ` controls-background-${this._$backgroundStyle}`;
+        }
+
+        if (this._$owner.isAnimatedForSelection()) {
+            classes += ' controls-ListView__item_rightSwipeAnimation';
         }
 
         if (this._$owner.getEditingConfig()?.mode === 'cell') {
@@ -119,7 +125,7 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
             return this._$owner.shouldDisplayMarker(marker) && this.isLastColumn();
         } else {
             return this._$owner.shouldDisplayMarker(marker) &&
-                !this._$owner.hasMultiSelectColumn() && this.isFirstColumn();
+                !this._$owner.hasMultiSelectColumn() && this._$isFirstDataCell;
         }
     }
     // endregion
@@ -215,5 +221,6 @@ Object.assign(DataCell.prototype, {
     _moduleName: 'Controls/grid:GridDataCell',
     _$backgroundStyle: 'default',
     _$searchValue: '',
+    _$isFirstDataCell: false,
     _instancePrefix: 'grid-data-cell-'
 });

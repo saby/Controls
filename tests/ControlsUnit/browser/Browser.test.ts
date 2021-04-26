@@ -303,6 +303,18 @@ describe('Controls/browser:Browser', () => {
                     await searchPromise;
                     assert.ok(!browser._loading);
                 });
+
+                it('empty searchParam in options', async () => {
+                    const browserOptions = getBrowserOptions();
+                    delete browserOptions.searchParam;
+                    const browser = getBrowser(browserOptions);
+                    await browser._beforeMount(browserOptions);
+                    browser.saveOptions(browserOptions);
+                    const searchPromise = browser._search(null, 'test');
+                    assert.ok(!browser._loading);
+                    await searchPromise;
+                    assert.ok(!browser._loading);
+                });
             });
 
             describe('_searchReset', () => {
@@ -613,6 +625,29 @@ describe('Controls/browser:Browser', () => {
             assert.ok(browser._items.at(0).get('title') === 'Интерфейсный фреймворк');
         });
 
+        it('update source while loading', async () => {
+            let options = getBrowserOptions();
+            const browser = getBrowser();
+            const errorStub = sinon.stub(browser, '_onDataError');
+
+            await browser._beforeMount(options);
+
+            options = {...options};
+            options.source = new Memory({
+                data: browserHierarchyData,
+                keyProperty: 'key'
+            });
+            browser._beforeUpdate(options);
+
+            options.source = new Memory({
+                data: browserHierarchyData,
+                keyProperty: 'key'
+            });
+            await browser._beforeUpdate(options);
+
+            assert.ok(errorStub.notCalled);
+        });
+
         it('source returns error, then _beforeUpdate', async () => {
             let options = getBrowserOptions();
             const browser = getBrowser();
@@ -754,8 +789,10 @@ describe('Controls/browser:Browser', () => {
             const browser = await getBrowserWithMountCall(options);
 
             browser._viewMode = 'search';
-            browser._searchValue = '';
+            browser._dataLoadCallback(new RecordSet());
+            assert.ok(browser._searchValue === 'Sash');
 
+            browser._searchValue = '';
             browser._dataLoadCallback(new RecordSet());
             assert.isUndefined(browser._viewMode);
             assert.ok(browser._misspellValue === '');

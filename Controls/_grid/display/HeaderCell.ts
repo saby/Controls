@@ -344,7 +344,15 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         //  И здесь бы уже звали толкьо this._$column.getLeftPadding()
         //  https://online.sbis.ru/opendoc.html?guid=686fb34b-fb74-4a11-8306-67b71e3ded0c
         if (this._$column.isBreadCrumbs) {
-            paddingClasses += ` controls-Grid__cell_spacingFirstCol_null`;
+            paddingClasses += ' controls-Grid__cell_spacingFirstCol_null';
+
+            // Если есть ячейка для мультивыбора, то нужно сдвинуть хлебные крошки, что бы они были прижаты к
+            // левому краю таблицы. Сейчас это единственный простой способ сделать это.
+            // В идеале где-то на уровне Explorer нужно переопределить HeaderRow-модель и заколспанить в ней
+            // ячейку для мультивыбора и ячейку в которой находятся хлебные крошки.
+            if (this._$owner.hasMultiSelectColumn()) {
+                paddingClasses += ' controls-Grid__cell_spacingBackButton_with_multiSelection';
+            }
         }
 
         return paddingClasses;

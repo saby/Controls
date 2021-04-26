@@ -223,6 +223,12 @@
    }
 }
 
+.controls-Tabs__item_state_main {
+   color: var(--main_item_text-color_tabs);
+   font-size: var(--main_item_font-size_tabs);
+   font-weight: bold;
+}
+
 .controls-Tabs__item_state_selected {
    font-weight: var(--item_selected_font-weight_tabs);
    font-size: var(--secondary_item_font-size_tabs);
@@ -284,8 +290,11 @@
 .controls-Tabs__marker {
    position: absolute;
    bottom: 0;
-   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
    z-index: 1;
+}
+
+.controls-Tabs__marker_animation {
+   transition: left 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, right 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, width 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .controls-Tabs__marker_thickness-s {
@@ -305,6 +314,20 @@
 
 .controls-Tabs__marker_style-secondary {
    background: var(--secondary_marker_color_tabs);
+}
+
+.controls-Tabs__main-marker {
+   &:after {
+      content: '';
+      pointer-events: none;
+      position: absolute;
+      left: calc(-1 * var(--padding-horizontal_tabs));
+      top: calc(50%~'-'var(--main-tab-marker_length_tabs) / 2);
+      height: var(--main-tab-marker_length_tabs);
+      width: var(--main-tab-marker_thickness_tabs);
+      background: var(--primary_marker_color_tabs);
+      border-radius: 0 var(--main-tab-marker_border-radius_tabs) var(--main-tab-marker_border-radius_tabs) 0;
+   }
 }
 
 .controls-Tabs__item_overflow {
@@ -383,6 +406,16 @@
 
 .controls-AdaptiveButtons__more_align_left {
    margin-left: var(--offset_xs);
+}
+
+.controls-Tabs_horizontal-padding-null {
+   &_first {
+      margin-left: 0;
+   }
+
+   &_last {
+      margin-right: 0;
+   }
 }
 
 .tempFix_1180388539.controls-Tabs:after {

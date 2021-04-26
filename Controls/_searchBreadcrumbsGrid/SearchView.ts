@@ -13,6 +13,14 @@ export default class SearchView extends TreeGridView {
       return super._beforeMount(options);
    }
 
+   _beforeUpdate(newOptions: any): void {
+      super._beforeUpdate(newOptions);
+
+      if (newOptions.columnScroll) {
+         this._listModel.setColspanBreadcrumbs(!this.isColumnScrollVisible(), true);
+      }
+   }
+
    protected _onBreadcrumbClick(e: SyntheticEvent, item: BreadcrumbsItemRow<Array<Model>>): void {
       if (!this._itemClickNotifiedByPathClick) {
          const lastBreadcrumbItem = item.getContents()[item.getContents().length - 1];
@@ -31,7 +39,7 @@ export default class SearchView extends TreeGridView {
    }
 
    protected _onItemMouseUp(e: SyntheticEvent, item: SearchGridDataRow<Model>): void {
-      if (item['[Controls/_display/BreadcrumbsItem]'] || item['[Controls/_display/SearchSeparator]']) {
+      if (item['[Controls/_display/SearchSeparator]']) {
          e.stopPropagation();
          return;
       }
@@ -39,7 +47,7 @@ export default class SearchView extends TreeGridView {
    }
 
    protected _onItemMouseDown(e: SyntheticEvent, item: SearchGridDataRow<Model>): void {
-      if (item['[Controls/_display/BreadcrumbsItem]'] || item['[Controls/_display/SearchSeparator]']) {
+      if (item['[Controls/_display/SearchSeparator]']) {
          e.stopPropagation();
          return;
       }
@@ -47,7 +55,7 @@ export default class SearchView extends TreeGridView {
    }
 
    protected _onItemClick(e: SyntheticEvent, item: SearchGridDataRow<Model>) {
-      if (item['[Controls/_display/BreadcrumbsItem]'] || item['[Controls/_display/SearchSeparator]']) {
+      if (item['[Controls/_display/SearchSeparator]']) {
          e.stopPropagation();
          return;
       }
