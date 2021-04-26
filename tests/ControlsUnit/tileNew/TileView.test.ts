@@ -3,6 +3,7 @@ import { assert } from 'chai';
 import { RecordSet } from 'Types/collection';
 import TileCollection from 'Controls/_tile/display/TileCollection';
 import TileView from 'Controls/_tile/TileView';
+import {CssClassesAssert} from "ControlsUnit/CustomAsserts";
 
 describe('Controls/_tile/TileView', () => {
     let tileView, model;
@@ -80,6 +81,27 @@ describe('Controls/_tile/TileView', () => {
             const item = model.getItemBySourceKey(1);
             tileView._onItemMouseMove(event, item);
             assert.isFalse(item.isHovered());
+        });
+    });
+
+    describe('getItemsPaddingContainerClasses', () => {
+        it('getItemsPaddingContainerClasses', () => {
+            tileView.saveOptions({});
+            CssClassesAssert.isSame(tileView.getItemsPaddingContainerClasses(), 'controls-TileView__itemPaddingContainer controls-TileView__itemsPaddingContainer_spacingLeft_default controls-TileView__itemsPaddingContainer_spacingRight_default controls-TileView__itemsPaddingContainer_spacingTop_default controls-TileView__itemsPaddingContainer_spacingBottom_default');
+            tileView.saveOptions({
+                itemPadding: {left: 's', right: 'null'}
+            });
+            CssClassesAssert.isSame(tileView.getItemsPaddingContainerClasses(), 'controls-TileView__itemPaddingContainer controls-TileView__itemsPaddingContainer_spacingLeft_s controls-TileView__itemsPaddingContainer_spacingRight_null controls-TileView__itemsPaddingContainer_spacingTop_default controls-TileView__itemsPaddingContainer_spacingBottom_default');
+        });
+
+        it('with itemPaddingsContainerOptions', () => {
+            tileView.saveOptions({
+                itemsContainerPadding: {
+                    left: 's',
+                    right: 'null'
+                }
+            });
+            CssClassesAssert.isSame(tileView.getItemsPaddingContainerClasses(), 'controls-TileView__itemPaddingContainer controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding_default controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_default controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_default controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_default');
         });
     });
 });
