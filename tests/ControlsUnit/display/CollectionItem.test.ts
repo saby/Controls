@@ -499,7 +499,10 @@ describe('Controls/_display/CollectionItem', () => {
             getRightPadding(): string { return '#rightSpacing#'; },
             getMultiSelectVisibility(): string { return multiSelectVisibility; },
             getMultiSelectPosition(): string { return 'default'; },
-            getRowSeparatorSize: function () { return ''; }
+            getRowSeparatorSize: function () { return ''; },
+            getNavigation: function () { return {
+                view: 'page'
+            }}
         };
         const defaultClasses = [
             'controls-ListView__itemContent',
