@@ -180,7 +180,8 @@ describe('Controls/_display/TreeItem', () => {
                 getExpanderPosition: () => expanderPosition,
                 getHasChildrenProperty: () => 'hasChildren'
             };
-            const item = new TreeItem({ owner, node: true });
+            const contents = {hasChildren: false};
+            const item = new TreeItem({ owner, contents, node: true, hasChildrenProperty: 'hasChildren' });
 
             assert.isTrue(item.shouldDisplayExpander(null, 'default'));
             expanderPosition = 'right';
@@ -195,13 +196,13 @@ describe('Controls/_display/TreeItem', () => {
             assert.isFalse(item.shouldDisplayExpander());
 
             item.setNode(true);
-            item.setHasChildren(true);
+            contents.hasChildren = true;
             assert.isTrue(item.shouldDisplayExpander());
 
             owner.getExpanderVisibility = () => 'hasChildren';
             assert.isTrue(item.shouldDisplayExpander());
 
-            item.setHasChildren(false);
+            contents.hasChildren = false;
             assert.isFalse(item.shouldDisplayExpander());
         });
 
@@ -228,9 +229,11 @@ describe('Controls/_display/TreeItem', () => {
                 getExpanderVisibility: () => 'visible',
                 getExpanderIcon: () => undefined,
                 getExpanderPosition: () => 'default',
-                getExpanderSize: () => undefined
+                getExpanderSize: () => undefined,
+                getHasChildrenProperty: () => 'hasChildren'
             };
-            const item = new TreeItem({ owner });
+            const contents = {hasChildren: false};
+            const item = new TreeItem({ owner, contents, hasChildrenProperty: 'hasChildren' });
 
             assert.isTrue(item.shouldDisplayExpanderPadding());
             assert.isFalse(item.shouldDisplayExpanderPadding('none'));
@@ -238,7 +241,6 @@ describe('Controls/_display/TreeItem', () => {
             owner.getExpanderPosition = () => 'custom';
             assert.isFalse(item.shouldDisplayExpanderPadding());
 
-            item.setHasChildren(false);
             owner.getExpanderVisibility = () => 'hasChildren';
             owner.getExpanderPosition = () => 'default';
             assert.isTrue(item.shouldDisplayExpanderPadding());
@@ -247,7 +249,7 @@ describe('Controls/_display/TreeItem', () => {
             owner.getExpanderPosition = () => 'custom';
             assert.isFalse(item.shouldDisplayExpanderPadding());
 
-            item.setHasChildren(true);
+            contents.hasChildren = true;
             owner.getExpanderPosition = () => 'default';
             assert.isFalse(item.shouldDisplayExpanderPadding());
         });
@@ -350,27 +352,15 @@ describe('Controls/_display/TreeItem', () => {
         });
     });
 
-    describe('.isHasChildren()', () => {
+    describe('.hasChildren()', () => {
         it('should return false by default', () => {
             const item = new TreeItem();
-            assert.isFalse(item.isHasChildren());
+            assert.isFalse(item.hasChildren());
         });
 
         it('should return value passed to the constructor', () => {
             const item = new TreeItem({hasChildren: false});
-            assert.isFalse(item.isHasChildren());
-        });
-    });
-
-    describe('.setHasChildren()', () => {
-        it('should set the new value', () => {
-            const item = new TreeItem();
-
-            item.setHasChildren(false);
-            assert.isFalse(item.isHasChildren());
-
-            item.setHasChildren(true);
-            assert.isTrue(item.isHasChildren());
+            assert.isFalse(item.hasChildren());
         });
     });
 
