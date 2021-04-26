@@ -711,10 +711,10 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         const searchPromises = [];
 
         this._inputSearchValue = value;
-        this._loading = true;
         event?.stopPropagation();
         this._dataLoader.each((config, id) => {
             if (config.searchParam) {
+                this._loading = true;
                 searchPromises.push(this._dataLoader.getSearchController(id).then((searchController) => {
                     return searchController.search(value);
                 }));
