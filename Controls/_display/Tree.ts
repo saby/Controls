@@ -100,7 +100,7 @@ function onCollectionChange<T>(
         if (this.instance.getExpanderVisibility() === 'hasChildren') {
             this.instance._recountHasNodeWithChildren();
         }
-        this.instance._recountHasNode();
+        this.instance.resetHasNode();
     }
 
     if (action === IObservable.ACTION_RESET) {
@@ -277,7 +277,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
      * Признак, означающий чтов списке есть узел
      * @protected
      */
-    protected _hasNode: boolean;
+    protected _hasNode: boolean = null;
 
     constructor(options?: IOptions<S, T>) {
         super(validateOptions<S, T>(options));
@@ -307,8 +307,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (this.getExpanderVisibility() === 'hasChildren') {
             this._recountHasNodeWithChildren();
         }
-
-        this._recountHasNode();
     }
 
     destroy(): void {
@@ -1106,7 +1104,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     protected _recountHasNode(): void {
         const itemsInRoot = this.getChildren(this.getRoot());
 
-        let hasNode;
+        let hasNode = false;
         for (let i = 0; i < itemsInRoot.getCount(); i++) {
             const item = itemsInRoot.at(i);
             if (item['[Controls/_display/TreeItem]'] && item.isNode() !== null) {
@@ -1122,7 +1120,14 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     hasNode(): boolean {
+        if (this._hasNode === null) {
+            this._recountHasNode();
+        }
         return this._hasNode;
+    }
+
+    resetHasNode(): void {
+        this._hasNode = null;
     }
 
     // endregion HasNode

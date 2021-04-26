@@ -1962,4 +1962,28 @@ describe('Controls/_display/Tree', () => {
            });
        });
     });
+
+    describe('hasNode', () => {
+        it('has node', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs);
+            assert.isTrue(tree.hasNode());
+        });
+
+        it('not has node', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: null, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs);
+            assert.isFalse(tree.hasNode());
+        });
+    });
 });
