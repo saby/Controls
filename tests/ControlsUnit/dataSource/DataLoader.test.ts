@@ -1,9 +1,10 @@
 import {DataLoader, ILoadDataResult, ILoadDataConfig, ILoadDataCustomConfig} from 'Controls/dataSource';
-import {Memory} from 'Types/source';
+import {Memory, PrefetchProxy} from 'Types/source';
 import {ok, deepStrictEqual} from 'assert';
 import {NewSourceController} from 'Controls/dataSource';
 import {createSandbox} from 'sinon';
 import {default as groupUtil} from 'Controls/_dataSource/GroupUtil';
+import {RecordSet} from 'Types/collection';
 
 function getDataArray(): object[] {
     return [
@@ -166,6 +167,24 @@ describe('Controls/dataSource:loadData', () => {
         await dataLoader.load([{source, sourceController}]);
 
         ok(dataLoader.getSourceController() === sourceController);
+    });
+
+    it('load data with sourceController and prefetchProxy in config', async () => {
+        const source = getSource();
+        const rs = new RecordSet({
+            rawData: getDataArray()
+        });
+        const prefetchSource = new PrefetchProxy({
+            target: source,
+            data: {
+                query: rs
+            }
+        });
+        const sourceController = new NewSourceController({source});
+        const dataLoader = getDataLoader();
+        await dataLoader.load([{source: prefetchSource, sourceController}]);
+
+        ok(dataLoader.getSourceController().getItems() === rs);
     });
 
     it('load with collapsedGroups', async () => {
