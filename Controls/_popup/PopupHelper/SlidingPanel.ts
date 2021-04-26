@@ -5,7 +5,6 @@ import StackOpener from 'Controls/_popup/PopupHelper/Stack';
 import DialogOpener from 'Controls/_popup/PopupHelper/Dialog';
 import {detection} from 'Env/Env';
 import BaseOpenerUtil from 'Controls/_popup/Opener/BaseOpenerUtil';
-import ManagerController from 'Controls/_popup/Manager/ManagerController';
 
 const POPUP_CONTROLLER = 'Controls/popupSliding:Controller';
 const DEFAULT_DESKTOP_MODE = 'stack';
@@ -66,23 +65,6 @@ export default class SlidingPanel extends Base {
 
     isOpened(...args: unknown[]): boolean {
         return this._callMethodAdaptive('isOpened', ...args) as boolean;
-    }
-
-    protected _popupIsDestroying(popupId: string): boolean {
-        const item = ManagerController.findItemById(this._popupId);
-        if (!item) {
-            // Элемент может быть удален с состояния ( что вызывает непорсдетсвенно анмаунт окна), но
-            // цикла синхронизации еще могло не произойти. Если окно ожидает синхронизации на разрушение, тоже учитываю.
-            const removedItems = ManagerController.getContainer().getRemovingItems();
-            for (const removeData of removedItems) {
-                if (removeData.removedItem.id === popupId) {
-                    return true;
-                }
-            }
-        }
-        return item && (item.popupState === item.controller.POPUP_STATE_START_DESTROYING ||
-            item.popupState === item.controller.POPUP_STATE_DESTROYING ||
-            item.popupState === item.controller.POPUP_STATE_DESTROYED);
     }
 
     /**

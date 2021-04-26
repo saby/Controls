@@ -211,10 +211,6 @@ class Manager {
         }
     }
 
-    findItemById(popupId: string): IPopupItem {
-        return this._findItemById(popupId);
-    }
-
     /**
      * Find popup configuration
      * @function Controls/_popup/Manager#find
@@ -233,7 +229,7 @@ class Manager {
     }
 
     isDestroying(id: string): boolean {
-        const item = this.find(id);
+        const item = this._findItemById(id);
         if (!item) {
             // Элемент может быть удален с состояния ( что вызывает непорсдетсвенно анмаунт окна), но
             // цикла синхронизации еще могло не произойти. Если окно ожидает синхронизации на разрушение, тоже учитываю.
