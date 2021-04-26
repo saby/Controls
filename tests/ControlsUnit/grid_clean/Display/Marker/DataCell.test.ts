@@ -8,7 +8,6 @@ describe('Controls/_grid/display/DataCell', () => {
     let shouldDisplayMarker, hasMultiSelectColumn, columnsCount, columnIndex;
 
     const owner = {
-        getColumns: () => [],
         shouldDisplayMarker: () => shouldDisplayMarker,
         hasMultiSelectColumn: () => hasMultiSelectColumn,
         hasItemActionsSeparatedCell: () => false,
@@ -63,15 +62,13 @@ describe('Controls/_grid/display/DataCell', () => {
                shouldDisplayMarker = false;
 
                const cell = new DataCell({owner, markerPosition: 'left'});
-               owner.getColumns = () => [cell];
                assert.isFalse(cell.shouldDisplayMarker(true));
            });
 
            it('should display marker and is first column', () => {
                shouldDisplayMarker = true;
 
-               const cell = new DataCell({owner, markerPosition: 'left'});
-               owner.getColumns = () => [cell];
+               const cell = new DataCell({owner, markerPosition: 'left', isFirstDataCell: true});
                assert.isTrue(cell.shouldDisplayMarker(true));
            });
 
@@ -81,7 +78,6 @@ describe('Controls/_grid/display/DataCell', () => {
                columnIndex = 1;
 
                const cell = new DataCell({owner, markerPosition: 'left'});
-               owner.getColumns = () => [{}, cell];
                assert.isFalse(cell.shouldDisplayMarker(true));
            });
 
@@ -91,7 +87,6 @@ describe('Controls/_grid/display/DataCell', () => {
                hasMultiSelectColumn = true;
 
                const cell = new DataCell({owner, markerPosition: 'left'});
-               owner.getColumns = () => [cell, {}];
                assert.isFalse(cell.shouldDisplayMarker(true));
            });
 
