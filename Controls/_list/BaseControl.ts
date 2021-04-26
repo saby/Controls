@@ -4770,7 +4770,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     // Проверяем видимость триггеров после перерисовки.
     // Если видимость не изменилась, то события не будет, а обработать нужно.
     checkTriggersVisibility(): void {
-        if (this._destroyed) {
+        if (this._destroyed || this.__error) {
             return;
         }
         const triggerDown = this._loadTriggerVisibility.down;

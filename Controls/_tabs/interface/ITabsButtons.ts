@@ -1,7 +1,33 @@
 import {IControlOptions} from 'UI/Base';
 import {SbisService} from 'Types/source';
 import {ISingleSelectableOptions, IItemsOptions} from 'Controls/interface';
+import {RecordSet} from 'Types/collection';
+/**
+ * @typedef {String} Controls/_tabs/interface/ITabsButtons/Align Опция определяющая положение вкладки
+ * @default 'right'
+ * @variant 'right' Вкладка отображается справа.
+ * @variant 'left' Вкладка отображается слева.
+ */
 
+/**
+ * @typedef {Object} Controls/_tabs/interface/ITabsButtons/Item
+ * @property {Controls/_tabs/interface/ITabsButtons/Align.typedef} [item.align] Определяет с какой стороны отображается вкладка.
+ * @property {Number|String} [item.maxWidth] Максимальная ширина вкладки. Может принимать числовое значение(в пикселях) или в процентах(Например: '20%')
+ * @property {Number|String} [item.minWidth] Минимальная ширина вкладки. Может принимать числовое значение(в пикселях) или в процентах(Например: '20%')
+ * @property {Number|String} [item.width] Фиксированная ширина вкладки.
+ * Может принимать числовое значение(в пикселях) или в процентах(Например: '20%')
+ * При задании фиксированной ширины задание minWidth и maxWidth не имеет смысла, т.к. ширина зафиксируется.
+ */
+
+export interface ITabButtonItem {
+    isMainTab?: boolean;
+    align?: 'left' | 'right';
+    title?: 'string';
+    minWidth?: string | number;
+    width?: string | number;
+    maxWidth?: string | number;
+    [key: string]: any;
+}
 /**
  * Интерфейс для опций контрола вкладок.
  * @public
@@ -55,6 +81,56 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
      * @see items
      */
     source?: SbisService;
+
+    /**
+     * @name Controls/_tabs/interface/ITabsButtons#items
+     * @cfg {Types/collection:RecordSet} Рекордсет с конфигурацией вкладок.
+     * @default undefined
+     * @remark
+     * Элементу можно задать свойство align, которое определяет выравнивание вкладок.
+     * Если одной из крайних вкладок надо отобразить оба разделителя, слева и справа, то используйте свойство contentTab в значении true.
+     * @example
+     * На вкладках будут отображаться данные из _items. Первый элемент отображается с выравниванием по левому краю, другие элементы отображаются по умолчанию - справа.
+     * <pre class="brush: html; highlight: [4]">
+     *  <!--WML-->
+     * <Controls.tabs:Buttons
+     *     bind:selectedKey="_selectedKey"
+     *     keyProperty="key"
+     *     source="{{_source}}" />
+     * </pre>
+     * <pre class="brush: js; highlight: [5-22]">
+     * // TS
+     * _selectedKey: null,
+     * _items: null,
+     * _beforeMount: function() {
+     *    this._selectedKey: '1',
+     *    this._items: new RecordSet({
+     *       keyProperty: 'key',
+     *       rawData: [
+     *          {
+     *             key: '1',
+     *             title: 'Yaroslavl',
+     *             align: 'left',
+     *             maxWidth: '50%'
+     *          },
+     *          {
+     *             key: '2',
+     *             title: 'Moscow',
+     *             minWidth: 150,
+     *             maxWidth: 300
+     *          },
+     *          {
+     *             key: '3',
+     *             title: 'St-Petersburg',
+     *             width: 200
+     *          }
+     *       ]
+     *    });
+     * }
+     * </pre>
+     * @see items
+     */
+    items?: RecordSet<ITabButtonItem>;
     /**
      * @typedef {String} Controls/_tabs/interface/ITabsButtons/Style
      * @variant primary
