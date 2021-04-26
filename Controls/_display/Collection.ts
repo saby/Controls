@@ -3,7 +3,7 @@ import Abstract, {IEnumerable, IOptions as IAbstractOptions} from './Abstract';
 import CollectionEnumerator from './CollectionEnumerator';
 import CollectionItem, {IOptions as ICollectionItemOptions, ICollectionItemCounters} from './CollectionItem';
 import GroupItem from './GroupItem';
-import { Model as EntityModel } from 'Types/entity';
+import {Model as EntityModel} from 'Types/entity';
 import IItemsStrategy from './IItemsStrategy';
 import ItemsStrategyComposer from './itemsStrategy/Composer';
 import DirectItemsStrategy from './itemsStrategy/Direct';
