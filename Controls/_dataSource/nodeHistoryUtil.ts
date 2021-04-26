@@ -20,24 +20,23 @@ export const nodeHistoryUtil = {
     restore(key: string): Promise<CrudEntityKey[]> {
         return new Promise<CrudEntityKey[]>((resolve, reject) => {
             const preparedStoreKey = key;
-            resolve([2, 3]);
-            // UserConfig.getParam(preparedStoreKey).addCallback((value) => {
-            //     try {
-            //         if (value !== undefined) {
-            //             resolve(JSON.parse(value));
-            //         } else {
-            //             resolve();
-            //         }
-            //     } catch (e) {
-            //         const msg = 'nodeHistoryUtil: Invalid value format for key "' + preparedStoreKey + '"';
-            //         Logger.error(msg, this);
-            //         reject(msg);
-            //     }
-            // }).catch((e) => {
-            //     const msg = `nodeHistoryUtil: An error occurred while getting data.\nError: ${e.message}`;
-            //     Logger.warn(msg);
-            //     reject(msg);
-            // });
+            UserConfig.getParam(preparedStoreKey).then((value) => {
+                try {
+                    if (value !== undefined) {
+                        resolve(JSON.parse(value));
+                    } else {
+                        resolve();
+                    }
+                } catch (e) {
+                    const msg = 'nodeHistoryUtil: Invalid value format for key "' + preparedStoreKey + '"';
+                    Logger.error(msg, this);
+                    reject(msg);
+                }
+            }).catch((e) => {
+                const msg = `nodeHistoryUtil: An error occurred while getting data.\nError: ${e.message}`;
+                Logger.warn(msg);
+                reject(msg);
+            });
         });
     }
 };

@@ -6,6 +6,7 @@
             on:register="_registerHandler()"
             on:unregister="_unregisterHandler()"
             on:listRootChanged="_rootChanged()"
+            on:expandedItemsChanged="_expandedItemsChanged()"
             loading="{{_loading || _options.loading}}"
             scope="{{_options}}"
             items="{{_items}}"
