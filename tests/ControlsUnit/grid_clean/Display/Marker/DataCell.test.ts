@@ -1,6 +1,8 @@
 import {assert} from 'chai';
 import DataCell from 'Controls/_grid/display/DataCell';
 import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
+import {RecordSet} from 'Types/collection';
+import {GridCollection} from 'Controls/grid';
 
 describe('Controls/_grid/display/DataCell', () => {
     let shouldDisplayMarker, hasMultiSelectColumn, columnsCount, columnIndex;
@@ -23,7 +25,7 @@ describe('Controls/_grid/display/DataCell', () => {
         getEditingConfig: () => ({})
     };
 
-   describe('shouldDisplayMarker', () => {
+    describe('shouldDisplayMarker', () => {
        beforeEach(() => {
            shouldDisplayMarker = false;
            hasMultiSelectColumn = false;
@@ -66,7 +68,7 @@ describe('Controls/_grid/display/DataCell', () => {
            it('should display marker and is first column', () => {
                shouldDisplayMarker = true;
 
-               const cell = new DataCell({owner, markerPosition: 'left'});
+               const cell = new DataCell({owner, markerPosition: 'left', isFirstDataCell: true});
                assert.isTrue(cell.shouldDisplayMarker(true));
            });
 
@@ -86,6 +88,23 @@ describe('Controls/_grid/display/DataCell', () => {
 
                const cell = new DataCell({owner, markerPosition: 'left'});
                assert.isFalse(cell.shouldDisplayMarker(true));
+           });
+
+           it('has StickyLadderCell in start', () => {
+               const recordSet = new RecordSet({ rawData: [{id: 1, aaa: 1}, {id: 2, aaa: 1}], keyProperty: 'id' });
+               const collection = new GridCollection({
+                   keyProperty: 'id',
+                   collection: recordSet,
+                   backgroundStyle: 'custom',
+                   ladderProperties: ['aaa'],
+                   columns: [{width: '1px', stickyProperty: 'aaa'}, {width: '1px'}]
+               });
+               collection.setMarkedKey(1, true);
+
+               const item = collection.getItemBySourceKey(1);
+               assert.isFalse(item.getColumns()[0].shouldDisplayMarker());
+               assert.isTrue(item.getColumns()[1].shouldDisplayMarker());
+               assert.isFalse(item.getColumns()[2].shouldDisplayMarker());
            });
        });
    });
