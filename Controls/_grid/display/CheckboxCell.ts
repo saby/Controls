@@ -20,7 +20,8 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
             ' controls-GridView__checkbox_position-default' +
             ` controls-Grid__row-checkboxCell_rowSpacingTop_${topPadding}` +
             ` controls-Grid__row-cell_rowSpacingBottom_${this.getOwner().getBottomPadding()} ` +
-            ' controls-Grid__row-cell-checkbox';
+            ' controls-Grid__row-cell-checkbox' +
+            ` controls-background-${backgroundColorStyle || style}`;
 
         if (this._$owner.isEditing()) {
             wrapperClasses += ' controls-Grid__row-cell-editing';
