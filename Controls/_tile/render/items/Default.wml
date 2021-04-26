@@ -4,7 +4,7 @@
    </ws:if>
 
    <div attr:class="{{ (item || itemData).getWrapperClasses(itemType, shadowVisibility, marker, highlightOnHover, backgroundColorStyle, height, border) }}"
-        attr:style="{{ (item || itemData).getWrapperStyles(itemType) }}">
+        attr:style="{{ (item || itemData).getWrapperStyles(itemType, nodeContentTemplate) }}">
 
       <ws:partial if="{{ (item || itemData).shouldDisplayMultiSelectTemplate() }}"
                   template="{{ multiSelectTpl }}"

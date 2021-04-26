@@ -3,7 +3,7 @@
     <div class="controls-Tabs-wrapper" on:mouseenter="_mouseEnterHandler()" on:touchstart="_touchStartHandler()">
         <ws:for data="index, item in _itemsArray">
             <div attr:class="{{_prepareItemClass(item, index)}}"
-                 attr:style="{{_prepareItemOrder(index)}}"
+                 attr:style="{{_prepareItemStyles(item, index)}}"
                  attr:title="{{ item[_options.displayProperty] }}"
                  on:mousedown="_onItemClick(item[_options.keyProperty])">
                 <ws:if data="{{ _getTemplate(_options.itemLeftTemplate, item, _options.leftTemplateProperty) }}">

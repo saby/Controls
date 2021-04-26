@@ -73,7 +73,7 @@ define([
 
       it('prepareItemOrder', function() {
          var
-            expected = '-ms-flex-order:2; order:2';
+            expected = '-ms-flex-order: 2; order: 2;';
          const tabInstance = new tabsMod.Buttons();
          tabInstance._itemsOrder = [2];
          assert.equal(expected, tabInstance._prepareItemOrder(0), 'wrong order cross-brwoser styles');
@@ -164,10 +164,10 @@ define([
                ' controls-Tabs__item_canShrink',
             expected4 = 'controls-Tabs__item' +
                ' controls-Tabs__item_inlineHeight-s' +
+               ' controls-Tabs_horizontal-padding-xs_last' +
                ' controls-Tabs__item_align_right' +
                ' controls-Tabs__item_extreme' +
                ' controls-Tabs__item_extreme_last' +
-               ' controls-Tabs_horizontal-padding-xs_last' +
                ' controls-Tabs__item_notShrink';
           const tabInstance = new tabsMod.Buttons();
           tabInstance.saveOptions(options);
@@ -442,6 +442,47 @@ define([
             tabs.destroy();
          });
 
+      });
+      describe('_prepareItemStyles', () => {
+         it('flex-order without width restrictions', () => {
+            const tabs = new tabsMod.Buttons();
+            const orders = [1, 2, 3, 4];
+            tabs._itemsOrder = orders;
+            const item = {};
+            const index = 3;
+            const styleValue = tabs._prepareItemStyles(item, index);
+            assert.isTrue(styleValue.includes(`order: ${orders[index]};`));
+         });
+         it('number width restrictions', () => {
+            const tabs = new tabsMod.Buttons();
+            tabs._itemsOrder = [1, 2, 3, 4];
+            const item = {
+               width: 123,
+               maxWidth: 1234,
+               minWidth: 12
+            };
+            const index = 3;
+            const styleValue = tabs._prepareItemStyles(item, index);
+            assert.isTrue(styleValue.includes(`width: ${item.width}px`));
+            assert.isTrue(styleValue.includes('flex-shrink: 0'));
+            assert.isTrue(styleValue.includes(`max-width: ${item.maxWidth}px`));
+            assert.isTrue(styleValue.includes(`min-width: ${item.minWidth}px`));
+         });
+         it('percent width restrictions', () => {
+            const tabs = new tabsMod.Buttons();
+            tabs._itemsOrder = [1, 2, 3, 4];
+            const item = {
+               width: '20%',
+               maxWidth: '25%',
+               minWidth: '10%'
+            };
+            const index = 3;
+            const styleValue = tabs._prepareItemStyles(item, index);
+            assert.isTrue(styleValue.includes(`width: ${item.width}`));
+            assert.isTrue(styleValue.includes('flex-shrink: 0'));
+            assert.isTrue(styleValue.includes(`max-width: ${item.maxWidth}`));
+            assert.isTrue(styleValue.includes(`min-width: ${item.minWidth}`));
+         });
       });
    });
 });

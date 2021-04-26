@@ -9,28 +9,21 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {isLeftMouseButton} from 'Controls/popup';
 import {IItems, IItemTemplateOptions} from 'Controls/interface';
-import {ITabsButtons, ITabsButtonsOptions} from './interface/ITabsButtons';
+import {ITabsButtons, ITabsButtonsOptions, ITabButtonItem} from './interface/ITabsButtons';
 import {constants} from 'Env/Env';
 import {adapter} from 'Types/entity';
 import {factory} from 'Types/chain';
-import Marker, {AUTO_ALIGN} from './Buttons/Marker';
+import Marker from './Buttons/Marker';
 
 import * as TabButtonsTpl from 'wml!Controls/_tabs/Buttons/Buttons';
 import * as ItemTemplate from 'wml!Controls/_tabs/Buttons/ItemTemplate';
 
 import 'css!Controls/tabs';
-import {Logger} from "UICommon/Utils";
+import {Logger} from 'UICommon/Utils';
 
 enum ITEM_ALIGN {
     left = 'left',
     right = 'right'
-}
-
-interface ITabButtonItem {
-    isMainTab?: boolean;
-    align?: 'left' | 'right';
-
-    [key: string]: any;
 }
 
 export interface ITabsTemplate {
@@ -49,7 +42,7 @@ export interface ITabsOptions extends ITabsButtonsOptions, ITabsTemplateOptions 
 }
 
 interface IReceivedState {
-    items: RecordSet;
+    items: RecordSet<ITabButtonItem>;
     itemsOrder: number[];
     lastRightOrder: number;
     itemsArray: ITabButtonItem[];
@@ -104,6 +97,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     private _items: RecordSet;
     private _crudWrapper: CrudWrapper;
     private _isUnmounted: boolean = false;
+    private _isUpdatedItems: boolean = false;
 
     protected _beforeMount(options: ITabsOptions,
                            context: object,
@@ -135,18 +129,27 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             this._initItems(newOptions.source).then((result) => {
                 this._prepareState(result);
                 this._marker.reset();
+                this._isUpdatedItems = true;
             });
         }
         if (newOptions.items && newOptions.items !== this._options.items) {
             const itemsData = this._prepareItems(newOptions.items);
             this._prepareState(itemsData);
             this._marker.reset();
+            this._isUpdatedItems = true;
         }
         if (newOptions.selectedKey !== this._options.selectedKey) {
             this._updateMarkerSelectedIndex(newOptions);
         }
         if (newOptions.style !== this._options.style || newOptions.markerThickness !== this._options.markerThickness) {
             this._updateMarkerCssClass(newOptions);
+        }
+    }
+
+    protected _beforeRender(): void {
+        if (this._isUpdatedItems && this._marker.isInitialized()) {
+            this._marker.reset();
+            this._isUpdatedItems = false;
         }
     }
 
@@ -174,16 +177,31 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         if (this._marker.isInitialized() || !this._itemsArray) {
             return;
         }
+        let isUpdateMarker = true;
         const tabElements: HTMLElement[] = this._itemsArray.map((item: ITabButtonItem, key: number) => {
-            return {
-                element: this._children[`Tab${key}`],
-                align: item.align || ITEM_ALIGN.right
-            };
+            const children = this._children[`Tab${key}`];
+            /**
+             * Может произойти ситуация, когда обновляется source, при этом курсор находится на контролле.
+             * В таком случае на контроле снова срабатывает mouseenter, при этом содержимое контрола еще не перерисовалось.
+             * Из-за чего children может отсутствовать.
+             * Поэтому чтобы контрол не падал с ошибкой, проверяем что есть все children.
+             */
+            if (children) {
+                return {
+                    element: children,
+                    align: item.align || ITEM_ALIGN.right
+                };
+            } else {
+                isUpdateMarker = false;
+            }
         });
-        this._marker.updatePosition(tabElements, this._container);
-        this._updateMarkerSelectedIndex(this._options);
-        if (!this._markerCssClass) {
-            this._updateMarkerCssClass(this._options);
+
+        if (isUpdateMarker) {
+            this._marker.updatePosition(tabElements, this._container);
+            this._updateMarkerSelectedIndex(this._options);
+            if (!this._markerCssClass) {
+                this._updateMarkerCssClass(this._options);
+            }
         }
     }
 
@@ -224,9 +242,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _onItemClick(event: SyntheticEvent<MouseEvent>, key: string): void {
         if (isLeftMouseButton(event)) {
             this._notify('selectedKeyChanged', [key]);
-            // selectedKey может вернуться в контрол значительно позже если снуржи есть асинхронный код.
-            // Например так происходит на страницах онлайна. Запустим анимацию маркера как можно быстрее.
-            this._updateMarkerSelectedIndex({...this._options, selectedKey: key});
         }
     }
 
@@ -235,9 +250,12 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const options: ITabsButtonsOptions = this._options;
         const classes: string[] = ['controls-Tabs__item' +
         ' controls-Tabs__item_inlineHeight-' + options.inlineHeight];
+        const itemCount: number = this._itemsOrder.length - 1;
 
         if (index === 0) {
             classes.push(`controls-Tabs_horizontal-padding-${options.horizontalPadding}_first`);
+        } else if (index === itemCount) {
+            classes.push(`controls-Tabs_horizontal-padding-${options.horizontalPadding}_last`);
         }
 
         const itemAlign: string = item.align;
@@ -253,7 +271,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             classes.push('controls-Tabs__item_extreme_first');
         } else if (isLastItem) {
             classes.push('controls-Tabs__item_extreme_last');
-            classes.push(`controls-Tabs_horizontal-padding-${options.horizontalPadding}_last`);
         } else {
             classes.push('controls-Tabs__item_default');
         }
@@ -266,12 +283,44 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         // TODO: по поручению опишут как и что должно сжиматься.
         // Пока сжимаем только те вкладки, которые прикладники явно пометили
         // https://online.sbis.ru/opendoc.html?guid=cf3f0514-ac78-46cd-9d6a-beb17de3aed8
-        if (item.isMainTab) {
+        if (item.isMainTab || item.canShrink) {
             classes.push('controls-Tabs__item_canShrink');
         } else {
             classes.push('controls-Tabs__item_notShrink');
         }
         return classes.join(' ');
+    }
+
+    /**
+     * Если ширина задана числом, то считаем, что это пиксели, если строка - то проценты, строку отадем как есть.
+     * @param value
+     * @private
+     */
+    private _getWidthValue(value: number | string): string {
+        return typeof value === 'number' ? value + 'px' : value;
+    }
+
+    /**
+     * Получение набора инлайновых стилей для айтема вкладки.
+     * @param minWidth
+     * @param maxWidth
+     * @param width
+     * @param stretchWidth
+     * @param index
+     * @protected
+     */
+    protected _prepareItemStyles({minWidth, maxWidth, width, stretchWidth}: ITabButtonItem, index: number): string {
+        let style = this._prepareItemOrder(index);
+        if (maxWidth !== undefined) {
+            style += `max-width: ${this._getWidthValue(maxWidth)};`;
+        }
+        if (width !== undefined) {
+            style += `width: ${this._getWidthValue(width)}; flex-shrink: 0;`;
+        }
+        if (minWidth !== undefined) {
+            style += `min-width: ${this._getWidthValue(minWidth)};`;
+        }
+        return style;
     }
 
     protected _prepareItemSelectedClass(item: ITabButtonItem): string {
@@ -321,7 +370,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
 
     protected _prepareItemOrder(index: number): string {
         const order = this._itemsOrder[index];
-        return '-ms-flex-order:' + order + '; order:' + order;
+        return `-ms-flex-order: ${order}; order: ${order};`;
     }
 
     protected _getTemplate(

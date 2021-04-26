@@ -78,12 +78,6 @@ export default abstract class Row<T> {
         return DEFAULT_GRID_ROW_TEMPLATE;
     }
 
-    isLastItem(): boolean {
-        const collectionCount = this.getOwner().getCollectionCount();
-        const getCollectionIndex = this.getOwner().getSourceIndexByItem(this);
-        return getCollectionIndex === collectionCount - 1;
-    }
-
     getItemSpacing(): { left: string, right: string, row: string } {
         return {
             left: this._$owner.getLeftPadding().toLowerCase(),
@@ -109,13 +103,13 @@ export default abstract class Row<T> {
         if (params.showItemActionsOnHover !== false) {
             itemClasses += ' controls-ListView__item_showActions';
         }
-
         const navigation = this.getOwner().getNavigation();
-        const isLastItem = (!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
-            && this.isLastItem();
-
-        if (isLastItem) {
-            itemClasses += ' controls-Grid__row_last';
+        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
+            && this.isLastItem()) {
+            itemClasses += ' controls-ListView__itemV_last';
+        }
+        if (this.getIsFirstItem()) {
+            itemClasses += ' controls-ListView__itemV_first';
         }
 
         return itemClasses;
@@ -141,26 +135,26 @@ export default abstract class Row<T> {
         // TODO должно быть super.getMultiSelectPosition, но мы внутри миксина
         const hoverBackgroundStyle = this.getHoverBackgroundStyle();
 
-        let contentClasses = 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable ';
-        contentClasses += 'js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable ';
-        contentClasses += 'controls-CheckboxMarker_inList ';
+        let classes = 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable';
+        classes += ' js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable';
+        classes += ' controls-CheckboxMarker_inList';
 
-        if (this._$owner.getMultiSelectVisibility() === 'onhover' && !this.isSelected()) {
-            contentClasses += 'controls-ListView__checkbox-onhover ';
+        if (this._$owner.getMultiSelectVisibility() === 'onhover' && this.isSelected() === false) {
+            classes += ' controls-ListView__checkbox-onhover';
         }
 
         if (templateHighlightOnHover !== false && this.getEditingConfig()?.mode !== 'cell') {
-            contentClasses += `controls-Grid__item_background-hover_${hoverBackgroundStyle} `;
+            classes += ` controls-Grid__item_background-hover_${hoverBackgroundStyle}`;
         }
 
-        contentClasses += ' controls-GridView__checkbox';
-        contentClasses += ` controls-GridView__checkbox_position-${this.getOwner().getMultiSelectPosition()}`;
+        classes += ' controls-GridView__checkbox';
+        classes += ` controls-GridView__checkbox_position-${this.getOwner().getMultiSelectPosition()}`;
 
         if (this.isDragged()) {
-            contentClasses += ' controls-ListView__itemContent_dragging';
+            classes += ' controls-ListView__itemContent_dragging';
         }
 
-        return contentClasses;
+        return classes;
     }
 
     //endregion
@@ -430,6 +424,10 @@ export default abstract class Row<T> {
             creatingColumnsParams[0].isSingleCell = true;
         }
 
+        if (creatingColumnsParams.length > 0) {
+            creatingColumnsParams[0].isFirstDataCell = true;
+        }
+
         return creatingColumnsParams.map((params) => factory(params));
     }
 
@@ -694,6 +692,10 @@ export default abstract class Row<T> {
 
     abstract isSticked(): boolean;
 
+    abstract getIsFirstItem(): boolean;
+
+    abstract isLastItem(): boolean;
+
     protected abstract _getCursorClasses(cursor: string, clickable: boolean): string;
 
     protected abstract _nextVersion(): void;
@@ -710,5 +712,5 @@ Object.assign(Row.prototype, {
     _$rowTemplateOptions: null,
     _$colspanCallback: null,
     _$columnSeparatorSize: null,
-    _$editingColumnIndex: null
+    _$editingColumnIndex: null,
 });

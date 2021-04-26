@@ -1786,68 +1786,65 @@ define([
       });
 
       it('goToNext, goToPrev', async function() {
-         // FIXME: После перехода на новую коллекцию, отвалилось. Исправлю и расскипаю тест
-         // https://online.sbis.ru/opendoc.html?guid=c583c377-275c-4936-8422-8fbbd684da05
+         const rs = new collection.RecordSet({
+            rawData: getHierarchyData(),
+            keyProperty: 'id'
+         });
+         const source = new sourceLib.Memory({
+            rawData: getHierarchyData(),
+            keyProperty: 'id',
+            filter: () => true
+         });
 
-         // const rs = new collection.RecordSet({
-         //    rawData: getHierarchyData(),
-         //    keyProperty: 'id'
-         // });
-         // const source = new sourceLib.Memory({
-         //    rawData: getHierarchyData(),
-         //    keyProperty: 'id',
-         //    filter: () => true
-         // });
-         //
-         // // 0
-         // // |-1
-         // // | |-3
-         // // |-2
-         // // 4
-         // const cfg = {
-         //    source: source,
-         //    columns: [],
-         //    keyProperty: 'id',
-         //    useNewModel: true,
-         //    viewModelConstructor: 'Controls/display:Tree',
-         //    parentProperty: 'Раздел',
-         //    nodeProperty: 'Раздел@',
-         //    markerMoveMode: 'leaves',
-         //    expandedItems: [],
-         //    markedKey: 4
-         // };
-         // const treeControl = await correctCreateTreeControlAsync(cfg);
-         // treeControl.showIndicator = () => {};
-         // treeControl.hideIndicator = () => {};
-         // let newCfg = {...treeControl._options};
-         // treeControl._notify = (event, args) => {
-         //    if (event === 'expandedItemsChanged') {
-         //       newCfg.expandedItems = args[0];
-         //    }
-         //    if (event === 'markedKeyChanged') {
-         //       newCfg.markedKey = args[0];
-         //    }
-         // };
-         // treeControl.getViewModel().setCollection(rs);
-         // treeControl._afterReloadCallback(cfg, rs);
-         // treeControl._afterMount();
-         // assert.equal(treeControl._markedLeaf, 'last');
-         // await treeControl.goToPrev();
-         // treeControl._beforeUpdate(newCfg);
-         // treeControl.saveOptions(newCfg);
-         // assert.equal(treeControl._markedLeaf, 'middle');
-         // await treeControl.goToPrev();
-         // treeControl._beforeUpdate(newCfg);
-         // treeControl.saveOptions(newCfg);
-         // assert.equal(treeControl._markedLeaf, 'first');
-         // await treeControl.goToNext();
-         // treeControl._beforeUpdate(newCfg);
-         // treeControl.saveOptions(newCfg);
-         // assert.equal(treeControl._markedLeaf, 'middle');
-         // await treeControl.goToNext();
-         // treeControl._beforeUpdate(newCfg);
-         // treeControl.saveOptions(newCfg);
-         // assert.equal(treeControl._markedLeaf, 'last');
+         // 0
+         // |-1
+         // | |-3
+         // |-2
+         // 4
+         const cfg = {
+            source: source,
+            columns: [],
+            keyProperty: 'id',
+            useNewModel: true,
+            viewModelConstructor: 'Controls/display:Tree',
+            parentProperty: 'Раздел',
+            nodeProperty: 'Раздел@',
+            markerMoveMode: 'leaves',
+            expandedItems: [],
+            markedKey: 4
+         };
+         const treeControl = await correctCreateTreeControlAsync(cfg);
+         treeControl.showIndicator = () => {};
+         treeControl.hideIndicator = () => {};
+         let newCfg = {...treeControl._options};
+         treeControl._notify = (event, args) => {
+            if (event === 'expandedItemsChanged') {
+               newCfg.expandedItems = args[0];
+            }
+            if (event === 'markedKeyChanged') {
+               newCfg.markedKey = args[0];
+            }
+         };
+         treeControl.getViewModel().setCollection(rs);
+         treeControl._afterReloadCallback(cfg, rs);
+         treeControl._afterMount();
+         assert.equal(treeControl._markedLeaf, 'last');
+         await treeControl.goToPrev();
+         treeControl._beforeUpdate(newCfg);
+         treeControl.saveOptions(newCfg);
+         assert.equal(treeControl._markedLeaf, 'middle');
+         await treeControl.goToPrev();
+         treeControl._beforeUpdate(newCfg);
+         treeControl.saveOptions(newCfg);
+         assert.equal(treeControl._markedLeaf, 'first');
+         await treeControl.goToNext();
+         treeControl._beforeUpdate(newCfg);
+         treeControl.saveOptions(newCfg);
+         assert.equal(treeControl._markedLeaf, 'middle');
+         await treeControl.goToNext();
+         treeControl._beforeUpdate(newCfg);
+         treeControl.saveOptions(newCfg);
+         assert.equal(treeControl._markedLeaf, 'last');
       });
 
       describe('_notifyItemClick', async () => {
@@ -1956,7 +1953,8 @@ define([
                },
                updateOptions: () => null,
                hasLoaded: () => true,
-               getKeyProperty: () => 'id'
+               getKeyProperty: () => 'id',
+               hasMoreData: () => false
             };
          });
 
@@ -2012,6 +2010,21 @@ define([
             notifySpy.resetHistory();
             await treeControl.toggleExpanded(0);
             assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[]]).called);
+         });
+
+         it('reset flag _needResetExpandedItems', async () => {
+            const source = new sourceLib.Memory({
+               rawData: getHierarchyData(),
+               keyProperty: 'id',
+               filter: () => true
+            });
+
+            treeControl._beforeUpdate({...cfg, root: null, expandedItems: [1], source });
+            treeControl.saveOptions({...cfg, root: null, expandedItems: [1], source });
+            treeControl._beforeUpdate({...cfg, root: 0, expandedItems: [1], source });
+            await treeControl.toggleExpanded(2);
+            treeControl._beforeUpdate({...cfg, root: 0, expandedItems: [1, 2], source });
+            assert.deepEqual(treeControl.getViewModel().getExpandedItems(), [1, 2]);
          });
       });
    });
