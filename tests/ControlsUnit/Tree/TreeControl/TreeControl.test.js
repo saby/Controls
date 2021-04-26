@@ -1956,7 +1956,8 @@ define([
                },
                updateOptions: () => null,
                hasLoaded: () => true,
-               getKeyProperty: () => 'id'
+               getKeyProperty: () => 'id',
+               hasMoreData: () => false
             };
          });
 
@@ -2015,9 +2016,18 @@ define([
          });
 
          it('reset flag _needResetExpandedItems', async () => {
-            treeControl._needResetExpandedItems = true;
-            await treeControl.toggleExpanded(0);
-            assert.isFalse(treeControl._needResetExpandedItems);
+            const source = new sourceLib.Memory({
+               rawData: getHierarchyData(),
+               keyProperty: 'id',
+               filter: () => true
+            });
+
+            treeControl._beforeUpdate({...cfg, root: null, expandedItems: [1], source });
+            treeControl.saveOptions({...cfg, root: null, expandedItems: [1], source });
+            treeControl._beforeUpdate({...cfg, root: 0, expandedItems: [1], source });
+            await treeControl.toggleExpanded(2);
+            treeControl._beforeUpdate({...cfg, root: 0, expandedItems: [1, 2], source });
+            assert.deepEqual(treeControl.getViewModel().getExpandedItems(), [1, 2]);
          });
       });
    });
