@@ -35,7 +35,7 @@ export default class Base {
         config.isHelper = true;
 
         // Защита от множ. вызова. Хэлпер сам генерирует id
-        if (ManagerController.isDestroying(this._popupId)) {
+        if (this._popupIsDestroying(this._popupId)) {
             this._popupId = null;
         }
         if (!this._popupId) {
@@ -64,6 +64,10 @@ export default class Base {
         }
 
         this._openPopup(config, popupController);
+    }
+
+    protected _popupIsDestroying(popupId: string): boolean {
+        return ManagerController.isDestroying(this._popupId);
     }
 
     close(): void {
