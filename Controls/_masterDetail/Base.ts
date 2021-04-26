@@ -320,7 +320,12 @@ class Base extends Control<IMasterDetail, string> {
         this._prevCurrentWidth = this._currentWidth;
     }
 
-    protected _beforeUpdate(options: IMasterDetail): void|Promise<unknown> {
+    protected _beforeUpdate(options: IMasterDetail, context: object): void|Promise<unknown> {
+        const masterDetailOptions = context?.MasterDetailOptions;
+        if (masterDetailOptions) {
+            this._newDesign = masterDetailOptions.newDesign;
+        }
+
         // Если изменилась текущая ширина, то сбросим состояние, иначе работаем с тем, что выставил пользователь
         if (options.masterWidth !== this._options.masterWidth) {
             this._currentWidth = null;

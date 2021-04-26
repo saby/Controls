@@ -276,10 +276,6 @@
    border-top-width: var(--master_item_separator_thickness_list);
 }
 
-.controls-master-template-newDesign .controls-Grid__row-cell_master {
-   border-radius: var(--master_item_border-radius_list);
-}
-
 .controls-ColumnScroll_visible .controls-GridNew__cell_fixed {
    z-index: 3;
 }
@@ -873,8 +869,13 @@
    background-color: var(--master_item_background-color_list);
 }
 
+//Классы совместимости для перехода со старого дизайна masterDetail на новый
 .controls-master-template-newDesign .controls-Grid__cell_spacingFirstCol_default {
    padding-left: var(--item_padding-left_s_list);
+}
+
+.controls-master-template-newDesign .controls-Grid__row-cell_master {
+   border-radius: var(--master_item_border-radius_list);
 }
 
 .controls-Grid__row-cell_selected-master.controls-background-master {
