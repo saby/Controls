@@ -5,15 +5,15 @@
            xmlns="http://www.w3.org/2000/svg"
            height="{{ item.getImageHeightAttribute(itemType) }}"
            width="{{ item.getImageWidthAttribute(itemType) }}"
-           class="{{ (item || itemData).getImageClasses(itemType, width, imageAlign, imageViewMode, imageProportion, imagePosition, imageSize, imageFit, imageProportionOnItem) }}"
+           class="{{ (item || itemData).getImageClasses(itemType, width || itemWidth, imageAlign, imageViewMode, imageProportion, imagePosition, imageSize, imageFit, imageProportionOnItem) }}"
            preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}">
-         <image preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}" height="100%" width="100%" xlink:href="{{ (item || itemData).getImageUrl(width, imageFit) }}"></image>
+         <image preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}" height="100%" width="100%" xlink:href="{{ (item || itemData).getImageUrl(width || itemWidth, imageFit) }}"></image>
       </svg>
    </ws:if>
    <ws:else>
       <div class="{{ (item || itemData).getImageAlignClasses(imageAlign) }}">
-         <img class="{{ (item || itemData).getImageClasses(itemType, width, imageAlign, imageViewMode, imageProportion, imagePosition, imageSize, imageFit, imageProportionOnItem) }}"
-              src="{{(item || itemData).getImageUrl(width, imageFit)}}"/>
+         <img class="{{ (item || itemData).getImageClasses(itemType, width || itemWidth, imageAlign, imageViewMode, imageProportion, imagePosition, imageSize, imageFit, imageProportionOnItem) }}"
+              src="{{(item || itemData).getImageUrl(width || itemWidth, imageFit)}}"/>
       </div>
    </ws:else>
 </ws:template>
@@ -22,7 +22,7 @@
    <div attr:class="{{ (item || itemData).getImageWrapperClasses(itemType, hasTitle, titleStyle, imageViewMode) }}"
         attr:style="{{ (item || itemData).getImageWrapperStyles(itemType) }}">
       <ws:if data="{{ (item || itemData).shouldDisplayAutoResizer(itemType, staticHeight, imagePosition, imageViewMode, imageProportionOnItem) }}">
-         <div class="{{ (item || itemData).getAutoResizerClasses(itemType, staticHeight, hasTitle) }}" style="{{ (item || itemData).getAutoResizerStyles(itemType, width, imageProportion) }}"></div>
+         <div class="{{ (item || itemData).getAutoResizerClasses(itemType, staticHeight, hasTitle) }}" style="{{ (item || itemData).getAutoResizerStyles(itemType, width || itemWidth, imageProportion) }}"></div>
       </ws:if>
 
       <ws:if data="{{ (item || itemData).shouldDisplayGradient(itemType, imageEffect, imageViewMode, imagePosition, 'image') }}">
