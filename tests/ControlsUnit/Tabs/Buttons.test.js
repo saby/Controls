@@ -71,6 +71,97 @@ define([
          }
       ];
 
+      describe('_beforeUpdate', () => {
+         const items = new collection.RecordSet({
+            rawData: data,
+            keyProperty: 'id'
+         });
+
+         let tabs;
+
+         beforeEach(function() {
+            tabs = new tabsMod.Buttons();
+
+            tabs._beforeMount({
+               items: items,
+               selectedKey: 1
+            });
+            tabs._options.items = items;
+            tabs._options.selectedKey = 1;
+            tabs._options.keyProperty = 'id';
+         });
+
+         it('should update _isAnimatedMakerVisible', function() {
+            tabs._beforeUpdate({
+               items: items,
+               selectedKey: 3
+            });
+            assert.isTrue(tabs._isAnimatedMakerVisible);
+         });
+
+         it('should\'t update _isAnimatedMakerVisible if align changed', function() {
+
+            tabs._beforeUpdate({
+               items: items,
+               selectedKey: 2
+            });
+            assert.isFalse(tabs._isAnimatedMakerVisible);
+         });
+
+         it('should\'t update _isAnimatedMakerVisible if items changed', function() {
+
+            const items2 = new collection.RecordSet({
+               rawData: data,
+               keyProperty: 'id'
+            });
+
+            tabs._beforeUpdate({
+               items: items2,
+               selectedKey: 3
+            });
+            assert.isFalse(tabs._isAnimatedMakerVisible);
+         });
+      });
+
+      describe('_afterUpdate', () => {
+         const items = new collection.RecordSet({
+            rawData: data,
+            keyProperty: 'id'
+         });
+
+         let tabs;
+
+         beforeEach(function() {
+            tabs = new tabsMod.Buttons();
+
+            tabs._beforeMount({
+               items: items,
+               selectedKey: 1
+            });
+            tabs._options.items = items;
+            tabs._options.selectedKey = 1;
+            tabs._options.keyProperty = 'id';
+         });
+
+         it('should call _startMarkerAnimationDelayed', function() {
+            tabs._beforeUpdate({
+               items: items,
+               selectedKey: 3
+            });
+
+            tabs._options.selectedKey = 3;
+
+            sinon.stub(tabs, '_startMarkerAnimationDelayed');
+
+            tabs._afterUpdate({
+               items: items,
+               selectedKey: 1
+            });
+            sinon.assert.calledOnce(tabs._startMarkerAnimationDelayed);
+            sinon.restore();
+         });
+      });
+
       it('prepareItemOrder', function() {
          var
             expected = '-ms-flex-order: 2; order: 2;';

@@ -122,8 +122,8 @@
     <!-- Серверная верстка таблицы с горизонтальным скролом и колонками изначально прокрученными вконец -->
     <ws:if data="{{ _showFakeGridWithColumnScroll }}">
         <ws:partial template="gridView" attr:class="controls-Grid__ColumnScroll__fixedPart"/>
-        <div class="{{ _getColumnScrollFakeShadowClasses('start') }}"
-             style="{{ _getColumnScrollFakeShadowStyles('start') }}"></div>
+        <div class="{{ _columnScrollViewController.getColumnScrollFakeShadowClasses('start', _options.needBottomPadding) }}"
+             style="{{ _columnScrollViewController.getColumnScrollFakeShadowStyles('start') }}"></div>
         <div class="controls-Grid__ColumnScroll__scrollablePart">
             <ws:partial template="gridView"/>
         </div>
