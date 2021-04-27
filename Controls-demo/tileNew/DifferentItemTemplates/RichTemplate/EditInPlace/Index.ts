@@ -5,7 +5,6 @@ import {Gadgets} from 'Controls-demo/tileNew/DataHelpers/DataCatalog';
 import {HierarchicalMemory} from 'Types/source';
 import Images from 'Controls-demo/Tile/DataHelpers/Images';
 import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/tileNew/DifferentItemTemplates/RichTemplate/EditInPlace/EditInPlace';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

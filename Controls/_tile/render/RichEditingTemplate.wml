@@ -1,6 +1,0 @@
-<ws:if data="{{itemData && itemData.isEditing()}}">
-    <ws:partial template="wml!Controls/_tile/render/items/Rich" scope="{{ _options }}" isEditing="{{itemData.isEditing()}}"/>
-</ws:if>
-<ws:else>
-    <ws:partial template="wml!Controls/_tile/render/items/Rich" scope="{{ _options }}"/>
-</ws:else>

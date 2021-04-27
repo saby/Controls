@@ -33,17 +33,17 @@
             scope="{{itemTemplate}}">
             <ws:footerTemplate>
                <div>
-                  <div class="controls-demo_tile-rich_footer_line">
-                     <div class="controls-demo_tile-rich_footer_line_text">цена</div>
-                     <div class="controls-demo_tile-rich_footer_line_dots"></div>
-                     <div class="controls-demo_tile-rich_footer_line_text">
+                  <div class="controls-demo_rich-editing_footer_line">
+                     <div class="controls-demo_rich-editing_footer_line_text">цена</div>
+                     <div class="controls-demo_rich-editing_footer_line_dots"></div>
+                     <div class="controls-demo_rich-editing_footer_line_text">
                         {{itemTemplate.item.item.price}}
                      </div>
                   </div>
-                  <div class="controls-demo_tile-rich_footer_line">
-                     <div class="controls-demo_tile-rich_footer_line_text">масса, г</div>
-                     <div class="controls-demo_tile-rich_footer_line_dots"></div>
-                     <div class="controls-demo_tile-rich_footer_line_text">
+                  <div class="controls-demo_rich-editing_footer_line">
+                     <div class="controls-demo_rich-editing_footer_line_text">масса, г</div>
+                     <div class="controls-demo_rich-editing_footer_line_dots"></div>
+                     <div class="controls-demo_rich-editing_footer_line_text">
                         {{itemTemplate.item.item.weight}}
                      </div>
                   </div>
@@ -51,18 +51,18 @@
             </ws:footerTemplate>
             <ws:footerEditor>
                <div>
-                  <div class="controls-demo_tile-rich_footer_line">
-                     <div class="controls-demo_tile-rich_footer_line_text">цена</div>
-                     <div class="controls-demo_tile-rich_footer_line_dots"></div>
+                  <div class="controls-demo_rich-editing_footer_line">
+                     <div class="controls-demo_rich-editing_footer_line_text">цена</div>
+                     <div class="controls-demo_rich-editing_footer_line_dots"></div>
                      <Controls.input:Money attr:style="width: 50px; flex-shrink: 0"
                                            inlineHeight="s"
                                            fontSize="s"
                                            bind:value="footerEditor.item.item.price"
                                            selectOnClick="{{ false }}" />
                   </div>
-                  <div class="controls-demo_tile-rich_footer_line">
-                     <div class="controls-demo_tile-rich_footer_line_text">масса, г</div>
-                     <div class="controls-demo_tile-rich_footer_line_dots"></div>
+                  <div class="controls-demo_rich-editing_footer_line">
+                     <div class="controls-demo_rich-editing_footer_line_text">масса, г</div>
+                     <div class="controls-demo_rich-editing_footer_line_dots"></div>
                      <Controls.input:Number attr:style="width: 50px; flex-shrink: 0"
                                             inlineHeight="s"
                                             fontSize="s"

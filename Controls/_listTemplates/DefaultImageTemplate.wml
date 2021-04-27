@@ -4,6 +4,8 @@
                controls-listTemplates__imageTemplate_image_{{imageFit || 'cover'}}
                controls-listTemplates__imageTemplate_image_viewMode-{{viewMode}}"
         style="{{'background-image: url(' + src + ')'}}"></div>
+   <ws:partial if="{{item.isEditing() && afterImageTemplate}}" template="{{afterImageTemplate}}"
+               item="{{item}}"/>
    <ws:if data="{{effect !== 'none'}}">
       <div class="controls-listTemplates__imageTemplate_image_effect-{{effect}}"
            style="{{effect === 'gradient' ? 'background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%,' + (gradientColor || '#ffffff') + ' 100%);' : ''}}"></div>

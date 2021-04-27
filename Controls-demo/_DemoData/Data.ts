@@ -1,5 +1,6 @@
 import {BrandsImages} from './images/brands';
 import {GadgetsImages} from './images/gadgets';
+import Images from "Controls-demo/tileNew/DataHelpers/Images";
 
 export interface IHierarchyData {
     id: number;
@@ -72,6 +73,59 @@ const characteristics = [
     ]
 ];
 export const FlatHierarchy = {
+    getRichItemsForEditing: (): IHierarchyData[] => [
+        {
+            id: 1,
+            parent: null,
+            type: null,
+            title: 'Молоко "Кружева" ультрапастеризованное 1 л',
+            description: 'Элемент с редактированием по месту',
+            imageProportion: '1:1',
+            titleLines: 2,
+            imagePosition: 'top',
+            imageViewMode: 'rectangle',
+            'parent@': null,
+            imageHeight: 's',
+            image: Images.MEDVED,
+            isShadow: true,
+            price: 250,
+            weight: 1
+        },
+        {
+            id: 2,
+            parent: null,
+            type: null,
+            title: 'Мост',
+            description: 'Можно задать шаблон редактирования и для футера',
+            imageProportion: '1:1',
+            titleLines: 2,
+            imagePosition: 'top',
+            imageViewMode: 'rectangle',
+            'parent@': null,
+            imageHeight: 's',
+            image: Images.BRIDGE,
+            isShadow: true,
+            price: 250,
+            weight: 1000
+        },
+        {
+            id: 3,
+            parent: null,
+            type: null,
+            title: 'Мост',
+            description: 'А еще есть возможность сделать тулбар для изменения изображений',
+            imageProportion: '1:1',
+            titleLines: 2,
+            imagePosition: 'top',
+            imageViewMode: 'rectangle',
+            'parent@': null,
+            imageHeight: 's',
+            image: Images.BRIDGE,
+            isShadow: true,
+            price: 550,
+            weight: 1500
+        }
+    ],
     getData(): IHierarchyData[] {
         return [
             {
