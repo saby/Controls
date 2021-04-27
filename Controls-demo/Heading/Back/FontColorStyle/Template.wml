@@ -1,0 +1,18 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <div class="controlsDemo__cell">
+        <div>fontColorStyle = secondary</div>
+        <Controls.heading:Back caption="Back" fontColorStyle="secondary" iconStyle="primary"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div>fontColorStyle = secondary</div>
+        <Controls.heading:Back caption="Back" fontColorStyle="secondary" iconStyle="primary"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div>fontColorStyle = primary</div>
+        <Controls.heading:Back caption="Back" fontColorStyle="primary"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div>fontColorStyle = primary</div>
+        <Controls.heading:Back caption="Back" fontColorStyle="primary"/>
+    </div>
+</div>
