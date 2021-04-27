@@ -625,6 +625,16 @@ define(
             assert.strictEqual(item.removePending, null);
             Manager.destroy();
          });
+
+         it('isDestroying', () => {
+            Manager = getManager();
+            let popupId = Manager.show({
+               closeOnOutsideClick: true
+            }, new BaseController());
+            const item = Manager.find(popupId);
+            item.popupState = item.controller.POPUP_STATE_DESTROYING;
+            assert.isTrue(Manager.isDestroying(popupId));
+         });
       });
    }
 );
