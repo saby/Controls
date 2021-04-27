@@ -2,7 +2,7 @@
    <div class="controls-Cut
             controls-Cut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_maxHeight
             controls-Cut_lineHeight-{{_options.lineHeight}}">
-      <ws:partial template="{{_options.content}}"/>
+      <ws:partial attr:class="controls-Cut__content" template="{{_options.content}}"/>
       <ws:if data="{{_options.lines !== null}}">
          <div class="controls-Cut__ellipsisWrapper{{ _expanded ? '_expanded_lineHeight-' +  _options.lineHeight}}
                controls-Cut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_height">
