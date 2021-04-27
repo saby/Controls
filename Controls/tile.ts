@@ -18,6 +18,8 @@ import * as SmallItemTemplate from 'wml!Controls/_tile/render/items/Small';
 import * as MediumTemplate from 'wml!Controls/_tile/render/items/Medium';
 import * as PreviewTemplate from 'wml!Controls/_tile/render/items/Preview';
 import * as RichTemplate from 'wml!Controls/_tile/render/items/Rich';
+import * as RichEditingTemplate from 'wml!Controls/_tile/render/RichEditingTemplate';
+import * as RichEditorTemplate from 'wml!Controls/_tile/render/RichEditorTemplate';
 import {default as ActionsMenu} from 'Controls/_tile/itemActions/Menu';
 import {getImageUrl, getImageSize, getImageClasses, getImageRestrictions, getItemSize} from 'Controls/_tile/utils/imageUtil';
 
@@ -39,6 +41,8 @@ export {
     MediumTemplate,
     PreviewTemplate,
     RichTemplate,
+    RichEditingTemplate,
+    RichEditorTemplate,
     ActionsMenu,
     TileCollection,
     TileCollectionItem,

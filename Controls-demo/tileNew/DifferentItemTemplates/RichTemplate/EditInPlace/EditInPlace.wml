@@ -1,0 +1,128 @@
+<div class="controlsDemo__wrapper">
+   <Controls.treeTile:View
+      displayProperty="title"
+      parentProperty="parent"
+      nodeProperty="parent@"
+      multiSelectVisibility="visible"
+      bind:selectedKeys="_selectedKeys"
+      tileMode="static"
+      itemActions="{{_itemActions}}"
+      tileWidth="200"
+      imageProperty="image"
+      editInPlace="{{true}}"
+      keyProperty="id"
+      source="{{_viewSource}}">
+      <ws:editingConfig>
+         <ws:Object editOnClick="{{true}}"
+                    sequentialEditing="{{false}}"
+                    toolbarVisibility="{{true}}"
+                    autoAdd="{{false}}"/>
+      </ws:editingConfig>
+      <ws:itemTemplate>
+         <ws:partial
+            template="Controls/tile:RichEditingTemplate"
+            gradientColor="{{itemTemplate.itemData.item.gradientColor}}"
+            titleLines="{{itemTemplate.itemData.item.titleLines}}"
+            descriptionLines="2"
+            imageSize="{{itemTemplate.itemData.item.imageSize}}"
+            imageViewMode="{{'rectangle'}}"
+            imagePosition="{{'top'}}"
+            description="{{itemTemplate.itemData.item.description}}"
+            imageCompressionCoefficient="{{itemTemplate.itemData.item.imageCompressionCoefficient}}"
+            imageEffect="none"
+            scope="{{itemTemplate}}">
+            <ws:footerTemplate>
+               <div if="{{itemTemplate.itemData.item.footerData}}" class="controls-text-label">
+                  <ws:for data="item in itemTemplate.itemData.item.footerData">
+                     <div style="display: flex; width: 100%">
+                        <div style="white-space: nowrap;
+                                    flex-shrink: 1;
+                                    min-width: 0;
+                                    text-overflow: ellipsis;
+                                    overflow: hidden;">
+                           {{item.title}}..............................................................................................................................................
+                        </div>
+                        <div style="flex-shrink: 0">
+                           {{item.value}}
+                        </div>
+                     </div>
+                  </ws:for>
+               </div>
+            </ws:footerTemplate>
+            <ws:footerEditor>
+               <div if="{{footerEditor.itemData.item.footerData}}" class="controls-text-label">
+                  <ws:for data="index, item in footerEditor.itemData.item.footerData">
+                     <div style="display: flex; width: 100%">
+                        <div style="white-space: nowrap;
+                                    flex-shrink: 1;
+                                    min-width: 0;
+                                    text-overflow: ellipsis;
+                                    overflow: hidden;">
+                           {{item.title}}...................................................................................................................................................................................................
+                        </div>
+                        <ws:if data="{{item.editable}}">
+                           <Controls.input:Money attr:style="width: 50px; flex-shrink: 0"
+                                                  inlineHeight="s"
+                                                  fontSize="s"
+                                                  fontWeight="bold"
+                                                  on:valueChanged="_changeFooterValue(footerEditor.itemData.item, index)"
+                                                  value="{{footerEditor.itemData.item.footerData[index].value}}"
+                                                  selectOnClick="{{ false }}" />
+                        </ws:if>
+                        <ws:else>
+                           <div style="">
+                              {{item.value}}
+                           </div>
+                     </ws:else>
+                     </div>
+                  </ws:for>
+               </div>
+            </ws:footerEditor>
+            <ws:afterImageTemplate>
+               <div attr:style="position: relative; width: 100%; height: 0">
+                  <div attr:style="position: absolute;
+                                   display: flex;
+                                   justify-content: flex-end;
+                                   width: 100%;
+                                   height: 28px;
+                                   bottom:0;
+                                   left: 0;
+                                   right: 0;
+                                   background: #fff7">
+                     <Controls.buttons:Button icon="icon-Cameras" viewMode="linkButton" iconStyle="label" on:click="_changeImage(afterImageTemplate.itemData.item)"/>
+                     <Controls.buttons:Button if="{{afterImageTemplate.itemData.item.image}}" icon="icon-Erase" viewMode="linkButton" iconStyle="danger" on:click="_removeImage(afterImageTemplate.itemData.item)"/>
+                  </div>
+               </div>
+            </ws:afterImageTemplate>
+            <ws:titleEditor>
+                  <Controls.input:Area attr:style="width: 100%"
+                                       inlineHeight="s"
+                                       minLines="{{1}}"
+                                       maxLines="{{2}}"
+                                       fontSize="xl"
+                                       fontWeight="bold"
+                                       bind:value="itemTemplate.itemData.item.title"
+                                       selectOnClick="{{ false }}" />
+            </ws:titleEditor>
+            <ws:descriptionEditor>
+                  <Controls.input:Area attr:style="width: 100%"
+                                       inlineHeight="s"
+                                       minLines="{{1}}"
+                                       maxLines="{{2}}"
+                                       bind:value="itemTemplate.itemData.item.description"
+                                       selectOnClick="{{ false }}" />
+            </ws:descriptionEditor>
+         </ws:partial>
+      </ws:itemTemplate>
+   </Controls.treeTile:View>
+   <svg class="clip-svg" width="0" height="0">
+      <defs>
+         <clipPath id="NavigationPanels-Accordion__image_ellipse" clipPathUnits="objectBoundingBox">
+            <path d="M0.5, 0 C 0.625,0 0.7891304347826086, 0.0391304347826087 0.875, 0.125 S 1, 0.375 1,
+                        0.5 S 0.9608695652173914, 0.7891304347826086 0.875,0.875 S 0.625, 1 0.5,
+                        1 S 0.21086956521739128, 0.9608695652173914 0.125, 0.875 S 0, 0.625 0, 0.5 S 0.0391304347826087,
+                        0.21086956521739128 0.125, 0.125 S 0.375,0 0.5,0 "/>
+         </clipPath>
+      </defs>
+   </svg>
+</div>

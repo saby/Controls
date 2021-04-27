@@ -9,6 +9,7 @@ import * as DefaultContent from 'wml!Controls/_tile/render/itemsContent/Default'
 import * as MediumContent from 'wml!Controls/_tile/render/itemsContent/Medium';
 import * as PreviewContent from 'wml!Controls/_tile/render/itemsContent/Preview';
 import * as RichContent from 'wml!Controls/_tile/render/itemsContent/Rich';
+import * as RichEditorContent from 'wml!Controls/_tile/render/RichEditorTemplate';
 import Tile, {
     DEFAULT_COMPRESSION_COEFF, DEFAULT_SCALE_COEFFICIENT, DEFAULT_TILE_HEIGHT, DEFAULT_TILE_WIDTH, IRoundBorder
 } from './Tile';
@@ -869,7 +870,7 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region Content
 
-    getContentTemplate(itemType: string = 'default', contentTemplate?: TemplateFunction, nodeContentTemplate?: TemplateFunction): TemplateFunction {
+    getContentTemplate(itemType: string = 'default', contentTemplate?: TemplateFunction, nodeContentTemplate?: TemplateFunction, isEditing: boolean = false): TemplateFunction {
         if (contentTemplate) {
             return contentTemplate;
         }
@@ -881,7 +882,7 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'medium':
                 return MediumContent;
             case 'rich':
-                return RichContent;
+                return isEditing ? RichEditorContent : RichContent;
             case 'preview':
                 return PreviewContent;
         }

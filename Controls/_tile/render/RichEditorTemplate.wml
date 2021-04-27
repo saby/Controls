@@ -1,0 +1,56 @@
+<div class="{{ (item || itemData).getContentClasses(itemType, imagePosition) }}">
+    <ws:partial template="{{ (item || itemData).getImageTemplate(itemType) }}"
+                imagePosition="{{ imagePosition || 'top' }}"
+                imageViewMode="{{ imageViewMode || 'rectangle' }}"
+                imageSize="{{ imageSize || 's' }}"
+                imageFit="{{ imageFit || 'cover' }}"
+                imageProportion="{{ (item || itemData).getImageProportion(imageProportion) }}"
+                scope="{{_options}}"/>
+    <ws:partial if="{{afterImageTemplate}}"
+                template="{{afterImageTemplate}}"
+                itemData="{{(item || itemData)}}"
+                item="{{(item || itemData)}}"/>
+    <div class="{{ item.getTitleWrapperClasses(itemType, titleLines, gradientType, titleStyle) }}"
+         style="{{ item.getTitleWrapperStyles(itemType, imageViewMode, imagePosition, gradientColor) }}">
+        <ws:if data="{{ (item || itemData).shouldDisplayGradient(itemType, imageEffect, imageViewMode, imagePosition, 'title') }}">
+            <div class="{{ (item || itemData).getGradientClasses(itemType, gradientType) }}"
+                 style="{{ (item || itemData).getGradientStyles(itemType, gradientColor, gradientType) }}"></div>
+        </ws:if>
+
+        <ws:if data="{{ item.shouldDisplayTitle(itemType) }}">
+            <div class="{{ item.getTitleClasses(itemType, titleStyle, hasTitle, titleLines, titleColorStyle) }}" title="{{ item.getDisplayValue() }}">
+                <ws:if data="{{titleEditor}}">
+                    <ws:partial template="{{titleEditor}}"/>
+                </ws:if>
+                <ws:else>
+                    <div class="{{ item.getEllipsisClasses(itemType, titleLines, staticHeight, hasTitle) }}" style="{{ item.getTitleStyles(itemType, titleLines) }}">
+                            {{ item.getDisplayValue() }}
+                    </div>
+                </ws:else>
+                <ws:partial if="{{bottomRightTpl}}" template="{{bottomRightTpl}}" scope="{{_options}}"/>
+            </div>
+        </ws:if>
+        <ws:if data="{{characteristics && characteristics.length}}">
+            <ws:partial template="Controls/list:CharacteristicsTemplate" data="{{characteristics}}"/>
+        </ws:if>
+        <ws:if data="{{ item.shouldDisplayDescription(itemType, description, descriptionLines) }}">
+            <ws:if data="{{descriptionEditor}}">
+                <ws:partial template="{{descriptionEditor}}"/>
+            </ws:if>
+            <ws:else>
+                <div class="{{ item.getDescriptionClasses(itemType, descriptionLines) }}"
+                     style="{{ item.getDescriptionStyles(itemType, descriptionLines) }}"
+                     title="{{description}}">
+                        {{ description }}
+                </div>
+            </ws:else>
+        </ws:if>
+
+        <ws:partial if="{{itemActionsTpl}}" template="{{itemActionsTpl}}" scope="{{_options}}"/>
+        <ws:partial if="{{footerEditor}}"
+                    template="{{footerEditor}}"
+                    itemData="{{(item || itemData)}}"
+                    item="{{(item || itemData)}}"/>
+    </div>
+</div>
+
