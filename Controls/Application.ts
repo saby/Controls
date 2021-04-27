@@ -353,6 +353,9 @@ export default class Application extends Control<IApplication> {
 
       for (const key in bodyClassesToUpdate) {
          if (bodyClassesToUpdate.hasOwnProperty(key)) {
+            if (bodyClassesToUpdate[key] === this._bodyClasses[key]) {
+               continue;
+            }
             classesToAdd = classesToAdd.concat(bodyClassesToUpdate[key].split(' ').filter(Application._isExist))
             classesToDelete = classesToDelete.concat(this._bodyClasses[key].split(' ').filter(Application._isExist))
             this._bodyClasses[key] = bodyClassesToUpdate[key];
@@ -363,7 +366,9 @@ export default class Application extends Control<IApplication> {
          return !classesToAdd.includes(value);
       });
 
-      BodyAPI.replaceClasses(classesToDelete || [], classesToAdd || []);
+      if (classesToAdd.length || classesToDelete.length) {
+         BodyAPI.replaceClasses(classesToDelete || [], classesToAdd || []);
+      }
    }
    private _updateFromOptionsClass(options: IApplication): void {
       this._updateBodyClasses({
