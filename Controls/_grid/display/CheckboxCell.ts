@@ -6,8 +6,8 @@ import DataRow from './DataRow';
 export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, TOwner> implements IMarkable {
     readonly Markable: boolean = true;
 
-    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
-        const hoverBackgroundStyle = this._$owner.getHoverBackgroundStyle();
+    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover?: boolean, templateHoverBackgroundStyle?: string): string {
+        const hoverBackgroundStyle = templateHoverBackgroundStyle || this._$owner.getHoverBackgroundStyle();
         const topPadding = this._$owner.getTopPadding();
 
         let wrapperClasses = '';
