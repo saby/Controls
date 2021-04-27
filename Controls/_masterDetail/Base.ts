@@ -6,9 +6,16 @@ import {ResizingLine} from 'Controls/dragnDrop';
 import {Register} from 'Controls/event';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
 import {IPropStorageOptions} from 'Controls/interface';
+import {ContextOptions} from 'Controls/context';
 import 'css!Controls/masterDetail';
 
 const RESIZE_DELAY = 50;
+
+interface IMasterDetailOptionsContext {
+    masterDetailOptions: {
+        newDesign: boolean
+    };
+}
 
 interface IMasterDetail extends IControlOptions, IPropStorageOptions {
     master: TemplateFunction;
@@ -174,7 +181,7 @@ class Base extends Control<IMasterDetail, string> {
     protected _newDesign: boolean = false;
 
     protected _beforeMount(options: IMasterDetail, context: object, receivedState: string): Promise<string> | void {
-        const masterDetailOptions = context?.MasterDetailOptions;
+        const masterDetailOptions = context?.masterDetailOptions;
         this._updateOffsetDebounced = debounce(this._updateOffsetDebounced.bind(this), RESIZE_DELAY);
         this._canResizing = this._isCanResizing(options);
         this._prepareLimitSizes(options);
@@ -321,7 +328,7 @@ class Base extends Control<IMasterDetail, string> {
     }
 
     protected _beforeUpdate(options: IMasterDetail, context: object): void|Promise<unknown> {
-        const masterDetailOptions = context?.MasterDetailOptions;
+        const masterDetailOptions = context?.masterDetailOptions;
         if (masterDetailOptions) {
             this._newDesign = masterDetailOptions.newDesign;
         }
@@ -525,6 +532,12 @@ class Base extends Control<IMasterDetail, string> {
             // чтобы лисенер мог регистрироваться в 2х регистраторах.
             this._startResizeRegister();
         }
+    }
+
+    static contextTypes(): IMasterDetailOptionsContext {
+        return {
+            masterDetailOptions: ContextOptions
+        };
     }
 
     static getDefaultOptions(): Partial<IMasterDetail> {
