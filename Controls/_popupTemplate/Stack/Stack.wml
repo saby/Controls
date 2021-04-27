@@ -13,8 +13,7 @@
                             _maximizeButtonVisibility="{{_maximizeButtonVisibility}}" />
             </ws:if>
             <ws:else>
-                <div class="controls-StackTemplate__command_buttons_without_head
-                            {{ (!_options.closeButtonVisibility || _stackRightPanel) ? 'controls-StackTemplate__command_buttons_without_head__with_panel' }}">
+                <div class="controls-StackTemplate__command_buttons_without_head">
                     <ws:if data="{{_options.showMaximizedButton || _maximizeButtonVisibility}}">
                         <div class="controls-StackTemplate__maximized_button"
                              on:click="changeMaximizedState()"
