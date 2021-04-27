@@ -437,6 +437,7 @@ export default abstract class Row<T> {
             // Однако, колонки сохраняются, чтобы при сбросе шаблона строки строка перерисовалась по ним.
             if (this._savedColumns !== newColumns) {
                 this._savedColumns = newColumns;
+                this._reinitializeColumns(true);
             }
         } else {
             if (this._$columns !== newColumns) {
