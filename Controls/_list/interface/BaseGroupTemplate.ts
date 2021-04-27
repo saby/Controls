@@ -69,7 +69,7 @@ export default interface IBaseGroupTemplateOptions {
 /**
  * @name Controls/_list/interface/IBaseGroupTemplate#textVisible
  * @cfg {Boolean} Видимость {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/visual/text/ текста заголовка группы}.
- * @default center
+ * @default true
  * @demo Controls-demo/list_new/Grouped/TextVisible/Index В следующем примере текст заголовка группы скрыт.
  * @remark
  * Позволяет скрыть в заголовке группы текст вместе с кнопкой-экспандером. При использовании игнорируются {@link textAlign} и {@link expanderVisible}

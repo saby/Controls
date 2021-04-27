@@ -29,6 +29,7 @@ import TileItem from 'Controls/_tile/display/mixins/TileItem';
 import InvisibleStrategy, { COUNT_INVISIBLE_ITEMS } from 'Controls/_tile/display/strategies/Invisible';
 import TileView from 'Controls/_tile/TileView';
 import ItemsView from 'Controls/_tile/ItemsView';
+import InvisibleItem from 'Controls/_tile/display/mixins/InvisibleItem';
 
 export {
     View,
@@ -44,6 +45,7 @@ export {
     TileCollectionItem,
     Tile as TileMixin,
     TileItem as TileItemMixin,
+    InvisibleItem,
     InvisibleTileItem,
     InvisibleStrategy,
     COUNT_INVISIBLE_ITEMS,
