@@ -76,6 +76,8 @@ var CompoundArea = CompoundContainer.extend([
          this._className += ' controls-CompoundArea-close_button';
       }
 
+      this._className = `controls-CompoundArea_type-${_options.type}`;
+
       this.subscribeTo(EnvEvent.Bus.channel('navigation'), 'onBeforeNavigate', this._onBeforeNavigate.bind(this));
 
       this._childControlName = _options.template;
