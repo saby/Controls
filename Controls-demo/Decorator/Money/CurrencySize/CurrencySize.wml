@@ -1,18 +1,18 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">currencySize = 'xs'</div>
+        <div class="controls-text-label">currencySize = 'xs'</div>
         <Controls.decorator:Money value="{{10}}" currency="Dollar" currencySize="xs"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">currencySize = 's'</div>
+        <div class="controls-text-label">currencySize = 's'</div>
         <Controls.decorator:Money value="{{10}}" currency="Dollar" currencySize="s"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">currencySize = 'm'</div>
+        <div class="controls-text-label">currencySize = 'm'</div>
         <Controls.decorator:Money value="{{10}}" currency="Dollar" currencySize="m"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">currencySize = 'l'</div>
+        <div class="controls-text-label">currencySize = 'l'</div>
         <Controls.decorator:Money value="{{10}}" currency="Dollar" currencySize="l"/>
     </div>
 </div>
