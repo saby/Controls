@@ -110,6 +110,10 @@ export default {
         return item && (item.popupState === 'initializing' || item.popupState === 'creating');
     },
 
+    findItemById(popupId: string): IPopupItem {
+        return this._callManager('findItemById', [popupId]);
+    },
+
     _callManager(methodName: string, args: any[]): unknown {
         if (this._manager) {
             return this._manager[methodName].apply(this._manager, args || []);

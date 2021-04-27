@@ -210,6 +210,10 @@ class Manager {
         }
     }
 
+    findItemById(popupId: string): IPopupItem {
+        return this._findItemById(popupId);
+    }
+
     /**
      * Find popup configuration
      * @function Controls/_popup/Manager#find
