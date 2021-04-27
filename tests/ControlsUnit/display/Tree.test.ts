@@ -1959,7 +1959,7 @@ describe('Controls/_display/Tree', () => {
                    keyProperty: 'id'
                });
                const tree = getTree(rs, {hasChildrenProperty: ''});
-               assert.isFalse(tree.at(0).hasChildren());
+               assert.isTrue(tree.at(0).hasChildren());
                assert.isFalse(tree.at(0).hasChildrenByRecordSet());
            });
         });
