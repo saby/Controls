@@ -1962,4 +1962,92 @@ describe('Controls/_display/Tree', () => {
            });
        });
     });
+
+    describe('hasNode', () => {
+        it('has node', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs);
+            assert.isTrue(tree.hasNode());
+        });
+
+        it('not has node', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: null, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs);
+            assert.isFalse(tree.hasNode());
+        });
+
+        it('recount on change node state', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: null, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs);
+            assert.isFalse(tree.hasNode());
+
+            rs.at(0).set('node', true);
+            assert.isTrue(tree.hasNode());
+        });
+
+        it('recount on add item', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: null, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs);
+            assert.isFalse(tree.hasNode());
+
+            rs.add(new Model({
+                rawData: {id: 2, hasChildren: false, node: true, pid: 0}
+            }));
+            assert.isTrue(tree.hasNode());
+        });
+
+        it('recount on remove item', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: null, pid: 0},
+                    {id: 2, hasChildren: false, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs);
+            assert.isTrue(tree.hasNode());
+
+            rs.removeAt(1);
+            assert.isFalse(tree.hasNode());
+        });
+
+        it('recount on reset', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: null, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs);
+            assert.isFalse(tree.hasNode());
+
+            rs.assign(new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            }));
+            assert.isTrue(tree.hasNode());
+        });
+    });
 });
