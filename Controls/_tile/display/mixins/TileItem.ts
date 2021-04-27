@@ -783,7 +783,7 @@ export default abstract class TileItem<T extends Model = Model> {
 
         classes += ` controls-ListView__item_shadow_${this.getShadowVisibility(templateShadowVisibility)}`;
         if (this.isActive()) {
-            classes += ` controls-TileView__item_active`;
+            classes += ' controls-TileView__item_active';
         }
         if (this.isHovered()) {
             classes += ' controls-TileView__item_hovered';
@@ -798,19 +798,22 @@ export default abstract class TileItem<T extends Model = Model> {
             classes += ' controls-TileView__item_scaled';
         }
         if (this.isFixed()) {
-            classes += ` controls-TileView__item_fixed`;
+            classes += ' controls-TileView__item_fixed';
         }
         if (this.isAnimated()) {
             classes += ' controls-TileView__item_animated';
         }
         if (this.isDragged()) {
-            classes += ` controls-ListView__item_dragging controls-ListView__itemContent_dragging`;
+            classes += ' controls-ListView__item_dragging controls-ListView__itemContent_dragging';
         }
         if (this.canShowActions()) {
             classes += ' controls-ListView__item_showActions';
         }
+        if (this.isEditing()) {
+            classes += ' controls-ListView__item_editing';
+        }
         if (this.isSwiped()) {
-            classes += ` controls-TileView__item_swiped`;
+            classes += ' controls-TileView__item_swiped';
         }
 
         return classes;

@@ -1,0 +1,111 @@
+<div class="controlsDemo__wrapper">
+   <Controls.treeTile:View
+      displayProperty="title"
+      parentProperty="parent"
+      nodeProperty="parent@"
+      multiSelectVisibility="visible"
+      bind:selectedKeys="_selectedKeys"
+      tileMode="static"
+      itemActions="{{_itemActions}}"
+      tileWidth="200"
+      imageProperty="image"
+      editInPlace="{{true}}"
+      keyProperty="id"
+      source="{{_viewSource}}">
+      <ws:editingConfig>
+         <ws:Object editOnClick="{{true}}"
+                    sequentialEditing="{{false}}"
+                    toolbarVisibility="{{true}}"
+                    autoAdd="{{false}}"/>
+      </ws:editingConfig>
+      <ws:itemTemplate>
+         <ws:partial
+            template="Controls/tile:RichTemplate"
+            gradientColor="{{itemTemplate.item.item.gradientColor}}"
+            titleLines="{{itemTemplate.item.item.titleLines}}"
+            descriptionLines="2"
+            imageSize="{{itemTemplate.item.item.imageSize}}"
+            imageViewMode="{{'rectangle'}}"
+            imagePosition="{{'top'}}"
+            description="{{itemTemplate.item.item.description}}"
+            imageCompressionCoefficient="{{itemTemplate.item.item.imageCompressionCoefficient}}"
+            imageEffect="none"
+            scope="{{itemTemplate}}">
+            <ws:footerTemplate>
+               <div>
+                  <div class="controls-demo_tile-rich_footer_line">
+                     <div class="controls-demo_tile-rich_footer_line_text">цена</div>
+                     <div class="controls-demo_tile-rich_footer_line_dots"></div>
+                     <div class="controls-demo_tile-rich_footer_line_text">
+                        {{itemTemplate.item.item.price}}
+                     </div>
+                  </div>
+                  <div class="controls-demo_tile-rich_footer_line">
+                     <div class="controls-demo_tile-rich_footer_line_text">масса, г</div>
+                     <div class="controls-demo_tile-rich_footer_line_dots"></div>
+                     <div class="controls-demo_tile-rich_footer_line_text">
+                        {{itemTemplate.item.item.weight}}
+                     </div>
+                  </div>
+               </div>
+            </ws:footerTemplate>
+            <ws:footerEditor>
+               <div>
+                  <div class="controls-demo_tile-rich_footer_line">
+                     <div class="controls-demo_tile-rich_footer_line_text">цена</div>
+                     <div class="controls-demo_tile-rich_footer_line_dots"></div>
+                     <Controls.input:Money attr:style="width: 50px; flex-shrink: 0"
+                                           inlineHeight="s"
+                                           fontSize="s"
+                                           bind:value="footerEditor.item.item.price"
+                                           selectOnClick="{{ false }}" />
+                  </div>
+                  <div class="controls-demo_tile-rich_footer_line">
+                     <div class="controls-demo_tile-rich_footer_line_text">масса, г</div>
+                     <div class="controls-demo_tile-rich_footer_line_dots"></div>
+                     <Controls.input:Number attr:style="width: 50px; flex-shrink: 0"
+                                            inlineHeight="s"
+                                            fontSize="s"
+                                            bind:value="footerEditor.item.item.weight"
+                                            selectOnClick="{{ false }}" />
+                  </div>
+               </div>
+            </ws:footerEditor>
+            <ws:afterImageTemplate>
+               <div attr:style="position: relative; width: 100%; height: 0">
+                  <div attr:style="position: absolute;
+                                   display: flex;
+                                   justify-content: flex-end;
+                                   width: 100%;
+                                   height: 28px;
+                                   bottom:0;
+                                   left: 0;
+                                   right: 0;
+                                   background: #fff7">
+                     <Controls.buttons:Button icon="icon-Cameras" viewMode="linkButton" iconStyle="label" on:click="_changeImage(afterImageTemplate.item.item)"/>
+                     <Controls.buttons:Button if="{{afterImageTemplate.item.item.image}}" icon="icon-Erase" viewMode="linkButton" iconStyle="danger" on:click="_removeImage(afterImageTemplate.item.item)"/>
+                  </div>
+               </div>
+            </ws:afterImageTemplate>
+            <ws:titleEditor>
+                  <Controls.input:Area attr:style="width: 100%"
+                                       inlineHeight="s"
+                                       minLines="{{1}}"
+                                       maxLines="{{2}}"
+                                       fontSize="xl"
+                                       fontWeight="bold"
+                                       bind:value="itemTemplate.item.item.title"
+                                       selectOnClick="{{ false }}" />
+            </ws:titleEditor>
+            <ws:descriptionEditor>
+                  <Controls.input:Area attr:style="width: 100%"
+                                       inlineHeight="s"
+                                       minLines="{{1}}"
+                                       maxLines="{{2}}"
+                                       bind:value="itemTemplate.item.item.description"
+                                       selectOnClick="{{ false }}" />
+            </ws:descriptionEditor>
+         </ws:partial>
+      </ws:itemTemplate>
+   </Controls.treeTile:View>
+</div>

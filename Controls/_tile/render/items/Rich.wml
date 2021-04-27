@@ -7,4 +7,5 @@
             height="auto"
             imageProportionOnItem="{{imageProportion}}"
             scope="{{_options}}"
-            itemType="rich"/>
+            itemType="rich"
+            isEditing="{{item.isEditing()}}"/>

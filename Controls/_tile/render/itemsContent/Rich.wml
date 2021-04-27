@@ -6,6 +6,10 @@
                 imageFit="{{ imageFit || 'cover' }}"
                 imageProportion="{{ (item || itemData).getImageProportion(imageProportion) }}"
                 scope="{{_options}}"/>
+    <ws:partial if="{{isEditing && afterImageTemplate}}"
+                template="{{afterImageTemplate}}"
+                itemData="{{(item || itemData)}}"
+                item="{{(item || itemData)}}"/>
     <ws:partial template="wml!Controls/_tile/render/Title" scope="{{_options}}">
         <ws:footerTpl>
             <ws:partial if="{{footerTemplate}}"
