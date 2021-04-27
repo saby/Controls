@@ -26,7 +26,11 @@ export default class ItemActionsCell<T> extends Cell<T, Row<T>> implements IItem
     }
 
     getWrapperStyles(): string {
-        return 'width: 0px; min-width: 0px; max-width: 0px; padding: 0px; z-index: 2;';
+        let styles = 'width: 0px; min-width: 0px; max-width: 0px; padding: 0px; z-index: 2;';
+        if (this._$owner.isFullGridSupport() && this._$rowspan) {
+            styles += ` grid-row: 1 / ${ 1 + this._$rowspan};`;
+        }
+        return styles;
     }
 
     shouldDisplayItemActions(): boolean {
