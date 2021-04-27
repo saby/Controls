@@ -1,10 +1,10 @@
-import {DetailViewMode} from 'Controls/_newBrowser/interfaces/IDetailOptions';
+import {DetailViewMode} from 'Controls/newBrowser';
 import {
     IListConfig, ImageGradient, ImageViewMode, ITableConfig,
     ITileConfig,
     ListImagePosition,
     NodesPosition, TileImagePosition, TileSize
-} from 'Controls/_newBrowser/interfaces/IBrowserViewConfig';
+} from 'Controls/newBrowser';
 
 const LIST_CFG: IListConfig = {
     list: {
