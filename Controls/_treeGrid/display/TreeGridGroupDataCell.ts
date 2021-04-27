@@ -13,7 +13,7 @@ export default class TreeGridGroupDataCell<T extends Model>
         super(options);
     }
 
-    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
+    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover?: boolean, templateHoverBackgroundStyle?: string): string {
         let wrapperClasses = '';
 
         wrapperClasses += this._getWrapperBaseClasses(theme, style, templateHighlightOnHover);
