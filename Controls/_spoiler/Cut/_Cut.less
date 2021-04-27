@@ -3,11 +3,6 @@
    position: relative;
 }
 
-.controls-Cut__content {
-   position: relative;
-   z-index: 1;
-}
-
 .controls-Cut__ellipsisWrapper {
    position: absolute;
    top: 0;
@@ -35,7 +30,7 @@
          max-height: @heightLines;
       }
       .controls-Cut_lineHeight-@{lineHeight}_lines-@{lines}_height {
-         height: @heightLines;
+         margin-top: @heightLines;
       }
    });
 
