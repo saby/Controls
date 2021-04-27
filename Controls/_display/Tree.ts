@@ -98,10 +98,9 @@ function onCollectionChange<T>(
     this.instance._checkItemsDiff(session, nodes, state);
 
     if (action === IObservable.ACTION_RESET || action === IObservable.ACTION_ADD || action === IObservable.ACTION_REMOVE) {
-        if (this.instance.getExpanderVisibility() === 'hasChildren') {
+        if (this.instance.getExpanderVisibility() === 'hasChildren' && this.instance.getHasChildrenProperty()) {
             this.instance._recountHasNodeWithChildren();
-        }
-        if (!this.instance.getHasChildrenProperty()) {
+        } else {
             this.instance._recountHasChildrenByRecordSet();
         }
     }
@@ -440,10 +439,9 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     setCollection(newCollection: ISourceCollection<S>): void {
         super.setCollection(newCollection);
-        if (this.getExpanderVisibility() === 'hasChildren') {
+        if (this.getExpanderVisibility() === 'hasChildren' && this.getHasChildrenProperty()) {
             this._recountHasNodeWithChildren();
-        }
-        if (!this.getHasChildrenProperty()) {
+        } else {
             this._recountHasChildrenByRecordSet();
         }
     }
