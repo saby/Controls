@@ -1214,7 +1214,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 }
             };
 
-            if (key === model.getLastItem().key) {
+            if (key === model.getLastItem().get(model.getKeyProperty())) {
                 this._shiftToDirection('down').then(goToNextItem);
             } else {
                 goToNextItem();
