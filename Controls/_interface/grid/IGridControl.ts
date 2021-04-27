@@ -596,9 +596,26 @@ export interface IGridControl extends IList {
  * **Обратите внимание!** Для отображения стрелки по свайпу необходимо всегда указывать опцию showEditArrow=true, вне зависимости от того, используется прикладной шаблон или нет.
  * @demo Controls-demo/grid/ShowEditArrow/Index
  * @example
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [5,12]">
  * <!-- WML -->
- *    <ws:partial template="{{editArrowTemplate}}" scope="{{_options}}"/>
+ * <Controls.grid:View
+ *     keyProperty="id"
+ *     source="{{_viewSource}}"
+ *     showEditArrow="{{true}}">
+ *     <ws:columns>
+ *         <ws:Array>
+ *             <ws:Object>
+ *                  <ws:template>
+ *                      <ws:partial template="Controls/grid:ColumnTemplate">
+ *                          <ws:contentTemplate>
+ *                              <ws:partial template="{{editArrowTemplate}}" scope="{{contentTemplate}}"/>
+ *                          </ws:contentTemplate>
+ *                      </ws:partial>
+ *                  </ws:template>
+ *             </ws:Object>
+ *         </ws:Array>
+ *     </ws:columns>
+ * </Controls.grid:View>
  * </pre>
  */
 
