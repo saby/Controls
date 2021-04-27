@@ -298,6 +298,14 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         }
     }
 
+    getColumnIndex(takeIntoAccountColspans?: boolean = false): number {
+        if (this._$owner.isMultiline()) {
+            return this._$column.startColumn - 1;
+        } else {
+            return super.getColumnIndex(takeIntoAccountColspans);
+        }
+    }
+
     protected _getWrapperPaddingClasses(theme: string): string {
         // Для ячейки, создаваемой в связи с множественной лесенкой не нужны отступы, иначе будут проблемы с наложением
         // тени: https://online.sbis.ru/opendoc.html?guid=758f38c7-f5e7-447e-ab79-d81546b9f76e
