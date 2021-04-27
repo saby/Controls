@@ -25,7 +25,7 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
       return this.getOwner().getKeyProperty();
    }
 
-   getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
+   getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover?: boolean, templateHoverBackgroundStyle?: string): string {
       return super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover)
          + ' controls-TreeGrid__row__searchBreadCrumbs js-controls-ListView__notEditable';
    }

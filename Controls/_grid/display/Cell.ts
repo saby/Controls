@@ -34,7 +34,7 @@ export interface IOptions<T> extends IColspanParams {
     isFixed?: boolean;
     isLadderCell?: boolean;
     columnSeparatorSize?: string;
-    backgroundStyle: string;
+    backgroundStyle?: string;
     rowSeparatorSize?: string;
 }
 
@@ -202,9 +202,13 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     // endregion
 
     // region Аспект "Стилевое оформление. Классы и стили"
-    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
+    getWrapperClasses(theme: string,
+                      backgroundColorStyle: string,
+                      style: string = 'default',
+                      templateHighlightOnHover?: boolean,
+                      templateHoverBackgroundStyle?: string): string {
         const hasColumnScroll = this._$owner.hasColumnScroll();
-        const hoverBackgroundStyle = this._$owner.getHoverBackgroundStyle();
+        const hoverBackgroundStyle = templateHoverBackgroundStyle || this._$owner.getHoverBackgroundStyle();
 
         let wrapperClasses = '';
 
@@ -243,15 +247,25 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         if (this._$owner.isEditing() && !isSingleCellEditableMode) {
             const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
             wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
-        } else if (!isSingleCellEditableMode && templateHighlightOnHover !== false) {
-            wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle} `;
-
-            if (backgroundColorStyle !== 'default') {
-                wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle}`;
+        } else if (!isSingleCellEditableMode) {
+            if (templateHighlightOnHover !== false) {
+                wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle} `;
             }
 
-            if (backgroundColorStyle || this.getOwner().hasColumnScroll()) {
-                wrapperClasses += ` controls-background-${backgroundColorStyle || style}`;
+            const hasColumnScroll = this.getOwner().hasColumnScroll();
+            if (!hasColumnScroll && backgroundColorStyle && backgroundColorStyle !== 'default') {
+                wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle}`;
+
+            } else if (hasColumnScroll) {
+                if (backgroundColorStyle) {
+                    wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle || 'default'}`;
+
+                } else if (this._$backgroundStyle === 'default' && style !== 'default') {
+                    wrapperClasses += ` controls-background-${style}`;
+
+                } else if (this._$backgroundStyle) {
+                    wrapperClasses += ` controls-background-${this._$backgroundStyle}`;
+                }
             }
         }
         return wrapperClasses;
