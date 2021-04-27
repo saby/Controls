@@ -2,7 +2,6 @@
 .controls-CompoundArea {
    width: 100%;
    height: 100%;
-   border-radius: var(--border-radius_dialog);
 
    //в слое совместимости рисуем свою тень в стеке
    .controls-StackTemplate .controls-StackTemplate-shadow {
@@ -61,7 +60,6 @@ body:not(.rtl-Body) .controls-CompoundArea {
    .controls-DialogTemplate .controls-DialogTemplate__content-area .ws-window-titlebar-custom, &.ws-window .ws-window-titlebar {
       height: 40px;
       background: #ffffff;
-      border-radius: var(--border-radius_dialog) var(--border-radius_dialog) 0 0;
    }
 
    &.ws-float-area { // crossing with old styles
@@ -123,6 +121,7 @@ body:not(.rtl-Body) .controls-CompoundArea {
       .controls-DialogTemplate {
          background: none;
          border: none;
+         border-radius: 0;
       }
    }
 
