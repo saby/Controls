@@ -32,7 +32,7 @@ export default class InvisibleStrategy<
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
             const prevItem = items[i - 1];
-            if (item['[Controls/_display/GroupItem]'] || prevItem && prevItem.isNode && prevItem.isNode() !== null && item.isNode() === null && item.getParent() !== prevItem) {
+            if (item['[Controls/_display/GroupItem]'] && i > 0 || prevItem && prevItem.isNode && prevItem.isNode() !== null && item.isNode() === null && item.getParent() !== prevItem) {
                 const invisibleIsNode = prevItem && prevItem.isNode();
                 const parent = prevItem && prevItem.getParent();
                 newInvisibleItems.push(super._createInvisibleItems(options.display, prevItem,{isNodeItems: invisibleIsNode, parent}));
