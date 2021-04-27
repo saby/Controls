@@ -195,17 +195,12 @@ export default class TreeItem<T extends Model = Model> extends mixin<
 
     /**
      * Возвращает признак наличия детей у узла
-     * @remark Если не задана опция hasChildrenProperty, то считается исходя из рекордсета.
-     *  Если в рекорде для hasChildrenProperty не задано значение, то для узла по дефолту есть дети.
-     *  Исходя из рекордсета считается только в режиме expanderVisibility='hasChildren'.
      */
     hasChildren(): boolean {
         // hasChildren могут менять динамически, поэтому нужно брать его всегда из рекорда,
         // т.к. это дешевле, чем отслеживать изменение и изменять состояние итема
 
-        let hasChildren = this.getHasChildrenProperty()
-            ? object.getPropertyValue<boolean>(this.getContents(), this.getHasChildrenProperty())
-            : this.hasChildrenByRecordSet();
+        let hasChildren = object.getPropertyValue<boolean>(this.getContents(), this.getHasChildrenProperty());
 
         // Если hasChildren не задали, то для узла по дефолту есть дети
         if (hasChildren === undefined) {
@@ -295,7 +290,8 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         }
 
         const correctPosition = this.getOwner().getExpanderPosition() === position;
-        return (this._$owner.getExpanderVisibility() === 'visible' || this.hasChildren()) && correctPosition;
+        const hasChildren = this.getHasChildrenProperty() ? this.hasChildren() : this.hasChildrenByRecordSet();
+        return (this._$owner.getExpanderVisibility() === 'visible' || hasChildren) && correctPosition;
     }
 
     shouldDisplayExpanderPadding(tmplExpanderIcon?: string, tmplExpanderSize?: string): boolean {
@@ -304,7 +300,8 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         const expanderSize = this.getExpanderSize(tmplExpanderSize);
 
         if (this._$owner.getExpanderVisibility() === 'hasChildren') {
-            return !this.hasChildren() && expanderIcon !== 'none' && expanderPosition === 'default';
+            const hasChildren = this.getHasChildrenProperty() ? this.hasChildren() : this.hasChildrenByRecordSet();
+            return !hasChildren && expanderIcon !== 'none' && expanderPosition === 'default';
         } else {
             return !expanderSize && expanderIcon !== 'none' && expanderPosition === 'default';
         }
