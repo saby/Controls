@@ -98,11 +98,13 @@ function onCollectionChange<T>(
     this.instance._checkItemsDiff(session, nodes, state);
 
     if (action === IObservable.ACTION_RESET || action === IObservable.ACTION_ADD || action === IObservable.ACTION_REMOVE) {
-        if (this.instance.getExpanderVisibility() === 'hasChildren' && this.instance.getHasChildrenProperty()) {
+        if (this.instance.getExpanderVisibility() === 'hasChildren') {
             this.instance._recountHasNodeWithChildren();
-        } else {
-            this.instance._recountHasChildrenByRecordSet();
+            if (!this.instance.getHasChildrenProperty()) {
+                this.instance._recountHasChildrenByRecordSet();
+            }
         }
+
         this.instance.resetHasNode();
     }
 
@@ -454,10 +456,11 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     setCollection(newCollection: ISourceCollection<S>): void {
         super.setCollection(newCollection);
-        if (this.getExpanderVisibility() === 'hasChildren' && this.getHasChildrenProperty()) {
+        if (this.getExpanderVisibility() === 'hasChildren') {
             this._recountHasNodeWithChildren();
-        } else {
-            this._recountHasChildrenByRecordSet();
+            if (!this.getHasChildrenProperty()) {
+                this._recountHasChildrenByRecordSet();
+            }
         }
     }
 
@@ -1127,7 +1130,11 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         const collection = this.getCollection();
         for (let i = 0; i < collection.getCount(); i++) {
             const item = collection.at(i);
-            if (item.get(this.getNodeProperty()) !== null && item.get(this.getHasChildrenProperty())) {
+            const isNode = item.get(this.getNodeProperty()) !== null;
+            const hasChildren = this.getHasChildrenProperty()
+                ? item.get(this.getHasChildrenProperty())
+                : !!this.getChildrenByRecordSet(item).length;
+            if (isNode && hasChildren) {
                 hasNodeWithChildren = true;
                 break;
             }
