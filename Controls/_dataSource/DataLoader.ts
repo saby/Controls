@@ -18,8 +18,10 @@ import {Guid} from 'Types/entity';
 import {ControllerClass as SearchController} from 'Controls/search';
 import {ISearchControllerOptions} from 'Controls/_search/ControllerClass';
 import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
+import {constants} from 'Env/Constants';
 
 const DEFAULT_LOAD_TIMEOUT = 10000;
+const DEBUG_DEFAULT_LOAD_TIMEOUT = 30000;
 
 interface IFilterHistoryLoaderResult {
     filterButtonSource: IFilterItem[];
@@ -180,14 +182,14 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
             .catch(() => {
                 filterController = getFilterController(loadConfig as IFilterControllerOptions);
             });
-        filterPromise = wrapTimeout(filterPromise, DEFAULT_LOAD_TIMEOUT).catch(() => {
+        filterPromise = wrapTimeout(filterPromise, getLoadTimeout()).catch(() => {
             Logger.info('Controls/dataSource:loadData: Данные фильтрации не загрузились за 1 секунду');
         });
     }
 
     if (loadConfig.propStorageId) {
         sortingPromise = loadSavedConfig(loadConfig.propStorageId, ['sorting']);
-        sortingPromise = wrapTimeout(sortingPromise, DEFAULT_LOAD_TIMEOUT).catch(() => {
+        sortingPromise = wrapTimeout(sortingPromise, getLoadTimeout()).catch(() => {
             Logger.info('Controls/dataSource:loadData: Данные сортировки не загрузились за 1 секунду');
         });
     }
@@ -201,7 +203,7 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
             ...loadConfig,
             sorting,
             filter: filterController ? filterController.getFilter() : loadConfig.filter,
-            loadTimeout: DEFAULT_LOAD_TIMEOUT
+            loadTimeout: getLoadTimeout()
         });
 
         return new Promise((resolve) => {
@@ -214,6 +216,10 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
             }
         });
     });
+}
+
+function getLoadTimeout(): Number {
+    return constants.isProduction ? DEFAULT_LOAD_TIMEOUT : DEBUG_DEFAULT_LOAD_TIMEOUT;
 }
 
 export default class DataLoader {
