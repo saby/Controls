@@ -1,5 +1,5 @@
 import { TreeGridCollection } from 'Controls/treeGrid';
-import { Model } from 'Types/entity';
+import {Model} from 'Types/entity';
 import { TemplateFunction } from 'UI/Base';
 import SearchGridDataRow from './SearchGridDataRow';
 import {ItemsFactory, itemsStrategy } from 'Controls/display';
@@ -81,6 +81,17 @@ export default class SearchGridCollection<S extends Model = Model, T extends Sea
       // а экспандер в моделе с хлебными крошками не отображается
       this._setHasNodeWithChildren(false);
    }
+
+   // region Аспект "крайние записи"
+
+   getLastItem(): Model {
+      if (!this._lastItem) {
+         this._lastItem = this.getCollection().at(this.getCollection().getCount() - 1);
+      }
+      return this._lastItem;
+   }
+
+   // endregion Аспект "крайние записи"
 }
 
 Object.assign(SearchGridCollection.prototype, {

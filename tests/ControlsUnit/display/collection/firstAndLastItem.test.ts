@@ -12,7 +12,7 @@ describe('ControlsUnit/display/collection/firstAndLastItem', () => {
                 keyProperty: 'id',
                 collection: recordSet
             });
-            assert.isTrue(collection.at(0).getIsFirstItem());
+            assert.isTrue(collection.at(0).isFirstItem());
             assert.isTrue(collection.at(1).isLastItem());
         });
     });
@@ -43,14 +43,14 @@ describe('ControlsUnit/display/collection/firstAndLastItem', () => {
                 collection: recordSet
             });
 
-            assert.isTrue(collection.at(0).getIsFirstItem());
+            assert.isTrue(collection.at(0).isFirstItem());
             assert.isTrue(collection.at(1).isLastItem());
 
             recordSet.merge(new RecordSet({ rawData: [{id: 3}, {id: 4}], keyProperty: 'id' }), {remove: false, inject: true });
 
-            assert.isTrue(collection.at(0).getIsFirstItem());
+            assert.isTrue(collection.at(0).isFirstItem());
             assert.isFalse(collection.at(1).isLastItem());
-            assert.isFalse(collection.at(2).getIsFirstItem());
+            assert.isFalse(collection.at(2).isFirstItem());
             assert.isTrue(collection.at(3).isLastItem());
         });
 
@@ -82,9 +82,9 @@ describe('ControlsUnit/display/collection/firstAndLastItem', () => {
             const itemAt1 = collection.at(1);
             const itemAt2 = collection.at(2);
 
-            assert.isFalse(itemAt1.getIsFirstItem());
+            assert.isFalse(itemAt1.isFirstItem());
             recordSet.removeAt(0);
-            assert.isTrue(itemAt1.getIsFirstItem());
+            assert.isTrue(itemAt1.isFirstItem());
 
             assert.isFalse(itemAt2.isLastItem());
             recordSet.removeAt(2);

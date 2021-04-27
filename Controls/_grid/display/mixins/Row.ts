@@ -108,7 +108,7 @@ export default abstract class Row<T> {
             && this.isLastItem()) {
             itemClasses += ' controls-ListView__itemV_last';
         }
-        if (this.getIsFirstItem()) {
+        if (this.isFirstItem()) {
             itemClasses += ' controls-ListView__itemV_first';
         }
 
@@ -692,7 +692,7 @@ export default abstract class Row<T> {
 
     abstract isSticked(): boolean;
 
-    abstract getIsFirstItem(): boolean;
+    abstract isFirstItem(): boolean;
 
     abstract isLastItem(): boolean;
 
