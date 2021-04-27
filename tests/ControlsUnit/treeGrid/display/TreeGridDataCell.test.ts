@@ -117,6 +117,17 @@ describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
          const cell = treeGridCollection.at(0).getColumns()[0];
          CssClassesAssert.isSame(cell.getWrapperClasses('default', 'default'), expected);
       });
+
+      it('not support grid', () => {
+         const sandbox = sinon.createSandbox();
+         const stubIsFullGridSupport = sandbox.stub(Display, 'isFullGridSupport');
+         stubIsFullGridSupport.returns(false);
+
+         const cell = treeGridCollection.at(0).getColumns()[0];
+         CssClassesAssert.notInclude(cell.getWrapperClasses('default', 'default'), 'controls-Grid__cell_spacingFirstCol_default');
+
+         sandbox.restore();
+      });
    });
 
    describe('getRelativeCellWrapperClasses', () => {
@@ -134,6 +145,18 @@ describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
          const expected = 'controls-TreeGridView__row-cell_innerWrapper controls-Grid__table__relative-cell-wrapper controls-Grid__table__relative-cell-wrapper_rowSeparator-null ';
          const cell = treeGridCollection.at(0).getColumns()[1];
          CssClassesAssert.isSame(cell.getRelativeCellWrapperClasses('default'), expected);
+
+         sandbox.restore();
+      });
+
+      it('left padding when not support grid', () => {
+         const sandbox = sinon.createSandbox();
+         const stubIsFullGridSupport = sandbox.stub(Display, 'isFullGridSupport');
+         stubIsFullGridSupport.returns(false);
+
+         treeGridCollection.setMultiSelectVisibility('hidden');
+         const cell = treeGridCollection.at(0).getColumns()[0];
+         CssClassesAssert.include(cell.getRelativeCellWrapperClasses('default'), 'controls-Grid__cell_spacingFirstCol_default');
 
          sandbox.restore();
       });
