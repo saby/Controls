@@ -16,7 +16,9 @@ describe('Controls/grid/Display/header/HeaderCell/backgroundColorStyle', () => {
         getRowSeparatorSize: () => 's',
         hasMultiSelectColumn: () => false,
         getColumnIndex: () => 1,
-        isMultiline: () => false
+        isMultiline: () => false,
+        getColumnsCount: () => 1,
+        getActionsTemplateConfig: () => {}
     } as undefined as GridHeaderRow<Model>;
 
     beforeEach(() => {
