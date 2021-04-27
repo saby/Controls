@@ -95,6 +95,7 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
     protected delay: number;
     protected delayTimeout: number;
     private _blockedEvents: string[];
+    protected _loadState: boolean = true;
 
     protected _beforeMount(cfg: ILoadingIndicatorOptions): void {
         this.mods = [];
@@ -124,8 +125,16 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
     }
 
     protected _beforeUpdate(cfg: ILoadingIndicatorOptions): void {
-        this._updateProperties(cfg);
-        this._redrawOverlay();
+         if (this._options.visible !== cfg.visible) {
+             this._loadState = false;
+             if (cfg.visible) {
+                 this.show();
+             } else {
+                 this.hide();
+             }
+         }
+         this._updateProperties(cfg);
+         this._redrawOverlay();
     }
 
     protected _beforeUnmount(): void {
