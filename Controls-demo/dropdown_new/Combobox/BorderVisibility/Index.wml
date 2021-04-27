@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-    <div class="controlsDemo__mr4">
+    <div class="controlsDemo__mr4 demo-ComboboxBorderVisibility__visible">
         <div class="controls-text-label_theme-{{_options.theme}}">borderVisibility="visible"</div>
         <Controls.dropdown:Combobox source="{{_source}}"
                                     displayProperty="title"
@@ -7,7 +7,7 @@
                                     borderVisibility="visible"
                                     bind:selectedKey="_selectedKey"/>
     </div>
-    <div class="controlsDemo__mr4">
+    <div class="controlsDemo__mr4 demo-ComboboxBorderVisibility__partial">
         <div class="controls-text-label_theme-{{_options.theme}}">borderVisibility="partial"</div>
         <Controls.dropdown:Combobox source="{{_source}}"
                                     displayProperty="title"
@@ -15,7 +15,7 @@
                                     borderVisibility="partial"
                                     bind:selectedKey="_selectedKey"/>
     </div>
-    <div class="controlsDemo__mr4">
+    <div class="controlsDemo__mr4 demo-ComboboxBorderVisibility__hidden">
         <div class="controls-text-label_theme-{{_options.theme}}">borderVisibility="hidden"</div>
         <Controls.dropdown:Combobox source="{{_source}}"
                                     displayProperty="title"
