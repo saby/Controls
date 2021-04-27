@@ -35,6 +35,7 @@ export interface IOptions<T> extends IColspanParams {
     isLadderCell?: boolean;
     columnSeparatorSize?: string;
     backgroundStyle?: string;
+    isSticked?: boolean;
     rowSeparatorSize?: string;
 }
 
@@ -62,6 +63,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
     protected _$markerPosition: 'left' | 'right';
+    protected _$isSticked: boolean;
     protected _$backgroundStyle: string;
 
     constructor(options?: IOptions<T>) {
@@ -224,7 +226,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             wrapperClasses += ' controls-Grid__row-cell-editing';
         }
 
-        wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(theme, style, templateHighlightOnHover, backgroundColorStyle, hoverBackgroundStyle)}`;
+        wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(theme, style, backgroundColorStyle, templateHighlightOnHover, hoverBackgroundStyle)}`;
 
         if (this._$owner.hasColumnScroll()) {
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
@@ -238,35 +240,52 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _getBackgroundColorWrapperClasses(
        theme: string,
        style: string = 'default',
-       templateHighlightOnHover?: boolean,
        backgroundColorStyle?: string,
+       templateHighlightOnHover?: boolean,
        hoverBackgroundStyle?: string
     ): string {
         let wrapperClasses = '';
-        const isSingleCellEditableMode = this._$owner.getEditingConfig()?.mode === 'cell';
-        if (this._$owner.isEditing() && !isSingleCellEditableMode) {
+
+        if (this._$owner.getEditingConfig()?.mode === 'cell') {
+            return '';
+        }
+
+        if (this._$owner.isEditing()) {
             const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
-            wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
-        } else if (!isSingleCellEditableMode) {
-            if (templateHighlightOnHover !== false) {
-                wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle} `;
-            }
+            return ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
 
-            const hasColumnScroll = this.getOwner().hasColumnScroll();
-            if (!hasColumnScroll && backgroundColorStyle && backgroundColorStyle !== 'default') {
-                wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle}`;
+        }
 
-            } else if (hasColumnScroll) {
-                if (backgroundColorStyle) {
-                    wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle || 'default'}`;
+        if (templateHighlightOnHover !== false) {
+            wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle} `;
+        }
 
-                } else if (this._$backgroundStyle === 'default' && style !== 'default') {
-                    wrapperClasses += ` controls-background-${style}`;
+        const hasColumnScroll = this.getOwner().hasColumnScroll();
 
-                } else if (this._$backgroundStyle) {
-                    wrapperClasses += ` controls-background-${this._$backgroundStyle}`;
-                }
-            }
+        // backgroundColorStyle имеет наивысший приоритет после isEditing
+        if (backgroundColorStyle && backgroundColorStyle !== 'default') {
+            wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle}`;
+
+        // Если на списке есть скролл колонок или ячейка застикана, то ей надо выставить backgroundStyle
+        // Сюда же попадаем, если backgroundColorStyle = default
+        } else if (hasColumnScroll || this._$isSticked) {
+            wrapperClasses += this._getControlsBackgroundClass(style, backgroundColorStyle);
+        }
+        return wrapperClasses;
+    }
+
+    // Вынес в отдельный метод, чтобы не проверять editing для header/footer/results
+    protected _getControlsBackgroundClass(style: string = 'default',
+                                          backgroundColorStyle: string): string {
+        let wrapperClasses = '';
+        if (backgroundColorStyle) {
+            wrapperClasses += ` controls-background-${backgroundColorStyle}`;
+        }
+        if (this._$backgroundStyle === 'default' && style !== 'default') {
+            wrapperClasses += ` controls-background-${style}`;
+
+        } else {
+            wrapperClasses += ` controls-background-${this._$backgroundStyle}`;
         }
         return wrapperClasses;
     }
@@ -572,6 +591,7 @@ Object.assign(Cell.prototype, {
     _$columnSeparatorSize: null,
     _$markerPosition: undefined,
     _$backgroundStyle: 'default',
+    _$isSticked: null,
 
     _$isFixed: null,
     _$isSingleCell: null,

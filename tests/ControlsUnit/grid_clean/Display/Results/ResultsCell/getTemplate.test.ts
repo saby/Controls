@@ -4,7 +4,7 @@ import { GridResultsCell, GRID_RESULTS_CELL_DEFAULT_TEMPLATE } from 'Controls/gr
 const RESULTS_CELL_TEMPLATE = 'RESULTS_CELL_TEMPLATE';
 const CELL_TEMPLATE = 'CELL_TEMPLATE';
 
-describe('Controls/grid_clean/Display/Results/ResultsCell', () => {
+describe('Controls/grid_clean/Display/Results/ResultsCell/getTemplate', () => {
     it('getTemplate(), isSingleCell = false', () => {
         const cell = new GridResultsCell({
             column: {
