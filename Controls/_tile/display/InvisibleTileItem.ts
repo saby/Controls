@@ -1,50 +1,22 @@
-import { TemplateFunction } from 'UI/Base';
 import TileCollectionItem from './TileCollectionItem';
-import * as Template from 'wml!Controls/_tile/render/items/Invisible';
+import InvisibleItem from './mixins/InvisibleItem';
+import { mixin } from 'Types/util';
 
-export default class InvisibleTileItem extends TileCollectionItem {
-    readonly Markable: boolean = false;
-    readonly SelectableItem: boolean = false;
-    readonly DraggableItem: boolean = false;
-    readonly ItemActionsItem: boolean = false;
-    readonly DisplaySearchValue: boolean = false;
-
-    getTemplate(): TemplateFunction {
-        return Template;
+export default class InvisibleTileItem extends mixin<TileCollectionItem, InvisibleItem>(TileCollectionItem, InvisibleItem) {
+    constructor(options: any) {
+        super(options);
+        InvisibleItem.call(this, options);
     }
 
-    getInvisibleClasses(): string {
-        let classes = 'controls-TileView__item';
-        classes += ` controls-TileView__item_spacingLeft_${this.getLeftPadding()}`;
-        classes += ` controls-TileView__item_spacingRight_${this.getRightPadding()}`;
-        classes += ` controls-TileView__item_spacingTop_${this.getTopPadding()}`;
-        classes += ` controls-TileView__item_spacingBottom_${this.getBottomPadding()}`;
-        classes += ' controls-TileView__item_invisible';
-        return classes;
-    }
-
-    getInvisibleStyles(templateWidth?: number): string {
-        return this.getItemStyles('invisible', templateWidth);
-    }
-
-    isLastInvisibleItem(): boolean {
-        return this._$lastInvisibleItem;
-    }
-
-    getContents(): object {
-        return this.getInstanceId();
+    // переопределяем key, т.к. по дефолту он берется из contents, но в пачке невидимых элементов одинаковый contents,
+    // поэтому падает ошибка с дубликатами ключе в верстке
+    get key(): string {
+        return this._instancePrefix + this.getInstanceId();
     }
 }
 
 Object.assign(InvisibleTileItem.prototype, {
     '[Controls/_tile/InvisibleTileItem]': true,
     _moduleName: 'Controls/tile:InvisibleTileItem',
-    _instancePrefix: 'invisible-tile-item-',
-    _$theme: 'default',
-    _$leftPadding: 'default',
-    _$rightPadding: 'default',
-    _$topPadding: 'default',
-    _$bottomPadding: 'default',
-    _$tileWidth: null,
-    _$lastInvisibleItem: false
+    _instancePrefix: 'invisible-tile-item-'
 });
