@@ -299,10 +299,8 @@ export default class Area extends BaseText<IAreaOptions> {
          * Так как размеры textarea зависят от fakeField, поэтому их значения на момент перерисовки страници должны быть одинаковыми. Иначе
          * возникают проблемы 1-2. Чтобы избежать проблем меняем значение fakeField в обработчике.
          */
-        if (detection.isMacOSDesktop || detection.chrome) {
-            if (this._children.hasOwnProperty('fakeField')) {
-                this._children.fakeField.innerText = this._viewModel.displayValue + this._field.scope.emptySymbol;
-            }
+        if (!this._options.readOnly && (detection.isMacOSDesktop || detection.chrome)) {
+            this._children.fakeField.innerText = this._viewModel.displayValue + this._field.scope.emptySymbol;
         }
     }
 
