@@ -279,6 +279,7 @@ abstract class BaseController {
             return {
                 right: contentData.left + contentData.width,
                 top: contentData.top,
+                width: contentData.width,
                 height: bodyCoords.height,
                 topScroll: bodyCoords.topScroll,
                 leftScroll: bodyCoords.leftScroll
