@@ -16,7 +16,11 @@ describe('Controls/grid/Display/Footer/FooterCell/backgroundColorStyle', () => {
         getRowSeparatorSize: () => 's',
         hasMultiSelectColumn: () => false,
         getColumnIndex: () => 1,
-        hasColumnScroll: () => false
+        hasColumnScroll: () => false,
+        getActionsTemplateConfig: () => {},
+        getMultiSelectVisibility: () => 'hidden',
+        getColumnsCount: () => 1,
+        hasItemActionsSeparatedCell: () => {}
     } as undefined as GridFooterRow<Model>;
 
     beforeEach(() => {

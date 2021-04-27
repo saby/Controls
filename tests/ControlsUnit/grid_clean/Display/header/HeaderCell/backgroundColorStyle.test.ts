@@ -1,9 +1,10 @@
 import { Model } from 'Types/entity';
-import { GridHeaderRow, GridHeaderCell } from 'Controls/grid';
+import { GridHeaderRow, GridHeaderCell, IColumn } from 'Controls/grid';
 import { CssClassesAssert as cAssert } from '../../../../CustomAsserts';
 
 describe('Controls/grid/Display/header/HeaderCell/backgroundColorStyle', () => {
     let cell: GridHeaderCell<any>;
+    let column: IColumn;
     const owner = {
         getHoverBackgroundStyle: () => 'default',
         getTopPadding: () => 'default',
@@ -18,11 +19,18 @@ describe('Controls/grid/Display/header/HeaderCell/backgroundColorStyle', () => {
         getColumnIndex: () => 1,
         isMultiline: () => false,
         getColumnsCount: () => 1,
-        getActionsTemplateConfig: () => {}
+        getActionsTemplateConfig: () => {},
+        hasItemActionsSeparatedCell: () => {},
+        getMultiSelectVisibility: () => 'hidden',
+        isStickyHeader: () => true,
+        getColumnsConfig: () => ([column]),
+        getHeaderConfig: () => ([column]),
+        hasColumnScroll: () => false
     } as undefined as GridHeaderRow<Model>;
 
     beforeEach(() => {
         cell = null;
+        column = { width: ''};
     });
 
     describe('backgroundColorStyle has the highest priority', () => {
@@ -32,7 +40,7 @@ describe('Controls/grid/Display/header/HeaderCell/backgroundColorStyle', () => {
         // + backgroundColorStyle
         // = backgroundColorStyle
         it('+backgroundStyle!=default, +style!=default, +backgroundColorStyle', () => {
-            cell = new GridHeaderCell({ owner, column: { width: ''}, backgroundStyle: 'red' });
+            cell = new GridHeaderCell({ owner, column, backgroundStyle: 'red' });
             cAssert.include(cell.getWrapperClasses('default', 'blue', 'master'),
                 'controls-background-blue');
         });
@@ -42,7 +50,7 @@ describe('Controls/grid/Display/header/HeaderCell/backgroundColorStyle', () => {
         // + backgroundColorStyle
         // = backgroundColorStyle
         it('+backgroundStyle!=default, -style!=default, +backgroundColorStyle', () => {
-            cell = new GridHeaderCell({ owner, column: { width: ''}, backgroundStyle: 'red' });
+            cell = new GridHeaderCell({ owner, column, backgroundStyle: 'red' });
             cAssert.include(cell.getWrapperClasses('default', 'blue', undefined),
                 'controls-background-blue');
         });
@@ -52,7 +60,7 @@ describe('Controls/grid/Display/header/HeaderCell/backgroundColorStyle', () => {
         // + backgroundColorStyle
         // = backgroundColorStyle
         it('-backgroundStyle!=default, +style!=default, +backgroundColorStyle', () => {
-            cell = new GridHeaderCell({ owner, column: { width: ''} });
+            cell = new GridHeaderCell({ owner, column });
             cAssert.include(cell.getWrapperClasses('default', 'blue', 'master'),
                 'controls-background-blue');
         });
@@ -62,7 +70,7 @@ describe('Controls/grid/Display/header/HeaderCell/backgroundColorStyle', () => {
         // + backgroundColorStyle
         // = backgroundColorStyle
         it('+backgroundStyle=default, +style=default, +backgroundColorStyle', () => {
-            cell = new GridHeaderCell({ owner, column: { width: ''}, backgroundStyle: 'default' });
+            cell = new GridHeaderCell({ owner, column, backgroundStyle: 'default' });
             cAssert.include(cell.getWrapperClasses('default', 'blue', 'default'),
                 'controls-background-blue');
         });
@@ -74,7 +82,7 @@ describe('Controls/grid/Display/header/HeaderCell/backgroundColorStyle', () => {
         // - backgroundColorStyle
         // = backgroundStyle
         it('+backgroundStyle!=default, +style!=default, -backgroundColorStyle', () => {
-            cell = new GridHeaderCell({ owner, column: { width: ''}, backgroundStyle: 'red' });
+            cell = new GridHeaderCell({ owner, column, backgroundStyle: 'red' });
             cAssert.include(cell.getWrapperClasses('default', undefined, 'master'),
                 'controls-background-red');
         });
@@ -84,7 +92,7 @@ describe('Controls/grid/Display/header/HeaderCell/backgroundColorStyle', () => {
         // - backgroundColorStyle
         // = backgroundStyle
         it('+backgroundStyle!=default, +style=default, -backgroundColorStyle', () => {
-            cell = new GridHeaderCell({ owner, column: { width: ''}, backgroundStyle: 'red' });
+            cell = new GridHeaderCell({ owner, column, backgroundStyle: 'red' });
             cAssert.include(cell.getWrapperClasses('default', undefined, 'default'),
                 'controls-background-red');
         });
@@ -96,7 +104,7 @@ describe('Controls/grid/Display/header/HeaderCell/backgroundColorStyle', () => {
         // - backgroundColorStyle
         // = backgroundStyle
         it('+backgroundStyle=default, +style=default, -backgroundColorStyle', () => {
-            cell = new GridHeaderCell({ owner, column: { width: ''}, backgroundStyle: 'default' });
+            cell = new GridHeaderCell({ owner, column, backgroundStyle: 'default' });
             cAssert.include(cell.getWrapperClasses('default', undefined, 'default'),
                 'controls-background-default');
         });
@@ -106,7 +114,7 @@ describe('Controls/grid/Display/header/HeaderCell/backgroundColorStyle', () => {
         // - backgroundColorStyle
         // = style
         it('+backgroundStyle=default, +style=!default, -backgroundColorStyle', () => {
-            cell = new GridHeaderCell({ owner, column: { width: ''}, backgroundStyle: 'default' });
+            cell = new GridHeaderCell({ owner, column, backgroundStyle: 'default' });
             cAssert.include(cell.getWrapperClasses('default', undefined, 'master'),
                 'controls-background-master');
         });

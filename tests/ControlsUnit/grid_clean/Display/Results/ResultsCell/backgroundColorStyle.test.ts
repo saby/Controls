@@ -15,7 +15,12 @@ describe('Controls/grid/Display/Results/ResultsCell/backgroundColorStyle', () =>
         isActive: () => false,
         getRowSeparatorSize: () => 's',
         hasMultiSelectColumn: () => false,
-        getColumnIndex: () => 1
+        getColumnIndex: () => 1,
+        hasItemActionsSeparatedCell: () => false,
+        getMultiSelectVisibility: () => 'hidden',
+        getColumnsCount: () => 1,
+        isSticked: () => true,
+        hasColumnScroll: () => false
     } as undefined as GridResultsRow<Model>;
 
     beforeEach(() => {
