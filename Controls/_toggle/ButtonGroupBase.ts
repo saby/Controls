@@ -21,8 +21,10 @@ export interface IButtonGroupOptions extends ISingleSelectableOptions, IControlO
 class ButtonGroupBase extends Control<IButtonGroupOptions> {
 
     protected _onItemClick(event: SyntheticEvent<Event>, item: Model): void {
-        if (!this._options.readOnly) {
-            this._notify('selectedKeyChanged', [item.get(this._options.keyProperty)]);
+        const keyProperty = this._options.keyProperty;
+        const isNewItemSelected = item.get(keyProperty) !== this._options.selectedKey;
+        if (!this._options.readOnly && isNewItemSelected) {
+            this._notify('selectedKeyChanged', [item.get(keyProperty)]);
         }
     }
 
