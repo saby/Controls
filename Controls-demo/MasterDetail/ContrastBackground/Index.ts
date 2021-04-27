@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import template = require('wml!Controls-demo/MasterDetail/MasterDetailNew/Index');
+import template = require('wml!Controls-demo/MasterDetail/ContrastBackground/Index');
 import {master} from 'Controls-demo/MasterDetail/Data';
 import * as cClone from 'Core/core-clone';
 import {Memory} from 'Types/source';

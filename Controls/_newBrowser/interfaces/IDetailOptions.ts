@@ -10,9 +10,11 @@ import {
     INavigationSourceConfig,
     IPromiseSelectableOptions,
     ISortingOptions,
-    ISourceOptions
+    ISourceOptions,
+    ISearchOptions
 } from 'Controls/interface';
 import {RecordSet} from 'Types/collection';
+import {IHierarchySearchOptions} from 'Controls/interface/IHierarchySearch';
 
 /**
  * Enum со списком доступных вариантов отображения контента в detail-колонке
@@ -36,6 +38,8 @@ export
         IHierarchyOptions,
         IGroupingOptions,
         ISourceOptions,
+        ISearchOptions,
+        IHierarchySearchOptions,
         IPromiseSelectableOptions,
         INavigationOptions<INavigationSourceConfig> {
 
