@@ -21,7 +21,7 @@
                                 icon="{{icon}}" />
          </div>
          <div class="controls-Dropdown__text-wrapper">
-            <div if="{{!icon}}" class="controls-Dropdown__text" title="{{tooltip}}">{{text}}</div>
+            <div if="{{!icon}}" class="controls-Dropdown__text">{{text}}</div>
             <span class="controls-Dropdown__hasMoreText">{{hasMoreText}}</span>
          </div>
       </ws:else>
