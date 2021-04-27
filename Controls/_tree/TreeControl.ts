@@ -1214,7 +1214,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 }
             };
 
-            if (key === model.getLastItem().key) {
+            if (key === model.getLastItem().get(model.getKeyProperty())) {
                 this._shiftToDirection('down').then(goToNextItem);
             } else {
                 goToNextItem();
@@ -1314,7 +1314,22 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     }
 
     protected _getFooterClasses(options): string {
-        return super._getFooterClasses(options) + ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
+        let result = super._getFooterClasses(options);
+
+        if (this._listViewModel && this._listViewModel['[Controls/_display/Tree]']) {
+            const expanderVisibility = this._listViewModel.getExpanderVisibility();
+            const hasExpander = this._listViewModel.getExpanderIcon() !== 'none'
+                && (expanderVisibility === 'hasChildren' && this._listViewModel.hasNodeWithChildren()
+                || expanderVisibility !== 'hasChildren' && this._listViewModel.hasNode());
+            if (hasExpander) {
+                result += ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
+            }
+        } else if (!this._options.useNewModel) {
+            // в старой модели всегда добавляем отступ, удалить когда избавимся от старой модели
+            result += ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
+        }
+
+        return result;
     }
 
     static getDefaultOptions() {

@@ -21,6 +21,7 @@ export default INumberFormat;
  * @name Controls/_interface/INumberFormat#useGrouping
  * @cfg {Boolean} Определяет, следует ли использовать разделители группы.
  * @default true
+ * @demo Controls-demo/Decorator/Number/UseGrouping/Index
  * @remark
  * * true - число разделено на группы.
  * * false - разделения не происходит.
@@ -29,7 +30,17 @@ export default INumberFormat;
  * @name Controls/_interface/INumberFormat#showEmptyDecimals
  * @cfg {Boolean} Определяет, отображать ли нули в конце десятичной части.
  * @default false
+ * @demo Controls-demo/Decorator/Money/ShowEmptyDecimals/Index
  * @remark
  * * true - отображать нули в десятичной части.
  * * false - не отображать нули в десятичной части.
+ */
+/**
+ * @name Controls/_interface/INumberFormat#stroked
+ * @cfg {Boolean} Определяет, должно ли число быть перечеркнутым.
+ * @default false
+ * @demo Controls-demo/Decorator/Number/Stroked/Index
+ * @remark
+ * * true - перечеркнуть число.
+ * * false - не перечеркивать число.
  */

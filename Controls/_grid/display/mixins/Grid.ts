@@ -5,10 +5,10 @@ import {
     THeader,
     IColumn,
     TColumns,
-    TColumnSeparatorSize, INavigationOptionValue
+    TColumnSeparatorSize
 } from 'Controls/interface';
 
-import { IViewIterator, GridLadderUtil, ILadderObject, IBaseCollection } from 'Controls/display';
+import { IViewIterator, GridLadderUtil, ILadderObject, IBaseCollection, isFullGridSupport } from 'Controls/display';
 
 import Header from '../Header';
 import TableHeader from '../TableHeader';
@@ -21,7 +21,6 @@ import FooterRow, { TFooter } from '../FooterRow';
 import ResultsRow, { TResultsPosition } from '../ResultsRow';
 import GridRowMixin from './Row';
 import EmptyRow from '../EmptyRow';
-
 
 type THeaderVisibility = 'visible' | 'hasdata';
 type TResultsVisibility = 'visible' | 'hasdata';
@@ -99,7 +98,6 @@ export interface IOptions {
     columnSeparatorSize?: TColumnSeparatorSize;
     multiSelectVisibility?: string;
     itemActionsPosition?: 'inside' | 'outside' | 'custom';
-    isFullGridSupport?: boolean;
     backgroundStyle: string;
 }
 
@@ -125,7 +123,6 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$resultsColspanCallback: TResultsColspanCallback;
     protected _$resultsTemplate: TemplateFunction;
-    protected _$isFullGridSupport: boolean;
     protected _$columnScroll: boolean;
     protected _$stickyColumnsCount: number;
     protected _$emptyGridRow: EmptyRow<S>;
@@ -133,6 +130,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$sorting: Array<{[p: string]: string}>;
     protected _$emptyTemplateColumns: IEmptyTemplateColumn[];
     protected _$itemActionsPosition: 'inside' | 'outside' | 'custom';
+
+    protected _isFullGridSupport: boolean = isFullGridSupport();
 
     protected constructor(options: IOptions) {
         const supportLadder = GridLadderUtil.isSupportLadder(this._$ladderProperties);
@@ -151,7 +150,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (this._resultsIsVisible()) {
             this._initializeResults(options);
         }
-        if (!this._$isFullGridSupport) {
+        if (!this.isFullGridSupport()) {
             this._initializeColgroup(options);
         }
 
@@ -253,7 +252,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     isFullGridSupport(): boolean {
-        return this._$isFullGridSupport;
+        return this._isFullGridSupport;
     }
 
     getEmptyTemplateClasses(theme?: string): string {
@@ -393,7 +392,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     getHeaderConstructor(): typeof Header {
-        return this._$isFullGridSupport ? Header : TableHeader;
+        return this.isFullGridSupport() ? Header : TableHeader;
     }
 
     protected _initializeFooter(options: IOptions): FooterRow<S> {
@@ -553,7 +552,6 @@ Object.assign(Grid.prototype, {
     _$resultsPosition: null,
     _$ladderProperties: null,
     _$stickyColumn: null,
-    _$isFullGridSupport: true,
     _$showEditArrow: false,
     _$editArrowVisibilityCallback: null,
     _$colspanCallback: null,

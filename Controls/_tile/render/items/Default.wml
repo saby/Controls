@@ -1,35 +1,40 @@
-<div attr:class="{{ (item || itemData).getItemClasses(itemType, clickable, hasTitle, cursor, marker, shadowVisibility, border) }}" attr:style="{{ (item || itemData).getItemStyles(itemType, width || itemWidth, staticHeight) }}">
-   <ws:if data="{{ (item || itemData).shouldDisplayAutoResizer(itemType, staticHeight) }}">
-      <div style="{{ (item || itemData).getAutoResizerStyles(itemType, width || itemWidth, imageProportion) }}"></div>
-   </ws:if>
+<ws:if data="{{ (item || itemData)['[Controls/_tile/display/mixins/InvisibleItem]'] }}">
+   <ws:partial template="wml!Controls/_tile/render/items/Invisible" scope="{{_options}}"/>
+</ws:if>
+<ws:else>
+   <div attr:class="{{ (item || itemData).getItemClasses(itemType, clickable, hasTitle, cursor, marker, shadowVisibility, border) }}" attr:style="{{ (item || itemData).getItemStyles(itemType, width || itemWidth, staticHeight, imagePosition, imageViewMode) }}">
+      <ws:if data="{{ (item || itemData).shouldDisplayAutoResizer(itemType, staticHeight) }}">
+         <div style="{{ (item || itemData).getAutoResizerStyles(itemType, width || itemWidth, imageProportion, imagePosition, imageViewMode) }}"></div>
+      </ws:if>
 
-   <div attr:class="{{ (item || itemData).getWrapperClasses(itemType, shadowVisibility, marker, highlightOnHover, backgroundColorStyle, height, border) }}"
-        attr:style="{{ (item || itemData).getWrapperStyles(itemType, nodeContentTemplate) }}">
+      <div attr:class="{{ (item || itemData).getWrapperClasses(itemType, shadowVisibility, marker, highlightOnHover, backgroundColorStyle, height, border, titleStyle) }}"
+           attr:style="{{ (item || itemData).getWrapperStyles(itemType, nodeContentTemplate) }}">
 
-      <ws:partial if="{{ (item || itemData).shouldDisplayMultiSelectTemplate() }}"
-                  template="{{ multiSelectTpl }}"
-                  attr:style="{{ (item || itemData).getMultiSelectStyles(itemType) }}">
-         <ws:templateOptions item="{{ (item || itemData) }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
-      </ws:partial>
+         <ws:partial if="{{ (item || itemData).shouldDisplayMultiSelectTemplate() }}"
+                     template="{{ multiSelectTpl }}"
+                     attr:style="{{ (item || itemData).getMultiSelectStyles(itemType) }}">
+            <ws:templateOptions item="{{ (item || itemData) }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+         </ws:partial>
 
 
-      <ws:partial template="{{ (item || itemData).getContentTemplate(itemType, contentTemplate, nodeContentTemplate) }}" scope="{{_options}}">
-         <ws:multiSelectTemplate>
-            <ws:partial template="{{ multiSelectTpl }}">
-               <ws:templateOptions item="{{ (item || itemData) }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
-            </ws:partial>
-         </ws:multiSelectTemplate>
-      </ws:partial>
+         <ws:partial template="{{ (item || itemData).getContentTemplate(itemType, contentTemplate, nodeContentTemplate) }}" scope="{{_options}}">
+            <ws:multiSelectTemplate>
+               <ws:partial template="{{ multiSelectTpl }}">
+                  <ws:templateOptions item="{{ (item || itemData) }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+               </ws:partial>
+            </ws:multiSelectTemplate>
+         </ws:partial>
 
-      <ws:partial if="{{ (item || itemData).shouldDisplayItemActions(itemType, itemActionsPosition) }}"
-                  template="{{itemActionsTemplate}}"
-                  scope="{{_options}}"
-                  actionMode="{{ (item || itemData).getActionMode(itemType) }}"
-                  itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType, itemActionsClass) }}"/>
-      <ws:partial if="{{ (item || itemData).shouldDisplaySwipeTemplate() }}"
-                  template="{{swipeTemplate}}"
-                  itemData="{{(item || itemData)}}"
-                  item="{{(item || itemData)}}"
-                  itemActionsTemplate="{{itemActionsTemplate}}"/>
+         <ws:partial if="{{ (item || itemData).shouldDisplayItemActions(itemType, itemActionsPosition) }}"
+                     template="{{itemActionsTemplate}}"
+                     scope="{{_options}}"
+                     actionMode="{{ (item || itemData).getActionMode(itemType) }}"
+                     itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType, itemActionsClass) }}"/>
+         <ws:partial if="{{ (item || itemData).shouldDisplaySwipeTemplate() }}"
+                     template="{{swipeTemplate}}"
+                     itemData="{{(item || itemData)}}"
+                     item="{{(item || itemData)}}"
+                     itemActionsTemplate="{{itemActionsTemplate}}"/>
+      </div>
    </div>
-</div>
+</ws:else>

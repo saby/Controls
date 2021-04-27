@@ -10,7 +10,8 @@ define([
    'Types/source',
    'Controls/Application/SettingsController',
    'Controls/listDragNDrop',
-   'Controls/dataSource'
+   'Controls/dataSource',
+   'ControlsUnit/CustomAsserts'
 ], function(
    tree,
    treeGrid,
@@ -23,7 +24,8 @@ define([
    sourceLib,
    SettingsController,
    listDragNDrop,
-   dataSource
+   dataSource,
+   asserts
 ) {
    function correctCreateTreeControl(cfg, returnCreatePromise) {
       var
@@ -2025,6 +2027,58 @@ define([
             await treeControl.toggleExpanded(2);
             treeControl._beforeUpdate({...cfg, root: 0, expandedItems: [1, 2], source });
             assert.deepEqual(treeControl.getViewModel().getExpandedItems(), [1, 2]);
+         });
+      });
+
+      describe('_getFooterClasses', () => {
+         const items = new collection.RecordSet({
+            rawData: getHierarchyData(),
+            keyProperty: 'id'
+         });
+
+         // 0
+         // |-1
+         // | |-3
+         // |-2
+         // 4
+         const cfg = {
+            items,
+            keyProperty: 'id',
+            parentProperty: 'Раздел',
+            nodeProperty: 'Раздел@',
+            useNewModel: true,
+            viewModelConstructor: 'Controls/display:Tree',
+            selectedKeys: [],
+            excludedKeys: []
+         };
+         let treeControl;
+
+         it('expanderIcon is none', () => {
+            const options = {...cfg, expanderIcon: 'none'};
+            treeControl = correctCreateTreeControl(options);
+            asserts.CssClassesAssert.notInclude(treeControl._getFooterClasses(options), 'controls-TreeGridView__footer__expanderPadding-default');
+         });
+
+         it('expanderVisibility is hasChildren', () => {
+            const options = {...cfg, expanderVisibility: 'hasChildren'};
+            treeControl = correctCreateTreeControl(options);
+            asserts.CssClassesAssert.include(treeControl._getFooterClasses(options), 'controls-TreeGridView__footer__expanderPadding-default');
+         });
+
+         it('expanderVisibility is visible', () => {
+            const options = {...cfg, expanderVisibility: 'visible'};
+            treeControl = correctCreateTreeControl(options);
+            asserts.CssClassesAssert.include(treeControl._getFooterClasses(options), 'controls-TreeGridView__footer__expanderPadding-default');
+         });
+
+         it('expanderVisibility is visible and not has node', () => {
+            const items = new collection.RecordSet({
+               rawData: [{id: 1, 'Раздел@': null, "Раздел": null}],
+               keyProperty: 'id'
+            });
+            const options = {...cfg, expanderVisibility: 'visible', items};
+            treeControl = correctCreateTreeControl(options);
+            asserts.CssClassesAssert.notInclude(treeControl._getFooterClasses(options), 'controls-TreeGridView__footer__expanderPadding-default');
          });
       });
    });

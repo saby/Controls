@@ -27,7 +27,7 @@ class FooterCell<T> extends Cell<T, FooterRow<T>> {
     }
 
     getWrapperStyles(containerSize?: number): string {
-        return `${this.getColspanStyles()} ${(this._$isSingleCell && containerSize) ? `width: ${containerSize}px;` : ''}`;
+        return `${this.getColspanStyles()} ${(this._$isSingleColspanedCell && containerSize) ? `width: ${containerSize}px;` : ''}`;
     }
 
     getContentClasses(theme: string): string {

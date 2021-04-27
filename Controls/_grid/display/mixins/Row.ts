@@ -426,8 +426,8 @@ export default abstract class Row<T> {
             });
         }
 
-        if (creatingColumnsParams.length === 1) {
-            creatingColumnsParams[0].isSingleCell = true;
+        if (creatingColumnsParams.length === 1 && (this._$rowTemplate || columns.length > 1)) {
+            creatingColumnsParams[0].isSingleColspanedCell = true;
         }
 
         if (creatingColumnsParams.length > 0) {
@@ -443,6 +443,7 @@ export default abstract class Row<T> {
             // Однако, колонки сохраняются, чтобы при сбросе шаблона строки строка перерисовалась по ним.
             if (this._savedColumns !== newColumns) {
                 this._savedColumns = newColumns;
+                this._reinitializeColumns(true);
             }
         } else {
             if (this._$columns !== newColumns) {

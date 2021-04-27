@@ -44,6 +44,20 @@ const MODERN_IE_VERSION = 11;
  * @demo Controls-demo/Heading/Back/SizesAndStyles/Index
  */
 
+ /**
+ * @name Controls/_heading/Back#fontColorStyle
+ * @cfg
+ * @variant primary
+ * @variant secondary
+ * @example
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.heading:Back caption="Back" fontColorStyle="primary"/>
+ * <Controls.heading:Back caption="Back" fontColorStyle="secondary"/>
+ * </pre>
+ * @demo Controls-demo/Heading/Back/FontColorStyle
+ */
+
 /*
  * Specialized heading to go to the previous level.
  *
