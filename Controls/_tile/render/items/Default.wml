@@ -13,7 +13,7 @@
       </ws:partial>
 
 
-      <ws:partial template="{{ (item || itemData).getContentTemplate(itemType, contentTemplate, nodeContentTemplate) }}" scope="{{_options}}">
+      <ws:partial template="{{ (item || itemData).getContentTemplate(itemType, contentTemplate, nodeContentTemplate, isEditing) }}" scope="{{_options}}">
          <ws:multiSelectTemplate>
             <ws:partial template="{{ multiSelectTpl }}">
                <ws:templateOptions item="{{ (item || itemData) }}" checkboxReadOnly="{{checkboxReadOnly}}"/>

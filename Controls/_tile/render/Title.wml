@@ -23,7 +23,7 @@
         </div>
     </ws:if>
     <ws:if data="{{characteristics && characteristics.length}}">
-        <ws:partial template="Controls/list:CharacteristicsTemplate" data="{{characteristics}}"></ws:partial>
+        <ws:partial template="Controls/list:CharacteristicsTemplate" data="{{characteristics}}"/>
     </ws:if>
     <ws:if data="{{ item.shouldDisplayDescription(itemType, description, descriptionLines) }}">
         <div class="{{ item.getDescriptionClasses(itemType, descriptionLines) }}"

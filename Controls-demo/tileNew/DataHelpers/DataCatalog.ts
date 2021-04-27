@@ -293,7 +293,89 @@ export const Gadgets = {
         isShadow: true
     }
     ],
-
+    getRichItemsForEditing: (): IData[] => [
+        {
+            id: 1,
+            parent: null,
+            type: null,
+            title: 'Молоко "Кружева" ультрапастеризованное 1 л',
+            description: 'Элемент с редактированием по месту',
+            imageProportion: '1:1',
+            titleLines: 2,
+            imagePosition: 'top',
+            imageViewMode: 'rectangle',
+            'parent@': null,
+            imageHeight: 's',
+            image: Images.MEDVED,
+            isShadow: true,
+            footerData: [
+                {
+                    title: 'цена',
+                    value: 100,
+                    editable: true
+                },
+                {
+                    title: 'белки, г',
+                    value: 40,
+                    editable: false
+                }
+            ]
+        },
+        {
+            id: 2,
+            parent: null,
+            type: null,
+            title: 'Мост',
+            description: 'Можно задать шаблон редактирования и для футера',
+            imageProportion: '1:1',
+            titleLines: 2,
+            imagePosition: 'top',
+            imageViewMode: 'rectangle',
+            'parent@': null,
+            imageHeight: 's',
+            image: Images.BRIDGE,
+            isShadow: true,
+            footerData: [
+                {
+                    title: 'цена',
+                    value: 300,
+                    editable: true
+                },
+                {
+                    title: 'масса, т',
+                    value: 3,
+                    editable: false
+                }
+            ]
+        },
+        {
+            id: 3,
+            parent: null,
+            type: null,
+            title: 'Мост',
+            description: 'А еще есть возможность сделать тулбар для изменения изображений',
+            imageProportion: '1:1',
+            titleLines: 2,
+            imagePosition: 'top',
+            imageViewMode: 'rectangle',
+            'parent@': null,
+            imageHeight: 's',
+            image: Images.BRIDGE,
+            isShadow: true,
+            footerData: [
+                {
+                    title: 'цена',
+                    value: 250,
+                    editable: true
+                },
+                {
+                    title: 'масса, т',
+                    value: 2,
+                    editable: true
+                }
+            ]
+        }
+    ],
     getRichItems: (): IData[] => [
         {
             id: 0,
