@@ -13,6 +13,7 @@
                         selectedKey="{{selectedKey}}"
                         on:selectedKeyChanged="onChange2()"
                         keyProperty="id"
+                        contrastBackground="{{true}}"
                         displayProperty="title"
                         source="{{documentSignMemory}}"/>
             </div>

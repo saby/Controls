@@ -1,30 +1,30 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = null</div>
+      <div class="controls-text-label">value = null</div>
       <Controls.decorator:Number value="{{null}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 123456 useGrouping = false tooltip = Сумма</div>
+      <div class="controls-text-label">value = 123456 useGrouping = false tooltip = Сумма</div>
       <Controls.decorator:Number value="{{123456}}" useGrouping="{{false}}" tooltip="Сумма"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 123456 useGrouping = true</div>
+      <div class="controls-text-label">value = 123456 useGrouping = true</div>
       <Controls.decorator:Number value="{{123456}}" useGrouping="{{true}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 123456 fractionSize = 3 roundMode = trunc</div>
+      <div class="controls-text-label">value = 123456 fractionSize = 3 roundMode = trunc</div>
       <Controls.decorator:Number value="{{123456}}" fractionSize="{{3}}" roundMode="trunc"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 123456 fractionSize = 3 roundMode = round</div>
+      <div class="controls-text-label">value = 123456 fractionSize = 3 roundMode = round</div>
       <Controls.decorator:Number value="{{123456}}" fractionSize="{{3}}" showEmptyDecimals="{{true}}" roundMode="round" />
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 1.2349 fractionSize = 3 roundMode = trunc</div>
+      <div class="controls-text-label">value = 1.2349 fractionSize = 3 roundMode = trunc</div>
       <Controls.decorator:Number value="{{1.2349}}" fractionSize="{{3}}" roundMode="trunc"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 1.2349 fractionSize = 3 roundMode = round</div>
+      <div class="controls-text-label">value = 1.2349 fractionSize = 3 roundMode = round</div>
       <Controls.decorator:Number value="{{1.2349}}" fractionSize="{{3}}" roundMode="round"/>
    </div>
 </div>

@@ -53,7 +53,6 @@
                  _yearHovered="{{_yearHovered}}"
                  formatDate="{{_formatDate}}"
                  isExpandedPopup="{{ _isExpandedPopup }}"
-                 _isFullPicker="{{_isFullPicker}}"
          />
       </div>
       <div class="controls-PeriodLiteDialog__footer controls-PeriodLiteDialog__{{_isExpandedPopup ? 'collapseButton' : 'expandButton'}}">

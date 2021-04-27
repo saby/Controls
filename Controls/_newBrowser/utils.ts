@@ -1,7 +1,8 @@
 import {RecordSet} from 'Types/collection';
 import {IDetailOptions, IMasterOptions, IOptions} from 'Controls/newBrowser';
 import {IExplorerOptions} from 'Controls/_newBrowser/interfaces/IExplorerOptions';
-import {IBrowserViewConfig, ImageGradient, ImageViewMode} from 'Controls/_newBrowser/interfaces/IBrowserViewConfig';
+import {IBrowserViewConfig, ImageGradient} from 'Controls/_newBrowser/interfaces/IBrowserViewConfig';
+import {Model} from 'Types/entity';
 
 /**
  * Из метаданных RecordSet возвращает конфигурацию отображения списка
@@ -48,6 +49,12 @@ export function buildMasterOptions(options: IOptions): IExplorerOptions {
     };
 }
 
+interface IItemData {
+    item?: Model;
+    dispItem?: { isNode: () => boolean; };
+    isNode: () => boolean;
+}
+
 export class TileConfig {
     get imagePosition(): string {
         return this.cfg.tile.tile.imagePosition;
@@ -62,19 +69,19 @@ export class TileConfig {
         private browserOptions: IOptions
     ) {}
 
-    getDescription(itemData: any): string {
+    getDescription(itemData: IItemData): string {
         return itemData.item?.get(this.browserOptions.detail.descriptionProperty);
     }
 
-    getDescriptionLines(itemData: any): string | number {
+    getDescriptionLines(itemData: IItemData): string | number {
         const cfg = itemData.dispItem?.isNode() ? this.cfg.tile.node : this.cfg.tile.leaf;
         return cfg.descriptionLines;
     }
 
     /**
-     * Возвразщает цвет градиента плитки на основании типа узла и данных узла
+     * Возвращает цвет градиента плитки на основании типа узла и данных узла
      */
-    getGradientColor(itemData: any): string {
+    getGradientColor(itemData: IItemData): string {
         const imageGradient = itemData.dispItem?.isNode()
             ? this.cfg.tile.node.imageGradient
             : this.cfg.tile.leaf.imageGradient;
@@ -91,7 +98,7 @@ export class TileConfig {
         return itemData.item.get(this.browserOptions.detail.gradientColorProperty);
     }
 
-    getImageEffect(itemData: any): string {
+    getImageEffect(itemData: IItemData): string {
         const imageGradient = itemData.dispItem?.isNode()
             ? this.cfg.tile.node.imageGradient
             : this.cfg.tile.leaf.imageGradient;
@@ -105,13 +112,13 @@ export class TileConfig {
         return null;
     }
 
-    getImageViewMode(itemData: any): string {
+    getImageViewMode(itemData: IItemData): string {
         return  itemData.dispItem?.isNode()
             ? this.cfg.tile.node.imageViewMode
             : this.cfg.tile.leaf.imageViewMode;
     }
 
-    getImageProportion(itemData: any): string {
+    getImageProportion(itemData: IItemData): string {
         return  itemData.dispItem?.isNode()
             ? this.cfg.tile.node.imageProportion
             : this.cfg.tile.leaf.imageProportion;
@@ -131,13 +138,13 @@ export class ListConfig {
         return this.cfg.list.list.imageViewMode;
     }
 
-    getDescriptionLines(itemData: any): number {
-        return itemData.isNode() ? this.cfg.list.node.descriptionLines :
-            this.cfg.list.leaf.descriptionLines;
-    }
-
     constructor(
         private cfg: IBrowserViewConfig,
         private browserOptions: IOptions
     ) {}
+
+    getDescriptionLines(itemData: IItemData): number {
+        return itemData.isNode() ? this.cfg.list.node.descriptionLines :
+            this.cfg.list.leaf.descriptionLines;
+    }
 }
