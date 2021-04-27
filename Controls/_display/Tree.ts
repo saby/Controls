@@ -104,7 +104,6 @@ function onCollectionChange<T>(
                 this.instance._recountHasChildrenByRecordSet();
             }
         }
-
         this.instance.resetHasNode();
     }
 
@@ -122,7 +121,8 @@ function onCollectionChange<T>(
  */
 function onCollectionItemChange<T extends Model>(event: EventObject, item: T, index: number, properties: Object): void {
     this.instance._reIndex();
-    if (!this.instance.getHasChildrenProperty() && properties.hasOwnProperty(this.instance.getParentProperty())) {
+    if (this.instance.getExpanderVisibility() === 'hasChildren' && !this.instance.getHasChildrenProperty()
+        && properties.hasOwnProperty(this.instance.getParentProperty())) {
         this.instance._recountHasChildrenByRecordSet();
     }
     this.prev(event, item, index, properties);
