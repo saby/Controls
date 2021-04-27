@@ -1,16 +1,17 @@
 <div class="controls-PeriodDialog__header controls_theme-{{theme}}">
    <!--<div class="controls-PeriodDialog__stateButton-wrapper">-->
       <Controls._datePopup.fakeThemeLoader theme="{{theme}}"/>
-    <div if="{{monthStateEnabled}}"
-         on:click="_toggleStateClick()"
-         on:keyDown="_stateButtonKeyDownHandler()"
-         tabindex="0"
-         class="controls-PeriodDialog__stateButton"
-         title="{{state === 'year' ? rk('Месячный режим') : rk('Годовой режим')}}">
-            <span class="{{ state === 'year' ? 'icon-ArrangeList' : 'icon-ArrangePreview' }}
-                controls-PeriodDialog_stateButton_icon {{ keyboardActive? 'controls-PeriodDialog_stateButton_icon_focus'}}">
-            </span>
-    </div>
+        <div class="controls-PeriodDialog__stateButton">
+            <ws:if data="{{ monthStateEnabled }}">
+                <span title="{{state === 'year' ? rk('Месячный режим') : rk('Годовой режим')}}"
+                      on:click="_toggleStateClick()"
+                      on:keyDown="_stateButtonKeyDownHandler()"
+                      tabindex="0"
+                      class="{{ state === 'year' ? 'icon-ArrangeList' : 'icon-ArrangePreview' }}
+                controls-PeriodDialog__stateButton_icon {{ keyboardActive? 'controls-PeriodDialog_stateButton_icon_focus'}}">
+                </span>
+            </ws:if>
+        </div>
     <ws:if data="{{ selectionType === 'quantum' }}">
         <div class="controls-PeriodDialog__header-period_link">
             <Controls.dateRange:LinkView

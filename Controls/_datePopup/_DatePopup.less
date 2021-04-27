@@ -54,15 +54,15 @@
    padding-right: var(--switcher_offset_datePicker);
    width: var(--switcher_size_datePicker);
    height: var(--switcher_size_datePicker);
-   cursor: pointer;
 }
 
-.controls-PeriodDialog_stateButton_icon {
+.controls-PeriodDialog__stateButton_icon {
    font-size: var(--switcher_icon-size_datePicker);
    line-height: var(--switcher_icon-size_datePicker);
    font-family: var(--icon_font-family_s);
    fill: var(--switcher_icon-color_datePicker);
    color: var(--switcher_icon-color_datePicker);
+   cursor: pointer;
 }
 
 .ws-is-hover {
@@ -72,11 +72,9 @@
    }
 }
 
-.controls-PeriodDialog__stateButton:focus {
-   .controls-PeriodDialog_stateButton_icon_focus {
-      fill: var(--switcher_hover_icon-color_datePicker);
-      color: var(--switcher_hover_icon-color_datePicker);
-   }
+.controls-PeriodDialog_stateButton_icon_focus:focus {
+   fill: var(--switcher_hover_icon-color_datePicker);
+   color: var(--switcher_hover_icon-color_datePicker);
 }
 
 .controls-PeriodDialog__header-period_link {
