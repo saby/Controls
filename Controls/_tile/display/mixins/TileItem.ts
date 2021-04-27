@@ -52,6 +52,7 @@ export const TILE_SIZES = {
 export interface IOptions<S extends Model = Model> extends ICollectionItemOptions<S> {
     tileSize: 's' | 'm' | 'l';
     tileMode: string;
+    tileScalingMode: string;
     tileHeight: number;
     tileWidth: number;
     tileWidthProperty: string;
