@@ -789,7 +789,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     private _groupMethod(options: IMenuControlOptions, item: Model): string {
         const groupId: string = item.get(options.groupProperty);
         const isHistoryItem: boolean = MenuControl._isHistoryItem(item) && !this._options.subMenuLevel;
-        return groupId !== undefined && !isHistoryItem ? groupId : constView.hiddenGroup;
+        return groupId !== undefined && groupId !== null && !isHistoryItem ? groupId : constView.hiddenGroup;
     }
 
     private _getSourceController(

@@ -209,7 +209,7 @@ export default class TileView extends ListView {
         super._onItemMouseMove(event, item);
     }
 
-    protected _setHoveredItemPosition(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem<unknown>): void {
+    protected _setHoveredItemPosition(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem): void {
         const target = e.target as HTMLElement;
         const tileScalingMode = this._listModel.getTileScalingMode();
 
@@ -226,7 +226,7 @@ export default class TileView extends ListView {
             : constants.isBrowserPlatform && document.documentElement;
         const viewContainerRect = viewContainer.getBoundingClientRect();
 
-        const targetItemSize = this._listModel.getItemContainerSize(itemContainer);
+        const targetItemSize = getItemSize(itemContainer, this._listModel.getZoomCoefficient(), this._listModel.getTileMode());
         const targetItemPosition = this._listModel.getItemContainerPosition(
             targetItemSize,
             itemContainerRect,
@@ -248,7 +248,7 @@ export default class TileView extends ListView {
         // TODO This should probably be moved to some kind of animation manager
         if (targetItemPositionInDocument) {
             const targetPositionStyle = this._convertPositionToStyle(targetItemPositionInDocument);
-            if (tileScalingMode !== 'overlap') {
+            if (tileScalingMode !== 'overlap' && tileScalingMode !== 'none') {
                 const startItemPositionInDocument = this._listModel.getItemContainerStartPosition(
                     itemContainerRect,
                     documentRect

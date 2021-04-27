@@ -9,6 +9,7 @@ export interface ILoadingIndicatorOptions extends IControlOptions {
     small?: string;
     isGlobal?: boolean;
     id?: string;
+    visible?: boolean;
 }
 
 /**
@@ -93,4 +94,11 @@ export default interface ILoadingIndicator {
  * Значение задаётся в миллисекундах.
  * @default 2000
  * @demo Controls-demo/LoadingIndicator/Delay/Index
+ */
+
+/**
+ * @name Controls/LoadingIndicator/interface/ILoadingIndicator#visible
+ * @cfg {Boolean} Определяет видимость индикатора загрузки.
+ * @default false
+ * @demo Controls-demo/LoadingIndicator/Visible/Index
  */

@@ -2008,6 +2008,7 @@
   "--width_shortDatePicker": "88px",
   "--monthly_width_shortDatePicker": "136px",
   "--quarterly_width_shortDatePicker": "160px",
+  "--quarterly-monthly_width_shortDatePicker": "150px",
   "--background-color_shortDatePicker": "var(--background-color)",
   "--border-thickness_shortDatePicker": "var(--border-thickness)",
   "--border-color_shortDatePicker": "var(--border-color_sticky)",

@@ -94,4 +94,30 @@ describe('Controls/grid_clean/Display/Footer/FooterRow/UpdateOption', () => {
         assert.strictEqual(footerColumns[0].getTemplate(), firstFooterCellTemplate);
         assert.strictEqual(footerColumns[1].getTemplate(), secondFooterCellTemplate);
     });
+
+    it('Initialize with footerTemplate and setColumns. Check colspan.', () => {
+        const nextColumns = [ { displayProperty: 'col1' }, { displayProperty: 'col2' } ];
+
+        const localMockedOwner = {
+            getColumnsConfig: () => columns,
+            getStickyColumnsCount: () => 0,
+            hasMultiSelectColumn: () => false,
+            hasItemActionsSeparatedCell: () => false,
+            isFullGridSupport: () => true
+        } as any;
+
+        const footerRow = new GridFooterRow({
+            owner: localMockedOwner,
+            rowTemplate: firstFooterTemplate
+        });
+
+        let footerColumns = footerRow.getColumns();
+        assert.strictEqual(footerColumns[0].getColspan(), 3);
+
+        localMockedOwner.getColumnsConfig = () => nextColumns;
+        footerRow.setColumns(nextColumns);
+
+        footerColumns = footerRow.getColumns();
+        assert.strictEqual(footerColumns[0].getColspan(), 2);
+    });
 });
