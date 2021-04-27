@@ -630,15 +630,21 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     // region Аспект "крайние записи"
 
     setIsFirstItem(state: boolean): void {
+        if (this._$isFirstItem === state) {
+            return;
+        }
         this._$isFirstItem = state;
         this._nextVersion();
     }
 
-    getIsFirstItem(): boolean {
+    isFirstItem(): boolean {
         return this._$isFirstItem;
     }
 
     setIsLastItem(state: boolean): void {
+        if (this._$isLastItem === state) {
+            return;
+        }
         this._$isLastItem = state;
         this._nextVersion();
     }
@@ -838,7 +844,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
             && this.isLastItem()) {
             contentClasses += ' controls-ListView__itemV_last';
         }
-        if (this.getIsFirstItem()) {
+        if (this.isFirstItem()) {
             contentClasses += ' controls-ListView__itemV_first';
         }
 

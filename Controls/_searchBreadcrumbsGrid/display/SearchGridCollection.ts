@@ -105,6 +105,26 @@ export default
       // а экспандер в моделе с хлебными крошками не отображается
       this._setHasNodeWithChildren(false);
    }
+
+   // region Аспект "крайние записи"
+
+   protected _getLastItemRecursive(root: S): S {
+      // Обращаемся к иерархии для получения детей
+      const children = this.getChildrenByRecordSet(root);
+      const lastChild: S = children[children.length - 1];
+      // Если узел и у него нет детей, то он последний
+      if (children.length === 0) {
+         return root;
+      }
+      const isNode = (lastChild.get ? lastChild.get(this._$nodeProperty) : lastChild[this._$nodeProperty]) !== null;
+
+      if (isNode) {
+         return this._getLastItemRecursive(lastChild);
+      }
+      return lastChild;
+   }
+
+   // endregion Аспект "крайние записи"
 }
 
 Object.assign(SearchGridCollection.prototype, {

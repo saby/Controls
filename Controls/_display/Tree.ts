@@ -790,7 +790,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         return this._lastItem;
     }
 
-    private _getLastItemRecursive(root: S): S {
+    protected _getLastItemRecursive(root: S): S {
         // Обращаемся к иерархии для получения детей
         const children = this.getChildrenByRecordSet(root);
         const lastChild: S = children[children.length - 1];

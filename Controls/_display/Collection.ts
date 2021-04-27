@@ -2541,8 +2541,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _updateEdgeItems(): void {
         if (this._$collection['[Types/_collection/RecordSet]']) {
-            this._updateLastItem();
-            this._updateFirstItem();
+            this._setCollectionItemEdgeState(this.getFirstItem(), false, 'first');
+            this._firstItem = null;
+            this._setCollectionItemEdgeState(this.getFirstItem(), true, 'first');
+
+            this._setCollectionItemEdgeState(this.getLastItem(), false, 'last');
+            this._lastItem = null;
+            this._setCollectionItemEdgeState(this.getLastItem(), true, 'last');
         }
     }
 
@@ -2553,37 +2558,24 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _isFirstItem(item: EntityModel): boolean {
         const firstItem = this.getFirstItem();
-        return this._getItemKey(firstItem) === this._getItemKey(item);;
+        return this._getItemKey(firstItem) === this._getItemKey(item);
     }
 
     private _getItemKey(item: EntityModel | object): number | string {
         return item && ((item as EntityModel).getKey ? (item as EntityModel).getKey() : item[this._$keyProperty]);
     }
 
-    private _setFirstCollectionItemState(firstItem: EntityModel, value: boolean): void {
-        const firstCollectionItem = this.getItemBySourceItem(firstItem);
-        if (firstCollectionItem) {
-            firstCollectionItem.setIsFirstItem(value);
+    private _setCollectionItemEdgeState(item: EntityModel, value: boolean, edge: 'first' | 'last'): void {
+        const key = item.getKey ? item.getKey() : item[this._$keyProperty];
+        const collectionItem = this.getItemBySourceKey(key);
+        if (!collectionItem) {
+            return;
         }
-    }
-
-    private _setLastCollectionItemState(lastItem: EntityModel, value: boolean): void {
-        const lastCollectionItem = this.getItemBySourceItem(lastItem);
-        if (lastCollectionItem) {
-            lastCollectionItem.setIsLastItem(value);
+        if (edge === 'first') {
+            collectionItem.setIsFirstItem(value);
+        } else {
+            collectionItem.setIsLastItem(value);
         }
-    }
-
-    private _updateFirstItem(): void {
-        this._setFirstCollectionItemState(this.getFirstItem(), false);
-        this._firstItem = null;
-        this._setFirstCollectionItemState(this.getFirstItem(), true);
-    }
-
-    private _updateLastItem(): void {
-        this._setLastCollectionItemState(this.getLastItem(), false);
-        this._lastItem = null;
-        this._setLastCollectionItemState(this.getLastItem(), true);
     }
 
     // endregion Аспект "крайние записи"
