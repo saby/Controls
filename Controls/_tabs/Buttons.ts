@@ -329,6 +329,9 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const style = TabsButtons._prepareStyle(options.style);
         if (item.isMainTab) {
             classes.push('controls-Tabs__item_state_main');
+            if (item[options.keyProperty] === options.selectedKey) {
+                classes.push('controls-Tabs__item_state_selected ');
+            }
         } else if (item[options.keyProperty] === options.selectedKey) {
             classes.push(`controls-Tabs_style_${style}__item_state_selected`);
             classes.push('controls-Tabs__item_state_selected ');
