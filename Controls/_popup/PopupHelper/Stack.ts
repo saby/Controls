@@ -23,6 +23,7 @@ export default class Stack extends Base {
      * Метод для открытия стековых окон.
      * @function Controls/_popup/PopupHelper/Stack#open
      * @param {PopupOptions} config Конфигурация стекового окна.
+     * @return Promise<void>
      * @example
      * <pre class="brush: js">
      * import {StackOpener} from 'Controls/popup';
