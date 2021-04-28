@@ -57,6 +57,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$isHiddenForLadder: boolean;
     protected _$instanceId: string;
     protected _$colspan: number;
+    protected _$rowspan: number;
     protected _$isFixed: boolean;
     protected _$isSingleColspanedCell: boolean;
     protected _$isLadderCell: boolean;
@@ -168,7 +169,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     // endregion
 
     getRowspan(): number {
-        return 1;
+        return this._$rowspan || 1;
     }
 
     getRowspanStyles(): string {
@@ -586,6 +587,7 @@ Object.assign(Cell.prototype, {
     _$owner: null,
     _$column: null,
     _$colspan: null,
+    _$rowspan: null,
     _$instanceId: null,
     _$rowSeparatorSize: null,
     _$columnSeparatorSize: null,
