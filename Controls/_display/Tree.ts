@@ -679,10 +679,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         const diff = ArraySimpleValuesUtil.getArrayDifference(this._expandedItems, expandedKeys);
 
         if (diff.removed[0] === null) {
-            this.each((it) => it['[Controls/_display/TreeItem]'] && it.setExpanded(false));
+            this._getItems().forEach((it) => it['[Controls/_display/TreeItem]'] && it.setExpanded(false));
         } else {
             diff.removed.forEach((it) => {
-                const item = this.getItemBySourceKey(it);
+                const item = this.getItemBySourceKey(it, false);
                 if (item && item['[Controls/_display/TreeItem]']) {
                     this._collapseChilds(item);
                     item.setExpanded(false);
@@ -708,7 +708,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             this.each((it) => expandAllChildesNodes(it));
         } else {
             expandedKeys.forEach((key) => {
-                const item = this.getItemBySourceKey(key);
+                const item = this.getItemBySourceKey(key, false);
                 if (item && item['[Controls/_display/TreeItem]']) {
                     // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
                     item.setExpanded(true);

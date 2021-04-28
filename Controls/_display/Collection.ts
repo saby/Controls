@@ -2450,7 +2450,11 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$searchValue || '';
     }
 
-    getItemBySourceKey(key: string|number): T {
+    /**
+     * @param key
+     * @param [withFilter=true] Учитывать {@link setFilter фильтр}
+     */
+    getItemBySourceKey(key: string|number, withFilter: boolean = true): T {
         if (this._$collection['[Types/_collection/RecordSet]']) {
             if (key !== undefined) {
                 const record = (this._$collection as unknown as RecordSet).getRecordById(key);
@@ -2464,9 +2468,11 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
                     // Или требуется найти группу
                     return this.find((item) => item['[Controls/_display/GroupItem]'] && item.key === key);
-                }
-                else {
+                } else if (withFilter) {
                     return this.getItemBySourceItem(record as unknown as S);
+                } else {
+                    const items = this._getItems();
+                    return items.find((it) => it.getContents() === record);
                 }
             } else {
                 return null;
