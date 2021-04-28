@@ -1,6 +1,6 @@
 /// <amd-module name='Controls/Container/Async' />
 import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
-import { Async as BaseAsync, IAsyncOptions, TAsyncStateReceived } from 'UI/Base';
+import { Async as BaseAsync, IAsyncOptions, TAsyncStateReceived } from 'UICore/Base';
 import rk = require('i18n!Controls');
 import {ViewConfig} from "../_error/Handler";
 import {IoC} from "Env/Env";
@@ -18,7 +18,7 @@ const ERROR_NOT_FOUND = 404;
  * Подробное описание и примеры вы можете найти <a href='/doc/platform/developmentapl/interface-development/pattern-and-practice/async-load/'>здесь</a>.
  *
  * @class Controls/Container/Async
- * @extends UI/Base:Async
+ * @extends UICore/Base:Async
  *
  * @public
  * @author Герасимов А.М.
