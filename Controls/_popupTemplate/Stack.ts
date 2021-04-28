@@ -3,7 +3,6 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_popupTemplate/Stack/Stack');
 import {Controller as ManagerController} from 'Controls/popup';
 import {default as IPopupTemplate, IPopupTemplateOptions} from "./interface/IPopupTemplate";
-import Store from 'Controls/Store';
 import 'css!Controls/popupTemplate';
 
 export interface IStackTemplateOptions extends IControlOptions, IPopupTemplateOptions{

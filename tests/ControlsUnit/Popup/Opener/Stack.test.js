@@ -8,8 +8,10 @@ define(
       'Controls/_popupTemplate/Stack/Opener/StackContent',
       'sinon'
    ],
-   (StackStrategy, popupMod, popupTemplate, TestMaximizedStack, BaseController, StackContent, sinon) => {
+   (StackStrategyMod, popupMod, popupTemplate, TestMaximizedStack, BaseController, StackContent, sinon) => {
       'use strict';
+      var StackStrategyClass = StackStrategyMod.StackStrategy;
+      var StackStrategy = popupTemplate.StackStrategy;
       BaseController = new BaseController.default();
       StackStrategy._goUpByControlTree = () => [];
 
@@ -68,16 +70,6 @@ define(
             assert.isTrue(position.top === 0);
             assert.isTrue(position.right === 0);
             assert.isTrue(position.position === 'fixed');
-         });
-
-         it('stack getAvailableMaxWidth', () => {
-            let itemMaxWidth = null;
-            let maxPanelWidth = 100;
-            assert.equal(StackStrategy._private.getAvailableMaxWidth(itemMaxWidth, maxPanelWidth), 100);
-            itemMaxWidth = 10;
-            assert.equal(StackStrategy._private.getAvailableMaxWidth(itemMaxWidth, maxPanelWidth), 10);
-            itemMaxWidth = 110;
-            assert.equal(StackStrategy._private.getAvailableMaxWidth(itemMaxWidth, maxPanelWidth), 100);
          });
 
          it('stack shadow', () => {
@@ -393,11 +385,11 @@ define(
          });
 
          it('stack right position with side parent position', () => {
-            const baseParentPosition = StackStrategy._private.getParentPosition;
+            const baseParentPosition = StackStrategy._getParentPosition;
             const parentPosition = {
                right: 0
             };
-            StackStrategy._private.getParentPosition = () => parentPosition;
+            StackStrategy._getParentPosition = () => parentPosition;
 
             const popupOptions = {
                minWidth: 900,
@@ -415,7 +407,7 @@ define(
 
             assert.equal(position.right, 0);
 
-            StackStrategy._private.getParentPosition = baseParentPosition;
+            StackStrategy._getParentPosition = baseParentPosition;
          });
 
          it('stack state', () => {
@@ -608,19 +600,19 @@ define(
                right: 100
             };
             let popupOptions = {};
-            let maxWidth = StackStrategy._private.calculateMaxWidth(StackStrategy, popupOptions, tCoords);
+            let maxWidth = StackStrategy._calculateMaxWidth(popupOptions, tCoords);
             assert.equal(maxWidth, 1000);
 
             popupOptions.maxWidth = 400;
-            maxWidth = StackStrategy._private.calculateMaxWidth(StackStrategy, popupOptions, tCoords);
+            maxWidth = StackStrategy._calculateMaxWidth(popupOptions, tCoords);
             assert.equal(maxWidth, 400);
 
             popupOptions.maxWidth = 2000;
-            maxWidth = StackStrategy._private.calculateMaxWidth(StackStrategy, popupOptions, tCoords);
+            maxWidth = StackStrategy._calculateMaxWidth(popupOptions, tCoords);
             assert.equal(maxWidth, 900);
 
             popupOptions.minWidth = 1000;
-            maxWidth = StackStrategy._private.calculateMaxWidth(StackStrategy, popupOptions, tCoords);
+            maxWidth = StackStrategy._calculateMaxWidth(popupOptions, tCoords);
             assert.equal(maxWidth, 1000);
          });
 
@@ -796,7 +788,7 @@ define(
                top: 0
             };
             // document.body.clientWidth = 1024, maxPanelWidth = 1024 - 100 = 924
-            const panelWidth = StackStrategy._private.getPanelWidth(item, tCoords, 924);
+            const panelWidth = StackStrategy._getPanelWidth(item, tCoords, 924);
             assert.equal(panelWidth, 950);
             /* Так как окно спозиционируется с координатами right: 150 с шириной 950 - то панель не влезет в окно браузера.
             Если панель не уместилась по ширине, то позиционирование панели осуществляется от правого края экрана.
@@ -837,5 +829,21 @@ define(
             assert.equal(result, true);
             popupTemplate.StackController._updateItemPosition = updateItemPosition;
          });
+
+         it('strategy getRightPosition', () => {
+            const Strategy = new StackStrategyClass();
+            const tCoord = {
+               right: 10
+            };
+            let result = Strategy._getRightPosition(tCoord, false);
+            assert.equal(result, 10);
+
+            result = Strategy._getRightPosition(tCoord, true);
+            assert.equal(result, 0);
+
+            Strategy._getRightTemplate = () => 'rightTemplate.wml';
+            result = Strategy._getRightPosition(tCoord, true);
+            assert.equal(result, 52);
+         })
       });
    });
