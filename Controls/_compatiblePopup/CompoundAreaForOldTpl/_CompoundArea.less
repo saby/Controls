@@ -3,6 +3,9 @@
    width: 100%;
    height: 100%;
 
+   &.controls-CompoundArea_type-dialog {
+      border-radius: var(--border-radius_dialog);
+   }
    //в слое совместимости рисуем свою тень в стеке
    .controls-StackTemplate .controls-StackTemplate-shadow {
       display: none!important;
@@ -60,6 +63,7 @@ body:not(.rtl-Body) .controls-CompoundArea {
    .controls-DialogTemplate .controls-DialogTemplate__content-area .ws-window-titlebar-custom, &.ws-window .ws-window-titlebar {
       height: 40px;
       background: #ffffff;
+      border-radius: var(--border-radius_dialog) var(--border-radius_dialog) 0 0;
    }
 
    &.ws-float-area { // crossing with old styles
@@ -141,7 +145,7 @@ body:not(.rtl-Body) .controls-CompoundArea {
    height: 100%;
 }
 
-.controls-CompoundArea-close_button .controls-DialogTemplate__close_button {
+.controls-CompoundArea-close_button .controls-DialogTemplate__close_button:not(.controls-DialogTemplate__close_linkButton) {
    margin-top: var(--close-button_offset-top_stack);
 }
 
