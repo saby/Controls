@@ -22,6 +22,7 @@ export default class Sticky extends Base {
      * Метод для открытия прилипающих окон.
      * @function Controls/_popup/PopupHelper/Sticky#open
      * @param {PopupOptions} config Конфигурация прилипающего окна.
+     * @return Promise<void>
      * @example
      * <pre class="brush: js">
      * import {StickyOpener} from 'Controls/popup';
