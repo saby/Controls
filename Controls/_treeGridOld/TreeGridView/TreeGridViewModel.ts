@@ -387,6 +387,10 @@ var
             return this._model.getChildren(node, withFilter, items);
         },
 
+        getChildrenByRecordSet(node) {
+            return this.getChildren(node);
+        },
+
         getDisplayChildrenCount(nodeKey, items) {
             return this._model.getDisplayChildrenCount(nodeKey, items);
         },
