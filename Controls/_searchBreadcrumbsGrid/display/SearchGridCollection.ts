@@ -4,8 +4,6 @@ import { TemplateFunction } from 'UI/Base';
 import SearchGridDataRow from './SearchGridDataRow';
 import {ItemsFactory, itemsStrategy } from 'Controls/display';
 import BreadcrumbsItemRow from './BreadcrumbsItemRow';
-import {object} from "Types/util";
-import {CrudEntityKey} from "Types/source";
 
 export default class SearchGridCollection<S extends Model = Model, T extends SearchGridDataRow<S> = SearchGridDataRow<S>> extends TreeGridCollection<S, T> {
    /**
@@ -17,7 +15,9 @@ export default class SearchGridCollection<S extends Model = Model, T extends Sea
 
    protected _$searchBreadcrumbsItemTemplate: TemplateFunction;
 
-   protected _$colspanBreadcrumbs: boolean = true;
+   protected _$colspanBreadcrumbs: boolean;
+
+   protected _$breadCrumbsMode: 'row' | 'cell';
 
    getSearchBreadcrumbsItemTemplate(): TemplateFunction|string {
       return this._$searchBreadcrumbsItemTemplate;
@@ -50,11 +50,26 @@ export default class SearchGridCollection<S extends Model = Model, T extends Sea
       }
    }
 
+   setBreadCrumbsMode(breadCrumbsMode: 'row' | 'cell'): void {
+      if (this._$breadCrumbsMode === breadCrumbsMode) {
+         return;
+      }
+
+      this._$breadCrumbsMode = breadCrumbsMode;
+      this._updateItemsProperty(
+          'setBreadCrumbsMode',
+          this._$breadCrumbsMode,
+          '[Controls/_display/BreadcrumbsItem]'
+      );
+      this._nextVersion();
+   }
+
    protected _getItemsFactory(): ItemsFactory<T> {
       const parent = super._getItemsFactory();
 
       return function TreeItemsFactory(options: any): T {
          options.colspanBreadcrumbs = this._$colspanBreadcrumbs;
+         options.breadCrumbsMode = this._$breadCrumbsMode;
          return parent.call(this, options);
       };
    }
@@ -87,5 +102,7 @@ Object.assign(SearchGridCollection.prototype, {
    '[Controls/searchBreadcrumbsGrid:SearchGridCollection]': true,
    _moduleName: 'Controls/searchBreadcrumbsGrid:SearchGridCollection',
    _$searchBreadcrumbsItemTemplate: 'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate',
-   _$dedicatedItemProperty: ''
+   _$breadCrumbsMode: 'row',
+   _$dedicatedItemProperty: '',
+   _$colspanBreadcrumbs: true
 });

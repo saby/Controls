@@ -4,9 +4,12 @@ import SearchGridDataRow from 'Controls/_searchBreadcrumbsGrid/display/SearchGri
 import { Model } from 'Types/entity';
 import BreadcrumbsItemRow from 'Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemRow';
 import 'Controls/decorator';
+import SearchGridCollection from 'Controls/_searchBreadcrumbsGrid/display/SearchGridCollection';
 
 export default class SearchView extends TreeGridView {
    private _itemClickNotifiedByPathClick: boolean = false;
+
+   protected _listModel: SearchGridCollection;
 
    _beforeMount(options: any): Promise<void> {
       this._onBreadcrumbItemClick = this._onBreadcrumbItemClick.bind(this);
@@ -16,8 +19,17 @@ export default class SearchView extends TreeGridView {
    _beforeUpdate(newOptions: any): void {
       super._beforeUpdate(newOptions);
 
-      if (newOptions.columnScroll) {
-         this._listModel.setColspanBreadcrumbs(!this.isColumnScrollVisible(), true);
+      let colspan = newOptions.breadCrumbsMode === 'row';
+      // Если сказано что нужно колспанить строку с крошками и виден скрол колонок
+      // то нужно принудительно сбросить колспан
+      if (colspan && newOptions.columnScroll && this.isColumnScrollVisible()) {
+         colspan = false;
+      }
+
+      this._listModel.setColspanBreadcrumbs(colspan);
+
+      if (this._options.breadCrumbsMode !== newOptions.breadCrumbsMode) {
+         this._listModel.setBreadCrumbsMode(newOptions.breadCrumbsMode);
       }
    }
 

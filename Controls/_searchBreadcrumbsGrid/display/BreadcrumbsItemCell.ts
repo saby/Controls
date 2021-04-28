@@ -2,15 +2,31 @@ import { GridDataCell } from 'Controls/grid';
 import { Model } from 'Types/entity';
 import BreadcrumbsItemRow from 'Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemRow';
 import { TemplateFunction } from 'UI/Base';
+import {IOptions as IDataCellOptions} from 'Controls/_grid/display/DataCell';
+
+export interface IOptions<T> extends IDataCellOptions<T> {
+   breadCrumbsMode?: 'row' | 'cell';
+}
 
 export default class BreadcrumbsItemCell<S extends Model, TOwner extends BreadcrumbsItemRow<S>> extends GridDataCell<any, any> {
+   protected _$breadCrumbsMode: 'row' | 'cell';
+
    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {
       // Только в первой ячейке отображаем хлебную крошку
       if (this.isFirstColumn() || this.getOwner().hasMultiSelectColumn() && this.getColumnIndex() === 1) {
          return this.getOwner().getCellTemplate();
       } else {
-         return super.getTemplate(multiSelectTemplate);
+         if (this._$breadCrumbsMode === 'cell') {
+            return super.getTemplate(multiSelectTemplate);
+         } else {
+            return this._defaultCellTemplate;
+         }
       }
+   }
+
+   getDisplayValue(): string {
+      const breadcrumbs = this.getContents();
+      return breadcrumbs[breadcrumbs.length - 1].get(this.getDisplayProperty());
    }
 
    getSearchValue(): string {
@@ -70,5 +86,6 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
 Object.assign(BreadcrumbsItemCell.prototype, {
    '[Controls/_searchBreadcrumbsGrid/BreadcrumbsItemCell]': true,
    _moduleName: 'Controls/searchBreadcrumbsGrid:BreadcrumbsItemCell',
-   _instancePrefix: 'search-breadcrumbs-grid-cell-'
+   _instancePrefix: 'search-breadcrumbs-grid-cell-',
+   _$breadCrumbsMode: 'row'
 });

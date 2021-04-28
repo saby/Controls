@@ -61,22 +61,10 @@ export default class extends Control {
                 }
             ]
         });
-
-        this._colspanCallback = this._colspanCallback.bind(this);
     }
 
     protected _reload(): void {
         this._children.explorer.reload();
-    }
-
-    protected _colspanCallback(item, column, columnIndex, isEditing): number|string|void {
-        if (item.length > 0 && this._canSetConfig) {
-            if (this._colspanBreadcrumbs) {
-                return 'end';
-            } else {
-                return 1;
-            }
-        }
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
