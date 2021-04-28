@@ -7,7 +7,7 @@ import {QueryWhereExpression, PrefetchProxy, ICrud, ICrudPlus, IData, Memory, Cr
 import {
    error as dataSourceError,
    ISourceControllerOptions,
-   NewSourceController as SourceController, Path
+   NewSourceController as SourceController, nodeHistoryUtil, Path
 } from 'Controls/dataSource';
 import {ISourceControllerState} from 'Controls/dataSource';
 import {ContextOptions} from 'Controls/context';
@@ -127,6 +127,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
    protected _breadCrumbsItems: Path;
    protected _backButtonCaption: string;
    protected _breadCrumbsItemsWithoutBackButton: Path;
+   protected _expandedItems: CrudEntityKey[] = [];
 
    private _filter: QueryWhereExpression<unknown>;
 
@@ -158,6 +159,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       this._fixRootForMemorySource(options);
 
       const controllerState = this._sourceController.getState();
+
       // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
       this._filter = controllerState.filter;
       this._dataOptionsContext = this._createContext(controllerState);
@@ -169,7 +171,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          this._setItemsAndUpdateContext();
       } else if (receivedState?.items instanceof RecordSet && isNewEnvironment()) {
          if (options.source && options.dataLoadCallback) {
-            options.dataLoadCallback(receivedState);
+            options.dataLoadCallback(receivedState.items);
          }
          this._sourceController.setItems(receivedState.items);
          this._setItemsAndUpdateContext();
@@ -266,6 +268,14 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       this._updateContext(controllerState);
    }
 
+   _listExpandedItemsChanged(event: SyntheticEvent, expandedItems: CrudEntityKey[]): void {
+      if (this._options.nodeHistoryId &&
+          this._expandedItems !== expandedItems) {
+         this._sourceController.setExpandedItems(expandedItems, true);
+         this._updateContext(this._sourceController.getState());
+      }
+   }
+
    private _getSourceControllerOptions(options: IDataOptions, receivedState?: object): ISourceControllerOptions {
       if (receivedState?.expandedItems) {
          options.expandedItems = receivedState.expandedItems;
@@ -347,12 +357,6 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       }
    }
 
-   _expandedItemsChanged(event: SyntheticEvent, expandedItems: CrudEntityKey[]): void {
-      this._sourceController.setExpandedItems(expandedItems);
-      this._updateContext(this._sourceController.getState());
-      this._notify('expandedItemsChanged', [expandedItems]);
-   }
-
    // TODO сейчас есть подписка на itemsChanged из поиска. По хорошему не должно быть.
    _itemsChanged(event: SyntheticEvent, items: RecordSet): void {
       this._sourceController.cancelLoading();
@@ -376,6 +380,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       }
       curContext.updateConsumers();
       this._sourceControllerState = sourceControllerState;
+      this._expandedItems = sourceControllerState.expandedItems;
    }
 
    // https://online.sbis.ru/opendoc.html?guid=e5351550-2075-4550-b3e7-be0b83b59cb9

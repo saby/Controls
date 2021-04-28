@@ -37,6 +37,7 @@ import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {fetch, HTTPStatus} from 'Browser/Transport';
 import {default as calculatePath, Path} from 'Controls/_dataSource/calculatePath';
+import TreeControl from "Controls/_tree/TreeControl";
 
 export interface IControllerState {
     keyProperty: string;
@@ -195,7 +196,7 @@ export default class Controller extends mixin<
             this.setExpandedItems(cfg.expandedItems);
         }
         this.setParentProperty(cfg.parentProperty);
-        
+
         if (cfg.items) {
             this.setItems(cfg.items);
         }
@@ -398,8 +399,11 @@ export default class Controller extends mixin<
     }
 
     // FIXME для работы дерева без bind'a опции expandedItems
-    setExpandedItems(expandedItems: TKey[]): void {
+    setExpandedItems(expandedItems: TKey[], saveToStorage?: boolean): void {
         this._expandedItems = expandedItems;
+        if (saveToStorage) {
+            nodeHistoryUtil.store(this._expandedItems, this._options.nodeHistoryId);
+        }
     }
 
     getExpandedItems(): TKey[] {
