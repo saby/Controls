@@ -3,7 +3,7 @@ import template = require('wml!Controls/_list/Data');
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {RegisterClass} from 'Controls/event';
 import {RecordSet} from 'Types/collection';
-import {QueryWhereExpression, PrefetchProxy, ICrud, ICrudPlus, IData, Memory} from 'Types/source';
+import {QueryWhereExpression, PrefetchProxy, ICrud, ICrudPlus, IData, Memory, CrudEntityKey} from 'Types/source';
 import {
    error as dataSourceError,
    ISourceControllerOptions,
@@ -47,7 +47,10 @@ export interface IDataContextOptions extends ISourceOptions,
    items: RecordSet;
 }
 
-type ReceivedState = RecordSet | Error;
+interface IReceivedState {
+   items: RecordSet | Error;
+   expandedItems: CrudEntityKey[];
+}
 
 /**
  * Контрол-контейнер, предоставляющий контекстное поле "dataOptions" с необходимыми данными для дочерних контейнеров.
@@ -108,7 +111,7 @@ type ReceivedState = RecordSet | Error;
  * @author Герасимов А.М.
  */
 
-class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list/Data.prototype */{
+class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_list/Data.prototype */{
    protected _template: TemplateFunction = template;
    private _isMounted: boolean;
    private _loading: boolean = false;
@@ -130,7 +133,7 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
    _beforeMount(
        options: IDataOptions,
        context?: object,
-       receivedState?: ReceivedState
+       receivedState?: IReceivedState
    ): Promise<RecordSet|Error>|void {
       // TODO придумать как отказаться от этого свойства
       this._itemsReadyCallback = this._itemsReadyCallbackHandler.bind(this);
@@ -151,7 +154,7 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
          this._root = options.root;
       }
 
-      this._sourceController = options.sourceController || this._getSourceController(options);
+      this._sourceController = options.sourceController || this._getSourceController(options, receivedState);
       this._fixRootForMemorySource(options);
 
       const controllerState = this._sourceController.getState();
@@ -164,20 +167,24 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
             options.dataLoadCallback(options.sourceController.getItems());
          }
          this._setItemsAndUpdateContext();
-      } else if (receivedState instanceof RecordSet && isNewEnvironment()) {
+      } else if (receivedState?.items instanceof RecordSet && isNewEnvironment()) {
          if (options.source && options.dataLoadCallback) {
             options.dataLoadCallback(receivedState);
          }
-         this._sourceController.setItems(receivedState);
+         this._sourceController.setItems(receivedState.items);
          this._setItemsAndUpdateContext();
       } else if (options.source) {
          return this._sourceController
              .reload()
              .then((items) => {
-                this._items = this._sourceController.getState().items;
+                const state = this._sourceController.getState();
+                this._items = state.items;
                 this._updateBreadcrumbsFromSourceController();
 
-                return items;
+                return {
+                   items,
+                   expandedItems: state.expandedItems
+                };
              })
              .catch((error) => error)
              .finally(() => {
@@ -259,7 +266,10 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
       this._updateContext(controllerState);
    }
 
-   private _getSourceControllerOptions(options: IDataOptions): ISourceControllerOptions {
+   private _getSourceControllerOptions(options: IDataOptions, receivedState?: object): ISourceControllerOptions {
+      if (receivedState?.expandedItems) {
+         options.expandedItems = receivedState.expandedItems;
+      }
       return {
          ...options,
          source: this._source,
@@ -270,8 +280,8 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
       } as ISourceControllerOptions;
    }
 
-   private _getSourceController(options: IDataOptions): SourceController {
-      const sourceController = new SourceController(this._getSourceControllerOptions(options));
+   private _getSourceController(options: IDataOptions, receivedState?: object): SourceController {
+      const sourceController = new SourceController(this._getSourceControllerOptions(options, receivedState));
       sourceController.subscribe('rootChanged', this._rootChanged.bind(this));
       return sourceController;
    }
@@ -335,6 +345,12 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
       if (rootChanged) {
          this._notify('rootChanged', [root]);
       }
+   }
+
+   _expandedItemsChanged(event: SyntheticEvent, expandedItems: CrudEntityKey[]): void {
+      this._sourceController.setExpandedItems(expandedItems);
+      this._updateContext(this._sourceController.getState());
+      this._notify('expandedItemsChanged', [expandedItems]);
    }
 
    // TODO сейчас есть подписка на itemsChanged из поиска. По хорошему не должно быть.

@@ -50,6 +50,7 @@ export interface ILoadDataConfig extends
     fastFilterSource?: object[];
     historyId?: string;
     groupHistoryId?: string;
+    nodeHistoryId?: string;
     historyItems?: IFilterItem[];
     propStorageId?: string;
     root?: string;
