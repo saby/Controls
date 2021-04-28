@@ -1,13 +1,13 @@
 define([
    'UI/Utils',
-   'Controls/list',
+   'Controls/_list/Mover',
    'Types/source',
    'Types/collection',
    'Core/Deferred',
    'Core/core-clone',
    'Controls/_operations/MultiSelector/selectionToRecord',
    'Controls/popup'
-], function(ui, lists, source, collection, Deferred, cClone, selectionToRecord, popup) {
+], function(ui, Mover, source, collection, Deferred, cClone, selectionToRecord, popup) {
    describe('Controls.List.Mover', function() {
       let recordSet;
       let mover;
@@ -58,7 +58,7 @@ define([
             }),
             keyProperty: 'id'
          }
-         mover = new lists.Mover(cfg);
+         mover = new Mover(cfg);
          mover._options.parentProperty = cfg.parentProperty;
          mover._options.nodeProperty = cfg.nodeProperty;
          mover._options.moveDialogTemplate = cfg.moveDialogTemplate;
@@ -86,10 +86,8 @@ define([
             },
             keyProperty: 'id'
          };
-         const contextOptions = {
-            dataOptions: options
-         };
-         mover._beforeMount(options, contextOptions);
+         options._dataOptionsValue = { ...options };
+         mover._beforeMount(options);
 
          assert.equal(mover._controller._popupOptions.template, 'testTemplateName');
          assert.deepEqual(mover._controller._popupOptions.templateOptions, options.moveDialogTemplate.templateOptions);
@@ -146,10 +144,8 @@ define([
                   }
                }
             };
-            const contextOptions = {
-               dataOptions: options
-            };
-            mover._beforeMount(options, contextOptions);
+            options._dataOptionsValue = { ...options };
+            mover._beforeMount(options);
          });
 
          it('moveItemsWithDialog', function(done) {
@@ -240,7 +236,7 @@ define([
 
 
             stubLogger = sinon.stub(ui.Logger, 'warn');
-            lists.Mover._private.updateDataOptions(mover, config, config);
+            Mover._private.updateDataOptions(mover, config, config);
             stubLogger.restore();
 
             // @ts-ignore
@@ -268,7 +264,7 @@ define([
 
             const config = {...cfg, searchParam: 'searchParam', filter};
             stubLogger = sinon.stub(ui.Logger, 'warn');
-            lists.Mover._private.updateDataOptions(mover, config, config);
+            Mover._private.updateDataOptions(mover, config, config);
             stubLogger.restore();
             const stubOpenPopup = sinon.stub(mover._children.dialogOpener, 'open');
 
@@ -673,23 +669,23 @@ define([
          it('getSiblingItem', function() {
             var siblingItem;
 
-            siblingItem = lists.Mover._private.getTargetItem(mover, recordSet.getRecordById(6), 'before');
+            siblingItem = Mover._private.getTargetItem(mover, recordSet.getRecordById(6), 'before');
             assert.equal(siblingItem.getId(), 3);
-            siblingItem = lists.Mover._private.getTargetItem(mover, recordSet.getRecordById(6), 'after');
+            siblingItem = Mover._private.getTargetItem(mover, recordSet.getRecordById(6), 'after');
             assert.isNull(siblingItem);
 
-            siblingItem = lists.Mover._private.getTargetItem(mover, recordSet.getRecordById(3), 'after');
+            siblingItem = Mover._private.getTargetItem(mover, recordSet.getRecordById(3), 'after');
             assert.equal(siblingItem.getId(), 6);
-            siblingItem = lists.Mover._private.getTargetItem(mover, recordSet.getRecordById(3), 'before');
+            siblingItem = Mover._private.getTargetItem(mover, recordSet.getRecordById(3), 'before');
             assert.equal(siblingItem.getId(), 2);
 
-            siblingItem = lists.Mover._private.getTargetItem(mover, recordSet.getRecordById(1), 'after');
+            siblingItem = Mover._private.getTargetItem(mover, recordSet.getRecordById(1), 'after');
             assert.equal(siblingItem.getId(), 2);
-            siblingItem = lists.Mover._private.getTargetItem(mover, recordSet.getRecordById(1), 'before');
+            siblingItem = Mover._private.getTargetItem(mover, recordSet.getRecordById(1), 'before');
             assert.isNull(siblingItem);
 
             mover._options.root = 1;
-            siblingItem = lists.Mover._private.getTargetItem(mover, recordSet.getRecordById(4), 'after');
+            siblingItem = Mover._private.getTargetItem(mover, recordSet.getRecordById(4), 'after');
             assert.equal(siblingItem.getId(), 5);
 
          });

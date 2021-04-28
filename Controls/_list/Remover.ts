@@ -72,7 +72,7 @@ var _private = {
  * @class Controls/_list/Remover
  * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IRemovable
- * 
+ *
  * @public
  * @author Авраменко А.С.
  */
@@ -84,7 +84,7 @@ var _private = {
  * @class Controls/_list/Remover
  * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IRemovable
- * 
+ *
  * @public
  * @author Авраменко А.С.
  */
@@ -125,6 +125,18 @@ var Remover = BaseAction.extend({
     }
 });
 
+/*
+FIXME: Нельзя отсюда убирать контекст и заменять на хоки, потому что тогда отвалятся события
+Примерно такой сценарий отвалится:
+<Controls.list:DataContainer>
+  <div>
+     <Controls.list:Container>
+        <Controls.list:View />
+     </Controls.list:Container>
+     <Controls.list:Remover />
+  </div>
+</Controls.list:DataContainer>
+ */
 Remover.contextTypes = function () {
     return {
         dataOptions: dataOptions

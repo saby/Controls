@@ -37,16 +37,13 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
          const self = {};
          self._selectedKeys = [1];
          const options = {
-            selectedItems: new collection.List({items: getItems()})
-         };
-         const context = {
-            selectorControllerContext: {},
-            dataOptions: {
+            selectedItems: new collection.List({items: getItems()}),
+            _dataOptionsValue: {
                keyProperty: 'id'
             }
          };
 
-         assert.equal(LookupPopupContainer._private.getInitialSelectedItems(self, options, context).getCount(), 1);
+         assert.equal(LookupPopupContainer._private.getInitialSelectedItems(self, options).getCount(), 1);
       });
 
       it('getFilteredItems', function() {
@@ -91,21 +88,19 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
       });
 
       it('getSelectedKeys', function() {
-         var context = {
-            dataOptions: {
-               keyProperty: 'id'
-            }
-         };
          var options = {
             selectionFilter: function(item) {
                var id = item.get('id');
                return id !== 1 && id !== 3;
+            },
+            _dataOptionsValue: {
+               keyProperty: 'id'
             }
          };
 
          options.selectedItems = getItems();
          options.selectedItems[0].set('id', 'testId');
-         assert.deepEqual(LookupPopupContainer._private.getSelectedKeys(options, context), ['testId', 2, 4]);
+         assert.deepEqual(LookupPopupContainer._private.getSelectedKeys(options), ['testId', 2, 4]);
       });
 
       describe('prepareFilter', () => {
@@ -426,7 +421,12 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
 
             container.saveOptions({
                recursiveSelection: true,
-               selectionLoadMode: true
+               selectionLoadMode: true,
+               _dataOptionsValue: {
+                  source: new sourceLib.Memory(),
+                  items: recordSet,
+                  filter: {}
+               }
             });
 
             recordSet.getRecordById = function(id) {
@@ -435,15 +435,6 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
 
             container._selectedKeys = [];
             container._excludedKeys = [];
-            container.context = {
-               get: function() {
-                  return {
-                     source: new sourceLib.Memory(),
-                     items: recordSet,
-                     filter: {}
-                  };
-               }
-            };
 
             container._notify = function(eventName, result) {
                if (eventName === 'selectionLoad') {
@@ -554,14 +545,10 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
 
             source.query = () => Promise.reject(new Error('testError'));
 
-            container.context = {
-               get: function() {
-                  return {
-                     source: source,
-                     items: new collection.List(),
-                     filter: {}
-                  };
-               }
+            container._options._dataOptionsValue = {
+               source: source,
+               items: new collection.List(),
+               filter: {}
             };
 
             container._notify = function(eventName) {

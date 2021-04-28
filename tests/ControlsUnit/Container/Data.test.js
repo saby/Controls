@@ -2,7 +2,6 @@ define(
    [
       'Controls/list',
       'Types/source',
-      'Controls/context',
       'Core/Deferred',
       'Types/collection',
       'Application/Initializer',
@@ -10,7 +9,7 @@ define(
       'EnvConfig/Config',
       'Controls/dataSource'
    ],
-   function(lists, sourceLib, contexts, Deferred, collection, AppInit, AppEnv, Config, dataSourceLib) {
+   function(lists, sourceLib, Deferred, collection, AppInit, AppEnv, Config, dataSourceLib) {
       describe('Container/Data', function() {
 
          var sourceData = [
@@ -72,7 +71,7 @@ define(
             };
 
             data._beforeMount(dataOptions).then(() => {
-               data._dataOptionsContext = new contexts.ContextOptions();
+               data._dataOptionsContext = {};
                const newFilter = {test: 'testFilter'};
                const newOptions = {source: newSource, idProperty: 'id', filter: newFilter, dataLoadCallback: dataLoadCallbackFunction};
                var loadDef = data._beforeUpdate(newOptions);
@@ -80,7 +79,7 @@ define(
                assert.isTrue(data._loading);
                loadDef.addCallback(function() {
                   try {
-                     assert.isTrue(data._dataOptionsContext.source === newSource);
+                     assert.isTrue(data._contextState.source === newSource);
                      assert.deepEqual(data._filter, newFilter);
                      assert.isFalse(data._loading);
                      assert.isTrue(callbackCalled);
@@ -130,13 +129,13 @@ define(
             data._sourceController.cancelLoading();
             await loadPromise;
 
-            assert.ok(data._dataOptionsContext.source === newSource)
+            assert.ok(data._contextState.source === newSource)
          });
 
          it('filter, navigation, sorting changed', async () => {
             const dataOptions = {source: source, keyProperty: 'id'};
             const data = getDataWithConfig(dataOptions);
-            data._dataOptionsContext = new contexts.ContextOptions();
+            data._contextState = {};
 
             const newNavigation = {view: 'page', source: 'page', sourceConfig: {pageSize: 2, page: 0, hasMore: false}};
             const newFilter = {title: 'Ivan'};
@@ -151,16 +150,16 @@ define(
                sorting: newSorting
             });
 
-            assert.deepEqual(data._dataOptionsContext.navigation, newNavigation);
-            assert.deepEqual(data._dataOptionsContext.filter, newFilter);
-            assert.deepEqual(data._dataOptionsContext.sorting, newSorting);
+            assert.deepEqual(data._contextState.navigation, newNavigation);
+            assert.deepEqual(data._contextState.filter, newFilter);
+            assert.deepEqual(data._contextState.sorting, newSorting);
             assert.deepEqual(data._filter, newFilter);
          });
 
          it('source and filter/navigation changed', async () => {
             const dataOptions = {source: source, keyProperty: 'id'};
             const data = getDataWithConfig(dataOptions);
-            data._dataOptionsContext = new contexts.ContextOptions();
+            data._contextState = {};
 
             const newSource = new sourceLib.Memory({
                keyProperty: 'id',
@@ -176,14 +175,14 @@ define(
                navigation: newNavigation,
                filter: newFilter
             });
-            assert.isUndefined(data._dataOptionsContext.navigation);
+            assert.isUndefined(data._contextState.navigation);
             assert.deepStrictEqual(data._filter, newFilter);
 
             return new Promise((resolve, reject) => {
                loadDef
                   .addCallback(() => {
-                     assert.deepEqual(data._dataOptionsContext.navigation, newNavigation);
-                     assert.deepEqual(data._dataOptionsContext.filter, newFilter);
+                     assert.deepEqual(data._contextState.navigation, newNavigation);
+                     assert.deepEqual(data._contextState.filter, newFilter);
                      assert.deepEqual(data._filter, newFilter);
                      resolve();
                   })
@@ -295,7 +294,7 @@ define(
             const data = getDataWithConfig(dataOptions);
 
             data._beforeMount(dataOptions);
-            assert.deepEqual(data._dataOptionsContext.filter, filter);
+            assert.deepEqual(data._contextState.filter, filter);
          });
 
          it('_beforeMount with root and parentProperty', async() => {
@@ -382,14 +381,14 @@ define(
             let data = getDataWithConfig(options);
             await data._beforeMount(options);
 
-            const prefetchSource = data._dataOptionsContext.prefetchSource;
+            const prefetchSource = data._contextState.prefetchSource;
             const currentItems = data._items;
             const newItems = new collection.RecordSet();
 
             data._itemsReadyCallbackHandler(newItems);
             assert.isTrue(data._items === newItems);
-            assert.isTrue(data._dataOptionsContext.items === newItems);
-            assert.isTrue(data._dataOptionsContext.prefetchSource === prefetchSource);
+            assert.isTrue(data._contextState.items === newItems);
+            assert.isTrue(data._contextState.prefetchSource === prefetchSource);
          });
 
          it('data source options tests', function(done) {
@@ -400,7 +399,7 @@ define(
             data._beforeMount(config);
 
             assert.equal(data._source, null);
-            assert.isTrue(!!data._dataOptionsContext);
+            assert.isTrue(!!data._contextState);
 
             //new source received in _beforeUpdate
             data._beforeUpdate({source: source}).addCallback(function() {
@@ -415,12 +414,12 @@ define(
             const data = getDataWithConfig(config);
 
             data._beforeMount(config).addCallback(function() {
-               const contextSource = data._dataOptionsContext.source;
+               const contextSource = data._contextState.source;
                data._beforeUpdate({source: new sourceLib.Memory({
                      keyProperty: 'id',
                      data: sourceDataEdited
                   }), keyProperty: 'id'}).addCallback(function() {
-                  assert.isTrue(contextSource !== data._dataOptionsContext.source);
+                  assert.isTrue(contextSource !== data._contextState.source);
                   done();
                });
             });
@@ -504,7 +503,7 @@ define(
             return new Promise(function(resolve) {
                data._beforeMount(config).addCallback(function() {
                   data._filterChanged(null, {test1: 'test1'});
-                  assert.isTrue(config.source === data._dataOptionsContext.source);
+                  assert.isTrue(config.source === data._contextState.source);
                   assert.deepEqual(data._filter, {test1: 'test1'});
                   resolve();
                });
@@ -519,7 +518,7 @@ define(
             const newConfig = {...config};
             delete newConfig.root;
             data._beforeUpdate(newConfig);
-            assert.isTrue(!data._dataOptionsContext.filter.root);
+            assert.isTrue(!data._contextState.filter.root);
          });
 
          it('query returns error', function(done) {
@@ -546,7 +545,7 @@ define(
                const soruceControllerState = data._sourceController.getState();
                assert.ok(soruceControllerState.source);
                assert.equal(soruceControllerState.source, source);
-               assert.equal(data._dataOptionsContext.source, source);
+               assert.equal(data._contextState.source, source);
                assert.isTrue(dataLoadErrbackCalled);
                done();
             });

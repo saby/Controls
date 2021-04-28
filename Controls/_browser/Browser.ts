@@ -7,7 +7,7 @@ import {IFilterItem} from 'Controls/filter';
 import {IFilterControllerOptions, IFilterHistoryData} from 'Controls/_filter/ControllerClass';
 import {EventUtils} from 'UI/Events';
 import {RecordSet} from 'Types/collection';
-import {ContextOptions} from 'Controls/context';
+import { IContextOptionsValue } from 'Controls/context';
 import {RegisterClass} from 'Controls/event';
 import {
     error as dataSourceError,
@@ -69,10 +69,6 @@ interface IReceivedState {
 
 type TReceivedState = IReceivedState[] | Error | void;
 
-interface IDataChildContext {
-    dataOptions: IBrowserOptions;
-}
-
 type TErrbackConfig = dataSourceError.ViewConfig & { error: Error };
 
 /**
@@ -99,12 +95,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     protected _topShadowVisibility: SHADOW_VISIBILITY | 'gridauto' = SHADOW_VISIBILITY.AUTO;
     protected _bottomShadowVisibility: SHADOW_VISIBILITY | 'gridauto' = SHADOW_VISIBILITY.AUTO;
+    protected _contextState: IContextOptionsValue;
 
     private _listMarkedKey: Key = null;
     private _root: Key = null;
     private _deepReload: boolean = undefined;
 
-    private _dataOptionsContext: typeof ContextOptions;
     private _sourceControllerState: IControllerState;
     private _items: RecordSet;
 
@@ -133,18 +129,18 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _misspellValue: string = '';
 
     protected _beforeMount(options: IBrowserOptions,
-                           context?: typeof ContextOptions,
+                           _: unknown,
                            receivedState?: TReceivedState): void | Promise<TReceivedState | Error | void> {
         this._initStates(options, receivedState);
         this._dataLoader = new DataLoader(this._getDataLoaderOptions(options, receivedState));
 
         return this._loadDependencies(options, () => {
-            return this._beforeMountInternal(options, context, receivedState);
+            return this._beforeMountInternal(options, undefined, receivedState);
         });
     }
 
     private _beforeMountInternal(options: IBrowserOptions,
-                                 context?: typeof ContextOptions,
+                                 _: unknown,
                                  receivedState?: TReceivedState): void | Promise<TReceivedState | Error | void> {
         if (Browser._checkLoadResult(Browser._getListsOptions(options), receivedState as IReceivedState[])) {
             this._updateFilterAndFilterItems(options);
@@ -283,13 +279,13 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         ];
     }
 
-    protected _beforeUpdate(newOptions: IBrowserOptions, context: typeof ContextOptions): void | Promise<RecordSet> {
+    protected _beforeUpdate(newOptions: IBrowserOptions): void | Promise<RecordSet> {
         return this._loadDependencies(newOptions, () => {
-            return this._beforeUpdateInternal(newOptions, context);
+            return this._beforeUpdateInternal(newOptions);
         });
     }
 
-    protected _beforeUpdateInternal(newOptions: IBrowserOptions, context: typeof ContextOptions): void | Promise<RecordSet> {
+    protected _beforeUpdateInternal(newOptions: IBrowserOptions): void | Promise<RecordSet> {
         if (newOptions.listsOptions) {
             // TODO доделать обновление по listsOptions
             return;
@@ -494,37 +490,21 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     protected _filterItemsChanged(event: SyntheticEvent, items: IFilterItem[]): void {
         this._dataLoader.getFilterController().updateFilterItems(items);
         this._updateFilterAndFilterItems(this._options);
-        this._dataOptionsContext.filter = this._filter;
-        this._notify('filterChanged', [this._filter]);
-    }
-
-    protected _getChildContext(): IDataChildContext {
-        return {
-            dataOptions: this._dataOptionsContext
+        this._contextState = {
+            ...this._contextState,
+            filter: this._filter
         };
+        this._notify('filterChanged', [this._filter]);
     }
 
     private _updateContext(): void {
         const sourceControllerState = this._getSourceController().getState();
-        const contextState = {
+        this._contextState = {
             ...sourceControllerState,
             listsConfigs: this._dataLoader.getState(),
             listsSelectedKeys: this._getOperationsController().getSelectedKeysByLists(),
             listsExcludedKeys: this._getOperationsController().getExcludedKeysByLists()
         };
-
-        if (!this._dataOptionsContext) {
-            this._dataOptionsContext = new ContextOptions(contextState);
-        } else {
-            const curContext = this._dataOptionsContext;
-
-            for (const i in contextState) {
-                if (contextState.hasOwnProperty(i)) {
-                    curContext[i] = contextState[i];
-                }
-            }
-            curContext.updateConsumers();
-        }
         this._sourceControllerState = sourceControllerState;
     }
 
@@ -901,12 +881,6 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         return Browser._getListsOptions(options).filter((listOptions) => {
             return listOptions.filterButtonSource || listOptions.fastFilterSource || listOptions.searchValue;
         }).length > 0;
-    }
-
-    static contextTypes(): object {
-        return {
-            dataOptions: ContextOptions
-        };
     }
 
     static getDefaultOptions(): object {

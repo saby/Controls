@@ -1,0 +1,3 @@
+<ws:partial template="{{ _options.contextOptionsInnerComponent }}"
+            scope="{{ _options }}"
+            _dataOptionsValue="{{ _dataOptions }}" />

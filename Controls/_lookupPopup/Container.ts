@@ -3,7 +3,6 @@ import template = require('wml!Controls/_lookupPopup/Container');
 import chain = require('Types/chain');
 import Utils = require('Types/util');
 import cInstance = require('Core/core-instance');
-import {ContextOptions} from 'Controls/context';
 import {CrudWrapper} from 'Controls/dataSource';
 import {selectionToRecord} from 'Controls/operations';
 import {adapter as adapterLib} from 'Types/entity';
@@ -51,10 +50,10 @@ var _private = {
       };
    },
 
-   getSelectedKeys: function(options, context) {
+   getSelectedKeys: function(options) {
       const selectedItems = _private.getSelectedItems(options);
       const items = _private.getFilteredItems(selectedItems, _private.getFilterFunction(options.selectionFilter));
-      return _private.getKeysByItems(items, context.dataOptions.keyProperty);
+      return _private.getKeysByItems(items, options._dataOptionsValue.keyProperty);
    },
 
    // TODO: вообще не уверен что это нужно, но я побоялся трогать
@@ -169,10 +168,10 @@ var _private = {
       };
    },
 
-   getInitialSelectedItems(self, options, context): List|RecordSet {
+   getInitialSelectedItems(self, options): List|RecordSet {
       const selectedItems = _private.getSelectedItems(options).clone();
       const itemsToRemove = [];
-      const keyProp = context.dataOptions.keyProperty;
+      const keyProp = options._dataOptionsValue.keyProperty;
 
       selectedItems.each((item) => {
          if (!self._selectedKeys.includes(item.get(keyProp))) {
@@ -271,7 +270,7 @@ var _private = {
    },
 
    loadSelectedItems(self: object, filter: QueryWhereExpression<unknown>): Promise<RecordSet> {
-      const dataOptions = self.context.get('dataOptions');
+      const dataOptions = self._options._dataOptionsValue;
       const items = dataOptions.items;
       let loadItemsPromise;
 
@@ -357,22 +356,22 @@ var Container = Control.extend({
    _selectCompleteInitiator: false,
    _loadingIndicatorId: null,
 
-   _beforeMount(options, context): void {
-      this._selectedKeys = _private.getSelectedKeys(options, context);
+   _beforeMount(options): void {
+      this._selectedKeys = _private.getSelectedKeys(options);
       this._excludedKeys = [];
-      this._initialSelection = _private.getInitialSelectedItems(this, options, context);
+      this._initialSelection = _private.getInitialSelectedItems(this, options);
    },
 
    _afterMount(): void {
       RegisterUtil(this, 'selectComplete', this._selectComplete.bind(this));
    },
 
-   _beforeUpdate(newOptions, context): void {
+   _beforeUpdate(newOptions): void {
       const currentSelectedItems = this._options.selectedItems;
       const newSelectedItems = newOptions.selectedItems;
 
       if (currentSelectedItems !== newSelectedItems) {
-         this._selectedKeys = _private.getSelectedKeys(newOptions, context);
+         this._selectedKeys = _private.getSelectedKeys(newOptions);
       }
    },
 
@@ -383,7 +382,7 @@ var Container = Control.extend({
 
    _selectComplete(): void {
       const options = this._options;
-      const dataOptions = this.context.get('dataOptions');
+      const dataOptions = options._dataOptionsValue;
       const items = dataOptions.items;
       const keyProperty = options.keyProperty;
       let loadPromise;
@@ -451,12 +450,6 @@ var Container = Control.extend({
       this._selectCompleteInitiator = true;
    }
 });
-
-Container.contextTypes = function() {
-   return {
-      dataOptions: ContextOptions
-   };
-};
 
 Container.getDefaultOptions = function getDefaultOptions() {
    return {
