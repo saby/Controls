@@ -15,7 +15,9 @@ const CONTEXT_FIELDS: ReadonlyArray<keyof IContextOptionsValue> = [
     'sourceController',
     'listsConfigs',
     'listsSelectedKeys',
-    'listsExcludedKeys'
+    'listsExcludedKeys',
+    'contrastBackground',
+    'newDesign'
 ];
 
 export default class ControllerContextProvider extends Control<IOptions> {

@@ -21,6 +21,8 @@ export interface IContextOptionsValue {
    listsConfigs?: ISourceControllerState[];
    listsSelectedKeys?: TKey[];
    listsExcludedKeys?: TKey[];
+   contrastBackground?: boolean;
+   newDesign?: boolean;
 }
 
 const Context = DataContext.extend({
