@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
+import {USER} from 'ParametersWebAPI/Scope';
 import {HierarchicalMemory} from 'Types/source';
-import {TExpandOrColapsItems} from 'Controls-demo/types';
 
 import { Gadgets } from '../DemoHelpers/DataCatalog';
 
@@ -10,10 +10,14 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
     protected _columns: unknown[] = Gadgets.getGridColumnsForFlat();
-    protected _collapsedItems: TExpandOrColapsItems = undefined;
-    protected _expandedItems: TExpandOrColapsItems = [1];
 
     protected _beforeMount(): void {
+        // Демка может работать только с хранилищем в сессии.
+        // В этом случае получить на SSR идентификаторы раскрытых груп невозможно.
+        // Поэтому, тут такая логика: Если группы будут раскрыты при загрузке демки, то
+        // функционал работает....
+        USER.set('NODE_HISTORY', JSON.stringify([1, 2]));
+
         this._viewSource = new HierarchicalMemory({
             parentProperty: 'parent',
             keyProperty: 'id',

@@ -1,5 +1,5 @@
 import { DataSet, CrudEntityKey } from 'Types/source';
-import { UserConfig } from 'EnvConfig/Config';
+import { USER } from 'ParametersWebAPI/Scope';
 import { Logger } from 'UI/Utils';
 
 export const nodeHistoryUtil = {
@@ -10,7 +10,7 @@ export const nodeHistoryUtil = {
      */
     store(items: CrudEntityKey[], key: string): Promise<DataSet | boolean> {
         const value = JSON.stringify(items);
-        return UserConfig.setParam(key, value);
+        return USER.set(key, value);
     },
 
     /**
@@ -19,16 +19,16 @@ export const nodeHistoryUtil = {
      */
     restore(key: string): Promise<CrudEntityKey[]> {
         return new Promise<CrudEntityKey[]>((resolve, reject) => {
-            const preparedStoreKey = key;
-            UserConfig.getParam(preparedStoreKey).then((value) => {
+            USER.load([key]).then((config) => {
                 try {
-                    if (value !== undefined) {
-                        resolve(JSON.parse(value));
+                    const result = config.get(key);
+                    if (result !== undefined) {
+                        resolve(JSON.parse(result));
                     } else {
                         resolve();
                     }
                 } catch (e) {
-                    const msg = 'nodeHistoryUtil: Invalid value format for key "' + preparedStoreKey + '"';
+                    const msg = 'nodeHistoryUtil: Invalid value format for key "' + key + '"';
                     Logger.error(msg, this);
                     reject(msg);
                 }

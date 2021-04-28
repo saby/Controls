@@ -75,8 +75,8 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
         sinonSandbox.restore();
     });
 
-    // 2. Если expandedItems && options.nodeHistoryId то не дёргаем History При загрузке
-    it('should not call restore from history method when expandedItems', async () => {
+    // 2. Если expandedItems && options.nodeHistoryId то всё равно дёргаем History При загрузке
+    it('should call restore from history method when expandedItems', async () => {
         const controller = getController({
             expandedItems: [1],
             nodeHistoryId: 'NODE_HISTORY_ID'
@@ -84,14 +84,13 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
         const spyRestore = sinon.spy(nodeHistoryUtil, 'restore');
         await controller.load(null, 0);
 
-        sinon.assert.notCalled(spyRestore);
+        sinon.assert.called(spyRestore);
         spyRestore.restore();
     });
 
-    // 3. Если !expandedItems && !options.nodeHistoryId то не дёргаем History При загрузке
-    it('should not call restore from history method when expandedItems', async () => {
+    // 3. Если !options.nodeHistoryId то не дёргаем History При загрузке
+    it('should not call restore from history method when no nodeHistoryId', async () => {
         const controller = getController({
-            expandedItems: [1],
             nodeHistoryId: undefined
         });
         const stubRestore = sinon.spy(nodeHistoryUtil, 'restore');

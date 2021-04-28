@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlDemo__treeGrid-nodeHistoryId">
-    <Controls.list:DataContainer source="{{_viewSource}}"
+    <Controls.list:DataContainer source="{{ _viewSource }}"
                               keyProperty="id"
                               parentProperty="parent"
                               nodeProperty="type"
