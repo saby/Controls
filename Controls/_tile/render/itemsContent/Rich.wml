@@ -6,7 +6,7 @@
                 imageFit="{{ imageFit || 'cover' }}"
                 imageProportion="{{ (item || itemData).getImageProportion(imageProportion) }}"
                 scope="{{_options}}"/>
-    <ws:partial if="{{isEditing && afterImageTemplate}}"
+    <ws:partial if="{{afterImageTemplate}}"
                 template="{{afterImageTemplate}}"
                 itemData="{{(item || itemData)}}"
                 item="{{(item || itemData)}}"/>

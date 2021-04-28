@@ -140,4 +140,24 @@ export default interface IRichTemplateOptions {
      * @cfg {Array<ICharacteristicsItem>} Конфигурация характеристик для вывода под заголовком плитки.
      */
     characteristics?: ICharacteristicsItem;
+
+    /**
+     * @cfg {TemplateFunction} Шаблон редактирования для заголовка.
+     */
+    titleEditor?: TemplateFunction;
+
+    /**
+     * @cfg {TemplateFunction} Шаблон редактирования для описания.
+     */
+    descriptionEditor?: TemplateFunction;
+
+    /**
+     * @cfg {TemplateFunction} Шаблон редактирования для подвала.
+     */
+    footerEditor?: TemplateFunction;
+
+    /**
+     * @cfg {TemplateFunction} Шаблон, отображаемый после изображения и до заголовка.
+     */
+    afterImageEditorTemplate?: TemplateFunction;
 }
