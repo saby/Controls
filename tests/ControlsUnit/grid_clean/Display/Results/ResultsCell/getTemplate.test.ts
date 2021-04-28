@@ -4,8 +4,8 @@ import { GridResultsCell, GRID_RESULTS_CELL_DEFAULT_TEMPLATE } from 'Controls/gr
 const RESULTS_CELL_TEMPLATE = 'RESULTS_CELL_TEMPLATE';
 const CELL_TEMPLATE = 'CELL_TEMPLATE';
 
-describe('Controls/grid_clean/Display/Results/ResultsCell', () => {
-    it('getTemplate(), isSingleCell = false', () => {
+describe('Controls/grid_clean/Display/Results/ResultsCell/getTemplate', () => {
+    it('getTemplate(), isSingleColspanedCell = false', () => {
         const cell = new GridResultsCell({
             column: {
                 template: CELL_TEMPLATE,
@@ -19,7 +19,7 @@ describe('Controls/grid_clean/Display/Results/ResultsCell', () => {
         assert.equal(cell.getTemplate(), RESULTS_CELL_TEMPLATE);
     });
 
-    it('getTemplate(), isSingleCell = false, without resultTemplate', () => {
+    it('getTemplate(), isSingleColspanedCell = false, without resultTemplate', () => {
         const cell = new GridResultsCell({
             column: {
                 template: CELL_TEMPLATE
@@ -32,7 +32,7 @@ describe('Controls/grid_clean/Display/Results/ResultsCell', () => {
         assert.equal(cell.getTemplate(), GRID_RESULTS_CELL_DEFAULT_TEMPLATE);
     });
 
-    it('getTemplate(), isSingleCell = true, with resultTemplate', () => {
+    it('getTemplate(), isSingleColspanedCell = true, with resultTemplate', () => {
         const cell = new GridResultsCell({
             column: {
                 template: CELL_TEMPLATE,
@@ -42,7 +42,7 @@ describe('Controls/grid_clean/Display/Results/ResultsCell', () => {
                 hasMultiSelectColumn: () => false,
                 isFullGridSupport: () => true
             },
-            isSingleCell: true
+            isSingleColspanedCell: true
         });
         assert.equal(cell.getTemplate(), RESULTS_CELL_TEMPLATE);
     });

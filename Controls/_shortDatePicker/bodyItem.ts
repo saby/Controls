@@ -48,7 +48,7 @@ class BodyItem extends Control<IShortDatePickerOptions> implements IDateConstruc
     }
 
     protected _getItemTmplByType(options: IShortDatePickerOptions): TemplateFunction {
-        if (options.chooseHalfyears && options.chooseQuarters && options.chooseMonths) {
+        if (options.chooseQuarters && options.chooseMonths) {
             return itemFullTmpl;
         } else if (options.chooseMonths) {
             return itemMonthsTmpl;

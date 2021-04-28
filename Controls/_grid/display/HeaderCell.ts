@@ -6,7 +6,7 @@
     template Шаблон заголовка ячейки.
     textOverflow Поведение текста, если он не умещается в ячейке
     valign Выравнивание содержимого ячейки по вертикали.
-    startColumn Порядковый номер колонки, на которой начинается ячейка.
+    startColumn Порядковый номер колонки, на которой начинаетсgetWrapperClassesя ячейка.
     startRow Порядковый номер строки, на которой начинается ячейка.
     endColumn Порядковый номер колонки, на которой заканчивается ячейка.
     endRow Порядковый номер строки, на которой заканчивается ячейка.
@@ -191,8 +191,9 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default'): string {
         let wrapperClasses = `controls-Grid__header-cell controls-Grid__cell_${style}`
                           + ` ${this._getWrapperPaddingClasses(theme)}`
-                          + ` ${this._getColumnSeparatorClasses(theme)}`
-                          + ` controls-background-${backgroundColorStyle || style}`;
+                          + ` ${this._getColumnSeparatorClasses(theme)}`;
+
+        wrapperClasses += this._getControlsBackgroundClass(style, backgroundColorStyle);
 
         const isMultilineHeader = this._$owner.isMultiline();
         const isStickySupport = this._$owner.isStickyHeader();
@@ -213,8 +214,6 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         if (this._$owner.hasColumnScroll()) {
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
         }
-
-        // _private.getBackgroundStyle(this._options, true);
         return wrapperClasses;
     }
 

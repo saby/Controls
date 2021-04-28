@@ -52,7 +52,6 @@ class View extends Control<IDateLitePopupOptions> {
     protected _position: Date;
     protected _yearHovered: Date;
     protected _range: Date[];
-    protected _isFullPicker: boolean = false;
     protected _limit: number = 15;
     protected _isExpandedPopup: boolean = false;
     protected _isExpandButtonVisible: boolean = true;
@@ -64,7 +63,6 @@ class View extends Control<IDateLitePopupOptions> {
     protected _nextArrowButtonReadOnly: boolean = false;
 
     protected _beforeMount(options: IDateLitePopupOptions): void {
-        this._isFullPicker = options.chooseMonths && options.chooseQuarters && options.chooseHalfyears;
         this._displayedRanges = options.displayedRanges;
         if (!options.emptyCaption) {
             if (options.chooseMonths && (options.chooseQuarters || options.chooseHalfyears)) {
@@ -407,15 +405,21 @@ class View extends Control<IDateLitePopupOptions> {
         if (this._options.chooseHalfyears) {
             return 'controls-PeriodLiteDialog__' + data + '-big';
         }
-        if (this._options.chooseQuarters || this._options.chooseMonths) {
+        if (this._options.chooseQuarters && this._options.chooseMonths) {
             return 'controls-PeriodLiteDialog__' + data + '-medium';
         }
-        return 'controls-PeriodLiteDialog__' + data + '-small';
+        if (this._options.chooseQuarters || this._options.chooseMonths) {
+            return 'controls-PeriodLiteDialog__' + data + '-small';
+        }
+        return 'controls-PeriodLiteDialog__' + data + '-year-list';
     }
 
     protected _getListCssClasses(): string {
         if (this._options.chooseHalfyears) {
             return 'controls-PeriodLiteDialog-item controls-PeriodLiteDialog__fullYear-list';
+        }
+        if (this._options.chooseMonths && this._options.chooseQuarters) {
+            return 'controls-PeriodLiteDialog__monthsAndQuarters';
         }
         if (this._options.chooseMonths) {
             return 'controls-PeriodLiteDialog__vLayout' +

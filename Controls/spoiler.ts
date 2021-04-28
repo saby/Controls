@@ -1,7 +1,8 @@
 /**
  * Библиотека контролов, отвечающих за отображение контента с возможностью переключения состояния развернутости.
  * @library Controls/spoiler
- * @includes ICut Controls/_spoiler/ICut
+ * @includes ICut Controls/_spoiler/interface/ICut
+ * @includes IHeight Controls/_interface/IHeight
  * @author Красильников А.С.
  */
 

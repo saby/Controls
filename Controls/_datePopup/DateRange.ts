@@ -206,6 +206,10 @@ export default class DateRange extends Control<IDatePopupDateRangeOptions> {
                 options.ranges.months[0] === 1));
         if (this._position !== options.position) {
             this._position = options.position;
+            if (this._shouldUpdateMonthsPosition) {
+                this._monthsPosition = new Date(this._position.getFullYear(), 0);
+            }
+            this._markedKey = this._dateToId(this._position);
         }
         if (!this._singleDayHover) {
             this._hoveredStartValue = options.hoveredStartValue;

@@ -25,7 +25,8 @@ describe('Controls/_display:GridHeaderRow', () => {
             header,
             columns: [{}],
             headerModel: {
-                getBounds: () => ({ row: {start: 1, end: 3} })
+                getBounds: () => ({ row: {start: 1, end: 3} }),
+                isMultiline: (): boolean => true
             }
         });
         assert.equal(headerRow.getColumns().length, 2);

@@ -142,7 +142,7 @@ export default {
         this._rightTemplate = rightTemplate;
     },
 
-    getRightTemplate(): void {
+    getRightTemplate(): string {
         return this._rightTemplate;
     }
 };

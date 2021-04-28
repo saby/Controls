@@ -86,7 +86,7 @@ export default class HeaderRow<T> extends Row<T> {
             const factory = this.getColumnsFactory();
             let totalColspan = 0;
             this._$columnItems = this._$header.map((column, index) => {
-                const isFixed = totalColspan < this.getStickyColumnsCount();
+                const isFixed = (this.isMultiline() ? (column.startColumn - 1) : totalColspan) < this.getStickyColumnsCount();
                 totalColspan += (column.endColumn - column.startColumn) || 1;
                 return factory({
                     column,
@@ -103,8 +103,8 @@ export default class HeaderRow<T> extends Row<T> {
             if (this.hasItemActionsSeparatedCell()) {
                 this._$columnItems.push(new ItemActionsCell({
                     owner: this,
-                    column: {},
-                    rowspan: this.getBounds().row.end - this.getBounds().row.start
+                    rowspan: this.getBounds().row.end - this.getBounds().row.start,
+                    column: {}
                 }));
             }
         }

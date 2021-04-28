@@ -1,18 +1,18 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Не определен fractionSize</div>
+      <div class="controls-text-label">Не определен fractionSize</div>
       <Controls.decorator:Number value="{{_value}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">fractionSize = 0</div>
+      <div class="controls-text-label">fractionSize = 0</div>
       <Controls.decorator:Number value="{{_value}}" fractionSize="{{0}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">fractionSize = 3</div>
+      <div class="controls-text-label">fractionSize = 3</div>
       <Controls.decorator:Number value="{{_value}}" fractionSize="{{3}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">fractionSize = 10</div>
+      <div class="controls-text-label">fractionSize = 10</div>
       <Controls.decorator:Number value="{{_value}}" fractionSize="{{10}}"/>
    </div>
 </div>

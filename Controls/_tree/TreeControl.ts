@@ -273,8 +273,9 @@ const _private = {
         const items = viewModel.getCollection();
 
         const sourceController = self.getSourceController();
-        const isAlreadyLoaded = (sourceController ? sourceController.hasLoaded(nodeKey) : !!self._options.items) ||
-            viewModel.getHasMoreStorage().hasOwnProperty(nodeKey);
+        // не нужно загружать узел, если уже все записи есть в рекордсете
+        const isAlreadyLoaded = (sourceController ? sourceController.hasLoaded(nodeKey) : !!self._options.items)
+            || !!viewModel.getChildrenByRecordSet(nodeKey).length;
 
         if (isAlreadyLoaded) {
             return false;
@@ -502,6 +503,9 @@ const _private = {
     },
 
     getExpandedItems(self: TreeControl, options, items): TKey[] {
+        if (!items) {
+            return [];
+        }
         const modelExpandedItems = self._listViewModel.getExpandedItems();
         let expandedItems;
 
@@ -990,7 +994,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 this._listViewModel.setExpandedItems(options.expandedItems);
                 this._updateExpandedItemsAfterReload = false;
             }
-            const modelExpandedItems = this._listViewModel.getExpandedItems();
             const isDeepReload = _private.isDeepReload(options, this._deepReload);
 
             if (!isDeepReload || this._needResetExpandedItems) {
@@ -1001,40 +1004,13 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             if (viewModelRoot !== root) {
                 this._listViewModel.setRoot(root);
             }
-            if (isDeepReload && modelExpandedItems.length && loadedList) {
-                const sourceController = this.getSourceController();
-                const hasMore = {};
-                const expandedItems = _private.getExpandedItems(this, options, loadedList);
-                let hasMoreData: unknown;
 
-                if (sourceController) {
-                    expandedItems.forEach((key) => {
-                        hasMoreData = sourceController.hasMoreData('down', key);
-
-                        if (hasMoreData !== undefined) {
-                            hasMore[key] = hasMoreData;
-                        }
-                    });
-                }
-
-                // if method does not support multi navigation hasMore object will be empty
-                if (!isEqual({}, hasMore)) {
-                    this._listViewModel.setHasMoreStorage(hasMore);
-                }
-            }
-            if (loadedList) {
-                const modelHasMoreStorage = this._listViewModel.getHasMoreStorage();
-                const sourceController = this.getSourceController();
-
-                loadedList.each((item) => {
-                    if (item.get(options.nodeProperty) !== null) {
-                        const itemKey = item.getId();
-                        const dispItem = this._listViewModel.getItemBySourceKey(itemKey);
-                        if (sourceController && dispItem && this._listViewModel.getChildren(dispItem, undefined, loadedList).length) {
-                            modelHasMoreStorage[itemKey] = sourceController.hasMoreData('down', itemKey);
-                        }
-                    }
-                });
+            // Всегда нужно пересчитывать hasMoreStorage, т.к. даже если нет загруженных элементов или не deepReload,
+            // то мы должны сбросить hasMoreStorage
+            const sourceController = this.getSourceController();
+            const expandedItems = _private.getExpandedItems(this, options, loadedList);
+            if (sourceController) {
+                this._listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems));
             }
         }
         // reset deepReload after loading data (see reload method or constructor)
@@ -1214,7 +1190,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 }
             };
 
-            if (key === model.getLastItem().key) {
+            if (key === model.getLastItem().get(model.getKeyProperty())) {
                 this._shiftToDirection('down').then(goToNextItem);
             } else {
                 goToNextItem();
@@ -1314,7 +1290,22 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     }
 
     protected _getFooterClasses(options): string {
-        return super._getFooterClasses(options) + ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
+        let result = super._getFooterClasses(options);
+
+        if (this._listViewModel && this._listViewModel['[Controls/_display/Tree]']) {
+            const expanderVisibility = this._listViewModel.getExpanderVisibility();
+            const hasExpander = this._listViewModel.getExpanderIcon() !== 'none'
+                && (expanderVisibility === 'hasChildren' && this._listViewModel.hasNodeWithChildren()
+                || expanderVisibility !== 'hasChildren' && this._listViewModel.hasNode());
+            if (hasExpander) {
+                result += ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
+            }
+        } else if (!this._options.useNewModel) {
+            // в старой модели всегда добавляем отступ, удалить когда избавимся от старой модели
+            result += ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
+        }
+
+        return result;
     }
 
     static getDefaultOptions() {

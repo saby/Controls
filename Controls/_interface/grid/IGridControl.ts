@@ -589,16 +589,33 @@ export interface IGridControl extends IList {
 
 /**
  * @name Controls/_interface/grid/IGridControl#showEditArrow
- * @cfg {Boolean} Позволяет отображать по ховеру кнопку в первой колонке и в меню по свайпу.
+ * @cfg {Boolean} Видимость кнопки, которая отображается в первой колонке при наведении курсора.
  * @remark
- * Чтобы стрелка-шеврон отобразилась в прикладном шаблоне ячейки, необходимо в опции {@link Controls/grid:ColumnTemplate#contentTemplate} явно указать позицию стрелки-шеврона. Для этого используется переменная editArrowTemplate из области видимости самого шаблона. Пример использования посмотрите {@link Controls/grid:ColumnTemplate#contentTemplate тут}.
+ * Чтобы стрелка отобразилась в прикладном шаблоне ячейки, необходимо в опции {@link Controls/grid:ColumnTemplate#contentTemplate contentTemplate} явно указать позицию стрелки. Для этого используется переменная editArrowTemplate из области видимости самого шаблона. Пример использования посмотрите {@link Controls/grid:ColumnTemplate#contentTemplate тут}.
  *
- * **Обратите внимание!** Для отображения стрелки-шеврона по свайпу необходимо всегда указывать опцию showEditArrow=true, вне зависимости от того,
- * используется прикладной шаблон или нет.
+ * **Обратите внимание!** Для отображения стрелки по свайпу необходимо всегда указывать опцию showEditArrow=true, вне зависимости от того, используется прикладной шаблон или нет.
  * @demo Controls-demo/grid/ShowEditArrow/Index
  * @example
- * <pre>
- *    <ws:partial template="{{editArrowTemplate}}" itemData="{{itemData}}"/>
+ * <pre class="brush: html; highlight: [5,12]">
+ * <!-- WML -->
+ * <Controls.grid:View
+ *     keyProperty="id"
+ *     source="{{_viewSource}}"
+ *     showEditArrow="{{true}}">
+ *     <ws:columns>
+ *         <ws:Array>
+ *             <ws:Object>
+ *                  <ws:template>
+ *                      <ws:partial template="Controls/grid:ColumnTemplate">
+ *                          <ws:contentTemplate>
+ *                              <ws:partial template="{{editArrowTemplate}}" scope="{{contentTemplate}}"/>
+ *                          </ws:contentTemplate>
+ *                      </ws:partial>
+ *                  </ws:template>
+ *             </ws:Object>
+ *         </ws:Array>
+ *     </ws:columns>
+ * </Controls.grid:View>
  * </pre>
  */
 

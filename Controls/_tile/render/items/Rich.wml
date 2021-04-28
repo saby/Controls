@@ -1,8 +1,6 @@
 <ws:partial template="wml!Controls/_tile/render/items/Default"
             itemActionsPadding="null"
             highlightOnHover="{{false}}"
-            itemWidth="{{ (item || itemData).getTileSizes(imagePosition, imageViewMode).width }}"
-            folderWidth="{{ (item || itemData).getTileSizes(imagePosition, imageViewMode).width }}"
             staticHeight="{{true}}"
             height="auto"
             imageProportionOnItem="{{imageProportion}}"

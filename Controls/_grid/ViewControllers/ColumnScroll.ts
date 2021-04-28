@@ -124,7 +124,7 @@ export default class ColumnScroll {
         return '';
     }
 
-    getColumnScrollFakeShadowClasses(position: 'start' | 'end', params?: {needBottomPadding: true}): string {
+    getColumnScrollFakeShadowClasses(position: 'start' | 'end', needBottomPadding?: true): string {
         if (this._options.columnScrollStartPosition === 'end') {
             let classes = '';
             if (this._options.hasMultiSelectColumn) {
@@ -134,7 +134,7 @@ export default class ColumnScroll {
                 isVisible: position === 'start',
                 theme: this._options.theme,
                 backgroundStyle: this._options.backgroundStyle,
-                needBottomPadding: !!params?.needBottomPadding
+                needBottomPadding: !!needBottomPadding
             });
         }
         return '';
@@ -160,7 +160,8 @@ export default class ColumnScroll {
         };
     }
 
-    actualizeColumnScroll(options: IActualizeOptions & IColumnScrollOptions, oldOptions: IActualizeOptions & IColumnScrollOptions): Promise<{ status: 'actual' | 'destroyed' | 'created' }> {
+    actualizeColumnScroll(options: IActualizeOptions & IColumnScrollOptions,
+                          oldOptions: IActualizeOptions & IColumnScrollOptions): Promise<{ status: 'actual' | 'updated' | 'destroyed' | 'created' }> {
         this._scrollBar = options.scrollBar;
         this._header = options.containers.header;
 
@@ -171,7 +172,7 @@ export default class ColumnScroll {
         );
 
         let resolvePromise;
-        const resultPromise = new Promise<{ status: 'actual' | 'destroyed' | 'created' }>((resolver) => { resolvePromise = resolver });
+        const resultPromise = new Promise<{ status: 'actual' | 'updated' | 'destroyed' | 'created' }>((resolver) => { resolvePromise = resolver });
 
         if (needBySize) {
             if (!this._columnScroll) {
@@ -230,7 +231,7 @@ export default class ColumnScroll {
         } else {
             this._options = this._updateOptions(options);
             this._destroyColumnScroll();
-            return resolvePromise({status: 'destroyed'});
+            resolvePromise({status: 'destroyed'});
         }
 
         return resultPromise;
