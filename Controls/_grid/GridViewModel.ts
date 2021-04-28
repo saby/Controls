@@ -2227,6 +2227,12 @@ var
             this._model.setItemActionVisibilityCallback(callback);
         },
 
+        setItemActionsPosition: function(position) {
+            this._options.itemActionsPosition = position;
+            this._setFooter(this._footerColumns);
+            this._nextModelVersion();
+        },
+
         _calcItemVersion(item, key, index): string {
             if (item === null) {
                 return;
