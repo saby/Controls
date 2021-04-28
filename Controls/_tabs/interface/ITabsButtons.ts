@@ -84,7 +84,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
 
     /**
      * @name Controls/_tabs/interface/ITabsButtons#items
-     * @cfg {Types/collection:RecordSet} Рекордсет с конфигурацией вкладок.
+     * @cfg {RecordSet.<Controls/_tabs/interface/ITabsButtons/Item.typedef>} Рекордсет с конфигурацией вкладок.
      * @default undefined
      * @remark
      * Элементу можно задать свойство align, которое определяет выравнивание вкладок.
@@ -128,6 +128,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
      *    });
      * }
      * </pre>
+     * @demo Controls-demo/Tabs/Buttons/TabsWidth/Index
      * @see items
      */
     items?: RecordSet<ITabButtonItem>;
