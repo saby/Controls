@@ -41,11 +41,14 @@ export default class Index extends Control<IControlOptions> {
     protected _updateItems(items: object[]): void {
         this._itemsArray = [...items];
         this._items = new RecordSet({
-            rawData: this._itemsArray
+            rawData: this._itemsArray.map((item) => {
+                // В контрол должны уйти числа либо проценты
+                return this._getItemWithValidWidthForDisplay(item);
+            })
         });
     }
 
-    private _getItemWithValidWidth(item: object): object {
+    private _getItemWithValidWidthForDisplay(item: object): object {
         return {
             ...item,
             minWidth: this._getValidWidthValue(item.minWidth),
@@ -59,7 +62,7 @@ export default class Index extends Control<IControlOptions> {
     }
 
     protected _itemSettingsChanged(event: Event, index: number, item: object): void {
-        this._itemsArray.splice(index, 1, this._getItem(this._getItemWithValidWidth(item)));
+        this._itemsArray.splice(index, 1, this._getItem(item));
         this._updateItems(this._itemsArray);
     }
 
