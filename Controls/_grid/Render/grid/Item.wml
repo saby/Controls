@@ -74,8 +74,8 @@
 
 <ws:if data="{{ (item || itemData).isSticked() }}">
     <Controls.scroll:Group>
-        <div class="{{(item || itemData).getQAClasses(marker)}}
-            {{ (item || itemData).getItemClasses({
+        <div attr:data-qa="{{(item || itemData).getQAData(marker)}}"
+             attr:class="{{ (item || itemData).getItemClasses({
                 'highlightOnHover': highlightOnHover,
                 'theme': theme,
                 'style': style,
@@ -98,8 +98,8 @@
     </Controls.scroll:Group>
 </ws:if>
 <ws:else>
-    <div class="{{(item || itemData).getQAClasses(marker)}}
-            {{ (item || itemData).getItemClasses({
+    <div attr:data-qa="{{(item || itemData).getQAData(marker)}}"
+         attr:class="{{ (item || itemData).getItemClasses({
                 'highlightOnHover': highlightOnHover,
                 'theme': theme,
                 'style': style,

@@ -170,7 +170,7 @@ const _private = {
         itemsModelCurrent.isSticked = () => itemsModelCurrent.isStickedMasterItem || itemsModelCurrent.isGroup;
         itemsModelCurrent.isDragged = () => itemsModelCurrent.isDragging;
         itemsModelCurrent.getWrapperClasses = this.getWrapperClasses.bind(itemsModelCurrent);
-        itemsModelCurrent.getQAClasses = this.getQAClasses.bind(itemsModelCurrent);
+        itemsModelCurrent.getQAData = this.getQAData.bind(itemsModelCurrent);
         itemsModelCurrent.getContentClasses = () => {
             return `${itemsModelCurrent.spacingClassList} ${itemsModelCurrent.isRightSwiped?.() ? 'controls-ListView__item_rightSwipeAnimation' : ''}`;
         };
@@ -191,10 +191,10 @@ const _private = {
         return options.rowSeparatorSize ? options.rowSeparatorSize.toLowerCase() : null;
     },
 
-    getQAClasses(marker: boolean = true): string {
+    getQAData(marker: boolean = true): string {
         let classes = '';
         if (this.isMarked() && marker) {
-            classes += ' qa-controls-list-marked-item ';
+            classes += 'key-controls-list-marked-item';
         }
         return classes;
     },

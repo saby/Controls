@@ -129,8 +129,8 @@
 
 </ws:template>
 
-<tr class="{{itemData.getQAClasses(marker)}}
-           {{ itemData.getRowClasses(_options) }}">
+<tr attr:data-qa="{{itemData.getQAData(marker)}}"
+    attr:class="{{ itemData.getRowClasses(_options) }}">
     <ws:for data="itemData.resetColumnIndex(); itemData.hasNextColumn(colspan); itemData.goToNextColumn();">
         <ws:partial template="COLUMN" currentColumn="{{ itemData.getCurrentColumn(backgroundColorStyle) }}" attr:key="{{ itemData.getCurrentColumnKey() }}"/>
     </ws:for>

@@ -63,8 +63,8 @@
     </Controls.scroll:StickyHeader>
 </ws:if>
 <ws:else>
-    <div attr:class="{{(item || itemData).getQAClasses(marker)}}
-            {{ (item || itemData).getWrapperClasses(highlightOnHover, theme, cursor, backgroundColorStyle, style, showItemActionsOnHover) }}">
+    <div attr:data-qa="{{(item || itemData).getQAData(marker)}}"
+         attr:class="{{ (item || itemData).getWrapperClasses(highlightOnHover, theme, cursor, backgroundColorStyle, style, showItemActionsOnHover) }}">
         <ws:partial template="localItemTemplateContent"/>
     </div>
 </ws:else>

@@ -666,10 +666,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
             (style === 'master');
     }
 
-    getQAClasses(marker: boolean): string {
+    getQAData(marker: boolean): string {
         let classes = '';
         if (this.shouldDisplayMarker(marker)) {
-            classes += ' qa-controls-list-marked-item ';
+            classes += 'key-controls-list-marked-item';
         }
         return classes;
     }

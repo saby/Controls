@@ -266,7 +266,8 @@
 
 <ws:if data="{{itemData.isStickedMasterItem}}">
    <Controls.scroll:Group>
-      <div class="{{itemData.getQAClasses(marker)}} {{ itemData.getRowClasses(_options) }}">
+      <div  attr:data-qa="{{itemData.getQAData(marker)}}"
+            attr:class="{{ itemData.getRowClasses(_options) }}">
          <!-- The iterator does not restart when the model changes. Instead, the internal partial is redrawn. We do a reboot forcibly. -->
          <!-- Delete after the task is done https://online.sbis.ru/opendoc.html?guid=13786a2a-54c7-4a09-8fbc-11344cf0804d -->
          <ws:if data="{{colspanNodes && itemData.dispItem.isNode()}}">
@@ -297,7 +298,8 @@
    </Controls.scroll:Group>
 </ws:if>
 <ws:else>
-   <div class="{{itemData.getQAClasses(marker)}} {{ itemData.getRowClasses(_options) }}">
+   <div  attr:data-qa="{{itemData.getQAData(marker)}}"
+         attr:class="{{ itemData.getRowClasses(_options) }}">
       <ws:if data="{{colspanNodes && itemData.dispItem.isNode()}}">
          {{itemData.resetColumnIndex();}}
          <ws:if data="{{itemData.hasMultiSelectColumn}}">
