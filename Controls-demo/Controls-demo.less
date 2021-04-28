@@ -332,8 +332,7 @@
 }
 
 .controlsDemo__Grid_header-gridTitle-spacing {
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-bottom: 3px;
   display: flex;
   align-items: baseline;
   .controls-Header__caption {
@@ -357,10 +356,15 @@
   height: 32px;
   padding-right: 6px;
 }
-.controlsDemo__Grid_header-gridTitle__cell.controls-Grid__header-cell_baseline_XL:before {
-  font-size: 22px !important;
-}
 
+.controlsDemo__Grid_header-gridTitle__cell:before {
+  font-size: calc(4px + var(--header_max-font-size_grid)) !important;
+}
+// Во всех темах тестируется одна и та же демка.
+.controlsDemo__Grid_header-gridTitle_addButton {
+  align-self: center;
+  margin-top: -2px;
+}
 .controlsDemo__GridInEditingRow__editingRowWrapper {
   display: flex;
   width: 100%;
