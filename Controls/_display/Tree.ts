@@ -662,20 +662,12 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
         this._expandedItems = [...expandedKeys];
         if (expandedKeys[0] === null) {
-            const expandAllChildesNodes = (parent) => {
-                if (!parent['[Controls/_display/TreeItem]']) {
-                    return;
+            this._getItems().forEach((item) => {
+                if (item['[Controls/_display/TreeItem]'] && item.isNode()) {
+                    // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
+                    item.setExpanded(true);
                 }
-
-                // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
-                parent.setExpanded(true);
-                if (parent.isNode()) {
-                    const childes = this.getChildren(parent);
-                    childes.forEach((it) => expandAllChildesNodes(it));
-                }
-            };
-
-            this.each((it) => expandAllChildesNodes(it));
+            });
         } else {
             expandedKeys.forEach((key) => {
                 const item = this.getItemBySourceKey(key);
