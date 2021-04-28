@@ -54,8 +54,6 @@ export default class MonthView extends Control<IControlOptions> {
    _showWeekdays: boolean;
    _monthViewModel: MonthViewModel;
    _caption: string;
-   _hoveredItem: Date;
-   _baseHoveredItem: Date;
 
    protected _beforeMount(options): void {
       this._updateView(options);
@@ -83,31 +81,27 @@ export default class MonthView extends Control<IControlOptions> {
    protected _dayClickHandler(event, item, isCurrentMonth): void {
       if (this._options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.disable &&
           !this._options.readOnly && (isCurrentMonth || this._options.mode === 'extended')) {
-         this._baseHoveredItem = item;
-         this._hoveredItem = this._baseHoveredItem;
          this._notify('itemClick', [item, event]);
       }
    }
 
    protected _mouseEnterHandler(event, item, isCurrentMonth): void {
       if (isCurrentMonth || this._options.mode === 'extended') {
-         this._hoveredItem = item;
          this._notify('itemMouseEnter', [item]);
       }
    }
 
    protected _mouseLeaveHandler(event, item, isCurrentMonth): void {
       if (isCurrentMonth || this._options.mode === 'extended') {
-         this._hoveredItem = this._baseHoveredItem;
          this._notify('itemMouseLeave', [item]);
       }
    }
 
     protected _keyDownHandler(event: Event, item: Date, isCurrentMonth: boolean): void {
-        const hoveredItem = this._hoveredItem || item;
+        const hoveredItem = item;
         const keyCode = event.nativeEvent.keyCode;
         if (keyCode === constants.key.enter) {
-            this._dayClickHandler(event, this._hoveredItem, isCurrentMonth);
+            this._dayClickHandler(event, hoveredItem, isCurrentMonth);
         }
         if (hoveredItem && this._options.selectionType !== 'quantum') {
             const newHoveredItem = keyboardPeriodController(keyCode, hoveredItem, 'days');
@@ -116,7 +110,6 @@ export default class MonthView extends Control<IControlOptions> {
                     `.controls-MonthViewVDOM__item[data-date="${this._dateToDataString(newHoveredItem)}"]`
                 );
                 elementToFocus?.focus();
-                this._hoveredItem = newHoveredItem;
                 this._notify('itemMouseEnter', [newHoveredItem]);
                 event.preventDefault();
             }

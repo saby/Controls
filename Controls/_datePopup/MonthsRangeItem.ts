@@ -67,8 +67,6 @@ export default class MonthsRangeItem extends Control<IMonthsRangeItemOptions> {
     protected _monthsSelectionEnabled: boolean = true;
     private _halfyearSelectionEnabled: boolean = true;
     private _yearSelectionEnabled: boolean = true;
-    private _hoveredItem: WSDate;
-    private _baseHoveredItem: WSDate;
 
     protected _beforeMount(options: IMonthsRangeItemOptions): void {
         const year = options.date.getFullYear();
@@ -171,28 +169,24 @@ export default class MonthsRangeItem extends Control<IMonthsRangeItemOptions> {
         }
     }
 
-    protected _onMonthClick(event: Event, date: Date): void{
-        this._baseHoveredItem = date;
-        this._hoveredItem = this._baseHoveredItem;
+    protected _onMonthClick(event: Event, date: Date): void {
         this._chooseMonth(date);
     }
 
     protected _onMonthMouseEnter(event: Event, date: Date): void {
         if (this._options.selectionProcessing || !this._options.monthClickable) {
-            this._hoveredItem = date;
             this._notify('itemMouseEnter', [date]);
         }
     }
 
     protected _onMonthMouseLeave(event: Event, date: Date): void {
         if (this._options.selectionProcessing || !this._options.monthClickable) {
-            this._hoveredItem = this._baseHoveredItem;
             this._notify('itemMouseLeave', [date]);
         }
     }
 
     protected _onMonthKeyDown(event: Event, item: Date): void {
-        const hoveredItem = this._hoveredItem || item;
+        const hoveredItem = item;
         const keyCode = event.nativeEvent.keyCode;
         if (this._options.selectionProcessing || !this._options.monthClickable) {
             if (event.nativeEvent.keyCode === constants.key.enter) {
@@ -205,7 +199,6 @@ export default class MonthsRangeItem extends Control<IMonthsRangeItemOptions> {
                         `.controls-PeriodDialog-MonthsRange__item[data-date="${this._dateToDataString(newHoveredItem)}"]`
                     );
                     elementToFocus?.focus();
-                    this._hoveredItem = newHoveredItem;
                     this._notify('itemMouseEnter', [newHoveredItem]);
                     event.preventDefault();
                 }
