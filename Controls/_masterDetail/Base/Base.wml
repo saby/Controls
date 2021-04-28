@@ -1,17 +1,27 @@
+<ws:template name="masterContentTemplate">
+   <ws:partial
+           backgroundStyle="master"
+           template="{{_options.master}}"
+           attr:class="controls-MasterDetail_master-template controls-master-template-{{_newDesign ? 'newDesign' : 'default'}}
+                           controls-MasterDetail_{{_options.style || 'master'}}-template-{{_options.contrastBackground ? 'contrast'}}"
+           on:selectedMasterValueChanged="_selectedMasterValueChangedHandler()"/>
+</ws:template>
+
 <ws:template name="master">
    <ws:if data="{{_options.masterVisibility !== 'hidden'}}">
-      <div name="master" on:wheel="_wheelHandler()" class="controls-MasterDetail_master" style="width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}"
+      <div class="controls-MasterDetail_master" style="{{ _masterFixed ? 'position: sticky; top: ' + _options.masterOffsetTop + 'px; max-height: calc(100vh - ' + _options.masterOffsetTop + 'px);' }} width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}"
            on:touchstart="_touchstartHandler()"
            on:touchmove="_touchMoveHandler()"
            on:touchend="_touchendHandler()">
          <Controls.event:Register name="resizeDetectMaster" register="controlResize" attr:fixCompatible="1">
-            <ws:partial
-                    backgroundStyle="master"
-                    template="{{_options.master}}"
-                    attr:style="{{_masterStyle}}"
-                    attr:class="controls-MasterDetail_master-template controls-master-template-{{_newDesign ? 'newDesign' : 'default'}}
-                           controls-MasterDetail_{{_options.style || 'master'}}-template-{{_options.contrastBackground ? 'contrast'}}"
-                    on:selectedMasterValueChanged="_selectedMasterValueChangedHandler()"/>
+            <ws:if data="{{_masterFixed}}">
+               <Controls.scroll:Container attr:style="max-height: calc(100vh - {{ _options.masterOffsetTop }}px);">
+                  <ws:partial template="masterContentTemplate" />
+               </Controls.scroll:Container>
+            </ws:if>
+            <ws:else>
+               <ws:partial template="masterContentTemplate" />
+            </ws:else>
          </Controls.event:Register>
          <ws:if data="{{_canResizing}}">
             <Controls.dragnDrop:ResizingLine name="resizingLine"
@@ -28,7 +38,7 @@
 
 <ws:template name="detail">
 <Controls.event:Register name="resizeDetectDetail" register="controlResize" attr:fixCompatible="1">
-   <div name="detail" class="controls-MasterDetail_details ws-flexbox ws-flex-grow-1">
+   <div class="controls-MasterDetail_details ws-flexbox ws-flex-grow-1">
       <ws:partial
               attr:class="controls-MasterDetail_detailsContent {{_options.contrastBackground ?
                'controls-MasterDetail_details-bg-contrast ' + (_newDesign ? 'controls-MasterDetail_details-newDesign') :

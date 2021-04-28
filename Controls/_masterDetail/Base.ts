@@ -173,17 +173,15 @@ class Base extends Control<IMasterDetail, string> {
     protected _currentMaxWidth: string;
     protected _currentMinWidth: string;
     protected _containerWidth: number;
+    protected _masterFixed: boolean = false;
     private _touchstartPosition: number;
-
-    private _scrollState: string;
-    private _marginTop: number;
-    protected _masterStyle: string;
     protected _newDesign: boolean = false;
 
     protected _beforeMount(options: IMasterDetail, context: object, receivedState: string): Promise<string> | void {
         const masterDetailOptions = context?.masterDetailOptions;
         this._updateOffsetDebounced = debounce(this._updateOffsetDebounced.bind(this), RESIZE_DELAY);
         this._canResizing = this._isCanResizing(options);
+        this._masterFixed = this._isMasterFixed(options);
         this._prepareLimitSizes(options);
         if (masterDetailOptions) {
             this._newDesign = masterDetailOptions.newDesign;
@@ -208,76 +206,6 @@ class Base extends Control<IMasterDetail, string> {
     }
     protected _dragStartHandler(): void {
         this._beginResize();
-    }
-
-    protected _wheelHandler(): void {
-        if (this._isMasterFixed(this._options)) {
-            this._scrollState = 'margin';
-            this._updateMasterStyle(this._options);
-        }
-    }
-
-    private _updateScrollState(options: IMasterDetail): string {
-        const scrollHeight =  this._getMasterScrollHeight();
-        const detailScrollHeight = this._children.detail.scrollHeight;
-        if (scrollHeight >= detailScrollHeight) {
-            this._scrollState = 'unfixed';
-        } else {
-            const fullOffsetHeight = this._getFullOffsetHeight(options);
-            const bodyHeight = document.body.clientHeight;
-            const fixedScrollTop = fullOffsetHeight + scrollHeight - bodyHeight;
-            const direction = this._options.scrollTop < options.scrollTop ? 'down' : 'up';
-            const compactScrollHeight = fullOffsetHeight - options.masterOffsetTop;
-            const isMasterScrolled = fixedScrollTop > 0;
-            if (isMasterScrolled && options.scrollTop >= fixedScrollTop) {
-                if (direction === 'up') {
-                    if (this._marginTop + compactScrollHeight > options.scrollTop) {
-                        this._scrollState = 'fixedTop';
-                    } else if (this._scrollState !== 'fixedTop') {
-                        this._scrollState = 'margin';
-                    }
-                } else {
-                    if (options.scrollTop - this._marginTop >= fixedScrollTop) {
-                        this._scrollState = 'fixedBottom';
-                    }
-                }
-            } else {
-                if (!isMasterScrolled) {
-                    this._scrollState = 'fixedTop';
-                } else if (options.scrollTop < compactScrollHeight) {
-                    this._scrollState = 'unfixed';
-                } else if (direction === 'up') {
-                    this._scrollState = 'fixedTop';
-                }
-            }
-        }
-        return this._scrollState;
-    }
-    private _updateMasterStyle(options: IMasterDetail): void {
-        const bodyHeight = document.body.clientHeight;
-        const scrollHeight = this._getMasterScrollHeight();
-        const fullOffsetHeight = this._getFullOffsetHeight(options);
-        this._marginTop = 0;
-        if (this._scrollState === 'fixedBottom') {
-            this._masterStyle = 'position: fixed; bottom: 0';
-        } else if (this._scrollState === 'fixedTop') {
-            this._masterStyle = `position: fixed; top: ${options.masterOffsetTop}px;`;
-        } else if (this._scrollState === 'margin') {
-            this._marginTop = this._options.scrollTop - fullOffsetHeight + (bodyHeight - scrollHeight);
-            this._masterStyle = `margin-top: ${this._marginTop}px;`;
-        } else if (this._scrollState === 'unfixed') {
-            this._masterStyle = '';
-        }
-    }
-
-    private _getFullOffsetHeight(options: IMasterDetail): number {
-        return options.scrollOffsetTop + options.masterOffsetTop;
-    }
-
-    private _getMasterScrollHeight(): number {
-        // На partial повесить имя нельзя. Сам div с мастером растягивается по высоте контента, в зависимости от detail
-        // Через children получаю высоту контента, непосредственно заданного прикладным разработчиком.
-        return this._children.master.children[0].scrollHeight;
     }
 
     private _beginResize(): void {
@@ -333,6 +261,8 @@ class Base extends Control<IMasterDetail, string> {
             this._newDesign = masterDetailOptions.newDesign;
         }
 
+        this._masterFixed = this._isMasterFixed(options);
+
         // Если изменилась текущая ширина, то сбросим состояние, иначе работаем с тем, что выставил пользователь
         if (options.masterWidth !== this._options.masterWidth) {
             this._currentWidth = null;
@@ -344,14 +274,6 @@ class Base extends Control<IMasterDetail, string> {
             this._updateOffset(options);
         }
 
-        if (this._isMasterFixed(options)) {
-            const oldState = this._scrollState;
-            const newState = this._updateScrollState(options);
-            if (oldState !== newState) {
-                this._updateMasterStyle(options);
-            }
-        }
-
         if (options.propStorageId !== this._options.propStorageId) {
             return this._getSettings(options).then((storage) => {
                 this._updateSizesByPropStorageId(storage, options);
@@ -360,7 +282,7 @@ class Base extends Control<IMasterDetail, string> {
     }
 
     private _isMasterFixed(options: IMasterDetail): boolean {
-        return options.scrollTop;
+        return options.scrollTop !== undefined;
     }
 
     private _updateSizesByPropStorageId(storage: object, options: IMasterDetail): void {
