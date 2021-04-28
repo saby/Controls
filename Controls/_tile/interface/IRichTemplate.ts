@@ -159,5 +159,5 @@ export default interface IRichTemplateOptions {
     /**
      * @cfg {TemplateFunction} Шаблон, отображаемый после изображения и до заголовка.
      */
-    afterImageEditorTemplate?: TemplateFunction;
+    afterImageTemplate?: TemplateFunction;
 }

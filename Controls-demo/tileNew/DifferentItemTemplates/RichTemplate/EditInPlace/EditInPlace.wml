@@ -21,30 +21,21 @@
       <ws:itemTemplate>
          <ws:partial
             template="Controls/tile:RichTemplate"
-            gradientColor="{{itemTemplate.item.item.gradientColor}}"
-            titleLines="{{itemTemplate.item.item.titleLines}}"
+            gradientColor="{{itemTemplate.item.contents.gradientColor}}"
+            titleLines="{{itemTemplate.item.contents.titleLines}}"
             descriptionLines="2"
-            imageSize="{{itemTemplate.item.item.imageSize}}"
+            imageSize="{{itemTemplate.item.contents.imageSize}}"
             imageViewMode="{{'rectangle'}}"
             imagePosition="{{'top'}}"
-            description="{{itemTemplate.item.item.description}}"
-            imageCompressionCoefficient="{{itemTemplate.item.item.imageCompressionCoefficient}}"
+            description="{{itemTemplate.item.contents.description}}"
+            imageCompressionCoefficient="{{itemTemplate.item.contents.imageCompressionCoefficient}}"
             imageEffect="none"
             scope="{{itemTemplate}}">
             <ws:afterImageTemplate>
-               <div if="{{afterImageTemplate.item.isEditing()}}"
-                    attr:style="position: relative; width: 100%; height: 0">
-                  <div attr:style="position: absolute;
-                                   display: flex;
-                                   justify-content: flex-end;
-                                   width: 100%;
-                                   height: 28px;
-                                   bottom:0;
-                                   left: 0;
-                                   right: 0;
-                                   background: #fff7">
-                     <Controls.buttons:Button icon="icon-Cameras" viewMode="linkButton" iconStyle="label" on:click="_changeImage(afterImageTemplate.item.item)"/>
-                     <Controls.buttons:Button if="{{afterImageTemplate.item.item.image}}" icon="icon-Erase" viewMode="linkButton" iconStyle="danger" on:click="_removeImage(afterImageTemplate.item.item)"/>
+               <div if="{{afterImageTemplate.item.isEditing()}}" class="controlsDemo-rich-tile_editing_afterImageTemplate">
+                  <div class="controlsDemo-rich-editing_afterImageTemplate-buttons_wrapper">
+                     <Controls.buttons:Button icon="icon-Cameras" viewMode="linkButton" iconStyle="label" on:click="_changeImage(afterImageTemplate.item.contents)"/>
+                     <Controls.buttons:Button if="{{afterImageTemplate.item.contents.image}}" icon="icon-Erase" viewMode="linkButton" iconStyle="danger" on:click="_removeImage(afterImageTemplate.item.contents)"/>
                   </div>
                </div>
             </ws:afterImageTemplate>
@@ -55,7 +46,7 @@
                                        maxLines="{{2}}"
                                        fontSize="xl"
                                        fontWeight="bold"
-                                       bind:value="itemTemplate.item.item.title"
+                                       bind:value="itemTemplate.item.contents.title"
                                        selectOnClick="{{ false }}" />
             </ws:titleEditor>
             <ws:descriptionEditor>
@@ -63,45 +54,45 @@
                                        inlineHeight="s"
                                        minLines="{{1}}"
                                        maxLines="{{2}}"
-                                       bind:value="itemTemplate.item.item.description"
+                                       bind:value="itemTemplate.item.contents.description"
                                        selectOnClick="{{ false }}" />
             </ws:descriptionEditor>
             <ws:footerTemplate>
                <div>
-                  <div class="controls-demo_rich-editing_footer_line">
-                     <div class="controls-demo_rich-editing_footer_line_text">цена</div>
-                     <div class="controls-demo_rich-editing_footer_line_dots"></div>
-                     <div class="controls-demo_rich-editing_footer_line_text">
-                        {{itemTemplate.item.item.price}}
+                  <div class="controlsDemo-rich-editing_footer_line">
+                     <div class="controlsDemo-rich-editing_footer_line_text">цена</div>
+                     <div class="controlsDemo-rich-editing_footer_line_dots"></div>
+                     <div class="controlsDemo-rich-editing_footer_line_text">
+                        {{itemTemplate.item.contents.price}}
                      </div>
                   </div>
-                  <div class="controls-demo_rich-editing_footer_line">
-                     <div class="controls-demo_rich-editing_footer_line_text">масса, г</div>
-                     <div class="controls-demo_rich-editing_footer_line_dots"></div>
-                     <div class="controls-demo_rich-editing_footer_line_text">
-                        {{itemTemplate.item.item.weight}}
+                  <div class="controlsDemo-rich-editing_footer_line">
+                     <div class="controlsDemo-rich-editing_footer_line_text">масса, г</div>
+                     <div class="controlsDemo-rich-editing_footer_line_dots"></div>
+                     <div class="controlsDemo-rich-editing_footer_line_text">
+                        {{itemTemplate.item.contents.weight}}
                      </div>
                   </div>
                </div>
             </ws:footerTemplate>
             <ws:footerEditor>
                <div>
-                  <div class="controls-demo_rich-editing_footer_line">
-                     <div class="controls-demo_rich-editing_footer_line_text">цена</div>
-                     <div class="controls-demo_rich-editing_footer_line_dots"></div>
+                  <div class="controlsDemo-rich-editing_footer_line">
+                     <div class="controlsDemo-rich-editing_footer_line_text">цена</div>
+                     <div class="controlsDemo-rich-editing_footer_line_dots"></div>
                      <Controls.input:Money attr:style="width: 50px; flex-shrink: 0"
                                            inlineHeight="s"
                                            fontSize="s"
-                                           bind:value="footerEditor.item.item.price"
+                                           bind:value="footerEditor.item.contents.price"
                                            selectOnClick="{{ false }}" />
                   </div>
-                  <div class="controls-demo_rich-editing_footer_line">
-                     <div class="controls-demo_rich-editing_footer_line_text">масса, г</div>
-                     <div class="controls-demo_rich-editing_footer_line_dots"></div>
+                  <div class="controlsDemo-rich-editing_footer_line">
+                     <div class="controlsDemo-rich-editing_footer_line_text">масса, г</div>
+                     <div class="controlsDemo-rich-editing_footer_line_dots"></div>
                      <Controls.input:Number attr:style="width: 50px; flex-shrink: 0"
                                             inlineHeight="s"
                                             fontSize="s"
-                                            bind:value="footerEditor.item.item.weight"
+                                            bind:value="footerEditor.item.contents.weight"
                                             selectOnClick="{{ false }}" />
                   </div>
                </div>

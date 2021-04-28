@@ -1,7 +1,7 @@
 import {Memory} from 'Types/source';
 import {Control, TemplateFunction} from 'UI/Base';
 import {BeforeChangeRootResult, Browser, DetailViewMode, IBrowserViewConfig, IRootsData} from 'Controls/newBrowser';
-import {FlatHierarchy} from 'Controls-demo/_DemoData/Data';
+import {FlatHierarchy, IHierarchyData} from 'Controls-demo/_DemoData/Data';
 import {DemoSource, getDefaultViewCfg} from 'Controls-demo/NewBrowser/DemoSource';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
@@ -11,17 +11,71 @@ import {TKey} from 'Controls/_interface/IItems';
 import 'css!Controls-demo/Controls-demo';
 import Images from "Controls-demo/Tile/DataHelpers/Images";
 
+const DATA_FOR_EDITING = [
+    {
+        id: 1,
+        parent: null,
+        type: null,
+        title: 'Молоко "Кружева" ультрапастеризованное 1 л',
+        description: 'Элемент с редактированием по месту',
+        imageProportion: '1:1',
+        titleLines: 2,
+        imagePosition: 'top',
+        imageViewMode: 'rectangle',
+        'parent@': null,
+        imageHeight: 's',
+        image: Images.MEDVED,
+        isShadow: true,
+        price: 250,
+        weight: 1
+    },
+    {
+        id: 2,
+        parent: null,
+        type: null,
+        title: 'Мост',
+        description: 'Можно задать шаблон редактирования и для футера',
+        imageProportion: '1:1',
+        titleLines: 2,
+        imagePosition: 'top',
+        imageViewMode: 'rectangle',
+        'parent@': null,
+        imageHeight: 's',
+        image: Images.BRIDGE,
+        isShadow: true,
+        price: 250,
+        weight: 1000
+    },
+    {
+        id: 3,
+        parent: null,
+        type: null,
+        title: 'Мост',
+        description: 'А еще есть возможность сделать тулбар для изменения изображений',
+        imageProportion: '1:1',
+        titleLines: 2,
+        imagePosition: 'top',
+        imageViewMode: 'rectangle',
+        'parent@': null,
+        imageHeight: 's',
+        image: Images.BRIDGE,
+        isShadow: true,
+        price: 550,
+        weight: 1500
+    }
+];
+
 const baseSource = new DemoSource({
     keyProperty: 'id',
     parentProperty: 'parent',
-    data: FlatHierarchy.getRichItemsForEditing()
+    data: DATA_FOR_EDITING
 });
 
 function findParentFolderId(itemId: TKey): TKey {
     if (!itemId) {
         return null;
     }
-    const data = FlatHierarchy.getRichItemsForEditing();
+    const data = DATA_FOR_EDITING;
     const item = data.find((dataItem) => dataItem.id === itemId);
 
     if (item.hasSubNodes) {
