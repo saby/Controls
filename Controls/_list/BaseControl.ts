@@ -253,6 +253,7 @@ interface IBeginEditOptions {
 interface IBeginAddOptions {
     shouldActivateInput?: boolean;
     addPosition?: 'top' | 'bottom';
+    targetItem?: Model;
 }
 
 //#endregion
@@ -5545,11 +5546,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return this._beginEdit(userOptions);
     }
 
-    beginAdd(userOptions) {
+    beginAdd(userOptions, targetItem: Model) {
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
-        return this._beginAdd(userOptions, { addPosition: this._getEditingConfig().addPosition });
+        return this._beginAdd(userOptions, { addPosition: this._getEditingConfig().addPosition, targetItem });
     }
 
     cancelEdit() {
@@ -5572,7 +5573,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (editingConfig.autoAddOnInit && !!this._sourceController && !hasItems) {
             this._createEditInPlaceController(options);
-            return this._beginAdd({}, editingConfig.addPosition);
+            return this._beginAdd({}, { addPosition: editingConfig.addPosition });
         } else if (editingConfig.item) {
             this._createEditInPlaceController(options);
             if (this._items && this._items.getRecordById(editingConfig.item.getKey())) {
@@ -5599,10 +5600,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _beginAdd(options, {shouldActivateInput = true, addPosition = 'bottom'}: IBeginAddOptions = {}) {
+    _beginAdd(options, {shouldActivateInput = true, addPosition = 'bottom', targetItem}: IBeginAddOptions = {}) {
         _private.closeSwipe(this);
         this.showIndicator();
-        return this._getEditInPlaceController().add(options, {addPosition}).then((addResult) => {
+        return this._getEditInPlaceController().add(options, {addPosition, targetItem}).then((addResult) => {
             if (addResult && addResult.canceled) {
                 return addResult;
             }

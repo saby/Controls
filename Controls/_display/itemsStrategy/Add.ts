@@ -8,6 +8,7 @@ interface IOptions<S extends Model, T extends CollectionItem<S>> {
     source: IItemsStrategy<S, T>;
     item: T;
     addPosition: 'top' | 'bottom';
+    addIndex?: number;
     groupMethod?: Function;
 }
 
@@ -16,7 +17,7 @@ interface IOptions<S extends Model, T extends CollectionItem<S>> {
  * @class Controls/_display/ItemsStrategy/Add
  * @mixes Types/_entity/DestroyableMixin
  * @mixes Types/_entity/SerializableMixin
- * 
+ *
  * @author Родионов Е.А.
  * @private
  */
@@ -139,6 +140,12 @@ export default class Add<S extends Model, T extends CollectionItem<S>> extends m
         options: IOptions<S, T>,
         source: IItemsStrategy<S, T>
     ): number {
+        if (typeof options.addIndex === 'number') {
+            const dIndex = options.source.getDisplayIndex(options.addIndex);
+            if (dIndex !== -1) {
+                return dIndex;
+            }
+        }
         // Индекс может расчитываться по разному в зависимости от типа элемента, но порядок должем быть таким:
         // элемент дерева, элемент группы, элемент простого плоского списка.
         // Для элемента дерева не важно поле группировки. Такой элемент может быть добавлен:

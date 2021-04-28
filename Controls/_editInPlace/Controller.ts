@@ -40,6 +40,7 @@ interface IBeginEditUserOptions {
  * @description Параметры начала редактирования.
  * @property {Boolean} [isAdd=undefined] isAdd Флаг, принимает значение true, если запись добавляется.
  * @property {TAddPosition} [addPosition=undefined] addPosition Позиция в коллекции добавляемого элемента.
+ * @property {Types/entity:Model} [targetItem=undefined] targetItem Запись на месте которой запустится добавление.
  * @property {Number} [columnIndex=undefined] columnIndex Индекс колонки, которая будет редактироваться. Доступно при режиме редактирования отдельных ячеек.
  *
  * @private
@@ -47,6 +48,7 @@ interface IBeginEditUserOptions {
 interface IBeginEditOptions {
     isAdd?: boolean;
     addPosition?: TAddPosition;
+    targetItem?: Model;
     columnIndex?: number;
 }
 
@@ -239,10 +241,12 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      *
      * @remark Запуск добавления может быть отменен. Для этого из функции обратного вызова IEditInPlaceOptions.onBeforeBeginEdit необхобимо вернуть константу отмены.
      */
-    add(userOptions: IBeginEditUserOptions = {}, options: { addPosition: TAddPosition } = { addPosition: 'bottom' }): TAsyncOperationResult {
+    add(userOptions: IBeginEditUserOptions = {},
+        options: { addPosition: TAddPosition, targetItem?: Model } = { addPosition: 'bottom' }): TAsyncOperationResult {
         return this._endPreviousAndBeginEdit(userOptions, {
             isAdd: true,
             addPosition: options.addPosition,
+            targetItem: options.targetItem,
             columnIndex: -1
         });
     }
@@ -345,7 +349,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             return this._operationsPromises.begin;
         }
 
-        const { isAdd = false, addPosition = 'bottom', columnIndex } = options;
+        const { isAdd = false, addPosition = 'bottom', targetItem, columnIndex } = options;
 
         this._operationsPromises.begin = new Promise((resolve) => {
             // Ждем результат колбека "до начала редактирования".
@@ -379,7 +383,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             }
 
             if (isAdd) {
-                this._collectionEditor.add(model, addPosition, columnIndex);
+                this._collectionEditor.add(model, addPosition, targetItem, columnIndex);
             } else {
                 this._collectionEditor.edit(model, columnIndex);
             }
