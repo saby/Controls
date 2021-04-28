@@ -305,6 +305,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 );
             });
         } else {
+            this._listsOptions = Browser._getListsOptions(newOptions);
             return this._update(this._options, newOptions);
         }
     }
@@ -746,8 +747,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
         this._inputSearchValue = value;
         event?.stopPropagation();
-        this._dataLoader.each((config, id) => {
-            if (config.searchParam) {
+        this._listsOptions.forEach(({searchParam, id}) => {
+            if (searchParam) {
                 this._loading = true;
                 searchPromises.push(this._dataLoader.getSearchController(id).then((searchController) => {
                     return searchController.search(value);
