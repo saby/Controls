@@ -488,6 +488,9 @@ var
             if (this._options.needShowEmptyTemplate !== newCfg.needShowEmptyTemplate) {
                 this._columnScrollController?.setIsEmptyTemplateShown(newCfg.needShowEmptyTemplate);
             }
+            if (this._options.itemActionsPosition !== newCfg.itemActionsPosition) {
+                this._listModel.setItemActionsPosition && this._listModel.setItemActionsPosition(newCfg.itemActionsPosition);
+            }
 
             // В зависимости от columnScroll вычисляются значения колонок для stickyHeader в методе setHeader.
             if (isColumnsScrollChanged) {
