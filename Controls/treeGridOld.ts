@@ -19,6 +19,7 @@ import SearchGridViewModel = require('Controls/_treeGridOld/SearchView/SearchGri
 import {SearchView, SearchItemTpl} from 'Controls/_treeGridOld/SearchView';
 import * as SearchBreadCrumbsItemTemplate from 'wml!Controls/_treeGridOld/SearchView/SearchBreadCrumbsItemTemplate';
 import TreeGridView = require('Controls/_treeGridOld/TreeGridView/TreeGridView');
+import 'wml!Controls/_treeGridOld/TreeGridView/layout/common/NodeFooterChooser';
 import RowEditor = require('wml!Controls/_treeGridOld/TreeGrid/RowEditor');
 
 // FIXME: при обычном условном присвоении шаблона tmpl = isAny ? tmpl1 : tmpl2, переменной один раз присвоится значение и не будет меняться.
