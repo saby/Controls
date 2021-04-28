@@ -10,7 +10,7 @@
                     template="{{_options.master}}"
                     attr:style="{{_masterStyle}}"
                     attr:class="controls-MasterDetail_master-template controls-master-template-{{_newDesign ? 'newDesign' : 'default'}}
-                           controls-MasterDetail_{{_options.style || 'master'}}-template-{{_options.contrastBackground ? 'contrast' : 'same'}}"
+                           controls-MasterDetail_{{_options.style || 'master'}}-template-{{_options.contrastBackground ? 'contrast'}}"
                     on:selectedMasterValueChanged="_selectedMasterValueChangedHandler()"/>
          </Controls.event:Register>
          <ws:if data="{{_canResizing}}">
