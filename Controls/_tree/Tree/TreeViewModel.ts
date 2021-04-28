@@ -724,6 +724,8 @@ var
             }
 
             current.useNewNodeFooters = this._options.useNewNodeFooters;
+            current.baseNodeFooterTemplate = 'Controls/treeGridOld:_NodeFooterChooser';
+
             if (current.item && current.item.get) {
                 _private.setNodeFooterIfNeed(this, current);
             }
