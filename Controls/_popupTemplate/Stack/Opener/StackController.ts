@@ -1,6 +1,6 @@
 import BaseController from 'Controls/_popupTemplate/BaseController';
 import {IPopupItem, IPopupSizes, IPopupOptions, IPopupPosition} from 'Controls/popup';
-import StackStrategy = require('Controls/_popupTemplate/Stack/Opener/StackStrategy');
+import StackStrategy from 'Controls/_popupTemplate/Stack/Opener/StackStrategy';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import collection = require('Types/collection');
