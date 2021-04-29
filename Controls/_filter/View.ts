@@ -25,6 +25,7 @@ import {IFilterItem} from './View/interface/IFilterView';
 import {StickyOpener, StackOpener, DialogOpener} from 'Controls/popup';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import Store from 'Controls/Store';
+import {descriptor} from 'Types/entity';
 
 const DEFAULT_FILTER_NAME = 'all_frequent';
 const FILTER_PANEL_POPUP_STACK = 'Controls/filterPanelPopup:Stack';
@@ -1109,7 +1110,14 @@ Filter.getDefaultOptions = function() {
         panelTemplateName: 'Controls/filterPopup:SimplePanel',
         alignment: 'right',
         itemTemplate: defaultItemTemplate,
-        detailPanelOpenMode: 'sticky'
+        detailPanelOpenMode: 'sticky',
+        source: []
+    };
+};
+
+Filter.getOptionTypes = function () {
+    return {
+        source: descriptor(Array)
     };
 };
 
