@@ -929,7 +929,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private static _hasInOptions(browserOptions: IBrowserOptions, options: string[]): boolean {
         return options.some((option) => {
             return Browser._getListsOptions(browserOptions).filter((listOptions) => {
-                return listOptions[option];
+                return listOptions[option] !== undefined;
             }).length > 0;
         });
     }
