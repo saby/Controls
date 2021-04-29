@@ -32,10 +32,10 @@ var _private = {
     },
 
     setHoveredItem: function(self, itemData, nativeEvent) {
-        const dispItem = itemData.dispItem ? itemData.dispItem : itemData;
+        const dispItem = itemData?.dispItem ? itemData.dispItem : itemData;
         // setHoveredItem вызывается с задержкой, поэтому список уже может задестроиться
         // Не надо посылать ховер по элементам, которые нельзя выбирать
-        if (self._destroyed || !dispItem.SelectableItem) {
+        if (self._destroyed || !dispItem?.SelectableItem) {
             return;
         }
 
