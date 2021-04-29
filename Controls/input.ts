@@ -47,6 +47,7 @@ export {ITimeInterval, ITimeIntervalOptions} from 'Controls/_input/interface/ITi
 export {IInputMaskValue, IInputMaskValueOptions} from 'Controls/_input/interface/IInputMaskValue';
 export {IInputDateTime, IInputDateTimeOptions} from 'Controls/_input/interface/IInputDateTime';
 export {default as IValueValidators, IValueValidatorsOptions} from 'Controls/_input/interface/IValueValidators';
+export {IInputDisplayValue, IInputDisplayValueOptions} from 'Controls/_input/interface/IInputDisplayValue';
 export {IValue, IValueOptions, ICallback, ICallbackData, IFieldData} from 'Controls/_input/interface/IValue';
 export {IBorderVisibility, IBorderVisibilityOptions, TBorderVisibility,
     getDefaultBorderVisibilityOptions, getOptionBorderVisibilityTypes} from './_input/interface/IBorderVisibility';
