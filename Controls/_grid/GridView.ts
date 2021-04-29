@@ -264,6 +264,19 @@ const GridView = ListView.extend({
         }
     },
 
+    _onHeaderRowClick(event: SyntheticEvent): void {
+        const target = event.target as HTMLElement;
+        const headerRow = this._listModel.getHeader();
+
+        // Если шапка зафиксирована, то нужно прокинуть событие arrowClick при клике по шеврону,
+        // иначе оно не дойдет до прикладников
+        if (headerRow.isSticked() && target.closest('.js-BreadCrumbsPath__backButtonArrow')) {
+            event.stopImmediatePropagation();
+            this._notify('arrowClick', []);
+            return;
+        }
+    },
+
     _onEditingItemClick(e, dispItem, nativeEvent): void {
         e.stopImmediatePropagation();
         if (this._listModel.getEditingConfig()?.mode === 'cell') {
