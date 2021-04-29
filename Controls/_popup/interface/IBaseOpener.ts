@@ -1,10 +1,9 @@
-import {Control, TemplateFunction} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IEventHandlers, IPopupItemInfo} from './IPopup';
 import {List} from 'Types/collection';
-import {IControlOptions} from 'UI/Base';
 import {ILoadingIndicatorOptions} from 'Controls/LoadingIndicator';
 
-export interface IBasePopupOptions {
+export interface IBasePopupOptions extends IControlOptions {
     id?: string;
     className?: string;
     template?: Control<IControlOptions, unknown> | TemplateFunction | string;
