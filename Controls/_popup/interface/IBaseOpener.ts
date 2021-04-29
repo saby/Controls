@@ -3,7 +3,7 @@ import {IEventHandlers, IPopupItemInfo} from './IPopup';
 import {List} from 'Types/collection';
 import {ILoadingIndicatorOptions} from 'Controls/LoadingIndicator';
 
-export interface IBasePopupOptions extends IControlOptions{
+export interface IBasePopupOptions extends IControlOptions {
     id?: string;
     className?: string;
     template?: Control<IControlOptions, unknown> | TemplateFunction | string;
