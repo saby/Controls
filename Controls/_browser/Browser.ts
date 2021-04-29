@@ -319,7 +319,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._listMarkedKey = this._getOperationsController().setListMarkedKey(newOptions.markedKey);
         }
 
-        if (this._dataLoader.getFilterController(id)?.update(this._getFilterControllerOptions(newOptions))) {
+        if (this._dataLoader.getFilterController(id)?.update(this._getFilterControllerOptions(newOptions)) ||
+            !isEqual(options.filter, newOptions.filter)) {
             this._updateFilterAndFilterItems(newOptions);
         }
 
