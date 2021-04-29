@@ -101,6 +101,14 @@ interface IExplorerOptions
     sourceController?: NewSourceController;
     useOldModel?: boolean;
     expandByItemClick?: boolean;
+    /**
+     * Задает режим вывода строки с хлебными крошками в результатах поиска
+     *  * row - все ячейки строки с хлебными крошками объединяются в одну ячейку в которой выводятся хлебные крошки.
+     *  * cell - ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
+     *  конфигурацией колонок. При таком режиме прикладной разработчик может задать кастомное содержимое для ячеек
+     *  строки с хлебными крошками.
+     */
+    breadCrumbsMode?: 'row' | 'cell';
 }
 
 interface IMarkedKeysStore {
@@ -970,7 +978,8 @@ export default class Explorer extends Control<IExplorerOptions> {
             stickyHeader: true,
             searchStartingWith: 'root',
             showActionButton: false,
-            isFullGridSupport: isFullGridSupport()
+            isFullGridSupport: isFullGridSupport(),
+            breadCrumbsMode: 'row'
         };
     }
 }
@@ -1144,6 +1153,29 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * </pre>
  * @see itemTemplate
  * @see itemTemplateProperty
+ */
+
+/**
+ * @typedef {String} TBreadCrumbsMode
+ * @variant row - все ячейки строки с хлебными крошками объединяются в одну ячейку в которой выводятся хлебные крошки.
+ * @variant cell - ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
+ * конфигурацией колонок. При таком режиме прикладной разработчик может задать кастомное содержимое для ячеек
+ * строки с хлебными крошками.
+ */
+
+/**
+ * @name Controls/_explorer/View#breadCrumbsMode
+ * @cfg {TBreadCrumbsMode} Задает режим вывода строки с хлебными крошками в результатах поиска
+ * @default row
+ * @markdown
+ * @remark
+ * Данная опция позволяет сконфигурировать вывод строки с хлебными крошками. Возможны 2 варианта:
+ * <ul>
+ *     <li>row - все ячейки строки с хлебными крошками объединяются в одну ячейку в которой выводятся хлебные крошки.</li>
+ *     <li>cell - ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
+ * конфигурацией колонок. При таком режиме прикладной разработчик может задать кастомное содержимое для ячеек
+ * строки с хлебными крошками.</li>
+ * </ul>
  */
 
 /**
