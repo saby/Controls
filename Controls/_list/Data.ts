@@ -261,6 +261,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          this._filter = this._sourceController.getFilter();
          this._updateContext(this._sourceController.getState());
       } else if (expandedItemsChanged) {
+         this._sourceController.updateExpandedItemsInUserStorage();
          this._updateContext(this._sourceController.getState());
       }
    }
@@ -295,7 +296,8 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          this._notify('expandedItemsChanged', [expandedItems], { bubbling: true });
 
       } else if (this._expandedItems !== expandedItems) {
-         this._sourceController.setExpandedItems(expandedItems, true);
+         this._sourceController.setExpandedItems(expandedItems);
+         this._sourceController.updateExpandedItemsInUserStorage();
          this._updateContext(this._sourceController.getState());
       }
    }

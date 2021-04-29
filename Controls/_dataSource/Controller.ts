@@ -386,7 +386,7 @@ export default class Controller extends mixin<
             breadCrumbsItemsWithoutBackButton: this._breadCrumbsItemsWithoutBackButton,
 
             // FIXME sourceController не должен создаваться, если нет source
-            // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
+            // https://online.sbis.ru/opendoc.html?guid=3971setExpandedItemsc76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
             dataLoadCallback: this._options.dataLoadCallback
         };
@@ -401,11 +401,12 @@ export default class Controller extends mixin<
     }
 
     // FIXME для работы дерева без bind'a опции expandedItems
-    setExpandedItems(expandedItems: TKey[], saveToStorage?: boolean): void {
+    setExpandedItems(expandedItems: TKey[]): void {
         this._expandedItems = expandedItems;
-        if (saveToStorage) {
-            nodeHistoryUtil.store(this._expandedItems, this._options.nodeHistoryId);
-        }
+    }
+
+    updateExpandedItemsInUserStorage(): void  {
+        nodeHistoryUtil.store(this._expandedItems, this._options.nodeHistoryId);
     }
 
     getExpandedItems(): TKey[] {
