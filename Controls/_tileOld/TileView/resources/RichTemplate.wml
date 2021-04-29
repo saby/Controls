@@ -68,7 +68,7 @@
      Поэтому itemActions прилипают к элементу, а не к контенту и перекрывают маркер
      FIXME: https://online.sbis.ru/opendoc.html?guid=1da6f1dd-8f23-4353-a934-e1108d0c540e -->
 <ws:partial template="wml!Controls/_tileOld/TreeTileView/DefaultItemTpl"
-            attr:class="controls-TileView__richTemplate_item
+            attr:data-qa="{{itemData.getQAData && itemData.getQAData(marker)}}" attr:class="controls-TileView__richTemplate_item
                         {{'controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility) }}
                         {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
                         'controls-TileView__item_withMarker ' :
