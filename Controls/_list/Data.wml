@@ -27,7 +27,8 @@
                 navigation="{{_sourceControllerState.navigation}}"
                 sorting="{{_sourceControllerState.sorting}}"
                 source="{{_sourceControllerState.source}}"
-                root="{{_sourceControllerState.root}}"></ws:partial>
+                root="{{_sourceControllerState.root}}"
+                expandedItems="{{_expandedItems}}"/>
 </ws:if>
 <ws:else>
     <ws:partial template="{{_options.content}}"

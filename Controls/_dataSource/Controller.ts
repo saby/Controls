@@ -386,7 +386,7 @@ export default class Controller extends mixin<
             breadCrumbsItemsWithoutBackButton: this._breadCrumbsItemsWithoutBackButton,
 
             // FIXME sourceController не должен создаваться, если нет source
-            // https://online.sbis.ru/opendoc.html?guid=3971setExpandedItemsc76f-3b07-49e9-be7e-b9243f3dff53
+            // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
             dataLoadCallback: this._options.dataLoadCallback
         };
