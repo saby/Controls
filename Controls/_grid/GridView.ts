@@ -29,6 +29,7 @@ const GridView = ListView.extend({
     _horizontalScrollWidth: 0,
     _fixedColumnsWidth: 0,
     _scrollableColumnsWidth: 0,
+    _showFakeGridWithColumnScroll: 0,
 
     _beforeMount(options): void {
         let result = GridView.superclass._beforeMount.apply(this, arguments);
@@ -169,7 +170,7 @@ const GridView = ListView.extend({
         // Иначе говоря должны быть точно и прозрачно обозначены точки обновления columnScroll.
         // https://online.sbis.ru/opendoc.html?guid=b6c5fe05-5a07-49b1-83db-e1193dbe55f5
         if (this._showFakeGridWithColumnScroll < 2) {
-            this._actualizeColumnScroll(this._options).then(() => {
+            this._actualizeColumnScroll(this._options, oldOptions).then(() => {
                 this._showFakeGridWithColumnScroll = 0;
             });
         }

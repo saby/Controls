@@ -6,7 +6,7 @@
 
         <!-- Header -->
         <ws:if data="{{ _listModel.getHeader() }}">
-            <thead attr:name="header" class="{{ _listModel.getHeader().getBodyClasses() }}">
+            <thead attr:name="{{ realGridView ? 'header' }}" class="{{ _listModel.getHeader().getBodyClasses() }}">
             <ws:for data="headerRow in _listModel.getHeader().getRows()">
                 <ws:partial template="{{ headerRow.getTemplate() }}"
                             item="{{ headerRow }}"
@@ -19,7 +19,7 @@
         <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'top' }}">
             <thead>
                 <ws:partial template="{{ _listModel.getResults().getTemplate() }}"
-                            attr:name="results"
+                            attr:name="{{ realGridView ? 'results' }}"
                             item="{{ _listModel.getResults() }}"
                             backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
             </thead>
@@ -66,7 +66,7 @@
         <!-- Results (bottom) -->
         <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'bottom' }}">
             <ws:partial template="{{ _listModel.getResults().getTemplate() }}"
-                        attr:name="results"
+                        attr:name="{{ realGridView ? 'results' }}"
                         item="{{ _listModel.getResults() }}"
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
