@@ -2,6 +2,8 @@
    <Controls._input.DateTime
       name="input"
       value="{{_options.value}}"
+      displayValue="{{_options.displayValue}}"
+      inputMode="{{_options.inputMode}}"
       mask="{{_options.mask}}"
       size="{{ _options.size }}"
       fontStyle="{{_options.fontStyle}}"

@@ -51,6 +51,25 @@ define([
                assert.isArray(component._validators);
                assert.lengthOf(component._validators, 4);
             });
+
+            it('should validate partial value in partial mode.', function() {
+               const component = calendarTestUtils.createComponent(input.DateBase,
+                     cMerge({ inputMode: 'partial', displayValue: '  .  .21'}, options, { preferSource: true }));
+
+               assert.isArray(component._validators);
+               assert.isEmpty(component._validators);
+            });
+
+            it('should update validators if displayValue changed.', function() {
+               const newOptions = cMerge({ inputMode: 'partial', displayValue: '  .  .21'}, options, { preferSource: true })
+               const component = calendarTestUtils.createComponent(input.DateBase, newOptions);
+
+               assert.isEmpty(component._validators);
+
+               newOptions.displayValue = '01.01.21';
+               component._beforeUpdate(newOptions);
+               assert.isNotEmpty(component._validators);
+            });
          });
 
       });
