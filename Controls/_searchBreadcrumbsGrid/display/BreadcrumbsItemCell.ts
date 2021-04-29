@@ -26,7 +26,8 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
 
    getDisplayValue(): string {
       const breadcrumbs = this.getContents();
-      return breadcrumbs[breadcrumbs.length - 1].get(this.getDisplayProperty());
+      const value = breadcrumbs[breadcrumbs.length - 1].get(this.getDisplayProperty());
+      return value ?? '';
    }
 
    getSearchValue(): string {
@@ -80,6 +81,10 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
 
    getDisplayProperty(): string {
       return this._$owner.getDisplayProperty();
+   }
+
+   getBreadCrumbsMode(): 'row' | 'cell' {
+      return this._$breadCrumbsMode;
    }
 }
 

@@ -21,7 +21,8 @@ export default class SearchView extends TreeGridView {
 
       let colspan = newOptions.breadCrumbsMode === 'row';
       // Если сказано что нужно колспанить строку с крошками и виден скрол колонок
-      // то нужно принудительно сбросить колспан
+      // то нужно принудительно сбросить колспан иначе содержимое строки с хлебными
+      // крошками будет скролиться вместе с колонками
       if (colspan && newOptions.columnScroll && this.isColumnScrollVisible()) {
          colspan = false;
       }

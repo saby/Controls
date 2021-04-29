@@ -4,8 +4,17 @@ import { TemplateFunction } from 'UI/Base';
 import SearchGridDataRow from './SearchGridDataRow';
 import {ItemsFactory, itemsStrategy } from 'Controls/display';
 import BreadcrumbsItemRow from './BreadcrumbsItemRow';
+import {IOptions as ITreeGridOptions} from 'Controls/_treeGrid/display/TreeGridCollection';
+import TreeGridDataRow from 'Controls/_treeGrid/display/TreeGridDataRow';
 
-export default class SearchGridCollection<S extends Model = Model, T extends SearchGridDataRow<S> = SearchGridDataRow<S>> extends TreeGridCollection<S, T> {
+interface IOptions<S extends Model, T extends TreeGridDataRow<S>> extends ITreeGridOptions<S, T> {
+   breadCrumbsMode?: 'row' | 'cell';
+}
+
+export default
+   class SearchGridCollection<S extends Model = Model, T extends SearchGridDataRow<S> = SearchGridDataRow<S>>
+   extends TreeGridCollection<S, T> {
+
    /**
     * @cfg Имя свойства элемента хлебных крошек, хранящее признак того, что этот элемент и путь до него должны быть
     * выделены в обособленную цепочку
@@ -18,6 +27,10 @@ export default class SearchGridCollection<S extends Model = Model, T extends Sea
    protected _$colspanBreadcrumbs: boolean;
 
    protected _$breadCrumbsMode: 'row' | 'cell';
+
+   constructor(options: IOptions<S, T>) {
+      super(options);
+   }
 
    getSearchBreadcrumbsItemTemplate(): TemplateFunction|string {
       return this._$searchBreadcrumbsItemTemplate;
@@ -87,7 +100,7 @@ export default class SearchGridCollection<S extends Model = Model, T extends Sea
       return composer;
    }
 
-   protected getExpanderIcon(): string {
+   getExpanderIcon(): string {
       return 'none';
    }
 

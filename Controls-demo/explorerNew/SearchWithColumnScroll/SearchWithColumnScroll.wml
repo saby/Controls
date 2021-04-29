@@ -26,14 +26,6 @@
                     bind:value="_canSetConfig"
                     caption="Прикладная настройка колспана хлебных крошек"/>
         </div>
-        <div>
-            <Controls.toggle:Checkbox
-                    attr:class="constrolsDemo__SearchWithColumnScroll__checkbox__colspanBreadcrumbs"
-                    readOnly="{{ !_canSetConfig }}"
-                    on:valueChanged="_reload()"
-                    bind:value="_colspanBreadcrumbs"
-                    caption="Хлебные крошки во всю строку (когда нет скролла колонок)"/>
-        </div>
     </div>
     <Controls.browser:Browser
             attr:class="controlsDemo__margin-top"

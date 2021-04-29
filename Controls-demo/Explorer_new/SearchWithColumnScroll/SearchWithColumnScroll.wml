@@ -61,9 +61,12 @@
                             multiSelectVisibility="{{ _hasMultiSelect ? 'visible' : 'hidden'}}"
                             columnScroll="{{ true }}"
                             stickyColumnsCount="{{ _isStickyColumnsCount + 1 }}"
-                            columnScrollStartPosition="end"
-                            breadCrumbsMode="{{_canSetConfig ? 'cell' : 'row'}}"
-                    />
+                            columnScrollStartPosition="end">
+                        <ws:searchBreadCrumbsItemTemplate>
+                            <ws:partial template="Controls/treeGridOld:SearchBreadCrumbsItemTemplate"
+                                        colspan="{{ _canSetConfig ? _colspanBreadcrumbs : undefined }}"/>
+                        </ws:searchBreadCrumbsItemTemplate>
+                    </Controls.explorer:View>
                 </Controls.scroll:Container>
             </Controls.list:Container>
         </div>

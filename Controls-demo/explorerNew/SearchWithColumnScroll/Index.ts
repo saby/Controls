@@ -17,7 +17,6 @@ export default class extends Control {
     protected _filter: Record<string, unknown> = { demo: 123 };
     private _isBigData: boolean = false;
     private _canSetConfig: boolean = false;
-    private _colspanBreadcrumbs: boolean = false;
     protected _isStickyColumnsCount: boolean = false;
 
     protected _beforeMount(): void {
