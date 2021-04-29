@@ -6,6 +6,12 @@ import * as TableItem from 'wml!Controls/_grid/Render/table/Item';
 const GridViewTable = GridView.extend({
     _template: TableTemplate,
 
+    _beforeMount(options): void {
+        const result = GridViewTable.superclass._beforeMount.apply(this, arguments);
+        this._showFakeGridWithColumnScroll = false;
+        return result;
+    },
+
     _resolveItemTemplate(options): TemplateFunction {
         return options.itemTemplate || this._resolveBaseItemTemplate(options);
     },
