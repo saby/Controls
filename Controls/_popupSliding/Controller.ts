@@ -4,13 +4,8 @@ import {
     ISlidingPanelPopupOptions
 } from 'Controls/popup';
 import * as PopupContent from 'wml!Controls/_popupSliding/SlidingPanelContent';
-import SlidingPanelStrategy, {ISlidingPanelItem} from './Strategy';
+import SlidingPanelStrategy, {AnimationState, ISlidingPanelItem} from './Strategy';
 import {detection} from 'Env/Env';
-
-enum AnimationState {
-    showing = 'showing',
-    closing = 'closing'
-}
 
 /**
  * SlidingPanel Popup Controller
@@ -47,7 +42,7 @@ class Controller extends BaseController {
 
     elementDestroyed(item: ISlidingPanelItem): Promise<undefined> {
         // Если попап еще не замаунчен, то просто закрываем без анимации
-        if (!this._isPopupMounted(item)) {
+        if (!this._isPopupOpened(item)) {
             this._finishPopupClosing(item);
             return Promise.resolve(null);
         }
@@ -102,6 +97,7 @@ class Controller extends BaseController {
         item.popupOptions.className = className;
         item.popupOptions.content = PopupContent;
         item.popupOptions.slidingPanelData = this._getPopupTemplatePosition(item);
+        item.animationState = AnimationState.initializing;
     }
 
     popupDragStart(item: ISlidingPanelItem, container: HTMLDivElement, offset: IDragOffset): void {
@@ -145,8 +141,8 @@ class Controller extends BaseController {
      * @param item
      * @private
      */
-    private _isPopupMounted(item: ISlidingPanelItem): boolean {
-        return Object.keys(item.sizes || {}).length && item.animationState !== AnimationState.showing;
+    private _isPopupOpened(item: ISlidingPanelItem): boolean {
+        return item.animationState !== AnimationState.initializing && item.animationState !== AnimationState.showing;
     }
 
     /**
