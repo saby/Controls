@@ -1,7 +1,7 @@
 import { IOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
+import {IControlOptions} from 'UI/Base';
 
-
-export interface INotificationPopupOptions extends IBasePopupOptions {
+export interface INotificationPopupOptions extends IBasePopupOptions, IControlOptions {
     autoClose?: boolean;
 }
 
