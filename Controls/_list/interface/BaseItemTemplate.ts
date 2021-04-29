@@ -86,22 +86,8 @@ export default interface IBaseItemTemplateOptions {
  */
 
 /**
- * @typedef {String} Controls/_list/interface/IBaseItemTemplate/TMarkerClassName
- * @variant default Маркер по высоте растягивается на весь контейнер записи.
- * @variant image-l Используется для размещения маркера рядом с изображением размера "l".
- * @variant image-m Используется для размещения маркера рядом с изображением размера "m".
- * @variant image-s Используется для размещения маркера рядом с изображением размера "s".
- * @variant image-xs Используется для размещения маркера рядом с изображением размера "xs".
- * @variant text-2xl Используется для размещения маркера рядом с текстом размера "2xl".
- * @variant text-xl Используется для размещения маркера рядом с текстом размера "xl".
- * @variant text-l Используется для размещения маркера рядом с текстом размера "l".
- * @variant text-m Используется для размещения маркера рядом с текстом размера "m".
- * @variant text-xs Используется для размещения маркера рядом с текстом размера "xs".
- */
-
-/**
  * @name Controls/_list/interface/IBaseItemTemplate#markerClassName
- * @cfg {Controls/_list/interface/IBaseItemTemplate/TMarkerClassName.typedef} Размер {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркера}.
+ * @cfg {Controls/_display/interface/IBaseItemTemplate/TMarkerClassName.typedef} Размер {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркера}.
  * @default default
  * @see marker
  */

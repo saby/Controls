@@ -1,5 +1,5 @@
 import {IInstantiable, IVersionable, Model} from 'Types/entity';
-import {ICollection} from "./ICollection";
+import {ICollection} from './ICollection';
 
 export interface ICollectionItem<S extends Model = Model> extends IInstantiable, IVersionable {
     getOwner(): ICollection<S, ICollectionItem>;
