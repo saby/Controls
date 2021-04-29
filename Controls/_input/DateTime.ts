@@ -32,7 +32,7 @@ import template = require('wml!Controls/_input/DateTime/DateTime');
  * @class Controls/_input/DateTime
  * @extends UI/Base:Control
  * @mixes Controls/input:IInputDateTime
- * 
+ *
  * @mixes Controls/input:IDateTimeMask
  * @mixes Controls/interface:IInputTag
  * @mixes Controls/input:IBase
@@ -66,6 +66,7 @@ class DateTime extends Control {
     protected _model: Model;
 
     protected _validators: Function[] = [];
+    private _shouldValidate: boolean;
 
     protected _beforeMount(options): void {
         this._updateDateConstructor(options);
@@ -86,6 +87,10 @@ class DateTime extends Control {
         if (this._options.validateByFocusOut !== options.validateByFocusOut) {
             this._updateValidationController(options);
         }
+        // Если значение поменялось из кода - валидируем
+        if (this._model.value !== options.value) {
+            this._shouldValidate = true;
+        }
         if (options.value !== this._options.value) {
             this._model.update({
                 ...options,
@@ -94,6 +99,13 @@ class DateTime extends Control {
         }
         if (this._options.valuevalidators !== options.valueValidators || options.value !== this._options.value) {
             this._updateValidators(options.valueValidators);
+        }
+    }
+
+    protected _afterUpdate(options): void {
+        if (this._shouldValidate) {
+            this.validate();
+            this._shouldValidate = false;
         }
     }
 
