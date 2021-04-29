@@ -3,6 +3,9 @@ import * as coreMerge from 'Core/core-merge';
 import * as coreClone from 'Core/core-clone';
 import RangeSelectrionControllerTmpl = require('wml!Controls/_dateRange/Controllers/RangeSelectionController');
 import IRangeSelectable from './../interfaces/IRangeSelectable';
+import {constants} from "Env/Env";
+import keyboardPeriodController from "../Utils/keyboardPeriodController";
+import {date as formatDate} from "Types/formatter";
 
 /**
  * Контроллер, реализующий выделение элементов от одного до другого.
@@ -122,6 +125,10 @@ export default class RangeSelectionController extends Control<IControlOptions> {
     * @param item {*} Объект соответствующий элементу.
     */
    protected _itemClickHandler(event, item): void {
+      this._itemClick(item);
+   }
+
+   private _itemClick(item): void {
       if (this._options.readOnly) {
          return;
       }
@@ -140,6 +147,10 @@ export default class RangeSelectionController extends Control<IControlOptions> {
     * @private
     */
    protected _itemMouseEnterHandler(event, item): void {
+      this._itemMouseEnter(item);
+   }
+
+   private _itemMouseEnter(item): void {
       let range;
       if (this._options.readOnly) {
          return;
@@ -150,11 +161,11 @@ export default class RangeSelectionController extends Control<IControlOptions> {
             // Если выбор периода происходит через кванты, то мы должны выделить весь период целиком,
             // а не только до того элемента, на который мы наводим в данный момент.
             if (this._options.selectionType === 'quantum') {
-                if (item.getTime() < this._selectionBaseValue.getTime()) {
-                    this._selectionHoveredValue = this._displayedStartValue;
-                } else {
-                    this._selectionHoveredValue = this._displayedEndValue;
-                }
+               if (item.getTime() < this._selectionBaseValue.getTime()) {
+                  this._selectionHoveredValue = this._displayedStartValue;
+               } else {
+                  this._selectionHoveredValue = this._displayedEndValue;
+               }
             }
             this._notify('selectionHoveredValueChanged', [this._selectionHoveredValue]);
             this._notify('selectionChanged', [this._displayedStartValue, this._displayedEndValue]);
@@ -177,6 +188,28 @@ export default class RangeSelectionController extends Control<IControlOptions> {
       }
       this._hoveredStartValue = null;
       this._hoveredEndValue = null;
+   }
+
+   protected _itemKeyDownHandler(event: Event, item: Date, keyCode: number, itemClass: string, mode: string): void {
+      const hoveredItem = this._selectionHoveredValue || item;
+      if (keyCode === constants.key.enter) {
+         this._itemClick(hoveredItem);
+      }
+      if (hoveredItem && this._state.selectionType !== 'quantum') {
+         const newHoveredItem = keyboardPeriodController(keyCode, hoveredItem, mode);
+         if (newHoveredItem) {
+            const elementToFocus = document.querySelector(
+                `${itemClass}[data-date="${this._dateToId(newHoveredItem)}"]`
+            );
+            elementToFocus?.focus();
+            this._itemMouseEnter(newHoveredItem);
+            event.preventDefault();
+         }
+      }
+   }
+
+   private _dateToId(date: Date): string {
+      return formatDate(date, 'YYYY-MM-DD');
    }
 
    protected _mouseleaveHandler(): void {
