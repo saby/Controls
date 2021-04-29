@@ -17,10 +17,12 @@
 
         <!-- Results (top) -->
         <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'top' }}">
-            <ws:partial template="{{ _listModel.getResults().getTemplate() }}"
-                        attr:name="results"
-                        item="{{ _listModel.getResults() }}"
-                        backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
+            <thead>
+                <ws:partial template="{{ _listModel.getResults().getTemplate() }}"
+                            attr:name="results"
+                            item="{{ _listModel.getResults() }}"
+                            backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
+            </thead>
         </ws:if>
 
         <!-- Items -->
