@@ -146,7 +146,7 @@ class DateTime extends Control<IDateBaseOptions> {
 
     protected _onKeyDown(event: SyntheticEvent<KeyboardEvent>): void {
         let key = event.nativeEvent.keyCode;
-        if (key === constants.key.insert && !event.nativeEvent.shiftKey && !event.nativeEvent.ctrlKey) {
+        if (key === constants.key.insert && !event.nativeEvent.shiftKey && !event.nativeEvent.ctrlKey && !this._options.readOnly) {
             // on Insert button press current date should be inserted in field
             this._model.setCurrentDate();
             this._notify('inputCompleted', [this._model.value, this._model.textValue]);
