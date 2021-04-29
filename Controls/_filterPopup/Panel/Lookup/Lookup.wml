@@ -12,6 +12,7 @@
                  template="{{ content.resolvedTemplate }}"
                  name="lookup"
                  class="controls-FilterPanel__LookupSelector {{_options.lookupClassName}}"
+                 contrastBackground="{{true}}"
                  on:selectedKeysChanged="_selectedKeysChanged()"
                  on:inputCompleted="_notifyHandler('inputCompleted')"
                  on:itemsChanged="_notifyHandler('itemsChanged')"
