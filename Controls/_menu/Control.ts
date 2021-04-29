@@ -207,7 +207,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>,
                               item: CollectionItem<Model>,
                               sourceEvent: SyntheticEvent<MouseEvent>): void {
-        if (item.getContents() instanceof Model && !this._isTouch()) {
+        if (!item.isBreadcrumbs && !this._isTouch()) {
             this._clearClosingTimout();
             this._setItemParamsOnHandle(item, sourceEvent.target, sourceEvent.nativeEvent);
 

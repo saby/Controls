@@ -2638,7 +2638,11 @@ define(['Controls/gridOld', 'Core/core-merge', 'Types/collection', 'Types/entity
          it('should resolve showEditArrow using editArrowVisibilityCallback when item is breadcrumb', () => {
             const dispItem = gridViewModel._model._display.at(0);
             const contents = dispItem.getContents();
-            dispItem.getContents = () => ['fake', 'fake', contents];
+            dispItem.getContents = function getContents() {
+               const breadcrumbs = this.getBreadcrumbs();
+               return breadcrumbs[breadcrumbs.length - 1];
+            };
+            dispItem.getBreadcrumbs = () => ['fake', 'fake', contents];
             dispItem['[Controls/_display/BreadcrumbsItem]'] = true;
             const data = gridViewModel.getItemDataByItem(dispItem);
             assert.equal(contentsKey, '123');

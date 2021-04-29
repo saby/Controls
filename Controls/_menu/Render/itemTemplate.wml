@@ -3,7 +3,7 @@
                  controls-ListView__itemV js-controls-ListView__measurableContainer
                  {{itemData.itemClassList}}
                  controls-Menu__row_{{multiLine ? 'multiLine' : 'singleLine'}}">
-   <ws:if data="{{!!treeItem.getContents().forEach}}">
+   <ws:if data="{{!!treeItem.isBreadcrumbs}}">
       <ws:partial template="wml!Controls/_menu/Render/breadCrumbsTemplate"
                   treeItem="{{treeItem}}"
                   keyProperty="{{keyProperty}}"

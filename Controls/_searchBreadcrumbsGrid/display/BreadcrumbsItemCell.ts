@@ -18,7 +18,7 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
    }
 
    getContents(): S[] {
-      return this.getOwner().getContents();
+      return this.getOwner().getBreadcrumbs();
    }
 
    getKeyProperty(): string {

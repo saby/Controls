@@ -36,7 +36,7 @@ describe('Controls/_searchBreadcrumbsGrid/display/SearchGridCollection', () => {
          assert.instanceOf(item, BreadcrumbsItemRow);
       });
 
-      it('Breadcrumbs display property', () => {
+      xit('Breadcrumbs display property', () => {
          const item = searchGridCollection.createBreadcrumbsItem({});
          const breadcrumbsCell = item.getColumns()[0];
          assert.isTrue(breadcrumbsCell.getDisplayProperty() === 'collection display property');

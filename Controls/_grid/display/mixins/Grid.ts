@@ -47,9 +47,10 @@ export type TColspanCallbackResult = number | 'end';
  * @param {Controls/interface:IColumn} column Колонка грида
  * @param {Number} columnIndex Индекс колонки грида
  * @param {Boolean} isEditing Актуальное состояние редактирования элемента
+ * @param {Boolean} isBreadcrumbs true в случае если вызывается для строки с хлебными крошками
  * @returns {Controls/grid:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
  */
-export type TColspanCallback = (item: EntityModel, column: IColumn, columnIndex: number, isEditing: boolean) => TColspanCallbackResult;
+export type TColspanCallback = (item: EntityModel, column: IColumn, columnIndex: number, isEditing: boolean, isBreadcrumbs?: boolean) => TColspanCallbackResult;
 
 /**
  * @typedef {Function} TResultsColspanCallback

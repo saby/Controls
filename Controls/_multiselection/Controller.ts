@@ -480,10 +480,10 @@ export class Controller {
       let contents = item.getContents();
       // tslint:disable-next-line:ban-ts-ignore
       // @ts-ignore
-      if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
+      /*if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
          // tslint:disable-next-line
          contents = contents[(contents as any).length - 1];
-      }
+      }*/
 
       return contents instanceof Object ?  contents.getKey() : contents;
    }

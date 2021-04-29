@@ -166,7 +166,11 @@ define([
 
          // Breadcrumbs item
          dispItem = {
-            getContents: function () {
+            getContents: function() {
+               const breadcrumbs = this.getBreadcrumbs();
+               return breadcrumbs[breadcrumbs.length - 1];
+            },
+            getBreadcrumbs: function() {
                return [
                   {
                      getId: function () {
