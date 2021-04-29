@@ -169,7 +169,11 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             ];
 
             strategy.items.forEach((item, index) => {
-                assert.equal(stringifyResult(item.getContents()), expected[index], `at ${index}`);
+                if (item.isBreadcrumbs) {
+                    assert.equal(stringifyResult(item.getBreadcrumbs()), expected[index], `at ${index}`);
+                } else {
+                    assert.equal(stringifyResult(item.getContents()), expected[index], `at ${index}`);
+                }
             });
 
             assert.strictEqual(strategy.items.length, expected.length);
@@ -200,7 +204,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
-            const result = strategy.items.map((item) => stringifyResult(item.getContents()));
+            const result = strategy.items.map((item) => stringifyResult(item.getBreadcrumbs()));
 
             assert.deepEqual(result, ['#A,AA,AAA']);
         });
@@ -235,7 +239,9 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
-            const result = strategy.items.map((item) => stringifyResult(item.getContents()));
+            const result = strategy.items.map(
+                (item) => stringifyResult(item.isBreadcrumbs ? item.getBreadcrumbs() : item.getContents())
+            );
 
             assert.deepEqual(result, ['a', '#a,B', '#a', 'c', '#a,D']);
         });
@@ -270,7 +276,8 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
-            const result = strategy.items.map((item) => stringifyResult(item.getContents()));
+            const result = strategy.items
+                .map((item) => stringifyResult(item.isBreadcrumbs ? item.getBreadcrumbs() : item.getContents()));
 
             assert.deepEqual(result, ['#A,B', 'c', '#A', 'd']);
         });
@@ -304,7 +311,11 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
-            const result = strategy.items.map((item) => stringifyResult(item.getContents())  + ':' + item.getLevel());
+            const result = strategy.items
+                .map((item) => {
+                    return stringifyResult(item.isBreadcrumbs ? item.getBreadcrumbs() : item.getContents()) +
+                        ':' + item.getLevel();
+                });
 
             assert.deepEqual(result, ['#A,AA:0', 'AAa:1', 'search-separator:0', 'b:0']);
         });
@@ -395,7 +406,11 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
-            const result = strategy.items.map((item) => stringifyResult(item.getContents())  + ':' + item.getLevel());
+            const result = strategy.items
+                .map((item) => {
+                    return stringifyResult(item.isBreadcrumbs ? item.getBreadcrumbs() : item.getContents()) +
+                        ':' + item.getLevel();
+                });
 
             assert.deepEqual(result, ['#A:0', 'b:1', 'e:1', '#A,C:0', 'd:1']);
         });
@@ -423,7 +438,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
-            const result = strategy.items.map((item) => stringifyResult(item.getContents())  + ':' + item.getLevel());
+            const result = strategy.items.map((item) => {
+                return stringifyResult(item.isBreadcrumbs ? item.getBreadcrumbs() : item.getContents()) +
+                    ':' + item.getLevel();
+            });
 
             assert.deepEqual(result, ['#A:0', 'b:1', 'c:2']);
         });
@@ -464,7 +482,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
-            const result = strategy.items.map((item) => stringifyResult(item.getContents())  + ':' + item.getLevel());
+            const result = strategy.items.map((item) => {
+                return stringifyResult(item.isBreadcrumbs ? item.getBreadcrumbs() : item.getContents()) +
+                    ':' + item.getLevel();
+            });
 
             assert.deepEqual(result, ['#A:0', 'b:1', 'e:2', '#A,b,C:0', 'd:1', 'f:1']);
         });
@@ -496,8 +517,8 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             });
 
             const result = strategy.items.map((item) => {
-                const contents = item.getContents();
-                return item instanceof BreadcrumbsItem ? `#${contents.join(',')}` : contents;
+                const contents = item instanceof BreadcrumbsItem ? item.getBreadcrumbs() : item.getContents();
+                return stringifyResult(contents);
             });
 
             assert.deepEqual(result, ['#A', '#A,AA,AAA']);
@@ -530,8 +551,8 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             });
 
             const result = strategy.items.map((item) => {
-                const contents = item.getContents();
-                return item instanceof BreadcrumbsItem ? `#${contents.join(',')}` : contents;
+                const contents = item instanceof BreadcrumbsItem ? item.getBreadcrumbs() : item.getContents();
+                return stringifyResult(contents);
             });
 
             assert.deepEqual(result, ['#A,AA', '#A,AA,AAA']);
@@ -564,8 +585,8 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             });
 
             const result = strategy.items.map((item) => {
-                const contents = item.getContents();
-                return item instanceof BreadcrumbsItem ? `#${contents.join(',')}` : contents;
+                const contents = item instanceof BreadcrumbsItem ? item.getBreadcrumbs() : item.getContents();
+                return stringifyResult(contents);
             });
 
             assert.deepEqual(result, ['#A,AA,AAA']);
@@ -642,8 +663,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             strategy.splice(at, 0, newItems as any);
 
             strategy.items.forEach((item, index) => {
+                const contents = item instanceof BreadcrumbsItem ? item.getBreadcrumbs() : item.getContents();
+
                 assert.equal(
-                    stringifyResult(item.getContents()),
+                    stringifyResult(contents),
                     expected[index],
                     'at ' + index
                 );
@@ -690,8 +713,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             assert.strictEqual(strategy.count, expected.length);
 
             strategy.items.forEach((item, index) => {
+                const contents = item instanceof BreadcrumbsItem ? item.getBreadcrumbs() : item.getContents();
+
                 assert.equal(
-                    stringifyResult(item.getContents()),
+                    stringifyResult(contents),
                     expected[index],
                     'at ' + index
                 );

@@ -2030,9 +2030,9 @@ const _private = {
      */
     getPlainItemContents(item: CollectionItem<Model>) {
         let contents = item.getContents();
-        if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
+        /*if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
             contents = contents[(contents as any).length - 1];
-        }
+        }*/
         return contents;
     },
 

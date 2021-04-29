@@ -24,7 +24,10 @@ describe('Controls/_display/BreadcrumbsItem', () => {
                 const bcItem = new BreadcrumbsItem({
                     last: item
                 });
-                assert.deepEqual(bcItem.getContents(), expected[index]);
+                const expectedBreadcrumbs = expected[index];
+
+                assert.deepEqual(bcItem.getBreadcrumbs(), expectedBreadcrumbs);
+                assert.deepEqual(bcItem.getContents(), expectedBreadcrumbs[expectedBreadcrumbs.length - 1]);
             });
         });
 
@@ -45,7 +48,10 @@ describe('Controls/_display/BreadcrumbsItem', () => {
                 owner: owner as any,
                 last: item
             });
-            assert.deepEqual(bcItem.getContents(), ['root', 'a']);
+
+            const expectedArr = ['root', 'a'];
+            assert.deepEqual(bcItem.getBreadcrumbs(), expectedArr);
+            assert.deepEqual(bcItem.getContents(), expectedArr[expectedArr.length - 1]);
         });
 
         it('should return tree branch without root', () => {
@@ -65,7 +71,10 @@ describe('Controls/_display/BreadcrumbsItem', () => {
                 owner: owner as any,
                 last: item
             });
-            assert.deepEqual(bcItem.getContents(), ['a']);
+
+            const expectedArr = ['a'];
+            assert.deepEqual(bcItem.getBreadcrumbs(), expectedArr);
+            assert.deepEqual(bcItem.getContents(), expectedArr[expectedArr.length - 1]);
         });
     });
 

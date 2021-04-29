@@ -4486,7 +4486,11 @@ define([
                      '[Controls/_display/BreadcrumbsItem]': true,
                      _$active: false,
                      isSelected: () => true,
-                     getContents: () => ['fake', 'fake', 'fake', itemAt0.getContents() ],
+                     getContents: function () {
+                        const breadcrumbs = this.getBreadcrumbs();
+                        return breadcrumbs[breadcrumbs.length - 1];
+                     },
+                     getBreadcrumbs: () => ['fake', 'fake', 'fake', itemAt0.getContents() ],
                      setActive: function() {
                         this._$active = true;
                      },
@@ -4820,7 +4824,11 @@ define([
             const breadcrumbItem = {
                '[Controls/_display/BreadcrumbsItem]': true,
                _$active: false,
-               getContents: () => ['fake', 'fake', 'fake', itemAt1.getContents() ],
+               getContents: function () {
+                  const breadcrumbs = this.getBreadcrumbs();
+                  return breadcrumbs[breadcrumbs.length - 1];
+               },
+               getBreadcrumbs: () => ['fake', 'fake', 'fake', itemAt1.getContents() ],
                setActive: function() {
                   this._$active = true;
                },
@@ -5093,7 +5101,11 @@ define([
             const breadcrumbItem = {
                '[Controls/_display/BreadcrumbsItem]': true,
                _$active: false,
-               getContents: () => ['fake', 'fake', 'fake', itemAt1.getContents() ],
+               getContents: function () {
+                  const breadcrumbs = this.getBreadcrumbs();
+                  return breadcrumbs[breadcrumbs.length - 1];
+               },
+               getBreadcrumbs: () => ['fake', 'fake', 'fake', itemAt1.getContents() ],
                setActive: function() {
                   this._$active = true;
                },

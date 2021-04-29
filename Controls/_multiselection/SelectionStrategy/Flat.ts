@@ -200,10 +200,10 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
       let contents = item.getContents();
       // tslint:disable-next-line:ban-ts-ignore
       // @ts-ignore
-      if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
+      /*if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
          // tslint:disable-next-line
          contents = contents[(contents as any).length - 1];
-      }
+      }*/
 
       // Для GroupItem нет ключа, в contents хранится не Model
       if (item['[Controls/_display/GroupItem]']) {

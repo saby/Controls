@@ -770,9 +770,9 @@ export class Controller {
      */
     private static _getItemContents(item: IItemActionsItem): Model {
         let contents = item?.getContents();
-        if (item['[Controls/_display/BreadcrumbsItem]']) {
+        /*if (item['[Controls/_display/BreadcrumbsItem]']) {
             contents = contents[(contents as any).length - 1];
-        }
+        }*/
         return contents;
     }
 

@@ -69,8 +69,8 @@ export default class extends Control {
         this._children.explorer.reload();
     }
 
-    protected _colspanCallback(item, column, columnIndex, isEditing): number|string|void {
-        if (item.length > 0 && this._canSetConfig) {
+    protected _colspanCallback(item, column, columnIndex, isEditing, isBreadcrumbs): number|string|void {
+        if (isBreadcrumbs && this._canSetConfig) {
             if (this._colspanBreadcrumbs) {
                 return 'end';
             } else {

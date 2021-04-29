@@ -1,6 +1,6 @@
 <Controls.Container.Async templateName="Controls/breadcrumbs:Path">
    <ws:partial template="{{ content.resolvedTemplate }}"
-               items="{{treeItem.getContents()}}"
+               items="{{treeItem.getBreadcrumbs()}}"
                keyProperty="{{keyProperty}}"
                displayProperty="{{displayProperty}}"
                readOnly="{{true}}">

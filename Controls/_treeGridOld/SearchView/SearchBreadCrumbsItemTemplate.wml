@@ -12,7 +12,7 @@
     <ws:colspanTemplate>
         <Controls.Container.Async templateName="Controls/breadcrumbs:Path">
             <ws:partial template="{{ content.resolvedTemplate }}"
-                        items="{{colspanTemplate.itemData.item}}"
+                        items="{{colspanTemplate.itemData.dispItem.getBreadcrumbs()}}"
                         backgroundStyle="{{_options.backgroundStyle}}"
                         attr:class="controls-Grid__breadCrumbs {{ itemData.columnScroll && !itemData.columnScrollVisibility ? 'controls-TreeGrid__breadCrumbs_colspaned' }}"
                         breadCrumbsItemClickCallback="{{ itemData.breadcrumbsItemClickCallback }}"

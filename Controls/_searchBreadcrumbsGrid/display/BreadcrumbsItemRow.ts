@@ -49,9 +49,20 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
         return current;
     }
 
+    /**
+     * Признак на основании которого в шаблоне можно отличить модель обычного итема от
+     * модели итема для хлебной крошки
+     */
+    readonly isBreadcrumbs: boolean = true;
+
     // region Public methods
 
-    getContents(): T[] {
+    getContents(): T {
+        const breadcrumbs = this.getBreadcrumbs();
+        return breadcrumbs[breadcrumbs.length - 1];
+    }
+
+    getBreadcrumbs(): T[] {
         const root = this._$owner ? this._$owner.getRoot() : {};
         let current = this._$last;
         const contents = [];
@@ -65,7 +76,7 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
             }
         }
 
-        return contents as any;
+        return contents;
     }
 
     setContents(): void {
@@ -131,7 +142,12 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
     }
 
     protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
-        let result = super._getColspan(column, columnIndex);
+        let result;
+
+        const colspanCallback = this._$colspanCallback;
+        if (colspanCallback) {
+            result = colspanCallback(this.getContents(), column, columnIndex, this.isEditing(), this.isBreadcrumbs);
+        }
 
         if (!result) {
             result = this._$colspanBreadcrumbs ? 'end' : 1;
