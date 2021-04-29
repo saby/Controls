@@ -1,5 +1,6 @@
 <ws:template name="gridView">
     <div class="{{ _getGridViewClasses(_options) }}"
+         on:focusIn="_onFocusIn()"
          style="{{ _getGridViewStyles(_options) }}">
 
         <!-- Header -->
