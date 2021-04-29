@@ -793,6 +793,9 @@ const _private = {
             self._loadToDirectionInProgress = true;
 
             return self._sourceController.load(direction, self._options.root, filter).addCallback((addedItems) => {
+                if (self._destroyed) {
+                    return;
+                }
                 const itemsCountAfterLoad = self._listViewModel.getCount();
                 // If received list is empty, make another request.
                 // If it’s not empty, the following page will be requested in resize event

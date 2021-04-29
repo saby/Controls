@@ -19,6 +19,7 @@ export interface ICutOptions extends ICutButton, IBackgroundStyleOptions, IExpan
  * @mixes Control/interface:IBackgroundStyle
  * @mixes Control/interface:IExpandable
  * @implements Controls/interface:IIconSize
+ * @implements Controls/_interface:IHeight
  * @mixes Control/interface:IContrastBackground
  * @public
  * @author Красильников А.С.
@@ -38,7 +39,20 @@ export default interface ICut {
 
 /**
  * @name Controls/_spoiler/interface/ICut#iconSize
+ * @cfg {Enum} Размер иконки.
+ * @variant s малый
+ * @variant m средний
+ * @variant l большой
+ * @default default
  * @demo Controls-demo/Spoiler/Cut/IconSize/Index
+ * @remark
+ * Размер иконки задается константой из стандартного набора размеров, который определен для текущей темы оформления.
+ * @example
+ * Кнопка с размером иконки "s".
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.spoiler:Cut lines="{{3}}" iconSize="s">
+ * </pre>
  */
 
 /**
@@ -47,7 +61,8 @@ export default interface ICut {
  */
 
 /**
- * @name Controls/_spoiler/interface/ICut#lineHeight
+ * @name Controls/_spoiler/interface/ICut#inlineHeight
+ * @cfg {Enum} Высота контрола.
  * Высота строки
  * @variant xs
  * @variant s
@@ -62,7 +77,6 @@ export default interface ICut {
  * @demo Controls-demo/Spoiler/Cut/LineHeight/Index
  * @remark
  * Высота строки задается константой из стандартного набора размеров, который определен для текущей темы оформления.
- * @demo Controls-demo/Spoiler/Cut/ContrastBackground/Index
  */
 
 /**
