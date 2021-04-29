@@ -1,13 +1,19 @@
-<div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlDemo__treeGrid-nodeHistoryId">
-    <Controls.list:DataContainer source="{{ _viewSource }}"
-                              keyProperty="id"
-                              parentProperty="parent"
-                              nodeProperty="type"
-                              nodeHistoryId="NODE_HISTORY">
-        <div>
-            <Controls.list:Container>
-                <Controls.treeGrid:View columns="{{ _columns }}"/>
-            </Controls.list:Container>
-        </div>
-    </Controls.list:DataContainer>
+<div class="controlsDemo__wrapper controlsDemo_wrapper-treeGrid-nodeHistoryId">
+    <div class="controlsDemo__cell controlsDemo_fixedWidth300">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/NodeHistoryId/Base/Index' }}">
+            <a href="{{content.href}}">Базовая конфигурация</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.NodeHistoryId.Base.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/NodeHistoryId/WithExpandedItems/Index' }}">
+            <a href="{{content.href}}">Конфигурация с bind:expandedItems</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.NodeHistoryId.WithExpandedItems.Index/>
+    </div>
 </div>
