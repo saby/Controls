@@ -45,7 +45,7 @@
 </ws:template>
 
 <ws:partial template="Controls/list:ItemTemplate"
-            attr:class="controls-listTemplates__listItemTemplate"
+            attr:class="controls-listTemplates__listItemTemplate {{_options.itemData.getRoundBorderClasses()}}"
             scope="{{_options}}">
    <ws:contentTemplate>
       <ws:partial template="itemContentTpl"
