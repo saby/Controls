@@ -22,6 +22,7 @@ export {
 };
 
 export {default as Browser} from 'Controls/_newBrowser/Browser';
+export {default as View} from 'Controls/_newBrowser/View/View';
 export {IOptions} from './_newBrowser/interfaces/IOptions';
 export {IMasterOptions, MasterVisibilityEnum} from './_newBrowser/interfaces/IMasterOptions';
 export {IDetailOptions, DetailViewMode} from './_newBrowser/interfaces/IDetailOptions';
