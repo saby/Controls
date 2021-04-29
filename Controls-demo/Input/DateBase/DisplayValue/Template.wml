@@ -1,0 +1,6 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">displayValue="{{_displayValue}}" inputMode="partial"</div>
+      <Controls.input:DateBase displayValue="{{_displayValue}}" inputMode="partial" on:valueChanged="_onValueChanged()"/>
+   </div>
+</div>
