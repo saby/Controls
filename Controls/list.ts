@@ -57,7 +57,7 @@ import NumberEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated
 
 import BaseViewModel = require('Controls/_list/BaseViewModel');
 import ListViewModel = require('Controls/_list/ListViewModel');
-import {default as ListControl, LIST_EDITING_CONSTANTS as editing} from 'Controls/_list/BaseControl';
+import {default as ListControl, LIST_EDITING_CONSTANTS as editing, CANCEL_EVENT_COMMAND} from 'Controls/_list/BaseControl';
 import ListView = require('Controls/_list/ListView');
 import GroupContentResultsTemplate = require('wml!Controls/_list/GroupContentResultsTemplate');
 import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
@@ -127,6 +127,7 @@ export {
     TreeItemsUtil,
     BaseControl,
     IBaseControlOptions,
+    CANCEL_EVENT_COMMAND,
     ScrollEmitter,
     SearchItemsUtil,
     CssClassList,
