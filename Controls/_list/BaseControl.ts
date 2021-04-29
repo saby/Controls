@@ -6512,7 +6512,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _registerObserver(): void {
-        if (!this._observerRegistered && this._listViewModel) {
+        if (this._children.scrollObserver && !this._observerRegistered && this._listViewModel) {
             // @ts-ignore
             this._children.scrollObserver.startRegister([this._children.scrollObserver]);
             this._observerRegistered = true;
