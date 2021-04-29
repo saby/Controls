@@ -693,6 +693,14 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
             (style === 'master');
     }
 
+    getQAData(marker: boolean): string {
+        let classes = '';
+        if (this.shouldDisplayMarker(marker)) {
+            classes += 'key-controls-list-marked-item';
+        }
+        return classes;
+    }
+
     /**
      * Возвращает строку с классами, устанавливаемыми в шаблоне элемента для корневого div'а.
      * @param templateHighlightOnHover - подсвечивать или нет запись по ховеру
