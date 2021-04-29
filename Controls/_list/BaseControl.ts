@@ -2153,6 +2153,7 @@ const _private = {
         if (errorConfig && (errorConfig.mode === dataSourceError.Mode.include)) {
             self._scrollController = null;
             self._observerRegistered = false;
+            self._intersectionObserverRegistered = false;
             self._viewReady = false;
         }
     },
@@ -4840,9 +4841,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _afterUpdate(oldOptions): void {
         this._loadedBySourceController = false;
-        if (!this.__error && !this._observerRegistered) {
-            this._registerObserver();
-            if (this._needScrollCalculation) {
+        if (!this.__error) {
+            if (!this._observerRegistered) {
+                this._registerObserver();
+            }
+            if (this._needScrollCalculation && !this._intersectionObserverRegistered) {
                 this._registerIntersectionObserver();
             }
         }
@@ -6525,6 +6528,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._intersectionObserverHandler.bind(this),
             this._children.topVirtualScrollTrigger,
             this._children.bottomVirtualScrollTrigger);
+        this._intersectionObserverRegistered = true;
     }
 
     _intersectionObserverHandler(eventName) {
