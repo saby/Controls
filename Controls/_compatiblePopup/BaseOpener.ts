@@ -201,6 +201,9 @@ const BaseOpener = {
          className: config.className
       };
       config.className = 'controls-OldNotification';
+      if (config.theme) {
+         config.componentOptions.theme = config.theme;
+      }
       return config;
    },
 

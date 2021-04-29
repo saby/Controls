@@ -82,7 +82,7 @@ define([
                 title: 'Первый'
             }, {
                 id: 2,
-                canShrink: true,
+                minWidth: 0,
                 title: 'Второй'
             }
             ]);
@@ -94,7 +94,7 @@ define([
                 title: 'Первый'
             }, {
                 id: 3,
-                canShrink: true,
+                minWidth: 0,
                 title: 'Третий'
             }
             ]);

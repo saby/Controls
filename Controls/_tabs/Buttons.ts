@@ -26,6 +26,8 @@ enum ITEM_ALIGN {
     right = 'right'
 }
 
+const DEFAULT_ITEM_ALIGN: ITEM_ALIGN = ITEM_ALIGN.right
+
 export interface ITabsTemplate {
     readonly '[Controls/_tabs/ITabsTemplate]': boolean;
 }
@@ -60,6 +62,8 @@ const isTemplateObject = (tmpl: any): boolean => {
     return isTemplate(tmpl);
 };
 
+const MARKER_ANIMATION_TIMEOUT: number = 100;
+
 /**
  * Контрол предоставляет пользователю возможность выбрать между двумя или более вкладками.
  *
@@ -91,13 +95,15 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _itemsArray: ITabButtonItem[];
     protected _marker: Marker = new Marker();
     protected _markerCssClass: string = '';
-    protected _animationProcessed: boolean = false;
+    protected _isAnimatedMakerVisible: boolean = false;
+    private _markerAnimationTimer: number;
     private _itemsOrder: number[];
     private _lastRightOrder: number;
     private _items: RecordSet;
     private _crudWrapper: CrudWrapper;
     private _isUnmounted: boolean = false;
     private _isUpdatedItems: boolean = false;
+    private _hasMainTab: boolean;
 
     protected _beforeMount(options: ITabsOptions,
                            context: object,
@@ -125,36 +131,49 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _beforeUpdate(newOptions: ITabsOptions): void {
+        let itemsChanged: boolean = false;
+
         if (newOptions.source && newOptions.source !== this._options.source) {
             this._initItems(newOptions.source).then((result) => {
                 this._prepareState(result);
                 this._marker.reset();
                 this._isUpdatedItems = true;
             });
+            itemsChanged = true;
         }
         if (newOptions.items && newOptions.items !== this._options.items) {
             const itemsData = this._prepareItems(newOptions.items);
             this._prepareState(itemsData);
             this._marker.reset();
             this._isUpdatedItems = true;
+            itemsChanged = true;
         }
-        if (newOptions.selectedKey !== this._options.selectedKey) {
-            this._updateMarkerSelectedIndex(newOptions);
+        if (!itemsChanged && newOptions.selectedKey !== this._options.selectedKey) {
+            const oldAlign = this._getItemByKey(this._options.selectedKey)?.align || DEFAULT_ITEM_ALIGN;
+            const newAlign = this._getItemByKey(newOptions.selectedKey)?.align || DEFAULT_ITEM_ALIGN;
+            if (oldAlign === newAlign) {
+                // Переключимся на анимированный маркер, т.к. стандартный маркер всегда рисуется на выбранной вкладке.
+                // Чтобы не было тормозов при движении маркера,
+                // саму анимацию запустим позже после всех обновлений в afterUpdate.
+                this._isAnimatedMakerVisible = true;
+            }
         }
         if (newOptions.style !== this._options.style || newOptions.markerThickness !== this._options.markerThickness) {
             this._updateMarkerCssClass(newOptions);
         }
     }
 
-    protected _beforeRender(): void {
-        if (this._isUpdatedItems && this._marker.isInitialized()) {
-            this._marker.reset();
-            this._isUpdatedItems = false;
+    protected _afterUpdate(oldOptions: ITabsOptions): void {
+        if (this._isAnimatedMakerVisible && oldOptions.selectedKey !== this._options.selectedKey) {
+            this._startMarkerAnimationDelayed();
         }
     }
 
     protected _beforeUnmount(): void {
         UnregisterUtil(this, 'controlResize', {listenAll: true});
+        if (this._markerAnimationTimer) {
+            clearTimeout(this._markerAnimationTimer);
+        }
         this._isUnmounted = true;
     }
 
@@ -214,22 +233,35 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         });
         const align = this._marker.getAlign();
         const changed = this._marker.setSelectedIndex(index);
-        // Не заускаем анимацию при переключении с группы вкладок слева на кгруппу вкладок справа.
+        // Не заускаем анимацию при переключении с группы вкладок слева на группу вкладок справа.
         if (changed && align && align === this._marker.getAlign()) {
-            this._animationProcessed = true;
+            this._isAnimatedMakerVisible = true;
         }
     }
 
-    protected _isBottomMarkerVisible(): boolean {
-        const selectedItem: ITabButtonItem = this._itemsArray.find((item: ITabButtonItem) => {
-            return item[this._options.keyProperty] === this._options.selectedKey;
+    protected _getItemByKey(key: string, options?: ITabsOptions): ITabButtonItem {
+        const opts: ITabsOptions = options || this._options;
+
+        return this._itemsArray.find((item: ITabButtonItem) => {
+            return item[opts.keyProperty] === key;
         });
+    }
+
+    protected _isBottomMarkerVisible(): boolean {
+        const selectedItem: ITabButtonItem = this._getItemByKey(this._options.selectedKey);
         return !selectedItem?.isMainTab;
+    }
+
+    protected _startMarkerAnimationDelayed(): void {
+        this._markerAnimationTimer = setTimeout(() => {
+            this._updateMarkerSelectedIndex(this._options);
+            this._markerAnimationTimer = null;
+        }, MARKER_ANIMATION_TIMEOUT);
     }
 
     protected _transitionEndHandler() {
         if (!this._isUnmounted) {
-            this._animationProcessed = false;
+            this._isAnimatedMakerVisible = false;
         }
     }
 
@@ -243,6 +275,21 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         if (isLeftMouseButton(event)) {
             this._notify('selectedKeyChanged', [key]);
         }
+    }
+
+    /**
+     * Для совместимости со старым стандартом и апи е даем сжиматься всем вкладкам, кроме главной,
+     * если главная задана и на остальных не задано ни одного ограничения по ширине
+     * @param item
+     * @private
+     */
+    private _tabCanShrink(item: ITabButtonItem): boolean {
+        return item.isMainTab ||
+            item.width === undefined && (
+                !this._hasMainTab ||
+                item.minWidth !== undefined ||
+                item.maxWidth !== undefined
+            );
     }
 
     protected _prepareItemClass(item: ITabButtonItem, index: number): string {
@@ -259,7 +306,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
 
         const itemAlign: string = item.align;
-        const align: string = itemAlign ? itemAlign : 'right';
+        const align: string = itemAlign ? itemAlign : DEFAULT_ITEM_ALIGN;
 
         const isLastItem: boolean = order === this._lastRightOrder;
 
@@ -280,10 +327,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             classes.push('controls-Tabs__item_type_' + itemType);
         }
 
-        // TODO: по поручению опишут как и что должно сжиматься.
-        // Пока сжимаем только те вкладки, которые прикладники явно пометили
-        // https://online.sbis.ru/opendoc.html?guid=cf3f0514-ac78-46cd-9d6a-beb17de3aed8
-        if (item.isMainTab || item.canShrink) {
+        if (this._tabCanShrink(item)) {
             classes.push('controls-Tabs__item_canShrink');
         } else {
             classes.push('controls-Tabs__item_notShrink');
@@ -315,7 +359,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             style += `max-width: ${this._getWidthValue(maxWidth)};`;
         }
         if (width !== undefined) {
-            style += `width: ${this._getWidthValue(width)}; flex-shrink: 0;`;
+            style += `width: ${this._getWidthValue(width)}; flex-shrink: 0; justify-content: center;`;
         }
         if (minWidth !== undefined) {
             style += `min-width: ${this._getWidthValue(minWidth)};`;
@@ -355,7 +399,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             classes.push('controls-Tabs__itemClickableArea_marker');
             classes.push(`controls-Tabs__itemClickableArea_markerThickness-${options.markerThickness}`);
 
-            if (!(this._marker.isInitialized() && this._animationProcessed) && item[options.keyProperty] === options.selectedKey ) {
+            if (!(this._marker.isInitialized() && this._isAnimatedMakerVisible) && item[options.keyProperty] === options.selectedKey ) {
                 // Если маркеры которые рисуются с абсолютной позицией не инициализированы, то нарисуем маркер
                 // внутри вкладки. Это можно сделать быстрее. Но невозможно анимировано передвигать его между вкладками.
                 // Инициализируем и переключимся на другой механизм маркеров после ховера.
@@ -444,6 +488,9 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         this._itemsArray = data.itemsArray;
         this._itemsOrder = data.itemsOrder;
         this._lastRightOrder = data.lastRightOrder;
+        this._hasMainTab = this._itemsArray.reduce((accummulator, item) => {
+            return accummulator || item.isMainTab;
+        }, false);
     }
 
     static _prepareStyle(style: string): string {

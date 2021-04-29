@@ -241,40 +241,6 @@ export default abstract class Tile<
         return 1;
     }
 
-    getItemContainerSize(itemContainer: HTMLElement): ITileItemSize {
-        const zoomCoefficient = this.getZoomCoefficient();
-
-        const itemContent: HTMLElement = itemContainer.querySelector('.controls-TileView__itemContent');
-        const itemContentRect = itemContent.getBoundingClientRect();
-
-        itemContent.classList.add('controls-TileView__item_hovered');
-        itemContent.style.width = `${itemContentRect.width * zoomCoefficient}px`;
-
-        let imageWrapper: HTMLElement;
-        let imageWrapperRect: ClientRect | DOMRect;
-        if (this._$tileMode === 'dynamic') {
-            imageWrapper = itemContainer.querySelector('.controls-TileView__imageWrapper');
-            imageWrapperRect = imageWrapper.getBoundingClientRect();
-            imageWrapper.style.height = `${imageWrapperRect.height * zoomCoefficient}px`;
-        }
-
-        const afterZoomRect = itemContent.getBoundingClientRect();
-
-        const result = {
-            width: afterZoomRect.width,
-            height: afterZoomRect.height
-        };
-
-        if (this._$tileMode === 'dynamic') {
-            imageWrapper.style.height = `${imageWrapperRect.height}px`;
-        }
-
-        itemContent.style.width = '';
-        itemContent.classList.remove('controls-TileView__item_hovered');
-
-        return result;
-    }
-
     getItemContainerPosition(
         targetItemSize: ITileItemSize,
         itemRect: ClientRect | DOMRect,
@@ -354,6 +320,7 @@ export default abstract class Tile<
 
     protected _getItemsFactoryParams(params: IOptions<S>): IOptions<S> {
         params.tileMode = this.getTileMode();
+        params.tileScalingMode = this.getTileScalingMode();
         params.tileSize = this.getTileSize();
         params.tileHeight = this.getTileHeight();
         params.tileWidth = this.getTileWidth();

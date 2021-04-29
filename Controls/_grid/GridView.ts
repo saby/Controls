@@ -50,7 +50,7 @@ const GridView = ListView.extend({
         }
 
         if (options.columnScroll) {
-            this._columnScrollViewController = this._createColumnScroll(options);
+            this._createColumnScroll(options);
         }
 
         if (options.footerTemplate || options.footer) {
@@ -269,6 +269,19 @@ const GridView = ListView.extend({
         }
     },
 
+    _onHeaderRowClick(event: SyntheticEvent): void {
+        const target = event.target as HTMLElement;
+        const headerRow = this._listModel.getHeader();
+
+        // Если шапка зафиксирована, то нужно прокинуть событие arrowClick при клике по шеврону,
+        // иначе оно не дойдет до прикладников
+        if (headerRow.isSticked() && target.closest('.js-BreadCrumbsPath__backButtonArrow')) {
+            event.stopImmediatePropagation();
+            this._notify('arrowClick', []);
+            return;
+        }
+    },
+
     _onEditingItemClick(e, dispItem, nativeEvent): void {
         e.stopImmediatePropagation();
         if (this._listModel.getEditingConfig()?.mode === 'cell') {
@@ -362,17 +375,8 @@ const GridView = ListView.extend({
         );
     },
 
-    _getColumnScrollFakeShadowStyles(position: 'start' | 'end'): string {
-        return this._columnScrollViewController.getColumnScrollFakeShadowStyles(position);
-    },
-    _getColumnScrollFakeShadowClasses(position: 'start' | 'end'): string {
-        return this._columnScrollViewController.getColumnScrollFakeShadowClasses(position, {
-            needBottomPadding: this._options.needBottomPadding
-        });
-    },
-
     _getHorizontalScrollBarStyles(): string {
-        if (!(this._columnScrollViewController && this.isColumnScrollVisible())) {
+        if (!this.isColumnScrollVisible()) {
             this._horizontalScrollWidth = 0;
             return 'display: none;';
         }
@@ -389,7 +393,7 @@ const GridView = ListView.extend({
             this._options.stickyColumn,
             this._listModel.getDraggableItem()
         );
-        return new ColumnScrollViewController({
+        this._columnScrollViewController = new ColumnScrollViewController({
             ...options,
             hasMultiSelectColumn: options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom',
             stickyLadderCellsCount,
@@ -420,13 +424,23 @@ const GridView = ListView.extend({
             ...oldOptions,
             hasMultiSelectColumn: getHasMultiSelectColumn(oldOptions)
         })?.then((result) => {
-            if (result.status !== 'destroyed') {
-                this._applyColumnScrollChanges();
-            }
+            this._applyColumnScrollChanges();
         });
     },
 
     _applyColumnScrollChanges() {
+        if (!this.isColumnScrollVisible()) {
+            this._columnScrollWrapperClasses = '';
+            this._columnScrollContentClasses = '';
+            this._dragScrollOverlayClasses = '';
+            this._columnScrollShadowClasses = { start: '', end: ''};
+            this._containerSize = 0;
+            this._contentSizeForHScroll = 0;
+            this._horizontalScrollWidth = 0;
+            this._fixedColumnsWidth = 0;
+            this._scrollableColumnsWidth = 0;
+            return;
+        }
         this._columnScrollWrapperClasses = this._columnScrollViewController.getClasses('wrapper');
         this._columnScrollContentClasses = this._columnScrollViewController.getClasses('content');
         this._dragScrollOverlayClasses = this._columnScrollViewController.getClasses('overlay');
@@ -500,6 +514,18 @@ const GridView = ListView.extend({
         if (this._columnScrollViewController && this.isColumnScrollVisible()) {
             this._actualizeColumnScroll(this._options);
         }
+    },
+
+    _onFocusIn(e: SyntheticEvent): void {
+        const target = e.target as HTMLElement;
+        if (!this.isColumnScrollVisible()
+            || !(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')
+            || !this._listModel.isEditing()
+            || !!target.closest(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`)) {
+            return;
+        }
+        this._columnScrollViewController.scrollToElementIfHidden(target.getBoundingClientRect());
+        this._applyColumnScrollChanges();
     }
 
     //#endregion

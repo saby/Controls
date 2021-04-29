@@ -134,6 +134,10 @@ export default class DateRange extends Control<IDatePopupDateRangeOptions> {
         event.stopPropagation();
     }
 
+    protected _itemKeyDownHandler(event: Event, item, keyCode: number): void {
+        this._notify('itemKeyDown', [item, keyCode]);
+    }
+
     protected _scrollToMonth(event: Event, year: number, month: number): void {
         const newDate = new this._options.dateConstructor(year, month);
         this._notifyPositionChanged(newDate);
@@ -206,6 +210,10 @@ export default class DateRange extends Control<IDatePopupDateRangeOptions> {
                 options.ranges.months[0] === 1));
         if (this._position !== options.position) {
             this._position = options.position;
+            if (this._shouldUpdateMonthsPosition) {
+                this._monthsPosition = new Date(this._position.getFullYear(), 0);
+            }
+            this._markedKey = this._dateToId(this._position);
         }
         if (!this._singleDayHover) {
             this._hoveredStartValue = options.hoveredStartValue;

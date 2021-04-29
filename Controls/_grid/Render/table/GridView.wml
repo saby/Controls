@@ -1,5 +1,7 @@
 <ws:template name="gridView">
-    <table class="{{ _getGridViewClasses(_options) }}" style="{{ _getGridViewStyles(_options) }}">
+    <table class="{{ _getGridViewClasses(_options) }}"
+           style="{{ _getGridViewStyles(_options) }}"
+           on:focusIn="_onFocusIn()">
 
         <!-- Colgroup. Describes columns widths -->
         <ws:partial template="wml!Controls/_grid/Render/table/Colgroup" colgroup="{{ _listModel.getColgroup() }}"/>
@@ -17,10 +19,12 @@
 
         <!-- Results (top) -->
         <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'top' }}">
-            <ws:partial template="{{ _listModel.getResults().getTemplate() }}"
-                        attr:name="results"
-                        item="{{ _listModel.getResults() }}"
-                        backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
+            <thead>
+                <ws:partial template="{{ _listModel.getResults().getTemplate() }}"
+                            attr:name="results"
+                            item="{{ _listModel.getResults() }}"
+                            backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
+            </thead>
         </ws:if>
 
         <!-- Items -->
@@ -133,8 +137,8 @@
     <!-- Серверная верстка таблицы с горизонтальным скролом и колонками изначально прокрученными вконец -->
     <ws:if data="{{ _showFakeGridWithColumnScroll }}">
         <ws:partial template="gridView" attr:class="controls-Grid__ColumnScroll__fixedPart"/>
-        <div class="{{ _getColumnScrollFakeShadowClasses('start') }}"
-             style="{{ _getColumnScrollFakeShadowStyles('start') }}"></div>
+        <div class="{{ _columnScrollViewController.getColumnScrollFakeShadowClasses('start', _options.needBottomPadding) }}"
+             style="{{ _columnScrollViewController.getColumnScrollFakeShadowStyles('start') }}"></div>
         <div class="controls-Grid__ColumnScroll__scrollablePart">
             <ws:partial template="gridView"/>
         </div>

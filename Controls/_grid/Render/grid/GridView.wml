@@ -1,5 +1,6 @@
 <ws:template name="gridView">
     <div class="{{ _getGridViewClasses(_options) }}"
+         on:focusIn="_onFocusIn()"
          style="{{ _getGridViewStyles(_options) }}">
 
         <!-- Header -->
@@ -7,7 +8,9 @@
             <ws:partial template="{{ _listModel.getHeader().getRow().getTemplate() }}"
                         attr:name="header"
                         item="{{ _listModel.getHeader().getRow() }}"
-                        backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
+                        backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
+                        on:click="_onHeaderRowClick()"
+            />
         </ws:if>
         <!-- Results (top) -->
         <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'top' }}">
@@ -122,8 +125,8 @@
     <!-- Серверная верстка таблицы с горизонтальным скролом и колонками изначально прокрученными вконец -->
     <ws:if data="{{ _showFakeGridWithColumnScroll }}">
         <ws:partial template="gridView" attr:class="controls-Grid__ColumnScroll__fixedPart"/>
-        <div class="{{ _getColumnScrollFakeShadowClasses('start') }}"
-             style="{{ _getColumnScrollFakeShadowStyles('start') }}"></div>
+        <div class="{{ _columnScrollViewController.getColumnScrollFakeShadowClasses('start', _options.needBottomPadding) }}"
+             style="{{ _columnScrollViewController.getColumnScrollFakeShadowStyles('start') }}"></div>
         <div class="controls-Grid__ColumnScroll__scrollablePart">
             <ws:partial template="gridView"/>
         </div>

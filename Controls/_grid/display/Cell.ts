@@ -34,6 +34,8 @@ export interface IOptions<T> extends IColspanParams {
     isFixed?: boolean;
     isLadderCell?: boolean;
     columnSeparatorSize?: string;
+    backgroundStyle?: string;
+    isSticked?: boolean;
     rowSeparatorSize?: string;
 }
 
@@ -55,12 +57,15 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$isHiddenForLadder: boolean;
     protected _$instanceId: string;
     protected _$colspan: number;
+    protected _$rowspan: number;
     protected _$isFixed: boolean;
     protected _$isSingleColspanedCell: boolean;
     protected _$isLadderCell: boolean;
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
     protected _$markerPosition: 'left' | 'right';
+    protected _$isSticked: boolean;
+    protected _$backgroundStyle: string;
 
     constructor(options?: IOptions<T>) {
         super();
@@ -164,7 +169,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     // endregion
 
     getRowspan(): number {
-        return 1;
+        return this._$rowspan || 1;
     }
 
     getRowspanStyles(): string {
@@ -200,9 +205,13 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     // endregion
 
     // region Аспект "Стилевое оформление. Классы и стили"
-    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
+    getWrapperClasses(theme: string,
+                      backgroundColorStyle: string,
+                      style: string = 'default',
+                      templateHighlightOnHover?: boolean,
+                      templateHoverBackgroundStyle?: string): string {
         const hasColumnScroll = this._$owner.hasColumnScroll();
-        const hoverBackgroundStyle = this._$owner.getHoverBackgroundStyle();
+        const hoverBackgroundStyle = templateHoverBackgroundStyle || this._$owner.getHoverBackgroundStyle();
 
         let wrapperClasses = '';
 
@@ -218,7 +227,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             wrapperClasses += ' controls-Grid__row-cell-editing';
         }
 
-        wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(theme, style, templateHighlightOnHover, backgroundColorStyle, hoverBackgroundStyle)}`;
+        wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(theme, style, backgroundColorStyle, templateHighlightOnHover, hoverBackgroundStyle)}`;
 
         if (this._$owner.hasColumnScroll()) {
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
@@ -232,25 +241,52 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _getBackgroundColorWrapperClasses(
        theme: string,
        style: string = 'default',
-       templateHighlightOnHover?: boolean,
        backgroundColorStyle?: string,
+       templateHighlightOnHover?: boolean,
        hoverBackgroundStyle?: string
     ): string {
         let wrapperClasses = '';
-        const isSingleCellEditableMode = this._$owner.getEditingConfig()?.mode === 'cell';
-        if (this._$owner.isEditing() && !isSingleCellEditableMode) {
+
+        if (this._$owner.getEditingConfig()?.mode === 'cell') {
+            return '';
+        }
+
+        if (this._$owner.isEditing()) {
             const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
-            wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
-        } else if (!isSingleCellEditableMode && templateHighlightOnHover !== false) {
+            return ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
+
+        }
+
+        if (templateHighlightOnHover !== false) {
             wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle} `;
+        }
 
-            if (backgroundColorStyle !== 'default') {
-                wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle}`;
-            }
+        const hasColumnScroll = this.getOwner().hasColumnScroll();
 
-            if (backgroundColorStyle || this.getOwner().hasColumnScroll()) {
-                wrapperClasses += ` controls-background-${backgroundColorStyle || style}`;
-            }
+        // backgroundColorStyle имеет наивысший приоритет после isEditing
+        if (backgroundColorStyle && backgroundColorStyle !== 'default') {
+            wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle}`;
+
+        // Если на списке есть скролл колонок или ячейка застикана, то ей надо выставить backgroundStyle
+        // Сюда же попадаем, если backgroundColorStyle = default
+        } else if (hasColumnScroll || this._$isSticked) {
+            wrapperClasses += this._getControlsBackgroundClass(style, backgroundColorStyle);
+        }
+        return wrapperClasses;
+    }
+
+    // Вынес в отдельный метод, чтобы не проверять editing для header/footer/results
+    protected _getControlsBackgroundClass(style: string = 'default',
+                                          backgroundColorStyle: string): string {
+        let wrapperClasses = '';
+        if (backgroundColorStyle) {
+            wrapperClasses += ` controls-background-${backgroundColorStyle}`;
+        }
+        if (this._$backgroundStyle === 'default' && style !== 'default') {
+            wrapperClasses += ` controls-background-${style}`;
+
+        } else {
+            wrapperClasses += ` controls-background-${this._$backgroundStyle}`;
         }
         return wrapperClasses;
     }
@@ -296,6 +332,9 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
         if (this._$isHiddenForLadder) {
             contentClasses += ' controls-Grid__row-cell__content_hiddenForLadder';
+
+            // Для лесенки критична установка этого стиля именно в Content
+            contentClasses += ` controls-background-${this._$backgroundStyle}`;
         }
 
         if (backgroundColorStyle) {
@@ -548,10 +587,13 @@ Object.assign(Cell.prototype, {
     _$owner: null,
     _$column: null,
     _$colspan: null,
+    _$rowspan: null,
     _$instanceId: null,
     _$rowSeparatorSize: null,
     _$columnSeparatorSize: null,
     _$markerPosition: undefined,
+    _$backgroundStyle: 'default',
+    _$isSticked: null,
 
     _$isFixed: null,
     _$isSingleColspanedCell: null,

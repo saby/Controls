@@ -74,7 +74,8 @@
 
 <ws:if data="{{ (item || itemData).isSticked() }}">
     <Controls.scroll:Group>
-        <div class="{{ (item || itemData).getItemClasses({
+        <div attr:data-qa="{{(item || itemData).getQAData(marker)}}"
+             attr:class="{{ (item || itemData).getItemClasses({
                 'highlightOnHover': highlightOnHover,
                 'theme': theme,
                 'style': style,
@@ -88,7 +89,7 @@
                                               backgroundStyle="{{backgroundStyle}}"
                                               shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
                                               fixedZIndex="{{ column.getZIndex()}}"
-                                              attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
+                                              attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover, hoverBackgroundStyle) }}"
                                               attr:style="{{ column.getWrapperStyles(containerSize) }}">
                     <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
                 </Controls.scroll:StickyHeader>
@@ -97,7 +98,8 @@
     </Controls.scroll:Group>
 </ws:if>
 <ws:else>
-    <div class="{{ (item || itemData).getItemClasses({
+    <div attr:data-qa="{{(item || itemData).getQAData(marker)}}"
+         attr:class="{{ (item || itemData).getItemClasses({
                 'highlightOnHover': highlightOnHover,
                 'theme': theme,
                 'style': style,
@@ -106,7 +108,7 @@
                 'showItemActionsOnHover': showItemActionsOnHover
             }) }}">
         <ws:for data="column in (item || itemData).getColumns()">
-            <div class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
+            <div class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover, hoverBackgroundStyle) }}"
                  style="{{ column.getWrapperStyles(containerSize) }}">
                 <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
             </div>

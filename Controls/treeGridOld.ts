@@ -20,6 +20,7 @@ import {SearchView, SearchItemTpl} from 'Controls/_treeGridOld/SearchView';
 import * as SearchBreadCrumbsItemTemplate from 'wml!Controls/_treeGridOld/SearchView/SearchBreadCrumbsItemTemplate';
 import TreeGridView = require('Controls/_treeGridOld/TreeGridView/TreeGridView');
 import RowEditor = require('wml!Controls/_treeGridOld/TreeGrid/RowEditor');
+import * as _NodeFooterChooser from 'wml!Controls/_treeGridOld/TreeGridView/layout/common/NodeFooterChooser';
 
 // FIXME: при обычном условном присвоении шаблона tmpl = isAny ? tmpl1 : tmpl2, переменной один раз присвоится значение и не будет меняться.
 //  В таком случае возникает ошибка при открытии одной страницы из разных браузеров (Chrome и IE), с сервера всегда будет возвращаться один и тот же шаблон,
@@ -46,6 +47,7 @@ export {
     SearchItemTpl,
     SearchBreadCrumbsItemTemplate,
     TreeGridView,
-    RowEditor
+    RowEditor,
+    _NodeFooterChooser
 };
 export {IReloadableTreeGrid} from 'Controls/_treeGridOld/interface/IReloadableTreeGrid';

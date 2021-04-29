@@ -79,8 +79,9 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
         let wrapperClasses = 'controls-Grid__results-cell'
                             + ` controls-Grid__cell_${style}`
                             + ` ${this._getWrapperPaddingClasses(theme)}`
-                            + ` ${this._getColumnSeparatorClasses(theme)}`
-                            + ` controls-background-${backgroundColorStyle || style}`;
+                            + ` ${this._getColumnSeparatorClasses(theme)}`;
+
+        wrapperClasses += this._getControlsBackgroundClass(style, backgroundColorStyle);
 
         if (this._$column.align) {
             wrapperClasses += ` controls-Grid__row-cell__content_halign_${this._$column.align}`;

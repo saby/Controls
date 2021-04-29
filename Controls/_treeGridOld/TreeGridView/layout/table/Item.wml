@@ -180,7 +180,8 @@
     </ws:if>
 </ws:template>
 
-<tr class="{{ itemData.getRowClasses(_options) }}">
+<tr  attr:data-qa="{{itemData.getQAData(marker)}}"
+     attr:class="{{ itemData.getRowClasses(_options) }}">
    <ws:if data="{{colspanNodes && itemData.dispItem.isNode()}}">
        {{itemData.resetColumnIndex();}}
        <ws:if data="{{itemData.hasMultiSelectColumn}}">

@@ -52,6 +52,7 @@ export const TILE_SIZES = {
 export interface IOptions<S extends Model = Model> extends ICollectionItemOptions<S> {
     tileSize: 's' | 'm' | 'l';
     tileMode: string;
+    tileScalingMode: string;
     tileHeight: number;
     tileWidth: number;
     tileWidthProperty: string;
@@ -61,6 +62,12 @@ export interface IOptions<S extends Model = Model> extends ICollectionItemOption
     imageHeightProperty: string;
     imageWidthProperty: string;
     imageUrlResolver: Function;
+}
+
+interface ITileSize {
+    width: number;
+    imageHeight?: number;
+    imageWidth?: number;
 }
 
 export default abstract class TileItem<T extends Model = Model> {
@@ -164,7 +171,11 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getTileWidth(widthTpl?: number): number {
+    getTileWidth(widthTpl?: number, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): number {
+        if (this.getTileSize()) {
+            return this.getTileSizes(imagePosition, imageViewMode).width;
+        }
+
         const imageHeight = this.getImageHeight();
         const imageWidth = this.getImageWidth();
         const itemWidth = widthTpl || object.getPropertyValue<number>(this.getContents(), this.getTileWidthProperty())
@@ -198,13 +209,13 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getTileSizes(imagePosition: string = 'top', imageViewMode: string = 'rectangle'): object {
+    getTileSizes(imagePosition: string = 'top', imageViewMode: string = 'rectangle'): ITileSize {
         if (!this.getTileSize()) {
             return null;
         }
 
         const sizeParams = object.clone(TILE_SIZES[this.getTileSize()]);
-        const tileSizes = sizeParams[imagePosition === 'top' ? 'vertical' : 'horizontal'];
+        const tileSizes: ITileSize = sizeParams[imagePosition === 'top' ? 'vertical' : 'horizontal'];
         if (imagePosition === 'top') {
             tileSizes.imageWidth = null;
             if (imageViewMode !== 'rectangle') {
@@ -239,11 +250,11 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getAutoResizerStyles(itemType: string = 'default', width?: number, imageProportion?: number): string {
+    getAutoResizerStyles(itemType: string = 'default', width?: number, imageProportion?: number, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
         if (itemType === 'rich') {
             return ` padding-top: ${100 * imageProportion}%`;
         }
-        return `padding-top: ${(this.getTileHeight() / this.getTileWidth(width)) * 100}%;`;
+        return `padding-top: ${(this.getTileHeight() / this.getTileWidth(width, imagePosition, imageViewMode)) * 100}%;`;
     }
 
     getAutoResizerClasses(itemType: string = 'default', staticHeight?: boolean, hasTitle?: boolean): string {
@@ -465,11 +476,11 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getImageUrl(widthTpl?: number): string {
+    getImageUrl(widthTpl?: number, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
         const baseUrl = object.getPropertyValue<string>(this.getContents(), this.getImageProperty());
         if (this.getImageFit() === 'cover') {
             const imageSizes = getImageSize(
-                this.getTileWidth(widthTpl),
+                this.getTileWidth(widthTpl, imagePosition, imageViewMode),
                 this.getTileHeight(),
                 this.getTileMode(),
                 this.getImageHeight(),
@@ -511,7 +522,7 @@ export default abstract class TileItem<T extends Model = Model> {
                 classes += ` controls-TileView__image_align_${imageAlign} `;
 
                 const imageRestrictions = this.getImageFit() === 'cover'
-                    ? getImageRestrictions(this.getImageHeight(), this.getImageWidth(), this.getTileHeight(), this.getTileWidth(widthTpl))
+                    ? getImageRestrictions(this.getImageHeight(), this.getImageWidth(), this.getTileHeight(), this.getTileWidth(widthTpl, imagePosition, imageViewMode))
                     : {};
                 classes += getImageClasses(this.getImageFit(), imageRestrictions);
                 break;
@@ -722,8 +733,8 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getItemStyles(itemType: string = 'default', templateWidth?: number, staticHeight?: boolean): string {
-        const width = this.getTileWidth(templateWidth);
+    getItemStyles(itemType: string = 'default', templateWidth?: number, staticHeight?: boolean, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
+        const width = this.getTileWidth(templateWidth, imagePosition, imageViewMode);
         if (this.getTileMode() === 'dynamic') {
             const flexBasis = width * this.getCompressionCoefficient();
             if (itemType === 'invisible') {
@@ -741,7 +752,7 @@ export default abstract class TileItem<T extends Model = Model> {
             }
         } else {
             let styles = `-ms-flex-preferred-size: ${width}px; flex-basis: ${width}px;`;
-            if (staticHeight && itemType !== 'rich') {
+            if (staticHeight && itemType !== 'rich' && itemType !== 'invisible') {
                 styles += ` height: ${this.getTileHeight()}px;`;
             }
             return styles;
@@ -756,13 +767,14 @@ export default abstract class TileItem<T extends Model = Model> {
         highlightOnHover?: boolean,
         backgroundColorStyle?: string,
         height?: string,
-        border?: boolean
+        border?: boolean,
+        titleStyle: string = 'light'
     ): string {
         if (itemType === 'small') {
             return this.canShowActions() ? 'controls-ListView__item_showActions' : '';
         }
 
-        let classes = 'controls-TileView__itemContent controls-TileView__itemContent js-controls-ListView__measurableContainer';
+        let classes = 'controls-TileView__itemContent js-controls-ListView__measurableContainer';
 
         if (height === 'auto') {
             classes += ' controls-TileView__item_autoHeight';
@@ -781,9 +793,13 @@ export default abstract class TileItem<T extends Model = Model> {
             classes += this.getMarkerClasses(marker, border);
         }
 
+        if (titleStyle === 'accent') {
+            classes += ' controls-TileView__itemContent_accent';
+        }
+
         classes += ` controls-ListView__item_shadow_${this.getShadowVisibility(templateShadowVisibility)}`;
         if (this.isActive()) {
-            classes += ` controls-TileView__item_active`;
+            classes += ' controls-TileView__item_active';
         }
         if (this.isHovered()) {
             classes += ' controls-TileView__item_hovered';
@@ -804,13 +820,13 @@ export default abstract class TileItem<T extends Model = Model> {
             classes += ' controls-TileView__item_animated';
         }
         if (this.isDragged()) {
-            classes += ` controls-ListView__item_dragging controls-ListView__itemContent_dragging`;
+            classes += ' controls-ListView__item_dragging controls-ListView__itemContent_dragging';
         }
         if (this.canShowActions()) {
             classes += ' controls-ListView__item_showActions';
         }
         if (this.isSwiped()) {
-            classes += ` controls-TileView__item_swiped`;
+            classes += ' controls-TileView__item_swiped';
         }
 
         return classes;

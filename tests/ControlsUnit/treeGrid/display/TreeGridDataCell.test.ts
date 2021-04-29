@@ -71,7 +71,7 @@ describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
              'controls-TreeGrid__row-cell_default controls-TreeGrid__row-cell__node ' +
              'controls-Grid__no-rowSeparator controls-Grid__row-cell_withRowSeparator_size-null controls-Grid__cell_fit ' +
              'controls-Grid__row-cell-background-hover-default controls-Grid__row-cell_background_master ' +
-             'controls-background-master controls-Grid__cell_spacingFirstCol_default ' +
+             'controls-Grid__cell_spacingFirstCol_default ' +
              'js-controls-ListView__measurableContainer';
          const cell = treeGridCollection.at(0).getColumns()[0];
          CssClassesAssert.isSame(cell.getWrapperClasses('master', 'master'), expected);
@@ -80,7 +80,7 @@ describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
       it('without multiselect', () => {
          const expected = ' controls-Grid__row-cell controls-Grid__cell_default controls-Grid__row-cell_default controls-Grid__row-cell_default_min_height controls-TreeGrid__row-cell ' +
             'controls-TreeGrid__row-cell_default controls-TreeGrid__row-cell__node controls-Grid__no-rowSeparator controls-Grid__row-cell_withRowSeparator_size-null controls-Grid__cell_fit ' +
-            'controls-Grid__row-cell-background-hover-default controls-Grid__cell_spacingFirstCol_default controls-background-default ' +
+            'controls-Grid__row-cell-background-hover-default controls-Grid__cell_spacingFirstCol_default ' +
             'js-controls-ListView__measurableContainer';
          const cell = treeGridCollection.at(0).getColumns()[0];
          CssClassesAssert.isSame(cell.getWrapperClasses('default', 'default'), expected);
@@ -90,7 +90,7 @@ describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
          treeGridCollection.setMultiSelectVisibility('visible');
          const expected = ' controls-Grid__row-cell controls-Grid__cell_default controls-Grid__row-cell_default controls-Grid__row-cell-checkbox controls-Grid__row-cell_default_min_height controls-Grid__no-rowSeparator ' +
             'controls-Grid__row-cell_withRowSeparator_size-null js-controls-ListView__notEditable js-controls-ColumnScroll__notDraggable controls-GridView__checkbox controls-GridView__checkbox_position-default ' +
-            'controls-Grid__row-checkboxCell_rowSpacingTop_default controls-Grid__row-cell-background-hover-default controls-background-default controls-Grid__row-cell_rowSpacingBottom_default';
+            'controls-Grid__row-checkboxCell_rowSpacingTop_default controls-Grid__row-cell-background-hover-default controls-Grid__row-cell_rowSpacingBottom_default';
          const cell = treeGridCollection.at(0).getColumns()[0];
          CssClassesAssert.isSame(cell.getWrapperClasses('default', 'default'), expected);
       });
@@ -100,7 +100,7 @@ describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
 
          const expected = ' controls-Grid__row-cell controls-Grid__cell_default controls-Grid__row-cell_default controls-Grid__row-cell_default_min_height controls-TreeGrid__row-cell ' +
             'controls-TreeGrid__row-cell_default controls-TreeGrid__row-cell__node controls-Grid__no-rowSeparator controls-Grid__row-cell_withRowSeparator_size-null controls-Grid__cell_fit ' +
-            'controls-Grid__row-cell-background-hover-default controls-background-default ' +
+            'controls-Grid__row-cell-background-hover-default ' +
             'js-controls-ListView__measurableContainer';
          const cell = treeGridCollection.at(0).getColumns()[1];
          CssClassesAssert.isSame(cell.getWrapperClasses('default', 'default'), expected);
@@ -112,10 +112,21 @@ describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
 
          const expected = ' controls-Grid__row-cell controls-Grid__cell_default controls-Grid__row-cell_default controls-Grid__row-cell-checkbox controls-Grid__row-cell_default_min_height controls-Grid__no-rowSeparator ' +
             'controls-Grid__row-cell_withRowSeparator_size-null js-controls-ListView__notEditable js-controls-ColumnScroll__notDraggable controls-GridView__checkbox controls-GridView__checkbox_position-default ' +
-            'controls-Grid__row-checkboxCell_rowSpacingTop_default controls-Grid__row-cell-background-hover-default controls-background-default controls-Grid__row-cell_rowSpacingBottom_default';
+            'controls-Grid__row-checkboxCell_rowSpacingTop_default controls-Grid__row-cell-background-hover-default controls-Grid__row-cell_rowSpacingBottom_default';
 
          const cell = treeGridCollection.at(0).getColumns()[0];
          CssClassesAssert.isSame(cell.getWrapperClasses('default', 'default'), expected);
+      });
+
+      it('not support grid', () => {
+         const sandbox = sinon.createSandbox();
+         const stubIsFullGridSupport = sandbox.stub(Display, 'isFullGridSupport');
+         stubIsFullGridSupport.returns(false);
+
+         const cell = treeGridCollection.at(0).getColumns()[0];
+         CssClassesAssert.notInclude(cell.getWrapperClasses('default', 'default'), 'controls-Grid__cell_spacingFirstCol_default');
+
+         sandbox.restore();
       });
    });
 
@@ -134,6 +145,18 @@ describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
          const expected = 'controls-TreeGridView__row-cell_innerWrapper controls-Grid__table__relative-cell-wrapper controls-Grid__table__relative-cell-wrapper_rowSeparator-null ';
          const cell = treeGridCollection.at(0).getColumns()[1];
          CssClassesAssert.isSame(cell.getRelativeCellWrapperClasses('default'), expected);
+
+         sandbox.restore();
+      });
+
+      it('left padding when not support grid', () => {
+         const sandbox = sinon.createSandbox();
+         const stubIsFullGridSupport = sandbox.stub(Display, 'isFullGridSupport');
+         stubIsFullGridSupport.returns(false);
+
+         treeGridCollection.setMultiSelectVisibility('hidden');
+         const cell = treeGridCollection.at(0).getColumns()[0];
+         CssClassesAssert.include(cell.getRelativeCellWrapperClasses('default'), 'controls-Grid__cell_spacingFirstCol_default');
 
          sandbox.restore();
       });
