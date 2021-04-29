@@ -54,7 +54,7 @@ describe('Controls/_display/Search', () => {
 
             search.each((item, index) => {
                 if (item instanceof BreadcrumbsItem) {
-                    assert.deepEqual((item.getContents() as any).map((i) => i.id), expected[index], 'at ' + index);
+                    assert.deepEqual(item.getBreadcrumbs().map((i) => i.id), expected[index], 'at ' + index);
                 } else {
                     assert.equal(item.getContents().id, expected[index], 'at ' + index);
                 }
@@ -103,7 +103,7 @@ describe('Controls/_display/Search', () => {
 
             search.each((item, index) => {
                 if (item instanceof BreadcrumbsItem) {
-                    assert.deepEqual((item.getContents() as any).map((i) => i.id), expected[index], 'at ' + index);
+                    assert.deepEqual(item.getBreadcrumbs().map((i) => i.id), expected[index], 'at ' + index);
                 } else {
                     assert.equal(item.getContents().id, expected[index], 'at ' + index);
                 }
@@ -243,7 +243,7 @@ describe('Controls/_display/Search', () => {
             assert.notExists(search.getPrevious(item));
 
             item = search.at(10); // id = d
-            assert.isUndefined(search.getPrevious(item).getContents().id, 'C');
+            assert.equal(search.getPrevious(item).getContents().id, 'C');
         });
     });
 });

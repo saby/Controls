@@ -46,6 +46,12 @@ export default class BreadcrumbsItem<T extends Model = Model> extends Collection
          return current;
     }
 
+    /**
+     * Признак на основании которого в шаблоне можно отличить модель обычного итема от
+     * модели итема для хлебной крошки
+     */
+    readonly isBreadcrumbs: boolean = true;
+
     constructor(options?: IOptions<T>) {
         super(options);
     }
@@ -53,6 +59,11 @@ export default class BreadcrumbsItem<T extends Model = Model> extends Collection
     // region Public methods
 
     getContents(): T {
+        const breadcrumbs = this.getBreadcrumbs();
+        return breadcrumbs[breadcrumbs.length - 1];
+    }
+
+    getBreadcrumbs(): T[] {
         const root = this._$owner ? this._$owner.getRoot() : {};
         let current = this._$last;
         const contents = [];
@@ -66,7 +77,7 @@ export default class BreadcrumbsItem<T extends Model = Model> extends Collection
             }
         }
 
-        return contents as any;
+        return contents;
     }
 
     setContents(): void {

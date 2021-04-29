@@ -472,7 +472,7 @@ describe('Controls/marker/Controller', () => {
       controller.setMarkedKey(3);
 
       const breadcrumbItem = model.getItemBySourceKey(3);
-      items.remove(breadcrumbItem.getContents()[0]);
+      items.remove(breadcrumbItem.getContents());
 
       result = controller.onCollectionRemove(2, [breadcrumbItem]);
       assert.equal(result, 2);
