@@ -1,4 +1,4 @@
-<ws:partial template="{{_validationContainer}}" on:valueChanged="_valueChangedHandler()" validators="{{_validators}}" name="validator">
+<ws:partial template="{{_validationContainer}}" value="{{ _options.value }}" on:valueChanged="_valueChangedHandler()" validators="{{_validators}}" name="validator">
     <ws:content>
         <Controls._input.DateTime.Mask
                 contrastBackground="{{ _options.contrastBackground }}"
