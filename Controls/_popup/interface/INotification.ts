@@ -1,7 +1,6 @@
 import { IOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
-import {IControlOptions} from 'UI/Base';
 
-export interface INotificationPopupOptions extends IBasePopupOptions, IControlOptions {
+export interface INotificationPopupOptions extends IBasePopupOptions {
     autoClose?: boolean;
 }
 
@@ -69,7 +68,7 @@ export interface INotificationOpener extends IOpener {
 
 /**
  * Статический метод для открытия нотификационного окна. При использовании метода не требуется создавать popup:Notification в верстке.
- * @function 
+ * @function
  * @name Controls/_popup/interface/INotificationOpener#openPopup
  * @param {Controls/_popup/interface/INotificationOpener/PopupOptions.typedef} config Конфигурация окна.
  * @returns {Promise<string>} Возвращает Promise, который в качестве результата вернет идентификатор окна.
@@ -103,7 +102,7 @@ export interface INotificationOpener extends IOpener {
  * Статический метод для закрытия нотификационного окна по идентификатору.
  * @function
  * @name Controls/_popup/interface/INotificationOpener#closePopup
- * @param {String} popupId Идентификатор окна. 
+ * @param {String} popupId Идентификатор окна.
  * Такой идентификатор можно получить при открытии окна методом {@link openPopup}.
  * @static
  * @remark
