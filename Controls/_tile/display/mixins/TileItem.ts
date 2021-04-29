@@ -954,6 +954,7 @@ export default abstract class TileItem<T extends Model = Model> {
                 break;
             case 'small':
                 classes += ' controls-TileView__smallTemplate_title';
+                break;
             case 'rich':
                 classes += 'controls-TileView__richTemplate_itemContent ws-ellipsis';
                 break;
