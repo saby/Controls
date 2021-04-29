@@ -66,7 +66,7 @@ class DateTime extends Control {
     protected _model: Model;
 
     protected _validators: Function[] = [];
-    private _shouldValidate: boolean;
+    private _shouldResetValidation: boolean;
 
     protected _beforeMount(options): void {
         this._updateDateConstructor(options);
@@ -87,9 +87,9 @@ class DateTime extends Control {
         if (this._options.validateByFocusOut !== options.validateByFocusOut) {
             this._updateValidationController(options);
         }
-        // Если значение поменялось из кода - валидируем
+        // Если значение поменялось из кода - сбрасываем валидацию
         if (this._model.value !== options.value) {
-            this._shouldValidate = true;
+            this._shouldResetValidation = true;
         }
         if (options.value !== this._options.value) {
             this._model.update({
@@ -103,9 +103,9 @@ class DateTime extends Control {
     }
 
     protected _afterUpdate(options): void {
-        if (this._shouldValidate) {
-            this.validate();
-            this._shouldValidate = false;
+        if (this._shouldResetValidation) {
+            this.setValidationResult(null);
+            this._shouldResetValidation = false;
         }
     }
 
