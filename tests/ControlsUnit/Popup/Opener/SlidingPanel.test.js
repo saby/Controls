@@ -225,6 +225,29 @@ define(
                sandbox.restore();
             });
 
+            it('elementDestroyed before elementCreated', (resolve) => {
+               const sandbox = sinon.sandbox.create();
+               const item = getPopupItem();
+               const SlidingPanelStrategy = new StrategyConstructor();
+               SlidingPanelStrategy._getWindowHeight = () => 900;
+               sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
+               sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
+                  return {
+                     height: item.position.height
+                  };
+               });
+
+               item.position = SlidingPanelStrategy.getPosition(item);
+
+               item.sizes = {};
+
+               const result = Controller.elementDestroyed(item);
+
+               assert.isTrue(result instanceof Promise);
+               result.then(resolve);
+               sandbox.restore();
+            });
+
             it('safari body dragging fix', () => {
                const sandbox = sinon.sandbox.create();
                const item1 = getPopupItem();
