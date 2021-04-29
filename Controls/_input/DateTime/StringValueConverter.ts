@@ -128,7 +128,7 @@ export default class StringValueConverter {
             hours = baseValue.getHours(),
             minutes = baseValue.getMinutes(),
             seconds = baseValue.getSeconds(),
-            now = this._getNewDate();
+            now = new Date();
         if (mask.indexOf('YYYY') > -1) {
             year = now.getFullYear();
         } else if (mask.indexOf('YY') > -1) {
@@ -175,7 +175,7 @@ export default class StringValueConverter {
 
     private _getFullYearBy2DigitsYear(valueYear: number): number {
         let
-            curYear = (this._getNewDate()).getFullYear(),
+            curYear = (new Date()).getFullYear(),
             shortCurYear = curYear % 100,
             curCentury = (curYear - shortCurYear);
 
@@ -294,7 +294,7 @@ export default class StringValueConverter {
     }
 
     private _autocomplete(valueModel, autocompleteType = 'default', inputType = 'default', required:boolean = false): void {
-        let now = this._getNewDate(),
+        let now = new Date(),
             maskType = getMaskType(this._mask),
             item, itemValue, isZeroAtBeginning;
 
@@ -412,10 +412,6 @@ export default class StringValueConverter {
                 setValue(valueModel.seconds, 0);
             }
         }
-    }
-
-    private _getNewDate(): Date {
-        return new Date();
     }
 
     /**

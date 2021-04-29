@@ -167,11 +167,11 @@ define([
             it(`should return ${test.value} if "${test.stringValue}" is passed`, function() {
                let converter = new input.StringValueConverter(),
                   rDate;
-               sinon.stub(converter, '_getNewDate').returns(now);
+               const clock = sinon.useFakeTimers(now.getTime(), 'Date');
                converter.update(cMerge({ mask: test.mask, dateConstructor: Date, yearSeparatesCenturies: test.yearSeparatesCenturies }, options, { preferSource: true }));
                rDate = converter.getValueByString(test.stringValue, test.baseDate, test.autocomplete || true, test.inputMode || 'default');
                assert(dateUtils.Base.isDatesEqual(rDate, test.value), `${rDate} is not equal ${test.value}`);
-               sinon.restore();
+               clock.restore();
             });
          });
 
