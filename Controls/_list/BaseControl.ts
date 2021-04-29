@@ -6519,16 +6519,18 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             return false;
         }
 
+        // Если нет элементов, то должен отображаться глобальный индикатор
         const shouldDisplayTopIndicator = this._loadingIndicatorState === 'up' && !this._portionedSearchInProgress;
-        return this._loadToDirectionInProgress
-           ? this._showLoadingIndicator && shouldDisplayTopIndicator || this._attachLoadTopTriggerToNull
-           :  shouldDisplayTopIndicator || this._attachLoadTopTriggerToNull;
+        return (shouldDisplayTopIndicator || this._attachLoadTopTriggerToNull) && !!this._items && !!this._items.getCount();
     }
 
     _shouldDisplayMiddleLoadingIndicator(): boolean {
         // Также, не должно быть завязки на горизонтальный скролл.
         // https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
-        return !this._portionedSearchInProgress && this._showLoadingIndicator && this._loadingIndicatorState === 'all' &&
+        // Если нет элементов, то должен отображаться глобальный индикатор
+        const shouldDisplayIndicator = this._loadingIndicatorState === 'all'
+            || !!this._loadingIndicatorState && (!this._items || !this._items.getCount());
+        return shouldDisplayIndicator && !this._portionedSearchInProgress && this._showLoadingIndicator &&
            !(this._children.listView && this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible());
     }
 
@@ -6538,7 +6540,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             return false;
         }
 
-        const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down';
+        // Если нет элементов, то должен отображаться глобальный индикатор
+        const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down'
+            && !!this._items && !!this._items.getCount();
         // Если порционный поиск был прерван, то никаких ромашек не должно показываться, т.к. больше не будет подгрузок
         const isAborted = _private.getPortionedSearch(this).isAborted();
         return (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection)
