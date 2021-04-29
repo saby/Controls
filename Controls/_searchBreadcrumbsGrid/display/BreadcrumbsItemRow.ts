@@ -6,6 +6,7 @@ import {TreeChildren} from 'Controls/display';
 import SearchGridCollection from './SearchGridCollection';
 import {GridDataRow, TColspanCallbackResult} from 'Controls/grid';
 import {IColumn} from 'Controls/interface';
+import {IOptions as IBreadcrumbsItemCellOptions} from './BreadcrumbsItemCell';
 
 export interface IOptions<T extends Model> {
     owner?: SearchGridCollection<T>;
@@ -32,7 +33,9 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
 
     protected _$cellTemplate: TemplateFunction;
 
-    protected _$colspanBreadcrumbs: boolean = true;
+    protected _$colspanBreadcrumbs: boolean;
+
+    protected _$breadCrumbsMode: 'row' | 'cell';
 
     protected get _first(): SearchGridDataRow<T> {
         const root = this._$owner ? this._$owner.getRoot() : {};
@@ -126,22 +129,21 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
         }
     }
 
+    setBreadCrumbsMode(breadCrumbsMode: 'row' | 'cell'): void {
+        if (this._$breadCrumbsMode === breadCrumbsMode) {
+            return;
+        }
+
+        this._$breadCrumbsMode = breadCrumbsMode;
+        this._reinitializeColumns();
+    }
+
     isLastItem(): boolean {
         return this.getLast().getContents().getKey() === this.getOwner().getLastItem().getKey();
     }
 
     protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
-        let result = super._getColspan(column, columnIndex);
-
-        if (!result) {
-            result = this._$colspanBreadcrumbs ? 'end' : 1;
-        } else if (!this._$colspanBreadcrumbs) {
-            // Если colspanBreadcrumbs=false, то это значит что нельзя колспанинить хлебные крошки.
-            // Например, если включен горизонтальный скролл.
-            result = 1;
-        }
-
-        return result;
+        return this._$colspanBreadcrumbs ? 'end' : 1;
     }
 
     protected _getMultiSelectAccessibility(): boolean | null {
@@ -150,6 +152,13 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
     }
 
     // endregion
+
+    protected _getColumnFactoryParams(column: IColumn, columnIndex: number): Partial<IBreadcrumbsItemCellOptions<T>> {
+        return {
+            ...super._getColumnFactoryParams(column, columnIndex),
+            breadCrumbsMode: this._$breadCrumbsMode
+        };
+    }
 }
 
 Object.assign(BreadcrumbsItemRow.prototype, {
@@ -161,5 +170,6 @@ Object.assign(BreadcrumbsItemRow.prototype, {
     _$cellTemplate: 'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate',
     _$last: null,
     _$colspanBreadcrumbs: true,
-    _$hasNodeWithChildren: false
+    _$hasNodeWithChildren: false,
+    _$breadCrumbsMode: 'row'
 });
