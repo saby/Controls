@@ -369,8 +369,7 @@ export default class Controller extends mixin<
 
     getState(): IControllerState {
         const source = Controller._getSource(this._options.source);
-
-        return {
+        const state = {
             keyProperty: this.getKeyProperty(),
             source,
 
@@ -389,9 +388,12 @@ export default class Controller extends mixin<
             // FIXME sourceController не должен создаваться, если нет source
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
-            dataLoadCallback: this._options.dataLoadCallback,
-            expandedItems: this._expandedItems
+            dataLoadCallback: this._options.dataLoadCallback
         };
+        if (this._options.nodeHistoryId) {
+            state.expandedItems = this._expandedItems;
+        }
+        return state;
     }
 
     getCollapsedGroups(): TArrayGroupId {
@@ -761,7 +763,7 @@ export default class Controller extends mixin<
         if (options.nodeHistoryId) {
             return nodeHistoryUtil.restore(options.nodeHistoryId)
                 .then((restored) => {
-                    return restored || expandedItems;
+                    return restored || expandedItems || [];
                 })
                 .catch((e) => {
                     Logger.warn(e.message);

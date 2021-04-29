@@ -128,6 +128,8 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
    protected _backButtonCaption: string;
    protected _breadCrumbsItemsWithoutBackButton: Path;
    protected _expandedItems: CrudEntityKey[] = [];
+   protected _shouldSetExpandedItemsOnUpdate: boolean;
+   private _nodeHistoryId: string;
 
    private _filter: QueryWhereExpression<unknown>;
 
@@ -143,6 +145,13 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
 
       if (!options.hasOwnProperty('sourceController')) {
          this._errorRegister = new RegisterClass({register: 'dataError'});
+      }
+
+      if (options.nodeHistoryId) {
+         this._nodeHistoryId = options.nodeHistoryId;
+      }
+      if (this._nodeHistoryId && options.hasOwnProperty('expandedItems')) {
+         this._shouldSetExpandedItemsOnUpdate = true;
       }
 
       if (receivedState && options.source instanceof PrefetchProxy) {
@@ -225,6 +234,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
 
    _updateWithoutSourceControllerInOptions(newOptions: IDataOptions): void|Promise<RecordSet|Error> {
       let filterChanged;
+      let expandedItemsChanged;
 
       if (this._options.source !== newOptions.source) {
          this._source = newOptions.source;
@@ -239,12 +249,18 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          filterChanged = true;
       }
 
+      if (this._shouldSetExpandedItemsOnUpdate && !isEqual(newOptions.expandedItems, this._options.expandedItems)) {
+         expandedItemsChanged = true;
+      }
+
       const isChanged = this._sourceController.updateOptions(this._getSourceControllerOptions(newOptions));
 
       if (isChanged) {
          return this._reload(this._options);
       } else if (filterChanged) {
          this._filter = this._sourceController.getFilter();
+         this._updateContext(this._sourceController.getState());
+      } else if (expandedItemsChanged) {
          this._updateContext(this._sourceController.getState());
       }
    }
@@ -255,6 +271,9 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       if (!isEqual(sourceControllerState, this._sourceControllerState) && !this._sourceController.isLoading()) {
          this._filter = sourceControllerState.filter;
          this._items = sourceControllerState.items;
+         if (this._shouldSetExpandedItemsOnUpdate) {
+            this._expandedItems = sourceControllerState.expandedItems;
+         }
          this._updateBreadcrumbsFromSourceController();
          this._updateContext(sourceControllerState);
       }
@@ -269,8 +288,13 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
    }
 
    _listExpandedItemsChanged(event: SyntheticEvent, expandedItems: CrudEntityKey[]): void {
-      if (this._options.nodeHistoryId &&
-          this._expandedItems !== expandedItems) {
+      if (!this._nodeHistoryId) {
+         return;
+      }
+      if (this._shouldSetExpandedItemsOnUpdate) {
+         this._notify('expandedItemsChanged', [expandedItems], { bubbling: true });
+
+      } else if (this._expandedItems !== expandedItems) {
          this._sourceController.setExpandedItems(expandedItems, true);
          this._updateContext(this._sourceController.getState());
       }
@@ -380,7 +404,9 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       }
       curContext.updateConsumers();
       this._sourceControllerState = sourceControllerState;
-      this._expandedItems = sourceControllerState.expandedItems;
+      if (this._nodeHistoryId) {
+         this._expandedItems = sourceControllerState.expandedItems;
+      }
    }
 
    // https://online.sbis.ru/opendoc.html?guid=e5351550-2075-4550-b3e7-be0b83b59cb9

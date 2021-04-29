@@ -1,5 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {HierarchicalMemory, CrudEntityKey} from 'Types/source';
+import {SyntheticEvent} from 'Vdom/Vdom';
 
 import { Gadgets } from '../../DemoHelpers/DataCatalog';
 
@@ -17,6 +18,10 @@ export default class extends Control {
             keyProperty: 'id',
             data: Gadgets.getFlatData()
         });
+    }
+
+    protected _expandedItemsChanged(e: SyntheticEvent, expandedItems: []) {
+        this._expandedItems = expandedItems;
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
