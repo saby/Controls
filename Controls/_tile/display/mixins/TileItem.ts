@@ -771,7 +771,11 @@ export default abstract class TileItem<T extends Model = Model> {
         titleStyle: string = 'light'
     ): string {
         if (itemType === 'small') {
-            return this.canShowActions() ? 'controls-ListView__item_showActions' : '';
+            let classes = 'controls-TileView__smallTemplate_wrapper';
+            if (this.canShowActions()) {
+                classes += ' controls-ListView__item_showActions';
+            }
+            return classes;
         }
 
         let classes = 'controls-TileView__itemContent js-controls-ListView__measurableContainer';
@@ -839,7 +843,6 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'default':
                 break;
             case 'small':
-                styles += ' display: contents';
                 break;
             case 'medium':
                 break;
@@ -947,9 +950,8 @@ export default abstract class TileItem<T extends Model = Model> {
 
         switch (itemType) {
             case 'default':
-                break;
             case 'small':
-                break;
+                classes += ' controls-TileView__smallTemplate_title';
             case 'medium':
                 break;
             case 'rich':
@@ -973,19 +975,16 @@ export default abstract class TileItem<T extends Model = Model> {
 
         switch (itemType) {
             case 'default':
-                break;
             case 'small':
-                styles += ' display: contents;';
+            case 'preview':
                 break;
             case 'medium':
                 styles += ' width: 100%;';
                 break;
             case 'rich':
                 if ((!imageViewMode || imageViewMode === 'rectangle') && imagePosition !== 'left' && imagePosition !== 'right') {
-                    styles += `background-color: ${gradientColor}`;
+                    styles += ` background-color: ${gradientColor};`;
                 }
-                break;
-            case 'preview':
                 break;
         }
 
@@ -1007,7 +1006,6 @@ export default abstract class TileItem<T extends Model = Model> {
                 }
                 break;
             case 'small':
-                classes += ' controls-TileView__smallTemplate_title';
                 break;
             case 'medium':
                 classes += ' controls-TileView__mediumTemplate_title controls-fontweight-bold';

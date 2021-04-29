@@ -160,6 +160,24 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         }
     }
 
+    getWrapperClasses(
+        itemTypeTpl: string = 'default',
+        templateShadowVisibility?: string,
+        marker?: boolean,
+        highlightOnHover?: boolean,
+        backgroundColorStyle?: string,
+        height?: string,
+        border?: boolean,
+        titleStyle: string = 'light'
+    ): string {
+        let itemType = itemTypeTpl;
+
+        if (itemType === 'default' && this.isNode()) {
+            itemType = 'small';
+        }
+        return super.getWrapperClasses(itemType, templateShadowVisibility, marker, highlightOnHover, backgroundColorStyle, height, border, titleStyle);
+    }
+
     getWrapperStyles(itemTypeTpl: string = 'default', nodeContentTemplate?: TemplateFunction): string {
         let itemType = itemTypeTpl;
 
@@ -203,9 +221,6 @@ export default class TreeTileCollectionItem<T extends Model = Model>
                 }
                 break;
             case 'small':
-                if (this.isNode()) {
-                    classes += ' controls-TileView__smallTemplate_title_node';
-                }
                 break;
             case 'rich':
                 if (this.isNode()) {
@@ -228,7 +243,11 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         return super.getTitleWrapperStyles(itemType, imageViewMode, imagePosition, gradientColor);
     }
 
-    getTitleWrapperClasses(itemType: string = 'default', titleLines: number = 1, gradientType: string = 'dark', titleStyle: string = 'light'): string {
+    getTitleWrapperClasses(itemTypeTpl: string = 'default', titleLines: number = 1, gradientType: string = 'dark', titleStyle: string = 'light'): string {
+        let itemType = itemTypeTpl;
+        if (itemType === 'default' && this.isNode()) {
+            itemType = 'small';
+        }
         let classes = super.getTitleWrapperClasses(itemType, titleLines, gradientType, titleStyle);
         switch (itemType) {
             case 'default':
@@ -244,6 +263,9 @@ export default class TreeTileCollectionItem<T extends Model = Model>
                 }
                 break;
             case 'small':
+                if (this.isNode()) {
+                    classes += ' controls-TileView__smallTemplate_title_node';
+                }
                 break;
             case 'rich':
                 break;
@@ -271,8 +293,8 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         super.setActive(active, silent);
     }
 
-    getMultiSelectClasses(theme: string): string {
-        let classes = super.getMultiSelectClasses(theme);
+    getMultiSelectClasses(): string {
+        let classes = super.getMultiSelectClasses();
         classes = classes.replace(`controls-ListView__checkbox_position-${this.getOwner().getMultiSelectPosition()}`, '');
         classes += ' controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom';
         return classes;
