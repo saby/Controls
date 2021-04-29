@@ -1776,7 +1776,7 @@ describe('Controls/_display/Collection', () => {
             const display = new CollectionDisplay({
                 collection: list
             });
-            const spyAddFilter = spy(display, 'addFilter');
+            const spyRemoveFilter = spy(display, 'removeFilter');
             display.setGroup((item) => item.group);
             display.setGroup(null);
             assert.isTrue(spyRemoveFilter.called);
@@ -1797,7 +1797,7 @@ describe('Controls/_display/Collection', () => {
             const spyAddFilter = spy(display, 'addFilter');
             display.setGroup((item) => item.group);
             assert.isTrue(spyAddFilter.called);
-            spyAddFilter.restore()
+            spyAddFilter.restore();
         });
     });
 
