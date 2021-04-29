@@ -693,7 +693,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._expandedItems = [...expandedKeys];
         if (expandedKeys[0] === null) {
             this._getItems().forEach((item) => {
-                if (item['[Controls/_display/TreeItem]'] && item.isNode()) {
+                if (item['[Controls/_display/TreeItem]'] && item.isNode() !== null) {
                     // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
                     item.setExpanded(true);
                 }
