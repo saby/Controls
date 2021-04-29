@@ -5470,7 +5470,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _beforeEndEditCallback(item: Model, willSave: boolean, isAdd: boolean, force: boolean = false) {
+    _beforeEndEditCallback(item: Model, willSave: boolean, isAdd: boolean, force: boolean = false, sourceIndex?: number) {
         if (force) {
             this._notify('beforeEndEdit', [item, willSave, isAdd]);
             return;
@@ -5506,7 +5506,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 )
             );
 
-            return shouldUseDefaultSaving ? this._saveEditingInSource(item, isAdd) : eventResult;
+            return shouldUseDefaultSaving ? this._saveEditingInSource(item, isAdd, sourceIndex) : eventResult;
         });
     }
 
@@ -5546,11 +5546,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return this._beginEdit(userOptions);
     }
 
-    beginAdd(userOptions, targetItem: Model) {
+    beginAdd(userOptions) {
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
-        return this._beginAdd(userOptions, { addPosition: this._getEditingConfig().addPosition, targetItem });
+        return this._beginAdd(userOptions, {
+            addPosition: userOptions?.addPosition || this._getEditingConfig().addPosition,
+            targetItem: userOptions?.targetItem
+        });
     }
 
     cancelEdit() {
@@ -5744,12 +5747,16 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _saveEditingInSource(item: Model, isAdd: boolean): Promise<void> {
+    _saveEditingInSource(item: Model, isAdd: boolean, sourceIndex?: number): Promise<void> {
         return this.getSourceController().update(item).then(() => {
             // После выделения слоя логики работы с источником данных в отдельный контроллер,
             // код ниже должен переехать в него.
             if (isAdd) {
-                this._items.append([item]);
+                if (typeof sourceIndex === 'number') {
+                    this._items.add(item, sourceIndex);
+                } else {
+                    this._items.append([item]);
+                }
             }
         }).catch((error: Error) => {
             return this._processEditInPlaceError(error);

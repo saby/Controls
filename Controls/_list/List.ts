@@ -124,8 +124,8 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
         return this._options.readOnly ? Promise.reject() : this._children.listControl.beginEdit(options);
     }
 
-    beginAdd(options, targetItem: number) {
-        return this._options.readOnly ? Promise.reject() : this._children.listControl.beginAdd(options, targetItem);
+    beginAdd(options) {
+        return this._options.readOnly ? Promise.reject() : this._children.listControl.beginAdd(options);
     }
 
     cancelEdit() {

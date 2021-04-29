@@ -2,25 +2,16 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/EditInPlace/AddingItemInPosition/AddingItemInPosition';
 import {HierarchicalMemory} from 'Types/source';
 import {createGroupingSource} from 'Controls-demo/treeGridNew/Grouping/Source';
-import { IColumn } from 'Controls/grid';
 import {Model} from 'Types/entity';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _columns: IColumn[];
     protected _navigation: object;
     private _targetItemName: string = '';
     private _fakeKey: number = 123412;
 
     protected _beforeMount(): void {
-        this._columns = [{
-            displayProperty: 'title',
-            width: ''
-        }, {
-            displayProperty: 'count',
-            width: ''
-        }];
         this._navigation = {
             source: 'position',
             view: 'infinity',
@@ -35,29 +26,36 @@ export default class extends Control {
             }
         };
         this._viewSource = createGroupingSource({
-            count: 1000
+            count: 20
         });
     }
 
-    _beginAdd() {
+    _beginAdd(e, addPosition: 'top' | 'bottom') {
         const targetKey = this._targetItemName === 'null' || this._targetItemName === '' ? null : this._targetItemName.replace('item', 'key');
         const targetItem = targetKey === null ? undefined : this._children.treeGrid.getItems().getRecordById(targetKey);
         const parentKey = targetItem ? targetItem.get('parent') : null;
+        const group = targetItem ? targetItem.get('group') : 'group_1';
 
         this._children.treeGrid.beginAdd({
-            item: new Model({
-                keyProperty: 'key',
-                rawData: {
-                    key: `${ ++this._fakeKey }`,
-                    title: '',
-                    count: 0,
-                    group: 'group_1',
-                    hasChildren: false,
-                    parent: parentKey,
-                    type: null
-                }
-            })
-        }, targetItem);
+            item: this._createItem(parentKey, group),
+            targetItem,
+            addPosition
+        });
+    }
+
+    private _createItem(parent, group): Model {
+        return new Model({
+            keyProperty: 'key',
+            rawData: {
+                key: `${ ++this._fakeKey }`,
+                title: '',
+                count: 0,
+                group,
+                hasChildren: false,
+                parent,
+                type: null
+            }
+        })
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
