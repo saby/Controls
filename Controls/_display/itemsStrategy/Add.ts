@@ -143,7 +143,7 @@ export default class Add<S extends Model, T extends CollectionItem<S>> extends m
         if (typeof options.addIndex === 'number') {
             const dIndex = options.source.getDisplayIndex(options.addIndex);
             if (dIndex !== -1) {
-                return dIndex;
+                return dIndex + (options.addPosition === 'bottom' ? 1 : 0);
             }
         }
         // Индекс может расчитываться по разному в зависимости от типа элемента, но порядок должем быть таким:

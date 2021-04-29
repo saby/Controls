@@ -164,6 +164,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
         begin?: TAsyncOperationResult;
         end?: TAsyncOperationResult;
     } = {};
+    private _addParams: {targetItem?: Model, addPosition?: TAddPosition} = {};
 
     constructor(options: IEditInPlaceOptions & IEditInPlaceCallbacks) {
         super();
@@ -383,6 +384,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             }
 
             if (isAdd) {
+                this._addParams = { targetItem, addPosition };
                 this._collectionEditor.add(model, addPosition, targetItem, columnIndex);
             } else {
                 this._collectionEditor.edit(model, columnIndex);
@@ -447,7 +449,13 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
         this._operationsPromises.end = new Promise((resolve) => {
             if (this._options.onBeforeEndEdit) {
-                const result = this._options.onBeforeEndEdit(editingItem, willSave, isAdd);
+                let sourceIndex;
+                if (this._addParams.targetItem) {
+                    const collectionIndex = this._options.collection.getCollection().getIndex(this._addParams.targetItem);
+                    sourceIndex = collectionIndex + (this._addParams.addPosition === 'bottom' ? 1 : 0);
+                }
+
+                const result = this._options.onBeforeEndEdit(editingItem, willSave, isAdd, false, sourceIndex);
                 resolve(force ? void 0 : result);
             } else {
                 resolve();
@@ -459,6 +467,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             if (result === CONSTANTS.CANCEL || this.destroyed) {
                 return {canceled: true};
             }
+            this._addParams = {};
             this._collectionEditor[willSave ? 'commit' : 'cancel']();
             (this._options.collection.getCollection() as unknown as RecordSet).acceptChanges();
             return this._options?.onAfterEndEdit(editingCollectionItem, isAdd, willSave);
