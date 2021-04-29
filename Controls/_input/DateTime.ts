@@ -54,7 +54,7 @@ const VALID_PARTIAL_DATE = /^(0{2}| {2})\.(0{2}| {2})\.\d{2,4}$/;
  * @class Controls/_input/DateTime
  * @extends UI/Base:Control
  * @mixes Controls/input:IInputDateTime
- * 
+ *
  * @mixes Controls/input:IDateTimeMask
  * @mixes Controls/interface:IInputTag
  * @mixes Controls/input:IBase
@@ -89,6 +89,7 @@ class DateTime extends Control<IDateBaseOptions> {
     protected _model: Model;
 
     protected _validators: Function[] = [];
+    private _shouldResetValidation: boolean;
 
     protected _beforeMount(options: IDateBaseOptions): void {
         this._updateDateConstructor(options);
@@ -109,6 +110,10 @@ class DateTime extends Control<IDateBaseOptions> {
         if (this._options.validateByFocusOut !== options.validateByFocusOut) {
             this._updateValidationController(options);
         }
+        // Если значение поменялось из кода - сбрасываем валидацию
+        if (this._model.value !== options.value) {
+            this._shouldResetValidation = true;
+        }
         if (options.value !== this._options.value || options.displayValue !== this._options.displayValue) {
             this._model.update({
                 ...options,
@@ -118,6 +123,13 @@ class DateTime extends Control<IDateBaseOptions> {
         if (this._options.valuevalidators !== options.valueValidators || options.value !== this._options.value ||
                 options.displayValue !== this._options.displayValue) {
             this._updateValidators(options.valueValidators, options.inputMode, options.mask);
+        }
+    }
+
+    protected _afterUpdate(options): void {
+        if (this._shouldResetValidation) {
+            this.setValidationResult(null);
+            this._shouldResetValidation = false;
         }
     }
 
