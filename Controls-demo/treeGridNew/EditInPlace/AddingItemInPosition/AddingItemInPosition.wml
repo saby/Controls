@@ -1,0 +1,60 @@
+<div class="controlsDemo__wrapper" xmlns:ws="http://www.w3.org/1999/html">
+    <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height500">
+        <Controls.treeGrid:View
+                name="treeGrid"
+                source="{{_viewSource}}"
+                keyProperty="key"
+                expanderVisibility="hasChildren"
+                hasChildrenProperty="hasChildren"
+                parentProperty="parent"
+                nodeProperty="type"
+                navigation="{{_navigation}}"
+                groupProperty="group">
+            <ws:editingConfig toolbarVisibility="{{ true }}" editOnClick="{{ true }}"/>
+            <ws:columns>
+                <ws:Array>
+                    <ws:Object displayProperty="title">
+                        <ws:template>
+                            <ws:partial template="Controls/grid:ColumnTemplate">
+                                <ws:contentTemplate>
+                                    <ws:partial template="Controls/list:EditingTemplate"
+                                                value="{{ contentTemplate.item.contents['title'] }}"
+                                                itemData="{{ contentTemplate.item }}"
+                                                enabled="{{true}}">
+                                        <ws:editorTemplate>
+                                            <Controls.input:Text contrastBackground="{{true}}"
+                                                                   bind:value="contentTemplate.item.contents['title']"/>
+                                        </ws:editorTemplate>
+                                    </ws:partial>
+                                </ws:contentTemplate>
+                            </ws:partial>
+                        </ws:template>
+                    </ws:Object>
+                    <ws:Object displayProperty="count">
+                        <ws:template>
+                            <ws:partial template="Controls/grid:ColumnTemplate">
+                                <ws:contentTemplate>
+                                    <ws:partial template="Controls/list:EditingTemplate"
+                                                value="{{ contentTemplate.item.contents['count'] }}"
+                                                itemData="{{ contentTemplate.item }}"
+                                                enabled="{{true}}">
+                                        <ws:editorTemplate>
+                                                    <Controls.input:Number contrastBackground="{{true}}"
+                                                                           bind:value="contentTemplate.item.contents['count']"/>
+                                        </ws:editorTemplate>
+                                    </ws:partial>
+                                </ws:contentTemplate>
+                            </ws:partial>
+                        </ws:template>
+                    </ws:Object>
+                </ws:Array>
+            </ws:columns>
+        </Controls.treeGrid:View>
+    </Controls.scroll:Container>
+
+    <div>
+        <Controls.input:Text placeholder="Название узла (только изначально существующие)" bind:value="_targetItemName"/>
+        <Controls.list:AddButton caption="Добавить перед" on:click="_beginAdd('top')" attr:class="controlsDemo__ml3 controlsDemo__mr3"/>
+        <Controls.list:AddButton caption="Добавить после" on:click="_beginAdd('bottom')"/>
+    </div>
+</div>

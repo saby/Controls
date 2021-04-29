@@ -32,7 +32,6 @@ export interface IOptions<T extends Model = Model> {
     editingContents?: T;
     owner?: ICollection<T, CollectionItem<T>>;
     isAdd?: boolean;
-    addPosition?: 'top' | 'bottom';
     multiSelectVisibility?: string;
     multiSelectAccessibilityProperty?: string;
     rowSeparatorSize?: string;
@@ -188,15 +187,12 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     readonly isAdd: boolean;
 
-    readonly addPosition: 'top' | 'bottom';
-
     constructor(options?: IOptions<T>) {
         super();
         OptionsToPropertyMixin.call(this, options);
         SerializableMixin.call(this);
         this._counters = {};
         this.isAdd = (options && options.isAdd) || false;
-        this.addPosition = (options && options.addPosition) || 'bottom';
     }
 
     // endregion
