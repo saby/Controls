@@ -25,7 +25,7 @@ export const nodeHistoryUtil = {
                     if (result !== undefined) {
                         resolve(JSON.parse(result));
                     } else {
-                        resolve();
+                        resolve([]);
                     }
                 } catch (e) {
                     const msg = 'nodeHistoryUtil: Invalid value format for key "' + key + '"';

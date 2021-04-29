@@ -16,7 +16,7 @@ export default class extends Control {
         // В этом случае получить на SSR идентификаторы раскрытых груп невозможно.
         // Поэтому, тут такая логика: Если группы будут раскрыты при загрузке демки, то
         // функционал работает....
-        USER.set('NODE_HISTORY', JSON.stringify([1, 2]));
+        // USER.set('NODE_HISTORY', JSON.stringify([1, 2]));
 
         this._viewSource = new HierarchicalMemory({
             parentProperty: 'parent',
