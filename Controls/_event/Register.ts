@@ -44,7 +44,7 @@ export default class EventRegistrator extends Control {
       this._register.unregister(event, registerType, component, config);
    }
 
-   start(): void {
+   start(...arg: unknown[]): void {
       this._register.start.apply(this._register, arguments);
    }
 
