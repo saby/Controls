@@ -4,7 +4,7 @@ import ColumnsDragStrategy from './itemsStrategy/ColumnsDrag';
 import { Model } from 'Types/entity';
 import IColumnsStrategy from '../interface/IColumnsStrategy';
 import Auto from './columnsStrategy/Auto';
-import Fixed from './columnsStrategy/Auto';
+import Fixed from './columnsStrategy/Fixed';
 
 export default class Collection<
     S extends Model = Model,
@@ -32,7 +32,7 @@ export default class Collection<
             this._nextVersion();
         }
     }
-    
+
     protected _notifyCollectionChange(
         action: string,
         newItems: T[],
@@ -108,17 +108,17 @@ export default class Collection<
 
     processRemovingItem(item: any): boolean {
         let done = true;
-    
+
         if (!this.find((it) => it.getColumn() === item.column) && this._addingColumnsCounter > 0) {
             this._addingColumnsCounter--;
         }
-    
+
         if (item.columnIndex >= this._columnsIndexes[item.column].length) {
             done = false;
             while (!done && (item.column + 1) < this._$columnsCount) {
-    
+
                 if (this._columnsIndexes[item.column + 1].length > 0) {
-    
+
                     if (this._columnsIndexes[item.column + 1].length > 1) {
                         done = true;
                     }
@@ -132,7 +132,7 @@ export default class Collection<
         }
         return !done;
     }
-   
+
     processRemoving(removedItemsIndex: number, removedItems: CollectionItem<Model>[]): void {
         const removedItemsIndexes = removedItems.map((item, index) => {
             const column = item.getColumn();
@@ -144,7 +144,7 @@ export default class Collection<
         });
         this.updateColumnIndexesByItems();
         const needLoadMore = removedItemsIndexes.some(this.processRemovingItem.bind(this));
-    
+
         if (needLoadMore) {
             this._notify('loadMore', ['down']);
         }
