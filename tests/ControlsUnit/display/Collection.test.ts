@@ -1776,10 +1776,11 @@ describe('Controls/_display/Collection', () => {
             const display = new CollectionDisplay({
                 collection: list
             });
-
-            const spyRemoveFilter = spy(display, 'removeFilter');
+            const spyAddFilter = spy(display, 'addFilter');
+            display.setGroup((item) => item.group);
             display.setGroup(null);
             assert.isTrue(spyRemoveFilter.called);
+            spyRemoveFilter.restore();
         });
 
         it('should add grouping filter when handler was passed', () => {
@@ -1796,6 +1797,7 @@ describe('Controls/_display/Collection', () => {
             const spyAddFilter = spy(display, 'addFilter');
             display.setGroup((item) => item.group);
             assert.isTrue(spyAddFilter.called);
+            spyAddFilter.restore()
         });
     });
 
