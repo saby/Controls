@@ -501,6 +501,18 @@ const GridView = ListView.extend({
         if (this._columnScrollViewController && this.isColumnScrollVisible()) {
             this._actualizeColumnScroll(this._options);
         }
+    },
+
+    _onFocusIn(e: SyntheticEvent): void {
+        const target = e.target as HTMLElement;
+        if (!this.isColumnScrollVisible()
+            || !(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')
+            || !this._listModel.isEditing()
+            || !!target.closest(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`)) {
+            return;
+        }
+        this._columnScrollViewController.scrollToElementIfHidden(target.getBoundingClientRect());
+        this._applyColumnScrollChanges();
     }
 
     //#endregion
