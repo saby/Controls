@@ -4,6 +4,7 @@
       on:itemMouseEnter="_itemMouseEnterHandler()"
       on:itemMouseLeave="_itemMouseLeaveHandler()"
       on:mouseleave="_mouseleaveHandler()"
+      on:itemKeyDown="_itemKeyDownHandler()"
       startValue="{{_displayedStartValue}}"
       endValue="{{_displayedEndValue}}"
       selectionType="{{_options.selectionType}}"
