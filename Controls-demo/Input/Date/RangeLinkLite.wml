@@ -8,8 +8,6 @@
          </div>
          <div class="PageBlock__componentWrap ControlsDemo-RangeLinkLite_capture">
             <Controls.dateRange:RangeShortSelector
-               prevArrowVisibility="{{true}}"
-               nextArrowVisibility="{{true}}"
                bind:startValue="_startValueHalfYear"
                bind:endValue="_endValueHalfYear"
 			   attr:test_name="show_arrow_range"
@@ -58,8 +56,6 @@
          <Controls.dateRange:RangeShortSelector
                  bind:startValue="_startValueYear"
                  bind:endValue="_endValueYear"
-                 prevArrowVisibility="{{true}}"
-                 nextArrowVisibility="{{true}}"
                  readOnly="{{true}}"
                  attr:test_name="readonly"
          />

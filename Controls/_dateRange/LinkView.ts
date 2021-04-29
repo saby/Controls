@@ -26,7 +26,7 @@ export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyl
  * @extends UI/Base:Control
  * @mixes Controls/interface:IResetValues
  * @mixes Controls/interface:IFontSize
- * 
+ *
  * @mixes Controls/interface:IUnderline
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/dateRange:ICaptionFormatter
@@ -73,12 +73,6 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
       if (options.clearButtonVisibility) {
          Logger.warn('LinkView: Используется устаревшая опция clearButtonVisibility, используйте' +
              'resetStartValue и resetEndValue');
-      }
-      if (options.prevArrowVisibility) {
-         Logger.warn('LinkView: Используется устаревшая опция prevArrowVisibility, используйте контрол ArrowButton');
-      }
-      if (options.nextArrowVisibility) {
-         Logger.warn('LinkView: Используется устаревшая опция nextArrowVisibility, используйте контрол ArrowButton');
       }
    }
 

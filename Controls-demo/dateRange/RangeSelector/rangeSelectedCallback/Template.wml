@@ -1,16 +1,12 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo-RageLink__componentWrap controlsDemo-RangeLink_capture">
         <Controls.dateRange:RangeSelector
-                prevArrowVisibility="{{true}}"
-                nextArrowVisibility="{{true}}"
                 bind:startValue="_startValue"
                 bind:endValue="_endValue"
                 rangeSelectedCallback="{{rangeSelectedCallback}}"
         />
         <div>With quantum</div>
         <Controls.dateRange:RangeSelector
-                prevArrowVisibility="{{true}}"
-                nextArrowVisibility="{{true}}"
                 bind:startValue="_startValue1"
                 bind:endValue="_endValue1"
                 rangeSelectedCallback="{{rangeSelectedCallback1}}"

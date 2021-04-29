@@ -54,8 +54,6 @@ define([
                }, options),
                component = calendarTestUtils.createComponent(dateRange.RangeSelector, opts),
                TARGET = 'value';
-
-            component._options.nextArrowVisibility = true;
             component._children = {
                opener: {
                   open: sinon.fake()

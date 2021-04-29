@@ -10,8 +10,6 @@
          </div>
          <div class="controlsDemo-RageLink__componentWrap controlsDemo-RangeLink_capture">
             <Controls.dateRange:RangeSelector
-               prevArrowVisibility="{{true}}"
-               nextArrowVisibility="{{true}}"
                showClearButton="{{true}}"
                bind:startValue="_startValueHalfYear"
                bind:endValue="_endValueHalfYear"
