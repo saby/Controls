@@ -3859,9 +3859,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._notify('disableVirtualNavigation', [], { bubbling: true });
         }
 
-        if (this._needScrollCalculation && !this.__error) {
+        if (!this.__error) {
             this._registerObserver();
-            this._registerIntersectionObserver();
+            if (this._needScrollCalculation) {
+                this._registerIntersectionObserver();
+            }
         }
         if (this._options.itemsDragNDrop) {
             const container = this._container[0] || this._container;
@@ -4838,9 +4840,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _afterUpdate(oldOptions): void {
         this._loadedBySourceController = false;
-        if (this._needScrollCalculation && !this.__error && !this._observerRegistered) {
+        if (!this.__error && !this._observerRegistered) {
             this._registerObserver();
-            this._registerIntersectionObserver();
+            if (this._needScrollCalculation) {
+                this._registerIntersectionObserver();
+            }
         }
         // FIXME need to delete after https://online.sbis.ru/opendoc.html?guid=4db71b29-1a87-4751-a026-4396c889edd2
         if (oldOptions.hasOwnProperty('loading') && oldOptions.loading !== this._options.loading) {
@@ -6541,25 +6545,35 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _observeScrollHandler(_: SyntheticEvent<Event>, eventName: string, params: IScrollParams): void {
-        switch (eventName) {
-            case 'scrollMoveSync':
-                this.scrollMoveSyncHandler(params);
-                break;
-            case 'viewportResize':
-                this.viewportResizeHandler(params.clientHeight, params.rect, params.scrollTop);
-                break;
-            case 'virtualScrollMove':
-                _private.throttledVirtualScrollPositionChanged(this, params);
-                break;
-            case 'canScroll':
-                this.canScrollHandler(params);
-                break;
-            case 'scrollMove':
-                this.scrollMoveHandler(params);
-                break;
-            case 'cantScroll':
-                this.cantScrollHandler(params);
-                break;
+        if (this._needScrollCalculation) {
+            switch (eventName) {
+                case 'scrollMoveSync':
+                    this.scrollMoveSyncHandler(params);
+                    break;
+                case 'viewportResize':
+                    this.viewportResizeHandler(params.clientHeight, params.rect, params.scrollTop);
+                    break;
+                case 'virtualScrollMove':
+                    _private.throttledVirtualScrollPositionChanged(this, params);
+                    break;
+                case 'canScroll':
+                    this.canScrollHandler(params);
+                    break;
+                case 'scrollMove':
+                    this.scrollMoveHandler(params);
+                    break;
+                case 'cantScroll':
+                    this.cantScrollHandler(params);
+                    break;
+            }
+        } else {
+            switch (eventName) {
+                case 'viewportResize':
+                    // размеры вью порта нужно знать всегда, независимо от navigation,
+                    // т.к. по ним рисуется глобальная ромашка
+                    this.viewportResizeHandler(params.clientHeight, params.rect, params.scrollTop);
+                    break;
+            }
         }
     }
 
