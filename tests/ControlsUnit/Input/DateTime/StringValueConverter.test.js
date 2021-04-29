@@ -158,14 +158,18 @@ define([
             // correct centuries
             { mask: 'DD.MM.YY', stringValue: '11.12.36', value: new Date(2036, 11, 11), yearSeparatesCenturies: new Date(2020, 1, 1) },
             { mask: 'DD.MM.YY', stringValue: '11.12.97', value: new Date(1997, 11, 11), yearSeparatesCenturies: new Date(1996, 1, 1) },
-            { mask: 'DD.MM.YY', stringValue: '11.12.05', value: new Date(2005, 11, 11), yearSeparatesCenturies: new Date(1996, 1, 1) }
+            { mask: 'DD.MM.YY', stringValue: '11.12.05', value: new Date(2005, 11, 11), yearSeparatesCenturies: new Date(1996, 1, 1) },
+
+            // partial inputMode exceptions
+            { mask: 'DD.MM.YY', stringValue: '__.__.21', value: new Date('Invalid'), inputMode: 'partial' },
+            { mask: 'DD.MM.YY', stringValue: '__.__.20', value: new Date('Invalid'), inputMode: 'partial' },
          ].forEach(function(test) {
             it(`should return ${test.value} if "${test.stringValue}" is passed`, function() {
                let converter = new input.StringValueConverter(),
                   rDate;
                sinon.stub(converter, '_getNewDate').returns(now);
                converter.update(cMerge({ mask: test.mask, dateConstructor: Date, yearSeparatesCenturies: test.yearSeparatesCenturies }, options, { preferSource: true }));
-               rDate = converter.getValueByString(test.stringValue, test.baseDate, test.autocomplete || true);
+               rDate = converter.getValueByString(test.stringValue, test.baseDate, test.autocomplete || true, test.inputMode || 'default');
                assert(dateUtils.Base.isDatesEqual(rDate, test.value), `${rDate} is not equal ${test.value}`);
                sinon.restore();
             });

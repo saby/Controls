@@ -29,6 +29,8 @@ import template = require('wml!Controls/_input/Date/Picker/Picker');
  * @mixes Controls/input:IBase
  * @mixes Controls/input:IValueValidators
  * @mixes Controls/interface:IOpenPopup
+ * @mixes Controls/input:IInputDisplayValueValidators
+ *
  * @public
  * @demo Controls-demo/Input/Date/Picker
  * @author Красильников А.С.

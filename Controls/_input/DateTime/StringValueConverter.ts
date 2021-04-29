@@ -4,6 +4,7 @@ import {DateTime} from 'Types/entity';
 import {date as DateFormatter} from 'Types/formatter';
 import {Range, Base as dateUtils} from 'Controls/dateUtils';
 import {getMaskType, DATE_MASK_TYPE, DATE_TIME_MASK_TYPE, TIME_MASK_TYPE} from './Utils';
+import {INPUT_MODE} from 'Controls/_input/interface/IInputDisplayValue';
 
 const MASK_MAP: object = {
     YY: 'year',
@@ -83,9 +84,11 @@ export default class StringValueConverter {
      * @param str Date in accordance with the mask.
      * @param baseValue The base date. Used to fill parts of the date that are not in the mask.
      * @param autoCompleteType Autocomplete mode.
+     * @param inputType
+     * @param required
      * @returns {Date} Date object
      */
-    getValueByString(str, baseValue, autoCompleteType, required): DateTime | Date {
+    getValueByString(str, baseValue, autoCompleteType, inputType, required): DateTime | Date {
         let valueModel;
 
         if (this._isEmpty(str)) {
@@ -104,7 +107,7 @@ export default class StringValueConverter {
             return new this._dateConstructor('Invalid');
         }
         if (autoCompleteType && !this._isValueModelFilled(valueModel) && !(this._isEmpty(str))) {
-            this._autocomplete(valueModel, autoCompleteType, required);
+            this._autocomplete(valueModel, autoCompleteType, inputType, required);
         }
 
         if (this._isValueModelFilled(valueModel)) {
@@ -290,7 +293,7 @@ export default class StringValueConverter {
         }
     }
 
-    private _autocomplete(valueModel, autocompleteType, required): void {
+    private _autocomplete(valueModel, autocompleteType = 'default', inputType = 'default', required:boolean = false): void {
         let now = this._getNewDate(),
             maskType = getMaskType(this._mask),
             item, itemValue, isZeroAtBeginning;
@@ -372,20 +375,28 @@ export default class StringValueConverter {
                         }
                     } else {
                         // Current year is filled
-                        setValue(valueModel.month, now.getMonth());
-                        setValue(valueModel.date, getDate());
+                        if (inputType !== INPUT_MODE.partial ||
+                                (!valueModel.month.valid && valueModel.date.valid) ||
+                                (valueModel.month.valid && !valueModel.date.valid)) {
+                            setValue(valueModel.month, now.getMonth());
+                            setValue(valueModel.date, getDate());
+                        }
                     }
                 } else {
                     // A year is different from the current one
-                    if (autocompleteType === 'end') {
-                        setValue(valueModel.month, 11);
-                    } else {
-                        setValue(valueModel.month, 0);
+                    if (inputType !== INPUT_MODE.partial || !valueModel.date.valid) {
+                        if (autocompleteType === 'end') {
+                            setValue(valueModel.month, 11);
+                        } else {
+                            setValue(valueModel.month, 0);
+                        }
                     }
-                    if (autocompleteType === 'end') {
-                        setValue(valueModel.date, 31);
-                    } else {
-                        setValue(valueModel.date, 1);
+                    if (inputType !== INPUT_MODE.partial || !valueModel.month.valid) {
+                        if (autocompleteType === 'end') {
+                            setValue(valueModel.date, 31);
+                        } else {
+                            setValue(valueModel.date, 1);
+                        }
                     }
                 }
             } else if (valueModel.date.valid) {
