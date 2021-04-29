@@ -1,5 +1,7 @@
 <ws:template name="gridView">
-    <table class="{{ _getGridViewClasses(_options) }}" style="{{ _getGridViewStyles(_options) }}">
+    <table class="{{ _getGridViewClasses(_options) }}"
+           style="{{ _getGridViewStyles(_options) }}"
+           on:focusIn="_onFocusIn()">
 
         <!-- Colgroup. Describes columns widths -->
         <ws:partial template="wml!Controls/_grid/Render/table/Colgroup" colgroup="{{ _listModel.getColgroup() }}"/>

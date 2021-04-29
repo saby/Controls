@@ -348,6 +348,13 @@ export default class ColumnScroll {
         });
     }
 
+    scrollToElementIfHidden(columnRect: DOMRect): void {
+        if (this._columnScroll) {
+            this._columnScroll.scrollToElementIfHidden(columnRect);
+            this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
+        }
+    }
+
     getScrollBarStyles(itemActionsPosition, stickyColumns: number = 0): string {
         let offset = 0;
         let lastCellOffset = 0;
