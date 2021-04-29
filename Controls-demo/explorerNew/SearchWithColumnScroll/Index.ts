@@ -17,7 +17,6 @@ export default class extends Control {
     protected _filter: Record<string, unknown> = { demo: 123 };
     private _isBigData: boolean = false;
     private _canSetConfig: boolean = false;
-    private _colspanBreadcrumbs: boolean = false;
     protected _isStickyColumnsCount: boolean = false;
 
     protected _beforeMount(): void {
@@ -61,22 +60,10 @@ export default class extends Control {
                 }
             ]
         });
-
-        this._colspanCallback = this._colspanCallback.bind(this);
     }
 
     protected _reload(): void {
         this._children.explorer.reload();
-    }
-
-    protected _colspanCallback(item, column, columnIndex, isEditing): number|string|void {
-        if (item.length > 0 && this._canSetConfig) {
-            if (this._colspanBreadcrumbs) {
-                return 'end';
-            } else {
-                return 1;
-            }
-        }
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
