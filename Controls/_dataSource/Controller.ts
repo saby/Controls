@@ -83,23 +83,30 @@ enum NAVIGATION_DIRECTION_COMPATIBILITY {
     down = 'forward'
 }
 
+function getModelModuleName(model: string|Function): string {
+    let name;
+
+    if (typeof model === 'function') {
+        name = model.prototype._moduleName;
+    } else {
+        name = model;
+    }
+
+    return name;
+}
+
+function isEqualFormat(oldList: RecordSet, newList: RecordSet): boolean {
+    const oldListFormat = oldList && oldList.hasDeclaredFormat() && oldList.getFormat(true);
+    const newListFormat = newList && newList.hasDeclaredFormat() && newList.getFormat(true);
+    return (oldListFormat && newListFormat && oldListFormat.isEqual(newListFormat)) ||
+           (!oldListFormat && !newListFormat);
+}
+
 export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
     const getProtoOf = Object.getPrototypeOf.bind(Object);
     const items1Model = oldList.getModel();
     const items2Model = newList.getModel();
     let isModelEqual = items1Model === items2Model;
-
-    function getModelModuleName(model: string|Function): string {
-        let name;
-
-        if (typeof model === 'function') {
-            name = model.prototype._moduleName;
-        } else {
-            name = model;
-        }
-
-        return name;
-    }
 
     if (!isModelEqual && (getModelModuleName(items1Model) === getModelModuleName(items2Model))) {
         isModelEqual = true;
@@ -110,7 +117,8 @@ export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
         // tslint:disable-next-line:triple-equals
         (getProtoOf(newList).constructor == getProtoOf(newList).constructor) &&
         // tslint:disable-next-line:triple-equals
-        (getProtoOf(newList.getAdapter()).constructor == getProtoOf(oldList.getAdapter()).constructor);
+        (getProtoOf(newList.getAdapter()).constructor == getProtoOf(oldList.getAdapter()).constructor) &&
+        isEqualFormat(newList, oldList);
 }
 
 export default class Controller extends mixin<
