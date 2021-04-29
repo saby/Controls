@@ -950,10 +950,10 @@ export default abstract class TileItem<T extends Model = Model> {
 
         switch (itemType) {
             case 'default':
-            case 'small':
-                classes += ' controls-TileView__smallTemplate_title';
             case 'medium':
                 break;
+            case 'small':
+                classes += ' controls-TileView__smallTemplate_title';
             case 'rich':
                 classes += 'controls-TileView__richTemplate_itemContent ws-ellipsis';
                 break;
