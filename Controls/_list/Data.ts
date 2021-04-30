@@ -37,6 +37,8 @@ export interface IDataOptions extends IControlOptions,
    groupHistoryId?: string;
    historyIdCollapsedGroups?: string;
    sourceController?: SourceController;
+   expandedItems?: CrudEntityKey[];
+   nodeHistoryId?: string;
 }
 
 export interface IDataContextOptions extends ISourceOptions,
@@ -150,7 +152,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       if (options.nodeHistoryId) {
          this._nodeHistoryId = options.nodeHistoryId;
       }
-      if (this._nodeHistoryId && options.expandedItems) {
+      if (options.expandedItems) {
          this._shouldSetExpandedItemsOnUpdate = true;
       }
 
@@ -174,6 +176,10 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       this._dataOptionsContext = this._createContext(controllerState);
 
       if (options.sourceController) {
+         // Если контроллер задан выше, чем появилось дерево, то надо установить в него expandedItems из опций
+         if (options.expandedItems && !controllerState.expandedItems) {
+            options.sourceController.setExpandedItems(options.expandedItems);
+         }
          if (!controllerState.dataLoadCallback && options.dataLoadCallback) {
             options.dataLoadCallback(options.sourceController.getItems());
          }
