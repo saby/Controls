@@ -8,7 +8,7 @@
          </div>
          <div class="PageBlock__componentWrap ControlsDemo-RangeLinkLite_capture">
             <Controls.dateRange:DateRangeContextProvider>
-               <div class="controlsDemo__flex" style="min-width: 171px;">
+               <div class="controlsDemo__flex controlsDemo__flex-js-center">
                   <Controls.dateRange:RangeShortSelectorConsumer
                           bind:startValue="_startValueHalfYear"
                           bind:endValue="_endValueHalfYear"

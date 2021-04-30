@@ -26,7 +26,7 @@ define('Controls-demo/Input/Date/RangeLink', [
          return 'Custom range format';
       }
    });
-   ModuleClass._styles = ['Controls-demo/Input/Date/RangeLink'];
+   ModuleClass._styles = ['Controls-demo/Input/Date/RangeLink', 'Controls-demo/Controls-demo'];
 
    return ModuleClass;
 });
