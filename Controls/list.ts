@@ -144,8 +144,8 @@ export {
     IListNavigation
 };
 
-import {groupConstants} from './display';
+import {groupConstants, IHiddenGroupPosition} from './display';
 import {MultiSelectAccessibility} from './display';
 import {IItemPadding} from './display';
 
-export {groupConstants, editing, IItemPadding, MultiSelectAccessibility};
+export {groupConstants, IHiddenGroupPosition, editing, IItemPadding, MultiSelectAccessibility};

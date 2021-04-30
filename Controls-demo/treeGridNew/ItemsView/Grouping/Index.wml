@@ -1,0 +1,13 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-base-treeGridView">
+   <Controls.treeGrid:ItemsView
+      keyProperty="id"
+      items="{{_items}}"
+      columns="{{_columns}}"
+      expandedItems="{{[null]}}"
+
+      nodeProperty="node"
+      groupProperty="group"
+      parentProperty="parent"
+      hasChildrenProperty="hasChildren"
+   />
+</div>

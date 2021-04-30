@@ -4,7 +4,7 @@
                      'flex-basis: ' + (type === 'leaf' ? (width || itemWidth || itemData.defaultItemWidth) : (width || folderWidth || itemData.defaultFolderWidth)) + 'px;'}}"></div>
 </ws:if>
 <ws:else>
-   <div attr:class="controls-TileView__smallTemplate_item controls-TileView__item {{itemData.itemClasses}}  js-controls-TileView__withoutZoom controls-ListView__itemV controls-ListView__itemV_cursor-{{cursor || 'pointer'}} js-controls-ListView__measurableContainer
+   <div attr:data-qa="{{itemData.getQAData(marker)}}" attr:class="controls-TileView__smallTemplate_item controls-TileView__item {{itemData.itemClasses}}  js-controls-TileView__withoutZoom controls-ListView__itemV controls-ListView__itemV_cursor-{{cursor || 'pointer'}} js-controls-ListView__measurableContainer
          {{'controls-TileView__smallTemplate_' + (itemData.dispItem.isNode() ? 'node': 'list') + 'Item'}}
          {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility)}}
          controls-ListView__item_showActions

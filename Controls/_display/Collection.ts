@@ -8,7 +8,7 @@ import IItemsStrategy from './IItemsStrategy';
 import ItemsStrategyComposer from './itemsStrategy/Composer';
 import DirectItemsStrategy from './itemsStrategy/Direct';
 import UserItemsStrategy from './itemsStrategy/User';
-import GroupItemsStrategy from './itemsStrategy/Group';
+import GroupItemsStrategy, {IHiddenGroupPosition} from './itemsStrategy/Group';
 import DragStrategy from './itemsStrategy/Drag';
 import AddStrategy from './itemsStrategy/Add';
 import {
@@ -36,6 +36,7 @@ import * as VirtualScrollController from './controllers/VirtualScroll';
 import { ICollection, ISourceCollection, IItemPadding } from './interface/ICollection';
 import { IDragPosition } from './interface/IDragPosition';
 import {INavigationOptionValue} from 'Controls/interface';
+import {IRoundBorder} from "Controls/_tile/display/mixins/Tile";
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
@@ -140,6 +141,7 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     navigation?: INavigationOptionValue;
     multiSelectAccessibilityProperty?: string;
     markerPosition?: string;
+    hiddenGroupPosition?: IHiddenGroupPosition;
 }
 
 export interface ICollectionCounters {
@@ -455,6 +457,15 @@ function functorToImportantProperties(func: Function, add: boolean): void {
     }
 }
 
+function groupingFilter(item: EntityModel,
+                        index: number,
+                        collectionItem: CollectionItem<EntityModel>,
+                        collectionIndex: number,
+                        hasMembers?: boolean,
+                        group?: GroupItem<EntityModel>): boolean {
+    return collectionItem['[Controls/_display/GroupItem]'] || !group || group.isExpanded();
+}
+
 /**
  * Проекция коллекции - предоставляет методы навигации, фильтрации и сортировки,
  * не меняя при этом оригинальную коллекцию.
@@ -701,6 +712,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$collapsedGroups: TArrayGroupKey;
 
+    protected _$hiddenGroupPosition: IHiddenGroupPosition;
+
     protected _$groupProperty: string;
 
     protected _$compatibleReset: boolean;
@@ -938,10 +951,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         if (this._isGrouped()) {
             // TODO What's a better way of doing this?
-            this.addFilter(
-                (item, index, collectionItem, collectionIndex, hasMembers, groupItem) =>
-                    collectionItem['[Controls/_display/GroupItem]'] || !groupItem || groupItem.isExpanded()
-            );
+            this.addFilter(groupingFilter);
         }
     }
 
@@ -1670,9 +1680,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setGroupProperty(groupProperty: string): boolean {
         if (this._$groupProperty !== groupProperty) {
             this._$groupProperty = groupProperty;
-            this.setGroup((item) => {
+            const groupCallback = (item) => {
                 return item.get(this._$groupProperty);
-            });
+            };
+            this.setGroup(this._$groupProperty ? groupCallback : null);
             this._nextVersion();
             return true;
         }
@@ -1711,17 +1722,28 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }
 
         this._switchImportantPropertiesByGroup(false);
+
+        if (!!group) {
+            this.addFilter(groupingFilter);
+        } else {
+            this.removeFilter(groupingFilter);
+        }
+
         if (!this._composer) {
             this._$group = group;
-            this._switchImportantPropertiesByGroup(true);
+            if (!!group) {
+                this._switchImportantPropertiesByGroup(true);
+            }
             return;
         }
 
         const session = this._startUpdateSession();
         const groupStrategy = this._composer.getInstance<GroupItemsStrategy<S, T>>(GroupItemsStrategy);
-
         this._$group = groupStrategy.handler = group;
-        this._switchImportantPropertiesByGroup(true);
+        if (group) {
+            this._switchImportantPropertiesByGroup(true);
+        }
+
         this._getItemsStrategy().invalidate();
         this._reSort();
         this._reFilter();
@@ -2278,6 +2300,14 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     isStickyHeader(): boolean {
         return this._$stickyHeader;
+    }
+
+    setRoundBorder(roundBorder: IRoundBorder): void {
+        if (!isEqual(this._$roundBorder, roundBorder)) {
+            this._$roundBorder = roundBorder;
+            this._updateItemsProperty('setRoundBorder', this._$roundBorder, 'setRoundBorder');
+            this._nextVersion();
+        }
     }
 
     getRowSeparatorSize(): string {
@@ -3172,6 +3202,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.bottomPadding = this._$bottomPadding;
             options.searchValue = this._$searchValue;
             options.markerPosition = this._$markerPosition;
+            options.roundBorder = this._$roundBorder;
 
             if (this._$collection['[Types/_collection/RecordSet]']) {
                 options.isLastItem = this._isLastItem(options.contents);
@@ -3219,6 +3250,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }).append(GroupItemsStrategy, {
             handler: this._$group,
             collapsedGroups: this._$collapsedGroups,
+            hiddenGroupPosition: this._$hiddenGroupPosition,
             groupConstructor: this._getGroupItemConstructor()
         });
 
@@ -3993,6 +4025,7 @@ Object.assign(Collection.prototype, {
     _$hoverBackgroundStyle: 'default',
     _$backgroundStyle: 'default',
     _$rowSeparatorSize: null,
+    _$hiddenGroupPosition: 'first',
     _localize: false,
     _itemModule: 'Controls/display:CollectionItem',
     _itemsFactory: null,
@@ -4011,5 +4044,6 @@ Object.assign(Collection.prototype, {
     _userStrategies: null,
     _$emptyTemplate: null,
     _$emptyTemplateOptions: null,
+    _$roundBorder: null,
     getIdProperty: Collection.prototype.getKeyProperty
 });
