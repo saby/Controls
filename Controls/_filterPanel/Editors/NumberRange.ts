@@ -99,7 +99,13 @@ class NumberRangeEditor extends Control<INumberRangeOptions> implements INumberR
             value,
             textValue: !this._isValueEmpty(value) ? this._getTextValue(value) : ''
         };
-        this._notify('propertyValueChanged', [extendedValue], {bubbling: true});
+        if (this._minValueLessThanMax(value)) {
+            this._notify('propertyValueChanged', [extendedValue], {bubbling: true});
+        }
+    }
+
+    private _minValueLessThanMax(values: number[]): boolean {
+        return values[0] < values[1];
     }
 
     private _isValueEmpty(value: number[]): boolean {
