@@ -86,8 +86,7 @@ export default class GroupCell<T>
         }
 
         // should add space before rightTemplate
-        if (separatorVisibility === false && (textVisible === false ||
-            (columnAlignGroup === undefined && textAlign !== 'right'))) {
+        if (separatorVisibility === false && (textVisible === false || textAlign !== 'right')) {
             classes += ' controls-ListView__groupContent-withoutGroupSeparator';
         }
 
