@@ -16,72 +16,72 @@
         </div>
 
 
-<!--        <div class="controlsDemo__cell controlsDemo_Configuration__grid-two">-->
-<!--            <div class="controls-text-label">Кастомный подвал не определен, colspan false</div>-->
+        <div class="controlsDemo__cell controlsDemo_Configuration__grid-two">
+            <div class="controls-text-label">Кастомный подвал не определен, colspan false</div>
 
-<!--            <Controls.treeGridOld:View-->
-<!--                    keyProperty="id"-->
-<!--                    name="tree2"-->
-<!--                    source="{{_viewSource}}"-->
-<!--                    columns="{{_columns}}"-->
-<!--                    bind:expandedItems="_expandedItems2"-->
-<!--                    parentProperty="parent"-->
-<!--                    nodeProperty="type"-->
-<!--                    useNewNodeFooters="{{ true }}"-->
-<!--                    navigation="{{_navigation}}">-->
-<!--                <ws:nodeFooterTemplate>-->
-<!--                    <ws:partial template="Controls/treeGridOld:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass" />-->
-<!--                </ws:nodeFooterTemplate>-->
-<!--            </Controls.treeGridOld:View>-->
-<!--        </div>-->
+            <Controls.treeGridOld:View
+                    keyProperty="id"
+                    name="tree2"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}"
+                    bind:expandedItems="_expandedItems2"
+                    parentProperty="parent"
+                    nodeProperty="type"
+                    useNewNodeFooters="{{ true }}"
+                    navigation="{{_navigation}}">
+                <ws:nodeFooterTemplate>
+                    <ws:partial template="Controls/treeGridOld:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass" />
+                </ws:nodeFooterTemplate>
+            </Controls.treeGridOld:View>
+        </div>
 
-<!--    </div>-->
+    </div>
 
-<!--    <div class="controlsDemo__cell controlsDemo__flexRow controlsDemo__mb2">-->
+    <div class="controlsDemo__cell controlsDemo__flexRow controlsDemo__mb2">
 
-<!--        <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_Configuration__grid-three">-->
-<!--            <div class="controls-text-label">Задан прикладной шаблон подвала узла, с colspan</div>-->
+        <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_Configuration__grid-three">
+            <div class="controls-text-label">Задан прикладной шаблон подвала узла, с colspan</div>
 
-<!--            <Controls.treeGridOld:View-->
-<!--                    keyProperty="id"-->
-<!--                    name="tree3"-->
-<!--                    source="{{_viewSource}}"-->
-<!--                    columns="{{_columns}}"-->
-<!--                    bind:expandedItems="_expandedItems3"-->
-<!--                    parentProperty="parent"-->
-<!--                    nodeProperty="type"-->
-<!--                    useNewNodeFooters="{{ true }}"-->
-<!--                    navigation="{{_navigation}}">-->
-<!--                <ws:nodeFooterTemplate>-->
-<!--                    <ws:partial template="Controls/treeGridOld:NodeFooterTemplate" cellClassName="customClass">-->
-<!--                        <Controls.list:AddButton caption="Добавить товар" />-->
-<!--                    </ws:partial>-->
-<!--                </ws:nodeFooterTemplate>-->
-<!--            </Controls.treeGridOld:View>-->
-<!--        </div>-->
+            <Controls.treeGridOld:View
+                    keyProperty="id"
+                    name="tree3"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}"
+                    bind:expandedItems="_expandedItems3"
+                    parentProperty="parent"
+                    nodeProperty="type"
+                    useNewNodeFooters="{{ true }}"
+                    navigation="{{_navigation}}">
+                <ws:nodeFooterTemplate>
+                    <ws:partial template="Controls/treeGridOld:NodeFooterTemplate" cellClassName="customClass">
+                        <Controls.list:AddButton caption="Добавить товар" />
+                    </ws:partial>
+                </ws:nodeFooterTemplate>
+            </Controls.treeGridOld:View>
+        </div>
 
 
 
-<!--        <div class="controlsDemo__cell controlsDemo_Configuration__grid-four">-->
-<!--            <div class="controls-text-label">Задан прикладной шаблон подвала узла, без colspan</div>-->
+        <div class="controlsDemo__cell controlsDemo_Configuration__grid-four">
+            <div class="controls-text-label">Задан прикладной шаблон подвала узла, без colspan</div>
 
-<!--            <Controls.treeGridOld:View-->
-<!--                    keyProperty="id"-->
-<!--                    name="tree4"-->
-<!--                    source="{{_viewSource}}"-->
-<!--                    columns="{{_columns}}"-->
-<!--                    bind:expandedItems="_expandedItems4"-->
-<!--                    parentProperty="parent"-->
-<!--                    nodeProperty="type"-->
-<!--                    useNewNodeFooters="{{ true }}"-->
-<!--                    navigation="{{_navigation}}">-->
-<!--                <ws:nodeFooterTemplate>-->
-<!--                    <ws:partial template="Controls/treeGridOld:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass">-->
-<!--                        <Controls.list:AddButton caption="Добавить товар" />-->
-<!--                    </ws:partial>-->
-<!--                </ws:nodeFooterTemplate>-->
-<!--            </Controls.treeGridOld:View>-->
-<!--        </div>-->
+            <Controls.treeGridOld:View
+                    keyProperty="id"
+                    name="tree4"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}"
+                    bind:expandedItems="_expandedItems4"
+                    parentProperty="parent"
+                    nodeProperty="type"
+                    useNewNodeFooters="{{ true }}"
+                    navigation="{{_navigation}}">
+                <ws:nodeFooterTemplate>
+                    <ws:partial template="Controls/treeGridOld:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass">
+                        <Controls.list:AddButton caption="Добавить товар" />
+                    </ws:partial>
+                </ws:nodeFooterTemplate>
+            </Controls.treeGridOld:View>
+        </div>
     </div>
 
 
