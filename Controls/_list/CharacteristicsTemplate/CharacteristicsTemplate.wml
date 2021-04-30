@@ -13,7 +13,7 @@
     </div>
 </ws:template>
 <div class="controls-list_Characteristics">
-<ws:for data="item in data">
+<ws:for data="item in items">
     <ws:partial template="INFO_ITEM_TEMPLATE" scope="{{item}}"/>
 </ws:for>
 </div>
