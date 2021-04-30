@@ -38,6 +38,7 @@ const SCROLL_DELAY = detection.isMobileIOS ? 100 : 10;
 class Manager {
     _contextIsTouch: boolean = false;
     _dataLoaderModule: string;
+    _pageConfigLoaderModule: string;
     _popupItems: List<IPopupItem> = new List();
     private _pageScrolled: Function;
     private _popupResizeOuter: Function;
@@ -45,6 +46,7 @@ class Manager {
     constructor(options = {}) {
         this.initTheme(options);
         this._dataLoaderModule = options.dataLoaderModule;
+        this._pageConfigLoaderModule = options.pageConfigLoaderModule;
         this._pageScrolled = debounce(this._pageScrolledBase, SCROLL_DELAY);
         this._popupResizeOuter = debounce(this._popupResizeOuterBase, RESIZE_DELAY);
     }
@@ -95,20 +97,23 @@ class Manager {
     }
 
     loadData(dataLoaders): Promise<unknown> {
-        const Loader = getModuleByName(this._dataLoaderModule);
-        if (Loader) {
-            return Loader.load(dataLoaders);
-        }
         if (!this._dataLoaderModule) {
             const message = 'На приложении не задан загрузчик данных. Опция окна dataLoaders будет проигнорирована';
             Logger.warn(message, this);
             return undefined;
         }
+        return new Promise((resolve, reject) => {
+            this._getModuleByModuleName(this._dataLoaderModule, (DataLoader) => {
+                DataLoader.load(dataLoaders).then(resolve, reject);
+            });
+        });
+    }
 
-        return new Promise((resolve) => {
-            Library.load(this._dataLoaderModule).then((DataLoader) => {
-               resolve(DataLoader.load(dataLoaders));
-           });
+    getPageConfig(...args: unknown[]): Promise<unknown> {
+        return new Promise((resolve, reject) => {
+            this._getModuleByModuleName(this._pageConfigLoaderModule, (DataLoader) => {
+                DataLoader.getConfig(...args).then(resolve, reject);
+            });
         });
     }
 
@@ -828,6 +833,17 @@ class Manager {
         } else {
             item.popupOptions = oldOptions;
         }
+    }
+
+    private _getModuleByModuleName(moduleName: string, callback: Function): void {
+        const module = getModuleByName(moduleName);
+        if (module) {
+            callback(module);
+            return;
+        }
+        Library.load(moduleName).then((loadedModule) => {
+            callback(loadedModule);
+        });
     }
 
     // TODO Должно быть удалено после https://online.sbis.ru/opendoc.html?guid=f2b13a65-f404-4fbd-a05c-bbf6b59358e6

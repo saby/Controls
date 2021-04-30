@@ -110,8 +110,12 @@ export default {
         return this._callManager('show', arguments);
     },
 
-    loadData(dataLoaders): Promise<unknown> {
+    loadData(): Promise<unknown> {
         return this._callManager('loadData', arguments);
+    },
+
+    getPageConfig(pageId: string): Promise<unknown> {
+        return this._callManager('getPageConfig', arguments);
     },
 
     isPopupCreating(id: string): boolean {
