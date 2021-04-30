@@ -446,7 +446,8 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                     },
                     getMetaResults() {
                         return {};
-                    }
+                    },
+                    hasMoreDataUp: () => false
                 },
                 groups,
                 groupConstructor: GroupItem,
@@ -475,7 +476,8 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                     },
                     getMetaResults() {
                         return {};
-                    }
+                    },
+                    hasMoreDataUp: () => false
                 },
                 groups,
                 groupConstructor: GroupItem,
@@ -519,7 +521,8 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                         },
                         getMetaResults() {
                             return {};
-                        }
+                        },
+                        hasMoreDataUp: () => false
                     },
                     groups,
                     groupConstructor: GroupItem,
@@ -560,7 +563,8 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                         },
                         getMetaResults() {
                             return {};
-                        }
+                        },
+                        hasMoreDataUp: () => false
                     },
                     groups,
                     groupConstructor: GroupItem,
@@ -596,7 +600,8 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                     },
                     getMetaResults() {
                         return {};
-                    }
+                    },
+                    hasMoreDataUp: () => false
                 },
                 groups,
                 groupConstructor: GroupItem,
