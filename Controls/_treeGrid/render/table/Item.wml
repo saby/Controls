@@ -2,7 +2,8 @@
     <div class="{{ item.getExpanderClasses(item.getExpanderIcon(expanderIcon), item.getExpanderSize(expanderSize)) }}"></div>
 </ws:template>
 
-<tr attr:class="{{ item.getItemClasses({
+<tr attr:data-qa="{{item.getQAData(marker)}}"
+    attr:class="{{ item.getItemClasses({
         'highlightOnHover': highlightOnHover,
         'theme': theme,
         'style': style,
@@ -11,7 +12,7 @@
         'showItemActionsOnHover': showItemActionsOnHover
     }) }}">
     <ws:for data="gridColumn in item.getColumns()">
-        <td attr:class="{{ gridColumn.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
+        <td attr:class="{{ gridColumn.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover, hoverBackgroundStyle) }}"
             attr:style="{{ gridColumn.getWrapperStyles(containerSize) }}"
             attr:colspan="{{ gridColumn.getColspan() }}"
             attr:rowspan="{{ gridColumn.getRowspan() }}">

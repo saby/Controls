@@ -29,7 +29,7 @@
       <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}">
          <ws:content>
             <div>
-               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+               Lorem ipsum dolor sit amet.
                <Controls.buttons:Button caption="Button button button"/>
                <Controls.buttons:Button caption="Button button button"/>
                <Controls.buttons:Button caption="Button button button"/>

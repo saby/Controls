@@ -113,6 +113,32 @@ describe('Controls/list_clean/ScrollController', () => {
             });
             assert.isTrue(setViewIteratorSpy.called);
         });
+        it('virtualScrollConfig === null.', () => {
+            const collection = new Collection({
+                collection: items
+            });
+            const controller = new ScrollController({
+                collection,
+                virtualScrollConfig: {},
+                useNewModel: true,
+                needScrollCalculation: true
+            });
+            controller.handleResetItems();
+
+            const newCollection = new Collection({
+                collection: items
+            });
+            const setViewIteratorSpy = spy(newCollection, 'setViewIterator');
+            controller.update({
+                options: {
+                    collection: newCollection,
+                    virtualScrollConfig: null,
+                    useNewModel: true,
+                    needScrollCalculation: true
+                }
+            });
+            assert.isFalse(setViewIteratorSpy.called);
+        });
     });
 
     describe('resetTopTriggerOffset', () => {
@@ -380,7 +406,7 @@ describe('Controls/list_clean/ScrollController', () => {
             });
 
         });
-        
+
         it('needScrollCalculation = false', (done) => {
             const collection = new Collection({
                 collection: new RecordSet({

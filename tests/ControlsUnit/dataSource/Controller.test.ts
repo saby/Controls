@@ -2,6 +2,7 @@ import {NewSourceController, ISourceControllerOptions} from 'Controls/dataSource
 import {Memory, PrefetchProxy, DataSet} from 'Types/source';
 import {ok, deepStrictEqual} from 'assert';
 import {RecordSet} from 'Types/collection';
+import {adapter} from 'Types/entity';
 import {INavigationPageSourceConfig, INavigationOptionValue} from 'Controls/interface';
 import {createSandbox, stub, useFakeTimers} from 'sinon';
 import {default as groupUtil} from 'Controls/_dataSource/GroupUtil';
@@ -624,6 +625,28 @@ describe('Controls/dataSource:SourceController', () => {
             });
             controller.setItems(newControllerItems);
             ok(hasMoreResult);
+        });
+
+        it('different items format', () => {
+            const items = new RecordSet({
+                adapter: new adapter.Sbis(),
+                format: [
+                    { name: 'testName', type: 'string' }
+                ]
+            });
+            const otherItems = new RecordSet({
+                adapter: new adapter.Sbis(),
+                format: [
+                    { name: 'testName2', type: 'string' }
+                ]
+            });
+            const controller = getController();
+
+            controller.setItems(items);
+            ok(controller.getItems() === items);
+
+            controller.setItems(otherItems);
+            ok(controller.getItems() === otherItems);
         });
 
     });

@@ -135,13 +135,36 @@ define([
            }].forEach((test) => {
                it('should not set position', () => {
                    const component = calendarTestUtils.createComponent(DateRange, {});
-                   component._position = test.position
-                   let resultValue;
+                   component._position = test.position;
                    sinon.stub(component, '_notify');
                    component._onMonthsPositionChanged('event', test.newPosition);
                    sinon.assert.notCalled(component._notify);
                    sinon.restore();
                });
+           });
+       });
+
+       describe('_updateView', () => {
+            it('should  update _monthsPosition', () => {
+                const component = calendarTestUtils.createComponent(DateRange, {});
+                component._position = new Date(2020, 5);
+                this._shouldUpdateMonthsPosition = true;
+                component._updateView({
+                    position: new Date(2019, 4)
+                });
+                const result = new Date(2019, 0);
+                assert.isTrue(dateUtils.Base.isDatesEqual(result, component._monthsPosition));
+            });
+           it('should not update _monthsPosition', () => {
+               const component = calendarTestUtils.createComponent(DateRange, {});
+               component._position = new Date(2020, 5);
+               const result = new Date(2020, 0);
+               component._monthsPosition = result;
+               component._shouldUpdateMonthsPosition = false;
+               component._updateView({
+                   position: new Date(2019, 4)
+               });
+               assert.isTrue(dateUtils.Base.isDatesEqual(result, component._monthsPosition));
            });
        });
    });

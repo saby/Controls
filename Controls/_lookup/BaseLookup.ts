@@ -8,7 +8,7 @@ import {TKey} from 'Controls/interface';
 // @ts-ignore
 import * as isEmpty from 'Core/helpers/Object/isEmpty';
 import * as ArrayUtil from 'Controls/Utils/ArraySimpleValuesUtil';
-import {getDefaultBorderVisibilityOptions, getDefaultPaddingOptions} from 'Controls/input';
+import {getDefaultBorderVisibilityOptions} from 'Controls/input';
 import 'css!Controls/lookup';
 import 'css!Controls/CommonClasses';
 
@@ -149,8 +149,8 @@ export default abstract class
     static getDefaultOptions(): object {
         return {
             ...getDefaultBorderVisibilityOptions(),
-            ...getDefaultPaddingOptions(),
-            multiSelect: false
+            multiSelect: false,
+            contrastBackground: false
         };
     }
 

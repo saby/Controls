@@ -141,7 +141,7 @@ export default class ScrollController {
                 options.disableVirtualScroll !== this._options.disableVirtualScroll
             )) {
                 this._options.disableVirtualScroll = options.disableVirtualScroll;
-                if (options.needScrollCalculation) {
+                if (options.needScrollCalculation && options.virtualScrollConfig) {
                     if (options.useNewModel) {
                         ScrollController._setCollectionIterator(options.collection, options.virtualScrollConfig.mode);
                     }

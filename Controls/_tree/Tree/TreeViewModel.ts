@@ -724,6 +724,8 @@ var
             }
 
             current.useNewNodeFooters = this._options.useNewNodeFooters;
+            current.baseNodeFooterTemplate = 'Controls/treeGridOld:_NodeFooterChooser';
+
             if (current.item && current.item.get) {
                 _private.setNodeFooterIfNeed(this, current);
             }
@@ -867,9 +869,9 @@ var
             }
         },
         getChildren: function(root, withFilter, items) {
-            const contents = root.getContents();
+            const contents = root.getContents ? root.getContents() : root;
             const rootId = contents instanceof Array ? contents[contents.length - 1].getKey() :
-                (contents ? contents.getKey() : null);
+                (contents && contents.getKey ? contents.getKey() : contents);
             const childrenRecords = this._hierarchyRelation.getChildren(rootId, items || this._items);
             return childrenRecords.map((it) => {
                 const display = this.getDisplay();

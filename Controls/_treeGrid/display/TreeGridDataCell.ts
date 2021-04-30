@@ -8,10 +8,10 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
 
     protected _$owner: TreeGridDataRow<T>;
 
-    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
+    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover?: boolean, templateHoverBackgroundStyle?: string): string {
         let classes = super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover);
 
-        if (!this._$owner.hasMultiSelectColumn() && this.isFirstColumn()) {
+        if (!this._$owner.hasMultiSelectColumn() && this.isFirstColumn() && isFullGridSupport()) {
             classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}`;
         }
 
@@ -35,6 +35,10 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
 
         if (!isFullGridSupport()) {
             classes = 'controls-TreeGridView__row-cell_innerWrapper ' + classes;
+
+            if (!this._$owner.hasMultiSelectColumn() && this.isFirstColumn()) {
+                classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}`;
+            }
         }
 
         return classes;

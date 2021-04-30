@@ -6478,16 +6478,22 @@ define([
       describe('loading indicators', () => {
           let baseControl,  testCases;
 
+          const emptyRs = new collection.RecordSet();
+          const notEmptyRs = new collection.RecordSet({
+             rawData: [{'id': 1}],
+             keyProperty: 'id'
+          });
+
           const getErrorMsg = (index, caseData) => `Test case ${index} failed. Expected ${caseData[4]}. ` +
               `Params: { _loadingIndicatorState: ${caseData[0]}, _attachLoadTopTriggerToNull: ${caseData[1]},
-              _loadToDirectionInProgress: ${caseData[2]}, _showLoadingIndicator: ${caseData[3]} }.`;
+              _loadToDirectionInProgress: ${caseData[2]}, _items: ${caseData[3]} }.`;
 
           const checkCase = (index, caseData, method) => {
              baseControl._loadingIndicatorState = caseData[0];
              baseControl._attachLoadTopTriggerToNull = caseData[1];
              baseControl._loadToDirectionInProgress = caseData[2];
-             baseControl._showLoadingIndicator = caseData[3];
-             assert.equal(method.apply(baseControl), caseData[4], getErrorMsg(index, caseData));
+             baseControl._items = caseData[3];
+             assert.equal(!!method.apply(baseControl), caseData[4], getErrorMsg(index, caseData));
           };
 
           beforeEach(() => {
@@ -6496,22 +6502,22 @@ define([
           });
 
           it('_shouldDisplayTopLoadingIndicator', () => {
-             // indicatorState, _attachLoadTopTriggerToNull, _loadToDirectionInProgress, _showLoadingIndicator, expected
+             // indicatorState, _attachLoadTopTriggerToNull, _loadToDirectionInProgress, _items, expected
              testCases = [
-                ['up',   true,  true,  true,  true],
-                ['up',   true,  true,  false, true],
-                ['up',   false, false, true,  true],
-                ['up',   false, false, true,  true],
+                ['up',   true,  true,  notEmptyRs,  true],
+                ['up',   true,  true,  emptyRs,     false],
+                ['up',   false, false, notEmptyRs,  true],
+                ['up',   false, false, notEmptyRs,  true],
 
-                ['down', true,  true,  true,  true],
-                ['down', false, true,  false, false],
-                ['down', false, false, true,  false],
-                ['down', false, false, true,  false],
+                ['down', true,  true,  notEmptyRs,  true],
+                ['down', false, true,  emptyRs,     false],
+                ['down', false, false, notEmptyRs,  false],
+                ['down', false, false, notEmptyRs,  false],
 
-                ['all',  true,  true,  true,  true],
-                ['all',  false, true,  false, false],
-                ['all',  false, false, true,  false],
-                ['all',  false, false, true,  false],
+                ['all',  true,  true,  notEmptyRs,  true],
+                ['all',  false, true,  emptyRs,     false],
+                ['all',  false, false, notEmptyRs,  false],
+                ['all',  false, false, notEmptyRs,  false],
              ];
 
              testCases.forEach((caseData, index) => {
@@ -6530,17 +6536,18 @@ define([
 
           it('_shouldDisplayMiddleLoadingIndicator', () => {
              testCases = [
-                ['up',   true,  undefined,  true,  false],
-                ['up',   false, undefined, false, false],
-                ['down', true,  undefined,  true,  false],
-                ['down', false, undefined, false, false],
-                ['all',  true,  undefined,  true, true],
-                ['all',  false, undefined,  true, true],
-                ['all',  true,  undefined, false, false],
-                ['all',  false, undefined, false, false]
+                ['up',   true,  true, notEmptyRs, false],
+                ['up',   false, false, emptyRs,    false],
+                ['down', true,  true, notEmptyRs, false],
+                ['down', false, false, emptyRs,    false],
+                ['all',  true,  true, notEmptyRs, true],
+                ['all',  false, true, emptyRs, true],
+                ['all',  true,  false, notEmptyRs,    false],
+                ['all',  false, false, emptyRs,    false]
              ];
 
              testCases.forEach((caseData, index) => {
+                baseControl._showLoadingIndicator = caseData[2];
                 checkCase(index, caseData, baseControl._shouldDisplayMiddleLoadingIndicator);
              });
 
@@ -6557,20 +6564,20 @@ define([
           it('_shouldDisplayBottomLoadingIndicator', () => {
              // indicatorState, __needShowEmptyTemplate, _loadToDirectionInProgress, _showLoadingIndicator, expected
              testCases = [
-                ['up',   true,  true,  true,  false],
-                ['up',   false, true,  false, false],
-                ['up',   false, false, true,  false],
-                ['up',   false, false, true,  false],
+                ['up',   true,  true,  notEmptyRs,  false],
+                ['up',   false, true,  emptyRs,     false],
+                ['up',   false, false, notEmptyRs,  false],
+                ['up',   false, false, notEmptyRs,  false],
 
-                ['down', true,  true,  true,  true],
-                ['down', false, true,  false, true],
-                ['down', false, false, true,  true],
-                ['down', false, false, true,  true],
+                ['down', true,  true,  notEmptyRs,  true],
+                ['down', false, true,  emptyRs,     false],
+                ['down', false, false, notEmptyRs,  true],
+                ['down', false, false, notEmptyRs,  true],
 
-                ['all',  true,  true,  true,  false],
-                ['all',  false, true,  false, false],
-                ['all',  false, false, true,  false],
-                ['all',  false, false, true,  false],
+                ['all',  true,  true,  notEmptyRs,  false],
+                ['all',  false, true,  emptyRs,     false],
+                ['all',  false, false, notEmptyRs,  false],
+                ['all',  false, false, notEmptyRs,  false],
              ];
 
              testCases.forEach((caseData, index) => {

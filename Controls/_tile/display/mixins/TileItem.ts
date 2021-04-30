@@ -814,7 +814,7 @@ export default abstract class TileItem<T extends Model = Model> {
             classes += ' controls-TileView__item_scaled';
         }
         if (this.isFixed()) {
-            classes += ` controls-TileView__item_fixed`;
+            classes += ' controls-TileView__item_fixed';
         }
         if (this.isAnimated()) {
             classes += ' controls-TileView__item_animated';
@@ -824,6 +824,9 @@ export default abstract class TileItem<T extends Model = Model> {
         }
         if (this.canShowActions()) {
             classes += ' controls-ListView__item_showActions';
+        }
+        if (this.isEditing()) {
+            classes += ' controls-ListView__item_editing';
         }
         if (this.isSwiped()) {
             classes += ' controls-TileView__item_swiped';

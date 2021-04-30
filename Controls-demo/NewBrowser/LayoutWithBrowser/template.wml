@@ -1,0 +1,80 @@
+<div>
+    <Controls.browser:Browser
+            listsOptions="{{_listConfigurations}}"
+            on:rootChanged="_rootChanged()">
+        <div>
+        <Controls.search:InputContainer>
+            <Controls.search:Input
+                    attr:style="width: 300px;"/>
+        </Controls.search:InputContainer>
+        <Controls.newBrowser:View
+                name="browser"
+                propStorageId="catalogDemoBase"
+                userViewMode="{{_viewMode}}"
+                listConfiguration="{{_defaultViewCfg}}"
+
+                on:beforeRootChanged="_onBeforeRootChanged()"
+                on:viewModeChanged="_onBrowserViewModeChanged()"
+
+                attr:style="flex: 1 1 100%;"
+        >
+            <!-- Задаем общую настройку master-колонки -->
+            <ws:master
+                    width="{{300}}"
+                    minWidth="{{200}}"
+                    maxWidth="{{500}}"
+                    filter="{{_masterFilter}}"
+                    columns="{{_masterTableColumns}}"
+                    visibility="{{_isMasterVisible ? undefined : 'hidden'}}"
+                    expanderVisibility="hasChildren"
+            />
+            <!-- Задаем общую настройку detail-колонки -->
+            <ws:detail
+                    backgroundColor="#f0f0f0"
+                    imageProperty="photo"
+                    columns="{{_detailTableColumns}}"
+            >
+                <ws:itemTemplate>
+                    <ws:partial
+                            template="Controls/listTemplates:ListItemTemplate"
+                            scope="{{itemTemplate}}"
+                            imagePosition="{{itemTemplate.listCfg.imagePosition}}"
+                            imageViewMode="{{itemTemplate.listCfg.imageViewMode}}"
+                            imageProperty="{{itemTemplate.listCfg.imageProperty}}"
+                    >
+                        <ws:captionTemplate>
+                            <Controls.heading:Title
+                                    fontSize="4xl"
+                                    fontColorStyle="default"
+                                    caption="{{captionTemplate.itemData.item.title}}"
+                                    tooltip="{{captionTemplate.itemData.item.title}}"
+                            />
+                        </ws:captionTemplate>
+                        <ws:contentTemplate>
+                            {{contentTemplate.itemData.item.description}}
+                        </ws:contentTemplate>
+                        <ws:footerTemplate>
+                   <span style="color: grey">
+                      {{ footerTemplate.itemData.item.rating || footerTemplate.itemData.item.year }}
+                   </span>
+                        </ws:footerTemplate>
+                    </ws:partial>
+                </ws:itemTemplate>
+                <ws:tileItemTemplate>
+                    <ws:partial
+                            template="Controls/tile:RichTemplate"
+                            scope="{{tileItemTemplate}}"
+                            imageSize="{{tileItemTemplate.tileCfg.imageSize}}"
+                            imagePosition="{{tileItemTemplate.tileCfg.imagePosition}}"
+                            imageEffect="{{tileItemTemplate.tileCfg.getImageEffect(tileItemTemplate.itemData)}}"
+                            imageViewMode="{{tileItemTemplate.tileCfg.getImageViewMode(tileItemTemplate.itemData)}}"
+                            gradientColor="{{tileItemTemplate.tileCfg.getGradientColor(tileItemTemplate.itemData)}}"
+                            description="{{tileItemTemplate.tileCfg.getDescription(tileItemTemplate.itemData)}}"
+                            descriptionLines="{{tileItemTemplate.tileCfg.getDescriptionLines(tileItemTemplate.itemData)}}"
+                    />
+                </ws:tileItemTemplate>
+            </ws:detail>
+        </Controls.newBrowser:View>
+        </div>
+    </Controls.browser:Browser>
+</div>

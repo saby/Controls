@@ -1,5 +1,6 @@
 <ws:template name="gridView">
     <div class="{{ _getGridViewClasses(_options) }}"
+         on:focusIn="_onFocusIn()"
          style="{{ _getGridViewStyles(_options) }}">
 
         <!-- Header -->
@@ -7,7 +8,9 @@
             <ws:partial template="{{ _listModel.getHeader().getRow().getTemplate() }}"
                         attr:name="header"
                         item="{{ _listModel.getHeader().getRow() }}"
-                        backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
+                        backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
+                        on:click="_onHeaderRowClick()"
+            />
         </ws:if>
         <!-- Results (top) -->
         <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'top' }}">

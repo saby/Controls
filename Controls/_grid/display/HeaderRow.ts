@@ -103,6 +103,7 @@ export default class HeaderRow<T> extends Row<T> {
             if (this.hasItemActionsSeparatedCell()) {
                 this._$columnItems.push(new ItemActionsCell({
                     owner: this,
+                    rowspan: this.getBounds().row.end - this.getBounds().row.start,
                     column: {}
                 }));
             }
