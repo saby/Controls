@@ -398,13 +398,13 @@ export function wrapLinksInString(stringNode: string, parentNode: any[]): any[]|
       // Не нужно оборачивать ссылки внутри тега "a".
       result = stringNode;
    } else {
-      result = parseLinks(stringNode, true);
+      [result, hasAnyLink] = parseLinks(stringNode, true);
    }
 
    return hasAnyLink ? result : stringNode;
 }
 
-export function parseLinks(stringNode: string, needToCreateLinkNode: boolean): any[] | string {
+export function parseLinks(stringNode: string, needToCreateLinkNode: boolean): [any[] | string, boolean] {
    let linkParseExec = linkParseRegExp.exec(stringNode);
    let result: any[]|string = [];
    let hasAnyLink: boolean = false;
@@ -457,7 +457,7 @@ export function parseLinks(stringNode: string, needToCreateLinkNode: boolean): a
       }
    }
 
-   return result;
+   return [result, hasAnyLink];
 }
 
 /**
