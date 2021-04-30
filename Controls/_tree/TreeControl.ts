@@ -60,7 +60,12 @@ const _private = {
         const newExpandedState = !item.isExpanded();
         const itemKey = item.getContents().getKey();
 
-        const newExpandedItems = options.expandedItems instanceof Array ? [...options.expandedItems] : [...model.getExpandedItems()];
+        // т.к. теперь expandedItems всегда приходят из SourceController, то
+        // единственный достоверный способ получить их актуальное состояние - запросить их оттуда.
+        // Это покрывает кейс, когда в одном цикле синхронизации подряд вызывают toggleExpanded(),
+        // результат первого doExpand не запишется в модель и второй его перетрёт.
+        const sourceExpandedItems = self.getSourceController().getExpandedItems();
+        const newExpandedItems = sourceExpandedItems instanceof Array ? sourceExpandedItems : [...model.getExpandedItems()];
         const newCollapsedItems = options.collapsedItems instanceof Array ? [...options.collapsedItems] : [...model.getCollapsedItems()];
 
         if (newExpandedState) {
