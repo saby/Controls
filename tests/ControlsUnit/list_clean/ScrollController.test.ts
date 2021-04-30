@@ -58,7 +58,25 @@ describe('Controls/list_clean/ScrollController', () => {
             assert.isFalse(errorFired);
         });
     });
+    describe('destroy', () => {
+        it('should reset indexes on collection on destroy', () => {
+            const collection = new Collection({
+                collection: items
+            });
+            const controller = new ScrollController({
+                collection,
+                virtualScrollConfig: {},
+                useNewModel: true,
+                needScrollCalculation: true
+            });
+            controller.handleResetItems();
+            const setIndexesSpy = spy(collection, 'setIndexes');
 
+            controller.destroy();
+            assert.isTrue(setIndexesSpy.called);
+            assert.isTrue(setIndexesSpy.calledWith(0, 0));
+        });
+    });
     describe('update', () => {
         it('needScrollCalculation === true.', () => {
             const collection = new Collection({

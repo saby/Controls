@@ -18,7 +18,7 @@ export default abstract class GroupCell<T> {
         let classes = 'controls-ListView__groupContent-text ' +
             'controls-ListView__groupContent-text_default';
 
-        if (separatorVisibility === false && textAlign === 'right') {
+        if (separatorVisibility === false && textAlign !== 'left') {
             classes += ' controls-ListView__groupContent-withoutGroupSeparator';
         }
         return classes;
