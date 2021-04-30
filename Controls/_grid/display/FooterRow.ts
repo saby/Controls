@@ -16,6 +16,13 @@ export default class FooterRow<T> extends mixin<Row<string>, Footer>(Row, Footer
         return 'footer';
     }
 
+    getTemplate(): | string {
+        // Вызываем метод базового класса Row иначе при наследовании
+        // аналогичный метод из Footer перебивает метод Row и возвращается не правильный шаблон.
+        // А поменять цепочку наследования нельзя иначе сейчас все развалится.
+        return Row.prototype.getTemplate.call(this);
+    }
+
     // TODO: Испавить вызов этого метода, разделить на 2 метода.
     setFooter(footerTemplate: TemplateFunction, footer?: TColumns): void {
         this.setRowTemplate(footerTemplate);
