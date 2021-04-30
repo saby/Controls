@@ -4236,7 +4236,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._needBottomPadding = _private.needBottomPadding(newOptions, this._listViewModel);
 
         const groupPropertyChanged = newOptions.groupProperty !== this._options.groupProperty;
-        const needGroupingLoader = !!newOptions.groupProperty && !_private.isDemandNavigation(newOptions.navigation) && !newOptions.task1181512586;
+        const needGroupingLoader =
+            newOptions.source && !!newOptions.groupProperty &&
+            !_private.isDemandNavigation(newOptions.navigation) && !newOptions.task1181512586;
         const hasGroupingLoader = !!this._groupingLoader;
         if (needGroupingLoader) {
             if (hasGroupingLoader) {
