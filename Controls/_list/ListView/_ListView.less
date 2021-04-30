@@ -776,3 +776,43 @@
       border-bottom: var(--item-separator_l_thickness_list) solid var(--item_edge_separator_l_color_list);
    }
 }
+
+.controls-ListView__item_roundBorder_bottomLeft {
+   @variants: xs, s, m, l, xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         border-bottom-left-radius: ~"var(--border_radius_@{_item}_list)";
+      }
+   });
+}
+
+.controls-ListView__item_roundBorder_bottomRight {
+   @variants: xs, s, m, l, xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         border-bottom-right-radius: ~"var(--border_radius_@{_item}_list)";
+      }
+   });
+}
+
+.controls-ListView__item_roundBorder_topLeft {
+   @variants: xs, s, m, l, xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         border-top-left-radius: ~"var(--border_radius_@{_item}_list)";
+      }
+   });
+}
+
+.controls-ListView__item_roundBorder_topRight {
+   @variants: xs, s, m, l, xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         border-top-right-radius: ~"var(--border_radius_@{_item}_list)";
+      }
+   });
+}
