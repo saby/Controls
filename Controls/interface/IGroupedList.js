@@ -64,7 +64,10 @@ define('Controls/interface/IGroupedList', [
     * @cfg {String} Идентификатор, по которому на {@link /doc/platform/developmentapl/middleware/parameter_service/ Сервисе параметров} сохраняется текущее {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/group/ состояние развернутости групп}.
     */
 
-
+   /**
+    * @name Controls/interface/IGroupedList#hiddenGroupPosition
+    * @cfg {Controls/list:IHiddenGroupPosition} Позиция скрытой группы
+    */
 
 });
 
