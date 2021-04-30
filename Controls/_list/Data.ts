@@ -127,7 +127,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
    protected _breadCrumbsItems: Path;
    protected _backButtonCaption: string;
    protected _breadCrumbsItemsWithoutBackButton: Path;
-   protected _expandedItems: CrudEntityKey[] = [];
+   protected _expandedItems: CrudEntityKey[];
    protected _shouldSetExpandedItemsOnUpdate: boolean;
    private _nodeHistoryId: string;
 
@@ -150,7 +150,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       if (options.nodeHistoryId) {
          this._nodeHistoryId = options.nodeHistoryId;
       }
-      if (this._nodeHistoryId && options.hasOwnProperty('expandedItems')) {
+      if (this._nodeHistoryId && options.expandedItems) {
          this._shouldSetExpandedItemsOnUpdate = true;
       }
 
