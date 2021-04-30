@@ -670,9 +670,7 @@ export class Controller {
             ? contents.get(this._itemActionsProperty)
             : this._commonItemActions;
         const visibleActions = this._filterVisibleActions(all, contents, item.isEditing());
-        if (this._isEditing(item)) {
-            showed = [];
-        } else if (visibleActions.length > 1) {
+        if (visibleActions.length > 1) {
             showed = visibleActions.filter((action) =>
                 !action.parent &&
                 (
@@ -699,16 +697,6 @@ export class Controller {
         return itemActions.filter((action) =>
             this._itemActionVisibilityCallback(action, contents, isEditing)
         );
-    }
-
-    /**
-     * Если в коллекции и у элементов есть методы для проверки редактирования,
-     * то учитываем их значение
-     * @param item
-     * @private
-     */
-    private _isEditing(item: IItemActionsItem): boolean {
-        return this._collection.isEditing() && !item.isEditing();
     }
 
     /**
