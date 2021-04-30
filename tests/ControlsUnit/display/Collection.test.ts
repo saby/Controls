@@ -4,7 +4,7 @@ import { spy } from 'sinon';
 import {
     Abstract as Display,
     Collection as CollectionDisplay,
-    CollectionItem,
+    CollectionItem, groupConstants,
     GroupItem
 } from 'Controls/display';
 
@@ -4464,6 +4464,37 @@ describe('Controls/_display/Collection', () => {
                 style: 'master'
             });
             assert.equal(display.getHoverBackgroundStyle(), 'master');
+        });
+    });
+
+    describe('hiddenGroupPosition', () => {
+        const items = new RecordSet({
+            rawData: [
+                {id: 1, group: 111},
+                {id: 2, group: 111},
+                {id: 3, group: groupConstants.hiddenGroup}
+            ]
+        });
+
+        it('first', () => {
+            const collection = new CollectionDisplay({
+                collection: items,
+                keyProperty: 'id',
+                groupProperty: 'group'
+            });
+
+            assert.equal(collection.at(0).getContents(), groupConstants.hiddenGroup);
+        });
+
+        it('byorder', () => {
+            const collection = new CollectionDisplay({
+                collection: items,
+                keyProperty: 'id',
+                groupProperty: 'group',
+                hiddenGroupPosition: 'byorder'
+            });
+
+            assert.equal(collection.at(3).getContents(), groupConstants.hiddenGroup);
         });
     });
 });

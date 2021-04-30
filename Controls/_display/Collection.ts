@@ -8,7 +8,7 @@ import IItemsStrategy from './IItemsStrategy';
 import ItemsStrategyComposer from './itemsStrategy/Composer';
 import DirectItemsStrategy from './itemsStrategy/Direct';
 import UserItemsStrategy from './itemsStrategy/User';
-import GroupItemsStrategy from './itemsStrategy/Group';
+import GroupItemsStrategy, {IHiddenGroupPosition} from './itemsStrategy/Group';
 import DragStrategy from './itemsStrategy/Drag';
 import AddStrategy from './itemsStrategy/Add';
 import {
@@ -140,6 +140,7 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     navigation?: INavigationOptionValue;
     multiSelectAccessibilityProperty?: string;
     markerPosition?: string;
+    hiddenGroupPosition?: IHiddenGroupPosition;
 }
 
 export interface ICollectionCounters {
@@ -709,6 +710,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _$metaResults: EntityModel;
 
     protected _$collapsedGroups: TArrayGroupKey;
+
+    protected _$hiddenGroupPosition: IHiddenGroupPosition;
 
     protected _$groupProperty: string;
 
@@ -3237,6 +3240,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }).append(GroupItemsStrategy, {
             handler: this._$group,
             collapsedGroups: this._$collapsedGroups,
+            hiddenGroupPosition: this._$hiddenGroupPosition,
             groupConstructor: this._getGroupItemConstructor()
         });
 
@@ -4011,6 +4015,7 @@ Object.assign(Collection.prototype, {
     _$hoverBackgroundStyle: 'default',
     _$backgroundStyle: 'default',
     _$rowSeparatorSize: null,
+    _$hiddenGroupPosition: 'first',
     _localize: false,
     _itemModule: 'Controls/display:CollectionItem',
     _itemsFactory: null,
