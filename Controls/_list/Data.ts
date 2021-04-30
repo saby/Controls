@@ -406,9 +406,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       }
       curContext.updateConsumers();
       this._sourceControllerState = sourceControllerState;
-      if (this._nodeHistoryId) {
-         this._expandedItems = sourceControllerState.expandedItems;
-      }
+      this._expandedItems = sourceControllerState.expandedItems;
    }
 
    // https://online.sbis.ru/opendoc.html?guid=e5351550-2075-4550-b3e7-be0b83b59cb9
