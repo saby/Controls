@@ -1292,12 +1292,8 @@ const _private = {
             totalElementsCount: elementsCount,
             loadedElementsCount: self._listViewModel.getStopIndex() - self._listViewModel.getStartIndex(),
             pagingCfgTrigger: (cfg) => {
-                if (cfg?.selectedPage !== self._currentPage) {
-                    if (self._selectedPageHasChanged) {
-                        self.__selectedPageChanged(null, self._currentPage);
-                    } else {
-                        self._currentPage = cfg.selectedPage;
-                    }
+                if (cfg?.selectedPage !== self._currentPage && !self._selectedPageHasChanged) {
+                    self._currentPage = cfg.selectedPage;
                 } else {
                     self._selectedPageHasChanged = false;
                 }
@@ -2150,7 +2146,10 @@ const _private = {
     showError(self: BaseControl, errorConfig: dataSourceError.ViewConfig): void {
         self.__error = errorConfig;
         if (errorConfig && (errorConfig.mode === dataSourceError.Mode.include)) {
-            self._scrollController = null;
+            if (self._scrollController) {
+                self._scrollController.destroy();
+                self._scrollController = null;
+            }
             self._observerRegistered = false;
             self._viewReady = false;
         }
@@ -4195,6 +4194,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 //  Если Items были обновлены, то в старой модели переинициализировался display
                 //  и этот параметр сбросился
                 this._listViewModel.setActionsAssigned(isActionsAssigned);
+                _private.initVisibleItemActions(this, newOptions);
                 this._updateScrollController(newOptions);
             }
 
@@ -5334,7 +5334,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     if (this._savedItemClickArgs && this._isMounted) {
                         // Запись становится активной по клику, если не началось редактирование.
                         // Аргументы itemClick сохранены в состояние и используются для нотификации об активации элемента.
-                        this._notify('itemActivate', this._savedItemClickArgs, {bubbling: true});
+                        this._notify('itemActivate', this._savedItemClickArgs.slice(1), {bubbling: true});
                     }
                     return result;
                 }
