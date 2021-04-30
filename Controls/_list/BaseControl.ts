@@ -5334,7 +5334,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     if (this._savedItemClickArgs && this._isMounted) {
                         // Запись становится активной по клику, если не началось редактирование.
                         // Аргументы itemClick сохранены в состояние и используются для нотификации об активации элемента.
-                        this._notify('itemActivate', this._savedItemClickArgs, {bubbling: true});
+                        this._notify('itemActivate', this._savedItemClickArgs.slice(1), {bubbling: true});
                     }
                     return result;
                 }
