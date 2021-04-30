@@ -1,10 +1,10 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">newTab=false</div>
+      <div class="controls-text-label">newTab=false</div>
       <Controls.decorator:WrapURLs value="{{_value}}" newTab="{{false}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">newTab=true</div>
+      <div class="controls-text-label">newTab=true</div>
       <Controls.decorator:WrapURLs value="{{_value}}" newTab="{{true}}"/>
    </div>
 </div>

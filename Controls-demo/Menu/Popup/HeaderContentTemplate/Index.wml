@@ -1,6 +1,6 @@
 <div class="controlsDemo__flexRow">
    <div class="controlsDemo__wrapper controlsDemo__flexColumn">
-      <div class="controls-text-label_theme-{{_options.theme}}">С указанием headerContentTemplate</div>
+      <div class="controls-text-label">С указанием headerContentTemplate</div>
       <Controls.menu:Popup
               source="{{_source}}"
               keyProperty="key"

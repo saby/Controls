@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/Filter_new/FilterView/Source/Index' }}">
          <a href="{{content.href}}">Source</a>
@@ -8,7 +8,7 @@
       <Controls-demo.Filter_new.FilterView.Source.Index/>
    </div>
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/Filter_new/FilterView/EmptyText/Index' }}">
          <a href="{{content.href}}">EmptyText</a>

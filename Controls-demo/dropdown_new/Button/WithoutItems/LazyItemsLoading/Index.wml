@@ -1,6 +1,6 @@
 <div class="controlsDemo__flexRow controlsDemo_fixedWidth300">
    <div class="controlsDemo__wrapper demo-dropdownNew__lazyItemsLoading">
-      <div class="controls-text-label_theme-{{_options.theme}}">lazyItemsLoading = true</div>
+      <div class="controls-text-label">lazyItemsLoading = true</div>
       <Controls.dropdown:Button
               keyProperty="key"
               displayProperty="title"

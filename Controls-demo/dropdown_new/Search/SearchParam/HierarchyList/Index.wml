@@ -1,6 +1,6 @@
 <div class="controlsDemo__flexRow">
    <div class="controlsDemo__ml3">
-      <div class="controls-text-label_theme-{{_options.theme}}">Поиск в иерархическом списке</div>
+      <div class="controls-text-label">Поиск в иерархическом списке</div>
       <Controls.dropdown:Selector
               source="{{_source}}"
               keyProperty="id"

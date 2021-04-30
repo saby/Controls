@@ -1,5 +1,5 @@
 <div attr:style="margin: 30px 30px">
-<div class="controls-text-label_theme-{{_options.theme}}">readOnly=false</div>
+<div class="controls-text-label">readOnly=false</div>
 <div class="controlsDemo__cell controlsDemo_m3">
     <Controls.popup:PreviewerTarget readOnly="{{false}}" trigger="hoverAndClick"
                                     template="Controls-demo/Popup/Edit/MyFormController">
@@ -8,7 +8,7 @@
         </ws:content>
     </Controls.popup:PreviewerTarget>
 </div>
-<div class="controls-text-label_theme-{{_options.theme}}">readOnly=true</div>
+<div class="controls-text-label">readOnly=true</div>
 <div class="controlsDemo__cell controlsDemo_m3">
     <Controls.popup:PreviewerTarget readOnly="{{true}}" trigger="hoverAndClick"
                                     template="Controls-demo/Popup/Edit/MyFormController">
@@ -17,7 +17,7 @@
         </ws:content>
     </Controls.popup:PreviewerTarget>
 </div>
-<div class="controls-text-label_theme-{{_options.theme}}">readOnly=false and content readOnly true</div>
+<div class="controls-text-label">readOnly=false and content readOnly true</div>
 <div class="controlsDemo__cell controlsDemo_m3">
     <Controls.popup:PreviewerTarget readOnly="{{false}}" trigger="hoverAndClick"
                                     template="Controls-demo/Popup/Edit/MyFormController">

@@ -1,16 +1,16 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
-    <div class="controls-text-label_theme-{{_options.theme}}">slider</div>
+    <div class="controls-text-label">slider</div>
     <Controls.slider:Base
             maxValue="{{100}}"
             minValue="{{0}}"
             bind:value="_value"
     />
-    <div class="controls-text-label_theme-{{_options.theme}}">default slider</div>
+    <div class="controls-text-label">default slider</div>
     <Controls.slider:Base
             maxValue="{{100}}"
             minValue="{{0}}"
     />
-    <div class="controls-text-label_theme-{{_options.theme}}">readOnly=true</div>
+    <div class="controls-text-label">readOnly=true</div>
     <Controls.slider:Base
             maxValue="{{100}}"
             minValue="{{0}}"

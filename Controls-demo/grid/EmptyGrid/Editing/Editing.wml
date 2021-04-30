@@ -29,7 +29,7 @@
                             </ws:Object>
                             <ws:Object>
                                 <ws:template>
-                                    <div>или выберите из <a href="#" class="controls-text-link_theme-default">каталога</a></div>
+                                    <div>или выберите из <a href="#" class="controls-text-link">каталога</a></div>
                                 </ws:template>
                             </ws:Object>
                         </ws:Array>

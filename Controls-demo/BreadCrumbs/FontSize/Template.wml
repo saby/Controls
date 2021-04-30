@@ -2,19 +2,19 @@
     <div class="controlsDemo__wrapper">
         <h3>HeadingPath</h3>
         <div class="controlsDemo__cell">
-            <div class="controls-text-label_theme-{{_options.theme}}">fontSize=xs</div>
+            <div class="controls-text-label">fontSize=xs</div>
             <Controls.breadcrumbs:HeadingPath keyProperty="id" items="{{_items}}" fontSize="xs"/>
         </div>
         <div class="controlsDemo__cell">
-            <div class="controls-text-label_theme-{{_options.theme}}">fontSize=s</div>
+            <div class="controls-text-label">fontSize=s</div>
             <Controls.breadcrumbs:HeadingPath keyProperty="id" items="{{_items}}" fontSize="s"/>
         </div>
         <div class="controlsDemo__cell">
-            <div class="controls-text-label_theme-{{_options.theme}}">fontSize=m</div>
+            <div class="controls-text-label">fontSize=m</div>
             <Controls.breadcrumbs:HeadingPath keyProperty="id" items="{{_items}}" fontSize="m"/>
         </div>
         <div class="controlsDemo__cell">
-            <div class="controls-text-label_theme-{{_options.theme}}">fontSize=l</div>
+            <div class="controls-text-label">fontSize=l</div>
             <Controls.breadcrumbs:HeadingPath keyProperty="id" items="{{_items}}" fontSize="l" />
         </div>
     </div>

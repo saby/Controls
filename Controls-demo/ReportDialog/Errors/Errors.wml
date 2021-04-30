@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
-     <div class="controls-text-label_theme-{{_options.theme}}">Диалоговое окно с описанием ошибок</div>
+     <div class="controls-text-label">Диалоговое окно с описанием ошибок</div>
      <Controls.operationsPopup:ReportDialog title="Заголовок"
                                             errors="{{_errors}}"
                                             operationsCount="{{4}}"

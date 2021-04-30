@@ -1,5 +1,5 @@
 <div class="controls-Demo__wide-propertyGrid">
-    <div class="controls-text-label_theme-{{_options.theme}}">Source</div>
+    <div class="controls-text-label">Source</div>
     <Controls.propertyGrid:PropertyGrid
             bind:editingObject="_editingObject"
             source="{{_source}}">

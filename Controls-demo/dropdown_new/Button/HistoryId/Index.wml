@@ -1,6 +1,6 @@
 <div class="controlsDemo__flexRow">
    <div class="controlsDemo__wrapper">
-      <div class="controls-text-label_theme-{{_options.theme}}">Меню с историей</div>
+      <div class="controls-text-label">Меню с историей</div>
       <Controls.dropdown:Button
               keyProperty="key"
               displayProperty="title"

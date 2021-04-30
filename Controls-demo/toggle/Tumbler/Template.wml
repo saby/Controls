@@ -1,10 +1,10 @@
 <div class="controlsDemo__wrapper {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth500' : 'controlsDemo_fixedWidth300'}}">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label controlsDemo_widthFit controls-text-label_theme-{{_options.theme}}">две кнопки</div>
+        <div class="controls-text-label controlsDemo_widthFit controls-text-label">две кнопки</div>
         <Controls.toggle:Tumbler items="{{_items1}}" bind:selectedKey="_selectedKey1" attr:class="ControlsDemo-Tumbler__twoButtons"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label controlsDemo_widthFit controls-text-label_theme-{{_options.theme}}">несколько кнопок</div>
+        <div class="controls-text-label controlsDemo_widthFit controls-text-label">несколько кнопок</div>
         <Controls.toggle:Tumbler items="{{_items2}}" bind:selectedKey="_selectedKey2" attr:class="ControlsDemo-Tumbler__muiltyButtons"/>
     </div>
 </div>

@@ -1,6 +1,6 @@
 <div class="controlsDemo__flexRow">
    <div class="controlsDemo__wrapper demo-dropdownNew__fontSizeXL">
-      <div class="controls-text-label_theme-{{_options.theme}}"></div>
+      <div class="controls-text-label"></div>
       <Controls.dropdown:Button
               fontSize="xl"
               keyProperty="key"

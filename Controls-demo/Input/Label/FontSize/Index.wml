@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
 <ws:for data="fontSize in _fontSizes">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize={{fontSize}}</div>
+        <div class="controls-text-label">fontSize={{fontSize}}</div>
         <Controls.input:Label caption="Label" fontSize="{{fontSize}}"/>
     </div>
 </ws:for>

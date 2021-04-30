@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">Базовая настройка легенды к диаграмме состояния процесса</div>
+        <div class="controls-text-label">Базовая настройка легенды к диаграмме состояния процесса</div>
         <Controls.popup:Infobox name="stateIndicatorLegend" />
         <Controls.progress:StateIndicator
                 data="{{_dataWithTwoCategories}}"

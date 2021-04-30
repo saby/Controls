@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
-   <div class="controls-text-label_theme-{{_options.theme}}">ScaleLabelFormatter</div>
+   <div class="controls-text-label">ScaleLabelFormatter</div>
    <Controls.slider:Base
            maxValue="{{100}}"
            minValue="{{0}}"
@@ -7,7 +7,7 @@
            bind:value="_value"
            scaleLabelFormatter="{{_scaleLabelFormatter}}"
    />
-   <div class="controls-text-label_theme-{{_options.theme}}">readOnly=true</div>
+   <div class="controls-text-label">readOnly=true</div>
    <Controls.slider:Base
            maxValue="{{100}}"
            minValue="{{0}}"
