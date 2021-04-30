@@ -90,6 +90,9 @@ export default class extends Control {
     }
 
     protected _afterMount(): void {
+        this._toggleNodes(this._children.tree1);
+        this._toggleNodes(this._children.tree2);
+        this._toggleNodes(this._children.tree3);
         this._toggleNodes(this._children.tree4);
     }
 
