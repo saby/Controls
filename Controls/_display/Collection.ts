@@ -455,6 +455,15 @@ function functorToImportantProperties(func: Function, add: boolean): void {
     }
 }
 
+function groupingFilter(item: EntityModel,
+                        index: number,
+                        collectionItem: CollectionItem<EntityModel>,
+                        collectionIndex: number,
+                        hasMembers?: boolean,
+                        group?: GroupItem<EntityModel>): boolean {
+    return collectionItem['[Controls/_display/GroupItem]'] || !group || group.isExpanded();
+}
+
 /**
  * Проекция коллекции - предоставляет методы навигации, фильтрации и сортировки,
  * не меняя при этом оригинальную коллекцию.
@@ -938,10 +947,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         if (this._isGrouped()) {
             // TODO What's a better way of doing this?
-            this.addFilter(
-                (item, index, collectionItem, collectionIndex, hasMembers, groupItem) =>
-                    collectionItem['[Controls/_display/GroupItem]'] || !groupItem || groupItem.isExpanded()
-            );
+            this.addFilter(groupingFilter);
         }
     }
 
@@ -1670,9 +1676,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setGroupProperty(groupProperty: string): boolean {
         if (this._$groupProperty !== groupProperty) {
             this._$groupProperty = groupProperty;
-            this.setGroup((item) => {
+            const groupCallback = (item) => {
                 return item.get(this._$groupProperty);
-            });
+            };
+            this.setGroup(this._$groupProperty ? groupCallback : null);
             this._nextVersion();
             return true;
         }
@@ -1711,17 +1718,28 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }
 
         this._switchImportantPropertiesByGroup(false);
+
+        if (!!group) {
+            this.addFilter(groupingFilter);
+        } else {
+            this.removeFilter(groupingFilter);
+        }
+
         if (!this._composer) {
             this._$group = group;
-            this._switchImportantPropertiesByGroup(true);
+            if (!!group) {
+                this._switchImportantPropertiesByGroup(true);
+            }
             return;
         }
 
         const session = this._startUpdateSession();
         const groupStrategy = this._composer.getInstance<GroupItemsStrategy<S, T>>(GroupItemsStrategy);
-
         this._$group = groupStrategy.handler = group;
-        this._switchImportantPropertiesByGroup(true);
+        if (group) {
+            this._switchImportantPropertiesByGroup(true);
+        }
+
         this._getItemsStrategy().invalidate();
         this._reSort();
         this._reFilter();

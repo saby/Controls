@@ -1,5 +1,6 @@
 import {BrandsImages} from './images/brands';
 import {GadgetsImages} from './images/gadgets';
+import Images from "Controls-demo/tileNew/DataHelpers/Images";
 
 export interface IHierarchyData {
     id: number;

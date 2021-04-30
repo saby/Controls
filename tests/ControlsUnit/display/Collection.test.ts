@@ -1764,6 +1764,41 @@ describe('Controls/_display/Collection', () => {
                 assert.equal(expected[i], item.getContents());
             });
         });
+
+        it('should remove grouping filter when null was passed', () => {
+            const list = new ObservableList({
+                items: [
+                    {id: 1},
+                    {id: 2},
+                    {id: 3}
+                ]
+            });
+            const display = new CollectionDisplay({
+                collection: list
+            });
+            const spyRemoveFilter = spy(display, 'removeFilter');
+            display.setGroup((item) => item.group);
+            display.setGroup(null);
+            assert.isTrue(spyRemoveFilter.called);
+            spyRemoveFilter.restore();
+        });
+
+        it('should add grouping filter when handler was passed', () => {
+            const list = new ObservableList({
+                items: [
+                    {id: 1, group: 2},
+                    {id: 2, group: 3},
+                    {id: 3, group: 2}
+                ]
+            });
+            const display = new CollectionDisplay({
+                collection: list
+            });
+            const spyAddFilter = spy(display, 'addFilter');
+            display.setGroup((item) => item.group);
+            assert.isTrue(spyAddFilter.called);
+            spyAddFilter.restore();
+        });
     });
 
     describe('.getGroupItems()', () => {
