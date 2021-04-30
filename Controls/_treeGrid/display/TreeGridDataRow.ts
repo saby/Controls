@@ -54,8 +54,8 @@ export default class TreeGridDataRow<T extends Model = Model>
         return isChangedMultiSelectVisibility;
     }
 
-    setEditing(editing: boolean, editingContents?: T, silent?: boolean): void {
-        super.setEditing(editing, editingContents, silent);
+    setEditing(editing: boolean, editingContents?: T, silent?: boolean, columnIndex?: number): void {
+        super.setEditing(editing, editingContents, silent, columnIndex);
         this.setRowTemplate(editing ? this._$owner.getItemEditorTemplate() : undefined);
         const colspanCallback = this._$owner.getColspanCallback();
         if (colspanCallback) {
