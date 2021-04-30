@@ -11,11 +11,11 @@ import { isEqual } from 'Types/object';
 import { RecordSet } from 'Types/collection';
 import { Model } from 'Types/entity';
 
-import { Direction, TKey } from 'Controls/interface';
+import {Direction, IHierarchyOptions, TKey} from 'Controls/interface';
 import { BaseControl, IBaseControlOptions } from 'Controls/list';
-import {Collection, CollectionItem, Tree, TreeItem} from 'Controls/display';
+import {Collection, Tree, TreeItem} from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
-import { NewSourceController as SourceController, NewSourceController } from 'Controls/dataSource';
+import { NewSourceController } from 'Controls/dataSource';
 import { MouseButtons, MouseUp } from 'Controls/popup';
 import 'css!Controls/list';
 import 'css!Controls/itemActions';
@@ -34,7 +34,7 @@ const DEFAULT_COLUMNS_VALUE = [];
 type TNodeFooterVisibilityCallback = (item: Model) => boolean;
 type TNodeLoadCallback = (list: RecordSet, nodeKey: number | string) => void;
 
-export interface ITreeControlOptions extends IBaseControlOptions {
+export interface ITreeControlOptions extends IBaseControlOptions, IHierarchyOptions {
     parentProperty: string;
     markerMoveMode?;
     root?;
@@ -107,12 +107,12 @@ const _private = {
             });
         }
 
-        if (!options.hasOwnProperty('expandedItems') || options.markerMoveMode === 'leaves') {
+        if (!options.expandedItems || options.markerMoveMode === 'leaves') {
             model.setExpandedItems(newExpandedItems);
             self.getSourceController().setExpandedItems(newExpandedItems);
         }
 
-        if (!options.hasOwnProperty('collapsedItems')) {
+        if (!options.collapsedItems) {
             model.setCollapsedItems(newCollapsedItems);
         }
 

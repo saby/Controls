@@ -1,24 +1,34 @@
-import {ICrud, ICrudPlus, IData, PrefetchProxy, QueryOrderSelector, QueryWhereExpression} from 'Types/source';
+import {ICrud, ICrudPlus, IData, PrefetchProxy, QueryOrderSelector, QueryWhereExpression, CrudEntityKey} from 'Types/source';
 import {CrudWrapper} from './CrudWrapper';
 import {default as NavigationController, INavigationControllerOptions} from 'Controls/_dataSource/NavigationController';
-import {INavigationOptionValue,
-        INavigationSourceConfig,
-        Direction,
-        TKey,
-        IBaseSourceConfig,
-        IFilterOptions,
-        ISortingOptions,
-        IHierarchyOptions,
-        IGroupingOptions,
-        ISourceOptions,
-        IPromiseSelectableOptions,
-        INavigationOptions} from 'Controls/interface';
-import {TNavigationPagingMode} from 'Controls/interface';
+import {
+    Direction,
+    IBaseSourceConfig,
+    IFilterOptions,
+    IGroupingOptions,
+    IHierarchyOptions,
+    INavigationOptions,
+    INavigationOptionValue,
+    INavigationSourceConfig,
+    IPromiseSelectableOptions,
+    ISortingOptions,
+    ISourceOptions,
+    TKey,
+    TNavigationPagingMode
+} from 'Controls/interface';
 import {RecordSet} from 'Types/collection';
-import {Record as EntityRecord, CancelablePromise, Model, EventRaisingMixin, ObservableMixin, relation} from 'Types/entity';
+import {
+    CancelablePromise,
+    EventRaisingMixin,
+    Model,
+    ObservableMixin,
+    Record as EntityRecord,
+    relation
+} from 'Types/entity';
 import {Logger} from 'UI/Utils';
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
 import {default as groupUtil} from './GroupUtil';
+import {nodeHistoryUtil} from './nodeHistoryUtil';
 import {isEqual} from 'Types/object';
 import {mixin} from 'Types/util';
 // @ts-ignore
@@ -27,6 +37,7 @@ import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {fetch, HTTPStatus} from 'Browser/Transport';
 import {default as calculatePath, Path} from 'Controls/_dataSource/calculatePath';
+import TreeControl from "Controls/_tree/TreeControl";
 
 export interface IControllerState {
     keyProperty: string;
@@ -46,6 +57,8 @@ export interface IControllerState {
 
     sourceController: Controller;
     dataLoadCallback: Function;
+
+    expandedItems: CrudEntityKey[];
 }
 
 export interface IControllerOptions extends
@@ -191,7 +204,7 @@ export default class Controller extends mixin<
             this.setExpandedItems(cfg.expandedItems);
         }
         this.setParentProperty(cfg.parentProperty);
-        
+
         if (cfg.items) {
             this.setItems(cfg.items);
         }
@@ -364,8 +377,7 @@ export default class Controller extends mixin<
 
     getState(): IControllerState {
         const source = Controller._getSource(this._options.source);
-
-        return {
+        const state = {
             keyProperty: this.getKeyProperty(),
             source,
 
@@ -384,8 +396,10 @@ export default class Controller extends mixin<
             // FIXME sourceController не должен создаваться, если нет source
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
-            dataLoadCallback: this._options.dataLoadCallback
+            dataLoadCallback: this._options.dataLoadCallback,
+            expandedItems: this._expandedItems
         };
+        return state;
     }
 
     getCollapsedGroups(): TArrayGroupId {
@@ -395,6 +409,10 @@ export default class Controller extends mixin<
     // FIXME для работы дерева без bind'a опции expandedItems
     setExpandedItems(expandedItems: TKey[]): void {
         this._expandedItems = expandedItems;
+    }
+
+    updateExpandedItemsInUserStorage(): void  {
+        nodeHistoryUtil.store(this._expandedItems, this._options.nodeHistoryId);
     }
 
     getExpandedItems(): TKey[] {
@@ -705,40 +723,61 @@ export default class Controller extends mixin<
         initialFilter: QueryWhereExpression<unknown>,
         options: IControllerOptions,
         root: TKey = this._root): Promise<QueryWhereExpression<unknown>> {
-        const expandedItemsForFilter = this._expandedItems || options.expandedItems;
         const parentProperty = this._parentProperty;
-        let resultFilter = initialFilter;
+        let resultFilter: QueryWhereExpression<unknown>;
 
-        return new Promise((resolve) => {
-            if (parentProperty) {
+        if (parentProperty) {
+            return this._resolveExpandedHierarchyItems(options).then((expandedItems) => {
+                this.setExpandedItems(expandedItems);
                 resultFilter = {...initialFilter};
                 const isDeepReload = this._isDeepReload() && root === this._root;
 
-                if (expandedItemsForFilter?.length && expandedItemsForFilter?.[0] !== null && isDeepReload) {
+                // Набираем все раскрытые узлы
+                if (expandedItems?.length && expandedItems?.[0] !== null && isDeepReload) {
                     resultFilter[parentProperty] = Array.isArray(resultFilter[parentProperty]) ?
                         resultFilter[parentProperty] :
                         [];
                     resultFilter[parentProperty].push(root);
-                    resultFilter[parentProperty] = resultFilter[parentProperty].concat(expandedItemsForFilter);
+                    resultFilter[parentProperty] = resultFilter[parentProperty].concat(expandedItems);
                 } else if (root !== undefined) {
                     resultFilter[parentProperty] = root;
                 }
 
+                // Учитываем в запросе выбранные в multiSelect элементы
                 if (options.selectedKeys && options.selectedKeys.length) {
-                    import('Controls/operations').then((operations) => {
+                    return import('Controls/operations').then((operations) => {
                         resultFilter.entries = operations.selectionToRecord({
                             selected: options.selectedKeys,
                             excluded: options.excludedKeys || []
                         }, Controller._getSource(options.source).getAdapter());
-                        resolve(resultFilter);
+                        return resultFilter;
                     });
-                } else {
-                    resolve(resultFilter);
                 }
-            } else {
-                resolve(resultFilter);
-            }
-        });
+
+                return resultFilter;
+            });
+        }
+        return Promise.resolve(initialFilter);
+    }
+
+    /**
+     * Возвращает Promise с идентификаторами раскрытых узлов
+     * @param options
+     * @private
+     */
+    private _resolveExpandedHierarchyItems(options: IControllerOptions): Promise<CrudEntityKey[]> {
+        const expandedItems = this._expandedItems || options.expandedItems;
+        if (options.nodeHistoryId) {
+            return nodeHistoryUtil.restore(options.nodeHistoryId)
+                .then((restored) => {
+                    return restored || expandedItems || [];
+                })
+                .catch((e) => {
+                    Logger.warn(e.message);
+                    return expandedItems;
+                });
+        }
+        return Promise.resolve(expandedItems);
     }
 
     private _prepareFilterForQuery(

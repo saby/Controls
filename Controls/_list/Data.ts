@@ -3,11 +3,11 @@ import template = require('wml!Controls/_list/Data');
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {RegisterClass} from 'Controls/event';
 import {RecordSet} from 'Types/collection';
-import {QueryWhereExpression, PrefetchProxy, ICrud, ICrudPlus, IData, Memory} from 'Types/source';
+import {QueryWhereExpression, PrefetchProxy, ICrud, ICrudPlus, IData, Memory, CrudEntityKey} from 'Types/source';
 import {
    error as dataSourceError,
    ISourceControllerOptions,
-   NewSourceController as SourceController, Path
+   NewSourceController as SourceController, nodeHistoryUtil, Path
 } from 'Controls/dataSource';
 import {ISourceControllerState} from 'Controls/dataSource';
 import { IContextOptionsValue } from 'Controls/context';
@@ -37,6 +37,8 @@ export interface IDataOptions extends IControlOptions,
    groupHistoryId?: string;
    historyIdCollapsedGroups?: string;
    sourceController?: SourceController;
+   expandedItems?: CrudEntityKey[];
+   nodeHistoryId?: string;
 }
 
 export interface IDataContextOptions extends ISourceOptions,
@@ -47,7 +49,10 @@ export interface IDataContextOptions extends ISourceOptions,
    items: RecordSet;
 }
 
-type ReceivedState = RecordSet | Error;
+interface IReceivedState {
+   items: RecordSet | Error;
+   expandedItems: CrudEntityKey[];
+}
 
 /**
  * Контрол-контейнер, предоставляющий контекстное поле "dataOptions" с необходимыми данными для дочерних контейнеров.
@@ -108,7 +113,7 @@ type ReceivedState = RecordSet | Error;
  * @author Герасимов А.М.
  */
 
-class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list/Data.prototype */{
+class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_list/Data.prototype */{
    protected _template: TemplateFunction = template;
    protected _contextState: IContextOptionsValue;
    private _isMounted: boolean;
@@ -124,13 +129,16 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
    protected _breadCrumbsItems: Path;
    protected _backButtonCaption: string;
    protected _breadCrumbsItemsWithoutBackButton: Path;
+   protected _expandedItems: CrudEntityKey[];
+   protected _shouldSetExpandedItemsOnUpdate: boolean;
+   private _nodeHistoryId: string;
 
    private _filter: QueryWhereExpression<unknown>;
 
    _beforeMount(
        options: IDataOptions,
        context?: object,
-       receivedState?: ReceivedState
+       receivedState?: IReceivedState
    ): Promise<RecordSet|Error>|void {
       // TODO придумать как отказаться от этого свойства
       this._itemsReadyCallback = this._itemsReadyCallbackHandler.bind(this);
@@ -139,6 +147,13 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
 
       if (!options.hasOwnProperty('sourceController')) {
          this._errorRegister = new RegisterClass({register: 'dataError'});
+      }
+
+      if (options.nodeHistoryId) {
+         this._nodeHistoryId = options.nodeHistoryId;
+      }
+      if (options.expandedItems) {
+         this._shouldSetExpandedItemsOnUpdate = true;
       }
 
       if (receivedState && options.source instanceof PrefetchProxy) {
@@ -151,32 +166,41 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
          this._root = options.root;
       }
 
-      this._sourceController = options.sourceController || this._getSourceController(options);
+      this._sourceController = options.sourceController || this._getSourceController(options, receivedState);
       this._fixRootForMemorySource(options);
 
       const controllerState = this._sourceController.getState();
+
       // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
       this._filter = controllerState.filter;
 
       if (options.sourceController) {
+         // Если контроллер задан выше, чем появилось дерево, то надо установить в него expandedItems из опций
+         if (options.expandedItems && !controllerState.expandedItems) {
+            options.sourceController.setExpandedItems(options.expandedItems);
+         }
          if (!controllerState.dataLoadCallback && options.dataLoadCallback) {
             options.dataLoadCallback(options.sourceController.getItems());
          }
          this._setItemsAndUpdateContext();
-      } else if (receivedState instanceof RecordSet && isNewEnvironment()) {
+      } else if (receivedState?.items instanceof RecordSet && isNewEnvironment()) {
          if (options.source && options.dataLoadCallback) {
-            options.dataLoadCallback(receivedState);
+            options.dataLoadCallback(receivedState.items);
          }
-         this._sourceController.setItems(receivedState);
+         this._sourceController.setItems(receivedState.items);
          this._setItemsAndUpdateContext();
       } else if (options.source) {
          return this._sourceController
              .reload()
              .then((items) => {
-                this._items = this._sourceController.getState().items;
+                const state = this._sourceController.getState();
+                this._items = state.items;
                 this._updateBreadcrumbsFromSourceController();
 
-                return items;
+                return {
+                   items,
+                   expandedItems: state.expandedItems
+                };
              })
              .catch((error) => error)
              .finally(() => {
@@ -215,6 +239,7 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
 
    _updateWithoutSourceControllerInOptions(newOptions: IDataOptions): void|Promise<RecordSet|Error> {
       let filterChanged;
+      let expandedItemsChanged;
 
       if (this._options.source !== newOptions.source) {
          this._source = newOptions.source;
@@ -229,12 +254,19 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
          filterChanged = true;
       }
 
+      if (this._shouldSetExpandedItemsOnUpdate && !isEqual(newOptions.expandedItems, this._options.expandedItems)) {
+         expandedItemsChanged = true;
+      }
+
       const isChanged = this._sourceController.updateOptions(this._getSourceControllerOptions(newOptions));
 
       if (isChanged) {
          return this._reload(this._options);
       } else if (filterChanged) {
          this._filter = this._sourceController.getFilter();
+         this._updateContext(this._sourceController.getState());
+      } else if (expandedItemsChanged) {
+         this._sourceController.updateExpandedItemsInUserStorage();
          this._updateContext(this._sourceController.getState());
       }
    }
@@ -245,6 +277,9 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
       if (!isEqual(sourceControllerState, this._sourceControllerState) && !this._sourceController.isLoading()) {
          this._filter = sourceControllerState.filter;
          this._items = sourceControllerState.items;
+         if (this._shouldSetExpandedItemsOnUpdate) {
+            this._expandedItems = sourceControllerState.expandedItems;
+         }
          this._updateBreadcrumbsFromSourceController();
          this._updateContext(sourceControllerState);
       }
@@ -258,7 +293,26 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
       this._updateContext(controllerState);
    }
 
-   private _getSourceControllerOptions(options: IDataOptions): ISourceControllerOptions {
+   // Необходимо отслеживать оба события, т.к. не всегда оборачивают список в List:Container,
+   // и dataContainer слушает напрямую список. Для нового грида это работает, а старый через модель сам
+   // посылает события.
+   _expandedItemsChanged(event: SyntheticEvent, expandedItems: CrudEntityKey[]): void {
+      if (this._shouldSetExpandedItemsOnUpdate) {
+         this._notify('expandedItemsChanged', [expandedItems], { bubbling: true });
+
+      } else if (this._expandedItems !== expandedItems) {
+         this._sourceController.setExpandedItems(expandedItems);
+         if (this._options.nodeHistoryId) {
+            this._sourceController.updateExpandedItemsInUserStorage();
+         }
+         this._updateContext(this._sourceController.getState());
+      }
+   }
+
+   private _getSourceControllerOptions(options: IDataOptions, receivedState?: object): ISourceControllerOptions {
+      if (receivedState?.expandedItems) {
+         options.expandedItems = receivedState.expandedItems;
+      }
       return {
          ...options,
          source: this._source,
@@ -269,8 +323,8 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
       } as ISourceControllerOptions;
    }
 
-   private _getSourceController(options: IDataOptions): SourceController {
-      const sourceController = new SourceController(this._getSourceControllerOptions(options));
+   private _getSourceController(options: IDataOptions, receivedState?: object): SourceController {
+      const sourceController = new SourceController(this._getSourceControllerOptions(options, receivedState));
       sourceController.subscribe('rootChanged', this._rootChanged.bind(this));
       return sourceController;
    }
@@ -352,6 +406,7 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
          ...sourceControllerState
       };
       this._sourceControllerState = sourceControllerState;
+      this._expandedItems = sourceControllerState.expandedItems;
    }
 
    // https://online.sbis.ru/opendoc.html?guid=e5351550-2075-4550-b3e7-be0b83b59cb9
