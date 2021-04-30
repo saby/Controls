@@ -28,7 +28,8 @@ export default class StickyLadderCell<T, TOwner extends DataRow<T>> extends Data
 
     getWrapperClasses(theme: string, backgroundColorStyle?: string, style: string = 'default'): string {
         let wrapperClasses = 'controls-Grid__row-ladder-cell';
-        wrapperClasses += this._getWrapperSeparatorClasses(theme);
+        wrapperClasses += this._getWrapperSeparatorClasses();
+        wrapperClasses += this._getColumnScrollWrapperClasses();
         return wrapperClasses;
     }
 
@@ -83,7 +84,7 @@ export default class StickyLadderCell<T, TOwner extends DataRow<T>> extends Data
     }
 
     getStickyHeaderStyles(): string {
-        return `z-index: ${this._$stickyHeaderZIndex};`;
+        return `z-index: ${ this._$stickyHeaderZIndex + (this._$isFixed ? 2 : 0)};`;
     }
 
     getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {

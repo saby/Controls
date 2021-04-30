@@ -19,6 +19,7 @@ const mockedCollection = {
     getIndex: () => 0,
     notifyItemChange: () => {},
     getItemEditorTemplate: () => {},
+    hasColumnScroll: () => false,
     isFullGridSupport: () => true
 } as GridCollection<Model>;
 

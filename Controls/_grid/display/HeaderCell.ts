@@ -61,7 +61,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     }
 
     private _calcContentOrientation(): void {
-        if (this.isCheckBoxCell()) {
+        if (this.isCheckBoxCell()  || this._$isLadderCell) {
             this._$contentOrientation = {
                 align: undefined,
                 valign: undefined
@@ -114,11 +114,17 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
                 colspan: 1
             };
         }
+        if (this._$isLadderCell) {
+            return null;
+        }
         if (this._$column.startColumn && this._$column.endColumn) {
             const multiSelectOffset = this.isCheckBoxCell() ? 0 : +this._$owner.hasMultiSelectColumn();
+            const stickyLadderCellsCount = this._$owner.getStickyLadderCellsCount();
+            const startLadderOffset = this._$column.startColumn > 1 ? stickyLadderCellsCount : +!!stickyLadderCellsCount;
+            const stopLadderOffset = stickyLadderCellsCount;
             return {
-                startColumn: this._$column.startColumn + multiSelectOffset,
-                endColumn: this._$column.endColumn + multiSelectOffset
+                startColumn: this._$column.startColumn + multiSelectOffset + startLadderOffset,
+                endColumn: this._$column.endColumn + multiSelectOffset + stopLadderOffset
             };
         }
         return super._getColspanParams();
@@ -181,7 +187,8 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     getZIndex(): number {
         let zIndex;
         if (this._$owner.hasColumnScroll()) {
-            zIndex = this._$isFixed ? FIXED_HEADER_Z_INDEX : STICKY_HEADER_Z_INDEX;
+            const hasStickyLadder = this._$owner.getStickyLadderCellsCount() ? 1 : 0;
+            zIndex = this._$isFixed ? (FIXED_HEADER_Z_INDEX + hasStickyLadder) : STICKY_HEADER_Z_INDEX;
         } else {
             zIndex = FIXED_HEADER_Z_INDEX;
         }
