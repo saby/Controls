@@ -288,16 +288,18 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       this._updateContext(controllerState);
    }
 
-   _listExpandedItemsChanged(event: SyntheticEvent, expandedItems: CrudEntityKey[]): void {
-      if (!this._nodeHistoryId) {
-         return;
-      }
+   // Необходимо отслеживать оба события, т.к. не всегда оборачивают список в List:Container,
+   // и dataContainer слушает напрямую список. Для нового грида это работает, а старый через модель сам
+   // посылает события.
+   _expandedItemsChanged(event: SyntheticEvent, expandedItems: CrudEntityKey[]): void {
       if (this._shouldSetExpandedItemsOnUpdate) {
          this._notify('expandedItemsChanged', [expandedItems], { bubbling: true });
 
       } else if (this._expandedItems !== expandedItems) {
          this._sourceController.setExpandedItems(expandedItems);
-         this._sourceController.updateExpandedItemsInUserStorage();
+         if (this._options._nodeHistoryId) {
+            this._sourceController.updateExpandedItemsInUserStorage();
+         }
          this._updateContext(this._sourceController.getState());
       }
    }
