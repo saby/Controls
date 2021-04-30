@@ -266,7 +266,9 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          this._filter = this._sourceController.getFilter();
          this._updateContext(this._sourceController.getState());
       } else if (expandedItemsChanged) {
-         this._sourceController.updateExpandedItemsInUserStorage();
+         if (this._options.nodeHistoryId) {
+            this._sourceController.updateExpandedItemsInUserStorage();
+         }
          this._updateContext(this._sourceController.getState());
       }
    }
