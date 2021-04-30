@@ -684,6 +684,10 @@ export default class ScrollController {
         this._resetInEnd = resetInEnd;
     }
 
+    destroy() {
+        this._options.collection && this._options.collection.setIndexes(0, 0);
+    }
+
     private getTriggerOffset(scrollHeight: number, viewportHeight: number, resetTopTriggerOffset: boolean, resetDownTriggerOffset: boolean):
             {top: number, bottom: number} {
         this._triggerOffset =
