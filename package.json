@@ -20,7 +20,6 @@
       "build:index": "wasaby-cli --tasks=createIndex --moduleName=Controls-demo",
       "compile": "saby-typescript --compiler",
       "start": "wasaby-cli --tasks=app",
-      "start:units": "wasaby-cli --tasks=startTest --server",
       "start:hot": "concurrently \"npm:builder:watch\" \"npm:start\"",
       "test": "wasaby-cli --tasks=startTest --node --report=console",
       "test:coverage": "wasaby-cli --tasks=startTest --node --coverage",
