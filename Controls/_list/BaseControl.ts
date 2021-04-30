@@ -1296,12 +1296,8 @@ const _private = {
             totalElementsCount: elementsCount,
             loadedElementsCount: self._listViewModel.getStopIndex() - self._listViewModel.getStartIndex(),
             pagingCfgTrigger: (cfg) => {
-                if (cfg?.selectedPage !== self._currentPage) {
-                    if (self._selectedPageHasChanged) {
-                        self.__selectedPageChanged(null, self._currentPage);
-                    } else {
-                        self._currentPage = cfg.selectedPage;
-                    }
+                if (cfg?.selectedPage !== self._currentPage && !self._selectedPageHasChanged) {
+                    self._currentPage = cfg.selectedPage;
                 } else {
                     self._selectedPageHasChanged = false;
                 }
