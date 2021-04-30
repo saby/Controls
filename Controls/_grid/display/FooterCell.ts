@@ -3,6 +3,11 @@ import Cell, {IOptions as IBaseCellOptions} from './Cell';
 
 class FooterCell<T> extends Cell<T, FooterRow<T>> {
     protected readonly _defaultCellTemplate: string = 'Controls/grid:FooterColumnTemplate';
+    protected _$shouldAddFooterPadding: boolean;
+
+    constructor(options: IBaseCellOptions<T>) {
+        super(options);
+    }
 
     //region Аспект "Стилевое оформление"
     getWrapperClasses(theme: string,
@@ -17,7 +22,7 @@ class FooterCell<T> extends Cell<T, FooterRow<T>> {
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
         }
 
-        if (this.getOwner().getActionsTemplateConfig()?.itemActionsPosition === 'outside') {
+        if (this._$shouldAddFooterPadding) {
             wrapperClasses += ' controls-GridView__footer__itemActionsV_outside';
         }
 
@@ -42,6 +47,7 @@ class FooterCell<T> extends Cell<T, FooterRow<T>> {
 
 Object.assign(FooterCell.prototype, {
     '[Controls/_display/grid/FooterCell]': true,
+    _$shouldAddFooterPadding: false,
     _moduleName: 'Controls/grid:GridFooterCell',
     _instancePrefix: 'grid-footer-cell-'
 });

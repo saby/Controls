@@ -2,13 +2,18 @@ import {TemplateFunction} from 'UI/Base';
 import {isEqual} from 'Types/object';
 import {IColumn, TColumns} from 'Controls/interface';
 import {IItemActionsTemplateConfig} from 'Controls/display';
-import Row from './Row';
+import Row, {IOptions} from './Row';
 import FooterCell from 'Controls/_grid/display/FooterCell';
 import {TColspanCallbackResult} from 'Controls/_grid/display/mixins/Grid';
 
 export default class FooterRow<T> extends Row<string> {
     private _hasMoreData: boolean;
     private _actionsTemplateConfig: IItemActionsTemplateConfig;
+    protected _$shouldAddFooterPadding: boolean;
+
+    constructor(options?: IOptions<T>) {
+        super(options);
+    }
 
     getContents(): string {
         return 'footer';
@@ -47,6 +52,7 @@ export default class FooterRow<T> extends Row<string> {
         super._initializeColumns({
             shouldAddStickyLadderCells: !this._$rowTemplate,
             addEmptyCellsForStickyLadder: true,
+            shouldAddFooterPadding: this._$shouldAddFooterPadding,
             extensionCellsConstructors: {
                 stickyLadderCell: FooterCell,
                 multiSelectCell: this.getColumnsFactory({column: {}})
@@ -68,6 +74,7 @@ export default class FooterRow<T> extends Row<string> {
 
 Object.assign(FooterRow.prototype, {
     '[Controls/_display/grid/FooterRow]': true,
+    _$shouldAddFooterPadding: false,
     _moduleName: 'Controls/display:GridFooterRow',
     _instancePrefix: 'grid-footer-row-',
     _cellModule: 'Controls/grid:GridFooterCell'
