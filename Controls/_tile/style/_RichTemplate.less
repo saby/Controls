@@ -135,10 +135,12 @@
    background-color: rgba(255, 255, 255, 0.75);
    box-shadow: var(--item_actions_shadow_size_rich_tile) var(--item_actions_shadow_color_rich_tile);
    height: var(--item_actions_height_rich_tile);
-   width: var(--item_actions_width_rich_tile);
+   min-width: var(--item_actions_width_rich_tile);
    padding: 0;
+   &.controls-itemActionsV_editingToolbarVisible {
+      height: var(--item_actions_height_rich_tile);
+   }
 }
-
 .ws-is-hover {
    .controls-TileView__richTemplate_itemActions:hover {
       background-color: var(--background-color);
