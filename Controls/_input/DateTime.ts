@@ -66,7 +66,6 @@ class DateTime extends Control {
     protected _model: Model;
 
     protected _validators: Function[] = [];
-    private _shouldResetValidation: boolean;
 
     protected _beforeMount(options): void {
         this._updateDateConstructor(options);
@@ -88,8 +87,10 @@ class DateTime extends Control {
             this._updateValidationController(options);
         }
         // Если значение поменялось из кода - сбрасываем валидацию
+        // Нельзя передать value напрямую в валидатор, т.к. будет вызываться валидация при каждом изменении значения.
+        // Из-за этого произайдет ошибка сразу после ввода первого символа.
         if (this._model.value !== options.value) {
-            this._shouldResetValidation = true;
+            this.setValidationResult(null);
         }
         if (options.value !== this._options.value) {
             this._model.update({
@@ -99,13 +100,6 @@ class DateTime extends Control {
         }
         if (this._options.valuevalidators !== options.valueValidators || options.value !== this._options.value) {
             this._updateValidators(options.valueValidators);
-        }
-    }
-
-    protected _afterUpdate(options): void {
-        if (this._shouldResetValidation) {
-            this.setValidationResult(null);
-            this._shouldResetValidation = false;
         }
     }
 
