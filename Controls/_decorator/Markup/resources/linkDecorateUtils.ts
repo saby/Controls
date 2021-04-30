@@ -107,6 +107,16 @@ function createLinkNode(href: string, text: string = href, isEmail: boolean = fa
     return [tagName, attributes, text];
 }
 
+function createLinkObject(href: string, text: string = href, position: number, isEmail: boolean = false): object {
+   const newHref = isEmail ? 'mailto:' + href : href;
+
+   return {
+      href: newHref,
+      text,
+      position
+   };
+}
+
 function isLinkGoodForDecorating(linkNode) {
     const attributes = getAttributes(linkNode);
     const firstChild = getFirstChild(linkNode);
@@ -381,48 +391,73 @@ export function getDecoratedLink(jsonNode): any[]|string {
  * @return {any[] | string}
  */
 export function wrapLinksInString(stringNode: string, parentNode: any[]): any[]|string {
-    let result: any[]|string = [];
-    let hasAnyLink: boolean = false;
-    result.push([]);
-    if (getTagName(parentNode) === 'a') {
-        // Не нужно оборачивать ссылки внутри тега "a".
-        result = stringNode;
-    } else {
-        let linkParseExec = linkParseRegExp.exec(stringNode);
-        while (linkParseExec !== null) {
-            let [match, email, emailDomain, link, simpleLinkPrefix, simpleLinkDomain, ending, noLink] = linkParseExec;
-            linkParseExec = linkParseRegExp.exec(stringNode);
+   let result: any[]|string = [];
+   let hasAnyLink: boolean = false;
 
-            let nodeToPush: any[]|string;
-            if (match.length >= linkMaxLenght) {
-                nodeToPush = match;
-            } else if (link) {
-               [hasAnyLink, nodeToPush] = normalizeLink(link, simpleLinkDomain, ending,
-                  simpleLinkPrefix, match, true);
-            } else if (email) {
-                const isEndingPartOfEmail = characterRegExp.test(ending);
-                if (isEndingPartOfEmail) {
-                    emailDomain += ending;
-                    email += ending;
-                }
-                const wrongDomain = correctTopLevelDomainNames.indexOf(emailDomain) === -1;
-                hasAnyLink = hasAnyLink || !wrongDomain;
-                nodeToPush = wrongDomain ? match : createLinkNode(
-                    email,
-                    undefined,
-                    true
-                );
-            } else {
-                nodeToPush = noLink;
-            }
-            if (typeof nodeToPush === 'string' && typeof result[result.length - 1] === 'string') {
-                result[result.length - 1] += nodeToPush;
-            } else {
-                result.push(nodeToPush);
-            }
-        }
-    }
-    return hasAnyLink ? result : stringNode;
+   if (getTagName(parentNode) === 'a') {
+      // Не нужно оборачивать ссылки внутри тега "a".
+      result = stringNode;
+   } else {
+      result = parseLinks(stringNode, true);
+   }
+
+   return hasAnyLink ? result : stringNode;
+}
+
+export function parseLinks(stringNode: string, needToCreateLinkNode: boolean): any[] | string {
+   let linkParseExec = linkParseRegExp.exec(stringNode);
+   let result: any[]|string = [];
+   let hasAnyLink: boolean = false;
+   result.push([]);
+
+   while (linkParseExec !== null) {
+      let [match, email, emailDomain, link, simpleLinkPrefix, simpleLinkDomain, ending, noLink] = linkParseExec;
+      const position = linkParseExec.index;
+      linkParseExec = linkParseRegExp.exec(stringNode);
+      let nodeToPush: any[]|string;
+
+      if (match.length >= linkMaxLenght) {
+         nodeToPush = match;
+      } else if (link) {
+         [hasAnyLink, nodeToPush] = normalizeLink(link, simpleLinkDomain, ending,
+            simpleLinkPrefix, match, needToCreateLinkNode);
+
+         if (hasAnyLink && !needToCreateLinkNode) {
+            nodeToPush = createLinkObject(nodeToPush as string, match, position, false);
+         }
+      } else if (email) {
+         const isEndingPartOfEmail = characterRegExp.test(ending);
+
+         if (isEndingPartOfEmail) {
+            emailDomain += ending;
+            email += ending;
+         }
+
+         const wrongDomain = correctTopLevelDomainNames.indexOf(emailDomain) === -1;
+         hasAnyLink = hasAnyLink || !wrongDomain;
+         if (hasAnyLink && !needToCreateLinkNode) {
+            nodeToPush = createLinkObject(email, match, position, true);
+         } else {
+            nodeToPush = wrongDomain ? match : createLinkNode(
+               email,
+               undefined,
+               true
+            );
+         }
+      } else {
+         nodeToPush = noLink;
+      }
+
+      if (hasAnyLink && !needToCreateLinkNode) {
+         result.push(nodeToPush);
+      } else if (typeof nodeToPush === 'string' && typeof result[result.length - 1] === 'string') {
+         result[result.length - 1] += nodeToPush;
+      } else {
+         result.push(nodeToPush);
+      }
+   }
+
+   return result;
 }
 
 /**
