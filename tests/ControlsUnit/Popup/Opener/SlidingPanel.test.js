@@ -239,7 +239,7 @@ define(
 
                item.position = SlidingPanelStrategy.getPosition(item);
 
-               item.sizes = {};
+               item.animationState = 'initializing';
 
                const result = Controller.elementDestroyed(item);
 
