@@ -2,7 +2,8 @@
     <div class="{{ item.getExpanderClasses(item.getExpanderIcon(expanderIcon), item.getExpanderSize(expanderSize)) }}"></div>
 </ws:template>
 
-<tr attr:class="{{ item.getItemClasses({
+<tr attr:data-qa="{{item.getQAData(marker)}}"
+    attr:class="{{ item.getItemClasses({
         'highlightOnHover': highlightOnHover,
         'theme': theme,
         'style': style,

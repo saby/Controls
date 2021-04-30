@@ -340,7 +340,7 @@ export default class DataLoader {
     getState(): Record<string, IControllerState> {
         const state = {};
         this.each((config, id) => {
-            state[id] = this.getSourceController(id).getState();
+            state[id] = {...config, ...this.getSourceController(id).getState()};
         });
         return state;
     }

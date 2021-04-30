@@ -134,6 +134,10 @@ export default class DateRange extends Control<IDatePopupDateRangeOptions> {
         event.stopPropagation();
     }
 
+    protected _itemKeyDownHandler(event: Event, item, keyCode: number): void {
+        this._notify('itemKeyDown', [item, keyCode]);
+    }
+
     protected _scrollToMonth(event: Event, year: number, month: number): void {
         const newDate = new this._options.dateConstructor(year, month);
         this._notifyPositionChanged(newDate);

@@ -707,6 +707,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const viewModel = this.getViewModel();
         const sourceController = this.getSourceController();
         const searchValueChanged = this._options.searchValue !== newOptions.searchValue;
+        const isSourceControllerLoading = sourceController && sourceController.isLoading();
         let updateSourceController = false;
 
         if (typeof newOptions.root !== 'undefined' && this._root !== newOptions.root) {
@@ -743,7 +744,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         // сделана некорректно. Как откажемся от неё, то можно использовать стандартное сравнение опций.
         const currentExpandedItems = viewModel ? viewModel.getExpandedItems() : this._options.expandedItems;
         if (newOptions.expandedItems && !isEqual(newOptions.expandedItems, currentExpandedItems) && newOptions.source) {
-            if ((newOptions.source === this._options.source || newOptions.sourceController) && isEqual(newOptions.filter, this._options.filter) ||
+            if ((newOptions.source === this._options.source || newOptions.sourceController) && !isSourceControllerLoading ||
                 (searchValueChanged && newOptions.sourceController)) {
                 if (viewModel) {
                     viewModel.setExpandedItems(newOptions.expandedItems);

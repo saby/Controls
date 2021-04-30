@@ -771,7 +771,11 @@ export default abstract class TileItem<T extends Model = Model> {
         titleStyle: string = 'light'
     ): string {
         if (itemType === 'small') {
-            return this.canShowActions() ? 'controls-ListView__item_showActions' : '';
+            let classes = 'controls-TileView__smallTemplate_wrapper';
+            if (this.canShowActions()) {
+                classes += ' controls-ListView__item_showActions';
+            }
+            return classes;
         }
 
         let classes = 'controls-TileView__itemContent js-controls-ListView__measurableContainer';
@@ -814,7 +818,7 @@ export default abstract class TileItem<T extends Model = Model> {
             classes += ' controls-TileView__item_scaled';
         }
         if (this.isFixed()) {
-            classes += ` controls-TileView__item_fixed`;
+            classes += ' controls-TileView__item_fixed';
         }
         if (this.isAnimated()) {
             classes += ' controls-TileView__item_animated';
@@ -824,6 +828,9 @@ export default abstract class TileItem<T extends Model = Model> {
         }
         if (this.canShowActions()) {
             classes += ' controls-ListView__item_showActions';
+        }
+        if (this.isEditing()) {
+            classes += ' controls-ListView__item_editing';
         }
         if (this.isSwiped()) {
             classes += ' controls-TileView__item_swiped';
@@ -839,7 +846,6 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'default':
                 break;
             case 'small':
-                styles += ' display: contents';
                 break;
             case 'medium':
                 break;
@@ -947,10 +953,10 @@ export default abstract class TileItem<T extends Model = Model> {
 
         switch (itemType) {
             case 'default':
+            case 'medium':
                 break;
             case 'small':
-                break;
-            case 'medium':
+                classes += ' controls-TileView__smallTemplate_title';
                 break;
             case 'rich':
                 classes += 'controls-TileView__richTemplate_itemContent ws-ellipsis';
@@ -973,19 +979,16 @@ export default abstract class TileItem<T extends Model = Model> {
 
         switch (itemType) {
             case 'default':
-                break;
             case 'small':
-                styles += ' display: contents;';
+            case 'preview':
                 break;
             case 'medium':
                 styles += ' width: 100%;';
                 break;
             case 'rich':
                 if ((!imageViewMode || imageViewMode === 'rectangle') && imagePosition !== 'left' && imagePosition !== 'right') {
-                    styles += `background-color: ${gradientColor}`;
+                    styles += ` background-color: ${gradientColor};`;
                 }
-                break;
-            case 'preview':
                 break;
         }
 
@@ -1007,7 +1010,6 @@ export default abstract class TileItem<T extends Model = Model> {
                 }
                 break;
             case 'small':
-                classes += ' controls-TileView__smallTemplate_title';
                 break;
             case 'medium':
                 classes += ' controls-TileView__mediumTemplate_title controls-fontweight-bold';

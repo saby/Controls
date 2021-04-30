@@ -1,47 +1,21 @@
-<!--
-    Этот If - единственный способ корректно передать expandedItems  в список.
-    Движок Wasaby не умеет вычищать опции, если они undefined.
-    В случае, если expandedItems не заданы, в список придёт expandedItems=undefined.
-    В итоге он не сможет адекватно определить, как работать с разворотом узлов.
--->
-<ws:if data="{{_dataOptions.expandedItems}}">
-    <ws:partial template="{{_options.content}}"
-                on:expandedItemsChanged="_notifyEventWithBubbling('listExpandedItemsChanged')"
-                on:selectedKeysChanged="_notifyEventWithBubbling('listSelectedKeysChanged')"
-                on:excludedKeysChanged="_notifyEventWithBubbling('listExcludedKeysChanged')"
-                on:markedKeyChanged="_notifyEventWithBubbling('listMarkedKeyChanged')"
-                on:rootChanged="_notifyEventWithBubbling('listRootChanged')"
-                on:sortingChanged="_notifyEventWithBubbling('listSortingChanged')"
-                on:listSelectedKeysCountChanged="_notifyEventWithBubbling('listSelectedKeysCountChanged')"
-                filter="{{_dataOptions.filter}}"
-                navigation="{{_dataOptions.navigation}}"
-                sorting="{{_dataOptions.sorting}}"
-                keyProperty="{{_dataOptions.keyProperty}}"
-                scope="{{_options}}"
-                source="{{_dataOptions.source}}"
-                sourceController="{{_dataOptions.sourceController}}"
-                expandedItems="{{_dataOptions.expandedItems}}"
-                selectedKeys="{{_options.id ? _dataOptions.selectedKeys : _options.selectedKeys}}"
-                excludedKeys="{{_options.id ? _dataOptions.excludedKeys : _options.excludedKeys}}"
-    />
-</ws:if>
-<ws:else>
-    <ws:partial template="{{_options.content}}"
-                on:expandedItemsChanged="_notifyEventWithBubbling('listExpandedItemsChanged')"
-                on:selectedKeysChanged="_notifyEventWithBubbling('listSelectedKeysChanged')"
-                on:excludedKeysChanged="_notifyEventWithBubbling('listExcludedKeysChanged')"
-                on:markedKeyChanged="_notifyEventWithBubbling('listMarkedKeyChanged')"
-                on:rootChanged="_notifyEventWithBubbling('listRootChanged')"
-                on:sortingChanged="_notifyEventWithBubbling('listSortingChanged')"
-                on:listSelectedKeysCountChanged="_notifyEventWithBubbling('listSelectedKeysCountChanged')"
-                filter="{{_dataOptions.filter}}"
-                navigation="{{_dataOptions.navigation}}"
-                sorting="{{_dataOptions.sorting}}"
-                keyProperty="{{_dataOptions.keyProperty}}"
-                scope="{{_options}}"
-                source="{{_dataOptions.source}}"
-                sourceController="{{_dataOptions.sourceController}}"
-                selectedKeys="{{_options.id ? _dataOptions.selectedKeys : _options.selectedKeys}}"
-                excludedKeys="{{_options.id ? _dataOptions.excludedKeys : _options.excludedKeys}}"
-    />
-</ws:else>
+<ws:partial template="{{_options.content}}"
+            on:expandedItemsChanged="_notifyEventWithBubbling('listExpandedItemsChanged')"
+            on:selectedKeysChanged="_notifyEventWithBubbling('listSelectedKeysChanged')"
+            on:excludedKeysChanged="_notifyEventWithBubbling('listExcludedKeysChanged')"
+            on:markedKeyChanged="_notifyEventWithBubbling('listMarkedKeyChanged')"
+            on:rootChanged="_notifyEventWithBubbling('listRootChanged')"
+            on:sortingChanged="_notifyEventWithBubbling('listSortingChanged')"
+            on:listSelectedKeysCountChanged="_notifyEventWithBubbling('listSelectedKeysCountChanged')"
+            filter="{{_dataOptions.filter}}"
+            navigation="{{_dataOptions.navigation}}"
+            sorting="{{_dataOptions.sorting}}"
+            keyProperty="{{_dataOptions.keyProperty}}"
+            scope="{{_options}}"
+            source="{{_dataOptions.source}}"
+            sourceController="{{_dataOptions.sourceController}}"
+            expandedItems="{{_dataOptions.expandedItems}}"
+            selectedKeys="{{_options.id ? _dataOptions.selectedKeys : _options.selectedKeys}}"
+            excludedKeys="{{_options.id ? _dataOptions.excludedKeys : _options.excludedKeys}}"
+            parentProperty="{{_options.id ? _dataOptions.parentProperty : _options.parentProperty}}"
+            nodeProperty="{{_options.id ? _dataOptions.nodeProperty : _options.nodeProperty}}"
+/>

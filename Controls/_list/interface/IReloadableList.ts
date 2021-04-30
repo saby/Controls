@@ -8,7 +8,7 @@
 /**
  * @typedef {Object} SourceConfig
  * @description Конфигурация навигации ({@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#cursor по курсору} или {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#page постраничная}).
- * Так же в конфигурации можно передать опцию multiNavigation, если метод БЛ поддержимает работу с {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/navigation/ множественной навигацией}.
+ * Также, в конфигурации можно передать опцию multiNavigation, если метод БЛ поддерживает работу с {@link /doc/platform/developmentapl/interface-development/controls/list/tree/node/managing-node-expand/#multi-navigation множественной навигацией}.
  */
 
 /**
@@ -21,7 +21,7 @@
  * @param {Boolean} [keepScroll=false] Сохранить ли позицию скролла после перезагрузки.
  * @param {SourceConfig} [sourceConfig=undefined] Конфигурация навигации источника данных (например, размер и номер страницы для постраничной навигации), 
  * которую можно передать при вызове reload, чтобы перезагрузка произошла с этими параметрами. 
- * По умолчанию, перезагрузка происходит с параметрами, переданными в опции {@link Controls/interface:INavigation#navigation navigation}.
+ * По умолчанию перезагрузка происходит с параметрами, переданными в опции {@link Controls/interface:INavigation#navigation navigation}.
  * @example
  * В следующем примере показано, как выполнить перезагрузку списка с параметрами навигации.
  * <pre class="brush: html">
