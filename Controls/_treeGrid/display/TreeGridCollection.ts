@@ -225,6 +225,10 @@ export default class TreeGridCollection<
     // endregion itemsFactoryResolver
 
     protected _initializeFooter(options: IOptions<S, T>): TreeGridFooterRow<S> {
+        if (!options.footer && !options.footerTemplate) {
+            return;
+        }
+
         return new TreeGridFooterRow({
             ...options,
             owner: this,
