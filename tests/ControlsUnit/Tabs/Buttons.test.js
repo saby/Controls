@@ -295,9 +295,10 @@ define([
                keyProperty: 'karambola'
             },
             expected = 'controls-Tabs_style_secondary__item_state_selected ' +
+                'controls-Tabs__item_view_selected ' +
                'controls-Tabs__item_state_selected ',
             expected2 = 'controls-Tabs__item_state_default',
-            expected3 = 'controls-Tabs__item_state_main';
+            expected3 = 'controls-Tabs__item_view_main';
          const tabs = new tabsMod.Buttons();
          tabs.saveOptions(options);
          assert.equal(expected, tabs._prepareItemSelectedClass(item), 'wrong order cross-brwoser styles');
