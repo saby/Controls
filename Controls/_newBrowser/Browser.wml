@@ -58,11 +58,14 @@
                  searchValue="{{_searchValue}}"
                  on:markedKeyChanged="_notifyHandler('markedKeyChanged')"
                  on:editArrowClick="_notifyHandler('editArrowClick')"
-                 on:arrowClick="_onDetailArrowClick()"
-                 on:actionClick="_notifyHandler('actionClick')"
-                 on:arrowClick="_onDetailArrowClick()"
                  on:itemClick="_onExplorerItemClick(false)"
                  on:viewModeChanged="_onDetailExplorerChangedViewMode()"
+                 on:arrowClick="_notifyHandler('arrowClick')"
+                 on:dragEnter="_notifyHandler('dragEnter')"
+                 on:dragMove="_notifyHandler('dragMove')"
+                 on:dragEnd="_notifyHandler('dragEnd')"
+                 on:dragLeave="_notifyHandler('dragLeave')"
+                 on:dragStart="_notifyHandler('dragStart')"
          >
             <ws:afterBreadCrumbsTemplate>
                <ws:if data="{{_options.detail.afterBreadCrumbsTemplate}}">
