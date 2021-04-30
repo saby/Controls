@@ -27,7 +27,7 @@ define('Controls-demo/Input/Date/RangeLinkLite', [
       _startValue2: new Date(2010, 0, 1),
       _endValue2: new Date(2011, 0, 0)
    });
-   ModuleClass._styles = ['Controls-demo/Input/Date/RangeLinkLite'];
+   ModuleClass._styles = ['Controls-demo/Input/Date/RangeLinkLite', 'Controls-demo/Controls-demo'];
 
    return ModuleClass;
 });
