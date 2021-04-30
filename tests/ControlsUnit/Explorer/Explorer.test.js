@@ -532,7 +532,9 @@ define([
          });
          const instance = new explorerMod.View();
          instance._children = {
-            treeControl: {}
+            treeControl: {
+               setMarkedKey: () => true
+            }
          };
 
          instance.saveOptions({
@@ -543,12 +545,43 @@ define([
          instance._restoredMarkedKeys = {
             null: {
                markedKey: null
+            },
+            1: {
+               markedKey: 2
+            },
+            2: {
+               markedKey: 3
             }
          };
          instance._onBreadCrumbsClick({}, testBreadCrumbs.at(0));
          assert.equal(instance._root, testBreadCrumbs.at(0).get('id'));
          instance._onBreadCrumbsClick({}, testBreadCrumbs.at(1));
          assert.equal(instance._root, testBreadCrumbs.at(1).get('id'));
+      });
+
+      it('_onBreadCrumbsClick set markedKey', function() {
+         const instance = new explorerMod.View();
+         instance.saveOptions({
+            parentProperty: 'parent',
+            keyProperty: 'id'
+         });
+
+         let newMarkedKey;
+         instance._children = {
+            treeControl: {
+               setMarkedKey: (key) => {
+                  newMarkedKey = key;
+               }
+            }
+         };
+         instance._restoredMarkedKeys = {
+            1: {
+               markedKey: 2
+            }
+         };
+
+         instance._onBreadCrumbsClick({}, { getKey: () => 1 });
+         assert.equal(newMarkedKey, 2);
       });
 
       it('_notifyHandler', function() {
@@ -862,7 +895,7 @@ define([
             explorer._notify = _notify;
             explorer._children = {
                treeControl: {
-
+                  setMarkedKey: () => true
                }
             };
 
@@ -1217,6 +1250,11 @@ define([
                }
             };
             explorer._forceUpdate = () => undefined;
+            explorer._children = {
+               treeControl: {
+                  setMarkedKey: () => true
+               }
+            };
 
             // Сразу из текущий папки возвращаемся в самый верхний корень
             explorer._onBreadCrumbsClick(null, root);
