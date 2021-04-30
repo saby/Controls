@@ -1,13 +1,13 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">Граничный случай 33%, 33%, 33%, 1%</div>
+        <div class="controls-text-label">Граничный случай 33%, 33%, 33%, 1%</div>
         <Controls.progress:StateIndicator
                 data="{{_data}}"
                 attr:class="demo-StateIndicatorExtended__frontiers"
         />
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">С подсказкой</div>
+        <div class="controls-text-label">С подсказкой</div>
         <Controls.progress:StateIndicator
                 on:itemEnter="_mouseEnterHandler()"
                 data="{{_dataWithUser}}"

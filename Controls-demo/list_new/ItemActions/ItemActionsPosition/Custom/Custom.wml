@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMaxWidth500">
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controlsDemo__ItemActionsPosition_text-label controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controlsDemo__ItemActionsPosition_text-label controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemActions/ItemActionsPosition/Custom/Hidden/Index' }}">
             <a href="{{content.href}}">Только контекстное меню</a>
@@ -9,7 +9,7 @@
         <Controls-demo.list_new.ItemActions.ItemActionsPosition.Custom.Hidden.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controlsDemo__ItemActionsPosition_text-label controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controlsDemo__ItemActionsPosition_text-label controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemActions/ItemActionsPosition/Custom/CustomPosition/Index' }}">
             <a href="{{content.href}}">В произвольном месте прикладного шаблона</a>

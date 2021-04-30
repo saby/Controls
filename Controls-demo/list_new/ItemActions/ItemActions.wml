@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMinWidth400">
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemActions/Base/Index' }}">
             <a href="{{content.href}}">Контекстное меню</a>
@@ -10,7 +10,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemActions/ItemActionsPosition/Index' }}">
             <a href="{{content.href}}">Положение операций над записью</a>
@@ -20,7 +20,7 @@
 
 
     <div class="controlsDemo__cell controlsDemo__mr4 controlsDemo__maxWidth500">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemActions/ItemActionClickHandler/Index' }}">
             <a href="{{content.href}}">Обработка клика по операции над записью</a>
@@ -30,7 +30,7 @@
 
 
     <div class="controlsDemo__cell controlsDemo__mr4 controlsDemo__maxWidth500">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemActions/ItemActionVisibilityCallback/Index' }}">
             <a href="{{content.href}}">Настройка операций отдельных записей</a>
@@ -39,7 +39,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4 controlsDemo__maxWidth500">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemActions/ItemActionsProperty/Index' }}">
             <a href="{{content.href}}">Нестатические операции над записью (определенны на элементе данных)</a>
@@ -48,7 +48,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4 controlsDemo__maxWidth500">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemActions/ItemActionsNoHighlightOnHover/Index' }}">
             <a href="{{content.href}}">Без подсветки</a>
@@ -56,7 +56,7 @@
         <Controls-demo.list_new.ItemActions.ItemActionsNoHighlightOnHover.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo__mr4 controlsDemo__maxWidth500">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemActions/DisplayMode/Index' }}">
             <a href="{{content.href}}">Режим отображения</a>
@@ -65,7 +65,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemActions/ItemActionsVisibility/Index' }}">
             <a href="{{content.href}}">Настройки видимости операций над записью</a>
@@ -74,7 +74,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controlsDemo__ItemActionsPosition_text-label controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controlsDemo__ItemActionsPosition_text-label controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemActions/ItemActionsParent/Index' }}">
             <a href="{{content.href}}">Задан parent@</a>

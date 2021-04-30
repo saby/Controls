@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
 <ws:for data="index, autoComplete in _autoCompletes">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">autocomplete = {{ autoComplete }}</div>
+        <div class="controls-text-label">autocomplete = {{ autoComplete }}</div>
         <Controls.input:Text attr:class="controlsDemo__input" autoComplete="{{autoComplete}}"
                              placeholder="autocomplete = {{autoComplete}}"/>
     </div>

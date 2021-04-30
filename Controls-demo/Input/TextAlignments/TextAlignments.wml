@@ -1,16 +1,16 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">textAlign=left</div>
+      <div class="controls-text-label">textAlign=left</div>
       <Controls.input:Text attr:class="controlsDemo__input" textAlign="left" bind:value="_leftValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">textAlign=right</div>
+      <div class="controls-text-label">textAlign=right</div>
       <Controls.input:Text attr:class="controlsDemo__input" textAlign="right" bind:value="_rightValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">textAlign=center</div>
+      <div class="controls-text-label">textAlign=center</div>
       <Controls.input:Text attr:class="controlsDemo__input" textAlign="center" bind:value="_centerValue"
                            placeholder="{{_placeholder}}"/>
    </div>

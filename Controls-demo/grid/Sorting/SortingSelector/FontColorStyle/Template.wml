@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=link</div>
+        <div class="controls-text-label">fontColorStyle=link</div>
         <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
@@ -8,7 +8,7 @@
         </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=success</div>
+        <div class="controls-text-label">fontColorStyle=success</div>
         <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
@@ -16,7 +16,7 @@
         </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=warning</div>
+        <div class="controls-text-label">fontColorStyle=warning</div>
         <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
@@ -24,7 +24,7 @@
         </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=danger</div>
+        <div class="controls-text-label">fontColorStyle=danger</div>
         <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
@@ -32,7 +32,7 @@
         </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=unaccented</div>
+        <div class="controls-text-label">fontColorStyle=unaccented</div>
         <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
@@ -40,7 +40,7 @@
         </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=label</div>
+        <div class="controls-text-label">fontColorStyle=label</div>
         <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"

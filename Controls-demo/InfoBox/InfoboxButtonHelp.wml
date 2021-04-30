@@ -3,7 +3,7 @@
 
     <div class="controlsDemo__cell ws-flexbox ws-flex-row ws-justify-content-between controlsDemo__mb4">
         <div>
-            <div class="controls-fontsize-xl_theme-{{_options.theme}} controlsDemo__mb1">Размер - "m"(size="m")</div>
+            <div class="controls-fontsize-xl controlsDemo__mb1">Размер - "m"(size="m")</div>
             <Controls.popup:InfoboxTarget trigger="click" targetSide="bottom" alignment="start" style="default"
                                           attr:class="ControlsDemo-InfoboxButtonHelp__click">
                 <ws:content>
@@ -16,7 +16,7 @@
         </div>
 
         <div>
-            <div class="controls-fontsize-xl_theme-{{_options.theme}} controlsDemo__mb1">Нажмите на иконку</div>
+            <div class="controls-fontsize-xl controlsDemo__mb1">Нажмите на иконку</div>
             <Controls.popup:InfoboxTarget trigger="click" targetSide="bottom" alignment="end" style="default"
                                           attr:class="ControlsDemo-InfoboxButtonHelp__click">
                 <ws:content>
@@ -31,7 +31,7 @@
 
 
     <div class="controlsDemo__cell controlsDemo__mb4">
-        <div class="controls-fontsize-xl_theme-{{_options.theme}} controlsDemo__mb1">Нажмите на иконку</div>
+        <div class="controls-fontsize-xl controlsDemo__mb1">Нажмите на иконку</div>
         <Controls.popup:InfoboxTarget trigger="click" alignment="center" style="default"
                                       attr:class="ControlsDemo-InfoboxButtonHelp__click">
             <ws:content>
@@ -46,7 +46,7 @@
 
     <div class="controlsDemo__cell ws-flexbox ws-flex-row ws-justify-content-between controlsDemo__mb4">
         <div>
-            <div class="controls-fontsize-xl_theme-{{_options.theme}} controlsDemo__mb1">Размер - "s"(size="s")</div>
+            <div class="controls-fontsize-xl controlsDemo__mb1">Размер - "s"(size="s")</div>
             <Controls.popup:InfoboxTarget trigger="click" alignment="start" style="default"
                                           attr:class="ControlsDemo-InfoboxButtonHelp__click">
                 <ws:content>
@@ -59,7 +59,7 @@
         </div>
 
         <div>
-            <div class="controls-fontsize-xl_theme-{{_options.theme}} controlsDemo__mb1">Нажмите на иконку</div>
+            <div class="controls-fontsize-xl controlsDemo__mb1">Нажмите на иконку</div>
             <Controls.popup:InfoboxTarget trigger="click" alignment="end" style="default"
                                           attr:class="ControlsDemo-InfoboxButtonHelp__click">
                 <ws:content>

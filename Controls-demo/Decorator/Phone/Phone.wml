@@ -1,46 +1,46 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 8371</div>
+      <div class="controls-text-label">value = 8371</div>
       <Controls.decorator:Phone value="8371"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 84942228771</div>
+      <div class="controls-text-label">value = 84942228771</div>
       <Controls.decorator:Phone value="84942228771"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = +74942228772</div>
+      <div class="controls-text-label">value = +74942228772</div>
       <Controls.decorator:Phone value="+74942228772"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 84943121750</div>
+      <div class="controls-text-label">value = 84943121750</div>
       <Controls.decorator:Phone value="84943121750"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = +74943121751</div>
+      <div class="controls-text-label">value = +74943121751</div>
       <Controls.decorator:Phone value="+74943121751"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = +7494-3121-752</div>
+      <div class="controls-text-label">value = +7494-3121-752</div>
       <Controls.decorator:Phone value="+7494-3121-752"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 84942228771112</div>
+      <div class="controls-text-label">value = 84942228771112</div>
       <Controls.decorator:Phone value="84942228771112"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 84942-228771-(113)</div>
+      <div class="controls-text-label">value = 84942-228771-(113)</div>
       <Controls.decorator:Phone value="84942-228771-(113)"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 9206469857</div>
+      <div class="controls-text-label">value = 9206469857</div>
       <Controls.decorator:Phone value="9206469857"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = +4200555555555</div>
+      <div class="controls-text-label">value = +4200555555555</div>
       <Controls.decorator:Phone value="+4200555555555"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 492555555555</div>
+      <div class="controls-text-label">value = 492555555555</div>
       <Controls.decorator:Phone value="492555555555"/>
    </div>
 </div>

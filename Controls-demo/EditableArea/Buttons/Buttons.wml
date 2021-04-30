@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">Кастомное расположение кнопок</div>
+        <div class="controls-text-label">Кастомное расположение кнопок</div>
         <Controls.editableArea:View
                 autoEdit="{{true}}"
                 toolbarVisible="{{false}}"

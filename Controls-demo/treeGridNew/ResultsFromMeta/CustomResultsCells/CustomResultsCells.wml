@@ -16,9 +16,9 @@
                 resultsPosition="top">
             <ws:footerTemplate>
                 <div>
-                    <a href="#" class="controls-text-link_theme-default controlsDemo-udateMetaData-grid-results_autotest" on:click="_updateMeta()">Перегенерировать и обновить результаты в метаданных при перезагрузке списка</a>
+                    <a href="#" class="controls-text-link controlsDemo-udateMetaData-grid-results_autotest" on:click="_updateMeta()">Перегенерировать и обновить результаты в метаданных при перезагрузке списка</a>
                     <br/>
-                    <a href="#" class="controls-text-link_theme-default controlsDemo-setMetaData-grid-results_autotest" on:click="_setMeta()">Перегенерировать и установить метаданные в RecordSet напрямую</a>
+                    <a href="#" class="controls-text-link controlsDemo-setMetaData-grid-results_autotest" on:click="_setMeta()">Перегенерировать и установить метаданные в RecordSet напрямую</a>
                 </div>
             </ws:footerTemplate>
         </Controls.treeGridNew:View>

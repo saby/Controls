@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=xs</div>
+        <div class="controls-text-label">fontSize=xs</div>
         <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
@@ -8,7 +8,7 @@
         </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=s</div>
+        <div class="controls-text-label">fontSize=s</div>
         <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
@@ -16,7 +16,7 @@
         </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=m</div>
+        <div class="controls-text-label">fontSize=m</div>
         <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
@@ -24,7 +24,7 @@
         </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=l</div>
+        <div class="controls-text-label">fontSize=l</div>
         <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
@@ -32,7 +32,7 @@
         </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=xl</div>
+        <div class="controls-text-label">fontSize=xl</div>
         <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
@@ -40,7 +40,7 @@
         </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=2xl</div>
+        <div class="controls-text-label">fontSize=2xl</div>
         <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
@@ -48,7 +48,7 @@
         </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=3xl</div>
+        <div class="controls-text-label">fontSize=3xl</div>
         <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
@@ -56,7 +56,7 @@
         </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=4xl</div>
+        <div class="controls-text-label">fontSize=4xl</div>
         <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"

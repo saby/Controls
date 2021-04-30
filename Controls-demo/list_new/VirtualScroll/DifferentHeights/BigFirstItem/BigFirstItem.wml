@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMinWidth400">
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/DifferentHeights/BigFirstItem/Down/Index' }}">
             <a href="{{content.href}}">Подгрузка вниз</a>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/DifferentHeights/BigFirstItem/Up/Index' }}">
             <a href="{{content.href}}">Подгрузка вверх</a>

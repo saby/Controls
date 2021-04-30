@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper ws-flexbox ws-flex-column ws-align-items-center">
-    <div class="controls-text-label_theme-{{_options.theme}} controls-fontsize-l_theme-{{_options.theme}} controlsDemo__mb1">
+    <div class="controls-text-label controls-fontsize-l controlsDemo__mb1">
         Раскрытие узла, дозагрузка в узел
     </div>
     <Controls.scroll:Container

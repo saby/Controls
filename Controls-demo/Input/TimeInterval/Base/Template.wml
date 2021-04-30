@@ -1,18 +1,18 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">mask=HH:MM</div>
+      <div class="controls-text-label">mask=HH:MM</div>
       <Controls.input:TimeInterval bind:value="_default1Value" mask="HH:MM"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">mask=HH:MM:SS</div>
+      <div class="controls-text-label">mask=HH:MM:SS</div>
       <Controls.input:TimeInterval bind:value="_default2Value" mask="HH:MM:SS"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">mask=HHH:MM</div>
+      <div class="controls-text-label">mask=HHH:MM</div>
       <Controls.input:TimeInterval bind:value="_default3Value" mask="HHH:MM"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">mask=HHH:MM:SS</div>
+      <div class="controls-text-label">mask=HHH:MM:SS</div>
       <Controls.input:TimeInterval bind:value="_default4Value" mask="HHH:MM:SS"/>
    </div>
 </div>

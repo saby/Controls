@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Поле связи с автодополнением</div>
+      <div class="controls-text-label">Поле связи с автодополнением</div>
       <Controls.lookup:Input
            attr:class="controlsDemo__input"
            source="{{_source}}"
@@ -13,6 +13,6 @@
            on:selectorClose="_changeEventInfo()">
          <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
       </Controls.lookup:Input>
-      <div class="controls-text-label_theme-{{_options.theme}}">{{_eventInfo}}</div>
+      <div class="controls-text-label">{{_eventInfo}}</div>
    </div>
 </div>

@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">MultilinePath</div>
+        <div class="controls-text-label">MultilinePath</div>
         <Controls.breadcrumbs:MultilinePath attr:id="double"
                                             items="{{_items}}"
                                             parentProperty="parent"
@@ -9,7 +9,7 @@
                                             on:itemClick="_onItemClick()"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">MultilinePath - 2 crumbs</div>
+        <div class="controls-text-label">MultilinePath - 2 crumbs</div>
         <Controls.breadcrumbs:MultilinePath items="{{_items2}}"
                                             parentProperty="parent"
                                             keyProperty="id"
@@ -17,11 +17,11 @@
                                             on:itemClick="_onItemClick()"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">MultilinePath in miniCard</div>
+        <div class="controls-text-label">MultilinePath in miniCard</div>
         <Controls.popup:PreviewerTarget attr:class="ControlsDemo-Previewer__previewer"
                                         trigger="click" >
             <ws:content>
-                <div class="controls-text-label_theme-{{_options.theme}}">Click me</div>
+                <div class="controls-text-label">Click me</div>
             </ws:content>
             <ws:template>
                 <Controls.popupTemplate:Dialog>
@@ -40,6 +40,6 @@
         </Controls.popup:PreviewerTarget>
     </div>
     <div class="controlsDemo__cell controlsDemo_MultilinePath__clicked">
-        <div class="controls-text-label_theme-{{_options.theme}}">Нажали на элемент с id: {{_info}}</div>
+        <div class="controls-text-label">Нажали на элемент с id: {{_info}}</div>
     </div>
 </div>

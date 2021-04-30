@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/dropdown_new/Button/WithoutItems/Simple/Index' }}">
             <a href="{{content.href}}">Меню без элементов</a>
@@ -8,7 +8,7 @@
         <Controls-demo.dropdown_new.Button.WithoutItems.Simple.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/dropdown_new/Button/WithoutItems/LazyItemsLoading/Index' }}">
             <a href="{{content.href}}">Меню без элементов, с ленивой загрузкой</a>
@@ -16,7 +16,7 @@
         <Controls-demo.dropdown_new.Button.WithoutItems.LazyItemsLoading.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/dropdown_new/Button/WithoutItems/FontSize/Index' }}">
             <a href="{{content.href}}">Меню без элементов, с установленным fontSize</a>

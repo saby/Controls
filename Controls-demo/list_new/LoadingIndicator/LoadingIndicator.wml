@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/LoadingIndicator/Center/Index' }}">
             <a href="{{content.href}}">Индикатор блокирующий весь список</a>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/LoadingIndicator/Down/Index' }}">
             <a href="{{content.href}}">Индикатор при подгрузке вниз</a>
@@ -18,7 +18,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/LoadingIndicator/Up/Index' }}">
             <a href="{{content.href}}">Индикатор при подгрузке вверх</a>

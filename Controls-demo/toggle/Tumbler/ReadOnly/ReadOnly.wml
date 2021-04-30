@@ -1,10 +1,10 @@
 <div class="controlsDemo__wrapper {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth500' : 'controlsDemo_fixedWidth300'}}">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label controlsDemo_widthFit controls-text-label_theme-{{_options.theme}}">readOnly = false</div>
+        <div class="controls-text-label controlsDemo_widthFit controls-text-label">readOnly = false</div>
         <Controls.toggle:Tumbler items="{{_items1}}" bind:selectedKey="_selectedKey1"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label controlsDemo_widthFit controls-text-label_theme-{{_options.theme}}">readOnly = true</div>
+        <div class="controls-text-label controlsDemo_widthFit controls-text-label">readOnly = true</div>
         <Controls.toggle:Tumbler items="{{_items1}}" bind:selectedKey="_selectedKey2" readOnly = "{{true}}"/>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell ws-flexbox ws-flex-column controlsDemo__mb2">
         <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">isGlobal=true, delay=2000</div>
+            <div class="controls-text-label">isGlobal=true, delay=2000</div>
         </div>
         <div>
             <a attr:class="ws-link controls-Demo__indicator_global_delay" on:click="_firstOpen()">Open (Closes after 3 seconds.)</a>
@@ -9,7 +9,7 @@
     </div>
     <div class="controlsDemo__cell ws-flexbox ws-flex-column">
         <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">isGlobal=false, delay=0</div>
+            <div class="controls-text-label">isGlobal=false, delay=0</div>
         </div>
         <div attr:class="controls-demo__indicator_container">
             <div attr:class="controls-demo__indicator_buttons" style="margin-bottom: 10px;">

@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">maxLength=10</div>
+      <div class="controls-text-label">maxLength=10</div>
       <Controls.input:Text attr:class="controlsDemo__input" maxLength="{{10}}" placeholder="{{_placeholder}}"/>
    </div>
 </div>

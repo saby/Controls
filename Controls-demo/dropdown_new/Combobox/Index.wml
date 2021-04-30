@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/dropdown_new/Combobox/Source/Index' }}">
             <a href="{{content.href}}">Combobox</a>
@@ -8,7 +8,7 @@
         <Controls-demo.dropdown_new.Combobox.Source.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/dropdown_new/Combobox/TagStyle/Index' }}">
             <a href="{{content.href}}">Combobox c tagStyle</a>
@@ -16,7 +16,7 @@
         <Controls-demo.dropdown_new.Combobox.TagStyle.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/dropdown_new/Combobox/Placeholder/Index' }}">
             <a href="{{content.href}}">Combobox c кастомным placeholder</a>
@@ -24,7 +24,7 @@
         <Controls-demo.dropdown_new.Combobox.Placeholder.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/dropdown_new/Combobox/FontSize/Index' }}">
             <a href="{{content.href}}">Combobox c fontSize</a>
@@ -32,7 +32,7 @@
         <Controls-demo.dropdown_new.Combobox.FontSize.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/dropdown_new/Combobox/FontColorStyle/Index' }}">
             <a href="{{content.href}}">Combobox c fontColorStyle</a>
@@ -40,7 +40,7 @@
         <Controls-demo.dropdown_new.Combobox.FontColorStyle.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/dropdown_new/Combobox/InlineHeight/Index' }}">
             <a href="{{content.href}}">Combobox c inlineHeight</a>
@@ -48,7 +48,7 @@
         <Controls-demo.dropdown_new.Combobox.InlineHeight.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/dropdown_new/Combobox/Tooltip/Index' }}">
             <a href="{{content.href}}">Combobox c кастомным tooltip</a>
@@ -56,7 +56,7 @@
         <Controls-demo.dropdown_new.Combobox.Tooltip.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/dropdown_new/Combobox/OneItem/Index' }}">
             <a href="{{content.href}}">Combobox c одним элементом</a>
@@ -64,7 +64,7 @@
         <Controls-demo.dropdown_new.Combobox.OneItem.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/dropdown_new/Combobox/BorderVisibility/Index' }}">
             <a href="{{content.href}}">Combobox c borderVisibility</a>

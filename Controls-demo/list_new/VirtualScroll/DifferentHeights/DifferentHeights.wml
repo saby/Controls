@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMinWidth400">
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/DifferentHeights/Default/Index' }}">
             <a href="{{content.href}}">Стандартные значения опций</a>
@@ -10,7 +10,7 @@
 
 
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/DifferentHeights/Contacts/Index' }}">
             <a href="{{content.href}}">Эмуляция контактов</a>
@@ -20,7 +20,7 @@
 
 
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/DifferentHeights/Tasks/Index' }}">
             <a href="{{content.href}}">Эмуляция реестра задач</a>
@@ -30,7 +30,7 @@
 
 
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/DifferentHeights/BigFirstItem/Index' }}">
             <a href="{{content.href}}">Определенная запись занимает большую часть вьюпорта</a>

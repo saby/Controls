@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">default itemTemplate</div>
+      <div class="controls-text-label">default itemTemplate</div>
       <Controls.filter:View source="{{_source}}"
                             alignment="left"
                             detailPanelTemplateName="Controls-demo/FilterView/resources/Panel"
@@ -9,7 +9,7 @@
    </div>
 
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">custom itemTemplate beforeContentTemplate=null</div>
+      <div class="controls-text-label">custom itemTemplate beforeContentTemplate=null</div>
       <Controls.filter:View source="{{_source}}"
                             alignment="left"
                             detailPanelTemplateName="Controls-demo/FilterView/resources/Panel"
@@ -23,7 +23,7 @@
    </div>
 
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">custom itemTemplate change display text</div>
+      <div class="controls-text-label">custom itemTemplate change display text</div>
       <Controls.filter:View source="{{_source}}"
                             alignment="left"
                             detailPanelTemplateName="Controls-demo/FilterView/resources/Panel"

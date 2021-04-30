@@ -1,10 +1,10 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell demo-checkboxIcon__default">
-        <div class="controls-text-label_theme-{{_options.theme}}">default checkbox</div>
+        <div class="controls-text-label">default checkbox</div>
         <Controls.toggle:Checkbox caption="Checkbox" bind:value="_value1"></Controls.toggle:Checkbox>
     </div>
     <div class="controlsDemo__cell demo-checkboxIcon__icon">
-        <div class="controls-text-label_theme-{{_options.theme}}">checkbox with icon</div>
+        <div class="controls-text-label">checkbox with icon</div>
         <Controls.toggle:Checkbox bind:value="_value2" icon="icon-Info" iconSize="s" iconStyle="secondary" ></Controls.toggle:Checkbox>
     </div>
 </div>

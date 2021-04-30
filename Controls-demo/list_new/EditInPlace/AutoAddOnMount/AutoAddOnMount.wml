@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__cell controlsDemo__mr4 controlsDemo-ver-padding-null">
-        <div class="controls-text-label_theme-{{_options.theme}}">В пустом списке доступно автодобавление "из коробки".</div>
+        <div class="controls-text-label">В пустом списке доступно автодобавление "из коробки".</div>
 
         <Controls.list:View keyProperty="id" source="{{_emptyViewSource}}">
             <ws:editingConfig autoAddOnInit="{{ true }}" editOnClick="{{true}}" toolbarVisibility="{{ true }}"/>
@@ -20,7 +20,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4 controlsDemo-ver-padding-m">
-        <div class="controls-text-label_theme-{{_options.theme}}">Если в списке есть записи, добавление не запустится.</div>
+        <div class="controls-text-label">Если в списке есть записи, добавление не запустится.</div>
 
         <Controls.list:View keyProperty="id" source="{{_viewSource}}">
             <ws:editingConfig autoAddOnInit="{{ true }}" editOnClick="{{true}}" toolbarVisibility="{{ true }}"/>
@@ -39,7 +39,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo-ver-padding-l">
-        <div class="controls-text-label_theme-{{_options.theme}}">Однако редактирование/добавление всегда можно запустить вручную.</div>
+        <div class="controls-text-label">Однако редактирование/добавление всегда можно запустить вручную.</div>
 
         <Controls.list:View keyProperty="id" source="{{_viewSource}}" editingConfig="{{ _editingConfig }}">
             <ws:itemTemplate>

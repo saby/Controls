@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <span class="controls-text-label_theme-default controlsDemo__mb1">virtualPageSize 40, pageSize 25, при первой загрузке выводим 25 записей, дальше загружаем еще 25, индексы должны стать 10-50, а не 25 - 50</span>
+    <span class="controls-text-label controlsDemo__mb1">virtualPageSize 40, pageSize 25, при первой загрузке выводим 25 записей, дальше загружаем еще 25, индексы должны стать 10-50, а не 25 - 50</span>
     <Controls-demo.list_new.VirtualScroll.NavigationSwitcher.Index totalCount="{{1000}}" pageSize="{{25}}">
         <ws:content>
             <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height500">

@@ -55,7 +55,7 @@
                                 editObject="{{content.record}}">
                             <Controls.editableArea:Base bind:value="content.editObject.balanceCostSumm">
                                 <ws:editorTemplate>
-                                    <Controls.input:Number contrastBackground="{{true}}" attr:class="controls-Input_negativeOffset_theme_{{_options.theme}}"/>
+                                    <Controls.input:Number contrastBackground="{{true}}" attr:class="controls-Input_negativeOffset"/>
                                 </ws:editorTemplate>
                             </Controls.editableArea:Base>
                         </Controls.editableArea:View>

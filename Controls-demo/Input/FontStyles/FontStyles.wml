@@ -1,51 +1,51 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=link</div>
+      <div class="controls-text-label">fontColorStyle=link</div>
       <Controls.input:Text attr:class="controlsDemo__input" fontColorStyle="link" bind:value="_linkValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=primary</div>
+      <div class="controls-text-label">fontColorStyle=primary</div>
       <Controls.input:Text attr:class="controlsDemo__input" fontColorStyle="primary" bind:value="_primaryValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=secondary</div>
+      <div class="controls-text-label">fontColorStyle=secondary</div>
       <Controls.input:Text attr:class="controlsDemo__input" fontColorStyle="secondary" bind:value="_secondaryValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=success</div>
+      <div class="controls-text-label">fontColorStyle=success</div>
       <Controls.input:Text attr:class="controlsDemo__input" fontColorStyle="success" bind:value="_successValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=warning</div>
+      <div class="controls-text-label">fontColorStyle=warning</div>
       <Controls.input:Text attr:class="controlsDemo__input" fontColorStyle="warning" bind:value="_warningValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=danger</div>
+      <div class="controls-text-label">fontColorStyle=danger</div>
       <Controls.input:Text attr:class="controlsDemo__input" fontColorStyle="danger" bind:value="_dangerValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=unaccented</div>
+      <div class="controls-text-label">fontColorStyle=unaccented</div>
       <Controls.input:Text attr:class="controlsDemo__input" fontColorStyle="unaccented" bind:value="_unaccentedValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=label</div>
+      <div class="controls-text-label">fontColorStyle=label</div>
       <Controls.input:Text attr:class="controlsDemo__input" fontColorStyle="label" bind:value="_labelValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=info</div>
+      <div class="controls-text-label">fontColorStyle=info</div>
       <Controls.input:Text attr:class="controlsDemo__input" fontColorStyle="info" bind:value="_infoValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=default</div>
+      <div class="controls-text-label">fontColorStyle=default</div>
       <Controls.input:Text attr:class="controlsDemo__input" fontColorStyle="default" bind:value="_defaultValue"
                            placeholder="{{_placeholder}}"/>
    </div>

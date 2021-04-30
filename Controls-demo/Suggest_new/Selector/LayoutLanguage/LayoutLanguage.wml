@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
-         <div class="controls-text-label_theme-{{_options.theme}}">Подсказка при вооде с неправильной раскладкой</div>
+         <div class="controls-text-label">Подсказка при вооде с неправильной раскладкой</div>
          <Controls.suggest:Selector
                  attr:class="controlsDemo__input"
                  bind:value="_suggestDownValue"

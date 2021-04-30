@@ -15,7 +15,7 @@
                >
                    <ws:editorTemplate>
                        <Controls.input:Text contrastBackground="{{true}}" selectOnClick="{{ false }}"
-                                            attr:class="controls-Input_negativeOffset_theme_{{_options.theme}}"/>
+                                            attr:class="controls-Input_negativeOffset"/>
                    </ws:editorTemplate>
                </Controls.editableArea:Base>
            </Controls.editableArea:View>
@@ -38,7 +38,7 @@
                     >
                         <ws:editorTemplate>
                             <Controls.input:Text contrastBackground="{{true}}" selectOnClick="{{ false }}"
-                                                 attr:class="controls-Input_negativeOffset_theme_{{_options.theme}} ControlsDemo-EditableArea__longExample__input"/>
+                                                 attr:class="controls-Input_negativeOffset ControlsDemo-EditableArea__longExample__input"/>
                         </ws:editorTemplate>
                     </Controls.editableArea:Base>
                 </div>

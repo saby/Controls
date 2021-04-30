@@ -2,7 +2,7 @@
     <Controls.scroll:Container>
         <div class="controlsDemo__flexRow controlsDemo__childMinWidth400">
             <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__base">
-                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                <Router.router:Reference attr:class="controls-text-label"
                                          state="/Controls-demo/app/:app"
                                          app="{{ 'Controls-demo/list_new/Grouped/Base/Index' }}">
                     <a href="{{content.href}}">Базовая настройка группировки</a>
@@ -11,7 +11,7 @@
             </div>
 
             <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__hiddenGroup">
-                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                <Router.router:Reference attr:class="controls-text-label"
                                          state="/Controls-demo/app/:app"
                                          app="{{ 'Controls-demo/list_new/Grouped/HiddenGroup/Index' }}">
                     <a href="{{content.href}}">Скрытая группа</a>
@@ -20,7 +20,7 @@
             </div>
 
             <div class="controlsDemo__cell demo-ListGrouped__alignTitleGroup">
-                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                <Router.router:Reference attr:class="controls-text-label"
                                          state="/Controls-demo/app/:app"
                                          app="{{ 'Controls-demo/list_new/Grouped/CaptionAlign/Index' }}">
                     <a href="{{content.href}}">Выравнивание заголовка группы</a>
@@ -29,7 +29,7 @@
             </div>
 
             <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__noSeparator">
-                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                <Router.router:Reference attr:class="controls-text-label"
                                          state="/Controls-demo/app/:app"
                                          app="{{ 'Controls-demo/list_new/Grouped/WithoutSeparator/Index' }}">
                     <a href="{{content.href}}">Без разделителя групп</a>
@@ -38,7 +38,7 @@
             </div>
 
             <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__noExpander">
-                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                <Router.router:Reference attr:class="controls-text-label"
                                          state="/Controls-demo/app/:app"
                                          app="{{ 'Controls-demo/list_new/Grouped/WithoutExpander/Index' }}">
                     <a href="{{content.href}}">Без экспандера</a>
@@ -47,7 +47,7 @@
             </div>
 
             <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__longGroupCaption" attr:style="max-width: 400px;">
-                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                <Router.router:Reference attr:class="controls-text-label"
                                          state="/Controls-demo/app/:app"
                                          app="{{ 'Controls-demo/list_new/Grouped/LongGroupName/Index' }}">
                     <a href="{{content.href}}">Длинное название группы</a>
@@ -56,7 +56,7 @@
             </div>
 
             <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__templateGroupCaption">
-                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                <Router.router:Reference attr:class="controls-text-label"
                                          state="/Controls-demo/app/:app"
                                          app="{{ 'Controls-demo/list_new/Grouped/ContentTemplate/Index' }}">
                     <a href="{{content.href}}">Переопределение контента заголовка группы</a>
@@ -65,7 +65,7 @@
             </div>
 
             <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__templateGroupResult">
-                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                <Router.router:Reference attr:class="controls-text-label"
                                          state="/Controls-demo/app/:app"
                                          app="{{ 'Controls-demo/list_new/Grouped/RightTemplate/Index' }}">
                     <a href="{{content.href}}">Шаблон итога группы</a>
@@ -74,7 +74,7 @@
             </div>
 
             <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__templateGroupResult">
-                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                <Router.router:Reference attr:class="controls-text-label"
                                          state="/Controls-demo/app/:app"
                                          app="{{ 'Controls-demo/list_new/Grouped/OnGroupCollapsed/Index' }}">
                     <a href="{{content.href}}">Обработка нажатия на заголовок группы</a>
@@ -83,7 +83,7 @@
             </div>
 
             <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__templateGroupResult">
-                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                <Router.router:Reference attr:class="controls-text-label"
                                          state="/Controls-demo/app/:app"
                                          app="{{ 'Controls-demo/list_new/Grouped/groupHistoryId/Index' }}">
                     <a href="{{content.href}}">Сохранения состояния заголовков группы</a>
@@ -92,7 +92,7 @@
             </div>
 
             <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__templateGroupResult">
-                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                <Router.router:Reference attr:class="controls-text-label"
                                          state="/Controls-demo/app/:app"
                                          app="{{ 'Controls-demo/list_new/Grouped/Sticky/Index' }}">
                     <a href="{{content.href}}">stickyHeader = true</a>
@@ -100,7 +100,7 @@
                 <Controls-demo.list_new.Grouped.Sticky.Index />
             </div>
             <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__templateGroupResult">
-                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                <Router.router:Reference attr:class="controls-text-label"
                                          state="/Controls-demo/app/:app"
                                          app="{{ 'Controls-demo/list_new/Grouped/NoSticky/Index' }}">
                     <a href="{{content.href}}">stickyHeader = false</a>

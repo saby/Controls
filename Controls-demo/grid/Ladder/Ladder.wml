@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
 
     <div class="controlsDemo__cell controlsDemo__ladder_no-bind">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/grid/Ladder/NoSticky/Index' }}">
             <a href="{{content.href}}">Без прилипания</a>
@@ -11,7 +11,7 @@
 
 
     <div class="controlsDemo__cell controlsDemo__ladder_bind">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/grid/Ladder/Sticky/Index' }}">
             <a href="{{content.href}}">С прилипанием</a>

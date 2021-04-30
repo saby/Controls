@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/Paging/Edge/Index' }}">
             <a href="{{content.href}}">Компактное отображение пэйджинга.</a>
@@ -10,7 +10,7 @@
 
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/Paging/End/Index' }}">
             <a href="{{content.href}}">Компактное отображение пэйджинга + отображается шаблон.</a>

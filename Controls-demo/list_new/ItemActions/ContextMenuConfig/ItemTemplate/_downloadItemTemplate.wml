@@ -7,7 +7,7 @@
                                                controls-icon_size-{{ (itemData.iconSize || itemData.item.iconSize || 'm') + '_theme-' + _options.theme }}"></div>
             <div class="ControlsDemo_MenuItemTemplate-download-menu-item__title">{{ itemData.item.title }}</div>
             <div class="ControlsDemo_MenuItemTemplate-download-menu-item__size
-            controls-fontsize-s_theme-{{ _options.theme }} controls-text-label_theme-{{_options.theme}}">{{ itemData.item.fileInfo.prettySize }}</div>
+            controls-fontsize-s_theme-{{ _options.theme }} controls-text-label">{{ itemData.item.fileInfo.prettySize }}</div>
         </div>
     </ws:contentTemplate>
 </ws:partial>

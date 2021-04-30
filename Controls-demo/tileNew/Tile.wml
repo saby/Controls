@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/tileNew/Default/Index' }}">
             <a href="{{content.href}}">Базовый Tile</a>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/tileNew/DifferentWidth/Index' }}">
             <a href="{{content.href}}">Разной ширины</a>
@@ -18,7 +18,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/tileNew/SameWidth/Index' }}">
             <a href="{{content.href}}">Одинаковой ширины</a>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/tileNew/ScaleOnHover/Index' }}">
             <a href="{{content.href}}">Увеличение при наведении</a>
@@ -36,7 +36,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/tileNew/Shadows/Index' }}">
             <a href="{{content.href}}">Тень</a>
@@ -45,7 +45,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/tileNew/Marker/Index' }}">
             <a href="{{content.href}}">Маркер скрыт</a>
@@ -54,7 +54,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/tileNew/MultiSelect/Index' }}">
             <a href="{{content.href}}">Множественный выбор</a>
@@ -63,7 +63,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/tileNew/DragNDrop/Index' }}">
             <a href="{{content.href}}">DragNDrop</a>
@@ -72,7 +72,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/tileNew/ItemPadding/Index' }}">
             <a href="{{content.href}}">Отступы от левого и правого краев плитки</a>
@@ -80,7 +80,7 @@
         <Controls-demo.tileNew.ItemPadding.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/tileNew/TitleStyleAccent/Index' }}">
             <a href="{{content.href}}">Акцентный стиль заголовка</a>

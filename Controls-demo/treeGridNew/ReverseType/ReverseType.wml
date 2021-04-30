@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/treeGridNew/ReverseType/ExpandedByItemClick/Index' }}">
             <a href="{{content.href}}">Разворот узла на клик по строке</a>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/treeGridNew/ReverseType/SingleExpand/Index' }}">
             <a href="{{content.href}}">Закрытие открытого узла при развороте другого</a>

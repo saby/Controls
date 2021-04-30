@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexColumn">
     <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize: s</div>
+        <div class="controls-text-label">fontSize: s</div>
         <Controls.lookup:Input
                 bind:selectedKeys="_selectedKeys"
                 bind:value="_value"
@@ -15,7 +15,7 @@
         </Controls.lookup:Input>
     </div>
     <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize: m</div>
+        <div class="controls-text-label">fontSize: m</div>
         <Controls.lookup:Input
                 bind:selectedKeys="_selectedKeys"
                 bind:value="_value"
@@ -30,7 +30,7 @@
         </Controls.lookup:Input>
     </div>
     <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize: l</div>
+        <div class="controls-text-label">fontSize: l</div>
         <Controls.lookup:Input
                 bind:selectedKeys="_selectedKeys"
                 bind:value="_value"
@@ -45,7 +45,7 @@
         </Controls.lookup:Input>
     </div>
     <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize: xl</div>
+        <div class="controls-text-label">fontSize: xl</div>
         <Controls.lookup:Input
                 bind:selectedKeys="_selectedKeys"
                 bind:value="_value"
@@ -60,7 +60,7 @@
         </Controls.lookup:Input>
     </div>
     <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize: 2xl</div>
+        <div class="controls-text-label">fontSize: 2xl</div>
         <Controls.lookup:Input
                 bind:selectedKeys="_selectedKeys"
                 bind:value="_value"
@@ -75,7 +75,7 @@
         </Controls.lookup:Input>
     </div>
     <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize: 3xl</div>
+        <div class="controls-text-label">fontSize: 3xl</div>
         <Controls.lookup:Input
                 bind:selectedKeys="_selectedKeys"
                 bind:value="_value"

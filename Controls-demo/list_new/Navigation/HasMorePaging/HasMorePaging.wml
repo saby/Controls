@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
-    <div class="controls-text-label controls-text-label_theme-{{_options.theme}}">hasMore false</div>
+    <div class="controls-text-label controls-text-label">hasMore false</div>
     <Controls.scroll:Container attr:class="controlsDemo__height400">
         <Controls.list:View
                 keyProperty="id"

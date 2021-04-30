@@ -5,7 +5,7 @@
       </Controls.spoiler:View>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Группа спойлеров без вложенности</div>
+      <div class="controls-text-label">Группа спойлеров без вложенности</div>
       <Controls.spoiler:View captions="{{_captions}}">
          <div>Развернутая контентная область</div>
       </Controls.spoiler:View>
@@ -17,7 +17,7 @@
       </Controls.spoiler:View>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Группа спойлеров со вложенностью</div>
+      <div class="controls-text-label">Группа спойлеров со вложенностью</div>
       <Controls.spoiler:View captions="{{_captions}}">
          <div>
             Развернутая контентная область

@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemTemplate/NoHighlightOnHover/Index' }}">
             <a href="{{content.href}}">Шаблон элемента с выключенной подсветкой при наведении</a>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemTemplate/DisplayProperty/Index' }}">
             <a href="{{content.href}}">Переопределение стандартного поля для отображения</a>
@@ -18,7 +18,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemTemplate/CustomContent/Index' }}">
             <a href="{{content.href}}">Переопределение контента строки</a>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemTemplate/FromFile/Index' }}">
             <a href="{{content.href}}">Подключение шаблона из отдельного файла</a>
@@ -36,7 +36,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemTemplate/ItemTemplateProperty/Index' }}">
             <a href="{{content.href}}">Использование разных шаблонов элементов в одном списке</a>
@@ -45,7 +45,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemTemplate/Clickable/Index' }}">
             <a href="{{content.href}}">Курсор стрелка</a>

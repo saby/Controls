@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemPadding/PaddingDefault/Index' }}">
             <a href="{{content.href}}">Стандартные отступы</a>
@@ -10,7 +10,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemPadding/PaddingNull/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру null</a>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemPadding/Padding3XS/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру 3XS</a>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemPadding/Padding2XS/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру 2XS</a>
@@ -37,7 +37,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemPadding/PaddingXS/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру XS</a>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemPadding/PaddingS/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру S</a>
@@ -55,7 +55,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemPadding/PaddingM/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру M</a>
@@ -64,7 +64,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemPadding/PaddingL/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру L</a>
@@ -73,7 +73,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemPadding/PaddingXL/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру XL</a>
@@ -82,7 +82,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Tile/ItemPadding/Padding2XL/Index' }}">
             <a href="{{content.href}}">Отступы соответствующие размеру 2XL</a>

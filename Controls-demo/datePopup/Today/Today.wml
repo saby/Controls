@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__flex-jc-sa">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">Today is monday</div>
+        <div class="controls-text-label controlsDemo__maxWidth200">Today is monday</div>
         <Controls.datePopup
                 name="datePopup1"
                 selectionType="range"
@@ -10,7 +10,7 @@
         />
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">Today is weekend</div>
+        <div class="controls-text-label controlsDemo__maxWidth200">Today is weekend</div>
         <Controls.datePopup
                 name="datePopup2"
                 selectionType="range"

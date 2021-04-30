@@ -1,18 +1,18 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
    <div class="controlsDemo__cell demo-ButtonsCaptionPosition__rightButton">
-      <div class="controls-text-label_theme-{{_options.theme}}">captionPosition=right viewMode=button</div>
+      <div class="controls-text-label">captionPosition=right viewMode=button</div>
       <Controls.buttons:Button icon="icon-Send" viewMode="button" captionPosition="right" caption="Button"/>
    </div>
    <div class="controlsDemo__cell demo-ButtonsCaptionPosition__leftButton">
-      <div class="controls-text-label_theme-{{_options.theme}}">captionPosition=left viewMode=button</div>
+      <div class="controls-text-label">captionPosition=left viewMode=button</div>
       <Controls.buttons:Button icon="icon-Send" viewMode="button" captionPosition="left" caption="Button"/>
    </div>
    <div class="controlsDemo__cell demo-ButtonsCaptionPosition__rightLink">
-      <div class="controls-text-label_theme-{{_options.theme}}">captionPosition=right viewMode=link</div>
+      <div class="controls-text-label">captionPosition=right viewMode=link</div>
       <Controls.buttons:Button icon="icon-Send" viewMode="link" captionPosition="right" caption="Button"/>
    </div>
    <div class="controlsDemo__cell demo-ButtonsCaptionPosition__leftLink">
-      <div class="controls-text-label_theme-{{_options.theme}}">captionPosition=left viewMode=link</div>
+      <div class="controls-text-label">captionPosition=left viewMode=link</div>
       <Controls.buttons:Button icon="icon-Send" viewMode="link" captionPosition="left" caption="Button"/>
    </div>
 </div>

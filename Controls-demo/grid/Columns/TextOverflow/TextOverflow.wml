@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/grid/Columns/TextOverflow/Ellipsis/Index' }}">
             <a href="{{content.href}}">Обрезка с многоточием</a>

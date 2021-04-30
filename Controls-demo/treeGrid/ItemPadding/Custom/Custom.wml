@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper__padding-left ws-flexbox ws-flex-wrap">
     <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo_treeGrid-iP-custom">
-        <div if="{{_showTitle}}" class="controls-text-label_theme-{{_options.theme}}">Настраиваемые отступы</div>
+        <div if="{{_showTitle}}" class="controls-text-label">Настраиваемые отступы</div>
         <Controls.treeGridOld:View
                 keyProperty="id"
                 source="{{_viewSource}}"
