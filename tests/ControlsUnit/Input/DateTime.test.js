@@ -67,8 +67,10 @@ define([
                assert.isEmpty(component._validators);
 
                newOptions.displayValue = '01.01.21';
+               sinon.stub(component, 'setValidationResult');
                component._beforeUpdate(newOptions);
                assert.isNotEmpty(component._validators);
+               sinon.restore();
             });
          });
 
