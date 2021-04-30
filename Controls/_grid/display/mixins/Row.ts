@@ -105,7 +105,7 @@ export default abstract class Row<T> {
             itemClasses += ' controls-ListView__item_showActions';
         }
         const navigation = this.getOwner().getNavigation();
-        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
+        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().hasMoreData())
             && this.isLastItem()) {
             itemClasses += ' controls-ListView__itemV_last';
         }
@@ -464,7 +464,8 @@ export default abstract class Row<T> {
             rowSeparatorSize: this._$rowSeparatorSize,
             columnSeparatorSize: this._getColumnSeparatorSizeForColumn(column, columnIndex),
             backgroundStyle: this._$backgroundStyle,
-            isSticked: this.isSticked()
+            isSticked: this.isSticked(),
+            shadowVisibility: this.getShadowVisibility()
         };
     }
 
@@ -700,6 +701,8 @@ export default abstract class Row<T> {
     abstract isDragged(): boolean;
 
     abstract isSticked(): boolean;
+
+    abstract getShadowVisibility(): string;
 
     abstract getIsFirstItem(): boolean;
 

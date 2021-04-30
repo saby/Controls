@@ -14,7 +14,7 @@ describe('Controls/grid/Display/Row/firstAndLastItem', () => {
         getCount: () => 1,
         getCollectionCount: () => 1,
         getSourceIndexByItem: () => 0,
-        getHasMoreData: () => hasMoreData
+        hasMoreData: () => hasMoreData
     } as undefined as GridCollection<any>;
 
     beforeEach(() => {

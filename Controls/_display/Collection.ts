@@ -179,6 +179,11 @@ export interface ISwipeConfig {
     needIcon?: Function;
 }
 
+export interface IHasMoreData {
+    up: boolean;
+    down: boolean;
+}
+
 /**
  * @typedef {String} TEditingMode
  * @variant row - Редактирование всей строки таблицы
@@ -704,7 +709,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$virtualScrolling: boolean;
 
-    protected _$hasMoreData: boolean;
+    protected _$hasMoreData: IHasMoreData;
 
     protected _$metaResults: EntityModel;
 
@@ -2568,15 +2573,27 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     // endregion Аспект "крайние записи"
 
-    getHasMoreData(): boolean {
+    getHasMoreData(): IHasMoreData {
         return this._$hasMoreData;
     }
 
-    setHasMoreData(hasMoreData: boolean): void {
-        if (this._$hasMoreData !== hasMoreData) {
+    setHasMoreData(hasMoreData: IHasMoreData): void {
+        if (!isEqual(this._$hasMoreData, hasMoreData)) {
             this._$hasMoreData = hasMoreData;
             this._nextVersion();
         }
+    }
+
+    hasMoreData(): boolean {
+        return this.hasMoreDataUp() || this.hasMoreDataDown();
+    }
+
+    hasMoreDataUp(): boolean {
+        return !!this._$hasMoreData?.up;
+    }
+
+    hasMoreDataDown(): boolean {
+        return !!this._$hasMoreData?.down;
     }
 
     setMetaResults(metaResults: EntityModel): void {
@@ -3188,6 +3205,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.bottomPadding = this._$bottomPadding;
             options.searchValue = this._$searchValue;
             options.markerPosition = this._$markerPosition;
+            options.hasMoreDataUp = this.hasMoreDataUp();
 
             if (this._$collection['[Types/_collection/RecordSet]']) {
                 options.isLastItem = this._isLastItem(options.contents);
@@ -3997,7 +4015,7 @@ Object.assign(Collection.prototype, {
     _$editingConfig: null,
     _$unique: false,
     _$importantItemProperties: null,
-    _$hasMoreData: false,
+    _$hasMoreData: {up: false, down: false},
     _$compatibleReset: false,
     _$contextMenuConfig: null,
     _$itemActionsProperty: '',
