@@ -832,6 +832,9 @@ const _private = {
                 if (self._recountTopTriggerAfterLoadData) {
                     self._recountTopTriggerAfterLoadData = false;
                     _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
+                    if (self._hideTopTrigger && !self._needScrollToFirstItem) {
+                        self._hideTopTrigger = false;
+                    }
                 }
 
                 // Скрываем ошибку после успешной загрузки данных
