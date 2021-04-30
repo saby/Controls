@@ -405,7 +405,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             rowTemplate: options.footerTemplate,
             rowTemplateOptions: {},
             backgroundStyle: options.backgroundStyle,
-            columnSeparatorSize: options.columnSeparatorSize
+            columnSeparatorSize: options.columnSeparatorSize,
+            shouldAddFooterPadding: options.itemActionsPosition === 'outside'
         });
     }
 
