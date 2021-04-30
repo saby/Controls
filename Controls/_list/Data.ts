@@ -297,7 +297,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
 
       } else if (this._expandedItems !== expandedItems) {
          this._sourceController.setExpandedItems(expandedItems);
-         if (this._options._nodeHistoryId) {
+         if (this._options.nodeHistoryId) {
             this._sourceController.updateExpandedItemsInUserStorage();
          }
          this._updateContext(this._sourceController.getState());
