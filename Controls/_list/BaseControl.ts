@@ -4207,6 +4207,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 //  Если Items были обновлены, то в старой модели переинициализировался display
                 //  и этот параметр сбросился
                 this._listViewModel.setActionsAssigned(isActionsAssigned);
+                _private.initVisibleItemActions(this, newOptions);
                 this._updateScrollController(newOptions);
             }
 
