@@ -1957,7 +1957,8 @@ define([
                updateOptions: () => null,
                hasLoaded: () => true,
                getKeyProperty: () => 'id',
-               hasMoreData: () => false
+               hasMoreData: () => false,
+               isLoading: () => false
             };
          });
 
