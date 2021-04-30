@@ -7019,7 +7019,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _getFooterClasses(options): string {
         const hasCheckboxes = options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
-        return `controls__BaseControl__footer controls__BaseControl__footer__paddingLeft_${hasCheckboxes ? 'withCheckboxes' : (options.itemPadding?.left || 'default')}`;
+
+        const paddingClassName = 'controls__BaseControl__footer__paddingLeft_';
+        if (hasCheckboxes) {
+            paddingClassName += 'withCheckboxes';
+        } else {
+            paddingClassName += (options.itemPadding?.left?.toLowerCase() || 'default');
+        }
+
+        return `controls__BaseControl__footer ${paddingClassName}`;
     }
 
     static getDefaultOptions(): Partial<IBaseControlOptions> {
