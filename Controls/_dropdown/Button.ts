@@ -16,6 +16,8 @@ import {isLeftMouseButton} from 'Controls/popup';
 import 'css!Controls/dropdown';
 import 'css!Controls/CommonClasses';
 
+const DISPLAY_DURATION: number = 100;
+
 export interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOptions {
    additionalProperty?: string;
    lazyItemsLoading?: boolean;
@@ -104,6 +106,7 @@ export default class Button extends BaseDropdown {
    protected _template: TemplateFunction = template;
    protected _tmplNotify: Function = EventUtils.tmplNotify;
    protected _hasItems: boolean = true;
+   protected openingTimerId: number = null;
 
    _beforeMount(options: IButtonOptions,
                 context: object,
@@ -190,9 +193,20 @@ export default class Button extends BaseDropdown {
       super._handleMouseEnter(event);
       const isOpenMenuPopup = !(event.nativeEvent.relatedTarget
           && event.nativeEvent.relatedTarget.closest('.controls-Menu__popup'));
-      if (this._options.menuPopupTrigger === 'hover' && isOpenMenuPopup) {
-         this._openMenu();
+      if (this._options.menuPopupTrigger === 'hover' && isOpenMenuPopup && !openingTimerId) {
+         this.openingTimerId = setTimeot(() => {
+             this._openMenu();
+             this.openingTimerId = null;
+         }, DISPLAY_DURATION);
       }
+   }
+
+   _handleMouseLeave(event: SyntheticEvent<MouseEvent>): void {
+        super._handleMouseLeave(event);
+        if (this.openingTimerId) {
+            clearTimeout(this.openingTimerId);
+            this.openingTimerId = null;
+        }
    }
 
    _openMenu(popupOptions?: IStickyPopupOptions): Promise<any> {
