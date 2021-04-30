@@ -1,13 +1,13 @@
 import FooterRow from './FooterRow';
-import Cell, {IOptions as IBaseCellOptions} from './Cell';
+import Cell, {IOptions as ICellOptions, IOptions as IBaseCellOptions} from './Cell';
+
+export interface IOptions<T> extends ICellOptions<T> {
+    shouldAddFooterPadding: boolean;
+}
 
 class FooterCell<T> extends Cell<T, FooterRow<T>> {
     protected readonly _defaultCellTemplate: string = 'Controls/grid:FooterColumnTemplate';
     protected _$shouldAddFooterPadding: boolean;
-
-    constructor(options: IBaseCellOptions<T>) {
-        super(options);
-    }
 
     //region Аспект "Стилевое оформление"
     getWrapperClasses(theme: string,

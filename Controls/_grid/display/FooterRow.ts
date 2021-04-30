@@ -2,18 +2,14 @@ import {TemplateFunction} from 'UI/Base';
 import {isEqual} from 'Types/object';
 import {IColumn, TColumns} from 'Controls/interface';
 import {IItemActionsTemplateConfig} from 'Controls/display';
-import Row, {IOptions} from './Row';
-import FooterCell from 'Controls/_grid/display/FooterCell';
+import Row from './Row';
+import FooterCell, {IOptions as IFooterCellOptions} from 'Controls/_grid/display/FooterCell';
 import {TColspanCallbackResult} from 'Controls/_grid/display/mixins/Grid';
 
 export default class FooterRow<T> extends Row<string> {
     private _hasMoreData: boolean;
     private _actionsTemplateConfig: IItemActionsTemplateConfig;
     protected _$shouldAddFooterPadding: boolean;
-
-    constructor(options?: IOptions<T>) {
-        super(options);
-    }
 
     getContents(): string {
         return 'footer';
@@ -52,7 +48,6 @@ export default class FooterRow<T> extends Row<string> {
         super._initializeColumns({
             shouldAddStickyLadderCells: !this._$rowTemplate,
             addEmptyCellsForStickyLadder: true,
-            shouldAddFooterPadding: this._$shouldAddFooterPadding,
             extensionCellsConstructors: {
                 stickyLadderCell: FooterCell,
                 multiSelectCell: this.getColumnsFactory({column: {}})
@@ -67,6 +62,13 @@ export default class FooterRow<T> extends Row<string> {
         if (typeof column.startColumn === 'number' && typeof column.endColumn === 'number') {
             return column.endColumn - column.startColumn;
         }
+    }
+
+    protected _getColumnFactoryParams(column: IColumn, columnIndex: number): Partial<IFooterCellOptions<T>> {
+        return {
+            ...super._getColumnFactoryParams(column, columnIndex),
+            shouldAddFooterPadding: this._$shouldAddFooterPadding
+        };
     }
 
     //endregion
