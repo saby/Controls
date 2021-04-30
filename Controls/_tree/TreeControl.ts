@@ -107,12 +107,12 @@ const _private = {
             });
         }
 
-        if (!options.hasOwnProperty('expandedItems') || options.markerMoveMode === 'leaves') {
+        if (!options.expandedItems || options.markerMoveMode === 'leaves') {
             model.setExpandedItems(newExpandedItems);
             self.getSourceController().setExpandedItems(newExpandedItems);
         }
 
-        if (!options.hasOwnProperty('collapsedItems')) {
+        if (!options.collapsedItems) {
             model.setCollapsedItems(newCollapsedItems);
         }
 
