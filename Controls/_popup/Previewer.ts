@@ -7,6 +7,7 @@ import PreviewerOpener from './Opener/Previewer';
 import {goUpByControlTree} from 'UI/Focus';
 import 'css!Controls/popup';
 import template = require('wml!Controls/_popup/Previewer/Previewer');
+import {CalmTimer} from "Controls/_popup/fastOpenUtils/FastOpen";
 
 const CALM_DELAY: number = 300; // During what time should not move the mouse to start opening the popup.
 /**
@@ -27,7 +28,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
 
     _template: TemplateFunction = template;
     _previewerId: IPreviewerPopupOptions;
-    _waitTimer: number;
+    _calmTimer: CalmTimer;
     _isOpened: boolean = false;
     _enableClose: boolean = true;
 
@@ -35,10 +36,11 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
         this._resultHandler = this._resultHandler.bind(this);
         this._closeHandler = this._closeHandler.bind(this);
         this._debouncedAction = debounce(this._debouncedAction, 10);
+        this._calmTimer = new CalmTimer();
     }
 
     protected _beforeUnmount(): void {
-        this._clearWaitTimer();
+        this._calmTimer.resetTimeOut();
     }
 
     /**
@@ -136,12 +138,6 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
         PreviewerOpener.cancelPopup(this._previewerId, action);
     }
 
-    private _clearWaitTimer(): void {
-        if (this._waitTimer) {
-            clearTimeout(this._waitTimer);
-        }
-    }
-
     protected _scrollHandler(event: SyntheticEvent<MouseEvent>): void {
         if (this._options.actionOnScroll === 'close') {
             this._close(event);
@@ -159,7 +155,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
 
     protected _contentMouseleaveHandler(event: SyntheticEvent<MouseEvent>): void {
         if (!this._options.readOnly && (this._options.trigger === 'hover' || this._options.trigger === 'hoverAndClick')) {
-            this._clearWaitTimer();
+            this._calmTimer.resetTimeOut();
             if (this._isPopupOpened()) {
                 this._debouncedAction('_close', [event]);
             } else {
@@ -170,15 +166,12 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
 
     protected _contentMousemoveHandler(event: SyntheticEvent<MouseEvent>): void {
         if (!this._options.readOnly && (this._options.trigger === 'hover' || this._options.trigger === 'hoverAndClick')) {
-            // wait, until user stop mouse on target.
-            // Don't open popup, if mouse moves through the target
-            this._clearWaitTimer();
-            this._waitTimer = setTimeout(() => {
-                this._waitTimer = null;
+            const callback = () => {
                 if (!this._isPopupOpened()) {
                     this._debouncedAction('_open', [event]);
                 }
-            }, CALM_DELAY);
+            };
+            this._calmTimer.start(callback.bind(this), CALM_DELAY);
         }
     }
 
