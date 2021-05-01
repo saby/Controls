@@ -112,11 +112,10 @@ export default class Button extends BaseDropdown {
       this._offsetClassName = cssStyleGeneration(options);
       this._dataLoadCallback = this._dataLoadCallback.bind(this);
       this._controller = new Controller(this._getControllerOptions(options));
-
+      this._calmTimer = new CalmTimer();
       if (!options.lazyItemsLoading) {
          return loadItems(this._controller, receivedState, options.source);
       }
-      this._calmTimer = new CalmTimer();
    }
 
     _beforeUnmount(): void {
@@ -192,21 +191,12 @@ export default class Button extends BaseDropdown {
       this.openMenu();
    }
 
-   _handleMouseEnter(event: SyntheticEvent<MouseEvent>): void {
-      super._handleMouseEnter(event);
-      const isOpenMenuPopup = !(event.nativeEvent.relatedTarget
-          && event.nativeEvent.relatedTarget.closest('.controls-Menu__popup'));
-      if (this._options.menuPopupTrigger === 'hover' && isOpenMenuPopup) {
-         this._openMenu();
-      }
-   }
-
     __handleMouseLeave(event: SyntheticEvent<MouseEvent>): void {
         super._handleMouseLeave(event);
         this._calmTimer.resetTimeOut();
     }
 
-    _handleMouseMove(): void {
+    _handleMouseMove(event: SyntheticEvent<MouseEvent>): void {
         const isOpenMenuPopup = !(event.nativeEvent.relatedTarget
             && event.nativeEvent.relatedTarget.closest('.controls-Menu__popup'));
         if (this._options.menuPopupTrigger === 'hover' && isOpenMenuPopup) {

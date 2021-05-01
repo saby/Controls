@@ -50,7 +50,6 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     }
 
     protected _beforeUnmount(): void {
-        this._clearWaitTimer();
         if (this._opened) {
             this.close();
         }
