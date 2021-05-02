@@ -409,7 +409,7 @@ define([
             instance.saveOptions(cfg2);
             assert.strictEqual(instance._viewMode, 'tree');
 
-            instance._itemsSetCallback();
+            instance._dataLoadCallback();
             assert.strictEqual(instance._viewMode, 'tile');
          });
       });

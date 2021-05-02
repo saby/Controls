@@ -13,8 +13,7 @@ interface IOptions<S extends Model, T extends TreeGridDataRow<S>> extends ITreeG
 
 export default
    class SearchGridCollection<S extends Model = Model, T extends SearchGridDataRow<S> = SearchGridDataRow<S>>
-   extends TreeGridCollection<S, T> {
-
+       extends TreeGridCollection<S, T> {
    /**
     * @cfg Имя свойства элемента хлебных крошек, хранящее признак того, что этот элемент и путь до него должны быть
     * выделены в обособленную цепочку
@@ -30,6 +29,12 @@ export default
 
    constructor(options: IOptions<S, T>) {
       super(options);
+
+      // При показе результатов поиска все узлы должны быть развернуты
+      // Возможно это больше логика explorer, но сейчас на уровне explorer её решить
+      // сложно из-за того в TreeControl в методе resetExpandedItems зашита сбисовая
+      // логика из-за которой при сбросе поиска невозможно сбросить expandedItems
+      this.setExpandedItems([null]);
    }
 
    getSearchBreadcrumbsItemTemplate(): TemplateFunction|string {
@@ -98,10 +103,6 @@ export default
       });
 
       return composer;
-   }
-
-   getExpanderIcon(): string {
-      return 'none';
    }
 
    protected _recountHasNodeWithChildren(): void {
