@@ -373,7 +373,8 @@ export default class TreeItem<T extends Model = Model> extends mixin<
             }
         } else {
             expanderIconClass = ' controls-TreeGrid__row-expander_' + (this.isNode() ? 'node_' : 'hiddenNode_')
-                + (this.getStyle() === 'master' ? 'master' : 'default');        }
+                + (this.getStyle() === 'master' ? 'master' : 'default');
+        }
 
         expanderClasses += expanderIconClass;
 

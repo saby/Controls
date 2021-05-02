@@ -206,6 +206,11 @@ export default class Explorer extends Control<IExplorerOptions> {
                     ? this._options.sourceController.getRoot()
                     : this._getRoot(this._options.root);
                 this._headerVisibility = this._getHeaderVisibility(curRoot, this._options.headerVisibility);
+
+                if (this._pendingViewMode) {
+                    this._checkedChangeViewMode(this._pendingViewMode, this._options);
+                    this._pendingViewMode = null;
+                }
             }
 
             if (this._options.dataLoadCallback) {
@@ -737,11 +742,6 @@ export default class Explorer extends Control<IExplorerOptions> {
             // После перехода на наследование, между обновлением treeControl и baseControl разрыва нет, более того,
             // поменялся порядок апдейтов контролов. После перевода на наследование сначала обновляется BaseControl.
             this._isGoingFront = false;
-        }
-
-        if (this._pendingViewMode) {
-            this._checkedChangeViewMode(this._pendingViewMode, this._options);
-            this._pendingViewMode = null;
         }
     }
 
