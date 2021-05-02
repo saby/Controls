@@ -353,6 +353,11 @@ const _private = {
         }
 
         const reset = () => {
+            // TODO: это не дело TreeControl анализировать развернуты ли все узле. Здесь должна быть чистая логика.
+            //  Если сказали resetExpandedItem, значит нужно сделать reset. Вся сбисовая логика это логика компонентов
+            //  выше, например explorer.
+            //  Данная проверка добавлена при решении
+            //  https://online.sbis.ru/opendoc.html?guid=604eed91-e6d3-4bda-9574-6002cf523531
             const isAllExpanded = self._options.expandedItems instanceof Array && self._options.expandedItems[0] === null;
             if (!isAllExpanded) {
                 if (self._options.useNewModel) {

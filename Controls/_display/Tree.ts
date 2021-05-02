@@ -654,7 +654,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
                 // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
                 parent.setExpanded(true);
-                if (parent.isNode()) {
+                // TODO: хреновое название метода, не соответствует тому что он возвращает
+                if (parent.isNode() !== null) {
                     const childes = this.getChildren(parent);
                     childes.forEach((it) => expandAllChildesNodes(it));
                 }

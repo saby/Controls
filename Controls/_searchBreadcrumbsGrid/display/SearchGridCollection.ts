@@ -4,10 +4,11 @@ import { TemplateFunction } from 'UI/Base';
 import SearchGridDataRow from './SearchGridDataRow';
 import {ItemsFactory, itemsStrategy } from 'Controls/display';
 import BreadcrumbsItemRow from './BreadcrumbsItemRow';
-import {object} from "Types/util";
-import {CrudEntityKey} from "Types/source";
+import {IOptions} from 'Controls/_treeGrid/display/TreeGridCollection';
 
-export default class SearchGridCollection<S extends Model = Model, T extends SearchGridDataRow<S> = SearchGridDataRow<S>> extends TreeGridCollection<S, T> {
+export default
+   class SearchGridCollection<S extends Model = Model, T extends SearchGridDataRow<S> = SearchGridDataRow<S>>
+       extends TreeGridCollection<S, T> {
    /**
     * @cfg Имя свойства элемента хлебных крошек, хранящее признак того, что этот элемент и путь до него должны быть
     * выделены в обособленную цепочку
@@ -18,6 +19,16 @@ export default class SearchGridCollection<S extends Model = Model, T extends Sea
    protected _$searchBreadcrumbsItemTemplate: TemplateFunction;
 
    protected _$colspanBreadcrumbs: boolean = true;
+
+   constructor(options: IOptions<S, T>) {
+      super(options);
+
+      // При показе результатов поиска все узлы должны быть развернуты
+      // Возможно это больше логика explorer, но сейчас на уровне explorer её решить
+      // сложно из-за того в TreeControl в методе resetExpandedItems зашита сбисовая
+      // логика из-за которой при сбросе поиска невозможно сбросить expandedItems
+      this.setExpandedItems([null]);
+   }
 
    getSearchBreadcrumbsItemTemplate(): TemplateFunction|string {
       return this._$searchBreadcrumbsItemTemplate;
@@ -70,10 +81,6 @@ export default class SearchGridCollection<S extends Model = Model, T extends Sea
       });
 
       return composer;
-   }
-
-   protected getExpanderIcon(): string {
-      return 'none';
    }
 
    protected _recountHasNodeWithChildren(): void {
