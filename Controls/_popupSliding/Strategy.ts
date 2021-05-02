@@ -1,8 +1,14 @@
 import {IPopupItem, IPopupPosition, ISlidingPanelPopupOptions} from 'Controls/popup';
 
+export enum AnimationState {
+    initializing = 'initializing',
+    showing = 'showing',
+    closing = 'closing'
+}
+
 export interface ISlidingPanelItem extends IPopupItem {
     popupOptions: ISlidingPanelPopupOptions;
-    animationState: 'showing' | 'closing' | void;
+    animationState: AnimationState;
     dragStartHeight: number;
 }
 
