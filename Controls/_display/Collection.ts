@@ -8,7 +8,7 @@ import IItemsStrategy from './IItemsStrategy';
 import ItemsStrategyComposer from './itemsStrategy/Composer';
 import DirectItemsStrategy from './itemsStrategy/Direct';
 import UserItemsStrategy from './itemsStrategy/User';
-import GroupItemsStrategy from './itemsStrategy/Group';
+import GroupItemsStrategy, {IHiddenGroupPosition} from './itemsStrategy/Group';
 import DragStrategy from './itemsStrategy/Drag';
 import AddStrategy from './itemsStrategy/Add';
 import {
@@ -36,6 +36,7 @@ import * as VirtualScrollController from './controllers/VirtualScroll';
 import { ICollection, ISourceCollection, IItemPadding } from './interface/ICollection';
 import { IDragPosition } from './interface/IDragPosition';
 import {INavigationOptionValue} from 'Controls/interface';
+import {IRoundBorder} from "Controls/_tile/display/mixins/Tile";
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
@@ -140,6 +141,7 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     navigation?: INavigationOptionValue;
     multiSelectAccessibilityProperty?: string;
     markerPosition?: string;
+    hiddenGroupPosition?: IHiddenGroupPosition;
 }
 
 export interface ICollectionCounters {
@@ -709,6 +711,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _$metaResults: EntityModel;
 
     protected _$collapsedGroups: TArrayGroupKey;
+
+    protected _$hiddenGroupPosition: IHiddenGroupPosition;
 
     protected _$groupProperty: string;
 
@@ -2298,6 +2302,14 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$stickyHeader;
     }
 
+    setRoundBorder(roundBorder: IRoundBorder): void {
+        if (!isEqual(this._$roundBorder, roundBorder)) {
+            this._$roundBorder = roundBorder;
+            this._updateItemsProperty('setRoundBorder', this._$roundBorder, 'setRoundBorder');
+            this._nextVersion();
+        }
+    }
+
     getRowSeparatorSize(): string {
         return this._$rowSeparatorSize;
     }
@@ -3188,6 +3200,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.bottomPadding = this._$bottomPadding;
             options.searchValue = this._$searchValue;
             options.markerPosition = this._$markerPosition;
+            options.roundBorder = this._$roundBorder;
 
             if (this._$collection['[Types/_collection/RecordSet]']) {
                 options.isLastItem = this._isLastItem(options.contents);
@@ -3235,6 +3248,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }).append(GroupItemsStrategy, {
             handler: this._$group,
             collapsedGroups: this._$collapsedGroups,
+            hiddenGroupPosition: this._$hiddenGroupPosition,
             groupConstructor: this._getGroupItemConstructor()
         });
 
@@ -4009,6 +4023,7 @@ Object.assign(Collection.prototype, {
     _$hoverBackgroundStyle: 'default',
     _$backgroundStyle: 'default',
     _$rowSeparatorSize: null,
+    _$hiddenGroupPosition: 'first',
     _localize: false,
     _itemModule: 'Controls/display:CollectionItem',
     _itemsFactory: null,
@@ -4027,5 +4042,6 @@ Object.assign(Collection.prototype, {
     _userStrategies: null,
     _$emptyTemplate: null,
     _$emptyTemplateOptions: null,
+    _$roundBorder: null,
     getIdProperty: Collection.prototype.getKeyProperty
 });
