@@ -8,12 +8,11 @@ import {loadItems} from 'Controls/_dropdown/Util';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {IHeightOptions, IIconOptions} from 'Controls/interface';
 import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
-import {isLeftMouseButton, IStickyPopupOptions} from 'Controls/popup';
+import {isLeftMouseButton, IStickyPopupOptions, CalmTimer} from 'Controls/popup';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
 import 'css!Controls/dropdown';
 import 'css!Controls/CommonClasses';
-import {CalmTimer} from "Controls/_popup/fastOpenUtils/FastOpen";
 import template = require('wml!Controls/_dropdown/Button/Button');
 
 export interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOptions {

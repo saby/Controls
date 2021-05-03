@@ -7,7 +7,7 @@ import PreviewerOpener from './Opener/Previewer';
 import {goUpByControlTree} from 'UI/Focus';
 import 'css!Controls/popup';
 import template = require('wml!Controls/_popup/Previewer/Previewer');
-import {CalmTimer} from "Controls/_popup/fastOpenUtils/FastOpen";
+import {CalmTimer} from 'Controls/_popup/fastOpenUtils/FastOpen';
 
 const CALM_DELAY: number = 300; // During what time should not move the mouse to start opening the popup.
 /**
