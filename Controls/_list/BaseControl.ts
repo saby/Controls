@@ -1486,6 +1486,8 @@ const _private = {
         return self._portionedSearch || (self._portionedSearch = new PortionedSearch({
             searchStartCallback: () => {
                 self._portionedSearchInProgress = true;
+                // Нужно сбросить флаг, чтобы подгрузка по триггеру работала после порционного поиска.
+                self._handleLoadToDirection = false;
             },
             searchStopCallback: (direction?: IDirection) => {
                 const isStoppedByTimer = !direction;
@@ -4805,7 +4807,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
     handleTriggerVisible(direction: IDirection): void {
         // Если уже идет загрузка в какую-то сторону, то в другую сторону не начинаем загрузку
-        if (!this.handleLoadToDirection) {
+        if (!this._handleLoadToDirection) {
             // Вызываем сдвиг диапазона в направлении видимого триггера
             this._shiftToDirection(direction);
         }
@@ -4813,16 +4815,16 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     protected _shiftToDirection(direction): Promise {
         let resolver;
         const shiftPromise = new Promise((res) => { resolver = res; });
-        this.handleLoadToDirection = this._sourceController.hasMoreData(direction);
+        this._handleLoadToDirection = this._sourceController.hasMoreData(direction);
         this._scrollController.shiftToDirection(direction).then((result) => {
             if (result) {
                 _private.handleScrollControllerResult(this, result);
                 this._syncLoadingIndicatorState = direction;
-                this.handleLoadToDirection = false;
+                this._handleLoadToDirection = false;
                 resolver();
             } else {
                 this._loadMore(direction).then(() => {
-                    this.handleLoadToDirection = false;
+                    this._handleLoadToDirection = false;
                     resolver();
                 });
             }
