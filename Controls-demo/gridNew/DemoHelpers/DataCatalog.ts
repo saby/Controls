@@ -19,7 +19,7 @@ import * as notDraggableCell from 'wml!Controls-demo/gridNew/ColumnScroll/DragSc
 import * as dragScrollPopulationCell from 'wml!Controls-demo/gridNew/ColumnScroll/DragScrolling/populationCell';
 
 import { IColumn } from 'Controls/grid';
-import { IHeader } from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/grid';
 
 export interface IData {
     id: number;
@@ -542,7 +542,7 @@ const getCountriesStats = () => {
                 width: '150px'
             }
         ],
-        getDefaultHeader: (): IHeader[] => [
+        getDefaultHeader: (): IHeaderCell[] => [
             {
                 title: '#'
             },
@@ -599,7 +599,7 @@ const getCountriesStats = () => {
                 endColumn: 7
             }
         ],
-        getLongHeader: (textOverflow): IHeader[] => [
+        getLongHeader: (textOverflow): IHeaderCell[] => [
             {
                 title: '#'
             },
@@ -623,7 +623,7 @@ const getCountriesStats = () => {
                 textOverflow
             }
         ],
-        getMultiHeader: (): IHeader[] => [
+        getMultiHeader: (): IHeaderCell[] => [
             {
                 title: '#',
                 startRow: 1,
@@ -683,7 +683,7 @@ const getCountriesStats = () => {
                 endColumn: 7
             }
         ],
-        getMultiHeaderForTextOverflow: (): IHeader[] => [
+        getMultiHeaderForTextOverflow: (): IHeaderCell[] => [
             {
                 title: '#',
                 startRow: 1,
@@ -745,7 +745,7 @@ const getCountriesStats = () => {
                 endColumn: 7
             }
         ],
-        getMultiHeaderForDragScrolling: (): IHeader[] => [
+        getMultiHeaderForDragScrolling: (): IHeaderCell[] => [
             {
                 title: '#',
                 startRow: 1,
@@ -813,7 +813,7 @@ const getCountriesStats = () => {
             }
         ],
 
-        getMultiHeaderVar2: (): IHeader[] => [
+        getMultiHeaderVar2: (): IHeaderCell[] => [
             {
                 title: 'Географические характеристики стран',
                 startRow: 1,
@@ -858,7 +858,7 @@ const getCountriesStats = () => {
                 endColumn: 6
             }
         ],
-        getHeaderWithSorting: (textOverflow): IHeader[] => [
+        getHeaderWithSorting: (textOverflow): IHeaderCell[] => [
             {
                 title: '#'
             },
@@ -1627,7 +1627,7 @@ const getEditing = () => {
                 template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorTitle'
             }
         ],
-        getEditingHeaderValidations: (): IHeader[] => [
+        getEditingHeaderValidations: (): IHeaderCell[] => [
             {
                 title: 'email'
             },
@@ -1664,7 +1664,7 @@ const getEditing = () => {
                 document: '456990005'
             }
         ],
-        getDecoratedEditingHeader: (): IHeader[] => [
+        getDecoratedEditingHeader: (): IHeaderCell[] => [
             { title: 'Порт прибытия' },
             { title: 'Цена по накладной' },
             { title: 'Номер накладной' },
@@ -1707,7 +1707,7 @@ interface IDataForShow {
 
 function forShowWidths(): {
     getData(): IDataForShow[];
-    getHeader(): IHeader[];
+    getHeader(): IHeaderCell[];
     getColumns1(): IColumn[];
 } {
     return {
@@ -1733,7 +1733,7 @@ function forShowWidths(): {
                 }
             ];
         },
-        getHeader(): IHeader[] {
+        getHeader(): IHeaderCell[] {
             return [
                 {
                     title: '150px'
@@ -1872,7 +1872,7 @@ const cellPadding = () => ({
             populationDensity: 21.86
         }
     ]),
-    getCellPaddingHeader: (): IHeader[] => {
+    getCellPaddingHeader: (): IHeaderCell[] => {
         return [
             {
                 title: 'right: S'

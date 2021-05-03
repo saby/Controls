@@ -4,12 +4,12 @@ import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/gridNew/Header/Multiheader/AddButton/GridCaptionHeaderCell';
 import { IColumn } from 'Controls/grid';
-import { IHeader } from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/grid';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    private _header: IHeader[] = getCountriesStats().getMultiHeaderVar2();
+    private _header: IHeaderCell[] = getCountriesStats().getMultiHeaderVar2();
     private _columns: IColumn[] = getCountriesStats().getColumnsWithWidths().slice(1);
 
     protected _beforeMount(): void {

@@ -3,13 +3,13 @@ import * as Template from 'wml!Controls-demo/treeGridNew/LoadMore/LoadMore';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
-import { INavigation } from 'Controls-demo/types';
+import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat();
-    protected _navigation: INavigation = {
+    protected _navigation: INavigationOptionValue<INavigationSourceConfig> = {
         source: 'page',
         view: 'demand',
         sourceConfig: {

@@ -3,8 +3,8 @@ import * as Template from 'wml!Controls-demo/treeGridNew/NodeFooter/Configuratio
 import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
-import { INavigation } from 'Controls-demo/types';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -12,7 +12,7 @@ export default class extends Control {
     protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat().map((c) => ({...c, compatibleWidth: '150px'}));
     protected _hoveredCellIndex: number = -1;
 
-    protected _navigation: INavigation = {
+    protected _navigation: INavigationOptionValue<INavigationSourceConfig> = {
         source: 'page',
         view: 'demand',
         sourceConfig: {

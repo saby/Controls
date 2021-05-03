@@ -7,12 +7,12 @@ import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/gridOld';
-import { IHeader } from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/gridOld';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _header: IHeader[] = getCountriesStats().getDefaultHeader();
+    protected _header: IHeaderCell[] = getCountriesStats().getDefaultHeader();
     protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths().map((c, i) => ({
         ...c,
         result: undefined,

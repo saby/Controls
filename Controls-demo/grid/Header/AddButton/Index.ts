@@ -5,7 +5,7 @@ import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/grid/Header/AddButton/FirstHeaderCellTemplate';
 import 'wml!Controls-demo/grid/Header/AddButton/Cell';
 import { IColumn } from 'Controls/gridOld';
-import { IHeader } from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/gridOld';
 
 const MAXITEM = 10;
 
@@ -13,7 +13,7 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     private _gridCaption: string = 'Характеристики стран';
-    private _header: IHeader[] = getCountriesStats().getDefaultHeader().slice(1);
+    private _header: IHeaderCell[] = getCountriesStats().getDefaultHeader().slice(1);
     protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths().slice(1);
 
     protected _beforeMount(): void {

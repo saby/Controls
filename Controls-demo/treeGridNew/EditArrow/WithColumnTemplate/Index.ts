@@ -8,7 +8,7 @@ import * as Template from 'wml!Controls-demo/treeGridNew/EditArrow/WithColumnTem
 import * as TreeMemory from 'Controls-demo/List/Tree/TreeMemory';
 import * as memorySourceFilter from 'Controls-demo/Utils/MemorySourceFilter';
 import { TreeData, TreeColumnsWithTemplate, TreeHeader } from 'Controls-demo/treeGridNew/EditArrow/resources/resources';
-import { IHeader } from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/grid';
 
 export default class WithColumnTemplate extends Control<IControlOptions> {
     _template: TemplateFunction = Template;
