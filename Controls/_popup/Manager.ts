@@ -38,7 +38,8 @@ const SCROLL_DELAY = detection.isMobileIOS ? 100 : 10;
 class Manager {
     _contextIsTouch: boolean = false;
     _dataLoaderModule: string;
-    _pageConfigLoaderModule: string;
+    _popupPageConfigLoaderModule: string;
+    _popupPageTemplateModule: string;
     _popupItems: List<IPopupItem> = new List();
     private _pageScrolled: Function;
     private _popupResizeOuter: Function;
@@ -46,7 +47,8 @@ class Manager {
     constructor(options = {}) {
         this.initTheme(options);
         this._dataLoaderModule = options.dataLoaderModule;
-        this._pageConfigLoaderModule = options.pageConfigLoaderModule;
+        this._popupPageConfigLoaderModule = options.popupPageConfigLoaderModule;
+        this._popupPageTemplateModule = options.popupPageTemplateModule;
         this._pageScrolled = debounce(this._pageScrolledBase, SCROLL_DELAY);
         this._popupResizeOuter = debounce(this._popupResizeOuterBase, RESIZE_DELAY);
     }
@@ -110,11 +112,25 @@ class Manager {
     }
 
     getPageConfig(...args: unknown[]): Promise<unknown> {
+        if (!this._popupPageConfigLoaderModule) {
+            const message = 'При попытке открыть страницу в окне произошла ошибка.' +
+                'На приложении не задан модуль для получения конфигурации страницы.';
+            throw new Error(message);
+        }
         return new Promise((resolve, reject) => {
-            this._getModuleByModuleName(this._pageConfigLoaderModule, (DataLoader) => {
+            this._getModuleByModuleName(this._popupPageConfigLoaderModule, (DataLoader) => {
                 DataLoader.getConfig(...args).then(resolve, reject);
             });
         });
+    }
+
+    getPageTemplate(): string {
+        if (!this._popupPageTemplateModule) {
+            const message = 'При попытке открыть страницу в окне произошла ошибка.' +
+                'На приложении не задан шаблон отображения страницы в окне.';
+            throw new Error(message);
+        }
+        return this._popupPageTemplateModule;
     }
 
     /**

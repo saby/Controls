@@ -114,6 +114,10 @@ export default {
         return this._callManager('loadData', arguments);
     },
 
+    getPageTemplate(): string {
+        return this._callManager('getPageTemplate', arguments);
+    },
+
     getPageConfig(pageId: string): Promise<unknown> {
         return this._callManager('getPageConfig', arguments);
     },

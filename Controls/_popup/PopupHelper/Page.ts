@@ -28,9 +28,8 @@ export enum OpenMode {
 }
 
 /**
- * Хелпер для открытия Шторки.
- * @class Controls/_popup/PopupHelper/SlidingPanel
- * @implements Controls/popup:ISlidingPanel
+ * Хэлпер для открытия страницы внутри окна.
+ * @class Controls/_popup/PopupHelper/Page
  *
  * @author Красильников А.С.
  * @demo Controls-demo/Popup/SlidingPanel/Index
@@ -44,7 +43,7 @@ export default class PageOpener extends Base<IPagePopupOptions> {
                 ...config,
                 ...(popupOptions?.templateOptions as object || {})
             };
-            return this._getOpener(popupOptions.mode).open({
+            return this._getOpener(mode).open({
                 ...popupOptions,
                 template: 'Controls/popupTemplate:Page',
                 templateOptions
