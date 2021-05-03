@@ -4736,6 +4736,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 }
                 this._scrollToFirstItemIfNeed();
             }
+        } else if (this._viewSize <= this._viewportSize && this._hideTopTrigger) {
+            // Если не нужно скроллить к первому элементу, то возможно и не нужно скрывать триггер,
+            // а скрывать его не нужно, если данных не хватает на всю страницу
+            this._hideTopTrigger = false;
         }
 
         if (this._updateShadowModeBeforePaint) {
