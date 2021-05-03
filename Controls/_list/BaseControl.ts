@@ -4818,10 +4818,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (result) {
                 _private.handleScrollControllerResult(this, result);
                 this._syncLoadingIndicatorState = direction;
+                this.handleLoadToDirection = false;
                 resolver();
             } else {
                 this._loadMore(direction).then(() => {
-                    this.handleLoadToDirection = null;
+                    this.handleLoadToDirection = false;
                     resolver();
                 });
             }
