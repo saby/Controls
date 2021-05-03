@@ -14,13 +14,13 @@
             <ws:Array>
                 <ws:Object displayProperty="number" width="40px">
                     <ws:template>
-                        <ws:partial template="Controls/grid:ColumnTemplate" clickable="{{false}}"/>
+                        <ws:partial template="Controls/gridOld:ColumnTemplate" clickable="{{false}}"/>
                     </ws:template>
                 </ws:Object>
                 <ws:Object displayProperty="country" width="200px"/>
                 <ws:Object displayProperty="population" width="max-content" compatibleWidth="98px" align="right">
                     <ws:template>
-                        <ws:partial template="Controls/grid:ColumnTemplate" clickable="{{false}}"
+                        <ws:partial template="Controls/gridOld:ColumnTemplate" clickable="{{false}}"
                                     tagStyle="{{template.itemData.item.get('tagStyle')}}"/>
                     </ws:template>
                 </ws:Object>
