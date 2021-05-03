@@ -1,32 +1,30 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls/_breadcrumbs/Container';
-import {ContextOptions as DataOptions} from 'Controls/context';
 import {calculatePath, Path} from 'Controls/dataSource';
-import {ISourceControllerState, NewSourceController as SourceController} from 'Controls/dataSource';
+import {NewSourceController as SourceController} from 'Controls/dataSource';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 
-interface IDataContext {
-    dataOptions: ISourceControllerState;
+interface IContainerOptions extends IControlOptions {
+    _dataOptionsValue: {
+        sourceController?: SourceController
+    };
+    sourceController?: SourceController;
 }
 
-export default class BreadCrumbsContainer extends Control<IControlOptions> {
+export default class BreadCrumbsContainer extends Control<IContainerOptions> {
     protected _template: TemplateFunction = template;
-    protected _dataOptions: ISourceControllerState = null;
     protected _sourceController: SourceController;
     protected _items: Path;
 
-    protected _beforeMount(options: IControlOptions, context: IDataContext): void {
+    protected _beforeMount(options: IContainerOptions): void {
         this._collectionChange = this._collectionChange.bind(this);
-        this._dataOptions = context.dataOptions;
         this._setPathItems(options);
     }
 
-    protected _beforeUpdate(options: IControlOptions, context: IDataContext): void {
-        this._dataOptions = context.dataOptions;
+    protected _beforeUpdate(options: IContainerOptions): void {
         this._setPathItems(options);
     }
-
 
     protected _beforeUnmount(): void {
         if (this._sourceController) {
@@ -36,7 +34,7 @@ export default class BreadCrumbsContainer extends Control<IControlOptions> {
     }
 
     protected _itemClickHandler(e: SyntheticEvent, item: Model): void {
-        const sourceController = this._dataOptions.sourceController || this._options.sourceController;
+        const sourceController = this._sourceController;
         if (sourceController) {
             sourceController.setRoot(item.getKey());
             sourceController.reload();
@@ -50,9 +48,9 @@ export default class BreadCrumbsContainer extends Control<IControlOptions> {
         }
     }
 
-    private _getSourceController(options): SourceController {
-        if (this._dataOptions.sourceController) {
-            this._sourceController = this._dataOptions.sourceController;
+    private _getSourceController(options: IContainerOptions): SourceController {
+        if (options._dataOptionsValue.sourceController) {
+            this._sourceController = options._dataOptionsValue.sourceController;
         } else if (options.sourceController && this._sourceController !== options.sourceController) {
             this._sourceController = options.sourceController;
             this._sourceController.getItems().subscribe('onCollectionChange', this._collectionChange);
@@ -74,11 +72,5 @@ export default class BreadCrumbsContainer extends Control<IControlOptions> {
         if (reason === 'assign') {
             this._items = this._getPathItems(this._sourceController.getItems());
         }
-    }
-
-    static contextTypes(): IDataContext {
-        return {
-            dataOptions: DataOptions
-        };
     }
 }

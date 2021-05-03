@@ -33,6 +33,32 @@ describe('Controls/treeGrid_clean/Display/TreeCollection', () => {
         assert.strictEqual(treeGridCollection.getCount(), 3);
     });
 
+    it('setExpandedItems for deep into nodes', () => {
+        const recordSet = new RecordSet({
+            rawData: [
+                { key: 1, parent: null, type: true },
+                { key: 2, parent: 1, type: true },
+                { key: 3, parent: 2, type: true }
+            ],
+            keyProperty: 'key'
+        });
+
+        const treeGridCollection = new TreeGridCollection({
+            collection: recordSet,
+            keyProperty: 'key',
+            parentProperty: 'parent',
+            nodeProperty: 'type',
+            root: null,
+            columns: [{}],
+            expandedItems: []
+        });
+        treeGridCollection.setExpandedItems([1, 2, 3]);
+
+        assert.isTrue(treeGridCollection.at(0).isExpanded());
+        assert.isTrue(treeGridCollection.at(1).isExpanded());
+        assert.isTrue(treeGridCollection.at(2).isExpanded());
+    });
+
     it('Init footer in constructor', () => {
         const recordSet = new RecordSet({
             rawData: [ { key: 1, parent: null, type: true } ],

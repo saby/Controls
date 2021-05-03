@@ -4,7 +4,7 @@ import {
     ISlidingPanelPopupOptions
 } from 'Controls/popup';
 import * as PopupContent from 'wml!Controls/_popupSliding/SlidingPanelContent';
-import SlidingPanelStrategy, {ISlidingPanelItem} from './Strategy';
+import SlidingPanelStrategy, {AnimationState, ISlidingPanelItem} from './Strategy';
 import {detection} from 'Env/Env';
 
 /**
@@ -23,7 +23,7 @@ class Controller extends BaseController {
         item.sizes = this._getPopupSizes(item, container);
         // После создания запускаем анимацию изменив позицию
         item.position = SlidingPanelStrategy.getShowingPosition(item);
-        item.animationState = 'showing';
+        item.animationState = AnimationState.showing;
 
         // Фиксим оттягивание документа при свайпе на IOS
         if (!this._hasOpenedPopups()) {
@@ -40,16 +40,19 @@ class Controller extends BaseController {
         return true;
     }
 
-    elementDestroyed(item: ISlidingPanelItem): Promise<null> {
+    elementDestroyed(item: ISlidingPanelItem): Promise<undefined> {
+        // Если попап еще не замаунчен, то просто закрываем без анимации
+        if (!this._isPopupOpened(item)) {
+            this._finishPopupClosing(item);
+            return Promise.resolve(null);
+        }
+
         // Запускаем анимацию закрытия и откладываем удаление до её окончания
         item.position = SlidingPanelStrategy.getHidingPosition(item);
-        item.animationState = 'closing';
+        item.animationState = AnimationState.closing;
         return new Promise((resolve) => {
             this._destroyPromiseResolvers[item.id] = resolve;
-            this._removePopupFromList(item);
-            if (!this._hasOpenedPopups()) {
-                this._toggleCancelBodyDragging(false);
-            }
+            this._finishPopupClosing(item);
         });
     }
 
@@ -94,6 +97,7 @@ class Controller extends BaseController {
         item.popupOptions.className = className;
         item.popupOptions.content = PopupContent;
         item.popupOptions.slidingPanelData = this._getPopupTemplatePosition(item);
+        item.animationState = AnimationState.initializing;
     }
 
     popupDragStart(item: ISlidingPanelItem, container: HTMLDivElement, offset: IDragOffset): void {
@@ -123,6 +127,22 @@ class Controller extends BaseController {
 
     popupDragEnd(item: ISlidingPanelItem): void {
         item.dragStartHeight = null;
+    }
+
+    private _finishPopupClosing(item: ISlidingPanelItem): void {
+        this._removePopupFromList(item);
+        if (!this._hasOpenedPopups()) {
+            this._toggleCancelBodyDragging(false);
+        }
+    }
+
+    /**
+     * Попап еще не открылся, если не стрельнул elementCreated или не закончилась анимация открытия.
+     * @param item
+     * @private
+     */
+    private _isPopupOpened(item: ISlidingPanelItem): boolean {
+        return item.animationState !== AnimationState.initializing && item.animationState !== AnimationState.showing;
     }
 
     /**

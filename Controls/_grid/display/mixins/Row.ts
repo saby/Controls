@@ -59,6 +59,7 @@ export default abstract class Row<T> {
     protected _$rowTemplate: TemplateFunction;
     protected _$rowTemplateOptions: object;
     protected _$columns: TColumns;
+    protected _$backgroundStyle: string;
     protected _savedColumns: TColumns;
 
     protected constructor(options?: IOptions<T>) {
@@ -307,6 +308,11 @@ export default abstract class Row<T> {
         return this.getColumns().length;
     }
 
+    setBackgroundStyle(backgroundStyle: string): void {
+        this._$backgroundStyle = backgroundStyle;
+        this._reinitializeColumns();
+    }
+
     /**
      * Получить индекс ячейки в строке.
      * @param {Cell} cell - Ячейка таблицы.
@@ -456,7 +462,9 @@ export default abstract class Row<T> {
         return {
             column,
             rowSeparatorSize: this._$rowSeparatorSize,
-            columnSeparatorSize: this._getColumnSeparatorSizeForColumn(column, columnIndex)
+            columnSeparatorSize: this._getColumnSeparatorSizeForColumn(column, columnIndex),
+            backgroundStyle: this._$backgroundStyle,
+            isSticked: this.isSticked()
         };
     }
 
@@ -713,5 +721,6 @@ Object.assign(Row.prototype, {
     _$rowTemplateOptions: null,
     _$colspanCallback: null,
     _$columnSeparatorSize: null,
+    _$backgroundStyle: 'default',
     _$editingColumnIndex: null,
 });

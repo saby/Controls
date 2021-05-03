@@ -98,6 +98,7 @@ export interface IOptions {
     columnSeparatorSize?: TColumnSeparatorSize;
     multiSelectVisibility?: string;
     itemActionsPosition?: 'inside' | 'outside' | 'custom';
+    backgroundStyle: string;
 }
 
 export default abstract class Grid<S, T extends GridRowMixin<S>> {
@@ -403,7 +404,9 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             columns: options.footer,
             rowTemplate: options.footerTemplate,
             rowTemplateOptions: {},
-            columnSeparatorSize: options.columnSeparatorSize
+            backgroundStyle: options.backgroundStyle,
+            columnSeparatorSize: options.columnSeparatorSize,
+            shouldAddFooterPadding: options.itemActionsPosition === 'outside'
         });
     }
 
@@ -416,6 +419,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             rowTemplate: options.resultsTemplate,
             rowTemplateOptions: {},
             metaResults: this.getMetaResults(),
+            backgroundStyle: options.backgroundStyle,
             colspanCallback: options.resultsColspanCallback
         });
     }

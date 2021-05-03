@@ -53,7 +53,7 @@
     <ws:partial template="sortingSelector">
         <ws:headerTemplate>
             <Controls.Container.Async templateName="Controls/dropdown:HeaderTemplate">
-                <ws:partial template="{{ content.resolvedTemplate }}" scope="{{ headTemplate }}" iconSize="{{_options.iconSize}}" icon="{{_options.icon}}" caption="{{_options.header}}"/>
+                <ws:partial template="{{ content.resolvedTemplate }}" scope="{{ headTemplate }}" iconSize="s" icon="{{_options.icon}}" caption="{{_options.header}}"/>
             </Controls.Container.Async>
         </ws:headerTemplate>
     </ws:partial>

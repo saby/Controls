@@ -141,7 +141,7 @@ export default class ScrollController {
                 options.disableVirtualScroll !== this._options.disableVirtualScroll
             )) {
                 this._options.disableVirtualScroll = options.disableVirtualScroll;
-                if (options.needScrollCalculation) {
+                if (options.needScrollCalculation && options.virtualScrollConfig) {
                     if (options.useNewModel) {
                         ScrollController._setCollectionIterator(options.collection, options.virtualScrollConfig.mode);
                     }
@@ -682,6 +682,10 @@ export default class ScrollController {
     }
     setResetInEnd(resetInEnd: boolean) {
         this._resetInEnd = resetInEnd;
+    }
+
+    destroy() {
+        this._options.collection && this._options.collection.setIndexes(0, 0);
     }
 
     private getTriggerOffset(scrollHeight: number, viewportHeight: number, resetTopTriggerOffset: boolean, resetDownTriggerOffset: boolean):

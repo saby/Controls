@@ -7,6 +7,7 @@ import defaultItemTemplate = require('wml!Controls/_list/ItemTemplate');
 import * as forTemplate from 'wml!Controls/_list/Render/For';
 import * as oldForTemplate from 'wml!Controls/_list/resources/For';
 import 'css!Controls/list';
+import {isEqual} from "Types/object";
 
 const DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
@@ -165,6 +166,9 @@ var ListView = BaseControl.extend(
             }
             if (this._options.groupTemplate !== newOptions.groupTemplate) {
                 this._groupTemplate = newOptions.groupTemplate;
+            }
+            if (!isEqual(this._options.roundBorder, newOptions.roundBorder)) {
+                this._listModel.setRoundBorder(newOptions.roundBorder);
             }
             this._itemTemplate = this._resolveItemTemplate(newOptions);
         },

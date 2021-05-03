@@ -6,6 +6,7 @@ import {Memory, PrefetchProxy, DataSet} from 'Types/source';
 import {NewSourceController} from 'Controls/dataSource';
 import * as sinon from 'sinon';
 import {Logger} from 'UI/Utils';
+import {CssClassesAssert as aAssert} from 'ControlsUnit/CustomAsserts';
 
 const getData = (dataCount: number = 0) => {
     const data = [];
@@ -1290,5 +1291,31 @@ describe('Controls/list_clean/BaseControl', () => {
             assert.ok(!itemsReadyCallbackCalled);
         });
 
+    });
+
+    describe('getFooterClasses', () => {
+        [
+            // multiSelectVisibility, multiSelectPosition, itemPadding, expectedResult
+            ['hidden', undefined, undefined, 'controls__BaseControl__footer__paddingLeft_default'],
+            ['hidden', undefined, {}, 'controls__BaseControl__footer__paddingLeft_default'],
+            ['hidden', undefined, {left: 'xl'}, 'controls__BaseControl__footer__paddingLeft_xl'],
+            ['hidden', undefined, {left: 'XL'}, 'controls__BaseControl__footer__paddingLeft_xl'],
+
+            ['visible', undefined, undefined, 'controls__BaseControl__footer__paddingLeft_withCheckboxes'],
+            ['visible', undefined, {left: 'xl'}, 'controls__BaseControl__footer__paddingLeft_withCheckboxes'],
+
+            ['visible', 'custom', undefined, 'controls__BaseControl__footer__paddingLeft_default'],
+            ['visible', 'custom', {left: 'xl'}, 'controls__BaseControl__footer__paddingLeft_xl'],
+            ['visible', 'custom', {left: 'XL'}, 'controls__BaseControl__footer__paddingLeft_xl']
+        ].forEach(([multiSelectVisibility, multiSelectPosition, itemPadding, expectedResult]) => {
+            it(`multiSelectVisibility='${multiSelectVisibility}', multiSelectPosition='${multiSelectPosition}', itemPadding='${itemPadding}'`, () => {
+                const baseControl = new BaseControl({});
+
+                aAssert.isSame(
+                    baseControl._getFooterClasses({ multiSelectVisibility, multiSelectPosition, itemPadding }),
+                    `controls__BaseControl__footer ${expectedResult}`
+                );
+            });
+        });
     });
 });

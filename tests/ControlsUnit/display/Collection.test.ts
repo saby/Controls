@@ -4,7 +4,7 @@ import { spy } from 'sinon';
 import {
     Abstract as Display,
     Collection as CollectionDisplay,
-    CollectionItem,
+    CollectionItem, groupConstants,
     GroupItem
 } from 'Controls/display';
 
@@ -1763,6 +1763,41 @@ describe('Controls/_display/Collection', () => {
             display.each((item, i) => {
                 assert.equal(expected[i], item.getContents());
             });
+        });
+
+        it('should remove grouping filter when null was passed', () => {
+            const list = new ObservableList({
+                items: [
+                    {id: 1},
+                    {id: 2},
+                    {id: 3}
+                ]
+            });
+            const display = new CollectionDisplay({
+                collection: list
+            });
+            const spyRemoveFilter = spy(display, 'removeFilter');
+            display.setGroup((item) => item.group);
+            display.setGroup(null);
+            assert.isTrue(spyRemoveFilter.called);
+            spyRemoveFilter.restore();
+        });
+
+        it('should add grouping filter when handler was passed', () => {
+            const list = new ObservableList({
+                items: [
+                    {id: 1, group: 2},
+                    {id: 2, group: 3},
+                    {id: 3, group: 2}
+                ]
+            });
+            const display = new CollectionDisplay({
+                collection: list
+            });
+            const spyAddFilter = spy(display, 'addFilter');
+            display.setGroup((item) => item.group);
+            assert.isTrue(spyAddFilter.called);
+            spyAddFilter.restore();
         });
     });
 
@@ -4429,6 +4464,37 @@ describe('Controls/_display/Collection', () => {
                 style: 'master'
             });
             assert.equal(display.getHoverBackgroundStyle(), 'master');
+        });
+    });
+
+    describe('hiddenGroupPosition', () => {
+        const items = new RecordSet({
+            rawData: [
+                {id: 1, group: 111},
+                {id: 2, group: 111},
+                {id: 3, group: groupConstants.hiddenGroup}
+            ]
+        });
+
+        it('first', () => {
+            const collection = new CollectionDisplay({
+                collection: items,
+                keyProperty: 'id',
+                groupProperty: 'group'
+            });
+
+            assert.equal(collection.at(0).getContents(), groupConstants.hiddenGroup);
+        });
+
+        it('byorder', () => {
+            const collection = new CollectionDisplay({
+                collection: items,
+                keyProperty: 'id',
+                groupProperty: 'group',
+                hiddenGroupPosition: 'byorder'
+            });
+
+            assert.equal(collection.at(3).getContents(), groupConstants.hiddenGroup);
         });
     });
 });

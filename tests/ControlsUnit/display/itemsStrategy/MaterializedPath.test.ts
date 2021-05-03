@@ -119,7 +119,7 @@ describe('Controls/_display/itemsStrategy/MaterializedPath', () => {
             });
             const strategy = new MaterializedPath(getOptions(display));
 
-            assert.isTrue(strategy.at(0).isHasChildren());
+            assert.isTrue(strategy.at(0).hasChildren());
         });
 
         it('should return a TreeItem without children', () => {
@@ -129,7 +129,7 @@ describe('Controls/_display/itemsStrategy/MaterializedPath', () => {
             });
             const strategy = new MaterializedPath(getOptions(display));
 
-            assert.isFalse(strategy.at(0).isHasChildren());
+            assert.isFalse(strategy.at(0).hasChildren());
         });
     });
 

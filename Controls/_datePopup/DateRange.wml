@@ -95,6 +95,7 @@
                                 on:itemClick="_proxyEvent()"
                                 on:itemMouseEnter="_proxyEvent()"
                                 on:itemMouseLeave="_proxyEvent()"
+                                on:itemKeyDown="_proxyEvent()"
                         >
                            <ws:captionTemplate>
                               <div class="controls-PeriodDialog-DateRangeItem__monthList_title

@@ -170,6 +170,7 @@ const _private = {
         itemsModelCurrent.isSticked = () => itemsModelCurrent.isStickedMasterItem || itemsModelCurrent.isGroup;
         itemsModelCurrent.isDragged = () => itemsModelCurrent.isDragging;
         itemsModelCurrent.getWrapperClasses = this.getWrapperClasses.bind(itemsModelCurrent);
+        itemsModelCurrent.getQAData = this.getQAData.bind(itemsModelCurrent);
         itemsModelCurrent.getContentClasses = () => {
             return `${itemsModelCurrent.spacingClassList} ${itemsModelCurrent.isRightSwiped?.() ? 'controls-ListView__item_rightSwipeAnimation' : ''}`;
         };
@@ -188,6 +189,14 @@ const _private = {
     },
     getSeparatorSizes(options: IListSeparatorOptions): IListSeparatorOptions['rowSeparatorSize'] {
         return options.rowSeparatorSize ? options.rowSeparatorSize.toLowerCase() : null;
+    },
+
+    getQAData(marker: boolean = true): string {
+        let classes = '';
+        if (this.isMarked() && marker) {
+            classes += 'key-controls-list-marked-item';
+        }
+        return classes;
     },
 
     getWrapperClasses(templateHighlightOnHover: boolean = true,

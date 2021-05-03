@@ -45,6 +45,27 @@ define([
             sandbox.restore();
          });
 
+         it('should update displayValue fields if displayValue changed', function() {
+            const options = {
+               mask: 'DD.MM.YY',
+               displayValue: '01.01.21',
+               replacer: ' ',
+               dateConstructor: Date
+            };
+            const sandbox = sinon.sandbox.create(),
+               model = new DateTimeModel(options);
+
+            sandbox.stub(model, '_notify');
+            model.update(cMerge({ displayValue: '02.01.21' }, options, { preferSource: true }));
+
+            sinon.assert.notCalled(model._notify);
+            assert.strictEqual(model.value.getTime(), (new Date(2021, 0, 2)).getTime());
+            assert.instanceOf(model.value, Date);
+            assert.strictEqual(model._lastValue.getTime(), (new Date(2021, 0, 2)).getTime());
+            assert.strictEqual(model.textValue, '02.01.21');
+            sandbox.restore();
+         });
+
       });
 
       describe('.value', function() {

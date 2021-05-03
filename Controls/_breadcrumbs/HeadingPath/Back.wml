@@ -23,7 +23,8 @@
             <div class="controls-BreadCrumbsPath__backButtonArrow-container
                   {{_options.showArrowOutsideOfBackButton || _options.displayMode === 'multiline' ? 'controls-BreadCrumbsPath__backButtonArrow-container__only'}}
                   controls-background-{{_options.backgroundStyle || 'default'}}
-                  {{_options.readOnly ? ' controls-Path__backButtonArrow_readonly'}}"
+                  {{_options.readOnly ? ' controls-Path__backButtonArrow_readonly'}}
+                  js-BreadCrumbsPath__backButtonArrow"
                  title="{[Подробнее]}"
                  on:click="_onArrowClick()">
                 <div class="controls-BreadCrumbsPath__backButtonArrow">

@@ -20,6 +20,8 @@ import { IItemCompatibilityListViewModel, ItemCompatibilityListViewModel } from 
 import {IEditableCollectionItem} from './interface/IEditableCollectionItem';
 import Collection from 'Controls/_display/Collection';
 import IItemActionsItem from './interface/IItemActionsItem';
+import {IRoundBorder} from "Controls/_tile/display/mixins/Tile";
+import {isEqual} from "Types/object";
 
 export interface IOptions<T extends Model = Model> {
     itemModule: string;
@@ -47,6 +49,7 @@ export interface IOptions<T extends Model = Model> {
     markerPosition: string;
     isLastItem?: boolean;
     isFirstItem?: boolean;
+    roundBorder?: object;
 }
 
 export interface ISerializableState<T extends Model = Model> extends IDefaultSerializableState {
@@ -693,6 +696,14 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
             (style === 'master');
     }
 
+    getQAData(marker: boolean): string {
+        let classes = '';
+        if (this.shouldDisplayMarker(marker)) {
+            classes += 'key-controls-list-marked-item';
+        }
+        return classes;
+    }
+
     /**
      * Возвращает строку с классами, устанавливаемыми в шаблоне элемента для корневого div'а.
      * @param templateHighlightOnHover - подсвечивать или нет запись по ховеру
@@ -757,6 +768,40 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         }
         return itemActionClasses;
     }
+
+    // region RoundBorder
+
+    setRoundBorder(roundBorder: IRoundBorder): void {
+        if (!isEqual(this._$roundBorder, roundBorder)) {
+            this._$roundBorder = roundBorder;
+            this._nextVersion();
+        }
+    }
+
+    getTopLeftRoundBorder(): string {
+        return this._$roundBorder?.tl || 'default';
+    }
+
+    getTopRightRoundBorder(): string {
+        return this._$roundBorder?.tr || 'default';
+    }
+
+    getBottomLeftRoundBorder(): string {
+        return this._$roundBorder?.bl || 'default';
+    }
+
+    getBottomRightRoundBorder(): string {
+        return this._$roundBorder?.br || 'default';
+    }
+
+    getRoundBorderClasses(): string {
+        let classes = `controls-ListView__item_roundBorder_topLeft_${this.getTopLeftRoundBorder()}`;
+        classes += ` controls-ListView__item_roundBorder_topRight_${this.getTopRightRoundBorder()}`;
+        classes += ` controls-ListView__item_roundBorder_bottomLeft_${this.getBottomLeftRoundBorder()}`;
+        classes += ` controls-ListView__item_roundBorder_bottomRight_${this.getBottomRightRoundBorder()}`;
+        return classes;
+    }
+    // endregion RoundBorder
 
     getRowSeparatorSize(): string {
         return this.getOwner().getRowSeparatorSize();
@@ -1058,5 +1103,6 @@ Object.assign(CollectionItem.prototype, {
     _contentsIndex: undefined,
     _version: 0,
     _counters: null,
-    _$editingColumnIndex: null
+    _$editingColumnIndex: null,
+    _$roundBorder: null
 });

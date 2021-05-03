@@ -1,0 +1,5 @@
+<Controls.context:ContextOptionsConsumer scope="{{ _options }}">
+    <ws:contextOptionsInnerComponent>
+        <Controls._popup.Opener.Edit.Container scope="{{ contextOptionsInnerComponent }}" />
+    </ws:contextOptionsInnerComponent>
+</Controls.context:ContextOptionsConsumer>

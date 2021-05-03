@@ -3,16 +3,38 @@ import {constants} from 'Env/Env';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Date as WSDate, DateTime as WSDateTime, Time as WSTime} from 'Types/entity';
 import * as Model from 'Controls/_input/DateTime/Model';
-import {DATE_MASK_TYPE, DATE_TIME_MASK_TYPE, getMaskType, TIME_MASK_TYPE} from './DateTime/Utils';
-import IDateTimeMask from 'Controls/_input/interface/IDateTimeMask';
+import {
+    DATE_MASK_TYPE,
+    DATE_TIME_MASK_TYPE,
+    getMaskType,
+    TIME_MASK_TYPE
+} from './DateTime/Utils';
+import {IBaseOptions} from 'Controls/_input/interface/IBase';
+import {IInputDisplayValueOptions, INPUT_MODE} from 'Controls/_input/interface/IInputDisplayValue';
+import IDateTimeMask, {IDateTimeMaskOptions} from 'Controls/_input/interface/IDateTimeMask';
+import {IInputDateTimeOptions} from 'Controls/_input/interface/IInputDateTime';
 import {
     ValueValidators,
     getDefaultOptions as getValueValidatorsDefaultOptions,
-    getOptionTypes as getValueValidatorsOptionTypes
+    getOptionTypes as getValueValidatorsOptionTypes,
+    IValueValidatorsOptions
 } from 'Controls/_input/interface/IValueValidators';
 import {EventUtils} from 'UI/Events';
 import {isValidDate, Container, InputContainer} from 'Controls/validate';
 import template = require('wml!Controls/_input/DateTime/DateTime');
+
+
+export interface IDateBaseOptions extends
+    IBaseOptions,
+    IControlOptions,
+    IInputDateTimeOptions,
+    IDateTimeMaskOptions,
+    IValueValidatorsOptions,
+    IInputDisplayValueOptions {
+
+}
+
+const VALID_PARTIAL_DATE = /^(0{2}| {2})\.(0{2}| {2})\.\d{2,4}$/;
 
 /**
  * Базовое универсальное поле ввода даты и времени. Позволяет вводить дату и время одновременно или по отдельности. Данные вводятся только с помощью клавиатуры.
@@ -39,6 +61,7 @@ import template = require('wml!Controls/_input/DateTime/DateTime');
  * @mixes Controls/input:IBorderVisibility
  * @mixes Controls/interface:IInputPlaceholder
  * @mixes Controls/input:IValueValidators
+ * @mixes Controls/input:IInputDisplayValueValidators
  *
  *
  * @public
@@ -46,7 +69,7 @@ import template = require('wml!Controls/_input/DateTime/DateTime');
  * @author Красильников А.С.
  */
 
-class DateTime extends Control {
+class DateTime extends Control<IDateBaseOptions> {
     protected _template: TemplateFunction = template;
     protected _validationContainer: InputContainer | Container;
     protected _proxyEvent: Function = EventUtils.tmplNotify;
@@ -67,7 +90,7 @@ class DateTime extends Control {
 
     protected _validators: Function[] = [];
 
-    protected _beforeMount(options): void {
+    protected _beforeMount(options: IDateBaseOptions): void {
         this._updateDateConstructor(options);
         this._updateValidationController(options);
         this._model = new Model({
@@ -78,29 +101,30 @@ class DateTime extends Control {
         this._model.subscribe('valueChanged', () => {
             this._updateValidators();
         });
-        this._updateValidators(options.valueValidators);
+        this._updateValidators(options.valueValidators, options.inputMode, options.mask);
     }
 
-    protected _beforeUpdate(options): void {
+    protected _beforeUpdate(options: IDateBaseOptions): void {
         this._updateDateConstructor(options, this._options);
         if (this._options.validateByFocusOut !== options.validateByFocusOut) {
             this._updateValidationController(options);
         }
-        if (options.value !== this._options.value) {
+        if (options.value !== this._options.value || options.displayValue !== this._options.displayValue) {
             this._model.update({
                 ...options,
                 dateConstructor: this._dateConstructor
             });
         }
-        if (this._options.valuevalidators !== options.valueValidators || options.value !== this._options.value) {
-            this._updateValidators(options.valueValidators);
+        if (this._options.valuevalidators !== options.valueValidators || options.value !== this._options.value ||
+                options.displayValue !== this._options.displayValue) {
+            this._updateValidators(options.valueValidators, options.inputMode, options.mask);
         }
     }
 
     protected _inputCompletedHandler(e: SyntheticEvent<KeyboardEvent>, value: Date | WSDate, textValue: string): void {
         e.stopImmediatePropagation();
-        this._model.autocomplete(textValue, this._options.autocompleteType);
-        this._notify('inputCompleted', [this._model.value, textValue]);
+        this._model.autocomplete(textValue, this._options.autocompleteType, this._options.inputMode);
+        this._notify('inputCompleted', [this._model.value, this._model.displayValue]);
     }
 
     protected _valueChangedHandler(e: SyntheticEvent<KeyboardEvent>, value: Date | WSDate, textValue: string): void {
@@ -122,7 +146,7 @@ class DateTime extends Control {
 
     protected _onKeyDown(event: SyntheticEvent<KeyboardEvent>): void {
         let key = event.nativeEvent.keyCode;
-        if (key === constants.key.insert && !event.nativeEvent.shiftKey && !event.nativeEvent.ctrlKey) {
+        if (key === constants.key.insert && !event.nativeEvent.shiftKey && !event.nativeEvent.ctrlKey && !this._options.readOnly) {
             // on Insert button press current date should be inserted in field
             this._model.setCurrentDate();
             this._notify('inputCompleted', [this._model.value, this._model.textValue]);
@@ -157,13 +181,22 @@ class DateTime extends Control {
         return dateConstructorMap[getMaskType(mask)];
     }
 
-    private _updateValidators(validators?: ValueValidators): void {
+    private _updateValidators(validators?: ValueValidators, inputMode?: string, mask?: string): void {
+        const iMode = inputMode || this._options.inputMode;
         const v: ValueValidators = validators || this._options.valueValidators;
-        this._validators = [
-            isValidDate.bind(null, {
+        this._validators = [];
+
+        const needValidateForPartialMode =
+            getMaskType(mask) !== DATE_MASK_TYPE || !this._model.displayValue.match(VALID_PARTIAL_DATE);
+
+        if (iMode !== INPUT_MODE.partial || needValidateForPartialMode) {
+            this._validators.push(isValidDate.bind(null, {
                 value: this._model.value
-            }),
-            ...v.map((validator) => {
+            }));
+        }
+
+        this._validators = this._validators.concat(
+            v.map((validator) => {
                 let _validator: Function;
                 let args: object;
                 if (typeof validator === 'function') {
@@ -177,7 +210,7 @@ class DateTime extends Control {
                     value: this._model.value
                 });
             })
-        ];
+        );
     }
 
     private _updateValidationController(options): void {
@@ -188,7 +221,8 @@ class DateTime extends Control {
         return {
             ...IDateTimeMask.getDefaultOptions(),
             ...getValueValidatorsDefaultOptions(),
-            autocompleteType: 'default'
+            autocompleteType: 'default',
+            inputMode: INPUT_MODE.default
         };
     }
 

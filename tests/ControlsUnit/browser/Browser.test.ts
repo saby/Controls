@@ -133,7 +133,7 @@ describe('Controls/browser:Browser', () => {
                 };
                 const browser = getBrowser(options);
                 await browser._beforeMount(options);
-                assert.ok(browser._dataOptionsContext.source === options.source);
+                assert.ok(browser._contextState.source === options.source);
             });
 
             it('_beforeMount with receivedState and dataLoadCallback', async () => {
@@ -214,7 +214,7 @@ describe('Controls/browser:Browser', () => {
 
                     const browser = getBrowser(options);
                     await browser._beforeMount(options, {});
-                    assert.deepStrictEqual(browser._dataOptionsContext.filter, filter);
+                    assert.deepStrictEqual(browser._contextState.filter, filter);
                     assert.deepStrictEqual(browser._filter, filter);
                 });
 
@@ -237,7 +237,7 @@ describe('Controls/browser:Browser', () => {
 
                     const browser = getBrowser(options);
                     await browser._beforeMount(options, {});
-                    assert.deepStrictEqual(browser._dataOptionsContext.filter, expectedFilter);
+                    assert.deepStrictEqual(browser._contextState.filter, expectedFilter);
                     assert.deepStrictEqual(browser._filter, expectedFilter);
                 });
 
@@ -704,12 +704,10 @@ describe('Controls/browser:Browser', () => {
                 payload: 'something'
             };
             let options = {...getBrowserOptions(), searchValue: '123', filter};
-            browser.saveOptions(options);
-
             await browser._beforeMount(options);
             browser.saveOptions(options);
 
-            const sourceController = browser._getSourceController(options);
+            const sourceController = browser._getSourceController();
             sourceController.setFilter({...filter, name: 'test123'});
             const filterChangedStub = sandbox.stub(browser, '_filterChanged');
 
@@ -895,6 +893,7 @@ describe('Controls/browser:Browser', () => {
             testField: 'testValue',
             PrefetchSessionId: 'test'
         };
+        await import('Controls/filter');
         let options = {...getBrowserOptions(), filter};
         const browser = getBrowser(options);
         await browser._beforeMount(options);

@@ -56,7 +56,10 @@
                   : 'visible'
             }}"
                  searchValue="{{_searchValue}}"
-
+                 on:markedKeyChanged="_notifyHandler('markedKeyChanged')"
+                 on:editArrowClick="_notifyHandler('editArrowClick')"
+                 on:arrowClick="_onDetailArrowClick()"
+                 on:actionClick="_notifyHandler('actionClick')"
                  on:arrowClick="_onDetailArrowClick()"
                  on:itemClick="_onExplorerItemClick(false)"
                  on:viewModeChanged="_onDetailExplorerChangedViewMode()"

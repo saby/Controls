@@ -14,9 +14,11 @@
                 <ws:groupTemplate>
                     <ws:partial template="Controls/grid:GroupTemplate"
                                 itemData="{{itemData}}"
-                                separatorVisibility="{{_separatorVisibility}}"
-                                expanderVisible="{{true}}"
-                                columnAlignGroup="{{2}}">
+                                separatorVisibility={{false}}
+                                expanderVisible={{true}}
+                                expanderAlign="right"
+                                columnAlignGroup="{{2}}"
+                                itemData="{{itemData}}">
                         <ws:rightTemplate>
                             <Controls.decorator:Money value="{{itemData.metaData.groupResults[itemData.item]}}" fontColorStyle="group" useGrouping="{{false}}"/>
                         </ws:rightTemplate>

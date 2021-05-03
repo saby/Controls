@@ -7,4 +7,9 @@
  * @author Крайнов Д.О.
  */
 
-export {default as ContextOptions} from 'Controls/_context/ContextOptions';
+export {
+    default as ContextOptions,
+    IContextOptionsValue
+} from 'Controls/_context/ContextOptions';
+export { default as ContextOptionsConsumer } from 'Controls/_context/ContextOptionsConsumer';
+export { default as ContextOptionsProvider } from 'Controls/_context/ContextOptionsProvider';

@@ -789,6 +789,9 @@ const _private = {
             self._loadToDirectionInProgress = true;
 
             return self._sourceController.load(direction, self._options.root, filter).addCallback((addedItems) => {
+                if (self._destroyed) {
+                    return;
+                }
                 const itemsCountAfterLoad = self._listViewModel.getCount();
                 // If received list is empty, make another request.
                 // If it’s not empty, the following page will be requested in resize event
@@ -1289,12 +1292,8 @@ const _private = {
             totalElementsCount: elementsCount,
             loadedElementsCount: self._listViewModel.getStopIndex() - self._listViewModel.getStartIndex(),
             pagingCfgTrigger: (cfg) => {
-                if (cfg?.selectedPage !== self._currentPage) {
-                    if (self._selectedPageHasChanged) {
-                        self.__selectedPageChanged(null, self._currentPage);
-                    } else {
-                        self._currentPage = cfg.selectedPage;
-                    }
+                if (cfg?.selectedPage !== self._currentPage && !self._selectedPageHasChanged) {
+                    self._currentPage = cfg.selectedPage;
                 } else {
                     self._selectedPageHasChanged = false;
                 }
@@ -2147,7 +2146,10 @@ const _private = {
     showError(self: BaseControl, errorConfig: dataSourceError.ViewConfig): void {
         self.__error = errorConfig;
         if (errorConfig && (errorConfig.mode === dataSourceError.Mode.include)) {
-            self._scrollController = null;
+            if (self._scrollController) {
+                self._scrollController.destroy();
+                self._scrollController = null;
+            }
             self._observerRegistered = false;
             self._viewReady = false;
         }
@@ -4192,6 +4194,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 //  Если Items были обновлены, то в старой модели переинициализировался display
                 //  и этот параметр сбросился
                 this._listViewModel.setActionsAssigned(isActionsAssigned);
+                _private.initVisibleItemActions(this, newOptions);
                 this._updateScrollController(newOptions);
             }
 
@@ -5331,7 +5334,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     if (this._savedItemClickArgs && this._isMounted) {
                         // Запись становится активной по клику, если не началось редактирование.
                         // Аргументы itemClick сохранены в состояние и используются для нотификации об активации элемента.
-                        this._notify('itemActivate', this._savedItemClickArgs, {bubbling: true});
+                        this._notify('itemActivate', this._savedItemClickArgs.slice(1), {bubbling: true});
                     }
                     return result;
                 }
@@ -6516,16 +6519,18 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             return false;
         }
 
+        // Если нет элементов, то должен отображаться глобальный индикатор
         const shouldDisplayTopIndicator = this._loadingIndicatorState === 'up' && !this._portionedSearchInProgress;
-        return this._loadToDirectionInProgress
-           ? this._showLoadingIndicator && shouldDisplayTopIndicator || this._attachLoadTopTriggerToNull
-           :  shouldDisplayTopIndicator || this._attachLoadTopTriggerToNull;
+        return (shouldDisplayTopIndicator || this._attachLoadTopTriggerToNull) && !!this._items && !!this._items.getCount();
     }
 
     _shouldDisplayMiddleLoadingIndicator(): boolean {
         // Также, не должно быть завязки на горизонтальный скролл.
         // https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
-        return !this._portionedSearchInProgress && this._showLoadingIndicator && this._loadingIndicatorState === 'all' &&
+        // Если нет элементов, то должен отображаться глобальный индикатор
+        const shouldDisplayIndicator = this._loadingIndicatorState === 'all'
+            || !!this._loadingIndicatorState && (!this._items || !this._items.getCount());
+        return shouldDisplayIndicator && !this._portionedSearchInProgress && this._showLoadingIndicator &&
            !(this._children.listView && this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible());
     }
 
@@ -6535,7 +6540,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             return false;
         }
 
-        const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down';
+        // Если нет элементов, то должен отображаться глобальный индикатор
+        const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down'
+            && !!this._items && !!this._items.getCount();
         // Если порционный поиск был прерван, то никаких ромашек не должно показываться, т.к. больше не будет подгрузок
         const isAborted = _private.getPortionedSearch(this).isAborted();
         return (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection)
@@ -6957,7 +6964,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _getFooterClasses(options): string {
         const hasCheckboxes = options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
-        return `controls__BaseControl__footer controls__BaseControl__footer__paddingLeft_${hasCheckboxes ? 'withCheckboxes' : (options.itemPadding?.left || 'default')}`;
+
+        const paddingClassName = 'controls__BaseControl__footer__paddingLeft_';
+        if (hasCheckboxes) {
+            paddingClassName += 'withCheckboxes';
+        } else {
+            paddingClassName += (options.itemPadding?.left?.toLowerCase() || 'default');
+        }
+
+        return `controls__BaseControl__footer ${paddingClassName}`;
     }
 
     static getDefaultOptions(): Partial<IBaseControlOptions> {

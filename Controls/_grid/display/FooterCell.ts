@@ -1,8 +1,13 @@
 import FooterRow from './FooterRow';
-import Cell, {IOptions as IBaseCellOptions} from './Cell';
+import Cell, {IOptions as ICellOptions, IOptions as IBaseCellOptions} from './Cell';
+
+export interface IOptions<T> extends ICellOptions<T> {
+    shouldAddFooterPadding: boolean;
+}
 
 class FooterCell<T> extends Cell<T, FooterRow<T>> {
     protected readonly _defaultCellTemplate: string = 'Controls/grid:FooterColumnTemplate';
+    protected _$shouldAddFooterPadding: boolean;
 
     //region Аспект "Стилевое оформление"
     getWrapperClasses(theme: string,
@@ -11,15 +16,13 @@ class FooterCell<T> extends Cell<T, FooterRow<T>> {
                       templateHighlightOnHover: boolean): string {
         let wrapperClasses = 'controls-GridView__footer__cell';
 
-        if (backgroundColorStyle) {
-            wrapperClasses += ` controls-background-${backgroundColorStyle}`;
-        }
+        wrapperClasses += this._getControlsBackgroundClass(style, backgroundColorStyle);
 
         if (this._$owner.hasColumnScroll()) {
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
         }
 
-        if (this.getOwner().getActionsTemplateConfig()?.itemActionsPosition === 'outside') {
+        if (this._$shouldAddFooterPadding) {
             wrapperClasses += ' controls-GridView__footer__itemActionsV_outside';
         }
 
@@ -44,6 +47,7 @@ class FooterCell<T> extends Cell<T, FooterRow<T>> {
 
 Object.assign(FooterCell.prototype, {
     '[Controls/_display/grid/FooterCell]': true,
+    _$shouldAddFooterPadding: false,
     _moduleName: 'Controls/grid:GridFooterCell',
     _instancePrefix: 'grid-footer-cell-'
 });

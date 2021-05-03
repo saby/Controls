@@ -508,7 +508,9 @@ var
             if (this._options.ladderProperties !== newCfg.ladderProperties) {
                 this._listModel.setLadderProperties(newCfg.ladderProperties);
             }
-
+            if (this._options.itemActionsPosition !== newCfg.itemActionsPosition) {
+                this._listModel.setItemActionsPosition && this._listModel.setItemActionsPosition(newCfg.itemActionsPosition);
+            }
             // TODO: Удалить по задаче https://online.sbis.ru/opendoc.html?guid=2c5630f6-814a-4284-b3fb-cc7b32a0e245.
             if (this._options.rowSeparatorVisibility !== newCfg.rowSeparatorVisibility) {
                 this._listModel.setRowSeparatorVisibility(newCfg.rowSeparatorVisibility);

@@ -44,7 +44,6 @@ export default class DataRow<T extends Model> extends Row<T> implements
         return {
             ...super._getColumnFactoryParams(column, columnIndex),
             searchValue: this._$searchValue,
-            backgroundStyle: this._$backgroundStyle,
             markerPosition: this.getMarkerPosition()
         };
     }
@@ -102,11 +101,6 @@ export default class DataRow<T extends Model> extends Row<T> implements
     updateContentsVersion(): void {
         this._nextVersion();
         this._redrawColumns('all');
-    }
-
-    setBackgroundStyle(backgroundStyle: string): void {
-        super.setBackgroundStyle(backgroundStyle);
-        this._reinitializeColumns();
     }
 }
 

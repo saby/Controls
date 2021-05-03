@@ -103,6 +103,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     private _crudWrapper: CrudWrapper;
     private _isUnmounted: boolean = false;
     private _isUpdatedItems: boolean = false;
+    private _hasMainTab: boolean;
 
     protected _beforeMount(options: ITabsOptions,
                            context: object,
@@ -276,6 +277,21 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
     }
 
+    /**
+     * Для совместимости со старым стандартом и апи е даем сжиматься всем вкладкам, кроме главной,
+     * если главная задана и на остальных не задано ни одного ограничения по ширине
+     * @param item
+     * @private
+     */
+    private _tabCanShrink(item: ITabButtonItem): boolean {
+        return item.isMainTab ||
+            item.width === undefined && (
+                !this._hasMainTab ||
+                item.minWidth !== undefined ||
+                item.maxWidth !== undefined
+            );
+    }
+
     protected _prepareItemClass(item: ITabButtonItem, index: number): string {
         const order: number = this._itemsOrder[index];
         const options: ITabsButtonsOptions = this._options;
@@ -311,10 +327,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             classes.push('controls-Tabs__item_type_' + itemType);
         }
 
-        // TODO: по поручению опишут как и что должно сжиматься.
-        // Пока сжимаем только те вкладки, которые прикладники явно пометили
-        // https://online.sbis.ru/opendoc.html?guid=cf3f0514-ac78-46cd-9d6a-beb17de3aed8
-        if (item.isMainTab || item.canShrink) {
+        if (this._tabCanShrink(item)) {
             classes.push('controls-Tabs__item_canShrink');
         } else {
             classes.push('controls-Tabs__item_notShrink');
@@ -346,7 +359,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             style += `max-width: ${this._getWidthValue(maxWidth)};`;
         }
         if (width !== undefined) {
-            style += `width: ${this._getWidthValue(width)}; flex-shrink: 0;`;
+            style += `width: ${this._getWidthValue(width)}; flex-shrink: 0; justify-content: center;`;
         }
         if (minWidth !== undefined) {
             style += `min-width: ${this._getWidthValue(minWidth)};`;
@@ -358,8 +371,14 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const classes = [];
         const options = this._options;
         const style = TabsButtons._prepareStyle(options.style);
-        if (item[options.keyProperty] === options.selectedKey) {
+        if (item.isMainTab) {
+            classes.push('controls-Tabs__item_view_main');
+            if (item[options.keyProperty] === options.selectedKey) {
+                classes.push('controls-Tabs__item_state_selected ');
+            }
+        } else if (item[options.keyProperty] === options.selectedKey) {
             classes.push(`controls-Tabs_style_${style}__item_state_selected`);
+            classes.push('controls-Tabs__item_view_selected');
             classes.push('controls-Tabs__item_state_selected ');
         } else {
             classes.push('controls-Tabs__item_state_default');
@@ -378,7 +397,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const style = TabsButtons._prepareStyle(options.style);
 
         if (item.isMainTab) {
-            classes.push('controls-Tabs__item_state_main');
             if (item[options.keyProperty] === options.selectedKey) {
                 classes.push('controls-Tabs__main-marker');
             }
@@ -475,6 +493,9 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         this._itemsArray = data.itemsArray;
         this._itemsOrder = data.itemsOrder;
         this._lastRightOrder = data.lastRightOrder;
+        this._hasMainTab = this._itemsArray.reduce((accummulator, item) => {
+            return accummulator || item.isMainTab;
+        }, false);
     }
 
     static _prepareStyle(style: string): string {

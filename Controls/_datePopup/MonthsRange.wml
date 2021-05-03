@@ -46,6 +46,7 @@
                on:itemClick="_proxyEvent('itemClick')"
                on:itemMouseEnter="_proxyEvent('itemMouseEnter')"
                on:itemMouseLeave="_proxyEvent('itemMouseLeave')"
+               on:itemKeyDown="_proxyEvent('itemKeyDown')"
             />
          </ws:bodyTemplate>
       </ws:partial>

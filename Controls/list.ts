@@ -40,7 +40,7 @@
  * @author Крайнов Д.О.
  */
 export {default as AddButton} from 'Controls/_list/AddButton';
-import {default as Container} from 'Controls/_list/Container';
+export { default as Container } from 'Controls/_list/WrappedContainer';
 import EmptyTemplate = require('wml!Controls/_list/emptyTemplate');
 import GroupTemplate = require('wml!Controls/_list/GroupTemplate');
 import ItemTemplate = require('wml!Controls/_list/ItemTemplateChooser');
@@ -81,7 +81,7 @@ import ItemActionsHelpers = require('Controls/_list/ItemActions/Helpers');
 // region @deprecated
 
 import Remover = require('Controls/_list/Remover');
-import * as Mover from 'Controls/_list/Mover';
+import Mover from 'Controls/_list/WrappedMover';
 export {IMoveItemsParams, IMover, IRemover, BEFORE_ITEMS_MOVE_RESULT} from 'Controls/_list/interface/IMoverAndRemover';
 
 // endregion @deprecated
@@ -101,7 +101,6 @@ export {IRemovableList} from 'Controls/_list/interface/IRemovableList';
 export {default as ItemsView, IItemsViewOptions} from 'Controls/_list/ItemsView';
 
 export {
-    Container,
     EmptyTemplate,
     GroupTemplate,
     ItemTemplate,
@@ -144,8 +143,8 @@ export {
     IListNavigation
 };
 
-import {groupConstants} from './display';
+import {groupConstants, IHiddenGroupPosition} from './display';
 import {MultiSelectAccessibility} from './display';
 import {IItemPadding} from './display';
 
-export {groupConstants, editing, IItemPadding, MultiSelectAccessibility};
+export {groupConstants, IHiddenGroupPosition, editing, IItemPadding, MultiSelectAccessibility};

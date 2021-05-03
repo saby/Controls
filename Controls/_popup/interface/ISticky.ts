@@ -120,7 +120,10 @@ export interface IStickyOpener extends IOpener {
  * @function
  */
 
-
+/**
+ * @name Controls/_popup/interface/IStickyOpener#restrictiveContainer
+ * @cfg {String} Опция задает контейнер (через селектор), внутри которого будет позиционироваться окно. Окно не может спозиционироваться за пределами restrictiveContainer.
+ */
 
 /**
  * @name Controls/_popup/interface/IStickyOpener#minWidth

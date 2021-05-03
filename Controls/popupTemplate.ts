@@ -7,7 +7,7 @@
  */
 
 export {Template as Confirmation, DialogTemplate as ConfirmationDialog } from 'Controls/popupConfirmation';
-export {default as InfoBox} from 'Controls/_popupTemplate/InfoBox';
+export {default as InfoBox, IInfoboxTemplateOptions} from 'Controls/_popupTemplate/InfoBox';
 export {default as Notification} from 'Controls/_popupTemplate/Notification/Base';
 export {default as NotificationSimple} from 'Controls/_popupTemplate/Notification/Simple';
 export {default as StackHeader} from 'Controls/_popupTemplate/Stack/resources/Header';
@@ -21,6 +21,7 @@ export {default as CloseButton} from 'Controls/_popupTemplate/CloseButton';
 export {default as IPopupTemplateBaseOptions} from 'Controls/_popupTemplate/interface/IPopupTemplateBase';
 export {default as templateInfoBox} from 'Controls/_popupTemplate/InfoBox/Opener/resources/template';
 export {default as BaseController, IDragOffset} from 'Controls/_popupTemplate/BaseController';
+export {default as StackStrategy} from 'Controls/_popupTemplate/Stack/Opener/StackStrategy';
 
 import DialogController = require('Controls/_popupTemplate/Dialog/Opener/DialogController');
 import StickyController = require('Controls/_popupTemplate/Sticky/StickyController');
@@ -30,7 +31,6 @@ import StackContent = require('Controls/_popupTemplate/Stack/Opener/StackContent
 import TargetCoords = require('Controls/_popupTemplate/TargetCoords');
 import NotificationController = require('Controls/_popupTemplate/Notification/Opener/NotificationController');
 import PreviewerController = require('Controls/_popupTemplate/Previewer/PreviewerController');
-import StackStrategy = require('Controls/_popupTemplate/Stack/Opener/StackStrategy');
 
 export {
    DialogController,
@@ -40,6 +40,5 @@ export {
    StackController,
    TargetCoords,
    NotificationController,
-   PreviewerController,
-   StackStrategy
+   PreviewerController
 };
