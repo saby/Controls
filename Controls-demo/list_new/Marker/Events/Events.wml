@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
+    <div class="controlsDemo-toolbar-panel">
+        &nbsp;&nbsp;{{_markedKey ? (' Выделена запись с id=' + _markedKey) : ''}}
+    </div>
+    <Controls.list:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            markerVisibility="visible"
+            on:markedKeyChanged="onMarkerKeyChanged()"
+            on:beforeMarkedKeyChanged="onBeforeMarkerKeyChanged()"/>
+</div>
