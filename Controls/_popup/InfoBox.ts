@@ -7,7 +7,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {descriptor} from 'Types/entity';
 import * as getZIndex from 'Controls/Utils/getZIndex';
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
-import {CalmTimer} from "Controls/_popup/fastOpenUtils/FastOpen";
+import {CalmTimer} from 'Controls/_popup/fastOpenUtils/FastOpen';
 import template = require('wml!Controls/_popup/InfoBox/InfoBox');
 
 /**
