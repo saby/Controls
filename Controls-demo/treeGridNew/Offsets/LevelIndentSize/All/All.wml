@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-    <div class="controlsDemo__cell controlsDemo__mr2">
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/treeGridNew/Offsets/LevelIndentSize/All/SizeCustom/Index' }}">
@@ -8,7 +8,7 @@
         <Controls-demo.treeGridNew.Offsets.LevelIndentSize.All.SizeCustom.Index/>
     </div>
 
-    <div class="controlsDemo__cell controlsDemo__mr2">
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/treeGridNew/Offsets/LevelIndentSize/All/SizeS/Index' }}">
@@ -17,7 +17,7 @@
         <Controls-demo.treeGridNew.Offsets.LevelIndentSize.All.SizeS.Index/>
     </div>
 
-    <div class="controlsDemo__cell controlsDemo__mr2">
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/treeGridNew/Offsets/LevelIndentSize/All/SizeM/Index' }}">
@@ -26,7 +26,7 @@
         <Controls-demo.treeGridNew.Offsets.LevelIndentSize.All.SizeM.Index/>
     </div>
 
-    <div class="controlsDemo__cell controlsDemo__mr2">
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/treeGridNew/Offsets/LevelIndentSize/All/SizeL/Index' }}">
@@ -35,7 +35,7 @@
         <Controls-demo.treeGridNew.Offsets.LevelIndentSize.All.SizeL.Index/>
     </div>
 
-    <div class="controlsDemo__cell controlsDemo__mr2">
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/treeGridNew/Offsets/LevelIndentSize/All/SizeXL/Index' }}">
