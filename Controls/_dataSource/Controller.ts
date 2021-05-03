@@ -190,8 +190,11 @@ export default class Controller extends mixin<
         if (cfg.expandedItems !== undefined) {
             this.setExpandedItems(cfg.expandedItems);
         }
+        if (cfg.groupHistoryId) {
+            this._restoreCollapsedGroups(cfg.groupHistoryId, cfg.collapsedGroups);
+        }
         this.setParentProperty(cfg.parentProperty);
-        
+
         if (cfg.items) {
             this.setItems(cfg.items);
         }
@@ -344,8 +347,8 @@ export default class Controller extends mixin<
             this.setNavigation(newOptions.navigation);
         }
 
-        if (newOptions.groupHistoryId !== this._options.groupHistoryId && !newOptions.groupHistoryId) {
-            this._collapsedGroups = null;
+        if (newOptions.groupHistoryId !== this._options.groupHistoryId) {
+            this._restoreCollapsedGroups(newOptions.groupHistoryId, newOptions.collapsedGroups);
         }
 
         const isChanged =
@@ -745,10 +748,7 @@ export default class Controller extends mixin<
         filter: QueryWhereExpression<unknown>,
         key: TKey
     ): Promise<QueryWhereExpression<unknown>> {
-        return this._getFilterForCollapsedGroups(filter, this._options)
-            .then((preparedFilter: QueryWhereExpression<unknown>) => {
-                return this._getFilterHierarchy(preparedFilter, this._options, key);
-            });
+        return this._getFilterHierarchy(filter, this._options, key);
     }
 
     private _processQueryResult(
@@ -923,38 +923,14 @@ export default class Controller extends mixin<
         this._dataLoadCallbackFromOptions = dataLoadCallback;
     }
 
-    private _getFilterForCollapsedGroups(
-        initialFilter: QueryWhereExpression<unknown>,
-        options: IControllerOptions
-    ): Promise<QueryWhereExpression<unknown>> {
-        const historyId = options.groupHistoryId || options.historyIdCollapsedGroups;
-        const collapsedGroups = options.collapsedGroups;
-        const getFilterWithCollapsedGroups = (collapsedGroupsIds: TArrayGroupId) => {
-            let modifiedFilter;
-
-            if (collapsedGroupsIds && collapsedGroupsIds.length) {
-                modifiedFilter = { ...initialFilter };
-                modifiedFilter.collapsedGroups = collapsedGroupsIds;
-            } else {
-                modifiedFilter = initialFilter;
-            }
-
-            return modifiedFilter;
-        };
-        let resultFilterPromise;
-
-        if (collapsedGroups && collapsedGroups.length) {
-            resultFilterPromise = Promise.resolve(getFilterWithCollapsedGroups(collapsedGroups));
-        } else if (historyId) {
-            resultFilterPromise = groupUtil.restoreCollapsedGroups(historyId).then(
-                (restoredCollapsedGroups?: TArrayGroupId) =>
-                    getFilterWithCollapsedGroups(this._collapsedGroups = restoredCollapsedGroups)
-            );
-        } else {
-            resultFilterPromise = Promise.resolve(initialFilter);
+    private _restoreCollapsedGroups(groupHistoryId: string, collapsedGroups: TArrayGroupId): void {
+        if (!groupHistoryId) {
+            this._collapsedGroups = null;
+            return;
         }
-
-        return resultFilterPromise;
+        groupUtil.restoreCollapsedGroups(groupHistoryId).then((restoredCollapsedGroups: TArrayGroupId) => {
+            this._collapsedGroups = restoredCollapsedGroups || collapsedGroups;
+        });
     }
 
     private static _getSource(source: ICrud | ICrudPlus | PrefetchProxy): IData & ICrud {
