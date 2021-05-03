@@ -41,4 +41,21 @@ describe('Controls/filterPanel:NumberRangeEditor', () => {
             assert.equal(numberRangeEditor._minValue, 1);
         });
     });
+
+    describe('_notifyExtendedValue', () => {
+        const numberRangeEditor = new NumberRangeEditor({});
+        let changesNotified = false;
+        numberRangeEditor._notify = () => {
+            changesNotified = true;
+        };
+        it('minValue is bigger than maxValue', () => {
+            numberRangeEditor._notifyExtendedValue([4, 3]);
+            assert.isFalse(changesNotified);
+        });
+
+        it('minValue is less than maxValue', () => {
+            numberRangeEditor._notifyExtendedValue([3, 4]);
+            assert.isTrue(changesNotified);
+        });
+    });
 });

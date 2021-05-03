@@ -568,7 +568,8 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                     },
                     groups,
                     groupConstructor: GroupItem,
-                    handler: (item) => item.group
+                    handler: (item) => item.group,
+                    hiddenGroupPosition: 'first'
                 };
                 const expected = [1, 3, 4, 0, 2, 5];
                 const expectedGroups = ['one', groupConstants.hiddenGroup];

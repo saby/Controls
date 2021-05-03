@@ -1,0 +1,7 @@
+<div class="controlsDemo__wrapper" xmlns:ws="http://www.w3.org/1999/html">
+   <Controls.list:ItemsView
+      items="{{_items}}"
+      groupProperty="group"
+      attr:class="controlsDemo_fixedWidth350"
+   />
+</div>
