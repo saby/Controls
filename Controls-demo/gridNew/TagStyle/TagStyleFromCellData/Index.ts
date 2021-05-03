@@ -30,7 +30,22 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     constructor(cfg: IControlOptions) {
         super(cfg);
         this._tagStyleProperty = 'customProperty';
-        this._columns = this._getModifiedColumns();
+        this._columns = [
+            {
+                displayProperty: 'number',
+                width: '40px'
+            },
+            {
+                displayProperty: 'country',
+                width: '200px'
+            },
+            {
+                displayProperty: 'population',
+                width: '150px',
+                align: 'right',
+                tagStyleProperty: this._tagStyleProperty
+            }
+        ];
     }
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
@@ -71,25 +86,6 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
         this._currentColumnIndex = columnIndex;
         this._currentEvent = 'hover';
         this._currentValue = item.getContents().get('population');
-    }
-
-    /**
-     * Получаем список колонок с необходимыми настройками
-     * @private
-     */
-    private _getModifiedColumns(): IColumn[] {
-        const result = getCountriesStats().getColumnsWithFixedWidths().map((cur, i) => {
-        // tslint:disable-next-line
-            if (i === 3) {
-                return {
-                    ...cur,
-                    align: 'right',
-                    tagStyleProperty: this._tagStyleProperty
-                } as IColumn;
-            }
-            return cur;
-        });
-        return result;
     }
 
     private _getModifiedData(): IData[] {
