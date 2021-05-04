@@ -51,7 +51,7 @@ export default class SearchSeparatorRow extends GridRow<string> {
     }
 
     protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
-        return 'end';
+        return undefined;
     }
 }
 
