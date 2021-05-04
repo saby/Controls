@@ -1272,9 +1272,10 @@ var
             }
         },
 
-        setHasMoreData(hasMoreData: boolean, silent: boolean = false): void {
+        setHasMoreData(hasMoreDataObject: object, silent: boolean = false): void {
+            const hasMoreData = hasMoreDataObject instanceof Object ? hasMoreDataObject.up || hasMoreDataObject.down : hasMoreDataObject;
             const isNextModelVersion = this.getHasMoreData() !== hasMoreData;
-            this._model.setHasMoreData(hasMoreData);
+            this._model.setHasMoreData(hasMoreDataObject);
             if (isNextModelVersion) {
                 this.nextModelVersion();
             }
@@ -1282,6 +1283,10 @@ var
 
         getHasMoreData(): boolean {
           return this._model.getHasMoreData();
+        },
+
+        hasMoreData(): boolean {
+          return this._model.hasMoreData();
         },
 
         isDrawResults: function() {

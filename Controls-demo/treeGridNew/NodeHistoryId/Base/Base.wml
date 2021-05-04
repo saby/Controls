@@ -1,0 +1,13 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlDemo__treeGrid-nodeHistoryId">
+    <Controls.list:DataContainer source="{{ _viewSource }}"
+                              keyProperty="id"
+                              parentProperty="parent"
+                              nodeProperty="type"
+                              nodeHistoryId="NODE_HISTORY">
+        <div>
+            <Controls.list:Container>
+                <Controls.treeGrid:View columns="{{ _columns }}"/>
+            </Controls.list:Container>
+        </div>
+    </Controls.list:DataContainer>
+</div>

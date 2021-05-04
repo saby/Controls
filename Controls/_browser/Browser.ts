@@ -790,6 +790,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         if (this._getSearchControllerSync().needChangeSearchValueToSwitchedString(recordSet) && this._misspellValue) {
             this._setSearchValue(this._misspellValue);
         }
+        this._updateContext();
     }
 
     private _setSearchValue(value: string): void {

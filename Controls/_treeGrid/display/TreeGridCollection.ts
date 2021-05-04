@@ -7,7 +7,7 @@ import {
     GridLadderUtil,
     ItemsFactory,
     itemsStrategy,
-    ITreeCollectionOptions, IItemActionsTemplateConfig
+    ITreeCollectionOptions, IItemActionsTemplateConfig, IHasMoreData
 } from 'Controls/display';
 import {
     GridGroupRow,
@@ -109,7 +109,7 @@ export default class TreeGridCollection<
         }
     }
 
-    setHasMoreData(hasMoreData: boolean): void {
+    setHasMoreData(hasMoreData: IHasMoreData): void {
         super.setHasMoreData(hasMoreData);
         if (this.getFooter()) {
             this.getFooter().setHasMoreData(hasMoreData);
@@ -224,7 +224,15 @@ export default class TreeGridCollection<
 
     // endregion itemsFactoryResolver
 
+    protected _hasItemsToCreateResults(): boolean {
+        return this.getChildrenByRecordSet(this.getRoot().getContents()).length > 1;
+    }
+
     protected _initializeFooter(options: IOptions<S, T>): TreeGridFooterRow<S> {
+        if (!options.footer && !options.footerTemplate) {
+            return;
+        }
+
         return new TreeGridFooterRow({
             ...options,
             owner: this,

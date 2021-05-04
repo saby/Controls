@@ -42,14 +42,10 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     protected _$owner: HeaderRow<T>;
     protected _$column: IHeaderCell;
     protected _$cellPadding: IItemPadding;
-    protected _$shadowVisibility?: string;
     protected _$backgroundStyle?: string;
     protected _$sorting?: string;
     protected _$contentOrientation?: ICellContentOrientation;
 
-    get shadowVisibility(): string {
-        return this._$shadowVisibility;
-    }
     get backgroundStyle(): string {
         return this._$backgroundStyle;
     }
@@ -367,7 +363,6 @@ Object.assign(HeaderCell.prototype, {
     _moduleName: 'Controls/grid:GridHeaderCell',
     _instancePrefix: 'grid-header-cell-',
     _$cellPadding: null,
-    _$shadowVisibility: null,
     _$backgroundStyle: null,
     _$sorting: null
 });

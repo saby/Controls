@@ -1,0 +1,13 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_treeGrid-offset-levelIndent-all-custom">
+    <Controls.treeGridOld:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            bind:expandedItems="_expandedItems"
+            parentProperty="parent"
+            nodeProperty="type">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/treeGridOld:ItemTemplate" levelIndentSize="s" />
+        </ws:itemTemplate>
+    </Controls.treeGridOld:View>
+</div>

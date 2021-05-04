@@ -8,6 +8,7 @@ import * as forTemplate from 'wml!Controls/_list/Render/For';
 import * as oldForTemplate from 'wml!Controls/_list/resources/For';
 import 'css!Controls/list';
 import {isEqual} from "Types/object";
+import {_Options} from 'UI/Vdom';
 
 const DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
@@ -171,6 +172,8 @@ var ListView = BaseControl.extend(
                 this._listModel.setRoundBorder(newOptions.roundBorder);
             }
             this._itemTemplate = this._resolveItemTemplate(newOptions);
+
+            this._applyNewOptionsAfterReload(this._options, newOptions);
         },
 
         _afterUpdate() {
@@ -188,6 +191,29 @@ var ListView = BaseControl.extend(
         },
 
         // protected
+        /**
+         * Метод предназначен для перекрытия в потомках что бы можно было реализовать
+         * кастомную проверку и обновление модели
+         */
+        _applyNewOptionsAfterReload(oldOptions: unknown, newOptions: unknown): void {
+            const changes = [];
+            const changedOptions = _Options.getChangedOptions(newOptions, oldOptions);
+
+            if (changedOptions) {
+                if (changedOptions.hasOwnProperty('stickyFooter') || changedOptions.hasOwnProperty('footerTemplate')) {
+                    changes.push('footer');
+                }
+            }
+
+            if (changes.length) {
+                this._doAfterReload(() => {
+                    if (changes.includes('footer')) {
+                        this._listModel.setFooter(newOptions);
+                    }
+                });
+            }
+        },
+
         resizeNotifyOnListChanged: function() {
             _private.resizeNotifyOnListChanged(this);
         },
