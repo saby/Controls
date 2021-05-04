@@ -15,7 +15,7 @@ export default class extends Control {
     protected _beforeMount(): void {
         this._viewSource = new Memory({
             keyProperty: 'id',
-            data: getCountriesStats().getData().slice(0, 5);
+            data: getCountriesStats().getData().slice(0, 5)
         });
     }
 

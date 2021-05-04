@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <div name="currentItem" style="border: 1px solid red; width: 256px;">{{_currentItem ? 'Выполнили клик по ' + _currentItem : ''}}</div>
+    <div class="controlsDemo-toolbar-panel">Выполнили клик по {{_currentItem}}</div>
     <Controls.list:View
             attr:class="controlsDemo__margin-top"
             keyProperty="id"
