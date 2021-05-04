@@ -46,8 +46,15 @@
                     on:afterEndEdit="_notifyHandler('afterEndEdit')"
                     on:dragStart="_notifyHandler('detailDragStart')"
                     on:dragEnd="_notifyHandler('detailDragEnd')"
+                    on:dragMove="_notifyHandler('detailDragMove')"
+                    on:dragEnter="_notifyHandler('detailDragEnter')"
+                    on:dragLeave="_notifyHandler('detailDragLeave')"
+                    on:actionClick="_notifyHandler('detailActionClick')"
+                    on:arrowClick="_notifyHandler('detailArrowClick')"
+                    on:itemMouseDown="_notifyHandler('detailItemMouseDown')"
+                    on:markedKeyChanged="_notifyHandler('markedKeyChanged')"
+                    on:editArrowClick="_notifyHandler('detailEditArrowClick')"
                     tileSize="{{_tileCfg.imageSize}}"
-
                     viewMode="{{viewMode}}"
                     scope="{{_detailExplorerOptions}}"
                     breadcrumbsVisibility="{{
