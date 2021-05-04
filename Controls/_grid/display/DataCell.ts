@@ -34,8 +34,6 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
 
     protected _$searchValue: string;
 
-    private _$isFirstDataCell: boolean;
-
     get ladder(): TLadderElement<ILadderConfig> {
         return this.getOwner().getLadder();
     }
@@ -213,6 +211,5 @@ Object.assign(DataCell.prototype, {
     '[Controls/_display/grid/DataCell]': true,
     _moduleName: 'Controls/grid:GridDataCell',
     _$searchValue: '',
-    _$isFirstDataCell: false,
     _instancePrefix: 'grid-data-cell-'
 });

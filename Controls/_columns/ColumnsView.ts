@@ -114,7 +114,7 @@
 
  /**
  * @name Controls/columns:View#columnsMode
- * @cfg {ColumnsMode} Режим распределения записей по колонкам.
+ * @cfg {Controls/_columns/ColumnsView/ColumnsMode.typedef} Режим распределения записей по колонкам.
  * @default auto
  * @remark
  * Дополнительно необходимо задать значение для опции {@link columnProperty}, а также для каждого элемента данных в соответствующем поле указать номер колонки.

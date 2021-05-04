@@ -428,6 +428,7 @@ export default abstract class Row<T> {
 
         if (creatingColumnsParams.length === 1 && (this._$rowTemplate || columns.length > 1)) {
             creatingColumnsParams[0].isSingleColspanedCell = true;
+            creatingColumnsParams[0].isFixed = true;
         }
 
         if (creatingColumnsParams.length > 0) {

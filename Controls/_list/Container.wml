@@ -13,6 +13,7 @@
             scope="{{_options}}"
             source="{{_dataOptions.source}}"
             sourceController="{{_dataOptions.sourceController}}"
+            expandedItems="{{_dataOptions.expandedItems}}"
             selectedKeys="{{_options.id ? _dataOptions.selectedKeys : _options.selectedKeys}}"
             excludedKeys="{{_options.id ? _dataOptions.excludedKeys : _options.excludedKeys}}"
             parentProperty="{{_options.id ? _dataOptions.parentProperty : _options.parentProperty}}"

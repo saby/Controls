@@ -347,28 +347,28 @@ export default abstract class TileItem<T extends Model = Model> {
         return this.isSwiped() && (this.hasVisibleActions() || this.isEditing());
     }
 
-    getItemActionsClasses(itemType: string = 'default', itemActionsClass: string = ''): string {
-        let classes = itemActionsClass;
+    getItemActionsClasses(itemType: string = 'default', itemActionsClass?: string): string {
+        let classes = '';
 
         switch (itemType) {
             case 'default':
-                classes += ' controls-TileView__itemActions';
-                classes += ' controls-TileView__itemActions_bottomRight';
+                classes += 'controls-TileView__itemActions ';
+                classes += itemActionsClass || ' controls-TileView__itemActions_bottomRight';
                 break;
             case 'small':
-                classes += ' controls-TileView__itemActions';
-                classes += ' controls-TreeTileView__itemActions_center';
+                classes += 'controls-TileView__itemActions ';
+                classes += itemActionsClass || ' controls-TreeTileView__itemActions_center';
                 break;
             case 'medium':
-                classes += ' controls-TileView__mediumTemplate_itemActions';
-                classes += ' controls-TileView__itemActions_bottomRight';
+                classes += 'controls-TileView__mediumTemplate_itemActions ';
+                classes += itemActionsClass || ' controls-TileView__itemActions_bottomRight';
                 break;
             case 'rich':
-                classes += ' controls-TileView__richTemplate_itemActions';
-                classes += ' controls-TileView__richTemplate_itemActions controls-TileView__itemActions_topRight';
+                classes += 'controls-TileView__richTemplate_itemActions ';
+                classes += itemActionsClass || ' controls-TileView__itemActions_topRight';
                 break;
             case 'preview':
-                classes += ' controls-TileView__previewTemplate_itemActions';
+                classes += 'controls-TileView__previewTemplate_itemActions';
                 break;
         }
 

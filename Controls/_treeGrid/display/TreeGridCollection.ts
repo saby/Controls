@@ -224,6 +224,10 @@ export default class TreeGridCollection<
 
     // endregion itemsFactoryResolver
 
+    protected _hasItemsToCreateResults(): boolean {
+        return this.getChildrenByRecordSet(this.getRoot().getContents()).length > 1;
+    }
+
     protected _initializeFooter(options: IOptions<S, T>): TreeGridFooterRow<S> {
         return new TreeGridFooterRow({
             ...options,

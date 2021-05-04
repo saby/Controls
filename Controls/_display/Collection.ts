@@ -36,6 +36,7 @@ import * as VirtualScrollController from './controllers/VirtualScroll';
 import { ICollection, ISourceCollection, IItemPadding } from './interface/ICollection';
 import { IDragPosition } from './interface/IDragPosition';
 import {INavigationOptionValue} from 'Controls/interface';
+import {IRoundBorder} from "Controls/_tile/display/mixins/Tile";
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
@@ -92,6 +93,8 @@ export type SortFunction<S, T> = (a: ISortItem<S, T>, b: ISortItem<S, T>) => num
 
 export type ItemsFactory<T> = (options: object) => T;
 
+export type TItemActionsPosition = 'inside' | 'outside' | 'custom';
+
 export type StrategyConstructor<
    F extends IItemsStrategy<S, T>,
    S extends EntityModel = EntityModel,
@@ -137,6 +140,7 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     unique?: boolean;
     importantItemProperties?: string[];
     itemActionsProperty?: string;
+    itemActionsPosition?: TItemActionsPosition;
     navigation?: INavigationOptionValue;
     multiSelectAccessibilityProperty?: string;
     markerPosition?: string;
@@ -724,6 +728,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _$markerPosition: 'left' | 'right';
 
     protected _$style: string;
+
+    protected _$itemActionsPosition: TItemActionsPosition;
 
     protected _$navigation: INavigationOptionValue;
 
@@ -2301,6 +2307,14 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$stickyHeader;
     }
 
+    setRoundBorder(roundBorder: IRoundBorder): void {
+        if (!isEqual(this._$roundBorder, roundBorder)) {
+            this._$roundBorder = roundBorder;
+            this._updateItemsProperty('setRoundBorder', this._$roundBorder, 'setRoundBorder');
+            this._nextVersion();
+        }
+    }
+
     getRowSeparatorSize(): string {
         return this._$rowSeparatorSize;
     }
@@ -2715,6 +2729,11 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this._actionsTemplateConfig = config;
             this._nextVersion();
         }
+    }
+
+    setItemActionsPosition(itemActionsPosition: TItemActionsPosition): void {
+        this._$itemActionsPosition = itemActionsPosition;
+        this._nextVersion();
     }
 
     setHoveredItem(item: T): void {
@@ -3193,6 +3212,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.bottomPadding = this._$bottomPadding;
             options.searchValue = this._$searchValue;
             options.markerPosition = this._$markerPosition;
+            options.roundBorder = this._$roundBorder;
 
             if (this._$collection['[Types/_collection/RecordSet]']) {
                 options.isLastItem = this._isLastItem(options.contents);
@@ -4034,5 +4054,7 @@ Object.assign(Collection.prototype, {
     _userStrategies: null,
     _$emptyTemplate: null,
     _$emptyTemplateOptions: null,
+    _$itemActionsPosition: 'inside',
+    _$roundBorder: null,
     getIdProperty: Collection.prototype.getKeyProperty
 });
