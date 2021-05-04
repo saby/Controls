@@ -10,7 +10,7 @@ define([
       it('getDrawnDigits 10 pages', function() {
          var digits;
          digits = DBClass._getDrawnDigits(10, 1);
-         assert.deepEqual([1, 2, 3, 4, 5 DOTS, 10], digits, 'getDrawnDigits10 test case 1: WrongResult');
+         assert.deepEqual([1, 2, 3, 4, 5, DOTS, 10], digits, 'getDrawnDigits10 test case 1: WrongResult');
 
          digits = DBClass._getDrawnDigits(10, 2);
          assert.deepEqual([1, 2, 3, 4, 5, DOTS, 10], digits, 'getDrawnDigits10 test case 2: WrongResult');
