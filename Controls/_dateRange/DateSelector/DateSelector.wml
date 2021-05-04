@@ -6,6 +6,7 @@
          startValue="{{ _startValue }}"
          endValue="{{ _endValue }}"
          fontColorStyle="{{_options.fontColorStyle}}"
+         fontWeight="{{ _options.fontWeight }}"
          on:linkClick="openPopup()"
          on:rangeChanged="_rangeChangedHandler()"
          on:mouseenter="_mouseEnterHandler()"

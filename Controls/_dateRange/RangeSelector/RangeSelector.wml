@@ -6,6 +6,7 @@
          endValue="{{ _rangeModel.endValue }}"
          emptyCaption="{{ _emptyCaption }}"
          fontColorStyle="{{_options.fontColorStyle}}"
+         fontWeight="{{ _options.fontWeight }}"
          on:resetButtonClick="_resetButtonClickHandler()"
          on:rangeChanged="_rangeChangedHandler()"
          on:linkClick="openPopup()"
