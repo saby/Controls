@@ -29,12 +29,14 @@
                      template="{{itemActionsTemplate}}"
                      scope="{{_options}}"
                      actionMode="{{ (item || itemData).getActionMode(itemType) }}"
-                     itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType, itemActionsClass) }}"/>
+                     itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType, itemActionsClass) }}"
+                     highlightOnHover="{{ highlightOnHover }}"/>
          <ws:partial if="{{ (item || itemData).shouldDisplaySwipeTemplate() }}"
                      template="{{swipeTemplate}}"
                      itemData="{{(item || itemData)}}"
                      item="{{(item || itemData)}}"
-                     itemActionsTemplate="{{itemActionsTemplate}}"/>
+                     itemActionsTemplate="{{itemActionsTemplate}}"
+                     highlightOnHover="{{ highlightOnHover }}"/>
       </div>
    </div>
 </ws:else>
