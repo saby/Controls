@@ -872,19 +872,16 @@ describe('Controls/browser:Browser', () => {
             };
             const resultFilter = {
                 title: 'test',
-                testSearchParam: 'testSearchValue'
+                testSearchParam: 'test'
             };
             const options = {...getBrowserOptions(), searchParam: 'testSearchParam', searchValue: 'testSearchValue', filter};
             const browser = getBrowser(options);
-            const sandbox = sinon.createSandbox();
-            const notifyStub = sandbox.stub(browser, '_notify');
             await browser._beforeMount(options);
             browser.saveOptions(options);
-            await browser._getSearchController();
+            await browser._search(null, 'test');
 
-            browser._afterSearch(new RecordSet(), 'test');
             assert.deepEqual(browser._filter, resultFilter);
-            assert.isTrue(notifyStub.calledWith('filterChanged', [resultFilter]));
+            assert.deepEqual(browser._sourceControllerState.filter, resultFilter);
         });
     });
 
