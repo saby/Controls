@@ -251,6 +251,7 @@ interface IBeginEditOptions {
 interface IBeginAddOptions {
     shouldActivateInput?: boolean;
     addPosition?: 'top' | 'bottom';
+    targetItem?: Model;
 }
 
 //#endregion
@@ -5428,7 +5429,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _beforeEndEditCallback(item: Model, willSave: boolean, isAdd: boolean, force: boolean = false) {
+    _beforeEndEditCallback(item: Model, willSave: boolean, isAdd: boolean, force: boolean = false, sourceIndex?: number) {
         if (force) {
             this._notify('beforeEndEdit', [item, willSave, isAdd]);
             return;
@@ -5464,7 +5465,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 )
             );
 
-            return shouldUseDefaultSaving ? this._saveEditingInSource(item, isAdd) : eventResult;
+            return shouldUseDefaultSaving ? this._saveEditingInSource(item, isAdd, sourceIndex) : eventResult;
         });
     }
 
@@ -5508,7 +5509,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
-        return this._beginAdd(userOptions, { addPosition: this._getEditingConfig().addPosition });
+        return this._beginAdd(userOptions, {
+            addPosition: userOptions?.addPosition || this._getEditingConfig().addPosition,
+            targetItem: userOptions?.targetItem
+        });
     }
 
     cancelEdit() {
@@ -5531,7 +5535,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (editingConfig.autoAddOnInit && !!this._sourceController && !hasItems) {
             this._createEditInPlaceController(options);
-            return this._beginAdd({}, editingConfig.addPosition);
+            return this._beginAdd({}, { addPosition: editingConfig.addPosition });
         } else if (editingConfig.item) {
             this._createEditInPlaceController(options);
             if (this._items && this._items.getRecordById(editingConfig.item.getKey())) {
@@ -5558,10 +5562,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _beginAdd(options, {shouldActivateInput = true, addPosition = 'bottom'}: IBeginAddOptions = {}) {
+    _beginAdd(options, {shouldActivateInput = true, addPosition = 'bottom', targetItem}: IBeginAddOptions = {}) {
         _private.closeSwipe(this);
         this.showIndicator();
-        return this._getEditInPlaceController().add(options, {addPosition}).then((addResult) => {
+        return this._getEditInPlaceController().add(options, {addPosition, targetItem}).then((addResult) => {
             if (addResult && addResult.canceled) {
                 return addResult;
             }
@@ -5702,12 +5706,16 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _saveEditingInSource(item: Model, isAdd: boolean): Promise<void> {
+    _saveEditingInSource(item: Model, isAdd: boolean, sourceIndex?: number): Promise<void> {
         return this.getSourceController().update(item).then(() => {
             // После выделения слоя логики работы с источником данных в отдельный контроллер,
             // код ниже должен переехать в него.
             if (isAdd) {
-                this._items.append([item]);
+                if (typeof sourceIndex === 'number') {
+                    this._items.add(item, sourceIndex);
+                } else {
+                    this._items.append([item]);
+                }
             }
         }).catch((error: Error) => {
             return this._processEditInPlaceError(error);

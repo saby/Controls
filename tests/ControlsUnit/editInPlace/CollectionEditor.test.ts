@@ -212,13 +212,6 @@ describe('Controls/_editInPlace/CollectionEditor', () => {
                     assert.equal(collectionEditor.getEditingItem().contents.getKey(), newItem.getKey());
                     assert.isTrue(collection.isEditing());
 
-                    // Позиция добавления у элемента коллекции должна быть верная (expectedValue).
-                    assert.equal(
-                        collection.getItemBySourceKey(newItem.getKey()).addPosition,
-                        expectedValue,
-                        'Wrong value of addPosition at collection item.'
-                    );
-
                     // Запись отображается в верной позиции
                     assert.equal(collection.at(addingItemIndex).contents, collectionEditor.getEditingItem().contents);
                 });

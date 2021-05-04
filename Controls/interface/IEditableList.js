@@ -24,13 +24,17 @@ define('Controls/interface/IEditableList', [
 
    /**
     * @typedef {Object} Controls/interface/IEditableList/ItemEditOptions
-    * @property {Types/entity:Model} [item] Запись списка, которая будет запущена на редактирование.
+    * @property {Types/entity:Model} [item] Запись, которая будет запущена на редактирование.
     * Если из обработчика события {@link beforeBeginEdit} также будет возвращена запись, то именно она будет запущена на редактирование вместо первоначальной.
+    * @property {Types/entity:Model} [targetItem] Запись списка, рядом с которой будет запущено добавление по месту.
+    * @property {Controls/interface/IEditableList/AddPositionOption} [addPosition] Позиция добавляемой записи. В случае, если в параметрах был передан targetItem, позиция определяется относительно его, иначе - всего списка.
     */
 
    /*
     * @typedef {Object} Controls/interface/IEditableList/ItemEditOptions
-    * @property {Types/entity:Model} [options.item] Record with initial data.
+    * @property {Types/entity:Model} [item] Record with initial data.
+    * @property {Types/entity:Model} [targetItem] Target record for adding item. Adding will start near it.
+    * @property {Controls/interface/IEditableList/AddPositionOption} [addPosition] Position of adding item.
     */
 
    /**
@@ -515,7 +519,7 @@ define('Controls/interface/IEditableList', [
     * @returns {Promise}
     * @remark
     * Promise разрешается после монтирования контрола в DOM.
-    * 
+    *
     * Перед запуском редактирования по месту происходит событие {@link beforeBeginEdit}, а после запуска — {@link afterBeginEdit}.
     *
     * Используйте этот метод в ситуациях, когда вы хотите начать редактирование из нестандартного места, например, из {@link /doc/platform/developmentapl/interface-development/controls/list/actions/operations/ панели действий элемента}.

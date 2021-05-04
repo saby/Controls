@@ -2831,10 +2831,11 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         this._$isEditing = editing;
     }
 
-    setAddingItem(item: T): void {
+    setAddingItem(item: T, options: {position: 'top' | 'bottom', index?: number}): void {
         this._prependStrategy(AddStrategy, {
             item,
-            addPosition: item.addPosition,
+            addPosition: options.position,
+            addIndex: options.index,
             groupMethod: this.getGroup()
         }, GroupItemsStrategy);
     }
