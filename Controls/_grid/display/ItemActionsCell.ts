@@ -9,6 +9,7 @@ const DEFAULT_CELL_CONTENT = 'Controls/grid:ItemActionsCellContent';
 
 export default class ItemActionsCell<T> extends Cell<T, Row<T>> implements IItemActionsCell {
     readonly ItemActionsCell = true;
+    protected _$rowspan: number;
 
     getTemplate(): string {
         return DEFAULT_CELL_CONTENT;
