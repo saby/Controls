@@ -377,5 +377,21 @@ define([
             assert.isNull(instance._countPromise);
          });
       });
+
+      describe('_getMenuCaption', () => {
+         const selection = {
+            selected: ['test']
+         };
+         let instance;
+
+         beforeEach(() => {
+            instance = new MultiSelector.default();
+         });
+
+         it('count bigger than 1000', () => {
+            const caption = instance._getMenuCaption(selection, 1001, false);
+            assert.equal(caption, 'Отмечено: 999+');
+         });
+      });
    });
 });
