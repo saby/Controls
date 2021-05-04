@@ -10,6 +10,7 @@
             on:dragStart="_notifyHandler('masterDragStart')"
             on:dragEnd="_notifyHandler('masterDragEnd')"
             on:itemClick="_onExplorerItemClick(true)"
+            on:actionClick="_notifyHandler('masterActionClick')"
     />
 </ws:template>
 

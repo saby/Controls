@@ -357,7 +357,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * Вызывает перезагрузку данных в detail-колонке
      */
     reload(): Promise<RecordSet> {
-        return this._detailDataSource.loadData();
+        return this.children.detailList.reload();
     }
 
     reloadItem(): unknown {
