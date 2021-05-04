@@ -2101,6 +2101,7 @@ define([
          // 4
          const cfg = {
             source,
+            filter: {},
             navigation: {
                source: 'page',
                sourceConfig: {
@@ -2155,6 +2156,24 @@ define([
                rs.remove(rs.getRecordById(1));
                assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[0]]).called);
                assert.isFalse(notifySpy.withArgs('collapsedItemsChanged').called);
+            });
+         });
+
+         describe('_beforeUpdate', () => {
+            beforeEach(async() => {
+               treeControl = await correctCreateTreeControlAsync({...cfg, expandedItems: [], collapsedItems: []});
+            });
+
+            it('expandedItems', () => {
+               const methodSpy = sinon.spy(treeControl.getViewModel(), 'setExpandedItems');
+               treeControl._beforeUpdate({...cfg, expandedItems: [1]});
+               assert.isTrue(methodSpy.withArgs([1]).called);
+            });
+
+            it('collapsedItems', () => {
+               const methodSpy = sinon.spy(treeControl.getViewModel(), 'setCollapsedItems');
+               treeControl._beforeUpdate({...cfg, collapsedItems: [1]});
+               assert.isTrue(methodSpy.withArgs([1]).called);
             });
          });
       });
