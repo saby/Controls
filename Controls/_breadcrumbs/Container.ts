@@ -73,6 +73,7 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
         if (options._dataOptionsValue.breadCrumbsItems !== undefined) {
             this._breadCrumbsItems = options._dataOptionsValue.breadCrumbsItems;
         } else if (this._sourceController !== options.sourceController) {
+            // FIXME пока страница не обернута в браузер, sourceController задается на опциях
             this._breadCrumbsItems = this._getPathItems(options);
         }
     }
