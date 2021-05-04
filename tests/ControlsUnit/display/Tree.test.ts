@@ -1847,9 +1847,13 @@ describe('Controls/_display/Tree', () => {
                 });
             };
 
-            const rs = createRecordSet();
+            let rs;
 
             describe('add', () => {
+                beforeEach(() => {
+                    rs = createRecordSet();
+                });
+
                 it('expandedItems is [null]', () => {
                     const tree = getTree(rs, {expandedItems: [null]});
                     rs.add(new Model({rawData: {id: 6, node: true, pid: 0}, keyProperty: 'id'}));
@@ -1876,6 +1880,10 @@ describe('Controls/_display/Tree', () => {
             });
 
             describe('reset', () => {
+                beforeEach(() => {
+                    rs = createRecordSet();
+                });
+
                 it('expandedItems is [null]', () => {
                     const tree = getTree(rs, {expandedItems: [null]});
                     rs.assign(createRecordSet());
@@ -1899,6 +1907,10 @@ describe('Controls/_display/Tree', () => {
             });
 
             describe('move', () => {
+                beforeEach(() => {
+                    rs = createRecordSet();
+                });
+
                 it('expandedItems is [null]', () => {
                     const tree = getTree(rs, {expandedItems: [null]});
                     rs.move(1, 4);
