@@ -129,7 +129,6 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$emptyTemplate: TemplateFunction;
     protected _$sorting: Array<{[p: string]: string}>;
     protected _$emptyTemplateColumns: IEmptyTemplateColumn[];
-    protected _$itemActionsPosition: 'inside' | 'outside' | 'custom';
 
     protected _isFullGridSupport: boolean = isFullGridSupport();
     protected _footer: FooterRow<S>;
@@ -568,6 +567,5 @@ Object.assign(Grid.prototype, {
     _$stickyColumnsCount: 1,
     _$sorting: null,
     _$emptyTemplateColumns: null,
-    _$itemEditorTemplate: null,
-    _$itemActionsPosition: 'inside'
+    _$itemEditorTemplate: null
 });

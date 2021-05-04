@@ -4022,6 +4022,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._listViewModel.setItemTemplateProperty(newOptions.itemTemplateProperty);
         }
 
+        if (newOptions.useNewModel && newOptions.itemActionsPosition !== this._options.itemActionsPosition) {
+            this._listViewModel.setItemActionsPosition(newOptions.itemActionsPosition);
+        }
+
         if (!isEqual(this._options.itemPadding, newOptions.itemPadding)) {
             this._listViewModel.setItemPadding(newOptions.itemPadding);
         }
