@@ -8,6 +8,7 @@ import {
     ISerializableState as IDefaultSerializableState
 } from 'Types/entity';
 import {mixin} from 'Types/util';
+import {CrudEntityKey} from "Types/source";
 /**
  * Набор констант, используемых при работе с {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ группировкой элементов}.
  * @public
@@ -312,13 +313,15 @@ export default class Group<S, T extends CollectionItem<S> = CollectionItem<S>> e
             // Create group with this groupId if necessary
             if (groupsId.indexOf(groupId) === -1) {
                 const isCollapsed = options.collapsedGroups && options.collapsedGroups.indexOf(groupId) !== -1;
+                const isFirstStickedGroup = this._isFirstVisibleGroup(groupsId, groupId) && options.display.isStickyHeader();
                 const group = new options.groupConstructor({
                     owner: display as any,
                     contents: groupId,
                     expanded: !isCollapsed,
                     multiSelectVisibility: display?.getMultiSelectVisibility(),
                     metaResults: display?.getMetaResults(),
-                    hasMoreDataUp: display?.hasMoreDataUp()
+                    hasMoreDataUp: display?.hasMoreDataUp(),
+                    isFirstStickedItem: isFirstStickedGroup
                 }) as GroupItem<IGroup>;
 
                 groupIndex = groups.length;
@@ -355,6 +358,11 @@ export default class Group<S, T extends CollectionItem<S> = CollectionItem<S>> e
         });
 
         return result;
+    }
+
+    private static _isFirstVisibleGroup(groupIds: CrudEntityKey[], groupId: CrudEntityKey): boolean {
+        return groupId !== groupConstants.hiddenGroup && !groupIds.length
+            || groupIds.length === 1 && groupIds[0] === groupConstants.hiddenGroup;
     }
 
     // endregion
