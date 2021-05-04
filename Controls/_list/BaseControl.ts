@@ -3815,13 +3815,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _getScrollParams(): IScrollParams {
         let headersHeight = 0;
+        let offsetTop = 0;
         if (detection.isBrowserEnv) {
             headersHeight = getStickyHeadersHeight(this._container, 'top', 'allFixed') || 0;
+            offsetTop = this._container.offsetTop;
         }
         const scrollParams = {
             scrollTop: this._scrollTop,
             scrollHeight: _private.getViewSize(this, true) - headersHeight,
-            clientHeight: this._viewportSize - headersHeight
+            clientHeight: this._viewportSize - headersHeight - offsetTop
         };
         /**
          * Для pagingMode numbers нужно знать реальную высоту списка и scrollTop (включая то, что отсечено виртуальным скроллом)
