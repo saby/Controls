@@ -174,8 +174,8 @@
             </ws:swipeTemplate>
             <ws:tagTemplate>
                 <ws:partial template="wml!Controls/Application/TagTemplate/TagTemplate"
-                            on:click="_onTagClickHandler(tagTemplate.dispItem, tagTemplate.columnIndex)"
-                            on:mouseenter="_onTagHoverHandler(tagTemplate.dispItem, tagTemplate.columnIndex)"/>
+                            on:click="_onTagClickHandler(tagTemplate.item, tagTemplate.columnIndex)"
+                            on:mouseenter="_onTagHoverHandler(tagTemplate.item, tagTemplate.columnIndex)"/>
             </ws:tagTemplate>
             <ws:viewTemplate>
                 <ws:partial template="{{_options.viewName}}"/>

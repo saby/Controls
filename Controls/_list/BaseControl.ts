@@ -6203,17 +6203,17 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
      * Хандлер клика на Tag в BaseControl.wml
      * @private
      */
-    _onTagClickHandler(event: Event, dispItem: CollectionItem<Model>, columnIndex: number): void {
+    _onTagClickHandler(event: Event, item: CollectionItem<Model>, columnIndex: number): void {
         event.stopPropagation();
-        this._notify('tagClick', [dispItem, columnIndex, event]);
+        this._notify('tagClick', [item.getContents(), columnIndex, event]);
     }
 
     /**
      * Хандлер наведения на Tag в BaseControl.wml
      * @private
      */
-    _onTagHoverHandler(event: Event, dispItem: CollectionItem<Model>, columnIndex: number): void {
-        this._notify('tagHover', [dispItem, columnIndex, event]);
+    _onTagHoverHandler(event: Event, item: CollectionItem<Model>, columnIndex: number): void {
+        this._notify('tagHover', [item.getContents(), columnIndex, event]);
     }
 
     _applyPagingNavigationState(params): void {
