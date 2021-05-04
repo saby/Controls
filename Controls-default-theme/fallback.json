@@ -1,6 +1,7 @@
 {
   "--background-color": "#ffffff",
   "--unaccented_background-color": "#f8f8f8",
+  "--unaccented_background-transparent-color": "#f8f8f800",
   "--hover_background-color": "#f0f5fb",
   "--danger_color": "#d04d4d",
   "--success_color": "#069922",
