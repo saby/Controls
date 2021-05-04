@@ -78,7 +78,6 @@ import {IEditableListOption} from './interface/IEditableList';
 import {default as ScrollController, IScrollParams} from './ScrollController';
 
 import {groupUtil} from 'Controls/dataSource';
-import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {IDirection} from './interface/IVirtualScroll';
 import {CssClassList} from './resources/utils/CssClassList';
 import {
@@ -1296,12 +1295,8 @@ const _private = {
             totalElementsCount: elementsCount,
             loadedElementsCount: self._listViewModel.getStopIndex() - self._listViewModel.getStartIndex(),
             pagingCfgTrigger: (cfg) => {
-                if (cfg?.selectedPage !== self._currentPage) {
-                    if (self._selectedPageHasChanged) {
-                        self.__selectedPageChanged(null, self._currentPage);
-                    } else {
-                        self._currentPage = cfg.selectedPage;
-                    }
+                if (cfg?.selectedPage !== self._currentPage && !self._selectedPageHasChanged) {
+                    self._currentPage = cfg.selectedPage;
                 } else {
                     self._selectedPageHasChanged = false;
                 }
@@ -2067,7 +2062,7 @@ const _private = {
         self._onItemActionsMenuResult = self._onItemActionsMenuResult.bind(self);
     },
 
-    groupsExpandChangeHandler(self, changes) {
+    groupsExpandChangeHandler(self, changes): void {
         self._notify(changes.changeType === 'expand' ? 'groupExpanded' : 'groupCollapsed', [changes.group], { bubbling: true });
         self._notify('collapsedGroupsChanged', [changes.collapsedGroups]);
         _private.prepareFooter(self, self._options, self._sourceController);
@@ -2154,8 +2149,12 @@ const _private = {
     showError(self: BaseControl, errorConfig: dataSourceError.ViewConfig): void {
         self.__error = errorConfig;
         if (errorConfig && (errorConfig.mode === dataSourceError.Mode.include)) {
-            self._scrollController = null;
+            if (self._scrollController) {
+                self._scrollController.destroy();
+                self._scrollController = null;
+            }
             self._observerRegistered = false;
+            self._intersectionObserverRegistered = false;
             self._viewReady = false;
         }
     },
@@ -3816,13 +3815,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _getScrollParams(): IScrollParams {
         let headersHeight = 0;
+        let offsetTop = 0;
         if (detection.isBrowserEnv) {
             headersHeight = getStickyHeadersHeight(this._container, 'top', 'allFixed') || 0;
+            offsetTop = this._container.offsetTop;
         }
         const scrollParams = {
             scrollTop: this._scrollTop,
             scrollHeight: _private.getViewSize(this, true) - headersHeight,
-            clientHeight: this._viewportSize - headersHeight
+            clientHeight: this._viewportSize - headersHeight - offsetTop
         };
         /**
          * Для pagingMode numbers нужно знать реальную высоту списка и scrollTop (включая то, что отсечено виртуальным скроллом)
@@ -3862,9 +3863,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._notify('disableVirtualNavigation', [], { bubbling: true });
         }
 
-        if (this._needScrollCalculation && !this.__error) {
+        if (!this.__error) {
             this._registerObserver();
-            this._registerIntersectionObserver();
+            if (this._needScrollCalculation) {
+                this._registerIntersectionObserver();
+            }
         }
         if (this._options.itemsDragNDrop) {
             const container = this._container[0] || this._container;
@@ -4208,6 +4211,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 //  Если Items были обновлены, то в старой модели переинициализировался display
                 //  и этот параметр сбросился
                 this._listViewModel.setActionsAssigned(isActionsAssigned);
+                _private.initVisibleItemActions(this, newOptions);
                 this._updateScrollController(newOptions);
             }
 
@@ -4240,7 +4244,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._needBottomPadding = _private.needBottomPadding(newOptions, this._listViewModel);
 
         const groupPropertyChanged = newOptions.groupProperty !== this._options.groupProperty;
-        const needGroupingLoader = !!newOptions.groupProperty && !_private.isDemandNavigation(newOptions.navigation) && !newOptions.task1181512586;
+        const needGroupingLoader =
+            newOptions.source && !!newOptions.groupProperty &&
+            !_private.isDemandNavigation(newOptions.navigation) && !newOptions.task1181512586;
         const hasGroupingLoader = !!this._groupingLoader;
         if (needGroupingLoader) {
             if (hasGroupingLoader) {
@@ -4845,9 +4851,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _afterUpdate(oldOptions): void {
         this._loadedBySourceController = false;
-        if (this._needScrollCalculation && !this.__error && !this._observerRegistered) {
-            this._registerObserver();
-            this._registerIntersectionObserver();
+        if (!this.__error) {
+            if (!this._observerRegistered) {
+                this._registerObserver();
+            }
+            if (this._needScrollCalculation && !this._intersectionObserverRegistered) {
+                this._registerIntersectionObserver();
+            }
         }
         // FIXME need to delete after https://online.sbis.ru/opendoc.html?guid=4db71b29-1a87-4751-a026-4396c889edd2
         if (oldOptions.hasOwnProperty('loading') && oldOptions.loading !== this._options.loading) {
@@ -5393,7 +5403,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     if (this._savedItemClickArgs && this._isMounted) {
                         // Запись становится активной по клику, если не началось редактирование.
                         // Аргументы itemClick сохранены в состояние и используются для нотификации об активации элемента.
-                        this._notify('itemActivate', this._savedItemClickArgs, {bubbling: true});
+                        this._notify('itemActivate', this._savedItemClickArgs.slice(1), {bubbling: true});
                     }
                     return result;
                 }
@@ -6515,7 +6525,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _registerObserver(): void {
-        if (!this._observerRegistered && this._listViewModel) {
+        if (this._children.scrollObserver && !this._observerRegistered && this._listViewModel) {
             // @ts-ignore
             this._children.scrollObserver.startRegister([this._children.scrollObserver]);
             this._observerRegistered = true;
@@ -6528,6 +6538,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._intersectionObserverHandler.bind(this),
             this._children.topVirtualScrollTrigger,
             this._children.bottomVirtualScrollTrigger);
+        this._intersectionObserverRegistered = true;
     }
 
     _intersectionObserverHandler(eventName) {
@@ -6548,25 +6559,35 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _observeScrollHandler(_: SyntheticEvent<Event>, eventName: string, params: IScrollParams): void {
-        switch (eventName) {
-            case 'scrollMoveSync':
-                this.scrollMoveSyncHandler(params);
-                break;
-            case 'viewportResize':
-                this.viewportResizeHandler(params.clientHeight, params.rect, params.scrollTop);
-                break;
-            case 'virtualScrollMove':
-                _private.throttledVirtualScrollPositionChanged(this, params);
-                break;
-            case 'canScroll':
-                this.canScrollHandler(params);
-                break;
-            case 'scrollMove':
-                this.scrollMoveHandler(params);
-                break;
-            case 'cantScroll':
-                this.cantScrollHandler(params);
-                break;
+        if (this._needScrollCalculation) {
+            switch (eventName) {
+                case 'scrollMoveSync':
+                    this.scrollMoveSyncHandler(params);
+                    break;
+                case 'viewportResize':
+                    this.viewportResizeHandler(params.clientHeight, params.rect, params.scrollTop);
+                    break;
+                case 'virtualScrollMove':
+                    _private.throttledVirtualScrollPositionChanged(this, params);
+                    break;
+                case 'canScroll':
+                    this.canScrollHandler(params);
+                    break;
+                case 'scrollMove':
+                    this.scrollMoveHandler(params);
+                    break;
+                case 'cantScroll':
+                    this.cantScrollHandler(params);
+                    break;
+            }
+        } else {
+            switch (eventName) {
+                case 'viewportResize':
+                    // размеры вью порта нужно знать всегда, независимо от navigation,
+                    // т.к. по ним рисуется глобальная ромашка
+                    this.viewportResizeHandler(params.clientHeight, params.rect, params.scrollTop);
+                    break;
+            }
         }
     }
 
@@ -7023,7 +7044,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _getFooterClasses(options): string {
         const hasCheckboxes = options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
-        return `controls__BaseControl__footer controls__BaseControl__footer__paddingLeft_${hasCheckboxes ? 'withCheckboxes' : (options.itemPadding?.left || 'default')}`;
+
+        const paddingClassName = 'controls__BaseControl__footer__paddingLeft_';
+        if (hasCheckboxes) {
+            paddingClassName += 'withCheckboxes';
+        } else {
+            paddingClassName += (options.itemPadding?.left?.toLowerCase() || 'default');
+        }
+
+        return `controls__BaseControl__footer ${paddingClassName}`;
     }
 
     static getDefaultOptions(): Partial<IBaseControlOptions> {

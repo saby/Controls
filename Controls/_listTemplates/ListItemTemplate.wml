@@ -4,13 +4,23 @@
                src="{{_options.itemData.item[_options.imageProperty]}}"
                viewMode="{{_options.imageViewMode}}"
                position="{{_options.imagePosition}}"
+               afterImageTemplate="{{afterImageTemplate}}"
+               item="{{(item || itemData)}}"
                effect="{{_options.imageEffect}}"/>
+</ws:template>
+
+<ws:template name="afterImageTemplate">
+   <ws:partial if="{{_options.afterImageTemplate}}"
+               template="{{afterImageTemplate}}"
+               itemData="{{(item || itemData)}}"
+               item="{{(item || itemData)}}"/>
 </ws:template>
 
 <ws:template name="footerTemplate">
    <ws:if data="{{_options.footerTemplate}}">
       <div class="controls-listTemplates_listItemTemplate__footer">
          <ws:partial template="{{_options.footerTemplate}}"
+                     item="{{_options.itemData}}"
                      itemData="{{_options.itemData}}"/>
       </div>
    </ws:if>
@@ -23,34 +33,62 @@
                      class="controls-listTemplates__listItemTemplate-image-padding_position-{{_options.imagePosition || 'left'}}"
                      imagePosition="{{_options.imagePosition}}"
                      imageEffect="{{_options.imageEffect}}"
+                     afterImageTemplate="{{afterImageTemplate}}"
                      imageViewMode="{{_options.imageViewMode}}"/>
       </ws:if>
       <div class="controls-listTemplates__listItemTemplate__itemContent">
-         <ws:if data="{{_options.captionTemplate}}">
-            <ws:partial template="{{_options.captionTemplate}}"
-                        itemData="{{_options.itemData}}"/>
+
+         <ws:if data="{{isEditing && _options.captionEditor}}">
+            <ws:partial template="{{_options.captionEditor}}"
+                        itemData="{{_options.itemData}}"
+                        item="{{_options.itemData}}"/>
          </ws:if>
+         <ws:else>
+            <ws:if data="{{_options.captionTemplate}}">
+               <ws:partial template="{{_options.captionTemplate}}"
+                           itemData="{{_options.itemData}}"
+                           item="{{_options.itemData}}"/>
+            </ws:if>
+         </ws:else>
          <ws:if data="{{characteristics && characteristics.length}}">
-            <ws:partial template="Controls/list:CharacteristicsTemplate" data="{{characteristics}}"></ws:partial>
+            <ws:partial template="Controls/list:CharacteristicsTemplate" items="{{characteristics}}"></ws:partial>
          </ws:if>
-         <ws:if data="{{_options.contentTemplate}}">
-            <ws:partial template="{{_options.contentTemplate}}"
-                        itemData="{{_options.itemData}}"/>
+         <ws:if data="{{isEditing && _options.contentEditor}}">
+            <ws:partial template="{{_options.contentEditor}}"
+                        itemData="{{_options.itemData}}"
+                        item="{{_options.itemData}}"/>
          </ws:if>
-         <ws:partial template="footerTemplate"
-                     footerTemplate="{{_options.footerTemplate}}"
-                     itemData="{{_options.itemData}}"/>
+         <ws:else>
+            <ws:if data="{{_options.contentTemplate}}">
+               <ws:partial template="{{_options.contentTemplate}}"
+                           itemData="{{_options.itemData}}"
+                           item="{{_options.itemData}}"/>
+            </ws:if>
+         </ws:else>
+         <ws:if data="{{isEditing && footerEditor}}">
+            <ws:partial template="{{footerEditor}}"
+                        itemData="{{(item || itemData)}}"
+                        item="{{(item || itemData)}}"/>
+         </ws:if>
+         <ws:else>
+            <ws:partial template="footerTemplate"
+                        footerTemplate="{{_options.footerTemplate}}"
+                        itemData="{{_options.itemData}}"
+                        item="{{_options.itemData}}"/>
+         </ws:else>
       </div>
    </div>
 </ws:template>
 
 <ws:partial template="Controls/list:ItemTemplate"
-            attr:class="controls-listTemplates__listItemTemplate"
+            attr:class="controls-listTemplates__listItemTemplate {{_options.itemData.getRoundBorderClasses()}}"
             scope="{{_options}}">
    <ws:contentTemplate>
       <ws:partial template="itemContentTpl"
                   scope="{{contentTemplate}}"
                   itemData="{{_options.itemData}}"
+                  item="{{_options.itemData}}"
+                  isEditing="{{item.isEditing()}}"
                   imageProperty="{{_options.imageProperty}}"
                   imagePosition="{{_options.imagePosition}}"
                   imageViewMode="{{_options.imageViewMode}}"/>

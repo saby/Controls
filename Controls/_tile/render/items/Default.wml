@@ -2,7 +2,8 @@
    <ws:partial template="wml!Controls/_tile/render/items/Invisible" scope="{{_options}}"/>
 </ws:if>
 <ws:else>
-   <div attr:class="{{ (item || itemData).getItemClasses(itemType, clickable, hasTitle, cursor, marker, shadowVisibility, border) }}" attr:style="{{ (item || itemData).getItemStyles(itemType, width || itemWidth, staticHeight, imagePosition, imageViewMode) }}">
+   <div attr:data-qa="{{(item || itemData).getQAData(marker)}}"
+        attr:class="{{ (item || itemData).getItemClasses(itemType, clickable, hasTitle, cursor, marker, shadowVisibility, border) }}" attr:style="{{ (item || itemData).getItemStyles(itemType, width || itemWidth, staticHeight, imagePosition, imageViewMode) }}">
       <ws:if data="{{ (item || itemData).shouldDisplayAutoResizer(itemType, staticHeight) }}">
          <div style="{{ (item || itemData).getAutoResizerStyles(itemType, width || itemWidth, imageProportion, imagePosition, imageViewMode) }}"></div>
       </ws:if>
@@ -29,12 +30,14 @@
                      template="{{itemActionsTemplate}}"
                      scope="{{_options}}"
                      actionMode="{{ (item || itemData).getActionMode(itemType) }}"
-                     itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType, itemActionsClass) }}"/>
+                     itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType, itemActionsClass) }}"
+                     highlightOnHover="{{ highlightOnHover }}"/>
          <ws:partial if="{{ (item || itemData).shouldDisplaySwipeTemplate() }}"
                      template="{{swipeTemplate}}"
                      itemData="{{(item || itemData)}}"
                      item="{{(item || itemData)}}"
-                     itemActionsTemplate="{{itemActionsTemplate}}"/>
+                     itemActionsTemplate="{{itemActionsTemplate}}"
+                     highlightOnHover="{{ highlightOnHover }}"/>
       </div>
    </div>
 </ws:else>

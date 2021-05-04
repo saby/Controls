@@ -101,6 +101,14 @@ interface IExplorerOptions
     sourceController?: NewSourceController;
     useOldModel?: boolean;
     expandByItemClick?: boolean;
+    /**
+     * Задает режим вывода строки с хлебными крошками в результатах поиска
+     *  * row - все ячейки строки с хлебными крошками объединяются в одну ячейку в которой выводятся хлебные крошки.
+     *  * cell - ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
+     *  конфигурацией колонок. При таком режиме прикладной разработчик может задать кастомное содержимое для ячеек
+     *  строки с хлебными крошками.
+     */
+    breadCrumbsMode?: 'row' | 'cell';
 }
 
 interface IMarkedKeysStore {
@@ -482,6 +490,19 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         this._isGoingBack = true;
 
+        // При переходе назад нужно проставить сохраненный маркер для этого корня.
+        // По факту он конечно сейчас не проставится, но это вызовет событие об изменении
+        // markerKey и если у прикладника был bind, то это обновит значение опции и все
+        // последующие синхронизации будут идти с актуальным markedKey.
+        // В противном случае setMarkedKey в itemsSetCallback может не сработать в этом же
+        // цикле синхронизации если сверху был передан markedKey !== undefined. Т.к. в
+        // BaseControl метод setMarkedKey проставляет маркер синхронно только если в опциях
+        // не указан markedKey
+        const markedKey = this._restoredMarkedKeys[newRoot].markedKey;
+        if (markedKey) {
+            this._children.treeControl.setMarkedKey(markedKey);
+        }
+
         /**
          * Позиция скрола при выходе из папки восстанавливается через скроллирование к отмеченной записи.
          * Чтобы список мог восстановить позицию скрола по отмеченой записи, она должна быть в наборе данных.
@@ -619,8 +640,6 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         if (!this._options.hasOwnProperty('root')) {
             this._root = root;
-        } else {
-            this._potentialMarkedKey = root;
         }
 
         if (typeof this._options.itemOpenHandler === 'function') {
@@ -970,7 +989,8 @@ export default class Explorer extends Control<IExplorerOptions> {
             stickyHeader: true,
             searchStartingWith: 'root',
             showActionButton: false,
-            isFullGridSupport: isFullGridSupport()
+            isFullGridSupport: isFullGridSupport(),
+            breadCrumbsMode: 'row'
         };
     }
 }
@@ -1144,6 +1164,29 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * </pre>
  * @see itemTemplate
  * @see itemTemplateProperty
+ */
+
+/**
+ * @typedef {String} TBreadCrumbsMode
+ * @variant row - все ячейки строки с хлебными крошками объединяются в одну ячейку в которой выводятся хлебные крошки.
+ * @variant cell - ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
+ * конфигурацией колонок. При таком режиме прикладной разработчик может задать кастомное содержимое для ячеек
+ * строки с хлебными крошками.
+ */
+
+/**
+ * @name Controls/_explorer/View#breadCrumbsMode
+ * @cfg {TBreadCrumbsMode} Задает режим вывода строки с хлебными крошками в результатах поиска
+ * @default row
+ * @markdown
+ * @remark
+ * Данная опция позволяет сконфигурировать вывод строки с хлебными крошками. Возможны 2 варианта:
+ * <ul>
+ *     <li>row - все ячейки строки с хлебными крошками объединяются в одну ячейку в которой выводятся хлебные крошки.</li>
+ *     <li>cell - ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
+ * конфигурацией колонок. При таком режиме прикладной разработчик может задать кастомное содержимое для ячеек
+ * строки с хлебными крошками.</li>
+ * </ul>
  */
 
 /**

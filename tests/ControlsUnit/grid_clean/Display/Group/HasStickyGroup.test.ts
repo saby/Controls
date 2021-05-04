@@ -99,7 +99,7 @@ describe('Controls/grid_clean/Display/StickyGroup/HasStickyGroup', () => {
 
         gridCollection.setGroupProperty('group');
 
-        assert.strictEqual(gridCollection.getVersion(), 1);
+        assert.strictEqual(gridCollection.getVersion(), 2);
         gridCollection.getViewIterator().each((item: GridDataRow<any>) => {
             if (item.LadderSupport) {
                 assert(item.setHasStickyGroup.calledOnce, 'setHasStickyGroup must be called on items');

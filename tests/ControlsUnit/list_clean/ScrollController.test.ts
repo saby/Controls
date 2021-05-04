@@ -58,7 +58,25 @@ describe('Controls/list_clean/ScrollController', () => {
             assert.isFalse(errorFired);
         });
     });
+    describe('destroy', () => {
+        it('should reset indexes on collection on destroy', () => {
+            const collection = new Collection({
+                collection: items
+            });
+            const controller = new ScrollController({
+                collection,
+                virtualScrollConfig: {},
+                useNewModel: true,
+                needScrollCalculation: true
+            });
+            controller.handleResetItems();
+            const setIndexesSpy = spy(collection, 'setIndexes');
 
+            controller.destroy();
+            assert.isTrue(setIndexesSpy.called);
+            assert.isTrue(setIndexesSpy.calledWith(0, 0));
+        });
+    });
     describe('update', () => {
         it('needScrollCalculation === true.', () => {
             const collection = new Collection({
@@ -112,6 +130,32 @@ describe('Controls/list_clean/ScrollController', () => {
                 }
             });
             assert.isTrue(setViewIteratorSpy.called);
+        });
+        it('virtualScrollConfig === null.', () => {
+            const collection = new Collection({
+                collection: items
+            });
+            const controller = new ScrollController({
+                collection,
+                virtualScrollConfig: {},
+                useNewModel: true,
+                needScrollCalculation: true
+            });
+            controller.handleResetItems();
+
+            const newCollection = new Collection({
+                collection: items
+            });
+            const setViewIteratorSpy = spy(newCollection, 'setViewIterator');
+            controller.update({
+                options: {
+                    collection: newCollection,
+                    virtualScrollConfig: null,
+                    useNewModel: true,
+                    needScrollCalculation: true
+                }
+            });
+            assert.isFalse(setViewIteratorSpy.called);
         });
     });
 
@@ -380,7 +424,7 @@ describe('Controls/list_clean/ScrollController', () => {
             });
 
         });
-        
+
         it('needScrollCalculation = false', (done) => {
             const collection = new Collection({
                 collection: new RecordSet({
