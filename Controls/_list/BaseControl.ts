@@ -197,6 +197,8 @@ export const LIST_EDITING_CONSTANTS = {
     CANCEL: EDIT_IN_PLACE_CONSTANTS.CANCEL
 };
 
+export const CANCEL_EVENT_COMMAND = 'Cancel';
+
 interface IAnimationEvent extends Event {
     animationName: string;
 }
@@ -6012,9 +6014,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         this._mouseDownItemKey = undefined;
         this._onLastMouseUpWasDrag = this._dndListController && this._dndListController.isDragging();
-        this._notify('itemMouseUp', [itemData.item, domEvent.nativeEvent]);
+        const result = this._notify('itemMouseUp', [itemData.item, domEvent.nativeEvent]);
 
-        if (canBeMarked && !this._onLastMouseUpWasDrag) {
+        if (canBeMarked && !this._onLastMouseUpWasDrag && (result !== CANCEL_EVENT_COMMAND)) {
             // маркер устанавливается после завершения редактирования
             if (this._editInPlaceController?.isEditing()) {
                 // TODO нужно перенести установку маркера на клик, т.к. там выполняется проверка для редактирования
