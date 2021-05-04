@@ -1,12 +1,5 @@
 <div class="controls-DateLinkView">
     <div class="controls-DateLinkView-wrapper">
-        <ws:if data="{{ _options.prevArrowVisibility && _viewMode == 'selector'  && !_options.readOnly}}">
-           <span
-              class="controls-DateLinkView__prev
-              {{_fontColorStyle? 'controls-text-' + _fontColorStyle}} {{ _styleClass }}"
-              on:click="shiftBack()">
-           </span>
-        </ws:if>
         <span class="controls-DateLinkView__value-wrapper
                         {{_isMinWidth ? 'controls-DateLinkView__value-wrapper-minWidth'}}">
            <ws:if data="{{ _viewMode == 'selector' }}">
@@ -45,12 +38,5 @@
                     on:mousedown="_onClick()"/>
            </ws:else>
         </span>
-        <ws:if data="{{ _options.nextArrowVisibility && _viewMode == 'selector' && !_options.readOnly}}">
-           <span
-              class="controls-DateLinkView__next
-              {{_fontColorStyle? 'controls-text-' + _fontColorStyle}} {{ _styleClass }}"
-              on:click="shiftForward()">
-           </span>
-        </ws:if>
     </div>
 </div>

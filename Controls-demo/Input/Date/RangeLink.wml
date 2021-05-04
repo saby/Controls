@@ -9,16 +9,20 @@
 			   attr:test_name="default_range"/>
          </div>
          <div class="controlsDemo-RageLink__componentWrap controlsDemo-RangeLink_capture">
-            <Controls.dateRange:RangeSelector
-               prevArrowVisibility="{{true}}"
-               nextArrowVisibility="{{true}}"
-               showClearButton="{{true}}"
-               bind:startValue="_startValueHalfYear"
-               bind:endValue="_endValueHalfYear"
-			   attr:test_name="show_arrow_range"
-               ranges="{{ {'days': [1,3], 'weeks': [1]} }}"
-               selectionType="quantum"
-            />
+            <Controls.dateRange:DateRangeContextProvider>
+               <div class="controlsDemo__flex controlsDemo__flex-js-center">
+                  <Controls.dateRange:RangeSelectorConsumer
+                          showClearButton="{{true}}"
+                          bind:startValue="_startValueHalfYear"
+                          bind:endValue="_endValueHalfYear"
+                          attr:test_name="show_arrow_range"
+                          ranges="{{ {'days': [1,3], 'weeks': [1]} }}"
+                          selectionType="quantum"
+                  />
+                  <Controls.dateRange:ArrowButtonConsumer direction="left" attr:style="margin-left: 18px;"/>
+                  <Controls.dateRange:ArrowButtonConsumer direction="right" attr:style="margin-left: 8px;"/>
+               </div>
+            </Controls.dateRange:DateRangeContextProvider>
          </div>
          <div class="controlsDemo-RageLink__componentWrap">
             <Controls.dateRange:RangeSelector

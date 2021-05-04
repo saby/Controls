@@ -9,8 +9,6 @@
          </div>
          <div class="controlsDemo-Link__componentWrap">
             <Controls.dateRange:DateSelector
-               prevArrowVisibility="{{true}}"
-               nextArrowVisibility="{{true}}"
                bind:value="_value"
 			   attr:test_name="show_arrow_range"
             />

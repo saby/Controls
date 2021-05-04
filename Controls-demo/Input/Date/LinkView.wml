@@ -3,21 +3,15 @@
       <div class="PageBlock__title"></div>
       <div class="controlsDemo-LinkView__componentWrap ws-flexbox">
          <Controls.dateRange:LinkView
-               prevArrowVisibility="{{true}}"
-               nextArrowVisibility="{{true}}"
          />
          <Controls.dateRange:LinkView
                bind:startValue="_startValue"
                bind:endValue="_endValue"
-               prevArrowVisibility="{{true}}"
-               nextArrowVisibility="{{true}}"
 
          />
          <Controls.dateRange:LinkView
                bind:startValue="_startValue"
                bind:endValue="_endValue"
-               prevArrowVisibility="{{true}}"
-               nextArrowVisibility="{{true}}"
 
          />
          <Controls.dateRange:LinkView
@@ -40,8 +34,6 @@
          Baseline
          <Controls.dateRange:LinkView
                attr:class="controlsDemo-LinkView__component"
-               prevArrowVisibility="{{true}}"
-               nextArrowVisibility="{{true}}"
                bind:startValue="_startValue"
                bind:endValue="_endValue"
          />
@@ -75,8 +67,6 @@
          Baseline
          <Controls.dateRange:LinkView
                attr:class="controlsDemo-LinkView__component"
-               prevArrowVisibility="{{true}}"
-               nextArrowVisibility="{{true}}"
                bind:startValue="_startValue"
                bind:endValue="_endValue"
          />

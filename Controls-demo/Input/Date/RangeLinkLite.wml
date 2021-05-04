@@ -7,13 +7,17 @@
                attr:test_name="default_range"/>
          </div>
          <div class="PageBlock__componentWrap ControlsDemo-RangeLinkLite_capture">
-            <Controls.dateRange:RangeShortSelector
-               prevArrowVisibility="{{true}}"
-               nextArrowVisibility="{{true}}"
-               bind:startValue="_startValueHalfYear"
-               bind:endValue="_endValueHalfYear"
-			   attr:test_name="show_arrow_range"
-            />
+            <Controls.dateRange:DateRangeContextProvider>
+               <div class="controlsDemo__flex controlsDemo__flex-js-center">
+                  <Controls.dateRange:RangeShortSelectorConsumer
+                          bind:startValue="_startValueHalfYear"
+                          bind:endValue="_endValueHalfYear"
+                          attr:test_name="show_arrow_range"
+                  />
+                  <Controls.dateRange:ArrowButtonConsumer direction="left" attr:style="margin-left: 18px;"/>
+                  <Controls.dateRange:ArrowButtonConsumer direction="right" attr:style="margin-left: 8px;"/>
+               </div>
+            </Controls.dateRange:DateRangeContextProvider>
          </div>
          <div class="PageBlock__componentWrap">
             <Controls.dateRange:RangeShortSelector
@@ -58,8 +62,6 @@
          <Controls.dateRange:RangeShortSelector
                  bind:startValue="_startValueYear"
                  bind:endValue="_endValueYear"
-                 prevArrowVisibility="{{true}}"
-                 nextArrowVisibility="{{true}}"
                  readOnly="{{true}}"
                  attr:test_name="readonly"
          />

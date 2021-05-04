@@ -1,10 +1,14 @@
 <div class="controls-demo_LiteSelector-block">
-    <Controls.dateRange:RangeShortSelector
-            displayedRanges="{{_displayedRanges}}"
-            prevArrowVisibility="{{true}}"
-            nextArrowVisibility="{{true}}"
-            bind:startValue="_startValue1"
-            bind:endValue="_endValue1"/>
+    <Controls.dateRange:DateRangeContextProvider>
+        <div class="controlsDemo__flex">
+            <Controls.dateRange:RangeShortSelectorConsumer
+                    displayedRanges="{{_displayedRanges}}"
+                    bind:startValue="_startValue1"
+                    bind:endValue="_endValue1"/>
+            <Controls.dateRange:ArrowButtonConsumer direction="left" attr:style="margin-left: 18px;"/>
+            <Controls.dateRange:ArrowButtonConsumer direction="right" attr:style="margin-left: 8px;"/>
+        </div>
+    </Controls.dateRange:DateRangeContextProvider>
     <div>
         <Controls.dateRange:RangeShortSelector
                 bind:startValue="_startValue2"

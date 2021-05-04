@@ -2,7 +2,5 @@
     <Controls.dateRange:RangeShortSelector
             readOnly="{{true}}"
             bind:startValue="_startValue"
-            bind:endValue="_endValue"
-            prevArrowVisibility="{{true}}"
-            nextArrowVisibility="{{true}}"/>
+            bind:endValue="_endValue"/>
 </div>
