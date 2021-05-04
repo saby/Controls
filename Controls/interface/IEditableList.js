@@ -514,7 +514,7 @@ define('Controls/interface/IEditableList', [
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Параметры редактирования.
     * @returns {Promise}
     * @remark
-    * Метод возвращает Promise после монтирования контрола в DOM.
+    * Promise разрешается после монтирования контрола в DOM.
     * 
     * Перед запуском редактирования по месту происходит событие {@link beforeBeginEdit}, а после запуска — {@link afterBeginEdit}.
     *
