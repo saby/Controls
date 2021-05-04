@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import {Memory, CrudEntityKey} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
-import * as Template from 'wml!Controls-demo/list_new/Marker/Events/Events';
+import * as Template from 'wml!Controls-demo/list_new/Marker/OnBeforeMarkedKeyChanged/OnBeforeMarkedKeyChanged';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -15,35 +15,30 @@ export default class extends Control {
             data: [
                 {
                     id: 1,
-                    title: 'Notebooks'
+                    title: 'На записи разрешена установка маркера'
                 },
                 {
                     id: 2,
-                    title: 'Tablets'
+                    title: 'На записи запрещена установка маркера'
                 },
                 {
                     id: 3,
-                    title: 'Маркер будет на следующей записи'
+                    title: 'На записи разрешена установка маркера'
                 },
                 {
                     id: 4,
-                    title: 'Apple gadgets'
+                    title: 'На записи запрещена установка маркера'
                 },
                 {
                     id: 5,
-                    title: 'Android gadgets'
+                    title: 'На записи разрешена установка маркера'
                 }
             ]
         });
     }
 
-    onMarkerKeyChanged(event: SyntheticEvent, key: CrudEntityKey): void {
-        this._markedKey = key;
-    }
-
-    onBeforeMarkerKeyChanged(event: SyntheticEvent, key: CrudEntityKey): CrudEntityKey | Promise<CrudEntityKey> {
-        // Запретили установку маркера на запись с id=3
-        return key === 3 ? 4 : key;
+    onBeforeMarkedKeyChanged(event: SyntheticEvent, key: CrudEntityKey): CrudEntityKey | Promise<CrudEntityKey> {
+        return key === 2 || key === 4 ? null : key;
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
