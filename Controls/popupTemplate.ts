@@ -7,7 +7,7 @@
  */
 
 export {Template as Confirmation, DialogTemplate as ConfirmationDialog } from 'Controls/popupConfirmation';
-export {default as InfoBox} from 'Controls/_popupTemplate/InfoBox';
+export {default as InfoBox, IInfoboxTemplateOptions} from 'Controls/_popupTemplate/InfoBox';
 export {default as Notification} from 'Controls/_popupTemplate/Notification/Base';
 export {default as NotificationSimple} from 'Controls/_popupTemplate/Notification/Simple';
 export {default as StackHeader} from 'Controls/_popupTemplate/Stack/resources/Header';

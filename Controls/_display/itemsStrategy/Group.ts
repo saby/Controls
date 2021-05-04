@@ -24,6 +24,15 @@ const groupConstants = {
 };
 export {groupConstants};
 
+/**
+ * @typedef {String} IHiddenGroupPosition
+ * @description Допустимые значения для параметра {@link Controls/interface:INavigationOptionValue#source source}.
+ * @variant first Элементы внутри скрытой группы отображаются в начале списка.
+ * @variant byorder Элементы внутри скрытой группы отображаются в зависимости от порядка в данных.
+ * @remark В режиме byorder все элементы скрытой группы отобразятся на месте первого элемента в коллекции, у которого задана скрытая группа.
+ */
+export type IHiddenGroupPosition = 'first'|'byorder';
+
 type IGroup = string | number;
 type IGroups = IGroup[];
 
@@ -34,6 +43,7 @@ interface IOptions<S, T extends CollectionItem<S>> {
     display?: Collection<S, T>;
     handler?: GroupHandler<S, T>;
     collapsedGroups?: IGroups;
+    hiddenGroupPosition?: IHiddenGroupPosition;
     groupConstructor: new(options: unknown) => GroupItem<T>;
 }
 
@@ -42,6 +52,7 @@ interface ISortOptions<S, T extends CollectionItem<S>> {
     handler: GroupHandler<S, T>;
     groups: Array<GroupItem<IGroup>>;
     collapsedGroups?: IGroups;
+    hiddenGroupPosition?: IHiddenGroupPosition;
     groupConstructor: new(options: unknown) => GroupItem<T>;
 }
 
@@ -248,7 +259,8 @@ export default class Group<S, T extends CollectionItem<S> = CollectionItem<S>> e
             handler: this._options.handler,
             collapsedGroups: this._options.collapsedGroups,
             groups: this._groups,
-            groupConstructor: this._options.groupConstructor
+            groupConstructor: this._options.groupConstructor,
+            hiddenGroupPosition: this._options.hiddenGroupPosition
         });
     }
 
@@ -305,7 +317,8 @@ export default class Group<S, T extends CollectionItem<S> = CollectionItem<S>> e
                     contents: groupId,
                     expanded: !isCollapsed,
                     multiSelectVisibility: display?.getMultiSelectVisibility(),
-                    metaResults: display?.getMetaResults()
+                    metaResults: display?.getMetaResults(),
+                    hasMoreDataUp: display?.hasMoreDataUp()
                 }) as GroupItem<IGroup>;
 
                 groupIndex = groups.length;
@@ -317,7 +330,7 @@ export default class Group<S, T extends CollectionItem<S> = CollectionItem<S>> e
 
             // Remember group order
             if (groupsOrder.indexOf(groupIndex) === -1) {
-                if (groupId === groupConstants.hiddenGroup) {
+                if (groupId === groupConstants.hiddenGroup && options.hiddenGroupPosition === 'first') {
                     groupsOrder.unshift(groupIndex);
                 } else {
                     groupsOrder.push(groupIndex);

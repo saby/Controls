@@ -225,7 +225,7 @@ define(
                keyProperty: 'id'
             });
             let resetCallback = setNewEnvironmentValue(true);
-            data._beforeMount({source: newSource, idProperty: 'id'}, {}, items);
+            data._beforeMount({source: newSource, idProperty: 'id'}, {}, {items});
 
             assert.deepEqual(data._items, items);
             assert.ok(data._sourceController.getItems());
@@ -251,7 +251,7 @@ define(
             let data = getDataWithConfig({source: prefetchSource, keyProperty: 'id'});
             let resetCallback = setNewEnvironmentValue(true);
 
-            data._beforeMount({source: prefetchSource, idProperty: 'id'}, {}, items);
+            data._beforeMount({source: prefetchSource, idProperty: 'id'}, {}, {items});
 
             const sourceControllerState = data._sourceController.getState();
             assert.isTrue(sourceControllerState.source === memory);

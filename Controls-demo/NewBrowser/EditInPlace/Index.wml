@@ -1,0 +1,234 @@
+<div class="controlsDemo-newBrowser-demo_wrapper">
+   <div class="controlDemo__input-row">
+      <Controls.dropdown:Selector
+         keyProperty="key"
+         displayProperty="title"
+         attr:class="controlsDemo_m"
+         source="{{_viewModeSource}}"
+         bind:selectedKeys="_userViewMode"
+         on:selectedKeysChanged="_onUserViewModeChanged()"
+         contentTemplate="Controls/dropdown:defaultContentTemplateWithIcon"
+      />
+   </div>
+
+   <Controls.newBrowser:Browser
+      name="browser"
+
+      keyProperty="id"
+      nodeProperty="type"
+      parentProperty="parent"
+      hasChildrenProperty="hasChild"
+      propStorageId="catalogDemoBase"
+
+      source="{{_baseSource}}"
+      userViewMode="{{_viewMode}}"
+      listConfiguration="{{_defaultViewCfg}}"
+
+      bind:root="_root"
+      bind:masterRoot="_masterRoot"
+
+      on:beforeRootChanged="_onBeforeRootChanged()"
+      on:viewModeChanged="_onBrowserViewModeChanged()"
+
+   >
+      <!-- Задаем общую настройку master-колонки -->
+      <ws:master
+         width="{{300}}"
+         minWidth="{{200}}"
+         maxWidth="{{500}}"
+         filter="{{_masterFilter}}"
+         columns="{{_masterTableColumns}}"
+         visibility="hidden"
+         expanderVisibility="hasChildren"
+      />
+      <!-- Задаем общую настройку detail-колонки -->
+      <ws:detail
+         imageProperty="image"
+         descriptionProperty="description"
+         columns="{{_detailTableColumns}}"
+      >
+         <ws:editingConfig>
+            <ws:Object editOnClick="{{true}}"
+                       sequentialEditing="{{false}}"
+                       toolbarVisibility="{{true}}"
+                       autoAdd="{{false}}"/>
+         </ws:editingConfig>
+         <ws:itemTemplate>
+            <ws:partial
+               template="Controls/listTemplates:ListItemTemplate"
+               scope="{{itemTemplate}}"
+               imagePosition="{{itemTemplate.listCfg.imagePosition}}"
+               imageViewMode="{{itemTemplate.listCfg.imageViewMode}}"
+               imageProperty="{{itemTemplate.listCfg.imageProperty}}"
+            >
+               <ws:afterImageTemplate>
+                  <div if="{{afterImageTemplate.item.isEditing()}}" class="controlsDemo-rich-editing_afterImageTemplate-buttons_wrapper">
+                     <Controls.buttons:Button icon="icon-Cameras" viewMode="linkButton" iconStyle="label" on:click="_changeImage(afterImageTemplate.item.contents)"/>
+                     <Controls.buttons:Button if="{{_showImageRemoveButton(afterImageTemplate.item.contents)}}" icon="icon-Erase" viewMode="linkButton" iconStyle="danger" on:click="_removeImage(afterImageTemplate.item.contents)"/>
+                  </div>
+               </ws:afterImageTemplate>
+               <ws:captionTemplate>
+                  <Controls.heading:Title
+                          fontSize="4xl"
+                          fontColorStyle="default"
+                          caption="{{captionTemplate.item.contents.title}}"
+                          tooltip="{{captionTemplate.item.contents.title}}"
+                  />
+               </ws:captionTemplate>
+               <ws:captionEditor>
+                  <Controls.input:Area attr:class="controlsDemo__width100"
+                                       inlineHeight="xl"
+                                       minLines="{{1}}"
+                                       maxLines="{{2}}"
+                                       fontSize="4xl"
+                                       fontWeight="bold"
+                                       bind:value="itemTemplate.item.contents.title"
+                                       selectOnClick="{{ false }}" />
+               </ws:captionEditor>
+               <ws:contentTemplate>
+                  {{contentTemplate.item.contents.description}}
+               </ws:contentTemplate>
+               <ws:contentEditor>
+                  <Controls.input:Area attr:class="controlsDemo__width100"
+                                       inlineHeight="s"
+                                       minLines="{{1}}"
+                                       maxLines="{{2}}"
+                                       bind:value="itemTemplate.item.contents.description"
+                                       selectOnClick="{{ false }}" />
+               </ws:contentEditor>
+               <ws:footerTemplate>
+                  <div attr:class="controlsDemo__width100">
+                     <div class="controlsDemo-rich-editing_footer_line">
+                        <div class="controlsDemo-rich-editing_footer_line_text">цена</div>
+                        <div class="controlsDemo-rich-editing_footer_line_dots"></div>
+                        <div class="controlsDemo-rich-editing_footer_line_text">
+                           {{itemTemplate.item.contents.price}}
+                        </div>
+                     </div>
+                     <div class="controlsDemo-rich-editing_footer_line">
+                        <div class="controlsDemo-rich-editing_footer_line_text">масса, г</div>
+                        <div class="controlsDemo-rich-editing_footer_line_dots"></div>
+                        <div class="controlsDemo-rich-editing_footer_line_text">
+                           {{itemTemplate.item.contents.weight}}
+                        </div>
+                     </div>
+                  </div>
+               </ws:footerTemplate>
+               <ws:footerEditor>
+                  <div class="controlsDemo__width100">
+                     <div class="controlsDemo-rich-editing_footer_line">
+                        <div class="controlsDemo-rich-editing_footer_line_text">цена</div>
+                        <div class="controlsDemo-rich-editing_footer_line_dots"></div>
+                        <Controls.input:Money attr:style="width: 50px; flex-shrink: 0"
+                                              inlineHeight="s"
+                                              fontSize="s"
+                                              bind:value="footerEditor.item.contents.price"
+                                              selectOnClick="{{ false }}" />
+                     </div>
+                     <div class="controlsDemo-rich-editing_footer_line">
+                        <div class="controlsDemo-rich-editing_footer_line_text">масса, г</div>
+                        <div class="controlsDemo-rich-editing_footer_line_dots"></div>
+                        <Controls.input:Number attr:style="width: 50px; flex-shrink: 0"
+                                               inlineHeight="s"
+                                               fontSize="s"
+                                               bind:value="footerEditor.item.contents.weight"
+                                               selectOnClick="{{ false }}" />
+                     </div>
+                  </div>
+               </ws:footerEditor>
+            </ws:partial>
+         </ws:itemTemplate>
+         <ws:tileItemTemplate>
+            <ws:partial
+               template="Controls/tile:RichTemplate"
+               scope="{{tileItemTemplate}}"
+               imageSize="{{tileItemTemplate.tileCfg.imageSize}}"
+               imagePosition="{{tileItemTemplate.tileCfg.imagePosition}}"
+               imageEffect="none"
+               imageViewMode="{{tileItemTemplate.tileCfg.getImageViewMode(tileItemTemplate.item)}}"
+               gradientColor="{{tileItemTemplate.tileCfg.getGradientColor(tileItemTemplate.item)}}"
+               description="{{tileItemTemplate.tileCfg.getDescription(tileItemTemplate.item)}}"
+               descriptionLines="{{tileItemTemplate.tileCfg.getDescriptionLines(tileItemTemplate.item)}}"
+            >
+               <ws:afterImageTemplate>
+                  <div if="{{afterImageTemplate.item.isEditing()}}" class="controlsDemo-rich-tile_editing_afterImageTemplate">
+                     <div class="controlsDemo-rich-editing_afterImageTemplate-buttons_wrapper">
+                        <Controls.buttons:Button icon="icon-Cameras" viewMode="linkButton" iconStyle="label" on:click="_changeImage(afterImageTemplate.item.contents)"/>
+                        <Controls.buttons:Button if="{{_showImageRemoveButton(afterImageTemplate.item.contents)}}" icon="icon-Erase" viewMode="linkButton" iconStyle="danger" on:click="_removeImage(afterImageTemplate.item.contents)"/>
+                     </div>
+                  </div>
+               </ws:afterImageTemplate>
+               <ws:titleEditor>
+                  <Controls.input:Area attr:class="controlsDemo__width100"
+                                       inlineHeight="s"
+                                       minLines="{{1}}"
+                                       maxLines="{{2}}"
+                                       fontSize="xl"
+                                       fontWeight="bold"
+                                       bind:value="tileItemTemplate.item.contents.title"
+                                       selectOnClick="{{ false }}" />
+               </ws:titleEditor>
+               <ws:descriptionEditor>
+                  <Controls.input:Area attr:class="controlsDemo__width100"
+                                       inlineHeight="s"
+                                       minLines="{{1}}"
+                                       maxLines="{{2}}"
+                                       bind:value="tileItemTemplate.item.contents.description"
+                                       selectOnClick="{{ false }}" />
+               </ws:descriptionEditor>
+               <ws:footerTemplate>
+                  <div>
+                     <div class="controlsDemo-rich-editing_footer_line">
+                        <div class="controlsDemo-rich-editing_footer_line_text">цена</div>
+                        <div class="controlsDemo-rich-editing_footer_line_dots"></div>
+                        <div class="controlsDemo-rich-editing_footer_line_text">
+                           {{tileItemTemplate.item.contents.price}}
+                        </div>
+                     </div>
+                     <div class="controlsDemo-rich-editing_footer_line">
+                        <div class="controlsDemo-rich-editing_footer_line_text">масса, г</div>
+                        <div class="controlsDemo-rich-editing_footer_line_dots"></div>
+                        <div class="controlsDemo-rich-editing_footer_line_text">
+                           {{tileItemTemplate.item.contents.weight}}
+                        </div>
+                     </div>
+                  </div>
+               </ws:footerTemplate>
+               <ws:footerEditor>
+                  <div>
+                     <div class="controlsDemo-rich-editing_footer_line">
+                        <div class="controlsDemo-rich-editing_footer_line_text">цена</div>
+                        <div class="controlsDemo-rich-editing_footer_line_dots"></div>
+                        <Controls.input:Money attr:style="width: 50px; flex-shrink: 0"
+                                              inlineHeight="s"
+                                              fontSize="s"
+                                              bind:value="footerEditor.item.contents.price"
+                                              selectOnClick="{{ false }}" />
+                     </div>
+                     <div class="controlsDemo-rich-editing_footer_line">
+                        <div class="controlsDemo-rich-editing_footer_line_text">масса, г</div>
+                        <div class="controlsDemo-rich-editing_footer_line_dots"></div>
+                        <Controls.input:Number attr:style="width: 50px; flex-shrink: 0"
+                                               inlineHeight="s"
+                                               fontSize="s"
+                                               bind:value="footerEditor.item.contents.weight"
+                                               selectOnClick="{{ false }}" />
+                     </div>
+                  </div>
+               </ws:footerEditor>
+            </ws:partial>
+         </ws:tileItemTemplate>
+      </ws:detail>
+   </Controls.newBrowser:Browser>
+
+   <svg class="clip-svg" width="0" height="0">
+      <defs>
+         <clipPath id="NavigationPanels-Accordion__image_ellipse" clipPathUnits="objectBoundingBox">
+            <path d="M0.5, 0 C 0.625,0 0.7891304347826086, 0.0391304347826087 0.875, 0.125 S 1, 0.375 1,
+                        0.5 S 0.9608695652173914, 0.7891304347826086 0.875,0.875 S 0.625, 1 0.5,
+                        1 S 0.21086956521739128, 0.9608695652173914 0.125, 0.875 S 0, 0.625 0, 0.5 S 0.0391304347826087,
+                        0.21086956521739128 0.125, 0.125 S 0.375,0 0.5,0 "/>
+         </clipPath>
+      </defs>
+   </svg>
+</div>

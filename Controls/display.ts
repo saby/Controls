@@ -116,7 +116,9 @@ export { VirtualScrollHideController };
 import {IDragPosition} from './_display/interface/IDragPosition';
 export {IDragPosition};
 export {groupConstants} from './_display/itemsStrategy/Group';
+export {IHiddenGroupPosition} from './_display/itemsStrategy/Group';
 export {MultiSelectAccessibility} from './_display/Collection';
+export {IHasMoreData} from './_display/Collection';
 
 import IItemsStrategy, {IOptions as IItemsStrategyOptions} from 'Controls/_display/IItemsStrategy';
 import TreeItemDecorator from 'Controls/_display/TreeItemDecorator';
