@@ -551,6 +551,13 @@ const _private = {
                self._hasMoreData(sourceController, 'down');
     },
 
+    getHasMoreData(self): object {
+        return {
+            up: self._hasMoreData(self._sourceController, 'up'),
+            down: self._hasMoreData(self._sourceController, 'down')
+        };
+    },
+
     validateSourceControllerOptions(self, options): void {
         const sourceControllerState = self._sourceController.getState();
         const validateIfOptionsIsSetOnBothControls = (optionName) => {
@@ -1024,7 +1031,7 @@ const _private = {
         const allowLoadByDrag = !(self._dndListController?.isDragging() && self._selectionController?.isAllSelected());
 
         if (allowLoadBySource && allowLoadByLoadedItems && allowLoadBySearch && allowLoadByDrag) {
-            _private.setHasMoreData(self._listViewModel, hasMoreData);
+            _private.setHasMoreData(self._listViewModel, _private.getHasMoreData(self));
 
             if (self._dndListController?.isDragging()) {
                 self._checkTriggersAfterEndDrag = true;
@@ -2151,6 +2158,7 @@ const _private = {
                 self._scrollController = null;
             }
             self._observerRegistered = false;
+            self._intersectionObserverRegistered = false;
             self._viewReady = false;
         }
     },
@@ -2238,9 +2246,7 @@ const _private = {
         if (items.getCount()) {
             this._loadedItems = items;
         }
-        _private.setHasMoreData(
-            this._listViewModel, _private.hasMoreDataInAnyDirection(this, this._sourceController)
-        );
+        _private.setHasMoreData(this._listViewModel, _private.getHasMoreData(this));
 
         _private.callDataLoadCallbackCompatibility(this, items, direction, this._options);
 
@@ -2409,7 +2415,7 @@ const _private = {
         }
         return height;
     },
-    setHasMoreData(model, hasMoreData: boolean, silent: boolean = false): boolean {
+    setHasMoreData(model, hasMoreData: object, silent: boolean = false): void {
         if (model) {
             model.setHasMoreData(hasMoreData, silent);
         }
@@ -3556,8 +3562,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         );
         this._afterItemsSet(cfg);
 
-        _private.setHasMoreData(this._listViewModel,
-            _private.hasMoreDataInAnyDirection(this, this._sourceController), true);
+        _private.setHasMoreData(this._listViewModel, _private.getHasMoreData(this), true);
 
         if (this._listViewModel) {
             _private.initListViewModelHandler(this, this._listViewModel, true);
@@ -3628,7 +3633,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         if (items) {
-            _private.setHasMoreData(self._listViewModel, _private.hasMoreDataInAnyDirection(self, self._sourceController), true);
+            _private.setHasMoreData(self._listViewModel, _private.getHasMoreData(self), true);
 
             if (newOptions.useNewModel) {
                 self._items = self._listViewModel.getCollection();
@@ -3806,13 +3811,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _getScrollParams(): IScrollParams {
         let headersHeight = 0;
+        let offsetTop = 0;
         if (detection.isBrowserEnv) {
             headersHeight = getStickyHeadersHeight(this._container, 'top', 'allFixed') || 0;
+            offsetTop = this._container.offsetTop;
         }
         const scrollParams = {
             scrollTop: this._scrollTop,
             scrollHeight: _private.getViewSize(this, true) - headersHeight,
-            clientHeight: this._viewportSize - headersHeight
+            clientHeight: this._viewportSize - headersHeight - offsetTop
         };
         /**
          * Для pagingMode numbers нужно знать реальную высоту списка и scrollTop (включая то, что отсечено виртуальным скроллом)
@@ -3852,9 +3859,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._notify('disableVirtualNavigation', [], { bubbling: true });
         }
 
-        if (this._needScrollCalculation && !this.__error) {
+        if (!this.__error) {
             this._registerObserver();
-            this._registerIntersectionObserver();
+            if (this._needScrollCalculation) {
+                this._registerIntersectionObserver();
+            }
         }
         if (this._options.itemsDragNDrop) {
             const container = this._container[0] || this._container;
@@ -4120,7 +4129,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._modelRecreated = true;
             this._shouldNotifyOnDrawItems = true;
 
-            _private.setHasMoreData(this._listViewModel, _private.hasMoreDataInAnyDirection(this, this._sourceController));
+            _private.setHasMoreData(this._listViewModel, _private.getHasMoreData(this));
 
             // Важно обновить коллекцию в scrollContainer перед сбросом скролла, т.к. scrollContainer реагирует на
             // scroll и произведет неправильные расчёты, т.к. у него старая collection.
@@ -4205,9 +4214,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
                 if (this._loadedBySourceController && !this._sourceController.getLoadError()) {
                     if (this._listViewModel) {
-                        this._listViewModel.setHasMoreData(
-                            _private.hasMoreDataInAnyDirection(this, this._sourceController)
-                        );
+                        this._listViewModel.setHasMoreData(_private.getHasMoreData(this));
                     }
                     if (this.__error) {
                         _private.hideError(this);
@@ -4317,10 +4324,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     this._listViewModel.setSearchValue(newOptions.searchValue);
                 }
                 if (this._sourceController) {
-                    const hasMore = _private.hasMoreDataInAnyDirection(this, this._sourceController);
-                    if (this._listViewModel && this._listViewModel.getHasMoreData() !== hasMore) {
-                        _private.setHasMoreData(this._listViewModel, hasMore);
-                    }
+                    _private.setHasMoreData(this._listViewModel, _private.getHasMoreData(this));
 
                     if (this._pagingNavigation &&
                         !this._pagingNavigationVisible &&
@@ -4811,9 +4815,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _afterUpdate(oldOptions): void {
         this._loadedBySourceController = false;
-        if (this._needScrollCalculation && !this.__error && !this._observerRegistered) {
-            this._registerObserver();
-            this._registerIntersectionObserver();
+        if (!this.__error) {
+            if (!this._observerRegistered) {
+                this._registerObserver();
+            }
+            if (this._needScrollCalculation && !this._intersectionObserverRegistered) {
+                this._registerIntersectionObserver();
+            }
         }
         // FIXME need to delete after https://online.sbis.ru/opendoc.html?guid=4db71b29-1a87-4751-a026-4396c889edd2
         if (oldOptions.hasOwnProperty('loading') && oldOptions.loading !== this._options.loading) {
@@ -5059,7 +5067,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                             } else if (cfg.itemsSetCallback) {
                                 cfg.itemsSetCallback(self._items);
                             }
-                            _private.setHasMoreData(listModel, _private.hasMoreDataInAnyDirection(self, self._sourceController));
+                            _private.setHasMoreData(listModel, _private.getHasMoreData(self));
                         }
 
                         if (self._loadedItems) {
@@ -6456,7 +6464,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _registerObserver(): void {
-        if (!this._observerRegistered && this._listViewModel) {
+        if (this._children.scrollObserver && !this._observerRegistered && this._listViewModel) {
             // @ts-ignore
             this._children.scrollObserver.startRegister([this._children.scrollObserver]);
             this._observerRegistered = true;
@@ -6469,6 +6477,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._intersectionObserverHandler.bind(this),
             this._children.topVirtualScrollTrigger,
             this._children.bottomVirtualScrollTrigger);
+        this._intersectionObserverRegistered = true;
     }
 
     _intersectionObserverHandler(eventName) {
@@ -6489,25 +6498,35 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _observeScrollHandler(_: SyntheticEvent<Event>, eventName: string, params: IScrollParams): void {
-        switch (eventName) {
-            case 'scrollMoveSync':
-                this.scrollMoveSyncHandler(params);
-                break;
-            case 'viewportResize':
-                this.viewportResizeHandler(params.clientHeight, params.rect, params.scrollTop);
-                break;
-            case 'virtualScrollMove':
-                _private.throttledVirtualScrollPositionChanged(this, params);
-                break;
-            case 'canScroll':
-                this.canScrollHandler(params);
-                break;
-            case 'scrollMove':
-                this.scrollMoveHandler(params);
-                break;
-            case 'cantScroll':
-                this.cantScrollHandler(params);
-                break;
+        if (this._needScrollCalculation) {
+            switch (eventName) {
+                case 'scrollMoveSync':
+                    this.scrollMoveSyncHandler(params);
+                    break;
+                case 'viewportResize':
+                    this.viewportResizeHandler(params.clientHeight, params.rect, params.scrollTop);
+                    break;
+                case 'virtualScrollMove':
+                    _private.throttledVirtualScrollPositionChanged(this, params);
+                    break;
+                case 'canScroll':
+                    this.canScrollHandler(params);
+                    break;
+                case 'scrollMove':
+                    this.scrollMoveHandler(params);
+                    break;
+                case 'cantScroll':
+                    this.cantScrollHandler(params);
+                    break;
+            }
+        } else {
+            switch (eventName) {
+                case 'viewportResize':
+                    // размеры вью порта нужно знать всегда, независимо от navigation,
+                    // т.к. по ним рисуется глобальная ромашка
+                    this.viewportResizeHandler(params.clientHeight, params.rect, params.scrollTop);
+                    break;
+            }
         }
     }
 

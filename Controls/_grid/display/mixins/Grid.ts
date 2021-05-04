@@ -379,8 +379,12 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         }
     }
 
+    protected _hasItemsToCreateResults(): boolean {
+        return this.getCollectionCount() > 1;
+    }
+
     protected _resultsIsVisible(): boolean {
-        return !!this._$resultsPosition && (this._$resultsVisibility === 'visible' || this.getCollectionCount() > 1);
+        return !!this._$resultsPosition && (this._$resultsVisibility === 'visible' || this._hasItemsToCreateResults());
     }
 
     protected _initializeHeader(options: IOptions): void {
@@ -524,7 +528,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     // region Controls/_display/CollectionItem
 
     abstract getMetaResults(): EntityModel;
-    abstract getHasMoreData(): boolean;
+    abstract hasMoreData(): boolean;
     abstract getCollectionCount(): number;
     abstract getViewIterator(): IViewIterator;
     abstract getStartIndex(): number;
