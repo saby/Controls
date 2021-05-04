@@ -54,6 +54,7 @@ import EditingTemplate = require('wml!Controls/_list/EditingTemplateChooser');
 import BaseEditingTemplate = require('wml!Controls/_list/EditInPlace/baseEditingTemplate');
 import MoneyEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated/Money');
 import NumberEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated/Number');
+import FooterTemplate = require('wml!Controls/_list/ListView/Footer');
 
 import BaseViewModel = require('Controls/_list/BaseViewModel');
 import ListViewModel = require('Controls/_list/ListViewModel');
@@ -116,6 +117,7 @@ export {
     BaseEditingTemplate,
     MoneyEditingTemplate,
     NumberEditingTemplate,
+    FooterTemplate,
     ItemActionsHelpers,
     BaseViewModel,
     ListViewModel,

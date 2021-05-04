@@ -70,7 +70,7 @@ const GridView = ListView.extend({
         }
 
         if (changes.includes('footer')) {
-            listModel.setFooter(options.footerTemplate, options.footer);
+            listModel.setFooter(options);
         }
 
         if (changes.includes('header')) {
@@ -104,6 +104,10 @@ const GridView = ListView.extend({
         }
     },
 
+    /**
+     * Перекрываем метод базового класса, который вызывается из _beforeUpdate.
+     * Т.к. у нас своя модель и свои проверки.
+     */
     _applyNewOptionsAfterReload(oldOptions, newOptions): void {
         const changes = [];
 
@@ -140,8 +144,6 @@ const GridView = ListView.extend({
 
     _beforeUpdate(newOptions): void {
         GridView.superclass._beforeUpdate.apply(this, arguments);
-
-        this._applyNewOptionsAfterReload(this._options, newOptions);
 
         if (newOptions.sorting !== this._options.sorting) {
             this._listModel.setSorting(newOptions.sorting);

@@ -1,0 +1,20 @@
+<!--
+   Шаблон футера списка, реализующего базовую логику рендера, где:
+      * item: Controls/_display/Footer
+-->
+<ws:if data="{{item.isStickedToBottom()}}">
+   <Controls.scroll:StickyHeader position="bottom">
+      <ws:content>
+         <div>
+            <ws:partial template="{{item.getContentTemplate()}}"/>
+         </div>
+      </ws:content>
+   </Controls.scroll:StickyHeader>
+</ws:if>
+<ws:else>
+   <div>
+      <div class="controls-ListView__footer__content">
+         <ws:partial template="{{item.getContentTemplate()}}"/>
+      </div>
+   </div>
+</ws:else>
