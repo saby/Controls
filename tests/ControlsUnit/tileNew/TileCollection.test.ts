@@ -1,4 +1,4 @@
-import TileCollection from 'Controls/_tile/display/TileCollection';
+import {TileCollection} from 'Controls/tile';
 import {RecordSet} from 'Types/collection';
 import { assert } from 'chai';
 
