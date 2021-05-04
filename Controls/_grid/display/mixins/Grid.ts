@@ -524,7 +524,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     // region Controls/_display/CollectionItem
 
     abstract getMetaResults(): EntityModel;
-    abstract getHasMoreData(): boolean;
+    abstract hasMoreData(): boolean;
     abstract getCollectionCount(): number;
     abstract getViewIterator(): IViewIterator;
     abstract getStartIndex(): number;

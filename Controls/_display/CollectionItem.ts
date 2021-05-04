@@ -49,6 +49,7 @@ export interface IOptions<T extends Model = Model> {
     markerPosition: string;
     isLastItem?: boolean;
     isFirstItem?: boolean;
+    hasMoreDataUp?: boolean;
     roundBorder?: object;
 }
 
@@ -171,6 +172,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     protected _$multiSelectAccessibilityProperty: string;
 
+    protected _shadowVisibility: string = 'lastVisible';
+
+    protected _$hasMoreDataUp: boolean;
+
     protected _instancePrefix: string;
 
     /**
@@ -200,6 +205,13 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._counters = {};
         this.isAdd = (options && options.isAdd) || false;
         this.addPosition = (options && options.addPosition) || 'bottom';
+
+        // Для элементов, которые создаются сразу застканными, задается shadowVisibility='initial'.
+        // Это сделано для оптимизации, чтобы не было лишних прыжков теней при изначальной отрисовке,
+        // когда есть данные вверх
+        if (this.hasMoreDataUp() && this.isSticked()) {
+            this._shadowVisibility = 'initial';
+        }
     }
 
     // endregion
@@ -278,7 +290,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     }
 
     isStickyHeader(): boolean {
-        return this.getOwner().isStickyHeader();
+        return this.getOwner()?.isStickyHeader();
     }
 
     /**
@@ -696,6 +708,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
             (style === 'master');
     }
 
+    getShadowVisibility(): string {
+        return this._shadowVisibility;
+    }
+
     getQAData(marker: boolean): string {
         let classes = '';
         if (this.shouldDisplayMarker(marker)) {
@@ -815,6 +831,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         return this._$style;
     }
 
+    hasMoreDataUp(): boolean {
+        return this._$hasMoreDataUp;
+    }
+
     /**
      * Возвращает строку с классами, устанавливаемыми в шаблоне элемента div'а, расположенного внутри корневого div'a -
      * так называемого контентного div'a.
@@ -834,7 +854,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         }
 
         const navigation = this.getOwner().getNavigation();
-        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
+        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().hasMoreData())
             && this.isLastItem()) {
             contentClasses += ' controls-ListView__itemV_last';
         }
@@ -1100,6 +1120,7 @@ Object.assign(CollectionItem.prototype, {
     _$markerPosition: undefined,
     _$isLastItem: false,
     _$isFirstItem: false,
+    _$hasMoreDataUp: false,
     _contentsIndex: undefined,
     _version: 0,
     _counters: null,

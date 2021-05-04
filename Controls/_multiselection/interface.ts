@@ -64,7 +64,7 @@ export interface ISelectionModel extends IBaseCollection<Model, ISelectionItem> 
     * @public
     * @return {boolean}
     */
-   getHasMoreData(): boolean;
+   hasMoreData(): boolean;
 
    /**
     * Получить список элементов
