@@ -62,7 +62,7 @@ class Header extends Control<IHeadingOptions> implements ICaption, ITooltip, IFo
 
     static getOptionTypes(): object {
         return {
-            caption: EntityDescriptor(String)
+            caption: EntityDescriptor(String,Number)
         };
     }
 }
