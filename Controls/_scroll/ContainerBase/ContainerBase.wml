@@ -16,6 +16,8 @@ https://online.sbis.ru/opendoc.html?guid=10a3ac25-9b67-4b76-9706-ba8e73415246
     on:controlResize="_controlResizeHandler()"
     on:enableVirtualNavigation="_enableVirtualNavigationHandler()"
     on:disableVirtualNavigation="_disableVirtualNavigationHandler()"
+    on:mousemove="_onMouseMove()"
+    on:mouseleave="_onMouseLeave()"
     >
     <div name="userContent"
          class="controls-Scroll-ContainerBase__content {{_contentWrapperCssClass}}">
