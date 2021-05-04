@@ -1830,6 +1830,95 @@ describe('Controls/_display/Tree', () => {
                 assert.isTrue(newItem.isExpanded());
             });
         });
+
+        describe('on collection changes', () => {
+            const createRecordSet = () => {
+                return new RecordSet({
+                    rawData: [
+                        {id: 1, node: true, pid: 0},
+                        {id: 2, node: true, pid: 1},
+                        {id: 3, node: null, pid: 1},
+                        {id: 4, node: null, pid: 2},
+                        {id: 5, node: null, pid: 0}
+                    ],
+                    keyProperty: 'id'
+                });
+            };
+
+            const rs = createRecordSet();
+
+            describe('add', () => {
+                it('expandedItems is [null]', () => {
+                    const tree = getTree(rs, {expandedItems: [null]});
+                    rs.add(new Model({rawData: {id: 6, node: true, pid: 0}, keyProperty: 'id'}));
+                    assert.isTrue(tree.getItemBySourceKey(6).isExpanded());
+                });
+
+                it('expandedItems is [null], collapsedItems is [6]', () => {
+                    const tree = getTree(rs, {expandedItems: [null], collapsedItems: [6]});
+                    rs.add(new Model({rawData: {id: 6, node: true, pid: 0}, keyProperty: 'id'}));
+                    assert.isFalse(tree.getItemBySourceKey(6).isExpanded());
+                });
+
+                it('expandedItems is [1, 2]', () => {
+                    const tree = getTree(rs, {expandedItems: [1, 2]});
+                    rs.add(new Model({rawData: {id: 6, node: true, pid: 0}, keyProperty: 'id'}));
+                    assert.isFalse(tree.getItemBySourceKey(6).isExpanded());
+                });
+
+                it('expandedItems is [1, 2, 6]', () => {
+                    const tree = getTree(rs, {expandedItems: [1, 2, 6]});
+                    rs.add(new Model({rawData: {id: 6, node: true, pid: 0}, keyProperty: 'id'}));
+                    assert.isTrue(tree.getItemBySourceKey(6).isExpanded());
+                });
+            });
+
+            describe('reset', () => {
+                it('expandedItems is [null]', () => {
+                    const tree = getTree(rs, {expandedItems: [null]});
+                    rs.assign(createRecordSet());
+                    assert.isTrue(tree.getItemBySourceKey(1).isExpanded());
+                    assert.isTrue(tree.getItemBySourceKey(2).isExpanded());
+                });
+
+                it('expandedItems is [null], collapsedItems is [2]', () => {
+                    const tree = getTree(rs, {expandedItems: [null], collapsedItems: [2]});
+                    rs.assign(createRecordSet());
+                    assert.isTrue(tree.getItemBySourceKey(1).isExpanded());
+                    assert.isFalse(tree.getItemBySourceKey(2).isExpanded());
+                });
+
+                it('expandedItems is [1, 2]', () => {
+                    const tree = getTree(rs, {expandedItems: [1, 2]});
+                    rs.assign(createRecordSet());
+                    assert.isTrue(tree.getItemBySourceKey(1).isExpanded());
+                    assert.isTrue(tree.getItemBySourceKey(2).isExpanded());
+                });
+            });
+
+            describe('move', () => {
+                it('expandedItems is [null]', () => {
+                    const tree = getTree(rs, {expandedItems: [null]});
+                    rs.move(1, 4);
+                    assert.isTrue(tree.getItemBySourceKey(1).isExpanded());
+                    assert.isTrue(tree.getItemBySourceKey(2).isExpanded());
+                });
+
+                it('expandedItems is [null], collapsedItems is [2]', () => {
+                    const tree = getTree(rs, {expandedItems: [null], collapsedItems: [2]});
+                    rs.move(1, 4);
+                    assert.isTrue(tree.getItemBySourceKey(1).isExpanded());
+                    assert.isFalse(tree.getItemBySourceKey(2).isExpanded());
+                });
+
+                it('expandedItems is [1, 2]', () => {
+                    const tree = getTree(rs, {expandedItems: [1, 2]});
+                    rs.move(1, 4);
+                    assert.isTrue(tree.getItemBySourceKey(1).isExpanded());
+                    assert.isTrue(tree.getItemBySourceKey(2).isExpanded());
+                });
+            });
+        });
     });
 
     describe('hasNodeWithChildren', () => {
