@@ -3589,8 +3589,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (action === IObservable.ACTION_RESET) {
             this._afterCollectionReset();
         }
+        if (action === IObservable.ACTION_REMOVE) {
+            this._afterCollectionRemove(removedItems, removedItemsIndex);
+        }
     }
     protected _afterCollectionReset(): void {
+        // для переопределения
+    }
+    protected _afterCollectionRemove(removedItems: Array<CollectionItem<Model>>, removedItemsIndex: number): void {
         // для переопределения
     }
     _prepareItemsOnMount(self, newOptions, receivedState: IReceivedState = {}): Promise<unknown> | void {
