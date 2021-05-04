@@ -258,6 +258,10 @@ export default class Controller extends mixin<
         return keyProperty;
     }
 
+    getParentProperty(): string {
+        return this._parentProperty;
+    }
+
     getLoadError(): Error {
         return this._loadError;
     }
