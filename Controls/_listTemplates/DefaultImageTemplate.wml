@@ -4,7 +4,8 @@
                controls-listTemplates__imageTemplate_image_{{imageFit || 'cover'}}
                controls-listTemplates__imageTemplate_image_viewMode-{{viewMode}}"
         style="{{'background-image: url(' + src + ')'}}"></div>
-   <ws:partial template="{{afterImageTemplate}}"
+   <ws:partial if="{{afterImageTemplate}}"
+               template="{{afterImageTemplate}}"
                item="{{item}}"/>
    <ws:if data="{{effect !== 'none'}}">
       <div class="controls-listTemplates__imageTemplate_image_effect-{{effect}}"
