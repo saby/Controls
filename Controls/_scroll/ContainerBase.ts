@@ -16,6 +16,7 @@ import {EventUtils} from 'UI/Events';
 import {isHidden} from './StickyHeader/Utils';
 import {getHeadersHeight} from './StickyHeader/Utils/getHeadersHeight';
 import {location} from 'Application/Env';
+import {Entity} from 'Controls/dragnDrop';
 
 export interface IContainerBaseOptions extends IControlOptions {
     _notScrollableContent?: boolean; // Для HintWrapper, который сверстан максмально неудобно для скроллКонтейнера.
@@ -840,8 +841,8 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
     // Autoscroll
 
-    private _onDragStart(): void {
-        this._autoScroll = true;
+    private _onDragStart(dragObject: {entity: Entity}): void {
+        this._autoScroll = !!dragObject.entity?.allowAutoscroll;
     }
 
     private _onDragEnd(): void {
