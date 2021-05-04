@@ -490,6 +490,19 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         this._isGoingBack = true;
 
+        // При переходе назад нужно проставить сохраненный маркер для этого корня.
+        // По факту он конечно сейчас не проставится, но это вызовет событие об изменении
+        // markerKey и если у прикладника был bind, то это обновит значение опции и все
+        // последующие синхронизации будут идти с актуальным markedKey.
+        // В противном случае setMarkedKey в itemsSetCallback может не сработать в этом же
+        // цикле синхронизации если сверху был передан markedKey !== undefined. Т.к. в
+        // BaseControl метод setMarkedKey проставляет маркер синхронно только если в опциях
+        // не указан markedKey
+        const markedKey = this._restoredMarkedKeys[newRoot].markedKey;
+        if (markedKey) {
+            this._children.treeControl.setMarkedKey(markedKey);
+        }
+
         /**
          * Позиция скрола при выходе из папки восстанавливается через скроллирование к отмеченной записи.
          * Чтобы список мог восстановить позицию скрола по отмеченой записи, она должна быть в наборе данных.
@@ -627,8 +640,6 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         if (!this._options.hasOwnProperty('root')) {
             this._root = root;
-        } else {
-            this._potentialMarkedKey = root;
         }
 
         if (typeof this._options.itemOpenHandler === 'function') {
