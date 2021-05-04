@@ -1,5 +1,5 @@
 <div class="controlsDemo__cell">
-    <div class="controls-text-label_theme-{{_options.theme}}">icon from font</div>
+    <div class="controls-text-label">icon from font</div>
     <Controls.icon:Icon
             icon="icon-Plus"
             iconSize="default"

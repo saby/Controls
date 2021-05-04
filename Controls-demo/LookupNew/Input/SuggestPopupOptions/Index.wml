@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexColumn controls-demo-Lookup__margin-left controlsDemo_fixedWidth300">
     <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controls-demo-Lookup__margin-top ControlsDemo-Suggest_up">
-        <div class="controls-text-label_theme-{{_options.theme}}">Suggest open up</div>
+        <div class="controls-text-label">Suggest open up</div>
         <Controls.lookup:Input
                 attr:class="controlsDemo__width100"
                 searchParam="title"
@@ -13,7 +13,7 @@
     </div>
 
     <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_down">
-        <div class="controls-text-label_theme-{{_options.theme}}">Suggest open down</div>
+        <div class="controls-text-label">Suggest open down</div>
         <Controls.lookup:Input
                 attr:class="controlsDemo__width100"
                 searchParam="title"

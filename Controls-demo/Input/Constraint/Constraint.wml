@@ -1,10 +1,10 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">constraint=[0-9]</div>
+      <div class="controls-text-label">constraint=[0-9]</div>
       <Controls.input:Text attr:class="controlsDemo__input" constraint="[0-9]" placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">constraint=[a-zA-Z]</div>
+      <div class="controls-text-label">constraint=[a-zA-Z]</div>
       <Controls.input:Text attr:class="controlsDemo__input" constraint="[a-zA-Z]" placeholder="{{_placeholder}}"/>
    </div>
 </div>

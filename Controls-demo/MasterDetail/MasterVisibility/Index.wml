@@ -1,8 +1,8 @@
 <div class="controlsDemo__wrapper">
-   <div class="controls-text-label_theme-{{_options.theme}}">Скрытие мастера с использованием опции masterVisibility</div>
+   <div class="controls-text-label">Скрытие мастера с использованием опции masterVisibility</div>
    <span class="icon-{{_currentIcon}} controls-icon
-             controls-icon_style-secondary_theme-{{_options.theme}}
-             controls-icon_size-m_theme-{{_options.theme}}"
+             controls-icon_style-secondary
+             controls-icon_size-m"
          on:click="_toggleMaster()"></span>
    <Controls.masterDetail:Base masterVisibility="{{_masterVisibility}}">
       <ws:master>

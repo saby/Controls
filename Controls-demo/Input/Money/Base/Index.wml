@@ -1,14 +1,14 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">empty field</div>
+        <div class="controls-text-label">empty field</div>
         <Controls.input:Money attr:class="demo-money__empty"  bind:value="_value1" attr:style="width:200px"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">default options</div>
+        <div class="controls-text-label">default options</div>
         <Controls.input:Money attr:class="controlsDemo__input__money" bind:value="_value2" attr:style="width:200px"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">integersLength=4, precision=1</div>
+        <div class="controls-text-label">integersLength=4, precision=1</div>
         <Controls.input:Money attr:class="demo-money__integersLength" integersLength="{{4}}" precision="{{1}}" bind:value="_value3" attr:style="width:200px"/>
     </div>
 </div>

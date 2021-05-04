@@ -1,11 +1,11 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">tooltip="Enter text"</div>
+      <div class="controls-text-label">tooltip="Enter text"</div>
       <Controls.input:Text attr:class="controlsDemo__input" tooltip="Enter text" bind:value="_short"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">tooltip="Enter text"</div>
+      <div class="controls-text-label">tooltip="Enter text"</div>
       <Controls.input:Text attr:class="controlsDemo__input" tooltip="Enter text" bind:value="_long"
                            placeholder="{{_placeholder}}"/>
    </div>

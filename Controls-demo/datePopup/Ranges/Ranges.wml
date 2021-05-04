@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/datePopup/Ranges/DayMountYear/Index' }}">
             <a href="{{content.href}}">Day, 1 month, 1 year</a>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/datePopup/Ranges/DayWeekMount/Index' }}">
             <a href="{{content.href}}">Day, 3 days, week, 1 month</a>

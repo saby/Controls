@@ -1,22 +1,22 @@
 <div class="controlsDemo__flexColumn controlsDemo__ml2">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">iconSize='2xs'</div>
+        <div class="controls-text-label controlsDemo__maxWidth200">iconSize='2xs'</div>
         <Controls.buttons:ArrowButton iconSize="2xs" inlineHeight="l"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">iconSize='xs'</div>
+        <div class="controls-text-label controlsDemo__maxWidth200">iconSize='xs'</div>
         <Controls.buttons:ArrowButton iconSize="xs" inlineHeight="l"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">iconSize='s'</div>
+        <div class="controls-text-label controlsDemo__maxWidth200">iconSize='s'</div>
         <Controls.buttons:ArrowButton iconSize="s" inlineHeight="l"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">iconSize='m'</div>
+        <div class="controls-text-label controlsDemo__maxWidth200">iconSize='m'</div>
         <Controls.buttons:ArrowButton iconSize="m" inlineHeight="l"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">iconSize='l'</div>
+        <div class="controls-text-label controlsDemo__maxWidth200">iconSize='l'</div>
         <Controls.buttons:ArrowButton iconSize="l" inlineHeight="l"/>
     </div>
 </div>

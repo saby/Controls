@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flex controlsDemo_fixedWidth800 controlsDemo__flex-jc-sa">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">iconSize=s</div>
+        <div class="controls-text-label">iconSize=s</div>
         <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}" iconSize="s">
             <ws:content>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
@@ -8,7 +8,7 @@
         </Controls.spoiler:Cut>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">iconSize=m</div>
+        <div class="controls-text-label">iconSize=m</div>
         <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}" iconSize="m">
             <ws:content>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
@@ -16,7 +16,7 @@
         </Controls.spoiler:Cut>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">iconSize=l</div>
+        <div class="controls-text-label">iconSize=l</div>
         <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}" iconSize="l">
             <ws:content>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.

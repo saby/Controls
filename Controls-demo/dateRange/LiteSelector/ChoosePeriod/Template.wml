@@ -1,7 +1,7 @@
 <div class="controlsDemo__flexColumn">
     <div class="controlsDemo__wrapper controlsDemo__flex controlsDemo__flex-jc-sa"  style="align-items: flex-start">
         <div class="controlsDemo__cell">
-            <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">chooseHalfyears=false; chooseMonths=false; chooseQuarters=false; chooseYears=true;</div>
+            <div class="controls-text-label controlsDemo__maxWidth200">chooseHalfyears=false; chooseMonths=false; chooseQuarters=false; chooseYears=true;</div>
             <Controls.dateRange:RangeShortSelector
                     bind:startValue="_startValue1"
                     bind:endValue="_endValue1"
@@ -10,7 +10,7 @@
                     chooseQuarters="{{false}}"/>
         </div>
         <div class="controlsDemo__cell">
-            <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">chooseHalfyears=false; chooseMonths=false; chooseQuarters=true; chooseYears=true;</div>
+            <div class="controls-text-label controlsDemo__maxWidth200">chooseHalfyears=false; chooseMonths=false; chooseQuarters=true; chooseYears=true;</div>
             <Controls.dateRange:RangeShortSelector
                     bind:startValue="_startValue2"
                     bind:endValue="_endValue2"
@@ -18,7 +18,7 @@
                     chooseMonths="{{false}}"/>
         </div>
         <div class="controlsDemo__cell">
-            <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">chooseHalfyears=false; chooseMonths=true; chooseQuarters=false; chooseYears=true;</div>
+            <div class="controls-text-label controlsDemo__maxWidth200">chooseHalfyears=false; chooseMonths=true; chooseQuarters=false; chooseYears=true;</div>
             <Controls.dateRange:RangeShortSelector
                     bind:startValue="_startValue3"
                     bind:endValue="_endValue3"
@@ -26,7 +26,7 @@
                     chooseQuarters="{{false}}"/>
         </div>
         <div class="controlsDemo__cell">
-            <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">chooseHalfyears=true; chooseMonths=true; chooseQuarters=true; chooseYears=true;</div>
+            <div class="controls-text-label controlsDemo__maxWidth200">chooseHalfyears=true; chooseMonths=true; chooseQuarters=true; chooseYears=true;</div>
             <Controls.dateRange:RangeShortSelector
                     bind:startValue="_startValue4"
                     bind:endValue="_endValue4"/>
@@ -34,7 +34,7 @@
     </div>
     <div class="controlsDemo__wrapper controlsDemo__flex controlsDemo__flex-jc-sa"  style="align-items: flex-start">
         <div class="controlsDemo__cell">
-            <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">choseYears=false</div>
+            <div class="controls-text-label controlsDemo__maxWidth200">choseYears=false</div>
             <Controls.dateRange:RangeShortSelector
                     chooseYears="{{false}}"
                     bind:startValue="_startValue5"

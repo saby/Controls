@@ -1,11 +1,11 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
-    <div class="controlsDemo__margin-top controls-text-label_theme-{{_options.theme}}">maxValue=50</div>
+    <div class="controlsDemo__margin-top controls-text-label">maxValue=50</div>
     <Controls.slider:Base
             maxValue="{{50}}"
             minValue="{{0}}"
             bind:value="_value"
     />
-    <div class="controlsDemo__margin-top controls-text-label_theme-{{_options.theme}}">maxValue=120</div>
+    <div class="controlsDemo__margin-top controls-text-label">maxValue=120</div>
     <Controls.slider:Base
             maxValue="{{120}}"
             minValue="{{0}}"

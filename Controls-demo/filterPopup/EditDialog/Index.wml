@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Окно добавления в избранные фильтры</div>
+      <div class="controls-text-label">Окно добавления в избранные фильтры</div>
       <Controls.filterPopup:_EditDialog
               keyProperty="id"
               items="{{_items}}">
@@ -8,7 +8,7 @@
    </div>
 
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Окно добавления в избранные фильтры с editedTextValue</div>
+      <div class="controls-text-label">Окно добавления в избранные фильтры с editedTextValue</div>
       <Controls.filterPopup:_EditDialog
               keyProperty="id"
               editedTextValue="My filter"
@@ -17,7 +17,7 @@
    </div>
 
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Окно добавления в избранные фильтры с isClient</div>
+      <div class="controls-text-label">Окно добавления в избранные фильтры с isClient</div>
       <Controls.filterPopup:_EditDialog
               keyProperty="id"
               isClient="{{true}}"
@@ -27,7 +27,7 @@
 
 
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Окно добавления в избранные фильтры с isFavorite и editedTextValue</div>
+      <div class="controls-text-label">Окно добавления в избранные фильтры с isFavorite и editedTextValue</div>
       <Controls.filterPopup:_EditDialog
               keyProperty="id"
               editedTextValue="My filter"

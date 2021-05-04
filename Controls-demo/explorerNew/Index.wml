@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/explorerNew/Default/Index' }}">
             <a href="{{content.href}}">Базовый Explorer</a>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/explorerNew/Falling/Index' }}">
             <a href="{{content.href}}">С проваливанием</a>
@@ -18,7 +18,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/explorerNew/Search/Index' }}">
             <a href="{{content.href}}">Search Explorer</a>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/explorerNew/EditArrow/Index' }}">
             <a href="{{content.href}}">Edit Arrow</a>
@@ -36,7 +36,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/explorerNew/ChangeRoot/Index' }}">
             <a href="{{content.href}}">Changes root</a>
@@ -45,7 +45,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/explorerNew/BreadCrumbsInHeader/Index' }}">
             <a href="{{content.href}}">Хлебные крошки в заголовке</a>
@@ -54,7 +54,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/explorerNew/DragNDrop/Index' }}">
             <a href="{{content.href}}">DragNDrop</a>
@@ -63,7 +63,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/explorerNew/LongBackButton/Index' }}">
             <a href="{{content.href}}">Длинная кнопка назад</a>
@@ -71,7 +71,7 @@
         <Controls-demo.explorerNew.LongBackButton.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/explorerNew/ItemActions/Index' }}">
             <a href="{{content.href}}">Пользовательские операции</a>
@@ -79,7 +79,7 @@
         <Controls-demo.explorerNew.ItemActions.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/explorerNew/ColumnScroll/Index' }}">
             <a href="{{content.href}}">Горизонтальный скролл</a>
@@ -87,7 +87,7 @@
         <Controls-demo.explorerNew.ColumnScroll.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/explorerNew/DragNDropWithTile/Index' }}">
             <a href="{{content.href}}">Dnd с плиткой</a>
@@ -95,7 +95,7 @@
         <Controls-demo.explorerNew.DragNDropWithTile.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/explorerNew/EditInPlace/Index' }}">
             <a href="{{content.href}}">Редактирование</a>
@@ -103,7 +103,7 @@
         <Controls-demo.explorerNew.EditInPlace.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/explorerNew/Multiselect/Index' }}">
             <a href="{{content.href}}">Множественный выбор</a>

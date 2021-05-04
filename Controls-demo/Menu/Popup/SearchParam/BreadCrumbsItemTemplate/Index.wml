@@ -1,6 +1,6 @@
 <div class="controlsDemo__flexRow">
     <div class="controlsDemo__wrapper controlsDemo__flexColumn">
-        <div class="controls-text-label_theme-{{_options.theme}}">С кастомным BreadCrumbsItemTemplate</div>
+        <div class="controls-text-label">С кастомным BreadCrumbsItemTemplate</div>
         <Controls.menu:Popup
                 source="{{_source}}"
                 keyProperty="id"

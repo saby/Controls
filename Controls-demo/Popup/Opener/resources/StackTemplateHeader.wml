@@ -5,7 +5,7 @@
         </ws:headerContentTemplate>
         <ws:bodyContentTemplate>
             <div>
-                <div class="myTabs controls-StackTemplate__top-area-background_theme_{{_options.theme}}">
+                <div class="myTabs controls-StackTemplate__top-area-background">
                     <Controls.tabs:Buttons
                                 bind:selectedKey='SelectedKey1'
                                 keyProperty="id"

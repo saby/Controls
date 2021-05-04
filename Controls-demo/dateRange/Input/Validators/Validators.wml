@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">Поле начала периода обязательно для заполнения</div>
+        <div class="controls-text-label">Поле начала периода обязательно для заполнения</div>
         <Controls.dateRange:Input _date="{{ _options.date }}" bind:startValue="_startValue2" bind:endValue="_endValue2">
             <ws:startValueValidators>
                 <ws:Array>

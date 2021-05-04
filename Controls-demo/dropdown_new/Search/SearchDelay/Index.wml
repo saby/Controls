@@ -1,6 +1,6 @@
 <div class="controlsDemo__flexRow">
    <div class="controlsDemo__ml3">
-      <div class="controls-text-label_theme-{{_options.theme}}">Поиск без задержки</div>
+      <div class="controls-text-label">Поиск без задержки</div>
       <Controls.dropdown:Selector
               source="{{_source}}"
               keyProperty="key"
@@ -11,7 +11,7 @@
       />
    </div>
    <div class="controlsDemo__ml3">
-      <div class="controls-text-label_theme-{{_options.theme}}">Поиск c задержкой 1.5 секунды</div>
+      <div class="controls-text-label">Поиск c задержкой 1.5 секунды</div>
       <Controls.dropdown:Selector
               source="{{_source}}"
               keyProperty="key"

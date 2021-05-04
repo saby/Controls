@@ -1,26 +1,26 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize = l iconSize = s fontColorStyle = secondary iconStyle = primary</div>
+        <div class="controls-text-label">fontSize = l iconSize = s fontColorStyle = secondary iconStyle = primary</div>
         <Controls.heading:Back caption="Back" fontSize="l" iconSize="s" fontColorStyle="secondary" iconStyle="primary"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize = 3xl iconSize = m fontColorStyle = secondary iconStyle = primary</div>
+        <div class="controls-text-label">fontSize = 3xl iconSize = m fontColorStyle = secondary iconStyle = primary</div>
         <Controls.heading:Back caption="Back" fontSize="3xl" iconSize="m" fontColorStyle="secondary" iconStyle="primary"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize = 4xl iconSize = l fontColorStyle = secondary iconStyle = primary</div>
+        <div class="controls-text-label">fontSize = 4xl iconSize = l fontColorStyle = secondary iconStyle = primary</div>
         <Controls.heading:Back caption="Back" fontSize="4xl" iconSize="l" fontColorStyle="secondary" iconStyle="primary"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize = l iconSize = s fontColorStyle = primary iconStyle = secondary</div>
+        <div class="controls-text-label">fontSize = l iconSize = s fontColorStyle = primary iconStyle = secondary</div>
         <Controls.heading:Back caption="Back" fontSize="l" iconSize="s" fontColorStyle="primary" iconStyle="secondary"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize = 3xl iconSize = m" fontColorStyle = primary iconStyle = secondary</div>
+        <div class="controls-text-label">fontSize = 3xl iconSize = m" fontColorStyle = primary iconStyle = secondary</div>
         <Controls.heading:Back caption="Back" fontSize="3xl" iconSize="m" fontColorStyle="primary" iconStyle="secondary"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize = 4xl iconSize = l fontColorStyle = primary iconStyle = secondary</div>
+        <div class="controls-text-label">fontSize = 4xl iconSize = l fontColorStyle = primary iconStyle = secondary</div>
         <Controls.heading:Back caption="Back" fontSize="4xl" iconSize="l" fontColorStyle="primary" iconStyle="secondary"/>
     </div>
 </div>

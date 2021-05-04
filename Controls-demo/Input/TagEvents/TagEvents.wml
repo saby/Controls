@@ -1,11 +1,11 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">TagClick</div>
+      <div class="controls-text-label">TagClick</div>
       <Controls.input:Text attr:class="controlsDemo__input" tagStyle="info"
                            placeholder="{{_placeholder}}" on:tagClick="_showInfoBox()"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">TagHover</div>
+      <div class="controls-text-label">TagHover</div>
       <Controls.input:Text attr:class="controlsDemo__input" tagStyle="info"
                            placeholder="{{_placeholder}}" on:tagHover="_showInfoBox()"/>
    </div>

@@ -1,12 +1,12 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
     <div class="controlsDemo__cell demo-BigSeparator__contrastBackgroundTrue">
-        <div class="controls-text-label controls-text-label_theme-{{_options.theme}}">contrastBackground = true</div>
+        <div class="controls-text-label controls-text-label">contrastBackground = true</div>
         <Controls.toggle:BigSeparator caption="Button"
                                       contrastBackground="{{true}}"
                                       bind:value="_expanded"/>
     </div>
     <div class="controlsDemo__cell controlsDemo__background demo-BigSeparator__contrastBackgroundFalse">
-        <div class="controls-text-label controls-text-label_theme-{{_options.theme}}">contrastBackground = false</div>
+        <div class="controls-text-label controls-text-label">contrastBackground = false</div>
         <Controls.toggle:BigSeparator caption="Button 2"
                                       contrastBackground="{{false}}"
                                       bind:value="_expanded"/>

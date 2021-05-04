@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Шаблон пустого списка с кнопкой</div>
+      <div class="controls-text-label">Шаблон пустого списка с кнопкой</div>
       <Controls.suggest:Input
               attr:class="controlsDemo__input demo-SuggestNew__emptyWithButton"
               bind:value="_suggestCustomValue"
@@ -15,7 +15,7 @@
       </Controls.suggest:Input>
   </div>
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Шаблон пустого списка по умолчанию</div>
+      <div class="controls-text-label">Шаблон пустого списка по умолчанию</div>
       <Controls.suggest:Input
               attr:class="controlsDemo__input demo-SuggestNew__emptyDefault"
               bind:value="_suggestDefaultValue"

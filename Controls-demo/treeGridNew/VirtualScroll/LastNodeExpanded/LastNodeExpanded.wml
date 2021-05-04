@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <div>
-        <a href="#" class="controls-text-link_theme-default controlsDemo-addButton-virtual-scroll_autotest" on:click="_beginAdd()">Добавить запись в конец</a>
+        <a href="#" class="controls-text-link controlsDemo-addButton-virtual-scroll_autotest" on:click="_beginAdd()">Добавить запись в конец</a>
     </div>
     <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height500">
         <Controls.treeGrid:View
