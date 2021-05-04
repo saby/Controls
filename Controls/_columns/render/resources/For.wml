@@ -9,7 +9,7 @@
 
               attr:class="{{ collection.getViewIterator().isItemAtIndexHidden(index) ? 'controls-ListView__hiddenContainer' }}"
               attr:key="{{ keyPrefix }}-{{ item.getUid() }}"
-              attr:style="_getItemStyle()"
+              attr:style="_getMinMaxWidthStyle(columnMinWidth, columnMaxWidth)"
 
               on:click="_onItemClick(item)"
               on:contextmenu="_onItemContextMenu(item)"

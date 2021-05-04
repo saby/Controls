@@ -5,12 +5,12 @@ import defaultItemTemplate = require('wml!Controls/_columns/render/resources/Ite
 
 import {ListView, IList} from 'Controls/list';
 import Collection from 'Controls/_columns/display/Collection';
-import {DEFAULT_COLUMNS_COUNT, DEFAULT_MAX_WIDTH, DEFAULT_MIN_WIDTH} from '../Constants';
+import {DEFAULT_COLUMNS_COUNT} from '../Constants';
 
 export interface IColumnsRenderOptions extends IList {
     columnMinWidth: number;
     columnMaxWidth: number;
-    columnsMode: 'auto' | 'fixed' | 'adaptive';
+    columnsMode: 'auto' | 'fixed';
     columnsCount: number;
     spacing: number;
     listModel: Collection;
@@ -33,9 +33,7 @@ export default class Columns extends ListView {
 
     protected _beforeUpdate(options: IColumnsRenderOptions): void {
         super._beforeUpdate(options);
-        if (options.columnsMode === 'fixed' || options.columnsMode === 'adaptive' &&
-            options.columnsCount !== this._options.columnsCount
-        ) {
+        if (options.columnsMode === 'fixed' && options.columnsCount !== this._options.columnsCount) {
             this._options.listModel.setColumnsCount(options.columnsCount);
         }
     }
@@ -46,40 +44,51 @@ export default class Columns extends ListView {
         this._options.listModel.setCurrentWidth(currentWidth, this._options.columnMinWidth);
     }
 
+    protected _getColumnMinWidth(columnMinWidth: number | void, spacing: number = 0, columnsCount: number): string {
+        if (columnMinWidth) {
+            return `${columnMinWidth + spacing}px`;
+        } else {
+            return `calc(${Math.round(100 / columnsCount)}% + ${spacing}px)`;
+        }
+    }
+
+    protected _getColumnMaxWidth(columnMaxWidth: number | void, spacing: number): string {
+        if (columnMaxWidth) {
+            return `${columnMaxWidth + spacing}px`;
+        } else {
+            return '100%';
+        }
+    }
+
     protected _getItemsContainerStyle(): string {
+        const spacing = this._options.listModel.getSpacing();
         const columnsCount = this._options.listModel.getColumnsCount();
-        const minmax = `minmax(${this._options.listModel.getColumnMinWidthStyle()}, ${this._options.listModel.getColumnMaxWidthStyle()}) `;
+        const columnMinWidth = this._getColumnMinWidth(this._options.columnMinWidth, spacing, columnsCount);
+        const columnMaxWidth = this._getColumnMaxWidth(this._options.columnMaxWidth, spacing);
+        const minmax = `minmax(${columnMinWidth}, ${columnMaxWidth}) `;
         const gridTemplate = minmax.repeat(columnsCount);
         return `grid-template-columns: ${gridTemplate};
                 -ms-grid-columns: ${gridTemplate};`;
     }
-    protected _getMinMaxWidthStyle(): string {
-        return `min-width:${this._options.listModel.getColumnMinWidthStyle()}; max-width:${this._options.listModel.getColumnMaxWidthStyle()}; `;
-    }
-    protected _getItemStyle(): string {
-        if (this._options.columnsMode === 'adaptive') {
-            return 'width: 100%';
-        } else {
-            return `min-width:${this._options.listModel.getColumnMinWidth()}px; max-width:${this._options.listModel.getColumnMinWidth};`;
-        }
+    protected _getMinMaxWidthStyle(min: number, max: number): string {
+        const spacing = this._options.listModel.getSpacing();
+        const columnsCount = this._options.listModel.getColumnsCount();
+        const columnMinWidth = this._getColumnMinWidth(min, spacing, columnsCount);
+        const columnMaxWidth = this._getColumnMaxWidth(max, spacing);
+        return `min-width:${columnMinWidth}; max-width:${columnMaxWidth}px; `;
     }
     protected _getPlaceholderStyle(): string {
-        if (this._options.columnsMode !== 'adaptive') {
-            return this._getMinMaxWidthStyle();
-        } else {
-            return 'width: 100%';
-        }
+        return this._getMinMaxWidthStyle(this._options.columnMinWidth, this._options.columnMaxWidth);
     }
 
     protected _getColumnStyle(index: number): string {
-        return `${this._options.columnsMode !== 'adaptive' ? this._getMinMaxWidthStyle() : 'width: 100%;'}' -ms-grid-column:' ${index + 1};`;
+        return this._getMinMaxWidthStyle(this._options.columnMinWidth, this._options.columnMaxWidth)
+               + `-ms-grid-column: ${index + 1};`;
     }
 
     static getDefaultOptions(): Partial<IColumnsRenderOptions> {
         return {
             itemTemplate: defaultItemTemplate,
-            columnMinWidth: DEFAULT_MIN_WIDTH,
-            columnMaxWidth: DEFAULT_MAX_WIDTH,
             columnsMode: 'auto',
             columnsCount: DEFAULT_COLUMNS_COUNT
         };

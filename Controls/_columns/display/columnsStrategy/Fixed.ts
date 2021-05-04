@@ -1,9 +1,8 @@
 import Collection from 'Controls/_columns/display/Collection';
 import IColumnsStrategy from 'Controls/_columns/interface/IColumnsStrategy';
 import { Model } from 'Types/entity';
-import {default as BaseStrategy} from './Base';
 
-export default class Fixed extends BaseStrategy implements IColumnsStrategy {
+export default class Fixed implements IColumnsStrategy {
     calcColumn(collection: Collection<Model>, index: number): number {
         if (index < collection.getCount()) {
             const item = collection.at(index);

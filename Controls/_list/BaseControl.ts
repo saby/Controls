@@ -236,6 +236,7 @@ interface IErrbackConfig {
 
 type CancelableError = Error & { canceled?: boolean, isCanceled?: boolean };
 type LoadingState = null | 'all' | 'up' | 'down';
+type TMarkerMoveDirection = 'Bottom' | 'Up' | 'Left' | 'Right' | 'Forward' | 'Backward';
 
 interface IIndicatorConfig {
     hasItems: boolean;
@@ -2707,7 +2708,7 @@ const _private = {
         return self._markerController;
     },
 
-    moveMarkerToDirection(self, event: SyntheticEvent, direction: TMarkerMove): void {
+    moveMarkerToDirection(self, event: SyntheticEvent, direction: TMarkerMoveDirection): void {
         if (self._options.markerVisibility !== 'hidden') {
             const isMovingForward = direction === 'Forward' || direction === 'Right' || direction === 'Down';
             // activate list when marker is moving. It let us press enter and open current row

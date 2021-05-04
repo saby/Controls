@@ -5,14 +5,6 @@ import { Model } from 'Types/entity';
 import IColumnsStrategy from '../interface/IColumnsStrategy';
 import Auto from './columnsStrategy/Auto';
 import Fixed from './columnsStrategy/Auto';
-import Adaptive from './columnsStrategy/Adaptive';
-
-const STRATEGY_BY_MODE = {
-    adaptive: Adaptive,
-    fixed: Fixed,
-    auto: Auto
-};
-
 import {DEFAULT_COLUMNS_COUNT, DEFAULT_MIN_WIDTH, SPACING} from '../Constants';
 
 export default class Collection<
@@ -29,10 +21,11 @@ export default class Collection<
     protected _$columnsMode: 'auto' | 'fixed';
     protected _$columnMinWidth: number;
     protected _currentWidth: number;
+    protected _columnsCount: number;
     protected _$spacing: number = SPACING;
     constructor(options) {
         super(options);
-        this._columnsStrategy = new STRATEGY_BY_MODE[options.columnsMode || 'auto']();
+        this._columnsStrategy = options.columnsMode === 'fixed' ? new Fixed() : new Auto();
         if (options.columnsMode === 'auto' && options.initialWidth) {
             this.setCurrentWidth(options.initialWidth, options.columnMinWidth);
         } else {
@@ -92,9 +85,9 @@ export default class Collection<
 
     private _recalculateColumnsCountByWidth(width: number, columnMinWidth: number): void {
         const newColumnsCount = Math.floor(width / ((columnMinWidth || DEFAULT_MIN_WIDTH) + this._$spacing));
-        if (newColumnsCount !== this._$columnsCount) {
-            this._$columnsCount = newColumnsCount;
-            this.setColumnsCount(this._$columnsCount);
+        if (newColumnsCount !== this._columnsCount) {
+            this._columnsCount = newColumnsCount;
+            this.setColumnsCount(this._columnsCount);
         }
     }
 
@@ -104,22 +97,6 @@ export default class Collection<
 
     getColumnsCount(): number {
         return this._$columnsCount;
-    }
-
-    getColumnMinWidthStyle(): string {
-        return this._columnsStrategy.getColumnMinWidth(this._$columnMinWidth, this._$spacing, this._$columnsCount);
-    }
-
-    getColumnMaxWidthStyle(): string {
-        return this._columnsStrategy.getColumnMaxWidth(this._$columnMaxWidth, this._$spacing, this._$columnsCount);
-    }
-
-    getColumnMinWidth(): number {
-        return this._$columnMinWidth;
-    }
-
-    getColumnMaxWidth(): number {
-        return this._columnMaxWidth;
     }
 
     setSpacing(spacing: number): void {
@@ -325,6 +302,5 @@ Object.assign(Collection.prototype, {
     _itemModule: 'Controls/columns:ColumnsCollectionItem',
     _$columnsCount: 2,
     _$spacing: SPACING,
-    _$columnsMode: 'auto',
-    _$columnMaxWidth: 0
+    _$columnsMode: 'auto'
 });
