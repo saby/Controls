@@ -11,7 +11,8 @@ define([
    'Controls/Application/SettingsController',
    'Controls/listDragNDrop',
    'Controls/dataSource',
-   'ControlsUnit/CustomAsserts'
+   'ControlsUnit/CustomAsserts',
+   'Types/entity'
 ], function(
    tree,
    treeGrid,
@@ -25,7 +26,8 @@ define([
    SettingsController,
    listDragNDrop,
    dataSource,
-   asserts
+   asserts,
+   entity
 ) {
    function correctCreateTreeControl(cfg, returnCreatePromise) {
       var
@@ -59,6 +61,7 @@ define([
          }
       }
       treeControl = new tree.TreeControl(cfgTreeControl);
+      treeControl._children = {};
       treeControl.saveOptions(cfgTreeControl);
       createPromise = treeControl._beforeMount(cfgTreeControl);
 
@@ -2081,6 +2084,97 @@ define([
             const options = {...cfg, expanderVisibility: 'visible', items};
             treeControl = correctCreateTreeControl(options);
             asserts.CssClassesAssert.notInclude(treeControl._getFooterClasses(options), 'controls-TreeGridView__footer__expanderPadding-default');
+         });
+      });
+
+      describe('expandedItems', () => {
+         const source = new sourceLib.Memory({
+            data: getHierarchyData(),
+            keyProperty: 'id',
+            filter: () => true
+         });
+
+         // 0
+         // |-1
+         // | |-3
+         // |-2
+         // 4
+         const cfg = {
+            source,
+            filter: {},
+            navigation: {
+               source: 'page',
+               sourceConfig: {
+                  pageSize: 20,
+                  page: 0,
+                  hasMore: false
+               }
+            },
+            keyProperty: 'id',
+            parentProperty: 'Раздел',
+            nodeProperty: 'Раздел@',
+            useNewModel: true,
+            columns: [],
+            viewModelConstructor: 'Controls/treeGrid:TreeGridCollection',
+            selectedKeys: [],
+            excludedKeys: []
+         };
+         let treeControl, notifySpy;
+
+         describe('expandedItems is [null]', () => {
+            beforeEach(async() => {
+               treeControl = await correctCreateTreeControlAsync({...cfg, expandedItems: [null]});
+               notifySpy = sinon.spy(treeControl, '_notify');
+            });
+
+            it('remove node, expandedItems and collapsed items are not changed', () => {
+               const rs = treeControl.getViewModel().getCollection();
+               rs.remove(rs.getRecordById(1));
+               assert.isFalse(notifySpy.withArgs('expandedItemsChanged').called);
+               assert.isFalse(notifySpy.withArgs('collapsedItemsChanged').called);
+            });
+
+            it('remove node when set collapsedItems', async () => {
+               treeControl = await correctCreateTreeControlAsync({...cfg, expandedItems: [null], collapsedItems: [1]});
+               notifySpy = sinon.spy(treeControl, '_notify');
+
+               const rs = treeControl.getViewModel().getCollection();
+               rs.remove(rs.getRecordById(1));
+               assert.isFalse(notifySpy.withArgs('expandedItemsChanged').called);
+               assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
+            });
+         });
+
+         describe('expanded specific items', () => {
+            beforeEach(async() => {
+               treeControl = await correctCreateTreeControlAsync({...cfg, expandedItems: [0, 1]});
+               notifySpy = sinon.spy(treeControl, '_notify');
+            });
+
+            it('remove node, expandedItems is changed', () => {
+               const rs = treeControl.getViewModel().getCollection();
+               rs.remove(rs.getRecordById(1));
+               assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[0]]).called);
+               assert.isFalse(notifySpy.withArgs('collapsedItemsChanged').called);
+            });
+         });
+
+         describe('_beforeUpdate', () => {
+            beforeEach(async() => {
+               treeControl = await correctCreateTreeControlAsync({...cfg, expandedItems: [], collapsedItems: []});
+            });
+
+            it('expandedItems', () => {
+               const methodSpy = sinon.spy(treeControl.getViewModel(), 'setExpandedItems');
+               treeControl._beforeUpdate({...cfg, expandedItems: [1]});
+               assert.isTrue(methodSpy.withArgs([1]).called);
+            });
+
+            it('collapsedItems', () => {
+               const methodSpy = sinon.spy(treeControl.getViewModel(), 'setCollapsedItems');
+               treeControl._beforeUpdate({...cfg, collapsedItems: [1]});
+               assert.isTrue(methodSpy.withArgs([1]).called);
+            });
          });
       });
    });
