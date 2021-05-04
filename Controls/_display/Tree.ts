@@ -120,7 +120,8 @@ function onCollectionChange<T>(
  */
 function onCollectionItemChange<T>(event: EventObject, item: T, index: number, properties: Object): void {
     this.instance._reIndex();
-    if (!this.instance.getHasChildrenProperty() && properties.hasOwnProperty(this.instance.getParentProperty())) {
+    if (this.instance.getExpanderVisibility() === 'hasChildren' && !this.instance.getHasChildrenProperty()
+        && properties.hasOwnProperty(this.instance.getParentProperty())) {
         this.instance._recountHasChildrenByRecordSet();
     }
     this.prev(event, item, index, properties);
@@ -442,9 +443,9 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         super.setCollection(newCollection);
         if (this.getExpanderVisibility() === 'hasChildren') {
             this._recountHasNodeWithChildren();
-        }
-        if (!this.getHasChildrenProperty()) {
-            this._recountHasChildrenByRecordSet();
+            if (!this.getHasChildrenProperty()) {
+                this._recountHasChildrenByRecordSet();
+            }
         }
     }
 
@@ -838,7 +839,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
         return function TreeItemsFactory(options: IItemsFactoryOptions<S>): T {
             options.hasChildrenProperty = this.getHasChildrenProperty();
-            options.hasChildrenByRecordSet = !!this._getChildrenByRecordSet(options.contents).length;
+            options.hasChildrenByRecordSet = !!this.getChildrenByRecordSet(options.contents).length;
             options.expanderTemplate = this._$expanderTemplate;
             options.hasNodeWithChildren = this._hasNodeWithChildren;
 
@@ -1052,7 +1053,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         let changed = false;
 
         nodes.forEach((it) => {
-            const hasChildrenByRecordSet = !!this._getChildrenByRecordSet(it.getContents()).length;
+            const hasChildrenByRecordSet = !!this.getChildrenByRecordSet(it.getContents()).length;
             changed = changed || it.setHasChildrenByRecordSet(hasChildrenByRecordSet);
         });
 
@@ -1114,7 +1115,11 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         const collection = this.getCollection();
         for (let i = 0; i < collection.getCount(); i++) {
             const item = collection.at(i);
-            if (item.get(this.getNodeProperty()) !== null && item.get(this.getHasChildrenProperty())) {
+            const isNode = item.get(this.getNodeProperty()) !== null;
+            const hasChildren = this.getHasChildrenProperty()
+                ? item.get(this.getHasChildrenProperty())
+                : !!this.getChildrenByRecordSet(item).length;
+            if (isNode && hasChildren) {
                 hasNodeWithChildren = true;
                 break;
             }

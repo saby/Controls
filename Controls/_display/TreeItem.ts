@@ -197,12 +197,10 @@ export default class TreeItem<T extends Model = Model> extends mixin<
      * Возвращает признак наличия детей у узла
      */
     hasChildren(): boolean {
-        let hasChildren;
+        let hasChildren = object.getPropertyValue<boolean>(this.getContents(), this.getHasChildrenProperty());
 
-        if (this.getHasChildrenProperty()) {
-            hasChildren = !!object.getPropertyValue<boolean>(this.getContents(), this.getHasChildrenProperty());
-        } else {
-            // Если hasChildren не задали, то для узла по дефолту есть дети
+        // Если hasChildren не задали, то для узла по дефолту есть дети
+        if (hasChildren === undefined) {
             hasChildren = this._$node !== null;
         }
 
