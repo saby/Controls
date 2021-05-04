@@ -8,6 +8,8 @@ import 'css!Controls/columns';
 export default class Columns extends View {/** @lends Controls/_list/List.prototype */
     _viewName: TemplateFunction = Render;
     _supportNewModel: boolean = true;
+    _markerStrategy: MultiColumnStrategy = MultiColumnStrategy;
+    _itemContainerGetter: ItemContainerGetter = ItemContainerGetter;
 
     _getModelConstructor(): string {
         return 'Controls/columns:ColumnsCollection';
@@ -15,9 +17,7 @@ export default class Columns extends View {/** @lends Controls/_list/List.protot
 
     static getDefaultOptions(): object {
         return {
-            ...super.getDefaultOptions(),
-            itemContainerGetter: ItemContainerGetter,
-            markerStrategy: MultiColumnStrategy
+            ...super.getDefaultOptions()
         };
     }
 }
