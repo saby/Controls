@@ -166,6 +166,7 @@ export interface IItemActionsTemplateConfig {
     actionAlignment?: string;
     actionCaptionPosition?: 'right'|'bottom'|'none';
     itemActionsClass?: string;
+    editingStyle?: string;
 }
 
 export interface ISwipeConfig {
@@ -2699,6 +2700,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         if (templateOptions && this._actionsTemplateConfig) {
             if (templateOptions.actionStyle) {
                 this._actionsTemplateConfig.actionStyle = templateOptions.actionStyle;
+            }
+            if (templateOptions.editingStyle) {
+                this._actionsTemplateConfig.editingStyle = templateOptions.editingStyle;
             }
             if (templateOptions.actionPadding) {
                 this._actionsTemplateConfig.actionPadding = templateOptions.actionPadding;
