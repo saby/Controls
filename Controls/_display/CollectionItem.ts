@@ -20,6 +20,8 @@ import { IItemCompatibilityListViewModel, ItemCompatibilityListViewModel } from 
 import {IEditableCollectionItem} from './interface/IEditableCollectionItem';
 import Collection from 'Controls/_display/Collection';
 import IItemActionsItem from './interface/IItemActionsItem';
+import {IRoundBorder} from "Controls/_tile/display/mixins/Tile";
+import {isEqual} from "Types/object";
 
 export interface IOptions<T extends Model = Model> {
     itemModule: string;
@@ -47,6 +49,8 @@ export interface IOptions<T extends Model = Model> {
     markerPosition: string;
     isLastItem?: boolean;
     isFirstItem?: boolean;
+    hasMoreDataUp?: boolean;
+    roundBorder?: object;
 }
 
 export interface ISerializableState<T extends Model = Model> extends IDefaultSerializableState {
@@ -168,6 +172,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     protected _$multiSelectAccessibilityProperty: string;
 
+    protected _shadowVisibility: string = 'lastVisible';
+
+    protected _$hasMoreDataUp: boolean;
+
     protected _instancePrefix: string;
 
     /**
@@ -197,6 +205,13 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._counters = {};
         this.isAdd = (options && options.isAdd) || false;
         this.addPosition = (options && options.addPosition) || 'bottom';
+
+        // Для элементов, которые создаются сразу застканными, задается shadowVisibility='initial'.
+        // Это сделано для оптимизации, чтобы не было лишних прыжков теней при изначальной отрисовке,
+        // когда есть данные вверх
+        if (this.hasMoreDataUp() && this.isSticked()) {
+            this._shadowVisibility = 'initial';
+        }
     }
 
     // endregion
@@ -275,7 +290,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     }
 
     isStickyHeader(): boolean {
-        return this.getOwner().isStickyHeader();
+        return this.getOwner()?.isStickyHeader();
     }
 
     /**
@@ -693,6 +708,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
             (style === 'master');
     }
 
+    getShadowVisibility(): string {
+        return this._shadowVisibility;
+    }
+
     getQAData(marker: boolean): string {
         let classes = '';
         if (this.shouldDisplayMarker(marker)) {
@@ -766,6 +785,40 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         return itemActionClasses;
     }
 
+    // region RoundBorder
+
+    setRoundBorder(roundBorder: IRoundBorder): void {
+        if (!isEqual(this._$roundBorder, roundBorder)) {
+            this._$roundBorder = roundBorder;
+            this._nextVersion();
+        }
+    }
+
+    getTopLeftRoundBorder(): string {
+        return this._$roundBorder?.tl || 'default';
+    }
+
+    getTopRightRoundBorder(): string {
+        return this._$roundBorder?.tr || 'default';
+    }
+
+    getBottomLeftRoundBorder(): string {
+        return this._$roundBorder?.bl || 'default';
+    }
+
+    getBottomRightRoundBorder(): string {
+        return this._$roundBorder?.br || 'default';
+    }
+
+    getRoundBorderClasses(): string {
+        let classes = `controls-ListView__item_roundBorder_topLeft_${this.getTopLeftRoundBorder()}`;
+        classes += ` controls-ListView__item_roundBorder_topRight_${this.getTopRightRoundBorder()}`;
+        classes += ` controls-ListView__item_roundBorder_bottomLeft_${this.getBottomLeftRoundBorder()}`;
+        classes += ` controls-ListView__item_roundBorder_bottomRight_${this.getBottomRightRoundBorder()}`;
+        return classes;
+    }
+    // endregion RoundBorder
+
     getRowSeparatorSize(): string {
         return this.getOwner().getRowSeparatorSize();
     }
@@ -776,6 +829,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     getStyle(): string {
         return this._$style;
+    }
+
+    hasMoreDataUp(): boolean {
+        return this._$hasMoreDataUp;
     }
 
     /**
@@ -797,7 +854,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         }
 
         const navigation = this.getOwner().getNavigation();
-        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
+        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().hasMoreData())
             && this.isLastItem()) {
             contentClasses += ' controls-ListView__itemV_last';
         }
@@ -1063,8 +1120,10 @@ Object.assign(CollectionItem.prototype, {
     _$markerPosition: undefined,
     _$isLastItem: false,
     _$isFirstItem: false,
+    _$hasMoreDataUp: false,
     _contentsIndex: undefined,
     _version: 0,
     _counters: null,
-    _$editingColumnIndex: null
+    _$editingColumnIndex: null,
+    _$roundBorder: null
 });

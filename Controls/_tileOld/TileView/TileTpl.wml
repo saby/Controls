@@ -1,5 +1,5 @@
 <ws:template name="itemTpl">
-   <div attr:class="controls-TileView__item {{itemData.itemClasses}} {{itemData.itemContentClasses}} controls-ListView__itemV controls-ListView__itemV_cursor-{{cursor || 'pointer'}}
+   <div attr:data-qa="{{itemData.getQAData && itemData.getQAData(marker)}}" attr:class="controls-TileView__item {{itemData.itemClasses}} {{itemData.itemContentClasses}} controls-ListView__itemV controls-ListView__itemV_cursor-{{cursor || 'pointer'}}
                      {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}">
       <ws:partial template="{{content}}"/>
    </div>

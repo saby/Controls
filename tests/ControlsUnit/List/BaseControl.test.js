@@ -6315,7 +6315,7 @@ define([
          let isGetItemsContainerCalled = false;
          baseControl._isMounted = true;
          baseControl._loadTriggerVisibility = {down: false};
-         baseControl._scrollController = {};
+         baseControl._scrollController = { destroy: () => null };
          lists.BaseControl._private.showError(baseControl, {
             mode: dataSource.error.Mode.include
          });

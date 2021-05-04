@@ -140,6 +140,27 @@ describe('Controls/treeGrid_clean/Display/TreeCollection', () => {
             });
         });
 
+        it('Should not create results when root contains single item', () => {
+            // При наличии в корне единственного узла (даже если он развернут и у него есть дочерние элементы) - не
+            // должны создаваться results.
+            const treeGridCollection = new TreeGridCollection({
+                collection: new RecordSet({
+                    rawData: RAW_DATA,
+                    keyProperty: 'key'
+                }),
+                resultsPosition: 'top',
+                keyProperty: 'key',
+                parentProperty: 'parent',
+                nodeProperty: 'type',
+                multiSelectVisibility: 'visible',
+                columns: [{}],
+                expandedItems: [ null ],
+                root: null
+            });
+
+            assert.notExists(treeGridCollection.getResults());
+        });
+
         describe('headerVisibility === \'visible\'', () => {
             // Поверяем что при очистке данных коллекции модель заголовка не пересоздается
             it('Should not recreate header model on clear collection', () => {

@@ -4,7 +4,9 @@
             <Controls.grid:View
                     keyProperty="id"
                     source="{{_viewSource}}"
-                    columns="{{_smallColumns}}">
+                    columns="{{_smallColumns}}"
+                    itemActions="{{_itemActions}}"
+                    itemActionsPosition="outside">
                 <ws:footerTemplate>
                     <div class="controlsDemo__footer__separatedFooter__content">Старый способ установки подвала</div>
                 </ws:footerTemplate>
@@ -16,7 +18,9 @@
                     keyProperty="id"
                     source="{{_viewSource}}"
                     multiSelectVisibility="visible"
-                    columns="{{_smallColumns}}">
+                    columns="{{_smallColumns}}"
+                    itemActions="{{_itemActions}}"
+                    itemActionsPosition="outside">
                 <ws:footerTemplate>
                     <div class="controlsDemo__footer__separatedFooter__content">Старый способ установки подвала</div>
                 </ws:footerTemplate>
@@ -31,7 +35,9 @@
                 <Controls.grid:View
                         keyProperty="id"
                         source="{{_viewSource}}"
-                        columns="{{_smallColumns}}">
+                        columns="{{_smallColumns}}"
+                        itemActions="{{_itemActions}}"
+                        itemActionsPosition="outside">
                 </Controls.grid:View>
             </div>
 
@@ -40,7 +46,9 @@
                         keyProperty="id"
                         source="{{_viewSource}}"
                         multiSelectVisibility="visible"
-                        columns="{{_smallColumns}}">
+                        columns="{{_smallColumns}}"
+                        itemActions="{{_itemActions}}"
+                        itemActionsPosition="outside">
                 </Controls.grid:View>
             </div>
         </div>
@@ -51,6 +59,8 @@
             <Controls.grid:View
                     keyProperty="id"
                     source="{{_viewSource}}"
+                    itemActions="{{_itemActions}}"
+                    itemActionsPosition="outside"
                     columns="{{_smallColumns}}">
                 <ws:footerTemplate>
                     <div class="controlsDemo__footer__separatedFooter__content">Новый способ установки подвала. Подвал растянут</div>
@@ -63,7 +73,9 @@
                     keyProperty="id"
                     source="{{_viewSource}}"
                     multiSelectVisibility="visible"
-                    columns="{{_smallColumns}}">
+                    columns="{{_smallColumns}}"
+                    itemActions="{{_itemActions}}"
+                    itemActionsPosition="outside">
                 <ws:footerTemplate>
                     <div class="controlsDemo__footer__separatedFooter__content">Новый способ установки подвала. Подвал растянут</div>
                 </ws:footerTemplate>
@@ -76,7 +88,9 @@
             <Controls.grid:View
                     keyProperty="id"
                     source="{{_viewSource}}"
-                    columns="{{_fullColumns}}">
+                    columns="{{_fullColumns}}"
+                    itemActions="{{_itemActions}}"
+                    itemActionsPosition="outside">
                 <ws:footer>
                     <ws:Array>
                         <ws:Object/>
@@ -105,7 +119,9 @@
                     keyProperty="id"
                     source="{{_viewSource}}"
                     multiSelectVisibility="visible"
-                    columns="{{_fullColumns}}">
+                    columns="{{_fullColumns}}"
+                    itemActions="{{_itemActions}}"
+                    itemActionsPosition="outside">
                 <ws:footer>
                     <ws:Array>
                         <ws:Object/>

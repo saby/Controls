@@ -446,7 +446,8 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                     },
                     getMetaResults() {
                         return {};
-                    }
+                    },
+                    hasMoreDataUp: () => false
                 },
                 groups,
                 groupConstructor: GroupItem,
@@ -475,7 +476,8 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                     },
                     getMetaResults() {
                         return {};
-                    }
+                    },
+                    hasMoreDataUp: () => false
                 },
                 groups,
                 groupConstructor: GroupItem,
@@ -519,7 +521,8 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                         },
                         getMetaResults() {
                             return {};
-                        }
+                        },
+                        hasMoreDataUp: () => false
                     },
                     groups,
                     groupConstructor: GroupItem,
@@ -560,11 +563,13 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                         },
                         getMetaResults() {
                             return {};
-                        }
+                        },
+                        hasMoreDataUp: () => false
                     },
                     groups,
                     groupConstructor: GroupItem,
-                    handler: (item) => item.group
+                    handler: (item) => item.group,
+                    hiddenGroupPosition: 'first'
                 };
                 const expected = [1, 3, 4, 0, 2, 5];
                 const expectedGroups = ['one', groupConstants.hiddenGroup];
@@ -596,7 +601,8 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                     },
                     getMetaResults() {
                         return {};
-                    }
+                    },
+                    hasMoreDataUp: () => false
                 },
                 groups,
                 groupConstructor: GroupItem,
