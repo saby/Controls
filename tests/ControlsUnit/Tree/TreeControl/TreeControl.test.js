@@ -61,6 +61,7 @@ define([
          }
       }
       treeControl = new tree.TreeControl(cfgTreeControl);
+      treeControl._children = {};
       treeControl.saveOptions(cfgTreeControl);
       createPromise = treeControl._beforeMount(cfgTreeControl);
 
@@ -2088,7 +2089,7 @@ define([
 
       describe('expandedItems', () => {
          const source = new sourceLib.Memory({
-            rawData: getHierarchyData(),
+            data: getHierarchyData(),
             keyProperty: 'id',
             filter: () => true
          });
@@ -2100,6 +2101,14 @@ define([
          // 4
          const cfg = {
             source,
+            navigation: {
+               source: 'page',
+               sourceConfig: {
+                  pageSize: 20,
+                  page: 0,
+                  hasMore: false
+               }
+            },
             keyProperty: 'id',
             parentProperty: 'Раздел',
             nodeProperty: 'Раздел@',
@@ -2111,20 +2120,14 @@ define([
          };
          let treeControl, notifySpy;
 
-         beforeEach(async() => {
-            treeControl = await correctCreateTreeControlAsync(cfg);
-            notifySpy = sinon.spy(treeControl, '_notify');
-         });
-
          describe('expandedItems is [null]', () => {
-            beforeEach(() => {
-               treeControl._beforeUpdate({...cfg, expandedItems: [null]});
-               treeControl.saveOptions({...cfg, expandedItems: [null]});
-               notifySpy.resetHistory();
+            beforeEach(async() => {
+               treeControl = await correctCreateTreeControlAsync({...cfg, expandedItems: [null]});
+               notifySpy = sinon.spy(treeControl, '_notify');
             });
 
             it('reload', async() => {
-               treeControl.reload();
+               await treeControl.reload();
                assert.isTrue(treeControl.getViewModel().getItemBySourceKey(0).isExpanded());
                assert.isTrue(treeControl.getViewModel().getItemBySourceKey(1).isExpanded());
             });
@@ -2143,30 +2146,30 @@ define([
 
             it('remove node, expandedItems and collapsed items are not changed', () => {
                const rs = treeControl.getViewModel().getCollection();
-               rs.remove(treeControl.getViewModel().getItemBySourceKey(1).getContents());
+               rs.remove(rs.getRecordById(1));
                assert.isFalse(notifySpy.withArgs('expandedItemsChanged').called);
                assert.isFalse(notifySpy.withArgs('collapsedItemsChanged').called);
             });
 
-            it('remove node when set collapsedItems', () => {
-               treeControl._beforeUpdate({...cfg, expandedItems: [null], collapsedItems: [1]});
-               treeControl.saveOptions({...cfg, expandedItems: [null], collapsedItems: [1]});
+            it('remove node when set collapsedItems', async () => {
+               treeControl = await correctCreateTreeControlAsync({...cfg, expandedItems: [null], collapsedItems: [1]});
+               notifySpy = sinon.spy(treeControl, '_notify');
+
                const rs = treeControl.getViewModel().getCollection();
-               rs.remove(treeControl.getViewModel().getItemBySourceKey(1).getContents());
+               rs.remove(rs.getRecordById(1));
                assert.isFalse(notifySpy.withArgs('expandedItemsChanged').called);
                assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
             });
          });
 
          describe('expanded specific items', () => {
-            beforeEach(() => {
-               treeControl._beforeUpdate({...cfg, expandedItems: [0, 1]});
-               treeControl.saveOptions({...cfg, expandedItems: [0, 1]});
-               notifySpy.resetHistory();
+            beforeEach(async() => {
+               treeControl = await correctCreateTreeControlAsync({...cfg, expandedItems: [0, 1]});
+               notifySpy = sinon.spy(treeControl, '_notify');
             });
 
             it('reload', async() => {
-               treeControl.reload();
+               await treeControl.reload();
                assert.isTrue(treeControl.getViewModel().getItemBySourceKey(0).isExpanded());
                assert.isTrue(treeControl.getViewModel().getItemBySourceKey(1).isExpanded());
             });
@@ -2185,7 +2188,7 @@ define([
 
             it('remove node, expandedItems is changed', () => {
                const rs = treeControl.getViewModel().getCollection();
-               rs.remove(treeControl.getViewModel().getItemBySourceKey(1).getContents());
+               rs.remove(rs.getRecordById(1));
                assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[0]]).called);
                assert.isFalse(notifySpy.withArgs('collapsedItemsChanged').called);
             });
