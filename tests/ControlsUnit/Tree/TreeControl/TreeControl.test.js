@@ -2126,24 +2126,6 @@ define([
                notifySpy = sinon.spy(treeControl, '_notify');
             });
 
-            it('reload', async() => {
-               await treeControl.reload();
-               assert.isTrue(treeControl.getViewModel().getItemBySourceKey(0).isExpanded());
-               assert.isTrue(treeControl.getViewModel().getItemBySourceKey(1).isExpanded());
-            });
-
-            it('add node, node is expanded', () => {
-               const rs = treeControl.getViewModel().getCollection();
-               rs.add(new entity.Model({rawData: {id: 5, 'Раздел@': true, 'Раздел': null}}));
-               assert.isTrue(treeControl.getViewModel().getItemBySourceKey(5).isExpanded());
-            });
-
-            it('move node, node is expanded', () => {
-               const rs = treeControl.getViewModel().getCollection();
-               rs.move(0, 4);
-               assert.isTrue(treeControl.getViewModel().getItemBySourceKey(0).isExpanded());
-            });
-
             it('remove node, expandedItems and collapsed items are not changed', () => {
                const rs = treeControl.getViewModel().getCollection();
                rs.remove(rs.getRecordById(1));
@@ -2166,24 +2148,6 @@ define([
             beforeEach(async() => {
                treeControl = await correctCreateTreeControlAsync({...cfg, expandedItems: [0, 1]});
                notifySpy = sinon.spy(treeControl, '_notify');
-            });
-
-            it('reload', async() => {
-               await treeControl.reload();
-               assert.isTrue(treeControl.getViewModel().getItemBySourceKey(0).isExpanded());
-               assert.isTrue(treeControl.getViewModel().getItemBySourceKey(1).isExpanded());
-            });
-
-            it('add node, node is not expanded', () => {
-               const rs = treeControl.getViewModel().getCollection();
-               rs.add(new entity.Model({rawData: {id: 5, 'Раздел@': true, 'Раздел': null}}));
-               assert.isFalse(treeControl.getViewModel().getItemBySourceKey(5).isExpanded());
-            });
-
-            it('move node, node is expanded', () => {
-               const rs = treeControl.getViewModel().getCollection();
-               rs.move(0, 4);
-               assert.isTrue(treeControl.getViewModel().getItemBySourceKey(0).isExpanded());
             });
 
             it('remove node, expandedItems is changed', () => {
