@@ -98,7 +98,7 @@ define([
    function getHierarchyData() {
       return [
          {id: 0, 'Раздел@': true, "Раздел": null},
-         {id: 1, 'Раздел@': true, "Раздел": 0},
+         {id: 1, 'Раздел@': false, "Раздел": 0},
          {id: 2, 'Раздел@': null, "Раздел": 0},
          {id: 3, 'Раздел@': null, "Раздел": 1},
          {id: 4, 'Раздел@': null, "Раздел": null}
@@ -2175,6 +2175,52 @@ define([
                treeControl._beforeUpdate({...cfg, collapsedItems: [1]});
                assert.isTrue(methodSpy.withArgs([1]).called);
             });
+         });
+      });
+
+      describe('hasMoreStorage', () => {
+         const source = new sourceLib.Memory({
+            data: getHierarchyData(),
+            keyProperty: 'id',
+            filter: () => true
+         });
+
+         // 0
+         // |-1
+         // | |-3
+         // |-2
+         // 4
+         const cfg = {
+            source,
+            filter: {},
+            navigation: {
+               source: 'page',
+               sourceConfig: {
+                  pageSize: 20,
+                  page: 0,
+                  hasMore: false
+               }
+            },
+            keyProperty: 'id',
+            parentProperty: 'Раздел',
+            nodeProperty: 'Раздел@',
+            useNewModel: true,
+            columns: [],
+            viewModelConstructor: 'Controls/treeGrid:TreeGridCollection',
+            selectedKeys: [],
+            excludedKeys: [],
+            expandedItems: [null]
+         };
+         let treeControl;
+
+         beforeEach(async() => {
+            treeControl = await correctCreateTreeControlAsync(cfg);
+         });
+
+         it('set has more for nodes and hidden nodes', async() => {
+            const methodSpy = sinon.spy(treeControl.getViewModel(), 'setHasMoreStorage');
+            await treeControl.reload();
+            assert.isTrue(methodSpy.withArgs({0: false, 1: false}).called);
          });
       });
    });
