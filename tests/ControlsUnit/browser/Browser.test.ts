@@ -201,7 +201,7 @@ describe('Controls/browser:Browser', () => {
                     assert.deepEqual(browser._getSourceController().getExpandedItems(), [1]);
                 });
 
-                it('without receivedState', () => {
+                it('without receivedState', async () => {
                     const options = getBrowserOptions();
                     options.expandedItems = [1];
                     const browser = getBrowser(options);
@@ -770,7 +770,7 @@ describe('Controls/browser:Browser', () => {
             assert.equal(browser._viewMode, 'tile');
         });
 
-        it('update expanded items in context', () => {
+        it('update expanded items in context', async () => {
             const options = getBrowserOptions();
             const browser = getBrowser(options);
             await browser._beforeMount(options);
