@@ -28,6 +28,7 @@ import TreeDrag from './itemsStrategy/TreeDrag';
 import {isEqual} from 'Types/object';
 import {IObservable, RecordSet} from 'Types/collection';
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
+import { ISourceCollection } from './interface/ICollection';
 
 export interface ISerializableState<S, T> extends IDefaultSerializableState<S, T> {
     _root: T;
@@ -43,7 +44,7 @@ export interface ITreeSessionItemState<T> extends ISessionItemState<T> {
 
 interface IItemsFactoryOptions<S> {
     contents?: S;
-    hasChildren?: boolean;
+    hasChildrenProperty?: string;
     hasChildrenByRecordSet?: boolean;
     node?: boolean;
     expanderTemplate?: TemplateFunction;
@@ -96,9 +97,12 @@ function onCollectionChange<T>(
     this.instance._finishUpdateSession(session, false);
     this.instance._checkItemsDiff(session, nodes, state);
 
-    if (action === IObservable.ACTION_RESET || action === IObservable.ACTION_ADD) {
+    if (action === IObservable.ACTION_RESET || action === IObservable.ACTION_ADD || action === IObservable.ACTION_REMOVE) {
         if (this.instance.getExpanderVisibility() === 'hasChildren') {
             this.instance._recountHasNodeWithChildren();
+        }
+        if (!this.instance.getHasChildrenProperty()) {
+            this.instance._recountHasChildrenByRecordSet();
         }
     }
 
@@ -114,8 +118,12 @@ function onCollectionChange<T>(
  * @param index Индекс измененного элемента.
  * @param properties Объект содержащий измененные свойства элемента
  */
-function onCollectionItemChange<T>(event: EventObject, item: T, index: number, properties: object): void {
+function onCollectionItemChange<T>(event: EventObject, item: T, index: number, properties: Object): void {
     this.instance._reIndex();
+    if (this.instance.getExpanderVisibility() === 'hasChildren' && !this.instance.getHasChildrenProperty()
+        && properties.hasOwnProperty(this.instance.getParentProperty())) {
+        this.instance._recountHasChildrenByRecordSet();
+    }
     this.prev(event, item, index, properties);
 }
 
@@ -330,10 +338,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // region Collection
 
-    getNodeFooterTemplateMoreButton(): TemplateFunction {
-        return this._$nodeFooterTemplateMoreButton;
-    }
-
     // region Expander
 
     getExpanderTemplate(expanderTemplate?: TemplateFunction): TemplateFunction {
@@ -416,6 +420,12 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // endregion Drag-n-drop
 
+    // region NodeFooter
+
+    getNodeFooterTemplateMoreButton(): TemplateFunction {
+        return this._$nodeFooterTemplateMoreButton;
+    }
+
     getNodeFooterTemplate(): TemplateFunction {
         return this._$nodeFooterTemplate;
     }
@@ -424,6 +434,18 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (this._$nodeFooterTemplate !== nodeFooterTemplate) {
             this._$nodeFooterTemplate = nodeFooterTemplate;
             this._nextVersion();
+        }
+    }
+
+    // endregion NodeFooter
+
+    setCollection(newCollection: ISourceCollection<S>): void {
+        super.setCollection(newCollection);
+        if (this.getExpanderVisibility() === 'hasChildren') {
+            this._recountHasNodeWithChildren();
+            if (!this.getHasChildrenProperty()) {
+                this._recountHasChildrenByRecordSet();
+            }
         }
     }
 
@@ -509,7 +531,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     setChildrenProperty(childrenProperty: string): void {
         if (this._$childrenProperty !== childrenProperty) {
             this._$childrenProperty = childrenProperty;
-            this._hierarchyRelation.setDeclaredChildrenProperty(childrenProperty);
             this._nextVersion();
         }
     }
@@ -519,6 +540,15 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
      */
     getHasChildrenProperty(): string {
         return this._$hasChildrenProperty;
+    }
+
+    setHasChildrenProperty(hasChildrenProperty: string): void {
+        if (this._$hasChildrenProperty !== hasChildrenProperty) {
+            this._$hasChildrenProperty = hasChildrenProperty;
+            this._hierarchyRelation.setDeclaredChildrenProperty(hasChildrenProperty);
+            this._updateItemsProperty('setHasChildrenProperty', hasChildrenProperty, '[Controls/_display/TreeItem]');
+            this._nextVersion();
+        }
     }
 
     protected getLoadedProperty(): string {
@@ -808,7 +838,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         const parent = super._getItemsFactory();
 
         return function TreeItemsFactory(options: IItemsFactoryOptions<S>): T {
-            options.hasChildren = object.getPropertyValue<boolean>(options.contents, this._$hasChildrenProperty);
+            options.hasChildrenProperty = this.getHasChildrenProperty();
             options.hasChildrenByRecordSet = !!this.getChildrenByRecordSet(options.contents).length;
             options.expanderTemplate = this._$expanderTemplate;
             options.hasNodeWithChildren = this._hasNodeWithChildren;
@@ -1018,6 +1048,20 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         return projection;
     }
 
+    private _recountHasChildrenByRecordSet(): void {
+        const nodes = this._getItems().filter((it) => it['[Controls/_display/TreeItem]'] && it.isNode() !== null);
+        let changed = false;
+
+        nodes.forEach((it) => {
+            const hasChildrenByRecordSet = !!this.getChildrenByRecordSet(it.getContents()).length;
+            changed = changed || it.setHasChildrenByRecordSet(hasChildrenByRecordSet);
+        });
+
+        if (changed) {
+            this._nextVersion();
+        }
+    }
+
     protected _getNearbyItem(
         enumerator: CollectionEnumerator<T>,
         item: T,
@@ -1060,16 +1104,22 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     // region HasNodeWithChildren
 
     protected _recountHasNodeWithChildren(): void {
-        if (!this.getCount()) {
+        // hasNodeWithChildren нужно считать по рекордсету,
+        // т.к. ,когда срабатывает событие reset, элементы проекции еще не созданы
+        if (!this.getCollection().getCount()) {
             return;
         }
 
-        const itemsInRoot = this.getChildren(this.getRoot());
-
         let hasNodeWithChildren = false;
-        for (let i = 0; i < itemsInRoot.getCount(); i++) {
-            const item = itemsInRoot.at(i);
-            if (item.isNode() !== null && item.isHasChildren()) {
+
+        const collection = this.getCollection();
+        for (let i = 0; i < collection.getCount(); i++) {
+            const item = collection.at(i);
+            const isNode = item.get(this.getNodeProperty()) !== null;
+            const hasChildren = this.getHasChildrenProperty()
+                ? item.get(this.getHasChildrenProperty())
+                : !!this.getChildrenByRecordSet(item).length;
+            if (isNode && hasChildren) {
                 hasNodeWithChildren = true;
                 break;
             }

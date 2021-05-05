@@ -607,8 +607,8 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       return childrenIds;
    }
 
-   private _isHasChildren(item: TreeItem<Model>): boolean {
-      return item.isHasChildren() || item.getChildren(false).getCount() > 0;
+   private _hasChildren(item: TreeItem<Model>): boolean {
+      return item.hasChildren() || item.getChildren(false).getCount() > 0;
    }
 
    private _getSelectedChildrenCount(node: TreeItem<Model>, selection: ISelection, deep: boolean): number|null {
@@ -636,7 +636,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
                      selectedChildrenCount++;
                   }
 
-                  if (this._isNode(childItem) && this._isHasChildren(childItem)) {
+                  if (this._isNode(childItem) && this._hasChildren(childItem)) {
                      childNodeSelectedCount = this._getSelectedChildrenCount(childItem, selection, deep);
 
                      if (childNodeSelectedCount === null) {
@@ -648,7 +648,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
                }
             }
          });
-      } else if (!node || this._isHasChildren(node)) {
+      } else if (!node || this._hasChildren(node)) {
          selectedChildrenCount = null;
       }
 
