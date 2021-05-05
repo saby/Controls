@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell controlsDemo__mr4">
+      <Router.router:Reference attr:class="controls-text-label"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/list_new/MoveController/Base/Index' }}">
+         <a href="{{content.href}}">Перемещение вверх и вниз</a>
+      </Router.router:Reference>
+      <Controls-demo.list_new.MoveController.Base.Index/>
+   </div>
+</div>
