@@ -2,6 +2,7 @@ import IItemsStrategy from 'Controls/_display/IItemsStrategy';
 import TreeItem from '../TreeItem';
 import Tree from '../Tree';
 import {Model} from 'Types/entity';
+import TreeGridNodeFooterRow from "Controls/_treeGrid/display/TreeGridNodeFooterRow";
 
 interface IOptions<S, T extends TreeItem<S>> {
     source: IItemsStrategy<S, T>;
@@ -15,7 +16,7 @@ interface ISortOptions<S, T extends TreeItem<S>> {
     nodeFooterVisibilityCallback?: (nodeItem: S) => boolean;
 }
 
-export default class NodeFooter<S, T extends TreeItem<S> = TreeItem<S>> implements IItemsStrategy<S, T> {
+export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> = TreeItem<S>> implements IItemsStrategy<S, T> {
     readonly '[Controls/_display/IItemsStrategy]': boolean;
 
     protected _count: number;
@@ -26,7 +27,7 @@ export default class NodeFooter<S, T extends TreeItem<S> = TreeItem<S>> implemen
     /**
      * Группы
      */
-    protected _nodeFooters: T[] = [];
+    protected _nodeFooters: TreeGridNodeFooterRow[] = [];
 
     /**
      * Индекс в стратегии -> оригинальный индекс
@@ -98,12 +99,24 @@ export default class NodeFooter<S, T extends TreeItem<S> = TreeItem<S>> implemen
 
     splice(start: number, deleteCount: number, added?: S[]): T[] {
         this._itemsOrder = null;
-        this._nodeFooters = [];
-        return this.source.splice(
+        const removedItems = this.source.splice(
             start,
             deleteCount,
             added
         );
+
+        this._removeNodeFooters(removedItems);
+
+        return removedItems;
+    }
+
+    private _removeNodeFooters(removedItems: T[]): void {
+        removedItems.forEach((item) => {
+            const index = this._nodeFooters.findIndex((footer: TreeGridNodeFooterRow) => footer.getNode() === item);
+            if (index !== -1) {
+                this._nodeFooters.splice(index, 1);
+            }
+        });
     }
 
     /**
@@ -175,6 +188,7 @@ export default class NodeFooter<S, T extends TreeItem<S> = TreeItem<S>> implemen
             });
 
             options.nodeFooters.push(nodeFooter);
+            nodeFooterContents.push(nodeFooterContent);
         }
 
         const getItemsCount = (node) => {
