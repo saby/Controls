@@ -1666,7 +1666,6 @@ define([
 
       it('itemClick sends right args', function() {
          let isEventRaised = false;
-         let isParentEventStopped = false;
 
           const data = new collection.RecordSet({
               rawData: [{ id: 1 }],
@@ -1686,9 +1685,7 @@ define([
             target: { closest: () => {} }
          };
          const event = {
-            stopPropagation: () => {
-               isParentEventStopped = true;
-            },
+            stopPropagation: () => {},
             isStopped: () => false
          };
          const columnIndex = 12;
@@ -1704,7 +1701,6 @@ define([
 
          treeControl._notifyItemClick([event, item, nativeEvent, columnIndex]);
          assert.isTrue(isEventRaised);
-         assert.isTrue(isParentEventStopped);
       });
 
       it('_private.getReloadableNodes', function() {
