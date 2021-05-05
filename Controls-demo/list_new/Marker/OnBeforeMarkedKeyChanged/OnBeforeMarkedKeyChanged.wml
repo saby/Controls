@@ -3,5 +3,5 @@
             keyProperty="id"
             source="{{_viewSource}}"
             markerVisibility="visible"
-            on:beforeMarkedKeyChanged="onBeforeMarkedKeyChanged()"/>
+            on:beforeMarkedKeyChanged="_onBeforeMarkedKeyChanged()"/>
 </div>
