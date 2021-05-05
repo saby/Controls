@@ -1,3 +1,0 @@
-<SabyPage.entityLayout:Template
-    scope="{{ _options }}"
-    />
