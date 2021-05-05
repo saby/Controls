@@ -1,24 +1,24 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">direction=direct</div>
+      <div class="controls-text-label">direction=direct</div>
       <Controls.dragnDrop:ResizingLine attr:class="controlsDemo__resizingLine" direction="direct"
                                        minOffset="{{300}}"
                                        maxOffset="{{300}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">direction=direct with custom width</div>
+      <div class="controls-text-label">direction=direct with custom width</div>
       <Controls.dragnDrop:ResizingLine attr:class="controlsDemo__resizingLine controlsDemo__resizingLine_customWidth" direction="direct"
                                        minOffset="{{300}}"
                                        maxOffset="{{300}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">direction=reverse</div>
+      <div class="controls-text-label">direction=reverse</div>
       <Controls.dragnDrop:ResizingLine attr:class="controlsDemo__resizingLine" direction="reverse"
                                        minOffset="{{300}}"
                                        maxOffset="{{300}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">direction=reverse with custom width</div>
+      <div class="controls-text-label">direction=reverse with custom width</div>
       <Controls.dragnDrop:ResizingLine attr:class="controlsDemo__resizingLine controlsDemo__resizingLine_customWidth"
                                        direction="reverse"
                                        minOffset="{{300}}"

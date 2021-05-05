@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo_fixedWidth350 demo-StateIndicator__captureArea">
         <div class="controlsDemo__cell">
-            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+            <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/progress/StateIndicator/Base/Index' }}">
                 <a href="{{content.href}}">Базовая настройка индикатора состояния</a>
@@ -10,7 +10,7 @@
         </div>
 
         <div class="controlsDemo__cell">
-            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+            <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/progress/StateIndicator/Scale/Index' }}">
                 <a href="{{content.href}}">Настройка размера одного сектора в процентах</a>
@@ -19,7 +19,7 @@
         </div>
 
         <div class="controlsDemo__cell">
-            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+            <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/progress/StateIndicator/SectorSize/Index' }}">
                 <a href="{{content.href}}">Настройка размера индикатора состояния</a>
@@ -27,7 +27,7 @@
             <Controls-demo.progress.StateIndicator.SectorSize.Index/>
         </div>
         <div class="controlsDemo__cell">
-            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+            <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/progress/StateIndicator/Extended/Index' }}">
                 <a href="{{content.href}}">Сложные случаи</a>

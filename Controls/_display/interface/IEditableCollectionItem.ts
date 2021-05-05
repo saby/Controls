@@ -6,7 +6,6 @@ export interface IEditableCollectionItem<T extends Model = Model> extends IColle
     contents: T;
 
     isAdd: boolean;
-    addPosition?: 'top' | 'bottom';
 
     setEditing(isEditing: boolean, editingContents?: Model<T>, silent?: boolean, columnIndex?: number): void;
     acceptChanges(): void;

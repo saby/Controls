@@ -3,7 +3,7 @@ import { AppData } from 'UI/State';
 import * as template from 'wml!Controls/Application/Core';
 import {setStore, getStore} from 'Application/Env';
 import {getThemeController} from 'UI/theme/controller';
-import * as HeadData from 'Controls/Application/HeadData';
+import { HeadData } from 'UI/Base';
 
 export = class Core extends Control<IControlOptions> {
    protected _template: TemplateFunction = template;

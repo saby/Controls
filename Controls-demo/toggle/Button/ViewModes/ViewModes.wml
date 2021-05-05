@@ -1,22 +1,22 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=linkButton, different captions</div>
+        <div class="controls-text-label">viewMode=linkButton, different captions</div>
         <Controls.toggle:Button caption="Button" bind:value="_button1Value" viewMode="link" captions="{{['Change', 'Save']}}"></Controls.toggle:Button>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=linkButton, different icons</div>
+        <div class="controls-text-label">viewMode=linkButton, different icons</div>
         <Controls.toggle:Button caption="Button" bind:value="_button2Value" viewMode="link" icons="{{['icon-ArrangeList03', 'icon-ArrangeList04']}}"></Controls.toggle:Button>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=toolButton</div>
+        <div class="controls-text-label">viewMode=toolButton</div>
         <Controls.toggle:Button bind:value="_button3Value" viewMode="toolButton" icons="{{['icon-Italic']}}" inlineHeight="l" iconStyle="secondary" iconSize="m"></Controls.toggle:Button>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=pushButton</div>
+        <div class="controls-text-label">viewMode=pushButton</div>
         <Controls.toggle:Button bind:value="_button4Value" viewMode="pushButton" icons="{{['icon-Italic']}}" inlineHeight="l" iconStyle="secondary" iconSize="m"></Controls.toggle:Button>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=pushButton, contrastBackground=true</div>
+        <div class="controls-text-label">viewMode=pushButton, contrastBackground=true</div>
         <Controls.toggle:Button bind:value="_button5Value" viewMode="pushButton" contrastBackground="{{true}}" icons="{{['icon-Italic']}}" inlineHeight="l" iconStyle="secondary" iconSize="m"></Controls.toggle:Button>
     </div>
 </div>

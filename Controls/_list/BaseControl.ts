@@ -77,7 +77,6 @@ import {IEditableListOption} from './interface/IEditableList';
 import {default as ScrollController, IScrollParams} from './ScrollController';
 
 import {groupUtil} from 'Controls/dataSource';
-import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {IDirection} from './interface/IVirtualScroll';
 import {CssClassList} from './resources/utils/CssClassList';
 import {
@@ -252,6 +251,7 @@ interface IBeginEditOptions {
 interface IBeginAddOptions {
     shouldActivateInput?: boolean;
     addPosition?: 'top' | 'bottom';
+    targetItem?: Model;
 }
 
 //#endregion
@@ -2066,7 +2066,7 @@ const _private = {
         self._onItemActionsMenuResult = self._onItemActionsMenuResult.bind(self);
     },
 
-    groupsExpandChangeHandler(self, changes) {
+    groupsExpandChangeHandler(self, changes): void {
         self._notify(changes.changeType === 'expand' ? 'groupExpanded' : 'groupCollapsed', [changes.group], { bubbling: true });
         self._notify('collapsedGroupsChanged', [changes.collapsedGroups]);
         _private.prepareFooter(self, self._options, self._sourceController);
@@ -3591,8 +3591,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (action === IObservable.ACTION_RESET) {
             this._afterCollectionReset();
         }
+        if (action === IObservable.ACTION_REMOVE) {
+            this._afterCollectionRemove(removedItems, removedItemsIndex);
+        }
     }
     protected _afterCollectionReset(): void {
+        // для переопределения
+    }
+    protected _afterCollectionRemove(removedItems: Array<CollectionItem<Model>>, removedItemsIndex: number): void {
         // для переопределения
     }
     _prepareItemsOnMount(self, newOptions, receivedState: IReceivedState = {}): Promise<unknown> | void {
@@ -4021,6 +4027,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (newOptions.itemTemplateProperty !== this._options.itemTemplateProperty) {
             this._listViewModel.setItemTemplateProperty(newOptions.itemTemplateProperty);
+        }
+
+        if (newOptions.useNewModel && newOptions.itemActionsPosition !== this._options.itemActionsPosition) {
+            this._listViewModel.setItemActionsPosition(newOptions.itemActionsPosition);
         }
 
         if (!isEqual(this._options.itemPadding, newOptions.itemPadding)) {
@@ -5425,7 +5435,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _beforeEndEditCallback(item: Model, willSave: boolean, isAdd: boolean, force: boolean = false) {
+    _beforeEndEditCallback(item: Model, willSave: boolean, isAdd: boolean, force: boolean = false, sourceIndex?: number) {
         if (force) {
             this._notify('beforeEndEdit', [item, willSave, isAdd]);
             return;
@@ -5461,7 +5471,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 )
             );
 
-            return shouldUseDefaultSaving ? this._saveEditingInSource(item, isAdd) : eventResult;
+            return shouldUseDefaultSaving ? this._saveEditingInSource(item, isAdd, sourceIndex) : eventResult;
         });
     }
 
@@ -5505,7 +5515,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
-        return this._beginAdd(userOptions, { addPosition: this._getEditingConfig().addPosition });
+        return this._beginAdd(userOptions, {
+            addPosition: userOptions?.addPosition || this._getEditingConfig().addPosition,
+            targetItem: userOptions?.targetItem
+        });
     }
 
     cancelEdit() {
@@ -5528,7 +5541,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (editingConfig.autoAddOnInit && !!this._sourceController && !hasItems) {
             this._createEditInPlaceController(options);
-            return this._beginAdd({}, editingConfig.addPosition);
+            return this._beginAdd({}, { addPosition: editingConfig.addPosition });
         } else if (editingConfig.item) {
             this._createEditInPlaceController(options);
             if (this._items && this._items.getRecordById(editingConfig.item.getKey())) {
@@ -5555,10 +5568,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _beginAdd(options, {shouldActivateInput = true, addPosition = 'bottom'}: IBeginAddOptions = {}) {
+    _beginAdd(options, {shouldActivateInput = true, addPosition = 'bottom', targetItem}: IBeginAddOptions = {}) {
         _private.closeSwipe(this);
         this.showIndicator();
-        return this._getEditInPlaceController().add(options, {addPosition}).then((addResult) => {
+        return this._getEditInPlaceController().add(options, {addPosition, targetItem}).then((addResult) => {
             if (addResult && addResult.canceled) {
                 return addResult;
             }
@@ -5699,12 +5712,16 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _saveEditingInSource(item: Model, isAdd: boolean): Promise<void> {
+    _saveEditingInSource(item: Model, isAdd: boolean, sourceIndex?: number): Promise<void> {
         return this.getSourceController().update(item).then(() => {
             // После выделения слоя логики работы с источником данных в отдельный контроллер,
             // код ниже должен переехать в него.
             if (isAdd) {
-                this._items.append([item]);
+                if (typeof sourceIndex === 'number') {
+                    this._items.add(item, sourceIndex);
+                } else {
+                    this._items.append([item]);
+                }
             }
         }).catch((error: Error) => {
             return this._processEditInPlaceError(error);

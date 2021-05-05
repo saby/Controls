@@ -1,18 +1,18 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell demo-checkboxIcon__default">
-        <div class="controls-text-label_theme-{{_options.theme}}">checkbox icon="icon-Info" iconSize="s" iconStyle="secondary"</div>
+        <div class="controls-text-label">checkbox icon="icon-Info" iconSize="s" iconStyle="secondary"</div>
         <Controls.toggle:Checkbox bind:value="_value1" icon="icon-Info" iconSize="s" iconStyle="secondary"></Controls.toggle:Checkbox>
     </div>
     <div class="controlsDemo__cell demo-checkboxIcon__icon">
-        <div class="controls-text-label_theme-{{_options.theme}}">checkbox icon="icon-Info" iconSize="m" iconStyle="primary"</div>
+        <div class="controls-text-label">checkbox icon="icon-Info" iconSize="m" iconStyle="primary"</div>
         <Controls.toggle:Checkbox bind:value="_value2" icon="icon-Info" iconSize="m" iconStyle="primary"></Controls.toggle:Checkbox>
     </div>
     <div class="controlsDemo__cell demo-checkboxIcon__icon">
-        <div class="controls-text-label_theme-{{_options.theme}}">checkbox icon="icon-Remark" iconSize="s" iconStyle="secondary"</div>
+        <div class="controls-text-label">checkbox icon="icon-Remark" iconSize="s" iconStyle="secondary"</div>
         <Controls.toggle:Checkbox bind:value="_value3" icon="icon-Remark" iconSize="s" iconStyle="secondary"></Controls.toggle:Checkbox>
     </div>
     <div class="controlsDemo__cell demo-checkboxIcon__icon">
-        <div class="controls-text-label_theme-{{_options.theme}}">checkbox icon="icon-Remark" iconSize="m" iconStyle="primary"</div>
+        <div class="controls-text-label">checkbox icon="icon-Remark" iconSize="m" iconStyle="primary"</div>
         <Controls.toggle:Checkbox bind:value="_value4" icon="icon-Remark" iconSize="m" iconStyle="primary"></Controls.toggle:Checkbox>
     </div>
 </div>

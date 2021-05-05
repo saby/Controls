@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell controlsDemo__mb2">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__mb1">viewMode="selector" (по умолчанию)</div>
+        <div class="controls-text-label controlsDemo__mb1">viewMode="selector" (по умолчанию)</div>
         <Controls.dateRange:RangeSelector
                 bind:startValue="_startValueQuarter"
                 bind:endValue="_endValueQuarter"
@@ -12,7 +12,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mb2">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__mb1">viewMode="label"</div>
+        <div class="controls-text-label controlsDemo__mb1">viewMode="label"</div>
         <Controls.dateRange:RangeSelector
                 bind:startValue="_startValueQuarter"
                 bind:endValue="_endValueQuarter"
@@ -24,7 +24,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mb2">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__mb1">viewMode="link"</div>
+        <div class="controls-text-label controlsDemo__mb1">viewMode="link"</div>
         <Controls.dateRange:RangeSelector
                 bind:startValue="_startValueQuarter"
                 bind:endValue="_endValueQuarter"

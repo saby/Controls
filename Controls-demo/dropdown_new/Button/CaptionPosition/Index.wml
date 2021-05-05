@@ -1,6 +1,6 @@
 <div class="controlsDemo__flexRow {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth500' : 'controlsDemo_fixedWidth300'}}">
    <div class="controlsDemo__wrapper">
-      <div class="demo-ButtonMenu__label controls-text-label_theme-{{_options.theme}}">Меню с captionPosition = left</div>
+      <div class="demo-ButtonMenu__label controls-text-label">Меню с captionPosition = left</div>
       <Controls.dropdown:Button
               keyProperty="key"
               icon="icon-Send"

@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
    <div class="controlsDemo__flexColumn controlsDemo__ml1 {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth500' : 'controlsDemo_fixedWidth300'}}">
       <div class="controlsDemo__cell controlsDemo__mb1">
-        <div class="demo-ButtonMenu__label controls-text-label_theme-{{_options.theme}}">Меню с fontColorStyle = primary</div>
+        <div class="demo-ButtonMenu__label controls-text-label">Меню с fontColorStyle = primary</div>
         <Controls.dropdown:Button
               keyProperty="key"
               caption="Create"
@@ -11,7 +11,7 @@
         </Controls.dropdown:Button>
       </div>
       <div class="controlsDemo__cell controlsDemo__mb1">
-        <div class="demo-ButtonMenu__label controls-text-label_theme-{{_options.theme}}">Меню с fontColorStyle = secondary</div>
+        <div class="demo-ButtonMenu__label controls-text-label">Меню с fontColorStyle = secondary</div>
         <Controls.dropdown:Button
               keyProperty="key"
               caption="Create"
@@ -21,7 +21,7 @@
         </Controls.dropdown:Button>
       </div>
       <div class="controlsDemo__cell controlsDemo__mb1">
-        <div class="demo-ButtonMenu__label controls-text-label_theme-{{_options.theme}}">Меню с fontColorStyle = success</div>
+        <div class="demo-ButtonMenu__label controls-text-label">Меню с fontColorStyle = success</div>
         <Controls.dropdown:Button
               keyProperty="key"
               caption="Create"
@@ -31,7 +31,7 @@
         </Controls.dropdown:Button>
       </div>
       <div class="controlsDemo__cell controlsDemo__mb1">
-        <div class="demo-ButtonMenu__label controls-text-label_theme-{{_options.theme}}">Меню с fontColorStyle = warning</div>
+        <div class="demo-ButtonMenu__label controls-text-label">Меню с fontColorStyle = warning</div>
         <Controls.dropdown:Button
               keyProperty="key"
               caption="Create"
@@ -41,7 +41,7 @@
         </Controls.dropdown:Button>
       </div>
       <div class="controlsDemo__cell controlsDemo__mb1">
-        <div class="demo-ButtonMenu__label controls-text-label_theme-{{_options.theme}}">Меню с fontColorStyle = danger</div>
+        <div class="demo-ButtonMenu__label controls-text-label">Меню с fontColorStyle = danger</div>
         <Controls.dropdown:Button
               keyProperty="key"
               caption="Create"
@@ -54,7 +54,7 @@
 
    <div class="controlsDemo__flexColumn controlsDemo__ml1 {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth500' : 'controlsDemo_fixedWidth300'}}">
       <div class="controlsDemo__cell controlsDemo__mb1">
-         <div class="demo-ButtonMenu__label controls-text-label_theme-{{_options.theme}}">Меню с fontColorStyle = unaccented</div>
+         <div class="demo-ButtonMenu__label controls-text-label">Меню с fontColorStyle = unaccented</div>
          <Controls.dropdown:Button
                  keyProperty="key"
                  caption="Create"
@@ -64,7 +64,7 @@
          </Controls.dropdown:Button>
       </div>
       <div class="controlsDemo__cell controlsDemo__mb1">
-        <div class="demo-ButtonMenu__label controls-text-label_theme-{{_options.theme}}">Меню с fontColorStyle = link</div>
+        <div class="demo-ButtonMenu__label controls-text-label">Меню с fontColorStyle = link</div>
         <Controls.dropdown:Button
               keyProperty="key"
               caption="Create"
@@ -74,7 +74,7 @@
         </Controls.dropdown:Button>
       </div>
       <div class="controlsDemo__cell controlsDemo__mb1">
-        <div class="demo-ButtonMenu__label controls-text-label_theme-{{_options.theme}}">Меню с fontColorStyle = label</div>
+        <div class="demo-ButtonMenu__label controls-text-label">Меню с fontColorStyle = label</div>
         <Controls.dropdown:Button
               keyProperty="key"
               caption="Create"
@@ -84,7 +84,7 @@
         </Controls.dropdown:Button>
       </div>
       <div class="controlsDemo__cell controlsDemo__mb1">
-        <div class="demo-ButtonMenu__label controls-text-label_theme-{{_options.theme}}">Меню с fontColorStyle = info</div>
+        <div class="demo-ButtonMenu__label controls-text-label">Меню с fontColorStyle = info</div>
         <Controls.dropdown:Button
               keyProperty="key"
               caption="Create"
@@ -94,7 +94,7 @@
         </Controls.dropdown:Button>
       </div>
       <div class="controlsDemo__cell controlsDemo__mb1">
-        <div class="demo-ButtonMenu__label controls-text-label_theme-{{_options.theme}}">Меню с fontColorStyle = default</div>
+        <div class="demo-ButtonMenu__label controls-text-label">Меню с fontColorStyle = default</div>
         <Controls.dropdown:Button
               keyProperty="key"
               caption="Create"

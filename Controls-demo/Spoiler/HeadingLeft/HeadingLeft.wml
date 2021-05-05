@@ -2,7 +2,7 @@
     <Controls.spoiler:View expanded="{{_expanded}}" attr:class="ControlsDemo__SpoilerFirst__heading">
         <ws:headerContentTemplate>
             <div class="ws-flexbox ws-align-items-baseline">
-                <span class="controls-text-success_theme-default" style="margin-right: 10px">+ 7</span>
+                <span class="controls-text-success" style="margin-right: 10px">+ 7</span>
                 <Controls.spoiler:Heading captions="{{'Sales dynamics'}}" bind:expanded="_expanded"/>
             </div>
         </ws:headerContentTemplate>

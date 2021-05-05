@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">medium itemsSpacing</div>
+        <div class="controls-text-label">medium itemsSpacing</div>
         <Controls.toolbars:View
                 source="{{_toolbarSource}}"
                 keyProperty="id"
@@ -8,7 +8,7 @@
         />
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">big itemsSpacing</div>
+        <div class="controls-text-label">big itemsSpacing</div>
         <Controls.toolbars:View
                 source="{{_toolbarSource}}"
                 keyProperty="id"

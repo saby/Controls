@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <div class="controlsDemo__cell demo-RadioGroup__group1">
-        <div class="controls-text-label_theme-{{_options.theme}}">custom item template</div>
+        <div class="controls-text-label">custom item template</div>
         <Controls.toggle:RadioGroup
                 bind:selectedKey="_selectedKey"
                 keyProperty="id"
@@ -14,7 +14,7 @@
                             displayProperty="caption">
                     <ws:contentTemplate>
                         <div>
-                            <div class="controls-fontsize-l_theme-{{_options.theme}}
+                            <div class="controls-fontsize-l
                             {{contentTemplate.selected ? 'controls-text-secondary_theme-' + _options.theme}}">{{contentTemplate.item.title}}</div>
                             <p class="contract-radio__type__text">{{contentTemplate.item.text}}</p>
                         </div>
@@ -26,7 +26,7 @@
     </div>
 
     <div class="controlsDemo__cell demo-RadioGroup__group2">
-        <div class="controls-text-label_theme-{{_options.theme}}">custom template in itemTemplateProperty</div>
+        <div class="controls-text-label">custom template in itemTemplateProperty</div>
         <Controls.toggle:RadioGroup
                 keyProperty="id"
                 bind:selectedKey="_selectedKey2"

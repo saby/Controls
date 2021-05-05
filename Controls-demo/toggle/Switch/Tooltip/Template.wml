@@ -1,11 +1,11 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell demo-switchTooltip__default">
-        <div class="controls-text-label_theme-{{_options.theme}}">default switch</div>
+        <div class="controls-text-label">default switch</div>
         <Controls.toggle:Switch bind:value="_value"
                                 caption="state"/>
     </div>
     <div class="controlsDemo__cell demo-switchTooltip__custom">
-        <div class="controls-text-label_theme-{{_options.theme}}">tooltip="my switch""</div>
+        <div class="controls-text-label">tooltip="my switch""</div>
         <Controls.toggle:Switch bind:value="_value2"
                                 caption="state"
                                 tooltip="my switch"/>

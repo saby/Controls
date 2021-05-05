@@ -101,7 +101,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         this._source.forEach((item) => {
             const editingItemProperty = editingObject[item.name];
             item.value = editingItemProperty?.value === undefined ? editingItemProperty : editingItemProperty?.value;
-            if (editingItemProperty.textValue !== undefined) {
+            if (editingItemProperty?.textValue !== undefined) {
                 item.textValue = editingItemProperty.textValue;
             }
             if (editingItemProperty?.needCollapse) {

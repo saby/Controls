@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
     <div class="controlsDemo__cell controlsDemo__margin-top">
-        <div class="controlsDemo__margin-top controls-text-label_theme-{{_options.theme}}">tooltipPosition='top'</div>
+        <div class="controlsDemo__margin-top controls-text-label">tooltipPosition='top'</div>
         <Controls.slider:Base
                 maxValue="{{100}}"
                 minValue="{{0}}"
@@ -9,7 +9,7 @@
                 tooltipPosition="top"/>
     </div>
     <div class="controlsDemo__cell controlsDemo__margin-top">
-        <div class="controlsDemo__margin-top controls-text-label_theme-{{_options.theme}}">tooltipPosition='bottom'
+        <div class="controlsDemo__margin-top controls-text-label">tooltipPosition='bottom'
         </div>
         <Controls.slider:Base
                 maxValue="{{100}}"
@@ -19,7 +19,7 @@
                 tooltipPosition="bottom"/>
     </div>
     <!--<div class="controlsDemo__cell controlsDemo__margin-top">
-        <div class="controlsDemo__margin-top controls-text-label_theme-{{_options.theme}}">position='center'</div>
+        <div class="controlsDemo__margin-top controls-text-label">position='center'</div>
         <Controls.slider:Base
                 maxValue="{{100}}"
                 minValue="{{0}}"
@@ -28,7 +28,7 @@
                 tooltipPosition="center"/>
     </div>
     <div class="controlsDemo__cell controlsDemo__margin-top">
-        <div class="controlsDemo__margin-top controls-text-label_theme-{{_options.theme}}">position='center'</div>
+        <div class="controlsDemo__margin-top controls-text-label">position='center'</div>
         <Controls.slider:Base
                 maxValue="{{100}}"
                 minValue="{{0}}"

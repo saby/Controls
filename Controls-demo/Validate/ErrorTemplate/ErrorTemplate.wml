@@ -1,6 +1,6 @@
 <div class="controlsDemo__flexColumn controlsDemo__ml2">
     <div class="controlsDemo__cell controlsDemo__mb2">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth550">Кастомное сообщение об ошибке</div>
+        <div class="controls-text-label controlsDemo__maxWidth550">Кастомное сообщение об ошибке</div>
         <Controls.validate:InputContainer name="InputValidate2"
                                           attr:class="validate_item_input ControlsDemo-ValidateInfobox_inputValidate2">
             <ws:validators>
@@ -23,7 +23,7 @@
         </Controls.validate:InputContainer>
     </div>
     <div class="controlsDemo__cell controlsDemo__mb2">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth550">Стандартное сообщение об ошибке</div>
+        <div class="controls-text-label controlsDemo__maxWidth550">Стандартное сообщение об ошибке</div>
         <Controls.validate:InputContainer name="InputValidate2"
                                           attr:class="validate_item_input ControlsDemo-ValidateInfobox_inputValidate2">
             <ws:validators>

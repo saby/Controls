@@ -1,6 +1,6 @@
 <div class="PageWrap">
    <div class="PageBlock">
-      <div class="controls-text-label_theme-{{_options.theme}}">With days and title</div>
+      <div class="controls-text-label">With days and title</div>
       <div class="PageBlock__componentWrap controlsDemo-Month__selected">
          <div>_startValue: {{_startValue}}</div>
          <div>_endValue: {{_endValue}}</div>
@@ -23,7 +23,7 @@
    </div>
 
    <div class="PageBlock">
-      <div class="controls-text-label_theme-{{_options.theme}}">Without days and title</div>
+      <div class="controls-text-label">Without days and title</div>
       <div class="PageBlock__componentWrap">
          <Controls.calendar:Month
                month="{{_month}}"
@@ -36,14 +36,14 @@
    </div>
 
    <div class="PageBlock">
-      <div class="controls-text-label_theme-{{_options.theme}}">Selection mode: single day</div>
+      <div class="controls-text-label">Selection mode: single day</div>
       <div class="PageBlock__componentWrap">
          <Controls.calendar:Month month="{{_month}}" bind:startValue="_singleDay" bind:endValue="_singleDay" selectionType="single"/>
       </div>
    </div>
 
    <div class="PageBlock">
-      <div class="controls-text-label_theme-{{_options.theme}}">Selection mode: quantum {'days': [1, 3, 7], 'weeks': [2], 'months': [1]}</div>
+      <div class="controls-text-label">Selection mode: quantum {'days': [1, 3, 7], 'weeks': [2], 'months': [1]}</div>
       <div class="PageBlock__componentWrap">
          <Controls.calendar:Month month="{{_month}}" bind:startValue="_differentQuantum1"
                                   bind:endValue="_differentQuantum2" selectionType="quantum" ranges="{{ {'days': [1, 3, 7], 'weeks': [1, 2], 'months': [1]} }}"/>
@@ -51,14 +51,14 @@
    </div>
 
    <div class="PageBlock">
-      <div class="controls-text-label_theme-{{_options.theme}}">Selection mode: quantum {'days': [3]}</div>
+      <div class="controls-text-label">Selection mode: quantum {'days': [3]}</div>
       <div class="PageBlock__componentWrap">
          <Controls.calendar:Month month="{{_month}}"  bind:startValue="_daysQuantum1" bind:endValue="_daysQuantum2" selectionType="quantum" ranges="{{ {'days': [3]} }}"/>
       </div>
    </div>
 
    <div class="PageBlock">
-      <div class="controls-text-label_theme-{{_options.theme}}">Disabled</div>
+      <div class="controls-text-label">Disabled</div>
       <div class="PageBlock__componentWrap">
          <Controls.calendar:Month
                month="{{_month}}"

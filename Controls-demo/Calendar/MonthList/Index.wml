@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Calendar/MonthList/Default/Default' }}">
             <a href="{{content.href}}">Настройки по умолчанию.</a>
@@ -8,7 +8,7 @@
         <Controls-demo.Calendar.MonthList.Default.Default/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Calendar/MonthList/ViewModeMonth/ViewModeMonth' }}">
             <a href="{{content.href}}">Список рисуется месяцами.</a>
@@ -16,7 +16,7 @@
         <Controls-demo.Calendar.MonthList.ViewModeMonth.ViewModeMonth/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Calendar/MonthList/Position/Position' }}">
             <a href="{{content.href}}">Пример скролирования к году, месяцу и дню. Список рисуется годами.</a>
@@ -24,7 +24,7 @@
         <Controls-demo.Calendar.MonthList.Position.Position/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Calendar/MonthList/Position/ViewModeMonth/ViewModeMonth' }}">
             <a href="{{content.href}}">Пример скролирования к году, месяцу и дню. Список рисуется месяцами.</a>
@@ -32,7 +32,7 @@
         <Controls-demo.Calendar.MonthList.Position.ViewModeMonth.ViewModeMonth/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Calendar/MonthList/Source/Array/Array' }}">
             <a href="{{content.href}}">Задан источник данные который возвращает данные для дней месяца в виде массива.</a>
@@ -40,7 +40,7 @@
         <Controls-demo.Calendar.MonthList.Source.Array.Array/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Calendar/MonthList/Source/RecordSet/RecordSet' }}">
             <a href="{{content.href}}">Задан источник данные который возвращает данные для дней месяца в виде RecordSet.</a>
