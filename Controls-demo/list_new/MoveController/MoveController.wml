@@ -1,19 +1,10 @@
-<div class="demo-Mover">
-   <span>Standard moving items</span>
-   <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
-      <Controls.list:Container>
-         <Controls.list:View class="demo-Mover__list test_list_1"
-                             name="listMover"
-                             itemActions="{{_itemActions}}"/>
-      </Controls.list:Container>
-   </Controls.list:DataContainer>
-   <span>Move items only to collections</span>
-   <Controls.list:DataContainer source="{{_viewSourceSecond}}" keyProperty="id">
-      <Controls.list:Container>
-         <Controls.list:View class="demo-Mover__list test_list_2"
-                             name="listSecondMover"
-                             itemActions="{{_itemActionsSecond}}"/>
-      </Controls.list:Container>
-   </Controls.list:DataContainer>
-   <Controls.buttons:Button on:click="_onClick()" caption="{{_reloadCaption}}" />
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell controlsDemo__mr4">
+      <Router.router:Reference attr:class="controls-text-label"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/list_new/MoveController/Base/Index' }}">
+         <a href="{{content.href}}">Перемещение вверх и вниз</a>
+      </Router.router:Reference>
+      <Controls-demo.list_new.MoveController.Base.Index/>
+   </div>
 </div>

@@ -101,6 +101,9 @@ import {IList} from './interface/IList';
 import { IScrollControllerResult } from './ScrollContainer/interfaces';
 import { EdgeIntersectionObserver, getStickyHeadersHeight } from 'Controls/scroll';
 import { ItemsEntity } from 'Controls/dragnDrop';
+import {ISiblingStrategy} from 'Controls/_list/Controllers/strategies/ISiblingStrategy';
+import {FlatStrategy as FlatSiblingStrategy} from './Controllers/strategies/FlatStrategy';
+import {TreeStrategy as TreeSiblingStrategy} from './Controllers/strategies/TreeStrategy';
 import {IMoveControllerOptions, MoveController} from './Controllers/MoveController';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 import {RemoveController} from './Controllers/RemoveController';
@@ -3100,7 +3103,8 @@ const _private = {
         const controllerOptions: IMoveControllerOptions = {
             source: options.source,
             parentProperty: options.parentProperty,
-            sorting: options.sorting
+            sorting: options.sorting,
+            siblingStrategy: _private.getSiblingsStrategy(self)
         };
         if (options.moveDialogTemplate) {
             if (options.moveDialogTemplate.templateName) {
@@ -3123,6 +3127,17 @@ const _private = {
             self._moveController = new MoveController(_private.prepareMoverControllerOptions(self, self._options));
         }
         return self._moveController;
+    },
+
+    getSiblingsStrategy(self): ISiblingStrategy {
+        if (self._options.parentProperty) {
+            return new TreeSiblingStrategy({
+                collection: self._listViewModel
+            });
+        }
+        return new FlatSiblingStrategy({
+            collection: self._listViewModel
+        });
     },
 
     getMoveTargetItem(self: typeof BaseControl, selectedKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): CrudEntityKey {
@@ -6040,23 +6055,19 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
-        const sibling = _private.getMoveTargetItem(this, selectedKey, LOCAL_MOVE_POSITION.Before);
         const selection: ISelectionObject = {
             selected: [selectedKey],
             excluded: []
         };
-        return _private.getMoveController(this)
-            .move(selection, {}, sibling, LOCAL_MOVE_POSITION.Before) as Promise<void>;
+        return _private.getMoveController(this).moveUp(selection) as Promise<void>;
     }
 
     moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
-        const sibling = _private.getMoveTargetItem(this, selectedKey, LOCAL_MOVE_POSITION.After);
         const selection: ISelectionObject = {
             selected: [selectedKey],
             excluded: []
         };
-        return _private.getMoveController(this)
-            .move(selection, {}, sibling, LOCAL_MOVE_POSITION.After) as Promise<void>;
+        return _private.getMoveController(this).moveDown(selection) as Promise<void>;
     }
 
     moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet> {
