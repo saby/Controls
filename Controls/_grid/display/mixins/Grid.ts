@@ -178,7 +178,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 owner: this,
                 header: this._$header,
                 sorting: this._$sorting,
-                multiSelectVisibility: this._$multiSelectVisibility
+                multiSelectVisibility: this._$multiSelectVisibility,
+                hasMoreDataUp: this.hasMoreDataUp()
             } as IOptions);
         }
 
@@ -526,6 +527,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     abstract getMetaResults(): EntityModel;
     abstract hasMoreData(): boolean;
+    abstract hasMoreDataUp(): boolean;
     abstract getCollectionCount(): number;
     abstract getViewIterator(): IViewIterator;
     abstract getStartIndex(): number;

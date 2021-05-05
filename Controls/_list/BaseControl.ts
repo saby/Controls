@@ -3562,8 +3562,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         );
         this._afterItemsSet(cfg);
 
-        _private.setHasMoreData(this._listViewModel, _private.getHasMoreData(this), true);
-
         if (this._listViewModel) {
             _private.initListViewModelHandler(this, this._listViewModel, true);
         }
@@ -6397,7 +6395,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (typeof modelName !== 'string') {
             throw new TypeError('BaseControl: model name has to be a string when useNewModel is enabled');
         }
-        return diCreate(modelName, {...modelConfig, collection: items, unique: true, emptyTemplateOptions: {items, filter: modelConfig.filter}});
+        return diCreate(modelName, {
+            ...modelConfig,
+            collection: items,
+            unique: true,
+            emptyTemplateOptions: {items, filter: modelConfig.filter},
+            hasMoreData: _private.getHasMoreData(this)
+        });
     }
 
     _stopBubblingEvent(event: SyntheticEvent<Event>): void {
