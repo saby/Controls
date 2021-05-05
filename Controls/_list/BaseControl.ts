@@ -3874,7 +3874,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (!this.__error) {
             this._registerObserver();
-            if (this._needScrollCalculation) {
+            if (this._needScrollCalculation && this._listViewModel) {
                 this._registerIntersectionObserver();
             }
         }
@@ -4853,7 +4853,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (!this._observerRegistered) {
                 this._registerObserver();
             }
-            if (this._needScrollCalculation && !this._intersectionObserverRegistered) {
+            if (this._needScrollCalculation && !this._intersectionObserverRegistered && this._listViewModel) {
                 this._registerIntersectionObserver();
             }
         }
