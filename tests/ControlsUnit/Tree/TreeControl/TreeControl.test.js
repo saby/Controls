@@ -205,7 +205,8 @@ define([
                appendItems: function() {},
                mergeItems: function() {},
                getItemBySourceKey: () => undefined,
-               getCollection: () => new collection.RecordSet()
+               getCollection: () => new collection.RecordSet(),
+               getChildrenByRecordSet: () => false
          };
 
          treeControl.getVirtualScroll = function(){
