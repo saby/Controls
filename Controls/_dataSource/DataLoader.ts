@@ -69,6 +69,7 @@ export interface ILoadDataConfig extends
 export interface ILoadDataCustomConfig extends IBaseLoadDataConfig {
     type: 'custom';
     loadDataMethod: Function;
+    loadDataMethodArguments: object;
 }
 
 export interface IDataLoaderOptions {
@@ -249,7 +250,7 @@ export default class DataLoader {
 
         sourceConfigs.forEach((loadConfig) => {
             if (loadConfig.type === 'custom') {
-                loadPromise = loadConfig.loadDataMethod();
+                loadPromise = loadConfig.loadDataMethod(loadConfig.loadDataMethodArguments);
             } else {
                 loadPromise = loadDataByConfig(loadConfig);
             }
