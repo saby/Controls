@@ -2263,8 +2263,8 @@ var
         },
 
         // New Model compatibility
-        getItemBySourceKey(key: number | string): Model {
-            return this._model.getItemBySourceKey(key);
+        getItemBySourceKey(key: number | string, withFilter: boolean = true): Model {
+            return this._model.getItemBySourceKey(key, withFilter);
         },
 
         // New Model compatibility

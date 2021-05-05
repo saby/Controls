@@ -680,8 +680,8 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     },
 
     // New Model compatibility
-    getItemBySourceKey(key: number | string): Model {
-        return this.getItemById(key, this.getKeyProperty());
+    getItemBySourceKey(key: number | string, withFilter: boolean = true): Model {
+        return this.getItemById(key, this.getKeyProperty(), withFilter);
     },
 
     // New Model compatibility
