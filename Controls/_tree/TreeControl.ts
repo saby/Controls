@@ -3,6 +3,7 @@ import cClone = require('Core/core-clone');
 import { SyntheticEvent } from 'UI/Vdom';
 import { TemplateFunction } from "UI/Base";
 import { EventUtils } from 'UI/Events';
+import {Logger} from 'UI/Utils';
 
 import { constants } from 'Env/Env';
 
@@ -586,8 +587,13 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 // FIXME для совместимости, т.к. сейчас люди задают опции, которые требуетюся для запроса
                 //  и на списке и на Browser'e
                 const sourceControllerState = options.sourceController.getState();
+                const wrongParentPropertyOnController = sourceControllerState.parentProperty !== options.parentProperty;
 
-                if (options.parentProperty && sourceControllerState.parentProperty !== options.parentProperty ||
+                if (options.parentProperty && wrongParentPropertyOnController) {
+                    Logger.error('TreeControl: для корректной работы опцию parentProperty необходимо задавать на Layout/browser:Browser (Controls/list:DataContainer)', this);
+                }
+
+                if (options.parentProperty && wrongParentPropertyOnController ||
                     options.root !== undefined && options.root !== sourceControllerState.root) {
                     options.sourceController.updateOptions({...options, keyProperty: this._keyProperty});
                 }
