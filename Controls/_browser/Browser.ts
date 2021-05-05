@@ -325,7 +325,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
         if (this._dataLoader.getFilterController(id)?.update(this._getFilterControllerOptions(newOptions)) ||
             !isEqual(options.filter, newOptions.filter)) {
-            this._updateFilterAndFilterItems(newOptions);
+            this._updateFilterAndFilterItems(newOptions, id);
         }
 
         if (sourceChanged) {
@@ -688,8 +688,9 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _getSourceControllerOptions(options: IListConfiguration): ISourceControllerOptions {
         const root = options.id ? options.root : this._root;
         const source = options.id ? options.source : this._source;
+        const filter = options.id ? options.filter : this._filter;
         return {
-            filter: this._filter,
+            filter,
             source,
             navigationParamsChangedCallback: this._notifyNavigationParamsChanged,
             dataLoadErrback: this._dataLoadErrback,
