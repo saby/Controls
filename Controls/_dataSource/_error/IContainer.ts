@@ -45,6 +45,4 @@ export default interface IContainer {
  * @author Северьянов А.А.
  * @public
  */
-export interface IContainerConstructor {
-    new(config: IContainerConfig): IContainer;
-}
+export type IContainerConstructor = new(config: IContainerConfig) => IContainer;
