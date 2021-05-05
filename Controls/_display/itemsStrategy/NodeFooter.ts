@@ -2,7 +2,6 @@ import IItemsStrategy from 'Controls/_display/IItemsStrategy';
 import TreeItem from '../TreeItem';
 import Tree from '../Tree';
 import {Model} from 'Types/entity';
-import TreeGridNodeFooterRow from "Controls/_treeGrid/display/TreeGridNodeFooterRow";
 
 interface IOptions<S, T extends TreeItem<S>> {
     source: IItemsStrategy<S, T>;
@@ -27,7 +26,7 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
     /**
      * Группы
      */
-    protected _nodeFooters: TreeGridNodeFooterRow[] = [];
+    protected _nodeFooters: T[] = [];
 
     /**
      * Индекс в стратегии -> оригинальный индекс
@@ -112,7 +111,7 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
 
     private _removeNodeFooters(removedItems: T[]): void {
         removedItems.forEach((item) => {
-            const index = this._nodeFooters.findIndex((footer: TreeGridNodeFooterRow) => footer.getNode() === item);
+            const index = this._nodeFooters.findIndex((footer: T) => footer.getNode() === item);
             if (index !== -1) {
                 this._nodeFooters.splice(index, 1);
             }
