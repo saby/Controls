@@ -637,9 +637,8 @@ describe('Controls/browser:Browser', () => {
                 const options = getBrowserOptions();
                 const browser = getBrowser(options);
                 await browser._beforeMount(options);
-                const methodSpy = sinon.spy(browser._getSourceController(), 'setExpandedItems');
                 browser._beforeUpdate({...options, expandedItems: [1]});
-                assert.isTrue(methodSpy.withArgs([1]).called);
+                assert.deepEqual(browser._getSourceController().getExpandedItems(), [1]);
             });
         });
 
