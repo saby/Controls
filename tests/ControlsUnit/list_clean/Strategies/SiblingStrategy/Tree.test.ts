@@ -8,12 +8,13 @@ describe('Controls/list_clean/Strategies/SiblingStrategy/Tree', () => {
     let strategy: ISiblingStrategy;
 
     const mockCollection = {
+        getParentProperty: () => 'parent',
         getChildrenByRecordSet: (parent: CrudEntityKey) => ([
             {getKey: () => 1}, {getKey: () => 2}, {getKey: () => 3}
         ]),
         getCollection: () => ({
-            getIndexByValue: (key: CrudEntityKey, keyProperty: string) => key as number - 1,
-            at: (index: number) => ({getKey: () => index + 1}),
+            getIndexByValue: (keyProperty: string, key: CrudEntityKey) => key as number - 1,
+            at: (index: number) => ({getKey: () => index + 1, get: () => null}),
             getKeyProperty: () => 'id'
         })
     } as unknown as Tree;
@@ -29,7 +30,7 @@ describe('Controls/list_clean/Strategies/SiblingStrategy/Tree', () => {
     });
 
     it('returns previous record', () => {
-        assert.equal(strategy.getPrevByKey(3).getKey(), 1);
+        assert.equal(strategy.getPrevByKey(2).getKey(), 1);
     });
 
     it('returns undefined for last', () => {

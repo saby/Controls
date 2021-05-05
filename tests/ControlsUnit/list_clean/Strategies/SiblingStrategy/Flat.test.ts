@@ -9,8 +9,8 @@ describe('Controls/list_clean/Strategies/SiblingStrategy/Flat', () => {
 
     const mockCollection = {
         getCollection: () => ({
-            getIndexByValue: (key: CrudEntityKey, keyProperty: string) => key as number - 1,
-            at: (index: number) => ({ getKey: () => index + 1}),
+            getIndexByValue: (keyProperty: string, key: CrudEntityKey) => key as number - 1,
+            at: (index: number) => index >= 0 && index <= 2 ? { getKey: () => index + 1} : undefined,
             getKeyProperty: () => 'id'
         })
     } as unknown as Collection;
