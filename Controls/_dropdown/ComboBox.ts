@@ -280,7 +280,6 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
          fontColorStyle: 'default',
          tooltip: '',
          emptyKey: null,
-         borderVisibility: 'partial',
          contrastBackground: false
       };
    }
