@@ -8,6 +8,7 @@
                         displayProperty="{{_options.tabsOptions.displayProperty}}"
                         keyProperty="{{_options.tabsOptions.keyProperty}}"
                         source="{{_options.tabsOptions.source}}"
+                        separatorVisible="{{_options.tabsOptions.separatorVisible}}"
                         selectedKey="{{_suggestListOptions.tabsSelectedKey || _options.tabsOptions.selectedKey}}"/>
         </Controls.Container.Async>
     </ws:if>

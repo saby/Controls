@@ -34,7 +34,8 @@ var _private = {
 
     setHoveredItem: function(self, itemData, nativeEvent) {
         // setHoveredItem вызывается с задержкой, поэтому список уже может задестроиться
-        if (self._destroyed) {
+        // Не надо посылать ховер по элементам, которые нельзя выбирать
+        if (self._destroyed || (itemData && itemData.SelectableItem === false)) {
             return;
         }
 

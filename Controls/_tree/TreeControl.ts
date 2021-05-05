@@ -11,11 +11,11 @@ import { isEqual } from 'Types/object';
 import { RecordSet } from 'Types/collection';
 import { Model } from 'Types/entity';
 
-import { Direction, TKey } from 'Controls/interface';
+import {Direction, IHierarchyOptions, TKey} from 'Controls/interface';
 import { BaseControl, IBaseControlOptions } from 'Controls/list';
-import {Collection, CollectionItem, Tree, TreeItem} from 'Controls/display';
+import {Collection, Tree, TreeItem} from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
-import { NewSourceController as SourceController, NewSourceController } from 'Controls/dataSource';
+import { NewSourceController } from 'Controls/dataSource';
 import { MouseButtons, MouseUp } from 'Controls/popup';
 import 'css!Controls/list';
 import 'css!Controls/itemActions';
@@ -34,7 +34,7 @@ const DEFAULT_COLUMNS_VALUE = [];
 type TNodeFooterVisibilityCallback = (item: Model) => boolean;
 type TNodeLoadCallback = (list: RecordSet, nodeKey: number | string) => void;
 
-export interface ITreeControlOptions extends IBaseControlOptions {
+export interface ITreeControlOptions extends IBaseControlOptions, IHierarchyOptions {
     parentProperty: string;
     markerMoveMode?;
     root?;
@@ -60,7 +60,22 @@ const _private = {
         const newExpandedState = !item.isExpanded();
         const itemKey = item.getContents().getKey();
 
-        const newExpandedItems = options.expandedItems instanceof Array ? [...options.expandedItems] : [...model.getExpandedItems()];
+        // при работе с SourceController expandedItems всегда приходят из SourceController.
+        // Единственный достоверный способ получить их актуальное состояние - запросить их оттуда.
+        // Это покрывает кейс, когда в одном цикле синхронизации подряд вызывают toggleExpanded(),
+        // результат первого doExpand не запишется в модель и второй его перетрёт.
+        const sourceExpandedItems = self.getSourceController().getExpandedItems();
+        let newExpandedItems: CrudEntityKey[];
+        if (sourceExpandedItems && sourceExpandedItems instanceof Array) {
+            newExpandedItems = [...sourceExpandedItems];
+
+        } else if (options.expandedItems instanceof Array) {
+            newExpandedItems = [...options.expandedItems];
+
+        } else {
+            newExpandedItems = [...model.getExpandedItems()];
+        }
+
         const newCollapsedItems = options.collapsedItems instanceof Array ? [...options.collapsedItems] : [...model.getCollapsedItems()];
 
         if (newExpandedState) {
@@ -107,12 +122,12 @@ const _private = {
             });
         }
 
-        if (!options.hasOwnProperty('expandedItems') || options.markerMoveMode === 'leaves') {
+        if (!options.expandedItems || options.markerMoveMode === 'leaves') {
             model.setExpandedItems(newExpandedItems);
             self.getSourceController().setExpandedItems(newExpandedItems);
         }
 
-        if (!options.hasOwnProperty('collapsedItems')) {
+        if (!options.collapsedItems) {
             model.setCollapsedItems(newCollapsedItems);
         }
 
@@ -1030,6 +1045,49 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             this.setMarkerOnFirstLeaf(this._options);
         }
     }
+    protected _afterCollectionRemove(removedItems: Array<CollectionItem<Model>>, removedItemsIndex: number): void {
+        super._afterCollectionRemove(removedItems, removedItemsIndex);
+        if (this._options.expandedItems?.length || this._options.collapsedItems?.length) {
+            // обрабатываем только узлы
+            const items = removedItems.filter((it) => it['[Controls/_display/TreeItem]'] && it.isNode() !== null);
+            let removedKeys = items.map((it) => it.getContents().getKey());
+            // отфильтровываем скрытые записи
+            removedKeys = removedKeys.filter((it) => !this._items.getRecordById(it));
+
+            if (this._options.expandedItems?.length) {
+                const newExpandedItems = this._options.expandedItems.slice();
+                removedKeys.forEach((it) => {
+                    const expandedItemsIndex = newExpandedItems.indexOf(it);
+                    if (expandedItemsIndex !== -1) {
+                        newExpandedItems.splice(expandedItemsIndex, 1);
+                    }
+                });
+
+                if (!isEqual(newExpandedItems, this._options.expandedItems)) {
+                    this.getViewModel().setExpandedItems(newExpandedItems);
+                    this.getSourceController().setExpandedItems(newExpandedItems);
+
+                    this._notify('expandedItemsChanged', [newExpandedItems]);
+                }
+            }
+            if (this._options.collapsedItems?.length) {
+                const newCollapsedItems = this._options.collapsedItems.slice();
+                removedKeys.forEach((it) => {
+                    const collapsedItemsIndex = newCollapsedItems.indexOf(it);
+                    if (collapsedItemsIndex !== -1) {
+                        newCollapsedItems.splice(collapsedItemsIndex, 1);
+                    }
+                });
+
+                if (!isEqual(newCollapsedItems, this._options.collapsedItems)) {
+                    this.getViewModel().setCollapsedItems(newCollapsedItems);
+
+                    this._notify('collapsedItemsChanged', [newCollapsedItems]);
+                }
+            }
+        }
+    }
+
     private setMarkerOnFirstLeaf(options) {
         const markerController = this.getMarkerController();
         const model = this._listViewModel;

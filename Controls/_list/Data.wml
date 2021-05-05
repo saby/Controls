@@ -6,6 +6,8 @@
             on:register="_registerHandler()"
             on:unregister="_unregisterHandler()"
             on:listRootChanged="_rootChanged()"
+            on:listExpandedItemsChanged="_expandedItemsChanged()"
+            on:expandedItemsChanged="_expandedItemsChanged()"
             loading="{{_loading || _options.loading}}"
             scope="{{_options}}"
             items="{{_items}}"
@@ -19,4 +21,5 @@
             navigation="{{_sourceControllerState.navigation}}"
             sorting="{{_sourceControllerState.sorting}}"
             source="{{_sourceControllerState.source}}"
-            root="{{_sourceControllerState.root}}"/>
+            root="{{_sourceControllerState.root}}"
+            expandedItems="{{_expandedItems}}"/>
