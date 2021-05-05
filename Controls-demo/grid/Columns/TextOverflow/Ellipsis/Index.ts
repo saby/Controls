@@ -2,14 +2,14 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/grid/Columns/TextOverflow/Ellipsis/Ellipsis';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
-import { IHeader } from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/gridOld';
 import { IColumn } from 'Controls/gridOld';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     // tslint:disable-next-line
-    protected _header: IHeader[] = getCountriesStats().getDefaultHeader().slice(1, 4);
+    protected _header: IHeaderCell[] = getCountriesStats().getDefaultHeader().slice(1, 4);
     protected _columns: IColumn[] = [
         {
             displayProperty: 'country',

@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/treeGrid/NodeFooter/MoreFontColorSt
 import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import {IColumn} from 'Controls/gridOld';
-import {INavigation} from 'Controls-demo/types';
+import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -22,7 +22,7 @@ export default class extends Control {
     private _expandedItems10 = [];
     private _expandedItems11 = [];
 
-    protected _navigation: INavigation = {
+    protected _navigation: INavigationOptionValue<INavigationSourceConfig> = {
         source: 'page',
         view: 'demand',
         sourceConfig: {
