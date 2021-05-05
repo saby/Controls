@@ -6621,13 +6621,21 @@ define([
 
             lists.BaseControl._private.onCollectionChanged(control, {}, 'collectionChanged', 'rs', [], 0, [], 0);
             assert.isFalse(control._attachLoadTopTriggerToNull);
+            assert.isFalse(control._hideTopTrigger);
+            assert.isFalse(control._resetTopTriggerOffset);
 
             lists.BaseControl._private.onCollectionChanged(control, {}, 'collectionChanged', 'rs', [1], 0, [], 0);
-            assert.isTrue(control._attachLoadTopTriggerToNull);
+            assert.isFalse(control._attachLoadTopTriggerToNull);
+            assert.isTrue(control._hideTopTrigger);
+            assert.isTrue(control._resetTopTriggerOffset);
 
-             control._attachLoadTopTriggerToNull = false;
-             lists.BaseControl._private.onCollectionChanged(control, {}, 'collectionChanged', 'rs', [], 0, [1], 0);
-             assert.isTrue(control._attachLoadTopTriggerToNull);
+            control._attachLoadTopTriggerToNull = false;
+            control._hideTopTrigger = false;
+            control._resetTopTriggerOffset = false;
+            lists.BaseControl._private.onCollectionChanged(control, {}, 'collectionChanged', 'rs', [], 0, [1], 0);
+            assert.isFalse(control._attachLoadTopTriggerToNull);
+            assert.isTrue(control._hideTopTrigger);
+            assert.isTrue(control._resetTopTriggerOffset);
           });
        });
 
