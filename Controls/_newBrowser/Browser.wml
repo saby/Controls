@@ -4,7 +4,7 @@
    </ws:if>
    <Controls.explorer:View
            scope="{{_masterExplorerOptions}}"
-
+           name="masterList"
            root="{{_masterRoot}}"
            on:rootChanged="_onMasterRootChanged()"
            bind:markedKey="_masterMarkedKey"

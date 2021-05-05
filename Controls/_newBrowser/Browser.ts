@@ -69,6 +69,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     protected _notifyHandler: Function = EventUtils.tmplNotify;
     protected _children: {
         detailList: View
+        masterList: View
     };
 
     /**
@@ -314,6 +315,12 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      */
     reload(): Promise<RecordSet> {
         return this._detailDataSource.loadData();
+    }
+
+    // нужно уметь реагировать на результат выполнения команд самостоятельно.
+    reloadMaster(): Promise<RecordSet> {
+        const masterExplorer = this._children.masterList;
+        return masterExplorer.reload.apply(masterExplorer, arguments);
     }
 
     reloadItem(): unknown {
