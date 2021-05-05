@@ -8018,6 +8018,8 @@ define([
             updateOptions: () => {}
          };
          let spyMove;
+         let spyMoveUp;
+         let spyMoveDown;
          let spyMoveWithDialog;
          let cfg;
          let baseControl;
@@ -8056,25 +8058,29 @@ define([
                isEditing: () => false
             };
             spyMove = sinon.spy(moveController, 'move');
+            spyMoveUp = sinon.spy(moveController, 'moveUp');
+            spyMoveDown = sinon.spy(moveController, 'moveDown');
             spyMoveWithDialog = sinon.spy(moveController, 'moveWithDialog');
          });
 
          afterEach(() => {
             spyMove.restore();
+            spyMoveUp.restore();
+            spyMoveDown.restore();
             spyMoveWithDialog.restore();
          });
 
          // moveItemUp вызывает moveController
          it('moveItemUp() should call moveController', () => {
             return baseControl.moveItemUp(2).then(() => {
-               sinon.assert.called(spyMove);
+               sinon.assert.called(spyMoveUp);
             });
          });
 
          // moveItemDown вызывает moveController
          it('moveItemDown() should call moveController', () => {
             return baseControl.moveItemDown(2).then(() => {
-               sinon.assert.called(spyMove);
+               sinon.assert.called(spyMoveDown);
             });
          });
 

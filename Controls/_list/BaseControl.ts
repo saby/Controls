@@ -101,15 +101,15 @@ import {IList} from './interface/IList';
 import { IScrollControllerResult } from './ScrollContainer/interfaces';
 import { EdgeIntersectionObserver, getStickyHeadersHeight } from 'Controls/scroll';
 import { ItemsEntity } from 'Controls/dragnDrop';
-import {ISiblingStrategy} from 'Controls/_list/Controllers/strategies/ISiblingStrategy';
-import {FlatStrategy as FlatSiblingStrategy} from './Controllers/strategies/FlatStrategy';
-import {TreeStrategy as TreeSiblingStrategy} from './Controllers/strategies/TreeStrategy';
+import {ISiblingStrategy} from './Strategies/SiblingStategy/ISiblingStrategy';
+import {FlatSiblingStrategy} from './Strategies/SiblingStategy/Flat';
+import {TreeSiblingStrategy} from './Strategies/SiblingStategy/Tree';
 import {IMoveControllerOptions, MoveController} from './Controllers/MoveController';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 import {RemoveController} from './Controllers/RemoveController';
 import {isLeftMouseButton} from 'Controls/popup';
-import {IMovableList} from "./interface/IMovableList";
-import {saveConfig} from "Controls/Application/SettingsController";
+import {IMovableList} from './interface/IMovableList';
+import {saveConfig} from 'Controls/Application/SettingsController';
 
 //#endregion
 

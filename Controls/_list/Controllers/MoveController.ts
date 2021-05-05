@@ -8,7 +8,7 @@ import * as rk from 'i18n!*';
 import {IHashMap} from 'Types/declarations';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
-import {ISiblingStrategy} from './strategies/ISiblingStrategy';
+import {ISiblingStrategy} from '../Strategies/SiblingStategy/ISiblingStrategy';
 
 // @todo https://online.sbis.ru/opendoc.html?guid=2f35304f-4a67-45f4-a4f0-0c928890a6fc
 type TSource = SbisService|ICrudPlus;
