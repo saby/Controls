@@ -1,45 +1,19 @@
 <div class="controlsDemo__wrapper">
-    <div class="controlsDemo__margin-top">
-        <div>
-            <Controls.toggle:Checkbox
-                    attr:class="constrolsDemo__SearchWithColumnScroll__checkbox__hasMultiSelect"
-                    bind:value="_hasMultiSelect"
-                    caption="Множественный выбор"/>
-        </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/ItemClick/Base/Index' }}">
+            <a href="{{content.href}}">Отслеживание клика по записи</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.ItemClick.Base.Index/>
     </div>
-    <Controls.list:View
-            attr:class="controlsDemo__margin-top"
-            keyProperty="id"
-            multiSelectVisibility="{{ _hasMultiSelect ? 'visible' : 'hidden'}}"
-            source="{{_viewSource}}"
-            itemActions="{{_itemActions}}"
-            bind:selectedKeys="_selectedKeys"
-            on:itemClick="_onItemClick()"
-            on:itemActivate="_onItemActivate()"
-    >
-        <ws:editingConfig editOnClick="{{true}}"/>
-        <ws:itemTemplate>
-            <ws:partial template="Controls/list:ItemTemplate">
-                <ws:contentTemplate>
-                    <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.item.contents.title }}">
-                        <ws:editorTemplate>
-                            <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.item.contents.title"/>
-                        </ws:editorTemplate>
-                    </ws:partial>
-                </ws:contentTemplate>
-            </ws:partial>
-        </ws:itemTemplate>
-    </Controls.list:View>
 
-    <ws:if data="{{_textsInfo.length}}">
-        <Controls.scroll:Container
-                attr:class="controlsDemo__margin-top controlsDemo__height200 controlsDemo__maxWidth200">
-            <ws:for data="textInfo in _textsInfo">
-                <div class="controlsDemo__cell">{{ textInfo }}</div>
-            </ws:for>
-        </Controls.scroll:Container>
-        <div class="controlsDemo__cell">
-            <Controls.buttons:Button caption="Очистить" on:click="_clear()"></Controls.buttons:Button>
-        </div>
-    </ws:if>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/ItemClick/WithEditing/Index' }}">
+            <a href="{{content.href}}">Клик по записи с редактированием по месту</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.ItemClick.WithEditing.Index/>
+    </div>
 </div>

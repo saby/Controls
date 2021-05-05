@@ -18,4 +18,22 @@
       <Controls-demo.gridNew.TagStyle.TagStyleFromTemplateParam.Index/>
    </div>
 
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/gridNew/TagStyle/TagClick/Index' }}">
+         <a href="{{content.href}}">Обработка события tagClick</a>
+      </Router.router:Reference>
+      <Controls-demo.gridNew.TagStyle.TagClick.Index/>
+   </div>
+
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/gridNew/TagStyle/TagHover/Index' }}">
+         <a href="{{content.href}}">Обработка события tagHover</a>
+      </Router.router:Reference>
+      <Controls-demo.gridNew.TagStyle.TagHover.Index/>
+   </div>
+
 </div>
