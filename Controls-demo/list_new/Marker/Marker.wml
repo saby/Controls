@@ -39,7 +39,7 @@
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Marker/OnBeforeMarkedKeyChanged/Index' }}">
-            <a href="{{content.href}}">Обработка события перед установкой маркера</a>
+            <a href="{{content.href}}">Асинхронная обработка перед установкой маркера</a>
         </Router.router:Reference>
         <Controls-demo.list_new.Marker.OnBeforeMarkedKeyChanged.Index/>
     </div>
@@ -48,7 +48,7 @@
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Marker/OnMarkedKeyChanged/Index' }}">
-            <a href="{{content.href}}">Обработка события после установки маркера</a>
+            <a href="{{content.href}}">Управление установкой маркера</a>
         </Router.router:Reference>
         <Controls-demo.list_new.Marker.OnMarkedKeyChanged.Index/>
     </div>
