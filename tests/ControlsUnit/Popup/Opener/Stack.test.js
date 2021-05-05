@@ -84,16 +84,15 @@ define(
                popupOptions: { stackClassName: '' }
             });
             popupTemplate.StackController._stack.add({
-               containerWidth: 600,
-               popupOptions: { stackClassName: '' },
-               popupState: popupTemplate.StackController.POPUP_STATE_INITIALIZING
+               position: { width: 600 },
+               popupOptions: { stackClassName: '' }
             });
             popupTemplate.StackController._stack.add({
                position: { width: 600 },
                popupOptions: { stackClassName: '' }
             });
             popupTemplate.StackController._stack.add({
-               position: { width: 50, right: 950},
+               position: { width: 50, right: 950 },
                popupOptions: { stackClassName: '' }
             });
             popupTemplate.StackController._stack.add({
@@ -101,24 +100,21 @@ define(
                popupOptions: { stackClassName: '' }
             });
             popupTemplate.StackController._stack.add({
-               containerWidth: 600,
-               popupOptions: { stackClassName: '' },
-               popupState: popupTemplate.StackController.POPUP_STATE_INITIALIZING
+               position: { width: 600 },
+               popupOptions: { stackClassName: '' }
             });
             popupTemplate.StackController._stack.add({
-               containerWidth: 720,
-               popupOptions: { stackClassName: '' },
-               popupState: popupTemplate.StackController.POPUP_STATE_INITIALIZING
+               position: { width: 720 },
+               popupOptions: { stackClassName: '' }
             });
             popupTemplate.StackController._stack.add({
-               containerWidth: 200,
+               position: { width: 200 },
                popupState: 'destroying',
                popupOptions: { stackClassName: '' }
             });
             popupTemplate.StackController._stack.add({
-               containerWidth: 200,
-               popupOptions: { stackClassName: '' },
-               popupState: popupTemplate.StackController.POPUP_STATE_INITIALIZING
+               position: { width: 200 },
+               popupOptions: { stackClassName: '' }
             });
 
             popupTemplate.StackController._update();
