@@ -151,12 +151,12 @@ function getLoadResult(
         sourceController,
         filterController,
         historyItems,
-        source: new PrefetchProxy({
+        source: loadConfig.source ? new PrefetchProxy({
             target: loadConfig.source,
             data: {
                 query: sourceController.getLoadError() || sourceController.getItems()
             }
-        }),
+        }): undefined,
         data: sourceController.getItems(),
         error: sourceController.getLoadError(),
         filter: sourceController.getFilter(),
