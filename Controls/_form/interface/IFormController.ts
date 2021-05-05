@@ -83,6 +83,12 @@
  */
 
 /**
+ * @name Controls/_form/interface/IFormController#errorController
+ * @cfg {Controls/dataSource:error.Controller} Компонент для обработки ошибки.
+ * Данную опцию следует определять, если нужно изменить способ отображения ошибки (диалог, вместо контента или во всю страницу) или добавить свои обработчики ошибок.
+ */
+
+/**
  * @name Controls/_form/interface/IFormController#initializingWay
  * @cfg {String} Устанавливает способ инициализации данных диалога редактирования.
  * @variant 'preload' В этом режиме FormController строится без данных, ожидая что запись появится на фазе обновления. Используется совместно с режимом предзагрузки данных при построении контрола. Подробнее см опцию {@link Controls/popup:IBaseOpener#dataLoaders}

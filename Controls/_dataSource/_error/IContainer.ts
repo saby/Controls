@@ -10,7 +10,7 @@ import { IControlOptions } from 'UI/Base';
 export interface IContainerConfig extends IControlOptions {
     /**
      * @name Controls/_dataSource/_error/Container#viewConfig
-     * @cfg {Controls/_dataSource/_error/Container/Config} Данные для отображения сообщения об ошибке.
+     * @cfg Данные для отображения сообщения об ошибке.
      */
     viewConfig?: ViewConfig;
 }
@@ -25,7 +25,7 @@ export interface IContainerConfig extends IControlOptions {
 export default interface IContainer {
     /**
      * Показать парковочный компонент, отображающий данные об ошибке
-     * @param {Controls/_dataSource/_error/ViewConfig} viewConfig
+     * @param viewConfig
      * @method
      * @public
      */
@@ -45,6 +45,4 @@ export default interface IContainer {
  * @author Северьянов А.А.
  * @public
  */
-export interface IContainerConstructor {
-    new(config: IContainerConfig): IContainer;
-}
+export type IContainerConstructor = new(config: IContainerConfig) => IContainer;
