@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__grid-tagStyleProperty controlsDemo__maxWidth800">
     <div class="controlsDemo-toolbar-panel">
-        &nbsp;&nbsp;{{_currentEvent && _currentColumnIndex && _currentValue ? (_currentEvent + ' на колонке №' +
+        &nbsp;&nbsp;{{_currentEvent && _currentColumnIndex && _currentValue ? (_currentEvent + ' на теге в колонке №' +
         _currentColumnIndex + ' со значением ' + _currentValue) : ''}}
     </div>
     <Controls.grid:View
@@ -9,7 +9,5 @@
             columns="{{_columns}}"
             multiSelectVisibility="hidden"
             on:tagClick="_onTagClickCustomHandler()"
-            on:tagHover="_onTagHoverCustomHandler()"
-    >
-    </Controls.grid:View>
+            on:tagHover="_onTagHoverCustomHandler()"/>
 </div>

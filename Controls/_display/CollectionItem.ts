@@ -49,6 +49,7 @@ export interface IOptions<T extends Model = Model> {
     isLastItem?: boolean;
     isFirstItem?: boolean;
     hasMoreDataUp?: boolean;
+    isFirstStickedItem?: boolean;
     roundBorder?: object;
 }
 
@@ -175,6 +176,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     protected _$hasMoreDataUp: boolean;
 
+    protected _$isFirstStickedItem: boolean;
+
     protected _instancePrefix: string;
 
     /**
@@ -205,7 +208,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         // Для элементов, которые создаются сразу застканными, задается shadowVisibility='initial'.
         // Это сделано для оптимизации, чтобы не было лишних прыжков теней при изначальной отрисовке,
         // когда есть данные вверх
-        if (this.hasMoreDataUp() && this.isSticked()) {
+        if (this.hasMoreDataUp() && this._$isFirstStickedItem) {
             this._shadowVisibility = 'initial';
         }
     }
@@ -1117,6 +1120,7 @@ Object.assign(CollectionItem.prototype, {
     _$isLastItem: false,
     _$isFirstItem: false,
     _$hasMoreDataUp: false,
+    _$isFirstStickedItem: false,
     _contentsIndex: undefined,
     _version: 0,
     _counters: null,
