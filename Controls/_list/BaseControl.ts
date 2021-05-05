@@ -3140,17 +3140,6 @@ const _private = {
         });
     },
 
-    getMoveTargetItem(self: typeof BaseControl, selectedKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): CrudEntityKey {
-        let siblingItem;
-        if (position === LOCAL_MOVE_POSITION.Before) {
-            siblingItem = self._listViewModel.getPrevByKey(selectedKey, true);
-        } else {
-            siblingItem = self._listViewModel.getNextByKey(selectedKey, true);
-        }
-        const siblingKey = siblingItem && siblingItem.getContents && siblingItem.getContents().getKey();
-        return siblingKey !== undefined && siblingKey !== null ? siblingKey : null;
-    },
-
     getRemoveController(self): RemoveController {
         if (!self._removeController) {
             self._removeController = new RemoveController({source: self._options.source});
