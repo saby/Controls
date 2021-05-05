@@ -509,10 +509,6 @@ const _private = {
             if (self._isMounted) {
                 _private.checkLoadToDirectionCapability(self, options.filter, options.navigation);
             }
-        } else if (!self._wasScrollToEnd) {
-            if (_private.attachLoadTopTriggerToNullIfNeed(self, options) && !self._isMounted) {
-                self._hideTopTrigger = true;
-            }
         }
     },
 
@@ -834,6 +830,14 @@ const _private = {
                     self._needScrollToFirstItem = false;
                 } else if (direction === 'down') {
                     _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
+                }
+
+                if (self._recountTopTriggerAfterLoadData) {
+                    self._recountTopTriggerAfterLoadData = false;
+                    _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
+                    if (self._hideTopTrigger && !self._needScrollToFirstItem) {
+                        self._hideTopTrigger = false;
+                    }
                 }
 
                 // Скрываем ошибку после успешной загрузки данных
@@ -1485,6 +1489,8 @@ const _private = {
         return self._portionedSearch || (self._portionedSearch = new PortionedSearch({
             searchStartCallback: () => {
                 self._portionedSearchInProgress = true;
+                // Нужно сбросить флаг, чтобы подгрузка по триггеру работала после порционного поиска.
+                self._handleLoadToDirection = false;
             },
             searchStopCallback: (direction?: IDirection) => {
                 const isStoppedByTimer = !direction;
@@ -1671,10 +1677,13 @@ const _private = {
 
             if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length)) {
                 if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
-                    if (!self._resetTopTriggerOffset) {
-                        self._resetTopTriggerOffset = true;
-                        self._updateScrollController(self._options);
-                    }
+                    // Не нужно показывать ромашку сразу после релоада, т.к. элементов может быть недостаточно на всю страницу
+                    // и тогда загрузка должна будет пойти только в одну сторону.
+                    // Ромашку покажем на _afterRender, когда точно будем знать достаточно ли элементов загружено
+                    self._attachLoadTopTriggerToNull = false;
+                    self._hideTopTrigger = true;
+                    self._resetTopTriggerOffset = true;
+                    self._updateScrollController(self._options);
                 }
                 if (_private.attachLoadDownTriggerToNullIfNeed(self, self._options)) {
                     if (!self._resetDownTriggerOffset) {
@@ -4697,10 +4706,21 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
         this._actualPagingVisible = this._pagingVisible;
 
-        if (this._hideTopTrigger && this._needScrollToFirstItem) {
+        if (this._needScrollToFirstItem) {
+            // Скроллить нужно только если достаточно элементов(занимают весь вьюПорт)
+            if (this._viewSize > this._viewportSize && _private.attachLoadTopTriggerToNullIfNeed(this, this._options)) {
+                // Ромашку нужно показать непосредственно перед скроллом к первому элементу
+                this.changeIndicatorStateHandler(true, 'up');
+                if (this._hideTopTrigger) {
+                    this._hideTopTrigger = false;
+                }
+                this._scrollToFirstItemIfNeed();
+            }
+        }
+        if (this._viewSize <= this._viewportSize && this._hideTopTrigger) {
+            // Если данных не хватает на всю страницу, то не нужно скрывать триггер
             this._hideTopTrigger = false;
         }
-        this._scrollToFirstItemIfNeed();
 
         if (this._updateShadowModeBeforePaint) {
             this._updateShadowModeBeforePaint();
@@ -4770,19 +4790,25 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
     handleTriggerVisible(direction: IDirection): void {
-        // Вызываем сдвиг диапазона в направлении видимого триггера
-        this._shiftToDirection(direction);
+        // Если уже идет загрузка в какую-то сторону, то в другую сторону не начинаем загрузку
+        if (!this._handleLoadToDirection) {
+            // Вызываем сдвиг диапазона в направлении видимого триггера
+            this._shiftToDirection(direction);
+        }
     }
     protected _shiftToDirection(direction): Promise {
         let resolver;
         const shiftPromise = new Promise((res) => { resolver = res; });
+        this._handleLoadToDirection = this._sourceController.hasMoreData(direction);
         this._scrollController.shiftToDirection(direction).then((result) => {
             if (result) {
                 _private.handleScrollControllerResult(this, result);
                 this._syncLoadingIndicatorState = direction;
+                this._handleLoadToDirection = false;
                 resolver();
             } else {
                 this._loadMore(direction).then(() => {
+                    this._handleLoadToDirection = false;
                     resolver();
                 });
             }
@@ -6194,12 +6220,19 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _mouseEnter(event): void {
         this._dragEnter(this._getDragObject());
 
-        // нельзя делать это в процессе обновления или загрузки
-        if (!this._loadingState && !this._updateInProgress && !this._scrollController?.getScrollTop()) {
-            _private.attachLoadTopTriggerToNullIfNeed(this, this._options);
-        }
-        if (this._hideTopTrigger && !this._needScrollToFirstItem) {
-            this._hideTopTrigger = false;
+        // Нельзя отображать верхний индикатор, если уже отображается нижний и элементы не занимают весь вьюпорт
+        // Верхний индикатор пересчитаем после подгрузки элементов
+        const shouldAttachTopTrigger = !(this._attachLoadDownTriggerToNull && this._viewSize <= this._viewportSize);
+        if (shouldAttachTopTrigger) {
+            // нельзя делать это в процессе обновления или загрузки
+            if (!this._loadingState && !this._updateInProgress && !this._scrollController?.getScrollTop()) {
+                _private.attachLoadTopTriggerToNullIfNeed(this, this._options);
+            }
+            if (this._hideTopTrigger && !this._needScrollToFirstItem) {
+                this._hideTopTrigger = false;
+            }
+        } else {
+            this._recountTopTriggerAfterLoadData = true;
         }
 
         if (!this._pagingVisible) {
