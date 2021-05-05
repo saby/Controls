@@ -8014,6 +8014,8 @@ define([
       describe('MoveController', () => {
          const moveController = {
             move: () => Promise.resolve(),
+            moveUp: () => Promise.resolve(),
+            moveDown: () => Promise.resolve(),
             moveWithDialog: () => Promise.resolve(),
             updateOptions: () => {}
          };
