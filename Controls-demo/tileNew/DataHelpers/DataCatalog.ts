@@ -68,12 +68,42 @@ const characteristics = [
     ]
 ];
 export const Gadgets = {
+    getDataWithRealImages: (): IData[] => [{
+        id: 1,
+        parent: null,
+        type: null,
+        title: 'Сравнение условий конкурентов по ЭДО.xlsx',
+        image: Images.CAR,
+        isDocument: true,
+        hiddenGroup: true,
+        width: 150,
+        isShadow: true
+    }, {
+        id: 2,
+        parent: null,
+        type: null,
+        title: 'Сравнение систем по учету рабочего времени.xlsx',
+        image: Images.CAR,
+        isDocument: true,
+        hiddenGroup: true,
+        width: 200,
+        isShadow: false
+    }, {
+        id: 3,
+        parent: null,
+        type: null,
+        title: 'Конфеты копия',
+        image: Images.MOUNTANTS,
+        isDocument: true,
+        width: 300,
+        isShadow: true
+    }],
    getData: (): IData[] => [{
       id: 1,
       parent: null,
       type: null,
       title: 'Сравнение условий конкурентов по ЭДО.xlsx',
-      image: Images.CAR,
+      image: explorerImages[4],
       isDocument: true,
       hiddenGroup: true,
       width: 150,
@@ -83,7 +113,7 @@ export const Gadgets = {
       parent: null,
       type: null,
       title: 'Сравнение систем по учету рабочего времени.xlsx',
-      image: Images.CAR,
+      image: explorerImages[5],
       isDocument: true,
       hiddenGroup: true,
       width: 200,
@@ -93,7 +123,7 @@ export const Gadgets = {
       parent: null,
       type: null,
       title: 'Конфеты копия',
-      image: Images.MOUNTANTS,
+      image: explorerImages[3],
       isDocument: true,
       width: 300,
       isShadow: true
