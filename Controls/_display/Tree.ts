@@ -86,7 +86,7 @@ function onCollectionChange<T>(
     reason: string
 ): void {
     // Fix state of all nodes
-    const nodes = this.instance._getItems().filter((item) => item.isNode && item.isNode());
+    const nodes = this.instance._getItems().filter((item) => item.isNode && item.isNode() !== null);
     const state = this.instance._getItemsState(nodes);
     const session = this.instance._startUpdateSession();
 
