@@ -578,6 +578,8 @@ define('Controls/interface/IEditableList', [
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Параметры добавления.
     * @returns {Promise}
     * @remark
+    * Promise разрешается после монтирования контрола в DOM.
+    * 
     * Перед запуском добавления по месту происходит событие {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit}, а после запуска — {@link Controls/interface/IEditableList#afterBeginEdit afterBeginEdit}.
     *
     * Вы можете задать позицию, в которой отображается шаблон редактирования строки. Для этого в опции {@link editingConfig} установите значение для параметра {@link Controls/interface/IEditableList/EditingConfig.typedef addPosition}. Шаблон редактирования строки может отображаться в начале и в конце списка, группы (если включена {@link Controls/interface/IGroupedList#groupProperty группировка}) или узла (для иерархических списков).
@@ -636,6 +638,8 @@ define('Controls/interface/IEditableList', [
     * @function Controls/interface/IEditableList#commitEdit
     * @returns {Promise}
     * @remark
+    * Promise разрешается после монтирования контрола в DOM.
+    * 
     * Используйте этот метод, когда вы хотите завершить редактирование в ответ на действие пользователя, например, когда пользователь пытается закрыть диалоговое окно, используйте этот метод для сохранения изменений.
     *
     * При завершении редактирования по месту происходят события, подробнее о которых читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/events/ здесь}.
@@ -684,6 +688,8 @@ define('Controls/interface/IEditableList', [
     * @function Controls/interface/IEditableList#cancelEdit
     * @returns {Promise}
     * @remark
+    * Promise разрешается после монтирования контрола в DOM.
+    * 
     * Используйте этот метод, когда вы хотите завершить редактирование или добавление в ответ на действия пользователя, например, когда пользователь нажимает на кнопку "Отмена".
     *
     * При завершении редактирования по месту происходят события, подробнее о которых читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/events/ здесь}.
