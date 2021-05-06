@@ -36,7 +36,7 @@ export default class extends Control {
       this._itemActions = [
          {
             id: 0,
-            icon: 'icon-ArrowUp icon-primary',
+            icon: 'icon-ArrowUp',
             showType: TItemActionShowType.TOOLBAR,
             handler: (item) => {
                this._children.treeGrid.moveItemUp(item.getKey()).then(() => {
@@ -46,7 +46,7 @@ export default class extends Control {
          },
          {
             id: 1,
-            icon: 'icon-ArrowDown icon-primary',
+            icon: 'icon-ArrowDown',
             showType: TItemActionShowType.TOOLBAR,
             handler: (item) => {
                this._children.treeGrid.moveItemDown(item.getKey()).then(() => {

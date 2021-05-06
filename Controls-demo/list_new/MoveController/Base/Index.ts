@@ -40,7 +40,7 @@ export default class Mover extends Control<IControlOptions> {
       this._itemActions = [
          {
             id: 0,
-            icon: 'icon-ArrowUp icon-primary',
+            icon: 'icon-ArrowUp',
             showType: TItemActionShowType.TOOLBAR,
             handler: (item) => {
                this._children.listControl.moveItemUp(item.getKey()).then(() => {
@@ -50,7 +50,7 @@ export default class Mover extends Control<IControlOptions> {
          },
          {
             id: 1,
-            icon: 'icon-ArrowDown icon-primary',
+            icon: 'icon-ArrowDown',
             showType: TItemActionShowType.TOOLBAR,
             handler: (item) => {
                this._children.listControl.moveItemDown(item.getKey()).then(() => {

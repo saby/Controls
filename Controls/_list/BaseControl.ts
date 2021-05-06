@@ -103,7 +103,6 @@ import { EdgeIntersectionObserver, getStickyHeadersHeight } from 'Controls/scrol
 import { ItemsEntity } from 'Controls/dragnDrop';
 import {ISiblingStrategy} from './Strategies/SiblingStategy/ISiblingStrategy';
 import {FlatSiblingStrategy} from './Strategies/SiblingStategy/Flat';
-import {TreeSiblingStrategy} from './Strategies/SiblingStategy/Tree';
 import {IMoveControllerOptions, MoveController} from './Controllers/MoveController';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 import {RemoveController} from './Controllers/RemoveController';
@@ -3113,7 +3112,7 @@ const _private = {
             source: options.source,
             parentProperty: options.parentProperty,
             sorting: options.sorting,
-            siblingStrategy: _private.getSiblingsStrategy(self)
+            siblingStrategy: self._getSiblingsStrategy()
         };
         if (options.moveDialogTemplate) {
             if (options.moveDialogTemplate.templateName) {
@@ -3136,17 +3135,6 @@ const _private = {
             self._moveController = new MoveController(_private.prepareMoverControllerOptions(self, self._options));
         }
         return self._moveController;
-    },
-
-    getSiblingsStrategy(self): ISiblingStrategy {
-        if (self._options.parentProperty) {
-            return new TreeSiblingStrategy({
-                collection: self._listViewModel
-            });
-        }
-        return new FlatSiblingStrategy({
-            collection: self._listViewModel
-        });
     },
 
     getRemoveController(self): RemoveController {
@@ -6085,6 +6073,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet> {
         return _private.getMoveController(this).moveWithDialog(selection, this._options.filter);
+    }
+
+    protected _getSiblingsStrategy(): ISiblingStrategy {
+        return new FlatSiblingStrategy({
+            collection: this._listViewModel
+        });
     }
 
     // endregion move
