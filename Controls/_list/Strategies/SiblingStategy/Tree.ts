@@ -28,7 +28,8 @@ export class TreeSiblingStrategy implements ISiblingStrategy {
         const parent = this._getParentItem(key);
         const children = this._collection.getChildrenByRecordSet(parent);
         const currentChildIndex = children.findIndex((item) => item.getKey() === key);
-        if (currentChildIndex === children.length - 1 || currentChildIndex === 0) {
+        if ((direction === LOCAL_MOVE_POSITION.After && currentChildIndex === children.length - 1) ||
+            (direction === LOCAL_MOVE_POSITION.Before && currentChildIndex === 0)) {
             return;
         }
         return children[currentChildIndex + (direction === LOCAL_MOVE_POSITION.After ? 1 : -1)];
