@@ -14,7 +14,7 @@ export interface ILoadingIndicatorOptions extends IControlOptions {
 
 /**
  * Интерфейс индикатора загрузки.
- *
+ * @author Красильников А.С.
  * @interface Controls/LoadingIndicator/interface/ILoadingIndicator
  * @public
  */
