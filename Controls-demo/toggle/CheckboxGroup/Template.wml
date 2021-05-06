@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth1700">
     <div class="controlsDemo__cell demo-checkboxGroupIndex__base">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/toggle/CheckboxGroup/Base/Index' }}">
             <a href="{{content.href}}">Базовая настройка группы чекбоксов</a>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="controlsDemo__cell demo-checkboxGroupIndex__horizontal">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/toggle/CheckboxGroup/Direction/Index' }}">
             <a href="{{content.href}}">Горизонтальное расположение группы чекбоксов</a>
@@ -18,7 +18,7 @@
     </div>
 
     <div class="controlsDemo__cell demo-checkboxGroupIndex__hierarchy">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/toggle/CheckboxGroup/ParentProperty/Index' }}">
             <a href="{{content.href}}">Группа чекбоксов с иерархией</a>

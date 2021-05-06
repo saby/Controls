@@ -1,88 +1,47 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
-        <div class="controls-text-label">Настройки размера иерархического отступа</div>
-            <div class="controlsDemo__wrapper controlsDemo_treeGrid-offset-levelIndent-all-custom">
-                <Controls.treeGridOld:View
-                        keyProperty="id"
-                        source="{{_viewSource}}"
-                        columns="{{_columns}}"
-                        bind:expandedItems="_expandedItems"
-                        parentProperty="parent"
-                        nodeProperty="type">
-                    <ws:itemTemplate>
-                        <ws:partial template="Controls/treeGridOld:ItemTemplate" levelIndentSize="s" />
-                    </ws:itemTemplate>
-                </Controls.treeGridOld:View>
-            </div>
-    </div>
-    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
-        <div class="controls-text-label">Отступы соответствующие размеру S</div>
-        <div class="controlsDemo__wrapper controlsDemo_treeGrid-offset-levelIndent-all-s">
-            <Controls.treeGridOld:View
-                    keyProperty="id"
-                    source="{{_viewSource}}"
-                    columns="{{_columns}}"
-                    parentProperty="parent"
-                    bind:expandedItems="_expandedItemsS"
-                    nodeProperty="type">
-                <ws:itemTemplate>
-                    <ws:partial template="Controls/treeGridOld:ItemTemplate" levelIndentSize="s" />
-                </ws:itemTemplate>
-            </Controls.treeGridOld:View>
-        </div>
-    </div>
-
-
-    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
-        <div class="controls-text-label">Отступы соответствующие размеру M</div>
-        <div class="controlsDemo__wrapper controlsDemo_treeGrid-offset-levelIndent-all-m">
-            <Controls.treeGridOld:View
-                    keyProperty="id"
-                    source="{{_viewSource}}"
-                    columns="{{_columns}}"
-                    bind:expandedItems="_expandedItemsM"
-                    parentProperty="parent"
-                    nodeProperty="type">
-                <ws:itemTemplate>
-                    <ws:partial template="Controls/treeGridOld:ItemTemplate" levelIndentSize="m" />
-                </ws:itemTemplate>
-            </Controls.treeGridOld:View>
-        </div>
-    </div>
-
-
-    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
-        <div class="controls-text-label">Отступы соответствующие размеру L</div>
-        <div class="controlsDemo__wrapper controlsDemo_treeGrid-offset-levelIndent-all-l">
-            <Controls.treeGridOld:View
-                    keyProperty="id"
-                    source="{{_viewSource}}"
-                    columns="{{_columns}}"
-                    parentProperty="parent"
-                    bind:expandedItems="_expandedItemsL"
-                    nodeProperty="type">
-                <ws:itemTemplate>
-                    <ws:partial template="Controls/treeGridOld:ItemTemplate" levelIndentSize="l" />
-                </ws:itemTemplate>
-            </Controls.treeGridOld:View>
-        </div>
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/Offsets/LevelIndentSize/All/SizeCustom/Index' }}">
+            <a href="{{content.href}}">Настройки размера иерархического отступа</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.Offsets.LevelIndentSize.All.SizeCustom.Index/>
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
-        <div class="controls-text-label">Отступы соответствующие размеру XL</div>
-        <div class="controlsDemo__wrapper controlsDemo_treeGrid-offset-levelIndent-all-xl">
-            <Controls.treeGridOld:View
-                    keyProperty="id"
-                    source="{{_viewSource}}"
-                    columns="{{_columns}}"
-                    parentProperty="parent"
-                    bind:expandedItems="_expandedItemsXl"
-                    nodeProperty="type">
-                <ws:itemTemplate>
-                    <ws:partial template="Controls/treeGridOld:ItemTemplate" levelIndentSize="xl" />
-                </ws:itemTemplate>
-            </Controls.treeGridOld:View>
-        </div>
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/Offsets/LevelIndentSize/All/SizeS/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру S</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.Offsets.LevelIndentSize.All.SizeS.Index/>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/Offsets/LevelIndentSize/All/SizeM/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру M</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.Offsets.LevelIndentSize.All.SizeM.Index/>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/Offsets/LevelIndentSize/All/SizeL/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру L</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.Offsets.LevelIndentSize.All.SizeL.Index/>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/Offsets/LevelIndentSize/All/SizeXL/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру XL</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.Offsets.LevelIndentSize.All.SizeXL.Index/>
     </div>
 
 </div>

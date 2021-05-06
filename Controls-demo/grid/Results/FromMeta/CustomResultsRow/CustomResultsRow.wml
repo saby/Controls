@@ -1,4 +1,11 @@
-<div class="controlsDemo__wrapper controlsDemo__flex">
+<div class="controlsDemo__wrapper">
+    <div>
+        <a href="#" class="controls-text-link controlsDemo-udateMetaData-grid-results_autotest" on:click="_updateMeta()">Перегенерировать и обновить результаты в метаданных при перезагрузке списка</a>
+        <br/>
+        <a href="#" class="controls-text-link controlsDemo-setMetaData-grid-results_autotest" on:click="_setMeta()">Перегенерировать и установить метаданные в RecordSet напрямую</a>
+        <br/>
+        <a href="#" class="controls-text-link controlsDemo-setMetaData-grid-results_autotest" on:click="_setResultRow()">Перегенерировать только одно поле в результатах</a>
+    </div>
     <!-- Необязательно оборачивать список в скролл контейнер. -->
     <!-- Здесь это сделано для месного решения этих ошибок со stickyHeader. -->
     <!-- https://online.sbis.ru/opendoc.html?guid=64a425b7-4a53-4bb1-932e-2899ffe5fd98 -->
@@ -20,15 +27,6 @@
                     </ws:contentTemplate>
                 </ws:partial>
             </ws:resultsTemplate>
-            <ws:footerTemplate>
-                <div>
-                    <a href="#" class="controls-text-link_theme-default controlsDemo-udateMetaData-grid-results_autotest" on:click="_updateMeta()">Перегенерировать и обновить результаты в метаданных при перезагрузке списка</a>
-                    <br/>
-                    <a href="#" class="controls-text-link_theme-default controlsDemo-setMetaData-grid-results_autotest" on:click="_setMeta()">Перегенерировать и установить метаданные в RecordSet напрямую</a>
-                    <br/>
-                    <a href="#" class="controls-text-link_theme-default controlsDemo-setMetaData-grid-results_autotest" on:click="_setResultRow()">Перегенерировать только одно поле в результатах</a>
-                </div>
-            </ws:footerTemplate>
         </Controls.gridOld:View>
     </Controls.scroll:Container>
 </div>

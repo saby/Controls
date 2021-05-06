@@ -5,6 +5,7 @@
                viewMode="{{_options.imageViewMode}}"
                position="{{_options.imagePosition}}"
                afterImageTemplate="{{afterImageTemplate}}"
+               imageGradientColor="{{_options.imageGradientColor}}"
                item="{{(item || itemData)}}"
                effect="{{_options.imageEffect}}"/>
 </ws:template>
@@ -34,6 +35,7 @@
                      imagePosition="{{_options.imagePosition}}"
                      imageEffect="{{_options.imageEffect}}"
                      afterImageTemplate="{{afterImageTemplate}}"
+                     imageGradientColor="{{_options.imageGradientColor}}"
                      imageViewMode="{{_options.imageViewMode}}"/>
       </ws:if>
       <div class="controls-listTemplates__listItemTemplate__itemContent">
@@ -91,6 +93,7 @@
                   isEditing="{{item.isEditing()}}"
                   imageProperty="{{_options.imageProperty}}"
                   imagePosition="{{_options.imagePosition}}"
+                  imageGradientColor="{{_options.imageGradientColor}}"
                   imageViewMode="{{_options.imageViewMode}}"/>
    </ws:contentTemplate>
 </ws:partial>

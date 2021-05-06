@@ -5,7 +5,7 @@
                 keyProperty="id"
         >
             <ws:popupFooterTemplate>
-                <div class="controls-text-label_theme-{{_options.theme}}
+                <div class="controls-text-label
                  controlsDemo__wrapper
                  controlsDemo_fixedWidth300"
                 >

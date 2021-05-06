@@ -36,7 +36,9 @@ export interface IOptions<T> extends IColspanParams {
     columnSeparatorSize?: string;
     backgroundStyle?: string;
     isSticked?: boolean;
+    shadowVisibility?: string;
     rowSeparatorSize?: string;
+    isFirstDataCell?: boolean;
 }
 
 export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
@@ -63,13 +65,19 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$isLadderCell: boolean;
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
+    protected _$isFirstDataCell: boolean;
     protected _$markerPosition: 'left' | 'right';
     protected _$isSticked: boolean;
     protected _$backgroundStyle: string;
+    protected _$shadowVisibility?: string;
 
     constructor(options?: IOptions<T>) {
         super();
         OptionsToPropertyMixin.call(this, options);
+    }
+
+    get shadowVisibility(): string {
+        return this._$shadowVisibility;
     }
 
     getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction | string {
@@ -589,11 +597,13 @@ Object.assign(Cell.prototype, {
     _$colspan: null,
     _$rowspan: null,
     _$instanceId: null,
+    _$isFirstDataCell: false,
     _$rowSeparatorSize: null,
     _$columnSeparatorSize: null,
     _$markerPosition: undefined,
     _$backgroundStyle: 'default',
     _$isSticked: null,
+    _$shadowVisibility: 'lastVisible',
 
     _$isFixed: null,
     _$isSingleColspanedCell: null,

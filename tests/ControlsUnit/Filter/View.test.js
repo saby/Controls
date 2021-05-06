@@ -354,6 +354,19 @@ define(
             view.openDetailPanel();
          });
 
+         it('openDetailPanel with stack template', function() {
+            let view = getView(defaultConfig),
+               popupOptions;
+            view._filterPopupOpener = { open: (options) => { popupOptions = options; }, isOpened: () => { return false; } };
+            view._container = {};
+            view._detailPanelTemplateName = 'Controls/filterPanelPopup:Stack';
+            view._source = defaultConfig.source;
+
+            view.openDetailPanel();
+
+            assert.equal(popupOptions.className, 'controls-FilterView-popup');
+         });
+
          it('_openPanel', function(done) {
             let view = getView(defaultConfig),
                popupOptions, filterClassName = '';

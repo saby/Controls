@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">itemTemplate</div>
+        <div class="controls-text-label">itemTemplate</div>
         <Controls.toggle:RadioGroup
                 bind:selectedKey="_selectedKey"
                 keyProperty="id"

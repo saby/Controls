@@ -1,10 +1,10 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">highlightedValue = {{_highlightedValue}} highlightMode = word</div>
+      <div class="controls-text-label">highlightedValue = {{_highlightedValue}} highlightMode = word</div>
       <Controls.decorator:Highlight attr:style="white-space: pre-line;" value="{{_value}}" highlightedValue="{{_highlightedValue}}" highlightMode="word"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">highlightedValue = {{_highlightedValue}} highlightMode = substring</div>
+      <div class="controls-text-label">highlightedValue = {{_highlightedValue}} highlightMode = substring</div>
       <Controls.decorator:Highlight attr:style="white-space: pre-line;" value="{{_value}}" highlightedValue="{{_highlightedValue}}" highlightMode="substring"/>
    </div>
 </div>

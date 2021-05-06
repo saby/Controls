@@ -1,18 +1,26 @@
 import {TemplateFunction} from 'UI/Base';
 import {isEqual} from 'Types/object';
 import {IColumn, TColumns} from 'Controls/interface';
-import {IItemActionsTemplateConfig} from 'Controls/display';
+import {Footer, IHasMoreData, IItemActionsTemplateConfig} from 'Controls/display';
 import Row from './Row';
 import FooterCell, {IOptions as IFooterCellOptions} from 'Controls/_grid/display/FooterCell';
 import {TColspanCallbackResult} from 'Controls/_grid/display/mixins/Grid';
+import {mixin} from 'Types/util';
 
-export default class FooterRow<T> extends Row<string> {
-    private _hasMoreData: boolean;
+export default class FooterRow<T> extends mixin<Row<string>, Footer>(Row, Footer) {
+    private _hasMoreData: IHasMoreData;
     private _actionsTemplateConfig: IItemActionsTemplateConfig;
     protected _$shouldAddFooterPadding: boolean;
 
     getContents(): string {
         return 'footer';
+    }
+
+    getTemplate(): | string {
+        // Вызываем метод базового класса Row иначе при наследовании
+        // аналогичный метод из Footer перебивает метод Row и возвращается не правильный шаблон.
+        // А поменять цепочку наследования нельзя иначе сейчас все развалится.
+        return Row.prototype.getTemplate.call(this);
     }
 
     // TODO: Испавить вызов этого метода, разделить на 2 метода.
@@ -25,8 +33,8 @@ export default class FooterRow<T> extends Row<string> {
         return 'controls-GridView__footer';
     }
 
-    setHasMoreData(hasMoreData: boolean): void {
-        if (this._hasMoreData !== hasMoreData) {
+    setHasMoreData(hasMoreData: IHasMoreData): void {
+        if (!isEqual(this._hasMoreData, hasMoreData)) {
             this._hasMoreData = hasMoreData;
             this._nextVersion();
         }

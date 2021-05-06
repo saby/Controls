@@ -55,7 +55,7 @@ const MODERN_IE_VERSION = 11;
  * <Controls.heading:Back caption="Back" fontColorStyle="primary"/>
  * <Controls.heading:Back caption="Back" fontColorStyle="secondary"/>
  * </pre>
- * @demo Controls-demo/Heading/Back/FontColorStyle
+ * @demo Controls-demo/Heading/Back/FontColorStyle/Index
  */
 
 /*

@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="demo-spoiler__labelHeaderContentTemplate controls-text-label_theme-{{_options.theme}}">Произвольное расположение заголовка</div>
+      <div class="demo-spoiler__labelHeaderContentTemplate controls-text-label">Произвольное расположение заголовка</div>
       <Controls.spoiler:View attr:class="ws-inline-flexbox ws-flex-column demo-spoiler__first">
          <ws:headerContentTemplate>
             <Controls-demo.Spoiler.View.HeaderContentTemplate.HeaderContent/>

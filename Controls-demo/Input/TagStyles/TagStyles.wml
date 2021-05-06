@@ -1,26 +1,26 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">tagStyle=primary</div>
+      <div class="controls-text-label">tagStyle=primary</div>
       <Controls.input:Text attr:class="controlsDemo__input" tagStyle="primary" bind:value="_primaryValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">tagStyle=secondary</div>
+      <div class="controls-text-label">tagStyle=secondary</div>
       <Controls.input:Text attr:class="controlsDemo__input" tagStyle="secondary" bind:value="_secondaryValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">tagStyle=success</div>
+      <div class="controls-text-label">tagStyle=success</div>
       <Controls.input:Text attr:class="controlsDemo__input" tagStyle="success" bind:value="_successValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">tagStyle=warning</div>
+      <div class="controls-text-label">tagStyle=warning</div>
       <Controls.input:Text attr:class="controlsDemo__input" tagStyle="warning" bind:value="_warningValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">tagStyle=danger</div>
+      <div class="controls-text-label">tagStyle=danger</div>
       <Controls.input:Text attr:class="controlsDemo__input" tagStyle="danger" bind:value="_dangerValue"
                            placeholder="{{_placeholder}}"/>
    </div>

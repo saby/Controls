@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Ограничение в одну строку.</div>
+      <div class="controls-text-label">Ограничение в одну строку.</div>
       <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{1}}">
          <ws:content>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
@@ -9,7 +9,7 @@
       </Controls.spoiler:Cut>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Ограничение в две строки.</div>
+      <div class="controls-text-label">Ограничение в две строки.</div>
       <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{2}}">
          <ws:content>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
@@ -18,7 +18,7 @@
       </Controls.spoiler:Cut>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Ограничение в три строки.</div>
+      <div class="controls-text-label">Ограничение в три строки.</div>
       <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}">
          <ws:content>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
@@ -27,7 +27,7 @@
       </Controls.spoiler:Cut>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Без ограничения.</div>
+      <div class="controls-text-label">Без ограничения.</div>
       <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{null}}">
          <ws:content>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam

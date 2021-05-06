@@ -24,7 +24,7 @@
                      <ws:content>
                         <Controls.input:Text
                            name="textBox2"
-                           attr:class="controls-Input_negativeOffset_theme_{{_options.theme}}"
+                           attr:class="controls-Input_negativeOffset"
                            bind:value="_value2"/>
                      </ws:content>
                   </Controls.validate:Container>
@@ -38,7 +38,7 @@
                      <ws:content>
                         <Controls.input:Text
                            name="textBox5"
-                           attr:class="controls-Input_negativeOffset_theme_{{_options.theme}}"
+                           attr:class="controls-Input_negativeOffset"
                            bind:value="_value1"
                            placeholder="Email"/>
                      </ws:content>
@@ -53,7 +53,7 @@
                      </ws:validators>
                      <ws:content>
                         <Controls.input:Text
-                                attr:class="controls-Input_negativeOffset_theme_{{_options.theme}}"
+                                attr:class="controls-Input_negativeOffset"
                            name="textBox5"
                            bind:value="_value5"
                            placeholder="Email"/>

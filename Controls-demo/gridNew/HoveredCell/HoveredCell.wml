@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <div name="hoveredCell" style="border: 1px solid red; width: 256px;">Hovered cell ⇒ {{_hoveredCell}}</div>
+    <div class="controlsDemo-toolbar-panel">Ховер на колонке c id⇒{{_hoveredCell}}</div>
     <Controls.grid:View
             keyProperty="id"
             source="{{_viewSource}}"

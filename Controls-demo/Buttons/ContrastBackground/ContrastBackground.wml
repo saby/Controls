@@ -1,13 +1,13 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">contrastBackground=false</div>
+        <div class="controls-text-label">contrastBackground=false</div>
         <div class="controlsDemo__background">
             <Controls.buttons:Button contrastBackground="{{false}}" caption="Button"></Controls.buttons:Button>&nbsp;
             <Controls.buttons:Button contrastBackground="{{false}}" icon="icon-Author" viewMode="toolButton" iconSize="s" iconStyle="secondary"></Controls.buttons:Button>
         </div>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">contrastBackground=true</div>
+        <div class="controls-text-label">contrastBackground=true</div>
         <div class="controlsDemo__background">
             <Controls.buttons:Button contrastBackground="{{true}}" caption="Button"></Controls.buttons:Button>&nbsp;
             <Controls.buttons:Button contrastBackground="{{true}}" icon="icon-Author" viewMode="toolButton" iconSize="s" iconStyle="secondary"></Controls.buttons:Button>

@@ -118,10 +118,14 @@ export {IDragPosition};
 export {groupConstants} from './_display/itemsStrategy/Group';
 export {IHiddenGroupPosition} from './_display/itemsStrategy/Group';
 export {MultiSelectAccessibility} from './_display/Collection';
+export {IHasMoreData} from './_display/Collection';
 
 import IItemsStrategy, {IOptions as IItemsStrategyOptions} from 'Controls/_display/IItemsStrategy';
 import TreeItemDecorator from 'Controls/_display/TreeItemDecorator';
 export {IItemsStrategy, IItemsStrategyOptions};
+
+import {Footer} from './_display/Footer';
+export {Footer};
 
 register('Controls/display:Collection', Collection, {instantiate: false});
 register('Controls/display:CollectionItem', CollectionItem, {instantiate: false});
@@ -136,3 +140,4 @@ register('Controls/display:Tree', Tree, {instantiate: false});
 register('Controls/display:TreeChildren', TreeChildren, {instantiate: false});
 register('Controls/display:TreeItem', TreeItem, {instantiate: false});
 register('Controls/display:TreeItemDecorator', TreeItemDecorator, {instantiate: false});
+register('Controls/display:Footer', Footer, {instantiate: false});

@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controls-Demo__wide-propertyGrid">
-        <div class="controls-text-label_theme-{{_options.theme}}">captionColumnOptions: width = 50%</div>
+        <div class="controls-text-label">captionColumnOptions: width = 50%</div>
         <Controls.propertyGrid:PropertyGrid
                 bind:editingObject="_editingObject"
                 source="{{_source}}"
@@ -11,7 +11,7 @@
     </div>
 
     <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controls-Demo__wide-propertyGrid">
-        <div class="controls-text-label_theme-{{_options.theme}}">captionColumnOptions: width = 90%</div>
+        <div class="controls-text-label">captionColumnOptions: width = 90%</div>
         <Controls.propertyGrid:PropertyGrid
                 bind:editingObject="_editingObject"
                 source="{{_source}}"
@@ -22,7 +22,7 @@
     </div>
 
     <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controls-Demo__wide-propertyGrid">
-        <div class="controls-text-label_theme-{{_options.theme}}">captionColumnOptions: width = 30%</div>
+        <div class="controls-text-label">captionColumnOptions: width = 30%</div>
         <Controls.propertyGrid:PropertyGrid
                 bind:editingObject="_editingObject"
                 source="{{_source}}"

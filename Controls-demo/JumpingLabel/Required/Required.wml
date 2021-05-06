@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth350">
     <div class="controlsDemo__cell demo-JumpingLabel__requiredTrue">
-        <div class="controls-text-label_theme-{{_options.theme}}">required=true</div>
+        <div class="controls-text-label">required=true</div>
         <Controls.jumpingLabel:InputContainer attr:class="controlsDemo__input" value="{{_name}}"
                                               required="{{true}}"
                                               caption="Enter your name">
@@ -8,7 +8,7 @@
         </Controls.jumpingLabel:InputContainer>
     </div>
     <div class="controlsDemo__cell demo-JumpingLabel__requiredTrueLongCaption">
-        <div class="controls-text-label_theme-{{_options.theme}}">required=true, long caption</div>
+        <div class="controls-text-label">required=true, long caption</div>
         <Controls.jumpingLabel:InputContainer attr:class="controlsDemo__input"
                                               required="{{true}}"
                                               caption="Long long long long long long long long long long long">
@@ -16,7 +16,7 @@
         </Controls.jumpingLabel:InputContainer>
     </div>
     <div class="controlsDemo__cell demo-JumpingLabel__requiredFalse">
-        <div class="controls-text-label_theme-{{_options.theme}}">required=false</div>
+        <div class="controls-text-label">required=false</div>
         <Controls.jumpingLabel:InputContainer attr:class="controlsDemo__input"
                                               caption="Enter your name">
             <Controls.input:Text/>

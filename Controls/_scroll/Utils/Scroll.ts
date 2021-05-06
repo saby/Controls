@@ -85,3 +85,28 @@ export function canScrollByState(scrollState: IScrollState,
         getContentSizeByState(scrollState, direction)
     );
 }
+
+/**
+ * Возвращает координаты элемента скролл контейнера на странице
+ */
+export function getScrollContainerPageCoords(
+    elem: HTMLElement
+): {top: number, left: number, bottom: number, right: number} {
+
+    const box = elem.getBoundingClientRect();
+    const body = document.body;
+    const docEl = document.documentElement;
+
+    const scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+    const scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+    const clientTop = docEl.clientTop || body.clientTop || 0;
+    const clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+    return {
+        top: box.top + scrollTop - clientTop,
+        left: box.left + scrollLeft - clientLeft,
+        bottom: box.bottom + scrollTop - clientTop,
+        right: box.right + scrollLeft - clientLeft
+    };
+}

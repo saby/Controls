@@ -40,6 +40,7 @@ interface IBeginEditUserOptions {
  * @description Параметры начала редактирования.
  * @property {Boolean} [isAdd=undefined] isAdd Флаг, принимает значение true, если запись добавляется.
  * @property {TAddPosition} [addPosition=undefined] addPosition Позиция в коллекции добавляемого элемента.
+ * @property {Types/entity:Model} [targetItem=undefined] targetItem Запись на месте которой запустится добавление.
  * @property {Number} [columnIndex=undefined] columnIndex Индекс колонки, которая будет редактироваться. Доступно при режиме редактирования отдельных ячеек.
  *
  * @private
@@ -47,6 +48,7 @@ interface IBeginEditUserOptions {
 interface IBeginEditOptions {
     isAdd?: boolean;
     addPosition?: TAddPosition;
+    targetItem?: Model;
     columnIndex?: number;
 }
 
@@ -162,6 +164,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
         begin?: TAsyncOperationResult;
         end?: TAsyncOperationResult;
     } = {};
+    private _addParams: {targetItem?: Model, addPosition?: TAddPosition} = {};
 
     constructor(options: IEditInPlaceOptions & IEditInPlaceCallbacks) {
         super();
@@ -239,10 +242,12 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      *
      * @remark Запуск добавления может быть отменен. Для этого из функции обратного вызова IEditInPlaceOptions.onBeforeBeginEdit необхобимо вернуть константу отмены.
      */
-    add(userOptions: IBeginEditUserOptions = {}, options: { addPosition: TAddPosition } = { addPosition: 'bottom' }): TAsyncOperationResult {
+    add(userOptions: IBeginEditUserOptions = {},
+        options: { addPosition: TAddPosition, targetItem?: Model } = { addPosition: 'bottom' }): TAsyncOperationResult {
         return this._endPreviousAndBeginEdit(userOptions, {
             isAdd: true,
             addPosition: options.addPosition,
+            targetItem: options.targetItem,
             columnIndex: -1
         });
     }
@@ -345,7 +350,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             return this._operationsPromises.begin;
         }
 
-        const { isAdd = false, addPosition = 'bottom', columnIndex } = options;
+        const { isAdd = false, addPosition = 'bottom', targetItem, columnIndex } = options;
 
         this._operationsPromises.begin = new Promise((resolve) => {
             // Ждем результат колбека "до начала редактирования".
@@ -379,7 +384,8 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             }
 
             if (isAdd) {
-                this._collectionEditor.add(model, addPosition, columnIndex);
+                this._addParams = { targetItem, addPosition };
+                this._collectionEditor.add(model, addPosition, targetItem, columnIndex);
             } else {
                 this._collectionEditor.edit(model, columnIndex);
             }
@@ -443,7 +449,13 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
         this._operationsPromises.end = new Promise((resolve) => {
             if (this._options.onBeforeEndEdit) {
-                const result = this._options.onBeforeEndEdit(editingItem, willSave, isAdd);
+                let sourceIndex;
+                if (this._addParams.targetItem) {
+                    const collectionIndex = this._options.collection.getCollection().getIndex(this._addParams.targetItem);
+                    sourceIndex = collectionIndex + (this._addParams.addPosition === 'bottom' ? 1 : 0);
+                }
+
+                const result = this._options.onBeforeEndEdit(editingItem, willSave, isAdd, false, sourceIndex);
                 resolve(force ? void 0 : result);
             } else {
                 resolve();
@@ -455,6 +467,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             if (result === CONSTANTS.CANCEL || this.destroyed) {
                 return {canceled: true};
             }
+            this._addParams = {};
             this._collectionEditor[willSave ? 'commit' : 'cancel']();
             (this._options.collection.getCollection() as unknown as RecordSet).acceptChanges();
             return this._options?.onAfterEndEdit(editingCollectionItem, isAdd, willSave);

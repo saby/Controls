@@ -6,7 +6,7 @@
             colspanCallback="{{_colspanCallback}}"
             parentProperty="parent"
             nodeProperty="type">
-        <ws:editingConfig editOnClick="{{true}}" enabled="{{true}}" equentialEditing="{{true}}"
+        <ws:editingConfig editOnClick="{{true}}" enabled="{{true}}" sequentialEditing="{{true}}"
                           toolbarVisibility="{{true}}"/>
     </Controls.treeGrid:View>
 </div>

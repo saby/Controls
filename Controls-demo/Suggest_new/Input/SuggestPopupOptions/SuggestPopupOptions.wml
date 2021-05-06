@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">Всплывающее окно с опцией className</div>
+        <div class="controls-text-label">Всплывающее окно с опцией className</div>
         <Controls.suggest:Input
                 attr:class="controlsDemo__input demo-SuggestNew__noDelay"
                 bind:value="_suggestCustomValue"

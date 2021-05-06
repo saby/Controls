@@ -1,11 +1,11 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">spellCheck=true</div>
+      <div class="controls-text-label">spellCheck=true</div>
       <Controls.input:Area attr:class="controlsDemo__input" bind:value="_value" attr:ws-autofocus="true"
                            spellCheck="{{true}}" minLines="{{3}}" maxLines="{{3}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">spellCheck=false</div>
+      <div class="controls-text-label">spellCheck=false</div>
       <Controls.input:Area attr:class="controlsDemo__input" bind:value="_value" spellCheck="{{false}}" minLines="{{3}}"
                            maxLines="{{3}}"/>
    </div>

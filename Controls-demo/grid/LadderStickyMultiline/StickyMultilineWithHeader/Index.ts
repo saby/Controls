@@ -4,7 +4,7 @@ import {Memory} from 'Types/source';
 import {getMultilineLadder} from '../../DemoHelpers/DataCatalog';
 
 import * as Template from 'wml!Controls-demo/grid/LadderStickyMultiline/StickyMultilineWithHeader/StickyMultilineWithHeader';
-import {IHeader} from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/gridOld';
 
 interface IStickyLadderColumn {
     template: string;
@@ -17,7 +17,7 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     protected _columns: IStickyLadderColumn[] = getMultilineLadder().getColumns();
-    protected _header: IHeader[] = getMultilineLadder().getHeader();
+    protected _header: IHeaderCell[] = getMultilineLadder().getHeader();
     protected _ladderProperties: string[] = ['date', 'time'];
 
     protected _beforeMount(options?: {}, contexts?: object, receivedState?: void): Promise<void> | void {

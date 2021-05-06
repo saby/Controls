@@ -60,7 +60,7 @@
               class="{{ (gridColumn || itemData).getTagClasses(afterContentTemplate.theme) }}">
             <ws:partial template="{{ afterContentTemplate.tagTemplate }}"
                         tagStyle="{{ (gridColumn || itemData).getTagStyle(afterContentTemplate.tagStyle) }}"
-                        dispItem="{{ (gridColumn || itemData).getOwner() }}"
+                        item="{{ (item || itemData) }}"
                         columnIndex="{{ (gridColumn || itemData).getColumnIndex() }}"/>
          </div>
 
@@ -107,7 +107,7 @@
          <ws:for data="column in (item || itemData).getColumns()">
             <Controls.scroll:StickyHeader position="{{ (item || itemData).getStickyHeaderPosition() }}"
                                           mode="{{ (item || itemData).getStickyHeaderMode() }}"
-                                          shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
+                                          shadowVisibility="{{column.shadowVisibility}}"
                                           backgroundStyle="{{ backgroundStyle }}"
                                           fixedZIndex="{{ column.getZIndex()}}"
                                           attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover, hoverBackgroundStyle) }}"

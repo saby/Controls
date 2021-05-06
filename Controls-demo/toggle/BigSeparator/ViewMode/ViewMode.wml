@@ -1,11 +1,11 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
     <div class="controlsDemo__cell demo-BigSeparator__ellipsis">
-        <div class="controls-text-label controls-text-label_theme-{{_options.theme}}">viewMode = ellipsis</div>
+        <div class="controls-text-label controls-text-label">viewMode = ellipsis</div>
         <Controls.toggle:BigSeparator caption="Button" bind:value="_expandedEllipsis"
                                       viewMode="ellipsis"></Controls.toggle:BigSeparator>
     </div>
     <div class="controlsDemo__cell demo-BigSeparator__arrow">
-        <div class="controls-text-label controls-text-label_theme-{{_options.theme}}">viewMode = arrow</div>
+        <div class="controls-text-label controls-text-label">viewMode = arrow</div>
         <Controls.toggle:BigSeparator caption="Button 2" bind:value="_expandedArrow"
                                       viewMode="arrow"></Controls.toggle:BigSeparator>
     </div>

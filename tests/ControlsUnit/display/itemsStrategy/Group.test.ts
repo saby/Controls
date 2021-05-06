@@ -10,6 +10,19 @@ import {
     TreeItem
 } from 'Controls/display';
 
+function getMockedDisplay(): Object {
+    return {
+        getMultiSelectVisibility() {
+            return 'hidden';
+        },
+        getMetaResults() {
+            return {};
+        },
+        hasMoreDataUp: () => false,
+        isStickyHeader: () => false
+    }
+}
+
 describe('Controls/_display/itemsStrategy/Group', () => {
     function wrapItem<S, T = TreeItem<S>>(item: S): T {
         return new TreeItem<S>({
@@ -24,7 +37,7 @@ describe('Controls/_display/itemsStrategy/Group', () => {
             '[Controls/_display/IItemsStrategy]': true,
             source: null,
             options: {
-                display: null
+                display: getMockedDisplay()
             },
             get count(): number {
                 return wraps.length;
@@ -421,7 +434,7 @@ describe('Controls/_display/itemsStrategy/Group', () => {
             const items = [new CollectionItem(), new CollectionItem(), new CollectionItem()];
             const groups = [new GroupItem()];
             const options: any = {
-                display: {},
+                display: getMockedDisplay(),
                 groups,
                 groupConstructor: GroupItem,
                 handler: null
@@ -440,14 +453,7 @@ describe('Controls/_display/itemsStrategy/Group', () => {
             ];
             const groups = [];
             const options: any = {
-                display: {
-                    getMultiSelectVisibility() {
-                        return 'hidden';
-                    },
-                    getMetaResults() {
-                        return {};
-                    }
-                },
+                display: getMockedDisplay(),
                 groups,
                 groupConstructor: GroupItem,
                 handler: () => 'foo'
@@ -469,14 +475,7 @@ describe('Controls/_display/itemsStrategy/Group', () => {
             ];
             const groups = [];
             const options: any = {
-                display: {
-                    getMultiSelectVisibility() {
-                        return 'hidden';
-                    },
-                    getMetaResults() {
-                        return {};
-                    }
-                },
+                display: getMockedDisplay(),
                 groups,
                 groupConstructor: GroupItem,
                 handler: (item) => '#' + item
@@ -513,14 +512,7 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                 ];
                 const groups = [];
                 const options: any = {
-                    display: {
-                        getMultiSelectVisibility() {
-                            return 'hidden';
-                        },
-                        getMetaResults() {
-                            return {};
-                        }
-                    },
+                    display: getMockedDisplay(),
                     groups,
                     groupConstructor: GroupItem,
                     handler: (item) => item.group
@@ -554,14 +546,7 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                 ];
                 const groups = [];
                 const options: any = {
-                    display: {
-                        getMultiSelectVisibility() {
-                            return 'hidden';
-                        },
-                        getMetaResults() {
-                            return {};
-                        }
-                    },
+                    display: getMockedDisplay(),
                     groups,
                     groupConstructor: GroupItem,
                     handler: (item) => item.group,
@@ -591,14 +576,7 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                 new GroupItem({contents: '#three'})
             ];
             const options: any = {
-                display: {
-                    getMultiSelectVisibility() {
-                        return 'hidden';
-                    },
-                    getMetaResults() {
-                        return {};
-                    }
-                },
+                display: getMockedDisplay(),
                 groups,
                 groupConstructor: GroupItem,
                 handler: (item) => '#' + item

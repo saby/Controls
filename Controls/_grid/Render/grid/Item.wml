@@ -47,7 +47,7 @@
                  class="{{ (gridColumn || itemData).getTagClasses(afterContentTemplate.theme) }}">
                 <ws:partial template="{{ afterContentTemplate.tagTemplate }}"
                             tagStyle="{{ (gridColumn || itemData).getTagStyle(afterContentTemplate.tagStyle) }}"
-                            dispItem="{{ (gridColumn || itemData).getOwner() }}"
+                            item="{{ item || itemData }}"
                             columnIndex="{{ (gridColumn || itemData).getColumnIndex() }}"/>
             </div>
         </ws:afterContentTemplate>
@@ -87,7 +87,7 @@
                 <Controls.scroll:StickyHeader position="{{ (item || itemData).getStickyHeaderPosition() }}"
                                               mode="{{ (item || itemData).getStickyHeaderMode() }}"
                                               backgroundStyle="{{backgroundStyle}}"
-                                              shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
+                                              shadowVisibility="{{column.shadowVisibility}}"
                                               fixedZIndex="{{ column.getZIndex()}}"
                                               attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover, hoverBackgroundStyle) }}"
                                               attr:style="{{ column.getWrapperStyles(containerSize) }}">

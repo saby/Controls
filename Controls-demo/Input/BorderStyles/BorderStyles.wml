@@ -1,16 +1,16 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">borderStyle='secondary'</div>
+        <div class="controls-text-label">borderStyle='secondary'</div>
         <Controls.input:Text attr:class="controlsDemo__input" borderStyle="secondary" bind:value="_secondaryValue"
                              placeholder="{{_placeholder}}"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">borderStyle='success'</div>
+        <div class="controls-text-label">borderStyle='success'</div>
         <Controls.input:Text attr:class="controlsDemo__input" borderStyle="success" bind:value="_successValue"
                              placeholder="{{_placeholder}}"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">borderStyle='warning'</div>
+        <div class="controls-text-label">borderStyle='warning'</div>
         <Controls.input:Text attr:class="controlsDemo__input" borderStyle="warning" bind:value="_warningValue"
                              placeholder="{{_placeholder}}"/>
     </div>

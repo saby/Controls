@@ -225,7 +225,7 @@ define(
                keyProperty: 'id'
             });
             let resetCallback = setNewEnvironmentValue(true);
-            data._beforeMount({source: newSource, idProperty: 'id'}, {}, items);
+            data._beforeMount({source: newSource, idProperty: 'id'}, {}, {items});
 
             assert.deepEqual(data._items, items);
             assert.ok(data._sourceController.getItems());
@@ -251,7 +251,7 @@ define(
             let data = getDataWithConfig({source: prefetchSource, keyProperty: 'id'});
             let resetCallback = setNewEnvironmentValue(true);
 
-            data._beforeMount({source: prefetchSource, idProperty: 'id'}, {}, items);
+            data._beforeMount({source: prefetchSource, idProperty: 'id'}, {}, {items});
 
             const sourceControllerState = data._sourceController.getState();
             assert.isTrue(sourceControllerState.source === memory);
@@ -578,51 +578,6 @@ define(
                assert.isTrue(queryCalled);
                done();
             }).catch(function(error) {
-               done(error);
-            });
-         });
-
-         it('_beforeMount with collapsed groups', function(done) {
-            var data = new sourceLib.DataSet();
-            var queryCalled = false;
-            let queryFilter;
-
-            var source = {
-               query: function(query) {
-                  queryCalled = true;
-                  queryFilter = query.getWhere();
-                  return Deferred.success(data);
-               },
-               _mixins: [],
-               "[Types/_source/ICrud]": true
-            };
-            var dataLoadErrbackCalled = false;
-            var dataLoadErrback = function() {
-               dataLoadErrbackCalled = true;
-            };
-
-            var config = {source: source, keyProperty: 'id', dataLoadErrback: dataLoadErrback, groupProperty: 'prop', historyIdCollapsedGroups: 'gid' };
-            var self = getDataWithConfig(config);
-            self._filter = {};
-            const originConfigGetParam = Config.UserConfig.getParam;
-            Config.UserConfig.getParam = (preparedStoreKey) => {
-               if (preparedStoreKey === 'LIST_COLLAPSED_GROUP_gid') {
-                  return Promise.resolve('[1, 3]');
-               }
-               return originConfigGetParam();
-            };
-
-
-            var promise = self._beforeMount(config);
-            assert.instanceOf(promise, Promise);
-            promise.then(function() {
-               assert.isFalse(dataLoadErrbackCalled);
-               assert.isTrue(queryCalled);
-               Config.UserConfig.getParam = originConfigGetParam;
-               assert.deepEqual(queryFilter, { collapsedGroups: [1, 3] });
-               done();
-            }).catch(function(error) {
-               Config.UserConfig.getParam = originConfigGetParam;
                done(error);
             });
          });

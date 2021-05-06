@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize = s</div>
+        <div class="controls-text-label">fontSize = s</div>
         <Controls.suggest:Input
                 attr:class="controlsDemo__input demo-SuggestNew__noDelay"
                 bind:value="_suggestDefaultValue"
@@ -12,7 +12,7 @@
         </Controls.suggest:Input>
     </div>
     <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize = m</div>
+        <div class="controls-text-label">fontSize = m</div>
         <Controls.suggest:Input
                 attr:class="controlsDemo__input  demo-SuggestNew__withDelay"
                 bind:value="_suggestDefaultValue"
@@ -24,7 +24,7 @@
         </Controls.suggest:Input>
     </div>
     <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize = l</div>
+        <div class="controls-text-label">fontSize = l</div>
         <Controls.suggest:Input
                 attr:class="controlsDemo__input  demo-SuggestNew__withDelay"
                 bind:value="_suggestDefaultValue"

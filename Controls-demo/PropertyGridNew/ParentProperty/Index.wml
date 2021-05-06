@@ -1,5 +1,5 @@
 <div class="controls-Demo__wide-propertyGrid">
-    <div class="controls-text-label_theme-{{_options.theme}}">Родительские элементы иерархического списка выделяются синим</div>
+    <div class="controls-text-label">Родительские элементы иерархического списка выделяются синим</div>
     <Controls.propertyGrid:PropertyGrid
             bind:editingObject="_editingObject"
             source="{{_source}}"

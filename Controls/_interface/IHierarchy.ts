@@ -1,6 +1,7 @@
 export interface IHierarchyOptions {
     nodeProperty?: string;
     parentProperty?: string;
+    nodeHistoryId?: string;
 }
 
 /**
@@ -110,3 +111,7 @@ export default interface IHierarchy {
  * </pre>
  */
 
+/**
+ * @name Controls/_interface/IHierarchy#nodeHistoryId
+ * @cfg {String} Идентификатор, по которому на {@link /doc/platform/developmentapl/middleware/parameter_service/ Сервисе параметров} сохраняется текущее состояние развернутости узлов.
+ */

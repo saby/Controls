@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexColumn">
     <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400">
-        <div class="controls-text-label_theme-{{_options.theme}}">suggestSource</div>
+        <div class="controls-text-label">suggestSource</div>
         <Controls.lookup:Input
                 bind:selectedKeys="_selectedKeys"
                 searchParam="title"

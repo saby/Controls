@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexColumn">
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/Menu/Popup/HeaderContentTemplate/Index' }}">
          <a href="{{content.href}}">HeaderContentTemplate</a>
@@ -8,7 +8,7 @@
       <Controls-demo.Menu.Popup.HeaderContentTemplate.Index/>
    </div>
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/Menu/Popup/CloseButtonVisibility/Index' }}">
          <a href="{{content.href}}">CloseButtonVisibility</a>
@@ -16,7 +16,7 @@
       <Controls-demo.Menu.Popup.CloseButtonVisibility.Index/>
    </div>
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/Menu/Popup/FooterContentTemplate/Index' }}">
          <a href="{{content.href}}">FooterContentTemplate</a>
@@ -24,7 +24,7 @@
       <Controls-demo.Menu.Popup.FooterContentTemplate.Index/>
    </div>
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/Menu/Popup/SearchParam/Index' }}">
          <a href="{{content.href}}">SearchParam</a>
@@ -32,7 +32,7 @@
       <Controls-demo.Menu.Popup.SearchParam.Index/>
    </div>
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/Menu/Popup/MultiSelect/Index' }}">
          <a href="{{content.href}}">MultiSelect</a>

@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">scaleStep=10</div>
+        <div class="controls-text-label">scaleStep=10</div>
         <Controls.slider:Base
                 maxValue="{{100}}"
                 minValue="{{0}}"
@@ -9,7 +9,7 @@
         />
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">scaleStep=100</div>
+        <div class="controls-text-label">scaleStep=100</div>
         <Controls.slider:Base
                 maxValue="{{100}}"
                 minValue="{{0}}"

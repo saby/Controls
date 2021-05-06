@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell demo-SuggestBorderVisibility__partial">
-      <div class="controls-text-label_theme-{{_options.theme}}">borderVisibility="partial"</div>
+      <div class="controls-text-label">borderVisibility="partial"</div>
       <Controls.suggest:Input
               attr:class="controlsDemo__input demo-SuggestNew__noDelay"
               bind:value="_suggestCustomValue"
@@ -13,7 +13,7 @@
       </Controls.suggest:Input>
   </div>
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell demo-SuggestBorderVisibility__hidden">
-      <div class="controls-text-label_theme-{{_options.theme}}">borderVisibility="hidden"</div>
+      <div class="controls-text-label">borderVisibility="hidden"</div>
       <Controls.suggest:Input
               attr:class="controlsDemo__input  demo-SuggestNew__withDelay"
               bind:value="_suggestDefaultValue"

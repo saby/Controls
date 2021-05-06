@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">displayMode = 'multiline'</div>
+        <div class="controls-text-label">displayMode = 'multiline'</div>
         <Controls.breadcrumbs:HeadingPath attr:id="double"
                                           items="{{_items}}"
                                           parentProperty="parent"
@@ -8,7 +8,7 @@
                                           displayMode="multiline"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">displayMode = 'multiline' with 1 button back </div>
+        <div class="controls-text-label">displayMode = 'multiline' with 1 button back </div>
         <Controls.breadcrumbs:HeadingPath attr:id="double"
                                           items="{{_item}}"
                                           parentProperty="parent"
@@ -16,7 +16,7 @@
                                           displayMode="multiline"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">displayMode = 'default'</div>
+        <div class="controls-text-label">displayMode = 'default'</div>
         <Controls.breadcrumbs:HeadingPath attr:id="single"
                                           items="{{_items}}"
                                           parentProperty="parent"

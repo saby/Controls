@@ -1,11 +1,11 @@
 <div class="demo-BreadCrumbs__wrapper">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/BreadCrumbs/ScenarioFirst/Index' }}">
          <a href="{{content.href}}">Первая часть сценариев</a>
       </Router.router:Reference>
       <Controls-demo.BreadCrumbs.ScenarioFirst.Index/>
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/BreadCrumbs/ScenarioSecond/Index' }}">
          <a href="{{content.href}}">Вторая часть сценариев</a>

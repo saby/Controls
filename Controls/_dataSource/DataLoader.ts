@@ -50,6 +50,7 @@ export interface ILoadDataConfig extends
     fastFilterSource?: object[];
     historyId?: string;
     groupHistoryId?: string;
+    nodeHistoryId?: string;
     historyItems?: IFilterItem[];
     propStorageId?: string;
     root?: string;
@@ -68,6 +69,7 @@ export interface ILoadDataConfig extends
 export interface ILoadDataCustomConfig extends IBaseLoadDataConfig {
     type: 'custom';
     loadDataMethod: Function;
+    loadDataMethodArguments: object;
 }
 
 export interface IDataLoaderOptions {
@@ -248,7 +250,7 @@ export default class DataLoader {
 
         sourceConfigs.forEach((loadConfig) => {
             if (loadConfig.type === 'custom') {
-                loadPromise = loadConfig.loadDataMethod();
+                loadPromise = loadConfig.loadDataMethod(loadConfig.loadDataMethodArguments);
             } else {
                 loadPromise = loadDataByConfig(loadConfig);
             }

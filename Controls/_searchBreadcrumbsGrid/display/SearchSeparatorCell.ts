@@ -3,7 +3,11 @@ import SearchSeparatorRow from 'Controls/_searchBreadcrumbsGrid/display/SearchSe
 
 export default class SearchSeparatorCell extends GridCell<string, SearchSeparatorRow> {
    getTemplate(): string {
-      return 'Controls/searchBreadcrumbsGrid:SearchSeparatorTemplate';
+      if (this._$isFirstDataCell) {
+         return 'Controls/searchBreadcrumbsGrid:SearchSeparatorTemplate';
+      } else {
+         return this._defaultCellTemplate;
+      }
    }
 
    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover?: boolean, templateHoverBackgroundStyle?: string): string {
@@ -14,6 +18,14 @@ export default class SearchSeparatorCell extends GridCell<string, SearchSeparato
       }
 
       return classes;
+   }
+
+   hasCellContentRender(): boolean {
+      return false;
+   }
+
+   getDefaultDisplayValue(): string {
+      return '';
    }
 }
 

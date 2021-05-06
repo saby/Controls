@@ -1,4 +1,7 @@
-<div class="removeDemo">
+<div class="removeDemo controlsDemo__wrapper controlsDemo__grid-tagStyleProperty controlsDemo__maxWidth800">
+    <div class="controlsDemo-toolbar-panel">
+        &nbsp;&nbsp;{{_currentMessage}}
+    </div>
     <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
         <Controls.operations:Controller bind:selectedKeys="_selectedKeys"
                                         bind:excludedKeys="_excludedKeys">

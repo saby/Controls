@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/Filter_new/DetailPanel/ApplyButtonCaption/Index' }}">
          <a href="{{content.href}}">ApplyButtonCaption</a>
@@ -8,7 +8,7 @@
       <Controls-demo.Filter_new.DetailPanel.ApplyButtonCaption.Index/>
    </div>
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/Filter_new/DetailPanel/EmptyHistoryTemplate/Index' }}">
          <a href="{{content.href}}">EmptyHistoryTemplate</a>
@@ -16,7 +16,7 @@
       <Controls-demo.Filter_new.DetailPanel.EmptyHistoryTemplate.Index/>
    </div>
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/Filter_new/DetailPanel/HistoryId/Index' }}">
          <a href="{{content.href}}">HistoryId</a>
@@ -24,7 +24,7 @@
       <Controls-demo.Filter_new.DetailPanel.HistoryId.Index/>
    </div>
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/Filter_new/DetailPanel/Scroll/Index' }}">
          <a href="{{content.href}}">Scroll</a>
@@ -32,7 +32,7 @@
       <Controls-demo.Filter_new.DetailPanel.Scroll.Index/>
    </div>
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+      <Router.router:Reference attr:class="controls-text-label"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/Filter_new/DetailPanel/HiddenItem/Index' }}">
          <a href="{{content.href}}">Hidden item</a>

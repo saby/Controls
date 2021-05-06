@@ -37,6 +37,7 @@ import { ICollection, ISourceCollection, IItemPadding } from './interface/IColle
 import { IDragPosition } from './interface/IDragPosition';
 import {INavigationOptionValue} from 'Controls/interface';
 import {IRoundBorder} from "Controls/_tile/display/mixins/Tile";
+import {Footer} from 'Controls/_display/Footer';
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
@@ -93,6 +94,8 @@ export type SortFunction<S, T> = (a: ISortItem<S, T>, b: ISortItem<S, T>) => num
 
 export type ItemsFactory<T> = (options: object) => T;
 
+export type TItemActionsPosition = 'inside' | 'outside' | 'custom';
+
 export type StrategyConstructor<
    F extends IItemsStrategy<S, T>,
    S extends EntityModel = EntityModel,
@@ -138,10 +141,13 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     unique?: boolean;
     importantItemProperties?: string[];
     itemActionsProperty?: string;
+    itemActionsPosition?: TItemActionsPosition;
     navigation?: INavigationOptionValue;
     multiSelectAccessibilityProperty?: string;
     markerPosition?: string;
     hiddenGroupPosition?: IHiddenGroupPosition;
+    footerTemplate?: TemplateFunction | string;
+    stickyFooter?: boolean;
 }
 
 export interface ICollectionCounters {
@@ -179,6 +185,11 @@ export interface ISwipeConfig {
     twoColumnsActions?: [[any, any], [any, any]];
     needTitle?: Function;
     needIcon?: Function;
+}
+
+export interface IHasMoreData {
+    up: boolean;
+    down: boolean;
 }
 
 /**
@@ -672,6 +683,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$multiSelectPosition: 'default' | 'custom';
 
+    protected _$footerTemplate: TemplateFunction | string;
+
+    protected _$stickyFooter: boolean;
+
     /**
      * Задает доступность чекбокса
      * @protected
@@ -706,7 +721,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$virtualScrolling: boolean;
 
-    protected _$hasMoreData: boolean;
+    protected _$hasMoreData: IHasMoreData;
 
     protected _$metaResults: EntityModel;
 
@@ -725,6 +740,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _$markerPosition: 'left' | 'right';
 
     protected _$style: string;
+
+    protected _$itemActionsPosition: TItemActionsPosition;
 
     protected _$navigation: INavigationOptionValue;
 
@@ -837,6 +854,11 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _swipeConfig: ISwipeConfig;
 
     protected _hoveredItem: T;
+
+    /**
+     * Модель заголовка футера списка
+     */
+    protected _footer: Footer;
 
     /**
      * ссылка на текущий активный Item
@@ -953,6 +975,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             // TODO What's a better way of doing this?
             this.addFilter(groupingFilter);
         }
+
+        this._footer = this._initializeFooter(options);
     }
 
     _initializeCollection(): void {
@@ -2580,15 +2604,27 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     // endregion Аспект "крайние записи"
 
-    getHasMoreData(): boolean {
+    getHasMoreData(): IHasMoreData {
         return this._$hasMoreData;
     }
 
-    setHasMoreData(hasMoreData: boolean): void {
-        if (this._$hasMoreData !== hasMoreData) {
+    setHasMoreData(hasMoreData: IHasMoreData): void {
+        if (!isEqual(this._$hasMoreData, hasMoreData)) {
             this._$hasMoreData = hasMoreData;
             this._nextVersion();
         }
+    }
+
+    hasMoreData(): boolean {
+        return this.hasMoreDataUp() || this.hasMoreDataDown();
+    }
+
+    hasMoreDataUp(): boolean {
+        return !!this._$hasMoreData?.up;
+    }
+
+    hasMoreDataDown(): boolean {
+        return !!this._$hasMoreData?.down;
     }
 
     setMetaResults(metaResults: EntityModel): void {
@@ -2724,6 +2760,11 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }
     }
 
+    setItemActionsPosition(itemActionsPosition: TItemActionsPosition): void {
+        this._$itemActionsPosition = itemActionsPosition;
+        this._nextVersion();
+    }
+
     setHoveredItem(item: T): void {
         if (this._hoveredItem === item) {
             return;
@@ -2790,10 +2831,11 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         this._$isEditing = editing;
     }
 
-    setAddingItem(item: T): void {
+    setAddingItem(item: T, options: {position: 'top' | 'bottom', index?: number}): void {
         this._prependStrategy(AddStrategy, {
             item,
-            addPosition: item.addPosition,
+            addPosition: options.position,
+            addIndex: options.index,
             groupMethod: this.getGroup()
         }, GroupItemsStrategy);
     }
@@ -2886,6 +2928,54 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     getMarkerVisibility(): string {
         return this._$markerVisibility;
+    }
+
+    /**
+     * Возвращает модель для рендера футера списка
+     */
+    getFooter(): Footer {
+        return this._footer;
+    }
+
+    /**
+     * Пересоздает модель по которой рендерится футера списка
+     */
+    setFooter(options: IOptions<S, T>): void {
+        let hasChanges: boolean;
+        const footer = this.getFooter();
+
+        // Если футер уже есть и в новых опциях задан шаблон для футера, то нужно обновить данные футера
+        if (footer && options.footerTemplate) {
+            hasChanges =
+                this._$stickyFooter !== options.stickyFooter ||
+                this._$footerTemplate !== options.footerTemplate;
+
+            this._$stickyFooter = options.stickyFooter;
+            this._$footerTemplate = options.footerTemplate;
+
+            footer.setStickedToBottom(options.stickyFooter);
+            footer.setContentTemplate(options.footerTemplate);
+        }
+
+        // Если футер уже есть и в новых опциях не задан шаблон для футера, то нужно сбросить футер
+        if (footer && !options.footerTemplate) {
+            hasChanges = true;
+            this._footer = null;
+            this._$stickyFooter = false;
+            this._$footerTemplate = null;
+        }
+
+        // Если футера не было и в новых опциях он есть, то нужно создать его
+        if (!footer && options.footerTemplate) {
+            hasChanges = true;
+            this._$stickyFooter = options.stickyFooter;
+            this._$footerTemplate = options.footerTemplate;
+            this._footer = this._initializeFooter(options);
+        }
+
+        if (hasChanges) {
+            this._nextVersion();
+        }
     }
 
     // region SerializableMixin
@@ -3172,6 +3262,20 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     // endregion
 
+    //region Initialization
+    protected _initializeFooter(options: IOptions<S, T>): Footer {
+        if (!options.footerTemplate) {
+            return;
+        }
+
+        return new Footer({
+            owner: this,
+            sticky: options.stickyFooter,
+            contentTemplate: options.footerTemplate
+        });
+    }
+    //endregion
+
     // region Navigation
 
     /**
@@ -3201,6 +3305,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.searchValue = this._$searchValue;
             options.markerPosition = this._$markerPosition;
             options.roundBorder = this._$roundBorder;
+            options.hasMoreDataUp = this.hasMoreDataUp();
 
             if (this._$collection['[Types/_collection/RecordSet]']) {
                 options.isLastItem = this._isLastItem(options.contents);
@@ -4011,7 +4116,7 @@ Object.assign(Collection.prototype, {
     _$editingConfig: null,
     _$unique: false,
     _$importantItemProperties: null,
-    _$hasMoreData: false,
+    _$hasMoreData: {up: false, down: false},
     _$compatibleReset: false,
     _$contextMenuConfig: null,
     _$itemActionsProperty: '',
@@ -4024,6 +4129,8 @@ Object.assign(Collection.prototype, {
     _$backgroundStyle: 'default',
     _$rowSeparatorSize: null,
     _$hiddenGroupPosition: 'first',
+    _$footerTemplate: null,
+    _$stickyFooter: false,
     _localize: false,
     _itemModule: 'Controls/display:CollectionItem',
     _itemsFactory: null,
@@ -4042,6 +4149,7 @@ Object.assign(Collection.prototype, {
     _userStrategies: null,
     _$emptyTemplate: null,
     _$emptyTemplateOptions: null,
+    _$itemActionsPosition: 'inside',
     _$roundBorder: null,
     getIdProperty: Collection.prototype.getKeyProperty
 });
