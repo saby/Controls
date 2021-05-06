@@ -1,0 +1,26 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label">value = 1234.00, decimalsVisibility = visible</div>
+      <Controls.decorator:Money value="{{1234.00}}" decimalsVisibility="visible"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label">value = 1234.56, decimalsVisibility = visible</div>
+      <Controls.decorator:Money value="{{1234.56}}" decimalsVisibility="visible"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label">value = 1234.00, decimalsVisibility = hidden</div>
+      <Controls.decorator:Money value="{{1234.00}}" decimalsVisibility="hidden"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label">value = 1234.56, decimalsVisibility = hidden</div>
+      <Controls.decorator:Money value="{{1234.56}}" decimalsVisibility="hidden"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label">value = 1234.00, decimalsVisibility = hiddenIfEmpty</div>
+      <Controls.decorator:Money value="{{1234.00}}" decimalsVisibility="hiddenIfEmpty"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label">value = 1234.56, decimalsVisibility = hiddenIfEmpty</div>
+      <Controls.decorator:Money value="{{1234.56}}" decimalsVisibility="hiddenIfEmpty"/>
+   </div>
+</div>
