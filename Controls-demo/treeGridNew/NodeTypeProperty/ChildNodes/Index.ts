@@ -4,7 +4,7 @@ import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
 import {extendedData as data} from '../data/NodeTypePropertyData';
 import {TColspanCallbackResult} from 'Controls/grid';
 import {Model} from 'Types/entity';
-import {INavigation} from 'Controls-demo/types';
+import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 const NODE_TYPE_PROPERTY = 'nodeType';
 
@@ -15,7 +15,7 @@ export default class extends Control {
     protected _expandedItems: CrudEntityKey[] = [null];
     protected _collapsedItems: CrudEntityKey[] = undefined;
 
-    protected _navigation: INavigation = {
+    protected _navigation: INavigationOptionValue<INavigationSourceConfig> = {
         source: 'page',
         view: 'demand',
         sourceConfig: {

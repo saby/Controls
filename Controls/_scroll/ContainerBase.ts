@@ -4,7 +4,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {RegisterClass, RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {ResizeObserverUtil, RESIZE_OBSERVER_BOX} from 'Controls/sizeUtils';
-import {SCROLL_DIRECTION} from './Utils/Scroll';
+import {getScrollContainerPageCoords, SCROLL_DIRECTION} from './Utils/Scroll';
 import {scrollToElement} from './Utils/scrollToElement';
 import {scrollTo} from './Utils/Scroll';
 import ScrollState from './Utils/ScrollState';
@@ -16,6 +16,7 @@ import {EventUtils} from 'UI/Events';
 import {isHidden} from './StickyHeader/Utils';
 import {getHeadersHeight} from './StickyHeader/Utils/getHeadersHeight';
 import {location} from 'Application/Env';
+import {Entity} from 'Controls/dragnDrop';
 
 export interface IContainerBaseOptions extends IControlOptions {
     _notScrollableContent?: boolean; // Для HintWrapper, который сверстан максмально неудобно для скроллКонтейнера.
@@ -63,6 +64,12 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     private _virtualNavigationRegistrar: RegisterClass;
 
     private _contentType: CONTENT_TYPE = CONTENT_TYPE.regular;
+
+    // Флаг, идентифицирующий включен или выключен в текущий момент
+    // функционал автоскролла при приближении мыши к верхней/нижней границе
+    // скролл контейнера
+    private _autoScroll: boolean = false;
+    private _autoScrollInterval: number;
 
     private _isUnmounted: boolean = false;
 
@@ -135,6 +142,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             this._lockScrollPositionUntilKeyboardShown = this._lockScrollPositionUntilKeyboardShown.bind(this);
             Bus.globalChannel().subscribe('MobileInputFocus', this._lockScrollPositionUntilKeyboardShown);
         }
+
+        // Регистрируем события о начале и окончании перетаскивания, что бы включать/выключать
+        // режим автоскролла при приближении мышки верхнему/нижнему краю скролл контейнера
+        this._notify('register', ['documentDragStart', this, this._onDragStart], { bubbling: true });
+        this._notify('register', ['documentDragEnd', this, this._onDragEnd], { bubbling: true });
     }
 
     _beforeUpdate(options: IContainerBaseOptions) {
@@ -167,6 +179,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         this._scrollModel = null;
         this._oldScrollState = null;
         this._isUnmounted = true;
+
+        this._notify('unregister', ['documentDragStart', this], {bubbling: true});
+        this._notify('unregister', ['documentDragEnd', this], {bubbling: true});
+        this._autoScroll = false;
+        clearInterval(this._autoScrollInterval);
     }
 
     _controlResizeHandler(): void {
@@ -820,6 +837,68 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             scrollTop: this._children.content.scrollTop,
             scrollLeft: this._children.content.scrollLeft,
         });
+    }
+
+    // Autoscroll
+
+    private _onDragStart(dragObject: {entity: Entity}): void {
+        this._autoScroll = !!dragObject.entity?.allowAutoscroll;
+    }
+
+    private _onDragEnd(): void {
+        this._autoScroll = false;
+    }
+
+    protected _onMouseLeave(): void {
+        // При выходе мыши за границы контейнера нужно стопнуть интервал
+        clearInterval(this._autoScrollInterval);
+    }
+
+    /**
+     * Обрабатываем движение курсором мыши для того, что бы инициировать автоскролл когда курсор
+     * подходит к верхней или нижней границе контейнера
+     */
+    protected _onMouseMove(event: SyntheticEvent): void {
+        if (!this._autoScroll) {
+            return;
+        }
+
+        const cords = getScrollContainerPageCoords(this._container);
+        const mouseEvent = event.nativeEvent as MouseEvent;
+
+        // Высота области относительно верхней/нижней границы контейнера при попадании в которую нужно
+        // делать подскролл
+        const edge = 50;
+        // Определяем находится ли курсор в рамках текущей ширины контейнера
+        const inX = mouseEvent.pageX > cords.left && mouseEvent.pageX < cords.right;
+        // Определяем находится ли курсор у верхней границы скролл контейнера
+        const needScrollTop = mouseEvent.pageY > cords.top && mouseEvent.pageY < (cords.top + edge);
+        // Определяем находится ли курсор у нижней границы скролл контейнера
+        const needScrollBottom = mouseEvent.pageY < cords.bottom && mouseEvent.pageY > (cords.bottom - edge);
+        // Величина на которую делаем подскролл
+        const delta = 30;
+
+        clearInterval(this._autoScrollInterval);
+        if (!(inX && (needScrollTop || needScrollBottom))) {
+            return;
+        }
+
+        // Вешаем интервал что бы если пользователь остановил курсор автоскролл продолжал работать
+        this._autoScrollInterval = setInterval(() => {
+            if (!this._autoScroll) {
+                clearInterval(this._autoScrollInterval);
+                return;
+            }
+
+            const scrollTop = (this._children.content as HTMLElement).scrollTop;
+            if (inX && needScrollTop) {
+                this._setScrollTop(scrollTop - delta);
+            }
+
+            if (inX && needScrollBottom) {
+                this._setScrollTop(scrollTop + delta);
+            }
+        }, 100);
     }
 
     // Виртуальный скролл

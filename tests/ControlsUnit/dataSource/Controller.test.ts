@@ -261,35 +261,6 @@ describe('Controls/dataSource:SourceController', () => {
             ok((loadedItems as RecordSet).at(0).get('title') === 'Aleksey');
         });
 
-        it('load with collapsedGroups',  async () => {
-            const controller = getController({
-                source: getMemory({
-                    filter: (item, filter) => filter.myFilterField
-                }),
-                filter: {
-                    myFilterField: 'myFilterFieldValue'
-                },
-                groupProperty: 'groupProperty',
-                groupHistoryId: 'groupHistoryId'
-            });
-            const sinonSandbox = createSandbox();
-            sinonSandbox.replace(groupUtil, 'restoreCollapsedGroups', () => {
-                return Promise.resolve([]);
-            });
-
-            const loadedItems = await controller.reload();
-            ok(loadedItems.getCount() === 4);
-            sinonSandbox.restore();
-
-            sinonSandbox.replace(groupUtil, 'restoreCollapsedGroups', () => {
-                return Promise.resolve(['testCollapsedGroup1', 'testCollapsedGroup2']);
-            });
-            await controller.reload();
-            deepStrictEqual(controller.getCollapsedGroups(), ['testCollapsedGroup1', 'testCollapsedGroup2']);
-
-            sinonSandbox.restore();
-        });
-
         it('load call with direction update items',  async () => {
             const controller = getController({
                 navigation: {
@@ -705,6 +676,52 @@ describe('Controls/dataSource:SourceController', () => {
                 navigation: getPagingNavigation(false)
             });
             ok(!controller.hasLoaded('anyFolderKey'));
+        });
+    });
+
+    describe('collapsedGroups', () => {
+        it('initialize with groupHistoryId',  async () => {
+            const sinonSandbox = createSandbox();
+            const storedCollapsedGroups = ['testCollapsedGroup1', 'testCollapsedGroup2'];
+            sinonSandbox.replace(groupUtil, 'restoreCollapsedGroups', () => {
+                return Promise.resolve(storedCollapsedGroups);
+            });
+            const controller = await getController({
+                source: getMemory({
+                    filter: (item, filter) => filter.myFilterField
+                }),
+                filter: {
+                    myFilterField: 'myFilterFieldValue'
+                },
+                groupProperty: 'groupProperty',
+                groupHistoryId: 'groupHistoryId'
+            });
+
+            ok(controller.getCollapsedGroups(), storedCollapsedGroups);
+            sinonSandbox.restore();
+        });
+
+        it('update with new groupHistoryId',  async () => {
+            const sinonSandbox = createSandbox();
+            const storedCollapsedGroups = ['testCollapsedGroup1', 'testCollapsedGroup2'];
+            sinonSandbox.replace(groupUtil, 'restoreCollapsedGroups', (storeKey: string) => {
+                return Promise.resolve(storeKey === 'newGroupHistoryId' ?  storedCollapsedGroups : undefined);
+            });
+            const controller = getController({
+                source: getMemory({
+                    filter: (item, filter) => filter.myFilterField
+                }),
+                filter: {
+                    myFilterField: 'myFilterFieldValue'
+                },
+                groupProperty: 'groupProperty',
+                groupHistoryId: 'groupHistoryId'
+            });
+
+            const options = getControllerOptions();
+            await controller.updateOptions({...options, groupHistoryId: 'newGroupHistoryId'});
+            ok(controller.getCollapsedGroups(), storedCollapsedGroups);
+            sinonSandbox.restore();
         });
     });
 });

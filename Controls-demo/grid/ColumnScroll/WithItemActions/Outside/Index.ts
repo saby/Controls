@@ -4,7 +4,7 @@ import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../../../list_new/DemoHelpers/ItemActionsCatalog';
 import { IColumn } from 'Controls/gridOld';
-import { IHeader } from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/gridOld';
 import { IItemAction } from 'Controls/itemActions';
 
 export default class extends Control {
@@ -12,7 +12,7 @@ export default class extends Control {
     protected _viewSource: Memory;
     protected _itemActions: IItemAction[] = getItemActions();
     protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths();
-    protected _header: IHeader[] = getCountriesStats().getDefaultHeader();
+    protected _header: IHeaderCell[] = getCountriesStats().getDefaultHeader();
 
     protected _beforeMount(): void {
         const data = getCountriesStats().getData();

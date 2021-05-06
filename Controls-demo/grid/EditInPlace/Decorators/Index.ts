@@ -3,12 +3,12 @@ import * as Template from 'wml!Controls-demo/grid/EditInPlace/Decorators/Decorat
 import {Memory} from 'Types/source';
 import {getEditing} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/gridOld';
-import { IHeader } from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/gridOld';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _header: IHeader[] = getEditing().getDecoratedEditingHeader();
+    protected _header: IHeaderCell[] = getEditing().getDecoratedEditingHeader();
     protected _columns: IColumn[] = getEditing().getDecoratedEditingColumns();
 
     protected _beforeMount(): void {

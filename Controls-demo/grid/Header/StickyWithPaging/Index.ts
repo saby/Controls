@@ -3,12 +3,12 @@ import * as Template from 'wml!Controls-demo/grid/Header/StickyWithPaging/Sticky
 import {Memory} from 'Types/source';
 import {countries} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/gridOld';
-import { IHeader } from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/gridOld';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _header: IHeader[] = [{title: 'id'}, {title: 'Country'}];
+    protected _header: IHeaderCell[] = [{title: 'id'}, {title: 'Country'}];
     protected _columns: IColumn[] = [{displayProperty: 'id', width: '100px'}, {displayProperty: 'name', width: '300px'}];
 
     protected _beforeMount(): void {

@@ -19,7 +19,7 @@ import * as notDraggableCell from 'wml!Controls-demo/gridNew/ColumnScroll/DragSc
 import * as dragScrollPopulationCell from 'wml!Controls-demo/gridNew/ColumnScroll/DragScrolling/populationCell';
 
 import { IColumn } from 'Controls/grid';
-import { IHeader } from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/grid';
 
 export interface IData {
     id: number;
@@ -45,6 +45,7 @@ export interface IData {
     serviceContract?: null | string;
     description?: string;
     shipper?: null | string;
+    tagStyle?: null | string;
 }
 
 export interface IColumnRes extends IColumn {
@@ -542,7 +543,7 @@ const getCountriesStats = () => {
                 width: '150px'
             }
         ],
-        getDefaultHeader: (): IHeader[] => [
+        getDefaultHeader: (): IHeaderCell[] => [
             {
                 title: '#'
             },
@@ -599,7 +600,7 @@ const getCountriesStats = () => {
                 endColumn: 7
             }
         ],
-        getLongHeader: (textOverflow): IHeader[] => [
+        getLongHeader: (textOverflow): IHeaderCell[] => [
             {
                 title: '#'
             },
@@ -623,7 +624,7 @@ const getCountriesStats = () => {
                 textOverflow
             }
         ],
-        getMultiHeader: (): IHeader[] => [
+        getMultiHeader: (): IHeaderCell[] => [
             {
                 title: '#',
                 startRow: 1,
@@ -683,7 +684,7 @@ const getCountriesStats = () => {
                 endColumn: 7
             }
         ],
-        getMultiHeaderForTextOverflow: (): IHeader[] => [
+        getMultiHeaderForTextOverflow: (): IHeaderCell[] => [
             {
                 title: '#',
                 startRow: 1,
@@ -745,7 +746,7 @@ const getCountriesStats = () => {
                 endColumn: 7
             }
         ],
-        getMultiHeaderForDragScrolling: (): IHeader[] => [
+        getMultiHeaderForDragScrolling: (): IHeaderCell[] => [
             {
                 title: '#',
                 startRow: 1,
@@ -813,7 +814,7 @@ const getCountriesStats = () => {
             }
         ],
 
-        getMultiHeaderVar2: (): IHeader[] => [
+        getMultiHeaderVar2: (): IHeaderCell[] => [
             {
                 title: 'Географические характеристики стран',
                 startRow: 1,
@@ -858,7 +859,7 @@ const getCountriesStats = () => {
                 endColumn: 6
             }
         ],
-        getHeaderWithSorting: (textOverflow): IHeader[] => [
+        getHeaderWithSorting: (textOverflow): IHeaderCell[] => [
             {
                 title: '#'
             },
@@ -920,6 +921,109 @@ const getCountriesStats = () => {
     };
 };
 
+const getTagStyleData = () => {
+    return {
+        getColumns: (): IColumn[] => [
+            {
+                displayProperty: 'number',
+                width: '40px'
+            },
+            {
+                displayProperty: 'country',
+                width: '200px'
+            },
+            {
+                displayProperty: 'population',
+                width: '150px',
+                align: 'right',
+                tagStyleProperty: 'tagStyle'
+            }
+        ],
+        getData: (): IData[] => [
+            {
+                id: 0,
+                number: 1,
+                country: 'Россия',
+                capital: 'Москва',
+                population: 143420300,
+                square: 17075200,
+                populationDensity: 8,
+                tagStyle: null
+            },
+            {
+                id: 1,
+                number: 2,
+                country: 'Канада',
+                capital: 'Оттава',
+                population: 32805000,
+                square: 9976140,
+                populationDensity: 3,
+                tagStyle: 'info'
+            },
+            {
+                id: 2,
+                number: 3,
+                country: 'Соединенные Штаты Америки',
+                capital: 'Вашингтон',
+                population: 295734100,
+                square: 9629091,
+                populationDensity: 30.71,
+                tagStyle: 'danger'
+            },
+            {
+                id: 3,
+                number: 4,
+                country: 'Китай',
+                capital: 'Пекин',
+                population: 1306313800,
+                square: 9596960,
+                populationDensity: 136.12,
+                tagStyle: 'primary'
+            },
+            {
+                id: 4,
+                number: 5,
+                country: 'Бразилия',
+                capital: 'Бразилиа',
+                population: 186112800,
+                square: 8511965,
+                populationDensity: 21.86,
+                tagStyle: 'success'
+            },
+            {
+                id: 5,
+                number: 6,
+                country: 'Австралия',
+                capital: 'Канберра',
+                population: 20090400,
+                square: 7686850,
+                populationDensity: 3,
+                tagStyle: 'warning'
+            },
+            {
+                id: 6,
+                number: 7,
+                country: 'Индия',
+                capital: 'Нью-Дели',
+                population: 1080264400,
+                square: 3287590,
+                populationDensity: 328.59,
+                tagStyle: 'secondary'
+            },
+            {
+                id: 7,
+                number: 8,
+                country: 'Аргентина',
+                capital: 'Буэнос-Айрес',
+                population: 39537900,
+                square: 2766890,
+                populationDensity: 4.29,
+                tagStyle: 'info'
+            }
+        ]
+    };
+};
+
 const getMultilineLadder = () => {
     return {
         getData: (): IData[] => [
@@ -932,14 +1036,44 @@ const getMultilineLadder = () => {
             {
                 id: 3,
                 date: '01 мая',
-                time: '08:25',
+                time: '06:02',
                 name: 'Авраменко А.'
             },
             {
                 id: 30,
                 date: '01 мая',
-                time: '18:33',
+                time: '06:02',
+                name: 'Панихин К.'
+            },
+            {
+                id: 31,
+                date: '01 мая',
+                time: '08:25',
                 name: 'Авраменко А.'
+            },
+            {
+                id: 32,
+                date: '01 мая',
+                time: '08:25',
+                name: 'Панихин К.'
+            },
+            {
+                id: 33,
+                date: '01 мая',
+                time: '08:33',
+                name: 'Авраменко А.'
+            },
+            {
+                id: 34,
+                date: '01 мая',
+                time: '08:33',
+                name: 'Панихин К.'
+            },
+            {
+                id: 35,
+                date: '01 мая',
+                time: '08:33',
+                name: 'Колесов В.'
             },
             {
                 id: 5,
@@ -948,10 +1082,22 @@ const getMultilineLadder = () => {
                 name: 'Колесов В.'
             },
             {
+                id: 51,
+                date: '02 мая',
+                time: '07:41',
+                name: 'Авраменко А.'
+            },
+            {
                 id: 6,
                 date: '02 мая',
                 time: '08:25',
                 name: 'Авраменко А.'
+            },
+            {
+                id: 61,
+                date: '02 мая',
+                time: '08:25',
+                name: 'Панихин К.'
             },
             {
                 id: 8,
@@ -960,16 +1106,40 @@ const getMultilineLadder = () => {
                 name: 'Колесов В.'
             },
             {
+                id: 81,
+                date: '03 мая',
+                time: '09:41',
+                name: 'Колесов В.'
+            },
+            {
+                id: 82,
+                date: '03 мая',
+                time: '09:41',
+                name: 'Авраменко А.'
+            },
+            {
                 id: 9,
                 date: '03 мая',
                 time: '09:55',
                 name: 'Колесов В.'
             },
             {
+                id: 91,
+                date: '03 мая',
+                time: '09:55',
+                name: 'Авраменко А.'
+            },
+            {
                 id: 11,
                 date: '04 мая',
                 time: '06:02',
                 name: 'Колесов В.'
+            },
+            {
+                id: 12,
+                date: '04 мая',
+                time: '06:02',
+                name: 'Авраменко А.'
             },
             {
                 id: 13,
@@ -979,6 +1149,18 @@ const getMultilineLadder = () => {
             },
             {
                 id: 14,
+                date: '04 мая',
+                time: '08:25',
+                name: 'Колесов В.'
+            },
+            {
+                id: 141,
+                date: '04 мая',
+                time: '08:41',
+                name: 'Колесов В.'
+            },
+            {
+                id: 142,
                 date: '04 мая',
                 time: '08:41',
                 name: 'Колесов В.'
@@ -992,7 +1174,7 @@ const getMultilineLadder = () => {
             {
                 id: 17,
                 date: '06 мая',
-                time: '08:25',
+                time: '07:41',
                 name: 'Колесов В.'
             },
             {
@@ -1004,7 +1186,7 @@ const getMultilineLadder = () => {
             {
                 id: 19,
                 date: '06 мая',
-                time: '09:55',
+                time: '09:41',
                 name: 'Колесов В.'
             }
         ],
@@ -1274,7 +1456,7 @@ const getTasksWithHiddenGroup = () => {
             {
                 id: 11,
                 message: 'Не работают хлебные крошки и навигация по' +
-                'ним если идентификатор записи равен 0 Как повторить',
+                    'ним если идентификатор записи равен 0 Как повторить',
                 fullName: 'Догадкин Владимир',
                 photo: getImages().dogadkin,
                 date: '28 фев',
@@ -1627,7 +1809,7 @@ const getEditing = () => {
                 template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorTitle'
             }
         ],
-        getEditingHeaderValidations: (): IHeader[] => [
+        getEditingHeaderValidations: (): IHeaderCell[] => [
             {
                 title: 'email'
             },
@@ -1664,7 +1846,7 @@ const getEditing = () => {
                 document: '456990005'
             }
         ],
-        getDecoratedEditingHeader: (): IHeader[] => [
+        getDecoratedEditingHeader: (): IHeaderCell[] => [
             { title: 'Порт прибытия' },
             { title: 'Цена по накладной' },
             { title: 'Номер накладной' },
@@ -1707,7 +1889,7 @@ interface IDataForShow {
 
 function forShowWidths(): {
     getData(): IDataForShow[];
-    getHeader(): IHeader[];
+    getHeader(): IHeaderCell[];
     getColumns1(): IColumn[];
 } {
     return {
@@ -1733,7 +1915,7 @@ function forShowWidths(): {
                 }
             ];
         },
-        getHeader(): IHeader[] {
+        getHeader(): IHeaderCell[] {
             return [
                 {
                     title: '150px'
@@ -1872,7 +2054,7 @@ const cellPadding = () => ({
             populationDensity: 21.86
         }
     ]),
-    getCellPaddingHeader: (): IHeader[] => {
+    getCellPaddingHeader: (): IHeaderCell[] => {
         return [
             {
                 title: 'right: S'
@@ -1897,8 +2079,8 @@ interface IDndData {
 }
 
 interface IForDnD {
-  data: IDndData[];
-  columns: IColumn[];
+    data: IDndData[];
+    columns: IColumn[];
 }
 
 const DragNDrop = (): IForDnD => ({
@@ -2074,5 +2256,6 @@ export {
     DragNDrop,
     cellPadding,
     changeSourceData,
-    getMultilineLadder
+    getMultilineLadder,
+    getTagStyleData
 }

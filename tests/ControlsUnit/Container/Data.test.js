@@ -582,51 +582,6 @@ define(
             });
          });
 
-         it('_beforeMount with collapsed groups', function(done) {
-            var data = new sourceLib.DataSet();
-            var queryCalled = false;
-            let queryFilter;
-
-            var source = {
-               query: function(query) {
-                  queryCalled = true;
-                  queryFilter = query.getWhere();
-                  return Deferred.success(data);
-               },
-               _mixins: [],
-               "[Types/_source/ICrud]": true
-            };
-            var dataLoadErrbackCalled = false;
-            var dataLoadErrback = function() {
-               dataLoadErrbackCalled = true;
-            };
-
-            var config = {source: source, keyProperty: 'id', dataLoadErrback: dataLoadErrback, groupProperty: 'prop', historyIdCollapsedGroups: 'gid' };
-            var self = getDataWithConfig(config);
-            self._filter = {};
-            const originConfigGetParam = Config.UserConfig.getParam;
-            Config.UserConfig.getParam = (preparedStoreKey) => {
-               if (preparedStoreKey === 'LIST_COLLAPSED_GROUP_gid') {
-                  return Promise.resolve('[1, 3]');
-               }
-               return originConfigGetParam();
-            };
-
-
-            var promise = self._beforeMount(config);
-            assert.instanceOf(promise, Promise);
-            promise.then(function() {
-               assert.isFalse(dataLoadErrbackCalled);
-               assert.isTrue(queryCalled);
-               Config.UserConfig.getParam = originConfigGetParam;
-               assert.deepEqual(queryFilter, { collapsedGroups: [1, 3] });
-               done();
-            }).catch(function(error) {
-               Config.UserConfig.getParam = originConfigGetParam;
-               done(error);
-            });
-         });
-
          it('_beforeUnmount with sourceController in options', async() => {
             const sourceController = new dataSourceLib.NewSourceController({ source: source, keyProperty: 'id' });
             const dataOptions = { source, sourceController, keyProperty: 'id' };

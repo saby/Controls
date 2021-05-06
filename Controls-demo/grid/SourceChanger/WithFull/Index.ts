@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/grid/SourceChanger/WithFull/WithFul
 import {Memory} from 'Types/source';
 import {getCountriesStats, changeSourceData} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/gridOld';
-import { INavigation } from 'Controls-demo/types';
+import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 const { data, data2 } = changeSourceData();
 // tslint:disable
@@ -44,7 +44,7 @@ export default class extends Control {
     private _viewSource2: Memory;
     protected _columns: IColumn[] = getCountriesStats().getColumnsForLoad();
     private _resolve: unknown = null;
-    protected _navigation: INavigation;
+    protected _navigation: INavigationOptionValue<INavigationSourceConfig>;
 
     protected _beforeMount(): void {
         this._viewSource = new InitialMemory({

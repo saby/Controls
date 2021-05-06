@@ -24,6 +24,8 @@ interface IItemsOptions {
 export default class Items extends Entity {
     protected _options: IItemsOptions;
 
+    readonly allowAutoscroll: boolean = true;
+
     getItems(): Array<string|number> {
         return this._options.items;
     }
