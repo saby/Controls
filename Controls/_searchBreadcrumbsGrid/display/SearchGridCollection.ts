@@ -100,10 +100,6 @@ export default
       return composer;
    }
 
-   getExpanderIcon(): string {
-      return 'none';
-   }
-
    protected _recountHasNodeWithChildren(): void {
       // В поисковой модели не нужно выставлять флаг hasNodeWithChildren, т.к. это нужно только для экспандера
       // а экспандер в моделе с хлебными крошками не отображается
@@ -114,6 +110,7 @@ export default
 Object.assign(SearchGridCollection.prototype, {
    '[Controls/searchBreadcrumbsGrid:SearchGridCollection]': true,
    _moduleName: 'Controls/searchBreadcrumbsGrid:SearchGridCollection',
+   _itemModule: 'Controls/searchBreadcrumbsGrid:SearchGridDataRow',
    _$searchBreadcrumbsItemTemplate: 'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate',
    _$breadCrumbsMode: 'row',
    _$dedicatedItemProperty: '',

@@ -4,17 +4,10 @@
                src="{{_options.itemData.item[_options.imageProperty]}}"
                viewMode="{{_options.imageViewMode}}"
                position="{{_options.imagePosition}}"
-               afterImageTemplate="{{afterImageTemplate}}"
+               afterImageTemplate="{{_options.afterImageTemplate}}"
                imageGradientColor="{{_options.imageGradientColor}}"
                item="{{(item || itemData)}}"
                effect="{{_options.imageEffect}}"/>
-</ws:template>
-
-<ws:template name="afterImageTemplate">
-   <ws:partial if="{{_options.afterImageTemplate}}"
-               template="{{afterImageTemplate}}"
-               itemData="{{(item || itemData)}}"
-               item="{{(item || itemData)}}"/>
 </ws:template>
 
 <ws:template name="footerTemplate">
@@ -34,7 +27,7 @@
                      class="controls-listTemplates__listItemTemplate-image-padding_position-{{_options.imagePosition || 'left'}}"
                      imagePosition="{{_options.imagePosition}}"
                      imageEffect="{{_options.imageEffect}}"
-                     afterImageTemplate="{{afterImageTemplate}}"
+                     afterImageTemplate="{{_options.afterImageTemplate}}"
                      imageGradientColor="{{_options.imageGradientColor}}"
                      imageViewMode="{{_options.imageViewMode}}"/>
       </ws:if>
@@ -94,6 +87,7 @@
                   imageProperty="{{_options.imageProperty}}"
                   imagePosition="{{_options.imagePosition}}"
                   imageGradientColor="{{_options.imageGradientColor}}"
+                  afterImageTemplate="{{_options.afterImageTemplate}}"
                   imageViewMode="{{_options.imageViewMode}}"/>
    </ws:contentTemplate>
 </ws:partial>

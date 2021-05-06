@@ -59,11 +59,13 @@ define([
          it('should update the model', function() {
             const component = calendarTestUtils.createComponent(input.DateBase, options),
                value = new Date(2017, 11, 1);
+            sinon.stub(component, 'setValidationResult');
 
             component._beforeUpdate(cMerge({ value: value }, options, { preferSource: true }));
 
             assert.strictEqual(component._model.value, value);
             assert.strictEqual(component._model.textValue, '01.12.2017');
+            sinon.restore();
          });
       });
 

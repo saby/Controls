@@ -32,7 +32,7 @@ import template = require('wml!Controls/_input/DateTime/DateTime');
  * @class Controls/_input/DateTime
  * @extends UI/Base:Control
  * @mixes Controls/input:IInputDateTime
- * 
+ *
  * @mixes Controls/input:IDateTimeMask
  * @mixes Controls/interface:IInputTag
  * @mixes Controls/input:IBase
@@ -85,6 +85,12 @@ class DateTime extends Control {
         this._updateDateConstructor(options, this._options);
         if (this._options.validateByFocusOut !== options.validateByFocusOut) {
             this._updateValidationController(options);
+        }
+        // Если значение поменялось из кода - сбрасываем валидацию
+        // Нельзя передать value напрямую в валидатор, т.к. будет вызываться валидация при каждом изменении значения.
+        // Из-за этого произайдет ошибка сразу после ввода первого символа.
+        if (this._model.value !== options.value) {
+            this.setValidationResult(null);
         }
         if (options.value !== this._options.value) {
             this._model.update({

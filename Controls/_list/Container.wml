@@ -1,5 +1,6 @@
 <ws:partial template="{{_options.content}}"
             on:expandedItemsChanged="_notifyEventWithBubbling('listExpandedItemsChanged')"
+            on:collapsedItemsChanged="_notifyEventWithBubbling('listCollapsedItemsChanged')"
             on:selectedKeysChanged="_notifyEventWithBubbling('listSelectedKeysChanged')"
             on:excludedKeysChanged="_notifyEventWithBubbling('listExcludedKeysChanged')"
             on:markedKeyChanged="_notifyEventWithBubbling('listMarkedKeyChanged')"
