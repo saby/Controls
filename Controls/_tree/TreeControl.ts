@@ -527,7 +527,7 @@ const _private = {
         if (_private.isExpandAll(modelExpandedItems) && options.nodeProperty) {
             expandedItems = [];
             items.each((item) => {
-                if (item.get(options.nodeProperty)) {
+                if (item.get(options.nodeProperty) !== null) {
                     expandedItems.push(item.get(self._keyProperty));
                 }
             });
@@ -926,7 +926,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         if (this.isLoading()) {
             return;
         }
-        e.stopPropagation();
         const eventResult = superResult;
 
         if (eventResult !== false && this._options.expandByItemClick && item.get(this._options.nodeProperty) !== null) {
