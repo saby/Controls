@@ -6649,10 +6649,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             return false;
         }
 
-        // Если нет элементов, то должен отображаться глобальный индикатор
         const shouldDisplayTopIndicator = this._loadingIndicatorState === 'up' && !this._portionedSearchInProgress;
-        return (shouldDisplayTopIndicator || this._attachLoadTopTriggerToNull && this._scrollController.isRangeOnEdge('up'))
-            && !!this._items && !!this._items.getCount();
+        const isAborted = _private.getPortionedSearch(this).isAborted();
+        // Если нет элементов, то должен отображаться глобальный индикатор
+        const hasItems = !!this._items && !!this._items.getCount();
+        return (shouldDisplayTopIndicator || this._attachLoadTopTriggerToNull && !this._showContinueSearchButtonDirection && this._scrollController.isRangeOnEdge('up'))
+            && !this._portionedSearchInProgress && !isAborted && hasItems;
     }
 
     _shouldDisplayMiddleLoadingIndicator(): boolean {

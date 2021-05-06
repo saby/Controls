@@ -6622,6 +6622,20 @@ define([
                 baseControl._items = notEmptyRs;
                 assert.isNotOk(baseControl._shouldDisplayBottomLoadingIndicator());
              });
+
+             it('portioned search in progress', () => {
+                baseControl._attachLoadDownTriggerToNull = true;
+                baseControl._portionedSearchInProgress = true;
+                baseControl._items = notEmptyRs;
+                assert.isNotOk(baseControl._shouldDisplayBottomLoadingIndicator());
+             });
+
+             it('continue search showed', () => {
+                baseControl._attachLoadDownTriggerToNull = true;
+                baseControl._showContinueSearchButtonDirection = 'up';
+                baseControl._items = notEmptyRs;
+                assert.isNotOk(baseControl._shouldDisplayBottomLoadingIndicator());
+             });
           });
 
           it('attachToNull, onCollectionChanged', () => {
