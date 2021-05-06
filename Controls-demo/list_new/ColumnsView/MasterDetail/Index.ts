@@ -12,7 +12,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';
 import { IColumn } from 'Controls/gridOld';
-import { INavigation } from 'Controls-demo/types';
+import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 export default class RenderDemo extends Control {
     protected _template: TemplateFunction = template;
@@ -22,7 +22,7 @@ export default class RenderDemo extends Control {
         template: columnTemplate
     }];
     protected _viewSource: Memory;
-    protected _navigation: INavigation;
+    protected _navigation: INavigationOptionValue<INavigationSourceConfig>;
     protected _selectedKeys: number[];
     protected _items: [object];
     protected _detailSource: Memory;

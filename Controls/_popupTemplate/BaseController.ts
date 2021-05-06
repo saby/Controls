@@ -5,6 +5,7 @@ import {Controller as ManagerController, IPopupItem, IPopupPosition, IPopupSizes
 import * as TargetCoords from 'Controls/_popupTemplate/TargetCoords';
 import {Control} from 'UI/Base';
 import {goUpByControlTree} from 'UI/Focus';
+import {Logger} from 'UI/Utils';
 
 export interface IDragOffset {
     x: number;
@@ -251,6 +252,11 @@ abstract class BaseController {
             // Проверяем, есть ли у родителя ограничивающий контейнер
             if (popupItem.parentId) {
                 const parentItem = require('Controls/popup').Controller.find(popupItem.parentId);
+                if (!parentItem) {
+                    Logger.error(`Ошибка при открытии окна с шаблоном ${item.popupOptions.template},
+                     один из его родителей уничтожен, проверьте opener у окна с
+                     шаблоном ${popupItem.popupOptions.template}`);
+                }
                 return getRestrictiveContainer(parentItem);
             }
         };
@@ -279,8 +285,10 @@ abstract class BaseController {
             return {
                 right: contentData.left + contentData.width,
                 top: contentData.top,
-                width: contentData.width,
+                bottom: bodyCoords.bottom,
+                left: contentData.left,
                 height: bodyCoords.height,
+                width: contentData.width,
                 topScroll: bodyCoords.topScroll,
                 leftScroll: bodyCoords.leftScroll
             };

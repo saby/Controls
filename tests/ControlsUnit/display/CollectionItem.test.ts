@@ -742,4 +742,18 @@ describe('Controls/_display/CollectionItem', () => {
         item.setSearchValue('123');
         assert.equal(item.getSearchValue(), '123');
     });
+
+    it('shadowVisibility', () => {
+        let item = new CollectionItem({hasMoreDataUp: false, isFirstStickedItem: false});
+        assert.equal(item.getShadowVisibility(), 'lastVisible');
+
+        item = new CollectionItem({hasMoreDataUp: true, isFirstStickedItem: false});
+        assert.equal(item.getShadowVisibility(), 'lastVisible');
+
+        item = new CollectionItem({hasMoreDataUp: false, isFirstStickedItem: true});
+        assert.equal(item.getShadowVisibility(), 'lastVisible');
+
+        item = new CollectionItem({hasMoreDataUp: true, isFirstStickedItem: true});
+        assert.equal(item.getShadowVisibility(), 'initial');
+    })
 });

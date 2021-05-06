@@ -369,7 +369,7 @@ class StackController extends BaseController {
     }
 
     private _updatePopupWidth(item: IPopupItem, width: number): void {
-        if (!item.containerWidth && !width && item.popupState !== this.POPUP_STATE_INITIALIZING) {
+        if (!width && item.popupState !== this.POPUP_STATE_INITIALIZING) {
             item.containerWidth = this._getContainerWidth(this._getPopupContainer(item.id));
         }
     }
