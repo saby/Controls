@@ -727,7 +727,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
         if (typeof newOptions.root !== 'undefined' && this._root !== newOptions.root) {
             this._root = newOptions.root;
-            this._listViewModel.setRoot(this._root);
+            if (this._listViewModel) {
+                this._listViewModel.setRoot(this._root);
+            }
 
             if (this._options.itemsSetCallback) {
                 const items = sourceController?.getItems() || newOptions.items;
