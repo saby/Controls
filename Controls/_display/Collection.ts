@@ -1388,22 +1388,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         );
     }
 
-    getNextByKey(key: string|number): T {
-        const item = this.getItemBySourceKey(key);
-        return this.getNext(item);
-    }
-    getPrevByKey(key: string|number): T {
-        const item = this.getItemBySourceKey(key);
-        return this.getPrevious(item);
-    }
-
-    getNextByIndex(index: number): T {
-        return this.at(index + 1);
-    }
-    getPrevByIndex(index: number): T {
-        return this.at(index - 1);
-    }
-
     /**
      * Возвращает индекс элемента в коллекции по его индексу в проекции
      * @param {Number} index Индекс элемента в проекции

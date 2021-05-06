@@ -13,8 +13,6 @@ export interface IBaseCollection<S, T extends ICollectionItem> {
     setEventRaising(enabled: boolean, analyze?: boolean): void;
     getCollection(): ISourceCollection<S>;
     getFirst(): T;
-    getNextByKey(key: TItemKey): T;
-    getPrevByKey(key: TItemKey): T;
     createItem(constructorOptions): T;
     getCount?(): number;
     getNext?(item: T): T;

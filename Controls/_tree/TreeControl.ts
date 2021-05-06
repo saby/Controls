@@ -12,7 +12,7 @@ import { RecordSet } from 'Types/collection';
 import { Model } from 'Types/entity';
 
 import {Direction, IHierarchyOptions, TKey} from 'Controls/interface';
-import { BaseControl, IBaseControlOptions } from 'Controls/list';
+import {BaseControl, IBaseControlOptions, ISiblingStrategy} from 'Controls/list';
 import {Collection, Tree, TreeItem} from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
 import { NewSourceController } from 'Controls/dataSource';
@@ -21,6 +21,7 @@ import 'css!Controls/list';
 import 'css!Controls/itemActions';
 import 'css!Controls/CommonClasses';
 import 'css!Controls/treeGrid';
+import {TreeSiblingStrategy} from './Strategies/TreeSiblingStrategy';
 
 const HOT_KEYS = {
     expandMarkedItem: constants.key.right,
@@ -1366,6 +1367,12 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
 
         return result;
+    }
+
+    protected _getSiblingsStrategy(): ISiblingStrategy {
+        return new TreeSiblingStrategy({
+            collection: this._listViewModel
+        });
     }
 
     static getDefaultOptions() {

@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/list_new/MoveController/MoveController';
+import * as Template from 'wml!Controls-demo/treeGridNew/MoveController/MoveController';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
