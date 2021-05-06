@@ -175,6 +175,10 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       this._filter = controllerState.filter;
       this._dataOptionsContext = this._createContext(controllerState);
 
+      if (!this._options.nodeHistoryId) {
+         this._expandedItems = options.expandedItems;
+      }
+
       if (options.sourceController) {
          // Если контроллер задан выше, чем появилось дерево, то надо установить в него expandedItems из опций
          if (options.expandedItems && !controllerState.expandedItems) {
@@ -304,13 +308,8 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
    // и dataContainer слушает напрямую список. Для нового грида это работает, а старый через модель сам
    // посылает события.
    _expandedItemsChanged(event: SyntheticEvent, expandedItems: CrudEntityKey[]): void {
-      if (!this._options.nodeHistoryId) {
-         return;
-      }
-
       if (this._shouldSetExpandedItemsOnUpdate) {
          this._notify('expandedItemsChanged', [expandedItems], { bubbling: true });
-
       } else if (this._expandedItems !== expandedItems) {
          this._sourceController.setExpandedItems(expandedItems);
          if (this._options.nodeHistoryId) {
