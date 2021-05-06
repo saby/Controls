@@ -50,6 +50,7 @@ export interface ILoadDataConfig extends
     fastFilterSource?: object[];
     historyId?: string;
     groupHistoryId?: string;
+    nodeHistoryId?: string;
     historyItems?: IFilterItem[];
     propStorageId?: string;
     root?: string;
@@ -208,7 +209,7 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
 
         return new Promise((resolve) => {
             if (loadConfig.source) {
-                sourceController.load().finally(() => {
+                sourceController.reload().finally(() => {
                     resolve(getLoadResult(loadConfig, sourceController, filterController, filterHistoryItems));
                 });
             } else {

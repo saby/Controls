@@ -364,8 +364,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
         const selectedKeysChanged = !isEqual(options.selectedKeys, newOptions.selectedKeys);
         const excludedKeysChanged = !isEqual(options.excludedKeys, newOptions.excludedKeys);
-        if (!isChanged && (selectedKeysChanged || excludedKeysChanged)) {
+        const expandedItemsChanged = !isEqual(options.expandedItems, newOptions.expandedItems);
+        if (!isChanged && (selectedKeysChanged || excludedKeysChanged || expandedItemsChanged)) {
             this._updateContext();
+        }
+        if (expandedItemsChanged) {
+            sourceController.setExpandedItems(newOptions.expandedItems);
         }
 
         if (isChanged && isInputSearchValueLongerThenMinSearchLength && hasSearchValueInOptions && !newOptions.searchValue) {
@@ -810,6 +814,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         if (this._getSearchControllerSync().needChangeSearchValueToSwitchedString(recordSet) && this._misspellValue) {
             this._setSearchValue(this._misspellValue);
         }
+        this._updateContext();
     }
 
     private _setSearchValue(value: string): void {

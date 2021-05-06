@@ -38,7 +38,7 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
 
         it('rich item', () => {
             const item = new TileCollectionItem();
-            CssClassesAssert.isSame(item.getItemActionsClasses('rich'), 'controls-TileView__richTemplate_itemActions controls-TileView__richTemplate_itemActions controls-TileView__itemActions_topRight');
+            CssClassesAssert.isSame(item.getItemActionsClasses('rich'), 'controls-TileView__richTemplate_itemActions controls-TileView__itemActions_topRight');
         });
 
         it('preview item', () => {
@@ -48,7 +48,7 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
 
         it('pass itemActionsClass', () => {
             const item = new TileCollectionItem();
-            CssClassesAssert.isSame(item.getItemActionsClasses('default', 'customItemActionsClass'), 'customItemActionsClass controls-TileView__itemActions controls-TileView__itemActions_bottomRight');
+            CssClassesAssert.isSame(item.getItemActionsClasses('default', 'customItemActionsClass'), 'customItemActionsClass controls-TileView__itemActions');
         });
     });
 });

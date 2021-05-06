@@ -129,7 +129,6 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$emptyTemplate: TemplateFunction;
     protected _$sorting: Array<{[p: string]: string}>;
     protected _$emptyTemplateColumns: IEmptyTemplateColumn[];
-    protected _$itemActionsPosition: 'inside' | 'outside' | 'custom';
 
     protected _isFullGridSupport: boolean = isFullGridSupport();
 
@@ -377,8 +376,12 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         }
     }
 
+    protected _hasItemsToCreateResults(): boolean {
+        return this.getCollectionCount() > 1;
+    }
+
     protected _resultsIsVisible(): boolean {
-        return !!this._$resultsPosition && (this._$resultsVisibility === 'visible' || this.getCollectionCount() > 1);
+        return !!this._$resultsPosition && (this._$resultsVisibility === 'visible' || this._hasItemsToCreateResults());
     }
 
     protected _initializeHeader(options: IOptions): void {
@@ -563,6 +566,5 @@ Object.assign(Grid.prototype, {
     _$stickyColumnsCount: 1,
     _$sorting: null,
     _$emptyTemplateColumns: null,
-    _$itemEditorTemplate: null,
-    _$itemActionsPosition: 'inside'
+    _$itemEditorTemplate: null
 });
