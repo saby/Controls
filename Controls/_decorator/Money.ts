@@ -120,7 +120,7 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
     currencyPosition?: TCurrencyPosition;
     /**
      * @name Controls/_decorator/IMoney#decimalsVisibility
-     * @cfg {Controls/_decorator/IMoney/TDecimalsVisibility.typedef} Определяет, отображать ли нули в конце десятичной части.
+     * @cfg {Controls/_decorator/IMoney/TDecimalsVisibility.typedef} Определяет отображение десятичной части.
      * @default 'visible'
      * @demo Controls-demo/Decorator/Money/DecimalsVisibility/Index
      */
