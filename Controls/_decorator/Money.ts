@@ -65,7 +65,7 @@ type TCurrencySize = '2xs' | 'xs' | 's' | 'm' | 'l';
 
 /**
  * Тип данных для отображения десятичной части
- * @typedef {string} Controls/_decorator/IMoney/TCurrencyPosition
+ * @typedef {string} Controls/_decorator/IMoney/TDecimalsVisibility
  * @variant visible
  * @variant hidden
  * @variant hiddenIfEmpty
@@ -383,6 +383,7 @@ export default Money;
  * @name Controls/_decorator/Money#showEmptyDecimals
  * @cfg
  * @default true
+ * @deprecated Опция устарела и в ближайшее время её поддержка будет прекращена. Используйте опцию {@link Controls/_decorator/IMoney#decimalsVisibility}.
  */
 /**
  * @name Controls/_decorator/Money#fontSize

@@ -31,7 +31,6 @@ export default INumberFormat;
  * @cfg {Boolean} Определяет, отображать ли нули в конце десятичной части.
  * @default false
  * @demo Controls-demo/Decorator/Money/ShowEmptyDecimals/Index
- * @deprecated Опция устарела и в ближайшее время её поддержка будет прекращена. Используйте опцию {@link Controls/_interface/INumberFormat#decimalsVisibility}.
  * @remark
  * * true - отображать нули в десятичной части.
  * * false - не отображать нули в десятичной части.
