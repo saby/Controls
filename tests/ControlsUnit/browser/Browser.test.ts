@@ -808,6 +808,23 @@ describe('Controls/browser:Browser', () => {
        });
     });
 
+    describe('_update', () => {
+       it('update without source in options', async () => {
+           const options = getBrowserOptions();
+           const browser = getBrowser(options);
+           await browser._beforeMount(options);
+           browser.saveOptions(options);
+           const notifyStub = sinon.stub(browser, '_reload');
+           const newOptions = {...options};
+           newOptions.searchParam = 'param';
+           await browser._update(options, newOptions);
+
+           assert.isFalse(notifyStub.withArgs('filterChanged', [{payload: 'something'}]).called);
+
+           notifyStub.restore();
+       });
+    });
+
     describe('_dataLoadCallback', () => {
         it('check direction', async () => {
             let actualDirection = null;

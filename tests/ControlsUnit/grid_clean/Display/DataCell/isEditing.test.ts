@@ -64,6 +64,26 @@ describe('Controls/grid_clean/Display/DataCell/isEditing', () => {
                 'controls-Grid__row-cell_single-cell_editing'
             );
         });
+
+        it('.getContentClasses() for editing', () => {
+            const cell = new GridDataCell({
+                owner: {
+                    ...mockedOwner,
+                    isEditing: () => true,
+                    getEditingColumnIndex: () => 0,
+                    hasColumnScroll: () => true,
+                    getEditingBackgroundStyle: () => 'default',
+                    isActive: () => false,
+                    hasMultiSelectColumn: () => false,
+                    shouldDisplayMarker: () => false
+                },
+                column: {displayProperty: 'key'}
+            });
+            cAssert.include(
+                cell.getWrapperClasses('default', 'default'),
+                'controls-background-default'
+            );
+        });
     });
 
 });

@@ -1,12 +1,18 @@
 <div>
     <Controls.browser:Browser
             listsOptions="{{_listConfigurations}}"
+            on:filterChanged="_filterChanged()"
             on:rootChanged="_rootChanged()">
         <div>
         <Controls.search:InputContainer>
             <Controls.search:Input
                     attr:style="width: 300px;"/>
         </Controls.search:InputContainer>
+        <Controls.filter:ViewContainer>
+            <Controls.filter:View
+                source="{{content.filterButtonItems}}"
+                items="{{content.filterButtonItems}}"/>
+        </Controls.filter:ViewContainer>
         <Controls.newBrowser:View
                 name="browser"
                 propStorageId="catalogDemoBase"
@@ -18,16 +24,8 @@
 
                 attr:style="flex: 1 1 100%;"
         >
-            <!-- Задаем общую настройку master-колонки -->
             <ws:master
-                    width="{{300}}"
-                    minWidth="{{200}}"
-                    maxWidth="{{500}}"
-                    filter="{{_masterFilter}}"
-                    columns="{{_masterTableColumns}}"
-                    visibility="{{_isMasterVisible ? undefined : 'hidden'}}"
-                    expanderVisibility="hasChildren"
-            />
+                visibility="visible"/>
             <!-- Задаем общую настройку detail-колонки -->
             <ws:detail
                     backgroundColor="#f0f0f0"
