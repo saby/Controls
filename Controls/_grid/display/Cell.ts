@@ -123,6 +123,10 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return this._$rowSeparatorSize;
     }
 
+    isEditing(): boolean {
+        return false;
+    }
+
     // region Аспект "Colspan. Объединение ячеек по горизонтали"
 
     /**
@@ -225,7 +229,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             wrapperClasses += ' controls-Grid__cell_fit';
         }
 
-        if (this._$owner.isEditing()) {
+        if (this.isEditing()) {
             wrapperClasses += ' controls-Grid__row-cell-editing';
         }
 
@@ -249,17 +253,14 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     ): string {
         let wrapperClasses = '';
 
-        if (this._$owner.getEditingConfig()?.mode === 'cell') {
-            return '';
-        }
+        const isCellEditMode = this._$owner.getEditingConfig()?.mode === 'cell';
 
-        if (this._$owner.isEditing()) {
+        if (this.isEditing() && !isCellEditMode) {
             const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
             return ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
-
         }
 
-        if (templateHighlightOnHover !== false) {
+        if (templateHighlightOnHover !== false && !isCellEditMode) {
             wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle} `;
         }
 
@@ -377,7 +378,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
         const topPadding = this._$owner.getTopPadding();
         const bottomPadding = this._$owner.getBottomPadding();
-        const isEditing = this._$owner.isEditing();
+        const isEditing = this.isEditing();
         const isSingleCellEditing = this._$owner.getEditingConfig()?.mode === 'cell';
         const isDragged = this._$owner.isDragged();
         const preparedStyle = style;
