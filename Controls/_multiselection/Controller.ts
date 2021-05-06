@@ -93,6 +93,10 @@ export class Controller {
 
       this._selection = selection;
       this._updateModel(selection);
+
+      if (selection.selected[0] !== null) {
+         this.setLimit(0);
+      }
    }
 
    /**
