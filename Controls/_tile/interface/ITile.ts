@@ -39,7 +39,41 @@
 /**
  * @cfg {Controls/_list/interface/IList/ItemPadding.typedef} Конфигурация внешних отступов плитки.
  * @name Controls/_tile/interface/ITile#itemsContainerPadding
- * @demo Controls-demo/tileNew/ItemsContainerPadding/Index
+ * @demo Controls-demo/Tile/ItemsContainerPadding/Index
+ * @example
+ * <pre class="brush: html"> 
+ * <!-- WML -->
+ * <Controls.tile:View source="{{_viewSource}}" imageProperty="image">
+ *    <ws:itemsContainerPadding
+ *       top="l"
+ *       bottom="l"
+ *       left="l"
+ *       right="l"/>
+ * </Controls.tile:View>
+ * </pre>
+ * @remark
+ * Полезные ссылки:
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tile/paddings/#item-container-padding руководство разработчика}
+ */
+
+/**
+ * @name Controls/_tile/interface/ITile#itemPadding
+ * @cfg {Controls/_list/interface/IList/ItemPadding.typedef} Конфигурация отступов в плитке.
+ * @demo Controls-demo/Tile/ItemPadding/PaddingS/Index
+ * @example
+ * <pre class="brush: html"> 
+ * <!-- WML -->
+ * <Controls.tile:View source="{{_viewSource}}" imageProperty="image">
+ *    <ws:itemPadding
+ *       top="s"
+ *       bottom="s"
+ *       left="s"
+ *       right="s"/>
+ * </Controls.tile:View>
+ * </pre>
+ * @remark
+ * Полезные ссылки:
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tile/paddings/#item-padding руководство разработчика}
  */
 
 /**
