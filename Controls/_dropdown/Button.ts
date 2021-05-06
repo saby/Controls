@@ -9,10 +9,9 @@ import {loadItems} from 'Controls/_dropdown/Util';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {IIconOptions, IHeightOptions} from 'Controls/interface';
 import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
-import {IStickyPopupOptions} from 'Controls/popup';
+import {isLeftMouseButton, IStickyPopupOptions, CalmTimer} from 'Controls/popup';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
-import {isLeftMouseButton} from 'Controls/popup';
 import 'css!Controls/dropdown';
 import 'css!Controls/CommonClasses';
 
@@ -104,6 +103,7 @@ export default class Button extends BaseDropdown {
    protected _template: TemplateFunction = template;
    protected _tmplNotify: Function = EventUtils.tmplNotify;
    protected _hasItems: boolean = true;
+    protected _calmTimer: CalmTimer;
 
    _beforeMount(options: IButtonOptions,
                 context: object,
@@ -111,11 +111,16 @@ export default class Button extends BaseDropdown {
       this._offsetClassName = cssStyleGeneration(options);
       this._dataLoadCallback = this._dataLoadCallback.bind(this);
       this._controller = new Controller(this._getControllerOptions(options));
+      this._calmTimer = new CalmTimer();
 
       if (!options.lazyItemsLoading) {
          return loadItems(this._controller, receivedState, options.source);
       }
    }
+
+    _beforeUnmount(): void {
+        this._calmTimer.resetTimeOut();
+    }
 
    _beforeUpdate(options: IButtonOptions): void {
       this._controller.update(this._getControllerOptions(options));
@@ -186,14 +191,18 @@ export default class Button extends BaseDropdown {
       this.openMenu();
    }
 
-   _handleMouseEnter(event: SyntheticEvent<MouseEvent>): void {
-      super._handleMouseEnter(event);
-      const isOpenMenuPopup = !(event.nativeEvent.relatedTarget
-          && event.nativeEvent.relatedTarget.closest('.controls-Menu__popup'));
-      if (this._options.menuPopupTrigger === 'hover' && isOpenMenuPopup) {
-         this._openMenu();
-      }
-   }
+    _handleMouseLeave(event: SyntheticEvent<MouseEvent>): void {
+        super._handleMouseLeave(event);
+        this._calmTimer.resetTimeOut();
+    }
+
+    _handleMouseMove(event: SyntheticEvent<MouseEvent>): void {
+        const isOpenMenuPopup = !(event.nativeEvent.relatedTarget
+            && event.nativeEvent.relatedTarget.closest('.controls-Menu__popup'));
+        if (this._options.menuPopupTrigger === 'hover' && isOpenMenuPopup) {
+            this._calmTimer.start(this._openMenu.bind(this));
+        }
+    }
 
    _openMenu(popupOptions?: IStickyPopupOptions): Promise<any> {
       const config = this._getMenuPopupConfig();
