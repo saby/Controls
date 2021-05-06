@@ -313,6 +313,9 @@
  * @see imageHeightProperty
  * @see imageWidthProperty
  * @remark Для автоматического расчета ширины элемента нужно указать оригинальные размеры изображения.
+ * 
+ * Полезные ссылки:
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tile/view/width/ руководство разработчика}
  * @example
  * В следующем примере показано, как отобразить плитку с динамической шириной.
  * <pre class="brush: html">
@@ -330,9 +333,7 @@
  *    </ws:itemTemplate>
  * </Controls.tile:View>
  * </pre>
-  * @demo Controls-demo/tileNew/TileMode/Index
-  * @remark
-  *
+ * @demo Controls-demo/Tile/TileMode/Dynamic/Index
  */
 
 /**
