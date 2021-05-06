@@ -116,8 +116,8 @@ export class MoveController {
      * @returns {Promise} Отложенный результат перемещения.
      */
     moveUp(selection: ISelectionObject): Promise<void> {
-        const sibling = this._getMoveTargetItem(selection.selected[0], LOCAL_MOVE_POSITION.Before);
-        return this.move(selection, {}, sibling, LOCAL_MOVE_POSITION.Before) as Promise<void>;
+        const siblingKey = this._getSiblingKey(selection.selected[0], LOCAL_MOVE_POSITION.Before);
+        return this.move(selection, {}, siblingKey, LOCAL_MOVE_POSITION.Before) as Promise<void>;
     }
 
     /**
@@ -126,8 +126,8 @@ export class MoveController {
      * @returns {Promise} Отложенный результат перемещения.
      */
     moveDown(selection: ISelectionObject): Promise<void> {
-        const sibling = this._getMoveTargetItem(selection.selected[0], LOCAL_MOVE_POSITION.After);
-        return this.move(selection, {}, sibling, LOCAL_MOVE_POSITION.After) as Promise<void>;
+        const siblingKey = this._getSiblingKey(selection.selected[0], LOCAL_MOVE_POSITION.After);
+        return this.move(selection, {}, siblingKey, LOCAL_MOVE_POSITION.After) as Promise<void>;
     }
 
     /**
@@ -239,7 +239,7 @@ export class MoveController {
         });
     }
 
-    private _getMoveTargetItem(selectedKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): CrudEntityKey {
+    private _getSiblingKey(selectedKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): CrudEntityKey {
         let siblingItem;
         if (position === LOCAL_MOVE_POSITION.Before) {
             siblingItem = this._siblingStrategy.getPrevByKey(selectedKey);
@@ -247,7 +247,7 @@ export class MoveController {
             siblingItem = this._siblingStrategy.getNextByKey(selectedKey);
         }
         const siblingKey = siblingItem && siblingItem.getKey();
-        return siblingKey !== undefined && siblingKey !== null ? siblingKey : null;
+        return siblingKey !== undefined ? siblingKey : null;
     }
 
     /**
