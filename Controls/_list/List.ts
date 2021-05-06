@@ -99,6 +99,10 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
         // for override
     }
 
+    protected _keyDownHandler() {
+
+    }
+
     protected _getModelConstructor(): string|Function {
         return 'Controls/display:Collection';
     }
