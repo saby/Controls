@@ -34,6 +34,7 @@ type TValue = string | number | null;
  * @variant none
  */
 type TAbbreviationType = 'long' | 'none';
+
 /**
  * Тип данных для отображаемой валюты
  * @typedef {string} Controls/_decorator/IMoney/TCurrency
@@ -42,6 +43,7 @@ type TAbbreviationType = 'long' | 'none';
  * @variant Dollar
  */
 type TCurrency = 'Ruble' | 'Euro' | 'Dollar';
+
 /**
  * Тип данных для позиции отображаемой валюты
  * @typedef {string} Controls/_decorator/IMoney/TCurrencyPosition
@@ -49,6 +51,7 @@ type TCurrency = 'Ruble' | 'Euro' | 'Dollar';
  * @variant left
  */
 type TCurrencyPosition = 'right' | 'left';
+
 /**
  * Тип данных для размера отображаемой валюты
  * @typedef {string} Controls/_decorator/IMoney/TCurrencySize
@@ -59,6 +62,19 @@ type TCurrencyPosition = 'right' | 'left';
  * @variant l
  */
 type TCurrencySize = '2xs' | 'xs' | 's' | 'm' | 'l';
+
+/**
+ * Тип данных для отображения десятичной части
+ * @typedef {string} Controls/_decorator/IMoney/TCurrencyPosition
+ * @variant visible
+ * @variant hidden
+ * @variant hiddenIfEmpty
+ * @remark
+ * * visible - десятичная часть отображается
+ * * hidden - десятичная часть скрыта
+ * * hiddenIfEmpty - не отображается только нулевая десятичная часть
+ */
+type TDecimalsVisibility = 'visible' | 'hidden' | 'hiddenIfEmpty';
 
 interface IPaths {
     integer: string;
@@ -102,6 +118,13 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
      * @demo Controls-demo/Decorator/Money/Currency/Index
      */
     currencyPosition?: TCurrencyPosition;
+    /**
+     * @name Controls/_decorator/IMoney#decimalsVisibility
+     * @cfg {Controls/_decorator/IMoney/TDecimalsVisibility.typedef} Определяет, отображать ли нули в конце десятичной части.
+     * @default 'visible'
+     * @demo Controls-demo/Decorator/Money/DecimalsVisibility/Index
+     */
+    decimalsVisibility?: TDecimalsVisibility;
 }
 
 /**
@@ -360,11 +383,6 @@ export default Money;
  * @name Controls/_decorator/Money#showEmptyDecimals
  * @cfg
  * @default true
- */
-/**
- * @name Controls/_decorator/Money#decimalsVisibility
- * @cfg
- * @default 'visible'
  */
 /**
  * @name Controls/_decorator/Money#fontSize

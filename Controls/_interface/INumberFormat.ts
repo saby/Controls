@@ -1,23 +1,9 @@
 import {IUnderlineOptions} from 'Controls/interface';
 
-/**
- * Тип данных для отображения десятичной части
- * @typedef {string} Controls/_decorator/IMoney/TCurrencyPosition
- * @variant visible
- * @variant hidden
- * @variant hiddenIfEmpty
- * @remark
- * * visible - десятичная часть отображается
- * * hidden - десятичная часть скрыта
- * * hiddenIfEmpty - не отображается только нулевая десятичная часть
- */
-type TDecimalsVisibility = 'visible' | 'hidden' | 'hiddenIfEmpty';
-
 export interface INumberFormatOptions extends IUnderlineOptions {
     useGrouping?: boolean;
     showEmptyDecimals?: boolean;
     stroked?: boolean;
-    decimalsVisibility?: TDecimalsVisibility;
 }
 
 /**
@@ -58,14 +44,4 @@ export default INumberFormat;
  * @remark
  * * true - перечеркнуть число.
  * * false - не перечеркивать число.
- */
-/**
- * @name Controls/_interface/INumberFormat#decimalsVisibility
- * @cfg {string} Определяет, отображать ли нули в конце десятичной части.
- * @default 'visible'
- * @demo Controls-demo/Decorator/Money/DecimalsVisibility/Index
- * @remark
- * * 'visible' - десятичная часть отображается
- * * 'hidden' - десятичная часть скрыта
- * * 'hiddenIfEmpty' - не отображается только нулевая десятичная часть
  */
