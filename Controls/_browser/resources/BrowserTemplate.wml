@@ -45,6 +45,7 @@
         on:search="_search()"
         on:searchReset="_searchResetHandler()"
         on:listExpandedItemsChanged="_notifyHandler('expandedItemsChanged')"
+        on:listCollapsedItemsChanged="_notifyHandler('collapsedItemsChanged')"
         on:listSortingChanged="_notifyHandler('sortingChanged')"
         on:misspellCaptionClick="_misspellCaptionClick()"
         on:filterItemsChanged="_filterItemsChanged()"
