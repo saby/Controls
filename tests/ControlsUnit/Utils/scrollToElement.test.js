@@ -249,7 +249,7 @@ define([
                }
             };
             scroll.scrollToElement(element, true);
-            assert.equal(element.parentElement.scrollTop, 55);
+            assert.equal(element.parentElement.scrollTop, 54);
          });
 
          describe('scroll body', function() {
