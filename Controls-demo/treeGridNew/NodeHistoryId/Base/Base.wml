@@ -4,8 +4,10 @@
                               parentProperty="parent"
                               nodeProperty="type"
                               nodeHistoryId="NODE_HISTORY">
-        <Controls.list:Container>
-            <Controls.treeGrid:View columns="{{ _columns }}"/>
-        </Controls.list:Container>
+        <div>
+            <Controls.list:Container>
+                <Controls.treeGrid:View columns="{{ _columns }}"/>
+            </Controls.list:Container>
+        </div>
     </Controls.list:DataContainer>
 </div>

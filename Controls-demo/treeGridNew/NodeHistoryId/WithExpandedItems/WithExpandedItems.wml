@@ -5,8 +5,10 @@
                               nodeProperty="type"
                               nodeHistoryId="NODE_HISTORY_WITH_EXPANDED"
                               bind:expandedItems="_expandedItems">
-        <Controls.list:Container>
-            <Controls.treeGrid:View columns="{{ _columns }}"/>
-        </Controls.list:Container>
+        <div>
+            <Controls.list:Container>
+                <Controls.treeGrid:View columns="{{ _columns }}"/>
+            </Controls.list:Container>
+        </div>
     </Controls.list:DataContainer>
 </div>

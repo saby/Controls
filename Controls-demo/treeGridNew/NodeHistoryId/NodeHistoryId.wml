@@ -17,13 +17,3 @@
         <Controls-demo.treeGridNew.NodeHistoryId.WithExpandedItems.Index/>
     </div>
 </div>
-
-<div class="controlsDemo__cell">
-    <Router.router:Reference attr:class="controls-text-label"
-                             state="/Controls-demo/app/:app"
-                             app="{{ 'Controls-demo/treeGridNew/NodeHistoryId/WithCollapsedItems/Index' }}">
-        <a href="{{content.href}}">Конфигурация с bind:collapsedItems</a>
-    </Router.router:Reference>
-    <Controls-demo.treeGridNew.NodeHistoryId.WithCollapsedItems.Index/>
-</div>
-</div>
