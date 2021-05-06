@@ -438,7 +438,12 @@ const _private = {
             // TODO restore marker + maybe should recreate the model completely
             if (!isEqualItems(oldCollection, items) || oldCollection !== items) {
                 self._onItemsReady(newOptions, items);
+
                 listModel.setCollection(items);
+                if (self._options.itemsSetCallback) {
+                    self._options.itemsSetCallback(items);
+                }
+
                 self._afterItemsSet(newOptions);
             }
 
@@ -1644,7 +1649,8 @@ const _private = {
         newItems: Array<CollectionItem<Model>>,
         newItemsIndex: number,
         removedItems: Array<CollectionItem<Model>>,
-        removedItemsIndex: number
+        removedItemsIndex: number,
+        reason: string
     ): void {
 
         // TODO Понять, какое ускорение мы получим, если будем лучше фильтровать
@@ -1695,6 +1701,10 @@ const _private = {
 
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
                 _private.resetPortionedSearchAndCheckLoadToDirection(self, self._options);
+            }
+
+            if (self._options.useNewModel && reason === 'assign' && self._options.itemsSetCallback) {
+                self._options.itemsSetCallback();
             }
 
             if (self._scrollPagingCtr && action === IObservable.ACTION_RESET) {
@@ -3593,8 +3603,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         newItems: Array<CollectionItem<Model>>,
         newItemsIndex: number,
         removedItems: Array<CollectionItem<Model>>,
-        removedItemsIndex: number): void {
-        _private.onCollectionChanged(this, event, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex);
+        removedItemsIndex: number,
+        reason: string): void {
+        _private.onCollectionChanged(this, event, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex, reason);
         if (action === IObservable.ACTION_RESET) {
             this._afterCollectionReset();
         }
