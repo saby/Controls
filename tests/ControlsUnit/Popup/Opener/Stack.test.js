@@ -79,13 +79,14 @@ define(
                   popupItem.position = {};
                }
             };
+            popupTemplate.StackController._updatePopupWidth = () => {};
             popupTemplate.StackController._stack.add({
                position: { width: 720 },
                popupOptions: { stackClassName: '' }
             });
             popupTemplate.StackController._stack.add({
                containerWidth: 600,
-               popupOptions: { stackClassName: '' }
+               popupOptions: { stackClassName: '' },
             });
             popupTemplate.StackController._stack.add({
                position: { width: 600 },
@@ -101,11 +102,11 @@ define(
             });
             popupTemplate.StackController._stack.add({
                containerWidth: 600,
-               popupOptions: { stackClassName: '' }
+               popupOptions: { stackClassName: '' },
             });
             popupTemplate.StackController._stack.add({
                containerWidth: 720,
-               popupOptions: { stackClassName: '' }
+               popupOptions: { stackClassName: '' },
             });
             popupTemplate.StackController._stack.add({
                containerWidth: 200,
@@ -114,7 +115,7 @@ define(
             });
             popupTemplate.StackController._stack.add({
                containerWidth: 200,
-               popupOptions: { stackClassName: '' }
+               popupOptions: { stackClassName: '' },
             });
 
             popupTemplate.StackController._update();
