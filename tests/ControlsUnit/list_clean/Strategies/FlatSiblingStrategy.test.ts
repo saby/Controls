@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {CrudEntityKey} from 'Types/source';
-import {FlatSiblingStrategy} from 'Controls/_list/Strategies/Flat';
+import {FlatSiblingStrategy} from 'Controls/_list/Strategies/FlatSiblingStrategy';
 import {ISiblingStrategy} from 'Controls/_list/interface/ISiblingStrategy';
 import {Collection} from 'Controls/display';
 
