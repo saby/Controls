@@ -8,6 +8,8 @@
                 bind:markedKey="_masterMarkedKey"
                 on:dragStart="_notifyHandler('masterDragStart')"
                 on:dragEnd="_notifyHandler('masterDragEnd')"
+                on:dragEnter="_notifyHandler('masterDragEnter')"
+                on:actionClick="_notifyHandler('masterActionClick')"
                 on:itemClick="_onExplorerItemClick(true)"
         />
     </Controls.list:Container>
