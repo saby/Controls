@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/tileNew/Default/Default';
+import * as Template from 'wml!Controls-demo/tileNew/NodesHeight/NodesHeight';
 import {Gadgets} from '../DataHelpers/DataCatalog';
-import {HierarchicalMemory} from "Types/source";
+import {HierarchicalMemory} from 'Types/source';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
@@ -11,7 +11,7 @@ export default class extends Control {
       this._viewSource = new HierarchicalMemory({
          keyProperty: 'id',
          parentProperty: 'parent',
-         data: Gadgets.getDataWithRealImages()
+         data: Gadgets.getPreviewItems()
       });
    }
 

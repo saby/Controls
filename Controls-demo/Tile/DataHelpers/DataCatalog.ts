@@ -68,6 +68,36 @@ const characteristics = [
     ]
 ];
 export const Gadgets = {
+    getDataWithRealImages: (): IData[] => [{
+        id: 1,
+        parent: null,
+        type: null,
+        title: 'Сравнение условий конкурентов по ЭДО.xlsx',
+        image: Images.SPREADSHEET_250x200,
+        isDocument: true,
+        hiddenGroup: true,
+        width: 150,
+        isShadow: true
+    }, {
+        id: 2,
+        parent: null,
+        type: null,
+        title: 'Сравнение систем по учету рабочего времени.xlsx',
+        image: Images.SPREADSHEET_250x200,
+        isDocument: true,
+        hiddenGroup: true,
+        width: 200,
+        isShadow: false
+    }, {
+        id: 3,
+        parent: null,
+        type: null,
+        title: 'Конфеты копия',
+        image: Images.SWEETS_250x200,
+        isDocument: true,
+        width: 300,
+        isShadow: true
+    }],
    getData: (): IData[] => [{
       id: 1,
       parent: null,
