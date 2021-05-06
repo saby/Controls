@@ -990,7 +990,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     }
 
     _onViewKeyDown(event): void {
-        this._onTreeViewKeyDown(event);
+        if (this._listViewModel.SupportExpand !== false) {
+            this._onTreeViewKeyDown(event);
+        }
         if (!event.stopped && event._bubbling !== false) {
             super._onViewKeyDown(event);
         }
