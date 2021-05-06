@@ -349,10 +349,6 @@ const _private = {
         return expandedItems instanceof Array && expandedItems[0] === null;
     },
 
-    isDeepReload({deepReload}, deepReloadState: boolean): boolean {
-        return  deepReload || deepReloadState;
-    },
-
     resetExpandedItems(self: TreeControl): void {
         const viewModel = self._listViewModel;
         let shouldCancelEditing = false;
@@ -753,7 +749,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             }
         }
 
-        if (searchValueChanged && newOptions.searchValue && !_private.isDeepReload(this, newOptions)) {
+        const isDeepReload = this.getSourceController() ? this.getSourceController().isDeepReload() : this._deepReload;
+        if (searchValueChanged && newOptions.searchValue && !isDeepReload) {
             _private.resetExpandedItems(this);
         }
 
@@ -1002,7 +999,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         EventUtils.keysHandler(event, HOT_KEYS, _private, this);
     }
 
-    protected _afterReloadCallback(options: TOptions, loadedList?: RecordSet) {
+    protected _afterReloadCallback(options: TOptions, loadedList?: RecordSet): void {
         if (this._listViewModel) {
             const modelRoot = this._listViewModel.getRoot();
             const root = this._options.root !== undefined ? this._options.root : this._root;
@@ -1011,8 +1008,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 this._listViewModel.setExpandedItems(options.expandedItems);
                 this._updateExpandedItemsAfterReload = false;
             }
-            const isDeepReload = _private.isDeepReload(options, this._deepReload);
 
+            // reload могут позвать на уровне браузера и тогда флаг deepReload проставится только в контроллере.
+            const isDeepReload = this.getSourceController() ? this.getSourceController().isDeepReload() : this._deepReload;
             if (!isDeepReload || this._needResetExpandedItems) {
                 _private.resetExpandedItems(this);
                 this._needResetExpandedItems = false;
@@ -1046,7 +1044,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             this.setMarkerOnFirstLeaf(this._options);
         }
     }
-    protected _afterCollectionRemove(removedItems: Array<CollectionItem<Model>>, removedItemsIndex: number): void {
+    protected _afterCollectionRemove(removedItems: Array<TreeItem<Model>>, removedItemsIndex: number): void {
         super._afterCollectionRemove(removedItems, removedItemsIndex);
         if (this._options.expandedItems?.length || this._options.collapsedItems?.length) {
             // обрабатываем только узлы
