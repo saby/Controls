@@ -11,7 +11,6 @@ import {
     IFontWeight,
     IFontWeightOptions
 } from 'Controls/interface';
-import {Logger} from 'UI/Utils';
 import {descriptor, DescriptorValidator} from 'Types/entity';
 import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
 import numberToString from 'Controls/_decorator/inputUtils/toString';
@@ -152,8 +151,26 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     protected _template: TemplateFunction = template;
 
     // Used in template
-    protected _isDisplayFractionPath(value: string, showEmptyDecimals: boolean): boolean {
-        return showEmptyDecimals || value !== '.00';
+    protected _isDisplayFractionPath(value: string, showEmptyDecimals: boolean, decimalsVisibility: string): boolean {
+        if (!showEmptyDecimals) {
+            return value !== '.00';
+        }
+
+        let result;
+
+        switch (decimalsVisibility) {
+            case 'visible':
+                result = true;
+                break;
+            case 'hidden':
+                result = false;
+                break;
+            case 'hiddenIfEmpty':
+                result = value !== '.00';
+                break;
+        }
+
+        return result;
     }
 
     private _getTooltip(options: IMoneyOptions): string {
@@ -280,7 +297,8 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
             currencyPosition: 'right',
             abbreviationType: 'none',
             stroked: false,
-            underline: 'none'
+            underline: 'none',
+            decimalsVisibility: 'visible'
         };
     }
 
@@ -299,7 +317,8 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
                 'long'
             ]),
             stroked: descriptor(Boolean),
-            underline: descriptor(String)
+            underline: descriptor(String),
+            decimalsVisibility: descriptor(String)
         };
     }
 }
@@ -337,6 +356,11 @@ export default Money;
  * @name Controls/_decorator/Money#showEmptyDecimals
  * @cfg
  * @default true
+ */
+/**
+ * @name Controls/_decorator/Money#decimalsVisibility
+ * @cfg
+ * @default 'visible'
  */
 /**
  * @name Controls/_decorator/Money#fontSize
