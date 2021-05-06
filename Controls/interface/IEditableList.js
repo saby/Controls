@@ -24,13 +24,17 @@ define('Controls/interface/IEditableList', [
 
    /**
     * @typedef {Object} Controls/interface/IEditableList/ItemEditOptions
-    * @property {Types/entity:Model} [item] Запись списка, которая будет запущена на редактирование.
+    * @property {Types/entity:Model} [item] Запись, которая будет запущена на редактирование.
     * Если из обработчика события {@link beforeBeginEdit} также будет возвращена запись, то именно она будет запущена на редактирование вместо первоначальной.
+    * @property {Types/entity:Model} [targetItem] Запись списка, рядом с которой будет запущено добавление по месту.
+    * @property {Controls/interface/IEditableList/AddPositionOption} [addPosition] Позиция добавляемой записи. В случае, если в параметрах был передан targetItem, позиция определяется относительно его, иначе - всего списка.
     */
 
    /*
     * @typedef {Object} Controls/interface/IEditableList/ItemEditOptions
-    * @property {Types/entity:Model} [options.item] Record with initial data.
+    * @property {Types/entity:Model} [item] Record with initial data.
+    * @property {Types/entity:Model} [targetItem] Target record for adding item. Adding will start near it.
+    * @property {Controls/interface/IEditableList/AddPositionOption} [addPosition] Position of adding item.
     */
 
    /**
@@ -515,7 +519,7 @@ define('Controls/interface/IEditableList', [
     * @returns {Promise}
     * @remark
     * Promise разрешается после монтирования контрола в DOM.
-    * 
+    *
     * Перед запуском редактирования по месту происходит событие {@link beforeBeginEdit}, а после запуска — {@link afterBeginEdit}.
     *
     * Используйте этот метод в ситуациях, когда вы хотите начать редактирование из нестандартного места, например, из {@link /doc/platform/developmentapl/interface-development/controls/list/actions/operations/ панели действий элемента}.
@@ -574,6 +578,8 @@ define('Controls/interface/IEditableList', [
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Параметры добавления.
     * @returns {Promise}
     * @remark
+    * Promise разрешается после монтирования контрола в DOM.
+    * 
     * Перед запуском добавления по месту происходит событие {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit}, а после запуска — {@link Controls/interface/IEditableList#afterBeginEdit afterBeginEdit}.
     *
     * Вы можете задать позицию, в которой отображается шаблон редактирования строки. Для этого в опции {@link editingConfig} установите значение для параметра {@link Controls/interface/IEditableList/EditingConfig.typedef addPosition}. Шаблон редактирования строки может отображаться в начале и в конце списка, группы (если включена {@link Controls/interface/IGroupedList#groupProperty группировка}) или узла (для иерархических списков).
@@ -632,6 +638,8 @@ define('Controls/interface/IEditableList', [
     * @function Controls/interface/IEditableList#commitEdit
     * @returns {Promise}
     * @remark
+    * Promise разрешается после монтирования контрола в DOM.
+    * 
     * Используйте этот метод, когда вы хотите завершить редактирование в ответ на действие пользователя, например, когда пользователь пытается закрыть диалоговое окно, используйте этот метод для сохранения изменений.
     *
     * При завершении редактирования по месту происходят события, подробнее о которых читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/events/ здесь}.
@@ -680,6 +688,8 @@ define('Controls/interface/IEditableList', [
     * @function Controls/interface/IEditableList#cancelEdit
     * @returns {Promise}
     * @remark
+    * Promise разрешается после монтирования контрола в DOM.
+    * 
     * Используйте этот метод, когда вы хотите завершить редактирование или добавление в ответ на действия пользователя, например, когда пользователь нажимает на кнопку "Отмена".
     *
     * При завершении редактирования по месту происходят события, подробнее о которых читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/events/ здесь}.

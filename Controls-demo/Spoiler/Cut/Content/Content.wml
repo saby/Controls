@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Контентом является текст.</div>
+      <div class="controls-text-label">Контентом является текст.</div>
       <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}">
          <ws:content>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -15,7 +15,7 @@
       </Controls.spoiler:Cut>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Контентом является текст с кнопками.</div>
+      <div class="controls-text-label">Контентом является текст с кнопками.</div>
       <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}">
          <ws:content>
             <div>

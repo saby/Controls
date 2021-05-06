@@ -6,7 +6,7 @@
          editObject="{{_editObject}}">
          <Controls.editableArea:Base bind:value="content.editObject.text">
             <ws:editorTemplate>
-               <Controls.input:Text contrastBackground="{{true}}" attr:class="controls-Input_negativeOffset_theme_{{_options.theme}}"/>
+               <Controls.input:Text contrastBackground="{{true}}" attr:class="controls-Input_negativeOffset"/>
             </ws:editorTemplate>
          </Controls.editableArea:Base>
       </Controls.editableArea:View>

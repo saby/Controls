@@ -527,7 +527,7 @@ const _private = {
         if (_private.isExpandAll(modelExpandedItems) && options.nodeProperty) {
             expandedItems = [];
             items.each((item) => {
-                if (item.get(options.nodeProperty)) {
+                if (item.get(options.nodeProperty) !== null) {
                     expandedItems.push(item.get(self._keyProperty));
                 }
             });
@@ -926,7 +926,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         if (this.isLoading()) {
             return;
         }
-        e.stopPropagation();
         const eventResult = superResult;
 
         if (eventResult !== false && this._options.expandByItemClick && item.get(this._options.nodeProperty) !== null) {
@@ -1045,6 +1044,49 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             this.setMarkerOnFirstLeaf(this._options);
         }
     }
+    protected _afterCollectionRemove(removedItems: Array<CollectionItem<Model>>, removedItemsIndex: number): void {
+        super._afterCollectionRemove(removedItems, removedItemsIndex);
+        if (this._options.expandedItems?.length || this._options.collapsedItems?.length) {
+            // обрабатываем только узлы
+            const items = removedItems.filter((it) => it['[Controls/_display/TreeItem]'] && it.isNode() !== null);
+            let removedKeys = items.map((it) => it.getContents().getKey());
+            // отфильтровываем скрытые записи
+            removedKeys = removedKeys.filter((it) => !this._items.getRecordById(it));
+
+            if (this._options.expandedItems?.length) {
+                const newExpandedItems = this._options.expandedItems.slice();
+                removedKeys.forEach((it) => {
+                    const expandedItemsIndex = newExpandedItems.indexOf(it);
+                    if (expandedItemsIndex !== -1) {
+                        newExpandedItems.splice(expandedItemsIndex, 1);
+                    }
+                });
+
+                if (!isEqual(newExpandedItems, this._options.expandedItems)) {
+                    this.getViewModel().setExpandedItems(newExpandedItems);
+                    this.getSourceController().setExpandedItems(newExpandedItems);
+
+                    this._notify('expandedItemsChanged', [newExpandedItems]);
+                }
+            }
+            if (this._options.collapsedItems?.length) {
+                const newCollapsedItems = this._options.collapsedItems.slice();
+                removedKeys.forEach((it) => {
+                    const collapsedItemsIndex = newCollapsedItems.indexOf(it);
+                    if (collapsedItemsIndex !== -1) {
+                        newCollapsedItems.splice(collapsedItemsIndex, 1);
+                    }
+                });
+
+                if (!isEqual(newCollapsedItems, this._options.collapsedItems)) {
+                    this.getViewModel().setCollapsedItems(newCollapsedItems);
+
+                    this._notify('collapsedItemsChanged', [newCollapsedItems]);
+                }
+            }
+        }
+    }
+
     private setMarkerOnFirstLeaf(options) {
         const markerController = this.getMarkerController();
         const model = this._listViewModel;

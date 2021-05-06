@@ -1,14 +1,14 @@
 <div class="ws-flexbox controlsDemo__wrapper controlsDemo_fixedWidth300">
     <div class="controlsDemo__cell">
-        <div class="controls-text-secondary_theme-{{_options.theme}}">size s</div>
+        <div class="controls-text-secondary">size s</div>
         <Controls.toggle:BigSeparator iconSize="s" bind:value="_expanded1"/>
     </div>
     <div class="controlsDemo__cell controls-demo-BigSeparator__offset-left">
-        <div class="controls-text-secondary_theme-{{_options.theme}}">size m</div>
+        <div class="controls-text-secondary">size m</div>
         <Controls.toggle:BigSeparator iconSize="m" bind:value="_expanded2"/>
     </div>
     <div class="controlsDemo__cell controls-demo-BigSeparator__offset-left">
-        <div class="controls-text-secondary_theme-{{_options.theme}}">size l</div>
+        <div class="controls-text-secondary">size l</div>
         <Controls.toggle:BigSeparator iconSize="l" bind:value="_expanded3"/>
     </div>
 </div>

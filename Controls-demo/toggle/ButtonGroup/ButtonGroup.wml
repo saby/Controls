@@ -1,10 +1,10 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">2 кнопки</div>
+        <div class="controls-text-label">2 кнопки</div>
         <Controls.toggle:ButtonGroup items="{{_items1}}" bind:selectedKey="_selectedKey1" attr:class="ControlsDemo-ButtonGroup__twoButtons"/>
     </div>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500">
-        <div class="controls-text-label_theme-{{_options.theme}}">Несколько кнопок</div>
+        <div class="controls-text-label">Несколько кнопок</div>
         <Controls.toggle:ButtonGroup items="{{_items2}}" bind:selectedKey="_selectedKey2" attr:class="ControlsDemo-ButtonGroup__muiltyButtons"/>
     </div>
 </div>

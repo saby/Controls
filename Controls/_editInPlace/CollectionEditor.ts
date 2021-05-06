@@ -113,12 +113,13 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
      * Начать добавление переданного элемента.
      * @method
      * @param {Types/entity:Model} item Элемент для добавления.
-     * @param {TAddPosition} addPosition позиция добавляемого элемента.
+     * @param {TAddPosition} addPosition Позиция добавляемого элемента.
+     * @param {Types/entity:Model}} targetItem Запись на месте которой начнется добавление.
      * @param {Number} columnIndex Индекс колонки в которой будет запущено редактирование.
      * @void
      * @public
      */
-    add(item: Model, addPosition?: TAddPosition, columnIndex?: number): void {
+    add(item: Model, addPosition?: TAddPosition, targetItem?: Model, columnIndex?: number): void {
         if (this._editingItem) {
             throw Error(ERROR_MSG.EDITING_IS_ALREADY_RUNNING);
         }
@@ -135,28 +136,22 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
             addPosition: addPosition === 'top' ? 'top' : 'bottom'
         });
 
-        // У каждого элемента дерева есть родитель. Если его нет, значит конфигурация добавляемого элемента
-        // ошибочна. Добавление записи не сможет начаться, если родительская запись отсутствует в дереве.
-        // Родительский элемент может быть корнем, как null, так и реальной записью.
-        // Таким образом, нужно проверить, что ключ корня задан в допустимом формате, а запись с таким ключом
-        // либо присутствует в коллекции, либо является ее корнем.
-        if (this._editingItem instanceof TreeItem) {
-            const parentKey = item.get(this._options.collection.getParentProperty());
-            const collectionRootKey = this._options.collection.getRoot().getContents();
-            if (
-                !this._isValidRootType(parentKey) || !(
-                    this._options.collection.getItemBySourceKey(parentKey) ||
-                    collectionRootKey === parentKey
-                )
-            ) {
-                throw Error(
-                    `There is no item with key={${parentKey}} in list. ${ERROR_MSG.PARENT_OF_ADDING_ITEM_DOES_NOT_EXIST}`
-                );
+        this._validateAddingItem(this._editingItem, targetItem);
+
+        let targetIndex;
+        if (targetItem) {
+            targetIndex = this._options.collection.getCollection().getIndex(targetItem);
+            if (targetIndex === -1) {
+                targetIndex = undefined;
+                return;
             }
         }
 
         this._editingItem.setEditing(true, item, false, columnIndex);
-        this._options.collection.setAddingItem(this._editingItem);
+        this._options.collection.setAddingItem(this._editingItem, {
+            position: addPosition === 'top' ? 'top' : 'bottom',
+            index: targetIndex
+        });
         this._options.collection.setEditing(true);
     }
 
@@ -240,6 +235,60 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
 
     private _isValidRootType(root: unknown): boolean {
         return root === null || typeof root !== 'undefined';
+    }
+
+    private _validateAddingItem(editingItem, targetItem): void | never {
+        // У каждого элемента дерева есть родитель. Если его нет, значит конфигурация добавляемого элемента
+        // ошибочна. Добавление записи не сможет начаться, если родительская запись отсутствует в дереве.
+        // Родительский элемент может быть корнем, как null, так и реальной записью.
+        // Таким образом, нужно проверить, что ключ корня задан в допустимом формате, а запись с таким ключом
+        // либо присутствует в коллекции, либо является ее корнем.
+        if (editingItem instanceof TreeItem) {
+            const parentProperty = this._options.collection.getParentProperty();
+            const editingItemParentKey = editingItem.contents.get(parentProperty);
+            const collectionRootKey = this._options.collection.getRoot().getContents();
+            let rootItem;
+            if (
+                !this._isValidRootType(editingItemParentKey) || !(
+                    (rootItem = this._options.collection.getItemBySourceKey(editingItemParentKey)) ||
+                    collectionRootKey === editingItemParentKey
+                )
+            ) {
+                throw Error(
+                    `There is no item with key={${editingItemParentKey}} in list. ${ERROR_MSG.PARENT_OF_ADDING_ITEM_DOES_NOT_EXIST}`
+                );
+            }
+
+            if (targetItem) {
+                const targetItemParentKey = targetItem.get(parentProperty);
+
+                if (editingItemParentKey !== targetItemParentKey) {
+                    throw Error(
+                        'Parent key of item that has been given as a target for adding is different from parent key in editing item. ' +
+                        `Targets item parent key = {${targetItemParentKey}}, editing item parent key = {${editingItemParentKey}}.`
+                    );
+                }
+            }
+
+            if (rootItem !== null && !rootItem.isExpanded()) {
+                throw Error(
+                    `Parent item is collapsed. You should expand it first. Parent key = {${editingItemParentKey}}.`
+                );
+            }
+        }
+
+        if (targetItem && this._options.collection.getGroup()) {
+            const groupMethod = this._options.collection.getGroup();
+            const targetItemGroup = groupMethod(targetItem);
+            const editingItemGroup = groupMethod(editingItem.contents);
+
+            if (targetItemGroup !== editingItemGroup) {
+                throw Error(
+                    'Group key of item that has been given as a target for adding is different from group key in editing item. ' +
+                    `Targets item group key = {${targetItemGroup}}, editing item group key = {${editingItemGroup}}.`
+                );
+            }
+        }
     }
 
     private _throwEditingItemMissingError(item: Model): never {

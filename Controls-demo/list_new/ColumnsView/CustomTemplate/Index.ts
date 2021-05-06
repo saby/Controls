@@ -3,7 +3,7 @@ import template = require('wml!Controls-demo/list_new/ColumnsView/CustomTemplate
 import {Memory as MemorySource, Memory} from 'Types/source';
 import {generateData} from '../../DemoHelpers/DataCatalog';
 import {RecordSet} from 'Types/collection';
-import {INavigation} from 'Controls-demo/types';
+import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 const NUMBER_OF_ITEMS = 50;
 
@@ -12,7 +12,7 @@ export default class RenderDemo extends Control {
 
     protected _viewSource: Memory;
 
-    protected _navigation: INavigation;
+    protected _navigation: INavigationOptionValue<INavigationSourceConfig>;
 
     protected _itemActions: [object];
 

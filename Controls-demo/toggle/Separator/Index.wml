@@ -1,24 +1,24 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
     <div class="controlsDemo__cell demo-ToggleSeparator__secondary">
-        <div class="controls-text-label controls-text-label_theme-{{_options.theme}}">style=secondary</div>
+        <div class="controls-text-label controls-text-label">style=secondary</div>
         <Controls.toggle:Separator caption="Button" bind:value="_expanded1" style="secondary"></Controls.toggle:Separator>
     </div>
     <ws:if data="{{_expanded1}}">
         <div class="controlsDemo__cell">
-            <div class="controls-text-secondary_theme-{{_options.theme}}">Hello!</div>
+            <div class="controls-text-secondary">Hello!</div>
         </div>
     </ws:if>
     <div class="controlsDemo__cell demo-ToggleSeparator__primary">
-        <div class="controls-text-label_theme-{{_options.theme}}">style=primary</div>
+        <div class="controls-text-label">style=primary</div>
         <Controls.toggle:Separator caption="Button" bind:value="_expanded2" style="primary"></Controls.toggle:Separator>
     </div>
     <ws:if data="{{_expanded2}}">
         <div class="controlsDemo__cell">
-            <div class="controls-text-secondary_theme-{{_options.theme}}">Hello!</div>
+            <div class="controls-text-secondary">Hello!</div>
         </div>
     </ws:if>
     <div class="controlsDemo__cell demo-ToggleSeparator__secondaryWithHeading">
-        <div class="controls-text-label_theme-{{_options.theme}}">with heading</div>
+        <div class="controls-text-label">with heading</div>
         <div attr:class="controls-Header_all__clickable">
             <Controls.heading:Title caption="{{_expanded3 ? 'Close' : 'Open'}}" fontColorStyle="secondary" fontSize="m" on:click="_headingClick()"/>
             <Controls.toggle:Separator caption="Button" bind:value="_expanded3" style="secondary"></Controls.toggle:Separator>
@@ -26,11 +26,11 @@
     </div>
     <ws:if data="{{_expanded3}}">
         <div class="controlsDemo__cell">
-            <div class="controls-text-secondary_theme-{{_options.theme}}">Hello!</div>
+            <div class="controls-text-secondary">Hello!</div>
         </div>
     </ws:if>
     <div class="controlsDemo__cell demo-ToggleSeparator__primaryWithHeadingCounter">
-        <div class="controls-text-label_theme-{{_options.theme}}">with heading counter</div>
+        <div class="controls-text-label">with heading counter</div>
         <div attr:class="controls-Header_all__clickable">
             <Controls.heading:Title caption="Заголовок" fontColorStyle="secondary" fontSize="l" attr:class="controlsDemo__mr1_control"/>
             <Controls.heading:Counter attr:class="counter" caption="12" fontColorStyle="primary" fontSize="l"/>
@@ -39,7 +39,7 @@
     </div>
     <ws:if data="{{_expanded4}}">
         <div class="controlsDemo__cell">
-            <div class="controls-text-secondary_theme-{{_options.theme}}">Hello!</div>
+            <div class="controls-text-secondary">Hello!</div>
         </div>
     </ws:if>
 </div>

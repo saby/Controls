@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
         <div class="controlsDemo__default">
-            <div class="controls-text-label_theme-{{_options.theme}}">default</div>
+            <div class="controls-text-label">default</div>
             <Controls.search:Input attr:ws-autofocus="true"
                                    placeholder="Подсказка не умещается в поле поиска, при наведении есть тултип"
                                    tooltip="Подсказка не умещается в поле поиска, при наведении есть тултип"
@@ -10,26 +10,26 @@
     </div>
     <div class="controlsDemo__cell">
         <div class="controlsDemo__readonly">
-            <div class="controls-text-label_theme-{{_options.theme}}">readonly=true</div>
+            <div class="controls-text-label">readonly=true</div>
             <Controls.search:Input readOnly="{{true}}" attr:class="controlsDemo__searchBase_field"></Controls.search:Input>
         </div>
     </div>
     <div class="controlsDemo__cell">
         <div class="controlsDemo__button-visible">
-            <div class="controls-text-label_theme-{{_options.theme}}">searchButtonVisible=false</div>
+            <div class="controls-text-label">searchButtonVisible=false</div>
             <Controls.search:Input searchButtonVisible="{{false}}" attr:class="controlsDemo__searchBase_field"></Controls.search:Input>
         </div>
     </div>
     <div class="controlsDemo__cell">
         <div class="controlsDemo__background">
-            <div class="controls-text-label_theme-{{_options.theme}}">contrastBackground=true</div>
+            <div class="controls-text-label">contrastBackground=true</div>
             <Controls.search:Input contrastBackground="{{true}}" attr:class="controlsDemo__searchBase_field"></Controls.search:Input>
         </div>
     </div>
 
     <div class="controlsDemo__cell">
         <div class="controlsDemo__search-button">
-            <div class="controls-text-label_theme-{{_options.theme}}">search with button</div>
+            <div class="controls-text-label">search with button</div>
             <Controls.search:Input searchButtonVisible="{{false}}" attr:class="controlsDemo__searchBase_field"/>
             <Controls.buttons:Button caption="{[Найти]}"
                                      viewMode="button"

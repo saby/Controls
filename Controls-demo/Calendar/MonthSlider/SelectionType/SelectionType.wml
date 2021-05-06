@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell demo-MonthSlider__selectionTypeRange">
-        <div class="controls-text-label_theme-{{_options.theme}}">selectionType=range</div>
+        <div class="controls-text-label">selectionType=range</div>
         <Controls.calendar:MonthSlider
                 attr:class="controlsDemo-MonthSlider__default"
                 bind:month="_month3"
@@ -10,7 +10,7 @@
         />
     </div>
     <div class="controlsDemo__cell demo-MonthSlider__selectionTypeSingle">
-        <div class="controls-text-label_theme-{{_options.theme}}">selectionType=single</div>
+        <div class="controls-text-label">selectionType=single</div>
         <Controls.calendar:MonthSlider
             bind:month="_month"
             bind:startValue="_startValue1"
@@ -20,7 +20,7 @@
         />
     </div>
     <div class="controlsDemo__cell demo-MonthSlider__selectionTypeQuantum">
-        <div class="controls-text-label_theme-{{_options.theme}}">selectionType=quantum</div>
+        <div class="controls-text-label">selectionType=quantum</div>
         <Controls.calendar:MonthSlider
             bind:month="_month2"
             bind:startValue="_startValue2"
@@ -30,7 +30,7 @@
         />
     </div>
     <div class="controlsDemo__cell demo-MonthSlider__selectionTypeDisable">
-        <div class="controls-text-label_theme-{{_options.theme}}">selectionType=disable</div>
+        <div class="controls-text-label">selectionType=disable</div>
         <Controls.calendar:MonthSlider
             bind:month="_month4"
             bind:startValue="_startValue4"

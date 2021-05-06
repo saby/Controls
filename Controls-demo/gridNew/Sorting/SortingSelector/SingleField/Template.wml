@@ -1,11 +1,11 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">With icons</div>
+        <div class="controls-text-label">With icons</div>
         <Controls.grid:SortingSelector
                 sortingParams="{{_sortingParamsWithIcon}}"
                 bind:value="_sorting">
         </Controls.grid:SortingSelector>
-        <div class="controls-text-label_theme-{{_options.theme}}">Without icons</div>
+        <div class="controls-text-label">Without icons</div>
         <Controls.grid:SortingSelector
                 sortingParams="{{_sortingParamsWithoutIcon}}"
                 bind:value="_sorting">

@@ -10,6 +10,6 @@
             <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Выберите город]}" />
          </ws:headerTemplate>
       </Controls.dropdown:Button>
-      <div class="controls-text-label_theme-{{_options.theme}} controlsDemo-Dropdown_label">Открытие меню вверх</div>
+      <div class="controls-text-label controlsDemo-Dropdown_label">Открытие меню вверх</div>
    </div>
 </div>

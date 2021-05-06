@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow demo-SearchSuggest__container controlsDemo__mb3">
     <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo_fixedWidth350">
-        <div class="controls-text-label_theme-{{_options.theme}}">Открытие автодополнения вниз</div>
+        <div class="controls-text-label">Открытие автодополнения вниз</div>
         <Controls.suggest:SearchInput
                 attr:class="ControlsDemo-Suggest__simple demo-SuggestNewSearch__openDown controlsDemo__input"
                 bind:value="_suggestDownValue"
@@ -13,7 +13,7 @@
         </Controls.suggest:SearchInput>
     </div>
     <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_down">
-        <div class="controls-text-label_theme-{{_options.theme}}">Открытие автодополнения вверх</div>
+        <div class="controls-text-label">Открытие автодополнения вверх</div>
         <Controls.suggest:SearchInput
                 attr:class="ControlsDemo-Suggest__simple demo-SuggestNewSearch__openUp controlsDemo__input"
                 bind:value="_suggestUpValue"

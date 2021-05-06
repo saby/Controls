@@ -107,6 +107,7 @@ export default class Header<T> {
     protected _getRowsFactory(): new (options: IOptions<T>) => HeaderRow<T> {
         return (options: IOptions<T>) => {
             options.headerModel = this;
+            options.hasMoreDataUp = !!options.hasMoreData?.up;
             return create(this._rowModule, options as IHeaderRowOptions<T>);
         };
     }

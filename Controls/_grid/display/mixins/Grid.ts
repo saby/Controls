@@ -129,9 +129,9 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$emptyTemplate: TemplateFunction;
     protected _$sorting: Array<{[p: string]: string}>;
     protected _$emptyTemplateColumns: IEmptyTemplateColumn[];
-    protected _$itemActionsPosition: 'inside' | 'outside' | 'custom';
 
     protected _isFullGridSupport: boolean = isFullGridSupport();
+    protected _footer: FooterRow<S>;
 
     protected constructor(options: IOptions) {
         const supportLadder = GridLadderUtil.isSupportLadder(this._$ladderProperties);
@@ -143,9 +143,6 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
         if (this._headerIsVisible(options.header)) {
             this._initializeHeader(options);
-        }
-        if (options.footerTemplate || options.footer) {
-            this._$footer = this._initializeFooter(options);
         }
         if (this._resultsIsVisible()) {
             this._initializeResults(options);
@@ -181,7 +178,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 owner: this,
                 header: this._$header,
                 sorting: this._$sorting,
-                multiSelectVisibility: this._$multiSelectVisibility
+                multiSelectVisibility: this._$multiSelectVisibility,
+                hasMoreDataUp: this.hasMoreDataUp()
             } as IOptions);
         }
 
@@ -196,26 +194,22 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         return this._$emptyGridRow;
     }
 
-    setFooter(footerTemplate: TemplateFunction, footer: TFooter): void {
+    setFooter(options: IOptions): void {
         const footerModel = this.getFooter();
 
         if (footerModel) {
-            footerModel.setRowTemplate(footerTemplate);
-            footerModel.setColumns(footer);
+            footerModel.setRowTemplate(options.footerTemplate);
+            footerModel.setColumns(options.footer);
         } else {
-            this._$footer = this._initializeFooter({
+            this._footer = this._initializeFooter({
                 multiSelectVisibility: this._$multiSelectVisibility,
-                footerTemplate,
-                footer,
+                footerTemplate: options.footerTemplate,
+                footer: options.footer,
                 columnSeparatorSize: this._$columnSeparatorSize
             });
         }
 
         this._nextVersion();
-    }
-
-    getFooter(): FooterRow<S> {
-        return this._$footer;
     }
 
     getResults(): ResultsRow<S> {
@@ -402,6 +396,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _initializeFooter(options: IOptions): FooterRow<S> {
+        if (!options.footerTemplate && !options.footer) {
+            return;
+        }
+
         return new FooterRow({
             owner: this,
             multiSelectVisibility: options.multiSelectVisibility,
@@ -529,6 +527,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     abstract getMetaResults(): EntityModel;
     abstract hasMoreData(): boolean;
+    abstract hasMoreDataUp(): boolean;
     abstract getCollectionCount(): number;
     abstract getViewIterator(): IViewIterator;
     abstract getStartIndex(): number;
@@ -539,6 +538,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     abstract getItemBySourceItem(item: S): T;
     abstract getItemBySourceKey(key: string | number): T;
     abstract getCollection(): IBaseCollection<S, T>;
+    abstract getFooter(): FooterRow<S>;
 
     protected abstract _nextVersion(): void;
     protected abstract _getItems(): T[];
@@ -569,6 +569,5 @@ Object.assign(Grid.prototype, {
     _$stickyColumnsCount: 1,
     _$sorting: null,
     _$emptyTemplateColumns: null,
-    _$itemEditorTemplate: null,
-    _$itemActionsPosition: 'inside'
+    _$itemEditorTemplate: null
 });

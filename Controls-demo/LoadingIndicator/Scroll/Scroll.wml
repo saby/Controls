@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell ws-flexbox ws-flex-column controlsDemo__mr2">
         <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">no gradient(default)</div>
+            <div class="controls-text-label">no gradient(default)</div>
         </div>
         <div attr:class="controls-demo__indicator_container">
             <Controls.LoadingIndicator
@@ -22,7 +22,7 @@
     </div>
     <div class="controlsDemo__cell ws-flexbox ws-flex-column controlsDemo__mr2">
         <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">scroll=right</div>
+            <div class="controls-text-label">scroll=right</div>
         </div>
         <Controls.LoadingIndicator
                 name="LocalIndicatorRight"
@@ -40,7 +40,7 @@
     </div>
     <div class="controlsDemo__cell ws-flexbox ws-flex-column controlsDemo__mr2">
         <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">scroll=left</div>
+            <div class="controls-text-label">scroll=left</div>
         </div>
         <Controls.LoadingIndicator
                 name="LocalIndicatorLeft"
@@ -58,7 +58,7 @@
     </div>
     <div class="controlsDemo__cell ws-flexbox ws-flex-column controlsDemo__mr2">
         <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">scroll=top</div>
+            <div class="controls-text-label">scroll=top</div>
         </div>
         <Controls.LoadingIndicator
                 name="LocalIndicatorTop"
@@ -76,7 +76,7 @@
     </div>
     <div class="controlsDemo__cell ws-flexbox ws-flex-column controlsDemo__mr2">
         <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">scroll=bottom</div>
+            <div class="controls-text-label">scroll=bottom</div>
         </div>
         <Controls.LoadingIndicator
                 name="LocalIndicatorBottom"

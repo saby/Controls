@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">svg icons</div>
+        <div class="controls-text-label">svg icons</div>
         <Controls.grid:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"/>

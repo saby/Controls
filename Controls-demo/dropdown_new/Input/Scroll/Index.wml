@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/dropdown_new/Input/Scroll/Simple/Index' }}">
             <a href="{{content.href}}">Dropdown cо скроллом</a>
@@ -8,7 +8,7 @@
         <Controls-demo.dropdown_new.Input.Scroll.Simple.Index/>
     </div>
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/dropdown_new/Input/Scroll/ScrollbarVisible/Index' }}">
             <a href="{{content.href}}">Dropdown cо скроллом, скроллбар не отображается</a>

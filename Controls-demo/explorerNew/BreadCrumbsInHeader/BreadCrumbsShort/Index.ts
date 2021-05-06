@@ -3,14 +3,15 @@ import * as Template from 'wml!Controls-demo/explorerNew/BreadCrumbsInHeader/Bre
 import {Gadgets} from '../../DataHelpers/DataCatalog';
 import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 import { IColumn } from 'Controls/grid';
-import {TRoot, IHeader} from 'Controls-demo/types';
+import {TRoot} from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/grid';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: MemorySource;
     protected _columns: IColumn[] = Gadgets.getSearchColumns();
     protected _root: TRoot = 112;
-    protected _header: IHeader[] = [
+    protected _header: IHeaderCell[] = [
         {
             title: ''
         },

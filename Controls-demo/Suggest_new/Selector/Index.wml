@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Suggest_new/Selector/SearchDelay/SearchDelay' }}">
             <a href="{{content.href}}">Задержка поискового запроса.</a>
@@ -8,7 +8,7 @@
         <Controls-demo.Suggest_new.Selector.SearchDelay.SearchDelay/>
     </div>
     <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+       <Router.router:Reference attr:class="controls-text-label"
                                 state="/Controls-demo/app/:app"
                                 app="{{ 'Controls-demo/Suggest_new/Selector/EmptyTemplate/EmptyTemplate' }}">
            <a href="{{content.href}}">Шаблон отображения пустого списка.</a>
@@ -16,7 +16,7 @@
        <Controls-demo.Suggest_new.Selector.EmptyTemplate.EmptyTemplate/>
    </div>
    <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+       <Router.router:Reference attr:class="controls-text-label"
                                 state="/Controls-demo/app/:app"
                                 app="{{ 'Controls-demo/Suggest_new/Selector/FooterTemplate/FooterTemplate' }}">
            <a href="{{content.href}}">Шаблон Подвала.</a>
@@ -24,7 +24,7 @@
        <Controls-demo.Suggest_new.Selector.FooterTemplate.FooterTemplate/>
    </div>
    <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+       <Router.router:Reference attr:class="controls-text-label"
                                 state="/Controls-demo/app/:app"
                                 app="{{ 'Controls-demo/Suggest_new/Selector/MinSearchLength/MinSearchLength' }}">
            <a href="{{content.href}}">Минимальное количество символов для поиска.</a>
@@ -32,7 +32,7 @@
        <Controls-demo.Suggest_new.Selector.MinSearchLength.MinSearchLength/>
    </div>
    <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+       <Router.router:Reference attr:class="controls-text-label"
                                 state="/Controls-demo/app/:app"
                                 app="{{ 'Controls-demo/Suggest_new/Selector/SuggestTemplate/SuggestTemplate' }}">
            <a href="{{content.href}}">Щаблон автодополнения со списками.</a>
@@ -40,7 +40,7 @@
        <Controls-demo.Suggest_new.Selector.SuggestTemplate.SuggestTemplate/>
    </div>
    <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+       <Router.router:Reference attr:class="controls-text-label"
                                 state="/Controls-demo/app/:app"
                                 app="{{ 'Controls-demo/Suggest_new/Selector/Navigation/Navigation' }}">
            <a href="{{content.href}}">Навигация.</a>
@@ -48,7 +48,7 @@
        <Controls-demo.Suggest_new.Selector.Navigation.Navigation/>
    </div>
    <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+       <Router.router:Reference attr:class="controls-text-label"
                                 state="/Controls-demo/app/:app"
                                 app="{{ 'Controls-demo/Suggest_new/Selector/AutoDropDown/AutoDropDown' }}">
            <a href="{{content.href}}">Открытие автодополнения при получении фокуса.</a>
@@ -56,7 +56,7 @@
        <Controls-demo.Suggest_new.Selector.AutoDropDown.AutoDropDown/>
    </div>
    <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+       <Router.router:Reference attr:class="controls-text-label"
                                 state="/Controls-demo/app/:app"
                                 app="{{ 'Controls-demo/Suggest_new/Selector/DisplayProperty/DisplayProperty' }}">
            <a href="{{content.href}}">Имя свойства, которое отобразится в поле ввода.</a>
@@ -64,7 +64,7 @@
        <Controls-demo.Suggest_new.Selector.DisplayProperty.DisplayProperty/>
    </div>
    <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+       <Router.router:Reference attr:class="controls-text-label"
                                 state="/Controls-demo/app/:app"
                                 app="{{ 'Controls-demo/Suggest_new/Selector/SuggestTemplateWithTabs/SuggestTemplateWithTabs' }}">
            <a href="{{content.href}}">Шаблон автодополнения с вкладками.</a>
@@ -72,7 +72,7 @@
        <Controls-demo.Suggest_new.Selector.SuggestTemplateWithTabs.SuggestTemplateWithTabs/>
    </div>
    <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+       <Router.router:Reference attr:class="controls-text-label"
                                 state="/Controls-demo/app/:app"
                                 app="{{ 'Controls-demo/Suggest_new/Selector/ItemActions/ItemActions' }}">
            <a href="{{content.href}}">Шаблон автодополнения с пользовательскими операциями.</a>
@@ -80,7 +80,7 @@
        <Controls-demo.Suggest_new.Selector.ItemActions.ItemActions/>
    </div>
    <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+       <Router.router:Reference attr:class="controls-text-label"
                                 state="/Controls-demo/app/:app"
                                 app="{{ 'Controls-demo/Suggest_new/Selector/LayoutLanguage/LayoutLanguage' }}">
            <a href="{{content.href}}">Автоисправление при вводе с непраивльной раскладкой.</a>
@@ -88,7 +88,7 @@
        <Controls-demo.Suggest_new.Selector.LayoutLanguage.LayoutLanguage/>
    </div>
    <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+       <Router.router:Reference attr:class="controls-text-label"
                                 state="/Controls-demo/app/:app"
                                 app="{{ 'Controls-demo/Suggest_new/Selector/DirectoryUnavailable/DirectoryUnavailable' }}">
            <a href="{{content.href}}">Справочник недоступен.</a>
@@ -96,7 +96,7 @@
        <Controls-demo.Suggest_new.Selector.DirectoryUnavailable.DirectoryUnavailable/>
    </div>
    <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+       <Router.router:Reference attr:class="controls-text-label"
                                 state="/Controls-demo/app/:app"
                                 app="{{ 'Controls-demo/Suggest_new/Selector/ScrollContent/ScrollContent' }}">
            <a href="{{content.href}}">Автодополнение со скроллом.</a>
@@ -104,7 +104,7 @@
        <Controls-demo.Suggest_new.Selector.ScrollContent.ScrollContent/>
    </div>
    <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+       <Router.router:Reference attr:class="controls-text-label"
                                 state="/Controls-demo/app/:app"
                                 app="{{ 'Controls-demo/Suggest_new/Selector/SourceLoading/SourceLoading' }}">
            <a href="{{content.href}}">Автодополнение с индикатором.</a>

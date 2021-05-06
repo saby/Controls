@@ -15,50 +15,45 @@ interface IContainerOptions extends IControlOptions {
 export default class BreadCrumbsContainer extends Control<IContainerOptions> {
     protected _template: TemplateFunction = template;
     protected _sourceController: SourceController;
-    protected _items: Path;
+    protected _breadCrumbsItems: Path;
+    protected _keyProperty: string;
+    protected _parentProperty: string;
 
     protected _beforeMount(options: IContainerOptions): void {
         this._collectionChange = this._collectionChange.bind(this);
-        this._setPathItems(options);
+        this._keyProperty = BreadCrumbsContainer._getKeyProperty(options);
+        this._parentProperty = BreadCrumbsContainer._getParentProperty(options);
+
+        this._setBreadCrumbsItems(options);
     }
 
-    protected _beforeUpdate(options: IContainerOptions): void {
-        this._setPathItems(options);
+    protected _beforeUpdate(options: IControlOptions): void {
+        this._setBreadCrumbsItems(options);
     }
 
     protected _beforeUnmount(): void {
         if (this._sourceController) {
-            this._sourceController.unsubscribe('onCollectionChange', this._collectionChange);
+            this._sourceController.getItems().unsubscribe('onCollectionChange', this._collectionChange);
             this._sourceController.destroy();
         }
     }
 
     protected _itemClickHandler(e: SyntheticEvent, item: Model): void {
-        const sourceController = this._sourceController;
-        if (sourceController) {
-            sourceController.setRoot(item.getKey());
-            sourceController.reload();
+        if (this._sourceController) {
+            this._sourceController.setRoot(item.getKey());
+            this._sourceController.reload();
+        } else {
+            this._notify('rootChanged', [item.getKey()], {bubbling: true});
         }
     }
 
-    private _setPathItems(options): void {
-        let sourceController = this._getSourceController(options);
-        if (sourceController) {
-            this._items = this._getPathItems(sourceController.getItems());
-        }
+    private _getPathItems(options): Path {
+        this._sourceController = options.sourceController;
+        this._sourceController.getItems().subscribe('onCollectionChange', this._collectionChange);
+        return this._getCalculatePath(this._sourceController.getItems());
     }
 
-    private _getSourceController(options: IContainerOptions): SourceController {
-        if (options._dataOptionsValue.sourceController) {
-            this._sourceController = options._dataOptionsValue.sourceController;
-        } else if (options.sourceController && this._sourceController !== options.sourceController) {
-            this._sourceController = options.sourceController;
-            this._sourceController.getItems().subscribe('onCollectionChange', this._collectionChange);
-        }
-        return this._sourceController;
-    }
-
-    private _getPathItems(items): Path {
+    private _getCalculatePath(items): Path {
         return calculatePath(items).path;
     }
 
@@ -70,7 +65,23 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
                               oldItemsIndex: number,
                               reason: string): void {
         if (reason === 'assign') {
-            this._items = this._getPathItems(this._sourceController.getItems());
+            this._breadCrumbsItems = this._getCalculatePath(this._sourceController.getItems());
         }
+    }
+
+    private _setBreadCrumbsItems(options): void {
+        if (options._dataOptionsValue.breadCrumbsItems !== undefined) {
+            this._breadCrumbsItems = options._dataOptionsValue.breadCrumbsItems;
+        } else if (this._sourceController !== options.sourceController) {
+            // FIXME пока страница не обернута в браузер, sourceController задается на опциях
+            this._breadCrumbsItems = this._getPathItems(options);
+        }
+    }
+
+    private static _getKeyProperty(options): string {
+        return options._dataOptionsValue.keyProperty || options.sourceController && options.sourceController.getKeyProperty()
+    }
+    private static _getParentProperty(options): string {
+        return options._dataOptionsValue.parentProperty || options.sourceController && options.sourceController.getParentProperty()
     }
 }
