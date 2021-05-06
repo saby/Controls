@@ -422,13 +422,15 @@ export default abstract class Row<T> {
                 ...this._getColumnFactoryParams(column, columnIndex),
                 instanceId: `${this.key}_column_${columnIndex}`,
                 colspan: colspan as number,
-                isFixed: columnIndex < this.getStickyColumnsCount()
+                isFixed: this.hasColumnScroll() && columnIndex < this.getStickyColumnsCount()
             });
         }
 
         if (creatingColumnsParams.length === 1 && (this._$rowTemplate || columns.length > 1)) {
             creatingColumnsParams[0].isSingleColspanedCell = true;
-            creatingColumnsParams[0].isFixed = true;
+            if (this.hasColumnScroll()) {
+                creatingColumnsParams[0].isFixed = true;
+            }
         }
 
         if (creatingColumnsParams.length > 0) {

@@ -40,6 +40,10 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
                 end++;
             }
 
+            if (this.isFullGridSupport() && this.hasColumnScroll()) {
+                end += this.getStickyColumnsCount();
+            }
+
             if (this.hasMultiSelectColumn()) {
                 end++;
             }

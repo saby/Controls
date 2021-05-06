@@ -54,7 +54,7 @@ const VALID_PARTIAL_DATE = /^(0{2}| {2})\.(0{2}| {2})\.\d{2,4}$/;
  * @class Controls/_input/DateTime
  * @extends UI/Base:Control
  * @mixes Controls/input:IInputDateTime
- * 
+ *
  * @mixes Controls/input:IDateTimeMask
  * @mixes Controls/interface:IInputTag
  * @mixes Controls/input:IBase
@@ -108,6 +108,12 @@ class DateTime extends Control<IDateBaseOptions> {
         this._updateDateConstructor(options, this._options);
         if (this._options.validateByFocusOut !== options.validateByFocusOut) {
             this._updateValidationController(options);
+        }
+        // Если значение поменялось из кода - сбрасываем валидацию
+        // Нельзя передать value напрямую в валидатор, т.к. будет вызываться валидация при каждом изменении значения.
+        // Из-за этого произайдет ошибка сразу после ввода первого символа.
+        if (this._model.value !== options.value) {
+            this.setValidationResult(null);
         }
         if (options.value !== this._options.value || options.displayValue !== this._options.displayValue) {
             this._model.update({
