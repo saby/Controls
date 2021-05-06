@@ -246,7 +246,7 @@ export class MoveController {
         } else {
             siblingItem = this._siblingStrategy.getNextByKey(selectedKey);
         }
-        const siblingKey = siblingItem && siblingItem.getContents && siblingItem.getContents().getKey();
+        const siblingKey = siblingItem && siblingItem.getKey();
         return siblingKey !== undefined && siblingKey !== null ? siblingKey : null;
     }
 
