@@ -186,6 +186,30 @@ describe('Controls/browser:Browser', () => {
                 browser.saveOptions(options);
                 assert.deepStrictEqual(browser._filter, {filterField: 'historyValue'});
             });
+
+            describe('init expandedItems', () => {
+                it('with receivedState', async () => {
+                    const receivedState = {
+                        data: new RecordSet(),
+                        historyItems: []
+                    };
+                    const options = getBrowserOptions();
+                    options.expandedItems = [1];
+                    const browser = getBrowser(options);
+                    await browser._beforeMount(options, {}, [receivedState]);
+                    assert.deepEqual(browser._dataOptionsContext.expandedItems, [1]);
+                    assert.deepEqual(browser._getSourceController().getExpandedItems(), [1]);
+                });
+
+                it('without receivedState', async () => {
+                    const options = getBrowserOptions();
+                    options.expandedItems = [1];
+                    const browser = getBrowser(options);
+                    await browser._beforeMount(options, {}, []);
+                    assert.deepEqual(browser._dataOptionsContext.expandedItems, [1]);
+                    assert.deepEqual(browser._getSourceController().getExpandedItems(), [1]);
+                });
+            });
         });
 
         describe('searchController', () => {
@@ -608,6 +632,16 @@ describe('Controls/browser:Browser', () => {
 
         });
 
+        describe('sourceController', () => {
+            it('update expandedItems', async () => {
+                const options = getBrowserOptions();
+                const browser = getBrowser(options);
+                await browser._beforeMount(options);
+                browser._beforeUpdate({...options, expandedItems: [1]});
+                assert.deepEqual(browser._getSourceController().getExpandedItems(), [1]);
+            });
+        });
+
         it('update source', async () => {
             let options = getBrowserOptions();
             const browser = getBrowser();
@@ -736,6 +770,13 @@ describe('Controls/browser:Browser', () => {
             assert.equal(browser._viewMode, 'tile');
         });
 
+        it('update expanded items in context', async () => {
+            const options = getBrowserOptions();
+            const browser = getBrowser(options);
+            await browser._beforeMount(options);
+            browser._beforeUpdate({...options, expandedItems: [1]});
+            assert.deepEqual(browser._dataOptionsContext.expandedItems, [1]);
+        });
     });
 
     describe('_updateSearchController', () => {
