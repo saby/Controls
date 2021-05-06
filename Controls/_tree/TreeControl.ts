@@ -926,7 +926,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         if (this.isLoading()) {
             return;
         }
-        e.stopPropagation();
         const eventResult = superResult;
 
         if (eventResult !== false && this._options.expandByItemClick && item.get(this._options.nodeProperty) !== null) {
