@@ -40,5 +40,6 @@ export interface IBorderVisibility {
 /**
  * @name Controls/_input/interface/IBorderVisibility#borderVisibility
  * @cfg {Controls/_input/interface/IBorderVisibility/TBorderVisibility.typedef} Видимость границ контрола.
+ * @default partial
  * @demo Controls-demo/Input/BorderVisibility/Index
  */
