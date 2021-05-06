@@ -77,12 +77,13 @@ export default class View extends Control<IViewPanelOptions> {
 
     protected _applyFilter(): void {
         this._notifyChanges();
+        this._notify('filterApplied');
     }
 
     protected _editingObjectChanged(event: SyntheticEvent, editingObject: Record<string, any>): void {
         this._viewModel.setEditingObject(editingObject);
         if (this._options.viewMode === 'default') {
-            this._applyFilter();
+            this._notifyChanges();
         }
     }
 
