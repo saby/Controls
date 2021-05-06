@@ -6651,7 +6651,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         // Если нет элементов, то должен отображаться глобальный индикатор
         const shouldDisplayTopIndicator = this._loadingIndicatorState === 'up' && !this._portionedSearchInProgress;
-        return (shouldDisplayTopIndicator || this._attachLoadTopTriggerToNull) && !!this._items && !!this._items.getCount();
+        return (shouldDisplayTopIndicator || this._attachLoadTopTriggerToNull && this._scrollController.isRangeOnEdge('up'))
+            && !!this._items && !!this._items.getCount();
     }
 
     _shouldDisplayMiddleLoadingIndicator(): boolean {
@@ -6675,7 +6676,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             && !!this._items && !!this._items.getCount();
         // Если порционный поиск был прерван, то никаких ромашек не должно показываться, т.к. больше не будет подгрузок
         const isAborted = _private.getPortionedSearch(this).isAborted();
-        return (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection)
+        return (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection && this._scrollController.isRangeOnEdge('down'))
             && !this._portionedSearchInProgress && !isAborted;
     }
 

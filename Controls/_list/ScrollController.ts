@@ -505,6 +505,15 @@ export default class ScrollController {
         }
     }
 
+    isRangeOnEdge(direction: IDirection): boolean {
+        return !this._virtualScroll ||
+            this._virtualScroll &&
+            !this._virtualScroll.rangeChanged &&
+            this._virtualScroll.isRangeOnEdge(direction) ||
+            !this._virtualScroll && this._options.virtualScrollConfig &&
+            this._options.virtualScrollConfig.pageSize > this._options.collection.getCount();
+    }
+
     /**
      * Производит пересчет диапазона в переданную сторону
      * @param direction
@@ -512,14 +521,7 @@ export default class ScrollController {
     shiftToDirection(direction: IDirection): Promise<IScrollControllerResult> {
         return new Promise((resolve) => {
 
-            if (
-                !this._virtualScroll ||
-                this._virtualScroll &&
-                !this._virtualScroll.rangeChanged &&
-                this._virtualScroll.isRangeOnEdge(direction) ||
-                !this._virtualScroll && this._options.virtualScrollConfig &&
-                this._options.virtualScrollConfig.pageSize > this._options.collection.getCount()
-            ) {
+            if (this.isRangeOnEdge(direction)) {
                 resolve(null);
             } else {
                 if (this._virtualScroll && !this._virtualScroll.rangeChanged) {
