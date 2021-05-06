@@ -35,6 +35,7 @@ let popupHelper: IPopupHelper;
 
 /**
  * Получить экземпляр IPopupHelper, который контроллер ошибок использует по умолчанию, если ему не передали другого.
+ * @private
  */
 export function getPopupHelper(): IPopupHelper {
     if (!popupHelper) {
