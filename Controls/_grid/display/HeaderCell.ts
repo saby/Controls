@@ -191,8 +191,9 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default'): string {
         let wrapperClasses = `controls-Grid__header-cell controls-Grid__cell_${style}`
                           + ` ${this._getWrapperPaddingClasses(theme)}`
-                          + ` ${this._getColumnSeparatorClasses(theme)}`
-                          + ` controls-background-${backgroundColorStyle || style}`;
+                          + ` ${this._getColumnSeparatorClasses(theme)}`;
+
+        wrapperClasses += this._getControlsBackgroundClass(style, backgroundColorStyle);
 
         const isMultilineHeader = this._$owner.isMultiline();
         const isStickySupport = this._$owner.isStickyHeader();
