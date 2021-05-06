@@ -125,6 +125,14 @@ function onCollectionItemChange<T>(event: EventObject, item: T, index: number, p
         this.instance._recountHasChildrenByRecordSet();
     }
     this.prev(event, item, index, properties);
+
+    if (properties.hasOwnProperty(this.instance.getNodeProperty())) {
+        // TODO лучше в TreeItem всегда брать значение из рекорда, но чтобы так сделать, надо переписать много юнитов
+        const displayItem = this.instance.getItemBySourceItem(item);
+        displayItem.setNode(item.get(this.instance.getNodeProperty()));
+
+        this.instance.resetHasNode();
+    }
 }
 
 /**
