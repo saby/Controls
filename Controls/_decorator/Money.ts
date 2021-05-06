@@ -318,7 +318,11 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
             ]),
             stroked: descriptor(Boolean),
             underline: descriptor(String),
-            decimalsVisibility: descriptor(String)
+            decimalsVisibility: descriptor(String).oneOf([
+                'visible',
+                'hidden',
+                'hiddenIfEmpty'
+            ])
         };
     }
 }
