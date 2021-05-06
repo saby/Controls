@@ -321,7 +321,7 @@ define([
                const tabs = new tabsMod.Buttons();
                tabs.saveOptions(options);
 
-               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__main-marker');
+               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__main-marker controls-Tabs__main-marker-l');
 
                tabs.destroy();
             });

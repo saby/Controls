@@ -406,6 +406,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         if (item.isMainTab) {
             if (item[options.keyProperty] === options.selectedKey) {
                 classes.push('controls-Tabs__main-marker');
+                classes.push(`controls-Tabs__main-marker-${options.markerThickness}`);
             }
         } else {
             classes.push('controls-Tabs__itemClickableArea_marker');
