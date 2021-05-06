@@ -197,7 +197,7 @@ describe('Controls/browser:Browser', () => {
                     options.expandedItems = [1];
                     const browser = getBrowser(options);
                     await browser._beforeMount(options, {}, [receivedState]);
-                    assert.deepEqual(browser._dataOptionsContext.expandedItems, [1]);
+                    assert.deepEqual(browser._contextState.expandedItems, [1]);
                     assert.deepEqual(browser._getSourceController().getExpandedItems(), [1]);
                 });
 
@@ -206,7 +206,7 @@ describe('Controls/browser:Browser', () => {
                     options.expandedItems = [1];
                     const browser = getBrowser(options);
                     await browser._beforeMount(options, {}, []);
-                    assert.deepEqual(browser._dataOptionsContext.expandedItems, [1]);
+                    assert.deepEqual(browser._contextState.expandedItems, [1]);
                     assert.deepEqual(browser._getSourceController().getExpandedItems(), [1]);
                 });
             });
@@ -775,7 +775,7 @@ describe('Controls/browser:Browser', () => {
             const browser = getBrowser(options);
             await browser._beforeMount(options);
             browser._beforeUpdate({...options, expandedItems: [1]});
-            assert.deepEqual(browser._dataOptionsContext.expandedItems, [1]);
+            assert.deepEqual(browser._contextState.expandedItems, [1]);
         });
     });
 
