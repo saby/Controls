@@ -5,6 +5,7 @@
                                    backgroundStyle="contrast"
                                    viewMode="filterPanelStack"
                                    collapsedGroups="{{_options.collapsedGroups}}"
-                                   on:collapsedGroupsChanged="_collapsedGroupsChanged()"/>
+                                   on:collapsedGroupsChanged="_collapsedGroupsChanged()"
+                                   on:filterApplied="_filterAppliedHandler()"/>
     </ws:bodyContentTemplate>
 </Controls.popupTemplate:Stack>
