@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {CrudEntityKey} from 'Types/source';
 import {TreeSiblingStrategy} from 'Controls/_list/Strategies/SiblingStategy/Tree';
-import {ISiblingStrategy} from 'Controls/_list/Strategies/SiblingStategy/ISiblingStrategy';
+import {ISiblingStrategy} from 'Controls/_list/interface/ISiblingStrategy';
 import {Tree} from 'Controls/display';
 
 describe('Controls/list_clean/Strategies/SiblingStrategy/Tree', () => {

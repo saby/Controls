@@ -3,7 +3,7 @@ import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import {CrudEntityKey} from 'Types/source';
 
-import {ISiblingStrategy, ISiblingStrategyOptions} from './ISiblingStrategy';
+import {ISiblingStrategy, ISiblingStrategyOptions} from '../interface/ISiblingStrategy';
 
 export class FlatSiblingStrategy implements ISiblingStrategy {
 

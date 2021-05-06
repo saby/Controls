@@ -21,7 +21,7 @@ import 'css!Controls/list';
 import 'css!Controls/itemActions';
 import 'css!Controls/CommonClasses';
 import 'css!Controls/treeGrid';
-import {TreeSiblingStrategy} from './strategies/SiblingStrategy/Tree';
+import {TreeSiblingStrategy} from './strategies/TreeSiblingStrategy';
 
 const HOT_KEYS = {
     expandMarkedItem: constants.key.right,

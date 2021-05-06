@@ -101,7 +101,7 @@ export {IRemovableList} from 'Controls/_list/interface/IRemovableList';
 
 export {default as ItemsView, IItemsViewOptions} from 'Controls/_list/ItemsView';
 
-export {ISiblingStrategy, ISiblingStrategyOptions} from 'Controls/_list/Strategies/SiblingStategy/ISiblingStrategy';
+export {ISiblingStrategy, ISiblingStrategyOptions} from 'Controls/_list/interface/ISiblingStrategy';
 
 export {
     EmptyTemplate,
