@@ -214,6 +214,10 @@ export default class TileView extends ListView {
         const tileScalingMode = this._listModel.getTileScalingMode();
 
         if (tileScalingMode === 'none' || target.closest('.js-controls-TileView__withoutZoom')) {
+            if (item && item['[Controls/_tile/mixins/TileItem]'] && this._options.actionMode !== 'adaptive') {
+                // canShowActions можно проставить без задержки, если они не будут пересчитаны
+                item.setCanShowActions(true);
+            }
             return;
         }
 
