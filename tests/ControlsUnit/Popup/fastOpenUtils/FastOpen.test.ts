@@ -2,6 +2,7 @@ import {assert} from 'chai';
 import {CalmTimer} from 'Controls/popup';
 
 describe('Controls/Popup/fastOpenUtils/FastOpen', () => {
+
     describe('CalmTimer', () => {
         it('CalmTimer: resetTimeOut', () => {
             const calmTimer = new CalmTimer();
