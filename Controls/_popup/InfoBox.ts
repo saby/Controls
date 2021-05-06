@@ -6,10 +6,9 @@ import { TouchDetect } from 'Env/Touch';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {descriptor} from 'Types/entity';
 import * as getZIndex from 'Controls/Utils/getZIndex';
-import template = require('wml!Controls/_popup/InfoBox/InfoBox');
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
-
-const CALM_DELAY: number = 100; // During what time should not move the mouse to start opening the popup.
+import {CalmTimer} from 'Controls/_popup/fastOpenUtils/FastOpen';
+import template = require('wml!Controls/_popup/InfoBox/InfoBox');
 
 /**
  * Контрол, отображающий всплывающую подсказку относительно указанного элемента.
@@ -33,10 +32,8 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
 
     _template: TemplateFunction = template;
     _isNewEnvironment: Function = isNewEnvironment;
-    _openId: number;
-    _waitTimer: number;
-    _closeId: number;
     _opened: boolean;
+    _calmTimer: CalmTimer;
     _children: {
         infoBoxOpener: InfoBoxOpener
     };
@@ -44,14 +41,14 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     protected _beforeMount(options: IInfoBoxOptions): void {
         this._resultHandler = this._resultHandler.bind(this);
         this._closeHandler = this._closeHandler.bind(this);
+        this._calmTimer = new CalmTimer();
     }
 
     protected _beforeUnmount(): void {
-        this._clearWaitTimer();
         if (this._opened) {
             this.close();
         }
-        this._resetTimeOut();
+        this._calmTimer.resetTimeOut();
     }
 
     open(): void {
@@ -65,7 +62,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
             this._children.infoBoxOpener.open(config);
         }
 
-        this._resetTimeOut();
+        this._calmTimer.resetTimeOut();
         this._opened = true;
         this._forceUpdate();
     }
@@ -99,36 +96,16 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
                 this._children.infoBoxOpener.close(delay);
             }
         }
-        this._resetTimeOut();
+        this._calmTimer.resetTimeOut();
         this._opened = false;
     }
 
-    private _resetTimeOut(): void {
-        if (this._openId) {
-            clearTimeout(this._openId);
-        }
-        if (this._closeId) {
-            clearTimeout(this._closeId);
-        }
-        this._openId = null;
-        this._closeId = null;
-    }
-
-    private _clearWaitTimer(): void {
-        if (this._waitTimer) {
-            clearTimeout(this._waitTimer);
-        }
-    }
-
     private _startOpeningPopup(): void {
-        // TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=809254e8-e179-443b-b8b7-f4a37e05f7d8
-        this._resetTimeOut();
-
-        this._openId = setTimeout(() => {
-            this._openId = null;
+        const callback = () => {
             this.open();
             this._forceUpdate();
-        }, this._options.showDelay);
+        };
+        this._calmTimer.open(callback.bind(this), this._options.showDelay);
     }
 
     protected _contentMousedownHandler(event: SyntheticEvent<MouseEvent>): void {
@@ -142,17 +119,12 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
 
     protected _contentMousemoveHandler(): void {
         if (this._options.trigger === 'hover' || this._options.trigger === 'hover|touch') {
-            // wait, until user stop mouse on target.
-            // Don't open popup, if mouse moves through the target
-            // On touch devices there is no real hover, although the events are triggered.
-            // Therefore, the opening is not necessary.
-            this._clearWaitTimer();
-            this._waitTimer = setTimeout(() => {
-                this._waitTimer = null;
+            const callback = () => {
                 if (!this._opened && !TouchDetect.getInstance().isTouch()) {
                     this._startOpeningPopup();
                 }
-            }, CALM_DELAY);
+            };
+            this._calmTimer.start(callback.bind(this));
         }
     }
 
@@ -164,13 +136,11 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
 
     protected _contentMouseleaveHandler(): void {
         if (this._options.trigger === 'hover' || this._options.trigger === 'hover|touch') {
-            this._clearWaitTimer();
-            clearTimeout(this._openId);
-            this._closeId = setTimeout(() => {
-                this._closeId = null;
+            const callback = () => {
                 this.close();
                 this._forceUpdate();
-            }, this._options.hideDelay);
+            };
+            this._calmTimer.close(callback.bind(this), this._options.hideDelay);
         }
 
     }
@@ -178,8 +148,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     private _resultHandler(event: SyntheticEvent<MouseEvent>): void {
         switch (event.type) {
             case 'mouseenter':
-                clearTimeout(this._closeId);
-                this._closeId = null;
+                this._calmTimer.resetTimeOut();
                 break;
             case 'mouseleave':
                 if (this._options.trigger === 'hover' || this._options.trigger === 'hover|touch') {
