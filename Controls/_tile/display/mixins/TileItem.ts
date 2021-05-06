@@ -938,13 +938,13 @@ export default abstract class TileItem<T extends Model = Model> {
     shouldDisplayTitle(itemType: string = 'default'): boolean {
         switch (itemType) {
             case 'default':
-                return !!this.getDisplayValue() || (this.hasVisibleActions() || this.isEditing());
+                return !!this.getDisplayValue() || this.hasVisibleActions() || this.isEditing();
             case 'small':
             case 'medium':
             case 'rich':
                 return true;
             case 'preview':
-                return !!this.getDisplayValue() || this.canShowActions() || this.hasVisibleActions();
+                return !this.canShowActions() || !this.hasVisibleActions();
         }
     }
 

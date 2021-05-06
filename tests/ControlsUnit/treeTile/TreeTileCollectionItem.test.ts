@@ -1,7 +1,6 @@
 import { assert } from 'chai';
 import TreeTileCollectionItem from 'Controls/_treeTile/display/TreeTileCollectionItem';
-import {TileCollectionItem} from "Controls/tile";
-import {CssClassesAssert} from "ControlsUnit/CustomAsserts";
+import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
 
 describe('Controls/_treeTile/display/TreeTileCollectionItem', () => {
     describe('.getItemStyles', () => {
@@ -30,6 +29,22 @@ describe('Controls/_treeTile/display/TreeTileCollectionItem', () => {
             const classes = item.getTitleWrapperClasses('preview');
             CssClassesAssert.include(classes, 'controls-fontweight-bold');
             CssClassesAssert.include(classes, 'controls-fontsize-l');
+        });
+    });
+
+    describe('shouldDisplayTitle', () => {
+        describe('preview', () => {
+            it('can show actions and has visible actions and not is node', () => {
+                const actions = {showed: ['action1']};
+                const item = new TreeTileCollectionItem({actions, canShowActions: true});
+                assert.isFalse(!!item.shouldDisplayTitle('preview'));
+            });
+
+            it('can show actions and has visible actions and is node', () => {
+                const actions = {showed: ['action1']};
+                const item = new TreeTileCollectionItem({actions, canShowActions: true, node: true});
+                assert.isTrue(item.shouldDisplayTitle('preview'));
+            });
         });
     });
 });
