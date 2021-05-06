@@ -6544,6 +6544,20 @@ define([
                baseControl._items = notEmptyRs;
                assert.isNotOk(baseControl._shouldDisplayTopLoadingIndicator());
             });
+
+             it('portioned search in progress', () => {
+                baseControl._attachLoadTopTriggerToNull = true;
+                baseControl._portionedSearchInProgress = true;
+                baseControl._items = notEmptyRs;
+                assert.isNotOk(baseControl._shouldDisplayTopLoadingIndicator());
+             });
+
+             it('continue search showed', () => {
+                baseControl._attachLoadTopTriggerToNull = true;
+                baseControl._showContinueSearchButtonDirection = 'up';
+                baseControl._items = notEmptyRs;
+                assert.isNotOk(baseControl._shouldDisplayTopLoadingIndicator());
+             });
           });
 
           it('_shouldDisplayMiddleLoadingIndicator', () => {
@@ -6632,7 +6646,7 @@ define([
 
              it('continue search showed', () => {
                 baseControl._attachLoadDownTriggerToNull = true;
-                baseControl._showContinueSearchButtonDirection = 'up';
+                baseControl._showContinueSearchButtonDirection = 'down';
                 baseControl._items = notEmptyRs;
                 assert.isNotOk(baseControl._shouldDisplayBottomLoadingIndicator());
              });
