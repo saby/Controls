@@ -11,7 +11,8 @@ export interface IDigitButtonsOptions extends IControlOptions {
     selectedKey?: number;
 }
 
-const SUR_STANDARD_ELEMENTS_STEP = 3;
+const SUR_STANDARD_ELEMENTS_STEP = 1;
+const MIN_STANDARD_ELEMENTS_LENGTH = 5;
 const MAX_NEIGHBORS_COUNT = 3;
 const SUR_NUMBERS_ELEMENTS_STEP = 1;
 const DOTS = '. . .';
@@ -43,7 +44,7 @@ class DigitButtons extends Control<IDigitButtonsOptions> {
         this._notify('onDigitClick', [digit]);
     }
 
-    // получаем граничные цифры, окружающие выбранный элемент, по условия +-3 в обе стороны (4 5 6 [7] 8 9 10)
+    // получаем граничные цифры, окружающие выбранный элемент, по условия +-1 в обе стороны (6 [7] 8)
     private static _getSurroundElemens(digitsCount: number, currentDigit: number,
                                        mode: string = 'standard'): ISurroundElements {
         let firstElem: number;
@@ -51,6 +52,13 @@ class DigitButtons extends Control<IDigitButtonsOptions> {
         if (mode === 'standard') {
             firstElem = currentDigit - SUR_STANDARD_ELEMENTS_STEP;
             lastElem = currentDigit + SUR_STANDARD_ELEMENTS_STEP;
+
+            if (firstElem > digitsCount - MIN_STANDARD_ELEMENTS_LENGTH + 1) {
+                firstElem = digitsCount - MIN_STANDARD_ELEMENTS_LENGTH + 1;
+            }
+            if (lastElem < MIN_STANDARD_ELEMENTS_LENGTH) {
+                lastElem = MIN_STANDARD_ELEMENTS_LENGTH;
+            }
         } else {
             firstElem = currentDigit - SUR_NUMBERS_ELEMENTS_STEP;
             lastElem = currentDigit + SUR_NUMBERS_ELEMENTS_STEP;
