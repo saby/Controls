@@ -898,8 +898,10 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 return error;
             })
             .finally(() => {
-                this._loading = false;
-                this._afterSourceLoad(sourceController, options);
+                if (!this._destroyed) {
+                    this._loading = false;
+                    this._afterSourceLoad(sourceController, options);
+                }
             })
             .then((result) => {
                 return this._updateSearchController(options).then(() => result);
