@@ -214,7 +214,6 @@ export default class TileView extends ListView {
         const tileScalingMode = this._listModel.getTileScalingMode();
 
         if (tileScalingMode === 'none' || target.closest('.js-controls-TileView__withoutZoom')) {
-            item.setCanShowActions(true);
             return;
         }
 
@@ -281,6 +280,10 @@ export default class TileView extends ListView {
             !this._listModel.getActiveItem()
         ) {
             this._listModel.setHoveredItem(item);
+            if (item) {
+                // canShowActions нужно тоже проставлять с задержкой, чтобы itemActions показывались уже посчитанными
+                item.setCanShowActions(true);
+            }
         }
 
         if (this._needUpdateActions(item, event)) {
