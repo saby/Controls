@@ -315,13 +315,14 @@ define([
             };
             const options = {
                selectedKey: '15',
-               keyProperty: 'karambola'
+               keyProperty: 'karambola',
+               markerThickness: 'l'
             };
             it('should return marker css class if tab selected', () => {
                const tabs = new tabsMod.Buttons();
                tabs.saveOptions(options);
 
-               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__main-marker controls-Tabs__main-marker-l');
+               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__main-marker controls-Tabs__main-marker-');
 
                tabs.destroy();
             });
