@@ -563,6 +563,9 @@ export default class ColumnScrollController {
     destroy(): void {
         this._isDestroyed = true;
         this._options = {} as IControllerOptions;
+        if (this._stylesContainer) {
+            this._stylesContainer.innerHTML = '';
+        }
     }
 
     static shouldDrawColumnScroll(scrollContainer: HTMLElement, contentContainer: HTMLElement, isFullGridSupport: boolean): boolean {

@@ -62,7 +62,9 @@ const GridView = ListView.extend({
 
     _afterMount(): void {
         GridView.superclass._afterMount.apply(this, arguments);
-        this._actualizeColumnScroll(this._options);
+        if (this._options.columnScroll) {
+            this._actualizeColumnScroll(this._options);
+        }
         this._isFullMounted = true;
     },
 
@@ -91,22 +93,10 @@ const GridView = ListView.extend({
         }
     },
 
-    _applyChangedOptions(options, changes): void {
-        if (changes.includes('columnScroll')) {
-            // Создание или разрушение контроллеров горизонтального скролла и скроллирования мышкой при изменении опций
-            // columnScroll и dragScroll.
-            if (this._columnScrollViewController) {
-                const action = this._columnScrollViewController?.updateControllers(options);
-                if (action === 'columnScrollDisabled') {
-                    this._columnScrollViewController.destroy();
-                    this._columnScrollViewController = null;
-                }
-            } else {
-                this._doAfterUpdate(() => {
-                    this._columnScrollViewController = this._createColumnScroll(options);
-                });
-            }
-        }
+    _applyChangedOptions(newOptions, oldOptions, changes): void {
+        this._doAfterUpdate(() => {
+            this._actualizeColumnScroll(newOptions, oldOptions);
+        });
     },
 
     _applyNewOptionsAfterReload(oldOptions, newOptions): void {
@@ -127,6 +117,9 @@ const GridView = ListView.extend({
             if (changedOptions.hasOwnProperty('columnScroll')) {
                 changes.push('columnScroll');
             }
+            if (changedOptions.hasOwnProperty('dragScrolling')) {
+                changes.push('dragScrolling');
+            }
             if (changedOptions.hasOwnProperty('resultsPosition')) {
                 changes.push('resultsPosition');
             }
@@ -137,7 +130,7 @@ const GridView = ListView.extend({
             // перерисовывается с новым набором колонок, но со старыми данными. Пример ошибки:
             // https://online.sbis.ru/opendoc.html?guid=91de986a-8cb4-4232-b364-5de985a8ed11
             this._doAfterReload(() => {
-                this._applyChangedOptions(newOptions, changes);
+                this._applyChangedOptions(newOptions, oldOptions, changes);
                 this._applyChangedOptionsToModel(this._listModel, newOptions, changes);
             });
         }
@@ -161,20 +154,10 @@ const GridView = ListView.extend({
         }
     },
 
-    _afterUpdate(oldOptions): void {
-        // todo ColumnScroll #1. Не должно быть безусловной актуализации columnScroll. Нужно учесть, что columnScroll
-        // могло ранее не существовать - он мог создаться в afterUpdate. Тогда не нужно производить его обновление.
-        // Иначе говоря должны быть точно и прозрачно обозначены точки обновления columnScroll.
-        // https://online.sbis.ru/opendoc.html?guid=b6c5fe05-5a07-49b1-83db-e1193dbe55f5
-        this._actualizeColumnScroll(this._options, oldOptions);
-        GridView.superclass._afterUpdate.apply(this, arguments);
-    },
-
     _beforeUnmount(): void {
         GridView.superclass._beforeUnmount.apply(this, arguments);
         if (this._columnScrollViewController) {
-            this._columnScrollViewController.destroy();
-            this._columnScrollViewController = null;
+            this._destroyColumnScroll();
         }
     },
 
@@ -380,7 +363,7 @@ const GridView = ListView.extend({
             this._horizontalScrollWidth = 0;
             return 'display: none;';
         }
-        return this._columnScrollViewController.getScrollBarStyles(this._options.itemActionsPosition, GridLadderUtil.stickyLadderCellsCount(
+        return this._columnScrollViewController.getScrollBarStyles(this._options, GridLadderUtil.stickyLadderCellsCount(
             this._listModel.getColumnsConfig(),
             this._options.stickyColumn,
             this._listModel.getDraggableItem()
@@ -406,10 +389,43 @@ const GridView = ListView.extend({
         });
     },
 
-    _actualizeColumnScroll(newOptions, oldOptions = newOptions) {
-        const getHasMultiSelectColumn = (options) => options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
+    _destroyColumnScroll(): void {
+        this._columnScrollViewController.destroy();
+        this._columnScrollViewController = null;
+        this._columnScrollWrapperClasses = '';
+        this._columnScrollContentClasses = '';
+        this._dragScrollOverlayClasses = '';
+        this._columnScrollShadowClasses = {start: '', end: ''};
+        this._containerSize = 0;
+        this._contentSizeForHScroll = 0;
+        this._horizontalScrollWidth = 0;
+        this._fixedColumnsWidth = 0;
+        this._scrollableColumnsWidth = 0;
+    },
 
-        return this._columnScrollViewController?.actualizeColumnScroll({
+    _actualizeColumnScroll(newOptions, oldOptions = newOptions) {
+        if (!newOptions.columnScroll && !this._columnScrollViewController) {
+            return;
+        }
+        if (!this._columnScrollViewController) {
+            if (ColumnScrollViewController.shouldDrawColumnScroll(
+                this._children.gridWrapper as HTMLElement,
+                this._children.grid,
+                newOptions.isFullGridSupport
+            )) {
+                this._createColumnScroll(newOptions);
+            } else {
+                return;
+            }
+        } else if (this._columnScrollViewController.updateControllers(newOptions) === 'columnScrollDisabled') {
+            this._destroyColumnScroll();
+        }
+
+        const getHasMultiSelectColumn = (options) => options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
+        const oldUpdateOptions = {
+            ...oldOptions, hasMultiSelectColumn: getHasMultiSelectColumn(oldOptions)
+        };
+        const newUpdateOptions = {
             ...newOptions,
             scrollBar: this._children.horizontalScrollBar,
             containers: {
@@ -420,25 +436,19 @@ const GridView = ListView.extend({
             },
             hasMultiSelectColumn: getHasMultiSelectColumn(newOptions),
             isActivated: !this._showFakeGridWithColumnScroll
-        }, {
-            ...oldOptions,
-            hasMultiSelectColumn: getHasMultiSelectColumn(oldOptions)
-        })?.then((result) => {
-            this._applyColumnScrollChanges();
+        };
+
+        return this._columnScrollViewController.actualizeColumnScroll(newUpdateOptions, oldUpdateOptions, (status) => {
+            this._applyColumnScrollChanges(status);
         });
     },
 
-    _applyColumnScrollChanges() {
-        if (!this.isColumnScrollVisible()) {
-            this._columnScrollWrapperClasses = '';
-            this._columnScrollContentClasses = '';
-            this._dragScrollOverlayClasses = '';
-            this._columnScrollShadowClasses = { start: '', end: ''};
-            this._containerSize = 0;
-            this._contentSizeForHScroll = 0;
-            this._horizontalScrollWidth = 0;
-            this._fixedColumnsWidth = 0;
-            this._scrollableColumnsWidth = 0;
+    _applyColumnScrollChanges(status): void {
+        if (status === 'actual') {
+            return;
+        }
+        if (status === 'destroyed') {
+            this._destroyColumnScroll();
             return;
         }
         this._columnScrollWrapperClasses = this._columnScrollViewController.getClasses('wrapper');
