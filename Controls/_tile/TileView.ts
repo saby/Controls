@@ -280,7 +280,7 @@ export default class TileView extends ListView {
             !this._listModel.getActiveItem()
         ) {
             this._listModel.setHoveredItem(item);
-            if (item) {
+            if (item && item['[Controls/_tile/mixins/TileItem]']) {
                 // canShowActions нужно тоже проставлять с задержкой, чтобы itemActions показывались уже посчитанными
                 item.setCanShowActions(true);
             }
