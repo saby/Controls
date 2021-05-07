@@ -22,6 +22,7 @@ export interface IMoverDialogTemplateOptions extends IControlOptions {
     nodeProperty: string;
     parentProperty: string;
     filter?: QueryWhereExpression<unknown>;
+    headingCaption?: string
 }
 
 /**
