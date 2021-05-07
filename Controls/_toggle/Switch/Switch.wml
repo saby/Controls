@@ -1,9 +1,9 @@
 <ws:template name="toggle">
    <span class="controls-Switch__toggle__wrapper
-                controls-Switch__toggle__wrapper_bg-{{_options.contrastBackground ? 'contrast' : 'default'}}
+                controls-Switch__toggle__wrapper_bg-{{_options.contrastBackground ? 'contrast' : 'default'}}{{_options.value ? '_checked'}}
                 controls-Switch__toggle_{{_options.captionPosition}}Caption
                 controls-Switch__toggle__wrapper{{(_options.captionPosition === 'right' && _options.value) || (_options.captionPosition === 'left' && _options.value) ? '_right' : '_left'}}
-               {{_options.readOnly ? 'controls-Switch_disabled controls-Switch_disabled' : 'controls-Switch_enabled controls-Switch_enabled'}}
+               {{_options.readOnly ? 'controls-Switch_disabled' : 'controls-Switch_enabled'}}
                {{_options.value ? ' controls-Switch_checked'}}"
          title="{{tooltip}}">
       <ws:partial template="wml!Controls/_toggle/resources/SwitchCircle/SwitchCircle" readOnly="{{ _options.readOnly }}" attr:class="controls_Switch_SwitchCircle"

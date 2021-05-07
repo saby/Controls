@@ -23,7 +23,8 @@
    border-radius: var(--border-radius_switcher);
 }
 
-.controls-Switch__toggle__wrapper_bg-default {
+.controls-Switch__toggle__wrapper_bg-default,
+.controls-Switch__toggle__wrapper_bg-default_checked {
    border-color: var(--border-color_switcher);
    background-color: var(--background-color_switcher);
 }
@@ -31,6 +32,15 @@
 .controls-Switch__toggle__wrapper_bg-contrast {
    border-color: var(--contrast-background-color_switcher);
    background-color: var(--contrast-background-color_switcher);
+   &:hover:not(.controls-Switch_disabled) {
+      border-color: var(--contrast-background-color-hover_switcher);
+      background-color: var(--contrast-background-color-hover_switcher);
+   }
+}
+
+.controls-Switch__toggle__wrapper_bg-contrast_checked {
+   border-color: var(--contrast-background-color_checked_switcher);
+   background-color: var(--contrast-background-color_checked_switcher);
 }
 
 .controls-Switch_enabled {
