@@ -1,5 +1,5 @@
 import { TreeGridCollection } from 'Controls/treeGrid';
-import {Model} from 'Types/entity';
+import {Model as EntityModel, Model} from 'Types/entity';
 import { TemplateFunction } from 'UI/Base';
 import SearchGridDataRow from './SearchGridDataRow';
 import {ItemsFactory, itemsStrategy } from 'Controls/display';
@@ -84,6 +84,7 @@ export default class SearchGridCollection<S extends Model = Model, T extends Sea
 
    // region Аспект "крайние записи"
 
+   // Нам не нужен иерархический поиск последнего элемента в режиме "поиска"
    getLastItem(): Model {
       if (!this._lastItem) {
          this._lastItem = this.getCollection().at(this.getCollection().getCount() - 1);

@@ -295,6 +295,7 @@ function onCollectionChange<T>(
             // виртуального скролла.
             // TODO избавиться по ошибке https://online.sbis.ru/opendoc.html?guid=f44d88a0-ac53-4d45-9dea-2b594211ee57
             const needReset = this._$compatibleReset || newItems.length === 0 || reason === 'assign';
+            this._resetEdgeItems();
             this._reBuild(needReset);
             projectionNewItems = toArray(this);
             this._notifyBeforeCollectionChange();
@@ -328,6 +329,7 @@ function onCollectionChange<T>(
     }
 
     session = this._startUpdateSession();
+    this._resetEdgeItems();
 
     switch (action) {
         case IObservable.ACTION_ADD:
@@ -2497,14 +2499,32 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._firstItem;
     }
 
-    protected _updateEdgeItems(): void {
+    /**
+     * Метод для сброса текущих крайних элементов.
+     * Если в модели изменились или добавились записи и запускается reindex,
+     * то этот метод должен вызываться до reindex,
+     * иначе крайние элементы не будут найдены в enumerator
+     * @private
+     */
+    protected _resetEdgeItems(): void {
         if (this._$collection['[Types/_collection/RecordSet]']) {
             this._setCollectionItemEdgeState(this.getFirstItem(), false, 'first');
-            this._firstItem = null;
-            this._setCollectionItemEdgeState(this.getFirstItem(), true, 'first');
-
             this._setCollectionItemEdgeState(this.getLastItem(), false, 'last');
+            this._firstItem = null;
             this._lastItem = null;
+        }
+    }
+
+    /**
+     * Метод обновляет крайние элементы.
+     * Если в модели изменились или добавились записи и запускается reindex,
+     * то этот метод должен вызываться после reindex,
+     * иначе крайние элементы не будут найдены в enumerator
+     * @private
+     */
+    protected _updateEdgeItems(): void {
+        if (this._$collection['[Types/_collection/RecordSet]']) {
+            this._setCollectionItemEdgeState(this.getFirstItem(), true, 'first');
             this._setCollectionItemEdgeState(this.getLastItem(), true, 'last');
         }
     }
