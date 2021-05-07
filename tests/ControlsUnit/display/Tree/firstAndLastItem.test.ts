@@ -91,7 +91,7 @@ describe('Controls/display/Tree/firstAndLastItem', () => {
     });
 
     // 3. Дерево и последняя запись - открытая нода
-    describe('last item is a expanded node', () => {
+    describe('last item is an expanded node', () => {
         const data: IData[] = [{
             id: 1,
             pid: null,
@@ -127,7 +127,7 @@ describe('Controls/display/Tree/firstAndLastItem', () => {
     });
 
     // 4. Дерево и последняя запись - пустая открытая нода
-    describe('last item is a expanded empty node', () => {
+    describe('last item is an expanded empty node', () => {
         const data: IData[] = [{
             id: 1,
             pid: null,
@@ -158,7 +158,7 @@ describe('Controls/display/Tree/firstAndLastItem', () => {
     });
 
     // 5. Дерево и последняя запись - открытая скрытая нода
-    describe('last item is a expanded hidden node', () => {
+    describe('last item is an expanded hidden node', () => {
         const data: IData[] = [{
             id: 1,
             pid: null,
@@ -191,5 +191,68 @@ describe('Controls/display/Tree/firstAndLastItem', () => {
             const tree = getTree(getItems(data));
             assert.equal(tree.getFirstItem(), tree.at(0).getContents());
         });
+    });
+
+    // 6. Дерево и первый элемент коллекции находится во второй папке
+    it('should correctly get first hierarchical item', () => {
+        const data: IData[] = [{
+            id: 20,
+            pid: 2,
+            node: null,
+            title: 'BB'
+        }, {
+            id: 1,
+            pid: null,
+            node: true,
+            title: 'A'
+        }, {
+            id: 10,
+            pid: 1,
+            node: null,
+            title: 'AA'
+        }, {
+            id: 2,
+            pid: null,
+            node: false,
+            title: 'B'
+        }];
+
+        it('getFirstItem', () => {
+            const tree = getTree(getItems(data));
+            assert.equal(tree.getFirstItem(), tree.at(1).getContents());
+        });
+    });
+
+    // 7. Дерево и смена root
+    describe('should update last and first items when root was changed', () => {
+        const data: IData[] = [{
+            id: 1,
+            pid: null,
+            node: true,
+            title: 'A'
+        }, {
+            id: 10,
+            pid: 1,
+            node: null,
+            title: 'AA'
+        }, {
+            id: 2,
+            pid: null,
+            node: false,
+            title: 'B'
+        }, {
+            id: 20,
+            pid: 2,
+            node: null,
+            title: 'BB'
+        }];
+        const tree = getTree(getItems(data), {
+            expandedItems: [2]
+        });
+        assert.equal(tree.getLastItem(), tree.at(3).getContents());
+        assert.equal(tree.getFirstItem(), tree.at(0).getContents());
+        tree.setRoot(1);
+        assert.equal(tree.getLastItem(), tree.at(0).getContents());
+        assert.equal(tree.getFirstItem(), tree.at(0).getContents());
     });
 });
