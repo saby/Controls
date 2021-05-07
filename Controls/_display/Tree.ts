@@ -22,7 +22,7 @@ import {Object as EventObject} from 'Env/Event';
 import {TemplateFunction} from 'UI/Base';
 import {CrudEntityKey} from 'Types/source';
 import NodeFooter from 'Controls/_display/itemsStrategy/NodeFooter';
-import {Model as EntityModel, Model, relation} from 'Types/entity';
+import {Model, relation} from 'Types/entity';
 import {IDragPosition} from './interface/IDragPosition';
 import TreeDrag from './itemsStrategy/TreeDrag';
 import {isEqual} from 'Types/object';
@@ -595,8 +595,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._$root = root;
         this._root = null;
 
+        this._resetEdgeItems();
         this._reIndex();
         this._reAnalize();
+        this._updateEdgeItems();
     }
 
     /**
@@ -708,6 +710,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 }
             });
         }
+        this._resetEdgeItems();
         this._updateEdgeItems();
     }
 
@@ -784,7 +787,15 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // region Аспект "крайние записи"
 
-    getLastItem(): EntityModel {
+    getFirstItem(): Model<any> {
+        if (!this._firstItem) {
+            const children = this.getChildrenByRecordSet(this.getRoot().getContents());
+            this._firstItem = children[0];
+        }
+        return this._firstItem;
+    }
+
+    getLastItem(): Model {
         if (!this._lastItem) {
             this._lastItem = this._getLastItemRecursive(this.getRoot().getContents());
         }
