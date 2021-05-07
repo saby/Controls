@@ -16,17 +16,26 @@
                         item="{{(item || itemData)}}"/>
         </ws:bottomRightTpl>
         <ws:itemActionsTpl>
-            <ws:partial template="Controls/_tile/itemActions/Control" item="{{(item)}}">
-                <ws:partial template="{{itemActionsTemplate}}"
-                            actionPadding="{{ (item || itemData).getActionPadding(itemType) }}"
-                            actionStyle="{{!titleStyle || titleStyle === 'light' ? 'tileLight' : 'tileDark'}}"
-                            iconStyle="{{!titleStyle || titleStyle === 'light' ? 'contrast' : 'tileDark'}}"
-                            actionMode="{{ (item || itemData).getActionMode(itemType) }}"
-                            highlightOnHover="{{false}}"
+            <ws:if data="{{ (item || itemData).shouldDisplayItemActions(itemType, itemActionsPosition) }}">
+                <ws:partial template="Controls/_tile/itemActions/Control" item="{{(item)}}">
+                    <ws:partial template="{{itemActionsTemplate}}"
+                                actionPadding="{{ (item || itemData).getActionPadding(itemType) }}"
+                                actionStyle="{{!titleStyle || titleStyle === 'light' ? 'tileLight' : 'tileDark'}}"
+                                iconStyle="{{!titleStyle || titleStyle === 'light' ? 'contrast' : 'tileDark'}}"
+                                actionMode="{{ (item || itemData).getActionMode(itemType) }}"
+                                highlightOnHover="{{false}}"
+                                itemData="{{(item || itemData)}}"
+                                item="{{(item || itemData)}}"
+                                itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType, itemActionsClass) }}"/>
+                </ws:partial>
+            </ws:if>
+            <ws:else data="{{ (item || itemData).shouldDisplaySwipeTemplate() }}">
+                <ws:partial template="{{swipeTemplate}}"
                             itemData="{{(item || itemData)}}"
                             item="{{(item || itemData)}}"
-                            itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType, itemActionsClass) }}"/>
-            </ws:partial>
+                            itemActionsTemplate="{{itemActionsTemplate}}"
+                            highlightOnHover="{{ highlightOnHover }}"/>
+            </ws:else>
         </ws:itemActionsTpl>
     </ws:partial>
     <ws:partial if="{{footerTemplate}}"
