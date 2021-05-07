@@ -2009,6 +2009,19 @@ describe('Controls/_display/Tree', () => {
                assert.isFalse(tree.hasNodeWithChildren());
            });
         });
+
+       it('recount when changed hasChildren in record', () => {
+           const rs = new RecordSet({
+               rawData: [
+                   {id: 1, hasChildren: false, node: true, pid: 0}
+               ],
+               keyProperty: 'id'
+           });
+           const tree = getTree(rs, {expanderVisibility: 'hasChildren'});
+           assert.isFalse(tree.hasNodeWithChildren());
+           rs.at(0).set('hasChildren', true);
+           assert.isTrue(tree.hasNodeWithChildren());
+       });
     });
 
     describe('hasChildren', () => {
