@@ -11,9 +11,7 @@ class FooterCell<T> extends Cell<T, FooterRow<T>> {
                       templateHighlightOnHover: boolean): string {
         let wrapperClasses = 'controls-GridView__footer__cell';
 
-        if (backgroundColorStyle) {
-            wrapperClasses += ` controls-background-${backgroundColorStyle}`;
-        }
+        wrapperClasses += this._getControlsBackgroundClass(style, backgroundColorStyle);
 
         if (this._$owner.hasColumnScroll()) {
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;

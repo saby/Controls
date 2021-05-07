@@ -6,7 +6,7 @@ export default class SearchSeparatorCell extends GridCell<string, SearchSeparato
       return 'Controls/searchBreadcrumbsGrid:SearchSeparatorTemplate';
    }
 
-   getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
+   getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover?: boolean, templateHoverBackgroundStyle?: string): string {
       let classes = super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover);
 
       if (!this._$owner.hasMultiSelectColumn()) {
