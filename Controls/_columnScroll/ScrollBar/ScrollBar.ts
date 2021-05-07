@@ -28,6 +28,12 @@ export default class ScrollBar extends Control<IScrollBarOptions> {
         }
     }
 
+    _afterUpdate(oldOptions) {
+        if (oldOptions.scrollWidth !== this._options.scrollWidth) {
+            this.recalcSizes();
+        }
+    }
+
     recalcSizes(): void {
         this._children.scrollbar.recalcSizes();
     }

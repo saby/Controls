@@ -10,7 +10,8 @@ describe('Controls/grid_clean/ViewController/ColumnScroll', () => {
         mockContainersWithColumnScroll = {
             wrapper: {
                 offsetWidth: 200,
-                getClientRects: () => [{}]
+                getClientRects: () => [{}],
+                querySelector: () => {}
             } as unknown as HTMLElement,
             content: {
                 scrollWidth: 300,
@@ -49,7 +50,7 @@ describe('Controls/grid_clean/ViewController/ColumnScroll', () => {
             ...options,
             scrollBar: {
                 recalcSizes: () => {},
-                setPosition: () => {}
+                setPosition: () => {},
             },
             containers: {
                 ...mockContainersWithColumnScroll,
