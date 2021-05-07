@@ -160,12 +160,18 @@ export default class ColumnScroll {
         };
     }
 
+    static shouldDrawColumnScroll(scrollContainer: HTMLElement, contentContainer: HTMLElement, isFullGridSupport: boolean): boolean {
+        return ColumnScrollController.shouldDrawColumnScroll(scrollContainer, contentContainer, isFullGridSupport);
+    }
+
     actualizeColumnScroll(options: IActualizeOptions & IColumnScrollOptions,
-                          oldOptions: IActualizeOptions & IColumnScrollOptions): Promise<{ status: 'actual' | 'updated' | 'destroyed' | 'created' }> {
+                          oldOptions: IActualizeOptions & IColumnScrollOptions,
+                          callback?: (status: 'actual' | 'updated' | 'destroyed' | 'created') => void
+    ): Promise<{ status: 'actual' | 'updated' | 'destroyed' | 'created' }> {
         this._scrollBar = options.scrollBar;
         this._header = options.containers.header;
 
-        const needBySize = ColumnScrollController.shouldDrawColumnScroll(
+        const needBySize = ColumnScroll.shouldDrawColumnScroll(
             options.containers.wrapper,
             options.containers.content,
             this._options.isFullGridSupport
@@ -173,6 +179,13 @@ export default class ColumnScroll {
 
         let resolvePromise;
         const resultPromise = new Promise<{ status: 'actual' | 'updated' | 'destroyed' | 'created' }>((resolver) => { resolvePromise = resolver });
+        const resolve = (status) => {
+            if (callback) {
+                callback(status);
+            } else {
+                resolvePromise({status});
+            }
+        };
 
         if (needBySize) {
             if (!this._columnScroll) {
@@ -186,9 +199,9 @@ export default class ColumnScroll {
                             scrollLength: this._columnScroll.getScrollLength(),
                             scrollPosition: this._columnScroll.getScrollPosition()
                         });
-                        resolvePromise({ status: 'created' });
                         this._scrollBar.recalcSizes();
                         this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
+                        resolve('created');
                     }, true);
             } else {
                     const stickyColumnsCountChanged = oldOptions.stickyColumnsCount !== options.stickyColumnsCount;
@@ -200,7 +213,7 @@ export default class ColumnScroll {
                         // Смена колонок может не вызвать событие resize на обёртке грида(ColumnScroll), если общая ширина колонок до обновления и после одинакова.
                         this._columnScroll.updateSizes(() => {
                             this._options = this._updateOptions(options);
-                            resolvePromise({ status: 'updated' });
+                            resolve('updated');
                         }, true);
 
                     } else if (dragScrollingChanged && options.dragScrolling) {
@@ -208,7 +221,7 @@ export default class ColumnScroll {
                         // Сделать при инициализации это нельзя, т.к. контроллеры drag и scroll создаются на разных хуках (before и after update соотв.)
                         // Создание dragScroll на afterUpdate вынудит делать _forceUpdate для обновления состояний (курсор над записями).
                         // Создание columnScroll на beforeUpdate невозможно, т.к. контроллер создается только по мере необходимости.
-                        resolvePromise({ status: 'updated' });
+                        resolve('updated' );
                     } else {
                         const newContentSize = options.containers.content.scrollWidth;
                         const newContainerSize = options.isFullGridSupport ? options.containers.content.offsetWidth : options.containers.wrapper.offsetWidth;
@@ -219,19 +232,23 @@ export default class ColumnScroll {
                         if (isResized) {
                             // Смена колонок может не вызвать событие resize на обёртке грида(ColumnScroll), если общая ширина колонок до обновления и после одинакова.
                             this._columnScroll.updateSizes(() => {
-                                resolvePromise({ status: 'updated' });
+                                resolve('updated');
                             });
                         } else {
-                            resolvePromise({ status: 'actual' });
+                            resolve('actual');
                         }
                     }
                     this._scrollBar.recalcSizes();
                     this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
             }
         } else {
-            this._options = this._updateOptions(options);
-            this._destroyColumnScroll();
-            resolvePromise({status: 'destroyed'});
+            if (!this._columnScroll) {
+                resolve('actual');
+            } else {
+                this._options = null;
+                this._destroyColumnScroll();
+                resolve('destroyed');
+            }
         }
 
         return resultPromise;
@@ -355,7 +372,7 @@ export default class ColumnScroll {
         }
     }
 
-    getScrollBarStyles(itemActionsPosition, stickyColumns: number = 0): string {
+    getScrollBarStyles({columns, itemActionsPosition}, stickyColumns: number = 0): string {
         let offset = 0;
         let lastCellOffset = 0;
 
@@ -367,11 +384,11 @@ export default class ColumnScroll {
         // Учёт колонки(или колонок) с лесенкой
         offset += stickyColumns;
 
-        if (!!this._options.columns && itemActionsPosition !== 'custom') {
+        if (!!columns && itemActionsPosition !== 'custom') {
             lastCellOffset++;
         }
 
-        return `grid-column: ${this._options.stickyColumnsCount + 1 + offset} / ${(this._options.columns.length + lastCellOffset + 1) + offset};`
+        return `grid-column: ${this._options.stickyColumnsCount + 1 + offset} / ${(columns.length + lastCellOffset + 1) + offset};`
             + ` width: ${this.getSizes().scrollWidth}px;`;
     }
 
