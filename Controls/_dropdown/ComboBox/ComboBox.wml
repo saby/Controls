@@ -22,7 +22,7 @@
                 {{_value}}
             </ws:else>
         </div>
-        <span if="{{!_readOnly}}" class="controls-ComboBox__arrow-wrapper">
+        <span if="{{!_readOnly}}" class="controls-ComboBox__arrow-wrapper controls-ComboBox__arrow-wrapper_offset-{{_horizontalPadding}}">
             <span attr:class="controls-ComboBox__iconArrow icon-{{_isOpened ? 'CollapseLight' : 'ExpandLight'}}"></span>
         </span>
     </div>
