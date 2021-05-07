@@ -569,8 +569,12 @@ export default class ColumnScrollController {
     }
 
     static shouldDrawColumnScroll(scrollContainer: HTMLElement, contentContainer: HTMLElement, isFullGridSupport: boolean): boolean {
+        const thumb = scrollContainer.querySelector('.js-controls-Grid_columnScroll_thumb-wrapper');
+        const thumbDisplayValue = thumb?.style.display;
+        thumb?.style.display = 'none';
         const contentContainerSize = contentContainer.scrollWidth;
         const scrollContainerSize = isFullGridSupport ? contentContainer.offsetWidth : scrollContainer.offsetWidth;
+        thumb?.style.display = thumbDisplayValue;
         return contentContainerSize > scrollContainerSize;
     }
 }

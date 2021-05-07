@@ -123,6 +123,9 @@ const GridView = ListView.extend({
             if (changedOptions.hasOwnProperty('resultsPosition')) {
                 changes.push('resultsPosition');
             }
+            if (changedOptions.hasOwnProperty('items')) {
+                changes.push('items');
+            }
         }
 
         if (changes.length) {
@@ -419,6 +422,7 @@ const GridView = ListView.extend({
             }
         } else if (this._columnScrollViewController.updateControllers(newOptions) === 'columnScrollDisabled') {
             this._destroyColumnScroll();
+            return;
         }
 
         const getHasMultiSelectColumn = (options) => options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
