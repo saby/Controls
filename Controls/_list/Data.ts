@@ -448,9 +448,11 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
              return error;
           })
           .finally(() => {
-             const controllerState = this._sourceController.getState();
-             this._updateContext(controllerState);
-             this._loading = false;
+             if (!this._destroyed) {
+                const controllerState = this._sourceController.getState();
+                this._updateContext(controllerState);
+                this._loading = false;
+             }
           });
    }
 

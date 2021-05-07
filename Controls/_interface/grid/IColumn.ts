@@ -292,13 +292,13 @@ export interface IColumn extends IColspanParams {
      *     <ws:columns>
      *         <ws:Array>
      *             <ws:Object displayProperty="Name">
-     *                 <ws:resultsTemplate>
+     *                 <ws:resultTemplate>
      *                     <ws:partial template="Controls/grid:ResultColumnTemplate">
-     *                         <div title="{{resultsTemplate.results.get('Name')}}">
-     *                             {{resultsTemplate.results.get('Name')}}
+     *                         <div title="{{resultTemplate.results.get('Name')}}">
+     *                             {{resultTemplate.results.get('Name')}}
      *                         </div>
      *                     </ws:partial>
-     *                 </ws:resultsTemplate>
+     *                 </ws:resultTemplate>
      *             </ws:Object>
      *         </ws:Array>
      *     </ws:columns>

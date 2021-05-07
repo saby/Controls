@@ -214,7 +214,10 @@ export default class TileView extends ListView {
         const tileScalingMode = this._listModel.getTileScalingMode();
 
         if (tileScalingMode === 'none' || target.closest('.js-controls-TileView__withoutZoom')) {
-            item.setCanShowActions(true);
+            if (item && item['[Controls/_tile/mixins/TileItem]'] && this._options.actionMode !== 'adaptive') {
+                // canShowActions можно проставить без задержки, если они не будут пересчитаны
+                item.setCanShowActions(true);
+            }
             return;
         }
 
@@ -281,6 +284,10 @@ export default class TileView extends ListView {
             !this._listModel.getActiveItem()
         ) {
             this._listModel.setHoveredItem(item);
+            if (item && item['[Controls/_tile/mixins/TileItem]']) {
+                // canShowActions нужно тоже проставлять с задержкой, чтобы itemActions показывались уже посчитанными
+                item.setCanShowActions(true);
+            }
         }
 
         if (this._needUpdateActions(item, event)) {

@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
+    <Controls.list:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            markerVisibility="visible"
+            markedKey="{{_markedKey}}"
+            itemsReadyCallback="{{_boundItemsReadyCallback}}"
+            on:markedKeyChanged="_onMarkedKeyChanged()"/>
+</div>

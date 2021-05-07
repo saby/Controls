@@ -498,17 +498,6 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         }
     },
 
-    // для совместимости с новой моделью
-    getNextByKey(key: string|number): Model {
-        const nextKey = this.getNextItemKey(key);
-        return this.getItemBySourceKey(nextKey);
-    },
-    // для совместимости с новой моделью
-    getPrevByKey(key: string|number): Model {
-        const nextKey = this.getPreviousItemKey(key);
-        return this.getItemBySourceKey(nextKey);
-    },
-
     getMarkedKey() {
         return this._markedKey;
     },
@@ -673,17 +662,6 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             }
             nextIndex++;
         }
-    },
-
-    // для совместимости с новой моделью
-    getNextByIndex(index: number): Model {
-        const id = this.getNextItem(index);
-        return this.getItemBySourceKey(id);
-    },
-    // для совместимости с новой моделью
-    getPrevByIndex(index: number): Model {
-        const id = this.getPreviousItem(index);
-        return this.getItemBySourceKey(id);
     },
     // для совместимости с новой моделью
     getIndexBySourceIndex(sourceIndex: number): number {
