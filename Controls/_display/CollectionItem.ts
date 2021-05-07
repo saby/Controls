@@ -641,6 +641,9 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     // region Аспект "крайние записи"
 
     setIsFirstItem(state: boolean): void {
+        if (this._$isFirstItem === state) {
+            return;
+        }
         this._$isFirstItem = state;
         this._nextVersion();
     }
@@ -650,6 +653,9 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     }
 
     setIsLastItem(state: boolean): void {
+        if (this._$isLastItem === state) {
+            return;
+        }
         this._$isLastItem = state;
         this._nextVersion();
     }
