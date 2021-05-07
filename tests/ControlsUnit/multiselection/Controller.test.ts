@@ -407,7 +407,7 @@ describe('Controls/_multiselection/Controller', () => {
          it('empty selection reset limit', () => {
             controllerWithReadonly.setLimit(10);
             controllerWithReadonly.setSelection({selected: [], excluded: []});
-            assert.isFalse(controllerWithReadonly.getLimit());
+            assert.isTrue(controllerWithReadonly.getLimit() === 0);
          });
       });
    });
