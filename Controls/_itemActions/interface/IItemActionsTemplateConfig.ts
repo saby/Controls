@@ -79,4 +79,8 @@ export interface IItemActionsTemplateConfig {
      * @cfg {String} CSS class, allowing to set position and padding for actions panel relative to record
      */
     itemActionsClass?: string;
+    /**
+     * Стиль операций над записью редактируемой записи
+     */
+    editingStyle?: string;
 }
