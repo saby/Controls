@@ -101,12 +101,14 @@ import {IList} from './interface/IList';
 import { IScrollControllerResult } from './ScrollContainer/interfaces';
 import { EdgeIntersectionObserver, getStickyHeadersHeight } from 'Controls/scroll';
 import { ItemsEntity } from 'Controls/dragnDrop';
+import {ISiblingStrategy} from './interface/ISiblingStrategy';
+import {FlatSiblingStrategy} from './Strategies/FlatSiblingStrategy';
 import {IMoveControllerOptions, MoveController} from './Controllers/MoveController';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 import {RemoveController} from './Controllers/RemoveController';
 import {isLeftMouseButton} from 'Controls/popup';
-import {IMovableList} from "./interface/IMovableList";
-import {saveConfig} from "Controls/Application/SettingsController";
+import {IMovableList} from './interface/IMovableList';
+import {saveConfig} from 'Controls/Application/SettingsController';
 
 //#endregion
 
@@ -438,7 +440,12 @@ const _private = {
             // TODO restore marker + maybe should recreate the model completely
             if (!isEqualItems(oldCollection, items) || oldCollection !== items) {
                 self._onItemsReady(newOptions, items);
+
                 listModel.setCollection(items);
+                if (self._options.itemsSetCallback) {
+                    self._options.itemsSetCallback(items);
+                }
+
                 self._afterItemsSet(newOptions);
             }
 
@@ -1644,7 +1651,8 @@ const _private = {
         newItems: Array<CollectionItem<Model>>,
         newItemsIndex: number,
         removedItems: Array<CollectionItem<Model>>,
-        removedItemsIndex: number
+        removedItemsIndex: number,
+        reason: string
     ): void {
 
         // TODO Понять, какое ускорение мы получим, если будем лучше фильтровать
@@ -1695,6 +1703,10 @@ const _private = {
 
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
                 _private.resetPortionedSearchAndCheckLoadToDirection(self, self._options);
+            }
+
+            if (self._options.useNewModel && reason === 'assign' && self._options.itemsSetCallback) {
+                self._options.itemsSetCallback();
             }
 
             if (self._scrollPagingCtr && action === IObservable.ACTION_RESET) {
@@ -2879,6 +2891,7 @@ const _private = {
             itemActionsClass: options.itemActionsClass,
             iconSize: editingConfig ? 's' : 'm',
             editingToolbarVisible: editingConfig?.toolbarVisibility,
+            editingStyle: editingConfig?.backgroundStyle,
             editArrowAction,
             editArrowVisibilityCallback: options.editArrowVisibilityCallback,
             contextMenuConfig: options.contextMenuConfig,
@@ -3109,7 +3122,8 @@ const _private = {
         const controllerOptions: IMoveControllerOptions = {
             source: options.source,
             parentProperty: options.parentProperty,
-            sorting: options.sorting
+            sorting: options.sorting,
+            siblingStrategy: self._getSiblingsStrategy()
         };
         if (options.moveDialogTemplate) {
             if (options.moveDialogTemplate.templateName) {
@@ -3132,17 +3146,6 @@ const _private = {
             self._moveController = new MoveController(_private.prepareMoverControllerOptions(self, self._options));
         }
         return self._moveController;
-    },
-
-    getMoveTargetItem(self: typeof BaseControl, selectedKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): CrudEntityKey {
-        let siblingItem;
-        if (position === LOCAL_MOVE_POSITION.Before) {
-            siblingItem = self._listViewModel.getPrevByKey(selectedKey, true);
-        } else {
-            siblingItem = self._listViewModel.getNextByKey(selectedKey, true);
-        }
-        const siblingKey = siblingItem && siblingItem.getContents && siblingItem.getContents().getKey();
-        return siblingKey !== undefined && siblingKey !== null ? siblingKey : null;
     },
 
     getRemoveController(self): RemoveController {
@@ -3593,8 +3596,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         newItems: Array<CollectionItem<Model>>,
         newItemsIndex: number,
         removedItems: Array<CollectionItem<Model>>,
-        removedItemsIndex: number): void {
-        _private.onCollectionChanged(this, event, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex);
+        removedItemsIndex: number,
+        reason: string): void {
+        _private.onCollectionChanged(this, event, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex, reason);
         if (action === IObservable.ACTION_RESET) {
             this._afterCollectionReset();
         }
@@ -6064,27 +6068,29 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
-        const sibling = _private.getMoveTargetItem(this, selectedKey, LOCAL_MOVE_POSITION.Before);
         const selection: ISelectionObject = {
             selected: [selectedKey],
             excluded: []
         };
-        return _private.getMoveController(this)
-            .move(selection, {}, sibling, LOCAL_MOVE_POSITION.Before) as Promise<void>;
+        return _private.getMoveController(this).moveUp(selection) as Promise<void>;
     }
 
     moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
-        const sibling = _private.getMoveTargetItem(this, selectedKey, LOCAL_MOVE_POSITION.After);
         const selection: ISelectionObject = {
             selected: [selectedKey],
             excluded: []
         };
-        return _private.getMoveController(this)
-            .move(selection, {}, sibling, LOCAL_MOVE_POSITION.After) as Promise<void>;
+        return _private.getMoveController(this).moveDown(selection) as Promise<void>;
     }
 
     moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet> {
         return _private.getMoveController(this).moveWithDialog(selection, this._options.filter);
+    }
+
+    protected _getSiblingsStrategy(): ISiblingStrategy {
+        return new FlatSiblingStrategy({
+            collection: this._listViewModel
+        });
     }
 
     // endregion move
@@ -6724,7 +6730,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // В тач режиме itemActions создаются непосредственно при свайпе
         // isMobilePlatform использовать для проверки не целесообразно, т.к. на интерфейсах с
         // touch режимом isMobilePlatform может быть false
-        if (!TouchDetect.getInstance().isTouch()) {
+        if (!TouchDetect.getInstance().isTouch() && !_private.isEditing(this)) {
             _private.updateItemActionsOnce(this, this._options);
         }
         // Использовать itemMouseMove тут нельзя, т.к. отслеживать перемещение мышки надо вне itemsContainer

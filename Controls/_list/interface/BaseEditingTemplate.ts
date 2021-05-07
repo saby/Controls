@@ -27,6 +27,7 @@ import IEditingTemplateOptions from './EditingTemplate';
  *    </ws:itemTemplate>
  * </Controls.list:View>
  * </pre>
+ * Настройка viewTemplate приоритетнее `value`.
  * @public
  */
 export default interface IBaseEditingTemplateOptions extends IEditingTemplateOptions {

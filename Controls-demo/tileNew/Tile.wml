@@ -87,5 +87,13 @@
         </Router.router:Reference>
         <Controls-demo.tileNew.TitleStyleAccent.Index/>
     </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/tileNew/NodesHeight/Index' }}">
+            <a href="{{content.href}}">Высота узлов, отображаемых в виде плитки.</a>
+        </Router.router:Reference>
+        <Controls-demo.tileNew.NodesHeight.Index/>
+    </div>
 
 </div>
