@@ -224,6 +224,8 @@
 }
 
 .ws-is-ie {
+  // Из-за особенной работы flexbox'a в IE, построение выбранных записей происходит в обратном порядке,
+  // Поэтому необходимо инвертировать и порядок и прижатие элементов
   .controls-SelectedCollection__collection.controls-Lookup__collection__selectedSingle {
     justify-content: flex-end;
   }
