@@ -512,7 +512,7 @@ define('Controls/interface/IEditableList', [
     * Запускает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
     * @function Controls/interface/IEditableList#beginEdit
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Параметры редактирования.
-    * @returns {Promise}
+    * @returns {Promise<void | {canceled: true}>}
     * @remark
     * Promise разрешается после монтирования контрола в DOM.
     * 
@@ -546,7 +546,7 @@ define('Controls/interface/IEditableList', [
     * Starts editing.
     * @function Controls/interface/IEditableList#beginEdit
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Options of editing.
-    * @returns {Promise}
+    * @returns {Promise<void | {canceled: true}>}
     * @remark
     * Use this method in situations when you want to start editing from an unusual location, e.g., from item actions.
     * @example
