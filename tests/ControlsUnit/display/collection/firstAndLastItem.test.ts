@@ -12,7 +12,7 @@ describe('ControlsUnit/display/collection/firstAndLastItem', () => {
                 keyProperty: 'id',
                 collection: recordSet
             });
-            assert.isTrue(collection.at(0).isFirstItem());
+            assert.isTrue(collection.at(0).getIsFirstItem());
             assert.isTrue(collection.at(1).isLastItem());
         });
     });
@@ -43,14 +43,14 @@ describe('ControlsUnit/display/collection/firstAndLastItem', () => {
                 collection: recordSet
             });
 
-            assert.isTrue(collection.at(0).isFirstItem());
+            assert.isTrue(collection.at(0).getIsFirstItem());
             assert.isTrue(collection.at(1).isLastItem());
 
             recordSet.merge(new RecordSet({ rawData: [{id: 3}, {id: 4}], keyProperty: 'id' }), {remove: false, inject: true });
 
-            assert.isTrue(collection.at(0).isFirstItem());
+            assert.isTrue(collection.at(0).getIsFirstItem());
             assert.isFalse(collection.at(1).isLastItem());
-            assert.isFalse(collection.at(2).isFirstItem());
+            assert.isFalse(collection.at(2).getIsFirstItem());
             assert.isTrue(collection.at(3).isLastItem());
         });
 

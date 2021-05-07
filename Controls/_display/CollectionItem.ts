@@ -634,7 +634,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._nextVersion();
     }
 
-    isFirstItem(): boolean {
+    getIsFirstItem(): boolean {
         return this._$isFirstItem;
     }
 
@@ -799,7 +799,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
             && this.isLastItem()) {
             contentClasses += ' controls-ListView__itemV_last';
         }
-        if (this.isFirstItem()) {
+        if (this.getIsFirstItem()) {
             contentClasses += ' controls-ListView__itemV_first';
         }
 
