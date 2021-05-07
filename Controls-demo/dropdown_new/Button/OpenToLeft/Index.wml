@@ -1,32 +1,34 @@
-<div class="controlsDemo__flexRow">
-   <div class="controlsDemo__wrapper ControlsDemo-ButtonsMenu-right_bottom">
+<div class="controlsDemo__flexRow ControlDemo-ButtonsMenu ControlDemo-ButtonsMenu_height">
+   <div class="ControlDemo-ButtonsMenu_openToLeft">
+      <div class="controlsDemo__wrapper ControlsDemo-ButtonsMenu-right_bottom">
          <Controls.dropdown:Button
-                 keyProperty="id"
-                 buttonStyle="secondary"
-                 fontColorStyle="link"
-                 viewMode="link"
-                 caption="Document"
-                 parentProperty="parent"
-                 nodeProperty="@parent"
-                 source="{{_source}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__bottom-right"
-                 tooltip="Document">
-         </Controls.dropdown:Button>
+                    keyProperty="id"
+                    buttonStyle="secondary"
+                    fontColorStyle="link"
+                    viewMode="link"
+                    caption="Document"
+                    parentProperty="parent"
+                    nodeProperty="@parent"
+                    source="{{_source}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__bottom-right"
+                    tooltip="Document">
+            </Controls.dropdown:Button>
          <h4>The menu opens up and left</h4>
-   </div>
-   <div class="ControlsDemo-ButtonsMenu-right_top">
+      </div>
+      <div class="ControlsDemo-ButtonsMenu-right_top">
          <h4>The menu opens down and left</h4>
          <Controls.dropdown:Button
-                 keyProperty="id"
-                 buttonStyle="secondary"
-                 fontColorStyle="link"
-                 viewMode="link"
-                 caption="Document"
-                 parentProperty="parent"
-                 nodeProperty="@parent"
-                 source="{{_source}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__top-right"
-                 tooltip="Document">
-         </Controls.dropdown:Button>
+                    keyProperty="id"
+                    buttonStyle="secondary"
+                    fontColorStyle="link"
+                    viewMode="link"
+                    caption="Document"
+                    parentProperty="parent"
+                    nodeProperty="@parent"
+                    source="{{_source}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__top-right"
+                    tooltip="Document">
+            </Controls.dropdown:Button>
+      </div>
    </div>
 </div>
