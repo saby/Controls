@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper controlsDemo__flexRow">
+<div class="controlsDemo__flexRow">
     <div class="controlsDemo_m demo-Dropdown__bold">
         <Controls.dropdown:Selector bind:selectedKeys="_selectedKeys"
                                  keyProperty="id"

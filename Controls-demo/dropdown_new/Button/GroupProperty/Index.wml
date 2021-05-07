@@ -11,7 +11,7 @@
       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/dropdown_new/Button/GroupProperty/GroupTemplate/Index' }}">
-         <a href="{{content.href}}">Меню с группировкой и кастомным шоблоном группировки</a>
+         <a href="{{content.href}}">Меню с группировкой и кастомным шаблоном группировки</a>
       </Router.router:Reference>
       <Controls-demo.dropdown_new.Button.GroupProperty.GroupTemplate.Index/>
    </div>
