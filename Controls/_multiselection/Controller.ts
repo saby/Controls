@@ -95,7 +95,7 @@ export class Controller {
       this._updateModel(selection);
 
       if (selection.selected[0] !== null) {
-         this.setLimit(0);
+         this.resetLimit();
       }
    }
 
@@ -128,8 +128,7 @@ export class Controller {
 
    /**
     * Возвращает ограничение на количество единоразово выбранных записей
-    * @param {number} limit Ограничение
-    * @void
+    * @number
     * @public
     */
    getLimit(): number {
@@ -139,11 +138,20 @@ export class Controller {
    /**
     * Увеличивает лимит на указанное количество
     * @param {number} count Количество
-    * @void
+    * @number
     * @public
     */
    increaseLimitByCount(count: number): number {
       return this._limit += count;
+   }
+
+   /**
+    * Сбрасывает лимит
+    * @number
+    * @public
+    */
+   resetLimit(): number {
+      return this._limit = 0;
    }
 
    /**

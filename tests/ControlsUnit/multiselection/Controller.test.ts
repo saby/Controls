@@ -403,6 +403,12 @@ describe('Controls/_multiselection/Controller', () => {
             assert.isTrue(readonlyModel.getItemBySourceKey(2).isSelected());
             assert.isFalse(readonlyModel.getItemBySourceKey(3).isSelected());
          });
+
+         it('empty selection reset limit', () => {
+            controllerWithReadonly.setLimit(10);
+            controllerWithReadonly.setSelection({selected: [], excluded: []});
+            assert.isFalse(controllerWithReadonly.getLimit());
+         });
       });
    });
 
