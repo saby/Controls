@@ -175,6 +175,10 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       this._filter = controllerState.filter;
       this._dataOptionsContext = this._createContext(controllerState);
 
+      if (!this._options.nodeHistoryId) {
+         this._expandedItems = options.expandedItems;
+      }
+
       if (options.sourceController) {
          // Если контроллер задан выше, чем появилось дерево, то надо установить в него expandedItems из опций
          if (options.expandedItems && !controllerState.expandedItems) {
@@ -233,6 +237,10 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          } else {
             updateResult = this._updateWithoutSourceControllerInOptions(newOptions);
          }
+      }
+
+      if (!isEqual(newOptions.expandedItems, this._options.expandedItems) && !this._options.nodeHistoryId) {
+         this._expandedItems = newOptions.expandedItems;
       }
 
       return updateResult;
@@ -299,10 +307,9 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
    // Необходимо отслеживать оба события, т.к. не всегда оборачивают список в List:Container,
    // и dataContainer слушает напрямую список. Для нового грида это работает, а старый через модель сам
    // посылает события.
-   _expandedItemsChanged(event: SyntheticEvent, expandedItems: CrudEntityKey[]): void {
+   protected _expandedItemsChanged(event: SyntheticEvent, expandedItems: CrudEntityKey[]): void {
       if (this._shouldSetExpandedItemsOnUpdate) {
          this._notify('expandedItemsChanged', [expandedItems], { bubbling: true });
-
       } else if (this._expandedItems !== expandedItems) {
          this._sourceController.setExpandedItems(expandedItems);
          if (this._options.nodeHistoryId) {
@@ -416,7 +423,9 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       }
       curContext.updateConsumers();
       this._sourceControllerState = sourceControllerState;
-      this._expandedItems = sourceControllerState.expandedItems;
+      if (this._options.nodeHistoryId) {
+         this._expandedItems = sourceControllerState.expandedItems;
+      }
    }
 
    // https://online.sbis.ru/opendoc.html?guid=e5351550-2075-4550-b3e7-be0b83b59cb9
