@@ -883,7 +883,13 @@
 }
 
 .controls-GridView__itemV_marker-master {
-   display: none;
+   position: absolute;
+   box-sizing: border-box;
+   width: var(--master-marker_thickness_list);
+   height: var(--master-marker_height_list);
+   background-color: var(--master-marker_color_list);
+   top: 0;
+   left: 0;
 }
 
 .ws-is-hover .controls-BaseControl_hover_enabled {
