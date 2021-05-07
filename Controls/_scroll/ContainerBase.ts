@@ -509,22 +509,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             if (entry.target === this._children.content) {
                 newState.clientHeight = entry.contentRect.height;
                 newState.clientWidth = entry.contentRect.width;
-            } else if (entry.target === this._children.userContent.children[0] && this._options.scrollMode === SCROLL_MODE.VERTICAL_HORIZONTAL) {
-                // Списки имуют ширину равную ширине скролл контейнера, но в данном сценарии используется дерево
-                // и контент вылазит по горизонтали за пределы корня списка и соответсвенно скролл контейнера.
-                // Иконки должны прижиматься к правому краю и, в том числе по этой причине, мы не можем растянуть
-                // корневой контейнер списка шире скролл контейнера. Поэтому берем ширину с помощью scrollWidth.
-                // В данном сценарии мы не можем отследить изменение ширины потому что она не меняется,
-                // меняется высота. Но этого триггера достаточно, т.к. добавление людого контента в списках приводят
-                // к изменению высоты. Нормально решение будет делаться в рамках проекта.
-                // https://online.sbis.ru/opendoc.html?guid=b0f50709-5cc2-484f-ba2b-8502ccfa77f8
-                newState.scrollWidth = this._children.content.scrollWidth;
             } else {
                 this._updateContentType();
                 // Свойство borderBoxSize учитывает размеры отступов при расчете. Поддерживается не во всех браузерах.
                 if (entry.borderBoxSize) {
                     const scrollStateProperties = {
-                        // scrollWidth: 'inlineSize',
                         scrollHeight: 'blockSize'
                     };
                     for (const property of Object.keys(scrollStateProperties)) {
@@ -533,7 +522,6 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                             entry.borderBoxSize[0][borderBoxSizeProperty] : entry.borderBoxSize[borderBoxSizeProperty];
                     }
                 } else {
-                    // newState.scrollWidth = entry.contentRect.width;
                     newState.scrollHeight = entry.contentRect.height;
                 }
 
@@ -542,6 +530,15 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                 }
             }
         }
+
+        // Списки имуют ширину равную ширине скролл контейнера, но в данном сценарии используется дерево
+        // и контент вылазит по горизонтали за пределы корня списка и соответсвенно скролл контейнера.
+        // Иконки должны прижиматься к правому краю и, в том числе по этой причине, мы не можем растянуть
+        // корневой контейнер списка шире скролл контейнера. Поэтому берем ширину с помощью scrollWidth.
+        // В данном сценарии мы не можем отследить изменение ширины потому что она не меняется,
+        // меняется высота. Но этого триггера достаточно, т.к. добавление людого контента в списках приводят
+        // к изменению высоты.
+        newState.scrollWidth = this._children.content.scrollWidth;
 
         if (newState.scrollHeight < newState.clientHeight) {
             newState.scrollHeight = newState.clientHeight;

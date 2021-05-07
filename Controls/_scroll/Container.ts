@@ -134,7 +134,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const hasBottomHeaders = (): boolean => {
             const headers = Object.values(this._stickyHeaderController._headers);
             for (let i = 0; i < headers.length; i++) {
-                if (headers[i].position === POSITION.BOTTOM) {
+                if (headers[i].position === POSITION.BOTTOM || headers[i].position === POSITION.RIGHT) {
                     return true;
                 }
             }
@@ -709,6 +709,15 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
  * @name Controls/_scroll/Container#shadowStyle
  * @cfg {String} Определяет постфикс у класса тени
  * @default default
+ */
+
+/**
+ * @name Controls/_scroll/Container#scrollMode
+ * @cfg {String} Определяет направление скроллирования
+ * @demo Controls-demo\Scroll\ScrollMode\Index
+ * @default vertical
+ * @variant vertical Скроллирование по вертикали
+ * @variant verticalHorizontal Скроллирование по вертикали по горизонтали
  */
 
 Object.defineProperty(Container, 'defaultProps', {
