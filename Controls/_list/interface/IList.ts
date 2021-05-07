@@ -738,8 +738,12 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * </pre>
  * <pre class="brush: js">
  * // TypeScript
- * selectedLimitChanged: function(e: Event, limit: number) {
- *    //делаем что-то с лимитом
+ * class MyClass {
+ *    private _limit: number;
+ *
+ *    protected selectedLimitChanged(e: Event, limit: number) {
+ *       this._limit = limit;
+ *    }
  * }
  * </pre>
  */
