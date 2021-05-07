@@ -560,16 +560,12 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _itemOnWhichStartCountDown = null;
     private _timeoutForExpandOnDrag = null;
-    private _deepReload;
 
     constructor(options: TOptions) {
         super(options);
         this._expandNodeOnDrag = this._expandNodeOnDrag.bind(this);
         if (typeof options.root !== 'undefined') {
             this._root = options.root;
-        }
-        if (options.expandedItems && options.expandedItems.length > 0) {
-            this._deepReload = true;
         }
     }
 
@@ -749,7 +745,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             }
         }
 
-        const isDeepReload = this.getSourceController() ? this.getSourceController().isDeepReload() : this._deepReload;
+        const isDeepReload = this.getSourceController()?.isDeepReload();
         if (searchValueChanged && newOptions.searchValue && !isDeepReload) {
             _private.resetExpandedItems(this);
         }
@@ -861,7 +857,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         //deep reload is needed only if reload was called from public API.
         //otherwise, option changing will work incorrect.
         //option changing may be caused by search or filtering
-        this._deepReload = true;
         return super.reload(keepScroll, sourceConfig);
     }
 
@@ -1010,7 +1005,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             }
 
             // reload могут позвать на уровне браузера и тогда флаг deepReload проставится только в контроллере.
-            const isDeepReload = this.getSourceController() ? this.getSourceController().isDeepReload() : this._deepReload;
+            const isDeepReload = this.getSourceController()?.isDeepReload();
             if (!isDeepReload || this._needResetExpandedItems) {
                 _private.resetExpandedItems(this);
                 this._needResetExpandedItems = false;
@@ -1028,8 +1023,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 this._listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems));
             }
         }
-        // reset deepReload after loading data (see reload method or constructor)
-        this._deepReload = false;
     }
 
     protected _afterItemsSet(options): void {

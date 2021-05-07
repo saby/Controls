@@ -541,7 +541,16 @@ describe('Controls/dataSource:SourceController', () => {
             options = {...options};
             options.root = 'testRoot';
             controller.updateOptions(options);
-            deepStrictEqual(controller.getExpandedItems(), []);
+            // Если проставлен флаг deepReload, то expandedItems не сбросятся
+            deepStrictEqual(controller.getExpandedItems(), ['testRoot']);
+
+            // флаг deepReload сбросится только после перезагрузки
+            await controller.reload();
+
+            options = {...options};
+            options.root = 'testRoot';
+            controller.updateOptions(options);
+            deepStrictEqual(controller.getExpandedItems(), ['testRoot']);
 
             controller.setExpandedItems(['testRoot']);
             options = {...options};
