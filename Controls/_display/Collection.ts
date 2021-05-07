@@ -2566,6 +2566,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
 
     private _setCollectionItemEdgeState(item: EntityModel, value: boolean, edge: 'first' | 'last'): void {
+        if (!item) {
+            return;
+        }
         const key = item.getKey ? item.getKey() : item[this._$keyProperty];
         const collectionItem = this.getItemBySourceKey(key);
         if (!collectionItem) {
