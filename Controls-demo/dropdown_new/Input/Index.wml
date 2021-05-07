@@ -1,27 +1,37 @@
-<div class="controlsDemo__wrapper">
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/dropdown_new/Input/ItemTemplate/ContentTemplate/Index' }}">
-            <a href="{{content.href}}">Dropdown c кастомным contentTemplate в itemTemplate</a>
-        </Router.router:Reference>
-        <Controls-demo.dropdown_new.Input.ItemTemplate.ContentTemplate.Index/>
-    </div>
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/dropdown_new/Input/ValidationStatus/Index' }}">
-            <a href="{{content.href}}">Dropdown с переданным validationStatus</a>
-        </Router.router:Reference>
-        <Controls-demo.dropdown_new.Input.ValidationStatus.Index/>
-    </div>
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/dropdown_new/Input/MultiSelect/Index' }}">
-            <a href="{{content.href}}">Dropdown с множественным выбором</a>
-        </Router.router:Reference>
-        <Controls-demo.dropdown_new.Input.MultiSelect.Index/>
+<div class="controlsDemo__wrapper ws-flexbox ws-justify-content-between ws-flex-wrap">
+    <div class="controlsDemo__flexColumn">
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Input/Source/Index' }}">
+                <a href="{{content.href}}">Обычный Dropdown</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Input.Source.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Input/ItemTemplate/ContentTemplate/Index' }}">
+                <a href="{{content.href}}">Dropdown c кастомным contentTemplate в itemTemplate</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Input.ItemTemplate.ContentTemplate.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Input/EmptyText/Index' }}">
+                <a href="{{content.href}}">Dropdown c пустым элементом</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Input.EmptyText.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Input/MultiSelect/Index' }}">
+                <a href="{{content.href}}">Dropdown с множественным выбором</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Input.MultiSelect.Index/>
+        </div>
     </div>
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
@@ -33,10 +43,64 @@
     </div>
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/dropdown_new/Input/ContentTemplate/Index' }}">
-            <a href="{{content.href}}">Dropdown с кастомным contentTemplate</a>
-        </Router.router:Reference>
-        <Controls-demo.dropdown_new.Input.ContentTemplate.Index/>
+    <div class="controlsDemo__flexColumn">
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Input/FontColorStyle/Index' }}">
+                <a href="{{content.href}}">Dropdown c fontColorStyle</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Input.FontColorStyle.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Input/FontSize/Index' }}">
+                <a href="{{content.href}}">Dropdown c fontSize</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Input.FontSize.Index/>
+        </div>
+    </div>
+    <div class="controlsDemo__flexColumn">
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Input/FooterContentTemplate/Index' }}">
+                <a href="{{content.href}}">Dropdown с футером</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Input.FooterContentTemplate.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Input/ContentTemplate/Index' }}">
+                <a href="{{content.href}}">Dropdown с кастомным contentTemplate</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Input.ContentTemplate.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Input/GroupProperty/Index' }}">
+                <a href="{{content.href}}">Dropdown c группами</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Input.GroupProperty.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Input/ReadOnly/Index' }}">
+                <a href="{{content.href}}">Dropdown в режиме чтения</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Input.ReadOnly.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Input/ValidationStatus/Index' }}">
+                <a href="{{content.href}}">Dropdown с переданным validationStatus</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Input.ValidationStatus.Index/>
+        </div>
     </div>
 </div>
