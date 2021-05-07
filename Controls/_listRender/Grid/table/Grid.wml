@@ -1,4 +1,5 @@
-<table attr:class="{{ _getGridClasses() }}" attr:style="{{ _getGridStyles() }}">
+<table attr:class="{{ _getGridClasses() }}
+   controls-List_theme-{{_options.theme}}" attr:style="{{ _getGridStyles() }}">
    <!-- Заголовок таблицы -->
    <!-- Результаты сверху -->
    <!-- Скроллбар горизонтального скролла -->

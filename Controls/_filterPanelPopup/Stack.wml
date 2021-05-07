@@ -1,5 +1,5 @@
 <Controls.popupTemplate:Stack closeButtonViewMode="link"
-                              attr:class="controls-FilterViewPanel__popup-template">
+                              attr:class="controls-FilterViewPanel__popup-template controls-FilterPanel_theme-{{_options.theme}}">
     <ws:bodyContentTemplate>
         <Controls.filterPanel:View source="{{_options.items}}"
                                    backgroundStyle="contrast"

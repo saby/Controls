@@ -1,4 +1,4 @@
-<a class="controls-Label controls-Label_underline_{{_options.underline}}" href="{{_options.href}}">
+<a class="controls-Label controls-Input_theme-{{_options.theme}} controls-Label_underline_{{_options.underline}}" href="{{_options.href}}">
    <div class="controls-Label__wrapper">
       <div class="controls-Label__caption controls-fontsize-{{_options.fontSize}}
                {{!_options.fontSize ? 'controls-Label__caption_fontsize-default'}}

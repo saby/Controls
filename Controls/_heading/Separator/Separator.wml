@@ -1,4 +1,4 @@
-<div class="controls-HeaderSeparator">
+<div class="controls-HeaderSeparator controls-Heading_theme-{{_options.theme}}">
    <div class="controls-HeaderSeparator__wrapper">
       <svg viewBox="0 0 6 10"
            xmlns="http://www.w3.org/2000/svg"

@@ -1,4 +1,4 @@
-<div attr:class="controls-Input-DatePicker">
+<div attr:class="controls-Input-DatePicker controls-Input_theme-{{_options.theme}}">
    <Controls._input.DateTime
       name="input"
       value="{{_options.value}}"

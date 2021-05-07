@@ -1,4 +1,4 @@
-<div class="controls-MenuButton controls-MenuButton__Wrapper">
+<div class="controls-MenuButton controls-MenuButton__Wrapper controls-Dropdown_theme-{{_options.theme}}">
     <ws:if data="{{!_options.lazyItemsLoading && !_hasItems && _options.viewMode === 'link'}}">
         <div class="controls-text controls-MenuButton__text controls-text-default
                      controls-fontsize-{{_options.fontSize}}"

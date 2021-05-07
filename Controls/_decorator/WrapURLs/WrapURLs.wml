@@ -1,4 +1,5 @@
-<div class="controls-DecoratorWrapURLs">
+<div class="controls-DecoratorWrapURLs
+            controls-Decorator_theme-{{_options.theme}}">
    <ws:for data="path in _parsedText">
       <ws:if data="{{path.type === 'link'}}">
          <a class="ws-link"

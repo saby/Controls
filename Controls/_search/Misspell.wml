@@ -1,4 +1,4 @@
-<div class="controls-Misspell controls-Misspell">
+<div class="controls-Misspell controls-Misspell controls-Search_theme-{{_options.theme}}">
     <span class="controls-Misspell__text">{[Возможно, вы имели в виду]} </span>
     <div class="controls-Misspell__caption">
         <div class="controls-Misspell__caption-content">

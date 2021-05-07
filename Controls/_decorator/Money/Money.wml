@@ -1,4 +1,6 @@
-<span class="{{_options.currency && _options.currencyPosition === 'left' ? 'ws-flex-row-reverse'}} controls-DecoratorMoney controls-DecoratorMoney_style-{{_options.style}} {{ _options.underline === 'hovered' ? 'controls-DecoratorMoney__underline' }}"
+<span class="{{_options.currency && _options.currencyPosition === 'left' ? 'ws-flex-row-reverse'}}
+            controls-Decorator_theme-{{_options.theme}}
+            controls-Decorator_theme-{{_options.theme}} controls-DecoratorMoney controls-DecoratorMoney_style-{{_options.style}} {{ _options.underline === 'hovered' ? 'controls-DecoratorMoney__underline' }}"
       title="{{_tooltip}}">
     <span class="{{ _options.stroked ? 'controls-DecoratorMoney__stroked' }}">
         <span class="controls-fontsize-{{_options.fontSize}}

@@ -1,4 +1,4 @@
-<div class="{{ _gridViewClasses }}" style="{{ _gridViewStyles }}">
+<div class="{{ _gridViewClasses }} controls-List_theme-{{ _options.theme }}" style="{{ _gridViewStyles }}">
 
     <!-- Заголовок таблицы -->
     <ws:if data="{{ _listModel.getHeaderModel() && _listModel.isDrawHeaderWithEmptyList() }}">

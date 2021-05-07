@@ -1,4 +1,5 @@
 <div class="controls-ArrowButton controls-ArrowButton_{{_options.direction}}
+            controls-Button_theme-{{_options.theme}}
             controls-ArrowButton_inlineHeight-{{_options.inlineHeight}}
             controls-ArrowButton-{{_options.readOnly? 'readOnly' : 'active'}}"
      on:click="_clickHandler()">

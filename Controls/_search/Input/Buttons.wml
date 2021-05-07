@@ -1,4 +1,4 @@
-<div class="controls-Search__buttons">
+<div class="controls-Search__buttons  controls-Search_theme-{{_options.theme}}">
     <ws:if data="{{isVisibleReset()}}">
         <div title="{[Очистить результаты поиска]}"
              class="controls-Search__button

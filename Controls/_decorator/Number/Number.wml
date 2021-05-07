@@ -1,4 +1,5 @@
 <span class="controls-DecoratorNumber
+            controls-Decorator_theme-{{_options.theme}}
              {{_options.fontSize ? ' controls-fontsize-' + _options.fontSize}}
              {{_fontColorStyle ? 'controls-text-' + _fontColorStyle}}
              {{_options.fontWeight ? 'controls-fontweight-' + _options.fontWeight}}

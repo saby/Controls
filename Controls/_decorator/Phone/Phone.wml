@@ -1,1 +1,2 @@
-<span class="controls-DecoratorPhone" title="{{_formattedPhone}}">{{_formattedPhone}}</span>
+<span class="controls-DecoratorPhone
+            controls-Decorator_theme-{{_options.theme}}" title="{{_formattedPhone}}">{{_formattedPhone}}</span>

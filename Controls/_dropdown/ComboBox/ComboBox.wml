@@ -1,4 +1,5 @@
 <div class="controls-ComboBox
+            controls-Dropdown_theme-{{_options.theme}}
             controls-ComboBox-{{_readOnly ? 'readOnly' : 'borderStyle-' + _borderStyle}} {{_isOpened ? 'controls-ComboBox__opened'}}
             {{_isOpened ? 'controls-Popup__isolatedFocusingContext'}}
             controls-text-{{_options.fontColorStyle}}

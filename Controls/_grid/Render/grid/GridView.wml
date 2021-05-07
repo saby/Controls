@@ -86,7 +86,7 @@
     </div>
 </ws:template>
 
-<div name="gridWrapper"
+<div name="gridWrapper controls-List_theme-{{ _options.theme }}"
      on:wheel="_onGridWrapperWheel()"
      on:mouseenter="_onWrapperMouseEnter()"
      class="{{ _getGridViewWrapperClasses(_options) }}">

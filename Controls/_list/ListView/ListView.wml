@@ -1,4 +1,4 @@
-<div class="controls-ListViewV controls-ListView_{{_options.style}}
+<div class="controls-ListViewV controls-ListView_{{_options.style}} controls-List_theme-{{_options.theme}}
             {{_options.loadingState ? 'controls-ListViewV__loading_' + _options.loadingState}}">
    <ws:if data="{{_listModel}}">
       <div name="itemsContainer" class="controls-ListViewV__itemsContainer">

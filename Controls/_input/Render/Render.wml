@@ -1,4 +1,4 @@
-<div class="controls-Render controls-Render
+<div class="controls-Render controls-Render controls-Input_theme-{{_options.theme}}
             {{_border.top ? 'controls-Render_border-top' : 'controls-Render_border-top-empty'}}
             {{_border.right ? 'controls-Render_border-right' : 'controls-Render_border-right-empty'}}
             {{_border.bottom ? 'controls-Render_border-bottom' : 'controls-Render_border-bottom-empty'}}

@@ -1,4 +1,5 @@
-<span>
+<span attr:class="
+            controls-Decorator_theme-{{_options.theme}}">
     <ws:for data="index, text in _textLines">
         <ws:if data="{{ index > 0 }}">
             <br/>

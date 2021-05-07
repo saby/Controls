@@ -1,7 +1,7 @@
 <ws:template name="caption">
    <span attr:class="controls-Back__caption controls-fontsize-{{_options.fontSize}} controls-Back__caption_style-{{_options.fontColorStyle}}">{{_options.caption}}</span>
 </ws:template>
-<span attr:title="{{_options.tooltip}}" class="controls-Back">
+<span attr:title="{{_options.tooltip}}" class="controls-Back controls-Heading_theme-{{_options.theme}}">
    <span class="controls-Back__wrapper controls-Back__wrapper_{{_options.fontSize}}">
       <ws:if data="{{ _options.newIcon }}">
          <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"

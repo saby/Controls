@@ -8,6 +8,7 @@
                               on:keydown="_handleKeyDown()"
                               on:deactivated="_deactivated()"
                               attr:class="controls-Dropdown
+                                         controls-Dropdown_theme-{{_options.theme}}
                                          {{(_options.validationStatus === 'invalid' || _options.validationStatus === 'invalidAccent') && !_options.readOnly ?
                                           'controls-Dropdown-validationStatus_invalid'}}">
     <ws:content>

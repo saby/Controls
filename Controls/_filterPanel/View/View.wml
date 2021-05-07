@@ -1,4 +1,4 @@
-<div class="{{!_viewModel.hasExtendedItems() ? 'controls-FilterViewPanel-background'}} controls-FilterViewPanel">
+<div class="{{!_viewModel.hasExtendedItems() ? 'controls-FilterViewPanel-background'}} controls-FilterViewPanel controls-FilterPanel_theme-{{_options.theme}}">
    <Controls.scroll:Container attr:class="controls-FilterViewPanel__scroll">
       <ws:if data="{{_viewModel.hasBasicItems()}}">
          <ws:if data="{{_options.viewMode === 'filterPanelStack'}}">

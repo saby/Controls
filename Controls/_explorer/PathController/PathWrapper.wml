@@ -39,7 +39,7 @@
 </ws:if>
 <ws:else>
    <ws:if data="{{_options.afterBreadCrumbsTemplate}}">
-      <div class="controls-Explorer__PathWrapper">
+      <div class="controls-Explorer__PathWrapper controls-Explorer_theme-{{_options.theme}}">
          <ws:partial
             attr:class="
                controls-Explorer__afterBreadCrumbsTemplate

@@ -1,4 +1,4 @@
-<div class="controls-Explorer" on:keyDown="_onExternalKeyDown()">
+<div class="controls-Explorer controls-Explorer_theme-{{_options.theme}}" on:keyDown="_onExternalKeyDown()">
    <Controls.list:DataContainer
       scope="{{_options}}"
       root="{{_getRoot(_options.root)}}"
