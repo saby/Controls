@@ -27,11 +27,11 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
     });
 
     describe('shouldDisplayTitle', () => {
-        describe('default', () => {
-            const owner = {
-                getDisplayProperty: () => 'display'
-            };
+        const owner = {
+            getDisplayProperty: () => 'display'
+        };
 
+        describe('default', () => {
             it('without display value', () => {
                 const contents = new Model({
                     rawData: {display: '', id: 1},
@@ -86,27 +86,42 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
         });
 
         describe('preview', () => {
+            const contents = new Model({
+                rawData: {display: '123', id: 1},
+                keyProperty: 'id'
+            });
+
+            it('not has display value', () => {
+                const emptyContents = new Model({
+                    rawData: {display: '', id: 1},
+                    keyProperty: 'id'
+                });
+                const actions = {showed: ['action1']};
+                const item = new TileCollectionItem({actions, canShowActions: false, owner, contents: emptyContents});
+                assert.isFalse(item.shouldDisplayTitle('preview'));
+            });
+
             it('can show actions and has visible actions', () => {
                 const actions = {showed: ['action1']};
-                const item = new TileCollectionItem({actions, canShowActions: true});
+                const item = new TileCollectionItem({actions, canShowActions: true, owner, contents});
                 assert.isFalse(item.shouldDisplayTitle('preview'));
             });
 
             it('not can show actions and has visible actions', () => {
                 const actions = {showed: ['action1']};
-                const item = new TileCollectionItem({actions, canShowActions: false});
+                const item = new TileCollectionItem({actions, canShowActions: false, owner, contents});
                 assert.isTrue(item.shouldDisplayTitle('preview'));
             });
 
             it('can show actions and not has visible actions', () => {
                 const actions = {showed: []};
-                const item = new TileCollectionItem({actions, canShowActions: true});
+                const item = new TileCollectionItem({actions, canShowActions: true, owner, contents});
                 assert.isTrue(item.shouldDisplayTitle('preview'));
             });
 
             it('not can show actions and not has visible actions', () => {
                 const actions = {showed: []};
-                const item = new TileCollectionItem({actions, canShowActions: false});
+                const item = new TileCollectionItem({actions, canShowActions: false, owner, contents});
                 assert.isTrue(item.shouldDisplayTitle('preview'));
             });
         });
