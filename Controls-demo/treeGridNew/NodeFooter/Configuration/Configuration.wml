@@ -26,7 +26,6 @@
                     columns="{{_columns}}"
                     parentProperty="parent"
                     nodeProperty="type"
-                    useNewNodeFooters="{{ true }}"
                     navigation="{{_navigation}}">
                 <ws:nodeFooterTemplate>
                     <ws:partial template="Controls/treeGrid:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass" />
@@ -48,7 +47,6 @@
                     columns="{{_columns}}"
                     parentProperty="parent"
                     nodeProperty="type"
-                    useNewNodeFooters="{{ true }}"
                     navigation="{{_navigation}}">
                 <ws:nodeFooterTemplate>
                     <ws:partial template="Controls/treeGrid:NodeFooterTemplate" cellClassName="customClass">
@@ -70,7 +68,6 @@
                     columns="{{_columns}}"
                     parentProperty="parent"
                     nodeProperty="type"
-                    useNewNodeFooters="{{ true }}"
                     navigation="{{_navigation}}">
                 <ws:nodeFooterTemplate>
                     <ws:partial template="Controls/treeGrid:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass">

@@ -169,6 +169,7 @@ export interface IItemActionsTemplateConfig {
     actionAlignment?: string;
     actionCaptionPosition?: 'right'|'bottom'|'none';
     itemActionsClass?: string;
+    editingStyle?: string;
 }
 
 export interface ISwipeConfig {
@@ -308,7 +309,8 @@ function onCollectionChange<T>(
                 projectionNewItems,
                 0,
                 projectionOldItems,
-                0
+                0,
+                reason
             );
             this._handleAfterCollectionChange(undefined, action);
             if (!needReset) {
@@ -2705,6 +2707,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             if (templateOptions.actionStyle) {
                 this._actionsTemplateConfig.actionStyle = templateOptions.actionStyle;
             }
+            if (templateOptions.editingStyle) {
+                this._actionsTemplateConfig.editingStyle = templateOptions.editingStyle;
+            }
             if (templateOptions.actionPadding) {
                 this._actionsTemplateConfig.actionPadding = templateOptions.actionPadding;
             }
@@ -3019,7 +3024,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         newItems: T[],
         newItemsIndex: number,
         oldItems: T[],
-        oldItemsIndex: number
+        oldItemsIndex: number,
+        reason?: string
     ): void {
         if (!this._isNeedNotifyCollectionChange()) {
             return;
@@ -3034,7 +3040,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                 newItems,
                 newItemsIndex,
                 oldItems,
-                oldItemsIndex
+                oldItemsIndex,
+                reason
             );
             return;
         }
@@ -3048,7 +3055,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                     newItems.slice(start, finish),
                     newItems.length ? newItemsIndex + start : 0,
                     oldItems.slice(start, finish),
-                    oldItems.length ? oldItemsIndex + start : 0
+                    oldItems.length ? oldItemsIndex + start : 0,
+                    reason
                 );
             }
         };

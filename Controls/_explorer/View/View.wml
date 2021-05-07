@@ -2,7 +2,6 @@
    <Controls.list:DataContainer
       scope="{{_options}}"
       root="{{_getRoot(_options.root)}}"
-      dataLoadCallback="{{_dataLoadCallback}}"
       on:breadCrumbsItemsChanged="_onBreadcrumbsChanged()"
    >
       <ws:content>
@@ -82,7 +81,6 @@
                                           on:tagHover="_notifyHandler('tagHover')"
                                           itemsReadyCallback="{{_itemsReadyCallback}}"
                                           itemsSetCallback="{{_itemsSetCallback}}"
-                                          dataLoadCallback="{{_dataLoadCallback}}"
                                           _needSetMarkerCallback="{{_needSetMarkerCallback}}"/>
             </Controls._explorer.PathController>
          </Controls.dragnDrop:Container>

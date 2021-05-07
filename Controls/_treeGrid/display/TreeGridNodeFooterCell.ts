@@ -42,6 +42,10 @@ export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeF
 
     // TODO нужно удалить, когда перепишем колспан для футеров узлов
     getColspanStyles(colspan?: boolean): string {
+        if (this._$isFixed) {
+            return `grid-column: ${this.getColumnIndex() + 1} / ${this.getColumnIndex() + 2}`;
+        }
+
         if (colspan !== false) {
             let start = 1;
             let end = this.getOwner().getColumnsConfig().length + 1;
@@ -55,7 +59,6 @@ export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeF
             }
             if (this.getOwner().isFullGridSupport() && this.getOwner().hasColumnScroll()) {
                 start += this.getOwner().getStickyColumnsCount();
-                end += this.getOwner().getStickyColumnsCount();
             }
             // В данный момент поддержан только один сценарий застиканной лесенки и футеров узлов: лесенка для первого столбца.
             // Чтобы поддержать все сценарии нужно переписать nodeFooterTemplate::colspan на Tree::colspanCallback

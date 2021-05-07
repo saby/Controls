@@ -23,4 +23,8 @@ export default class Stack extends Control<IControlOptions> {
     protected _collapsedGroupsChanged(event: SyntheticEvent, collapsedFilters: string[] | number[]): void {
         this._notify('sendResult', [{action: 'collapsedFiltersChanged', collapsedFilters}], {bubbling: true});
     }
+
+    protected _filterAppliedHandler(event: SyntheticEvent): void {
+        this._notify('close', [], {bubbling: true});
+    }
 }
