@@ -908,7 +908,7 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getContentClasses(itemType: string = 'default', imagePosition: string = 'top'): string {
+    getContentClasses(itemType: string = 'default', imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
         let classes = '';
 
         switch (itemType) {
@@ -921,6 +921,9 @@ export default abstract class TileItem<T extends Model = Model> {
                 break;
             case 'rich':
                 classes += ` controls-TileView__richTemplate controls-TileView__richTemplate_imagePosition_${imagePosition}`;
+                if (imagePosition === 'top' && imageViewMode !== 'rectangle') {
+                    classes += ' ws-align-items-center';
+                }
                 break;
             case 'preview':
                 classes += ' controls-TileView__previewTemplate_content';
