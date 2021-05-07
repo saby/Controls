@@ -1,5 +1,5 @@
 <Controls.scroll:Container attr:class="controlsDemo-Dropdown_button_scroll">
-    <div class="ws-flexbox ws-justify-content-around">
+    <div class="ws-flexbox ws-justify-content-between ws-flex-wrap">
         <div class="controlsDemo__flexColumn">
             <div class="controlsDemo__cell">
                 <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
@@ -98,6 +98,16 @@
                     <a href="{{content.href}}">Without items</a>
                 </Router.router:Reference>
                 <Controls-demo.dropdown_new.Button.WithoutItems.Index/>
+            </div>
+        </div>
+        <div class="controlsDemo__flexColumn controlsDemo-Dropdown_button_openToLeft_column">
+            <div class="controlsDemo__cell">
+                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                         state="/Controls-demo/app/:app"
+                                         app="{{ 'Controls-demo/dropdown_new/Button/OpenToLeft/Index' }}">
+                    <a href="{{content.href}}">Open to left</a>
+                </Router.router:Reference>
+                <Controls-demo.dropdown_new.Button.OpenToLeft.Index/>
             </div>
         </div>
     </div>

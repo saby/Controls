@@ -1,5 +1,5 @@
-<div class="controlsDemo__wrapper controlsDemo__flexRow">
-    <div class="controlsDemo__mr4">
+<div class="controlsDemo__wrapper controlsDemo__flexColumn">
+    <div class="controlsDemo__mb1">
         <div class="controls-text-label_theme-{{_options.theme}}">validationStatus: valid</div>
         <Controls.dropdown:Selector bind:selectedKeys="_selectedKeys"
                                  keyProperty="id"
@@ -8,7 +8,7 @@
                                  source="{{_source}}"
                                  validationStatus="valid"/>
     </div>
-    <div class="controlsDemo__mr4">
+    <div class="controlsDemo__mb1">
         <div class="controls-text-label_theme-{{_options.theme}}">validationStatus: invalid</div>
         <Controls.dropdown:Selector bind:selectedKeys="_selectedKeys"
                                  keyProperty="id"
@@ -17,7 +17,7 @@
                                  source="{{_source}}"
                                  validationStatus="invalid"/>
     </div>
-    <div class="controlsDemo__mr4">
+    <div class="controlsDemo__mb1">
         <div class="controls-text-label_theme-{{_options.theme}}">validationStatus: invalidAccent</div>
         <Controls.dropdown:Selector bind:selectedKeys="_selectedKeys"
                                  keyProperty="id"
@@ -26,7 +26,7 @@
                                  source="{{_source}}"
                                  validationStatus="invalidAccent"/>
     </div>
-    <div class="controlsDemo__mr4">
+    <div class="controlsDemo__mb1">
         <div class="controls-text-label_theme-{{_options.theme}}">validationStatus: invalid, readOnly: true</div>
         <Controls.dropdown:Selector bind:selectedKeys="_selectedKeys"
                                     keyProperty="id"
