@@ -521,10 +521,10 @@ export default abstract class TileItem<T extends Model = Model> {
                 }
                 classes += ` controls-TileView__image_align_${imageAlign} `;
 
-                const imageRestrictions = this.getImageFit() === 'cover'
+                const imageRestrictions = this.getImageFit(imageFit) === 'cover'
                     ? getImageRestrictions(this.getImageHeight(), this.getImageWidth(), this.getTileHeight(), this.getTileWidth(widthTpl, imagePosition, imageViewMode))
                     : {};
-                classes += getImageClasses(this.getImageFit(), imageRestrictions);
+                classes += getImageClasses(this.getImageFit(imageFit), imageRestrictions);
                 break;
             case 'small':
                 classes += ' controls-TileView__smallTemplate_image';
@@ -537,18 +537,13 @@ export default abstract class TileItem<T extends Model = Model> {
                 if (imagePosition === 'top' && (imageViewMode === 'rectangle' && imageProportion !== 1 || imageSize === 'xl')) {
                     classes += ' controls-TileView__image controls-TileView__image_align_center';
                 }
-
-                if (!imageProportionOnItem || imageViewMode !== 'rectangle' || imagePosition !== 'top') {
-                    classes += ` controls-TileView__richTemplate_image_size_${imageSize}_position_${imagePosition}_viewMode_${imageViewMode}`;
-                    classes += ` controls-TileView__richTemplate_image_size_${imageSize}_position_${imagePosition !== 'top' ? 'vertical' : 'top'}`;
-                }
                 break;
         }
 
         return classes ;
     }
 
-    getImageWrapperClasses(itemType: string = 'default', templateHasTitle?: boolean, templateTitleStyle?: string, imageViewMode: string = 'rectangle'): string {
+    getImageWrapperClasses(itemType: string = 'default', templateHasTitle?: boolean, templateTitleStyle?: string, imageViewMode: string = 'rectangle', imageProportion?: number, imagePosition?: string, imageSize?: string,  imageProportionOnItem?: string): string {
         let classes = 'controls-TileView__imageWrapper';
         if (templateTitleStyle === 'accent') {
             classes += ' controls-TileView__imageWrapper_accent';
@@ -559,7 +554,7 @@ export default abstract class TileItem<T extends Model = Model> {
                 classes += ' controls-TileView__item_animated';
             }
             if ((templateTitleStyle === undefined && templateHasTitle) || templateTitleStyle === 'partial') {
-                classes += ` controls-TileView__imageWrapper_reduced`;
+                classes += ' controls-TileView__imageWrapper_reduced';
             }
         }
 
@@ -577,6 +572,10 @@ export default abstract class TileItem<T extends Model = Model> {
                 // TODO в этом случае не нужны общие классы вверху, нужно написать так чтобы они не считались
                 classes = ' controls-TileView__richTemplate_imageWrapper';
                 classes += ` controls-TileView_richTemplate_image_spacing_viewMode_${imageViewMode}`;
+                if (!imageProportionOnItem || imageViewMode !== 'rectangle' || imagePosition !== 'top') {
+                    classes += ` controls-TileView__richTemplate_image_size_${imageSize}_position_${imagePosition}_viewMode_${imageViewMode}`;
+                    classes += ` controls-TileView__richTemplate_image_size_${imageSize}_position_${imagePosition !== 'top' ? 'vertical' : 'top'}`;
+                }
                 break;
             case 'preview':
                 classes += ' controls-TileView__previewTemplate_image';
