@@ -121,7 +121,7 @@ define([
 
       it('itemsReadyCallback', function() {
          var
-            items = {},
+            items = new collection.RecordSet(),
             itemsReadyCallbackArgs,
             itemsReadyCallback = function(items) {
                itemsReadyCallbackArgs = items;

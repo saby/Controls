@@ -151,11 +151,17 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         if (!itemsChanged && newOptions.selectedKey !== this._options.selectedKey) {
             const oldAlign = this._getItemByKey(this._options.selectedKey)?.align || DEFAULT_ITEM_ALIGN;
             const newAlign = this._getItemByKey(newOptions.selectedKey)?.align || DEFAULT_ITEM_ALIGN;
-            if (oldAlign === newAlign) {
-                // Переключимся на анимированный маркер, т.к. стандартный маркер всегда рисуется на выбранной вкладке.
-                // Чтобы не было тормозов при движении маркера,
-                // саму анимацию запустим позже после всех обновлений в afterUpdate.
-                this._isAnimatedMakerVisible = true;
+            const selectedItem = this._getItemByKey(this._options.selectedKey);
+            if (!!selectedItem?.isMainTab) {
+                this._updateMarkerSelectedIndex(newOptions);
+                this._isAnimatedMakerVisible = false;
+            } else {
+                if (oldAlign === newAlign) {
+                    // Переключимся на анимированный маркер, т.к. стандартный маркер всегда рисуется на выбранной вкладке.
+                    // Чтобы не было тормозов при движении маркера,
+                    // саму анимацию запустим позже после всех обновлений в afterUpdate.
+                    this._isAnimatedMakerVisible = true;
+                }
             }
         }
         if (newOptions.style !== this._options.style || newOptions.markerThickness !== this._options.markerThickness) {
