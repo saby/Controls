@@ -5532,14 +5532,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return _private.isEditing(this);
     }
 
-    beginEdit(userOptions) {
+    beginEdit(userOptions: object): Promise<void | {canceled: true}> {
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
         return this._beginEdit(userOptions);
     }
 
-    beginAdd(userOptions) {
+    beginAdd(userOptions: object): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
@@ -5549,14 +5549,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    cancelEdit() {
+    cancelEdit(): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
         return this._cancelEdit();
     }
 
-    commitEdit() {
+    commitEdit(): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
@@ -5580,7 +5580,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    _beginEdit(userOptions, {shouldActivateInput = true, columnIndex}: IBeginEditOptions = {}) {
+    _beginEdit(userOptions: object, {shouldActivateInput = true, columnIndex}: IBeginEditOptions = {}): Promise<void | {canceled: true}> {
         _private.closeSwipe(this);
         if (_private.hasHoverFreezeController(this)) {
             this._hoverFreezeController.unfreezeHover();
@@ -5619,7 +5619,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _cancelEdit(force: boolean = false) {
+    _cancelEdit(force: boolean = false): Promise<void | { canceled: true }> {
         if (!this._editInPlaceController) {
             return Promise.resolve();
         }
