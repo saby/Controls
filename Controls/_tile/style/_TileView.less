@@ -1210,7 +1210,12 @@
    overflow-wrap: break-word;
    max-width: 100%;
 }
-
+// в ie не работает line-camp, поэтому делаем всегда однострочный текст с обрезанием
+.ws-is-ie .controls-TileView__text_ellipsis_multiLine {
+   display: block;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+}
 .controls-TileView__image_fullHeight {
     max-height: 100%;
  }

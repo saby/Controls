@@ -9,12 +9,6 @@ import {RecordSet} from "Types/collection";
 import {TreeGridCollection} from "Controls/treeGrid";
 
 describe('Controls/_display/itemsStrategy/NodeFooter', () => {
-    function wrapItem<S extends Model = Model, T = TreeItem>(item: S): T {
-        return new TreeItem({
-            contents: item
-        });
-    }
-
     function getSource<S = Model, T = TreeItem>(wraps: T[]): IItemsStrategy<S, T> {
         const items = wraps.slice();
 
@@ -39,8 +33,8 @@ describe('Controls/_display/itemsStrategy/NodeFooter', () => {
             getCollectionIndex(index: number): number {
                 return index;
             },
-            splice(start: number, deleteCount: number, added?: S[]): T[] {
-                return items.splice(start, deleteCount, ...added.map<T>(wrapItem));
+            splice(start: number, deleteCount: number, added?: T[]): T[] {
+                return items.splice(start, deleteCount, ...added);
             },
             invalidate(): void {
                 this.invalidated = true;
@@ -72,7 +66,9 @@ describe('Controls/_display/itemsStrategy/NodeFooter', () => {
             columns: [{}],
             expandedItems: [null]
         });
-        source = getSource(tree.getItems());
+        // Нужны только триИтемы
+        const items = tree.getItems().filter((it) => !it['[Controls/treeGrid:TreeGridNodeFooterRow]']);
+        source = getSource(items);
         strategy = new NodeFooter({
             display: tree,
             source,
@@ -87,7 +83,31 @@ describe('Controls/_display/itemsStrategy/NodeFooter', () => {
 
     it('items', () => {
         const items = strategy.items;
-        assert.equal(items[4].getContents(), 'node-footer-2');
-        assert.equal(items[5].getContents(), 'node-footer-1');
+        assert.equal(items[3].getContents(), 'node-footer-2');
+        assert.equal(items[4].getContents(), 'node-footer-1');
+    });
+
+    describe('splice', () => {
+        it('add items', () => {
+            const newItem = tree.createItem({
+                contents: new Model({
+                    rawData: { key: 4, parent: null, type: true },
+                    keyProperty: 'key'
+                })
+            });
+            strategy.splice(0, 0, [newItem]);
+
+            const items = strategy.items;
+            assert.equal(items[1].getContents(), 'node-footer-4');
+        });
+
+        it('remove items', () => {
+            const removedItem = strategy.splice(1, 1, []);
+            assert.equal(removedItem[0].getContents().getKey(), 2);
+            const items = strategy.items;
+            // Проверяем что вместе с узлом удалился и его футер
+            const removedFooter = items.find((it) => it.getContents() === 'node-footer-2');
+            assert.isNotOk(removedFooter);
+        });
     });
 });

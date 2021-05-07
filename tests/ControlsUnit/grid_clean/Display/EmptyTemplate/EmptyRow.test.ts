@@ -15,7 +15,8 @@ describe('Controls/grid_clean/Display/EmptyTemplate/EmptyRow', () => {
                 hasMultiSelectColumn: () => true,
                 getStickyColumnsCount: () => {},
                 isFullGridSupport: () => true,
-                hasItemActionsSeparatedCell: () => false
+                hasItemActionsSeparatedCell: () => false,
+                hasColumnScroll: () => false
             } as GridCollection<unknown>,
             rowTemplate: () => 'EMPTY_TEMPLATE'
         });

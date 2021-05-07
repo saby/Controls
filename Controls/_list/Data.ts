@@ -174,6 +174,10 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
       this._filter = controllerState.filter;
 
+      if (!this._options.nodeHistoryId) {
+         this._expandedItems = options.expandedItems;
+      }
+
       if (options.sourceController) {
          // Если контроллер задан выше, чем появилось дерево, то надо установить в него expandedItems из опций
          if (options.expandedItems && !controllerState.expandedItems) {
@@ -232,6 +236,10 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          } else {
             updateResult = this._updateWithoutSourceControllerInOptions(newOptions);
          }
+      }
+
+      if (!isEqual(newOptions.expandedItems, this._options.expandedItems) && !this._options.nodeHistoryId) {
+         this._expandedItems = newOptions.expandedItems;
       }
 
       return updateResult;
@@ -408,7 +416,9 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          ...sourceControllerState
       };
       this._sourceControllerState = sourceControllerState;
-      this._expandedItems = sourceControllerState.expandedItems;
+      if (this._options.nodeHistoryId) {
+         this._expandedItems = sourceControllerState.expandedItems;
+      }
    }
 
    // https://online.sbis.ru/opendoc.html?guid=e5351550-2075-4550-b3e7-be0b83b59cb9
@@ -448,9 +458,11 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
              return error;
           })
           .finally(() => {
-             const controllerState = this._sourceController.getState();
-             this._updateContext(controllerState);
-             this._loading = false;
+             if (!this._destroyed) {
+                const controllerState = this._sourceController.getState();
+                this._updateContext(controllerState);
+                this._loading = false;
+             }
           });
    }
 

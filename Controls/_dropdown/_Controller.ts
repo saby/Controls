@@ -127,7 +127,7 @@ export default class _Controller implements IDropdownController {
             this._open();
          }
       }
-      const selectedKeysChanged = newOptions.selectedKeys !== oldOptions.selectedKeys;
+      const selectedKeysChanged = newOptions.selectedKeys && newOptions.selectedKeys !== this._selectedKeys;
       const sourceChanged = newOptions.source !== oldOptions.source;
       const navigationChanged = !isEqual(newOptions.navigation, oldOptions.navigation);
       const filterChanged = !isEqual(newOptions.filter, oldOptions.filter);

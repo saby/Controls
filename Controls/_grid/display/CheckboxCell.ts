@@ -6,6 +6,10 @@ import DataRow from './DataRow';
 export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, TOwner> implements IMarkable {
     readonly Markable: boolean = true;
 
+    isEditing(): boolean {
+        return this._$owner.isEditing();
+    }
+
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover?: boolean, templateHoverBackgroundStyle?: string): string {
         const hoverBackgroundStyle = templateHoverBackgroundStyle || this._$owner.getHoverBackgroundStyle();
         const topPadding = this._$owner.getTopPadding();
@@ -22,7 +26,7 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
             ` controls-Grid__row-cell_rowSpacingBottom_${this.getOwner().getBottomPadding()} ` +
             ' controls-Grid__row-cell-checkbox';
 
-        if (this._$owner.isEditing()) {
+        if (this.isEditing()) {
             wrapperClasses += ' controls-Grid__row-cell-editing';
         }
 

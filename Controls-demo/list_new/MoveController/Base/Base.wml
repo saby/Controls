@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper demo-Mover controlsDemo_fixedWidth300">
+   <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
+      <Controls.list:Container>
+         <Controls.list:View class="demo-Mover__list test_list_2"
+                             name="listControl"
+                             itemActions="{{_itemActions}}"/>
+      </Controls.list:Container>
+   </Controls.list:DataContainer>
+</div>
