@@ -23,5 +23,5 @@
             sorting="{{_sourceControllerState.sorting}}"
             source="{{_sourceControllerState.source}}"
             root="{{_sourceControllerState.root}}"
-            expandedItems="{{_expandedItems}}"/>
+            expandedItems="{{_options.nodeHistoryId ? _expandedItems : _options.expandedItems}}"/>
 </Controls.context:ContextOptionsProvider>
