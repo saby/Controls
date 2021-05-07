@@ -82,9 +82,9 @@ describe('ControlsUnit/display/collection/firstAndLastItem', () => {
             const itemAt1 = collection.at(1);
             const itemAt2 = collection.at(2);
 
-            assert.isFalse(itemAt1.isFirstItem());
+            assert.isFalse(itemAt1.getIsFirstItem());
             recordSet.removeAt(0);
-            assert.isTrue(itemAt1.isFirstItem());
+            assert.isTrue(itemAt1.getIsFirstItem());
 
             assert.isFalse(itemAt2.isLastItem());
             recordSet.removeAt(2);
