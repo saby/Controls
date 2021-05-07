@@ -7,6 +7,8 @@ import IEditingTemplateOptions from './EditingTemplate';
  * @mixes Controls/list:EditingTemplate
  * @author Авраменко А.С.
  * @see Controls/list:View
+ * @remark
+ * Настройка viewTemplate приоритетнее `value`.
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
  * <pre class="brush: html; highlight: [5,6,7,8,9,10,11,12]">
@@ -27,7 +29,6 @@ import IEditingTemplateOptions from './EditingTemplate';
  *    </ws:itemTemplate>
  * </Controls.list:View>
  * </pre>
- * Настройка viewTemplate приоритетнее `value`.
  * @public
  */
 export default interface IBaseEditingTemplateOptions extends IEditingTemplateOptions {
