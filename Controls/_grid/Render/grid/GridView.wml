@@ -28,6 +28,7 @@
                     stickyHeader="{{ true }}"
                     trackVisible="{{ true }}"
                     contentSize="{{ _contentSizeForHScroll }}"
+                    scrollWidth="{{ _horizontalScrollWidth }}"
                     backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
                     on:positionChanged="_onHorizontalPositionChangedHandler()"
                     on:mouseup="_onScrollBarMouseUp()"/>

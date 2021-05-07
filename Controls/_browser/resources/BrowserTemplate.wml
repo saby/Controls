@@ -9,7 +9,7 @@
         isAllSelected="{{ _isAllSelected }}"
         listMarkedKey="{{ _listMarkedKey }}"
         dataLoadCallback="{{_dataLoadCallback}}"
-        deepReload="{{_deepReload}}"
+        deepReload="{{_deepReload || _options.deepReload}}"
         searchParam="{{null}}"
         searchValue="{{_searchValue}}"
         groupHistoryId="{{_groupHistoryId}}"

@@ -272,6 +272,6 @@ Object.assign(Collection.prototype, {
     _moduleName: 'Controls/columns:ColumnsCollection',
     _itemModule: 'Controls/columns:ColumnsCollectionItem',
     _$columnsCount: 2,
-    _$spacing: 0,
+    _$spacing: 12,
     _$columnsMode: 'auto'
 });
