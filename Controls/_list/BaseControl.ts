@@ -4067,6 +4067,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         const navigationChanged = !isEqual(newOptions.navigation, this._options.navigation);
         const searchValueChanged = this._options.searchValue !== newOptions.searchValue;
         const loadStarted = newOptions.loading && !this._options.loading;
+        let updateResult;
         let isItemsResetFromSourceController = false;
 
         this._loadedBySourceController =
@@ -4233,16 +4234,20 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     _private.executeAfterReloadCallbacks(this, this._items, newOptions);
                 }
 
-                if (this._loadedBySourceController && !this._sourceController.getLoadError()) {
-                    if (this._listViewModel) {
-                        this._listViewModel.setHasMoreData(_private.getHasMoreData(this));
+                if (this._loadedBySourceController) {
+                    if (!this._sourceController.getLoadError()) {
+                        if (this._listViewModel) {
+                            this._listViewModel.setHasMoreData(_private.getHasMoreData(this));
+                        }
+                        if (this.__error) {
+                            _private.hideError(this);
+                        }
+                        _private.resetScrollAfterLoad(this);
+                        _private.resolveIsLoadNeededByNavigationAfterReload(this, newOptions, items);
+                        _private.prepareFooter(this, newOptions, this._sourceController);
+                    } else if (!this._error) {
+                        updateResult = _private.processError(this, {error: this._sourceController.getLoadError()});
                     }
-                    if (this.__error) {
-                        _private.hideError(this);
-                    }
-                    _private.resetScrollAfterLoad(this);
-                    _private.resolveIsLoadNeededByNavigationAfterReload(this, newOptions, items);
-                    _private.prepareFooter(this, newOptions, this._sourceController);
                 }
             }
         }
@@ -4404,6 +4409,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._spaceBlocked = false;
 
         this._updateBaseControlModel(newOptions);
+        return updateResult;
     }
 
     reloadItem(key: string, readMeta: object, replaceItem: boolean, reloadType: string = 'read'): Promise<Model> {
