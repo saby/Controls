@@ -19,7 +19,7 @@ function getCollection(collection: RecordSet<IData>, options: object = {}): Sear
         ...options,
         root: null,
         keyProperty: 'id',
-        parentProperty: 'parent',
+        parentProperty: 'pid',
         nodeProperty: 'node',
         columns: [{
             displayProperty: 'title',
