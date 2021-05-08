@@ -3,7 +3,7 @@
             style="{{_options.style}}"
             autoClose="{{_options.autoClose}}">
     <ws:bodyContentTemplate>
-        <div class="controls-Notification__simpleTemplate">
+        <div class="controls-Notification__simpleTemplate controls-PopupTemplate_theme-{{_options.theme}}">
             <ws:if data="{{_options.icon}}">
                 <div class="{{_options.icon}} icon-{{_options.icon}} controls-Notification__simpleTemplate-icon
                             controls-Notification__simpleTemplate-icon-size

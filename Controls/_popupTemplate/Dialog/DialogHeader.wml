@@ -1,4 +1,4 @@
-<div class="controls-DialogTemplate__top-area controls-DialogTemplate__top-area_{{_options.headerBackgroundStyle}}
+<div class="controls-DialogTemplate__top-area controls-DialogTemplate__top-area_{{_options.headerBackgroundStyle}} controls-PopupTemplate_theme-{{_options.theme}}
             {{_options.draggable ? 'controls-DialogTemplate__top-area-draggable'}} controls_theme-{{_options.theme}}
             {{_options.headerBorderVisible ? 'controls-DialogTemplate__top-area-border'}}">
    <div class="controls-DialogTemplate__top-area-content">

@@ -1,4 +1,4 @@
-<div class="controls-InfoboxButton">
+<div class="controls-InfoboxButton controls-PopupTemplate_theme-{{_options.theme}}">
     <svg class="controls-InfoboxButton__icon controls-icon_size-{{_options.iconSize}}"
          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
          viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">

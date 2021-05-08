@@ -2,6 +2,7 @@
      on:mouseenter="_handleMouseEnter()"
      on:mouseleave="_handleMouseLeave()"
      class="controls-OperationsButton
+     controls-Operations_theme-{{_options.theme}}
      controls-OperationsButton_state_{{_options.readOnly ? 'disabled' : 'enabled'}}
      {{ (_options.useStore ?  _expanded : _options.expanded) ? 'icon-MarkCollapseBold' : 'icon-MarkExpandBold'}}">
 </div>
