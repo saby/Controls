@@ -24,6 +24,7 @@
                 on:mousedown="_handleMouseDown()"
                 on:mouseenter="_handleMouseEnter()"
                 on:mouseleave="_handleMouseLeave()"
+                on:mousemove="_handleMouseMove()"
                 on:keydown="_handleKeyDown()"
                 on:deactivated="_deactivated()"
         />
