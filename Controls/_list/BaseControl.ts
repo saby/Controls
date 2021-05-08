@@ -5899,6 +5899,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 this._hoverFreezeController.unfreezeHover();
             }
             _private.removeShowActionsClass(this);
+            _private.addHoverEnabledClass(this);
             _private.getItemActionsController(this, this._options).deactivateSwipe(false);
         }
     }
