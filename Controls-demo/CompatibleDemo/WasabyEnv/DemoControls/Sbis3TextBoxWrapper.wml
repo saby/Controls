@@ -1,3 +1,0 @@
-<div>
-    <SBIS3.CONTROLS.TextBox  name="TextBoxWrapper" text="{{ _text }}"/>
-</div>
