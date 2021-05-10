@@ -224,7 +224,7 @@ define([
             getCollection: () => new collection.RecordSet(),
             getChildrenByRecordSet: () => false
          };
-         treeControl._expandController.setModel(treeControl._listViewModel);
+         treeControl._expandController.updateOptions({model: treeControl._listViewModel});
 
          treeControl.getVirtualScroll = function(){
             return {
@@ -1467,7 +1467,7 @@ define([
          treeControl.saveOptions(cfg);
 
          treeControl._listViewModel = treeGridViewModel;
-         treeControl._expandController.setModel(treeGridViewModel);
+         treeControl._expandController.updateOptions({model: treeGridViewModel});
          treeControl.showIndicator = () => {
             isIndicatorHasBeenShown = true;
          };

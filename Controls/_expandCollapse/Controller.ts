@@ -3,6 +3,7 @@ import {Model} from 'Types/entity';
 import {TKey} from 'Controls/interface';
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 import {Logger} from 'UI/Utils';
+import {isEqual} from 'Types/object';
 
 /**
  * Интерфейс, описывающий структуру объекта конфигурации {@link Controller ExpandController}
@@ -52,8 +53,24 @@ export class Controller {
         this._collapsedItems = options.collapsedItems ? [...options.collapsedItems] : [];
     }
 
-    setModel(model: Tree<Model, TreeItem<Model>>): void {
-        this._model = model;
+    /**
+     * Обновляет опции контроллера записывая новые опции поверх существующих.
+     * Соответственно если какую-либо опцию обновлять не надо, то не нужно её
+     * указывать в newOptions.
+     */
+    updateOptions(newOptions: IOptions): void {
+        this._options = {...this._options, ...newOptions};
+        this._model = newOptions.model;
+
+        if (newOptions.collapsedItems && !isEqual(this._collapsedItems, newOptions.collapsedItems)) {
+            this.setCollapsedItems(newOptions.collapsedItems);
+        }
+
+        // Обновление здесь expandedItems не реализовано т.к. пока не требуется из-за того что в treeControl
+        // обновление expandedItems хитрое под кучей if'ов
+        if (newOptions.expandedItems) {
+            throw new Error('expandCollapse:Controller#updateOptions update expandedItems not implemented yet');
+        }
     }
 
     /**
@@ -300,7 +317,11 @@ export class Controller {
 
     private _setCollapsedItems(collapsedItems: TKey[]): void {
         this._collapsedItems = collapsedItems;
-        this._collapsedItems.forEach((id) => this._collapseItem(id));
+        // В случае работы со старой моделью нужно ручками схлопнуть каждый итем,
+        // т.к. в старой моделе метод setCollapsedItems не меняет состояние итемов.
+        if (this._options.useOldModel) {
+            this._collapsedItems.forEach((id) => this._collapseItem(id));
+        }
         this._model?.setCollapsedItems(collapsedItems);
     }
 
@@ -312,7 +333,9 @@ export class Controller {
     }
 
     /**
-     * Реализует чистую логику разворачивания узла без каких либо доп. проверок
+     * Вызывает загрузку данных для разворачиваемого узла.
+     * Дополнительно в случе работы со старой моделью развернет
+     * в ней итем с указанным itemId.
      */
     private _expandItem(itemId: TKey): void | Promise<unknown> {
         const expand = (result?) => {
@@ -336,6 +359,10 @@ export class Controller {
         }
     }
 
+    /**
+     * Сворачивает итем с указанным itemId.
+     * Метод актуален только при работе со старой моделью.
+     */
     private _collapseItem(itemId: TKey): void {
         const item = this._getItem(itemId);
 

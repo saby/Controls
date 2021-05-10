@@ -503,6 +503,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     protected _beforeMount(...args: [TOptions, object]): void {
         const options = args[0];
 
+        // Создаем _expandController до вызова super._beforeMount, т.к. во время
+        // отработки super._beforeMount уже будет нужен
         this._expandController = new ExpandController({
             singleExpand: options.singleExpand,
             expandedItems: options.expandedItems,
@@ -513,7 +515,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
         const superResult = super._beforeMount(...args);
         const doBeforeMount = () => {
-            this._expandController.setModel(this.getViewModel());
+            // После отработки super._beforeMount создастся модель, обновим её в контроллере
+            this._expandController.updateOptions({model: this.getViewModel()});
 
             if (options.sourceController) {
                 // FIXME для совместимости, т.к. сейчас люди задают опции, которые требуетюся для запроса
@@ -686,10 +689,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             _private.resetExpandedItems(this);
         }
 
-        this._expandController.setModel(viewModel);
-        if (newOptions.collapsedItems && !isEqual(newOptions.collapsedItems, this._expandController.getCollapsedItems())) {
-            this._expandController.setCollapsedItems(newOptions.collapsedItems);
-        }
+        this._expandController.updateOptions({
+            model: viewModel,
+            singleExpand: newOptions.singleExpand,
+            collapsedItems: newOptions.collapsedItems
+        });
 
         // todo [useNewModel] viewModel.getExpandedItems() нужен, т.к. для старой модели установка expandedItems
         // сделана некорректно. Как откажемся от неё, то можно использовать стандартное сравнение опций.
