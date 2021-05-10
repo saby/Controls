@@ -1,26 +1,36 @@
-import {Collection as BaseCollection, ItemsFactory, IDragPosition} from 'Controls/display';
+import {Tree as BaseCollection, ItemsFactory, IDragPosition} from 'Controls/display';
 import CollectionItem, {IOptions as ICollectionItemOptions} from './CollectionItem';
 import ColumnsDragStrategy from './itemsStrategy/ColumnsDrag';
 import { Model } from 'Types/entity';
 import IColumnsStrategy from '../interface/IColumnsStrategy';
 import Auto from './columnsStrategy/Auto';
 import Fixed from './columnsStrategy/Fixed';
+import {DEFAULT_COLUMNS_COUNT, DEFAULT_MIN_WIDTH, SPACING} from '../Constants';
 
 export default class Collection<
     S extends Model = Model,
     T extends CollectionItem<S> = CollectionItem<S>
 > extends BaseCollection<S, T> {
     protected _$columnProperty: string;
+    readonly SupportExpand: boolean = false;
     protected _dragStrategy: ColumnsDragStrategy<S, T> = ColumnsDragStrategy;
     protected _columnsStrategy: IColumnsStrategy;
     protected _addingColumnsCounter: number;
     protected _columnsIndexes: number[][];
     protected _$columnsCount: number;
     protected _$columnsMode: 'auto' | 'fixed';
-    protected _$spacing: number;
+    protected _$columnMinWidth: number;
+    protected _currentWidth: number;
+    protected _columnsCount: number;
+    protected _$spacing: number = SPACING;
     constructor(options) {
         super(options);
         this._columnsStrategy = options.columnsMode === 'fixed' ? new Fixed() : new Auto();
+        if (options.columnsMode === 'auto' && options.initialWidth) {
+            this.setCurrentWidth(options.initialWidth, options.columnMinWidth);
+        } else {
+            this.setColumnsCount(options.columnsCount || DEFAULT_COLUMNS_COUNT);
+        }
         this.updateColumns();
     }
 
@@ -64,6 +74,25 @@ export default class Collection<
             this.updateColumns();
             this._nextVersion();
         }
+    }
+
+    setCurrentWidth(width: number, columnMinWidth: number): void {
+        if (width > 0 && this._currentWidth !== width && this._$columnsMode === 'auto') {
+            this._recalculateColumnsCountByWidth(width, this._$columnMinWidth || columnMinWidth);
+        }
+        this._currentWidth = width;
+    }
+
+    private _recalculateColumnsCountByWidth(width: number, columnMinWidth: number): void {
+        const newColumnsCount = Math.floor(width / ((columnMinWidth || DEFAULT_MIN_WIDTH) + this._$spacing));
+        if (newColumnsCount !== this._columnsCount) {
+            this._columnsCount = newColumnsCount;
+            this.setColumnsCount(this._columnsCount);
+        }
+    }
+
+    getCurrentWidth(): number {
+        return this._currentWidth;
     }
 
     getColumnsCount(): number {

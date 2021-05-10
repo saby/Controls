@@ -11,6 +11,7 @@ import { CrudEntityKey } from 'Types/source';
  */
 export type TVisibility = 'visible' | 'hidden' | 'onactivated';
 export enum Visibility { Visible = 'visible', Hidden = 'hidden', OnActivated = 'onactivated'}
+export type TDirection = 'down' | 'left' | 'right' | 'top';
 
 /**
  * Опции контроллера
@@ -20,6 +21,17 @@ export enum Visibility { Visible = 'visible', Hidden = 'hidden', OnActivated = '
  */
 export interface IOptions extends IMarkerListOptions {
    model: Collection<Model, CollectionItem<Model>>;
+   markerStrategy: IMarkerStrategyCtor;
+}
+export type IMarkerStrategyCtor = new () => IMarkerStrategy;
+export interface IMarkerStrategyOptions {
+   model: Collection<Model, CollectionItem<Model>>;
+}
+export interface IMarkerStrategy {
+   getMarkedKeyByDirection: (index: number, direction: TDirection) => CrudEntityKey | void;
+   getNextMarkedKey: (index: number) => CrudEntityKey | void;
+   getPrevMarkedKey: (index: number) => CrudEntityKey | void;
+   shouldMoveMarkerOnScrollPaging: () => boolean;
 }
 
 /**

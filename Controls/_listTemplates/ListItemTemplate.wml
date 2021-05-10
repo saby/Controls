@@ -14,8 +14,8 @@
    <ws:if data="{{_options.footerTemplate}}">
       <div class="controls-listTemplates_listItemTemplate__footer">
          <ws:partial template="{{_options.footerTemplate}}"
-                     item="{{_options.itemData}}"
-                     itemData="{{_options.itemData}}"/>
+                     item="{{_options.item || _options.itemData}}"
+                     itemData="{{_options.item || _options.itemData}}"/>
       </div>
    </ws:if>
 </ws:template>
@@ -32,17 +32,16 @@
                      imageViewMode="{{_options.imageViewMode}}"/>
       </ws:if>
       <div class="controls-listTemplates__listItemTemplate__itemContent">
-
          <ws:if data="{{isEditing && _options.captionEditor}}">
             <ws:partial template="{{_options.captionEditor}}"
-                        itemData="{{_options.itemData}}"
-                        item="{{_options.itemData}}"/>
+                        itemData="{{_options.item || _options.itemData}}"
+                        item="{{_options.item || _options.itemData}}"/>
          </ws:if>
          <ws:else>
             <ws:if data="{{_options.captionTemplate}}">
                <ws:partial template="{{_options.captionTemplate}}"
-                           itemData="{{_options.itemData}}"
-                           item="{{_options.itemData}}"/>
+                           itemData="{{_options.item || _options.itemData}}"
+                           item="{{_options.item || _options.itemData}}"/>
             </ws:if>
          </ws:else>
          <ws:if data="{{characteristics && characteristics.length}}">
@@ -50,14 +49,14 @@
          </ws:if>
          <ws:if data="{{isEditing && _options.contentEditor}}">
             <ws:partial template="{{_options.contentEditor}}"
-                        itemData="{{_options.itemData}}"
-                        item="{{_options.itemData}}"/>
+                        itemData="{{_options.item || _options.itemData}}"
+                        item="{{_options.item || _options.itemData}}"/>
          </ws:if>
          <ws:else>
             <ws:if data="{{_options.contentTemplate}}">
                <ws:partial template="{{_options.contentTemplate}}"
-                           itemData="{{_options.itemData}}"
-                           item="{{_options.itemData}}"/>
+                           itemData="{{_options.item || _options.itemData}}"
+                           item="{{_options.item || _options.itemData}}"/>
             </ws:if>
          </ws:else>
          <ws:if data="{{isEditing && footerEditor}}">
@@ -68,21 +67,22 @@
          <ws:else>
             <ws:partial template="footerTemplate"
                         footerTemplate="{{_options.footerTemplate}}"
-                        itemData="{{_options.itemData}}"
-                        item="{{_options.itemData}}"/>
+                        itemData="{{_options.item || _options.itemData}}"
+                        item="{{_options.item || _options.itemData}}"/>
          </ws:else>
       </div>
    </div>
 </ws:template>
 
 <ws:partial template="Controls/list:ItemTemplate"
-            attr:class="controls-listTemplates__listItemTemplate {{_options.itemData.getRoundBorderClasses()}}"
+            attr:class="controls-listTemplates__listItemTemplate {{(_options.item || _options.itemData).getRoundBorderClasses()}}"
             scope="{{_options}}">
    <ws:contentTemplate>
       <ws:partial template="itemContentTpl"
                   scope="{{contentTemplate}}"
-                  itemData="{{_options.itemData}}"
-                  item="{{_options.itemData}}"
+                  itemData="{{_options.item || _options.itemData}}"
+                  item="{{_options.item || _options.itemData}}"
+                  afterImageTemplate="{{_options.afterImageTemplate}}"
                   isEditing="{{item.isEditing()}}"
                   imageProperty="{{_options.imageProperty}}"
                   imagePosition="{{_options.imagePosition}}"
