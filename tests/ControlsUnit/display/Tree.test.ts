@@ -1737,7 +1737,7 @@ describe('Controls/_display/Tree', () => {
             assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
         });
 
-        it('setExpandedItems collapse childs', () => {
+        xit('setExpandedItems collapse childs', () => {
             rsTree.setExpandedItems([1]);
             rsTree.getItemBySourceKey(11).setExpanded(true);
             assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
