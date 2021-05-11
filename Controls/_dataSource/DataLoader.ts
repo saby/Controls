@@ -266,7 +266,7 @@ export default class DataLoader {
             } else {
                 loadPromise = loadDataByConfig(loadConfig, loadTimeout);
             }
-            loadPromise.then((result) => {
+            Promise.resolve(loadPromise).then((result) => {
                 if (!result.source && result.historyItems) {
                     result.sourceController.setFilter(result.filter);
                 }
