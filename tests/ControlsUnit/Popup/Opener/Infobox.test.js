@@ -105,17 +105,6 @@ define(
             assert.deepEqual(newConfig, config);
          });
 
-         it('PopupInfoBox: resetTimeOut', () => {
-            let Infobox = new popup.InfoboxTarget();
-            Infobox._openId = 300;
-            Infobox._closeId = 500;
-            assert.equal(Infobox._closeId, 500);
-            assert.equal(Infobox._openId, 300);
-            Infobox._resetTimeOut();
-            assert.equal(Infobox._closeId, null);
-            assert.equal(Infobox._openId, null);
-         });
-
          it('InfoBoxController: check position', () => {
             let arrowOffset = 12;
             let arrowWidth = 16;
