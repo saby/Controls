@@ -91,6 +91,8 @@
    height: var(--icon-size_closeButton_editableArea);
 }
 
+// В Яндекс браузере для win-XP css переменные поддерживаются не в полном объеме, из-за чего браузер ожидает полный путь с указанием домена
+// Поэтому каскадом задаем корректный путь
 .ws-is-chrome.ws-is-windows-xp {
    .controls-EditableArea__closeButton-icon {
       background-image: url('../img/DefaultCloseIcon.svg');
