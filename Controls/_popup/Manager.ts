@@ -38,6 +38,8 @@ const SCROLL_DELAY = detection.isMobileIOS ? 100 : 10;
 class Manager {
     _contextIsTouch: boolean = false;
     _dataLoaderModule: string;
+    _popupPageConfigLoaderModule: string;
+    _popupPageTemplateModule: string;
     _popupItems: List<IPopupItem> = new List();
     private _pageScrolled: Function;
     private _popupResizeOuter: Function;
@@ -45,6 +47,8 @@ class Manager {
     constructor(options = {}) {
         this.initTheme(options);
         this._dataLoaderModule = options.dataLoaderModule;
+        this._popupPageConfigLoaderModule = options.popupPageConfigLoaderModule;
+        this._popupPageTemplateModule = options.popupPageTemplateModule;
         this._pageScrolled = debounce(this._pageScrolledBase, SCROLL_DELAY);
         this._popupResizeOuter = debounce(this._popupResizeOuterBase, RESIZE_DELAY);
     }
@@ -95,21 +99,38 @@ class Manager {
     }
 
     loadData(dataLoaders): Promise<unknown> {
-        const Loader = getModuleByName(this._dataLoaderModule);
-        if (Loader) {
-            return Loader.load(dataLoaders);
-        }
         if (!this._dataLoaderModule) {
             const message = 'На приложении не задан загрузчик данных. Опция окна dataLoaders будет проигнорирована';
             Logger.warn(message, this);
             return undefined;
         }
-
-        return new Promise((resolve) => {
-            Library.load(this._dataLoaderModule).then((DataLoader) => {
-               resolve(DataLoader.load(dataLoaders));
-           });
+        return new Promise((resolve, reject) => {
+            this._getModuleByModuleName(this._dataLoaderModule, (DataLoader) => {
+                DataLoader.load(dataLoaders).then(resolve, reject);
+            });
         });
+    }
+
+    getPageConfig(...args: unknown[]): Promise<unknown> {
+        if (!this._popupPageConfigLoaderModule) {
+            const message = 'При попытке открыть страницу в окне произошла ошибка.' +
+                'На приложении не задан модуль для получения конфигурации страницы.';
+            throw new Error(message);
+        }
+        return new Promise((resolve, reject) => {
+            this._getModuleByModuleName(this._popupPageConfigLoaderModule, (DataLoader) => {
+                DataLoader.getConfig(...args).then(resolve, reject);
+            });
+        });
+    }
+
+    getPageTemplate(): string {
+        if (!this._popupPageTemplateModule) {
+            const message = 'При попытке открыть страницу в окне произошла ошибка.' +
+                'На приложении не задан шаблон отображения страницы в окне.';
+            throw new Error(message);
+        }
+        return this._popupPageTemplateModule;
     }
 
     /**
@@ -828,6 +849,17 @@ class Manager {
         } else {
             item.popupOptions = oldOptions;
         }
+    }
+
+    private _getModuleByModuleName(moduleName: string, callback: Function): void {
+        const module = getModuleByName(moduleName);
+        if (module) {
+            callback(module);
+            return;
+        }
+        Library.load(moduleName).then((loadedModule) => {
+            callback(loadedModule);
+        });
     }
 
     // TODO Должно быть удалено после https://online.sbis.ru/opendoc.html?guid=f2b13a65-f404-4fbd-a05c-bbf6b59358e6

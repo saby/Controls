@@ -15,6 +15,7 @@ export {default as Stack} from 'Controls/_popupTemplate/Stack';
 export {default as DialogHeader} from 'Controls/_popupTemplate/Dialog/DialogHeader';
 export {default as Dialog} from 'Controls/_popupTemplate/Dialog';
 export {default as Sticky} from 'Controls/_popupTemplate/Sticky';
+export {default as Page} from 'Controls/_popupTemplate/Page';
 export {default as IPopupTemplate, IPopupTemplateOptions} from 'Controls/_popupTemplate/interface/IPopupTemplate';
 export {default as INotification, INotificationOptions} from 'Controls/_popupTemplate/Notification/interface/INotification';
 export {default as CloseButton} from 'Controls/_popupTemplate/CloseButton';
