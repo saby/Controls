@@ -19,12 +19,9 @@
   "--link_text-color_inline": "var(--link_hover_text-color)",
   "--link_hover_text-color_inline": "var(--link_text-color)",
   "--icon-color": "#000000",
-  "--secondary_icon-color": "var(--secondary_color)",
-  "--secondary_hover_icon-color": "var(--link_hover_text-color)",
   "--contrast_icon-color": "#ffffff",
   "--unaccented_icon-color": "#cccccc",
 
-  // Новая палитра
   "--primary_color": "#cc3d00",
   "--primary_text-color": "#cc3d00",
   "--primary_hover_text-color": "#e27140",
@@ -105,9 +102,9 @@
   "--warning_hover_contrast_background-color": "#e5ab38",
   "--warning_active_contrast_background-color": "#df9f20",
 
-  "--info_text-color": "#2e2d86", // конфликтует со старым, пока комментим
+  "--info_text-color": "#2e2d86",
   "--info_hover_text-color": "#5250af",
-  "--info_icon-color": "#5351bd", // конфликтует со старым, пока комментим
+  "--info_icon-color": "#5351bd",
   "--info_hover_icon-color": "#323091",
   "--info_border-color": "#3d3bbf",
   "--info_background-color": "#f7f7ff",
