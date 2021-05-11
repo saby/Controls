@@ -1,15 +1,13 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {IRenderOptions} from 'Controls/listRender';
 import {IMenuBaseOptions} from 'Controls/_menu/interface/IMenuBase';
-import {Tree, TreeItem, GroupItem, Collection} from 'Controls/display';
+import {TreeItem, GroupItem} from 'Controls/display';
 import * as itemTemplate from 'wml!Controls/_menu/Render/itemTemplate';
 import * as multiSelectTpl from 'wml!Controls/_menu/Render/multiSelectTpl';
 import ViewTemplate = require('wml!Controls/_menu/Render/Render');
 import {TKey} from 'Controls/_menu/interface/IMenuControl';
 import {Model} from 'Types/entity';
-import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {factory} from 'Types/chain';
 import {ItemsUtil} from 'Controls/list';
 import {Visibility as MarkerVisibility} from 'Controls/marker';
 import {IItemAction} from 'Controls/itemActions';
@@ -36,14 +34,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
     protected _iconPadding: string;
 
     protected _beforeMount(options: IMenuRenderOptions): void {
-        this.setListModelOptions(options);
         this._iconPadding = this.getIconPadding(options);
-    }
-
-    protected _beforeUpdate(newOptions: IMenuRenderOptions): void {
-        if (newOptions.listModel !== this._options.listModel) {
-            this.setListModelOptions(newOptions);
-        }
     }
 
     protected _beforeUnmount(): void {
@@ -202,88 +193,6 @@ class MenuRender extends Control<IMenuRenderOptions> {
         return iconSize;
     }
 
-    private setListModelOptions(options: IMenuRenderOptions): void {
-        options.listModel.setItemPadding({
-            top: 'null',
-            bottom: 'menu-default',
-            left: this.getLeftPadding(options),
-            right: this.getRightPadding(options)
-        });
-        if (!options.searchValue && options.emptyText && !options.listModel.getItemBySourceKey(options.emptyKey)) {
-            this.addEmptyItem(options.listModel, options);
-        }
-    }
-
-    private addEmptyItem(listModel: Tree, options: IMenuRenderOptions): void {
-        const collection = listModel.getCollection();
-        const emptyItem = this._getItemModel(collection, options.keyProperty);
-
-        const data = {};
-        data[options.keyProperty] = options.emptyKey;
-        data[options.displayProperty] = options.emptyText;
-
-        if (options.parentProperty) {
-            data[options.parentProperty] = options.root;
-        }
-        if (options.nodeProperty) {
-            data[options.nodeProperty] = false;
-        }
-        emptyItem.set(data);
-        collection.prepend([emptyItem]);
-
-        if (options.markerVisibility !== MarkerVisibility.Hidden &&
-            (!options.selectedKeys.length || options.selectedKeys.includes(options.emptyKey))) {
-            this._selectItem(listModel, options.emptyKey, true);
-        }
-    }
-
-    private _getItemModel(collection: RecordSet, keyProperty: string): Model {
-        const model = collection.getModel();
-        const modelConfig = {
-            keyProperty,
-            format: collection.getFormat(),
-            adapter: collection.getAdapter()
-        };
-        if (typeof model === 'string') {
-            return this._createModel(model, modelConfig);
-        } else {
-            return new model(modelConfig);
-        }
-    }
-
-    private _createModel(model: string, config: object): Model {
-        return DiCreate(model, config);
-    }
-
-    private getLeftPadding(options: IMenuRenderOptions): string {
-        let leftSpacing = 'm';
-        if (options.itemPadding.left) {
-            leftSpacing = options.itemPadding.left;
-        }
-        return leftSpacing;
-    }
-
-    private getRightPadding(options: IMenuRenderOptions): string {
-        let rightSpacing = 'm';
-        if (!options.itemPadding.right) {
-            if (options.multiSelect) {
-                rightSpacing = 'menu-multiSelect';
-            } else {
-                factory(options.listModel).each((item) => {
-                    if (item.getContents().get && item.getContents().get(options.nodeProperty)) {
-                        rightSpacing = 'menu-expander';
-                    }
-                });
-            }
-        } else {
-            rightSpacing = options.itemPadding.right;
-            if (options.multiSelect) {
-                rightSpacing += '-multiSelect';
-            }
-        }
-        return rightSpacing;
-    }
-
     private getIconPadding(options: IMenuRenderOptions): string {
         let iconPadding = '';
         let icon;
@@ -307,14 +216,6 @@ class MenuRender extends Control<IMenuRenderOptions> {
             }
         });
         return result;
-    }
-
-    private _selectItem(collection: Collection<unknown>, key: number|string, state: boolean): void {
-        const item = collection.getItemBySourceKey(key);
-        if (item) {
-            item.setMarked(state, true);
-            collection.nextVersion();
-        }
     }
 
     static getDefaultOptions(): object {

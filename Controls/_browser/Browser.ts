@@ -857,10 +857,10 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         }
 
         if (searchController) {
+            this._misspellValue = searchController.getMisspellValue();
             if (searchController.isSearchInProcess() || searchController.getSearchValue() !== this._searchValue) {
                 this._afterSearch(data);
             }
-            this._misspellValue = searchController.getMisspellValue();
         }
 
         if (this._isSearchViewMode() && !this._searchValue) {

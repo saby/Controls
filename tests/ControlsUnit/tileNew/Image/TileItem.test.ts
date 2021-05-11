@@ -20,7 +20,7 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
             it('by default', () => {
                 const item = new TileCollectionItem();
                 const result = item.getImageClasses('rich', undefined, 'center', 'rectangle', 1, 'top', 's');
-                CssClassesAssert.isSame(result, 'controls-TileView__richTemplate_image controls-TileView__richTemplate_image_viewMode_rectangle controls-TileView__richTemplate_image_size_s_position_top_viewMode_rectangle controls-TileView__richTemplate_image_size_s_position_top');
+                CssClassesAssert.isSame(result, 'controls-TileView__richTemplate_image controls-TileView__richTemplate_image_viewMode_rectangle');
             });
 
             it('contains controls-TileView__image', () => {
@@ -36,24 +36,6 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
 
                 result = item.getImageClasses('rich', undefined, 'center', 'rectangle', 1, 'top');
                 CssClassesAssert.notInclude(result, 'controls-TileView__image controls-TileView__image_align_center');
-            });
-
-            it('setup image size', () => {
-                const item = new TileCollectionItem();
-                let result = item.getImageClasses('rich', undefined, 'center', 'rectangle', 1, 'top', '', '', '1:1');
-                CssClassesAssert.notInclude(result, 'controls-TileView__richTemplate_image_size_');
-
-                result = item.getImageClasses('rich', undefined, 'center', 'rectangle', 1, 'top', 's', '');
-                CssClassesAssert.include(result, 'controls-TileView__richTemplate_image_size_s_position_top_viewMode_rectangle');
-                CssClassesAssert.include(result, 'controls-TileView__richTemplate_image_size_s_position_top');
-
-                result = item.getImageClasses('rich', undefined, 'center', 'ellipsis', 1, 'top', 's', '', '1:1');
-                CssClassesAssert.include(result, 'controls-TileView__richTemplate_image_size_s_position_top_viewMode_ellipsis');
-                CssClassesAssert.include(result, 'controls-TileView__richTemplate_image_size_s_position_top');
-
-                result = item.getImageClasses('rich', undefined, 'center', 'rectangle', 1, 'left', 's', '', '1:1');
-                CssClassesAssert.include(result, 'controls-TileView__richTemplate_image_size_s_position_left_viewMode_rectangle');
-                CssClassesAssert.include(result, 'controls-TileView__richTemplate_image_size_s_position_vertical');
             });
         });
 
@@ -76,5 +58,33 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
                 CssClassesAssert.isSame(result, 'controls-TileView__image_align_top controls-TileView__image_fullHeight controls-TileView__image_fullWidth');
             });
         });
+    });
+
+    describe('getImageWrapperClasses', () => {
+       describe('rich', () => {
+           it('by default', () => {
+               const item = new TileCollectionItem();
+               const result = item.getImageWrapperClasses('rich', undefined, 'center', 'rectangle', 1, 'top', 's');
+               CssClassesAssert.include(result, 'controls-TileView__richTemplate_image_size_s_position_top_viewMode_rectangle controls-TileView__richTemplate_image_size_s_position_top');
+           });
+
+           it('setup image size', () => {
+               const item = new TileCollectionItem();
+               let result = item.getImageWrapperClasses('rich', undefined, 'center', 'rectangle', 1, 'top', '', '1:1');
+               CssClassesAssert.notInclude(result, 'controls-TileView__richTemplate_image_size_');
+
+               result = item.getImageWrapperClasses('rich', undefined, 'center', 'rectangle', 1, 'top', 's');
+               CssClassesAssert.include(result, 'controls-TileView__richTemplate_image_size_s_position_top_viewMode_rectangle');
+               CssClassesAssert.include(result, 'controls-TileView__richTemplate_image_size_s_position_top');
+
+               result = item.getImageWrapperClasses('rich', undefined, 'center', 'ellipsis', 1, 'top', 's', '1:1');
+               CssClassesAssert.include(result, 'controls-TileView__richTemplate_image_size_s_position_top_viewMode_ellipsis');
+               CssClassesAssert.include(result, 'controls-TileView__richTemplate_image_size_s_position_top');
+
+               result = item.getImageWrapperClasses('rich', undefined, 'center', 'rectangle', 1, 'left', 's', '1:1');
+               CssClassesAssert.include(result, 'controls-TileView__richTemplate_image_size_s_position_left_viewMode_rectangle');
+               CssClassesAssert.include(result, 'controls-TileView__richTemplate_image_size_s_position_vertical');
+           });
+       });
     });
 });

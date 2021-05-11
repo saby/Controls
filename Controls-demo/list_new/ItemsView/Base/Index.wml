@@ -3,19 +3,19 @@
       <Controls.buttons:Button
          caption="Add row"
          on:click="_addRow()"
-         attr:class="toolbar-btn"
+         attr:class="toolbar-btn demo-ListNewItemsViewBase__addRow"
          attr:title="Сгенерировать новую запись и добавить её в конец списка"
       />
       <Controls.buttons:Button
          caption="Del row"
          on:click="_delRow()"
-         attr:class="toolbar-btn"
+         attr:class="toolbar-btn demo-ListNewItemsViewBase__delRow"
          attr:title="Удалить первую запись из списка"
       />
       <Controls.buttons:Button
          caption="Reset rows"
          on:click="_resetRows()"
-         attr:class="toolbar-btn"
+         attr:class="toolbar-btn demo-ListNewItemsViewBase__resetRows"
          attr:title="Вернуть список к исходному состоянию"
       />
    </div>
