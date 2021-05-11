@@ -95,8 +95,9 @@ Object.defineProperty(Switch, 'defaultProps', {
 
 /**
  * @name Controls/_toggle/Switch#contrastBackground
- * @cfg
+ * @cfg {string}
  * @default true
+ * @demo Controls-demo/toggle/Switch/ContrastBackground/Index
  */
 
 /**
