@@ -62,6 +62,7 @@ export interface IButton extends IContrastBackground {
  * @variant secondary
  * @variant success
  * @variant danger
+ * @variant info
  * @variant unaccented
  * @default secondary
  * @remark
@@ -82,6 +83,7 @@ export interface IButton extends IContrastBackground {
  * @variant success
  * @variant warning
  * @variant danger
+ * @variant info
  * @default secondary
  * @example
  * Primary button with default icon style.
