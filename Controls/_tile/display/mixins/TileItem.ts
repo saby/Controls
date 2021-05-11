@@ -585,16 +585,21 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getImageWrapperStyles(itemType: string = 'default'): string {
+    getImageWrapperStyles(itemType: string = 'default', imageViewMode: string = 'rectangle', imagePosition?: string): string {
+        let styles = '';
         if (this.getTileMode() === 'dynamic') {
             let height = this.getTileHeight();
             if (this.isScaled() && this.isAnimated()) {
                 height *= this.getOwner().getZoomCoefficient();
             }
-            return `height: ${height}px;`;
-        } else {
-            return '';
+            styles += ` height: ${height}px;`;
         }
+
+        if (itemType === 'rich' && imagePosition === 'top' && imageViewMode !== 'rectangle') {
+            styles += ' align-self: center; ';
+        }
+
+        return styles;
     }
 
     getImageAlignClasses(imageAlign: string): string {
@@ -921,9 +926,6 @@ export default abstract class TileItem<T extends Model = Model> {
                 break;
             case 'rich':
                 classes += ` controls-TileView__richTemplate controls-TileView__richTemplate_imagePosition_${imagePosition}`;
-                if (imagePosition === 'top' && imageViewMode !== 'rectangle') {
-                    classes += ' ws-align-items-center';
-                }
                 break;
             case 'preview':
                 classes += ' controls-TileView__previewTemplate_content';
