@@ -96,7 +96,7 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterRow', () => {
    });
 
    it('.getItemClasses()', () => {
-      CssClassesAssert.isSame(nodeFooterRow.getItemClasses(), 'controls-Grid__row controls-TreeGrid__nodeFooter');
+      CssClassesAssert.isSame(nodeFooterRow.getItemClasses(), 'controls-ListView__itemV controls-Grid__row controls-TreeGrid__nodeFooter');
    });
 
    it('.getExpanderPaddingClasses()', () => {
