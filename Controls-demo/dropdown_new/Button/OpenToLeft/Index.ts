@@ -1,6 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/dropdown_new/Button/OpenToLeft/Index');
 import {Memory} from 'Types/source';
+import 'css!Controls-demo/dropdown_new/Button/OpenToLeft/Index';
 
 export default class extends Control {
     protected _template: TemplateFunction = controlTemplate;
