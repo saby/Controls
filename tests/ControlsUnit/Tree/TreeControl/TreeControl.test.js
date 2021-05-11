@@ -2142,7 +2142,6 @@ define([
 
             it('remove node, expandedItems is changed', () => {
                const rs = treeControl.getViewModel().getCollection();
-               treeControl.getViewModel().setExpandedItems([0, 1]);
                rs.remove(rs.getRecordById(1));
                assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[0]]).called);
                assert.isFalse(notifySpy.withArgs('collapsedItemsChanged').called);
