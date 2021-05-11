@@ -11,11 +11,14 @@ import { isEqual } from 'Types/object';
 import { RecordSet } from 'Types/collection';
 import { Model } from 'Types/entity';
 
-import { Direction, TKey } from 'Controls/interface';
+import {Direction, IHierarchyOptions, TKey} from 'Controls/interface';
 import { BaseControl, IBaseControlOptions } from 'Controls/list';
 import {Collection, CollectionItem, Tree, TreeItem} from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
-import { NewSourceController as SourceController, NewSourceController } from 'Controls/dataSource';
+import {
+    nodeHistoryUtil,
+    NewSourceController
+} from 'Controls/dataSource';
 import { MouseButtons, MouseUp } from 'Controls/popup';
 import 'css!Controls/list';
 import 'css!Controls/itemActions';
@@ -34,7 +37,7 @@ const DEFAULT_COLUMNS_VALUE = [];
 type TNodeFooterVisibilityCallback = (item: Model) => boolean;
 type TNodeLoadCallback = (list: RecordSet, nodeKey: number | string) => void;
 
-export interface ITreeControlOptions extends IBaseControlOptions {
+export interface ITreeControlOptions extends IBaseControlOptions, IHierarchyOptions {
     parentProperty: string;
     markerMoveMode?;
     root?;
@@ -178,6 +181,8 @@ const _private = {
 
         function doExpand() {
 
+            _private.storeNodeState(self, item, expanded);
+
             // todo: удалить события itemExpand и itemCollapse в 20.2000.
             self._notify(expanded ? 'itemExpand' : 'itemCollapse', [item]);
             if (
@@ -249,6 +254,21 @@ const _private = {
         } else {
             return doExpand().then(expandToFirstLeafIfNeed);
         }
+    },
+
+    storeNodeState(self: TreeControl, item: Model, expanded: boolean): void {
+        if (!self._options.nodeHistoryId) {
+            return;
+        }
+        const expandedItems = _private.getExpandedItems(self, self._options, self._listViewModel.getCollection()) || [];
+        const itemKey = item.getKey();
+        const expandedNodeIndex = expandedItems.indexOf(itemKey);
+        if (expandedNodeIndex === -1 && expanded) {
+            expandedItems.push(itemKey);
+        } else {
+            expandedItems.splice(expandedNodeIndex, 1);
+        }
+        nodeHistoryUtil.store(expandedItems, self._options.nodeHistoryId);
     },
 
     hasInParents(collection: Collection, childKey, stepParentKey): boolean {
