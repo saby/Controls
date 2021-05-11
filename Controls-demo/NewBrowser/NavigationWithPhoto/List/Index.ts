@@ -4,6 +4,7 @@ import {BeforeChangeRootResult, Browser, DetailViewMode, IBrowserViewConfig, IRo
 import {FlatHierarchy} from 'Controls-demo/_DemoData/Data';
 import {BrandsImages} from 'Controls-demo/_DemoData/images/brands';
 import {DemoSource, getDefaultViewCfg} from 'Controls-demo/NewBrowser/DemoSource';
+import {constants} from 'Env/Env';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as Template from 'wml!Controls-demo/NewBrowser/NavigationWithPhoto/List/List';
@@ -84,6 +85,8 @@ export default class extends Control {
      * Корневая директория master списка
      */
     protected _masterRoot: TKey = null;
+
+    protected _fallbackImage: string = constants.resourceRoot + 'Controls-demo/resources/images/development.png';
 
     /**
      * Флаг, идентифицирующий видна или нет master-колонка

@@ -51,7 +51,7 @@
                 imageProperty="photo"
                 descriptionProperty="description"
                 columns="{{_detailTableColumns}}"
-                fallbackImage="{{'/Controls-demo/resources/images/development.png'}}"
+                fallbackImage="{{_fallbackImage}}"
         >
             <ws:navigation source="page" view="infinity">
                 <ws:sourceConfig pageSize="{{5}}" page="{{0}}" hasMore="{{false}}"/>

@@ -9,6 +9,7 @@ import {DemoSource, getDefaultViewCfg} from 'Controls-demo/NewBrowser/DemoSource
 import * as Template from 'wml!Controls-demo/NewBrowser/NavigationWithPhoto/Tile/Tile';
 import {SyntheticEvent} from 'UI/Vdom';
 import {TKey} from 'Controls/_interface/IItems';
+import {constants} from 'Env/Env';
 
 const getData = () => {
     const item = {
@@ -89,6 +90,8 @@ export default class extends Control {
      * Флаг, идентифицирующий видна или нет master-колонка
      */
     protected _isMasterVisible: boolean = true;
+
+    protected _fallbackImage: string = constants.resourceRoot + 'Controls-demo/resources/images/development.png';
 
     /**
      * Источник данных для колонок каталога
