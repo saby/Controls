@@ -1,21 +1,34 @@
 .controls-SwitchCircle {
-   border-radius: 50%;
+    border-radius: 50%;
 }
 
 .controls-SwitchCircle {
-   width: var(--marker_width_switcher);
-   height: var(--marker_height_switcher);
+    width: var(--marker_width_switcher);
+    height: var(--marker_height_switcher);
 }
 
 .controls-SwitchCircle_selected {
-   background-color: var(--selected_marker_color_switcher);
+    background-color: var(--selected_marker_color_switcher);
 }
+
+.controls-SwitchCircle_contrast-selected {
+    background-color: var(--selected_marker_contrast-color_switcher);
+}
+
+.controls-SwitchCircle_contrast-unselected {
+    background-color: var(--unselected_marker_contrast-color_switcher);
+}
+
 .controls-SwitchCircle_unselected {
-   background-color: var(--unselected_marker_color_switcher);
+    background-color: var(--unselected_marker_color_switcher);
 }
-.controls-SwitchCircle_selected_disabled {
-   background-color: var(--readonly_marker_color_switcher);
+
+.controls-SwitchCircle_selected_disabled,
+.controls-SwitchCircle_contrast-selected_disabled {
+    background-color: var(--readonly_marker_color_switcher);
 }
-.controls-SwitchCircle_unselected_disabled {
-   background-color: var(--readonly_unselected_marker_color_switcher);
+
+.controls-SwitchCircle_unselected_disabled,
+.controls-SwitchCircle_contrast-unselected_disabled {
+    background-color: var(--readonly_unselected_marker_color_switcher);
 }
