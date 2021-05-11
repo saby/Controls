@@ -168,7 +168,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
       if (this._countItems === 1) {
          this._selectedItem = items.at(0);
       }
-      if (this._options.emptyText) {
+      if (this._countItems && this._options.emptyText) {
          this._countItems += 1;
       }
       const readOnly = this._getReadOnly(this._options.readOnly);
