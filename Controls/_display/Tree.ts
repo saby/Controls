@@ -679,39 +679,56 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             return;
         }
 
-        // TODO зарефакторить по задаче https://online.sbis.ru/opendoc.html?guid=5d8d38d0-3ade-4393-bced-5d7fbd1ca40b
-
         const diff = ArraySimpleValuesUtil.getArrayDifference(this._expandedItems, expandedKeys);
 
-        if (diff.removed[0] === null) {
-            this._getItems().forEach((it) => it['[Controls/_display/TreeItem]'] && it.setExpanded(false));
+        //region Добавленные ключи нужно развернуть
+        if (diff.added[0] === null) {
+            this._getItems().forEach((item) => {
+                if (!item['[Controls/_display/TreeItem]'] || item.isNode() === null) {
+                    return;
+                }
+
+                // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
+                item.setExpanded(true);
+            });
         } else {
-            diff.removed.forEach((it) => {
-                const item = this.getItemBySourceKey(it, false);
+            diff.added.forEach((id) => {
+                const item = this.getItemBySourceKey(id, false);
                 if (item && item['[Controls/_display/TreeItem]']) {
-                    this._collapseChilds(item);
+                    // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
+                    item.setExpanded(true);
+                }
+            });
+        }
+        //endregion
+
+        //region Удаленные ключи нужно свернуть
+        if (diff.removed[0] === null) {
+            this._getItems().forEach((item) => {
+                if (!item['[Controls/_display/TreeItem]']) {
+                    return;
+                }
+
+                const id = item.getContents().getKey();
+                if (diff.added.includes(id)) {
+                    return;
+                }
+
+                // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
+                item.setExpanded(false);
+            });
+        } else {
+            diff.removed.forEach((id) => {
+                const item = this.getItemBySourceKey(id, false);
+                if (item && item['[Controls/_display/TreeItem]']) {
+                    // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
                     item.setExpanded(false);
                 }
             });
         }
+        //endregion
 
         this._expandedItems = [...expandedKeys];
-        if (expandedKeys[0] === null) {
-            this._getItems().forEach((item) => {
-                if (item['[Controls/_display/TreeItem]'] && item.isNode() !== null) {
-                    // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
-                    item.setExpanded(true);
-                }
-            });
-        } else {
-            expandedKeys.forEach((key) => {
-                const item = this.getItemBySourceKey(key, false);
-                if (item && item['[Controls/_display/TreeItem]']) {
-                    // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
-                    item.setExpanded(true);
-                }
-            });
-        }
         this._resetEdgeItems();
         this._updateEdgeItems();
     }
