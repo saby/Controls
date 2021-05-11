@@ -77,6 +77,10 @@ export default
       this._nextVersion();
    }
 
+   protected _hasItemsToCreateResults(): boolean {
+      return this.getCollectionCount() > 1;
+   }
+
    protected _getItemsFactory(): ItemsFactory<T> {
       const parent = super._getItemsFactory();
 
