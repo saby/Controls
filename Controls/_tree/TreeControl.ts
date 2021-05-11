@@ -349,11 +349,6 @@ const _private = {
         return expandedItems instanceof Array && expandedItems[0] === null;
     },
 
-    isDeepReload(self): boolean {
-        // _deepReload может быть проставлен только в sourceController-е, например если релоад позвали в браузере
-        return self._deepReload || self.getSourceController() && self.getSourceController().isDeepReload();
-    },
-
     resetExpandedItems(self: TreeControl): void {
         const viewModel = self._listViewModel;
         let shouldCancelEditing = false;
@@ -754,8 +749,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             }
         }
 
-        const isDeepReload = _private.isDeepReload(this);
-        if (searchValueChanged && newOptions.searchValue && !isDeepReload) {
+        if (searchValueChanged && newOptions.searchValue && !this._isDeepReload()) {
             _private.resetExpandedItems(this);
         }
 
@@ -1014,8 +1008,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 this._updateExpandedItemsAfterReload = false;
             }
 
-            const isDeepReload = _private.isDeepReload(this);
-            if (!isDeepReload || this._needResetExpandedItems) {
+            if (!this._isDeepReload() || this._needResetExpandedItems) {
                 _private.resetExpandedItems(this);
                 this._needResetExpandedItems = false;
             }
@@ -1349,6 +1342,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _isExpanded(item, model): boolean {
         return model.getExpandedItems().indexOf(item.get(this._keyProperty)) > -1;
+    }
+
+    private _isDeepReload(): boolean {
+        // _deepReload может быть проставлен только в sourceController-е, например если релоад позвали в браузере
+        return this._deepReload || this.getSourceController() && this.getSourceController().isDeepReload();
     }
 
     protected _getFooterClasses(options): string {
