@@ -583,19 +583,19 @@ export default class Explorer extends Control<IExplorerOptions> {
         return treeControl.reloadItem.apply(treeControl, arguments);
     }
 
-    beginEdit(options: object): Promise<unknown> {
+    beginEdit(options: object): Promise<void | {canceled: true}> {
         return this._children.treeControl.beginEdit(options);
     }
 
-    beginAdd(options: object): Promise<unknown> {
+    beginAdd(options: object): Promise<void | { canceled: true }> {
         return this._children.treeControl.beginAdd(options);
     }
 
-    cancelEdit(): Promise<unknown> {
+    cancelEdit(): Promise<void | { canceled: true }> {
         return this._children.treeControl.cancelEdit();
     }
 
-    commitEdit(): Promise<unknown> {
+    commitEdit(): Promise<void | { canceled: true }> {
         return this._children.treeControl.commitEdit();
     }
 
