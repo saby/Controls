@@ -142,7 +142,12 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
     }
 
     getWrapperStyles(): string {
-        return `${super.getWrapperStyles()} z-index: ${this.getZIndex()};`;
+        let wrapperStyles = `${super.getWrapperStyles()}`;
+        // стиль z-index необходимо устанавливать только если включен stickyHeader
+        if (this._$isSticked) {
+            wrapperStyles = `z-index: ${this.getZIndex()};`;
+        }
+        return wrapperStyles;
     }
 
     getZIndex(): number {
