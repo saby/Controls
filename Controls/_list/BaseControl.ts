@@ -802,6 +802,8 @@ const _private = {
                 if (self._destroyed) {
                     return;
                 }
+                _private.hideIndicator(self);
+
                 const itemsCountAfterLoad = self._listViewModel.getCount();
                 // If received list is empty, make another request.
                 // If it’s not empty, the following page will be requested in resize event
