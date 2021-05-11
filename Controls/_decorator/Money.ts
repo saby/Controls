@@ -93,12 +93,14 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
      * @name Controls/_decorator/IMoney#currencySize
      * @cfg {Controls/_decorator/IMoney/TCurrencySize.typedef} Размер отображаемой валюты.
      * @default s
+     * @demo Controls-demo/Decorator/Money/CurrencySize/Index
      */
     currencySize?: TCurrencySize;
     /**
      * @name Controls/_decorator/IMoney#currencyPosition
      * @cfg {Controls/_decorator/IMoney/TCurrencyPosition.typedef} Позиция отображаемой валюты относительно суммы.
      * @default right
+     * @demo Controls-demo/Decorator/Money/Currency/Index
      */
     currencyPosition?: TCurrencyPosition;
 }

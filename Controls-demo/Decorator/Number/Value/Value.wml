@@ -1,22 +1,22 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = null</div>
+      <div class="controls-text-label">value = null</div>
       <Controls.decorator:Number value="{{null}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 1234567890</div>
+      <div class="controls-text-label">value = 1234567890</div>
       <Controls.decorator:Number value="{{1234567890}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = '1234567890'</div>
+      <div class="controls-text-label">value = '1234567890'</div>
       <Controls.decorator:Number value="1234567890"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 12345.67890</div>
+      <div class="controls-text-label">value = 12345.67890</div>
       <Controls.decorator:Number value="{{12345.67890}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = '12345.67890'</div>
+      <div class="controls-text-label">value = '12345.67890'</div>
       <Controls.decorator:Number value="12345.67890"/>
    </div>
 </div>
