@@ -22,6 +22,7 @@ import {StickyOpener, StackOpener} from 'Controls/popup';
 import {TKey} from 'Controls/_menu/interface/IMenuControl';
 import { MarkerController, Visibility as MarkerVisibility } from 'Controls/marker';
 import {FlatSelectionStrategy, SelectionController, IFlatSelectionStrategyOptions} from 'Controls/multiselection';
+import {create as DiCreate} from 'Types/di';
 import 'css!Controls/menu';
 
 interface IMenuPosition {
@@ -323,14 +324,14 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _getKeysForSelectionController(options: IMenuControlOptions): TSelectedKeys {
-        const selectedKys = [];
+        const selectedKeys = [];
         options.selectedKeys.forEach((key) => {
             const item = this._listModel.getItemBySourceKey(key)?.getContents();
-            if (item && !MenuControl._isFixedItem(item)) {
-                selectedKys.push(MenuControl._isHistoryItem(item) ? String(key) : key);
+            if (key !== options.emptyKey && item && !MenuControl._isFixedItem(item)) {
+                selectedKeys.push(MenuControl._isHistoryItem(item) ? String(key) : key);
             }
         });
-        return selectedKys;
+        return selectedKeys;
     }
 
     private _openItemActionMenu(item: CollectionItem<Model>,
@@ -747,10 +748,17 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _getCollection(items: RecordSet<Model>, options: IMenuControlOptions): Collection<Model> {
+        if (!options.searchValue && options.emptyText && !items.getRecordById(options.emptyKey)) {
+            this._addEmptyItem(items, options);
+        }
         const collectionConfig: object = {
             collection: items,
             keyProperty: options.keyProperty,
-            unique: true
+            unique: true,
+            topPadding: 'null',
+            bottomPadding: 'menu-default',
+            leftPadding: this._getLeftPadding(options),
+            rightPadding: this._getRightPadding(options, items)
         };
         let listModel: Search<Model> | Collection<Model>;
 
@@ -784,6 +792,70 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             listModel.addFilter(this._limitHistoryFilter);
         }
         return listModel;
+    }
+
+    private _addEmptyItem(items: RecordSet, options: IMenuControlOptions): void {
+        const emptyItem = this._getItemModel(items, options.keyProperty);
+
+        const data = {};
+        data[options.keyProperty] = options.emptyKey;
+        data[options.displayProperty] = options.emptyText;
+
+        if (options.parentProperty) {
+            data[options.parentProperty] = options.root;
+        }
+        if (options.nodeProperty) {
+            data[options.nodeProperty] = false;
+        }
+        emptyItem.set(data);
+        items.prepend([emptyItem]);
+    }
+
+    private _getItemModel(items: RecordSet, keyProperty: string): Model {
+        const model = items.getModel();
+        const modelConfig = {
+            keyProperty,
+            format: items.getFormat(),
+            adapter: items.getAdapter()
+        };
+        if (typeof model === 'string') {
+            return this._createModel(model, modelConfig);
+        } else {
+            return new model(modelConfig);
+        }
+    }
+
+    private _createModel(model: string, config: object): Model {
+        return DiCreate(model, config);
+    }
+
+    private _getLeftPadding(options: IMenuControlOptions): string {
+        let leftSpacing = 'm';
+        if (options.itemPadding.left) {
+            leftSpacing = options.itemPadding.left;
+        }
+        return leftSpacing;
+    }
+
+    private _getRightPadding(options: IMenuControlOptions, items: RecordSet): string {
+        let rightSpacing = 'm';
+        if (!options.itemPadding.right) {
+            if (options.multiSelect) {
+                rightSpacing = 'menu-multiSelect';
+            } else {
+                factory(items).each((item) => {
+                    if (MenuControl._isItemCurrentRoot(item, options) && item.get(options.nodeProperty)) {
+                        rightSpacing = 'menu-expander';
+                    }
+                });
+            }
+        } else {
+            rightSpacing = options.itemPadding.right;
+            if (options.multiSelect) {
+                rightSpacing += '-multiSelect';
+            }
+        }
+        return rightSpacing;
     }
 
     private _groupMethod(options: IMenuControlOptions, item: Model): string {
@@ -849,8 +921,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         } else if (options.allowPin && !options.subMenuLevel) {
             this._visibleIds = [];
             factory(items).each((item) => {
-                const parent = item.get(options.parentProperty);
-                if (parent === options.root || !parent && options.root === null)  {
+                if (MenuControl._isItemCurrentRoot(item, options))  {
                     this._visibleIds.push(item.getKey());
                 }
             });
@@ -1076,6 +1147,11 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             isVisible = parent === options.root;
         }
         return isVisible;
+    }
+
+    private static _isItemCurrentRoot(item: Model, options: IMenuControlOptions): boolean {
+        const parent = item.get(options.parentProperty);
+        return parent === options.root || !parent && options.root === null;
     }
 
     static getDefaultOptions(): object {

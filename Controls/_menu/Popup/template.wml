@@ -73,6 +73,7 @@
                        emptyText="{{_options.emptyText}}"
                        emptyKey="{{_options.emptyKey}}"
                        searchParam="{{_options.searchParam}}"
+                       breadCrumbsItemTemplate="{{_options.breadCrumbsItemTemplate}}"
                        multiSelect="{{_options.multiSelect}}"
                        markerVisibility="{{_options.markerVisibility}}"
                        emptyTemplate="{{_options.emptyTemplate}}"
@@ -134,7 +135,18 @@
 </ws:template>
 
 <ws:if data="{{_options.searchParam}}">
-   <ws:partial template="{{'Controls/browser:Browser'}}" scope="{{_options}}">
+   <ws:partial template="{{'Controls/browser:Browser'}}"
+               root="{{_options.root}}"
+               keyProperty="{{_options.keyProperty}}"
+               displayProperty="{{_options.displayProperty}}"
+               multiSelect="{{_options.multiSelect}}"
+               searchParam="{{_options.searchParam}}"
+               emptyTemplate="{{_options.emptyTemplate}}"
+               source="{{_options.source}}"
+               navigation="{{_options.navigation}}"
+               filter="{{filter || _options.filter}}"
+               parentProperty="{{_options.parentProperty}}"
+               nodeProperty="{{_options.nodeProperty}}">
       <ws:partial template="{{'Controls/list:Container'}}">
          <ws:partial template="menuPopupWrapper" filter="{{content.filter}}"/>
       </ws:partial>
