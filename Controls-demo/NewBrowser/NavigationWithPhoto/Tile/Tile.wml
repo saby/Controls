@@ -1,0 +1,104 @@
+<div>
+    <div class="controlDemo__input-row">
+        <Controls.toggle:DoubleSwitch
+                attr:class="controlsDemo_m"
+                bind:value="_isMasterVisible"
+                captions="{{['master auto', 'master off']}}"
+        />
+
+        <Controls.dropdown:Selector
+                keyProperty="key"
+                displayProperty="title"
+                attr:class="controlsDemo_m"
+                source="{{_viewModeSource}}"
+                bind:selectedKeys="_userViewMode"
+                on:selectedKeysChanged="_onUserViewModeChanged()"
+                contentTemplate="Controls/dropdown:defaultContentTemplateWithIcon"
+        />
+    </div>
+    <Controls.scroll:Container attr:style="width: 600px; max-height: 800px">
+        <Controls.newBrowser:Browser
+                name="browser"
+                keyProperty="id"
+                nodeProperty="type"
+                parentProperty="parent"
+                hasChildrenProperty="hasChild"
+                propStorageId="catalogDemoBase"
+
+                source="{{_baseSource}}"
+                userViewMode="{{_viewMode}}"
+                listConfiguration="{{_defaultViewCfg}}"
+
+                bind:root="_root"
+                bind:masterRoot="_masterRoot"
+
+                on:beforeRootChanged="_onBeforeRootChanged()"
+                on:viewModeChanged="_onBrowserViewModeChanged()"
+
+        >
+            <!-- Задаем общую настройку master-колонки -->
+            <ws:master
+                    width="{{300}}"
+                    minWidth="{{200}}"
+                    maxWidth="{{500}}"
+                    filter="{{_masterFilter}}"
+                    columns="{{_masterTableColumns}}"
+                    visibility="{{_isMasterVisible ? undefined : 'hidden'}}"
+                    expanderVisibility="hasChildren"
+            />
+            <!-- Задаем общую настройку detail-колонки -->
+            <ws:detail
+                    imageProperty="photo"
+                    descriptionProperty="description"
+                    columns="{{_detailTableColumns}}"
+                    fallbackImage="{{'/Controls-demo/resources/images/development.png'}}"
+            >
+                <ws:navigation source="page" view="infinity">
+                    <ws:sourceConfig pageSize="{{5}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="basic"/>
+                </ws:navigation>
+                <ws:roundBorder tl="xl" tr="xl" bl="xl" br="xl"/>
+                <ws:itemTemplate>
+                    <ws:partial
+                            template="Controls/listTemplates:ListItemTemplate"
+                            scope="{{itemTemplate}}"
+                            imagePosition="{{itemTemplate.listCfg.imagePosition}}"
+                            imageViewMode="{{itemTemplate.listCfg.imageViewMode}}"
+                            imageProperty="{{itemTemplate.listCfg.imageProperty}}"
+                    >
+                        <ws:captionTemplate>
+                            <Controls.heading:Title
+                                    fontSize="4xl"
+                                    fontColorStyle="default"
+                                    caption="{{captionTemplate.itemData.item.title}}"
+                                    tooltip="{{captionTemplate.itemData.item.title}}"
+                            />
+                        </ws:captionTemplate>
+                        <ws:contentTemplate>
+                            {{contentTemplate.itemData.item.description}}
+                        </ws:contentTemplate>
+                        <ws:footerTemplate>
+               <span style="color: grey">
+                  {{ footerTemplate.itemData.item.rating || footerTemplate.itemData.item.year }}
+               </span>
+                        </ws:footerTemplate>
+                    </ws:partial>
+                </ws:itemTemplate>
+                <ws:tileItemTemplate>
+                    <ws:partial
+                            template="Controls/tile:RichTemplate"
+                            scope="{{tileItemTemplate}}"
+                            imageSize="{{tileItemTemplate.tileCfg.imageSize}}"
+                            imagePosition="{{tileItemTemplate.tileCfg.imagePosition}}"
+                            imageEffect="{{tileItemTemplate.tileCfg.getImageEffect(tileItemTemplate.itemData)}}"
+                            imageViewMode="{{tileItemTemplate.tileCfg.getImageViewMode(tileItemTemplate.itemData)}}"
+                            gradientColor="{{tileItemTemplate.tileCfg.getGradientColor(tileItemTemplate.itemData)}}"
+                            description="{{tileItemTemplate.tileCfg.getDescription(tileItemTemplate.itemData)}}"
+                            descriptionLines="{{tileItemTemplate.tileCfg.getDescriptionLines(tileItemTemplate.itemData)}}"
+                            characteristics="{{tileItemTemplate.itemData.item.characteristics}}"
+                    />
+                </ws:tileItemTemplate>
+            </ws:detail>
+        </Controls.newBrowser:Browser>
+    </Controls.scroll:Container>
+</div>

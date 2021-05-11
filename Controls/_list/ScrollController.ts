@@ -225,6 +225,16 @@ export default class ScrollController {
         return this._options.collection.at(firstItemIndex);
     }
 
+    getLastVisibleRecord(listViewContainer: HTMLElement, baseContainer: HTMLElement, scrollTop: number): Model {
+        const topOffset = this._getTopOffsetForItemsContainer(listViewContainer, baseContainer);
+        const verticalOffset = this._viewportHeight + scrollTop - topOffset + (getStickyHeadersHeight(baseContainer, 'top', 'allFixed') || 0);
+
+        let lastItemIndex = this._options.collection.getStartIndex();
+        lastItemIndex += this._getFirstVisibleItemIndex(listViewContainer.children, verticalOffset);
+        lastItemIndex = Math.min(lastItemIndex, this._options.collection.getStopIndex());
+        return this._options.collection.at(lastItemIndex - 1);
+    }
+
     /**
      * Возращает индекс первого полностью видимого элемента
      * @param {HTMLElement[]} items

@@ -7,7 +7,7 @@
            width="{{ item.getImageWidthAttribute(itemType) }}"
            class="{{ (item || itemData).getImageClasses(itemType, width || itemWidth, imageAlign, imageViewMode, imageProportion, imagePosition, imageSize, imageFit, imageProportionOnItem) }}"
            preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}">
-         <image preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}" height="100%" width="100%" xlink:href="{{ (item || itemData).getImageUrl(width || itemWidth, imagePosition, imageViewMode) }}"></image>
+         <image preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}" height="100%" width="100%" xlink:href="{{ (item || itemData).getImageUrl(width || itemWidth, imagePosition, imageViewMode, fallbackImage) }}"></image>
       </svg>
    </ws:if>
    <ws:else>

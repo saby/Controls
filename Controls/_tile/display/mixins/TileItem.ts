@@ -476,8 +476,13 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getImageUrl(widthTpl?: number, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
-        const baseUrl = object.getPropertyValue<string>(this.getContents(), this.getImageProperty());
+    getImageUrl(
+        widthTpl?: number,
+        imagePosition: string = 'top',
+        imageViewMode: string = 'rectangle',
+        fallbackImage?: string
+    ): string {
+        const baseUrl = object.getPropertyValue<string>(this.getContents(), this.getImageProperty()) || fallbackImage;
         if (this.getImageFit() === 'cover') {
             const imageSizes = getImageSize(
                 this.getTileWidth(widthTpl, imagePosition, imageViewMode),
