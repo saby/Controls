@@ -3,7 +3,7 @@ import {IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_moverDialog/Template/Template');
 import {Record} from 'Types/entity';
 import {ICrudPlus, QueryWhereExpression} from 'Types/source';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import rk = require('i18n!Controls');
 import {TKeysSelection, TColumns} from 'Controls/interface';
 import 'css!Controls/moverDialog';
@@ -153,7 +153,7 @@ export default class extends Control<IMoverDialogTemplateOptions> {
 /**
  * @event Происходит при выборе раздела для перемещения записей.
  * @name Controls/_moverDialog/Template#sendResult
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Раздел, куда перемещаются выбранные записи.
  * @remark
  * Выбор раздела производится кликом по записи, кнопкам "Выбрать" и "В корень" (см. {@link showRoot}).
@@ -166,7 +166,7 @@ export default class extends Control<IMoverDialogTemplateOptions> {
 /**
  * @event Происходит при закрытии диалога перемещения записей.
  * @name Controls/_moverDialog/Template#close
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @remark
  * Событие всплываемое (см. <a href="/doc/platform/developmentapl/interface-development/ui-library/events/">Работа с событиями</a>).
  * Событие происходит непосредственно после события sendResult.

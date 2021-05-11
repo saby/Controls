@@ -6,7 +6,7 @@ import {prepareEmpty, loadItems, isEmptyItem} from 'Controls/_dropdown/Util';
 import {EventUtils} from 'UI/Events';
 import Controller from 'Controls/_dropdown/_Controller';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {ISingleSelectableOptions, IBorderStyleOptions, IValidationStatusOptions, IInputPlaceholder,
    IInputPlaceholderOptions, IContrastBackgroundOptions} from 'Controls/interface';
 import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
@@ -296,7 +296,7 @@ export = ComboBox;
 /**
  * @event Происходит при изменении отображаемого значения контрола.
  * @name Controls/_dropdown/ComboBox#valueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} value Отображаемое значение контрола.
  * @remark
  * Событие используется в качестве реакции на изменения, вносимые пользователем.

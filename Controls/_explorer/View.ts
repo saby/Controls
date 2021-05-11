@@ -30,7 +30,7 @@ import {RecordSet} from 'Types/collection';
 import {NewSourceController, Path} from 'Controls/dataSource';
 import {SearchView, SearchViewTable} from 'Controls/searchBreadcrumbsGrid';
 import {TreeGridView, TreeGridViewTable } from 'Controls/treeGrid';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {IDragObject} from 'Controls/_dragnDrop/Container';
 import {ItemsEntity} from 'Controls/dragnDrop';
 import {TExplorerViewMode} from 'Controls/_explorer/interface/IExplorer';
@@ -1193,5 +1193,5 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @event Происходит при клике на кнопку "Просмотр записи".
  * @name Controls/_explorer/View#arrowClick
  * @remark Кнопка отображается при наведении курсора на текущую папку хлебных крошек. Отображение кнопки "Просмотр записи" задаётся с помощью опции {@link Controls/_explorer/interface/IExplorer#showActionButton}. По умолчанию кнопка скрыта.
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */

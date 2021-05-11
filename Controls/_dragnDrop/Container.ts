@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {descriptor} from 'Types/entity';
 import Env = require('Env/Env');
 
@@ -299,7 +299,7 @@ class Container extends Control<IContainerOptions> {
      * Метод для запуска процесса перемещения.
      * @public
      * @param {Controls/_dragnDrop/Entity} entity Объект перемещения.
-     * @param {Vdom/Vdom:SyntheticEvent} mouseDownEvent Дескриптор события.
+     * @param {UICommon/Events:SyntheticEvent} mouseDownEvent Дескриптор события.
      * @param {IStartDragOptions} options настройки перемещения.
      * @param {String} draggedKey ключ перемещения.
      * @example
@@ -452,7 +452,7 @@ Object.defineProperty(Container, 'defaultProps', {
 /**
  * @event Происходит при начале перемещения объекта на странице.
  * @name Controls/_dragnDrop/Container#documentDragStart
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {dragObject} dragObject Объект, в котором содержится информация о текущем состоянии Drag'n'drop.
  * @remark Событие срабатывает на всех контроллерах на странице, включая контроллер, в котором началось перемещение.
  * @example
@@ -500,7 +500,7 @@ Object.defineProperty(Container, 'defaultProps', {
 /**
  * @event Происходит при завершении перемещения объекта на странице.
  * @name Controls/_dragnDrop/Container#documentDragEnd
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {dragObject} dragObject Объект, в котором содержится информация о текущем состоянии Drag'n'drop.
  * @remark Событие срабатывает на всех контроллерах на странице, включая контроллер, на котором закончилось перемещение.
  * @example
@@ -551,7 +551,7 @@ Object.defineProperty(Container, 'defaultProps', {
 /**
  * @event Происходит, когда пользователь начинает перемещение объект в текущем контроллере.
  * @name Controls/_dragnDrop/Container#dragStart
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {dragObject} dragObject Объект, в котором содержится информация о текущем состоянии Drag'n'drop.
  * @remark Событие срабатывает только на контроллере, где началось перемещение.
  * @example
@@ -598,7 +598,7 @@ Object.defineProperty(Container, 'defaultProps', {
 /**
  * @event Происходит после того, как пользователь закончил перемещение объекта в текущем контроллере.
  * @name Controls/_dragnDrop/Container#dragEnd
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {dragObject} dragObject Объект, в котором содержится информация о текущем состоянии Drag'n'drop.
  * @remark Событие срабатывает только на контроллере, где завершилось перетаскивание.
  * @example
@@ -644,7 +644,7 @@ Object.defineProperty(Container, 'defaultProps', {
 /**
  * @event Происходит после перемещения объекта внутри контроллера.
  * @name Controls/_dragnDrop/Container#dragEnter
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {dragObject} dragObject Объект, в котором содержится информация о текущем состоянии Drag'n'drop.
  * @example
  * В следующем примере показано, как изменить визуальное состояние контрола при наведении на него курсора.
@@ -693,7 +693,7 @@ Object.defineProperty(Container, 'defaultProps', {
 /**
  * @event Происходит после перемещения объекта за пределы контроллера.
  * @name Controls/_dragnDrop/Container#dragLeave
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {dragObject} dragObject Объект, в котором содержится информация о текущем состоянии Drag'n'drop.
  * @example
  * В следующем примере показано, как изменить визуальное состояние контрола при наведении на него курсора.
@@ -742,7 +742,7 @@ Object.defineProperty(Container, 'defaultProps', {
 /**
  * @event Происходит при перемещении объекта на странице.
  * @name Controls/_dragnDrop/Container#dragMove
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {dragObject} dragObject Объект, в котором содержится информация о текущем состоянии Drag'n'drop.
  * @remark Событие срабатывает только на контроллере, где началось перемещение. Событие срабатывает каждый раз, когда на странице происходит событие mousemove(touchmove).
  * @example

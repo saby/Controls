@@ -32,7 +32,7 @@ export interface IInputDateTimeOptions {
 /**
  * @event Происходит при изменении значения поля ввода.
  * @name Controls/_input/interface/IInputDateTime#valueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} value Новое значение поля ввода.
  * @param {String} displayValue Текстовое значение поля ввода.
  * @remark
@@ -64,7 +64,7 @@ export interface IInputDateTimeOptions {
 /**
  * @event Происходит при завершении ввода в поле (поле потеряло фокус или пользователь нажал клавишу "enter").
  * @name Controls/_input/interface/IInputDateTime#inputCompleted
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} value Значение поля.
  * @param {String} displayValue Текстовое значение поля.
  * @remark

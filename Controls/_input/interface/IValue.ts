@@ -164,7 +164,7 @@ export interface IValue {
 /**
  * @name Controls/_input/interface/IValue#valueChanged
  * @event Происходит при изменении отображаемого значения контрола ввода.
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} value Значение контрола ввода.
  * @param {String} displayValue Отображаемое значение контрола ввода.
  * @remark

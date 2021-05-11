@@ -3,7 +3,7 @@ import template = require('wml!Controls/_listRender/Render/Render');
 
 import defaultItemTemplate = require('wml!Controls/_listRender/Render/resources/ItemTemplateWrapper');
 
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {CollectionItem, Collection, EditInPlaceController, GroupItem} from 'Controls/display';
 import {constants} from 'Env/Env';
 import {Opener as DropdownOpener} from 'Controls/dropdown';

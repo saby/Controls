@@ -3,7 +3,7 @@ import * as template from 'wml!Controls/_suggest/_InputController/_InputControll
 import {descriptor, Model, CancelablePromise} from 'Types/entity';
 import {getSwitcherStrFromData} from 'Controls/search';
 import {isEqual} from 'Types/object';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {IStackPopupOptions, Stack as StackOpener} from 'Controls/popup';
 import {ControllerClass as SearchController, SearchResolver as SearchResolverController} from 'Controls/search';
 import {ISearchResolverOptions} from 'Controls/_search/SearchResolver';

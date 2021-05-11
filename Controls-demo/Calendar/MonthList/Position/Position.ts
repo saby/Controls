@@ -1,4 +1,4 @@
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {date as formatDate} from 'Types/formatter';
 import template = require('wml!Controls-demo/Calendar/MonthList/Position/Position');

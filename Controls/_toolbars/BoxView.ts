@@ -1,5 +1,5 @@
 import {ICrudPlus} from 'Types/source';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {RecordSet} from 'Types/collection';
 import {Record} from 'Types/entity';
 import 'css!Controls/toolbars';

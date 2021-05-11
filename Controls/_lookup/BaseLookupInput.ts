@@ -5,7 +5,7 @@ import * as clearRecordsTemplate from 'wml!Controls/_lookup/BaseLookupView/resou
 import * as showSelectorTemplate from 'wml!Controls/_lookup/BaseLookupView/resources/showSelectorTemplate';
 import {UnregisterUtil, RegisterUtil} from 'Controls/event';
 import {DOMUtil} from 'Controls/sizeUtils';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {List} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {constants} from 'Env/Env';

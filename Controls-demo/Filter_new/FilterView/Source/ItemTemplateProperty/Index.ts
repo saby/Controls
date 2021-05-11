@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/Filter_new/FilterView/Source/ItemTemplateProperty/ItemTemplateProperty';
 import 'Controls-demo/Filter_new/resources/HistorySourceDemo';
 import {getItemsWithItemTemplate} from 'Controls-demo/Filter_new/resources/FilterItemsStorage';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {object} from 'Types/util';
 
 export default class extends Control {

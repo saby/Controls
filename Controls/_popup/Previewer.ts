@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import {IPreviewerPopupOptions} from 'Controls/_popup/interface/IPreviewerOpener';
 import {IPreviewer, IPreviewerOptions} from 'Controls/_popup/interface/IPreviewer';
 import {debounce} from 'Types/function';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import PreviewerOpener from './Opener/Previewer';
 import {goUpByControlTree} from 'UI/Focus';
 import 'css!Controls/popup';

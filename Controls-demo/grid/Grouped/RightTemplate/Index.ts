@@ -1,5 +1,5 @@
 import { Control, TemplateFunction } from 'UI/Base';
-import { SyntheticEvent } from  'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import { Memory } from 'Types/source';
 import { IColumn } from 'Controls/gridOld';
 

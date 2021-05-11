@@ -8,7 +8,7 @@ import {ListItems} from 'Controls/dragnDrop';
 import * as TaskEntity from 'Controls-demo/DragNDrop/MasterDetail/TasksEntity';
 import { TItemsReadyCallback } from 'Controls-demo/types';
 import {RecordSet} from 'Types/collection';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';
 import { IColumn } from 'Controls/gridOld';

@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_propertyGrid/extendedEditors/BooleanGroup';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import IEditor from 'Controls/_propertyGrid/IEditor';
 import {RecordSet} from 'Types/collection';
 import IEditorOptions from 'Controls/_propertyGrid/IEditorOptions';

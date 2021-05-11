@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/DragScrolling';
 import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import * as Dnd from 'Controls/dragnDrop';
 import { IColumn } from 'Controls/gridOld';

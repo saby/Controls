@@ -1,6 +1,6 @@
 import {constants, detection} from 'Env/Env';
 import {isEqual} from 'Types/object';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {descriptor} from 'Types/entity';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import BaseViewModel from '../BaseViewModel';

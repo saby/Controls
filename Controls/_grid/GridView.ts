@@ -6,7 +6,7 @@ import * as GridTemplate from 'wml!Controls/_grid/Render/grid/GridView';
 import * as GridItem from 'wml!Controls/_grid/Render/grid/Item';
 import * as GroupTemplate from 'wml!Controls/_grid/Render/GroupCellContentWithRightTemplate';
 import { Model } from 'Types/entity';
-import { SyntheticEvent } from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import ColumnScrollViewController, {COLUMN_SCROLL_JS_SELECTORS} from './ViewControllers/ColumnScroll';
 import { _Options } from 'UI/Vdom';
 import 'css!Controls/grid';

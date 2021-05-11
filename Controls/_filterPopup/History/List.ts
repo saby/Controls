@@ -1,7 +1,7 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls/_filterPopup/History/List';
 import {Serializer} from 'UI/State';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {isEqual} from 'Types/object';

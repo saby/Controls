@@ -4,7 +4,7 @@ import {Memory} from 'Types/source';
 import {DragNDrop} from '../DemoHelpers/DataCatalog';
 import * as Dnd from '../../../Controls/dragnDrop';
 import { IColumn } from 'Controls/gridOld';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';

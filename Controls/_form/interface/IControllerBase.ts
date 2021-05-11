@@ -38,7 +38,7 @@ import {Record} from 'Types/entity';
 /**
  * @event Происходит, когда запись обновлена успешно.(валидация прошла успешно, редактирование по месту завершилось)
  * @name Controls/_form/interface/IControllerBase#updatesuccessed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} record Редактируемая запись.
  * @see updatefailed
  */

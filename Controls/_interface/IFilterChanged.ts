@@ -14,7 +14,7 @@ export default interface IFilterChanged extends IFilter {
 /**
  * @event Происходит при изменении фильтра.
  * @name Controls/_interface/IFilterChanged#filterChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object} filter Изменённый фильтр.
  * @remark
  * Важно помнить, что опции {@link https://ru.m.wikipedia.org/wiki/Неизменяемый_объект иммутабельны}, поэтому фильтр в аргументах события отличается от фильтра в опциях контрола.
@@ -46,7 +46,7 @@ export default interface IFilterChanged extends IFilter {
 /*
  * @event Occurs when filter were changed.
  * @name Controls/_interface/IFilter#filterChangedENG
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Object} new filter
  * @noshow
  * @remark

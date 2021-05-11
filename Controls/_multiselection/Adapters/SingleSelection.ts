@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_multiselection/Adapters/SingleSelection';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 /**
  * Контейнер для работы со списочными контролами, который отслеживает изменение выбранного элемента и уведомляет с помощью события «selectedKeyChanged».
@@ -14,7 +14,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 /**
  * @event Происходит при изменении выбранного значения в списке.
  * @name Controls/_multiselection/Adapters/SingleSelection#selectedKeyChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {number|string} selectedKey Ключ выбранного элемента.
  */
 

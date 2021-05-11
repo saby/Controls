@@ -29,7 +29,7 @@ export default interface IExpandable {
 /**
  * @event Происходит при изменении состояния развернутости.
  * @name Controls/_interface/IExpandable#expandedChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Boolean} expandedState Текущее состояние развёрнутости.
  * @example
  * В следующем примере создается Controls.operations:Button и демонстрируется сценарий использования.
@@ -53,7 +53,7 @@ export default interface IExpandable {
 /*
  * @event Occurs when the deployment state changes.
  * @name Controls/_interface/IExpandable#expandedChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
  * @param {Boolean} expandedState The current state of deployment.
  * @example
  * The following example creates Controls.operations:Button and shows how to handle the event.

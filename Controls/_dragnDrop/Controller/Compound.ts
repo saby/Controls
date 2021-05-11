@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_dragnDrop/Controller/Compound/Compound';
 import * as draggingTemplateWrapper from 'wml!Controls/_dragnDrop/DraggingTemplateWrapper';
 import {Bus} from 'Env/Event';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 const ZINDEX_FOR_OLD_PAGE: number = 10000;
 

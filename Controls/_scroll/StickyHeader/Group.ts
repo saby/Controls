@@ -1,4 +1,4 @@
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {
     isStickySupport,
@@ -372,7 +372,7 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
 /**
  * @event Change the fixation state.
  * @name Controls/_scroll/StickyHeader/Group#fixed
- * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} event Event descriptor.
  * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} information Information about the fixation event.
  */
 

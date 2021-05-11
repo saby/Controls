@@ -39,7 +39,7 @@ import * as GroupTemplate from 'wml!Controls/_gridOld/GroupTemplate';
 
 import {Logger} from 'UI/Utils';
 import { GridLadderUtil } from 'Controls/display';
-import {SyntheticEvent} from "Vdom/Vdom";
+import { SyntheticEvent } from 'UICommon/Events';
 import 'css!Controls/grid';
 import 'css!Controls/CommonClasses';
 

@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_operations/Controller/Controller');
 import {EventUtils} from 'UI/Events';
-import { SyntheticEvent } from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import { TKeySelection as TKey } from 'Controls/interface';
 import {default as OperationsController} from 'Controls/_operations/ControllerClass';
 import { TSelectionType } from 'Controls/interface';

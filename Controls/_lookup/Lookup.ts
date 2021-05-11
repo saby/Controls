@@ -580,7 +580,7 @@ export default class Lookup extends BaseLookupInput {
 /**
  * @event Происходит при клике по дополнительной команде в правой части поля ввода.
  * @name Controls/_lookup/Lookup#toolbarItemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Record} item Элемент, по которому производим клик.
  * @param {Object} nativeEvent Объект нативного события браузера.
  */

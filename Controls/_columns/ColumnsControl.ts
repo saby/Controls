@@ -1,4 +1,4 @@
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {BaseControl, IBaseControlOptions} from 'Controls/list';
 import Collection from 'Controls/_columns/display/Collection';
 import {Model} from 'Types/entity';

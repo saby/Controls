@@ -5,7 +5,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import EnumTemplate = require('wml!Controls/_source/Adapter/Enum/Enum');
 import {Memory} from 'Types/source';
 import {Enum} from 'Types/collection';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 export interface IEnumAdapterOptions extends IControlOptions {
    enum: Enum<string>;

@@ -19,7 +19,7 @@ import {
         IIconStyleOptions,
         ITooltip,
         ITooltipOptions } from 'Controls/interface';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {constants} from 'Env/Env';
 
 export interface IToggleButtonOptions extends

@@ -20,7 +20,7 @@ import {
    TKey,
    Direction
 } from 'Controls/interface';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {isEqual} from 'Types/object';
 
 export interface IDataOptions extends IControlOptions,

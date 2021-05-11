@@ -3,7 +3,7 @@ import * as controlTemplate from 'wml!Controls-demo/Search/Browser/SearchValue/S
 import {Memory} from 'Types/source';
 import * as MemorySourceData from 'Controls-demo/Utils/MemorySourceData';
 import * as memorySourceFilter from 'Controls-demo/Utils/MemorySourceFilter';
-import { SyntheticEvent } from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 export default class Index extends Control<IControlOptions> {
    protected _template: TemplateFunction = controlTemplate;

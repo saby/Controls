@@ -1,6 +1,6 @@
 import cClone = require('Core/core-clone');
 
-import { SyntheticEvent } from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import { TemplateFunction } from "UI/Base";
 import { EventUtils } from 'UI/Events';
 
@@ -1357,6 +1357,6 @@ export default TreeControl;
 /**
  * @event Событие контрола.
  * @name Controls/_tree/TreeControl#expandedItemsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} expandedItems Массив с идентификаторами развернутых элементов.
  */

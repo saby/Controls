@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {fake, SinonSpy} from 'sinon';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {__ChangeEventController} from 'Controls/input';
 
 describe('Controls/input:__ChangeEventController', () => {

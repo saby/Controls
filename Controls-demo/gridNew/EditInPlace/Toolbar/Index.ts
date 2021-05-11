@@ -5,7 +5,7 @@ import * as editingCellText from 'wml!Controls-demo/gridNew/EditInPlace/Toolbar/
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {showType} from 'Controls/toolbars';
 import { IColumn } from 'Controls/grid';
 import {IItemAction} from 'Controls/itemActions';

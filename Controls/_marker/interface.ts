@@ -89,7 +89,7 @@ export interface IMarkerListOptions {
 /**
  * @event Происходит при выделении пользователем элемента списка.
  * @name Controls/_marker/interface/IMarkerList#markedKeyChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Number} key Ключ выбранного элемента.
  * @see markedKey
  * @see markerVisibility
@@ -100,14 +100,14 @@ export interface IMarkerListOptions {
 /*ENG
  * @event Occurs when list item was selected (marked).
  * @name Controls/_marker/interface/IMarkerList#markedKeyChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
  * @param {Number} key Key of the selected item.
  */
 
 /**
  * @event Происходит до изменения ключа {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркера}.
  * @name Controls/_marker/interface/IMarkerList#beforeMarkedKeyChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Number} key Новый ключ маркера.
  * @remark
  * Из обработчика события нужно вернуть полученный ключ или новый ключ.

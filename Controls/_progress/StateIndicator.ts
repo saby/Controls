@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {descriptor as EntityDescriptor} from 'Types/entity';
 import {Logger} from 'UI/Utils';
 import stateIndicatorTemplate = require('wml!Controls/_progress/StateIndicator/StateIndicator');
-import { SyntheticEvent } from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 const defaultColors = [
    'controls-StateIndicator__sector1',
@@ -282,7 +282,7 @@ Object.defineProperty(StateIndicator, 'defaultProps', {
 /**
  * @event Происходит при наведении курсора мыши на диаграмму.
  * @name Controls/_progress/StateIndicator#itemEnter
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Node} target Элемент, на котоорый навели курсор мыши
  *
  */
@@ -290,7 +290,7 @@ Object.defineProperty(StateIndicator, 'defaultProps', {
 /*
  * @event Occurs when mouse enters sectors of indicator
  * @name Controls/_progress/StateIndicator#itemEnter
- * @param {Vdom/Vdom:SyntheticEvent} eventObject event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} eventObject event descriptor.
  *
  */
 export default StateIndicator;

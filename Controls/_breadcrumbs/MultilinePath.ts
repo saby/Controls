@@ -8,7 +8,7 @@ import {
 import * as template from 'wml!Controls/_breadcrumbs/MultilinePath/MultilinePath';
 import {IBreadCrumbsOptions} from './interface/IBreadCrumbs';
 import {Record, Model} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {loadFontWidthConstants, getFontWidth} from 'Controls/Utils/getFontWidth';
 import {Logger} from 'UI/Utils';
 import 'css!Controls/breadcrumbs';

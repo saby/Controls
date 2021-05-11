@@ -1,5 +1,5 @@
 import {TemplateFunction} from 'UI/Base';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Logger} from 'UI/Utils';
 import {constants, detection} from 'Env/Env';
 import {descriptor} from 'Types/entity';

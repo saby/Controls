@@ -3,7 +3,7 @@ import template = require('wml!Controls-demo/FormController/ControllerBase/Index
 import {RecordSet} from 'Types/collection';
 import {StackOpener} from 'Controls/popup';
 import {Model} from 'Types/entity';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {mergeRecord, addRecord} from 'Controls/Utils/RecordSynchronizer';
 import 'Controls-demo/FormController/ControllerBase/PopupTemplate/PopupTemplate';
 import {Memory} from 'Types/source';

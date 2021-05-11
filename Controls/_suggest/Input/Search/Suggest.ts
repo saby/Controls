@@ -2,7 +2,7 @@ import {Control} from 'UI/Base';
 import * as template from 'wml!Controls/_suggest/Input/Search/Suggest';
 import {getOptionTypes} from 'Controls/_suggest/Utils';
 import {constants} from 'Env/Env';
-import {SyntheticEvent} from "Vdom/Vdom";
+import { SyntheticEvent } from 'UICommon/Events';
 import 'Controls/search';
 
 

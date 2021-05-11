@@ -1,7 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {descriptor} from 'Types/entity';
 import * as template from 'wml!Controls/_dateRange/RelationButton/RelationButton';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import 'css!Controls/dateRange';
 
 /**

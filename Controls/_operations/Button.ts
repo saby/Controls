@@ -4,7 +4,7 @@ import ButtonTemplate = require('wml!Controls/_operations/Button/Button');
 import {default as Store} from 'Controls/Store';
 import {DependencyTimer, isLeftMouseButton} from 'Controls/popup';
 import {IoC} from 'Env/Env';
-import {SyntheticEvent} from "Vdom/Vdom";
+import { SyntheticEvent } from 'UICommon/Events';
 import 'css!Controls/operations';
 
 export interface IOperationsButtonOptions extends IControlOptions, IExpandableOptions {

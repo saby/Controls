@@ -16,7 +16,7 @@
 /**
  * @event Происходит при завершении ввода (поле потеряло фокус или пользователь нажал "enter").
  * @name Controls/_dateRange/interfaces/IInput#inputCompleted
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} startValue Начальное значение поля.
  * @param {Date} endValue Конечно значение поля.
  * @param {String} displayedStartValue Начальное текстовое значение поля.

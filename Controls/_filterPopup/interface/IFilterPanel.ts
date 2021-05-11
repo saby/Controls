@@ -731,7 +731,7 @@ export interface IFilterDetailPanelOptions extends IControlOptions {
 /**
  * @event Происходит при изменении опции items.
  * @name Controls/_filterPopup/interface/IFilterPanel#itemsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Controls/_filter/interface/IFilterView#source} items Конфигурация свойств фильтра.
  * @example
  * WML:

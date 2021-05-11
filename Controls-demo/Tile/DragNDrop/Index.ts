@@ -5,7 +5,7 @@ import {Gadgets} from '../DataHelpers/DataCatalog';
 import {HierarchicalMemory} from 'Types/source';
 import * as Dnd from 'Controls/dragnDrop';
 import { TItemsReadyCallback } from 'Controls-demo/types';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';
 

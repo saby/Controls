@@ -1,6 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls/_tileOld/ItemActions/Menu/Menu';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Memory} from 'Types/source';
 
 export interface ITileMenuActionsOptions extends IControlOptions{

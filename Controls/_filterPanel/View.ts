@@ -1,6 +1,6 @@
 import {Control} from 'UI/Base';
 import * as template from 'wml!Controls/_filterPanel/View/View';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {TemplateFunction} from 'UI/Base';
 import {GroupItem} from 'Controls/display';
 import {IFilterItem} from 'Controls/filter';

@@ -188,7 +188,7 @@
 /**
  * @event Происходит, когда запись создана успешно.
  * @name Controls/_form/interface/IFormController#createsuccessed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} record Редактируемая запись.
  * @see createfailed
  */
@@ -196,14 +196,14 @@
 /*
  * @event Happens when record create successful
  * @name Controls/_form/interface/IFormController#createsuccessed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Model} Editable record
  */
 
 /**
  * @event Происходит, когда запись создать не удалось.
  * @name Controls/_form/interface/IFormController#createfailed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Error} Error
  * @see createsuccessed
  */
@@ -211,14 +211,14 @@
 /*
  * @event Happens when record create failed
  * @name Controls/_form/interface/IFormController#createfailed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Error} Error
  */
 
 /**
  * @event Происходит, когда запись прочитана успешно.
  * @name Controls/_form/interface/IFormController#readsuccessed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} record Редактируемая запись.
  * @see readfailed
  */
@@ -226,14 +226,14 @@
 /*
  * @event Happens when record read successful
  * @name Controls/_form/interface/IFormController#readsuccessed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Model} Editable record
  */
 
 /**
  * @event Происходит, когда запись прочитать не удалось.
  * @name Controls/_form/interface/IFormController#readfailed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Error} Error
  * @see readsuccessed
  */
@@ -241,14 +241,14 @@
 /*
  * @event Happens when record read failed
  * @name Controls/_form/interface/IFormController#readfailed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Error} Error
  */
 
 /**
  * @event Происходит, когда запись обновлена успешно.
  * @name Controls/_form/interface/IFormController#updatesuccessed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} record Редактируемая запись.
  * @param {String} key Ключ редактируемой записи.
  * @see updatefailed
@@ -257,7 +257,7 @@
 /*
  * @event Happens when record update successful
  * @name Controls/_form/interface/IFormController#updatesuccessed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Model} Editable record
  * @param {String} Editable record key
  */
@@ -265,7 +265,7 @@
 /**
  * @event Происходит, когда обновить запись не удалось.
  * @name Controls/_form/interface/IFormController#updatefailed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Error} Error
  * @see updatesuccessed
  */
@@ -273,14 +273,14 @@
 /*
  * @event Happens when record update failed
  * @name Controls/_form/interface/IFormController#updatefailed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Error} Error
  */
 
 /**
  * @event Происходит, когда запись удалена успешно.
  * @name Controls/_form/interface/IFormController#deletesuccessed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} record Редактируемая запись.
  * @see deletefailed
  */
@@ -288,14 +288,14 @@
 /*
  * @event Happens when record delete successful
  * @name Controls/_form/interface/IFormController#deletesuccessed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Model} Editable record
  */
 
 /**
  * @event Происходит, когда запись удалить не удалось.
  * @name Controls/_form/interface/IFormController#deletefailed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Error} Error
  * @see deletesuccessed
  */
@@ -303,28 +303,28 @@
 /*
  * @event Happens when record delete failed
  * @name Controls/_form/interface/IFormController#deletefailed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Error} Error
  */
 
 /**
  * @event Происходит, когда запись инициализируется в источнике данных.
  * @name Controls/_form/interface/IFormController#isNewRecordChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Boolean} isNewRecord
  */
 
 /*
  * @event Happens when the record is initialized in the data source
  * @name Controls/_form/interface/IFormController#isNewRecordChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Boolean} isNewRecord
  */
 
 /**
  * @event Происходит перед сохранением записи.
  * @name Controls/_form/interface/IFormController#requestCustomUpdate
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} record Редактируемая запись.
  * @remark
  * В обработчике события можно отменить  базовую логику сохранения (вернуть true) или отложить ее для выполнения пользовательских действий перед сохранением (вернуть Promise<boolean>).
@@ -342,7 +342,7 @@
 /*
  * @event Happens before saving a record. In the event handler the basic saving logic can be canceled or deferred for user actions before saving. It's used, for example, for asynchronous validation or user saving of a record.
  * @name Controls/_form/interface/IFormController#requestCustomUpdate
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Model} record Editable record.
  * @example
  * Check the data on the server before saving.

@@ -347,7 +347,7 @@ class StickyHeaderController {
     }
 
     /**
-     * @param {Vdom/Vdom:SyntheticEvent} event
+     * @param {UICommon/Events:SyntheticEvent} event
      * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} fixedHeaderData
      * @private
      */

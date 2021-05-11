@@ -268,27 +268,27 @@
 /**
  * @event Происходит при изменении фильтра.
  * @name Controls/_filter/interface/IFilterButton#filterChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object} filter Новый фильтр.
  */
 
 /*
  * @event Happens when filter changed.
  * @name Controls/_filter/interface/IFilterButton#filterChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Object} filter New filter.
  */
 
 /**
  * @event Происходит при изменении структры фильтра.
  * @name Controls/_filter/interface/IFilterButton#itemsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<FilterPanelItems>} items Новая структура фильтра.
  */
 
 /*
  * @event Happens when items changed.
  * @name Controls/_filter/interface/IFilterButton#itemsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Array.<FilterPanelItems>} items New items.
  */

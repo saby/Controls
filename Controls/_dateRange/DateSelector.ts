@@ -4,7 +4,7 @@ import {IDateSelectorOptions} from './interfaces/IDateSelector';
 import componentTmpl = require('wml!Controls/_dateRange/DateSelector/DateSelector');
 import {Base as dateUtils, Popup as PopupUtil} from 'Controls/dateUtils';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
 import 'css!Controls/dateRange';
 

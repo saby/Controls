@@ -2,7 +2,7 @@ import * as clone from 'Core/core-clone';
 import {Control} from 'UI/Base';
 import {Memory} from 'Types/source';
 import {isEqual} from 'Types/object';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Model} from 'Types/entity';
 import {TItemKey, ISwipeConfig, ANIMATION_STATE} from 'Controls/display';
 import {IStickyPopupOptions} from 'Controls/popup';

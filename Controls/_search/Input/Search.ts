@@ -4,7 +4,7 @@ import {generateStates, Base, TextViewModel as ViewModel} from 'Controls/input';
 import {throttle} from 'Types/function';
 import {descriptor} from 'Types/entity';
 import {constants} from 'Env/Env';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {default as Store} from 'Controls/Store';
 import {ContextOptions} from 'Controls/context';
 import 'css!Controls/search';
@@ -253,7 +253,7 @@ Object.defineProperty(Search, 'defaultProps', {
 /**
  * @event Происходит при нажатии на иконку поиска (лупы).
  * @name Controls/_suggest/Input/Search/Suggest#searchClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @remark Клик по иконке поиска закрывает автодополнение. Это поведение можно отменить, если из события вернуть false.
  * @example
  * * WML
@@ -277,14 +277,14 @@ Object.defineProperty(Search, 'defaultProps', {
 /**
  * @event Происходит при клике на кнопку поиска.
  * @name Controls/_search/Input/Search#searchClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object} nativeEvent Объект нативного события браузера.
  */
 
 /**
  * @event Происходит при клике на кнопку сброса.
  * @name Controls/_search/Input/Search#resetClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */
 
 /*

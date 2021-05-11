@@ -2,7 +2,7 @@
  * Created by as.krasilnikov on 20.11.2018.
  */
 
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 export default {
    _managerWrapper: null,

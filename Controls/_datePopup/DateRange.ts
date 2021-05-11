@@ -3,7 +3,7 @@ import * as template from 'wml!Controls/_datePopup/DateRange';
 import * as monthHeaderTmpl from 'wml!Controls/_datePopup/DateRangeMonthHeaderTemplate';
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
-import { SyntheticEvent } from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {DateRangeModel, Utils as DateControlsUtils, dateRangeQuantum as quantumUtils, IDateRangeOptions} from 'Controls/dateRange';
 import {EventUtils} from 'UI/Events';
 import {MonthModel} from 'Controls/calendar';

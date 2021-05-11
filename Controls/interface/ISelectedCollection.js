@@ -196,7 +196,7 @@ define('Controls/interface/ISelectedCollection', [
 
    /**
     * @event Controls/interface/ISelectedCollection#itemsChanged Происходит при изменении набора выбранной коллекции.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
     * @param {RecordSet|List} items Список выбранных записей.
     *
     * @example
@@ -217,7 +217,7 @@ define('Controls/interface/ISelectedCollection', [
     */
    /*
     * @event Controls/interface/ISelectedCollection#itemsChanged Occurs when changing the set of the selected collection.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+    * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
     * @param {RecordSet|List} items List of selected entries.
     *
     * @example
@@ -239,9 +239,9 @@ define('Controls/interface/ISelectedCollection', [
 
    /**
     * @event Controls/interface/ISelectedCollection#itemClick Происходит при нажатии на элемент коллекции.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
     * @param {RecordSet} item Элемент выбраной коллекции.
-    * @param {Vdom/Vdom:SyntheticEvent} nativeEvent Дескриптор события мыши.
+    * @param {UICommon/Events:SyntheticEvent} nativeEvent Дескриптор события мыши.
     *
     * @example
     * В следующем примере создается Controls/lookup:Selector и демонстрируется сценарий использования.
@@ -265,9 +265,9 @@ define('Controls/interface/ISelectedCollection', [
     */
    /*
     * @event Controls/interface/ISelectedCollection#itemClick Occurs when clicking on a collection item.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+    * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
     * @param {RecordSet} item Item selected collection.
-    * @param {Vdom/Vdom:SyntheticEvent} nativeEvent Descriptor of the mouse event
+    * @param {UICommon/Events:SyntheticEvent} nativeEvent Descriptor of the mouse event
     *
     * @example
     * The following example creates Controls/lookup:Selector and shows how to handle the event.
@@ -292,7 +292,7 @@ define('Controls/interface/ISelectedCollection', [
 
    /**
     * @event Controls/interface/ISelectedCollection#openInfoBox Происходит перед открытием всплывающего окна со всеми выбранными записями.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
     * @param {Object} config Конфиг, по которому будет построено всплывающее окно.
     *
     * @example
@@ -320,7 +320,7 @@ define('Controls/interface/ISelectedCollection', [
     */
    /*
     * @event Controls/interface/ISelectedCollection#openInfoBox Occurs before opening a pop-up with all selected entries
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+    * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
     * @param {Object} config Config on which popup will be built.
     *
     * @example
@@ -349,7 +349,7 @@ define('Controls/interface/ISelectedCollection', [
 
    /**
     * @event Controls/interface/ISelectedCollection#closeInfoBox Происходит при закрытии всплывающего окна со всеми выбранными записями.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
     *
     * @example
     * В следующем примере создается Controls/lookup:Input и демонстрируется сценарий использования.
@@ -372,7 +372,7 @@ define('Controls/interface/ISelectedCollection', [
     */
    /*
     * @event Controls/interface/ISelectedCollection#closeInfoBox Occurs when closing a pop-up with all selected entries.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+    * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
     *
     * @example
     * The following example creates Controls/lookup:Input and shows how to handle the event.

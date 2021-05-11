@@ -1,7 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_masterDetail/Base/Base';
 import {debounce} from 'Types/function';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {ResizingLine} from 'Controls/dragnDrop';
 import {Register} from 'Controls/event';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
@@ -150,7 +150,7 @@ class Base extends Control<IMasterDetail, string> {
     /*
      * @event Происходит при изменении ширины мастера.
      * @name Controls/_masterDetail/Base#masterWidthChanged
-     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+     * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
      * @param {String} width Ширина мастера.
      * @remark Событие провоцируется через движение границ, или после изменения размеров родительским контролом.
      * @see propStorageId

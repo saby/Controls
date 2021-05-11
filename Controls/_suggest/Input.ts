@@ -154,7 +154,7 @@ Object.defineProperty(Suggest, 'defaultProps', {
  * @remark
  * Кнопка "Показать всё" отображается в подвале автодополнения.
  * @name Controls/_suggest/Input#showSelector
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */
 
 /**

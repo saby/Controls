@@ -944,14 +944,14 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 /**
  * @event Происходит при изменении состояния фиксации.
  * @name Controls/_scroll/StickyHeader#fixed
- * @param {Vdom/Vdom:SyntheticEvent} event Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} event Дескриптор события.
  * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} information Информация о событии фиксации.
  */
 
 /*
  * @event Change the fixation state.
  * @name Controls/_scroll/StickyHeader#fixed
- * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} event Event descriptor.
  * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} information Information about the fixation event.
  */
 

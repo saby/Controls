@@ -1,6 +1,6 @@
 import {constants} from 'Env/Env';
 import {debounce} from 'Types/function';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {detection} from 'Env/Env';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IPopupOptions} from 'Controls/_popup/interface/IPopup';

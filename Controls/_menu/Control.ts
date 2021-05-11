@@ -7,7 +7,7 @@ import {ICrudPlus, PrefetchProxy, QueryWhere} from 'Types/source';
 import {Collection, CollectionItem, Search} from 'Controls/display';
 import ViewTemplate = require('wml!Controls/_menu/Control/Control');
 import * as groupTemplate from 'wml!Controls/_menu/Render/groupTemplate';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Model} from 'Types/entity';
 import {factory} from 'Types/chain';
 import {isEqual, merge} from 'Types/object';
@@ -1137,7 +1137,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 /**
  * @event Происходит при выборе элемента.
  * @name Controls/_menu/Control#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Выбранный элемент.
  * @remark Из обработчика события можно возвращать результат обработки. Если результат будет равен false, подменю не закроется.
  * По умолчанию, когда выбран пункт с иерархией, подменю закрывается.

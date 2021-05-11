@@ -6,7 +6,7 @@ import showSelector from 'Controls/_lookup/showSelector';
 import {IStackPopupOptions} from 'Controls/_popup/interface/IStack';
 import {EventUtils} from 'UI/Events';
 import {List} from 'Types/collection';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Model} from 'Types/entity';
 // @ts-ignore
 import * as itemTemplate from 'wml!Controls/_lookup/SelectedCollection/ItemTemplate';

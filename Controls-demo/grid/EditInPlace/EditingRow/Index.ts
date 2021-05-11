@@ -4,7 +4,7 @@ import {Memory} from 'Types/source';
 import {getPorts} from '../../DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/grid/EditInPlace/EditingRow/_rowEditor';
 import { IColumn } from 'Controls/gridOld';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Model} from 'Types/entity';
 
 export default class extends Control {

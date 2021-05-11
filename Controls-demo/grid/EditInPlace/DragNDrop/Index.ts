@@ -4,7 +4,7 @@ import {Memory} from 'Types/source';
 import {getPorts} from '../../DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/grid/EditInPlace/DragNDrop/_rowEditor';
 import { IColumn } from 'Controls/gridOld';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Model} from 'Types/entity';
 import * as Dnd from '../../../../Controls/dragnDrop';
 import {Collection} from '../../../../Controls/display';

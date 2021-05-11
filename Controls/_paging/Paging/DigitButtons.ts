@@ -3,7 +3,7 @@
  */
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import dButtonsTemplate = require('wml!Controls/_paging/Paging/DigitButtons');
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import 'css!Controls/paging';
 
 export interface IDigitButtonsOptions extends IControlOptions {

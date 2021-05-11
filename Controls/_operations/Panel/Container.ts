@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_operations/Panel/Container';
 import { isEqual } from 'Types/object';
 import { TKeysSelection as TKeys, TKeySelection as TKey } from 'Controls/interface';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Model} from 'Types/entity';
 
 export interface IOperationsPanelContainerOptions extends IControlOptions {

@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/ResizingLine/Orientation/Template');
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 export default class ResizingLine extends Control<IControlOptions> {
     private _heightOfCenterContainer: number = 50;

@@ -48,7 +48,7 @@ export interface IPropertyGrid {
 /**
  * @event Происходит при клике на элемент.
  * @name Controls/_propertyGrid/IPropertyGrid#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Controls/_propertyGrid/PropertyGridCollectionItem} item Элемент, по которому произвели клик.
  * @param {Object} originalEvent Дескриптор исходного события.
  */

@@ -6,7 +6,7 @@ import {DemoSource, getDefaultViewCfg} from 'Controls-demo/NewBrowser/DemoSource
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as Template from 'wml!Controls-demo/NewBrowser/EditInPlace/Index';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {TKey} from 'Controls/_interface/IItems';
 import 'css!Controls-demo/Controls-demo';
 import Images from "Controls-demo/Tile/DataHelpers/Images";

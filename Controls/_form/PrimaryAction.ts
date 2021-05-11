@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {constants} from 'Env/Env';
-import { SyntheticEvent } from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import template = require('wml!Controls/_form/PrimaryAction/PrimaryAction');
 
 /**
@@ -31,5 +31,5 @@ export default class PrimaryAction extends Control<IControlOptions> {
 /**
  * @event Происходит при нажатии комбинации клавиш Ctrl + Enter и Сmd + Enter.
  * @name Controls/_form/PrimaryAction#triggered
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */

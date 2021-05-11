@@ -1,7 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_gridOld/ScrollWrapperTemplate';
 import {_Scrollbar} from 'Controls/scroll';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {isFullGridSupport} from './utils/GridLayoutUtil';
 import {Logger} from 'UI/Utils';
 

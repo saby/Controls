@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_popupSliding/ScrollWrapper/ScrollWrapper';
 import {ISlidingPanelTemplateOptions} from 'Controls/_popupSliding/interface/ISlidingPanelTemplate';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 /**
  * Контейнер в который нужно обернуть Controls/scroll:Container,
  * в случае если он находится не в корне пользовательского шаблона задаваемого в опции {@link Controls/_popupSliding/interface/ISlidingPanelTemplate#bodyContentTemplate bodyContentTemplate}

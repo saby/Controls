@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import template = require('wml!Controls/_propertyGrid/extendedEditors/Logic');
 import IEditor from 'Controls/_propertyGrid/IEditor';
 import IEditorOptions from 'Controls/_propertyGrid/IEditorOptions';

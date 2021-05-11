@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/grid/Ladder/DragNDrop/DragNDrop';
 import {Memory} from 'Types/source';
 import {getTasks} from '../../DemoHelpers/DataCatalog';
 import * as Dnd from 'Controls/dragnDrop';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Collection} from 'Controls/display';
 import {Model, Record} from 'Types/entity';
 import {RecordSet} from 'Types/collection';

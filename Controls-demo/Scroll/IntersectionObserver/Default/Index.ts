@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import controlTemplate = require('wml!Controls-demo/Scroll/IntersectionObserver/Default/Template');
 
 export default class IntersectionObserverDemoControl extends Control<IControlOptions> {

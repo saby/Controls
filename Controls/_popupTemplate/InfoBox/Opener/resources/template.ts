@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_popupTemplate/InfoBox/Opener/resources/template');
 import {load} from 'Core/library';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {IInfoboxTemplateOptions} from 'Controls/_popupTemplate/InfoBox';
 import {constants} from 'Env/Env';
 import 'css!Controls/popupTemplate';

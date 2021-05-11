@@ -8,7 +8,7 @@ import ViewTemplate = require('wml!Controls/_menu/Render/Render');
 import {TKey} from 'Controls/_menu/interface/IMenuControl';
 import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {factory} from 'Types/chain';
 import {ItemsUtil} from 'Controls/list';
 import {Visibility as MarkerVisibility} from 'Controls/marker';

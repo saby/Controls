@@ -3,7 +3,7 @@ import {detection, constants} from 'Env/Env';
 import {descriptor} from 'Types/entity';
 import {EventUtils} from 'UI/Events';
 import {isEqual} from 'Types/object';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import * as ViewModel from 'Controls/_input/Base/ViewModel';
 import * as unEscapeASCII from 'Core/helpers/String/unEscapeASCII';
 import {hasHorizontalScroll} from 'Controls/scroll';

@@ -22,7 +22,7 @@ import {
     IHref,
     IHrefOptions
 } from 'Controls/interface';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import ButtonTemplate = require('wml!Controls/_buttons/Button');
 import 'wml!Controls/_buttons/ButtonBase';
 import 'css!Controls/buttons';

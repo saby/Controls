@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import { SyntheticEvent } from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import * as Template from 'wml!Controls-demo/tileNew/DifferentItemTemplates/RichTemplate/EditInPlace/EditInPlace';
 import {Gadgets} from 'Controls-demo/tileNew/DataHelpers/DataCatalog';
 import {HierarchicalMemory} from 'Types/source';

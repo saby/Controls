@@ -373,6 +373,6 @@ export default FilterPanel;
 /**
  * @event Происходит при применении фильтра из истории фильтров.
  * @name Controls/_filterPopup/DetailPanel#historyApply
- * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
+ * @param {UICommon/Events:SyntheticEvent} event Объект события.
  * @param {Controls/_filter/View/interface/IFilterItem#source} source Конфигурация фильтра.
  */

@@ -4,7 +4,7 @@ import {IViewOptions} from './interface/IView';
 import * as Deferred from 'Core/Deferred';
 import buttonsTemplate from 'Controls/_editableArea/Templates/Buttons';
 import {Record} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import 'css!Controls/CommonClasses';
 import 'css!Controls/editableArea';
 import 'css!Controls/list';

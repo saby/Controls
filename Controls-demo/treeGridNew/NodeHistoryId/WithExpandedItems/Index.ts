@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {HierarchicalMemory, CrudEntityKey} from 'Types/source';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 import { Gadgets } from '../../DemoHelpers/DataCatalog';
 

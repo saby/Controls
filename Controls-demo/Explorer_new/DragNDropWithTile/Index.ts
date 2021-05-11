@@ -6,7 +6,7 @@ import {Gadgets} from '../DataHelpers/DataCatalog';
 import { TRoot, TItemsReadyCallback } from 'Controls-demo/types';
 import {RecordSet} from 'Types/collection';
 import { IColumn } from 'Controls/gridOld';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';
 

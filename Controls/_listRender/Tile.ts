@@ -7,7 +7,7 @@ import defaultItemTemplate = require('wml!Controls/_listRender/Tile/resources/It
 
 import { TileCollection, TileCollectionItem } from 'Controls/display';
 import { debounce } from 'Types/function';
-import { SyntheticEvent } from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import { TouchDetect } from 'Env/Touch';
 import {constants} from 'Env/Env';
 import 'css!Controls/tile';

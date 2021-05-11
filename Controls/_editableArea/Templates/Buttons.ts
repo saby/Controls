@@ -19,12 +19,12 @@ class Buttons extends Control<IControlOptions> {
 /**
  * @event Происходит при клике на кнопку сохранения редактирования.
  * @name Controls/_editableArea/Templates/Buttons#applyButtonClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */
 
 /**
  * @event Происходит при клике на кнопку отмены редактирования.
  * @name Controls/_editableArea/Templates/Buttons#closeButtonClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */
 export default Buttons;

@@ -22,7 +22,7 @@ import {
 import {EventUtils} from 'UI/Events';
 
 import { load as libraryLoad } from 'Core/library';
-import { SyntheticEvent } from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 import {constants, detection} from 'Env/Env';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';

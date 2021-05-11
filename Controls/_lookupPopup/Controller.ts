@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_lookupPopup/Controller';
 import {Model} from 'Types/entity';
 import {List, RecordSet} from 'Types/collection';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {IFormOperation} from 'Controls/interface';
 import * as Deferred from 'Core/Deferred';
 import {RegisterClass} from 'Controls/event';

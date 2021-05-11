@@ -1,7 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/PopupTemplate/SlidingPanel/Index/Index');
 import {detection} from 'Env/Env';
-import { SyntheticEvent } from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 class Index extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;

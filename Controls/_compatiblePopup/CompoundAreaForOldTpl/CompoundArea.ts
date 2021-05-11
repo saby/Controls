@@ -11,7 +11,7 @@ import * as callNext from 'Core/helpers/Function/callNext';
 import {Controller} from 'Controls/popup';
 import {delay as runDelayed} from 'Types/function';
 import {InstantiableMixin} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Logger} from 'UI/Utils';
 import {Bus as EventBus} from 'Env/Event';
 import {constants, detection, coreDebug} from 'Env/Env';

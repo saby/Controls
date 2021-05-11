@@ -740,6 +740,6 @@ _Controller.getOptionTypes = function getOptionTypes() {
 /**
  * @event Происходит при изменении набора выбранных элементов.
  * @name Controls/_dropdown/_Controller#selectedItemsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/collection:RecordSet} items Выбранные элементы.
  */

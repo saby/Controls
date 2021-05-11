@@ -3,7 +3,7 @@ import controlTemplate = require('wml!Controls-demo/Popup/SlidingPanel/Index/Ind
 import {SlidingPanelOpener} from 'Controls/popup';
 import {Memory} from 'Types/source';
 import {detection} from 'Env/Env';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 class Index extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;

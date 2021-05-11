@@ -4,7 +4,7 @@ import {descriptor as EntityDescriptor} from 'Types/entity';
 import {ISlider, ISliderOptions} from './interface/ISlider';
 import SliderBase from './_SliderBase';
 import {default as Utils, ILineData, IPointDataList, IPositionedInterval, IScaleData} from './Utils';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {IInterval} from './interface/IInterval';
 import {constants} from 'Env/Env';
 import * as SliderTemplate from 'wml!Controls/_slider/sliderTemplate';
@@ -326,7 +326,7 @@ Object.defineProperty(Base, 'defaultProps', {
 /**
  * @event Происходит при изменении значения слайдера.
  * @name Controls/_slider/Base#valueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {number} value Новое значение.
  */
 export default Base;
