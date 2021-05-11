@@ -576,17 +576,13 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     ): unknown {
 
         const explorerOptions = isMaster ? this._masterExplorerOptions : this._detailExplorerOptions;
-
-        const isNode = item.get(explorerOptions.nodeProperty) !== null;
-        if (isNode) {
-            this._setRoot(item.get(explorerOptions.keyProperty)).then();
-            return false;
-        }
-
-        if (!isMaster) {
-            // Перегенерим событие, т.к. explorer его без bubbling шлет, что бы пользователи
-            // могли открыть карточку при клике по листу дерева
-            return this._notify('itemClick', [item, clickEvent, columnIndex]);
+        const notifyResult = this._notify('itemClick', [item, clickEvent, columnIndex]);
+        if (notifyResult !== false) {
+            const isNode = item.get(explorerOptions.nodeProperty) !== null;
+            if (isNode) {
+                this._setRoot(item.get(explorerOptions.keyProperty)).then();
+                return false;
+            }
         }
     }
 
