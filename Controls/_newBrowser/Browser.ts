@@ -74,6 +74,8 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         masterList: View
     };
 
+    protected _itemToScroll: string | number | void = null;
+
     /**
      * Enum со списком доступных вариантов отображения контента в detail-колонке.
      * Используется в шаблоне компонента.
@@ -161,6 +163,8 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     protected _tileCfg: TileController;
 
     protected _listCfg: ListController;
+
+    protected _tableCfg: TableController;
 
     /**
      * Опции для Controls/explorer:View в master-колонке
@@ -564,9 +568,10 @@ export default class Browser extends Control<IOptions, IReceivedState> {
                 this._itemToScroll = this._children.detailList.getLastVisibleItemKey();
                 this._listCfg.setImageVisibility(imageVisibility);
                 this._tileCfg.setImageVisibility(imageVisibility);
+                this._tableCfg.setImageVisibility(imageVisibility);
             }
             return;
-        } else {
+        } else if (!this._hasImageInItems) {
             this._hasImageInItems = this._hasImages(items, options.detail.imageProperty);
         }
 
@@ -645,14 +650,20 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
     protected _createTemplateControllers(cfg: IBrowserViewConfig, options: IOptions): void {
         this._listConfiguration = cfg;
+        const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
         this._tileCfg = new TileController({
             listConfiguration: this._listConfiguration,
-            imageVisibility: this._hasImageInItems ? 'visible' : 'hidden',
+            imageVisibility,
             browserOptions: options
         });
         this._listCfg = new ListController({
             listConfiguration: this._listConfiguration,
-            imageVisibility: this._hasImageInItems ? 'visible' : 'hidden',
+            imageVisibility,
+            browserOptions: options
+        });
+        this._tableCfg = new TableController({
+            listConfiguration: this._listConfiguration,
+            imageVisibility,
             browserOptions: options
         });
     }
