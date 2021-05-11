@@ -243,7 +243,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         // searchStartingWith === 'root', после сбрасываем поиск и возвращаем root в предыдущую папку после чего
         // этот код покажет заголовок и только после получения данных они отрисуются
         if (!isRootChanged) {
-            this._headerVisibility = this._getHeaderVisibility(cfg.root, cfg.headerVisibility);
+            this._headerVisibility = this._getHeaderVisibility(this._getRoot(cfg.root), cfg.headerVisibility);
         }
 
         if (!isEqual(cfg.itemPadding, this._options.itemPadding)) {
