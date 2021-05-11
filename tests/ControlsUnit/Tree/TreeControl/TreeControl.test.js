@@ -2172,6 +2172,27 @@ define([
                assert.isTrue(methodSpy.withArgs([1]).called);
             });
          });
+
+         it('remove from expanded items all childs of collapsed node', async () => {
+            const source = new sourceLib.Memory({
+               data: [
+                  {id: 0, 'Раздел@': true, "Раздел": null},
+                  {id: 1, 'Раздел@': false, "Раздел": 0},
+                  {id: 2, 'Раздел@': false, "Раздел": 1},
+                  {id: 3, 'Раздел@': false, "Раздел": 2},
+                  {id: 4, 'Раздел@': false, "Раздел": 3},
+                  {id: 5, 'Раздел@': false, "Раздел": 4},
+               ],
+               keyProperty: 'id',
+               filter: () => true
+            });
+            treeControl = await correctCreateTreeControlAsync({...cfg, source, expandedItems: [0, 1, 2, 3, 4, 5]});
+            notifySpy = sinon.spy(treeControl, '_notify');
+
+            await treeControl.toggleExpanded(0);
+
+            assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[]]).called);
+         });
       });
 
       describe('hasMoreStorage', () => {

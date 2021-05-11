@@ -105,14 +105,23 @@ const _private = {
                 newCollapsedItems.push(itemKey);
             }
 
-            // удаляем из expandedItems ключи детей свернутого узла
-            const childsOfCollapsedItem = model.getChildren(model.getItemBySourceKey(itemKey));
-            childsOfCollapsedItem.forEach((it) => {
-                const key = it.getContents().getKey();
-                if (newExpandedItems.includes(key)) {
-                    newExpandedItems.splice(newExpandedItems.indexOf(key), 1);
+            const collapseChilds = (parent) => {
+                if (!parent) {
+                    return;
                 }
-            });
+                const childsOfCollapsedItem = model.getChildren(parent);
+                childsOfCollapsedItem.forEach((it) => {
+                    const key = it.getContents().getKey();
+                    if (newExpandedItems.includes(key)) {
+                        newExpandedItems.splice(newExpandedItems.indexOf(key), 1);
+                    }
+                    collapseChilds(it);
+                });
+            };
+
+            // удаляем из expandedItems ключи детей свернутого узла
+            const collapsedNode = model.getItemBySourceKey(itemKey);
+            collapseChilds(collapsedNode);
         }
 
         if (options.singleExpand) {
