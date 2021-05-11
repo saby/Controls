@@ -192,6 +192,9 @@ export default class TileView extends ListView {
     protected _onItemMouseLeave(event: SyntheticEvent, item: TileCollectionItem): void {
         if (!this._context?.isTouch?.isTouch && !item.isActive()) {
             this._setHoveredItem(this, null, event);
+            // С помощью флага canShowActions отображают itemActions. Когда показываются itemActions, скрывается title.
+            // Поэтому после того как увели мышь с итема, нужно сбросить флаг canShowActions, чтобы показать title.
+            item.setCanShowActions(false);
         }
         this._clearMouseMoveTimeout();
         super._onItemMouseLeave(event, item);
