@@ -179,6 +179,7 @@ export default class Controller extends mixin<
 
     private _parentProperty: string;
     private _root: TKey = null;
+    private _hierarchyRelation: relation.Hierarchy;
 
     private _expandedItems: TKey[];
     private _deepReload: boolean;
@@ -311,6 +312,7 @@ export default class Controller extends mixin<
     // FIXME, если parentProperty задаётся на списке, а не на data(browser)
     setParentProperty(parentProperty: string): void {
         this._parentProperty = parentProperty;
+        this._hierarchyRelation?.setParentProperty(parentProperty);
     }
 
     updateOptions(newOptions: IControllerOptions): boolean {
@@ -440,8 +442,9 @@ export default class Controller extends mixin<
 
         if (this._hasNavigationBySource()) {
             loadedResult = this._getNavigationController(this._navigation).hasLoaded(key);
-        } else if (this.getExpandedItems()?.includes(key)) {
-            loadedResult = true;
+        } else if (this._options.parentProperty) {
+            loadedResult = this.getExpandedItems()?.includes(key) ||
+                           !!this._getHierarchyRelation().getChildren(key, this._items).length;
         }
 
         return loadedResult;
@@ -525,11 +528,7 @@ export default class Controller extends mixin<
                 this._destroyNavigationController();
             }
             if (this._options.parentProperty && this._isMultiNavigation(navigationConfig)) {
-                hierarchyRelation = new relation.Hierarchy({
-                    parentProperty: this._options.parentProperty,
-                    nodeProperty: this._options.nodeProperty,
-                    keyProperty: this._options.keyProperty
-                });
+                hierarchyRelation = this._getHierarchyRelation();
             }
             this._getNavigationController(this._navigation)
                 .updateQueryProperties(
@@ -759,6 +758,17 @@ export default class Controller extends mixin<
             });
         }
         return Promise.resolve(initialFilter);
+    }
+
+    private _getHierarchyRelation(): relation.Hierarchy {
+        if (!this._hierarchyRelation) {
+            this._hierarchyRelation = new relation.Hierarchy({
+                parentProperty: this._options.parentProperty,
+                nodeProperty: this._options.nodeProperty,
+                keyProperty: this.getKeyProperty()
+            });
+        }
+        return this._hierarchyRelation;
     }
 
     /**
