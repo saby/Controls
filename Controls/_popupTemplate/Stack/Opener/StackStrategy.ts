@@ -79,6 +79,7 @@ export class StackStrategy {
     private _getPanelWidth(item: IPopupItem, tCoords, maxPanelWidth: number): number {
         let panelWidth;
         const maxPanelWidthWithOffset = maxPanelWidth - tCoords.right;
+        const minRightSpace = this._getRightTemplate() ? RIGHT_PANEL_WIDTH : 0;
         let minWidth = parseInt(item.popupOptions.minWidth, 10);
         const maxWidth = parseInt(item.popupOptions.maxWidth, 10);
 
@@ -101,7 +102,7 @@ export class StackStrategy {
                 minWidth = item.popupOptions.minimizedWidth;
             }
             if (minWidth > maxPanelWidthWithOffset) {
-                tCoords.right = 0;
+                tCoords.right = minRightSpace;
             }
             panelWidth = minWidth;
         }
@@ -114,8 +115,8 @@ export class StackStrategy {
         // Если родитель не уместился по ширине и спозиционировался по правому краю экрана -
         // все дети тоже должны быть по правому краю, не зависимо от своих размеров
         const parentPosition = this._getParentPosition(item);
-        if (parentPosition?.right === 0) {
-            tCoords.right = 0;
+        if (parentPosition?.right === minRightSpace) {
+            tCoords.right = minRightSpace;
         }
         return panelWidth;
     }
