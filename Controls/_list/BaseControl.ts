@@ -4110,7 +4110,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         if (this._removeController) {
-            this._removeController.f({source: newOptions.source});
+            this._removeController.updateOptions({source: newOptions.source});
         }
 
         if (this._moveController) {
