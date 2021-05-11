@@ -1,15 +1,17 @@
 <ws:template name="masterTemplate">
-   <ws:if data="{{_options.masterHeaderTemplate}}">
-      <ws:partial template="{{_options.masterHeaderTemplate}}"/>
-   </ws:if>
-   <Controls.explorer:View
-           scope="{{_masterExplorerOptions}}"
-           name="masterList"
-           root="{{_masterRoot}}"
-           on:rootChanged="_onMasterRootChanged()"
-           bind:markedKey="_masterMarkedKey"
-           on:itemClick="_onExplorerItemClick(true)"
-   />
+   <div class="controls-newBrowser__master">
+      <ws:if data="{{_options.masterHeaderTemplate}}">
+         <ws:partial template="{{_options.masterHeaderTemplate}}"/>
+      </ws:if>
+      <Controls.explorer:View
+              scope="{{_masterExplorerOptions}}"
+              name="masterList"
+              root="{{_masterRoot}}"
+              on:rootChanged="_onMasterRootChanged()"
+              bind:markedKey="_masterMarkedKey"
+              on:itemClick="_onExplorerItemClick(true)"
+      />
+   </div>
 </ws:template>
 
 <ws:template name="detailTemplate">
