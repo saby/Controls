@@ -120,19 +120,19 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
         return this._children.listControl.scrollToItem(key, toBottom, force);
     }
 
-    beginEdit(options) {
+    beginEdit(options: object): Promise<void | {canceled: true}> {
         return this._options.readOnly ? Promise.reject() : this._children.listControl.beginEdit(options);
     }
 
-    beginAdd(options) {
+    beginAdd(options: object): Promise<void | { canceled: true }> {
         return this._options.readOnly ? Promise.reject() : this._children.listControl.beginAdd(options);
     }
 
-    cancelEdit() {
+    cancelEdit(): Promise<void | { canceled: true }> {
         return this._options.readOnly ? Promise.reject() : this._children.listControl.cancelEdit();
     }
 
-    commitEdit() {
+    commitEdit(): Promise<void | { canceled: true }> {
         return this._options.readOnly ? Promise.reject() : this._children.listControl.commitEdit();
     }
 
