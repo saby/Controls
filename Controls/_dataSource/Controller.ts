@@ -375,7 +375,8 @@ export default class Controller extends mixin<
             !isEqual(newOptions.sorting, this._options.sorting) ||
             (this._parentProperty && rootChanged);
 
-        if (isChanged && !(isExpadedItemsChanged || this._isDeepReload() || Controller._isExpandAll(this.getExpandedItems()))) {
+        const resetExpandedItemsOnDeepReload = this._isDeepReload() && !rootChanged;
+        if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || Controller._isExpandAll(this.getExpandedItems()))) {
             this.setExpandedItems([]);
         }
         this._options = newOptions;
