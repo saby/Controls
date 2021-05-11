@@ -1019,7 +1019,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             projectionOldItems,
             0
         );
-        this._handleAfterCollectionChange();
+        this._handleAfterCollectionChange(undefined, IObservable.ACTION_RESET);
         this._nextVersion();
     }
 
