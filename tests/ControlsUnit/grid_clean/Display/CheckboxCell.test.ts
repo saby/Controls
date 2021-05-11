@@ -20,6 +20,7 @@ describe('Controls/grid_clean/Display/DataCell', () => {
             getLeftPadding: () => 'default',
             getRightPadding: () => 'default',
             getEditingConfig: () => ({}),
+            isFullGridSupport: () => true,
             getColumnIndex: () => 0,
             getColumnsCount: () => 0,
             getMultiSelectVisibility: () => 'hidden',
