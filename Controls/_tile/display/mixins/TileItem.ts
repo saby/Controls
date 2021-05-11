@@ -335,8 +335,9 @@ export default abstract class TileItem<T extends Model = Model> {
         return this._$canShowActions;
     }
 
-    shouldDisplayItemActions(itemType: string = 'default', itemActionsPositionTemplate: string): boolean {
-        if (itemType === 'preview') {
+    shouldDisplayItemActions(itemType: string = 'default', itemActionsPositionTemplate: string, place?: 'wrapper'|'title'): boolean {
+        // В превью темплейте itemActions должны показываться внутри блока с названием
+        if (itemType === 'preview' && place === 'wrapper') {
             return false;
         }
         const itemActionsPosition = itemActionsPositionTemplate || this.getOwner().getActionsTemplateConfig()?.itemActionsPosition;
