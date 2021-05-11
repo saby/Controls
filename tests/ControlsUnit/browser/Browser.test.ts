@@ -854,6 +854,31 @@ describe('Controls/browser:Browser', () => {
             assert.ok(browser._misspellValue === '');
         });
 
+        it('misspellValue after search', async () => {
+            let options = getBrowserOptions();
+            const searchQueryMock = () => {
+                const dataSet = new DataSet({
+                    rawData: {
+                        meta: {
+                            returnSwitched: true,
+                            switchedStr: 'Саша'
+                        }
+                    },
+                    metaProperty: 'meta'
+                });
+                return Promise.resolve(dataSet);
+            };
+            const browser = new Browser();
+            await browser._beforeMount(options);
+            browser.saveOptions(options);
+
+            options = {...options};
+            options.searchValue = 'Cfif';
+            options.source.query = searchQueryMock;
+            await browser._beforeUpdate(options);
+            assert.ok(browser._misspellValue === 'Саша');
+        });
+
         it('path is updated in searchController after load', async () => {
             const options = getBrowserOptions();
             const path = new RecordSet({
