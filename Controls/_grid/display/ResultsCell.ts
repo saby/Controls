@@ -145,7 +145,7 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
         let wrapperStyles = `${super.getWrapperStyles()}`;
         // стиль z-index необходимо устанавливать только если включен stickyHeader
         if (this._$isSticked) {
-            wrapperStyles = `z-index: ${this.getZIndex()};`;
+            wrapperStyles += `z-index: ${this.getZIndex()};`;
         }
         return wrapperStyles;
     }
