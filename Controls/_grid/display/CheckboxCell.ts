@@ -12,7 +12,6 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
 
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover?: boolean, templateHoverBackgroundStyle?: string): string {
         const hoverBackgroundStyle = templateHoverBackgroundStyle || this._$owner.getHoverBackgroundStyle();
-        const topPadding = this._$owner.getTopPadding();
 
         let wrapperClasses = '';
 
@@ -22,12 +21,14 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
             ' js-controls-ColumnScroll__notDraggable' +
             ' controls-GridView__checkbox' +
             ' controls-GridView__checkbox_position-default' +
-            ` controls-Grid__row-checkboxCell_rowSpacingTop_${topPadding}` +
-            ` controls-Grid__row-cell_rowSpacingBottom_${this.getOwner().getBottomPadding()} ` +
             ' controls-Grid__row-cell-checkbox';
 
         if (this.isEditing()) {
             wrapperClasses += ' controls-Grid__row-cell-editing';
+        }
+
+        if (this._$owner.isFullGridSupport()) {
+            wrapperClasses += this._getCheckboxCellPaddingClasses();
         }
 
         wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(theme, style, backgroundColorStyle, templateHighlightOnHover, hoverBackgroundStyle)}`;
@@ -59,6 +60,20 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
 
     shouldDisplayItemActions(): boolean {
         return false;
+    }
+
+    // Only for partial grid support
+    getRelativeCellWrapperClasses(theme: string): string {
+        return super.getRelativeCellWrapperClasses(theme) + this._getCheckboxCellPaddingClasses();
+    }
+
+    private _getCheckboxCellPaddingClasses(): string {
+        const topPadding = this.getOwner().getTopPadding();
+        const bottomPadding = this.getOwner().getBottomPadding();
+        const paddingClasses =
+            ` controls-Grid__row-checkboxCell_rowSpacingTop_${topPadding}` +
+            ` controls-Grid__row-cell_rowSpacingBottom_${bottomPadding} `;
+        return paddingClasses;
     }
 }
 
