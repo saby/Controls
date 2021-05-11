@@ -548,6 +548,15 @@ describe('Controls/dataSource:SourceController', () => {
             options.filter = {newFilterField: 'newFilterValue'};
             controller.updateOptions(options);
             deepStrictEqual(controller.getExpandedItems(), []);
+
+            options = {...options};
+            options.deepReload = true;
+            controller.updateOptions(options);
+            controller.setExpandedItems(['testRoot']);
+            options = {...options};
+            options.root = 'testRoot2';
+            controller.updateOptions(options);
+            deepStrictEqual(controller.getExpandedItems(), []);
         });
 
         it('expandedItems is [null]',  async () => {
@@ -694,10 +703,23 @@ describe('Controls/dataSource:SourceController', () => {
 
     describe('hasLoaded', () => {
         it('hasLoaded without navigation', async () => {
-            const controller = getController();
+            const controller = getController({
+                parentProperty: 'anyProp'
+            });
             controller.setExpandedItems(['anyTestKey']);
             await controller.reload();
             ok(controller.hasLoaded('anyTestKey'));
+        });
+
+        it('hasLoaded without navigation, but all items loaded', async () => {
+            const source = new Memory({
+                data: hierarchyItems,
+                keyProperty: 'key',
+                filter: () => true
+            });
+            const controller = getControllerWithHierarchy({source});
+            await controller.reload();
+            ok(controller.hasLoaded(0));
         });
 
         it('hasLoaded with navigation', async () => {

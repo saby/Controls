@@ -62,6 +62,7 @@ class ResultsRow<T> extends Row<T> {
     //region Аспект "Колонки. Создание, колспан."
     protected _initializeColumns(): void {
         super._initializeColumns({
+            colspanStrategy: 'skipColumns',
             shouldAddStickyLadderCells: !this._$rowTemplate,
             addEmptyCellsForStickyLadder: true,
             extensionCellsConstructors: {

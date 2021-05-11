@@ -3200,20 +3200,22 @@ const _private = {
 
     addShowActionsClass(self): void {
         // В тач-интерфейсе не нужен класс, задающий видимость itemActions. Это провоцирует лишнюю синхронизацию
-        if (!detection.isMobilePlatform) {
+        if (!self._destroyed && !detection.isMobilePlatform) {
             self._addShowActionsClass = true;
         }
     },
 
     removeShowActionsClass(self): void {
         // В тач-интерфейсе не нужен класс, задающий видимость itemActions. Это провоцирует лишнюю синхронизацию
-        if (!detection.isMobilePlatform && self._options.itemActionsVisibility !== 'visible') {
+        if (!self._destroyed && !detection.isMobilePlatform && self._options.itemActionsVisibility !== 'visible') {
             self._addShowActionsClass = false;
         }
     },
 
     addHoverEnabledClass(self): void {
-        self._addHoverEnabledClass = true;
+        if (!self._destroyed) {
+            self._addHoverEnabledClass = true;
+        }
     },
 
     removeHoverEnabledClass(self): void {
@@ -5959,6 +5961,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 this._hoverFreezeController.unfreezeHover();
             }
             _private.removeShowActionsClass(this);
+            _private.addHoverEnabledClass(this);
             _private.getItemActionsController(this, this._options).deactivateSwipe(false);
         }
     }

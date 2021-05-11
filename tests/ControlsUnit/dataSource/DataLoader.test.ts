@@ -203,4 +203,17 @@ describe('Controls/dataSource:loadData', () => {
         sinonSandbox.restore();
     });
 
+    it('load with searchValue and searchParam', async () => {
+        const loadDataConfigWithFilter = {
+            source: getSource(),
+            filter: {},
+            searchParam: 'title',
+            searchValue: 'Sasha',
+            minSearchLength: 3
+        };
+
+        const loadDataResult = await getDataLoader().load([loadDataConfigWithFilter]);
+        ok((loadDataResult[0] as ILoadDataResult).data.getCount() === 1);
+    });
+
 });
