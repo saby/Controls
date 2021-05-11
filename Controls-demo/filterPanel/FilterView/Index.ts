@@ -40,6 +40,7 @@ export default class extends Control {
                 caption: '',
                 value: [],
                 textValue: '',
+                viewMode: 'basic',
                 editorTemplateName: 'Controls/filterPanel:ListEditor',
                 editorOptions: {
                     style: 'master',
@@ -62,10 +63,11 @@ export default class extends Control {
             }, {
                 group: 'Пол',
                 name: 'gender',
-                resetValue: '1',
+                resetValue: null,
                 caption: '',
                 value: '1',
                 textValue: 'Мужской',
+                viewMode: 'basic',
                 editorTemplateName: 'Controls/filterPanel:TumblerEditor',
                 editorOptions: {
                     items: new RecordSet({
