@@ -10,6 +10,9 @@
 
 .controls-BaseControl__viewContainer {
    position: relative;
+   // создаем отдельный слой с z-index = 0 для таблицы, чтобы внутренние её элементы при скролле не налезали на
+   // сестринские застиканные элементы (https://online.sbis.ru/opendoc.html?guid=00dc70b2-cd97-4801-bed8-1d8ffef8eb33)
+   z-index: 0;
 }
 
 /*
