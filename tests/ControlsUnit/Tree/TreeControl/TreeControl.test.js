@@ -548,14 +548,6 @@ define([
          assert.isTrue(treeControl._expandController.isItemExpanded(fakeDispItem.getContents().getKey()));
       });
 
-      it('_private.isDeepReload', function() {
-         assert.isFalse(!!tree.TreeControl._private.isDeepReload({}, false));
-         assert.isTrue(!!tree.TreeControl._private.isDeepReload({}, true));
-
-         assert.isTrue(!!tree.TreeControl._private.isDeepReload({ deepReload: true }, false));
-         assert.isFalse(!!tree.TreeControl._private.isDeepReload({ deepReload: false}, false));
-      });
-
       // it('TreeControl.reload', async function() {
       //    var createControlResult = correctCreateTreeControl({
       //         parentProperty: '',
@@ -1955,7 +1947,8 @@ define([
                hasLoaded: () => true,
                getKeyProperty: () => 'id',
                hasMoreData: () => false,
-               isLoading: () => false
+               isLoading: () => false,
+               isDeepReload: () => false
             };
          });
 

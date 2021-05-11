@@ -270,10 +270,6 @@ const _private = {
             });
     },
 
-    isDeepReload({deepReload}, deepReloadState: boolean): boolean {
-        return  deepReload || deepReloadState;
-    },
-
     resetExpandedItems(self: TreeControl): void {
         const viewModel = self.getViewModel();
         const reset = () => {
@@ -685,7 +681,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             }
         }
 
-        if (searchValueChanged && newOptions.searchValue && !_private.isDeepReload(this, newOptions)) {
+        if (searchValueChanged && newOptions.searchValue && !this._isDeepReload()) {
             _private.resetExpandedItems(this);
         }
 
@@ -962,9 +958,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 this._expandController.setExpandedItems(options.expandedItems);
                 this._updateExpandedItemsAfterReload = false;
             }
-            const isDeepReload = _private.isDeepReload(options, this._deepReload);
 
-            if (!isDeepReload || this._needResetExpandedItems) {
+            if (!this._isDeepReload() || this._needResetExpandedItems) {
                 _private.resetExpandedItems(this);
                 this._needResetExpandedItems = false;
             }
@@ -1298,6 +1293,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _isExpanded(item: Model): boolean {
         return this._expandController.isItemExpanded(item.getKey());
+    }
+
+    private _isDeepReload(): boolean {
+        // _deepReload может быть проставлен только в sourceController-е, например если релоад позвали в браузере
+        return this._deepReload || this.getSourceController() && this.getSourceController().isDeepReload();
     }
 
     protected _getFooterClasses(options): string {
