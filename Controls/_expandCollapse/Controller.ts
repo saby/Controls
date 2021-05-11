@@ -382,12 +382,19 @@ export class Controller {
             return;
         }
 
-        this._model
-            .getChildren(item, false)
-            .forEach((childItem) => {
-                const key = childItem.getContents().getKey();
+        const collapseChilds = (parent) => {
+            if (!parent) {
+                return;
+            }
+            const childsOfCollapsedItem = this._model.getChildren(parent);
+            childsOfCollapsedItem.forEach((it) => {
+                const key = it.getContents().getKey();
                 removeKey(collection, key);
+                collapseChilds(it);
             });
+        };
+
+        collapseChilds(item);
     }
 }
 
