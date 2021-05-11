@@ -36,7 +36,9 @@
             controlButtonVisibility="{{ false }}">
             <ws:bodyContentTemplate>
                <div class="ControlDemo__SlidingPanelTemplate-example-customContentColor">
-                  <ws:partial template="{{ bodyContentTemplate.controllerButtonTemplate }}"/>
+                  <ws:partial
+                    if="{{ bodyContentTemplate.controllerButtonTemplate }}"
+                    template="{{ bodyContentTemplate.controllerButtonTemplate }}"/>
                   <ws:partial template="Controls-demo/Popup/BaseTemplate"></ws:partial>
                </div>
             </ws:bodyContentTemplate>
