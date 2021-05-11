@@ -76,7 +76,7 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     }
 
     getItemClasses(): string {
-        return 'controls-Grid__row controls-TreeGrid__nodeFooter';
+        return 'controls-ListView__itemV controls-Grid__row controls-TreeGrid__nodeFooter';
     }
 
     getExpanderPaddingClasses(tmplExpanderSize?: string, theme: string = 'default'): string {

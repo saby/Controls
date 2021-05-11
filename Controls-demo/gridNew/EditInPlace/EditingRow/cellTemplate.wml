@@ -18,6 +18,7 @@
                             <Controls.dropdown:Combobox
                                     selectedKey="{{selectedKey}}"
                                     on:selectedKeyChanged="onChange2()"
+                                    contrastBackground="{{true}}"
                                     keyProperty="id"
                                     displayProperty="title"
                                     source="{{documentSignMemory}}"/>

@@ -2887,6 +2887,7 @@ const _private = {
             itemActionsClass: options.itemActionsClass,
             iconSize: editingConfig ? 's' : 'm',
             editingToolbarVisible: editingConfig?.toolbarVisibility,
+            editingStyle: editingConfig?.backgroundStyle,
             editArrowAction,
             editArrowVisibilityCallback: options.editArrowVisibilityCallback,
             contextMenuConfig: options.contextMenuConfig,
@@ -3199,20 +3200,22 @@ const _private = {
 
     addShowActionsClass(self): void {
         // В тач-интерфейсе не нужен класс, задающий видимость itemActions. Это провоцирует лишнюю синхронизацию
-        if (!detection.isMobilePlatform) {
+        if (!self._destroyed && !detection.isMobilePlatform) {
             self._addShowActionsClass = true;
         }
     },
 
     removeShowActionsClass(self): void {
         // В тач-интерфейсе не нужен класс, задающий видимость itemActions. Это провоцирует лишнюю синхронизацию
-        if (!detection.isMobilePlatform && self._options.itemActionsVisibility !== 'visible') {
+        if (!self._destroyed && !detection.isMobilePlatform && self._options.itemActionsVisibility !== 'visible') {
             self._addShowActionsClass = false;
         }
     },
 
     addHoverEnabledClass(self): void {
-        self._addHoverEnabledClass = true;
+        if (!self._destroyed) {
+            self._addHoverEnabledClass = true;
+        }
     },
 
     removeHoverEnabledClass(self): void {
@@ -5958,6 +5961,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 this._hoverFreezeController.unfreezeHover();
             }
             _private.removeShowActionsClass(this);
+            _private.addHoverEnabledClass(this);
             _private.getItemActionsController(this, this._options).deactivateSwipe(false);
         }
     }
@@ -6781,7 +6785,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // В тач режиме itemActions создаются непосредственно при свайпе
         // isMobilePlatform использовать для проверки не целесообразно, т.к. на интерфейсах с
         // touch режимом isMobilePlatform может быть false
-        if (!this._context?.isTouch?.isTouch) {
+        if (!this._context?.isTouch?.isTouch && !_private.isEditing(this)) {
             _private.updateItemActionsOnce(this, this._options);
         }
         // Использовать itemMouseMove тут нельзя, т.к. отслеживать перемещение мышки надо вне itemsContainer

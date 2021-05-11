@@ -557,6 +557,15 @@ describe('Controls/dataSource:SourceController', () => {
             options.filter = {newFilterField: 'newFilterValue'};
             controller.updateOptions(options);
             deepStrictEqual(controller.getExpandedItems(), []);
+
+            options = {...options};
+            options.deepReload = true;
+            controller.updateOptions(options);
+            controller.setExpandedItems(['testRoot']);
+            options = {...options};
+            options.root = 'testRoot2';
+            controller.updateOptions(options);
+            deepStrictEqual(controller.getExpandedItems(), []);
         });
 
         it('expandedItems is [null]',  async () => {
