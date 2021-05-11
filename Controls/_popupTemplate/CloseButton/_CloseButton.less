@@ -23,6 +23,38 @@
    }
 }
 
+.ws-is-chrome.ws-is-windows-xp {
+   .controls-Button__close__icon_toolButton,
+   .controls-Button__close__icon_functionalButton {
+      background-image: url('../img/DefaultCloseIcon.svg');
+      &:active {
+         background-image: url('../img/CloseIconHovered.svg');
+      }
+   }
+
+   .controls-Button__close__icon_link,
+   .controls-Button__close__icon_linkButton {
+      background-image: url('../img/LightCloseIcon.svg');
+      &:active {
+         background-image: url('../img/CloseIconHovered.svg');
+      }
+   }
+   &.ws-is-hover {
+      .controls-Button__close_toolButton:hover,
+      .controls-Button__close_functionalButton:hover {
+         .controls-Button__close__icon_toolButton,
+         .controls-Button__close__icon_functionalButton {
+            background-image: url('../img/CloseIconHovered.svg');
+         }
+      }
+
+      .controls-Button__close__icon_link:hover,
+      .controls-Button__close__icon_linkButton:hover {
+         background-image: url('../img/CloseIconHovered.svg');
+      }
+   }
+}
+
 .controls-Button__close__icon_link,
 .controls-Button__close__icon_linkButton {
    background-image: var(--icon_background-image_closeButton_link);

@@ -91,6 +91,15 @@
    height: var(--icon-size_closeButton_editableArea);
 }
 
+.ws-is-chrome.ws-is-windows-xp {
+   .controls-EditableArea__closeButton-icon {
+      background-image: url('../img/DefaultCloseIcon.svg');
+   }
+   .controls-EditableArea__closeButton-icon:hover {
+      background-image: url('../img/CloseIconHovered.svg');
+   }
+}
+
 .controls-EditableArea__applyButton-icon {
    text-shadow: var(--text-shadow_applyButton_editableArea);
    .icon(var(--icon-size_applyButton_editableArea), 'cbuc-icons');
