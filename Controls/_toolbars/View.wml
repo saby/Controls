@@ -18,12 +18,12 @@
                      controls-Toolbar__menu_spacing-{{_options.contrastBackground ? _options.itemsSpacing : 'small'}}
                      controls-Toolbar__menu{{_options.contrastBackground ? '_contrastBackground'}}
                      controls-Toolbar__menu_{{_options.readOnly ? 'disabled': 'enabled'}}
-                     controls-icon_style-{{_options.readOnly ? 'readonly': _options.iconStyle}}_theme-{{_options.theme}}"
+                     controls-icon_style-{{_options.readOnly ? 'readonly': _options.iconStyle}}"
               on:click="_onClickHandler()"
               on:mousedown="_mouseDownHandler()"
               on:mouseenter="_mouseEnterHandler()"
               on:mouseleave="_mouseLeaveHandler()">
-            <i class="controls-icon controls-icon_size-m_theme-{{_options.theme}} icon-SettingsNew"/>
+            <i class="controls-icon controls-icon_size-m icon-SettingsNew"/>
          </div>
       </ws:if>
    </div>
