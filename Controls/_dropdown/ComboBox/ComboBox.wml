@@ -5,6 +5,7 @@
             controls-inlineheight-{{_options.inlineHeight}}
             controls-Combobox-fontsize-{{_options.fontSize}}
             controls-ComboBox_textAlign-{{_options.textAlign}}
+            {{_options.contrastBackground ? 'controls-ComboBox_background-contrast' : 'controls-ComboBox_background-same'}}
             controls-ComboBox_border-{{_options.borderVisibility}}"
      title="{{_options.tooltip || _value}}"
      on:keydown="_handleKeyDown()"
