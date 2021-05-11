@@ -745,7 +745,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             }
         }
 
-        const isDeepReload = this.getSourceController()?.isDeepReload();
+        const isDeepReload = this.getSourceController() && this.getSourceController().isDeepReload();
         if (searchValueChanged && newOptions.searchValue && !isDeepReload) {
             _private.resetExpandedItems(this);
         }
@@ -1005,7 +1005,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             }
 
             // reload могут позвать на уровне браузера и тогда флаг deepReload проставится только в контроллере.
-            const isDeepReload = this.getSourceController()?.isDeepReload();
+            const isDeepReload = this.getSourceController() && this.getSourceController().isDeepReload();
             if (!isDeepReload || this._needResetExpandedItems) {
                 _private.resetExpandedItems(this);
                 this._needResetExpandedItems = false;
