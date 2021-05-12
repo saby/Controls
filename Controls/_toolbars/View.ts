@@ -306,7 +306,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         return {
             ...this._getMenuOptions(),
             opener: this,
-            className: `${options.popupClassName} controls-Toolbar__popup__list`,
+            className: `${options.popupClassName} controls-Toolbar__popup__list controls_popupTemplate_theme-${options.theme}`,
             templateOptions: {
                 source: this._menuSource,
                 ...this._getMenuTemplateOptions(),
@@ -340,7 +340,8 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         return {
             ...this._getMenuOptions(),
             opener: this,
-            className: `controls-Toolbar__popup__${Toolbar._typeItem(item)} ${Toolbar._menuItemClassName(item)}`,
+            className: `controls-Toolbar__popup__${Toolbar._typeItem(item)} ${Toolbar._menuItemClassName(item)}
+             controls_popupTemplate_theme-${options.theme} controls_dropdownPopup_theme-${options.theme}`,
             targetPoint: {
                 vertical: 'top',
                 horizontal: 'left'

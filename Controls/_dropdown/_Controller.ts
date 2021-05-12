@@ -321,13 +321,20 @@ export default class _Controller implements IDropdownController {
       }
       return this.loadDependencies(!this._preloadedItems, source).then(
           () => {
+             // TODO sourceproperty!
              const count = this._items.getCount();
-             if (count > 1 || count === 1 && (this._options.emptyText || this._options.footerContentTemplate)) {
+             const root = this._popupOptions?.templateOptions?.root;
+             let parentItem = null;
+             if (root) {
+               parentItem = this._items.getRecordById(root);
+             }
+             if ((!parentItem || parentItem.get(this._options.nodeProperty)) &&
+                 count > 1 || count === 1 && (this._options.emptyText || this._options.footerContentTemplate)) {
                 this._createMenuSource(this._items);
                 this._isOpened = true;
                 return openPopup();
              } else if (count === 1) {
-                return Promise.resolve([this._items.at(0)]);
+                return Promise.resolve([parentItem || this._items.at(0)]);
              }
           },
           (error) => {
@@ -697,7 +704,8 @@ export default class _Controller implements IDropdownController {
       };
       const config = {
          templateOptions: Object.assign(baseConfig, templateOptions),
-         className: this._options.popupClassName,
+         className: this._options.popupClassName + ` controls_dropdownPopup_theme-${this._options.theme}
+          controls_popupTemplate_theme-${this._options.theme}`,
          template: 'Controls/menu:Popup',
          actionOnScroll: 'close',
          target: this.target,

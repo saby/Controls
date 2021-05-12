@@ -1,4 +1,4 @@
-<div class="controls-EditableArea__Toolbar">
+<div class="controls_editableArea_theme-{{_options.theme}} controls-EditableArea__Toolbar">
     <div class="controls-EditableArea__applyButton" title="{[Подтвердить]}" on:click="_tmplNotify('applyButtonClick')">
         <div class="controls-EditableArea__applyButton-icon controls-icon_style-contrast icon-Yes"></div>
     </div>

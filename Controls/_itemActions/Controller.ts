@@ -298,7 +298,8 @@ export class Controller {
             // @ts-ignore
             target,
             templateOptions,
-            className: 'controls-MenuButton_link_iconSize-medium_popup',
+            className: `controls-MenuButton_link_iconSize-medium_popup 
+            controls_popupTemplate_theme-${this._options.theme} controls_dropdownPopup_theme-${this._options.theme}`,
             closeOnOutsideClick: true,
             autofocus: false,
             fittingMode: {

@@ -1,4 +1,5 @@
-<div class="controls-Stack__content-wrapper
+<div class="controls_popupTemplate_theme-{{_options.theme}}
+            controls-Stack__content-wrapper
             ws-workspace-width-{{_options.workspaceWidth}}">
    <ws:if data="{{_canResize(_options.propStorageId, _options.workspaceWidth, _options.minWidth, _options.maxWidth)}}">
       <Controls.dragnDrop:ResizingLine attr:class="controls-Stack__resizingLine"

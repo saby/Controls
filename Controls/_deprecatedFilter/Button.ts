@@ -56,7 +56,8 @@ var _private = {
    setPopupOptions: function(self, alignment) {
       self._popupOptions = {
          closeOnOutsideClick: true,
-         className: 'controls-FilterButton-popup-orientation-' + (alignment === 'right' ? 'left' : 'right')
+         className: 'controls-FilterButton-popup-orientation-' + (alignment === 'right' ? 'left' : 'right') + ` controls_popupTemplate_theme-${self._options.theme}
+         controls_filterPopup_theme-${self._options.theme}`
       };
 
       if (alignment === 'right') {

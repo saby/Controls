@@ -409,6 +409,8 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
                 onResult: this._resultHandler.bind(this)
             }
         };
+        panelPopupOptions.className += ` controls_popupTemplate_theme-${this._options.theme}
+         controls_filterPopup_theme-${this._options.theme} controls_dropdownPopup_theme-${this._options.theme}`;
         this._getFilterPopupOpener().open(Merge(popupOptions, panelPopupOptions));
     }
 
