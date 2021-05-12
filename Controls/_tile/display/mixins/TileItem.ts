@@ -806,10 +806,6 @@ export default abstract class TileItem<T extends Model = Model> {
             classes += ' controls-TileView__itemContent_accent';
         }
 
-        // if (itemType === 'preview') {
-        //     classes += ' controls-TileView__item_withoutTitle';
-        // }
-
         classes += ` controls-ListView__item_shadow_${this.getShadowVisibility(templateShadowVisibility)}`;
         if (this.isActive()) {
             classes += ' controls-TileView__item_active';
