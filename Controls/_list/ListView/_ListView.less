@@ -449,16 +449,26 @@
    display: inline-block;
    color: var(--grouping_expander_text-color_list);
    white-space: nowrap;
-   text-align: center;
    flex-shrink: 1;
    user-select: none;
    overflow: hidden;
    text-overflow: ellipsis;
 }
 
+.controls-ListView__groupContent_left {
+   text-align: left;
+}
+
+.controls-ListView__groupContent_right {
+   text-align: right;
+}
+
+.controls-ListView__groupContent_center {
+   text-align: center;
+}
+
 .controls-ListView__groupContent-withoutGroupSeparator {
    flex-grow: 1;
-   text-align: right;
 }
 
 /* В safari на iPad так отрисовывается Tensor-font, что у блоков с текстом сверху на ~1 пиксель больше отступ, чем

@@ -13,20 +13,20 @@ export default abstract class GroupCell<T> {
     }
 
     getContentTextClasses(separatorVisibility: boolean,
-                          textAlign: 'right' | 'left',
-                          theme: string): string {
+                          textAlign: 'right' | 'left'): string {
         let classes = 'controls-ListView__groupContent-text ' +
             'controls-ListView__groupContent-text_default';
 
-        if (separatorVisibility === false && textAlign !== 'left') {
+        classes += ` controls-ListView__groupContent_${textAlign || 'center'}`;
+
+        if (separatorVisibility === false) {
             classes += ' controls-ListView__groupContent-withoutGroupSeparator';
         }
         return classes;
     }
 
     getExpanderClasses(expanderVisible: boolean = true,
-                       expanderAlign: 'right' | 'left' = 'left',
-                       theme: string = 'default'): string {
+                       expanderAlign: 'right' | 'left' = 'left'): string {
         let classes = '';
         if (expanderVisible !== false) {
             if (!this.isExpanded()) {

@@ -33,42 +33,37 @@ describe('Controls/_display/GroupCell', () => {
 
     describe('getRightTemplateClasses', () => {
         it('should not add rightPadding_s class', () => {
-            const classes = getGroupCell().getRightTemplateClasses(true, undefined, 2, 'left', 'default');
+            const classes = getGroupCell().getRightTemplateClasses(true, undefined, 2);
             CssClassesAssert.notInclude(classes, ['controls-ListView__groupContent__rightPadding_s']);
         });
 
         it('should add rightPadding_st class when columnAlignGroup === columns.length', () => {
-            const classes = getGroupCell().getRightTemplateClasses(true, undefined, 4, 'left', 'default');
+            const classes = getGroupCell().getRightTemplateClasses(true, undefined, 4);
             CssClassesAssert.include(classes, ['controls-ListView__groupContent__rightPadding_s']);
         });
 
         it('should add rightPadding_s class when columnAlignGroup is not defined', () => {
-            const classes = getGroupCell().getRightTemplateClasses(true, undefined, undefined, 'left', 'default');
+            const classes = getGroupCell().getRightTemplateClasses(true, undefined, undefined);
             CssClassesAssert.include(classes, ['controls-ListView__groupContent__rightPadding_s']);
         });
 
         it('should add rightPadding_s class when textVisible === false', () => {
-            const classes = getGroupCell().getRightTemplateClasses(true, false, 2, 'left', 'default');
+            const classes = getGroupCell().getRightTemplateClasses(true, false, 2);
             CssClassesAssert.include(classes, ['controls-ListView__groupContent__rightPadding_s']);
         });
 
         it('should add separator placeholder when textVisible === false', () => {
-            const classes = getGroupCell().getRightTemplateClasses(false, false, 2, 'right', 'default');
-            CssClassesAssert.include(classes, ['controls-ListView__groupContent-withoutGroupSeparator']);
-        });
-
-        it('should add separator placeholder when columnAlignGroup is not defined and textAlign !== "right"', () => {
-            const classes = getGroupCell().getRightTemplateClasses(false, undefined, undefined, 'left', 'default');
+            const classes = getGroupCell().getRightTemplateClasses(false, false, 2);
             CssClassesAssert.include(classes, ['controls-ListView__groupContent-withoutGroupSeparator']);
         });
 
         it('should not add separator placeholder when separatorVisibility === true', () => {
-            const classes = getGroupCell().getRightTemplateClasses(true, false, undefined, 'left', 'default');
+            const classes = getGroupCell().getRightTemplateClasses(true, false, undefined);
             CssClassesAssert.notInclude(classes, ['controls-ListView__groupContent-withoutGroupSeparator']);
         });
 
         it('should not add separator placeholder when columnAlignGroup is defined and textAlign === "right" && textVisible === true', () => {
-            const classes = getGroupCell().getRightTemplateClasses(false, true, 2, 'right', 'default');
+            const classes = getGroupCell().getRightTemplateClasses(false, true, 2);
             CssClassesAssert.notInclude(classes, ['controls-ListView__groupContent-withoutGroupSeparator']);
         });
     });
