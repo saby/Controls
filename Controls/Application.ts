@@ -112,7 +112,7 @@ export default class Application extends Control<IApplication> {
    head: object;
 
    protected _template: TemplateFunction = template;
-   protected _bodyClasses: IBodyClassesField = BODY_CLASSES;
+   protected _bodyClasses: IBodyClassesField = {...BODY_CLASSES};
 
    private _registers: IApplicationRegistrars;
    private _popupManager: PopupManager;
