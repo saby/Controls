@@ -267,6 +267,10 @@ describe('Controls/_multiselection/Controller', () => {
       });
 
       it('remove all', () => {
+         const model = new ListViewModel({
+            items,
+            keyProperty: 'id'
+         });
          model.setItems(new RecordSet({
             rawData: [],
             keyProperty: 'id'
