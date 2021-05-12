@@ -297,12 +297,11 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
      * @private
      */
     private _tabCanShrink(item: ITabButtonItem): boolean {
-        return item.isMainTab ||
-            item.width === undefined && (
-                !this._hasMainTab ||
-                item.minWidth !== undefined ||
-                item.maxWidth !== undefined
-            );
+        if (item.width !== undefined) {
+            return false;
+        } else {
+            return item.isMainTab || item.minWidth !== undefined || item.maxWidth !== undefined;
+        }
     }
 
     protected _prepareItemClass(item: ITabButtonItem, index: number): string {

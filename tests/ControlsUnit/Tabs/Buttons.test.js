@@ -587,5 +587,39 @@ define([
             assert.isTrue(styleValue.includes(`min-width: ${item.minWidth}`));
          });
       });
+      describe('_tabCanShrink', () => {
+         it('should return true', () => {
+            const tabs = new tabsMod.Buttons();
+            const item = {
+               isMainTab: true
+            };
+            const result = tabs._tabCanShrink(item);
+            assert.isTrue(result);
+         });
+         it('should return true', () => {
+            const tabs = new tabsMod.Buttons();
+            const item = {
+               minWidth: '20px'
+            };
+            const result = tabs._tabCanShrink(item);
+            assert.isTrue(result);
+         });
+         it('should return true', () => {
+            const tabs = new tabsMod.Buttons();
+            const item = {
+               maxWidth: '20px'
+            };
+            const result = tabs._tabCanShrink(item);
+            assert.isTrue(result);
+         });
+         it('should return false', () => {
+            const tabs = new tabsMod.Buttons();
+            const item = {
+               width: '20px'
+            };
+            const result = tabs._tabCanShrink(item);
+            assert.isFalse(result);
+         });
+      });
    });
 });

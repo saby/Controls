@@ -796,6 +796,8 @@ const _private = {
                 if (self._destroyed) {
                     return;
                 }
+                _private.hideIndicator(self);
+
                 const itemsCountAfterLoad = self._listViewModel.getCount();
                 // If received list is empty, make another request.
                 // If it’s not empty, the following page will be requested in resize event
@@ -4032,7 +4034,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._listViewModel.setMarkerVisibility(newOptions.markerVisibility);
         }
 
-        if (newOptions.theme !== this._options.theme && !newOptions.useNewModel) {
+        if (newOptions.theme !== this._options.theme) {
             this._listViewModel.setTheme(newOptions.theme);
         }
 
