@@ -9,7 +9,7 @@ import {IDialogPopupOptions} from 'Controls/_popup/interface/IDialog';
  * @implements Controls/popup:IBaseOpener
  *
  * @remark
- * Для предотвращения потенциальной утечки памяти не забывайте уничтожать экземпляр оперена
+ * Для предотвращения потенциальной утечки памяти не забывайте уничтожать экземпляр опенера.
  * с помощью метода {@link Controls/_popup/PopupHelper/Dialog#destroy destroy}.
  *
  * @author Красильников А.С.
