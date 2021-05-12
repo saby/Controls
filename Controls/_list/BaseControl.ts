@@ -857,6 +857,7 @@ const _private = {
                 return addedItems;
             }).addErrback((error: CancelableError) => {
                 self._loadToDirectionInProgress = false;
+                self._handleLoadToDirection = false;
 
                 _private.hideIndicator(self);
                 // скроллим в край списка, чтобы при ошибке загрузки данных шаблон ошибки сразу был виден
