@@ -104,8 +104,8 @@ function isEqualFormat(oldList: RecordSet, newList: RecordSet): boolean {
 
 export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
     const getProtoOf = Object.getPrototypeOf.bind(Object);
-    const items1Model = oldList.getModel();
-    const items2Model = newList.getModel();
+    const items1Model = oldList && oldList['[Types/_collection/RecordSet]'] && oldList.getModel();
+    const items2Model = newList && newList['[Types/_collection/RecordSet]'] && newList.getModel();
     let isModelEqual = items1Model === items2Model;
 
     if (!isModelEqual && (getModelModuleName(items1Model) === getModelModuleName(items2Model))) {
@@ -121,11 +121,7 @@ export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
         isEqualFormat(newList, oldList);
 }
 
-export default class Controller extends mixin<
-    ObservableMixin
-    >(
-    ObservableMixin
-) {
+export default class Controller extends mixin<ObservableMixin>(ObservableMixin) {
     private _options: IControllerOptions;
     private _filter: QueryWhereExpression<unknown>;
     private _items: RecordSet;
