@@ -4020,7 +4020,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._listViewModel.setMarkerVisibility(newOptions.markerVisibility);
         }
 
-        if (newOptions.theme !== this._options.theme && !newOptions.useNewModel) {
+        if (newOptions.theme !== this._options.theme) {
             this._listViewModel.setTheme(newOptions.theme);
         }
 
