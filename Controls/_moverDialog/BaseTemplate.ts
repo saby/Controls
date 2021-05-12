@@ -39,6 +39,13 @@ export default class BaseTemplate extends Control<IOptions> {
         return DOMUtil.getWidthForCssClass(MOVE_DIALOG_MEASURER_CLASS_TEMPLATE);
     }
 }
+
+/**
+ * @name Controls/_moverDialog/BaseTemplate#headingCaption
+ * @cfg {String} Заголовок окна перемещения.
+ * @default 'Выбор раздела'
+ */
+
 /**
  * @name Controls/_moverDialog/BaseTemplate#headerContentTemplate
  * @cfg {function|String} Контент, располагающийся между заголовком и крестиком закрытия.
