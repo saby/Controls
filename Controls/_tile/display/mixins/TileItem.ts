@@ -804,9 +804,11 @@ export default abstract class TileItem<T extends Model = Model> {
 
         if (titleStyle === 'accent') {
             classes += ' controls-TileView__itemContent_accent';
-        } else if (titleStyle === 'none') {
-            classes += ' controls-TileView__item_withoutTitle';
         }
+
+        // if (itemType === 'preview') {
+        //     classes += ' controls-TileView__item_withoutTitle';
+        // }
 
         classes += ` controls-ListView__item_shadow_${this.getShadowVisibility(templateShadowVisibility)}`;
         if (this.isActive()) {
