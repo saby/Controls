@@ -207,7 +207,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             wrapperClasses += ' controls-Grid__header-cell_static';
         }
 
-        if (!this.isMultiSelectColumn()) {
+        if (!this.isMultiSelectColumn() && !this._$owner.hasColumnScroll()) {
             wrapperClasses += ' controls-Grid__header-cell_min-width';
         }
 
