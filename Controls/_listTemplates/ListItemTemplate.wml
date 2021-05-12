@@ -4,6 +4,7 @@
                src="{{_options.itemData.item[_options.imageProperty]}}"
                viewMode="{{_options.imageViewMode}}"
                position="{{_options.imagePosition}}"
+               fallbackImage="{{_options.fallbackImage}}"
                afterImageTemplate="{{_options.afterImageTemplate}}"
                imageGradientColor="{{_options.imageGradientColor}}"
                item="{{(item || itemData)}}"
@@ -22,13 +23,14 @@
 
 <ws:template name="itemContentTpl">
    <div class="controls-listTemplates__listItemTemplate controls-listTemplates__listItemTemplate-image_position-{{_options.imagePosition || 'left'}}">
-      <ws:if data="{{_options.imagePosition !== 'none' && _options.imageViewMode !== 'none' && _options.itemData.item[_options.imageProperty]}}">
+      <ws:if data="{{_options.imagePosition !== 'none' && _options.imageViewMode !== 'none'}}">
          <ws:partial template="imageTemplate"
                      class="controls-listTemplates__listItemTemplate-image-padding_position-{{_options.imagePosition || 'left'}}"
                      imagePosition="{{_options.imagePosition}}"
                      imageEffect="{{_options.imageEffect}}"
                      afterImageTemplate="{{_options.afterImageTemplate}}"
                      imageGradientColor="{{_options.imageGradientColor}}"
+                     fallbackImage="{{_options.fallbackImage}}"
                      imageViewMode="{{_options.imageViewMode}}"/>
       </ws:if>
       <div class="controls-listTemplates__listItemTemplate__itemContent">
@@ -80,6 +82,7 @@
             scope="{{_options}}">
    <ws:contentTemplate>
       <ws:partial template="itemContentTpl"
+                  fallbackImage="{{_options.fallbackImage}}"
                   scope="{{contentTemplate}}"
                   itemData="{{_options.itemData}}"
                   item="{{_options.itemData}}"
