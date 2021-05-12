@@ -1623,7 +1623,7 @@ describe('Controls/_itemActions/Controller', () => {
                 null,
                 false
             );
-            assert.equal(config.className, 'controls-MenuButton_link_iconSize-medium_popup');
+            assert.equal(config.className, 'controls-MenuButton_link_iconSize-medium_popup controls_popupTemplate_theme-default controls_dropdownPopup_theme-default');
         });
 
         // T3.12. Если в метод передан contextMenu=true, то будет расчитан config.targetPoint

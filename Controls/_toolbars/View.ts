@@ -340,8 +340,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         return {
             ...this._getMenuOptions(),
             opener: this,
-            className: `controls-Toolbar__popup__${Toolbar._typeItem(item)} ${Toolbar._menuItemClassName(item)}
-             controls_popupTemplate_theme-${options.theme} controls_dropdownPopup_theme-${options.theme}`,
+            className: `controls-Toolbar__popup__${Toolbar._typeItem(item)} ${Toolbar._menuItemClassName(item)} controls_popupTemplate_theme-${options.theme} controls_dropdownPopup_theme-${options.theme}`,
             targetPoint: {
                 vertical: 'top',
                 horizontal: 'left'
