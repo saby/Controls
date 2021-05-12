@@ -4745,6 +4745,7 @@ define([
             };
             instance = correctCreateBaseControl(cfg);
             item =  item = {
+               ItemActionsItem: true,
                _$active: false,
                getContents: () => ({
                   getKey: () => 2
@@ -4817,6 +4818,7 @@ define([
             const fakeEvent = initFakeEvent();
             const itemAt1 = instance._listViewModel.at(1);
             const breadcrumbItem = {
+               ItemActionsItem: true,
                '[Controls/_display/BreadcrumbsItem]': true,
                _$active: false,
                getContents: () => ['fake', 'fake', 'fake', itemAt1.getContents() ],
@@ -5431,7 +5433,7 @@ define([
             keyProperty: 'id',
             rawData: [{ id: 'test' }]
          });
-         baseCtrl._listViewModel.setItems(recordSet);
+         baseCtrl._listViewModel.setItems(recordSet, {});
          reloadedItems = await baseCtrl.reloadItem('test', null, true, 'query');
          assert.isTrue(reloadedItems.getCount() === 0);
       });
@@ -7875,7 +7877,7 @@ define([
             const secondBaseControl = new lists.BaseControl();
             secondBaseControl.saveOptions(cfg);
             await secondBaseControl._beforeMount(cfg);
-            secondBaseControl._listViewModel.setItems(rs);
+            secondBaseControl._listViewModel.setItems(rs, {});
             secondBaseControl._documentDragging = true;
 
             secondBaseControl._notify = () => true;
