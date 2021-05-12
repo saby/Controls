@@ -2020,7 +2020,7 @@ const _private = {
     },
 
     openContextMenu(self: typeof BaseControl, event: SyntheticEvent<MouseEvent>, itemData: CollectionItem<Model>): void {
-        if (!itemData.ItemActionsItem) {
+        if (!(itemData.dispItem ? itemData.dispItem.ItemActionsItem : itemData.ItemActionsItem)) {
             return;
         }
 
