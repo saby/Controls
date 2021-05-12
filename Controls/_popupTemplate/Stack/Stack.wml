@@ -33,6 +33,7 @@
             <div class="controls-StackTemplate__content-area">
                 <ws:partial template="{{_options.bodyContentTemplate}}"
                             scope="{{_options}}"
+                            hasRightTemplate="{{!!_stackRightPanel}}"
                             bodyContentTemplate="{{null}}"
                             headerContentTemplate="{{null}}"
                             footerContentTemplate="{{null}}">  <!-- Опция с тем же названием есть на выпадающем списке.
