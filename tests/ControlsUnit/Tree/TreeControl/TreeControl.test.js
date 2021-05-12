@@ -1995,7 +1995,7 @@ define([
             await treeControl.toggleExpanded(0);
 
             assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[null]]).called);
-            assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[0]]).called);
+            assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[0, 1]]).called);
 
             model.setExpandedItems([null]);
             model.setCollapsedItems([0]);
@@ -2173,7 +2173,7 @@ define([
             });
          });
 
-         it('remove from expanded items all childs of collapsed node', async () => {
+         describe('remove from expanded items all childs of collapsed node', () => {
             const source = new sourceLib.Memory({
                data: [
                   {id: 0, 'Раздел@': true, "Раздел": null},
@@ -2182,16 +2182,30 @@ define([
                   {id: 3, 'Раздел@': false, "Раздел": 2},
                   {id: 4, 'Раздел@': false, "Раздел": 3},
                   {id: 5, 'Раздел@': false, "Раздел": 4},
+                  {id: 11, 'Раздел@': null, "Раздел": 1},
+                  {id: 12, 'Раздел@': null, "Раздел": 1},
                ],
                keyProperty: 'id',
                filter: () => true
             });
-            treeControl = await correctCreateTreeControlAsync({...cfg, source, expandedItems: [0, 1, 2, 3, 4, 5]});
-            notifySpy = sinon.spy(treeControl, '_notify');
 
-            await treeControl.toggleExpanded(0);
+            it('expand specific items', async () => {
+               treeControl = await correctCreateTreeControlAsync({...cfg, source, expandedItems: [0, 1, 2, 3, 4, 5]});
+               notifySpy = sinon.spy(treeControl, '_notify');
 
-            assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[]]).called);
+               await treeControl.toggleExpanded(0);
+
+               assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[]]).called);
+            });
+
+            it('expand all items', async () => {
+               treeControl = await correctCreateTreeControlAsync({...cfg, source, expandedItems: [null]});
+               notifySpy = sinon.spy(treeControl, '_notify');
+
+               await treeControl.toggleExpanded(0);
+
+               assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[0, 1, 2, 3, 4, 5]]).called);
+            });
          });
       });
 
