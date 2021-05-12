@@ -681,15 +681,15 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             }
         }
 
-        if (searchValueChanged && newOptions.searchValue && !this._isDeepReload()) {
-            _private.resetExpandedItems(this);
-        }
-
         this._expandController.updateOptions({
             model: viewModel,
             singleExpand: newOptions.singleExpand,
             collapsedItems: newOptions.collapsedItems
         });
+
+        if (searchValueChanged && newOptions.searchValue && !this._isDeepReload()) {
+            _private.resetExpandedItems(this);
+        }
 
         // todo [useNewModel] viewModel.getExpandedItems() нужен, т.к. для старой модели установка expandedItems
         // сделана некорректно. Как откажемся от неё, то можно использовать стандартное сравнение опций.
