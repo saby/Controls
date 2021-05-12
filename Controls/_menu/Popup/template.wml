@@ -49,6 +49,7 @@
                </ws:if>
                <ws:if data="{{_options.headerTemplate && _headerVisible}}">
                   <ws:partial template="{{_options.headerTemplate}}"
+                              attr:class="{{_closeButtonVisibility ? 'controls-Menu__popup-header-close'}}"
                               iconSize="{{_options.iconSize}}"
                               headingIconSize="{{_headingIconSize}}"
                               iconStyle="{{_options.iconStyle}}"
