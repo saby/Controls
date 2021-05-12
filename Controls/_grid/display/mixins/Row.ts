@@ -28,10 +28,11 @@ interface IInitializeColumnsOptions {
     shouldAddStickyLadderCells?: boolean;
     shouldAddMultiSelectCell?: boolean;
     addEmptyCellsForStickyLadder?: boolean;
+    colspanStrategy?: 'skipColumns' | 'consistently';
     extensionCellsConstructors?: {
-        stickyLadderCell: new () => object
-        multiSelectCell: new () => object
-        separatedActionsCell: new () => object
+        stickyLadderCell?: new () => object
+        multiSelectCell?: new () => object
+        separatedActionsCell?: new () => object
     };
 }
 
@@ -396,9 +397,16 @@ export default abstract class Row<T> {
     protected _prepareColumnItems(columns: IColspanParams[],
                                   factory: (options: Partial<ICellOptions<T>>) => Cell<T, Row<T>>,
                                   shouldColspanWithMultiselect: boolean,
-                                  shouldColspanWithStickyLadderCells: boolean): Array<Cell<T, Row<T>>> {
+                                  shouldColspanWithStickyLadderCells: boolean,
+                                  skipColumns: boolean = false): Array<Cell<T, Row<T>>> {
+
         const creatingColumnsParams = [];
-        for (let columnIndex = 0; columnIndex < columns.length; columnIndex++) {
+
+        for (
+            let columnIndex = 0, resultTotalLength = 0;
+            (columnIndex < columns.length) && (skipColumns ? true : (resultTotalLength < this.getColumnsConfig().length));
+            columnIndex++
+        ) {
             const column = columns[columnIndex];
             let colspan = this._$getColspan(column, columnIndex);
             if (colspan === 'end') {
@@ -412,23 +420,30 @@ export default abstract class Row<T> {
                     colspan += stickyLadderCellsCount;
                 }
             }
-            if (colspan === 1) {
-                colspan = 0;
-            }
-            if (colspan) {
-                columnIndex += colspan - 1;
+            if (skipColumns) {
+                if (colspan === 1) {
+                    colspan = 0;
+                }
+                if (colspan) {
+                    columnIndex += colspan - 1;
+                }
+            } else {
+                colspan = (colspan || 1);
+                resultTotalLength += colspan;
             }
             creatingColumnsParams.push({
                 ...this._getColumnFactoryParams(column, columnIndex),
                 instanceId: `${this.key}_column_${columnIndex}`,
                 colspan: colspan as number,
-                isFixed: columnIndex < this.getStickyColumnsCount()
+                isFixed: this.hasColumnScroll() ? ((skipColumns ? columnIndex : resultTotalLength - 1) < this.getStickyColumnsCount()) : false
             });
         }
 
         if (creatingColumnsParams.length === 1 && (this._$rowTemplate || columns.length > 1)) {
             creatingColumnsParams[0].isSingleColspanedCell = true;
-            creatingColumnsParams[0].isFixed = true;
+            if (this.hasColumnScroll()) {
+                creatingColumnsParams[0].isFixed = true;
+            }
         }
 
         if (creatingColumnsParams.length > 0) {
@@ -478,7 +493,8 @@ export default abstract class Row<T> {
                 this._$columns,
                 this.getColumnsFactory(),
                 options.shouldAddMultiSelectCell === false,
-                options.shouldAddStickyLadderCells === false
+                options.shouldAddStickyLadderCells === false,
+                options.colspanStrategy === 'skipColumns'
             );
 
             // Заполняем ячейки для лесенки.

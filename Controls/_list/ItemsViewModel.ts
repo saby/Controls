@@ -397,8 +397,8 @@ var ItemsViewModel = BaseViewModel.extend({
         return this._curIndex;
     },
 
-    getItemById: function(id, keyProperty) {
-        return this._display ? this._display.getItemBySourceKey(id) : undefined;
+    getItemById: function(id: string | number, keyProperty: string, withFilter: boolean = true) {
+        return this._display ? this._display.getItemBySourceKey(id, withFilter) : undefined;
     },
 
     getItemBySourceKey: function(id) {

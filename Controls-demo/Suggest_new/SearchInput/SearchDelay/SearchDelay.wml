@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow demo-SearchSuggest__container controlsDemo__mb3">
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo_fixedWidth350">
-      <div class="controls-text-label_theme-{{_options.theme}}">Поиск без задержки</div>
+      <div class="controls-text-label">Поиск без задержки</div>
       <Controls.suggest:SearchInput
               attr:class="demo-SuggestNewSearch__noDelay controlsDemo__input"
               bind:value="_suggestCustomValue"
@@ -13,7 +13,7 @@
       </Controls.suggest:SearchInput>
   </div>
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Поиск с задержкой 1.5 секунды</div>
+      <div class="controls-text-label">Поиск с задержкой 1.5 секунды</div>
       <Controls.suggest:SearchInput
               attr:class="demo-SuggestNewSearch__withDelay controlsDemo__input"
               bind:value="_suggestDefaultValue"

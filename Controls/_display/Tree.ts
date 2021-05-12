@@ -22,7 +22,7 @@ import {Object as EventObject} from 'Env/Event';
 import {TemplateFunction} from 'UI/Base';
 import {CrudEntityKey} from 'Types/source';
 import NodeFooter from 'Controls/_display/itemsStrategy/NodeFooter';
-import {Model as EntityModel, Model, relation} from 'Types/entity';
+import {Model, relation} from 'Types/entity';
 import {IDragPosition} from './interface/IDragPosition';
 import TreeDrag from './itemsStrategy/TreeDrag';
 import {isEqual} from 'Types/object';
@@ -121,9 +121,12 @@ function onCollectionChange<T>(
  */
 function onCollectionItemChange<T extends Model>(event: EventObject, item: T, index: number, properties: Object): void {
     this.instance._reIndex();
-    if (this.instance.getExpanderVisibility() === 'hasChildren' && !this.instance.getHasChildrenProperty()
-        && properties.hasOwnProperty(this.instance.getParentProperty())) {
-        this.instance._recountHasChildrenByRecordSet();
+    if (this.instance.getExpanderVisibility() === 'hasChildren') {
+        if (!this.instance.getHasChildrenProperty() && properties.hasOwnProperty(this.instance.getParentProperty())) {
+            this.instance._recountHasChildrenByRecordSet();
+        } else if (properties.hasOwnProperty(this.instance.getHasChildrenProperty())) {
+            this.instance._recountHasNodeWithChildren();
+        }
     }
     this.prev(event, item, index, properties);
 
@@ -602,8 +605,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._$root = root;
         this._root = null;
 
+        this._resetEdgeItems();
         this._reIndex();
         this._reAnalize();
+        this._updateEdgeItems();
     }
 
     /**
@@ -674,39 +679,57 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             return;
         }
 
-        // TODO зарефакторить по задаче https://online.sbis.ru/opendoc.html?guid=5d8d38d0-3ade-4393-bced-5d7fbd1ca40b
-
         const diff = ArraySimpleValuesUtil.getArrayDifference(this._expandedItems, expandedKeys);
 
-        if (diff.removed[0] === null) {
-            this._getItems().forEach((it) => it['[Controls/_display/TreeItem]'] && it.setExpanded(false));
+        //region Добавленные ключи нужно развернуть
+        if (diff.added[0] === null) {
+            this._getItems().forEach((item) => {
+                if (!item['[Controls/_display/TreeItem]'] || item.isNode() === null) {
+                    return;
+                }
+
+                // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
+                item.setExpanded(true);
+            });
         } else {
-            diff.removed.forEach((it) => {
-                const item = this.getItemBySourceKey(it, false);
+            diff.added.forEach((id) => {
+                const item = this.getItemBySourceKey(id, false);
                 if (item && item['[Controls/_display/TreeItem]']) {
-                    this._collapseChilds(item);
+                    // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
+                    item.setExpanded(true);
+                }
+            });
+        }
+        //endregion
+
+        //region Удаленные ключи нужно свернуть
+        if (diff.removed[0] === null) {
+            this._getItems().forEach((item) => {
+                if (!item['[Controls/_display/TreeItem]']) {
+                    return;
+                }
+
+                const id = item.getContents().getKey();
+                if (diff.added.includes(id)) {
+                    return;
+                }
+
+                // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
+                item.setExpanded(false);
+            });
+        } else {
+            diff.removed.forEach((id) => {
+                const item = this.getItemBySourceKey(id, false);
+                if (item && item['[Controls/_display/TreeItem]']) {
+                    // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
                     item.setExpanded(false);
                 }
             });
         }
+        //endregion
 
         this._expandedItems = [...expandedKeys];
-        if (expandedKeys[0] === null) {
-            this._getItems().forEach((item) => {
-                if (item['[Controls/_display/TreeItem]'] && item.isNode() !== null) {
-                    // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
-                    item.setExpanded(true);
-                }
-            });
-        } else {
-            expandedKeys.forEach((key) => {
-                const item = this.getItemBySourceKey(key, false);
-                if (item && item['[Controls/_display/TreeItem]']) {
-                    // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
-                    item.setExpanded(true);
-                }
-            });
-        }
+        this._resetEdgeItems();
         this._updateEdgeItems();
     }
 
@@ -783,7 +806,15 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // region Аспект "крайние записи"
 
-    getLastItem(): EntityModel {
+    getFirstItem(): Model<any> {
+        if (!this._firstItem) {
+            const children = this.getChildrenByRecordSet(this.getRoot().getContents());
+            this._firstItem = children[0];
+        }
+        return this._firstItem;
+    }
+
+    getLastItem(): Model {
         if (!this._lastItem) {
             this._lastItem = this._getLastItemRecursive(this.getRoot().getContents());
         }

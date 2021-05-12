@@ -352,6 +352,41 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     }
     //endregion
 
+    //region public methods
+    /**
+     * Вызывает перезагрузку данных в detail-колонке
+     */
+    reload(): Promise<RecordSet> {
+        return this.children.detailList.reload();
+    }
+
+    reloadItem(): unknown {
+        const detailExplorer = this._children.detailList;
+        return detailExplorer.reloadItem.apply(detailExplorer, arguments);
+    }
+
+    moveItemsWithDialog(): unknown {
+        const detailExplorer = this._children.detailList;
+        return detailExplorer.moveItemsWithDialog.apply(detailExplorer, arguments);
+    }
+
+    moveItems(): unknown {
+        const detailExplorer = this._children.detailList;
+        return detailExplorer.moveItems.apply(detailExplorer, arguments);
+    }
+
+    moveItemUp(): unknown {
+        const detailExplorer = this._children.detailList;
+        return detailExplorer.moveItemUp.apply(detailExplorer, arguments);
+    }
+
+    moveItemDown(): unknown {
+        const detailExplorer = this._children.detailList;
+        return detailExplorer.moveItemDown.apply(detailExplorer, arguments);
+    }
+    //endregion
+
+
     //region base control overrides
     protected _notify(eventName: string, args?: unknown[], options?: { bubbling?: boolean }): unknown {
         if (!this._isMounted) {

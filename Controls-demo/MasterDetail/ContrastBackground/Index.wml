@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controls-demo_MasterDetail-background">
    <div class="controlsDemo__masterDetail-container">
-      <div class="controls-text-label_theme-{{_options.theme}}">grid:View в мастере</div>
+      <div class="controls-text-label">grid:View в мастере</div>
       <Controls.masterDetail:Base>
          <ws:master>
             <Controls.scroll:Container shadowMode="js">
@@ -42,7 +42,7 @@
       </Controls.masterDetail:Base>
    </div>
    <div class="controlsDemo__masterDetail-container">
-      <div class="controls-text-label_theme-{{_options.theme}}">list:View в мастере</div>
+      <div class="controls-text-label">list:View в мастере</div>
       <Controls.masterDetail:Base>
          <ws:master>
             <Controls.scroll:Container shadowMode="js">
@@ -90,7 +90,7 @@
       </Controls.masterDetail:Base>
    </div>
    <div class="controlsDemo__masterDetail-container">
-      <div class="controls-text-label_theme-{{_options.theme}}">treeGrid:View в мастере</div>
+      <div class="controls-text-label">treeGrid:View в мастере</div>
       <Controls.masterDetail:Base>
          <ws:master>
             <Controls.scroll:Container shadowMode="js">

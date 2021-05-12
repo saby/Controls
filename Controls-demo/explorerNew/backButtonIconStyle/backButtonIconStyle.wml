@@ -1,0 +1,12 @@
+<div class="controlsDemo__wrapper">
+    <Controls.explorer:View
+            source="{{_viewSource}}"
+            bind:root="_root"
+            keyProperty="id"
+            displayProperty="title"
+            parentProperty="parent"
+            nodeProperty="parent@"
+            backButtonIconStyle="secondary"
+            columns="{{_columns}}">
+    </Controls.explorer:View>
+</div>

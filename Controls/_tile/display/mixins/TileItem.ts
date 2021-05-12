@@ -335,8 +335,9 @@ export default abstract class TileItem<T extends Model = Model> {
         return this._$canShowActions;
     }
 
-    shouldDisplayItemActions(itemType: string = 'default', itemActionsPositionTemplate: string): boolean {
-        if (itemType === 'preview') {
+    shouldDisplayItemActions(itemType: string = 'default', itemActionsPositionTemplate: string, place?: 'wrapper'|'title'): boolean {
+        // В превью темплейте itemActions должны показываться внутри блока с названием
+        if (itemType === 'preview' && place === 'wrapper') {
             return false;
         }
         const itemActionsPosition = itemActionsPositionTemplate || this.getOwner().getActionsTemplateConfig()?.itemActionsPosition;
@@ -521,10 +522,10 @@ export default abstract class TileItem<T extends Model = Model> {
                 }
                 classes += ` controls-TileView__image_align_${imageAlign} `;
 
-                const imageRestrictions = this.getImageFit() === 'cover'
+                const imageRestrictions = this.getImageFit(imageFit) === 'cover'
                     ? getImageRestrictions(this.getImageHeight(), this.getImageWidth(), this.getTileHeight(), this.getTileWidth(widthTpl, imagePosition, imageViewMode))
                     : {};
-                classes += getImageClasses(this.getImageFit(), imageRestrictions);
+                classes += getImageClasses(this.getImageFit(imageFit), imageRestrictions);
                 break;
             case 'small':
                 classes += ' controls-TileView__smallTemplate_image';
@@ -537,18 +538,13 @@ export default abstract class TileItem<T extends Model = Model> {
                 if (imagePosition === 'top' && (imageViewMode === 'rectangle' && imageProportion !== 1 || imageSize === 'xl')) {
                     classes += ' controls-TileView__image controls-TileView__image_align_center';
                 }
-
-                if (!imageProportionOnItem || imageViewMode !== 'rectangle' || imagePosition !== 'top') {
-                    classes += ` controls-TileView__richTemplate_image_size_${imageSize}_position_${imagePosition}_viewMode_${imageViewMode}`;
-                    classes += ` controls-TileView__richTemplate_image_size_${imageSize}_position_${imagePosition !== 'top' ? 'vertical' : 'top'}`;
-                }
                 break;
         }
 
         return classes ;
     }
 
-    getImageWrapperClasses(itemType: string = 'default', templateHasTitle?: boolean, templateTitleStyle?: string, imageViewMode: string = 'rectangle'): string {
+    getImageWrapperClasses(itemType: string = 'default', templateHasTitle?: boolean, templateTitleStyle?: string, imageViewMode: string = 'rectangle', imageProportion?: number, imagePosition?: string, imageSize?: string,  imageProportionOnItem?: string): string {
         let classes = 'controls-TileView__imageWrapper';
         if (templateTitleStyle === 'accent') {
             classes += ' controls-TileView__imageWrapper_accent';
@@ -559,7 +555,7 @@ export default abstract class TileItem<T extends Model = Model> {
                 classes += ' controls-TileView__item_animated';
             }
             if ((templateTitleStyle === undefined && templateHasTitle) || templateTitleStyle === 'partial') {
-                classes += ` controls-TileView__imageWrapper_reduced`;
+                classes += ' controls-TileView__imageWrapper_reduced';
             }
         }
 
@@ -577,6 +573,10 @@ export default abstract class TileItem<T extends Model = Model> {
                 // TODO в этом случае не нужны общие классы вверху, нужно написать так чтобы они не считались
                 classes = ' controls-TileView__richTemplate_imageWrapper';
                 classes += ` controls-TileView_richTemplate_image_spacing_viewMode_${imageViewMode}`;
+                if (!imageProportionOnItem || imageViewMode !== 'rectangle' || imagePosition !== 'top') {
+                    classes += ` controls-TileView__richTemplate_image_size_${imageSize}_position_${imagePosition}_viewMode_${imageViewMode}`;
+                    classes += ` controls-TileView__richTemplate_image_size_${imageSize}_position_${imagePosition !== 'top' ? 'vertical' : 'top'}`;
+                }
                 break;
             case 'preview':
                 classes += ' controls-TileView__previewTemplate_image';
@@ -586,16 +586,21 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getImageWrapperStyles(itemType: string = 'default'): string {
+    getImageWrapperStyles(itemType: string = 'default', imageViewMode: string = 'rectangle', imagePosition?: string): string {
+        let styles = '';
         if (this.getTileMode() === 'dynamic') {
             let height = this.getTileHeight();
             if (this.isScaled() && this.isAnimated()) {
                 height *= this.getOwner().getZoomCoefficient();
             }
-            return `height: ${height}px;`;
-        } else {
-            return '';
+            styles += ` height: ${height}px;`;
         }
+
+        if (itemType === 'rich' && imagePosition === 'top' && imageViewMode !== 'rectangle') {
+            styles += ' align-self: center; ';
+        }
+
+        return styles;
     }
 
     getImageAlignClasses(imageAlign: string): string {
@@ -909,7 +914,7 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getContentClasses(itemType: string = 'default', imagePosition: string = 'top'): string {
+    getContentClasses(itemType: string = 'default', imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
         let classes = '';
 
         switch (itemType) {
@@ -938,13 +943,13 @@ export default abstract class TileItem<T extends Model = Model> {
     shouldDisplayTitle(itemType: string = 'default'): boolean {
         switch (itemType) {
             case 'default':
-                return !!this.getDisplayValue() || (this.hasVisibleActions() || this.isEditing());
+                return !!this.getDisplayValue() || this.hasVisibleActions() || this.isEditing();
             case 'small':
             case 'medium':
             case 'rich':
                 return true;
             case 'preview':
-                return !!this.getDisplayValue() || this.canShowActions() || this.hasVisibleActions();
+                return !!this.getDisplayValue() && (!this.canShowActions() || !this.hasVisibleActions());
         }
     }
 

@@ -1,16 +1,16 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">validationStatus=valid</div>
+      <div class="controls-text-label">validationStatus=valid</div>
       <Controls.input:Text contrastBackground="{{true}}" attr:class="controlsDemo__input" validationStatus="valid" bind:value="_validValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">validationStatus=invalid</div>
+      <div class="controls-text-label">validationStatus=invalid</div>
       <Controls.input:Text contrastBackground="{{true}}" attr:class="controlsDemo__input" validationStatus="invalid" bind:value="_invalidValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">validationStatus=invalidAccent</div>
+      <div class="controls-text-label">validationStatus=invalidAccent</div>
       <Controls.input:Text contrastBackground="{{true}}" attr:class="controlsDemo__input" validationStatus="invalidAccent" bind:value="_invalidAccentValue"
                            placeholder="{{_placeholder}}"/>
    </div>

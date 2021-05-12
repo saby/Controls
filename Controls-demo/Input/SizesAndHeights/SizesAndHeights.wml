@@ -1,48 +1,48 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">inlineHeight=xs, fontSize=xs</div>
+      <div class="controls-text-label">inlineHeight=xs, fontSize=xs</div>
       <Controls.input:Text attr:class="controlsDemo__input" inlineHeight="xs" fontSize="xs"
                            bind:value="_sizeAndHeightXSValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">inlineHeight=s, fontSize=s</div>
+      <div class="controls-text-label">inlineHeight=s, fontSize=s</div>
       <Controls.input:Text attr:class="controlsDemo__input" inlineHeight="s" fontSize="s"
                            bind:value="_sizeAndHeightSValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">inlineHeight=m, fontSize=m</div>
+      <div class="controls-text-label">inlineHeight=m, fontSize=m</div>
       <Controls.input:Text attr:class="controlsDemo__input" inlineHeight="m" fontSize="m"
                            bind:value="_sizeAndHeightMValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">inlineHeight=l, fontSize=l</div>
+      <div class="controls-text-label">inlineHeight=l, fontSize=l</div>
       <Controls.input:Text attr:class="controlsDemo__input" inlineHeight="l" fontSize="l"
                            bind:value="_sizeAndHeightLValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">inlineHeight=xl, fontSize=xl</div>
+      <div class="controls-text-label">inlineHeight=xl, fontSize=xl</div>
       <Controls.input:Text attr:class="controlsDemo__input" inlineHeight="xl" fontSize="xl"
                            bind:value="_sizeAndHeightXLValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">inlineHeight=2xl, fontSize=2xl</div>
+      <div class="controls-text-label">inlineHeight=2xl, fontSize=2xl</div>
       <Controls.input:Text attr:class="controlsDemo__input" inlineHeight="2xl" fontSize="2xl"
                            bind:value="_sizeAndHeight2XLValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">inlineHeight=2xl, fontSize=3xl</div>
+      <div class="controls-text-label">inlineHeight=2xl, fontSize=3xl</div>
       <Controls.input:Text attr:class="controlsDemo__input" inlineHeight="2xl" fontSize="3xl"
                            bind:value="_sizeAndHeight3XLValue"
                            placeholder="{{_placeholder}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">inlineHeight=2xl, fontSize=4xl</div>
+      <div class="controls-text-label">inlineHeight=2xl, fontSize=4xl</div>
       <Controls.input:Text attr:class="controlsDemo__input" inlineHeight="2xl" fontSize="4xl"
                            bind:value="_sizeAndHeight4XLValue"
                            placeholder="{{_placeholder}}"/>

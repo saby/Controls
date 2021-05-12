@@ -3,7 +3,7 @@
         <Controls.list:View
                 keyProperty="id"
                 source="{{_viewSource}}"
-                groupHistoryId="{{_groupHistoryId}}"
+                groupHistoryId="MY_BRAND"
                 groupProperty="brand"/>
     </Controls.scroll:Container>
 </div>

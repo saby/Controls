@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell ws-flexbox ws-flex-column controlsDemo__mb2">
         <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">Standard size</div>
+            <div class="controls-text-label">Standard size</div>
         </div>
         <Controls.LoadingIndicator
                 name="LocalIndicatorDefault"
@@ -18,7 +18,7 @@
     </div>
     <div class="controlsDemo__cell ws-flexbox ws-flex-column">
         <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">small = small</div>
+            <div class="controls-text-label">small = small</div>
         </div>
         <Controls.LoadingIndicator
                 name="LocalIndicatorSmall"

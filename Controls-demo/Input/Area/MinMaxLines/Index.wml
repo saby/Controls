@@ -1,14 +1,14 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="demo-Area__labelMinLines2 controls-text-label_theme-{{_options.theme}}">minLines=1</div>
+        <div class="demo-Area__labelMinLines2 controls-text-label">minLines=1</div>
         <Controls.input:Area attr:class="demo-Area__minLines1" minLines="{{1}}" attr:style="width:300px;"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="demo-Area__labelMinLines2 controls-text-label_theme-{{_options.theme}}">minLines=2, maxLines=4</div>
+        <div class="demo-Area__labelMinLines2 controls-text-label">minLines=2, maxLines=4</div>
         <Controls.input:Area attr:class="demo-Area__minLines2" minLines="{{2}}" maxLines="{{4}}" bind:value="_value1" attr:style="width:300px;"></Controls.input:Area>
     </div>
     <div class="controlsDemo__cell">
-        <div class="demo-Area__labelMinLines4 controls-text-label_theme-{{_options.theme}}">minLines=4, maxLines=4</div>
+        <div class="demo-Area__labelMinLines4 controls-text-label">minLines=4, maxLines=4</div>
         <Controls.input:Area attr:class="demo-Area__minLines4" minLines="{{4}}" maxLines="{{4}}" bind:value="_value2" attr:style="width:300px;"></Controls.input:Area>
     </div>
 </div>

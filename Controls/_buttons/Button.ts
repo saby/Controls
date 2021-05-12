@@ -186,8 +186,6 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
         }
     }
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static getDefaultOptions(): object {
         return getDefaultOptions();
     }

@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">default options</div>
+        <div class="controls-text-label">default options</div>
         <Controls.input:Password 
             bind:value="_value1"
             attr:style="width:200px"
@@ -8,7 +8,7 @@
         </Controls.input:Password>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">revealable=false</div>
+        <div class="controls-text-label">revealable=false</div>
         <Controls.input:Password
             revealable="{{false}}"
             bind:value="_value2"

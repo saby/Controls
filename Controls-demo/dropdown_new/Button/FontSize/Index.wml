@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__flexColumn controlsDemo__ml1 {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth500' : 'controlsDemo_fixedWidth300'}}">
        <div class="controlsDemo__cell controlsDemo__mb1">
-          <div class="controls-text-label_theme-{{_options.theme}}">Меню с fontSize=xs, inlineHeight=s</div>
+          <div class="controls-text-label">Меню с fontSize=xs, inlineHeight=s</div>
           <Controls.dropdown:Button
                   keyProperty="key"
                   caption="Create"
@@ -12,7 +12,7 @@
           </Controls.dropdown:Button>
        </div>
        <div class="controlsDemo__cell controlsDemo__mb1">
-          <div class="controls-text-label_theme-{{_options.theme}}">Меню с fontSize=s, inlineHeight=s</div>
+          <div class="controls-text-label">Меню с fontSize=s, inlineHeight=s</div>
           <Controls.dropdown:Button
                   keyProperty="key"
                   caption="Create"
@@ -23,7 +23,7 @@
           </Controls.dropdown:Button>
        </div>
        <div class="controlsDemo__cell controlsDemo__mb1">
-          <div class="controls-text-label_theme-{{_options.theme}}">Меню с fontSize=m, inlineHeight=m</div>
+          <div class="controls-text-label">Меню с fontSize=m, inlineHeight=m</div>
           <Controls.dropdown:Button
                   keyProperty="key"
                   caption="Create"
@@ -34,7 +34,7 @@
           </Controls.dropdown:Button>
        </div>
        <div class="controlsDemo__cell controlsDemo__mb1">
-          <div class="controls-text-label_theme-{{_options.theme}}">Меню с fontSize=l, inlineHeight=l</div>
+          <div class="controls-text-label">Меню с fontSize=l, inlineHeight=l</div>
           <Controls.dropdown:Button
                   keyProperty="key"
                   caption="Create"
@@ -47,7 +47,7 @@
     </div>
     <div class="controlsDemo__flexColumn controlsDemo__ml1 {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth500' : 'controlsDemo_fixedWidth300'}}">
        <div class="controlsDemo__cell controlsDemo__mb1">
-          <div class="controls-text-label_theme-{{_options.theme}}">Меню с fontSize=xl, inlineHeight=xl</div>
+          <div class="controls-text-label">Меню с fontSize=xl, inlineHeight=xl</div>
           <Controls.dropdown:Button
                   keyProperty="key"
                   caption="Create"
@@ -58,7 +58,7 @@
           </Controls.dropdown:Button>
        </div>
        <div class="controlsDemo__cell controlsDemo__mb1">
-          <div class="controls-text-label_theme-{{_options.theme}}">Меню с fontSize=2xl, inlineHeight=2xl</div>
+          <div class="controls-text-label">Меню с fontSize=2xl, inlineHeight=2xl</div>
           <Controls.dropdown:Button
                   keyProperty="key"
                   caption="Create"
@@ -69,7 +69,7 @@
           </Controls.dropdown:Button>
        </div>
        <div class="controlsDemo__cell controlsDemo__mb1">
-          <div class="controls-text-label_theme-{{_options.theme}}">Меню с fontSize=3xl, inlineHeight=2xl</div>
+          <div class="controls-text-label">Меню с fontSize=3xl, inlineHeight=2xl</div>
           <Controls.dropdown:Button
                   keyProperty="key"
                   caption="Create"
@@ -80,7 +80,7 @@
           </Controls.dropdown:Button>
        </div>
        <div class="controlsDemo__cell controlsDemo__mb1">
-          <div class="controls-text-label_theme-{{_options.theme}}">Меню с fontSize=4xl, inlineHeight=2xl</div>
+          <div class="controls-text-label">Меню с fontSize=4xl, inlineHeight=2xl</div>
           <Controls.dropdown:Button
                   keyProperty="key"
                   caption="Create"

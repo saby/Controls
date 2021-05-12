@@ -3,7 +3,7 @@
       <div class="PageBlock__title">Controls.Calendar.PeriodDialog</div>
       <div class="PageBlock__componentWrap">
          <div class="controlsDemo__cell">
-            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+            <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/datePopup/Base/Index' }}">
                <a href="{{content.href}}">Any period</a>
@@ -11,7 +11,7 @@
             <Controls-demo.datePopup.Base.Index/>
          </div>
          <div class="controlsDemo__cell">
-            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+            <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/datePopup/SingleDay/Index' }}">
                <a href="{{content.href}}">Single Day</a>
@@ -19,7 +19,7 @@
             <Controls-demo.datePopup.SingleDay.Index/>
          </div>
          <div class="controlsDemo__cell">
-            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+            <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/datePopup/Ranges/Index' }}">
                <a href="{{content.href}}">Ranges</a>
@@ -28,7 +28,7 @@
          </div>
 
          <div class="controlsDemo__cell">
-            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+            <Router.router:Reference attr:class="controls-text-label"
                                      state="/Controls-demo/app/:app"
                                      app="{{ 'Controls-demo/datePopup/MinRange/Index' }}">
                <a href="{{content.href}}">The minimum period is a month</a>

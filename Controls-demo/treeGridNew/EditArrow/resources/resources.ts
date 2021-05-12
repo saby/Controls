@@ -1,8 +1,8 @@
 import { IColumn } from 'Controls/grid';
 import * as ColumnTemplate from 'wml!Controls-demo/treeGridNew/EditArrow/resources/ColumnTemplate';
-import { IHeader } from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/grid';
 
-export const TreeHeader: IHeader[] = [
+export const TreeHeader: IHeaderCell[] = [
     {
         title: ''
     },

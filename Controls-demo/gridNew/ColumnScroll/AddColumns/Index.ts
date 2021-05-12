@@ -3,13 +3,13 @@ import * as Template from 'wml!Controls-demo/gridNew/ColumnScroll/AddColumns/Add
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
-import { IHeader } from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/grid';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths();
-    protected _header: IHeader[] = getCountriesStats().getDefaultHeader();
+    protected _header: IHeaderCell[] = getCountriesStats().getDefaultHeader();
     private _newColumnWidth: string = '100px';
     private _collIndex: number = 0;
     private _tableWidthTemp: string = '600px';

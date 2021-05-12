@@ -3,7 +3,7 @@ import * as editingColumnTemplate from 'wml!Controls-demo/explorerNew/Editing/ed
 import * as notEditableTemplate from 'wml!Controls-demo/explorerNew/Editing/notEditableCell';
 import * as CntTpl from 'wml!Controls-demo/explorerNew/SearchWithPhoto/content';
 import * as CntTplLadder from 'wml!Controls-demo/explorerNew/SearchWithLadderPhoto/content';
-import {IHeader} from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/grid';
 import {IColumn} from 'Controls/grid';
 import {groupConstants} from 'Controls/list';
 
@@ -706,7 +706,7 @@ export const Gadgets = {
         }
     ],
 
-    getHeader(): IHeader[] {
+    getHeader(): IHeaderCell[] {
         return [
             {
                 title: ''

@@ -1,21 +1,21 @@
 <div class="controlsDemo__wrapper controlsDemo__PopupTemplate__demoWrapper ws-align-self-center">
     <div class="controlsDemo__cell demo-dateRangeInput__default">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">Default</div>
+        <div class="controls-text-label controlsDemo__maxWidth200">Default</div>
         <Controls-demo.dateRange.Input.Default.Index date="{{ _date }}"/>
     </div>
 
     <div class="controlsDemo__cell demo-dateRangeInput__tagStyle">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">TagStyle and TagClick</div>
+        <div class="controls-text-label controlsDemo__maxWidth200">TagStyle and TagClick</div>
         <Controls-demo.dateRange.Input.Tag.Index date="{{ _date }}"/>
     </div>
 
     <div class="controlsDemo__cell demo-dateRangeInput__dayTemplate">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">DayTemplate</div>
+        <div class="controls-text-label controlsDemo__maxWidth200">DayTemplate</div>
         <Controls-demo.dateRange.Input.DayTemplate.Index date="{{ _date }}"/>
     </div>
 
     <div class="controlsDemo__cell demo-dateRangeInput__validators">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">Validators</div>
+        <div class="controls-text-label controlsDemo__maxWidth200">Validators</div>
         <Controls-demo.dateRange.Input.Validators.Index date="{{ _date }}"/>
     </div>
 </div>

@@ -4,7 +4,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_list/List');
 
-import Deferred = require('Core/Deferred');
 import {EventUtils} from 'UI/Events';
 import viewName = require('Controls/_list/ListView');
 import {default as ListControl} from 'Controls/_list/BaseControl';
@@ -14,6 +13,7 @@ import {IMovableList} from './interface/IMovableList';
 import {IRemovableList} from './interface/IRemovableList';
 import { RecordSet } from 'Types/collection';
 import 'css!Controls/list';
+import {Model} from 'Types/entity';
 
 /**
  * Контрол "Плоский список" позволяет отображать данные из различных источников в виде упорядоченного списка.
@@ -107,7 +107,7 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
         return this._children.listControl.reload(keepScroll, sourceConfig);
     }
 
-    reloadItem(key: string, readMeta: object, replaceItem: boolean, reloadType: string = 'read'): Deferred {
+    reloadItem(key: string, readMeta: object, replaceItem: boolean, reloadType: string = 'read'): Promise<Model> {
         const listControl = this._children.listControl;
         return listControl.reloadItem.apply(listControl, arguments);
     }
@@ -120,20 +120,20 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
         return this._children.listControl.scrollToItem(key, toBottom, force);
     }
 
-    beginEdit(options) {
-        return this._options.readOnly ? Deferred.fail() : this._children.listControl.beginEdit(options);
+    beginEdit(options: object): Promise<void | {canceled: true}> {
+        return this._options.readOnly ? Promise.reject() : this._children.listControl.beginEdit(options);
     }
 
-    beginAdd(options) {
-        return this._options.readOnly ? Deferred.fail() : this._children.listControl.beginAdd(options);
+    beginAdd(options: object): Promise<void | { canceled: true }> {
+        return this._options.readOnly ? Promise.reject() : this._children.listControl.beginAdd(options);
     }
 
-    cancelEdit() {
-        return this._options.readOnly ? Deferred.fail() : this._children.listControl.cancelEdit();
+    cancelEdit(): Promise<void | { canceled: true }> {
+        return this._options.readOnly ? Promise.reject() : this._children.listControl.cancelEdit();
     }
 
-    commitEdit() {
-        return this._options.readOnly ? Deferred.fail() : this._children.listControl.commitEdit();
+    commitEdit(): Promise<void | { canceled: true }> {
+        return this._options.readOnly ? Promise.reject() : this._children.listControl.commitEdit();
     }
 
     // region mover

@@ -6472,39 +6472,65 @@ define([
           beforeEach(() => {
              testCases = [];
              baseControl = new lists.BaseControl();
+             baseControl._scrollController = {
+                isRangeOnEdge: () => true
+             };
           });
 
-          it('_shouldDisplayTopLoadingIndicator', () => {
-             // indicatorState, _attachLoadTopTriggerToNull, _loadToDirectionInProgress, _items, expected
-             testCases = [
-                ['up',   true,  true,  notEmptyRs,  true],
-                ['up',   true,  true,  emptyRs,     false],
-                ['up',   false, false, notEmptyRs,  true],
-                ['up',   false, false, notEmptyRs,  true],
+          describe('_shouldDisplayTopLoadingIndicator', () => {
+            it('_shouldDisplayTopLoadingIndicator', () => {
+               // indicatorState, _attachLoadTopTriggerToNull, _loadToDirectionInProgress, _items, expected
+               testCases = [
+                  ['up',   true,  true,  notEmptyRs,  true],
+                  ['up',   true,  true,  emptyRs,     false],
+                  ['up',   false, false, notEmptyRs,  true],
+                  ['up',   false, false, notEmptyRs,  true],
 
-                ['down', true,  true,  notEmptyRs,  true],
-                ['down', false, true,  emptyRs,     false],
-                ['down', false, false, notEmptyRs,  false],
-                ['down', false, false, notEmptyRs,  false],
+                  ['down', true,  true,  notEmptyRs,  true],
+                  ['down', false, true,  emptyRs,     false],
+                  ['down', false, false, notEmptyRs,  false],
+                  ['down', false, false, notEmptyRs,  false],
 
-                ['all',  true,  true,  notEmptyRs,  true],
-                ['all',  false, true,  emptyRs,     false],
-                ['all',  false, false, notEmptyRs,  false],
-                ['all',  false, false, notEmptyRs,  false],
-             ];
+                  ['all',  true,  true,  notEmptyRs,  true],
+                  ['all',  false, true,  emptyRs,     false],
+                  ['all',  false, false, notEmptyRs,  false],
+                  ['all',  false, false, notEmptyRs,  false],
+               ];
 
-             testCases.forEach((caseData, index) => {
-                checkCase(index, caseData, baseControl._shouldDisplayTopLoadingIndicator);
+               testCases.forEach((caseData, index) => {
+                  checkCase(index, caseData, baseControl._shouldDisplayTopLoadingIndicator);
+               });
+
+               baseControl._loadingIndicatorState = 'up';
+               baseControl._portionedSearchInProgress = true;
+               assert.equal(baseControl._shouldDisplayTopLoadingIndicator(), false);
+
+               baseControl._portionedSearchInProgress = false;
+               baseControl._loadingIndicatorState = 'bottom';
+               baseControl.__needShowEmptyTemplate = () => true;
+               assert.equal(baseControl._shouldDisplayTopLoadingIndicator(), false);
+            });
+
+            it('has hidden items by virtual scroll', () => {
+               baseControl._scrollController.isRangeOnEdge = () => false;
+               baseControl._attachLoadTopTriggerToNull = true;
+               baseControl._items = notEmptyRs;
+               assert.isNotOk(baseControl._shouldDisplayTopLoadingIndicator());
+            });
+
+             it('portioned search in progress', () => {
+                baseControl._attachLoadTopTriggerToNull = true;
+                baseControl._portionedSearchInProgress = true;
+                baseControl._items = notEmptyRs;
+                assert.isNotOk(baseControl._shouldDisplayTopLoadingIndicator());
              });
 
-             baseControl._loadingIndicatorState = 'up';
-             baseControl._portionedSearchInProgress = true;
-             assert.equal(baseControl._shouldDisplayTopLoadingIndicator(), false);
-
-             baseControl._portionedSearchInProgress = false;
-             baseControl._loadingIndicatorState = 'bottom';
-             baseControl.__needShowEmptyTemplate = () => true;
-             assert.equal(baseControl._shouldDisplayTopLoadingIndicator(), false);
+             it('continue search showed', () => {
+                baseControl._attachLoadTopTriggerToNull = true;
+                baseControl._showContinueSearchButtonDirection = 'up';
+                baseControl._items = notEmptyRs;
+                assert.isNotOk(baseControl._shouldDisplayTopLoadingIndicator());
+             });
           });
 
           it('_shouldDisplayMiddleLoadingIndicator', () => {
@@ -6534,46 +6560,69 @@ define([
              assert.equal(baseControl._shouldDisplayMiddleLoadingIndicator(), false);
           });
 
-          it('_shouldDisplayBottomLoadingIndicator', () => {
-             // indicatorState, __needShowEmptyTemplate, _loadToDirectionInProgress, _showLoadingIndicator, expected
-             testCases = [
-                ['up',   true,  true,  notEmptyRs,  false],
-                ['up',   false, true,  emptyRs,     false],
-                ['up',   false, false, notEmptyRs,  false],
-                ['up',   false, false, notEmptyRs,  false],
+          describe('_shouldDisplayBottomLoadingIndicator', () => {
+             it('_shouldDisplayBottomLoadingIndicator', () => {
+                // indicatorState, __needShowEmptyTemplate, _loadToDirectionInProgress, _showLoadingIndicator, expected
+                testCases = [
+                   ['up',   true,  true,  notEmptyRs,  false],
+                   ['up',   false, true,  emptyRs,     false],
+                   ['up',   false, false, notEmptyRs,  false],
+                   ['up',   false, false, notEmptyRs,  false],
 
-                ['down', true,  true,  notEmptyRs,  true],
-                ['down', false, true,  emptyRs,     false],
-                ['down', false, false, notEmptyRs,  true],
-                ['down', false, false, notEmptyRs,  true],
+                   ['down', true,  true,  notEmptyRs,  true],
+                   ['down', false, true,  emptyRs,     false],
+                   ['down', false, false, notEmptyRs,  true],
+                   ['down', false, false, notEmptyRs,  true],
 
-                ['all',  true,  true,  notEmptyRs,  false],
-                ['all',  false, true,  emptyRs,     false],
-                ['all',  false, false, notEmptyRs,  false],
-                ['all',  false, false, notEmptyRs,  false],
-             ];
+                   ['all',  true,  true,  notEmptyRs,  false],
+                   ['all',  false, true,  emptyRs,     false],
+                   ['all',  false, false, notEmptyRs,  false],
+                   ['all',  false, false, notEmptyRs,  false],
+                ];
 
-             testCases.forEach((caseData, index) => {
-                checkCase(index, caseData, baseControl._shouldDisplayBottomLoadingIndicator);
+                testCases.forEach((caseData, index) => {
+                   checkCase(index, caseData, baseControl._shouldDisplayBottomLoadingIndicator);
+                });
+
+                baseControl._loadingIndicatorState = 'bottom';
+                baseControl.__needShowEmptyTemplate = () => true;
+                assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
+
+                baseControl._loadingIndicatorState = 'bottom';
+                baseControl._attachLoadDownTriggerToNull = true;
+                baseControl.__needShowEmptyTemplate = () => false;
+                assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), true);
+
+                baseControl._showContinueSearchButtonDirection = true;
+                assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
+
+                baseControl._showContinueSearchButtonDirection = false;
+                baseControl._portionedSearch = {
+                   isAborted: () => true
+                };
+                assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
              });
 
-             baseControl._loadingIndicatorState = 'bottom';
-             baseControl.__needShowEmptyTemplate = () => true;
-             assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
+             it('has hidden items by virtual scroll', () => {
+                baseControl._scrollController.isRangeOnEdge = () => false;
+                baseControl._attachLoadDownTriggerToNull = true;
+                baseControl._items = notEmptyRs;
+                assert.isNotOk(baseControl._shouldDisplayBottomLoadingIndicator());
+             });
 
-             baseControl._loadingIndicatorState = 'bottom';
-             baseControl._attachLoadDownTriggerToNull = true;
-             baseControl.__needShowEmptyTemplate = () => false;
-             assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), true);
+             it('portioned search in progress', () => {
+                baseControl._attachLoadDownTriggerToNull = true;
+                baseControl._portionedSearchInProgress = true;
+                baseControl._items = notEmptyRs;
+                assert.isNotOk(baseControl._shouldDisplayBottomLoadingIndicator());
+             });
 
-             baseControl._showContinueSearchButtonDirection = true;
-             assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
-
-             baseControl._showContinueSearchButtonDirection = false;
-             baseControl._portionedSearch = {
-                isAborted: () => true
-             };
-             assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
+             it('continue search showed', () => {
+                baseControl._attachLoadDownTriggerToNull = true;
+                baseControl._showContinueSearchButtonDirection = 'down';
+                baseControl._items = notEmptyRs;
+                assert.isNotOk(baseControl._shouldDisplayBottomLoadingIndicator());
+             });
           });
 
           it('attachToNull, onCollectionChanged', () => {
@@ -6594,13 +6643,21 @@ define([
 
             lists.BaseControl._private.onCollectionChanged(control, {}, 'collectionChanged', 'rs', [], 0, [], 0);
             assert.isFalse(control._attachLoadTopTriggerToNull);
+            assert.isFalse(control._hideTopTrigger);
+            assert.isFalse(control._resetTopTriggerOffset);
 
             lists.BaseControl._private.onCollectionChanged(control, {}, 'collectionChanged', 'rs', [1], 0, [], 0);
-            assert.isTrue(control._attachLoadTopTriggerToNull);
+            assert.isFalse(control._attachLoadTopTriggerToNull);
+            assert.isTrue(control._hideTopTrigger);
+            assert.isTrue(control._resetTopTriggerOffset);
 
-             control._attachLoadTopTriggerToNull = false;
-             lists.BaseControl._private.onCollectionChanged(control, {}, 'collectionChanged', 'rs', [], 0, [1], 0);
-             assert.isTrue(control._attachLoadTopTriggerToNull);
+            control._attachLoadTopTriggerToNull = false;
+            control._hideTopTrigger = false;
+            control._resetTopTriggerOffset = false;
+            lists.BaseControl._private.onCollectionChanged(control, {}, 'collectionChanged', 'rs', [], 0, [1], 0);
+            assert.isFalse(control._attachLoadTopTriggerToNull);
+            assert.isTrue(control._hideTopTrigger);
+            assert.isTrue(control._resetTopTriggerOffset);
           });
        });
 
@@ -8014,10 +8071,14 @@ define([
       describe('MoveController', () => {
          const moveController = {
             move: () => Promise.resolve(),
+            moveUp: () => Promise.resolve(),
+            moveDown: () => Promise.resolve(),
             moveWithDialog: () => Promise.resolve(),
             updateOptions: () => {}
          };
          let spyMove;
+         let spyMoveUp;
+         let spyMoveDown;
          let spyMoveWithDialog;
          let cfg;
          let baseControl;
@@ -8056,25 +8117,29 @@ define([
                isEditing: () => false
             };
             spyMove = sinon.spy(moveController, 'move');
+            spyMoveUp = sinon.spy(moveController, 'moveUp');
+            spyMoveDown = sinon.spy(moveController, 'moveDown');
             spyMoveWithDialog = sinon.spy(moveController, 'moveWithDialog');
          });
 
          afterEach(() => {
             spyMove.restore();
+            spyMoveUp.restore();
+            spyMoveDown.restore();
             spyMoveWithDialog.restore();
          });
 
          // moveItemUp вызывает moveController
          it('moveItemUp() should call moveController', () => {
             return baseControl.moveItemUp(2).then(() => {
-               sinon.assert.called(spyMove);
+               sinon.assert.called(spyMoveUp);
             });
          });
 
          // moveItemDown вызывает moveController
          it('moveItemDown() should call moveController', () => {
             return baseControl.moveItemDown(2).then(() => {
-               sinon.assert.called(spyMove);
+               sinon.assert.called(spyMoveDown);
             });
          });
 

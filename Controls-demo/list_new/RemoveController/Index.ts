@@ -53,6 +53,7 @@ export default class RemoveControllerDemo extends Control {
    protected _selectedKeys: number[] = [];
    protected _excludedKeys: number[] = [];
    protected _markedKey: CrudEntityKey;
+   protected _currentMessage: string;
 
    protected _beforeMount(options?: {}, contexts?: object, receivedState?: void): Promise<void> | void {
       this._viewSource = new RemoveDemoSource({
@@ -91,14 +92,15 @@ export default class RemoveControllerDemo extends Control {
           this._selectedKeys.length || (selection.selected[0] && selection.selected[0] === 5) ?
              (this._children.list as undefined as IRemovableList).removeItemsWithConfirmation.bind(this._children.list) :
              (this._children.list as undefined as IRemovableList).removeItems.bind(this._children.list);
-      method(selection)
-          .then(() => {
-            this._children.list.reload();
-             IoC.resolve('ILogger').info('Delete key has pressed');
-          })
-          .catch((error) => {
-            IoC.resolve('ILogger').error(error);
-          });
+
+      method(selection).then(() => {
+         this._children.list.reload();
+         this._currentMessage = 'Нажата клавиша "delete". Удалили запись(и) с id ' + selection.selected.join(', ');
+      })
+      .catch((error) => {
+         this._currentMessage = 'Нажата клавиша "delete". Произошла ошибка';
+         IoC.resolve('ILogger').error(error);
+      });
    }
 
    private _removeItemOnActionClick(item: Model): void {
@@ -113,12 +115,13 @@ export default class RemoveControllerDemo extends Control {
       method(selection)
           .then(() => {
              this._children.list.reload();
-             IoC.resolve('ILogger').info('ItemAction has clicked');
+             this._currentMessage = 'Кликнули по операции "delete". Удалили запись(и) с id ' + selection.selected.join(', ');
           })
           .catch((error) => {
+             this._currentMessage = 'Кликнули по операции "delete". Произошла ошибка';
              IoC.resolve('ILogger').error(error);
           });
    }
 
-   static _styles: string[] = ['Controls-demo/list_new/RemoveController/RemoveController'];
+   static _styles: string[] = ['Controls-demo/list_new/RemoveController/RemoveController', 'Controls-demo/Controls-demo'];
 }

@@ -1,6 +1,6 @@
 <div class="ControlsDemo-Wrap controlsDemo_fixedWidth300">
     <div class="wrap-container demo-ScrollbarVisible__true">
-        <div class="controls-text-label_theme-{{_options.theme}}">scrollbarVisible = true</div>
+        <div class="controls-text-label">scrollbarVisible = true</div>
         <Controls.scroll:Container attr:class="ControlsDemo-scroll_container ControlsDemo-ScrollContainer-size"
                                    scrollbarVisible="{{true}}">
             <div>
@@ -13,7 +13,7 @@
         </Controls.scroll:Container>
     </div>
     <div class="wrap-container demo-ScrollbarVisible__false">
-        <div class="controls-text-label_theme-{{_options.theme}}">scrollbarVisible = false</div>
+        <div class="controls-text-label">scrollbarVisible = false</div>
         <Controls.scroll:Container attr:class="ControlsDemo-scroll_container2 ControlsDemo-ScrollContainer-size"
                                    scrollbarVisible="{{false}}">
             <div>

@@ -190,6 +190,11 @@
 }
 
 // https://online.sbis.ru/opendoc.html?guid=731dbb95-6655-4ccd-ae34-e3b212e18bce
+.controls-SelectedCollection__collection.controls-Lookup__collection__selectedSingle {
+  width: 100%;
+  justify-content: flex-start;
+}
+
 .controls-SelectedCollection__collection.controls-Lookup__collection {
   .flex-shrink(1);
 }
@@ -216,4 +221,12 @@
 
 .controls-Lookup__toolbar {
   padding: var(--toolbar_vertical-padding_lookupInput) var(--toolbar_horizontal-padding_lookupInput);
+}
+
+.ws-is-ie {
+  // Из-за особенной работы flexbox'a в IE, построение выбранных записей происходит в обратном порядке,
+  // Поэтому необходимо инвертировать и порядок и прижатие элементов
+  .controls-SelectedCollection__collection.controls-Lookup__collection__selectedSingle {
+    justify-content: flex-end;
+  }
 }

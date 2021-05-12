@@ -1,6 +1,8 @@
-<ws:if data="{{_items}}">
+<ws:if data="{{_breadCrumbsItems}}">
    <ws:partial template="{{_options.content}}"
-               items="{{_items}}"
+               items="{{_breadCrumbsItems}}"
+               keyProperty="{{_keyProperty}}"
+               parentProperty="{{_parentProperty}}"
                on:itemClick="_itemClickHandler()"
    />
 </ws:if>

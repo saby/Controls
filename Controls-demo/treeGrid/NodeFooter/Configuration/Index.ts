@@ -3,8 +3,8 @@ import * as Template from 'wml!Controls-demo/treeGrid/NodeFooter/Configuration/C
 import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/gridOld';
-import { INavigation } from 'Controls-demo/types';
 import { SyntheticEvent } from 'UICommon/Events';
+import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -17,7 +17,7 @@ export default class extends Control {
     private _expandedItems3 = [];
     private _expandedItems4 = [];
 
-    protected _navigation: INavigation = {
+    protected _navigation: INavigationOptionValue<INavigationSourceConfig> = {
         source: 'page',
         view: 'demand',
         sourceConfig: {

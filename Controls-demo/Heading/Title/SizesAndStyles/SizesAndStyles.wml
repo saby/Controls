@@ -1,38 +1,38 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=xs, fontColorStyle=primary</div>
+        <div class="controls-text-label">fontSize=xs, fontColorStyle=primary</div>
         <Controls.heading:Title caption="Heading" fontColorStyle="primary" fontSize="xs"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=s, fontColorStyle=secondary</div>
+        <div class="controls-text-label">fontSize=s, fontColorStyle=secondary</div>
         <Controls.heading:Title caption="Heading" fontSize="s" fontColorStyle="secondary"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=m, fontColorStyle=success</div>
+        <div class="controls-text-label">fontSize=m, fontColorStyle=success</div>
         <Controls.heading:Title caption="Heading" fontSize="m" fontColorStyle="success"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=l, fontColorStyle=warning</div>
+        <div class="controls-text-label">fontSize=l, fontColorStyle=warning</div>
         <Controls.heading:Title caption="Heading" fontSize="l" fontColorStyle="warning"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=xl, fontColorStyle=danger</div>
+        <div class="controls-text-label">fontSize=xl, fontColorStyle=danger</div>
         <Controls.heading:Title caption="Heading" fontSize="xl" fontColorStyle="danger"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=2xl, fontColorStyle=unaccented</div>
+        <div class="controls-text-label">fontSize=2xl, fontColorStyle=unaccented</div>
         <Controls.heading:Title caption="Heading" fontSize="2xl" fontColorStyle="unaccented"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}"> fontSize=3xl, fontColorStyle=label</div>
+        <div class="controls-text-label"> fontSize=3xl, fontColorStyle=label</div>
         <Controls.heading:Title caption="Heading" fontSize="3xl" fontColorStyle="label"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=4xl, fontColorStyle=default</div>
+        <div class="controls-text-label">fontSize=4xl, fontColorStyle=default</div>
         <Controls.heading:Title caption="Heading" fontSize="4xl" fontColorStyle="default"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=5xl, fontColorStyle=link</div>
+        <div class="controls-text-label">fontSize=5xl, fontColorStyle=link</div>
         <Controls.heading:Title caption="Heading" fontSize="5xl" fontColorStyle="link"/>
     </div>
 </div>

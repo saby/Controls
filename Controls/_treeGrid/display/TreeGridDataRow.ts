@@ -158,6 +158,7 @@ export default class TreeGridDataRow<T extends Model = Model>
 
     protected _initializeColumns(): void {
         super._initializeColumns({
+            colspanStrategy: 'skipColumns',
             extensionCellsConstructors: {
                 multiSelectCell: TreeCheckboxCell
             }

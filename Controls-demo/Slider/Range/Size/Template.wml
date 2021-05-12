@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">size s</div>
+        <div class="controls-text-label">size s</div>
         <Controls.slider:Range
                 maxValue="{{100}}"
                 minValue="{{0}}"
@@ -10,7 +10,7 @@
         />
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">size m</div>
+        <div class="controls-text-label">size m</div>
         <Controls.slider:Range
                 maxValue="{{100}}"
                 minValue="{{0}}"

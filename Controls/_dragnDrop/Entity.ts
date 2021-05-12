@@ -24,6 +24,13 @@
 export default class Entity {
     protected _options: object;
 
+    /**
+     * Флаг на основании которого ScrollContainer понимает стоит ли для текущего
+     * перетаскиваемого объекта включать механизм автоскролла при приближении курсора
+     * к нижней или верхней границам ScrollContainer'а
+     */
+    readonly allowAutoscroll: boolean = false;
+
     constructor(options: object) {
         this._options = options;
     }

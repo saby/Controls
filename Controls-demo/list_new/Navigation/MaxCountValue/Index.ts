@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/Navigation/MaxCountValue/MaxCountValue';
 import {Memory} from 'Types/source';
 import {changeSourceData} from '../../DemoHelpers/DataCatalog';
-import {INavigation} from 'Controls-demo/types';
+import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 const {data2} = changeSourceData();
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
@@ -42,7 +42,7 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     private _viewSource2: Memory;
-    protected _navigation: INavigation;
+    protected _navigation: INavigationOptionValue<INavigationSourceConfig>;
 
     protected _beforeMount(): void {
         this._viewSource = new InitialMemory({

@@ -1,10 +1,10 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = new Date(), format = 'DD MMM'YY HH:mm'</div>
+        <div class="controls-text-label">value = new Date(), format = 'DD MMM'YY HH:mm'</div>
         <Controls.decorator:Date value="{{_value}}" format="{{_format}}"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">value = new Date(), format = 'DD MMM'YY HH:mm', timeZoneOffset = -1000</div>
+        <div class="controls-text-label">value = new Date(), format = 'DD MMM'YY HH:mm', timeZoneOffset = -1000</div>
         <Controls.decorator:Date value="{{_value}}" format="{{_format}}" timeZoneOffset="{{-1000}}"/>
     </div>
 </div>

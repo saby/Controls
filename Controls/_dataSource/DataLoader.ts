@@ -19,6 +19,7 @@ import {ControllerClass as SearchController} from 'Controls/search';
 import {ISearchControllerOptions} from 'Controls/_search/ControllerClass';
 import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {constants} from 'Env/Constants';
+import {PrefetchProxy} from 'Types/source';
 
 const DEFAULT_LOAD_TIMEOUT = 10000;
 const DEBUG_DEFAULT_LOAD_TIMEOUT = 30000;
@@ -69,6 +70,7 @@ export interface ILoadDataConfig extends
 export interface ILoadDataCustomConfig extends IBaseLoadDataConfig {
     type: 'custom';
     loadDataMethod: Function;
+    loadDataMethodArguments?: object;
 }
 
 export interface IDataLoaderOptions {
@@ -82,12 +84,13 @@ export interface ILoadDataResult extends ILoadDataConfig {
     filterController?: FilterController;
     searchController?: SearchController;
     collapsedGroups?: TArrayGroupId;
+    source: PrefetchProxy;
 }
 
 type TLoadedConfigs = Map<string, ILoadDataResult|ILoadDataConfig>;
 
 function isNeedPrepareFilter(loadDataConfig: ILoadDataConfig): boolean {
-    return !!(loadDataConfig.filterButtonSource || loadDataConfig.fastFilterSource);
+    return !!(loadDataConfig.filterButtonSource || loadDataConfig.fastFilterSource || loadDataConfig.searchValue);
 }
 
 function getFilterController(options: IFilterControllerOptions): FilterController {
@@ -148,6 +151,12 @@ function getLoadResult(
         sourceController,
         filterController,
         historyItems,
+        source: loadConfig.source ? new PrefetchProxy({
+            target: loadConfig.source,
+            data: {
+                query: sourceController.getLoadError() || sourceController.getItems()
+            }
+        }): undefined,
         data: sourceController.getItems(),
         error: sourceController.getLoadError(),
         filter: sourceController.getFilter(),
@@ -156,7 +165,10 @@ function getLoadResult(
     };
 }
 
-function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult> {
+function loadDataByConfig(
+    loadConfig: ILoadDataConfig,
+    loadTimeout: number = getLoadTimeout()
+): Promise<ILoadDataResult> {
     let filterController: FilterController;
     let filterHistoryItems;
     let sortingPromise;
@@ -183,14 +195,14 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
             .catch(() => {
                 filterController = getFilterController(loadConfig as IFilterControllerOptions);
             });
-        filterPromise = wrapTimeout(filterPromise, getLoadTimeout()).catch(() => {
+        filterPromise = wrapTimeout(filterPromise, loadTimeout).catch(() => {
             Logger.info('Controls/dataSource:loadData: Данные фильтрации не загрузились за 1 секунду');
         });
     }
 
     if (loadConfig.propStorageId) {
         sortingPromise = loadSavedConfig(loadConfig.propStorageId, ['sorting']);
-        sortingPromise = wrapTimeout(sortingPromise, getLoadTimeout()).catch(() => {
+        sortingPromise = wrapTimeout(sortingPromise, loadTimeout).catch(() => {
             Logger.info('Controls/dataSource:loadData: Данные сортировки не загрузились за 1 секунду');
         });
     }
@@ -204,12 +216,12 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
             ...loadConfig,
             sorting,
             filter: filterController ? filterController.getFilter() : loadConfig.filter,
-            loadTimeout: getLoadTimeout()
+            loadTimeout: loadTimeout
         });
 
         return new Promise((resolve) => {
             if (loadConfig.source) {
-                sourceController.load().finally(() => {
+                sourceController.reload().finally(() => {
                     resolve(getLoadResult(loadConfig, sourceController, filterController, filterHistoryItems));
                 });
             } else {
@@ -219,7 +231,7 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
     });
 }
 
-function getLoadTimeout(): Number {
+function getLoadTimeout(): number {
     return constants.isProduction ? DEFAULT_LOAD_TIMEOUT : DEBUG_DEFAULT_LOAD_TIMEOUT;
 }
 
@@ -242,18 +254,19 @@ export default class DataLoader {
     }
 
     loadEvery<T extends ILoadDataConfig|ILoadDataCustomConfig>(
-        sourceConfigs: Array<ILoadDataConfig|ILoadDataCustomConfig> = this._loadDataConfigs
+        sourceConfigs: Array<ILoadDataConfig|ILoadDataCustomConfig> = this._loadDataConfigs,
+        loadTimeout?: number
     ): Array<Promise<T>> {
         const loadDataPromises = [];
         let loadPromise;
 
         sourceConfigs.forEach((loadConfig) => {
             if (loadConfig.type === 'custom') {
-                loadPromise = loadConfig.loadDataMethod();
+                loadPromise = loadConfig.loadDataMethod(loadConfig.loadDataMethodArguments);
             } else {
-                loadPromise = loadDataByConfig(loadConfig);
+                loadPromise = loadDataByConfig(loadConfig, loadTimeout);
             }
-            loadPromise.then((result) => {
+            Promise.resolve(loadPromise).then((result) => {
                 if (!result.source && result.historyItems) {
                     result.sourceController.setFilter(result.filter);
                 }

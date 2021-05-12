@@ -3,13 +3,13 @@ import * as Template from 'wml!Controls-demo/treeGrid/Header/LongHeader/LongHead
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/gridOld';
-import { IHeader } from 'Controls-demo/types';
+import { IHeaderCell } from 'Controls/gridOld';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
    protected _viewSource: Memory;
    protected _columns: IColumn[] = Gadgets.getColumnsWithFixedWidth();
-   protected _header: IHeader[] = Gadgets.getLongHeader();
+   protected _header: IHeaderCell[] = Gadgets.getLongHeader();
 
    protected _beforeMount(): void {
       this._viewSource = new Memory({

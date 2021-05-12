@@ -1,6 +1,6 @@
-import { UserConfig } from 'EnvConfig/Config';
 import cDeferred = require('Core/Deferred');
 import {Logger} from 'UI/Utils';
+import {USER} from 'ParametersWebAPI/Scope';
 
 var
     PREFIX_STORE_KEY_COLLAPSED_GROUP = 'LIST_COLLAPSED_GROUP_',
@@ -15,7 +15,7 @@ var
         storeCollapsedGroups: function (groups, storeKey) {
             var
                 preparedGroups = JSON.stringify(groups);
-            return UserConfig.setParam(PREFIX_STORE_KEY_COLLAPSED_GROUP + storeKey, preparedGroups);
+            return USER.set(PREFIX_STORE_KEY_COLLAPSED_GROUP + storeKey, preparedGroups);
         },
 
         /**
@@ -26,8 +26,9 @@ var
         restoreCollapsedGroups: function(storeKey) {
             const result = new cDeferred();
             const preparedStoreKey = PREFIX_STORE_KEY_COLLAPSED_GROUP + storeKey;
-            UserConfig.getParam(preparedStoreKey).addCallback((storedGroups) => {
+            USER.load([preparedStoreKey]).then((config) => {
                 try {
+                    const storedGroups = config.get(preparedStoreKey);
                     if (storedGroups !== undefined) {
                         result.callback(JSON.parse(storedGroups));
                     } else {

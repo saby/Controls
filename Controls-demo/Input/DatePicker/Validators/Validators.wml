@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">Поле обязательное для заполнения</div>
+        <div class="controls-text-label">Поле обязательное для заполнения</div>
         <Controls.input:Date bind:value="_value">
             <ws:valueValidators>
                 <ws:Array>

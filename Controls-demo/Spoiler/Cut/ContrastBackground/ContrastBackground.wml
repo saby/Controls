@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flex controlsDemo_fixedWidth800 controlsDemo__flex-jc-sa">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">contrastBackground=true</div>
+        <div class="controls-text-label">contrastBackground=true</div>
         <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}" contrastBackground="{{ true }}">
             <ws:content>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
@@ -8,7 +8,7 @@
         </Controls.spoiler:Cut>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">contrastBackground=false</div>
+        <div class="controls-text-label">contrastBackground=false</div>
         <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}" contrastBackground="{{ false }}">
             <ws:content>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.

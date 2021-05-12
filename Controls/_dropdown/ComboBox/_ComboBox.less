@@ -1,10 +1,17 @@
 .controls-ComboBox {
    position: relative;
    border-width: 0;
-   background-color: var(--background-color_inputText);
    border-style: var(--border-style_inputText);
    box-sizing: border-box;
    cursor: pointer;
+}
+
+.controls-ComboBox_background-contrast {
+   background-color: var(--background-color_inputText);
+}
+
+.controls-ComboBox_background-same {
+   background-color: transparent;
 }
 
 .controls-ComboBox__field {
@@ -126,8 +133,11 @@
    cursor: pointer;
    height: 100%;
    color: var(--trigger-color_combobox);
-   padding-right: var(--padding-horizontal_inputText);
    flex-shrink: 0;
+}
+
+.controls-ComboBox__arrow-wrapper_offset-xs {
+   padding-right: var(--padding-horizontal_inputText);
 }
 
 .controls-ComboBox__arrow-wrapper::before {

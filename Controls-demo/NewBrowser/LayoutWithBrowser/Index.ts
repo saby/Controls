@@ -1,5 +1,7 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls-demo/NewBrowser/LayoutWithBrowser/template';
+import {Memory} from 'Types/source';
+import {object} from 'Types/util';
 import {DemoSource} from 'Controls-demo/NewBrowser/DemoSource';
 import {FlatHierarchy} from 'Controls-demo/_DemoData/Data';
 import {getListConfiguration} from '../ListConfiguration';
@@ -29,15 +31,7 @@ export default class BrowserLayoutDemo extends Control<IControlOptions> {
     protected _detailTableColumns: unknown[] = FlatHierarchy.getGridColumns();
 
     protected _beforeMount(): void {
-        this._listConfigurations = [{
-            id: 'master',
-            source: this._baseSource,
-            root: null,
-            keyProperty: 'id',
-            nodeProperty: 'type',
-            parentProperty: 'parent',
-            hasChildrenProperty: 'hasChild'
-        },
+        this._listConfigurations = [
         {
             id: 'detail',
             source: this._baseSource,
@@ -47,18 +41,44 @@ export default class BrowserLayoutDemo extends Control<IControlOptions> {
             nodeProperty: 'type',
             parentProperty: 'parent',
             hasChildrenProperty: 'hasChild',
+            columns: this._detailTableColumns,
             filterButtonSource: [
                 {
-                    name: 'title',
-                    value: undefined,
-                    resetValue: undefined
+                    name: 'country',
+                    value: 'США',
+                    resetValue: 'США',
+                    viewMode: 'frequent',
+                    editorOptions: {
+                        keyProperty: 'key',
+                        displayProperty: 'title',
+                        source: new Memory({
+                            keyProperty: 'key',
+                            data: [{title: 'США', key: 'США'}, {title: 'Южная Корея', key: 'Южная Корея'}]
+                        })
+                    }
                 }
             ]
-        }];
+        },
+            {
+                id: 'master',
+                source: this._baseSource,
+                root: null,
+                keyProperty: 'id',
+                nodeProperty: 'type',
+                parentProperty: 'parent',
+                hasChildrenProperty: 'hasChild',
+                style: 'master',
+                columns: this._masterTableColumns
+            }];
     }
 
     protected _rootChanged(event, root, id): void {
-        this._listConfigurations = this._listConfigurations.slice();
-        this._listConfigurations[1].root = root;
+        this._listConfigurations = object.clone(this._listConfigurations);
+        this._listConfigurations[0].root = root;
+    }
+
+    protected _filterChanged(event, filter, id): void {
+        this._listConfigurations = object.clone(this._listConfigurations);
+        this._listConfigurations[0].filter = filter;
     }
 }

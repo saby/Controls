@@ -192,6 +192,9 @@ export default class TileView extends ListView {
     protected _onItemMouseLeave(event: SyntheticEvent, item: TileCollectionItem): void {
         if (!TouchDetect.getInstance().isTouch() && !item.isActive()) {
             this._setHoveredItem(this, null, event);
+            // С помощью флага canShowActions отображают itemActions. Когда показываются itemActions, скрывается title.
+            // Поэтому после того как увели мышь с итема, нужно сбросить флаг canShowActions, чтобы показать title.
+            item.setCanShowActions(false);
         }
         this._clearMouseMoveTimeout();
         super._onItemMouseLeave(event, item);
@@ -214,7 +217,10 @@ export default class TileView extends ListView {
         const tileScalingMode = this._listModel.getTileScalingMode();
 
         if (tileScalingMode === 'none' || target.closest('.js-controls-TileView__withoutZoom')) {
-            item.setCanShowActions(true);
+            if (item && item['[Controls/_tile/mixins/TileItem]'] && this._options.actionMode !== 'adaptive') {
+                // canShowActions можно проставить без задержки, если они не будут пересчитаны
+                item.setCanShowActions(true);
+            }
             return;
         }
 
@@ -281,6 +287,10 @@ export default class TileView extends ListView {
             !this._listModel.getActiveItem()
         ) {
             this._listModel.setHoveredItem(item);
+            if (item && item['[Controls/_tile/mixins/TileItem]']) {
+                // canShowActions нужно тоже проставлять с задержкой, чтобы itemActions показывались уже посчитанными
+                item.setCanShowActions(true);
+            }
         }
 
         if (this._needUpdateActions(item, event)) {

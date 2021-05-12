@@ -179,6 +179,7 @@ export default class Controller extends mixin<
 
     private _parentProperty: string;
     private _root: TKey = null;
+    private _hierarchyRelation: relation.Hierarchy;
 
     private _expandedItems: TKey[];
     private _deepReload: boolean;
@@ -202,6 +203,9 @@ export default class Controller extends mixin<
         }
         if (cfg.expandedItems !== undefined) {
             this.setExpandedItems(cfg.expandedItems);
+        }
+        if (cfg.groupHistoryId) {
+            this._restoreCollapsedGroups(cfg.groupHistoryId, cfg.collapsedGroups);
         }
         this.setParentProperty(cfg.parentProperty);
 
@@ -271,6 +275,10 @@ export default class Controller extends mixin<
         return keyProperty;
     }
 
+    getParentProperty(): string {
+        return this._parentProperty;
+    }
+
     getLoadError(): Error {
         return this._loadError;
     }
@@ -311,6 +319,7 @@ export default class Controller extends mixin<
     // FIXME, если parentProperty задаётся на списке, а не на data(browser)
     setParentProperty(parentProperty: string): void {
         this._parentProperty = parentProperty;
+        this._hierarchyRelation?.setParentProperty(parentProperty);
     }
 
     updateOptions(newOptions: IControllerOptions): boolean {
@@ -357,8 +366,8 @@ export default class Controller extends mixin<
             this.setNavigation(newOptions.navigation);
         }
 
-        if (newOptions.groupHistoryId !== this._options.groupHistoryId && !newOptions.groupHistoryId) {
-            this._collapsedGroups = null;
+        if (newOptions.groupHistoryId !== this._options.groupHistoryId) {
+            this._restoreCollapsedGroups(newOptions.groupHistoryId, newOptions.collapsedGroups);
         }
 
         const isChanged =
@@ -368,7 +377,8 @@ export default class Controller extends mixin<
             !isEqual(newOptions.sorting, this._options.sorting) ||
             (this._parentProperty && rootChanged);
 
-        if (isChanged && !(isExpadedItemsChanged || this._isDeepReload() || Controller._isExpandAll(this.getExpandedItems()))) {
+        const resetExpandedItemsOnDeepReload = this._isDeepReload() && !rootChanged;
+        if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || Controller._isExpandAll(this.getExpandedItems()))) {
             this.setExpandedItems([]);
         }
         this._options = newOptions;
@@ -439,8 +449,9 @@ export default class Controller extends mixin<
 
         if (this._hasNavigationBySource()) {
             loadedResult = this._getNavigationController(this._navigation).hasLoaded(key);
-        } else if (this.getExpandedItems()?.includes(key)) {
-            loadedResult = true;
+        } else if (this._options.parentProperty) {
+            loadedResult = this.getExpandedItems()?.includes(key) ||
+                           !!this._getHierarchyRelation().getChildren(key, this._items).length;
         }
 
         return loadedResult;
@@ -524,11 +535,7 @@ export default class Controller extends mixin<
                 this._destroyNavigationController();
             }
             if (this._options.parentProperty && this._isMultiNavigation(navigationConfig)) {
-                hierarchyRelation = new relation.Hierarchy({
-                    parentProperty: this._options.parentProperty,
-                    nodeProperty: this._options.nodeProperty,
-                    keyProperty: this._options.keyProperty
-                });
+                hierarchyRelation = this._getHierarchyRelation();
             }
             this._getNavigationController(this._navigation)
                 .updateQueryProperties(
@@ -760,6 +767,17 @@ export default class Controller extends mixin<
         return Promise.resolve(initialFilter);
     }
 
+    private _getHierarchyRelation(): relation.Hierarchy {
+        if (!this._hierarchyRelation) {
+            this._hierarchyRelation = new relation.Hierarchy({
+                parentProperty: this._options.parentProperty,
+                nodeProperty: this._options.nodeProperty,
+                keyProperty: this.getKeyProperty()
+            });
+        }
+        return this._hierarchyRelation;
+    }
+
     /**
      * Возвращает Promise с идентификаторами раскрытых узлов
      * @param options
@@ -784,10 +802,7 @@ export default class Controller extends mixin<
         filter: QueryWhereExpression<unknown>,
         key: TKey
     ): Promise<QueryWhereExpression<unknown>> {
-        return this._getFilterForCollapsedGroups(filter, this._options)
-            .then((preparedFilter: QueryWhereExpression<unknown>) => {
-                return this._getFilterHierarchy(preparedFilter, this._options, key);
-            });
+        return this._getFilterHierarchy(filter, this._options, key);
     }
 
     private _processQueryResult(
@@ -962,38 +977,14 @@ export default class Controller extends mixin<
         this._dataLoadCallbackFromOptions = dataLoadCallback;
     }
 
-    private _getFilterForCollapsedGroups(
-        initialFilter: QueryWhereExpression<unknown>,
-        options: IControllerOptions
-    ): Promise<QueryWhereExpression<unknown>> {
-        const historyId = options.groupHistoryId || options.historyIdCollapsedGroups;
-        const collapsedGroups = options.collapsedGroups;
-        const getFilterWithCollapsedGroups = (collapsedGroupsIds: TArrayGroupId) => {
-            let modifiedFilter;
-
-            if (collapsedGroupsIds && collapsedGroupsIds.length) {
-                modifiedFilter = { ...initialFilter };
-                modifiedFilter.collapsedGroups = collapsedGroupsIds;
-            } else {
-                modifiedFilter = initialFilter;
-            }
-
-            return modifiedFilter;
-        };
-        let resultFilterPromise;
-
-        if (collapsedGroups && collapsedGroups.length) {
-            resultFilterPromise = Promise.resolve(getFilterWithCollapsedGroups(collapsedGroups));
-        } else if (historyId) {
-            resultFilterPromise = groupUtil.restoreCollapsedGroups(historyId).then(
-                (restoredCollapsedGroups?: TArrayGroupId) =>
-                    getFilterWithCollapsedGroups(this._collapsedGroups = restoredCollapsedGroups)
-            );
-        } else {
-            resultFilterPromise = Promise.resolve(initialFilter);
+    private _restoreCollapsedGroups(groupHistoryId: string, collapsedGroups: TArrayGroupId): void {
+        if (!groupHistoryId) {
+            this._collapsedGroups = null;
+            return;
         }
-
-        return resultFilterPromise;
+        groupUtil.restoreCollapsedGroups(groupHistoryId).then((restoredCollapsedGroups: TArrayGroupId) => {
+            this._collapsedGroups = restoredCollapsedGroups || collapsedGroups;
+        });
     }
 
     private static _getSource(source: ICrud | ICrudPlus | PrefetchProxy): IData & ICrud {

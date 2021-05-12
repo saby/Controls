@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
 <div class="controlsDemo__cell">
-  <div class="controls-text-label_theme-{{_options.theme}}">Поиск в TreeView</div>
+  <div class="controls-text-label">Поиск в TreeView</div>
   <div class="controlsDemo__default">
 
     <Controls.browser:Browser

@@ -13,3 +13,10 @@
 .controls-Suggest__suggestionsContainer_popup_shadow_bottom {
 	.box-shadow(0 var(--box-shadow-offset_suggest) var(--box-shadow-blur_suggest) var(--box-shadow-color_suggest));
 }
+
+// в edge не работает box-shadow с calc
+.ws-is-ie {
+	.controls-Suggest__suggestionsContainer_popup_shadow_top {
+		.box-shadow(0 -4px 6px rgba(0, 0, 0, 0.2));
+	}
+}

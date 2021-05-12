@@ -34,7 +34,6 @@ export interface IOptions<T extends Model = Model> {
     editingContents?: T;
     owner?: ICollection<T, CollectionItem<T>>;
     isAdd?: boolean;
-    addPosition?: 'top' | 'bottom';
     multiSelectVisibility?: string;
     multiSelectAccessibilityProperty?: string;
     rowSeparatorSize?: string;
@@ -50,6 +49,7 @@ export interface IOptions<T extends Model = Model> {
     isLastItem?: boolean;
     isFirstItem?: boolean;
     hasMoreDataUp?: boolean;
+    isFirstStickedItem?: boolean;
     roundBorder?: object;
 }
 
@@ -176,6 +176,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     protected _$hasMoreDataUp: boolean;
 
+    protected _$isFirstStickedItem: boolean;
+
     protected _instancePrefix: string;
 
     /**
@@ -196,20 +198,17 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     readonly isAdd: boolean;
 
-    readonly addPosition: 'top' | 'bottom';
-
     constructor(options?: IOptions<T>) {
         super();
         OptionsToPropertyMixin.call(this, options);
         SerializableMixin.call(this);
         this._counters = {};
         this.isAdd = (options && options.isAdd) || false;
-        this.addPosition = (options && options.addPosition) || 'bottom';
 
         // Для элементов, которые создаются сразу застканными, задается shadowVisibility='initial'.
         // Это сделано для оптимизации, чтобы не было лишних прыжков теней при изначальной отрисовке,
         // когда есть данные вверх
-        if (this.hasMoreDataUp() && this.isSticked()) {
+        if (this.hasMoreDataUp() && this._$isFirstStickedItem) {
             this._shadowVisibility = 'initial';
         }
     }
@@ -642,6 +641,9 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     // region Аспект "крайние записи"
 
     setIsFirstItem(state: boolean): void {
+        if (this._$isFirstItem === state) {
+            return;
+        }
         this._$isFirstItem = state;
         this._nextVersion();
     }
@@ -651,6 +653,9 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     }
 
     setIsLastItem(state: boolean): void {
+        if (this._$isLastItem === state) {
+            return;
+        }
         this._$isLastItem = state;
         this._nextVersion();
     }
@@ -1121,6 +1126,7 @@ Object.assign(CollectionItem.prototype, {
     _$isLastItem: false,
     _$isFirstItem: false,
     _$hasMoreDataUp: false,
+    _$isFirstStickedItem: false,
     _contentsIndex: undefined,
     _version: 0,
     _counters: null,

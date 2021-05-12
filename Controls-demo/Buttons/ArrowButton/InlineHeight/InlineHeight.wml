@@ -1,6 +1,6 @@
 <div class="controlsDemo__flexColumn controlsDemo__ml2">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">inlineHeight='s'</div>
+        <div class="controls-text-label controlsDemo__maxWidth200">inlineHeight='s'</div>
         <div class="controlDemo__input-row">
             <Controls.buttons:ArrowButton direction="left"/>
             <Controls.buttons:ArrowButton direction="right"/>
@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">inlineHeight='l'</div>
+        <div class="controls-text-label controlsDemo__maxWidth200">inlineHeight='l'</div>
         <div class="controlDemo__input-row">
             <Controls.buttons:ArrowButton direction="left" inlineHeight="l"/>
             <Controls.buttons:ArrowButton direction="right" inlineHeight="l"/>

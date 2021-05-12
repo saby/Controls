@@ -172,6 +172,7 @@ export interface IItemActionsTemplateConfig {
     actionAlignment?: string;
     actionCaptionPosition?: 'right'|'bottom'|'none';
     itemActionsClass?: string;
+    editingStyle?: string;
 }
 
 export interface ISwipeConfig {
@@ -308,6 +309,7 @@ function onCollectionChange<T>(
             // виртуального скролла.
             // TODO избавиться по ошибке https://online.sbis.ru/opendoc.html?guid=f44d88a0-ac53-4d45-9dea-2b594211ee57
             const needReset = this._$compatibleReset || newItems.length === 0 || reason === 'assign';
+            this._resetEdgeItems();
             this._reBuild(needReset);
             projectionNewItems = toArray(this);
             this._notifyBeforeCollectionChange();
@@ -316,7 +318,8 @@ function onCollectionChange<T>(
                 projectionNewItems,
                 0,
                 projectionOldItems,
-                0
+                0,
+                reason
             );
             this._handleAfterCollectionChange(undefined, action);
             if (!needReset) {
@@ -341,6 +344,7 @@ function onCollectionChange<T>(
     }
 
     session = this._startUpdateSession();
+    this._resetEdgeItems();
 
     switch (action) {
         case IObservable.ACTION_ADD:
@@ -1034,7 +1038,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             projectionOldItems,
             0
         );
-        this._handleAfterCollectionChange();
+        this._handleAfterCollectionChange(undefined, IObservable.ACTION_RESET);
         this._nextVersion();
     }
 
@@ -1385,22 +1389,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             false,
             true
         );
-    }
-
-    getNextByKey(key: string|number): T {
-        const item = this.getItemBySourceKey(key);
-        return this.getNext(item);
-    }
-    getPrevByKey(key: string|number): T {
-        const item = this.getItemBySourceKey(key);
-        return this.getPrevious(item);
-    }
-
-    getNextByIndex(index: number): T {
-        return this.at(index + 1);
-    }
-    getPrevByIndex(index: number): T {
-        return this.at(index - 1);
     }
 
     /**
@@ -2555,10 +2543,33 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._firstItem;
     }
 
+    /**
+     * Метод для сброса текущих крайних элементов.
+     * Если в модели изменились или добавились записи и запускается reindex,
+     * то этот метод должен вызываться до reindex,
+     * иначе крайние элементы не будут найдены в enumerator
+     * @private
+     */
+    protected _resetEdgeItems(): void {
+        if (this._$collection['[Types/_collection/RecordSet]']) {
+            this._setCollectionItemEdgeState(this.getFirstItem(), false, 'first');
+            this._setCollectionItemEdgeState(this.getLastItem(), false, 'last');
+            this._firstItem = null;
+            this._lastItem = null;
+        }
+    }
+
+    /**
+     * Метод обновляет крайние элементы.
+     * Если в модели изменились или добавились записи и запускается reindex,
+     * то этот метод должен вызываться после reindex,
+     * иначе крайние элементы не будут найдены в enumerator
+     * @private
+     */
     protected _updateEdgeItems(): void {
         if (this._$collection['[Types/_collection/RecordSet]']) {
-            this._updateLastItem();
-            this._updateFirstItem();
+            this._setCollectionItemEdgeState(this.getFirstItem(), true, 'first');
+            this._setCollectionItemEdgeState(this.getLastItem(), true, 'last');
         }
     }
 
@@ -2569,37 +2580,27 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _isFirstItem(item: EntityModel): boolean {
         const firstItem = this.getFirstItem();
-        return this._getItemKey(firstItem) === this._getItemKey(item);;
+        return this._getItemKey(firstItem) === this._getItemKey(item);
     }
 
     private _getItemKey(item: EntityModel | object): number | string {
         return item && ((item as EntityModel).getKey ? (item as EntityModel).getKey() : item[this._$keyProperty]);
     }
 
-    private _setFirstCollectionItemState(firstItem: EntityModel, value: boolean): void {
-        const firstCollectionItem = this.getItemBySourceItem(firstItem);
-        if (firstCollectionItem) {
-            firstCollectionItem.setIsFirstItem(value);
+    private _setCollectionItemEdgeState(item: EntityModel, value: boolean, edge: 'first' | 'last'): void {
+        if (!item) {
+            return;
         }
-    }
-
-    private _setLastCollectionItemState(lastItem: EntityModel, value: boolean): void {
-        const lastCollectionItem = this.getItemBySourceItem(lastItem);
-        if (lastCollectionItem) {
-            lastCollectionItem.setIsLastItem(value);
+        const key = item.getKey ? item.getKey() : item[this._$keyProperty];
+        const collectionItem = this.getItemBySourceKey(key);
+        if (!collectionItem) {
+            return;
         }
-    }
-
-    private _updateFirstItem(): void {
-        this._setFirstCollectionItemState(this.getFirstItem(), false);
-        this._firstItem = null;
-        this._setFirstCollectionItemState(this.getFirstItem(), true);
-    }
-
-    private _updateLastItem(): void {
-        this._setLastCollectionItemState(this.getLastItem(), false);
-        this._lastItem = null;
-        this._setLastCollectionItemState(this.getLastItem(), true);
+        if (edge === 'first') {
+            collectionItem.setIsFirstItem(value);
+        } else {
+            collectionItem.setIsLastItem(value);
+        }
     }
 
     // endregion Аспект "крайние записи"
@@ -2734,6 +2735,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             if (templateOptions.actionStyle) {
                 this._actionsTemplateConfig.actionStyle = templateOptions.actionStyle;
             }
+            if (templateOptions.editingStyle) {
+                this._actionsTemplateConfig.editingStyle = templateOptions.editingStyle;
+            }
             if (templateOptions.actionPadding) {
                 this._actionsTemplateConfig.actionPadding = templateOptions.actionPadding;
             }
@@ -2831,10 +2835,11 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         this._$isEditing = editing;
     }
 
-    setAddingItem(item: T): void {
+    setAddingItem(item: T, options: {position: 'top' | 'bottom', index?: number}): void {
         this._prependStrategy(AddStrategy, {
             item,
-            addPosition: item.addPosition,
+            addPosition: options.position,
+            addIndex: options.index,
             groupMethod: this.getGroup()
         }, GroupItemsStrategy);
     }
@@ -3096,7 +3101,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         newItems: T[],
         newItemsIndex: number,
         oldItems: T[],
-        oldItemsIndex: number
+        oldItemsIndex: number,
+        reason?: string
     ): void {
         if (!this._isNeedNotifyCollectionChange()) {
             return;
@@ -3111,7 +3117,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                 newItems,
                 newItemsIndex,
                 oldItems,
-                oldItemsIndex
+                oldItemsIndex,
+                reason
             );
             return;
         }
@@ -3125,7 +3132,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                     newItems.slice(start, finish),
                     newItems.length ? newItemsIndex + start : 0,
                     oldItems.slice(start, finish),
-                    oldItems.length ? oldItemsIndex + start : 0
+                    oldItems.length ? oldItemsIndex + start : 0,
+                    reason
                 );
             }
         };

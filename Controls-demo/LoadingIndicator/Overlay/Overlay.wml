@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell ws-flexbox ws-flex-column controlsDemo__mb2">
         <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">overlay=default</div>
+            <div class="controls-text-label">overlay=default</div>
         </div>
         <div attr:class="controls-demo__indicator_container controls-demo__indicator_overlay-default">
             <Controls.LoadingIndicator
@@ -20,7 +20,7 @@
     </div>
     <div class="controlsDemo__cell ws-flexbox ws-flex-column controlsDemo__mb2">
         <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">overlay=dark</div>
+            <div class="controls-text-label">overlay=dark</div>
         </div>
         <div attr:class="controls-demo__indicator_container">
             <Controls.LoadingIndicator
@@ -39,7 +39,7 @@
     </div>
     <div class="controlsDemo__cell  ws-flexbox ws-flex-column">
         <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">overlay=none</div>
+            <div class="controls-text-label">overlay=none</div>
         </div>
         <div attr:class="controls-demo__indicator_container controls-demo__indicator_overlay-none">
             <Controls.LoadingIndicator

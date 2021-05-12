@@ -40,6 +40,7 @@ import 'css!Controls/tile';
 import 'css!Controls/explorer';
 import { isFullGridSupport } from 'Controls/display';
 import PathController from 'Controls/_explorer/PathController';
+import {Object as EventObject} from "Env/Event";
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -196,22 +197,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             return !!(domEvent.target as HTMLElement).closest('.js-controls-ListView__checkbox')
                 || item instanceof Array || item.get(this._options.nodeProperty) !== ITEM_TYPES.node;
         };
-        this._dataLoadCallback = (items, direction) => {
-            // После получения данных обновим видимость заголовка т.к. мы не можем это сделать на
-            // beforeUpdate в следствии того, что между сменой root и получением данных есть задержка
-            // и в противном случае перерисовка будет в два этапа, сначала обновится видимость заголовка,
-            // а потом придут и отрисуются данные
-            if (!direction) {
-                const curRoot = this._options.sourceController
-                    ? this._options.sourceController.getRoot()
-                    : this._getRoot(this._options.root);
-                this._headerVisibility = this._getHeaderVisibility(curRoot, this._options.headerVisibility);
-            }
-
-            if (this._options.dataLoadCallback) {
-                this._options.dataLoadCallback(items, direction);
-            }
-        };
+        this._onCollectionChange = this._onCollectionChange.bind(this);
 
         this._dragControlId = randomId();
         this._navigation = cfg.navigation;
@@ -257,7 +243,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         // searchStartingWith === 'root', после сбрасываем поиск и возвращаем root в предыдущую папку после чего
         // этот код покажет заголовок и только после получения данных они отрисуются
         if (!isRootChanged) {
-            this._headerVisibility = this._getHeaderVisibility(cfg.root, cfg.headerVisibility);
+            this._headerVisibility = this._getHeaderVisibility(this._getRoot(cfg.root), cfg.headerVisibility);
         }
 
         if (!isEqual(cfg.itemPadding, this._options.itemPadding)) {
@@ -336,6 +322,10 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
     }
 
+    protected _beforeUnmount(): void {
+        this._unsubscribeOnCollectionChange();
+    }
+
     protected _documentDragEnd(event: SyntheticEvent, dragObject: IDragObject): void {
         if (this._hoveredBreadCrumb !== undefined) {
             this._notify('dragEnd', [dragObject.entity, this._hoveredBreadCrumb, 'on']);
@@ -368,6 +358,41 @@ export default class Explorer extends Control<IExplorerOptions> {
         // If you change hovered bread crumb, must be called installed in the breadcrumbs highlighter,
         // but is not called, because the template has no reactive properties.
         this._forceUpdate();
+    }
+
+    protected _onCollectionChange(
+        event: EventObject,
+        action: string,
+        newItems: unknown[],
+        newItemsIndex: number,
+        oldItems: unknown[],
+        oldItemsIndex: number,
+        reason: string
+    ): void {
+        // После получения данных обновим видимость заголовка т.к. мы не можем это сделать на
+        // beforeUpdate в следствии того, что между сменой root и получением данных есть задержка
+        // и в противном случае перерисовка будет в два этапа, сначала обновится видимость заголовка,
+        // а потом придут и отрисуются данные
+        if (reason === 'assign') {
+            this._updateHeaderVisibility();
+        }
+    }
+
+    protected _updateHeaderVisibility(): void {
+        const curRoot = this._options.sourceController
+            ? this._options.sourceController.getRoot()
+            : this._getRoot(this._options.root);
+        this._headerVisibility = this._getHeaderVisibility(curRoot, this._options.headerVisibility);
+    }
+
+    protected _subscribeOnCollectionChange(): void {
+        this._items.subscribe('onCollectionChange', this._onCollectionChange);
+    }
+
+    protected _unsubscribeOnCollectionChange(): void {
+        if (this._items) {
+            this._items.unsubscribe('onCollectionChange', this._onCollectionChange);
+        }
     }
 
     protected _onItemClick(
@@ -558,19 +583,19 @@ export default class Explorer extends Control<IExplorerOptions> {
         return treeControl.reloadItem.apply(treeControl, arguments);
     }
 
-    beginEdit(options: object): Promise<unknown> {
+    beginEdit(options: object): Promise<void | {canceled: true}> {
         return this._children.treeControl.beginEdit(options);
     }
 
-    beginAdd(options: object): Promise<unknown> {
+    beginAdd(options: object): Promise<void | { canceled: true }> {
         return this._children.treeControl.beginAdd(options);
     }
 
-    cancelEdit(): Promise<unknown> {
+    cancelEdit(): Promise<void | { canceled: true }> {
         return this._children.treeControl.cancelEdit();
     }
 
-    commitEdit(): Promise<unknown> {
+    commitEdit(): Promise<void | { canceled: true }> {
         return this._children.treeControl.commitEdit();
     }
 
@@ -709,7 +734,12 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     private _itemsReadyCallbackFunc(items: RecordSet): void {
+        if (this._items) {
+            this._unsubscribeOnCollectionChange();
+        }
         this._items = items;
+        this._subscribeOnCollectionChange();
+        this._updateHeaderVisibility();
         if (this._options.itemsReadyCallback) {
             this._options.itemsReadyCallback(items);
         }

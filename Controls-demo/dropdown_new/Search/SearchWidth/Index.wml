@@ -1,6 +1,6 @@
 <div class="controlsDemo__flexRow">
    <div class="controlsDemo__ml3">
-      <div class="controls-text-label_theme-{{_options.theme}}">Меню с большим поиском и иконкой в шапке</div>
+      <div class="controls-text-label">Меню с большим поиском и иконкой в шапке</div>
       <Controls.dropdown:Button
               source="{{_source}}"
               keyProperty="key"

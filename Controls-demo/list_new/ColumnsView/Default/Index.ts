@@ -2,9 +2,9 @@ import { Control, TemplateFunction } from 'UI/Base';
 import template = require('wml!Controls-demo/list_new/ColumnsView/Default/Default');
 import {Memory as MemorySource, Memory} from 'Types/source';
 import {generateData} from '../../DemoHelpers/DataCatalog';
-import { INavigation } from 'Controls-demo/types';
 import { SyntheticEvent } from 'UICommon/Events';
 import { ItemsEntity } from 'Controls/dragnDrop';
+import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 const NUMBER_OF_ITEMS = 1000;
 
@@ -13,7 +13,7 @@ export default class RenderDemo extends Control {
 
     protected _viewSource: Memory;
 
-    protected _navigation: INavigation;
+    protected _navigation: INavigationOptionValue<INavigationSourceConfig>;
 
     private _dataArray: Array<{id: number, title: string}>;
 

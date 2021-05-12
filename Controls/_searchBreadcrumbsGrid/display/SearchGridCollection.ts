@@ -1,5 +1,5 @@
 import { TreeGridCollection } from 'Controls/treeGrid';
-import { Model } from 'Types/entity';
+import {Model as EntityModel, Model} from 'Types/entity';
 import { TemplateFunction } from 'UI/Base';
 import SearchGridDataRow from './SearchGridDataRow';
 import {ItemsFactory, itemsStrategy } from 'Controls/display';
@@ -77,6 +77,10 @@ export default
       this._nextVersion();
    }
 
+   protected _hasItemsToCreateResults(): boolean {
+      return this.getCollectionCount() > 1;
+   }
+
    protected _getItemsFactory(): ItemsFactory<T> {
       const parent = super._getItemsFactory();
 
@@ -100,20 +104,29 @@ export default
       return composer;
    }
 
-   getExpanderIcon(): string {
-      return 'none';
-   }
-
    protected _recountHasNodeWithChildren(): void {
       // В поисковой модели не нужно выставлять флаг hasNodeWithChildren, т.к. это нужно только для экспандера
       // а экспандер в моделе с хлебными крошками не отображается
       this._setHasNodeWithChildren(false);
    }
+
+   // region Аспект "крайние записи"
+
+   // Нам не нужен иерархический поиск последнего элемента в режиме "поиска"
+   getLastItem(): Model {
+      if (!this._lastItem) {
+         this._lastItem = this.getCollection().at(this.getCollection().getCount() - 1);
+      }
+      return this._lastItem;
+   }
+
+   // endregion Аспект "крайние записи"
 }
 
 Object.assign(SearchGridCollection.prototype, {
    '[Controls/searchBreadcrumbsGrid:SearchGridCollection]': true,
    _moduleName: 'Controls/searchBreadcrumbsGrid:SearchGridCollection',
+   _itemModule: 'Controls/searchBreadcrumbsGrid:SearchGridDataRow',
    _$searchBreadcrumbsItemTemplate: 'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate',
    _$breadCrumbsMode: 'row',
    _$dedicatedItemProperty: '',
