@@ -578,6 +578,10 @@ export default class Explorer extends Control<IExplorerOptions> {
         this._children.treeControl.scrollToItem(key, toBottom);
     }
 
+    getLastVisibleItemKey(): number | string | void {
+        return this._children.treeControl.getLastVisibleItemKey();
+    }
+
     reloadItem(): Promise<unknown> {
         const treeControl = this._children.treeControl;
         return treeControl.reloadItem.apply(treeControl, arguments);
