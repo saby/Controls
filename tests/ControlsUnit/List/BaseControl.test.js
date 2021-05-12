@@ -5431,7 +5431,7 @@ define([
             keyProperty: 'id',
             rawData: [{ id: 'test' }]
          });
-         baseCtrl._listViewModel.setItems(recordSet);
+         baseCtrl._listViewModel.setItems(recordSet, {});
          reloadedItems = await baseCtrl.reloadItem('test', null, true, 'query');
          assert.isTrue(reloadedItems.getCount() === 0);
       });
@@ -7875,7 +7875,7 @@ define([
             const secondBaseControl = new lists.BaseControl();
             secondBaseControl.saveOptions(cfg);
             await secondBaseControl._beforeMount(cfg);
-            secondBaseControl._listViewModel.setItems(rs);
+            secondBaseControl._listViewModel.setItems(rs, {});
             secondBaseControl._documentDragging = true;
 
             secondBaseControl._notify = () => true;
