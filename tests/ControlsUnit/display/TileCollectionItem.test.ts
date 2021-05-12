@@ -274,9 +274,6 @@ describe('Controls/_display/TileCollectionItem', () => {
             getShadowVisibility(): string {
                 return '#visibility#';
             },
-            getMarkerVisibility(): string {
-                return 'onactivated';
-            },
             getSwipeAnimation() {
                 return this._swipeAnimation;
             },

@@ -739,8 +739,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$itemActionsProperty: string;
 
-    protected _$markerVisibility: string;
-
     protected _$markerPosition: 'left' | 'right';
 
     protected _$style: string;
@@ -2930,10 +2928,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$itemActionsProperty;
     }
 
-    getMarkerVisibility(): string {
-        return this._$markerVisibility;
-    }
-
     /**
      * Возвращает модель для рендера футера списка
      */
@@ -4127,7 +4121,6 @@ Object.assign(Collection.prototype, {
     _$compatibleReset: false,
     _$contextMenuConfig: null,
     _$itemActionsProperty: '',
-    _$markerVisibility: 'onactivated',
     _$markerPosition: 'left',
     _$multiSelectAccessibilityProperty: '',
     _$style: 'default',
