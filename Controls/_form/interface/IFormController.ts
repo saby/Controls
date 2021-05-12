@@ -97,10 +97,10 @@
  * @variant 'create' Перед построением верстки выполняется метод "Создать", построение <b>дожидается</b> ответа БЛ.
  * @variant 'delayedRead' Верстка контрола строится по записи, переданной в опцию {@link Controls/_form/interface/IFormController#record record}, параллельно выполняется метод "Прочитать" по ключу,
  * переданному в опции {@link Controls/_form/interface/IFormController#key key}.
- * Построение вёрстки контрола <b>не дожидается</b> ответа от БЛ.
+ * Построение вёрстки контрола <b>не дожидается</b> ответа БЛ.
  * @variant 'delayedCreate' Верстка контрола строится по записи, переданной в опцию
  * {@link Controls/_form/interface/IFormController#record record}, параллельно выполняется метод "Создать".
- * Построение вёрстки контрола <b>не дожидается</b> ответа от БЛ.
+ * Построение вёрстки контрола <b>не дожидается</b> ответа БЛ.
  * @example
  * <pre class="brush: html; highlight: [2]">
  * <!-- WML -->
