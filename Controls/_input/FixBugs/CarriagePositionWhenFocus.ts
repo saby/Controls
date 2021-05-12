@@ -1,6 +1,7 @@
 /**
  * Коллбек функция обновления позиции каретки на правильную.
  * @return изменилась ли позиция каретки.
+ * @private
  */
 export type TUpdatePositionCallback = () => boolean;
 
