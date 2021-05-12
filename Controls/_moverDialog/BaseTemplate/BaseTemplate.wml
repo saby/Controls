@@ -1,6 +1,6 @@
 <div class="controls-MoveDialog">
    <Controls.popupTemplate:Dialog
-           headingCaption="{[Выбор раздела]}"
+           headingCaption="{{_headingCaption}}"
            headerContentTemplate="{{_options.headerContentTemplate}}">
       <ws:bodyContentTemplate>
          <ws:partial template="{{_options.bodyContentTemplate}}" containerWidth="{{_containerWidth}}"/>
