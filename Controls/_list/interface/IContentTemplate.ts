@@ -30,7 +30,7 @@ export default interface IContentTemplateOptions {
     * В области видимости шаблона доступны переменные **item** и **itemActionsTemplate**
     * 
     * Также в области видимости шаблона есть переменная **itemActionsTemplate**, с помощью которой можно отобразить панель {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи} в пользовательском шаблоне. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, что показано в примере № 4.
-    * Переменная <b>item.contents</b> позволяет получить доступ к свойству <b>contents</b> — это объект, который содержит данные обрабатываемого элемента.
+    * Переменная <b>item</b> позволяет получить доступ к свойству <b>contents</b> — это объект, который содержит данные обрабатываемого элемента.
     * Переменная <b>item.getLevel</b> позволяет получить доступ к функции, которая возвращает уровень вложенности отосительно корня.
     * 
     * Переменная **itemActionsTemplate** позволяет отобразить панель {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи} в пользовательском шаблоне. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, что показано в примере № 4.
