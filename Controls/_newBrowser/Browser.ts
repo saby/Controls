@@ -12,14 +12,15 @@ import {IExplorerOptions} from 'Controls/_newBrowser/interfaces/IExplorerOptions
 import {MasterVisibilityEnum} from 'Controls/_newBrowser/interfaces/IMasterOptions';
 import {BeforeChangeRootResult, IRootsData} from 'Controls/_newBrowser/interfaces/IRootsData';
 import {IBrowserViewConfig, NodesPosition} from 'Controls/_newBrowser/interfaces/IBrowserViewConfig';
+import {default as ListController} from './TemplateControllers/List';
+import {default as TileController} from './TemplateControllers/Tile';
+import {default as TableController} from './TemplateControllers/Table';
 import {isEqual} from 'Types/object';
 import {EventUtils} from 'UI/Events';
 import {
     buildDetailOptions,
     buildMasterOptions,
-    getListConfiguration,
-    ListConfig,
-    TileConfig
+    getListConfiguration
 } from 'Controls/_newBrowser/utils';
 //region templates import
 // tslint:disable-next-line:ban-ts-ignore
@@ -33,6 +34,7 @@ import * as DefaultListItemTemplate from 'wml!Controls/_newBrowser/templates/Lis
 import * as DefaultTileItemTemplate from 'wml!Controls/_newBrowser/templates/TileItemTemplate';
 import {View} from 'Controls/explorer';
 import 'css!Controls/listTemplates';
+import {factory} from 'Types/chain';
 //endregion
 
 interface IReceivedState {
@@ -72,6 +74,8 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         masterList: View
     };
 
+    protected _itemToScroll: string | number | void = null;
+
     /**
      * Enum со списком доступных вариантов отображения контента в detail-колонке.
      * Используется в шаблоне компонента.
@@ -100,6 +104,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             ? this._viewMode
             : (this._userViewMode || this._viewMode);
     }
+
     // Пользовательский режим отображения, задается опцией сверху
     private _userViewMode: DetailViewMode;
     // Текущий режим отображения, полученный их метаданных ответа,
@@ -130,6 +135,8 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      */
     protected _inputSearchString: string;
 
+    protected _hasImageInItems: boolean = false;
+
     /**
      * Значение опции searchValue, которое прокидывается в explorer.
      * Проставляется после того как получены результаты поиска
@@ -153,9 +160,11 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      */
     protected _listConfiguration: IBrowserViewConfig;
 
-    protected _tileCfg: TileConfig;
+    protected _tileCfg: TileController;
 
-    protected _listCfg: ListConfig;
+    protected _listCfg: ListController;
+
+    protected _tableCfg: TableController;
 
     /**
      * Опции для Controls/explorer:View в master-колонке
@@ -307,6 +316,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     protected _beforeUnmount(): void {
         this._detailDataSource.destroy();
     }
+
     //endregion
 
     //region public methods
@@ -541,12 +551,28 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._notify('listConfigurationChanged', [cfg]);
     }
 
+    private _hasImages(items: RecordSet, imageProperty: string): boolean {
+        return !!factory(items).filter((item) => {
+            return !!item.get(imageProperty);
+        }).first();
+    }
+
     //region ⇑ events handlers
-    private _onDetailDataLoadCallback(items: RecordSet, direction: string): void {
+    private _onDetailDataLoadCallback(items: RecordSet, direction: string, options: IOptions): void {
         // Не обрабатываем последующие загрузки страниц. Нас интересует только
         // загрузка первой страницы
-        if (direction) {
+        if (direction && options.detail.imageProperty && !this._hasImageInItems) {
+            this._hasImageInItems = this._hasImages(items, options.detail.imageProperty);
+            const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
+            if (imageVisibility !== this._listCfg.getImageVisibility()) {
+                this._itemToScroll = this._children.detailList.getLastVisibleItemKey();
+                this._listCfg.setImageVisibility(imageVisibility);
+                this._tileCfg.setImageVisibility(imageVisibility);
+                this._tableCfg.setImageVisibility(imageVisibility);
+            }
             return;
+        } else if (!this._hasImageInItems) {
+            this._hasImageInItems = this._hasImages(items, options.detail.imageProperty);
         }
 
         if (this._inputSearchString) {
@@ -565,6 +591,13 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      */
     protected _onDetailExplorerChangedViewMode(): void {
         this._afterViewModeChanged();
+    }
+
+    protected _afterRender(): void {
+        if (this._itemToScroll) {
+            this._children.detailList.scrollToItem(this._itemToScroll, true);
+            this._itemToScroll = null;
+        }
     }
 
     protected _onExplorerItemClick(
@@ -613,8 +646,22 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
     protected _createTemplateControllers(cfg: IBrowserViewConfig, options: IOptions): void {
         this._listConfiguration = cfg;
-        this._tileCfg = new TileConfig(this._listConfiguration, options);
-        this._listCfg = new ListConfig(this._listConfiguration, options);
+        const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
+        this._tileCfg = new TileController({
+            listConfiguration: this._listConfiguration,
+            imageVisibility,
+            browserOptions: options
+        });
+        this._listCfg = new ListController({
+            listConfiguration: this._listConfiguration,
+            imageVisibility,
+            browserOptions: options
+        });
+        this._tableCfg = new TableController({
+            listConfiguration: this._listConfiguration,
+            imageVisibility,
+            browserOptions: options
+        });
     }
 
     //endregion
@@ -701,7 +748,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             sourceController: this._detailDataSource?.sourceController,
 
             dataLoadCallback: (items, direction) => {
-                this._onDetailDataLoadCallback(items, direction);
+                this._onDetailDataLoadCallback(items, direction, options);
 
                 if (compiledOptions.dataLoadCallback) {
                     compiledOptions.dataLoadCallback(items, direction);
@@ -737,6 +784,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             this._detailBgColor = options.detail.backgroundColor || '#ffffff';
         }
     }
+
     //endregion
 
     //region base control overrides
@@ -747,6 +795,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
         return super._notify(eventName, args, options);
     }
+
     //endregion
 
     //region • static utils
