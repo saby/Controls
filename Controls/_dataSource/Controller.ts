@@ -574,7 +574,7 @@ export default class Controller extends mixin<
                 key,
                 navigationSourceConfig,
                 NAVIGATION_DIRECTION_COMPATIBILITY[direction],
-                !isMultiNavigation
+                !isMultiNavigation || key !== this._root
             );
         }
 
