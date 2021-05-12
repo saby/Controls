@@ -102,3 +102,23 @@ Object.defineProperty(View, 'defaultProps', {
       return View.getDefaultOptions();
    }
 });
+
+/**
+ * @name Controls/_tile/View#itemPadding
+ * @cfg {Controls/_list/interface/IList/ItemPadding.typedef} Конфигурация отступов в плитке.
+ * @demo Controls-demo/Tile/ItemPadding/PaddingS/Index
+ * @example
+ * <pre class="brush: html"> 
+ * <!-- WML -->
+ * <Controls.tile:View source="{{_viewSource}}" imageProperty="image">
+ *    <ws:itemPadding
+ *       top="s"
+ *       bottom="s"
+ *       left="s"
+ *       right="s"/>
+ * </Controls.tile:View>
+ * </pre>
+ * @remark
+ * Полезные ссылки:
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tile/paddings/#item-padding руководство разработчика}
+ */
