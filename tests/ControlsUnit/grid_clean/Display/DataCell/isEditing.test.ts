@@ -24,6 +24,7 @@ describe('Controls/grid_clean/Display/DataCell/isEditing', () => {
                 getColumnIndex: () => 0,
                 getColumnsCount: () => 0,
                 getMultiSelectVisibility: () => 'hidden',
+                hasMultiSelectColumn: () => false,
                 isAnimatedForSelection: () => false
         };
 
