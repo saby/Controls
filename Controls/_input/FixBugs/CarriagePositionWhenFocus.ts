@@ -10,6 +10,7 @@ export type TUpdatePositionCallback = () => boolean;
  * Причина: позиция каретки при создании заполненного нативного поля ввода определяется
  * браузером. Например в chrome, firefox, IE10-11 она в начале. Это не соответсвует поведению по стандарту.
  * Решение: при фокусировке по tab менять позицию каретки на правильную.
+ * @private
  */
 export class CarriagePositionWhenFocus {
     private _firstFocusByTab: boolean = true;
