@@ -84,6 +84,10 @@ const GridView = ListView.extend({
             listModel.setHeader(options.header);
         }
 
+        if (changes.includes('headerVisibility')) {
+            listModel.setHeaderVisibility(options.headerVisibility);
+        }
+
         if (changes.includes('columnScroll')) {
             listModel.setColumnScroll(options.columnScroll);
         }
@@ -110,6 +114,9 @@ const GridView = ListView.extend({
             }
             if (changedOptions.hasOwnProperty('header')) {
                 changes.push('header');
+            }
+            if (changedOptions.hasOwnProperty('headerVisibility')) {
+                changes.push('headerVisibility');
             }
             if (changedOptions.hasOwnProperty('columns')) {
                 changes.push('columns');
