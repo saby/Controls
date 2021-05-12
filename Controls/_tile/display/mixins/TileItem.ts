@@ -703,7 +703,6 @@ export default abstract class TileItem<T extends Model = Model> {
         }
 
         classes += ` ${this.getItemPaddingClasses()}`;
-        classes += ` ${this.getRoundBorderClasses()}`;
 
         switch (itemType) {
             case 'default':
@@ -775,15 +774,17 @@ export default abstract class TileItem<T extends Model = Model> {
         border?: boolean,
         titleStyle: string = 'light'
     ): string {
+        let classes = '';
+        classes += ` ${this.getRoundBorderClasses()}`;
         if (itemType === 'small') {
-            let classes = 'controls-TileView__smallTemplate_wrapper';
+            classes += ' controls-TileView__smallTemplate_wrapper';
             if (this.canShowActions()) {
                 classes += ' controls-ListView__item_showActions';
             }
             return classes;
         }
 
-        let classes = 'controls-TileView__itemContent js-controls-ListView__measurableContainer';
+        classes += ' controls-TileView__itemContent js-controls-ListView__measurableContainer';
 
         if (height === 'auto') {
             classes += ' controls-TileView__item_autoHeight';
