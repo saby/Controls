@@ -1,13 +1,13 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
-     <div class="controls-text-label_theme-{{_options.theme}}">Диалоговое окно с заголовком</div>
+     <div class="controls-text-label">Диалоговое окно с заголовком</div>
      <Controls.operationsPopup:ReportDialog title="Заголовок"
                                             operationsCount="{{4}}"
                                             operationsSuccess="{{4}}">
      </Controls.operationsPopup:ReportDialog>
   </div>
   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
-     <div class="controls-text-label_theme-{{_options.theme}}">Диалоговое окно без заголовка</div>
+     <div class="controls-text-label">Диалоговое окно без заголовка</div>
      <Controls.operationsPopup:ReportDialog operationsCount="{{4}}"
                                             operationsSuccess="{{4}}">
      </Controls.operationsPopup:ReportDialog>

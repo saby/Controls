@@ -162,7 +162,9 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             }
             popupOptions = Merge(popupOptions, this._options.detailPanelPopupOptions || {});
             popupOptions.template = this._detailPanelTemplateName;
-            popupOptions.className = 'controls-FilterButton-popup-orientation-' + (this._options.alignment === 'right' ? 'left' : 'right');
+            if (this._detailPanelTemplateName !== FILTER_PANEL_POPUP_STACK) {
+                popupOptions.className = 'controls-FilterButton-popup-orientation-' + (this._options.alignment === 'right' ? 'left' : 'right');
+            }
             popupOptions.templateOptions = this._options.detailPanelTemplateOptions || {};
             this._open(panelItems, popupOptions);
         } else {

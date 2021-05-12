@@ -315,13 +315,14 @@ define([
             };
             const options = {
                selectedKey: '15',
-               keyProperty: 'karambola'
+               keyProperty: 'karambola',
+               markerThickness: 'l'
             };
             it('should return marker css class if tab selected', () => {
                const tabs = new tabsMod.Buttons();
                tabs.saveOptions(options);
 
-               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__main-marker');
+               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__main-marker controls-Tabs__main-marker-l');
 
                tabs.destroy();
             });
@@ -584,6 +585,40 @@ define([
             assert.isTrue(styleValue.includes('flex-shrink: 0'));
             assert.isTrue(styleValue.includes(`max-width: ${item.maxWidth}`));
             assert.isTrue(styleValue.includes(`min-width: ${item.minWidth}`));
+         });
+      });
+      describe('_tabCanShrink', () => {
+         it('should return true', () => {
+            const tabs = new tabsMod.Buttons();
+            const item = {
+               isMainTab: true
+            };
+            const result = tabs._tabCanShrink(item);
+            assert.isTrue(result);
+         });
+         it('should return true', () => {
+            const tabs = new tabsMod.Buttons();
+            const item = {
+               minWidth: '20px'
+            };
+            const result = tabs._tabCanShrink(item);
+            assert.isTrue(result);
+         });
+         it('should return true', () => {
+            const tabs = new tabsMod.Buttons();
+            const item = {
+               maxWidth: '20px'
+            };
+            const result = tabs._tabCanShrink(item);
+            assert.isTrue(result);
+         });
+         it('should return false', () => {
+            const tabs = new tabsMod.Buttons();
+            const item = {
+               width: '20px'
+            };
+            const result = tabs._tabCanShrink(item);
+            assert.isFalse(result);
          });
       });
    });

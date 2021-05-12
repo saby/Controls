@@ -67,12 +67,12 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         return super.getImageClasses(itemType, widthTpl, imageAlign, imageViewMode, imageProportion, imagePosition, imageSize, imageFit, imageProportionOnItem);
     }
 
-    getImageWrapperClasses(itemTypeTpl: string = 'default', templateHasTitle?: boolean, templateTitleStyle?: string, imageViewMode: string = 'rectangle'): string {
+    getImageWrapperClasses(itemTypeTpl: string = 'default', templateHasTitle?: boolean, templateTitleStyle?: string, imageViewMode: string = 'rectangle', imageProportion?: number, imagePosition?: string, imageSize?: string, imageProportionOnItem?: string): string {
         let itemType = itemTypeTpl;
         if (itemType === 'default' && this.isNode()) {
             itemType = 'small';
         }
-        return super.getImageWrapperClasses(itemType, templateHasTitle, templateTitleStyle, imageViewMode);
+        return super.getImageWrapperClasses(itemType, templateHasTitle, templateTitleStyle, imageViewMode, imageProportion, imagePosition, imageSize, imageProportionOnItem);
     }
 
     getItemActionsClasses(itemTypeTpl: string = 'default', itemActionsClass: string = ''): string {

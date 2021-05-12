@@ -14,15 +14,17 @@ import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownCo
 import {IStickyPopupOptions} from 'Controls/popup';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/popup';
-import {generateStates, IPaddingOptions, getDefaultBorderVisibilityOptions} from 'Controls/input';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 import 'css!Controls/dropdown';
 import 'css!Controls/CommonClasses';
 
+type THorizontalPadding = 'xs' | 'null';
+
 interface IComboboxOptions extends IBaseDropdownOptions, ISingleSelectableOptions, IBorderStyleOptions,
-    IValidationStatusOptions, IInputPlaceholderOptions, IPaddingOptions, IContrastBackgroundOptions {
+    IValidationStatusOptions, IInputPlaceholderOptions, IContrastBackgroundOptions {
    value?: string;
+   horizontalPadding: THorizontalPadding;
 }
 
 const getPropValue = Utils.object.getPropertyValue.bind(Utils);
@@ -99,7 +101,6 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
          vertical: 'bottom'
       };
 
-      generateStates(this, options);
       this._controller = new Controller(this._getControllerOptions(options));
       this._borderStyle = this._getBorderStyle(options.borderStyle, options.validationStatus);
       return loadItems(this._controller, receivedState, options.source);
@@ -167,7 +168,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
       if (this._countItems === 1) {
          this._selectedItem = items.at(0);
       }
-      if (this._options.emptyText) {
+      if (this._countItems && this._options.emptyText) {
          this._countItems += 1;
       }
       const readOnly = this._getReadOnly(this._options.readOnly);
@@ -270,7 +271,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
 
    static getDefaultOptions(): object {
       return {
-         ...getDefaultBorderVisibilityOptions(),
+         borderVisibility: 'partial',
          placeholder: rk('Выберите') + '...',
          validationStatus: 'valid',
          textAlign: 'left',

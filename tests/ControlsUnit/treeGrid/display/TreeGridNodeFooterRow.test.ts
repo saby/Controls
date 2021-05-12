@@ -45,11 +45,8 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterRow', () => {
       keyProperty: 'id'
    });
 
-   let treeGridCollection;
-   let nodeFooterRow;
-
-   beforeEach(() => {
-      treeGridCollection = new TreeGridCollection({
+   const getCollection = (options = {}) => {
+      return new TreeGridCollection({
          collection: recordSet,
          root: null,
          keyProperty: 'id',
@@ -67,8 +64,16 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterRow', () => {
                template: 'wml!template1'
             }
          ],
-         expandedItems: [null]
+         expandedItems: [null],
+         ...options
       });
+   }
+
+   let treeGridCollection;
+   let nodeFooterRow;
+
+   beforeEach(() => {
+      treeGridCollection = getCollection();
 
       nodeFooterRow = treeGridCollection.at(3) as TreeGridNodeFooterRow;
    });
@@ -91,7 +96,7 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterRow', () => {
    });
 
    it('.getItemClasses()', () => {
-      CssClassesAssert.isSame(nodeFooterRow.getItemClasses(), 'controls-Grid__row controls-TreeGrid__nodeFooter');
+      CssClassesAssert.isSame(nodeFooterRow.getItemClasses(), 'controls-ListView__itemV controls-Grid__row controls-TreeGrid__nodeFooter');
    });
 
    it('.getExpanderPaddingClasses()', () => {
@@ -105,5 +110,15 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterRow', () => {
 
       treeGridCollection.setHasMoreStorage({ 3: true });
       assert.isTrue(nodeFooterRow.shouldDisplayVisibleFooter(undefined));
+   });
+
+   it('with fixed column', () => {
+      treeGridCollection = getCollection({columnScroll: true});
+      nodeFooterRow = treeGridCollection.at(3) as TreeGridNodeFooterRow;
+
+      const columns = nodeFooterRow.getColumns();
+      assert.equal(columns.length, 2);
+      assert.equal(columns[0].getColspanStyles(), 'grid-column: 1 / 2');
+      assert.equal(columns[1].getColspanStyles(), 'grid-column: 2 / 4');
    });
 });

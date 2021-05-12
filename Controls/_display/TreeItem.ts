@@ -165,7 +165,10 @@ export default class TreeItem<T extends Model = Model> extends mixin<
      * @param node Является ли элемент узлом
      */
     setNode(node: boolean|null): void {
-        this._$node = node;
+        if (this._$node !== node) {
+            this._$node = node;
+            this._nextVersion();
+        }
     }
 
     /**

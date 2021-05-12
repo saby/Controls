@@ -10,40 +10,40 @@ define([
       it('getDrawnDigits 10 pages', function() {
          var digits;
          digits = DBClass._getDrawnDigits(10, 1);
-         assert.deepEqual([1, 2, 3, 4, DOTS, 10], digits, 'getDrawnDigits10 test case 1: WrongResult');
+         assert.deepEqual([1, 2, 3, 4, 5, DOTS, 10], digits, 'getDrawnDigits10 test case 1: WrongResult');
 
          digits = DBClass._getDrawnDigits(10, 2);
          assert.deepEqual([1, 2, 3, 4, 5, DOTS, 10], digits, 'getDrawnDigits10 test case 2: WrongResult');
 
          digits = DBClass._getDrawnDigits(10, 3);
-         assert.deepEqual([1, 2, 3, 4, 5, 6, DOTS, 10], digits, 'getDrawnDigits10 test case 3: WrongResult');
+         assert.deepEqual([1, 2, 3, 4, 5, DOTS, 10], digits, 'getDrawnDigits10 test case 3: WrongResult');
 
          digits = DBClass._getDrawnDigits(10, 4);
-         assert.deepEqual([1, 2, 3, 4, 5, 6, 7, DOTS, 10], digits, 'getDrawnDigits10 test case 4: WrongResult');
+         assert.deepEqual([1, 2, 3, 4, 5, DOTS, 10], digits, 'getDrawnDigits10 test case 4: WrongResult');
 
          digits = DBClass._getDrawnDigits(10, 5);
-         assert.deepEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], digits, 'getDrawnDigits10 test case 5: WrongResult');
+         assert.deepEqual([1, DOTS, 4, 5, 6, DOTS, 10], digits, 'getDrawnDigits10 test case 5: WrongResult');
 
          digits = DBClass._getDrawnDigits(10, 6);
-         assert.deepEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], digits, 'getDrawnDigits10 test case 6: WrongResult');
+         assert.deepEqual([1, DOTS, 5, 6, 7, DOTS, 10], digits, 'getDrawnDigits10 test case 6: WrongResult');
 
          digits = DBClass._getDrawnDigits(10, 7);
-         assert.deepEqual([1, DOTS, 4, 5, 6, 7, 8, 9, 10], digits, 'getDrawnDigits10 test case 7: WrongResult');
+         assert.deepEqual([1, DOTS, 6, 7, 8, 9, 10], digits, 'getDrawnDigits10 test case 7: WrongResult');
 
          digits = DBClass._getDrawnDigits(10, 8);
-         assert.deepEqual([1, DOTS, 5, 6, 7, 8, 9, 10], digits, 'getDrawnDigits10 test case 8: WrongResult');
+         assert.deepEqual([1, DOTS, 6, 7, 8, 9, 10], digits, 'getDrawnDigits10 test case 8: WrongResult');
 
          digits = DBClass._getDrawnDigits(10, 9);
          assert.deepEqual([1, DOTS, 6, 7, 8, 9, 10], digits, 'getDrawnDigits10 test case 9: WrongResult');
 
          digits = DBClass._getDrawnDigits(10, 10);
-         assert.deepEqual([1, DOTS, 7, 8, 9, 10], digits, 'getDrawnDigits10 test case 10: WrongResult');
+         assert.deepEqual([1, DOTS, 6, 7, 8, 9, 10], digits, 'getDrawnDigits10 test case 10: WrongResult');
       });
 
       it('getDrawnDigits 15 pages', function() {
          var digits;
          digits = DBClass._getDrawnDigits(15, 7);
-         assert.deepEqual([1, DOTS, 4, 5, 6, 7, 8, 9, 10, DOTS, 15], digits, 'getDrawnDigits15 test case 7: WrongResult');
+         assert.deepEqual([1, DOTS, 6, 7, 8, DOTS, 15], digits, 'getDrawnDigits15 test case 7: WrongResult');
       });
 
       it('getDrawnDigits 5 pages', function() {

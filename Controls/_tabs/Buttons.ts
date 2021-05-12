@@ -151,11 +151,17 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         if (!itemsChanged && newOptions.selectedKey !== this._options.selectedKey) {
             const oldAlign = this._getItemByKey(this._options.selectedKey)?.align || DEFAULT_ITEM_ALIGN;
             const newAlign = this._getItemByKey(newOptions.selectedKey)?.align || DEFAULT_ITEM_ALIGN;
-            if (oldAlign === newAlign) {
-                // Переключимся на анимированный маркер, т.к. стандартный маркер всегда рисуется на выбранной вкладке.
-                // Чтобы не было тормозов при движении маркера,
-                // саму анимацию запустим позже после всех обновлений в afterUpdate.
-                this._isAnimatedMakerVisible = true;
+            const selectedItem = this._getItemByKey(this._options.selectedKey);
+            if (!!selectedItem?.isMainTab) {
+                this._updateMarkerSelectedIndex(newOptions);
+                this._isAnimatedMakerVisible = false;
+            } else {
+                if (oldAlign === newAlign) {
+                    // Переключимся на анимированный маркер, т.к. стандартный маркер всегда рисуется на выбранной вкладке.
+                    // Чтобы не было тормозов при движении маркера,
+                    // саму анимацию запустим позже после всех обновлений в afterUpdate.
+                    this._isAnimatedMakerVisible = true;
+                }
             }
         }
         if (newOptions.style !== this._options.style || newOptions.markerThickness !== this._options.markerThickness) {
@@ -166,6 +172,13 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _afterUpdate(oldOptions: ITabsOptions): void {
         if (this._isAnimatedMakerVisible && oldOptions.selectedKey !== this._options.selectedKey) {
             this._startMarkerAnimationDelayed();
+        }
+    }
+
+    protected _beforeRender(): void {
+        if (this._isUpdatedItems && this._marker.isInitialized()) {
+            this._marker.reset();
+            this._isUpdatedItems = false;
         }
     }
 
@@ -284,12 +297,11 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
      * @private
      */
     private _tabCanShrink(item: ITabButtonItem): boolean {
-        return item.isMainTab ||
-            item.width === undefined && (
-                !this._hasMainTab ||
-                item.minWidth !== undefined ||
-                item.maxWidth !== undefined
-            );
+        if (item.width !== undefined) {
+            return false;
+        } else {
+            return item.isMainTab || item.minWidth !== undefined || item.maxWidth !== undefined;
+        }
     }
 
     protected _prepareItemClass(item: ITabButtonItem, index: number): string {
@@ -399,6 +411,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         if (item.isMainTab) {
             if (item[options.keyProperty] === options.selectedKey) {
                 classes.push('controls-Tabs__main-marker');
+                classes.push(`controls-Tabs__main-marker-${options.markerThickness}`);
             }
         } else {
             classes.push('controls-Tabs__itemClickableArea_marker');

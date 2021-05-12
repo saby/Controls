@@ -325,7 +325,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
         if (this._dataLoader.getFilterController(id)?.update(this._getFilterControllerOptions(newOptions)) ||
             !isEqual(options.filter, newOptions.filter)) {
-            this._updateFilterAndFilterItems(newOptions);
+            this._updateFilterAndFilterItems(newOptions, id);
         }
 
         if (sourceChanged) {
@@ -356,7 +356,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             }
         }
 
-        if (isChanged && (this._source || this._listsOptions)) {
+        if (isChanged && Browser._hasInOptions(newOptions, ['source'])) {
             methodResult = this._reload(newOptions, id);
         } else if (isChanged) {
             this._afterSourceLoad(sourceController, newOptions);
@@ -364,8 +364,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
         const selectedKeysChanged = !isEqual(options.selectedKeys, newOptions.selectedKeys);
         const excludedKeysChanged = !isEqual(options.excludedKeys, newOptions.excludedKeys);
-        if (!isChanged && (selectedKeysChanged || excludedKeysChanged)) {
+        const expandedItemsChanged = !isEqual(options.expandedItems, newOptions.expandedItems);
+        if (!isChanged && (selectedKeysChanged || excludedKeysChanged || expandedItemsChanged)) {
             this._updateContext();
+        }
+        if (expandedItemsChanged) {
+            sourceController.setExpandedItems(newOptions.expandedItems);
         }
 
         if (isChanged && isInputSearchValueLongerThenMinSearchLength && hasSearchValueInOptions && !newOptions.searchValue) {
@@ -688,8 +692,9 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _getSourceControllerOptions(options: IListConfiguration): ISourceControllerOptions {
         const root = options.id ? options.root : this._root;
         const source = options.id ? options.source : this._source;
+        const filter = options.id ? options.filter : this._filter;
         return {
-            filter: this._filter,
+            filter,
             source,
             navigationParamsChangedCallback: this._notifyNavigationParamsChanged,
             dataLoadErrback: this._dataLoadErrback,
@@ -810,6 +815,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         if (this._getSearchControllerSync().needChangeSearchValueToSwitchedString(recordSet) && this._misspellValue) {
             this._setSearchValue(this._misspellValue);
         }
+        this._updateContext();
     }
 
     private _setSearchValue(value: string): void {
@@ -851,10 +857,10 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         }
 
         if (searchController) {
+            this._misspellValue = searchController.getMisspellValue();
             if (searchController.isSearchInProcess() || searchController.getSearchValue() !== this._searchValue) {
                 this._afterSearch(data);
             }
-            this._misspellValue = searchController.getMisspellValue();
         }
 
         if (this._isSearchViewMode() && !this._searchValue) {
@@ -893,8 +899,10 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 return error;
             })
             .finally(() => {
-                this._loading = false;
-                this._afterSourceLoad(sourceController, options);
+                if (!this._destroyed) {
+                    this._loading = false;
+                    this._afterSourceLoad(sourceController, options);
+                }
             })
             .then((result) => {
                 return this._updateSearchController(options).then(() => result);
