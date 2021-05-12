@@ -280,6 +280,7 @@ describe('Controls/_display/TileCollectionItem', () => {
             setSwipeAnimation(animation) {
                 this._swipeAnimation = animation;
             },
+            hasMultiSelectColumn: () => false,
             isEditing() {
                 return false;
             }
