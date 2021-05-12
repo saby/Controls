@@ -5177,6 +5177,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return _private.getMarkerController(this, this._options);
     }
 
+    getLastVisibleItemKey(): number | string | void {
+        if (this._scrollController) {
+            const itemsContainer = this.getItemsContainer();
+            const scrollTop = this._getScrollParams().scrollTop;
+            const lastVisibleItem = this._scrollController.getLastVisibleRecord(itemsContainer, this._container, scrollTop);
+            return lastVisibleItem.getContents().getKey();
+        }
+    }
+
     protected _changeMarkedKey(newMarkedKey: CrudEntityKey, shouldFireEvent: boolean = false): Promise<CrudEntityKey>|CrudEntityKey {
         const markerController = _private.getMarkerController(this);
         if ((newMarkedKey === undefined || newMarkedKey === markerController.getMarkedKey()) && !shouldFireEvent) {
