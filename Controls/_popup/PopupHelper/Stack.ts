@@ -9,7 +9,7 @@ import {IStackPopupOptions} from 'Controls/_popup/interface/IStack';
  * @implements Controls/popup:IStackOpener
  *
  * @remark
- * Для предотвращения потенциальной утечки памяти не забывайте уничтожать экземпляр оперена
+ * Для предотвращения потенциальной утечки памяти не забывайте уничтожать экземпляр опенера.
  * с помощью метода {@link Controls/_popup/PopupHelper/Stack#destroy destroy}.
  *
  * @author Красильников А.С.
