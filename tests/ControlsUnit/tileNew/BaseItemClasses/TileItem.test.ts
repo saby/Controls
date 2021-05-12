@@ -11,9 +11,6 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
             const item = new TileCollectionItem({owner});
             let classes = item.getWrapperClasses('', '', '', '', '', '', '', 'accent');
             CssClassesAssert.include(classes, 'controls-TileView__itemContent_accent');
-
-            classes = item.getWrapperClasses('', '', '', '', '', '', '', 'none');
-            CssClassesAssert.include(classes, 'controls-TileView__item_withoutTitle');
         });
 
         it('small', () => {
