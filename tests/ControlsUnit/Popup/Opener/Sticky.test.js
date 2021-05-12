@@ -1078,6 +1078,8 @@ define(
 
          let popupCfg = {
             restrictiveContainerCoords: {
+               top: 45,
+               left: 55,
                bottom: 50,
                right: 60
                },
@@ -1100,10 +1102,8 @@ define(
             assert.equal(position.top, 45);
             assert.equal(position.left, 55);
 
-            popupCfg.restrictiveContainerCoords = {
-               top: 20,
-               left: 30
-            };
+            popupCfg.restrictiveContainerCoords.top = 20;
+            popupCfg.restrictiveContainerCoords.left = 30;
 
             position = {
                bottom: 80,
@@ -1122,6 +1122,14 @@ define(
             StickyStrategy._private.calculateRestrictionContainerCoords(popupCfg, position);
             assert.equal(position.top, 20);
             assert.equal(position.left, 30);
+
+            popupCfg.restrictiveContainerCoords.top = 5;
+            popupCfg.restrictiveContainerCoords.bottom = 10;
+            popupCfg.restrictiveContainerCoords.left = 10;
+            popupCfg.restrictiveContainerCoords.right = 20;
+            StickyStrategy._private.calculateRestrictionContainerCoords(popupCfg, position);
+            assert.equal(position.top, 5);
+            assert.equal(position.left, 15);
 
             StickyStrategy._private.getBody = getBody;
          });
