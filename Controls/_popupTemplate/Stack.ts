@@ -126,6 +126,16 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
 });
 
 /**
+ * @name Controls/_popupTemplate/Stack#bodyContentTemplate
+ * @cfg {function|String} Основной контент шаблона, располагается под headerContentTemplate.
+ * @remark
+ * Обратите внимание, что внутрь bodyContentTemplate контрол отдает опцию <b>hasRightTemplate</b>.
+ * Опция отвечает за наличие справа от шаблона управляющей панели.
+ * В случае, если на контроле опция {@link headerContentTemplate} и {@link headingCaption} не заданы и шапка стековой
+ * раскладки не отображается, то отступ контента до крестика может различаться.
+ */
+
+/**
  * @name Controls/_popupTemplate/Stack#maximizeButtonVisibility
  * @cfg {Boolean} Определяет, будет ли отображаться кнопка изменения размера.
  * @default false
