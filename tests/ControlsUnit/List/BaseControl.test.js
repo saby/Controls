@@ -4746,6 +4746,7 @@ define([
             };
             instance = correctCreateBaseControl(cfg);
             item =  item = {
+               ItemActionsItem: true,
                _$active: false,
                getContents: () => ({
                   getKey: () => 2
@@ -4818,6 +4819,7 @@ define([
             const fakeEvent = initFakeEvent();
             const itemAt1 = instance._listViewModel.at(1);
             const breadcrumbItem = {
+               ItemActionsItem: true,
                '[Controls/_display/BreadcrumbsItem]': true,
                _$active: false,
                getContents: () => ['fake', 'fake', 'fake', itemAt1.getContents() ],
