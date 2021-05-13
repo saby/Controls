@@ -796,6 +796,8 @@ const _private = {
                 if (self._destroyed) {
                     return;
                 }
+                _private.hideIndicator(self);
+
                 const itemsCountAfterLoad = self._listViewModel.getCount();
                 // If received list is empty, make another request.
                 // If it’s not empty, the following page will be requested in resize event
@@ -849,6 +851,7 @@ const _private = {
                 return addedItems;
             }).addErrback((error: CancelableError) => {
                 self._loadToDirectionInProgress = false;
+                self._handleLoadToDirection = false;
 
                 _private.hideIndicator(self);
                 // скроллим в край списка, чтобы при ошибке загрузки данных шаблон ошибки сразу был виден
@@ -2018,7 +2021,7 @@ const _private = {
     },
 
     openContextMenu(self: typeof BaseControl, event: SyntheticEvent<MouseEvent>, itemData: CollectionItem<Model>): void {
-        if (itemData['[Controls/_display/GroupItem]']) {
+        if (!(itemData.dispItem ? itemData.dispItem.ItemActionsItem : itemData.ItemActionsItem)) {
             return;
         }
 
@@ -4032,7 +4035,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._listViewModel.setMarkerVisibility(newOptions.markerVisibility);
         }
 
-        if (newOptions.theme !== this._options.theme && !newOptions.useNewModel) {
+        if (newOptions.theme !== this._options.theme) {
             this._listViewModel.setTheme(newOptions.theme);
         }
 
@@ -5220,6 +5223,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return _private.getMarkerController(this, this._options);
     }
 
+    getLastVisibleItemKey(): number | string | void {
+        if (this._scrollController) {
+            const itemsContainer = this.getItemsContainer();
+            const scrollTop = this._getScrollParams().scrollTop;
+            const lastVisibleItem = this._scrollController.getLastVisibleRecord(itemsContainer, this._container, scrollTop);
+            return lastVisibleItem.getContents().getKey();
+        }
+    }
+
     protected _changeMarkedKey(newMarkedKey: CrudEntityKey, shouldFireEvent: boolean = false): Promise<CrudEntityKey>|CrudEntityKey {
         const markerController = _private.getMarkerController(this);
         if ((newMarkedKey === undefined || newMarkedKey === markerController.getMarkedKey()) && !shouldFireEvent) {
@@ -5601,28 +5613,28 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return _private.isEditing(this);
     }
 
-    beginEdit(userOptions) {
+    beginEdit(userOptions: object): Promise<void | {canceled: true}> {
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
         return this._beginEdit(userOptions);
     }
 
-    beginAdd(userOptions) {
+    beginAdd(userOptions: object): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
         return this._beginAdd(userOptions, { addPosition: this._getEditingConfig().addPosition });
     }
 
-    cancelEdit() {
+    cancelEdit(): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
         return this._cancelEdit();
     }
 
-    commitEdit() {
+    commitEdit(): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
@@ -5646,7 +5658,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    _beginEdit(userOptions, {shouldActivateInput = true, columnIndex}: IBeginEditOptions = {}) {
+    _beginEdit(userOptions: object, {shouldActivateInput = true, columnIndex}: IBeginEditOptions = {}): Promise<void | {canceled: true}> {
         _private.closeSwipe(this);
         if (_private.hasHoverFreezeController(this)) {
             this._hoverFreezeController.unfreezeHover();
@@ -5685,7 +5697,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _cancelEdit(force: boolean = false) {
+    _cancelEdit(force: boolean = false): Promise<void | { canceled: true }> {
         if (!this._editInPlaceController) {
             return Promise.resolve();
         }
@@ -6653,9 +6665,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             return false;
         }
 
-        // Если нет элементов, то должен отображаться глобальный индикатор
         const shouldDisplayTopIndicator = this._loadingIndicatorState === 'up' && !this._portionedSearchInProgress;
-        return (shouldDisplayTopIndicator || this._attachLoadTopTriggerToNull) && !!this._items && !!this._items.getCount();
+        const isAborted = _private.getPortionedSearch(this).isAborted();
+        // Если нет элементов, то должен отображаться глобальный индикатор
+        const hasItems = !!this._items && !!this._items.getCount();
+        return (shouldDisplayTopIndicator || this._attachLoadTopTriggerToNull && !this._showContinueSearchButtonDirection && this._scrollController.isRangeOnEdge('up'))
+            && !this._portionedSearchInProgress && !isAborted && hasItems;
     }
 
     _shouldDisplayMiddleLoadingIndicator(): boolean {
@@ -6679,7 +6694,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             && !!this._items && !!this._items.getCount();
         // Если порционный поиск был прерван, то никаких ромашек не должно показываться, т.к. больше не будет подгрузок
         const isAborted = _private.getPortionedSearch(this).isAborted();
-        return (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection)
+        return (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection && this._scrollController.isRangeOnEdge('down'))
             && !this._portionedSearchInProgress && !isAborted;
     }
 

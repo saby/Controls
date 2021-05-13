@@ -31,7 +31,8 @@ export {
     TreeGridViewTable,
     ItemTemplate,
     NodeFooterTemplate,
-    GroupColumnTemplate
+    GroupColumnTemplate,
+    TableItemTemplate
 };
 
 import { register } from 'Types/di';

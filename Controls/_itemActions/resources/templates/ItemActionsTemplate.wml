@@ -4,7 +4,7 @@
         {{!editingStyle && (highlightOnHover !== false || itemActionsPosition === 'outside') ? 'controls-itemActionsV_style_' + (style ? style : 'default') }}
         {{itemData.getItemActionPositionClasses(itemActionsPosition, itemActionsClass, itemData.itemPadding, theme)}}
         {{itemData.getItemActionClasses(itemActionsPosition, theme, itemData.isLastRow, itemData.rowSeparatorSize)}}
-        {{itemData.isEditing() ? 'controls-itemActionsV_editing' + (editingStyle ? '_' + editingStyle : '')}}
+        {{itemData.isEditing() ? 'controls-itemActionsV_editing' + (editingStyle && editingStyle !== 'default' ? '_' + editingStyle : '')}}
         {{itemData.isEditing() && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
         {{itemData.isActive() && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
         {{itemData.isSwiped() ? 'controls-itemActionsV_swiped'}}

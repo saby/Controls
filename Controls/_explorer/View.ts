@@ -243,7 +243,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         // searchStartingWith === 'root', после сбрасываем поиск и возвращаем root в предыдущую папку после чего
         // этот код покажет заголовок и только после получения данных они отрисуются
         if (!isRootChanged) {
-            this._headerVisibility = this._getHeaderVisibility(cfg.root, cfg.headerVisibility);
+            this._headerVisibility = this._getHeaderVisibility(this._getRoot(cfg.root), cfg.headerVisibility);
         }
 
         if (!isEqual(cfg.itemPadding, this._options.itemPadding)) {
@@ -578,24 +578,28 @@ export default class Explorer extends Control<IExplorerOptions> {
         this._children.treeControl.scrollToItem(key, toBottom);
     }
 
+    getLastVisibleItemKey(): number | string | void {
+        return this._children.treeControl.getLastVisibleItemKey();
+    }
+
     reloadItem(): Promise<unknown> {
         const treeControl = this._children.treeControl;
         return treeControl.reloadItem.apply(treeControl, arguments);
     }
 
-    beginEdit(options: object): Promise<unknown> {
+    beginEdit(options: object): Promise<void | {canceled: true}> {
         return this._children.treeControl.beginEdit(options);
     }
 
-    beginAdd(options: object): Promise<unknown> {
+    beginAdd(options: object): Promise<void | { canceled: true }> {
         return this._children.treeControl.beginAdd(options);
     }
 
-    cancelEdit(): Promise<unknown> {
+    cancelEdit(): Promise<void | { canceled: true }> {
         return this._children.treeControl.cancelEdit();
     }
 
-    commitEdit(): Promise<unknown> {
+    commitEdit(): Promise<void | { canceled: true }> {
         return this._children.treeControl.commitEdit();
     }
 
@@ -665,6 +669,10 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         if (!this._options.hasOwnProperty('root')) {
             this._root = root;
+        } else {
+            // часть механизма простановки маркера вместе с this._needSetMarkerCallback
+            // https://online.sbis.ru/opendoc.html?guid=aa51a7c3-7813-4af5-a9ea-eb703ce15e76
+            this._potentialMarkedKey = root;
         }
 
         if (typeof this._options.itemOpenHandler === 'function') {

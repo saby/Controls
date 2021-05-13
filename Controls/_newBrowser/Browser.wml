@@ -48,7 +48,7 @@
                  on:beforeEndEdit="_notifyHandler('beforeEndEdit')"
                  on:afterBeginEdit="_notifyHandler('afterBeginEdit')"
                  on:afterEndEdit="_notifyHandler('afterEndEdit')"
-                 tileSize="{{_tileCfg.imageSize}}"
+                 tileSize="{{_tileCfg.tileSize}}"
 
                  viewMode="{{viewMode}}"
                  scope="{{_detailExplorerOptions}}"
@@ -91,6 +91,7 @@
                <ws:else>
                   <ws:partial
                           scope="{{itemTemplate}}"
+                          fallbackImage="{{_options.detail.fallbackImage}}"
                           template="{{_detailExplorerOptions.itemTemplate}}"
                           listConfiguration="{{_listConfiguration}}"
                           listCfg="{{_listCfg}}"
@@ -102,6 +103,7 @@
                <ws:partial
                        scope="{{tileItemTemplate}}"
                        template="{{_detailExplorerOptions.tileItemTemplate}}"
+                       fallbackImage="{{_options.detail.fallbackImage}}"
                        listConfiguration="{{_listConfiguration}}"
                        tileCfg="{{_tileCfg}}"
                />

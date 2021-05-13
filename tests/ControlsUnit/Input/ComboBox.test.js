@@ -204,9 +204,7 @@ define(
             let combobox;
             let itemsCallback = new collection.RecordSet({
                keyProperty: 'key',
-               rawData: [{
-                  key: '2'
-               }]
+               rawData: []
             });
             beforeEach(() => {
                combobox = getCombobox(config);
@@ -215,7 +213,17 @@ define(
                };
             });
 
+            it('count of items = 0', () => {
+               combobox._dataLoadCallback(itemsCallback);
+               assert.isTrue(combobox._readOnly);
+               assert.isUndefined(combobox._selectedItem);
+               assert.equal(combobox._countItems, 0);
+            });
+
             it('count of items = 1', () => {
+               itemsCallback.add(new entity.Model({
+                  rawData: { key: '1' }
+               }));
                combobox._dataLoadCallback(itemsCallback);
                assert.isTrue(combobox._readOnly);
                assert.deepEqual(combobox._selectedItem, itemsCallback.at(0));
@@ -230,7 +238,7 @@ define(
 
             it('count of items = 2', () => {
                itemsCallback.add(new entity.Model({
-                  rawData: { id: '2' }
+                  rawData: { key: '2' }
                }));
                combobox._dataLoadCallback(itemsCallback);
                assert.isFalse(combobox._readOnly);
