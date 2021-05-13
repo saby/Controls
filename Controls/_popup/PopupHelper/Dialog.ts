@@ -23,7 +23,7 @@ export default class Dialog extends Base {
      * Метод для открытия диалоговых окон.
      * @name Controls/_popup/PopupHelper/Dialog#open
      * @function
-     * @param {PopupOptions} config Конфигурация диалогового окна.
+     * @param {Controls/popup:IDialogOpener.PopupOptions} config Конфигурация диалогового окна.
      * @return Promise<void>
      * @example
      * <pre class="brush: js">
