@@ -35,6 +35,7 @@ import * as DefaultTileItemTemplate from 'wml!Controls/_newBrowser/templates/Til
 import {View} from 'Controls/explorer';
 import 'css!Controls/listTemplates';
 import {factory} from 'Types/chain';
+import {ContextOptions as DataOptions} from 'Controls/context';
 //endregion
 
 interface IReceivedState {
@@ -200,11 +201,13 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         contexts?: object,
         receivedState?: IReceivedState
     ): Promise<IReceivedState> | void {
-
+        this._dataOptions = contexts.dataOptions;
         this._initState(options);
         let result = Promise.resolve(undefined);
-
-        if (receivedState) {
+        if (this._dataOptions) {
+            this._processItemsMetadata(this._detailDataSource.sourceController.getItems(), options);
+            this._afterViewModeChanged(options);
+        } else if (receivedState) {
             this._detailDataSource.setItems(receivedState.detailItems);
             this._processItemsMetadata(receivedState.detailItems, options);
             this._afterViewModeChanged(options);
@@ -229,40 +232,41 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     }
 
     protected _beforeUpdate(newOptions?: IOptions, contexts?: unknown): void {
+        this._dataOptions = contexts.dataOptions;
         const masterOps = this._buildMasterExplorerOption(newOptions);
         const detailOps = this._buildDetailExplorerOptions(newOptions);
         if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
             this._createTemplateControllers(newOptions.listConfiguration, newOptions);
         }
+        if (!this._dataOptions) {
+            const isChanged = this._detailDataSource.updateOptions(detailOps);
+            if (isChanged) {
+                this._detailDataSource.sourceController.reload();
+            }
+            // Обязательно вызываем setFilter иначе фильтр в sourceController может
+            // не обновиться при updateOptions. Потому что updateOptions сравнивает
+            // не внутреннее поле _filter, фильтр который был передан в опциях при создании,
+            // либо при последнем updateOptions
+            this._detailDataSource.setFilter(detailOps.filter);
 
-        const isChanged = this._detailDataSource.updateOptions(detailOps);
-        if (isChanged) {
-            this._detailDataSource.sourceController.reload();
-        }
-        // Обязательно вызываем setFilter иначе фильтр в sourceController может
-        // не обновиться при updateOptions. Потому что updateOptions сравнивает
-        // не внутреннее поле _filter, фильтр который был передан в опциях при создании,
-        // либо при последнем updateOptions
-        this._detailDataSource.setFilter(detailOps.filter);
+            if (detailOps.searchValue && detailOps.searchValue !== this._searchValue) {
+                this._setSearchString(newOptions.searchValue);
+                return;
+            }
 
-        if (detailOps.searchValue && detailOps.searchValue !== this._searchValue) {
-            this._setSearchString(newOptions.searchValue);
-            return;
-        }
-
-        if (!newOptions.searchValue && this._searchValue) {
-            this._resetSearch({
-                masterRoot: masterOps.root,
-                detailRoot: detailOps.root
-            });
-            return;
+            if (!newOptions.searchValue && this._searchValue) {
+                this._resetSearch({
+                    masterRoot: masterOps.root,
+                    detailRoot: detailOps.root
+                });
+                return;
+            }
         }
 
         // Все что нужно применится в detailDataLoadCallback
         if (this._search === 'search') {
             return;
         }
-
         this._userViewMode = newOptions.userViewMode;
 
         this._detailExplorerOptions = detailOps;
@@ -271,6 +275,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
         this.root = this._detailExplorerOptions.root;
         this._masterMarkedKey = this.root;
+        if (this._dataOptions) {
+            this._viewMode = newOptions.viewMode;
+        }
 
         // Обновляем фон только если не менялся root, т.к. в этом случае фон нужно обносить после загрузки данных,
         // и переключаются не на плитку или переключение на плитку уже состоялось ранее, т.к. в этом случае
@@ -399,7 +406,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             .then((newRoots) => {
                 // Если меняют root когда находимся в режиме поиска, то нужно
                 // сбросить поиск и отобразить содержимое нового root
-                if (this.viewMode === DetailViewMode.search) {
+                if (this.viewMode === DetailViewMode.search && !this._dataOptions) {
                     this._resetSearch();
                     return;
                 }
@@ -607,7 +614,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         clickEvent: unknown,
         columnIndex?: number
     ): unknown {
-
         const explorerOptions = isMaster ? this._masterExplorerOptions : this._detailExplorerOptions;
         const notifyResult = this._notify('itemClick', [item, clickEvent, columnIndex]);
         if (notifyResult !== false) {
@@ -745,7 +751,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             itemTemplate: compiledOptions.itemTemplate || DefaultListItemTemplate,
             tileItemTemplate: compiledOptions.tileItemTemplate || DefaultTileItemTemplate,
 
-            sourceController: this._detailDataSource?.sourceController,
+            sourceController: this._detailDataSource?.sourceController || this._dataOptions.sourceController,
 
             dataLoadCallback: (items, direction) => {
                 this._onDetailDataLoadCallback(items, direction, options);
@@ -864,7 +870,11 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         }
     }
     //endregion
-
+    static contextTypes() {
+        return {
+            dataOptions: DataOptions
+        };
+    }
 }
 
 /**
