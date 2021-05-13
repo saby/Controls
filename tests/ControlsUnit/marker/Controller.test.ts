@@ -59,6 +59,16 @@ describe('Controls/marker/Controller', () => {
          assert.equal(newModel.getItemBySourceKey(2).getVersion(), 0);
          assert.equal(newModel.getItemBySourceKey(3).getVersion(), 0);
       });
+
+      it('change markerVisibility to hidden', () => {
+         controller.setMarkedKey(1)
+
+         controller.updateOptions({
+            model, markerVisibility: 'hidden'
+         });
+
+         model.each((item) => assert.isFalse(item.isMarked()));
+      });
    });
 
    describe('setMarkedKey', () => {

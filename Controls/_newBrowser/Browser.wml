@@ -40,6 +40,7 @@
          <Controls.explorer:View
                  attr:class="controls-newBrowser__detail-list"
                  name="detailList"
+                 itemOpenHandler="{{_options.itemOpenHandler}}"
                  root="{{root}}"
                  on:rootChanged="_onDetailRootChanged()"
                  on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
@@ -48,14 +49,14 @@
                  on:beforeEndEdit="_notifyHandler('beforeEndEdit')"
                  on:afterBeginEdit="_notifyHandler('afterBeginEdit')"
                  on:afterEndEdit="_notifyHandler('afterEndEdit')"
-                 tileSize="{{_tileCfg.imageSize}}"
+                 tileSize="{{_tileCfg.tileSize}}"
 
                  viewMode="{{viewMode}}"
                  scope="{{_detailExplorerOptions}}"
                  breadcrumbsVisibility="{{
-               (_masterVisibility === _masterVisibilityEnum.visible || _appliedViewMode === _viewModeEnum.search)
+               (_masterVisibility === _masterVisibilityEnum.visible || (_appliedViewMode === _viewModeEnum.search && !_dataOptions)
                   ? 'hidden'
-                  : 'visible'
+                  : 'visible')
             }}"
                  searchValue="{{_searchValue}}"
                  on:markedKeyChanged="_notifyHandler('markedKeyChanged')"
@@ -91,6 +92,7 @@
                <ws:else>
                   <ws:partial
                           scope="{{itemTemplate}}"
+                          fallbackImage="{{_options.detail.fallbackImage}}"
                           template="{{_detailExplorerOptions.itemTemplate}}"
                           listConfiguration="{{_listConfiguration}}"
                           listCfg="{{_listCfg}}"
@@ -102,6 +104,7 @@
                <ws:partial
                        scope="{{tileItemTemplate}}"
                        template="{{_detailExplorerOptions.tileItemTemplate}}"
+                       fallbackImage="{{_options.detail.fallbackImage}}"
                        listConfiguration="{{_listConfiguration}}"
                        tileCfg="{{_tileCfg}}"
                />

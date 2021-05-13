@@ -643,6 +643,12 @@ describe('Controls/dataSource:SourceController', () => {
                     { name: 'testName', type: 'string' }
                 ]
             });
+            const itemsWithSameFormat = new RecordSet({
+                adapter: new adapter.Sbis(),
+                format: [
+                    { name: 'testName', type: 'string' }
+                ]
+            });
             const otherItems = new RecordSet({
                 adapter: new adapter.Sbis(),
                 format: [
@@ -652,6 +658,9 @@ describe('Controls/dataSource:SourceController', () => {
             const controller = getController();
 
             controller.setItems(items);
+            ok(controller.getItems() === items);
+
+            controller.setItems(itemsWithSameFormat);
             ok(controller.getItems() === items);
 
             controller.setItems(otherItems);

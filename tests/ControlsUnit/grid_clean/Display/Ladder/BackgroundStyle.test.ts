@@ -17,6 +17,7 @@ describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
         getColumnIndex: () => 0,
         getColumnsCount: () => 0,
         getMultiSelectVisibility: () => 'hidden',
+        hasMultiSelectColumn: () => false,
         isAnimatedForSelection: () => false
     };
 

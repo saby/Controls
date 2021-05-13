@@ -578,6 +578,10 @@ export default class Explorer extends Control<IExplorerOptions> {
         this._children.treeControl.scrollToItem(key, toBottom);
     }
 
+    getLastVisibleItemKey(): number | string | void {
+        return this._children.treeControl.getLastVisibleItemKey();
+    }
+
     reloadItem(): Promise<unknown> {
         const treeControl = this._children.treeControl;
         return treeControl.reloadItem.apply(treeControl, arguments);
@@ -665,6 +669,10 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         if (!this._options.hasOwnProperty('root')) {
             this._root = root;
+        } else {
+            // часть механизма простановки маркера вместе с this._needSetMarkerCallback
+            // https://online.sbis.ru/opendoc.html?guid=aa51a7c3-7813-4af5-a9ea-eb703ce15e76
+            this._potentialMarkedKey = root;
         }
 
         if (typeof this._options.itemOpenHandler === 'function') {
