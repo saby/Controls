@@ -12,6 +12,7 @@
                attr:class="{{_toggleHoverState ? 'controls-DoubleSwitcher__toggle_hover'}}"
                _orientation="{{_options.orientation}}"
                _enabled="{{!_options.readOnly}}"
+               contrastBackground="{{_options.contrastBackground}}"
                _value="{{_options.value}}"/>
 </ws:template>
 
