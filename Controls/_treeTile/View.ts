@@ -22,7 +22,7 @@ import TreeTileView from './TreeTileView';
  * @mixes Controls/list:IClickableView
  * @mixes Controls/marker:IMarkerList
  * @mixes Controls/list:IVirtualScrollConfig
- * @mixes Controls/tile:ITreeTile 
+ * @mixes Controls/treeTile:ITreeTile 
  *
  * @author Панихин К.А.
  * @public

@@ -1,13 +1,13 @@
 /**
  * Интерфейс для списков, в которых элементы отображаются в виде {@link /doc/platform/developmentapl/interface-development/controls/list/tile/ плитки} с иерархией.
  *
- * @interface Controls/_tile/interface/ITreeTile
+ * @interface Controls/_treeTile/interface/ITreeTile
  * @public
  * @author Панихин К.А.
  */
 
 /**
- * @name Controls/_tile/interface/ITreeTile#nodesHeight
+ * @name Controls/_treeTile/interface/ITreeTile#nodesHeight
  * @cfg {Number} Высота узлов, отображаемых в виде плитки.
  * @default 150
  * @remark Эта опция необходима для расчета размеров элементов при отрисовке на сервере.
@@ -26,7 +26,7 @@
  */
 
 /*
- * @name Controls/_tile/interface/ITreeTile#nodesHeight
+ * @name Controls/_treeTile/interface/ITreeTile#nodesHeight
  * @cfg {Number} The height of the tile nodes items.
  * @default 150
  * @remark This option is required to calculate element sizes when rendering on the server.
@@ -45,7 +45,7 @@
  */
 
 /**
- * @name Controls/_tile/interface/ITreeTile#folderWidth
+ * @name Controls/_treeTile/interface/ITreeTile#folderWidth
  * @cfg {Number} Ширина папки. Значение задаётся в px.
  * @see itemWidth
  * @see staticHeight

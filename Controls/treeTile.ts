@@ -1,6 +1,7 @@
 /**
  * Библиотека контролов, которые реализуют иерархический список, отображающийся в виде плитки.
  * @library Controls/treeTile
+ * @includes ITreeTile Controls/_treeTile/interface/ITreeTile
  * @public
  * @author Панихин К.А.
  */
