@@ -10,7 +10,6 @@
  * @includes ResultColumnTemplate Controls/_gridOld/interface/ResultColumnTemplate
  * @includes EditingEmptyTemplate Controls/_gridOld/interface/EditingEmptyTemplate
  * @includes FooterTemplate Controls/_gridOld/interface/FooterTemplate
- * @includes EmptyTemplate Controls/_gridOld/interface/EmptyTemplate
  * @includes RowEditor Controls/_gridOld/interface/RowEditor
  * @includes IPropStorage Controls/_gridOld/interface/IPropStorage
  * @includes ITagColumn Controls/_gridOld/interface/ITagColumn
