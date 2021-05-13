@@ -753,11 +753,18 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
         this._inputSearchValue = value;
         event?.stopPropagation();
-        this._listsOptions.forEach(({searchParam, id}) => {
+        this._listsOptions.forEach(({searchParam, id}, index) => {
             if (searchParam) {
                 this._loading = true;
                 searchPromises.push(this._dataLoader.getSearchController(id).then((searchController) => {
-                    return searchController.search(value);
+                    return searchController.search(value).finally(() => {
+                        if (!this._destroyed) {
+                            this._afterSourceLoad(
+                                this._getSourceController(id),
+                                this._listsOptions[index] as IBrowserOptions
+                            );
+                        }
+                    });
                 }));
             }
         });
