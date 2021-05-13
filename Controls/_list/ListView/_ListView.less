@@ -622,6 +622,7 @@
 
 .controls-ListView__item__marked_master {
    font-size: var(--master_item_selected_font-size_list);
+   color: var(--master_item_selected_text-color_list);
    font-weight: bold;
 }
 
@@ -650,7 +651,13 @@
 }
 
 .controls-ListView__itemV_marker_master {
-   display: none;
+   position: absolute;
+   box-sizing: border-box;
+   width: var(--master-marker_thickness_list);
+   height: var(--master-marker_height_list);
+   background-color: var(--master-marker_color_list);
+   top: 0;
+   left: 0;
 }
 
 .controls-ListView__groupContent_cursor-default {
