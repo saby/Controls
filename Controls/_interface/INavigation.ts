@@ -318,7 +318,7 @@ export interface INavigationOptions<U> {
  * @author Крайнов Д.О.
  */
 
- /*
+/**
  * Interface for list navigation.
  *
  * @interface Controls/_interface/INavigation
@@ -375,7 +375,7 @@ export default interface INavigation {
  * @demo Controls-demo/list_new/Navigation/ScrollPaging/Index
  */
 
- /*
+/**
  * @name Controls/_interface/INavigation#navigation
  * @cfg {Navigation} List navigation configuration. Configures data source navigation (pages, offset, position) and navigation view (pages, infinite scroll, etc.)
  * @example
@@ -417,4 +417,22 @@ export default interface INavigation {
  *    };
  * }
  * </pre>
+ */
+
+/**
+ * name Controls/_interface/INavigation/INavigationSourceConfig#multiNavigation 
+ * @cfg {Boolean} Включает режим множественной навигации.
+ * @default false
+ * @remark Подробнее читайте в статье "<@link /doc/platform/developmentapl/service-development/service-contract/logic/list/navigate/multinavigation/ Множественная навигация в списочных контролах>".
+ * @example
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.list:View
+ *    keyProperty="id"
+ *    source="{{_viewSource}}">
+ *    <ws:navigation source="page" view="pages">
+ *       <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}" multiNavigation="{{true}}" >
+ *       <ws:viewConfig totalInfo="basic"/>
+ *    </ws:navigation>
+ * </Controls.list:View>
  */
