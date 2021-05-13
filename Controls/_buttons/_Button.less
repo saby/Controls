@@ -260,6 +260,10 @@
    border-color: var(--unaccented_border-color_button);
 }
 
+.controls-Button_button_style-default {
+   border-color: var(--default_border-color_button);
+}
+
 .controls-Button_button_style-pale {
    border-color: var(--pale_border-color_button);
 }
@@ -382,7 +386,7 @@
    }
 }
 //background
-@button_styles: primary secondary danger success warning info;
+@button_styles: primary secondary danger success warning info unaccented;
 
 .for(@button_styles, {
    .controls-Button_button_style-@{_item}.controls-Button_bg-same {
@@ -394,14 +398,18 @@
    }
 });
 
+.controls-Button_button_style-unaccented.controls-Button_bg-contrast {
+   border-color: var(--unaccented_contrast_background-color_button);
+}
+
 .controls-Button_button_style-readonly.controls-Button_bg-contrast {
    background-color: var(--readonly_contrast_background-color_button);
    .button-shadow();
 }
 
-.controls-Button_button_style-unaccented.controls-Button_bg-contrast {
-   border-color: var(--unaccented_contrast_background-color_button);
-   background-color: var(--unaccented_contrast_background-color_button);
+.controls-Button_button_style-default.controls-Button_bg-contrast {
+   border-color: var(--default_contrast_background-color_button);
+   background-color: var(--default_contrast_background-color_button);
    .button-shadow();
    .controls-Button__text_clickable_bg-contrast {
       color: var(--text-color_button);
@@ -428,8 +436,8 @@
    .controls-Button_button_style-pale:hover {
       background-color: var(--pale_hover_background-color_button);
    }
-   .controls-Button_button_style-unaccented:hover {
-      border-color: var(--unaccented_hover_border-color_button);
+   .controls-Button_button_style-default:hover {
+      border-color: var(--default_hover_border-color_button);
    }
 }
 
