@@ -105,7 +105,7 @@ Object.defineProperty(View, 'defaultProps', {
 
 /**
  * @name Controls/_tile/View#itemPadding
- * @cfg {Controls/_list/interface/IList/ItemPadding.typedef} Конфигурация отступов в плитке.
+ * @cfg
  * @demo Controls-demo/Tile/ItemPadding/PaddingS/Index
  * @example
  * <pre class="brush: html"> 
