@@ -201,7 +201,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         contexts?: object,
         receivedState?: IReceivedState
     ): Promise<IReceivedState> | void {
-        this._dataOptions = contexts.dataOptions;
+        this._dataOptions = contexts.dataOptions.sourceController ? contexts.dataOptions : null;
         this._initState(options);
         let result = Promise.resolve(undefined);
         if (this._dataOptions) {
@@ -232,7 +232,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     }
 
     protected _beforeUpdate(newOptions?: IOptions, contexts?: unknown): void {
-        this._dataOptions = contexts.dataOptions;
+        this._dataOptions = contexts.dataOptions.sourceController ? contexts.dataOptions : null;
         const masterOps = this._buildMasterExplorerOption(newOptions);
         const detailOps = this._buildDetailExplorerOptions(newOptions);
         if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
@@ -751,7 +751,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             itemTemplate: compiledOptions.itemTemplate || DefaultListItemTemplate,
             tileItemTemplate: compiledOptions.tileItemTemplate || DefaultTileItemTemplate,
 
-            sourceController: this._detailDataSource?.sourceController || this._dataOptions.sourceController,
+            sourceController: this._detailDataSource?.sourceController || this._dataOptions?.sourceController,
 
             dataLoadCallback: (items, direction) => {
                 this._onDetailDataLoadCallback(items, direction, options);
