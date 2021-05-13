@@ -32,20 +32,17 @@ import {Model} from 'Types/entity';
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/list:IList
- * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface/IEditableList
  * @mixes Controls/interface:ISorting
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface/IGroupedList
+ * @mixes Controls/list:IVirtualScrollConfig
+ * @mixes Controls/list:IList
  * @mixes Controls/list:IClickableView
  * @mixes Controls/list:IReloadableList
  * @mixes Controls/marker:IMarkerList
- *
- * @mixes Controls/list:IVirtualScrollConfig
- *
+ * @mixes Controls/itemActions:IItemActions
  * @implements Controls/list:IListNavigation
- *
  *
  * @author Авраменко А.С.
  * @public
@@ -188,3 +185,9 @@ Object.defineProperty(List, 'defaultProps', {
       return List.getDefaultOptions();
    }
 });
+/**
+ * @name Controls/_list/List#itemPadding
+ * @cfg
+ * @demo Controls-demo/list_new/ItemPadding/DifferentPadding/Index В примере заданы горизонтальные отступы.
+ * @demo Controls-demo/list_new/ItemPadding/NoPadding/Index В примере отступы отсутствуют.
+ */
