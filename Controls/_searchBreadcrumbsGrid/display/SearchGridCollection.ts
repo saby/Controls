@@ -32,6 +32,10 @@ export default
       super(options);
    }
 
+   protected _setupProjectionFilters(): void {
+      // Результаты поиска нужно показывать без каких либо фильтров
+   }
+
    getSearchBreadcrumbsItemTemplate(): TemplateFunction|string {
       return this._$searchBreadcrumbsItemTemplate;
    }
