@@ -9,11 +9,6 @@
    --unaccented_background-transparent-color: #f8f8f800;
    --hover_background-color: #f0f5fb;
    --hover_background-transparent-color: #f0f5fb00;
-   --danger_color: #d04d4d;
-   --success_color: #069922;
-   --warning_color: #fec63f;
-   --primary_color: #ff7033;
-   --secondary_color: #587ab0;
    --unaccented_color: #999;
    --readonly_color: #ccc;
    --invalid_border-color: var(--danger_color);
@@ -25,34 +20,25 @@
    // Цвета текста
 
    --text-color: #000;
-   --primary_text-color: #d94700;
-   --primary_hover_text-color: #ff7033;
-   --secondary_text-color: #313e78;
-   --secondary_hover_text-color: #05b;
+   --contrast_text-color: #fff;
    --label_text-color: #8991a9;
    --link_text-color: #05b;
    --link_hover_text-color: #313e78;
    --unaccented_text-color: var(--unaccented_color);
    --link_text-color_inline: var(--link_hover_text-color);
    --link_hover_text-color_inline: var(--link_text-color);
-   --info_text-color: #9122bf;
-   --contrast_text-color: #fff;
-
 
    // Цвета иконок
 
    --icon-color: #000;
-   --secondary_icon-color: var(--secondary_color);
-   --secondary_hover_icon-color: var(--link_hover_text-color);
    --contrast_icon-color: #fff;
    --unaccented_icon-color: #ccc;
-   --info_icon-color: #5856d6;
 
 
    // Новая палитра
-
-   //--primary_text-color: #cc3d00;   // конфликтует со старым, пока комментим
-   //--primary_hover_text-color: #e27140; // конфликтует со старым, пока комментим
+   --primary_color: #ff7033;          // для совместимости. цвет должен быть такой как у текста.
+   --primary_text-color: #cc3d00;
+   --primary_hover_text-color: #e27140;
    --primary_icon-color: #f47843;
    --primary_hover_icon-color: #db4200;
    --primary_border-color: #ff621f;
@@ -66,10 +52,11 @@
    --primary_hover_contrast_background-color: #e4662f;
    --primary_active_contrast_background-color: #d6551f;
 
-   //--secondary_text-color: #153f6f; // конфликтует со старым, пока комментим
-   //--secondary_hover_text-color: #2f5b8e; // конфликтует со старым, пока комментим
-   //--secondary_icon-color: #7694b8;  // должен быть #2862A4 по формуле // конфликтует со старым, пока комментим
-   //--secondary_hover_icon-color: #174578; // конфликтует со старым, пока комментим
+   --secondary_color: #587ab0;     // для совместимости. цвет должен быть такой как у текста.
+   --secondary_text-color: #153f6f;
+   --secondary_hover_text-color: #2f5b8e;
+   --secondary_icon-color: #7694b8;
+   --secondary_hover_icon-color: #174578;
    --secondary_border-color: #1b579d;
    --secondary_background-color: #f5faff;
    --secondary_hover_backround-color: #ebf4ff;
@@ -81,6 +68,7 @@
    --secondary_hover_contrast_background-color: #2b5688;
    --secondary_active_contrast_background-color: #274c77;
 
+   --danger_color: #d04d4d;     // для совместимости. цвет должен быть такой как у текста.
    --danger_text-color: #bd0a00;
    --danger_hover_text-color: #cc271e;
    --danger_icon-color: #f44d43;
@@ -96,6 +84,7 @@
    --danger_hover_contrast_background-color: #c22219;
    --danger_active_contrast_background-color: #aa2018;
 
+   --success_color: #069922;           // для совместимости. цвет должен быть такой как у текста.
    --success_text-color: #007516;
    --success_hover_text-color: #16922e;
    --success_icon-color: #0aa928;
@@ -111,6 +100,7 @@
    --success_hover_contrast_background-color: #128c29;
    --success_active_contrast_background-color: #127d26;
 
+   --warning_color: #fec63f;     // для совместимости. цвет должен быть такой как у текста.
    --warning_text-color: #d68f00;
    --warning_hover_text-color: #e4b24e;
    --warning_icon-color: #f5be51;
@@ -126,9 +116,9 @@
    --warning_hover_contrast_background-color: #e5ab38;
    --warning_active_contrast_background-color: #df9f20;
 
-   //--info_text-color: #2e2d86; // конфликтует со старым, пока комментим
+   --info_text-color: #2e2d86;
    --info_hover_text-color: #5250af;
-   //--info_icon-color: #5351bd; // конфликтует со старым, пока комментим
+   --info_icon-color: #5351bd;
    --info_hover_icon-color: #323091;
    --info_border-color: #3d3bbf;
    --info_background-color: #f7f7ff;
