@@ -1,4 +1,4 @@
-<div class="controls-FilterPanel__PropertyGrid">
+<div class="controls_filterPopup_theme-{{_options.theme}} controls-FilterPanel__PropertyGrid">
    <ws:for data="index, item in _items">
       <ws:if data="{{_isItemVisible(item)}}">
          <ws:if data="{{(item[_options.itemTemplateProperty] || _options.itemTemplate.templateName).at}}">

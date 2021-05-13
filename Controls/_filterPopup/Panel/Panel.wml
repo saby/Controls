@@ -43,9 +43,10 @@
    <Controls.form:PrimaryAction on:triggered="_applyFilter()">
       <Controls.popupTemplate:Dialog headingCaption="{{_options.headingCaption}}"
                                      headingFontColorStyle="{{_options.headingStyle}}"
-                                     attr:class="controls-PanelFilter
-                                                    controls-FilterPanel__{{_options.orientation}}
-                                                    {{_hasHistory || _options.emptyHistoryTemplate ? 'controls-FilterPanel__' + _options.orientation + '_withHistory'}}">
+                                     attr:class="controls_filterPopup_theme-{{_options.theme}}
+                                                 controls-PanelFilter
+                                                 controls-FilterPanel__{{_options.orientation}}
+                                                 {{_hasHistory || _options.emptyHistoryTemplate ? 'controls-FilterPanel__' + _options.orientation + '_withHistory'}}">
          <ws:headerContentTemplate>
             <ws:if data="{{_options.topTemplate}}">
                <div class="controls-FilterPanel__header-topTemplate">

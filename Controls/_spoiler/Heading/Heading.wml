@@ -8,7 +8,7 @@
       <path d="M8,11.23,2.4,5.58l.81-.81L8,9.52l4.79-4.75.81.85Z"/>
    </svg>
 </ws:template>
-<div class="controls-SpoilerHeading controls-SpoilerHeading__{{_expanded ? 'expanded' : 'collapsed'}}"
+<div class="controls_spoiler_theme-{{_options.theme}} controls-SpoilerHeading controls-SpoilerHeading__{{_expanded ? 'expanded' : 'collapsed'}}"
      on:click="_clickHandler()"
      on:mouseenter="_mouseenterHandler(_caption)"
      title="{{_tooltip}}">

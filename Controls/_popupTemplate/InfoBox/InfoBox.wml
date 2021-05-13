@@ -1,4 +1,4 @@
-<div class="controls-InfoBoxTemplate controls-InfoBoxTemplate__arrow-side-position-{{_arrowSide}}
+<div class="controls_popupTemplate_theme-{{_options.theme}} controls-InfoBoxTemplate controls-InfoBoxTemplate__arrow-side-position-{{_arrowSide}}
             controls-InfoBoxTemplate__arrow-side-{{_arrowPosition}}" >
    <div class="controls-InfoBoxTemplate__content
                controls-InfoBoxTemplate_style_{{_borderStyle}}
