@@ -138,7 +138,7 @@ var TileView = ListView.extend({
                 closeOnOutsideClick: true,
                 maxWidth: menuOptions.previewWidth + MENU_MAX_WIDTH,
                 target: imageWrapper,
-                className: 'controls-TileView__itemActions_menu_popup',
+                className: `controls-TileView__itemActions_menu_popup controls_popupTemplate_theme-${this._options.theme}`,
                 targetPoint: {
                     vertical: 'top',
                     horizontal: 'left'

@@ -1,4 +1,4 @@
-<div class="controls-PeriodDialog-DateRange">
+<div class="controls_datePicker_theme-{{_options.theme}} controls-PeriodDialog-DateRange">
    <div class="controls-PeriodDialog-DateRange__header">
       <div class="controls-PeriodDialog-DateRange__year">{{_monthsPosition.getFullYear()}}</div>
       <div class="controls-PeriodDialog-DateRange-header-weekdays">

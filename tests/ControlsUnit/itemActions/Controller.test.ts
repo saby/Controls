@@ -1596,7 +1596,7 @@ describe('Controls/_itemActions/Controller', () => {
             const item3 = collection.getItemBySourceKey(3);
             const actionsOf3 = item3.getActions();
             const config = itemActionsController.prepareActionsMenuConfig(item3, clickEvent, null, null, true);
-            assert.equal(config.className, 'controls-ItemActions__popup__list');
+            assert.equal(config.className, 'controls-ItemActions__popup__list controls_popupTemplate_theme-default');
         });
 
         // T3.10. Для Дополнительного меню нужно обязательно добавлять CSS класс controls-ItemActions__popup__list
@@ -1610,7 +1610,7 @@ describe('Controls/_itemActions/Controller', () => {
                 null,
                 false
             );
-            assert.equal(config.className, 'controls-ItemActions__popup__list');
+            assert.equal(config.className, 'controls-ItemActions__popup__list controls_popupTemplate_theme-default');
         });
 
         // T3.11. Для Обычного Меню нужно обязательно добавлять CSS класс controls-MenuButton_link_iconSize-medium_popup
@@ -1623,7 +1623,7 @@ describe('Controls/_itemActions/Controller', () => {
                 null,
                 false
             );
-            assert.equal(config.className, 'controls-MenuButton_link_iconSize-medium_popup');
+            assert.equal(config.className, 'controls-MenuButton_link_iconSize-medium_popup controls_popupTemplate_theme-default controls_dropdownPopup_theme-default');
         });
 
         // T3.12. Если в метод передан contextMenu=true, то будет расчитан config.targetPoint
