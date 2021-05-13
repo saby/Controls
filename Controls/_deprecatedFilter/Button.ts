@@ -53,10 +53,10 @@ var _private = {
       self._text = _private.getText(items);
       self._isItemsChanged = _private.isItemsChanged(items);
    },
-   setPopupOptions: function(self, alignment) {
+   setPopupOptions: function(self, alignment, theme) {
       self._popupOptions = {
          closeOnOutsideClick: true,
-         className: 'controls-FilterButton-popup-orientation-' + (alignment === 'right' ? 'left' : 'right') + ` controls_popupTemplate_theme-${self._options.theme} controls_filterPopup_theme-${self._options.theme}`
+         className: 'controls-FilterButton-popup-orientation-' + (alignment === 'right' ? 'left' : 'right') + ` controls_popupTemplate_theme-${theme} controls_filterPopup_theme-${theme}`
       };
 
       if (alignment === 'right') {
@@ -173,7 +173,7 @@ var FilterButton = Control.extend(/** @lends Controls/_filter/Button.prototype *
       if (options.items) {
          _private.resolveItems(this, options.items);
       }
-      _private.setPopupOptions(this, options.alignment);
+      _private.setPopupOptions(this, options.alignment, options.theme);
    },
 
    _beforeUnmount: function() {
@@ -185,7 +185,7 @@ var FilterButton = Control.extend(/** @lends Controls/_filter/Button.prototype *
          _private.resolveItems(this, options.items);
       }
       if (this._options.alignment !== options.alignment) {
-         _private.setPopupOptions(this, options.alignment);
+         _private.setPopupOptions(this, options.alignment, options.theme);
       }
    },
 

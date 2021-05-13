@@ -317,7 +317,7 @@ export class Controller {
                     vertical: 'top',
                     horizontal: 'right'
                 },
-                className: 'controls-ItemActions__popup__list',
+                className: `controls-ItemActions__popup__list controls_popupTemplate_theme-${this._theme}`,
                 // @ts-ignore
                 nativeEvent: isContextMenu ? clickEvent.nativeEvent : null
             };

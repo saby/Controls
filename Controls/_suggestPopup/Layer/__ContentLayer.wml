@@ -1,4 +1,5 @@
 <div class="controls_suggestPopup_theme-{{_options.theme}}
+            controls_popupTemplate_theme-{{_options.theme}}
             controls-Suggest__suggestionsContainer
             controls-Suggest__suggestionsContainer-inInput {{!_showContent ? 'ws-invisible'}}
             controls-Suggest__suggestionsContainer_direction-{{_openDirection}}"

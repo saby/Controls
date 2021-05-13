@@ -158,11 +158,9 @@ define(
                   horizontal: 'left'
                }
             };
-            let filterSelector = {
-                  _options: {theme: 'default'}
-               },
+            let filterSelector = { },
                alignment = 'right';
-            filterMod.Selector._private.setPopupOptions(filterSelector, alignment);
+            filterMod.Selector._private.setPopupOptions(filterSelector, alignment,'default');
             assert.deepStrictEqual(filterSelector._popupOptions, expectedResult);
 
             expectedResult = {
@@ -170,7 +168,7 @@ define(
                className: 'controls-FilterButton-popup-orientation-right controls_popupTemplate_theme-default controls_filterPopup_theme-default'
             };
             alignment = 'left';
-            filterMod.Selector._private.setPopupOptions(filterSelector, alignment);
+            filterMod.Selector._private.setPopupOptions(filterSelector, alignment,'default');
             assert.deepStrictEqual(filterSelector._popupOptions, expectedResult);
          });
 

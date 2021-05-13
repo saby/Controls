@@ -58,7 +58,7 @@
   --item_height_shortDatePicker:                         32px;
   --item_layout_height_shortDatePicker:                  calc(var(--item_height_shortDatePicker) - var(--item_border-thickness_shortDatePicker) * 2);
   // Выносим выражение в отдельную переменную, т.к вложенные calc в IE не работают.
-  --item_layout_line-height_expression_shortDatePicker:  (var(--item_line-height_shortDatePicker) - var(--item_border-thickness_shortDatePicker) * 2);
+  --item_layout_line-height_expression_shortDatePicker:  calc(var(--item_line-height_shortDatePicker) - var(--item_border-thickness_shortDatePicker) * 2);
   --item_layout_line-height_shortDatePicker:             calc(var(--item_layout_line-height_expression_shortDatePicker));
 
   // Текст
