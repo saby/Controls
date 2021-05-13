@@ -6,6 +6,7 @@ import {default as IPopupTemplate, IPopupTemplateOptions} from "./interface/IPop
 import 'css!Controls/popupTemplate';
 
 export interface IStackTemplateOptions extends IControlOptions, IPopupTemplateOptions{
+    headerBackgroundStyle: string,
     maximizeButtonVisibility?: boolean;
     workspaceWidth?: number;
     headerBorderVisible?: boolean;
@@ -107,6 +108,7 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
     static getDefaultOptions(): IStackTemplateOptions {
         return {
             headingFontSize: '3xl',
+            headerBackgroundStyle: 'unaccented',
             headingFontColorStyle: 'secondary',
             closeButtonVisibility: true,
             closeButtonViewMode: 'toolButton',
@@ -124,6 +126,17 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
       return StackTemplate.getDefaultOptions();
    }
 });
+
+/**
+ * @name Controls/_popupTemplate/Stack#headerBackgroundStyle
+ * @cfg {String} Определяет цвет фона шапки диалогового окна.
+ * @variant default
+ * @variant unaccented
+ * @default unaccented
+ * @demo Controls-demo/PopupTemplate/Stack/headerBackgroundStyle/Index
+ * @remark Данная опция определяет префикс стиля для настройки фона шапки диалогового окна.
+ * На шапку будет установлен класс **.controls-StackTemplate&#95;&#95;top-area&#95;@{headerBackgroundStyle}**, который следует определить у себя в стилях.
+ */
 
 /**
  * @name Controls/_popupTemplate/Stack#bodyContentTemplate
