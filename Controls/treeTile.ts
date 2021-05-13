@@ -1,3 +1,10 @@
+/**
+ * Библиотека контролов, которые реализуют иерархический список, отображающийся в виде плитки.
+ * @library Controls/treeTile
+ * @public
+ * @author Панихин К.А.
+ */
+
 import View from 'Controls/_treeTile/View';
 import TreeTileView from 'Controls/_treeTile/TreeTileView';
 import TreeTileCollection from 'Controls/_treeTile/display/TreeTileCollection';
