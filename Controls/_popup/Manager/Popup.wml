@@ -1,4 +1,4 @@
-<div class="controls-Popup ws-float-area-show-complete"
+<div class="controls_popupTemplate_theme-{{this._options.theme}} controls-Popup ws-float-area-show-complete"
      on:animationend="_animated()"
      on:transitionend="_animated()"
      on:keyup="_keyUp()"

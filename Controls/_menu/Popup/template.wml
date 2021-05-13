@@ -1,5 +1,5 @@
 <ws:template name="menuPopup" >
-   <div class="controls-Menu__popup"
+   <div class="controls_dropdownPopup_theme-{{_options.theme}} controls-Menu__popup"
         on:mouseEnter="_mouseEvent()"
         on:mouseLeave="_mouseEvent()">
       <Controls.popupTemplate:Sticky

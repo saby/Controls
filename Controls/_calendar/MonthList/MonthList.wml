@@ -1,4 +1,6 @@
-<Controls.dataSource:error.Container name="errorContainer" viewConfig="{{_errorViewConfig}}">
+<Controls.dataSource:error.Container
+        attr:class="controls_calendar_theme-{{_options.theme}}"
+        name="errorContainer" viewConfig="{{_errorViewConfig}}">
    <Controls.scroll:IntersectionObserverController
          threshold="{{_threshold}}"
          observerName="monthList"

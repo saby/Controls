@@ -75,7 +75,7 @@ export default class DateSelector extends BaseSelector<IDateSelectorOptions> {
          ...PopupUtil.getCommonOptions(this),
          target: container,
          template: 'Controls/datePopup',
-         className: 'controls-PeriodDialog__picker',
+         className: `controls-PeriodDialog__picker controls_datePicker_theme-${this._options.theme} controls_popupTemplate_theme-${this._options.theme}`,
          templateOptions: {
             ...PopupUtil.getTemplateOptions(this),
             headerType: 'link',

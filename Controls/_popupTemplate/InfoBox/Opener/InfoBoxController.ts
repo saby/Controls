@@ -6,6 +6,7 @@ import StickyStrategy = require('Controls/_popupTemplate/Sticky/StickyStrategy')
 import {IPopupItem, IPopupSizes, IPopupPosition, Controller} from 'Controls/popup';
 import {constants} from 'Env/Env';
 import collection = require('Types/collection');
+import {Controller as ManagerController} from 'Controls/popup';
 
 interface IInfoBoxThemeConstants {
     ARROW_WIDTH?: number;
@@ -23,8 +24,8 @@ interface IInfoBoxSide {
     c: string;
 }
 
-function getConstants() {
-    return themeConstantsGetter('controls-InfoBox__themeConstants', {
+function getConstants(themeName: string) {
+    return themeConstantsGetter(`controls-InfoBox__themeConstants controls_popupTemplate_theme-${themeName}`, {
         ARROW_WIDTH: 'marginLeft',
         ARROW_H_OFFSET: 'marginRight',
         ARROW_V_OFFSET: 'marginBottom',
@@ -39,7 +40,7 @@ const constantsInit = new Promise<void>((resolve, reject) => {
     if (!constants.isBrowserPlatform) { return resolve(); }
     import('Controls/popupTemplate')
         .then(({ InfoBox }) => InfoBox.loadCSS())
-        .then(() => { themeConstants = getConstants(); })
+        .then(() => { themeConstants = getConstants(ManagerController.getTheme()); })
         .then(resolve, reject);
 });
 

@@ -1,4 +1,5 @@
 <Controls.dateRange:DateRangeSelectionController
+   attr:class="controls_calendar_theme-{{_options.theme}}"
    name="selectionController"
 
    selectionType="{{_options.selectionType}}"
