@@ -237,7 +237,7 @@
   "--success_contrast_background-color_button": "var(--success_contrast_background-color);",
   "--success_hover_contrast_background-color_button": "var(--success_hover_contrast_background-color);",
   "--success_hover_background-color_button": "var(--success_hover_background-color);",
-  "--success_active_contrast__background-color_button": "var(--success_active_contrast_background-color);",
+  "--success_active_contrast_background-color_button": "var(--success_active_contrast_background-color);",
   "--success_active_background-color_button": "var(--success_active_background-color);",
   "--warning_contrast_background-color_button": "var(--warning_contrast_background-color);",
   "--warning_hover_contrast_background-color_button": "var(--warning_hover_contrast_background-color);",
