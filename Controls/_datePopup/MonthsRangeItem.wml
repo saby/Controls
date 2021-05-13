@@ -1,4 +1,4 @@
-<div class="controls-PeriodDialog-MonthsRange__halfYears">
+<div class="controls_datePicker_theme-{{_options.theme}} controls-PeriodDialog-MonthsRange__halfYears">
    <div
       for="halfYearIndex as halfYear in _yearStructure"
       class="controls-PeriodDialog-MonthsRange__halfYear{{

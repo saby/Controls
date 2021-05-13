@@ -1,4 +1,4 @@
-<div class="controls-AreaCut__container">
+<div class="controls_spoiler_theme-{{_options.theme}} controls-AreaCut__container">
     <div class="controls-AreaCut controls-AreaCut_{{ _options.readOnly ? 'readOnly' : 'active' }} {{ _options.borderVisible ? 'controls-AreaCut__border' }}
             controls-AreaCut_{{ _expanded ? 'expanded' : 'notExpanded'}}
             controls-AreaCut_{{ _expanded ? 'expanded' : 'notExpanded'}}_lineHeight-{{ _options.lineHeight }}
