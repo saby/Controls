@@ -1987,7 +1987,7 @@ define([
             await treeControl.toggleExpanded(0);
 
             assert.isTrue(notifySpy.withArgs('expandedItemsChanged', [[null]]).called);
-            assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[0]]).called);
+            assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[0, 1]]).called);
 
             treeControl._expandController.setExpandedItems([null]);
             treeControl._expandController.setCollapsedItems([0]);
