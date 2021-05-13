@@ -5,7 +5,6 @@ import TreeTileView from './TreeTileView';
 /**
  * Контрол "Иерархическая плитка" позволяет отображать данные из различных источников в виде элементов плитки и располагать несколько элементов в одну строку. Контрол поддерживает широкий набор возможностей, позволяющих разработчику максимально гибко настраивать отображение данных.
  *
- * @class Controls/_treeTile/View
  * @extends Controls/list:View
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface/IItemTemplate
