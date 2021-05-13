@@ -52,6 +52,11 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
         return current;
     }
 
+    get key(): unknown {
+        const contents = this.getContents();
+        return contents[contents.length - 1].getKey();
+    }
+
     // region Public methods
 
     getContents(): T[] {
@@ -98,10 +103,6 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
 
     hasChildren(): boolean {
         return this.getLast().hasChildren();
-    }
-
-    isRoot(): boolean {
-        return false;
     }
 
     isGroupNode(): boolean {
