@@ -116,12 +116,21 @@ export default
 
    // region Аспект "крайние записи"
 
-   // Нам не нужен иерархический поиск последнего элемента в режиме "поиска"
-   getLastItem(): Model {
-      if (!this._lastItem) {
-         this._lastItem = this.getCollection().at(this.getCollection().getCount() - 1);
+   // В режиме поиска раскладываем всю набранную иерархию.
+   protected _getLastItemRecursive(root: S): S {
+      // Обращаемся к иерархии для получения детей
+      const children = this.getChildrenByRecordSet(root);
+      const lastChild: S = children[children.length - 1];
+      // Если узел и у него нет детей, то он последний
+      if (children.length === 0) {
+         return root;
       }
-      return this._lastItem;
+      const isNode = (lastChild.get ? lastChild.get(this._$nodeProperty) : lastChild[this._$nodeProperty]) !== null;
+
+      if (isNode) {
+         return this._getLastItemRecursive(lastChild);
+      }
+      return lastChild;
    }
 
    // endregion Аспект "крайние записи"
