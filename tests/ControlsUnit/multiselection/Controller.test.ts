@@ -324,16 +324,25 @@ describe('Controls/_multiselection/Controller', () => {
    });
 
    describe('getSelectedItems', () => {
+      let model;
       beforeEach(() => {
-         model.setItems(new RecordSet({
-            rawData: [
+         model = new ListViewModel({
+            items: [
                { id: 1 },
                { id: 2 },
                { id: 3 },
                { id: 4 }
             ],
             keyProperty: 'id'
-         }), {});
+         });
+         strategy = new FlatSelectionStrategy({model: model.getDisplay() });
+         controller = new SelectionController({
+            model: model.getDisplay(),
+            strategy,
+            filter: {},
+            selectedKeys: [],
+            excludedKeys: []
+         });
       });
 
       it('should return one selected item', () => {
