@@ -14,7 +14,7 @@
 </ws:template>
 <div
    on:_slidingPanelScrollStateChanged="_scrollStateChanged()"
-   class="controls-SlidingPanel">
+   class="controls_popupSliding_theme-{{_options.theme}} controls-SlidingPanel">
    <div class="controls-SlidingPanel__content controls-SlidingPanel__content
             controls-SlidingPanel__box-shadow
             controls-SlidingPanel__position-{{_position}}">

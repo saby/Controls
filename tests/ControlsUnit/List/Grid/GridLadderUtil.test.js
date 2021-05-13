@@ -314,5 +314,64 @@ define(['Types/collection', 'Controls/display', 'Env/Env', 'Controls/treeGrid'],
 
          assert.deepEqual(ladder.ladder, resultLadder);
       });
+      it('nodeFooter on edge of ladder steps', () => {
+         const recordSet = new Collection.RecordSet({
+            keyProperty: 'key',
+            rawData: [
+               { key: 1, parent: null, type: true, title: '1', first: 1 },
+               { key: 11, parent: 1, type: null,  title: '11', first: 1 },
+               { key: 2, parent: null, type: null,  title: '2', first: 2 },
+               { key: 3, parent: null, type: null,  title: '3', first: 2 }
+            ]
+         });
+         const columns = [
+            {
+               width: '1fr',
+               displayProperty: 'title',
+               stickyProperty: ['first']
+            }];
+         const display = new TreeGrid.TreeGridCollection({
+            collection: recordSet,
+            keyProperty: 'key',
+            parentProperty: 'parent',
+            nodeProperty: 'type',
+            root: null,
+            columns: [{}],
+            expandedItems: [null]
+         });
+         const ladder = Util.prepareLadder({
+            display,
+            columns: columns,
+            ladderProperties: ['first'],
+            startIndex: 0,
+            stopIndex: 5,
+            hasColumnScroll: true
+         });
+         const resultLadder = {
+            0: {
+               first: {
+                  ladderLength: 2
+               }
+            },
+            1: {
+               first: {}
+            },
+            2: {
+               first: {
+                  ladderLength: 1
+               }
+            },
+            3: {
+               first: {
+                  ladderLength: 2
+               }
+            },
+            4: {
+               first: {}
+            }
+         };
+
+         assert.deepEqual(ladder.ladder, resultLadder);
+      });
    });
 });
