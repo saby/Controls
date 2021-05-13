@@ -5,7 +5,7 @@
  * @author Михайлов С.Е
  * @see Controls/tile:View
  * @example
- * <pre class="brush: html; highlight: []">
+ * <pre class="brush: html;>
  * <Controls.tile:View>
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/tile:MediumTemplate"
