@@ -429,6 +429,24 @@ const _private = {
         return needAttachLoadDownTriggerToNull;
     },
 
+    recountAttachIndicatorsAfterReload(self): void {
+        if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
+            // Не нужно показывать ромашку сразу после релоада, т.к. элементов может быть недостаточно на всю страницу
+            // и тогда загрузка должна будет пойти только в одну сторону.
+            // Ромашку покажем на _afterRender, когда точно будем знать достаточно ли элементов загружено
+            self._attachLoadTopTriggerToNull = false;
+            self._hideTopTrigger = true;
+            self._resetTopTriggerOffset = true;
+            self._updateScrollController(self._options);
+        }
+        if (_private.attachLoadDownTriggerToNullIfNeed(self, self._options)) {
+            if (!self._resetDownTriggerOffset) {
+                self._resetDownTriggerOffset = true;
+                self._updateScrollController(self._options);
+            }
+        }
+    },
+
     assignItemsToModel(self: BaseControl, items: RecordSet, newOptions: IBaseControlOptions): void {
         const listModel = self._listViewModel;
         const oldCollection = listModel.getCollection();
@@ -1681,21 +1699,7 @@ const _private = {
             }
 
             if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length)) {
-                if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
-                    // Не нужно показывать ромашку сразу после релоада, т.к. элементов может быть недостаточно на всю страницу
-                    // и тогда загрузка должна будет пойти только в одну сторону.
-                    // Ромашку покажем на _afterRender, когда точно будем знать достаточно ли элементов загружено
-                    self._attachLoadTopTriggerToNull = false;
-                    self._hideTopTrigger = true;
-                    self._resetTopTriggerOffset = true;
-                    self._updateScrollController(self._options);
-                }
-                if (_private.attachLoadDownTriggerToNullIfNeed(self, self._options)) {
-                    if (!self._resetDownTriggerOffset) {
-                        self._resetDownTriggerOffset = true;
-                        self._updateScrollController(self._options);
-                    }
-                }
+                _private.recountAttachIndicatorsAfterReload(self);
             }
 
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
@@ -4245,6 +4249,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 this._listViewModel.setActionsAssigned(isActionsAssigned);
                 _private.initVisibleItemActions(this, newOptions);
                 this._updateScrollController(newOptions);
+
+                _private.recountAttachIndicatorsAfterReload(this);
             }
 
             if (newOptions.sourceController) {
