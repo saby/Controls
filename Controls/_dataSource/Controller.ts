@@ -131,7 +131,7 @@ export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
         (getProtoOf(newList).constructor == getProtoOf(newList).constructor) &&
         // tslint:disable-next-line:triple-equals
         (getProtoOf(newList.getAdapter()).constructor == getProtoOf(oldList.getAdapter()).constructor) &&
-        isEqualFormat(newList, oldList);
+        isEqualFormat(oldList, newList);
 }
 
 export default class Controller extends mixin<ObservableMixin>(ObservableMixin) {
