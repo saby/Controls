@@ -4,7 +4,7 @@
       </ws:if>
       <ws:if data="{{ textVisible !== false }}">
          <div class="controls-ListView__groupContent-text
-            {{separatorVisibility === false && (columnAlignGroup !== undefined || textAlign !== 'left') ? 'controls-ListView__groupContent-withoutGroupSeparator'}}
+            {{separatorVisibility === false && (columnAlignGroup !== undefined || textAlign !== 'left') ? 'controls-ListView__groupContent-withoutGroupSeparator controls-ListView__groupContent_right'}}
             {{fontSize ? ' controls-fontsize-' + fontSize : ' controls-ListView__groupContent-text_default'}}
             {{expanderVisible !== false ? (' controls-ListView__groupExpander controls-ListView__groupExpander') +
             (expanderAlign === 'right' ? ' controls-ListView__groupExpander_right' : ' controls-ListView__groupExpander_left') +
@@ -26,7 +26,7 @@
             <ws:partial template="{{rightTemplate}}" itemData="{{itemData}}"
                         attr:class="controls-ListView__groupContent-rightTemplate
                        {{ !itemData.shouldFixGroupOnColumn(columnAlignGroup, textVisible) ? itemData.groupPaddingClasses.right }}
-                       {{ separatorVisibility === false && (textVisible === false || (columnAlignGroup === undefined && textAlign !== 'right')) ? 'controls-ListView__groupContent-withoutGroupSeparator' }}
+                       {{ separatorVisibility === false && (textVisible === false || (columnAlignGroup === undefined && textAlign !== 'right')) ? 'controls-ListView__groupContent-withoutGroupSeparator controls-ListView__groupContent_right' }}
          " />
          </ws:if>
       </ws:if>
@@ -39,7 +39,7 @@
       <ws:if data="{{!!rightTemplate}}">
          <ws:partial template="{{rightTemplate}}"
                      attr:class="controls-ListView__groupContent-rightTemplate
-                     {{separatorVisibility === false && (columnAlignGroup !== undefined || textAlign !== 'left') ? 'controls-ListView__groupContent-withoutGroupSeparator'}}"
+                     {{separatorVisibility === false && (columnAlignGroup !== undefined || textAlign !== 'left') ? 'controls-ListView__groupContent-withoutGroupSeparator controls-ListView__groupContent_right'}}"
                      itemData="{{itemData}}"/>
       </ws:if>
    </div>
@@ -56,7 +56,7 @@
          <ws:if data="{{!!rightTemplate}}">
             <ws:partial template="{{rightTemplate}}"
                         attr:class="controls-ListView__groupContent-rightTemplate
-                        {{separatorVisibility === false && (columnAlignGroup !== undefined || textAlign !== 'left') ? 'controls-ListView__groupContent-withoutGroupSeparator'}}"
+                        {{separatorVisibility === false && (columnAlignGroup !== undefined || textAlign !== 'left') ? 'controls-ListView__groupContent-withoutGroupSeparator controls-ListView__groupContent_right'}}"
                         itemData="{{itemData}}"/>
          </ws:if>
       </Controls.scroll:StickyHeader>

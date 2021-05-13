@@ -451,6 +451,8 @@ export default class ColumnScroll {
                 // if (!isOverlay && startBy === 'touch') {
                 //     this._notify('closeSwipe', []);
                 // }
+                e.stopImmediatePropagation();
+                e.nativeEvent.stopImmediatePropagation();
                 this._columnScroll.setScrollPosition(newPosition);
                 this._dragScroll.setScrollPosition(this._columnScroll.getScrollPosition());
                 this._scrollBar.setPosition(this._columnScroll.getScrollPosition());

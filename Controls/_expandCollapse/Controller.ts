@@ -195,6 +195,7 @@ export class Controller {
      */
     private _applyState(expandedItems: TKey[] = [], collapsedItems: TKey[] = []): void | Promise<unknown> {
         let newExpandedItems = [...expandedItems];
+        let newCollapsedItems = [...collapsedItems];
 
         //region 1. singleExpand
         // Если сказано что на одном уровне может быть только один развернутый итем,
@@ -215,16 +216,16 @@ export class Controller {
 
         //region 2. Удаляем из newExpandedItems ключи детей свернутых узлов
         const expandDiff = ArraySimpleValuesUtil.getArrayDifference(this._expandedItems, newExpandedItems);
-        const collapseDiff = ArraySimpleValuesUtil.getArrayDifference(this._collapsedItems, collapsedItems);
+        const collapseDiff = ArraySimpleValuesUtil.getArrayDifference(this._collapsedItems, newCollapsedItems);
 
         expandDiff.removed.forEach((id) => {
             if (id === null) {
                 return;
             }
 
-            this._removeChild(newExpandedItems, id);
+            this._collapseChilds(newExpandedItems, newCollapsedItems, id);
         });
-        collapseDiff.added.forEach((id) => this._removeChild(newExpandedItems, id));
+        collapseDiff.added.forEach((id) => this._collapseChilds(newExpandedItems, newCollapsedItems, id));
         //endregion
 
         //region 3. Если есть пересечение между expanded и collapsed, то считаем что collapsed приоритетнее
@@ -238,7 +239,7 @@ export class Controller {
 
         // Сначала обработаем схлопнутые узлы что бы обработка расхлопнутых уже опиралась
         // на актуальные данные и не пыталась раскрыть явно заданный расхлопнутый узел
-        this._setCollapsedItems(collapsedItems);
+        this._setCollapsedItems(newCollapsedItems);
 
         return this._applyExpandedItems(newExpandedItems);
     }
@@ -376,7 +377,7 @@ export class Controller {
     /**
      * Удаляет из переданного массива id дочерних узлов для указанного parentItemId
      */
-    private _removeChild(collection: TKey[], parentItemId: TKey): void {
+    private _collapseChilds(expandedItems: TKey[], collapsedItems: TKey[], parentItemId: TKey): void {
         const item = this._getItem(parentItemId);
         if (!item) {
             return;
@@ -388,8 +389,16 @@ export class Controller {
             }
             const childsOfCollapsedItem = this._model.getChildren(parent);
             childsOfCollapsedItem.forEach((it) => {
+                if (!it['[Controls/_display/TreeItem]'] || it.isNode() === null || !it.isExpanded()) {
+                    return;
+                }
+
                 const key = it.getContents().getKey();
-                removeKey(collection, key);
+                if (this.isAllExpanded()) {
+                    pushKey(collapsedItems, key);
+                } else {
+                    removeKey(expandedItems, key);
+                }
                 collapseChilds(it);
             });
         };

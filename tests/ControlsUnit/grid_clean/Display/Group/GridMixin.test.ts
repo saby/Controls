@@ -87,17 +87,29 @@ describe('Controls/grid/Display/Group/GridMixin', () => {
 
     describe('getContentTextClasses', () => {
         it('should contain placeholder class when no separator and textAlign === right', () => {
-            const classes = getGroupCell().getContentTextClasses(false, 'right', 'default');
+            const classes = getGroupCell().getContentTextClasses(false, 'right');
             CssClassesAssert.include(classes, ['controls-ListView__groupContent-withoutGroupSeparator']);
         });
 
-        it('should NOT contain placeholder class when no separator and textAlign !== right', () => {
-            const classes = getGroupCell().getContentTextClasses(false, 'left', 'default');
-            CssClassesAssert.notInclude(classes, ['controls-ListView__groupContent-withoutGroupSeparator']);
+        it('should contain placeholder class when no separator', () => {
+            const classes = getGroupCell().getContentTextClasses(false, 'left');
+            CssClassesAssert.include(classes, ['controls-ListView__groupContent-withoutGroupSeparator']);
+        });
+
+        it('should contain align class', () => {
+            let classes: string;
+            classes = getGroupCell().getContentTextClasses(false, 'left');
+            CssClassesAssert.include(classes, ['controls-ListView__groupContent_left']);
+
+            classes = getGroupCell().getContentTextClasses(false, 'right');
+            CssClassesAssert.include(classes, ['controls-ListView__groupContent_right']);
+
+            classes = getGroupCell().getContentTextClasses(false, undefined);
+            CssClassesAssert.include(classes, ['controls-ListView__groupContent_center']);
         });
 
         it('should NOT contain placeholder class when separator and textAlign === right', () => {
-            const classes = getGroupCell().getContentTextClasses(true, 'right', 'default');
+            const classes = getGroupCell().getContentTextClasses(true, 'right');
             CssClassesAssert.notInclude(classes, ['controls-ListView__groupContent-withoutGroupSeparator']);
         });
     });

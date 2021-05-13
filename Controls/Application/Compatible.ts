@@ -4,7 +4,6 @@ import * as Deferred from 'Core/Deferred';
 import * as Layer from 'Lib/Control/LayerCompatible/LayerCompatible';
 import {Bus} from 'Env/Event';
 import {constants} from 'Env/Env';
-import 'wml!Controls/Application/CompatibleScripts';
 
 export = class ViewTemplate extends Control<IControlOptions> {
    protected _template: TemplateFunction = template;
