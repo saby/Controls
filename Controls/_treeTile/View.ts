@@ -3,7 +3,7 @@ import {TemplateFunction} from 'UI/Base';
 import TreeTileView from './TreeTileView';
 
 /**
- * Контрол "Иерархическая плитка" позволяет отображать данные из различных источников в виде элементов плитки и располагать несколько элементов в одну строку. Контрол поддерживает широкий набор возможностей, позволяющих разработчику максимально гибко настраивать отображение данных.
+ * Контрол "Иерархическая плитка" позволяет отображать данные из различных источников в виде элементов плитки с иерархией и располагать несколько элементов в одну строку. Контрол поддерживает широкий набор возможностей, позволяющих разработчику максимально гибко настраивать отображение данных.
  *
  * @extends Controls/list:View
  * @mixes Controls/interface:ISource
@@ -22,7 +22,7 @@ import TreeTileView from './TreeTileView';
  * @mixes Controls/list:IClickableView
  * @mixes Controls/marker:IMarkerList
  * @mixes Controls/list:IVirtualScrollConfig
- *
+ * @mixes Controls/tile:ITreeTile 
  *
  * @author Панихин К.А.
  * @public
