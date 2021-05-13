@@ -258,6 +258,6 @@ export default interface IProperty {
     group?: string;
     propertyValue?: unknown;
     toggleEditorButtonIcon?: string;
-    validators: Function[];
-    validateTemplateName: string;
+    validators?: Function[];
+    validateTemplateName?: string;
 }
