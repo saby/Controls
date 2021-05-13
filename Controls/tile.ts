@@ -3,6 +3,7 @@
  * @library Controls/tile
  * @includes ItemTemplate Controls/_tile/interface/ItemTemplate
  * @includes ITile Controls/_tile/interface/ITile
+ * @includes ITreeTile Controls/_tile/interface/ITreeTile
  * @includes SmallItemTemplate Controls/_tile/interface/ISmallTemplate
  * @includes PreviewTemplate Controls/_tile/interface/IPreviewTemplate
  * @includes RichTemplate Controls/_tile/interface/IRichTemplate

@@ -1085,6 +1085,7 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @mixes Controls/list:IMovableList
  * @mixes Controls/list:IRemovableList
  * @mixes Controls/marker:IMarkerList
+ * @mixes Controls/tile:ITreeTile
  *
  * @public
  * @author Авраменко А.С.
