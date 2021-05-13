@@ -163,7 +163,7 @@ export type IBaseSourceConfig = IBasePositionSourceConfig | IBasePageSourceConfi
 
 /**
  * @typedef {String} TNavigationTotalInfo
- * @description Допустимые значения для параметра {@link Controls/interface:INavigation/TNavigationTotalInfo.typedef totalInfo}.
+ * @description Допустимые значения для параметра {@link Controls/interface:INavigation/INavigationViewConfig#totalInfo}.
  * @variant basic Отображается только общее число записей.
  * @variant extended Отображается общее число записей, номера первой и последней записей на текущей странице, а также размер страницы.
  */
@@ -279,7 +279,7 @@ export interface INavigationOptionValue<U> {
     view?: TNavigationView;
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#sourceConfig
-     * @cfg {INavigationSourceConfig} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @cfg {Controls/_interface/INavigation/INavigationSourceConfig.typedef} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
      * <pre class="brush: html">
      * <!-- WML -->
