@@ -593,7 +593,8 @@ const _private = {
             // логического родителя, который отрисовывает все элементы
             // https://online.sbis.ru/opendoc.html?guid=942e1a1d-15ee-492e-b763-0a52d091a05e
             const itemsContainer = self._getItemsContainer();
-            const itemContainer = self._options.itemContainerGetter.getItemContainerByIndex(index, itemsContainer, self._listViewModel);
+            const scrollItemIndex = index - self._listViewModel.getStartIndex();
+            const itemContainer = self._options.itemContainerGetter.getItemContainerByIndex(scrollItemIndex, itemsContainer, self._listViewModel);
 
             if (itemContainer) {
                 self._notify('scrollToElement', [{
