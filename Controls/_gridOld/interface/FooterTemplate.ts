@@ -25,7 +25,7 @@
 export default interface IFooterTemplateOptions {
     /**
      * @name Controls/_gridOld/interface/FooterTemplate#contentTemplate
-     * @cfg {String|Function|undefined} Шаблон, описывающий контент подвала.
+     * @cfg {TemplateFunction|String} Шаблон, описывающий контент подвала.
      */
     contentTemplate?: string;
  }
