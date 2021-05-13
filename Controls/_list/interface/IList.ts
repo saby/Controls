@@ -611,10 +611,8 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
- * @cfg {ItemPadding} {@link /doc/platform/developmentapl/interface-development/controls/list/list/paddings/ Конфигурация отступов} внутри элементов списка.
+ * @cfg {ItemPadding} Конфигурация отступов внутри элементов списка.
  * @name Controls/_list/interface/IList#itemPadding
- * @demo Controls-demo/list_new/ItemPadding/DifferentPadding/Index В примере заданы горизонтальные отступы.
- * @demo Controls-demo/list_new/ItemPadding/NoPadding/Index В примере отступы отсутствуют.
  */
 
 /*ENG

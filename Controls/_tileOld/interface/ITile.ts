@@ -1,5 +1,5 @@
 /**
- * Интерфейс для списков, в которых элементы отображаются в виде плитки.
+ * Интерфейс для списков, в которых элементы отображаются в виде {@link /doc/platform/developmentapl/interface-development/controls/list/tile/ плитки}.
  *
  * @interface Controls/_tileOld/interface/ITile
  * @public

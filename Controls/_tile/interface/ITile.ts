@@ -1,5 +1,5 @@
 /**
- * Интерфейс для списков, в которых элементы отображаются в виде плитки.
+ * Интерфейс для списков, в которых элементы отображаются в виде {@link /doc/platform/developmentapl/interface-development/controls/list/tile/ плитки}.
  *
  * @interface Controls/_tile/interface/ITile
  * @public
@@ -54,26 +54,6 @@
  * @remark
  * Полезные ссылки:
  * * {@link /doc/platform/developmentapl/interface-development/controls/list/tile/paddings/#item-container-padding руководство разработчика}
- */
-
-/**
- * @name Controls/_tile/interface/ITile#itemPadding
- * @cfg {Controls/_list/interface/IList/ItemPadding.typedef} Конфигурация отступов в плитке.
- * @demo Controls-demo/Tile/ItemPadding/PaddingS/Index
- * @example
- * <pre class="brush: html"> 
- * <!-- WML -->
- * <Controls.tile:View source="{{_viewSource}}" imageProperty="image">
- *    <ws:itemPadding
- *       top="s"
- *       bottom="s"
- *       left="s"
- *       right="s"/>
- * </Controls.tile:View>
- * </pre>
- * @remark
- * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/list/tile/paddings/#item-padding руководство разработчика}
  */
 
 /**
