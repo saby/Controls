@@ -40,6 +40,7 @@
          <Controls.explorer:View
                  attr:class="controls-newBrowser__detail-list"
                  name="detailList"
+                 itemOpenHandler="{{_options.itemOpenHandler}}"
                  root="{{root}}"
                  on:rootChanged="_onDetailRootChanged()"
                  on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
