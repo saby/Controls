@@ -687,14 +687,12 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             collapsedItems: newOptions.collapsedItems
         });
 
-        if (searchValueChanged && newOptions.searchValue && !this._isDeepReload()) {
-            _private.resetExpandedItems(this);
-        }
-
         // todo [useNewModel] viewModel.getExpandedItems() нужен, т.к. для старой модели установка expandedItems
         // сделана некорректно. Как откажемся от неё, то можно использовать стандартное сравнение опций.
         const currentExpandedItems = this._expandController.getExpandedItems();
-        if (newOptions.expandedItems && !isEqual(newOptions.expandedItems, currentExpandedItems) && newOptions.source) {
+        if (sourceController && sourceController.wasResetExpandedItems()) {
+            _private.resetExpandedItems(this);
+        } else if (newOptions.expandedItems && !isEqual(newOptions.expandedItems, currentExpandedItems)) {
             if ((newOptions.source === this._options.source || newOptions.sourceController) && !isSourceControllerLoading ||
                 (searchValueChanged && newOptions.sourceController)) {
                 if (viewModel) {
@@ -959,7 +957,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 this._updateExpandedItemsAfterReload = false;
             }
 
-            if (!this._isDeepReload() || this._needResetExpandedItems) {
+            if (this._needResetExpandedItems) {
                 _private.resetExpandedItems(this);
                 this._needResetExpandedItems = false;
             }
@@ -1293,11 +1291,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _isExpanded(item: Model): boolean {
         return this._expandController.isItemExpanded(item.getKey());
-    }
-
-    private _isDeepReload(): boolean {
-        // _deepReload может быть проставлен только в sourceController-е, например если релоад позвали в браузере
-        return this._deepReload || this.getSourceController() && this.getSourceController().isDeepReload();
     }
 
     protected _getFooterClasses(options): string {
