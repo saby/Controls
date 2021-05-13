@@ -95,7 +95,9 @@ export class Controller {
    }
 
    getMarkedKeyByDirection(direction: TDirection): CrudEntityKey | void {
-      const index = this._model.getIndex(this._model.getItemBySourceKey(this._markedKey));
+      let index = this._model.getIndex(this._model.getItemBySourceKey(this._markedKey));
+      const next = direction === 'Right' || direction === 'Down' || direction === 'Forward';
+      index = next ? index + 1 : index - 1;
       const nextMarkedKey = this._markerStrategy.getMarkedKeyByDirection(index, direction);
       return nextMarkedKey === null ? this._markedKey : nextMarkedKey;
    }
