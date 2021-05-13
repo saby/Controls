@@ -465,7 +465,9 @@ export default class ColumnScroll {
         if (!this._dragScroll || !this._isGrabbing) {
             return;
         }
-        this._columnScroll.scrollToColumnWithinContainer(this._header);
+        if (this._dragScroll.isScrolled()) {
+            this._columnScroll.scrollToColumnWithinContainer(this._header);
+        }
         this._dragScroll.setScrollPosition(this._columnScroll.getScrollPosition());
         this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
 
