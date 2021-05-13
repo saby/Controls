@@ -11,7 +11,6 @@ interface ITextInputOptions extends IBaseTextInputOptions, IBaseFieldTemplate {}
  * * {@link /doc/platform/developmentapl/interface-development/controls/input/text/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_input.less переменные тем оформления}
  *
- * @class Controls/_input/Text
  * @extends Controls/input:Base
  *
  * @mixes Controls/input:IText
@@ -35,3 +34,38 @@ Object.defineProperty(Text, 'defaultProps', {
 });
 
 export default Text;
+
+/**
+ * @name Controls/_input/Text#value
+ * @cfg
+ * @example
+ * Сохраняем данные о пользователе и текущее время при отправке формы.
+ * 
+ * <pre class="brush: html; highlight: [3]">
+ * <!-- WML -->
+ * <form action="Auth.php" name="form">
+ *     <Controls.input:Text bind:value="_login"/>
+ *     <Controls.input:Password bind:value="_password"/>
+ *     <Controls.buttons:Button on:click="_saveUser()" caption="Отправить"/>
+ * </form>
+ * </pre>
+ * 
+ * <pre class="brush: js; highlight: [3,10]">
+ * // TypeScript
+ * export class Form extends Control<IControlOptions, void> {
+ *     private _login: string = '';
+ *     private _password: string = '';
+ *     private _server: Server = new Server();
+ *
+ *     private _saveUser() {
+ *         this._server.saveData({
+ *             date: new Date(),
+ *             login: this._login,
+ *             password: this._password
+ *         });
+ *
+ *         this._children.form.submit();
+ *     }
+ * }
+ * </pre>
+ */
