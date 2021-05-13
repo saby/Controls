@@ -16,6 +16,7 @@ import {ISwipeConfig} from 'Controls/display';
 
 function mockItem(): IItemActionsItem {
     return {
+        ItemActionsItem: true,
         actions: undefined,
         swiped: undefined,
         getContents: () => ({
