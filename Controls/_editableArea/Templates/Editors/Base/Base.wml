@@ -1,4 +1,4 @@
-<div class="controls-EditableArea__editorWrapper">
+<div class="controls_editableArea_theme-{{_options.theme}} controls-EditableArea__editorWrapper">
    <ws:if data="{{_options.isEditing}}">
       <ws:partial
          attr:class="controls-EditableArea__editor"

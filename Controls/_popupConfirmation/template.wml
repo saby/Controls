@@ -1,4 +1,5 @@
-<div class="controls-ConfirmationTemplate
+<div class="controls_popupTemplate_theme-{{_options.theme}}
+            controls-ConfirmationTemplate
             controls-ConfirmationTemplate__status-{{_options.style}}
             controls-ConfirmationTemplate__size-{{_options.size}}
             controls-Popup__isolatedFocusingContext"

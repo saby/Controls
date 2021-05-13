@@ -224,7 +224,7 @@
             Вместо этого, задаем пэйджингу высоту как у разделителя.
             https://online.sbis.ru/opendoc.html?guid=aafcd848-43e0-4ac3-a4b8-cffff9f04be0 -->
             <div if="{{ _isPagingPadding() }}" name="pagingPaddingContainer"
-                 class="controls-BaseControl_paging-Padding">
+                 class="controls_paging_theme-{{_options.theme}} controls-BaseControl_paging-Padding">
             </div>
             <div class="controls-BaseControl__pagingContainer
     controls-BaseControl__pagingContainer_position-{{_options.navigation.viewConfig.pagingPosition === 'left' ? 'left' : 'right'}}
