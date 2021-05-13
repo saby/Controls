@@ -572,6 +572,11 @@ class StickyHeaderController {
             this._addToHeadersStack(id, 'bottom');
             return;
         }
+        if (position === 'leftright') {
+            this._addToHeadersStack(id, 'leftright');
+            this._addToHeadersStack(id, 'leftright');
+            return;
+        }
         const
             headersStack = this._headersStack[position],
             newHeaderOffset = this._getHeaderOffset(id, position),

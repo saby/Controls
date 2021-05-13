@@ -5,6 +5,7 @@ var _private = {
 
     styleHideScrollbar: {
         vertical: null,
+        horizontal: null,
         verticalHorizontal: null
     },
 
@@ -28,9 +29,12 @@ var _private = {
         var style;
 
         if (scrollbarWidth) {
-            style =  `margin-right: -${scrollbarWidth}px;`;
-            if (scrollMode === 'verticalHorizontal') {
-                style += `margin-bottom: -${scrollbarWidth}px;`
+            const scrollModeValue = scrollMode.toLowerCase();
+            if (scrollModeValue.indexOf('vertical') !== -1) {
+                style =  `margin-right: -${scrollbarWidth}px;`;
+            }
+            if (scrollModeValue.indexOf('horizontal') !== -1) {
+                style += `margin-bottom: -${scrollbarWidth}px;`;
             }
         } else if (scrollbarWidth === 0) {
             style = '';

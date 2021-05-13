@@ -457,7 +457,8 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             changed = true;
         }
 
-        if ((this._options.position === 'left' || this._options.position === 'right') &&
+        if ((this._options.position === 'left' || this._options.position === 'right' ||
+            this._options.position === 'leftright') &&
             scrollState.canHorizontalScroll !== this._scrollState.canHorizontalScroll) {
             changed = true;
         }
@@ -907,7 +908,8 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
                 'bottom',
                 'topbottom',
                 'left',
-                'right'
+                'right',
+                'leftright'
             ])
         };
     }
@@ -971,6 +973,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
  * @variant topbottom Прилипание к верхнему и нижнему краю.
  * @variant left Прилипание к левому краюю.
  * @variant right Прилипание к правому краю.
+ * @variant leftright Прилипание к левому краюю и к правому краю.
  * @default top
  */
 
