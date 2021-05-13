@@ -673,8 +673,10 @@
 }
 
 .controls-ListView__item_master {
-   padding-top: var(--master_item_separator_thickness_list);
-   padding-bottom: var(--master_item_separator_thickness_list);
+   border-color: var(--master_item_background-color_list);
+   border-style: solid;
+   border-width: 0;
+   border-bottom-width: var(--master_item_separator_thickness_list);
 }
 
 //Пока страница не ожила, мы не знаем тач устройство или нет, так что на мобильных устройствах нужно скрыть операции над записью
