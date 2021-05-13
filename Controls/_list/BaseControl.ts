@@ -851,6 +851,7 @@ const _private = {
                 return addedItems;
             }).addErrback((error: CancelableError) => {
                 self._loadToDirectionInProgress = false;
+                self._handleLoadToDirection = false;
 
                 _private.hideIndicator(self);
                 // скроллим в край списка, чтобы при ошибке загрузки данных шаблон ошибки сразу был виден
@@ -5220,6 +5221,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     getMarkerController(): MarkerController {
         return _private.getMarkerController(this, this._options);
+    }
+
+    getLastVisibleItemKey(): number | string | void {
+        if (this._scrollController) {
+            const itemsContainer = this.getItemsContainer();
+            const scrollTop = this._getScrollParams().scrollTop;
+            const lastVisibleItem = this._scrollController.getLastVisibleRecord(itemsContainer, this._container, scrollTop);
+            return lastVisibleItem.getContents().getKey();
+        }
     }
 
     protected _changeMarkedKey(newMarkedKey: CrudEntityKey, shouldFireEvent: boolean = false): Promise<CrudEntityKey>|CrudEntityKey {
