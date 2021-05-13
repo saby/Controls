@@ -1,4 +1,4 @@
-<div class="controls-Suggest_list {{_isSuggestListEmpty ? 'controls-Suggest_list_empty'}}">
+<div class="controls_suggestPopup_theme-{{_options.theme}} controls-Suggest_list {{_isSuggestListEmpty ? 'controls-Suggest_list_empty'}}">
     <ws:if data="{{_options.tabsOptions && (!_suggestListOptions || !_suggestListOptions.dialogMode)}}">
         <Controls.Container.Async templateName="Controls/tabs:Buttons">
             <ws:partial template="{{'Controls/tabs:Buttons'}}"

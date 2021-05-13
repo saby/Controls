@@ -1,4 +1,4 @@
-<div class="controls-SuggestV">
+<div class="controls_suggestPopup_theme-{{_options.theme}} controls-SuggestV">
     <ws:template name="suggestTpl">
         <ws:partial template="{{'Controls/suggestPopup:_ListWrapper'}}"
                     on:itemClick="_select()"

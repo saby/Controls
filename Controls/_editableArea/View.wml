@@ -10,7 +10,7 @@
    on:deactivated="_onDeactivatedHandler()"
 >
    <div
-      class="controls-EditableArea
+      class="controls_editableArea_theme-{{_options.theme}} controls-EditableArea
       {{ _isEditing && _options.backgroundStyle ? 'controls-background-' + _options.backgroundStyle }}
       controls-EditableArea_{{_options.readOnly ? 'readonly' : 'clickable'}}"
    >
