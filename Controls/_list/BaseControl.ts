@@ -4178,6 +4178,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
             _private.initListViewModelHandler(this, this._listViewModel, newOptions.useNewModel);
             this._modelRecreated = true;
+            if (newOptions.useNewModel) {
+                this._onItemsReady(newOptions, items);
+            }
             this._shouldNotifyOnDrawItems = true;
 
             _private.setHasMoreData(this._listViewModel, _private.hasMoreDataInAnyDirection(this, this._sourceController));
