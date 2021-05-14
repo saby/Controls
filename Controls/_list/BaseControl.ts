@@ -1090,6 +1090,8 @@ const _private = {
             down: self._hasMoreData(self._sourceController, 'down')
         };
         if (self._hasMoreData(self._sourceController, direction)) {
+
+            self._resetPagingOnResetItems = false;
             let pagingMode = '';
             if (self._options.navigation && self._options.navigation.viewConfig) {
                 pagingMode = self._options.navigation.viewConfig.pagingMode;
@@ -1711,7 +1713,10 @@ const _private = {
             }
 
             if (self._scrollPagingCtr && action === IObservable.ACTION_RESET) {
-                self._scrollPagingCtr = null;
+                if (self._resetPagingOnResetItems) {
+                    self._scrollPagingCtr = null;
+                }
+                self._resetPagingOnResetItems = true;
             }
 
             if (self._scrollController) {
@@ -3366,6 +3371,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _pagingVisibilityChanged = false;
     _actualPagingVisible = false;
     _pagingPadding = null;
+    _resetPagingOnResetItems: boolean = true;
 
     // если пэйджинг в скролле показался то запоним это состояние и не будем проверять до след перезагрузки списка
     _cachedPagingState = false;
