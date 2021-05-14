@@ -46,6 +46,9 @@ export default class GroupCell<T>
     }
 
     _getColspanParams(): IColspanParams {
+        if (this._$colspan) {
+            return super._getColspanParams();
+        }
         const hasMultiSelect = this._$owner.hasMultiSelectColumn();
         const ladderStickyColumn = this._$owner.getStickyColumn();
         const ladderColumnLength = ladderStickyColumn ? ladderStickyColumn.property.length : 0;
