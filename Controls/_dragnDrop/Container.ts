@@ -1,7 +1,8 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {descriptor} from 'Types/entity';
-import Env = require('Env/Env');
+import {detection} from 'Env/Env';
+import {Bus as EventBus} from 'Env/Event';
 
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
@@ -137,7 +138,7 @@ class Container extends Control<IContainerOptions> {
          * добавляем защиту на всякий случай.
          */
         if (event.nativeEvent) {
-            if (Env.detection.isIE) {
+            if (detection.isIE) {
                 this._onMouseMoveIEFix(event);
             } else {
                 // Check if the button is pressed while moving.
@@ -206,7 +207,7 @@ class Container extends Control<IContainerOptions> {
             this._dragEntity = dragObject.entity;
         }
         this._documentDragging = true;
-        this._notify('documentDragStart', [dragObject]);
+        this._notifyDragEvent('documentDragStart', [dragObject]);
     }
 
     private _documentDragEnd(dragObject: IDragObject): void {
@@ -216,7 +217,12 @@ class Container extends Control<IContainerOptions> {
 
         this._insideDragging = false;
         this._documentDragging = false;
-        this._notify('documentDragEnd', [dragObject]);
+        this._notifyDragEvent('documentDragEnd', [dragObject]);
+    }
+
+    private _notifyDragEvent(eventName: string, args: unknown[]): void {
+        EventBus.channel('dragnDrop').notify(eventName, ...args);
+        this._notify(eventName, args);
     }
 
     private _getDragObject(mouseEvent: MouseEvent, startEvent: SyntheticEvent<MouseEvent>): IDragObject {
