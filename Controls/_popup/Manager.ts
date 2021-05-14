@@ -250,7 +250,9 @@ class Manager {
         // Подписка и на платформенное перемещение, и на нативное, т.к. перемещение файлов из ОС тоже нужно отследить.
         const handler = this.eventHandler.bind(this, 'pageDragnDropHandler');
         EventBus.channel('dragnDrop').subscribe('documentDragStart', handler);
-        document.addEventListener('dragenter', handler);
+        if (document) {
+            document.addEventListener('dragenter', handler);
+        }
     }
 
     // Если из текушего окна не открыто других окон, то поднимем его выше среди окон того же уровня (с тем же родителем)
