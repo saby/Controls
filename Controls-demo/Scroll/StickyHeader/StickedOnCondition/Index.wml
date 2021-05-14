@@ -1,0 +1,25 @@
+<ws:template name="listContent">
+    <div class="controlsDemo__wrapper">
+        <div class="controlsDemo__hor-padding__list__footerContent">{{itemTemplate.item.contents.get('title')}}</div>
+        <div>{{itemTemplate.item.contents.get('description')}}</div>
+    </div>
+</ws:template>
+
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:class="controlsDemo__height200">
+        <Controls.list:View keyProperty="id" source="{{_viewSource}}">
+            <ws:itemTemplate>
+                <ws:if data="{{itemTemplate.item.contents.get('sticked')}}">
+                    <Controls.scroll:StickyHeader position="top">
+                        <ws:content>
+                            <ws:partial template="listContent"/>
+                        </ws:content>
+                    </Controls.scroll:StickyHeader>
+                </ws:if>
+                <ws:else>
+                    <ws:partial template="listContent"/>
+                </ws:else>
+            </ws:itemTemplate>
+        </Controls.list:View>
+    </Controls.scroll:Container>
+</div>

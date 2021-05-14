@@ -880,6 +880,9 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
  * @cfg {String} Режим прилипания заголовка.
  * @variant replaceable Заменяемый заголовок. Следующий заголовок заменяет текущий.
  * @variant stackable Составной заголовок. Следующий заголовок прилипает к нижней части текущего.
+ * @default replaceable
+ * @demo Controls-demo/Scroll/StickyHeader/Mode/Index
+ * @demo Controls-demo/Scroll/StickyHeader/StickedOnCondition/Index
  */
 
 /*
