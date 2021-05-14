@@ -1,5 +1,5 @@
 <span class="controls-DoubleSwitch__toggle
-            controls-DoubleSwitch__toggle_bg-{{contrastBackground ? 'contrast' : 'same'}}
+            controls-DoubleSwitch__toggle_bg-{{(contrastBackground && _enabled) ? 'contrast' : 'same'}}
             {{_enabled ? 'controls-DoubleSwitch__toggle_enabled' : 'controls-DoubleSwitch__toggle_disabled'}}
             {{_orientation === 'vertical' ? 'controls-DoubleSwitch__toggle_vertical' :
              'controls-DoubleSwitch__toggle_horizontal'}}
