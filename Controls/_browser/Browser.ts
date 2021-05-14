@@ -184,7 +184,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             deps.push(loadAsync('Controls/search'));
         }
 
-        if (Browser._hasFilterSourceInOptions(options) && !isLoaded('Controls/filter')) {
+        if (this._hasFilterSourceInOptions(options) && !isLoaded('Controls/filter')) {
             deps.push(loadAsync('Controls/filter'));
         }
 
@@ -523,7 +523,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     protected _filterItemsChanged(event: SyntheticEvent, items: IFilterItem[]): void {
-        if (!Browser._hasFilterSourceInOptions(this._options)) {
+        if (!this._hasFilterSourceInOptions(this._options)) {
             Logger.error(
                 'Browser: для корректной работы фильтра необходимо передать опцию filterButtonSource',
                 this
@@ -554,7 +554,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     private _updateFilterAndFilterItems(options: IBrowserOptions): void {
-        if (Browser._hasFilterSourceInOptions(options)) {
+        if (this._hasFilterSourceInOptions(options)) {
             const filterController = this._dataLoader.getFilterController();
             this._filter = filterController.getFilter() as QueryWhereExpression<unknown>;
             this._filterButtonItems = filterController.getFilterButtonItems();
@@ -910,6 +910,11 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         }
     }
 
+    private _hasFilterSourceInOptions(options: IBrowserOptions): boolean {
+        return Browser._hasInOptions(options, ['filterButtonSource', 'fastFilterSource']) ||
+               !!this._getSearchValue(options);
+    }
+
     private static _checkLoadResult(options: IListConfiguration[], loadResult: IReceivedState[] = []): boolean {
         return loadResult && loadResult.filter(
             (result, index) =>
@@ -932,10 +937,6 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     private static _hasSearchParamInOptions(options: IBrowserOptions): boolean {
         return Browser._hasInOptions(options, ['searchParam']);
-    }
-
-    private static _hasFilterSourceInOptions(options: IBrowserOptions): boolean {
-        return Browser._hasInOptions(options, ['filterButtonSource', 'fastFilterSource', 'searchValue']);
     }
 
     private static _hasRootInOptions(options: IBrowserOptions): boolean {
