@@ -9,7 +9,7 @@
                     displayProperty="{{gridColumn.getDisplayProperty()}}"
                     on:click="_onBreadcrumbClick(item)">
             <ws:itemTemplate>
-                <ws:partial template="Controls/breadcrumbs:ItemTemplate">
+                <ws:partial template="{{item.getBreadcrumbsItemTemplate()}}">
                     <ws:contentTemplate>
                         <Controls.decorator:Highlight highlightedValue="{{gridColumn.getSearchValue()}}" value="{{contentTemplate.itemData.item.get(gridColumn.getDisplayProperty()) || ''}}"/>
                     </ws:contentTemplate>
