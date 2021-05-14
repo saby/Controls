@@ -17,7 +17,8 @@ export default interface IParamsCalculator {
          metaMore: object | number | boolean,
          navigationQueryConfig: IBaseSourceConfig,
          direction: TNavigationDirection,
-         listForCurrentStore?: Model[]
+         listForCurrentStore?: Model[],
+         additionalMeta?: object
      ): any;
      shiftToEdge(
          store: INavigationStore,
@@ -26,5 +27,6 @@ export default interface IParamsCalculator {
          navigationQueryConfig: IBaseSourceConfig
      ): IBaseSourceConfig;
      updateQueryRange(store: INavigationStore, list: RecordSet, firstItem?: Model|void, lastItems?: Model|void): void;
+     getAdditionalMeta(list: RecordSet, id?: string): object;
      destroy(): void;
 }

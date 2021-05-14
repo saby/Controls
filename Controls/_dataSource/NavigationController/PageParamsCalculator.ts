@@ -164,6 +164,10 @@ class PageParamsCalculator implements IParamsCalculator {
         // do not need to update
     }
 
+    getAdditionalMeta(list: RecordSet, id?: string): object {
+        return {};
+    }
+
     destroy(): void {
         return;
     }

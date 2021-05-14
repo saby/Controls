@@ -553,6 +553,59 @@ describe('Controls/_source/NavigationController', () => {
                 assert.deepEqual([-1], params[0].backwardPosition, 'Wrong query properties');
             });
 
+            it('updateQueryProperties + meta.NextPosition recordSet', () => {
+                const nc = new NavigationController({
+                    navigationType: 'position',
+                    navigationConfig: {
+                        field: 'id',
+                        direction: 'bothways'
+                    }
+                });
+
+                const rs = new RecordSet({
+                    rawData: data,
+                    keyProperty: 'id'
+                });
+
+                const metaMoreRs = new RecordSet({
+                    rawData: [
+                        {
+                            id: 1,
+                            nav_result: true
+                        },
+                        {
+                            id: 2,
+                            nav_result: false
+                        }
+                    ],
+                    keyProperty: 'id'
+                });
+                const nextPositionRs = new RecordSet({
+                    rawData: [
+                        {
+                            id: 1,
+                            nav_result: {before: [-1], after: [10]}
+                        },
+                        {
+                            id: 2,
+                            nav_result: {before: [1], after: [11]}
+                        }
+                    ],
+                    keyProperty: 'id'
+                });
+
+                rs.setMetaData({
+                    more: metaMoreRs,
+                    nextPosition: nextPositionRs
+                });
+
+                const params = nc.updateQueryProperties(rs);
+                assert.deepEqual([10], params[0].forwardPosition, 'Wrong query properties');
+                assert.deepEqual([-1], params[0].backwardPosition, 'Wrong query properties');
+                assert.deepEqual([11], params[1].forwardPosition, 'Wrong query properties');
+                assert.deepEqual([1], params[1].backwardPosition, 'Wrong query properties');
+            });
+
             it('updateQueryProperties bothways + meta.NextPosition root', () => {
                 const nc = new NavigationController({
                     navigationType: 'position',
