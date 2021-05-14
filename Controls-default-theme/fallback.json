@@ -90,7 +90,8 @@
   "--box-shadow-blur_block": "6px",
   "--margin_block": "-6px",
   "--padding_block": "6px",
-  "--page_background-image": "url(/cdn/OnlineCDN/themes/1.0.0/background.jpg) #dad9e0",
+  "--page_background-image": "url('/cdn/OnlineCDN/themes/1.0.0/background.jpg')",
+  "--page_background-color": "#dad9e0",
 
 
   "--icon-offset_button": "var(--offset_xs)",

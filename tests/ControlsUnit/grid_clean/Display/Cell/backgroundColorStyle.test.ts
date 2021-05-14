@@ -287,6 +287,22 @@ describe('Controls/grid/Display/Cell/backgroundColorStyle', () => {
                         'controls-Grid__row-cell_background_master']);
             });
         });
+
+        describe('use default if background style undefined', () => {
+            // - backgroundStyle=null
+            // + style=default
+            // - backgroundColorStyle=undefined
+            // + hasColumnScroll
+            // = controls-background-default
+            it('-backgroundStyle=default, +style=default, -backgroundColorStyle', () => {
+                hasColumnScroll = true;
+                cell = new GridCell({ owner, column: { width: '' }, backgroundStyle: null });
+                cAssert.include(
+                    cell.getWrapperClasses('default', undefined, 'default', false),
+                    'controls-background-default'
+                );
+            });
+        });
     });
 
     describe('not Editing, no ColumnScroll, isSticked', () => {
