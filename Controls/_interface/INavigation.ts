@@ -163,7 +163,7 @@ export type IBaseSourceConfig = IBasePositionSourceConfig | IBasePageSourceConfi
 
 /**
  * @typedef {String} TNavigationTotalInfo
- * @description Допустимые значения для параметра {@link Controls/interface:INavigationViewConfig#totalInfo}.
+ * @description Допустимые значения для параметра {@link Controls/interface:INavigationViewConfig#totalInfo totalInfo}.
  * @variant basic Отображается только общее число записей.
  * @variant extended Отображается общее число записей, номера первой и последней записей на текущей странице, а также размер страницы.
  */
@@ -420,10 +420,10 @@ export default interface INavigation {
  */
 
 /**
- * name Controls/interface:INavigationPositionSourceConfig#multiNavigation 
+ * @name Controls/interface:INavigationSourceConfig#multiNavigation 
  * @cfg {Boolean} Включает режим множественной навигации.
  * @default false
- * @remark Подробнее читайте в статье "<@link /doc/platform/developmentapl/service-development/service-contract/logic/list/navigate/multinavigation/ Множественная навигация в списочных контролах>".
+ * @remark Подробнее читайте в статье "{@link /doc/platform/developmentapl/service-development/service-contract/logic/list/navigate/multinavigation/ Множественная навигация в списочных контролах}".
  * @example
  * <pre class="brush: html">
  * <!-- WML -->
@@ -431,8 +431,13 @@ export default interface INavigation {
  *    keyProperty="id"
  *    source="{{_viewSource}}">
  *    <ws:navigation source="page" view="pages">
- *       <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}" multiNavigation="{{true}}" >
+ *       <ws:sourceConfig 
+ *          pageSize="{{10}}"
+ *          page="{{0}}"
+ *          hasMore="{{false}}" 
+ *          multiNavigation="{{true}}" >
  *       <ws:viewConfig totalInfo="basic"/>
  *    </ws:navigation>
  * </Controls.list:View>
+ * </pre>
  */
