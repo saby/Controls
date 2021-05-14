@@ -6,9 +6,9 @@
  * @author Авраменко А.С.
  * @see Controls/tile:View
  * @example
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [3-12]">
  * <!-- WML -->
- * <Controls.tile:View>
+ * <Controls.tile:View source="{{_viewSource}}">
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/tile:ItemTemplate">
  *          <ws:contentTemplate>
@@ -29,23 +29,24 @@
 
 export default interface IItemTemplateOptions {
    /**
-    * @cfg {Boolean} Подпись к плитке.
+    * @cfg {String} Видимость заголовка плитки.
     * @see titleStyle
     */
    hasTitle?: string;
    /**
-    * @cfg {Number} Будет ли автоматически изменяться высота плитки, когда плитка отображается со статической шириной, т.е. опция {@link Controls/tile:ITile#tileMode tileMode} установлена в значение static.
+    * @cfg {Boolean} Динамическое изменение высоты плитки, когда плитка отображается со статической шириной, т.е. опция {@link Controls/tile:ITile#tileMode tileMode} установлена в значение static.
     */
    staticHeight?: boolean;
    /**
     * @typedef {String} ShadowVisibility
     * @variant visible Отображается.
     * @variant hidden Не отображается.
-    * @variant onhover Отображается только при наведении на плитку.
+    * @variant onhover Отображается только при наведении курсора на плитку.
     */
    /**
     * @cfg {ShadowVisibility} Нужно ли отображать тень для плитки.
     * @default visible
+    * @demo Controls-demo/Tile/Shadows/Index
     */
    shadowVisibility?: string;
 }
