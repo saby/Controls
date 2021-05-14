@@ -103,6 +103,10 @@ export default class Collection<
         return this._$columnsCount;
     }
 
+    getColumnsMode(): string {
+        return this._$columnsMode;
+    }
+
     setSpacing(spacing: number): void {
         if (this._$spacing !== spacing) {
             this._$spacing = spacing;
