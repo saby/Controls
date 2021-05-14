@@ -75,6 +75,10 @@ export default abstract class GroupCell<T> {
         return classes;
     }
 
+    isContentCell(): boolean {
+        return !(this._$owner.hasColumnScroll() && !this._$isFixed);
+    }
+
     abstract isExpanded(): boolean;
     abstract _getHorizontalPaddingClasses(theme: string): string;
     abstract _getContentAlignClasses(): string;
