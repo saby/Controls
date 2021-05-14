@@ -148,6 +148,16 @@ const BaseOpener = {
          cfg.catchFocus = true;
       }
 
+      if (cfg.hasOwnProperty('closeCallback')) { // SBIS3.CONTROLS/Mixins/SelectorMixin
+         cfg.templateOptions.closeCallback = cfg.closeCallback;
+      }
+      if (cfg.hasOwnProperty('multiSelect')) { // SBIS3.CONTROLS/Mixins/SelectorMixin
+         cfg.templateOptions.multiSelect = cfg.multiSelect;
+      }
+      if (cfg.hasOwnProperty('currentSelectedKeys')) { // SBIS3.CONTROLS/Mixins/SelectorMixin
+         cfg.templateOptions.currentSelectedKeys = cfg.currentSelectedKeys;
+      }
+
       if (cfg.width === 'auto') {
          cfg.width = undefined;
       }
