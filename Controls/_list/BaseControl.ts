@@ -2351,8 +2351,9 @@ const _private = {
     },
 
     resetPagingNavigation(self, navigation) {
-        self._knownPagesCount = INITIAL_PAGES_COUNT;
         self._currentPageSize = navigation && navigation.sourceConfig && navigation.sourceConfig.pageSize || 1;
+        
+        self._knownPagesCount = self._items ? _private.calcPaging(self, self._items.getMetaData().more, self._currentPageSize) : INITIAL_PAGES_COUNT;
 
         // TODO: KINGO
         // нумерация страниц пейджинга начинается с 1, а не с 0 , поэтому текущая страница пейджига это страница навигации + 1
