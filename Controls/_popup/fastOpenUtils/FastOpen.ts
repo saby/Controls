@@ -23,17 +23,14 @@ const CALM_DELAY: number = 40;
  */
 export class CalmTimer {
     protected _openId: number;
-    protected _waitTimer: number;
+    protected _callback: Function;
     protected _closeId: number;
 
-    private _clearWaitTimer(): void {
-        if (this._waitTimer) {
-            clearTimeout(this._waitTimer);
-        }
+    constructor(callback: Function) {
+        this._callback = callback;
     }
 
     resetTimeOut(): void {
-        this._clearWaitTimer();
         if (this._openId) {
             clearTimeout(this._openId);
         }
@@ -45,44 +42,26 @@ export class CalmTimer {
     }
 
     /**
-     * Открытие окна, находящегося внутри callback, через опеределенный промежуток времени.
-     * Рекомендуется использовать во время события mouseMove, или когда нет необхожимости закрывать окно через определенны промежуток времени
-     * @param {Function} callback
-     * @param {number} delay
+     * Выполнение callback, через опеределенный промежуток времени.
      */
-    start(callback: Function, delay?: number): void {
-        this._clearWaitTimer();
-        this._waitTimer = setTimeout(() => {
-            this._waitTimer = null;
-            callback();
-        }, delay || CALM_DELAY);
-    }
-
-    /**
-     * Открытие окна, находящегося внутри callback, через определенный промежуток времени
-     * @param {Function} callback
-     * @param {number} delay
-     */
-    open(callback: Function, delay: number): void {
+    start(): void {
         this.resetTimeOut();
         this._openId = setTimeout(() => {
             this._openId = null;
-            callback();
-        }, delay);
+            this._callback();
+        }, CALM_DELAY);
     }
 
     /**
      * Закрытие окна, находящегося внутри callback, через определенный промежуток времени
      * @param {Function} callback
-     * @param {number} delay
      */
-    close(callback: Function, delay: number): void {
-        this._clearWaitTimer();
+    stop(callback: Function): void {
         clearTimeout(this._openId);
         this._closeId = setTimeout(() => {
             this._closeId = null;
             callback();
-        }, delay);
+        }, CALM_DELAY);
     }
 }
 
