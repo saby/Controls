@@ -1,11 +1,12 @@
 /**
- * Упрощенный шаблон отображения элементов в  {@link Controls/tile:View плитке}.
+ * Упрощенный шаблон отображения элементов в {@link Controls/tile:View плитке}.
  * @class Controls/_tile/interface/MediumTemplate
  * @mixes Controls/tile:ItemTemplate
  * @author Михайлов С.Е
  * @see Controls/tile:View
  * @example
- * <pre class="brush: html">
+ * <pre class="brush: html;">
+ * <!-- WML -->
  * <Controls.tile:View>
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/tile:MediumTemplate"
