@@ -7,7 +7,7 @@ TODO Нужно удалить этот шаблон, когда починим 
     <ws:if data="{{ (gridColumn || itemData).shouldDisplayLeftSeparator(separatorVisibility, textVisible, columnAlignGroup, textAlign) }}">
         <div class="controls-ListView__groupSeparator controls-ListView__groupSeparator-left">&nbsp;</div>
     </ws:if>
-    <ws:if data="{{ textVisible !== false }}">
+    <ws:if data="{{ textVisible !== false && (gridColumn || itemData).isContentCell() }}">
         <div class="{{ (gridColumn || itemData).getContentTextClasses(separatorVisibility, textAlign) }}
                     {{ (gridColumn || itemData).getExpanderClasses(expanderVisible, expanderAlign) }}">
             <ws:if data="{{ contentTemplate }}">
@@ -26,7 +26,7 @@ TODO Нужно удалить этот шаблон, когда починим 
         <div class="controls-ListView__groupSeparator
                 {{ textVisible !== false ? 'controls-ListView__groupSeparator-right' }}">&nbsp;</div>
     </ws:if>
-    <ws:if data="{{ !!rightTemplate }}">
+    <ws:if data="{{ !!rightTemplate && (gridColumn || itemData).isContentCell() }}">
         <div attr:class="{{ (gridColumn || itemData).getRightTemplateClasses(separatorVisibility, textVisible, columnAlignGroup, textAlign) }}">
         <ws:partial template="{{ rightTemplate }}"
                     item="{{ item || itemData }}"
