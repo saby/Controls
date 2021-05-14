@@ -535,6 +535,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (this._$nodeProperty !== nodeProperty) {
             this._$nodeProperty = nodeProperty;
             this._hierarchyRelation.setNodeProperty(nodeProperty);
+            this._reBuild(true);
             this._nextVersion();
         }
     }
