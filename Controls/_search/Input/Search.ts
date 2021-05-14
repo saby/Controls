@@ -6,7 +6,6 @@ import {descriptor} from 'Types/entity';
 import {constants} from 'Env/Env';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {default as Store} from 'Controls/Store';
-import {ContextOptions} from 'Controls/context';
 import 'css!Controls/search';
 
 // timer for search, when user click on search button or pressed enter.
@@ -22,12 +21,6 @@ let _private = {
         return this._options.readOnly ? '_readOnly' : '';
     }
 };
-
-interface IContrastBackgroundContext {
-    searchOptions: {
-        contrastBackground: boolean
-    };
-}
 
 /**
  * Контрол "Строка поиска". Является однострочным полем ввода. Контрол используют в реестрах для ввода поискового запроса.
@@ -102,7 +95,7 @@ class Search extends Base {
 
     protected _renderStyle(): string {
         let style: string;
-        if (this._options.contrastBackground || this._context?.searchOptions?.contrastBackground) {
+        if (this._options.contrastBackground || this._options._dataOptionsValue?.contrastBackground) {
             style = 'searchContrast';
         } else {
             style = 'search';
@@ -210,12 +203,6 @@ class Search extends Base {
     }
 
     static _private = _private;
-
-    static contextTypes(): IContrastBackgroundContext {
-        return {
-            searchOptions: ContextOptions
-        };
-    }
 
     static getDefaultOptions(): object {
        let defaultOptions = Base.getDefaultOptions();

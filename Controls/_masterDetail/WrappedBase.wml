@@ -1,0 +1,5 @@
+<Controls.context:ContextOptionsConsumer scope="{{ _options }}">
+    <ws:contextOptionsInnerComponent>
+        <Controls._masterDetail.Base scope="{{ contextOptionsInnerComponent }}" />
+    </ws:contextOptionsInnerComponent>
+</Controls.context:ContextOptionsConsumer>
