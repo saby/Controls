@@ -87,7 +87,7 @@
 <div name="gridWrapper"
      on:wheel="_onGridWrapperWheel()"
      on:mouseenter="_onWrapperMouseEnter()"
-     class="{{ _getGridViewWrapperClasses(_options) }}">
+     class="controls_list_theme-{{_options.theme}} {{ _getGridViewWrapperClasses(_options) }}">
 
     <style if="{{ _options.columnScroll }}" name="columnScrollStylesContainer" data-vdom-ignore="true"></style>
 
