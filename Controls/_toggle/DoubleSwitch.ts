@@ -7,8 +7,9 @@ import {descriptor as EntityDescriptor} from 'Types/entity';
 import {ICheckable, ICheckableOptions} from './interface/ICheckable';
 import {ITooltip, ITooltipOptions} from 'Controls/interface';
 import 'css!Controls/toggle';
+import {IContrastBackgroundOptions} from "Controls/_interface/IContrastBackground";
 
-export interface IDoubleSwitchOptions extends IControlOptions, ICheckableOptions, ITooltipOptions {
+export interface IDoubleSwitchOptions extends IControlOptions, ICheckableOptions, ITooltipOptions, IContrastBackgroundOptions {
    captions?: string[];
    orientation?: string;
 }
@@ -26,6 +27,7 @@ const CAPTIONS_LENGTH = 2;
  * @extends UI/Base:Control
  * @implements Controls/toggle:ICheckable
  * @implements Controls/interface:ITooltip
+ * @implements Controls/interface:IContrastBackground
  * 
  * @public
  * @author Красильников А.С.
@@ -95,7 +97,8 @@ class DoubleSwitch extends Control<IDoubleSwitchOptions> implements ICheckable, 
 
    static getDefaultOptions(): object {
       return {
-         value: false
+         value: false,
+         contrastBackground: true
       };
    }
    static getOptionTypes(): object {
@@ -105,6 +108,7 @@ class DoubleSwitch extends Control<IDoubleSwitchOptions> implements ICheckable, 
             'vertical',
             'horizontal'
          ]),
+          contrastBackground: EntityDescriptor(Boolean),
 
          // TODO: сделать проверку на массив когда будет сделана задача
          // https://online.sbis.ru/opendoc.html?guid=2016ea16-ed0d-4413-82e5-47c3aeaeac59
@@ -121,6 +125,13 @@ Object.defineProperty(DoubleSwitch, 'defaultProps', {
       return DoubleSwitch.getDefaultOptions();
    }
 });
+
+/**
+ * @name Controls/_toggle/DoubleSwitch#contrastBackground
+ * @cfg {string}
+ * @default true
+ * @demo Controls-demo/toggle/DoubleSwitch/ContrastBackground/Index
+ */
 
 /**
  * @name Controls/_toggle/DoubleSwitch#captions

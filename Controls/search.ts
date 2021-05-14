@@ -33,7 +33,7 @@ export {default as MisspellContainer} from 'Controls/_search/Misspell/Container'
 export {default as ControllerClass} from './_search/ControllerClass';
 export {default as InputContainer} from './_search/Input/Container';
 export {default as SearchResolver} from './_search/SearchResolver';
-export {default as Input} from './_search/Input/Search';
+export { default as Input } from 'Controls/_search/Input/WrappedSearch';
 
 import getSwitcherStrFromData = require('Controls/_search/Misspell/getSwitcherStrFromData');
 export {

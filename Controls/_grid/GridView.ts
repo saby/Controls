@@ -20,6 +20,7 @@ const GridView = ListView.extend({
     _isFullMounted: false,
 
     _columnScrollViewController: null,
+    _isColumnScrollUpdateFrozen: false,
     _columnScrollWrapperClasses: '',
     _columnScrollContentClasses: '',
     _dragScrollOverlayClasses: '',
@@ -94,6 +95,7 @@ const GridView = ListView.extend({
 
     _applyChangedOptions(newOptions, oldOptions, changes): void {
         this._doAfterUpdate(() => {
+            this._isColumnScrollUpdateFrozen = false;
             this._actualizeColumnScroll(newOptions, oldOptions);
         });
     },
@@ -138,9 +140,14 @@ const GridView = ListView.extend({
             // Набор колонок необходимо менять после перезагрузки. Иначе возникает ошибка, когда список
             // перерисовывается с новым набором колонок, но со старыми данными. Пример ошибки:
             // https://online.sbis.ru/opendoc.html?guid=91de986a-8cb4-4232-b364-5de985a8ed11
+            this._isColumnScrollUpdateFrozen = true;
             this._doAfterReload(() => {
                 this._applyChangedOptions(newOptions, oldOptions, changes);
                 this._applyChangedOptionsToModel(this._listModel, newOptions, changes);
+            });
+        } else if (!this._isColumnScrollUpdateFrozen) {
+            this._doAfterUpdate(() => {
+                this._actualizeColumnScroll(newOptions, oldOptions);
             });
         }
     },
@@ -542,7 +549,13 @@ const GridView = ListView.extend({
             || !!target.closest(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`)) {
             return;
         }
-        this._columnScrollViewController.scrollToElementIfHidden(target.getBoundingClientRect());
+        let targetRect;
+        if (this._listModel.getEditingConfig()?.mode === 'cell') {
+            targetRect = (target.closest('.controls-Grid__row-cell') || target).getBoundingClientRect();
+        } else {
+            targetRect = target.getBoundingClientRect();
+        }
+        this._columnScrollViewController.scrollToElementIfHidden(targetRect);
         this._applyColumnScrollChanges();
     }
 

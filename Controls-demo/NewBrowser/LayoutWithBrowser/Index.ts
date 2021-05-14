@@ -3,7 +3,7 @@ import * as template from 'wml!Controls-demo/NewBrowser/LayoutWithBrowser/templa
 import {Memory} from 'Types/source';
 import {object} from 'Types/util';
 import {DemoSource} from 'Controls-demo/NewBrowser/DemoSource';
-import {FlatHierarchy} from 'Controls-demo/_DemoData/Data';
+import {FlatHierarchy} from 'Controls-demo/DemoData';
 import {getListConfiguration} from '../ListConfiguration';
 
 const baseSource = new DemoSource({

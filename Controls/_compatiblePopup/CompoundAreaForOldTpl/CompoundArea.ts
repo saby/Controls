@@ -307,6 +307,7 @@ var CompoundArea = CompoundContainer.extend([
          this.close();
       } else {
           self._setCustomHeaderAsync();
+          self._registerLinkedView();
           runDelayed(function() {
             // Перед автофокусировкой нужно проверить, что фокус уже не находится внутри
             // панели, т. к. этот callback вызывается уже после полного цикла создания
@@ -344,6 +345,8 @@ var CompoundArea = CompoundContainer.extend([
    _afterMount: function(cfg) {
       this._options = cfg;
       this._enabled = cfg.hasOwnProperty('enabled') ? cfg.enabled : true;
+
+      this.getContainer().toggleClass('ws-float-area-has-close-button', !Controller.getRightTemplate());
 
       var self = this;
 
@@ -1097,6 +1100,7 @@ var CompoundArea = CompoundContainer.extend([
                   this._getManagerConfig().removePending = null;
                }
                this._notifyVDOM('close', null, { bubbling: true });
+               this._callCloseCallback(this._closeArgs);
                this._notifyCompound('onClose', this._closeArgs);
                this._notifyCompound('onAfterClose', this._closeArgs);
             } else {
@@ -1561,6 +1565,74 @@ var CompoundArea = CompoundContainer.extend([
 
       // if res instanceof Error, return it as non-captured
       return res;
+   },
+
+   // SBIS3.CONTROLS/Mixins/SelectorMixin
+   _toggleLinkedViewEvents: function(sub) {
+      this[sub ? 'subscribeTo' : 'unsubscribeFrom'](this._linkedView, 'onItemActivate', this._changeSelectionHandler);
+   },
+   setLinkedView: function (linkedView) {
+      var multiSelectChanged;
+
+      /* Отпишемся у старой view от событий */
+      if(this._linkedView && this._linkedView !== linkedView) {
+         this._toggleLinkedViewEvents(false);
+      }
+      this._linkedView = linkedView;
+
+      if (linkedView){
+         multiSelectChanged = this._linkedView.getMultiselect() !== this._options.multiSelect;
+         this._toggleLinkedViewEvents(true);
+
+         if(multiSelectChanged) {
+            this._linkedView.setMultiselect(this._options.multiSelect);
+         }
+
+         var currentSelectedKeys = this._options.currentSelectedKeys || [];
+
+         if (currentSelectedKeys.length) {
+            if (this._options.multiSelect) {
+               this._linkedView.setSelectedKeys(currentSelectedKeys);
+            } else {
+               this._linkedView.setSelectedKey(currentSelectedKeys[0]);
+            }
+         }
+      }
+   },
+   getLinkedView: function() {
+      return this._linkedView;
+   },
+   _changeSelectionHandler: function(event, result) {
+      var linkedView = this.getLinkedView(),
+          item = result.item;
+      if (linkedView.getSelectedKeys().length) {
+         return;
+      }
+      if (cInstance.instanceOfMixin(linkedView, 'SBIS3.CONTROLS/Mixins/TreeMixin') && item.get(linkedView.getNodeProperty())) {
+         return;
+      }
+      this.close([result.item]);
+   },
+   _registerLinkedView: function() {
+      if (!this._options.closeCallback) {
+         return;
+      }
+      this._changeSelectionHandler = this._changeSelectionHandler.bind(this);
+      var childControls = this.getChildControls();
+
+      for(var i = 0, l = childControls.length; i < l; i++){
+         var childControl = childControls[i];
+
+         if(cInstance.instanceOfModule(childControl, 'SBIS3.CONTROLS/ListView')){
+            this.setLinkedView(childControl);
+            break;
+         }
+      }
+   },
+   _callCloseCallback: function(value) {
+      if (this._options && typeof this._options.closeCallback === 'function') {
+         this._options.closeCallback(value);
+      }
    }
 });
 export default CompoundArea;
