@@ -393,13 +393,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // region Drag-n-drop
 
-    setDraggedItems(draggableItem: T, draggedItemsKeys: Array<number | string>): void {
-        if (draggableItem.isExpanded()) {
-            this.toggleExpanded(draggableItem);
-        }
-        super.setDraggedItems(draggableItem, draggedItemsKeys);
-    }
-
     setDragPosition(position: IDragPosition<T>): void {
         const dragStrategy = this.getStrategyInstance(this._dragStrategy) as TreeDrag;
 

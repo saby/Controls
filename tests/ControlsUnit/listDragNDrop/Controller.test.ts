@@ -34,7 +34,8 @@ describe('Controls/_listDragNDrop/Controller', () => {
       it ('not pass draggedItem', () => {
          const modelSetDraggedItemsSpy = spy(model, 'setDraggedItems');
          controller.startDrag(null, new ItemsEntity({items: [1]}));
-         assert.isFalse(modelSetDraggedItemsSpy.called);
+         assert.isTrue(modelSetDraggedItemsSpy.called);
+         assert.isNotOk(controller.getDraggableItem());
 
          const item = model.getItemBySourceKey(1);
          controller.startDrag(item, new ItemsEntity({items: [1]}));
