@@ -202,4 +202,25 @@ describe('Controls/grid_clean/GridView', () => {
             assert.notInclude(classes, 'controls-GridView__paddingBottom__itemActionsV_outside');
         });
     });
+
+    describe('Header', () => {
+        it('update header visibility', () => {
+            const options = {
+                headerVisibility: 'hasdata'
+            };
+            const gridView = new GridView(options);
+            gridView.saveOptions(options);
+
+            let visibility;
+            gridView._listModel = {
+                setHeaderVisibility: (value) => {
+                    visibility = value;
+                }
+            };
+
+            const newVisibility = 'visible';
+            gridView._beforeUpdate({headerVisibility: newVisibility});
+            assert.equal(visibility, newVisibility);
+        });
+    });
 });
