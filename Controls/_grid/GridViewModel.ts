@@ -342,12 +342,12 @@ var
                     classLists.base += `controls-Grid__row-cell_default_min_height-theme-${theme} `;
                 }
                 classLists.base += `controls-Grid__row-cell controls-Grid__cell_${style} controls-Grid__row-cell_${style}_theme-${theme}`;
-                _private.prepareSeparatorClasses(current, classLists, theme);
 
                 if (backgroundColorStyle) {
                     classLists.base += _private.getBackgroundStyle({backgroundStyle, theme, backgroundColorStyle}, true);
                 }
             }
+            _private.prepareSeparatorClasses(current, classLists, theme);
 
             if (self._options.columnScroll) {
                 classLists.columnScroll += _private.getColumnScrollCalculationCellClasses(current, theme);

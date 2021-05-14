@@ -52,13 +52,13 @@ var
          data.searchBreadCrumbsItemContent = "Controls/breadcrumbs:ItemTemplate";
          data.breadcrumbsItemClickCallback = this._breadcrumbsItemClickCallback;
 
-         data.getColspan = (tmplColspan, isColumnScrollVisible: boolean) => {
-             if (data.columnScroll && isColumnScrollVisible) {
+         data.getColspan = (tmplColspan, isColumnScrollVisible: boolean, columnSeparatorSize?: string) => {
+             if ((data.columnScroll && isColumnScrollVisible) || columnSeparatorSize) {
                  return false;
              }
              return typeof tmplColspan === 'undefined' ? true : tmplColspan;
          };
-         data.getColspanLength = (tmplColspan, isColumnScrollVisible) => {
+         data.getColspanLength = (tmplColspan, isColumnScrollVisible, columnSeparatorSize?: string) => {
              /*
              * Если в списке с горизонтальным скроллом в режиме поиска весь контент таблицы умещается в родителе и не нужно ничего скроллировать,
              * то можно растянуть хлебные крошки на всю строку.
@@ -67,7 +67,7 @@ var
              if (data.columnScroll && isColumnScrollVisible) {
                  return data.stickyColumnsCount;
              } else {
-                 return tmplColspan !== false ? undefined : 1;
+                 return !columnSeparatorSize && tmplColspan !== false ? undefined : 1;
              }
          };
          data.shouldHideColumnSeparator = (tmplColspan, isColumnScrollVisible): boolean => {
