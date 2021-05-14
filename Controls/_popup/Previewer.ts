@@ -170,7 +170,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
                 if (!this._isPopupOpened()) {
                     this._debouncedAction('_open', [event]);
                 }
-            };
+            });
             this._calmTimer.start();
         }
     }
