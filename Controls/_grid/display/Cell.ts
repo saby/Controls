@@ -295,7 +295,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             wrapperClasses += ` controls-background-${style}`;
 
         } else {
-            wrapperClasses += ` controls-background-${this._$backgroundStyle}`;
+            wrapperClasses += ` controls-background-${this._$backgroundStyle || 'default'}`;
         }
         return wrapperClasses;
     }

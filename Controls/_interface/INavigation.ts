@@ -163,7 +163,7 @@ export type IBaseSourceConfig = IBasePositionSourceConfig | IBasePageSourceConfi
 
 /**
  * @typedef {String} TNavigationTotalInfo
- * @description Допустимые значения для параметра {@link Controls/interface:INavigation/TNavigationTotalInfo.typedef totalInfo}.
+ * @description Допустимые значения для параметра {@link Controls/interface:INavigationViewConfig#totalInfo totalInfo}.
  * @variant basic Отображается только общее число записей.
  * @variant extended Отображается общее число записей, номера первой и последней записей на текущей странице, а также размер страницы.
  */
@@ -279,7 +279,7 @@ export interface INavigationOptionValue<U> {
     view?: TNavigationView;
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#sourceConfig
-     * @cfg {INavigationSourceConfig} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @cfg {Controls/_interface/INavigation/INavigationSourceConfig.typedef} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
      * <pre class="brush: html">
      * <!-- WML -->
@@ -318,7 +318,7 @@ export interface INavigationOptions<U> {
  * @author Крайнов Д.О.
  */
 
- /*
+/**
  * Interface for list navigation.
  *
  * @interface Controls/_interface/INavigation
@@ -375,7 +375,7 @@ export default interface INavigation {
  * @demo Controls-demo/list_new/Navigation/ScrollPaging/Index
  */
 
- /*
+/**
  * @name Controls/_interface/INavigation#navigation
  * @cfg {Navigation} List navigation configuration. Configures data source navigation (pages, offset, position) and navigation view (pages, infinite scroll, etc.)
  * @example
@@ -416,5 +416,28 @@ export default interface INavigation {
  *       }
  *    };
  * }
+ * </pre>
+ */
+
+/**
+ * @name Controls/interface:INavigationSourceConfig#multiNavigation 
+ * @cfg {Boolean} Включает режим множественной навигации.
+ * @default false
+ * @remark Подробнее читайте в статье "{@link /doc/platform/developmentapl/service-development/service-contract/logic/list/navigate/multinavigation/ Множественная навигация в списочных контролах}".
+ * @example
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.list:View
+ *    keyProperty="id"
+ *    source="{{_viewSource}}">
+ *    <ws:navigation source="page" view="pages">
+ *       <ws:sourceConfig 
+ *          pageSize="{{10}}"
+ *          page="{{0}}"
+ *          hasMore="{{false}}" 
+ *          multiNavigation="{{true}}" >
+ *       <ws:viewConfig totalInfo="basic"/>
+ *    </ws:navigation>
+ * </Controls.list:View>
  * </pre>
  */

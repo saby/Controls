@@ -393,13 +393,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // region Drag-n-drop
 
-    setDraggedItems(draggableItem: T, draggedItemsKeys: Array<number | string>): void {
-        if (draggableItem.isExpanded()) {
-            this.toggleExpanded(draggableItem);
-        }
-        super.setDraggedItems(draggableItem, draggedItemsKeys);
-    }
-
     setDragPosition(position: IDragPosition<T>): void {
         const dragStrategy = this.getStrategyInstance(this._dragStrategy) as TreeDrag;
 
@@ -535,6 +528,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (this._$nodeProperty !== nodeProperty) {
             this._$nodeProperty = nodeProperty;
             this._hierarchyRelation.setNodeProperty(nodeProperty);
+            this._reBuild(true);
             this._nextVersion();
         }
     }
@@ -821,7 +815,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         return this._lastItem;
     }
 
-    private _getLastItemRecursive(root: S): S {
+    protected _getLastItemRecursive(root: S): S {
         // Обращаемся к иерархии для получения детей
         const children = this.getChildrenByRecordSet(root);
         const lastChild: S = children[children.length - 1];

@@ -1,4 +1,4 @@
-<div class="controls-MonthList__month">
+<div class="controls-MonthList__month controls_calendar_theme-{{_options.theme}}">
    <div class="controls-MonthList__month-header">
       <ws:if data="{{headerTemplate}}">
          <ws:partial

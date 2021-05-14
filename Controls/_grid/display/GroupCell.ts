@@ -46,6 +46,9 @@ export default class GroupCell<T>
     }
 
     _getColspanParams(): IColspanParams {
+        if (this._$colspan) {
+            return super._getColspanParams();
+        }
         const hasMultiSelect = this._$owner.hasMultiSelectColumn();
         const ladderStickyColumn = this._$owner.getStickyColumn();
         const ladderColumnLength = ladderStickyColumn ? ladderStickyColumn.property.length : 0;
@@ -75,19 +78,17 @@ export default class GroupCell<T>
 
     getRightTemplateClasses(separatorVisibility: boolean,
                             textVisible: boolean,
-                            columnAlignGroup: number,
-                            textAlign: string,
-                            theme: string): string {
+                            columnAlignGroup: number): string {
         let classes = `controls-ListView__groupContent-rightTemplate`;
-        const groupPaddingClasses = this._$owner.getGroupPaddingClasses(theme, 'right');
+        const groupPaddingClasses = this._$owner.getGroupPaddingClasses(undefined, 'right');
 
         if (!this._shouldFixGroupOnColumn(columnAlignGroup, textVisible)) {
             classes += ' ' + groupPaddingClasses;
         }
 
         // should add space before rightTemplate
-        if (separatorVisibility === false && (textVisible === false || textAlign !== 'right')) {
-            classes += ' controls-ListView__groupContent-withoutGroupSeparator';
+        if (separatorVisibility === false && textVisible === false) {
+            classes += ' controls-ListView__groupContent-withoutGroupSeparator controls-ListView__groupContent_right';
         }
 
         return classes;

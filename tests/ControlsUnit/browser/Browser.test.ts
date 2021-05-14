@@ -5,6 +5,7 @@ import { detection } from 'Env/Env';
 import {assert} from 'chai';
 import * as sinon from 'sinon';
 import {SyntheticEvent} from 'UI/Vdom';
+import {adapter} from "Types/entity";
 
 const browserData = [
     {
@@ -557,6 +558,15 @@ describe('Controls/browser:Browser', () => {
                 options.searchValue = 'test';
                 browser._beforeUpdate(options);
                 assert.deepStrictEqual(browser._filter.name, 'test');
+
+                options = {...options};
+                delete options.searchValue;
+                options.filter = {
+                    testField: 'newFilterValue'
+                };
+                browser._searchValue = 'test';
+                browser._beforeUpdate(options);
+                assert.deepStrictEqual(browser._filter.name, 'test');
             });
 
             it('update source and searchValue should reset inputSearchValue', async () => {
@@ -611,6 +621,26 @@ describe('Controls/browser:Browser', () => {
 
                 browser._dataLoader.getSourceController().cancelLoading();
                 assert.ok(browser._loading);
+            });
+
+            it('search returns recordSet with another format', async () => {
+                const options = getBrowserOptions();
+                const browser = getBrowser(options);
+                await browser._beforeMount(options);
+                browser.saveOptions(options);
+
+                browser._source.query = () => {
+                    return Promise.resolve(
+                        new RecordSet({
+                            adapter: new adapter.Sbis(),
+                            format: [
+                                { name: 'testName2', type: 'string' }
+                            ]
+                        })
+                    );
+                };
+                await browser._search(null, 'testSearchValue');
+                assert.ok(browser._sourceControllerState.items.getFormat().getFieldIndex('testName2') !== -1);
             });
 
         });

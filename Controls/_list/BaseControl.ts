@@ -431,6 +431,24 @@ const _private = {
         return needAttachLoadDownTriggerToNull;
     },
 
+    recountAttachIndicatorsAfterReload(self): void {
+        if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
+            // Не нужно показывать ромашку сразу после релоада, т.к. элементов может быть недостаточно на всю страницу
+            // и тогда загрузка должна будет пойти только в одну сторону.
+            // Ромашку покажем на _afterRender, когда точно будем знать достаточно ли элементов загружено
+            self._attachLoadTopTriggerToNull = false;
+            self._hideTopTrigger = true;
+            self._resetTopTriggerOffset = true;
+            self._updateScrollController(self._options);
+        }
+        if (_private.attachLoadDownTriggerToNullIfNeed(self, self._options)) {
+            if (!self._resetDownTriggerOffset) {
+                self._resetDownTriggerOffset = true;
+                self._updateScrollController(self._options);
+            }
+        }
+    },
+
     assignItemsToModel(self: BaseControl, items: RecordSet, newOptions: IBaseControlOptions): void {
         const listModel = self._listViewModel;
         const oldCollection = listModel.getCollection();
@@ -857,6 +875,7 @@ const _private = {
                 return addedItems;
             }).addErrback((error: CancelableError) => {
                 self._loadToDirectionInProgress = false;
+                self._handleLoadToDirection = false;
 
                 _private.hideIndicator(self);
                 // скроллим в край списка, чтобы при ошибке загрузки данных шаблон ошибки сразу был виден
@@ -1077,6 +1096,8 @@ const _private = {
             down: self._hasMoreData(self._sourceController, 'down')
         };
         if (self._hasMoreData(self._sourceController, direction)) {
+
+            self._resetPagingOnResetItems = false;
             let pagingMode = '';
             if (self._options.navigation && self._options.navigation.viewConfig) {
                 pagingMode = self._options.navigation.viewConfig.pagingMode;
@@ -1686,21 +1707,7 @@ const _private = {
             }
 
             if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length)) {
-                if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
-                    // Не нужно показывать ромашку сразу после релоада, т.к. элементов может быть недостаточно на всю страницу
-                    // и тогда загрузка должна будет пойти только в одну сторону.
-                    // Ромашку покажем на _afterRender, когда точно будем знать достаточно ли элементов загружено
-                    self._attachLoadTopTriggerToNull = false;
-                    self._hideTopTrigger = true;
-                    self._resetTopTriggerOffset = true;
-                    self._updateScrollController(self._options);
-                }
-                if (_private.attachLoadDownTriggerToNullIfNeed(self, self._options)) {
-                    if (!self._resetDownTriggerOffset) {
-                        self._resetDownTriggerOffset = true;
-                        self._updateScrollController(self._options);
-                    }
-                }
+                _private.recountAttachIndicatorsAfterReload(self);
             }
 
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
@@ -1712,7 +1719,10 @@ const _private = {
             }
 
             if (self._scrollPagingCtr && action === IObservable.ACTION_RESET) {
-                self._scrollPagingCtr = null;
+                if (self._resetPagingOnResetItems) {
+                    self._scrollPagingCtr = null;
+                }
+                self._resetPagingOnResetItems = true;
             }
 
             if (self._scrollController) {
@@ -2341,8 +2351,9 @@ const _private = {
     },
 
     resetPagingNavigation(self, navigation) {
-        self._knownPagesCount = INITIAL_PAGES_COUNT;
         self._currentPageSize = navigation && navigation.sourceConfig && navigation.sourceConfig.pageSize || 1;
+        
+        self._knownPagesCount = self._items ? _private.calcPaging(self, self._items.getMetaData().more, self._currentPageSize) : INITIAL_PAGES_COUNT;
 
         // TODO: KINGO
         // нумерация страниц пейджинга начинается с 1, а не с 0 , поэтому текущая страница пейджига это страница навигации + 1
@@ -3354,6 +3365,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _pagingVisibilityChanged = false;
     _actualPagingVisible = false;
     _pagingPadding = null;
+    _resetPagingOnResetItems: boolean = true;
 
     // если пэйджинг в скролле показался то запоним это состояние и не будем проверять до след перезагрузки списка
     _cachedPagingState = false;
@@ -4152,6 +4164,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
             _private.initListViewModelHandler(this, this._listViewModel, newOptions.useNewModel);
             this._modelRecreated = true;
+            if (newOptions.useNewModel) {
+                this._onItemsReady(newOptions, items);
+            }
             this._shouldNotifyOnDrawItems = true;
 
             _private.setHasMoreData(this._listViewModel, _private.getHasMoreData(this));
@@ -4230,6 +4245,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 this._listViewModel.setActionsAssigned(isActionsAssigned);
                 _private.initVisibleItemActions(this, newOptions);
                 this._updateScrollController(newOptions);
+
+                _private.recountAttachIndicatorsAfterReload(this);
             }
 
             if (newOptions.sourceController) {
@@ -5174,6 +5191,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     getMarkerController(): MarkerController {
         return _private.getMarkerController(this, this._options);
+    }
+
+    getLastVisibleItemKey(): number | string | void {
+        if (this._scrollController) {
+            const itemsContainer = this.getItemsContainer();
+            const scrollTop = this._getScrollParams().scrollTop;
+            const lastVisibleItem = this._scrollController.getLastVisibleRecord(itemsContainer, this._container, scrollTop);
+            return lastVisibleItem.getContents().getKey();
+        }
     }
 
     protected _changeMarkedKey(newMarkedKey: CrudEntityKey, shouldFireEvent: boolean = false): Promise<CrudEntityKey>|CrudEntityKey {

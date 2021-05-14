@@ -164,22 +164,24 @@ export interface ITileConfig {
         /**
          * Расположение узлов
          */
-        position: NodesPosition,
+        position: NodesPosition;
 
         /**
          * Кол-во строк в описании
          */
-        descriptionLines: number,
+        descriptionLines: number;
 
         /**
          * Режим отображения картинки
          */
-        imageViewMode: ImageViewMode,
+        imageViewMode: ImageViewMode;
 
         /**
          * Режим отображения градиента
          */
-        imageGradient: ImageGradient
+        imageGradient: ImageGradient;
+
+        imageProportion: string;
     };
 
     /**
@@ -189,17 +191,19 @@ export interface ITileConfig {
         /**
          * Кол-во строк в описании
          */
-        descriptionLines: number,
+        descriptionLines: number;
 
         /**
          * Режим отображения картинки
          */
-        imageViewMode: ImageViewMode
+        imageViewMode: ImageViewMode;
 
         /**
          * Режим отображения градиента
          */
-        imageGradient: ImageGradient
+        imageGradient: ImageGradient;
+
+        imageProportion: string;
     };
 }
 
@@ -250,7 +254,9 @@ export interface IListConfig {
         /**
          * Позиция картинки на плитке
          */
-        imagePosition: ListImagePosition
+        imagePosition: ListImagePosition,
+
+        imageViewMode: ImageViewMode
     };
 
     /**

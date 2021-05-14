@@ -1,9 +1,13 @@
 import { assert } from 'chai';
+import { spy } from 'sinon';
 
 import { RecordSet } from 'Types/collection';
 import TileCollection from 'Controls/_tile/display/TileCollection';
 import TileView from 'Controls/_tile/TileView';
-import {CssClassesAssert} from "ControlsUnit/CustomAsserts";
+import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
+import GroupItem from 'Controls/_display/GroupItem';
+import {SyntheticEvent} from "UI/Vdom";
+import TileCollectionItem from 'Controls/_tile/display/TileCollectionItem';
 
 describe('Controls/_tile/TileView', () => {
     let tileView, model;
@@ -102,6 +106,26 @@ describe('Controls/_tile/TileView', () => {
                 }
             });
             CssClassesAssert.isSame(tileView.getItemsPaddingContainerClasses(), 'controls-TileView__itemPaddingContainer controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding_default controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_default controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_default controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_default');
+        });
+    });
+
+    describe('_onItemMouseLeave', () => {
+        it('not tile item', () => {
+            const event = new SyntheticEvent(null, {});
+            const item = new GroupItem();
+            assert.doesNotThrow(tileView._onItemMouseLeave.bind(tileView, event, item));
+        });
+        
+        it('tile item', () => {
+            const owner = {
+                getDisplayProperty: () => '',
+                notifyItemChange: () => {/*mock*/}
+            };
+            const event = new SyntheticEvent(null, {});
+            const item = new TileCollectionItem({owner});
+            const methodSpy = spy(item, 'setCanShowActions');
+            tileView._onItemMouseLeave(event, item);
+            assert.isTrue(methodSpy.withArgs(false).called);
         });
     });
 });
