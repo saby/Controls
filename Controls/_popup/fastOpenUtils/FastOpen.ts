@@ -14,8 +14,13 @@ export class DependencyTimer {
     }
 }
 
-const CALM_DELAY: number = 100;
+const CALM_DELAY: number = 40;
 
+/**
+ * Модуль, упрощающий открытие всплывающего окна через определенный промежуток времени
+ * @public
+ * @author Мочалов М.А.
+ */
 export class CalmTimer {
     protected _openId: number;
     protected _waitTimer: number;
@@ -39,6 +44,12 @@ export class CalmTimer {
         this._closeId = null;
     }
 
+    /**
+     * Открытие окна, находящегося внутри callback, через опеределенный промежуток времени.
+     * Рекомендуется использовать во время события mouseMove, или когда нет необхожимости закрывать окно через определенны промежуток времени
+     * @param {Function} callback
+     * @param {number} delay
+     */
     start(callback: Function, delay?: number): void {
         this._clearWaitTimer();
         this._waitTimer = setTimeout(() => {
@@ -47,6 +58,11 @@ export class CalmTimer {
         }, delay || CALM_DELAY);
     }
 
+    /**
+     * Открытие окна, находящегося внутри callback, через определенный промежуток времени
+     * @param {Function} callback
+     * @param {number} delay
+     */
     open(callback: Function, delay: number): void {
         this.resetTimeOut();
         this._openId = setTimeout(() => {
@@ -55,6 +71,11 @@ export class CalmTimer {
         }, delay);
     }
 
+    /**
+     * Закрытие окна, находящегося внутри callback, через определенный промежуток времени
+     * @param {Function} callback
+     * @param {number} delay
+     */
     close(callback: Function, delay: number): void {
         this._clearWaitTimer();
         clearTimeout(this._openId);

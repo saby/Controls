@@ -1,4 +1,4 @@
-const MOUSE_LEAVE_DELAY = 1000;
+const MOUSE_LEAVE_DELAY = 40;
 /**
  * HoverController
  * @author Мочалов М.А.
