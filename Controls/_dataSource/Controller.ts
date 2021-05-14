@@ -385,6 +385,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             navigation: this._options.navigation,
 
             parentProperty: this._parentProperty,
+            nodeProperty: this._options.nodeProperty,
             root: this._root,
 
             items: this._items,
