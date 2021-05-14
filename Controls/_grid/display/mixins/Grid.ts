@@ -270,6 +270,13 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         this._$headerModel = null;
     }
 
+    setHeaderVisibility(headerVisibility: THeaderVisibility): void {
+        this._$headerVisibility = headerVisibility;
+        this._$headerModel = null;
+
+        this._nextVersion();
+    }
+
     setColumns(newColumns: TColumns): void {
         this._$columns = newColumns;
         this._nextVersion();
