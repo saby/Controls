@@ -15,6 +15,7 @@
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
  * @includes IMovable Controls/_list/interface/IMovable
+ * @includes Mover Controls/_list/Mover
  * @public
  * @author Крайнов Д.О.
  */
@@ -36,6 +37,7 @@
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
  * @includes IMovable Controls/_list/interface/IMovable
+ * @includes Mover Controls/_list/Mover
  * @public
  * @author Крайнов Д.О.
  */
