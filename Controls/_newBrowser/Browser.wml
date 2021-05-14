@@ -7,6 +7,8 @@
               scope="{{_masterExplorerOptions}}"
               name="masterList"
               root="{{_masterRoot}}"
+              on:arrowClick="_notifyHandler('masterArrowClick')"
+              on:editArrowClick="_notifyHandler('masterEditArrowClick')"
               on:rootChanged="_onMasterRootChanged()"
               bind:markedKey="_masterMarkedKey"
               on:itemClick="_onExplorerItemClick(true)"
