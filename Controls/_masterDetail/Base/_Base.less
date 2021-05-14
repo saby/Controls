@@ -11,10 +11,15 @@
 
 .controls-MasterDetail_master-template {
    box-sizing: border-box;
-   margin-right: var(--master_item_horizontal-offset_list);
+   padding-right: var(--master_item_horizontal-offset_list);
    border-right-style: solid;
    border-right-width: var(--master_separator_thickness_list);
    border-color: var(--master_separator_contrast-color_list);
+}
+
+.ws-is-ie .controls-MasterDetail_master-template {
+   padding-right: 0;
+   margin-right: var(--master_item_horizontal-offset_list);
 }
 
 .controls-master-template-newDesign {
