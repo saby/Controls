@@ -127,6 +127,10 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
         return this._$cellTemplate;
     }
 
+    getBreadcrumbsItemTemplate(): TemplateFunction | string {
+        return 'Controls/breadcrumbs:ItemTemplate';
+    }
+
     setColspanBreadcrumbs(colspanBreadcrumbs: boolean): void {
         if (this._$colspanBreadcrumbs !== colspanBreadcrumbs) {
             this._$colspanBreadcrumbs = colspanBreadcrumbs;
