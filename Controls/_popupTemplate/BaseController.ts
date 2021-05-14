@@ -172,6 +172,10 @@ abstract class BaseController {
         return false;
     }
 
+    protected dragNDropOnPage(item: IPopupItem): boolean {
+        return false;
+    }
+
     protected needRecalcOnKeyboardShow(): boolean {
         return false;
     }

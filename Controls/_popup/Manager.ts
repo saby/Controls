@@ -58,6 +58,7 @@ class Manager {
         this._updateContext();
         ManagerController.setManager(this);
         EventBus.channel('navigation').subscribe('onBeforeNavigate', this._navigationHandler.bind(this));
+        this._subscribeToPageDragNDrop();
 
         if (detection.isMobilePlatform) {
             window.addEventListener('orientationchange', () => {
@@ -238,6 +239,15 @@ class Manager {
         return item && (item.popupState === item.controller.POPUP_STATE_START_DESTROYING ||
              item.popupState === item.controller.POPUP_STATE_DESTROYING ||
              item.popupState === item.controller.POPUP_STATE_DESTROYED);
+    }
+
+    private _subscribeToPageDragNDrop(): void {
+        // Подписка и на платформенное перемещение, и на нативное, т.к. перемещение файлов из ОС тоже нужно отследить.
+        const handler = this.eventHandler.bind(this, 'pageDragnDropHandler');
+        EventBus.channel('dragnDrop').subscribe('documentDragStart', handler);
+        if (document) {
+            document.addEventListener('dragenter', handler);
+        }
     }
 
     // Если из текушего окна не открыто других окон, то поднимем его выше среди окон того же уровня (с тем же родителем)
@@ -828,6 +838,14 @@ class Manager {
         } else {
             item.popupOptions = oldOptions;
         }
+    }
+
+    protected _pageDragnDropHandler(): boolean {
+        this._popupItems.each((item) => {
+            if (item.controller.dragNDropOnPage(item)) {
+                this.remove(item.id);
+            }
+        });
     }
 
     // TODO Должно быть удалено после https://online.sbis.ru/opendoc.html?guid=f2b13a65-f404-4fbd-a05c-bbf6b59358e6
