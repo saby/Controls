@@ -1,7 +1,7 @@
 import {mixin} from 'Types/util';
 import {Record, Model} from 'Types/entity';
 
-import {IMarkable, ILadderConfig, TLadderElement} from 'Controls/display';
+import {IMarkable, ILadderConfig, TLadderElement, IEditingConfig} from 'Controls/display';
 
 import { IDisplaySearchValue, IDisplaySearchValueOptions } from './interface/IDisplaySearchValue';
 
@@ -162,6 +162,10 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
         } else {
             return this.getOwner().isEditing();
         }
+    }
+
+    getEditingConfig(): IEditingConfig {
+        return this._$owner.getEditingConfig();
     }
 
     // endregion

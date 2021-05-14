@@ -2474,7 +2474,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
 
     getEditingConfig(): IEditingConfig {
-        return this._$editingConfig;
+        return this._$editingConfig || {};
     }
 
     setSearchValue(searchValue: string): void {

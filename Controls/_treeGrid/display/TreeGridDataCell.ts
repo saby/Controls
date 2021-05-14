@@ -1,5 +1,5 @@
 import { GridDataCell } from 'Controls/grid';
-import { isFullGridSupport } from 'Controls/display';
+import {IEditingConfig, isFullGridSupport} from 'Controls/display';
 import TreeGridDataRow from './TreeGridDataRow';
 import { Model } from 'Types/entity';
 
@@ -69,6 +69,10 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
         }
 
         return classes;
+    }
+
+    getEditingConfig(): IEditingConfig {
+        return this._$owner.getEditingConfig();
     }
 }
 
