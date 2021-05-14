@@ -558,6 +558,15 @@ describe('Controls/browser:Browser', () => {
                 options.searchValue = 'test';
                 browser._beforeUpdate(options);
                 assert.deepStrictEqual(browser._filter.name, 'test');
+
+                options = {...options};
+                delete options.searchValue;
+                options.filter = {
+                    testField: 'newFilterValue'
+                };
+                browser._searchValue = 'test';
+                browser._beforeUpdate(options);
+                assert.deepStrictEqual(browser._filter.name, 'test');
             });
 
             it('update source and searchValue should reset inputSearchValue', async () => {
