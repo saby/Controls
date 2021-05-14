@@ -301,7 +301,6 @@ function onCollectionChange<T>(
             // виртуального скролла.
             // TODO избавиться по ошибке https://online.sbis.ru/opendoc.html?guid=f44d88a0-ac53-4d45-9dea-2b594211ee57
             const needReset = this._$compatibleReset || newItems.length === 0 || reason === 'assign';
-            this._resetEdgeItems();
             this._reBuild(needReset);
             projectionNewItems = toArray(this);
             this._notifyBeforeCollectionChange();
@@ -317,7 +316,6 @@ function onCollectionChange<T>(
             if (!needReset) {
                 this._handleCollectionActionChange(newItems);
             }
-            this._updateEdgeItems();
             this._nextVersion();
             return;
 
@@ -336,7 +334,6 @@ function onCollectionChange<T>(
     }
 
     session = this._startUpdateSession();
-    this._resetEdgeItems();
 
     switch (action) {
         case IObservable.ACTION_ADD:
@@ -376,7 +373,6 @@ function onCollectionChange<T>(
     }
 
     this._finishUpdateSession(session);
-    this._updateEdgeItems();
     this._nextVersion();
 }
 
@@ -2524,83 +2520,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this.getIndex(this.getItemBySourceKey(key) as T);
     }
 
-    // region Аспект "крайние записи"
-
-    getLastItem(): EntityModel {
-        if (!this._lastItem) {
-            this._lastItem = this.getCollection().at(this.getCollection().getCount() - 1);
-        }
-        return this._lastItem;
+    isLastItem(item: CollectionItem): boolean {
+        return this.getCount() - 1 === this.getIndex(item);
     }
-
-    getFirstItem(): EntityModel<any> {
-        if (!this._firstItem) {
-            this._firstItem = this.getCollection().at(0);
-        }
-        return this._firstItem;
-    }
-
-    /**
-     * Метод для сброса текущих крайних элементов.
-     * Если в модели изменились или добавились записи и запускается reindex,
-     * то этот метод должен вызываться до reindex,
-     * иначе крайние элементы не будут найдены в enumerator
-     * @private
-     */
-    protected _resetEdgeItems(): void {
-        if (this._$collection['[Types/_collection/RecordSet]']) {
-            this._setCollectionItemEdgeState(this.getFirstItem(), false, 'first');
-            this._setCollectionItemEdgeState(this.getLastItem(), false, 'last');
-            this._firstItem = null;
-            this._lastItem = null;
-        }
-    }
-
-    /**
-     * Метод обновляет крайние элементы.
-     * Если в модели изменились или добавились записи и запускается reindex,
-     * то этот метод должен вызываться после reindex,
-     * иначе крайние элементы не будут найдены в enumerator
-     * @private
-     */
-    protected _updateEdgeItems(): void {
-        if (this._$collection['[Types/_collection/RecordSet]']) {
-            this._setCollectionItemEdgeState(this.getFirstItem(), true, 'first');
-            this._setCollectionItemEdgeState(this.getLastItem(), true, 'last');
-        }
-    }
-
-    protected _isLastItem(item: EntityModel): boolean {
-        const lastItem = this.getLastItem();
-        return this._getItemKey(lastItem) === this._getItemKey(item);
-    }
-
-    protected _isFirstItem(item: EntityModel): boolean {
-        const firstItem = this.getFirstItem();
-        return this._getItemKey(firstItem) === this._getItemKey(item);
-    }
-
-    private _getItemKey(item: EntityModel | object): number | string {
-        return item && ((item as EntityModel).getKey ? (item as EntityModel).getKey() : item[this._$keyProperty]);
-    }
-
-    private _setCollectionItemEdgeState(item: EntityModel, value: boolean, edge: 'first' | 'last'): void {
-        if (!item) {
-            return;
-        }
-        const key = item.getKey ? item.getKey() : item[this._$keyProperty];
-        const collectionItem = this.getItemBySourceKey(key);
-        if (!collectionItem) {
-            return;
-        }
-        if (edge === 'first') {
-            collectionItem.setIsFirstItem(value);
-        } else {
-            collectionItem.setIsLastItem(value);
-        }
-    }
-
-    // endregion Аспект "крайние записи"
 
     getHasMoreData(): boolean {
         return this._$hasMoreData;
@@ -3230,11 +3152,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.searchValue = this._$searchValue;
             options.markerPosition = this._$markerPosition;
             options.roundBorder = this._$roundBorder;
-
-            if (this._$collection['[Types/_collection/RecordSet]']) {
-                options.isLastItem = this._isLastItem(options.contents);
-                options.isFirstItem = this._isFirstItem(options.contents);
-            }
 
             return create(options.itemModule || this._itemModule, options);
         };
