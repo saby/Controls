@@ -46,7 +46,11 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     protected _beforeMount(options: IInfoBoxOptions): void {
         this._resultHandler = this._resultHandler.bind(this);
         this._closeHandler = this._closeHandler.bind(this);
-        this._calmTimer = new CalmTimer();
+        this._calmTimer = new CalmTimer(() => {
+            if (!this._opened && !this._context.isTouch.isTouch) {
+                this._startOpeningPopup();
+            }
+        });
     }
 
     protected _beforeUnmount(): void {
@@ -106,11 +110,8 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     }
 
     private _startOpeningPopup(): void {
-        const callback = () => {
-            this.open();
-            this._forceUpdate();
-        };
-        this._calmTimer.open(callback.bind(this), this._options.showDelay);
+        this.open();
+        this._forceUpdate();
     }
 
     protected _contentMousedownHandler(event: SyntheticEvent<MouseEvent>): void {
@@ -124,12 +125,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
 
     protected _contentMousemoveHandler(): void {
         if (this._options.trigger === 'hover' || this._options.trigger === 'hover|touch') {
-            const callback = () => {
-                if (!this._opened && !this._context.isTouch.isTouch) {
-                    this._startOpeningPopup();
-                }
-            };
-            this._calmTimer.start(callback.bind(this));
+            this._calmTimer.start();
         }
     }
 
@@ -145,7 +141,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
                 this.close();
                 this._forceUpdate();
             };
-            this._calmTimer.close(callback.bind(this), this._options.hideDelay);
+            this._calmTimer.stop(callback.bind(this), this._options.hideDelay);
         }
     }
 

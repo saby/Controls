@@ -14,21 +14,29 @@ export class DependencyTimer {
     }
 }
 
-const CALM_DELAY: number = 100;
+const CALM_DELAY: number = 40;
 
+/**
+ * Модуль, упрощающий открытие всплывающего окна через определенный промежуток времени
+ * @public
+ * @author Мочалов М.А.
+ */
 export class CalmTimer {
     protected _openId: number;
-    protected _waitTimer: number;
+    protected _callback: Function;
     protected _closeId: number;
 
-    private _clearWaitTimer(): void {
-        if (this._waitTimer) {
-            clearTimeout(this._waitTimer);
+    constructor(callback?: Function) {
+        if (callback) {
+            this.setCallback(callback);
         }
     }
 
+    setCallback(callback: Function): void {
+        this._callback = callback;
+    }
+
     resetTimeOut(): void {
-        this._clearWaitTimer();
         if (this._openId) {
             clearTimeout(this._openId);
         }
@@ -39,29 +47,27 @@ export class CalmTimer {
         this._closeId = null;
     }
 
-    start(callback: Function, delay?: number): void {
-        this._clearWaitTimer();
-        this._waitTimer = setTimeout(() => {
-            this._waitTimer = null;
-            callback();
-        }, delay || CALM_DELAY);
-    }
-
-    open(callback: Function, delay: number): void {
+    /**
+     * Выполнение callback, через опеределенный промежуток времени.
+     */
+    start(): void {
         this.resetTimeOut();
         this._openId = setTimeout(() => {
             this._openId = null;
-            callback();
-        }, delay);
+            this._callback();
+        }, CALM_DELAY);
     }
 
-    close(callback: Function, delay: number): void {
-        this._clearWaitTimer();
+    /**
+     * Закрытие окна, находящегося внутри callback, через определенный промежуток времени
+     * @param {Function} callback
+     */
+    stop(callback: Function): void {
         clearTimeout(this._openId);
         this._closeId = setTimeout(() => {
             this._closeId = null;
             callback();
-        }, delay);
+        }, CALM_DELAY);
     }
 }
 
