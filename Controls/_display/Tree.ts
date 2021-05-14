@@ -1138,10 +1138,13 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         for (let i = 0; i < collection.getCount(); i++) {
             const item = collection.at(i);
             const isNode = item.get(this.getNodeProperty()) !== null;
+            // TODO убрать кривую проверку, после переноса nodeTypeProperty в Tree
+            //  https://online.sbis.ru/opendoc.html?guid=ccebc1db-8f2c-48bd-a8f3-b5910668b598
+            const isGroupNode = item.get(this.getNodeTypeProperty && this.getNodeTypeProperty());
             const hasChildren = this.getHasChildrenProperty()
                 ? item.get(this.getHasChildrenProperty())
                 : !!this.getChildrenByRecordSet(item).length;
-            if (isNode && hasChildren) {
+            if (isNode && hasChildren && !isGroupNode) {
                 hasNodeWithChildren = true;
                 break;
             }
