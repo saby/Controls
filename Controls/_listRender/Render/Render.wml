@@ -1,4 +1,4 @@
-<div attr:class="controls-ListViewV controls-ListView_default">
+<div attr:class="controls-ListViewV controls-ListView_default controls_list_theme-{{_options.theme}}">
    <ws:if data="{{ _options.listModel }}">
       <div attr:class="controls-ListViewV__itemsContainer controls-ListViewV__itemsContainer--newRender" name="itemsContainer">
          <ws:partial
