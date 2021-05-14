@@ -26,7 +26,13 @@ export class CalmTimer {
     protected _callback: Function;
     protected _closeId: number;
 
-    constructor(callback: Function) {
+    constructor(callback?: Function) {
+        if (callback) {
+            this.setCallback(callback);
+        }
+    }
+
+    setCallback(callback: Function): void {
         this._callback = callback;
     }
 

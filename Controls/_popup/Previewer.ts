@@ -36,11 +36,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
         this._resultHandler = this._resultHandler.bind(this);
         this._closeHandler = this._closeHandler.bind(this);
         this._debouncedAction = debounce(this._debouncedAction, 10);
-        this._calmTimer = new CalmTimer(() => {
-            if (!this._isPopupOpened()) {
-                this._debouncedAction('_open', [event]);
-            }
-        });
+        this._calmTimer = new CalmTimer();
     }
 
     protected _beforeUnmount(): void {
@@ -170,6 +166,11 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
 
     protected _contentMousemoveHandler(event: SyntheticEvent<MouseEvent>): void {
         if (!this._options.readOnly && (this._options.trigger === 'hover' || this._options.trigger === 'hoverAndClick')) {
+            this._calmTimer.setCallback(() => {
+                if (!this._isPopupOpened()) {
+                    this._debouncedAction('_open', [event]);
+                }
+            });
             this._calmTimer.start();
         }
     }
