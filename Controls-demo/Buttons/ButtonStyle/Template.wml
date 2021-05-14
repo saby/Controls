@@ -18,18 +18,4 @@
         <Controls.buttons:Button viewMode="functionalButton" icon="icon-Yes" iconSize="m" iconStyle="contrast" inlineHeight="l" buttonStyle="danger"></Controls.buttons:Button>{{' '}}
         <Controls.buttons:Button viewMode="functionalButton" icon="icon-Yes" iconSize="m" iconStyle="contrast" inlineHeight="l" buttonStyle="unaccented"></Controls.buttons:Button>
     </div>
-
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">contrastBackground=true</div>
-        <ws:for data="buttonStyle in _buttonStyles">
-            <Controls.buttons:Button caption="{{buttonStyle}}" buttonStyle="{{buttonStyle}}" contrastBackground="{{true}}"></Controls.buttons:Button>{{' '}}
-        </ws:for>
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">contrastBackground=false</div>
-        <ws:for data="buttonStyle in _buttonStyles">
-            <Controls.buttons:Button caption="{{buttonStyle}}" buttonStyle="{{buttonStyle}}" contrastBackground="{{false}}"></Controls.buttons:Button>{{' '}}
-        </ws:for>
-    </div>
-
 </div>

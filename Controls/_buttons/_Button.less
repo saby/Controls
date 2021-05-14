@@ -241,23 +241,23 @@
 }
 
 .controls-Button_button_style-danger {
-   border-color: var(--danger_contrast_background-color_button);
+   border-color: var(--danger_contrast_background-color);
 }
 
 .controls-Button_button_style-success {
-   border-color: var(--success_contrast_background-color_button);
+   border-color: var(--success_contrast_background-color);
 }
 
 .controls-Button_button_style-warning {
-   border-color: var(--warning_contrast_background-color_button);
+   border-color: var(--warning_contrast_background-color);
 }
 
 .controls-Button_button_style-info {
-   border-color: var(--info_contrast_background-color_button);
+   border-color: var(--info_contrast_background-color);
 }
 
 .controls-Button_button_style-unaccented {
-   border-color: var(--unaccented_border-color_button);
+   border-color: var(--unaccented_border-color);
 }
 
 .controls-Button_button_style-default {
@@ -393,13 +393,13 @@
       background-color: var(--background-color_button);
    }
    .controls-Button_button_style-@{_item}.controls-Button_bg-contrast {
-      background-color: ~"var(--@{_item}_contrast_background-color_button)";
+      background-color: ~"var(--@{_item}_hover_contrast_background-color)";
       .button-shadow();
    }
 });
 
 .controls-Button_button_style-unaccented.controls-Button_bg-contrast {
-   border-color: var(--unaccented_contrast_background-color_button);
+   border-color: var(--unaccented_hover_contrast_background-color);
 }
 
 .controls-Button_button_style-readonly.controls-Button_bg-contrast {
@@ -426,10 +426,10 @@
 .ws-is-hover {
    .for(@button_styles, {
       .controls-Button_button_style-@{_item}:hover {
-         background-color: ~"var(--@{_item}_hover_background-color_button)";
+         background-color: ~"var(--@{_item}_hover_background-color)";
       }
       .controls-Button_button_style-@{_item}.controls-Button_bg-contrast:hover {
-         background-color: ~"var(--@{_item}_hover_contrast_background-color_button)";
+         background-color: ~"var(--@{_item}_hover_contrast_background-color)";
       }
    });
 
@@ -444,10 +444,10 @@
 .ws-is-no-touch, .ws-is-touch {
    .for(@button_styles, {
       .controls-Button_button_style-@{_item}:active {
-         background-color: ~"var(--@{_item}_active_background-color_button)";
+         background-color: ~"var(--@{_item}_active_background-color)";
       }
       .controls-Button_button_style-@{_item}.controls-Button_bg-contrast:active {
-         background-color: ~"var(--@{_item}_active_contrast_background-color_button)";
+         background-color: ~"var(--@{_item}_active_contrast_background-color)";
       }
    });
 }
