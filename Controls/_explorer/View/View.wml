@@ -13,7 +13,6 @@
                header="{{_header}}"
                rootVisible="{{_dragOnBreadCrumbs}}"
                highlighter="{{[_breadCrumbsDragHighlighter]}}"
-
                root="{{content._options.root}}"
                items="{{content._options.breadCrumbsItems}}"
 
@@ -27,6 +26,8 @@
                                           header="{{content.header}}"
                                           name="treeControl"
                                           viewName="{{_viewName}}"
+                                          markerStrategy="{{_markerStrategy}}"
+                                          itemContainerGetter="{{_itemContainerGetter}}"
                                           viewModelConstructor="{{_viewModelConstructor}}"
                                           actionAlignment="{{ _viewMode === 'tile' ? 'vertical' : _options.actionAlignment }}"
                                           actionCaptionPosition="{{ _viewMode === 'tile' ? 'none' : _options.actionCaptionPosition }}"
