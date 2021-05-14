@@ -899,7 +899,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
         const dndListController = this.getDndListController();
         const targetIsNotDraggableItem = dndListController.getDraggableItem()?.getContents() !== dispItem.getContents();
-        if (dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() && targetIsNotDraggableItem) {
+        if (dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() !== null && targetIsNotDraggableItem) {
             const targetElement = _private.getTargetRow(this, nativeEvent);
             const mouseOffsetInTargetItem = this._calculateOffset(nativeEvent, targetElement);
             const dragTargetPosition = dndListController.calculateDragPosition({
