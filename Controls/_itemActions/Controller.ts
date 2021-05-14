@@ -882,7 +882,7 @@ export class Controller {
     }
 
     private static _resolveItemActionClass(theme: string): string {
-        return 'controls-itemActionsV__action_icon';
+        return `controls-itemActionsV__action_icon controls_list_theme-${theme}`;
     }
 
     private static _isMatchingActionLists(
