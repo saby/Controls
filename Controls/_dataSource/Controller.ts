@@ -204,9 +204,6 @@ export default class Controller extends mixin<
         }
         if (cfg.expandedItems !== undefined) {
             this.setExpandedItems(cfg.expandedItems);
-            if (cfg.expandedItems.length) {
-                this._deepReload = true;
-            }
         }
         this.setParentProperty(cfg.parentProperty);
 
