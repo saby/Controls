@@ -77,14 +77,18 @@ export default class Collection<
     }
 
     setCurrentWidth(width: number, columnMinWidth: number): void {
-        if (width > 0 && this._currentWidth !== width && this._$columnsMode === 'auto') {
+        if (width > 0 &&
+            this._currentWidth !== width &&
+            this._$columnsMode === 'auto' &&
+            this._$columnMinWidth || columnMinWidth
+        ) {
             this._recalculateColumnsCountByWidth(width, this._$columnMinWidth || columnMinWidth);
         }
         this._currentWidth = width;
     }
 
     private _recalculateColumnsCountByWidth(width: number, columnMinWidth: number): void {
-        const newColumnsCount = Math.floor(width / ((columnMinWidth || DEFAULT_MIN_WIDTH) + this._$spacing));
+        const newColumnsCount = Math.floor(width / (columnMinWidth + this._$spacing));
         if (newColumnsCount !== this._columnsCount) {
             this._columnsCount = newColumnsCount;
             this.setColumnsCount(this._columnsCount);

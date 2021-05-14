@@ -9,7 +9,12 @@ export default class MultiColumnMarkerStrategy extends AbstractStrategy {
     }
 
     getNextMarkedKey(index: number): CrudEntityKey | void {
-        return this.getMarkedKeyByDirection(index, 'Right');
+        const markedItem = this._model.find((item) => item.isMarked());
+        let resIndex = index;
+        if (!markedItem) {
+            resIndex += -1;
+        }
+        return this.getMarkedKeyByDirection(resIndex, 'Right');
     }
 
     getPrevMarkedKey(index: number): CrudEntityKey | void {

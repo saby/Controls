@@ -2,7 +2,7 @@ import AbstractStrategy from './AbstractStrategy';
 import {CrudEntityKey} from 'Types/source';
 
 export default class SingleColumnMarkerStrategy extends AbstractStrategy {
-    getMarkedKeyByDirection(index: number, direction: string): CrudEntityKey | void {
+    private _calculateNearbyItem(index: number, direction: string): CrudEntityKey {
         let item;
         const next = direction === 'Down';
         const count = this._model.getCount();
@@ -20,13 +20,18 @@ export default class SingleColumnMarkerStrategy extends AbstractStrategy {
 
         return null;
     }
+    getMarkedKeyByDirection(index: number, direction: string): CrudEntityKey | void {
+        const next = direction === 'Down' || direction === 'Forward';
+        const resIndex = next ? index + 1 : index - 1;
+        return this._calculateNearbyItem(resIndex,  direction);
+    }
 
     getNextMarkedKey(index: number): CrudEntityKey | void {
-        return this.getMarkedKeyByDirection(index, 'Down');
+        return this._calculateNearbyItem(index, 'Down');
     }
 
     getPrevMarkedKey(index: number): CrudEntityKey | void {
-        return this.getMarkedKeyByDirection(index, 'Up');
+        return this._calculateNearbyItem(index, 'Left');
     }
 
     shouldMoveMarkerOnScrollPaging(): boolean {

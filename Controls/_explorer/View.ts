@@ -8,7 +8,7 @@ import * as randomId from 'Core/helpers/Number/randomId';
 import {constants} from 'Env/Env';
 import {Logger} from 'UI/Utils';
 import {Model} from 'Types/entity';
-import {IItemPadding, IList} from 'Controls/list';
+import {IItemPadding, IList, ListView, } from 'Controls/list';
 import {ViewTemplate as ColumnsViewTemplate, ItemContainerGetter} from 'Controls/columns';
 import {SingleColumnStrategy, MultiColumnStrategy} from 'Controls/marker';
 import {isEqual} from 'Types/object';
@@ -58,30 +58,30 @@ const VIEW_NAMES = {
     search: SearchView,
     tile: null,
     table: TreeGridView,
-    list: ColumnsViewTemplate
+    list: ListView
 };
 
 const MARKER_STRATEGY = {
-    list: MultiColumnStrategy,
+    list: SingleColumnStrategy,
     tile: SingleColumnStrategy,
     table: SingleColumnStrategy
 };
 
 const ITEM_GETTER = {
-    list: ItemContainerGetter
+    list: undefined
 };
 
 const VIEW_TABLE_NAMES = {
     search: SearchViewTable,
     tile: null,
     table: TreeGridViewTable,
-    list: ColumnsViewTemplate
+    list: ListView
 };
 const VIEW_MODEL_CONSTRUCTORS = {
     search: 'Controls/searchBreadcrumbsGrid:SearchGridCollection',
     tile: null,
     table: 'Controls/treeGrid:TreeGridCollection',
-    list: 'Controls/columns:ColumnsCollection'
+    list: 'Controls/treeGrid:TreeGridCollection'
 };
 
 const EXPLORER_CONSTANTS = {
@@ -187,6 +187,12 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _isGoingFront: boolean;
 
     protected _beforeMount(cfg: IExplorerOptions): Promise<void> {
+        if (cfg.useColumns) {
+            VIEW_NAMES.list = ColumnsViewTemplate;
+            MARKER_STRATEGY.list = MultiColumnStrategy;
+            ITEM_GETTER.list = ItemContainerGetter;
+            VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
+        }
         if (cfg.itemPadding) {
             this._itemPadding = cfg.itemPadding;
         }

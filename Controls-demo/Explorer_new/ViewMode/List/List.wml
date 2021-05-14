@@ -8,6 +8,7 @@
                             parentProperty="parent"
                             nodeProperty="parent@"
                             viewMode="{{'list'}}"
+                            useColumns="{{true}}"
                             columnsCount="{{1}}"
                             header="{{_gridHeader}}"
                             columns="{{_columns}}">
