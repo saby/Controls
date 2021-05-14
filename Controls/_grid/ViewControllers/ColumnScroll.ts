@@ -372,12 +372,13 @@ export default class ColumnScroll {
         }
     }
 
-    getScrollBarStyles({columns, itemActionsPosition}, stickyColumns: number = 0): string {
+    getScrollBarStyles({columns, itemActionsPosition, multiSelectVisibility, multiSelectPosition}, stickyColumns: number = 0): string {
         let offset = 0;
         let lastCellOffset = 0;
+        const hasMultiSelectColumn = multiSelectVisibility !== 'hidden' && multiSelectPosition !== 'custom';
 
         // Учёт колонки с чекбоксами для выбора записей
-        if (this._options.hasMultiSelectColumn) {
+        if (hasMultiSelectColumn) {
             offset += 1;
         }
 
