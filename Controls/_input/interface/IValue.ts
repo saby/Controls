@@ -105,35 +105,6 @@ export interface IValueOptions<T> {
      *     }
      * }
      * </pre>
-     * @example
-     * Сохраняем данные о пользователе и текущее время при отправке формы.
-     * 
-     * <pre class="brush: html">
-     * <form action="Auth.php" name="form">
-     *     <Controls.input:Text bind:value="_login"/>
-     *     <Controls.input:Password bind:value="_password"/>
-     *     <Controls.buttons:Button on:click="_saveUser()" caption="Отправить"/>
-     * </form>
-     * </pre>
-     * 
-     * <pre class="brush: js">
-     * export class Form extends Control<IControlOptions, void> {
-     *     private _login: string = '';
-     *     private _password: string = '';
-     *     private _server: Server = new Server();
-     *
-     *     private _saveUser() {
-     *         this._server.saveData({
-     *             date: new Date(),
-     *             login: this._login,
-     *             password: this._password
-     *         });
-     *
-     *         this._children.form.submit();
-     *     }
-     * }
-     * </pre>
-     *
      * @see valueChanged
      * @see inputCompleted
      */
