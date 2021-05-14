@@ -8,7 +8,9 @@ import * as randomId from 'Core/helpers/Number/randomId';
 import {constants} from 'Env/Env';
 import {Logger} from 'UI/Utils';
 import {Model} from 'Types/entity';
-import {IItemPadding, IList, ListView} from 'Controls/list';
+import {IItemPadding, IList, ListView, } from 'Controls/list';
+import {ViewTemplate as ColumnsViewTemplate, ItemContainerGetter} from 'Controls/columns';
+import {SingleColumnStrategy, MultiColumnStrategy} from 'Controls/marker';
 import {isEqual} from 'Types/object';
 import {CrudEntityKey, DataSet, LOCAL_MOVE_POSITION} from 'Types/source';
 import {
@@ -58,6 +60,17 @@ const VIEW_NAMES = {
     table: TreeGridView,
     list: ListView
 };
+
+const MARKER_STRATEGY = {
+    list: SingleColumnStrategy,
+    tile: SingleColumnStrategy,
+    table: SingleColumnStrategy
+};
+
+const ITEM_GETTER = {
+    list: undefined
+};
+
 const VIEW_TABLE_NAMES = {
     search: SearchViewTable,
     tile: null,
@@ -119,6 +132,7 @@ interface IMarkedKeysStore {
 export default class Explorer extends Control<IExplorerOptions> {
     protected _template: TemplateFunction = template;
     protected _viewName: string;
+    protected _markerStrategy: string;
     protected _viewMode: TExplorerViewMode;
     protected _viewModelConstructor: string;
     private _navigation: object;
@@ -173,6 +187,12 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _isGoingFront: boolean;
 
     protected _beforeMount(cfg: IExplorerOptions): Promise<void> {
+        if (cfg.useColumns) {
+            VIEW_NAMES.list = ColumnsViewTemplate;
+            MARKER_STRATEGY.list = MultiColumnStrategy;
+            ITEM_GETTER.list = ItemContainerGetter;
+            VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
+        }
         if (cfg.itemPadding) {
             this._itemPadding = cfg.itemPadding;
         }
@@ -800,7 +820,9 @@ export default class Explorer extends Control<IExplorerOptions> {
         } else {
             this._viewName = VIEW_TABLE_NAMES[viewMode];
         }
+        this._markerStrategy = MARKER_STRATEGY[viewMode];
         this._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS[viewMode];
+        this._itemContainerGetter = ITEM_GETTER[viewMode];
     }
 
     private _setViewModeSync(viewMode: TExplorerViewMode, cfg: IExplorerOptions): void {
@@ -1024,6 +1046,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             viewMode: DEFAULT_VIEW_MODE,
             backButtonIconStyle: 'primary',
             backButtonFontColorStyle: 'secondary',
+            columnsCount: 1,
             stickyHeader: true,
             searchStartingWith: 'root',
             showActionButton: false,
