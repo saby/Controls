@@ -331,28 +331,8 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
             assert.isTrue(collection.isLastItem(collection.at(7)));
         });
 
-        // 10. Смена groupProperty
-        it('Group changed', () => {
-            const data = [
-                {id: 1, pid: null, node: true, group: 'g1', group2: 'g21'},
-                {id: 2, pid: 1, node: null, group: 'g1', group2: 'g22'},
-                {id: 3, pid: null, node: true, group: 'g2', group2: 'g22'},
-                {id: 4, pid: 3, node: null, group: 'g2', group2: 'g21'}
-            ];
-            const recordSet = getItems(data);
-            const collection = getTreeGrid(recordSet, {
-                groupProperty: 'group',
-                expandedItems: [1, 3]
-            });
-            const initialLastItem = collection.at(5);
-
-            assert.isTrue(initialLastItem.isLastItem());
-
-            collection.setGroupProperty('group2');
-
-            assert.isFalse(initialLastItem.isLastItem());
-            assert.isTrue(collection.at(5).isLastItem());
-        });
+        // 10. Смена groupProperty с пересортировкой возможна только со сменой parent,
+        // поэтому это тут не тестируем. Смена parent протестирована выше
     });
 
     // 9. Create in collection
