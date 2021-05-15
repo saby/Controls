@@ -1,6 +1,6 @@
 import IItemsStrategy from 'Controls/_display/IItemsStrategy';
 import TreeItem from '../TreeItem';
-import Tree from '../Tree';
+import Tree, { TNodeFooterVisibilityCallback } from '../Tree';
 import {Model} from 'Types/entity';
 
 interface IOptions<S, T extends TreeItem<S>> {
@@ -53,6 +53,12 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
         const itemsOrder = this._getItemsOrder();
         const items = this._getItems();
         return itemsOrder.map((index) => items[index]);
+    }
+
+    setNodeFooterVisibilityCallback(callback: TNodeFooterVisibilityCallback): void {
+        if (this._options.nodeFooterVisibilityCallback !== callback) {
+            this._options.nodeFooterVisibilityCallback = callback;
+        }
     }
 
     at(index: number): T {
