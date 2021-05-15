@@ -64,6 +64,8 @@ export interface IButton extends IContrastBackground {
  * @variant danger
  * @variant info
  * @variant unaccented
+ * @variant default
+ * @variant pale
  * @default secondary
  * @remark
  * Стиль может влиять на цвет фона или цвет границы для различных значений режима отображения (viewMode).
