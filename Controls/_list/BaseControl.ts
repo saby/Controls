@@ -2358,7 +2358,7 @@ const _private = {
 
     resetPagingNavigation(self, navigation) {
         self._currentPageSize = navigation && navigation.sourceConfig && navigation.sourceConfig.pageSize || 1;
-        
+
         self._knownPagesCount = self._items ? _private.calcPaging(self, self._items.getMetaData().more, self._currentPageSize) : INITIAL_PAGES_COUNT;
 
         // TODO: KINGO
@@ -6555,6 +6555,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _onListDeactivated() {
         if (!this._itemActionsMenuId) {
             _private.closeSwipe(this);
+        } else {
+            _private.closeActionsMenu(this);
         }
     }
 
