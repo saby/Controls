@@ -88,6 +88,29 @@ interface IApplication extends IControlOptions{
    compat?: boolean;
 }
 
+const WS_IS_NO_TOUCH = 'ws-is-no-touch';
+const WS_IS_TOUCH = 'ws-is-touch';
+const WS_IS_NO_HOVER = 'ws-is-no-hover';
+const WS_IS_HOVER = 'ws-is-hover';
+const WS_IS_NO_DRAG = 'ws-is-no-drag';
+const WS_IS_DRAG = 'ws-is-drag';
+const WS_IS_NO_ADAPTIVE = 'ws-is-no-adaptive';
+const WS_IS_ADAPTIVE = 'ws-is-adaptive';
+
+/** Словарь взаимоисключающих классов */
+const DICT_OF_MUTUALLY_EXCLUSIVE_CLASSES = [
+   [WS_IS_ADAPTIVE, WS_IS_NO_ADAPTIVE],
+   [WS_IS_DRAG, WS_IS_NO_DRAG],
+   [WS_IS_HOVER, WS_IS_NO_HOVER],
+   [WS_IS_TOUCH, WS_IS_NO_TOUCH]
+].reduce((result: {}, current: string[]) => {
+   /** Добавляем в словарь по ключу ws-is-touch строку ws-is-no-touch и наоборот */
+   return {...result, ...{
+      [current[0]]: current[1],
+      [current[1]]: current[0]
+   }};
+}, {});
+
 /** Динамические классы для body */
 const BODY_CLASSES = {
    /* eslint-disable */
@@ -100,7 +123,7 @@ const BODY_CLASSES = {
    fromOptions: '',
    touchClass: '',
    hoverClass: '',
-   dragClass: 'ws-is-no-drag',
+   dragClass: WS_IS_NO_DRAG,
    themeClass: '',
    bodyThemeClass: '',
    isAdaptiveClass: ''
@@ -289,26 +312,43 @@ export default class Application extends Control<IApplication> {
    }
    private _dragStartHandler(): void {
       this._updateTouchClass({
-         dragClass: 'ws-is-drag'
+         dragClass: WS_IS_DRAG
       });
    }
    private _dragEndHandler(): void {
       this._updateTouchClass({
-         dragClass: 'ws-is-no-drag'
+         dragClass: WS_IS_NO_DRAG
       });
    }
    /* end Handlers */
 
+   /** Метод обработает список классов для добавления (на <body>) и дополнит список классов для удаления */
+   private _callBodyAPI(classesToAdd: string[] = [], classesToDelete: string[] = []): void {
+      /** Список классов для удаления. Например, если добавили ws-is-touch, нужно убрать ws-is-no-touch */
+      const mustRemove = [];
+
+      classesToAdd.forEach((item) => {
+         if (DICT_OF_MUTUALLY_EXCLUSIVE_CLASSES.hasOwnProperty(item)) {
+            mustRemove.push(DICT_OF_MUTUALLY_EXCLUSIVE_CLASSES[item]);
+         }
+      });
+
+      PageBody.getInstance().replaceClasses(
+         classesToDelete.concat(mustRemove
+            .filter((item) => !classesToDelete.includes(item))
+         ),
+         classesToAdd
+      );
+   }
    /** Задаем классы для body, которые не будут меняться */
    private _initBodyClasses(cfg: IApplication): void {
       this._initIsAdaptiveClass(cfg);
-      const BodyAPI = PageBody.getInstance();
       // Эти классы вешаются в двух местах. Разница в том, что BodyClasses всегда возвращает один и тот же класс,
       // а TouchDetector реагирует на изменение состояния.
       // Поэтому в Application оставим только класс от TouchDetector
       const bodyClasses = cBodyClasses()
-          .replace('ws-is-touch', '')
-          .replace('ws-is-no-touch', '')
+          .replace(WS_IS_TOUCH, '')
+          .replace(WS_IS_NO_TOUCH, '')
           .split(' ')
           .concat(['zIndex-context'])
           .filter(Application._isExist);
@@ -321,7 +361,7 @@ export default class Application extends Control<IApplication> {
             }
          }
       }
-      BodyAPI.addClass.apply(BodyAPI, bodyClasses);
+      this._callBodyAPI(bodyClasses);
    }
    private _initIsAdaptiveClass(cfg: IApplication): void {// TODO: toso
       if (cfg.isAdaptive) {
@@ -340,13 +380,12 @@ export default class Application extends Control<IApplication> {
             name: 'viewport',
             content: 'width=device-width, initial-scale=1.0, user-scalable=no'
          });
-         this._bodyClasses.isAdaptiveClass = 'ws-is-adaptive';
+         this._bodyClasses.isAdaptiveClass = WS_IS_ADAPTIVE;
       } else {
-         this._bodyClasses.isAdaptiveClass = '';
+         this._bodyClasses.isAdaptiveClass = WS_IS_NO_ADAPTIVE;
       }
    }
    private _updateBodyClasses(updated?: Partial<IBodyClassesField>): void {
-      const BodyAPI = PageBody.getInstance();
       const bodyClassesToUpdate = updated || this._bodyClasses;
       let classesToDelete = [];
       let classesToAdd = [];
@@ -356,8 +395,8 @@ export default class Application extends Control<IApplication> {
             if (bodyClassesToUpdate[key] === this._bodyClasses[key]) {
                continue;
             }
-            classesToAdd = classesToAdd.concat(bodyClassesToUpdate[key].split(' ').filter(Application._isExist))
-            classesToDelete = classesToDelete.concat(this._bodyClasses[key].split(' ').filter(Application._isExist))
+            classesToAdd = classesToAdd.concat(bodyClassesToUpdate[key].split(' ').filter(Application._isExist));
+            classesToDelete = classesToDelete.concat(this._bodyClasses[key].split(' ').filter(Application._isExist));
             this._bodyClasses[key] = bodyClassesToUpdate[key];
          }
       }
@@ -367,7 +406,7 @@ export default class Application extends Control<IApplication> {
       });
 
       if (classesToAdd.length || classesToDelete.length) {
-         BodyAPI.replaceClasses(classesToDelete || [], classesToAdd || []);
+         this._callBodyAPI(classesToAdd, classesToDelete);
       }
    }
    private _updateFromOptionsClass(options: IApplication): void {
@@ -400,12 +439,12 @@ export default class Application extends Control<IApplication> {
       if (this._touchController) {
          updated.touchClass = this._touchController.getClass();
       } else {
-         updated.touchClass = compatibility.touch ? 'ws-is-touch' : 'ws-is-no-touch';
+         updated.touchClass = compatibility.touch ? WS_IS_TOUCH : WS_IS_NO_TOUCH;
       }
 
       updated.hoverClass = this._isHover(updated.touchClass, updated.dragClass || this._bodyClasses.dragClass)
-          ? 'ws-is-hover'
-          : 'ws-is-no-hover';
+          ? WS_IS_HOVER
+          : WS_IS_NO_HOVER;
 
       this._updateBodyClasses(updated);
    }
@@ -551,7 +590,7 @@ export default class Application extends Control<IApplication> {
    }
 
    private _isHover(touchClass: string, dragClass: string): boolean {
-      return touchClass === 'ws-is-no-touch' && dragClass === 'ws-is-no-drag';
+      return touchClass === WS_IS_NO_TOUCH && dragClass === WS_IS_NO_DRAG;
    }
 
    private _getChildContext(): object {
