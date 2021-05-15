@@ -66,6 +66,7 @@
             <ws:partial template="{{ _listModel.getEmptyGridRow().getTemplate() }}"
                         attr:name="emptyView"
                         item="{{ _listModel.getEmptyGridRow() }}"
+                        containerSize="{{ _containerSize }}"
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
 
