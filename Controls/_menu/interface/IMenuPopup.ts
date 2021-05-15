@@ -120,7 +120,7 @@ export default interface IMenuPopup {
 
 /**
  * @name Controls/_menu/interface/IMenuPopup#breadCrumbsItemTemplate
- * @cfg {String} Шаблон хлебных крошек, отображеющийся при поиске в иерархическом меню.
+ * @cfg {String} Шаблон хлебных крошек, отображающийся при поиске в иерархическом меню.
  * @demo Controls-demo/Menu/Popup/SearchParam/BreadCrumbsItemTemplate/Index
  * @example
  * <pre>
