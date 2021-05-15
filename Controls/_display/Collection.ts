@@ -322,7 +322,7 @@ function onCollectionChange<T>(
         case IObservable.ACTION_CHANGE:
             session = this._startUpdateSession();
 
-            // FIXME: newItems.length - FIXME[OrderMatch]
+            // FIXME: newItems.length - FIXME[OrderMatch];
             this._reGroup(newItemsIndex, newItems.length);
             this._reSort();
             this._reFilter();
@@ -334,7 +334,7 @@ function onCollectionChange<T>(
     }
 
     session = this._startUpdateSession();
-
+    this._resetLastItem();
     switch (action) {
         case IObservable.ACTION_ADD:
             this._addItems(newItemsIndex, newItems);
@@ -2232,6 +2232,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this.removeStrategy(this._dragStrategy);
             this._reIndex();
             this._reFilter();
+            this._resetLastItem();
         }
     }
 
@@ -2524,6 +2525,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this.getCount() - 1 === this.getIndex(item);
     }
 
+    protected _resetLastItem(): void {
+        this.getLast().resetIsLastItem();
+    }
+
     getHasMoreData(): boolean {
         return this._$hasMoreData;
     }
@@ -2531,6 +2536,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setHasMoreData(hasMoreData: boolean): void {
         if (this._$hasMoreData !== hasMoreData) {
             this._$hasMoreData = hasMoreData;
+            this._resetLastItem();
             this._nextVersion();
         }
     }

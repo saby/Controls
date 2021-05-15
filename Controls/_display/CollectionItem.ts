@@ -631,12 +631,11 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     }
 
     isLastItem(): boolean {
-        return this.getOwner().isLastItem(this);
-        // if (!this._isLastItem === undefined) {
-        //     this._isLastItem = this.getOwner().isLastItem(this);
-        //     this._nextVersion();
-        // }
-        // return this._isLastItem;
+        if (this._isLastItem === undefined) {
+            this._isLastItem = this.getOwner().isLastItem(this);
+            this._nextVersion();
+        }
+        return this._isLastItem;
     }
 
     // region Drag-n-drop
