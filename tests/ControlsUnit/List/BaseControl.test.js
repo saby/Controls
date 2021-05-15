@@ -5342,25 +5342,6 @@ define([
          sandbox.restore();
       });
 
-      it('should close opened menu when list loses its focus (_onListDeactivated() is called)', () => {
-         const cfg = {
-            viewName: 'Controls/List/ListView',
-            viewModelConfig: {
-               items: [],
-               keyProperty: 'id'
-            },
-            viewModelConstructor: lists.ListViewModel,
-            keyProperty: 'id',
-            source: source
-         };
-         const instance = correctCreateBaseControl(cfg);
-         instance._itemActionsMenuId = '123';
-         const stubCloseActionsMenu = sinon.stub(lists.BaseControl._private, 'closeActionsMenu');
-         instance._onListDeactivated();
-         assert.isTrue(stubCloseActionsMenu.called);
-         stubCloseActionsMenu.restore();
-      });
-
       it('resolveIndicatorStateAfterReload', function() {
          let listViewModelCount = 0;
          var baseControlMock = {

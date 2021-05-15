@@ -1769,7 +1769,9 @@ const _private = {
             // Тут вызывается nextVersion на коллекции, и это приводит к вызову итератора.
             // Поэтому это должно быть после обработки изменений коллекции scrollController'ом, чтобы итератор
             // вызывался с актуальными индексами
-            if ((action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_REPLACE) &&
+            if ((action === IObservable.ACTION_REMOVE ||
+                action === IObservable.ACTION_REPLACE ||
+                action === IObservable.ACTION_RESET) &&
                 self._itemActionsMenuId) {
                 _private.closeItemActionsMenuForActiveItem(self, removedItems);
             }
@@ -6555,8 +6557,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _onListDeactivated() {
         if (!this._itemActionsMenuId) {
             _private.closeSwipe(this);
-        } else {
-            _private.closeActionsMenu(this);
         }
     }
 
