@@ -113,6 +113,15 @@ describe('Controls/_listDragNDrop/Controller', () => {
          controller.startDrag(model.getItemBySourceKey(1), entity);
       });
 
+      it('hover on no draggable item', () => {
+         const item = {
+            DraggableItem: false
+         };
+
+         const dragPosition = controller.calculateDragPosition({targetItem: item});
+         assert.isNull(dragPosition);
+      });
+
       it('hover on dragged item', () => {
          const dragPosition = controller.calculateDragPosition({targetItem: model.getItemBySourceKey(1)});
          assert.isUndefined(dragPosition);

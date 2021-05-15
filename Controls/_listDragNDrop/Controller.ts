@@ -108,6 +108,10 @@ export default class Controller<P> {
          throw new Error('Strategy was not created. Should be called Controller::startDrag');
       }
 
+      if (!params.targetItem.DraggableItem) {
+         return null;
+      }
+
       return this._strategy.calculatePosition({ ...params, currentPosition: this._dragPosition });
    }
 
