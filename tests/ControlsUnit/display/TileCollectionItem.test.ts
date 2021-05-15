@@ -274,15 +274,13 @@ describe('Controls/_display/TileCollectionItem', () => {
             getShadowVisibility(): string {
                 return '#visibility#';
             },
-            getMarkerVisibility(): string {
-                return 'onactivated';
-            },
             getSwipeAnimation() {
                 return this._swipeAnimation;
             },
             setSwipeAnimation(animation) {
                 this._swipeAnimation = animation;
             },
+            hasMultiSelectColumn: () => false,
             isEditing() {
                 return false;
             }

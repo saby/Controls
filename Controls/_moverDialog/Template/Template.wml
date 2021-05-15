@@ -1,4 +1,4 @@
-<Controls._moverDialog.BaseTemplate>
+<Controls._moverDialog.BaseTemplate headingCaption="{{_options.headingCaption}}">
    <ws:bodyContentTemplate>
       <Controls.browser:Browser source="{{_options.source}}"
                                 bind:filter="_filter"

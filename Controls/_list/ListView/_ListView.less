@@ -449,16 +449,26 @@
    display: inline-block;
    color: var(--grouping_expander_text-color_list);
    white-space: nowrap;
-   text-align: center;
    flex-shrink: 1;
    user-select: none;
    overflow: hidden;
    text-overflow: ellipsis;
 }
 
+.controls-ListView__groupContent_left {
+   text-align: left;
+}
+
+.controls-ListView__groupContent_right {
+   text-align: right;
+}
+
+.controls-ListView__groupContent_center {
+   text-align: center;
+}
+
 .controls-ListView__groupContent-withoutGroupSeparator {
    flex-grow: 1;
-   text-align: right;
 }
 
 /* В safari на iPad так отрисовывается Tensor-font, что у блоков с текстом сверху на ~1 пиксель больше отступ, чем
@@ -612,6 +622,7 @@
 
 .controls-ListView__item__marked_master {
    font-size: var(--master_item_selected_font-size_list);
+   color: var(--master_item_selected_text-color_list);
    font-weight: bold;
 }
 
@@ -640,7 +651,13 @@
 }
 
 .controls-ListView__itemV_marker_master {
-   display: none;
+   position: absolute;
+   box-sizing: border-box;
+   width: var(--master-marker_thickness_list);
+   height: var(--master-marker_height_list);
+   background-color: var(--master-marker_color_list);
+   top: 0;
+   left: 0;
 }
 
 .controls-ListView__groupContent_cursor-default {
@@ -656,8 +673,10 @@
 }
 
 .controls-ListView__item_master {
-   padding-top: var(--master_item_separator_thickness_list);
-   padding-bottom: var(--master_item_separator_thickness_list);
+   border-color: var(--master_item_background-color_list);
+   border-style: solid;
+   border-width: 0;
+   border-bottom-width: var(--master_item_separator_thickness_list);
 }
 
 //Пока страница не ожила, мы не знаем тач устройство или нет, так что на мобильных устройствах нужно скрыть операции над записью

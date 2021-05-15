@@ -21,8 +21,9 @@ define([
    'Controls/listRender',
    'Controls/itemActions',
    'Controls/dataSource',
+   'Controls/marker',
    'Core/polyfill/PromiseAPIDeferred'
-], function(sourceLib, collection, lists, tree, treeGrid, grid, tUtil, cDeferred, cInstance, Env, clone, entity, SettingsController, popup, listDragNDrop, dragNDrop, listRender, itemActions, dataSource) {
+], function(sourceLib, collection, lists, tree, treeGrid, grid, tUtil, cDeferred, cInstance, Env, clone, entity, SettingsController, popup, listDragNDrop, dragNDrop, listRender, itemActions, dataSource, marker) {
    describe('Controls.List.BaseControl', function() {
       var data, result, source, rs, sandbox;
 
@@ -2067,7 +2068,8 @@ define([
                getBoundingClientRect: function() { return {}; }
             };
             ctrl._getItemsContainer = () => ({
-               children: []
+               children: [],
+               querySelectorAll: () => []
             });
             // эмулируем появление скролла
             await lists.BaseControl._private.onScrollShow(ctrl, heightParams);
@@ -2182,7 +2184,8 @@ define([
             getBoundingClientRect: function() { return {}; }
          };
          ctrl._getItemsContainer = () => ({
-            children: []
+            children: [],
+            querySelectorAll: () => []
          });
          lists.BaseControl._private.onScrollShow(ctrl, heightParams);
          ctrl._updateShadowModeHandler({}, {top: 0, bottom: 0});
@@ -2479,7 +2482,8 @@ define([
             getBoundingClientRect: function() { return {}; }
          };
          ctrl._getItemsContainer = () => ({
-            children: []
+            children: [],
+            querySelectorAll: () => []
          });
          // эмулируем появление скролла
          lists.BaseControl._private.onScrollShow(ctrl, heightParams);
@@ -3008,12 +3012,14 @@ define([
          lnBaseControl.saveOptions(lnCfg);
          await lnBaseControl._beforeMount(lnCfg);
          it('moveMarkerOnScrollPaging option', function() {
-            let inst = {_options: {}, _setMarkerAfterScroll: false, _shouldMoveMarkerOnScrollPaging: () => inst._options.moveMarkerOnScrollPaging };
+            let strategy = new marker.SingleColumnStrategy({});
+            let inst = {_options: {}, _setMarkerAfterScroll: false, _shouldMoveMarkerOnScrollPaging: () => strategy.shouldMoveMarkerOnScrollPaging() };
             lists.BaseControl._private.setMarkerAfterScroll(inst);
             assert.isTrue(inst._setMarkerAfterScroll);
-
             inst._setMarkerAfterScroll = false;
-            inst._options.moveMarkerOnScrollPaging = false;
+            inst._markerController.updateOptions({
+               markerStrategy: marker.MultiColumnStrategy
+            });
             lists.BaseControl._private.setMarkerAfterScroll(inst);
             assert.isFalse(inst._setMarkerAfterScroll);
          });
@@ -4745,6 +4751,7 @@ define([
             };
             instance = correctCreateBaseControl(cfg);
             item =  item = {
+               ItemActionsItem: true,
                _$active: false,
                getContents: () => ({
                   getKey: () => 2
@@ -4817,6 +4824,7 @@ define([
             const fakeEvent = initFakeEvent();
             const itemAt1 = instance._listViewModel.at(1);
             const breadcrumbItem = {
+               ItemActionsItem: true,
                '[Controls/_display/BreadcrumbsItem]': true,
                _$active: false,
                getContents: () => ['fake', 'fake', 'fake', itemAt1.getContents() ],
@@ -5431,7 +5439,7 @@ define([
             keyProperty: 'id',
             rawData: [{ id: 'test' }]
          });
-         baseCtrl._listViewModel.setItems(recordSet);
+         baseCtrl._listViewModel.setItems(recordSet, {});
          reloadedItems = await baseCtrl.reloadItem('test', null, true, 'query');
          assert.isTrue(reloadedItems.getCount() === 0);
       });
@@ -7875,7 +7883,7 @@ define([
             const secondBaseControl = new lists.BaseControl();
             secondBaseControl.saveOptions(cfg);
             await secondBaseControl._beforeMount(cfg);
-            secondBaseControl._listViewModel.setItems(rs);
+            secondBaseControl._listViewModel.setItems(rs, {});
             secondBaseControl._documentDragging = true;
 
             secondBaseControl._notify = () => true;
@@ -8326,7 +8334,8 @@ define([
             beforeEach(() => {
                baseControl._mounted = true;
                baseControl._getItemsContainer = () => ({
-                  children: []
+                  children: [],
+                  querySelectorAll: () => []
                });
                baseControl.activate = () => activateCalled = true;
                return baseControl.setMarkedKey(2);
@@ -8341,7 +8350,7 @@ define([
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
                assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 1);
 
-               lists.BaseControl._private.moveMarkerToNext(baseControl, event)
+               lists.BaseControl._private.moveMarkerToDirection(baseControl, event, 'Forward');
                assert.isTrue(preventDefaultCalled);
                assert.isTrue(activateCalled);
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
@@ -8354,7 +8363,7 @@ define([
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
                assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 1);
 
-               lists.BaseControl._private.moveMarkerToPrevious(baseControl, event)
+               lists.BaseControl._private.moveMarkerToDirection(baseControl, event, 'Backward');
                assert.isTrue(preventDefaultCalled);
                assert.isTrue(activateCalled);
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
@@ -8648,7 +8657,8 @@ define([
             baseControl = new lists.BaseControl();
             baseControl.saveOptions(cfg);
             baseControl._getItemsContainer = () => ({
-               children: []
+               children: [],
+               querySelectorAll: () => []
             });
             return (baseControl._beforeMount(cfg) || Promise.resolve()).then(() => viewModel = baseControl.getViewModel());
          });

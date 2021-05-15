@@ -2598,6 +2598,10 @@ var
                 columnCfg.columnSpan = params.columnsLength;
                 columnCfg.columnSpan += this.stickyLadderCellsCount();
 
+                if (colspanFor === 'customResults' && this._shouldAddActionsCell()) {
+                    columnCfg.columnSpan++;
+                }
+
                 return GridLayoutUtil.getColumnStyles(columnCfg);
             }
         },

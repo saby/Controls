@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-        <Controls.explorer:View useOldModel="{{ true }}"
+        <Controls.explorer:View
             source="{{_viewSource}}"
             bind:root="_root"
             attr:class="demo-Explorer ControlsDemo-Explorer"

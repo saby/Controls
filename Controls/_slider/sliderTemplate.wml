@@ -1,4 +1,4 @@
-<div class="controls-Slider
+<div class="controls_slider_theme-{{_options.theme}} controls-Slider
             controls-Slider{{_options.readOnly ? '_disabled' : '_enabled'}}
             {{!_options.borderVisible ? (' controls-Slider_' + _options.size + '_withoutBorder-' + _options.direction)}}">
    <div class="controls-Slider__wrapper controls-Slider__wrapper_{{_options.direction}}

@@ -26,7 +26,8 @@ describe('Controls/grid_clean/Display/Swipe/Animation/DataCell.test.ts', () => {
             owner: {
                 ...mockedOwner,
                 isEditing: () => false,
-                getEditingColumnIndex: () => 0
+                getEditingColumnIndex: () => 0,
+                hasMultiSelectColumn: () => false
             },
             column: {displayProperty: 'key'}
         });

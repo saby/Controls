@@ -110,9 +110,15 @@ const _private = {
                 }
                 const childsOfCollapsedItem = model.getChildren(parent);
                 childsOfCollapsedItem.forEach((it) => {
+                    if (!it['[Controls/_display/TreeItem]'] || it.isNode() === null || !it.isExpanded()) {
+                        return;
+                    }
+
                     const key = it.getContents().getKey();
                     if (newExpandedItems.includes(key)) {
                         newExpandedItems.splice(newExpandedItems.indexOf(key), 1);
+                    } else if (!newCollapsedItems.includes(key)) {
+                        newCollapsedItems.push(key);
                     }
                     collapseChilds(it);
                 });
@@ -1001,7 +1007,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     }
 
     _onViewKeyDown(event): void {
-        this._onTreeViewKeyDown(event);
+        if (this._listViewModel.SupportExpand !== false) {
+            this._onTreeViewKeyDown(event);
+        }
         if (!event.stopped && event._bubbling !== false) {
             super._onViewKeyDown(event);
         }

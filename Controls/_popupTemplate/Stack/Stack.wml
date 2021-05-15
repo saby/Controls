@@ -1,4 +1,4 @@
-<div class="controls-StackTemplate" ws-tab-cycling="true">
+<div class="controls_popupTemplate_theme-{{_options.theme}} controls-StackTemplate" ws-tab-cycling="true">
     <div class="controls-StackTemplate-shadow"></div>
     <div class="controls-StackTemplate-content_wrapper">
         <div class="controls-StackTemplate-content">
@@ -33,6 +33,7 @@
             <div class="controls-StackTemplate__content-area">
                 <ws:partial template="{{_options.bodyContentTemplate}}"
                             scope="{{_options}}"
+                            hasRightTemplate="{{!!_stackRightPanel}}"
                             bodyContentTemplate="{{null}}"
                             headerContentTemplate="{{null}}"
                             footerContentTemplate="{{null}}">  <!-- Опция с тем же названием есть на выпадающем списке.

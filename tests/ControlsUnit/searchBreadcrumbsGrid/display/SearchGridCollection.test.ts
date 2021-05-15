@@ -41,13 +41,17 @@ describe('Controls/_searchBreadcrumbsGrid/display/SearchGridCollection', () => {
       });
 
       it('Breadcrumbs display property', () => {
-         const item = searchGridCollection.createBreadcrumbsItem({});
+         const item = searchGridCollection.at(0) as unknown as BreadcrumbsItemRow;
+         assert.instanceOf(item, BreadcrumbsItemRow);
+
          const breadcrumbsCell = item.getColumns()[0];
          assert.isTrue(breadcrumbsCell.getDisplayProperty() === 'collection display property');
       });
 
       it('BreadCrumbsMode', () => {
-         const item = searchGridCollection.createBreadcrumbsItem({});
+         const item = searchGridCollection.at(0) as unknown as BreadcrumbsItemRow;
+         assert.instanceOf(item, BreadcrumbsItemRow);
+
          const breadcrumbsCell = item.getColumns()[0] as BreadcrumbsItemCell<Model, BreadcrumbsItemRow>;
          // Проверяем что опция breadCrumbsMode прокинулась из родительской коллекции до ячейки
          assert.equal('cell', breadcrumbsCell.getBreadCrumbsMode());

@@ -56,10 +56,14 @@ export default class TreeGridCollection<
         super(options);
         GridMixin.call(this, options);
 
+        this._setupProjectionFilters();
+    }
+
+    protected _setupProjectionFilters(): void {
         // TODO должно быть в Tree. Перенести туда, когда полностью перейдем на новую коллекцию TreeGrid.
         //  Если сразу в Tree положим, то все разломаем
         this.addFilter(
-           (contents, sourceIndex, item, collectionIndex) => itemIsVisible(item)
+            (contents, sourceIndex, item, collectionIndex) => itemIsVisible(item)
         );
     }
 

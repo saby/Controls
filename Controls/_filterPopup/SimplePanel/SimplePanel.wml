@@ -1,4 +1,4 @@
-<div class="controls-SimplePanel controls-Popup__isolatedFocusingContext"
+<div class="controls_filterPopup_theme-{{_options.theme}} controls-SimplePanel controls-Popup__isolatedFocusingContext"
      attr:ws-no-focus="true">
    <Controls.scroll:Container
            attr:class="controls-ScrollContainer__flex controls-SimplePanel__scroll"
