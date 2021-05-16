@@ -641,6 +641,7 @@ describe('Controls/browser:Browser', () => {
                 };
                 await browser._search(null, 'testSearchValue');
                 assert.ok(browser._sourceControllerState.items.getFormat().getFieldIndex('testName2') !== -1);
+                assert.ok(browser._items.getFormat().getFieldIndex('testName2') !== -1);
             });
 
         });
