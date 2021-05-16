@@ -102,7 +102,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     }
 
     isCheckBoxCell(): boolean {
-        return this._$owner.hasMultiSelectColumn() && this._$owner.getHeaderConfig().indexOf(this._$column) === -1;
+        return !this._$isLadderCell && this._$owner.hasMultiSelectColumn() && this._$owner.getHeaderConfig().indexOf(this._$column) === -1;
     }
 
     // region Аспект "Объединение колонок"
