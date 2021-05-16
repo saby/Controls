@@ -1343,7 +1343,6 @@ const _private = {
         if (direction === 'all') {
             self._loadingIndicatorState = self._loadingState;
         }
-        _private.updateIndicatorContainerHeight(self, _private.getViewRect(self), self._viewportRect);
         _private.startShowLoadingIndicatorTimer(self);
     },
 
@@ -1804,11 +1803,6 @@ const _private = {
                 }
 
                 self._changeMarkedKey(newMarkedKey);
-            }
-
-            // will updated after render
-            if (self._loadingIndicatorState === 'all') {
-                self._loadingIndicatorContainerHeight = 0;
             }
         }
         // VirtualScroll controller can be created and after that virtual scrolling can be turned off,
@@ -2375,22 +2369,6 @@ const _private = {
             .add(`controls-BaseControl__loadingIndicator_style-portionedSearch`,
                 isPortionedSearchInProgress)
             .compile();
-    },
-    updateIndicatorContainerHeight(self, viewRect: DOMRect, viewportRect: DOMRect): void {
-        let top;
-        let bottom;
-        if (self._isScrollShown || (self._needScrollCalculation && viewRect && viewportRect)) {
-            top = Math.max(viewRect.y, viewportRect.y);
-            bottom = Math.min(viewRect.y + viewRect.height, viewportRect.y + viewportRect.height);
-        } else {
-            top = viewRect.top;
-            bottom = viewRect.bottom;
-        }
-        const newHeight = bottom - top - _private.getListTopOffset(self);
-
-        if (self._loadingIndicatorContainerHeight !== newHeight) {
-            self._loadingIndicatorContainerHeight = newHeight;
-        }
     },
     getListTopOffset(self): number {
         const view = self._children && self._children.listView;
@@ -3709,9 +3687,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._isScrollShown || this._scrollController && this._scrollController.isAppliedVirtualScroll()) {
             this._updateHeights(false);
         }
-        if (this._loadingIndicatorState) {
-            _private.updateIndicatorContainerHeight(this, _private.getViewRect(this), this._viewportRect);
-        }
         if (this._viewportSize >= this._viewSize) {
             this._pagingVisible = false;
         }
@@ -3804,9 +3779,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     }
                     _private.updateScrollPagingButtons(this, this._getScrollParams());
                 });
-            }
-            if (this._loadingIndicatorState) {
-                _private.updateIndicatorContainerHeight(this, _private.getViewRect(this), this._viewportRect);
             }
         }
     }
@@ -6626,9 +6598,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         const indicatorState = state || this._loadingIndicatorState;
         switch (indicatorState) {
             case 'all':
-                if (this._loadingIndicatorContainerHeight) {
-                    styles += `min-height: ${this._loadingIndicatorContainerHeight}px; `;
-                }
                 if (this._loadingIndicatorContainerOffsetTop) {
                     styles += `top: ${this._loadingIndicatorContainerOffsetTop}px;`;
                 }
