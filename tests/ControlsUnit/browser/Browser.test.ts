@@ -907,6 +907,8 @@ describe('Controls/browser:Browser', () => {
             options.source.query = searchQueryMock;
             await browser._beforeUpdate(options);
             assert.ok(browser._misspellValue === 'Саша');
+            assert.ok(browser._returnedOnlyByMisspellValue);
+            assert.ok(browser._searchValue === 'Cfif');
         });
 
         it('path is updated in searchController after load', async () => {
