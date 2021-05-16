@@ -293,6 +293,10 @@ const _private = {
             viewModel.setHasMoreStorage({});
         };
 
+        if (!viewModel) {
+            return;
+        }
+
         let shouldCancelEditing = false;
         if (self._editingItem) {
             const editingKey = self._editingItem.getContents().getKey();
