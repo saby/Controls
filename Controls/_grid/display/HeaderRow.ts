@@ -56,7 +56,7 @@ export default class HeaderRow<T> extends Row<T> {
 
         if (stickyLadderCellsCount === 2) {
             this._$columnItems.splice(1, 0, new HeaderCell({
-                column: this._$header[0],
+                column: {},
                 isLadderCell: true,
                 owner: this,
                 backgroundStyle: 'transparent',
@@ -67,7 +67,7 @@ export default class HeaderRow<T> extends Row<T> {
         if (stickyLadderCellsCount) {
             this._$columnItems = ([
                 new HeaderCell({
-                    column: this._$header[0],
+                    column: {},
                     isLadderCell: true,
                     owner: this,
                     shadowVisibility: 'hidden',
@@ -88,6 +88,12 @@ export default class HeaderRow<T> extends Row<T> {
             this._$columnItems = this._$header.map((column, index) => {
                 const isFixed = (this.isMultiline() ? (column.startColumn - 1) : totalColspan) < this.getStickyColumnsCount();
                 totalColspan += (column.endColumn - column.startColumn) || 1;
+                // const stickyLadderProperties = this.getStickyLadderProperties(this._$columns[0]);
+                // const stickyLadderCellsCount = stickyLadderProperties && stickyLadderProperties.length || 0;
+                // if (stickyLadderCellsCount === 1 && index === 0 ) {
+                //     column.startColumn++;
+                //     column.endColumn++;
+                // }
                 return factory({
                     column,
                     isFixed,

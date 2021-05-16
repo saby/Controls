@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:class="controlsDemo__mb1 controlsDemo__height200 controlsDemo_fixedWidth500" shadowMode="js">
+        <Controls.grid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                header="{{_header}}"
+                columnScroll="{{true}}"
+                stickyColumnsCount="{{2}}"
+                ladderProperties="{{_ladderProperties}}"/>
+    </Controls.scroll:Container>
+    <Controls.scroll:Container attr:class="controlsDemo__height200 controlsDemo_fixedWidth800" shadowMode="js">
+        <Controls.grid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                header="{{_header}}"
+                ladderProperties="{{_ladderProperties}}"/>
+    </Controls.scroll:Container>
+</div>
