@@ -197,9 +197,11 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
 
         return new Promise((resolve) => {
             if (loadConfig.source) {
-                sourceController.load().finally(() => {
-                    resolve(getLoadResult(loadConfig, sourceController, filterController, filterHistoryItems));
-                });
+                sourceController.load()
+                    .catch((error) => error)
+                    .finally(() => {
+                        resolve(getLoadResult(loadConfig, sourceController, filterController, filterHistoryItems));
+                    });
             } else {
                 resolve(getLoadResult(loadConfig, sourceController, filterController, filterHistoryItems));
             }

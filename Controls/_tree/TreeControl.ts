@@ -340,8 +340,11 @@ const _private = {
 
     resetExpandedItems(self: TreeControl): void {
         const viewModel = self._listViewModel;
-        let shouldCancelEditing = false;
+        if (!viewModel) {
+            return;
+        }
 
+        let shouldCancelEditing = false;
         if (self._editingItem) {
             const editingKey = self._editingItem.getContents().getKey();
             viewModel.getExpandedItems().forEach((itemKey) => {
