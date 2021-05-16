@@ -26,6 +26,17 @@ export default class TreeGridGroupDataCell<T extends Model>
         return wrapperClasses;
     }
 
+    getContentClasses(theme: string): string {
+        let classes = '';
+        // TODO необходимо разобраться с высотой групп.
+        //  https://online.sbis.ru/opendoc.html?guid=6693d47c-515c-4751-949d-55be05fe124e
+        classes += ' controls-Grid__row-cell__content_baseline_S';
+        classes += this._getHorizontalPaddingClasses(theme);
+        classes += this._getContentAlignClasses();
+        classes += ' controls-ListView__groupContent';
+        return classes;
+    }
+
     // region Аспект "Ячейка группы"
 
     isExpanded(): boolean {
