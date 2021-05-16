@@ -144,7 +144,7 @@ export default class GroupRow<T> extends mixin<
                 this._$columns,
                 this.getColumnsFactory(),
                 undefined,
-                undefined,
+                true,
                 true
             );
             this._processStickyLadderCells();
