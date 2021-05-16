@@ -977,6 +977,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       // change only filter for query, tabSelectedKey will be changed after processing query result,
       // otherwise interface will blink
       if (this._tabsSelectedKey !== tabId) {
+         this._sourceController = null;
          this._setFilterAndLoad(this._options.filter, this._options, tabId)
              .finally(() => {
                 changeTabCallback();
