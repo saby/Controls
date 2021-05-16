@@ -299,6 +299,15 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         });
     }
 
+    setLadderProperties(ladderProperties: string[]): void {
+        this._$ladderProperties = ladderProperties;
+        const supportLadder = GridLadderUtil.isSupportLadder(this._$ladderProperties);
+        if (supportLadder) {
+            this._prepareLadder(this._$ladderProperties, this._$columns);
+            this._updateItemsLadder();
+        }
+        this._nextVersion();
+    }
     setSorting(sorting: Array<{[p: string]: string}>): void {
         this._$sorting = sorting;
         this._nextVersion();

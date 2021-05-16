@@ -162,6 +162,10 @@ const GridView = ListView.extend({
             this._listModel.setSorting(newOptions.sorting);
         }
 
+        if (newOptions.ladderProperties !== this._options.ladderProperties) {
+            this._listModel.setLadderProperties(newOptions.ladderProperties);
+        }
+
         if (this._options.columnSeparatorSize !== newOptions.columnSeparatorSize) {
             this._listModel.setColumnSeparatorSize(newOptions.columnSeparatorSize);
         }

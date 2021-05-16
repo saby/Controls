@@ -223,4 +223,25 @@ describe('Controls/grid_clean/GridView', () => {
             assert.equal(visibility, newVisibility);
         });
     });
+
+    describe('ladderProperties', () => {
+        it('update ladderProperties', () => {
+            const options = {
+                ladderProperties: ['first']
+            };
+            const gridView = new GridView(options);
+            gridView.saveOptions(options);
+
+            let ladderProperties;
+            gridView._listModel = {
+                setLadderProperties: (value) => {
+                    ladderProperties = value;
+                }
+            };
+
+            const newLadderProperties = 'second';
+            gridView._beforeUpdate({ ladderProperties: ['second']});
+            assert.equal(ladderProperties, newLadderProperties);
+        });
+    });
 });
