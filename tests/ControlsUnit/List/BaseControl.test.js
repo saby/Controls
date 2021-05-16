@@ -998,7 +998,6 @@ define([
             data: data
          });
          const sandbox = sinon.createSandbox();
-         sandbox.replace(lists.BaseControl._private, 'updateIndicatorContainerHeight', () => {});
 
          var dataLoadFired = false;
          var shadowVisibility = true;
@@ -6394,26 +6393,25 @@ define([
          assert.equal(baseControl._getLoadingIndicatorStyles('up'), 'display: none; ');
          assert.equal(baseControl._getLoadingIndicatorStyles('all'), '');
 
-         baseControl._loadingIndicatorContainerHeight = 32;
          itemsCount = 0;
          assert.equal(baseControl._getLoadingIndicatorStyles('down'), 'display: none;');
-         assert.equal(baseControl._getLoadingIndicatorStyles('all'), 'min-height: 32px; ');
+         assert.equal(baseControl._getLoadingIndicatorStyles('all'), '');
          assert.equal(baseControl._getLoadingIndicatorStyles('up'), 'display: none; ');
 
          itemsCount = 10;
          assert.equal(baseControl._getLoadingIndicatorStyles('down'), 'display: none;');
-         assert.equal(baseControl._getLoadingIndicatorStyles('all'), 'min-height: 32px; ');
+         assert.equal(baseControl._getLoadingIndicatorStyles('all'), '');
          assert.equal(baseControl._getLoadingIndicatorStyles('up'), 'display: none; ');
 
          baseControl._loadingIndicatorContainerOffsetTop = 48;
          itemsCount = 0;
          assert.equal(baseControl._getLoadingIndicatorStyles('down'), 'display: none;');
-         assert.equal(baseControl._getLoadingIndicatorStyles('all'), 'min-height: 32px; top: 48px;');
+         assert.equal(baseControl._getLoadingIndicatorStyles('all'), 'top: 48px;');
          assert.equal(baseControl._getLoadingIndicatorStyles('up'), 'display: none; ');
 
          itemsCount = 10;
          assert.equal(baseControl._getLoadingIndicatorStyles('down'), 'display: none;');
-         assert.equal(baseControl._getLoadingIndicatorStyles('all'), 'min-height: 32px; top: 48px;');
+         assert.equal(baseControl._getLoadingIndicatorStyles('all'), 'top: 48px;');
          assert.equal(baseControl._getLoadingIndicatorStyles('up'), 'display: none; ');
       });
 
@@ -6441,47 +6439,6 @@ define([
          baseControl._afterRender();
          assert.equal(baseControl._loadingIndicatorState, 'up');
       });
-
-      it('setIndicatorContainerHeight: list bigger then scrollContainer', function() {
-
-          const fakeBaseControl = {
-              _loadingIndicatorContainerHeight: 0,
-              _isScrollShown: true,
-          };
-
-          const viewRect = {
-             y: -10,
-             height: 1000
-          };
-
-          const viewPortRect = {
-             y: 100,
-             height: 500
-          };
-
-          lists.BaseControl._private.updateIndicatorContainerHeight(fakeBaseControl, viewRect, viewPortRect);
-          assert.equal(fakeBaseControl._loadingIndicatorContainerHeight, 500);
-       });
-
-       it('setIndicatorContainerHeight: list smaller then scrollContainer', function () {
-          const fakeBaseControl = {
-             _loadingIndicatorContainerHeight: 0,
-             _isScrollShown: true,
-          };
-
-          const viewRect = {
-             y: 50,
-             height: 200
-          };
-
-          const viewPortRect = {
-             y: 0,
-             height: 500
-          };
-
-          lists.BaseControl._private.updateIndicatorContainerHeight(fakeBaseControl, viewRect, viewPortRect);
-          assert.equal(fakeBaseControl._loadingIndicatorContainerHeight, 200);
-       });
 
       describe('loading indicators', () => {
           let baseControl,  testCases;
