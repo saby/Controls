@@ -93,6 +93,7 @@
      class="{{ _getGridViewWrapperClasses(_options) }}">
 
     <style if="{{ _options.columnScroll }}" name="columnScrollStylesContainer" data-vdom-ignore="true"></style>
+    <style>{{_getLadderTopOffsetStyles()}}</style>
 
     <!-- Тени для горизонтального скролла -->
     <ws:if data="{{ _options.columnScroll && isColumnScrollVisible() && !_showFakeGridWithColumnScroll}}">

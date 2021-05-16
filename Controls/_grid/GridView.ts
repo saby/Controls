@@ -9,6 +9,8 @@ import { Model } from 'Types/entity';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import ColumnScrollViewController, {COLUMN_SCROLL_JS_SELECTORS} from './ViewControllers/ColumnScroll';
 import { _Options } from 'UI/Vdom';
+import {getDimensions} from 'Controls/sizeUtils';
+import {Guid} from 'Types/entity';
 import 'css!Controls/grid';
 import 'css!Controls/CommonClasses';
 
@@ -29,6 +31,7 @@ const GridView = ListView.extend({
     _horizontalScrollWidth: 0,
     _fixedColumnsWidth: 0,
     _scrollableColumnsWidth: 0,
+    _ladderOffsetSelector: '',
 
     _beforeMount(options): void {
         let result = GridView.superclass._beforeMount.apply(this, arguments);
@@ -52,6 +55,8 @@ const GridView = ListView.extend({
         if (options.columnScroll) {
             this._createColumnScroll(options);
         }
+
+        this._ladderOffsetSelector = `controls-GridView__ladderOffset-${this._createGuid()}`;
 
         return result;
     },
@@ -221,6 +226,37 @@ const GridView = ListView.extend({
         return GridLayoutUtil.getTemplateColumnsStyle(columnsWidths);
     },
 
+    _createGuid(): string {
+        return Guid.create();
+    },
+
+    _getLadderTopOffsetStyles(): string {
+        if (!this._container) {
+            return '';
+        }
+        let headerHeight = 0;
+        let resultsHeight = 0;
+        const header = this._container.getElementsByClassName('controls-Grid__header')[0] as HTMLElement;
+        const results = this._container.getElementsByClassName('controls-Grid__results')[0] as HTMLElement;
+        const hasTopResults = results && this._listModel.getResultsPosition() !== 'bottom';
+        if (header) {
+            headerHeight = getDimensions(header).height;
+        }
+        if (hasTopResults) {
+            resultsHeight = getDimensions(results).height;
+        }
+        const ladderClass = `controls-Grid__row-cell__ladder-spacing${header ? '_withHeader' : ''}${hasTopResults ? '_withResults' : ''}`;
+        return `.${this._ladderOffsetSelector} .${ladderClass} {
+                   top: calc(var(--item_line-height_l_grid) + ${headerHeight + resultsHeight}px) !important;
+                   height: 0;
+                }
+                .${this._ladderOffsetSelector} .${ladderClass}_withGroup {
+                   top: calc(var(--item_line-height_l_grid) + var(--grouping_height_list) + ${headerHeight + resultsHeight}px) !important;
+                   height: 0;
+                }`;
+
+    },
+
     _getGridViewWrapperClasses(): string {
         return `${this._columnScrollWrapperClasses} ${this.isColumnScrollVisible() ? COLUMN_SCROLL_JS_SELECTORS.COLUMN_SCROLL_VISIBLE : ''}`
     },
@@ -228,7 +264,7 @@ const GridView = ListView.extend({
     _getGridViewClasses(options): string {
         let classes = `controls-Grid controls-Grid_${options.style}`;
         if (GridLadderUtil.isSupportLadder(options.ladderProperties)) {
-            classes += ' controls-Grid_support-ladder';
+            classes += ` controls-Grid_support-ladder ${this._ladderOffsetSelector}`;
         }
 
         if (options.itemActionsPosition === 'outside' &&
