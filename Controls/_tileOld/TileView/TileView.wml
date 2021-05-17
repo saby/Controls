@@ -1,4 +1,4 @@
-<div class="controls-TileView__itemPaddingContainer {{!!_listModel.getCount() ? _listModel.getItemsPaddingContainerClasses()}}">
+<div class="controls_list_theme-{{_options.theme}} controls-TileView__itemPaddingContainer {{!!_listModel.getCount() ? _listModel.getItemsPaddingContainerClasses()}}">
     <div class="controls-ListView controls-TileView" name="tileContainer" on:keyDown="_onTileViewKeyDown()">
         <ws:if data="{{_listModel}}">
             <ws:partial

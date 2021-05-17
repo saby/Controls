@@ -1,4 +1,4 @@
-<div attr:class="controls-ListView controls-TileView" name="itemsContainer">
+<div attr:class="controls-ListView controls-TileView controls_list_theme-{{_options.theme}}" name="itemsContainer">
    <ws:partial
       template="wml!Controls/_listRender/Render/resources/For"
       collection="{{ _options.listModel }}"

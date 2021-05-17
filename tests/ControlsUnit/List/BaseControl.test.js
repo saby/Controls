@@ -8355,6 +8355,11 @@ define([
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
                assert.equal(baseControl.getViewModel().getItemBySourceKey(1).getVersion(), 4);
             });
+
+            it('empty list', () => {
+               baseControl.getViewModel().setItems(new collection.RecordSet(), {});
+               assert.doesNotThrow(lists.BaseControl._private.moveMarkerToDirection.bind(null, baseControl, event, 'Forward'));
+            });
          });
 
          describe('onCollectionChanged', () => {
@@ -8612,6 +8617,38 @@ define([
 
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
+            });
+
+            it('set marked key after load items', async () => {
+               const cfg = {
+                  viewModelConstructor: 'Controls/display:Collection',
+                  useNewModel: true,
+                  keyProperty: 'id',
+                  markerVisibility: 'visible'
+               };
+               const baseControl = new lists.BaseControl();
+               baseControl.saveOptions(cfg);
+               baseControl._environment = {};
+               baseControl._notify = (eventName, params) => {
+                  if (eventName === 'beforeMarkedKeyChanged') {
+                     return params[0];
+                  }
+               };
+               const notifySpy = sinon.spy(baseControl, '_notify');
+               await baseControl._beforeMount(cfg);
+               assert.doesNotThrow(baseControl._beforeUpdate.bind(baseControl, cfg));
+
+               const items = new collection.RecordSet({
+                  rawData: [
+                     {id: 1},
+                     {id: 2}
+                  ],
+                  keyProperty: 'id'
+               });
+               baseControl._beforeUpdate({...cfg, items});
+
+               assert.isTrue(notifySpy.withArgs('beforeMarkedKeyChanged', [1]).called);
+               assert.isTrue(notifySpy.withArgs('markedKeyChanged', [1]).called);
             });
          });
       });

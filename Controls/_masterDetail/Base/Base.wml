@@ -49,7 +49,7 @@
 </Controls.event:Register>
 </ws:template>
 
-<div class="controls-MasterDetail ws-flexbox">
+<div class="controls-MasterDetail ws-flexbox controls_list_theme-{{_options.theme}}">
    <ws:if data="{{_options.masterPosition === 'right'}}">
       <ws:partial template="detail" />
       <ws:partial template="master" />
