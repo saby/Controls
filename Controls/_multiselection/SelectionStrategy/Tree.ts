@@ -279,8 +279,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
                   selectedNodes.push(key);
                }
 
-               const countBySelectionType = !(this._selectionType === 'leaf' && this._isNode(item));
-               if (!selection.excluded.includes(key) && countBySelectionType) {
+               if (!selection.excluded.includes(key) && this._canBeSelected(item) && !item.isRoot()) {
                   countItemsSelected++;
                }
             }

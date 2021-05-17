@@ -2,7 +2,7 @@ import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 
 import { ISelectionObject as ISelection } from 'Controls/interface';
 import { Model } from 'Types/entity';
-import { IEntryPathItem, IFlatSelectionStrategyOptions, ISelectionModel } from '../interface';
+import {IEntryPathItem, IFlatSelectionStrategyOptions, ISelectionItem, ISelectionModel} from '../interface';
 import ISelectionStrategy from './ISelectionStrategy';
 import clone = require('Core/core-clone');
 import { CrudEntityKey } from 'Types/source';
@@ -143,16 +143,20 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
 
    getCount(selection: ISelection, hasMoreData: boolean, limit?: number): number|null {
       let countItemsSelected: number|null = null;
-      const itemsCount = this._model.getItems().filter((it) => it.SelectableItem).length;
 
       if (this._isAllSelected(selection)) {
+         const itemsCount = this._model.getItems().filter((it) => this._canBeSelected(it)).length;
          if (!hasMoreData && (!limit || itemsCount <= limit)) {
             countItemsSelected = itemsCount - selection.excluded.length;
          } else if (limit) {
             countItemsSelected = limit;
          }
       } else {
-         countItemsSelected = selection.selected.length;
+         const itemsCanBeSelected = selection.selected.filter((key) => {
+            const item = this._model.getItemBySourceKey(key);
+            return this._canBeSelected(item);
+         });
+         countItemsSelected = itemsCanBeSelected.length;
       }
 
       return countItemsSelected;
@@ -185,6 +189,10 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
     */
    private _isAllSelected(selection: ISelection): boolean {
       return selection.selected.includes(ALL_SELECTION_VALUE);
+   }
+
+   private _canBeSelected(item: ISelectionItem): boolean {
+      return item && item.SelectableItem && !item.isReadonlyCheckbox();
    }
 
    /**

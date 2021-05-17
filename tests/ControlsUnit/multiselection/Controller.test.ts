@@ -3,12 +3,13 @@
 
 import { assert } from 'chai';
 import { FlatSelectionStrategy, SelectionController, TreeSelectionStrategy, ISelectionItem } from 'Controls/multiselection';
-import { ListViewModel } from 'Controls/list';
+import {ListViewModel, MultiSelectAccessibility} from 'Controls/list';
 import { RecordSet } from 'Types/collection';
 import { SearchGridViewModel} from 'Controls/treeGridOld';
 import { Collection, CollectionItem, Tree } from 'Controls/display';
 import { Model } from 'Types/entity';
 import * as ListData from 'ControlsUnit/ListData';
+import TreeGridCollection from 'Controls/_treeGrid/display/TreeGridCollection';
 
 describe('Controls/_multiselection/Controller', () => {
    const items = new RecordSet({
@@ -316,11 +317,79 @@ describe('Controls/_multiselection/Controller', () => {
       assert.isNull(model.getItemBySourceKey(6).isSelected());
    });
 
-   it ('getCountOfSelected', () => {
-      const result = controller.toggleItem(3);
-      assert.equal(controller.getCountOfSelected(result), 1);
-      controller.setSelection(result);
-      assert.equal(controller.getCountOfSelected(), 1);
+   describe ('getCountOfSelected', () => {
+      const items = new RecordSet({
+         rawData: [
+            {id: 1, parent: null, node: null},
+            {id: 2, parent: null, node: null},
+            {id: 3, parent: null, node: true, accessibilitySelect: MultiSelectAccessibility.hidden, hasChildren: false}
+         ],
+         keyProperty: 'id'
+      });
+
+      it('getCountOfSelected', () => {
+         const list = new Collection({
+            collection: items,
+            keyProperty: 'id',
+            multiSelectAccessibilityProperty: 'accessibilitySelect'
+         });
+         const flatController = new SelectionController({
+            model: list,
+            strategy: new FlatSelectionStrategy({model: list }),
+            filter: {},
+            selectedKeys: [],
+            excludedKeys: []
+         });
+         assert.equal(flatController.getCountOfSelected({selected: [1], excluded: []}), 1);
+         flatController.setSelection({selected: [1], excluded: []});
+         assert.equal(flatController.getCountOfSelected(), 1);
+      });
+
+      it('same work in tree and flat when same data', () => {
+         const list = new Collection({
+            collection: items,
+            keyProperty: 'id',
+            multiSelectAccessibilityProperty: 'accessibilitySelect'
+         });
+
+         const tree = new TreeGridCollection({
+            collection: items,
+            root: null,
+            keyProperty: 'id',
+            parentProperty: 'parent',
+            nodeProperty: 'node',
+            hasChildrenProperty: 'hasChildren',
+            columns: [],
+            multiSelectAccessibilityProperty: 'accessibilitySelect'
+         });
+
+         const flatController = new SelectionController({
+            model: list,
+            strategy: new FlatSelectionStrategy({model: list }),
+            filter: {},
+            selectedKeys: [null],
+            excludedKeys: []
+         });
+
+         const treeController = new SelectionController({
+            model: tree,
+            strategy: new TreeSelectionStrategy({
+               model: tree,
+               selectDescendants: true,
+               selectAncestors: true,
+               rootId: null,
+               selectionType: 'all'
+            }),
+            selectedKeys: [null],
+            excludedKeys: []
+         });
+
+         assert.equal(flatController.getCountOfSelected(), 2);
+         assert.equal(flatController.getCountOfSelected({selected: [1, 2, 3], excluded: []}), 2);
+
+         assert.equal(treeController.getCountOfSelected(), 2);
+         assert.equal(treeController.getCountOfSelected({selected: [1, 2, 3], excluded: []}), 2);
+      });
    });
 
    describe('getSelectedItems', () => {
