@@ -92,7 +92,7 @@ class Controller extends BaseController {
     getDefaultConfig(item: ISlidingPanelItem): void|Promise<void> {
         item.position = SlidingPanelStrategy.getStartPosition(item);
         const className = `${item.popupOptions.className || ''} controls-SlidingPanel__popup
-            controls-SlidingPanel__animation`;
+            controls-SlidingPanel__animation controls_popupSliding_theme-${PopupController.getTheme()}`;
 
         item.popupOptions.className = className;
         item.popupOptions.content = PopupContent;
