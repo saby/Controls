@@ -246,4 +246,16 @@ describe('Controls/_display/itemsStrategy/Drag', () => {
 
       assert.deepEqual(adjacencyKeys, dragKeys);
    });
+
+   it('drag without avatar item', () => {
+      strategy = new Drag({
+         source,
+         display,
+         draggedItemsKeys: [1234],
+         targetIndex: 0
+      });
+
+      assert.equal(strategy.items.length, 3);
+      assert.isNotOk(strategy.avatarItem);
+   });
 });
