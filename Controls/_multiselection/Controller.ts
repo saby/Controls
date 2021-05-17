@@ -89,14 +89,11 @@ export class Controller {
       if (!selection.selected.length && !selection.excluded.length) {
          this._filterChanged = false;
          this._strategy.reset();
+         this.resetLimit();
       }
 
       this._selection = selection;
       this._updateModel(selection);
-
-      if (selection.selected[0] !== null) {
-         this.resetLimit();
-      }
    }
 
    /**
