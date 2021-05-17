@@ -1,6 +1,8 @@
 import {ControllerClass, Prefetch, IFilterControllerOptions} from 'Controls/filter';
 import {SbisService} from 'Types/source';
 import {assert} from 'chai';
+import {RecordSet} from 'Types/collection';
+import {Model} from 'Types/entity';
 
 function getFilterButtonItems(): any[] {
     return [{
@@ -121,6 +123,27 @@ describe('Controls/filter:ControllerClass', () => {
         assert.isFalse(controller._isFilterChanged);
         sinon.assert.calledOnce(addToHistoryStub);
   });
+
+    it('handleDataLoad with prefetchSessionId in items', () => {
+        const controller = new ControllerClass({
+            filter: {},
+            historyId: 'TEST_HISTORY_ID'
+        });
+        const items = new RecordSet();
+        items.setMetaData({
+            results: new Model({
+                rawData: {
+                    PrefetchSessionId: 'testId'
+                }
+            })
+        });
+        sandbox.stub(controller, '_deleteCurrentFilterFromHistory');
+        sandbox.replace(Prefetch, 'getPrefetchParamsForSave', () => {});
+        sandbox.replace(controller, '_addToHistory', () => {});
+
+        controller.handleDataLoad(items);
+        assert.ok(controller.getFilter().PrefetchSessionId === 'testId');
+    });
 
     it('handleDataError', () => {
         const controller = new ControllerClass({
