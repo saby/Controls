@@ -64,7 +64,7 @@ define([
             assert.equal(application._bodyClassesState.hover, false);
          });
          it('ws-is-touch ws-is-drag ws-is-no-hover', function() {
-            application._bodyClassesState.drag = false;
+            application._bodyClassesState.drag = true;
             application._touchController.isTouch = getTrueTouch;
 
             application._updateTouchClass();
