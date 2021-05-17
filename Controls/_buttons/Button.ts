@@ -71,7 +71,11 @@ export function simpleCssStyleGeneration(options: IButtonControlOptions): void {
         if (options.readOnly) {
             this._iconStyle = 'readonly';
         } else {
-            this._iconStyle =  options.buttonAdd ? 'default' : options.iconStyle;
+            if (options.contrastBackground) {
+                this._iconStyle = 'contrast';
+            } else {
+                this._iconStyle =  options.buttonAdd ? 'default' : options.iconStyle;
+            }
         }
     }
     if (this._viewMode === 'linkButton') {
