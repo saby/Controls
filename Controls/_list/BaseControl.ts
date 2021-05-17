@@ -2180,7 +2180,9 @@ const _private = {
                 errorConfig.options.showInDirection = config.templateOptions.showInDirection;
                 errorConfig.options.isPagingVisible = config.templateOptions.isPagingVisible;
             }
-            _private.showError(self, errorConfig);
+            if (errorConfig) {
+                _private.showError(self, errorConfig);
+            }
             return {
                 error: config.error,
                 errorConfig
@@ -4278,7 +4280,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                         _private.resetScrollAfterLoad(this);
                         _private.resolveIsLoadNeededByNavigationAfterReload(this, newOptions, items);
                         _private.prepareFooter(this, newOptions, this._sourceController);
-                    } else if (!this._error) {
+                    } else if (!this.__error) {
                         updateResult = _private.processError(this, {error: this._sourceController.getLoadError()});
                     }
                 }
