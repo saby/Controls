@@ -10,6 +10,8 @@ export interface IScrollBarOptions extends IControlOptions {
 export default class ScrollBar extends Control<IScrollBarOptions> {
     protected _template: TemplateFunction = template;
     private _position: number = 0;
+    private _contentSize: number = 0;
+    private _scrollWidth: number = 0;
 
     /*
     * Устанавливает позицию thumb'a.
@@ -24,7 +26,32 @@ export default class ScrollBar extends Control<IScrollBarOptions> {
     setPosition(position: number): void {
         if (this._position !== position) {
             this._position = position;
-            this._notify('positionChanged', [this._position]);
+            if (!this._options.gridNew) {
+                this._notify('positionChanged', [this._position]);
+            }
+        }
+    }
+
+    setSizes(contentSize: number, scrollWidth: number, scrollPosition: number): void {
+        let shouldRecalcSizes = false;
+
+        if (this._contentSize !== contentSize) {
+            this._contentSize = contentSize;
+            shouldRecalcSizes = true;
+        }
+
+        if (this._scrollWidth !== scrollWidth) {
+            this._scrollWidth = scrollWidth;
+            shouldRecalcSizes = true;
+        }
+
+        if (this._position !== scrollPosition) {
+            this._position = scrollPosition;
+            shouldRecalcSizes = true;
+        }
+
+        if (shouldRecalcSizes) {
+            this.recalcSizes();
         }
     }
 
@@ -39,7 +66,7 @@ export default class ScrollBar extends Control<IScrollBarOptions> {
     }
     _onPositionChanged(e, newPosition): void {
         e.stopPropagation();
-        this._position = newPosition;
-        this._notify('positionChanged', [newPosition]);
+        this._position = Math.round(newPosition);
+        this._notify('positionChanged', [this._position]);
     }
 }

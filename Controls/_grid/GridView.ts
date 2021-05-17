@@ -8,12 +8,15 @@ import * as GridItem from 'wml!Controls/_grid/Render/grid/Item';
 import * as GroupTemplate from 'wml!Controls/_grid/Render/GroupCellContentWithRightTemplate';
 import { Model } from 'Types/entity';
 import { SyntheticEvent } from 'Vdom/Vdom';
+
+import {ColumnScrollViewMixin} from './ViewMixins/ColumnScrollViewMixin';
 import ColumnScrollViewController, {COLUMN_SCROLL_JS_SELECTORS} from './ViewControllers/ColumnScroll';
+
 import { _Options } from 'UI/Vdom';
 import 'css!Controls/grid';
 import 'css!Controls/CommonClasses';
 
-const GridView = ListView.extend({
+const GridView = ListView.extend([ColumnScrollViewMixin], {
     _template: GridTemplate,
     _hoveredCellIndex: null,
     _hoveredCellItem: null,
@@ -33,6 +36,7 @@ const GridView = ListView.extend({
 
     _beforeMount(options): void {
         let result = GridView.superclass._beforeMount.apply(this, arguments);
+        this._columnScrollOnViewBeforeMount(options);
 
         if (options.columnScroll && options.columnScrollStartPosition === 'end' && isFullGridSupport()) {
             // В таблице с горизонтальным скроллом изначально прокрученным в конец используется фейковая таблица.
@@ -63,6 +67,8 @@ const GridView = ListView.extend({
 
     _afterMount(): void {
         GridView.superclass._afterMount.apply(this, arguments);
+        this._columnScrollOnViewMounted();
+
         if (this._options.columnScroll) {
             this._actualizeColumnScroll(this._options);
         }
@@ -91,6 +97,10 @@ const GridView = ListView.extend({
 
         if (changes.includes('columnScroll')) {
             listModel.setColumnScroll(options.columnScroll);
+        }
+
+        if (changes.includes('columnScroll_1')) {
+            listModel.setColumnScroll(options.columnScroll_1);
         }
 
         if (changes.includes('resultsPosition')) {
@@ -137,24 +147,41 @@ const GridView = ListView.extend({
             }
         }
 
-        if (changes.length) {
-            // Набор колонок необходимо менять после перезагрузки. Иначе возникает ошибка, когда список
-            // перерисовывается с новым набором колонок, но со старыми данными. Пример ошибки:
-            // https://online.sbis.ru/opendoc.html?guid=91de986a-8cb4-4232-b364-5de985a8ed11
-            this._isColumnScrollUpdateFrozen = true;
-            this._doAfterReload(() => {
-                this._applyChangedOptions(newOptions, oldOptions, changes);
-                this._applyChangedOptionsToModel(this._listModel, newOptions, changes);
-            });
-        } else if (!this._isColumnScrollUpdateFrozen) {
-            this._doAfterUpdate(() => {
-                this._actualizeColumnScroll(newOptions, oldOptions);
-            });
+        if (newOptions.columnScroll_1) {
+            if (changes.length) {
+                // Набор колонок необходимо менять после перезагрузки. Иначе возникает ошибка, когда список
+                // перерисовывается с новым набором колонок, но со старыми данными. Пример ошибки:
+                // https://online.sbis.ru/opendoc.html?guid=91de986a-8cb4-4232-b364-5de985a8ed11
+                this._freezeColumnScroll();
+                this._doAfterReload(() => {
+                    this._doAfterUpdate(() => {
+                        this._unFreezeColumnScroll();
+                    });
+                    this._applyChangedOptionsToModel(this._listModel, newOptions, changes);
+                });
+            }
+        } else {
+            if (changes.length) {
+                // Набор колонок необходимо менять после перезагрузки. Иначе возникает ошибка, когда список
+                // перерисовывается с новым набором колонок, но со старыми данными. Пример ошибки:
+                // https://online.sbis.ru/opendoc.html?guid=91de986a-8cb4-4232-b364-5de985a8ed11
+                this._isColumnScrollUpdateFrozen = true;
+                this._doAfterReload(() => {
+                    this._applyChangedOptions(newOptions, oldOptions, changes);
+                    this._applyChangedOptionsToModel(this._listModel, newOptions, changes);
+                });
+            } else if (!this._isColumnScrollUpdateFrozen) {
+                this._doAfterUpdate(() => {
+                    this._actualizeColumnScroll(newOptions, oldOptions);
+                });
+            }
         }
     },
 
     _beforeUpdate(newOptions): void {
         GridView.superclass._beforeUpdate.apply(this, arguments);
+
+        this._columnScrollOnViewBeforeUpdate(newOptions);
 
         this._applyNewOptionsAfterReload(this._options, newOptions);
 
@@ -170,7 +197,10 @@ const GridView = ListView.extend({
             this._listModel.setRowSeparatorSize(newOptions.rowSeparatorSize);
         }
     },
-
+    _afterUpdate(oldOptions): void {
+        GridView.superclass._afterUpdate.apply(this, arguments);
+        this._columnScrollOnViewUpdated(oldOptions);
+    },
     _beforeUnmount(): void {
         GridView.superclass._beforeUnmount.apply(this, arguments);
         if (this._columnScrollViewController) {
@@ -224,8 +254,8 @@ const GridView = ListView.extend({
         return GridLayoutUtil.getTemplateColumnsStyle(columnsWidths);
     },
 
-    _getGridViewWrapperClasses(): string {
-        return `${this._columnScrollWrapperClasses} ${this.isColumnScrollVisible() ? COLUMN_SCROLL_JS_SELECTORS.COLUMN_SCROLL_VISIBLE : ''}`
+    _getGridViewWrapperClasses(options): string {
+        return `${this._columnScrollWrapperClasses} ${this.isColumnScrollVisible() ? COLUMN_SCROLL_JS_SELECTORS.COLUMN_SCROLL_VISIBLE : ''} ${options.columnScroll_1 ? this._$columnScrollSelector : ''}`.trim()
     },
 
     _getGridViewClasses(options): string {
@@ -490,16 +520,24 @@ const GridView = ListView.extend({
     },
 
     _onHorizontalPositionChangedHandler(e, newScrollPosition: number): void {
-        if (this._columnScrollViewController && this.isColumnScrollVisible()) {
-            this._columnScrollViewController.onPositionChanged(newScrollPosition);
-            this._applyColumnScrollChanges();
+        if (this._options.columnScroll_1) {
+            this._onColumnScrollThumbPositionChanged(e, newScrollPosition);
+        } else {
+            if (this._columnScrollViewController && this.isColumnScrollVisible()) {
+                this._columnScrollViewController.onPositionChanged(newScrollPosition);
+                this._applyColumnScrollChanges();
+            }
         }
     },
 
     _onGridWrapperWheel(e) {
-        if (this._columnScrollViewController && this.isColumnScrollVisible()) {
-            this._columnScrollViewController.onScrollByWheel(e);
-            this._applyColumnScrollChanges();
+        if (this._options.columnScroll_1) {
+            this._onColumnScrollViewWheel(e);
+        } else {
+            if (this._columnScrollViewController && this.isColumnScrollVisible()) {
+                this._columnScrollViewController.onScrollByWheel(e);
+                this._applyColumnScrollChanges();
+            }
         }
     },
 
