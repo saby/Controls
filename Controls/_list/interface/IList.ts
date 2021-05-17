@@ -732,7 +732,8 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * @param {Vdom/Vdom:SyntheticEvent<Event>} event Дескриптор события.
  * @param {number} limit Лимит на количество записей.
  * @example
- * В следующем примере показано, как подписаться на событие и обработать его.
+ * В следующем примере показано, как подписаться на событие изменения лимита и обработать его.
+ * Требуется для того, чтобы в дальнейшем передать лимит на БЛ.
  * <pre class="brush: html">
  * <Controls.list:View on:selectedLimitChanged="selectedLimitChanged()"/>
  * </pre>
