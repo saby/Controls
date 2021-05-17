@@ -89,6 +89,7 @@ export interface IOptions {
     resultsColspanCallback?: TResultsColspanCallback;
     editArrowVisibilityCallback?: TEditArrowVisibilityCallback;
     columnScroll?: boolean;
+    columnScroll_1?: boolean;
     stickyColumnsCount?: number;
     sorting?: Array<{[p: string]: string}>;
     emptyTemplateColumns?: IEmptyTemplateColumn[];
@@ -121,6 +122,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$resultsColspanCallback: TResultsColspanCallback;
     protected _$resultsTemplate: TemplateFunction;
     protected _$columnScroll: boolean;
+    protected _$columnScroll_1: boolean;
     protected _$stickyColumnsCount: number;
     protected _$emptyGridRow: EmptyRow<S>;
     protected _$emptyTemplate: TemplateFunction;
@@ -552,8 +554,13 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         this._nextVersion();
     }
 
+    setColumnScroll_1(columnScroll: boolean) {
+        this._$columnScroll_1 = columnScroll;
+        this._nextVersion();
+    }
+
     hasColumnScroll(): boolean {
-        return this._$columnScroll;
+        return this._$columnScroll_1 || this._$columnScroll;
     }
 
     getStickyColumnsCount(): number {
@@ -620,6 +627,7 @@ Object.assign(Grid.prototype, {
     _$resultsTemplate: null,
     _$colspanGroup: true,
     _$columnScroll: false,
+    _$columnScroll_1: false,
     _$stickyColumnsCount: 1,
     _$sorting: null,
     _$emptyTemplateColumns: null,

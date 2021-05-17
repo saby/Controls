@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper">
+    <button on:click="_toggle()">Toggle columnScroll</button>
+    <Controls.scroll:Container attr:style="width: 600px; height: 400px" shadowMode="js">
+        <Controls.grid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                columnScroll_1="{{_columnScroll_1}}"
+                dragScroll="{{true}}"
+                columnScrollStartPosition="end"
+                rowSeparatorSize="s"
+                columnSeparatorSize="s"
+                backgroundStyle="default"
+                header="{{_header}}"
+                stickyColumnsCount="{{2}}"/>
+    </Controls.scroll:Container>
+</div>
