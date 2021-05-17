@@ -299,7 +299,6 @@ class Base extends Control<IMasterDetail, string> {
         if (this._prevCurrentWidth !== this._currentWidth) {
             this._prevCurrentWidth = this._currentWidth;
             this._startResizeRegister();
-            this._setSettings(parseInt(this._currentWidth, 10));
         }
     }
 
@@ -418,6 +417,7 @@ class Base extends Control<IMasterDetail, string> {
         this._currentWidth = width + 'px';
         this._updateOffset(this._options);
         this._notify('masterWidthChanged', [this._currentWidth]);
+        this._setSettings(parseInt(this._currentWidth, 10));
     }
 
     private _isPercentValue(value: string | number): boolean {
