@@ -30,6 +30,8 @@ import {IObservable, RecordSet} from 'Types/collection';
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 import { ISourceCollection } from './interface/ICollection';
 
+export type TNodeFooterVisibilityCallback<S extends Model = Model> = (contents: S) => boolean;
+
 export interface ISerializableState<S, T> extends IDefaultSerializableState<S, T> {
     _root: T;
 }
@@ -64,6 +66,7 @@ export interface IOptions<S, T> extends ICollectionOptions<S, T> {
     hasMoreStorage?: Record<string, boolean>;
     expandedItems?: CrudEntityKey[];
     collapsedItems?: CrudEntityKey[];
+    nodeFooterVisibilityCallback?: TNodeFooterVisibilityCallback;
 }
 
 /**
@@ -274,7 +277,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
      * Колбэк, определяющий для каких узлов нужен подвал
      * @protected
      */
-    protected _$nodeFooterVisibilityCallback: (nodeContents: S) => boolean;
+    protected _$nodeFooterVisibilityCallback: TNodeFooterVisibilityCallback;
 
     /**
      * Стратегия перетаскивания записей
@@ -451,6 +454,18 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     setNodeFooterTemplate(nodeFooterTemplate: TemplateFunction): void {
         if (this._$nodeFooterTemplate !== nodeFooterTemplate) {
             this._$nodeFooterTemplate = nodeFooterTemplate;
+            this._nextVersion();
+        }
+    }
+
+    setNodeFooterVisibilityCallback(callback: TNodeFooterVisibilityCallback): void {
+        if (this._$nodeFooterVisibilityCallback !== callback) {
+            this._$nodeFooterVisibilityCallback = callback;
+
+            const strategy = this.getStrategyInstance(NodeFooter) as any as NodeFooter;
+            strategy.setNodeFooterVisibilityCallback(callback);
+            this._reBuildNodeFooters();
+
             this._nextVersion();
         }
     }
