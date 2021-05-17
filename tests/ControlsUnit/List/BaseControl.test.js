@@ -8352,6 +8352,11 @@ define([
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
                assert.equal(baseControl.getViewModel().getItemBySourceKey(1).getVersion(), 3);
             });
+
+            it('empty list', () => {
+               baseControl.getViewModel().setItems(new collection.RecordSet(), {});
+               assert.doesNotThrow(lists.BaseControl._private.moveMarkerToDirection.bind(null, baseControl, event, 'Forward'));
+            });
          });
 
          describe('onCollectionChanged', () => {

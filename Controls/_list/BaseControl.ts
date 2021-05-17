@@ -2751,7 +2751,7 @@ const _private = {
     },
 
     moveMarkerToDirection(self, event: SyntheticEvent, direction: TMarkerMoveDirection): void {
-        if (self._options.markerVisibility !== 'hidden') {
+        if (self._options.markerVisibility !== 'hidden' && self._listViewModel && self._listViewModel.getCount()) {
             const isMovingForward = direction === 'Forward' || direction === 'Right' || direction === 'Down';
             // activate list when marker is moving. It let us press enter and open current row
             // must check mounted to avoid fails on unit tests
