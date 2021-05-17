@@ -19,9 +19,9 @@
         <ws:if data="{{!!_caption}}">
             <span attr:class="controls-BaseButton__text
                     {{_options.readOnly ? ' controls-Button__text_readonly_' + _viewMode :
-                     (_fontColorStyle ?  ' controls-text-' + _fontColorStyle +
+                     (_fontColorStyle ? ' controls-text-' + _fontColorStyle +
                                     ' controls-Button__text-' + _fontColorStyle + '_viewMode-' + _viewMode :
-                                                                    'controls-Button__text_clickable')}}
+                                        ('controls-Button__text_clickable_bg' + (_contrastBackground ? '-contrast' : '-same')))}}
                                         {{_hasIcon ? ' controls-Button__text_captionPosition_' + _captionPosition}}
                                         controls-Button__text_viewMode-{{_viewMode}}" tabindex="0">
                 <ws:if data="{{_stringCaption}}">{{_caption}}</ws:if>
