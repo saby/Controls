@@ -212,7 +212,7 @@ const GridView = ListView.extend({
         const ladderStickyColumn = GridLadderUtil.getStickyColumn({
             columns
         });
-        if (ladderStickyColumn) {
+        if (ladderStickyColumn && !this._listModel.isDragging()) {
             if (ladderStickyColumn.property.length === 2) {
                 columnsWidths.splice(1, 0, '0px');
             }
@@ -245,7 +245,11 @@ const GridView = ListView.extend({
             !this._listModel.getFooter() &&
             !(this._listModel.getResults() && this._listModel.getResultsPosition() === 'bottom')
         ) {
-            classes += ` controls-GridView__paddingBottom__itemActionsV_outside`;
+            classes += ' controls-GridView__paddingBottom__itemActionsV_outside';
+        }
+
+        if (this._listModel.isDragging()) {
+            classes += ' controls-Grid_dragging_process';
         }
 
         classes += ` ${this._columnScrollContentClasses}`;
@@ -390,7 +394,7 @@ const GridView = ListView.extend({
         return this._columnScrollViewController.getScrollBarStyles(this._options, GridLadderUtil.stickyLadderCellsCount(
             this._listModel.getColumnsConfig(),
             this._options.stickyColumn,
-            this._listModel.getDraggableItem()
+            this._listModel.isDragging()
         ));
     },
 
@@ -398,7 +402,7 @@ const GridView = ListView.extend({
         const stickyLadderCellsCount = GridLadderUtil.stickyLadderCellsCount(
             this._options.columns,
             this._options.stickyColumn,
-            this._listModel.getDraggableItem()
+            this._listModel.isDragging()
         );
         this._columnScrollViewController = new ColumnScrollViewController({
             ...options,

@@ -340,6 +340,10 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             contentClasses += ` controls-background-${this._$backgroundStyle}`;
         }
 
+        if (this.getOwner().getStickyLadder()) {
+            contentClasses += ' controls-Grid__row-cell__content_ladderHeader';
+        }
+
         if (backgroundColorStyle) {
             contentClasses += ` controls-Grid__row-cell__content_background_${backgroundColorStyle}`;
         }

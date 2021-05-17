@@ -1,8 +1,8 @@
-import {GridDataCell} from 'Controls/grid';
 import {CssClassesAssert as cAssert} from 'ControlsUnit/CustomAsserts';
+import Cell from 'Controls/_grid/display/Cell';
 
-describe('Controls/grid_clean/Display/Swipe/Animation/DataCell.test.ts', () => {
-    let isAnimatedForSelection;
+describe('Controls/grid_clean/Display/Ladder/Cell', () => {
+
     const mockedOwner = {
         getHoverBackgroundStyle: () => 'default',
         isDragged: () => false,
@@ -18,31 +18,25 @@ describe('Controls/grid_clean/Display/Swipe/Animation/DataCell.test.ts', () => {
         getColumnIndex: () => 0,
         getColumnsCount: () => 0,
         getMultiSelectVisibility: () => 'hidden',
-        isAnimatedForSelection: () => isAnimatedForSelection
+        hasMultiSelectColumn: () => false,
+        isAnimatedForSelection: () => false
     };
 
-    it('.getContentClasses() should contain animation classes when animated', () => {
-        const cell = new GridDataCell({
-            backgroundStyle: 'custom',
-            owner: {
-                ...mockedOwner,
-                isEditing: () => false,
-                getEditingColumnIndex: () => 0,
-                hasMultiSelectColumn: () => false
-            },
+    it('.getContentClasses()', () => {
+        const cell = new Cell({
+            owner: mockedOwner,
             column: {displayProperty: 'key'}
         });
 
-        isAnimatedForSelection = false;
         cAssert.notInclude(
             cell.getContentClasses('default', 'default'),
-            'controls-ListView__item_rightSwipeAnimation'
+            'controls-Grid__row-cell__content_ladderHeader'
         );
 
-        isAnimatedForSelection = true;
+        mockedOwner.getStickyLadder = () => true;
         cAssert.include(
             cell.getContentClasses('default', 'default'),
-            'controls-ListView__item_rightSwipeAnimation'
+            'controls-Grid__row-cell__content_ladderHeader'
         );
     });
 });
