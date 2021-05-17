@@ -304,7 +304,7 @@ export default class ColumnScrollController {
 
         // горизонтальный сколл имеет position: sticky и из-за особенностей grid-layout скрываем
         // скролл (display: none),что-бы он не распирал таблицу при изменении ширины
-        this._toggleStickyElementsForScrollCalculation(false);
+        const originStickyDisplayValue = this._toggleStickyElementsForScrollCalculation(false);
 
         if (detection.safari) {
             this._fixSafariBug();
@@ -336,7 +336,7 @@ export default class ColumnScrollController {
 
         this._contentSizeForHScroll = isFullGridSupport ? this._contentSize - this._fixedColumnsWidth : this._contentSize;
         this._drawTransform(this._scrollPosition, isFullGridSupport);
-        this._toggleStickyElementsForScrollCalculation(true);
+        this._toggleStickyElementsForScrollCalculation(true, originStickyDisplayValue);
         this._scrollableColumns = null;
 
         if (afterUpdateCallback) {
@@ -362,18 +362,28 @@ export default class ColumnScrollController {
      * они не распирали таблицу при изменении ширины.
      * @param {Boolean} visible Определяет, будут ли отображены sticky элементы
      */
-    private _toggleStickyElementsForScrollCalculation(visible: boolean): void {
+    private _toggleStickyElementsForScrollCalculation(visible: false): string;
+    private _toggleStickyElementsForScrollCalculation(visible: true, originValue?: string): void;
+    private _toggleStickyElementsForScrollCalculation(visible: true | false, originValue?: string): void | string {
         const stickyElements = this._contentContainer.querySelectorAll('.controls-Grid_columnScroll_wrapper');
         let stickyElement;
+        let originDisplayValue: string;
 
         for (let i = 0; i < stickyElements.length; i++) {
             stickyElement = stickyElements[i] as HTMLElement;
             if (visible) {
-                stickyElement.style.removeProperty('display');
+                if (originValue) {
+                    stickyElement.style.display = originValue;
+                } else {
+                    stickyElement.style.removeProperty('display');
+                }
             } else {
+                originDisplayValue = stickyElement.style.display;
                 stickyElement.style.display = 'none';
             }
         }
+
+        return originDisplayValue;
     }
 
     private _setBorderScrollPosition(newContentSize: number, newContainerSize: number): void {

@@ -111,7 +111,7 @@ function getModelModuleName(model: string|Function): string {
 function isEqualFormat(oldList: RecordSet, newList: RecordSet): boolean {
     const oldListFormat = oldList && oldList['[Types/_entity/FormattableMixin]'] && oldList.getFormat(true);
     const newListFormat = newList && newList['[Types/_entity/FormattableMixin]'] && newList.getFormat(true);
-    return (oldListFormat && newListFormat && oldListFormat.isEqual(newListFormat) || !newList.getCount()) ||
+    return (oldListFormat && newListFormat && oldListFormat.isEqual(newListFormat) || !newList.getCount() || !oldList.getCount()) ||
            (!oldListFormat && !newListFormat);
 }
 
