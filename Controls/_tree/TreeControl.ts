@@ -570,15 +570,16 @@ const _private = {
 
 export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOptions> extends BaseControl<ITreeControlOptions> {
     private _root = null;
-    private _needResetExpandedItems = false;
-    private _updateExpandedItemsAfterReload = false;
+    private _needResetExpandedItems: boolean = false;
+    private _updateExpandedItemsAfterReload: boolean = false;
     private _currentItem = null;
     private _tempItem = null;
     private _markedLeaf = '';
     private _doAfterItemExpanded = null;
     private _goToNextAfterExpand: true;
-    private _scrollToLeaf = null;
-    private _scrollToLeafOnDrawItems = false;
+    private _scrollToLeaf: boolean = null;
+    private _scrollToLeafOnDrawItems: boolean = false;
+    protected _plainItemsContainer: boolean = true;
 
     private _itemOnWhichStartCountDown = null;
     private _timeoutForExpandOnDrag = null;
@@ -599,7 +600,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const superResult = super._beforeMount(...args);
         const doBeforeMount = () => {
             const options = args[0];
-
+            this._plainItemsContainer = options.plainItemsContainer;
             if (options.sourceController) {
                 // FIXME для совместимости, т.к. сейчас люди задают опции, которые требуетюся для запроса
                 //  и на списке и на Browser'e
@@ -746,6 +747,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const searchValueChanged = this._options.searchValue !== newOptions.searchValue;
         const isSourceControllerLoading = sourceController && sourceController.isLoading();
         let updateSourceController = false;
+        this._plainItemsContainer = newOptions.plainItemsContainer;
 
         if (typeof newOptions.root !== 'undefined' && this._root !== newOptions.root) {
             this._root = newOptions.root;
