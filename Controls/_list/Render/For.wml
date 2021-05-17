@@ -16,6 +16,7 @@
            multiSelectTpl="{{ multiSelectTpl }}"
            tagTemplate="{{ tagTemplate }}"
            editArrowTemplate="{{ editArrowTemplate }}"
+           stickyCallback="{{_options.stickyCallback}}"
 
            attr:key="{{ keyPrefix }}-{{ item.key }}"
            attr:attr-data-qa="key-{{item.key}}"

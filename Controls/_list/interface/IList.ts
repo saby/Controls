@@ -711,6 +711,13 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
+ * @name Controls/_list/interface/IList#stickyCallback
+ * @description
+ * Функция обратного вызова для определения залипания элемента списка. Поддерживается только для шаблона Controls/list:ItemTemplate
+ * @demo Controls-demo/list_new/StickyCallback/Index
+ */
+
+/**
  * @typedef {String} Controls/_list/interface/IList/ButtonName
  * @description Допустимые значения для аргумента события {@link Controls/list:IList#pagingArrowClick pagingArrowClick}.
  * @variant Begin Кнопка "В начало".

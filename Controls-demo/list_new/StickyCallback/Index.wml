@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:class="controlsDemo__height200">
+        <Controls.list:View keyProperty="id" source="{{_viewSource}}" stickyCallback="{{_stickyCallback}}">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/list:ItemTemplate">
+                    <ws:contentTemplate>
+                        <div>
+                            <div>{{itemTemplate.item.contents.get('title')}}</div>
+                            <div style="font-size: 11px; color: grey">{{itemTemplate.item.contents.get('description')}}
+                            </div>
+                        </div>
+                    </ws:contentTemplate>
+                </ws:partial>
+            </ws:itemTemplate>
+        </Controls.list:View>
+    </Controls.scroll:Container>
+</div>

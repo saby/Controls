@@ -53,12 +53,12 @@
     </ws:if>
 </ws:template>
 
-<ws:if data="{{(item || itemData).isSticked(style)}}">
+<ws:if data="{{(item || itemData).isSticked(style, stickyCallback, item)}}">
     <!-- сюда попадаем только в случае застиканной записи в мастер или мастер классик, константа стиля находится в itemData.style -->
     <Controls.scroll:StickyHeader
        attr:data-qa="{{(item || itemData).getQAData(marker)}}"
             attr:class="{{ (item || itemData).getWrapperClasses(highlightOnHover, theme, cursor, backgroundColorStyle, style, showItemActionsOnHover) }}"
-       position="topbottom" backgroundStyle="{{style + '_sticked'}}" mode="stackable">
+       position="{{item.getStickyPosition(stickyCallback)}}" backgroundStyle="{{style + '_sticked'}}" mode="{{item.getStickyMode(stickyCallback)}}">
         <ws:partial template="localItemTemplateContent"/>
     </Controls.scroll:StickyHeader>
 </ws:if>

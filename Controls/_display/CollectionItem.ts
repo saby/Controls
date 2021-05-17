@@ -703,8 +703,18 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     // endregion Drag-n-drop
 
-    isSticked(): boolean {
-        return this.isMarked() && this._isSupportSticky(this.getOwner().getStyle());
+    isSticked(style: string, stickyCallback: Function, item: CollectionItem): boolean {
+        return stickyCallback ?
+            stickyCallback(item.getContents()) :
+            this.isMarked() && this._isSupportSticky(this.getOwner().getStyle());
+    }
+
+    getStickyMode(stickyCallback: Function): string {
+        return stickyCallback ? 'replaceable' : 'stackable';
+    }
+
+    getStickyPosition(stickyCallback: Function): string {
+        return stickyCallback ? 'top' : 'topbottom';
     }
 
     protected _isSupportSticky(style: string = 'default'): boolean {
