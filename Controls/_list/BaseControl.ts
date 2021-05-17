@@ -882,6 +882,10 @@ const _private = {
 
                 return addedItems;
             }).addErrback((error: CancelableError) => {
+                if (self._destroyed) {
+                    return;
+                }
+
                 self._loadToDirectionInProgress = false;
                 self._handleLoadToDirection = false;
 
