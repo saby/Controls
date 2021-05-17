@@ -157,7 +157,7 @@
    box-shadow: var(--box-shadow_button);
 }
 
-.controls-Button_toolButton {
+.controls-Button_toolButton.controls-Button_bg-contrast {
    box-shadow: var(--box-shadow_button_toolButton);
 }
 
@@ -276,7 +276,7 @@
 .for(@button_styles, {
    .controls-Button_toolButton_style-@{_item} {
       border-color: var(--background-color_button_toolButton);
-      background-color: var(--background-color_button_toolButton;
+      background-color: var(--background-color_button_toolButton);
    }
    .controls-Button_toolButton_style-@{_item}.controls-Button_bg-contrast {
       background-color: ~"var(--@{_item}_contrast_background-color)";
@@ -371,8 +371,6 @@
    }
 }
 //background
-@button_styles: primary secondary danger success warning info unaccented;
-
 .for(@button_styles, {
    .controls-Button_button_style-@{_item}.controls-Button_bg-same {
       background-color: var(--background-color_button);
@@ -411,7 +409,7 @@
 .ws-is-hover {
    .for(@button_styles, {
       .controls-Button_button_style-@{_item}:hover {
-         background-color: ~"var(--@{_item}_hover_background-color)";
+         background-color: ~"var(--@{_item}_hover_same_background-color)";
       }
       .controls-Button_button_style-@{_item}.controls-Button_bg-contrast:hover {
          background-color: ~"var(--@{_item}_hover_contrast_background-color)";
@@ -429,7 +427,7 @@
 .ws-is-no-touch, .ws-is-touch {
    .for(@button_styles, {
       .controls-Button_button_style-@{_item}:active {
-         background-color: ~"var(--@{_item}_active_background-color)";
+         background-color: ~"var(--@{_item}_active_same_background-color)";
       }
       .controls-Button_button_style-@{_item}.controls-Button_bg-contrast:active {
          background-color: ~"var(--@{_item}_active_contrast_background-color)";
@@ -554,42 +552,6 @@
    border-radius: var(--border-radius_default_button);
 }
 
-.controls-Button_functionalButton_s {
-   border-radius: var(--border-radius_s_button_functionalButton);
-}
-
-.controls-Button_functionalButton_m {
-   border-radius: var(--border-radius_m_button_functionalButton);
-}
-
-.controls-Button_functionalButton_l {
-   border-radius: var(--border-radius_l_button_functionalButton);
-}
-
-.controls-Button_functionalButton_xl {
-   border-radius: var(--border-radius_xl_button_functionalButton);
-}
-
-.controls-Button_functionalButton_2xl {
-   border-radius: var(--border-radius_2xl_button_functionalButton);
-}
-
-.controls-Button_functionalButton_3xl {
-   border-radius: var(--border-radius_3xl_button_functionalButton);
-}
-
-.controls-Button_functionalButton_4xl {
-   border-radius: var(--border-radius_4xl_button_functionalButton);
-}
-
-.controls-Button_functionalButton_5xl {
-   border-radius: var(--border-radius_5xl_button_functionalButton);
-}
-
-.controls-Button_functionalButton_default {
-   border-radius: var(--border-radius_default_button_functionalButton);
-}
-
 //widths
 .controls-Button_button {
    //may be we need variable for this
@@ -599,47 +561,47 @@
 //this is square buttons, that's why width is equal to height
 .controls-Button_toolButton_xs, .controls-Button_functionalButton_xs {
    min-width: var(--inline_height_xs);
-   border-radius: calc(var(----inline_height_xs) / 2);
+   border-radius: calc(var(--inline_height_xs) / 2);
 }
 
 .controls-Button_toolButton_s, .controls-Button_functionalButton_s {
    min-width: var(--inline_height_s);
-   border-radius: calc(var(----inline_height_s) / 2);
+   border-radius: calc(var(--inline_height_s) / 2);
 }
 
 .controls-Button_toolButton_m, .controls-Button_functionalButton_m {
    min-width: var(--inline_height_m);
-   border-radius: calc(var(----inline_height_m) / 2);
+   border-radius: calc(var(--inline_height_m) / 2);
 }
 
 .controls-Button_toolButton_l, .controls-Button_functionalButton_l {
    min-width: var(--inline_height_l);
-   border-radius: calc(var(----inline_height_l) / 2);
+   border-radius: calc(var(--inline_height_l) / 2);
 }
 
 .controls-Button_toolButton_xl, .controls-Button_functionalButton_xl {
    min-width: var(--inline_height_xl);
-   border-radius: calc(var(----inline_height_xl) / 2);
+   border-radius: calc(var(--inline_height_xl) / 2);
 }
 
 .controls-Button_toolButton_2xl, .controls-Button_functionalButton_2xl {
    min-width: var(--inline_height_2xl);
-   border-radius: calc(var(----inline_height_2xl) / 2);
+   border-radius: calc(var(--inline_height_2xl) / 2);
 }
 
 .controls-Button_toolButton_3xl, .controls-Button_functionalButton_3xl {
    min-width: var(--inline_height_3xl);
-   border-radius: calc(var(----inline_height_3xl) / 2);
+   border-radius: calc(var(--inline_height_3xl) / 2);
 }
 
 .controls-Button_toolButton_4xl, .controls-Button_functionalButton_4xl {
    min-width: var(--inline_height_4xl);
-   border-radius: calc(var(----inline_height_4xl) / 2);
+   border-radius: calc(var(--inline_height_4xl) / 2);
 }
 
 .controls-Button_toolButton_5xl, .controls-Button_functionalButton_5xl {
    min-width: var(--inline_height_5xl);
-   border-radius: calc(var(----inline_height_5xl) / 2);
+   border-radius: calc(var(--inline_height_5xl) / 2);
 }
 
 .controls-Button_toolButton_default, .controls-Button_functionalButton_default {
