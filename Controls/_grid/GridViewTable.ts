@@ -16,7 +16,7 @@ const GridViewTable = GridView.extend({
 
     _getGridViewClasses(options): string {
         const classes = GridViewTable.superclass._getGridViewClasses.apply(this, arguments);
-        return `${classes} controls-Grid_table-layout controls-Grid_table-layout_${options.columnScroll !== true ? 'fixed' : 'auto'}`;
+        return `${classes} controls-Grid_table-layout controls-Grid_table-layout_fixed`;
     },
 
     _getGridViewStyles(): string {

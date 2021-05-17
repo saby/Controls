@@ -562,6 +562,10 @@ export default abstract class Row<T> {
         return this._$owner.getStickyColumnsCount();
     }
 
+    setStickyColumnsCount(): void {
+        this._reinitializeColumns(true);
+    }
+
     hasItemActionsSeparatedCell(): boolean {
         return this._$owner.hasItemActionsSeparatedCell();
     }
