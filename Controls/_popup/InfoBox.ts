@@ -136,7 +136,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
                 this.close();
                 this._forceUpdate();
             };
-            this._calmTimer.stop(callback.bind(this), this._options.hideDelay);
+            this._calmTimer.stop(callback.bind(this));
         }
     }
 
