@@ -282,7 +282,7 @@ export default class _Controller implements IDropdownController {
    }
 
    handleClose(): void {
-       if (this._items && !this._items.getCount() && this._options.searchParam || this._options.reloadByOpen) {
+       if (this._items && !this._items.getCount() && this._options.searchParam || this._options.reloadOnOpen) {
            this._setItems(null);
        }
        this._isOpened = false;

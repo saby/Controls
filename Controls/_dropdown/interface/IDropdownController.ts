@@ -29,7 +29,7 @@ export interface IDropdownControllerOptions extends IControlOptions, IDropdownSo
     keyProperty: string;
     notifyEvent: Function;
     lazyItemsLoading?: boolean;
-    reloadByOpen?: boolean;
+    reloadOnOpen?: boolean;
     selectedItemsChangedCallback?: Function;
     dataLoadErrback?: Function;
     historyId?: string;

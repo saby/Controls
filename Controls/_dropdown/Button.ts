@@ -326,7 +326,7 @@ export default class Button extends BaseDropdown {
  */
 
 /**
- * @name Controls/_dropdown/Button#reloadByOpen
+ * @name Controls/_dropdown/Button#reloadOnOpen
  * @cfg {Boolean} Определяет, будут ли элементы меню загружаться при каждом клике на кнопку..
  * @default false
  * @example
@@ -338,7 +338,7 @@ export default class Button extends BaseDropdown {
  *    keyProperty="id"
  *    displayProperty="title"
  *    source="{{_source)}}"
- *    reloadByOpen="{{true}}" />
+ *    reloadOnOpen="{{true}}" />
  * </pre>
  * <pre>
  * // JavaScript
