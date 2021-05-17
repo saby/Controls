@@ -6,6 +6,8 @@ import {IContainerBaseOptions} from 'Controls/_scroll/ContainerBase';
 import {SCROLL_MODE} from 'Controls/_scroll/Container/Type';
 import {SCROLL_DIRECTION} from 'Controls/_scroll/Utils/Scroll';
 
+var global = (function() { return this || (0,eval)('this') })();
+
 describe('Controls/scroll:ContainerBase', () => {
    const options: IContainerBaseOptions = {
       scrollMode: SCROLL_MODE.VERTICAL
@@ -227,14 +229,21 @@ describe('Controls/scroll:ContainerBase', () => {
          control._beforeMount(options);
 
          control._container = {
-            closest: sinon.stub().returns(true)
+            // closest: sinon.stub().returns(true)
+            offsetParent: null
          }
+
+         const getComputedStyle = global.getComputedStyle;
+         global.getComputedStyle = () => { return {} };
 
          sinon.stub(control, '_updateStateAndGenerateEvents');
 
          control._resizeObserverCallback();
 
          sinon.assert.notCalled(control._updateStateAndGenerateEvents);
+
+         global.getComputedStyle = getComputedStyle;
+
          sinon.restore();
       });
    });
