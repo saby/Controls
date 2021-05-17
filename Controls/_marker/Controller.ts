@@ -21,6 +21,10 @@ export class Controller {
       this._model = options.model;
       this._markerVisibility = options.markerVisibility;
       this._markedKey = options.markedKey;
+
+      if (this._markedKey !== null && this._markedKey !== undefined) {
+         this._model.setMarkedKey(this._markedKey, true);
+      }
    }
 
    /**

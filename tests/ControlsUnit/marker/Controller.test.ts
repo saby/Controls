@@ -28,6 +28,13 @@ describe('Controls/marker/Controller', () => {
       controller = new MarkerController({ model, markerVisibility: 'visible', markedKey: undefined });
    });
 
+   describe('constructor', () => {
+      it('init marker in model', () => {
+         controller = new MarkerController({ model, markerVisibility: 'visible', markedKey: 1 });
+         assert.isTrue(model.getItemBySourceKey(1).isMarked());
+      });
+   });
+
    describe('updateOptions', () => {
       it('change options', () => {
           controller.updateOptions({
@@ -83,7 +90,7 @@ describe('Controls/marker/Controller', () => {
              keyProperty: 'id'
          }));
 
-         assert.equal(model.getVersion(), 2);
+         assert.equal(model.getVersion(), 3);
 
          assert.equal(model.getItemBySourceKey(1).getVersion(), 0);
          assert.equal(model.getItemBySourceKey(3).getVersion(), 0);
@@ -96,7 +103,7 @@ describe('Controls/marker/Controller', () => {
          assert.isFalse(model.getItemBySourceKey(3).isMarked());
 
          // Проверяем что версия изменилась один раз для маркера
-         assert.equal(model.getVersion(), 3);
+         assert.equal(model.getVersion(), 4);
          assert.equal(model.getItemBySourceKey(1).getVersion(), 1);
          assert.equal(model.getItemBySourceKey(2).getVersion(), 0);
          assert.equal(model.getItemBySourceKey(3).getVersion(), 0);
