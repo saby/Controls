@@ -146,10 +146,6 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
                 targetIndex = undefined;
                 return;
             }
-
-            if (addingItemKey === null) {
-                throw Error(ERROR_MSG.ADDING_ITEM_KEY_IS_NULL_IN_TREE);
-            }
         }
 
         this._editingItem.setEditing(true, item, false, columnIndex);
@@ -262,6 +258,10 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
                 throw Error(
                     `There is no item with key={${editingItemParentKey}} in list. ${ERROR_MSG.PARENT_OF_ADDING_ITEM_DOES_NOT_EXIST}`
                 );
+            }
+
+            if (editingItem.contents.getKey() === null) {
+                throw Error(ERROR_MSG.ADDING_ITEM_KEY_IS_NULL_IN_TREE);
             }
 
             if (targetItem) {
