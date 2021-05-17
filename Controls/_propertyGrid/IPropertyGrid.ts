@@ -54,6 +54,13 @@ export interface IPropertyGrid {
  */
 
 /**
+ * @event Происходит при изменении объекта, свойства которого являются значениями для редакторов.
+ * @name Controls/_propertyGrid/IPropertyGrid#editingObjectChanged
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Object | Types/entity:Model} editingObject Объект, с обновленными значениями для редакторов.
+ */
+
+/**
  * @name Controls/_propertyGrid/IPropertyGrid#keyProperty
  * @cfg {String} Имя свойства, содержащего информацию об идентификаторе текущей строки.
  */
