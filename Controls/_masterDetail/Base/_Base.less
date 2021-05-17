@@ -17,9 +17,12 @@
    border-color: var(--master_separator_contrast-color_list);
 }
 
-.ws-is-ie .controls-MasterDetail_master-template {
-   padding-right: 0;
-   margin-right: var(--master_item_horizontal-offset_list);
+.ws-is-ie,
+.ws-is-firefox {
+   .controls-MasterDetail_master-template {
+      padding-right: 0;
+      margin-right: var(--master_item_horizontal-offset_list);
+   }
 }
 
 .controls-master-template-newDesign {
