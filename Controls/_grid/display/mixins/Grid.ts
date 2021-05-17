@@ -21,6 +21,7 @@ import FooterRow, { TFooter } from '../FooterRow';
 import ResultsRow, { TResultsPosition } from '../ResultsRow';
 import GridRowMixin from './Row';
 import EmptyRow from '../EmptyRow';
+import { EnumeratorCallback } from 'Types/collection';
 
 type THeaderVisibility = 'visible' | 'hasdata';
 type TResultsVisibility = 'visible' | 'hasdata';
@@ -364,7 +365,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _updateItemsLadder(): void {
-        this._getItems().forEach((item: GridRowMixin<S>, index: number) => {
+        this.each((item: GridRowMixin<S>, index: number) => {
             let ladder;
             let stickyLadder;
             if (this._$ladder) {
@@ -562,6 +563,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     abstract getItemBySourceKey(key: string | number): T;
     abstract getCollection(): IBaseCollection<S, T>;
     abstract getFooter(): FooterRow<S>;
+    abstract each(callback: EnumeratorCallback<T>, context?: object): void;
 
     protected abstract _nextVersion(): void;
     protected abstract _getItems(): T[];
