@@ -1,12 +1,18 @@
-import { GridDataCell } from 'Controls/grid';
-import {IEditingConfig, isFullGridSupport} from 'Controls/display';
+import {GridDataCell, IGridDataCellOptions} from 'Controls/grid';
+import { IEditingConfig, isFullGridSupport } from 'Controls/display';
 import TreeGridDataRow from './TreeGridDataRow';
 import { Model } from 'Types/entity';
+
+export interface ITreeGridDataCellOptions<T extends Model> extends IGridDataCellOptions<T> {
+    isDragTargetNode?: boolean;
+}
 
 export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, TreeGridDataRow<T>> {
     readonly '[Controls/treeGrid:TreeGridDataCell]': boolean;
 
     protected _$owner: TreeGridDataRow<T>;
+
+    private _$isDragTargetNode: boolean;
 
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover?: boolean, templateHoverBackgroundStyle?: string): string {
         let classes = super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover);
@@ -19,7 +25,9 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
             classes += ' controls-TreeGridView__dragTargetNode';
             if (this.isFirstColumn()) {
                 classes += ' controls-TreeGridView__dragTargetNode_first';
-            } else if (this.isLastColumn()) {
+            }
+
+            if (this.isLastColumn()) {
                 classes += ' controls-TreeGridView__dragTargetNode_last';
             }
 
@@ -42,6 +50,17 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
         }
 
         return classes;
+    }
+
+    isDragTargetNode(): boolean {
+        return this._$isDragTargetNode;
+    }
+
+    setDragTargetNode(isTarget: boolean): void {
+        if (this._$isDragTargetNode !== isTarget) {
+            this._$isDragTargetNode = isTarget;
+            this._nextVersion();
+        }
     }
 
     protected _getWrapperBaseClasses(theme: string, style: string, templateHighlightOnHover: boolean): string {
@@ -79,5 +98,6 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
 Object.assign(TreeGridDataCell.prototype, {
     '[Controls/treeGrid:TreeGridDataCell]': true,
     _moduleName: 'Controls/treeGrid:TreeGridDataCell',
-    _instancePrefix: 'tree-grid-data-cell-'
+    _instancePrefix: 'tree-grid-data-cell-',
+    _$isDragTargetNode: false
 });
