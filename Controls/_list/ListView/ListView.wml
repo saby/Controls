@@ -21,7 +21,8 @@
              itemActionsClass="{{ _options.itemActionsClass }}"
              swipeTemplate="{{ _options.swipeTemplate }}"
              multiSelectTpl="{{ _options.multiSelectTpl }}"
-             backgroundStyle="{{ _options.backgroundStyle || _options.style }}">
+             backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
+             stickyCallback="{{_options.stickyCallback}}">
          </ws:partial>
 
          <ws:if data="{{_options._needBottomPadding}}">
