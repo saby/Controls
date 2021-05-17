@@ -119,7 +119,7 @@ describe('Controls/_listDragNDrop/Controller', () => {
          };
 
          const dragPosition = controller.calculateDragPosition({targetItem: item});
-         assert.isNull(dragPosition);
+         assert.isNotOk(dragPosition);
       });
 
       it('hover on dragged item', () => {
