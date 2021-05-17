@@ -211,13 +211,13 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
                 groupProperty: 'group'
             });
             const initialLastItem = collection.getItemBySourceKey(4);
-            assert.equal(initialLastItem, collection.at(3));
+            assert.equal(initialLastItem, collection.at(5));
 
             assert.isTrue(initialLastItem.isLastItem());
 
             collection.setGroupProperty('group2');
 
-            assert.notEqual(initialLastItem, collection.at(3));
+            assert.notEqual(initialLastItem, collection.at(5));
             assert.isTrue(collection.getItemBySourceKey(4).isLastItem());
         });
     });
