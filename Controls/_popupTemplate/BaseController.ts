@@ -269,8 +269,9 @@ abstract class BaseController {
         const bodySelector = 'body';
         const getCoords = (container) => {
             if (container) {
-                const coordsByContainer = {...BaseController.getCoordsByContainer(container)};
+                let coordsByContainer = BaseController.getCoordsByContainer(container);
                 if (coordsByContainer) {
+                    coordsByContainer = {...coordsByContainer};
                     if (rightOffset) {
                         coordsByContainer.width -= rightOffset;
                         coordsByContainer.right -= rightOffset;
