@@ -45,7 +45,7 @@ export default class Flat<
             return this._startPosition;
         }
 
-        if (this._targetItemIsDraggable(targetItem)) {
+        if (!targetItem.DraggableItem || this._targetItemIsDraggable(targetItem)) {
             return currentPosition;
         }
 
