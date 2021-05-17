@@ -1,17 +1,6 @@
 export default abstract class GroupCell<T> {
     readonly '[Controls/_display/grid/mixins/GroupCell]': boolean;
 
-    getContentClasses(theme: string): string {
-        let classes = '';
-        // TODO необходимо разобраться с высотой групп.
-        //  https://online.sbis.ru/opendoc.html?guid=6693d47c-515c-4751-949d-55be05fe124e
-        classes += ` controls-Grid__row-cell__content_baseline_S`;
-        classes += this._getHorizontalPaddingClasses(theme);
-        classes += this._getContentAlignClasses();
-        classes += ' controls-ListView__groupContent';
-        return classes;
-    }
-
     getContentTextClasses(separatorVisibility: boolean,
                           textAlign: 'right' | 'left'): string {
         let classes = 'controls-ListView__groupContent-text ' +
@@ -80,6 +69,4 @@ export default abstract class GroupCell<T> {
     }
 
     abstract isExpanded(): boolean;
-    abstract _getHorizontalPaddingClasses(theme: string): string;
-    abstract _getContentAlignClasses(): string;
 }
