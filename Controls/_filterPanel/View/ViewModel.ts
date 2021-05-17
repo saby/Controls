@@ -87,6 +87,13 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         });
     }
 
+    private _setValueToSourceItem(item: IFilterItem, editorValue: object): void {
+        item.value = editorValue?.value === undefined ? editorValue : editorValue?.value;
+        if (editorValue?.textValue !== undefined) {
+            item.textValue = editorValue.textValue;
+        }
+    }
+
     getBasicFilterItems(): IFilterItem[] {
         return this._getItemsByViewMode('basic');
     }
@@ -100,10 +107,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         this._source = object.clone(this._source);
         this._source.forEach((item) => {
             const editingItemProperty = editingObject[item.name];
-            item.value = editingItemProperty?.value === undefined ? editingItemProperty : editingItemProperty?.value;
-            if (editingItemProperty?.textValue !== undefined) {
-                item.textValue = editingItemProperty.textValue;
-            }
+            this._setValueToSourceItem(item, editingItemProperty);
             if (editingItemProperty?.needCollapse) {
                 this.collapseGroup(item.group);
             }
@@ -123,7 +127,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         this._nextVersion();
     }
 
-    setEditingObjectValue(editorName: string, value: object): void {
+    setEditingObjectValue(editorName: string, editorValue: object): void {
         const source = coreClone(this._source);
         const item = source.find((item) => {
             return item.name === editorName;
@@ -131,7 +135,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         if (item.viewMode === 'extended') {
             item.viewMode = 'basic';
         }
-        item.value = value;
+        this._setValueToSourceItem(item, editorValue);
         this._source = this._getSource(source);
         this._nextVersion();
     }
