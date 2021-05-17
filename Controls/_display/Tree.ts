@@ -714,12 +714,15 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         //region Удаленные ключи нужно свернуть
         if (diff.removed[0] === null) {
             this._getItems().forEach((item) => {
-                if (!item['[Controls/_display/TreeItem]']) {
+                // TODO: не должен общий модуль знать про конкретную реализацию TreeGridNodeFooterRow
+                //  getContents() у TreeGridNodeFooterRow должен придерживаться контракта и возвращать
+                //  Model а не строку
+                if (!item['[Controls/_display/TreeItem]'] || item['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
                     return;
                 }
 
                 const id = item.getContents().getKey();
-                if (diff.added.includes(id)) {
+                if (id && diff.added.includes(id)) {
                     return;
                 }
 
