@@ -46,9 +46,10 @@ export class CalmTimer {
      */
     start(): void {
         this.resetTimeOut();
+        const args = arguments;
         this._openId = setTimeout(() => {
             this._openId = null;
-            this._callback(...arguments);
+            this._callback(...args);
         }, CALM_DELAY);
     }
 
