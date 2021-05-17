@@ -1,7 +1,7 @@
 <div class="controls_filterPopup_theme-{{_options.theme}} controls-FilterPanel__PropertyGrid">
    <ws:for data="index, item in _items">
       <ws:if data="{{_isItemVisible(item)}}">
-         <ws:if data="{{(item[_options.itemTemplateProperty] || _options.itemTemplate.templateName).at}}">
+         <ws:if data="{{(item[_options.itemTemplateProperty] || _options.itemTemplate.templateName).charAt}}">
             <Controls.Container.Async
                templateName="{{item[_options.itemTemplateProperty] || _options.itemTemplate.templateName}}">
                <div class="controls-FilterPanel__PropertyGrid__item

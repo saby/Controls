@@ -1,4 +1,4 @@
-<ws:if data="{{(item[_options.itemTemplateProperty] || _options.itemTemplate.templateName).at}}">
+<ws:if data="{{(item[_options.itemTemplateProperty] || _options.itemTemplate.templateName).charAt}}">
    <Controls.Container.Async
       templateName="{{item[_options.itemTemplateProperty] || _options.itemTemplate.templateName}}">
       <ws:partial template="{{content.resolvedTemplate}}"
