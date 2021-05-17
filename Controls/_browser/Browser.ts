@@ -395,7 +395,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
             if (updateResult instanceof Promise) {
                 this._loading = true;
-                updateResult.catch(() => this._processSearchError);
+                updateResult.catch(this._processSearchError);
             }
 
             return updateResult;
