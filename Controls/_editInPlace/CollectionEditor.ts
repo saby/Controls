@@ -6,7 +6,6 @@ import {IEditableCollection, IEditableCollectionItem, TreeItem} from 'Controls/d
 export const ERROR_MSG = {
     ADDING_ITEM_KEY_WAS_NOT_SET: 'Adding item key was not set. Key is required. You can set the key ' +
         'before edit while prepare adding item or in callbacks: beforeBeginEdit and beforeEndEdit.',
-    ADDING_ITEM_KEY_IS_NULL_IN_TREE: 'Adding item key is NULL in tree collection. NULL is reserved value for ROOT item in tree collection. Please set another key.',
     ADD_ITEM_KEY_DUPLICATED: 'Duplicating keys in editable collection. Adding item has the same key as item which is already exists in collection.',
     ITEM_FOR_EDITING_MISSED_IN_COLLECTION: 'Item passed for editing is missing in collection. You can edit only existing items, to add new use method add(item: Model).',
     COLLECTION_IS_REQUIRED: 'Options ICollectionEditorOptions:collection is required.',
@@ -145,10 +144,6 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
             if (targetIndex === -1) {
                 targetIndex = undefined;
                 return;
-            }
-
-            if (addingItemKey === null) {
-                throw Error(ERROR_MSG.ADDING_ITEM_KEY_IS_NULL_IN_TREE);
             }
         }
 
