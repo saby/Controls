@@ -1775,7 +1775,9 @@ const _private = {
             // Тут вызывается nextVersion на коллекции, и это приводит к вызову итератора.
             // Поэтому это должно быть после обработки изменений коллекции scrollController'ом, чтобы итератор
             // вызывался с актуальными индексами
-            if ((action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_REPLACE) &&
+            if ((action === IObservable.ACTION_REMOVE ||
+                action === IObservable.ACTION_REPLACE ||
+                action === IObservable.ACTION_RESET) &&
                 self._itemActionsMenuId) {
                 _private.closeItemActionsMenuForActiveItem(self, removedItems);
             }
@@ -2362,7 +2364,7 @@ const _private = {
 
     resetPagingNavigation(self, navigation) {
         self._currentPageSize = navigation && navigation.sourceConfig && navigation.sourceConfig.pageSize || 1;
-        
+
         self._knownPagesCount = self._items ? _private.calcPaging(self, self._items.getMetaData().more, self._currentPageSize) : INITIAL_PAGES_COUNT;
 
         // TODO: KINGO
