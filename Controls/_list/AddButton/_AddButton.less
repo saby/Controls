@@ -29,6 +29,18 @@
    background-image: var(--icon_background-image_listAddButton);
 }
 
+// В Яндекс браузере для win-XP css переменные поддерживаются не в полном объеме, из-за чего браузер ожидает полный путь с указанием домена
+// Поэтому каскадом задаем корректный путь
+.ws-is-chrome.ws-is-windows-xp {
+   .controls-AddButton_icon-disable {
+      background-image: url('/resources/Controls-default-theme/img/AddButtonDisable.svg');
+   }
+
+   .controls-AddButton_icon-enable {
+      background-image: url('/resources/Controls-default-theme/img/AddButtonEnable.svg');
+   }
+}
+
 .controls-AddButton__icon {
    height: var(--icon-size_listAddButton);
    width: var(--icon-size_listAddButton);

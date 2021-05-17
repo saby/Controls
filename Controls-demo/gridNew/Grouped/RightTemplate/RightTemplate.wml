@@ -17,8 +17,7 @@
                                 separatorVisibility={{false}}
                                 expanderVisible={{true}}
                                 expanderAlign="right"
-                                columnAlignGroup="{{2}}"
-                                itemData="{{itemData}}">
+                                columnAlignGroup="{{2}}">
                         <ws:rightTemplate>
                             <Controls.decorator:Money value="{{itemData.metaData.groupResults[itemData.item]}}" fontColorStyle="group" useGrouping="{{false}}"/>
                         </ws:rightTemplate>

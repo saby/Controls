@@ -1,8 +1,8 @@
-define(['Controls/masterDetail'], function (masterDetail) {
+define(['Controls/_masterDetail/Base'], function (masterDetail) {
    'use strict';
    describe('Controls.Container.MasterDetail', function () {
       it('selected master value changed', () => {
-         let Control = new masterDetail.Base();
+         let Control = new masterDetail.default();
          let event = {
             stopPropagation: () => {
             }
@@ -13,7 +13,7 @@ define(['Controls/masterDetail'], function (masterDetail) {
       });
 
       it('beforeMount', (done) => {
-         const Control = new masterDetail.Base();
+         const Control = new masterDetail.default();
          Control._getSettings = () => {
             return Promise.resolve({'1': 500});
          };
@@ -35,7 +35,7 @@ define(['Controls/masterDetail'], function (masterDetail) {
       });
 
       it('initCurrentWidth', () => {
-         let Control = new masterDetail.Base();
+         let Control = new masterDetail.default();
          let options = {
             propStorageId: '1',
             masterMinWidth: 0,
@@ -48,7 +48,7 @@ define(['Controls/masterDetail'], function (masterDetail) {
       });
 
       it('update offset', () => {
-         let Control = new masterDetail.Base();
+         let Control = new masterDetail.default();
 
          // base
          let options = {
@@ -108,7 +108,7 @@ define(['Controls/masterDetail'], function (masterDetail) {
       });
 
       it ('_beforeUpdate with new propStorageId', async () => {
-         let Control = new masterDetail.Base();
+         let Control = new masterDetail.default();
          let options = {
             propStorageId: 'test'
          };
@@ -126,7 +126,7 @@ define(['Controls/masterDetail'], function (masterDetail) {
       });
 
       it ('_dragStartHandler', () => {
-         let Control = new masterDetail.Base();
+         let Control = new masterDetail.default();
          let options = {
             masterMinWidth: 100,
             masterWidth: 150,
@@ -142,7 +142,7 @@ define(['Controls/masterDetail'], function (masterDetail) {
       });
 
       it('is can resizing', () => {
-         let Control = new masterDetail.Base();
+         let Control = new masterDetail.default();
          let options = {
             masterMinWidth: 250,
             masterWidth: 200,
@@ -160,7 +160,7 @@ define(['Controls/masterDetail'], function (masterDetail) {
       });
 
       it('afterRender', () => {
-         const Control = new masterDetail.Base();
+         const Control = new masterDetail.default();
          let isStartRegister = false;
          let isSetSettings = false;
          Control._startResizeRegister = () => isStartRegister = true;
@@ -179,7 +179,7 @@ define(['Controls/masterDetail'], function (masterDetail) {
       });
 
       it('_resizeHandler with propStorageId', () => {
-         const Control = new masterDetail.Base();
+         const Control = new masterDetail.default();
          let isUpdateOffset = false;
          Control._startResizeRegister = () => {};
          Control._updateOffsetDebounced = () => isUpdateOffset = true;
@@ -199,7 +199,7 @@ define(['Controls/masterDetail'], function (masterDetail) {
       });
 
       it('_resizeHandler without propStorageId', () => {
-         const Control = new masterDetail.Base();
+         const Control = new masterDetail.default();
          let isUpdateOffset = false;
          Control._updateOffsetDebounced = () => isUpdateOffset = true;
          Control._startResizeRegister = () => {};
@@ -217,7 +217,7 @@ define(['Controls/masterDetail'], function (masterDetail) {
       });
 
       it('_startResizeRegister without resizeDetectMaster', () => {
-         const Control = new masterDetail.Base();
+         const Control = new masterDetail.default();
          Control._options = {
             masterVisibility: 'hidden'
          };
@@ -236,7 +236,7 @@ define(['Controls/masterDetail'], function (masterDetail) {
       });
 
       it('masterWidthChanged', () => {
-         const control = new masterDetail.Base();
+         const control = new masterDetail.default();
          const sandbox = sinon.createSandbox();
          const event = {};
          const offset = 100;
@@ -251,7 +251,7 @@ define(['Controls/masterDetail'], function (masterDetail) {
       });
 
       it('touch resize', () => {
-         const control = new masterDetail.Base();
+         const control = new masterDetail.default();
          let isStartDragCalled = false;
          let isEndDragCalled = false;
          let moveOffset = 0;

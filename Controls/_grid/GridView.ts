@@ -20,6 +20,7 @@ const GridView = ListView.extend({
     _isFullMounted: false,
 
     _columnScrollViewController: null,
+    _isColumnScrollUpdateFrozen: false,
     _columnScrollWrapperClasses: '',
     _columnScrollContentClasses: '',
     _dragScrollOverlayClasses: '',
@@ -79,6 +80,10 @@ const GridView = ListView.extend({
             listModel.setHeader(options.header);
         }
 
+        if (changes.includes('headerVisibility')) {
+            listModel.setHeaderVisibility(options.headerVisibility);
+        }
+
         if (changes.includes('columnScroll')) {
             listModel.setColumnScroll(options.columnScroll);
         }
@@ -86,10 +91,15 @@ const GridView = ListView.extend({
         if (changes.includes('resultsPosition')) {
             listModel.setResultsPosition(options.resultsPosition);
         }
+
+        if (changes.includes('ladderProperties')) {
+            listModel.setLadderProperties(options.ladderProperties);
+        }
     },
 
     _applyChangedOptions(newOptions, oldOptions, changes): void {
         this._doAfterUpdate(() => {
+            this._isColumnScrollUpdateFrozen = false;
             this._actualizeColumnScroll(newOptions, oldOptions);
         });
     },
@@ -110,6 +120,9 @@ const GridView = ListView.extend({
             if (changedOptions.hasOwnProperty('header')) {
                 changes.push('header');
             }
+            if (changedOptions.hasOwnProperty('headerVisibility')) {
+                changes.push('headerVisibility');
+            }
             if (changedOptions.hasOwnProperty('columns')) {
                 changes.push('columns');
             }
@@ -125,15 +138,23 @@ const GridView = ListView.extend({
             if (changedOptions.hasOwnProperty('items')) {
                 changes.push('items');
             }
+            if (changedOptions.hasOwnProperty('ladderProperties')) {
+                changes.push('ladderProperties');
+            }
         }
 
         if (changes.length) {
             // Набор колонок необходимо менять после перезагрузки. Иначе возникает ошибка, когда список
             // перерисовывается с новым набором колонок, но со старыми данными. Пример ошибки:
             // https://online.sbis.ru/opendoc.html?guid=91de986a-8cb4-4232-b364-5de985a8ed11
+            this._isColumnScrollUpdateFrozen = true;
             this._doAfterReload(() => {
                 this._applyChangedOptions(newOptions, oldOptions, changes);
                 this._applyChangedOptionsToModel(this._listModel, newOptions, changes);
+            });
+        } else if (!this._isColumnScrollUpdateFrozen) {
+            this._doAfterUpdate(() => {
+                this._actualizeColumnScroll(newOptions, oldOptions);
             });
         }
     },
@@ -535,7 +556,13 @@ const GridView = ListView.extend({
             || !!target.closest(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`)) {
             return;
         }
-        this._columnScrollViewController.scrollToElementIfHidden(target.getBoundingClientRect());
+        let targetRect;
+        if (this._listModel.getEditingConfig()?.mode === 'cell') {
+            targetRect = (target.closest('.controls-Grid__row-cell') || target).getBoundingClientRect();
+        } else {
+            targetRect = target.getBoundingClientRect();
+        }
+        this._columnScrollViewController.scrollToElementIfHidden(targetRect);
         this._applyColumnScrollChanges();
     }
 

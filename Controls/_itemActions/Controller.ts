@@ -298,7 +298,7 @@ export class Controller {
             // @ts-ignore
             target,
             templateOptions,
-            className: 'controls-MenuButton_link_iconSize-medium_popup',
+            className: `controls-MenuButton_link_iconSize-medium_popup controls_popupTemplate_theme-${this._theme} controls_dropdownPopup_theme-${this._theme}`,
             closeOnOutsideClick: true,
             autofocus: false,
             fittingMode: {
@@ -317,7 +317,7 @@ export class Controller {
                     vertical: 'top',
                     horizontal: 'right'
                 },
-                className: 'controls-ItemActions__popup__list',
+                className: `controls-ItemActions__popup__list controls_popupTemplate_theme-${this._theme}`,
                 // @ts-ignore
                 nativeEvent: isContextMenu ? clickEvent.nativeEvent : null
             };
@@ -454,7 +454,7 @@ export class Controller {
         let hasChanges = false;
         const changedItemsIds: Array<number | string> = [];
         const assignActionsOnItem = (item): void => {
-            if (!item['[Controls/_display/GroupItem]'] && !item['[Controls/_display/SearchSeparator]'] && !item['[Controls/treeGrid:TreeGridNodeFooterRow]'] && !item['[Controls/_tile/InvisibleTileItem]']) {
+            if (item.ItemActionsItem) {
                 const contents = Controller._getItemContents(item);
                 const actionsObject = this._fixActionsDisplayOptions(this._getActionsObject(item));
                 const itemChanged = Controller._setItemActions(item, actionsObject, this._actionMode);

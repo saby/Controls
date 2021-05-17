@@ -407,7 +407,6 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     shouldDisplayMarker(templateMarker: boolean = true): boolean {
         return (
             templateMarker &&
-            this._$owner.getMarkerVisibility() !== 'hidden' &&
             this.isMarked() &&
             !this.getOwner().isEditing()
         );

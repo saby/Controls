@@ -477,8 +477,13 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getImageUrl(widthTpl?: number, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
-        const baseUrl = object.getPropertyValue<string>(this.getContents(), this.getImageProperty());
+    getImageUrl(
+        widthTpl?: number,
+        imagePosition: string = 'top',
+        imageViewMode: string = 'rectangle',
+        fallbackImage?: string
+    ): string {
+        const baseUrl = object.getPropertyValue<string>(this.getContents(), this.getImageProperty()) || fallbackImage;
         if (this.getImageFit() === 'cover') {
             const imageSizes = getImageSize(
                 this.getTileWidth(widthTpl, imagePosition, imageViewMode),
@@ -703,7 +708,6 @@ export default abstract class TileItem<T extends Model = Model> {
         }
 
         classes += ` ${this.getItemPaddingClasses()}`;
-        classes += ` ${this.getRoundBorderClasses()}`;
 
         switch (itemType) {
             case 'default':
@@ -775,15 +779,17 @@ export default abstract class TileItem<T extends Model = Model> {
         border?: boolean,
         titleStyle: string = 'light'
     ): string {
+        let classes = '';
+        classes += ` ${this.getRoundBorderClasses()}`;
         if (itemType === 'small') {
-            let classes = 'controls-TileView__smallTemplate_wrapper';
+            classes += ' controls-TileView__smallTemplate_wrapper';
             if (this.canShowActions()) {
                 classes += ' controls-ListView__item_showActions';
             }
             return classes;
         }
 
-        let classes = 'controls-TileView__itemContent js-controls-ListView__measurableContainer';
+        classes += ' controls-TileView__itemContent js-controls-ListView__measurableContainer';
 
         if (height === 'auto') {
             classes += ' controls-TileView__item_autoHeight';

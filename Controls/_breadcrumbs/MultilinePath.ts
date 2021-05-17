@@ -29,6 +29,7 @@ interface IReceivedState {
  * @class Controls/_breadcrumbs/MultilinePath
  * @extends UI/Base:Control
  * @mixes Controls/breadcrumbs:IBreadCrumbs
+ * @mixes Controls/interface:IFontColorStyle
  * @implements Controls/interface:IFontSize
  * @public
  * @author Красильников А.С.

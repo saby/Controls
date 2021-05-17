@@ -1,4 +1,4 @@
-<Controls._moverDialog.BaseTemplate>
+<Controls._moverDialog.BaseTemplate headingCaption="{{_options.headingCaption}}">
    <ws:bodyContentTemplate>
       <Controls.browser:Browser source="{{_options.source}}"
                                 bind:filter="_filter"
@@ -7,7 +7,9 @@
                                 navigation="{{_options.navigation}}"
                                 dataLoadCallback="{{_options.dataLoadCallback}}"
                                 keyProperty="{{_options.keyProperty}}"
-                                searchParam="{{_options.searchParam}}">
+                                searchParam="{{_options.searchParam}}"
+                                parentProperty="{{_options.parentProperty}}"
+                                displayProperty="{{_options.displayProperty}}">
             <div class="controls-MoveDialog__content">
                <Controls.search:InputContainer attr:class="controls-MoveDialog__search ">
                   <Controls.search:Input/>
@@ -33,9 +35,7 @@
                              on:beforeMarkedKeyChanged="_onBeforeMarkedKeyChanged()"
                              on:actionClick="_onItemActionsClick()"
                              on:itemClick="_onItemClick()"
-                             parentProperty="{{_options.parentProperty}}"
                              nodeProperty="{{_options.nodeProperty}}"
-                             displayProperty="{{_options.displayProperty}}"
                              hasChildrenProperty="{{_options.hasChildrenProperty}}"
                              itemsFilterMethod="{{_itemsFilterMethod}}"
                              expanderDisplayMode="adaptive"

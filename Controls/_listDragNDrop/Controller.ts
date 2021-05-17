@@ -37,11 +37,8 @@ export default class Controller<P> {
     */
    startDrag(draggableItem: IDraggableItem, entity: ItemsEntity): void {
       this._entity = entity;
-      if (draggableItem) {
-         this._draggableItem = draggableItem;
-         this._model.setDraggedItems(draggableItem, entity.getItems());
-      }
-
+      this._draggableItem = draggableItem;
+      this._model.setDraggedItems(draggableItem, entity.getItems());
       this._strategy = new this._strategyConstructor(this._model, draggableItem);
    }
 

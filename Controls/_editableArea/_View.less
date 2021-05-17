@@ -91,6 +91,17 @@
    height: var(--icon-size_closeButton_editableArea);
 }
 
+// В Яндекс браузере для win-XP css переменные поддерживаются не в полном объеме, из-за чего браузер ожидает полный путь с указанием домена
+// Поэтому каскадом задаем корректный путь
+.ws-is-chrome.ws-is-windows-xp {
+   .controls-EditableArea__closeButton-icon {
+      background-image: url('/resources/Controls-default-theme/img/DefaultCloseIcon.svg');
+   }
+   .controls-EditableArea__closeButton-icon:hover {
+      background-image: url('/resources/Controls-default-theme/img/CloseIconHovered.svg');
+   }
+}
+
 .controls-EditableArea__applyButton-icon {
    text-shadow: var(--text-shadow_applyButton_editableArea);
    .icon(var(--icon-size_applyButton_editableArea), 'cbuc-icons');

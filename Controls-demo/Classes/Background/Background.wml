@@ -1,0 +1,18 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell controlsDemo_fixedWidth500">
+        <div attr:class="controls-text-label">controls-background-default</div>
+        <div class="element bordered controls-background-default"></div>
+        <div attr:class="controls-text-label">controls-background-primary</div>
+        <div class="element controls-background-primary"></div>
+        <div attr:class="controls-text-label">controls-background-secondary</div>
+        <div class="element controls-background-secondary"></div>
+        <div attr:class="controls-text-label">controls-background-danger</div>
+        <div class="element controls-background-danger"></div>
+        <div attr:class="controls-text-label">controls-background-success</div>
+        <div class="element controls-background-success"></div>
+        <div attr:class="controls-text-label">controls-background-warning</div>
+        <div class="element controls-background-warning"></div>
+        <div attr:class="controls-text-label">controls-background-info</div>
+        <div class="element controls-background-info"></div>
+    </div>
+</div>

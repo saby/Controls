@@ -66,7 +66,7 @@ define('Controls/interface/IGroupedList', [
 
    /**
     * @name Controls/interface/IGroupedList#hiddenGroupPosition
-    * @cfg {Controls/list:IHiddenGroupPosition} Позиция скрытой группы
+    * @cfg {Controls/list.IHiddenGroupPosition} Позиция скрытой группы
     */
 
 });

@@ -273,7 +273,6 @@
    border-color: var(--master_item_background-color_list);
    border-style: solid;
    border-bottom-width: var(--master_item_separator_thickness_list);
-   border-top-width: var(--master_item_separator_thickness_list);
 }
 
 .controls-ColumnScroll_visible .controls-GridNew__cell_fixed {
@@ -350,6 +349,9 @@
       background-color: var(--item_hover_background-color_list);
    }
    .controls-Grid__row_highlightOnHover_default:hover .controls-background-stack {
+      background-color: var(--item_hover_background-color_list);
+   }
+   .controls-Grid__row_highlightOnHover_default:hover .controls-background-infoBox {
       background-color: var(--item_hover_background-color_list);
    }
    .controls-Grid__row_highlightOnHover_default:hover .controls-Grid__row-cell__content_hiddenForLadder {
@@ -862,6 +864,7 @@
 
 .controls-Grid__row-cell_selected-master {
    font-weight: bold;
+   color: var(--master_item_selected_text-color_list);
    font-size: var(--master_item_selected_font-size_list);
 }
 

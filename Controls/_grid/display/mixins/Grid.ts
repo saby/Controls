@@ -270,6 +270,13 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         this._$headerModel = null;
     }
 
+    setHeaderVisibility(headerVisibility: THeaderVisibility): void {
+        this._$headerVisibility = headerVisibility;
+        this._$headerModel = null;
+
+        this._nextVersion();
+    }
+
     setColumns(newColumns: TColumns): void {
         this._$columns = newColumns;
         this._nextVersion();
@@ -287,6 +294,22 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         [this.getColgroup(), this.getHeader(), this.getResults(), this.getFooter()].forEach((gridUnit) => {
             gridUnit?.setColumns(newColumns);
         });
+    }
+
+    setLadderProperties(ladderProperties: string[]) {
+        if (this._$ladderProperties !== ladderProperties) {
+            this._$ladderProperties = ladderProperties;
+            this._nextVersion();
+
+            const supportLadder = GridLadderUtil.isSupportLadder(this._$ladderProperties);
+            if (supportLadder) {
+                this._prepareLadder(this._$ladderProperties, this._$columns);
+                this._updateItemsLadder();
+            }
+            this._getItems().forEach((item) => {
+                item.resetColumns();
+            });
+        }
     }
 
     setSorting(sorting: Array<{[p: string]: string}>): void {
@@ -512,7 +535,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     hasItemActionsSeparatedCell(): boolean {
-        return !!this.getColumnsConfig() && this.hasColumnScroll() && this._$itemActionsPosition !== 'custom';
+        return !!this.getColumnsConfig() && this.hasColumnScroll() && this._$itemActionsPosition !== 'custom' && !!this.getCount();
     }
 
     // FIXME: Временное решение - аналог RowEditor из старых таблиц(редактирование во всю строку).

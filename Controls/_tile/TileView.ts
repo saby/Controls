@@ -157,7 +157,7 @@ export default class TileView extends ListView {
                 closeOnOutsideClick: true,
                 maxWidth: menuOptions.previewWidth + MENU_MAX_WIDTH,
                 target: imageWrapper,
-                className: 'controls-TileView__itemActions_menu_popup',
+                className: `controls-TileView__itemActions_menu_popup controls_popupTemplate_theme-${this._options.theme}`,
                 targetPoint: {
                     vertical: 'top',
                     horizontal: 'left'
@@ -194,7 +194,9 @@ export default class TileView extends ListView {
             this._setHoveredItem(this, null, event);
             // С помощью флага canShowActions отображают itemActions. Когда показываются itemActions, скрывается title.
             // Поэтому после того как увели мышь с итема, нужно сбросить флаг canShowActions, чтобы показать title.
-            item.setCanShowActions(false);
+            if (item['[Controls/_tile/mixins/TileItem]']) {
+                item.setCanShowActions(false);
+            }
         }
         this._clearMouseMoveTimeout();
         super._onItemMouseLeave(event, item);

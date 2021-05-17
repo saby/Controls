@@ -156,8 +156,8 @@
    --grouping_expander_padding-right_list: var(--offset_m);
    --grouping_expander_font-size_list: var(--font-size_xs);
    --grouping_expander_text-color_list: var(--unaccented_text-color);
-   --grouping_expander_hover_text-color_list: var(--link_hover_text-color);
-   --grouping_expander_active_text-color_list: var(--link_hover_text-color);
+   --grouping_expander_hover_text-color_list: var(--secondary_hover_icon-color);
+   --grouping_expander_active_text-color_list: var(--grouping_expander_hover_text-color_list);
    --grouping_expander_icon-size_list: var(--icon-size_s);
    --grouping_expander_icon-size-2xs_list: var(--icon-size_2xs);
    --grouping_expander_icon-size-xs_list: var(--icon-size_xs);
@@ -197,8 +197,8 @@
    // Список в стиле Мастер - деталь
 
    // Разделитель
-   --master_separator_thickness_list: 3px;
-   --master_separator_contrast-color_list: #F0F0F0;
+   --master_separator_thickness_list: 0;
+   --master_separator_contrast-color_list: transparent;
    --master_separator_color_list: var(--detail_background-color_masterDetail);
 
    // Маркер
@@ -208,12 +208,12 @@
 
    // Цвет фона элемента
    --master_item_background-color_list: #F8F8F8;
-   --master_item_separator_thickness_list: 1px;
+   --master_item_separator_thickness_list: 2px;
    --master_item_hover_background-color_list: #f1f2f5;
    --master_item_selected_background-color_list: #f1f2f5;
 
    // Текст
-   --master_item_selected_text-color_list: #D94700;
+   --master_item_selected_text-color_list: var(--text-color);
    --master_item_font-size_list: var(--font-size_l);
    --master_item_selected_font-size_list: var(--font-size_l);
 
@@ -224,9 +224,9 @@
    --master_item_border-radius_list: 4px;
 
    // Цвет фона списка detail
-   --detail_contrast_background-color_masterDetail: transparent;
+   --detail_contrast_background-color_masterDetail: var(--background-color);
    --detail_background-color_masterDetail: #F8F8F8;
-   --detail-new_background_masterDetail: var(--background-color);
+   --detail-new_background_masterDetail: transparent;
 
    --editing-toolbar_offset-left_listEditInPlace: var(--offset_xs);
 

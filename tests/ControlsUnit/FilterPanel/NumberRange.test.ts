@@ -25,6 +25,14 @@ describe('Controls/filterPanel:NumberRangeEditor', () => {
             assert.equal(textValue, '0 - 5');
             assert.isTrue(changesNotified);
         });
+
+        it('maxValue is less than minValue', () => {
+            numberRangeEditor._minValue = 10;
+            numberRangeEditor._maxValue = 1;
+            numberRangeEditor._handleInputCompleted(null, 1);
+            assert.equal(numberRangeEditor._minValue, 1);
+            assert.equal(numberRangeEditor._maxValue, 10);
+        });
     });
 
     describe('_handleMinValueChanged', () => {

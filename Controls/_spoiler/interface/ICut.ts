@@ -39,7 +39,7 @@ export default interface ICut {
 
 /**
  * @name Controls/_spoiler/interface/ICut#iconSize
- * @cfg {Enum} Размер иконки.
+ * @cfg {String} Размер иконки.
  * @variant s малый
  * @variant m средний
  * @variant l большой
@@ -57,12 +57,13 @@ export default interface ICut {
 
 /**
  * @name Controls/_spoiler/interface/ICut#contrastBackground
+ * @cfg {Boolean} Определяет контрастность фона.
  * @demo Controls-demo/Spoiler/Cut/ContrastBackground/Index
  */
 
 /**
  * @name Controls/_spoiler/interface/ICut#inlineHeight
- * @cfg {Enum} Высота контрола.
+ * @cfg {String} Высота контрола.
  * Высота строки
  * @variant xs
  * @variant s
@@ -81,14 +82,14 @@ export default interface ICut {
 
 /**
  * @name Controls/_spoiler/interface/ICut#lines
- * Количество строк
+ * @cfg {Number|null} Количество строк.
  * @remark
- * Указав значение null контент не будет иметь ограничение.
+ * Указав значение null, контент не будет иметь ограничение.
  * @demo Controls-demo/Spoiler/Cut/Lines/Index
  */
 
 /**
  * @name Controls/_spoiler/interface/ICut#content
- * Контент контрола.
+ * @cfg {TemplateFunction|String} Контент контрола.
  * @demo Controls-demo/Spoiler/Cut/Content/Index
  */

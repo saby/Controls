@@ -2,14 +2,16 @@
 
    //common
    --background-color: #424851;
-   --contrast_background-color_editableArea: var(--background-color);
    --unaccented_background-color: #424851;
    --unaccented_background-transparent-color: #42485100;
    --hover_background-color: #464d57;
    --hover_background-transparent-color: #464d5700;
    --success_color: #72be44;
+   --success_icon-color: var(--success_color);
+   --success_text-color: var(--success_color);
    --primary_text-color: #ccc;
    --secondary_color: #6ed4d0;
+   --secondary_icon-color: var(--secondary_color);
    --secondary_text-color: #ccc;
    --secondary_hover_text-color: #ff7033;
    --readonly_color: #6b6b6b;
@@ -23,7 +25,8 @@
    --link_text-color_inline: var(--link_text-color);
    --link_hover_text-color_inline: var(--link_hover_text-color);
    --readonly_marker-color: var(--readonly_color);
-   --page_background-image: url(/cdn/OnlineCDN/themes/1.0.0/background-dark.jpg) #575e64;
+   --page_background-image: url('/cdn/OnlineCDN/themes/1.0.0/background-dark.jpg');
+   --page_background-color: #575e64;
 
    //button
    --primary_border-color_button: #eb6c65;
@@ -36,10 +39,10 @@
    --readonly_border-color_button_toolButton: #6b6b6b;
    --unaccented_background-color_button_functionalButton: #6ed4d0;
    --unaccented_hover_background-color_button_functionalButton: #5eb4b1;
-   --secondary_background-color_button_functionalButton: #6ed4d0;
+   --secondary_background-color_button_functionalButton: #535c68;
    --success_background-color_button_functionalButton: #62ac62;
    --success_border-color_button_functionalButton: #62ac62;
-   --secondary_hover_background-color_button_functionalButton: #5eb4b1;
+   --secondary_hover_background-color_button_functionalButton: #4d535e;
    --success_hover_background-color_button_functionalButton: #539253;
    --background-color_contrast_button_toolButton: #535c68;
 
@@ -75,47 +78,6 @@
    --icon_container_background_color_BigSeparator: #383d44;
    --readonly_marker-box_border-color_checkbox: var(--readonly_color);
 
-   //dialog
-   --background-color_dialog: #383d44;
-   --header_background-color_dialog: #383d44;
-   --border-color_dialog: #535c68;
-   --footer_background-color_dialog: transparent;
-   --footer_top-border-color_dialog: #6b6b6b;
-   --unaccented_header_background-color_dialog: transparent;
-
-   //stack
-   --background-color_stack: #383d44;
-   --header_background-color_stack: transparent;
-   --header_bottom-border-color_stack: transparent;
-   --footer_background-color_stack: transparent;
-   --footer_top-border-color_stack: #6b6b6b;
-   --border-color_stack: rgba(247, 247, 247, 0.23);
-
-   //confirmation
-   --secondary_marker_color_confirmation: #6ed4d0;
-   --footer_background-color_confirmation: #4a515d;
-   --footer_top-border-color_confirmation: #6d737c;
-
-   //sticky
-   --background-color_sticky: #383d44;
-   --header_background-color_sticky: #464d57;
-
-   //notification
-   --secondary_marker_color_notification: var(--secondary_color);
-
-   //infobox
-   --background-color_infobox: #30343b;
-   --border-color_infobox: #535c68;
-
-   // Close button
-   --icon_background-image_closeButton_toolButton: url("img/DefaultCloseIcon.svg");
-   --icon_hovered_background-image_closeButton_toolButton: url("img/CloseIconHovered.svg");
-   --icon_hovered_background-image_closeButton_link: url("img/CloseIconHovered.svg");
-   --border-color_closeButton_toolButton: #4d535e;
-   --border-color_hover_closeButton_toolButton: #4d535e;
-   --contrast_background-color_closeButton_toolButton: #424851;
-   --background-color_closeButton_toolButton: #424851;
-
    //blocks
    --separator_color_block: #535c68;
 
@@ -137,62 +99,10 @@
    --reset-button_icon-color_filterView: #999;
    --reset-button_color_filterPanel: var(--secondary_color);
 
-   //FilterPanel
-   --background-color_vertical_filterPanel: #383d44;
-   --background-color_horizontal_filterPanel: var(--background-color_vertical_filterPanel);
-   --extended_heading_text-color_filterPanel: var(--secondary_text-color);
-   --history_heading_text-color_filterPanel: var(--secondary_text-color);
-   --history_item_pin-button_icon-color_filterPanel: var(--secondary_color);
-   --history_item_pin-button_toggled_icon-color_filterPanel: var(--secondary_color);
-   --history_item_pin-button_hover_icon-color_filterPanel: #ff7033;
-   --history_vertical_item_text-color_filterPanel: var(--secondary_color);
-   --history_vertical_item_hover_text-color_filterPanel: var(--item_hover_text-color_filterPanel);
-   --history_background-color_filterPanel: transparent;
-   --item_text-color_filterPanel: var(--secondary_color);
-   --item_hover_text-color_filterPanel: var(--secondary_hover_text-color);
-
    //FilterViewPanel
    --background-color_filterViewPanel: #30343b;
    --heading_border_color_filterViewPanel: #6b6b6b;
    --list-editor_color-hover_filterViewPanel: #464d57;
-
-   // Suggest
-   --popup_border-color_suggest: #4d535e;
-
-   //MonthView
-   --monthview_background-color_monthSlider: #383d44;
-   --rangeSelection_item_background-color_datePicker: #525b69;
-   --yearlist_item_hover_background-color_datePicker: #525b69;
-   --rangeSelection_item_hover_background-color_datePicker: #68707f;
-   --rangeSelection_item_edge_background-color_datePicker: #68707f;
-   --rangeSelection_border_color_datePicker: #ff7033;
-   --rangeSelection_border_single_color_datePicker: #ff7033;
-   --monthview_item_background-color_monthSlider: #424851;
-   --monthview_item_text-color_monthSlider: #b8b8b8;
-   --monthview_weekend_text-color_monthSlider: #d94700;
-   --monthview_item_hover_border-color_monthSlider: #b8b8b8;
-
-   // Controls/DatePopup
-   --background-color_datePicker: #383d44;
-   --header_background-color_datePicker: #383d44;
-   --border-color_datePicker: #30343b;
-   --yearlist_block-separator_color_datePicker: #535c68;
-   --shadow_end-color_datePicker: rgba(56, 61, 68, 0);
-   --shadow_start-color_datePicker: rgba(0, 0, 0, 0.15);
-
-   // Controls/DateRange
-   --monthnav_item_text-color_datePicker: #b8b8b8;
-   --monthnav_item_border-color_datePicker: #535c68;
-   --monthlist_heading_text-color_datePicker: #ccc;
-   --monthlist_monthview_item_background-color_datePicker: #424851;
-   --monthlist_monthview_weekend_text-color_datePicker: #d94700;
-   --calendar-header_border-bottom-color_datePicker: #30343b;
-   --monthnav_year_border-color_datePicker: #535c68;
-   --monthlist_monthview_item_text-color_datePicker: #b8b8b8;
-
-   //Paging
-   --arrow_separator_color_paging: #6b6b6b;
-   --marker_hover_color_paging: #6b6b6b;
 
    //List
    --item_editing_background-color_list: #383D44;
@@ -240,4 +150,115 @@
    --content_background-color_loadingIndicator:                                   #383d44;
    --spinner_l_background-image_loadingIndicator:                                 url("img/loading.gif");
    --text-color_loadingIndicator:                                                 #CCC;
+}
+
+.controls_calendar_theme-@{themeName} {
+   //MonthView
+   --monthview_background-color_monthSlider: #383d44;
+   --monthview_item_background-color_monthSlider: #424851;
+   --monthview_item_text-color_monthSlider: #b8b8b8;
+   --monthview_weekend_text-color_monthSlider: #d94700;
+   --monthview_item_hover_border-color_monthSlider: #b8b8b8;
+}
+
+.controls_paging_theme-@{themeName} {
+   //Paging
+   --arrow_separator_color_paging: #6b6b6b;
+   --marker_hover_color_paging: #6b6b6b;
+}
+
+.controls_filterPopup_theme-@{themeName} {
+   //FilterPanel
+   --background-color_vertical_filterPanel: #383d44;
+   --background-color_horizontal_filterPanel: var(--background-color_vertical_filterPanel);
+   --extended_heading_text-color_filterPanel: var(--secondary_text-color);
+   --history_heading_text-color_filterPanel: var(--secondary_text-color);
+   --history_item_pin-button_icon-color_filterPanel: var(--secondary_color);
+   --history_item_pin-button_toggled_icon-color_filterPanel: var(--secondary_color);
+   --history_item_pin-button_hover_icon-color_filterPanel: #ff7033;
+   --history_vertical_item_text-color_filterPanel: var(--secondary_color);
+   --history_vertical_item_hover_text-color_filterPanel: var(--item_hover_text-color_filterPanel);
+   --history_background-color_filterPanel: transparent;
+   --item_text-color_filterPanel: var(--secondary_color);
+   --item_hover_text-color_filterPanel: var(--secondary_hover_text-color);
+}
+
+.controls_datePicker_theme-@{themeName} {
+   // Controls/DatePopup
+   --background-color_datePicker: #383d44;
+   --header_background-color_datePicker: #383d44;
+   --border-color_datePicker: #30343b;
+   --yearlist_block-separator_color_datePicker: #535c68;
+   --shadow_end-color_datePicker: rgba(56, 61, 68, 0);
+   --shadow_start-color_datePicker: rgba(0, 0, 0, 0.15);
+
+   // Controls/DateRange
+   --monthnav_item_text-color_datePicker: #b8b8b8;
+   --monthnav_item_border-color_datePicker: #535c68;
+   --monthlist_heading_text-color_datePicker: #ccc;
+   --monthlist_monthview_item_background-color_datePicker: #424851;
+   --monthlist_monthview_weekend_text-color_datePicker: #d94700;
+   --calendar-header_border-bottom-color_datePicker: #30343b;
+   --monthnav_year_border-color_datePicker: #535c68;
+   --monthlist_monthview_item_text-color_datePicker: #b8b8b8;
+
+   // MonthView
+   --rangeSelection_item_background-color_datePicker: #525b69;
+   --yearlist_item_hover_background-color_datePicker: #525b69;
+   --rangeSelection_item_hover_background-color_datePicker: #68707f;
+   --rangeSelection_item_edge_background-color_datePicker: #68707f;
+   --rangeSelection_border_color_datePicker: #ff7033;
+   --rangeSelection_border_single_color_datePicker: #ff7033;
+}
+
+.controls_popupTemplate_theme-@{themeName} {
+   //dialog
+   --background-color_dialog: #383d44;
+   --header_background-color_dialog: #383d44;
+   --border-color_dialog: #535c68;
+   --footer_background-color_dialog: transparent;
+   --footer_top-border-color_dialog: #6b6b6b;
+   --unaccented_header_background-color_dialog: transparent;
+
+   //stack
+   --background-color_stack: #383d44;
+   --header_background-color_stack: transparent;
+   --header_bottom-border-color_stack: transparent;
+   --footer_background-color_stack: transparent;
+   --footer_top-border-color_stack: #6b6b6b;
+   --border-color_stack: rgba(247, 247, 247, 0.23);
+
+   //confirmation
+   --secondary_marker_color_confirmation: #6ed4d0;
+   --footer_background-color_confirmation: #4a515d;
+   --footer_top-border-color_confirmation: #6d737c;
+
+   //sticky
+   --background-color_sticky: #383d44;
+   --header_background-color_sticky: #464d57;
+
+   //notification
+   --secondary_marker_color_notification: var(--secondary_color);
+
+   //infobox
+   --background-color_infobox: #30343b;
+   --border-color_infobox: #535c68;
+
+   // Close button
+   --icon_background-image_closeButton_toolButton: url("img/DefaultCloseIcon.svg");
+   --icon_hovered_background-image_closeButton_toolButton: url("img/CloseIconHovered.svg");
+   --icon_hovered_background-image_closeButton_link: url("img/CloseIconHovered.svg");
+   --border-color_closeButton_toolButton: #4d535e;
+   --border-color_hover_closeButton_toolButton: #4d535e;
+   --contrast_background-color_closeButton_toolButton: #424851;
+   --background-color_closeButton_toolButton: #424851;
+}
+
+.controls_suggestPopup_theme-@{themeName} {
+   // Suggest
+   --popup_border-color_suggest: #4d535e;
+}
+
+.controls_editableArea_theme-@{themeName} {
+   --contrast_background-color_editableArea: var(--background-color);
 }

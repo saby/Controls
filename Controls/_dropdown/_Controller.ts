@@ -697,7 +697,8 @@ export default class _Controller implements IDropdownController {
       };
       const config = {
          templateOptions: Object.assign(baseConfig, templateOptions),
-         className: this._options.popupClassName,
+         className: this._options.popupClassName + ` controls_dropdownPopup_theme-${this._options.theme}
+          controls_popupTemplate_theme-${this._options.theme}`,
          template: 'Controls/menu:Popup',
          actionOnScroll: 'close',
          target: this.target,

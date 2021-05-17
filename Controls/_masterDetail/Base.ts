@@ -6,16 +6,10 @@ import {ResizingLine} from 'Controls/dragnDrop';
 import {Register} from 'Controls/event';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
 import {IPropStorageOptions} from 'Controls/interface';
-import {ContextOptions} from 'Controls/context';
 import 'css!Controls/masterDetail';
+import { IContextOptionsValue } from 'Controls/_context/ContextOptions';
 
 const RESIZE_DELAY = 50;
-
-interface IMasterDetailOptionsContext {
-    masterDetailOptions: {
-        newDesign: boolean
-    };
-}
 
 interface IMasterDetail extends IControlOptions, IPropStorageOptions {
     master: TemplateFunction;
@@ -29,6 +23,7 @@ interface IMasterDetail extends IControlOptions, IPropStorageOptions {
     scrollOffsetTop?: number;
     masterOffsetTop?: number;
     masterPosition: 'left' | 'right';
+    _dataOptionsValue?: IContextOptionsValue;
 }
 /**
  * Контрол, который обеспечивает связь между двумя контролами для отображения подробной информации по выбранному элементу.
@@ -178,14 +173,11 @@ class Base extends Control<IMasterDetail, string> {
     protected _newDesign: boolean = false;
 
     protected _beforeMount(options: IMasterDetail, context: object, receivedState: string): Promise<string> | void {
-        const masterDetailOptions = context?.masterDetailOptions;
         this._updateOffsetDebounced = debounce(this._updateOffsetDebounced.bind(this), RESIZE_DELAY);
         this._canResizing = this._isCanResizing(options);
         this._masterFixed = this._isMasterFixed(options);
         this._prepareLimitSizes(options);
-        if (masterDetailOptions) {
-            this._newDesign = masterDetailOptions.newDesign;
-        }
+        this._newDesign = options._dataOptionsValue?.newDesign;
         if (receivedState) {
             this._currentWidth = receivedState;
         } else if (options.propStorageId) {
@@ -255,11 +247,8 @@ class Base extends Control<IMasterDetail, string> {
         this._prevCurrentWidth = this._currentWidth;
     }
 
-    protected _beforeUpdate(options: IMasterDetail, context: object): void|Promise<unknown> {
-        const masterDetailOptions = context?.masterDetailOptions;
-        if (masterDetailOptions) {
-            this._newDesign = masterDetailOptions.newDesign;
-        }
+    protected _beforeUpdate(options: IMasterDetail): void|Promise<unknown> {
+        this._newDesign = options._dataOptionsValue?.newDesign;
 
         this._masterFixed = this._isMasterFixed(options);
 
@@ -454,12 +443,6 @@ class Base extends Control<IMasterDetail, string> {
             // чтобы лисенер мог регистрироваться в 2х регистраторах.
             this._startResizeRegister();
         }
-    }
-
-    static contextTypes(): IMasterDetailOptionsContext {
-        return {
-            masterDetailOptions: ContextOptions
-        };
     }
 
     static getDefaultOptions(): Partial<IMasterDetail> {

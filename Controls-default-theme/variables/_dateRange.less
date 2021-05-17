@@ -25,17 +25,17 @@
   --icon-color_dateRangeRelationButton:                 var(--unaccented_icon-color);
   --hover_icon-color_dateRangeRelationButton:           #999;
   --active_icon-color_dateRangeRelationButton:          var(--hover_icon-color_dateRangeRelationButton);
-  --toggled_icon-color_dateRangeRelationButton:         var(--secondary_color);
-  --toggled_hover_icon-color_dateRangeRelationButton:   var(--link_hover_text-color);
+  --toggled_icon-color_dateRangeRelationButton:         var(--secondary_icon-color);
+  --toggled_hover_icon-color_dateRangeRelationButton:   var(--secondary_hover_icon-color);
   --toggled_active_icon-color_dateRangeRelationButton:  var(--toggled_hover_icon-color_dateRangeRelationButton);
   --icon-size_dateRangeRelationButton:                  var(--icon-size_s);
 
   // Смещаем на расстояние высоты эл-та со стрелкой + расстояние от верха текста эл-та с годом до начала этого блока
   // и так же учитываем такое же расстояние у вызывающего эл-та.
   // Выносим выражение в отдельную переменную, т.к вложенные calc в IE не работают.
-  --shift-top_fontSize-s_expression_PeriodLiteDialog-selector:  (-1 * (var(--annually_header_height_shortDatePicker) + var(--item_layout_line-height_expression_shortDatePicker) / 2 - (var(--height_rangeShortSelectorLink) - var(--item_font-size_shortDatePicker))));
+  --shift-top_fontSize-s_expression_PeriodLiteDialog-selector:  calc(-1 * (var(--annually_header_height_shortDatePicker) + var(--item_layout_line-height_expression_shortDatePicker) / 2 - (var(--height_rangeShortSelectorLink) - var(--item_font-size_shortDatePicker))));
   --shift-top_fontSize-s_PeriodLiteDialog-selector:             calc(var(--shift-top_fontSize-s_expression_PeriodLiteDialog-selector));
-  --shift-top_fontSize-m_expression_PeriodLiteDialog-selector:  (var(--shift-top_fontSize-s_expression_PeriodLiteDialog-selector) + 1px);
-  --shift-top_fontSize-m_PeriodLiteDialog-selector:             calc(var(--shift-top_fontSize-m_expression_PeriodLiteDialog-selector));
+  --shift-top_fontSize-m_expression_PeriodLiteDialog-selector:  calc(var(--shift-top_fontSize-s_expression_PeriodLiteDialog-selector) + 1px);
+  --shift-top_fontSize-m_PeriodLiteDialog-selector:             var(--shift-top_fontSize-m_expression_PeriodLiteDialog-selector);
   --shift-top_fontSize-l_PeriodLiteDialog-selector:             calc(var(--shift-top_fontSize-m_expression_PeriodLiteDialog-selector) + 1px);
 }

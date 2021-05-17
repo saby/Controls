@@ -128,6 +128,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _inputSearchValue: string = '';
     private _searchValue: string = '';
     private _misspellValue: string = '';
+    private _returnedOnlyByMisspellValue: boolean = false;
     private _listsOptions: IListConfiguration[];
 
     protected _beforeMount(options: IBrowserOptions,
@@ -184,7 +185,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             deps.push(loadAsync('Controls/search'));
         }
 
-        if (Browser._hasFilterSourceInOptions(options) && !isLoaded('Controls/filter')) {
+        if (this._hasFilterSourceInOptions(options) && !isLoaded('Controls/filter')) {
             deps.push(loadAsync('Controls/filter'));
         }
 
@@ -437,11 +438,14 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     private _setItemsAndUpdateContext(): void {
-        const sourceController = this._getSourceController();
-        // TODO items надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
-        this._items = sourceController.getItems();
-        sourceController.subscribe('rootChanged', this._rootChanged.bind(this));
+        this._updateItemsOnState();
+        this._getSourceController().subscribe('rootChanged', this._rootChanged.bind(this));
         this._updateContext();
+    }
+
+    private _updateItemsOnState(): void {
+        // TODO items надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
+        this._items = this._getSourceController().getItems();
     }
 
     protected _getSourceController(id?: string): SourceController {
@@ -523,7 +527,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     protected _filterItemsChanged(event: SyntheticEvent, items: IFilterItem[]): void {
-        if (!Browser._hasFilterSourceInOptions(this._options)) {
+        if (!this._hasFilterSourceInOptions(this._options)) {
             Logger.error(
                 'Browser: для корректной работы фильтра необходимо передать опцию filterButtonSource',
                 this
@@ -554,7 +558,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     private _updateFilterAndFilterItems(options: IBrowserOptions): void {
-        if (Browser._hasFilterSourceInOptions(options)) {
+        if (this._hasFilterSourceInOptions(options)) {
             const filterController = this._dataLoader.getFilterController();
             this._filter = filterController.getFilter() as QueryWhereExpression<unknown>;
             this._filterButtonItems = filterController.getFilterButtonItems();
@@ -733,11 +737,19 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
         this._inputSearchValue = value;
         event?.stopPropagation();
-        this._listsOptions.forEach(({searchParam, id}) => {
+        this._listsOptions.forEach(({searchParam, id}, index) => {
             if (searchParam) {
                 this._loading = true;
                 searchPromises.push(this._dataLoader.getSearchController(id).then((searchController) => {
-                    return searchController.search(value);
+                    return searchController.search(value).finally(() => {
+                        if (!this._destroyed) {
+                            this._afterSourceLoad(
+                                this._getSourceController(id),
+                                this._listsOptions[index] as IBrowserOptions
+                            );
+                            this._updateItemsOnState();
+                        }
+                    });
                 }));
             }
         });
@@ -762,6 +774,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         }
 
         this._setSearchValue('');
+        this._returnedOnlyByMisspellValue = false;
     }
 
     protected _inputSearchValueChanged(event: SyntheticEvent, value: string): void {
@@ -792,9 +805,9 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _afterSearch(recordSet: RecordSet): void {
         this._updateParams();
         this._filterChanged(null, this._getSearchControllerSync().getFilter());
-        if (this._getSearchControllerSync().needChangeSearchValueToSwitchedString(recordSet) && this._misspellValue) {
-            this._setSearchValue(this._misspellValue);
-        }
+        this._returnedOnlyByMisspellValue =
+            this._getSearchControllerSync().needChangeSearchValueToSwitchedString(recordSet) &&
+            !!this._misspellValue;
         this._updateContext();
     }
 
@@ -871,7 +884,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         this._loading = true;
         return sourceController.reload()
             .then((items) => {
-                this._items = sourceController.getItems();
+                this._updateItemsOnState();
                 return items;
             })
             .catch((error) => {
@@ -885,7 +898,9 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 }
             })
             .then((result) => {
-                return this._updateSearchController(options).then(() => result);
+                if (!this._destroyed) {
+                    return this._updateSearchController(options).then(() => result);
+                }
             });
     }
 
@@ -901,6 +916,11 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._filter = filterController.getFilter() as QueryWhereExpression<unknown>;
             this._notify('filterChanged', [this._filter]);
         }
+    }
+
+    private _hasFilterSourceInOptions(options: IBrowserOptions): boolean {
+        return Browser._hasInOptions(options, ['filterButtonSource', 'fastFilterSource']) ||
+               !!this._getSearchValue(options);
     }
 
     private static _checkLoadResult(options: IListConfiguration[], loadResult: IReceivedState[] = []): boolean {
@@ -925,10 +945,6 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     private static _hasSearchParamInOptions(options: IBrowserOptions): boolean {
         return Browser._hasInOptions(options, ['searchParam']);
-    }
-
-    private static _hasFilterSourceInOptions(options: IBrowserOptions): boolean {
-        return Browser._hasInOptions(options, ['filterButtonSource', 'fastFilterSource', 'searchValue']);
     }
 
     private static _hasRootInOptions(options: IBrowserOptions): boolean {

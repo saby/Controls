@@ -5,6 +5,7 @@
    // common
 
    --primary_color: #df1c33;
+   --primary_icon-color: var(--primary_color);
    --secondary_color: #999;
    --link_text-color: #000;
    --link_hover_text-color: #666;
@@ -23,21 +24,27 @@
    --primary_text-color_heading: #df1c33;
    --primary_hover_text-color_heading: #f00;
 
-   // popupTemplate
-   --secondary_marker_color_confirmation: #05b;
-
    //filter
    --icon-color_filterButton_filterView: #999999;
-
-   //filterPopup
-   --empty-item_text-color_filterSimplePanel: #DF1C33;
-
-   //menu
-   --marker_color_menu: #AEAEAE;
-   --item_hover_background-color_menu: #f8f8f8;
 
    //tabs
    --unselected_item_text-color_tabs: #000;
    --primary_item_text-color_tabs: #df1c33;
    --primary_marker_color_tabs: #df1c33;
+}
+
+.controls_filterPopup_theme-@{themeName} {
+   //filterPopup
+   --empty-item_text-color_filterSimplePanel: #DF1C33;
+}
+
+.controls_popupTemplate_theme-@{themeName} {
+   // popupTemplate
+   --secondary_marker_color_confirmation: #05b;
+}
+
+.controls_dropdownPopup_theme-@{themeName} {
+   //menu
+   --marker_color_menu: #AEAEAE;
+   --item_hover_background-color_menu: #f8f8f8;
 }

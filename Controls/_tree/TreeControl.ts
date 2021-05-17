@@ -293,6 +293,10 @@ const _private = {
             viewModel.setHasMoreStorage({});
         };
 
+        if (!viewModel) {
+            return;
+        }
+
         let shouldCancelEditing = false;
         if (self._editingItem) {
             const editingKey = self._editingItem.getContents().getKey();
@@ -626,6 +630,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             viewModel.setNodeFooterTemplate(newOptions.nodeFooterTemplate);
         }
 
+        if (newOptions.nodeFooterVisibilityCallback !== this._options.nodeFooterVisibilityCallback) {
+            viewModel.setNodeFooterVisibilityCallback(newOptions.nodeFooterVisibilityCallback);
+        }
+
         // TODO: Удалить #rea_1179794968
         if (newOptions.expanderDisplayMode !== this._options.expanderDisplayMode) {
             viewModel.setExpanderDisplayMode(newOptions.expanderDisplayMode);
@@ -821,8 +829,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
         const dndListController = this.getDndListController();
         const targetIsNotDraggableItem = dndListController.getDraggableItem()?.getContents() !== dispItem.getContents();
-
-        if (dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() && targetIsNotDraggableItem) {
+        if (dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() !== null && targetIsNotDraggableItem) {
             const targetElement = _private.getTargetRow(this, nativeEvent);
             const mouseOffsetInTargetItem = this._calculateOffset(nativeEvent, targetElement);
             const dragTargetPosition = dndListController.calculateDragPosition({
@@ -943,7 +950,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     }
 
     _onViewKeyDown(event): void {
-        this._onTreeViewKeyDown(event);
+        if (this._listViewModel.SupportExpand !== false) {
+            this._onTreeViewKeyDown(event);
+        }
         if (!event.stopped && event._bubbling !== false) {
             super._onViewKeyDown(event);
         }

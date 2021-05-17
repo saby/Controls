@@ -47,6 +47,7 @@
                 constraint="{{_options.constraint}}"
                 autoComplete="{{_options.autoComplete}}"
                 fontStyle="{{_options.fontStyle}}"
+                fontWeight="{{_options.fontWeight}}"
                 textAlign="{{_options.textAlign}}"
                 maxLength="{{_options.maxLength}}"
                 value="{{_getInputValue(_options)}}"
