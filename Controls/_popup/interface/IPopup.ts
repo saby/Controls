@@ -26,6 +26,7 @@ export interface IPopupItem {
    parentId?: string;
    position?: IPopupPosition;
    currentZIndex?: number;
+   isDragOnPopup?: boolean; // Осуществляется ли d'n'd внутри окна
    _destroyDeferred?: Promise<undefined>;
 }
 
