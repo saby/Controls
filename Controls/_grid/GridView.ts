@@ -91,6 +91,10 @@ const GridView = ListView.extend({
         if (changes.includes('resultsPosition')) {
             listModel.setResultsPosition(options.resultsPosition);
         }
+
+        if (changes.includes('ladderProperties')) {
+            listModel.setLadderProperties(options.ladderProperties);
+        }
     },
 
     _applyChangedOptions(newOptions, oldOptions, changes): void {
@@ -133,6 +137,9 @@ const GridView = ListView.extend({
             }
             if (changedOptions.hasOwnProperty('items')) {
                 changes.push('items');
+            }
+            if (changedOptions.hasOwnProperty('ladderProperties')) {
+                changes.push('ladderProperties');
             }
         }
 
