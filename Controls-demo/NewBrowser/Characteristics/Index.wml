@@ -62,22 +62,22 @@
                imagePosition="{{itemTemplate.listCfg.imagePosition}}"
                imageViewMode="{{itemTemplate.listCfg.imageViewMode}}"
                imageProperty="{{itemTemplate.listCfg.imageProperty}}"
-               characteristics="{{itemTemplate.itemData.item.characteristics}}"
+               characteristics="{{itemTemplate.item.contents.characteristics}}"
             >
                <ws:captionTemplate>
                   <Controls.heading:Title
                      fontSize="4xl"
                      fontColorStyle="default"
-                     caption="{{captionTemplate.itemData.item.title}}"
-                     tooltip="{{captionTemplate.itemData.item.title}}"
+                     caption="{{captionTemplate.item.contents.title}}"
+                     tooltip="{{captionTemplate.item.contents.title}}"
                   />
                </ws:captionTemplate>
                <ws:contentTemplate>
-                  {{contentTemplate.itemData.item.description}}
+                  {{contentTemplate.item.contents.description}}
                </ws:contentTemplate>
                <ws:footerTemplate>
                <span style="color: grey">
-                  {{ footerTemplate.itemData.item.rating || footerTemplate.itemData.item.year }}
+                  {{ footerTemplate.item.contents.rating || footerTemplate.item.contents.year }}
                </span>
                </ws:footerTemplate>
             </ws:partial>
@@ -93,7 +93,7 @@
                gradientColor="{{tileItemTemplate.tileCfg.getGradientColor(tileItemTemplate.itemData)}}"
                description="{{tileItemTemplate.tileCfg.getDescription(tileItemTemplate.itemData)}}"
                descriptionLines="{{tileItemTemplate.tileCfg.getDescriptionLines(tileItemTemplate.itemData)}}"
-               characteristics="{{tileItemTemplate.itemData.item.characteristics}}"
+               characteristics="{{tileItemTemplate.item.contents.characteristics}}"
             />
          </ws:tileItemTemplate>
       </ws:detail>

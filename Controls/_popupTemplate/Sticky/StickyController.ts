@@ -204,7 +204,7 @@ const _private = {
 /**
  * Sticky Popup Controller
  * @class Controls/_popupTemplate/Sticky/StickyController
- * 
+ *
  * @private
  */
 class StickyController extends BaseController {
@@ -335,6 +335,10 @@ class StickyController extends BaseController {
 
     resizeInner(item, container): Boolean {
         return this.elementAfterUpdated(item, container);
+    }
+
+    dragNDropOnPage(item): boolean {
+        return item.popupOptions.closeOnOutsideClick;
     }
 
     getDefaultConfig(item) {

@@ -709,6 +709,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             viewModel.setNodeFooterTemplate(newOptions.nodeFooterTemplate);
         }
 
+        if (newOptions.nodeFooterVisibilityCallback !== this._options.nodeFooterVisibilityCallback) {
+            viewModel.setNodeFooterVisibilityCallback(newOptions.nodeFooterVisibilityCallback);
+        }
+
         // TODO: Удалить #rea_1179794968
         if (newOptions.expanderDisplayMode !== this._options.expanderDisplayMode) {
             viewModel.setExpanderDisplayMode(newOptions.expanderDisplayMode);
@@ -1007,7 +1011,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     }
 
     _onViewKeyDown(event): void {
-        this._onTreeViewKeyDown(event);
+        if (this._listViewModel.SupportExpand !== false) {
+            this._onTreeViewKeyDown(event);
+        }
         if (!event.stopped && event._bubbling !== false) {
             super._onViewKeyDown(event);
         }
