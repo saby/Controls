@@ -626,6 +626,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             viewModel.setNodeFooterTemplate(newOptions.nodeFooterTemplate);
         }
 
+        if (newOptions.nodeFooterVisibilityCallback !== this._options.nodeFooterVisibilityCallback) {
+            viewModel.setNodeFooterVisibilityCallback(newOptions.nodeFooterVisibilityCallback);
+        }
+
         // TODO: Удалить #rea_1179794968
         if (newOptions.expanderDisplayMode !== this._options.expanderDisplayMode) {
             viewModel.setExpanderDisplayMode(newOptions.expanderDisplayMode);
