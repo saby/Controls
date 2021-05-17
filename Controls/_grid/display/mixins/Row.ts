@@ -469,6 +469,11 @@ export default abstract class Row<T> {
         }
     }
 
+    resetColumns(): void {
+        this._$columnItems = null;
+        this._nextVersion();
+    }
+
     setColspanCallback(colspanCallback: TColspanCallback): void {
         this._$colspanCallback = colspanCallback;
         this._reinitializeColumns();

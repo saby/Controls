@@ -2252,7 +2252,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         if (this._isDragOutsideList !== outside) {
             this._isDragOutsideList = outside;
             const strategy = this.getStrategyInstance(this._dragStrategy) as DragStrategy;
-            if (strategy) {
+            if (strategy && strategy.avatarItem) {
                 strategy.avatarItem.setDragOutsideList(outside);
                 this._nextVersion();
             }

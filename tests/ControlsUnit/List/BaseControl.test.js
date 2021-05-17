@@ -21,8 +21,9 @@ define([
    'Controls/listRender',
    'Controls/itemActions',
    'Controls/dataSource',
+   'Controls/marker',
    'Core/polyfill/PromiseAPIDeferred'
-], function(sourceLib, collection, lists, tree, treeGrid, grid, tUtil, cDeferred, cInstance, Env, clone, entity, SettingsController, popup, listDragNDrop, dragNDrop, listRender, itemActions, dataSource) {
+], function(sourceLib, collection, lists, tree, treeGrid, grid, tUtil, cDeferred, cInstance, Env, clone, entity, SettingsController, popup, listDragNDrop, dragNDrop, listRender, itemActions, dataSource, marker) {
    describe('Controls.List.BaseControl', function() {
       var data, result, source, rs, sandbox;
 
@@ -2067,7 +2068,8 @@ define([
                getBoundingClientRect: function() { return {}; }
             };
             ctrl._getItemsContainer = () => ({
-               children: []
+               children: [],
+               querySelectorAll: () => []
             });
             // эмулируем появление скролла
             await lists.BaseControl._private.onScrollShow(ctrl, heightParams);
@@ -2182,7 +2184,8 @@ define([
             getBoundingClientRect: function() { return {}; }
          };
          ctrl._getItemsContainer = () => ({
-            children: []
+            children: [],
+            querySelectorAll: () => []
          });
          lists.BaseControl._private.onScrollShow(ctrl, heightParams);
          ctrl._updateShadowModeHandler({}, {top: 0, bottom: 0});
@@ -2479,7 +2482,8 @@ define([
             getBoundingClientRect: function() { return {}; }
          };
          ctrl._getItemsContainer = () => ({
-            children: []
+            children: [],
+            querySelectorAll: () => []
          });
          // эмулируем появление скролла
          lists.BaseControl._private.onScrollShow(ctrl, heightParams);
@@ -3008,12 +3012,14 @@ define([
          lnBaseControl.saveOptions(lnCfg);
          await lnBaseControl._beforeMount(lnCfg);
          it('moveMarkerOnScrollPaging option', function() {
-            let inst = {_options: {}, _setMarkerAfterScroll: false, _shouldMoveMarkerOnScrollPaging: () => inst._options.moveMarkerOnScrollPaging };
+            let strategy = new marker.SingleColumnStrategy({});
+            let inst = {_options: {}, _setMarkerAfterScroll: false, _shouldMoveMarkerOnScrollPaging: () => strategy.shouldMoveMarkerOnScrollPaging() };
             lists.BaseControl._private.setMarkerAfterScroll(inst);
             assert.isTrue(inst._setMarkerAfterScroll);
-
             inst._setMarkerAfterScroll = false;
-            inst._options.moveMarkerOnScrollPaging = false;
+            inst._markerController.updateOptions({
+               markerStrategy: marker.MultiColumnStrategy
+            });
             lists.BaseControl._private.setMarkerAfterScroll(inst);
             assert.isFalse(inst._setMarkerAfterScroll);
          });
@@ -8328,7 +8334,8 @@ define([
             beforeEach(() => {
                baseControl._mounted = true;
                baseControl._getItemsContainer = () => ({
-                  children: []
+                  children: [],
+                  querySelectorAll: () => []
                });
                baseControl.activate = () => activateCalled = true;
                return baseControl.setMarkedKey(2);
@@ -8343,7 +8350,7 @@ define([
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
                assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 1);
 
-               lists.BaseControl._private.moveMarkerToNext(baseControl, event)
+               lists.BaseControl._private.moveMarkerToDirection(baseControl, event, 'Forward');
                assert.isTrue(preventDefaultCalled);
                assert.isTrue(activateCalled);
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
@@ -8356,13 +8363,18 @@ define([
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
                assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 1);
 
-               lists.BaseControl._private.moveMarkerToPrevious(baseControl, event)
+               lists.BaseControl._private.moveMarkerToDirection(baseControl, event, 'Backward');
                assert.isTrue(preventDefaultCalled);
                assert.isTrue(activateCalled);
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
                assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
                assert.equal(baseControl.getViewModel().getItemBySourceKey(1).getVersion(), 3);
+            });
+
+            it('empty list', () => {
+               baseControl.getViewModel().setItems(new collection.RecordSet(), {});
+               assert.doesNotThrow(lists.BaseControl._private.moveMarkerToDirection.bind(null, baseControl, event, 'Forward'));
             });
          });
 
@@ -8650,7 +8662,8 @@ define([
             baseControl = new lists.BaseControl();
             baseControl.saveOptions(cfg);
             baseControl._getItemsContainer = () => ({
-               children: []
+               children: [],
+               querySelectorAll: () => []
             });
             return (baseControl._beforeMount(cfg) || Promise.resolve()).then(() => viewModel = baseControl.getViewModel());
          });
