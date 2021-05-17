@@ -1812,6 +1812,7 @@ define([
          treeControl._notify = (event, args) => {
             if (event === 'expandedItemsChanged') {
                newCfg.expandedItems = args[0];
+               treeControl.getSourceController().setExpandedItems(newCfg.expandedItems);
             }
             if (event === 'markedKeyChanged') {
                newCfg.markedKey = args[0];
