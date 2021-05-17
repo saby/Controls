@@ -793,7 +793,7 @@
   "--inline_height_default_label": "var(--inline_height_m)",
   "--offset-horizontal_label": "var(--offset_s)",
   "--font-size_default_label": "var(--font-size_m)",
-  "--asterisk_color_label": "var(--danger_color)",
+  "--asterisk_color_label": "var(--danger_text-color)",
   "--text-color_default_label": "var(--label_text-color)",
   "--min-height_multiline_lookupInput": "var(--inline_height_default)",
   "--comment_text-color_lookupInput": "var(--unaccented_text-color)",
