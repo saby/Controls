@@ -13,7 +13,10 @@ import {ISlidingPanelTemplateOptions} from 'Controls/_popupSliding/interface/ISl
  */
 export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> {
     protected _template: TemplateFunction = template;
-    protected _dragStartScrollHeight: number;
+    protected _dragStartHeightDimensions: {
+        scrollHeight: number;
+        contentHeight: number;
+    };
     protected _touchDragOffset: IDragObject['offset'];
     protected _scrollAvailable: boolean = false;
     protected _position: string = 'bottom';
@@ -154,8 +157,11 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
 
         /* Запоминаем высоту скролла, чтобы при увеличении проверять на то,
            что не увеличим шторку больше, чем есть контента */
-        if (!this._dragStartScrollHeight) {
-            this._dragStartScrollHeight = this._children.customContentWrapper.clientHeight;
+        if (!this._dragStartHeightDimensions) {
+            this._dragStartHeightDimensions = {
+                scrollHeight: this._children.customContentWrapper.clientHeight,
+                contentHeight: this._children.customContent.clientHeight
+            };
         }
         this._notify('popupDragStart', [
             this._getDragOffsetWithOverflowChecking(offset)
@@ -165,7 +171,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
 
     protected _notifyDragEnd(): void {
         this._notify('popupDragEnd', [], {bubbling: true});
-        this._dragStartScrollHeight = null;
+        this._dragStartHeightDimensions = null;
     }
 
     private _getDragOffsetWithOverflowChecking(dragOffset: IDragObject['offset']): IDragObject['offset'] {
@@ -174,9 +180,23 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
 
         // В зависимости от позиции высоту шторки увеличивает либо положительный, либо отрицательный сдвиг по оси "y"
         const realHeightOffset = this._position === 'top' ? offsetY : -offsetY;
-        const scrollContentOffset = contentHeight - this._dragStartScrollHeight;
+        const {
+            scrollHeight: startScrollHeight,
+            contentHeight: startContentHeight
+        } = this._dragStartHeightDimensions;
+        const scrollContentOffset = contentHeight - startScrollHeight;
+
+        // Если остаток доступного контента меньше сдвига, то сдвигаем на размер оставшегося контента
         if (realHeightOffset > scrollContentOffset) {
-            offsetY = this._position === 'top' ? scrollContentOffset : -scrollContentOffset;
+            /*
+                Если изначально контент меньше высоты шторки, то не учитываем разницу в скролле и контенте,
+                т.к. шторка всё равно не будет сдвигаться
+             */
+            if (startContentHeight < startScrollHeight) {
+                offsetY = 0;
+            } else {
+                offsetY = this._position === 'top' ? scrollContentOffset : -scrollContentOffset;
+            }
         }
         return {
             x: dragOffset.x,
