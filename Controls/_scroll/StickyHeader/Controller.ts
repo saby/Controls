@@ -7,8 +7,7 @@ import {IFixedEventData,
     SHADOW_VISIBILITY_BY_CONTROLLER,
     TRegisterEventData,
     TYPE_FIXED_HEADERS,
-    getGapFixSize,
-    MODE
+    getGapFixSize
 } from './Utils';
 import { SHADOW_VISIBILITY as SCROLL_SHADOW_VISIBILITY } from 'Controls/_scroll/Container/Interface/IShadows';
 import StickyHeader from 'Controls/_scroll/StickyHeader';
@@ -428,12 +427,12 @@ class StickyHeaderController {
     }
 
     resizeHandler() {
-        const isSimpleHeaders = this._headersStack.top.length <= 1 && this._headersStack.bottom.length <= 1;
-        // Игнорируем все собятия ресайза до _afterMount.
+        // Игнорируем все события ресайза до _afterMount.
         // В любом случае в _afterMount мы попробуем рассчитать положение заголовков.
         if (this._initialized) {
+            this._registerDelayed();
+            const isSimpleHeaders = this._headersStack.top.length <= 1 && this._headersStack.bottom.length <= 1;
             if (!isSimpleHeaders) {
-                this._registerDelayed();
                 this._updateTopBottom();
             }
         }
