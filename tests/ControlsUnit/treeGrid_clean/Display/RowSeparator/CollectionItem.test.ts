@@ -369,7 +369,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
         assert.isTrue(collection.isLastItem(initialLastItem));
 
         newItem.setEditing(true, item, false);
-        collection.setAddingItem(newItem, );
+        collection.setAddingItem(newItem, {position: 'bottom'});
 
         assert.isFalse(collection.isLastItem(initialLastItem));
         assert.isTrue(collection.isLastItem(newItem));

@@ -8208,6 +8208,9 @@ define([
                items: [],
                keyProperty: 'id'
             },
+            itemContainerGetter: {
+               getItemContainerByIndex: () => ({})
+            },
             viewModelConstructor: lists.ListViewModel,
             keyProperty: 'id',
             markerVisibility: 'visible',
@@ -8329,28 +8332,28 @@ define([
 
             it('to next', () => {
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 1);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
 
                lists.BaseControl._private.moveMarkerToDirection(baseControl, event, 'Forward');
                assert.isTrue(preventDefaultCalled);
                assert.isTrue(activateCalled);
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 3);
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(3).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(3).getVersion(), 1);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(3).getVersion(), 3);
             });
 
             it('to prev', function() {
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 1);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
 
                lists.BaseControl._private.moveMarkerToDirection(baseControl, event, 'Backward');
                assert.isTrue(preventDefaultCalled);
                assert.isTrue(activateCalled);
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 3);
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(1).getVersion(), 3);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(1).getVersion(), 4);
             });
          });
 
@@ -8630,6 +8633,9 @@ define([
             selectedKeys: [],
             excludedKeys: [],
             selectedKeysCount: 0,
+            itemContainerGetter: {
+               getItemContainerByIndex: () => ({})
+            },
             source
          });
          let baseControl, viewModel;
