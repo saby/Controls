@@ -186,6 +186,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         const item = this._source.find((filterItem) => filterItem.group === group);
         item.value = item.resetValue;
         item.textValue = '';
+        this._editingObject = this._getEditingObjectBySource(this._source);
         this._nextVersion();
     }
 
