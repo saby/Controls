@@ -330,12 +330,13 @@
    }
    &-s{
       &:after{
-         top: calc(50%~'-'(var(--main-tab-marker_length_tabs) / 2) ~'-'var(--marker_thickness-s_tabs));
+         // из-за того, что брузер округляет значания в меньшую сторону, теряется 1px, поэтому добавлеям его
+         top: calc(50%~'-'(var(--main-tab-marker_length_tabs) / 2) ~'-'var(--marker_thickness-s_tabs) ~'+' 1px);
       }
    }
    &-l{
       &:after{
-         top: calc(50%~'-'(var(--main-tab-marker_length_tabs) / 2) ~'-'var(--marker_thickness-l_tabs));
+         top: calc(50%~'-'(var(--main-tab-marker_length_tabs) / 2) ~'-'var(--marker_thickness-l_tabs) ~'+' 1px);
       }
    }
 }
