@@ -538,11 +538,6 @@ export default class Application extends Control<IApplication> {
       document.documentElement.style.height = 'initial';
       setTimeout(() => {
          document.documentElement.style.height = '100%';
-         setTimeout(() => {
-            // this line prevents the content
-            // from hiding behind the address bar
-            window.scrollTo(0, 1);
-         }, 500);
       }, 500);
    }
 
