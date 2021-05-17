@@ -442,11 +442,14 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     private _setItemsAndUpdateContext(): void {
-        const sourceController = this._getSourceController();
-        // TODO items надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
-        this._items = sourceController.getItems();
-        sourceController.subscribe('rootChanged', this._rootChanged.bind(this));
+        this._updateItemsOnState();
+        this._getSourceController().subscribe('rootChanged', this._rootChanged.bind(this));
         this._updateContext();
+    }
+
+    private _updateItemsOnState(): void {
+        // TODO items надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
+        this._items = this._getSourceController().getItems();
     }
 
     protected _getSourceController(id?: string): SourceController {
@@ -764,6 +767,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                                 this._getSourceController(id),
                                 this._listsOptions[index] as IBrowserOptions
                             );
+                            this._updateItemsOnState();
                         }
                     });
                 }));
@@ -900,7 +904,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         this._loading = true;
         return sourceController.reload()
             .then((items) => {
-                this._items = sourceController.getItems();
+                this._updateItemsOnState();
                 return items;
             })
             .catch((error) => {
