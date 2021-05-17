@@ -148,10 +148,6 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
             }
         }
 
-        if (addingItemKey === null) {
-            throw Error(ERROR_MSG.ADDING_ITEM_KEY_IS_NULL_IN_TREE);
-        }
-
         this._editingItem.setEditing(true, item, false, columnIndex);
         this._options.collection.setAddingItem(this._editingItem, {
             position: addPosition === 'top' ? 'top' : 'bottom',
