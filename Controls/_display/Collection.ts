@@ -334,7 +334,6 @@ function onCollectionChange<T>(
     }
 
     session = this._startUpdateSession();
-    this._resetLastItem();
     switch (action) {
         case IObservable.ACTION_ADD:
             this._addItems(newItemsIndex, newItems);
@@ -372,6 +371,7 @@ function onCollectionChange<T>(
             break;
     }
 
+    this._resetLastItem();
     this._finishUpdateSession(session);
     this._nextVersion();
 }
@@ -2526,7 +2526,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
 
     protected _resetLastItem(): void {
-        this.getLast().resetIsLastItem();
+        this.each((item, index) => {
+            // Обновляем версию в том случае ,если у элемента сохранённое состояние lastItem
+            // или он реально последний в списке
+            if (item.isLastItem() || this.isLastItem(item)) {
+                item.resetIsLastItem();
+            }
+        });
     }
 
     getHasMoreData(): boolean {
