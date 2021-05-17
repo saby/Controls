@@ -1573,7 +1573,7 @@ var CompoundArea = CompoundContainer.extend([
    },
    setLinkedView: function (linkedView) {
       var multiSelectChanged;
-
+      const multiselect = this._options.multiSelect || false; // Если опция не задана по умолчанию false
       /* Отпишемся у старой view от событий */
       if(this._linkedView && this._linkedView !== linkedView) {
          this._toggleLinkedViewEvents(false);
@@ -1581,17 +1581,17 @@ var CompoundArea = CompoundContainer.extend([
       this._linkedView = linkedView;
 
       if (linkedView){
-         multiSelectChanged = this._linkedView.getMultiselect() !== this._options.multiSelect;
+         multiSelectChanged = this._linkedView.getMultiselect() !== multiselect;
          this._toggleLinkedViewEvents(true);
 
          if(multiSelectChanged) {
-            this._linkedView.setMultiselect(this._options.multiSelect);
+            this._linkedView.setMultiselect(multiselect);
          }
 
          var currentSelectedKeys = this._options.currentSelectedKeys || [];
 
          if (currentSelectedKeys.length) {
-            if (this._options.multiSelect) {
+            if (multiselect) {
                this._linkedView.setSelectedKeys(currentSelectedKeys);
             } else {
                this._linkedView.setSelectedKey(currentSelectedKeys[0]);

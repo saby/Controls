@@ -820,7 +820,7 @@ const _private = {
 
             self._loadToDirectionInProgress = true;
 
-            return self._sourceController.load(direction, self._options.root, filter).addCallback((addedItems) => {
+            return self._sourceController.load(direction, self._options.root).addCallback((addedItems) => {
                 if (self._destroyed) {
                     return;
                 }
@@ -4310,12 +4310,19 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             || newOptions.markerVisibility === 'onactivated' && newOptions.markedKey !== undefined || this._modelRecreated;
 
         // Если будет выполнена перезагрузка, то мы на событие reset применим новый ключ
-        if (shouldProcessMarker && !loadStarted && !isSourceControllerLoadingNow) {
+        // Возможен сценарий, когда до загрузки элементов нажимают развернуть ПМО и мы пытаемся посчитать маркер, но модели еще нет
+        if (shouldProcessMarker && !loadStarted && !isSourceControllerLoadingNow && this._listViewModel) {
+            let needCalculateMarkedKey = false;
+            if (!_private.hasMarkerController(this) && newOptions.markerVisibility === 'visible') {
+                // В этом случае маркер пытался проставиться, когда еще не было элементов. Проставляем сейчас, когда уже точно есть
+                needCalculateMarkedKey = true;
+            }
+
             const markerController = _private.getMarkerController(this, newOptions);
             // могут скрыть маркер и занового показать, тогда markedKey из опций нужно проставить даже если он не изменился
             if (this._options.markedKey !== newOptions.markedKey || this._options.markerVisibility === 'hidden' && newOptions.markerVisibility === 'visible' && newOptions.markedKey !== undefined) {
                 markerController.setMarkedKey(newOptions.markedKey);
-            } else if (this._options.markerVisibility !== newOptions.markerVisibility && newOptions.markerVisibility === 'visible' || this._modelRecreated) {
+            } else if (this._options.markerVisibility !== newOptions.markerVisibility && newOptions.markerVisibility === 'visible' || this._modelRecreated || needCalculateMarkedKey) {
                 // Когда модель пересоздается, то возможен такой вариант:
                 // Маркер указывает на папку, TreeModel -> SearchViewModel, после пересоздания markedKey
                 // будет указывать на хлебную крошку, но маркер не должен ставиться на нее,

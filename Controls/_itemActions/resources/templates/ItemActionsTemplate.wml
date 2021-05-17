@@ -1,5 +1,5 @@
 <ws:template name="localItemActionsTemplate">
-    <div attr:class="controls-itemActionsV
+    <div attr:class="controls_list_theme-{{_options.theme}} controls-itemActionsV
         js-controls-ListView__visible-on-hoverFreeze
         {{!editingStyle && (highlightOnHover !== false || itemActionsPosition === 'outside') ? 'controls-itemActionsV_style_' + (style ? style : 'default') }}
         {{itemData.getItemActionPositionClasses(itemActionsPosition, itemActionsClass, itemData.itemPadding, theme)}}
