@@ -1,4 +1,5 @@
 <Controls.listRender:Render
+        attr:class="controls_dropdownPopup_theme-{{_options.theme}}"
         listModel="{{_options.listModel}}"
         multiselectVisibility="{{_options.multiSelect ? 'onhover' : 'hidden'}}"
         emptyTemplate="{{!_options.listModel.getCount() ? _options.emptyTemplate : null}}"
