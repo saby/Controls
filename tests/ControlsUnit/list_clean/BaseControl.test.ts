@@ -7,6 +7,7 @@ import {NewSourceController} from 'Controls/dataSource';
 import * as sinon from 'sinon';
 import {Logger} from 'UI/Utils';
 import {CssClassesAssert as aAssert} from 'ControlsUnit/CustomAsserts';
+import {fetch, HTTPStatus} from 'Browser/Transport';
 
 const getData = (dataCount: number = 0) => {
     const data = [];
@@ -1136,6 +1137,37 @@ describe('Controls/list_clean/BaseControl', () => {
                 baseControlOptions.loading = false;
                 baseControl._beforeUpdate(baseControlOptions);
                 assert.ok(!baseControl.__error);
+            });
+
+            it('sourceController load error on _beforeUpdate', async () => {
+                let sourceControllerOptions = getBaseControlOptionsWithEmptyItems();
+                const sourceController = new NewSourceController(sourceControllerOptions);
+                let baseControlOptions = {...sourceControllerOptions, sourceController};
+                const baseControl = new BaseControl(baseControlOptions);
+                await sourceController.reload();
+                await baseControl._beforeMount(baseControlOptions);
+                baseControl.saveOptions(baseControlOptions);
+
+                sourceControllerOptions = {...sourceControllerOptions};
+                sourceControllerOptions.source = new Memory();
+                sourceControllerOptions.source.query = () => {
+                    const error = new fetch.Errors.HTTP({
+                        httpError: HTTPStatus.GatewayTimeout,
+                        message: undefined,
+                        url: undefined
+                    });
+                    error.processed = true;
+                    return Promise.reject(error);
+                };
+                sourceController.updateOptions(sourceControllerOptions);
+                await sourceController.reload().catch(() => {});
+                baseControlOptions.loading = true;
+                baseControl.saveOptions(baseControlOptions);
+
+                baseControlOptions = {...baseControlOptions};
+                baseControlOptions.loading = false;
+                const errorResult = await baseControl._beforeUpdate(baseControlOptions);
+                assert.ok(errorResult.error);
             });
 
             it('_beforeUpdate while source controller is loading', async () => {
