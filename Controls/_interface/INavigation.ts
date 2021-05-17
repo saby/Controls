@@ -85,6 +85,26 @@ export interface IBasePositionSourceConfig {
      * Подробнее об использовании свойства читайте {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#parametr-source-limit здесь}.
      */
     limit?: number;
+    /**
+     * Включает режим {@link /doc/platform/developmentapl/service-development/service-contract/logic/list/navigate/multinavigation/ множественной навигации}.
+     * @default false
+     * @example
+     * <pre class="brush: html">
+     * <!-- WML -->
+     * <Controls.list:View
+     *    keyProperty="id"
+     *    source="{{_viewSource}}">
+     *    <ws:navigation source="page" view="pages">
+     *       <ws:sourceConfig 
+     *          pageSize="{{10}}"
+     *          page="{{0}}"
+     *          hasMore="{{false}}" 
+     *          multiNavigation="{{true}}" >
+     *       <ws:viewConfig totalInfo="basic"/>
+     *    </ws:navigation>
+     * </Controls.list:View>
+     * </pre>
+     */
     multiNavigation?: boolean;
 }
 
@@ -126,6 +146,26 @@ export interface IBasePageSourceConfig {
      * Размер загружаемой страницы.
      */
     pageSize: number;
+    /**
+     * Включает режим {@link /doc/platform/developmentapl/service-development/service-contract/logic/list/navigate/multinavigation/ множественной навигации}.
+     * @default false
+     * @example
+     * <pre class="brush: html">
+     * <!-- WML -->
+     * <Controls.list:View
+     *    keyProperty="id"
+     *    source="{{_viewSource}}">
+     *    <ws:navigation source="page" view="pages">
+     *       <ws:sourceConfig 
+     *          pageSize="{{10}}"
+     *          page="{{0}}"
+     *          hasMore="{{false}}" 
+     *          multiNavigation="{{true}}" >
+     *       <ws:viewConfig totalInfo="basic"/>
+     *    </ws:navigation>
+     * </Controls.list:View>
+     * </pre>
+     */
     multiNavigation?: boolean;
 }
 
@@ -249,7 +289,8 @@ export interface INavigationViewConfig {
  */
 export interface INavigationOptionValue<U> {
     /**
-     * Режим {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @name Controls/_interface/INavigation/INavigationOptionValue#source
+     * @cfg {Controls/interface:INavigation.TNavigationSource.typedef} Режим {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
      * <pre class="brush: html">
      * <!-- WML -->
@@ -265,21 +306,22 @@ export interface INavigationOptionValue<U> {
      */
     source?: TNavigationSource;
     /**
-     * Вид {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
+     * @name Controls/_interface/INavigation/INavigationOptionValue#view
+     * @cfg {Controls/interface:INavigation.TNavigationView.typedef} Вид {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
      * @example
      * <pre class="brush: html">
      * <!-- WML -->
      * <Controls.scroll:Container>
-     * <Controls.list:View source="{{_viewSource}}">
-     *    <ws:navigation source="page" view="infinity"/>
-     * </Controls.list:View>
+     *     <Controls.list:View source="{{_viewSource}}">
+     *         <ws:navigation source="page" view="infinity"/>
+     *     </Controls.list:View>
      * </Controls.scroll:Container>
      * </pre>
      */
     view?: TNavigationView;
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#sourceConfig
-     * @cfg {Controls/_interface/INavigation/INavigationSourceConfig.typedef} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @cfg {Controls/interface:INavigation.INavigationSourceConfig.typedef} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
      * <pre class="brush: html">
      * <!-- WML -->
@@ -292,7 +334,8 @@ export interface INavigationOptionValue<U> {
      */
     sourceConfig?: U;
     /**
-     * Конфигурация вида {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
+     * @name Controls/_interface/INavigation/INavigationOptionValue#viewConfig
+     * @cfg {Controls/interface:INavigation.INavigationViewConfig.typedef} Конфигурация вида {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
      * @example
      * <pre class="brush: html">
      * <Controls.list:View source="{{_viewSource}}">
@@ -416,28 +459,5 @@ export default interface INavigation {
  *       }
  *    };
  * }
- * </pre>
- */
-
-/**
- * @name Controls/interface:INavigationSourceConfig#multiNavigation 
- * @cfg {Boolean} Включает режим множественной навигации.
- * @default false
- * @remark Подробнее читайте в статье "{@link /doc/platform/developmentapl/service-development/service-contract/logic/list/navigate/multinavigation/ Множественная навигация в списочных контролах}".
- * @example
- * <pre class="brush: html">
- * <!-- WML -->
- * <Controls.list:View
- *    keyProperty="id"
- *    source="{{_viewSource}}">
- *    <ws:navigation source="page" view="pages">
- *       <ws:sourceConfig 
- *          pageSize="{{10}}"
- *          page="{{0}}"
- *          hasMore="{{false}}" 
- *          multiNavigation="{{true}}" >
- *       <ws:viewConfig totalInfo="basic"/>
- *    </ws:navigation>
- * </Controls.list:View>
  * </pre>
  */
