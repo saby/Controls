@@ -9,6 +9,6 @@
     </div>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500">
         <div class="controls-text-label_theme-{{_options.theme}}">С иконками</div>
-        <Controls.toggle:ButtonGroup items="{{_items3}}" bind:selectedKey="_selectedKey2" attr:class="ControlsDemo-ButtonGroup__muiltyButtons"/>
+        <Controls.toggle:ButtonGroup items="{{_items3}}" bind:selectedKey="_selectedKey3" attr:class="ControlsDemo-ButtonGroup__muiltyIconButtons"/>
     </div>
 </div>
