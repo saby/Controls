@@ -11,7 +11,8 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetIte
         getCount: () => 1,
         getRootLevel: () => 0,
         getCollectionCount: () => 1,
-        getSourceIndexByItem: () => 0
+        getSourceIndexByItem: () => 0,
+        isLastItem: () => true
     } as undefined as TreeGridCollection<any>;
 
     groupRow = new TreeGridGroupDataRow({

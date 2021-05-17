@@ -4107,20 +4107,6 @@ describe('Controls/_display/Collection', () => {
         );
     });
 
-    it('.getFirstItem()', () => {
-        assert.strictEqual(
-            display.getFirstItem(),
-            items[0]
-        );
-    });
-
-    it('.getLastItem()', () => {
-        assert.strictEqual(
-            display.getLastItem(),
-            items[items.length - 1]
-        );
-    });
-
     describe('add strategy', () => {
         let rs: RecordSet;
         let display: CollectionDisplay<unknown>;
