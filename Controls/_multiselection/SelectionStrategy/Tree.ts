@@ -279,7 +279,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
                   selectedNodes.push(key);
                }
 
-               if (!selection.excluded.includes(key) && this._canBeSelected(item) && !item.isRoot()) {
+               if (!selection.excluded.includes(key) && item && this._canBeSelected(item) && !item.isRoot()) {
                   countItemsSelected++;
                }
             }
