@@ -89,17 +89,16 @@ export interface IBasePositionSourceConfig {
      * Включает режим {@link /doc/platform/developmentapl/service-development/service-contract/logic/list/navigate/multinavigation/ множественной навигации}.
      * @default false
      * @example
-     * <pre class="brush: html">
+     * <pre class="brush: html; highlight: [9]">
      * <!-- WML -->
-     * <Controls.list:View
-     *    keyProperty="id"
-     *    source="{{_viewSource}}">
-     *    <ws:navigation source="page" view="pages">
+     * <Controls.list:View source="{{_viewSource}}">
+     *    <ws:navigation source="position" view="infinity">
      *       <ws:sourceConfig 
-     *          pageSize="{{10}}"
-     *          page="{{0}}"
-     *          hasMore="{{false}}" 
-     *          multiNavigation="{{true}}" >
+     *          field="id"
+     *          position="{{_position}}"
+     *          direction="bothways"
+     *          limit="{{20}}"
+     *          multiNavigation="{{true}}" />
      *       <ws:viewConfig totalInfo="basic"/>
      *    </ws:navigation>
      * </Controls.list:View>
@@ -127,13 +126,14 @@ export interface INavigationPositionSourceConfig extends IBasePositionSourceConf
 
 /*
  * @typedef {Object} Controls/_interface/INavigation/IBasePageSourceConfig
- * @description Конфигурация для постраничной навигации.
+ * @description Базовая конфигурация для {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#data-parametr Навигация с фиксированным количеством загружаемых записей}.
  * @property {Number} page Номер загружаемой страницы.
  * @property {Number} pageSize Размер загружаемой страницы.
  */
 
 /**
- * @description Конфигурация для постраничной навигации.
+ * @description Базовая конфигурация для {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#data-parametr Навигация с фиксированным количеством загружаемых записей}.
+ * 
  * @public
  * @author Крайнов Д.О.
  */
@@ -150,17 +150,15 @@ export interface IBasePageSourceConfig {
      * Включает режим {@link /doc/platform/developmentapl/service-development/service-contract/logic/list/navigate/multinavigation/ множественной навигации}.
      * @default false
      * @example
-     * <pre class="brush: html">
+     * <pre class="brush: html; highlight: [8]">
      * <!-- WML -->
-     * <Controls.list:View
-     *    keyProperty="id"
-     *    source="{{_viewSource}}">
+     * <Controls.list:View source="{{_viewSource}}">
      *    <ws:navigation source="page" view="pages">
      *       <ws:sourceConfig 
      *          pageSize="{{10}}"
      *          page="{{0}}"
      *          hasMore="{{false}}" 
-     *          multiNavigation="{{true}}" >
+     *          multiNavigation="{{true}}" />
      *       <ws:viewConfig totalInfo="basic"/>
      *    </ws:navigation>
      * </Controls.list:View>
@@ -238,7 +236,7 @@ type TNavigationPagingPadding = 'default' | 'null';
 type TNavigationPagingPosition= 'left' | 'right';
 
 /**
- * @description Допустимые параметры для конфигурации {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
+ * @description Параметры для конфигурации {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
  * @public
  * @author Крайнов Д.О.
  */
