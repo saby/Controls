@@ -91,10 +91,10 @@ const TouchKeyboardHelper = {
 };
 
 if (constants.compatibility.touch) {
-   EventBus.globalChannel().subscribe('MobileInputFocus',
-      TouchKeyboardHelper._keyboardShowHandler.bind(TouchKeyboardHelper));
-   EventBus.globalChannel().subscribe('MobileInputFocusOut',
-      TouchKeyboardHelper._keyboardHideHandler.bind(TouchKeyboardHelper));
+   const keyboardShowHandler = TouchKeyboardHelper._keyboardShowHandler.bind(TouchKeyboardHelper);
+   const keyboardHideHandler = TouchKeyboardHelper._keyboardHideHandler.bind(TouchKeyboardHelper);
+   EventBus.globalChannel().subscribe('MobileInputFocus', keyboardShowHandler);
+   EventBus.globalChannel().subscribe('MobileInputFocusOut', keyboardHideHandler);
 }
 
 export default TouchKeyboardHelper;

@@ -820,11 +820,15 @@ const _private = {
 
             self._loadToDirectionInProgress = true;
 
-            return self._sourceController.load(direction, self._options.root, filter).addCallback((addedItems) => {
+            return self._sourceController.load(direction, self._options.root).addCallback((addedItems) => {
                 if (self._destroyed) {
                     return;
                 }
-                _private.hideIndicator(self);
+
+                // при порционном поиске индикатор скроется в searchStopCallback или searchAbortCallback
+                if (!self._portionedSearchInProgress) {
+                    _private.hideIndicator(self);
+                }
 
                 const itemsCountAfterLoad = self._listViewModel.getCount();
                 // If received list is empty, make another request.
@@ -1769,7 +1773,9 @@ const _private = {
             // Тут вызывается nextVersion на коллекции, и это приводит к вызову итератора.
             // Поэтому это должно быть после обработки изменений коллекции scrollController'ом, чтобы итератор
             // вызывался с актуальными индексами
-            if ((action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_REPLACE) &&
+            if ((action === IObservable.ACTION_REMOVE ||
+                action === IObservable.ACTION_REPLACE ||
+                action === IObservable.ACTION_RESET) &&
                 self._itemActionsMenuId) {
                 _private.closeItemActionsMenuForActiveItem(self, removedItems);
             }
@@ -2358,7 +2364,7 @@ const _private = {
 
     resetPagingNavigation(self, navigation) {
         self._currentPageSize = navigation && navigation.sourceConfig && navigation.sourceConfig.pageSize || 1;
-        
+
         self._knownPagesCount = self._items ? _private.calcPaging(self, self._items.getMetaData().more, self._currentPageSize) : INITIAL_PAGES_COUNT;
 
         // TODO: KINGO
@@ -2745,7 +2751,7 @@ const _private = {
     },
 
     moveMarkerToDirection(self, event: SyntheticEvent, direction: TMarkerMoveDirection): void {
-        if (self._options.markerVisibility !== 'hidden') {
+        if (self._options.markerVisibility !== 'hidden' && self._listViewModel && self._listViewModel.getCount()) {
             const isMovingForward = direction === 'Forward' || direction === 'Right' || direction === 'Down';
             // activate list when marker is moving. It let us press enter and open current row
             // must check mounted to avoid fails on unit tests
@@ -4304,12 +4310,19 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             || newOptions.markerVisibility === 'onactivated' && newOptions.markedKey !== undefined || this._modelRecreated;
 
         // Если будет выполнена перезагрузка, то мы на событие reset применим новый ключ
-        if (shouldProcessMarker && !loadStarted && !isSourceControllerLoadingNow) {
+        // Возможен сценарий, когда до загрузки элементов нажимают развернуть ПМО и мы пытаемся посчитать маркер, но модели еще нет
+        if (shouldProcessMarker && !loadStarted && !isSourceControllerLoadingNow && this._listViewModel) {
+            let needCalculateMarkedKey = false;
+            if (!_private.hasMarkerController(this) && newOptions.markerVisibility === 'visible') {
+                // В этом случае маркер пытался проставиться, когда еще не было элементов. Проставляем сейчас, когда уже точно есть
+                needCalculateMarkedKey = true;
+            }
+
             const markerController = _private.getMarkerController(this, newOptions);
             // могут скрыть маркер и занового показать, тогда markedKey из опций нужно проставить даже если он не изменился
             if (this._options.markedKey !== newOptions.markedKey || this._options.markerVisibility === 'hidden' && newOptions.markerVisibility === 'visible' && newOptions.markedKey !== undefined) {
                 markerController.setMarkedKey(newOptions.markedKey);
-            } else if (this._options.markerVisibility !== newOptions.markerVisibility && newOptions.markerVisibility === 'visible' || this._modelRecreated) {
+            } else if (this._options.markerVisibility !== newOptions.markerVisibility && newOptions.markerVisibility === 'visible' || this._modelRecreated || needCalculateMarkedKey) {
                 // Когда модель пересоздается, то возможен такой вариант:
                 // Маркер указывает на папку, TreeModel -> SearchViewModel, после пересоздания markedKey
                 // будет указывать на хлебную крошку, но маркер не должен ставиться на нее,
@@ -6990,7 +7003,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _documentDragEnd(dragObject): void {
         // Если перетаскиваются элементы списка, то мы всегда задаем entity
-        if (!dragObject || !dragObject.entity) {
+        // событие documentDragEnd может долететь до списка, в котором нет модели
+        if (!dragObject || !dragObject.entity || !this._listViewModel) {
             return;
         }
 

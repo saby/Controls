@@ -4,7 +4,6 @@ import { mixin } from 'Types/util';
 import { DestroyableMixin, Model } from 'Types/entity';
 import IItemsStrategy, { IOptions as IItemsStrategyOptions } from '../IItemsStrategy';
 import { IDragPosition } from 'Controls/_display/interface/IDragPosition';
-import {IObservable} from "Types/collection";
 
 type TKey = string|number;
 
@@ -13,14 +12,15 @@ interface IOptions<S extends Model, T extends CollectionItem<S>> extends IItemsS
     display: Collection<S, T>;
 
     draggedItemsKeys: TKey[];
-    draggableItem: T;
+    draggableItem?: T;
     targetIndex: number;
 }
 
-interface ISortOptions {
+interface ISortOptions<T extends CollectionItem> {
     targetIndex: number;
     startIndex: number;
     filterMap: boolean[];
+    avatarItem: T;
 }
 
 export default class Drag<S extends Model = Model, T extends CollectionItem<S> = CollectionItem<S>> extends mixin<
@@ -169,7 +169,8 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
         return Drag.sortItems<S, T>(items, {
             targetIndex: this._options.targetIndex,
             filterMap: this._options.display.getFilterMap(),
-            startIndex: this._startIndex
+            startIndex: this._startIndex,
+            avatarItem: this._avatarItem
         });
     }
 
@@ -181,10 +182,13 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
             const key = item.getContents().getKey();
             return !this._options.draggedItemsKeys.includes(key);
         });
-        if (!this._avatarItem) {
+        // Если не передали перетаскиваемый элемент, то не нужно создавать "призрачный" элемент
+        if (!this._avatarItem && this._options.draggableItem) {
             this._avatarItem = this._createAvatarItem();
         }
-        filteredItems.splice(this._startIndex, 0, this._avatarItem);
+        if (this._avatarItem) {
+            filteredItems.splice(this._startIndex, 0, this._avatarItem);
+        }
         return filteredItems;
     }
 
@@ -227,9 +231,11 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
             itemsOrder[i] = i;
         }
 
-        const targetIndex = this.getIndexGivenFilter(options.targetIndex, options.filterMap);
-        itemsOrder.splice(options.startIndex, 1);
-        itemsOrder.splice(targetIndex, 0, options.startIndex);
+        if (options.avatarItem) {
+            const targetIndex = this.getIndexGivenFilter(options.targetIndex, options.filterMap);
+            itemsOrder.splice(options.startIndex, 1);
+            itemsOrder.splice(targetIndex, 0, options.startIndex);
+        }
 
         return itemsOrder;
     }

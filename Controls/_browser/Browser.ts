@@ -132,6 +132,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _inputSearchValue: string = '';
     private _searchValue: string = '';
     private _misspellValue: string = '';
+    private _returnedOnlyByMisspellValue: boolean = false;
     private _listsOptions: IListConfiguration[];
 
     protected _beforeMount(options: IBrowserOptions,
@@ -398,7 +399,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
             if (updateResult instanceof Promise) {
                 this._loading = true;
-                updateResult.catch(() => this._processSearchError);
+                updateResult.catch(this._processSearchError);
             }
 
             return updateResult;
@@ -441,11 +442,14 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     private _setItemsAndUpdateContext(): void {
-        const sourceController = this._getSourceController();
-        // TODO items надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
-        this._items = sourceController.getItems();
-        sourceController.subscribe('rootChanged', this._rootChanged.bind(this));
+        this._updateItemsOnState();
+        this._getSourceController().subscribe('rootChanged', this._rootChanged.bind(this));
         this._updateContext();
+    }
+
+    private _updateItemsOnState(): void {
+        // TODO items надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
+        this._items = this._getSourceController().getItems();
     }
 
     protected _getSourceController(id?: string): SourceController {
@@ -763,6 +767,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                                 this._getSourceController(id),
                                 this._listsOptions[index] as IBrowserOptions
                             );
+                            this._updateItemsOnState();
                         }
                     });
                 }));
@@ -789,6 +794,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         }
 
         this._setSearchValue('');
+        this._returnedOnlyByMisspellValue = false;
     }
 
     protected _inputSearchValueChanged(event: SyntheticEvent, value: string): void {
@@ -819,9 +825,9 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _afterSearch(recordSet: RecordSet): void {
         this._updateParams();
         this._filterChanged(null, this._getSearchControllerSync().getFilter());
-        if (this._getSearchControllerSync().needChangeSearchValueToSwitchedString(recordSet) && this._misspellValue) {
-            this._setSearchValue(this._misspellValue);
-        }
+        this._returnedOnlyByMisspellValue =
+            this._getSearchControllerSync().needChangeSearchValueToSwitchedString(recordSet) &&
+            !!this._misspellValue;
         this._updateContext();
     }
 
@@ -898,7 +904,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         this._loading = true;
         return sourceController.reload()
             .then((items) => {
-                this._items = sourceController.getItems();
+                this._updateItemsOnState();
                 return items;
             })
             .catch((error) => {
@@ -912,7 +918,9 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 }
             })
             .then((result) => {
-                return this._updateSearchController(options).then(() => result);
+                if (!this._destroyed) {
+                    return this._updateSearchController(options).then(() => result);
+                }
             });
     }
 

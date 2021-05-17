@@ -5,7 +5,9 @@ let lastId = 0;
 
 export const enum POSITION {
     top = 'top',
-    bottom = 'bottom'
+    bottom = 'bottom',
+    left = 'left',
+    right = 'right'
 }
 
 export const enum SHADOW_VISIBILITY {
@@ -69,6 +71,8 @@ export type IFixedEventData = {
 export interface IOffset {
     top: number;
     bottom: number;
+    left: number;
+    right: number;
 }
 
 /**
@@ -94,11 +98,15 @@ export function getOffset(parentElement: HTMLElement, element: HTMLElement, posi
 
    const
        offset = getDimensions(element),
-       parrentOffset = getDimensions(parentElement);
+       parentOffset = getDimensions(parentElement);
    if (position === 'top') {
-      return offset.top - parrentOffset.top;
+      return offset.top - parentOffset.top;
+   } else if (position === 'bottom') {
+      return parentOffset.bottom - offset.bottom;
+   } else if (position === 'left') {
+       return offset.left - parentOffset.left;
    } else {
-      return parrentOffset.bottom - offset.bottom;
+       return parentOffset.right - offset.right;
    }
 }
 

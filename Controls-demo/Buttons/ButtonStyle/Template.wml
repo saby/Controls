@@ -18,5 +18,4 @@
         <Controls.buttons:Button viewMode="functionalButton" icon="icon-Yes" iconSize="m" iconStyle="contrast" inlineHeight="l" buttonStyle="danger"></Controls.buttons:Button>{{' '}}
         <Controls.buttons:Button viewMode="functionalButton" icon="icon-Yes" iconSize="m" iconStyle="contrast" inlineHeight="l" buttonStyle="unaccented"></Controls.buttons:Button>
     </div>
-
 </div>
