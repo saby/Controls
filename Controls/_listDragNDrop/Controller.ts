@@ -108,7 +108,7 @@ export default class Controller<P> {
          throw new Error('Strategy was not created. Should be called Controller::startDrag');
       }
 
-      if (params.targetItem && !params.targetItem.DraggableItem) {
+      if (!params.targetItem.DraggableItem) {
          return null;
       }
 
