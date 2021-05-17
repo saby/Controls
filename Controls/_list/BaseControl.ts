@@ -6531,7 +6531,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _updateHeights(updateItems: boolean = true): void {
-        if (this._scrollController) {
+        if (this._scrollController && this._viewReady) {
             const itemsHeights = getItemsHeightsData(this._getItemsContainer(), true);
             if (updateItems) {
                 this._scrollController.updateItemsHeights(itemsHeights);
