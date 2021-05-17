@@ -114,6 +114,7 @@
                 listModel="{{_listViewModel}}"
                 startDragNDropCallback="{{ _options.itemsDragNDrop ? _startDragNDropCallback }}"
                 preventServerSideColumnScroll="{{ !_useServerSideColumnScroll }}"
+                breadCrumbsMode="cell"
                 on:arrowClick="_notifyHandler('arrowClick')"
                 on:closeSwipe="_onCloseSwipe()"
                 on:validateCreated="_onValidateCreated()"
@@ -147,6 +148,7 @@
                 on:saveScrollPosition="_stopBubblingEvent()"
                 on:restoreScrollPosition="_stopBubblingEvent()"
                 on:loadMore="_onClickMoreButton()"
+                on:toggleHorizontalScroll="_onToggleHorizontalScroll()"
         >
             <ws:itemActionsTemplate>
                 <ws:partial

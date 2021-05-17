@@ -48,6 +48,12 @@ export default class Header<T> {
         });
     }
 
+    setStickyColumnsCount(stickyColumnsCount: number): void {
+        this._$rows.forEach((row) => {
+            row.setStickyColumnsCount(stickyColumnsCount);
+        });
+    }
+
     setMultiSelectVisibility(multiSelectVisibility: string): void {
         this._$rows.forEach((row) => {
             row.setMultiSelectVisibility(multiSelectVisibility);
