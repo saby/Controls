@@ -237,9 +237,11 @@ const ActualApi = {
          }
       }
    },
-   iconStyle(iconStyle: string, icon: string, readonly: boolean, buttonAdd: boolean): string {
+   iconStyle(iconStyle: string, icon: string, readonly: boolean, buttonAdd: boolean, contrastBackground?: boolean): string {
       if (readonly) {
          return 'readonly';
+      } else if (contrastBackground) {
+          return 'contrast';
       } else if (buttonAdd) {
          return 'default';
       } else {

@@ -32,7 +32,8 @@ export function getSimpleButtonTemplateOptionsByItem(item: TItem, toolbarOptions
     const isSVG = isSVGIcon(item.get('icon'));
     const readOnly = item.get('readOnly') || toolbarOptions.readOnly;
     const buttonStyle = item.get('buttonStyle') || defaultOptions.buttonStyle;
-    const iconStyle = item.get('iconStyle') || toolbarOptions.iconStyle || defaultOptions.iconStyle;
+    const iconStyle = item.get('contrastBackground') ? 'contrast' :
+        (item.get('iconStyle') || toolbarOptions.iconStyle || defaultOptions.iconStyle);
 
     let viewMode = item.get('viewMode');
     let caption = '';

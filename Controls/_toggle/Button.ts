@@ -135,7 +135,7 @@ class ToggleButton extends Control<IToggleButtonOptions> implements IButton,
         clonedOptions.icon = this._icon;
         this._iconSize = this._icon ? ActualApi.iconSize(newOptions.iconSize, this._icon) : '';
         this._iconStyle = this._icon ? ActualApi.iconStyle(newOptions.iconStyle, this._icon,
-            newOptions.readOnly, false) : '';
+            newOptions.readOnly, false, newOptions.contrastBackground) : '';
 
         if (newOptions.viewMode === 'pushButton' || newOptions.viewMode === 'toolButton') {
             this._hoverIcon = !newOptions.value;
