@@ -35,6 +35,11 @@
    overflow-x: hidden;
 }
 
+.controls-Scroll-ContainerBase__scroll_horizontal {
+   overflow-y: hidden;
+   overflow-x: scroll;
+}
+
 .controls-Scroll-ContainerBase__scroll_verticalHorizontal {
    overflow: scroll;
 }
@@ -45,7 +50,8 @@
 // https://bugs.chromium.org/p/chromium/issues/detail?id=1105785
 .ws-is-chrome {
    .controls-Scroll-ContainerBase__scroll_vertical,
-   .controls-Scroll-ContainerBase__scroll_verticalHorizontal {
+   .controls-Scroll-ContainerBase__scroll_verticalHorizontal,
+   .controls-Scroll-ContainerBase__scroll_horizontal {
       overflow-anchor: none;
    }
 }
