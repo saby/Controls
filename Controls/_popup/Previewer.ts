@@ -156,11 +156,14 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
     protected _contentMouseleaveHandler(event: SyntheticEvent<MouseEvent>): void {
         if (!this._options.readOnly && (this._options.trigger === 'hover' || this._options.trigger === 'hoverAndClick')) {
             this._calmTimer.resetTimeOut();
-            if (this._isPopupOpened()) {
-                this._debouncedAction('_close', [event]);
-            } else {
-                this._cancel(event, 'opening');
-            }
+            const callback = () => {
+                if (this._isPopupOpened()) {
+                    this._debouncedAction('_close', [event]);
+                } else {
+                    this._cancel(event, 'opening');
+                }
+            };
+            this._calmTimer.stop(callback.bind(this));
         }
     }
 
