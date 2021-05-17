@@ -562,6 +562,11 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     setStickyColumnsCount(stickyColumnsCount: number): void {
         this._$stickyColumnsCount = stickyColumnsCount;
+        this._updateItemsProperty('setStickyColumnsCount', stickyColumnsCount, 'setStickyColumnsCount');
+        if (this.getHeader()) {
+            this.getHeader().setStickyColumnsCount(stickyColumnsCount);
+        }
+
         this._nextVersion();
     }
 
