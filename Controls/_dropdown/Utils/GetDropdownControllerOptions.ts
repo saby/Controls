@@ -10,6 +10,7 @@ export default function getDropdownControllerOptions(options: IDropdownControlle
         keyProperty: options.keyProperty,
         notifyEvent: options.notifyEvent,
         lazyItemsLoading: options.lazyItemsLoading,
+        reloadOnOpen: options.reloadOnOpen,
         emptyText: options.emptyText,
         emptyKey: options.emptyKey,
         itemActions: options.itemActions,
