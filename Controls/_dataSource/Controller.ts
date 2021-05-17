@@ -184,7 +184,6 @@ export default class Controller extends mixin<
     private _expandedItems: TKey[];
     private _deepReload: boolean;
     private _collapsedGroups: TArrayGroupId;
-    private _wasResetExpandedItems: boolean = false;
 
     constructor(cfg: IControllerOptions) {
         super();
@@ -374,7 +373,6 @@ export default class Controller extends mixin<
         const resetExpandedItemsOnDeepReload = this.isDeepReload() && !rootChanged;
         if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || Controller._isExpandAll(this.getExpandedItems()))) {
             this.setExpandedItems([]);
-            this._wasResetExpandedItems = true;
         }
         this._options = newOptions;
         return isChanged;
@@ -414,7 +412,6 @@ export default class Controller extends mixin<
     // FIXME для работы дерева без bind'a опции expandedItems
     setExpandedItems(expandedItems: TKey[]): void {
         this._expandedItems = expandedItems;
-        this._wasResetExpandedItems = false;
     }
 
     updateExpandedItemsInUserStorage(): void  {
@@ -423,10 +420,6 @@ export default class Controller extends mixin<
 
     getExpandedItems(): TKey[] {
         return this._expandedItems;
-    }
-
-    wasResetExpandedItems(): boolean {
-        return this._wasResetExpandedItems;
     }
 
     hasMoreData(direction: Direction, key: TKey = this._root): boolean {

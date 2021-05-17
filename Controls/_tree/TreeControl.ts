@@ -763,7 +763,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         // todo [useNewModel] viewModel.getExpandedItems() нужен, т.к. для старой модели установка expandedItems
         // сделана некорректно. Как откажемся от неё, то можно использовать стандартное сравнение опций.
         const currentExpandedItems = viewModel ? viewModel.getExpandedItems() : this._options.expandedItems;
-        if (sourceController && sourceController.wasResetExpandedItems()) {
+        const expandedItemsFromSourceCtrl = sourceController && sourceController.getExpandedItems();
+        const wasResetExpandedItems = expandedItemsFromSourceCtrl && !expandedItemsFromSourceCtrl.length
+            && currentExpandedItems && currentExpandedItems.length;
+        if (wasResetExpandedItems) {
             _private.resetExpandedItems(this);
         } else if (newOptions.expandedItems && !isEqual(newOptions.expandedItems, currentExpandedItems)) {
             if ((newOptions.source === this._options.source || newOptions.sourceController) && !isSourceControllerLoading ||
