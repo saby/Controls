@@ -370,8 +370,11 @@ const _private = {
 
     resetExpandedItems(self: TreeControl): void {
         const viewModel = self._listViewModel;
-        let shouldCancelEditing = false;
+        if (!viewModel) {
+            return;
+        }
 
+        let shouldCancelEditing = false;
         if (self._editingItem) {
             const editingKey = self._editingItem.getContents().getKey();
             viewModel.getExpandedItems().forEach((itemKey) => {
@@ -709,6 +712,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             viewModel.setNodeFooterTemplate(newOptions.nodeFooterTemplate);
         }
 
+        if (newOptions.nodeFooterVisibilityCallback !== this._options.nodeFooterVisibilityCallback) {
+            viewModel.setNodeFooterVisibilityCallback(newOptions.nodeFooterVisibilityCallback);
+        }
+
         // TODO: Удалить #rea_1179794968
         if (newOptions.expanderDisplayMode !== this._options.expanderDisplayMode) {
             viewModel.setExpanderDisplayMode(newOptions.expanderDisplayMode);
@@ -899,7 +906,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
         const dndListController = this.getDndListController();
         const targetIsNotDraggableItem = dndListController.getDraggableItem()?.getContents() !== dispItem.getContents();
-        if (dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() && targetIsNotDraggableItem) {
+        if (dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() !== null && targetIsNotDraggableItem) {
             const targetElement = _private.getTargetRow(this, nativeEvent);
             const mouseOffsetInTargetItem = this._calculateOffset(nativeEvent, targetElement);
             const dragTargetPosition = dndListController.calculateDragPosition({
