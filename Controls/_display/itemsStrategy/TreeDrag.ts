@@ -10,8 +10,10 @@ export default class TreeDrag<S extends Model = Model, T extends TreeItem<S> = T
    setPosition(newPosition: IDragPosition<T>): void {
       super.setPosition(newPosition);
 
-      const newParent = this._getParentForDraggableItem(newPosition);
-      this.avatarItem.setParent(newParent);
+      if (this.avatarItem) {
+         const newParent = this._getParentForDraggableItem(newPosition);
+         this.avatarItem.setParent(newParent);
+      }
    }
 
    protected _createItem(protoItem: T): T {
