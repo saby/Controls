@@ -824,7 +824,11 @@ const _private = {
                 if (self._destroyed) {
                     return;
                 }
-                _private.hideIndicator(self);
+
+                // при порционном поиске индикатор скроется в searchStopCallback или searchAbortCallback
+                if (!self._portionedSearchInProgress) {
+                    _private.hideIndicator(self);
+                }
 
                 const itemsCountAfterLoad = self._listViewModel.getCount();
                 // If received list is empty, make another request.
