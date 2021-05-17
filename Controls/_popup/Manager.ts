@@ -57,8 +57,9 @@ class Manager {
     init(): void {
         this._updateContext();
         ManagerController.setManager(this);
-        EventBus.channel('navigation').subscribe('onBeforeNavigate', this._navigationHandler.bind(this));
         this._subscribeToPageDragNDrop();
+        this._navigationHandler = this._navigationHandler.bind(this);
+        EventBus.channel('navigation').subscribe('onBeforeNavigate', this._navigationHandler);
 
         if (detection.isMobilePlatform) {
             window.addEventListener('orientationchange', () => {
