@@ -11,7 +11,7 @@ import {factory} from 'Types/chain';
 import {Model} from 'Types/entity';
 import {TSelectedKeys} from 'Controls/interface';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
-import HoverController from 'Controls/_menu/HoverController';
+import {CalmTimer} from 'Controls/popup';
 import 'css!Controls/menu';
 import 'css!Controls/CommonClasses';
 
@@ -57,7 +57,7 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     protected _horizontalDirection: string = 'right';
     protected _applyButtonVisible: boolean = false;
     protected _selectedItems: Model[] = null;
-    protected _hoverController: HoverController = null;
+    protected _calmTimer: CalmTimer = null;
 
     protected _beforeMount(options: IMenuPopupOptions): Promise<void>|void {
         this._headerTheme = this._getTheme();
@@ -74,13 +74,13 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
 
         if (options.trigger === 'hover') {
             if (!options.root) {
-                this._hoverController = new HoverController(
+                this._calmTimer = new CalmTimer(
                     () => {
                         this._notify('close', [], {bubbling: true});
                     }
                 );
             } else {
-                this._hoverController = options.hoverController;
+                this._calmTimer = options.calmTimer;
             }
         }
         if (options.searchParam) {
@@ -131,13 +131,13 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     }
 
     protected _mouseEvent(event: SyntheticEvent<MouseEvent>) {
-        if (this._hoverController) {
+        if (this._calmTimer) {
             switch (event.type) {
                 case 'mouseenter':
-                    this._hoverController.mouseEnter();
+                    this._calmTimer.resetTimeOut();
                     break;
                 case 'mouseleave':
-                    this._hoverController.mouseLeave();
+                    this._calmTimer.start();
                     break;
             }
         }

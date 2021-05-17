@@ -111,7 +111,7 @@ export default class Button extends BaseDropdown {
         this._offsetClassName = cssStyleGeneration(options);
         this._dataLoadCallback = this._dataLoadCallback.bind(this);
         this._controller = new Controller(this._getControllerOptions(options));
-        this._calmTimer = new CalmTimer();
+        this._calmTimer = new CalmTimer(this._openMenu.bind(this));
 
         if (!options.lazyItemsLoading) {
             return loadItems(this._controller, receivedState, options.source);
@@ -200,7 +200,7 @@ export default class Button extends BaseDropdown {
         const isOpenMenuPopup = !(event.nativeEvent.relatedTarget
             && event.nativeEvent.relatedTarget.closest('.controls-Menu__popup'));
         if (this._options.menuPopupTrigger === 'hover' && isOpenMenuPopup) {
-            this._calmTimer.start(this._openMenu.bind(this));
+            this._calmTimer.start();
         }
     }
 
