@@ -45,7 +45,7 @@
                 <!-- Контент по умолчанию, обрезка длинного текста с многоточием -->
                 <div class="{{ (gridColumn || itemData).getTextOverflowClasses() }}">
                     <ws:partial template="{{(gridColumn || itemData).getCellContentRender()}}"
-                                title="{{ (gridColumn || itemData).getTextOverflowTitle() }}"
+                                attr:title="{{ (gridColumn || itemData).getTextOverflowTitle() }}"
                                 value="{{(gridColumn || itemData).getDefaultDisplayValue()}}"
                                 searchValue="{{(gridColumn || itemData).getSearchValue()}}"
                                 scope="{{(gridColumn || itemData).config}}"/>
