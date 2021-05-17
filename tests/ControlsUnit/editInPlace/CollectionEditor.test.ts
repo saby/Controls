@@ -243,31 +243,6 @@ describe('Controls/_editInPlace/CollectionEditor', () => {
                 `There is no item with key={0} in list. ${ERROR_MSG.PARENT_OF_ADDING_ITEM_DOES_NOT_EXIST}`
             );
         });
-
-        it('throw error if item has key equal\'s to NULL in tree', () => {
-            const tree = new Tree({
-                collection: new RecordSet({
-                    keyProperty: 'id',
-                    rawData: []
-                }),
-                root: null,
-                keyProperty: 'id',
-                parentProperty: 'pid'
-            });
-            collectionEditor = new CollectionEditor({collection: tree});
-
-            newItem = new Model<{ id: number, title: string, pid: number}>({
-                keyProperty: 'id',
-                rawData: {id: null, title: 'Fourth', pid: null}
-            });
-
-            // Попытка начать добавление записи в родителя, которого нет в коллекции должна привести к исключению
-            assert.throws(() => {
-                    collectionEditor.add(newItem);
-                },
-                ERROR_MSG.ADDING_ITEM_KEY_IS_NULL_IN_TREE
-            );
-        });
     });
 
     describe('commit', () => {
