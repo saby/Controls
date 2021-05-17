@@ -128,6 +128,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _inputSearchValue: string = '';
     private _searchValue: string = '';
     private _misspellValue: string = '';
+    private _returnedOnlyByMisspellValue: boolean = false;
     private _listsOptions: IListConfiguration[];
 
     protected _beforeMount(options: IBrowserOptions,
@@ -769,6 +770,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         }
 
         this._setSearchValue('');
+        this._returnedOnlyByMisspellValue = false;
     }
 
     protected _inputSearchValueChanged(event: SyntheticEvent, value: string): void {
@@ -799,9 +801,9 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _afterSearch(recordSet: RecordSet): void {
         this._updateParams();
         this._filterChanged(null, this._getSearchControllerSync().getFilter());
-        if (this._getSearchControllerSync().needChangeSearchValueToSwitchedString(recordSet) && this._misspellValue) {
-            this._setSearchValue(this._misspellValue);
-        }
+        this._returnedOnlyByMisspellValue =
+            this._getSearchControllerSync().needChangeSearchValueToSwitchedString(recordSet) &&
+            !!this._misspellValue;
         this._updateContext();
     }
 
