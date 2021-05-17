@@ -61,7 +61,7 @@ Object.defineProperty(ArrowButton, 'defaultProps', {
  * @cfg {TArrowButtonDirection} Выбор стороны, куда будет указывтаь стрелка в кнопке.
  * @example
  * <pre class="brush: html">
- * <Controls.Buttons:ArrowButton direction="left"/>
+ * <Controls.buttons:ArrowButton direction="left"/>
  * </pre>
  * @demo Controls-demo/Buttons/ArrowButton/Direction/Index
  */

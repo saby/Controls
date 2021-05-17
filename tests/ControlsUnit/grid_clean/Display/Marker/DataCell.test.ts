@@ -5,24 +5,26 @@ import {RecordSet} from 'Types/collection';
 import {GridCollection} from 'Controls/grid';
 
 describe('Controls/_grid/display/DataCell', () => {
-    let shouldDisplayMarker, hasMultiSelectColumn, columnsCount, columnIndex;
+    let shouldDisplayMarker, hasMultiSelectColumn, columnsCount, columnIndex, editingMode, isEditing, editingColumnIndex;
 
     const owner = {
         shouldDisplayMarker: () => shouldDisplayMarker,
         hasMultiSelectColumn: () => hasMultiSelectColumn,
         hasItemActionsSeparatedCell: () => false,
+        isMarked: () => true,
         getColumnsCount: () => columnsCount,
         getColumnIndex: () => columnIndex,
         hasColumnScroll: () => false,
         getHoverBackgroundStyle: () => '',
         getTopPadding: () => 'null',
         getBottomPadding: () => 'null',
-        isEditing: () => false,
         isDragged: () => false,
         getEditingBackgroundStyle: () => 'default',
         isActive: () => false,
         getRowSeparatorSize: () => 's',
-        getEditingConfig: () => ({})
+        isEditing: () => isEditing,
+        getEditingConfig: () => ({mode: editingMode}),
+        getEditingColumnIndex: () => editingColumnIndex
     };
 
     describe('shouldDisplayMarker', () => {
@@ -31,6 +33,9 @@ describe('Controls/_grid/display/DataCell', () => {
            hasMultiSelectColumn = false;
            columnsCount = 1;
            columnIndex = 0;
+           editingMode = 'row';
+           isEditing = false;
+           editingColumnIndex = 0;
        });
 
        describe('position is right', () => {
@@ -105,6 +110,41 @@ describe('Controls/_grid/display/DataCell', () => {
                assert.isFalse(item.getColumns()[0].shouldDisplayMarker());
                assert.isTrue(item.getColumns()[1].shouldDisplayMarker());
                assert.isFalse(item.getColumns()[2].shouldDisplayMarker());
+           });
+
+           describe('editing row, cell mode', () => {
+               it('should not show marker in first cell, first cell is editing.', () => {
+                   columnsCount = 2;
+                   editingMode = 'cell';
+                   isEditing = true;
+                   editingColumnIndex = 0;
+                   columnIndex = 0;
+
+                   const cell = new DataCell({owner, markerPosition: 'left', isFirstDataCell: true});
+                   assert.isFalse(cell.shouldDisplayMarker(true));
+               });
+
+               it('should show marker in first, second cell is editing.', () => {
+                   columnsCount = 2;
+                   editingMode = 'cell';
+                   isEditing = true;
+                   editingColumnIndex = 1;
+                   columnIndex = 0;
+
+                   const cell = new DataCell({owner, markerPosition: 'left', isFirstDataCell: true});
+                   assert.isTrue(cell.shouldDisplayMarker(true));
+               });
+
+               it('should not show marker in second, second cell is editing.', () => {
+                   columnsCount = 2;
+                   editingMode = 'cell';
+                   isEditing = true;
+                   editingColumnIndex = 1;
+                   columnIndex = 1;
+
+                   const cell = new DataCell({owner, markerPosition: 'left'});
+                   assert.isFalse(cell.shouldDisplayMarker(true));
+               });
            });
        });
    });

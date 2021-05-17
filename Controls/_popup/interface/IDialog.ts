@@ -17,7 +17,7 @@ export interface IDialogPopupOptions extends IBasePopupOptions {
 }
 
 /**
- * Интерфейс для опций диалоговых окон.
+ * Интерфейс для опций {@link /doc/platform/developmentapl/interface-development/controls/openers/dialog/ диалоговых окон}.
  * @public
  * @author Красильников А.С.
  */
@@ -75,8 +75,7 @@ export interface IResizeDirection {
  */
 /**
  * @name Controls/_popup/interface/IDialogOpener#resizeDirection
- * @cfg {IResizeDirection} Направление, в котором попап будет увеличиваться
- * при динамическом изменении размеров контента.
+ * @cfg {IResizeDirection} Направление, в котором попап будет увеличиваться при динамическом изменении размеров контента.
  * В этом случае противоположная сторона будет зафиксирована и не изменит свою позицию относительно окна браузера.
  * @demo Controls-demo/Popup/Dialog/ResizeDirection/Index
  */
@@ -103,22 +102,12 @@ export interface IResizeDirection {
 
 /**
  * @name Controls/_popup/interface/IDialogOpener#maximize
- * @cfg {Boolean} Определяет, должно ли всплывающее окно открываться на весь экран.
+ * @cfg {Boolean} Определяет, должно ли диалоговое окно открываться на весь экран.
  */
 
 /**
  * @name Controls/_popup/interface/IDialogOpener#restrictiveContainer
  * @cfg {String} Опция задает контейнер (через селектор), внутри которого будет позиционироваться окно. Окно не может спозиционироваться за пределами restrictiveContainer.
- * @remark
- * Алгоритм поиска контейнера, внутри которого будут строиться окна:
- *
- * * Если задана опция restrictiveContainer, то ищем глобальным поиском класс по селектору, заданному в опции.
- * Если ничего не нашли или опция не задана см. следующий шаг.
- * * Если опция не задана, то ищем глобальным селектором класс "controls-Popup__dialog-target-container".
- * * Если ничего не нашли, позиционируемся по body.
- *
- * Класс controls-Popup__dialog-target-container является зарезервированным и должен быть объявлен на странице только 1 раз.
- * Классом должен быть добавлен на контейнер, по которому позиционируются стековые окна по умолчанию.
  * @example
  * <pre class="brush: html">
  * <!-- WML -->
@@ -149,12 +138,12 @@ export interface IResizeDirection {
 /**
  * @typedef {Object} Controls/_popup/interface/IDialogOpener/PopupOptions
  * @description Конфигурация диалогового окна.
- * @property {Boolean} autofocus Определяет, установится ли фокус на шаблон попапа после его открытия.
- * @property {Boolean} modal Определяет, будет ли открываемое окно блокировать работу пользователя с родительским приложением.
+ * @property {Boolean} autofocus Установится ли фокус на шаблон попапа после его открытия.
+ * @property {Boolean} modal Будет ли открываемое окно блокировать работу пользователя с родительским приложением.
  * @property {String} className Имена классов, которые будут применены к корневой ноде диалогового окна.
  * @property {Boolean} closeOnOutsideClick Определяет возможность закрытия диалогового окна по клику вне.
  * @property {function|String} template Шаблон диалогового окна.
- * @property {function|String} templateOptions  Опции для контрола, переданного в {@link template}.
+ * @property {function|String} templateOptions Опции для контрола, переданного в {@link template}.
  * @property {Number} width Текущая ширина диалогового окна.
  * @property {Number} height Текущая высота диалогового окна.
  * @property {Number} maxHeight Максимально допустимая высота диалогового окна.
@@ -163,8 +152,8 @@ export interface IResizeDirection {
  * @property {Number} minWidth Минимально допустимая ширина диалогового окна.
  * @property {Number} top Расстояние от диалогового окна до верхнего края экрана.
  * @property {Number} left Расстояние от диалогового окна до левого края экрана.
- * @property {Node} opener Логический инициатор открытия диалогового окна. Читайте подробнее {@link /doc/platform/developmentapl/interface-development/ui-library/focus/index/#control-opener здесь}.
- * @property {Controls/_popup/interface/IBaseOpener.typedef} eventHandlers Функции обратного вызова на события всплывающего окна.
+ * @property {Node} opener Логический инициатор открытия диалогового окна (см. {@link /doc/platform/developmentapl/interface-development/ui-library/focus/activate-control/#control-opener Определение понятия "опенер контрола"}).
+ * @property {Controls/_popup/interface/IBaseOpener.typedef} eventHandlers Функции обратного вызова на события диалогового окна.
  */
 
 /**
@@ -200,16 +189,30 @@ export interface IResizeDirection {
  *    ...
  * }
  * </pre>
+ * 
+ * <pre class="brush: js">
+ * // TypeScript
+ * import {DialogOpener} from 'Controls/popup';
+ *
+ * this._dialog = new DialogOpener();
+ *
+ * closeDialog() {
+ *     this._dialog.close();
+ * }
+ * </pre>
  * @see open
+ * @see destroy
+ * @see isOpened
  */
 
 /**
  * Метод открытия диалогового окна.
- * Повторный вызов этого метода инициирует перерисовку окна с новыми опциями.
  * @function Controls/_popup/interface/IDialogOpener#open
  * @param {Controls/_popup/interface/IDialogOpener/PopupOptions.typedef} popupOptions Конфигурация диалогового окна.
+ * @return Promise<void>
  * @remark
- * Если требуется открыть окно, без создания popup:Dialog в верстке, следует использовать статический метод {@link openPopup}.
+ * Если требуется открыть окно без создания {@link Controls/popup:Dialog} в верстке, следует использовать статический метод {@link Controls/interface:IOpenPopup#openPopup openPopup}.
+ * Повторный вызов этого метода инициирует перерисовку окна с новыми опциями.
  * @example
  * <pre class="brush: html">
  * <!-- WML -->
@@ -237,5 +240,51 @@ export interface IResizeDirection {
  *    ...
  * };
  * </pre>
+ * 
+ * <pre class="brush: js">
+ * // TypeScript
+ * import {DialogOpener} from 'Controls/popup';
+ *
+ * this._dialog = new DialogOpener();
+ *
+ * openDialog() {
+ *     this._dialog.open({
+ *         template: 'Example/MyDialogTemplate',
+ *         opener: this._children.myButton
+ *     });
+ * }
+ * </pre>
  * @see close
+ * @see destroy
+ * @see isOpened
+ */
+
+
+/**
+ * Разрушает экземпляр класса.
+ * @function Controls/_popup/interface/IDialogOpener#destroy
+ * @example
+ * <pre class="brush: js">
+ * // TypeScript
+ * import {DialogOpener} from 'Controls/popup';
+ *
+ * this._dialog = new DialogOpener();
+ *
+ * _beforeUnmount() {
+ *     this._dialog.destroy();
+ *     this._dialog = null;
+ * }
+ * </pre>
+ * @see open
+ * @see close
+ * @see isOpened
+ */
+
+/**
+ * @name Controls/_popup/interface/IDialogOpener#isOpened
+ * @description Возвращает информацию о том, открыто ли диалоговое окно.
+ * @function
+ * @see open
+ * @see close
+ * @see destroy
  */
