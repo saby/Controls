@@ -519,6 +519,10 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return this._$owner.getColumnIndex(this, takeIntoAccountColspans);
     }
 
+    isLadderCell(): boolean {
+        return false;
+    }
+
     isFirstColumn(): boolean {
         return this.getColumnIndex() === 0;
     }
