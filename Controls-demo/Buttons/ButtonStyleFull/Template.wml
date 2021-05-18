@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">contrastBackground=true</div>
+        <ws:for data="buttonStyle in _buttonStyles">
+            <Controls.buttons:Button caption="{{buttonStyle}}" buttonStyle="{{buttonStyle}}" contrastBackground="{{true}}"/>{{' '}}
+        </ws:for>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">contrastBackground=false</div>
+        <ws:for data="buttonStyle in _buttonStyles">
+            <Controls.buttons:Button caption="{{buttonStyle}}" buttonStyle="{{buttonStyle}}" contrastBackground="{{false}}"/>{{' '}}
+        </ws:for>
+    </div>
+</div>

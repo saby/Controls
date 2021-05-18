@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import controlTemplate = require('wml!Controls-demo/Buttons/ButtonStyle/Template');
+import controlTemplate = require('wml!Controls-demo/Buttons/ButtonStyleFull/Template');
 
 class ButtonStyle extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
