@@ -38,6 +38,11 @@
                      item="{{(item || itemData)}}"
                      itemActionsTemplate="{{itemActionsTemplate}}"
                      highlightOnHover="{{ highlightOnHover }}"/>
+         <ws:partial if="{{ (item || itemData).shouldDisplayFooterTemplate(itemType, footerTemplate, 'wrapper') }}"
+                     template="{{footerTemplate}}"
+                     attr:class="{{ (item || itemData).getFooterClasses() }}"
+                     itemData="{{(item || itemData)}}"
+                     item="{{(item || itemData)}}"/>
       </div>
    </div>
 </ws:else>
