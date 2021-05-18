@@ -82,6 +82,7 @@ export default interface IBaseGroupTemplateOptions {
  * @cfg {String|Function|undefined} Пользовательский шаблон, отображаемый в правой части заголовка группы.
  * @default undefined
  * @demo Controls-demo/list_new/Grouped/RightTemplate/Index
+ * @markdown
  * @remark
  * В области видимости шаблона доступна переменная **itemData** со следующими свойствами:
  *
@@ -93,9 +94,9 @@ export default interface IBaseGroupTemplateOptions {
  *
  *
  * **Пример 1.** Контрол и шаблон groupTemplate настроены в одном WML-файле.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [3-9]">
  * <!-- file1.wml -->
- * <Controls.list:View>
+ * <Controls.list:View source="{{_viewSource}}">
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/list:GroupTemplate" scope="{{groupTemplate}}">
  *          <ws:rightTemplate>
@@ -107,9 +108,9 @@ export default interface IBaseGroupTemplateOptions {
  * </pre>
  *
  * **Пример 2.** Контрол и шаблон groupTemplate настроены в отдельных WML-файлах.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [3-5]">
  * <!-- file1.wml -->
- * <Controls.list:View>
+ * <Controls.list:View source="{{_viewSource}}">
  *    <ws:groupTemplate>
  *       <ws:partial template="wml!file2" scope="{{groupTemplate}}"/>
  *    </ws:groupTemplate>
@@ -127,9 +128,9 @@ export default interface IBaseGroupTemplateOptions {
  *
  * **Пример 3.** Контрол и шаблон rightTemplate настроены в отдельных WML-файлах.
  *
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [3-9]">
  * <!-- file1.wml -->
- * <Controls.list:View>
+ * <Controls.list:View source="{{_viewSource}}">
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/list:GroupTemplate">
  *          <ws:rightTemplate>
@@ -163,9 +164,9 @@ export default interface IBaseGroupTemplateOptions {
  *
  * **Пример 1.** Контрол и шаблон groupTemplate настроены в одном WML-файле.
  *
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [3-10]">
  * <!-- file1.wml -->
- * <Controls.list:View>
+ * <Controls.list:View source="{{_viewSource}}">
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/list:GroupTemplate" scope="{{groupTemplate}}">
  *          <ws:contentTemplate>
@@ -178,16 +179,16 @@ export default interface IBaseGroupTemplateOptions {
  * </pre>
  *
  * **Пример 2.** Контрол и шаблон groupTemplate настроены в отдельных WML-файлах.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [3-5]">
  * <!-- file1.wml -->
- * <Controls.list:View>
+ * <Controls.list:View source="{{_viewSource}}">
  *    <ws:groupTemplate>
  *       <ws:partial template="wml!file2" scope="{{groupTemplate}}"/>
  *    </ws:groupTemplate>
  * </Controls.list:View>
  * </pre>
  *
- * <pre class="brush: html">
+ * <pre class="brush: html;">
  * <!-- file2.wml -->
  * <ws:partial template="Controls/list:GroupTemplate">
  *    <ws:contentTemplate>
@@ -199,9 +200,9 @@ export default interface IBaseGroupTemplateOptions {
  *
  * **Пример 3.** Контрол и шаблон contentTemplate настроены в отдельных WML-файлах.
  *
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [3-9]">
  * <!-- file1.wml -->
- * <Controls.list:View>
+ * <Controls.list:View source="{{_viewSource}}">
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/list:GroupTemplate">
  *          <ws:contentTemplate>

@@ -9,8 +9,9 @@
  * @see Controls/grid:View
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html">
- * <Controls.grid:View>
+ * <pre class="brush: html; highlight: [3-5]">
+ * <!-- WML -->
+ * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/grid:ItemTemplate" marker="{{false}}" scope="{{ itemTemplate }}" />
  *    </ws:itemTemplate>
