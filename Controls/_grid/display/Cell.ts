@@ -341,6 +341,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         }
 
         if (this.getOwner().getStickyLadder()) {
+            // Во время днд отключаем лесенку, а контент отображаем принудительно с помощью visibility: visible
             contentClasses += ' controls-Grid__row-cell__content_ladderHeader';
         }
 

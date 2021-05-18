@@ -212,6 +212,8 @@ const GridView = ListView.extend({
         const ladderStickyColumn = GridLadderUtil.getStickyColumn({
             columns
         });
+
+        // Во время днд отключаем лесенку, а контент отображаем принудительно с помощью visibility: visible
         if (ladderStickyColumn && !this._listModel.isDragging()) {
             if (ladderStickyColumn.property.length === 2) {
                 columnsWidths.splice(1, 0, '0px');
@@ -248,6 +250,7 @@ const GridView = ListView.extend({
             classes += ' controls-GridView__paddingBottom__itemActionsV_outside';
         }
 
+        // Во время днд отключаем лесенку, а контент отображаем принудительно с помощью visibility: visible
         if (this._listModel.isDragging()) {
             classes += ' controls-Grid_dragging_process';
         }
