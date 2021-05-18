@@ -398,6 +398,14 @@
    }
 });
 
+.controls-Button_button_style-primary.controls-Button_bg-same {
+   background-color: var(--primary_background-color_button);
+}
+
+.controls-Button_button_style-secondary.controls-Button_bg-same {
+   background-color: var(--secondary_background-color_button);
+}
+
 .controls-Button_button_style-unaccented.controls-Button_bg-contrast {
    border-color: var(--unaccented_hover_contrast_background-color);
 }
@@ -433,6 +441,14 @@
       }
    });
 
+   .controls-Button_button_style-primary:hover.controls-Button_bg-same {
+      background-color: var(--primary_hover_background-color_button);
+   }
+
+   .controls-Button_button_style-secondary:hover.controls-Button_bg-same {
+      background-color: var(--secondary_hover_background-color_button);
+   }
+
    .controls-Button_button_style-pale:hover {
       background-color: var(--pale_hover_background-color_button);
    }
@@ -450,6 +466,14 @@
          background-color: ~"var(--@{_item}_active_contrast_background-color)";
       }
    });
+
+   .controls-Button_button_style-primary:hover.controls-Button_bg-same {
+      background-color: var(--primary_active_background-color_button);
+   }
+
+   .controls-Button_button_style-secondary:hover.controls-Button_bg-same {
+      background-color: var(--secondary_active_background-color_button);
+   }
 }
 
 .controls-Button_toolButton.controls-Button_bg-contrast {
