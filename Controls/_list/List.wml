@@ -4,6 +4,7 @@
         template="{{_viewTemplate}}"
         viewName="{{_viewName}}"
         markerStrategy="{{_markerStrategy}}"
+        plainItemsContainer="{{_plainItemsContainer}}"
         itemContainerGetter="{{_itemContainerGetter}}"
         useNewModel="{{_supportNewModel || _options.useNewModel}}"
         viewModelConstructor="{{_viewModelConstructor}}">

@@ -10,6 +10,7 @@ export default class Columns extends View {/** @lends Controls/_list/List.protot
     _supportNewModel: boolean = true;
     _markerStrategy: MultiColumnStrategy = MultiColumnStrategy;
     _itemContainerGetter: ItemContainerGetter = ItemContainerGetter;
+    _plainItemsContainer: boolean = false;
 
     _getModelConstructor(): string {
         return 'Controls/columns:ColumnsCollection';
