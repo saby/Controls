@@ -366,7 +366,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             !isEqual(newOptions.sorting, this._options.sorting) ||
             (this._parentProperty && rootChanged);
 
-        const resetExpandedItemsOnDeepReload = this._isDeepReload() && !rootChanged;
+        const resetExpandedItemsOnDeepReload = this.isDeepReload() && !rootChanged;
         if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || Controller._isExpandAll(this.getExpandedItems()))) {
             this.setExpandedItems([]);
         }
@@ -473,6 +473,10 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         return this._options;
     }
 
+    isDeepReload(): boolean {
+        return this._deepReload || this._options.deepReload;
+    }
+
     destroy(): void {
         this.cancelLoading();
         this._unsubscribeItemsCollectionChangeEvent();
@@ -552,7 +556,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         const isMultiNavigation = this._isMultiNavigation(navigationSourceConfig);
         const isHierarchyQueryParamsNeeded =
             isMultiNavigation &&
-            this._isDeepReload() &&
+            this.isDeepReload() &&
             this._expandedItems?.length &&
             !direction;
         let resultQueryParams;
@@ -576,10 +580,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         }
 
         return resultQueryParams;
-    }
-
-    private _isDeepReload(): boolean {
-        return this._deepReload || this._options.deepReload;
     }
 
     private _isMultiNavigation(navigationSourceConfig: INavigationSourceConfig): boolean {
@@ -727,7 +727,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             return this._resolveExpandedHierarchyItems(options).then((expandedItems) => {
                 this.setExpandedItems(expandedItems);
                 resultFilter = {...initialFilter};
-                const isDeepReload = this._isDeepReload() && root === this._root;
+                const isDeepReload = this.isDeepReload() && root === this._root;
 
                 // Набираем все раскрытые узлы
                 if (expandedItems?.length && expandedItems?.[0] !== null && isDeepReload) {
