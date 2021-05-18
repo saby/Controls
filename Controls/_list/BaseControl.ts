@@ -6143,6 +6143,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     // endregion remove
 
     _onViewKeyDown(event) {
+        if (event.nativeEvent.altKey) {
+            return;
+        }
         if (!_private.isBlockedForLoading(this._loadingIndicatorState)) {
             const key = event.nativeEvent.keyCode;
             const dontStop = key === 17 // Ctrl
