@@ -2729,30 +2729,32 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
 
     getActionsTemplateConfig(templateOptions: any): IItemActionsTemplateConfig {
-        if (templateOptions && this._actionsTemplateConfig) {
+        // Не нужно изменять _actionsTemplateConfig, т.к. для разных элементов он будет разный
+        const config = {...this._actionsTemplateConfig};
+        if (templateOptions && config) {
             if (templateOptions.actionStyle) {
-                this._actionsTemplateConfig.actionStyle = templateOptions.actionStyle;
+                config.actionStyle = templateOptions.actionStyle;
             }
             if (templateOptions.editingStyle) {
-                this._actionsTemplateConfig.editingStyle = templateOptions.editingStyle;
+                config.editingStyle = templateOptions.editingStyle;
             }
             if (templateOptions.actionPadding) {
-                this._actionsTemplateConfig.actionPadding = templateOptions.actionPadding;
+                config.actionPadding = templateOptions.actionPadding;
             }
             if (templateOptions.iconStyle) {
-                this._actionsTemplateConfig.iconStyle = templateOptions.iconStyle;
+                config.iconStyle = templateOptions.iconStyle;
             }
             if (templateOptions.actionMode) {
-                this._actionsTemplateConfig.actionMode = templateOptions.actionMode;
+                config.actionMode = templateOptions.actionMode;
             }
             if (templateOptions.highlightOnHover) {
-                this._actionsTemplateConfig.highlightOnHover = templateOptions.highlightOnHover;
+                config.highlightOnHover = templateOptions.highlightOnHover;
             }
             if (templateOptions.itemActionsClass) {
-                this._actionsTemplateConfig.itemActionsClass = templateOptions.itemActionsClass;
+                config.itemActionsClass = templateOptions.itemActionsClass;
             }
         }
-        return this._actionsTemplateConfig;
+        return config;
     }
 
     setActionsTemplateConfig(config: IItemActionsTemplateConfig): void {

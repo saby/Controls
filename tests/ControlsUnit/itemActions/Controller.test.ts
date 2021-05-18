@@ -717,11 +717,12 @@ describe('Controls/_itemActions/Controller', () => {
             };
             updateWithSameParams();
             itemActionsController.activateSwipe(3, 100, 50);
-            const config = collection.getActionsTemplateConfig();
+            let config = collection.getActionsTemplateConfig();
             assert.equal(config.actionAlignment, 'horizontal');
             // Активировали новый свайп и обновили конфиг
             itemActionsController.activateSwipe(2, 100, 100);
             updateWithSameParams();
+            config = collection.getActionsTemplateConfig();
             assert.equal(config.actionAlignment, 'vertical');
         });
 
