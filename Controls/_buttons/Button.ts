@@ -71,7 +71,7 @@ export function simpleCssStyleGeneration(options: IButtonControlOptions): void {
         if (options.readOnly) {
             this._iconStyle = 'readonly';
         } else {
-            if (options.contrastBackground) {
+            if (options.contrastBackground && options.viewMode === 'toolButton') {
                 this._iconStyle = 'contrast';
             } else {
                 this._iconStyle =  options.buttonAdd ? 'default' : options.iconStyle;
