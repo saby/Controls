@@ -118,10 +118,10 @@ describe('Controls/browser:Browser', () => {
                 assert.ok(browser._inputSearchValue === '');
 
                 options = {...options};
-                options.searchValue = 'test';
+                options.searchValue = 'tes';
                 await browser._beforeMount(options);
-                assert.ok(browser._searchValue === 'test');
-                assert.ok(browser._inputSearchValue === 'test');
+                assert.ok(browser._searchValue === 'tes');
+                assert.ok(browser._inputSearchValue === 'tes');
                 assert.ok(browser._viewMode === 'search');
             });
 

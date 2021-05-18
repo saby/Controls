@@ -42,8 +42,8 @@ export function isSupportLadder(ladderProperties ?: string[]): boolean {
 export function shouldAddStickyLadderCell(columns, stickyColumn, draggingData): boolean {
     return !!getStickyColumn({ stickyColumn, columns }) && !draggingData;
 }
-export function stickyLadderCellsCount(columns, stickyColumn, draggingData): number {
-    return !isFullGridSupport() || draggingData ? 0 : ( getStickyColumn({ stickyColumn, columns })?.property.length || 0 );
+export function stickyLadderCellsCount(columns, stickyColumn, isDragging): number {
+    return !isFullGridSupport() || isDragging ? 0 : ( getStickyColumn({ stickyColumn, columns })?.property.length || 0 );
 }
 export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
     var

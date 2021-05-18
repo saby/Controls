@@ -346,6 +346,11 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             contentClasses += ` controls-background-${this._$backgroundStyle}`;
         }
 
+        if (this.getOwner().getStickyLadder()) {
+            // Во время днд отключаем лесенку, а контент отображаем принудительно с помощью visibility: visible
+            contentClasses += ' controls-Grid__row-cell__content_ladderHeader';
+        }
+
         if (backgroundColorStyle) {
             contentClasses += ` controls-Grid__row-cell__content_background_${backgroundColorStyle}`;
         }
@@ -444,9 +449,9 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
     protected _getColumnScrollWrapperClasses(theme: string): string {
         if (this._$isFixed) {
-            return `${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} js-controls-ColumnScroll__notDraggable controls-GridNew__cell_fixed`;
+            return ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} js-controls-ColumnScroll__notDraggable controls-GridNew__cell_fixed`;
         }
-        return COLUMN_SCROLL_JS_SELECTORS.SCROLLABLE_ELEMENT;
+        return ` ${COLUMN_SCROLL_JS_SELECTORS.SCROLLABLE_ELEMENT}`;
     }
 
     protected _getHorizontalPaddingClasses(theme: string): string {
@@ -523,6 +528,10 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
      */
     getColumnIndex(takeIntoAccountColspans?: boolean = false): number {
         return this._$owner.getColumnIndex(this, takeIntoAccountColspans);
+    }
+
+    isLadderCell(): boolean {
+        return false;
     }
 
     isFirstColumn(): boolean {
