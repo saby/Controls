@@ -21,7 +21,7 @@ export default class FooterRow<T> extends Row<string> {
         this.setColumns(footer);
     }
 
-    setColumns(): void {
+    resetColumns(): void {
         // todo Переписать по: https://online.sbis.ru/opendoc.html?guid=d86329c7-5c85-4c7f-97c9-791502f6f1dd
         // Надо сделать так, чтобы у класса Row была опция columnsConfig и она всегда содержит оригинальную колонку,
         // переданную в опции columns списка.
