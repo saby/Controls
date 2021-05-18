@@ -134,7 +134,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
                 classes += ' controls-Menu__row-separator';
             }
         } else if (item && !treeItem['[Controls/_display/SearchSeparator]']) {
-            classes += ' controls-Menu__row-breadcrumbs';
+            classes += ` controls-Menu__row-breadcrumbs controls_breadcrumbs_theme-${this._options.theme}`;
         }
         return classes;
     }
