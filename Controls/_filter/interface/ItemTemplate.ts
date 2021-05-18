@@ -25,8 +25,8 @@ export default interface IItemTemplateOptions {
     *    <ws:itemTemplate>
     *       <ws:partial template="Controls/filter:ViewItemTemplate" scope="{{itemTemplate}}">
     *          <ws:contentTemplate>
-    *          {{contentTemplate.itemData.item.title}}
-    *          {{contentTemplate.itemData.text}}
+    *          {{contentTemplate.item.contents.title}}
+    *          {{contentTemplate.item.contents.text}}
     *          </ws:contentTemplate>
     *       </ws:partial>
     *    </ws:itemTemplate>
