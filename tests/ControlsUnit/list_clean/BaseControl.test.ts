@@ -123,6 +123,38 @@ describe('Controls/list_clean/BaseControl', () => {
             assert.isTrue(!!baseControl._listViewModel.getCollapsedGroups());
         });
     });
+    describe('handleKeyDown', () => {
+        const baseControlCfg = await getCorrectBaseControlConfigAsync({
+            viewName: 'Controls/List/ListView',
+            keyProperty: 'id',
+            viewModelConstructor: ListViewModel,
+            source: new Memory()
+        });
+        let baseControl;
+
+        beforeEach(() => {
+            baseControl = new BaseControl(baseControlCfg);
+        });
+
+        afterEach(() => {
+            baseControl.destroy();
+            baseControl = undefined;
+        });
+        it('skip event if altKey', () => {
+            const eventAlt = { nativeEvent: { altKey: true, keyCode: 40} };
+            const event = { nativeEvent: { altKey: false, keyCode: 40}, stopImmediatePropagation: () => null };
+            const sandbox = sinon.createSandbox();
+            let keyDownDownCalled = false;
+            sandbox.stub(baseControl, 'keyDownDown').callsFake(() => {
+                keyDownDownCalled = true;
+            });
+            baseControl.handleKeyDown(eventAlt);
+            assert.isFalse(keyDownDownCalled);
+            baseControl.handleKeyDown(event);
+            assert.isTrue(keyDownDownCalled);
+            sandbox.restore();
+        });
+    });
     describe('BaseControl watcher paging', () => {
         const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
