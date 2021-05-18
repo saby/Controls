@@ -7,8 +7,9 @@
  * @see Controls/list:View
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html; highlight: [2,3,4,5,6]">
- * <Controls.list:View>
+ * <pre class="brush: html; highlight: [3-7]">
+ * <!-- WML -->
+ * <Controls.list:View source="{{_viewSource}}">
  *    <ws:emptyTemplate>
  *       <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xxl" bottomSpacing="m">
  *          <ws:contentTemplate>No data available!</ws:contentTemplate>

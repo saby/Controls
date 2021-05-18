@@ -23,8 +23,9 @@ interface IEmptyColumnColumns {
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
  * В таблице 5 колонок. В пустом представлении поле ввода отображается во второй строке, а надпись растянута на следующие 2 колонки.
- * <pre class="brush: html; highlight: [11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32]">
- * <Controls.grid:View>
+ * <pre class="brush: html; highlight: [12-33]">
+ * <!-- WML -->
+ * <Controls.grid:View source="{{_viewSource}}">
  *     <ws:columns>
  *         <ws:Array>
  *             <ws:Object ... />

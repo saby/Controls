@@ -6,8 +6,9 @@
  * @see Controls/list:View
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html; highlight: [5,6,7,8,9,10,11,12,13,14,15,16]">
- * <Controls.list:View>
+ * <pre class="brush: html; highlight: [6-18]">
+ * <!-- WML -->
+ * <Controls.list:View source="{{_viewSource}}">
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
  *          <ws:contentTemplate>

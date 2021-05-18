@@ -75,6 +75,7 @@
  * @name Controls/dropdown:ItemTemplate#contentTemplate
  * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
  * @default undefined
+ * @markdown
  * @remark
  * В области видимости шаблона доступен объект **itemData**. Из него можно получить доступ к свойству **item** — это объект, который содержит данные обрабатываемого элемента.
  * @example
