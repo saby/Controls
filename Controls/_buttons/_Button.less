@@ -426,7 +426,7 @@
 .ws-is-hover {
    .for(@button_styles, {
       .controls-Button_button_style-@{_item}:hover {
-         background-color: ~"var(--@{_item}_hover_background-color)";
+         background-color: ~"var(--@{_item}_hover_same_background-color)";
       }
       .controls-Button_button_style-@{_item}.controls-Button_bg-contrast:hover {
          background-color: ~"var(--@{_item}_hover_contrast_background-color)";
@@ -444,7 +444,7 @@
 .ws-is-no-touch, .ws-is-touch {
    .for(@button_styles, {
       .controls-Button_button_style-@{_item}:active {
-         background-color: ~"var(--@{_item}_active_background-color)";
+         background-color: ~"var(--@{_item}_active_same_background-color)";
       }
       .controls-Button_button_style-@{_item}.controls-Button_bg-contrast:active {
          background-color: ~"var(--@{_item}_active_contrast_background-color)";
