@@ -7,26 +7,27 @@
                 columns="{{_columns}}"
                 parentProperty="parent"
                 nodeProperty="type"
+                bind:expandedItems="_expandedItems"
                 itemActions="{{_itemActions}}">
             <ws:itemTemplate>
-                <ws:partial template="Controls/treeGrid:ItemTemplate" highlightOnHover="{{false}}"/>
+                <ws:partial template="Controls/treeGrid:ItemTemplate" highlightOnHover="{{_getHighlightOnHover(itemTemplate.item)}}"/>
             </ws:itemTemplate>
         </Controls.treeGrid:View>
     </div>
-    <div class="controlsDemo__wrappercontrolsDemo_wrapper-treeGrid-itemActions-noHighlight-inside demo-treeGridItemActions__outside">
-        <h3>Outside</h3>
-        <Controls.treeGrid:View
-                keyProperty="id"
-                source="{{_viewSource}}"
-                columns="{{_columns}}"
-                parentProperty="parent"
-                nodeProperty="type"
-                itemActions="{{_itemActions}}"
-                itemActionsPosition="outside">
-            <ws:itemTemplate>
-                <ws:partial template="Controls/treeGrid:ItemTemplate" highlightOnHover="{{false}}"/>
-            </ws:itemTemplate>
-        </Controls.treeGrid:View>
-    </div>
+<!--    <div class="controlsDemo__wrappercontrolsDemo_wrapper-treeGrid-itemActions-noHighlight-inside demo-treeGridItemActions__outside">-->
+<!--        <h3>Outside</h3>-->
+<!--        <Controls.treeGrid:View-->
+<!--                keyProperty="id"-->
+<!--                source="{{_viewSource}}"-->
+<!--                columns="{{_columns}}"-->
+<!--                parentProperty="parent"-->
+<!--                nodeProperty="type"-->
+<!--                itemActions="{{_itemActions}}"-->
+<!--                itemActionsPosition="outside">-->
+<!--            <ws:itemTemplate>-->
+<!--                <ws:partial template="Controls/treeGrid:ItemTemplate" highlightOnHover="{{false}}"/>-->
+<!--            </ws:itemTemplate>-->
+<!--        </Controls.treeGrid:View>-->
+<!--    </div>-->
 </div>
 

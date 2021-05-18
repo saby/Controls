@@ -74,7 +74,6 @@
          <ws:partial template="EXPANDER" item="{{ (item || itemData) }}"/>
       </ws:expanderTemplate>
    </ws:partial>
-
    <ws:if data="{{ gridColumn.ItemActionsCell && gridColumn.shouldDisplayItemActions() }}">
       <ws:if data="{{ (item || itemData).isSwiped() && itemActionsPosition !== 'outside' }}">
          <ws:partial template="{{ swipeTemplate }}"

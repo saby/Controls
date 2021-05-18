@@ -11,6 +11,7 @@
         {{actionMode === 'adaptive' ? 'controls-itemActionsV_adaptive'}}
         {{itemData.itemActionsColumnScrollDraw ? 'controls-itemActionsV_columnScrollDraw'}}"
          on:mouseenter="_onItemActionsMouseEnter(itemData)">
+        ховер: {{highlightOnHover ? 1 : 0}};
         <div attr:class="controls-itemActionsV__wrapper
                         {{actionMode === 'adaptive' ? 'controls-itemActionsV__wrapper_adaptive'}}">
             <ws:partial
@@ -42,5 +43,6 @@
     </div>
 </ws:if>
 <ws:else>
+    2:{{highlightOnHover}};
     <ws:partial template="localItemActionsTemplate"/>
 </ws:else>
