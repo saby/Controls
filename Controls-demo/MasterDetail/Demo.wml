@@ -33,7 +33,7 @@
                <div class="controls-demo_MasterDetail_detail_search">
                   <Controls.search:Input placeholder="Введите"/>
                </div>
-               <Controls.scroll:Container attr:class="controls-demo_MasterDetail_detail">
+               <Controls.scroll:Container shadowMode="js" attr:class="controls-demo_MasterDetail_detail">
                   <Controls.list:View
                           keyProperty="id"
                           source="{{_detailSource}}"
@@ -91,7 +91,7 @@
             <div class="ws-flexbox controls-demo_MasterDetail_detail_search">
                <Controls.search:Input placeholder="Введите"/>
             </div>
-            <Controls.scroll:Container attr:class="controls-demo_MasterDetail_detail">
+            <Controls.scroll:Container shadowMode="js" attr:class="controls-demo_MasterDetail_detail">
                <Controls.list:View
                        keyProperty="id"
                        source="{{_detailSource}}"
@@ -150,7 +150,7 @@
                <div class="ws-flexbox controls-demo_MasterDetail_detail_search">
                   <Controls.search:Input placeholder="Введите"/>
                </div>
-               <Controls.scroll:Container attr:class="controls-demo_MasterDetail_detail">
+               <Controls.scroll:Container shadowMode="js" attr:class="controls-demo_MasterDetail_detail">
                   <Controls.list:View
                           keyProperty="id"
                           source="{{_detailSource}}"

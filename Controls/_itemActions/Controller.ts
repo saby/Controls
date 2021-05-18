@@ -454,7 +454,7 @@ export class Controller {
         let hasChanges = false;
         const changedItemsIds: Array<number | string> = [];
         const assignActionsOnItem = (item): void => {
-            if (!item['[Controls/_display/GroupItem]'] && !item['[Controls/_display/SearchSeparator]'] && !item['[Controls/treeGrid:TreeGridNodeFooterRow]'] && !item['[Controls/_tile/InvisibleTileItem]']) {
+            if (item.ItemActionsItem) {
                 const contents = Controller._getItemContents(item);
                 const actionsObject = this._fixActionsDisplayOptions(this._getActionsObject(item));
                 const itemChanged = Controller._setItemActions(item, actionsObject, this._actionMode);
@@ -882,7 +882,7 @@ export class Controller {
     }
 
     private static _resolveItemActionClass(theme: string): string {
-        return 'controls-itemActionsV__action_icon';
+        return `controls-itemActionsV__action_icon controls_list_theme-${theme}`;
     }
 
     private static _isMatchingActionLists(

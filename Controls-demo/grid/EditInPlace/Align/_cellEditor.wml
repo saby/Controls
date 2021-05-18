@@ -3,9 +3,12 @@
         <ws:partial template="Controls/list:EditingTemplate"
                     value="{{ itemData.item[itemData.column.displayProperty || 'title'] }}"
                     itemData="{{itemData}}"
+                    align="{{ itemData.column.align }}"
                     enabled="{{true}}">
             <ws:editorTemplate>
-                <Controls.input:Text contrastBackground="{{true}}" bind:value="itemData.item[itemData.column.displayProperty || 'title']"
+                <Controls.input:Text contrastBackground="{{true}}"
+                                     bind:value="itemData.item[itemData.column.displayProperty || 'title']"
+                                     textAlign="{{ itemData.column.align }}"
                                      selectOnClick="{{ false }}" />
             </ws:editorTemplate>
         </ws:partial>

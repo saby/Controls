@@ -7,8 +7,7 @@ import {IFixedEventData,
     SHADOW_VISIBILITY_BY_CONTROLLER,
     TRegisterEventData,
     TYPE_FIXED_HEADERS,
-    getGapFixSize,
-    MODE
+    getGapFixSize
 } from './Utils';
 import { SHADOW_VISIBILITY as SCROLL_SHADOW_VISIBILITY } from 'Controls/_scroll/Container/Interface/IShadows';
 import StickyHeader from 'Controls/_scroll/StickyHeader';
@@ -66,7 +65,9 @@ class StickyHeaderController {
     constructor(options: IStickyHeaderController = {}) {
         this._headersStack = {
             top: [],
-            bottom: []
+            bottom: [],
+            left: [],
+            right: []
         };
         this._fixedHeadersStack = {
             top: [],
@@ -428,12 +429,12 @@ class StickyHeaderController {
     }
 
     resizeHandler() {
-        const isSimpleHeaders = this._headersStack.top.length <= 1 && this._headersStack.bottom.length <= 1;
-        // Игнорируем все собятия ресайза до _afterMount.
+        // Игнорируем все события ресайза до _afterMount.
         // В любом случае в _afterMount мы попробуем рассчитать положение заголовков.
         if (this._initialized) {
+            this._registerDelayed();
+            const isSimpleHeaders = this._headersStack.top.length <= 1 && this._headersStack.bottom.length <= 1;
             if (!isSimpleHeaders) {
-                this._registerDelayed();
                 this._updateTopBottom();
             }
         }
@@ -570,10 +571,21 @@ class StickyHeaderController {
             this._addToHeadersStack(id, 'bottom');
             return;
         }
+        if (position === 'leftright') {
+            this._addToHeadersStack(id, 'leftright');
+            this._addToHeadersStack(id, 'leftright');
+            return;
+        }
         const
             headersStack = this._headersStack[position],
             newHeaderOffset = this._getHeaderOffset(id, position),
-            headerContainerHeight = this._headers[id].inst.getHeaderContainer().getBoundingClientRect().height;
+            headerContainerSizes = this._headers[id].inst.getHeaderContainer().getBoundingClientRect();
+        let headerContainerSize;
+        if (position === 'left' || position === 'right') {
+            headerContainerSize = headerContainerSizes.width;
+        } else {
+            headerContainerSize = headerContainerSizes.height;
+        }
 
         // Ищем позицию первого элемента, смещение которого больше текущего.
         // Если смещение у элементов одинаковое, но у добавляемоего заголовка высота равна нулю,
@@ -581,7 +593,7 @@ class StickyHeaderController {
         let index = headersStack.findIndex((headerId) => {
             const headerOffset = this._getHeaderOffset(headerId, position);
             return headerOffset > newHeaderOffset ||
-                (headerOffset === newHeaderOffset && headerContainerHeight === 0);
+                (headerOffset === newHeaderOffset && headerContainerSize === 0);
         });
         index = index === -1 ? headersStack.length : index;
         headersStack.splice(index, 0, id);
@@ -680,7 +692,9 @@ class StickyHeaderController {
     private _updateTopBottomDelayed(): void {
         const offsets: Record<POSITION, Record<string, number>> = {
                 top: {},
-                bottom: {}
+                bottom: {},
+                left: {},
+                right: {}
             };
 
         this._resetSticky();
@@ -692,7 +706,7 @@ class StickyHeaderController {
 
             // Проверяем, имеет ли заголовок в родителях прямых родителей предыдущих заголовков.
             // Если имеет, значит заголовки находятся в одном контейнере -> высчитываем offset и добавляем к заголовку.
-            for (const position of [POSITION.top, POSITION.bottom]) {
+            for (const position of [POSITION.top, POSITION.bottom, POSITION.left, POSITION.right]) {
                 this._headersStack[position].reduce((offset, headerId, i) => {
                     header = this._headers[headerId];
                     curHeader = null;
@@ -704,18 +718,25 @@ class StickyHeaderController {
                             // От текущего заголовка по стэку двигаемся к началу и ищем прямых родителей
                             for (let j = i; j >= 0; j--) {
                                 prevHeader = this._headers[this._headersStack[position][j]];
-                                const height: number = header.inst.height + header.inst.offsetTop;
+                                let size: number;
+                                if (position === 'left' || position === 'right') {
+                                    size = header.inst.width + header.inst.offsetLeft;
+                                } else {
+                                    size = header.inst.height + header.inst.offsetTop;
+                                }
                                 const generalParentNode = this._getGeneralParentNode(curHeader, prevHeader);
                                 if (generalParentNode !== document.body) {
-                                    // Сохраним высоты по которым рассчитали позицию заголовков,
-                                    // что бы при последующих изменениях понимать, надо ли пересчитывать их позиции.
-                                    this._updateElementsHeight(header.inst.getHeaderContainer(), height);
-                                    return offset + height;
+                                    if (position === 'top' || position === 'bottom') {
+                                        // Сохраним высоты по которым рассчитали позицию заголовков,
+                                        // что бы при последующих изменениях понимать, надо ли пересчитывать их позиции.
+                                        this._updateElementsHeight(header.inst.getHeaderContainer(), size);
+                                    }
+                                    return offset + size;
                                 } else if (j > 0) {
                                     // Бывают ситуации, когда какие-то из предыдущих заголовков могут находиться
                                     // в контейнерах, которые не являются родительским для текущего.
                                     // Значит нужно их не учитывать в смещении.
-                                    offset -= height;
+                                    offset -= size;
                                 }
                             }
                             return 0;
@@ -726,8 +747,8 @@ class StickyHeaderController {
             }
         });
         const promise = fastUpdate.mutate(() => {
-            for (const position of [POSITION.top, POSITION.bottom]) {
-                let positionOffsets = offsets[position];
+            for (const position of [POSITION.top, POSITION.bottom, POSITION.left, POSITION.right]) {
+                const positionOffsets = offsets[position];
                 for (const headerId in offsets[position]) {
                     this._headers[headerId].inst[position] = positionOffsets[headerId];
                 }

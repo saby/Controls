@@ -3,6 +3,8 @@
         name="listControl"
         template="{{_viewTemplate}}"
         viewName="{{_viewName}}"
+        markerStrategy="{{_markerStrategy}}"
+        itemContainerGetter="{{_itemContainerGetter}}"
         useNewModel="{{_supportNewModel || _options.useNewModel}}"
         viewModelConstructor="{{_viewModelConstructor}}">
     </ws:partial>

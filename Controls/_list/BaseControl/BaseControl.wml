@@ -188,7 +188,7 @@
     viewConfig="{{ __error }}"
     on:keyDown="_onViewKeyDown()"
 >
-    <div class="controls-BaseControl"
+    <div class="controls-BaseControl controls_list_theme-{{_options.theme}}"
          on:sortingChanged="_sortingChanged()"
          on:mouseenter="_mouseEnter()"
          on:mouseleave="_mouseLeave()"

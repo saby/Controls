@@ -60,11 +60,17 @@
    display: inline-flex;
    align-items: center;
    box-sizing: border-box;
-   border-width: var(--border-thickness_inputText);
-   border-style: solid;
-   border-color: transparent;
-   padding: 0 var(--padding-horizontal_inputText);
    width: 100%;
+   border-width: 0;
+}
+
+.controls-EditingTemplateText_border-partial {
+   border-top: var(--border-thickness_inputText) solid transparent;
+   border-bottom: var(--border-thickness_inputText) solid transparent;
+}
+
+.controls-EditingTemplateText_withPadding {
+   padding: 0 var(--padding-horizontal_inputText);
 }
 
 .controls-EditingTemplateText__editor {

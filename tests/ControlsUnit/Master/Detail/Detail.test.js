@@ -162,18 +162,14 @@ define(['Controls/masterDetail'], function (masterDetail) {
       it('afterRender', () => {
          const Control = new masterDetail.Base();
          let isStartRegister = false;
-         let isSetSettings = false;
          Control._startResizeRegister = () => isStartRegister = true;
-         Control._setSettings = () => isSetSettings = true;
 
          Control._afterRender();
          assert.equal(isStartRegister, false);
-         assert.equal(isSetSettings, false);
 
          Control._currentWidth = 1;
          Control._afterRender();
          assert.equal(isStartRegister, true);
-         assert.equal(isSetSettings, true);
 
          Control.destroy();
       });
@@ -240,10 +236,13 @@ define(['Controls/masterDetail'], function (masterDetail) {
          const sandbox = sinon.createSandbox();
          const event = {};
          const offset = 100;
+         let isSetSettings = false;
          sandbox.stub(control, '_notify');
          control._currentWidth = 100;
+         control._setSettings = () => isSetSettings = true;
 
          control._offsetHandler(event, offset);
+         assert.equal(isSetSettings, true);
 
          sinon.assert.calledWith(control._notify, 'masterWidthChanged', ['200px']);
 

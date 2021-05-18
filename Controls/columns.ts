@@ -21,6 +21,8 @@ import { default as ColumnsCollectionItem } from 'Controls/_columns/display/Coll
 export { ColumnsCollection };
 export { ColumnsCollectionItem };
 export { default as View } from 'Controls/_columns/Columns';
+export { default as ViewTemplate} from 'Controls/_columns/render/Columns';
+export { default as ItemContainerGetter } from 'Controls/_columns/itemsStrategy/getItemContainerByIndex';
 
 import ItemTemplate = require('wml!Controls/_columns/render/resources/ItemTemplate');
 export { ItemTemplate };

@@ -72,11 +72,17 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
                       templateHighlightOnHover: boolean): string {
         const isMultiSelectColumn = this.isMultiSelectColumn();
 
+        let wrapperClasses = '';
         if (isMultiSelectColumn) {
-            return 'controls-Grid__results-cell-checkbox';
+            wrapperClasses += 'controls-Grid__results-cell-checkbox';
+
+            if (this._$owner.hasColumnScroll()) {
+                wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
+            }
+            return wrapperClasses;
         }
 
-        let wrapperClasses = 'controls-Grid__results-cell'
+        wrapperClasses += 'controls-Grid__results-cell'
                             + ` controls-Grid__cell_${style}`
                             + ` ${this._getWrapperPaddingClasses(theme)}`
                             + ` ${this._getColumnSeparatorClasses(theme)}`;

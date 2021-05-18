@@ -126,7 +126,7 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
  * Strategy-decorator which supposed to join expanded nodes into one element.
  * @class Controls/_display/ItemsStrategy/Search
  * @mixes Types/_entity/DestroyableMixin
- * 
+ *
  * @mixes Types/_entity/SerializableMixin
  * @author Мальцев А.А.
  * @private
@@ -300,7 +300,7 @@ export default class SearchStrategy<S extends Model, T extends TreeItem<S> = Tre
         items.forEach((item, index) => {
             let resultItem = item;
 
-            if (item && item['[Controls/_display/TreeItem]']) {
+            if (item && item['[Controls/_display/TreeItem]'] && !item['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
                 if (item.isNode()) {
                     // Check if there is a special item within the breadcrumbs
                     if (

@@ -222,8 +222,9 @@ describe('Controls/list_clean/BaseControl', () => {
             };
             baseControl._getItemsContainer = () => {
                 return {
-                    children: []
-                }
+                    children: [],
+                    querySelectorAll: () => []
+                };
             };
             assert.isFalse(baseControl._pagingVisible);
             baseControl._viewportSize = 400;
@@ -280,11 +281,13 @@ describe('Controls/list_clean/BaseControl', () => {
                 clientHeight: 1000
             };
             baseControl._itemsContainerReadyHandler(null, () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             });
             baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             baseControl._mouseEnter(null);
 
@@ -321,11 +324,13 @@ describe('Controls/list_clean/BaseControl', () => {
                 clientHeight: 1000
             };
             baseControl._itemsContainerReadyHandler(null, () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             });
             baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             baseControl._mouseEnter(null);
 
@@ -354,11 +359,13 @@ describe('Controls/list_clean/BaseControl', () => {
                 clientHeight: 1000
             };
             baseControl._itemsContainerReadyHandler(null, () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             });
             baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             baseControl._mouseEnter(null);
 
@@ -394,11 +401,13 @@ describe('Controls/list_clean/BaseControl', () => {
                 clientHeight: 1000
             };
             baseControl._itemsContainerReadyHandler(null, () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             });
             baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             baseControl._mouseEnter(null);
 
@@ -434,11 +443,13 @@ describe('Controls/list_clean/BaseControl', () => {
                 clientHeight: 1040
             };
             baseControl._itemsContainerReadyHandler(null, () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             });
             baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             baseControl._mouseEnter(null);
 
@@ -519,7 +530,8 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._listViewModel._stopIndex = 100;
             baseControl._viewportSize = 400;
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             baseControl._mouseEnter(null);
             let doScrollNotified = false;
@@ -574,7 +586,8 @@ describe('Controls/list_clean/BaseControl', () => {
             };
             baseControl._viewportSize = 400;
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             assert.isFalse(baseControl._isPagingPadding());
             cfgClone.navigation.viewConfig.pagingMode = 'base';
@@ -596,7 +609,8 @@ describe('Controls/list_clean/BaseControl', () => {
             };
             baseControl._viewportSize = 400;
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             baseControl._mouseEnter(null);
             assert.isTrue(baseControl._pagingVisible);
@@ -634,7 +648,8 @@ describe('Controls/list_clean/BaseControl', () => {
                 clientHeight: 1000
             };
             baseControl._itemsContainerReadyHandler(null, () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             });
             baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
             baseControl._mouseEnter(null);
@@ -946,15 +961,15 @@ describe('Controls/list_clean/BaseControl', () => {
             assert.isTrue(shiftToDirectionStub.calledWith('down'));
         });
         it('moveMarkerToNext', () => {
-            BaseControl._private.moveMarkerToNext(baseControl, { preventDefault: () => null });
+            BaseControl._private.moveMarkerToDirection(baseControl, { preventDefault: () => null }, 'Forward');
             assert.isFalse(shiftToDirectionStub.called);
             baseControl._beforeUpdate({...baseControlCfg, markedKey: 1});
-            BaseControl._private.moveMarkerToNext(baseControl, { preventDefault: () => null });
+            BaseControl._private.moveMarkerToDirection(baseControl, { preventDefault: () => null }, 'Forward');
             assert.isTrue(shiftToDirectionStub.calledOnce);
             assert.isTrue(shiftToDirectionStub.calledWith('down'));
         });
         it('moveMarkerToPrevious', () => {
-            BaseControl._private.moveMarkerToPrevious(baseControl, { preventDefault: () => null });
+            BaseControl._private.moveMarkerToDirection(baseControl, { preventDefault: () => null }, 'Backward');
             assert.isTrue(shiftToDirectionStub.calledOnce);
             assert.isTrue(shiftToDirectionStub.calledWith('up'));
         });

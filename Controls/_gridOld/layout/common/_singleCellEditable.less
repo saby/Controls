@@ -3,7 +3,7 @@
    &::after {
       position: absolute;
       top: calc(-1 * var(--item-separator_s_thickness_list));
-      left: 0;
+      left: calc(-1 * var(--column_separator_s_thickness_grid));
       right: calc(-1 * var(--column_separator_s_thickness_grid));
       bottom: calc(-1 * var(--item-separator_s_thickness_list));
       z-index: 1;
@@ -11,6 +11,11 @@
       border: 0 solid transparent;
       pointer-events: none;
    }
+}
+
+// У последней ячейки нет границы справа по стандарту, следовательно ничего не нужно перекрывать
+.controls-Grid__row-cell_editing-mode-single-cell_last::after {
+   right: 0;
 }
 
 // Операции над записью показываются при ховере по ячейке, в случае, если она сейчас не редактируется.

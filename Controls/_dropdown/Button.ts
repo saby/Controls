@@ -326,6 +326,36 @@ export default class Button extends BaseDropdown {
  */
 
 /**
+ * @name Controls/_dropdown/Button#reloadOnOpen
+ * @cfg {Boolean} Определяет, будут ли элементы меню загружаться при каждом клике на кнопку..
+ * @default false
+ * @example
+ * В данном примере данные для меню будут загружены при каждом клике по кнопке.
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.dropdown:Button
+ *    bind:selectedKeys="_selectedKeys"
+ *    keyProperty="id"
+ *    displayProperty="title"
+ *    source="{{_source)}}"
+ *    reloadOnOpen="{{true}}" />
+ * </pre>
+ * <pre>
+ * // JavaScript
+ * _source:null,
+ * _beforeMount: function() {
+ *    this._source = new source.Memory({
+ *       idProperty: 'id',
+ *       data: [
+ *          {id: 1, title: 'Name', icon: 'icon-small icon-TrendUp'},
+ *          {id: 2, title: 'Date of change', icon: 'icon-small icon-TrendDown'}
+ *       ]
+ *    });
+ * }
+ * </pre>
+ */
+
+/**
  * @name Controls/_dropdown/Button#fontSize
  * @cfg
  * @demo Controls-demo/dropdown_new/Button/FontSize/Index

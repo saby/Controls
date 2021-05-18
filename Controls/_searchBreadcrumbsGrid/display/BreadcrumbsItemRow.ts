@@ -52,6 +52,11 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
         return current;
     }
 
+    get key(): unknown {
+        const contents = this.getContents();
+        return contents[contents.length - 1].getKey();
+    }
+
     // region Public methods
 
     getContents(): T[] {
@@ -120,6 +125,10 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
 
     getCellTemplate(): TemplateFunction | string {
         return this._$cellTemplate;
+    }
+
+    getBreadcrumbsItemTemplate(): TemplateFunction | string {
+        return 'Controls/breadcrumbs:ItemTemplate';
     }
 
     setColspanBreadcrumbs(colspanBreadcrumbs: boolean): void {

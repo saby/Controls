@@ -6,7 +6,6 @@
 
 import {getDimensions} from 'Controls/sizeUtils';
 
-
 /**
  * Метод возвращает метаинформацию о высотах и оффсетах записей в списке.
  */

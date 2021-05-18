@@ -10,7 +10,7 @@
         dataLoadCallback="{{_dataLoadCallback}}"
         deepReload="{{_deepReload || _options.deepReload}}"
         searchParam="{{null}}"
-        searchValue="{{_searchValue}}"
+        searchValue="{{_returnedOnlyByMisspellValue ? _misspellValue : _searchValue}}"
         groupHistoryId="{{_groupHistoryId}}"
         inputSearchValue="{{_inputSearchValue}}"
         misspellValue="{{_misspellValue}}"

@@ -6,6 +6,7 @@ import {IEditableCollection, IEditableCollectionItem, TreeItem} from 'Controls/d
 export const ERROR_MSG = {
     ADDING_ITEM_KEY_WAS_NOT_SET: 'Adding item key was not set. Key is required. You can set the key ' +
         'before edit while prepare adding item or in callbacks: beforeBeginEdit and beforeEndEdit.',
+    ADDING_ITEM_KEY_IS_NULL_IN_TREE: 'Adding item key is NULL in tree collection. NULL is reserved value for ROOT item in tree collection. Please set another key.',
     ADD_ITEM_KEY_DUPLICATED: 'Duplicating keys in editable collection. Adding item has the same key as item which is already exists in collection.',
     ITEM_FOR_EDITING_MISSED_IN_COLLECTION: 'Item passed for editing is missing in collection. You can edit only existing items, to add new use method add(item: Model).',
     COLLECTION_IS_REQUIRED: 'Options ICollectionEditorOptions:collection is required.',
@@ -13,7 +14,7 @@ export const ERROR_MSG = {
     HAS_NO_EDITING: 'There is no running edit in collection.',
     EDITING_IS_ALREADY_RUNNING: 'Editing is already running. Commit or cancel current before beginning new.',
     NO_FORMAT_FOR_KEY_PROPERTY: 'There is no format for item\'s key property. It is required if trying to add item with empty key. set item\'s key or format of key property.',
-    PARENT_OF_ADDING_ITEM_DOES_NOT_EXIST: 'Adding in tree error. The parent of adding item doesn\'t exist. Check if the parentProperty field is filled in correctly and parent is displayed.' +
+    PARENT_OF_ADDING_ITEM_DOES_NOT_EXIST: 'Adding in tree error. The parent of adding item doesn\'t exist. Check if the parentProperty field is filled in correctly and parent is displayed. ' +
         'If you want to add item to the root, the parentProperty value of the added item must be "null"'
 };
 
@@ -152,6 +153,10 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
                 throw Error(
                     `There is no item with key={${parentKey}} in list. ${ERROR_MSG.PARENT_OF_ADDING_ITEM_DOES_NOT_EXIST}`
                 );
+            }
+
+            if (addingItemKey === null) {
+                throw Error(ERROR_MSG.ADDING_ITEM_KEY_IS_NULL_IN_TREE);
             }
         }
 

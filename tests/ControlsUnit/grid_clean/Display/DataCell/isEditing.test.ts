@@ -51,6 +51,22 @@ describe('Controls/grid_clean/Display/DataCell/isEditing', () => {
             );
         });
 
+        it('.getContentClasses() for last editable column', () => {
+            const cell = new GridDataCell({
+                owner: {
+                    ...mockedOwner,
+                    getColumnsCount: () => 1,
+                    isEditing: () => false,
+                    getEditingColumnIndex: () => 0
+                },
+                column: {displayProperty: 'key'}
+            });
+            cAssert.include(
+                cell.getContentClasses('default', 'default'),
+                'controls-Grid__row-cell_editing-mode-single-cell_last'
+            );
+        });
+
         it('.getContentClasses() for editing', () => {
             const cell = new GridDataCell({
                 owner: {

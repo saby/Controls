@@ -15,6 +15,8 @@ import {
 import { Model } from 'Types/entity';
 
 import {Serializer} from 'UI/State';
+import {TreeGridNodeFooterRow} from "Controls/treeGrid";
+import TreeGridCollection from "Controls/_treeGrid/display/TreeGridCollection";
 
 interface IData {
     id: number;
@@ -2248,5 +2250,46 @@ describe('Controls/_display/Tree', () => {
             }));
             assert.isTrue(tree.hasNode());
         });
+    });
+
+    describe('node footers', () => {
+       it('change visibility callback', () => {
+           const rs = new RecordSet({
+               rawData: [
+                   {id: 1, node: true, pid: 0},
+                   {id: 2, node: true, pid: 0}
+               ],
+               keyProperty: 'id'
+           });
+           const callback = (item: Model) => true;
+           // TODO должно быть Tree, но нодФутеры пока что создаются только в treeGrid
+           const tree = new TreeGridCollection({
+               collection: rs,
+               root: {
+                   id: 0,
+                   title: 'Root'
+               },
+               keyProperty: 'id',
+               parentProperty: 'pid',
+               nodeProperty: 'node',
+               columns: [],
+               expandedItems: [null],
+               nodeFooterVisibilityCallback: callback
+           });
+
+           assert.equal(tree.getItems().length, 4);
+           assert.instanceOf(tree.at(1), TreeGridNodeFooterRow);
+           assert.instanceOf(tree.at(3), TreeGridNodeFooterRow);
+
+           const newCallback = (item) => {
+               if (item.getKey() === 1) {
+                   return true;
+               }
+           };
+           tree.setNodeFooterVisibilityCallback(newCallback);
+           assert.equal(tree.getItems().length, 3);
+           assert.instanceOf(tree.at(1), TreeGridNodeFooterRow);
+           assert.isNotOk(tree.at(3));
+       });
     });
 });

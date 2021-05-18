@@ -324,16 +324,25 @@ describe('Controls/_multiselection/Controller', () => {
    });
 
    describe('getSelectedItems', () => {
+      let model;
       beforeEach(() => {
-         model.setItems(new RecordSet({
-            rawData: [
+         model = new ListViewModel({
+            items: [
                { id: 1 },
                { id: 2 },
                { id: 3 },
                { id: 4 }
             ],
             keyProperty: 'id'
-         }), {});
+         });
+         strategy = new FlatSelectionStrategy({model: model.getDisplay() });
+         controller = new SelectionController({
+            model: model.getDisplay(),
+            strategy,
+            filter: {},
+            selectedKeys: [],
+            excludedKeys: []
+         });
       });
 
       it('should return one selected item', () => {
@@ -406,6 +415,12 @@ describe('Controls/_multiselection/Controller', () => {
             assert.isFalse(readonlyModel.getItemBySourceKey(1).isSelected());
             assert.isTrue(readonlyModel.getItemBySourceKey(2).isSelected());
             assert.isFalse(readonlyModel.getItemBySourceKey(3).isSelected());
+         });
+
+         it('empty selection reset limit', () => {
+            controllerWithReadonly.setLimit(10);
+            controllerWithReadonly.setSelection({selected: [], excluded: []});
+            assert.isTrue(controllerWithReadonly.getLimit() === 0);
          });
       });
    });

@@ -66,16 +66,16 @@
                   <Controls.heading:Title
                      fontSize="4xl"
                      fontColorStyle="default"
-                     caption="{{captionTemplate.itemData.item.title}}"
-                     tooltip="{{captionTemplate.itemData.item.title}}"
+                     caption="{{captionTemplate.item.contents.title}}"
+                     tooltip="{{captionTemplate.item.contents.title}}"
                   />
                </ws:captionTemplate>
                <ws:contentTemplate>
-                  {{contentTemplate.itemData.item.description}}
+                  {{contentTemplate.item.contents.description}}
                </ws:contentTemplate>
                <ws:footerTemplate>
                <span style="color: grey">
-                  {{ footerTemplate.itemData.item.rating || footerTemplate.itemData.item.year }}
+                  {{ footerTemplate.item.contents.rating || footerTemplate.item.contents.year }}
                </span>
                </ws:footerTemplate>
             </ws:partial>

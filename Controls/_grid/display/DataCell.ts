@@ -57,6 +57,10 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
         if (this._$owner.getEditingConfig()?.mode === 'cell') {
             classes += ' controls-Grid__row-cell_editing-mode-single-cell';
 
+            if (this.isLastColumn()) {
+                classes += ' controls-Grid__row-cell_editing-mode-single-cell_last';
+            }
+
             if (this.isEditing()) {
                 classes += ' controls-Grid__row-cell_single-cell_editing';
             } else {
@@ -115,8 +119,13 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
         if (this.getMarkerPosition() === 'right') {
             return this._$owner.shouldDisplayMarker(marker) && this.isLastColumn();
         } else {
-            return this._$owner.shouldDisplayMarker(marker) &&
-                !this._$owner.hasMultiSelectColumn() && this._$isFirstDataCell;
+            return (
+                marker !== false &&
+                this._$owner.isMarked() &&
+                !this.isEditing() &&
+                !this._$owner.hasMultiSelectColumn() &&
+                this._$isFirstDataCell
+            );
         }
     }
     // endregion

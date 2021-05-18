@@ -5,6 +5,7 @@
                     visibleItems="{{_visibleItemsFirst}}"
                     displayMode="multiline"
                     fontSize="{{_options.fontSize}}"
+                    fontColorStyle="{{_options.fontColorStyle}}"
                     keyProperty="{{_options.keyProperty}}"
                     displayProperty="{{_options.displayProperty}}"
                     on:itemClick="_itemClickHandler()"/>
@@ -15,6 +16,7 @@
                     keyProperty="{{_options.keyProperty}}"
                     displayMode="multiline"
                     fontSize="{{_options.fontSize}}"
+                    fontColorStyle="{{_options.fontColorStyle}}"
                     items="{{_options.items}}"
                     displayProperty="{{_options.displayProperty}}"
                     on:itemClick="_itemClickHandler()"/>

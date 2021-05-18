@@ -111,7 +111,7 @@ function getModelModuleName(model: string|Function): string {
 function isEqualFormat(oldList: RecordSet, newList: RecordSet): boolean {
     const oldListFormat = oldList && oldList['[Types/_entity/FormattableMixin]'] && oldList.getFormat(true);
     const newListFormat = newList && newList['[Types/_entity/FormattableMixin]'] && newList.getFormat(true);
-    return (oldListFormat && newListFormat && oldListFormat.isEqual(newListFormat) || !newList.getCount()) ||
+    return (oldListFormat && newListFormat && oldListFormat.isEqual(newListFormat) || !newList.getCount() || !oldList.getCount()) ||
            (!oldListFormat && !newListFormat);
 }
 
@@ -131,7 +131,7 @@ export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
         (getProtoOf(newList).constructor == getProtoOf(newList).constructor) &&
         // tslint:disable-next-line:triple-equals
         (getProtoOf(newList.getAdapter()).constructor == getProtoOf(oldList.getAdapter()).constructor) &&
-        isEqualFormat(newList, oldList);
+        isEqualFormat(oldList, newList);
 }
 
 export default class Controller extends mixin<ObservableMixin>(ObservableMixin) {
@@ -385,6 +385,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             navigation: this._options.navigation,
 
             parentProperty: this._parentProperty,
+            nodeProperty: this._options.nodeProperty,
             root: this._root,
 
             items: this._items,
