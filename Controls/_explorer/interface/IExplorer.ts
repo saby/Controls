@@ -15,12 +15,12 @@
  */
 
 /**
- * Режим отображения списка
- * @typedef {String} TExplorerViewMode
+ * @typedef {String} Controls/_explorer/interface/IExplorer/TExplorerViewMode
+ * @description Допустимые значения для опции {@link viewMode}.
  * @variant table Таблица.
- * @variant search Режим поиска.
+ * @variant search Поиск.
  * @variant tile Плитка.
- * @variant list Список.
+ * @variant list Плоский список.
  */
 
 /*
@@ -35,7 +35,7 @@ export type TExplorerViewMode = 'table' | 'search' | 'tile' | 'list';
 
 /**
  * @name Controls/_explorer/interface/IExplorer#viewMode
- * @cfg {TExplorerViewMode} Режим отображения списка.
+ * @cfg {Controls/_explorer/interface/IExplorer/TExplorerViewMode.typedef} Режим отображения списка.
  * @demo Controls-demo/Explorer/Explorer
  */
 
@@ -76,7 +76,7 @@ export type TExplorerViewMode = 'table' | 'search' | 'tile' | 'list';
 
 /**
  * @name Controls/_explorer/interface/IExplorer#showActionButton
- * @cfg {Boolean} Определяет, должна ли отображаться стрелка рядом с кнопкой «назад».
+ * @cfg {Boolean} Определяет, должна ли отображаться стрелка рядом с кнопкой "Назад".
  * @default false
  */
 
