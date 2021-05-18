@@ -25,7 +25,7 @@
  * 
  * @example
  * В следующем примере показано, как установить высоту элементов - 200 пикселей.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [3]">
  * <!-- WML -->
  * <Controls.tile:View
  *    tileHeight="{{200}}"
@@ -41,7 +41,7 @@
  * @name Controls/_tile/interface/ITile#itemsContainerPadding
  * @demo Controls-demo/Tile/ItemsContainerPadding/Index
  * @example
- * <pre class="brush: html"> 
+ * <pre class="brush: html; highlight: [4-8]"> 
  * <!-- WML -->
  * <Controls.tile:View source="{{_viewSource}}" imageProperty="image">
  *    <ws:itemsContainerPadding
@@ -64,7 +64,7 @@
  * Если установить высоту с помощью css, компонент не будет отображен корректно.
  * @example
  * В следующем примере показано, как установить минимальную ширину элементов - 300 пикселей.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [3]">
  * <!-- WML -->
  * <Controls.tile:View
  *    tileWidth="{{300}}"
@@ -82,7 +82,7 @@
  * @remark Эта опция необходима для расчета размеров элементов при отрисовке на сервере.
  * Если установить высоту с помощью css, компонент не будет отображен корректно.
  * @example
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [3]">
  * <!-- WML -->
  * <Controls.tile:View
  *    tileWidthProperty="itemWidth"
@@ -100,7 +100,7 @@
  * If you set the height using css, the component cannot be displayed immediately in the correct state.
  * @example
  * The following example shows how to set the height of items to 200 pixels.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [3]">
  * <!-- WML -->
  * <Controls.tile:View
  *    tileWidthProperty="itemWidth"
@@ -126,7 +126,7 @@
  * Если увеличенный элемент не помещается в указанный контейнер, увеличение не происходит.
  * @example
  * В следующем примере показано, как установить режим наведения 'outside'.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [4]">
  * <!-- WML -->
  * <Controls.tile:View
  *    itemsHeight="{{200}}"
@@ -150,7 +150,7 @@
  * If the increased item does not fit in the specified container, the increase does not occur.
  * @example
  * The following example shows how to set the hover mode to 'outside'.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [4]">
  * <!-- WML -->
  * <Controls.tile:View
  *    itemsHeight="{{200}}"
@@ -168,7 +168,7 @@
  * @default image
  * @example
  * В следующем примере показано, как задать поле с изображением 'img'.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [8]">
  * <!-- WML -->
  * <Controls.tile:View
  *    source="{{_viewSource}}"
@@ -189,7 +189,7 @@
  * @demo Controls-demo/tileNew/ImageFit/Index
  * @example
  * В следующем примере показано, как задать поле с высотой'.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [6]">
  * <!-- WML -->
  * <Controls.tile:View
  *    source="{{_viewSource}}"
@@ -211,7 +211,7 @@
  * @demo Controls-demo/tileNew/ImageFit/Index
  * @example
  * В следующем примере показано, как задать поле с шириной'.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [6]">
  * <!-- WML -->
  * <Controls.tile:View
  *    source="{{_viewSource}}"
@@ -232,7 +232,7 @@
  * @default image
  * @example
  * The following example shows how to set the field with the image 'img'.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [6]">
  * <!-- WML -->
  * <Controls.tile:View
  *    source="{{_viewSource}}"
@@ -260,7 +260,7 @@
  * * {@link /doc/platform/developmentapl/interface-development/controls/list/tile/view/width/ руководство разработчика}
  * @example
  * В следующем примере показано, как отобразить плитку с динамической шириной.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [9]">
  * <!-- WML -->
  * <Controls.tile:View
  *    source="{{_viewSource}}"
@@ -285,7 +285,7 @@
  * @variant m
  * @variant l
  * @example
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [6]">
  * <!-- WML -->
  * <Controls.tile:View
  *    source="{{_viewSource}}"
@@ -312,7 +312,7 @@
  * @default showType
  * @remark Динамический расчет применяется только к плиткам.
  * @example
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [5]">
  * <!-- WML -->
  * <Controls.tile:View
  *    source="{{_viewSource}}"
@@ -352,7 +352,7 @@
  * @param {string} baseUrl - url, полученный с записи через imageProperty.
  * @param {Types/entity:Model} - элемент списка, для которого нужно изображение.
  * @example
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [6]">
  * <!-- WML -->
  * <Controls.tile:View
  *    source="{{_viewSource}}"
@@ -384,7 +384,7 @@
  * @see imageHeightProperty
  * @see imageWidthProperty
  * @example
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [5]">
  * <!-- WML -->
  * <Controls.tile:View
  *    source="{{_viewSource}}"

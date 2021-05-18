@@ -338,7 +338,6 @@ export default interface INavigation {
  * <pre class="brush: html">
  * <!-- WML -->
  * <Controls.list:View
- *    keyProperty="id"
  *    source="{{_source}}"
  *    navigation="{{_navigation}}" />
  * </pre>

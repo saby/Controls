@@ -8,8 +8,9 @@
  * @remark
  * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ здесь}.
  * @example
- * <pre class="brush: html">
- * <Controls.grid:View ladderProperties="{{ ['date'] }}">
+ * <pre class="brush: html; highlight: [7-13]">
+ * <!-- WML -->
+ * <Controls.grid:View source="{{_viewSource}}" ladderProperties="{{ ['date'] }}">
  *    <ws:columns>
  *       <ws:Array>
  *          <ws:Object width="1fr">

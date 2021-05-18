@@ -8,8 +8,9 @@
  * @remark
  * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ здесь}.
  * @example
- * <pre class="brush: html; highlight: [3,4,5,6,7,8,9]">
- * <Controls.grid:View>
+ * <pre class="brush: html; highlight: [4-10]">
+ * <!-- WML -->
+ * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
  *    <ws:resultsTemplate>
  *       <ws:partial template="Controls/grid:ResultsTemplate">
  *          <ws:contentTemplate>

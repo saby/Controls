@@ -8,8 +8,9 @@
  * @remark
  * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ здесь}.
  * @example
- * <pre class="brush: html">
- * <Controls.grid:View>
+ * <pre class="brush: html; highlight: [7-12]">
+ * <!-- WML -->
+ * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
  *    <ws:header>
  *       <ws:Array>
  *          <ws:Object>
@@ -34,8 +35,9 @@ export default interface IHeaderContentOptions {
     * В области видимости шаблона доступен объект **column**. Через него можно получить доступ к свойству **config**, которое содержит конфигурацию {@link /docs/js/Controls/grid/IHeaderCell/ ячейки шапки}.
     * @example
     * **Пример 1.** Шаблон и контрол сконфигурированы в одном WML-файле.
-    * <pre class="brush: html">
-    * <Controls.grid:View>
+    * <pre class="brush: html; highlight: [7-11]">
+    * <!-- WML -->
+    * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
     *    <ws:header>
     *       <ws:Array>
     *          <ws:Object>
@@ -55,7 +57,7 @@ export default interface IHeaderContentOptions {
     * **Пример 2.** Контрол и шаблоны сконфигурированы в отдельных WML-файлах.
     * <pre class="brush: html">
     * <!-- file1.wml --> 
-    * <Controls.grid:View>
+    * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
     *    <ws:header>
     *       <ws:Array>
     *          <ws:Object>
@@ -81,7 +83,7 @@ export default interface IHeaderContentOptions {
     * 
     * <pre class="brush: html">
     * <!-- file1.wml --> 
-    * <Controls.grid:View>
+    * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
     *    <ws:header>
     *       <ws:Array>
     *          <ws:Object>

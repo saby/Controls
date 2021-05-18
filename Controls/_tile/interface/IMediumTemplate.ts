@@ -5,9 +5,9 @@
  * @author Михайлов С.Е
  * @see Controls/tile:View
  * @example
- * <pre class="brush: html;">
+ * <pre class="brush: html; highlight: [3-7]">
  * <!-- WML -->
- * <Controls.tile:View>
+ * <Controls.tile:View source="{{_viewSource}}" imageProperty="image">
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/tile:MediumTemplate"
  *                   titleLines="2">

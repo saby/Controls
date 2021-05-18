@@ -11,8 +11,9 @@ import IEditingTemplateOptions from './EditingTemplate';
  * Настройка viewTemplate приоритетнее `value`.
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html; highlight: [5,6,7,8,9,10,11,12]">
- * <Controls.list:View>
+ * <pre class="brush: html; highlight: [6-13]">
+ * <!-- WML -->
+ * <Controls.list:View source="{{_viewSource}}">
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
  *          <ws:contentTemplate>

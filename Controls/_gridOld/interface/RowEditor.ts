@@ -5,8 +5,9 @@
  * @author Авраменко А.С.
  * @see Controls/grid:View#itemTemplate
  * @example
- * <pre class="brush: html">
- * <Controls.grid:View>
+ * <pre class="brush: html; highlight: [4-9]">
+ * <!-- WML -->
+ * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/grid:RowEditor" scope="{{itemTemplate}}">
  *          <div>

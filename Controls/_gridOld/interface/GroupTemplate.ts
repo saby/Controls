@@ -7,8 +7,9 @@
  * @see Controls/interface/IGroupedGrid#groupTemplate
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html">
- * <Controls.grid:View>
+ * <pre class="brush: html; highlight: [3-10]">
+ * <!-- WML -->
+ * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/grid:GroupTemplate" expanderVisible="{{ false }}" scope="{{ groupTemplate }}">
  *          <ws:contentTemplate>
