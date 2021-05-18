@@ -51,7 +51,7 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         }
     }
 
-    getItemType(itemTypeTpl: TTileItem, nodeContentTemplate?: TemplateFunction): TTileItem {
+    getItemType(itemTypeTpl: TTileItem = 'default', nodeContentTemplate?: TemplateFunction): TTileItem {
         let itemType = super.getItemType(itemTypeTpl, nodeContentTemplate);
 
         // Если nodeContentTemplate задан значит, что для узла используется определенныйы itemType
