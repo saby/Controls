@@ -1,4 +1,4 @@
-<div class="controls-PeriodDialog__header controls_datePicker_theme-{{_options.theme}}">
+<div class="controls-PeriodDialog__header controls_datePicker_theme-{{theme}} controls_theme-{{theme}}">
    <!--<div class="controls-PeriodDialog__stateButton-wrapper">-->
       <Controls._datePopup.fakeThemeLoader theme="{{theme}}"/>
     <div if="{{monthStateEnabled}}"
