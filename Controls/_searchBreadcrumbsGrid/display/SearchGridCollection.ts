@@ -7,8 +7,9 @@ import BreadcrumbsItemRow from './BreadcrumbsItemRow';
 import {IOptions as ITreeGridOptions} from 'Controls/_treeGrid/display/TreeGridCollection';
 import TreeGridDataRow from 'Controls/_treeGrid/display/TreeGridDataRow';
 
-interface IOptions<S extends Model, T extends TreeGridDataRow<S>> extends ITreeGridOptions<S, T> {
+export interface IOptions<S extends Model, T extends TreeGridDataRow<S>> extends ITreeGridOptions<S, T> {
    breadCrumbsMode?: 'row' | 'cell';
+   searchBreadCrumbsItemTemplate?: TemplateFunction | string;
 }
 
 export default
@@ -22,7 +23,7 @@ export default
     */
    protected _$dedicatedItemProperty: string;
 
-   protected _$searchBreadcrumbsItemTemplate: TemplateFunction;
+   protected _$searchBreadCrumbsItemTemplate: TemplateFunction;
 
    protected _$colspanBreadcrumbs: boolean;
 
@@ -37,7 +38,7 @@ export default
    }
 
    getSearchBreadcrumbsItemTemplate(): TemplateFunction|string {
-      return this._$searchBreadcrumbsItemTemplate;
+      return this._$searchBreadCrumbsItemTemplate;
    }
 
    createBreadcrumbsItem(options: object): BreadcrumbsItemRow {
@@ -140,7 +141,7 @@ Object.assign(SearchGridCollection.prototype, {
    '[Controls/searchBreadcrumbsGrid:SearchGridCollection]': true,
    _moduleName: 'Controls/searchBreadcrumbsGrid:SearchGridCollection',
    _itemModule: 'Controls/searchBreadcrumbsGrid:SearchGridDataRow',
-   _$searchBreadcrumbsItemTemplate: 'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate',
+   _$searchBreadCrumbsItemTemplate: 'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate',
    _$breadCrumbsMode: 'row',
    _$dedicatedItemProperty: '',
    _$colspanBreadcrumbs: true
