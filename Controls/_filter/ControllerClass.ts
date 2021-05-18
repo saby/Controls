@@ -188,16 +188,20 @@ export default class FilterControllerClass {
     }
 
     handleDataLoad(items: RecordSet): void {
-        if (this._options.historyId && this._isFilterChanged) {
-            if (getHistorySource({ historyId: this._options.historyId,
-                                        favorite: !!this._options.prefetchParams }).historyReady()) {
-                this._deleteCurrentFilterFromHistory();
+        if (this._options.historyId) {
+            if (this._isFilterChanged) {
+                if (getHistorySource({
+                    historyId: this._options.historyId,
+                    favorite: !!this._options.prefetchParams
+                }).historyReady()) {
+                    this._deleteCurrentFilterFromHistory();
+                }
+                this._addToHistory(
+                    this._filterButtonItems,
+                    this._fastFilterItems,
+                    this._options.historyId,
+                    Prefetch.getPrefetchParamsForSave(items));
             }
-            this._addToHistory(
-                this._filterButtonItems,
-                this._fastFilterItems,
-                this._options.historyId,
-                Prefetch.getPrefetchParamsForSave(items));
 
             // Намеренное допущение, что меняем объект по ссылке.
             // Сейчас по-другому не сделать, т.к. контроллер фильтрации находится над
