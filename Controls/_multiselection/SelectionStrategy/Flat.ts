@@ -192,7 +192,8 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
    }
 
    private _canBeSelected(item: ISelectionItem): boolean {
-      return item && item.SelectableItem && !item.isReadonlyCheckbox();
+      // если по ключу не смогли получить запись, то она еще не подгружена, по дефолту считаем, что она не ридонли
+      return !item || item.SelectableItem && !item.isReadonlyCheckbox();
    }
 
    /**
