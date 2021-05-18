@@ -882,6 +882,10 @@ const _private = {
 
                 return addedItems;
             }).addErrback((error: CancelableError) => {
+                if (self._destroyed) {
+                    return;
+                }
+
                 self._loadToDirectionInProgress = false;
                 self._handleLoadToDirection = false;
 
@@ -6531,7 +6535,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _updateHeights(updateItems: boolean = true): void {
-        if (this._scrollController) {
+        if (this._scrollController && this._viewReady) {
             const itemsHeights = getItemsHeightsData(this._getItemsContainer(), true);
             if (updateItems) {
                 this._scrollController.updateItemsHeights(itemsHeights);
