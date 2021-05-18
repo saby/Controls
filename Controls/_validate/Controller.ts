@@ -1,7 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_validate/Controller');
 import ValidateContainer from 'Controls/_validate/Container';
-import ControllerClass from 'Controls/_validate/ControllerClass';
+import {default as ControllerClass, IControllerConfig} from 'Controls/_validate/ControllerClass';
 import IValidateResult from 'Controls/_validate/interfaces/IValidateResult';
 
 /**
@@ -19,10 +19,12 @@ class Form extends Control<IControlOptions> {
     private _validateController: ControllerClass = new ControllerClass();
 
     protected _template: TemplateFunction = template;
+    private _validateConfig: IControllerConfig;
 
     protected _afterUpdate(oldOptions?: IControlOptions, oldContext?: any): void {
         super._afterUpdate(oldOptions, oldContext);
-        this._validateController.resolveSubmit();
+        this._validateController.resolveSubmit(this._validateConfig);
+        this._validateConfig = null;
     }
 
     onValidateCreated(e: Event, control: ValidateContainer): void {
@@ -33,9 +35,10 @@ class Form extends Control<IControlOptions> {
         this._validateController.removeValidator(control);
     }
 
-    submit(): Promise<IValidateResult | Error> {
+    submit(config?: IControllerConfig): Promise<IValidateResult | Error> {
         // Для чего нужен _forceUpdate см внутри метода deferSubmit
         this._forceUpdate();
+        this._validateConfig = config;
         return this._validateController.deferSubmit();
     }
 
@@ -65,8 +68,15 @@ export default Form;
  */
 
 /**
+ * @typedef {Object} ControllerConfig
+ * @property {Boolean} activateInput Определяет, нужно ли активировать невалидное поле после завершения валидации.
+ * По умолчанию: <b>true</b>
+ */
+
+/**
  * Запускает валидацию.
  * @name Controls/_validate/Controller#submit
+ * @cfg {ControllerConfig} Параметры, определяющие поведение при валидации.
  * @function
  * @return {Promise<Controls/_validate/interfaces/IValidateResult>}
  * @example

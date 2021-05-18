@@ -4,6 +4,10 @@ import IValidateResult from 'Controls/_validate/interfaces/IValidateResult';
 import {scrollToElement} from 'Controls/scroll';
 import {delay as runDelayed} from 'Types/function';
 
+export interface IControllerConfig {
+    activateInput?: boolean;
+}
+
 /**
  * Класс, регулирующий валидацию формы.
  * @class Controls/_validate/ControllerClass
@@ -47,14 +51,14 @@ class ControllerClass {
         return this._submitPromise;
     }
 
-    resolveSubmit(): void {
+    resolveSubmit(config?: IControllerConfig): void {
         if (this._submitPromise) {
             const submitResolve = this._submitResolve;
             const submitReject = this._submitReject;
             this._submitResolve = null;
             this._submitReject = null;
             this._submitPromise = null;
-            this.submit()
+            this.submit(config)
                 .then((result: IValidateResult) => {
                     submitResolve(result);
                 })
@@ -64,17 +68,17 @@ class ControllerClass {
         }
     }
 
-    submit(): Promise<IValidateResult | Error> {
+    submit(config: IControllerConfig = {}): Promise<IValidateResult | Error> {
         const validatePromises = [];
 
         // The infobox should be displayed on the first not valid field.
         this._validates.reverse();
-        const config: IValidateConfig = {
+        const containerConfig: IValidateConfig = {
             hideInfoBox: true
         };
         this._validates.forEach((validate: ValidateContainer) => {
             if (!(validate._options && validate._options.readOnly)) {
-                validatePromises.push(validate.validate(config));
+                validatePromises.push(validate.validate(containerConfig));
             }
         });
 
@@ -96,7 +100,9 @@ class ControllerClass {
             }
             if (!!needValid) {
                 results.hasErrors = true;
-                this._activateValidator(needValid);
+                if (config.activateInput !== false) {
+                    this._activateValidator(needValid);
+                }
                 // Если контейнер валидации уже активирован, то повторный вызов activate() не подскроллит к нему
                 this.scrollToInvalidContainer(needValid);
                 runDelayed(() => {
