@@ -291,9 +291,16 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             this._updateItemsLadder();
         }
 
-        [this.getColgroup(), this.getHeader(), this.getResults(), this.getFooter()].forEach((gridUnit) => {
+        [this.getColgroup(), this.getHeader(), this.getResults()].forEach((gridUnit) => {
             gridUnit?.setColumns(newColumns);
         });
+        // todo Переписать по: https://online.sbis.ru/opendoc.html?guid=d86329c7-5c85-4c7f-97c9-791502f6f1dd
+        // Надо сделать так, чтобы у класса Row была опция columnsConfig и она всегда содержит оригинальную колонку,
+        // переданную в опции columns списка.
+        // Также у класса Row должна быть другая опция - columns. Это уже набор колонок, рассчитанный самой коллекцией.
+        // Например, задав columns=[{},{}] и footerTemplate=function(){}, то должен создаваться класс Row с опциями
+        // columnsConfig=[{}, {}] и columns=[{ template: function(){} }].
+        this.getFooter()?.resetColumns();
     }
 
     setLadderProperties(ladderProperties: string[]) {
