@@ -66,4 +66,12 @@ describe('Controls/filterPanel:NumberRangeEditor', () => {
             assert.isTrue(changesNotified);
         });
     });
+
+    describe('_needNotifyChanges', () => {
+        const numberRangeEditor = new NumberRangeEditor({});
+        it('minValue is equal to maxValue', () => {
+            const value = [1, 1];
+            assert.isTrue(numberRangeEditor._needNotifyChanges(value));
+        });
+    });
 });
