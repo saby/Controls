@@ -38,9 +38,9 @@
             </ws:else>
         </ws:itemActionsTpl>
     </ws:partial>
-    <ws:partial if="{{footerTemplate}}"
+    <ws:partial if="{{ (item || itemData).shouldDisplayFooterTemplate(itemType, footerTemplate, 'content') }}"
                 template="{{footerTemplate}}"
-                attr:class="controls-TileView__item_footer"
+                attr:class="{{ (item || itemData).getFooterClasses() }}"
                 itemData="{{(item || itemData)}}"
                 item="{{(item || itemData)}}"/>
 </div>
