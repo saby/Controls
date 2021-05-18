@@ -18,7 +18,9 @@
          </ws:partial>
 
 
-         <ws:partial template="{{ (item || itemData).getContentTemplate((item || itemData).getItemType(itemType, nodeContentTemplate), contentTemplate, nodeContentTemplate) }}" scope="{{_options}}">
+         <ws:partial template="{{ (item || itemData).getContentTemplate((item || itemData).getItemType(itemType, nodeContentTemplate), contentTemplate, nodeContentTemplate) }}"
+                     scope="{{_options}}"
+                     itemType="{{ (item || itemData).getItemType(itemType, nodeContentTemplate) }}">
             <ws:multiSelectTemplate>
                <ws:partial template="{{ multiSelectTpl }}">
                   <ws:templateOptions item="{{ (item || itemData) }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
