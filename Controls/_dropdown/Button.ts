@@ -212,11 +212,17 @@ export default class Button extends BaseDropdown {
     }
 
     openMenu(popupOptions?: IStickyPopupOptions): Promise<any> {
-        return this._openMenu(popupOptions).then((result) => {
-            if (result) {
-                this._onItemClickHandler(result);
+        if (this._calmTimer.isStart()) {
+            if (this._controller.getItems()) {
+                this._onItemClickHandler(this._controller.getItems().at(0));
             }
-        });
+        } else {
+            return this._openMenu(popupOptions).then((result) => {
+                if (result) {
+                    this._onItemClickHandler(result);
+                }
+            });
+        }
     }
 
     protected _onResult(action, data, nativeEvent): void {

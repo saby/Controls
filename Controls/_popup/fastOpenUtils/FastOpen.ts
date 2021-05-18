@@ -1,4 +1,5 @@
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {detection} from 'Env/Env';
 
 const PRELOAD_DEPENDENCIES_HOVER_DELAY = 80;
 
@@ -41,16 +42,24 @@ export class CalmTimer {
         this._closeId = null;
     }
 
+    isStart(): boolean {
+        return !!this._openId;
+    }
+
     /**
      * Выполнение callback, через опеределенный промежуток времени.
      */
     start(): void {
         this.resetTimeOut();
-        const args = arguments;
-        this._openId = setTimeout(() => {
-            this._openId = null;
-            this._callback(...args);
-        }, CALM_DELAY);
+        if (!detection.isMobilePlatform) {
+            const args = arguments;
+            this._openId = setTimeout(() => {
+                this._openId = null;
+                this._callback(...args);
+            }, CALM_DELAY);
+        } else {
+            this._callback(...arguments);
+        }
     }
 
     /**
@@ -59,10 +68,14 @@ export class CalmTimer {
      */
     stop(callback: Function): void {
         clearTimeout(this._openId);
-        this._closeId = setTimeout(() => {
-            this._closeId = null;
+        if (!detection.isMobilePlatform) {
+            this._closeId = setTimeout(() => {
+                this._closeId = null;
+                callback();
+            }, CALM_DELAY);
+        } else {
             callback();
-        }, CALM_DELAY);
+        }
     }
 }
 
