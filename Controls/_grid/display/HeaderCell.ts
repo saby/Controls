@@ -101,6 +101,10 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         } as ICellContentOrientation;
     }
 
+    isLadderCell(): boolean {
+        return this._$isLadderCell;
+    }
+
     isCheckBoxCell(): boolean {
         return !this._$isLadderCell && this._$owner.hasMultiSelectColumn() && this._$owner.getHeaderConfig().indexOf(this._$column) === -1;
     }
