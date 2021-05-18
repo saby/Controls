@@ -204,6 +204,38 @@ describe('Controls/grid_clean/GridView', () => {
         });
     });
 
+    describe('ladder offset style', () => {
+        it('_getLadderTopOffsetStyles', () => {
+            const options = {
+                columns: [{}]
+            };
+            const gridView = new GridView(options);
+            gridView._listModel = {
+                getResultsPosition: () => 'top'
+            };
+            gridView._createGuid = () => 'guid';
+            gridView._container = {
+                getElementsByClassName: (className) => {
+                    if (className === 'controls-Grid__header') {
+                        return [{getComputedStyle: () => '', getBoundingClientRect: () => ({height: 100}) }];
+                    }
+                    if (className === 'controls-Grid__results') {
+                        return [{getComputedStyle: () => '', getBoundingClientRect: () => ({height: 50}) }];
+                    }
+                }
+            };
+            gridView.saveOptions(options);
+            gridView._beforeMount(options)
+            const expectedStyle = '.controls-GridView__ladderOffset-guid .controls-Grid__row-cell__ladder-spacing_withHeader_withResults {' +
+                                    'top: calc(var(--item_line-height_l_grid) + 150px) !important;' +
+                                    '}' +
+                                    '.controls-GridView__ladderOffset-guid .controls-Grid__row-cell__ladder-spacing_withHeader_withResults_withGroup {' +
+                                    'top: calc(var(--item_line-height_l_grid) + var(--grouping_height_list) + 150px) !important;' +
+                                    '}';
+            assert.equal(gridView._getLadderTopOffsetStyles(), expectedStyle);
+        });
+    });
+
     describe('Header', () => {
         it('update header visibility', () => {
             const options = {

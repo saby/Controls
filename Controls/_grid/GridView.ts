@@ -246,14 +246,10 @@ const GridView = ListView.extend({
             resultsHeight = getDimensions(results).height;
         }
         const ladderClass = `controls-Grid__row-cell__ladder-spacing${header ? '_withHeader' : ''}${hasTopResults ? '_withResults' : ''}`;
-        return `.${this._ladderOffsetSelector} .${ladderClass} {
-                   top: calc(var(--item_line-height_l_grid) + ${headerHeight + resultsHeight}px) !important;
-                   height: 0;
-                }
-                .${this._ladderOffsetSelector} .${ladderClass}_withGroup {
-                   top: calc(var(--item_line-height_l_grid) + var(--grouping_height_list) + ${headerHeight + resultsHeight}px) !important;
-                   height: 0;
-                }`;
+        return `.${this._ladderOffsetSelector} .${ladderClass} {` +
+                  `top: calc(var(--item_line-height_l_grid) + ${headerHeight + resultsHeight}px) !important;}` +
+                `.${this._ladderOffsetSelector} .${ladderClass}_withGroup {` +
+                   `top: calc(var(--item_line-height_l_grid) + var(--grouping_height_list) + ${headerHeight + resultsHeight}px) !important;}`;
 
     },
 
