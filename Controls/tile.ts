@@ -25,7 +25,7 @@ import TileCollection from 'Controls/_tile/display/TileCollection';
 import TileCollectionItem from 'Controls/_tile/display/TileCollectionItem';
 import InvisibleTileItem from 'Controls/_tile/display/InvisibleTileItem';
 import Tile from 'Controls/_tile/display/mixins/Tile';
-import TileItem from 'Controls/_tile/display/mixins/TileItem';
+import TileItem, {TTileItem} from 'Controls/_tile/display/mixins/TileItem';
 import InvisibleStrategy, { COUNT_INVISIBLE_ITEMS } from 'Controls/_tile/display/strategies/Invisible';
 import TileView from 'Controls/_tile/TileView';
 import ItemsView from 'Controls/_tile/ItemsView';
@@ -49,6 +49,7 @@ export {
     InvisibleTileItem,
     InvisibleStrategy,
     COUNT_INVISIBLE_ITEMS,
+    TTileItem,
     getImageUrl,
     getImageSize,
     getImageClasses,

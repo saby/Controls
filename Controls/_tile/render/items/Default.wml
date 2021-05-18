@@ -3,22 +3,22 @@
 </ws:if>
 <ws:else>
    <div attr:data-qa="{{(item || itemData).getQAData(marker)}}"
-        attr:class="{{ (item || itemData).getItemClasses(itemType, clickable, hasTitle, cursor, marker, shadowVisibility, border) }}" attr:style="{{ (item || itemData).getItemStyles(itemType, width || itemWidth, staticHeight, imagePosition, imageViewMode) }}">
-      <ws:if data="{{ (item || itemData).shouldDisplayAutoResizer(itemType, staticHeight) }}">
-         <div style="{{ (item || itemData).getAutoResizerStyles(itemType, width || itemWidth, imageProportion, imagePosition, imageViewMode) }}"></div>
+        attr:class="{{ (item || itemData).getItemClasses((item || itemData).getItemType(itemType, nodeContentTemplate), clickable, hasTitle, cursor, marker, shadowVisibility, border) }}" attr:style="{{ (item || itemData).getItemStyles((item || itemData).getItemType(itemType, nodeContentTemplate), width || itemWidth, staticHeight, imagePosition, imageViewMode) }}">
+      <ws:if data="{{ (item || itemData).shouldDisplayAutoResizer((item || itemData).getItemType(itemType, nodeContentTemplate), staticHeight) }}">
+         <div style="{{ (item || itemData).getAutoResizerStyles((item || itemData).getItemType(itemType, nodeContentTemplate), width || itemWidth, imageProportion, imagePosition, imageViewMode) }}"></div>
       </ws:if>
 
-      <div attr:class="{{ (item || itemData).getWrapperClasses(itemType, shadowVisibility, marker, highlightOnHover, backgroundColorStyle, height, border, titleStyle) }}"
-           attr:style="{{ (item || itemData).getWrapperStyles(itemType, nodeContentTemplate) }}">
+      <div attr:class="{{ (item || itemData).getWrapperClasses((item || itemData).getItemType(itemType, nodeContentTemplate), shadowVisibility, marker, highlightOnHover, backgroundColorStyle, height, border, titleStyle) }}"
+           attr:style="{{ (item || itemData).getWrapperStyles((item || itemData).getItemType(itemType, nodeContentTemplate)) }}">
 
          <ws:partial if="{{ (item || itemData).shouldDisplayMultiSelectTemplate() }}"
                      template="{{ multiSelectTpl }}"
-                     attr:style="{{ (item || itemData).getMultiSelectStyles(itemType) }}">
+                     attr:style="{{ (item || itemData).getMultiSelectStyles((item || itemData).getItemType(itemType, nodeContentTemplate)) }}">
             <ws:templateOptions item="{{ (item || itemData) }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
          </ws:partial>
 
 
-         <ws:partial template="{{ (item || itemData).getContentTemplate(itemType, contentTemplate, nodeContentTemplate) }}" scope="{{_options}}">
+         <ws:partial template="{{ (item || itemData).getContentTemplate((item || itemData).getItemType(itemType, nodeContentTemplate), contentTemplate, nodeContentTemplate) }}" scope="{{_options}}">
             <ws:multiSelectTemplate>
                <ws:partial template="{{ multiSelectTpl }}">
                   <ws:templateOptions item="{{ (item || itemData) }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
@@ -26,11 +26,11 @@
             </ws:multiSelectTemplate>
          </ws:partial>
 
-         <ws:partial if="{{ (item || itemData).shouldDisplayItemActions(itemType, itemActionsPosition, 'wrapper') }}"
+         <ws:partial if="{{ (item || itemData).shouldDisplayItemActions((item || itemData).getItemType(itemType, nodeContentTemplate), itemActionsPosition, 'wrapper') }}"
                      template="{{itemActionsTemplate}}"
                      scope="{{_options}}"
-                     actionMode="{{ (item || itemData).getActionMode(itemType) }}"
-                     itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType, itemActionsClass) }}"
+                     actionMode="{{ (item || itemData).getActionMode((item || itemData).getItemType(itemType, nodeContentTemplate)) }}"
+                     itemActionsClass="{{ (item || itemData).getItemActionsClasses((item || itemData).getItemType(itemType, nodeContentTemplate), itemActionsClass) }}"
                      highlightOnHover="{{ highlightOnHover }}"/>
          <ws:partial if="{{ (item || itemData).shouldDisplaySwipeTemplate() }}"
                      template="{{swipeTemplate}}"
@@ -38,7 +38,7 @@
                      item="{{(item || itemData)}}"
                      itemActionsTemplate="{{itemActionsTemplate}}"
                      highlightOnHover="{{ highlightOnHover }}"/>
-         <ws:partial if="{{ (item || itemData).shouldDisplayFooterTemplate(itemType, footerTemplate, 'wrapper') }}"
+         <ws:partial if="{{ (item || itemData).shouldDisplayFooterTemplate((item || itemData).getItemType(itemType, nodeContentTemplate), footerTemplate, 'wrapper') }}"
                      template="{{footerTemplate}}"
                      attr:class="{{ (item || itemData).getFooterClasses() }}"
                      itemData="{{(item || itemData)}}"
