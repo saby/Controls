@@ -84,7 +84,7 @@ export default interface IBaseGroupTemplateOptions {
  * @demo Controls-demo/list_new/Grouped/RightTemplate/Index
  * @markdown
  * @remark
- * В области видимости шаблона доступна переменная **itemData** со следующими свойствами:
+ * В области видимости шаблона доступна переменная **item** со следующими свойствами:
  *
  * * item — идентификатор отрисовываемой группы, полученный из {@link Controls/interface/IGroupedGrid#groupProperty groupProperty}.
  * * {@link Types/collection:RecordSet#metaData metaData} — метаданные рекордсета, который загружен для таблицы.
@@ -100,7 +100,7 @@ export default interface IBaseGroupTemplateOptions {
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/list:GroupTemplate" scope="{{groupTemplate}}">
  *          <ws:rightTemplate>
- *             {{ rightTemplate.itemData.metaData.groupResults[rightTemplate.item.contents] }}
+ *             {{ rightTemplate.item.metaData.groupResults[rightTemplate.item.contents] }}
  *          </ws:rightTemplate>
  *       </ws:partial>
  *    </ws:groupTemplate>
@@ -121,7 +121,7 @@ export default interface IBaseGroupTemplateOptions {
  * <!-- file2.wml -->
  * <ws:partial template="Controls/list:GroupTemplate">
  *    <ws:rightTemplate>
- *       {{ rightTemplate.itemData.metaData.groupResults[rightTemplate.item.contents] }}
+ *       {{ rightTemplate.item.metaData.groupResults[rightTemplate.item.contents] }}
  *    </ws:rightTemplate>
  * </ws:partial>
  * </pre>
@@ -143,7 +143,7 @@ export default interface IBaseGroupTemplateOptions {
  *
  * <pre class="brush: html">
  * <!-- file2.wml -->
- * {{ rightTemplate.itemData.metaData.groupResults[rightTemplate.item.contents] }}
+ * {{ rightTemplate.item.metaData.groupResults[rightTemplate.item.contents] }}
  * </pre>
  */
 /**
@@ -152,7 +152,7 @@ export default interface IBaseGroupTemplateOptions {
  * @default undefined
  * @demo Controls-demo/list_new/Grouped/ContentTemplate/Index
  * @remark
- * В области видимости шаблона доступна переменная **itemData** со следующими свойствами:
+ * В области видимости шаблона доступна переменная **item** со следующими свойствами:
  *
  * * item — идентификатор отрисовываемой группы, полученный из {@link Controls/interface/IGroupedGrid#groupProperty groupProperty}.
  * * {@link Types/collection:RecordSet#metaData metaData} — метаданные рекордсета, который загружен для списка.
@@ -160,7 +160,7 @@ export default interface IBaseGroupTemplateOptions {
  * @example
  * В следующих примерах показано, как изменять опции шаблона для контрола {@link Controls/list:View}, однако то же самое справедливо и для других списочных контролов.
  *
- * В примерах №№ 1, 2 и 3 показано, как получить доступ к переменной itemData из области видимости шаблона.
+ * В примерах №№ 1, 2 и 3 показано, как получить доступ к переменной item из области видимости шаблона.
  *
  * **Пример 1.** Контрол и шаблон groupTemplate настроены в одном WML-файле.
  *
