@@ -4,11 +4,19 @@
         <ws:for data="buttonStyle in _buttonStyles">
             <Controls.buttons:Button caption="{{buttonStyle}}" buttonStyle="{{buttonStyle}}" contrastBackground="{{true}}"/>{{' '}}
         </ws:for>
+        <div class="controls-text-label_theme-{{_options.theme}}">contrastBackground=true viewMode=toolButton</div>
+        <ws:for data="toolButtonStyle in _toolButtonStyles">
+            <Controls.buttons:Button viewMode="toolButton" icon="icon-Author" iconSize="s" buttonStyle="{{toolButtonStyle}}" contrastBackground="{{true}}"/>{{' '}}
+        </ws:for>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">contrastBackground=false</div>
         <ws:for data="buttonStyle in _buttonStyles">
             <Controls.buttons:Button caption="{{buttonStyle}}" buttonStyle="{{buttonStyle}}" contrastBackground="{{false}}"/>{{' '}}
+        </ws:for>
+        <div class="controls-text-label_theme-{{_options.theme}}">contrastBackground=false viewMode=toolButton</div>
+        <ws:for data="toolButtonStyle in _toolButtonStyles">
+            <Controls.buttons:Button viewMode="toolButton" icon="icon-Author" iconSize="s" buttonStyle="{{toolButtonStyle}}" contrastBackground="{{false}}"/>{{' '}}
         </ws:for>
     </div>
 </div>
