@@ -81,6 +81,7 @@
       </ws:if>
       <ws:else data="{{ itemActionsPosition !== 'custom' }}">
          <ws:partial template="{{ itemActionsTemplate }}"
+                     abc="{{debug()}}"
                      itemData="{{ item || itemData }}"
                      itemActionsClass="{{ itemActionsClass }}"
                      highlightOnHover="{{ highlightOnHover }}"/>
@@ -131,7 +132,7 @@
       <ws:for data="column in (item || itemData).getColumns()">
          <div class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover, hoverBackgroundStyle) }}"
               style="{{ column.getWrapperStyles(containerSize) }}">
-            <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
+            <ws:partial bar="{{ debug() }}" template="COLUMN" gridColumn="{{ column }}" highlightOnHover="{{ highlightOnHover }}" />
          </div>
       </ws:for>
    </div>

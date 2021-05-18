@@ -11,7 +11,6 @@
         {{actionMode === 'adaptive' ? 'controls-itemActionsV_adaptive'}}
         {{itemData.itemActionsColumnScrollDraw ? 'controls-itemActionsV_columnScrollDraw'}}"
          on:mouseenter="_onItemActionsMouseEnter(itemData)">
-        ховер: {{highlightOnHover ? 1 : 0}};
         <div attr:class="controls-itemActionsV__wrapper
                         {{actionMode === 'adaptive' ? 'controls-itemActionsV__wrapper_adaptive'}}">
             <ws:partial
@@ -39,10 +38,77 @@
 <!-- TODO moved to Grid/Item.wml after complete task: https://online.sbis.ru/opendoc.html?guid=d473668a-3c9a-43b9-a59c-b994cbf873bd -->
 <ws:if data="{{!!itemActionsContainerStyles}}">
     <div class="controls-itemActionsV__container" style="{{itemActionsContainerStyles}}">
-        <ws:partial template="localItemActionsTemplate"/>
+        <div attr:class="controls_list_theme-{{_options.theme}} controls-itemActionsV
+        js-controls-ListView__visible-on-hoverFreeze
+        {{!editingStyle && (highlightOnHover !== false || itemActionsPosition === 'outside') ? 'controls-itemActionsV_style_' + (style ? style : 'default') }}
+        {{itemData.getItemActionPositionClasses(itemActionsPosition, itemActionsClass, itemData.itemPadding, theme)}}
+        {{itemData.getItemActionClasses(itemActionsPosition, theme, itemData.isLastRow, itemData.rowSeparatorSize)}}
+        {{itemData.isEditing() ? 'controls-itemActionsV_editing' + (editingStyle && editingStyle !== 'default' ? '_' + editingStyle : '')}}
+        {{itemData.isEditing() && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
+        {{itemData.isActive() && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
+        {{itemData.isSwiped() ? 'controls-itemActionsV_swiped'}}
+        {{actionMode === 'adaptive' ? 'controls-itemActionsV_adaptive'}}
+        {{itemData.itemActionsColumnScrollDraw ? 'controls-itemActionsV_columnScrollDraw'}}"
+             on:mouseenter="_onItemActionsMouseEnter(itemData)">
+            <div attr:class="controls-itemActionsV__wrapper
+                        {{actionMode === 'adaptive' ? 'controls-itemActionsV__wrapper_adaptive'}}">
+                <ws:partial
+                        template="wml!Controls/_itemActions/resources/templates/ItemActionsFor"
+                        itemData="{{itemData}}"
+                        getTooltip="{{getTooltip}}"
+                        actionPadding="{{actionPadding}}"
+                        actionStyle="{{actionStyle}}"
+                        actionMode="{{actionMode}}"
+                        highlightOnHover="{{highlightOnHover}}"
+                        iconStyle="{{iconStyle}}"
+                        size="{{size}}"
+                        showedActions="{{showedActions || itemData.getActions().showed}}"/>
+                <ws:if data="{{itemData.isEditing() && toolbarVisibility}}">
+                    <Controls.Container.Async templateName="Controls/editableArea:Buttons">
+                        <ws:partial template="{{content.resolvedTemplate}}"
+                                    attr:class="controls-itemActionsV__wrapper-isEditing"
+                                    on:applyButtonClick="_commitEditActionHandler(itemData.dispItem || itemData)"
+                                    on:closeButtonClick="_cancelEditActionHandler(itemData.dispItem || itemData)"/>
+                    </Controls.Container.Async>
+                </ws:if>
+            </div>
+        </div>
     </div>
 </ws:if>
 <ws:else>
-    2:{{highlightOnHover}};
-    <ws:partial template="localItemActionsTemplate"/>
+<div attr:class="controls_list_theme-{{_options.theme}} controls-itemActionsV
+        js-controls-ListView__visible-on-hoverFreeze
+        {{!editingStyle && (highlightOnHover !== false || itemActionsPosition === 'outside') ? 'controls-itemActionsV_style_' + (style ? style : 'default') }}
+        {{itemData.getItemActionPositionClasses(itemActionsPosition, itemActionsClass, itemData.itemPadding, theme)}}
+        {{itemData.getItemActionClasses(itemActionsPosition, theme, itemData.isLastRow, itemData.rowSeparatorSize)}}
+        {{itemData.isEditing() ? 'controls-itemActionsV_editing' + (editingStyle && editingStyle !== 'default' ? '_' + editingStyle : '')}}
+        {{itemData.isEditing() && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
+        {{itemData.isActive() && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
+        {{itemData.isSwiped() ? 'controls-itemActionsV_swiped'}}
+        {{actionMode === 'adaptive' ? 'controls-itemActionsV_adaptive'}}
+        {{itemData.itemActionsColumnScrollDraw ? 'controls-itemActionsV_columnScrollDraw'}}"
+     on:mouseenter="_onItemActionsMouseEnter(itemData)">
+    <div attr:class="controls-itemActionsV__wrapper
+                        {{actionMode === 'adaptive' ? 'controls-itemActionsV__wrapper_adaptive'}}">
+        <ws:partial
+                template="wml!Controls/_itemActions/resources/templates/ItemActionsFor"
+                itemData="{{itemData}}"
+                getTooltip="{{getTooltip}}"
+                actionPadding="{{actionPadding}}"
+                actionStyle="{{actionStyle}}"
+                actionMode="{{actionMode}}"
+                iconStyle="{{iconStyle}}"
+                highlightOnHover="{{highlightOnHover}}"
+                size="{{size}}"
+                showedActions="{{showedActions || itemData.getActions().showed}}"/>
+        <ws:if data="{{itemData.isEditing() && toolbarVisibility}}">
+            <Controls.Container.Async templateName="Controls/editableArea:Buttons">
+                <ws:partial template="{{content.resolvedTemplate}}"
+                            attr:class="controls-itemActionsV__wrapper-isEditing"
+                            on:applyButtonClick="_commitEditActionHandler(itemData.dispItem || itemData)"
+                            on:closeButtonClick="_cancelEditActionHandler(itemData.dispItem || itemData)"/>
+            </Controls.Container.Async>
+        </ws:if>
+    </div>
+</div>
 </ws:else>

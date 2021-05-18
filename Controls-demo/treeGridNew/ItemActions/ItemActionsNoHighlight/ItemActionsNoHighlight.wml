@@ -1,6 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <div class="controlsDemo__wrapper controlsDemo_wrapper-treeGrid-itemActions-noHighlight-inside demo-treeGridItemActions__inside">
         <h3>Inside</h3>
+        <Controls.toggle:Checkbox value="{{_highlightOnHover}}" on:valueChanged="_valueChanged()" caption="toggle highLightOnHover"/>
         <Controls.treeGrid:View
                 keyProperty="id"
                 source="{{_viewSource}}"
@@ -10,7 +11,7 @@
                 bind:expandedItems="_expandedItems"
                 itemActions="{{_itemActions}}">
             <ws:itemTemplate>
-                <ws:partial template="Controls/treeGrid:ItemTemplate" highlightOnHover="{{_getHighlightOnHover(itemTemplate.item)}}"/>
+                <ws:partial foo="{{ debug()  }}" template="Controls/treeGrid:ItemTemplate" highlightOnHover="{{_highlightOnHover}}"/>
             </ws:itemTemplate>
         </Controls.treeGrid:View>
     </div>

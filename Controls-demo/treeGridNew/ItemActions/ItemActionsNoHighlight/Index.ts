@@ -10,7 +10,7 @@ import { IItemAction } from 'Controls/itemActions';
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _highlightOnHover: boolean;
+    protected _highlightOnHover: boolean = true;
     protected _expandedItems: any[] = [];
     protected _columns: IColumn[] = Gadgets.getColumnsWithFixedWidth().map((cur, i) => {
         // tslint:disable-next-line
@@ -29,6 +29,11 @@ export default class extends Control {
             keyProperty: 'id',
             data: Gadgets.getFlatData()
         });
+    }
+
+    _valueChanged(e, attr) {
+        console.log('МЕНЯЕМ ЗНАЧЕНИЕ', attr);
+        this._highlightOnHover = attr;
     }
 
     protected _getHighlightOnHover(item: Model) {
