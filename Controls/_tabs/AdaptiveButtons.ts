@@ -76,8 +76,8 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
     protected _beforeMount(options?: ITabsAdaptiveButtonsOptions,
                            contexts?: object,
                            receivedState?: IReceivedState): Promise<IReceivedState> | void {
-        if (options.containerWidth === undefined) {
-            Logger.error('Option containerWidth is undefined');
+        if (options.containerWidth === undefined || isNaN(options.containerWidth)) {
+            Logger.error('Не задана обязательная опция containerWidth. Вкладки не будут построены.', this);
         }
         if (receivedState) {
             this._items = receivedState.items;
