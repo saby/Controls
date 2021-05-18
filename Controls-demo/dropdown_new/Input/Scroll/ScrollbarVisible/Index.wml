@@ -3,6 +3,7 @@
       <Controls.dropdown:Selector bind:selectedKeys="_selectedKeys"
                                   dropdownClassName="ControlsDemo-DropdownSelector__scroll"
                                   keyProperty="key"
+                                  attr:class="controlsDemo_dropdown__scrollbarVisible"
                                   displayProperty="title"
                                   source="{{_source}}">
          <ws:menuPopupOptions>
