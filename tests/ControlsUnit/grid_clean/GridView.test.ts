@@ -41,7 +41,7 @@ describe('Controls/grid_clean/GridView', () => {
             mockListViewModel = {
                 subscribe: () => {},
                 setItemPadding: () => {},
-                getDraggableItem: () => undefined
+                isDragging: () => false
             };
             options = { listModel: mockListViewModel };
             gridView = new GridView(options);
@@ -148,7 +148,8 @@ describe('Controls/grid_clean/GridView', () => {
                     getResults: () => fakeResults,
                     subscribe: () => {},
                     setItemPadding: () => {},
-                    getResultsPosition: () => resultsPosition
+                    getResultsPosition: () => resultsPosition,
+                    isDragging: () => false
                 }};
             const grid = new GridView(optionsWithModel);
             await grid._beforeMount(optionsWithModel);
@@ -200,6 +201,13 @@ describe('Controls/grid_clean/GridView', () => {
             const grid = await getGridView();
             const classes = grid._getGridViewClasses(options);
             assert.notInclude(classes, 'controls-GridView__paddingBottom__itemActionsV_outside');
+        });
+
+        it('should contain class when dragging', async () => {
+            const grid = await getGridView();
+            grid._listModel.isDragging = () => true;
+            const classes = grid._getGridViewClasses(options);
+            assert.include(classes, 'controls-Grid_dragging_process');
         });
     });
 

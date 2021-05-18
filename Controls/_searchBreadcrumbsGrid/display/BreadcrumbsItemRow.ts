@@ -147,10 +147,6 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
         this._reinitializeColumns();
     }
 
-    isLastItem(): boolean {
-        return this.getLast().getContents().getKey() === this.getOwner().getLastItem().getKey();
-    }
-
     protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
         return this._$colspanBreadcrumbs ? 'end' : 1;
     }

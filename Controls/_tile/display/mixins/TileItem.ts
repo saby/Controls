@@ -1181,6 +1181,22 @@ export default abstract class TileItem<T extends Model = Model> {
     }
     // endregion RoundBorder
 
+    // region Footer
+
+    shouldDisplayFooterTemplate(itemType: string = 'default', footerTemplate: TemplateFunction, place: 'wrapper'|'content'): boolean {
+        if (!footerTemplate) {
+            return false;
+        }
+
+        return itemType === 'small' && place === 'wrapper' || itemType === 'preview' && place === 'content';
+    }
+
+    getFooterClasses(): string {
+        return 'controls-TileView__item_footer';
+    }
+
+    // endregion Footer
+
     getMultiSelectStyles(itemType: string = 'default'): string {
         let styles = '';
 

@@ -882,6 +882,10 @@ const _private = {
 
                 return addedItems;
             }).addErrback((error: CancelableError) => {
+                if (self._destroyed) {
+                    return;
+                }
+
                 self._loadToDirectionInProgress = false;
                 self._handleLoadToDirection = false;
 
@@ -1747,7 +1751,7 @@ const _private = {
                             } else {
                                 result = self._scrollController.handleAddItems(newItemsIndex, newItems,
                                     newItemsIndex <= collectionStartIndex && self._scrollTop !== 0 ? 'up'
-                                    : (newItemsIndex > collectionStopIndex ? 'down' : ''));
+                                    : (newItemsIndex >= collectionStopIndex ? 'down' : ''));
                             }
                             break;
                         case IObservable.ACTION_MOVE:
@@ -2180,7 +2184,9 @@ const _private = {
                 errorConfig.options.showInDirection = config.templateOptions.showInDirection;
                 errorConfig.options.isPagingVisible = config.templateOptions.isPagingVisible;
             }
-            _private.showError(self, errorConfig);
+            if (errorConfig) {
+                _private.showError(self, errorConfig);
+            }
             return {
                 error: config.error,
                 errorConfig
@@ -4092,6 +4098,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         const navigationChanged = !isEqual(newOptions.navigation, this._options.navigation);
         const searchValueChanged = this._options.searchValue !== newOptions.searchValue;
         const loadStarted = newOptions.loading && !this._options.loading;
+        let updateResult;
         let isItemsResetFromSourceController = false;
 
         this._loadedBySourceController =
@@ -4264,18 +4271,22 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     _private.executeAfterReloadCallbacks(this, this._items, newOptions);
                 }
 
-                if (this._loadedBySourceController && !this._sourceController.getLoadError()) {
-                    if (this._listViewModel) {
-                        this._listViewModel.setHasMoreData(
-                            _private.hasMoreDataInAnyDirection(this, this._sourceController)
-                        );
+                if (this._loadedBySourceController) {
+                    if (!this._sourceController.getLoadError()) {
+                        if (this._listViewModel) {
+                            this._listViewModel.setHasMoreData(
+                                _private.hasMoreDataInAnyDirection(this, this._sourceController)
+                            );
+                        }
+                        if (this.__error) {
+                            _private.hideError(this);
+                        }
+                        _private.resetScrollAfterLoad(this);
+                        _private.resolveIsLoadNeededByNavigationAfterReload(this, newOptions, items);
+                        _private.prepareFooter(this, newOptions, this._sourceController);
+                    } else if (!this.__error) {
+                        updateResult = _private.processError(this, {error: this._sourceController.getLoadError()});
                     }
-                    if (this.__error) {
-                        _private.hideError(this);
-                    }
-                    _private.resetScrollAfterLoad(this);
-                    _private.resolveIsLoadNeededByNavigationAfterReload(this, newOptions, items);
-                    _private.prepareFooter(this, newOptions, this._sourceController);
                 }
             }
         }
@@ -4466,6 +4477,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._spaceBlocked = false;
 
         this._updateBaseControlModel(newOptions);
+        return updateResult;
     }
 
     reloadItem(key: string, readMeta: object, replaceItem: boolean, reloadType: string = 'read'): Promise<Model> {
@@ -6197,6 +6209,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     // endregion remove
 
     _onViewKeyDown(event) {
+        if (event.nativeEvent.altKey) {
+            return;
+        }
         if (!_private.isBlockedForLoading(this._loadingIndicatorState)) {
             const key = event.nativeEvent.keyCode;
             const dontStop = key === 17 // Ctrl
@@ -6531,7 +6546,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _updateHeights(updateItems: boolean = true): void {
-        if (this._scrollController) {
+        if (this._scrollController && this._viewReady) {
             const itemsHeights = getItemsHeightsData(this._getItemsContainer(), true);
             if (updateItems) {
                 this._scrollController.updateItemsHeights(itemsHeights);
