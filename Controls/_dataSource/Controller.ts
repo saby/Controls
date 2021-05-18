@@ -321,7 +321,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
     updateOptions(newOptions: IControllerOptions): boolean {
         const isFilterChanged =
             !isEqual(newOptions.filter, this._options.filter) &&
-            !isEqual(this._filter, newOptions.filter);
+            !isEqual(newOptions.filter, this._filter);
         const isSourceChanged = newOptions.source !== this._options.source;
         const isNavigationChanged = !isEqual(newOptions.navigation, this._options.navigation);
         const rootChanged =
