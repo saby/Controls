@@ -630,7 +630,7 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
          const selection = { selected: [2], excluded: [] };
          const res = strategy.getCount(selection, false);
-         assert.equal(res, 2);
+         assert.equal(res, 3);
       });
    });
 

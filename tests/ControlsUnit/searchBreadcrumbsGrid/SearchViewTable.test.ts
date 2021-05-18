@@ -2,7 +2,10 @@ import SearchViewTable from 'Controls/_searchBreadcrumbsGrid/SearchViewTable';
 import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
 
 describe('Controls/_searchBreadcrumbsGrid/SearchViewTable', () => {
-    const searchView = new SearchViewTable({});
+    const searchView = new SearchViewTable();
+    searchView._listModel = {
+        isDragging: () => false
+    };
 
     it('_getGridViewClasses', () => {
         const result = searchView._getGridViewClasses({});
