@@ -1,4 +1,5 @@
-import {Control, IControlOptions, TemplateFunction } from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+
 import {
     IFontColorStyle,
     IFontColorStyleOptions,
@@ -6,10 +7,12 @@ import {
     IFontSizeOptions,
     IFontWeight,
     IFontWeightOptions
-} from "Controls/interface";
+} from 'Controls/interface';
+
 import {date} from 'Types/formatter';
 
 import * as template from 'wml!Controls/_decorator/Date/Date';
+
 import 'css!Controls/decorator';
 
 export interface IDateOptions extends IControlOptions, IFontColorStyleOptions, IFontWeightOptions, IFontSizeOptions {
@@ -45,13 +48,13 @@ export interface IDateOptions extends IControlOptions, IFontColorStyleOptions, I
  * @author Сиряков М.К.
  */
 class DateDecorator extends Control<IDateOptions> implements IFontColorStyle, IFontSize, IFontWeight {
-    private _formattedDate: string;
+    protected _template: TemplateFunction = template;
 
     readonly '[Controls/_interface/IFontColorStyle]': boolean = true;
     readonly '[Controls/_interface/IFontSize]': boolean = true;
     readonly '[Controls/_interface/IFontWeight]': boolean = true;
 
-    protected _template: TemplateFunction = template;
+    private _formattedDate: string;
 
     protected _beforeMount(options: IDateOptions): void {
         this._formattedDate = this._formatDate(options);

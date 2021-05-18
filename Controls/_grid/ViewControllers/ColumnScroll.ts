@@ -186,6 +186,12 @@ export default class ColumnScroll {
                 resolvePromise({status});
             }
         };
+        const updateScrollBar = () => {
+            if (this._scrollBar) {
+                this._scrollBar.recalcSizes();
+                this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
+            }
+        };
 
         if (needBySize) {
             if (!this._columnScroll) {
@@ -199,8 +205,7 @@ export default class ColumnScroll {
                             scrollLength: this._columnScroll.getScrollLength(),
                             scrollPosition: this._columnScroll.getScrollPosition()
                         });
-                        this._scrollBar.recalcSizes();
-                        this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
+                        updateScrollBar();
                         resolve('created');
                     }, true);
             } else {
@@ -238,8 +243,7 @@ export default class ColumnScroll {
                             resolve('actual');
                         }
                     }
-                    this._scrollBar.recalcSizes();
-                    this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
+                    updateScrollBar();
             }
         } else {
             if (!this._columnScroll) {
@@ -306,6 +310,9 @@ export default class ColumnScroll {
             stickyLadderCellsCount: this._options.stickyLadderCellsCount,
             isEmptyTemplateShown: options.needShowEmptyTemplate,
             getFixedPartWidth: () => {
+                if (!options.containers.header) {
+                    return 0;
+                }
                 // Находим последнюю фиксированную ячейку заголовка / результата
                 const fixedElements = options.containers.header.querySelectorAll(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`);
                 const lastFixedCell = fixedElements[fixedElements.length - 1] as HTMLElement;

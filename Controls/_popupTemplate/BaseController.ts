@@ -248,7 +248,7 @@ abstract class BaseController {
 
     private static rootContainers = {};
 
-    static getRootContainerCoords(item: IPopupItem, baseRootSelector: string): IPopupPosition | void {
+    static getRootContainerCoords(item: IPopupItem, baseRootSelector: string, rightOffset?: number): IPopupPosition | void {
         const getRestrictiveContainer = (popupItem: IPopupItem) => {
             if (popupItem.popupOptions.restrictiveContainer) {
                 return popupItem.popupOptions.restrictiveContainer;
@@ -269,8 +269,13 @@ abstract class BaseController {
         const bodySelector = 'body';
         const getCoords = (container) => {
             if (container) {
-                const coordsByContainer = BaseController.getCoordsByContainer(container);
+                let coordsByContainer = BaseController.getCoordsByContainer(container);
                 if (coordsByContainer) {
+                    coordsByContainer = {...coordsByContainer};
+                    if (rightOffset) {
+                        coordsByContainer.width -= rightOffset;
+                        coordsByContainer.right -= rightOffset;
+                    }
                     return coordsByContainer;
                 }
             }

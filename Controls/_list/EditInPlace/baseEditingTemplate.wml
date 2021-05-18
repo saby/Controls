@@ -1,4 +1,4 @@
-<div class="controls-EditingTemplateText__editorWrapper controls-EditingTemplateText__editorWrapper_align_{{ align ? align : 'left'}}">
+<div class="controls-EditingTemplateText__editorWrapper controls-EditingTemplateText__editorWrapper_align_{{ align ? align : 'left'}} controls_list_theme-{{_options.theme}}">
     <ws:if data="{{itemData && itemData.isEditing()}}">
         <ws:partial attr:class="controls-EditingTemplateText__editor" template="{{editorTemplate}}" />
     </ws:if>

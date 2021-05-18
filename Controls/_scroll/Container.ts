@@ -134,7 +134,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const hasBottomHeaders = (): boolean => {
             const headers = Object.values(this._stickyHeaderController._headers);
             for (let i = 0; i < headers.length; i++) {
-                if (headers[i].position === POSITION.BOTTOM) {
+                if (headers[i].position === POSITION.BOTTOM || headers[i].position === POSITION.RIGHT) {
                     return true;
                 }
             }
@@ -278,8 +278,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
             this._stickyHeaderController.setCanScroll(this._scrollModel.canVerticalScroll);
             this._stickyHeaderController.setShadowVisibility(
-                this._shadows.top.getStickyHeadersShadowsVisibility(),
-                this._shadows.bottom.getStickyHeadersShadowsVisibility());
+                this._shadows.top?.getStickyHeadersShadowsVisibility(),
+                this._shadows.bottom?.getStickyHeadersShadowsVisibility());
 
             this._updateScrollContainerPaigingSccClass(this._options);
         }
@@ -348,8 +348,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             this._initHeaderController();
         }
         this._stickyHeaderController.setShadowVisibility(
-                this._shadows.top.getStickyHeadersShadowsVisibility(),
-                this._shadows.bottom.getStickyHeadersShadowsVisibility());
+                this._shadows.top?.getStickyHeadersShadowsVisibility(),
+                this._shadows.bottom?.getStickyHeadersShadowsVisibility());
 
         this._updateStateAndGenerateEvents(this._scrollModel);
     }
@@ -544,7 +544,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         if (this._isOptimizeShadowEnabled) {
             style += `controls-Scroll__backgroundShadow ` +
                 `controls-Scroll__background-Shadow_style-${opts.backgroundStyle}_theme-${opts.theme} ` +
-                `controls-Scroll__background-Shadow_top-${this._shadows.top.isVisibleShadowOnCSS}_bottom-${this._shadows.bottom.isVisibleShadowOnCSS}_style-${opts.shadowStyle}_theme-${opts.theme}`;
+                `controls-Scroll__background-Shadow_top-${this._shadows.top?.isVisibleShadowOnCSS}_bottom-${this._shadows.bottom?.isVisibleShadowOnCSS}_style-${opts.shadowStyle}_theme-${opts.theme}`;
         }
         return style;
     }
@@ -565,8 +565,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             this._shadows.updateScrollState(this._scrollModel, false);
         }
         this._stickyHeaderController.setShadowVisibility(
-            this._shadows.top.getStickyHeadersShadowsVisibility(),
-            this._shadows.bottom.getStickyHeadersShadowsVisibility());
+            this._shadows.top?.getStickyHeadersShadowsVisibility(),
+            this._shadows.bottom?.getStickyHeadersShadowsVisibility());
         const needUpdate = this._wasMouseEnter || this._options.shadowMode === SHADOW_MODE.JS;
         this._shadows.setStickyFixed(
             this._stickyHeaderController.hasFixed(POSITION.TOP) && this._stickyHeaderController.hasShadowVisible(POSITION.TOP),
@@ -590,7 +590,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         // Синхронно Посчитаем и обновим информацию о фиксации заголовков только если известно,
         // что надо отображать тень сверху. Что бы лишний раз не лазить в дом, в других сценариях,
         // состояние заголовков обновится асинхронно по срабатыванию IntersectionObserver.
-        this._stickyHeaderController.registerHandler(event, data, register, this._shadows.top.isVisible, this._options.syncDomOptimization);
+        this._stickyHeaderController.registerHandler(event, data, register, this._shadows.top?.isVisible, this._options.syncDomOptimization);
     }
 
     protected _headersResizeHandler(): void {
@@ -709,6 +709,16 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
  * @name Controls/_scroll/Container#shadowStyle
  * @cfg {String} Определяет постфикс у класса тени
  * @default default
+ */
+
+/**
+ * @name Controls/_scroll/Container#scrollMode
+ * @cfg {String} Определяет направление скроллирования
+ * @demo Controls-demo\Scroll\ScrollMode\Index
+ * @default vertical
+ * @variant vertical Скроллирование по вертикали
+ * @variant horizontal Скроллирование по горизонтали
+ * @variant verticalHorizontal Скроллирование по вертикали и по горизонтали
  */
 
 Object.defineProperty(Container, 'defaultProps', {

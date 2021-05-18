@@ -49,6 +49,31 @@ export default class extends Control {
             ],
             keyProperty: 'id'
         });
+        this._items3 = new RecordSet({
+            rawData: [
+                {
+                    id: '1',
+                    icon: 'icon-Admin2'
+                },
+                {
+                    id: '2',
+                    icon: 'icon-AdminInfo'
+                },
+                {
+                    id: '3',
+                    icon: 'icon-Android'
+                },
+                {
+                    id: '4',
+                    icon: 'icon-AreaGeom'
+                },
+                {
+                    id: '5',
+                    icon: 'icon-AutoTuning'
+                }
+            ],
+            keyProperty: 'id'
+        });
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];

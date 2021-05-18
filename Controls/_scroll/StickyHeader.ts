@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {isStickySupport} from 'Controls/_scroll/StickyHeader/Utils';
+import {isStickySupport, POSITION} from 'Controls/_scroll/StickyHeader/Utils';
 import {Logger} from 'UI/Utils';
 import {constants, detection} from 'Env/Env';
 import {descriptor} from 'Types/entity';
@@ -21,9 +21,9 @@ import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {IScrollState} from '../Utils/ScrollState';
 import {SCROLL_POSITION} from './Utils/Scroll';
 import {IntersectionObserver} from 'Controls/sizeUtils';
+import {EventUtils} from 'UI/Events';
 import Model = require('Controls/_scroll/StickyHeader/Model');
 import template = require('wml!Controls/_scroll/StickyHeader/StickyHeader');
-import {EventUtils} from 'UI/Events';
 
 export enum BACKGROUND_STYLE {
     TRANSPARENT = 'transparent',
@@ -38,6 +38,7 @@ export interface IStickyHeaderOptions extends IControlOptions {
     shadowVisibility: SHADOW_VISIBILITY;
     backgroundStyle: string;
     offsetTop: number;
+    offsetLeft: number;
 }
 
 interface IResizeObserver {
@@ -106,7 +107,9 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     };
     private _stickyHeadersHeight: IOffset = {
         top: null,
-        bottom: null
+        bottom: null,
+        left: null,
+        right: null
     };
 
     private _index: number = getNextId();
@@ -341,8 +344,16 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return this._height;
     }
 
+    get width(): number {
+        return this._container.offsetWidth;
+    }
+
     get offsetTop(): number {
-        return this._options.offsetTop
+        return this._options.offsetTop;
+    }
+
+    get offsetLeft(): number {
+        return this._options.offsetLeft;
     }
 
     get top(): number {
@@ -382,6 +393,30 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         }
     }
 
+    get left(): number {
+        return this._stickyHeadersHeight.left;
+    }
+
+    set left(value: number): number {
+        if (this._stickyHeadersHeight.left !== value) {
+            this._initialized = true;
+            this._stickyHeadersHeight.left = value;
+            this._updateStylesIfCanScroll();
+        }
+    }
+
+    get right(): number {
+        return this._stickyHeadersHeight.right;
+    }
+
+    set right(value: number): number {
+        if (this._stickyHeadersHeight.right !== value) {
+            this._initialized = true;
+            this._stickyHeadersHeight.right = value;
+            this._updateStylesIfCanScroll();
+        }
+    }
+
     setSyncDomOptimization(value: boolean): void {
         this._syncDomOptimization = value;
     }
@@ -412,17 +447,26 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
         const isInitializing = Object.keys(oldScrollState).length === 0;
         // Если нет скролла, то и заголовки незачем обновлять
-        if (isInitializing || !scrollState.canVerticalScroll) {
+        if (isInitializing || !scrollState.canVerticalScroll && !scrollState.canHorizontalScroll) {
             return;
         }
 
-        if (scrollState.canVerticalScroll !== this._scrollState.canVerticalScroll) {
+        if ((this._options.position === 'top' || this._options.position === 'bottom' ||
+            this._options.position === 'topbottom') &&
+            scrollState.canVerticalScroll !== this._scrollState.canVerticalScroll) {
             changed = true;
         }
-        this._canScroll = scrollState.canVerticalScroll;
+
+        if ((this._options.position === 'left' || this._options.position === 'right' ||
+            this._options.position === 'leftright') &&
+            scrollState.canHorizontalScroll !== this._scrollState.canHorizontalScroll) {
+            changed = true;
+        }
+        this._canScroll = scrollState.canVerticalScroll || scrollState.canHorizontalScroll;
         this._negativeScrollTop = scrollState.scrollTop < 0;
 
         if (this._scrollState.verticalPosition !== scrollState.verticalPosition ||
+            this._scrollState.horizontalPosition !== scrollState.horizontalPosition ||
             this._scrollState.hasUnrenderedContent.top !== scrollState.hasUnrenderedContent.top ||
             this._scrollState.hasUnrenderedContent.bottom !== scrollState.hasUnrenderedContent.bottom) {
             changed = true;
@@ -593,7 +637,9 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             offset: number = 0,
             container: HTMLElement,
             top: number,
+            left: number,
             bottom: number,
+            right: number,
             fixedPosition: POSITION,
             styles: CSSStyleDeclaration,
             style: string = '',
@@ -618,6 +664,16 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (positionFromOptions.indexOf(POSITION.bottom) !== -1 && this._stickyHeadersHeight.bottom !== null) {
             bottom = this._stickyHeadersHeight.bottom;
             style += 'bottom: ' + (bottom - offset) + 'px;';
+        }
+
+        if (positionFromOptions.indexOf(POSITION.left) !== -1 && this._stickyHeadersHeight.left !== null) {
+            left = this._stickyHeadersHeight.left;
+            style += 'left: ' + (left) + 'px;';
+        }
+
+        if (positionFromOptions.indexOf(POSITION.right) !== -1 && this._stickyHeadersHeight.right !== null) {
+            right = this._stickyHeadersHeight.right;
+            style += 'right: ' + (right) + 'px;';
         }
 
         // На IOS чтобы избежать дерганий скролла при достижении нижней или верхей границы, требуется
@@ -822,14 +878,14 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
     static getDefaultOptions(): IStickyHeaderOptions {
         return {
-            //TODO: https://online.sbis.ru/opendoc.html?guid=a5acb7b5-dce5-44e6-aa7a-246a48612516
             fixedZIndex: 2,
             zIndex: undefined,
             shadowVisibility: SHADOW_VISIBILITY.visible,
             backgroundStyle: BACKGROUND_STYLE.DEFAULT,
             mode: MODE.replaceable,
             position: POSITION.top,
-            offsetTop: 0
+            offsetTop: 0,
+            offsetLeft: 0
         };
     }
 
@@ -850,7 +906,10 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             position: descriptor(String).oneOf([
                 'top',
                 'bottom',
-                'topbottom'
+                'topbottom',
+                'left',
+                'right',
+                'leftright'
             ])
         };
     }
@@ -908,9 +967,13 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 /**
  * @name Controls/_scroll/StickyHeader#position
  * @cfg {String} Определяет позицию прилипания.
+ * @demo Controls-demo\Scroll\StickyHeader\Position\Index
  * @variant top Прилипание к верхнему краю.
  * @variant bottom Прилипание к нижнему краю.
  * @variant topbottom Прилипание к верхнему и нижнему краю.
+ * @variant left Прилипание к левому краюю.
+ * @variant right Прилипание к правому краю.
+ * @variant leftright Прилипание к левому краюю и к правому краю.
  * @default top
  */
 
@@ -937,7 +1000,13 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
 /**
  * @name Controls/_scroll/StickyHeader#offsetTop
- * @cfg {Number} Определяет смещение позиции прилипания относитильно позиции прилипания по умолчанию
+ * @cfg {Number} Определяет смещение позиции прилипания вниз относитильно позиции прилипания по умолчанию
+ * @default 0
+ */
+
+/**
+ * @name Controls/_scroll/StickyHeader#offsetLeft
+ * @cfg {Number} Определяет смещение позиции прилипания вправо относитильно позиции прилипания по умолчанию
  * @default 0
  */
 

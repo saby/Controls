@@ -1,4 +1,4 @@
-<div class="controls-TileView__itemActions_menu">
+<div class="controls-TileView__itemActions_menu controls_list_theme-{{_options.theme}}">
    <Controls.Container.Async
       templateName="Controls/popupTemplate:Sticky">
       <ws:partial

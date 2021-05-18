@@ -4,32 +4,52 @@ import getRecordSet from './getRecordSet';
 import BreadcrumbsItemCell from 'Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemCell';
 import {Model} from 'Types/entity';
 import { RecordSet } from 'Types/collection';
+import {IOptions} from 'Controls/_searchBreadcrumbsGrid/display/SearchGridCollection';
 
 describe('Controls/_searchBreadcrumbsGrid/display/SearchGridCollection', () => {
-   const searchGridCollection = new SearchGridCollection({
-      collection: getRecordSet(),
-      root: null,
-      keyProperty: 'id',
-      parentProperty: 'parent',
-      nodeProperty: 'node',
-      displayProperty: 'collection display property',
-      breadCrumbsMode: 'cell',
-      columns: [{
-         displayProperty: 'title',
-         width: '300px',
-         template: 'wml!template1'
-      }, {
-         displayProperty: 'taxBase',
-         width: '200px',
-         template: 'wml!template1'
-      }]
-   });
+   function createCollectionForTest(options?: IOptions): SearchGridCollection {
+      const defaultOptions = {
+         collection: getRecordSet(),
+         root: null,
+         keyProperty: 'id',
+         parentProperty: 'parent',
+         nodeProperty: 'node',
+         displayProperty: 'collection display property',
+         breadCrumbsMode: 'cell',
+         columns: [{
+            displayProperty: 'title',
+            width: '300px',
+            template: 'wml!template1'
+         }, {
+            displayProperty: 'taxBase',
+            width: '200px',
+            template: 'wml!template1'
+         }]
+      };
+
+      return new SearchGridCollection({
+         ...defaultOptions,
+         ...options
+      });
+   }
+
+   const searchGridCollection = createCollectionForTest();
 
    describe('getSearchBreadcrumbsItemTemplate', () => {
       it('return default value', () => {
          assert.equal(
             searchGridCollection.getSearchBreadcrumbsItemTemplate(),
             'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate'
+         );
+      });
+
+      it('return custom value', () => {
+         const searchBreadCrumbsItemTemplate = 'custom search breadcrumbs item template';
+         const collection = createCollectionForTest({searchBreadCrumbsItemTemplate});
+
+         assert.equal(
+             collection.getSearchBreadcrumbsItemTemplate(),
+             searchBreadCrumbsItemTemplate
          );
       });
    });
@@ -55,6 +75,17 @@ describe('Controls/_searchBreadcrumbsGrid/display/SearchGridCollection', () => {
          const breadcrumbsCell = item.getColumns()[0] as BreadcrumbsItemCell<Model, BreadcrumbsItemRow>;
          // Проверяем что опция breadCrumbsMode прокинулась из родительской коллекции до ячейки
          assert.equal('cell', breadcrumbsCell.getBreadCrumbsMode());
+      });
+
+      it('searchBreadCrumbsItemTemplate', () => {
+         const searchBreadCrumbsItemTemplate = 'custom search breadcrumbs item template';
+         const collection = createCollectionForTest({searchBreadCrumbsItemTemplate});
+
+         const item = collection.at(0) as unknown as BreadcrumbsItemRow;
+         assert.instanceOf(item, BreadcrumbsItemRow);
+
+         const breadcrumbsCell = item.getColumns()[0];
+         assert.equal(breadcrumbsCell.getTemplate(), searchBreadCrumbsItemTemplate);
       });
    });
 
