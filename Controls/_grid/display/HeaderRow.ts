@@ -149,10 +149,15 @@ export default class HeaderRow<T> extends Row<T> {
                 ...column,
                 columnSeparatorSize: this._getHeaderColumnSeparatorSize(column, columnIndex)
             } as IColumn;
+
+            const prevColumnIndex = columnIndex - (
+                columnIndex > 1 && this._$header[columnIndex - 1].startColumn === column.startColumn ? 2 : 1);
+
             const previousColumn: IColumn = {
-                ...this._$header[columnIndex - 1],
-                columnSeparatorSize: this._getHeaderColumnSeparatorSize(this._$header[columnIndex - 1], columnIndex - 1)
+                ...this._$header[prevColumnIndex],
+                columnSeparatorSize: this._getHeaderColumnSeparatorSize(this._$header[prevColumnIndex], prevColumnIndex)
             } as IColumn;
+
             return this._resolveColumnSeparatorSize(currentColumn, previousColumn);
         }
         return null;
