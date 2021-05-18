@@ -921,6 +921,15 @@
    }
 }
 
+.ws-is-firefox .controls-Grid__itemAction__emptyContainer > * {
+   // Баг в FireFox.
+   // В шапку, подвал и другие части грида(кроме строк данных) добавляется фейковая ячейка под операции над записью.
+   // Если эта ячейка обернута в стики шапку, то минимальный scrollWidth у ячейки - 1px.
+   // Так происходит из-за вложенного элемента с position: absolute, left: 1px и заданной высотой.
+   // Demo: https://jsfiddle.net/Razevel/3ezr9ouj/
+   display: none;
+}
+
 .controls-Grid__cell_header-content_border-bottom {
    border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
 }
