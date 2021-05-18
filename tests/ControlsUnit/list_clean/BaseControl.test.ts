@@ -142,10 +142,21 @@ describe('Controls/list_clean/BaseControl', () => {
         });
         it('skip event if altKey', () => {
             const eventAlt = { nativeEvent: { altKey: true, keyCode: 40} };
-            const event = { nativeEvent: { altKey: false, keyCode: 40}, stopImmediatePropagation: () => null };
+            const event = {
+                nativeEvent: {
+                    altKey: false,
+                    keyCode: 40
+                },
+                stopImmediatePropagation: () => null,
+                target: {
+                    closest: () => {
+                        return true;
+                    }
+                }
+            };
             const sandbox = sinon.createSandbox();
             let keyDownDownCalled = false;
-            sandbox.stub(baseControl, 'keyDownDown').callsFake(() => {
+            sandbox.stub(BaseControl._private, 'keyDownDown').callsFake(() => {
                 keyDownDownCalled = true;
             });
             baseControl.handleKeyDown(eventAlt);
