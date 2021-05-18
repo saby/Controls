@@ -32,13 +32,14 @@ export default interface ITreeGrid {
  * <pre class="brush: html">
  * <!-- WML -->
  * <Controls.treeGrid:View
- *    source: {{_source}}
+ *    source="{{_source}}"
  *    nodeProperty="{{parent@}}"
  *    parentProperty="{{parent}}"
  *    nodeTypeProperty="customNodeType"/>
  * </pre>
  *
  * <pre class="brush: js">
+ * // TypeScript
  * class MyControl extends Control<IControlOptions> {
  *    _source: new RecordSet({
  *        rawData: [

@@ -81,17 +81,10 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * @name Controls/_list/interface/IList#loadingIndicatorTemplate
  * @cfg {String|TemplateFunction} Определяет шаблон индикатора загрузки данных. В данный момент этот шаблон работает только для индикатора, который отображается при подгрузке по скролу.
  * @default Controls/list:LoadingIndicatorTemplate
- */
-
-/**
- * @name Controls/_list/interface/IList#continueSearchTemplate
- * @cfg {String|TemplateFunction} Шаблон отображения блока, который отображается при прерывании {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/portion-loading/#batch-filtration-search итеративного поиска}.
- * @default Controls/list:ContinueSearchTemplate
- * @demo Controls-demo/list_new/Searching/PortionedSearch/Index
  * @example
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [3-10]">
  * <!-- WML -->
- * <Controls.list:View>
+ * <Controls.list:View source="{{_viewSource}}">
  *     <ws:loadingIndicatorTemplate>
  *         <ws:partial template="Controls/list:ContinueSearchTemplate"
  *                     scope="{{loadingIndicatorTemplate}}">
@@ -105,14 +98,21 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
+ * @name Controls/_list/interface/IList#continueSearchTemplate
+ * @cfg {String|TemplateFunction} Шаблон отображения блока, который отображается при прерывании {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/portion-loading/#batch-filtration-search итеративного поиска}.
+ * @default Controls/list:ContinueSearchTemplate
+ * @demo Controls-demo/list_new/Searching/PortionedSearch/Index
+ */
+
+/**
  * @name Controls/_list/interface/IList#emptyTemplate
  * @cfg {TemplateFunction|String} Пользовательский шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty/ пустого списка}.
  * @demo Controls-demo/list_new/EmptyList/Default/Index
  * @default undefined
  * @example
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [3-7]">
  * <!-- WML -->
- * <Controls.list:View>
+ * <Controls.list:View source="{{_viewSource}}">
  *     <ws:emptyTemplate>
  *         <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
  *             <ws:contentTemplate>Нет данных</ws:contentTemplate>
@@ -136,7 +136,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * @demo Controls-demo/list_new/EmptyList/Default/Index
  * @example
  * <pre>
- *    <Controls.list:View>
+ *    <Controls.list:View source="{{_viewSource}}">
  *       <ws:emptyTemplate>
  *          <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
  *             <ws:contentTemplate>Нет данных</ws:contentTemplate>
@@ -312,12 +312,16 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * @name Controls/_list/interface/IList#itemsReadyCallback
  * @cfg {Function} Функция, которая вызывается, когда экземпляр данных получен из источника и подготовлен к дальнейшей обработке контролом.
  * Функция вызывается единожды в рамках {@link /doc/platform/developmentapl/interface-development/ui-library/control/#life-cycle-phases жизненного цикла} на этапе mount.
+ * @markdown
  * @remark
  * Единственный аргумент функции — **items** с типом данных {@link Types/collection:RecordSet}, где содержатся загруженные данные.
  * @example
  * В качестве примера используем функцию для того, чтобы сохранить ссылку на items, чтобы иметь возможноcть изменять items далее.
- * <pre class="brush:html">
- * <Controls.list:View itemsReadyCallback="{{_myItemsReadyCallback}}" />
+ * <pre class="brush: html; highlight: [4]">
+ * <!-- WML -->
+ * <Controls.list:View
+ *    source="{{_viewSource}}"
+ *    itemsReadyCallback="{{_myItemsReadyCallback}}" />
  * </pre>
  * <pre class="brush:js">
  * _myItemsReadyCallback = function(items) {
@@ -337,13 +341,18 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * @name Controls/_list/interface/IList#dataLoadCallback
  * @cfg {Function} Функция, которая вызывается каждый раз непосредственно после загрузки данных из источника контрола.
  * Функцию можно использовать для изменения данных еще до того, как они будут отображены в контроле.
+ * @markdown
  * @remark
  * Единственный аргумент функции — **items** с типом данных {@link Types/collection:RecordSet}, где содержатся загруженные данные.
  * @example
- * <pre class="brush:html">
- * <Controls.list:View dataLoadCallback="{{_myDataLoadCallback}}" />
+ * <pre class="brush: html; highlight: [4]">
+ * <!-- WML -->
+ * <Controls.list:View
+ *    source="{{_viewSource}}"
+ *    dataLoadCallback="{{_myDataLoadCallback}}" />
  * </pre>
  * <pre class="brush:js">
+ * // TypeScript
  * _myDataLoadCallback = function(items) {
  *    items.each(function(item) {
  *       item.set(field, value);
@@ -677,10 +686,9 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * @remark
  * По умолчанию подсветка соответствует @background-color. Поддерживаются любые произвольные значения опции.
  * @example
- * <pre class="brush: html; highlight: [5]">
+ * <pre class="brush: html; highlight: [4]">
  * <!-- WML -->
  * <Controls.list:View
- *    keyProperty="id"
  *    source="{{_viewSource}}"
  *    hoverBackgroundStyle="primary" />
  * </pre>
