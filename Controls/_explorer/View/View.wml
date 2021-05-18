@@ -34,6 +34,7 @@
                                           itemTemplate="{{_viewMode==='tile' ? _options.tileItemTemplate : _itemTemplate}}"
                                           groupTemplate="{{_viewMode==='tile' ? _options.tileGroupTemplate : _groupTemplate}}"
                                           disableVirtualScroll="{{_viewMode==='tile'}}"
+                                          plainItemsContainer="{{!(_options.useColumns && _viewMode === 'list')}}"
                                           dragControlId="{{ _dragControlId }}"
                                           canStartDragNDrop="{{ _canStartDragNDrop }}"
                                           markerVisibility="{{ _options.markerVisibility }}"

@@ -4696,7 +4696,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
             let itemsUpdated = false;
             if (this._listViewModel && !this._modelRecreated && this._viewReady) {
-                itemsUpdated = this._scrollController.updateItemsHeights(getItemsHeightsData(this._getItemsContainer(), true));
+                itemsUpdated = this._scrollController.updateItemsHeights(getItemsHeightsData(this._getItemsContainer(), this._options.plainItemsContainer === false));
             }
             this._scrollController.update({ params: { scrollHeight: this._viewSize, clientHeight: this._viewportSize } });
             this._scrollController.setRendering(false);
@@ -6480,7 +6480,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _updateHeights(updateItems: boolean = true): void {
         if (this._scrollController) {
-            const itemsHeights = getItemsHeightsData(this._getItemsContainer(), true);
+            const itemsHeights = getItemsHeightsData(this._getItemsContainer(), this._options.plainItemsContainer === false);
             if (updateItems) {
                 this._scrollController.updateItemsHeights(itemsHeights);
             }
