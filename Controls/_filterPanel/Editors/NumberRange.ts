@@ -119,7 +119,7 @@ class NumberRangeEditor extends Control<INumberRangeOptions> implements INumberR
     private _needNotifyChanges(values: number[]): boolean {
         const minValue = values[0];
         const maxValue = values[1];
-        return minValue < maxValue || !minValue || !maxValue;
+        return minValue <= maxValue || !minValue || !maxValue;
     }
 
     private _isValueEmpty(value: number[]): boolean {
