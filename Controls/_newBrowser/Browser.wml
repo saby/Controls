@@ -47,6 +47,8 @@
                  on:rootChanged="_onDetailRootChanged()"
                  on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
                  on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
+                 on:collapsedItemsChanged="_notifyHandler('collapsedItemsChanged')"
+                 on:expandedItemsChanged="_notifyHandler('expandedItemsChanged')"
                  on:beforeBeginEdit="_notifyHandler('beforeBeginEdit')"
                  on:beforeEndEdit="_notifyHandler('beforeEndEdit')"
                  on:afterBeginEdit="_notifyHandler('afterBeginEdit')"

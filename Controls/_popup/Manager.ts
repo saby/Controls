@@ -46,6 +46,7 @@ class Manager {
     _popupItems: List<IPopupItem> = new List();
     private _pageScrolled: Function;
     private _popupResizeOuter: Function;
+    private _dragTimer: number;
 
     constructor(options = {}) {
         this.initTheme(options);
@@ -845,12 +846,31 @@ class Manager {
         }
     }
 
+    protected _popupInsideDrag(action: string, id: string): void {
+        const value = action === 'Start';
+        let item = this.find(id);
+        // Текущее и все родительские окна помечаем как те, в которых происходит d'n'd.
+        while (item) {
+            item.isDragOnPopup = value;
+            item = this.find(item.parentId);
+        }
+    }
+
     protected _pageDragnDropHandler(): boolean {
-        this._popupItems.each((item) => {
-            if (item.controller.dragNDropOnPage(item)) {
-                this.remove(item.id);
-            }
-        });
+        const delay = 10;
+        if (this._dragTimer) {
+            clearTimeout(this._dragTimer);
+        }
+        // Общий обработчик троттлим в течение 10мс. Нужно для того, чтобы понять, не происходит ли dnd внутри окна
+        // и не быть завязаным на порядок срабатывания событий.
+        this._dragTimer = setTimeout(() => {
+            this._dragTimer = null;
+            this._popupItems.each((item) => {
+                if (item.controller.dragNDropOnPage(item)) {
+                    this.remove(item.id);
+                }
+            });
+        }, delay);
     }
 
     // TODO Должно быть удалено после https://online.sbis.ru/opendoc.html?guid=f2b13a65-f404-4fbd-a05c-bbf6b59358e6

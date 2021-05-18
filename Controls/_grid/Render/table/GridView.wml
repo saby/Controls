@@ -65,6 +65,7 @@
                         attr:name="emptyView"
                         item="{{ _listModel.getEmptyGridRow() }}"
                         style="{{ _options.style }}"
+                        containerSize="{{ _containerSize }}"
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
 
@@ -92,7 +93,7 @@
 <div name="gridWrapper"
      on:wheel="_onGridWrapperWheel()"
      on:mouseenter="_onWrapperMouseEnter()"
-     class="{{ _getGridViewWrapperClasses(_options) }}">
+     class="controls_list_theme-{{_options.theme}} {{ _getGridViewWrapperClasses(_options) }}">
 
     <style if="{{ _options.columnScroll }}" name="columnScrollStylesContainer" data-vdom-ignore="true"></style>
 
