@@ -500,6 +500,7 @@ describe('Controls/_display/CollectionItem', () => {
             getMultiSelectVisibility(): string { return multiSelectVisibility; },
             getMultiSelectPosition(): string { return 'default'; },
             getRowSeparatorSize: function () { return ''; },
+            isLastItem: function () { return false },
             getNavigation: function () { return {
                 view: 'page'
             }}
