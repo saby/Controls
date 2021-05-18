@@ -109,7 +109,8 @@ export default class HeaderRow<T> extends Row<T> {
                     isFixed,
                     sorting: this._getSortingBySortingProperty(column.sortingProperty),
                     cellPadding: this._getCellPaddingForHeaderColumn(column, index),
-                    columnSeparatorSize: this._getColumnSeparatorSizeForColumn(column, index)
+                    columnSeparatorSize: this._getColumnSeparatorSizeForColumn(column, index),
+                    backgroundStyle: this._$backgroundStyle
                 });
             });
 
