@@ -1751,7 +1751,7 @@ const _private = {
                             } else {
                                 result = self._scrollController.handleAddItems(newItemsIndex, newItems,
                                     newItemsIndex <= collectionStartIndex && self._scrollTop !== 0 ? 'up'
-                                    : (newItemsIndex > collectionStopIndex ? 'down' : ''));
+                                    : (newItemsIndex >= collectionStopIndex ? 'down' : ''));
                             }
                             break;
                         case IObservable.ACTION_MOVE:
