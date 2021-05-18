@@ -23,7 +23,7 @@
               on:mousedown="_mouseDownHandler()"
               on:mouseenter="_mouseEnterHandler()"
               on:mouseleave="_mouseLeaveHandler()">
-            <i class="controls-icon controls-icon_size-m icon-SettingsNew"/>
+            <i class="controls-icon controls-icon_size-{{_options.iconSize}} icon-SettingsNew"/>
          </div>
       </ws:if>
    </div>
