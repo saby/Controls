@@ -33,7 +33,7 @@ function getCollection(collection: RecordSet<IData>, options: object = {}): Sear
     });
 }
 
-describe('Controls/searchBreadcrumbsGrid/display/collection/firstAndLastItem', () => {
+describe('Controls/searchBreadcrumbsGrid/display/RowSeparator/CollectionItem', () => {
 
     // 6. Поиск. Есть хлебные крошки
     describe('has breadcrumbs', () => {
@@ -58,14 +58,9 @@ describe('Controls/searchBreadcrumbsGrid/display/collection/firstAndLastItem', (
             node: null,
             title: 'BB'
         }];
-        it('getLastItem', () => {
+        it('isLastItem', () => {
             const collection = getCollection(getRecordSet(data));
-            assert.equal(collection.getLastItem(), collection.at(3).getContents());
-        });
-
-        it('getFirstItem', () => {
-            const collection = getCollection(getRecordSet(data));
-            assert.equal(collection.getFirstItem(), collection.at(0).getLast().getContents());
+            assert.isTrue(collection.isLastItem(collection.at(3)));
         });
     });
 
@@ -90,12 +85,7 @@ describe('Controls/searchBreadcrumbsGrid/display/collection/firstAndLastItem', (
 
         it('getLastItem', () => {
             const collection = getCollection(getRecordSet(data));
-            assert.equal(collection.getLastItem(), collection.at(3).getContents());
-        });
-
-        it('getFirstItem', () => {
-            const collection = getCollection(getRecordSet(data));
-            assert.equal(collection.getFirstItem(), collection.at(0).getLast().getContents());
+            assert.isTrue(collection.isLastItem(collection.at(3)));
         });
     });
 });

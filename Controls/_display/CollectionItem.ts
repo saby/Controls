@@ -178,14 +178,13 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
      */
     protected _contentsIndex: number;
 
-    protected _$isLastItem: boolean;
-    protected _$isFirstItem: boolean;
-
     readonly '[Types/_entity/IVersionable]': boolean;
 
     protected _version: number;
 
     protected _counters: ICollectionItemCounters;
+
+    protected _isLastItem: boolean;
 
     readonly '[Controls/_display/IEditableCollectionItem]': boolean = true;
 
@@ -626,33 +625,18 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._nextVersion();
     }
 
-    // region Аспект "крайние записи"
-
-    setIsFirstItem(state: boolean): void {
-        if (this._$isFirstItem === state) {
-            return;
-        }
-        this._$isFirstItem = state;
-        this._nextVersion();
-    }
-
-    getIsFirstItem(): boolean {
-        return this._$isFirstItem;
-    }
-
-    setIsLastItem(state: boolean): void {
-        if (this._$isLastItem === state) {
-            return;
-        }
-        this._$isLastItem = state;
+    resetIsLastItem(): void {
+        this._isLastItem = undefined;
         this._nextVersion();
     }
 
     isLastItem(): boolean {
-        return this._$isLastItem;
+        if (this._isLastItem === undefined) {
+            this._isLastItem = this.getOwner().isLastItem(this);
+            this._nextVersion();
+        }
+        return this._isLastItem;
     }
-
-    // endregion Аспект "крайние записи"
 
     // region Drag-n-drop
 
@@ -842,9 +826,6 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
             && this.isLastItem()) {
             contentClasses += ' controls-ListView__itemV_last';
-        }
-        if (this.getIsFirstItem()) {
-            contentClasses += ' controls-ListView__itemV_first';
         }
 
         if (isAnimatedForSelection) {
@@ -1103,8 +1084,6 @@ Object.assign(CollectionItem.prototype, {
     _$topPadding: 'default',
     _$bottomPadding: 'default',
     _$markerPosition: undefined,
-    _$isLastItem: false,
-    _$isFirstItem: false,
     _contentsIndex: undefined,
     _version: 0,
     _counters: null,
