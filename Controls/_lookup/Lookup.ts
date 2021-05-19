@@ -29,7 +29,7 @@ export interface ILookupOptions extends ILookupInputOptions {
  * Поддерживает автовысоту в зависимости от выбранных значений {@link multiLine}, а также одиночный и множественный выбор (см. {@link multiSelect}).
  *
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/directory/lookup/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/directory/lookup/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_lookup.less переменные тем оформления}
  *
  *
