@@ -43,16 +43,10 @@ import 'css!Controls/decorator';
       _copyHandler(event: SyntheticEvent<ClipboardEvent>): void {
          const decoratedLinkNodes = event.currentTarget.getElementsByClassName(linkDecorateUtils.getClasses().link);
          Array.prototype.forEach.call(decoratedLinkNodes, (decoratedLink) => {
-            const decoratedLinkImage = decoratedLink.getElementsByTagName('img')[0];
+            const decoratedLinkImage = decoratedLink.getElementsByTagName('img')[0].cloneNode(true);
             const span = document.createElement('span');
             span.innerHTML = decoratedLink.href;
-
-            // Если заменить картинки на спан с текстом ссылки во время перехвата и вернуть обратно асинхронно,
-            // то в ворд вставятся ссылки, не меняя при этом страницу внешне.
             decoratedLink.replaceChild(span, decoratedLinkImage);
-            delay(() => {
-               decoratedLink.replaceChild(decoratedLinkImage, span);
-            });
          });
       }
    }
