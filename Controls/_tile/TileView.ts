@@ -266,7 +266,6 @@ export default class TileView extends ListView {
                 this._animatedItemTargetPosition = targetPositionStyle;
             } else {
                 item.setFixedPositionStyle(targetPositionStyle);
-                item.setCanShowActions(true);
             }
         }
     }

@@ -1751,7 +1751,7 @@ const _private = {
                             } else {
                                 result = self._scrollController.handleAddItems(newItemsIndex, newItems,
                                     newItemsIndex <= collectionStartIndex && self._scrollTop !== 0 ? 'up'
-                                    : (newItemsIndex > collectionStopIndex ? 'down' : ''));
+                                    : (newItemsIndex >= collectionStopIndex ? 'down' : ''));
                             }
                             break;
                         case IObservable.ACTION_MOVE:
@@ -2184,7 +2184,9 @@ const _private = {
                 errorConfig.options.showInDirection = config.templateOptions.showInDirection;
                 errorConfig.options.isPagingVisible = config.templateOptions.isPagingVisible;
             }
-            _private.showError(self, errorConfig);
+            if (errorConfig) {
+                _private.showError(self, errorConfig);
+            }
             return {
                 error: config.error,
                 errorConfig
@@ -3974,6 +3976,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 this._hideTopTrigger = false;
             }
         }
+
+        if (_private.isMaxCountNavigation(this._options.navigation) && this._sourceController) {
+            _private.resolveIsLoadNeededByNavigationAfterReload(this, this._options, this._sourceController.getItems());
+        }
     }
 
     _updateScrollController(newOptions) {
@@ -4096,6 +4102,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         const navigationChanged = !isEqual(newOptions.navigation, this._options.navigation);
         const searchValueChanged = this._options.searchValue !== newOptions.searchValue;
         const loadStarted = newOptions.loading && !this._options.loading;
+        let updateResult;
         let isItemsResetFromSourceController = false;
 
         this._loadedBySourceController =
@@ -4175,6 +4182,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 }));
             }
 
+            // Важно обновить коллекцию в scrollContainer перед сбросом скролла, т.к. scrollContainer реагирует на
+            // scroll и произведет неправильные расчёты, т.к. у него старая collection.
+            // https://online.sbis.ru/opendoc.html?guid=caa331de-c7df-4a58-b035-e4310a1896df
+            this._updateScrollController(newOptions);
+
             _private.initListViewModelHandler(this, this._listViewModel, newOptions.useNewModel);
             this._modelRecreated = true;
             if (newOptions.useNewModel) {
@@ -4183,11 +4195,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._shouldNotifyOnDrawItems = true;
 
             _private.setHasMoreData(this._listViewModel, _private.hasMoreDataInAnyDirection(this, this._sourceController));
-
-            // Важно обновить коллекцию в scrollContainer перед сбросом скролла, т.к. scrollContainer реагирует на
-            // scroll и произведет неправильные расчёты, т.к. у него старая collection.
-            // https://online.sbis.ru/opendoc.html?guid=caa331de-c7df-4a58-b035-e4310a1896df
-            this._updateScrollController(newOptions);
         } else {
             this._updateScrollController(newOptions);
         }
@@ -4268,18 +4275,22 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     _private.executeAfterReloadCallbacks(this, this._items, newOptions);
                 }
 
-                if (this._loadedBySourceController && !this._sourceController.getLoadError()) {
-                    if (this._listViewModel) {
-                        this._listViewModel.setHasMoreData(
-                            _private.hasMoreDataInAnyDirection(this, this._sourceController)
-                        );
+                if (this._loadedBySourceController) {
+                    if (!this._sourceController.getLoadError()) {
+                        if (this._listViewModel) {
+                            this._listViewModel.setHasMoreData(
+                                _private.hasMoreDataInAnyDirection(this, this._sourceController)
+                            );
+                        }
+                        if (this.__error) {
+                            _private.hideError(this);
+                        }
+                        _private.resetScrollAfterLoad(this);
+                        _private.resolveIsLoadNeededByNavigationAfterReload(this, newOptions, items);
+                        _private.prepareFooter(this, newOptions, this._sourceController);
+                    } else if (!this.__error) {
+                        updateResult = _private.processError(this, {error: this._sourceController.getLoadError()});
                     }
-                    if (this.__error) {
-                        _private.hideError(this);
-                    }
-                    _private.resetScrollAfterLoad(this);
-                    _private.resolveIsLoadNeededByNavigationAfterReload(this, newOptions, items);
-                    _private.prepareFooter(this, newOptions, this._sourceController);
                 }
             }
         }
@@ -4470,6 +4481,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._spaceBlocked = false;
 
         this._updateBaseControlModel(newOptions);
+        return updateResult;
     }
 
     reloadItem(key: string, readMeta: object, replaceItem: boolean, reloadType: string = 'read'): Promise<Model> {
@@ -4742,7 +4754,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
             let itemsUpdated = false;
             if (this._listViewModel && !this._modelRecreated && this._viewReady) {
-                itemsUpdated = this._scrollController.updateItemsHeights(getItemsHeightsData(this._getItemsContainer(), true));
+                itemsUpdated = this._scrollController.updateItemsHeights(getItemsHeightsData(this._getItemsContainer(), this._options.plainItemsContainer === false));
             }
             this._scrollController.update({ params: { scrollHeight: this._viewSize, clientHeight: this._viewportSize } });
             this._scrollController.setRendering(false);
@@ -6539,7 +6551,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _updateHeights(updateItems: boolean = true): void {
         if (this._scrollController && this._viewReady) {
-            const itemsHeights = getItemsHeightsData(this._getItemsContainer(), true);
+            const itemsHeights = getItemsHeightsData(this._getItemsContainer(), this._options.plainItemsContainer === false);
             if (updateItems) {
                 this._scrollController.updateItemsHeights(itemsHeights);
             }

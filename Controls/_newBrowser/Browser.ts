@@ -244,11 +244,12 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._dataOptions = this._getDataOptions(contexts);
         const masterOps = this._buildMasterExplorerOption(newOptions);
         const detailOps = this._buildDetailExplorerOptions(newOptions);
+        const filterChanged = !isEqual(this._options.filter, newOptions.filter);
         if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
             this._createTemplateControllers(newOptions.listConfiguration, newOptions);
         }
         if (!this._dataOptions) {
-            const isChanged = this._detailDataSource.updateOptions(detailOps);
+            const isChanged = this._detailDataSource.updateOptions(detailOps) || filterChanged;
             if (isChanged) {
                 this._detailDataSource.sourceController.reload();
             }
@@ -421,7 +422,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
                 // Если меняют root когда находимся в режиме поиска, то нужно
                 // сбросить поиск и отобразить содержимое нового root
                 if (this.viewMode === DetailViewMode.search && !this._dataOptions) {
-                    this._resetSearch();
+                    this._resetSearch().then(() => {
+                        this._changeRoot(newRoots);
+                    });
                     return;
                 }
 
@@ -522,10 +525,10 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * Сбрасывает в _detailDataSource параметры фильтра, отвечающие за поиск,
      * и если нужно меняет у него root.
      */
-    private _resetSearch(): void {
+    private _resetSearch(): Promise<void> {
         this._detailDataSource.sourceController.cancelLoading();
 
-        this._detailDataSource
+        return this._detailDataSource
             .resetSearchString()
             .then(() => {
                 const newRoot = this._detailDataSource.getSearchControllerRoot();

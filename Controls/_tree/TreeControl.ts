@@ -364,9 +364,7 @@ const _private = {
         return expandedItems instanceof Array && expandedItems[0] === null;
     },
 
-    isDeepReload({deepReload}, deepReloadState: boolean): boolean {
-        return  deepReload || deepReloadState;
-    },
+
 
     resetExpandedItems(self: TreeControl): void {
         const viewModel = self._listViewModel;
@@ -570,15 +568,16 @@ const _private = {
 
 export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOptions> extends BaseControl<ITreeControlOptions> {
     private _root = null;
-    private _needResetExpandedItems = false;
-    private _updateExpandedItemsAfterReload = false;
+    private _needResetExpandedItems: boolean = false;
+    private _updateExpandedItemsAfterReload: boolean = false;
     private _currentItem = null;
     private _tempItem = null;
     private _markedLeaf = '';
     private _doAfterItemExpanded = null;
     private _goToNextAfterExpand: true;
-    private _scrollToLeaf = null;
-    private _scrollToLeafOnDrawItems = false;
+    private _scrollToLeaf: boolean = null;
+    private _scrollToLeafOnDrawItems: boolean = false;
+    protected _plainItemsContainer: boolean = true;
 
     private _itemOnWhichStartCountDown = null;
     private _timeoutForExpandOnDrag = null;
@@ -599,7 +598,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const superResult = super._beforeMount(...args);
         const doBeforeMount = () => {
             const options = args[0];
-
+            this._plainItemsContainer = options.plainItemsContainer;
             if (options.sourceController) {
                 // FIXME для совместимости, т.к. сейчас люди задают опции, которые требуетюся для запроса
                 //  и на списке и на Browser'e
@@ -746,6 +745,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const searchValueChanged = this._options.searchValue !== newOptions.searchValue;
         const isSourceControllerLoading = sourceController && sourceController.isLoading();
         let updateSourceController = false;
+        this._plainItemsContainer = newOptions.plainItemsContainer;
 
         if (typeof newOptions.root !== 'undefined' && this._root !== newOptions.root) {
             this._root = newOptions.root;
@@ -775,14 +775,15 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             }
         }
 
-        if (searchValueChanged && newOptions.searchValue && !_private.isDeepReload(this, newOptions)) {
-            _private.resetExpandedItems(this);
-        }
-
         // todo [useNewModel] viewModel.getExpandedItems() нужен, т.к. для старой модели установка expandedItems
         // сделана некорректно. Как откажемся от неё, то можно использовать стандартное сравнение опций.
         const currentExpandedItems = viewModel ? viewModel.getExpandedItems() : this._options.expandedItems;
-        if (newOptions.expandedItems && !isEqual(newOptions.expandedItems, currentExpandedItems) && newOptions.source) {
+        const expandedItemsFromSourceCtrl = sourceController && sourceController.getExpandedItems();
+        const wasResetExpandedItems = expandedItemsFromSourceCtrl && !expandedItemsFromSourceCtrl.length
+            && currentExpandedItems && currentExpandedItems.length;
+        if (wasResetExpandedItems) {
+            _private.resetExpandedItems(this);
+        } else if (newOptions.expandedItems && !isEqual(newOptions.expandedItems, currentExpandedItems)) {
             if ((newOptions.source === this._options.source || newOptions.sourceController) && !isSourceControllerLoading ||
                 (searchValueChanged && newOptions.sourceController)) {
                 if (viewModel) {
@@ -1035,9 +1036,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 this._listViewModel.setExpandedItems(options.expandedItems);
                 this._updateExpandedItemsAfterReload = false;
             }
-            const isDeepReload = _private.isDeepReload(options, this._deepReload);
 
-            if (!isDeepReload || this._needResetExpandedItems) {
+            if (this._needResetExpandedItems) {
                 _private.resetExpandedItems(this);
                 this._needResetExpandedItems = false;
             }
@@ -1209,7 +1209,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _getMarkedLeaf(key: CrudEntityKey, model): 'first' | 'last' | 'middle' | 'single' {
         const index = model.getIndexByKey(key);
-        const hasNextLeaf = model.getLastItem().get(model.getKeyProperty()) !== key || model.getHasMoreData();
+        const hasNextLeaf = !model.isLastItem(model.getItemBySourceKey(key)) || model.getHasMoreData();
         let hasPrevLeaf = false;
         for (let i = index - 1; i >= 0; i--) {
             if (model.at(i).isNode() === null || !this._isExpanded(model.at(i).getContents(), model)) {
@@ -1274,7 +1274,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 }
             };
 
-            if (key === model.getLastItem().get(model.getKeyProperty())) {
+            if (model.isLastItem(model.getItemBySourceKey(key))) {
                 this._shiftToDirection('down').then(goToNextItem);
             } else {
                 goToNextItem();

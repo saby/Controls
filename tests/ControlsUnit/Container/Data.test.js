@@ -449,6 +449,21 @@ define(
 
          });
 
+         it('items sourceController are changed', async function() {
+            let config = {source: source, keyProperty: 'id'};
+            const data = getDataWithConfig(config);
+
+            await data._beforeMount(config);
+            assert.ok(data._sourceController);
+
+            const items = new collection.RecordSet();
+            data._sourceController.setItems(null);
+            data._sourceController.setItems(items);
+            await data._beforeUpdate(config);
+            assert.ok(data._items === items);
+
+         });
+
          it('set source after mount', function(done) {
             const config = {keyProperty: 'id'};
             const data = getDataWithConfig(config);

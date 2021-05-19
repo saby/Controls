@@ -15,6 +15,10 @@ import 'css!Controls/editableArea';
 class Buttons extends Control<IControlOptions> {
     protected _template: TemplateFunction = ButtonsTemplate;
     protected _tmplNotify: Function = EventUtils.tmplNotify;
+
+    protected _afterMount(): void {
+        this._notify('registerEditableAreaToolbar', [], {bubbling: true});
+    }
 }
 /**
  * @event Происходит при клике на кнопку сохранения редактирования.
