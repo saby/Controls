@@ -15,6 +15,7 @@ export interface IStackTemplateOptions extends IControlOptions, IPopupTemplateOp
     stackMinWidth?: number;
     stackMinimizedWidth?: number;
     stackWidth?: number;
+    rightPanelOptions?: object;
 
 }
 
@@ -210,6 +211,11 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
  *    ...
  * }
  * </pre>
+ */
+
+/**
+ * @name Controls/_popupTemplate/Stack#rightPanelOptions
+ * @cfg {Object} Опции правой панели.
  */
 
 export default StackTemplate;

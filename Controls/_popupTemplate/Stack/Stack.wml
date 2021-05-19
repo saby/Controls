@@ -67,7 +67,7 @@
                    on:click="close()"
                 />
                 <Controls.Container.Async templateName="{{_stackRightPanel}}">
-                    <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}"/>
+                    <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}" scope="{{_options.rightPanelOptions}}"/>
                 </Controls.Container.Async>
             </div>
         </ws:if>
