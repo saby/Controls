@@ -93,7 +93,7 @@
  */
 /**
  * @name Controls/calendar:MonthViewDayTemplate#contentTemplate
- * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий содержимое элемента.
+ * @cfg {String|TemplateFunction|undefined} Пользовательский шаблон, описывающий содержимое элемента.
  * @remark
  * В области видимости шаблона доступен объект value.
  * @see Controls/_calendar/interfaces/IMonthListSource#dayTemplate
