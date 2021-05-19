@@ -8,9 +8,8 @@ import {
     INavigationSourceConfig
 } from 'Controls/interface';
 import {IItemAction, TItemActionVisibilityCallback} from 'Controls/itemActions';
-import {Stack} from 'Controls/popup';
+import {Stack, CalmTimer} from 'Controls/popup';
 import {NewSourceController} from 'Controls/dataSource';
-import HoverController from 'Controls/_menu/HoverController';
 import {default as IBackgroundStyle, IBackgroundStyleOptions} from "Controls/_interface/IBackgroundStyle";
 import {RecordSet} from 'Types/collection';
 
@@ -29,7 +28,7 @@ export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions, I
     dataLoadErrback: Function;
     selectorDialogResult: Function;
     sourceController?: NewSourceController;
-    hoverController?: HoverController;
+    calmTimer?: CalmTimer;
     historyRoot: string;
 }
 

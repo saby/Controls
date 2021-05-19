@@ -154,7 +154,7 @@ function(menu, source, Clone, display, collection) {
          });
       });
 
-      it('_hoverController', function () {
+      it('_calmTimer', function () {
          const menuPopop = new menu.Popup();
          const menuOptions = {
              trigger: 'hover',
@@ -170,7 +170,7 @@ function(menu, source, Clone, display, collection) {
          };
          const clock = sinon.useFakeTimers();
          menuPopop.__beforeMount(menuOptions);
-         assert.isTrue(!!menuPopop._hoverController);
+         assert.isTrue(!!menuPopop._calmTimer);
          menuPopop._mouseEvent({type:'mouseenter'});
          menuPopop._mouseEvent({type:'mouseleave'});
          isClose = true;
