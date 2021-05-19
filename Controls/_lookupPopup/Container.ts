@@ -317,7 +317,7 @@ var _private = {
  * Должен использоваться внутри Controls/lookupPopup:Controller.
  * В одном Controls/lookupPopup:Controller можно использовать несколько контейнеров.
  *
- * Подробное описание и инструкцию по настройке смотрите в <a href='/doc/platform/developmentapl/interface-development/controls/directory/layout-selector-stack/'>статье</a>.
+ * Подробное описание и инструкцию по настройке смотрите в <a href='/doc/platform/developmentapl/interface-development/controls/input-elements/directory/layout-selector-stack/'>статье</a>.
  *
  * <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">Пример</a> использования контрола.
  *
