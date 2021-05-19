@@ -193,6 +193,13 @@ export default class ColumnScroll {
             }
         };
 
+        const updateDragScroll = () => {
+            this._dragScroll?.updateScrollData({
+                scrollLength: this._columnScroll.getScrollLength(),
+                scrollPosition: this._columnScroll.getScrollPosition()
+            });
+        };
+
         if (needBySize) {
             if (!this._columnScroll) {
                     this._options = this._updateOptions(options);
@@ -201,10 +208,7 @@ export default class ColumnScroll {
                         if (this._options.columnScrollStartPosition === 'end') {
                             this._columnScroll.setScrollPosition(newSizes.contentSize - newSizes.containerSize);
                         }
-                        this._dragScroll?.updateScrollData({
-                            scrollLength: this._columnScroll.getScrollLength(),
-                            scrollPosition: this._columnScroll.getScrollPosition()
-                        });
+                        updateDragScroll();
                         updateScrollBar();
                         resolve('created');
                     }, true);
@@ -218,6 +222,7 @@ export default class ColumnScroll {
                         // Смена колонок может не вызвать событие resize на обёртке грида(ColumnScroll), если общая ширина колонок до обновления и после одинакова.
                         this._columnScroll.updateSizes(() => {
                             this._options = this._updateOptions(options);
+                            updateDragScroll();
                             resolve('updated');
                         }, true);
 
@@ -238,6 +243,7 @@ export default class ColumnScroll {
                             // Смена колонок может не вызвать событие resize на обёртке грида(ColumnScroll), если общая ширина колонок до обновления и после одинакова.
                             this._columnScroll.updateSizes(() => {
                                 resolve('updated');
+                                updateDragScroll();
                             });
                         } else {
                             resolve('actual');
