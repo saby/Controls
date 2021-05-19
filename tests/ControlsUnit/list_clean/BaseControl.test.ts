@@ -1354,23 +1354,23 @@ describe('Controls/list_clean/BaseControl', () => {
     describe('getFooterClasses', () => {
         [
             // multiSelectVisibility, multiSelectPosition, itemPadding, expectedResult
-            ['hidden', undefined, undefined, 'controls__BaseControl__footer__paddingLeft_default'],
-            ['hidden', undefined, {}, 'controls__BaseControl__footer__paddingLeft_default'],
-            ['hidden', undefined, {left: 'xl'}, 'controls__BaseControl__footer__paddingLeft_xl'],
-            ['hidden', undefined, {left: 'XL'}, 'controls__BaseControl__footer__paddingLeft_xl'],
+            ['hidden', 'default', undefined, undefined, 'controls__BaseControl__footer-default__paddingLeft_default'],
+            ['hidden', 'default', undefined, {}, 'controls__BaseControl__footer-default__paddingLeft_default'],
+            ['hidden', 'default', undefined, {left: 'xl'}, 'controls__BaseControl__footer-default__paddingLeft_xl'],
+            ['hidden', 'default', undefined, {left: 'XL'}, 'controls__BaseControl__footer-default__paddingLeft_xl'],
 
-            ['visible', undefined, undefined, 'controls__BaseControl__footer__paddingLeft_withCheckboxes'],
-            ['visible', undefined, {left: 'xl'}, 'controls__BaseControl__footer__paddingLeft_withCheckboxes'],
+            ['visible', 'default', undefined, undefined, 'controls__BaseControl__footer-default__paddingLeft_withCheckboxes'],
+            ['visible', 'default', undefined, {left: 'xl'}, 'controls__BaseControl__footer-default__paddingLeft_withCheckboxes'],
 
-            ['visible', 'custom', undefined, 'controls__BaseControl__footer__paddingLeft_default'],
-            ['visible', 'custom', {left: 'xl'}, 'controls__BaseControl__footer__paddingLeft_xl'],
-            ['visible', 'custom', {left: 'XL'}, 'controls__BaseControl__footer__paddingLeft_xl']
-        ].forEach(([multiSelectVisibility, multiSelectPosition, itemPadding, expectedResult]) => {
-            it(`multiSelectVisibility='${multiSelectVisibility}', multiSelectPosition='${multiSelectPosition}', itemPadding='${itemPadding}'`, () => {
+            ['visible', 'default', 'custom', undefined, 'controls__BaseControl__footer-default__paddingLeft_default'],
+            ['visible', 'default', 'custom', {left: 'xl'}, 'controls__BaseControl__footer-default__paddingLeft_xl'],
+            ['visible', 'default', 'custom', {left: 'XL'}, 'controls__BaseControl__footer-default__paddingLeft_xl']
+        ].forEach(([multiSelectVisibility, style,  multiSelectPosition, itemPadding, expectedResult]) => {
+            it(`multiSelectVisibility='${multiSelectVisibility}', style='${style}', multiSelectPosition='${multiSelectPosition}', itemPadding='${itemPadding}'`, () => {
                 const baseControl = new BaseControl({});
 
                 aAssert.isSame(
-                    baseControl._getFooterClasses({ multiSelectVisibility, multiSelectPosition, itemPadding }),
+                    baseControl._getFooterClasses({ multiSelectVisibility, style, multiSelectPosition, itemPadding }),
                     `controls__BaseControl__footer ${expectedResult}`
                 );
             });
