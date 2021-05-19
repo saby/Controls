@@ -61,7 +61,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
     * * **contents** (тип {@link Types/entity:Record}) — элемент, данные которого отображаются в колонке.
     * * **column.config** (тип {@link Controls/interface:IColumn IColumn}) — объект с конфигурацией колонки.
     * * **getLevel()** — возвращает уровень вложенности отосительно корня. Актуально для контрола {@link Controls/treeGrid:View Дерево}.
-    * * **nodeType**  — тип элемента. Возвращает true для типа "узел", false - "скрытый узел", null - "лист".
+    * * **nodeType**  — тип элемента. Возвращает true для типа "узел", false - "скрытый узел", null - "лист". Актуально для контрола {@link Controls/treeGrid:View Дерево}.
     *
     * Переменная **editArrowTemplate** позволяет отобразить {@link Controls/grid:IGridControl#showEditArrow стрелку-шеврон} в прикладном шаблоне для первой колонки. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 4.
     *
