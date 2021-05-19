@@ -39,7 +39,7 @@ export class CalmTimer {
      * Выполнение callback, через опеределенный промежуток времени.
      */
     start(): void {
-        this.resetTimeOut();
+        this.stop();
         if (!detection.isMobilePlatform) {
             const args = arguments;
             this._openId = setTimeout(() => {
