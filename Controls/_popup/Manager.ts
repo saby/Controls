@@ -262,7 +262,8 @@ class Manager {
         let itemIndex;
         let newIndex;
         const hasChild = item.childs.length > 0;
-        if (hasChild) {
+        const hasParent = !!item.parentId;
+        if (hasChild || hasParent) {
             return;
         }
         this._popupItems.each((elem: IPopupItem, index: number) => {
