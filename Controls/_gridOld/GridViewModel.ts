@@ -30,7 +30,7 @@ import {IItemActionsTemplateConfig} from 'Controls/itemActions';
 import * as Grouping from 'Controls/_list/Controllers/Grouping';
 import {COLUMN_SCROLL_JS_SELECTORS, DRAG_SCROLL_JS_SELECTORS} from 'Controls/columnScroll';
 import { shouldAddActionsCell } from 'Controls/_gridOld/utils/GridColumnScrollUtil';
-import {IHeaderCell} from 'Controls/interface';
+import {IHeaderCell} from 'Controls/grid';
 import { IDragPosition, GridLadderUtil } from 'Controls/display';
 import {IPreparedColumn, prepareColumns} from 'Controls/Utils/GridColumnsColspanUtil';
 

@@ -4,7 +4,7 @@ import {Memory} from 'Types/source';
 import {getMultilineLadder} from '../../DemoHelpers/DataCatalog';
 
 import * as Template from 'wml!Controls-demo/grid/LadderStickyMultiline/StickyMultilineWithHeader/StickyMultilineWithHeader';
-import { IHeaderCell } from 'Controls/gridOld';
+import { IHeaderCell } from 'Controls/grid';
 
 interface IStickyLadderColumn {
     template: string;

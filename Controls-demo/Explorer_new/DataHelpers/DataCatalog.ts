@@ -3,8 +3,8 @@ import * as editingColumnTemplate from 'wml!Controls-demo/Explorer/Editing/editi
 import * as notEditableTemplate from 'wml!Controls-demo/Explorer/Editing/notEditableCell';
 import * as CntTpl from 'wml!Controls-demo/Explorer_new/SearchWithPhoto/content';
 import * as CntTplLadder from 'wml!Controls-demo/Explorer_new/SearchWithLadderPhoto/content';
-import { IHeaderCell } from 'Controls/gridOld';
-import {IColumn} from 'Controls/gridOld';
+import { IHeaderCell } from 'Controls/grid';
+import { IColumn } from 'Controls/grid';
 import {groupConstants} from 'Controls/list';
 
 export interface IData {

@@ -3,8 +3,8 @@ import * as Template from 'wml!Controls-demo/grid/ColumnSeparator/PartialColumnS
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import * as clone from 'Core/core-clone';
-import { IColumn } from 'Controls/gridOld';
-import { IHeaderCell } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
+import { IHeaderCell } from 'Controls/grid';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
 export default class extends Control {

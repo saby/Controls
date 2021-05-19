@@ -86,19 +86,3 @@ export {
     ColumnScrollController as ColumnScroll,
     IColumnScrollControllerOptions as IColumnScrollOptions
 } from 'Controls/columnScroll';
-
-export {
-    IGridControl,
-    TColumns,
-    IColumn,
-    IColspanParams,
-    ICellPadding,
-    TCellAlign,
-    TCellPaddingVariant,
-    TCellVerticalAlign,
-    TOverflow,
-    IColumnSeparatorSizeConfig,
-    TColumnSeparatorSize,
-    THeader,
-    IHeaderCell
-} from 'Controls/interface';
