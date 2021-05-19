@@ -12,6 +12,7 @@
                        validationStatus="{{_options.validationStatus}}"
                        borderVisibility="{{_options.borderVisibility}}"
                        contrastBackground="{{ _options.contrastBackground }}"
+                       fontWeight="{{_options.fontWeight}}"
                        on:mouseenter="_mouseEnterHandler()"
                        on:tagClick="_notifyHandler('tagClick')"
                        on:tagHover="_notifyHandler('tagHover')"
