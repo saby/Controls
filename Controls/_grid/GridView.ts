@@ -561,7 +561,7 @@ const GridView = ListView.extend({
     },
 
     _resizeHandler(): void {
-        if (this._columnScrollViewController && this.isColumnScrollVisible()) {
+        if (this._options.columnScroll) {
             this._actualizeColumnScroll(this._options);
         }
     },
