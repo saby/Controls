@@ -43,6 +43,9 @@ define(
 
             result = decorator.Number._formatNumber(10.0001, {roundMode: 'round', precision: 0, showEmptyDecimals: true});
             assert.equal(result, '10');
+
+            result = decorator.Number._formatNumber(10, {roundMode: 'trunc', precision: 2, showEmptyDecimals: true});
+            assert.equal(result, '10.00');
          });
 
          it('Remove fractional path', function() {
