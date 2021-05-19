@@ -516,6 +516,10 @@ describe('Controls/browser:Browser', () => {
                 const browser = getBrowser(options);
                 await browser._beforeMount(options);
                 browser.saveOptions(options);
+                assert.deepStrictEqual(browser._filter, {
+                    testField: 'filterValue',
+                    name: 'searchValue'
+                });
                 await browser._getSearchController();
 
                 options = {...options};
@@ -524,6 +528,7 @@ describe('Controls/browser:Browser', () => {
                 options.source = new Memory();
                 await browser._beforeUpdate(options);
                 assert.deepStrictEqual(browser._filter, { testField: 'newFilterValue' });
+                assert.deepStrictEqual(browser._getSourceController().getFilter(), { testField: 'newFilterValue' });
             });
 
             it('searchParam is changed', async () => {
