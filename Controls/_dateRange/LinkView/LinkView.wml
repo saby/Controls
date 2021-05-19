@@ -20,12 +20,6 @@
                     on:mousedown="_onClick()">
                  {{ _caption }}
               </span>
-               <ws:if data="{{ _resetButtonVisible || _clearButtonVisible }}">
-                   <span class="controls-DateLinkView__resetButton
-                        controls-icon controls-icon_style-unaccented
-                        controls-icon_size-s icon-Close"
-                         on:click="_resetButtonClickHandler()"></span>
-               </ws:if>
            </ws:if>
            <ws:else data="{{ _viewMode == 'link' }}">
               <Controls.buttons:Button
@@ -44,6 +38,12 @@
                     tootltip="{{_options.tooltip}}"
                     on:mousedown="_onClick()"/>
            </ws:else>
+            <ws:if data="{{ _resetButtonVisible || _clearButtonVisible }}">
+                <span class="controls-DateLinkView__resetButton
+                        controls-icon controls-icon_style-unaccented
+                        controls-icon_size-s icon-Close"
+                      on:click="_resetButtonClickHandler()"></span>
+            </ws:if>
         </span>
         <ws:if data="{{ _options.nextArrowVisibility && _viewMode == 'selector' && !_options.readOnly}}">
            <span
