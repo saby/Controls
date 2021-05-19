@@ -33,18 +33,18 @@ export class Controller {
     * @void
     */
    updateOptions(options: IOptions): void {
-      if (this._markerVisibility !== options.markerVisibility) {
-         this._markerVisibility = options.markerVisibility;
-         if (this._markerVisibility === 'hidden') {
-            this.setMarkedKey(null);
-         }
-      }
-
       if (this._model !== options.model) {
          this._model = options.model;
 
          // Мы должны восстановить маркер в новой модели
          this.setMarkedKey(this.getMarkedKey());
+      }
+
+      if (this._markerVisibility !== options.markerVisibility) {
+         this._markerVisibility = options.markerVisibility;
+         if (this._markerVisibility === 'hidden') {
+            this.setMarkedKey(null);
+         }
       }
       const markerStrategy = options.markerStrategy || SingleColumnStrategy;
       this._markerStrategy = new markerStrategy({model: options.model});
