@@ -130,12 +130,12 @@ export class StackStrategy {
         return !!item.popupOptions.maximized;
     }
     private _calculateMaxWidth(popupOptions, tCoords): number {
-        const maxPanelWidth = this.getMaxPanelWidth();
+        const maxPanelWidth = this.getMaxPanelWidth() - tCoords.right;
         let maxWidth = maxPanelWidth;
 
         // maxWidth limit on the allowable width
         if (popupOptions.maxWidth) {
-            maxWidth = Math.min(popupOptions.maxWidth, maxPanelWidth - tCoords.right);
+            maxWidth = Math.min(popupOptions.maxWidth, maxPanelWidth);
         }
 
         // Not less than minWidth

@@ -44,6 +44,7 @@ export default class View extends Control<IViewControlOptions> {
       formController: Controller
    };
    private _isStartEditing: boolean = false;
+   private _isToolbarVisible: boolean;
 
    protected _beforeMount(newOptions: IViewControlOptions): void {
        this._isEditing = newOptions.autoEdit;
@@ -80,8 +81,15 @@ export default class View extends Control<IViewControlOptions> {
         }], {bubbling: true});
     }
 
+   protected _registerEditableAreaToolbar(event: Event): void {
+      // Если есть тулбар, вставленный либо с помощью опции toolbarVisible, либо прикладным разработчиком
+      // у себя на шаблоне, по уходу фокуса редактирование закрываться не должно.
+      this._isToolbarVisible = true;
+      event.stopPropagation();
+   }
+
    protected _onDeactivatedHandler(): void {
-      if (!this._options.readOnly && this._isEditing && !this._options.toolbarVisible) {
+      if (!this._options.readOnly && this._isEditing && !this._isToolbarVisible) {
          this.commitEdit();
       }
    }

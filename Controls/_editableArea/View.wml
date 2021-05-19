@@ -13,6 +13,7 @@
       class="controls_editableArea_theme-{{_options.theme}} controls-EditableArea
       {{ _isEditing && _options.backgroundStyle ? 'controls-background-' + _options.backgroundStyle }}
       controls-EditableArea_{{_options.readOnly ? 'readonly' : 'clickable'}}"
+      on:registerEditableAreaToolbar="_registerEditableAreaToolbar()"
    >
       <div class="controls-EditableArea__wrapper">
          <ws:partial
