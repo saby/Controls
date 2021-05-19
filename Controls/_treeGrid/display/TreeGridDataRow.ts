@@ -59,7 +59,7 @@ export default class TreeGridDataRow<T extends Model = Model>
         this.setRowTemplate(editing ? this._$owner.getItemEditorTemplate() : undefined);
         const colspanCallback = this._$owner.getColspanCallback();
         if (colspanCallback || this.getEditingConfig()?.mode === 'cell') {
-            this._reinitializeColumns();
+            this._reinitializeColumns(true);
         }
     }
 
