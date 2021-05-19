@@ -27,14 +27,6 @@ class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompatibility>(Cell, 
         return classes;
     }
 
-    getWrapperStyles(containerSize?: number): string {
-        let superStyles = super.getWrapperStyles();
-        if (containerSize) {
-            superStyles += ` max-width: ${containerSize}px;`;
-        }
-        return superStyles;
-    }
-
     getContentClasses(theme: string, topSpacing: string = 'default', bottomSpacing: string = 'default'): string {
         let classes;
 
@@ -58,6 +50,13 @@ class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompatibility>(Cell, 
         }
 
         return classes;
+    }
+
+    getContentStyles(containerSize?: number): string {
+        if (containerSize) {
+            return `width: ${containerSize}px;`;
+        }
+        return '';
     }
 
     //endregion

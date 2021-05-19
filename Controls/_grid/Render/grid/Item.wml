@@ -13,6 +13,7 @@
                 theme="{{ theme }}"
                 style="{{ style }}"
                 cursor="{{ cursor }}"
+                containerSize="{{ containerSize }}"
                 backgroundColorStyle="{{ backgroundColorStyle }}"
                 backgroundStyle="{{ backgroundStyle }}"
                 highlightOnHover="{{ highlightOnHover }}"
