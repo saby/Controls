@@ -2,9 +2,9 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/MasterDetail/Grouped/Grouped';
 import {Gadgets} from 'Controls-demo/Explorer_new/DataHelpers/DataCatalog';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
-import { IColumn } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 import { TRoot } from 'Controls-demo/types';
-import { IHeaderCell } from 'Controls/gridOld';
+import { IHeaderCell } from 'Controls/grid';
 import 'css!Controls/masterDetail';
 import 'css!Controls/CommonClasses';
 

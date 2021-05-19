@@ -3,8 +3,8 @@ import * as Template from 'wml!Controls-demo/grid/Header/Multiheader/VerticalAli
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/grid/Header/Multiheader/VerticalAlign/VerticalAlignHeaderCell';
-import { IColumn } from 'Controls/gridOld';
-import { IHeaderCell } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
+import { IHeaderCell } from 'Controls/grid';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
