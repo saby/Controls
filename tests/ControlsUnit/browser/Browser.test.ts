@@ -522,12 +522,8 @@ describe('Controls/browser:Browser', () => {
                 options.filter = { testField: 'newFilterValue' };
                 options.searchValue = '';
                 options.source = new Memory();
-                const sandBox = sinon.createSandbox();
-                const notifyStub = sandBox.stub(browser, '_notify');
                 await browser._beforeUpdate(options);
-
-                assert.ok(notifyStub.calledWith('filterChanged', [{ testField: 'newFilterValue' }]));
-                sandBox.restore();
+                assert.deepStrictEqual(browser._filter, { testField: 'newFilterValue' });
             });
 
             it('searchParam is changed', async () => {
