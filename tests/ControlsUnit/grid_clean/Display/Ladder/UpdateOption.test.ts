@@ -35,7 +35,7 @@ describe('Controls/grid_clean/Display/Ladder/UpdateOption', () => {
         });
 
         // group initialized with colspan "1 / 2"
-        assert.strictEqual(gridCollection.at(0).getColumns()[0].getColspanStyles(), 'grid-column: 1 / 2;');
+        assert.strictEqual(gridCollection.at(0).getColumns()[0].getColspanStyles(), '');
 
         // set ladder
         gridCollection.setColumns([

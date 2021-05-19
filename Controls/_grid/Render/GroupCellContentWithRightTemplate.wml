@@ -24,7 +24,7 @@ TODO Нужно удалить этот шаблон, когда починим 
     </ws:if>
     <ws:if data="{{ (gridColumn || itemData).shouldDisplayRightSeparator(separatorVisibility, textVisible, columnAlignGroup, textAlign) }}">
         <div class="controls-ListView__groupSeparator
-                {{ textVisible !== false ? 'controls-ListView__groupSeparator-right' }}">&nbsp;</div>
+                {{ textVisible !== false && (gridColumn || itemData).isContentCell() ? 'controls-ListView__groupSeparator-right' }}">&nbsp;</div>
     </ws:if>
     <ws:if data="{{ !!rightTemplate && (gridColumn || itemData).isContentCell() }}">
         <div attr:class="{{ (gridColumn || itemData).getRightTemplateClasses(separatorVisibility, textVisible, columnAlignGroup, textAlign) }}">

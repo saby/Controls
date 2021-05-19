@@ -2,7 +2,7 @@ import { TemplateFunction } from 'UI/Base';
 import {Model as EntityModel, OptionsToPropertyMixin} from 'Types/entity';
 import { mixin } from 'Types/util';
 
-import { IColspanParams, IColumn } from 'Controls/interface';
+import { IColumn } from 'Controls/interface';
 import { default as GridGroupCellMixin } from 'Controls/_grid/display/mixins/GroupCell';
 
 import DataCell from './DataCell';
@@ -37,27 +37,30 @@ export default class GroupCell<T>
         return this.getColspanStyles();
     }
 
+    getContentClasses(theme: string): string {
+        let classes = '';
+        // TODO необходимо разобраться с высотой групп.
+        //  https://online.sbis.ru/opendoc.html?guid=6693d47c-515c-4751-949d-55be05fe124e
+        classes += ' controls-Grid__row-cell__content_baseline_S';
+
+        if (this.isFirstColumn()) {
+            classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}`;
+        }
+        if (this.isLastColumn()) {
+            classes += ` controls-Grid__cell_spacingLastCol_${this._$owner.getRightPadding()}`;
+        }
+
+        classes += this._getContentAlignClasses();
+        classes += ' controls-ListView__groupContent';
+        return classes;
+    }
+
     getZIndex(): number {
         return this._$zIndex;
     }
 
     getContentStyles(): string {
         return 'display: contents;';
-    }
-
-    _getColspanParams(): IColspanParams {
-        if (this._$colspan) {
-            return super._getColspanParams();
-        }
-        const hasMultiSelect = this._$owner.hasMultiSelectColumn();
-        const ladderStickyColumn = this._$owner.getStickyColumn();
-        const ladderColumnLength = ladderStickyColumn ? ladderStickyColumn.property.length : 0;
-        const startColumn = hasMultiSelect ? 2 : 1;
-        const endColumn = startColumn + this._$columnsLength + ladderColumnLength;
-        return {
-            startColumn,
-            endColumn
-        };
     }
 
     getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {

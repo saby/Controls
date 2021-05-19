@@ -946,6 +946,7 @@ describe('Controls/suggest', () => {
          });
          let suggestActivated = false;
          let updated = false;
+         let sourceController;
          suggestComponent.activate = () => {
             suggestActivated = true;
          };
@@ -962,11 +963,13 @@ describe('Controls/suggest', () => {
          assert.isTrue(updated);
 
          /* tabSelectedKey changed, filter must be changed */
+         sourceController = suggestComponent._sourceController;
          suggestComponent._suggestMarkedKey = 'test';
          suggestComponent._tabsSelectedKeyChanged('test');
          assert.equal(suggestComponent._filter.currentTab, 'test');
          assert.isTrue(suggestActivated);
          assert.isTrue(suggestComponent._suggestMarkedKey === null);
+         assert.isTrue(suggestComponent._sourceController !== sourceController);
       });
 
       it('Suggest::_beforeMount', () => {

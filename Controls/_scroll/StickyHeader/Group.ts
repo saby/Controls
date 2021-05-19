@@ -262,6 +262,12 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
                 data.inst[POSITION.bottom] = this._offset[POSITION.bottom];
             }
 
+            const isShadowVisible = this._isShadowVisibleByController[POSITION.top] !== SHADOW_VISIBILITY_BY_CONTROLLER.hidden &&
+                this._isShadowVisibleByController[POSITION.bottom] !== SHADOW_VISIBILITY_BY_CONTROLLER.hidden;
+            if (this._isFixed && isShadowVisible) {
+                data.inst.updateFixed([data.inst.index], true);
+            }
+
             data.inst.setSyncDomOptimization(this._syncDomOptimization);
 
             // Register group after first header is registered
