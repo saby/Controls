@@ -23,7 +23,7 @@ describe('Controls/grid_clean/Display/HeaderCell', () => {
         const headerConfig = [{}, {}];
         const columnsConfig = [{}, {}];
         const cell = new GridHeaderCell({
-            column: headerConfig[0],
+            column: headerConfig[1],
             owner: {
                 hasMultiSelectColumn: () => false,
                 getHeaderConfig: () => headerConfig,
@@ -31,12 +31,13 @@ describe('Controls/grid_clean/Display/HeaderCell', () => {
                 hasColumnScroll: () => hasColumnScroll,
                 getLeftPadding: () => 'default',
                 getRightPadding: () => 'default',
-                getColumnIndex: () => 0,
+                getColumnIndex: () => 1,
                 isMultiline: () => false,
                 getColumnsCount: () => 2,
                 hasItemActionsSeparatedCell: () => false,
                 isStickyHeader: () => false,
-                getColumnsConfig: () => columnsConfig
+                getColumnsConfig: () => columnsConfig,
+                getMultiSelectVisibility: () => 'hidden'
             }
         });
 
