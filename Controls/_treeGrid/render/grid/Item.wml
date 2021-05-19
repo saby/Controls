@@ -31,6 +31,8 @@
                theme="{{ theme }}"
                style="{{ style }}"
                cursor="{{ cursor }}"
+               backgroundColorStyle="{{ backgroundColorStyle }}"
+               backgroundStyle="{{ backgroundStyle }}"
                itemActionsTemplate="{{ itemActionsTemplate }}"
                itemActionsClass="{{ itemActionsClass }}"
                templateHighlightOnHover="{{ templateHighlightOnHover }}"
