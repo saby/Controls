@@ -74,14 +74,7 @@ export default {
         }
         return 0;
     },
-    calculateItemsWithDots(
-        items: Record[] = [],
-        options: IBreadCrumbsOptions,
-        indexEdge: number,
-        width: number,
-        dotsWidth: number,
-        getTextWidth: Function = this.getTextWidth
-    ): Record[] {
+    calculateItemsWithDots(items: Record[], options: IBreadCrumbsOptions, indexEdge: number, width: number, dotsWidth: number, getTextWidth: Function = this.getTextWidth): Record[] {
         let secondContainerWidth = 0;
         let shrinkItemIndex;
         const itemsWidth = this.getItemsWidth(items, options, getTextWidth);
@@ -117,7 +110,8 @@ export default {
             index = index === -1 && indexEdge === 0 ? 0 : index;
             // заполняем крошками, которые влезли, второй контейнер (не считая последней)
             for (let j = indexEdge; j <= index; j++) {
-                secondContainerItems.push(PrepareDataUtil.getItemData(j, items, true, j === index && items[j].get(options.displayProperty).length > 3));
+                const itemTitle = items[j].get(options.displayProperty)?.length || '';
+                secondContainerItems.push(PrepareDataUtil.getItemData(j, items, true, j === index && itemTitle > 3));
             }
             // добавляем точки
             const dotsItem = new Model({
