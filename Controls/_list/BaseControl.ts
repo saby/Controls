@@ -4182,6 +4182,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 }));
             }
 
+            // Важно обновить коллекцию в scrollContainer перед сбросом скролла, т.к. scrollContainer реагирует на
+            // scroll и произведет неправильные расчёты, т.к. у него старая collection.
+            // https://online.sbis.ru/opendoc.html?guid=caa331de-c7df-4a58-b035-e4310a1896df
+            this._updateScrollController(newOptions);
+
             _private.initListViewModelHandler(this, this._listViewModel, newOptions.useNewModel);
             this._modelRecreated = true;
             if (newOptions.useNewModel) {
@@ -4190,11 +4195,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._shouldNotifyOnDrawItems = true;
 
             _private.setHasMoreData(this._listViewModel, _private.hasMoreDataInAnyDirection(this, this._sourceController));
-
-            // Важно обновить коллекцию в scrollContainer перед сбросом скролла, т.к. scrollContainer реагирует на
-            // scroll и произведет неправильные расчёты, т.к. у него старая collection.
-            // https://online.sbis.ru/opendoc.html?guid=caa331de-c7df-4a58-b035-e4310a1896df
-            this._updateScrollController(newOptions);
         } else {
             this._updateScrollController(newOptions);
         }
