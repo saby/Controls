@@ -553,6 +553,7 @@ describe('Controls/browser:Browser', () => {
                 const browser = getBrowser(options);
                 await browser._beforeMount(options);
                 browser.saveOptions(options);
+                await browser._getSearchController();
 
                 options = {...options};
                 options.filter = {};
@@ -568,6 +569,7 @@ describe('Controls/browser:Browser', () => {
                 browser._searchValue = 'test';
                 browser._beforeUpdate(options);
                 assert.deepStrictEqual(browser._filter.name, 'test');
+                assert.ok(browser._getSearchControllerSync().getRoot() === null);
             });
 
             it('update source and searchValue should reset inputSearchValue', async () => {
