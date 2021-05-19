@@ -47,23 +47,28 @@ class MultilinePath extends Control<IMultilinePathOptions, IReceivedState> imple
     protected _dotsWidth: number = 0;
     protected _indexEdge: number = 0;
     protected _items: Record[] = [];
+    private _isFontsLoaded: boolean = false;
+    private _isPathMounted: boolean = false;
 
     protected _beforeMount(options?: IMultilinePathOptions, contexts?: object, receivedState?: IReceivedState): Promise<IReceivedState> | void {
         if (!options.containerWidth) {
-            Logger.warn('MultilinePath: option containerWidth is undefined', this);
-            loadFontWidthConstants().then(() => {
-                return;
+            Logger.warn('Опция containerWidth не задана. Контрол может работать некорректно', this);
+            loadFontWidthConstants().then((getTextWidth: Function) => {
+                // Нужно дождаться маунта и загрузки шрифтов, в случае, если containerWidth не задан
+                this._isFontsLoaded = true;
+                if (this._isPathMounted && this._isFontsLoaded) {
+                    this._loadFontsCallback(options, this._container.clientWidth, getTextWidth);
+                }
             });
         } else if (receivedState) {
+            this._isFontsLoaded = true;
             this._dotsWidth = this._getDotsWidth(options.fontSize);
             this._prepareData(options, options.containerWidth);
         } else {
             return new Promise((resolve) => {
                 loadFontWidthConstants().then((getTextWidth: Function) => {
-                    if (options.items && options.items.length > 0) {
-                        this._dotsWidth = this._getDotsWidth(options.fontSize, getTextWidth);
-                        this._prepareData(options, options.containerWidth, getTextWidth);
-                    }
+                    this._isFontsLoaded = true;
+                    this._loadFontsCallback(options, options.containerWidth, getTextWidth);
                     resolve({
                             items: this._items
                         }
@@ -74,9 +79,10 @@ class MultilinePath extends Control<IMultilinePathOptions, IReceivedState> imple
     }
 
     protected _afterMount(options?: IMultilinePathOptions, contexts?: any): void {
-        if (!options.containerWidth) {
-            this._dotsWidth = this._getDotsWidth(options.fontSize);
-            this._prepareData(options, this._container.clientWidth);
+        // Нужно дождаться маунта и загрузки шрифтов, в случае, если containerWidth не задан
+        this._isPathMounted = true;
+        if (!options.containerWidth && this._isPathMounted && this._isFontsLoaded) {
+            this._loadFontsCallback(options, this._container.clientWidth);
         }
     }
 
@@ -94,10 +100,20 @@ class MultilinePath extends Control<IMultilinePathOptions, IReceivedState> imple
             this._dotsWidth = this._getDotsWidth(newOptions.fontSize);
         }
         if (isItemsChanged || isContainerWidthChanged || isFontSizeChanged) {
-            this._calculateBreadCrumbsToDraw(newOptions.items, newOptions);
+            if (this._isPathMounted && this._isFontsLoaded) {
+                this._calculateBreadCrumbsToDraw(newOptions.items, newOptions);
+            }
         }
     }
 
+    private _loadFontsCallback(options: IMultilinePathOptions, width: number, getTextWidth: Function = this._getTextWidth): void {
+        if (options.items && options.items.length > 0) {
+            this._dotsWidth = this._getDotsWidth(options.fontSize, getTextWidth);
+            this._prepareData(options, width, getTextWidth);
+        }
+    }
+
+    // tslint:disable-next-line:max-line-length
     private _prepareData(options: IMultilinePathOptions, width: number, getTextWidth: Function = this._getTextWidth): void {
         if (options.items && options.items.length > 0) {
             this._items = options.items;
