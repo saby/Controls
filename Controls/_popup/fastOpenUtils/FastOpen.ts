@@ -31,18 +31,7 @@ export class CalmTimer {
         this._callback = callback;
     }
 
-    resetTimeOut(): void {
-        if (this._openId) {
-            clearTimeout(this._openId);
-        }
-        if (this._closeId) {
-            clearTimeout(this._closeId);
-        }
-        this._openId = null;
-        this._closeId = null;
-    }
-
-    isStart(): boolean {
+    isStarted(): boolean {
         return !!this._openId;
     }
 
@@ -63,19 +52,13 @@ export class CalmTimer {
     }
 
     /**
-     * Закрытие окна, находящегося внутри callback, через определенный промежуток времени
-     * @param {Function} callback
+     * Сброс timeout
      */
-    stop(callback: Function): void {
-        clearTimeout(this._openId);
-        if (!detection.isMobilePlatform) {
-            this._closeId = setTimeout(() => {
-                this._closeId = null;
-                callback();
-            }, CALM_DELAY);
-        } else {
-            callback();
+    stop(): void {
+        if (this._openId) {
+            clearTimeout(this._openId);
         }
+        this._openId = null;
     }
 }
 
