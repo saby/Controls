@@ -68,8 +68,10 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
     _beforeMount(options: IContainerBaseOptions, context?, receivedState?) {
         this._virtualNavigationRegistrar = new RegisterClass({register: 'virtualNavigation'});
-        this._resizeObserver = new ResizeObserverUtil(this, this._resizeObserverCallback, this._resizeHandler);
-        this._resizeObserverSupported = this._resizeObserver.isResizeObserverSupported();
+        if (!this._isHorizontalScroll(options.scrollMode)) {
+            this._resizeObserver = new ResizeObserverUtil(this, this._resizeObserverCallback, this._resizeHandler);
+        }
+        this._resizeObserverSupported = this._resizeObserver?.isResizeObserverSupported();
         this._registrars.scrollStateChanged = new RegisterClass({register: 'scrollStateChanged'});
         // событие viewportResize используется только в списках.
         this._registrars.viewportResize = new RegisterClass({register: 'viewportResize'});
@@ -108,7 +110,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         if (!this._scrollModel) {
             this._createScrollModel();
         }
-        if (!this._resizeObserver.isResizeObserverSupported()) {
+        if (!this._resizeObserver?.isResizeObserverSupported() || this._isHorizontalScroll(this._options.scrollMode)) {
             RegisterUtil(this, 'controlResize', this._controlResizeHandler, { listenAll: true });
             // ResizeObserver при инициализации контрола стрелнет событием ресайза.
             // Вызваем метод при инициализации сами если браузер не поддерживает ResizeObserver
@@ -158,7 +160,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         if (!this._resizeObserver.isResizeObserverSupported()) {
             UnregisterUtil(this, 'controlResize', {listenAll: true});
         }
-        this._resizeObserver.terminate();
+        this._resizeObserver?.terminate();
         for (const registrar in this._registrars) {
             if (this._registrars.hasOwnProperty(registrar)) {
                 this._registrars[registrar].destroy();
@@ -169,8 +171,18 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         this._isUnmounted = true;
     }
 
+    private _isHorizontalScroll(scrollModeOption: string): boolean {
+        const scrollMode = scrollModeOption.toLowerCase();
+        // При горизонтальном скролле будет работать с событием controlResize
+        return scrollMode.indexOf('horizontal') !== -1;
+    }
+
     _controlResizeHandler(): void {
-        this._resizeObserver.controlResizeHandler();
+        if (this._resizeObserver) {
+            this._resizeObserver.controlResizeHandler();
+        } else {
+            this._resizeHandler();
+        }
     }
 
     _observeContentSize(): void {
@@ -185,7 +197,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         const contentElements: HTMLElement[] = this._getElementsForHeightCalculation();
         this._observedElements = this._observedElements.filter((element: HTMLElement) => {
             if (!contentElements.includes(element)) {
-                this._resizeObserver.unobserve(element);
+                this._resizeObserver?.unobserve(element);
                 return false;
             }
             return true;
@@ -193,7 +205,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _observeElementSize(element: HTMLElement): void {
-        this._resizeObserver.observe(element, { box: RESIZE_OBSERVER_BOX.borderBox });
+        this._resizeObserver?.observe(element, { box: RESIZE_OBSERVER_BOX.borderBox });
     }
 
     _isObserved(element: HTMLElement): boolean {
@@ -207,7 +219,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         ];
     }
 
-    _resizeHandler(e: SyntheticEvent): void {
+    _resizeHandler(): void {
         this._onResizeContainer(this._getFullStateFromDOM());
     }
 
