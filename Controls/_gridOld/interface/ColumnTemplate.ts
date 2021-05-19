@@ -51,17 +51,20 @@ export type TCursor = 'default' | 'pointer' | 'right';
     * @see Controls/grid:IGridControl#showEditArrow
     * @markdown
     * @remark
-    * В области видимости шаблона доступны переменные **item**, **editArrowTemplate** и **expanderTemplate**.
+    * В области видимости шаблона доступны переменные **item**, **columns**, **editArrowTemplate** и **expanderTemplate**.
     *
     * Переменная **item** позволяет получить доступ к следующими свойствам:
     *
-    * * **columnIndex** — порядковый номер колонки. Отсчет от 0.
     * * **index** — порядковый номер строки. Отсчет от 0.
     * * **isEditing()** — возвращает true, если для записи выполняется {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
     * * **contents** (тип {@link Types/entity:Record}) — элемент, данные которого отображаются в колонке.
-    * * **column.config** (тип {@link Controls/interface:IColumn IColumn}) — объект с конфигурацией колонки.
     * * **getLevel()** — возвращает уровень вложенности отосительно корня. Актуально для контрола {@link Controls/treeGrid:View Дерево}.
     * * **nodeType**  — тип элемента. Возвращает true для типа "узел", false — для типа "скрытый узел" и null  — для типа "лист". Актуально для контрола {@link Controls/treeGrid:View Дерево}.
+    * 
+    * Переменная **column** позволяет получить доступ к следующими свойствам:
+    * 
+    * * **config** (тип {@link Controls/interface:IColumn IColumn}) — объект с конфигурацией колонки.
+    * * **index** — порядковый номер колонки. Отсчет от 0. 
     *
     * Переменная **editArrowTemplate** позволяет отобразить {@link Controls/grid:IGridControl#showEditArrow стрелку-шеврон} в прикладном шаблоне для первой колонки. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 4.
     *
