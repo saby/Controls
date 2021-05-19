@@ -180,9 +180,11 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
             //  Нужно определить, что если в узле нет данных и для него не определен content, тофутер не нужно создавать
             //  Сейчас в этой ситуации, он создастся и не отобразится и это наверное сломает виртуальный скролл
             //  UPD: временно до решения проблемы, отображаем скрытый див
+            // nodeFooterVisibilityCallback вызываем только когда будем отображать прикладной темплейт,
+            // если отображаем Еще, то всегда показываем nodeFooter
             if (
                 nodeFooterContents.includes(nodeFooterContent)
-                || options.nodeFooterVisibilityCallback instanceof Function && !options.nodeFooterVisibilityCallback(item.getContents())
+                || !item.hasMoreStorage() && options.nodeFooterVisibilityCallback instanceof Function && !options.nodeFooterVisibilityCallback(item.getContents())
             ) {
                 continue;
             }
