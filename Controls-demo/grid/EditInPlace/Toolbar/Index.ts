@@ -7,7 +7,7 @@ import {Model} from 'Types/entity';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {showType} from 'Controls/toolbars';
-import { IColumn } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 import {IItemAction} from 'Controls/itemActions';
 
 export default class extends Control {

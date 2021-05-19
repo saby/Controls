@@ -8,7 +8,7 @@ import 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorRequired';
 import 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorTitle';
 import {LengthChecker, ChangedChecker} from './Custom';
 import {getMoreActions} from '../../../list_new/DemoHelpers/ItemActionsCatalog';
-import { IColumn } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 import { IHeader, TItemsReadyCallback } from 'Controls-demo/types';
 import {RecordSet} from 'Types/collection';
 import { IItemAction } from 'Controls/itemActions';

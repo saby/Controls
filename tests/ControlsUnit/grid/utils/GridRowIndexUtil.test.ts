@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {getHeaderMaxEndCellData, getHeaderRowsArray} from 'Controls/_gridOld/utils/GridRowIndexUtil';
-import {IHeaderCell} from 'Controls/interface';
+import {IHeaderCell} from 'Controls/grid';
 
 interface ICustomHeaderCell extends IHeaderCell {
     title?: string;

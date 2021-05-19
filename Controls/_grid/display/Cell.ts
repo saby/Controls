@@ -10,7 +10,7 @@ import {
 } from 'Types/entity';
 import { TemplateFunction } from 'UI/Base';
 
-import { IColumn, IColspanParams, TColumnSeparatorSize } from 'Controls/interface';
+import { IColumn, IColspanParams, TColumnSeparatorSize } from './interface/IColumn';
 
 import { IItemPadding, TMarkerClassName } from 'Controls/display';
 import { COLUMN_SCROLL_JS_SELECTORS } from 'Controls/columnScroll';

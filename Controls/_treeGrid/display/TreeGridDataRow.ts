@@ -2,7 +2,7 @@ import { mixin } from 'Types/util';
 import { ITreeItemOptions, TreeItem, IItemPadding, TMarkerClassName, IGroupNode } from 'Controls/display';
 import { IGridRowOptions, GridCell, GridRowMixin, IDisplaySearchValue, IDisplaySearchValueOptions} from 'Controls/grid';
 import TreeGridCollection from './TreeGridCollection';
-import { IColumn } from 'Controls/interface';
+import { IColumn } from 'Controls/grid';
 import { Model } from 'Types/entity';
 import TreeCheckboxCell from './TreeCheckboxCell';
 import {ITreeGridDataCellOptions} from './TreeGridDataCell';
