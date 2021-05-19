@@ -14,7 +14,7 @@
                rootVisible="{{_dragOnBreadCrumbs}}"
                highlighter="{{[_breadCrumbsDragHighlighter]}}"
                root="{{content._options.root}}"
-               items="{{content._options.breadCrumbsItems}}"
+               items="{{content._options.breadCrumbsItems || null}}"
 
                on:hoveredItemChanged="_hoveredCrumbChanged()"
                on:arrowActivated="_notifyHandler('arrowActivated')"
