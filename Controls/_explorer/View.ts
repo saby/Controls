@@ -224,11 +224,6 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         const root = this._getRoot(cfg.root);
         this._headerVisibility = this._getHeaderVisibility(root, cfg.headerVisibility);
-        this._restoredMarkedKeys = {
-            [root]: {
-                markedKey: null
-            }
-        };
 
         // TODO: для 20.5100. в 20.6000 можно удалить
         if (cfg.displayMode) {
@@ -732,10 +727,12 @@ export default class Explorer extends Control<IExplorerOptions> {
             return;
         }
 
+        const actualIds = [root + '', topRoot + ''];
         breadcrumbs?.forEach((crumb) => {
             const crumbKey = crumb.getKey();
             const parentKey = crumb.get(parentProperty);
 
+            actualIds.push(crumbKey + '');
             store[crumbKey] = {
                 parent: parentKey,
                 markedKey: null
@@ -752,6 +749,15 @@ export default class Explorer extends Control<IExplorerOptions> {
             }
         });
 
+        // Пробежимся по ключам сформированного store и выкинем
+        // все ключи, которых нет в текущих крошках
+        Object
+            .keys(store)
+            .forEach((storeKey) => {
+                if (!actualIds.includes(storeKey)) {
+                    delete store[storeKey];
+                }
+            });
         this._restoredMarkedKeys = store;
     }
 
