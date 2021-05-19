@@ -98,15 +98,15 @@ export default class TileView extends ListView {
             this._setHoveredItem(this, null, null);
         }
         const hoveredItem = this._listModel.getHoveredItem();
-        this._shouldPerformAnimation =
-            hoveredItem && !hoveredItem.destroyed && hoveredItem.isFixed();
+        this._shouldPerformAnimation = hoveredItem && !hoveredItem.destroyed
+            && hoveredItem['[Controls/_tile/mixins/TileItem]'] && hoveredItem.isFixed();
     }
 
     protected _afterUpdate(): void {
         super._afterUpdate();
 
         const hoveredItem = this._listModel.getHoveredItem();
-        if (hoveredItem) {
+        if (hoveredItem && !hoveredItem.destroyed &&  hoveredItem['[Controls/_tile/mixins/TileItem]']) {
             // actions нужно всегда показать после отрисовки hoveredItem
             hoveredItem.setCanShowActions(true);
 
