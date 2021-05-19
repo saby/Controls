@@ -175,6 +175,8 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _restoredMarkedKeys: IMarkedKeysStore;
     private _potentialMarkedKey: TKey;
     private _newItemPadding: IItemPadding;
+    private _newItemActionsPosition: string;
+    private _itemActionsPosition: string;
     private _newItemTemplate: TemplateFunction;
     private _newBackgroundStyle: string;
     private _newHeader: IHeaderCell[];
@@ -208,6 +210,8 @@ export default class Explorer extends Control<IExplorerOptions> {
         if (cfg.header) {
             this._header = cfg.viewMode === 'tile' ? undefined : cfg.header;
         }
+
+        this._itemActionsPosition = cfg.itemActionsPosition;
 
         this._itemsReadyCallback = this._itemsReadyCallbackFunc.bind(this);
         this._itemsSetCallback = this._itemsSetCallbackFunc.bind(this);
@@ -280,6 +284,13 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         if (cfg.header !== this._options.header || isViewModeChanged) {
             this._newHeader = cfg.viewMode === 'tile' ? undefined : cfg.header;
+        }
+
+        if (cfg.itemActionsPosition !== this._options.itemActionsPosition) {
+            /* Нужно задерживать itemActionsPosition, потому что добавляется дополнительная колонка в гриде
+               Если сменить таблицу на плитку, то на время загрузки вьюхи таблица разъедется
+            */
+            this._newItemActionsPosition = cfg.itemActionsPosition;
         }
 
         const navigationChanged = !isEqual(cfg.navigation, this._options.navigation);
@@ -872,6 +883,10 @@ export default class Explorer extends Control<IExplorerOptions> {
         if (this._newHeader) {
             this._header = this._newHeader;
             this._newHeader = null;
+        }
+        if (this._newItemActionsPosition) {
+            this._itemActionsPosition = this._newItemActionsPosition;
+            this._newItemActionsPosition = null;
         }
     }
 
