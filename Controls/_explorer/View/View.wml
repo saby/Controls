@@ -33,6 +33,7 @@
                                           actionCaptionPosition="{{ _viewMode === 'tile' ? 'none' : _options.actionCaptionPosition }}"
                                           itemTemplate="{{_viewMode==='tile' ? _options.tileItemTemplate : _itemTemplate}}"
                                           groupTemplate="{{_viewMode==='tile' ? _options.tileGroupTemplate : _groupTemplate}}"
+                                          itemActionsPosition="{{_itemActionsPosition}}"
                                           disableVirtualScroll="{{_viewMode==='tile'}}"
                                           dragControlId="{{ _dragControlId }}"
                                           canStartDragNDrop="{{ _canStartDragNDrop }}"
