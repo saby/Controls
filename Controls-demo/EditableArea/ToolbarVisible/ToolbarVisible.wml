@@ -25,19 +25,4 @@
          </Controls.editableArea:Base>
       </Controls.editableArea:View>
    </div>
-   <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">with custom toolbar</div>
-      <Controls.editableArea:View
-              autoEdit="{{true}}"
-              editObject="{{_editObject}}">
-         <ws:content>
-            <Controls.editableArea:Base bind:value="content.editObject.text">
-               <ws:editorTemplate>
-                  <Controls.input:Text contrastBackground="{{true}}" attr:class="controls-Input_negativeOffset_theme_{{_options.theme}}"/>
-                  <ws:partial template="{{content.buttonsTemplate}}" />
-               </ws:editorTemplate>
-            </Controls.editableArea:Base>
-         </ws:content>
-      </Controls.editableArea:View>
-   </div>
 </div>
