@@ -29,6 +29,7 @@
                             cursor="{{ cursor }}"
                             backgroundColorStyle="{{ backgroundColorStyle }}"
                             highlightOnHover="{{ highlightOnHover }}"
+                            hoverBackgroundStyle="{{ hoverBackgroundStyle }}"
                             itemActionsTemplate="{{ itemActionsTemplate }}"
                             itemActionsClass="{{ itemActionsClass }}"
                             templateHighlightOnHover="{{ templateHighlightOnHover }}"

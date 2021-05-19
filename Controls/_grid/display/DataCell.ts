@@ -47,8 +47,9 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
                       backgroundColorStyle: string = this._$column.backgroundColorStyle,
                       cursor: string = 'pointer',
                       templateHighlightOnHover: boolean = true,
-                      tmplIsEditable: boolean = true): string {
-        let classes = super.getContentClasses(theme, backgroundColorStyle, cursor, templateHighlightOnHover);
+                      tmplIsEditable: boolean = true,
+                      templateHoverBackgroundStyle?: string): string {
+        let classes = super.getContentClasses(theme, backgroundColorStyle, cursor, templateHighlightOnHover, tmplIsEditable, templateHoverBackgroundStyle);
 
         if (this._$owner.isAnimatedForSelection()) {
             classes += ' controls-ListView__item_rightSwipeAnimation';
@@ -76,7 +77,7 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
     }
 
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover?: boolean, templateHoverBackgroundStyle?: string): string {
-        let classes = super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover);
+        let classes = super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover, templateHoverBackgroundStyle);
 
         // нужен shouldDisplayMarker именно для всего элемента, т.к. эти стили навешиваются на все ячейки для текста
         if (this.getOwner().shouldDisplayMarker()) {

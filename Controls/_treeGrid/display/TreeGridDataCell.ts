@@ -15,7 +15,7 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
     private _$isDragTargetNode: boolean;
 
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover?: boolean, templateHoverBackgroundStyle?: string): string {
-        let classes = super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover);
+        let classes = super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover, templateHoverBackgroundStyle);
 
         if (!this._$owner.hasMultiSelectColumn() && this.isFirstColumn() && isFullGridSupport()) {
             classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}`;

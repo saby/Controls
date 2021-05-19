@@ -318,8 +318,11 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     getContentClasses(theme: string,
                       backgroundColorStyle: string = this._$column.backgroundColorStyle,
                       cursor: string = 'pointer',
-                      templateHighlightOnHover: boolean = true): string {
-        const hoverBackgroundStyle = this._$column.hoverBackgroundStyle || this._$owner.getHoverBackgroundStyle();
+                      templateHighlightOnHover: boolean = true,
+                      tmplIsEditable?: boolean,
+                      templateHoverBackgroundStyle?: string): string {
+        const hoverBackgroundStyle = templateHoverBackgroundStyle ||
+            this._$column.hoverBackgroundStyle || this._$owner.getHoverBackgroundStyle();
 
         let contentClasses = 'controls-Grid__row-cell__content';
 
