@@ -712,7 +712,19 @@ export default class _Controller implements IDropdownController {
          closeOnOutsideClick: true
       };
       const popupConfig = Merge(popupOptions, this._options.menuPopupOptions || {});
-      return Merge(config, popupConfig || {});
+      const result = Merge(config, popupConfig || {});
+      const root = result.templateOptions.root;
+      if (root) {
+         this._updateSourceInOptions(root, result);
+      }
+      return result;
+   }
+
+   private _updateSourceInOptions(root: string, result): void {
+      const parent = this._items.getRecordById(root).getKey();
+      if (this._items.getIndexByValue(this._options.parentProperty, parent) === -1) {
+         result.templateOptions.source = this._options.source;
+      }
    }
 }
 
