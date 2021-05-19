@@ -106,10 +106,19 @@ define([
                toolbarVisible: true,
                ...cfg
             };
+            const event = {
+               stopPropagation: () => {}
+            };
+            result = false;
             instance.saveOptions(cfg);
             instance._beforeMount(cfg);
             instance._onDeactivatedHandler();
-            assert.isNotOk(result);
+            assert.isTrue(result);
+
+            result = false;
+            instance._registerEditableAreaToolbar(event);
+            instance._onDeactivatedHandler();
+            assert.isFalse(result);
          });
       });
 
