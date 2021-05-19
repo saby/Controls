@@ -18,7 +18,7 @@ import * as notScrollableCell from 'wml!Controls-demo/grid/ColumnScroll/DragScro
 import * as notDraggableCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/notDraggableCell';
 import * as dragScrollPopulationCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/populationCell';
 
-import { IColumn } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 import { IHeader } from 'Controls-demo/types';
 
 export interface IData {

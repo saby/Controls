@@ -2,7 +2,7 @@ import { TemplateFunction } from 'UI/Base';
 import {Model as EntityModel, OptionsToPropertyMixin} from 'Types/entity';
 import { mixin } from 'Types/util';
 
-import { IColumn } from 'Controls/interface';
+import { IColumn } from './interface/IColumn';
 import { default as GridGroupCellMixin } from 'Controls/_grid/display/mixins/GroupCell';
 
 import DataCell from './DataCell';
