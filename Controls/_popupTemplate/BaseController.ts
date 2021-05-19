@@ -252,7 +252,7 @@ abstract class BaseController {
 
     private static rootContainers = {};
 
-    static getRootContainerCoords(item: IPopupItem, baseRootSelector: string): IPopupPosition | void {
+    static getRootContainerCoords(item: IPopupItem, baseRootSelector: string, rightOffset?: number): IPopupPosition | void {
         const getRestrictiveContainer = (popupItem: IPopupItem) => {
             if (popupItem.popupOptions.restrictiveContainer) {
                 return popupItem.popupOptions.restrictiveContainer;
