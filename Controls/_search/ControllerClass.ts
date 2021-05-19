@@ -311,7 +311,7 @@ export default class ControllerClass {
    }
 
    private _getRoot(): TKey {
-      let root;
+      let root = this._root;
 
       if (this._root !== undefined && this._options.parentProperty && this._searchValue) {
          if (this._options.startingWith === 'current') {
