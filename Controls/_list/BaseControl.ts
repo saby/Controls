@@ -2330,12 +2330,17 @@ const _private = {
     },
 
     isPagingNavigationVisible(self, hasMoreData) {
+        const navigation = self._options.navigation;
+        if (navigation?.viewConfig?.pagingMode === 'hidden') {
+            return false;
+        }
+
         /**
          * Не получится получать количество элементов через _private.getItemsCount,
          * так как функция возвращает количество отображаемых элементов
          */
-        if (self._options.navigation && self._options.navigation.viewConfig &&
-            self._options.navigation.viewConfig.totalInfo === 'extended') {
+        if (navigation && navigation.viewConfig &&
+            navigation.viewConfig.totalInfo === 'extended') {
             return hasMoreData > PAGING_MIN_ELEMENTS_COUNT || hasMoreData === true;
         }
 

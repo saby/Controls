@@ -6984,7 +6984,8 @@ define([
                    _options: {
                        navigation: {
                            viewConfig: {
-                               totalInfo: 'extended'
+                               totalInfo: 'extended',
+                               pagingMode: 'direct'
                            }
                        }
                    }
@@ -7011,24 +7012,29 @@ define([
                result = isPagingNavigationVisible(baseControlOptions, true);
                assert.isTrue(result, 'paging should be visible');
 
+               // pagingMode === 'hidden'
+               baseControlOptions._options.navigation.viewConfig.pagingMode = 'hidden';
+               result = isPagingNavigationVisible(baseControlOptions, true);
+               assert.isFalse(result, 'paging should not be visible');
 
 
-             baseControlOptions._options.navigation = {};
-             // Известно общее количество  записей, записей 0
-             result = isPagingNavigationVisible(baseControlOptions, 0);
-             assert.isFalse(result, 'paging should not be visible');
+               baseControlOptions._options.navigation = {};
+               // Известно общее количество  записей, записей 0
+               result = isPagingNavigationVisible(baseControlOptions, 0);
+               assert.isFalse(result, 'paging should not be visible');
 
-             // Известно общее количество записей, записей 6
-             result = isPagingNavigationVisible(baseControlOptions, 6);
-             assert.isFalse(result, 'paging should not be visible');
+               // Известно общее количество записей, записей 6
+               result = isPagingNavigationVisible(baseControlOptions, 6);
+               assert.isFalse(result, 'paging should not be visible');
 
-             // Неизвестно общее количество записей, hasMore = false
-             result = isPagingNavigationVisible(baseControlOptions, false);
-             assert.isFalse(result, 'paging should not be visible');
+               // Неизвестно общее количество записей, hasMore = false
+               result = isPagingNavigationVisible(baseControlOptions, false);
+               assert.isFalse(result, 'paging should not be visible');
 
-             // Неизвестно общее количество записей, hasMore = true
-             result = isPagingNavigationVisible(baseControlOptions, true);
-             assert.isTrue(result, 'paging should not be visible');
+               // Неизвестно общее количество записей, hasMore = true
+               result = isPagingNavigationVisible(baseControlOptions, true);
+               assert.isTrue(result, 'paging should not be visible');
+
             });
 
             describe('getPagingLabelData', function() {
