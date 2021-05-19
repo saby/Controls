@@ -167,7 +167,7 @@ export default interface IRichTemplateOptions {
     characteristics?: ICharacteristicsItem;
 
     /**
-     * @cfg {TemplateFunction} Шаблон редактирования для заголовка.
+     * @cfg {TemplateFunction|String} Шаблон редактирования для заголовка.
      * @see descriptionEditor
      * @see footerEditor
      * @see afterImageTemplate
@@ -175,7 +175,7 @@ export default interface IRichTemplateOptions {
     titleEditor?: TemplateFunction;
 
     /**
-     * @cfg {TemplateFunction} Шаблон редактирования для описания.
+     * @cfg {TemplateFunction|String} Шаблон редактирования для описания.
      * @see titleEditor
      * @see footerEditor
      * @see afterImageTemplate
@@ -183,7 +183,7 @@ export default interface IRichTemplateOptions {
     descriptionEditor?: TemplateFunction;
 
     /**
-     * @cfg {TemplateFunction} Шаблон редактирования для подвала.
+     * @cfg {TemplateFunction|String} Шаблон редактирования для подвала.
      * @see titleEditor
      * @see descriptionEditor
      * @see afterImageTemplate
@@ -191,7 +191,7 @@ export default interface IRichTemplateOptions {
     footerEditor?: TemplateFunction;
 
     /**
-     * @cfg {TemplateFunction} Шаблон, отображаемый после изображения и до заголовка.
+     * @cfg {TemplateFunction|String} Шаблон, отображаемый после изображения и до заголовка.
      * @see titleEditor
      * @see descriptionEditor
      * @see footerEditor

@@ -26,7 +26,7 @@ export default interface IContentTemplateOptions {
 
    /**
     * @name Controls/_list/interface/IContentTemplate#contentTemplate
-    * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий содержимое элемента.
+    * @cfg {String|TemplateFunction|undefined} Пользовательский шаблон, описывающий содержимое элемента.
     * @markdown
     * @remark
     * В области видимости шаблона доступны переменные **item** и **itemActionsTemplate**

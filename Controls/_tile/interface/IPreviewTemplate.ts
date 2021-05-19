@@ -75,7 +75,7 @@ export default interface IPreviewTemplateOptions {
     footerTemplate: TemplateFunction;
 
     /**
-     * @cfg {TemplateFunction} Шаблон шапки элемента.
+     * @cfg {TemplateFunction|String} Шаблон шапки элемента.
      * @default undefined
      * @see footerTemplate
      */

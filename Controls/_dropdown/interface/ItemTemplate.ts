@@ -73,7 +73,7 @@
 
 /**
  * @name Controls/dropdown:ItemTemplate#contentTemplate
- * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
+ * @cfg {String|TemplateFunction|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
  * @default undefined
  * @markdown
  * @remark
@@ -139,7 +139,7 @@
 
  /**
  * @name Controls/dropdown:ItemTemplate#additionalTextTemplate
- * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, который отображается под основным контентом элемента и используется для вывода дополнительного текста (комментария).
+ * @cfg {String|TemplateFunction|undefined} Устанавливает пользовательский шаблон, который отображается под основным контентом элемента и используется для вывода дополнительного текста (комментария).
  * @default undefined
  * @example
  * <pre class="brush: html; highlight: [9,10,11]">

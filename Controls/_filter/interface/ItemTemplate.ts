@@ -16,7 +16,7 @@ export default interface IItemTemplateOptions {
    beforeContentTemplate?: string;
    /**
     * @name Controls/filter:ItemTemplate#contentTemplate
-    * @cfg {String|function|undefined} Пользовательский шаблон, описывающий содержимое элемента.
+    * @cfg {String|TemplateFunction|undefined} Пользовательский шаблон, описывающий содержимое элемента.
     * @remark
     * В области видимости шаблона доступны две переменные — item и text.
     * @example

@@ -202,7 +202,8 @@ export type TCursor = 'default' | 'pointer' | 'right';
     cursor?: TCursor;
 
     /**
-     * @typedef {String} backgroundColorStyle
+     * @typedef {String} Controls/_display/interface/IMarkable/BackgroundColorStyle
+     * @description Допустимые значения для опции {@link backgroundColorStyle}.
      * @variant danger
      * @variant success
      * @variant warning
@@ -212,7 +213,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
      * @variant readonly
      */
     /**
-     * @cfg {backgroundColorStyle} Стиль фона ячейки.
+     * @cfg {Controls/_display/interface/IMarkable/BackgroundColorStyle.typedef} Стиль фона ячейки.
      */
     backgroundColorStyle?: string;
 
@@ -228,7 +229,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
     tagStyle?: 'info' | 'danger' | 'primary' | 'success' | 'secondary';
 
     /**
-     * @cfg {Controls/_display/interface/IMarkable/TMarkerClassName.typedef} Размер маркера.
+     * @cfg {Controls/grid.TMarkerClassName} Размер маркера.
      * @default default
      */
     markerClassName?: TMarkerClassName;

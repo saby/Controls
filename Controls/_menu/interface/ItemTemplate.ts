@@ -27,7 +27,7 @@
 export default interface IItemTemplateOptions {
     /**
      * @name Controls/menu:ItemTemplate#contentTemplate
-     * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
+     * @cfg {String|TemplateFunction|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
      * @default undefined
      * @demo Controls-demo/Menu/Control/ItemTemplate/ContentTemplate/Index
      * @example
@@ -90,7 +90,7 @@ export default interface IItemTemplateOptions {
     contentTemplate?: string;
     /**
      * @name Controls/menu:ItemTemplate#additionalTextTemplate
-     * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, который отображается под основным контентом элемента и используется для вывода дополнительного текста (комментария).
+     * @cfg {String|TemplateFunction|undefined} Устанавливает пользовательский шаблон, который отображается под основным контентом элемента и используется для вывода дополнительного текста (комментария).
      * @default undefined
      * @demo Controls-demo/Menu/Control/ItemTemplate/AdditionalTextTemplate/Index
      * @example
@@ -127,7 +127,7 @@ export default interface IItemTemplateOptions {
     multiLine?: boolean;
     /**
      * @name Controls/menu:ItemTemplate#rightTemplate
-     * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, который отображается справа от основного контента элемента и используется для вывода дополнительного действия (комманды).
+     * @cfg {String|TemplateFunction|undefined} Устанавливает пользовательский шаблон, который отображается справа от основного контента элемента и используется для вывода дополнительного действия (комманды).
      * @default undefined
      * @demo Controls-demo/Menu/Control/ItemTemplate/ItemTemplateProperty/RightTemplate/Index
      * @example

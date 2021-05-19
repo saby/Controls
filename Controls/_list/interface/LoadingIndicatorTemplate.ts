@@ -25,7 +25,7 @@ import {TemplateFunction} from 'UI/Base';
 
 export default interface ILoadingIndicatorTemplateOptions {
     /**
-     * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий контент индикатора
+     * @cfg {String|TemplateFunction|undefined} Пользовательский шаблон, описывающий контент индикатора
      * @example
      * <pre class="brush: html; highlight: [6-8]">
      * <!-- WML -->
@@ -43,7 +43,7 @@ export default interface ILoadingIndicatorTemplateOptions {
      */
     contentTemplate: TemplateFunction | string;
     /**
-     * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий подвал индикатора.
+     * @cfg {String|TemplateFunction|undefined} Пользовательский шаблон, описывающий подвал индикатора.
      * @example
      * <pre class="brush: html; highlight: [6-8]">
      * <!-- WML -->

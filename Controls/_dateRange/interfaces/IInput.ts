@@ -68,7 +68,7 @@
 
 /*
  * @name Controls/_dateRange/interfaces/IInput#rightFieldTemplate
- * @cfg {TemplateFunction} Шаблон, содержащие прикладной контент, который будет отображаться справа от полей ввода.
+ * @cfg {TemplateFunction|String} Шаблон, содержащие прикладной контент, который будет отображаться справа от полей ввода.
  * @remark
  * В шаблон будет переданы опции
  * <ul>
