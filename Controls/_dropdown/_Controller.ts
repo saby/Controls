@@ -299,6 +299,10 @@ export default class _Controller implements IDropdownController {
       });
    }
 
+   getItems(): RecordSet<Model> {
+      return this._items;
+   }
+
    private _open(popupOptions?: object): Promise<unknown[]> {
       if (this._options.readOnly) {
          return Promise.resolve();

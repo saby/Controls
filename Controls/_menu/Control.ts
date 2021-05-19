@@ -956,7 +956,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                 targetPoint: {
                     horizontal: 'right'
                 },
-                hoverController: this._options.hoverController,
+                calmTimer: this._options.calmTimer,
                 backgroundStyle: this._options.backgroundStyle,
                 trigger: this._options.trigger
             };
