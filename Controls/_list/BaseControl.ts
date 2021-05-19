@@ -1899,7 +1899,7 @@ const _private = {
      * @param newItems
      */
     shouldUpdateItemActions(newItems): boolean {
-        const propertyVariants = ['selected', 'marked', 'swiped', 'hovered', 'active', 'dragged', 'editingContents'];
+        const propertyVariants = ['selected', 'marked', 'swiped', 'hovered', 'active', 'dragged'];
         return !newItems || !newItems.properties || propertyVariants.indexOf(newItems.properties) === -1;
     },
 
@@ -5489,7 +5489,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 // обязательно должен случиться после события beforeBeginEdit.
                 this._notifyItemClick(this._savedItemClickArgs);
             }
-
             resolve(eventResult);
         }).then((result) => {
 
@@ -5511,6 +5510,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (!sourceController) {
                 return LIST_EDITING_CONSTANTS.CANCEL;
             }
+
+            _private.removeShowActionsClass(this);
 
             if (isAdd && !((options && options.item) instanceof Model) && !((result && result.item) instanceof Model)) {
                 return sourceController.create().then((item) => {
@@ -5609,6 +5610,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (result === LIST_EDITING_CONSTANTS.CANCEL) {
                 return result;
             }
+
+            _private.addShowActionsClass(this);
+
             const eventResult = this._notify('beforeEndEdit', [item, willSave, isAdd]);
 
             // Если пользователь не сохранил добавляемый элемент, используется платформенное сохранение.
@@ -5641,7 +5645,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         item.contents.unsubscribe('onPropertyChange', this._resetValidation);
-        _private.updateItemActions(this, this._options);
+        _private.updateItemActions(this, this._options, item);
     }
 
     _resetValidation() {
@@ -6291,6 +6295,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (!this._addShowActionsClass &&
             (!this._dndListController || !this._dndListController.isDragging()) &&
             !this._itemActionsMenuId &&
+            (!this._editInPlaceController || !this._editInPlaceController.isEditing()) &&
             (!hoverFreezeController || hoverFreezeController.getCurrentItemKey() === null)) {
             _private.addShowActionsClass(this);
         }

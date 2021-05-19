@@ -456,24 +456,6 @@ describe('Controls/_itemActions/Controller', () => {
                 'tooltip should be not the same as title here');
         });
 
-        // T1.16 Если редактируется или создаётся запись, actions будут добавлены в showed только для редактируемой записи
-        it('should not add any item actions when records are editing', () => {
-            const item3 = collection.getItemBySourceKey(3);
-            // @ts-ignore
-            item3.setEditing(true, item3.getContents());
-            // @ts-ignore
-            collection.setEditing(true);
-            // @ts-ignore
-            itemActionsController.update(initializeControllerOptions({
-                collection,
-                itemActions,
-                theme: 'default'
-            }));
-            const actionsOf2 = collection.getItemBySourceKey(2).getActions();
-            assert.equal(item3.getActions().showed.length, 4, 'item 4 is editing and should contain 4 itemActions');
-            assert.equal(actionsOf2.showed.length, 0,
-                'item 4 is editing and item 2 should not contain any itemActions');
-        });
         // T1.17 Если редактируемой(добавляемой) записи нет в рекордсете операции над записью инициализируются для нее
         it('should assign itemActions for editig item that is not in collection', () => {
             const list = new RecordSet({
@@ -491,11 +473,8 @@ describe('Controls/_itemActions/Controller', () => {
                 itemActions,
                 theme: 'default'
             }));
-            const actionsOf2 = collection.getItemBySourceKey(2).getActions();
             assert.equal(editingItem.getActions().showed.length, 4,
                 'item 4 is editing and should contain 4 itemActions');
-            assert.equal(actionsOf2.showed.length, 0,
-                'item 4 is editing and item 2 should not contain any itemActions');
         });
 
         // T1.17. Должны адекватно набираться ItemActions для breadcrumbs (когда getContents() возвращает массив
