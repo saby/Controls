@@ -15,8 +15,8 @@
     isActionCell Поле, для определения ячейки действий
     templateOptions Опции, передаваемые в шаблон ячейки заголовка.
 */
-import { TemplateFunction } from 'UI/Base';
-import {IColspanParams, IHeaderCell} from 'Controls/interface';
+import { IColspanParams } from './interface/IColumn';
+import { IHeaderCell } from './interface/IHeaderCell';
 import { IItemPadding } from 'Controls/display';
 import HeaderRow from './HeaderRow';
 import Cell, {IOptions as ICellOptions} from './Cell';

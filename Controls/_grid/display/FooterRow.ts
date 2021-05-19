@@ -1,6 +1,6 @@
 import {TemplateFunction} from 'UI/Base';
 import {isEqual} from 'Types/object';
-import {IColumn, TColumns} from 'Controls/interface';
+import {IColumn, TColumns} from './interface/IColumn';
 import {Footer, IHasMoreData, IItemActionsTemplateConfig} from 'Controls/display';
 import Row from './Row';
 import FooterCell, {IOptions as IFooterCellOptions} from 'Controls/_grid/display/FooterCell';

@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/grid/Multiselect/CustomPosition/CustomPosition';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 import * as cellTemplate from 'wml!Controls-demo/grid/Multiselect/CustomPosition/CellTemplate';
 
 export default class extends Control {

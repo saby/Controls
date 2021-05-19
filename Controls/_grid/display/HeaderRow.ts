@@ -1,13 +1,11 @@
-import { Model } from 'Types/entity';
-
 import {
     ICellPadding,
     IColumn,
     IColumnSeparatorSizeConfig,
-    IHeaderCell,
     TColumnSeparatorSize,
-    THeader
-} from 'Controls/interface';
+} from './interface/IColumn';
+
+import {IHeaderCell, THeader} from './interface/IHeaderCell';
 
 import Row, {IOptions as IRowOptions} from './Row';
 import Header, {IHeaderBounds} from './Header';
@@ -111,6 +109,7 @@ export default class HeaderRow<T> extends Row<T> {
                     column,
                     isFixed,
                     sorting: this._getSortingBySortingProperty(column.sortingProperty),
+                    backgroundStyle: this._$backgroundStyle,
                     cellPadding: this._getCellPaddingForHeaderColumn(column, index),
                     columnSeparatorSize: this._getColumnSeparatorSizeForColumn(column, index),
                     shadowVisibility: this.getShadowVisibility()

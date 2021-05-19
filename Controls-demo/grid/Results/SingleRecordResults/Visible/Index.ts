@@ -1,8 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridOld';
-import { IHeaderCell } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
+import { IHeaderCell } from 'Controls/grid';
+
 import * as Template from 'wml!Controls-demo/grid/Results/SingleRecordResults/Visible/Visible';
 
 export default class extends Control {
