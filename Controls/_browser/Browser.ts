@@ -394,7 +394,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._validateSearchOptions(newOptions);
             const updateResult = searchController.update({
                 ...newOptions,
-                sourceController: this._getSourceController()
+                sourceController: this._getSourceController(),
+                root: this._root
             });
 
             if (updateResult instanceof Promise) {
