@@ -56,14 +56,14 @@
                 <Controls.buttons:Button
                    attr:data-qa="controls-stack-Button__close"
                    icon="icon-Close"
-                   iconStyle="secondary"
-                   buttonStyle="secondary"
+                   iconStyle="label"
+                   buttonStyle="unaccented"
                    iconSize="m"
-                   viewMode="onlinePageHeader"
+                   viewMode="functionalButton"
                    inlineHeight="xl"
                    tooltip="{[Закрыть]}"
                    readOnly="{{false}}"
-                   attr:class="controls-stack-Button__close"
+                   attr:class="controls-stack-Button__close controls-stack-Button__rightPanel__close ws-flex-shrink-0"
                    on:click="close()"
                 />
                 <Controls.Container.Async templateName="{{_stackRightPanel}}">
