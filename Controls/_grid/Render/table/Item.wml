@@ -28,6 +28,7 @@
                             style="{{ style }}"
                             cursor="{{ cursor }}"
                             backgroundColorStyle="{{ backgroundColorStyle }}"
+                            backgroundStyle="{{ backgroundStyle }}"
                             highlightOnHover="{{ highlightOnHover }}"
                             itemActionsTemplate="{{ itemActionsTemplate }}"
                             itemActionsClass="{{ itemActionsClass }}"
