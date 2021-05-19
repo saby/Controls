@@ -224,6 +224,38 @@ define([
             keyProperty: 'id'
          });
       });
+
+      const itemsWithNullTitle = [
+         {
+            id: 1,
+            title: null,
+            secondTitle: 'тест1',
+            parent: null
+         },
+         {
+            id: 2,
+            title: 'Длинное название второй папки',
+            secondTitle: 'тест2',
+            parent: 1
+         },
+         {
+            id: 2,
+            title: null,
+            secondTitle: 'тест2',
+            parent: 1
+         },
+         {
+            id: 2,
+            title: 'Длинное название папки',
+            secondTitle: 'тест2',
+            parent: 1
+         }
+      ].map((item) => {
+         return new entity.Model({
+            rawData: item,
+            keyProperty: 'id'
+         });
+      });
       it('2 crumbs', function() {
          BreadCrumbsUtil.getItemsWidth = () => {
             return [50, 50];
@@ -232,6 +264,14 @@ define([
          MultilinePathCrumbs._calculateBreadCrumbsToDraw(items1, options1);
          assert.isTrue(MultilinePathCrumbs._visibleItemsFirst.length === 2);
          assert.isTrue(MultilinePathCrumbs._visibleItemsSecond.length === 0);
+      });
+      it('null in title', function() {
+         BreadCrumbsUtil.getItemsWidth = () => {
+            return [50, 50];
+         };
+         MultilinePathCrumbs._width = 100;
+         MultilinePathCrumbs._calculateBreadCrumbsToDraw(itemsWithNullTitle, options1);
+         assert.isTrue(MultilinePathCrumbs._visibleItemsFirst.length === 2);
       });
       it('несколько крошек, причем последняя не влезает в первый контейнер без сокращения', function() {
          BreadCrumbsUtil.getItemsWidth = () => {
