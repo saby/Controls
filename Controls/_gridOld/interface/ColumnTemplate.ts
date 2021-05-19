@@ -58,8 +58,8 @@ export type TCursor = 'default' | 'pointer' | 'right';
     * * **index** — порядковый номер строки. Отсчет от 0.
     * * **isEditing()** — возвращает true, если для записи выполняется {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
     * * **contents** (тип {@link Types/entity:Record}) — элемент, данные которого отображаются в колонке.
-    * * **getLevel()** — возвращает уровень вложенности отосительно корня. Актуально для контрола {@link Controls/treeGrid:View Дерево}.
-    * * **nodeType**  — тип элемента. Возвращает true для типа "узел", false — для типа "скрытый узел" и null  — для типа "лист". Актуально для контрола {@link Controls/treeGrid:View Дерево}.
+    * * **getLevel()** — возвращает уровень вложенности элемента относительно корня иерархии. Актуально для контрола {@link Controls/treeGrid:View Дерево}.
+    * * **nodeType**  — тип элемента. Возвращает true для типа "узел", false — для типа "скрытый узел", null  — для типа "лист". Актуально для контрола {@link Controls/treeGrid:View Дерево}.
     * 
     * Переменная **column** позволяет получить доступ к следующими свойствам:
     * 
@@ -68,7 +68,9 @@ export type TCursor = 'default' | 'pointer' | 'right';
     *
     * Переменная **editArrowTemplate** позволяет отобразить {@link Controls/grid:IGridControl#showEditArrow стрелку-шеврон} в прикладном шаблоне для первой колонки. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 4.
     *
-    * Переменная **expanderTemplate** доступна только, если шаблон используется в контроле {@link Controls/treeGrid:View}. С помощью переменной можно отобразить кнопку раскрытия узла в произвольном месте элемента. При этом опцию {@link Controls/treeGrid:View#expanderPosition expanderPosition} необходимо установить в значение custom. Переменную expanderTemplate достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 5.
+    * Переменная **expanderTemplate** доступна только, если шаблон используется в контроле {@link Controls/treeGrid:View}. С помощью переменной можно отобразить кнопку-экспандер в произвольном месте элемента. При этом опцию {@link Controls/treeGrid:View#expanderPosition expanderPosition} необходимо установить в значение custom. Переменную expanderTemplate достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 5.
+    * 
+    * Переменная **itemActionsTemplate** — панель с [опциями записи](/doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/).
     * @example
     * **Пример 1.** Шаблон и контрол сконфигурированы в одном WML-файле.
     * <pre class="brush: html; highlight: [7-13]">
