@@ -25,11 +25,11 @@
          <div class="{{ (item || itemData).getAutoResizerClasses(itemType, staticHeight, hasTitle) }}" style="{{ (item || itemData).getAutoResizerStyles(itemType, width || itemWidth, imageProportion, imagePosition, imageViewMode) }}"></div>
       </ws:if>
 
+      <ws:partial template="imageTpl"/>
+
       <ws:if data="{{ (item || itemData).shouldDisplayGradient(itemType, imageEffect, imageViewMode, imagePosition, 'image') }}">
          <div class="{{ (item || itemData).getGradientClasses(itemType, gradientType) }}"
               style="{{ (item || itemData).getGradientStyles(itemType, gradientColor, gradientType) }}"></div>
       </ws:if>
-
-      <ws:partial template="imageTpl"/>
    </div>
 </ws:if>
