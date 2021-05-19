@@ -191,5 +191,6 @@ export function fillAdditionalZeros(str: string, precision: number) {
     const parsedString: IParsedNumber = parse(str);
     const additionalZeros = precision - parsedString.fractional.length;
     const zeros = '0'.repeat(additionalZeros);
-    return `${str}${zeros}`;
+    const splitter = parsedString.hasSplitter || !zeros ? '' : '.';
+    return `${str}${splitter}${zeros}`;
 }
