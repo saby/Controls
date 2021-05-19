@@ -31,7 +31,7 @@
 export default interface IGroupTemplateOptions {
     /**
      * @name Controls/propertyGrid:GroupTemplate#contentTemplate
-     * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий заголовок группы.
+     * @cfg {String|TemplateFunction|undefined} Пользовательский шаблон, описывающий заголовок группы.
      * @example
      * <pre class="brush: html">
      * <Controls.propertyGrid:PropertyGrid>

@@ -1,5 +1,5 @@
 /**
- * Шаблон, который по умолчанию используется для отображения строки итогов в {@link Controls/grid:View таблице}.
+ * Шаблон, который по умолчанию используется для отображения строки {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ итогов} в {@link Controls/grid:View таблице}.
  *  
  * @class Controls/_gridOld/interface/ResultsTemplate
  * @author Авраменко А.С.

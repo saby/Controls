@@ -14,7 +14,7 @@ import DateRangeContext from 'Controls/_dateRange/DateRangeContext';
 
 /**
  * @name Controls/_dateRange/DateRangeContextProvider#content
- * @cfg {TemplateFunction} Пользовательский шаблон.
+ * @cfg {TemplateFunction|String} Пользовательский шаблон.
  * @example
  * <pre>
  *     <Controls.dateRange:DateRangeContextProvider>

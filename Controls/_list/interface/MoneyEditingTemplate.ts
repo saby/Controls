@@ -2,13 +2,17 @@ import {IMoneyOptions} from 'Controls/decorator';
 import IEditingTemplateOptions from './EditingTemplate'
 
 /**
- * Шаблон для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} денежных полей в {@link Controls/list:View плоских списках}.
+ * Шаблон для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} денежных полей в {@link /doc/platform/developmentapl/interface-development/controls/list/ списках}.
  * В режиме чтения выводит значение с помощью {@link Controls/decorator:Money}.
  * 
  * @class Controls/_list/interface/MoneyEditingTemplate
  * @mixes Controls/list:EditingTemplate
+ * @mixes Controls/decorator:IMoney
  * @author Авраменко А.С.
  * @see Controls/list:View
+ * @see Controls/list:BaseEditingTemplate
+ * @see Controls/list:EditingTemplate
+ * @see Controls/list:NumberEditingTemplate
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
  * <pre class="brush: html; highlight: [6-10]">
@@ -28,6 +32,8 @@ import IEditingTemplateOptions from './EditingTemplate'
  * </Controls.list:View>
  * </pre>
  * @public
+ * @remark
+ * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/#manual здесь}.
  */
 export default interface IMoneyEditingTemplateOptions extends IEditingTemplateOptions, IMoneyOptions {
     readonly '[Controls/_list/interface/IMoneyEditingTemplateOptions]': boolean;

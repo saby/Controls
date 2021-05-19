@@ -59,20 +59,20 @@ export default interface IPreviewTemplateOptions {
      */
     gradientColor?: string;
     /**
-     * @cfg {TemplateFunction} Шаблон справа от заголовка плитки.
+     * @cfg {TemplateFunction|String} Шаблон справа от заголовка плитки.
      * @default undefined
      * @see gradientType
      */
     bottomRightTemplate: TemplateFunction;
     /**
-     * @cfg {TemplateFunction} Шаблон подвала элемента.
+     * @cfg {TemplateFunction|String} Шаблон подвала элемента.
      * @default undefined
      * @see gradientType
      */
     footerTemplate: TemplateFunction;
 
     /**
-     * @cfg {TemplateFunction} Шаблон шапки элемента.
+     * @cfg {TemplateFunction|String} Шаблон шапки элемента.
      * @default undefined
      * @see gradientType
      */
