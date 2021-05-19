@@ -75,7 +75,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
     _beforeMount(options: IContainerBaseOptions, context?, receivedState?) {
         this._virtualNavigationRegistrar = new RegisterClass({register: 'virtualNavigation'});
-        if (this._isHorizontalScroll(options.scrollMode)) {
+        if (!this._isHorizontalScroll(options.scrollMode)) {
             this._resizeObserver = new ResizeObserverUtil(this, this._resizeObserverCallback, this._resizeHandler);
         }
         this._resizeObserverSupported = this._resizeObserver?.isResizeObserverSupported();
@@ -117,7 +117,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         if (!this._scrollModel) {
             this._createScrollModel();
         }
-        if (!this._resizeObserverSupported || this._isHorizontalScroll(this._options.scrollMode)) {
+        if (!this._resizeObserver?.isResizeObserverSupported() || this._isHorizontalScroll(this._options.scrollMode)) {
             RegisterUtil(this, 'controlResize', this._controlResizeHandler, { listenAll: true });
             // ResizeObserver при инициализации контрола стрелнет событием ресайза.
             // Вызваем метод при инициализации сами если браузер не поддерживает ResizeObserver
@@ -169,7 +169,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _beforeUnmount(): void {
-        if (!this._resizeObserverSupported) {
+        if (!this._resizeObserver.isResizeObserverSupported()) {
             UnregisterUtil(this, 'controlResize', {listenAll: true});
         }
         this._resizeObserver?.terminate();
@@ -191,7 +191,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     private _isHorizontalScroll(scrollModeOption: string): boolean {
         const scrollMode = scrollModeOption.toLowerCase();
         // При горизонтальном скролле будет работать с событием controlResize
-        return scrollMode.indexOf('horizontal') === -1;
+        return scrollMode.indexOf('horizontal') !== -1;
     }
 
     _controlResizeHandler(): void {
