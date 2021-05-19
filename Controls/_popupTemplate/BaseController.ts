@@ -117,6 +117,10 @@ abstract class BaseController {
         return this.elementAnimated && this.elementAnimated(item);
     }
 
+    orientationChanged(item: IPopupItem, container: HTMLDivElement): boolean {
+        return this._elementUpdated(item, container);
+    }
+
     getDefaultConfig(item: IPopupItem): void {
         item.position = {
             top: -10000,
@@ -248,7 +252,7 @@ abstract class BaseController {
 
     private static rootContainers = {};
 
-    static getRootContainerCoords(item: IPopupItem, baseRootSelector: string, rightOffset?: number): IPopupPosition | void {
+    static getRootContainerCoords(item: IPopupItem, baseRootSelector: string): IPopupPosition | void {
         const getRestrictiveContainer = (popupItem: IPopupItem) => {
             if (popupItem.popupOptions.restrictiveContainer) {
                 return popupItem.popupOptions.restrictiveContainer;
