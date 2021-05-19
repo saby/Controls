@@ -357,6 +357,16 @@ describe('Controls/search:ControllerClass', () => {
          assert.isFalse(searchStub.called);
          assert.isTrue(resetStub.called);
       });
+
+      it('update with same value after search', async () => {
+         await controllerClass.search('testSearchValue');
+
+         const updateResult = controllerClass.update({
+            searchValue: 'testSearchValue'
+         });
+
+         assert.ok(!(updateResult instanceof Promise));
+      });
    });
 
    describe('search', () => {
