@@ -30,6 +30,7 @@ describe('Controls/grid_clean/Display/header/HeaderRow', () => {
                         sorting: undefined,
                         cellPadding: undefined,
                         columnSeparatorSize: null,
+                        shadowVisibility: 'lastVisible',
                         backgroundStyle: 'custom'
                     };
 
