@@ -45,7 +45,7 @@ describe('Controls/_treeTile/display/TreeTileCollectionItem', () => {
             it('can show actions and has visible actions and not is node', () => {
                 const actions = {showed: ['action1']};
                 const item = new TreeTileCollectionItem({actions, canShowActions: true, owner, contents});
-                assert.isFalse(!!item.shouldDisplayTitle('preview'));
+                assert.isTrue(!!item.shouldDisplayTitle('preview'));
             });
 
             it('can show actions and has visible actions and is node', () => {

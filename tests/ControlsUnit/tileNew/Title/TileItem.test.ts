@@ -104,7 +104,7 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
             it('can show actions and has visible actions', () => {
                 const actions = {showed: ['action1']};
                 const item = new TileCollectionItem({actions, canShowActions: true, owner, contents});
-                assert.isFalse(item.shouldDisplayTitle('preview'));
+                assert.isTrue(item.shouldDisplayTitle('preview'));
             });
 
             it('not can show actions and has visible actions', () => {
