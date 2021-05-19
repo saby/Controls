@@ -411,6 +411,7 @@ const _private = {
     attachLoadTopTriggerToNullIfNeed(self, options): boolean {
         const supportAttachLoadTopTriggerToNull = _private.supportAttachLoadTriggerToNull(options, 'up');
         if (!supportAttachLoadTopTriggerToNull) {
+            self._attachLoadTopTriggerToNull = false;
             return false;
         }
         const needAttachLoadTopTriggerToNull = _private.needAttachLoadTriggerToNull(self, 'up');
@@ -425,6 +426,7 @@ const _private = {
     },
     attachLoadDownTriggerToNullIfNeed(self, options): boolean {
         if (!_private.supportAttachLoadTriggerToNull(options, 'down') || !self._listViewModel || !self._listViewModel['[Controls/_display/grid/mixins/Grid]']) {
+            self._attachLoadDownTriggerToNull = false;
             return false;
         }
         const needAttachLoadDownTriggerToNull = _private.needAttachLoadTriggerToNull(self, 'down');
