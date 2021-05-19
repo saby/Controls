@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/StickyCallback/Index';
 import {Memory} from 'Types/source';
-import 'css!Controls-demo/Controls-demo'
+import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
