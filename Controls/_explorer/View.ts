@@ -429,6 +429,12 @@ export default class Explorer extends Control<IExplorerOptions> {
         event.stopPropagation();
 
         const changeRoot = () => {
+            // Перед проваливанием запомним значение курсора записи, т.к. в крошках могут его не прислать
+            const currRootInfo = this._restoredMarkedKeys[this._getRoot(this._options.root)];
+            if (currRootInfo && this._isCursorNavigation(this._navigation)) {
+                currRootInfo.cursorPosition = this._getCursorPositionFor(item, this._navigation);
+            }
+
             this._setRoot(item.getKey());
             // При search не должны сбрасывать маркер, так как он встанет на папку
             if (this._options.searchNavigationMode !== 'expand') {
@@ -715,20 +721,16 @@ export default class Explorer extends Control<IExplorerOptions> {
         navigation: INavigationOptionValue<INavigationPageSourceConfig>
     ): void {
 
-        const store = this._restoredMarkedKeys = {
-            [root]: {
-                markedKey: null
-            }
+        const store = this._restoredMarkedKeys || {
+            [root]: {markedKey: null},
+            [topRoot]: {markedKey: null}
         } as IMarkedKeysStore;
 
-        // Если хлебных крошек нет, то дальне идти нет смысла
+        // Если хлебных крошек нет, то дальше идти нет смысла
         if (!breadcrumbs?.length) {
+            this._restoredMarkedKeys = store;
             return;
         }
-
-        store[topRoot] = {
-            markedKey: null
-        };
 
         breadcrumbs?.forEach((crumb) => {
             const crumbKey = crumb.getKey();
@@ -742,11 +744,15 @@ export default class Explorer extends Control<IExplorerOptions> {
             if (store[parentKey]) {
                 store[parentKey].markedKey = crumbKey;
 
-                if (this._isCursorNavigation(navigation)) {
+                // Берем значение курсора из крошки только в том случае если он еще не выставлен
+                // Курсор для текущего рута выставляется при проваливании
+                if (this._isCursorNavigation(navigation) && !store[parentKey].cursorPosition) {
                     store[parentKey].cursorPosition = this._getCursorPositionFor(crumb, navigation);
                 }
             }
         });
+
+        this._restoredMarkedKeys = store;
     }
 
     /**
@@ -983,7 +989,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _getCursorPositionFor(
         item: Model,
         positionNavigation: INavigation<IPositionSourceConfig>
-    ): IPositionSourceConfig['position'] {
+    ): unknown[] {
 
         const position: unknown[] = [];
         const optField = positionNavigation.sourceConfig.field;
