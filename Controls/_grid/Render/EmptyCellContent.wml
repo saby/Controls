@@ -1,4 +1,5 @@
-<div class="{{ (gridColumn || emptyViewColumn).getContentClasses(theme, topSpacing, bottomSpacing) }}">
+<div class="{{ (gridColumn || emptyViewColumn).getContentClasses(theme, topSpacing, bottomSpacing) }}"
+     style="{{ (gridColumn || emptyViewColumn).getContentStyles(containerSize) }}">
 
     <ws:if data="{{ !!(contentTemplate || content) }}">
         <!-- Прикладной контент -->
