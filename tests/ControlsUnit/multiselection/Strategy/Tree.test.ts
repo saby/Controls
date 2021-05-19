@@ -630,7 +630,7 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
          const selection = { selected: [2], excluded: [] };
          const res = strategy.getCount(selection, false);
-         assert.equal(res, 2);
+         assert.equal(res, 3);
       });
    });
 
@@ -788,9 +788,9 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
             const selection = { selected: [null], excluded: [null] };
             const res = strategy.getSelectionForModel(selection);
-            assert.deepEqual(toArrayKeys(res.get(true)), [5, 7] );
+            assert.deepEqual(toArrayKeys(res.get(true)), [4, 5, 7] );
             assert.deepEqual(toArrayKeys(res.get(null)), []);
-            assert.deepEqual(toArrayKeys(res.get(false)), [1, 2, 3, 4, 6]);
+            assert.deepEqual(toArrayKeys(res.get(false)), [1, 2, 3, 6]);
          });
 
          it('selectAll', () => {
@@ -861,9 +861,9 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
             const selection = { selected: [null], excluded: [null] };
             const res = strategy.getSelectionForModel(selection);
-            assert.deepEqual(toArrayKeys(res.get(true)), [2, 3, 6] );
+            assert.deepEqual(toArrayKeys(res.get(true)), [1, 2, 3, 6] );
             assert.deepEqual(toArrayKeys(res.get(null)), []);
-            assert.deepEqual(toArrayKeys(res.get(false)), [1, 4, 5, 7]);
+            assert.deepEqual(toArrayKeys(res.get(false)), [4, 5, 7]);
          });
       });
 
@@ -951,9 +951,9 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
             const selection = { selected: [2], excluded: [] };
             const res = strategy.getSelectionForModel(selection);
-            assert.deepEqual(toArrayKeys(res.get(true)), [2, 3] );
+            assert.deepEqual(toArrayKeys(res.get(true)), [2, 3, 4] );
             assert.deepEqual(toArrayKeys(res.get(null)), [1] );
-            assert.deepEqual(toArrayKeys(res.get(false)), [4, 5, 6, 7] );
+            assert.deepEqual(toArrayKeys(res.get(false)), [5, 6, 7] );
          });
       });
    });

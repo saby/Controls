@@ -1980,7 +1980,7 @@
   "--monthlist_monthview_weekend_text-color_datePicker": "var(--primary_text-color)",
   "--monthlist_monthview_today_text-color_datePicker": "#fff",
   "--yearlist_monthview_weekend_text-color_datePicker": "var(--monthlist_monthview_weekend_text-color_datePicker)",
-  "--monthlist_monthview_today_background-color_datePicker": "#DA4600",
+  "--monthlist_monthview_today_background-color_datePicker": "var(--primary_text-color)",
   "--monthlist_monthview_selection-border_thickness_datePicker": "var(--rangeSelection_border_thickness_datePicker)",
   "--monthlist_monthview_selection-border_color_datePicker": "var(--rangeSelection_border_color_datePicker)",
   "--monthlist_monthview_selection-border_single_thickness_datePicker": "var(--rangeSelection_border_single_thickness_datePicker)",
