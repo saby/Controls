@@ -185,7 +185,7 @@ describe('Controls/_tile/TileView', () => {
 
             assert.isFalse(item.canShowActions());
 
-            item.setHovered(true);
+            model.setHoveredItem(item);
             tileView._beforeUpdate(cfg);
             tileView._afterUpdate();
 
