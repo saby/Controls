@@ -16,6 +16,7 @@ export interface ISearchControllerOptions extends ISearchOptions,
    root?: TKey;
    viewMode?: TViewMode;
    items?: RecordSet;
+   searchStartCallback?: Function;
 }
 
 const SERVICE_FILTERS = {
@@ -364,7 +365,7 @@ export default class ControllerClass {
    }
 
    private _updateFilterAndLoad(filter: QueryWhereExpression<unknown>, root: TKey): Promise<RecordSet|Error> {
-      this._searchStarted();
+      this._searchStarted(filter);
       this._sourceController.setRoot(root);
       return this._searchPromise =
           this._sourceController
@@ -397,8 +398,11 @@ export default class ControllerClass {
       }
    }
 
-   private _searchStarted(): void {
+   private _searchStarted(filter: QueryWhereExpression<unknown>): void {
       this._searchInProgress = true;
+      if (this._options.searchStartCallback) {
+         this._options.searchStartCallback(filter);
+      }
    }
 
    private _searchEnded(): void {

@@ -131,6 +131,21 @@ describe('Controls/search:ControllerClass', () => {
       assert.ok(controllerClass.needChangeSearchValueToSwitchedString(rs));
    });
 
+   it('search with searchStartCallback', async () => {
+      const sourceController = getSourceController({
+         source: new Memory()
+      });
+      let searchStarted = false;
+      const searchController = getSearchController({
+         sourceController,
+         searchStartCallback: () => {
+            searchStarted = true;
+         }
+      });
+      await searchController.search('testSearchValue');
+      assert.ok(searchStarted);
+   });
+
    describe('with hierarchy', () => {
       it('default search case and reset', () => {
          const filter: QueryWhereExpression<unknown> = {
