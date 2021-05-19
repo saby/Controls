@@ -741,6 +741,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         };
         //endregion
 
+        this._reBuildNodeFooters();
         this._expandedItems = [...expandedKeys];
     }
 
@@ -768,6 +769,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 item.setExpanded(false);
             }
         });
+        this._reBuildNodeFooters();
     }
 
     resetExpandedItems(): void {
@@ -780,6 +782,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 it.setExpanded(false);
             }
         });
+        this._reBuildNodeFooters();
     }
 
     toggleExpanded(item: T): void {
@@ -830,15 +833,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     // endregion
 
     // region Protected methods
-
-    protected _handleAfterCollectionChange(changedItems: ISessionItems<T> = [], changeAction?: string): void {
-        super._handleAfterCollectionChange(changedItems, changeAction);
-
-        const changedProperties = changedItems.properties;
-        if (changedProperties && (changedProperties === 'expanded' || changedProperties.hasOwnProperty('expanded'))) {
-            this._reBuildNodeFooters();
-        }
-    }
 
     protected _getItemsStrategy: () => IItemsStrategy<S, T>;
 
