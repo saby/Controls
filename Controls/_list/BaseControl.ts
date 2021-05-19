@@ -5524,7 +5524,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             // Не вся бизнес логика поддерживает загрузку первой/последней страницы при курсорной навигации.
             // TODO: Поддержать везде по задаче
             //  https://online.sbis.ru/opendoc.html?guid=000ff88b-f37e-4aa6-9bd3-3705bb721014
-            if (editingConfig.task1181625554) {
+            if (editingConfig.task1181625554 && isAdd) {
                 return _private.scrollToEdge(this, editingConfig.addPosition === 'top' ? 'up' : 'down').then(() => {
                     return result;
                 });
