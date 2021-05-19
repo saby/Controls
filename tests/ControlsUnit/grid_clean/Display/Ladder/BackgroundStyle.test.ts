@@ -6,6 +6,7 @@ describe('Controls/grid_clean/Display/DataCell/BackgroundStyle.test.ts', () => {
     const mockedOwner = {
         getHoverBackgroundStyle: () => 'default',
         isDragged: () => false,
+        getStickyLadder: () => false,
         hasItemActionsSeparatedCell: () => false,
         getTopPadding: () => 'default',
         getBottomPadding: () => 'default',

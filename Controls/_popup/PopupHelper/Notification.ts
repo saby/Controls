@@ -4,7 +4,7 @@ import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {INotificationPopupOptions} from '../interface/INotification';
 
 /**
- * Хелпер для открытия нотификационных окон.
+ * Хелпер для открытия {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/ окон уведомления}.
  * @class Controls/_popup/PopupHelper/Notification
  * @implements Controls/popup:INotificationOpener
  *
@@ -15,28 +15,7 @@ export default class NotificationOpener extends Base {
     protected _opener = Notification;
     private _compatiblePopupInstance: unknown;
 
-    /**
-     * Метод для открытия нотификационных окон.
-     * @function Controls/_popup/PopupHelper/Notification#open
-     * @param {INotificationPopupOptions} popupOptions Конфигурация нотификационного окна.
-     * @example
-     * <pre class="brush: js">
-     * import {NotificationOpener} from 'Controls/popup';
-     *
-     * this._notification = new NotificationOpener();
-     *
-     * openNotification() {
-     *     this._notification.open({
-     *         template: 'Example/MyNotificationTemplate',
-     *         opener: this
-     *     });
-     * }
-     * </pre>
-     * @see close
-     * @see destroy
-     * @see isOpened
-     */
-    open(popupOptions: INotificationPopupOptions) {
+   open(popupOptions: INotificationPopupOptions) {
         super.open(popupOptions);
     }
 
@@ -71,50 +50,3 @@ export default class NotificationOpener extends Base {
         }
     }
 }
-/**
- * Метод для закрытия нотификационного окна.
- * @name Controls/_popup/PopupHelper/Notification#close
- * @function
- * @example
- * <pre class="brush: js">
- * import {NotificationOpener} from 'Controls/popup';
- *
- * this._notification = new NotificationOpener();
- *
- * closeNotification() {
- *    this._notification.close();
- * }
- * </pre>
- * @see open
- * @see destroy
- * @see isOpened
- */
-
-/**
- * Разрушает экземпляр класса.
- * @name Controls/_popup/PopupHelper/Notification#destroy
- * @function
- * @example
- * <pre class="brush: js">
- * import {NotificationOpener} from 'Controls/popup';
- *
- * this._notification = new NotificationOpener();
- *
- * _beforeUnmount() {
- *     this._notification.destroy();
- *     this._notification = null;
- * }
- * </pre>
- * @see open
- * @see close
- * @see isOpened
- */
-
-/**
- * @name Controls/_popup/PopupHelper/Notification#isOpened
- * @description Возвращает информацию о том, открыто ли нотификационное окно.
- * @function
- * @see open
- * @see close
- * @see destroy
- */

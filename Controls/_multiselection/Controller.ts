@@ -89,6 +89,7 @@ export class Controller {
       if (!selection.selected.length && !selection.excluded.length) {
          this._filterChanged = false;
          this._strategy.reset();
+         this.resetLimit();
       }
 
       this._selection = selection;
@@ -124,8 +125,7 @@ export class Controller {
 
    /**
     * Возвращает ограничение на количество единоразово выбранных записей
-    * @param {number} limit Ограничение
-    * @void
+    * @number
     * @public
     */
    getLimit(): number {
@@ -135,11 +135,20 @@ export class Controller {
    /**
     * Увеличивает лимит на указанное количество
     * @param {number} count Количество
-    * @void
+    * @number
     * @public
     */
    increaseLimitByCount(count: number): number {
       return this._limit += count;
+   }
+
+   /**
+    * Сбрасывает лимит
+    * @number
+    * @public
+    */
+   resetLimit(): number {
+      return this._limit = 0;
    }
 
    /**

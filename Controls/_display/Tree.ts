@@ -396,13 +396,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // region Drag-n-drop
 
-    setDraggedItems(draggableItem: T, draggedItemsKeys: Array<number | string>): void {
-        if (draggableItem.isExpanded()) {
-            this.toggleExpanded(draggableItem);
-        }
-        super.setDraggedItems(draggableItem, draggedItemsKeys);
-    }
-
     setDragPosition(position: IDragPosition<T>): void {
         const dragStrategy = this.getStrategyInstance(this._dragStrategy) as TreeDrag;
 
@@ -621,10 +614,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._$root = root;
         this._root = null;
 
-        this._resetEdgeItems();
         this._reIndex();
         this._reAnalize();
-        this._updateEdgeItems();
     }
 
     /**
@@ -721,12 +712,15 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         //region Удаленные ключи нужно свернуть
         if (diff.removed[0] === null) {
             this._getItems().forEach((item) => {
-                if (!item['[Controls/_display/TreeItem]']) {
+                // TODO: не должен общий модуль знать про конкретную реализацию TreeGridNodeFooterRow
+                //  getContents() у TreeGridNodeFooterRow должен придерживаться контракта и возвращать
+                //  Model а не строку
+                if (!item['[Controls/_display/TreeItem]'] || item['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
                     return;
                 }
 
                 const id = item.getContents().getKey();
-                if (diff.added.includes(id)) {
+                if (id && diff.added.includes(id)) {
                     return;
                 }
 
@@ -741,12 +735,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                     item.setExpanded(false);
                 }
             });
-        }
+        };
         //endregion
 
         this._expandedItems = [...expandedKeys];
-        this._resetEdgeItems();
-        this._updateEdgeItems();
     }
 
     setCollapsedItems(collapsedKeys: CrudEntityKey[]): void {
@@ -819,47 +811,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     // endregion Expanded/Collapsed
-
-    // region Аспект "крайние записи"
-
-    getFirstItem(): Model<any> {
-        if (!this._firstItem) {
-            const children = this.getChildrenByRecordSet(this.getRoot().getContents());
-            this._firstItem = children[0];
-        }
-        return this._firstItem;
-    }
-
-    getLastItem(): Model {
-        if (!this._lastItem) {
-            this._lastItem = this._getLastItemRecursive(this.getRoot().getContents());
-        }
-        return this._lastItem;
-    }
-
-    protected _getLastItemRecursive(root: S): S {
-        // Обращаемся к иерархии для получения детей
-        const children = this.getChildrenByRecordSet(root);
-        const lastChild: S = children[children.length - 1];
-        // Если узел и у него нет детей, то он последний
-        if (children.length === 0) {
-            return root;
-        }
-        const isNode = (lastChild.get ? lastChild.get(this._$nodeProperty) : lastChild[this._$nodeProperty]) !== null;
-        const lastChildKey = lastChild.getKey ? lastChild.getKey() : lastChild[this._$keyProperty];
-
-        // expandedItems появляются только после того, как был вызван Tree.setExpandedItems
-        const expandedItems = this.getExpandedItems();
-        if (isNode && expandedItems && (
-            this.isExpandAll() ||
-            (expandedItems && expandedItems.indexOf(lastChildKey) !== -1)
-        )) {
-            return this._getLastItemRecursive(lastChild);
-        }
-        return lastChild;
-    }
-
-    // endregion Аспект "крайние записи"
 
     setHasMoreStorage(storage: Record<string, boolean>): void {
         if (!isEqual(this._$hasMoreStorage, storage)) {

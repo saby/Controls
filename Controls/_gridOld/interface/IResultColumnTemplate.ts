@@ -7,8 +7,9 @@ import {TFontWeight} from 'Controls/_interface/IFontWeight';
  * @author Авраменко А.С.
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html; highlight: [6,7,8,9,10,11]">
- * <Controls.grid:View>
+ * <pre class="brush: html; highlight: [7-12]">
+ * <!-- WML -->
+ * <Controls.grid:View source="{{_viewSource}}">
  *    <ws:columns>
  *       <ws:Array>
  *          <ws:Object displayProperty="Name">
@@ -34,10 +35,12 @@ export default interface IResultColumnTemplateOptions {
      * В области видимости шаблона доступен объект **results** - итогов, которые были переданы в метаданных RecordSet.
      * Результаты должны быть переданы в виде {@link Types/entity/Model}.
      * Если шаблон ячейки итогов или контентная опция не заданы, будут выведены итоги из метаданных по ключу, соответствующему displayProperty для данной колонки.
+     * @markdown
      * @example
      * **Пример 1.** Переопределение шаблона итогов и конфигурация контрола в одном WML-файле.
-     * <pre class="brush: html; highlight: [6,7,8,9,10]">
-     * <Controls.grid:View>
+     * <pre class="brush: html; highlight: [7-11]">
+     * <!-- WML -->
+     * <Controls.grid:View source="{{_viewSource}}">
      *    <ws:columns>
      *       <ws:Array>
      *          <ws:Object displayProperty="Name">
@@ -55,9 +58,9 @@ export default interface IResultColumnTemplateOptions {
      * </pre>
      *
      * **Пример 2.** Контрол и шаблоны сконфигурированы в отдельных WML-файлах.
-     * <pre class="brush: html; highlight: [6,7,8]">
+     * <pre class="brush: html; highlight: [6-8]">
      * <!-- file1.wml -->
-     * <Controls.grid:View>
+     * <Controls.grid:View source="{{_viewSource}}">
      *    <ws:columns>
      *       <ws:Array>
      *          <ws:Object displayProperty="Name">
@@ -80,8 +83,9 @@ export default interface IResultColumnTemplateOptions {
      * </pre>
      * 
      * **Пример 3.** Переопределение стандартных параметров отображения результатов.
-     * <pre class="brush: html; highlight: [5,6,7]">
-     * <Controls.grid:View>
+     * <pre class="brush: html; highlight: [6-8]">
+     * <!-- WML -->
+     * <Controls.grid:View source="{{_viewSource}}">
      *    <ws:columns>
      *       <ws:Array>
      *          <ws:Object displayProperty="Name">
@@ -95,8 +99,9 @@ export default interface IResultColumnTemplateOptions {
      * </pre>
      * 
      * **Пример 4.** Конфигурация ячейки для выравнивания контента по копейкам. На шаблон добавлен CSS-класс "controls-Grid&#95;&#95;cell&#95;spacing&#95;money".
-     * <pre class="brush: html; highlight: [5,6,7]">
-     * <Controls.grid:View>
+     * <pre class="brush: html; highlight: [6-8]">
+     * <!-- WML -->
+     * <Controls.grid:View source="{{_viewSource}}">
      *    <ws:columns>
      *       <ws:Array>
      *          <ws:Object displayProperty="Name">
@@ -112,6 +117,7 @@ export default interface IResultColumnTemplateOptions {
     content?: string;
 
     /**
+     * @description Допустимые значения для опции {@link fontWeight}.
      * @typedef {String} TFontWeight
      * @variant bold
      * @variant default
@@ -125,6 +131,7 @@ export default interface IResultColumnTemplateOptions {
 
 
     /**
+     * @description Допустимые значения для опции {@link fontColorStyle}.
      * @typedef {String} FontColorStyle
      * @variant secondary
      * @variant success

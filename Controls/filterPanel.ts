@@ -9,6 +9,7 @@
  * @author Мельникова Е.А.
  */
 export {default as View} from './_filterPanel/View';
+export {default as ViewModel} from './_filterPanel/View/ViewModel';
 export {default as BaseEditor} from './_filterPanel/BaseEditor';
 export {default as TextEditor} from './_filterPanel/Editors/Text';
 export {default as NumberRangeEditor} from './_filterPanel/Editors/NumberRange';

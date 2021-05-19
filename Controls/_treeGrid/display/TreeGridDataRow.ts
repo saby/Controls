@@ -1,11 +1,11 @@
 import { mixin } from 'Types/util';
 import { ITreeItemOptions, TreeItem, IItemPadding, TMarkerClassName, IGroupNode } from 'Controls/display';
-import { IGridRowOptions, GridCell, GridRowMixin, IDisplaySearchValue, IDisplaySearchValueOptions, IGridDataCellOptions, GridItemActionsCell } from 'Controls/grid';
+import { IGridRowOptions, GridCell, GridRowMixin, IDisplaySearchValue, IDisplaySearchValueOptions} from 'Controls/grid';
 import TreeGridCollection from './TreeGridCollection';
 import { IColumn } from 'Controls/interface';
 import { Model } from 'Types/entity';
-import ResultsCell from "Controls/_grid/display/ResultsCell";
-import TreeCheckboxCell from "Controls/_treeGrid/display/TreeCheckboxCell";
+import TreeCheckboxCell from './TreeCheckboxCell';
+import {ITreeGridDataCellOptions} from './TreeGridDataCell';
 
 export interface IOptions<T extends Model> extends IGridRowOptions<T>, ITreeItemOptions<T>, IDisplaySearchValueOptions {
     owner: TreeGridCollection<T>;
@@ -94,10 +94,23 @@ export default class TreeGridDataRow<T extends Model = Model>
         }
     }
 
-    protected _getColumnFactoryParams(column: IColumn, columnIndex: number): Partial<IGridDataCellOptions<T>> {
+    setDragTargetNode(isTarget: boolean): void {
+        const changed = isTarget !== this.isDragTargetNode();
+        super.setDragTargetNode(isTarget);
+        if (changed) {
+            this.getColumns().forEach((it) => {
+                if (it['[Controls/treeGrid:TreeGridDataCell]']) {
+                    it.setDragTargetNode(isTarget);
+                }
+            });
+        }
+    }
+
+    protected _getColumnFactoryParams(column: IColumn, columnIndex: number): Partial<ITreeGridDataCellOptions<T>> {
         return {
             ...super._getColumnFactoryParams(column, columnIndex),
-            searchValue: this._$searchValue
+            searchValue: this._$searchValue,
+            isDragTargetNode: this.isDragTargetNode()
         };
     }
 

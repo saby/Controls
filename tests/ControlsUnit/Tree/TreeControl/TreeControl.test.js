@@ -548,14 +548,6 @@ define([
          assert.isTrue(treeControl._expandController.isItemExpanded(fakeDispItem.getContents().getKey()));
       });
 
-      it('_private.isDeepReload', function() {
-         assert.isFalse(!!tree.TreeControl._private.isDeepReload({}, false));
-         assert.isTrue(!!tree.TreeControl._private.isDeepReload({}, true));
-
-         assert.isTrue(!!tree.TreeControl._private.isDeepReload({ deepReload: true }, false));
-         assert.isFalse(!!tree.TreeControl._private.isDeepReload({ deepReload: false}, false));
-      });
-
       // it('TreeControl.reload', async function() {
       //    var createControlResult = correctCreateTreeControl({
       //         parentProperty: '',
@@ -1820,6 +1812,7 @@ define([
          treeControl._notify = (event, args) => {
             if (event === 'expandedItemsChanged') {
                newCfg.expandedItems = args[0];
+               treeControl.getSourceController().setExpandedItems(newCfg.expandedItems);
             }
             if (event === 'markedKeyChanged') {
                newCfg.markedKey = args[0];
@@ -1915,6 +1908,12 @@ define([
             const expandedItems = treeControl.getViewModel().getExpandedItems();
             assert.deepEqual(expandedItems, [null]);
          });
+
+         it('call when model is not created', () => {
+            const treeControl = new tree.TreeControl({keyProperty: 'id'});
+            treeControl._beforeMount({keyProperty: 'id'});
+            assert.doesNotThrow(treeControl.resetExpandedItems.bind(treeControl));
+         });
       });
 
       describe('toggleExpanded', () => {
@@ -1955,7 +1954,9 @@ define([
                hasLoaded: () => true,
                getKeyProperty: () => 'id',
                hasMoreData: () => false,
-               isLoading: () => false
+               isLoading: () => false,
+               isDeepReload: () => false,
+               wasResetExpandedItems: () => false
             };
          });
 
@@ -1963,10 +1964,10 @@ define([
             treeControl._beforeUpdate({...cfg, expandedItems: [null]});
 
             await treeControl.toggleExpanded(0);
-            assert.isTrue(model.getItemBySourceKey(0).isExpanded());
+            assert.isFalse(model.getItemBySourceKey(0).isExpanded());
 
             await treeControl.toggleExpanded(0);
-            assert.isFalse(model.getItemBySourceKey(0).isExpanded());
+            assert.isTrue(model.getItemBySourceKey(0).isExpanded());
          });
 
          it('check expandedItems and collapsedItems options', async() => {

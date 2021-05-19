@@ -8,7 +8,7 @@
     </ws:if>
 </ws:template>
 
-<div class="controls-SortingButton">
+<div class="controls-SortingButton controls_list_theme-{{_options.theme}}">
     <div class="controls-SortingButton__content" title="{{_options.caption}}">
 
         <div class="controls-SortingButton__caption controls-SortingButton__caption

@@ -22,8 +22,9 @@ export type TCursor = 'default' | 'pointer' | 'right';
  *
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html; highlight: [6,7,8,9,10,11,12]">
- * <Controls.grid:View>
+ * <pre class="brush: html; highlight: [7-13]">
+ * <!-- WML -->
+ * <Controls.grid:View source="{{_viewSource}}">
  *    <ws:columns>
  *       <ws:Array>
  *          <ws:Object displayProperty="name">
@@ -48,15 +49,16 @@ export type TCursor = 'default' | 'pointer' | 'right';
    /**
     * @cfg {String|TemplateFunction} Пользовательский шаблон для отображения содержимого ячейки.
     * @see Controls/grid:IGridControl#showEditArrow
+    * @markdown
     * @remark
-    * В области видимости шаблона доступны переменные **itemData**, **editArrowTemplate** и **expanderTemplate**.
+    * В области видимости шаблона доступны переменные **item**, **editArrowTemplate** и **expanderTemplate**.
     *
-    * Переменная **itemData** позволяет получить доступ к следующими свойствам:
+    * Переменная **item** позволяет получить доступ к следующими свойствам:
     *
     * * **columnIndex** — порядковый номер колонки. Отсчет от 0.
     * * **index** — порядковый номер строки. Отсчет от 0.
     * * **isEditing()** — возвращает true, если для записи выполняется {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
-    * * **item** (тип {@link Types/entity:Record}) — элемент, данные которого отображаются в колонке.
+    * * **contents** (тип {@link Types/entity:Record}) — элемент, данные которого отображаются в колонке.
     * * **column.config** (тип {@link Controls/interface:IColumn IColumn}) — объект с конфигурацией колонки.
     *
     * Переменная **editArrowTemplate** позволяет отобразить {@link Controls/grid:IGridControl#showEditArrow стрелку-шеврон} в прикладном шаблоне для первой колонки. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 4.
@@ -64,8 +66,9 @@ export type TCursor = 'default' | 'pointer' | 'right';
     * Переменная **expanderTemplate** доступна только, если шаблон используется в контроле {@link Controls/treeGrid:View}. С помощью переменной можно отобразить кнопку раскрытия узла в произвольном месте элемента. При этом опцию {@link Controls/treeGrid:View#expanderPosition expanderPosition} необходимо установить в значение custom. Переменную expanderTemplate достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 5.
     * @example
     * **Пример 1.** Шаблон и контрол сконфигурированы в одном WML-файле.
-    * <pre class="brush: html; highlight: [6,7,8,9,10,11,12]">
-    * <Controls.grid:View>
+    * <pre class="brush: html; highlight: [7-13]">
+    * <!-- WML -->
+    * <Controls.grid:View source="{{_viewSource}}">
     *    <ws:columns>
     *       <ws:Array>
     *          <ws:Object displayProperty="Name">
@@ -87,7 +90,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
     * **Пример 2.** Контрол и шаблоны сконфигурированы в отдельных WML-файлах.
     * <pre class="brush: html; highlight: [7]">
     * <!-- file1.wml -->
-    * <Controls.grid:View>
+    * <Controls.grid:View source="{{_viewSource}}">
     *    <ws:columns>
     *       <ws:Array>
     *          <ws:Object displayProperty="Name">
@@ -111,8 +114,9 @@ export type TCursor = 'default' | 'pointer' | 'right';
     *
     * **Пример 3.** Шаблон contentTemplate сконфигурирован в отдельном WML-файле.
     *
-    * <pre class="brush: html; highlight: [8]">
-    * <Controls.grid:View>
+    * <pre class="brush: html; highlight: [9]">
+    * <!-- file1.wml -->
+    * <Controls.grid:View source="{{_viewSource}}">
     *    <ws:columns>
     *       <ws:Array>
     *          <ws:Object displayProperty="Name">
@@ -138,7 +142,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
     *
     * **Пример 4.** Следующий пример настраивает контрол так, что для первой колонки задан пользовательский шаблон. При этом добавлено отображение {@link Controls/grid:IGridControl#showEditArrow стрелки-шеврона}.
     * <pre class="brush: html; highlight: [11]">
-    * <Controls.grid:View>
+    * <Controls.grid:View source="{{_viewSource}}">
     *    <ws:columns>
     *       <ws:Array>
     *          <ws:Object displayProperty="name">
@@ -160,7 +164,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
     *
     * **Пример 5.** Следующий пример настраивает контрол так, что для первой колонки задан пользовательский шаблон. При этом добавлено отображение кнопки раскрытия узла.
     * <pre class="brush: html; highlight: [1,13]">
-    * <Controls.treeGrid:View expanderPosition="custom">
+    * <Controls.treeGrid:View source="{{_viewSource}}" nodeProperty="type" parentProperty="parent" expanderPosition="custom">
     *    <ws:itemTemplate>
     *       <ws:partial template="Controls/treeGrid:ItemTemplate" />
     *    </ws:itemTemplate>

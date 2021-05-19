@@ -4,6 +4,10 @@ import {CssClassesAssert as assertClasses} from 'ControlsUnit/CustomAsserts';
 
 describe('Controls/grid_clean/GridViewTable', () => {
 
+    const listModel = {
+        isDragging: () => false
+    };
+
     let gridView: typeof GridViewTable;
     let options;
 
@@ -14,6 +18,7 @@ describe('Controls/grid_clean/GridViewTable', () => {
     describe('_getGridViewClasses', () => {
         it('without columnScroll', () => {
             gridView = new GridViewTable(options);
+            gridView._listModel = listModel;
             assertClasses.include(
                 gridView._getGridViewClasses(options),
                 'controls-Grid_table-layout controls-Grid_table-layout_fixed'
@@ -23,6 +28,7 @@ describe('Controls/grid_clean/GridViewTable', () => {
         it('with columnScroll', () => {
             options = {...options, columnScroll: true};
             gridView = new GridViewTable(options);
+            gridView._listModel = listModel;
             assertClasses.include(
                 gridView._getGridViewClasses(options),
                 'controls-Grid_table-layout controls-Grid_table-layout_auto'

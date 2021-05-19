@@ -12,7 +12,7 @@
         </ws:if>
     </div>
 </ws:template>
-<div class="controls-list_Characteristics">
+<div class="controls-list_Characteristics controls_list_theme-{{_options.theme}}">
 <ws:for data="item in items">
     <ws:partial template="INFO_ITEM_TEMPLATE" scope="{{item}}"/>
 </ws:for>

@@ -91,12 +91,20 @@ const GridView = ListView.extend({
         if (changes.includes('resultsPosition')) {
             listModel.setResultsPosition(options.resultsPosition);
         }
+
+        if (changes.includes('ladderProperties')) {
+            listModel.setLadderProperties(options.ladderProperties);
+        }
     },
 
     _applyChangedOptions(newOptions, oldOptions, changes): void {
         this._doAfterUpdate(() => {
             this._isColumnScrollUpdateFrozen = false;
             this._actualizeColumnScroll(newOptions, oldOptions);
+            // TODO: Переделать по https://online.sbis.ru/opendoc.html?guid=73950100-bf2c-44cf-9e59-d29ddbb58d3a
+            // Чинит проблемы https://online.sbis.ru/opendoc.html?guid=a6f1e8c3-dd71-43b9-a1a8-9270c2f85c0d
+            // Нужно как то сообщать контроллеру фиксированных блоков, что блок стал видимым, что бы рассчитать его.
+            this._notify('controlResize', [], {bubbling: true});
         });
     },
 
@@ -134,6 +142,9 @@ const GridView = ListView.extend({
             if (changedOptions.hasOwnProperty('items')) {
                 changes.push('items');
             }
+            if (changedOptions.hasOwnProperty('ladderProperties')) {
+                changes.push('ladderProperties');
+            }
         }
 
         if (changes.length) {
@@ -148,6 +159,10 @@ const GridView = ListView.extend({
         } else if (!this._isColumnScrollUpdateFrozen) {
             this._doAfterUpdate(() => {
                 this._actualizeColumnScroll(newOptions, oldOptions);
+                // TODO: Переделать по https://online.sbis.ru/opendoc.html?guid=73950100-bf2c-44cf-9e59-d29ddbb58d3a
+                // Чинит проблемы https://online.sbis.ru/opendoc.html?guid=a6f1e8c3-dd71-43b9-a1a8-9270c2f85c0d
+                // Нужно как то сообщать контроллеру фиксированных блоков, что блок стал видимым, что бы рассчитать его.
+                this._notify('controlResize', [], {bubbling: true});
             });
         }
     },
@@ -202,7 +217,9 @@ const GridView = ListView.extend({
         const ladderStickyColumn = GridLadderUtil.getStickyColumn({
             columns
         });
-        if (ladderStickyColumn) {
+
+        // Во время днд отключаем лесенку, а контент отображаем принудительно с помощью visibility: visible
+        if (ladderStickyColumn && !this._listModel.isDragging()) {
             if (ladderStickyColumn.property.length === 2) {
                 columnsWidths.splice(1, 0, '0px');
             }
@@ -235,7 +252,12 @@ const GridView = ListView.extend({
             !this._listModel.getFooter() &&
             !(this._listModel.getResults() && this._listModel.getResultsPosition() === 'bottom')
         ) {
-            classes += ` controls-GridView__paddingBottom__itemActionsV_outside`;
+            classes += ' controls-GridView__paddingBottom__itemActionsV_outside';
+        }
+
+        // Во время днд отключаем лесенку, а контент отображаем принудительно с помощью visibility: visible
+        if (this._listModel.isDragging()) {
+            classes += ' controls-Grid_dragging_process';
         }
 
         classes += ` ${this._columnScrollContentClasses}`;
@@ -380,7 +402,7 @@ const GridView = ListView.extend({
         return this._columnScrollViewController.getScrollBarStyles(this._options, GridLadderUtil.stickyLadderCellsCount(
             this._listModel.getColumnsConfig(),
             this._options.stickyColumn,
-            this._listModel.getDraggableItem()
+            this._listModel.isDragging()
         ));
     },
 
@@ -388,7 +410,7 @@ const GridView = ListView.extend({
         const stickyLadderCellsCount = GridLadderUtil.stickyLadderCellsCount(
             this._options.columns,
             this._options.stickyColumn,
-            this._listModel.getDraggableItem()
+            this._listModel.isDragging()
         );
         this._columnScrollViewController = new ColumnScrollViewController({
             ...options,

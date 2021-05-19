@@ -221,8 +221,8 @@ class Container extends Control<IContainerOptions> {
     }
 
     private _notifyDragEvent(eventName: string, args: unknown[]): void {
-        EventBus.channel('dragnDrop').notify(eventName, ...args);
         this._notify(eventName, args);
+        EventBus.channel('dragnDrop').notify(eventName, ...args);
     }
 
     private _getDragObject(mouseEvent: MouseEvent, startEvent: SyntheticEvent<MouseEvent>): IDragObject {

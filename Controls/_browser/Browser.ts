@@ -221,7 +221,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
         // на mount'e не доступен searchController, т.к. он грузится асинхронно, поэтому логика тут нужна
         this._previousViewMode = this._viewMode = options.viewMode;
-        if (this._inputSearchValue && this._inputSearchValue.length > options.minSearchLength) {
+        if (this._inputSearchValue && this._inputSearchValue.length >= options.minSearchLength) {
             this._updateViewMode('search');
         } else {
             this._updateViewMode(options.viewMode);
@@ -395,7 +395,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
             if (updateResult instanceof Promise) {
                 this._loading = true;
-                updateResult.catch(() => this._processSearchError);
+                updateResult.catch(this._processSearchError);
             }
 
             return updateResult;

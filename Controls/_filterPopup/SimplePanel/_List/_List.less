@@ -6,6 +6,10 @@
    flex-shrink: 0;
 }
 
+.controls-SimplePanel-List__row_state_default {
+   background-color: var(--item_background-color_menu);
+}
+
 .controls-SimplePanel-List__row_pinned {
    font-weight: bold;
 }
@@ -56,4 +60,10 @@
 
 .controls-SimplePanel-List__item-rightPadding_xs {
    padding-right: var(--item_padding-horizontal_s_menu);
+}
+
+.ws-is-hover {
+   .controls-SimplePanel-List__row_state_default:hover {
+      background-color: var(--item_hover_background-color_menu);
+   }
 }
