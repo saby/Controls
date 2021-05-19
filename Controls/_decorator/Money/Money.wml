@@ -1,5 +1,8 @@
-<span class="{{_options.currency && _options.currencyPosition === 'left' ? 'ws-flex-row-reverse'}} controls-DecoratorMoney controls-DecoratorMoney_style-{{_options.style}} {{ _options.underline === 'hovered' ? 'controls-DecoratorMoney__underline' }}"
+<span class="controls-DecoratorMoney {{_options.style ? ' controls-DecoratorMoney_style-' + _options.style}} {{ _options.underline === 'hovered' ? 'controls-DecoratorMoney__underline' }}"
       title="{{_tooltip}}">
+    <ws:if data="{{_options.currency && _options.currencyPosition === 'left'}}">
+            <span class="controls-fontsize-{{_options.currencySize}} controls-text-{{_options.fontColorStyle}} controls-fontweight-{{_options.fontWeight}}">{{_currencies[_options.currency]}}</span>
+    </ws:if>
     <span class="{{ _options.stroked ? 'controls-DecoratorMoney__stroked' }}">
         <span class="controls-fontsize-{{_options.fontSize}}
                      controls-text-{{_fontColorStyle}}
@@ -8,7 +11,7 @@
                      {{_options.currency && _options.currencyPosition === 'right' && !_isDisplayFractionPath(_formattedNumber.fraction, _options.showEmptyDecimals) ? 'controls-margin_right-2xs'}}">
             {{_formattedNumber.integer}}
         </span>
-        <ws:if data="{{_isDisplayFractionPath(_formattedNumber.fraction, _options.showEmptyDecimals) && _options.abbreviationType !== 'long'}}">
+        <ws:if data="{{_isDisplayFractionPath(_formattedNumber.fraction, _options.showEmptyDecimals, _options.decimalsVisibility) && _options.abbreviationType !== 'long'}}">
             <span class="controls-DecoratorMoney__fraction__colorStyle-{{ _formattedNumber.fraction === '.00' ? 'readonly' : _fontColorStyle}}
                          controls-fontsize-{{_fractionFontSize}}
                          {{_options.currency && _options.currencyPosition === 'right' ? 'controls-margin_right-2xs'}}">
@@ -16,7 +19,7 @@
             </span>
         </ws:if>
     </span>
-    <ws:if data="{{_options.currency}}">
+    <ws:if data="{{_options.currency && _options.currencyPosition === 'right'}}">
             <span class="controls-fontsize-{{_options.currencySize}} controls-text-{{_options.fontColorStyle}} controls-fontweight-{{_options.fontWeight}}">{{_currencies[_options.currency]}}</span>
     </ws:if>
 </span>

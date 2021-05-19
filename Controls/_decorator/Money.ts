@@ -11,7 +11,6 @@ import {
     IFontWeight,
     IFontWeightOptions
 } from 'Controls/interface';
-import {Logger} from 'UI/Utils';
 import {descriptor, DescriptorValidator} from 'Types/entity';
 import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
 import numberToString from 'Controls/_decorator/inputUtils/toString';
@@ -35,6 +34,7 @@ type TValue = string | number | null;
  * @variant none
  */
 type TAbbreviationType = 'long' | 'none';
+
 /**
  * Тип данных для отображаемой валюты
  * @typedef {string} Controls/_decorator/IMoney/TCurrency
@@ -43,6 +43,7 @@ type TAbbreviationType = 'long' | 'none';
  * @variant Dollar
  */
 type TCurrency = 'Ruble' | 'Euro' | 'Dollar';
+
 /**
  * Тип данных для позиции отображаемой валюты
  * @typedef {string} Controls/_decorator/IMoney/TCurrencyPosition
@@ -50,6 +51,7 @@ type TCurrency = 'Ruble' | 'Euro' | 'Dollar';
  * @variant left
  */
 type TCurrencyPosition = 'right' | 'left';
+
 /**
  * Тип данных для размера отображаемой валюты
  * @typedef {string} Controls/_decorator/IMoney/TCurrencySize
@@ -60,6 +62,19 @@ type TCurrencyPosition = 'right' | 'left';
  * @variant l
  */
 type TCurrencySize = '2xs' | 'xs' | 's' | 'm' | 'l';
+
+/**
+ * Тип данных для отображения десятичной части
+ * @typedef {string} Controls/_decorator/IMoney/TDecimalsVisibility
+ * @variant visible
+ * @variant hidden
+ * @variant hiddenIfEmpty
+ * @remark
+ * * visible - десятичная часть отображается
+ * * hidden - десятичная часть скрыта
+ * * hiddenIfEmpty - не отображается только нулевая десятичная часть
+ */
+type TDecimalsVisibility = 'visible' | 'hidden' | 'hiddenIfEmpty';
 
 interface IPaths {
     integer: string;
@@ -103,6 +118,13 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
      * @demo Controls-demo/Decorator/Money/Currency/Index
      */
     currencyPosition?: TCurrencyPosition;
+    /**
+     * @name Controls/_decorator/IMoney#decimalsVisibility
+     * @cfg {Controls/_decorator/IMoney/TDecimalsVisibility.typedef} Определяет отображение десятичной части.
+     * @default 'visible'
+     * @demo Controls-demo/Decorator/Money/DecimalsVisibility/Index
+     */
+    decimalsVisibility?: TDecimalsVisibility;
 }
 
 /**
@@ -152,8 +174,26 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     protected _template: TemplateFunction = template;
 
     // Used in template
-    protected _isDisplayFractionPath(value: string, showEmptyDecimals: boolean): boolean {
-        return showEmptyDecimals || value !== '.00';
+    protected _isDisplayFractionPath(value: string, showEmptyDecimals: boolean, decimalsVisibility: string): boolean {
+        if (!showEmptyDecimals) {
+            return value !== '.00';
+        }
+
+        let result;
+
+        switch (decimalsVisibility) {
+            case 'visible':
+                result = true;
+                break;
+            case 'hidden':
+                result = false;
+                break;
+            case 'hiddenIfEmpty':
+                result = value !== '.00';
+                break;
+        }
+
+        return result;
     }
 
     private _getTooltip(options: IMoneyOptions): string {
@@ -280,7 +320,8 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
             currencyPosition: 'right',
             abbreviationType: 'none',
             stroked: false,
-            underline: 'none'
+            underline: 'none',
+            decimalsVisibility: 'visible'
         };
     }
 
@@ -299,7 +340,12 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
                 'long'
             ]),
             stroked: descriptor(Boolean),
-            underline: descriptor(String)
+            underline: descriptor(String),
+            decimalsVisibility: descriptor(String).oneOf([
+                'visible',
+                'hidden',
+                'hiddenIfEmpty'
+            ])
         };
     }
 }
@@ -337,6 +383,7 @@ export default Money;
  * @name Controls/_decorator/Money#showEmptyDecimals
  * @cfg
  * @default true
+ * @deprecated Опция устарела и в ближайшее время её поддержка будет прекращена. Используйте опцию {@link Controls/_decorator/IMoney#decimalsVisibility}.
  */
 /**
  * @name Controls/_decorator/Money#fontSize

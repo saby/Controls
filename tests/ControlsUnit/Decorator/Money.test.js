@@ -204,17 +204,41 @@ define(
             });
          });
          describe('isDisplayFractionPath', function() {
-            it('Test1', function() {
-               assert.isFalse(ctrl._isDisplayFractionPath('.00', false));
+            it('value: ".00", showEmptyDecimals: false, decimalsVisibility: "visible"', function() {
+               assert.isFalse(ctrl._isDisplayFractionPath('.00', false, 'visible'));
             });
-            it('Test2', function() {
-               assert.isTrue(ctrl._isDisplayFractionPath('.10', false));
+            it('value: ".10", showEmptyDecimals: false, decimalsVisibility: "visible"', function() {
+               assert.isTrue(ctrl._isDisplayFractionPath('.10', false, 'visible'));
             });
-            it('Test3', function() {
-               assert.isTrue(ctrl._isDisplayFractionPath('.00', true));
+            it('value: ".00", showEmptyDecimals: true, decimalsVisibility: "visible"', function() {
+               assert.isTrue(ctrl._isDisplayFractionPath('.00', true, 'visible'));
             });
-            it('Test4', function() {
-               assert.isTrue(ctrl._isDisplayFractionPath('.10', true));
+            it('value: ".10", showEmptyDecimals: true, decimalsVisibility: "visible"', function() {
+               assert.isTrue(ctrl._isDisplayFractionPath('.10', true, 'visible'));
+            });
+            it('value: ".00", showEmptyDecimals: true, decimalsVisibility: "hidden"', function() {
+               assert.isFalse(ctrl._isDisplayFractionPath('.00', true, 'hidden'));
+            });
+            it('value: ".10", showEmptyDecimals: true, decimalsVisibility: "hidden"', function() {
+               assert.isFalse(ctrl._isDisplayFractionPath('.10', true, 'hidden'));
+            });
+            it('value: ".00", showEmptyDecimals: true, decimalsVisibility: "hiddenIfEmpty"', function() {
+               assert.isFalse(ctrl._isDisplayFractionPath('.00', true, 'hiddenIfEmpty'));
+            });
+            it('value: ".10", showEmptyDecimals: true, decimalsVisibility: "hiddenIfEmpty"', function() {
+               assert.isTrue(ctrl._isDisplayFractionPath('.10', true, 'hiddenIfEmpty'));
+            });
+            it('value: ".00", showEmptyDecimals: false, decimalsVisibility: "hidden"', function() {
+               assert.isFalse(ctrl._isDisplayFractionPath('.00', false, 'hidden'));
+            });
+            it('value: ".10", showEmptyDecimals: false, decimalsVisibility: "hidden"', function() {
+               assert.isTrue(ctrl._isDisplayFractionPath('.10', false, 'hidden'));
+            });
+            it('value: ".00", showEmptyDecimals: false, decimalsVisibility: "hiddenIfEmpty"', function() {
+               assert.isFalse(ctrl._isDisplayFractionPath('.00', false, 'hiddenIfEmpty'));
+            });
+            it('value: ".10", showEmptyDecimals: false, decimalsVisibility: "hiddenIfEmpty"', function() {
+               assert.isTrue(ctrl._isDisplayFractionPath('.10', false, 'hiddenIfEmpty'));
             });
          });
       });
