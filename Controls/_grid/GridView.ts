@@ -390,10 +390,13 @@ const GridView = ListView.extend({
 
     isColumnScrollVisible(): boolean {
         return !!this._columnScrollViewController?.isVisible() && (
-            !!this._listModel.getCount() ||
-            this._listModel.isEditing() ||
-            this._options.headerVisibility === 'visible' ||
-            this._options.headerInEmptyListVisible === true
+            // При смене модели(например поиск), метод isColumnScrollVisible может позваться между разрушением старой и установкой новой модели.
+            !this._listModel.isDestroyed() && (
+                !!this._listModel.getCount() ||
+                this._listModel.isEditing() ||
+                this._options.headerVisibility === 'visible' ||
+                this._options.headerInEmptyListVisible === true
+            )
         );
     },
 
