@@ -340,7 +340,12 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * Вызывает перезагрузку данных в detail-колонке
      */
     reload(): Promise<RecordSet> {
-        return this._detailDataSource.loadData();
+        if (this._dataOptions) {
+            const detailExplorer = this._children.detailList;
+            return detailExplorer.reload.apply(detailExplorer, arguments);
+        } else {
+            return this._detailDataSource.loadData();
+        }
     }
 
     // нужно уметь реагировать на результат выполнения команд самостоятельно.

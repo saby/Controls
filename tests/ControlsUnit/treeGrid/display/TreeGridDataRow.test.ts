@@ -34,7 +34,7 @@ describe('Controls/treeGrid/Display/TreeGridDataRow', () => {
             });
             // Длина всех элементов в коллекции = 4 (Две ноды и к ним два футера)
             assert.equal(treeGridCollection.getItems().length, 4);
-            assert.isTrue((treeGridCollection.at(1) as TreeGridDataRow).isLastItem());
+            assert.isTrue(treeGridCollection.isLastItem(treeGridCollection.at(1) as TreeGridDataRow));
         });
 
         it('should return the last item', () => {
@@ -64,7 +64,7 @@ describe('Controls/treeGrid/Display/TreeGridDataRow', () => {
             });
             // Длина всех элементов в коллекции = 4 (Две ноды и к ним два футера)
             assert.equal(treeGridCollection.getItems().length, 2);
-            assert.isTrue((treeGridCollection.at(1) as TreeGridDataRow).isLastItem());
+            assert.isTrue(treeGridCollection.isLastItem(treeGridCollection.at(1) as TreeGridDataRow));
         });
     });
 
