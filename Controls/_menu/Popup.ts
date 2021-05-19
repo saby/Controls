@@ -134,7 +134,7 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         if (this._calmTimer) {
             switch (event.type) {
                 case 'mouseenter':
-                    this._calmTimer.resetTimeOut();
+                    this._calmTimer.stop();
                     break;
                 case 'mouseleave':
                     this._calmTimer.start();
