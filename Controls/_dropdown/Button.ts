@@ -214,7 +214,7 @@ export default class Button extends BaseDropdown {
     openMenu(popupOptions?: IStickyPopupOptions): Promise<any> {
         if (this._calmTimer.isStart()) {
             if (this._controller.getItems() && this._controller.getItems().getCount()) {
-                this._onItemClickHandler(this._controller.getItems().at(0));
+                this._onItemClickHandler([this._controller.getItems().at(0)]);
             }
         } else {
             return this._openMenu(popupOptions).then((result) => {
