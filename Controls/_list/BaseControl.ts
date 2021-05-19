@@ -3976,6 +3976,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 this._hideTopTrigger = false;
             }
         }
+
+        if (_private.isMaxCountNavigation(this._options.navigation) && this._sourceController) {
+            _private.resolveIsLoadNeededByNavigationAfterReload(this, this._options, this._sourceController.getItems());
+        }
     }
 
     _updateScrollController(newOptions) {
