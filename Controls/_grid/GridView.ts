@@ -170,7 +170,9 @@ const GridView = ListView.extend({
 
     _beforeUpdate(newOptions): void {
         GridView.superclass._beforeUpdate.apply(this, arguments);
-
+        if (!newOptions.columnScroll && this._columnScrollViewController) {
+            this._destroyColumnScroll();
+        }
         this._applyNewOptionsAfterReload(this._options, newOptions);
 
         if (newOptions.sorting !== this._options.sorting) {
