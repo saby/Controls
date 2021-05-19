@@ -18,12 +18,12 @@ export default class BreadCrumbsContainer extends Control<IControlOptions> {
 
     protected _beforeMount(options: IControlOptions, context: IDataContext): void {
         this._collectionChange = this._collectionChange.bind(this);
-        this._dataOptions = context.dataOptions;
+        this._setDataOptions(options, context);
         this._setPathItems(options);
     }
 
     protected _beforeUpdate(options: IControlOptions, context: IDataContext): void {
-        this._dataOptions = context.dataOptions;
+        this._setDataOptions(options, context);
         this._setPathItems(options);
     }
 
@@ -40,6 +40,14 @@ export default class BreadCrumbsContainer extends Control<IControlOptions> {
         if (sourceController) {
             sourceController.setRoot(item.getKey());
             sourceController.reload();
+        }
+    }
+
+    private _setDataOptions(options, context: IDataContext): void {
+        if (options.id) {
+            this._dataOptions = context.dataOptions.listsConfigs[options.id];
+        } else {
+            this._dataOptions = context.dataOptions;
         }
     }
 
