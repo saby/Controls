@@ -362,13 +362,13 @@ export default class Button extends BaseDropdown {
  */
 
 /**
- * @typedef {String} TMenuPopupTrigger
- * @variation click Открытие кликом по контенту. Закрытие кликом "мимо" - не по контенту или шаблону.
- * @variation hover Открытие по ховеру - по наведению курсора на контент. Закрытие по ховеру - по навердению курсора на контент или шаблон.
+ * @typedef {String} Controls/_dropdown/Button/TMenuPopupTrigger
+ * @variant click Открытие кликом по контенту. Закрытие кликом "мимо" — не по контенту или шаблону.
+ * @variant hover Открытие по ховеру — по наведению курсора на контент. Закрытие по ховеру — по навердению курсора на контент или шаблон.
  */
 /**
  * @name Controls/_dropdown/Button#menuPopupTrigger
- * @cfg {TMenuPopupTrigger} Название события, которое запускает открытие или закрытие меню.
+ * @cfg {Controls/_dropdown/Button/TMenuPopupTrigger.typedef} Название события, которое запускает открытие или закрытие меню.
  * @default click
  * @demo Controls-demo/dropdown_new/Button/MenuPopupTrigger/Index
  */
