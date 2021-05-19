@@ -886,7 +886,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
         if (this._newItemActionsPosition) {
             this._itemActionsPosition = this._newItemActionsPosition;
-            this._itemActionsPosition = null;
+            this._newItemActionsPosition = null;
         }
     }
 
