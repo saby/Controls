@@ -63,7 +63,7 @@
                    inlineHeight="xl"
                    tooltip="{[Закрыть]}"
                    readOnly="{{false}}"
-                   attr:class="controls-stack-Button__close controls-stack-Button__rightPanel__close"
+                   attr:class="controls-stack-Button__close controls-stack-Button__rightPanel__close ws-flex-shrink-0"
                    on:click="close()"
                 />
                 <Controls.Container.Async templateName="{{_stackRightPanel}}">
