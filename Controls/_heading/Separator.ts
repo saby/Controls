@@ -15,7 +15,7 @@ export interface ISeparatorOptions extends IControlOptions {
  * Для одновременной подсветки всех частей сложного заголовка при наведении используйте класс controls-Header_all__clickable на контейнере.
  *
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/content-managment/heading/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/text-and-styles/heading/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_heading.less переменные тем оформления}
  *
  *

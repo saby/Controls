@@ -7,7 +7,7 @@ interface IItemsOptions {
 /**
  * Базовый класс, от которого наследуется объект перемещения в списке.
  * Объект можно любым образом кастомизировать, записав туда любые необходимые данные.
- * Подробнее читайте <a href="/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/">здесь</a>.
+ * Подробнее читайте <a href="/doc/platform/developmentapl/interface-development/controls/drag-n-drop/">здесь</a>.
  * @class Controls/_dragnDrop/Entity/Items
  * @public
  * @author Авраменко А.С.
