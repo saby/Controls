@@ -344,22 +344,33 @@ describe('Controls/search:ControllerClass', () => {
       });
    });
 
-   it('search returns error', async () => {
-      const source = new Memory();
-      source.query = () => {
-         return Promise.reject();
-      };
-      const sourceController = getSourceController({
-         source
+   describe('search', () => {
+      it('search returns error', async () => {
+         const source = new Memory();
+         source.query = () => {
+            return Promise.reject();
+         };
+         const sourceController = getSourceController({
+            source
+         });
+         const searchController = getSearchController({sourceController});
+         await searchController.search('testSearchValue').catch(() => {});
+         assert.deepStrictEqual(
+             sourceController.getFilter(),
+             {
+                payload: 'something',
+                testParam: 'testSearchValue'
+             }
+         );
       });
-      const searchController = getSearchController({sourceController});
-      await searchController.search('testSearchValue').catch(() => {});
-      assert.deepStrictEqual(
-          sourceController.getFilter(),
-          {
-             payload: 'something',
-             testParam: 'testSearchValue'
-          }
-      );
+
+      it('search without root', async () => {
+         const sourceController = getSourceController({
+            source: new Memory()
+         });
+         const searchController = getSearchController({sourceController});
+         await searchController.search('testSearchValue');
+         assert.ok(sourceController.getRoot() === null);
+      });
    });
 });
