@@ -1,4 +1,4 @@
-import {IColumn} from 'Controls/interface';
+import { IColumn } from './interface/IColumn';
 import Row, {IOptions as IBaseRowOptions} from './Row';
 import {IItemTemplateParams} from './mixins/Row';
 import {TColspanCallbackResult} from './mixins/Grid';

@@ -1,4 +1,4 @@
-import {IColumn} from 'Controls/interface';
+import {IColumn} from 'Controls/grid';
 
 /**
  * @typedef {String} Controls/_gridOld/interface/ITagColumn/TActionDisplayMode

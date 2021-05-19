@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/grid/Multiselect/Base/Base';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import {IColumn} from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 
 interface IColumn {
     displayProperty: string;

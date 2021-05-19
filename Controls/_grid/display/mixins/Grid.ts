@@ -1,12 +1,8 @@
 import { TemplateFunction } from 'UI/Base';
 import { Model as EntityModel } from 'Types/entity';
 
-import {
-    THeader,
-    IColumn,
-    TColumns,
-    TColumnSeparatorSize
-} from 'Controls/interface';
+import { IColumn, TColumns, TColumnSeparatorSize } from '../interface/IColumn';
+import { THeader } from '../interface/IHeaderCell';
 
 import { IViewIterator, GridLadderUtil, ILadderObject, IBaseCollection, isFullGridSupport } from 'Controls/display';
 
