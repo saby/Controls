@@ -186,6 +186,7 @@ export default class ControllerClass {
       let updateResult: void | Promise<RecordSet|Error> | QueryWhereExpression<unknown>;
       let needLoad = false;
       const searchValue = options.hasOwnProperty('searchValue') ? options.searchValue : this._options.searchValue;
+      let sourceControllerChanged = false;
 
       if (this._options.root !== options.root) {
          this.setRoot(options.root);
@@ -193,6 +194,7 @@ export default class ControllerClass {
 
       if (options.sourceController && options.sourceController !== this._sourceController) {
          this._sourceController = options.sourceController;
+         sourceControllerChanged = true;
          needLoad = true;
       }
 
@@ -204,7 +206,7 @@ export default class ControllerClass {
       if (needLoad) {
          if (searchValue) {
             updateResult = this.search(searchValue);
-         } else {
+         } else if (this._searchValue || sourceControllerChanged) {
             updateResult = this.reset();
          }
       }
