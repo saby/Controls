@@ -199,7 +199,7 @@ export default class ControllerClass {
       }
 
       if (options.hasOwnProperty('searchValue')) {
-         if (options.searchValue !== this._options.searchValue || options.searchValue !== this._searchValue) {
+         if (searchValue !== this._searchValue) {
             needLoad = true;
          }
       }
