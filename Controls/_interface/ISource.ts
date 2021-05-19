@@ -76,7 +76,7 @@ export default interface ISource {
  * </pre>
  * @see Types/source:ICrudPlus
  * @see Types/source:ICrud
- * @see https://wi.sbis.ru/doc/platform/developmentapl/interface-development/data-sources/
+ * @see /doc/platform/developmentapl/interface-development/data-sources/
  */
 /*
  * @name Controls/_interface/ISource#source
@@ -125,7 +125,7 @@ export default interface ISource {
  * </pre>
  * @see Types/source:ICrudPlus
  * @see Types/source:ICrud
- * @see https://wi.sbis.ru/doc/platform/developmentapl/interface-development/data-sources/
+ * @see /doc/platform/developmentapl/interface-development/data-sources/
  */
 
 /**
