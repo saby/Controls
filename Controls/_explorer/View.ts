@@ -545,6 +545,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         // не указан markedKey
         const markedKey = this._restoredMarkedKeys[newRoot].markedKey;
         if (markedKey) {
+            this._potentialMarkedKey = markedKey;
             this._children.treeControl.setMarkedKey(markedKey);
         }
 
