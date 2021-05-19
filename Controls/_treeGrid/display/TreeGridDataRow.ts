@@ -58,8 +58,8 @@ export default class TreeGridDataRow<T extends Model = Model>
         super.setEditing(editing, editingContents, silent, columnIndex);
         this.setRowTemplate(editing ? this._$owner.getItemEditorTemplate() : undefined);
         const colspanCallback = this._$owner.getColspanCallback();
-        if (colspanCallback) {
-            this._reinitializeColumns();
+        if (colspanCallback || this.getEditingConfig()?.mode === 'cell') {
+            this._reinitializeColumns(true);
         }
     }
 
