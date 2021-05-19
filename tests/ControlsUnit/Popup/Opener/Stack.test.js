@@ -602,7 +602,7 @@ define(
             };
             let popupOptions = {};
             let maxWidth = StackStrategy._calculateMaxWidth(popupOptions, tCoords);
-            assert.equal(maxWidth, 1000);
+            assert.equal(maxWidth, 900);
 
             popupOptions.maxWidth = 400;
             maxWidth = StackStrategy._calculateMaxWidth(popupOptions, tCoords);
