@@ -110,7 +110,8 @@ export default {
             index = index === -1 && indexEdge === 0 ? 0 : index;
             // заполняем крошками, которые влезли, второй контейнер (не считая последней)
             for (let j = indexEdge; j <= index; j++) {
-                secondContainerItems.push(PrepareDataUtil.getItemData(j, items, true, j === index && items[j].get(options.displayProperty).length > 3));
+                const itemTitle = items[j].get(options.displayProperty) || '';
+                secondContainerItems.push(PrepareDataUtil.getItemData(j, items, true, j === index && itemTitle.length > 3));
             }
             // добавляем точки
             const dotsItem = new Model({
@@ -134,12 +135,14 @@ export default {
         } else {
             // если все остальные крошки поместились - пушим по второй контейнер
             const secondContainerItems = [];
+            const preLastItemTitle = items?.[items.length - 2]?.get(options.displayProperty) || '';
             for (let j = indexEdge; j < items.length; j++) {
-                secondContainerItems.push(PrepareDataUtil.getItemData(j, items, true, j === items.length - 2 && items[items.length - 2].get(options.displayProperty).length > 3));
+                secondContainerItems.push(PrepareDataUtil.getItemData(j, items, true, j === items.length - 2 && preLastItemTitle.length > 3));
             }
             if (secondContainerItems.length <= 2) {
                 secondContainerItems.forEach((item) => {
-                    if (!item.isDots && item.item.get(options.displayProperty).length > 3) {
+                    const itemTitle = item.item.get(options.displayProperty) || '';
+                    if (!item.isDots && itemTitle.length > 3) {
                         item.withOverflow = true;
                     }
                 });
