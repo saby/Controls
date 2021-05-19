@@ -11,8 +11,6 @@ class HighlightMode extends Control<IControlOptions> {
     protected _highlightedValue = 'вы мыть маму';
     protected _template: TemplateFunction = controlTemplate;
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

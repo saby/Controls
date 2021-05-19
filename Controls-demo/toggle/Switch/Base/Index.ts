@@ -8,8 +8,6 @@ class Base extends Control<IControlOptions> {
     protected _value: boolean = true;
     protected _value2: boolean = false;
     protected _value3: boolean = false;
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default Base;

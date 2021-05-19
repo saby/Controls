@@ -82,8 +82,6 @@ class Back extends Control<IBackOptions> implements IFontColorStyle, IFontSize, 
     protected _template: TemplateFunction = backTemplate;
     protected _isOldIe: Boolean = false;
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static getDefaultOptions(): object {
         return {
             iconSize: 'm',

@@ -43,8 +43,6 @@ class Label extends Control<ILabelOptions> implements ICaption, IFontSize, IHref
     readonly '[Controls/_interface/ICaption]': boolean = true;
     readonly '[Controls/_interface/IFontSize]': boolean = true;
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static getDefaultOptions(): object {
         return {
             underline: 'none'

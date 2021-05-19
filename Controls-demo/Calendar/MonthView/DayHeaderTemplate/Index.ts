@@ -6,8 +6,6 @@ class Index extends Control<IControlOptions> {
 
     private _month: Date = new Date(2019, 1);
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Calendar/MonthView/DayHeaderTemplate/DayHeaderTemplate'];
 }
 

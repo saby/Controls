@@ -18,8 +18,6 @@ class ItemTemplate extends Control<IControlOptions> {
     private _close(e: SyntheticEvent<MouseEvent>): void {
         this._children.IBOpener.close();
     }
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default ItemTemplate;

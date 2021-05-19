@@ -267,8 +267,6 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
       return validationStatus;
    }
 
-   static _theme: string[] = ['Controls/Classes'];
-
    static getDefaultOptions(): object {
       return {
          borderVisibility: 'partial',

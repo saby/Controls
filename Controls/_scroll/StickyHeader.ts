@@ -927,7 +927,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return 1;
     }
 
-    static _theme: string[] = ['Controls/scroll', 'Controls/Classes'];
+    static _theme: string[] = ['Controls/scroll'];
 
 }
 /**

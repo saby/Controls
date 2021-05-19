@@ -19,5 +19,4 @@ export default class extends Control {
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
-    static _theme: string[] = ['Controls/Classes'];
 }

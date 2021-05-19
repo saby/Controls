@@ -91,8 +91,6 @@ class FieldTemplate extends Control<IControlOptions> {
         this[stateName] = this[stateName].toUpperCase();
     }
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Input/FieldTemplate/FieldTemplate'];
 }
 export default FieldTemplate;
