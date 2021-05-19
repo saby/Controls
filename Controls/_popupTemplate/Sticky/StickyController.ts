@@ -349,7 +349,9 @@ class StickyController extends BaseController {
         item.position = {
             top: -10000,
             left: -10000,
+            minWidth: item.popupOptions.minWidth,
             maxWidth: item.popupOptions.maxWidth || _private.getWindowWidth(),
+            minHeight: item.popupOptions.minHeight,
             maxHeight: item.popupOptions.maxHeight || _private.getWindowHeight(),
             width: item.popupOptions.width,
             height: item.popupOptions.height,
