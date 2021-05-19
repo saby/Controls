@@ -961,7 +961,7 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'rich':
                 return true;
             case 'preview':
-                return !!this.getDisplayValue() && (!this.canShowActions() || !this.hasVisibleActions());
+                return !!this.getDisplayValue() && (this.isUnscaleable() || !this.canShowActions());
         }
     }
 
