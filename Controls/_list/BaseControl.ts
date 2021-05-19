@@ -7095,7 +7095,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _getFooterClasses(options): string {
         const hasCheckboxes = options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
 
-        const paddingClassName = 'controls__BaseControl__footer__paddingLeft_';
+        const paddingClassName = `controls__BaseControl__footer-${options.style}__paddingLeft_`;
         if (hasCheckboxes) {
             paddingClassName += 'withCheckboxes';
         } else {
