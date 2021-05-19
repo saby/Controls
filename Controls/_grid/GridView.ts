@@ -386,7 +386,11 @@ const GridView = ListView.extend({
     },
 
     isColumnScrollVisible(): boolean {
-        return !!this._columnScrollViewController?.isVisible() && (
+        // метод вызывается из _shouldDisplayMiddleLoadingIndicator. Он может вызваться в такой момент,
+        // что в BaseControl уже новая модель, а в gridView еще старая, которая уже задестроена
+        // TODO от этой зависимости должны избавиться по задаче https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
+
+        return !!this._columnScrollViewController?.isVisible() && !this._listModel.destroyed && (
             !!this._listModel.getCount() ||
             this._listModel.isEditing() ||
             this._options.headerVisibility === 'visible' ||
