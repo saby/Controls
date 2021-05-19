@@ -119,7 +119,7 @@ export default class Button extends BaseDropdown {
     }
 
     _beforeUnmount(): void {
-        this._calmTimer.resetTimeOut();
+        this._calmTimer.stop();
     }
 
     _beforeUpdate(options: IButtonOptions): void {
@@ -188,12 +188,18 @@ export default class Button extends BaseDropdown {
         if (!isLeftMouseButton(event)) {
             return;
         }
-        this.openMenu();
+        if (this._calmTimer.isStarted()) {
+            if (this._controller.getItems() && this._controller.getItems().getCount()) {
+                this._onItemClickHandler([this._controller.getItems().at(0)]);
+            }
+        } else {
+            this.openMenu();
+        }
     }
 
     _handleMouseLeave(event: SyntheticEvent<MouseEvent>): void {
         super._handleMouseLeave(event);
-        this._calmTimer.resetTimeOut();
+        this._calmTimer.stop();
     }
 
     _handleMouseMove(event: SyntheticEvent<MouseEvent>): void {
@@ -212,17 +218,11 @@ export default class Button extends BaseDropdown {
     }
 
     openMenu(popupOptions?: IStickyPopupOptions): Promise<any> {
-        if (this._calmTimer.isStart()) {
-            if (this._controller.getItems() && this._controller.getItems().getCount()) {
-                this._onItemClickHandler([this._controller.getItems().at(0)]);
+        return this._openMenu(popupOptions).then((result) => {
+            if (result) {
+                this._onItemClickHandler(result);
             }
-        } else {
-            return this._openMenu(popupOptions).then((result) => {
-                if (result) {
-                    this._onItemClickHandler(result);
-                }
-            });
-        }
+        });
     }
 
     protected _onResult(action, data, nativeEvent): void {

@@ -41,10 +41,14 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     protected _beforeMount(options: IInfoBoxOptions): void {
         this._resultHandler = this._resultHandler.bind(this);
         this._closeHandler = this._closeHandler.bind(this);
-        this._calmTimer = new CalmTimer(() => {
+        this._openCalmTimer = new CalmTimer(() => {
             if (!this._opened && !TouchDetect.getInstance().isTouch()) {
                 this._startOpeningPopup();
             }
+        });
+        this._closeCalmTimer = new CalmTimer(() => {
+            this.close();
+            this._forceUpdate();
         });
     }
 
@@ -52,7 +56,8 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
         if (this._opened) {
             this.close();
         }
-        this._calmTimer.resetTimeOut();
+        this._openCalmTimer.stop();
+        this._closeCalmTimer.stop();
     }
 
     open(): void {
@@ -66,7 +71,8 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
             this._children.infoBoxOpener.open(config);
         }
 
-        this._calmTimer.resetTimeOut();
+        this._openCalmTimer.stop();
+        this._closeCalmTimer.stop();
         this._opened = true;
         this._forceUpdate();
     }
@@ -100,7 +106,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
                 this._children.infoBoxOpener.close(delay);
             }
         }
-        this._calmTimer.resetTimeOut();
+        this._openCalmTimer.stop();
         this._opened = false;
     }
 
@@ -120,7 +126,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
 
     protected _contentMousemoveHandler(): void {
         if (this._options.trigger === 'hover' || this._options.trigger === 'hover|touch') {
-            this._calmTimer.start();
+            this._openCalmTimer.start();
         }
     }
 
@@ -132,18 +138,15 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
 
     protected _contentMouseleaveHandler(): void {
         if (this._options.trigger === 'hover' || this._options.trigger === 'hover|touch') {
-            const callback = () => {
-                this.close();
-                this._forceUpdate();
-            };
-            this._calmTimer.stop(callback.bind(this));
+            this._closeCalmTimer.start();
         }
     }
 
     private _resultHandler(event: SyntheticEvent<MouseEvent>): void {
         switch (event.type) {
             case 'mouseenter':
-                this._calmTimer.resetTimeOut();
+                this._openCalmTimer.stop();
+                this._closeCalmTimer.stop();
                 break;
             case 'mouseleave':
                 if (this._options.trigger === 'hover' || this._options.trigger === 'hover|touch') {
