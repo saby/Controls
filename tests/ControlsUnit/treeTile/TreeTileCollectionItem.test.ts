@@ -1,9 +1,27 @@
 import { assert } from 'chai';
 import TreeTileCollectionItem from 'Controls/_treeTile/display/TreeTileCollectionItem';
 import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
-import {Model} from "Types/entity";
+import {Model} from 'Types/entity';
 
 describe('Controls/_treeTile/display/TreeTileCollectionItem', () => {
+    describe('.getItemType', () => {
+        it('change default to small when is node', () => {
+            let item = new TreeTileCollectionItem();
+            assert.equal(item.getItemType('default'), 'default');
+
+            item = new TreeTileCollectionItem({node: true});
+            assert.equal(item.getItemType('default'), 'small');
+        });
+
+        it('not change default to small when pass nodeContentTemplate', () => {
+            let item = new TreeTileCollectionItem();
+            assert.equal(item.getItemType('default', () => ''), 'default');
+
+            item = new TreeTileCollectionItem({node: true});
+            assert.equal(item.getItemType('default', () => ''), 'default');
+        });
+    });
+
     describe('.getItemStyles', () => {
         it('is node and default template', () => {
             const item = new TreeTileCollectionItem({node: true, nodesHeight: 100});
