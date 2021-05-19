@@ -88,12 +88,13 @@ export default abstract class Row<T> {
         };
     }
 
-    getStickyHeaderMode(): string {
-        return this.isSticked() ? 'stackable' : 'notsticky';
+    getStickyHeaderMode(stickyCallback: Function): string {
+        return this.isSticked() ? 'stackable' :
+            (stickyCallback ? 'replaceable' : 'notsticky');
     }
 
-    getStickyHeaderPosition(): string {
-        return 'topbottom';
+    getStickyHeaderPosition(stickyCallback: Function): string {
+        return stickyCallback ? 'top' : 'topbottom';
     }
 
     //region Аспект "Стилевое оформление. Классы и стили строки"
