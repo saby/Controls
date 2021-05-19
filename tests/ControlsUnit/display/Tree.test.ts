@@ -2024,6 +2024,20 @@ describe('Controls/_display/Tree', () => {
            rs.at(0).set('hasChildren', true);
            assert.isTrue(tree.hasNodeWithChildren());
        });
+
+       it('recount when changed parent in record and not has hasChildrenProperty', () => {
+           const rs = new RecordSet({
+               rawData: [
+                   {id: 1, node: true, pid: 0},
+                   {id: 2, node: false, pid: 0}
+               ],
+               keyProperty: 'id'
+           });
+           const tree = getTree(rs, {expanderVisibility: 'hasChildren', hasChildrenProperty: ''});
+           assert.isFalse(tree.hasNodeWithChildren());
+           rs.getRecordById(2).set('pid', 1);
+           assert.isTrue(tree.hasNodeWithChildren());
+       });
     });
 
     describe('hasChildren', () => {

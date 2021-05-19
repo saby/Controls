@@ -127,6 +127,9 @@ function onCollectionItemChange<T extends Model>(event: EventObject, item: T, in
     if (this.instance.getExpanderVisibility() === 'hasChildren') {
         if (!this.instance.getHasChildrenProperty() && properties.hasOwnProperty(this.instance.getParentProperty())) {
             this.instance._recountHasChildrenByRecordSet();
+
+            // нужно пересчитать, т.к. hasNodeWithChildren может считаться по рекордсету, если нет hasChildrenProperty
+            this.instance._recountHasNodeWithChildren();
         } else if (properties.hasOwnProperty(this.instance.getHasChildrenProperty())) {
             this.instance._recountHasNodeWithChildren();
         }
