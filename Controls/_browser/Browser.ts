@@ -203,6 +203,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         this._dataLoadCallback = this._dataLoadCallback.bind(this);
         this._dataLoadErrback = this._dataLoadErrback.bind(this);
         this._notifyNavigationParamsChanged = this._notifyNavigationParamsChanged.bind(this);
+        this._searchStartCallback = this._searchStartCallback.bind(this);
 
         if (options.root !== undefined) {
             this._root = options.root;
@@ -698,7 +699,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 searchValue: this._getSearchValue(options),
                 items: receivedState?.[index]?.data,
                 historyItems: receivedState?.[index]?.historyItems || listOptions.historyItems,
-                source: receivedState ? this._getOriginalSource(listOptions as IBrowserOptions) : listOptions.source
+                source: receivedState ? this._getOriginalSource(listOptions as IBrowserOptions) : listOptions.source,
+                searchStartCallback: this._searchStartCallback
             };
         });
 
@@ -720,6 +722,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _notifyNavigationParamsChanged(params: unknown): void {
         if (this._isMounted) {
             this._notify('navigationParamsChanged', [params]);
+        }
+    }
+
+    private _searchStartCallback(filter: QueryWhereExpression<unknown>): void {
+        if (this._isMounted) {
+            this._notify('searchStarted', [filter]);
         }
     }
 
