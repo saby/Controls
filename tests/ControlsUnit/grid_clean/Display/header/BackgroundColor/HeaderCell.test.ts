@@ -2,7 +2,7 @@ import { Model } from 'Types/entity';
 import { GridHeaderRow, GridHeaderCell, IColumn } from 'Controls/grid';
 import { CssClassesAssert as cAssert } from '../../../../CustomAsserts';
 
-describe('Controls/grid/Display/header/HeaderCell/backgroundColorStyle', () => {
+describe('Controls/grid_clean/Display/header/BackgroundColor/HeaderCell', () => {
     let cell: GridHeaderCell<any>;
     let column: IColumn;
     const owner = {
