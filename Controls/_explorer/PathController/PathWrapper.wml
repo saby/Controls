@@ -3,6 +3,7 @@
       <ws:partial template="{{ content.resolvedTemplate }}"
                   scope="{{_options}}"
                   name="Path"
+                  items="{{_options.breadCrumbsItems}}"
                   displayMode="{{_options.breadcrumbsDisplayMode}}"
                   withoutBackButton="{{_withoutBackButton}}"
                   attr:class="controls-Explorer__Path"

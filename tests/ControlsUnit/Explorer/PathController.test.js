@@ -93,7 +93,7 @@ define([
                }];
             instance._beforeMount({
                header: header,
-               items: items,
+               breadCrumbsItems: items,
                displayProperty: 'title'
             });
             assert.deepEqual(instance._header, [{
@@ -205,11 +205,11 @@ define([
                }];
             instance._header = [];
             instance.saveOptions({
-               items: items
+               breadCrumbsItems: items
             });
             instance._beforeUpdate({
                header: header,
-               items: items.slice(0, 1),
+               breadCrumbsItems: items.slice(0, 1),
                displayProperty: 'title'
             });
             assert.deepEqual(instance._header, [{
@@ -269,7 +269,7 @@ define([
                   title: 'second'
                }],
                cfg = {
-                  items: items,
+                  breadCrumbsItems: items,
                   header: header,
                   displayProperty: 'title',
                },
@@ -277,11 +277,11 @@ define([
             await instance._beforeMount(cfg);
             const headerInst = instance._header;
             instance.saveOptions({
-               items: items,
+               breadCrumbsItems: items,
             });
             instance._beforeUpdate({
                header: header,
-               items: itemsNew,
+               breadCrumbsItems: itemsNew,
                displayProperty: 'title'
             });
             assert.notEqual(instance._header, headerInst);
@@ -316,7 +316,7 @@ define([
                }
             ];
             const cfg = {
-               items: items,
+               breadCrumbsItems: items,
                header: header,
                displayProperty: 'title',
             };
@@ -326,11 +326,11 @@ define([
             const headerInst = instance._header;
 
             instance.saveOptions({
-               items: items
+               breadCrumbsItems: items
             });
             instance._beforeUpdate({
                header: header,
-               items: items.slice(0, 1),
+               breadCrumbsItems: items.slice(0, 1),
                displayProperty: 'title'
             });
             assert.notEqual(instance._header, headerInst);
