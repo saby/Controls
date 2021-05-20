@@ -1,5 +1,5 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import * as ExplorerMemory from 'Controls-demo/explorerNew/ExplorerMemory';
 import * as template from 'wml!Controls-demo/explorerNew/SearchExpandNew/SearchExpandNew';
 

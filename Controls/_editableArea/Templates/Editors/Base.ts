@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_editableArea/Templates/Editors/Base/Base');
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {
     IFontColorStyleOptions, IFontColorStyle,
     IFontWeightOptions, IFontWeight,

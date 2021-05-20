@@ -3,7 +3,7 @@ import InfoBoxOpener from 'Controls/_popup/Opener/InfoBox';
 import {IInfoBox, IInfoBoxOptions} from 'Controls/_popup/interface/IInfoBox';
 import {IInfoBoxPopupOptions} from 'Controls/_popup/interface/IInfoBoxOpener';
 import { TouchDetect } from 'Env/Touch';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {descriptor} from 'Types/entity';
 import * as getZIndex from 'Controls/Utils/getZIndex';
 import template = require('wml!Controls/_popup/InfoBox/InfoBox');

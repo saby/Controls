@@ -458,7 +458,7 @@ export interface IFilterView {
 /**
  * @event Происходит при изменении фильтра.
  * @name Controls/_filter/View/interface/IFilterView#filterChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object} filter Новый фильтр.
  * @see sourceChanged
  */
@@ -466,7 +466,7 @@ export interface IFilterView {
 /*
  * @event Happens when filter changed.
  * @name Controls/_filter/View/interface/IFilterView#filterChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Object} filter New filter.
  * @see sourceChanged
  */
@@ -474,7 +474,7 @@ export interface IFilterView {
 /**
  * @event Происходит при изменении структуры фильтра.
  * @name Controls/_filter/View/interface/IFilterView#itemsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Controls/_filter/View/interface/IFilterItem/FilterItem>} items Новая структура фильтра.
  * @see filterChanged
  */
@@ -482,7 +482,7 @@ export interface IFilterView {
 /*
  * @event Happens when source changed.
  * @name Controls/_filter/View/interface/IFilterView#sourceChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Object} items New items.
  * @see filterChanged
  */

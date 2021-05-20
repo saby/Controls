@@ -5,7 +5,7 @@ import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import * as clone from 'Core/core-clone';
 import { IColumn } from 'Controls/grid';
 import { IHeaderCell } from 'Controls/grid';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

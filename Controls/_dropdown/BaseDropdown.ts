@@ -1,6 +1,6 @@
 import {Control, IControlOptions} from 'UI/Base';
 import {constants, detection} from 'Env/Env';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import IDropdownController from 'Controls/_dropdown/interface/IDropdownController';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {DependencyTimer} from 'Controls/popup';

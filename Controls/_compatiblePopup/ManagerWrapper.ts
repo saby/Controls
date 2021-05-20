@@ -3,7 +3,7 @@ import Controller from 'Controls/Popup/Compatible/ManagerWrapper/Controller';
 import template = require('wml!Controls/_compatiblePopup/ManagerWrapper/ManagerWrapper');
 import {Controller as ControllerPopup, ManagerClass} from 'Controls/popup';
 import {setController, IPopupSettingsController} from 'Controls/Application/SettingsController';
-import { SyntheticEvent } from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Bus} from 'Env/Event';
 import {constants} from 'Env/Env';
 

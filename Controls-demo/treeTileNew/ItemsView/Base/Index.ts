@@ -5,7 +5,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import {Gadgets, IData} from 'Controls-demo/Explorer_new/DataHelpers/DataCatalog';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;

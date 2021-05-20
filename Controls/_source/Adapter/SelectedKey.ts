@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import SelectedKeyAdapterTemplate = require('wml!Controls/_source/Adapter/SelectedKey/SelectedKey');
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 export interface ISelectedKeyAdapterOptions extends IControlOptions {
    selectedKey?: number | string;

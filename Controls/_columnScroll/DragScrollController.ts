@@ -1,4 +1,4 @@
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {constants} from 'Env/Env';
 
 export interface IDragScrollParams {

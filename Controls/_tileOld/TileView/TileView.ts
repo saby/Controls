@@ -2,7 +2,7 @@ import {ListView} from 'Controls/list';
 import template = require('wml!Controls/_tileOld/TileView/TileView');
 import defaultItemTpl = require('wml!Controls/_tileOld/TileView/TileTpl');
 import {TILE_SCALING_MODE, ZOOM_COEFFICIENT, ZOOM_DELAY} from './resources/Constants';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import { TouchDetect } from 'Env/Touch';
 import { getItemSize } from 'Controls/tile';
 import 'css!Controls/tile';

@@ -2,7 +2,7 @@ import rk = require('i18n!Controls');
 import {Control} from 'UI/Base';
 import template = require('wml!Controls/_lookupPopup/List/Container');
 import {Record} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import { IItemAction } from 'Controls/itemActions';
 
 type Key = string|number;

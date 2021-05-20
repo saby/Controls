@@ -1,6 +1,6 @@
 import {debounce} from 'Types/function';
 import {Guid} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {detection} from 'Env/Env';
 
 export interface IControllerOptions {

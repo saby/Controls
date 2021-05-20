@@ -1,7 +1,7 @@
 import {TemplateFunction, Control, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls-demo/OperationsPanelNew/PanelWithList/Marker/hidden/hidden';
 import {EventUtils} from 'UI/Events';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {getPanelData, getListData} from 'Controls-demo/OperationsPanelNew/DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/OperationsPanelNew/Templates/PersonInfo';
 import TreeMemory = require('Controls-demo/List/Tree/TreeMemory');

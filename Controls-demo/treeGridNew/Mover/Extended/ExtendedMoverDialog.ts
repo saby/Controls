@@ -2,7 +2,7 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/Mover/Extended/ExtendedMoverDialog/ExtendedMoverDialog';
 import {Record} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
-import {SyntheticEvent} from 'sbis3-ws/Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 export default class extends Control<IControlOptions> {
     protected _template: TemplateFunction = Template;

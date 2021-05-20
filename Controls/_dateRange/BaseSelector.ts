@@ -3,7 +3,7 @@ import DateRangeModel from './DateRangeModel';
 import {EventUtils} from 'UI/Events';
 import {DependencyTimer} from 'Controls/popup';
 import {Logger} from 'UI/Utils';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import Sticky from 'Controls/_popup/Opener/Sticky';
 import LinkView from './LinkView';
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';

@@ -1,5 +1,5 @@
 import {compatibility, constants, detection} from 'Env/Env';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {TemplateFunction} from 'UI/Base';
 import ContainerBase, {IContainerBaseOptions} from 'Controls/_scroll/ContainerBase';
 import Observer from './IntersectionObserver/Observer';

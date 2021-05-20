@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Scroll/EdgeIntersectionContainer/Default/Template');
-import {SyntheticEvent} from "Vdom/Vdom";
+import { SyntheticEvent } from 'UICommon/Events';
 
 export default class DefaultScrollDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;

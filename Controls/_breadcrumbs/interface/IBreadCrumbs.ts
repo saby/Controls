@@ -101,13 +101,13 @@ export interface IBreadCrumbsOptions extends IControlOptions, IFontSizeOptions {
 /**
  * @event Происходит после клика по хлебным крошкам.
  * @name Controls/_breadcrumbs/interface/IBreadCrumbs#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Record} item Элемент, по которому произвели клик.
  */
 
 /*
  * @event Happens after clicking on breadcrumb.
  * @name Controls/_breadcrumbs/interface/IBreadCrumbs#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Record} item Key of the clicked item.
  */

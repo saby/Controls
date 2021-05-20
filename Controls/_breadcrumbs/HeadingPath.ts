@@ -253,13 +253,13 @@ Object.defineProperty(BreadCrumbsPath, 'defaultProps', {
 /**
  * @event Происходит при клике на кнопку "Просмотр записи".
  * @name Controls/_breadcrumbs/HeadingPath#arrowActivated
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */
 
 /*
  * @event Happens after clicking the button "View Model".
  * @name Controls/_breadcrumbs/HeadingPath#arrowActivated
- * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
  */
 
 /**

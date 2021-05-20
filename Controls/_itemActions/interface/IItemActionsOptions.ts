@@ -341,7 +341,7 @@ export interface IItemActionsOptions {
 /**
  * @event Происходит при клике по {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опции записи}.
  * @name Controls/_itemActions/interface/IItemActions#actionClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Controls/itemActions:IItemAction} action Объект с конфигурацией опции записи, по которой выполнили клик.
  * @param {Types/entity:Model} item Экземпляр записи, для которой была отображена опция записи.
  * @param {HTMLElement} itemContainer Контейнер записи, по которой был выполнен клик.
@@ -358,7 +358,7 @@ export interface IItemActionsOptions {
 /*ENG
  * @event Occurs when itemAction button is clicked.
  * @name Controls/_itemActions/interface/IItemActions#actionClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Controls/itemActions:IItemAction} action Object with configuration of the clicked action.
  * @param {Types/entity:Model} item Instance of the item whose action was clicked.
  * @param {HTMLElement} itemContainer Container of the item whose action was clicked.

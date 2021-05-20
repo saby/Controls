@@ -21,7 +21,7 @@ import {create as diCreate} from 'Types/di';
 import {Guid, Model} from 'Types/entity';
 import {IHashMap} from 'Types/declarations';
 
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {ControllerClass, Container as ValidateContainer} from 'Controls/validate';
 import {Logger} from 'UI/Utils';
 

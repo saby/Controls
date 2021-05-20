@@ -1,5 +1,5 @@
 import {CrudEntityKey} from 'Types/source';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 // Таймаут "заморозки"
 const HOVER_FREEZE_TIMEOUT: number = 200;

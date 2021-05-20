@@ -1,6 +1,6 @@
 ﻿import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {constants} from 'Env/Env';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Date as WSDate, DateTime as WSDateTime, Time as WSTime} from 'Types/entity';
 import * as Model from 'Controls/_input/DateTime/Model';
 import {

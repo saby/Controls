@@ -1,5 +1,5 @@
 import {EventUtils} from 'UI/Events';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Path} from 'Controls/dataSource';
 import HeadingPathBack from 'Controls/_explorer/HeadingPathBack';
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';

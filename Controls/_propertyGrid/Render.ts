@@ -3,7 +3,7 @@ import * as template from 'wml!Controls/_propertyGrid/Render/Render';
 import * as itemTemplate from 'wml!Controls/_propertyGrid/Render/resources/itemTemplate';
 import * as groupTemplate from 'wml!Controls/_propertyGrid/Render/resources/groupTemplate';
 import * as toggleEditorsTemplate from 'wml!Controls/_propertyGrid/Render/resources/toggleEditorsGroupTemplate';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {EventUtils} from 'UI/Events';
 import {CollectionItem} from 'Controls/display';
 import 'wml!Controls/_propertyGrid/Render/resources/for';

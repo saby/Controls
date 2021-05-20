@@ -2,7 +2,7 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 // @ts-ignore
 import * as template from 'wml!Controls/_list/Container';
 import { IContextOptionsValue } from 'Controls/context';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 export interface IListContainerOptions extends IControlOptions {
     id: string;

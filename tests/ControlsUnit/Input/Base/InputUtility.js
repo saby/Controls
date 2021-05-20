@@ -1,9 +1,11 @@
 define('ControlsUnit/Input/Base/InputUtility',
    [
-      'Vdom/Vdom'
+      'UICommon/Events'
    ],
-   function(Vdom) {
+   function(Events) {
       'use strict';
+
+      var SyntheticEvent = Events.SyntheticEvent;
 
       var _private = {
          setSelectionRange: function(input, start, end) {
@@ -101,7 +103,7 @@ define('ControlsUnit/Input/Base/InputUtility',
          },
 
          triggerInput: function(input) {
-            input._inputHandler(new Vdom.SyntheticEvent({}));
+            input._inputHandler(new SyntheticEvent({}));
          }
       };
    });

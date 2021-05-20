@@ -4,7 +4,7 @@ import randomId = require('Core/helpers/Number/randomId');
 import {List} from 'Types/collection';
 import ILoadingIndicator, {ILoadingIndicatorOptions} from 'Controls/_LoadingIndicator/interface/ILoadingIndicator';
 import LoadingIndicatorOpener from 'Controls/_LoadingIndicator/LoadingIndicatorOpener';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {constants} from 'Env/Env';

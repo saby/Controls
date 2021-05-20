@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from "UI/Base";
 import {Memory} from 'Types/source';
 import controlTemplate = require('wml!Controls-demo/LookupNew/Input/ShowSelector/Index');
 import selectorTemplate = require('Controls-demo/Lookup/FlatListSelector/FlatListSelector');
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {StickyOpener} from 'Controls/popup';
 import {COMPANIES} from 'Controls-demo/LookupNew/resources/DataStorage';
 

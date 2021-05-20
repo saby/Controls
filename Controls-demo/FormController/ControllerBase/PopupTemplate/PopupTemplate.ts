@@ -1,7 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls-demo/FormController/ControllerBase/PopupTemplate/PopupTemplate');
 import {Confirmation} from 'Controls/popup';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Model} from 'Types/entity';
 import 'css!Controls-demo/FormController/ControllerBase/PopupTemplate/PopupTemplate';
 class BaseTemplate extends Control<IControlOptions> {

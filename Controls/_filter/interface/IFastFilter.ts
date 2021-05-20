@@ -135,13 +135,13 @@
 /**
  * @event Происходит при изменении фильтра.
  * @name Controls/_filter/interface/IFastFilter#filterChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object} filter Новый фильтр.
  */
 
 /*
  * @event Happens when filter changed.
  * @name Controls/_filter/interface/IFastFilter#filterChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Object} filter New filter.
  */

@@ -1,5 +1,5 @@
 import {Tag} from '../Types';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import BaseViewModel from 'Controls/_input/BaseViewModel';
 
 export interface IConfig<Value, ModelOptions> {

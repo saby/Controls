@@ -3,7 +3,7 @@ import * as Item from 'wml!Controls/_treeGrid/render/grid/Item';
 import { GridView } from 'Controls/grid';
 import { TemplateFunction } from 'UI/Base';
 import { TreeItem } from 'Controls/display';
-import { SyntheticEvent } from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import { Model } from 'Types/entity';
 import 'css!Controls/grid';
 import 'css!Controls/treeGrid';

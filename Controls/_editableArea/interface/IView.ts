@@ -104,7 +104,7 @@ export interface IView {
 /**
  * @event Происходит перед стартом редактирования.
  * @name Controls/_editableArea/interface/IView#beforeBeginEdit
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object} options Объект, в котором лежит item — редактируемая строка.
  * @param {Boolean} isAdd Флаг, который позволяет различать редактирование (false) и добавление (true).
  * @returns {BeforeBeginEditResult}
@@ -135,7 +135,7 @@ export interface IView {
 /**
  * @event Происходит до окончания редактирования.
  * @name Controls/_editableArea/interface/IView#beforeEndEdit
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Record} editObject Редактируемая запись.
  * @param {Boolean} commit Если значение параметра true, редактирование закончится сохранением.
  * @returns {BeforeEndEditResult}
@@ -169,7 +169,7 @@ export interface IView {
 /**
  * @event Происходит после окончания редактирования.
  * @name Controls/_editableArea/interface/IView#afterEndEdit
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Record} editObject Редактируемая запись.
  * @example
  * В следующем примере показано, как скрыть и показать изображение в зависимости от состояния редактирования.

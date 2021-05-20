@@ -1,7 +1,7 @@
 import {Control, IControlOptions} from 'UI/Base';
 import {RecordSet, List} from 'Types/collection';
 import {default as LookupController, ILookupBaseControllerOptions, SelectedItems} from './BaseControllerClass';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {descriptor, Model} from 'Types/entity';
 import {IStackPopupOptions} from 'Controls/_popup/interface/IStack';
 import {TKey} from 'Controls/interface';

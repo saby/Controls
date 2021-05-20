@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {isEqual} from 'Types/object';
 import DateRangeTemplate = require('wml!Controls/_filter/Editors/DateRange');
 import {EventUtils} from 'UI/Events';
@@ -90,7 +90,7 @@ Object.defineProperty(DateRangeEditor, 'defaultProps', {
 /**
  * @event Происходит при изменении выбранного значения.
  * @name Controls/_filter/Editors/DateRange#textValueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} caption Строковое представление периода дат.
  */
 

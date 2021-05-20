@@ -4,7 +4,7 @@ import * as template from 'wml!Controls/_filter/View/View';
 import * as defaultItemTemplate from 'wml!Controls/_filter/View/ItemTemplate';
 
 import {detection, IoC} from 'Env/Env';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import Store from 'Controls/Store';
 import {factory as CollectionFactory, RecordSet, List} from 'Types/collection';

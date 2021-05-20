@@ -4,15 +4,15 @@ define(
       'Controls/input',
       'ControlsUnit/resources/ProxyCall',
       'ControlsUnit/resources/TemplateUtil',
-      'Vdom/Vdom',
+      'UICommon/Events',
       'UI/Utils',
 
       'wml!ControlsUnit/Input/Area/LinkInReadMode'
    ],
-   function(Env, input, ProxyCall, TemplateUtil, Vdom, UIUtils, linkInReadMode) {
+   function(Env, input, ProxyCall, TemplateUtil, Events, UIUtils, linkInReadMode) {
       'use strict';
 
-      var SyntheticEvent = Vdom.SyntheticEvent;
+      var SyntheticEvent = Events.SyntheticEvent;
 
       describe('Controls.Input.Area', function() {
          var ctrl, calls;

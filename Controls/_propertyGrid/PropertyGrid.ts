@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_propertyGrid/PropertyGrid';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {GroupItem, CollectionItem} from 'Controls/display';
 import {RecordSet} from 'Types/collection';
 import {Model, Record as entityRecord} from 'Types/entity';

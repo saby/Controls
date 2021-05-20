@@ -9,7 +9,7 @@ import * as getResourceUrl from 'Core/helpers/getResourceUrl';
 import {detection, compatibility, constants, IoC} from 'Env/Env';
 import {TouchDetect} from 'Env/Touch';
 import {Bus} from 'Env/Event';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {dispatcherHandler} from 'UI/HotKeys';
 import {List} from 'Types/collection';
 

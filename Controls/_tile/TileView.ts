@@ -7,7 +7,7 @@ import {isEqual} from 'Types/object';
 import { TemplateFunction } from 'UI/Base';
 import TileCollectionItem from './display/TileCollectionItem';
 import TileCollection from './display/TileCollection';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Model} from 'Types/entity';
 import {constants} from 'Env/Env';
 import {getItemSize} from './utils/imageUtil';

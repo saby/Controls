@@ -3,7 +3,7 @@ import * as coreMerge from 'Core/core-merge';
 import { default as MonthData, IMonthOptions} from 'Controls/_calendar/interfaces/IMonth';
 import MonthViewModel from 'Controls/_calendar/Month/Model';
 import monthTmpl = require('wml!Controls/_calendar/Month/Month');
-import { SyntheticEvent } from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 /**
  * Календарь, отображающий 1 месяц.

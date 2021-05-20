@@ -1,7 +1,7 @@
 import {Control, IControlOptions} from 'UI/Base';
 import {ISliderOptions} from './interface/ISlider';
 import {default as Utils} from './Utils';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {descriptor as EntityDescriptor} from 'Types/entity';
 import {constants} from 'Env/Env';
 

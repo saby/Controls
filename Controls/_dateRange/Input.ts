@@ -1,4 +1,4 @@
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {IDateRangeValidators, IDateRangeValidatorsOptions} from 'Controls/interface';
 import {IDateRangeOptions} from './interfaces/IDateRange';

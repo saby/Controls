@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {InputContainer} from 'Controls/search';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import * as sinon from 'sinon';
 import Store from 'Controls/Store';
 

@@ -1,4 +1,4 @@
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {detection} from 'Env/Env';
 
 const PRELOAD_DEPENDENCIES_HOVER_DELAY = 80;

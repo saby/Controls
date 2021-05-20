@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_search/Input/Container';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import SearchResolver from 'Controls/_search/SearchResolver';
 import {constants} from 'Env/Env';
 
@@ -167,14 +167,14 @@ export default class Container extends Control<ISearchInputContainerOptions> {
 /**
  * @event Происходит при начале поиска
  * @name Controls/_search/Input/Container#search
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {value} string Значение по которому производится поиск.
  */
 
 /**
  * @event Происходит при сбросе поиска
  * @name Controls/_search/Input/Container#searchReset
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */
 
 Object.defineProperty(Container, 'defaultProps', {

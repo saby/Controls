@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import {stub, SinonStub, spy, assert as sinonAssert} from 'sinon';
 import {Model, Record} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {ANIMATION_STATE, Collection, CollectionItem, ISwipeConfig} from 'Controls/display';
 import {IOptions as ICollectionOptions} from 'Controls/_display/Collection';
 

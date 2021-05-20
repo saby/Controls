@@ -6,7 +6,7 @@ import {loadFontWidthConstants, getFontWidth} from 'Controls/Utils/getFontWidth'
 import {SbisService, Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {CrudWrapper} from 'Controls/dataSource';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Logger} from 'UI/Utils';
 import {ITabsButtons, ITabsButtonsOptions} from './interface/ITabsButtons';
 import rk = require('i18n!Controls');

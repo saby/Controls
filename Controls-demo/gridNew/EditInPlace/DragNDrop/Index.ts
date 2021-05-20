@@ -4,7 +4,7 @@ import * as FirstColumn from 'wml!Controls-demo/gridNew/EditInPlace/DragNDrop/Fi
 import {Memory} from 'Types/source';
 import {getPorts} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Model} from 'Types/entity';
 import * as Dnd from '../../../../Controls/dragnDrop';
 import {Collection, TColspanCallbackResult} from 'Controls/display';

@@ -87,7 +87,7 @@ export default interface ISelectorDialog {
 /**
  * @event Происходит при выборе элементов из справочника.
  * @name Controls/_interface/ISelectorDialog#selectorCallback
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {RecordSet} initialItems Список выбранных элементов, перед открытием справочника.
  * @param {RecordSet} newItems Список выбранных элементов, после выбора из справочника.
  * @remark
@@ -123,7 +123,7 @@ export default interface ISelectorDialog {
 /*
  * @event Occurs when selected items with selector.
  * @name Controls/_interface/ISelectorDialog#selectorCallback
- * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
  * @param {RecordSet} initialItems List of selected items before opening the directory.
  * @param {RecordSet} newItemsThe list of selected items, after selecting from the directory.
  * @remark

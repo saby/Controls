@@ -1,7 +1,7 @@
 import {Logger} from 'UI/Utils';
 import {ISliderBaseOptions} from './Base';
 import {ISliderRangeOptions} from './Range';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {IInterval} from './interface/IInterval';
 
 export interface IScaleData {

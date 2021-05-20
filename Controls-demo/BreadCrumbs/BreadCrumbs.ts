@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 // @ts-ignore
 import Template = require('wml!Controls-demo/BreadCrumbs/BreadCrumbs/BreadCrumbs');
 import {Model} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 class BreadCrumbs extends Control<IControlOptions> {
     protected _template: TemplateFunction = Template;

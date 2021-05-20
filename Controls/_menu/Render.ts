@@ -7,7 +7,7 @@ import * as multiSelectTpl from 'wml!Controls/_menu/Render/multiSelectTpl';
 import ViewTemplate = require('wml!Controls/_menu/Render/Render');
 import {TKey} from 'Controls/_menu/interface/IMenuControl';
 import {Model} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {ItemsUtil} from 'Controls/list';
 import {Visibility as MarkerVisibility} from 'Controls/marker';
 import {IItemAction} from 'Controls/itemActions';
