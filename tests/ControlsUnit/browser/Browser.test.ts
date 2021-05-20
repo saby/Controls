@@ -811,6 +811,20 @@ describe('Controls/browser:Browser', () => {
             browser._beforeUpdate({...options, expandedItems: [1]});
             assert.deepEqual(browser._dataOptionsContext.expandedItems, [1]);
         });
+
+        it('items in sourceController are changed', async () => {
+            const options = getBrowserOptions();
+            const browser = getBrowser(options);
+            await browser._beforeMount(options);
+            browser.saveOptions(options);
+
+            const items = new RecordSet();
+            browser._getSourceController().setItems(null);
+            browser._getSourceController().setItems(items);
+
+            browser._beforeUpdate(options);
+            assert.ok(browser._items === items);
+        });
     });
 
     describe('_updateSearchController', () => {
