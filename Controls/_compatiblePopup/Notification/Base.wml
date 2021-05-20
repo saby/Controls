@@ -1,4 +1,4 @@
-<div class="controls-Notification controls-Notification__{{_options.style}}"
+<div class="controls_popupTemplate_theme-{{_options.theme}} controls-Notification controls-Notification__{{_options.style}}"
      attr:ws-no-focus="true">
    <div class="">
       <ws:if data="{{_options.contentTemplate || _options.bodyContentTemplate}}">
