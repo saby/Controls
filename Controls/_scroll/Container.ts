@@ -637,12 +637,14 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             topShadowVisibility: descriptor(String).oneOf([
                 SHADOW_VISIBILITY.AUTO,
                 SHADOW_VISIBILITY.HIDDEN,
-                SHADOW_VISIBILITY.VISIBLE
+                SHADOW_VISIBILITY.VISIBLE,
+                'gridauto'
             ]),
             bottomShadowVisibility: descriptor(String).oneOf([
                 SHADOW_VISIBILITY.AUTO,
                 SHADOW_VISIBILITY.HIDDEN,
-                SHADOW_VISIBILITY.VISIBLE
+                SHADOW_VISIBILITY.VISIBLE,
+                'gridauto'
             ]),
             shadowMode: descriptor(String).oneOf([
                 SHADOW_MODE.CSS,
