@@ -117,6 +117,10 @@ abstract class BaseController {
         return this.elementAnimated && this.elementAnimated(item);
     }
 
+    orientationChanged(item: IPopupItem, container: HTMLDivElement): boolean {
+        return this._elementUpdated(item, container);
+    }
+
     getDefaultConfig(item: IPopupItem): void {
         item.position = {
             top: -10000,
