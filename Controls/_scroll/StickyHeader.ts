@@ -451,10 +451,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return this._options.shadowVisibility;
     }
 
-    get index(): number {
-        return this._index;
-    }
-
     protected _onScrollStateChanged(scrollState: IScrollState, oldScrollState: IScrollState): void {
         let changed: boolean = false;
 
@@ -774,16 +770,16 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return `${position}: ${-coord}px;`;
     }
 
-    protected updateFixed(ids: number[], isShadowVisible: boolean): void {
+    protected updateFixed(ids: number[]): void {
         const isFixed: boolean = ids.indexOf(this._index) !== -1;
         if (this._isFixed !== isFixed) {
             if (!this._model) {
+                this._init();
                 // Модель еще не существует, значит заголвок только что создан и контроллер сказал
                 // заголовку что он зафиксирован. Обновим тень вручную что бы не было скачков.
-                //
                 fastUpdate.mutate(() => {
                     if (this._children.shadowBottom &&
-                        (this._isShadowVisibleByScrollState(POSITION.bottom) || isShadowVisible)) {
+                        this._isShadowVisibleByScrollState(POSITION.bottom)) {
                         const hiddenClass = this._isMobileIOS ? 'ws-invisible' : 'ws-hidden';
                         this._children.shadowBottom.classList.remove(hiddenClass);
                     }
