@@ -22,10 +22,12 @@ export type TDirection = 'down' | 'left' | 'right' | 'top';
 export interface IOptions extends IMarkerListOptions {
    model: Collection<Model, CollectionItem<Model>>;
    markerStrategy: IMarkerStrategyCtor;
+   moveMarkerOnScrollPaging: boolean;
 }
 export type IMarkerStrategyCtor = new () => IMarkerStrategy;
 export interface IMarkerStrategyOptions {
    model: Collection<Model, CollectionItem<Model>>;
+   moveMarkerOnScrollPaging: boolean;
 }
 export interface IMarkerStrategy {
    getMarkedKeyByDirection: (index: number, direction: TDirection) => CrudEntityKey | void;
