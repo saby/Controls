@@ -329,6 +329,12 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             this.setCollapsedItems(options.collapsedItems);
         }
 
+        if (options.expandedItems instanceof Array) {
+            this._reBuildNodeFooters();
+            this._reSort();
+            this._reFilter();
+        }
+
         if (this.getExpanderVisibility() === 'hasChildren') {
             this._recountHasNodeWithChildren();
         }
@@ -460,7 +466,9 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
             const strategy = this.getStrategyInstance(NodeFooter) as any as NodeFooter;
             strategy.setNodeFooterVisibilityCallback(callback);
-            this._reBuildNodeFooters();
+            this._reBuildNodeFooters(true, true);
+            this._reSort();
+            this._reFilter();
 
             this._nextVersion();
         }
@@ -617,6 +625,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._$root = root;
         this._root = null;
 
+        this._reBuildNodeFooters(true, true);
         this._reIndex();
         this._reAnalize();
     }
@@ -741,7 +750,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         };
         //endregion
 
-        this._reBuildNodeFooters();
         this._expandedItems = [...expandedKeys];
     }
 
@@ -769,7 +777,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 item.setExpanded(false);
             }
         });
-        this._reBuildNodeFooters();
     }
 
     resetExpandedItems(): void {
@@ -822,6 +829,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (!isEqual(this._$hasMoreStorage, storage)) {
             this._$hasMoreStorage = storage;
             this._reBuildNodeFooters();
+            this._reSort();
+            this._reFilter();
             this._nextVersion();
         }
     }
@@ -899,12 +908,23 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._childrenMap = {};
     }
 
-    protected _reBuildNodeFooters(): void {
-        const session = this._startUpdateSession();
-        this.getStrategyInstance(NodeFooter)?.invalidate();
-        this._reSort();
-        this._reFilter();
-        this._finishUpdateSession(session, true);
+    protected _reBuildNodeFooters(withSession: boolean = true, reset: boolean = false): void {
+        let session;
+        if (withSession) {
+            session = this._startUpdateSession();
+        }
+
+        if (reset) {
+            this.getStrategyInstance(NodeFooter)?.reset();
+            this._reSort();
+            this._reFilter();
+        } else {
+            this.getStrategyInstance(NodeFooter)?.invalidate();
+        }
+
+        if (session) {
+            this._finishUpdateSession(session, true);
+        }
     }
 
     protected _bindHandlers(): void {
@@ -1187,6 +1207,35 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             nodeProperty: this.getNodeProperty(),
             declaredChildrenProperty: this.getHasChildrenProperty()
         });
+    }
+
+    protected _handleCollectionChangeAdd(): void {
+        super._handleCollectionChangeAdd();
+
+        this._reBuildNodeFooters(false);
+    }
+
+    protected _handleCollectionChangeRemove(): void {
+        super._handleCollectionChangeRemove();
+
+        this._reBuildNodeFooters(false);
+    }
+
+    protected _handleCollectionChangeReplace(): void {
+        super._handleCollectionChangeReplace();
+
+        this._reBuildNodeFooters(false);
+    }
+
+    protected _handleNotifyItemChangeRebuild(item: T, properties?: object|string): boolean {
+        let result = super._handleNotifyItemChangeRebuild(item, properties);
+
+        if (properties === 'expanded' || properties.hasOwnProperty('expanded')) {
+            this._reBuildNodeFooters(false);
+            result = true;
+        }
+
+        return result;
     }
 }
 
