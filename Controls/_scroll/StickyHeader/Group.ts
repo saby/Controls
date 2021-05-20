@@ -262,10 +262,12 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
                 data.inst[POSITION.bottom] = this._offset[POSITION.bottom];
             }
 
-            const isShadowVisible = this._isShadowVisibleByController[POSITION.top] !== SHADOW_VISIBILITY_BY_CONTROLLER.hidden &&
-                this._isShadowVisibleByController[POSITION.bottom] !== SHADOW_VISIBILITY_BY_CONTROLLER.hidden;
-            if (this._isFixed && isShadowVisible) {
-                data.inst.updateFixed([data.inst.index], true);
+            for (const position of [POSITION.top, POSITION.bottom]) {
+                data.inst.updateShadowVisibility(this._isShadowVisibleByController[position], position);
+            }
+
+            if (this._isFixed) {
+                data.inst.updateFixed([data.id]);
             }
 
             data.inst.setSyncDomOptimization(this._syncDomOptimization);
