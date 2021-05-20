@@ -632,6 +632,33 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     static _theme: string[] = ['Controls/scroll'];
 
+    static getOptionTypes(): object {
+        return {
+            topShadowVisibility: descriptor(String).oneOf([
+                SHADOW_VISIBILITY.AUTO,
+                SHADOW_VISIBILITY.HIDDEN,
+                SHADOW_VISIBILITY.VISIBLE,
+                'gridauto'
+            ]),
+            bottomShadowVisibility: descriptor(String).oneOf([
+                SHADOW_VISIBILITY.AUTO,
+                SHADOW_VISIBILITY.HIDDEN,
+                SHADOW_VISIBILITY.VISIBLE,
+                'gridauto'
+            ]),
+            shadowMode: descriptor(String).oneOf([
+                SHADOW_MODE.CSS,
+                SHADOW_MODE.JS,
+                SHADOW_MODE.MIXED
+            ]),
+            scrollMode: descriptor(String).oneOf([
+                'vertical',
+                'horizontal',
+                'verticalHorizontal'
+            ])
+        };
+    }
+
     static getDefaultOptions(): object {
         return {
             ...getScrollbarsDefaultOptions(),
