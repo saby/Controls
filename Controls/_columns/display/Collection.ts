@@ -25,11 +25,11 @@ export default class Collection<
     protected _$spacing: number = SPACING;
     constructor(options) {
         super(options);
-        this._columnsStrategy = options.columnsMode === 'fixed' ? new Fixed() : new Auto();
-        if (options.columnsMode === 'auto' && options.initialWidth) {
+        this._columnsStrategy = this._$columnsMode === 'fixed' ? new Fixed() : new Auto();
+        if (this._$columnsMode === 'auto' && options.initialWidth) {
             this.setCurrentWidth(options.initialWidth, options.columnMinWidth);
         } else {
-            this.setColumnsCount(options.columnsCount || DEFAULT_COLUMNS_COUNT);
+            this.setColumnsCount(this._$columnsCount || DEFAULT_COLUMNS_COUNT);
         }
         this.updateColumns();
     }
