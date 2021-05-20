@@ -1385,7 +1385,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
         if (this._listViewModel && this._listViewModel['[Controls/_display/Tree]']) {
             const expanderVisibility = this._listViewModel.getExpanderVisibility();
-            const hasExpander = this._listViewModel.getExpanderIcon() !== 'none'
+            const expanderPosition = options.expanderPosition || 'default';
+            const hasExpander = expanderPosition === 'default'
+                && this._listViewModel.getExpanderIcon() !== 'none'
                 && (expanderVisibility === 'hasChildren' && this._listViewModel.hasNodeWithChildren()
                 || expanderVisibility !== 'hasChildren' && this._listViewModel.hasNode());
             if (hasExpander) {
