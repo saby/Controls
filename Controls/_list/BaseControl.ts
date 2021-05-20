@@ -2761,7 +2761,8 @@ const _private = {
                 model: self._listViewModel,
                 markerVisibility: options.markerVisibility,
                 markedKey: options.markedKey,
-                markerStrategy: options.markerStrategy
+                markerStrategy: options.markerStrategy,
+                moveMarkerOnScrollPaging: options.moveMarkerOnScrollPaging
             });
         }
         return self._markerController;
@@ -4196,7 +4197,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.getMarkerController(this).updateOptions({
                 model: this._listViewModel,
                 markerVisibility: newOptions.markerVisibility,
-                markerStrategy: newOptions.markerStrategy
+                markerStrategy: newOptions.markerStrategy,
+                moveMarkerOnScrollPaging: newOptions.moveMarkerOnScrollPaging
             });
         }
 
