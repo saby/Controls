@@ -288,9 +288,9 @@ export interface INavigationViewConfig {
 export interface INavigationOptionValue<U> {
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#source
-     * @cfg {Controls/interface:INavigation.TNavigationSource.typedef} Режим {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @cfg {Controls/interface:INavigation.TNavigationSource} Режим {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
-     * <pre class="brush: html">
+     * <pre class="brush: html; highlight: [3]">
      * <!-- WML -->
      * <Controls.list:View source="{{_viewSource}}">
      * <ws:navigation source="position" view="pages">
@@ -305,9 +305,9 @@ export interface INavigationOptionValue<U> {
     source?: TNavigationSource;
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#view
-     * @cfg {Controls/interface:INavigation.TNavigationView.typedef} Вид {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
+     * @cfg {Controls/interface:INavigation.TNavigationView} Вид {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
      * @example
-     * <pre class="brush: html">
+     * <pre class="brush: html; highlight: [4]">
      * <!-- WML -->
      * <Controls.scroll:Container>
      *     <Controls.list:View source="{{_viewSource}}">
@@ -319,9 +319,9 @@ export interface INavigationOptionValue<U> {
     view?: TNavigationView;
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#sourceConfig
-     * @cfg {Controls/interface:INavigation.INavigationSourceConfig.typedef} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @cfg {Controls/interface:INavigation.INavigationSourceConfig} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
-     * <pre class="brush: html">
+     * <pre class="brush: html; highlight: [4]">
      * <!-- WML -->
      * <Controls.list:View source="{{_viewSource}}">
      *    <ws:navigation source="position" view="infinity">
@@ -333,9 +333,10 @@ export interface INavigationOptionValue<U> {
     sourceConfig?: U;
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#viewConfig
-     * @cfg {Controls/interface:INavigation.INavigationViewConfig.typedef} Конфигурация вида {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
+     * @cfg {Controls/interface:INavigation.INavigationViewConfig} Конфигурация вида {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
      * @example
-     * <pre class="brush: html">
+     * <pre class="brush: html; highlight: [5]">
+     * <!-- WML -->
      * <Controls.list:View source="{{_viewSource}}">
      *     <ws:navigation source="page" view="pages">
      *         <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}"/>
