@@ -1,12 +1,8 @@
 import { TemplateFunction } from 'UI/Base';
 import { Model as EntityModel } from 'Types/entity';
 
-import {
-    THeader,
-    IColumn,
-    TColumns,
-    TColumnSeparatorSize
-} from 'Controls/interface';
+import { IColumn, TColumns, TColumnSeparatorSize } from '../interface/IColumn';
+import { THeader } from '../interface/IHeaderCell';
 
 import { IViewIterator, GridLadderUtil, ILadderObject, IBaseCollection, isFullGridSupport } from 'Controls/display';
 
@@ -21,6 +17,7 @@ import FooterRow, { TFooter } from '../FooterRow';
 import ResultsRow, { TResultsPosition } from '../ResultsRow';
 import GridRowMixin from './Row';
 import EmptyRow from '../EmptyRow';
+import { EnumeratorCallback } from 'Types/collection';
 
 type THeaderVisibility = 'visible' | 'hasdata';
 type TResultsVisibility = 'visible' | 'hasdata';
@@ -129,6 +126,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$emptyTemplate: TemplateFunction;
     protected _$sorting: Array<{[p: string]: string}>;
     protected _$emptyTemplateColumns: IEmptyTemplateColumn[];
+    protected _$backgroundStyle: string;
 
     protected _isFullGridSupport: boolean = isFullGridSupport();
 
@@ -177,6 +175,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (!this._$headerModel && this._headerIsVisible(this._$header)) {
             this._initializeHeader({
                 columns: this._$columns,
+                backgroundStyle: this._$backgroundStyle,
                 owner: this,
                 header: this._$header,
                 sorting: this._$sorting,
@@ -201,6 +200,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         } else {
             this._$footer = this._initializeFooter({
                 multiSelectVisibility: this._$multiSelectVisibility,
+                backgroundStyle: this._$backgroundStyle,
                 footerTemplate,
                 footer,
                 columnSeparatorSize: this._$columnSeparatorSize
@@ -221,6 +221,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 columns: this._$columns,
                 multiSelectVisibility: this._$multiSelectVisibility,
                 resultsTemplate: this._$resultsTemplate,
+                backgroundStyle: this._$backgroundStyle,
                 resultsColspanCallback: this._$resultsColspanCallback
             });
         }
@@ -374,7 +375,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _updateItemsLadder(): void {
-        this._getItems().forEach((item: GridRowMixin<S>, index: number) => {
+        this.each((item: GridRowMixin<S>, index: number) => {
             let ladder;
             let stickyLadder;
             if (this._$ladder) {
@@ -566,6 +567,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     abstract getItemBySourceItem(item: S): T;
     abstract getItemBySourceKey(key: string | number): T;
     abstract getCollection(): IBaseCollection<S, T>;
+    abstract each(callback: EnumeratorCallback<T>, context?: object): void;
 
     protected abstract _nextVersion(): void;
     protected abstract _getItems(): T[];

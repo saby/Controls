@@ -15,8 +15,8 @@
     isActionCell Поле, для определения ячейки действий
     templateOptions Опции, передаваемые в шаблон ячейки заголовка.
 */
-import { TemplateFunction } from 'UI/Base';
-import {IColspanParams, IHeaderCell} from 'Controls/interface';
+import { IColspanParams } from './interface/IColumn';
+import { IHeaderCell } from './interface/IHeaderCell';
 import { IItemPadding } from 'Controls/display';
 import HeaderRow from './HeaderRow';
 import Cell, {IOptions as ICellOptions} from './Cell';
@@ -218,8 +218,10 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             wrapperClasses += ' controls-Grid__header-cell_static';
         }
 
-        if (!this.isMultiSelectColumn() && !this._$owner.hasColumnScroll()) {
-            wrapperClasses += ' controls-Grid__header-cell_min-width';
+        if (!this.isMultiSelectColumn()) {
+            if (!this._$owner.hasColumnScroll()) {
+                wrapperClasses += ' controls-Grid__header-cell_min-width';
+            }
         } else {
             wrapperClasses += ' controls-Grid__header-cell-checkbox_min-width';
         }

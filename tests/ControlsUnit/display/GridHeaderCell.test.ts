@@ -1,12 +1,7 @@
 import { assert } from 'chai';
-import {Model as EntityModel, Model} from 'Types/entity';
 import {
-    GridCollection,
-    GridHeader,
     GridHeaderCell,
-    TColspanCallback
 } from 'Controls/grid';
-import { IColumn, THeader } from 'Controls/interface';
 
 describe('Controls/display:HeaderCell', () => {
     describe('align and valign', () => {

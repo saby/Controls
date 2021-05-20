@@ -16,6 +16,7 @@ export interface ISearchControllerOptions extends ISearchOptions,
    root?: TKey;
    viewMode?: TViewMode;
    items?: RecordSet;
+   searchStartCallback?: Function;
 }
 
 const SERVICE_FILTERS = {
@@ -199,7 +200,7 @@ export default class ControllerClass {
       }
 
       if (options.hasOwnProperty('searchValue')) {
-         if (options.searchValue !== this._options.searchValue || options.searchValue !== this._searchValue) {
+         if (searchValue !== this._searchValue) {
             needLoad = true;
          }
       }
@@ -313,7 +314,7 @@ export default class ControllerClass {
    }
 
    private _getRoot(): TKey {
-      let root;
+      let root = this._root;
 
       if (this._root !== undefined && this._options.parentProperty && this._searchValue) {
          if (this._options.startingWith === 'current') {
@@ -364,7 +365,7 @@ export default class ControllerClass {
    }
 
    private _updateFilterAndLoad(filter: QueryWhereExpression<unknown>, root: TKey): Promise<RecordSet|Error> {
-      this._searchStarted();
+      this._searchStarted(filter);
       this._sourceController.setRoot(root);
       return this._searchPromise =
           this._sourceController
@@ -397,8 +398,11 @@ export default class ControllerClass {
       }
    }
 
-   private _searchStarted(): void {
+   private _searchStarted(filter: QueryWhereExpression<unknown>): void {
       this._searchInProgress = true;
+      if (this._options.searchStartCallback) {
+         this._options.searchStartCallback(filter);
+      }
    }
 
    private _searchEnded(): void {

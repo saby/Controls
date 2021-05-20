@@ -1126,7 +1126,14 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     this._doAfterItemExpanded = null;
                     this._applyMarkedLeaf(itemKey, model, markerController);
                 };
-                this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, options);
+                const eventResult = this._notify('beforeItemExpand', [current]);
+                if (eventResult instanceof Promise) {
+                        eventResult.then(() => {
+                            this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, options);
+                        });
+                } else {
+                    this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, options);
+                }
             } else {
                 this._applyMarkedLeaf(current.getKey(), model, markerController);
             }

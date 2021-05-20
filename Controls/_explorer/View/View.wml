@@ -14,7 +14,7 @@
                rootVisible="{{_dragOnBreadCrumbs}}"
                highlighter="{{[_breadCrumbsDragHighlighter]}}"
                root="{{content._options.root}}"
-               items="{{content._options.breadCrumbsItems}}"
+               items="{{content._options.breadCrumbsItems || null}}"
 
                on:hoveredItemChanged="_hoveredCrumbChanged()"
                on:arrowActivated="_notifyHandler('arrowActivated')"
@@ -33,6 +33,7 @@
                                           actionCaptionPosition="{{ _viewMode === 'tile' ? 'none' : _options.actionCaptionPosition }}"
                                           itemTemplate="{{_viewMode==='tile' ? _options.tileItemTemplate : _itemTemplate}}"
                                           groupTemplate="{{_viewMode==='tile' ? _options.tileGroupTemplate : _groupTemplate}}"
+                                          itemActionsPosition="{{_itemActionsPosition}}"
                                           disableVirtualScroll="{{_viewMode==='tile'}}"
                                           plainItemsContainer="{{!(_options.useColumns && _viewMode === 'list')}}"
                                           dragControlId="{{ _dragControlId }}"

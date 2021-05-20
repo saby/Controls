@@ -2,7 +2,8 @@ import {TemplateFunction} from 'UI/Base';
 import {create} from 'Types/di';
 import {isEqual} from 'Types/object';
 import {Model as EntityModel} from 'Types/entity';
-import {IColspanParams, IColumn, TColumns, TColumnSeparatorSize, THeader} from 'Controls/interface';
+import {IColspanParams, IColumn, TColumns, TColumnSeparatorSize} from '../interface/IColumn';
+import {THeader} from '../interface/IHeaderCell';
 import {Collection, ICollectionItemOptions as IBaseOptions, ILadderConfig, IStickyLadderConfig, TLadderElement} from 'Controls/display';
 import Cell, {IOptions as ICellOptions} from '../Cell';
 import {TResultsPosition} from '../ResultsRow';
@@ -314,6 +315,10 @@ export default abstract class Row<T> {
     setBackgroundStyle(backgroundStyle: string): void {
         this._$backgroundStyle = backgroundStyle;
         this._reinitializeColumns();
+    }
+
+    getBackgroundStyle(): string {
+        return this._$backgroundStyle;
     }
 
     /**

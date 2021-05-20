@@ -409,6 +409,7 @@ const _private = {
     attachLoadTopTriggerToNullIfNeed(self, options): boolean {
         const supportAttachLoadTopTriggerToNull = _private.supportAttachLoadTriggerToNull(options, 'up');
         if (!supportAttachLoadTopTriggerToNull) {
+            self._attachLoadTopTriggerToNull = false;
             return false;
         }
         const needAttachLoadTopTriggerToNull = _private.needAttachLoadTriggerToNull(self, 'up');
@@ -423,6 +424,7 @@ const _private = {
     },
     attachLoadDownTriggerToNullIfNeed(self, options): boolean {
         if (!_private.supportAttachLoadTriggerToNull(options, 'down') || !self._listViewModel || !self._listViewModel['[Controls/_display/grid/mixins/Grid]']) {
+            self._attachLoadDownTriggerToNull = false;
             return false;
         }
         const needAttachLoadDownTriggerToNull = _private.needAttachLoadTriggerToNull(self, 'down');
@@ -752,7 +754,7 @@ const _private = {
         if (_private.isDemandNavigation(options.navigation) && self._hasMoreData(sourceController, 'down')) {
             self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ? !self._listViewModel.isAllGroupsCollapsed() : true;
         } else if (_private.isCutNavigation(options.navigation)) {
-            self._shouldDrawCut = true;
+            self._shouldDrawCut = self._items.getCount() > options.navigation.sourceConfig?.pageSize;
         } else {
             self._shouldDrawFooter = false;
         }
@@ -2330,12 +2332,17 @@ const _private = {
     },
 
     isPagingNavigationVisible(self, hasMoreData) {
+        const navigation = self._options.navigation;
+        if (navigation?.viewConfig?.pagingMode === 'hidden') {
+            return false;
+        }
+
         /**
          * Не получится получать количество элементов через _private.getItemsCount,
          * так как функция возвращает количество отображаемых элементов
          */
-        if (self._options.navigation && self._options.navigation.viewConfig &&
-            self._options.navigation.viewConfig.totalInfo === 'extended') {
+        if (navigation && navigation.viewConfig &&
+            navigation.viewConfig.totalInfo === 'extended') {
             return hasMoreData > PAGING_MIN_ELEMENTS_COUNT || hasMoreData === true;
         }
 
@@ -5524,7 +5531,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             // Не вся бизнес логика поддерживает загрузку первой/последней страницы при курсорной навигации.
             // TODO: Поддержать везде по задаче
             //  https://online.sbis.ru/opendoc.html?guid=000ff88b-f37e-4aa6-9bd3-3705bb721014
-            if (editingConfig.task1181625554) {
+            if (editingConfig.task1181625554 && isAdd) {
                 return _private.scrollToEdge(this, editingConfig.addPosition === 'top' ? 'up' : 'down').then(() => {
                     return result;
                 });
@@ -7147,7 +7154,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _getFooterClasses(options): string {
         const hasCheckboxes = options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
 
-        const paddingClassName = 'controls__BaseControl__footer__paddingLeft_';
+        const paddingClassName = `controls__BaseControl__footer-${options.style}__paddingLeft_`;
         if (hasCheckboxes) {
             paddingClassName += 'withCheckboxes';
         } else {

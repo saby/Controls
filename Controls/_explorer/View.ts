@@ -175,6 +175,8 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _restoredMarkedKeys: IMarkedKeysStore;
     private _potentialMarkedKey: TKey;
     private _newItemPadding: IItemPadding;
+    private _newItemActionsPosition: string;
+    private _itemActionsPosition: string;
     private _newItemTemplate: TemplateFunction;
     private _newBackgroundStyle: string;
     private _newHeader: IHeaderCell[];
@@ -209,6 +211,8 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._header = cfg.viewMode === 'tile' ? undefined : cfg.header;
         }
 
+        this._itemActionsPosition = cfg.itemActionsPosition;
+
         this._itemsReadyCallback = this._itemsReadyCallbackFunc.bind(this);
         this._itemsSetCallback = this._itemsSetCallbackFunc.bind(this);
         this._canStartDragNDrop = this._canStartDragNDropFunc.bind(this);
@@ -224,11 +228,6 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         const root = this._getRoot(cfg.root);
         this._headerVisibility = this._getHeaderVisibility(root, cfg.headerVisibility);
-        this._restoredMarkedKeys = {
-            [root]: {
-                markedKey: null
-            }
-        };
 
         // TODO: для 20.5100. в 20.6000 можно удалить
         if (cfg.displayMode) {
@@ -280,6 +279,13 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         if (cfg.header !== this._options.header || isViewModeChanged) {
             this._newHeader = cfg.viewMode === 'tile' ? undefined : cfg.header;
+        }
+
+        if (cfg.itemActionsPosition !== this._options.itemActionsPosition) {
+            /* Нужно задерживать itemActionsPosition, потому что добавляется дополнительная колонка в гриде
+               Если сменить таблицу на плитку, то на время загрузки вьюхи таблица разъедется
+            */
+            this._newItemActionsPosition = cfg.itemActionsPosition;
         }
 
         const navigationChanged = !isEqual(cfg.navigation, this._options.navigation);
@@ -429,6 +435,12 @@ export default class Explorer extends Control<IExplorerOptions> {
         event.stopPropagation();
 
         const changeRoot = () => {
+            // Перед проваливанием запомним значение курсора записи, т.к. в крошках могут его не прислать
+            const currRootInfo = this._restoredMarkedKeys[this._getRoot(this._options.root)];
+            if (currRootInfo && this._isCursorNavigation(this._navigation)) {
+                currRootInfo.cursorPosition = this._getCursorPositionFor(item, this._navigation);
+            }
+
             this._setRoot(item.getKey());
             // При search не должны сбрасывать маркер, так как он встанет на папку
             if (this._options.searchNavigationMode !== 'expand') {
@@ -545,6 +557,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         // не указан markedKey
         const markedKey = this._restoredMarkedKeys[newRoot].markedKey;
         if (markedKey) {
+            this._potentialMarkedKey = markedKey;
             this._children.treeControl.setMarkedKey(markedKey);
         }
 
@@ -715,25 +728,23 @@ export default class Explorer extends Control<IExplorerOptions> {
         navigation: INavigationOptionValue<INavigationPageSourceConfig>
     ): void {
 
-        const store = this._restoredMarkedKeys = {
-            [root]: {
-                markedKey: null
-            }
+        const store = this._restoredMarkedKeys || {
+            [root]: {markedKey: null},
+            [topRoot]: {markedKey: null}
         } as IMarkedKeysStore;
 
-        // Если хлебных крошек нет, то дальне идти нет смысла
+        // Если хлебных крошек нет, то дальше идти нет смысла
         if (!breadcrumbs?.length) {
+            this._restoredMarkedKeys = store;
             return;
         }
 
-        store[topRoot] = {
-            markedKey: null
-        };
-
+        const actualIds = [root + '', topRoot + ''];
         breadcrumbs?.forEach((crumb) => {
             const crumbKey = crumb.getKey();
             const parentKey = crumb.get(parentProperty);
 
+            actualIds.push(crumbKey + '');
             store[crumbKey] = {
                 parent: parentKey,
                 markedKey: null
@@ -742,11 +753,24 @@ export default class Explorer extends Control<IExplorerOptions> {
             if (store[parentKey]) {
                 store[parentKey].markedKey = crumbKey;
 
-                if (this._isCursorNavigation(navigation)) {
+                // Берем значение курсора из крошки только в том случае если он еще не выставлен
+                // Курсор для текущего рута выставляется при проваливании
+                if (this._isCursorNavigation(navigation) && !store[parentKey].cursorPosition) {
                     store[parentKey].cursorPosition = this._getCursorPositionFor(crumb, navigation);
                 }
             }
         });
+
+        // Пробежимся по ключам сформированного store и выкинем
+        // все ключи, которых нет в текущих крошках
+        Object
+            .keys(store)
+            .forEach((storeKey) => {
+                if (!actualIds.includes(storeKey)) {
+                    delete store[storeKey];
+                }
+            });
+        this._restoredMarkedKeys = store;
     }
 
     /**
@@ -873,6 +897,10 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._header = this._newHeader;
             this._newHeader = null;
         }
+        if (this._newItemActionsPosition) {
+            this._itemActionsPosition = this._newItemActionsPosition;
+            this._newItemActionsPosition = null;
+        }
     }
 
     /**
@@ -983,7 +1011,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _getCursorPositionFor(
         item: Model,
         positionNavigation: INavigation<IPositionSourceConfig>
-    ): IPositionSourceConfig['position'] {
+    ): unknown[] {
 
         const position: unknown[] = [];
         const optField = positionNavigation.sourceConfig.field;

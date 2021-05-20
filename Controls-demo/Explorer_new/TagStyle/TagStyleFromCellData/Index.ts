@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
 import {CollectionItem} from 'Controls/display';
 import {Record} from 'Types/entity';
-import {TCellAlign, IColumn} from 'Controls/gridOld';
+import {TCellAlign, IColumn} from 'Controls/grid';
 
 import {Gadgets, IData} from '../../DataHelpers/DataCatalog';
 

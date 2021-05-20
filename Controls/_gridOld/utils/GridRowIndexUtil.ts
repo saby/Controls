@@ -1,5 +1,5 @@
 import {Collection, CollectionItem} from 'Controls/display';
-import {IHeaderCell} from 'Controls/interface';
+import {IHeaderCell} from 'Controls/grid';
 
 /**
  * @author Родионов Е.А.

@@ -116,7 +116,11 @@ export default {
 
     isPopupCreating(id: string): boolean {
         const item = this.find(id);
-        return item && (item.popupState === 'initializing' || item.popupState === 'creating');
+        if (item) {
+            const popupInstance = this.getContainer().getPopupById(item.id);
+            return (item.popupState === 'initializing' || item.popupState === 'creating') && !popupInstance;
+        }
+        return false;
     },
 
     _callManager(methodName: string, args: any[]): unknown {

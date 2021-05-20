@@ -6,11 +6,11 @@ import TileCollection from 'Controls/_tile/display/TileCollection';
 import TileView from 'Controls/_tile/TileView';
 import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
 import GroupItem from 'Controls/_display/GroupItem';
-import {SyntheticEvent} from "UI/Vdom";
+import {SyntheticEvent} from 'UI/Vdom';
 import TileCollectionItem from 'Controls/_tile/display/TileCollectionItem';
 
 describe('Controls/_tile/TileView', () => {
-    let tileView, model;
+    let tileView, model, cfg;
     beforeEach(() => {
         model = new TileCollection({
             tileMode: 'static',
@@ -29,7 +29,7 @@ describe('Controls/_tile/TileView', () => {
             })
         });
 
-        const cfg = {
+        cfg = {
             listModel: model,
             keyProperty: 'id',
             tileScalingMode: 'outside',
@@ -126,6 +126,70 @@ describe('Controls/_tile/TileView', () => {
             const methodSpy = spy(item, 'setCanShowActions');
             tileView._onItemMouseLeave(event, item);
             assert.isTrue(methodSpy.withArgs(false).called);
+        });
+    });
+
+    describe('show actions', () => {
+        it('delay with hover item', async () => {
+            const mockedItemContainer = {
+                getBoundingClientRect: () => {
+                    return {};
+                },
+                querySelector: () => {
+                    return {
+                        getBoundingClientRect: () => {
+                            return {};
+                        },
+                        classList: {
+                            add: () => null,
+                            remove: () => null
+                        },
+                        style: {}
+                    };
+                }
+            };
+
+            model.setTileScalingMode('inside');
+            model.getItemContainerPosition = () => {
+                return {};
+            };
+            model.getItemContainerPositionInDocument = () => {
+                return {};
+            };
+            model.getItemContainerStartPosition = () => {
+                return {
+                    left: 10,
+                    right: 10
+                };
+            };
+            tileView.getItemsContainer = () => mockedItemContainer;
+
+            const event = new SyntheticEvent(null, {
+                target: {
+                    closest: (style) => {
+                        if (style === '.js-controls-TileView__withoutZoom') {
+                            return null;
+                        }
+                        if (style === '.controls-TileView__item') {
+                            return mockedItemContainer;
+                        }
+                    }
+                }
+            });
+            const item = model.at(0);
+            tileView._onItemMouseEnter(event, item);
+            tileView._onItemMouseMove(event, item);
+
+            assert.isOk(tileView._mouseMoveTimeout);
+            await tileView._mouseMoveTimeout;
+
+            assert.isFalse(item.canShowActions());
+
+            model.setHoveredItem(item);
+            tileView._beforeUpdate(cfg);
+            tileView._afterUpdate();
+
+            assert.isTrue(item.canShowActions());
         });
     });
 });
