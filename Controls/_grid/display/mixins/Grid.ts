@@ -202,10 +202,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         } else {
             this._footer = this._initializeFooter({
                 multiSelectVisibility: this._$multiSelectVisibility,
-                footer,
                 footerTemplate: options.footerTemplate,
                 footer: options.footer,
-                backgroundStyle: this._$backgroundStyle,                columnSeparatorSize: this._$columnSeparatorSize
+                backgroundStyle: this._$backgroundStyle,
+                columnSeparatorSize: this._$columnSeparatorSize
             });
         }
 
