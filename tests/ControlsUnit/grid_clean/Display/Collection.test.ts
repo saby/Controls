@@ -1,5 +1,6 @@
 import { assert } from 'chai';
 import { GridCollection } from 'Controls/grid';
+import {TemplateFunction} from 'UI/Base';
 
 describe('Controls/grid_clean/Display/Collection', () => {
     describe('Update options', () => {
@@ -176,6 +177,81 @@ describe('Controls/grid_clean/Display/Collection', () => {
 
                 gridCollection.setResultsPosition('top');
                 assert.exists(gridCollection.getResults());
+            });
+        });
+        describe('emptyTemplateColumns', () => {
+            it('Initialize with emptyTemplateColumns', () => {
+                const emptyColumnsConfig = [
+                    {startColumn: 1, endColumn: 3, template: (() => 'EMPTY_COLUMN_TEMPLATE') as TemplateFunction}
+                ];
+                const gridCollection = new GridCollection({
+                    collection: [{ key: 1 }, { key: 2 }, { key: 3 }],
+                    keyProperty: 'key',
+                    columns: [
+                        {displayProperty: 'id'},
+                        {displayProperty: 'name'}
+                    ],
+                    emptyTemplateColumns: emptyColumnsConfig
+                });
+
+                assert.exists(gridCollection.getEmptyGridRow());
+                assert.equal(gridCollection.getEmptyGridRow().getColumns()[0].config, emptyColumnsConfig[0]);
+            });
+
+            it('Initialize without emptyTemplateColumns', () => {
+                const gridCollection = new GridCollection({
+                    collection: [{ key: 1 }, { key: 2 }, { key: 3 }],
+                    keyProperty: 'key',
+                    columns: [
+                        {displayProperty: 'id'},
+                        {displayProperty: 'name'}
+                    ]
+                });
+
+                assert.notExists(gridCollection.getEmptyGridRow());
+            });
+
+            it('Initialize with emptyTemplateColumns and change it', () => {
+                const emptyColumnsConfig = [
+                    {startColumn: 1, endColumn: 3, template: (() => 'EMPTY_COLUMN_TEMPLATE') as TemplateFunction}
+                ];
+                const gridCollection = new GridCollection({
+                    collection: [{ key: 1 }, { key: 2 }, { key: 3 }],
+                    keyProperty: 'key',
+                    columns: [
+                        {displayProperty: 'id'},
+                        {displayProperty: 'name'}
+                    ],
+                    emptyTemplateColumns: emptyColumnsConfig
+                });
+
+                const oldEmptyTemplateRow = gridCollection.getEmptyGridRow();
+
+                const newEmptyColumnsConfig = [
+                    {startColumn: 1, endColumn: 3, template: (() => 'NEW_EMPTY_COLUMN_TEMPLATE') as TemplateFunction}
+                ];
+                gridCollection.setEmptyTemplateColumns(newEmptyColumnsConfig);
+                assert.equal(oldEmptyTemplateRow, gridCollection.getEmptyGridRow());
+                assert.equal(gridCollection.getEmptyGridRow().getColumns()[0].config, newEmptyColumnsConfig[0]);
+
+            });
+
+            it('Initialize without emptyTemplateColumns and set it', () => {
+                const gridCollection = new GridCollection({
+                    collection: [{ key: 1 }, { key: 2 }, { key: 3 }],
+                    keyProperty: 'key',
+                    columns: [
+                        {displayProperty: 'id'},
+                        {displayProperty: 'name'}
+                    ]
+                });
+
+                const emptyColumnsConfig = [
+                    {startColumn: 1, endColumn: 3, template: (() => 'EMPTY_COLUMN_TEMPLATE') as TemplateFunction}
+                ];
+                gridCollection.setEmptyTemplateColumns(emptyColumnsConfig);
+                assert.exists(gridCollection.getEmptyGridRow());
+                assert.equal(gridCollection.getEmptyGridRow().getColumns()[0].config, emptyColumnsConfig[0]);
             });
         });
     });
