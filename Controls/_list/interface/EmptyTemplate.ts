@@ -7,8 +7,9 @@
  * @see Controls/list:View
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html; highlight: [2,3,4,5,6]">
- * <Controls.list:View>
+ * <pre class="brush: html; highlight: [3-7]">
+ * <!-- WML -->
+ * <Controls.list:View source="{{_viewSource}}">
  *    <ws:emptyTemplate>
  *       <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xxl" bottomSpacing="m">
  *          <ws:contentTemplate>No data available!</ws:contentTemplate>
@@ -23,7 +24,8 @@
 
 export default interface IEmptyTemplateOptions {
     /**
-     * @typedef {String} Spacing
+     * @typedef {String} Controls/_list/interface/EmptyTemplate/Spacing
+     * @description Допустимые значения для опций {@link topSpacing} и {@link bottomSpacing}.
      * @variant xs Минимальный отступ.
      * @variant s Маленький отступ.
      * @variant m Средний отступ.
@@ -34,7 +36,7 @@ export default interface IEmptyTemplateOptions {
 
     /**
      * @name Controls/_list/interface/EmptyTemplate#topSpacing
-     * @cfg {Spacing|null} Отступ между верхней границей  и шаблоном contentTemplate.
+     * @cfg {Controls/_list/interface/EmptyTemplate/Spacing.typedef|null} Отступ между верхней границей  и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
      * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
@@ -43,7 +45,7 @@ export default interface IEmptyTemplateOptions {
     topSpacing?: string;
     /**
      * @name Controls/_list/interface/EmptyTemplate#bottomSpacing
-     * @cfg {Spacing|null} Отступ между нижней границей и шаблоном contentTemplate.
+     * @cfg {Controls/_list/interface/EmptyTemplate/Spacing.typedef|null} Отступ между нижней границей и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
      * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
@@ -52,7 +54,7 @@ export default interface IEmptyTemplateOptions {
     bottomSpacing?: string;
     /**
      * @name Controls/_list/interface/EmptyTemplate#contentTemplate
-     * @cfg {String|Function|undefined} Шаблон, описывающий контент плоского списка без элементов.
+     * @cfg {String|TemplateFunction|undefined} Шаблон, описывающий контент плоского списка без элементов.
      */
     contentTemplate?: string;
  }

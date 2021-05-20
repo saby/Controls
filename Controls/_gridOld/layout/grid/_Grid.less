@@ -156,30 +156,6 @@
    font-weight: var(--font-weight);
 }
 
-.controls-Grid__row-result-cell__content-font-weight_bold {
-   font-weight: bold;
-}
-
-.controls-Grid__row-result-cell__content-font-color-style_secondary {
-   color: var(--secondary_text-color);
-}
-
-.controls-Grid__row-result-cell__content-font-color-style_unaccented {
-   color: var(--unaccented_text-color);
-}
-
-.controls-Grid__row-result-cell__content-font-color-style_readonly {
-   color: var(--readonly_color);
-}
-
-.controls-Grid__row-result-cell__content-font-color-style_danger {
-   color: var(--danger_color);
-}
-
-.controls-Grid__row-result-cell__content-font-color-style_success {
-   color: var(--success_color);
-}
-
 .controls-GridViewV__itemsContainer {
    display: contents;
 }
@@ -270,13 +246,15 @@
 
 .controls-Grid__row-cell_master {
    font-size: var(--master_item_font-size_list);
-   border-color: var(--master_item_background-color_list);
-   border-style: solid;
-   border-bottom-width: var(--master_item_separator_thickness_list);
+   border-bottom: var(--master_item_separator_thickness_list) solid var(--master_item_background-color_list) ;
 }
 
 .controls-ColumnScroll_visible .controls-GridNew__cell_fixed {
    z-index: 3;
+}
+
+.controls-ColumnScroll_visible .controls-GridNew__cell_fixed.controls-Grid__row-ladder-cell {
+   z-index: 4;
 }
 
 // Строка редактирования имеет свой z-index, который вешается на все ячейки.
@@ -919,6 +897,15 @@
    .controls-itemActionsV {
       pointer-events: auto;
    }
+}
+
+.ws-is-firefox .controls-Grid__itemAction__emptyContainer > * {
+   // Баг в FireFox.
+   // В шапку, подвал и другие части грида(кроме строк данных) добавляется фейковая ячейка под операции над записью.
+   // Если эта ячейка обернута в стики шапку, то минимальный scrollWidth у ячейки - 1px.
+   // Так происходит из-за вложенного элемента с position: absolute, left: 1px и заданной высотой.
+   // Demo: https://jsfiddle.net/Razevel/3ezr9ouj/
+   display: none;
 }
 
 .controls-Grid__cell_header-content_border-bottom {

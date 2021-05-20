@@ -26,7 +26,7 @@
  * В следующем примере показано, как выполнить перезагрузку списка с параметрами навигации.
  * <pre class="brush: html">
  * <!-- WML -->
- * <Controls.list:View name="list" />
+ * <Controls.list:View source="{{_viewSource}}" name="list" />
  * </pre>
  * <pre class="brush: js">
  * // TypeScript
@@ -41,7 +41,7 @@
  * В следующем примере показано, как выполнить перезагрузку с сохранением развёрнутых узлов.
  * <pre class="brush: html">
  * <!-- WML -->
- * <Controls.list:View name="list" />
+ * <Controls.list:View source="{{_viewSource}}" name="list" />
  * </pre>
  * <pre class="brush: js">
  * // TypeScript

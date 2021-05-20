@@ -36,11 +36,15 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
         this._resultHandler = this._resultHandler.bind(this);
         this._closeHandler = this._closeHandler.bind(this);
         this._debouncedAction = debounce(this._debouncedAction, 10);
-        this._calmTimer = new CalmTimer();
+        this._calmTimer = new CalmTimer((event) => {
+            if (!this._isPopupOpened()) {
+                this._debouncedAction('_open', [event]);
+            }
+        });
     }
 
     protected _beforeUnmount(): void {
-        this._calmTimer.resetTimeOut();
+        this._calmTimer.stop();
     }
 
     /**
@@ -155,7 +159,6 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
 
     protected _contentMouseleaveHandler(event: SyntheticEvent<MouseEvent>): void {
         if (!this._options.readOnly && (this._options.trigger === 'hover' || this._options.trigger === 'hoverAndClick')) {
-            this._calmTimer.resetTimeOut();
             if (this._isPopupOpened()) {
                 this._debouncedAction('_close', [event]);
             } else {
@@ -166,12 +169,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
 
     protected _contentMousemoveHandler(event: SyntheticEvent<MouseEvent>): void {
         if (!this._options.readOnly && (this._options.trigger === 'hover' || this._options.trigger === 'hoverAndClick')) {
-            const callback = () => {
-                if (!this._isPopupOpened()) {
-                    this._debouncedAction('_open', [event]);
-                }
-            };
-            this._calmTimer.start(callback.bind(this), CALM_DELAY);
+            this._calmTimer.start(event);
         }
     }
 

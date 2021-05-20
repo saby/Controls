@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/Explorer_new/AfterSearch/AfterSearc
 import {Gadgets} from '../DataHelpers/DataCatalog';
 import {Memory} from 'Types/source';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
-import { IColumn } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 
 interface IFilter {
    demo: number;

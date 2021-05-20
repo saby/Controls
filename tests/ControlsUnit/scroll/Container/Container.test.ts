@@ -15,6 +15,10 @@ function createComponent(Component, cfg) {
     return cmp;
 }
 
+function getBoundingClientRectMock() {
+   return { height: 100, width: 100};
+}
+
 const classList = { contains: () => false };
 
 describe('Controls/scroll:Container', () => {
@@ -72,7 +76,7 @@ describe('Controls/scroll:Container', () => {
             sinon.stub(component._stickyHeaderController, 'init');
             component._children = {
                 content: {
-                    getBoundingClientRect: () => undefined,
+                    getBoundingClientRect: getBoundingClientRectMock,
                     children: []
                 },
                 userContent: {
@@ -104,7 +108,7 @@ describe('Controls/scroll:Container', () => {
             sinon.stub(component._stickyHeaderController, 'init');
             component._children = {
                 content: {
-                    getBoundingClientRect: () => undefined,
+                    getBoundingClientRect: getBoundingClientRectMock,
                     children: []
                 },
                 userContent: {
@@ -125,7 +129,7 @@ describe('Controls/scroll:Container', () => {
             const component: Container = createComponent(Container, {});
             component._children = {
                 content: {
-                    getBoundingClientRect: () => undefined,
+                    getBoundingClientRect: getBoundingClientRectMock,
                     children: []
                 },
                 userContent: {
@@ -211,7 +215,7 @@ describe('Controls/scroll:Container', () => {
             const component = createComponent(Container, {scrollMode: 'vertical'});
             component._children = {
                 content: {
-                    getBoundingClientRect: () => undefined
+                    getBoundingClientRect: getBoundingClientRectMock
                 }
             };
             component._container = {
@@ -233,7 +237,7 @@ describe('Controls/scroll:Container', () => {
             const component = createComponent(Container, {scrollMode: 'verticalHorizontal'});
             component._children = {
                 content: {
-                    getBoundingClientRect: () => undefined
+                    getBoundingClientRect: getBoundingClientRectMock
                 }
             };
             component._container = {
@@ -258,7 +262,7 @@ describe('Controls/scroll:Container', () => {
                 component._isOptimizeShadowEnabled = true;
                 component._children = {
                     content: {
-                        getBoundingClientRect: () => undefined
+                        getBoundingClientRect: getBoundingClientRectMock
                     }
                 };
                 component._scrollModel = {
@@ -288,7 +292,7 @@ describe('Controls/scroll:Container', () => {
                 const component = createComponent(Container, {scrollMode: 'vertical'});
                 component._children = {
                     content: {
-                        getBoundingClientRect: () => undefined
+                        getBoundingClientRect: getBoundingClientRectMock
                     }
                 };
                 component._container = {
@@ -317,7 +321,7 @@ describe('Controls/scroll:Container', () => {
                 const component = createComponent(Container, {scrollMode: 'vertical'});
                 component._children = {
                     content: {
-                        getBoundingClientRect: () => undefined
+                        getBoundingClientRect: getBoundingClientRectMock
                     }
                 };
                 component._container = {
@@ -353,7 +357,7 @@ describe('Controls/scroll:Container', () => {
                 const component = createComponent(Container, {scrollMode: 'vertical'});
                 component._children = {
                     content: {
-                        getBoundingClientRect: () => undefined
+                        getBoundingClientRect: getBoundingClientRectMock
                     }
                 };
 
@@ -610,7 +614,7 @@ describe('Controls/scroll:Container', () => {
             const component = createComponent(Container, {scrollMode: 'vertical'});
             component._children = {
                 content: {
-                    getBoundingClientRect: () => undefined,
+                    getBoundingClientRect: getBoundingClientRectMock,
                     scrollTop: 100
                 }
             };

@@ -316,7 +316,8 @@ const INVERTING_CONST = {
             if (dif > 0) {
                position.bottom -= dif;
             } else if (position.top + height > coords.bottom) {
-               position.top = coords.bottom - height;
+               // Не выше, чем верхняя граница restrictiveContainer'a
+               position.top = Math.max(coords.bottom - height, coords.top);
             }
 
             if (coords.left > position.left) {
@@ -326,7 +327,8 @@ const INVERTING_CONST = {
             if (dif > 0) {
                position.right -= dif;
             } else if (position.left + width > coords.right) {
-               position.left = coords.right - width;
+               // Не левее, чем левая граница restrictiveContainer'a
+               position.left = Math.max(coords.right - width, coords.left);
             }
          }
       },
@@ -422,6 +424,9 @@ const INVERTING_CONST = {
                verticalPadding = position.top || position.bottom || 0;
             }
             position.maxHeight = _private.getViewportHeight() - verticalPadding + verticalScroll;
+         }
+         if (popupCfg.restrictiveContainerCoords) {
+            position.maxHeight -= popupCfg.restrictiveContainerCoords.top;
          }
 
          if (popupCfg.config.minHeight) {

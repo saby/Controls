@@ -2,7 +2,7 @@ import {TemplateFunction} from 'UI/Base';
 
 /**
  * @typedef {String} IEmptyColumnColumns
- * @description Объект конфигурации колонок.
+ * @description Объект конфигурации колонок (см. {@link columns}).
  * @property {TemplateFunction} template Шаблон колонки пустого представления.
  * @property {Number} startIndex Индекс начала колонки в таблице.
  * @property {Number} stopIndex Индекс конца колонки в таблице.
@@ -19,12 +19,18 @@ interface IEmptyColumnColumns {
  * @class Controls/_gridOld/interface/EditingEmptyTemplate
  * @author Авраменко А.С.
  * @public
+ * 
+ * @see Controls/list:EditingTemplate
+ * @see Controls/list:BaseEditingTemplate
+ * @see Controls/list:MoneyEditingTemplate
+ * @see Controls/list:NumberEditingTemplate
  *
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
  * В таблице 5 колонок. В пустом представлении поле ввода отображается во второй строке, а надпись растянута на следующие 2 колонки.
- * <pre class="brush: html; highlight: [11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32]">
- * <Controls.grid:View>
+ * <pre class="brush: html; highlight: [12-33]">
+ * <!-- WML -->
+ * <Controls.grid:View source="{{_viewSource}}">
  *     <ws:columns>
  *         <ws:Array>
  *             <ws:Object ... />
@@ -70,7 +76,7 @@ interface IEmptyColumnColumns {
  */
 export default interface IEditingEmptyTemplateOptions {
     /**
-     * @typedef {String} Spacing
+     * @typedef {String} Controls/_gridOld/interface/EditingEmptyTemplate/Spacing
      * @descrition Допустимые значения для опций {@link topSpacing} и {@link bottomSpacing}.
      * @variant xs Минимальный отступ.
      * @variant s Маленький отступ.
@@ -81,7 +87,7 @@ export default interface IEditingEmptyTemplateOptions {
      */
 
     /**
-     * @cfg {Spacing|null} Отступ между верхней границей и шаблоном contentTemplate.
+     * @cfg {Controls/_gridOld/interface/EditingEmptyTemplate/Spacing.typedef|null} Отступ между верхней границей и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
      * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
@@ -89,7 +95,7 @@ export default interface IEditingEmptyTemplateOptions {
      */
     topSpacing?: string;
     /**
-     * @cfg {Spacing|null} Отступ между нижней границей и шаблоном contentTemplate.
+     * @cfg {Controls/_gridOld/interface/EditingEmptyTemplate/Spacing.typedef|null} Отступ между нижней границей и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
      * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
@@ -97,7 +103,7 @@ export default interface IEditingEmptyTemplateOptions {
      */
     bottomSpacing?: string;
     /**
-     * @cfg {Array.<Controls/_gridOld/interface/EditingEmptyTemplate/IEmptyColumnColumns.typedef>} Конфигурация колонок пустого списка.
+     * @cfg {Array.<Controls/_gridOld/interface/EditingEmptyTemplate/IEmptyColumnColumns.typedef>} Конфигурация колонок пустой таблицы.
      */
     columns?: IEmptyColumnColumns[];
 }

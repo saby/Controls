@@ -52,6 +52,13 @@ class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompatibility>(Cell, 
         return classes;
     }
 
+    getContentStyles(containerSize?: number): string {
+        if (containerSize) {
+            return `width: ${containerSize}px;`;
+        }
+        return '';
+    }
+
     //endregion
 }
 

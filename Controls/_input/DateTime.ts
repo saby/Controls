@@ -48,7 +48,7 @@ const VALID_PARTIAL_DATE = /^(0{2}| {2})\.(0{2}| {2})\.\d{2,4}$/;
  *
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2FInput%2FDateTime%2FDateTime демо-пример}
- * * {@link /doc/platform/developmentapl/interface-development/controls/input/date/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/input/date/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_input.less переменные тем оформления}
  *
  * @class Controls/_input/DateTime

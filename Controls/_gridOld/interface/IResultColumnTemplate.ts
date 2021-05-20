@@ -1,14 +1,15 @@
 import {TFontWeight} from 'Controls/_interface/IFontWeight';
 
 /**
- * Шаблон, который по умолчанию используется для отображения ячеек итогов в {@link Controls/grid:View таблице}.
+ * Шаблон, который по умолчанию используется для отображения ячеек {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/template/#columns итогов} в {@link Controls/grid:View таблице}.
  * 
  * @class Controls/_gridOld/interface/ResultColumnTemplate
  * @author Авраменко А.С.
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html; highlight: [6,7,8,9,10,11]">
- * <Controls.grid:View>
+ * <pre class="brush: html; highlight: [7-12]">
+ * <!-- WML -->
+ * <Controls.grid:View source="{{_viewSource}}">
  *    <ws:columns>
  *       <ws:Array>
  *          <ws:Object displayProperty="Name">
@@ -34,10 +35,12 @@ export default interface IResultColumnTemplateOptions {
      * В области видимости шаблона доступен объект **results** - итогов, которые были переданы в метаданных RecordSet.
      * Результаты должны быть переданы в виде {@link Types/entity/Model}.
      * Если шаблон ячейки итогов или контентная опция не заданы, будут выведены итоги из метаданных по ключу, соответствующему displayProperty для данной колонки.
+     * @markdown
      * @example
      * **Пример 1.** Переопределение шаблона итогов и конфигурация контрола в одном WML-файле.
-     * <pre class="brush: html; highlight: [6,7,8,9,10]">
-     * <Controls.grid:View>
+     * <pre class="brush: html; highlight: [7-11]">
+     * <!-- WML -->
+     * <Controls.grid:View source="{{_viewSource}}">
      *    <ws:columns>
      *       <ws:Array>
      *          <ws:Object displayProperty="Name">
@@ -55,9 +58,9 @@ export default interface IResultColumnTemplateOptions {
      * </pre>
      *
      * **Пример 2.** Контрол и шаблоны сконфигурированы в отдельных WML-файлах.
-     * <pre class="brush: html; highlight: [6,7,8]">
+     * <pre class="brush: html; highlight: [6-8]">
      * <!-- file1.wml -->
-     * <Controls.grid:View>
+     * <Controls.grid:View source="{{_viewSource}}">
      *    <ws:columns>
      *       <ws:Array>
      *          <ws:Object displayProperty="Name">
@@ -80,8 +83,9 @@ export default interface IResultColumnTemplateOptions {
      * </pre>
      * 
      * **Пример 3.** Переопределение стандартных параметров отображения результатов.
-     * <pre class="brush: html; highlight: [5,6,7]">
-     * <Controls.grid:View>
+     * <pre class="brush: html; highlight: [6-8]">
+     * <!-- WML -->
+     * <Controls.grid:View source="{{_viewSource}}">
      *    <ws:columns>
      *       <ws:Array>
      *          <ws:Object displayProperty="Name">
@@ -95,8 +99,9 @@ export default interface IResultColumnTemplateOptions {
      * </pre>
      * 
      * **Пример 4.** Конфигурация ячейки для выравнивания контента по копейкам. На шаблон добавлен CSS-класс "controls-Grid&#95;&#95;cell&#95;spacing&#95;money".
-     * <pre class="brush: html; highlight: [5,6,7]">
-     * <Controls.grid:View>
+     * <pre class="brush: html; highlight: [6-8]">
+     * <!-- WML -->
+     * <Controls.grid:View source="{{_viewSource}}">
      *    <ws:columns>
      *       <ws:Array>
      *          <ws:Object displayProperty="Name">
@@ -112,20 +117,22 @@ export default interface IResultColumnTemplateOptions {
     content?: string;
 
     /**
-     * @typedef {String} TFontWeight
+     * @description Допустимые значения для опции {@link fontWeight}.
+     * @typedef {String} Controls/_gridOld/interface/ResultColumnTemplate/TFontWeight
      * @variant bold
      * @variant default
      */
 
     /**
-     * @cfg {TFontWeight} Начертание шрифта.
+     * @cfg {Controls/_gridOld/interface/ResultColumnTemplate/TFontWeight.typedef} Начертание шрифта.
      * @default bold
      */
     fontWeight?: TFontWeight;
 
 
     /**
-     * @typedef {String} FontColorStyle
+     * @description Допустимые значения для опции {@link fontColorStyle}.
+     * @typedef {String} Controls/_gridOld/interface/ResultColumnTemplate/FontColorStyle
      * @variant secondary
      * @variant success
      * @variant danger
@@ -134,7 +141,7 @@ export default interface IResultColumnTemplateOptions {
      */
 
     /**
-     * @cfg {FontColorStyle} Стиль цвета текста результатов.
+     * @cfg {Controls/_gridOld/interface/ResultColumnTemplate/FontColorStyle.typedef} Стиль цвета текста результатов.
      * @default secondary
      * @remark
      * Стиль цвета текста задается константой из стандартного набора цветов, который определен для текущей темы оформления.

@@ -1,9 +1,27 @@
 import { assert } from 'chai';
 import TreeTileCollectionItem from 'Controls/_treeTile/display/TreeTileCollectionItem';
 import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
-import {Model} from "Types/entity";
+import {Model} from 'Types/entity';
 
 describe('Controls/_treeTile/display/TreeTileCollectionItem', () => {
+    describe('.getItemType', () => {
+        it('change default to small when is node', () => {
+            let item = new TreeTileCollectionItem();
+            assert.equal(item.getItemType('default'), 'default');
+
+            item = new TreeTileCollectionItem({node: true});
+            assert.equal(item.getItemType('default'), 'small');
+        });
+
+        it('not change default to small when pass nodeContentTemplate', () => {
+            let item = new TreeTileCollectionItem();
+            assert.equal(item.getItemType('default', () => ''), 'default');
+
+            item = new TreeTileCollectionItem({node: true});
+            assert.equal(item.getItemType('default', () => ''), 'default');
+        });
+    });
+
     describe('.getItemStyles', () => {
         it('is node and default template', () => {
             const item = new TreeTileCollectionItem({node: true, nodesHeight: 100});
@@ -45,7 +63,7 @@ describe('Controls/_treeTile/display/TreeTileCollectionItem', () => {
             it('can show actions and has visible actions and not is node', () => {
                 const actions = {showed: ['action1']};
                 const item = new TreeTileCollectionItem({actions, canShowActions: true, owner, contents});
-                assert.isFalse(!!item.shouldDisplayTitle('preview'));
+                assert.isTrue(!!item.shouldDisplayTitle('preview'));
             });
 
             it('can show actions and has visible actions and is node', () => {

@@ -35,7 +35,7 @@ interface INumberRange {
 
 /**
  * @name Controls/_filterPanel/Editors/NumberRange#afterEditorTemplate
- * @cfg {TemplateFunction} Шаблон, который отобразится справа от редактора.
+ * @cfg {TemplateFunction|String} Шаблон, который отобразится справа от редактора.
  * @demo Controls-demo/filterPanel/NumberRangeEditor/Index
  * @example
  * Создаем шаблон, который передадим в afterEditorTemplate:
@@ -119,7 +119,7 @@ class NumberRangeEditor extends Control<INumberRangeOptions> implements INumberR
     private _needNotifyChanges(values: number[]): boolean {
         const minValue = values[0];
         const maxValue = values[1];
-        return minValue < maxValue || !minValue || !maxValue;
+        return minValue <= maxValue || !minValue || !maxValue;
     }
 
     private _isValueEmpty(value: number[]): boolean {

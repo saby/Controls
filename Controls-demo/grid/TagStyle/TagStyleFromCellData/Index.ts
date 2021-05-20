@@ -4,7 +4,8 @@ import {CollectionItem} from 'Controls/display';
 import {Record} from 'Types/entity';
 
 import {getTagStyleData} from '../../DemoHelpers/DataCatalog';
-import {IColumn} from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
+
 
 import * as template from 'wml!Controls-demo/grid/TagStyle/TagStyleFromCellData/TagStyleFromCellData';
 

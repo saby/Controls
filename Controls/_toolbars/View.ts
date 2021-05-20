@@ -81,7 +81,7 @@ export interface IMenuOptions {
     itemsSpacing: TItemsSpacing;
     /**
      * @name Controls/toolbars:IToolbar#additionalProperty
-     * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню. Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/item-config/#additional">здесь</a>.
+     * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню. Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/input-elements/dropdown-menu/item-config/#additional">здесь</a>.
      */
     additionalProperty?: string;
     /**

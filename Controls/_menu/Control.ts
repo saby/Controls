@@ -865,12 +865,15 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _getSourceController(
-        {source, navigation, keyProperty, sourceController}: IMenuControlOptions): SourceController {
+        {source, navigation, keyProperty,
+            sourceController, root, parentProperty}: IMenuControlOptions): SourceController {
         if (!this._sourceController) {
             this._sourceController = sourceController || new SourceController({
                 source,
                 navigation,
-                keyProperty
+                keyProperty,
+                root,
+                parentProperty
             });
         }
         return this._sourceController;
@@ -889,10 +892,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _loadItems(options: IMenuControlOptions): Promise<RecordSet> {
-        const filter: QueryWhere = merge({}, options.filter);
-        filter[options.parentProperty] = options.root;
         const sourceController = this._getSourceController(options);
-        sourceController.setFilter(filter);
 
         return sourceController.load().then(
             (items: RecordSet): RecordSet => {
@@ -956,7 +956,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                 targetPoint: {
                     horizontal: 'right'
                 },
-                hoverController: this._options.hoverController,
+                calmTimer: this._options.calmTimer,
                 backgroundStyle: this._options.backgroundStyle,
                 trigger: this._options.trigger
             };

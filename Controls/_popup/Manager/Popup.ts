@@ -242,6 +242,15 @@ class Popup extends Control<IPopupControlOptions> {
         return this._notify('showIndicator', [config, promise], {bubbling: true}) as string;
     }
 
+    protected _documentDragHandler(event: Event, action: string, dragEvent: object): void {
+        // Событие documentDragStart стреляет на всех контейнерах на странице. Для обработки понимаем, лежит ли
+        // нужный контейнер внутри текущего окна.
+        const popupNode = dragEvent.domEvent.target.closest('.controls-Popup');
+        if (popupNode === this._container) {
+            ManagerController.notifyToManager('popupInsideDrag', [action, this._options.id]);
+        }
+    }
+
     protected _registerPendingHandler(event: Event): string {
         const args = this._prepareEventArs(event, arguments);
         const config = args[1] || {};

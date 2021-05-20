@@ -39,6 +39,7 @@ export default interface IItemTemplateOptions {
    staticHeight?: boolean;
    /**
     * @typedef {String} ShadowVisibility
+    * @description Допустимые значения для опции {@link shadowVisibility}.
     * @variant visible Отображается.
     * @variant hidden Не отображается.
     * @variant onhover Отображается только при наведении курсора на плитку.

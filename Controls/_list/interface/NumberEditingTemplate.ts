@@ -7,12 +7,17 @@ import IEditingTemplateOptions from './EditingTemplate'
  * 
  * @class Controls/_list/interface/NumberEditingTemplate
  * @mixes Controls/list:EditingTemplate
+ * @mixes Controls/decorator:INumber
  * @author Авраменко А.С.
  * @see Controls/list:View
+ * @see Controls/list:BaseEditingTemplate
+ * @see Controls/list:EditingTemplate
+ * @see Controls/list:MoneyEditingTemplate
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html; highlight: [5,6,7,8,9]">
- * <Controls.list:View>
+ * <pre class="brush: html; highlight: [6-10]">
+ * <!-- WML -->
+ * <Controls.list:View source="{{_viewSource}}">
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
  *          <ws:contentTemplate>
@@ -27,6 +32,8 @@ import IEditingTemplateOptions from './EditingTemplate'
  * </Controls.list:View>
  * </pre>
  * @public
+ * @remark
+ * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/#manual здесь}.
  */
 export default interface INumberEditingTemplateOptions extends INumberOptions, IEditingTemplateOptions {
     readonly '[Controls/_list/interface/INumberEditingTemplateOptions]': boolean;

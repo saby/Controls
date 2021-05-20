@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/grid/EditInPlace/DragNDrop/DragNDro
 import {Memory} from 'Types/source';
 import {getPorts} from '../../DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/grid/EditInPlace/DragNDrop/_rowEditor';
-import { IColumn } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 import { SyntheticEvent } from 'UICommon/Events';
 import {Model} from 'Types/entity';
 import * as Dnd from '../../../../Controls/dragnDrop';

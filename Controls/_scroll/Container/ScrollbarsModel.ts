@@ -203,9 +203,12 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     }
 
     private _getOverflowClass(): string {
-        return this._options.scrollMode === SCROLL_MODE.VERTICAL ?
-            ' controls-Scroll-ContainerBase__scroll_vertical' :
-            ' controls-Scroll-ContainerBase__scroll_verticalHorizontal';
+        if (this._options.scrollMode === SCROLL_MODE.VERTICAL) {
+            return ' controls-Scroll-ContainerBase__scroll_vertical';
+        } else if (this._options.scrollMode === SCROLL_MODE.HORIZONTAL) {
+            return ' controls-Scroll-ContainerBase__scroll_horizontal';
+        }
+        return ' controls-Scroll-ContainerBase__scroll_verticalHorizontal';
     }
 
     take(): boolean {

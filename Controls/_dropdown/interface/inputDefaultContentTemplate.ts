@@ -8,8 +8,9 @@
 
 /**
  * @name Controls/dropdown:inputDefaultContentTemplate#contentTemplate
- * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
+ * @cfg {String|TemplateFunction|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
  * @default undefined
+ * @markdown
  * @remark
  * В области видимости шаблона доступны следующие переменные:
  * 

@@ -1,12 +1,8 @@
 import { TemplateFunction } from 'UI/Base';
 import { Model as EntityModel } from 'Types/entity';
 
-import {
-    THeader,
-    IColumn,
-    TColumns,
-    TColumnSeparatorSize
-} from 'Controls/interface';
+import { IColumn, TColumns, TColumnSeparatorSize } from '../interface/IColumn';
+import { THeader } from '../interface/IHeaderCell';
 
 import { IViewIterator, GridLadderUtil, ILadderObject, IBaseCollection, isFullGridSupport } from 'Controls/display';
 
@@ -21,6 +17,7 @@ import FooterRow, { TFooter } from '../FooterRow';
 import ResultsRow, { TResultsPosition } from '../ResultsRow';
 import GridRowMixin from './Row';
 import EmptyRow from '../EmptyRow';
+import { EnumeratorCallback } from 'Types/collection';
 
 type THeaderVisibility = 'visible' | 'hasdata';
 type TResultsVisibility = 'visible' | 'hasdata';
@@ -291,9 +288,16 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             this._updateItemsLadder();
         }
 
-        [this.getColgroup(), this.getHeader(), this.getResults(), this.getFooter()].forEach((gridUnit) => {
+        [this.getColgroup(), this.getHeader(), this.getResults()].forEach((gridUnit) => {
             gridUnit?.setColumns(newColumns);
         });
+        // todo Переписать по: https://online.sbis.ru/opendoc.html?guid=d86329c7-5c85-4c7f-97c9-791502f6f1dd
+        // Надо сделать так, чтобы у класса Row была опция columnsConfig и она всегда содержит оригинальную колонку,
+        // переданную в опции columns списка.
+        // Также у класса Row должна быть другая опция - columns. Это уже набор колонок, рассчитанный самой коллекцией.
+        // Например, задав columns=[{},{}] и footerTemplate=function(){}, то должен создаваться класс Row с опциями
+        // columnsConfig=[{}, {}] и columns=[{ template: function(){} }].
+        this.getFooter()?.resetColumns();
     }
 
     setLadderProperties(ladderProperties: string[]) {
@@ -364,7 +368,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _updateItemsLadder(): void {
-        this._getItems().forEach((item: GridRowMixin<S>, index: number) => {
+        this.each((item: GridRowMixin<S>, index: number) => {
             let ladder;
             let stickyLadder;
             if (this._$ladder) {
@@ -562,6 +566,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     abstract getItemBySourceKey(key: string | number): T;
     abstract getCollection(): IBaseCollection<S, T>;
     abstract getFooter(): FooterRow<S>;
+    abstract each(callback: EnumeratorCallback<T>, context?: object): void;
 
     protected abstract _nextVersion(): void;
     protected abstract _getItems(): T[];

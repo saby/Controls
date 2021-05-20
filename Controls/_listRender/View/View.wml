@@ -1,4 +1,4 @@
-<div class="controls-BaseControl
+<div class="controls_list_theme-{{_options.theme}} controls-BaseControl
    {{!_isVisibleItemActions(itemActionsMenuId) ? 'controls-BaseControl_showActions controls-BaseControl_showActions_' + _options.itemActionsVisibility}}'
    controls-BaseControl__renderContainer">
    <ws:partial

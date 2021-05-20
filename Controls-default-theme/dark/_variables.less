@@ -6,14 +6,6 @@
    --unaccented_background-transparent-color: #42485100;
    --hover_background-color: #464d57;
    --hover_background-transparent-color: #464d5700;
-   --success_color: #72be44;
-   --success_icon-color: var(--success_color);
-   --success_text-color: var(--success_color);
-   --primary_text-color: #ccc;
-   --secondary_color: #6ed4d0;
-   --secondary_icon-color: var(--secondary_color);
-   --secondary_text-color: #ccc;
-   --secondary_hover_text-color: #ff7033;
    --readonly_color: #6b6b6b;
    --text-color: #ccc;
    --border-color: #4d535e;
@@ -28,6 +20,19 @@
    --page_background-image: url('/cdn/OnlineCDN/themes/1.0.0/background-dark.jpg');
    --page_background-color: #575e64;
 
+   // Палитра
+   --primary_text-color: #ccc;
+
+   --secondary_color: #6ed4d0;
+   --secondary_text-color: #ccc;
+   --secondary_hover_text-color: #ff7033;
+   --secondary_icon-color: var(--secondary_color);
+   --secondary_hover_icon-color: #ff7033;
+
+   --success_color: #72be44;
+   --success_icon-color: var(--success_color);
+   --success_text-color: var(--success_color);
+
    //button
    --primary_border-color_button: #eb6c65;
    --primary_hover_background-color_button: #535c68;
@@ -39,10 +44,10 @@
    --readonly_border-color_button_toolButton: #6b6b6b;
    --unaccented_background-color_button_functionalButton: #6ed4d0;
    --unaccented_hover_background-color_button_functionalButton: #5eb4b1;
-   --secondary_background-color_button_functionalButton: #535c68;
+   --secondary_background-color_button_functionalButton: #6ed4d0;
    --success_background-color_button_functionalButton: #62ac62;
    --success_border-color_button_functionalButton: #62ac62;
-   --secondary_hover_background-color_button_functionalButton: #4d535e;
+   --secondary_hover_background-color_button_functionalButton: #5eb4b1;
    --success_hover_background-color_button_functionalButton: #539253;
    --background-color_contrast_button_toolButton: #535c68;
 
@@ -53,6 +58,9 @@
    --border-color_inputText: #4d535e #4d535e #797979 #4d535e;
    --border-color_hover_inputText: #4d535e #4d535e #6ed4d0 #4d535e;
    --border-color_focus_inputText: #4d535e #4d535e #6ed4d0 #4d535e;
+   --border-contrast-color_inputText: #4d535e #4d535e #797979 #4d535e;
+   --border-contrast-color_hover_inputText: #4d535e #4d535e #6ed4d0 #4d535e;
+   --border-contrast-color_focus_inputText: #4d535e #4d535e #6ed4d0 #4d535e;
    --readonly_border-color_inputText: transparent transparent #424851 transparent;
    --placeholder-color_inputText: #6b6b6b;
    --invalid_focus_background-color_inputText: var(--background-color);
@@ -119,21 +127,6 @@
 
    --grouping_separator_color_list: #6b6b6b;
 
-   //Grid
-   --header_background-color_grid: #424851;
-   --header_text-color_grid: #999;
-   --columnscroll_shadow-start-color_grid: rgba(0,0,0,0.15);
-   --columnscroll_shadow-end-color_grid: rgba(0,0,0,0);
-   --columnscroll_separator_color_grid: #393E46;
-   --column_separator_s_color_grid: #4a515a;
-
-   //treeGrid
-   --node_expander_icon-color_treeGrid: #545b67;
-   --node_expander_hover_icon-color_treeGrid: var(--secondary_hover_icon-color);
-   --hidden-node_expander_hover_icon-color_treeGrid: var(--node_expander_hover_icon-color_treeGrid);
-   --master_node_expander_hover_icon-color_treeGrid: var(--node_expander_hover_icon-color_treeGrid);
-   --master_hidden-node_expander_hover_icon-color_treeGrid: var(--node_expander_hover_icon-color_treeGrid);
-
    //dropdown
    --item_background-color_menu: #383d44;
    --empty-item_text-color_dropdownSelector: var(--secondary_color);
@@ -150,6 +143,26 @@
    --content_background-color_loadingIndicator:                                   #383d44;
    --spinner_l_background-image_loadingIndicator:                                 url("img/loading.gif");
    --text-color_loadingIndicator:                                                 #CCC;
+
+   //lookup
+   --trigger_icon-color_lookupInput: var(--link_text-color);
+}
+
+.controls_list_theme-@{themeName} {
+   //Grid
+   --header_background-color_grid: #424851;
+   --header_text-color_grid: #999;
+   --columnscroll_shadow-start-color_grid: rgba(0,0,0,0.15);
+   --columnscroll_shadow-end-color_grid: rgba(0,0,0,0);
+   --columnscroll_separator_color_grid: #393E46;
+   --column_separator_s_color_grid: #4a515a;
+
+   //treeGrid
+   --node_expander_icon-color_treeGrid: #545b67;
+   --node_expander_hover_icon-color_treeGrid: var(--secondary_hover_icon-color);
+   --hidden-node_expander_hover_icon-color_treeGrid: var(--node_expander_hover_icon-color_treeGrid);
+   --master_node_expander_hover_icon-color_treeGrid: var(--node_expander_hover_icon-color_treeGrid);
+   --master_hidden-node_expander_hover_icon-color_treeGrid: var(--node_expander_hover_icon-color_treeGrid);
 }
 
 .controls_calendar_theme-@{themeName} {

@@ -42,7 +42,7 @@ describe('Controls/grid_clean/GridView', () => {
             mockListViewModel = {
                 subscribe: () => {},
                 setItemPadding: () => {},
-                getDraggableItem: () => undefined
+                isDragging: () => false
             };
             options = { listModel: mockListViewModel };
             gridView = new GridView(options);
@@ -149,7 +149,8 @@ describe('Controls/grid_clean/GridView', () => {
                     getResults: () => fakeResults,
                     subscribe: () => {},
                     setItemPadding: () => {},
-                    getResultsPosition: () => resultsPosition
+                    getResultsPosition: () => resultsPosition,
+                    isDragging: () => false
                 }};
             const grid = new GridView(optionsWithModel);
             await grid._beforeMount(optionsWithModel);
@@ -201,6 +202,45 @@ describe('Controls/grid_clean/GridView', () => {
             const grid = await getGridView();
             const classes = grid._getGridViewClasses(options);
             assert.notInclude(classes, 'controls-GridView__paddingBottom__itemActionsV_outside');
+        });
+
+        it('should contain class when dragging', async () => {
+            const grid = await getGridView();
+            grid._listModel.isDragging = () => true;
+            const classes = grid._getGridViewClasses(options);
+            assert.include(classes, 'controls-Grid_dragging_process');
+        });
+    });
+
+    describe('ladder offset style', () => {
+        it('_getLadderTopOffsetStyles', () => {
+            const options = {
+                columns: [{}]
+            };
+            const gridView = new GridView(options);
+            gridView._listModel = {
+                getResultsPosition: () => 'top'
+            };
+            gridView._createGuid = () => 'guid';
+            gridView._container = {
+                getElementsByClassName: (className) => {
+                    if (className === 'controls-Grid__header') {
+                        return [{getComputedStyle: () => '', getBoundingClientRect: () => ({height: 100}) }];
+                    }
+                    if (className === 'controls-Grid__results') {
+                        return [{getComputedStyle: () => '', getBoundingClientRect: () => ({height: 50}) }];
+                    }
+                }
+            };
+            gridView.saveOptions(options);
+            gridView._beforeMount(options)
+            const expectedStyle = '.controls-GridView__ladderOffset-guid .controls-Grid__row-cell__ladder-spacing_withHeader_withResults {' +
+                                    'top: calc(var(--item_line-height_l_grid) + 150px) !important;' +
+                                    '}' +
+                                    '.controls-GridView__ladderOffset-guid .controls-Grid__row-cell__ladder-spacing_withHeader_withResults_withGroup {' +
+                                    'top: calc(var(--item_line-height_l_grid) + var(--grouping_height_list) + 150px) !important;' +
+                                    '}';
+            assert.equal(gridView._getLadderTopOffsetStyles(), expectedStyle);
         });
     });
 

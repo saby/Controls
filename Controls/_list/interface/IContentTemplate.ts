@@ -6,8 +6,9 @@
  * @default undefined
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html">
- * <Controls.list:View>
+ * <pre class="brush: html; highlight: [5-7]">
+ * <!-- WML -->
+ * <Controls.list:View source="{{_viewSource}}">
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
  *          <ws:contentTemplate>
@@ -25,13 +26,13 @@ export default interface IContentTemplateOptions {
 
    /**
     * @name Controls/_list/interface/IContentTemplate#contentTemplate
-    * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий содержимое элемента.
+    * @cfg {String|TemplateFunction|undefined} Пользовательский шаблон, описывающий содержимое элемента.
+    * @markdown
     * @remark
     * В области видимости шаблона доступны переменные **item** и **itemActionsTemplate**
     * 
     * Также в области видимости шаблона есть переменная **itemActionsTemplate**, с помощью которой можно отобразить панель {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи} в пользовательском шаблоне. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, что показано в примере № 4.
-    * Переменная <b>item</b> позволяет получить доступ к свойству <b>contents</b> — это объект, который содержит данные обрабатываемого элемента.
-    * Переменная <b>item.getLevel</b> позволяет получить доступ к функции, которая возвращает уровень вложенности отосительно корня.
+    * Переменная **item** позволяет получить доступ к свойству **contents** — это объект, который содержит данные обрабатываемого элемента.
     * 
     * Переменная **itemActionsTemplate** позволяет отобразить панель {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи} в пользовательском шаблоне. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, что показано в примере № 4.
     * 
@@ -41,9 +42,9 @@ export default interface IContentTemplateOptions {
     * В примерах №№ 1, 2 и 3 показано, как получить доступ к переменной item из области видимости шаблона.
     * 
     * **Пример 1.** Контрол и шаблон настроены в одном WML-файле.
-    * <pre class="brush: html">
+    * <pre class="brush: html; highlight: [6]">
     * <!-- file1.wml -->
-    * <Controls.list:View>
+    * <Controls.list:View source="{{_viewSource}}">
     *    <ws:itemTemplate>
     *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
     *          <ws:contentTemplate>
@@ -55,9 +56,9 @@ export default interface IContentTemplateOptions {
     * </pre>
     * 
     * **Пример 2.** Контрол и шаблон itemTemplate настроены в отдельных WML-файлах.
-    * <pre class="brush: html">
+    * <pre class="brush: html; highlight: [4]">
     * <!-- file1.wml --> 
-    * <Controls.list:View>
+    * <Controls.list:View source="{{_viewSource}}">
     *    <ws:itemTemplate>
     *       <ws:partial template="wml!file2" scope="{{itemTemplate}}"/>
     *    </ws:itemTemplate>
@@ -75,9 +76,9 @@ export default interface IContentTemplateOptions {
     * 
     * **Пример 3.** Контрол и шаблон contentTemplate настроены в отдельных WML-файлах.
     * 
-    * <pre class="brush: html">
+    * <pre class="brush: html; highlight: [5]">
     * <!-- file1.wml --> 
-    * <Controls.list:View>
+    * <Controls.list:View source="{{_viewSource}}">
     *    <ws:itemTemplate>
     *       <ws:partial template="Controls/list:ItemTemplate">
     *          <ws:contentTemplate>
@@ -96,7 +97,7 @@ export default interface IContentTemplateOptions {
     * **Пример 4.** Контрол и шаблон настроены в одном WML-файле. В пользовательском шаблоне задано отображение опций записи.
     * <pre class="brush: html; highlight: [7]">
     * <!-- file1.wml --> 
-    * <Controls.list:View>
+    * <Controls.list:View source="{{_viewSource}}">
     *    <ws:itemTemplate>
     *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
     *          <ws:contentTemplate>

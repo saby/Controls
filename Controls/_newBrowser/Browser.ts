@@ -194,6 +194,15 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     //endregion
     //endregion
 
+    /**
+     * Получить dataOptions из контекста
+     * Если нет контекста, то поведение странное: на сервере dataOptions нет, а на клиенте это просто конструктор контекста, а не объект.
+     * @param contexts
+     * @private
+     */
+    private _getDataOptions(contexts: Record<string, any>): Record<string, any> | void {
+        return contexts.dataOptions?.sourceController ? contexts.dataOptions : null;
+    }
     //region ⎆ life circle hooks
 
     protected _beforeMount(
@@ -201,7 +210,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         contexts?: object,
         receivedState?: IReceivedState
     ): Promise<IReceivedState> | void {
-        this._dataOptions = contexts.dataOptions.sourceController ? contexts.dataOptions : null;
+        this._dataOptions = this._getDataOptions(contexts);
         this._initState(options);
         let result = Promise.resolve(undefined);
         if (this._dataOptions) {
@@ -232,14 +241,15 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     }
 
     protected _beforeUpdate(newOptions?: IOptions, contexts?: unknown): void {
-        this._dataOptions = contexts.dataOptions.sourceController ? contexts.dataOptions : null;
+        this._dataOptions = this._getDataOptions(contexts);
         const masterOps = this._buildMasterExplorerOption(newOptions);
         const detailOps = this._buildDetailExplorerOptions(newOptions);
+        const filterChanged = !isEqual(this._options.filter, newOptions.filter);
         if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
             this._createTemplateControllers(newOptions.listConfiguration, newOptions);
         }
         if (!this._dataOptions) {
-            const isChanged = this._detailDataSource.updateOptions(detailOps);
+            const isChanged = this._detailDataSource.updateOptions(detailOps) || filterChanged;
             if (isChanged) {
                 this._detailDataSource.sourceController.reload();
             }
@@ -331,7 +341,12 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * Вызывает перезагрузку данных в detail-колонке
      */
     reload(): Promise<RecordSet> {
-        return this._detailDataSource.loadData();
+        if (this._dataOptions) {
+            const detailExplorer = this._children.detailList;
+            return detailExplorer.reload.apply(detailExplorer, arguments);
+        } else {
+            return this._detailDataSource.loadData();
+        }
     }
 
     // нужно уметь реагировать на результат выполнения команд самостоятельно.
@@ -407,7 +422,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
                 // Если меняют root когда находимся в режиме поиска, то нужно
                 // сбросить поиск и отобразить содержимое нового root
                 if (this.viewMode === DetailViewMode.search && !this._dataOptions) {
-                    this._resetSearch();
+                    this._resetSearch().then(() => {
+                        this._changeRoot(newRoots);
+                    });
                     return;
                 }
 
@@ -508,10 +525,10 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * Сбрасывает в _detailDataSource параметры фильтра, отвечающие за поиск,
      * и если нужно меняет у него root.
      */
-    private _resetSearch(): void {
+    private _resetSearch(): Promise<void> {
         this._detailDataSource.sourceController.cancelLoading();
 
-        this._detailDataSource
+        return this._detailDataSource
             .resetSearchString()
             .then(() => {
                 const newRoot = this._detailDataSource.getSearchControllerRoot();

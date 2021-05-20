@@ -1,13 +1,17 @@
 /**
- * Шаблон, который по умолчанию используется для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} в {@link Controls/list:View плоских списках}.
+ * Шаблон, который по умолчанию используется для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} в {@link /doc/platform/developmentapl/interface-development/controls/list/ списках}.
  *  
  * @class Controls/_list/interface/EditingTemplate
  * @author Авраменко А.С.
  * @see Controls/list:View
+ * @see Controls/list:BaseEditingTemplate
+ * @see Controls/list:NumberEditingTemplate
+ * @see Controls/list:MoneyEditingTemplate
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html; highlight: [5,6,7,8,9,10,11,12,13,14,15,16]">
- * <Controls.list:View>
+ * <pre class="brush: html; highlight: [6-18]">
+ * <!-- WML -->
+ * <Controls.list:View source="{{_viewSource}}">
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
  *          <ws:contentTemplate>
@@ -52,7 +56,8 @@ export default interface IEditingTemplateOptions {
      */
     value?: string;
     /**
-     * @typedef {String} Size
+     * @typedef {String} Controls/_list/interface/EditingTemplate/Size
+     * @description Допустимые значения для опции {@link size}.
      * @variant default Размер, используемый по умолчанию.
      * @variant s Маленький размер.
      * @variant m Средний размер.
@@ -61,7 +66,7 @@ export default interface IEditingTemplateOptions {
 
     /**
      * @name Controls/_list/interface/EditingTemplate#size
-     * @cfg {Size} Размер шрифта для {@link Controls/list:EditingTemplate#value текста}, который отображается внутри элемента в режиме просмотра. 
+     * @cfg {Controls/_list/interface/EditingTemplate/Size.typedef} Размер шрифта для {@link Controls/list:EditingTemplate#value текста}, который отображается внутри элемента в режиме просмотра. 
      * @default default
      * @see Controls/list:EditingTemplate#value
      * @remark

@@ -1,13 +1,11 @@
-import { Model } from 'Types/entity';
-
 import {
     ICellPadding,
     IColumn,
     IColumnSeparatorSizeConfig,
-    IHeaderCell,
     TColumnSeparatorSize,
-    THeader
-} from 'Controls/interface';
+} from './interface/IColumn';
+
+import {IHeaderCell, THeader} from './interface/IHeaderCell';
 
 import Row, {IOptions as IRowOptions} from './Row';
 import Header, {IHeaderBounds} from './Header';
@@ -52,6 +50,22 @@ export default class HeaderRow<T> extends Row<T> {
         return 'controls-Grid__header';
     }
 
+    getColumnIndex(cell: HeaderCell<T>, takeIntoAccountColspans: boolean = false): number {
+        const superIndex = super.getColumnIndex.apply(this, arguments);
+        const columnItems = this.getColumns() as HeaderCell<T>[];
+        let ladderCells = 0;
+
+        // Ищем индекс ячейки, попутно считаем колспаны предыдущих.
+        columnItems.forEach((columnItem, index) => {
+            if (columnItem.isLadderCell() && index < superIndex) {
+                ladderCells++;
+            }
+        });
+
+        return superIndex - ladderCells;
+    }
+
+
     protected _processStickyLadderCells(): void {
         // todo Множественный stickyProperties можно поддержать здесь:
         const stickyLadderProperties = this.getStickyLadderProperties(this._$columns[0]);
@@ -59,7 +73,7 @@ export default class HeaderRow<T> extends Row<T> {
 
         if (stickyLadderCellsCount === 2) {
             this._$columnItems.splice(1, 0, new HeaderCell({
-                column: this._$header[0],
+                column: {},
                 isLadderCell: true,
                 owner: this,
                 backgroundStyle: 'transparent',
@@ -70,7 +84,7 @@ export default class HeaderRow<T> extends Row<T> {
         if (stickyLadderCellsCount) {
             this._$columnItems = ([
                 new HeaderCell({
-                    column: this._$header[0],
+                    column: {},
                     isLadderCell: true,
                     owner: this,
                     shadowVisibility: 'hidden',
@@ -95,6 +109,7 @@ export default class HeaderRow<T> extends Row<T> {
                     column,
                     isFixed,
                     sorting: this._getSortingBySortingProperty(column.sortingProperty),
+                    backgroundStyle: this._$backgroundStyle,
                     cellPadding: this._getCellPaddingForHeaderColumn(column, index),
                     columnSeparatorSize: this._getColumnSeparatorSizeForColumn(column, index),
                     shadowVisibility: this.getShadowVisibility()
@@ -154,10 +169,15 @@ export default class HeaderRow<T> extends Row<T> {
                 ...column,
                 columnSeparatorSize: this._getHeaderColumnSeparatorSize(column, columnIndex)
             } as IColumn;
+
+            const prevColumnIndex = columnIndex - (
+                columnIndex > 1 && this._$header[columnIndex - 1].startColumn === column.startColumn ? 2 : 1);
+
             const previousColumn: IColumn = {
-                ...this._$header[columnIndex - 1],
-                columnSeparatorSize: this._getHeaderColumnSeparatorSize(this._$header[columnIndex - 1], columnIndex - 1)
+                ...this._$header[prevColumnIndex],
+                columnSeparatorSize: this._getHeaderColumnSeparatorSize(this._$header[prevColumnIndex], prevColumnIndex)
             } as IColumn;
+
             return this._resolveColumnSeparatorSize(currentColumn, previousColumn);
         }
         return null;

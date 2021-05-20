@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/Explorer_new/EditArrowVisibilityCallback/EditArrowVisibilityCallback';
 import {Gadgets} from '../DataHelpers/DataCatalog';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
-import { IColumn } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 import { TRoot } from 'Controls-demo/types';
 import { SyntheticEvent } from 'UICommon/Events';
 

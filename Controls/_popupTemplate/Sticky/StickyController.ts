@@ -165,7 +165,7 @@ const _private = {
     getFakeDivMargins(item) {
         const fakeDiv = _private.getFakeDiv();
         const theme = ManagerController.getTheme();
-        fakeDiv.className = item.popupOptions.className + ` controls_popupTemplate_theme-${theme} controls_dropdownPopup_theme-${theme}`;
+        fakeDiv.className = item.popupOptions.className + ` controls_popupTemplate_theme-${theme}`;
 
         const styles = this.getContainerStyles(fakeDiv);
         return {
@@ -338,7 +338,7 @@ class StickyController extends BaseController {
     }
 
     dragNDropOnPage(item): boolean {
-        return item.popupOptions.closeOnOutsideClick;
+        return !item.isDragOnPopup && item.popupOptions.closeOnOutsideClick;
     }
 
     getDefaultConfig(item) {
@@ -349,7 +349,9 @@ class StickyController extends BaseController {
         item.position = {
             top: -10000,
             left: -10000,
+            minWidth: item.popupOptions.minWidth,
             maxWidth: item.popupOptions.maxWidth || _private.getWindowWidth(),
+            minHeight: item.popupOptions.minHeight,
             maxHeight: item.popupOptions.maxHeight || _private.getWindowHeight(),
             width: item.popupOptions.width,
             height: item.popupOptions.height,

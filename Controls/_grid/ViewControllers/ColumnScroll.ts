@@ -186,6 +186,19 @@ export default class ColumnScroll {
                 resolvePromise({status});
             }
         };
+        const updateScrollBar = () => {
+            if (this._scrollBar) {
+                this._scrollBar.recalcSizes();
+                this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
+            }
+        };
+
+        const updateDragScroll = () => {
+            this._dragScroll?.updateScrollData({
+                scrollLength: this._columnScroll.getScrollLength(),
+                scrollPosition: this._columnScroll.getScrollPosition()
+            });
+        };
 
         if (needBySize) {
             if (!this._columnScroll) {
@@ -195,12 +208,8 @@ export default class ColumnScroll {
                         if (this._options.columnScrollStartPosition === 'end') {
                             this._columnScroll.setScrollPosition(newSizes.contentSize - newSizes.containerSize);
                         }
-                        this._dragScroll?.updateScrollData({
-                            scrollLength: this._columnScroll.getScrollLength(),
-                            scrollPosition: this._columnScroll.getScrollPosition()
-                        });
-                        this._scrollBar.recalcSizes();
-                        this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
+                        updateDragScroll();
+                        updateScrollBar();
                         resolve('created');
                     }, true);
             } else {
@@ -213,6 +222,7 @@ export default class ColumnScroll {
                         // Смена колонок может не вызвать событие resize на обёртке грида(ColumnScroll), если общая ширина колонок до обновления и после одинакова.
                         this._columnScroll.updateSizes(() => {
                             this._options = this._updateOptions(options);
+                            updateDragScroll();
                             resolve('updated');
                         }, true);
 
@@ -233,13 +243,13 @@ export default class ColumnScroll {
                             // Смена колонок может не вызвать событие resize на обёртке грида(ColumnScroll), если общая ширина колонок до обновления и после одинакова.
                             this._columnScroll.updateSizes(() => {
                                 resolve('updated');
+                                updateDragScroll();
                             });
                         } else {
                             resolve('actual');
                         }
                     }
-                    this._scrollBar.recalcSizes();
-                    this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
+                    updateScrollBar();
             }
         } else {
             if (!this._columnScroll) {
@@ -306,6 +316,9 @@ export default class ColumnScroll {
             stickyLadderCellsCount: this._options.stickyLadderCellsCount,
             isEmptyTemplateShown: options.needShowEmptyTemplate,
             getFixedPartWidth: () => {
+                if (!options.containers.header) {
+                    return 0;
+                }
                 // Находим последнюю фиксированную ячейку заголовка / результата
                 const fixedElements = options.containers.header.querySelectorAll(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`);
                 const lastFixedCell = fixedElements[fixedElements.length - 1] as HTMLElement;

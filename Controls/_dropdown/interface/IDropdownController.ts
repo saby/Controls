@@ -22,6 +22,7 @@ export default interface IDropdownController {
     getPreparedItem(item: Model): Model;
     handleSelectorResult(selectedItems: RecordSet): void;
     handleSelectedItems(selectedItem: Model): void;
+    getItems(): RecordSet<Model>;
 }
 
 export interface IDropdownControllerOptions extends IControlOptions, IDropdownSourceOptions,
@@ -29,6 +30,7 @@ export interface IDropdownControllerOptions extends IControlOptions, IDropdownSo
     keyProperty: string;
     notifyEvent: Function;
     lazyItemsLoading?: boolean;
+    reloadOnOpen?: boolean;
     selectedItemsChangedCallback?: Function;
     dataLoadErrback?: Function;
     historyId?: string;

@@ -1,7 +1,7 @@
 import { Control, TemplateFunction } from 'UI/Base';
 import { SyntheticEvent } from 'UICommon/Events';
 import { Memory } from 'Types/source';
-import { IColumn } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 
 import { getTasks } from '../../DemoHelpers/DataCatalog';
 import * as Template from 'wml!Controls-demo/grid/Grouped/RightTemplate/RightTemplate';

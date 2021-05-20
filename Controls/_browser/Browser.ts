@@ -203,6 +203,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         this._dataLoadCallback = this._dataLoadCallback.bind(this);
         this._dataLoadErrback = this._dataLoadErrback.bind(this);
         this._notifyNavigationParamsChanged = this._notifyNavigationParamsChanged.bind(this);
+        this._searchStartCallback = this._searchStartCallback.bind(this);
 
         if (options.root !== undefined) {
             this._root = options.root;
@@ -221,7 +222,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
         // на mount'e не доступен searchController, т.к. он грузится асинхронно, поэтому логика тут нужна
         this._previousViewMode = this._viewMode = options.viewMode;
-        if (this._inputSearchValue && this._inputSearchValue.length > options.minSearchLength) {
+        if (this._inputSearchValue && this._inputSearchValue.length >= options.minSearchLength) {
             this._updateViewMode('search');
         } else {
             this._updateViewMode(options.viewMode);
@@ -350,6 +351,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
             if (!newOptions.searchValue && sourceChanged && this._getSearchControllerSync()) {
                 this._resetSearch();
+                sourceController.setFilter(this._filter);
             }
         }
 
@@ -387,15 +389,19 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     private _updateSearchController(newOptions: IBrowserOptions): Promise<void> {
         return this._getSearchController().then((searchController) => {
+            if (this._destroyed) {
+                return ;
+            }
             this._validateSearchOptions(newOptions);
             const updateResult = searchController.update({
                 ...newOptions,
-                sourceController: this._getSourceController()
+                sourceController: this._getSourceController(),
+                root: this._root
             });
 
             if (updateResult instanceof Promise) {
                 this._loading = true;
-                updateResult.catch(() => this._processSearchError);
+                updateResult.catch(this._processSearchError);
             }
 
             return updateResult;
@@ -695,7 +701,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 searchValue: this._getSearchValue(options),
                 items: receivedState?.[index]?.data,
                 historyItems: receivedState?.[index]?.historyItems || listOptions.historyItems,
-                source: receivedState ? this._getOriginalSource(listOptions as IBrowserOptions) : listOptions.source
+                source: receivedState ? this._getOriginalSource(listOptions as IBrowserOptions) : listOptions.source,
+                searchStartCallback: this._searchStartCallback
             };
         });
 
@@ -717,6 +724,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _notifyNavigationParamsChanged(params: unknown): void {
         if (this._isMounted) {
             this._notify('navigationParamsChanged', [params]);
+        }
+    }
+
+    private _searchStartCallback(filter: QueryWhereExpression<unknown>): void {
+        if (this._isMounted) {
+            this._notify('searchStarted', [filter]);
         }
     }
 

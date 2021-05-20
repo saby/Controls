@@ -237,9 +237,9 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          if (!this._selectAncestors && !this._selectDescendants) {
             // В этом случае мы вообще не смотри на узлы, т.к. выбранность элемента не зависит от выбора родительского узла
             // или выбранность узла не зависит от его детей
-            isSelected = this._canBeSelected(item) && !inExcluded && (inSelected || this._isAllSelectedInRoot(selection));
+            isSelected = this._canBeSelected(item, false) && !inExcluded && (inSelected || this._isAllSelectedInRoot(selection));
          } else {
-            isSelected = this._canBeSelected(item) && (!inExcluded && (inSelected || this._isAllSelected(selection, parentId)) || isNode && this._isAllSelected(selection, key));
+            isSelected = this._canBeSelected(item, false) && (!inExcluded && (inSelected || this._isAllSelected(selection, parentId)) || isNode && this._isAllSelected(selection, key));
 
             if ((this._selectAncestors || searchValue) && isNode) {
                isSelected = this._getStateNode(item, isSelected, {
@@ -279,8 +279,10 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
                   selectedNodes.push(key);
                }
 
-               const countBySelectionType = !(this._selectionType === 'leaf' && this._isNode(item));
-               if (!selection.excluded.includes(key) && countBySelectionType) {
+               // если по ключу не смогли получить запись, то она еще не подгружена,
+               // по дефолту считаем, что она не ридонли
+               const canBeSelected = !item || this._canBeSelected(item) && !item.isRoot();
+               if (!selection.excluded.includes(key) && canBeSelected) {
                   countItemsSelected++;
                }
             }
@@ -725,9 +727,18 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       return this._getKey(parent);
    }
 
-   private _canBeSelected(item: TreeItem<Model>): boolean {
+   /**
+    * Проверяет можно ли сделать переданный итем выбранным.
+    * @param {TreeItem<Model>} item - проверяемый итем
+    * @param {Boolean} [readonlyCheck = true] - нужно ли проверять итем на признак readonly его чекбокса
+    */
+   private _canBeSelected(item: TreeItem<Model>, readonlyCheck: boolean = true): boolean {
+      // Проверяем доступность чекбокса итема. В некоторых случаях нужно учитывать признак readonly
+      // а в некоторых нет. Поэтому опционально проверяем доступность чекбокса.
+      const choiceIsAvailable = readonlyCheck ? !item.isReadonlyCheckbox() : item.isVisibleCheckbox();
       const canBeSelectedBySelectionType = this._canBeSelectedBySelectionType(item);
-      return canBeSelectedBySelectionType && !item.isReadonlyCheckbox();
+
+      return canBeSelectedBySelectionType && choiceIsAvailable;
    }
 
    private _canBeSelectedBySelectionType(item: TreeItem<Model>): boolean {

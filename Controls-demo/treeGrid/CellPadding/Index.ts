@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGrid/CellPadding/CellPadding';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../DemoHelpers/DataCatalog';
-import { IHeaderCell } from 'Controls/gridOld';
+import { IHeaderCell } from 'Controls/grid';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;

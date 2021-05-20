@@ -3,7 +3,7 @@ import {Logger} from 'UI/Utils';
 
 /**
  * Шаблон редактирования даты и времени.
- * Используется при редактировании по месту в полях ввода, о чем подробнее читайте <a href="/doc/platform/developmentapl/interface-development/controls/input/edit/">здесь</a>.
+ * Используется при редактировании по месту в полях ввода, о чем подробнее читайте <a href="/doc/platform/developmentapl/interface-development/controls/input-elements/input/edit/">здесь</a>.
  * @class Controls/_editableArea/Templates/Editors/DateTime
  * @extends Controls/editableArea:Base
  * @public

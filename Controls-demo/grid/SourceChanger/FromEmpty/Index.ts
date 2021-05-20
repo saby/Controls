@@ -2,8 +2,9 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/grid/SourceChanger/FromEmpty/FromEmpty';
 import {Memory} from 'Types/source';
 import {getCountriesStats, changeSourceData} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
+
 
 const { data2: data } = changeSourceData();
 // tslint:disable

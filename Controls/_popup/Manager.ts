@@ -41,6 +41,7 @@ class Manager {
     _popupItems: List<IPopupItem> = new List();
     private _pageScrolled: Function;
     private _popupResizeOuter: Function;
+    private _dragTimer: number;
 
     constructor(options = {}) {
         this.initTheme(options);
@@ -57,8 +58,9 @@ class Manager {
     init(): void {
         this._updateContext();
         ManagerController.setManager(this);
-        EventBus.channel('navigation').subscribe('onBeforeNavigate', this._navigationHandler.bind(this));
         this._subscribeToPageDragNDrop();
+        this._navigationHandler = this._navigationHandler.bind(this);
+        EventBus.channel('navigation').subscribe('onBeforeNavigate', this._navigationHandler);
 
         if (detection.isMobilePlatform) {
             window.addEventListener('orientationchange', () => {
@@ -256,7 +258,8 @@ class Manager {
         let itemIndex;
         let newIndex;
         const hasChild = item.childs.length > 0;
-        if (hasChild) {
+        const hasParent = !!item.parentId;
+        if (hasChild || hasParent) {
             return;
         }
         this._popupItems.each((elem: IPopupItem, index: number) => {
@@ -276,7 +279,7 @@ class Manager {
     private orientationChangeHandler(): void {
         let needUpdate = false;
         this._popupItems.each((item) => {
-            if (this._popupUpdated(item.id)) {
+            if (this._orientationChanged(item.id)) {
                 needUpdate = true;
             }
         });
@@ -442,6 +445,14 @@ class Manager {
             element.controller._elementMaximized(element, this._getItemContainer(id), state);
             Manager._notifyEvent('managerPopupMaximized', [element, this._popupItems]);
             return true;
+        }
+        return false;
+    }
+
+    protected _orientationChanged(id: string): boolean {
+        const element = this.find(id);
+        if (element) {
+            return element.controller.orientationChanged(element, this._getItemContainer(id));
         }
         return false;
     }
@@ -840,12 +851,31 @@ class Manager {
         }
     }
 
+    protected _popupInsideDrag(action: string, id: string): void {
+        const value = action === 'Start';
+        let item = this.find(id);
+        // Текущее и все родительские окна помечаем как те, в которых происходит d'n'd.
+        while (item) {
+            item.isDragOnPopup = value;
+            item = this.find(item.parentId);
+        }
+    }
+
     protected _pageDragnDropHandler(): boolean {
-        this._popupItems.each((item) => {
-            if (item.controller.dragNDropOnPage(item)) {
-                this.remove(item.id);
-            }
-        });
+        const delay = 10;
+        if (this._dragTimer) {
+            clearTimeout(this._dragTimer);
+        }
+        // Общий обработчик троттлим в течение 10мс. Нужно для того, чтобы понять, не происходит ли dnd внутри окна
+        // и не быть завязаным на порядок срабатывания событий.
+        this._dragTimer = setTimeout(() => {
+            this._dragTimer = null;
+            this._popupItems.each((item) => {
+                if (item.controller.dragNDropOnPage(item)) {
+                    this.remove(item.id);
+                }
+            });
+        }, delay);
     }
 
     // TODO Должно быть удалено после https://online.sbis.ru/opendoc.html?guid=f2b13a65-f404-4fbd-a05c-bbf6b59358e6

@@ -175,6 +175,8 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _restoredMarkedKeys: IMarkedKeysStore;
     private _potentialMarkedKey: TKey;
     private _newItemPadding: IItemPadding;
+    private _newItemActionsPosition: string;
+    private _itemActionsPosition: string;
     private _newItemTemplate: TemplateFunction;
     private _newBackgroundStyle: string;
     private _newHeader: IHeaderCell[];
@@ -209,6 +211,8 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._header = cfg.viewMode === 'tile' ? undefined : cfg.header;
         }
 
+        this._itemActionsPosition = cfg.itemActionsPosition;
+
         this._itemsReadyCallback = this._itemsReadyCallbackFunc.bind(this);
         this._itemsSetCallback = this._itemsSetCallbackFunc.bind(this);
         this._canStartDragNDrop = this._canStartDragNDropFunc.bind(this);
@@ -224,11 +228,6 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         const root = this._getRoot(cfg.root);
         this._headerVisibility = this._getHeaderVisibility(root, cfg.headerVisibility);
-        this._restoredMarkedKeys = {
-            [root]: {
-                markedKey: null
-            }
-        };
 
         // TODO: для 20.5100. в 20.6000 можно удалить
         if (cfg.displayMode) {
@@ -280,6 +279,13 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         if (cfg.header !== this._options.header || isViewModeChanged) {
             this._newHeader = cfg.viewMode === 'tile' ? undefined : cfg.header;
+        }
+
+        if (cfg.itemActionsPosition !== this._options.itemActionsPosition) {
+            /* Нужно задерживать itemActionsPosition, потому что добавляется дополнительная колонка в гриде
+               Если сменить таблицу на плитку, то на время загрузки вьюхи таблица разъедется
+            */
+            this._newItemActionsPosition = cfg.itemActionsPosition;
         }
 
         const navigationChanged = !isEqual(cfg.navigation, this._options.navigation);
@@ -429,6 +435,12 @@ export default class Explorer extends Control<IExplorerOptions> {
         event.stopPropagation();
 
         const changeRoot = () => {
+            // Перед проваливанием запомним значение курсора записи, т.к. в крошках могут его не прислать
+            const currRootInfo = this._restoredMarkedKeys[this._getRoot(this._options.root)];
+            if (currRootInfo && this._isCursorNavigation(this._navigation)) {
+                currRootInfo.cursorPosition = this._getCursorPositionFor(item, this._navigation);
+            }
+
             this._setRoot(item.getKey());
             // При search не должны сбрасывать маркер, так как он встанет на папку
             if (this._options.searchNavigationMode !== 'expand') {
@@ -545,6 +557,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         // не указан markedKey
         const markedKey = this._restoredMarkedKeys[newRoot].markedKey;
         if (markedKey) {
+            this._potentialMarkedKey = markedKey;
             this._children.treeControl.setMarkedKey(markedKey);
         }
 
@@ -715,25 +728,23 @@ export default class Explorer extends Control<IExplorerOptions> {
         navigation: INavigationOptionValue<INavigationPageSourceConfig>
     ): void {
 
-        const store = this._restoredMarkedKeys = {
-            [root]: {
-                markedKey: null
-            }
+        const store = this._restoredMarkedKeys || {
+            [root]: {markedKey: null},
+            [topRoot]: {markedKey: null}
         } as IMarkedKeysStore;
 
-        // Если хлебных крошек нет, то дальне идти нет смысла
+        // Если хлебных крошек нет, то дальше идти нет смысла
         if (!breadcrumbs?.length) {
+            this._restoredMarkedKeys = store;
             return;
         }
 
-        store[topRoot] = {
-            markedKey: null
-        };
-
+        const actualIds = [root + '', topRoot + ''];
         breadcrumbs?.forEach((crumb) => {
             const crumbKey = crumb.getKey();
             const parentKey = crumb.get(parentProperty);
 
+            actualIds.push(crumbKey + '');
             store[crumbKey] = {
                 parent: parentKey,
                 markedKey: null
@@ -742,11 +753,24 @@ export default class Explorer extends Control<IExplorerOptions> {
             if (store[parentKey]) {
                 store[parentKey].markedKey = crumbKey;
 
-                if (this._isCursorNavigation(navigation)) {
+                // Берем значение курсора из крошки только в том случае если он еще не выставлен
+                // Курсор для текущего рута выставляется при проваливании
+                if (this._isCursorNavigation(navigation) && !store[parentKey].cursorPosition) {
                     store[parentKey].cursorPosition = this._getCursorPositionFor(crumb, navigation);
                 }
             }
         });
+
+        // Пробежимся по ключам сформированного store и выкинем
+        // все ключи, которых нет в текущих крошках
+        Object
+            .keys(store)
+            .forEach((storeKey) => {
+                if (!actualIds.includes(storeKey)) {
+                    delete store[storeKey];
+                }
+            });
+        this._restoredMarkedKeys = store;
     }
 
     /**
@@ -873,6 +897,10 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._header = this._newHeader;
             this._newHeader = null;
         }
+        if (this._newItemActionsPosition) {
+            this._itemActionsPosition = this._newItemActionsPosition;
+            this._newItemActionsPosition = null;
+        }
     }
 
     /**
@@ -983,7 +1011,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _getCursorPositionFor(
         item: Model,
         positionNavigation: INavigation<IPositionSourceConfig>
-    ): IPositionSourceConfig['position'] {
+    ): unknown[] {
 
         const position: unknown[] = [];
         const optField = positionNavigation.sourceConfig.field;
@@ -1155,8 +1183,9 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @cfg {string} Имя свойства элемента, содержимое которого будет отображаться.
  * @remark Поле используется для вывода хлебных крошек.
  * @example
- * <pre>
- * <Controls.explorers:View displayProperty="title">
+ * <pre class="brush: html; highlight: [2]">
+ * <!-- WML -->
+ * <Controls.explorer:View source="{{_viewSource}}" columns="{{_columns}}" viewMode="table" displayProperty="title" parentProperty="parent" nodeProperty="parent@">
  *     ...
  * </Controls.explorer:View>
  * </pre>
@@ -1166,11 +1195,10 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @name Controls/_explorer/View#displayProperty
  * @cfg {string} sets the property to be displayed in search results
  * @example
- * <pre class="brush:html">
- * <Controls.explorers:View
- *   ...
- *   displayProperty="title">
- *       ...
+ * <pre class="brush: html; highlight: [2]">
+ * <!-- WML -->
+ * <Controls.explorer:View source="{{_viewSource}}" columns="{{_columns}}" viewMode="table" displayProperty="title" parentProperty="parent" nodeProperty="parent@">
+ *     ...
  * </Controls.explorer:View>
  * </pre>
  */
@@ -1178,11 +1206,13 @@ Object.defineProperty(Explorer, 'defaultProps', {
 /**
  * @name Controls/_explorer/View#breadcrumbsDisplayMode
  * @cfg {Boolean} Отображение крошек в несколько строк {@link Controls/breadcrumbs:HeadingPath#displayMode}
+ * @see afterBreadCrumbsTemplate
  */
 
 /**
  * @name Controls/_explorer/View#afterBreadCrumbsTemplate
  * @cfg {TemplateFunction|string} Пользовательский шаблон, который будет выведен справа от {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/breadcrumbs/ хлебных крошек}.
+ * @see breadcrumbsDisplayMode
  */
 
 /**
@@ -1199,8 +1229,9 @@ Object.defineProperty(Explorer, 'defaultProps', {
  *
  * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/item/ руководстве разработчика}.
  * @example
- * <pre class="brush: html;">
- * <Controls.explorer:View>
+ * <pre class="brush: html; highlight: [3-5]">
+ * <!-- WML -->
+ * <Controls.explorer:View source="{{_viewSource}}" columns="{{_columns}}" viewMode="table" displayProperty="title" parentProperty="parent" nodeProperty="parent@"> 
  *     <ws:tileItemTemplate>
  *         <ws:partial template="Controls/tile:ItemTemplate" highlightOnHover="{{false}}" />
  *     </ws:tileItemTemplate>
@@ -1218,7 +1249,8 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * Позволяет установить пользовательский шаблон отображения группы (**именно шаблон**, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/list:GroupTemplate}.
  * @example
  * <pre class="brush: html;">
- * <Controls.explorer:View>
+ * <!-- WML -->
+ * <Controls.explorer:View source="{{_viewSource}}" columns="{{_columns}}" viewMode="table" displayProperty="title" parentProperty="parent" nodeProperty="parent@">
  *     <ws:tileGroupTemplate>
  *         <ws:partial template="Controls/list:GroupTemplate"/>
  *     </ws:tileGroupTemplate>
@@ -1229,26 +1261,26 @@ Object.defineProperty(Explorer, 'defaultProps', {
  */
 
 /**
- * @typedef {String} TBreadCrumbsMode
- * @variant row - все ячейки строки с хлебными крошками объединяются в одну ячейку в которой выводятся хлебные крошки.
- * @variant cell - ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
+ * @typedef {String} Controls/_explorer/View/TBreadCrumbsMode
+ * @description Допустимые зачения для опции {@link breadCrumbsMode}.
+ * @variant row Все ячейки строки с хлебными крошками объединяются в одну ячейку, в которой выводятся хлебные крошки.
+ * @variant cell Ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
  * конфигурацией колонок. При таком режиме прикладной разработчик может задать кастомное содержимое для ячеек
  * строки с хлебными крошками.
  */
 
 /**
  * @name Controls/_explorer/View#breadCrumbsMode
- * @cfg {TBreadCrumbsMode} Задает режим вывода строки с хлебными крошками в результатах поиска
+ * @cfg {Controls/_explorer/View/TBreadCrumbsMode.typedef} Режим вывода строки с хлебными крошками в результатах поиска.
  * @default row
  * @markdown
  * @remark
  * Данная опция позволяет сконфигурировать вывод строки с хлебными крошками. Возможны 2 варианта:
- * <ul>
- *     <li>row - все ячейки строки с хлебными крошками объединяются в одну ячейку в которой выводятся хлебные крошки.</li>
- *     <li>cell - ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
+ * 
+ * * row - все ячейки строки с хлебными крошками объединяются в одну ячейку в которой выводятся хлебные крошки.
+ * * cell - ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
  * конфигурацией колонок. При таком режиме прикладной разработчик может задать кастомное содержимое для ячеек
- * строки с хлебными крошками.</li>
- * </ul>
+ * строки с хлебными крошками.
  */
 
 /**

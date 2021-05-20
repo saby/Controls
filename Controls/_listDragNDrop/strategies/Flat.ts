@@ -45,7 +45,11 @@ export default class Flat<
             return this._startPosition;
         }
 
-        if (this._targetItemIsDraggable(targetItem)) {
+        // для групп своя логика подсчета новой позиции
+        if (
+            !targetItem.DraggableItem && !targetItem['[Controls/_display/GroupItem]'] ||
+            this._targetItemIsDraggable(targetItem)
+        ) {
             return currentPosition;
         }
 

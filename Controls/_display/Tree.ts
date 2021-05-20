@@ -127,6 +127,9 @@ function onCollectionItemChange<T extends Model>(event: EventObject, item: T, in
     if (this.instance.getExpanderVisibility() === 'hasChildren') {
         if (!this.instance.getHasChildrenProperty() && properties.hasOwnProperty(this.instance.getParentProperty())) {
             this.instance._recountHasChildrenByRecordSet();
+
+            // нужно пересчитать, т.к. hasNodeWithChildren может считаться по рекордсету, если нет hasChildrenProperty
+            this.instance._recountHasNodeWithChildren();
         } else if (properties.hasOwnProperty(this.instance.getHasChildrenProperty())) {
             this.instance._recountHasNodeWithChildren();
         }
@@ -614,10 +617,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._$root = root;
         this._root = null;
 
-        this._resetEdgeItems();
         this._reIndex();
         this._reAnalize();
-        this._updateEdgeItems();
     }
 
     /**
@@ -714,12 +715,15 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         //region Удаленные ключи нужно свернуть
         if (diff.removed[0] === null) {
             this._getItems().forEach((item) => {
-                if (!item['[Controls/_display/TreeItem]']) {
+                // TODO: не должен общий модуль знать про конкретную реализацию TreeGridNodeFooterRow
+                //  getContents() у TreeGridNodeFooterRow должен придерживаться контракта и возвращать
+                //  Model а не строку
+                if (!item['[Controls/_display/TreeItem]'] || item['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
                     return;
                 }
 
                 const id = item.getContents().getKey();
-                if (diff.added.includes(id)) {
+                if (id && diff.added.includes(id)) {
                     return;
                 }
 
@@ -734,12 +738,11 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                     item.setExpanded(false);
                 }
             });
-        }
+        };
         //endregion
 
+        this._reBuildNodeFooters();
         this._expandedItems = [...expandedKeys];
-        this._resetEdgeItems();
-        this._updateEdgeItems();
     }
 
     setCollapsedItems(collapsedKeys: CrudEntityKey[]): void {
@@ -766,6 +769,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 item.setExpanded(false);
             }
         });
+        this._reBuildNodeFooters();
     }
 
     resetExpandedItems(): void {
@@ -778,6 +782,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 it.setExpanded(false);
             }
         });
+        this._reBuildNodeFooters();
     }
 
     toggleExpanded(item: T): void {
@@ -813,47 +818,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // endregion Expanded/Collapsed
 
-    // region Аспект "крайние записи"
-
-    getFirstItem(): Model<any> {
-        if (!this._firstItem) {
-            const children = this.getChildrenByRecordSet(this.getRoot().getContents());
-            this._firstItem = children[0];
-        }
-        return this._firstItem;
-    }
-
-    getLastItem(): Model {
-        if (!this._lastItem) {
-            this._lastItem = this._getLastItemRecursive(this.getRoot().getContents());
-        }
-        return this._lastItem;
-    }
-
-    protected _getLastItemRecursive(root: S): S {
-        // Обращаемся к иерархии для получения детей
-        const children = this.getChildrenByRecordSet(root);
-        const lastChild: S = children[children.length - 1];
-        // Если узел и у него нет детей, то он последний
-        if (children.length === 0) {
-            return root;
-        }
-        const isNode = (lastChild.get ? lastChild.get(this._$nodeProperty) : lastChild[this._$nodeProperty]) !== null;
-        const lastChildKey = lastChild.getKey ? lastChild.getKey() : lastChild[this._$keyProperty];
-
-        // expandedItems появляются только после того, как был вызван Tree.setExpandedItems
-        const expandedItems = this.getExpandedItems();
-        if (isNode && expandedItems && (
-            this.isExpandAll() ||
-            (expandedItems && expandedItems.indexOf(lastChildKey) !== -1)
-        )) {
-            return this._getLastItemRecursive(lastChild);
-        }
-        return lastChild;
-    }
-
-    // endregion Аспект "крайние записи"
-
     setHasMoreStorage(storage: Record<string, boolean>): void {
         if (!isEqual(this._$hasMoreStorage, storage)) {
             this._$hasMoreStorage = storage;
@@ -869,15 +833,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     // endregion
 
     // region Protected methods
-
-    protected _handleAfterCollectionChange(changedItems: ISessionItems<T> = [], changeAction?: string): void {
-        super._handleAfterCollectionChange(changedItems, changeAction);
-
-        const changedProperties = changedItems.properties;
-        if (changedProperties && (changedProperties === 'expanded' || changedProperties.hasOwnProperty('expanded'))) {
-            this._reBuildNodeFooters();
-        }
-    }
 
     protected _getItemsStrategy: () => IItemsStrategy<S, T>;
 

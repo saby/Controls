@@ -88,6 +88,9 @@ var ListView = BaseControl.extend(
                   itemChangesType !== 'marked' &&
                   itemChangesType !== 'hovered' &&
                   itemChangesType !== 'active' &&
+                  itemChangesType !== 'canShowActions' &&
+                  itemChangesType !== 'animated' &&
+                  itemChangesType !== 'fixedPosition' &&
                   !this._pendingRedraw) {
                   this._pendingRedraw = true;
                }

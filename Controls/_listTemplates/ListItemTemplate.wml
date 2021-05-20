@@ -6,7 +6,7 @@
                position="{{_options.imagePosition}}"
                fallbackImage="{{_options.fallbackImage}}"
                afterImageTemplate="{{_options.afterImageTemplate}}"
-               imageGradientColor="{{_options.imageGradientColor}}"
+               gradientColor="{{_options.imageGradientColor}}"
                item="{{(item || itemData)}}"
                effect="{{_options.imageEffect}}"/>
 </ws:template>

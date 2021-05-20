@@ -5,6 +5,7 @@
  * @author Авраменко А.С.
  * @see Controls/grid:View#emptyTemplateColumns
  * @see Controls/grid:View
+ * @see Controls/grid:EmptyTemplate
  * @example
  * <pre class="brush: html; highlight: [3-24]">
  * <!-- WML -->

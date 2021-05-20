@@ -70,8 +70,12 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
     }
 
     private _setBreadCrumbsItems(options): void {
-        if (options._dataOptionsValue.breadCrumbsItems !== undefined) {
-            this._breadCrumbsItems = options._dataOptionsValue.breadCrumbsItems;
+        let dataOptions = options._dataOptionsValue;
+        if (options.id) {
+            dataOptions = options._dataOptionsValue.listsConfigs[options.id]
+        }
+        if (dataOptions.breadCrumbsItems !== undefined) {
+            this._breadCrumbsItems = dataOptions.breadCrumbsItems;
         } else if (this._sourceController !== options.sourceController) {
             // FIXME пока страница не обернута в браузер, sourceController задается на опциях
             this._breadCrumbsItems = this._getPathItems(options);

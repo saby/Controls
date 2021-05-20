@@ -101,7 +101,7 @@ export function getDefaultOptions(): object {
  * Кнопки могут отображаться в нескольких режимах, отличающихся друга от друга внешне.
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2FButtons%2FStandart%2FIndex демо-пример}
- * * {@link /doc/platform/developmentapl/interface-development/controls/buttons-switches/buttons-links/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/buttons-switches/buttons-links/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/6156a9009ee88d96bf73c8b1200e197f9db1c3c8/Controls-default-theme/variables/_buttons.less переменные тем оформления}
  *
  * @class Controls/_buttons/Button

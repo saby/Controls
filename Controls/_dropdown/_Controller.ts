@@ -282,7 +282,7 @@ export default class _Controller implements IDropdownController {
    }
 
    handleClose(): void {
-       if (this._items && !this._items.getCount() && this._options.searchParam) {
+       if (this._items && !this._items.getCount() && this._options.searchParam || this._options.reloadOnOpen) {
            this._setItems(null);
        }
        this._isOpened = false;
@@ -297,6 +297,10 @@ export default class _Controller implements IDropdownController {
          this._setItems(null);
          this._open();
       });
+   }
+
+   getItems(): RecordSet<Model> {
+      return this._items;
    }
 
    private _open(popupOptions?: object): Promise<unknown[]> {
@@ -712,7 +716,19 @@ export default class _Controller implements IDropdownController {
          closeOnOutsideClick: true
       };
       const popupConfig = Merge(popupOptions, this._options.menuPopupOptions || {});
-      return Merge(config, popupConfig || {});
+      const result = Merge(config, popupConfig || {});
+      const root = result.templateOptions.root;
+      if (root) {
+         this._updateSourceInOptions(root, result);
+      }
+      return result;
+   }
+
+   private _updateSourceInOptions(root: string, result): void {
+      const parent = this._items.getRecordById(root).getKey();
+      if (this._items.getIndexByValue(this._options.parentProperty, parent) === -1) {
+         result.templateOptions.source = this._options.source;
+      }
    }
 }
 

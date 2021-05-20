@@ -85,7 +85,7 @@ export interface IDragObject<T = object> {
  *
  * @remark
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/drag-n-drop/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dragnDrop.less переменные тем оформления}
  *
  * @class Controls/_dragnDrop/Container
@@ -221,8 +221,8 @@ class Container extends Control<IContainerOptions> {
     }
 
     private _notifyDragEvent(eventName: string, args: unknown[]): void {
-        EventBus.channel('dragnDrop').notify(eventName, ...args);
         this._notify(eventName, args);
+        EventBus.channel('dragnDrop').notify(eventName, ...args);
     }
 
     private _getDragObject(mouseEvent: MouseEvent, startEvent: SyntheticEvent<MouseEvent>): IDragObject {

@@ -2,7 +2,8 @@ import {TemplateFunction} from 'UI/Base';
 import {create} from 'Types/di';
 import {isEqual} from 'Types/object';
 import {Model as EntityModel} from 'Types/entity';
-import {IColspanParams, IColumn, TColumns, TColumnSeparatorSize, THeader} from 'Controls/interface';
+import {IColspanParams, IColumn, TColumns, TColumnSeparatorSize} from '../interface/IColumn';
+import {THeader} from '../interface/IHeaderCell';
 import {Collection, ICollectionItemOptions as IBaseOptions, ILadderConfig, IStickyLadderConfig, TLadderElement} from 'Controls/display';
 import Cell, {IOptions as ICellOptions} from '../Cell';
 import {TResultsPosition} from '../ResultsRow';
@@ -110,9 +111,6 @@ export default abstract class Row<T> {
             && this.isLastItem()) {
             itemClasses += ' controls-ListView__itemV_last';
         }
-        if (this.getIsFirstItem()) {
-            itemClasses += ' controls-ListView__itemV_first';
-        }
 
         return itemClasses;
     }
@@ -162,7 +160,10 @@ export default abstract class Row<T> {
     //endregion
 
     //region Аспект "Лесенка"
-
+    getStickyLadderCellsCount(): number {
+        const stickyProperties = this.getStickyLadderProperties(this._$columns[0]);
+        return stickyProperties ? stickyProperties.length : 0;
+    }
     getStickyLadderProperties(column: IColumn): string[] {
         let stickyProperties = column && column.stickyProperty;
         if (stickyProperties && !(stickyProperties instanceof Array)) {
@@ -279,6 +280,7 @@ export default abstract class Row<T> {
                 wrapperStyle: stickyLadderStyleForSecondProperty,
                 contentStyle: `left: -${this.getColumnsConfig()[0].width}; right: 0;`,
                 stickyProperty: stickyLadderProperties[1],
+                isFixed: this.hasColumnScroll(),
                 stickyHeaderZIndex: 1
             }));
         }
@@ -292,6 +294,7 @@ export default abstract class Row<T> {
                     wrapperStyle: stickyLadderStyleForFirstProperty,
                     contentStyle: stickyLadderStyleForSecondProperty ? `left: 0; right: -${this.getColumnsConfig()[0].width};` : '',
                     stickyProperty: stickyLadderProperties[0],
+                    isFixed: this.hasColumnScroll(),
                     stickyHeaderZIndex: 2
                 })
             ] as Array<Cell<T, Row<T>>>).concat(this._$columnItems);
@@ -725,8 +728,6 @@ export default abstract class Row<T> {
     abstract isSticked(): boolean;
 
     abstract getShadowVisibility(): string;
-
-    abstract getIsFirstItem(): boolean;
 
     abstract isLastItem(): boolean;
 

@@ -300,7 +300,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         if (item.width !== undefined) {
             return false;
         } else {
-            return item.isMainTab || item.minWidth !== undefined || item.maxWidth !== undefined;
+            return !this._hasMainTab || item.isMainTab || item.minWidth !== undefined || item.maxWidth !== undefined;
         }
     }
 
