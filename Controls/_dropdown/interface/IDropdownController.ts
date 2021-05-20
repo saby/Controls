@@ -22,6 +22,7 @@ export default interface IDropdownController {
     getPreparedItem(item: Model): Model;
     handleSelectorResult(selectedItems: RecordSet): void;
     handleSelectedItems(selectedItem: Model): void;
+    getItems(): RecordSet<Model>;
 }
 
 export interface IDropdownControllerOptions extends IControlOptions, IDropdownSourceOptions,
