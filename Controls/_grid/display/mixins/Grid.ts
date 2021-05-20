@@ -175,10 +175,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (!this._$headerModel && this._headerIsVisible(this._$header)) {
             this._initializeHeader({
                 columns: this._$columns,
+                backgroundStyle: this._$backgroundStyle,
                 owner: this,
                 header: this._$header,
                 sorting: this._$sorting,
-                backgroundStyle: this._$backgroundStyle,
                 multiSelectVisibility: this._$multiSelectVisibility
             } as IOptions);
         }
@@ -200,10 +200,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         } else {
             this._$footer = this._initializeFooter({
                 multiSelectVisibility: this._$multiSelectVisibility,
-                backgroundStyle: this._$backgroundStyle,
                 footerTemplate,
                 footer,
-                columnSeparatorSize: this._$columnSeparatorSize
+                columnSeparatorSize: this._$columnSeparatorSize,
+                backgroundStyle: this._$backgroundStyle
             });
         }
         if (!silent) {
