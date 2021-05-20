@@ -143,6 +143,11 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     }
 
     protected _contentClickHandler(event: Event): void {
+        // Остановка события тача не остановит событие клика.
+        // Будем останавливать сами событие клика в случае если инфобокс:
+        // 1. Открывается по клику
+        // 2. Открывается по тачу. Делаем проверку на isMobilePlatform, т.к. иначе мы бы так же останавливали событие
+        // по ховеру на десктопе.
         if ((this._options.trigger === 'hover|touch' && detection.isMobilePlatform) ||
             this._options.trigger === 'click') {
             event.preventDefault();
