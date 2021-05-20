@@ -8,8 +8,6 @@ import * as forTemplate from 'wml!Controls/_list/Render/For';
 import * as oldForTemplate from 'wml!Controls/_list/resources/For';
 import 'css!Controls/list';
 import {isEqual} from "Types/object";
-import CollectionItem from "Controls/_display/CollectionItem";
-import {Model} from "Types/entity";
 
 const DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
@@ -47,20 +45,6 @@ var _private = {
             var container = nativeEvent ? nativeEvent.target.closest('.controls-ListView__itemV') : null;
             self._notify('hoveredItemChanged', [item, container]);
         }
-    },
-
-    /**
-     * TODO https://online.sbis.ru/opendoc.html?guid=b8b8bd83-acd7-44eb-a915-f664b350363b
-     *  Костыль, позволяющий определить, что мы загружаем файл и его прогрессбар изменяется
-     *  Это нужно, чтобы в ListView не вызывался resize при изменении прогрессбара и не сбрасывался hovered в плитке
-     */
-    isLoadingPercentsChanged: function(newItems: Array<CollectionItem<Model>>): boolean {
-        return newItems &&
-            newItems.length &&
-            newItems[0].getContents() &&
-            newItems[0].getContents().getChanged &&
-            newItems[0].getContents().getChanged().indexOf('docviewLoadingPercent') !== -1 &&
-            newItems[0].getContents().getChanged().indexOf('docviewIsLoading') === -1;
     }
 };
 
@@ -85,32 +69,36 @@ var ListView = BaseControl.extend(
                if (this._destroyed) {
                    return;
                }
-               // todo refactor by task https://online.sbis.ru/opendoc.html?guid=80fbcf1f-5804-4234-b635-a3c1fc8ccc73
-               // Из новой коллекции нотифается collectionChanged, в котором тип изменений указан в newItems.properties
-               let itemChangesType;
-               if (this._options.useNewModel) {
-                  // В событии новой модели нет такого параметра как changesType, из-за этого в action лежит newItems
-                  itemChangesType = action ? action.properties : null;
-               } else {
-                  itemChangesType = newItems ? newItems.properties : null;
-               }
-
-               if (!_private.isLoadingPercentsChanged(action) &&
-                  changesType !== 'hoveredItemChanged' &&
-                  changesType !== 'activeItemChanged' &&
-                  changesType !== 'loadingPercentChanged' &&
-                  changesType !== 'markedKeyChanged' &&
-                  changesType !== 'itemActionsUpdated' &&
-                  itemChangesType !== 'marked' &&
-                  itemChangesType !== 'hovered' &&
-                  itemChangesType !== 'active' &&
-                  itemChangesType !== 'canShowActions' &&
-                  itemChangesType !== 'animated' &&
-                  itemChangesType !== 'fixedPosition' &&
-                  !this._pendingRedraw) {
+               if (this._isPendingRedraw(event, changesType, action, newItems)) {
                   this._pendingRedraw = true;
                }
             };
+        },
+
+        _isPendingRedraw(event, changesType, action, newItems) {
+            // todo refactor by task https://online.sbis.ru/opendoc.html?guid=80fbcf1f-5804-4234-b635-a3c1fc8ccc73
+            // Из новой коллекции нотифается collectionChanged, в котором тип изменений указан в newItems.properties
+            let itemChangesType;
+            if (this._options.useNewModel) {
+                // В событии новой модели нет такого параметра как changesType, из-за этого в action лежит newItems
+                itemChangesType = action ? action.properties : null;
+            } else {
+                itemChangesType = newItems ? newItems.properties : null;
+            }
+
+            if (changesType !== 'hoveredItemChanged' &&
+                changesType !== 'activeItemChanged' &&
+                changesType !== 'loadingPercentChanged' &&
+                changesType !== 'markedKeyChanged' &&
+                changesType !== 'itemActionsUpdated' &&
+                itemChangesType !== 'marked' &&
+                itemChangesType !== 'hovered' &&
+                itemChangesType !== 'active' &&
+                itemChangesType !== 'canShowActions' &&
+                itemChangesType !== 'animated' &&
+                itemChangesType !== 'fixedPosition') {
+                return true;
+            }
         },
 
         _doAfterReload(callback): void {
