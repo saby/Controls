@@ -191,6 +191,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         return this._$emptyGridRow;
     }
 
+    setEmptyTemplateOptions(options: object): void {
+        this.getEmptyGridRow().setRowTemplateOptions(options);
+    }
+
     setFooter(options: IOptions): void {
         const footerModel = this.getFooter();
 
