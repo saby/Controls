@@ -79,7 +79,10 @@ describe('Controls/grid_clean/Display/Grid/BackgroundStyle', () => {
                 backgroundStyle: 'custom'
             });
 
-            collection.setFooter(footerTemplate, [ { width: ''} ]);
+            collection.setFooter({
+                footerTemplate,
+                footer: [ { width: ''} ]
+            });
 
             // После добавления инициализируется footer,
             // Мы проверяем, что инициализация произошла с backgroundStyle
