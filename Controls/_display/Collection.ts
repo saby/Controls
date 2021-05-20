@@ -2161,10 +2161,17 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         if (isFiltered || isGrouped) {
             const session = this._startUpdateSession();
+
+            const rebuild = this._handleNotifyItemChangeRebuild(item, properties);
+
             if (isGrouped) {
                 this._reGroup();
+            }
+
+            if (isGrouped || rebuild) {
                 this._reSort();
             }
+
             if (isFiltered) {
                 this._reFilter();
             }
@@ -3956,6 +3963,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _handleCollectionChangeRemove(): void {}
 
     protected _handleCollectionChangeReplace(): void {}
+
+    protected _handleNotifyItemChangeRebuild(item: T, properties?: object|string): boolean { return false; }
     // endregion
 
     // endregion

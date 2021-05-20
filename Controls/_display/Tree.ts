@@ -808,7 +808,9 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     setHasMoreStorage(storage: Record<string, boolean>): void {
         if (!isEqual(this._$hasMoreStorage, storage)) {
             this._$hasMoreStorage = storage;
-            this._reBuildNodeFooters(true, true);
+            this._reBuildNodeFooters();
+            this._reSort();
+            this._reFilter();
             this._nextVersion();
         }
     }
@@ -1203,6 +1205,17 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         super._handleCollectionChangeReplace();
 
         this._reBuildNodeFooters(false);
+    }
+
+    protected _handleNotifyItemChangeRebuild(item: T, properties?: object|string): boolean {
+        let result = super._handleNotifyItemChangeRebuild(item, properties);
+
+        if (properties === 'expanded' || properties.hasOwnProperty('expanded')) {
+            this._reBuildNodeFooters(false);
+            result = true;
+        }
+
+        return result;
     }
 }
 
