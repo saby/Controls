@@ -754,7 +754,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     private _searchStartCallback(filter: QueryWhereExpression<unknown>): void {
         if (this._isMounted) {
-            this._notify('searchStarted', [filter]);
+            this._notify('searchStart', [filter]);
         }
     }
 
