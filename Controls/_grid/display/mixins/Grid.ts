@@ -126,6 +126,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$emptyTemplate: TemplateFunction;
     protected _$sorting: Array<{[p: string]: string}>;
     protected _$emptyTemplateColumns: IEmptyTemplateColumn[];
+    protected _$backgroundStyle: string;
 
     protected _isFullGridSupport: boolean = isFullGridSupport();
 
@@ -177,6 +178,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 owner: this,
                 header: this._$header,
                 sorting: this._$sorting,
+                backgroundStyle: this._$backgroundStyle,
                 multiSelectVisibility: this._$multiSelectVisibility
             } as IOptions);
         }
@@ -198,6 +200,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         } else {
             this._$footer = this._initializeFooter({
                 multiSelectVisibility: this._$multiSelectVisibility,
+                backgroundStyle: this._$backgroundStyle,
                 footerTemplate,
                 footer,
                 columnSeparatorSize: this._$columnSeparatorSize
@@ -218,6 +221,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 columns: this._$columns,
                 multiSelectVisibility: this._$multiSelectVisibility,
                 resultsTemplate: this._$resultsTemplate,
+                backgroundStyle: this._$backgroundStyle,
                 resultsColspanCallback: this._$resultsColspanCallback
             });
         }
