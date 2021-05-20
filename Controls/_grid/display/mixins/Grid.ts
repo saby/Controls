@@ -305,6 +305,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         // Например, задав columns=[{},{}] и footerTemplate=function(){}, то должен создаваться класс Row с опциями
         // columnsConfig=[{}, {}] и columns=[{ template: function(){} }].
         this.getFooter()?.resetColumns();
+        this.getEmptyGridRow()?.resetColumns();
     }
 
     setLadderProperties(ladderProperties: string[]) {
@@ -362,6 +363,16 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             rowTemplateOptions: this._$emptyTemplateOptions,
             multiSelectVisibility: this._$multiSelectVisibility
         });
+    }
+
+    setEmptyTemplateColumns(emptyTemplateColumns): void {
+        this._$emptyTemplateColumns = emptyTemplateColumns;
+        this._nextVersion();
+        if (this._$emptyGridRow) {
+            this._$emptyGridRow.setColumns(emptyTemplateColumns);
+        } else {
+            this._initializeEmptyRow();
+        }
     }
 
     protected _prepareLadder(ladderProperties: string[], columns: TColumns): void {
