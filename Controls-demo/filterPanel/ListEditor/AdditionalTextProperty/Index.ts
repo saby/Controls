@@ -27,7 +27,6 @@ export default class extends Control {
                 textValue: '',
                 editorTemplateName: 'Controls/filterPanel:ListEditor',
                 editorOptions: {
-                    style: 'master',
                     navigation: {
                         source: 'page',
                         view: 'page',
@@ -57,7 +56,6 @@ export default class extends Control {
                 textValue: '',
                 editorTemplateName: 'Controls/filterPanel:ListEditor',
                 editorOptions: {
-                    style: 'master',
                     navigation: {
                         source: 'page',
                         view: 'page',

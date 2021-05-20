@@ -43,7 +43,6 @@ export default class extends Control {
                 viewMode: 'basic',
                 editorTemplateName: 'Controls/filterPanel:ListEditor',
                 editorOptions: {
-                    style: 'master',
                     navigation: {
                         source: 'page',
                         view: 'page',

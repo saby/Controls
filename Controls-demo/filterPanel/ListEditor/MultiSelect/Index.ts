@@ -45,7 +45,6 @@ export default class extends Control {
                 editorTemplateName: 'Controls/filterPanel:ListEditor',
                 editorOptions: {
                     multiSelect: true,
-                    style: 'master',
                     navigation: {
                         source: 'page',
                         view: 'page',
