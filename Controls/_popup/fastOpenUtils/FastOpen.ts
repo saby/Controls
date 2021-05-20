@@ -15,7 +15,7 @@ export class DependencyTimer {
     }
 }
 
-const CALM_DELAY: number = 40;
+const CALM_DELAY: number = 80;
 
 /**
  * Модуль, упрощающий открытие всплывающего окна через определенный промежуток времени
@@ -38,14 +38,14 @@ export class CalmTimer {
     /**
      * Выполнение callback, через опеределенный промежуток времени.
      */
-    start(): void {
+    start(delay?: number): void {
         this.stop();
         if (!detection.isMobilePlatform) {
             const args = arguments;
             this._openId = setTimeout(() => {
                 this._openId = null;
                 this._callback(...args);
-            }, CALM_DELAY);
+            }, delay || CALM_DELAY);
         } else {
             this._callback(...arguments);
         }
