@@ -190,6 +190,43 @@ define(
                assert.equal(result, true);
                sandbox.restore();
             });
+            it('elementUpdated called only for top element', () => {
+               const sandbox = sinon.sandbox.create();
+               const item1 = getPopupItem();
+               const item2 = getPopupItem();
+               item1.position = {
+                  height: 500,
+                  bottom: 0
+               };
+               item2.position = {
+                  height: 500,
+                  bottom: 0
+               };
+
+               sandbox.stub(StrategySingleton, 'getPosition').callsFake(() => {
+                  return {
+                     height: 500,
+                     bottom: 0
+                  };
+               });
+               sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
+               sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
+                  return {
+                     height: item2.position.height
+                  };
+               });
+               Controller.elementCreated(item1, {});
+               Controller.elementCreated(item2, {});
+               const result1 = Controller.elementUpdated(item1, {});
+               const result2 = Controller.elementUpdated(item2, {});
+
+               Controller.elementDestroyed(item1, {});
+               Controller.elementDestroyed(item2, {});
+
+               assert.equal(result1, false);
+               assert.equal(result2, true);
+               sandbox.restore();
+            });
             it('elementDestroyed + elementAnimated', (resolve) => {
                const sandbox = sinon.sandbox.create();
                const item = getPopupItem();
