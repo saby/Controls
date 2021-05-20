@@ -5,7 +5,7 @@
    virtualPageSize="{{5}}"
    position="{{_options.position}}"
    shadowStyle="datePopup"
-   bottomShadowVisibility="{{false}}"
+   bottomShadowVisibility="hidden"
    _limit="{{3}}"
    on:itemClick="_onItemClick()"
 >
