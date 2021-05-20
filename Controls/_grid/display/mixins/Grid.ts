@@ -196,7 +196,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     setEmptyTemplateOptions(options: object): void {
-        this.getEmptyGridRow().setRowTemplateOptions(options);
+        this.getEmptyGridRow()?.setRowTemplateOptions(options);
     }
 
     setFooter(footerTemplate: TemplateFunction, footer: TFooter, silent?: boolean): void {
