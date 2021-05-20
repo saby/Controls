@@ -244,23 +244,37 @@ describe('Controls/grid_clean/GridView', () => {
     });
 
     describe('Header', () => {
-        it('update header visibility', () => {
+        let headerVisibility;
+        let colspanGroup;
+        let gridView;
+
+        beforeEach(() => {
+            headerVisibility = false;
+            colspanGroup = false;
             const options = {
                 headerVisibility: 'hasdata'
             };
-            const gridView = new GridView(options);
+            gridView = new GridView(options);
             gridView.saveOptions(options);
-
-            let visibility;
             gridView._listModel = {
                 setHeaderVisibility: (value) => {
-                    visibility = value;
+                    headerVisibility = value;
+                },
+                setColspanGroup: (value) => {
+                    colspanGroup = value;
                 }
             };
+        });
 
+        it('update header visibility', () => {
             const newVisibility = 'visible';
             gridView._beforeUpdate({headerVisibility: newVisibility});
-            assert.equal(visibility, newVisibility);
+            assert.equal(headerVisibility, newVisibility);
+        });
+
+        it('update colspanGroup', () => {
+            gridView._beforeUpdate({});
+            assert.equal(colspanGroup, true);
         });
     });
 });
