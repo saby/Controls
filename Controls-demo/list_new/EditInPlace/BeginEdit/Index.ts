@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/list_new/EditInPlace/BeginEdit/Begi
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {getEditableCatalog as getData} from '../../DemoHelpers/DataCatalog';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {editing as constEditing} from 'Controls/list';
 
 const TIMEOUT1000 = 1000;

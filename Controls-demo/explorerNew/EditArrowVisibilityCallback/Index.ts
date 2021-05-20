@@ -4,7 +4,7 @@ import {Gadgets} from '../DataHelpers/DataCatalog';
 import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 import { IColumn } from 'Controls/grid';
 import { TRoot } from 'Controls-demo/types';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 interface IItem {
    getId: () => string;

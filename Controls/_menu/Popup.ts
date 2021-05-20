@@ -3,7 +3,7 @@ import IMenuPopup, {IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup
 import PopupTemplate = require('wml!Controls/_menu/Popup/template');
 import {default as MenuControl} from 'Controls/_menu/Control';
 import {default as searchHeaderTemplate} from 'Controls/_menu/Popup/searchHeaderTemplate';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {default as headerTemplate} from 'Controls/_menu/Popup/headerTemplate';
 import {Controller as ManagerController, IStickyPopupOptions} from 'Controls/popup';
 import {RecordSet} from 'Types/collection';

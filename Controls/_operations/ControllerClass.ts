@@ -1,7 +1,7 @@
 import {RegisterClass} from 'Controls/event';
 import {Model} from 'Types/entity';
 import {ISelectionObject, TKey} from 'Controls/interface';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
 import {object} from 'Types/util';
 import {merge} from 'Types/object';

@@ -34,7 +34,7 @@ export interface IDateSelectorOptions extends IBaseSelectorOptions {
 /**
  * @event Происходит при изменении значения.
  * @name Controls/_dateRange/interfaces/IDateSelector#valueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} value Новое значение поля.
  * @remark
  * Это событие должно использоваться для реагирования на изменения, вносимые пользователем в поле.

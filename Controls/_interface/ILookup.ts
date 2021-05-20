@@ -150,7 +150,7 @@ export default interface ILookup {
 /**
  * @event Происходит перед открытием справочника через интерфейс.
  * @name Controls/_interface/ILookup#showSelector
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object} popupOptions {@link Controls/_popup/Opener/Stack/PopupOptions.typedef Опции всплывающего окна}
  * @example
  * В следующем примере создается Controls/lookup:Input и демонстрируется сценарий использования.
@@ -184,7 +184,7 @@ export default interface ILookup {
 /*
  * @event Occurs before opening the selector through the interface.
  * @name Controls/_interface/ILookup#showSelector
- * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
  * @param {Object} popupOptions {@link Controls/_popup/Opener/Stack/PopupOptions.typedef Stack popup options.}
  * @example
  * The following example creates Controls/lookup:Input and shows how to handle the event.

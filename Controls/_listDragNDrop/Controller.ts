@@ -1,5 +1,5 @@
 import { IDraggableCollection, IDraggableItem, IDragStrategy, IDragStrategyParams } from './interface';
-import { SyntheticEvent } from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import { ItemsEntity } from 'Controls/dragnDrop';
 import { ISelectionObject } from 'Controls/interface';
 import { CrudEntityKey } from 'Types/source';

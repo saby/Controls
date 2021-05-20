@@ -2,7 +2,7 @@ import { Control, TemplateFunction } from 'UI/Base';
 import template = require('wml!Controls-demo/list_new/ColumnsView/VirtualScroll/VirtualScroll');
 import {Memory as MemorySource, Memory} from 'Types/source';
 import {generateData} from '../../DemoHelpers/DataCatalog';
-import { SyntheticEvent } from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import { ItemsEntity } from 'Controls/dragnDrop';
 import {IVirtualScrollConfig} from 'Controls/list';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';

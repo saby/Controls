@@ -10,7 +10,7 @@ import {
    IFontColorStyleOptions, IUnderlineOptions
 } from 'Controls/interface';
 import {isLeftMouseButton} from 'Controls/popup';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {descriptor} from "Types/entity";
 import dateControlsUtils from "./Utils";
 import {Base as dateUtils} from 'Controls/dateUtils';

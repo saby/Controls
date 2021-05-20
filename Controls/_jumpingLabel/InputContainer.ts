@@ -1,5 +1,5 @@
 import Base, {IBaseOptions} from './Base';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {TemplateFunction} from 'UI/Base';
 
 // tslint:disable-next-line:ban-ts-ignore

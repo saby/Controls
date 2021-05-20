@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import pagingTemplate = require('wml!Controls/_paging/Paging/Paging');
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {TNavigationPagingMode} from 'Controls/interface';
 import 'css!Controls/paging';
 
@@ -191,7 +191,7 @@ export default Paging;
  * @name Controls/_paging/Paging#onArrowClick
  * @remark
  * Событие происходит, когда опция showDigits установлена в значение true.
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {ButtonName} btnName Имя нажатой кнопки.
  */
 

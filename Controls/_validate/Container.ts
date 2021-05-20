@@ -8,7 +8,7 @@ import {UnregisterUtil, RegisterUtil} from 'Controls/event';
 import {ValidationStatus} from "Controls/interface";
 import {Logger} from 'UI/Utils';
 import 'css!Controls/validate';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 export interface IValidateConfig {
     hideInfoBox?: boolean;
@@ -35,7 +35,7 @@ type ValidResult = boolean|null|Promise<boolean>|string[];
 /**
  * @event Происходит после заверешения валидации контейнера.
  * @name Controls/_validate/Container#validateFinished
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {null|Boolean|Array.<String>} validationResult Результат валидации.
  * @see validate
  */

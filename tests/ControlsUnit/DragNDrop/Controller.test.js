@@ -1,12 +1,14 @@
 define([
    'Controls/dragnDrop',
-   'Vdom/Vdom'
-], function(dragnDrop, Vdom) {
+   'UICommon/Events'
+], function(dragnDrop, Events) {
    'use strict';
 
    dragnDrop.Container._getSelection = function() {
       return {};
    };
+
+   var SyntheticEvent = Events.SyntheticEvent;
 
    function createNativeEvent(type, pageX, pageY) {
       //mock dom event
@@ -46,7 +48,7 @@ define([
    }
 
    function createSyntheticEvent(type, pageX, pageY) {
-      return new Vdom.SyntheticEvent(createNativeEvent(type, pageX, pageY));
+      return new SyntheticEvent(createNativeEvent(type, pageX, pageY));
    }
 
    var startEvent = createNativeEvent('mousedown', 20, 10);

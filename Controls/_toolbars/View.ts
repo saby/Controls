@@ -1,5 +1,5 @@
 import {ICrudPlus, PrefetchProxy, Memory} from 'Types/source';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {factory, RecordSet} from 'Types/collection';
 import {descriptor, Record} from 'Types/entity';
 
@@ -700,7 +700,7 @@ Object.defineProperty(Toolbar, 'defaultProps', {
 /**
  * @event Происходит при клике по элементу.
  * @name Controls/_toolbars/View#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Record} item Элемент, по которому производим клик.
  * @example
  * TMPL:

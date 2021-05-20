@@ -1,6 +1,6 @@
 import {Bus} from 'Env/Event';
 import {detection} from 'Env/Env';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 export interface IMobileFocusController {
    blurHandler(event: SyntheticEvent<FocusEvent>): void;

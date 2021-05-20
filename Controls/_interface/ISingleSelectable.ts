@@ -61,7 +61,7 @@ export default interface ISingleSelectable {
 /**
  * @event Происходит при изменении выбранного значения.
  * @name Controls/_interface/ISingleSelectable#selectedKeyChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Number|String} key Ключ выбранного элемента коллекции.
  * @example
  * <pre class="brush: html">
@@ -84,7 +84,7 @@ export default interface ISingleSelectable {
 /*
  * @event Occurs when selection was changed.
  * @name Controls/_interface/ISingleSelectable#selectedKeyChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Number|String} key Selected item key.
  * @example
  * The following example creates RadioGroup with empty selection. Subsequent changes made to selectedKey will be synchronized through binding mechanism. Source of the operations panel will be updated every time selectedKey change.

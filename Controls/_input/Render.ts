@@ -1,6 +1,6 @@
 import {detection} from 'Env/Env';
 import {descriptor} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import 'css!Controls/input';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {

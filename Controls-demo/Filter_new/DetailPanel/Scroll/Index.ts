@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/Filter_new/DetailPanel/Scroll/Scroll';
 import {getItems} from 'Controls-demo/Filter_new/resources/FilterItemsStorage';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Memory} from 'Types/source';
 import {object} from 'Types/util';
 import {constants} from 'Env/Env';

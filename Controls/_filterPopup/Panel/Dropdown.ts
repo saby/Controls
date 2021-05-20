@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_filterPopup/Panel/Dropdown/Dropdown');
 import {List} from 'Types/collection';
 import {Model} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import 'css!Controls/filterPopup';
 
 /**

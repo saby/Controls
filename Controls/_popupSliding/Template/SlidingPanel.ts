@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_popupSliding/Template/SlidingPanel/SlidingPanel';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {IDragObject, Container} from 'Controls/dragnDrop';
 import {ISlidingPanelTemplateOptions} from 'Controls/_popupSliding/interface/ISlidingPanelTemplate';
 

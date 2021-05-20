@@ -5,7 +5,7 @@ import {CrudWrapper} from 'Controls/dataSource';
 import {Service, Source} from 'Controls/history';
 import {object} from 'Types/util';
 import {getOptionTypes} from 'Controls/_suggest/Utils';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import 'css!Controls/suggest';
 
 var _private = {

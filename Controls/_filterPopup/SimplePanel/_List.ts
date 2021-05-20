@@ -9,7 +9,7 @@ import Merge = require('Core/core-merge');
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
 import {Model} from 'Types/entity';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {ISwipeEvent} from 'Controls/listRender';
 import 'css!Controls/filterPopup';
 

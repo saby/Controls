@@ -108,7 +108,7 @@ export interface IDateRangeOptions {
 /**
  * @event Происходит при изменении начального значения поля.
  * @name Controls/_dateRange/interfaces/IDateRange#startValueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} value Новое значение поля.
  * @param {String} displayValue Текстовое значение поля.
  * @remark
@@ -167,7 +167,7 @@ export interface IDateRangeOptions {
 /**
  * @event Происходит при изменении конечного значения поля.
  * @name Controls/_dateRange/interfaces/IDateRange#endValueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} value Новое значение поля.
  * @param {String} displayValue Текстовое значение поля.
  * @remark

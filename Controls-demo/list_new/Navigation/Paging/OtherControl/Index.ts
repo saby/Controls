@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/Navigation/Paging/OtherControl/OtherControl';
 import {Memory} from 'Types/source';
 import {generateData} from '../../../DemoHelpers/DataCatalog';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {CrudEntityKey} from 'Types/source';
 
 interface IArrowState {

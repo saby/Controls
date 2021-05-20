@@ -1,7 +1,7 @@
 import {_InputController} from 'Controls/suggest';
 import Deferred = require('Core/Deferred');
 import {assert} from 'chai';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {List, RecordSet} from 'Types/collection';
 import {constants} from 'Env/Env';
 import {load} from 'Core/library';

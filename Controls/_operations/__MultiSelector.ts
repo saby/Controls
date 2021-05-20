@@ -3,7 +3,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_operations/__MultiSelector';
 import {Memory} from 'Types/source';
 import {Model, CancelablePromise} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {TKeysSelection, ISelectionObject} from 'Controls/interface';
 import {default as getCountUtil, IGetCountCallParams} from 'Controls/_operations/MultiSelector/getCount';
 import {LoadingIndicator} from 'Controls/LoadingIndicator';

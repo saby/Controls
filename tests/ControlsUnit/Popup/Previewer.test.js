@@ -1,11 +1,11 @@
 define(
    [
       'Controls/popup',
-      'Vdom/Vdom'
+      'UICommon/Events'
    ],
-   (popup, Vdom) => {
+   (popup, Events) => {
       'use strict';
-      var SyntheticEvent = Vdom.SyntheticEvent;
+      var SyntheticEvent = Events.SyntheticEvent;
       describe('Controls/_popup/Previewer', () => {
          it('_contentMouseDownHandler', () => {
             let PWInstance = new popup.PreviewerTarget();

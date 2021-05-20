@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import DateRangeTemplate = require('wml!Controls/_filterPanel/Editors/NumberRange');
 import 'css!Controls/filterPanel';
 

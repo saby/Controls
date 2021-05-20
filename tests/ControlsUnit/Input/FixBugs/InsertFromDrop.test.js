@@ -1,10 +1,12 @@
 define(
    [
-      'Vdom/Vdom',
+      'UICommon/Events',
       'Controls/input'
    ],
-   function(Vdom, input) {
+   function(Events, input) {
       'use strict';
+
+      const SyntheticEvent = Events.SyntheticEvent;
 
       describe('Controls/input:InsertFromDrop', function() {
          let inst;
@@ -21,7 +23,7 @@ define(
             inst = new input.__InsertFromDrop();
          });
          it('Перемещение значения в начало.', function() {
-            const event = new Vdom.SyntheticEvent({
+            const event = new SyntheticEvent({
                target: {
                   selectionStart: 0,
                   selectionEnd: 0
@@ -40,7 +42,7 @@ define(
             });
          });
          it('Перемещение значения в начало. С отменой действия после фокусировки.', function() {
-            const event = new Vdom.SyntheticEvent({
+            const event = new SyntheticEvent({
                target: {
                   selectionStart: 0,
                   selectionEnd: 0

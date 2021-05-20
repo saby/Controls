@@ -48,7 +48,7 @@ define('Controls/interface/IRemovable', [], function() {
 
    /**
     * @event Controls/interface/IRemovable#beforeItemsRemove Происходит перед удалением элемента.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
     * @param {Array.<String>|Array.<Number>} idArray Массив элементов для удаления.
     * @returns {Core/Deferred} Если deferred был выполнен с false, то логика по умолчанию не будет выполнена.
     * @example
@@ -74,7 +74,7 @@ define('Controls/interface/IRemovable', [], function() {
 
    /*
     * @event Controls/interface/IRemovable#beforeItemsRemove Occurs before items are removed.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+    * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
     * @param {Array.<String>|Array.<Number>} idArray Array of items to be removed.
     * @returns {Core/Deferred} If deferred was fullfilled with false then default logic will not be executed.
     * @example
@@ -100,7 +100,7 @@ define('Controls/interface/IRemovable', [], function() {
 
    /**
     * @event Controls/interface/IRemovable#afterItemsRemove Происходит после удаления элементов.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
     * @param {Array.<String>|Array.<Number>} idArray Массив удаленных элементов.
     * @param {*} result Результат удаления элемента из источника данных.
     * @returns {Boolean} Если возвращен false, то при ошибке удаления не будет показано всплывающее окно.
@@ -133,7 +133,7 @@ define('Controls/interface/IRemovable', [], function() {
 
    /*
     * @event Controls/interface/IRemovable#afterItemsRemove Occurs after removing items.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+    * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
     * @param {Array.<String>|Array.<Number>} idArray Array of removed items
     * @param {*} result The result of item removal from the data source.
     * @example

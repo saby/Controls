@@ -11,7 +11,7 @@ import {isEqual} from 'Types/object';
 import Controller from 'Controls/_dropdown/_Controller';
 import {TKey} from './interface/IDropdownController';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {IStickyPopupOptions, InfoboxTarget} from 'Controls/popup';
 import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
@@ -477,7 +477,7 @@ export default class Selector extends BaseDropdown {
 /**
  * @event Происходит при изменении выбранных элементов.
  * @name Controls/_dropdown/Selector#selectedKeysChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} keys Набор ключей выбранных элементов.
  * @remark Из обработчика события можно возвращать результат обработки. Если результат будет равен false, выпадающий список не закроется.
  * По умолчанию, когда выбран пункт с иерархией, выпадающий список закрывается.

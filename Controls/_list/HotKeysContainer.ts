@@ -1,7 +1,7 @@
 import {Control, IControlOptions} from 'UI/Base';
 import template = require('wml!Controls/_list/HotKeysContainer');
 import {constants} from 'Env/Env';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 /**
  * Контрол добавляет обработку клавиш KeyUp и KeyDown в контрол {@link Controls/list:Container}.

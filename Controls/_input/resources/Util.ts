@@ -1,7 +1,7 @@
 import {detection} from 'Env/Env';
 import {IText} from 'Controls/decorator';
 import {ISelection, ISplitValue, InputType, NativeInputType} from './Types';
-import {SyntheticEvent} from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {controller as i18Controller} from 'I18n/i18n';
 
 export const MINUS: string = '-';

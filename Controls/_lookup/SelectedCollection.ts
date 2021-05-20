@@ -7,7 +7,7 @@ import selectedCollectionUtils = require('Controls/_lookup/SelectedCollection/Ut
 import ContentTemplate = require('wml!Controls/_lookup/SelectedCollection/_ContentTemplate');
 import CrossTemplate = require('wml!Controls/_lookup/SelectedCollection/_CrossTemplate');
 import CounterTemplate = require('wml!Controls/_lookup/SelectedCollection/CounterTemplate');
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import { Model } from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import { Sticky, IStickyPopupOptions } from 'Controls/popup';

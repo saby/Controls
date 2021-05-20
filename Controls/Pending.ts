@@ -1,7 +1,7 @@
 import tmpl = require('wml!Controls/_Pending/Pending');
 import {default as PendingClass, IPendingConfig} from 'Controls/_Pending/PendingClass';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 /**
  * Контрол, отслеживающий выполнение необходимых действий, которые должны быть завершены до начала текущего действия.

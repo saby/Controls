@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 // @ts-ignore
 import Template = require('wml!Controls-demo/BreadCrumbs/Multiline/MultilinePath');
 import {Model} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {UnregisterUtil, RegisterUtil} from 'Controls/event';
 
 class Multiline extends Control<IControlOptions> {

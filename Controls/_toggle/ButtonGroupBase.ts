@@ -1,7 +1,7 @@
 import {Control, IControlOptions} from 'UI/Base';
 import {Model} from 'Types/entity';
 import {ISingleSelectableOptions, IItemsOptions} from 'Controls/interface';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import 'css!Controls/buttons';
 import 'css!Controls/toggle';
 import 'css!Controls/CommonClasses';

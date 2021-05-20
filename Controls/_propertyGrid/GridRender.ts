@@ -7,7 +7,7 @@ import {default as PropertyGridItem } from './PropertyGridCollectionItem';
 import PropertyGridCollection from './PropertyGridCollection';
 import {detection} from 'Env/Env';
 import {Model} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 interface IColumnOptions {
     width: string;

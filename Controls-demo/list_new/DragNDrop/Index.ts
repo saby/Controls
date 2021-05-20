@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Collection} from 'Controls/display';
 import {getFewCategories as getData} from '../DemoHelpers/DataCatalog';
 

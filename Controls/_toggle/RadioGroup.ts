@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import {CrudWrapper} from 'Controls/dataSource';

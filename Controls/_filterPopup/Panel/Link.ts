@@ -41,7 +41,7 @@ class FilterLink extends Control<IControlOptions> {
 /**
  * @event Происходит при клике на элемент.
  * @name Controls/_filterPopup/Panel/Link#visibilityChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @remark
  * Событие уведомляет панель, что необходимо переместить контрол в основной блок.
  * @example

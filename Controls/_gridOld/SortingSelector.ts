@@ -1,6 +1,6 @@
 import template = require('wml!Controls/_gridOld/SortingResources/SortingSelector');
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Record} from 'Types/entity';
 import {Memory} from 'Types/source';
 import {isEqual} from 'Types/object';

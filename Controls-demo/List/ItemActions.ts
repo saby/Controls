@@ -5,7 +5,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Model} from 'Types/entity';
 import {IItemAction, TItemActionShowType} from 'Controls/itemActions';
 import {IoC} from 'Env/Env';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Memory} from 'Types/source';
 
 import * as template from 'wml!Controls-demo/List/ItemActions/ItemActions';

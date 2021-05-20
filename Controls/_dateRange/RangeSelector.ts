@@ -195,7 +195,7 @@ export default class RangeSelector extends BaseSelector<IRangeSelector> {
 /**
  * @event Происходит при изменении диапазона.
  * @name Controls/_dateRange/RangeSelector#rangeChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} startValue верхняя граница диапазона дат
  * @param {Date} endValue нижняя граница диапазона дат
  */

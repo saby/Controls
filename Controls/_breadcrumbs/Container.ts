@@ -2,7 +2,7 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls/_breadcrumbs/Container';
 import {calculatePath, Path} from 'Controls/dataSource';
 import {NewSourceController as SourceController} from 'Controls/dataSource';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Model} from 'Types/entity';
 
 interface IContainerOptions extends IControlOptions {

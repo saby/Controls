@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 import {Memory} from 'Types/source';
 import {StickyOpener} from 'Controls/popup';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';

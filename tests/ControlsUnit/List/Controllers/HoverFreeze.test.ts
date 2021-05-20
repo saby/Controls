@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {useFakeTimers} from 'sinon';
 
-import { SyntheticEvent } from 'UI/Vdom';
+import { SyntheticEvent } from 'UICommon/Events';
 
 import HoverFreeze, {IHoverFreezeOptions} from 'Controls/_list/Controllers/HoverFreeze';
 

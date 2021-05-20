@@ -68,7 +68,7 @@ export default interface IMultiSelectable {
 /**
  * @event Происходит при изменении выбранных элементов.
  * @name Controls/_interface/IMultiSelectable#selectedKeysChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} keys Набор ключей выбранных элементов.
  * Для плоских списков (см. {@link Controls/list:View Плоский список} и {@link Controls/grid:View таблица}) параметр содержит значение [null], когда выбраны все элементы .
  * Для иерархических списков (см. {@link Controls/treeGrid:View Дерево}, {@link Controls/tile:View Плитка} и {@link Controls/explorer:View Иерархический проводник}) параметр содержит массив с единственным элементом - идентификатором узла, когда для узла выбраны все элементы, или [null], когда корнем дерева иерархии является null.
@@ -106,7 +106,7 @@ export default interface IMultiSelectable {
 /*
  * @event Occurs when selected keys were changed.
  * @name Controls/_interface/IMultiSelectable#selectedKeysChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Array.<Number|String>} keys Array of selected items' keys.
  * @param {Array.<Number|String>} added Array of keys added to selection.
  * @param {Array.<Number|String>} deleted Array of keys deleted from selection.
