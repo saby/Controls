@@ -1,0 +1,22 @@
+.controls-listTemplates-ColorfulTemplate {
+   --background-color: ~"rgb(var(--dominant-color))";
+   --item_hover_background-color_list: ~"rgb(var(--dominant-color))";
+}
+
+.controls-listTemplates-ColorfulTemplate__image {
+   height: var(--image_height_s_position_top_rich_tile);
+}
+
+.controls-listTemplates-ColorfulTemplate_dark {
+   @basic_color: #fff;
+
+   --text-color: fade(@basic_color, 80);
+   --label_text-color: fade(@basic_color, 50);
+}
+
+.controls-listTemplates-ColorfulTemplate_light {
+   @basic_color: #000;
+
+   --text-color: fade(@basic_color, 80);
+   --label_text-color: fade(@basic_color, 50);
+}

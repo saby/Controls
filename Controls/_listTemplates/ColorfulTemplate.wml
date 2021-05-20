@@ -1,0 +1,32 @@
+<ws:partial
+   template="Controls/columns:ItemTemplate" highlightOnHover="{{false}}" scope="{{_options}}"
+   attr:class="controls-listTemplates-ColorfulTemplate controls-text-default
+               {{(_options.item || _options.itemData).getRoundBorderClasses()}}
+               controls-listTemplates-ColorfulTemplate_{{_options.item.contents[_options.colorProperty.dominantTheme]}}"
+   attr:style="--dominant-color: {{_options.item.contents[_options.colorProperty.dominant]}};
+               --complimentary-color: {{_options.item.contents[_options.colorProperty.complimentary]}};">
+   <ws:contentTemplate>
+      <div class="controls-listTemplates-ColorfulTemplate__content controls-background-default">
+         <ws:partial
+            src="{{_options.item.contents[_options.imageProperty]}}"
+            attr:class="controls-listTemplates-ColorfulTemplate__image"
+            template="wml!Controls/_listTemplates/DefaultImageTemplate"
+            viewMode="rectangle" effect="gradient" gradientColor="rgb(var(--dominant-color))"/>
+         <div class="controls-listTemplates-ColorfulTemplate__title
+                     ws-flexbox ws-align-items-baseline ws-justify-content-between">
+            <div class="controls-listTemplates-ColorfulTemplate__caption
+                        controls-margin_left-m controls-margin_right-m ws-ellipsis
+                        controls-fontsize-3xl controls-fontweight-bold">
+               {{_options.title}}
+            </div>
+            <div class="controls-listTemplates-ColorfulTemplate__additionalCaption
+                        controls-margin_right-m controls-fontsize-m controls-text-label ws-ellipsis">
+               {{_options.additionalText}}
+            </div>
+         </div>
+         <ws:if data="{{_options.footerTemplate}}">
+            <ws:partial template="{{_options.footerTemplate}}"/>
+         </ws:if>
+      </div>
+   </ws:contentTemplate>
+</ws:partial>
