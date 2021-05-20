@@ -359,6 +359,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             methodResult = this._reload(newOptions, id);
         } else if (isChanged) {
             this._afterSourceLoad(sourceController, newOptions);
+        } else {
+            this._updateItemsOnState();
         }
 
         const selectedKeysChanged = !isEqual(options.selectedKeys, newOptions.selectedKeys);
@@ -451,7 +453,10 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     private _updateItemsOnState(): void {
         // TODO items надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
-        this._items = this._getSourceController().getItems();
+        const sourceControllerItems = this._getSourceController().getItems();
+        if (!this._items || this._items !== sourceControllerItems) {
+            this._items = sourceControllerItems;
+        }
     }
 
     protected _getSourceController(id?: string): SourceController {
