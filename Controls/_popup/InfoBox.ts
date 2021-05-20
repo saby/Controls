@@ -9,6 +9,7 @@ import * as getZIndex from 'Controls/Utils/getZIndex';
 import template = require('wml!Controls/_popup/InfoBox/InfoBox');
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {CalmTimer} from 'Controls/_popup/fastOpenUtils/FastOpen';
+import {detection} from 'Env/Env';
 
 interface IInfoBoxTouchContext {
     isTouch: {
@@ -133,9 +134,24 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
         }
     }
 
-    protected _contentTouchStartHandler(): void {
+    protected _contentTouchStartHandler(event: Event): void {
         if (this._options.trigger === 'hover|touch') {
             this._startOpeningPopup();
+        }
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    protected _contentClickHandler(event: Event): void {
+        // Остановка события тача не остановит событие клика.
+        // Будем останавливать сами событие клика в случае если инфобокс:
+        // 1. Открывается по клику
+        // 2. Открывается по тачу. Делаем проверку на isMobilePlatform, т.к. иначе мы бы так же останавливали событие
+        // по ховеру на десктопе.
+        if ((this._options.trigger === 'hover|touch' && detection.isMobilePlatform) ||
+            this._options.trigger === 'click') {
+            event.preventDefault();
+            event.stopPropagation();
         }
     }
 
