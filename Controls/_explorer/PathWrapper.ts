@@ -8,7 +8,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_explorer/PathController/PathWrapper';
 
 interface IOptions extends IControlOptions {
-    items?: Path;
+    breadCrumbsItems?: Path;
     header?: IHeaderCell[];
 
     needShadow?: boolean;
@@ -46,7 +46,7 @@ export default class PathWrapper extends Control<IOptions> {
 
         if (
             headerChanged ||
-            this._options.items !== newOptions.items ||
+            this._options.breadCrumbsItems !== newOptions.breadCrumbsItems ||
             this._options.rootVisible !== newOptions.rootVisible ||
             this._options.breadcrumbsVisibility !== newOptions.breadcrumbsVisibility
         ) {
@@ -63,7 +63,7 @@ export default class PathWrapper extends Control<IOptions> {
             return false;
         }
 
-        const items = options.items;
+        const items = options.breadCrumbsItems;
         return !!items &&
             ((!PathWrapper._isWithoutBackButton(options.header) && items.length > 0) || items.length > 1) ||
             !!options.rootVisible;

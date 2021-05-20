@@ -1,5 +1,4 @@
 import {EventUtils} from 'UI/Events';
-import {SyntheticEvent} from 'UI/Vdom';
 import {Path} from 'Controls/dataSource';
 import HeadingPathBack from 'Controls/_explorer/HeadingPathBack';
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
@@ -10,7 +9,7 @@ import * as template from 'wml!Controls/_explorer/PathController/PathController'
 import { IGridControl, IHeaderCell } from 'Controls/interface';
 
 interface IOptions extends IControlOptions, IGridControl {
-    items: Path;
+    breadCrumbsItems: Path;
     rootVisible: boolean;
     displayProperty: string;
     showActionButton: boolean;
@@ -48,7 +47,7 @@ export default class PathController extends Control<IOptions> {
 
     protected _beforeMount(options: IOptions): void {
         // Пропатчим первую колонку хлебными крошками если надо
-        this._header = PathController._getHeader(options, options.items);
+        this._header = PathController._getHeader(options, options.breadCrumbsItems);
         this._needShadow = PathController._isNeedShadow(this._header);
     }
 
@@ -61,11 +60,11 @@ export default class PathController extends Control<IOptions> {
 
         if (
             headerChanged ||
-            !isItemsEqual(this._options.items, newOptions.items) ||
+            !isItemsEqual(this._options.breadCrumbsItems, newOptions.breadCrumbsItems) ||
             this._options.rootVisible !== newOptions.rootVisible ||
             this._options.multiSelectVisibility !== newOptions.multiSelectVisibility
         ) {
-            this._header = PathController._getHeader(newOptions, newOptions.items);
+            this._header = PathController._getHeader(newOptions, newOptions.breadCrumbsItems);
             this._needShadow = PathController._isNeedShadow(this._header);
         }
     }
