@@ -10,13 +10,11 @@ import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
  */
 export interface IMoveDialogTemplate {
     /**
-     * @cfg {UI/Base:Control<IControlOptions, unknown> | UI/Base:TemplateFunction | String} templateName
-     * Имя контрола, который будет отображаться в диалоговом окне выбора целевой записи, для перемещения.
+     * @cfg {UI/Base:Control<IControlOptions, unknown> | UI/Base:TemplateFunction | String} Имя контрола, который будет отображаться в диалоговом окне выбора целевой записи, для перемещения.
      */
     templateName: Control<IControlOptions, unknown> | TemplateFunction | string,
     /**
-     * @cfg {Controls/moverDialog:IMoverDialogTemplateOptions} templateOptions
-     * Опции для контрола, который будет отображаться в диалоговом окне.
+     * @cfg {Controls/moverDialog:IMoverDialogTemplateOptions} Опции для контрола, который будет отображаться в диалоговом окне.
      */
     templateOptions: IMoverDialogTemplateOptions,
 }
