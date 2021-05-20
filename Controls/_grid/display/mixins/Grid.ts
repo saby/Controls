@@ -199,11 +199,11 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             this.getFooter().setFooter(footerTemplate, footer);
         } else {
             this._$footer = this._initializeFooter({
+                backgroundStyle: this._$backgroundStyle,
                 multiSelectVisibility: this._$multiSelectVisibility,
                 footerTemplate,
                 footer,
-                columnSeparatorSize: this._$columnSeparatorSize,
-                backgroundStyle: this._$backgroundStyle
+                columnSeparatorSize: this._$columnSeparatorSize
             });
         }
         if (!silent) {
