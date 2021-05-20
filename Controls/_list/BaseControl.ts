@@ -754,7 +754,7 @@ const _private = {
         if (_private.isDemandNavigation(options.navigation) && self._hasMoreData(sourceController, 'down')) {
             self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ? !self._listViewModel.isAllGroupsCollapsed() : true;
         } else if (_private.isCutNavigation(options.navigation)) {
-            self._shouldDrawCut = self._items.getCount() > options.navigation.sourceConfig?.pageSize;
+            self._shouldDrawCut = self._items.getCount() === options.navigation.sourceConfig?.pageSize && self._items.getMetaData().more;
         } else {
             self._shouldDrawFooter = false;
         }
