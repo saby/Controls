@@ -158,6 +158,9 @@
          animation: showActionsFrame 0.5s;
       }
    }
+   .controls-TileView__previewTemplate:hover.controls-TileView__previewTemplate_withoutTitle .controls-TileView__previewTemplate_text {
+      visibility: hidden;
+   }
 }
 .controls-TreeTileView__node.controls-TileView__previewTemplate > .controls-TileView__itemContent,
 .controls-TileView__previewTemplate > .controls-TileView__item_active.controls-TileView__item_unscaleable,
@@ -177,7 +180,7 @@
    animation: hideActionsFrame 0.5s;
 }
 
-.controls-BaseControl_showActions_delayed .controls-TileView__previewTemplate:hover.controls-TileView__previewTemplate_actions_showed:not(.controls-TileView__previewTemplate_node) .controls-TileView__previewTemplate_text {
+.controls-BaseControl_showActions_delayed .controls-TileView__previewTemplate:hover.controls-TileView__previewTemplate_actions_showed:not(.controls-TileView__previewTemplate_node) .controls-TileView__item_hovered .controls-TileView__previewTemplate_text {
    opacity: 0;
    animation: hideActionsFrame 0.5s;
 }
