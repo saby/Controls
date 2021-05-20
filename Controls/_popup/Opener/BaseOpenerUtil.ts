@@ -54,10 +54,12 @@ export default {
 
     getIndicatorConfig(id: string, cfg: IBaseOpenerOptions = {}): ILoadingIndicatorOptions {
         const findParentPopupId = () => {
-            const parentControls: Control[] = goUpByControlTree(cfg.opener?._container);
-            for (let i = 0; i < parentControls.length; i++) {
-                if (parentControls[i]._moduleName === 'Controls/_popup/Manager/Popup') {
-                    return parentControls[i]._options.id;
+            if (!cfg.opener?._destroyed) {
+                const parentControls: Control[] = goUpByControlTree(cfg.opener?._container);
+                for (let i = 0; i < parentControls.length; i++) {
+                    if (parentControls[i]._moduleName === 'Controls/_popup/Manager/Popup') {
+                        return parentControls[i]._options.id;
+                    }
                 }
             }
             return false;
