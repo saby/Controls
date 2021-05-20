@@ -749,8 +749,18 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
         if (typeof newOptions.root !== 'undefined' && this._root !== newOptions.root) {
             this._root = newOptions.root;
+
             if (this._listViewModel) {
                 this._listViewModel.setRoot(this._root);
+            }
+
+            // При смене рута надо здесь вызвать onCollectionReset у markerController, т.к. сейчас
+            // загрузкой данных занимается Browser и коллекция меняется раньше чем мы изменим в ней
+            // root. И из-за это функционал простановки маркера отработает не корректно т.к. в коллекции
+            // уже будут данные нового рута а рут еще старый и она скажет что в ней ничего нет.
+            const newMarkedKey = this.getMarkerController()?.onCollectionReset();
+            if (newMarkedKey) {
+                this._changeMarkedKey(newMarkedKey, true);
             }
 
             if (this._options.itemsSetCallback) {
