@@ -634,18 +634,6 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     static getOptionTypes(): object {
         return {
-            topShadowVisibility: descriptor(String).oneOf([
-                SHADOW_VISIBILITY.AUTO,
-                SHADOW_VISIBILITY.HIDDEN,
-                SHADOW_VISIBILITY.VISIBLE,
-                'gridauto'
-            ]),
-            bottomShadowVisibility: descriptor(String).oneOf([
-                SHADOW_VISIBILITY.AUTO,
-                SHADOW_VISIBILITY.HIDDEN,
-                SHADOW_VISIBILITY.VISIBLE,
-                'gridauto'
-            ]),
             shadowMode: descriptor(String).oneOf([
                 SHADOW_MODE.CSS,
                 SHADOW_MODE.JS,
