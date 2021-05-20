@@ -37,7 +37,7 @@ export default class TreeGridDataRow<T extends Model = Model>
         const columnIndex = column.getColumnIndex();
         const hasMultiSelect = this._$owner.hasMultiSelectColumn();
         return (columnIndex === 0 && !hasMultiSelect || columnIndex === 1 && hasMultiSelect) &&
-            (this._$owner.getExpanderVisibility() === 'hasChildren' ? this._$owner.hasNodeWithChildren() : true);
+            (this._$owner.getExpanderVisibility() === 'hasChildren' ? this._$owner.hasNodeWithChildren() : this._$owner.hasNode());
     }
 
     // endregion Expander

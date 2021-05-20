@@ -1,6 +1,7 @@
 import { assert } from 'chai';
 import {RecordSet} from 'Types/collection';
 import {TreeGridCollection, TreeGridDataRow} from 'Controls/treeGrid';
+import TreeGridDataCell from "Controls/_treeGrid/display/TreeGridDataCell";
 
 describe('Controls/treeGrid/Display/TreeGridDataRow', () => {
     describe('isLastItem', () => {
@@ -101,6 +102,56 @@ describe('Controls/treeGrid/Display/TreeGridDataRow', () => {
             const item = (treeGridCollection.at(1) as TreeGridDataRow);
             item.setEditing(true, recordSet.at(1), false, 1);
             assert.equal(item.getEditingColumnIndex(), 1);
+        });
+    });
+
+    describe('shouldDisplayExpanderBlock', () => {
+        let owner;
+        beforeEach(() => {
+            owner = {
+                hasMultiSelectColumn: () => false,
+                getExpanderVisibility: () => 'visible',
+                hasNodeWithChildren: () => false,
+                hasNode: () => false
+            };
+        });
+
+        it('expanderVisibility is visible', () => {
+            const row = new TreeGridDataRow({owner});
+            const cell = {
+                getColumnIndex: () => 0
+            };
+
+            assert.isFalse(row.shouldDisplayExpanderBlock(cell));
+
+            owner.hasNode = () => true;
+            assert.isTrue(row.shouldDisplayExpanderBlock(cell));
+
+            owner.hasMultiSelectColumn = () => true;
+            assert.isFalse(row.shouldDisplayExpanderBlock(cell));
+
+            cell.getColumnIndex = () => 1;
+            assert.isTrue(row.shouldDisplayExpanderBlock(cell));
+        });
+
+        it('expanderVisibility is hasChildren', () => {
+            owner.getExpanderVisibility = () => 'hasChildren';
+
+            const row = new TreeGridDataRow({owner});
+            const cell = {
+                getColumnIndex: () => 0
+            };
+
+            assert.isFalse(row.shouldDisplayExpanderBlock(cell));
+
+            owner.hasNodeWithChildren = () => true;
+            assert.isTrue(row.shouldDisplayExpanderBlock(cell));
+
+            owner.hasMultiSelectColumn = () => true;
+            assert.isFalse(row.shouldDisplayExpanderBlock(cell));
+
+            cell.getColumnIndex = () => 1;
+            assert.isTrue(row.shouldDisplayExpanderBlock(cell));
         });
     });
 });
