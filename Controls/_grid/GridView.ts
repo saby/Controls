@@ -105,6 +105,10 @@ const GridView = ListView.extend({
         if (changes.includes('ladderProperties')) {
             listModel.setLadderProperties(options.ladderProperties);
         }
+
+        if (changes.includes('emptyTemplateColumns')) {
+            listModel.setEmptyTemplateColumns(options.emptyTemplateColumns);
+        }
     },
 
     _applyChangedOptions(newOptions, oldOptions, changes): void {
@@ -150,6 +154,9 @@ const GridView = ListView.extend({
             }
             if (changedOptions.hasOwnProperty('ladderProperties')) {
                 changes.push('ladderProperties');
+            }
+            if (changedOptions.hasOwnProperty('emptyTemplateColumns')) {
+                changes.push('emptyTemplateColumns');
             }
         }
 
