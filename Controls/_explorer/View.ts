@@ -19,13 +19,10 @@ import {
     IHierarchyOptions,
     INavigationOptions,
     INavigationOptionValue,
-    INavigationOptionValue as INavigation,
     INavigationPageSourceConfig,
-    INavigationPositionSourceConfig as IPositionSourceConfig,
-    INavigationSourceConfig,
     ISelectionObject, ISortingOptions, ISourceOptions,
     TKey,
-    IGridControl
+    IGridControl, INavigationPositionSourceConfig
 } from 'Controls/interface';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {RecordSet} from 'Types/collection';
@@ -42,7 +39,7 @@ import 'css!Controls/tile';
 import 'css!Controls/explorer';
 import { isFullGridSupport } from 'Controls/display';
 import PathController from 'Controls/_explorer/PathController';
-import {Object as EventObject} from "Env/Event";
+import {Object as EventObject} from 'Env/Event';
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -135,7 +132,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     protected _markerStrategy: string;
     protected _viewMode: TExplorerViewMode;
     protected _viewModelConstructor: string;
-    private _navigation: object;
+    private _navigation: INavigationOptionValue<any>;
     protected _itemTemplate: TemplateFunction;
     protected _groupTemplate: TemplateFunction;
     protected _notifyHandler: typeof EventUtils.tmplNotify = EventUtils.tmplNotify;
@@ -438,7 +435,10 @@ export default class Explorer extends Control<IExplorerOptions> {
             // Перед проваливанием запомним значение курсора записи, т.к. в крошках могут его не прислать
             const currRootInfo = this._restoredMarkedKeys[this._getRoot(this._options.root)];
             if (currRootInfo && this._isCursorNavigation(this._navigation)) {
-                currRootInfo.cursorPosition = this._getCursorPositionFor(item, this._navigation);
+                const cursorValue = this._getCursorValue(item as Model, this._navigation);
+                if (cursorValue) {
+                    currRootInfo.cursorPosition = cursorValue;
+                }
             }
 
             this._setRoot(item.getKey());
@@ -753,10 +753,11 @@ export default class Explorer extends Control<IExplorerOptions> {
             if (store[parentKey]) {
                 store[parentKey].markedKey = crumbKey;
 
-                // Берем значение курсора из крошки только в том случае если он еще не выставлен
-                // Курсор для текущего рута выставляется при проваливании
-                if (this._isCursorNavigation(navigation) && !store[parentKey].cursorPosition) {
-                    store[parentKey].cursorPosition = this._getCursorPositionFor(crumb, navigation);
+                if (this._isCursorNavigation(navigation)) {
+                    const cursorValue = this._getCursorValue(crumb, navigation);
+                    if (cursorValue) {
+                        store[parentKey].cursorPosition = cursorValue;
+                    }
                 }
             }
         });
@@ -999,27 +1000,39 @@ export default class Explorer extends Control<IExplorerOptions> {
             });
     }
 
-    private _isCursorNavigation(navigation: INavigation<INavigationSourceConfig>): boolean {
+    /**
+     * На основании настроек навигации определяет используется ли навигация по курсору.
+     */
+    private _isCursorNavigation(navigation: INavigationOptionValue<unknown>): boolean {
         return !!navigation && navigation.source === 'position';
     }
 
     /**
      * Собирает курсор для навигации относительно заданной записи.
      * @param item - запись, для которой нужно "собрать" курсор
-     * @param positionNavigation - конфигурация курсорной навигации
+     * @param navigation - конфигурация курсорной навигации
      */
-    private _getCursorPositionFor(
+    private _getCursorValue(
         item: Model,
-        positionNavigation: INavigation<IPositionSourceConfig>
+        navigation: INavigationOptionValue<INavigationPositionSourceConfig>
     ): unknown[] {
 
         const position: unknown[] = [];
-        const optField = positionNavigation.sourceConfig.field;
+        const optField = navigation.sourceConfig.field;
         const fields: string[] = (optField instanceof Array) ? optField : [optField];
 
+        let noData = true;
         fields.forEach((field) => {
-            position.push(item.get(field));
+            const fieldValue = item.get(field);
+
+            position.push(fieldValue);
+            noData = noData && fieldValue === undefined;
         });
+
+        // Если все поля курсора undefined, значит курсора нет
+        if (noData) {
+            return undefined;
+        }
 
         return position;
     }
