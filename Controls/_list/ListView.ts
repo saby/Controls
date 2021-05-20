@@ -9,6 +9,8 @@ import * as oldForTemplate from 'wml!Controls/_list/resources/For';
 import 'css!Controls/list';
 import {isEqual} from "Types/object";
 import {_Options} from 'UI/Vdom';
+import CollectionItem from "Controls/_display/CollectionItem";
+import {Model} from "Types/entity";
 
 const DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
@@ -47,6 +49,20 @@ var _private = {
             self._notify('hoveredItemChanged', [item, container]);
         }
     },
+
+    /**
+     * TODO https://online.sbis.ru/opendoc.html?guid=b8b8bd83-acd7-44eb-a915-f664b350363b
+     *  Костыль, позволяющий определить, что мы загружаем файл и его прогрессбар изменяется
+     *  Это нужно, чтобы в ListView не вызывался resize при изменении прогрессбара и не сбрасывался hovered в плитке
+     */
+    isLoadingPercentsChanged: function(newItems: Array<CollectionItem<Model>>): boolean {
+        return newItems &&
+            newItems.length &&
+            newItems[0].getContents() &&
+            newItems[0].getContents().getChanged &&
+            newItems[0].getContents().getChanged().indexOf('docviewLoadingPercent') !== -1 &&
+            newItems[0].getContents().getChanged().indexOf('docviewIsLoading') === -1;
+    }
 };
 
 var ListView = BaseControl.extend(
@@ -80,7 +96,8 @@ var ListView = BaseControl.extend(
                   itemChangesType = newItems ? newItems.properties : null;
                }
 
-               if (changesType !== 'hoveredItemChanged' &&
+               if (!_private.isLoadingPercentsChanged(action) &&
+                  changesType !== 'hoveredItemChanged' &&
                   changesType !== 'activeItemChanged' &&
                   changesType !== 'loadingPercentChanged' &&
                   changesType !== 'markedKeyChanged' &&
