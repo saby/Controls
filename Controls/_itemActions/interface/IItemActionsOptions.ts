@@ -4,13 +4,13 @@ import {TActionAlignment} from './IItemActionsTemplateConfig';
 
 /**
  * @description Допустимые значения для опции {@link itemActionsVisibility}.
- * @typedef {String} TItemActionsVisibility
+ * @typedef {String} Controls/_itemActions/interface/IItemActions/TItemActionsVisibility
  * @variant onhover Опции записи отображаются при наведении на запись.
  * @variant visible Опции записи отображены изначально.
  * @variant delayed Опции записи отображаются при наведении на запись и удержании над ней курсора мыши в течение 500 мс.
  */
 /*
- * @typedef {String} TItemActionsVisibility
+ * @typedef {String} Controls/_itemActions/interface/IItemActions/TItemActionsVisibility
  * @variant onhover ItemActions will be Initialized and displayed right after mouseenter over Item
  * @variant visible ItemActions will be Initialized and displayed on control mount
  * @variant delayed ItemActions will be Initialized and displayed after mouseenter with 500ms delay over Item
