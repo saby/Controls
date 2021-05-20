@@ -283,7 +283,7 @@ class Manager {
     private orientationChangeHandler(): void {
         let needUpdate = false;
         this._popupItems.each((item) => {
-            if (this._popupUpdated(item.id)) {
+            if (this._orientationChanged(item.id)) {
                 needUpdate = true;
             }
         });
@@ -449,6 +449,14 @@ class Manager {
             element.controller._elementMaximized(element, this._getItemContainer(id), state);
             Manager._notifyEvent('managerPopupMaximized', [element, this._popupItems]);
             return true;
+        }
+        return false;
+    }
+
+    protected _orientationChanged(id: string): boolean {
+        const element = this.find(id);
+        if (element) {
+            return element.controller.orientationChanged(element, this._getItemContainer(id));
         }
         return false;
     }
