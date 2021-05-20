@@ -9,7 +9,6 @@ import 'css!Controls/popup';
 import template = require('wml!Controls/_popup/Previewer/Previewer');
 import {CalmTimer} from 'Controls/_popup/fastOpenUtils/FastOpen';
 
-const CALM_DELAY: number = 300; // During what time should not move the mouse to start opening the popup.
 /**
  * Контрол, отображающий всплывающее окно - превьювер, относительно указанного элемента. Открытие превьювера вызывает событие, указанное в опции trigger. В один момент времени на странице может отображаться только один превьювер.
  * @class Controls/_popup/Previewer
@@ -37,7 +36,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
         this._closeHandler = this._closeHandler.bind(this);
         this._debouncedAction = debounce(this._debouncedAction, 10);
         this._calmTimer = new CalmTimer((event) => {
-            if (!this._isPopupOpened()) {
+            if (!this._isPopupOpened() && !this._isOpened) {
                 this._debouncedAction('_open', [event]);
             }
         });
