@@ -17,7 +17,7 @@ export class Controller {
 
    constructor(options: IOptions) {
       const markerStrategy = options.markerStrategy || SingleColumnStrategy;
-      this._markerStrategy = new markerStrategy({model: options.model});
+      this._markerStrategy = new markerStrategy({model: options.model, moveMarkerOnScrollPaging: options.moveMarkerOnScrollPaging});
       this._model = options.model;
       this._markerVisibility = options.markerVisibility;
       this._markedKey = options.markedKey;
@@ -47,7 +47,7 @@ export class Controller {
          }
       }
       const markerStrategy = options.markerStrategy || SingleColumnStrategy;
-      this._markerStrategy = new markerStrategy({model: options.model});
+      this._markerStrategy = new markerStrategy({model: options.model, moveMarkerOnScrollPaging: options.moveMarkerOnScrollPaging});
       this._markerVisibility = options.markerVisibility;
    }
 
