@@ -1166,19 +1166,19 @@ define([
             };
 
             assert.deepEqual(
-                GlobalView._getCursorPositionFor(item, navigation),
+                GlobalView._getCursorValue(item, navigation),
                [12]
             );
 
             navigation.sourceConfig.field = ['id'];
             assert.deepEqual(
-                GlobalView._getCursorPositionFor(item, navigation),
+                GlobalView._getCursorValue(item, navigation),
                [12]
             );
 
             navigation.sourceConfig.field = ['id', 'title'];
             assert.deepEqual(
-                GlobalView._getCursorPositionFor(item, navigation),
+                GlobalView._getCursorValue(item, navigation),
                [12, 'Title']
             );
          });
