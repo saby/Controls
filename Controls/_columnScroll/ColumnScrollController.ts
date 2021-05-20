@@ -294,6 +294,14 @@ export default class ColumnScrollController {
 
     //#region Обновление размеров. Приватные методы
 
+    toggleTransform(isVisible: boolean): void {
+        if (isVisible) {
+            this._drawTransform(this._scrollPosition, this._options.isFullGridSupport);
+        } else {
+            this._drawTransform(0, this._options.isFullGridSupport);
+        }
+    }
+
     private _updateSizes(afterUpdateCallback: TAfterUpdateSizesCallback): void {
         if (this._isDestroyed || !this._scrollContainer || !this._scrollContainer.getClientRects().length) {
             return;
