@@ -621,6 +621,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._$root = root;
         this._root = null;
 
+        this._reBuildNodeFooters(true);
         this._reIndex();
         this._reAnalize();
     }
