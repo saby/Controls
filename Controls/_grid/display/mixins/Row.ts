@@ -43,6 +43,8 @@ export interface IOptions<T> extends IBaseOptions<T> {
     rowTemplate: TemplateFunction;
     rowTemplateOptions: object;
     columnSeparatorSize?: TColumnSeparatorSize;
+    colspanGroup?: boolean;
+    hasStickyGroup?: boolean;
 }
 
 export default abstract class Row<T> {

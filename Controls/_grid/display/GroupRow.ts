@@ -45,6 +45,7 @@ export default class GroupRow<T> extends mixin<
     protected _$columnItems: Array<DataCell<T>>;
     protected _groupTemplate: TemplateFunction|string;
     protected _$metaResults: EntityModel;
+    protected _$colspanGroup: boolean;
 
     constructor(options?: IOptions<T>) {
         super({...options, columns: options.owner.getColumnsConfig()});
@@ -126,8 +127,19 @@ export default class GroupRow<T> extends mixin<
         return this._$metaResults;
     }
 
+    getColspanGroup(): boolean {
+        return this._$colspanGroup;
+    }
+
+    setColspanGroup(colspanGroup: boolean): void {
+        if (this._$colspanGroup !== colspanGroup) {
+            this._$colspanGroup = colspanGroup;
+            this._reinitializeColumns();
+        }
+    }
+
     protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
-        if (this.hasColumnScroll() && (columnIndex < this.getStickyColumnsCount())) {
+        if (!this._$colspanGroup && this.hasColumnScroll() && (columnIndex < this.getStickyColumnsCount())) {
             return this.getStickyColumnsCount();
         } else {
             return 'end';
@@ -169,7 +181,8 @@ export default class GroupRow<T> extends mixin<
             contents: this.getContents(),
 			zIndex: this.getStickyHeaderZIndex(),
             metaResults: this.getMetaResults(),
-            groupTemplate: this._groupTemplate
+            groupTemplate: this._groupTemplate,
+            colspanGroup: this._$colspanGroup
         };
     }
 }
@@ -180,6 +193,7 @@ Object.assign(GroupRow.prototype, {
     _moduleName: 'Controls/grid:GridGroupRow',
     _cellModule: 'Controls/grid:GridGroupCell',
     _instancePrefix: 'grid-group-item-',
+    _$colspanGroup: true,
     _$columns: null,
     _$metaResults: null
 });
