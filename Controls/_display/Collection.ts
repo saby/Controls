@@ -338,6 +338,8 @@ function onCollectionChange<T>(
         case IObservable.ACTION_ADD:
             this._addItems(newItemsIndex, newItems);
 
+            this._handleCollectionChangeAdd();
+
             // FIXME: newItems.length - FIXME[OrderMatch]
             this._reGroup(newItemsIndex, newItems.length);
             this._reSort();
@@ -347,6 +349,9 @@ function onCollectionChange<T>(
         case IObservable.ACTION_REMOVE:
             // FIXME: oldItems.length - FIXME[OrderMatch]
             this._removeItems(oldItemsIndex, oldItems.length);
+
+            this._handleCollectionChangeRemove();
+
             this._reSort();
             if (this._isFiltered()) {
                 this._reFilter();
@@ -356,6 +361,8 @@ function onCollectionChange<T>(
         case IObservable.ACTION_REPLACE:
             // FIXME: newItems - FIXME[OrderMatch]
             this._replaceItems(newItemsIndex, newItems);
+
+            this._handleCollectionChangeReplace();
 
             // FIXME: newItems.length - FIXME[OrderMatch]
             this._reGroup(newItemsIndex, newItems.length);
@@ -3944,6 +3951,11 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _handleCollectionActionChange(newItems: T[]): void {}
 
+    protected _handleCollectionChangeAdd(): void {}
+
+    protected _handleCollectionChangeRemove(): void {}
+
+    protected _handleCollectionChangeReplace(): void {}
     // endregion
 
     // endregion
