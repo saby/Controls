@@ -1706,6 +1706,12 @@ const _private = {
             if (action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_ADD) {
                 _private.updatePagingDataByItemsChanged(self, newItems, removedItems);
             }
+            if (action === IObservable.ACTION_RESET) {
+                if (self._updatePagingOnResetItems) {
+                    _private.updatePagingData(self, self._items.getMetaData().more);
+                }
+                self._updatePagingOnResetItems = true;
+            }
         }
         if (changesType === 'collectionChanged' || newModelChanged) {
             // TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
@@ -3399,6 +3405,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _pagingNavigationVisible = false;
     _pagingLabelData = null;
     _applySelectedPage = null;
+    _updatePagingOnResetItems = true;
 
     _blockItemActionsByScroll = false;
 
@@ -6347,6 +6354,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         const updateData = () => {
             this._sourceController.setNavigation(newNavigation);
+            this._updatePagingOnResetItems = false;
             const result = this._reload(this._options);
             this._shouldRestoreScrollPosition = true;
             return result;
