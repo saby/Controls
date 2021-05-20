@@ -61,6 +61,25 @@ define(
                assert.deepEqual(items.getRawData().length, defaultItems.length);
             });
 
+            it('with root', () => {
+               const menuOptions = Clone(defaultOptions);
+               menuOptions.source = new source.Memory({
+                  keyProperty: 'key',
+                  data: [
+                     { key: 'all', title: 'все страны', node: true },
+                     { key: '1', title: 'Россия', parent: 'all' },
+                     { key: '2', title: 'США', parent: 'all' }
+                  ]
+               });
+               menuOptions.root = 'all';
+               menuOptions.parentProperty = 'parent';
+               menuOptions.nodeProperty = 'node';
+               const menuControl = getMenu(menuOptions);
+               return menuControl._loadItems(menuOptions).addCallback((items) => {
+                  assert.equal(items.getCount(), 2);
+               });
+            });
+
             it('with navigation', () => {
                const menuOptions = Clone(defaultOptions);
                menuOptions.navigation = {
