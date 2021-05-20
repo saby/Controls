@@ -2080,6 +2080,30 @@ define([
             treeControl = correctCreateTreeControl(options);
             asserts.CssClassesAssert.notInclude(treeControl._getFooterClasses(options), 'controls-TreeGridView__footer__expanderPadding-default');
          });
+
+         it('expanderPosition is custom', () => {
+            const options = {...cfg, expanderVisibility: 'visible', expanderPosition: 'custom'};
+            treeControl = correctCreateTreeControl(options);
+            asserts.CssClassesAssert.notInclude(treeControl._getFooterClasses(options), 'controls-TreeGridView__footer__expanderPadding-default');
+         });
+
+         it('expanderPosition is right', () => {
+            const options = {...cfg, expanderVisibility: 'visible', expanderPosition: 'right'};
+            treeControl = correctCreateTreeControl(options);
+            asserts.CssClassesAssert.notInclude(treeControl._getFooterClasses(options), 'controls-TreeGridView__footer__expanderPadding-default');
+         });
+
+         it('expanderPosition is default', () => {
+            const options = {...cfg, expanderVisibility: 'visible', expanderPosition: 'default'};
+            treeControl = correctCreateTreeControl(options);
+            asserts.CssClassesAssert.include(treeControl._getFooterClasses(options), 'controls-TreeGridView__footer__expanderPadding-default');
+         });
+
+         it('expanderPosition is undefined', () => {
+            const options = {...cfg, expanderVisibility: 'visible'};
+            treeControl = correctCreateTreeControl(options);
+            asserts.CssClassesAssert.include(treeControl._getFooterClasses(options), 'controls-TreeGridView__footer__expanderPadding-default');
+         });
       });
 
       describe('expandedItems', () => {
