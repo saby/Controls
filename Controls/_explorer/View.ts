@@ -682,6 +682,11 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     // endregion remover
 
+    // TODO удалить по https://online.sbis.ru/opendoc.html?guid=2ad525f0-2b48-4108-9a03-b2f9323ebee2
+    _clearSelection(): void {
+        this._children.treeControl.clearSelection();
+    }
+
     /**
      * Возвращает идентификатор текущего корневого узла
      */
