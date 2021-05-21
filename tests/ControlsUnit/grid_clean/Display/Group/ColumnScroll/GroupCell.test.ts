@@ -37,7 +37,8 @@ describe('Controls/grid_clean/Display/Group/ColumnScroll/GroupCell', () => {
     it('split group on two parts for column scroll: fixed and scrollable', () => {
         const groupRow = new GridGroupRow({
             owner: mockedCollection,
-            columns: mockedCollection.getColumnsConfig()
+            columns: mockedCollection.getColumnsConfig(),
+            colspanGroup: false
         });
 
         assert.equal(groupRow.getColumnsCount(), 3);
@@ -55,7 +56,8 @@ describe('Controls/grid_clean/Display/Group/ColumnScroll/GroupCell', () => {
     it('has correct getColspanStyles for columns when no column', () => {
         const groupRow = new GridGroupRow({
             owner: mockedCollection,
-            columns: mockedCollection.getColumnsConfig()
+            columns: mockedCollection.getColumnsConfig(),
+            colspanGroup: false
         });
 
         const columns = groupRow.getColumns();
@@ -82,7 +84,8 @@ describe('Controls/grid_clean/Display/Group/ColumnScroll/GroupCell', () => {
     it('getContentClasses should not return classes for padding between columns', () => {
         const groupRow = new GridGroupRow({
             owner: mockedCollection,
-            columns: mockedCollection.getColumnsConfig()
+            columns: mockedCollection.getColumnsConfig(),
+            colspanGroup: false
         });
 
         assert.equal(groupRow.getColumnsCount(), 3);
@@ -92,5 +95,18 @@ describe('Controls/grid_clean/Display/Group/ColumnScroll/GroupCell', () => {
             'controls-Grid__cell_spacingLeft',
             'controls-Grid__cell_spacingRight'
         ]);
+    });
+
+    // Установка colspanGroup влияет на то, как строятся колонки
+    it ('setColspanGroup', () => {
+        const groupRow = new GridGroupRow({
+            owner: mockedCollection,
+            columns: mockedCollection.getColumnsConfig(),
+            colspanGroup: true
+        });
+
+        const columns = groupRow.getColumns();
+
+        assert.equal(columns[0].getColspanStyles(), 'grid-column: 1 / 6;');
     });
 });
