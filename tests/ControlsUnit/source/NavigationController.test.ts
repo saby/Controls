@@ -571,11 +571,11 @@ describe('Controls/_source/NavigationController', () => {
                     rawData: [
                         {
                             id: 1,
-                            nav_result: true
+                            nav_result: { before: [-1], after: [10] }
                         },
                         {
                             id: 2,
-                            nav_result: false
+                            nav_result: { before: [1], after: [11] }
                         }
                     ],
                     keyProperty: 'id'
