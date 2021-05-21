@@ -318,11 +318,12 @@ export default class ColumnScroll {
             stickyLadderCellsCount: this._options.stickyLadderCellsCount,
             isEmptyTemplateShown: options.needShowEmptyTemplate,
             getFixedPartWidth: () => {
-                if (!options.containers.header) {
+                const header = this._header || options.containers.header;
+                if (!header) {
                     return 0;
                 }
                 // Находим последнюю фиксированную ячейку заголовка / результата
-                const fixedElements = options.containers.header.querySelectorAll(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`);
+                const fixedElements = header.querySelectorAll(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`);
                 const lastFixedCell = fixedElements[fixedElements.length - 1] as HTMLElement;
 
                 // Ширина фиксированной части должна учитывать отступ таблицы от внешнего контейнера
@@ -378,6 +379,12 @@ export default class ColumnScroll {
         return this._columnScroll.getShadowClasses(position, {
             needBottomPadding: options.needBottomPadding
         });
+    }
+
+    setIsEmptyTemplateShown(newState): void {
+        if (this._columnScroll) {
+            this._columnScroll.setIsEmptyTemplateShown(newState);
+        }
     }
 
     scrollToElementIfHidden(columnRect: DOMRect): void {
