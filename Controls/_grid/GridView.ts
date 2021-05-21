@@ -185,6 +185,9 @@ const GridView = ListView.extend({
         if (!newOptions.columnScroll && this._columnScrollViewController) {
             this._destroyColumnScroll();
         }
+        if (this._columnScrollViewController && this._options.needShowEmptyTemplate !== newOptions.needShowEmptyTemplate) {
+            this._columnScrollViewController.setIsEmptyTemplateShown(newOptions.needShowEmptyTemplate);
+        }
         this._applyNewOptionsAfterReload(this._options, newOptions);
 
         if (newOptions.sorting !== this._options.sorting) {
