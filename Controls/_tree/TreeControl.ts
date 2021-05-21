@@ -388,11 +388,15 @@ const _private = {
             const isAllExpanded = self._options.expandedItems instanceof Array && self._options.expandedItems[0] === null;
             if (!isAllExpanded) {
                 if (self._options.useNewModel) {
-                    viewModel.setExpandedItems([]);
-                    self._notify('expandedItemsChanged', [[]]);
+                    if (!isEqual(viewModel.getExpandedItems(), [])) {
+                        viewModel.setExpandedItems([]);
+                        self._notify('expandedItemsChanged', [[]]);
+                    }
 
-                    viewModel.setCollapsedItems([]);
-                    self._notify('collapsedItemsChanged', [[]]);
+                    if (!isEqual(viewModel.getCollapsedItems(), [])) {
+                        viewModel.setCollapsedItems([]);
+                        self._notify('collapsedItemsChanged', [[]]);
+                    }
                 } else {
                     viewModel.resetExpandedItems();
                 }
