@@ -59,6 +59,7 @@ interface IConfigInMounting {
 
 interface IUpdateConfig {
     additionalData: IAdditionalData;
+    hideIndicator?: boolean;
 }
 
 export const enum INITIALIZING_WAY {
@@ -400,9 +401,9 @@ class FormController extends ControllerBase<IFormController> {
         return this._record && this._isNewRecord && this._getRecordId();
     }
 
-    create(createMetaData: unknown): Promise<undefined | Model> {
+    create(createMetaData: unknown, hideIndicator?: boolean): Promise<undefined | Model> {
         createMetaData = createMetaData || this._options.createMetaData;
-        return this._crudController.create(createMetaData).then(
+        return this._crudController.create(createMetaData, hideIndicator).then(
             this._createHandler.bind(this),
             this._crudErrback.bind(this)
         );
@@ -416,9 +417,9 @@ class FormController extends ControllerBase<IFormController> {
         return record;
     }
 
-    read(key: string, readMetaData: unknown): Promise<Model> {
+    read(key: string, readMetaData: unknown, hideIndicator?: boolean): Promise<Model> {
         readMetaData = readMetaData || this._options.readMetaData;
-        return this._crudController.read(key, readMetaData).then(
+        return this._crudController.read(key, readMetaData, hideIndicator).then(
             this._readHandler.bind(this),
             this._crudErrback.bind(this)
         );
@@ -521,8 +522,8 @@ class FormController extends ControllerBase<IFormController> {
         return updateDef;
     }
 
-    delete(destroyMetaData: unknown): Promise<Model | undefined> {
-        const resultProm = this._crudController.delete(this._record, destroyMetaData || this._options.destroyMetaData);
+    delete(destroyMetaData: unknown, hideIndicator?: boolean): Promise<Model | undefined> {
+        const resultProm = this._crudController.delete(this._record, destroyMetaData || this._options.destroyMetaData, hideIndicator);
 
         return resultProm.then((record) => {
             this._setRecord(null);
