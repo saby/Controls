@@ -196,6 +196,8 @@ const GridView = ListView.extend({
         if (this._options.rowSeparatorSize !== newOptions.rowSeparatorSize) {
             this._listModel.setRowSeparatorSize(newOptions.rowSeparatorSize);
         }
+
+        this._listModel.setColspanGroup(!newOptions.columnScroll || !this.isColumnScrollVisible());
     },
 
     _beforeUnmount(): void {
