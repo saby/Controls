@@ -1756,20 +1756,14 @@ const _private = {
                     let result = null;
                     switch (action) {
                         case IObservable.ACTION_ADD:
-                            // TODO не обрабатываем nodeFooter-ы, как это было раньше. Из-за них неправильно
-                            //  восстанавливается скролл, т.к. изменения нотифаятся не одной пачкой.
-                            //  https://online.sbis.ru/opendoc.html?guid=5bcb6e0a-b0b3-48e8-a33f-755cf63584ac
-                            const itemsWithoutFooters = newItems.filter((it) => !it['[Controls/treeGrid:TreeGridNodeFooterRow]']);
-                            if (itemsWithoutFooters.length) {
-                                // TODO: this._batcher.addItems(newItemsIndex, newItems)
-                                if (self._addItemsDirection) {
-                                    self._addItems.push(...itemsWithoutFooters);
-                                    self._addItemsIndex = newItemsIndex;
-                                } else {
-                                    result = self._scrollController.handleAddItems(newItemsIndex, itemsWithoutFooters,
-                                        newItemsIndex <= collectionStartIndex && self._scrollTop !== 0 ? 'up'
-                                            : (newItemsIndex >= collectionStopIndex ? 'down' : ''));
-                                }
+                            // TODO: this._batcher.addItems(newItemsIndex, newItems)
+                            if (self._addItemsDirection) {
+                                self._addItems.push(...newItems);
+                                self._addItemsIndex = newItemsIndex;
+                            } else {
+                                result = self._scrollController.handleAddItems(newItemsIndex, newItems,
+                                    newItemsIndex <= collectionStartIndex && self._scrollTop !== 0 ? 'up'
+                                    : (newItemsIndex >= collectionStopIndex ? 'down' : ''));
                             }
                             break;
                         case IObservable.ACTION_MOVE:
@@ -1777,13 +1771,7 @@ const _private = {
                                 newItemsIndex <= collectionStartIndex && self._scrollTop !== 0 ? 'up' : 'down');
                             break;
                         case IObservable.ACTION_REMOVE:
-                            // TODO не обрабатываем nodeFooter-ы, как это было раньше. Из-за них неправильно
-                            //  восстанавливается скролл, т.к. изменения нотифаятся не одной пачкой.
-                            //  https://online.sbis.ru/opendoc.html?guid=5bcb6e0a-b0b3-48e8-a33f-755cf63584ac
-                            const itemsWithoutFooters = removedItems.filter((it) => !it['[Controls/treeGrid:TreeGridNodeFooterRow]']);
-                            if (itemsWithoutFooters.length) {
-                                result = self._scrollController.handleRemoveItems(removedItemsIndex, itemsWithoutFooters);
-                            }
+                            result = self._scrollController.handleRemoveItems(removedItemsIndex, removedItems);
                             break;
                         case IObservable.ACTION_RESET:
                             result = self._scrollController.handleResetItems();
