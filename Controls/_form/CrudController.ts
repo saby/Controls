@@ -108,7 +108,7 @@ export default class CrudController {
         if (record.isChanged() || isNewRecord) {
             const updateMetaData = config?.additionalData;
             const resultUpdate = this._dataSource.update(record, updateMetaData);
-            const showLoadingIndicator = (typeof config.hideIndicator === 'undefined') ?
+            const showLoadingIndicator = (typeof config?.hideIndicator === 'undefined') ?
                 this._showLoadingIndicator : !config.hideIndicator;
             this._notifyRegisterPending([resultUpdate, {showLoadingIndicator}
             ]);
