@@ -81,6 +81,17 @@ define(
                });
             });
 
+            it('with filter', () => {
+               const menuOptions = Clone(defaultOptions);
+               menuOptions.filter = {
+                  title: 'все страны'
+               };
+               const menuControl = getMenu(menuOptions);
+               return menuControl._loadItems(menuOptions).addCallback((items) => {
+                  assert.equal(items.getCount(), 1);
+               });
+            });
+
             it('with navigation', () => {
                const menuOptions = Clone(defaultOptions);
                menuOptions.navigation = {
