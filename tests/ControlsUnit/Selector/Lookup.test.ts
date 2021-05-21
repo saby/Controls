@@ -91,6 +91,7 @@ describe('lookup', () => {
         it('selectedKeys is not empty (selectedKeys: [0, 1])', async () => {
             const options = getLookupOptions();
             options.selectedKeys = [0, 1];
+            options.multiSelect = true;
             const lookup = new Input(options);
             await lookup._beforeMount(options);
 
