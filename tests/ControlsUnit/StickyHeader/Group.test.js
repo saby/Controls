@@ -329,7 +329,8 @@ define([
             inst: {
                _container: {},
                setSyncDomOptimization: () => {},
-               updateFixed: () => {}
+               updateFixed: () => {},
+               updateShadowVisibility: () => {}
             },
             position: 'top'
          };

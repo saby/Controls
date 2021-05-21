@@ -319,6 +319,10 @@ export default abstract class Row<T> {
         this._reinitializeColumns();
     }
 
+    getBackgroundStyle(): string {
+        return this._$backgroundStyle;
+    }
+
     /**
      * Получить индекс ячейки в строке.
      * @param {Cell} cell - Ячейка таблицы.
