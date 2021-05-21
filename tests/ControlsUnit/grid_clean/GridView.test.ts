@@ -82,7 +82,7 @@ describe('Controls/grid_clean/GridView', () => {
         });
 
         describe('._getGridTemplateColumns()', () => {
-            it('shouldn\'t add actions column if list is empty', () => {
+            it('should add actions column if list is empty', () => {
                 const columns = [{}, {}];
                 options.columns = columns;
                 options.multiSelectVisibility = 'hidden';
@@ -92,7 +92,7 @@ describe('Controls/grid_clean/GridView', () => {
 
                 mockListViewModel.getCount = () => 0;
                 mockListViewModel.getColumnsConfig = () => columns;
-                assert.equal(gridView._getGridTemplateColumns(options), 'grid-template-columns: 1fr 1fr;');
+                assert.equal(gridView._getGridTemplateColumns(options), 'grid-template-columns: 1fr 1fr 0px;');
             });
 
             it('should add actions column if list in not empty', () => {
