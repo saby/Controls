@@ -15,7 +15,8 @@ define([
       rangeModel: new dateRange.DateRangeModel(),
       mask: 'DD.MM.YYYY',
       value: new Date(2018, 0, 1),
-      replacer: ' '
+      replacer: ' ',
+      theme: 'default'
    };
 
    describe('Controls/_dateRange/RangeSelector', function() {
@@ -50,11 +51,11 @@ define([
             const
                opts = cMerge({
                   startValue: new Date(2019, 0, 1),
+                  theme: 'default',
                   endValue: new Date(2019, 0, 1)
                }, options),
                component = calendarTestUtils.createComponent(dateRange.RangeSelector, opts),
                TARGET = 'value';
-
             component._options.nextArrowVisibility = true;
             component._children = {
                opener: {
@@ -68,7 +69,7 @@ define([
             sinon.assert.called(component._children.opener.open);
             sinon.assert.called(component._children.linkView.getPopupTarget);
             sinon.assert.calledWith(component._children.opener.open, sinon.match({
-               className: 'controls-DatePopup__selector-marginTop_fontSize-m controls-DatePopup__selector-marginLeft',
+               className: 'controls_datePicker_theme-default controls-DatePopup__selector-marginTop_fontSize-m controls-DatePopup__selector-marginLeft',
                target: TARGET,
                templateOptions: {
                   startValue: opts.startValue,
@@ -76,11 +77,11 @@ define([
                   minRange: 'day'
                }
             }));
-            'controls-DatePopup__selector-marginTop_fontSize-m controls-DatePopup__selector-marginLeft, templateOptions: [object Object])'
          });
          it('should open dialog with passed dialog options', function() {
             const
                extOptions = {
+                  theme: 'default',
                   ranges: { days: [1] },
                   minRange: 'month',
                   emptyCaption: 'caption',
@@ -98,7 +99,7 @@ define([
             };
             component.openPopup();
             sinon.assert.calledWith(component._children.opener.open, sinon.match({
-               className: 'controls-DatePopup__selector-marginTop_fontSize-m controls-DatePopup__selector-marginLeft',
+               className: 'controls_datePicker_theme-default controls-DatePopup__selector-marginTop_fontSize-m controls-DatePopup__selector-marginLeft',
                templateOptions: {
                   ranges: extOptions.ranges,
                   minRange: extOptions.minRange,
@@ -143,7 +144,7 @@ define([
                   };
                   component.openPopup();
                   sinon.assert.calledWith(component._children.opener.open, sinon.match({
-                     className: 'controls-DatePopup__selector-marginTop_fontSize-m controls-DatePopup__selector-marginLeft'
+                     className: 'controls_datePicker_theme-default controls-DatePopup__selector-marginTop_fontSize-m controls-DatePopup__selector-marginLeft'
                   }));
                });
             });
@@ -173,7 +174,7 @@ define([
                   };
                   component.openPopup();
                   sinon.assert.calledWith(component._children.opener.open, sinon.match({
-                     className: 'controls-DatePopup__selector-marginTop_fontSize-m controls-DatePopup__selector-marginLeft-withoutModeBtn'
+                     className: 'controls_datePicker_theme-default controls-DatePopup__selector-marginTop_fontSize-m controls-DatePopup__selector-marginLeft-withoutModeBtn'
                   }));
                });
             });
