@@ -303,9 +303,7 @@ const _private = {
         const items = viewModel.getCollection();
 
         const sourceController = self.getSourceController();
-        // не нужно загружать узел, если уже все записи есть в рекордсете
-        const isAlreadyLoaded = (sourceController ? sourceController.hasLoaded(nodeKey) : !!self._options.items)
-            || !!viewModel.getChildrenByRecordSet(nodeKey).length;
+        const isAlreadyLoaded = (sourceController ? sourceController.hasLoaded(nodeKey) : !!self._options.items);
 
         if (isAlreadyLoaded) {
             return false;
