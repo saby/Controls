@@ -64,15 +64,19 @@ export default class InvisibleStrategy<
             }
         }
 
-        const lastItem = items[items.length - 1];
-        const lastItemIsGroup = lastItem['[Controls/_display/GroupItem]'];
-        const lastItemIsLeaf = !lastItemIsGroup && lastItem.isNode() === null;
-        if (lastItemIsLeaf) {
-            newInvisibleItems.push(super._createInvisibleItems(options.display, lastItem,{
-                isNodeItems: false
-            }));
-            // invisible-элементы нужно добавлять в самый конец
-            insertIndexForNewInvisibleItems.push(items.length);
+        // invisible-элементы после всех элементов нужно добавлять только в режиме static
+        if (options.display.getTileMode() === 'static') {
+            const lastItem = items[items.length - 1];
+            const hasLastItem = !!lastItem;
+            const lastItemIsGroup = hasLastItem && lastItem['[Controls/_display/GroupItem]'];
+            const lastItemIsLeaf = hasLastItem && !lastItemIsGroup && lastItem.isNode() === null;
+            if (lastItemIsLeaf) {
+                newInvisibleItems.push(super._createInvisibleItems(options.display, lastItem, {
+                    isNodeItems: false
+                }));
+                // invisible-элементы нужно добавлять в самый конец
+                insertIndexForNewInvisibleItems.push(items.length);
+            }
         }
 
         const itemsOrder = items.map((it, index) => index + newInvisibleItems.length * COUNT_INVISIBLE_ITEMS);

@@ -94,11 +94,9 @@ export default class TreeTileCollection<
     protected _createComposer(): itemsStrategy.Composer<any, TreeItem<any>> {
         const composer = super._createComposer();
 
-        if (this.getTileMode() === 'static') {
-            composer.append(InvisibleStrategy, {
-                display: this
-            });
-        }
+        composer.append(InvisibleStrategy, {
+            display: this
+        });
 
         return composer;
     }
