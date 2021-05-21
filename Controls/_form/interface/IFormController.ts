@@ -118,6 +118,12 @@
  */
 
 /**
+ * @name Controls/_form/interface/IFormController#hideIndicator
+ * @cfg {Boolean} Отключает отображение индикатора.
+ * @default false
+ */
+
+/**
  * @typedef {Object} UpdateConfig
  * @description Параметр сохранения.
  * @property {Object} additionalData Дополнительные данные, которые будут обрабатываться при синхронизации записи с реестром.
