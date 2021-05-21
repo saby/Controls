@@ -949,7 +949,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         };
 
         if (options.itemPadding) {
-            this._setItemPadding(options.itemPadding);
+            this._setItemPadding(options.itemPadding, true);
         }
 
         if (this._isGrouped()) {
