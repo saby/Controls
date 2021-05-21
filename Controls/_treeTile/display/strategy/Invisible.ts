@@ -51,13 +51,15 @@ export default class InvisibleStrategy<
                 newInvisibleItems.push(super._createInvisibleItems(options.display, item,{
                     isNodeItems: itemIsNode
                 }));
+                // invisible-элементы нужно добавлять ПЕРЕД группой
                 insertIndexForNewInvisibleItems.push(itemIndex);
             } else {
                 if (itemIsNode && (!hasNextItem || nextItemIsLeaf)) {
                     newInvisibleItems.push(super._createInvisibleItems(options.display, item,{
                         isNodeItems: true
                     }));
-                    insertIndexForNewInvisibleItems.push(itemIndex);
+                    // invisible-элементы нужно добавлять ПОСЛЕ узла
+                    insertIndexForNewInvisibleItems.push(itemIndex + 1);
                 }
             }
         }
@@ -69,6 +71,7 @@ export default class InvisibleStrategy<
             newInvisibleItems.push(super._createInvisibleItems(options.display, lastItem,{
                 isNodeItems: false
             }));
+            // invisible-элементы нужно добавлять в самый конец
             insertIndexForNewInvisibleItems.push(items.length);
         }
 
