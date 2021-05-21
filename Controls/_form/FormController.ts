@@ -22,6 +22,7 @@ interface IFormController extends IControllerBase {
     errorController?: dataSourceError.Controller;
     source?: Memory;
     initializingWay?: string;
+    hideIndicator?: boolean;
 }
 
 interface IReceivedState {
@@ -131,7 +132,7 @@ class FormController extends ControllerBase<IFormController> {
     ): Promise<ICrudResult> | void {
         this._errorController = options.errorController || new dataSourceError.Controller({});
         this._crudController = new CrudController(options.source, this._notifyHandler.bind(this),
-            this.registerPendingNotifier.bind(this), this.indicatorNotifier.bind(this));
+            this.registerPendingNotifier.bind(this), this.indicatorNotifier.bind(this), true, options.hideIndicator);
         const receivedError = receivedState.errorConfig;
         const receivedData = receivedState.data;
 
