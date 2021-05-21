@@ -328,14 +328,14 @@
       background: var(--primary_marker_color_tabs);
       border-radius: 0 var(--main-tab-marker_border-radius_tabs) var(--main-tab-marker_border-radius_tabs) 0;
    }
-   &-s{
-      &:after{
-         // из-за того, что брузер округляет значания в меньшую сторону, теряется 1px, поэтому добавлеям его
-         top: calc(50%~'-'(var(--main-tab-marker_length_tabs) / 2) ~'-'var(--marker_thickness-s_tabs) ~'+' 1px);
+   &-s {
+      &:after {
+         top: calc(50%~'-'(var(--main-tab-marker_length_tabs) / 2) ~'-'var(--marker_thickness-s_tabs));
       }
    }
-   &-l{
-      &:after{
+   &-l {
+      &:after {
+         // из-за того, что брузер округляет значания в меньшую сторону, теряется 1px, поэтому добавлеям его
          top: calc(50%~'-'(var(--main-tab-marker_length_tabs) / 2) ~'-'var(--marker_thickness-l_tabs) ~'+' 1px);
       }
    }
