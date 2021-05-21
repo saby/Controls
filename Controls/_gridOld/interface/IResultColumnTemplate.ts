@@ -33,7 +33,7 @@ export default interface IResultColumnTemplateOptions {
      * @cfg {String|TemplateFunction} Пользовательский шаблон для отображения содержимого ячейки итогов.
      * @remark
      * В области видимости шаблона доступен объект **results** - итогов, которые были переданы в метаданных RecordSet.
-     * Результаты должны быть переданы в виде {@link Types/entity/Model}.
+     * Результаты должны быть переданы в виде {@link Types/entity:Model}.
      * Если шаблон ячейки итогов или контентная опция не заданы, будут выведены итоги из метаданных по ключу, соответствующему displayProperty для данной колонки.
      * @markdown
      * @example
