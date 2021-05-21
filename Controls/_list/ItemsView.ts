@@ -8,19 +8,28 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import ListView = require('Controls/_list/ListView');
 
 /**
- * Опции для контрола {@link ItemsView}
+ * Интерфейс, описывающий структуру объекта конфигурации контрола {@link Controls/list:ItemsView}
+ * @public
  * @author Уфимцев Д.Ю.
  */
 export interface IItemsViewOptions extends IControlOptions {
     /**
-     * @cfg Список записей данные которого нужно отобразить в списке
+     * @cfg
+     * Список записей данные которого нужно отобразить в списке
      */
     items?: RecordSet;
 }
 
 /**
- * Контрол плоского списка, который умеет работать по {@link RecordSet}
+ * Контрол плоского списка, который умеет работать без источника данных.
+ * В качестве данных ожидает {@link RecordSet} переданный в опцию {@link IItemsViewOptions.items}.
+ *
+ * @demo Controls-demo/list_new/ItemsView/Base/Index
+ * @demo Controls-demo/list_new/ItemsView/Grouping/Index
+ *
+ * @public
  * @author Уфимцев Д.Ю.
+ * @class Controls/list:ItemsView
  */
 export default class ItemsView<TOptions extends IItemsViewOptions = IItemsViewOptions> extends Control<TOptions> {
     //region base control props
