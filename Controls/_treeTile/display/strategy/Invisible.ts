@@ -52,7 +52,7 @@ export default class InvisibleStrategy<
                     isNodeItems: itemIsNode
                 }));
                 // invisible-элементы нужно добавлять ПЕРЕД группой
-                insertIndexForNewInvisibleItems.push(itemIndex);
+                insertIndexForNewInvisibleItems.push(itemIndex + 1);
             } else {
                 if (itemIsNode && (!hasNextItem || nextItemIsLeaf)) {
                     newInvisibleItems.push(super._createInvisibleItems(options.display, item,{
