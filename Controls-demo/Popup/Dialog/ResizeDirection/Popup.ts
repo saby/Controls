@@ -12,8 +12,6 @@ class Popup extends Control<IControlOptions> {
     protected _enlargeButton: string = "Увеличить";
     protected _reduceButton: string = "Уменьшить";
     protected _buttonCaption: string = "Увеличить";
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Popup/Dialog/ResizeDirection/Popup', 'Controls-demo/Controls-demo'];
 
     protected _handleResizeClick(): void {

@@ -16,7 +16,6 @@ class FormController extends Control<IControlOptions> {
     protected _clickHandler(): void {
         this._children.stackOpener.open();
     }
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/FormController/FormControllerDemo'];
 }
 export default FormController;

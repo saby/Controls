@@ -50,7 +50,5 @@ export default class extends Control {
       this._children.SelectorController._selectComplete();
    }
 
-   static _theme: string[] = ['Controls/Classes'];
-
    static _styles: string[] = ['Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector'];
 }

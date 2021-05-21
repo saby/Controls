@@ -3,7 +3,6 @@ import controlTemplate = require('wml!Controls-demo/Buttons/FontStyles/FontStyle
 
 class ViewModes extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
-    static _theme: string[] = ['Controls/Classes'];
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

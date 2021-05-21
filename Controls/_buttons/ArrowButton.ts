@@ -29,8 +29,6 @@ class ArrowButton extends Control<IArrowButtonOptions>  {
         }
     }
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static getDefaultOptions(): object {
         return {
             inlineHeight: 's',

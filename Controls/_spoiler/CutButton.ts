@@ -23,8 +23,6 @@ class CutButton extends Control<ICutButton, IControlOptions> {
         }
     }
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static getOptionTypes(): object {
         return {
             readOnly: descriptor(Boolean),

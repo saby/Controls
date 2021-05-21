@@ -7,7 +7,6 @@ class FontSize extends Control<IControlOptions> {
     protected _captions: string = 'Заголовок';
 
     protected _template: TemplateFunction = controlTemplate;
-    static _theme: string[] = ['Controls/Classes'];
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

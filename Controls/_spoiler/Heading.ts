@@ -148,8 +148,6 @@ class Heading extends Control<IHeadingOptions> implements IHeading {
         return getTextWidth(caption);
     }
 
-    static _theme: string[] = ['Controls/Classes'];
-
     private static _captionToString(caption?: string): string {
         if (typeof caption === 'string') {
             return caption;
