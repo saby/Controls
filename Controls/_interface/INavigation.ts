@@ -349,15 +349,7 @@ export interface INavigationOptions<U> {
     navigation?: INavigationOptionValue<U>;
 }
 
-/**
- * Интерфейс для контролов, поддерживающих {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/ навигацию}.
- *
- * @interface Controls/_interface/INavigation
- * @public
- * @author Крайнов Д.О.
- */
-
-/**
+/*
  * Interface for list navigation.
  *
  * @interface Controls/_interface/INavigation
@@ -365,6 +357,13 @@ export interface INavigationOptions<U> {
  * @author Крайнов Д.О.
  */
 
+/**
+ * Интерфейс для контролов, поддерживающих {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/ навигацию}.
+ *
+ * @interface Controls/_interface/INavigation
+ * @public
+ * @author Крайнов Д.О.
+ */
 export default interface INavigation {
     readonly '[Controls/_interface/INavigation]': boolean;
 }
@@ -413,7 +412,7 @@ export default interface INavigation {
  * @demo Controls-demo/list_new/Navigation/ScrollPaging/Index
  */
 
-/**
+/*
  * @name Controls/_interface/INavigation#navigation
  * @cfg {Navigation} List navigation configuration. Configures data source navigation (pages, offset, position) and navigation view (pages, infinite scroll, etc.)
  * @example
