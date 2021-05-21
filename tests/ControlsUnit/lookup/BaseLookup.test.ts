@@ -80,6 +80,7 @@ describe('Controls/lookup:Input', () => {
             const options = {
                 source: null,
                 selectedKeys: [],
+                multiSelect: true,
                 items: new RecordSet({
                     rawData: data,
                     keyProperty: 'id'
@@ -99,6 +100,7 @@ describe('Controls/lookup:Input', () => {
             const options = {
                 source: getSource(),
                 selectedKeys: [],
+                multiSelect: true,
                 items: new RecordSet({
                     rawData: data,
                     keyProperty: 'id'
