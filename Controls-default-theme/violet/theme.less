@@ -4,38 +4,44 @@
 .controls_theme-@{themeName} {
 
     // common
-    --primary_color: #8715c2;
-    --primary_text-color: #8715c2;
-    --primary_hover_text-color: #660099;
+   --primary_color: #8715c2;
+   --primary_text-color: var(--primary_color);
+   --primary_hover_text-color: #660099;
+   --primary_icon-color: var(--primary_color);
+   --primary_hover_icon-color: var(--primary_hover_text-color);
+   --primary_border-color: var(--primary_color);
+   --primary_background-color: #fcf5ff;
+   --primary_hover_background-color: #f8ebff;
+   --primary_active_background-color: #f8ebff;
+   --primary_same_background-color: #f8ebff;
+   --primary_hover_same_background-color: #f3dbff;
+   --primary_active_same_background-color: #eeccff;
+   --primary_contrast_background-color: #af0fff;
+   --primary_hover_contrast_background-color: #a700fa;
+   --primary_active_contrast_background-color: #b31aff;
 
-    // buttons
-    --primary_hover_background-color_button: #e8e5f1;
-    --primary_active_background-color_button: #ddd7ed;
 
     // heading
     --primary_icon_background-image_m_headingBack: url('./img/BackArrow.svg');
     --primary_icon_hover_background-image_m_headingBack: url('./img/BackArrow.svg');
-    --primary_text-color_heading: #8715c2;
-    --primary_hover_text-color_heading: #660099;
 
     //tabs
     --unselected_item_text-color_tabs: #000;
-    --primary_item_text-color_tabs: #8715c2;
-    --primary_marker_color_tabs: #8715c2;
+    --primary_marker_color_tabs: var(--primary_color);
 
     // other
-    --marker_color: #8715c2;
-   --master-marker_color_list: #8715c2;
-   --master_item_selected_text-color_list: #8715c2;
+    --marker_color: var(--primary_color);
+    --master-marker_color_list: var(--primary_color);
+    --master_item_selected_text-color_list: var(--primary_color);
 
-    --primary_scale_color_progressBar: #8715c2;
+    --primary_scale_color_progressBar: var(--primary_color);
 }
 
 .controls_dropdownPopup_theme-@{themeName} {
    // menu
-   --marker_color_menu: #8715c2;
+   --marker_color_menu: var(--primary_color);
 }
 
 .controls_datePicker_theme-@{themeName} {
-   --monthlist_monthview_today_background-color_datePicker: #8715c2;
+   --monthlist_monthview_today_background-color_datePicker: var(--primary_color);
 }
