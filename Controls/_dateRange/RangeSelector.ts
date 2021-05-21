@@ -121,7 +121,8 @@ export default class RangeSelector extends BaseSelector<IRangeSelector> {
     protected _getPopupOptions(): IStickyPopupOptions {
         const container = this._children.linkView.getPopupTarget();
         const ranges = this._options.ranges;
-        let className = `controls-DatePopup__selector-marginTop_fontSize-${this._getFontSizeClass()}`;
+        let className = `controls_datePicker_theme-${ this._options.theme }
+                        controls-DatePopup__selector-marginTop_fontSize-${this._getFontSizeClass()}`;
         if (this._options.popupClassName) {
             className += `${this._options.popupClassName} `;
         }
