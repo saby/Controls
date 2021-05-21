@@ -74,7 +74,7 @@ export default class PathController extends Control<IOptions> {
      */
     goBack(e: Event): void {
         require(['Controls/breadcrumbs'], (breadcrumbs) => {
-            breadcrumbs.HeadingPathCommon.onBackButtonClick.call(this, e);
+            breadcrumbs.HeadingPathCommon.onBackButtonClick.call(this, e, 'breadCrumbsItems');
         });
     }
 
