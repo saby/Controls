@@ -139,9 +139,9 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     protected _contentTouchStartHandler(event: Event): void {
         if (this._options.trigger === 'hover|touch') {
             this._startOpeningPopup();
+            event.preventDefault();
+            event.stopPropagation();
         }
-        event.preventDefault();
-        event.stopPropagation();
     }
 
     protected _contentClickHandler(event: Event): void {
