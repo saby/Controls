@@ -244,9 +244,9 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
      * @private
      */
     protected _itemActionMouseDown(event: SyntheticEvent<MouseEvent>,
-                               item: CollectionItem<Model>,
-                               action: IItemAction,
-                               clickEvent: SyntheticEvent<MouseEvent>): void {
+                                   item: CollectionItem<Model>,
+                                   action: IItemAction,
+                                   clickEvent: SyntheticEvent<MouseEvent>): void {
         const contents: Model = item.getContents();
         if (action && !action['parent@'] && action.handler) {
             action.handler(contents);
@@ -865,11 +865,12 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _getSourceController(
-        {source, navigation, keyProperty,
+        {source, navigation, keyProperty, filter,
             sourceController, root, parentProperty}: IMenuControlOptions): SourceController {
         if (!this._sourceController) {
             this._sourceController = sourceController || new SourceController({
                 source,
+                filter,
                 navigation,
                 keyProperty,
                 root,
