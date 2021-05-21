@@ -1,0 +1,16 @@
+<Controls.columns:View
+   keyProperty="title" markerVisibility="hidden"
+   source="{{_source}}" roundBorder="{{_roundBorder}}"
+   initialWidth="{{908}}" minWidth="{{454}}" maxWidth="{{454}}">
+   <ws:itemTemplate>
+      <ws:partial
+         template="Controls/listTemplates:ColorfulTemplate"
+         imageProperty="photoUrl"
+         dominantColorProperty="dominant"
+         complementaryColorProperty="complementary"
+         dominantThemeColorProperty="dominantTheme"
+         title="{{itemTemplate.item.contents.title}}"
+         description="{{itemTemplate.item.contents.description}}">
+      </ws:partial>
+   </ws:itemTemplate>
+</Controls.columns:View>

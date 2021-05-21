@@ -1,27 +1,29 @@
 <ws:partial
    template="Controls/columns:ItemTemplate" highlightOnHover="{{false}}" scope="{{_options}}"
-   attr:class="controls-listTemplates-ColorfulTemplate controls-text-default
-               {{(_options.item || _options.itemData).getRoundBorderClasses()}}
-               controls-listTemplates-ColorfulTemplate_{{_options.item.contents[_options.colorProperty.dominantTheme]}}"
-   attr:style="--dominant-color: {{_options.item.contents[_options.colorProperty.dominant]}};
-               --complimentary-color: {{_options.item.contents[_options.colorProperty.complimentary]}};">
+   attr:class="controls-listTemplates-ColorfulTemplate
+               {{(_options.item || _options.itemData).getRoundBorderClasses()}}"
+   attr:style="--dominant-color: {{_options.item.contents[_options.dominantColorProperty]}};
+               --complimentary-color: {{_options.item.contents[_options.complementaryColorProperty]}};">
    <ws:contentTemplate>
-      <div class="controls-listTemplates-ColorfulTemplate__content controls-background-default">
+      <div class="controls-listTemplates-ColorfulTemplate__content">
          <ws:partial
             src="{{_options.item.contents[_options.imageProperty]}}"
             attr:class="controls-listTemplates-ColorfulTemplate__image"
             template="wml!Controls/_listTemplates/DefaultImageTemplate"
             viewMode="rectangle" effect="gradient" gradientColor="rgb(var(--dominant-color))"/>
-         <div class="controls-listTemplates-ColorfulTemplate__title
-                     ws-flexbox ws-align-items-baseline ws-justify-content-between">
+         <div class="controls-listTemplates-ColorfulTemplate__title controls-padding-m
+                     ws-flexbox ws-align-items-baseline ws-justify-content-between
+                     controls-listTemplates-ColorfulTemplate__title">
             <div class="controls-listTemplates-ColorfulTemplate__caption
-                        controls-margin_left-m controls-margin_right-m ws-ellipsis
-                        controls-fontsize-3xl controls-fontweight-bold">
+                        controls-margin_right-m ws-ellipsis
+                        controls-fontsize-3xl controls-fontweight-bold
+                        controls-listTemplates-ColorfulTemplate__caption_{{_options.item.contents[_options.dominantThemeColorProperty]}}">
                {{_options.title}}
             </div>
-            <div class="controls-listTemplates-ColorfulTemplate__additionalCaption
-                        controls-margin_right-m controls-fontsize-m controls-text-label ws-ellipsis">
-               {{_options.additionalText}}
+            <div class="controls-listTemplates-ColorfulTemplate__description
+                        controls-fontsize-m controls-text-label ws-ellipsis
+                        controls-listTemplates-ColorfulTemplate__description_{{_options.item.contents[_options.dominantThemeColorProperty]}}">
+               {{_options.description}}
             </div>
          </div>
          <ws:if data="{{_options.footerTemplate}}">

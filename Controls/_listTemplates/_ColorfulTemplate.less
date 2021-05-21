@@ -1,22 +1,23 @@
 .controls-listTemplates-ColorfulTemplate {
-   --background-color: ~"rgb(var(--dominant-color))";
-   --item_hover_background-color_list: ~"rgb(var(--dominant-color))";
+   background-color: ~"rgb(var(--dominant-color))";
 }
 
 .controls-listTemplates-ColorfulTemplate__image {
    height: var(--image_height_s_position_top_rich_tile);
 }
 
-.controls-listTemplates-ColorfulTemplate_dark {
-   @basic_color: #fff;
-
-   --text-color: fade(@basic_color, 80);
-   --label_text-color: fade(@basic_color, 50);
+.controls-listTemplates-ColorfulTemplate__title_dark {
+   color: var(--text-color_title_colorful_dark);
 }
 
-.controls-listTemplates-ColorfulTemplate_light {
-   @basic_color: #000;
+.controls-listTemplates-ColorfulTemplate__description_dark {
+   color: var(--text-color_description_colorful_dark)
+}
 
-   --text-color: fade(@basic_color, 80);
-   --label_text-color: fade(@basic_color, 50);
+.controls-listTemplates-ColorfulTemplate__title_light {
+   color: var(--text-color_title_colorful_light);
+}
+
+.controls-listTemplates-ColorfulTemplate__description_light {
+   color: var(--text-color_description_colorful_light);
 }
