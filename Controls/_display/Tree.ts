@@ -801,14 +801,9 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // endregion Expanded/Collapsed
 
-    setHasMoreStorage(storage: Record<string, boolean>, reBuildNodeFooters: boolean = false): void {
+    setHasMoreStorage(storage: Record<string, boolean>): void {
         if (!isEqual(this._$hasMoreStorage, storage)) {
             this._$hasMoreStorage = storage;
-
-            if (reBuildNodeFooters) {
-                this._reBuildNodeFooters(true);
-            }
-
             this._nextVersion();
         }
     }

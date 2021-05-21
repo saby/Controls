@@ -351,13 +351,6 @@ const _private = {
 
         self.showIndicator();
         return sourceController.load('down', nodeKey).then((list) => {
-                const expandedItems = _private.getExpandedItems(
-                    self, self._options, self._listViewModel.getCollection(), self._listViewModel.getExpandedItems()
-                );
-
-                // В этом случае нужно обязательно пересчитать футеры узлов, т.к. expandedItems не изменился
-                // и никто не вызовет пересчет, но футеры могут измениться
-                self._listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems), true);
                 self.stopBatchAdding();
                 return list;
             })
@@ -595,6 +588,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     constructor(options: TOptions) {
         super(options);
         this._expandNodeOnDrag = this._expandNodeOnDrag.bind(this);
+        this._nodeDataMoreLoadCallback = this._nodeDataMoreLoadCallback.bind(this);
         if (typeof options.root !== 'undefined') {
             this._root = options.root;
         }
@@ -617,6 +611,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     options.root !== undefined && options.root !== sourceControllerState.root) {
                     options.sourceController.updateOptions({...options, keyProperty: this._keyProperty});
                 }
+
+                options.sourceController.setNodeDataMoreLoadCallback(this._nodeDataMoreLoadCallback);
             }
         };
         return !superResult ? doBeforeMount() : superResult.then(doBeforeMount);
@@ -815,6 +811,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         this._updateTreeControlModel(newOptions);
 
         if (sourceController) {
+            sourceController.setNodeDataMoreLoadCallback(this._nodeDataMoreLoadCallback);
+
             const sourceControllerState = sourceController.getState();
             if (newOptions.parentProperty && sourceControllerState.parentProperty !== newOptions.parentProperty) {
                 updateSourceController = true;
@@ -847,6 +845,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     protected _beforeUnmount(): void {
         this._scrollToLeaf = null;
         this._clearTimeoutForExpandOnDrag();
+        if (this.getSourceController()) {
+            this.getSourceController().setNodeDataMoreLoadCallback(null);
+        }
         super._beforeUnmount(...arguments);
     }
 
@@ -1407,6 +1408,15 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
 
         return result;
+    }
+
+    protected _nodeDataMoreLoadCallback(): void {
+        // ересчитываем hasMoreStorage до того, как элементы засетятся в модель,
+        // чтобы в модели был только один пересчет элементов
+        const expandedItems = _private.getExpandedItems(
+            this, this._options, this._listViewModel.getCollection(), this._listViewModel.getExpandedItems()
+        );
+        this._listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(this.getSourceController(), expandedItems));
     }
 
     static getDefaultOptions() {
