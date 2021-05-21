@@ -30,23 +30,53 @@ export default class InvisibleStrategy<
         const insertIndexForNewInvisibleItems = [];
 
         for (let i = 0; i < items.length; i++) {
+            const itemIndex = i;
             const item = items[i];
-            const prevItem = items[i - 1];
-            if (item['[Controls/_display/GroupItem]'] && i > 0 || prevItem && prevItem.isNode && prevItem.isNode() !== null && item.isNode() === null && item.getParent() !== prevItem) {
-                const invisibleIsNode = prevItem && prevItem.isNode();
-                const parent = prevItem && prevItem.getParent();
-                newInvisibleItems.push(super._createInvisibleItems(options.display, prevItem,{isNodeItems: invisibleIsNode, parent}));
-                insertIndexForNewInvisibleItems.push(i);
+            const itemIsGroup = item['[Controls/_display/GroupItem]'];
+            const itemIsNode = !itemIsGroup && item.isNode() !== null;
+
+            let nextItem = items[i + 1];
+            let hasNextItem = !!nextItem;
+            let nextItemIsGroup = hasNextItem && nextItem['[Controls/_display/GroupItem]'];
+            // в качестве nextItem может использоваться только элемент из корня
+            while (hasNextItem && !nextItemIsGroup && nextItem.getParent() !== options.display.getRoot()) {
+                i++;
+                nextItem = items[i + 1];
+                hasNextItem = !!nextItem;
+                nextItemIsGroup = hasNextItem && nextItem['[Controls/_display/GroupItem]'];
+            }
+            const nextItemIsLeaf = hasNextItem && !nextItemIsGroup && nextItem.isNode() === null;
+
+            if (nextItemIsGroup) {
+                newInvisibleItems.push(super._createInvisibleItems(options.display, item,{
+                    isNodeItems: itemIsNode
+                }));
+                // invisible-элементы нужно добавлять ПЕРЕД группой
+                insertIndexForNewInvisibleItems.push(itemIndex + 1);
+            } else {
+                if (itemIsNode && (!hasNextItem || nextItemIsLeaf)) {
+                    newInvisibleItems.push(super._createInvisibleItems(options.display, item,{
+                        isNodeItems: true
+                    }));
+                    // invisible-элементы нужно добавлять ПОСЛЕ узла
+                    insertIndexForNewInvisibleItems.push(itemIndex + 1);
+                }
             }
         }
 
-        // Вставляем невидимые элементы в конец списка
-        if (items.length && options.display.getTileMode() === 'static') {
+        // invisible-элементы после всех элементов нужно добавлять только в режиме static
+        if (options.display.getTileMode() === 'static') {
             const lastItem = items[items.length - 1];
-            const invisibleIsNode = lastItem.isNode();
-            const parent = lastItem.getParent();
-            newInvisibleItems.push(super._createInvisibleItems(options.display, lastItem, {isNodeItems: invisibleIsNode, parent}));
-            insertIndexForNewInvisibleItems.push(items.length);
+            const hasLastItem = !!lastItem;
+            const lastItemIsGroup = hasLastItem && lastItem['[Controls/_display/GroupItem]'];
+            const lastItemIsLeaf = hasLastItem && !lastItemIsGroup && lastItem.isNode() === null;
+            if (lastItemIsLeaf) {
+                newInvisibleItems.push(super._createInvisibleItems(options.display, lastItem, {
+                    isNodeItems: false
+                }));
+                // invisible-элементы нужно добавлять в самый конец
+                insertIndexForNewInvisibleItems.push(items.length);
+            }
         }
 
         const itemsOrder = items.map((it, index) => index + newInvisibleItems.length * COUNT_INVISIBLE_ITEMS);
@@ -68,7 +98,7 @@ export default class InvisibleStrategy<
         const params = super._getInvisibleItemParams(display, prevItem, options);
         params.itemModule = 'Controls/treeTile:InvisibleTreeTileItem';
         params.node = options.isNodeItems;
-        params.parent = options.parent;
+        params.parent = display.getRoot();
         params.folderWidth = display.getFolderWidth();
         return params;
     }
