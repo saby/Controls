@@ -11,13 +11,14 @@ function getRootModel(root, keyProperty) {
    });
 }
 
-function onBackButtonClick(this: Control, e: Event) {
+function onBackButtonClick(this: Control, e: Event, itemsProperty: string = 'items'): void {
    let item;
+   const items = this._options[itemsProperty];
 
-   if (this._options.items.length > 1) {
-      item = this._options.items[this._options.items.length - 2];
+   if (items.length > 1) {
+      item = items[items.length - 2];
    } else {
-      item = getRootModel(this._options.items[0].get(this._options.parentProperty), this._options.keyProperty);
+      item = getRootModel(items[0].get(this._options.parentProperty), this._options.keyProperty);
    }
 
    this._notify('itemClick', [item]);
@@ -27,4 +28,4 @@ function onBackButtonClick(this: Control, e: Event) {
 export default {
    getRootModel,
    onBackButtonClick
-}
+};

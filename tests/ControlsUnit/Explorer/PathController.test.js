@@ -361,14 +361,17 @@ define([
       it('_onBackButtonClick', function() {
          var instance = new PathController.default();
          instance.saveOptions({
-            items: items,
+            breadCrumbsItems: items,
             keyProperty: 'id',
             parentProperty: 'parent',
             root: null
          });
          instance._notify = function(e, args) {
             if (e === 'itemClick') {
-               assert.equal(instance._options.items[instance._options.items.length - 2].get('parent'), args[0].get('parent'));
+               assert.equal(
+                  instance._options.breadCrumbsItems[instance._options.breadCrumbsItems.length - 2].get('parent'),
+                  args[0].get('parent')
+               );
             }
          };
          instance.goBack({
