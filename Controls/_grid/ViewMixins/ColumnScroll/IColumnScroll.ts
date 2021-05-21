@@ -8,8 +8,8 @@ import {
 import {SyntheticEvent} from 'UI/Vdom';
 
 interface IViewOptions extends IControlOptions {
-    columnScroll_1?: boolean;
-    dragScroll?: boolean;
+    columnScroll?: boolean;
+    dragScrolling?: boolean;
 
     stickyColumnsCount?: number;
     columns: Object[];
@@ -29,13 +29,16 @@ abstract class IView extends Control<IViewOptions> {
         { results: HTMLDivElement; } |
         { header: HTMLDivElement; }
     );
+
+    _getStickyLadderCellsCount: (options: IViewOptions) => number;
 }
 
 interface IColumnScrollViewMixin {
     '[Controls/_grid/ViewMixins/ColumnScrollViewMixin]': true;
     _$columnScrollController: ColumnScrollController;
-    _$dragScrollController: DragScrollController;
     _$columnScrollSelector: string;
+    _$dragScrollController: DragScrollController;
+    _$dragScrollStylesContainer: HTMLStyleElement;
 
     // IFreezable
     _$columnScrollFreezeCount: number;
@@ -57,7 +60,8 @@ interface IColumnScrollViewMixin {
     // EventHandlers
     _onColumnScrollThumbPositionChanged(e: SyntheticEvent<null>, newPosition: number): void;
     _onColumnScrollViewWheel(e: SyntheticEvent<WheelEvent>): void;
-    
+    _onColumnScrollWrapperResized(): void;
+
     _onColumnScrollStartDragScrolling(e: SyntheticEvent<TouchEvent | MouseEvent>, startBy: 'mouse' | 'touch'): void;
     _onColumnScrollDragScrolling(e: SyntheticEvent<TouchEvent | MouseEvent>, startBy: 'mouse' | 'touch'): void;
     _onColumnScrollStopDragScrolling(e: SyntheticEvent<TouchEvent | MouseEvent>, startBy: 'mouse' | 'touch'): void;

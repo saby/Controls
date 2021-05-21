@@ -1,5 +1,5 @@
 <ws:partial template="Controls/grid:ColumnTemplate" scope="{{ _options }}">
     <ws:contentTemplate>
-        <Controls.list:AddButton caption="Добавить в {{ column.config.displayProperty }}"/>
+        {{ columnName }}
     </ws:contentTemplate>
 </ws:partial>

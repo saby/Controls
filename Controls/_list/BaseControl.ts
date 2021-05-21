@@ -479,6 +479,11 @@ const _private = {
         } else {
             const wasItemsReplaced = oldCollection && !isEqualItems(oldCollection, items);
             listModel.setItems(items, newOptions);
+            if (self._editInPlaceController) {
+                this._editInPlaceController.updateOptions({
+                    collection: listModel.getDisplay()
+                });
+            }
             self._items = listModel.getCollection();
 
             if (wasItemsReplaced) {

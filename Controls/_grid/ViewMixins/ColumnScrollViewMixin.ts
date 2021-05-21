@@ -4,36 +4,11 @@ import {
     NewColumnScrollController as ColumnScrollController,
     DragScrollController
 } from 'Controls/columnScroll';
-import {SyntheticEvent} from 'UI/Vdom';
-
-interface IShouldDrawColumnScrollResult {
-    status: boolean;
-    sizes?: { scrollContainerSize: number, contentContainerSize: number };
-}
-const shouldDrawColumnScroll = (viewContainers, isFullGridSupport: boolean): IShouldDrawColumnScrollResult => {
-    const calcResult = () => {
-        const contentContainerSize = viewContainers.grid.scrollWidth;
-        const scrollContainerSize = isFullGridSupport ? viewContainers.grid.offsetWidth : viewContainers.gridWrapper.offsetWidth;
-        return {
-            status: contentContainerSize > scrollContainerSize,
-            sizes: {
-                scrollContainerSize, contentContainerSize
-            }
-        };
-    };
-
-    const scrollBarContainer = viewContainers.horizontalScrollBar._container;
-    const origin = scrollBarContainer.style.display;
-    scrollBarContainer.style.display = 'none';
-    const result = calcResult();
-    scrollBarContainer.style.display = origin;
-
-    return result;
-};
+import {_Options, SyntheticEvent} from 'UI/Vdom';
 
 const recalculateSizes = (self: TColumnScrollViewMixin, viewOptions, calcedSizes?) => {
     // Подсчет размеров, стилей с предпосчитанными размерами
-    const wasUpdated = self._$columnScrollController.updateSizes(calcedSizes || true);
+    const wasUpdated = self._$columnScrollController.updateSizes(calcedSizes);
 
     if (wasUpdated) {
         const {contentSizeForHScroll, scrollWidth} = self._$columnScrollController.getSizes();
@@ -104,6 +79,7 @@ const createColumnScroll = (self: TColumnScrollViewMixin, options: IAbstractView
 const destroyColumnScroll = (self: TColumnScrollViewMixin) => {
     self._$columnScrollController.destroy();
     self._$columnScrollController = null;
+    self._$dragScrollStylesContainer = null;
     if (self._$dragScrollController) {
         destroyDragScroll(self);
     }
@@ -115,9 +91,16 @@ const scrollToEnd = (self: TColumnScrollViewMixin) => {
 };
 
 const createDragScroll = (self: TColumnScrollViewMixin, options: IAbstractViewOptions) => {
+    self._$dragScrollStylesContainer = self._children.columnScrollStyleContainers.getContainers().dragScrollStyles;
     self._$dragScrollController = new DragScrollController({
         startDragNDropCallback: !options.startDragNDropCallback ? null : () => {
             options.startDragNDropCallback();
+        },
+        onOverlayHide(): void {
+            self._$dragScrollStylesContainer.innerHTML = '';
+        },
+        onOverlayShown(): void {
+            self._$dragScrollStylesContainer.innerHTML = `.${self._$columnScrollSelector}>.controls-Grid__DragScrollNew__overlay{display: block;}`;
         }
     });
 };
@@ -129,18 +112,14 @@ const destroyDragScroll = (self: TColumnScrollViewMixin): void => {
 
 const setScrollPosition = (self: TColumnScrollViewMixin, newPosition: number): void => {
     const correctedScrollPosition = self._$columnScrollController.setScrollPosition(newPosition);
-    self._children.horizontalScrollBar.setPosition(correctedScrollPosition);
+    self._children.horizontalScrollBar.setScrollPosition(correctedScrollPosition);
     if (self._$dragScrollController) {
         self._$dragScrollController.setScrollPosition(correctedScrollPosition);
     }
 };
 
-const isDragScrollEnabledByOptions = (options: IAbstractViewOptions): boolean => {
-    if (typeof options.dragScroll === 'boolean') {
-        return options.dragScroll;
-    } else {
-        return !options.itemsDragNDrop;
-    }
+const applyContainersClasses = (self: TColumnScrollViewMixin): void => {
+    self._forceUpdate();
 };
 
 export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
@@ -171,7 +150,7 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
 
     // _beforeMount
     _columnScrollOnViewBeforeMount(options: IAbstractViewOptions): void {
-        if (options.columnScroll_1) {
+        if (options.columnScroll) {
             this._$columnScrollSelector = ColumnScrollController.createUniqSelector();
         }
     },
@@ -179,13 +158,13 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
     // _afterMount
     _columnScrollOnViewMounted(): void {
         // Скролл выключен через опции
-        if (!this._options.columnScroll_1) {
+        if (!this._options.columnScroll) {
             return;
         }
 
         // Проверяем, нужен ли горизонтальный скролл по размерам таблицы.
         // Не создаем, если не нужен
-        const shouldDrawResult = shouldDrawColumnScroll(this._children, this._options.isFullGridSupport);
+        const shouldDrawResult = ColumnScrollController.shouldDrawColumnScroll(this._children, getFixedPartWidth, this._options.isFullGridSupport);
         if (!shouldDrawResult.status) {
             return;
         }
@@ -193,7 +172,7 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
         // Создания контроллера
         createColumnScroll(this, this._options);
 
-        if (isDragScrollEnabledByOptions(this._options)) {
+        if (this._isDragScrollEnabledByOptions(this._options)) {
             createDragScroll(this, this._options);
         }
 
@@ -203,72 +182,175 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
         if (this._options.columnScrollStartPosition === 'end') {
             scrollToEnd(this);
         }
+
+        applyContainersClasses(this);
     },
 
     // _beforeUpdate
     _columnScrollOnViewBeforeUpdate(newOptions: IAbstractViewOptions): void {
         // Скроллирование мышью отключили -> разрушаем контроллер скроллирования мышью
-        if (!isDragScrollEnabledByOptions(newOptions) && this._$dragScrollController) {
+        if (this._$dragScrollController && !this._isDragScrollEnabledByOptions(newOptions)) {
             destroyDragScroll(this);
         }
         // Горизонтальный скролл отключили -> разрушаем оба контроллера при наличии
-        if (!newOptions.columnScroll_1 && this._$columnScrollController) {
+        if (this._$columnScrollController && (!newOptions.columnScroll || !this._canShowColumnScroll(newOptions))) {
             destroyColumnScroll(this);
+        }
+
+        // FIXME: Удалить, при следующем этапе рефакторинга, когда пойду внутрь контроллера, нужно от этого избавиться,
+        //  как и от большинства стейтов. #should_refactor
+        if (this._$columnScrollController && this._options.needShowEmptyTemplate !== newOptions.needShowEmptyTemplate) {
+            this._$columnScrollController.setIsEmptyTemplateShown(newOptions.needShowEmptyTemplate);
+        }
+
+        if (this._options.stickyColumnsCount !== newOptions.stickyColumnsCount) {
+            this._listModel.setStickyColumnsCount(newOptions.stickyColumnsCount);
         }
     },
 
     // _afterUpdate
     _columnScrollOnViewUpdated(oldOptions: IAbstractViewOptions): void {
         // Горизонтальный скролл выключен. Если он раньше был, то разрушился на beforeUpdate.
-        if (!this._options.columnScroll_1 || this._isColumnScrollFrozen()) {
+        if (!this._options.columnScroll || !this._canShowColumnScroll(this._options) || this._isColumnScrollFrozen()) {
             return;
         }
 
-        // Считаем размеры, если горизонтальный скролл не нужен, то удаляем.
-        // Если нужен, то запомним размеры, они пригодятся для обновления.
-        const shouldDrawResult = shouldDrawColumnScroll(this._children, this._options.isFullGridSupport);
-        if (!shouldDrawResult.status) {
-            if (this._$columnScrollController) {
-                destroyColumnScroll(this);
-            }
-            return;
-        }
+        const changedOptions = _Options.getChangedOptions(this._options, oldOptions);
+        let shouldCheckSizes = false;
+        let shouldCreateDragScroll = false;
+        let shouldResetColumnScroll = false;
 
-        let shouldResetColumnScroll: boolean = false;
-        if (!this._$columnScrollController) {
+        // Включили горизонтальный скролл. Не факт что он нужен, посчитаем размеры.
+        if (
+            (this._options.columnScroll && !oldOptions.columnScroll) ||
+            (this._canShowColumnScroll(this._options) && !this._$columnScrollController)
+        ) {
+            shouldCheckSizes = true;
             shouldResetColumnScroll = true;
-            createColumnScroll(this, this._options);
-        } else {
-            if (oldOptions.stickyColumnsCount !== this._options.stickyColumnsCount) {
-                this._$columnScrollController.setStickyColumnsCount(oldOptions.stickyColumnsCount, true);
+            if (this._$columnScrollController) {
+                throw Error('Что то пошло не так, возможно гонки или ошибка в миксине. Горизонтальный скролл только включили, а контроллер уже создан.');
             }
         }
 
-        if (isDragScrollEnabledByOptions(this._options) && !this._$dragScrollController) {
-            createDragScroll(this, this._options);
-
-            // Проинициализируем размеры в контроллере скроллирования мышью, т.к.
-            // перемещение мыши могло включиться без изменения размров.
-            updateSizesInDragScrollController(this);
+        // В любом случае считаем размеры при смене колонок,
+        // т.к. нет практики кидания события resize вниз при смене колонок. Аналогично с header'om
+        if (
+            changedOptions.hasOwnProperty('columns') ||
+            changedOptions.hasOwnProperty('header') ||
+            changedOptions.hasOwnProperty('stickyColumnsCount')
+        ) {
+            shouldCheckSizes = true;
         }
 
-        recalculateSizes(this, this._options, shouldDrawResult.sizes);
+        // Включили dragScroll.
+        // Про исмене dragScrolling нужно быть хитрее.
+        // Нужно проверить что разньше он был недоступен по опциям, а сейчас доступен.
+        // И даже так его создание сейчас не обязывает нас пересчитывать размеры,
+        // если это единственное изменение опций. Его включение не меняет размеров.
+        if (!shouldCheckSizes &&
+            this._options.columnScroll &&
+            this._isDragScrollEnabledByOptions(this._options) &&
+            !this._isDragScrollEnabledByOptions(oldOptions)
+        ) {
+            shouldCreateDragScroll = true;
+            if (this._$dragScrollController) {
+                throw Error('Что то пошло не так, возможно гонки или ошибка в миксине. Скроллирование мышью только включили, а контроллер уже создан.');
+            }
+        }
 
-        if (shouldResetColumnScroll && this._options.columnScrollStartPosition === 'end') {
-            scrollToEnd(this);
+        if (shouldCheckSizes) {
+            const calcResult = (this._$columnScrollController || ColumnScrollController).shouldDrawColumnScroll(
+                this._children,
+                getFixedPartWidth,
+                this._options.isFullGridSupport
+            );
+
+            if (!calcResult.status) {
+                // Оказалось, что по размерам он нам не нужен. Ничего не создаем.
+                return;
+            }
+
+            if (!this._$columnScrollController) {
+                // Создания контроллера
+                createColumnScroll(this, this._options);
+                applyContainersClasses(this);
+            }
+
+            if (this._isDragScrollEnabledByOptions(this._options) && !this._$dragScrollController) {
+                createDragScroll(this, this._options);
+                updateSizesInDragScrollController(this);
+                applyContainersClasses(this);
+            }
+
+            recalculateSizes(this, this._options, calcResult.sizes);
+
+            if (shouldResetColumnScroll && this._options.columnScrollStartPosition === 'end') {
+                scrollToEnd(this);
+            }
+        } else if (shouldCreateDragScroll) {
+            createDragScroll(this, this._options);
+            updateSizesInDragScrollController(this);
+            applyContainersClasses(this);
+        }
+    },
+
+    _columnScrollOnViewBeforeUnmount(): void {
+        if (this._$columnScrollController) {
+            destroyColumnScroll(this);
         }
     },
     //#endregion
 
     //#region METHODS
 
+    resetColumnScroll(options: IAbstractViewOptions = this._options): void {
+        if (!this._$columnScrollController) {
+            return;
+        }
+        if (options.columnScrollStartPosition === 'end') {
+            scrollToEnd(this);
+        } else {
+            setScrollPosition(this, 0);
+        }
+    },
+
+    isColumnScrollVisible(): boolean {
+        return !!this._$columnScrollController;
+    },
+
+    _columnScrollHasItemActionsCell(options: IAbstractViewOptions): boolean {
+        return Boolean(
+            options.isFullGridSupport &&
+            options.columnScroll &&
+            options.itemActionsPosition !== 'custom'
+        );
+    },
+
+    _canShowColumnScroll(options: IAbstractViewOptions): boolean {
+        return Boolean(
+            !this._listModel.destroyed && (
+                !options.needShowEmptyTemplate ||
+                options.headerVisibility === 'visible' ||
+                options.headerInEmptyListVisible === true
+            )
+        );
+    },
+
     _getColumnScrollThumbStyles(options: IAbstractViewOptions): string {
         // TODO: Посмотреть на экшены, если не custom то добавить.
-        return `grid-column: 3 / ${options.columns.length + 2}; display: none;`;
+        const hasMultiSelectColumn = options.multiSelectVisibility !== 'hidden'
+                                  && options.multiSelectPosition !== 'custom';
+        const hasItemActionsCell = this._columnScrollHasItemActionsCell(options);
+        const stickyColumnsCount = this._getStickyLadderCellsCount(options);
+
+        const startColumn = +hasMultiSelectColumn + stickyColumnsCount + (options.stickyColumnsCount || 1) + 1;
+        const endColumn = +hasMultiSelectColumn + +hasItemActionsCell + stickyColumnsCount + options.columns.length + 1;
+
+        return `grid-column: ${startColumn} / ${endColumn};`;
     },
 
     _getColumnScrollWrapperClasses(options: IAbstractViewOptions): string {
-        if (options.columnScroll_1) {
+        if (options.columnScroll) {
             return this._$columnScrollSelector;
         }
         return '';
@@ -276,14 +358,22 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
 
     _getColumnScrollContentClasses(options: IAbstractViewOptions): string {
         let classes = '';
-        if (options.columnScroll_1) {
+        if (this._$columnScrollController) {
             classes += `${COLUMN_SCROLL_JS_SELECTORS.CONTENT}`;
 
-            if (isDragScrollEnabledByOptions(options)) {
+            if (this._$dragScrollController) {
                 classes += ` ${DRAG_SCROLL_JS_SELECTORS.CONTENT}`;
             }
         }
         return classes;
+    },
+
+    _isDragScrollEnabledByOptions(options: IAbstractViewOptions): boolean {
+        if (typeof options.dragScrolling === 'boolean') {
+            return options.dragScrolling;
+        } else {
+            return !options.itemsDragNDrop;
+        }
     },
     //#endregion
 
@@ -299,11 +389,53 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
         if (this._$columnScrollController) {
             // Игнорируем вращение колеса мыши над скроллбаром. Это обработает скроллбар.
             const target = e.nativeEvent.target as HTMLDivElement;
-            if (target && target.closest('.js-controls-Grid_columnScroll_thumb-wrapper')) {
+            if (target && target.closest('.js-controls-ColumnScroll__thumb')) {
                 return;
             }
             const newScrollPosition = this._$columnScrollController.scrollByWheel(e);
             setScrollPosition(this, newScrollPosition);
+        }
+    },
+
+    _onColumnScrollWrapperResized(): void {
+        if (this._options.columnScroll) {
+
+            // Считаем размеры, если горизонтальный скролл не нужен, то удаляем.
+            // Если нужен, то запомним размеры, они пригодятся для обновления.
+            // Подсчет производится:
+            //  + простым сравнением размеров, если горизонтального скролла нет в данный момент.
+            //  + с предварительным сбросом текущего состояния прокрутки, если скролл есть.
+            const shouldDrawResult = (this._$columnScrollController || ColumnScrollController).shouldDrawColumnScroll(
+                this._children,
+                getFixedPartWidth,
+                this._options.isFullGridSupport
+            );
+
+            if (!shouldDrawResult.status) {
+                if (this._$columnScrollController) {
+                    destroyColumnScroll(this);
+                    applyContainersClasses(this);
+                }
+                return;
+            }
+
+            let shouldResetColumnScroll: boolean = false;
+            if (!this._$columnScrollController) {
+                shouldResetColumnScroll = true;
+                createColumnScroll(this, this._options);
+                applyContainersClasses(this);
+            }
+
+            if (this._isDragScrollEnabledByOptions(this._options) && !this._$dragScrollController) {
+                createDragScroll(this, this._options);
+                applyContainersClasses(this);
+            }
+
+            recalculateSizes(this, this._options, shouldDrawResult.sizes);
+
+            if (shouldResetColumnScroll && this._options.columnScrollStartPosition === 'end') {
+                scrollToEnd(this);
+            }
         }
     },
 

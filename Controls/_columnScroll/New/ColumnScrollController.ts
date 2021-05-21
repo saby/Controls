@@ -1,11 +1,9 @@
-import {debounce} from 'Types/function';
 import {Guid} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {detection} from 'Env/Env';
 
 export interface IControllerOptions {
     stickyColumnsCount?: number;
-    hasMultiSelect: boolean;
     isEmptyTemplateShown?: boolean;
     isFullGridSupport?: boolean;
     stickyLadderCellsCount?: number;
@@ -15,15 +13,10 @@ export interface IControllerOptions {
     backgroundStyle?: string;
 }
 
-type TAfterUpdateSizesCallback = (params: {
-    wasSizesChanged: boolean;
-    containerSize: number;
-    contentSize: number;
-    fixedColumnsWidth: number;
-    scrollableColumnsWidth: number;
-    contentSizeForScrollBar: number;
-    scrollWidth: number;
-}) => void;
+interface IShouldDrawColumnScrollResult {
+    status: boolean;
+    sizes?: { scrollContainerSize: number, contentContainerSize: number };
+}
 
 /**
  * Набор СSS селекторов HTML элементов для обращения к ним через JS код.
@@ -41,11 +34,6 @@ export const JS_SELECTORS = {
     SCROLLABLE_ELEMENT: 'controls-Grid_columnScroll__scrollable'
 };
 
-/**
- * Задержка перед обновлением состояний горизонтального скролла при изменении
- * размера контента и/илиего контейнера в случае вызова через декоратор debounce.
- */
-const DELAY_UPDATE_SIZES = 16;
 const WHEEL_DELTA_INCREASE_COEFFICIENT = 100;
 const WHEEL_SCROLLING_SMOOTH_COEFFICIENT = 0.6;
 
@@ -89,17 +77,6 @@ export default class ColumnScrollController {
         } else {
             this._transformSelector = ColumnScrollController.createUniqSelector();
         }
-
-        this._updateSizes = this._updateSizes.bind(this);
-        this._debouncedUpdateSizes = debounce(this._updateSizes, DELAY_UPDATE_SIZES, false);
-    }
-
-    /**
-     * Возвращает уникальный CSS селектор единый для данного экземпляра ColumnScroll
-     * @return Уникальный CSS селектор
-     */
-    getTransformSelector(): string {
-        return this._transformSelector;
     }
 
     static createUniqSelector(): string {
@@ -176,28 +153,9 @@ export default class ColumnScrollController {
         }
     }
 
-    setMultiSelectVisibility(newMultiSelectVisibility: 'visible' | 'hidden' | 'onhover', silence: boolean = false): void {
-        this._options.hasMultiSelect = newMultiSelectVisibility !== 'hidden';
-        if (!silence) {
-            this._updateFixedColumnWidth(this._options.isFullGridSupport);
-        }
-    }
-
     private _updateShadowState(): void {
         this._shadowState.start = this._scrollPosition > 0;
         this._shadowState.end = (this._contentSize - this._containerSize - this._scrollPosition) >= 1;
-    }
-
-    getShadowClasses(position: 'start' | 'end', params: {
-        isVisible?: boolean;
-        needBottomPadding?: boolean;
-    } = {}): string {
-        const isVisible = typeof params.isVisible === 'boolean' ? params.isVisible : this._shadowState[position];
-        return ColumnScrollController.getShadowClasses(position, {
-            isVisible,
-            backgroundStyle: this._options.backgroundStyle,
-            needBottomPadding: !!params.needBottomPadding
-        });
     }
 
     /**
@@ -291,44 +249,20 @@ export default class ColumnScrollController {
 
     /**
      * Обновляет состояния горизонтального скролла при изменении размера контента и/или его контейнера. Может быть исполненна немедленно или отложено.
-     * @param afterUpdateCallback Функция обратного вызова, которая будет вызвана после обновления размеров. Вызывается, только в случае обновления
-     * размеров, вызовы через декоратор debounce будут проигнорированы.
-     * @param immediate Флаг, указывающий, следует ли немедленно вызвать обновление размеров или инициировать вызов через декоратор debounce.
-     * В случае вызова через декоратор debounce, обновление размеров будет вызвано когда за последующий определенный отрезок времени не будет
-     * вызвано еще одно обновление. Время ожидания регулируется константой DELAY_UPDATE_SIZES.
-     * @see DELAY_UPDATE_SIZES
      */
-    updateSizes(afterUpdateCallback: TAfterUpdateSizesCallback, immediate: boolean = false): boolean {
-        if (arguments.length === 1 && typeof afterUpdateCallback === 'object') {
-            return this._updateSizes(afterUpdateCallback);
-        } else if (arguments.length === 1 && afterUpdateCallback === true) {
-            return this._updateSizes(() => {});
-        } else if (immediate) {
-            this._updateSizes(afterUpdateCallback);
-        } else {
-            this._debouncedUpdateSizes(afterUpdateCallback);
-        }
+    updateSizes(presetSizes?): boolean {
+        return this._updateSizes(presetSizes);
     }
 
     //#region Обновление размеров. Приватные методы
-    toggleTransform(isVisible: boolean): void {
-        if (isVisible) {
-            this._drawTransform(this._scrollPosition, this._options.isFullGridSupport);
-        } else {
-            this._drawTransform(0, this._options.isFullGridSupport);
-        }
-    }
-
-    private _updateSizes(calculatedSizes: {scrollContainerSize: number; contentContainerSize: number}): void;
-    private _updateSizes(afterUpdateCallback: TAfterUpdateSizesCallback): void;
-    private _updateSizes(afterUpdateCallback: TAfterUpdateSizesCallback | {scrollContainer: number; contentContainer: number}): void {
+    private _updateSizes(calculatedSizes: {scrollContainerSize: number; contentContainerSize: number}): boolean {
         if (this._isDestroyed || !this._scrollContainer || !this._scrollContainer.getClientRects().length) {
             return false;
         }
 
-        let newContentSize, newContainerSize;
-        let wasSizesChanged: boolean = false;
-        const hasSizesPreSet = typeof afterUpdateCallback === 'object';
+        let newContentSize;
+        let newContainerSize;
+        const hasSizesPreSet = !!calculatedSizes;
         const isFullGridSupport = this._options.isFullGridSupport;
         let originStickyDisplayValue;
 
@@ -346,9 +280,9 @@ export default class ColumnScrollController {
             newContentSize = this._contentContainer.scrollWidth;
             newContainerSize = isFullGridSupport ? this._contentContainer.offsetWidth : this._scrollContainer.offsetWidth;
         } else {
-            newContentSize = afterUpdateCallback.contentContainerSize;
-            newContainerSize = afterUpdateCallback.scrollContainerSize;
-            if (this._contentSize === newContentSize && this._containerSize === newContainerSize) {
+            newContentSize = calculatedSizes.contentContainerSize;
+            newContainerSize = calculatedSizes.scrollContainerSize;
+            if (this._contentSize === newContentSize && this._containerSize === newContainerSize && this._fixedColumnsWidth === calculatedSizes.fixedColumnsWidth) {
                 return false;
             }
         }
@@ -357,8 +291,6 @@ export default class ColumnScrollController {
             this._setBorderScrollPosition(newContentSize, newContainerSize);
             this._contentSize = newContentSize;
             this._containerSize = newContainerSize;
-
-            wasSizesChanged = true;
 
             // reset scroll position after resize, if we don't need scroll
             if (newContentSize <= newContainerSize) {
@@ -380,23 +312,7 @@ export default class ColumnScrollController {
             this._toggleStickyElementsForScrollCalculation(true, originStickyDisplayValue);
         }
         this._scrollableColumns = null;
-
-        if (afterUpdateCallback && typeof afterUpdateCallback === 'function') {
-            afterUpdateCallback({
-                wasSizesChanged,
-                containerSize: this._containerSize,
-                contentSize: this._contentSize,
-                fixedColumnsWidth: this._fixedColumnsWidth,
-                scrollableColumnsWidth: this._containerSize - this._fixedColumnsWidth,
-                contentSizeForScrollBar: this._contentSizeForHScroll,
-                scrollWidth: this._scrollWidth
-            });
-        }
-        return wasSizesChanged;
-    }
-
-    private _debouncedUpdateSizes(afterUpdateCallback: TAfterUpdateSizesCallback): void {
-        /* this function is debounced in ctor. Signatures of _debouncedUpdateSizes and _updateSizes must be equal */
+        return true;
     }
 
     /**
@@ -408,7 +324,7 @@ export default class ColumnScrollController {
     private _toggleStickyElementsForScrollCalculation(visible: false): string;
     private _toggleStickyElementsForScrollCalculation(visible: true, originValue?: string): void;
     private _toggleStickyElementsForScrollCalculation(visible: true | false, originValue?: string): void | string {
-        const stickyElements = this._contentContainer.querySelectorAll('.controls-Grid_columnScroll_wrapper');
+        const stickyElements = this._contentContainer.querySelectorAll('.js-controls-Grid_columnScroll_thumb-wrapper');
         let stickyElement;
         let originDisplayValue: string;
 
@@ -443,15 +359,8 @@ export default class ColumnScrollController {
     }
 
     private _updateFixedColumnWidth(isFullGridSupport: boolean): void {
-        this._fixedColumnsWidth = this._calculateFixedColumnWidth();
+        this._fixedColumnsWidth = !this._options.stickyColumnsCount ? 0 : this._options.getFixedPartWidth();
         this._scrollWidth = isFullGridSupport ? this._scrollContainer.offsetWidth - this._fixedColumnsWidth : this._scrollContainer.offsetWidth;
-    }
-
-    private _calculateFixedColumnWidth(): number {
-        if (!this._options.stickyColumnsCount) {
-            return 0;
-        }
-        return this._options.getFixedPartWidth();
     }
 
     private _fixSafariBug(): void {
@@ -468,8 +377,7 @@ export default class ColumnScrollController {
 
     //#endregion
 
-    getTransformStyles(): string {
-        const position = this._scrollPosition;
+    getTransformStyles(position = this._scrollPosition): string {
         const isFullGridSupport = this._options.isFullGridSupport;
         const transformSelector = this._transformSelector;
         let newTransformHTML = '';
@@ -478,7 +386,7 @@ export default class ColumnScrollController {
         // зафиксированных ячеек
 
         // Скроллируется таблица
-        newTransformHTML += `.${transformSelector}>.controls-Grid_columnScroll{transform: translateX(-${position}px);}`;
+        newTransformHTML += `.${transformSelector}>.controls-Grid_columnScroll{transform: translateX(${-position}px);}`;
 
         // Не скроллируем зафиксированные элементы
         newTransformHTML += `.${transformSelector} .${JS_SELECTORS.FIXED_ELEMENT} {transform: translateX(${position}px);}`;
@@ -506,18 +414,21 @@ export default class ColumnScrollController {
         const transformSelector = this._transformSelector;
         let newHTML = '';
 
-        // Не скроллируем операции над записью
+        newHTML += ` .${transformSelector} .js-controls-ColumnScroll__thumb {display: flex;}`;
         if (!this._options.isFullGridSupport) {
+            newHTML += ` .${transformSelector} .js-controls-ColumnScroll__thumb {width: ${this._scrollWidth}px;}`;
+
             // IE, Edge, и Yandex в WinXP нужно добавлять z-index чтобы они показались поверх других translated строк
             if (detection.isIE || detection.isWinXP) {
                 newHTML += ` .${transformSelector} .controls-Grid-table-layout__itemActions__container {z-index: 1}`;
             }
+        } else {
+            newHTML += ` .${transformSelector} .js-controls-ColumnScroll__thumbWrapper {width: ${this._scrollWidth}px;}`;
         }
 
         newHTML += ` .${transformSelector} .controls-Grid__cell_fixed {z-index: 3}`;
         newHTML += ` .${transformSelector} .controls-GridView__footer__cell.controls-GridNew__cell_fixed {z-index: 2}`;
 
-        newHTML += ` .${transformSelector} .js-controls-GridNew_columnScroll_thumb-wrapper {display: block !important; width: ${this._scrollWidth}px;}`;
         newHTML += ` .${transformSelector} .controls-GridNew__cell_fixed {z-index: 3;}`;
 
         return newHTML;
@@ -534,11 +445,11 @@ export default class ColumnScrollController {
         return newHTML;
     }
 
-    private _drawTransform(position: number, isFullGridSupport: boolean): void {
+    private _drawTransform(position: number, isFullGridSupport: boolean, immediate?: boolean): void {
         // This is the fastest synchronization method scroll position and cell transform.
         // Scroll position synchronization via VDOM is much slower.
         const newHTML = this.getColumnScrollStyles();
-        const newTransformHTML = this.getTransformStyles();
+        const newTransformHTML = this.getTransformStyles(position);
         const newShadowsHTML = this.getShadowsStyles();
 
         if (
@@ -546,7 +457,7 @@ export default class ColumnScrollController {
             this._transformStylesContainer.innerHTML !== newTransformHTML ||
             this._shadowsStylesContainer.innerHTML !== newShadowsHTML
         ) {
-            window.requestAnimationFrame(() => {
+            const update = () => {
                 if (this._stylesContainer.innerHTML !== newHTML) {
                     this._stylesContainer.innerHTML = newHTML;
                 }
@@ -558,7 +469,14 @@ export default class ColumnScrollController {
                 if (this._shadowsStylesContainer.innerHTML !== newShadowsHTML) {
                     this._shadowsStylesContainer.innerHTML = newShadowsHTML;
                 }
-            });
+            };
+            if (immediate) {
+                update();
+            } else {
+                window.requestAnimationFrame(() => {
+                    update();
+                });
+            }
         }
     }
 
@@ -651,15 +569,45 @@ export default class ColumnScrollController {
         if (this._stylesContainer) {
             this._stylesContainer.innerHTML = '';
         }
+        if (this._transformStylesContainer) {
+            this._transformStylesContainer.innerHTML = '';
+        }
+        if (this._shadowsStylesContainer) {
+            this._shadowsStylesContainer.innerHTML = '';
+        }
     }
 
-    static shouldDrawColumnScroll(scrollContainer: HTMLElement, contentContainer: HTMLElement, isFullGridSupport: boolean): boolean {
-        const thumb = scrollContainer.querySelector('.js-controls-Grid_columnScroll_thumb-wrapper');
-        const thumbDisplayValue = thumb?.style.display;
-        thumb?.style.display = 'none';
-        const contentContainerSize = contentContainer.scrollWidth;
-        const scrollContainerSize = isFullGridSupport ? contentContainer.offsetWidth : scrollContainer.offsetWidth;
-        thumb?.style.display = thumbDisplayValue;
-        return contentContainerSize > scrollContainerSize;
+    shouldDrawColumnScroll(viewContainers, getFixedPartWidth, isFullGridSupport: boolean): IShouldDrawColumnScrollResult {
+        this._drawTransform(0, isFullGridSupport, true);
+        const res = ColumnScrollController.shouldDrawColumnScroll(viewContainers, getFixedPartWidth, isFullGridSupport);
+        this._drawTransform(this._scrollPosition, isFullGridSupport, true);
+
+        return res;
+    }
+
+    static shouldDrawColumnScroll(viewContainers, getFixedPartWidth, isFullGridSupport: boolean): IShouldDrawColumnScrollResult {
+            const calcResult = () => {
+                const contentContainerSize = viewContainers.grid.scrollWidth;
+                const scrollContainerSize = isFullGridSupport ? viewContainers.grid.offsetWidth : viewContainers.gridWrapper.offsetWidth;
+                return {
+                    status: contentContainerSize > scrollContainerSize,
+                    sizes: {
+                        scrollContainerSize,
+                        contentContainerSize,
+                        fixedColumnsWidth: getFixedPartWidth(
+                            viewContainers.gridWrapper,
+                            'results' in viewContainers ? viewContainers.results : viewContainers.header
+                        )
+                    }
+                };
+            };
+
+            const scrollBarContainer = viewContainers.horizontalScrollBar._container;
+            const origin = scrollBarContainer.style.display;
+            scrollBarContainer.style.display = 'none';
+            const result = calcResult();
+            scrollBarContainer.style.display = origin;
+
+            return result;
     }
 }
