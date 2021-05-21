@@ -3,7 +3,6 @@ import template = require('wml!Controls-demo/LoadingIndicator/contentPopup/conte
 
 class contentPopup extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
-    static _theme: string[] = ['Controls/Classes'];
 
    protected _beforeMount() {
         const delay: number = 5000;

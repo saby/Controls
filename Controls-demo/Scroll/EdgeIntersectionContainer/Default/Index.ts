@@ -14,7 +14,5 @@ export default class DefaultScrollDemo extends Control<IControlOptions> {
     protected _increaseOffsets() {
         this._offset += 50;
     }
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

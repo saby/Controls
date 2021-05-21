@@ -10,8 +10,6 @@ class Size extends Control<IControlOptions> {
         this._startValue = 40;
         this._endValue = 60;
     }
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

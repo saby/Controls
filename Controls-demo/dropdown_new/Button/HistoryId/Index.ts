@@ -17,8 +17,6 @@ class HeaderContentTemplate extends Control {
     protected _afterMount(): void {
         overrideOrigSourceMethod();
     }
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/dropdown_new/Button/Index'];
 }
 export default HeaderContentTemplate;

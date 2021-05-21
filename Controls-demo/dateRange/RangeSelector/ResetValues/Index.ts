@@ -7,7 +7,5 @@ export default class RangeSelectedCallback extends Control<IControlOptions> {
     protected _endValue: Date = new Date(2018, 5, 30);
     protected _resetStartValue: Date = new Date(2017, 0, 1);
     protected _resetEndValue: Date = new Date(2017, 2, 16);
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

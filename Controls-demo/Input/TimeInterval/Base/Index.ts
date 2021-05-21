@@ -8,7 +8,6 @@ class Text extends Control<IControlOptions> {
     protected _value2: TTimeInterval = new TTimeInterval('P0DT12H30M00S');
     protected _value3: TTimeInterval = new TTimeInterval('P0DT120H00M00S');
     protected _value4: TTimeInterval = new TTimeInterval('P0DT9H35M27S');
-    static _theme: string[] = ['Controls/Classes'];
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

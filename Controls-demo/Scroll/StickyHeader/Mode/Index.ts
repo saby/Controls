@@ -23,7 +23,5 @@ export default class MultiHeaderDemoControl extends Control<IControlOptions> {
         }
     }
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Scroll/StickyHeader/Mode/Mode'];
 }
