@@ -28,7 +28,7 @@ export interface ISelectionItem extends ICollectionItem {
 
    /**
     * Флаг, определяющий состояние правого свайпа по записи.
-    * @method
+    * @function
     * @public
     * @return {Boolean} состояние правого свайпа
     */
@@ -37,7 +37,7 @@ export interface ISelectionItem extends ICollectionItem {
    /**
     * Флаг, определяющий состояние правого свайпа по записи.
     * @param {Boolean} swiped состояние правого свайпа
-    * @method
+    * @function
     * @public
     */
    setAnimatedForSelection(swiped: boolean): boolean;
@@ -60,7 +60,7 @@ export interface ISelectionModel extends IBaseCollection<Model, ISelectionItem> 
    /**
     * Проверить, можно ли загрузить еще данные
     *
-    * @method
+    * @function
     * @public
     * @return {boolean}
     */
@@ -68,7 +68,7 @@ export interface ISelectionModel extends IBaseCollection<Model, ISelectionItem> 
 
    /**
     * Получить список элементов
-    * @method
+    * @function
     * @public
     * @return {RecordSet} список элементов
     */

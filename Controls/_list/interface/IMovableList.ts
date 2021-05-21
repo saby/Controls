@@ -31,7 +31,7 @@ export interface IMovableOptions {
 export interface IMovableList {
     /**
      * Перемещает указанные записи в указанную позицию position, которая может принимать значения after/before/on. Перемещение происходит только в источнике.
-     * @method
+     * @function
      * @public
      * @param selection
      * @param targetKey
@@ -41,7 +41,7 @@ export interface IMovableList {
 
     /**
      * Перемещает выбранную запись на одну позицию вверх. Перемещение происходит только в источнике.
-     * @method
+     * @function
      * @public
      * @param selectedKey
      */
@@ -49,7 +49,7 @@ export interface IMovableList {
 
     /**
      * Перемещает выбранную запись на одну позицию вниз. Перемещение происходит только в источнике.
-     * @method
+     * @function
      * @public
      * @param selectedKey
      */
@@ -57,7 +57,7 @@ export interface IMovableList {
 
     /**
      * Перемещает указанные элементы при помощи диалога MoveDialog, и возвращает результат moveItems().
-     * @method
+     * @function
      * @public
      * @param selection
      */

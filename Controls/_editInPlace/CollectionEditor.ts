@@ -40,7 +40,7 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
 
     /**
      * Возвращает true, если в коллекции есть запущенное редактирование
-     * @method
+     * @function
      * @return {Boolean}
      * @public
      */
@@ -50,7 +50,7 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
 
     /**
      * Получить редактируемый элемент
-     * @method
+     * @function
      * @return {IEditableCollectionItem}
      * @public
      */
@@ -73,7 +73,7 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
 
     /**
      * Обновить опции контроллера.
-     * @method
+     * @function
      * @param {Partial.<ICollectionEditorOptions>} newOptions Новые опции.
      * @void
      *
@@ -89,7 +89,7 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
 
     /**
      * Запустить редактирование переданного элемента.
-     * @method
+     * @function
      * @param {Types/entity:Model} item Элемент для редактирования.
      * @param {Number} columnIndex Индекс колонки в которой будет запущено редактирование.
      * @void
@@ -111,7 +111,7 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
 
     /**
      * Начать добавление переданного элемента.
-     * @method
+     * @function
      * @param {Types/entity:Model} item Элемент для добавления.
      * @param {TAddPosition} addPosition Позиция добавляемого элемента.
      * @param {Types/entity:Model}} targetItem Запись на месте которой начнется добавление.
@@ -157,7 +157,7 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
 
     /**
      * Завершить редактирование элемента и сохранить изменения.
-     * @method
+     * @function
      * @void
      * @public
      */
@@ -180,7 +180,7 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
 
     /**
      * Завершить редактирование элемента и отменить изменения.
-     * @method
+     * @function
      * @void
      * @public
      */
@@ -197,7 +197,7 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
 
     /**
      * Получить следующий элемент коллекции, для которого доступно редактирование.
-     * @method
+     * @function
      * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
@@ -207,7 +207,7 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
 
     /**
      * Получить предыдущий элемент коллекции, для которого доступно редактирование.
-     * @method
+     * @function
      * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
