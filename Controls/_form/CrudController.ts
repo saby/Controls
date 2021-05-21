@@ -38,7 +38,7 @@ export default class CrudController {
 
     private _dataSource: Memory = null;
     private _indicatorId: string = '';
-    private _hideIdicator: boolean = false;
+    private _hideIndicator: boolean = false;
 
     constructor(dataSource: Memory, crudOperationFinished: (result: string, args: [Error|Model, Model|string?, unknown?]) => void,
                 notifyRegisterPending: (args: [Promise<Model>, object]) => void = null,
@@ -50,7 +50,7 @@ export default class CrudController {
         this._crudOperationFinished = crudOperationFinished;
         this._notifyRegisterPending = notifyRegisterPending;
         this._notifyIndicator = indicatorNotifier;
-        this._hideIdicator = hideIdicator
+        this._hideIndicator = hideIndicator;
     }
 
     setDataSource(newDataSource: Memory): void {
@@ -82,20 +82,20 @@ export default class CrudController {
      */
     read(key: string, readMetaData: unknown): Promise<Model> {
         const id = this._indicatorId;
-        if (!this._hideIdicator) {
+        if (!this._hideIndicator) {
             const message = rk('Пожалуйста, подождите…');
             this._indicatorId = this._notifyIndicator('showIndicator', [{id, message}]);
         }
         return new Promise((res, rej) => {
             readWithAdditionalFields(this._dataSource, key, readMetaData).then((record: Model) => {
                 this._crudOperationFinished(CRUD_EVENTS.READ_SUCCESSED, [record]);
-                if (!this._hideIdicator) {
+                if (!this._hideIndicator) {
                     this._notifyIndicator('hideIndicator', [this._indicatorId]);
                 }
                 res(record);
             }, (e: Error) => {
                 this._crudOperationFinished(CRUD_EVENTS.READ_FAILED, [e]);
-                if (!this._hideIdicator) {
+                if (!this._hideIndicator) {
                     this._notifyIndicator('hideIndicator', [this._indicatorId]);
                 }
                 rej(e);
