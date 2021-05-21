@@ -16,6 +16,7 @@ export interface IOptions<T> {
     groupTemplate: TemplateFunction|string;
     zIndex?: number;
     metaResults: EntityModel;
+    colspanGroup?: boolean;
 }
 
 export default class GroupCell<T>
@@ -25,6 +26,7 @@ export default class GroupCell<T>
     protected _$zIndex: number;
     protected _$groupTemplate: TemplateFunction|string;
     protected _$metaResults: EntityModel;
+    protected _$colspanGroup: EntityModel;
 
     constructor(options?: IOptions<T>) {
         super(options);
@@ -90,7 +92,7 @@ export default class GroupCell<T>
         }
 
         // should add space before rightTemplate
-        if (separatorVisibility === false && textVisible === false) {
+        if (!this._$colspanGroup || (separatorVisibility === false && textVisible === false)) {
             classes += ' controls-ListView__groupContent-withoutGroupSeparator controls-ListView__groupContent_right';
         }
 
@@ -121,6 +123,7 @@ Object.assign(GroupCell.prototype, {
     _$owner: null,
     _$columnsLength: null,
     _$zIndex: 2,
+    _$colspanGroup: true,
     _$contents: null,
     _$groupTemplate: 'Controls/grid:GroupTemplate',
     _$metaResults: null
