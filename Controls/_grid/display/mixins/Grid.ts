@@ -126,6 +126,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$emptyTemplate: TemplateFunction;
     protected _$sorting: Array<{[p: string]: string}>;
     protected _$emptyTemplateColumns: IEmptyTemplateColumn[];
+    protected _$colspanGroup: boolean;
     protected _$backgroundStyle: string;
 
     protected _isFullGridSupport: boolean = isFullGridSupport();
@@ -249,6 +250,14 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             results.setColspanCallback(resultsColspanCallback);
         }
         this._nextVersion();
+    }
+
+    setColspanGroup(colspanGroup: boolean): void {
+        if (this._$colspanGroup !== colspanGroup) {
+            this._$colspanGroup = colspanGroup;
+            this._updateItemsProperty('setColspanGroup', this._$colspanGroup, '[Controls/_display/grid/GroupRow]');
+            this._nextVersion();
+        }
     }
 
     getColspanCallback(): TColspanCallback {
@@ -609,6 +618,7 @@ Object.assign(Grid.prototype, {
     _$resultsColspanCallback: null,
     _$columnSeparatorSize: null,
     _$resultsTemplate: null,
+    _$colspanGroup: true,
     _$columnScroll: false,
     _$stickyColumnsCount: 1,
     _$sorting: null,
