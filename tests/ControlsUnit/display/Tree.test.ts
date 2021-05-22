@@ -2475,9 +2475,5 @@ describe('Controls/_display/Tree', () => {
             const node = tree.getItemBySourceKey(1);
             assert.isNotOk(node.getNodeFooter()); // проверяем что ссылка на футер занулилась
         });
-
-        it('', () => {
-
-        });
     });
 });

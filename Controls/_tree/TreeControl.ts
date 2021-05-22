@@ -132,7 +132,14 @@ const _private = {
         const expanded = !self._expandController.isItemExpanded(nodeKey);
 
         function doExpand(): void | Promise<unknown> {
-            const toggleResult = self._expandController.toggleItem(nodeKey);
+            const toggleResult = self._expandController.toggleItem(nodeKey, (newExpandedItems) => {
+                self.getViewModel().setHasMoreStorage(
+                    _private.prepareHasMoreStorage(
+                        self.getSourceController(),
+                        newExpandedItems
+                    )
+                );
+            });
 
             function notify(results?: RecordSet[]): void {
                 if (results?.length) {
