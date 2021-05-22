@@ -165,6 +165,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
     private _processCollectionChangeEvent: boolean = true;
 
     private _dataLoadCallback: Function;
+    private _nodeDataMoreLoadCallback: Function;
     // Необходимо для совместимости в случае, если dataLoadCallback задают на списке, а где-то сверху есть dataContainer
     private _dataLoadCallbackFromOptions: Function;
 
@@ -432,6 +433,10 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
 
     setDataLoadCallback(callback: Function): void {
         this._dataLoadCallback = callback;
+    }
+
+    setNodeDataMoreLoadCallback(callback: Function): void {
+        this._nodeDataMoreLoadCallback = callback;
     }
 
     hasLoaded(key: TKey): boolean {
@@ -816,6 +821,9 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
 
         if (loadedInCurrentRoot && this._dataLoadCallback) {
             dataLoadCallbackResult = this._dataLoadCallback(result, direction);
+        } else if (this._nodeDataMoreLoadCallback) {
+            // Вызываем только когда подгружают узел, определяется по loadedInCurrentRoot
+            this._nodeDataMoreLoadCallback();
         }
 
         if (loadedInCurrentRoot || direction) {

@@ -93,7 +93,6 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
 
     invalidate(): void {
         this._itemsOrder = null;
-        this._nodeFooters = [];
         return this.source.invalidate();
     }
 
