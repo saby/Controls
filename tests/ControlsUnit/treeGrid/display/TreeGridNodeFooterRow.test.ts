@@ -65,6 +65,7 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterRow', () => {
             }
          ],
          expandedItems: [null],
+         nodeFooterTemplate: () => '',
          ...options
       });
    }

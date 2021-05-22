@@ -32,7 +32,8 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
         },
         setExpandedItems: () => {},
         getExpandedItems: () => ([]),
-        isDeepReload: () => false
+        isDeepReload: () => false,
+        setNodeDataMoreLoadCallback: () => false
     };
 
     function initTreeControl(cfg: Partial<ITreeControlOptions> = {}): TreeControl {
