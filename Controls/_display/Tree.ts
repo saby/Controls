@@ -476,6 +476,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (!isEqual(this._$hasMoreStorage, storage)) {
             this._$hasMoreStorage = storage;
             this._updateItemsHasMore(storage);
+            this._reBuildNodeFooters();
             this._nextVersion();
         }
     }
