@@ -255,8 +255,9 @@ export class Controller {
             // которых явно не сказано что они должны быть свернуты
             this._model?.each((item) => {
                 const id = item.getContents().getKey();
-                // Если явно сказано что запись должна быть свернута, то и не разворачиваем её
-                if (this._collapsedItems.includes(id)) {
+                // Если запись это лист или явно сказано что запись должна быть свернута,
+                // то и не разворачиваем её
+                if (item.isNode() === null || this._collapsedItems.includes(id)) {
                     return;
                 }
 
