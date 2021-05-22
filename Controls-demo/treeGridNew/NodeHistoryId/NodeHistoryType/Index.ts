@@ -1,47 +1,32 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGridNew/NodeTypeProperty/ChildNodes/ChildNodes';
+import * as Template from 'wml!Controls-demo/treeGridNew/NodeHistoryId/NodeHistoryType/NodeHistoryType';
 import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
-import {extendedData as data} from '../data/NodeTypePropertyData';
+import { Gadgets } from '../../DemoHelpers/DataCatalog';
 import {TColspanCallbackResult} from 'Controls/grid';
 import {Model} from 'Types/entity';
-import {INavigation} from 'Controls-demo/types';
 
-const NODE_TYPE_PROPERTY = 'nodeType';
+const preparedData = Gadgets.getFlatData().map((item) => {
+    item.nodeType = (item.parent === null && item.type ? 'group' : '');
+    return item;
+});
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _nodeTypeProperty: string = NODE_TYPE_PROPERTY;
     protected _expandedItems: CrudEntityKey[] = [];
     protected _collapsedItems: CrudEntityKey[] = undefined;
 
-    protected _navigation: INavigation = {
-        source: 'page',
-        view: 'demand',
-        sourceConfig: {
-            pageSize: 3,
-            page: 0,
-            hasMore: false
-        },
-        viewConfig: {
-            pagingMode: 'basic'
-        }
-    };
-
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
-            parentProperty: 'parent',
             keyProperty: 'id',
-            data
+            data: preparedData,
+            parentProperty: 'parent'
         });
     }
 
     protected _colspanCallback(item: Model, column, columnIndex: number, isEditing: boolean): TColspanCallbackResult {
-        if (typeof item === 'string') {
+        if (item.get('nodeType') === 'group' || typeof item === 'string') {
             return 'end';
-        }
-        if (item.get(NODE_TYPE_PROPERTY) === 'group' && columnIndex === 0) {
-            return 3;
         }
         return 1;
     }
