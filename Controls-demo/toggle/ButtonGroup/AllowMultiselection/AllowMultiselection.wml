@@ -1,0 +1,16 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">allowMultiselection=false</div>
+        <Controls.toggle:ButtonGroup items="{{_items}}"
+                                     bind:selectedKey="_selectedKey1"
+                                     allowMultiselection="{{false}}"
+                                     attr:class="ControlsDemo-ButtonGroup__twoButtons"/>
+    </div>
+    <div class="controlsDemo__cell controlsDemo_fixedWidth500">
+        <div class="controls-text-label">allowMultiselection=true</div>
+        <Controls.toggle:ButtonGroup items="{{_items}}"
+                                     bind:selectedKey="_selectedKey2"
+                                     allowMultiselection="{{true}}"
+                                     attr:class="ControlsDemo-ButtonGroup__muiltyButtons"/>
+    </div>
+</div>
