@@ -1076,6 +1076,35 @@ describe('Controls/_source/NavigationController', () => {
         });
     });
 
+    describe('getQueryParams', () => {
+        describe('page', () => {
+            //
+        });
+
+        describe('position', () => {
+            it('getQueryParams with config', () => {
+                const nc = new NavigationController({
+                    navigationType: 'position',
+                    navigationConfig: {
+                        field: 'id',
+                        direction: 'forward'
+                    }
+                });
+
+                let params = nc.getQueryParams(
+                    {filter: {}, sorting: []},
+                    null,
+                    {
+                        direction: 'forward',
+                        field: 'id',
+                        limit: 15,
+                        position: 0
+                    });
+                assert.equal(0, params.filter['id>='], 'Wrong query params');
+            });
+        });
+    });
+
     describe('shiftToEdge', () => {
         describe('page', () => {
             it ('shift to edge with more meta as boolean', () => {
