@@ -472,10 +472,13 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         }
     }
 
-    setHasMoreStorage(storage: Record<string, boolean>): void {
+    setHasMoreStorage(storage: Record<string, boolean>, reBuildNodeFooters: boolean = false): void {
         if (!isEqual(this._$hasMoreStorage, storage)) {
             this._$hasMoreStorage = storage;
             this._updateItemsHasMore(storage);
+            if (reBuildNodeFooters) {
+                this._reBuildNodeFooters(true);
+            }
             this._nextVersion();
         }
     }
