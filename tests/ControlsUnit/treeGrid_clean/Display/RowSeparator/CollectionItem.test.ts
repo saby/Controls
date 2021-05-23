@@ -194,26 +194,26 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
 
         // 5. move (recordset)
         it('RecordSet + move', () => {
-            const initialLastItem = collection.at(5);
+            const initialLastItem = collection.at(4);
 
             assert.isTrue(collection.isLastItem(initialLastItem));
 
             recordSet.move(4, 3);
 
             assert.isFalse(collection.isLastItem(initialLastItem));
-            assert.isTrue(collection.isLastItem(collection.at(5)));
+            assert.isTrue(collection.isLastItem(collection.at(4)));
         });
 
         // 7. change parent (recordset)
         it('RecordSet + parent', () => {
-            const initialLastItem = collection.at(5);
+            const initialLastItem = collection.at(4);
 
             assert.isTrue(collection.isLastItem(initialLastItem));
 
             recordSet.at(4).set('pid', 1);
 
             assert.isFalse(collection.isLastItem(initialLastItem));
-            assert.isTrue(collection.isLastItem(collection.at(5)));
+            assert.isTrue(collection.isLastItem(collection.at(4)));
         });
     });
 
@@ -262,7 +262,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
             expandedItems: [1, 3]
         });
 
-        const initialLastItem = collection.at(5);
+        const initialLastItem = collection.at(4);
         const record = recordSet.getRecordById(5);
 
         assert.isTrue(collection.isLastItem(initialLastItem));
@@ -280,7 +280,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
         collection.resetDraggedItems();
 
         assert.isFalse(collection.isLastItem(initialLastItem));
-        assert.isTrue(collection.isLastItem(collection.at(5)));
+        assert.isTrue(collection.isLastItem(collection.at(4)));
     });
 
     describe('With groups', () => {
@@ -299,7 +299,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
                 groupProperty: 'group',
                 expandedItems: [1, 3]
             });
-            assert.isTrue(collection.isLastItem(collection.at(9)));
+            assert.isTrue(collection.isLastItem(collection.at(7)));
         });
 
         // 9.1 Добавили записи в RS
@@ -316,7 +316,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
                 expandedItems: [1, 3]
             });
 
-            const initialLastItem = collection.at(6);
+            const initialLastItem = collection.at(5);
 
             assert.isTrue(collection.isLastItem(initialLastItem));
 
@@ -328,7 +328,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
             recordSet.add(item, 4);
 
             assert.isFalse(collection.isLastItem(initialLastItem));
-            assert.isTrue(collection.isLastItem(collection.at(7)));
+            assert.isTrue(collection.isLastItem(collection.at(6)));
         });
 
         // 10. Смена groupProperty с пересортировкой возможна только со сменой parent,
@@ -364,7 +364,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
             addPosition: 'bottom'
         });
 
-        const initialLastItem = collection.at(5);
+        const initialLastItem = collection.at(4);
 
         assert.isTrue(collection.isLastItem(initialLastItem));
 
