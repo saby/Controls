@@ -101,11 +101,11 @@ export class Controller {
     /**
      * Меняет признак свернутости/развернутости итема на противоположный
      */
-    toggleItem(itemId: TKey): void | Promise<unknown> {
+    toggleItem(itemId: TKey, callBeforeChangeModel?: Function): void | Promise<unknown> {
         if (this.isItemExpanded(itemId)) {
             this.collapseItem(itemId);
         } else {
-            return this.expandItem(itemId);
+            return this.expandItem(itemId, callBeforeChangeModel);
         }
     }
 
@@ -113,7 +113,7 @@ export class Controller {
      * Разворачивает итем с указанным itemId только в том случае если
      * он свернут в данный момент.
      */
-    expandItem(itemId: TKey): void | Promise<unknown> {
+    expandItem(itemId: TKey, callBeforeChangeModel?: Function): void | Promise<unknown> {
         // Если узел уже развернут или он не поддерживает разворачивание, то и делать ничего не надо
         if (this.isItemExpanded(itemId)) {
             return;
@@ -129,7 +129,7 @@ export class Controller {
             pushKey(newExpandedItems, itemId);
         }
 
-        return this._applyState(newExpandedItems, newCollapsedItems);
+        return this._applyState(newExpandedItems, newCollapsedItems, callBeforeChangeModel);
     }
 
     /**
@@ -193,7 +193,7 @@ export class Controller {
      * 3. Если expandedItems и collapsedItems имеют пересечение, то это пересечение выкидывается из
      * expandedItems
      */
-    private _applyState(expandedItems: TKey[] = [], collapsedItems: TKey[] = []): void | Promise<unknown> {
+    private _applyState(expandedItems: TKey[] = [], collapsedItems: TKey[] = [], callBeforeChangeModel?: Function): void | Promise<unknown> {
         let newExpandedItems = [...expandedItems];
         let newCollapsedItems = [...collapsedItems];
 
@@ -241,10 +241,10 @@ export class Controller {
         // на актуальные данные и не пыталась раскрыть явно заданный расхлопнутый узел
         this._setCollapsedItems(newCollapsedItems);
 
-        return this._applyExpandedItems(newExpandedItems);
+        return this._applyExpandedItems(newExpandedItems, callBeforeChangeModel);
     }
 
-    private _applyExpandedItems(expandedItems: TKey[]): void | Promise<unknown> {
+    private _applyExpandedItems(expandedItems: TKey[], callBeforeChangeModel?: Function): void | Promise<unknown> {
         const expandDiff = ArraySimpleValuesUtil.getArrayDifference(this._expandedItems, expandedItems);
 
         // Если изменили с [...] на [null], то нужно загрузить все кроме явно схлопнутых
@@ -302,6 +302,9 @@ export class Controller {
             return Promise
                 .all(results)
                 .then((result) => {
+                    if (callBeforeChangeModel) {
+                        callBeforeChangeModel(expandedItems);
+                    }
                     this._setExpandedItems(expandedItems);
                     return result;
                 });
