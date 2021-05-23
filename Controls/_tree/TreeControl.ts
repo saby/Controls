@@ -1052,7 +1052,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             const sourceController = this.getSourceController();
             const expandedItems = _private.getExpandedItems(this, options, loadedList, this._listViewModel.getExpandedItems());
             if (sourceController) {
-                this._listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems));
+                // Вызываем метод с флагом reBuildNodeFooters, т.к. после перезагрузки не будет события с добавлением
+                // элементов и футеры без флага не посчитаются
+                this._listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems), true);
             }
 
             if (this._updateExpandedItemsAfterReload) {
