@@ -299,7 +299,8 @@ export default class TileView extends ListView {
 
     private _setHoveredItem(self: TileView, item: TileCollectionItem, event: SyntheticEvent): void {
         // Элемент могут удалить, но hover на нем успеет сработать. Проверяем что элемент точно еще есть в модели.
-        const hasItem = !!this._listModel.getItemBySourceItem(item.getContents());
+        // Может прийти null, чтобы сбросить элемент
+        const hasItem = item === null || !!this._listModel.getItemBySourceItem(item.getContents());
         if (!hasItem) {
             return;
         }
