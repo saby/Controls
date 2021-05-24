@@ -106,6 +106,12 @@ describe('Controls/dataSource:loadData', () => {
                 title: 'Sasha'
             }
         );
+        deepStrictEqual(
+            (loadDataResult[0]).filterController.getFilter(),
+            {
+                title: 'Sasha'
+            }
+        );
     });
 
     it('load with custom loader', async () => {
