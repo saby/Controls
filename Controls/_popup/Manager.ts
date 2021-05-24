@@ -73,6 +73,13 @@ class Manager {
             });
         }
 
+        if (constants.isBrowserPlatform) {
+            // Если смена урла осуществляется по кнопками вперед и назад в браузере - обрабатываем их как клик мимо
+            window.addEventListener('popstate', () => {
+                this.historyChangeHandler();
+            });
+        }
+
         if (detection.isMobileIOS) {
             this._controllerVisibilityChangeHandler = this._controllerVisibilityChangeHandler.bind(this);
             EventBus.globalChannel().subscribe('MobileInputFocus', this._controllerVisibilityChangeHandler);
@@ -471,17 +478,28 @@ class Manager {
     }
 
     protected mouseDownHandler(event: Event): void {
-        if (this._elementIsPopupOverlay(event.target as Element)) {
+        this._outsideClickHandler(event);
+    }
+
+    protected historyChangeHandler(): void {
+        this._outsideClickHandler();
+    }
+
+    private _outsideClickHandler(event?: Event): void {
+        const target = event?.target as HTMLElement;
+        const isClickToOverlay = target ? this._elementIsPopupOverlay(target) : false;
+        const isClickToIgnoredArea = target ? this._isIgnoreActivationArea(target) : false;
+        if (isClickToOverlay) {
             const popupContainer = ManagerController.getContainer();
             const popupItem = ManagerController.find(popupContainer.getOverlayId());
             if (popupItem && popupItem.popupState !== popupItem.controller.POPUP_STATE_INITIALIZING) {
                 this._closePopupByOutsideClick(popupItem);
             }
-        } else if (!this._isIgnoreActivationArea(event.target as HTMLElement)) {
+        } else if (!isClickToIgnoredArea) {
             const popupsForClose = [];
             this._popupItems.each((item) => {
                 if (item) {
-                    const parentControls = goUpByControlTree(event.target);
+                    const parentControls = target ? goUpByControlTree(target) : [];
                     const popupInstance = ManagerController.getContainer().getPopupById(item.id);
 
                     // Check the link between target and popup
