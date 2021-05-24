@@ -767,6 +767,7 @@ const _private = {
             self._shouldDrawCut = true;
         } else {
             self._shouldDrawFooter = false;
+            self._shouldDrawCut = false;
         }
 
         if (self._shouldDrawFooter) {
