@@ -362,7 +362,7 @@
   "--unselected_marker-box_background-color_switcher": "var(--marker-box_background-color_switcher)",
   "--marker-size_switcher": "var(--offset_xs)",
   "--marker_color_switcher": "var(--marker_color)",
-  "--readonly_marker_color_switcher": "#8991a9",
+  "--readonly_marker_color_switcher": "var(--label_text-color)",
   "--readonly_marker-box_border-color_switcher": "#E4E4E4",
   "--marker-box_hover_border-color_switcher": "var(--marker_color_switcher)",
   "--readonly_unselected_marker-box_border-color_switcher": "var(--readonly_marker-box_border-color_switcher)",
