@@ -441,12 +441,6 @@ export default class Explorer extends Control<IExplorerOptions> {
                 }
             }
 
-            this._setRoot(item.getKey());
-            // При search не должны сбрасывать маркер, так как он встанет на папку
-            if (this._options.searchNavigationMode !== 'expand') {
-                this._isGoingFront = true;
-            }
-
             // При проваливании нужно сбросить восстановленное значение курсора
             // иначе данные загрузятся не корректные
             if (
@@ -454,6 +448,12 @@ export default class Explorer extends Control<IExplorerOptions> {
                 this._restoredCursor === this._navigation.sourceConfig.position
             ) {
                 this._navigation.sourceConfig.position = null;
+            }
+
+            this._setRoot(item.getKey());
+            // При search не должны сбрасывать маркер, так как он встанет на папку
+            if (this._options.searchNavigationMode !== 'expand') {
+                this._isGoingFront = true;
             }
         };
 
@@ -818,6 +818,14 @@ export default class Explorer extends Control<IExplorerOptions> {
             if (this._children.treeControl.isAllSelected()) {
                 this._children.treeControl.clearSelection();
             }
+
+            if (
+                this._isCursorNavigation(this._navigation) &&
+                this._restoredCursor === this._navigation.sourceConfig.position
+            ) {
+                this._navigation.sourceConfig.position = null;
+            }
+
             this._isGoingBack = false;
         }
 
