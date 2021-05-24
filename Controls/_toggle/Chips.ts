@@ -3,7 +3,10 @@ import {IItemsOptions, IMultiSelectableOptions} from 'Controls/interface';
 import {ButtonTemplate} from 'Controls/buttons';
 import {Model} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import * as template from 'wml!Controls/_toggle/Chips/Chips';
+import * as template from 'wml!Controls/_toggle/ButtonGroup/ButtonGroup';
+import 'css!Controls/buttons';
+import 'css!Controls/toggle';
+import 'css!Controls/CommonClasses';
 
 export interface IChipsOptions extends IMultiSelectableOptions, IControlOptions, IItemsOptions<object> {
 }
@@ -22,6 +25,10 @@ export interface IChipsOptions extends IMultiSelectableOptions, IControlOptions,
 class Chips extends Control<IChipsOptions> {
     protected _template: TemplateFunction = template;
     protected _buttonTemplate: TemplateFunction = ButtonTemplate;
+
+    protected _isSelectedItem(item: Model): boolean {
+        return this._options.selectedKeys.includes(item[this._options.keyProperty]);
+    }
 
     protected _onItemClick(event: SyntheticEvent<Event>, item: Model): void {
         const keyProperty = this._options.keyProperty;
