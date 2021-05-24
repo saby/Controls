@@ -7,7 +7,7 @@
                     breadCrumbsItemClickCallback="{{ _onBreadcrumbItemClick }}"
                     keyProperty="{{gridColumn.getKeyProperty()}}"
                     displayProperty="{{gridColumn.getDisplayProperty()}}"
-                    on:click="_onBreadcrumbClick(item)">
+        >
             <ws:itemTemplate>
                 <ws:partial template="{{item.getBreadcrumbsItemTemplate()}}">
                     <ws:contentTemplate>
