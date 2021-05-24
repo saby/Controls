@@ -5,12 +5,16 @@ import { Model } from 'Types/entity';
 import BreadcrumbsItemRow from 'Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemRow';
 import 'Controls/decorator';
 import SearchGridCollection from 'Controls/_searchBreadcrumbsGrid/display/SearchGridCollection';
-import {TreeItem} from 'Controls/display';
 
 export default class SearchView extends TreeGridView {
    private _itemClickNotifiedByPathClick: boolean = false;
 
    protected _listModel: SearchGridCollection;
+
+   _beforeMount(options: any): Promise<void> {
+      this._onBreadcrumbItemClick = this._onBreadcrumbItemClick.bind(this);
+      return super._beforeMount(options);
+   }
 
    _beforeUpdate(newOptions: any): void {
       super._beforeUpdate(newOptions);
