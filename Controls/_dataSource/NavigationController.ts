@@ -233,15 +233,22 @@ export default class NavigationController {
 
                 updateResult.push(
                     calculator.updateQueryProperties(
-                        this._getStore(storeId), list, metaMoreItem,
-                        navigationConfig, direction, hierarchyRelation?.getChildren(storeId, list) as Model[]
+                        this._getStore(storeId),
+                        list,
+                        metaMoreItem,
+                        navigationConfig,
+                        direction,
+                        hierarchyRelation?.getChildren(storeId, list) as Model[],
+                        calculator.getAdditionalMeta(list, storeId as string)
                     )
                 );
             });
         } else {
             // Если id не передан то берется стор для корневого раздела, для которого жесткий id = null
             const store = this._getStore(id);
-            updateResult = [calculator.updateQueryProperties(store, list, metaMore, navigationConfig, direction)];
+            updateResult = [
+                calculator.updateQueryProperties(store, list, metaMore, navigationConfig, direction)
+            ];
         }
         return updateResult;
     }

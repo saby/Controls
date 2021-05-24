@@ -1,4 +1,5 @@
 import { assert } from 'chai';
+import { stub, spy } from 'sinon';
 
 import {
     Tree,
@@ -15,8 +16,7 @@ import {
 import { Model } from 'Types/entity';
 
 import {Serializer} from 'UI/State';
-import {TreeGridNodeFooterRow} from "Controls/treeGrid";
-import TreeGridCollection from "Controls/_treeGrid/display/TreeGridCollection";
+import {TreeGridNodeFooterRow, TreeGridCollection, TreeGridDataRow} from 'Controls/treeGrid';
 
 interface IData {
     id: number;
@@ -2288,6 +2288,7 @@ describe('Controls/_display/Tree', () => {
                nodeProperty: 'node',
                columns: [],
                expandedItems: [null],
+               nodeFooterTemplate: () => '',
                nodeFooterVisibilityCallback: callback
            });
 
@@ -2305,5 +2306,211 @@ describe('Controls/_display/Tree', () => {
            assert.instanceOf(tree.at(1), TreeGridNodeFooterRow);
            assert.isNotOk(tree.at(3));
        });
+
+        it('when toggle node, recount only one node footer', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, node: true, pid: 0},
+                    {id: 11, node: true, pid: 1},
+                    {id: 2, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            // TODO должно быть Tree, но нодФутеры пока что создаются только в treeGrid
+            const tree = new TreeGridCollection({
+                collection: rs,
+                root: {
+                    id: 0,
+                    title: 'Root'
+                },
+                keyProperty: 'id',
+                parentProperty: 'pid',
+                nodeProperty: 'node',
+                columns: [],
+                expandedItems: [1, 2],
+                nodeFooterTemplate: () => ''
+            });
+
+            const onCollectionChange = spy(() => {});
+            tree.subscribe('onCollectionChange', onCollectionChange);
+
+            // вернули узел 1
+            tree.setExpandedItems([2]);
+
+            // Должно быть только 2 события: узел свернулся, дети и футер удалились
+            assert.equal(onCollectionChange.args.length, 2);
+
+            // берем аргументы события удаления узла
+            let args = onCollectionChange.args[0] as Array<[]|string>;
+            assert.equal(args[1], 'rm'); // проверяем action
+            const removedItems = args[4];
+            assert.equal(removedItems.length, 2); // удалилось 2 элемента: ребенок и футер
+            assert.instanceOf(removedItems[0], TreeGridDataRow); // удалился ребенок
+            assert.instanceOf(removedItems[1], TreeGridNodeFooterRow); // удалился футер
+
+            onCollectionChange.resetHistory();
+            // развернули узел 1
+            tree.setExpandedItems([1, 2]);
+
+            // Должно быть только 2 события: узел развернулся, дети и футер добавились
+            assert.equal(onCollectionChange.args.length, 2);
+
+            // берем аргументы события удаления узла
+            args = onCollectionChange.args[0];
+            assert.equal(args[1], 'a'); // проверяем action
+            const addedItems = args[2];
+            assert.equal(addedItems.length, 2); // добавилось 2 элемента: ребенок и футер
+            assert.instanceOf(removedItems[0], TreeGridDataRow); // добавился ребенок
+            assert.instanceOf(removedItems[1], TreeGridNodeFooterRow); // добавился футер
+        });
+
+        it('not create node footers, if not has more and nodeTemplate', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, node: true, pid: 0},
+                    {id: 11, node: true, pid: 1},
+                    {id: 2, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = new TreeGridCollection({
+                collection: rs,
+                root: {
+                    id: 0,
+                    title: 'Root'
+                },
+                keyProperty: 'id',
+                parentProperty: 'pid',
+                nodeProperty: 'node',
+                columns: [],
+                expandedItems: [1, 2]
+            });
+
+            const items = tree.getItems();
+            const hasNodeFooter = items.find((it) => it['[Controls/treeGrid:TreeGridNodeFooterRow]']);
+            assert.isNotOk(hasNodeFooter);
+        });
+
+        it('create footers if set nodeFooterTemplate', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, node: true, pid: 0},
+                    {id: 11, node: true, pid: 1},
+                    {id: 2, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = new TreeGridCollection({
+                collection: rs,
+                root: {
+                    id: 0,
+                    title: 'Root'
+                },
+                keyProperty: 'id',
+                parentProperty: 'pid',
+                nodeProperty: 'node',
+                columns: [],
+                expandedItems: [1, 2]
+            });
+
+            let items = tree.getItems();
+            let hasNodeFooter = !!items.find((it) => it['[Controls/treeGrid:TreeGridNodeFooterRow]']);
+            assert.isFalse(hasNodeFooter);
+
+            tree.setNodeFooterTemplate(() => '');
+            items = tree.getItems();
+            hasNodeFooter = !!items.find((it) => it['[Controls/treeGrid:TreeGridNodeFooterRow]']);
+            assert.isTrue(hasNodeFooter);
+        });
+
+        it('rebuild all node footers when pass flag', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, node: true, pid: 0},
+                    {id: 11, node: true, pid: 1},
+                    {id: 2, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = new TreeGridCollection({
+                collection: rs,
+                root: {
+                    id: 0,
+                    title: 'Root'
+                },
+                keyProperty: 'id',
+                parentProperty: 'pid',
+                nodeProperty: 'node',
+                columns: [],
+                expandedItems: [1, 2]
+            });
+
+            let items = tree.getItems();
+            const hasNodeFooter = !!items.find((it) => it['[Controls/treeGrid:TreeGridNodeFooterRow]']);
+            assert.isFalse(hasNodeFooter);
+
+            // футеры сразу пересчитываются, т.к. передали флаг
+            tree.setHasMoreStorage({1: true}, true);
+
+            items = tree.getItems();
+            // проверяем что создался узел
+            const nodeFooters = items.filter((it) => it['[Controls/treeGrid:TreeGridNodeFooterRow]']);
+            assert.equal(nodeFooters.length, 1);
+            assert.equal(nodeFooters[0].getNode(), tree.getItemBySourceKey(1));
+            assert.equal(tree.getItemBySourceKey(1).getNodeFooter(), nodeFooters[0]);
+        });
+
+        it('recount footers when changed hasMoreStorage', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, node: true, pid: 0},
+                    {id: 11, node: true, pid: 1},
+                    {id: 2, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = new TreeGridCollection({
+                collection: rs,
+                root: {
+                    id: 0,
+                    title: 'Root'
+                },
+                keyProperty: 'id',
+                parentProperty: 'pid',
+                nodeProperty: 'node',
+                columns: [],
+                expandedItems: [1, 2]
+            });
+
+            let items = tree.getItems();
+            let hasNodeFooter = !!items.find((it) => it['[Controls/treeGrid:TreeGridNodeFooterRow]']);
+            assert.isFalse(hasNodeFooter);
+
+            // hasMoreStorage пересчитывается только после подгрузки в узел, поэтому нодФутеры
+            // пересчитаются только, когда добавятся новые элементы
+            tree.setHasMoreStorage({1: true});
+            rs.add(new Model({
+                rawData: {id: 12, node: null, pid: 1}
+            }));
+
+            items = tree.getItems();
+            // првоеряем что создался узел и только один для узла 1
+            const nodeFooters = items.filter((it) => it['[Controls/treeGrid:TreeGridNodeFooterRow]']);
+            assert.equal(nodeFooters.length, 1);
+            assert.equal(nodeFooters[0].getNode(), tree.getItemBySourceKey(1));
+            assert.equal(tree.getItemBySourceKey(1).getNodeFooter(), nodeFooters[0]);
+
+            // имитируем последнюю подгрузку в узел, футер должен удалиться
+            tree.setHasMoreStorage({1: false});
+            rs.add(new Model({
+                rawData: {id: 13, node: null, pid: 1}
+            }));
+
+            items = tree.getItems();
+            hasNodeFooter = !!items.find((it) => it['[Controls/treeGrid:TreeGridNodeFooterRow]']);
+            assert.isFalse(hasNodeFooter);
+            const node = tree.getItemBySourceKey(1);
+            assert.isNotOk(node.getNodeFooter()); // проверяем что ссылка на футер занулилась
+        });
     });
 });
