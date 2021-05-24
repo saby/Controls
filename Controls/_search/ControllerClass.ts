@@ -285,6 +285,9 @@ export default class ControllerClass {
 
       if (this.isSearchInProcess() && this._searchValue) {
          this._sourceController.setFilter(filter);
+         if (!this._sourceController.isDeepReload()) {
+            this._sourceController.setExpandedItems([]);
+         }
 
          if (this._options.startingWith === 'root' && !isSearchMode && this._options.parentProperty) {
             const newRoot = ControllerClass._getRoot(this._path, this._root, this._options.parentProperty);
