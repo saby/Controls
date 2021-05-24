@@ -85,7 +85,8 @@ class PositionParamsCalculator implements IParamsCalculator {
         metaMore: object,
         config: IBasePositionSourceConfig,
         direction?: TNavigationDirection,
-        listForCurrentStore: Model[] = []
+        listForCurrentStore: Model[] = [],
+        additionalMeta: object = {}
     ): IPositionNavigationState  {
         const storeParams = store.getState();
 
@@ -117,7 +118,7 @@ class PositionParamsCalculator implements IParamsCalculator {
         }
 
         const metaData = list.getMetaData();
-        const metaNextPosition = metaData.nextPosition;
+        const metaNextPosition = additionalMeta.nextPosition || metaData.nextPosition;
         const metaIterative = metaData.iterative;
 
         store.setIterative(metaIterative);
@@ -245,6 +246,20 @@ class PositionParamsCalculator implements IParamsCalculator {
 
     destroy(): void {
         return;
+    }
+
+    getAdditionalMeta(list: RecordSet, id?: string): object {
+        const metaData = list.getMetaData();
+        const metaNextPosition = metaData.nextPosition;
+        let nextPosition;
+
+        if (metaNextPosition instanceof RecordSet && id) {
+            nextPosition = metaNextPosition.getRecordById(id).get('nav_result');
+        } else {
+            nextPosition = metaNextPosition;
+        }
+
+        return {nextPosition};
     }
 
     private static _resolveDirection(
