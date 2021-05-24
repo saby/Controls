@@ -481,8 +481,19 @@ const _private = {
         } else {
             const wasItemsReplaced = oldCollection && !isEqualItems(oldCollection, items);
             listModel.setItems(items, newOptions);
-            self._items = listModel.getCollection();
 
+            // Старая модель пересоздает коллекцию, необходимо передать новую в контроллер редактирования,
+            // т.к. пересоздание коллекции могло произойти во время запуска/завершения редактирования.
+            // Данный костыль нужен только для поддержания добавления в конец/начало списка в старых моделях.
+            // При отказе от старых моделей костыль можно удалить.
+            // Доработка добавления в в конец/начало списка будет реализовано по
+            // https://online.sbis.ru/opendoc.html?guid=000ff88b-f37e-4aa6-9bd3-3705bb721014
+            if (self._editInPlaceController && self._getEditingConfig().task1181625554) {
+                self._editInPlaceController.updateOptions({
+                    collection: listModel.getDisplay()
+                });
+            }
+            self._items = listModel.getCollection();
             if (wasItemsReplaced) {
                 self._onItemsReady(newOptions, self._items);
             }
