@@ -412,7 +412,20 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
     }
 
     updateExpandedItemsInUserStorage(): void  {
-        nodeHistoryUtil.store(this._expandedItems, this._options.nodeHistoryId);
+        let expandedItems: TKey[];
+        if (!this._expandedItems || this._expandedItems.length === 0 ||
+            this._options.nodeHistoryType === 'both' || !this._options.nodeTypeProperty) {
+            expandedItems = this._expandedItems;
+        } else {
+            expandedItems = this._expandedItems.filter((key) => {
+                const nodeTypeProperty = this._items.getRecordById(key).get(this._options.nodeTypeProperty);
+                if (this._options.nodeHistoryType === 'node') {
+                    return nodeTypeProperty !== 'group';
+                }
+                return nodeTypeProperty === 'group';
+            });
+        }
+        nodeHistoryUtil.store(expandedItems, this._options.nodeHistoryId);
     }
 
     getExpandedItems(): TKey[] {
