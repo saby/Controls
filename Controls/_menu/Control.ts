@@ -50,6 +50,7 @@ const MAX_HISTORY_VISIBLE_ITEMS_COUNT = 10;
  * @mixes Controls/menu:IMenuControl
  * @mixes Controls/menu:IMenuBase
  * @mixes Controls/dropdown:IGrouped
+ * @mixes Controls/interface/IPromisedSelectable
  * @demo Controls-demo/Menu/Control/Source/Index
  *
  * @author Герасимов А.М.
@@ -1169,24 +1170,23 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 }
 /**
- * @name Controls/_menu/Control#multiSelect
- * @cfg {Boolean} Определяет, установлен ли множественный выбор.
+ * @name Controls/_menu/MenuControl#multiSelect
+ * @cfg {Boolean} Видимость чекбоксов в меню.
  * @default false
  * @demo Controls-demo/Menu/Control/MultiSelect/Index
  * @example
  * Множественный выбор установлен.
- * WML:
- * <pre>
+ * <pre class="brush: html; highlight: [7]">
+ * <!-- WML -->
  * <Controls.menu:Control
- *       selectedKeys="{{_selectedKeys}}"
- *       keyProperty="id"
- *       displayProperty="title"
- *       source="{{_source}}"
- *       multiSelect="{{true}}">
- * </Controls.menu:Control>
+ *    selectedKeys="{{_selectedKeys}}"
+ *    keyProperty="id"
+ *    displayProperty="title"
+ *    source="{{_source}}"
+ *    multiSelect="{{true}}" />
  * </pre>
- * JS:
- * <pre>
+ * <pre class="brush: js;">
+ * // JavaScript
  * this._source = new Memory({
  *    keyProperty: 'id',
  *    data: [
@@ -1200,40 +1200,35 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
  */
 
 /**
- * @name Controls/_menu/Control#selectedKeys
- * @cfg {Array.<Number|String>} Массив ключей выбранных элементов.
- * @demo Controls-demo/Menu/Control/SelectedKeys/Index
- */
-
-/**
- * @name Controls/_menu/Control#root
+ * @name Controls/_menu/MenuControl#root
  * @cfg {Number|String|null} Идентификатор корневого узла.
  * @demo Controls-demo/Menu/Control/Root/Index
  */
 
 /**
  * @event Происходит при выборе элемента.
- * @name Controls/_menu/Control#itemClick
+ * @name Controls/_menu/MenuControl#itemClick
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Выбранный элемент.
  * @remark Из обработчика события можно возвращать результат обработки. Если результат будет равен false, подменю не закроется.
  * По умолчанию, когда выбран пункт с иерархией, подменю закрывается.
  * @example
  * В следующем примере показано, как незакрывать подменю, если кликнули на пункт с иерархией.
- * <pre>
- *    <Controls.menu:Control
- *          displayProperty="title"
- *          keyProperty="key"
- *          source="{{_source}}"
- *          on:itemClick="_itemClickHandler()" />
+ * <pre class="brush: html; highlight: [6]">
+ * <!-- WML -->
+ * <Controls.menu:Control
+ *    displayProperty="title"
+ *    keyProperty="key"
+ *    source="{{_source}}"
+ *    on:itemClick="_itemClickHandler()" />
  * </pre>
- * TS:
- * <pre>
- *    protected _itemClickHandler(e, item): boolean {
- *       if (item.get(nodeProperty)) {
- *          return false;
- *       }
- *    }
+ * <pre  class="brush: js;">
+ * // TypeScript
+ * protected _itemClickHandler(e, item): boolean {
+ *     if (item.get(nodeProperty)) {
+ *         return false;
+ *     }
+ * }
  * </pre>
  */
 
