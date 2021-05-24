@@ -60,6 +60,10 @@ export function simpleCssStyleGeneration(options: IButtonControlOptions): void {
     this._fontSize = options.fontSize;
     this._hasIcon = !!options.icon;
 
+    if (this._viewMode === 'functionalButton' && this._buttonStyle === 'unaccented') {
+        this._buttonStyle = 'pale';
+    }
+
     this._caption = options.caption;
     // На сервере rk создает инстанс String'a, проверки на typeof недостаточно
     this._stringCaption = typeof options.caption === 'string' || options.caption instanceof String;
