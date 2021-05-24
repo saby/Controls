@@ -20,6 +20,7 @@ export interface IInfoBoxPopupOptions extends IValidationStatusOptions, IControl
     targetSide?: string;
     alignment?: string;
     floatCloseButton?: boolean;
+    closeButtonVisibility?: boolean;
     closeOnOutsideClick?: boolean;
     hideDelay?: number;
     showDelay?: number;
