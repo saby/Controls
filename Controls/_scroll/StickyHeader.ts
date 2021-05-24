@@ -183,6 +183,15 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     }
 
     protected _componentDidMount(options: IStickyHeaderOptions): void {
+        // Компонент иногда модифицирует стили до циклов синхронизации чтобы не было миганий. Из-за этого имеем
+        // следующую ошибку. Заголовок уничтожается, и на том же dom контейнере строится новый компонент.
+        // Несмотря на то, что _style === '', на дом элементе остаются стили от старого компонента.
+        // Если стили остались, то чистим их.
+        // TODO: После того как заменим инферно на реакт проблемы скорее не будет.
+        if (this._container.style.top || this._container.style.bottom) {
+            this._container.style.top = '';
+            this._container.style.bottom = '';
+        }
         if (!this._isStickyEnabled(options)) {
             return;
         }
