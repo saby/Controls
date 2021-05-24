@@ -733,10 +733,15 @@ export default class Explorer extends Control<IExplorerOptions> {
         navigation: INavigationOptionValue<INavigationPageSourceConfig>
     ): void {
 
-        const store = this._restoredMarkedKeys || {
-            [root]: {markedKey: null},
-            [topRoot]: {markedKey: null}
-        } as IMarkedKeysStore;
+        const store = this._restoredMarkedKeys || {} as IMarkedKeysStore;
+
+        if (!store[root]) {
+            store[root] = {markedKey: null};
+        }
+
+        if (!store[topRoot]) {
+            store[topRoot] = {markedKey: null};
+        }
 
         // Если хлебных крошек нет, то дальше идти нет смысла
         if (!breadcrumbs?.length) {
