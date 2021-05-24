@@ -183,7 +183,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
- * @typedef {String} MultiSelectVisibility
+ * @typedef {String} Controls/_list/interface/IList/MultiSelectVisibility
  * @description Допустимые значения для опции {@link multiSelectVisibility}.
  * @variant visible Показать.
  * @variant hidden Скрыть.
@@ -192,7 +192,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @name Controls/_list/interface/IList#multiSelectVisibility
- * @cfg {MultiSelectVisibility} Видимость {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/ чекбоксов}.
+ * @cfg {Controls/_list/interface/IList/MultiSelectVisibility.typedef} Видимость {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/ чекбоксов}.
  * @demo Controls-demo/list_new/MultiSelect/MultiSelectVisibility/OnHover/Index
  * @default hidden
  * @see multiSelectAccessibilityProperty
@@ -200,7 +200,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /*ENG
- * @typedef {String} MultiSelectVisibility
+ * @typedef {String} Controls/_list/interface/IList/MultiSelectVisibility
  * @variant visible Show.
  * @variant hidden Do not show.
  * @variant onhover Show on hover.
@@ -208,13 +208,13 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /*ENG
  * @name Controls/_list/interface/IList#multiSelectVisibility
- * @cfg {MultiSelectVisibility} Whether multiple selection is enabled.
+ * @cfg {Controls/_list/interface/IList/MultiSelectVisibility.typedef} Whether multiple selection is enabled.
  * @demo Controls-demo/list_new/MultiSelect/MultiSelectVisibility/OnHover/Index
  * @default hidden
  */
 
 /**
- * @typedef {String} MultiSelectPosition
+ * @typedef {String} Controls/_list/interface/IList/MultiSelectPosition
  * @description Допустимые значения для опции {@link multiSelectPosition}.
  * @variant custom Позиционирование чекбокса в произвольном месте пользовательского шаблона. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/position/ здесь}.
  * @variant default Стандартная позиция чекбоксов множественного выбора в начале строки.
@@ -222,7 +222,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @name Controls/_list/interface/IList#multiSelectPosition
- * @cfg {MultiSelectPosition} Позиционирование {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/ чекбокса}.
+ * @cfg {Controls/_list/interface/IList/MultiSelectPosition.typedef} Позиционирование {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/ чекбокса}.
  * @demo Controls-demo/list_new/MultiSelect/CustomPosition/Index
  * @default default
  * @see multiSelectAccessibilityProperty
@@ -230,14 +230,14 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /*ENG
- * @typedef {String} MultiSelectPosition
+ * @typedef {String} Controls/_list/interface/IList/MultiSelectPosition
  * @variant custom A custom position for the multiple selection checkboxes. With this option value, the multiple selection template is passed to the item template and can be displayed anywhere in it
  * @variant default The standard position of the multiple selection checkboxes (at the beginning of the line)
  */
 
 /*ENG
  * @name Controls/_list/interface/IList#multiSelectPosition
- * @cfg {MultiSelectPosition} Position of multiple selection checkboxes
+ * @cfg {Controls/_list/interface/IList/MultiSelectPosition.typedef} Position of multiple selection checkboxes
  * @demo Controls-demo/list_new/MultiSelect/CustomPosition/Index
  * @default default
  */
@@ -376,37 +376,38 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
- * @typedef {String} Style
+ * @typedef {String} Controls/_list/interface/IList/Style
+ * @description Допустмиые значения для опции {@link style}.
  * @variant master Двухколоночный реестр.
  * @variant default Плоский список.
  */
 
 /**
  * @name Controls/_list/interface/IList#style
- * @cfg {Style} Режим отображения списка.
+ * @cfg {Controls/_list/interface/IList/Style.typedef} Режим отображения списка.
  * @default default
  */
 
 /*ENG
- * @typedef {String} Style
+ * @typedef {String} Controls/_list/interface/IList/Style
  * @variant master Stylizes control as MasterDetail
  * @variant default Simple list
  */
 
 /*ENG
  * @name Controls/_list/interface/IList#style
- * @cfg {String} Control styling
+ * @cfg {Controls/_list/interface/IList/Style.typedef} Control styling
  * @default default
  */
 
 /**
- * @typedef {String} ReloadType
+ * @typedef {String} Controls/_list/interface/IList/ReloadType
  * @variant query Элемент будет перезагружен с помощью метода "Поисковый запрос".
  * @variant read Элемент будет перезагружен с помощью метода "Прочитать".
  */
 
 /*ENG
- * @typedef {String} ReloadType
+ * @typedef {String} Controls/_list/interface/IList/ReloadType
  * @variant query Item will be reloaded with query method
  * @variant read Item will be reloaded with read method
  */
@@ -419,7 +420,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * @param {Boolean} replaceItem Определяет, как загруженный элемент будет применяться к коллекции.
  * Если параметр имеет значение true, элемент коллекции будет заменен загруженным элементом.
  * Если параметр имеет значение false (по умолчанию), загруженные элементы будут объединены в элемент коллекции.
- * @param {ReloadType} [reloadType=read] Определяет, как будет загружен элемент.
+ * @param {Controls/_list/interface/IList/ReloadType.typedef} [reloadType=read] Определяет, как будет загружен элемент.
  * @return {Promise<RecordSet>} В случае успешной загрузки, Promise вернет список отображаемых дочерних элементов для загруженного узла.
  * @example
  * <pre class="brush: js">
@@ -565,7 +566,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
- * @typedef {String} VerticalItemPaddingEnum
+ * @typedef {String} Controls/_list/interface/IList/VerticalItemPaddingEnum
  * @description Допустимые значения для свойств {@link Controls/list:IList.ItemPadding ItemPadding}.
  * @variant null Нулевой отступ.
  * @variant s Маленький отступ.
@@ -573,14 +574,14 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /*ENG
- * @typedef {String} VerticalItemPaddingEnum
+ * @typedef {String} Controls/_list/interface/IList/VerticalItemPaddingEnum
  * @variant null Without padding.
  * @variant s Small padding.
  * @variant l Large padding.
  */
 
 /**
- * @typedef {String} HorizontalItemPaddingEnum
+ * @typedef {String} Controls/_list/interface/IList/HorizontalItemPaddingEnum
  * @description Допустимые значения для свойств {@link Controls/list:IList.ItemPadding ItemPadding}.
  * @variant null Нулевой отступ.
  * @variant xs Минимальный отступ.
@@ -592,7 +593,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /*ENG
- * @typedef {Object} HorizontalItemPaddingEnum
+ * @typedef {Object} Controls/_list/interface/IList/HorizontalItemPaddingEnum
  * @variant null Without padding.
  * @variant xs Extra small padding.
  * @variant s Small padding.
@@ -603,16 +604,16 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
- * @typedef {Object} ItemPadding
+ * @typedef {Object} Controls/_list/interface/IList/ItemPadding
  * @description Свойства для конфигурации опции {@link Controls/list:IList#itemPadding itemPadding}.
- * @property {VerticalItemPaddingEnum} [top=s] Отступ от содержимого до верхней границы элемента. Если свойство принимает значение null, то отступ отсутствует.
- * @property {VerticalItemPaddingEnum} [bottom=s] Отступ от содержимого до нижней границы элемента. Если свойство принимает значение null, то отступ отсутствует.
- * @property {HorizontalItemPaddingEnum} [left=m] Отступ от содержимого до левой границы элемента. Если свойство принимает значение null, то отступ отсутствует.
- * @property {HorizontalItemPaddingEnum} [right=m] Отступ от содержимого до правой границы элемента. Если свойство принимает значение null, то отступ отсутствует.
+ * @property {Controls/_list/interface/IList/VerticalItemPaddingEnum.typedef} [top=s] Отступ от содержимого до верхней границы элемента. Если свойство принимает значение null, то отступ отсутствует.
+ * @property {Controls/_list/interface/IList/VerticalItemPaddingEnum.typedef} [bottom=s] Отступ от содержимого до нижней границы элемента. Если свойство принимает значение null, то отступ отсутствует.
+ * @property {Controls/_list/interface/IList/HorizontalItemPaddingEnum.typedef} [left=m] Отступ от содержимого до левой границы элемента. Если свойство принимает значение null, то отступ отсутствует.
+ * @property {Controls/_list/interface/IList/HorizontalItemPaddingEnum.typedef} [right=m] Отступ от содержимого до правой границы элемента. Если свойство принимает значение null, то отступ отсутствует.
  */
 
 /*ENG
- * @typedef {Object} ItemPadding
+ * @typedef {Object} Controls/_list/interface/IList/ItemPadding
  * @property {VerticalItemPaddingEnum} [top=s] Padding from item content to top item border.
  * @property {VerticalItemPaddingEnum} [bottom=s] Padding from item content to bottom item border.
  * @property {HorizontalItemPaddingEnum} [left=m] Padding from item content to left item border.
@@ -620,18 +621,18 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
- * @cfg {ItemPadding} Конфигурация отступов внутри элементов списка.
+ * @cfg {Controls/_list/interface/IList/ItemPadding.typedef} Конфигурация отступов внутри элементов списка.
  * @name Controls/_list/interface/IList#itemPadding
  */
 
 /*ENG
- * @cfg {ItemPadding} Configuration inner paddings in the item.
+ * @cfg {Controls/_list/interface/IList/ItemPadding.typedef} Configuration inner paddings in the item.
  * @name Controls/_list/interface/IList#itemPadding
  */
 
 
 /**
- * @typedef {String} BackgroundStyle
+ * @typedef {String} Controls/_list/interface/IList/BackgroundStyle
  * @description Допустимые значения для опции {@link Controls/list:IList#backgroundStyle backgroundStyle}.
  * @variant master Предназначен для настройки фона masterDetail (Берётся из свойства style)
  * @variant infoBox Предназначен для настройки фона infoBox.
@@ -645,7 +646,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @name Controls/_list/interface/IList#backgroundStyle
- * @cfg {BackgroundStyle} {@link /doc/platform/developmentapl/interface-development/controls/list/list/background/ Префикс стиля для настройки фона} внутренних компонентов списочного контрола с фиксированным или абсолютным позиционированием.
+ * @cfg {Controls/_list/interface/IList/BackgroundStyle.typedef} {@link /doc/platform/developmentapl/interface-development/controls/list/list/background/ Префикс стиля для настройки фона} внутренних компонентов списочного контрола с фиксированным или абсолютным позиционированием.
  * @default default
  * @remark
  * Согласно <a href="/doc/platform/developmentapl/interface-development/controls/list/list/background/">документации</a> поддерживаются любые произвольные значения опции.
@@ -653,11 +654,11 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /*ENG
  * @name Controls/_list/interface/IList#backgroundStyle
- * @cfg {String} Style prefix to configure background for inner list control components with static or absolute positioning.
+ * @cfg {Controls/_list/interface/IList/BackgroundStyle.typedef} Style prefix to configure background for inner list control components with static or absolute positioning.
  * @default default (theme background)
  */
 /**
- * @typedef {String} RowSeparatorSize
+ * @typedef {String} Controls/_list/interface/IList/RowSeparatorSize
  * @description Допустимые значения для опции {@link Controls/list:IList#rowSeparatorSize rowSeparatorSize}.
  * @variant s Размер тонкой линии-разделителя.
  * @variant l Размер толстой линии-разделителя.
@@ -666,13 +667,13 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @name Controls/_list/interface/IList#rowSeparatorSize
- * @cfg {RowSeparatorSize} Высота {@link /doc/platform/developmentapl/interface-development/controls/list/grid/separator/#row линии-разделителя строк}.
+ * @cfg {Controls/_list/interface/IList/RowSeparatorSize.typedef} Высота {@link /doc/platform/developmentapl/interface-development/controls/list/grid/line-separator/#row линии-разделителя строк}.
  * @default s
  */
 
 /*
  * @name Controls/_list/interface/IList#rowSeparatorSize
- * @cfg {RowSeparatorSize} set row separator height.
+ * @cfg {Controls/_list/interface/IList/RowSeparatorSize.typedef} set row separator height.
  * @variant s Thin row separator line.
  * @variant l Wide row separator line.
  * @variant null Without row separator line
@@ -706,6 +707,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @typedef {Object} Controls/_list/interface/IList/TRoundBorder
+ * @description Допустимые значения для опции {@link roundBorder}.
  * @property {Controls/_list/interface/IList/TRoundBorderSize.typedef} tr Правый верхний угол.
  * @property {Controls/_list/interface/IList/TRoundBorderSize.typedef} tl Левый верхний угол.
  * @property {Controls/_list/interface/IList/TRoundBorderSize.typedef} br Правый нижний угол.
