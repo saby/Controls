@@ -321,7 +321,13 @@ export default class TileView extends ListView {
     }
 
     protected _needUpdateActions(item: TileCollectionItem, event: SyntheticEvent): boolean {
-        return item && this._options.actionMode === 'adaptive' && !!event;
+        if (!item || !event) {
+            return false;
+        }
+
+        // Элемент могут удалить, но hover на нем успеет сработать. Проверяем что элемент точно еще есть в модели.
+        const hasItem = !!this._listModel.getItemBySourceItem(item.getContents());
+        return this._options.actionMode === 'adaptive' && hasItem;
     }
 
     _getZoomCoefficient(): number {
