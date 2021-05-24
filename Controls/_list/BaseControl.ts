@@ -1282,7 +1282,7 @@ const _private = {
             const proportion = (scrollHeight / viewportSize);
 
             if (proportion > 0) {
-                
+
                 // начиличе пэйджинга зависит от того превышают данные два вьюпорта или нет
                 if (!result) {
                     result = proportion >= MIN_SCROLL_PAGING_SHOW_PROPORTION;
@@ -4053,7 +4053,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._listViewModel.setEmptyTemplate(newOptions.emptyTemplate);
         }
         // todo При отказе от старой - выпилить проверку "useNewModel".
-        if (!isEqual(newOptions.filter, this._options.filter) && newOptions.useNewModel) {
+        // Мало проверять только на измененный фильтр, записи могут просто переместить
+        if (/*!isEqual(newOptions.filter, this._options.filter) && */newOptions.useNewModel) {
             this._listViewModel.setEmptyTemplateOptions({items: this._items, filter: newOptions.filter});
         }
 
