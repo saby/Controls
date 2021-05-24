@@ -14,7 +14,8 @@ import {
     ISortingOptions,
     ISourceOptions,
     TKey,
-    TNavigationPagingMode
+    TNavigationPagingMode,
+    ISelectFieldsOptions
 } from 'Controls/interface';
 import {RecordSet} from 'Types/collection';
 import {
@@ -37,7 +38,6 @@ import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {fetch, HTTPStatus} from 'Browser/Transport';
 import {default as calculatePath, Path} from 'Controls/_dataSource/calculatePath';
-import TreeControl from "Controls/_tree/TreeControl";
 
 export interface IControllerState {
     keyProperty: string;
@@ -68,7 +68,8 @@ export interface IControllerOptions extends
     IGroupingOptions,
     ISourceOptions,
     IPromiseSelectableOptions,
-    INavigationOptions<INavigationSourceConfig> {
+    INavigationOptions<INavigationSourceConfig>,
+    ISelectFieldsOptions{
     dataLoadErrback?: Function;
     dataLoadCallback?: Function;
     root?: TKey;
@@ -563,7 +564,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         const navigationController = this._getNavigationController(this._navigation);
         const userQueryParams = {
             filter: queryParams.filter,
-            sorting: queryParams.sorting
+            sorting: queryParams.sorting,
+            select: queryParams.select
         };
         const isMultiNavigation = this._isMultiNavigation(navigationSourceConfig);
         const isHierarchyQueryParamsNeeded =
@@ -719,7 +721,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
 
         let params: IQueryParams | IQueryParams[] = {
             filter,
-            sorting: this._options.sorting
+            sorting: this._options.sorting,
+            select: this._options.selectFields
         };
 
         if (this._hasNavigationBySource()) {

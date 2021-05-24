@@ -62,6 +62,7 @@ import {Model} from 'Types/entity';
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
+ * @mixes Controls/interface:ISelectFields
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:ISorting
