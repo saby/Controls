@@ -20,7 +20,7 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
             it('by default', () => {
                 const item = new TileCollectionItem();
                 const result = item.getImageClasses('rich', undefined, 'center', 'rectangle', 1, 'top', 's');
-                CssClassesAssert.isSame(result, 'controls-TileView__richTemplate_image controls-TileView__richTemplate_image_viewMode_rectangle');
+                CssClassesAssert.isSame(result, 'controls-TileView__richTemplate_image controls-TileView__image controls-TileView__image_align_center controls-TileView__richTemplate_image_viewMode_rectangle');
             });
 
             it('contains controls-TileView__image', () => {
@@ -29,13 +29,13 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
                 CssClassesAssert.include(result, 'controls-TileView__image controls-TileView__image_align_center');
 
                 result = item.getImageClasses('rich', undefined, 'center', '', 0.5, 'top');
-                CssClassesAssert.notInclude(result, 'controls-TileView__image controls-TileView__image_align_center');
+                CssClassesAssert.include(result, 'controls-TileView__image controls-TileView__image_align_center');
 
                 result = item.getImageClasses('rich', undefined, 'center', '', 0.5, 'top', 'xl');
                 CssClassesAssert.include(result, 'controls-TileView__image controls-TileView__image_align_center');
 
                 result = item.getImageClasses('rich', undefined, 'center', 'rectangle', 1, 'top');
-                CssClassesAssert.notInclude(result, 'controls-TileView__image controls-TileView__image_align_center');
+                CssClassesAssert.include(result, 'controls-TileView__image controls-TileView__image_align_center');
             });
         });
 
