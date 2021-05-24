@@ -953,6 +953,10 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             filterController.resetPrefetch();
             this._filter = filterController.getFilter() as QueryWhereExpression<unknown>;
             this._notify('filterChanged', [this._filter]);
+            // Состояние _filter - не реактивное, и в случае,
+            // если не задают опцию filter, то _beforeUpdate не будет вызван и данные не перезагрузятся,
+            // т.к. sourceController обновляется только на _beforeUpdate
+            this._forceUpdate();
         }
     }
 
