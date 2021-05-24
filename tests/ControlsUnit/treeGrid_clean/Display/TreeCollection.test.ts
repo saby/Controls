@@ -30,7 +30,7 @@ describe('Controls/treeGrid_clean/Display/TreeCollection', () => {
             rawData: RAW_DATA,
             keyProperty: 'key'
         }));
-        assert.strictEqual(treeGridCollection.getCount(), 3);
+        assert.strictEqual(treeGridCollection.getCount(), 2);
     });
 
     it('setExpandedItems for deep into nodes', () => {
