@@ -1052,7 +1052,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             const sourceController = this.getSourceController();
             const expandedItems = _private.getExpandedItems(
                 this, options, loadedList,
-                options.hasOwnProperty('expandedItems') ? options.expandedItems : this._listViewModel.getExpandedItems()
+                this._updateExpandedItemsAfterReload ? options.expandedItems : this._listViewModel.getExpandedItems()
             );
             if (sourceController) {
                 // Вызываем метод с флагом reBuildNodeFooters, т.к. после перезагрузки не будет события с добавлением
