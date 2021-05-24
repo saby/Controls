@@ -1,7 +1,9 @@
 <Controls._popupTemplate.InfoBox stickyPosition="{{_options.stickyPosition}}" closeButtonVisibility="{{false}}" style="{{_options.style}}" validationStatus="{{_options.validationStatus}}">
    <div class="controls_popupTemplate_theme-{{_options.theme}} controls-InfoBox" on:mouseenter="_sendResult()" on:mouseleave="_sendResult()">
-      <Controls._popupTemplate.CloseButton attr:class="controls-InfoBoxTemplate__closeButton" on:click="_close()" viewMode="link" attr:ws-no-focus="true"/>
-      <ws:if data="{{_options.floatCloseButton}}">
+      <ws:if data="{{_options.closeButtonVisibility}}">
+         <Controls._popupTemplate.CloseButton attr:class="controls-InfoBoxTemplate__closeButton" on:click="_close()" viewMode="link" attr:ws-no-focus="true"/>
+      </ws:if>
+      <ws:if data="{{_options.floatCloseButton && _options.closeButtonVisibility}}">
          <div class="controls-InfoBox_floatElement"></div>
       </ws:if>
       <ws:if data="{{_options.template}}">

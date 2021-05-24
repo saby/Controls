@@ -9,6 +9,7 @@ export interface IInfoBoxOptions extends IControlOptions {
     floatCloseButton?: boolean;
     template?: string;
     templateOptions?: any;
+    closeButtonVisibility?: boolean;
 }
 
 /**
@@ -42,6 +43,7 @@ export interface IInfoBox {
  * @property {String} targetSide Сторона таргета, относительно которой будет позиционнироваться всплывающая подсказка.
  * @property {String} alignment Выравнивание всплывающей подсказки относительно вызывающего её элемента.
  * @property {Boolean} floatCloseButton  Определяет, будет ли контент обтекать кнопку закрытия.
+ * @property {Boolean} closeButtonVisibility Определяет, будет ли отображаться кнопка закрытия.
  * @property {String} style Внешний вид всплывающей подсказки.
  */
 
@@ -55,6 +57,7 @@ export interface IInfoBox {
  * @property {String} targetSide
  * @property {String} alignment
  * @property {Boolean} floatCloseButton Whether the content should wrap around the cross closure.
+ * @property {Boolean} closeButtonVisibility Whether the close button is displayed.
  * @property {String} style InfoBox display style.
  */
 
@@ -170,6 +173,18 @@ export interface IInfoBox {
  * @name Controls/_popup/interface/IInfoBox#floatCloseButton
  * @cfg {Boolean} Whether the content should wrap around the cross closure.
  * @default false
+ */
+
+/**
+ * @name Controls/_popup/interface/IInfoBox#closeButtonVisibility
+ * @cfg {Boolean} Определяет, будет ли отображаться кнопка закрытия.
+ * @default true
+ */
+
+/*
+ * @name Controls/_popup/interface/IInfoBox#closeButtonVisibility
+ * @cfg {Boolean} Whether the close button is displayed.
+ * @default true
  */
 
 /**
