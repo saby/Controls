@@ -22,7 +22,8 @@ import {
     ISourceOptions,
     TSelectionType,
     ISelectionObject,
-    TKey
+    TKey,
+    ISelectFieldsOptions
 } from 'Controls/interface';
 import Store from 'Controls/Store';
 import {SHADOW_VISIBILITY} from 'Controls/scroll';
@@ -44,7 +45,7 @@ type TViewMode = 'search' | 'tile' | 'table' | 'list';
 
 interface IListConfiguration extends IControlOptions, ISearchOptions, ISourceOptions,
     Required<IFilterOptions>, Required<IHierarchyOptions>, IHierarchySearchOptions,
-    IMarkerListOptions, IShadowsOptions {
+    IMarkerListOptions, IShadowsOptions, ISelectFieldsOptions {
     searchNavigationMode: string;
     groupHistoryId: string;
     searchValue: string;
@@ -85,6 +86,7 @@ type TErrbackConfig = dataSourceError.ViewConfig & { error: Error };
  * @mixes Controls/interface:IHierarchy
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:ISearch
+ * @mixes Controls/interface:ISelectFields
  * @mixes Controls/interface/IHierarchySearch
  *
  * @demo Controls-demo/Search/FlatList/Index
