@@ -371,7 +371,7 @@
   "--marker_height_switcher": "var(--marker_width_switcher)",
   "--selected_marker_color_switcher": "#ff8552",
   "--marker_contrast-color_switcher": "#fff",
-  "--unselected_marker_color_switcher": "#CCC",
+  "--unselected_marker_color_switcher": "#DBDBDB",
   "--readonly_unselected_marker_color_switcher": "#CCC",
   "--marker_border-offset_switcher": "2px",
   "--background-color_switcher": "var(--background-color)",
