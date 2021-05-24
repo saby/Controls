@@ -457,7 +457,7 @@ export interface IGridControl extends IList {
  * Для отображения строки итогов необходимо задать значение в опции {@link resultsPosition}.
  * @example
  * <pre class="brush: html;">
- * <Controls.grid:View>
+ * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
  *     <ws:resultsTemplate>
  *         <ws:partial template="Controls/grid:ResultsTemplate" scope="{{_options}}">
  *             <ws:contentTemplate>
