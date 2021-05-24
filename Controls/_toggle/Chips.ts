@@ -27,7 +27,7 @@ class Chips extends Control<IChipsOptions> {
     protected _buttonTemplate: TemplateFunction = ButtonTemplate;
 
     protected _isSelectedItem(item: Model): boolean {
-        return this._options.selectedKeys.includes(item[this._options.keyProperty]);
+        return this._options.selectedKeys.includes(item.get(this._options.keyProperty));
     }
 
     protected _onItemClick(event: SyntheticEvent<Event>, item: Model): void {

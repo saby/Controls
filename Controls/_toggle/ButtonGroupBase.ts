@@ -31,7 +31,7 @@ export interface IButtonGroupOptions extends ISingleSelectableOptions, IControlO
 class ButtonGroupBase extends Control<IButtonGroupOptions> {
 
     protected _isSelectedItem(item: Model): boolean {
-        return item[this._options.keyProperty] === this._options.selectedKey;
+        return item.get(this._options.keyProperty) === this._options.selectedKey;
     }
 
     protected _onItemClick(event: SyntheticEvent<Event>, item: Model): void {

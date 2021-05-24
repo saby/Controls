@@ -20,8 +20,8 @@
             {{index !== _items.length - 1 ? 'controls-ButtonGroup__button_withMargin'}}">
                 <ws:partial template="button"
                             itemData="{{itemData}}"
-                            buttonStyle="{{_isSelectedItem(itemData ? 'buttonGroupSelected' : 'buttonGroupUnselected'}}"
-                            fontColorStyle="{{_isSelectedItem(itemData ? 'buttonGroupSelected' : 'default'}}"
+                            buttonStyle="{{_isSelectedItem(itemData) ? 'buttonGroupSelected' : 'buttonGroupUnselected'}}"
+                            fontColorStyle="{{_isSelectedItem(itemData) ? 'buttonGroupSelected' : 'default'}}"
                             on:click="_onItemClick(itemData)"
                 />
             </div>
