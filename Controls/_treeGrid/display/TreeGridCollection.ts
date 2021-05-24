@@ -260,6 +260,7 @@ export default class TreeGridCollection<
             ...options,
             owner: this,
             columns: options.footer,
+            shouldAddFooterPadding: options.itemActionsPosition === 'outside',
             rowTemplate: options.footerTemplate,
             hasNodeWithChildren: this._hasNodeWithChildren
         });
