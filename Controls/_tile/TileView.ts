@@ -298,6 +298,12 @@ export default class TileView extends ListView {
     }
 
     private _setHoveredItem(self: TileView, item: TileCollectionItem, event: SyntheticEvent): void {
+        // Элемент могут удалить, но hover на нем успеет сработать. Проверяем что элемент точно еще есть в модели.
+        const hasItem = !!this._listModel.getItemBySourceItem(item.getContents());
+        if (!hasItem) {
+            return;
+        }
+
         if (
             !this._destroyed &&
             this._listModel && !this._listModel.destroyed &&
@@ -321,13 +327,7 @@ export default class TileView extends ListView {
     }
 
     protected _needUpdateActions(item: TileCollectionItem, event: SyntheticEvent): boolean {
-        if (!item || !event) {
-            return false;
-        }
-
-        // Элемент могут удалить, но hover на нем успеет сработать. Проверяем что элемент точно еще есть в модели.
-        const hasItem = !!this._listModel.getItemBySourceItem(item.getContents());
-        return this._options.actionMode === 'adaptive' && hasItem;
+        return item && this._options.actionMode === 'adaptive' && !!event;
     }
 
     _getZoomCoefficient(): number {
