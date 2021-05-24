@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper ControlsDemo_fixedWidth 500">
     <div class="controlsDemo__cell">
         <div class="controls-text-label">value = new Date(), format = 'DD MMM'YY HH:mm'</div>
         <Controls.decorator:Date value="{{_value}}" format="{{_format}}"/>
