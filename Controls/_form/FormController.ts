@@ -59,7 +59,7 @@ interface IConfigInMounting {
 
 interface IUpdateConfig {
     additionalData: IAdditionalData;
-    hideIndicator?: boolean;
+    showLoadingIndicator: boolean;
 }
 
 export const enum INITIALIZING_WAY {
@@ -132,7 +132,7 @@ class FormController extends ControllerBase<IFormController> {
     ): Promise<ICrudResult> | void {
         this._errorController = options.errorController || new dataSourceError.Controller({});
         this._crudController = new CrudController(options.source, this._notifyHandler.bind(this),
-            this.registerPendingNotifier.bind(this), this.indicatorNotifier.bind(this));
+            this.registerPendingNotifier.bind(this));
         const receivedError = receivedState.errorConfig;
         const receivedData = receivedState.data;
 
@@ -294,7 +294,6 @@ class FormController extends ControllerBase<IFormController> {
             const removePromise = this._tryDeleteNewRecord();
             this._notifyToOpener(CRUD_EVENTS.DELETE_STARTED, [this._record, this._getRecordId(), {removePromise}]);
         }
-        this._crudController.hideIndicator();
         this._crudController = null;
         this._dialogOpener?.destroy();
         this._dialogOpener = null;
@@ -401,9 +400,9 @@ class FormController extends ControllerBase<IFormController> {
         return this._record && this._isNewRecord && this._getRecordId();
     }
 
-    create(createMetaData: unknown, hideIndicator?: boolean): Promise<undefined | Model> {
+    create(createMetaData: unknown, showLoadingIndicator: boolean = true): Promise<undefined | Model> {
         createMetaData = createMetaData || this._options.createMetaData;
-        return this._crudController.create(createMetaData, hideIndicator).then(
+        return this._crudController.create(createMetaData, showLoadingIndicator).then(
             this._createHandler.bind(this),
             this._crudErrback.bind(this)
         );
@@ -417,9 +416,9 @@ class FormController extends ControllerBase<IFormController> {
         return record;
     }
 
-    read(key: string, readMetaData: unknown, hideIndicator?: boolean): Promise<Model> {
+    read(key: string, readMetaData: unknown, showLoadingIndicator: boolean = true): Promise<Model> {
         readMetaData = readMetaData || this._options.readMetaData;
-        return this._crudController.read(key, readMetaData, hideIndicator).then(
+        return this._crudController.read(key, readMetaData, showLoadingIndicator).then(
             this._readHandler.bind(this),
             this._crudErrback.bind(this)
         );
@@ -522,8 +521,8 @@ class FormController extends ControllerBase<IFormController> {
         return updateDef;
     }
 
-    delete(destroyMetaData: unknown, hideIndicator?: boolean): Promise<Model | undefined> {
-        const resultProm = this._crudController.delete(this._record, destroyMetaData || this._options.destroyMetaData, hideIndicator);
+    delete(destroyMetaData: unknown, showLoadingIndicator: boolean = true): Promise<Model | undefined> {
+        const resultProm = this._crudController.delete(this._record, destroyMetaData || this._options.destroyMetaData, showLoadingIndicator);
 
         return resultProm.then((record) => {
             this._setRecord(null);

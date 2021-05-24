@@ -121,7 +121,7 @@
  * @typedef {Object} UpdateConfig
  * @description Параметр сохранения.
  * @property {Object} additionalData Дополнительные данные, которые будут обрабатываться при синхронизации записи с реестром.
- * @property {Boolean} hideIndicator Скрыть индикатор
+ * @property {Boolean} showLoadingIndicator Скрыть индикатор
  */
 
 /*
@@ -146,14 +146,14 @@
  * Создает пустую запись через источник данных. Подробнее {@link Types/source:ICrud#create}.
  * @function Controls/_form/interface/IFormController#create
  * @param {Object} createMetaData
- * @param {Boolean} hideIndicator
+ * @param {Boolean} showLoadingIndicator
  */
 
 /*
  * Creates an empty record through a data source. More {@link Types/source:ICrud#create}
  * @function Controls/_form/interface/IFormController#create
  * @param {Object} createMetaData
- * @param {Boolean} hideIndicator
+ * @param {Boolean} showLoadingIndicator
  */
 
 /**
@@ -161,7 +161,7 @@
  * @function Controls/_form/interface/IFormController#read
  * @param {String} key
  * @param {Object} readMetaData
- * @param {Boolean} hideIndicator
+ * @param {Boolean} showLoadingIndicator
  */
 
 /*
@@ -169,21 +169,21 @@
  * @function Controls/_form/interface/IFormController#read
  * @param {String} key
  * @param {Object} readMetaData
- * @param {Boolean} hideIndicator
+ * @param {Boolean} showLoadingIndicator
  */
 
 /**
  * Удаляет запись из источника данных. Подробнее {@link Types/source:ICrud#delete}.
  * @function Controls/_form/interface/IFormController#delete
  * @param {Object} destroyMetaData
- * @param {Boolean} hideIndicator
+ * @param {Boolean} showLoadingIndicator
  */
 
 /*
  * Removes an record from the data source. More {@link Types/source:ICrud#delete}
  * @function Controls/_form/interface/IFormController#delete
  * @param {Object} destroyMetaData
- * @param {Boolean} hideIndicator
+ * @param {Boolean} showLoadingIndicator
  */
 
 /**
