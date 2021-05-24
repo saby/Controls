@@ -427,7 +427,7 @@ export interface IGridControl extends IList {
 
 /**
  * @name Controls/_interface/grid/IGridControl#columnSeparatorSize
- * @cfg {Controls/_interface/grid/IGridControl/ColumnSeparatorSize.typedef} Толщина {@link /doc/platform/developmentapl/interface-development/controls/list/grid/line-separator/#column линии-разделителя колонок}.
+ * @cfg {Controls/_interface/grid/IGridControl/ColumnSeparatorSize.typedef} Толщина {@link /doc/platform/developmentapl/interface-development/controls/list/grid/separator/#column линии-разделителя колонок}.
  * @remark В значении null линия-разделители не отображается.
  * @default null
  * @see rowSeparatorSize
