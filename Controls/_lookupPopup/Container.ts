@@ -394,7 +394,7 @@ var Container = Control.extend({
          excluded: this._excludedKeys
       };
 
-      if (!isRecursive) {
+      if (!isRecursive && !dataOptions.filter[options.searchParam]) {
          selectionObject = _private.prepareNotRecursiveSelection(
              selectionObject,
              items,
