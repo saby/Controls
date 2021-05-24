@@ -767,6 +767,7 @@ const _private = {
             self._shouldDrawCut = true;
         } else {
             self._shouldDrawFooter = false;
+            self._shouldDrawCut = false;
         }
 
         if (self._shouldDrawFooter) {
@@ -1712,7 +1713,7 @@ const _private = {
             }
             if (action === IObservable.ACTION_RESET) {
                 if (self._updatePagingOnResetItems) {
-                    _private.updatePagingData(self, self._items.getMetaData().more);
+                    _private.updatePagingData(self, self._items.getMetaData().more, self._options);
                 }
                 self._updatePagingOnResetItems = true;
             }
@@ -2345,8 +2346,8 @@ const _private = {
         return navigation && navigation.view === 'pages';
     },
 
-    isPagingNavigationVisible(self, hasMoreData) {
-        const navigation = self._options.navigation;
+    isPagingNavigationVisible(self, hasMoreData, options) {
+        const navigation = options.navigation;
         if (navigation?.viewConfig?.pagingMode === 'hidden') {
             return false;
         }
@@ -2363,17 +2364,17 @@ const _private = {
         return hasMoreData === true || self._knownPagesCount > 1;
     },
 
-    updatePagingData(self, hasMoreData) {
+    updatePagingData(self, hasMoreData, options) {
         self._pagingCfg = {
             arrowState: {
                 begin: 'visible',
                 prev: 'visible',
                 next: 'visible',
-                end: self._options.navigation?.viewConfig?.showEndButton ? 'visible' : 'hidden'
+                end: options.navigation?.viewConfig?.showEndButton ? 'visible' : 'hidden'
             }
         };
         self._knownPagesCount = _private.calcPaging(self, hasMoreData, self._currentPageSize);
-        self._pagingNavigationVisible = _private.isPagingNavigationVisible(self, hasMoreData);
+        self._pagingNavigationVisible = _private.isPagingNavigationVisible(self, hasMoreData, options);
         self._pagingLabelData = _private.getPagingLabelData(hasMoreData, self._currentPageSize, self._currentPage);
         self._selectedPageSizeKey = PAGE_SIZE_ARRAY.find((item) => item.pageSize === self._currentPageSize);
         self._selectedPageSizeKey = self._selectedPageSizeKey ? [self._selectedPageSizeKey.id] : [1];
@@ -2386,7 +2387,7 @@ const _private = {
             totalItemsCount = self._pagingLabelData.totalItemsCount || 0;
         }
         const itemsCount = totalItemsCount + countDifferece;
-        _private.updatePagingData(self, itemsCount);
+        _private.updatePagingData(self, itemsCount, self._options);
     },
 
     resetPagingNavigation(self, navigation) {
@@ -3689,7 +3690,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             self._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
             if (self._pagingNavigation) {
                 const hasMoreData = self._items.getMetaData().more;
-                _private.updatePagingData(self, hasMoreData);
+                _private.updatePagingData(self, hasMoreData, newOptions);
             }
 
             self._afterReloadCallback(newOptions, self._items, self._listViewModel);
@@ -4410,7 +4411,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                         !this._pagingNavigationVisible &&
                         this._items &&
                         this._loadedBySourceController) {
-                        _private.updatePagingData(this, this._items.getMetaData().more);
+                        _private.updatePagingData(this, this._items.getMetaData().more, this._options);
                     }
                 }
             });
@@ -5144,7 +5145,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     }
                     if (self._pagingNavigation) {
                         const hasMoreDataDown = list.getMetaData().more;
-                        _private.updatePagingData(self, hasMoreDataDown);
+                        _private.updatePagingData(self, hasMoreDataDown, self._options);
                     }
                     let listModel = self._listViewModel;
 
