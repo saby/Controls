@@ -80,6 +80,14 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         return classes;
     }
 
+    getItemActionsControl(itemType: TTileItem = 'default'): string|undefined {
+        let control = super.getItemActionsControl(itemType);
+        if (itemType === 'preview') {
+            control = 'Controls/treeTile:TreeTileItemActions';
+        }
+        return control;
+    }
+
     getActionMode(itemType: TTileItem = 'default'): string {
         if (itemType === 'preview' && this.isNode()) {
             return 'strict';
