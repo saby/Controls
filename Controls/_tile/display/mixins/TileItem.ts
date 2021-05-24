@@ -350,6 +350,12 @@ export default abstract class TileItem<T extends Model = Model> {
         return !this.isSwiped() && (this.hasVisibleActions() || this.isEditing()) && itemActionsPosition !== 'custom';
     }
 
+    getItemActionsControl(itemType: TTileItem = 'default'): string|undefined {
+        if (itemType === 'preview') {
+            return 'Controls/tile:TileItemActions';
+        }
+    }
+
     shouldDisplaySwipeTemplate(): boolean {
         return this.isSwiped() && (this.hasVisibleActions() || this.isEditing());
     }
