@@ -73,7 +73,7 @@
                 on:mousedown="_inputClicked()"
                 on:mouseenter="_inputMouseEnterHandler()"
                 on:mouseleave="_inputMouseLeaveHandler()"
-                attr:class="controls-Suggest-Text_style_{{_options.suggestStyle}} controls-Suggest__layout-input"/>
+                attr:class="{{_suggestOpened ? ('controls-Suggest-Text_style_' + _options.suggestStyle)}} controls-Suggest__layout-input"/>
 
     <ws:if data="{{_suggestOpened && (!_dependenciesDeferred || _dependenciesDeferred.isReady())}}">
         <ws:partial template="{{_options.layerName}}"

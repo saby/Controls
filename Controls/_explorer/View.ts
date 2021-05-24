@@ -441,12 +441,6 @@ export default class Explorer extends Control<IExplorerOptions> {
                 }
             }
 
-            this._setRoot(item.getKey());
-            // При search не должны сбрасывать маркер, так как он встанет на папку
-            if (this._options.searchNavigationMode !== 'expand') {
-                this._isGoingFront = true;
-            }
-
             // При проваливании нужно сбросить восстановленное значение курсора
             // иначе данные загрузятся не корректные
             if (
@@ -454,6 +448,12 @@ export default class Explorer extends Control<IExplorerOptions> {
                 this._restoredCursor === this._navigation.sourceConfig.position
             ) {
                 this._navigation.sourceConfig.position = null;
+            }
+
+            this._setRoot(item.getKey());
+            // При search не должны сбрасывать маркер, так как он встанет на папку
+            if (this._options.searchNavigationMode !== 'expand') {
+                this._isGoingFront = true;
             }
         };
 
@@ -682,6 +682,11 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     // endregion remover
 
+    // TODO удалить по https://online.sbis.ru/opendoc.html?guid=2ad525f0-2b48-4108-9a03-b2f9323ebee2
+    _clearSelection(): void {
+        this._children.treeControl.clearSelection();
+    }
+
     /**
      * Возвращает идентификатор текущего корневого узла
      */
@@ -728,10 +733,15 @@ export default class Explorer extends Control<IExplorerOptions> {
         navigation: INavigationOptionValue<INavigationPageSourceConfig>
     ): void {
 
-        const store = this._restoredMarkedKeys || {
-            [root]: {markedKey: null},
-            [topRoot]: {markedKey: null}
-        } as IMarkedKeysStore;
+        const store = this._restoredMarkedKeys || {} as IMarkedKeysStore;
+
+        if (!store[root]) {
+            store[root] = {markedKey: null};
+        }
+
+        if (!store[topRoot]) {
+            store[topRoot] = {markedKey: null};
+        }
 
         // Если хлебных крошек нет, то дальше идти нет смысла
         if (!breadcrumbs?.length) {
@@ -808,6 +818,14 @@ export default class Explorer extends Control<IExplorerOptions> {
             if (this._children.treeControl.isAllSelected()) {
                 this._children.treeControl.clearSelection();
             }
+
+            if (
+                this._isCursorNavigation(this._navigation) &&
+                this._restoredCursor === this._navigation.sourceConfig.position
+            ) {
+                this._navigation.sourceConfig.position = null;
+            }
+
             this._isGoingBack = false;
         }
 

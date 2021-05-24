@@ -64,7 +64,8 @@ describe('Controls/_display/itemsStrategy/NodeFooter', () => {
             nodeProperty: 'type',
             root: null,
             columns: [{}],
-            expandedItems: [null]
+            expandedItems: [null],
+            nodeFooterTemplate: () => ''
         });
         // Нужны только триИтемы
         const items = tree.getItems().filter((it) => !it['[Controls/treeGrid:TreeGridNodeFooterRow]']);

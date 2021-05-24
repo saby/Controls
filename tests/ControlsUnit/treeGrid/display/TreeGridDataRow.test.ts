@@ -30,7 +30,8 @@ describe('Controls/treeGrid/Display/TreeGridDataRow', () => {
                 nodeProperty: 'node',
                 hasChildrenProperty: 'hasChildren',
                 columns: [{width: '1px'}],
-                expandedItems: [null]
+                expandedItems: [null],
+                nodeFooterTemplate: () => ''
             });
             // Длина всех элементов в коллекции = 4 (Две ноды и к ним два футера)
             assert.equal(treeGridCollection.getItems().length, 4);

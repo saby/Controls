@@ -11,8 +11,8 @@ export type TColumns = IColumn[];
 /**
  * @typedef {String} TCellPaddingVariant
  * @description Возможные значения отступов внутри ячейки таблицы
- * @variant S Небольшой отступ.
- * @variant M Средний отступ.
+ * @variant s Небольшой отступ.
+ * @variant m Средний отступ.
  * @variant null Нулевой отступ.
  */
 export type TCellPaddingVariant = 'S' | 'M' | 'null';

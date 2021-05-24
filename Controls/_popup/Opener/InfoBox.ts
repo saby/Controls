@@ -32,6 +32,7 @@ const DEFAULT_CONFIG = {
     alignment: 'start',
     floatCloseButton: false,
     closeOnOutsideClick: true,
+    closeButtonVisibility: true,
     hideDelay: INFOBOX_HIDE_DELAY,
     showDelay: INFOBOX_SHOW_DELAY
 };
@@ -124,6 +125,7 @@ class InfoBox extends BaseOpener<IInfoBoxOpenerOptions> implements IInfoBoxOpene
                 message: newCfg.message,
                 style: newCfg.style || 'secondary',
                 floatCloseButton: newCfg.floatCloseButton,
+                closeButtonVisibility: newCfg.closeButtonVisibility,
                 validationStatus: newCfg.validationStatus,
                 theme: newCfg.theme
             },
