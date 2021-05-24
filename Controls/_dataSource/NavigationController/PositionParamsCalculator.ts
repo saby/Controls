@@ -40,7 +40,7 @@ class PositionParamsCalculator implements IParamsCalculator {
             case 'forward': queryPosition = storeParams.forwardPosition; break;
             case 'backward': queryPosition = storeParams.backwardPosition; break;
             default: {
-                queryPosition = config.position ? config.position : storeParams.position;
+                queryPosition = config.position !== undefined ? config.position : storeParams.position;
 
                 if (!Array.isArray(queryPosition)) {
                     queryPosition = [queryPosition];
