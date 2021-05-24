@@ -2,11 +2,11 @@
              controls-DecoratorMoney controls-DecoratorMoney_style-{{_options.style}}
              {{ _options.underline === 'hovered' ? 'controls-DecoratorMoney__underline' }}
              controls-text-{{_fontColorStyle}}
-             controls-fontsize-{{_options.fontSize}}
-             controls-fontweight-{{_options.fontWeight}}"
+             controls-fontsize-{{_options.fontSize}}"
       title="{{_tooltip}}">
     <span class="{{ _options.stroked ? 'controls-DecoratorMoney__stroked' }}">
-        <span class="{{_options.currency && _options.currencyPosition === 'left' ? 'controls-margin_left-2xs'}}
+        <span class="controls-fontweight-{{_options.fontWeight}}
+                     {{_options.currency && _options.currencyPosition === 'left' ? 'controls-margin_left-2xs'}}
                      {{_options.currency && _options.currencyPosition === 'right' && !_isDisplayFractionPath(_formattedNumber.fraction, _options.showEmptyDecimals) ? 'controls-margin_right-2xs'}}">
             {{_formattedNumber.integer}}
         </span>
