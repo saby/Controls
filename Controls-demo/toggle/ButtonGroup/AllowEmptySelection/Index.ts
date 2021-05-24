@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 // @ts-ignore
-import * as Template from 'wml!Controls-demo/toggle/ButtonGroup/AllowMultiselection/AllowMultiselection';
+import * as Template from 'wml!Controls-demo/toggle/ButtonGroup/AllowEmptySelection/AllowEmptySelection';
 import {RecordSet} from 'Types/collection';
 
 export default class extends Control {

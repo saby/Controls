@@ -7,14 +7,14 @@ import 'css!Controls/toggle';
 import 'css!Controls/CommonClasses';
 
 export interface IButtonGroupOptions extends ISingleSelectableOptions, IControlOptions, IItemsOptions<object> {
-    allowMultiselection?: boolean;
+    allowEmptySelection?: boolean;
 }
 
 /**
- * @name Controls/_toggle/ButtonGroupBase#allowMultiselection
+ * @name Controls/_toggle/ButtonGroupBase#allowEmptySelection
  * @cfg {Boolean} Использование единичного выбора с возможностью сбросить значение.
  * @default false
- * @demo Controls-demo/toggle/ButtonGroup/AllowMultiselection/Index
+ * @demo Controls-demo/toggle/ButtonGroup/AllowEmptySelection/Index
  */
 
 /**
@@ -35,7 +35,7 @@ class ButtonGroupBase extends Control<IButtonGroupOptions> {
         const isNewItemSelected = item.get(keyProperty) !== this._options.selectedKey;
         if (!this._options.readOnly && isNewItemSelected) {
             this._notify('selectedKeyChanged', [item.get(keyProperty)]);
-        } else if (!isNewItemSelected && this._options.allowMultiselection) {
+        } else if (!isNewItemSelected && this._options.allowEmptySelection) {
             this._notify('selectedKeyChanged', [null]);
         }
     }
@@ -43,7 +43,7 @@ class ButtonGroupBase extends Control<IButtonGroupOptions> {
     static getDefaultOptions(): IButtonGroupOptions {
         return {
             keyProperty: 'id',
-            allowMultiselection: false
+            allowEmptySelection: false
         };
     }
 }

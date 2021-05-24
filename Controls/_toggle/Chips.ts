@@ -25,7 +25,7 @@ class Chips extends Control<IChipsOptions> {
 
     protected _onItemClick(event: SyntheticEvent<Event>, item: Model): void {
         const keyProperty = this._options.keyProperty;
-        const selectedKeys = this._options.selectedKeys;
+        const selectedKeys = [...this._options.selectedKeys];
         const itemIndex = selectedKeys.indexOf(item.get(keyProperty));
         if (itemIndex === -1) {
             selectedKeys.push(item.get(keyProperty));
