@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">2 кнопки</div>
+        <Controls.toggle:Chips items="{{_items1}}" bind:selectedKeys="_selectedKeys1" attr:class="ControlsDemo-ButtonGroup__twoButtons"/>
+    </div>
+    <div class="controlsDemo__cell controlsDemo_fixedWidth500">
+        <div class="controls-text-label">Несколько кнопок</div>
+        <Controls.toggle:Chips items="{{_items2}}" bind:selectedKeys="_selectedKeys2" attr:class="ControlsDemo-ButtonGroup__muiltyButtons"/>
+    </div>
+    <div class="controlsDemo__cell controlsDemo_fixedWidth500">
+        <div class="controls-text-label">С иконками</div>
+        <Controls.toggle:Chips items="{{_items3}}" bind:selectedKeys="_selectedKeys3" attr:class="ControlsDemo-ButtonGroup__muiltyIconButtons"/>
+    </div>
+</div>
