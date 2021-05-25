@@ -2,7 +2,6 @@
     <Controls.treeGrid:View
             keyProperty="id"
             source="{{_viewSource}}"
-            root="{{null}}"
             columns="{{_columns}}"
             parentProperty="parent"
             allowEmptySelection="{{false}}"

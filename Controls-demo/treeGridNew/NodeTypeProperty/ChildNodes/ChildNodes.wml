@@ -12,7 +12,6 @@
 
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-base-treeGridView">
     <Controls.treeGrid:View
-            root="{{null}}"
             keyProperty="id"
             source="{{ _viewSource }}"
             parentProperty="parent"
