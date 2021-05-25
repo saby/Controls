@@ -165,6 +165,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
     private _processCollectionChangeEvent: boolean = true;
 
     private _dataLoadCallback: Function;
+    private _nodeDataMoreLoadCallback: Function;
     // Необходимо для совместимости в случае, если dataLoadCallback задают на списке, а где-то сверху есть dataContainer
     private _dataLoadCallbackFromOptions: Function;
 
@@ -367,7 +368,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             (this._parentProperty && rootChanged);
 
         const resetExpandedItemsOnDeepReload = this.isDeepReload() && !rootChanged;
-        if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || Controller._isExpandAll(this.getExpandedItems()))) {
+        if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || this.isExpandAll())) {
             this.setExpandedItems([]);
         }
         this._options = newOptions;
@@ -434,6 +435,10 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         this._dataLoadCallback = callback;
     }
 
+    setNodeDataMoreLoadCallback(callback: Function): void {
+        this._nodeDataMoreLoadCallback = callback;
+    }
+
     hasLoaded(key: TKey): boolean {
         let loadedResult;
 
@@ -475,6 +480,11 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
 
     isDeepReload(): boolean {
         return this._deepReload || this._options.deepReload;
+    }
+
+    isExpandAll(): boolean {
+        const expandedItems = this.getExpandedItems();
+        return expandedItems instanceof Array && expandedItems[0] === null;
     }
 
     destroy(): void {
@@ -816,6 +826,9 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
 
         if (loadedInCurrentRoot && this._dataLoadCallback) {
             dataLoadCallbackResult = this._dataLoadCallback(result, direction);
+        } else if (this._nodeDataMoreLoadCallback) {
+            // Вызываем только когда подгружают узел, определяется по loadedInCurrentRoot
+            this._nodeDataMoreLoadCallback();
         }
 
         if (loadedInCurrentRoot || direction) {
@@ -1014,10 +1027,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         }
 
         return resultSource;
-    }
-
-    private static _isExpandAll(expandedItems: TKey[]): boolean {
-        return expandedItems instanceof Array && expandedItems[0] === null;
     }
 
 }

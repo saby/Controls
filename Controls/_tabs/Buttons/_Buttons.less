@@ -17,6 +17,16 @@
    .tabs-baseline();
 }
 
+// в ie есть проблема с flex-shrink, и она заметна когда внутри одного flex-shrink со значением 1, находится другой
+// в этом случае текст троеточится когда есть свободное место,
+// но если у внутреннего установить значение 0, все работает как надо
+// https://online.sbis.ru/opendoc.html?guid=2b5eb65e-8646-4068-a1ba-4b147e7671e2
+.ws-is-ie {
+   .controls-Tabs__itemClickableArea {
+      flex-shrink: 0;
+   }
+}
+
 .controls-Tabs__itemClickableArea_type-default {
    align-items: baseline;
 }
@@ -328,14 +338,14 @@
       background: var(--primary_marker_color_tabs);
       border-radius: 0 var(--main-tab-marker_border-radius_tabs) var(--main-tab-marker_border-radius_tabs) 0;
    }
-   &-s{
-      &:after{
-         // из-за того, что брузер округляет значания в меньшую сторону, теряется 1px, поэтому добавлеям его
-         top: calc(50%~'-'(var(--main-tab-marker_length_tabs) / 2) ~'-'var(--marker_thickness-s_tabs) ~'+' 1px);
+   &-s {
+      &:after {
+         top: calc(50%~'-'(var(--main-tab-marker_length_tabs) / 2) ~'-'var(--marker_thickness-s_tabs));
       }
    }
-   &-l{
-      &:after{
+   &-l {
+      &:after {
+         // из-за того, что брузер округляет значания в меньшую сторону, теряется 1px, поэтому добавлеям его
          top: calc(50%~'-'(var(--main-tab-marker_length_tabs) / 2) ~'-'var(--marker_thickness-l_tabs) ~'+' 1px);
       }
    }

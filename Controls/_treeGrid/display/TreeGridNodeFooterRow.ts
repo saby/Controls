@@ -63,10 +63,6 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
         return this.getColumns(this._colspan).length;
     }
 
-    hasMoreStorage(): boolean {
-        return this.getNode().hasMoreStorage();
-    }
-
     getTemplate(): TemplateFunction | string {
         return this._$owner.getNodeFooterTemplate() || 'Controls/treeGrid:NodeFooterTemplate';
     }
