@@ -91,6 +91,14 @@ export default class TreeGridCollection<
         return count;
     }
 
+    private _updateGroupNodesVisibility(): void {
+        const groupNodesCount = this._calculateGroupNodesCount();
+        const firstItem = this.at(0);
+        if (firstItem.isGroupNode()) {
+            firstItem.setIsHiddenGroup(groupNodesCount < 2);
+        }
+    }
+
     // TODO duplicate code with GridCollection. Нужно придумать как от него избавиться.
     //  Проблема в том, что mixin не умеет объединять одинаковые методы, а логику Grid мы добавляем через mixin
     // region override
@@ -159,7 +167,7 @@ export default class TreeGridCollection<
         const enumerator = this._getUtilityEnumerator();
 
         // определяем через enumerator последнюю запись перед NodeFooter и её индекс
-        enumerator.setPosition(this.getCount() - 1)
+        enumerator.setPosition(this.getCount() - 1);
         let resultItemIndex = enumerator.getCurrentIndex();
         let resultItem = enumerator.getCurrent();
         while (resultItem && resultItem['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
@@ -175,6 +183,10 @@ export default class TreeGridCollection<
         if (GridLadderUtil.isSupportLadder(this._$ladderProperties)) {
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
+        }
+
+        if (this._$nodeTypeProperty) {
+            this._updateGroupNodesVisibility();
         }
 
         // Сбрасываем модель заголовка если его видимость зависит от наличия данных и текущее действие

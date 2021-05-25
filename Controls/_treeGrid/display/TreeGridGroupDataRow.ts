@@ -44,6 +44,10 @@ export default class TreeGridGroupDataRow<T extends Model> extends TreeGridDataR
         return this._$isHiddenGroup;
     }
 
+    setIsHiddenGroup(isHiddenGroup: boolean): void {
+        this._$isHiddenGroup = isHiddenGroup;
+    }
+
     isSticked(): boolean {
         return this.getOwner().isStickyHeader() && !this.isHiddenGroup();
     }
