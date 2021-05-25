@@ -438,7 +438,7 @@
   "--box-shadow_toggleButton_pushButton": "none",
 
   "--caption_height_switcher": "var(--inline_height_m)",
-  "--width_switcher": "23px",
+  "--width_switcher": "22px",
   "--height_horizontal_switcher": "14px",
   "--height_vertical_switcher": "40px",
   "--border-thickness_switcher": "var(--border-thickness)",
