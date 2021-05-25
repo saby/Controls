@@ -145,6 +145,8 @@
    margin-left: calc(var(--padding-horizontal_inputText) / (-1));
 }
 
+// Нельзя перебить стили из -internal-autofill-selected, поэтому задаем большой transition
+// https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
