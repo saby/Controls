@@ -239,6 +239,9 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._storeCtxCallbackId = Store.onPropertyChanged('_contextName', () => {
                 this._storeCallbackIds.forEach((id) => Store.unsubscribe(id));
                 this._storeCallbackIds = this._createNewStoreObservers();
+                if (!options.hasOwnProperty('searchValue') && this._searchValue) {
+                    this._setSearchValue('');
+                }
             }, true);
         }
     }
