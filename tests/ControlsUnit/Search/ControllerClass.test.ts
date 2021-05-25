@@ -399,13 +399,21 @@ describe('Controls/search:ControllerClass', () => {
       });
 
       it('search with expandedItems', async () => {
-         const sourceController = getSourceController({
+         let sourceController = getSourceController({
             source: new Memory(),
             expandedItems: ['test']
          });
-         const searchController = getSearchController({sourceController});
+         let searchController = getSearchController({sourceController});
          await searchController.search('testSearchValue');
          assert.deepStrictEqual(sourceController.getExpandedItems(), []);
+
+         sourceController = getSourceController({
+            source: new Memory(),
+            expandedItems: [null]
+         });
+         searchController = getSearchController({sourceController});
+         await searchController.search('testSearchValue');
+         assert.deepStrictEqual(sourceController.getExpandedItems(), [null]);
       });
    });
 });
