@@ -441,6 +441,40 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          assert.deepEqual(toArrayKeys(res.get(false)), []);
       });
 
+      it('go to deep nodes in explorer with ENTRY_PATH', () => {
+         const items = new RecordSet({
+            rawData: [
+                {id: 111, parent: 11, node: null},
+                {id: 112, parent: 11, node: null}
+            ],
+            keyProperty: 'id'
+         });
+         const model = new Tree({
+            collection: items,
+            root: 11,
+            keyProperty: 'id',
+            parentProperty: 'parent',
+            nodeProperty: 'node'
+         });
+         const strategy = new TreeSelectionStrategy({
+            selectDescendants: true,
+            selectAncestors: true,
+            rootId: 11,
+            model,
+            selectionType: 'all',
+            recursiveSelection: false,
+            entryPath: [
+               {id: 1,  parent: null},
+               {id: 11, parent: 1}
+            ]
+         });
+
+         let res = strategy.getSelectionForModel({selected: [1], excluded: [112]});
+         assert.deepEqual(toArrayKeys(res.get(true)), [111]);
+         assert.deepEqual(toArrayKeys(res.get(false)), [112]);
+         assert.deepEqual(toArrayKeys(res.get(null)), []);
+      });
+
       it('search model', () => {
          const items = new RecordSet({
             rawData: [{
