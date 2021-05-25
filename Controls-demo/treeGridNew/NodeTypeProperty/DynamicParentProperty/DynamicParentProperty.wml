@@ -1,0 +1,30 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-base-treeGridView">
+    <Controls.treeGrid:View
+            keyProperty="id"
+            source="{{ _viewSource }}"
+            parentProperty="parent"
+            nodeProperty="type"
+            nodeTypeProperty="{{ _nodeTypeProperty }}"
+            rowSeparatorSize="s"
+            colspanCallback="{{ _colspanCallback }}"
+            useNewNodeFooters="{{ true }}"
+            bind:expandedItems="_expandedItems"
+            bind:collapsedItems="_collapsedItems">
+        <ws:columns>
+            <ws:Array>
+                <ws:Object displayProperty="title" width="300px">
+                    <ws:template>
+                        <ws:if data="{{ template.item.isGroupNode() }}">
+                            <ws:partial template="Controls/treeGrid:GroupColumnTemplate"/>
+                        </ws:if>
+                        <ws:else>
+                            <ws:partial template="Controls/grid:ColumnTemplate"/>
+                        </ws:else>
+                    </ws:template>
+                </ws:Object>
+                <ws:Object displayProperty="count" width="100px" align="right"/>
+                <ws:Object displayProperty="price" width="100px" align="right"/>
+            </ws:Array>
+        </ws:columns>
+    </Controls.treeGrid:View>
+</div>
