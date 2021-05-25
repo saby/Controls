@@ -39,6 +39,12 @@ body {
    color: @text-color;
    background-color: @background-color;
 
+   &.ws-is-firefox {
+      // Некоторые смайлики отображаются некорректно в firefox, по этой проблеме есть багрепорт
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=1437820, ошибка связана с тем, что выбирается неверный шрифт 
+      font-family: @font-family, 'Segoe UI Emoji';
+   }
+
    &.ws-fix-emoji {
       font-family: @font-family, 'EmojiFont';
    }
