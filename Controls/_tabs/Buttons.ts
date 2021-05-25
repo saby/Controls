@@ -26,6 +26,11 @@ enum ITEM_ALIGN {
     right = 'right'
 }
 
+enum ANIMATION_MODE {
+    none= 'none',
+    immediate = 'immediate',
+}
+
 const DEFAULT_ITEM_ALIGN: ITEM_ALIGN = ITEM_ALIGN.right
 
 export interface ITabsTemplate {
@@ -38,6 +43,7 @@ export interface ITabsTemplateOptions extends IItemTemplateOptions {
     tabSpaceTemplate?: TemplateFunction;
     itemRightTemplate?: TemplateFunction;
     itemLeftTemplate?: TemplateFunction;
+    animationMode: ANIMATION_MODE;
 }
 
 export interface ITabsOptions extends ITabsButtonsOptions, ITabsTemplateOptions {
@@ -96,6 +102,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _marker: Marker = new Marker();
     protected _markerCssClass: string = '';
     protected _isAnimatedMakerVisible: boolean = false;
+    private _isAnimationProcessing: boolean = false;
+    private _animatedMarkerSelectedKey: string;
     private _markerAnimationTimer: number;
     private _itemsOrder: number[];
     private _lastRightOrder: number;
@@ -149,29 +157,17 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             itemsChanged = true;
         }
         if (!itemsChanged && newOptions.selectedKey !== this._options.selectedKey) {
-            const oldAlign = this._getItemByKey(this._options.selectedKey)?.align || DEFAULT_ITEM_ALIGN;
-            const newAlign = this._getItemByKey(newOptions.selectedKey)?.align || DEFAULT_ITEM_ALIGN;
             const selectedItem = this._getItemByKey(this._options.selectedKey);
             if (!!selectedItem?.isMainTab) {
                 this._updateMarkerSelectedIndex(newOptions);
                 this._isAnimatedMakerVisible = false;
-            } else {
-                if (oldAlign === newAlign) {
-                    // Переключимся на анимированный маркер, т.к. стандартный маркер всегда рисуется на выбранной вкладке.
-                    // Чтобы не было тормозов при движении маркера,
-                    // саму анимацию запустим позже после всех обновлений в afterUpdate.
-                    this._isAnimatedMakerVisible = true;
-                }
+            }
+            if (!this._isAnimationProcessing) {
+                this._isAnimatedMakerVisible = false;
             }
         }
         if (newOptions.style !== this._options.style || newOptions.markerThickness !== this._options.markerThickness) {
             this._updateMarkerCssClass(newOptions);
-        }
-    }
-
-    protected _afterUpdate(oldOptions: ITabsOptions): void {
-        if (this._isAnimatedMakerVisible && oldOptions.selectedKey !== this._options.selectedKey) {
-            this._startMarkerAnimationDelayed();
         }
     }
 
@@ -241,6 +237,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         if (!this._marker.isInitialized()) {
             return;
         }
+        this._animatedMarkerSelectedKey = options.selectedKey;
         const index: number = this._itemsArray.findIndex((item: ITabButtonItem) => {
             return item[options.keyProperty] === options.selectedKey;
         });
@@ -249,6 +246,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         // Не заускаем анимацию при переключении с группы вкладок слева на группу вкладок справа.
         if (changed && align && align === this._marker.getAlign()) {
             this._isAnimatedMakerVisible = true;
+            this._isAnimationProcessing = true;
         }
     }
 
@@ -265,16 +263,14 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         return !selectedItem?.isMainTab;
     }
 
-    protected _startMarkerAnimationDelayed(): void {
-        this._markerAnimationTimer = setTimeout(() => {
-            this._updateMarkerSelectedIndex(this._options);
-            this._markerAnimationTimer = null;
-        }, MARKER_ANIMATION_TIMEOUT);
-    }
-
     protected _transitionEndHandler() {
         if (!this._isUnmounted) {
-            this._isAnimatedMakerVisible = false;
+            this._notify('animationEnd');
+
+            this._isAnimationProcessing = false;
+            if (this._animatedMarkerSelectedKey === this._options.selectedKey) {
+                this._isAnimatedMakerVisible = false;
+            }
         }
     }
 
@@ -287,6 +283,14 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _onItemClick(event: SyntheticEvent<MouseEvent>, key: string): void {
         if (isLeftMouseButton(event)) {
             this._notify('selectedKeyChanged', [key]);
+            // selectedKey может вернуться в контрол значительно позже если снуржи есть асинхронный код.
+            // Например так происходит на страницах онлайна. Запустим анимацию маркера как можно быстрее.
+            if (this._options.animationMode === ANIMATION_MODE.immediate) {
+                const selectedItem = this._getItemByKey(key);
+                if (!selectedItem.isMainTab) {
+                    this._updateMarkerSelectedIndex({...this._options, selectedKey: key});
+                }
+            }
         }
     }
 
@@ -560,7 +564,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             borderVisible: true,
             separatorVisible: true,
             displayProperty: 'title',
-            horizontalPadding: 'xs'
+            horizontalPadding: 'xs',
+            animationMode: ANIMATION_MODE.none
         };
     }
 }
@@ -786,6 +791,23 @@ Object.defineProperty(TabsButtons, 'defaultProps', {
  * </Controls.tabs:Buttons>
  * </pre>
  * @see itemRightTemplate
+ */
+
+/**
+ * @typedef {String} Controls/_tabs/ITabsTemplate/animationMode
+ * @variant none Анимация отключена.
+ * @variant immediate Анимация запускается сразу же при нажатии на вкладку.
+ */
+
+/**
+ * @name Controls/_tabs/ITabsTemplate#animationMode
+ * @cfg {StrControls/_tabs/ITabsTemplate/animationMode.typedef} Режим анимации.
+ *
+ * @example
+ * <pre class="brush: html;highlight: [2,3,4,5,6]">
+ * <Controls.tabs:Buttons bind:selectedKey="_mySelectedKey" source="{{_mySource}}" animationMode="immediate">
+ * </Controls.tabs:Buttons>
+ * </pre>
  */
 
 export default TabsButtons;
