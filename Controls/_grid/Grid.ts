@@ -4,6 +4,15 @@ import GridViewTable from 'Controls/_grid/GridViewTable';
 import { isFullGridSupport } from 'Controls/display';
 import { TemplateFunction } from 'UI/Base';
 
+/**
+ * Контрол «Таблица».
+ * @class Controls/_grid/Grid
+ * @mixes Controls/_grid/interface/IitemTemplateEditor
+ * 
+ * @public
+ * @author Авраменко А.С.
+ */
+
 export default class Grid extends List {
     protected _viewName: TemplateFunction = null;
     protected _viewTemplate: TemplateFunction = viewTemplate;
