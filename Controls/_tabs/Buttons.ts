@@ -244,7 +244,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const align = this._marker.getAlign();
         const changed = this._marker.setSelectedIndex(index);
         // Не заускаем анимацию при переключении с группы вкладок слева на группу вкладок справа.
-        if (changed && align && align === this._marker.getAlign()) {
+        if (changed && align && align === this._marker.getAlign() &&
+                this._options.animationMode !== ANIMATION_MODE.none) {
             this._isAnimatedMakerVisible = true;
             this._isAnimationProcessing = true;
         }
@@ -288,6 +289,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             if (this._options.animationMode === ANIMATION_MODE.immediate) {
                 const selectedItem = this._getItemByKey(key);
                 if (!selectedItem.isMainTab) {
+                    this._marker.reset();
+                    this._updateMarker();
                     this._updateMarkerSelectedIndex({...this._options, selectedKey: key});
                 }
             }
