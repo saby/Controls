@@ -396,7 +396,7 @@ export interface IGridControl extends IList {
 
 /**
  * @typedef {String} Controls/_interface/grid/IGridControl/RowSeparatorSize
- * @description Строковые значения для опции {@link rowSeparatorSize}.
+ * @description Значения для опции {@link rowSeparatorSize}.
  * @variant s Тонкая линия-разделитель.
  * @variant l Толстая линия-разделитель.
  */
@@ -479,7 +479,7 @@ export interface IGridControl extends IList {
 
 /**
  * @typedef {String} Controls/_interface/grid/IGridControl/ResultsPosition
- * @description Строковые значения для опции {@link resultsPosition}.
+ * @description Значения для опции {@link resultsPosition}.
  * @variant top Над списком.
  * @variant bottom Под списком.
  */
