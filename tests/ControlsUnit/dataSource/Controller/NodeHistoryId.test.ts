@@ -1,34 +1,52 @@
 import {assert} from 'chai';
 import * as sinon from 'sinon';
-import {ISourceControllerOptions, NewSourceController} from 'Controls/dataSource';
-import {nodeHistoryUtil} from '../../../Controls/_dataSource/nodeHistoryUtil';
-import {Memory} from 'Types/source';
+import {ISourceControllerOptions, NewSourceController, nodeHistoryUtil} from 'Controls/dataSource';
+import {CrudEntityKey, Memory} from 'Types/source';
 
 const hierarchyItems = [
     {
         key: 0,
         title: 'Интерфейсный фреймворк',
-        parent: null
+        parent: null,
+        type: true,
+        nodeType: 'group'
     },
     {
         key: 1,
         title: 'Sasha',
+        type: null,
         parent: 0
     },
     {
         key: 2,
         title: 'Dmitry',
+        type: null,
         parent: 0
     },
     {
         key: 3,
-        title: 'Склад',
-        parent: null
+        title: 'Списки',
+        type: true,
+        parent: 0
+    },
+    {
+        key: 31,
+        title: 'Alex',
+        type: null,
+        parent: 3
     },
     {
         key: 4,
+        title: 'Склад',
+        parent: null,
+        type: true,
+        nodeType: 'group'
+    },
+    {
+        key: 5,
         title: 'Michail',
-        parent: 3
+        type: null,
+        parent: 4
     }
 ];
 
@@ -48,6 +66,7 @@ function getControllerWithHierarchyOptions(): ISourceControllerOptions {
     return {
         source: getMemoryWithHierarchyItems(),
         parentProperty: 'parent',
+        nodeProperty: 'type',
         filter: {},
         keyProperty: 'key'
     };
@@ -59,7 +78,7 @@ function getController(additionalOptions: object = {}): NewSourceController {
 
 describe('Controls/dataSource/Controller/NodeHistoryId', () => {
     // 1. Если !expandedItems && options.nodeHistoryId то дёргаем History При загрузке
-    it('should call restore from history method', () => {
+    it('should call restore from history method', async () => {
         const sinonSandbox = sinon.createSandbox();
         const controller = getController({
             expandedItems: undefined,
@@ -71,7 +90,7 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
             return Promise.resolve([1]);
         });
 
-        return controller.load(null, 0);
+        await controller.load(null, 0);
         sinonSandbox.restore();
     });
 
@@ -97,6 +116,50 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
         await controller.load(null, 0);
 
         sinon.assert.notCalled(stubRestore);
+        stubRestore.restore();
+    });
+
+    it('should consider nodeHistoryType=group', async () => {
+        const controller = getController({
+            nodeHistoryId: 'GROUP_NODE_HISTORY_ID',
+            nodeTypeProperty: 'nodeType',
+            nodeHistoryType: 'group'
+        });
+
+        const stubRestore = sinon.stub(nodeHistoryUtil, 'restore').callsFake((key: any) => Promise.resolve(undefined));
+        const stubStore = sinon.stub(nodeHistoryUtil, 'store').callsFake((items: CrudEntityKey[], key: string) => {
+            return Promise.resolve(true);
+        });
+
+        await controller.load(null);
+
+        controller.setExpandedItems([0, 3]);
+        controller.updateExpandedItemsInUserStorage();
+
+        sinon.assert.calledWith(stubStore, [0], 'GROUP_NODE_HISTORY_ID');
+        stubStore.restore();
+        stubRestore.restore();
+    });
+
+    it('should consider nodeHistoryType=node', async () => {
+        const controller = getController({
+            nodeHistoryId: 'ONLY_NODE_HISTORY_ID',
+            nodeTypeProperty: 'nodeType',
+            nodeHistoryType: 'node'
+        });
+
+        const stubRestore = sinon.stub(nodeHistoryUtil, 'restore').callsFake((key: any) => Promise.resolve(undefined));
+        const stubStore = sinon.stub(nodeHistoryUtil, 'store').callsFake((items: CrudEntityKey[], key: string) => {
+            return Promise.resolve(true);
+        });
+
+        await controller.load(null);
+
+        controller.setExpandedItems([0, 3]);
+        controller.updateExpandedItemsInUserStorage();
+
+        sinon.assert.calledWith(stubStore, [3], 'ONLY_NODE_HISTORY_ID');
+        stubStore.restore();
         stubRestore.restore();
     });
 });
