@@ -261,7 +261,7 @@
 }
 
 .controls-Button_button_style-pale {
-   border-color: var(--pale_border-color_button);
+   border-color: var(--pale_border-color);
 }
 
 .controls-Button_toolButton {
@@ -286,44 +286,85 @@
 
 .controls-Button_functionalButton_style-primary {
    border-color: var(--primary_background-color_button_functionalButton);
+   background-color: var(--primary_background-color_button_functionalButton);
 }
 
 .controls-Button_functionalButton_style-secondary {
    border-color: var(--secondary_background-color_button_functionalButton);
+   background-color: var(--secondary_background-color_button_functionalButton);
 }
 
 .controls-Button_functionalButton_style-danger {
-   border-color: var(--danger_color);
+   border-color: var(--danger_contrast_background-color);
+   background-color: var(--danger_contrast_background-color);
 }
 
 .controls-Button_functionalButton_style-success {
    border-color: var(--success_border-color_button_functionalButton);
+   background-color: var(--success_background-color_button_functionalButton);
 }
 
 .controls-Button_functionalButton_style-warning {
    border-color: var(--warning_border-color_button_functionalButton);
+   background-color: var(--warning_contrast_background-color);
 }
 
 .controls-Button_functionalButton_style-unaccented {
    border-color: var(--unaccented_background-color_button_functionalButton);
+   background-color: var(--unaccented_background-color_button_functionalButton);
+}
+
+.controls-Button_functionalButton_style-info {
+   border-color: var(--info_contrast_background-color);
+   background-color: var(--info_contrast_background-color);
+}
+
+.controls-Button_functionalButton_style-pale {
+   border-color: var(--pale_contrast_background-color_button_functionalButton);
+   background-color: var(--pale_contrast_background-color_button_functionalButton);
 }
 
 .controls-Button_functionalButton_style-readonly {
    border-color: var(--readonly_border-color_button_functionalButton);
+   background-color: var(--readonly_background-color_button_functionalButton);
 }
 
 .ws-is-hover {
    .controls-Button_functionalButton_style-success:hover {
       border-color: var(--success_hover_border-color_button_functionalButton);
+      background-color: var(--success_hover_background-color_button_functionalButton);
    }
    .controls-Button_functionalButton_style-danger:hover {
       border-color: var(--danger_hover_background-color_button_functionalButton);
+      background-color: var(--danger_hover_background-color_button_functionalButton);
    }
    .controls-Button_functionalButton_style-secondary:hover {
       border-color: var(--secondary_hover_background-color_button_functionalButton);
+      background-color: var(--secondary_hover_background-color_button_functionalButton);
    }
    .controls-Button_functionalButton_style-unaccented:hover {
       border-color: var(--unaccented_hover_background-color_button_functionalButton);
+      background-color: var(--unaccented_hover_background-color_button_functionalButton);
+   }
+
+   .controls-Button_functionalButton_style-primary:hover {
+      border-color: var(--primary_hover_contrast_background-color);
+      background-color: var(--primary_hover_contrast_background-color);
+   }
+
+   .controls-Button_functionalButton_style-info:hover {
+      border-color: var(--info_hover_contrast_background-color);
+      background-color: var(--info_hover_contrast_background-color);
+   }
+
+   .controls-Button_functionalButton_style-warning:hover {
+      border-color: var(--warning_hover_contrast_background-color);
+      background-color: var(--warning_hover_contrast_background-color);
+   }
+
+   .controls-Button_functionalButton_style-pale:hover {
+      border-color: var(--background-color);
+      background-color: var(--background-color);
    }
 }
 
@@ -331,15 +372,38 @@
 .ws-is-touch {
    .controls-Button_functionalButton_style-success:active {
       border-color: var(--success_active_background-color_button_functionalButton);
+      background-color: var(--success_active_background-color_button_functionalButton);
    }
    .controls-Button_functionalButton_style-danger:active {
       border-color: var(--danger_active_background-color_button_functionalButton);
+      background-color: var(--danger_active_background-color_button_functionalButton);
    }
    .controls-Button_functionalButton_style-secondary:active {
       border-color: var(--secondary_active_background-color_button_functionalButton);
+      background-color: var(--secondary_active_background-color_button_functionalButton);
    }
    .controls-Button_functionalButton_style-unaccented:active {
       border-color: var(--unaccented_active_background-color_button_functionalButton);
+      background-color: var(--unaccented_active_background-color_button_functionalButton);
+   }
+
+   .controls-Button_functionalButton_style-primary:active {
+      border-color: var(--primary_active_contrast_background-color);
+      background-color: var(--primary_active_contrast_background-color);
+   }
+
+   .controls-Button_functionalButton_style-info:active {
+      border-color: var(--info_active_contrast_background-color);
+      background-color: var(--info_active_contrast_background-color);
+   }
+
+   .controls-Button_functionalButton_style-warning:active {
+      border-color: var(--warning_active_contrast_background-color);
+      background-color: var(--warning_active_contrast_background-color);
+   }
+
+   .controls-Button_functionalButton_style-pale:active {
+      background-color: var(--background-color);
    }
 }
 //background
@@ -382,7 +446,7 @@
 }
 
 .controls-Button_button_style-pale.controls-Button_bg-contrast {
-   background-color: var(--pale_background-color_button);
+   background-color: var(--pale_contrast_background-color);
    .controls-Button__text_clickable_bg-contrast {
       color: var(--text-color_button);
    }
@@ -407,7 +471,7 @@
    }
 
    .controls-Button_button_style-pale:hover {
-      background-color: var(--pale_hover_background-color_button);
+      background-color: var(--pale_hover_contrast_background-color);
    }
    .controls-Button_button_style-default:hover {
       border-color: var(--default_hover_border-color_button);

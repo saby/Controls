@@ -11,4 +11,10 @@
             <Controls.buttons:Button caption="{{buttonStyle}}" buttonStyle="{{buttonStyle}}" contrastBackground="{{false}}"/>{{' '}}
         </ws:for>
     </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=functionalButton</div>
+        <ws:for data="functionalButton in _functionalButtons">
+            <Controls.buttons:Button viewMode="functionalButton" buttonStyle="{{functionalButton.buttonStyle}}" icon="icon-Yes" iconStyle="{{functionalButton.iconStyle}}" contrastBackground="{{true}}"/>{{' '}}
+        </ws:for>
+    </div>
 </div>
