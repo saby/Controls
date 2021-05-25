@@ -1,15 +1,17 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls/_columnScroll/ScrollBar/ScrollBar';
+import * as template from 'wml!Controls/_columnScroll/New/ScrollBar/ScrollBar';
+import {JS_SELECTORS} from './../ColumnScrollController';
 
 export interface IScrollBarOptions extends IControlOptions {
     stickyHeader?: boolean;
-    contentSize: number;
     backgroundStyle: string;
 }
 
 export default class ScrollBar extends Control<IScrollBarOptions> {
     protected _template: TemplateFunction = template;
     private _position: number = 0;
+    private _contentSize: number = 0;
+    private readonly _fixedClass = JS_SELECTORS.FIXED_ELEMENT;
 
     /*
     * Устанавливает позицию thumb'a.
@@ -21,19 +23,35 @@ export default class ScrollBar extends Control<IScrollBarOptions> {
     * перерисовываются записи)
     * https://online.sbis.ru/opendoc.html?guid=16907a96-816e-4c76-9bdb-26bd6c4370b4
     */
-    setPosition(position: number): void {
-        if (this._position !== position) {
-            this._position = position;
-            this._notify('positionChanged', [this._position]);
+    setScrollPosition(scrollPosition: number): void {
+        this.setSizes({scrollPosition});
+    }
+
+    // Аналогично this.setScrollPosition, та же причина существования
+    setSizes(params: {contentSize?: number, scrollWidth?: number, scrollPosition?: number}): void {
+        let shouldRecalcSizes = false;
+
+        if (typeof params.contentSize !== 'undefined' && this._contentSize !== params.contentSize) {
+            this._contentSize = params.contentSize;
+            shouldRecalcSizes = true;
+        }
+
+        if (typeof params.scrollPosition !== 'undefined' && this._position !== params.scrollPosition) {
+            this._position = params.scrollPosition;
+        }
+
+        if (shouldRecalcSizes) {
+            this._recalcSizes();
         }
     }
 
-    recalcSizes(): void {
+    private _recalcSizes(): void {
         this._children.scrollbar.recalcSizes();
     }
-    _onPositionChanged(e, newPosition): void {
+
+    protected _onPositionChanged(e, newPosition: number): void {
         e.stopPropagation();
-        this._position = newPosition;
-        this._notify('positionChanged', [newPosition]);
+        this._position = Math.round(newPosition);
+        this._notify('positionChanged', [this._position]);
     }
 }
