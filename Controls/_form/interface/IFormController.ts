@@ -131,6 +131,12 @@
  */
 
 /**
+ * @typedef {Object} CrudConfig
+ * @description Параметр Crud операций.
+ * @property {Boolean} showLoadingIndicator Скрыть индикатор
+ */
+
+/**
  * Обновляет запись в источнике данных. Подробнее {@link Types/source:ICrud#update}.
  * @function Controls/_form/interface/IFormController#update
  * @param {UpdateConfig} config Параметр сохранения.
@@ -146,14 +152,14 @@
  * Создает пустую запись через источник данных. Подробнее {@link Types/source:ICrud#create}.
  * @function Controls/_form/interface/IFormController#create
  * @param {Object} createMetaData
- * @param {Boolean} showLoadingIndicator
+ * @param {CrudConfig} config
  */
 
 /*
  * Creates an empty record through a data source. More {@link Types/source:ICrud#create}
  * @function Controls/_form/interface/IFormController#create
  * @param {Object} createMetaData
- * @param {Boolean} showLoadingIndicator
+ * @param {CrudConfig} config
  */
 
 /**
@@ -161,7 +167,7 @@
  * @function Controls/_form/interface/IFormController#read
  * @param {String} key
  * @param {Object} readMetaData
- * @param {Boolean} showLoadingIndicator
+ * @param {CrudConfig} config
  */
 
 /*
@@ -169,21 +175,21 @@
  * @function Controls/_form/interface/IFormController#read
  * @param {String} key
  * @param {Object} readMetaData
- * @param {Boolean} showLoadingIndicator
+ * @param {CrudConfig} config
  */
 
 /**
  * Удаляет запись из источника данных. Подробнее {@link Types/source:ICrud#delete}.
  * @function Controls/_form/interface/IFormController#delete
  * @param {Object} destroyMetaData
- * @param {Boolean} showLoadingIndicator
+ * @param {CrudConfig} config
  */
 
 /*
  * Removes an record from the data source. More {@link Types/source:ICrud#delete}
  * @function Controls/_form/interface/IFormController#delete
  * @param {Object} destroyMetaData
- * @param {Boolean} showLoadingIndicator
+ * @param {CrudConfig} config
  */
 
 /**

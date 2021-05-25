@@ -6,7 +6,7 @@ import { error as dataSourceError } from 'Controls/dataSource';
 import { IContainerConstructor } from 'Controls/_dataSource/error';
 import { Model } from 'Types/entity';
 import { Memory } from 'Types/source';
-import { CRUD_EVENTS, default as CrudController } from 'Controls/_form/CrudController';
+import {CRUD_EVENTS, default as CrudController, ICrudConfig} from 'Controls/_form/CrudController';
 import { DialogOpener } from 'Controls/error';
 import { Mode } from 'Controls/error';
 import ControllerBase from 'Controls/_form/ControllerBase';
@@ -400,9 +400,9 @@ class FormController extends ControllerBase<IFormController> {
         return this._record && this._isNewRecord && this._getRecordId();
     }
 
-    create(createMetaData: unknown, showLoadingIndicator: boolean = true): Promise<undefined | Model> {
+    create(createMetaData: unknown, config?: ICrudConfig): Promise<undefined | Model> {
         createMetaData = createMetaData || this._options.createMetaData;
-        return this._crudController.create(createMetaData, showLoadingIndicator).then(
+        return this._crudController.create(createMetaData, config).then(
             this._createHandler.bind(this),
             this._crudErrback.bind(this)
         );
@@ -416,9 +416,9 @@ class FormController extends ControllerBase<IFormController> {
         return record;
     }
 
-    read(key: string, readMetaData: unknown, showLoadingIndicator: boolean = true): Promise<Model> {
+    read(key: string, readMetaData: unknown, config?: ICrudConfig): Promise<Model> {
         readMetaData = readMetaData || this._options.readMetaData;
-        return this._crudController.read(key, readMetaData, showLoadingIndicator).then(
+        return this._crudController.read(key, readMetaData, config).then(
             this._readHandler.bind(this),
             this._crudErrback.bind(this)
         );
@@ -521,8 +521,8 @@ class FormController extends ControllerBase<IFormController> {
         return updateDef;
     }
 
-    delete(destroyMetaData: unknown, showLoadingIndicator: boolean = true): Promise<Model | undefined> {
-        const resultProm = this._crudController.delete(this._record, destroyMetaData || this._options.destroyMetaData, showLoadingIndicator);
+    delete(destroyMetaData: unknown, config?: ICrudConfig): Promise<Model | undefined> {
+        const resultProm = this._crudController.delete(this._record, destroyMetaData || this._options.destroyMetaData, config);
 
         return resultProm.then((record) => {
             this._setRecord(null);
