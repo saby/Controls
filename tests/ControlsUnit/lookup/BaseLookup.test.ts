@@ -6,7 +6,7 @@ import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import * as sinon from 'sinon';
 
-async function getBaseLookup(options?: ILookupOptions): Promise<Lookup> {
+async function getBaseLookup(options?: Partial<ILookupOptions>): Promise<Lookup> {
     const lookupOptions = options || {
         source: getSource(),
         selectedKeys: []
@@ -163,7 +163,10 @@ describe('Controls/lookup:Input', () => {
 
     describe('_selectCallback', function () {
         it('_selectCallback with items', async () => {
-            const lookup = await getBaseLookup();
+            const lookup = await getBaseLookup({
+                multiSelect: true
+            });
+            sinon.replace(lookup, '_itemsChanged', () => {});
             const items = new RecordSet({
                 rawData: getData(),
                 keyProperty: 'id'
@@ -173,7 +176,10 @@ describe('Controls/lookup:Input', () => {
         });
 
         it('_selectCallback with promise', async () => {
-            const lookup = await getBaseLookup();
+            const lookup = await getBaseLookup({
+                multiSelect: true
+            });
+            sinon.replace(lookup, '_itemsChanged', () => {});
             const items = new RecordSet({
                 rawData: getData(),
                 keyProperty: 'id'
