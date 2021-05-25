@@ -2916,6 +2916,7 @@ const _private = {
             actionCaptionPosition: options.actionCaptionPosition,
             itemActionsClass: options.itemActionsClass,
             iconSize: editingConfig ? 's' : 'm',
+            menuIconSize: options.menuIconSize || ( editingConfig ? 's' : 'm' ),
             editingToolbarVisible: editingConfig?.toolbarVisibility,
             editingStyle: editingConfig?.backgroundStyle,
             editArrowAction,
