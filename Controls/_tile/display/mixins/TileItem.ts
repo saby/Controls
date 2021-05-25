@@ -350,6 +350,12 @@ export default abstract class TileItem<T extends Model = Model> {
         return !this.isSwiped() && (this.hasVisibleActions() || this.isEditing()) && itemActionsPosition !== 'custom';
     }
 
+    getItemActionsControl(itemType: TTileItem = 'default'): string|undefined {
+        if (itemType === 'preview') {
+            return 'Controls/tile:TileItemActions';
+        }
+    }
+
     shouldDisplaySwipeTemplate(): boolean {
         return this.isSwiped() && (this.hasVisibleActions() || this.isEditing());
     }
@@ -544,11 +550,9 @@ export default abstract class TileItem<T extends Model = Model> {
                 break;
             case 'rich':
                 classes += ' controls-TileView__richTemplate_image';
+                classes += ' controls-TileView__image';
+                classes += ' controls-TileView__image_align_center';
                 classes += ` controls-TileView__richTemplate_image_viewMode_${imageViewMode}`;
-
-                if (imagePosition === 'top' && (imageViewMode === 'rectangle' && imageProportion !== 1 || imageSize === 'xl')) {
-                    classes += ' controls-TileView__image controls-TileView__image_align_center';
-                }
                 break;
         }
 

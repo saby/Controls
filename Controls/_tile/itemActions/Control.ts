@@ -12,13 +12,12 @@ export interface ITileItemActionsOptions extends IControlOptions {
 export default class TileItemActions extends Control<ITileItemActionsOptions> {
     protected _template: TemplateFunction = template;
     protected _item: Record<string, any> = null;
-    protected _canShowActions: boolean = false;
+    protected _canShowActions: boolean = true;
     protected _currentActions: Record<string, any> = null;
 
     protected _beforeMount(options: ITileItemActionsOptions): void {
         this._item = options.item;
         this._currentActions = this._item.getActions();
-        this._canShowActions = this._item.isNode();
     }
 
     protected _beforeUpdate(options: ITileItemActionsOptions): void {

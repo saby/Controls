@@ -72,6 +72,12 @@ export default class SearchView extends TreeGridView {
          e.stopPropagation();
          return;
       }
+
+      if (item['[Controls/_searchBreadcrumbsGrid/BreadcrumbsItemRow]']) {
+         this._onBreadcrumbClick(e, item);
+         return;
+      }
+
       super._onItemClick(e, item);
    }
 
