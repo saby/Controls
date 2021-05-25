@@ -899,10 +899,9 @@ export default abstract class TileItem<T extends Model = Model> {
 
         if (this.shouldDisplayMarker(marker)) {
             classes += ' controls-TileView__item_withMarker';
-        } else if (border !== false) {
-            classes += ' controls-TileView__item_withoutMarker';
-        } else {
-            classes += ' controls-TileView__item_withoutBorder';
+        }
+        if (border !== false) {
+            classes += ' controls-TileView__item_withBorder';
         }
 
         return classes;
