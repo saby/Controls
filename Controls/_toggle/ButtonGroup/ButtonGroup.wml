@@ -16,12 +16,12 @@
     <div class="controls-ButtonGroup__wrapper">
         <ws:for data="index, itemData in _options.items">
             <div class="controls-ButtonGroup__button
-            controls-ButtonGroup__button-{{itemData[_options.keyProperty] === _options.selectedKey ? 'selected' : 'unselected'}}
+            controls-ButtonGroup__button-{{_isSelectedItem(itemData) ? 'selected' : 'unselected'}}
             {{index !== _items.length - 1 ? 'controls-ButtonGroup__button_withMargin'}}">
                 <ws:partial template="button"
                             itemData="{{itemData}}"
-                            buttonStyle="{{itemData[_options.keyProperty] === _options.selectedKey ? 'buttonGroupSelected' : 'buttonGroupUnselected'}}"
-                            fontColorStyle="{{itemData[_options.keyProperty] === _options.selectedKey ? 'buttonGroupSelected' : 'default'}}"
+                            buttonStyle="{{_isSelectedItem(itemData) ? 'buttonGroupSelected' : 'buttonGroupUnselected'}}"
+                            fontColorStyle="{{_isSelectedItem(itemData) ? 'buttonGroupSelected' : 'default'}}"
                             on:click="_onItemClick(itemData)"
                 />
             </div>
