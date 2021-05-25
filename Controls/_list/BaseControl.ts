@@ -3522,6 +3522,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this.__errorController = options.errorController || new dataSourceError.Controller({});
         this._startDragNDropCallback = this._startDragNDropCallback.bind(this);
         this._resetValidation = this._resetValidation.bind(this);
+        this._onWindowResize = this._onWindowResize.bind(this);
     }
 
     /**
@@ -3875,6 +3876,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
+    protected _onWindowResize(): void {
+        // Если изменили размеры окна, то нужно скрыть меню для itemActions. Иначе меню уезжает куда-то в сторону.
+        _private.closeActionsMenu(this);
+    }
+
     _getScrollParams(): IScrollParams {
         let headersHeight = 0;
         let offsetTop = 0;
@@ -3914,6 +3920,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     protected _afterMount(): void {
         this._isMounted = true;
+
+        if (constants.isBrowserPlatform) {
+            window.addEventListener('resize', this._onWindowResize);
+        }
 
         if (this._useServerSideColumnScroll) {
             this._useServerSideColumnScroll = false;
@@ -4647,6 +4657,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // При разрушении списка нужно в ПМО сбросить счетчик выбранных записей
         if (_private.hasSelectionController(this)) {
             this._notify('listSelectedKeysCountChanged', [0, false], {bubbling: true});
+        }
+
+        if (constants.isBrowserPlatform) {
+            window.removeEventListener('resize', this._onWindowResize);
         }
 
         super._beforeUnmount();
