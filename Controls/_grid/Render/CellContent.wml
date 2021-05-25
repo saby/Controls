@@ -18,7 +18,8 @@
     <ws:else>
         <ws:if data="{{ (gridColumn || itemData).config.tooltipProperty }}">
             <Controls.Container.Async templateName="Controls/popup:InfoboxTarget">
-                <ws:partial template="{{content.resolvedTemplate}}">
+                <ws:partial template="{{content.resolvedTemplate}}"
+                            attr:class="{{ (gridColumn || itemData).getTooltipOverflowClasses() }}">
                     <ws:content>
                         <ws:if data="{{ (gridColumn || itemData).hasCellContentRender() }}">
                             <!-- Контент по умолчанию, обрезка длинного текста с многоточием -->
