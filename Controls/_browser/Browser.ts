@@ -411,7 +411,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             }
 
             return updateResult;
-        });
+        }).catch((error) => error);
     }
 
     private _afterSourceLoad(sourceController: SourceController, options: IBrowserOptions): void {
