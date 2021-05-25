@@ -7,7 +7,7 @@ import { TemplateFunction } from 'UI/Base';
 /**
  * Контрол «Таблица».
  * @class Controls/_grid/Grid
- * @mixes Controls/_grid/interface/IitemTemplateEditor
+ * @mixes Controls/_grid/interface/IitemEditorTemplate
  * 
  * @public
  * @author Авраменко А.С.
