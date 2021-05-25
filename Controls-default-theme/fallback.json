@@ -2300,5 +2300,6 @@
   "--home_offset-top_shortDatePicker": "5px",
   "--home_offset-bottom_shortDatePicker": "14px",
   "--grouping_height_shortDatePicker": "var(--item_height_shortDatePicker)",
-  "--grouping_text-color_shortDatePicker": "var(--primary_text-color)"
+  "--grouping_text-color_shortDatePicker": "var(--primary_text-color)",
+  "--header_background-color_stack_unaccented": "var(--unaccented_background-color)"
 }
