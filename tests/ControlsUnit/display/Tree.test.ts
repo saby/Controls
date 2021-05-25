@@ -2460,6 +2460,40 @@ describe('Controls/_display/Tree', () => {
             assert.equal(tree.getItemBySourceKey(1).getNodeFooter(), nodeFooters[0]);
         });
 
+        it('right link in node footer and node', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, node: true, pid: 0},
+                    {id: 11, node: true, pid: 1},
+                    {id: 2, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = new TreeGridCollection({
+                collection: rs,
+                root: {
+                    id: 0,
+                    title: 'Root'
+                },
+                keyProperty: 'id',
+                parentProperty: 'pid',
+                nodeProperty: 'node',
+                columns: [],
+                expandedItems: [1, 2],
+                nodeFooterTemplate: () => ''
+            });
+
+            rs.replace(new Model({
+                rawData: {id: 1, node: true, pid: 0},
+                keyProperty: 'id'
+            }), 0);
+
+            const node = tree.getItemBySourceKey(1);
+            const nodeFooter = tree.at(2);
+            assert.equal(node, nodeFooter.getNode());
+            assert.equal(node.getNodeFooter(), nodeFooter);
+        });
+
         it('recount footers when changed hasMoreStorage', () => {
             const rs = new RecordSet({
                 rawData: [
