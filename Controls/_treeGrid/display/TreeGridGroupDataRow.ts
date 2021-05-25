@@ -1,8 +1,12 @@
-import TreeGridDataRow from 'Controls/_treeGrid/display/TreeGridDataRow';
+import TreeGridDataRow, {IOptions as ITreeGridDataRowOptions} from 'Controls/_treeGrid/display/TreeGridDataRow';
 import {GridCell, IGridDataCellOptions, IItemTemplateParams} from 'Controls/grid';
 import { Model } from 'Types/entity';
 import {IColumn} from 'Controls/_grid/interface/IColumn';
 import {IGroupNode} from 'Controls/display';
+
+export interface IOptions<T extends Model> extends ITreeGridDataRowOptions<T> {
+    isHiddenGroup: boolean;
+}
 
 export default class TreeGridGroupDataRow<T extends Model> extends TreeGridDataRow<T> implements IGroupNode {
     '[Controls/treeGrid:TreeGridGroupDataRow]': boolean = true;
@@ -12,12 +16,18 @@ export default class TreeGridGroupDataRow<T extends Model> extends TreeGridDataR
     readonly LadderSupport: boolean = false;
     readonly ItemActionsItem: boolean = false;
 
+    protected _$isHiddenGroup: boolean;
+
+    constructor(options: IOptions<T>) {
+        super(options);
+    }
+
     // region overrides
 
     getItemClasses(params: IItemTemplateParams = { theme: 'default' }): string {
         params.highlightOnHover = false;
         let classes = super.getItemClasses(params);
-        classes += ' controls-ListView__group';
+        classes += ` controls-ListView__group${this.isHiddenGroup() ? 'Hidden' : ''}`;
         return classes;
     }
 
@@ -28,6 +38,22 @@ export default class TreeGridGroupDataRow<T extends Model> extends TreeGridDataR
 
     shouldDisplayExpanderBlock(column: GridCell<T, TreeGridDataRow<T>>): boolean {
         return false;
+    }
+
+    isHiddenGroup(): boolean {
+        return this._$isHiddenGroup;
+    }
+
+    isSticked(): boolean {
+        return this.getOwner().isStickyHeader() && !this.isHiddenGroup();
+    }
+
+    protected _getBaseItemClasses(style: string, theme: string): string {
+        let itemClasses = 'controls-ListView__itemV';
+        if (!this.isHiddenGroup()) {
+            itemClasses += ` controls-Grid__row controls-Grid__row_${style}`;
+        }
+        return itemClasses;
     }
 
     protected _getColumnFactoryParams(column: IColumn, columnIndex: number): Partial<IGridDataCellOptions<T>> {
@@ -53,5 +79,6 @@ Object.assign(TreeGridGroupDataRow.prototype, {
     _cellModule: 'Controls/treeGrid:TreeGridGroupDataCell',
     _moduleName: 'Controls/treeGrid:TreeGridDataRow',
     _$searchValue: '',
+    _$isHiddenGroup: false,
     _instancePrefix: 'tree-grid-group-row-'
 });

@@ -5,6 +5,7 @@ import {
     TreeItem,
     Tree,
     GridLadderUtil,
+    CollectionItem,
     ItemsFactory,
     itemsStrategy,
     ITreeCollectionOptions, IItemActionsTemplateConfig, IHasMoreData
@@ -15,10 +16,10 @@ import {
     IGridCollectionOptions
 } from 'Controls/grid';
 import TreeGridFooterRow from './TreeGridFooterRow';
+import {IOptions as ITreeGridGroupDataRowOptions} from './TreeGridGroupDataRow';
 import {Model as EntityModel, Model} from 'Types/entity';
 import {IObservable} from 'Types/collection';
-import {CrudEntityKey} from "Types/source";
-import CollectionItem from "Controls/_display/CollectionItem";
+import {CrudEntityKey} from 'Types/source';
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
@@ -75,6 +76,19 @@ export default class TreeGridCollection<
 
     getNodeTypeProperty(): string {
         return this._$nodeTypeProperty;
+    }
+
+    private _calculateGroupNodesCount(): number {
+        if (!this.getNodeTypeProperty()) {
+            return 0;
+        }
+        let count = 0;
+        this.getCollection().each((record) => {
+            if (record.get(this.getNodeTypeProperty())) {
+                count++;
+            }
+        });
+        return count;
     }
 
     // TODO duplicate code with GridCollection. Нужно придумать как от него избавиться.
@@ -232,8 +246,9 @@ export default class TreeGridCollection<
         };
 
         // Строит фабрику, которая работает с TreeGridGroupDataRow
-        const GroupNodeFactory = (factoryOptions?: ITreeGridRowOptions<S>): ItemsFactory<T> => {
+        const GroupNodeFactory = (factoryOptions?: ITreeGridGroupDataRowOptions<S>): ItemsFactory<T> => {
             factoryOptions.itemModule = 'Controls/treeGrid:TreeGridGroupDataRow';
+            factoryOptions.isHiddenGroup = this._calculateGroupNodesCount() < 2;
             return superFactory.call(this, factoryOptions);
         };
 
