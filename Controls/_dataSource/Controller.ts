@@ -368,7 +368,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             (this._parentProperty && rootChanged);
 
         const resetExpandedItemsOnDeepReload = this.isDeepReload() && !rootChanged;
-        if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || Controller._isExpandAll(this.getExpandedItems()))) {
+        if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || this.isExpandAll())) {
             this.setExpandedItems([]);
         }
         this._options = newOptions;
@@ -480,6 +480,11 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
 
     isDeepReload(): boolean {
         return this._deepReload || this._options.deepReload;
+    }
+
+    isExpandAll(): boolean {
+        const expandedItems = this.getExpandedItems();
+        return expandedItems instanceof Array && expandedItems[0] === null;
     }
 
     destroy(): void {
@@ -1022,10 +1027,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         }
 
         return resultSource;
-    }
-
-    private static _isExpandAll(expandedItems: TKey[]): boolean {
-        return expandedItems instanceof Array && expandedItems[0] === null;
     }
 
 }
