@@ -14,7 +14,8 @@
                 <Controls._popupTemplate.CloseButton
                     name="closeButton"
                     attr:class="controls-DialogTemplate__close_button
-                    controls-DialogTemplate__close_{{_options.closeButtonViewMode}}"
+                    controls-DialogTemplate__close_{{_options.closeButtonViewMode}}
+                    controls-DialogTemplate__close_{{_options.closeButtonViewMode}}_without_head"
                     on:click="close()"
                     transparent="{{_options.closeButtonTransparent}}"
                     viewMode="{{_options.closeButtonViewMode}}"/>
