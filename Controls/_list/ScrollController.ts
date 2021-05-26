@@ -217,7 +217,8 @@ export default class ScrollController {
      */
     getFirstVisibleRecord(listViewContainer: HTMLElement, baseContainer: HTMLElement, scrollTop: number): Model {
         const topOffset = this._getTopOffsetForItemsContainer(listViewContainer, baseContainer);
-        const verticalOffset = scrollTop - topOffset + (getStickyHeadersHeight(baseContainer, 'top', 'allFixed') || 0);
+        const placeholder = this._virtualScroll?.rangeChanged ? this._placeholders.top : 0;
+        const verticalOffset = scrollTop - topOffset - placeholder + (getStickyHeadersHeight(baseContainer, 'top', 'allFixed') || 0);
 
         let firstItemIndex = this._options.collection.getStartIndex();
         firstItemIndex += this._getFirstVisibleItemIndex(listViewContainer.children, verticalOffset);
