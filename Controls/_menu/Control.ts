@@ -921,15 +921,24 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             });
         } else if (options.allowPin && !options.subMenuLevel) {
             this._visibleIds = [];
+            const fixedIds = [];
             factory(items).each((item) => {
                 if (MenuControl._isItemCurrentRoot(item, options))  {
                     this._visibleIds.push(item.getKey());
+                    if (item.get('doNotSaveToHistory')) {
+                        fixedIds.push(item.getKey());
+                    }
                 }
             });
             hasAdditional = this._visibleIds.length > MAX_HISTORY_VISIBLE_ITEMS_COUNT + 1;
             if (hasAdditional) {
                 this._visibleIds.splice(MAX_HISTORY_VISIBLE_ITEMS_COUNT);
             }
+            fixedIds.forEach((fixedId) => {
+               if (!this._visibleIds.includes(fixedId)) {
+                   this._visibleIds.push(fixedId);
+               }
+            });
         }
         return hasAdditional;
     }
