@@ -121,7 +121,7 @@
  * @typedef {Object} UpdateConfig
  * @description Параметр сохранения.
  * @property {Object} additionalData Дополнительные данные, которые будут обрабатываться при синхронизации записи с реестром.
- * @property {Boolean} showLoadingIndicator Скрыть индикатор
+ * @property {Boolean} [showLoadingIndicator=true] Отображение индикатора
  */
 
 /*
@@ -133,7 +133,7 @@
 /**
  * @typedef {Object} CrudConfig
  * @description Параметр Crud операций.
- * @property {Boolean} showLoadingIndicator Скрыть индикатор
+ * @property {Boolean} [showLoadingIndicator=true] Отображение индикатора
  */
 
 /**
