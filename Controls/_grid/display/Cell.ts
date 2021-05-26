@@ -259,6 +259,9 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     ): string {
         let wrapperClasses = '';
 
+        const highLightOnHover = this._$column.highlightOnHover !== undefined ?
+            this._$column.highlightOnHover : templateHighlightOnHover;
+
         const isCellEditMode = this._$owner.getEditingConfig()?.mode === 'cell';
 
         if (this.isEditing() && !isCellEditMode) {
@@ -266,7 +269,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             return ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
         }
 
-        if (templateHighlightOnHover !== false && !isCellEditMode) {
+        if (highLightOnHover !== false && !isCellEditMode) {
             wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle} `;
         }
 
@@ -326,6 +329,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
                       cursor: string = 'pointer',
                       templateHighlightOnHover: boolean = true): string {
         const hoverBackgroundStyle = this._$column.hoverBackgroundStyle || this._$owner.getHoverBackgroundStyle();
+        const highLightOnHover = this._$column.highlightOnHover !== undefined ?
+            this._$column.highlightOnHover : templateHighlightOnHover;
 
         let contentClasses = 'controls-Grid__row-cell__content';
 
@@ -355,7 +360,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             contentClasses += ` controls-Grid__row-cell__content_background_${backgroundColorStyle}`;
         }
 
-        if (templateHighlightOnHover !== false && this._$owner.getEditingConfig()?.mode !== 'cell') {
+        if (highLightOnHover !== false && this._$owner.getEditingConfig()?.mode !== 'cell') {
             contentClasses += ` controls-Grid__item_background-hover_${hoverBackgroundStyle}`;
         }
 

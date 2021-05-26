@@ -462,6 +462,10 @@ export interface IColumn extends IColspanParams {
      */
     hoverBackgroundStyle?: string;
     /**
+     * @cfg {Boolean} Видимость подсветки колонки при наведении курсора мыши.
+     */
+    highlightOnHover?: boolean;
+    /**
      * @cfg {string} Поле с текстом подсказки при наведении на ячейку
      */
     tooltipProperty?: string;
