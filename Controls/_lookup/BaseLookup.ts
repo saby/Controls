@@ -96,15 +96,25 @@ export default abstract class
         this.activate();
     }
 
-    protected _selectCallback(event: SyntheticEvent, result: SelectedItems): void {
+    protected _selectCallback(event: SyntheticEvent, result: SelectedItems|Promise<SelectedItems>): void {
         const selectResult =
             this._notify('selectorCallback', [this._lookupController.getItems(), result]) ||
             result;
+        const selectCallback = (result) => {
+            this._lookupController.setItemsAndSaveToHistory(result as SelectedItems);
+            this._afterItemsChanged();
+        };
+
         if (this._options.value) {
             this._notify('valueChanged', ['']);
         }
-        this._lookupController.setItemsAndSaveToHistory(selectResult as SelectedItems);
-        this._afterItemsChanged();
+        if (selectResult instanceof Promise) {
+            selectResult.then((items) => {
+                selectCallback(items);
+            });
+        } else {
+            selectCallback(selectResult);
+        }
     }
 
     protected _getSelectedKeys(options: ILookupOptions): TKey[] {

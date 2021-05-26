@@ -6,7 +6,7 @@ import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import * as sinon from 'sinon';
 
-async function getBaseLookup(options?: ILookupOptions): Promise<Lookup> {
+async function getBaseLookup(options?: Partial<ILookupOptions>): Promise<Lookup> {
     const lookupOptions = options || {
         source: getSource(),
         selectedKeys: []
@@ -19,8 +19,8 @@ async function getBaseLookup(options?: ILookupOptions): Promise<Lookup> {
     return lookup;
 }
 
-function getSource(): Memory {
-    const data = [
+function getData(): object[] {
+    return [
         {
             id: 0,
             title: 'Sasha'
@@ -34,9 +34,11 @@ function getSource(): Memory {
             title: 'Dmitry'
         }
     ];
+}
 
+function getSource(): Memory {
     return new Memory({
-        data,
+        data: getData(),
         keyProperty: 'id'
     });
 }
@@ -157,6 +159,36 @@ describe('Controls/lookup:Input', () => {
             assert.deepEqual(deleted, [5]);
         });
 
+    });
+
+    describe('_selectCallback', function () {
+        it('_selectCallback with items', async () => {
+            const lookup = await getBaseLookup({
+                multiSelect: true
+            });
+            sinon.replace(lookup, '_itemsChanged', () => {});
+            const items = new RecordSet({
+                rawData: getData(),
+                keyProperty: 'id'
+            });
+            lookup._selectCallback(null, items);
+            assert.ok(lookup._items === items);
+        });
+
+        it('_selectCallback with promise', async () => {
+            const lookup = await getBaseLookup({
+                multiSelect: true
+            });
+            sinon.replace(lookup, '_itemsChanged', () => {});
+            const items = new RecordSet({
+                rawData: getData(),
+                keyProperty: 'id'
+            });
+            const promise = Promise.resolve(items);
+            lookup._selectCallback(null, promise);
+            await promise;
+            assert.ok(lookup._items === items);
+        });
     });
 
 });
