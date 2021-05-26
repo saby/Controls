@@ -25,6 +25,11 @@
                                       on:pinClick="_pinClick()">
                </Controls._menu.Render>
             </Controls.scroll:Container>
+            <ws:if data="{{_options.footerTemplate}}">
+               <ws:partial template="{{_options.footerTemplate}}"
+                           attr:class="controls-StickyTemplate__footer"
+                           scope="{{_options}}"/>
+            </ws:if>
             <ws:if data="{{_moreButtonVisible || _expandButtonVisible}}">
                <div class="controls-Menu__footer
                         controls-Menu__footer-{{_moreButtonVisible ? 'moreButton' : 'additionalButton'}}-height"
