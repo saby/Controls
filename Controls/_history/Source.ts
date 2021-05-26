@@ -478,8 +478,10 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
                     });
                     recentData = data;
                 } else {
-                    historyData = data;
-                    recentData = [data];
+                    if (!data.get('doNotSaveToHistory')) {
+                        historyData = data;
+                        recentData = [data];
+                    }
                 }
 
                 this._resolveRecent(recentData);
