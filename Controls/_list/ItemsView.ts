@@ -7,11 +7,6 @@ import {default as BaseControl} from 'Controls/_list/BaseControl';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import ListView = require('Controls/_list/ListView');
 
-/**
- * Интерфейс, описывающий структуру объекта конфигурации контрола {@link Controls/list:ItemsView}
- * @public
- * @author Уфимцев Д.Ю.
- */
 export interface IItemsViewOptions extends IControlOptions {
     /**
      * @name Controls/_list/IItemsView
@@ -19,6 +14,13 @@ export interface IItemsViewOptions extends IControlOptions {
      */
     items?: RecordSet;
 }
+
+/**
+ * Интерфейс, описывающий структуру объекта конфигурации контрола {@link Controls/list:ItemsView}
+ * @interface Controls/_list/IItemsView
+ * @public
+ * @author Уфимцев Д.Ю.
+ */
 
 /**
  * Контрол плоского списка, который умеет работать без источника данных.
