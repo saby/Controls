@@ -79,7 +79,8 @@
 }
 
 .controls-DialogTemplate__close_linkButton {
-   margin-top: var(--close-link-button_offset-top_dialog);
+   margin-top: var(--close-link-button_offset_dialog);
+   margin-bottom: var(--close-link-button_offset_dialog);
    margin-right: var(--close-link-button_offset-right_dialog);
 }
 
@@ -88,6 +89,9 @@
    right: 0;
    top: 0;
    display: flex;
+   &.controls-DialogTemplate__close_linkButton {
+      margin-top: var(--close-link-button_offset-top_dialog);
+   }
 }
 
 .controls-DialogTemplate__caption {
