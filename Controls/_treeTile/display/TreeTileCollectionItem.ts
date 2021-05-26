@@ -234,6 +234,13 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         super.setActive(active, silent);
     }
 
+    setHovered(hovered: boolean, silent?: boolean): void {
+        if (!hovered && this.isHovered()) {
+            this.setCanShowActions(false);
+        }
+        super.setHovered(hovered, silent);
+    }
+
     getMultiSelectClasses(): string {
         let classes = super.getMultiSelectClasses();
         classes = classes.replace(`controls-ListView__checkbox_position-${this.getOwner().getMultiSelectPosition()}`, '');
