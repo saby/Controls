@@ -338,7 +338,8 @@ class StickyController extends BaseController {
     }
 
     dragNDropOnPage(item): boolean {
-        return !item.isDragOnPopup && item.popupOptions.closeOnOutsideClick;
+        const hasChilds = !!item.childs.length;
+        return !item.isDragOnPopup && item.popupOptions.closeOnOutsideClick && !hasChilds;
     }
 
     getDefaultConfig(item) {
