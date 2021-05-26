@@ -456,15 +456,14 @@ export interface IColumn extends IColspanParams {
     /**
      * @cfg {string} Цвет фона колонки при наведении курсора мыши.
      *
-     * @remark Для определения собственных цветов при наведении, необходимо указать специальный hoverBackgroundStyle, а
+     * @remark
+     * Позволяет определить произвольный фон колонки при наведении.
+     * Для отключения цвета при наведении используйте значение "transparent"
+     * Для определения собственных цветов при наведении, необходимо указать специальный hoverBackgroundStyle, а
      * также определить в своем less-файле стиль controls-Grid__item_background-hover_@{yourBackgroundStyle}_theme-@{themeName}.
      * @see backgroundColorStyle
      */
     hoverBackgroundStyle?: string;
-    /**
-     * @cfg {Boolean} Видимость подсветки колонки при наведении курсора мыши.
-     */
-    highlightOnHover?: boolean;
     /**
      * @cfg {string} Поле с текстом подсказки при наведении на ячейку
      */

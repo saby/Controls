@@ -12,12 +12,12 @@ const columns: IColumn[] = [
     {
         displayProperty: 'country',
         width: '200px',
-        highlightOnHover: false
+        hoverBackgroundStyle: 'transparent'
     },
     {
         displayProperty: 'capital',
         width: '100px',
-        highlightOnHover: false
+        hoverBackgroundStyle: 'transparent'
     },
     {
         displayProperty: 'population',
