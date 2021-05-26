@@ -883,6 +883,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._updateViewMode(this._previousViewMode);
             this._previousViewMode = null;
         }
+        this._updateContext();
     }
 
     private _dataLoadCallback(data: RecordSet, direction?: Direction): void {
