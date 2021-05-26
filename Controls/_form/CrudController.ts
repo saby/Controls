@@ -77,7 +77,7 @@ export default class CrudController {
      * @function Controls/_form/CrudController#read
      * @param {Number|String}key Первичный ключ записи.
      * @param {Object} [meta] Дополнительные метаданные.
-     * @param {Boolean} [showLoadingIndicator] Скрыть индикатор.
+     * @param {ICrudConfig} [config]
      */
     read(key: string, readMetaData: unknown, config?: ICrudConfig): Promise<Model> {
         const promise: Promise<Model> = new Promise((res, rej) => {
