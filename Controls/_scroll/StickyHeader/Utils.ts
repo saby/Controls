@@ -136,15 +136,9 @@ export function validateIntersectionEntries(entries: IntersectionObserverEntry[]
     return newEntries;
 }
 
-const CONTENTS_STYLE: string = 'contents';
-
 export function isHidden(element: HTMLElement): boolean {
     if (!element) {
         return false;
-    }
-    // В 21.3000 сразу делаю правильную реализацию.
-    if (element.className.includes('js-controls-Grid_columnScroll_thumb-wrapper')) {
-        return element.offsetParent === null;
     }
 
     return !!element.closest('.ws-hidden');
