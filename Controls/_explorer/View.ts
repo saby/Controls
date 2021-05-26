@@ -912,7 +912,9 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._backgroundStyle = this._newBackgroundStyle;
             this._newBackgroundStyle = null;
         }
-        if (this._newHeader) {
+
+        // _newHeader может измениться на undefined при смене с табличного представления
+        if (this._newHeader !== this._header) {
             this._header = this._newHeader;
             this._newHeader = null;
         }
