@@ -479,8 +479,19 @@ const _private = {
         } else {
             const wasItemsReplaced = oldCollection && !isEqualItems(oldCollection, items);
             listModel.setItems(items, newOptions);
-            self._items = listModel.getCollection();
 
+            // Старая модель пересоздает коллекцию, необходимо передать новую в контроллер редактирования,
+            // т.к. пересоздание коллекции могло произойти во время запуска/завершения редактирования.
+            // Данный костыль нужен только для поддержания добавления в конец/начало списка в старых моделях.
+            // При отказе от старых моделей костыль можно удалить.
+            // Доработка добавления в в конец/начало списка будет реализовано по
+            // https://online.sbis.ru/opendoc.html?guid=000ff88b-f37e-4aa6-9bd3-3705bb721014
+            if (self._editInPlaceController && self._getEditingConfig().task1181625554) {
+                self._editInPlaceController.updateOptions({
+                    collection: listModel.getDisplay()
+                });
+            }
+            self._items = listModel.getCollection();
             if (wasItemsReplaced) {
                 self._onItemsReady(newOptions, self._items);
             }
@@ -1222,33 +1233,6 @@ const _private = {
     },
     needShowPagingByScrollSize(self, viewSize: number, viewportSize: number): boolean {
         let result = self._pagingVisible;
-        /**
-         * Правильнее будет проверять что размер viewport не равен 0.
-         * Это нужно для того, чтобы пэйджинг в таком случае не отобразился.
-         * viewport может быть равен 0 в том случае, когда блок скрыт через display:none, а после становится видим.
-         */
-        if (viewportSize !== 0) {
-            let pagingPadding = self._pagingPadding;
-            if (pagingPadding === null) {
-                pagingPadding = self._isPagingPadding() ? PAGING_PADDING : 0;
-            }
-            const scrollHeight = Math.max(_private.calcViewSize(viewSize, result,
-                pagingPadding),
-                !self._options.disableVirtualScroll && self._scrollController?.calculateVirtualScrollHeight() || 0);
-            const proportion = (scrollHeight / viewportSize);
-
-            // начиличе пэйджинга зависит от того превышают данные два вьюпорта или нет
-            if (!result) {
-                result = proportion >= MIN_SCROLL_PAGING_SHOW_PROPORTION;
-            }
-
-            // если все данные поместились на один экран, то скрываем пэйджинг
-            if (result) {
-                result = proportion > MAX_SCROLL_PAGING_HIDE_PROPORTION;
-            }
-        } else {
-            result = false;
-        }
 
         // если мы для списка раз вычислили, что нужен пэйджинг, то возвращаем этот статус
         // это нужно для ситуации, если первая пачка данных вернула естьЕще (в этом случае пэйджинг нужен)
@@ -1280,6 +1264,41 @@ const _private = {
             if (!self._scrollPagingCtr && result && _private.needScrollPaging(self._options.navigation)) {
                 _private.createScrollPagingController(self, hasMoreData);
             }
+        }
+
+        /**
+         * Правильнее будет проверять что размер viewport не равен 0.
+         * Это нужно для того, чтобы пэйджинг в таком случае не отобразился.
+         * viewport может быть равен 0 в том случае, когда блок скрыт через display:none, а после становится видим.
+         */
+        if (viewportSize !== 0) {
+            let pagingPadding = self._pagingPadding;
+            if (pagingPadding === null) {
+                pagingPadding = self._isPagingPadding() ? PAGING_PADDING : 0;
+            }
+            const scrollHeight = Math.max(_private.calcViewSize(viewSize, result,
+                pagingPadding),
+                !self._options.disableVirtualScroll && self._scrollController?.calculateVirtualScrollHeight() || 0);
+            const proportion = (scrollHeight / viewportSize);
+
+            if (proportion > 0) {
+
+                // начиличе пэйджинга зависит от того превышают данные два вьюпорта или нет
+                if (!result) {
+                    result = proportion >= MIN_SCROLL_PAGING_SHOW_PROPORTION;
+                }
+
+                // если все данные поместились на один экран, то скрываем пэйджинг
+                if (result) {
+                    result = proportion > MAX_SCROLL_PAGING_HIDE_PROPORTION;
+                }
+            } else {
+                self._cachedPagingState = false;
+                result = false;
+            }
+
+        } else {
+            result = false;
         }
 
         if (self._cachedPagingState === true) {
@@ -3297,7 +3316,8 @@ const _private = {
      */
     isAllowedHoverFreeze(self): boolean {
         return (!self._dndListController || !self._dndListController.isDragging()) &&
-            (!self._editInPlaceController || !self._editInPlaceController.isEditing());
+            (!self._editInPlaceController || !self._editInPlaceController.isEditing()) &&
+            !(this._context?.isTouch?.isTouch);
     }
 };
 
@@ -3510,6 +3530,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this.__errorController = options.errorController || new dataSourceError.Controller({});
         this._startDragNDropCallback = this._startDragNDropCallback.bind(this);
         this._resetValidation = this._resetValidation.bind(this);
+        this._onWindowResize = this._onWindowResize.bind(this);
     }
 
     /**
@@ -3870,6 +3891,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
+    protected _onWindowResize(): void {
+        // Если изменили размеры окна, то нужно скрыть меню для itemActions. Иначе меню уезжает куда-то в сторону.
+        _private.closeActionsMenu(this);
+    }
+
     _getScrollParams(): IScrollParams {
         let headersHeight = 0;
         let offsetTop = 0;
@@ -3909,6 +3935,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     protected _afterMount(): void {
         this._isMounted = true;
+
+        if (constants.isBrowserPlatform) {
+            window.addEventListener('resize', this._onWindowResize);
+        }
 
         if (this._useServerSideColumnScroll) {
             this._useServerSideColumnScroll = false;
@@ -4034,7 +4064,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._listViewModel.setEmptyTemplate(newOptions.emptyTemplate);
         }
         // todo При отказе от старой - выпилить проверку "useNewModel".
-        if (!isEqual(newOptions.filter, this._options.filter) && newOptions.useNewModel) {
+        // Мало проверять только на измененный фильтр, записи могут просто переместить
+        if (/*!isEqual(newOptions.filter, this._options.filter) && */newOptions.useNewModel) {
             this._listViewModel.setEmptyTemplateOptions({items: this._items, filter: newOptions.filter});
         }
 
@@ -4669,6 +4700,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // При разрушении списка нужно в ПМО сбросить счетчик выбранных записей
         if (_private.hasSelectionController(this)) {
             this._notify('listSelectedKeysCountChanged', [0, false], {bubbling: true});
+        }
+
+        if (constants.isBrowserPlatform) {
+            window.removeEventListener('resize', this._onWindowResize);
         }
 
         super._beforeUnmount();

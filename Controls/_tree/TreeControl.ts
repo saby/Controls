@@ -786,7 +786,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         // сделана некорректно. Как откажемся от неё, то можно использовать стандартное сравнение опций.
         const currentExpandedItems = viewModel ? viewModel.getExpandedItems() : this._options.expandedItems;
         const expandedItemsFromSourceCtrl = sourceController && sourceController.getExpandedItems();
-        const wasResetExpandedItems = expandedItemsFromSourceCtrl && !expandedItemsFromSourceCtrl.length
+        const wasResetExpandedItems = !isSourceControllerLoading && expandedItemsFromSourceCtrl && !expandedItemsFromSourceCtrl.length
             && currentExpandedItems && currentExpandedItems.length;
         if (wasResetExpandedItems) {
             _private.resetExpandedItems(this);

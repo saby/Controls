@@ -293,6 +293,13 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
             if (!Object.keys(this._headers).length) {
                 this._notify('stickyRegister', [{id: this._index}, false], {bubbling: true});
                 this._isRegistry = false;
+                // Сбрасываем офсет, т.к после анрегистра группы в нее следом могут добавиться новые заголовки.
+                this._offset = {
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0
+                };
             }
         }
     }

@@ -200,6 +200,11 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
       const selectedKeysWithEntryPath = this._mergeEntryPath(selection.selected);
 
+      const selectionWithEntryPath = {
+         selected: selectedKeysWithEntryPath,
+         excluded: selection.excluded
+      };
+
       let doNotSelectNodes = false;
       if (searchValue) {
          let isOnlyNodesInItems = true;
@@ -219,7 +224,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
             });
          }
 
-         doNotSelectNodes = this._isAllSelected(selection, this._rootId) && !isOnlyNodesInItems;
+         doNotSelectNodes = this._isAllSelected(selectionWithEntryPath, this._rootId) && !isOnlyNodesInItems;
       }
 
       const handleItem = (item) => {
@@ -230,22 +235,19 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          const key = this._getKey(item);
          const parentId = this._getKey(item.getParent());
          const isNode = this._isNode(item);
-         const inSelected = selection.selected.includes(key);
-         const inExcluded = selection.excluded.includes(key);
+         const inSelected = selectionWithEntryPath.selected.includes(key);
+         const inExcluded = selectionWithEntryPath.excluded.includes(key);
 
          let isSelected;
          if (!this._selectAncestors && !this._selectDescendants) {
             // В этом случае мы вообще не смотри на узлы, т.к. выбранность элемента не зависит от выбора родительского узла
             // или выбранность узла не зависит от его детей
-            isSelected = this._canBeSelected(item, false) && !inExcluded && (inSelected || this._isAllSelectedInRoot(selection));
+            isSelected = this._canBeSelected(item, false) && !inExcluded && (inSelected || this._isAllSelectedInRoot(selectionWithEntryPath));
          } else {
-            isSelected = this._canBeSelected(item, false) && (!inExcluded && (inSelected || this._isAllSelected(selection, parentId)) || isNode && this._isAllSelected(selection, key));
+            isSelected = this._canBeSelected(item, false) && (!inExcluded && (inSelected || this._isAllSelected(selectionWithEntryPath, parentId)) || isNode && this._isAllSelected(selectionWithEntryPath, key));
 
             if ((this._selectAncestors || searchValue) && isNode) {
-               isSelected = this._getStateNode(item, isSelected, {
-                  selected: selectedKeysWithEntryPath,
-                  excluded: selection.excluded
-               });
+               isSelected = this._getStateNode(item, isSelected, selectionWithEntryPath);
             }
          }
 
@@ -428,24 +430,14 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       }
    }
 
-   // TODO после починки юнитов, попробовать переписать. Какая-то дичь
    private _mergeEntryPath(selectedKeys: TKeys): TKeys {
-      const entryPathObject: Object = {};
       const selectedKeysWithEntryPath: TKeys = selectedKeys.slice();
 
       if (this._entryPath) {
-         this._entryPath.forEach((pathData) => {
-            entryPathObject[pathData.id] = pathData.parent;
-         });
-
-         this._entryPath.forEach((pathData) => {
-            if (selectedKeys.includes(pathData.id)) {
-               for (let keyItem = pathData.parent; entryPathObject[keyItem]; keyItem = entryPathObject[keyItem]) {
-                  if (!selectedKeys.includes(keyItem)) {
-                     selectedKeysWithEntryPath.push(keyItem);
-                  }
-               }
-            }
+         // entryPath это путь от выбранных узлов до текущих элементов. У нас в списке этих узлов нет, поэтому считаем,
+         // что эти узлы выбраны, чтобы выбрались все их дети
+         this._entryPath.forEach((it) => {
+            selectedKeysWithEntryPath.push(it.id);
          });
       }
 

@@ -78,6 +78,7 @@ export interface IControllerOptions extends
     navigationParamsChangedCallback?: Function;
     loadTimeout?: number;
     items?: RecordSet;
+    nodeTypeProperty?: string;
 }
 
 interface ILoadConfig {
@@ -368,7 +369,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             (this._parentProperty && rootChanged);
 
         const resetExpandedItemsOnDeepReload = this.isDeepReload() && !rootChanged;
-        if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || Controller._isExpandAll(this.getExpandedItems()))) {
+        if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || this.isExpandAll())) {
             this.setExpandedItems([]);
         }
         this._options = newOptions;
@@ -398,7 +399,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
             dataLoadCallback: this._options.dataLoadCallback,
-            expandedItems: this._expandedItems
+            expandedItems: this._expandedItems,
+            nodeTypeProperty: this._options.nodeTypeProperty
         };
         return state;
     }
@@ -413,7 +415,19 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
     }
 
     updateExpandedItemsInUserStorage(): void  {
-        nodeHistoryUtil.store(this._expandedItems, this._options.nodeHistoryId);
+        let expandedItems: TKey[];
+        if (!this._expandedItems || this._expandedItems.length === 0 || !this._options.nodeTypeProperty) {
+            expandedItems = this._expandedItems;
+        } else {
+            expandedItems = this._expandedItems.filter((key) => {
+                const nodeTypeProperty = this._items.getRecordById(key).get(this._options.nodeTypeProperty);
+                if (this._options.nodeHistoryType === 'node') {
+                    return nodeTypeProperty !== 'group';
+                }
+                return nodeTypeProperty === 'group';
+            });
+        }
+        nodeHistoryUtil.store(expandedItems, this._options.nodeHistoryId);
     }
 
     getExpandedItems(): TKey[] {
@@ -480,6 +494,11 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
 
     isDeepReload(): boolean {
         return this._deepReload || this._options.deepReload;
+    }
+
+    isExpandAll(): boolean {
+        const expandedItems = this.getExpandedItems();
+        return expandedItems instanceof Array && expandedItems[0] === null;
     }
 
     destroy(): void {
@@ -1022,10 +1041,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         }
 
         return resultSource;
-    }
-
-    private static _isExpandAll(expandedItems: TKey[]): boolean {
-        return expandedItems instanceof Array && expandedItems[0] === null;
     }
 
 }

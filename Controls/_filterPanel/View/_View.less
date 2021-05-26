@@ -8,6 +8,7 @@
 }
 
 .controls-FilterViewPanel__header {
+   position: relative;
    display: flex;
    flex-direction: row;
    align-items: baseline;
@@ -227,4 +228,9 @@
    height: var(--heading-default_height_filterViewPanel);
    line-height: var(--heading-default_height_filterViewPanel);
    padding-bottom: var(--padding-bottom_filterViewPanel);
+}
+
+.controls-FilterViewPanel_header__applyButton {
+   position: absolute;
+   right: var(--heading_horizontal-offset_filterViewPanel);
 }

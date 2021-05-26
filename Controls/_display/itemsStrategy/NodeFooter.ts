@@ -200,6 +200,9 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
             }
         });
 
+        // обновляем ссылки в футерах и в узлах, т.к. элементы могут пересоздаться.
+        NodeFooter._updateNodesInNodeFooters(items, options.nodeFooters);
+
         const getItemsCount = (node) => {
             const oneOfParentsIsEqualNode = (item) => {
                 if (!item || !item.getParent) {
@@ -275,6 +278,17 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
         }
 
         return nodesWithFooter;
+    }
+
+    private static _updateNodesInNodeFooters(items: TreeItem[], nodeFooters: TreeItem[]): void {
+        nodeFooters.forEach((footer) => {
+            const nodeKey = footer.getNode().getContents().getKey();
+            const newNode = items.find((it) => it.key === nodeKey);
+            if (newNode) {
+                footer.setParent(newNode);
+                newNode.setNodeFooter(footer);
+            }
+        });
     }
 }
 

@@ -17,7 +17,7 @@
         </ws:bottomRightTpl>
         <ws:itemActionsTpl>
             <ws:if data="{{ (item || itemData).shouldDisplayItemActions(itemType, itemActionsPosition, 'title') }}">
-                <ws:partial template="Controls/_tile/itemActions/Control" item="{{(item)}}">
+                <ws:partial template="{{ item.getItemActionsControl(itemType) }}" item="{{(item)}}">
                     <ws:partial template="{{itemActionsTemplate}}"
                                 actionPadding="{{ (item || itemData).getActionPadding(itemType) }}"
                                 actionStyle="{{!titleStyle || titleStyle === 'light' ? 'tileLight' : 'tileDark'}}"
