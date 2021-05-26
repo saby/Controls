@@ -1800,7 +1800,9 @@ const _private = {
                             result = self._scrollController.handleRemoveItems(removedItemsIndex, removedItems);
                             break;
                         case IObservable.ACTION_RESET:
-                            result = self._scrollController.handleResetItems();
+                            if (!self._keepScrollAfterReload) {
+                                result = self._scrollController.handleResetItems();
+                            }
                             break;
                     }
                     if (result) {
