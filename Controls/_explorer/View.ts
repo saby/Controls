@@ -198,7 +198,13 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._backgroundStyle = cfg.backgroundStyle;
         }
         if (cfg.header) {
-            this._header = cfg.viewMode === 'tile' ? undefined : cfg.header;
+            // нужно проставить и _header и _newHeader иначе здесь ниже в _setViewMode
+            // при _applyNewVisualOptions проставится this._newHeader в _header, т.к.
+            // они сейчас сравниваются на равенство
+            // TODO: Нужно отрефакторить эту логику. Сейчас заголовок нужен только
+            //  при viewMode === 'search' || 'table' + на него завязана проверка видимости
+            //  шапки с хлебными крошками в PathWrapper, но эту проверку можно также на viewMode сделать
+            this._newHeader = this._header = cfg.viewMode === 'tile' ? undefined : cfg.header;
         }
 
         this._itemActionsPosition = cfg.itemActionsPosition;
@@ -909,7 +915,9 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._backgroundStyle = this._newBackgroundStyle;
             this._newBackgroundStyle = null;
         }
-        if (this._newHeader) {
+
+        // _newHeader может измениться на undefined при смене с табличного представления
+        if (this._newHeader !== this._header) {
             this._header = this._newHeader;
             this._newHeader = null;
         }
