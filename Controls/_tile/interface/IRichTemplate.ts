@@ -3,14 +3,16 @@ import {TemplateFunction} from 'UI/Base';
 /**
  * @typedef {Object} ICharacteristicsItem
  * @description Элемент харастеристики для отображения на плитке.
+ * @property {string} imgSrc Для задания произвольного изображения можно передать его в формате base64 или url ссылки
  * @property {String} icon Название иконки.
  * @property {String} title Подпись рядом с иконкой.
  * @property {String} tooltip Текст при наведении на характеристику.
  */
 interface ICharacteristicsItem {
-    icon: string;
-    title: string;
-    tooltip: string;
+    imgSrc?: string;
+    icon?: string;
+    title?: string;
+    tooltip?: string;
 }
 
 /**
