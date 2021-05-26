@@ -287,6 +287,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._masterMarkedKey = this.root;
         if (this._dataOptions) {
             this._viewMode = newOptions.viewMode;
+            this._searchValue = newOptions.searchValue;
         }
 
         // Обновляем фон только если не менялся root, т.к. в этом случае фон нужно обносить после загрузки данных,
