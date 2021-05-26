@@ -90,7 +90,7 @@ export default class Collection<
     private _recalculateColumnsCountByWidth(width: number, columnMinWidth: number): void {
         const newColumnsCount = Math.floor(width / (columnMinWidth + this._$spacing));
         if (newColumnsCount !== this._columnsCount) {
-            this._columnsCount = newColumnsCount;
+            this._columnsCount = newColumnsCount || 1;
             this.setColumnsCount(this._columnsCount);
         }
     }
