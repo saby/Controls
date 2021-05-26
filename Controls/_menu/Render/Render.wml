@@ -13,6 +13,7 @@
                multiLine="{{_options.multiLine}}"
                allowPin="{{_options.allowPin}}"
                historyRoot="{{_options.historyRoot}}"
+               scope="{{itemTemplate.item.contents['itemTemplateOptions']}}"
                attr:data-qa="{{itemTemplate.item.getContents()[_options.nodeProperty] ? 'node' : 'leaf'}}"
                item="{{_getItemData(itemTemplate.item)}}" />  <!-- https://online.sbis.ru/opendoc.html?guid=47950520-ef97-4302-8573-4b8495a3f0ee -->
    <ws:if data="{{_options.allowPin && _isHistorySeparatorVisible(itemTemplate.item)}}">
