@@ -195,6 +195,13 @@ export default class Application extends Control<IApplication> {
 
       this._globalPopup.registerGlobalPopup();
       this._popupManager.init(this._getChildContext());
+      if (options.isAdaptive) {
+         document.addEventListener('touchmove', function (event) {
+            if (event.scale !== 1) {
+               event.preventDefault()
+            }
+         }, { passive: false })
+      }
 
    }
    protected _beforeUpdate(options: IApplication): void {
