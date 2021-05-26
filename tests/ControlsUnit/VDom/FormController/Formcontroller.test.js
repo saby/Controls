@@ -99,6 +99,7 @@ define([
          let createPromiseResolverReed;
          let createPromiseResolverDelete;
          let createPromise;
+         const originConfirmationCallback = FC._confirmRecordChangeHandler;
          const record = {
             isChanged: () => false
          };
@@ -159,6 +160,9 @@ define([
          });
          assert.equal(setRecordCalled, true);
 
+         FC._confirmRecordChangeHandler = (positiveCallback) => {
+            return positiveCallback();
+         };
          setRecordCalled = false;
          readCalled = false;
          FC._beforeUpdate({
@@ -177,6 +181,7 @@ define([
          createCalled = false;
          let updateCalled = false;
          let confirmPopupCalled = false;
+         FC._confirmRecordChangeHandler = originConfirmationCallback;
          FC._showConfirmPopup = () => {
             confirmPopupCalled = true;
             return new Promise((res) => {

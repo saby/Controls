@@ -195,7 +195,7 @@ class FormController extends ControllerBase<IFormController> {
         const needCreate: boolean = !isPreloadWay && newOptions.key === undefined &&
             !newOptions.record && this._createMetaDataOnUpdate !== createMetaData;
         const updateRecord = () => {
-            if (newOptions.record) {
+            if (newOptions.record && this._record !== newOptions.record) {
                 this._setRecord(newOptions.record);
             }
         };
@@ -216,8 +216,8 @@ class FormController extends ControllerBase<IFormController> {
             }, () => {
                 this._tryDeleteNewRecord().then(() => {
                     this.read(newOptions.key, newOptions.readMetaData);
-                    updateRecord();
                 });
+                updateRecord();
             });
         } else if (needCreate) {
             // Если нет ключа и записи - то вызовем метод создать.
