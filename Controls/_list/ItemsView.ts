@@ -14,8 +14,8 @@ import ListView = require('Controls/_list/ListView');
  */
 export interface IItemsViewOptions extends IControlOptions {
     /**
-     * @cfg
-     * Список записей данные которого нужно отобразить в списке
+     * @name Controls/_list/IItemsView
+     * @cfg {Types/collection:RecordSet} Список записей, данные которого нужно отобразить в списке.
      */
     items?: RecordSet;
 }
@@ -23,7 +23,7 @@ export interface IItemsViewOptions extends IControlOptions {
 /**
  * Контрол плоского списка, который умеет работать без источника данных.
  * В качестве данных ожидает {@link RecordSet} переданный в опцию {@link IItemsViewOptions.items}.
- *
+ * @mixes Controls/list:IItemsView
  * @demo Controls-demo/list_new/ItemsView/Base/Index
  * @demo Controls-demo/list_new/ItemsView/Grouping/Index
  *
