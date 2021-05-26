@@ -5,10 +5,11 @@ import {TemplateFunction} from 'UI/Base';
 import {GroupItem} from 'Controls/display';
 import {IFilterItem} from 'Controls/filter';
 import {IItemPadding} from 'Controls/display';
-import * as rk from 'i18n!Controls';
 import {Model} from 'Types/entity';
+import ApplyButton from 'Controls/_filterPanel/View/ApplyButton';
 import 'css!Controls/filterPanel';
 import {default as ViewModel} from './View/ViewModel';
+import {StickyOpener} from 'Controls/popup';
 
 /**
  * Контрол "Панель фильтра с набираемыми параметрами".
@@ -50,11 +51,12 @@ interface IViewPanelOptions {
 
 export default class View extends Control<IViewPanelOptions> {
     protected _template: TemplateFunction = template;
-    protected _resetCaption: string = rk('все');
     protected _itemPadding: IItemPadding = {
         bottom: 'null'
     };
     protected _viewModel: ViewModel = null;
+    protected _applyButtonSticky: StickyOpener;
+    protected _applyButtonTemplate: TemplateFunction = ApplyButton;
 
     protected _beforeMount(options: IViewPanelOptions): void {
         this._viewModel = new ViewModel({
@@ -72,17 +74,30 @@ export default class View extends Control<IViewPanelOptions> {
 
     protected _resetFilter(): void {
         this._viewModel.resetFilter();
+        if (this._applyButtonSticky) {
+            this._applyButtonSticky.close();
+        }
         this._notifyChanges();
     }
 
-    protected _applyFilter(): void {
+    protected _applyFilter(editorGroup: string): void {
         this._notifyChanges();
+        this._viewModel.collapseGroup(editorGroup);
+        if (this._applyButtonSticky) {
+            this._applyButtonSticky.close();
+        }
         this._notify('filterApplied');
     }
 
     protected _editingObjectChanged(event: SyntheticEvent, editingObject: Record<string, any>): void {
-        this._viewModel.setEditingObject(editingObject);
+        const editorName = this._viewModel.getChangedEditorName(editingObject);
+        const editorConfig = this._viewModel.getChangedEditorObject(editingObject, editorName);
         if (this._options.viewMode === 'default') {
+            const sourceItem = this._viewModel.getSourceItemByName(editorName);
+            this._showApplyButton(editorConfig, sourceItem);
+        }
+        this._viewModel.setEditingObject(editingObject);
+        if (editorConfig.needApply) {
             this._notifyChanges();
         }
     }
@@ -97,15 +112,42 @@ export default class View extends Control<IViewPanelOptions> {
         this._viewModel.handleGroupClick(itemContents, isResetClick);
         if (isResetClick) {
             this._resetFilterItem(dispItem);
-        } else {
-            dispItem.toggleExpanded();
         }
         this._notify('collapsedGroupsChanged', [this._viewModel.getCollapsedGroups()]);
+    }
+
+    private _showApplyButton(editorConfig: object, sourceItem: IFilterItem): void {
+        if (editorConfig.target) {
+            this._getApplyButtonSticky().open({
+                opener: null,
+                template: this._applyButtonTemplate,
+                targetPoint: {
+                    horizontal: 'right'
+                },
+                direction: {
+                    horizontal: 'right'
+                },
+                target: editorConfig.target,
+                eventHandlers: {
+                    onResult: this._applyFilter.bind(this, sourceItem.group)
+                }
+            });
+        }
+    }
+
+    private _getApplyButtonSticky(): StickyOpener {
+        if (!this._applyButtonSticky) {
+            this._applyButtonSticky = new StickyOpener();
+        }
+        return this._applyButtonSticky;
     }
 
     private _resetFilterItem(dispItem: GroupItem<Model>): void {
         const itemContent = dispItem.getContents();
         this._viewModel.resetFilterItem(itemContent);
+        if (this._applyButtonSticky) {
+            this._applyButtonSticky.close();
+        }
         this._notifyChanges();
     }
 

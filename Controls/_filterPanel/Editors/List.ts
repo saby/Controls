@@ -1,4 +1,3 @@
-import rk = require('i18n!Controls');
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import * as ListTemplate from 'wml!Controls/_filterPanel/Editors/List';
@@ -26,7 +25,6 @@ import 'css!Controls/filterPanel';
 export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISourceOptions,
     INavigationOptions<unknown>, IItemActionsOptions, IList, IColumn, ISelectorDialogOptions {
     propertyValue: number[]|string[];
-    showSelectorCaption?: string;
     additionalTextProperty: string;
     multiSelect: boolean;
 }
@@ -39,13 +37,6 @@ export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISo
  * @mixes Controls/interface:INavigation
  * @author Мельникова Е.А.
  * @public
- */
-
-/**
- * @name Controls/_filterPanel/Editors/List#showSelectorCaption
- * @cfg {String} Заголовок для кнопки в подвале списка, которая открывает окно выбора из справочника.
- * @demo Controls-demo/filterPanel/ListEditor/ShowSelectorCaption/Index
- * @default Другие
  */
 
 /**
@@ -79,6 +70,7 @@ class ListEditor extends Control<IListEditorOptions> {
     protected _filter: object = {};
     protected _navigation: INavigationOptionValue<unknown> = null;
     private _itemsReadyCallback: Function = null;
+    private _editorTarget: HTMLElement | EventTarget;
 
     protected _beforeMount(options: IListEditorOptions): void {
         this._selectedKeys = options.propertyValue;
@@ -114,16 +106,20 @@ class ListEditor extends Control<IListEditorOptions> {
     protected _handleItemClick(event: SyntheticEvent, item: Model, nativeEvent: SyntheticEvent): void {
         const contentClick = nativeEvent.target.closest('.controls-ListEditor__columns');
         if (contentClick) {
-            this._notifyPropertyValueChanged([item.get(this._options.keyProperty)], true);
+            this._notifyPropertyValueChanged([item.get(this._options.keyProperty)], true, true);
         }
     }
 
     protected _handleSelectedKeysChanged(event: SyntheticEvent, keys: string[]|number[]): void {
-        this._notifyPropertyValueChanged(keys, !this._options.multiSelect);
+        this._notifyPropertyValueChanged(keys, !this._options.multiSelect, false);
+    }
+
+    protected _handleCheckBoxClick(event: SyntheticEvent, keys: string[]|number[]): void {
+        this._editorTarget = this._getEditorTarget(event);
     }
 
     protected _handleSelectedKeyChanged(event: SyntheticEvent, key: string|number): void {
-        this._notifyPropertyValueChanged([key], !this._options.multiSelect);
+        this._notifyPropertyValueChanged([key], !this._options.multiSelect, true);
     }
 
     protected _handleSelectorResult(result: Model[]): void {
@@ -135,7 +131,7 @@ class ListEditor extends Control<IListEditorOptions> {
             this._items.assign(result);
             this._setFilter(selectedKeys, this._options.filter, this._options.keyProperty);
         }
-        this._notifyPropertyValueChanged(selectedKeys, !this._options.multiSelect, result);
+        this._notifyPropertyValueChanged(selectedKeys, !this._options.multiSelect, true, result);
         this._navigation = this._getNavigation(this._options);
     }
 
@@ -161,11 +157,13 @@ class ListEditor extends Control<IListEditorOptions> {
         });
     }
 
-    protected _notifyPropertyValueChanged(value: string[] | number[] , needCollapse?: boolean, selectorResult?: Model[]): void {
+    protected _notifyPropertyValueChanged(value: string[] | number[], needCollapse: boolean, needApply: boolean, selectorResult?: Model[]): void {
         const extendedValue = {
             value,
             textValue: this._getTextValue(selectorResult || value),
-            needCollapse
+            needCollapse,
+            target: this._editorTarget,
+            needApply
         };
         this._selectedKeys = value;
         this._setColumns(this._options.displayProperty, this._selectedKeys, this._options.keyProperty, this._options.additionalTextProperty);
@@ -192,6 +190,10 @@ class ListEditor extends Control<IListEditorOptions> {
         if (this._popupOpener) {
             this._popupOpener.destroy();
         }
+    }
+
+    private _getEditorTarget(event: SyntheticEvent): HTMLElement | EventTarget {
+        return event.target.closest('.controls-Grid__row').lastChild;
     }
 
     private _setFilter(selectedKeys: string[]|number[], filter: object, keyProperty: string): void {
@@ -240,7 +242,6 @@ class ListEditor extends Control<IListEditorOptions> {
 
     static getDefaultOptions(): object {
         return {
-            showSelectorCaption: rk('Другие'),
             style: 'default',
             itemPadding: {
                 right: 'm'

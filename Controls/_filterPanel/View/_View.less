@@ -37,16 +37,6 @@
    color: var(--button_color-hover_filterViewPanel);
 }
 
-.controls-FilterViewPanel__group-marker {
-   position: absolute;
-   width: var(--group-marker_size_filterViewPanel);
-   height: var(--group-marker_size_filterViewPanel);
-   background-color: var(--group-marker_color_filterViewPanel);
-   border-radius: 50%;
-   top: calc((var(--group_height_filterViewPanel) - var(--group-marker_size_filterViewPanel)) / 2);
-   left: calc((var(--padding-left_filterViewPanel) - var(--group-marker_size_filterViewPanel)) / 2);
-}
-
 .controls-FilterViewPanel__group-content {
    cursor: pointer;
    color: var(--group_color_filterViewPanel);
@@ -56,10 +46,10 @@
    white-space: nowrap;
 }
 
-.controls-FilterViewPanel__groupExpander:hover,
-.controls-FilterViewPanel__groupReset-icon:hover,
-.controls-FilterViewPanel__groupReset:hover {
-   color: var(--button_color-hover_filterViewPanel);
+.controls-FilterViewPanel__group-result-container {
+   width: 100%;
+   display: flex;
+   flex-direction: row;
 }
 
 .controls-PropertyGrid__groupExpander.controls-FilterViewPanel__groupExpander {
@@ -86,6 +76,8 @@
 .controls-FilterViewPanel__groupReset {
    cursor: pointer;
    color: var(--group_color_filterViewPanel);
+   padding-left: var(--reset-button_padding-left_filterView);
+   padding-top: var(--reset-button_padding-top_filterView);
 }
 
 .controls-FilterViewPanel__groupReset-icon {
@@ -119,6 +111,11 @@
 .controls-FilterViewPanel__group-result_wrapper {
    display: flex;
    flex-direction: row;
+   background-color: var(--group-result_background-color_filterViewPanel);
+   border-radius: var(--group-result_border-radius_filterViewPanel);
+   padding: var(--group-result_padding-top_filterViewPanel) var(--group-result_horizontal-offset_filterViewPanel);
+   margin-left: calc(-1 * var(--group-result_horizontal-offset_filterViewPanel));
+   cursor: pointer;
 }
 
 .controls-FilterViewPanel__group-result {
@@ -227,4 +224,23 @@
    height: var(--heading-default_height_filterViewPanel);
    line-height: var(--heading-default_height_filterViewPanel);
    padding-bottom: var(--padding-bottom_filterViewPanel);
+}
+
+.controls-EditorList__applyButton {
+   display: flex;
+   align-items: center;
+   height: var(--apply-button_height_filterViewPanel);
+   width: var(--apply-button_width_filterViewPanel);
+   background-image: var(--apply-button_image_filterViewPanel);
+   margin-left: var(--apply-button_horizontal-offset_filterViewPanel);
+   cursor: pointer;
+   &:active {
+      background-image: var(--apply-button_image_filterViewPanel);
+   }
+}
+
+.controls-EditorList__applyButton-text {
+   padding-left: var(--apply-button_padding-left_filterViewPanel);
+   font-size: var(--apply-button_font-size_filterViewPanel);
+   color: var(--apply-button_text-color_filterViewPanel);
 }
