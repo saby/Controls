@@ -175,6 +175,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             this._initializeHeader({
                 columns: this._$columns,
                 backgroundStyle: this._$backgroundStyle,
+                columnSeparatorSize: this._$columnSeparatorSize,
                 owner: this,
                 header: this._$header,
                 sorting: this._$sorting,
