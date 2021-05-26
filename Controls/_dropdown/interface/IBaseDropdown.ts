@@ -275,9 +275,10 @@ export default interface IBaseDropdown {
  * @property {Boolean} [readOnly] Определяет, может ли пользователь изменить значение контрола. {@link UI/_base/Control#readOnly См. подробнее}
  * @property {String} [iconStyle] Определяет цвет иконки элемента.{@link Controls/_interface/IIconStyle#iconStyle См. подробнее}
  * @property {String} [icon] Определяет иконку элемента. {@link Controls/_interface/IIcon#icon См. подробнее}
- * @property {String} [title] Определеяет текст элемента.
- * @property {String} [tooltip] Определеяет текст всплывающей подсказки, появляющейся при наведении на элемент, если он отличается от title.
- * @property {String} [pinned] Определеяет является ли пункт закрепленным.
+ * @property {String} [title] Определяет текст элемента.
+ * @property {String} [tooltip] Определяет текст всплывающей подсказки, появляющейся при наведении на элемент, если он отличается от title.
+ * @property {String} [pinned] Определяет является ли пункт закрепленным.
+ * @property {String} [doNotSaveToHistory] Используется для меню с историей, определяет можно ли пункт запинить или добавить в историю.
  * Пункт будет отображен на той же позиции, на которой он находится в загруженном рекордсете. В меню с множественным выбором клик по такому пункту сбрасывает выделение.
  *
  */
