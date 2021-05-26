@@ -830,19 +830,19 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       const scopeOptions = options ?? this._options;
 
       return this._getSourceController(scopeOptions).load().then((recordSet) => {
-         if (recordSet instanceof RecordSet &&
-            this._shouldShowSuggest(recordSet) &&
-            (this._inputActive || this._tabsSelectedKey !== null)) {
-
-            this._setItems(recordSet);
-            if (scopeOptions.dataLoadCallback) {
-               scopeOptions.dataLoadCallback(recordSet);
-            }
+         if ((this._inputActive || this._tabsSelectedKey !== null)) {
             this._loadEnd(recordSet);
 
-            this._updateSuggestState();
+            if (recordSet instanceof RecordSet && this._shouldShowSuggest(recordSet)) {
+               this._setItems(recordSet);
+               if (scopeOptions.dataLoadCallback) {
+                  scopeOptions.dataLoadCallback(recordSet);
+               }
 
-            return recordSet as RecordSet;
+               this._updateSuggestState();
+
+               return recordSet as RecordSet;
+            }
          }
       }).catch((e) => this._searchErrback(e));
    }
