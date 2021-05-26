@@ -1,0 +1,25 @@
+<div class="controlsDemo__wrapper ws-flexbox ws-flex-column ws-align-items-center controlsDemo_fixedWidth550">
+    <div class="demo-VirtualScroll__title controls-text-label controls-fontsize-l controlsDemo__mb1">
+        Список с виртуальным скроллом
+    </div>
+    <Controls.scroll:Container
+            attr:class="controlsDemo_fixedWidth500 controlsDemo__maxWidth500 controlsDemo__height500 controlsDemo__mb1">
+        <Controls.list:View
+                name="list"
+                on:navigationParamsChanged="_navigationParamsChanged()"
+                dataLoadCallback="{{_dataLoadCallback}}"
+                source="{{_source}}"
+                keyProperty="id">
+            <ws:navigation source="page" view="infinity">
+                <ws:sourceConfig page="{{0}}" pageSize="{{50}}" hasMore="{{false}}"/>
+            </ws:navigation>
+            <ws:virtualScrollConfig pageSize="{{50}}"/>
+        </Controls.list:View>
+    </Controls.scroll:Container>
+    <div data-qa="list-reload-button" class="ws-link controlsDemo__mb1" on:click="_reload()">
+        Перезагрузка с сохранением позиции
+    </div>
+    <div data-qa="list-reload-count" class="controlsDemo__mb1">
+        Количество перезагрузок: {{_reloadsCount}}
+    </div>
+</div>
