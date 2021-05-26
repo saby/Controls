@@ -194,7 +194,7 @@ class FormController extends ControllerBase<IFormController> {
         const needRead: boolean = !isPreloadWay && newOptions.key !== undefined && this._options.key !== newOptions.key;
         const needCreate: boolean = !isPreloadWay && newOptions.key === undefined &&
             !newOptions.record && this._createMetaDataOnUpdate !== createMetaData;
-        const updateRecordIfNecessary = () => {
+        const updateRecord = () => {
             if (newOptions.record) {
                 this._setRecord(newOptions.record);
             }
@@ -212,11 +212,11 @@ class FormController extends ControllerBase<IFormController> {
             // Если текущий рекорд изменен, то покажем вопрос
             this._confirmRecordChangeHandler(() => {
                 this.read(newOptions.key, newOptions.readMetaData);
-                updateRecordIfNecessary();
+                updateRecord();
             }, () => {
                 this._tryDeleteNewRecord().then(() => {
                     this.read(newOptions.key, newOptions.readMetaData);
-                    updateRecordIfNecessary();
+                    updateRecord();
                 });
             });
         } else if (needCreate) {
@@ -234,14 +234,14 @@ class FormController extends ControllerBase<IFormController> {
                     }
                     this._createMetaDataOnUpdate = null;
                 });
-                updateRecordIfNecessary();
+                updateRecord();
             });
         } else if (!this._isConfirmShowed) {
             if (newOptions.hasOwnProperty('isNewRecord')) {
                 this._isNewRecord = newOptions.isNewRecord;
             }
         } else {
-            updateRecordIfNecessary();
+            updateRecord();
         }
     }
 

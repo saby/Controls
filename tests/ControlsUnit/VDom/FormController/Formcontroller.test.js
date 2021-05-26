@@ -102,6 +102,9 @@ define([
          const record = {
             isChanged: () => false
          };
+         const diffRecord = {
+            isChanged: () => false
+         };
 
          FC._setRecord = (record) => {
             FC._record = record;
@@ -117,6 +120,9 @@ define([
             createCalled = true;
             createPromise = new Promise((res) => { createPromiseResolver = res; });
             return createPromise;
+         };
+         FC._confirmRecordChangeHandler = (positiveCallback, negativeCallback) => {
+            return positiveCallback();
          };
          FC._crudController = {
             setDataSource() {}
@@ -139,6 +145,19 @@ define([
          assert.equal(readCalled, true);
          assert.equal(createCalled, false);
          assert.equal(FC._isNewRecord, false);
+
+         setRecordCalled = false;
+         readCalled = false;
+
+         // Рекорд должен обновиться, если показали окно и ответили "Нет"
+         FC._confirmRecordChangeHandler = (positiveCallback, negativeCallback) => {
+            return negativeCallback();
+         };
+         FC._beforeUpdate({
+            record: diffRecord,
+            key: 'key1'
+         });
+         assert.equal(setRecordCalled, true);
 
          setRecordCalled = false;
          readCalled = false;
