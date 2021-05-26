@@ -718,6 +718,7 @@ export default abstract class TileItem<T extends Model = Model> {
         }
 
         classes += ` ${this.getItemPaddingClasses()}`;
+        classes += ` ${this.getRoundBorderClasses()}`;
 
         switch (itemType) {
             case 'default':
@@ -726,7 +727,7 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'rich':
                 classes += ' controls-TileView__richTemplate_item';
                 classes += ` controls-ListView__item_shadow_${this.getShadowVisibility(templateShadowVisibility)}`;
-                classes += this.getMarkerClasses(templateMarker, border);
+                classes += this.getMarkerClasses(templateMarker, border, itemType);
                 break;
             case 'preview':
                 classes += ' controls-TileView__previewTemplate';
@@ -790,7 +791,6 @@ export default abstract class TileItem<T extends Model = Model> {
         titleStyle: string = 'light'
     ): string {
         let classes = '';
-        classes += ` ${this.getRoundBorderClasses()}`;
         if (itemType === 'small') {
             classes += ' controls-TileView__smallTemplate_wrapper';
             if (this.canShowActions()) {
@@ -894,15 +894,18 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getMarkerClasses(marker?: boolean, border?: boolean): string {
+    getMarkerClasses(marker?: boolean, border?: boolean, itemType: TTileItem = 'default'): string {
         let classes = '';
 
         if (this.shouldDisplayMarker(marker)) {
             classes += ' controls-TileView__item_withMarker';
-        } else if (border !== false) {
-            classes += ' controls-TileView__item_withoutMarker';
         } else {
+            classes += ' controls-TileView__item_withoutMarker';
+        }
+        if (border === false) {
             classes += ' controls-TileView__item_withoutBorder';
+        } else {
+            classes += ' controls-TileView__item_withBorder';
         }
 
         return classes;
@@ -1183,7 +1186,7 @@ export default abstract class TileItem<T extends Model = Model> {
     }
 
     getRoundBorderClasses(): string {
-        let classes = `controls-TileView__item_roundBorder_topLeft_${this.getTopLeftRoundBorder()}`;
+        let classes = ` controls-TileView__item_roundBorder_topLeft_${this.getTopLeftRoundBorder()}`;
         classes += ` controls-TileView__item_roundBorder_topRight_${this.getTopRightRoundBorder()}`;
         classes += ` controls-TileView__item_roundBorder_bottomLeft_${this.getBottomLeftRoundBorder()}`;
         classes += ` controls-TileView__item_roundBorder_bottomRight_${this.getBottomRightRoundBorder()}`;
