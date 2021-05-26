@@ -13,6 +13,7 @@
   "--text-color": "#000000",
   "--contrast_text-color": "#ffffff",
   "--label_text-color": "#8991a9",
+  "--close-button_hover_text-color_stack": "var(--secondary_text-color)",
   "--link_text-color": "#0055bb",
   "--link_hover_text-color": "#313e78",
   "--unaccented_text-color": "var(--unaccented_color)",
