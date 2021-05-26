@@ -39,7 +39,7 @@
    //
    // Размеры
    --caption_height_switcher: var(--inline_height_m);
-   --width_switcher: 23px;
+   --width_switcher: 22px;
    --height_horizontal_switcher: 14px;
    --height_vertical_switcher: 40px;
 
@@ -51,9 +51,8 @@
 
    // фон
    --background-color_switcher: var(--background-color);
-   --contrast-background-color_checked_switcher: #ff8552;
-   --contrast-background-color_switcher: #dbdbdb;
-   --contrast-background-color-hover_switcher: #ccc;
+   --contrast-background-color_checked_switcher: var(--selected_marker_color_switcher);
+   --contrast-background-color_switcher: var(--unselected_marker_color_switcher);
 
    // Текст
 
@@ -83,7 +82,7 @@
    --marker_width_switcher: 12px;
    --marker_height_switcher: var(--marker_width_switcher);
    --selected_marker_color_switcher: #ff8552;
-   --marker_contrast-color_switcher: #fff;
+   --marker_contrast-color_switcher: var(--background-color);
    --unselected_marker_color_switcher: #dbdbdb;
    --readonly_unselected_marker_color_switcher: #ccc;
    --marker_border-offset_switcher: 2px;

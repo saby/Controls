@@ -121,12 +121,19 @@
  * @typedef {Object} UpdateConfig
  * @description Параметр сохранения.
  * @property {Object} additionalData Дополнительные данные, которые будут обрабатываться при синхронизации записи с реестром.
+ * @property {Boolean} showLoadingIndicator Скрыть индикатор
  */
 
 /*
  * @typedef {Object} UpdateConfig
  * @description Save option
  * @property {Object} additionalData Additional data that will be processed when synchronizing registry entries
+ */
+
+/**
+ * @typedef {Object} CrudConfig
+ * @description Параметр Crud операций.
+ * @property {Boolean} showLoadingIndicator Скрыть индикатор
  */
 
 /**
@@ -145,12 +152,14 @@
  * Создает пустую запись через источник данных. Подробнее {@link Types/source:ICrud#create}.
  * @function Controls/_form/interface/IFormController#create
  * @param {Object} createMetaData
+ * @param {CrudConfig} config
  */
 
 /*
  * Creates an empty record through a data source. More {@link Types/source:ICrud#create}
  * @function Controls/_form/interface/IFormController#create
  * @param {Object} createMetaData
+ * @param {CrudConfig} config
  */
 
 /**
@@ -158,6 +167,7 @@
  * @function Controls/_form/interface/IFormController#read
  * @param {String} key
  * @param {Object} readMetaData
+ * @param {CrudConfig} config
  */
 
 /*
@@ -165,18 +175,21 @@
  * @function Controls/_form/interface/IFormController#read
  * @param {String} key
  * @param {Object} readMetaData
+ * @param {CrudConfig} config
  */
 
 /**
  * Удаляет запись из источника данных. Подробнее {@link Types/source:ICrud#delete}.
  * @function Controls/_form/interface/IFormController#delete
  * @param {Object} destroyMetaData
+ * @param {CrudConfig} config
  */
 
 /*
  * Removes an record from the data source. More {@link Types/source:ICrud#delete}
  * @function Controls/_form/interface/IFormController#delete
  * @param {Object} destroyMetaData
+ * @param {CrudConfig} config
  */
 
 /**

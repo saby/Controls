@@ -281,12 +281,13 @@ export default class ControllerClass {
 
    private _dataLoadCallback(event: unknown, items: RecordSet): void {
       const filter = this._getFilter();
-      const isSearchMode = !!this._sourceController.getFilter()[this._options.searchParam];
+      const sourceController = this._sourceController;
+      const isSearchMode = !!sourceController.getFilter()[this._options.searchParam];
 
       if (this.isSearchInProcess() && this._searchValue) {
          this._sourceController.setFilter(filter);
-         if (!this._sourceController.isDeepReload()) {
-            this._sourceController.setExpandedItems([]);
+         if (!sourceController.isDeepReload() && !sourceController.isExpandAll()) {
+            sourceController.setExpandedItems([]);
          }
 
          if (this._options.startingWith === 'root' && !isSearchMode && this._options.parentProperty) {
@@ -298,7 +299,7 @@ export default class ControllerClass {
             }
          }
 
-         this._sourceController.setFilter(this._getFilter());
+         sourceController.setFilter(this._getFilter());
       } else if (!this._searchValue) {
          this._misspellValue = '';
       }

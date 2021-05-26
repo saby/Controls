@@ -239,6 +239,9 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._storeCtxCallbackId = Store.onPropertyChanged('_contextName', () => {
                 this._storeCallbackIds.forEach((id) => Store.unsubscribe(id));
                 this._storeCallbackIds = this._createNewStoreObservers();
+                if (!options.hasOwnProperty('searchValue') && this._searchValue) {
+                    this._setSearchValue('');
+                }
             }, true);
         }
     }
@@ -409,7 +412,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             }
 
             return updateResult;
-        });
+        }).catch((error) => error);
     }
 
     private _afterSourceLoad(sourceController: SourceController, options: IBrowserOptions): void {
@@ -880,6 +883,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._updateViewMode(this._previousViewMode);
             this._previousViewMode = null;
         }
+        this._updateContext();
     }
 
     private _dataLoadCallback(data: RecordSet, direction?: Direction): void {

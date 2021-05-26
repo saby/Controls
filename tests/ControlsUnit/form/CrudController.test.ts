@@ -68,6 +68,37 @@ describe('Controls/form:CrudController', () => {
             });
         });
     });
+
+    describe('read', () => {
+        it('Success', (done) => {
+            const resolvePromise = Promise.resolve<void>();
+            sandbox.stub(source, 'read').returns(resolvePromise);
+            const actual = crud.read('1');
+
+            assert.isTrue(stubNotify.calledWith('registerPending'));
+            actual.then(() => {
+                assert.isTrue(stubNotify.calledWith('readsuccessed'));
+                done();
+            }).catch(() => {
+                done('should not go into the Promise.catch handler');
+            });
+        });
+        it('Fail', (done) => {
+            const rejectPromise = Promise.reject<void>();
+            sandbox.stub(source, 'read').returns(rejectPromise);
+            const actual = crud.read('1');
+
+            assert.isTrue(stubNotify.calledWith('registerPending'));
+
+            actual.then(() => {
+                done('should not go into the Promise.then handler');
+            }).catch(() => {
+                assert.isTrue(stubNotify.calledWith('readfailed'));
+                done();
+            });
+        });
+    });
+
     describe('update', () => {
         it('Success', (done) => {
             const resolvePromise = Promise.resolve<void>();

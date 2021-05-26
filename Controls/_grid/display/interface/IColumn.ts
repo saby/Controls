@@ -213,7 +213,8 @@ export interface IColumn extends IColspanParams {
      * ]
      * </pre>
      *
-     * <pre class="brush: html; highlight: [4]">
+     * <pre class="brush: html; highlight: [5]">
+     * <!-- WML -->
      * <Controls.grid:View
      *     keyProperty="id"
      *     source="{{_viewSource}}"
@@ -288,7 +289,7 @@ export interface IColumn extends IColspanParams {
      * Для отображения строки итогов необходимо задать значение в опции {@link Controls/grid:View#resultsPosition resultsPosition}.
      * @example
      * <pre class="brush: html; highlight: [5,6,7,8,9,10,11]">
-     * <Controls.grid:View>
+     * <Controls.grid:View source="{{_viewSource}}">
      *     <ws:columns>
      *         <ws:Array>
      *             <ws:Object displayProperty="Name">

@@ -49,8 +49,7 @@
                </ws:if>
                <ws:if data="{{_options.headerTemplate && _headerVisible}}">
                   <ws:partial template="{{_options.headerTemplate}}"
-                              attr:class="{{_closeButtonVisibility ? 'controls-Menu__popup-header-close'}}
-                               {{_options.backgroundStyle ? 'controls-Menu__popup-header-background-' + _options.backgroundStyle}}"
+                              attr:class="{{_closeButtonVisibility ? 'controls-Menu__popup-header-close'}}"
                               iconSize="{{_options.iconSize}}"
                               headingIconSize="{{_headingIconSize}}"
                               iconStyle="{{_options.iconStyle}}"
@@ -80,7 +79,6 @@
                        markerVisibility="{{_options.markerVisibility}}"
                        emptyTemplate="{{_options.emptyTemplate}}"
                        source="{{_options.source}}"
-                       items="{{_options.items}}"
                        navigation="{{_options.navigation}}"
                        filter="{{filter || _options.filter}}"
                        parentProperty="{{_options.parentProperty}}"
