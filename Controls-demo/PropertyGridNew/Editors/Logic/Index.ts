@@ -7,7 +7,8 @@ export default class Index extends Control<IControlOptions> {
         {
             name: 'selected',
             caption: 'Logic editor',
-            editorTemplateName: 'Controls/propertyGrid:LogicEditor'
+            editorTemplateName: 'Controls/propertyGrid:LogicEditor',
+            title: '123'
         }
     ];
     protected _editingObject: object = {
