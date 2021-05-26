@@ -80,6 +80,7 @@ interface IContrastBackgroundContext {
 class Search extends Base {
     protected _wasActionUser: boolean = false;
     protected _resetCommandCallbackId: string = '';
+    protected _storeCtxCallbackId: string = '';
 
     protected _beforeMount(options): void {
         this._notifySearchClick = throttle(this._notifySearchClick, SEARCH_BY_CLICK_THROTTLE, false);
@@ -90,13 +91,22 @@ class Search extends Base {
     protected _afterMount(): void {
         super._afterMount.apply(this, arguments);
         if (this._options.useStore) {
-            this._resetCommandCallbackId = Store.declareCommand('resetSearch', this._resetSearch.bind(this));
+            this._subscribeStoreCommands();
+            this._storeCtxCallbackId = Store.onPropertyChanged('_contextName', () => {
+                Store.unsubscribe(this._resetCommandCallbackId);
+                this._subscribeStoreCommands();
+            }, true);
         }
+    }
+
+    _subscribeStoreCommands(): void {
+        this._resetCommandCallbackId = Store.declareCommand('resetSearch', this._resetSearch.bind(this));
     }
 
     protected _beforeUnmount(): void {
         if (this._resetCommandCallbackId) {
             Store.unsubscribe(this._resetCommandCallbackId);
+            Store.unsubscribe(this._storeCtxCallbackId);
         }
     }
 
