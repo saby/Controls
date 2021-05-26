@@ -139,21 +139,15 @@ export function validateIntersectionEntries(entries: IntersectionObserverEntry[]
 const CONTENTS_STYLE: string = 'contents';
 
 export function isHidden(element: HTMLElement): boolean {
-    // Таблицы скрывают заголовки через стили, а не через css класс ws-hidden.
-    // Вернуть старую реализацию по задаче https://online.sbis.ru/opendoc.html?guid=73950100-bf2c-44cf-9e59-d29ddbb58d3a
-    // return !!element && !!element.closest('.ws-hidden');
-    // Либо придумать другой производительный способ определения, что таблицы скрыли заголовок.
     if (!element) {
         return false;
     }
-    if (element.offsetParent === null) {
-        const styles = getComputedStyle(element);
-        if (styles.display === CONTENTS_STYLE) {
-            return isHidden(element.parentElement);
-        }
-        return true;
+    // В 21.3000 сразу делаю правильную реализацию.
+    if (element.className.includes('js-controls-Grid_columnScroll_thumb-wrapper')) {
+        return element.offsetParent === null;
     }
-    return false;
+
+    return !!element.closest('.ws-hidden');
 }
 
 /**
