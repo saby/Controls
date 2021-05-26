@@ -127,6 +127,22 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         this._nextVersion();
     }
 
+    getChangedEditorName(editingObject: Record<string, IExtendedPropertyValue>): string {
+        return Object.keys(this._editingObject).find((key) => {
+            return !isEqual(this._editingObject[key], editingObject[key]);
+        });
+    }
+
+    getChangedEditorObject(editingObject: Record<string, IExtendedPropertyValue>, name: string): object {
+        return editingObject[name];
+    }
+
+    getSourceItemByName(editorName: string): IFilterItem {
+        return this._source.find((item) => {
+            return item.name === editorName;
+        });
+    }
+
     setEditingObjectValue(editorName: string, editorValue: object): void {
         const source = coreClone(this._source);
         const item = source.find((item) => {
@@ -198,9 +214,6 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         this._collapsedGroups = this._collapsedGroups.slice();
         if (this._collapsedGroups.length && this._collapsedGroups.includes(group)) {
             this._collapsedGroups = this._collapsedGroups.filter((item) => group !== item);
-            this._nextVersion();
-        } else if (!isResetClick) {
-            this._collapsedGroups = this._collapsedGroups.concat(group);
             this._nextVersion();
         }
     }

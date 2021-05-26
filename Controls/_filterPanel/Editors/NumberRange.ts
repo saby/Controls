@@ -77,7 +77,7 @@ class NumberRangeEditor extends Control<INumberRangeOptions> implements INumberR
         if (value < this._maxValue || !this._maxValue) {
             this._minValue = value;
         } else {
-            this._notifyExtendedValue([this._minValue, this._maxValue]);
+            this._notifyExtendedValue(event, [this._minValue, this._maxValue]);
         }
     }
 
@@ -89,7 +89,7 @@ class NumberRangeEditor extends Control<INumberRangeOptions> implements INumberR
         if (this._needReplaceMinMaxValues()) {
             this._replaceMinMaxValues(this._minValue, this._maxValue);
         }
-        this._notifyExtendedValue([this._minValue, this._maxValue]);
+        this._notifyExtendedValue(event, [this._minValue, this._maxValue]);
     }
 
     private _updateValues(newValue: number[]): void {
@@ -97,14 +97,19 @@ class NumberRangeEditor extends Control<INumberRangeOptions> implements INumberR
         this._maxValue = newValue[1] !== undefined ? newValue[1] : null;
     }
 
-    private _notifyExtendedValue(value: number[]): void {
+    private _notifyExtendedValue(event: SyntheticEvent, value: number[]): void {
         const extendedValue = {
             value,
-            textValue: !this._isValueEmpty(value) ? this._getTextValue(value) : ''
+            textValue: !this._isValueEmpty(value) ? this._getTextValue(value) : '',
+            target: this._getEditorTarget(event)
         };
         if (this._needNotifyChanges(value)) {
             this._notify('propertyValueChanged', [extendedValue], {bubbling: true});
         }
+    }
+
+    private _getEditorTarget(event: SyntheticEvent): HTMLElement | EventTarget | Control<{}, void> {
+        return event.target.closest('.controls-FilterEditors__numberRange');
     }
 
     private _needReplaceMinMaxValues(): boolean {

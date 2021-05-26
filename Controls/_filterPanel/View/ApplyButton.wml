@@ -1,0 +1,6 @@
+<div class="controls-EditorList__applyButton"
+     on:click="_handleCick()">
+    <div class="controls-EditorList__applyButton-text">
+        {{_applyCaption}}
+    </div>
+</div>
