@@ -1047,19 +1047,28 @@
    height: 100%;
 }
 
-.controls-TileView__item_withoutMarker {
+.controls-TileView__item_withBorder {
    border: var(--item_border-thickness_tile) solid var(--item_border-color_tile);
 }
 
 .controls-TileView__item_withoutBorder {
-   border: var(--item_border-thickness_tile) solid transparent;
-   background-clip: padding-box;
+   border: none;
 }
 
-.controls-TileView__item_withMarker {
+.controls-TileView__item_withBorder.controls-TileView__item_withMarker {
    border: var(--item_border-thickness_tile) solid var(--item_marked_border-color_tile);
 }
 
+.controls-TileView__item_withoutBorder.controls-TileView__item_withMarker::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   right: 0;
+   left: 0;
+   border: var(--item_border-thickness_tile) solid var(--item_marked_border-color_tile);
+   z-index: 1;
+}
 //TODO: Убрать перебитие, сделать отдельные классы в плитке и других списках
 .controls-itemActionsV.controls-TileView__itemActions {
    padding: 0 var(--itemActions_offset-right_tile) var(--itemActions_offset-bottom_tile) 0;
@@ -1234,83 +1243,48 @@
    bottom: 0;
 }
 
-.controls-TileView__item_roundBorder_bottomLeft_3xs {
-   border-bottom-left-radius: var(--border_radius_3xs_tile);
+.controls-TileView__item_roundBorder_bottomLeft {
+   // TODO: @variants: xs, s, m, l, xl; - заменить использования значений на стандартные
+   @variants: 3xs, 2xs, xs, s, m;
+
+   .for(@variants, {
+      &_@{_item},
+      &_@{_item}.controls-TileView__item_withMarker::before,
+      &_@{_item} .controls-TileView__itemActions_topRight {
+         border-bottom-left-radius: ~"var(--border_radius_@{_item}_tile)";
+      }
+   });
 }
 
-.controls-TileView__item_roundBorder_bottomLeft_2xs {
-   border-bottom-left-radius: var(--border_radius_2xs_tile);
+.controls-TileView__item_roundBorder_bottomRight {
+   @variants: 3xs, 2xs, xs, s, m;
+
+   .for(@variants, {
+      &_@{_item},
+      &_@{_item}.controls-TileView__item_withMarker::before {
+         border-bottom-right-radius: ~"var(--border_radius_@{_item}_tile)";
+      }
+   });
 }
 
-.controls-TileView__item_roundBorder_bottomLeft_xs {
-   border-bottom-left-radius: var(--border_radius_xs_tile);
+.controls-TileView__item_roundBorder_topLeft {
+   @variants: 3xs, 2xs, xs, s, m;
+
+   .for(@variants, {
+      &_@{_item},
+      &_@{_item}.controls-TileView__item_withMarker::before {
+         border-top-left-radius: ~"var(--border_radius_@{_item}_tile)";
+      }
+   });
 }
 
-.controls-TileView__item_roundBorder_bottomLeft_s {
-   border-bottom-left-radius: var(--border_radius_s_tile);
-}
+.controls-TileView__item_roundBorder_topRight {
+   @variants: 3xs, 2xs, xs, s, m;
 
-.controls-TileView__item_roundBorder_bottomLeft_m {
-   border-bottom-left-radius: var(--border_radius_m_tile);
-}
-
-
-.controls-TileView__item_roundBorder_bottomRight_3xs {
-   border-bottom-right-radius: var(--border_radius_3xs_tile);
-}
-
-.controls-TileView__item_roundBorder_bottomRight_2xs {
-   border-bottom-right-radius: var(--border_radius_2xs_tile);
-}
-
-.controls-TileView__item_roundBorder_bottomRight_xs {
-   border-bottom-right-radius: var(--border_radius_xs_tile);
-}
-
-.controls-TileView__item_roundBorder_bottomRight_s {
-   border-bottom-right-radius: var(--border_radius_s_tile);
-}
-
-.controls-TileView__item_roundBorder_bottomRight_m {
-   border-bottom-right-radius: var(--border_radius_m_tile);
-}
-
-.controls-TileView__item_roundBorder_topLeft_3xs {
-   border-top-left-radius: var(--border_radius_3xs_tile);
-}
-
-.controls-TileView__item_roundBorder_topLeft_2xs {
-   border-top-left-radius: var(--border_radius_2xs_tile);
-}
-
-.controls-TileView__item_roundBorder_topLeft_xs {
-   border-top-left-radius: var(--border_radius_xs_tile);
-}
-
-.controls-TileView__item_roundBorder_topLeft_s {
-   border-top-left-radius: var(--border_radius_s_tile);
-}
-
-.controls-TileView__item_roundBorder_topLeft_m {
-   border-top-left-radius: var(--border_radius_m_tile);
-}
-
-.controls-TileView__item_roundBorder_topRight_3xs {
-   border-top-right-radius: var(--border_radius_3xs_tile);
-}
-
-.controls-TileView__item_roundBorder_topRight_2xs {
-   border-top-right-radius: var(--border_radius_2xs_tile);
-}
-
-.controls-TileView__item_roundBorder_topRight_xs {
-   border-top-right-radius: var(--border_radius_xs_tile);
-}
-
-.controls-TileView__item_roundBorder_topRight_s {
-   border-top-right-radius: var(--border_radius_s_tile);
-}
-
-.controls-TileView__item_roundBorder_topRight_m {
-   border-top-right-radius: var(--border_radius_m_tile);
+   .for(@variants, {
+      &_@{_item},
+      &_@{_item}.controls-TileView__item_withMarker::before {
+         border-top-right-radius: ~"var(--border_radius_@{_item}_tile)";
+      }
+   });
 }
