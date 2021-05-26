@@ -13,6 +13,7 @@
   "--text-color": "#000000",
   "--contrast_text-color": "#ffffff",
   "--label_text-color": "#8991a9",
+  "--close-button_hover_text-color_stack": "var(--secondary_text-color)",
   "--link_text-color": "#0055bb",
   "--link_hover_text-color": "#313e78",
   "--unaccented_text-color": "var(--unaccented_color)",
@@ -1389,7 +1390,7 @@
   "--tooltip_position-center_font-size-small_slider": "var(--font-size_xs)",
   "--tooltip_offset_slider": "var(--offset_3xs)",
 
-  "--item_height_tabs": "31px",
+  "--item_height_tabs": "32px",
   "--item_height_s_tabs": "var(--item_height_tabs)",
   "--item_height_l_tabs": "36px",
   "--item_max-width_tabs": "630px",
