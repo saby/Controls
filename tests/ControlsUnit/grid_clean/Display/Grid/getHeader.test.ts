@@ -89,6 +89,39 @@ describe('Controls/grid_clean/Display/Grid/getHeader', () => {
 
                 assert.isTrue(!!collection.getHeader());
             });
+
+            // создаём реестр с данными, обновляем шапку, проверяем, что columnSeparator проставился
+            it('set columnSeparator on columns update', () => {
+                const recordSet = new RecordSet({
+                    keyProperty: 'id',
+                    rawData: [
+                        {id: 1, title: ''},
+                        {id: 2, title: ''}
+                    ]
+                });
+                const collection = new GridCollection({
+                    collection: recordSet,
+                    columns: [{ width: ''}],
+                    header: [{ caption: ''}],
+                    headerVisibility: 'visible',
+                    columnSeparatorSize: 's'
+                });
+
+                const stubGetHeaderConstructor = sinon.stub(collection, 'getHeaderConstructor');
+                stubGetHeaderConstructor.callsFake((options) => {
+                    assert.strictEqual(options.columnSeparatorSize, 's');
+                });
+
+                // check on init
+                collection.getHeader();
+
+                collection.setColumns([{ width: ''}, { width: ''}]);
+
+                // check on update
+                collection.getHeader();
+
+                stubGetHeaderConstructor.restore();
+            });
         });
     });
 
