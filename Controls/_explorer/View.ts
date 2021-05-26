@@ -8,8 +8,7 @@ import * as randomId from 'Core/helpers/Number/randomId';
 import {constants} from 'Env/Env';
 import {Logger} from 'UI/Utils';
 import {Model} from 'Types/entity';
-import {IItemPadding, IList, ListView, } from 'Controls/list';
-import {ViewTemplate as ColumnsViewTemplate, ItemContainerGetter} from 'Controls/columns';
+import {IItemPadding, IList, ListView} from 'Controls/list';
 import {SingleColumnStrategy, MultiColumnStrategy} from 'Controls/marker';
 import {isEqual} from 'Types/object';
 import {CrudEntityKey, DataSet, LOCAL_MOVE_POSITION} from 'Types/source';
@@ -186,12 +185,6 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _isGoingFront: boolean;
 
     protected _beforeMount(cfg: IExplorerOptions): Promise<void> {
-        if (cfg.useColumns) {
-            VIEW_NAMES.list = ColumnsViewTemplate;
-            MARKER_STRATEGY.list = MultiColumnStrategy;
-            ITEM_GETTER.list = ItemContainerGetter;
-            VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
-        }
         if (cfg.itemPadding) {
             this._itemPadding = cfg.itemPadding;
         }
@@ -886,6 +879,10 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._setViewModePromise = this._loadTileViewMode(cfg).then(() => {
                 this._setViewModeSync(viewMode, cfg);
             });
+        } else if (viewMode === 'list' && cfg.useColumns) {
+            this._setViewModePromise = this._loadColumnsViewMode().then(() => {
+                this._setViewModeSync(viewMode, cfg);
+            });
         } else {
             this._setViewModePromise = Promise.resolve();
             this._setViewModeSync(viewMode, cfg);
@@ -976,6 +973,17 @@ export default class Explorer extends Control<IExplorerOptions> {
                 });
             });
         }
+    }
+
+    private _loadColumnsViewMode(): Promise<void> {
+        return import('Controls/columns').then((columns) => {
+            VIEW_NAMES.list = columns.ViewTemplate;
+            MARKER_STRATEGY.list = MultiColumnStrategy;
+            ITEM_GETTER.list = columns.ItemContainerGetter;
+            VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
+        }).catch((err) => {
+            Logger.error('Controls/_explorer/View: ' + err.message, this, err);
+        });
     }
 
     private _loadOldViewMode(options: IExplorerOptions): Promise<void> {
