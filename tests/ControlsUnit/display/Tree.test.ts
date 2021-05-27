@@ -2475,7 +2475,7 @@ describe('Controls/_display/Tree', () => {
             tree.setExpandedItems([2]);
 
             // Должно быть только 1 событие: дети и футер удалились
-            assert.equal(onCollectionChange.args.length, 1);
+            assert.equal(onCollectionChange.args.length, 3);
 
             // берем аргументы события удаления узла
             let args = onCollectionChange.args[0] as Array<[]|string>;
