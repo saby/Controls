@@ -197,6 +197,12 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         return scrollMode.indexOf('horizontal') !== -1;
     }
 
+    private _isHorizontalScroll(scrollModeOption: string): boolean {
+        const scrollMode = scrollModeOption.toLowerCase();
+        // При горизонтальном скролле будет работать с событием controlResize
+        return scrollMode.indexOf('horizontal') !== -1;
+    }
+
     _controlResizeHandler(): void {
         if (this._resizeObserver) {
             this._resizeObserver.controlResizeHandler();
