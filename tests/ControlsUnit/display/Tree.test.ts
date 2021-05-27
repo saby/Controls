@@ -1796,6 +1796,142 @@ describe('Controls/_display/Tree', () => {
             assert.isFalse(rsTree.getItemBySourceKey(11).isExpanded());
         });
 
+        describe('should be one event', () => {
+            const getTreeGrid = () => {
+                const rs = new RecordSet({
+                    rawData: [
+                        {id: 1, node: true, pid: 0},
+                        {id: 11, node: true, pid: 1},
+                        {id: 2, node: true, pid: 0},
+                        {id: 21, node: true, pid: 1}
+                    ],
+                    keyProperty: 'id'
+                });
+                // TODO должно быть Tree, но нодФутеры пока что создаются только в treeGrid
+                const tree = new TreeGridCollection({
+                    collection: rs,
+                    root: {
+                        id: 0,
+                        title: 'Root'
+                    },
+                    keyProperty: 'id',
+                    parentProperty: 'pid',
+                    nodeProperty: 'node',
+                    columns: []
+                });
+
+                return tree;
+            };
+
+            it('collapse some nodes', () => {
+                const tree = getTreeGrid();
+                tree.setExpandedItems([null]);
+
+                const onCollectionChange = spy(() => {});
+                tree.subscribe('onCollectionChange', onCollectionChange);
+
+                const checkEvents = () => {
+                    // Должно быть только 1 событие: удалились записи(дети обоих узлов)
+                    const removedEvents = onCollectionChange.args.filter((eventParams) => eventParams[1] === 'rm');
+                    assert.equal(removedEvents.length, 1);
+
+                    // берем аргументы события удаления элементов
+                    const args = removedEvents[0] as Array<[]|string>;
+                    const removedItems = args[4];
+                    assert.equal(removedItems.length, 2); // удалилось 2 элемента: ребенок первого узла и второго
+                };
+
+                tree.setExpandedItems([]);
+                checkEvents();
+
+                tree.setExpandedItems([null]);
+                onCollectionChange.resetHistory();
+                tree.setCollapsedItems([1, 2]);
+                checkEvents();
+
+                tree.setExpandedItems([1, 2]);
+                onCollectionChange.resetHistory();
+                tree.setExpandedItems([]);
+                checkEvents();
+            });
+
+            it('expand some nodes', () => {
+                const tree = getTreeGrid();
+
+                const onCollectionChange = spy(() => {});
+                tree.subscribe('onCollectionChange', onCollectionChange);
+
+                const checkEvents = () => {
+                    // Должно быть только 1 событие: добавились записи(дети обоих узлов)
+                    const addEvents = onCollectionChange.args.filter((eventParams) => eventParams[1] === 'a');
+                    assert.equal(addEvents.length, 1);
+
+                    // берем аргументы события добавления элементов
+                    const args = addEvents[0] as Array<[]|string>;
+                    const addedItems = args[2];
+                    assert.equal(addedItems.length, 2); // добавилось 2 элемента: ребенок первого узла и второго
+                };
+
+                // развернули все узлы
+                tree.setExpandedItems([null]);
+                checkEvents();
+
+                tree.setExpandedItems([null]);
+                tree.setCollapsedItems([1, 2]);
+                onCollectionChange.resetHistory();
+                tree.setCollapsedItems([]);
+                checkEvents();
+
+                tree.setExpandedItems([]);
+                onCollectionChange.resetHistory();
+                tree.setExpandedItems([1, 2]);
+                checkEvents();
+            });
+
+            it('collapse deep equal nodes', () => {
+                const rs = new RecordSet({
+                    rawData: [
+                        {id: 1, node: true, pid: 0},
+                        {id: 11, node: true, pid: 1},
+                        {id: 111, node: true, pid: 11},
+                        {id: 1111, node: true, pid: 111},
+                        {id: 2, node: true, pid: 0},
+                        {id: 21, node: true, pid: 1},
+                        {id: 211, node: true, pid: 21}
+                    ],
+                    keyProperty: 'id'
+                });
+                // TODO должно быть Tree, но нодФутеры пока что создаются только в treeGrid
+                const tree = new TreeGridCollection({
+                    collection: rs,
+                    root: {
+                        id: 0,
+                        title: 'Root'
+                    },
+                    keyProperty: 'id',
+                    parentProperty: 'pid',
+                    nodeProperty: 'node',
+                    columns: []
+                });
+
+                tree.setExpandedItems([null]);
+
+                const onCollectionChange = spy(() => {});
+                tree.subscribe('onCollectionChange', onCollectionChange);
+
+                tree.setExpandedItems([]);
+
+                // Должно быть только 1 событие: удалились записи(дети обоих узлов)
+                const removedEvents = onCollectionChange.args.filter((eventParams) => eventParams[1] === 'rm');
+                assert.equal(removedEvents.length, 1);
+
+                // берем аргументы события удаления элементов
+                const args = removedEvents[0] as Array<[]|string>;
+                const removedItems = args[4];
+                assert.equal(removedItems.length, 6); // удалилось 2 элемента: ребенок первого узла и второго
+            });
+        });
+
         describe('create item with right expanded state', () => {
             it('all expandable', () => {
                 rsTree.setExpandedItems([null]);
@@ -2337,8 +2473,8 @@ describe('Controls/_display/Tree', () => {
             // вернули узел 1
             tree.setExpandedItems([2]);
 
-            // Должно быть только 2 события: узел свернулся, дети и футер удалились
-            assert.equal(onCollectionChange.args.length, 2);
+            // Должно быть только 1 событие: дети и футер удалились
+            assert.equal(onCollectionChange.args.length, 1);
 
             // берем аргументы события удаления узла
             let args = onCollectionChange.args[0] as Array<[]|string>;
@@ -2352,8 +2488,8 @@ describe('Controls/_display/Tree', () => {
             // развернули узел 1
             tree.setExpandedItems([1, 2]);
 
-            // Должно быть только 2 события: узел развернулся, дети и футер добавились
-            assert.equal(onCollectionChange.args.length, 2);
+            // Должно быть только 1 событие: дети и футер добавились
+            assert.equal(onCollectionChange.args.length, 1);
 
             // берем аргументы события удаления узла
             args = onCollectionChange.args[0];
