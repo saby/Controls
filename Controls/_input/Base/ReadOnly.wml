@@ -1,1 +1,11 @@
-<div name="readOnlyField" class="controls-InputBase__field_readOnly controls-{{controlName}}__field_margin-{{horizontalPadding}}">{{value}}</div>
+<ws:if data="{{!_options._hidePlaceholder || value}}">
+    <div name="readOnlyField" class="controls-InputBase__field_readOnly controls-{{controlName}}__field_margin-{{horizontalPadding}}">{{value}}</div>
+</ws:if>
+<ws:else>
+    <div class="controls-{{controlName}}__field_margin-{{horizontalPadding}}
+                controls-{{controlName}}__field_theme_{{_options.theme}}_margin-{{horizontalPadding}}">
+        <div class="controls-InputBase__placeholder_readOnly controls-InputBase__placeholder {{hidePlaceholder || value ? 'ws-hidden'}}">
+            <ws:partial template="{{placeholderTemplate}}" on:click="_placeholderClickHandler()"/>
+        </div>
+    </div>
+</ws:else>
