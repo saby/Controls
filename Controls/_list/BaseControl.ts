@@ -5107,6 +5107,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         const key = contents.getKey();
 
         if (!readOnly) {
+            const selectionController = _private.getSelectionController(this);
+
             let newSelection;
 
             if (e.nativeEvent && e.nativeEvent.shiftKey) {
@@ -5116,6 +5118,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
 
             this._notify('checkboxClick', [key, item.isSelected()]);
+            this._notify('selectedLimitChanged', [selectionController.getLimit()]);
             _private.changeSelection(this, newSelection);
         }
 
