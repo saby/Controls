@@ -919,7 +919,9 @@ export default class Explorer extends Control<IExplorerOptions> {
         // _newHeader может измениться на undefined при смене с табличного представления
         if (this._newHeader !== this._header) {
             this._header = this._newHeader;
-            this._newHeader = null;
+            // Не надо занулять this._newHeader иначе при следующем вызове
+            // _applyNewVisualOptions это может вызвать сброс шапки
+            /*this._newHeader = null;*/
         }
         if (this._newItemActionsPosition) {
             this._itemActionsPosition = this._newItemActionsPosition;
