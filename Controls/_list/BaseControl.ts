@@ -1794,7 +1794,13 @@ const _private = {
                             result = self._scrollController.handleRemoveItems(removedItemsIndex, removedItems);
                             break;
                         case IObservable.ACTION_RESET:
-                            result = self._scrollController.handleResetItems();
+
+                        // TODO: Нужно научить virtualScroll обрабатывать reset коллекции с сохранением положения скролла
+                        // Сейчас можем сохранить только если не поменялось количество записей. 
+                        // Таких кейсов еще не было, но вообще могут появиться https://online.sbis.ru/opendoc.html?guid=1bff2e6e-d018-4ac9-be37-ca77cb0a8030
+                            if (!self._keepScrollAfterReload || newItems.length !== removedItems.length) {
+                                result = self._scrollController.handleResetItems();
+                            }
                             break;
                     }
                     if (result) {
@@ -3222,16 +3228,17 @@ const _private = {
         // Контакты используют новый рендер, на котором нет обертки для редактируемой строки.
         // В новом рендере она не нужна
         if (self._children.listView && self._children.listView.activateEditingRow) {
+            // todo Нативный scrollIntoView приводит к прокрутке в том числе и по горизонтали и запретить её никак.
+            // Решением стало отключить прокрутку при видимом горизонтальном скролле.
+            // https://online.sbis.ru/opendoc.html?guid=d07d149e-7eaf-491f-a69a-c87a50596dfe
+            const hasColumnScroll = self._children.listView &&
+                self._children.listView.isColumnScrollVisible &&
+                self._children.listView.isColumnScrollVisible();
+
             const activator = () => {
-                if (self._children.listView.beforeRowActivated) {
+                if (!self._options.useNewModel && self._children.listView.beforeRowActivated) {
                     self._children.listView.beforeRowActivated();
                 }
-                // todo Нативный scrollIntoView приводит к прокрутке в том числе и по горизонтали и запретить её никак.
-                // Решением стало отключить прокрутку при видимом горизонтальном скролле.
-                // https://online.sbis.ru/opendoc.html?guid=d07d149e-7eaf-491f-a69a-c87a50596dfe
-                const hasColumnScroll = self._children.listView &&
-                    self._children.listView.isColumnScrollVisible &&
-                    self._children.listView.isColumnScrollVisible();
                 if (hasColumnScroll) {
                     enableScrollToElement = false;
                 }
@@ -3239,7 +3246,11 @@ const _private = {
                 return rowActivator();
             };
 
-            self._editInPlaceInputHelper.activateInput(activator);
+            self._editInPlaceInputHelper.activateInput(activator, hasColumnScroll ? (target) => {
+                if (self._children.listView.beforeRowActivated) {
+                    self._children.listView.beforeRowActivated(target);
+                }
+            } : undefined);
         }
     },
 
@@ -3316,7 +3327,8 @@ const _private = {
      */
     isAllowedHoverFreeze(self): boolean {
         return (!self._dndListController || !self._dndListController.isDragging()) &&
-            (!self._editInPlaceController || !self._editInPlaceController.isEditing());
+            (!self._editInPlaceController || !self._editInPlaceController.isEditing()) &&
+            !(this._context?.isTouch?.isTouch);
     }
 };
 

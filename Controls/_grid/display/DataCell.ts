@@ -199,6 +199,10 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
         return classes;
     }
 
+    getTooltipOverflowClasses(): string {
+        return this.hasCellContentRender() ? `controls-Grid__cell_tooltip_${this.config.textOverflow || 'none'}` : '';
+    }
+
     getTextOverflowTitle(): string | number {
         return this.config.textOverflow &&
                !this.config.template &&

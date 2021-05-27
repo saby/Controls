@@ -11,7 +11,10 @@
 }
 
 .controls-ColumnScroll_content_wrapper {
-   //position: relative;
+   // Здесь НЕ ДОЛЖНО быть стилей, которые формируют новый контекст z-index'ов.
+   // В противном случае оверлей скроллирования колонок мышью будет ограничен
+   // размерами таблицы (даже будучи fixed).
+   // https://www.w3.org/TR/css-transforms-1/#transform-rendering
 }
 
 .controls-ColumnScroll__shadow {

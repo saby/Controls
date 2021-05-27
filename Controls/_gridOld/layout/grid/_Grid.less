@@ -308,6 +308,10 @@
    max-width: 100%;
 }
 
+.controls-Grid__cell_tooltip_ellipsis {
+   overflow: hidden;
+}
+
 .controls-Grid__header-cell_halign_left {
    text-align: left;
 }
@@ -819,7 +823,8 @@
    padding-bottom: var(--height_outside_itemActions);
 }
 
-.controls-GridView__footer__itemActionsV_outside {
+// Необходимая мера, т.к. иногда CSS от list прилетает позже и ломает высоту
+.controls-ListView__footer.controls-GridView__footer__itemActionsV_outside {
    min-height: var(--height_outside_itemActions);
 }
 

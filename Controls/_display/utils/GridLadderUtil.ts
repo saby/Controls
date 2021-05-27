@@ -57,6 +57,8 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
         stickyLadderState = {},
         hasColumnScroll = params.hasColumnScroll;
 
+    let mainLadderProperty;
+
     if (!supportLadder && !stickyColumn) {
         return {};
     }
@@ -115,6 +117,7 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
     }
     if (supportSticky) {
         stickyProperties = stickyColumn.property;
+        mainLadderProperty = stickyProperties[0];
         for (fIdx = 0; fIdx < stickyProperties.length; fIdx++) {
             stickyLadderState[stickyProperties[fIdx]] = {
                 ladderLength: 1
@@ -149,7 +152,7 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
                     prevValue: prevItem && prevItem.get ? prevItem.get(ladderProperties[fIdx]) : undefined,
                     state: ladderState[ladderProperties[fIdx]],
                     ladder: ladder[idx][ladderProperties[fIdx]],
-                    mainLadder: ladder[idx][ladderProperties[fIdx - 1]]
+                    mainLadder: ladder[idx][mainLadderProperty]
                 });
             }
         }
@@ -164,7 +167,7 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
                     prevValue: prevItem && prevItem.get ? prevItem.get(stickyProperties[fIdx]) : undefined,
                     state: stickyLadderState[stickyProperties[fIdx]],
                     ladder: stickyLadder[idx][stickyProperties[fIdx]],
-                    mainLadder: stickyLadder[idx][stickyProperties[fIdx - 1]]
+                    mainLadder: stickyLadder[idx][mainLadderProperty]
                 });
             }
         }

@@ -574,10 +574,12 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     setNodeProperty(nodeProperty: string): void {
         if (this._$nodeProperty !== nodeProperty) {
+            const session = this._startUpdateSession();
             this._$nodeProperty = nodeProperty;
             this._hierarchyRelation.setNodeProperty(nodeProperty);
             this._reBuild(true);
             this._nextVersion();
+            this._finishUpdateSession(session, true);
         }
     }
 

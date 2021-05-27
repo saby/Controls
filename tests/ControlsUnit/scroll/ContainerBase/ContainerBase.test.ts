@@ -233,8 +233,8 @@ describe('Controls/scroll:ContainerBase', () => {
       //    control._beforeMount(options);
       //
       //    control._container = {
-      //       // closest: sinon.stub().returns(true)
-      //       offsetParent: null
+      //       closest: sinon.stub().returns(true),
+      //       className: ''
       //    }
       //
       //    const getComputedStyle = global.getComputedStyle;
