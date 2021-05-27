@@ -634,6 +634,17 @@ const GridView = ListView.extend({
         }
         this._columnScrollViewController.scrollToElementIfHidden(targetRect);
         this._applyColumnScrollChanges();
+    },
+
+    beforeRowActivated(target): void {
+        let targetRect;
+        if (this._listModel.getEditingConfig()?.mode === 'cell') {
+            targetRect = (target.closest('.controls-Grid__row-cell') || target).getBoundingClientRect();
+        } else {
+            targetRect = target.getBoundingClientRect();
+        }
+        this._columnScrollViewController.scrollToElementIfHidden(targetRect);
+        this._applyColumnScrollChanges();
     }
 
     //#endregion

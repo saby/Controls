@@ -52,7 +52,7 @@ export class InputActivationHelper {
     /**
      * Устанавливает фокус в поле ввода.
      */
-    activateInput(activateRowCallback: Function): void {
+    activateInput(activateRowCallback: Function, beforeFocus?: (target: HTMLElement) => void): void {
         if (!(this._clickItemInfo || this._shouldActivate || this._paramsForFastEdit)) {
             return;
         }
@@ -64,7 +64,7 @@ export class InputActivationHelper {
         };
 
         if (this._clickItemInfo) {
-            if (this._tryActivateByClickInfo()) {
+            if (this._tryActivateByClickInfo(beforeFocus)) {
                 reset();
             } else {
                 if (this._shouldActivate) {
@@ -84,7 +84,10 @@ export class InputActivationHelper {
                 input = this._paramsForFastEdit.container.querySelector(selector);
             }
             if (input) {
-                input.focus();
+                if (beforeFocus) {
+                    beforeFocus();
+                }
+                input.focus(input);
                 reset();
             }
         } else if (this._shouldActivate && activateRowCallback()) {
@@ -135,7 +138,7 @@ export class InputActivationHelper {
         };
     }
 
-    private _tryActivateByClickInfo(): boolean {
+    private _tryActivateByClickInfo(beforeFocus?: (target: HTMLElement) => void): boolean {
         type TEditable = HTMLInputElement | HTMLTextAreaElement;
         const target = document.elementFromPoint(this._clickItemInfo.clientX, this._clickItemInfo.clientY) as TEditable;
         const isInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
@@ -147,6 +150,9 @@ export class InputActivationHelper {
         if (target.closest('.controls-ComboBox')) {
             return true;
         } else if (target.closest('.controls-Lookup')) {
+            if (beforeFocus) {
+                beforeFocus(target);
+            }
             target.focus();
             return true;
         }
@@ -193,6 +199,9 @@ export class InputActivationHelper {
                 previousWidth = currentWidth;
             }
 
+            if (beforeFocus) {
+                beforeFocus(target);
+            }
             /**
              * When editing starts, EditingRow calls this.activate() to focus first focusable element.
              * But if a user has clicked on an editable field, we can do better - we can set caret exactly
