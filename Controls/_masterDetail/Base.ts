@@ -8,6 +8,7 @@ import {setSettings, getSettings} from 'Controls/Application/SettingsController'
 import {IPropStorageOptions} from 'Controls/interface';
 import {ContextOptions} from 'Controls/context';
 import 'css!Controls/masterDetail';
+import { Logger} from 'UI/Utils';
 
 const RESIZE_DELAY = 50;
 
@@ -401,6 +402,9 @@ class Base extends Control<IMasterDetail, string> {
     }
 
     private _isCanResizing(options: IMasterDetail): boolean {
+        if (options.propStorageId && (!options.masterWidth || !options.masterMaxWidth || !options.masterMinWidth)) {
+            Logger.warn('Для движения границ заданы не все настройки. Проверьте опции masterWidth, masterMaxWidth, masterMinWidth.', this);
+        }
         const canResizing = options.masterWidth && options.masterMaxWidth && options.masterMinWidth &&
             options.masterMaxWidth !== options.masterMinWidth && options.propStorageId;
         return !!canResizing;

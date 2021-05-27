@@ -119,7 +119,7 @@ const GridView = ListView.extend({
             // Чинит проблемы https://online.sbis.ru/opendoc.html?guid=a6f1e8c3-dd71-43b9-a1a8-9270c2f85c0d
             // Нужно как то сообщать контроллеру фиксированных блоков, что блок стал видимым, что бы рассчитать его.
             if (newOptions.columnScroll) {
-                this._notify('controlResize', [], {bubbling: true});
+                this._notify('stickyHeaderOffsetTopChanged', [], {bubbling: true});
             }
         });
     },
@@ -178,7 +178,7 @@ const GridView = ListView.extend({
                 // Чинит проблемы https://online.sbis.ru/opendoc.html?guid=a6f1e8c3-dd71-43b9-a1a8-9270c2f85c0d
                 // Нужно как то сообщать контроллеру фиксированных блоков, что блок стал видимым, что бы рассчитать его.
                 if (newOptions.columnScroll) {
-                    this._notify('controlResize', [], {bubbling: true});
+                    this._notify('stickyHeaderOffsetTopChanged', [], {bubbling: true});
                 }
             });
         }

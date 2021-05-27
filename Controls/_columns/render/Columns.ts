@@ -33,7 +33,7 @@ export default class Columns extends ListView {
 
     protected _beforeUpdate(options: IColumnsRenderOptions): void {
         super._beforeUpdate(options);
-        if (options.columnsMode === 'fixed' && options.columnsCount !== this._options.columnsCount) {
+        if (options.columnsCount !== this._options.columnsCount) {
             this._options.listModel.setColumnsCount(options.columnsCount);
         }
     }
