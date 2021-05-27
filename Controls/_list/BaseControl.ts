@@ -1800,7 +1800,11 @@ const _private = {
                             result = self._scrollController.handleRemoveItems(removedItemsIndex, removedItems);
                             break;
                         case IObservable.ACTION_RESET:
-                            if (!self._keepScrollAfterReload) {
+
+                        // TODO: Нужно научить virtualScroll обрабатывать reset коллекции с сохранением положения скролла
+                        // Сейчас можем сохранить только если не поменялось количество записей. 
+                        // Таких кейсов еще не было, но вообще могут появиться https://online.sbis.ru/opendoc.html?guid=1bff2e6e-d018-4ac9-be37-ca77cb0a8030
+                            if (!self._keepScrollAfterReload || newItems.length !== removedItems.length) {
                                 result = self._scrollController.handleResetItems();
                             }
                             break;
