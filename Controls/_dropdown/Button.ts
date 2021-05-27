@@ -189,10 +189,10 @@ export default class Button extends BaseDropdown {
             return;
         }
         if (this._calmTimer.isStarted()) {
-            if (this._controller.getItems() && this._controller.getItems().getCount()) {
+            if (this._controller.getItems() && this._controller.getItems().getCount() && !this._isOpened) {
                 this._onItemClickHandler([this._controller.getItems().at(0)]);
-                this._calmTimer.stop();
             }
+            this._calmTimer.stop();
         } else {
             this.openMenu();
         }
