@@ -307,7 +307,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
     }
 
     protected _keyDownHandler(event: SyntheticEvent<KeyboardEvent>): void {
-        processKeydownEvent(event);
+        processKeydownEvent(event, ['Backspace']);
     }
 
     protected _selectHandler(): void {
