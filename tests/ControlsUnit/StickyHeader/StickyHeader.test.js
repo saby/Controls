@@ -492,6 +492,27 @@ define([
             sinon.assert.notCalled(component._forceUpdate);
             sinon.restore();
          });
+
+         it('should update shadows by scroll state if model does not initialized.', function() {
+            const component = createComponent(StickyHeader, {});
+            sinon.stub(component, '_init');
+            component._scrollState = {
+               verticalPosition: 'middle'
+            };
+            component._children = {
+               shadowBottom: {
+                  classList: {
+                     remove: sinon.stub()
+                  }
+               }
+            }
+            component.updateFixed([component._index]);
+            return Promise.resolve().then(() => {
+               assert.isTrue(component._isBottomShadowVisible);
+               sinon.assert.calledOnce(component._children.shadowBottom.classList.remove);
+               sinon.restore();
+            });
+         });
       });
 
       describe('_fixationStateChangeHandler', function() {

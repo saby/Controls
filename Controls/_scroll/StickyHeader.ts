@@ -782,6 +782,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
                         this._isShadowVisibleByScrollState(POSITION.bottom)) {
                         const hiddenClass = this._isMobileIOS ? 'ws-invisible' : 'ws-hidden';
                         this._children.shadowBottom.classList.remove(hiddenClass);
+                        this._isBottomShadowVisible = true;
                     }
                 });
             } else if (this._model.fixedPosition) {
