@@ -4,6 +4,7 @@
     captionColumnOptions="{{_options.captionColumnOptions}}"
     editorColumnOptions="{{_options.editorColumnOptions}}"
     itemTemplate="{{_options.itemTemplate}}"
+    withoutLevelPadding="{{_options.withoutLevelPadding}}"
     listModel="{{_listModel}}"
     collapsedGroups="{{_collapsedGroups}}"
     editingObject="{{_options.editingObject}}"
