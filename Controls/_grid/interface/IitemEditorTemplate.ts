@@ -4,7 +4,7 @@
  * @author Авраменко А.С.
  * @see Controls/treeGrid:View#
  * @example
- * <pre class="brush: html; highlight: [2-10]">
+ * <pre class="brush: html; highlight: [3-10]">
  * <!-- WML -->
  * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
  *    <ws:editingConfig editOnClick="{{true}}" />
