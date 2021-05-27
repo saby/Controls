@@ -27,6 +27,7 @@ import viewName = require('Controls/_gridOld/GridView');
  * @mixes Controls/interface/IGridItemTemplate
  * @mixes Controls/_gridOld/interface/IPropStorage
  * @mixes Controls/marker:IMarkerList
+ * @includes ItemEditorTemplate Controls/_grid/interface/IitemEditorTemplate
  *
  * @public
  * @author Авраменко А.С.
