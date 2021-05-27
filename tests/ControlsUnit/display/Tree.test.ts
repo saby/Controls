@@ -1796,7 +1796,8 @@ describe('Controls/_display/Tree', () => {
             assert.isFalse(rsTree.getItemBySourceKey(11).isExpanded());
         });
 
-        describe('should be one event', () => {
+        // юниты для https://online.sbis.ru/opendoc.html?guid=7ff2ec2b-c13c-4e11-ae7c-74fa068b7cbd
+        /*describe('should be one event', () => {
             const getTreeGrid = () => {
                 const rs = new RecordSet({
                     rawData: [
@@ -1930,7 +1931,7 @@ describe('Controls/_display/Tree', () => {
                 const removedItems = args[4];
                 assert.equal(removedItems.length, 5); // удалилось 2 элемента: ребенок первого узла и второго
             });
-        });
+        });*/
 
         describe('create item with right expanded state', () => {
             it('all expandable', () => {
