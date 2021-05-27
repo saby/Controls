@@ -1,4 +1,5 @@
 <ws:partial
+    attr:class="controls_list_theme-{{_options.theme}}"
     template="{{_options.render || _render}}"
     groupTemplate="{{_options.groupTemplate}}"
     captionColumnOptions="{{_options.captionColumnOptions}}"
