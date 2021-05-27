@@ -106,7 +106,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         // может быть сразу проскролен. Исправляем эту ситуацию.
         // Не будем скроллить в случае, если на странице есть нативные якоря для скролла,
         // т.е. в ссылке присутсвует хэш
-        if (!location.hash) {
+        if (!location.hash || this._container.dataset?.scrollContainerNode) {
             this._children.content.scrollTop = 0;
         }
     }
@@ -167,6 +167,9 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _beforeUnmount(): void {
+        // Установим дата аттрибут, чтобы в будущем была возможность определить, был ли в этой ноде скролл контейнер.
+        // Подробности в комментарии в _componentDidMount.
+        this._container.dataset?.scrollContainerNode = 'true';
         if (!this._resizeObserver.isResizeObserverSupported()) {
             UnregisterUtil(this, 'controlResize', {listenAll: true});
         }
