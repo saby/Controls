@@ -165,6 +165,11 @@ describe('Controls/scroll:ContainerBase', () => {
    describe('_beforeUnmount', () => {
       it('should destroy models and controllers', () => {
          const control: ContainerBase = new ContainerBase(options);
+         control._container = {
+            dataset: {
+               scrollContainerNode: 0
+            }
+         };
          control._beforeMount(options);
 
          sinon.stub(control._resizeObserver, 'terminate');
