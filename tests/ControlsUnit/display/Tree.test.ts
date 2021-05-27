@@ -1928,7 +1928,7 @@ describe('Controls/_display/Tree', () => {
                 // берем аргументы события удаления элементов
                 const args = removedEvents[0] as Array<[]|string>;
                 const removedItems = args[4];
-                assert.equal(removedItems.length, 6); // удалилось 2 элемента: ребенок первого узла и второго
+                assert.equal(removedItems.length, 5); // удалилось 2 элемента: ребенок первого узла и второго
             });
         });
 
