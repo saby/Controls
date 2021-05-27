@@ -30,6 +30,13 @@ export interface IButtonGroupOptions extends ISingleSelectableOptions, IControlO
 
 class ButtonGroupBase extends Control<IButtonGroupOptions> {
 
+    protected _getIconStyle(item: Model): string {
+        if (this._isSelectedItem(item)) {
+            return 'contrast';
+        }
+        return item.get('iconStyle') || 'default';
+    }
+
     protected _isSelectedItem(item: Model): boolean {
         return item.get(this._options.keyProperty) === this._options.selectedKey;
     }

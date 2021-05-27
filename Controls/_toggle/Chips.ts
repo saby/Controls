@@ -26,6 +26,13 @@ class Chips extends Control<IChipsOptions> {
     protected _template: TemplateFunction = template;
     protected _buttonTemplate: TemplateFunction = ButtonTemplate;
 
+    protected _getIconStyle(item: Model): string {
+        if (this._isSelectedItem(item)) {
+            return 'contrast';
+        }
+        return item.get('iconStyle') || 'default';
+    }
+
     protected _isSelectedItem(item: Model): boolean {
         return this._options.selectedKeys.includes(item.get(this._options.keyProperty));
     }
