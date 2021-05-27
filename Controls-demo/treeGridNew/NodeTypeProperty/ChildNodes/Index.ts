@@ -1,7 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {Model} from 'Types/entity';
 import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
-import {IColumn, TColspanCallbackResult} from 'Controls/grid';
+import {TColspanCallbackResult} from 'Controls/grid';
+import {IGroupNodeColumn} from 'Controls/treeGrid';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 import {extendedData as data} from '../data/NodeTypePropertyData';
@@ -9,7 +10,7 @@ import {extendedData as data} from '../data/NodeTypePropertyData';
 import * as Template from 'wml!Controls-demo/treeGridNew/NodeTypeProperty/ChildNodes/ChildNodes';
 import * as PriceColumnTemplate from 'wml!Controls-demo/treeGridNew/NodeTypeProperty/resources/PriceColumnTemplate';
 
-const columns: IColumn[] = [
+const columns: IGroupNodeColumn[] = [
     {
         width: '300px',
         displayProperty: 'title',
@@ -57,7 +58,7 @@ const columns: IColumn[] = [
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _columns: IColumn[] = columns;
+    protected _columns: IGroupNodeColumn[] = columns;
     protected _expandedItems: CrudEntityKey[] = [];
     protected _collapsedItems: CrudEntityKey[] = [];
 
@@ -82,7 +83,7 @@ export default class extends Control {
         });
     }
 
-    protected _colspanCallback(item: Model, column: IColumn, columnIndex: number, isEditing: boolean): TColspanCallbackResult {
+    protected _colspanCallback(item: Model, column: IGroupNodeColumn, columnIndex: number, isEditing: boolean): TColspanCallbackResult {
         if (typeof item === 'string') {
             return 'end';
         }

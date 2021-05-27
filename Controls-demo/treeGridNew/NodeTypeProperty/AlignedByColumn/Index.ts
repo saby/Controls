@@ -1,14 +1,15 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {Model} from 'Types/entity';
 import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
-import {IColumn, TColspanCallbackResult} from 'Controls/grid';
+import {TColspanCallbackResult} from 'Controls/grid';
+import {IGroupNodeColumn} from 'Controls/treeGrid';
 
 import {data} from '../data/NodeTypePropertyData';
 
 import * as Template from 'wml!Controls-demo/treeGridNew/NodeTypeProperty/AlignedByColumn/AlignedByColumn';
 import * as PriceColumnTemplate from 'wml!Controls-demo/treeGridNew/NodeTypeProperty/resources/PriceColumnTemplate';
 
-const columns: IColumn[] = [
+const columns: IGroupNodeColumn[] = [
     {
         width: '300px',
         displayProperty: 'title',
@@ -61,7 +62,7 @@ export default class extends Control {
     protected _viewSource: HierarchicalMemory;
     protected _expandedItems: CrudEntityKey[] = [null];
     protected _collapsedItems: CrudEntityKey[] = [];
-    protected _columns: IColumn[] = columns;
+    protected _columns: IGroupNodeColumn[] = columns;
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
@@ -71,7 +72,7 @@ export default class extends Control {
         });
     }
 
-    protected _colspanCallback(item: Model, column: IColumn, columnIndex: number, isEditing: boolean): TColspanCallbackResult {
+    protected _colspanCallback(item: Model, column: IGroupNodeColumn, columnIndex: number, isEditing: boolean): TColspanCallbackResult {
         if (item.get('nodeType') === 'group' && columnIndex === 0) {
             return 2;
         }

@@ -47,6 +47,7 @@ import { isFullGridSupport } from 'Controls/display';
 import TreeGridGroupDataRow from 'Controls/_treeGrid/display/TreeGridGroupDataRow';
 import TreeGridGroupDataCell from 'Controls/_treeGrid/display/TreeGridGroupDataCell';
 import TreeGridViewTable from './_treeGrid/TreeGridViewTable';
+import { IGroupNodeColumn } from 'Controls/_treeGrid/interface/IGroupNodeColumn';
 
 export {
     TreeGridFooterCell,
@@ -56,7 +57,8 @@ export {
     TreeGridNodeFooterRow,
     TreeGridNodeFooterCell,
     TreeGridGroupDataRow,
-    TreeGridGroupDataCell
+    TreeGridGroupDataCell,
+    IGroupNodeColumn
 };
 
 register('Controls/treeGrid:TreeGridCollection', TreeGridCollection, {instantiate: false});
