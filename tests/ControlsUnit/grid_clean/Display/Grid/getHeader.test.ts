@@ -3,6 +3,7 @@ import { RecordSet } from 'Types/collection';
 import { Model } from 'Types/entity';
 import * as sinon from 'sinon';
 import { GridCollection } from 'Controls/grid';
+import Header from "Controls/_grid/display/Header";
 
 describe('Controls/grid_clean/Display/Grid/getHeader', () => {
 
@@ -90,7 +91,7 @@ describe('Controls/grid_clean/Display/Grid/getHeader', () => {
                 assert.isTrue(!!collection.getHeader());
             });
 
-            // создаём реестр с данными, обновляем шапку, проверяем, что columnSeparator проставился
+            // обновляем шапку, проверяем, что columnSeparator проставился
             it('set columnSeparator on columns update', () => {
                 const recordSet = new RecordSet({
                     keyProperty: 'id',
@@ -103,23 +104,21 @@ describe('Controls/grid_clean/Display/Grid/getHeader', () => {
                     collection: recordSet,
                     columns: [{ width: ''}],
                     header: [{ caption: ''}],
-                    headerVisibility: 'visible',
                     columnSeparatorSize: 's'
                 });
 
                 const stubGetHeaderConstructor = sinon.stub(collection, 'getHeaderConstructor');
-                stubGetHeaderConstructor.callsFake((options) => {
+                stubGetHeaderConstructor.callsFake(() => ((options) => {
                     assert.strictEqual(options.columnSeparatorSize, 's');
-                });
+                }));
 
-                // check on init
+                // сбрасываем заголовок
+                collection.setHeader([{ caption: ''}]);
+
+                // Вызываем инициализацию заголовков
                 collection.getHeader();
 
-                collection.setColumns([{ width: ''}, { width: ''}]);
-
-                // check on update
-                collection.getHeader();
-
+                sinon.assert.called(stubGetHeaderConstructor);
                 stubGetHeaderConstructor.restore();
             });
         });
