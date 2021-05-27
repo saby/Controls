@@ -889,7 +889,8 @@ export default class InputContainer extends Control<IInputControllerOptions> {
                minSearchLength: this._options.minSearchLength,
                searchDelay: this._options.searchDelay as number,
                searchParam: this._options.searchParam,
-               searchValueTrim: this._options.trim
+               searchValueTrim: this._options.trim,
+               navigation: this._options.navigation
             } as ISearchControllerOptions);
             return this._searchController;
          }).catch((error) => this._searchErrback(error));
