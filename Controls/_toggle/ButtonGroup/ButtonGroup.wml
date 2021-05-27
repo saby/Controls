@@ -9,7 +9,7 @@
                     _fontColorStyle="{{fontColorStyle}}"
                     _icon="{{itemData.get('icon')}}"
                     _iconSize="{{itemData.get('iconSize') || 's'}}"
-                    _iconStyle="{{itemData.get('iconStyle') || 'default'}}"
+                    _iconStyle="{{_getIconStyle(itemData)}}"
                     _caption="{{itemData.get('caption')}}"/>
     </ws:template>
 
