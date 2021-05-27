@@ -17,16 +17,6 @@
    .tabs-baseline();
 }
 
-// в ie есть проблема с flex-shrink, и она заметна когда внутри одного flex-shrink со значением 1, находится другой
-// в этом случае текст троеточится когда есть свободное место,
-// но если у внутреннего установить значение 0, все работает как надо
-// https://online.sbis.ru/opendoc.html?guid=2b5eb65e-8646-4068-a1ba-4b147e7671e2
-.ws-is-ie {
-   .controls-Tabs__itemClickableArea {
-      flex-shrink: 0;
-   }
-}
-
 .controls-Tabs__itemClickableArea_type-default {
    align-items: baseline;
 }
