@@ -200,9 +200,10 @@ export default class TileView extends ListView {
 
     protected _onItemMouseEnter(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem): void {
         super._onItemMouseEnter(e, item);
-        if (this._shouldProcessHover()) {
+        if (this._shouldProcessHover() && !this._listModel.getHoveredItem()) {
             this._mouseMoveTimeout = setTimeout(() => {
                 this._setHoveredItem(this, item, e);
+                this._clearMouseMoveTimeout();
             }, ZOOM_DELAY);
         }
     }
