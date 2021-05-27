@@ -62,6 +62,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$rowspan: number;
     protected _$isFixed: boolean;
     protected _$isSingleColspanedCell: boolean;
+    protected _$isActsAsRowTemplate: boolean;
     protected _$isLadderCell: boolean;
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
@@ -620,6 +621,7 @@ Object.assign(Cell.prototype, {
 
     _$isFixed: null,
     _$isSingleColspanedCell: null,
+    _$isActsAsRowTemplate: null,
     _$isLadderCell: null,
     _$isHiddenForLadder: null
 });
