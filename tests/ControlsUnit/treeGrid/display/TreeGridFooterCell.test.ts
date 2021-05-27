@@ -74,6 +74,6 @@ describe('Controls/_treeGrid/display/TreeGridFooterCell', () => {
 
    it ('.getWrapperClasses()', () => {
       const footerCell = treeGridCollection.getFooter().getColumns()[0];
-      CssClassesAssert.isSame(footerCell.getWrapperClasses('default'), 'controls-Grid__cell_spacingFirstCol_default controls-Grid__cell_spacingRight controls-GridView__footer__cell controls-TreeGridView__footer__expanderPadding-default controls-background-default');
+      CssClassesAssert.isSame(footerCell.getWrapperClasses('default'), 'controls-ListView__footer controls-Grid__cell_spacingFirstCol_default controls-Grid__cell_spacingRight controls-GridView__footer__cell controls-TreeGridView__footer__expanderPadding-default controls-background-default');
    });
 });
