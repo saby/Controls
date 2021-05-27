@@ -1796,7 +1796,7 @@ const _private = {
                         case IObservable.ACTION_RESET:
 
                         // TODO: Нужно научить virtualScroll обрабатывать reset коллекции с сохранением положения скролла
-                        // Сейчас можем сохранить только если не поменялось количество записей. 
+                        // Сейчас можем сохранить только если не поменялось количество записей.
                         // Таких кейсов еще не было, но вообще могут появиться https://online.sbis.ru/opendoc.html?guid=1bff2e6e-d018-4ac9-be37-ca77cb0a8030
                             if (!self._keepScrollAfterReload || newItems.length !== removedItems.length) {
                                 result = self._scrollController.handleResetItems();
@@ -5301,10 +5301,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             Logger.error('BaseControl: Source option is undefined. Can\'t load data', self);
         }
         return resDeferred.addCallback((result) => {
-            const hasColumnScroll = self._isMounted && self._children.listView &&
-                self._children.listView.isColumnScrollVisible && self._children.listView.isColumnScrollVisible();
-
-            if (hasColumnScroll) {
+            if (self._isMounted && self._children.listView && self._children.listView.resetColumnScroll) {
                 self._children.listView.resetColumnScroll();
             }
             return result;

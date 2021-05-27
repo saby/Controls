@@ -382,32 +382,12 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
 
     _onFocusIn(e: SyntheticEvent): void {
         // TODO: Подскрол горизонтального скролла
-        const target = e.target as HTMLElement;
-        if (!this.isColumnScrollVisible()
-            || !(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')
-            || !this._listModel.isEditing()
-            || !!target.closest(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`)) {
-            return;
-        }
-        let targetRect;
-        if (this._listModel.getEditingConfig()?.mode === 'cell') {
-            targetRect = (target.closest('.controls-Grid__row-cell') || target).getBoundingClientRect();
-        } else {
-            targetRect = target.getBoundingClientRect();
-        }
-        this._columnScrollViewController.scrollToElementIfHidden(targetRect);
-        this._applyColumnScrollChanges();
     },
 
-    beforeRowActivated(target): void {
-        // let targetRect;
-        // if (this._listModel.getEditingConfig()?.mode === 'cell') {
-        //     targetRect = (target.closest('.controls-Grid__row-cell') || target).getBoundingClientRect();
-        // } else {
-        //     targetRect = target.getBoundingClientRect();
-        // }
-        // this._columnScrollViewController.scrollToElementIfHidden(targetRect);
-        // this._applyColumnScrollChanges();
+    beforeRowActivated(target: HTMLElement): void {
+        const isCellEdit = this._listModel.getEditingConfig()?.mode === 'cell';
+        const correctTarget: HTMLElement = isCellEdit ? (target.closest('.controls-Grid__row-cell') || target) : target;
+        this._columnScrollScrollIntoView(correctTarget);
     }
 });
 

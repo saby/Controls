@@ -365,6 +365,14 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
         return !!this._$columnScrollController;
     },
 
+    _isDragScrollEnabledByOptions(options: IAbstractViewOptions): boolean {
+        if (typeof options.dragScrolling === 'boolean') {
+            return options.dragScrolling;
+        } else {
+            return !options.itemsDragNDrop;
+        }
+    },
+
     _columnScrollHasItemActionsCell(options: IAbstractViewOptions): boolean {
         return Boolean(
             options.isFullGridSupport &&
@@ -405,11 +413,13 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
         return classes;
     },
 
-    _isDragScrollEnabledByOptions(options: IAbstractViewOptions): boolean {
-        if (typeof options.dragScrolling === 'boolean') {
-            return options.dragScrolling;
-        } else {
-            return !options.itemsDragNDrop;
+    _columnScrollScrollIntoView(target: HTMLElement): void {
+        if (this._$columnScrollController) {
+            const targetRect = target.getBoundingClientRect();
+            const isScrolled = this._$columnScrollController.scrollToElementIfHidden(targetRect);
+            if (isScrolled) {
+                setScrollPosition(this, this._$columnScrollController.getScrollPosition());
+            }
         }
     },
     //#endregion
