@@ -181,10 +181,10 @@ export default class Application extends Control<IApplication> {
          window.visualViewport.addEventListener('resize', this._resizePage.bind(this));
          window.addEventListener('orientationchange', this._orientationChange);
       }
-      window.addEventListener('resize', this._resizePage.bind(this))
-      window.document.addEventListener('scroll', this._scrollPage.bind(this))
+      window.addEventListener('resize', this._resizePage.bind(this));
+      window.document.addEventListener('scroll', this._scrollPage.bind(this));
       window.document.addEventListener('keydown', (event) => {
-         this._keyDownHandler(new SyntheticEvent<KeyboardEvent>(event))
+         this._keyDownHandler(new SyntheticEvent<KeyboardEvent>(event));
       });
       const channelPopupManager = Bus.channel('popupManager');
       channelPopupManager.subscribe('managerPopupCreated', this._popupCreatedHandler, this);
