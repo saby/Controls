@@ -798,7 +798,8 @@
    padding-bottom: var(--height_outside_itemActions);
 }
 
-.controls-GridView__footer__itemActionsV_outside {
+// Необходимая мера, т.к. иногда CSS от list прилетает позже и ломает высоту
+.controls-ListView__footer.controls-GridView__footer__itemActionsV_outside {
    min-height: var(--height_outside_itemActions);
 }
 
