@@ -60,7 +60,7 @@ const columns: IGroupNodeColumn[] = [
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _expandedItems: CrudEntityKey[] = [null];
+    protected _expandedItems: CrudEntityKey[] = [];
     protected _collapsedItems: CrudEntityKey[] = [];
     protected _columns: IGroupNodeColumn[] = columns;
 
