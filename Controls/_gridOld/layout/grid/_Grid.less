@@ -620,9 +620,15 @@
 }
 
 .controls-GridView__footer__cell {
+   min-height: var(--footer_min-height_list);
    box-sizing: border-box;
    display: flex;
    align-items: baseline;
+
+   &::before {
+      content: '\200b';
+      font-size: var(--footer_font-size_list);
+   }
 }
 
 .controls-GridView__footer__cell__content {
