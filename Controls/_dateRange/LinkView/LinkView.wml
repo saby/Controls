@@ -39,11 +39,10 @@
                     on:mousedown="_onClick()"/>
            </ws:else>
             <ws:if data="{{ _resetButtonVisible || _clearButtonVisible }}">
-                <div class="controls-DateLinkView__resetButton_wrapper">
-                    <span class="controls-DateLinkView__resetButton controls-icon controls-icon_style-unaccented controls-icon_size-s icon-Close"
-                          on:click="_resetButtonClickHandler()">
-                    </span>
-                </div>
+                <span class="controls-DateLinkView__resetButton
+                        controls-icon controls-icon_style-unaccented
+                        controls-icon_size-s icon-Close"
+                      on:click="_resetButtonClickHandler()"></span>
             </ws:if>
         </span>
         <ws:if data="{{ _options.nextArrowVisibility && _viewMode == 'selector' && !_options.readOnly}}">
