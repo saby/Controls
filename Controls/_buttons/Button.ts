@@ -55,10 +55,18 @@ export function simpleCssStyleGeneration(options: IButtonControlOptions): void {
     this._buttonStyle = options.readOnly ? 'readonly' : options.buttonStyle;
     this._contrastBackground = options.contrastBackground;
     this._viewMode = options.viewMode;
+    // todo временный костыль. Будет удален после https://online.sbis.ru/opendoc.html?guid=b10bc149-8b3a-42b6-a77a-ab021e132d99
+    if (this._viewMode === 'onlinePageHeader') {
+        this._viewMode = 'toolButton';
+    }
     this._height = options.inlineHeight ? options.inlineHeight : defaultHeight(this._viewMode);
     this._fontColorStyle = options.fontColorStyle ? options.fontColorStyle : defaultFontColorStyle(this._viewMode);
     this._fontSize = options.fontSize;
     this._hasIcon = !!options.icon;
+
+    if (this._viewMode === 'functionalButton' && this._buttonStyle === 'unaccented') {
+        this._buttonStyle = 'pale';
+    }
 
     this._caption = options.caption;
     // На сервере rk создает инстанс String'a, проверки на typeof недостаточно
@@ -101,7 +109,7 @@ export function getDefaultOptions(): object {
  * Кнопки могут отображаться в нескольких режимах, отличающихся друга от друга внешне.
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2FButtons%2FStandart%2FIndex демо-пример}
- * * {@link /doc/platform/developmentapl/interface-development/controls/buttons-switches/buttons-links/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/buttons-switches/buttons-links/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/6156a9009ee88d96bf73c8b1200e197f9db1c3c8/Controls-default-theme/variables/_buttons.less переменные тем оформления}
  *
  * @class Controls/_buttons/Button

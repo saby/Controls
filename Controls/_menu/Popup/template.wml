@@ -79,7 +79,6 @@
                        markerVisibility="{{_options.markerVisibility}}"
                        emptyTemplate="{{_options.emptyTemplate}}"
                        source="{{_options.source}}"
-                       items="{{_options.items}}"
                        navigation="{{_options.navigation}}"
                        filter="{{filter || _options.filter}}"
                        parentProperty="{{_options.parentProperty}}"
@@ -105,7 +104,7 @@
                        scrollbarVisible="{{_options.scrollbarVisible}}"
                        subMenuLevel="{{_options.subMenuLevel}}"
                        theme="{{_options.theme}}"
-                       hoverController="{{_hoverController}}"
+                       calmTimer="{{_calmTimer}}"
                        on:itemClick="_sendResult('itemClick')"
                        on:moreButtonClick="_sendResult('selectorDialogOpened')"
                        on:pinClick="_sendResult('pinClick')"
@@ -126,7 +125,7 @@
          <ws:footerContent>
             <ws:partial template="{{_options.footerContentTemplate || _options.footerTemplate}}"
                         on:mouseenter="_onFooterMouseEnter()"
-                        hoverController="{{_hoverController}}"></ws:partial>
+                        calmTimer="{{_calmTimer}}"></ws:partial>
          </ws:footerContent>
       </ws:partial>
    </ws:if>

@@ -291,16 +291,6 @@ define([
          assert.isTrue(toggleExpandedCalled, 'TreeControl::toggleExpanded not called.');
       });
 
-      it('_beforeMount', function() {
-         let instance = new explorerMod.View();
-         let cfg = {
-            root: 1
-         };
-
-         instance._beforeMount(cfg);
-         assert.deepEqual({ 1: { markedKey: null } }, instance._restoredMarkedKeys);
-      });
-
       it('sourceController with error', async() => {
          const explorer = new explorerMod.View();
          const sourceWithQueryError = new sourceLib.Memory();
@@ -1176,19 +1166,19 @@ define([
             };
 
             assert.deepEqual(
-                GlobalView._getCursorPositionFor(item, navigation),
+                GlobalView._getCursorValue(item, navigation),
                [12]
             );
 
             navigation.sourceConfig.field = ['id'];
             assert.deepEqual(
-                GlobalView._getCursorPositionFor(item, navigation),
+                GlobalView._getCursorValue(item, navigation),
                [12]
             );
 
             navigation.sourceConfig.field = ['id', 'title'];
             assert.deepEqual(
-                GlobalView._getCursorPositionFor(item, navigation),
+                GlobalView._getCursorValue(item, navigation),
                [12, 'Title']
             );
          });

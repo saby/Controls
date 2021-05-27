@@ -195,7 +195,7 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /*
  * @name Controls/_tree/interface/ITreeControl#searchBreadCrumbsItemTemplate
- * @cfg {TemplateFunction} Element template with breadcrumbs in a {@link Controls/treeGrid:View tree} in search mode.
+ * @cfg {TemplateFunction|String} Element template with breadcrumbs in a {@link Controls/treeGrid:View tree} in search mode.
  * @remark
  * The default template is "Controls/treeGrid:SearchBreadCrumbsItemTemplate".
  *

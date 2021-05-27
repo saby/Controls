@@ -6,8 +6,6 @@ class Selection extends Control<IControlOptions> {
     protected _selectionStart: number = 0;
     protected _selectionEnd: number = 0;
     protected _template: TemplateFunction = template;
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

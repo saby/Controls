@@ -15,8 +15,6 @@ class Base extends Control<IControlOptions> {
             data: data.getGroupedItems()
         });
     }
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

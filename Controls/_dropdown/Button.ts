@@ -34,7 +34,7 @@ export interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHei
  * Полезные ссылки:
  *
  * * {@link /materials/Controls-demo/app/Controls-demo%2Fdropdown_new%2FButton%2FIndex демо-пример}
- * * {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/button/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/dropdown-menu/button/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdown.less переменные тем оформления dropdown}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdownPopup.less переменные тем оформления dropdownPopup}
  * @demo Controls-demo/dropdown_new/Button/Source/Index
@@ -111,7 +111,7 @@ export default class Button extends BaseDropdown {
         this._offsetClassName = cssStyleGeneration(options);
         this._dataLoadCallback = this._dataLoadCallback.bind(this);
         this._controller = new Controller(this._getControllerOptions(options));
-        this._calmTimer = new CalmTimer();
+        this._calmTimer = new CalmTimer(this._openMenu.bind(this));
 
         if (!options.lazyItemsLoading) {
             return loadItems(this._controller, receivedState, options.source);
@@ -119,7 +119,7 @@ export default class Button extends BaseDropdown {
     }
 
     _beforeUnmount(): void {
-        this._calmTimer.resetTimeOut();
+        this._calmTimer.stop();
     }
 
     _beforeUpdate(options: IButtonOptions): void {
@@ -188,19 +188,26 @@ export default class Button extends BaseDropdown {
         if (!isLeftMouseButton(event)) {
             return;
         }
-        this.openMenu();
+        if (this._calmTimer.isStarted()) {
+            if (this._controller.getItems() && this._controller.getItems().getCount()) {
+                this._onItemClickHandler([this._controller.getItems().at(0)]);
+                this._calmTimer.stop();
+            }
+        } else {
+            this.openMenu();
+        }
     }
 
     _handleMouseLeave(event: SyntheticEvent<MouseEvent>): void {
         super._handleMouseLeave(event);
-        this._calmTimer.resetTimeOut();
+        this._calmTimer.stop();
     }
 
     _handleMouseMove(event: SyntheticEvent<MouseEvent>): void {
         const isOpenMenuPopup = !(event.nativeEvent.relatedTarget
             && event.nativeEvent.relatedTarget.closest('.controls-Menu__popup'));
         if (this._options.menuPopupTrigger === 'hover' && isOpenMenuPopup) {
-            this._calmTimer.start(this._openMenu.bind(this));
+            this._calmTimer.start();
         }
     }
 

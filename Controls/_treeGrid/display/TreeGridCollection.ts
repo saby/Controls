@@ -5,6 +5,7 @@ import {
     TreeItem,
     Tree,
     GridLadderUtil,
+    CollectionItem,
     ItemsFactory,
     itemsStrategy,
     ITreeCollectionOptions, IItemActionsTemplateConfig, IHasMoreData
@@ -15,10 +16,10 @@ import {
     IGridCollectionOptions
 } from 'Controls/grid';
 import TreeGridFooterRow from './TreeGridFooterRow';
+import {IOptions as ITreeGridGroupDataRowOptions} from './TreeGridGroupDataRow';
 import {Model as EntityModel, Model} from 'Types/entity';
 import {IObservable} from 'Types/collection';
-import {CrudEntityKey} from "Types/source";
-import CollectionItem from "Controls/_display/CollectionItem";
+import {CrudEntityKey} from 'Types/source';
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
@@ -75,6 +76,27 @@ export default class TreeGridCollection<
 
     getNodeTypeProperty(): string {
         return this._$nodeTypeProperty;
+    }
+
+    private _calculateGroupNodesCount(): number {
+        if (!this.getNodeTypeProperty()) {
+            return 0;
+        }
+        let count = 0;
+        this.getCollection().each((record) => {
+            if (record.get(this.getNodeTypeProperty())) {
+                count++;
+            }
+        });
+        return count;
+    }
+
+    private _updateGroupNodesVisibility(): void {
+        const groupNodesCount = this._calculateGroupNodesCount();
+        const firstItem = this.at(0);
+        if (firstItem.isGroupNode()) {
+            firstItem.setIsHiddenGroup(groupNodesCount < 2);
+        }
     }
 
     // TODO duplicate code with GridCollection. Нужно придумать как от него избавиться.
@@ -145,7 +167,7 @@ export default class TreeGridCollection<
         const enumerator = this._getUtilityEnumerator();
 
         // определяем через enumerator последнюю запись перед NodeFooter и её индекс
-        enumerator.setPosition(this.getCount() - 1)
+        enumerator.setPosition(this.getCount() - 1);
         let resultItemIndex = enumerator.getCurrentIndex();
         let resultItem = enumerator.getCurrent();
         while (resultItem && resultItem['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
@@ -161,6 +183,10 @@ export default class TreeGridCollection<
         if (GridLadderUtil.isSupportLadder(this._$ladderProperties)) {
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
+        }
+
+        if (this._$nodeTypeProperty) {
+            this._updateGroupNodesVisibility();
         }
 
         // Сбрасываем модель заголовка если его видимость зависит от наличия данных и текущее действие
@@ -232,8 +258,9 @@ export default class TreeGridCollection<
         };
 
         // Строит фабрику, которая работает с TreeGridGroupDataRow
-        const GroupNodeFactory = (factoryOptions?: ITreeGridRowOptions<S>): ItemsFactory<T> => {
+        const GroupNodeFactory = (factoryOptions?: ITreeGridGroupDataRowOptions<S>): ItemsFactory<T> => {
             factoryOptions.itemModule = 'Controls/treeGrid:TreeGridGroupDataRow';
+            factoryOptions.isHiddenGroup = this._calculateGroupNodesCount() < 2;
             return superFactory.call(this, factoryOptions);
         };
 
@@ -260,6 +287,7 @@ export default class TreeGridCollection<
             ...options,
             owner: this,
             columns: options.footer,
+            shouldAddFooterPadding: options.itemActionsPosition === 'outside',
             rowTemplate: options.footerTemplate,
             hasNodeWithChildren: this._hasNodeWithChildren
         });

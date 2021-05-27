@@ -14,7 +14,8 @@ import {
     ISortingOptions,
     ISourceOptions,
     TKey,
-    TNavigationPagingMode
+    TNavigationPagingMode,
+    ISelectFieldsOptions
 } from 'Controls/interface';
 import {RecordSet} from 'Types/collection';
 import {
@@ -37,7 +38,6 @@ import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {fetch, HTTPStatus} from 'Browser/Transport';
 import {default as calculatePath, Path} from 'Controls/_dataSource/calculatePath';
-import TreeControl from "Controls/_tree/TreeControl";
 
 export interface IControllerState {
     keyProperty: string;
@@ -68,7 +68,8 @@ export interface IControllerOptions extends
     IGroupingOptions,
     ISourceOptions,
     IPromiseSelectableOptions,
-    INavigationOptions<INavigationSourceConfig> {
+    INavigationOptions<INavigationSourceConfig>,
+    ISelectFieldsOptions{
     dataLoadErrback?: Function;
     dataLoadCallback?: Function;
     root?: TKey;
@@ -78,6 +79,7 @@ export interface IControllerOptions extends
     navigationParamsChangedCallback?: Function;
     loadTimeout?: number;
     items?: RecordSet;
+    nodeTypeProperty?: string;
 }
 
 interface ILoadConfig {
@@ -134,6 +136,62 @@ export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
         isEqualFormat(oldList, newList);
 }
 
+/**
+ * @typedef {Object} SourceConfig
+ * @description Конфигурация навигации ({@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#cursor по курсору} или {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#page постраничная}).
+ * Также, в конфигурации можно передать опцию multiNavigation, если метод БЛ поддерживает работу с {@link /doc/platform/developmentapl/interface-development/controls/list/tree/node/managing-node-expand/#multi-navigation множественной навигацией}.
+ */
+
+
+/**
+ * Класс-загрузчик данных
+ * Поддерживает работу с навигацией и фильтрацией
+ * Подготавливает параметры для запроса
+ * @class Controls/_dataSource/Controller
+ * @mixes Controls/interface:INavigation
+ * @mixes Controls/interface:IHierarchy
+ * @mixes Controls/interface:ISource
+ * @mixes Controls/interface:ISelectFields
+ * @example
+ * <pre class="brush: js>
+ *      import {NewSourceController} from 'Controls/dataSource';
+ *      import {Memory} from 'Types/source';
+ *
+ *     _beforeMount() {
+ *         const source = new Memory({
+ *             rawData: [
+ *                 {
+ *                     id: 0,
+ *                     cityName: 'Yaroslavl'
+ *                 },
+ *                 {
+ *                     id: 1,
+ *                     cityName: 'Moscow'
+ *                 },
+ *                 {
+ *                     id: 2,
+ *                     cityName: 'St. Petersburg'
+ *                 }
+ *             ],
+ *             keyProperty: 'id'
+ *         });
+ *         const sourceController = new NewSourceController({
+ *             source: source,
+ *             filter: {
+ *                 cityName: 'Yaroslavl'
+ *             },
+ *             keyProperty: 'id';
+ *         })
+ *
+ *         sourceController.reload().then((items) => {
+ *             ...
+ *         });
+ *     }
+ * </pre>
+ * @public
+ * @author Герасимов А.М.
+ */
+
 export default class Controller extends mixin<ObservableMixin>(ObservableMixin) {
     private _options: IControllerOptions;
     private _filter: QueryWhereExpression<unknown>;
@@ -165,6 +223,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
     private _processCollectionChangeEvent: boolean = true;
 
     private _dataLoadCallback: Function;
+    private _nodeDataMoreLoadCallback: Function;
     // Необходимо для совместимости в случае, если dataLoadCallback задают на списке, а где-то сверху есть dataContainer
     private _dataLoadCallbackFromOptions: Function;
 
@@ -210,6 +269,13 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         }
     }
 
+    /**
+     * Выполняет загрузку из источника данных
+     * @param {string} direction Направление загрузки данных, поддерживаются значения: up, down
+     * @param {string|number|null} key Корень, для которого необходимо выполнить загрузку данных
+     * @param {object} filter Фильтр, с которым будет выполнена загрузка данных
+     * @return {Types/collection:RecordSet}
+     */
     load(direction?: Direction,
          key: TKey = this._root,
          filter?: QueryWhereExpression<unknown>
@@ -221,6 +287,12 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         });
     }
 
+    /**
+     * Перезагружает данные из источника данных
+     * @param {SourceConfig} sourceConfig Конфигурация навигации источника данных (например, размер и номер страницы для постраничной навигации),
+     * которую можно передать при вызове reload, чтобы перезагрузка произошла с этими параметрами. По умолчанию перезагрузка происходит с параметрами, переданными в опции {@link Controls/interface:INavigation#navigation navigation}.
+     * @return {Types/collection:RecordSet}
+     */
     reload(sourceConfig?: INavigationSourceConfig): LoadResult {
         this._deepReload = true;
 
@@ -233,18 +305,36 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         });
     }
 
+    /**
+     * Читает запись из источника данных
+     * @param {string|number} key Первичный ключ записи
+     * @param {object} meta Дополнительные мета данные
+     */
     read(key: TKey, meta?: object): Promise<EntityRecord> {
         return (this._options.source as ICrud).read(key, meta);
     }
 
+    /**
+     * Обновляет запись в источнике данных
+     * @param {Types/entity:Record} item Обновляемая запись или рекордсет
+     */
     update(item: Model): Promise<void> {
         return (this._options.source as ICrud).update(item);
     }
 
+    /**
+     * Создает пустую запись через источник данных (при этом она не сохраняется в хранилище)
+     * @param {object} meta Дополнительные мета данные, которые могут понадобиться для создания записи
+     * @return {Promise<Record>}
+     */
     create(meta?: object): Promise<EntityRecord> {
         return (this._options.source as ICrud).create(meta);
     }
 
+    /**
+     * Устанавливает новый набор элементов коллекции.
+     * @param {Types/collection:RecordSet} items набор элементов коллекции.
+     */
     setItems(items: RecordSet): RecordSet {
         if (this._hasNavigationBySource()) {
             this._destroyNavigationController();
@@ -254,6 +344,10 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         return this._items;
     }
 
+    /**
+     * Возвращает элементы коллекции
+     * @return {Types/collection:RecordSet} коллекция
+     */
     getItems(): RecordSet {
         return this._items;
     }
@@ -303,11 +397,19 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         }
     }
 
+    /**
+     * Устанавливает узел, относительно которого будет производиться выборка данных
+     * @param {string|number} key
+     */
     setRoot(key: TKey): void {
         this._setRoot(key);
-        this._notify('rootChanged', key);
+        this._notify('rootChanged', key, this._options.id);
     }
 
+    /**
+     * Возвращает узел, относительно которого будет производиться выборка данных списочным методом
+     * @return {string|number} Идентификатор корня.
+     */
     getRoot(): TKey {
         return this._root;
     }
@@ -374,7 +476,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             (this._parentProperty && rootChanged);
 
         const resetExpandedItemsOnDeepReload = this.isDeepReload() && !rootChanged;
-        if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || Controller._isExpandAll(this.getExpandedItems()))) {
+        if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || this.isExpandAll())) {
             this.setExpandedItems([]);
         }
         this._options = newOptions;
@@ -404,7 +506,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
             dataLoadCallback: this._options.dataLoadCallback,
-            expandedItems: this._expandedItems
+            expandedItems: this._expandedItems,
+            nodeTypeProperty: this._options.nodeTypeProperty
         };
         return state;
     }
@@ -419,13 +522,30 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
     }
 
     updateExpandedItemsInUserStorage(): void  {
-        nodeHistoryUtil.store(this._expandedItems, this._options.nodeHistoryId);
+        let expandedItems: TKey[];
+        if (!this._expandedItems || this._expandedItems.length === 0 || !this._options.nodeTypeProperty) {
+            expandedItems = this._expandedItems;
+        } else {
+            expandedItems = this._expandedItems.filter((key) => {
+                const nodeTypeProperty = this._items.getRecordById(key).get(this._options.nodeTypeProperty);
+                if (this._options.nodeHistoryType === 'node') {
+                    return nodeTypeProperty !== 'group';
+                }
+                return nodeTypeProperty === 'group';
+            });
+        }
+        nodeHistoryUtil.store(expandedItems, this._options.nodeHistoryId);
     }
 
     getExpandedItems(): TKey[] {
         return this._expandedItems;
     }
 
+    /**
+     * Возвращает, если ли ещё данные для загрузки
+     * @param direction {string} Направление, для которого необходимо проверить, если ли ещё данные для загрузки
+     * @param key {string|number} Идентификатор узла
+     */
     hasMoreData(direction: Direction, key: TKey = this._root): boolean {
         let hasMoreData = false;
 
@@ -441,6 +561,14 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         this._dataLoadCallback = callback;
     }
 
+    setNodeDataMoreLoadCallback(callback: Function): void {
+        this._nodeDataMoreLoadCallback = callback;
+    }
+
+    /**
+     * Возвращает признак, была ли выполнена загрузка узла по переданному идентификатору
+     * @param {string|number} key Идентификатор узла
+     */
     hasLoaded(key: TKey): boolean {
         let loadedResult;
 
@@ -454,6 +582,10 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         return loadedResult;
     }
 
+    /**
+     * Возвращает, выполняется ли в данный момент загрузка данных
+     * @returns {boolean}
+     */
     isLoading(): boolean {
         return !!this._loadPromise;
     }
@@ -465,6 +597,9 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         }
     }
 
+    /**
+     * Отменяет текущий активный запрос к источнику данных
+     */
     cancelLoading(): void {
         if (this._loadPromise) {
             this._loadPromise.cancel();
@@ -484,6 +619,15 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         return this._deepReload || this._options.deepReload;
     }
 
+    isExpandAll(): boolean {
+        const expandedItems = this.getExpandedItems();
+        return expandedItems instanceof Array && expandedItems[0] === null;
+    }
+
+    /**
+     * Разрушает экземпляр класса.
+     * Выполняет отмену запросов, а так же необходимые отписки от событий.
+     */
     destroy(): void {
         this.cancelLoading();
         this._unsubscribeItemsCollectionChangeEvent();
@@ -558,7 +702,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         const navigationController = this._getNavigationController(this._navigation);
         const userQueryParams = {
             filter: queryParams.filter,
-            sorting: queryParams.sorting
+            sorting: queryParams.sorting,
+            select: queryParams.select
         };
         const isMultiNavigation = this._isMultiNavigation(navigationSourceConfig);
         const isHierarchyQueryParamsNeeded =
@@ -714,7 +859,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
 
         let params: IQueryParams | IQueryParams[] = {
             filter,
-            sorting: this._options.sorting
+            sorting: this._options.sorting,
+            select: this._options.selectFields
         };
 
         if (this._hasNavigationBySource()) {
@@ -820,6 +966,9 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
 
         if (loadedInCurrentRoot && this._dataLoadCallback) {
             dataLoadCallbackResult = this._dataLoadCallback(result, direction);
+        } else if (this._nodeDataMoreLoadCallback) {
+            // Вызываем только когда подгружают узел, определяется по loadedInCurrentRoot
+            this._nodeDataMoreLoadCallback();
         }
 
         if (loadedInCurrentRoot || direction) {
@@ -994,10 +1143,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         }
 
         return resultSource;
-    }
-
-    private static _isExpandAll(expandedItems: TKey[]): boolean {
-        return expandedItems instanceof Array && expandedItems[0] === null;
     }
 
 }

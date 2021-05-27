@@ -134,9 +134,9 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
     }
 
     reset(): void {
-        if (this._avatarItem && !this._avatarItem.destroyed) {
-            this._avatarItem.destroy();
-        }
+        // не нужно дестроить avatarItem, т.к. он попадает в Tree::onCollectionChange, а там все узлы
+        // проверяются на изменения, чтобы эти изменения занотифаить. Задестроенный элемент нельзя проверить.
+
         this._avatarItem = null;
         this._items = null;
         this._itemsOrder = null;

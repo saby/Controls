@@ -52,6 +52,7 @@ interface IItemsFactoryOptions<S> {
     expanderTemplate?: TemplateFunction;
     hasNodeWithChildren?: boolean;
     expanded?: boolean;
+    hasMore?: boolean;
 }
 
 export interface IOptions<S, T> extends ICollectionOptions<S, T> {
@@ -127,6 +128,9 @@ function onCollectionItemChange<T extends Model>(event: EventObject, item: T, in
     if (this.instance.getExpanderVisibility() === 'hasChildren') {
         if (!this.instance.getHasChildrenProperty() && properties.hasOwnProperty(this.instance.getParentProperty())) {
             this.instance._recountHasChildrenByRecordSet();
+
+            // нужно пересчитать, т.к. hasNodeWithChildren может считаться по рекордсету, если нет hasChildrenProperty
+            this.instance._recountHasNodeWithChildren();
         } else if (properties.hasOwnProperty(this.instance.getHasChildrenProperty())) {
             this.instance._recountHasNodeWithChildren();
         }
@@ -326,6 +330,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             this.setCollapsedItems(options.collapsedItems);
         }
 
+        if (options.expandedItems instanceof Array) {
+            this._reBuildNodeFooters(true);
+        }
+
         if (this.getExpanderVisibility() === 'hasChildren') {
             this._recountHasNodeWithChildren();
         }
@@ -447,6 +455,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     setNodeFooterTemplate(nodeFooterTemplate: TemplateFunction): void {
         if (this._$nodeFooterTemplate !== nodeFooterTemplate) {
             this._$nodeFooterTemplate = nodeFooterTemplate;
+            this._reBuildNodeFooters();
             this._nextVersion();
         }
     }
@@ -457,10 +466,34 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
             const strategy = this.getStrategyInstance(NodeFooter) as any as NodeFooter;
             strategy.setNodeFooterVisibilityCallback(callback);
-            this._reBuildNodeFooters();
+            this._reBuildNodeFooters(true);
 
             this._nextVersion();
         }
+    }
+
+    setHasMoreStorage(storage: Record<string, boolean>, reBuildNodeFooters: boolean = false): void {
+        if (!isEqual(this._$hasMoreStorage, storage)) {
+            this._$hasMoreStorage = storage;
+            this._updateItemsHasMore(storage);
+            if (reBuildNodeFooters) {
+                this._reBuildNodeFooters(true);
+            }
+            this._nextVersion();
+        }
+    }
+
+    getHasMoreStorage(): Record<string, boolean> {
+        return this._$hasMoreStorage;
+    }
+
+    private _updateItemsHasMore(storage: Record<string, boolean>): void {
+        Object.keys(storage).forEach((key) => {
+            const item = this.getItemBySourceKey(key);
+            if (item && item['[Controls/_display/TreeItem]']) {
+                item.setHasMoreStorage(storage[key]);
+            }
+        });
     }
 
     // endregion NodeFooter
@@ -614,6 +647,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._$root = root;
         this._root = null;
 
+        this._reBuildNodeFooters(true);
         this._reIndex();
         this._reAnalize();
     }
@@ -735,7 +769,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                     item.setExpanded(false);
                 }
             });
-        };
+        }
         //endregion
 
         this._expandedItems = [...expandedKeys];
@@ -812,30 +846,9 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // endregion Expanded/Collapsed
 
-    setHasMoreStorage(storage: Record<string, boolean>): void {
-        if (!isEqual(this._$hasMoreStorage, storage)) {
-            this._$hasMoreStorage = storage;
-            this._reBuildNodeFooters();
-            this._nextVersion();
-        }
-    }
-
-    getHasMoreStorage(): Record<string, boolean> {
-        return this._$hasMoreStorage;
-    }
-
     // endregion
 
     // region Protected methods
-
-    protected _handleAfterCollectionChange(changedItems: ISessionItems<T> = [], changeAction?: string): void {
-        super._handleAfterCollectionChange(changedItems, changeAction);
-
-        const changedProperties = changedItems.properties;
-        if (changedProperties && (changedProperties === 'expanded' || changedProperties.hasOwnProperty('expanded'))) {
-            this._reBuildNodeFooters();
-        }
-    }
 
     protected _getItemsStrategy: () => IItemsStrategy<S, T>;
 
@@ -853,6 +866,11 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             if (!('node' in options)) {
                 options.node = object.getPropertyValue<boolean>(options.contents, this._$nodeProperty);
             }
+
+            if (this.getHasMoreStorage() && this.getHasMoreStorage()[key]) {
+                options.hasMore = true;
+            }
+
             return parent.call(this, options);
         };
     }
@@ -902,12 +920,16 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._childrenMap = {};
     }
 
-    protected _reBuildNodeFooters(): void {
-        const session = this._startUpdateSession();
-        this.getStrategyInstance(NodeFooter)?.invalidate();
-        this._reSort();
-        this._reFilter();
-        this._finishUpdateSession(session, true);
+    protected _reBuildNodeFooters(reset: boolean = false): void {
+        if (reset) {
+            const session = this._startUpdateSession();
+            this.getStrategyInstance(NodeFooter)?.reset();
+            this._reSort();
+            this._reFilter();
+            this._finishUpdateSession(session, true);
+        } else {
+            this.getStrategyInstance(NodeFooter)?.invalidate();
+        }
     }
 
     protected _bindHandlers(): void {
@@ -1191,6 +1213,39 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             declaredChildrenProperty: this.getHasChildrenProperty()
         });
     }
+
+    // region ItemsChanges
+
+    protected _handleCollectionChangeAdd(): void {
+        super._handleCollectionChangeAdd();
+
+        this._reBuildNodeFooters();
+    }
+
+    protected _handleCollectionChangeRemove(): void {
+        super._handleCollectionChangeRemove();
+
+        this._reBuildNodeFooters();
+    }
+
+    protected _handleCollectionChangeReplace(): void {
+        super._handleCollectionChangeReplace();
+
+        this._reBuildNodeFooters();
+    }
+
+    protected _handleNotifyItemChangeRebuild(item: T, properties?: object|string): boolean {
+        let result = super._handleNotifyItemChangeRebuild(item, properties);
+
+        if (properties === 'expanded' || properties.hasOwnProperty('expanded')) {
+            this._reBuildNodeFooters();
+            result = true;
+        }
+
+        return result;
+    }
+
+    // endregion ItemsChanges
 }
 
 Object.assign(Tree.prototype, {

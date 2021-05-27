@@ -46,6 +46,7 @@ export interface ILoadDataConfig extends
     type?: 'list';
     sorting?: TSortingOptionValue;
     sourceController?: NewSourceController;
+    filterController?: FilterController;
     filter?: TFilter;
     filterButtonSource?: IFilterItem[];
     fastFilterSource?: object[];
@@ -189,7 +190,7 @@ function loadDataByConfig(
 
         filterPromise
             .then(({controller, historyItems}) => {
-                filterController = controller;
+                filterController = loadConfig.filterController = controller;
                 filterHistoryItems = historyItems;
             })
             .catch(() => {

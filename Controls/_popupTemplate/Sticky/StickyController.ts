@@ -338,7 +338,8 @@ class StickyController extends BaseController {
     }
 
     dragNDropOnPage(item): boolean {
-        return !item.isDragOnPopup && item.popupOptions.closeOnOutsideClick;
+        const hasChilds = !!item.childs.length;
+        return !item.isDragOnPopup && item.popupOptions.closeOnOutsideClick && !hasChilds;
     }
 
     getDefaultConfig(item) {
@@ -349,7 +350,9 @@ class StickyController extends BaseController {
         item.position = {
             top: -10000,
             left: -10000,
+            minWidth: item.popupOptions.minWidth,
             maxWidth: item.popupOptions.maxWidth || _private.getWindowWidth(),
+            minHeight: item.popupOptions.minHeight,
             maxHeight: item.popupOptions.maxHeight || _private.getWindowHeight(),
             width: item.popupOptions.width,
             height: item.popupOptions.height,

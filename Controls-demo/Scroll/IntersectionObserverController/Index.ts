@@ -9,6 +9,5 @@ export default class DemoControl extends Control<IControlOptions> {
             this._logs += ' Обновился контент номер' + entries[i].data;
         }
     }
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

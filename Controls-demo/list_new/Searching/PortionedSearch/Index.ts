@@ -47,7 +47,5 @@ export default class extends Control {
         this._searchValue = '';
         this._filter = {};
     }
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

@@ -12,7 +12,7 @@
    </div>
    <div class="controls-PeriodDialog-DateRange__body">
       <Controls.calendar:MonthList shadowStyle="datePopup"
-                                   bottomShadowVisibility="{{false}}"
+                                   bottomShadowVisibility="hidden"
                                    attachLoadTopTriggerToNull="{{ false }}"
                                    bind:markedKey="_markedKey"
                                    markerVisibility="visible"
@@ -46,7 +46,7 @@
                  attachLoadTopTriggerToNull="{{ false }}"
                  name="monthList"
                  shadowStyle="datePopup"
-                 bottomShadowVisibility="{{false}}"
+                 bottomShadowVisibility="hidden"
                  virtualPageSize="{{18}}"
                  segmentSize="{{18}}"
                  position="{{_position}}"
@@ -66,7 +66,7 @@
                              on:intersect="_monthObserverHandler()"
                              threshold="{{[0.99, 1]}}">
                         <Controls.calendar:MonthView
-                                attr:class="controls-DateRangeBigChoose-DateRangePicker__item"
+                                attr:class="controls-DatePicker__item"
                                 monthViewModel="{{_monthViewModel}}"
                                 showCaption="{{true}}"
                                 selectionType="{{_options.selectionType}}"

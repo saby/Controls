@@ -116,8 +116,6 @@ class Previewer extends Control<IControlOptions> {
       this._children[name].open('click');
    }
 
-   static _theme: string[] = ['Controls/Classes'];
-
    static _styles: string[] = ['Controls-demo/InfoBox/resources/InfoboxButtonHelp', 'Controls-demo/Previewer/Previewer', 'Controls-demo/Controls-demo'];
 }
 export default Previewer;

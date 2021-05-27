@@ -20,8 +20,6 @@ class EditingFunctions extends Control<IControlOptions> {
     protected _commitEdit(): void {
         this._children.editingView.commitEdit();
     }
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default EditingFunctions;

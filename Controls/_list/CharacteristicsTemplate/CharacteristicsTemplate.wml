@@ -1,8 +1,10 @@
 <ws:template name="INFO_ITEM_TEMPLATE">
     <div class="controls-list_Characteristics-item" title="{{tooltip}}">
-        <ws:if data="{{icon}}">
-            <Controls.icon:Icon attr:class="controls-list_Characteristics-item_icon"
-                                icon="{{icon}}"
+        <ws:if data="{{imgSrc}}">
+            <img class="controls-list_Characteristics-item_image" src="{{imgSrc}}"/>
+        </ws:if>
+        <ws:if data="{{!imgSrc && icon}}">
+            <Controls.icon:Icon icon="{{icon}}"
                                 iconSize="s"
                                 iconStyle="label"
             />

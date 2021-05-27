@@ -296,11 +296,11 @@ export default class HoverFreeze {
             right: null,
             top: null
         };
-        hoveredContainers.forEach((container) => {
-            const containerRect = container.getBoundingClientRect();
+        for (let i = 0; i < hoveredContainers.length; i++) {
+            const containerRect = hoveredContainers[i].getBoundingClientRect();
             const bottom = containerRect.top + containerRect.height;
             if (containerRect.height === 0 || containerRect.width === 0) {
-                return;
+                continue;
             }
             if (resultRect.top === null) {
                 resultRect.top = containerRect.top;
@@ -312,7 +312,7 @@ export default class HoverFreeze {
                 resultRect.left = containerRect.left;
             }
             resultRect.right = containerRect.left + containerRect.width;
-        });
+        }
         return resultRect;
     }
 

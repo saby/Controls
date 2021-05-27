@@ -35,7 +35,7 @@ interface INumberRange {
 
 /**
  * @name Controls/_filterPanel/Editors/NumberRange#afterEditorTemplate
- * @cfg {TemplateFunction} Шаблон, который отобразится справа от редактора.
+ * @cfg {TemplateFunction|String} Шаблон, который отобразится справа от редактора.
  * @demo Controls-demo/filterPanel/NumberRangeEditor/Index
  * @example
  * Создаем шаблон, который передадим в afterEditorTemplate:

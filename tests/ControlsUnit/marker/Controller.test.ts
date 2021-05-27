@@ -498,4 +498,21 @@ describe('Controls/marker/Controller', () => {
       result = controller.onCollectionRemove(2, [model.getItemBySourceKey(2)]);
       assert.equal(result, 2);
    });
+
+   describe('shouldMoveMarkerOnScrollPaging', () => {
+      it('by default', () => {
+         const controller = new MarkerController({});
+         assert.isTrue(controller.shouldMoveMarkerOnScrollPaging());
+      });
+
+      it('pass option is false', () => {
+         const controller = new MarkerController({moveMarkerOnScrollPaging: false});
+         assert.isFalse(controller.shouldMoveMarkerOnScrollPaging());
+      });
+
+      it('pass option is true', () => {
+         const controller = new MarkerController({moveMarkerOnScrollPaging: true});
+         assert.isTrue(controller.shouldMoveMarkerOnScrollPaging());
+      });
+   });
 });

@@ -95,22 +95,16 @@
 }
 
 .ws-is-hover {
-   .controls-Switch__text_enabled_unselected:hover {
+   .controls-Switch__text_enabled_unselected:hover,
+   .controls-Switch__text_enabled_selected:hover{
       text-decoration: underline;
    }
-   .controls-Switch__text_enabled_selected:hover {
-      text-decoration: none;
-   }
+
    .controls-Switch:hover {
       .controls-SwitchCircle__borderCircle_selected,
       .controls-SwitchCircle__borderCircle_unselected {
          stroke: var(--marker-box_hover_border-color_switcher);
       }
-   }
-
-   .controls-Switch__toggle__wrapper_bg-contrast:hover {
-      border-color: var(--contrast-background-color-hover_switcher);
-      background-color: var(--contrast-background-color-hover_switcher);
    }
 }
 

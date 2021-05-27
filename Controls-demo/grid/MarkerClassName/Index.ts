@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
 import * as Template from 'wml!Controls-demo/grid/MarkerClassName/MarkerClassName';
-import {IColumn} from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 import {forShowWidths, getTasks} from '../DemoHelpers/DataCatalog';
 
 interface INoStickyLadderColumn {

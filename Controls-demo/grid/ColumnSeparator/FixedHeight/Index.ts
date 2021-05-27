@@ -2,8 +2,8 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/grid/ColumnSeparator/FixedHeight/FixedHeight';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridOld';
-import { IHeaderCell } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
+import { IHeaderCell } from 'Controls/grid';
 
 const LASTITEM = 5;
 const FIRSTITEM = 2;

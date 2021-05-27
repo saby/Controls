@@ -5,6 +5,7 @@
  * @author Авраменко А.С.
  * @see Controls/grid:View#emptyTemplateColumns
  * @see Controls/grid:View
+ * @see Controls/grid:EmptyTemplate
  * @example
  * <pre class="brush: html; highlight: [3-24]">
  * <!-- WML -->
@@ -25,7 +26,7 @@
  *             <ws:Object startColumn="{{ 2 }}" endColumn="{{ 6 }}">
  *                 <ws:template>
  *                     <ws:partial template="Controls/grid:EmptyColumnTemplate" >
- *                         <div>или выберите из <a href="#" class="controls-text-link_theme-default">каталога</a></div>
+ *                         <div>или выберите из <a href="#" class="controls-text-link">каталога</a></div>
  *                     </ws:partial>
  *                 </ws:template>
  *             </ws:Object>

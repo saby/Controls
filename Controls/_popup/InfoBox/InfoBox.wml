@@ -4,6 +4,7 @@
                on:mousemove="_contentMousemoveHandler()"
                on:mouseleave="_contentMouseleaveHandler()"
                on:touchstart="_contentTouchStartHandler()"
+               on:click="_contentClickHandler()"
    />
 
    <ws:if data="{{!_isNewEnvironment()}}">

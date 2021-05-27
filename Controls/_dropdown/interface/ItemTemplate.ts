@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для отображения элементов в выпадающих списках.
  * @remark
- * Подробнее о работе с выпадающими списками читайте {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/ здесь}.
+ * Подробнее о работе с выпадающими списками читайте {@link /doc/platform/developmentapl/interface-development/controls/input-elements/dropdown-menu/ здесь}.
  * @see Controls/_menu/interface/IMenuBase#itemTemplate
  * @class Controls/dropdown:ItemTemplate
  * @public
@@ -73,14 +73,14 @@
 
 /**
  * @name Controls/dropdown:ItemTemplate#contentTemplate
- * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
+ * @cfg {String|TemplateFunction|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
  * @default undefined
  * @markdown
  * @remark
  * В области видимости шаблона доступен объект **itemData**. Из него можно получить доступ к свойству **item** — это объект, который содержит данные обрабатываемого элемента.
  * @example
  *
- * В следующих примерах показано, как изменять опции шаблона для контрола {@link Controls/dropdown:Selector}, однако то же самое справедливо и для других {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/ выпадающих списков}.
+ * В следующих примерах показано, как изменять опции шаблона для контрола {@link Controls/dropdown:Selector}, однако то же самое справедливо и для других {@link /doc/platform/developmentapl/interface-development/controls/input-elements/dropdown-menu/ выпадающих списков}.
  * В примерах №№ 1, 2 и 3 показано, как получить доступ к переменной itemData из области видимости шаблона.
  *
  * **Пример 1.** Контрол и шаблон настроены в одном WML-файле.
@@ -139,7 +139,7 @@
 
  /**
  * @name Controls/dropdown:ItemTemplate#additionalTextTemplate
- * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, который отображается под основным контентом элемента и используется для вывода дополнительного текста (комментария).
+ * @cfg {String|TemplateFunction|undefined} Устанавливает пользовательский шаблон, который отображается под основным контентом элемента и используется для вывода дополнительного текста (комментария).
  * @default undefined
  * @example
  * <pre class="brush: html; highlight: [9,10,11]">

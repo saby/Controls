@@ -25,11 +25,11 @@ export default class Collection<
     protected _$spacing: number = SPACING;
     constructor(options) {
         super(options);
-        this._columnsStrategy = options.columnsMode === 'fixed' ? new Fixed() : new Auto();
-        if (options.columnsMode === 'auto' && options.initialWidth) {
+        this._columnsStrategy = this._$columnsMode === 'fixed' ? new Fixed() : new Auto();
+        if (this._$columnsMode === 'auto' && options.initialWidth) {
             this.setCurrentWidth(options.initialWidth, options.columnMinWidth);
         } else {
-            this.setColumnsCount(options.columnsCount || DEFAULT_COLUMNS_COUNT);
+            this.setColumnsCount(this._$columnsCount || DEFAULT_COLUMNS_COUNT);
         }
         this.updateColumns();
     }
@@ -90,7 +90,7 @@ export default class Collection<
     private _recalculateColumnsCountByWidth(width: number, columnMinWidth: number): void {
         const newColumnsCount = Math.floor(width / (columnMinWidth + this._$spacing));
         if (newColumnsCount !== this._columnsCount) {
-            this._columnsCount = newColumnsCount;
+            this._columnsCount = newColumnsCount || 1;
             this.setColumnsCount(this._columnsCount);
         }
     }

@@ -131,6 +131,21 @@ describe('Controls/search:ControllerClass', () => {
       assert.ok(controllerClass.needChangeSearchValueToSwitchedString(rs));
    });
 
+   it('search with searchStartCallback', async () => {
+      const sourceController = getSourceController({
+         source: new Memory()
+      });
+      let searchStarted = false;
+      const searchController = getSearchController({
+         sourceController,
+         searchStartCallback: () => {
+            searchStarted = true;
+         }
+      });
+      await searchController.search('testSearchValue');
+      assert.ok(searchStarted);
+   });
+
    describe('with hierarchy', () => {
       it('default search case and reset', () => {
          const filter: QueryWhereExpression<unknown> = {
@@ -342,24 +357,63 @@ describe('Controls/search:ControllerClass', () => {
          assert.isFalse(searchStub.called);
          assert.isTrue(resetStub.called);
       });
+
+      it('update with same value after search', async () => {
+         await controllerClass.search('testSearchValue');
+
+         const updateResult = controllerClass.update({
+            searchValue: 'testSearchValue'
+         });
+
+         assert.ok(!(updateResult instanceof Promise));
+      });
    });
 
-   it('search returns error', async () => {
-      const source = new Memory();
-      source.query = () => {
-         return Promise.reject();
-      };
-      const sourceController = getSourceController({
-         source
+   describe('search', () => {
+      it('search returns error', async () => {
+         const source = new Memory();
+         source.query = () => {
+            return Promise.reject();
+         };
+         const sourceController = getSourceController({
+            source
+         });
+         const searchController = getSearchController({sourceController});
+         await searchController.search('testSearchValue').catch(() => {});
+         assert.deepStrictEqual(
+             sourceController.getFilter(),
+             {
+                payload: 'something',
+                testParam: 'testSearchValue'
+             }
+         );
       });
-      const searchController = getSearchController({sourceController});
-      await searchController.search('testSearchValue').catch(() => {});
-      assert.deepStrictEqual(
-          sourceController.getFilter(),
-          {
-             payload: 'something',
-             testParam: 'testSearchValue'
-          }
-      );
+
+      it('search without root', async () => {
+         const sourceController = getSourceController({
+            source: new Memory()
+         });
+         const searchController = getSearchController({sourceController});
+         await searchController.search('testSearchValue');
+         assert.ok(sourceController.getRoot() === null);
+      });
+
+      it('search with expandedItems', async () => {
+         let sourceController = getSourceController({
+            source: new Memory(),
+            expandedItems: ['test']
+         });
+         let searchController = getSearchController({sourceController});
+         await searchController.search('testSearchValue');
+         assert.deepStrictEqual(sourceController.getExpandedItems(), []);
+
+         sourceController = getSourceController({
+            source: new Memory(),
+            expandedItems: [null]
+         });
+         searchController = getSearchController({sourceController});
+         await searchController.search('testSearchValue');
+         assert.deepStrictEqual(sourceController.getExpandedItems(), [null]);
+      });
    });
 });

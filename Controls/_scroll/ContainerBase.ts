@@ -651,12 +651,17 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _getFullStateFromDOM(): IScrollState {
+        // Используем getBoundingClientRect а не clientHeight и clientWidth потому что, clientHeight и clientWidth
+        // возвращают округленные целые значения. В событиях ресайза приходят дробные значения соответсвующие
+        // getBoundingClientRect. Если использовать clientHeight и clientWidth, то будут генериоваться лишние
+        // события сообщающие что изменился размер скорлл контейнера на значения меньше одного пикселя.
+        const containerRect: DOMRect = this._children.content.getBoundingClientRect()
         const newState = {
             scrollTop: this._children.content.scrollTop,
             scrollLeft: this._children.content.scrollLeft,
-            clientHeight: this._children.content.clientHeight,
+            clientHeight: containerRect.height,
             scrollHeight: this._children.content.scrollHeight, // В observer берем со content, иначе значения будут отличаться
-            clientWidth: this._children.content.clientWidth,
+            clientWidth: containerRect.width,
             scrollWidth: this._children.content.scrollWidth
         };
         return newState;

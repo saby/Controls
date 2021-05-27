@@ -970,6 +970,7 @@ describe('Controls/suggest', () => {
          assert.isTrue(suggestActivated);
          assert.isTrue(suggestComponent._suggestMarkedKey === null);
          assert.isTrue(suggestComponent._sourceController !== sourceController);
+         assert.isTrue(suggestComponent._searchController === null);
       });
 
       it('Suggest::_beforeMount', () => {

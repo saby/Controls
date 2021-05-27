@@ -79,7 +79,7 @@ export default interface IBaseGroupTemplateOptions {
 
 /**
  * @name Controls/_list/interface/IBaseGroupTemplate#rightTemplate
- * @cfg {String|Function|undefined} Пользовательский шаблон, отображаемый в правой части заголовка группы.
+ * @cfg {String|TemplateFunction|undefined} Пользовательский шаблон, отображаемый в правой части заголовка группы.
  * @default undefined
  * @demo Controls-demo/list_new/Grouped/RightTemplate/Index
  * @markdown
@@ -148,7 +148,7 @@ export default interface IBaseGroupTemplateOptions {
  */
 /**
  * @name Controls/_list/interface/IBaseGroupTemplate#contentTemplate
- * @cfg {String|Function|undefined} Пользовательский шаблон вместо текста заголовка группы.
+ * @cfg {String|TemplateFunction|undefined} Пользовательский шаблон вместо текста заголовка группы.
  * @default undefined
  * @demo Controls-demo/list_new/Grouped/ContentTemplate/Index
  * @remark

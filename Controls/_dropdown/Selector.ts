@@ -39,7 +39,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  *
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2Fdropdown_new%2FInput%2FIndex демо-пример}
- * * {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/dropdown-menu/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdown.less переменные тем оформления dropdown}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdownPopup.less переменные тем оформления dropdownPopup}
  *
@@ -52,7 +52,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IMultiSelectable
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/interface/ISelectorDialog
+ * @mixes Controls/interface:ISelectorDialog
  * @mixes Controls/interface:IIconSize
  * @mixes Controls/interface:ITextValue
  * @mixes Controls/interface:IFontSize
@@ -79,7 +79,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @mixes Controls/interface:IMultiSelectable
  * @mixes Controls/dropdown:IFooterTemplate
  * @mixes Controls/dropdown:IHeaderTemplate
- * @mixes Controls/interface/ISelectorDialog
+ * @mixes Controls/interface:ISelectorDialog
  * @mixes Controls/dropdown:IGrouped
  * @mixes Controls/interface:ITextValue
  * 

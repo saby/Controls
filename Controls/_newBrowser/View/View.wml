@@ -13,6 +13,9 @@
                 on:itemClick="_onExplorerItemClick(true)"
         />
     </Controls.list:Container>
+    <ws:if data="{{_options.masterFooterTemplate}}">
+        <ws:partial template="{{_options.masterFooterTemplate}}"/>
+    </ws:if>
 </ws:template>
 
 <ws:template name="detailTemplate">

@@ -1,0 +1,8 @@
+<div class="controlsDemo__wrapper" xmlns:ws="http://www.w3.org/1999/html">
+   <Controls.tile:ItemsView
+      items="{{_items}}"
+      imageProperty="img"
+      displayProperty="title"
+      imageFit="contain"
+   />
+</div>

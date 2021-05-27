@@ -11,7 +11,6 @@ define('Controls-demo/InfoBox/Opener/InfoBox',
       var message = 'MESSAGE';
       var InfoBox = Base.Control.extend({
          _template: template,
-         _theme: ['Controls/Classes'],
          _blocks: null,
          _icons: null,
          _cfgRight: null,

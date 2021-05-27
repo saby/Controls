@@ -25,7 +25,7 @@ const MODERN_IE_VERSION = 11;
  * @remark
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader демо-пример}
- * * {@link /doc/platform/developmentapl/interface-development/controls/content-managment/heading/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/text-and-styles/heading/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_heading.less переменные тем оформления}
  *
  *
@@ -81,8 +81,6 @@ const MODERN_IE_VERSION = 11;
 class Back extends Control<IBackOptions> implements IFontColorStyle, IFontSize, IIconStyle, IIconSize {
     protected _template: TemplateFunction = backTemplate;
     protected _isOldIe: Boolean = false;
-
-    static _theme: string[] = ['Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {

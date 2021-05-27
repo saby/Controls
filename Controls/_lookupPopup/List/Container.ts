@@ -140,7 +140,7 @@ let _private = {
  * Также добавляет действие «Выбрать» в иерархические списки.
  * Используется внутри {@link Controls/lookupPopup:Controller} и {@link Controls/lookupPopup:Container}.
  *
- * Подробное описание и инструкцию по настройке смотрите в <a href='/doc/platform/developmentapl/interface-development/controls/directory/layout-selector-stack/'>статье</a>.
+ * Подробное описание и инструкцию по настройке смотрите в <a href='/doc/platform/developmentapl/interface-development/controls/input-elements/directory/layout-selector-stack/'>статье</a>.
  *
  * <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">Пример</a> использования контрола.
  *
@@ -279,7 +279,7 @@ Object.defineProperty(Container, 'defaultProps', {
  * @cfg {function} Функция управления видимостью операций над записью.
  * @param {ItemAction} action Объект с настройкой действия.
  * @param {Types/entity:Model} item Экземпляр записи, действие над которой обрабатывается.
- * @returns {Boolean} Определяет, должна ли операция отображаться.
+ * @remark Если из функции возвращается true, то операция отображается.
  * @example
  *
  * JS:

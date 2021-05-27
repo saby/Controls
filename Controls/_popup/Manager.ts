@@ -73,6 +73,13 @@ class Manager {
             });
         }
 
+        if (constants.isBrowserPlatform) {
+            // Если смена урла осуществляется по кнопками вперед и назад в браузере - обрабатываем их как клик мимо
+            window.addEventListener('popstate', () => {
+                this.historyChangeHandler();
+            });
+        }
+
         if (detection.isMobileIOS) {
             this._controllerVisibilityChangeHandler = this._controllerVisibilityChangeHandler.bind(this);
             EventBus.globalChannel().subscribe('MobileInputFocus', this._controllerVisibilityChangeHandler);
@@ -167,7 +174,12 @@ class Manager {
         if (item) {
             const oldOptions: IPopupOptions = item.popupOptions;
             item.popupOptions = options;
-            this._moveToTop(item);
+
+            // Пока отключаю смену z-index при переоткрытии. Повторный вызов open используют в 2х сценариях -
+            // когда хотят открыть "новый" документ и когда просто хотят обновить часть опций, не задавая новый контекст
+            // открытия. Во 2м случае обновления z-index быть не должно. Нужно продумать как разделить 2 этих сценария.
+            // Пример https://online.sbis.ru/opendoc.html?guid=1f38986e-d9fc-4210-b65a-3c5eca75ecb8
+            // this._moveToTop(item);
             const updateOptionsResult: null | Promise<null> =
                 item.controller.elementUpdateOptions(item, this._getItemContainer(id));
             if (updateOptionsResult instanceof Promise) {
@@ -279,7 +291,7 @@ class Manager {
     private orientationChangeHandler(): void {
         let needUpdate = false;
         this._popupItems.each((item) => {
-            if (this._popupUpdated(item.id)) {
+            if (this._orientationChanged(item.id)) {
                 needUpdate = true;
             }
         });
@@ -449,6 +461,14 @@ class Manager {
         return false;
     }
 
+    protected _orientationChanged(id: string): boolean {
+        const element = this.find(id);
+        if (element) {
+            return element.controller.orientationChanged(element, this._getItemContainer(id));
+        }
+        return false;
+    }
+
     protected _popupAfterUpdated(id: string): boolean {
         const element = this.find(id);
         if (element) {
@@ -463,17 +483,28 @@ class Manager {
     }
 
     protected mouseDownHandler(event: Event): void {
-        if (this._elementIsPopupOverlay(event.target as Element)) {
+        this._outsideClickHandler(event);
+    }
+
+    protected historyChangeHandler(): void {
+        this._outsideClickHandler();
+    }
+
+    private _outsideClickHandler(event?: Event): void {
+        const target = event?.target as HTMLElement;
+        const isClickToOverlay = target ? this._elementIsPopupOverlay(target) : false;
+        const isClickToIgnoredArea = target ? this._isIgnoreActivationArea(target) : false;
+        if (isClickToOverlay) {
             const popupContainer = ManagerController.getContainer();
             const popupItem = ManagerController.find(popupContainer.getOverlayId());
             if (popupItem && popupItem.popupState !== popupItem.controller.POPUP_STATE_INITIALIZING) {
                 this._closePopupByOutsideClick(popupItem);
             }
-        } else if (!this._isIgnoreActivationArea(event.target as HTMLElement)) {
+        } else if (!isClickToIgnoredArea) {
             const popupsForClose = [];
             this._popupItems.each((item) => {
                 if (item) {
-                    const parentControls = goUpByControlTree(event.target);
+                    const parentControls = target ? goUpByControlTree(target) : [];
                     const popupInstance = ManagerController.getContainer().getPopupById(item.id);
 
                     // Check the link between target and popup

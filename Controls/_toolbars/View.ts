@@ -81,7 +81,7 @@ export interface IMenuOptions {
     itemsSpacing: TItemsSpacing;
     /**
      * @name Controls/toolbars:IToolbar#additionalProperty
-     * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню. Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/item-config/#additional">здесь</a>.
+     * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню. Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/input-elements/dropdown-menu/item-config/#additional">здесь</a>.
      */
     additionalProperty?: string;
     /**
@@ -101,7 +101,7 @@ export interface IMenuOptions {
      * @cfg {function} Функция управления видимостью операций над записью.
      * @param {ItemAction} action Объект с настройкой действия.
      * @param {Types/entity:Model} item Экземпляр записи, действие над которой обрабатывается.
-     * @returns {Boolean} Определяет, должна ли операция отображаться.
+     * @remark Если из функции возвращается true, то операция отображается.
      * @demo Controls-demo/Toolbar/ItemActions/Index
      */
     itemActionVisibilityCallback?: TItemActionVisibilityCallback;

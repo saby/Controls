@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls-demo/FilterView/stackTemplate/TreeStackTemplate';
 import {Memory} from 'Types/source';
-import {IColumn} from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 
 export default class extends Control {
    protected _template: TemplateFunction = template;
@@ -49,8 +49,6 @@ export default class extends Control {
    protected _selectComplete(): void {
       this._children.SelectorController._selectComplete();
    }
-
-   static _theme: string[] = ['Controls/Classes'];
 
    static _styles: string[] = ['Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector'];
 }

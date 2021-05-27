@@ -299,6 +299,10 @@ export default class _Controller implements IDropdownController {
       });
    }
 
+   getItems(): RecordSet<Model> {
+      return this._items;
+   }
+
    private _open(popupOptions?: object): Promise<unknown[]> {
       if (this._options.readOnly) {
          return Promise.resolve();
@@ -623,7 +627,7 @@ export default class _Controller implements IDropdownController {
    private _loadMenuTemplates(options: object): Promise<any> {
       if (!this._loadMenuTempPromise) {
          let templatesToLoad = ['Controls/menu'];
-         let templates = ['headTemplate', 'itemTemplate', 'footerContentTemplate'];
+         let templates = ['headTemplate', 'headerTemplate', 'itemTemplate', 'footerContentTemplate'];
          templates.forEach((template) => {
             if (typeof options[template] === 'string') {
                templatesToLoad.push(options[template]);

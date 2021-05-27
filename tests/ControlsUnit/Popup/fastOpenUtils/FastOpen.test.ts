@@ -7,11 +7,8 @@ describe('Controls/Popup/fastOpenUtils/FastOpen', () => {
         it('CalmTimer: resetTimeOut', () => {
             const calmTimer = new CalmTimer();
             calmTimer._openId = 300;
-            calmTimer._closeId = 500;
-            assert.equal(calmTimer._closeId, 500);
             assert.equal(calmTimer._openId, 300);
-            calmTimer.resetTimeOut();
-            assert.equal(calmTimer._closeId, null);
+            calmTimer.stop();
             assert.equal(calmTimer._openId, null);
         });
     });

@@ -2,8 +2,8 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/grid/EmptyGrid/Editing/Editing';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/gridOld';
-import { IHeaderCell } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
+import { IHeaderCell } from 'Controls/grid';
 import {Record as entityRecord} from 'Types/entity';
 import * as editingCell from 'wml!Controls-demo/grid/EmptyGrid/Editing/cellEditor';
 

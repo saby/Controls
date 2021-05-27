@@ -3,7 +3,6 @@ import template = require('wml!Controls-demo/LoadingIndicator/Scroll/Scroll');
 
 class Scroll extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
-    static _theme: string[] = ['Controls/Classes'];
     _afterMount(): void {
         this._children.LocalIndicatorDefault.show({});
         this._children.LocalIndicatorRight.show({});

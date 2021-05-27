@@ -28,6 +28,7 @@ import {SCROLL_DIRECTION} from './Utils/Scroll';
 import {IHasUnrenderedContent, IScrollState} from './Utils/ScrollState';
 import template = require('wml!Controls/_scroll/Container/Container');
 import baseTemplate = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
+import {descriptor} from "Types/entity";
 
 /**
  * @typeof {String} TPagingPosition
@@ -628,7 +629,34 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     static _theme: string[] = ['Controls/scroll'];
 
-    static getDefaultOptions() {
+    static getOptionTypes(): object {
+        return {
+            topShadowVisibility: descriptor(String).oneOf([
+                SHADOW_VISIBILITY.AUTO,
+                SHADOW_VISIBILITY.HIDDEN,
+                SHADOW_VISIBILITY.VISIBLE,
+                'gridauto'
+            ]),
+            bottomShadowVisibility: descriptor(String).oneOf([
+                SHADOW_VISIBILITY.AUTO,
+                SHADOW_VISIBILITY.HIDDEN,
+                SHADOW_VISIBILITY.VISIBLE,
+                'gridauto'
+            ]),
+            shadowMode: descriptor(String).oneOf([
+                SHADOW_MODE.CSS,
+                SHADOW_MODE.JS,
+                SHADOW_MODE.MIXED
+            ]),
+            scrollMode: descriptor(String).oneOf([
+                'vertical',
+                'horizontal',
+                'verticalHorizontal'
+            ])
+        };
+    }
+
+    static getDefaultOptions(): object {
         return {
             ...getScrollbarsDefaultOptions(),
             ...getShadowsDefaultOptions(),

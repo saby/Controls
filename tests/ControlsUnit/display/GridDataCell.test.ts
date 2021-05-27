@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { Model as EntityModel, Model } from 'Types/entity';
 
 import { GridCollection, GridDataCell, GridDataRow, TColspanCallback } from 'Controls/grid';
-import { IColumn } from 'Controls/interface';
+import { IColumn } from 'Controls/grid';
 
 describe('Controls/display/GridDataCell', () => {
     let owner: GridDataRow<Model>;

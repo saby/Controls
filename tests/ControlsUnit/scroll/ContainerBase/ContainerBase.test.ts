@@ -8,6 +8,10 @@ import {SCROLL_DIRECTION} from 'Controls/_scroll/Utils/Scroll';
 
 var global = (function() { return this || (0,eval)('this') })();
 
+function getBoundingClientRectMock() {
+   return { height: 30, width: 50};
+}
+
 describe('Controls/scroll:ContainerBase', () => {
    const options: IContainerBaseOptions = {
       scrollMode: SCROLL_MODE.VERTICAL
@@ -44,7 +48,7 @@ describe('Controls/scroll:ContainerBase', () => {
          control._controlResizeHandler = () => {};
          control._children = {
             content: {
-               getBoundingClientRect: () => {}
+               getBoundingClientRect: getBoundingClientRectMock
             },
             userContent: {
                children: children
@@ -75,7 +79,7 @@ describe('Controls/scroll:ContainerBase', () => {
          scrollHeight: 40,
          clientWidth: 50,
          scrollWidth: 60,
-         getBoundingClientRect: sinon.fake()
+         getBoundingClientRect: getBoundingClientRectMock
       };
 
       beforeEach(() => {
@@ -186,7 +190,7 @@ describe('Controls/scroll:ContainerBase', () => {
             scrollHeight: 40,
             clientWidth: 50,
             scrollWidth: 60,
-            getBoundingClientRect: sinon.fake()
+            getBoundingClientRect: getBoundingClientRectMock
          };
 
          control._children = {
@@ -284,7 +288,7 @@ describe('Controls/scroll:ContainerBase', () => {
          control._children = {
             content: {
                scrollTop: position,
-               getBoundingClientRect: sinon.fake()
+               getBoundingClientRect: getBoundingClientRectMock
             },
             userContent: {
                children: [{
@@ -473,7 +477,7 @@ describe('Controls/scroll:ContainerBase', () => {
                   scrollLeft: 10,
                   scrollWidth: 200,
                   clientWidth: 100,
-                  getBoundingClientRect: sinon.fake()
+                  getBoundingClientRect: getBoundingClientRectMock
                },
                userContent: {
                   children: [{
@@ -540,7 +544,7 @@ describe('Controls/scroll:ContainerBase', () => {
          const component = new ContainerBase();
          component._children = {
             content: {
-               getBoundingClientRect: () => undefined,
+               getBoundingClientRect: getBoundingClientRectMock,
                scrollTop: 100
             }
          };
@@ -553,7 +557,8 @@ describe('Controls/scroll:ContainerBase', () => {
          const inst:ContainerBase = new ContainerBase();
          inst._children = {
             content: {
-               scrollTop: 0
+               scrollTop: 0,
+               getBoundingClientRect: getBoundingClientRectMock
             },
             userContent: {
                children: [{
@@ -584,9 +589,7 @@ describe('Controls/scroll:ContainerBase', () => {
          inst._children = {
             content: {
                scrollTop: 0,
-               getBoundingClientRect: () => {
-                  return {};
-               }
+               getBoundingClientRect: getBoundingClientRectMock
             },
             userContent: {
                children: [{
@@ -626,7 +629,7 @@ describe('Controls/scroll:ContainerBase', () => {
                scrollHeight: 100,
                clientWidth: 100,
                scrollWidth: 100,
-               getBoundingClientRect: sinon.fake()
+               getBoundingClientRect: () => { return { height: 100, width: 100 }}
             },
             userContent: {
                children: [{

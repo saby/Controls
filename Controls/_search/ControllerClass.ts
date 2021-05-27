@@ -16,6 +16,7 @@ export interface ISearchControllerOptions extends ISearchOptions,
    root?: TKey;
    viewMode?: TViewMode;
    items?: RecordSet;
+   searchStartCallback?: Function;
 }
 
 const SERVICE_FILTERS = {
@@ -199,7 +200,7 @@ export default class ControllerClass {
       }
 
       if (options.hasOwnProperty('searchValue')) {
-         if (options.searchValue !== this._options.searchValue || options.searchValue !== this._searchValue) {
+         if (searchValue !== this._searchValue) {
             needLoad = true;
          }
       }
@@ -280,10 +281,14 @@ export default class ControllerClass {
 
    private _dataLoadCallback(event: unknown, items: RecordSet): void {
       const filter = this._getFilter();
-      const isSearchMode = !!this._sourceController.getFilter()[this._options.searchParam];
+      const sourceController = this._sourceController;
+      const isSearchMode = !!sourceController.getFilter()[this._options.searchParam];
 
       if (this.isSearchInProcess() && this._searchValue) {
          this._sourceController.setFilter(filter);
+         if (!sourceController.isDeepReload() && !sourceController.isExpandAll()) {
+            sourceController.setExpandedItems([]);
+         }
 
          if (this._options.startingWith === 'root' && !isSearchMode && this._options.parentProperty) {
             const newRoot = ControllerClass._getRoot(this._path, this._root, this._options.parentProperty);
@@ -294,7 +299,7 @@ export default class ControllerClass {
             }
          }
 
-         this._sourceController.setFilter(this._getFilter());
+         sourceController.setFilter(this._getFilter());
       } else if (!this._searchValue) {
          this._misspellValue = '';
       }
@@ -313,7 +318,7 @@ export default class ControllerClass {
    }
 
    private _getRoot(): TKey {
-      let root;
+      let root = this._root;
 
       if (this._root !== undefined && this._options.parentProperty && this._searchValue) {
          if (this._options.startingWith === 'current') {
@@ -364,7 +369,7 @@ export default class ControllerClass {
    }
 
    private _updateFilterAndLoad(filter: QueryWhereExpression<unknown>, root: TKey): Promise<RecordSet|Error> {
-      this._searchStarted();
+      this._searchStarted(filter);
       this._sourceController.setRoot(root);
       return this._searchPromise =
           this._sourceController
@@ -397,8 +402,11 @@ export default class ControllerClass {
       }
    }
 
-   private _searchStarted(): void {
+   private _searchStarted(filter: QueryWhereExpression<unknown>): void {
       this._searchInProgress = true;
+      if (this._options.searchStartCallback) {
+         this._options.searchStartCallback(filter);
+      }
    }
 
    private _searchEnded(): void {

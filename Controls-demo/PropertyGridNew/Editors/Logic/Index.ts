@@ -11,6 +11,6 @@ export default class Index extends Control<IControlOptions> {
         }
     ];
     protected _editingObject: object = {
-        selected: [true]
+        selected: true
     };
 }

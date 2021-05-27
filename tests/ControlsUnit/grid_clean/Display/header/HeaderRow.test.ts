@@ -29,8 +29,9 @@ describe('Controls/grid_clean/Display/header/HeaderRow', () => {
                         isFixed: true,
                         sorting: undefined,
                         cellPadding: undefined,
+                        backgroundStyle: 'custom',
                         columnSeparatorSize: null,
-                        backgroundStyle: 'custom'
+                        shadowVisibility: 'lastVisible'
                     };
 
                     // assertion here

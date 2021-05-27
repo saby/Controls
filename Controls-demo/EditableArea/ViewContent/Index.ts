@@ -9,8 +9,6 @@ class ViewContent extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _editObject: Record = editObject;
     protected _editObjectRange: Record = editObjectRange;
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default ViewContent;

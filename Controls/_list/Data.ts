@@ -70,6 +70,7 @@ interface IReceivedState {
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IHierarchy
  * @mixes Controls/interface:ISource
+ * @mixes Controls/interface:ISelectFields
  * @extends UI/Base:Control
  *
  * @public

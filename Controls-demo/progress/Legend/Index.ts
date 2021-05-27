@@ -25,8 +25,6 @@ class Legend extends Control<IControlOptions> {
         };
         this._children.stateIndicatorLegend.open(config);
     }
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

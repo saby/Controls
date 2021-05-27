@@ -4,7 +4,6 @@ import controlTemplate = require('wml!Controls-demo/toggle/BigSeparator/Base/Ind
 class Base extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
     protected _expanded: boolean = false;
-    static _theme: string[] = ['Controls/Classes'];
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

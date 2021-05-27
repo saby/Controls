@@ -18,13 +18,17 @@ export const enum CRUD_EVENTS {
     DELETE_FAILED = 'deletefailed'
 }
 
+export interface ICrudConfig {
+    showLoadingIndicator: boolean;
+}
+
 /**
  * Контроллер, который инициирует запросы к источнику данных (см. {@link Controls/form:Controller#source source}) для чтения, создания, удаления или обновления записи.
  * Контроллер используется в {@link Controls/form:Controller}.
  * @class Controls/_form/CrudController
  * @public
  * @author Красильников А.С.
- * 
+ *
  * @see Controls/form:Controller
  * @see Types/source:SbisService
  * @see Types/source:Memory
@@ -32,35 +36,32 @@ export const enum CRUD_EVENTS {
 export default class CrudController {
     private readonly _crudOperationFinished: (result: string, args: [Error|Model, Model|string?, unknown?]) => void = null;
     private readonly _notifyRegisterPending: (args: [Promise<Model>, object]) => void = null;
-    private readonly _notifyIndicator: (eType: string, args: unknown[]) => string = null;
-
-    private readonly _showLoadingIndicator: boolean = false;
 
     private _dataSource: Memory = null;
-    private _indicatorId: string = '';
 
     constructor(dataSource: Memory, crudOperationFinished: (result: string, args: [Error|Model, Model|string?, unknown?]) => void,
-                notifyRegisterPending: (args: [Promise<Model>, object]) => void = null,
-                indicatorNotifier: (eType: string, params: unknown[] | string[]) => string,
-                showLoadingIndicator: boolean = true) {
+                notifyRegisterPending: (args: [Promise<Model>, object]) => void = null) {
         this._dataSource = dataSource;
-        this._showLoadingIndicator = showLoadingIndicator;
         this._crudOperationFinished = crudOperationFinished;
         this._notifyRegisterPending = notifyRegisterPending;
-        this._notifyIndicator = indicatorNotifier;
     }
 
     setDataSource(newDataSource: Memory): void {
         this._dataSource = newDataSource;
+    }
+
+    protected _registerPending(promise: Promise<Model>, config?: ICrudConfig): boolean {
+        const showLoadingIndicator = typeof config?.showLoadingIndicator === 'undefined' ? true : config.showLoadingIndicator;
+        this._notifyRegisterPending([promise, {showLoadingIndicator}]);
     }
     /**
      * Создает пустую запись через источник данных.
      * @function Controls/_form/CrudController#create
      * @param [meta] Дополнительные метаданные, которые могут понадобиться для создания записи.
      */
-    create(createMetaData: unknown): Promise<Model> {
+    create(createMetaData: unknown, config?: ICrudConfig): Promise<Model> {
         const promise = this._dataSource.create(createMetaData);
-        this._notifyRegisterPending([promise, {showLoadingIndicator: this._showLoadingIndicator}]);
+        this._registerPending(promise, config);
         return new Promise((res, rej) => {
             promise.then((record: Model) => {
                 this._crudOperationFinished(CRUD_EVENTS.CREATE_SUCCESSED, [record]);
@@ -76,22 +77,20 @@ export default class CrudController {
      * @function Controls/_form/CrudController#read
      * @param {Number|String}key Первичный ключ записи.
      * @param {Object} [meta] Дополнительные метаданные.
+     * @param {ICrudConfig} [config]
      */
-    read(key: string, readMetaData: unknown): Promise<Model> {
-        const id = this._indicatorId;
-        const message = rk('Пожалуйста, подождите…');
-        this._indicatorId = this._notifyIndicator('showIndicator', [{id, message}]);
-        return new Promise((res, rej) => {
+    read(key: string, readMetaData: unknown, config?: ICrudConfig): Promise<Model> {
+        const promise: Promise<Model> = new Promise((res, rej) => {
             readWithAdditionalFields(this._dataSource, key, readMetaData).then((record: Model) => {
                 this._crudOperationFinished(CRUD_EVENTS.READ_SUCCESSED, [record]);
-                this._notifyIndicator('hideIndicator', [this._indicatorId]);
                 res(record);
             }, (e: Error) => {
                 this._crudOperationFinished(CRUD_EVENTS.READ_FAILED, [e]);
-                this._notifyIndicator('hideIndicator', [this._indicatorId]);
                 rej(e);
             });
         });
+        this._registerPending(promise, config);
+        return promise;
     }
     /**
      * Обновляет запись в источнике данных.
@@ -103,8 +102,7 @@ export default class CrudController {
         if (record.isChanged() || isNewRecord) {
             const updateMetaData = config?.additionalData;
             const resultUpdate = this._dataSource.update(record, updateMetaData);
-            this._notifyRegisterPending([resultUpdate, {showLoadingIndicator: this._showLoadingIndicator}
-            ]);
+            this._registerPending(resultUpdate, config);
             return new Promise((res, rej) => {
                 resultUpdate.then((key) => {
                     this._crudOperationFinished(CRUD_EVENTS.UPDATE_SUCCESSED, [record, key, config]);
@@ -125,9 +123,9 @@ export default class CrudController {
      * @param {Number|String} Первичный ключ или массив первичных ключей записи.
      * @param {Object} [meta] Дополнительные метаданные.
      */
-    delete(record: Model, destroyMeta: unknown): Promise<Model> {
+    delete(record: Model, destroyMeta: unknown, config?: ICrudConfig): Promise<Model> {
         const promise = this._dataSource.destroy(record.getId(), destroyMeta);
-        this._notifyRegisterPending([promise, { showLoadingIndicator: this._showLoadingIndicator }]);
+        this._registerPending(promise, config);
 
         return new Promise((res, rej) => {
             promise.then(() => {
@@ -138,14 +136,5 @@ export default class CrudController {
                 rej(e);
             });
         });
-    }
-    /*
-    * Удаления запроса отображения индикатора.
-    * @function Controls/_form/CrudController#hideIndicator
-    */
-    hideIndicator(): void {
-        if (this._indicatorId) {
-            this._notifyIndicator('hideIndicator', [this._indicatorId]);
-        }
     }
 }

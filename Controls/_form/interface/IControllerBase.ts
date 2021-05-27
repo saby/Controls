@@ -1,7 +1,7 @@
 import {IControlOptions} from 'UI/Base';
 import {Record} from 'Types/entity';
 /**
- * Интерфейс для котрола реализующего функционал редактирования записи.
+ * Интерфейс для котролаб реализующего функционал редактирования записи.
  *
  * @interface Controls/_form/interface/IControllerBase
  * @public
@@ -10,7 +10,7 @@ import {Record} from 'Types/entity';
 
 /**
  * @name Controls/_form/interface/IControllerBase#record
- * @cfg {Types/entity:Model} Устанавливает запись, по данным которой будет инициализирован диалог редактирования.
+ * @cfg {Types/entity:Model} Запись, по данным которой будет инициализирован диалог редактирования.
  */
 
 /**
@@ -21,19 +21,20 @@ import {Record} from 'Types/entity';
 /**
  * @name Controls/_form/interface/IControllerBase#confirmationShowingCallback
  * @cfg {Function} Функция, которая определяет должно ли показаться окно с подтверждением сохранения/не сохранения измененных данных при закрытии диалога редактирования записи. Необходимо для случаев, когда есть измененные данные, не связанные с рекордом.
- * @returns {Boolean} true - окно покажется. false - нет.
+ * @remark
+ * Если из функции возвращается true, тогда окно покажется, а если false - нет.
  */
 
 /**
  * Вызывает сохранение записи(завершение всех редактирований по месту, валидация).
  * @function Controls/_form/interface/IControllerBase#update
- * @param {UpdateConfig} config Параметр сохранения.
+ * @param {Controls/form:IFormController.UpdateConfig} config Параметр сохранения.
  */
 
 /**
  * Запускает процесс валидации.
  * @function Controls/_form/interface/IControllerBase#validate
- * @returns {Core/Deferred} Deferred результата валидации.
+ * @return {Core/Deferred} Deferred Результата валидации.
  */
 /**
  * @event Происходит, когда запись обновлена успешно.(валидация прошла успешно, редактирование по месту завершилось)

@@ -3,7 +3,6 @@ import controlTemplate = require('wml!Controls-demo/datePopup/Today/Today');
 
 class Component extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
-    static _theme: string[] = ['Controls/Classes'];
 
     protected _beforeMount() {
         this._startValueRange = new Date(2021, 0, 1);

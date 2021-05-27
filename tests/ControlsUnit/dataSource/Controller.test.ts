@@ -403,6 +403,15 @@ describe('Controls/dataSource:SourceController', () => {
                 ok(error.status === 504);
             });
         });
+
+        it('load with selectFields', async () => {
+            const options = getControllerOptions();
+            options.selectFields = ['key'];
+            const controller = getController(options);
+            await controller.reload();
+            ok(controller.getItems().at(0).get('key') !== undefined);
+            ok(controller.getItems().at(0).get('title') === undefined);
+        });
     });
 
     describe('cancelLoading', () => {

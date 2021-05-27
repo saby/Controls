@@ -17,7 +17,7 @@ describe('Controls/grid_clean/display/GridCollection/hasItemActionsSeparatedCell
 
     it('columnScroll = true, no items', () => {
         const display = createDisplay(true, []);
-        assert.isFalse(display.hasItemActionsSeparatedCell());
+        assert.isTrue(display.hasItemActionsSeparatedCell());
     });
 
     it('columnScroll = false, no items', () => {

@@ -9,6 +9,8 @@ import { Model } from 'Types/entity';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import ColumnScrollViewController, {COLUMN_SCROLL_JS_SELECTORS} from './ViewControllers/ColumnScroll';
 import { _Options } from 'UI/Vdom';
+import {getDimensions} from 'Controls/sizeUtils';
+import {Guid} from 'Types/entity';
 import 'css!Controls/grid';
 import 'css!Controls/CommonClasses';
 
@@ -29,6 +31,7 @@ const GridView = ListView.extend({
     _horizontalScrollWidth: 0,
     _fixedColumnsWidth: 0,
     _scrollableColumnsWidth: 0,
+    _ladderOffsetSelector: '',
 
     _beforeMount(options): void {
         let result = GridView.superclass._beforeMount.apply(this, arguments);
@@ -52,6 +55,8 @@ const GridView = ListView.extend({
         if (options.columnScroll) {
             this._createColumnScroll(options);
         }
+
+        this._ladderOffsetSelector = `controls-GridView__ladderOffset-${this._createGuid()}`;
 
         return result;
     },
@@ -95,6 +100,10 @@ const GridView = ListView.extend({
         if (changes.includes('ladderProperties')) {
             listModel.setLadderProperties(options.ladderProperties);
         }
+
+        if (changes.includes('emptyTemplateColumns')) {
+            listModel.setEmptyTemplateColumns(options.emptyTemplateColumns);
+        }
     },
 
     _applyChangedOptions(newOptions, oldOptions, changes): void {
@@ -104,7 +113,9 @@ const GridView = ListView.extend({
             // TODO: Переделать по https://online.sbis.ru/opendoc.html?guid=73950100-bf2c-44cf-9e59-d29ddbb58d3a
             // Чинит проблемы https://online.sbis.ru/opendoc.html?guid=a6f1e8c3-dd71-43b9-a1a8-9270c2f85c0d
             // Нужно как то сообщать контроллеру фиксированных блоков, что блок стал видимым, что бы рассчитать его.
-            this._notify('controlResize', [], {bubbling: true});
+            if (newOptions.columnScroll) {
+                this._notify('controlResize', [], {bubbling: true});
+            }
         });
     },
 
@@ -145,6 +156,9 @@ const GridView = ListView.extend({
             if (changedOptions.hasOwnProperty('ladderProperties')) {
                 changes.push('ladderProperties');
             }
+            if (changedOptions.hasOwnProperty('emptyTemplateColumns')) {
+                changes.push('emptyTemplateColumns');
+            }
         }
 
         if (changes.length) {
@@ -162,13 +176,21 @@ const GridView = ListView.extend({
                 // TODO: Переделать по https://online.sbis.ru/opendoc.html?guid=73950100-bf2c-44cf-9e59-d29ddbb58d3a
                 // Чинит проблемы https://online.sbis.ru/opendoc.html?guid=a6f1e8c3-dd71-43b9-a1a8-9270c2f85c0d
                 // Нужно как то сообщать контроллеру фиксированных блоков, что блок стал видимым, что бы рассчитать его.
-                this._notify('controlResize', [], {bubbling: true});
+                if (newOptions.columnScroll) {
+                    this._notify('controlResize', [], {bubbling: true});
+                }
             });
         }
     },
 
     _beforeUpdate(newOptions): void {
         GridView.superclass._beforeUpdate.apply(this, arguments);
+        if (!newOptions.columnScroll && this._columnScrollViewController) {
+            this._destroyColumnScroll();
+        }
+        if (this._columnScrollViewController && this._options.needShowEmptyTemplate !== newOptions.needShowEmptyTemplate) {
+            this._columnScrollViewController.setIsEmptyTemplateShown(newOptions.needShowEmptyTemplate);
+        }
 
         if (newOptions.sorting !== this._options.sorting) {
             this._listModel.setSorting(newOptions.sorting);
@@ -181,6 +203,8 @@ const GridView = ListView.extend({
         if (this._options.rowSeparatorSize !== newOptions.rowSeparatorSize) {
             this._listModel.setRowSeparatorSize(newOptions.rowSeparatorSize);
         }
+
+        this._listModel.setColspanGroup(!newOptions.columnScroll || !this.isColumnScrollVisible());
     },
 
     _beforeUnmount(): void {
@@ -231,11 +255,38 @@ const GridView = ListView.extend({
 
         // Дополнительная колонка для отображения застиканных операций над записью при горизонтальном скролле.
         // Если в списке нет данных, дополнительная колонка не нужна, т.к. операций над записью точно нет.
-        if (isFullGridSupport() && !!options.columnScroll && options.itemActionsPosition !== 'custom' && this._listModel.getCount()) {
+        if (isFullGridSupport() && !!options.columnScroll && options.itemActionsPosition !== 'custom') {
             columnsWidths.push('0px');
         }
 
         return GridLayoutUtil.getTemplateColumnsStyle(columnsWidths);
+    },
+
+    _createGuid(): string {
+        return Guid.create();
+    },
+
+    _getLadderTopOffsetStyles(): string {
+        if (!this._container) {
+            return '';
+        }
+        let headerHeight = 0;
+        let resultsHeight = 0;
+        const header = this._container.getElementsByClassName('controls-Grid__header')[0] as HTMLElement;
+        const results = this._container.getElementsByClassName('controls-Grid__results')[0] as HTMLElement;
+        const hasTopResults = results && this._listModel.getResultsPosition() !== 'bottom';
+        if (header) {
+            headerHeight = getDimensions(header).height;
+        }
+        if (hasTopResults) {
+            resultsHeight = getDimensions(results).height;
+        }
+        const ladderClass = `controls-Grid__row-cell__ladder-spacing${header ? '_withHeader' : ''}${hasTopResults ? '_withResults' : ''}`;
+        return `.${this._ladderOffsetSelector} .${ladderClass} {` +
+                  `top: calc(var(--item_line-height_l_grid) + ${headerHeight + resultsHeight}px) !important;}` +
+                `.${this._ladderOffsetSelector} .${ladderClass}_withGroup {` +
+                   `top: calc(var(--item_line-height_l_grid) + var(--grouping_height_list) + ${headerHeight + resultsHeight}px) !important;}`;
+
     },
 
     _getGridViewWrapperClasses(): string {
@@ -245,7 +296,7 @@ const GridView = ListView.extend({
     _getGridViewClasses(options): string {
         let classes = `controls-Grid controls-Grid_${options.style}`;
         if (GridLadderUtil.isSupportLadder(options.ladderProperties)) {
-            classes += ' controls-Grid_support-ladder';
+            classes += ` controls-Grid_support-ladder ${this._ladderOffsetSelector}`;
         }
 
         if (options.itemActionsPosition === 'outside' &&
@@ -562,7 +613,7 @@ const GridView = ListView.extend({
     },
 
     _resizeHandler(): void {
-        if (this._columnScrollViewController && this.isColumnScrollVisible()) {
+        if (this._options.columnScroll) {
             this._actualizeColumnScroll(this._options);
         }
     },

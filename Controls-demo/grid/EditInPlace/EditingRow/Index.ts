@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/grid/EditInPlace/EditingRow/Editing
 import {Memory} from 'Types/source';
 import {getPorts} from '../../DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/grid/EditInPlace/EditingRow/_rowEditor';
-import { IColumn } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 

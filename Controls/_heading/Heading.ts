@@ -27,7 +27,7 @@ export interface IHeadingOptions
  * Кликабельность заголовка зависит от {@link readOnly режима отображения}.
  *
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/content-managment/heading/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/text-and-styles/heading/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_heading.less переменные тем оформления}
  *
  * @class Controls/_heading/Heading
@@ -49,8 +49,6 @@ class Header extends Control<IHeadingOptions> implements ICaption, ITooltip, IFo
     readonly '[Controls/_interface/ITooltip]': boolean = true;
     readonly '[Controls/_interface/IFontSize]': boolean = true;
     readonly '[Controls/_interface/IFontColorStyle]': boolean = true;
-
-    static _theme: string[] = ['Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {

@@ -42,13 +42,19 @@
    background-color: var(--detail_contrast_background-color_masterDetail);
 }
 
+// В firefox (В chrome, edge, ie11 всё ок) элементы с position: fixed начинают позиционироваться относительно элемента с will-change: translate.
+.ws-is-webkit {
+   .controls-MasterDetail_details-newDesign {
+      // Из-за ошибки в движке рендеринга в safari WebKit тень торчит из элемента с border-radius.
+      // https://bugs.webkit.org/show_bug.cgi?id=98538
+      will-change: translate;
+   }
+}
+
 .controls-MasterDetail_details-newDesign {
    border-radius: var(--border-radius_default_block) var(--border-radius_default_block) 0 0;
    box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
    overflow: hidden;
-   // Из-за ошибки в движке рендеринга в safari WebKit тень торчит из элемента с border-radius.
-   // https://bugs.webkit.org/show_bug.cgi?id=98538
-   will-change: translate;
 }
 
 .controls-MasterDetail_resizing-line {

@@ -6,7 +6,7 @@
  * @default undefined
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [5-7]">
  * <!-- WML -->
  * <Controls.list:View source="{{_viewSource}}">
  *    <ws:itemTemplate>
@@ -26,14 +26,13 @@ export default interface IContentTemplateOptions {
 
    /**
     * @name Controls/_list/interface/IContentTemplate#contentTemplate
-    * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий содержимое элемента.
+    * @cfg {String|TemplateFunction|undefined} Пользовательский шаблон, описывающий содержимое элемента.
     * @markdown
     * @remark
     * В области видимости шаблона доступны переменные **item** и **itemActionsTemplate**
     * 
     * Также в области видимости шаблона есть переменная **itemActionsTemplate**, с помощью которой можно отобразить панель {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи} в пользовательском шаблоне. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, что показано в примере № 4.
     * Переменная **item** позволяет получить доступ к свойству **contents** — это объект, который содержит данные обрабатываемого элемента.
-    * Переменная **item.getLevel()** позволяет получить доступ к функции, которая возвращает уровень вложенности отосительно корня.
     * 
     * Переменная **itemActionsTemplate** позволяет отобразить панель {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи} в пользовательском шаблоне. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, что показано в примере № 4.
     * 

@@ -83,7 +83,7 @@ describe('Controls/grid_clean/GridView', () => {
         });
 
         describe('._getGridTemplateColumns()', () => {
-            it('shouldn\'t add actions column if list is empty', () => {
+            it('should add actions column if list is empty', () => {
                 const columns = [{}, {}];
                 options.columns = columns;
                 options.multiSelectVisibility = 'hidden';
@@ -93,7 +93,7 @@ describe('Controls/grid_clean/GridView', () => {
 
                 mockListViewModel.getCount = () => 0;
                 mockListViewModel.getColumnsConfig = () => columns;
-                assert.equal(gridView._getGridTemplateColumns(options), 'grid-template-columns: 1fr 1fr;');
+                assert.equal(gridView._getGridTemplateColumns(options), 'grid-template-columns: 1fr 1fr 0px;');
             });
 
             it('should add actions column if list in not empty', () => {
@@ -212,24 +212,70 @@ describe('Controls/grid_clean/GridView', () => {
         });
     });
 
+    describe('ladder offset style', () => {
+        it('_getLadderTopOffsetStyles', () => {
+            const options = {
+                columns: [{}]
+            };
+            const gridView = new GridView(options);
+            gridView._listModel = {
+                getResultsPosition: () => 'top'
+            };
+            gridView._createGuid = () => 'guid';
+            gridView._container = {
+                getElementsByClassName: (className) => {
+                    if (className === 'controls-Grid__header') {
+                        return [{getComputedStyle: () => '', getBoundingClientRect: () => ({height: 100}) }];
+                    }
+                    if (className === 'controls-Grid__results') {
+                        return [{getComputedStyle: () => '', getBoundingClientRect: () => ({height: 50}) }];
+                    }
+                }
+            };
+            gridView.saveOptions(options);
+            gridView._beforeMount(options)
+            const expectedStyle = '.controls-GridView__ladderOffset-guid .controls-Grid__row-cell__ladder-spacing_withHeader_withResults {' +
+                                    'top: calc(var(--item_line-height_l_grid) + 150px) !important;' +
+                                    '}' +
+                                    '.controls-GridView__ladderOffset-guid .controls-Grid__row-cell__ladder-spacing_withHeader_withResults_withGroup {' +
+                                    'top: calc(var(--item_line-height_l_grid) + var(--grouping_height_list) + 150px) !important;' +
+                                    '}';
+            assert.equal(gridView._getLadderTopOffsetStyles(), expectedStyle);
+        });
+    });
+
     describe('Header', () => {
-        it('update header visibility', () => {
+        let headerVisibility;
+        let colspanGroup;
+        let gridView;
+
+        beforeEach(() => {
+            headerVisibility = false;
+            colspanGroup = false;
             const options = {
                 headerVisibility: 'hasdata'
             };
-            const gridView = new GridView(options);
+            gridView = new GridView(options);
             gridView.saveOptions(options);
-
-            let visibility;
             gridView._listModel = {
                 setHeaderVisibility: (value) => {
-                    visibility = value;
+                    headerVisibility = value;
+                },
+                setColspanGroup: (value) => {
+                    colspanGroup = value;
                 }
             };
+        });
 
+        it('update header visibility', () => {
             const newVisibility = 'visible';
             gridView._beforeUpdate({headerVisibility: newVisibility});
-            assert.equal(visibility, newVisibility);
+            assert.equal(headerVisibility, newVisibility);
+        });
+
+        it('update colspanGroup', () => {
+            gridView._beforeUpdate({});
+            assert.equal(colspanGroup, true);
         });
     });
 });

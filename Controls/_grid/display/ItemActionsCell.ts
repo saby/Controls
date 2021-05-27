@@ -34,7 +34,7 @@ export default class ItemActionsCell<T> extends Cell<T, Row<T>> implements IItem
     }
 
     shouldDisplayItemActions(): boolean {
-        return !!this._$owner.DisplayItemActions;
+        return !!this._$owner.DisplayItemActions && (this._$owner.hasVisibleActions() || this._$owner.isEditing());
     }
 }
 

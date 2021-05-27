@@ -36,11 +36,15 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
         this._resultHandler = this._resultHandler.bind(this);
         this._closeHandler = this._closeHandler.bind(this);
         this._debouncedAction = debounce(this._debouncedAction, 10);
-        this._calmTimer = new CalmTimer();
+        this._calmTimer = new CalmTimer((delay, event) => {
+            if (!this._isPopupOpened()) {
+                this._debouncedAction('_open', [event]);
+            }
+        });
     }
 
     protected _beforeUnmount(): void {
-        this._calmTimer.resetTimeOut();
+        this._calmTimer.stop();
     }
 
     /**
@@ -155,7 +159,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
 
     protected _contentMouseleaveHandler(event: SyntheticEvent<MouseEvent>): void {
         if (!this._options.readOnly && (this._options.trigger === 'hover' || this._options.trigger === 'hoverAndClick')) {
-            this._calmTimer.resetTimeOut();
+            this._calmTimer.stop();
             if (this._isPopupOpened()) {
                 this._debouncedAction('_close', [event]);
             } else {
@@ -166,12 +170,9 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
 
     protected _contentMousemoveHandler(event: SyntheticEvent<MouseEvent>): void {
         if (!this._options.readOnly && (this._options.trigger === 'hover' || this._options.trigger === 'hoverAndClick')) {
-            const callback = () => {
-                if (!this._isPopupOpened()) {
-                    this._debouncedAction('_open', [event]);
-                }
-            };
-            this._calmTimer.start(callback.bind(this), CALM_DELAY);
+            // Устанавливаем старое значение таймера, так при небольших значениях, окно может открыться когда этого не нужно
+            // https://online.sbis.ru/opendoc.html?guid=55ca4037-ae40-44f4-a10f-ac93ddf990b1
+            this._calmTimer.start(CALM_DELAY, event);
         }
     }
 

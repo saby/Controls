@@ -4,7 +4,5 @@ import * as controlTemplate from 'wml!Controls-demo/Scroll/ScrollbarVisible/Temp
 export default class ScrollbarVisibleDemoControl extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Scroll/ScrollbarVisible/Style'];
 }
