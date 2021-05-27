@@ -378,13 +378,17 @@ export default class Application extends Control<IApplication> {
             content: 'width=device-width, initial-scale=1.0, user-scalable=no'
          });
          this._bodyClassesState.adaptive = true;
-         //Подписка на 'touchmove' необходима для отключения ресайза в адаптивном режиме.
-         //https://stackoverflow.com/questions/37808180/disable-viewport-zooming-ios-10-safari
-         document.addEventListener('touchmove', function (event) {
-            if (event.scale !== 1) {
-               event.preventDefault()
-            }
-         }, { passive: false })
+         // Подписка на 'touchmove' необходима для отключения ресайза в адаптивном режиме.
+         // https://stackoverflow.com/questions/37808180/disable-viewport-zooming-ios-10-safari
+
+         if (constants.isBrowserPlatform) {
+            document.addEventListener('touchmove', (event) => {
+               // event.scale === undefined в эмуляторе.
+               if (event.scale !== undefined && event.scale !== 1) {
+                  event.preventDefault();
+               }
+            }, { passive: false });
+         }
       } else {
          this._bodyClassesState.adaptive = false;
       }
