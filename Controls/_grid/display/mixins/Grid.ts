@@ -228,6 +228,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 multiSelectVisibility: this._$multiSelectVisibility,
                 resultsTemplate: this._$resultsTemplate,
                 backgroundStyle: this._$backgroundStyle,
+                columnSeparatorSize: this._$columnSeparatorSize,
                 resultsColspanCallback: this._$resultsColspanCallback
             });
         }
@@ -468,7 +469,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _initializeResults(options: IOptions): void {
-        const resultsRowClass = this.getResultsRowClass();
+        const resultsRowClass = this.getResultsConstructor();
         this._$results = new resultsRowClass({
             owner: this,
             multiSelectVisibility: options.multiSelectVisibility,
@@ -477,6 +478,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             rowTemplateOptions: {},
             metaResults: this.getMetaResults(),
             backgroundStyle: options.backgroundStyle,
+            columnSeparatorSize: options.columnSeparatorSize,
             colspanCallback: options.resultsColspanCallback
         });
     }
@@ -500,10 +502,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             if (collectionItem instanceof DataRow) {
                 collectionItem.updateContentsVersion();
             }
-        })
+        });
     }
 
-    getResultsRowClass() {
+    getResultsConstructor(): typeof ResultsRow {
         return ResultsRow;
     }
 
@@ -521,7 +523,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             return this._$headerModel.getRows().indexOf(row);
         } else if (row instanceof HeaderRow) {
             return 0;
-        } else if (row instanceof this.getResultsRowClass()) {
+        } else if (row instanceof this.getResultsConstructor()) {
             let index = getHeaderOffset();
             if (this.getResultsPosition() !== 'top') {
                 index += this.getCount();
