@@ -5099,10 +5099,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _onCheckBoxClick(e: SyntheticEvent, item: CollectionItem<Model>, readOnly: boolean): void {
         const contents = _private.getPlainItemContents(item);
-        const selectionController = _private.getSelectionController(this);
         const key = contents.getKey();
 
         if (!readOnly) {
+            const selectionController = _private.getSelectionController(this);
+
             let newSelection;
 
             if (e.nativeEvent && e.nativeEvent.shiftKey) {
