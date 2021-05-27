@@ -1,6 +1,6 @@
 <div>
     <div class="{{item.get('icon')}} icon-small
-            ControlsDemo-TabsButtons__iconLeft controls-icon_style-{{item.get('iconStyle')}}_theme-{{_options.theme}}"></div>
+            ControlsDemo-TabsButtons__iconLeft controls-icon_style-{{item.get('iconStyle')}}"></div>
     <ws:if data='{{counter}}'>
         <div style="display: inline-flex">{{counter}}</div>
     </ws:if>

@@ -55,8 +55,6 @@ class Cut extends Control<ICutOptions> implements IBackgroundStyle, IExpandable 
         return expanded ? null : lines;
     }
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static getOptionTypes(): object {
         return {
             lineHeight: descriptor(String),

@@ -10,8 +10,6 @@ class Range extends Control<IControlOptions> {
             message: `This field ${fieldName} is required`
         });
     }
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

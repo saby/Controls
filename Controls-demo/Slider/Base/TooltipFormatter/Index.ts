@@ -11,8 +11,6 @@ class TooltipFormatter extends Control<IControlOptions> {
     protected _beforeMount(): void {
         this._value = 30;
     }
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

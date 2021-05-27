@@ -2,7 +2,7 @@
     <ws:for data="index, size in _sizes">
         <div class="{{size}}-container" style="border-bottom: 1px solid #000}}">
             <h2>{{size}} font-size</h2>
-            <div class="controlsDemo__flex controlsDemo__flex-jc-sb controls-fontsize-{{size}}_theme-default" style="justify-content: space-around">
+            <div class="controlsDemo__flex controlsDemo__flex-jc-sb controls-fontsize-{{size}}" style="justify-content: space-around">
                 <div>
                     <h3>Numbers</h3>
                     <div class="controlsDemo__flex">

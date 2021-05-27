@@ -223,6 +223,7 @@ export default class ColumnScroll {
                         this._columnScroll.updateSizes(() => {
                             this._options = this._updateOptions(options);
                             updateDragScroll();
+                            updateScrollBar();
                             resolve('updated');
                         }, true);
 
@@ -233,23 +234,24 @@ export default class ColumnScroll {
                         // Создание columnScroll на beforeUpdate невозможно, т.к. контроллер создается только по мере необходимости.
                         resolve('updated' );
                     } else {
+                        this._columnScroll.toggleTransform(false);
                         const newContentSize = options.containers.content.scrollWidth;
                         const newContainerSize = options.isFullGridSupport ? options.containers.content.offsetWidth : options.containers.wrapper.offsetWidth;
                         const actualSizes = this.getSizes();
-
                         const isResized = actualSizes.containerSize !== newContainerSize || actualSizes.contentSize !== newContentSize;
+                        this._columnScroll.toggleTransform(true);
 
                         if (isResized) {
                             // Смена колонок может не вызвать событие resize на обёртке грида(ColumnScroll), если общая ширина колонок до обновления и после одинакова.
                             this._columnScroll.updateSizes(() => {
-                                resolve('updated');
                                 updateDragScroll();
+                                updateScrollBar();
+                                resolve('updated');
                             });
                         } else {
                             resolve('actual');
                         }
                     }
-                    updateScrollBar();
             }
         } else {
             if (!this._columnScroll) {
@@ -316,11 +318,12 @@ export default class ColumnScroll {
             stickyLadderCellsCount: this._options.stickyLadderCellsCount,
             isEmptyTemplateShown: options.needShowEmptyTemplate,
             getFixedPartWidth: () => {
-                if (!options.containers.header) {
+                const header = this._header || options.containers.header;
+                if (!header) {
                     return 0;
                 }
                 // Находим последнюю фиксированную ячейку заголовка / результата
-                const fixedElements = options.containers.header.querySelectorAll(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`);
+                const fixedElements = header.querySelectorAll(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`);
                 const lastFixedCell = fixedElements[fixedElements.length - 1] as HTMLElement;
 
                 // Ширина фиксированной части должна учитывать отступ таблицы от внешнего контейнера
@@ -376,6 +379,12 @@ export default class ColumnScroll {
         return this._columnScroll.getShadowClasses(position, {
             needBottomPadding: options.needBottomPadding
         });
+    }
+
+    setIsEmptyTemplateShown(newState): void {
+        if (this._columnScroll) {
+            this._columnScroll.setIsEmptyTemplateShown(newState);
+        }
     }
 
     scrollToElementIfHidden(columnRect: DOMRect): void {

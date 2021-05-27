@@ -30,6 +30,7 @@ import InvisibleStrategy, { COUNT_INVISIBLE_ITEMS } from 'Controls/_tile/display
 import TileView from 'Controls/_tile/TileView';
 import ItemsView from 'Controls/_tile/ItemsView';
 import InvisibleItem from 'Controls/_tile/display/mixins/InvisibleItem';
+import TileItemActions, { ITileItemActionsOptions } from 'Controls/_tile/itemActions/Control';
 
 export {
     View,
@@ -50,6 +51,8 @@ export {
     InvisibleStrategy,
     COUNT_INVISIBLE_ITEMS,
     TTileItem,
+    TileItemActions,
+    ITileItemActionsOptions,
     getImageUrl,
     getImageSize,
     getImageClasses,

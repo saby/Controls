@@ -15,8 +15,6 @@ class DemoControl extends Control<IControlOptions> {
 
     protected _formatDate: Function = formatDate;
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default DemoControl;

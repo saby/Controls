@@ -32,7 +32,7 @@ export default class LookupBaseControllerClass {
 
     constructor(options: ILookupBaseControllerOptions) {
         this._options = options;
-        this._selectedKeys = options.selectedKeys ? options.selectedKeys.slice() : [];
+        this._setSelectedKeys(options.selectedKeys ? options.selectedKeys.slice() : []);
     }
 
     update(newOptions: ILookupBaseControllerOptions): Promise<RecordSet>|boolean {
@@ -202,6 +202,9 @@ export default class LookupBaseControllerClass {
     }
 
     private _setSelectedKeys(keys: Key[]): void {
+        if (keys.length > 1 && !this._options.multiSelect) {
+            Logger.error('Controls/lookup: передано несколько ключей в опции selectedKeys для поля с единичным выбором (опция multiSelect: false)');
+        }
         this._selectedKeys = keys;
     }
 

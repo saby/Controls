@@ -30,8 +30,6 @@ class ResizingLine extends Control<IControlOptions> {
     private static MIN_WIDTH: number = 100;
     private static MAX_WIDTH: number = 300;
 
-    static _theme: string[] = ['Controls/Classes'];
-
     private static _limit(value: number): number {
         return  Math.max(ResizingLine.MIN_WIDTH, Math.min(value, ResizingLine.MAX_WIDTH));
     }

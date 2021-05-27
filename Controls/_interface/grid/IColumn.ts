@@ -11,8 +11,8 @@ export type TColumns = IColumn[];
 /**
  * @typedef {String} TCellPaddingVariant
  * @description Возможные значения отступов внутри ячейки таблицы
- * @variant S Небольшой отступ.
- * @variant M Средний отступ.
+ * @variant s Небольшой отступ.
+ * @variant m Средний отступ.
  * @variant null Нулевой отступ.
  */
 export type TCellPaddingVariant = 'S' | 'M' | 'null';
@@ -288,7 +288,7 @@ export interface IColumn extends IColspanParams {
      * Для отображения строки итогов необходимо задать значение в опции {@link Controls/grid:View#resultsPosition resultsPosition}.
      * @example
      * <pre class="brush: html; highlight: [5,6,7,8,9,10,11]">
-     * <Controls.grid:View>
+     * <Controls.grid:View source="{{_source}}">
      *     <ws:columns>
      *         <ws:Array>
      *             <ws:Object displayProperty="Name">

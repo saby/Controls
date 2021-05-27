@@ -2,7 +2,7 @@
    <ws:partial attr:class="controls-Compatible_template" template="{{template}}" scope="{{...}}"/>
 </ws:if>
 <ws:else>
-   <div class="controls-Compatible controls-NotificationPopup">
+   <div class="controls_popupTemplate_theme-{{_options.theme}} controls-Compatible controls-NotificationPopup">
       <div class="controls-NotificationPopup__header {{closeButton ? 'controls-NotificationPopup__header-withCloseButton'}}">
          <ws:if data="{{headerTemplate}}">
             <ws:partial template="{{headerTemplate}}" scope="{{...}}"/>

@@ -6,6 +6,7 @@ import {default as IPopupTemplate, IPopupTemplateOptions} from "./interface/IPop
 import 'css!Controls/popupTemplate';
 
 export interface IStackTemplateOptions extends IControlOptions, IPopupTemplateOptions{
+    headerBackgroundStyle: string,
     maximizeButtonVisibility?: boolean;
     workspaceWidth?: number;
     headerBorderVisible?: boolean;
@@ -15,6 +16,7 @@ export interface IStackTemplateOptions extends IControlOptions, IPopupTemplateOp
     stackMinWidth?: number;
     stackMinimizedWidth?: number;
     stackWidth?: number;
+    rightPanelOptions?: object;
 
 }
 
@@ -107,6 +109,7 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
     static getDefaultOptions(): IStackTemplateOptions {
         return {
             headingFontSize: '3xl',
+            headerBackgroundStyle: 'unaccented',
             headingFontColorStyle: 'secondary',
             closeButtonVisibility: true,
             closeButtonViewMode: 'toolButton',
@@ -124,6 +127,19 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
       return StackTemplate.getDefaultOptions();
    }
 });
+
+/**
+ * @name Controls/_popupTemplate/Stack#headerBackgroundStyle
+ * @cfg {String} Определяет цвет фона шапки стекового окна.
+ * @variant default
+ * @variant unaccented
+ * @variant success
+ * @variant danger
+ * @default unaccented
+ * @demo Controls-demo/PopupTemplate/Stack/headerBackgroundStyle/Index
+ * @remark Данная опция определяет префикс стиля для настройки фона шапки стекового окна.
+ * На шапку будет установлен класс **.controls-StackTemplate&#95;&#95;top-area&#95;@{headerBackgroundStyle}**, который следует определить у себя в стилях.
+ */
 
 /**
  * @name Controls/_popupTemplate/Stack#bodyContentTemplate
@@ -155,7 +171,7 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
  *
  * 1. класс, добавляющий фон для шапки:
  * <pre class="brush: css">
- * controls-StackTemplate__top-area-background
+ * controls-StackTemplate__top-area_default
  * </pre>
  * 2. класс, добавляющий нижнюю границу для шапки:
  * <pre class="brush: css">
@@ -210,6 +226,11 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
  *    ...
  * }
  * </pre>
+ */
+
+/**
+ * @name Controls/_popupTemplate/Stack#rightPanelOptions
+ * @cfg {Object} Опции правой панели.
  */
 
 export default StackTemplate;

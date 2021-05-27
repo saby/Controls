@@ -13,8 +13,6 @@ class JumpingLabel extends Control<IControlOptions> {
         filter: (item) => Boolean(item)
     });
     protected _template: TemplateFunction = controlTemplate;
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

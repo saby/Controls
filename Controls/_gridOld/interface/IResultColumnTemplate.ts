@@ -13,13 +13,13 @@ import {TFontWeight} from 'Controls/_interface/IFontWeight';
  *    <ws:columns>
  *       <ws:Array>
  *          <ws:Object displayProperty="Name">
- *             <ws:resultsTemplate>
+ *             <ws:resultTemplate>
  *                <ws:partial template="Controls/grid:ResultColumnTemplate">
- *                    <div title="{{resultsTemplate.results.get('Name')}}">
- *                       {{resultsTemplate.results.get('Name')}}
+ *                    <div title="{{resultTemplate.results.get('Name')}}">
+ *                       {{resultTemplate.results.get('Name')}}
  *                    </div>
  *                </ws:partial>
- *             </ws:resultsTemplate>
+ *             </ws:resultTemplate>
  *          </ws:Object>
  *       </ws:Array>
  *    </ws:columns>
@@ -33,7 +33,7 @@ export default interface IResultColumnTemplateOptions {
      * @cfg {String|TemplateFunction} Пользовательский шаблон для отображения содержимого ячейки итогов.
      * @remark
      * В области видимости шаблона доступен объект **results** - итогов, которые были переданы в метаданных RecordSet.
-     * Результаты должны быть переданы в виде {@link Types/entity/Model}.
+     * Результаты должны быть переданы в виде {@link Types/entity:Model}.
      * Если шаблон ячейки итогов или контентная опция не заданы, будут выведены итоги из метаданных по ключу, соответствующему displayProperty для данной колонки.
      * @markdown
      * @example
@@ -44,13 +44,13 @@ export default interface IResultColumnTemplateOptions {
      *    <ws:columns>
      *       <ws:Array>
      *          <ws:Object displayProperty="Name">
-     *             <ws:resultsTemplate>
+     *             <ws:resultTemplate>
      *                <ws:partial template="Controls/grid:ResultColumnTemplate">
-     *                    <div title="{{resultsTemplate.results.get('Name')}}">
-     *                       {{resultsTemplate.results.get('Name')}}
+     *                    <div title="{{resultTemplate.results.get('Name')}}">
+     *                       {{resultTemplate.results.get('Name')}}
      *                    </div>
      *                </ws:partial>
-     *             </ws:resultsTemplate>
+     *             </ws:resultTemplate>
      *          </ws:Object>
      *       </ws:Array>
      *    </ws:columns>
@@ -64,9 +64,9 @@ export default interface IResultColumnTemplateOptions {
      *    <ws:columns>
      *       <ws:Array>
      *          <ws:Object displayProperty="Name">
-     *             <ws:resultsTemplate>
-     *                <ws:partial template="wml!file2" scope="{{resultsTemplate}}"/>
-     *             </ws:resultsTemplate>
+     *             <ws:resultTemplate>
+     *                <ws:partial template="wml!file2" scope="{{resultTemplate}}"/>
+     *             </ws:resultTemplate>
      *          </ws:Object>
      *       </ws:Array>
      *    </ws:columns>
@@ -76,7 +76,7 @@ export default interface IResultColumnTemplateOptions {
      * <pre class="brush: html;">
      * <!-- file2.wml -->
      * <ws:partial template="Controls/grid:ResultColumnTemplate">
-     *     <div title="{{resultsTemplate.results.get('Name')}}">
+     *     <div title="{{resultTemplate.results.get('Name')}}">
      *        {{results.get('Name')}}
      *     </div>
      * </ws:partial>
@@ -89,9 +89,9 @@ export default interface IResultColumnTemplateOptions {
      *    <ws:columns>
      *       <ws:Array>
      *          <ws:Object displayProperty="Name">
-     *             <ws:resultsTemplate>
+     *             <ws:resultTemplate>
      *                <ws:partial template="Controls/grid:ResultColumnTemplate" fontWeight="default" fontColorStyle="unaccented"/>
-     *             </ws:resultsTemplate>
+     *             </ws:resultTemplate>
      *          </ws:Object>
      *       </ws:Array>
      *    </ws:columns>
@@ -105,9 +105,9 @@ export default interface IResultColumnTemplateOptions {
      *    <ws:columns>
      *       <ws:Array>
      *          <ws:Object displayProperty="Name">
-     *             <ws:resultsTemplate>
+     *             <ws:resultTemplate>
      *                <ws:partial template="Controls/grid:ResultColumnTemplate" attr:class="controls-Grid__cell_spacing_money" />
-     *             </ws:resultsTemplate>
+     *             </ws:resultTemplate>
      *          </ws:Object>
      *       </ws:Array>
      *    </ws:columns>

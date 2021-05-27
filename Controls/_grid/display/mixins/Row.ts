@@ -43,6 +43,8 @@ export interface IOptions<T> extends IBaseOptions<T> {
     rowTemplate: TemplateFunction;
     rowTemplateOptions: object;
     columnSeparatorSize?: TColumnSeparatorSize;
+    colspanGroup?: boolean;
+    hasStickyGroup?: boolean;
 }
 
 export default abstract class Row<T> {
@@ -89,12 +91,13 @@ export default abstract class Row<T> {
         };
     }
 
-    getStickyHeaderMode(): string {
-        return this.isSticked() ? 'stackable' : 'notsticky';
+    getStickyHeaderMode(stickyCallback: Function): string {
+        return this.isSticked() ? 'stackable' :
+            (stickyCallback ? 'replaceable' : 'notsticky');
     }
 
-    getStickyHeaderPosition(): string {
-        return 'topbottom';
+    getStickyHeaderPosition(stickyCallback: Function): string {
+        return stickyCallback ? 'top' : 'topbottom';
     }
 
     //region Аспект "Стилевое оформление. Классы и стили строки"
@@ -315,6 +318,10 @@ export default abstract class Row<T> {
     setBackgroundStyle(backgroundStyle: string): void {
         this._$backgroundStyle = backgroundStyle;
         this._reinitializeColumns();
+    }
+
+    getBackgroundStyle(): string {
+        return this._$backgroundStyle;
     }
 
     /**

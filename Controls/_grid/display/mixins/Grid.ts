@@ -126,6 +126,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$emptyTemplate: TemplateFunction;
     protected _$sorting: Array<{[p: string]: string}>;
     protected _$emptyTemplateColumns: IEmptyTemplateColumn[];
+    protected _$colspanGroup: boolean;
+    protected _$backgroundStyle: string;
 
     protected _isFullGridSupport: boolean = isFullGridSupport();
     protected _footer: FooterRow<S>;
@@ -172,6 +174,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (!this._$headerModel && this._headerIsVisible(this._$header)) {
             this._initializeHeader({
                 columns: this._$columns,
+                backgroundStyle: this._$backgroundStyle,
+                columnSeparatorSize: this._$columnSeparatorSize,
                 owner: this,
                 header: this._$header,
                 sorting: this._$sorting,
@@ -191,6 +195,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         return this._$emptyGridRow;
     }
 
+    setEmptyTemplateOptions(options: object): void {
+        this.getEmptyGridRow()?.setRowTemplateOptions(options);
+    }
+
     setFooter(options: IOptions): void {
         const footerModel = this.getFooter();
 
@@ -202,6 +210,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 multiSelectVisibility: this._$multiSelectVisibility,
                 footerTemplate: options.footerTemplate,
                 footer: options.footer,
+                backgroundStyle: this._$backgroundStyle,
                 columnSeparatorSize: this._$columnSeparatorSize
             });
         }
@@ -215,6 +224,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 columns: this._$columns,
                 multiSelectVisibility: this._$multiSelectVisibility,
                 resultsTemplate: this._$resultsTemplate,
+                backgroundStyle: this._$backgroundStyle,
                 resultsColspanCallback: this._$resultsColspanCallback
             });
         }
@@ -238,6 +248,14 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             results.setColspanCallback(resultsColspanCallback);
         }
         this._nextVersion();
+    }
+
+    setColspanGroup(colspanGroup: boolean): void {
+        if (this._$colspanGroup !== colspanGroup) {
+            this._$colspanGroup = colspanGroup;
+            this._updateItemsProperty('setColspanGroup', this._$colspanGroup, '[Controls/_display/grid/GroupRow]');
+            this._nextVersion();
+        }
     }
 
     getColspanCallback(): TColspanCallback {
@@ -298,6 +316,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         // Например, задав columns=[{},{}] и footerTemplate=function(){}, то должен создаваться класс Row с опциями
         // columnsConfig=[{}, {}] и columns=[{ template: function(){} }].
         this.getFooter()?.resetColumns();
+        this.getEmptyGridRow()?.resetColumns();
     }
 
     setLadderProperties(ladderProperties: string[]) {
@@ -355,6 +374,16 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             rowTemplateOptions: this._$emptyTemplateOptions,
             multiSelectVisibility: this._$multiSelectVisibility
         });
+    }
+
+    setEmptyTemplateColumns(emptyTemplateColumns): void {
+        this._$emptyTemplateColumns = emptyTemplateColumns;
+        this._nextVersion();
+        if (this._$emptyGridRow) {
+            this._$emptyGridRow.setColumns(emptyTemplateColumns);
+        } else {
+            this._initializeEmptyRow();
+        }
     }
 
     protected _prepareLadder(ladderProperties: string[], columns: TColumns): void {
@@ -539,7 +568,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     hasItemActionsSeparatedCell(): boolean {
-        return !!this.getColumnsConfig() && this.hasColumnScroll() && this._$itemActionsPosition !== 'custom' && !!this.getCount();
+        return !!this.getColumnsConfig() && this.hasColumnScroll() && this._$itemActionsPosition !== 'custom';
     }
 
     // FIXME: Временное решение - аналог RowEditor из старых таблиц(редактирование во всю строку).
@@ -593,6 +622,7 @@ Object.assign(Grid.prototype, {
     _$resultsColspanCallback: null,
     _$columnSeparatorSize: null,
     _$resultsTemplate: null,
+    _$colspanGroup: true,
     _$columnScroll: false,
     _$stickyColumnsCount: 1,
     _$sorting: null,

@@ -50,8 +50,6 @@ class Header extends Control<IHeadingOptions> implements ICaption, ITooltip, IFo
     readonly '[Controls/_interface/IFontSize]': boolean = true;
     readonly '[Controls/_interface/IFontColorStyle]': boolean = true;
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static getDefaultOptions(): object {
         return {
             fontSize: 'l',

@@ -1,0 +1,16 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">allowEmptySelection=false</div>
+        <Controls.toggle:ButtonGroup items="{{_items}}"
+                                     bind:selectedKey="_selectedKey1"
+                                     allowEmptySelection="{{false}}"
+                                     attr:class="ControlsDemo-ButtonGroup__twoButtons"/>
+    </div>
+    <div class="controlsDemo__cell controlsDemo_fixedWidth500">
+        <div class="controls-text-label">allowEmptySelection=true</div>
+        <Controls.toggle:ButtonGroup items="{{_items}}"
+                                     bind:selectedKey="_selectedKey2"
+                                     allowEmptySelection="{{true}}"
+                                     attr:class="ControlsDemo-ButtonGroup__muiltyButtons"/>
+    </div>
+</div>

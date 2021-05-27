@@ -8,8 +8,7 @@ import * as randomId from 'Core/helpers/Number/randomId';
 import {constants} from 'Env/Env';
 import {Logger} from 'UI/Utils';
 import {Model} from 'Types/entity';
-import {IItemPadding, IList, ListView, } from 'Controls/list';
-import {ViewTemplate as ColumnsViewTemplate, ItemContainerGetter} from 'Controls/columns';
+import {IItemPadding, IList, ListView} from 'Controls/list';
 import {SingleColumnStrategy, MultiColumnStrategy} from 'Controls/marker';
 import {isEqual} from 'Types/object';
 import {CrudEntityKey, DataSet, LOCAL_MOVE_POSITION} from 'Types/source';
@@ -19,13 +18,10 @@ import {
     IHierarchyOptions,
     INavigationOptions,
     INavigationOptionValue,
-    INavigationOptionValue as INavigation,
     INavigationPageSourceConfig,
-    INavigationPositionSourceConfig as IPositionSourceConfig,
-    INavigationSourceConfig,
     ISelectionObject, ISortingOptions, ISourceOptions,
     TKey,
-    IGridControl
+    IGridControl, INavigationPositionSourceConfig
 } from 'Controls/interface';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {RecordSet} from 'Types/collection';
@@ -42,7 +38,7 @@ import 'css!Controls/tile';
 import 'css!Controls/explorer';
 import { isFullGridSupport } from 'Controls/display';
 import PathController from 'Controls/_explorer/PathController';
-import {Object as EventObject} from "Env/Event";
+import {Object as EventObject} from 'Env/Event';
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -135,7 +131,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     protected _markerStrategy: string;
     protected _viewMode: TExplorerViewMode;
     protected _viewModelConstructor: string;
-    private _navigation: object;
+    private _navigation: INavigationOptionValue<any>;
     protected _itemTemplate: TemplateFunction;
     protected _groupTemplate: TemplateFunction;
     protected _notifyHandler: typeof EventUtils.tmplNotify = EventUtils.tmplNotify;
@@ -189,12 +185,6 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _isGoingFront: boolean;
 
     protected _beforeMount(cfg: IExplorerOptions): Promise<void> {
-        if (cfg.useColumns) {
-            VIEW_NAMES.list = ColumnsViewTemplate;
-            MARKER_STRATEGY.list = MultiColumnStrategy;
-            ITEM_GETTER.list = ItemContainerGetter;
-            VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
-        }
         if (cfg.itemPadding) {
             this._itemPadding = cfg.itemPadding;
         }
@@ -208,7 +198,13 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._backgroundStyle = cfg.backgroundStyle;
         }
         if (cfg.header) {
-            this._header = cfg.viewMode === 'tile' ? undefined : cfg.header;
+            // нужно проставить и _header и _newHeader иначе здесь ниже в _setViewMode
+            // при _applyNewVisualOptions проставится this._newHeader в _header, т.к.
+            // они сейчас сравниваются на равенство
+            // TODO: Нужно отрефакторить эту логику. Сейчас заголовок нужен только
+            //  при viewMode === 'search' || 'table' + на него завязана проверка видимости
+            //  шапки с хлебными крошками в PathWrapper, но эту проверку можно также на viewMode сделать
+            this._newHeader = this._header = cfg.viewMode === 'tile' ? undefined : cfg.header;
         }
 
         this._itemActionsPosition = cfg.itemActionsPosition;
@@ -438,13 +434,10 @@ export default class Explorer extends Control<IExplorerOptions> {
             // Перед проваливанием запомним значение курсора записи, т.к. в крошках могут его не прислать
             const currRootInfo = this._restoredMarkedKeys[this._getRoot(this._options.root)];
             if (currRootInfo && this._isCursorNavigation(this._navigation)) {
-                currRootInfo.cursorPosition = this._getCursorPositionFor(item, this._navigation);
-            }
-
-            this._setRoot(item.getKey());
-            // При search не должны сбрасывать маркер, так как он встанет на папку
-            if (this._options.searchNavigationMode !== 'expand') {
-                this._isGoingFront = true;
+                const cursorValue = this._getCursorValue(item as Model, this._navigation);
+                if (cursorValue) {
+                    currRootInfo.cursorPosition = cursorValue;
+                }
             }
 
             // При проваливании нужно сбросить восстановленное значение курсора
@@ -454,6 +447,12 @@ export default class Explorer extends Control<IExplorerOptions> {
                 this._restoredCursor === this._navigation.sourceConfig.position
             ) {
                 this._navigation.sourceConfig.position = null;
+            }
+
+            this._setRoot(item.getKey());
+            // При search не должны сбрасывать маркер, так как он встанет на папку
+            if (this._options.searchNavigationMode !== 'expand') {
+                this._isGoingFront = true;
             }
         };
 
@@ -682,6 +681,11 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     // endregion remover
 
+    // TODO удалить по https://online.sbis.ru/opendoc.html?guid=2ad525f0-2b48-4108-9a03-b2f9323ebee2
+    _clearSelection(): void {
+        this._children.treeControl.clearSelection();
+    }
+
     /**
      * Возвращает идентификатор текущего корневого узла
      */
@@ -728,10 +732,15 @@ export default class Explorer extends Control<IExplorerOptions> {
         navigation: INavigationOptionValue<INavigationPageSourceConfig>
     ): void {
 
-        const store = this._restoredMarkedKeys || {
-            [root]: {markedKey: null},
-            [topRoot]: {markedKey: null}
-        } as IMarkedKeysStore;
+        const store = this._restoredMarkedKeys || {} as IMarkedKeysStore;
+
+        if (!store[root]) {
+            store[root] = {markedKey: null};
+        }
+
+        if (!store[topRoot]) {
+            store[topRoot] = {markedKey: null};
+        }
 
         // Если хлебных крошек нет, то дальше идти нет смысла
         if (!breadcrumbs?.length) {
@@ -753,10 +762,11 @@ export default class Explorer extends Control<IExplorerOptions> {
             if (store[parentKey]) {
                 store[parentKey].markedKey = crumbKey;
 
-                // Берем значение курсора из крошки только в том случае если он еще не выставлен
-                // Курсор для текущего рута выставляется при проваливании
-                if (this._isCursorNavigation(navigation) && !store[parentKey].cursorPosition) {
-                    store[parentKey].cursorPosition = this._getCursorPositionFor(crumb, navigation);
+                if (this._isCursorNavigation(navigation)) {
+                    const cursorValue = this._getCursorValue(crumb, navigation);
+                    if (cursorValue) {
+                        store[parentKey].cursorPosition = cursorValue;
+                    }
                 }
             }
         });
@@ -807,6 +817,14 @@ export default class Explorer extends Control<IExplorerOptions> {
             if (this._children.treeControl.isAllSelected()) {
                 this._children.treeControl.clearSelection();
             }
+
+            if (
+                this._isCursorNavigation(this._navigation) &&
+                this._restoredCursor === this._navigation.sourceConfig.position
+            ) {
+                this._navigation.sourceConfig.position = null;
+            }
+
             this._isGoingBack = false;
         }
 
@@ -872,6 +890,10 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._setViewModePromise = this._loadTileViewMode(cfg).then(() => {
                 this._setViewModeSync(viewMode, cfg);
             });
+        } else if (viewMode === 'list' && cfg.useColumns) {
+            this._setViewModePromise = this._loadColumnsViewMode().then(() => {
+                this._setViewModeSync(viewMode, cfg);
+            });
         } else {
             this._setViewModePromise = Promise.resolve();
             this._setViewModeSync(viewMode, cfg);
@@ -893,7 +915,9 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._backgroundStyle = this._newBackgroundStyle;
             this._newBackgroundStyle = null;
         }
-        if (this._newHeader) {
+
+        // _newHeader может измениться на undefined при смене с табличного представления
+        if (this._newHeader !== this._header) {
             this._header = this._newHeader;
             this._newHeader = null;
         }
@@ -964,6 +988,17 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
     }
 
+    private _loadColumnsViewMode(): Promise<void> {
+        return import('Controls/columns').then((columns) => {
+            VIEW_NAMES.list = columns.ViewTemplate;
+            MARKER_STRATEGY.list = MultiColumnStrategy;
+            ITEM_GETTER.list = columns.ItemContainerGetter;
+            VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
+        }).catch((err) => {
+            Logger.error('Controls/_explorer/View: ' + err.message, this, err);
+        });
+    }
+
     private _loadOldViewMode(options: IExplorerOptions): Promise<void> {
         return new Promise((resolve) => {
             import('Controls/treeGridOld').then((treeGridOld) => {
@@ -999,27 +1034,39 @@ export default class Explorer extends Control<IExplorerOptions> {
             });
     }
 
-    private _isCursorNavigation(navigation: INavigation<INavigationSourceConfig>): boolean {
+    /**
+     * На основании настроек навигации определяет используется ли навигация по курсору.
+     */
+    private _isCursorNavigation(navigation: INavigationOptionValue<unknown>): boolean {
         return !!navigation && navigation.source === 'position';
     }
 
     /**
      * Собирает курсор для навигации относительно заданной записи.
      * @param item - запись, для которой нужно "собрать" курсор
-     * @param positionNavigation - конфигурация курсорной навигации
+     * @param navigation - конфигурация курсорной навигации
      */
-    private _getCursorPositionFor(
+    private _getCursorValue(
         item: Model,
-        positionNavigation: INavigation<IPositionSourceConfig>
+        navigation: INavigationOptionValue<INavigationPositionSourceConfig>
     ): unknown[] {
 
         const position: unknown[] = [];
-        const optField = positionNavigation.sourceConfig.field;
+        const optField = navigation.sourceConfig.field;
         const fields: string[] = (optField instanceof Array) ? optField : [optField];
 
+        let noData = true;
         fields.forEach((field) => {
-            position.push(item.get(field));
+            const fieldValue = item.get(field);
+
+            position.push(fieldValue);
+            noData = noData && fieldValue === undefined;
         });
+
+        // Если все поля курсора undefined, значит курсора нет
+        if (noData) {
+            return undefined;
+        }
 
         return position;
     }

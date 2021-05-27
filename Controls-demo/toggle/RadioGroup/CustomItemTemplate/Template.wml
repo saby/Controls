@@ -15,7 +15,7 @@
                     <ws:contentTemplate>
                         <div>
                             <div class="controls-fontsize-l
-                            {{contentTemplate.selected ? 'controls-text-secondary_theme-' + _options.theme}}">{{contentTemplate.item.title}}</div>
+                            {{contentTemplate.selected ? 'controls-text-secondary'}}">{{contentTemplate.item.title}}</div>
                             <p class="contract-radio__type__text">{{contentTemplate.item.text}}</p>
                         </div>
                     </ws:contentTemplate>

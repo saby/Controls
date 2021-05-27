@@ -31,6 +31,7 @@
 export default interface IHeaderContentOptions {
    /**
     * @cfg {String|TemplateFunction} Пользовательский шаблон для отображения содержимого ячейки шапки.
+    * @markdown
     * @remark
     * В области видимости шаблона доступен объект **column**. Через него можно получить доступ к свойству **config**, которое содержит конфигурацию {@link /docs/js/Controls/grid/IHeaderCell/ ячейки шапки}.
     * @example

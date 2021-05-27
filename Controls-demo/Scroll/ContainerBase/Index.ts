@@ -56,7 +56,5 @@ export default class ContainerBaseDemo extends Control<IControlOptions> {
         this._scrollLeftChanged = !this._scrollLeftChanged;
     }
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Scroll/ContainerBase/Style'];
 }

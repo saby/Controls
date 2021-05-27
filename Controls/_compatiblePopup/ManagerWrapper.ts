@@ -188,7 +188,10 @@ export default class ManagerWrapper extends Control<IControlOptions> {
    }
 
    closePopups(scrollContainer): void {
-      const items = this.getItems().clone();
+       /**
+        * Используем shallow клонирование, иначе на не vdom страницах пропадает target
+        */
+      const items = this.getItems().clone(true);
 
       items.forEach((item) => {
          // Если попап не следует за таргетом при скролле - закроем его.

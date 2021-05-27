@@ -183,6 +183,15 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     }
 
     protected _componentDidMount(options: IStickyHeaderOptions): void {
+        // Компонент иногда модифицирует стили до циклов синхронизации чтобы не было миганий. Из-за этого имеем
+        // следующую ошибку. Заголовок уничтожается, и на том же dom контейнере строится новый компонент.
+        // Несмотря на то, что _style === '', на дом элементе остаются стили от старого компонента.
+        // Если стили остались, то чистим их.
+        // TODO: После того как заменим инферно на реакт проблемы скорее не будет.
+        if (this._container.style.top || this._container.style.bottom) {
+            this._container.style.top = '';
+            this._container.style.bottom = '';
+        }
         if (!this._isStickyEnabled(options)) {
             return;
         }
@@ -440,10 +449,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
     get shadowVisibility(): SHADOW_VISIBILITY {
         return this._options.shadowVisibility;
-    }
-
-    get index(): number {
-        return this._index;
     }
 
     protected _onScrollStateChanged(scrollState: IScrollState, oldScrollState: IScrollState): void {
@@ -765,16 +770,16 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return `${position}: ${-coord}px;`;
     }
 
-    protected updateFixed(ids: number[], isShadowVisible: boolean): void {
+    protected updateFixed(ids: number[]): void {
         const isFixed: boolean = ids.indexOf(this._index) !== -1;
         if (this._isFixed !== isFixed) {
             if (!this._model) {
+                this._init();
                 // Модель еще не существует, значит заголвок только что создан и контроллер сказал
                 // заголовку что он зафиксирован. Обновим тень вручную что бы не было скачков.
-                //
                 fastUpdate.mutate(() => {
                     if (this._children.shadowBottom &&
-                        (this._isShadowVisibleByScrollState(POSITION.bottom) || isShadowVisible)) {
+                        this._isShadowVisibleByScrollState(POSITION.bottom)) {
                         const hiddenClass = this._isMobileIOS ? 'ws-invisible' : 'ws-hidden';
                         this._children.shadowBottom.classList.remove(hiddenClass);
                     }
@@ -927,7 +932,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return 1;
     }
 
-    static _theme: string[] = ['Controls/scroll', 'Controls/Classes'];
+    static _theme: string[] = ['Controls/scroll'];
 
 }
 /**

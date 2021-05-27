@@ -13,6 +13,7 @@ import {constants} from 'Env/Env';
 import {getItemSize} from './utils/imageUtil';
 import {createPositionInBounds} from './utils/createPosition';
 import 'css!Controls/tile';
+import CollectionItem from "Controls/_display/CollectionItem";
 
 const AVAILABLE_CONTAINER_VERTICAL_PADDINGS = ['null', 'default'];
 const AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS = ['null', 'default', 'xs', 's', 'm', 'l', 'xl', '2xl'];
@@ -119,6 +120,23 @@ export default class TileView extends ListView {
                 hoveredItem.setFixedPositionStyle(this._animatedItemTargetPosition);
             }
         }
+    }
+
+    protected _isPendingRedraw(event, changesType, action, newItems) {
+        return !this.isLoadingPercentsChanged(action) && super._isPendingRedraw(event, changesType, action, newItems);
+    }
+    /**
+     * TODO https://online.sbis.ru/opendoc.html?guid=b8b8bd83-acd7-44eb-a915-f664b350363b
+     *  Костыль, позволяющий определить, что мы загружаем файл и его прогрессбар изменяется
+     *  Это нужно, чтобы в ListView не вызывался resize при изменении прогрессбара и не сбрасывался hovered в плитке
+     */
+    isLoadingPercentsChanged(newItems: Array<CollectionItem<Model>>): boolean {
+        return newItems &&
+            newItems[0] &&
+            newItems[0].getContents() &&
+            newItems[0].getContents().getChanged &&
+            newItems[0].getContents().getChanged().indexOf('docviewLoadingPercent') !== -1 &&
+            newItems[0].getContents().getChanged().indexOf('docviewIsLoading') === -1;
     }
 
     _beforeUnmount(): void {
@@ -280,6 +298,13 @@ export default class TileView extends ListView {
     }
 
     private _setHoveredItem(self: TileView, item: TileCollectionItem, event: SyntheticEvent): void {
+        // Элемент могут удалить, но hover на нем успеет сработать. Проверяем что элемент точно еще есть в модели.
+        // Может прийти null, чтобы сбросить элемент
+        const hasItem = item === null || !!this._listModel.getItemBySourceItem(item.getContents());
+        if (!hasItem) {
+            return;
+        }
+
         if (
             !this._destroyed &&
             this._listModel && !this._listModel.destroyed &&

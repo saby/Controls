@@ -396,7 +396,7 @@ export interface IGridControl extends IList {
 
 /**
  * @typedef {String} Controls/_interface/grid/IGridControl/RowSeparatorSize
- * @description Допустимые значения для опции {@link rowSeparatorSize}.
+ * @description Значения для опции {@link rowSeparatorSize}.
  * @variant s Тонкая линия-разделитель.
  * @variant l Толстая линия-разделитель.
  */
@@ -425,7 +425,7 @@ export interface IGridControl extends IList {
 
 /**
  * @name Controls/_interface/grid/IGridControl#columnSeparatorSize
- * @cfg {Controls/_interface/grid/IGridControl/ColumnSeparatorSize.typedef} Толщина {@link /doc/platform/developmentapl/interface-development/controls/list/grid/line-separator/#column линии-разделителя колонок}.
+ * @cfg {Controls/_interface/grid/IGridControl/ColumnSeparatorSize.typedef} Толщина {@link /doc/platform/developmentapl/interface-development/controls/list/grid/separator/#column линии-разделителя колонок}.
  * @remark В значении null линия-разделители не отображается.
  * @default null
  * @see rowSeparatorSize
@@ -455,7 +455,7 @@ export interface IGridControl extends IList {
  * Для отображения строки итогов необходимо задать значение в опции {@link resultsPosition}.
  * @example
  * <pre class="brush: html;">
- * <Controls.grid:View>
+ * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
  *     <ws:resultsTemplate>
  *         <ws:partial template="Controls/grid:ResultsTemplate" scope="{{_options}}">
  *             <ws:contentTemplate>
@@ -479,7 +479,7 @@ export interface IGridControl extends IList {
 
 /**
  * @typedef {String} Controls/_interface/grid/IGridControl/ResultsPosition
- * @description Допустимые значения для опции {@link resultsPosition}.
+ * @description Значения для опции {@link resultsPosition}.
  * @variant top Над списком.
  * @variant bottom Под списком.
  */

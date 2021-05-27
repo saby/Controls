@@ -12,7 +12,6 @@ class SectorSize extends Control<IControlOptions> {
         {value: 20, className: '', title: 'Положительно'},
         {value: 80, className: '', title: 'В работе'}
     ];
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default SectorSize;

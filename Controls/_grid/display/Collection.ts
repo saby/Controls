@@ -135,6 +135,7 @@ export default class Collection<
             options.colspanCallback = this._$colspanCallback;
             options.columnSeparatorSize = this._$columnSeparatorSize;
             options.rowSeparatorSize = this._$rowSeparatorSize;
+            options.colspanGroup = this._$colspanGroup;
             options.hasStickyGroup = this._$hasStickyGroup;
             return superFactory.call(this, options);
         };

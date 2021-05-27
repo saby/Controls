@@ -187,3 +187,8 @@ Object.defineProperty(Suggest, 'defaultProps', {
 Suggest._private = _private;
 
 export default Suggest;
+
+/**
+ * @name @class Controls/_suggest/Selector#value
+ * @cfg {} Значение поля ввода. Для контрола {@link Controls/suggest:Selector} значение опции value можно только прочитать.
+ */
