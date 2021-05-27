@@ -44,7 +44,8 @@ define([
          it('should not initialise observer if fixation disabled', function () {
             const component = createComponent(StickyHeader, { mode: 'notsticky' });
             component._container = {
-               closest: () => true
+               closest: () => true,
+               className: ''
             };
             sinon.stub(component, '_createObserver');
             sinon.stub(component, '_updateComputedStyle');
@@ -58,7 +59,8 @@ define([
          it('should not create a observer if the control was created invisible, and must create after it has become visible', function () {
             const component = createComponent(StickyHeader, options);
             component._container = {
-               closest: () => true
+               closest: () => true,
+               className: ''
             };
             sinon.stub(component, '_createObserver');
             sinon.stub(component, '_updateComputedStyle');
@@ -77,7 +79,8 @@ define([
             component._container = {
                closest: (selector) => {
                   return selector !== '.ws-hidden';
-               }
+               },
+               className: ''
             };
             sinon.stub(component, '_createObserver');
             sinon.stub(component, '_updateComputedStyle');
@@ -132,7 +135,8 @@ define([
             component._container = {
                closest: (selector) => {
                   return selector !== '.ws-hidden';
-               }
+               },
+               className: ''
             };
             sinon.stub(component, '_createObserver');
             sinon.stub(component, '_updateComputedStyle');
@@ -174,7 +178,8 @@ define([
             component._container = {
                closest: (selector) => {
                   return selector !== '.ws-hidden';
-               }
+               },
+               className: ''
             };
             sinon.stub(component, '_createObserver');
             sinon.stub(component, '_updateComputedStyle');
@@ -406,7 +411,8 @@ define([
             const component = createComponent(StickyHeader, {offsetTop: 10});
             component._container = {
                closest: () => false,
-               offsetHeight: 10
+               offsetHeight: 10,
+               className: ''
             };
             assert.strictEqual(component.height, 10);
          });
