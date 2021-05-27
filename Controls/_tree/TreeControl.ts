@@ -628,12 +628,15 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             }
         }
 
-        if (newOptions.nodeFooterTemplate !== this._options.nodeFooterTemplate) {
-            viewModel.setNodeFooterTemplate(newOptions.nodeFooterTemplate);
-        }
-
+        // nodeFooterVisibilityCallback нужно проставлять раньше nodeFooterTemplate, т.к.
+        // изменение темплейта вызовет пересчет футеров, а в колбэке уже может быть изменено условие,
+        // поэтому нужно сперва пересчитаться по актуальному колбэку
         if (newOptions.nodeFooterVisibilityCallback !== this._options.nodeFooterVisibilityCallback) {
             viewModel.setNodeFooterVisibilityCallback(newOptions.nodeFooterVisibilityCallback);
+        }
+
+        if (newOptions.nodeFooterTemplate !== this._options.nodeFooterTemplate) {
+            viewModel.setNodeFooterTemplate(newOptions.nodeFooterTemplate);
         }
 
         // TODO: Удалить #rea_1179794968
