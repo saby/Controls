@@ -1,15 +1,40 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGridNew/NodeTypeProperty/HideTheOnlyGroup/HideTheOnlyGroup';
-import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
-import {data} from '../data/NodeTypePropertyData';
-import {TColspanCallbackResult} from 'Controls/grid';
 import {Model} from 'Types/entity';
+import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
+import {IColumn, TColspanCallbackResult} from 'Controls/grid';
+
+import {data} from '../data/NodeTypePropertyData';
+
+import * as Template from 'wml!Controls-demo/treeGridNew/NodeTypeProperty/HideTheOnlyGroup/HideTheOnlyGroup';
+import * as PriceColumnTemplate from 'wml!Controls-demo/treeGridNew/NodeTypeProperty/resources/PriceColumnTemplate';
+
+const columns: IColumn[] = [
+    {
+        displayProperty: 'title',
+        width: '300px',
+        groupNodeConfig: {
+            textAlign: 'center'
+        }
+    },
+    {
+        displayProperty: 'count',
+        width: '100px',
+        align: 'right'
+    },
+    {
+        displayProperty: 'price',
+        width: '100px',
+        align: 'right',
+        template: PriceColumnTemplate
+    }
+];
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
     protected _expandedItems: CrudEntityKey[] = [1];
     protected _collapsedItems: CrudEntityKey[] = undefined;
+    protected _columns: IColumn[] = columns;
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
@@ -19,7 +44,7 @@ export default class extends Control {
         });
     }
 
-    protected _colspanCallback(item: Model, column, columnIndex: number, isEditing: boolean): TColspanCallbackResult {
+    protected _colspanCallback(item: Model, column: IColumn, columnIndex: number, isEditing: boolean): TColspanCallbackResult {
         if (typeof item === 'string' || item.get('nodeType') === 'group') {
             return 'end';
         }

@@ -1,19 +1,65 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGridNew/NodeTypeProperty/ChildNodes/ChildNodes';
-import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
-import {extendedData as data} from '../data/NodeTypePropertyData';
-import {TColspanCallbackResult} from 'Controls/grid';
 import {Model} from 'Types/entity';
+import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
+import {IColumn, TColspanCallbackResult} from 'Controls/grid';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
-const NODE_TYPE_PROPERTY = 'nodeType';
+import {extendedData as data} from '../data/NodeTypePropertyData';
+
+import * as Template from 'wml!Controls-demo/treeGridNew/NodeTypeProperty/ChildNodes/ChildNodes';
+import * as PriceColumnTemplate from 'wml!Controls-demo/treeGridNew/NodeTypeProperty/resources/PriceColumnTemplate';
+
+const columns: IColumn[] = [
+    {
+        width: '300px',
+        displayProperty: 'title',
+        groupNodeConfig: {
+            textAlign: 'center'
+        }
+    },
+    {
+        width: '100px',
+        displayProperty: 'count',
+        align: 'right'
+    },
+    {
+        width: '100px',
+        displayProperty: 'price',
+        align: 'right',
+        template: PriceColumnTemplate
+    },
+    {
+        width: '100px',
+        displayProperty: 'price1',
+        align: 'right',
+        template: PriceColumnTemplate
+    },
+    {
+        width: '100px',
+        displayProperty: 'price2',
+        align: 'right',
+        template: PriceColumnTemplate
+    },
+    {
+        width: '50px',
+        displayProperty: 'tax',
+        align: 'right'
+    },
+    {
+        width: '100px',
+        displayProperty: 'price3',
+        align: 'right',
+        template: PriceColumnTemplate,
+        fontSize: 's'
+    }
+];
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _nodeTypeProperty: string = NODE_TYPE_PROPERTY;
-    protected _expandedItems: CrudEntityKey[] = [null];
-    protected _collapsedItems: CrudEntityKey[] = undefined;
+    protected _columns: IColumn[] = columns;
+    protected _expandedItems: CrudEntityKey[] = [];
+    protected _collapsedItems: CrudEntityKey[] = [];
 
     protected _navigation: INavigationOptionValue<INavigationSourceConfig> = {
         source: 'page',
@@ -30,17 +76,17 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
+            parentProperty: 'parent',
             keyProperty: 'id',
-            data,
-            filter: (): boolean => true
+            data
         });
     }
 
-    protected _colspanCallback(item: Model, column, columnIndex: number, isEditing: boolean): TColspanCallbackResult {
+    protected _colspanCallback(item: Model, column: IColumn, columnIndex: number, isEditing: boolean): TColspanCallbackResult {
         if (typeof item === 'string') {
             return 'end';
         }
-        if (item.get(NODE_TYPE_PROPERTY) === 'group' && columnIndex === 0) {
+        if (item.get('nodeType') === 'group' && columnIndex === 0) {
             return 3;
         }
         return 1;
