@@ -2478,7 +2478,7 @@ const _private = {
     updateIndicatorContainerHeight(self, viewRect: DOMRect, viewportRect: DOMRect): void {
         let top;
         let bottom;
-        if (self._isScrollShown || (self._needScrollCalculation && viewRect && viewportRect)) {
+        if (self._isScrollShown || viewRect && viewportRect) {
             top = Math.max(viewRect.y, viewportRect.y);
             bottom = Math.min(viewRect.y + viewRect.height, viewportRect.y + viewportRect.height);
         } else {
