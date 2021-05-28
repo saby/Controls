@@ -4185,7 +4185,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._moveController.updateOptions(_private.prepareMoverControllerOptions(this, newOptions));
         }
 
-        const oldViewModelConstructorChanged = newOptions.viewModelConstructor !== this._viewModelConstructor;
+        const oldViewModelConstructorChanged = newOptions.viewModelConstructor !== this._viewModelConstructor || !!newOptions._recreateModel;
 
         if (this._editInPlaceController && (oldViewModelConstructorChanged || loadStarted)) {
             if (this.isEditing()) {
