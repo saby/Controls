@@ -1,6 +1,6 @@
 /**
  * Шаблон, который используется для отображения строки {@link Controls/grid:View} без деления на ячейки в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/template/#item-editor-template режиме редактирования}.
- * @class Controls/_grid/interface/IitemEditorTemplate
+ * @class Controls/_gridOld/interface/IitemEditorTemplate
  * @author Авраменко А.С.
  * @example
  * <pre class="brush: html; highlight: [3-10]">
