@@ -82,7 +82,10 @@ const VIEW_MODEL_CONSTRUCTORS = {
     // Из-за того что для viewMode table и list были заданы одинаковые коллекции изменение набора колонок
     // с прикладной стороны в режиме list не приводило к прокидыванию новых колонок с модель и в итоге
     // таблица разъезжалась при переключении в режим table
-    list: 'Controls/display:Tree'
+    // list: 'Controls/display:Tree'
+    // UPD: правка описанная выше стреляет здесь
+    //  https://online.sbis.ru/opendoc.html?guid=1aa6d88b-bba6-4b99-a99b-d7fa702f5109
+    list: 'Controls/treeGrid:TreeGridCollection'
 };
 
 const EXPLORER_CONSTANTS = {
@@ -155,6 +158,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         pathController: PathController
     };
     protected _dataLoadCallback: Function;
+    protected _recreateModel: boolean = false;
 
     /**
      * Идентификатор узла данные которого отображаются в текущий момент.
@@ -247,6 +251,11 @@ export default class Explorer extends Control<IExplorerOptions> {
         // Проверяем именно root в опциях
         // https://online.sbis.ru/opendoc.html?guid=4b67d75e-1770-4e79-9629-d37ee767203b
         const isRootChanged = cfg.root !== this._options.root;
+
+        // т.к. модели для списка и таблицы одинаковые, то нужно принудительно пересоздать модель
+        // т.к. пока находимся в режиме списка набор колонок может обновиться
+        // https://online.sbis.ru/opendoc.html?guid=715e6fca-1982-4b17-a29f-4862ef3e03f3
+        this._recreateModel = cfg.viewMode === 'table' && this._options.viewMode === 'list';
 
         // Мы не должны ставить маркер до проваливания, т.к. это лишняя синхронизация.
         // Но если отменили проваливание, то нужно поставить маркер.
