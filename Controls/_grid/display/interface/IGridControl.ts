@@ -630,6 +630,11 @@ export interface IGridControl extends IList {
  */
 
 /**
+ * @cfg Если опция определена, то в таблице будет использоваться {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/template/#string расширенное редактирование строк}.
+ * @name Controls/_interface/grid/IGridControl#IitemEditorTemplate
+ */
+
+/**
  * @event Происходит при наведении курсора мыши на ячейку таблицы.
  * @name Controls/_interface/grid/IGridControl#hoveredCellChanged
  * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
