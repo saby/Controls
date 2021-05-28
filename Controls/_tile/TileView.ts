@@ -310,7 +310,8 @@ export default class TileView extends ListView {
             !this._destroyed &&
             this._listModel && !this._listModel.destroyed &&
             this._listModel.getHoveredItem() !== item &&
-            !this._listModel.getActiveItem()
+            !this._listModel.getActiveItem() &&
+            this._listModel.getTileScalingMode() !== 'none'
         ) {
             this._listModel.setHoveredItem(item);
         }
