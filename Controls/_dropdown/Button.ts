@@ -280,7 +280,8 @@ export default class Button extends BaseDropdown {
             fontSize: 'm',
             iconStyle: 'secondary',
             contrastBackground: false,
-            lazyItemsLoading: false
+            lazyItemsLoading: false,
+            isAutoItemClick: true
         };
     }
 }
