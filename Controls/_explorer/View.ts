@@ -861,14 +861,14 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
     }
 
-    private _setViewConfig(viewMode: TExplorerViewMode): void {
+    private _setViewConfig(viewMode: TExplorerViewMode, cfg: any): void {
         if (isFullGridSupport()) {
             this._viewName = VIEW_NAMES[viewMode];
         } else {
             this._viewName = VIEW_TABLE_NAMES[viewMode];
         }
         this._markerStrategy = MARKER_STRATEGY[viewMode];
-        this._viewModelConstructor = this._options.fix1182121846 && viewMode === 'list'
+        this._viewModelConstructor = cfg.fix1182121846 && viewMode === 'list'
             ? 'Controls/treeGrid:TreeGridCollection'
             : VIEW_MODEL_CONSTRUCTORS[viewMode];
         this._itemContainerGetter = ITEM_GETTER[viewMode];
@@ -876,7 +876,7 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     private _setViewModeSync(viewMode: TExplorerViewMode, cfg: IExplorerOptions): void {
         this._viewMode = viewMode;
-        this._setViewConfig(this._viewMode);
+        this._setViewConfig(this._viewMode, cfg);
         this._applyNewVisualOptions();
 
         if (this._isMounted) {
