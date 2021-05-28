@@ -283,6 +283,58 @@ describe('Controls/_itemActions/measurers/VerticalMeasurer', () => {
                 );
 
             });
+            it ('one column with more button', () => {
+                const fiveActions: IItemAction[] = [
+                    {
+                        id: 1,
+                        icon: 'icon-PhoneNull'
+                    },
+                    {
+                        id: 2,
+                        icon: 'icon-EmptyMessage'
+                    },
+                    {
+                        id: 3,
+                        icon: 'icon-EmptyMessage',
+                        parent: 2
+                    },
+                    {
+                        id: 4,
+                        icon: 'icon-EmptyMessage',
+                        parent: 2
+                    },
+                    {
+                        id: 5,
+                        icon: 'icon-EmptyMessage',
+                        parent: 2
+                    }
+                ];
+                const result = {
+                    itemActionsSize: 'm',
+                    itemActions: {
+                        all: fiveActions,
+                        showed: [
+                            {
+                                id: 1,
+                                icon: 'icon-PhoneNull'
+                            },
+                            {
+                                id: null,
+                                icon: 'icon-SwipeMenu',
+                                title: rk('Ещё'),
+                                isMenu: true,
+                                showType: 2
+                            }
+                        ]
+                    },
+                    paddingSize: 's',
+                    twoColumns: false
+                };
+                assert.deepOwnInclude(
+                    verticalMeasurer.getSwipeConfig(fiveActions, 150, 93, 'bottom', 'adaptive', 'default'),
+                    result
+                );
+            });
             it('two columns with more button', () => {
                 const fiveActions: IItemAction[] = [
                     {
