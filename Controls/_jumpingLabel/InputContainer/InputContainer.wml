@@ -16,7 +16,7 @@
                   borderVisibility="{{_borderVisibility}}"
                   horizontalPadding="{{_horizontalPadding}}"
                   validationStatus="{{_validationStatus}}"
-                  _hidePlaceholder="{{_options.readOnly}}"
+                  hidePlaceholderWithReadOnly="{{_options.readOnly}}"
                   on:valueChanged="_valueChangedHandler()">
          <ws:placeholder>
             <div class="controls-JumpingLabel__placeholder-wrapper">
