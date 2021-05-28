@@ -193,8 +193,8 @@ export default class Button extends BaseDropdown {
             if (this._controller.getItems() && this._controller.getItems().getCount() &&
                 !this._isOpened && this._options.isAutoItemClick !== false) {
                 this._onItemClickHandler([this._controller.getItems().at(0)]);
+                this._calmTimer.stop();
             }
-            this._calmTimer.stop();
         } else {
             this.openMenu();
         }
