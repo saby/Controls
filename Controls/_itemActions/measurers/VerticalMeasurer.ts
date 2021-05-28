@@ -32,11 +32,11 @@ function getItemActionsSize(
    actionCaptionPosition: TActionCaptionPosition
 ): {
    itemActionsSize: TItemActionsSize;
-   countOfActions: number;
+   countOfActionsInColumn: number;
 } {
    if (countOfActions === 1) {
       return {
-         countOfActions,
+         countOfActionsInColumn: countOfActions,
          itemActionsSize: 'm'
       };
    }
@@ -52,12 +52,12 @@ function getItemActionsSize(
       x < breakpoints[actionCaptionPosition].upperBound
    ) {
       return {
-         countOfActions,
+         countOfActionsInColumn: countOfActions,
          itemActionsSize: 'm'
       };
    }
    return {
-      countOfActions,
+      countOfActionsInColumn: countOfActions,
       itemActionsSize: 'l'
    };
 }
@@ -90,19 +90,19 @@ export const verticalMeasurer: IMeasurer = {
 
       const {
          itemActionsSize,
-         countOfActions
+         countOfActionsInColumn
       }: {
          itemActionsSize: TItemActionsSize;
-         countOfActions: number;
+         countOfActionsInColumn: number;
       } = getItemActionsSize(actions.length, rowHeight, actionCaptionPosition);
 
-      if (countOfActions === 2) {
+      if (countOfActionsInColumn === 2 && itemActions.length > 2) {
          if (actions.length > 3) {
             columnsCount = 2;
          }
       }
-      if (columnsCount * countOfActions !== actions.length || menuButtonVisibility === 'visible') {
-         itemActions = itemActions.slice(0, columnsCount * countOfActions - 1);
+      if (columnsCount * countOfActionsInColumn !== actions.length || menuButtonVisibility === 'visible') {
+         itemActions = itemActions.slice(0, columnsCount * countOfActionsInColumn - 1);
          itemActions.push({
             id: null,
             icon: 'icon-SwipeMenu',
