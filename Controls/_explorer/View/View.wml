@@ -84,7 +84,8 @@
                                           on:tagHover="_notifyHandler('tagHover')"
                                           itemsReadyCallback="{{_itemsReadyCallback}}"
                                           itemsSetCallback="{{_itemsSetCallback}}"
-                                          _needSetMarkerCallback="{{_needSetMarkerCallback}}"/>
+                                          _needSetMarkerCallback="{{_needSetMarkerCallback}}"
+                                          _recreateModel="{{_recreateModel}}"/>
             </Controls._explorer.PathController>
          </Controls.dragnDrop:Container>
       </ws:content>
