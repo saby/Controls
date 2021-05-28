@@ -59,7 +59,7 @@ export default class BreadCrumbsContainer extends Control<IControlOptions> {
     }
 
     private _getSourceController(options): SourceController {
-        if (this._dataOptions.sourceController) {
+        if (this._dataOptions && this._dataOptions.sourceController) {
             this._sourceController = this._dataOptions.sourceController;
         } else if (options.sourceController && this._sourceController !== options.sourceController) {
             this._sourceController = options.sourceController;
