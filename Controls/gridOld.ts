@@ -16,6 +16,7 @@
  * @includes IPropStorage Controls/_gridOld/interface/IPropStorage
  * @includes ITagColumn Controls/_gridOld/interface/ITagColumn
  * @includes SortingButton Controls/_gridOld/SortingButton
+ * @includes ItemEditorTemplate Controls/_grid/interface/IitemEditorTemplate
  * @public
  * @author Крайнов Д.О.
  */
