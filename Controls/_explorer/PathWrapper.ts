@@ -6,8 +6,11 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as template from 'wml!Controls/_explorer/PathController/PathWrapper';
+import {TExplorerViewMode} from 'Controls/_explorer/interface/IExplorer';
 
 interface IOptions extends IControlOptions {
+    viewMode?: TExplorerViewMode;
+
     breadCrumbsItems?: Path;
     header?: IHeaderCell[];
 
@@ -34,18 +37,19 @@ export default class PathWrapper extends Control<IOptions> {
 
     protected _beforeMount(options: IOptions): void {
         this._needCrumbs = PathWrapper._isNeedCrumbs(options);
-        this._withoutBackButton = PathWrapper._isWithoutBackButton(options.header);
+        this._withoutBackButton = PathWrapper._isWithoutBackButton(options.header, options.viewMode);
     }
 
     protected _beforeUpdate(newOptions: IOptions): void {
-        const headerChanged = GridIsEqualUtil.isEqualWithSkip(
+        const viewModeChanged = this._options.viewMode !== newOptions.viewMode;
+        const headerChanged = !GridIsEqualUtil.isEqualWithSkip(
             this._options.header,
             newOptions.header,
             { template: true }
         );
 
         if (
-            headerChanged ||
+            headerChanged || viewModeChanged ||
             this._options.breadCrumbsItems !== newOptions.breadCrumbsItems ||
             this._options.rootVisible !== newOptions.rootVisible ||
             this._options.breadcrumbsVisibility !== newOptions.breadcrumbsVisibility
@@ -53,8 +57,8 @@ export default class PathWrapper extends Control<IOptions> {
             this._needCrumbs = PathWrapper._isNeedCrumbs(newOptions);
         }
 
-        if (headerChanged) {
-            this._withoutBackButton = PathWrapper._isWithoutBackButton(newOptions.header);
+        if (headerChanged || viewModeChanged) {
+            this._withoutBackButton = PathWrapper._isWithoutBackButton(newOptions.header, newOptions.viewMode);
         }
     }
 
@@ -65,11 +69,14 @@ export default class PathWrapper extends Control<IOptions> {
 
         const items = options.breadCrumbsItems;
         return !!items &&
-            ((!PathWrapper._isWithoutBackButton(options.header) && items.length > 0) || items.length > 1) ||
+            (
+                (!PathWrapper._isWithoutBackButton(options.header, options.viewMode) && items.length > 0) ||
+                items.length > 1
+            ) ||
             !!options.rootVisible;
     }
 
-    private static _isWithoutBackButton(header: IHeaderCell[]): boolean {
-        return !!(header && header[0] && (header[0] as any).isBreadCrumbs);
+    private static _isWithoutBackButton(header: IHeaderCell[], viewMode: TExplorerViewMode): boolean {
+        return viewMode === 'table' && !!(header && header[0] && (header[0] as any).isBreadCrumbs);
     }
 }
