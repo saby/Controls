@@ -1047,17 +1047,42 @@
    height: 100%;
 }
 
-.controls-TileView__item_withoutMarker {
-   border: var(--item_border-thickness_tile) solid var(--item_border-color_tile);
-}
-
+// TODO для старой модели нужно
 .controls-TileView__item_withoutBorder {
    border: var(--item_border-thickness_tile) solid transparent;
    background-clip: padding-box;
 }
 
-.controls-TileView__item_withMarker {
+// TODO для старой модели нужно
+.controls-TileView__item_withoutMarker {
+   border: var(--item_border-thickness_tile) solid var(--item_border-color_tile);
+}
+
+// TODO для старой модели нужно
+.controls-TileView__item_withMarkerOldModel {
    border: var(--item_border-thickness_tile) solid var(--item_marked_border-color_tile);
+}
+
+.controls-TileView__item_withBorder::after {
+   content: '\200b';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   border: var(--item_border-thickness_tile) solid var(--item_border-color_tile);
+   border-radius: inherit;
+}
+
+.controls-TileView__item_withMarker::after {
+   content: '\200b';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   border: var(--item_border-thickness_tile) solid var(--item_marked_border-color_tile);
+   border-radius: inherit;
 }
 
 //TODO: Убрать перебитие, сделать отдельные классы в плитке и других списках
@@ -1125,6 +1150,8 @@
    .controls-BaseControl_showActions_visible .controls-ListView__item_showActions > .controls-itemActionsV,
    .controls-BaseControl_showActions_delayed .controls-ListView__item_showActions:hover > .controls-itemActionsV,
    .controls-BaseControl_showActions_onhover .controls-ListView__item_showActions:hover > .controls-itemActionsV,
+   .controls-BaseControl_showActions_delayed .controls-TileView__item:hover .controls-ListView__item_showActions > .controls-itemActionsV,
+   .controls-BaseControl_showActions_onhover .controls-TileView__item:hover .controls-ListView__item_showActions > .controls-itemActionsV,
    .controls-BaseControl_showActions_visible .controls-TileView__item:hover > .controls-TileView__item_unscaleable > .controls-itemActionsV,
    .controls-BaseControl_showActions_delayed .controls-TileView__item:hover > .controls-TileView__item_unscaleable > .controls-itemActionsV,
    .controls-BaseControl_showActions_onhover .controls-TileView__item:hover > .controls-TileView__item_unscaleable > .controls-itemActionsV {

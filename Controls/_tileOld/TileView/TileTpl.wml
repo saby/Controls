@@ -29,7 +29,7 @@
                {{titleStyle === 'none' ? 'controls-TileView__item_withoutTitle'}}
                {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility)}}
                {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
-                  ' controls-TileView__item_withMarker ' :
+                  ' controls-TileView__item_withMarkerOldModel ' :
                   border !== false ? ' controls-TileView__item_withoutMarker '
                   :  'controls-TileView__item_withoutBorder ' }}
                {{itemData.canShowActions ? ' controls-ListView__item_showActions'}}"

@@ -10,7 +10,7 @@
          controls-ListView__item_showActions
          {{backgroundColorStyle ? ' controls-TileView__itemContent_background_' + backgroundColorStyle }}
          {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
-            ' controls-TileView__item_withMarker'
+            ' controls-TileView__item_withMarkerOldModel'
             : ' controls-TileView__item_withoutMarker'}}
          {{!!itemData.isActive() ? ' controls-TileView__smallTemplate_item_active'}}
          {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
