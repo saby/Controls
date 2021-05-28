@@ -20,10 +20,6 @@ const ItemTemplate = function() {
 ItemTemplate.stable = true;
 ItemTemplate.isWasabyTemplate = true;
 
-/**
- * @includes GroupColumnTemplate Controls/_treeGrid/interface/GroupColumnTemplate
- */
-
 export {
     View,
     ItemsView,

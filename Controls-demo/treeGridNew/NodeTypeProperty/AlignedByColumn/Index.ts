@@ -60,7 +60,7 @@ const columns: IGroupNodeColumn[] = [
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _expandedItems: CrudEntityKey[] = [];
+    protected _expandedItems: CrudEntityKey[] = [null];
     protected _collapsedItems: CrudEntityKey[] = [];
     protected _columns: IGroupNodeColumn[] = columns;
 
@@ -68,7 +68,8 @@ export default class extends Control {
         this._viewSource = new HierarchicalMemory({
             parentProperty: 'parent',
             keyProperty: 'id',
-            data
+            data,
+            filter: (): boolean => true
         });
     }
 
