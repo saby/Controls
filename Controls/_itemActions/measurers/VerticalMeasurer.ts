@@ -96,10 +96,8 @@ export const verticalMeasurer: IMeasurer = {
          countOfActionsInColumn: number;
       } = getItemActionsSize(actions.length, rowHeight, actionCaptionPosition);
 
-      if (countOfActionsInColumn === 2 && itemActions.length > 2) {
-         if (actions.length > 3) {
-            columnsCount = 2;
-         }
+      if (countOfActionsInColumn === 2 && itemActions.length > 3) {
+         columnsCount = 2;
       }
       if (columnsCount * countOfActionsInColumn !== actions.length || menuButtonVisibility === 'visible') {
          itemActions = itemActions.slice(0, columnsCount * countOfActionsInColumn - 1);
