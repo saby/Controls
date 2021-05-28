@@ -25,6 +25,7 @@ export interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHei
     fontSize?: string;
     showHeader?: boolean;
     menuPopupTrigger?: 'click' | 'hover';
+    isAutoItemClick?: boolean;
 }
 
 /**
@@ -189,10 +190,11 @@ export default class Button extends BaseDropdown {
             return;
         }
         if (this._calmTimer.isStarted()) {
-            if (this._controller.getItems() && this._controller.getItems().getCount() && !this._isOpened) {
+            if (this._controller.getItems() && this._controller.getItems().getCount() &&
+                !this._isOpened && this._options.isAutoItemClick !== false) {
                 this._onItemClickHandler([this._controller.getItems().at(0)]);
+                this._calmTimer.stop();
             }
-            this._calmTimer.stop();
         } else {
             this.openMenu();
         }
@@ -278,7 +280,8 @@ export default class Button extends BaseDropdown {
             fontSize: 'm',
             iconStyle: 'secondary',
             contrastBackground: false,
-            lazyItemsLoading: false
+            lazyItemsLoading: false,
+            isAutoItemClick: true
         };
     }
 }
