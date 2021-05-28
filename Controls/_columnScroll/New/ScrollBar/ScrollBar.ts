@@ -11,6 +11,7 @@ export default class ScrollBar extends Control<IScrollBarOptions> {
     protected _template: TemplateFunction = template;
     private _position: number = 0;
     private _contentSize: number = 0;
+    private _scrollWidth: number = 0;
     private readonly _fixedClass = JS_SELECTORS.FIXED_ELEMENT;
 
     /*
@@ -33,6 +34,11 @@ export default class ScrollBar extends Control<IScrollBarOptions> {
 
         if (typeof params.contentSize !== 'undefined' && this._contentSize !== params.contentSize) {
             this._contentSize = params.contentSize;
+            shouldRecalcSizes = true;
+        }
+
+        if (typeof params.scrollWidth !== 'undefined' && this._scrollWidth !== params.scrollWidth) {
+            this._scrollWidth = params.contentSize;
             shouldRecalcSizes = true;
         }
 

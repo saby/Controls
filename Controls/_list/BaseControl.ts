@@ -3453,7 +3453,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _blockItemActionsByScroll = false;
 
     _needBottomPadding = false;
-    _noDataBeforeReload = null;
+    _noDataBeforeReload = false;
 
     _keepScrollAfterReload = false;
     _resetScrollAfterReload = false;
@@ -4229,6 +4229,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                ? newOptions.sourceController.getItems()
                : this._options.useNewModel ? this._listViewModel.getCollection() : this._listViewModel.getItems();
             this._listViewModel.destroy();
+
+            this._noDataBeforeReload = !(items && items.getCount());
 
             if (newOptions.useNewModel) {
                 this._listViewModel = this._createNewModel(

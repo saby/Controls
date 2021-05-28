@@ -615,4 +615,8 @@ export default class ColumnScrollController {
 
             return result;
     }
+
+    static getEmptyViewMaxWidth(viewContainers, options): number {
+        return options.isFullGridSupport ? viewContainers.grid.offsetWidth : viewContainers.gridWrapper.offsetWidth;
+    }
 }

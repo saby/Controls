@@ -139,7 +139,7 @@ const recalculateSizes = (self: TColumnScrollViewMixin, viewOptions, calcedSizes
         const {contentSizeForHScroll, scrollWidth, containerSize} = self._$columnScrollController.getSizes();
         const scrollPosition = self._$columnScrollController.getScrollPosition();
 
-        self._$columnScrollWrapperWidth = containerSize;
+        self._$columnScrollEmptyViewMaxWidth = containerSize;
 
         // Установка размеров и позиции в скроллбар
         self._children.horizontalScrollBar.setSizes({contentSize: contentSizeForHScroll, scrollWidth, scrollPosition});
@@ -171,7 +171,7 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
     _$dragScrollController: null,
     _$dragScrollStylesContainer: null,
     _$columnScrollFreezeCount: 0,
-    _$columnScrollWrapperWidth: 0,
+    _$columnScrollEmptyViewMaxWidth: 0,
 
     //#region IFreezable
 
@@ -201,7 +201,18 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
     // _componentDidMount
     _columnScrollOnViewDidMount(): void {
         // Скролл выключен через опции
-        if (!this._options.columnScroll || !canShowColumnScroll(this, this._options)) {
+        if (!this._options.columnScroll) {
+            return;
+        }
+
+        // Пустой список, с запретом на показ шапки. Пустое представление должно быть ограничено по ширине,
+        // т.к. колонки все могут быть заданы фиксированно.
+        // TODO: Подумать над этим, возможно стоит при пустом представлении
+        //  показывать 1 колонку(grid-template-columns: 1fr;)?
+        if (!canShowColumnScroll(this, this._options)) {
+            if (this._options.needShowEmptyTemplate) {
+                this._$columnScrollEmptyViewMaxWidth = ColumnScrollController.getEmptyViewMaxWidth(this._children, this._options);
+            }
             return;
         }
 

@@ -51,7 +51,7 @@ interface IColumnScrollViewMixin {
     _$dragScrollController: DragScrollController;
     _$dragScrollStylesContainer: HTMLStyleElement;
     _$columnScrollFreezeCount: number;
-    _$columnScrollWrapperWidth: number;
+    _$columnScrollEmptyViewMaxWidth: number;
 
     // IFreezable
     _freezeColumnScroll(): void;
