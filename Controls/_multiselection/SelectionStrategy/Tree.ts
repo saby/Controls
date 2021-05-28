@@ -448,6 +448,17 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       return selectedKeysWithEntryPath;
    }
 
+   private _clearEntryPath(ids: CrudEntityKey[]): void {
+      if (this._entryPath) {
+         ids.forEach((childId) => {
+            const entryIndex = this._entryPath.findIndex((entryPath) => entryPath.id === childId);
+            if (entryIndex !== -1) {
+               this._entryPath.splice(entryIndex, 1);
+            }
+         });
+      }
+   }
+
    private _hasSelectedParent(key: CrudEntityKey, selection: ISelection): boolean {
       let hasSelectedParent = false;
       let hasExcludedParent = false;
@@ -657,6 +668,10 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       const childrenIds = this._getAllChildrenIds(node);
       ArraySimpleValuesUtil.removeSubArray(selection.selected, childrenIds);
       ArraySimpleValuesUtil.removeSubArray(selection.excluded, childrenIds);
+
+      // нужно из entryPath удалить ключи удаленных записей, иначе мы будем считать что запись выбрана по entryPath
+      // пересчитывать entryPath никто не будет, т.к. это нужно отправлять запрос на бл на каждый клик по чекбоксу
+      this._clearEntryPath(childrenIds);
    }
 
    /**
