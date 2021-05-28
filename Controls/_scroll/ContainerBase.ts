@@ -172,7 +172,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         // Установим дата аттрибут, чтобы в будущем была возможность определить, был ли в этой ноде скролл контейнер.
         // Подробности в комментарии в _componentDidMount.
         this._container.dataset?.scrollContainerNode = 'true';
-        if (!this._resizeObserver.isResizeObserverSupported()) {
+        if (!this._resizeObserver?.isResizeObserverSupported()) {
             UnregisterUtil(this, 'controlResize', {listenAll: true});
         }
         this._resizeObserver?.terminate();
