@@ -93,6 +93,9 @@ export default class TreeGridCollection<
 
     private _updateGroupNodesVisibility(): void {
         const groupNodesCount = this._calculateGroupNodesCount();
+        if (groupNodesCount === 0) {
+            return;
+        }
         const firstItem = this.at(0);
         if (firstItem.isGroupNode()) {
             firstItem.setIsHiddenGroup(groupNodesCount < 2);

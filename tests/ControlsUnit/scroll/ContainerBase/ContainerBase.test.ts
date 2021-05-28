@@ -30,11 +30,26 @@ describe('Controls/scroll:ContainerBase', () => {
    });
 
    describe('_componentDidMount', () => {
-      it('should restor scrollTop to 0', () => {
+      it('should restore scrollTop to 0', () => {
          const control: ContainerBase = new ContainerBase(options);
          control._children = { content: { scrollTop: 10 } };
+         control._container = {
+            dataset: {
+               scrollContainerNode: 'true'
+            }
+         };
          control._componentDidMount();
          assert.strictEqual(control._children.content.scrollTop, 0);
+      });
+
+      it('should not restore scrollTop to 0', () => {
+         const control: ContainerBase = new ContainerBase(options);
+         control._children = { content: { scrollTop: 10 } };
+         control._container = {
+            dataset: { /* scrollContainerNode is missing */}
+         };
+         control._componentDidMount();
+         assert.strictEqual(control._children.content.scrollTop, 10);
       });
    });
 
