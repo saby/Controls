@@ -1820,7 +1820,7 @@ define([
             }
          };
          treeControl.getViewModel().setCollection(rs);
-         treeControl._afterReloadCallback(cfg, rs);
+         treeControl._afterItemsSet(cfg);
          treeControl._afterMount();
          assert.equal(treeControl._markedLeaf, 'last');
          await treeControl.goToPrev();

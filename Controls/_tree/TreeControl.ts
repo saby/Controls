@@ -1082,7 +1082,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     protected _afterItemsSet(options): void {
         super._afterItemsSet.apply(this, arguments);
         if (options.markerMoveMode === 'leaves') {
-            this.setMarkerOnFirstLeaf(options);
+            this.setMarkerOnFirstLeaf(options, options.markedKey);
         }
     }
     protected _afterCollectionReset(): void {
@@ -1134,11 +1134,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
-    private setMarkerOnFirstLeaf(options) {
+    private setMarkerOnFirstLeaf(options, startKey) {
         const markerController = this.getMarkerController();
         const model = this._listViewModel;
         const list = model.getCollection();
-        const current = list.at(0);
+        const current = list.getRecordById(startKey) || list.at(0);
         if (current) {
             if (current.get(this._options.nodeProperty) !== null) {
                 this._tempItem = current.getKey();
