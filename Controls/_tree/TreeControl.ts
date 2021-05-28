@@ -1138,7 +1138,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const markerController = this.getMarkerController();
         const model = this._listViewModel;
         const list = model.getCollection();
-        const current = list.getRecordById(this._options.markedKey) || list.at(0);
+        const current = list.at(0);
         if (current) {
             if (current.get(this._options.nodeProperty) !== null) {
                 this._tempItem = current.getKey();
