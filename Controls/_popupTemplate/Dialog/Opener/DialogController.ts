@@ -188,11 +188,15 @@ class DialogController extends BaseController {
     }
 
     _prepareConfig(item: IDialogItem, sizes: IPopupSizes): void {
+        const containerSize = this._getRestrictiveContainerSize(item);
         // After popup will be transferred to the synchronous change of coordinates,
         // we need to return the calculation of the position with the keyboard.
         // Positioning relative to body
-        item.position = DialogStrategy.getPosition(this._getRestrictiveContainerSize(item), sizes, item);
+        item.position = DialogStrategy.getPosition(containerSize, sizes, item);
         this._fixCompatiblePosition(item);
+        if (containerSize.height < item.position.top + item.popupOptions.maxHeight) {
+            item.popupOptions.maxHeight = containerSize.height - item.position.top;
+        }
     }
 
     _fixCompatiblePosition(item: IDialogItem): void {
