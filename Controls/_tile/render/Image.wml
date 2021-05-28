@@ -5,6 +5,7 @@
            xmlns="http://www.w3.org/2000/svg"
            height="{{ item.getImageHeightAttribute(itemType) }}"
            width="{{ item.getImageWidthAttribute(itemType) }}"
+           style="{{ item.getBigGradientStyles(itemType, gradientStartColor, gradientStopColor ) }}"
            class="{{ (item || itemData).getImageClasses(itemType, width || itemWidth, imageAlign, imageViewMode, imageProportion, imagePosition, imageSize, imageFit, imageProportionOnItem) }}"
            preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}">
          <image preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}" height="100%" width="100%" xlink:href="{{ (item || itemData).getImageUrl(width || itemWidth, imagePosition, imageViewMode, fallbackImage) }}"></image>
