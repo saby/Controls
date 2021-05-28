@@ -62,6 +62,11 @@ describe('Controls/scroll:Container', () => {
             const state = component._scrollModel = {
                 scrollTop: 200
             };
+            component._container = {
+                dataset: {
+                    scrollContainerNode: 0
+                }
+            };
             component._beforeUnmount();
 
             assert.notEqual(state, component._scrollModel);

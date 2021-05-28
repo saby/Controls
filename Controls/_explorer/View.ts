@@ -77,7 +77,12 @@ const VIEW_MODEL_CONSTRUCTORS = {
     search: 'Controls/searchBreadcrumbsGrid:SearchGridCollection',
     tile: null,
     table: 'Controls/treeGrid:TreeGridCollection',
-    list: 'Controls/treeGrid:TreeGridCollection'
+    // Правка решения https://online.sbis.ru/opendoc.html?guid=bbee027c-f13d-4b6a-8835-c956d14c2f3a
+    // т.к. стрельнуло здесь https://online.sbis.ru/opendoc.html?guid=715e6fca-1982-4b17-a29f-4862ef3e03f3
+    // Из-за того что для viewMode table и list были заданы одинаковые коллекции изменение набора колонок
+    // с прикладной стороны в режиме list не приводило к прокидыванию новых колонок с модель и в итоге
+    // таблица разъезжалась при переключении в режим table
+    list: 'Controls/display:Tree'
 };
 
 const EXPLORER_CONSTANTS = {

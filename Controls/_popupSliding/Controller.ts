@@ -92,10 +92,6 @@ class Controller extends BaseController {
         return true;
     }
 
-    resizeOuter(item: ISlidingPanelItem): boolean {
-        return this._isTopPopup(item);
-    }
-
     getDefaultConfig(item: ISlidingPanelItem): void|Promise<void> {
         item.position = SlidingPanelStrategy.getStartPosition(item);
         const className = `${item.popupOptions.className || ''} controls-SlidingPanel__popup
