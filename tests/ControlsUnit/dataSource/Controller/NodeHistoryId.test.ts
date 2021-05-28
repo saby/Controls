@@ -85,12 +85,14 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
             nodeHistoryId: 'NODE_HISTORY_ID'
         });
 
-        sinonSandbox.replace(nodeHistoryUtil, 'restore', (id) => {
+        const stubRestore = sinonSandbox.stub(nodeHistoryUtil, 'restore').callsFake( (id) => {
             assert.equal(id, 'NODE_HISTORY_ID');
             return Promise.resolve([1]);
         });
 
-        await controller.load(null, 0);
+        await controller.reload(null, true);
+
+        sinonSandbox.assert.calledOnce(stubRestore);
         sinonSandbox.restore();
     });
 
@@ -101,7 +103,7 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
             nodeHistoryId: 'NODE_HISTORY_ID'
         });
         const spyRestore = sinon.spy(nodeHistoryUtil, 'restore');
-        await controller.load(null, 0);
+        await controller.reload(null, true);
 
         sinon.assert.called(spyRestore);
         spyRestore.restore();
@@ -113,7 +115,19 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
             nodeHistoryId: undefined
         });
         const stubRestore = sinon.spy(nodeHistoryUtil, 'restore');
-        await controller.load(null, 0);
+        await controller.reload(null, true);
+
+        sinon.assert.notCalled(stubRestore);
+        stubRestore.restore();
+    });
+
+    // 4. Не дёргаем History если isFirstLoad !== true
+    it('should not call restore from history method when no nodeHistoryId', async () => {
+        const controller = getController({
+            nodeHistoryId: 'NODE_HISTORY_ID'
+        });
+        const stubRestore = sinon.spy(nodeHistoryUtil, 'restore');
+        await controller.reload(null, false);
 
         sinon.assert.notCalled(stubRestore);
         stubRestore.restore();
@@ -131,7 +145,7 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
             return Promise.resolve(true);
         });
 
-        await controller.load(null);
+        await controller.reload(null, true);
 
         controller.setExpandedItems([0, 3]);
         controller.updateExpandedItemsInUserStorage();
@@ -153,7 +167,7 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
             return Promise.resolve(true);
         });
 
-        await controller.load(null);
+        await controller.reload(null, true);
 
         controller.setExpandedItems([0, 3]);
         controller.updateExpandedItemsInUserStorage();
@@ -162,4 +176,6 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
         stubStore.restore();
         stubRestore.restore();
     });
+
+
 });
