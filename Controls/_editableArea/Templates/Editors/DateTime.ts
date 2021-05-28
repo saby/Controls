@@ -1,5 +1,6 @@
 import Base from './Base';
 import {Logger} from 'UI/Utils';
+import {date as format} from 'Types/formatter';
 
 /**
  * Шаблон редактирования даты и времени.
@@ -20,11 +21,7 @@ class DateTime extends Base {
           Logger.warn('DateTime: Option "value" cannot be empty');
       }
       // todo fixed by: https://online.sbis.ru/opendoc.html?guid=00a8daf1-c567-46bb-a40e-53c1eef5a26b
-      return date.toLocaleDateString('ru-RU', {
-         year: '2-digit',
-         month: 'numeric',
-         day: 'numeric'
-      });
+      return format(date, format.FULL_DATE);
    }
 }
 

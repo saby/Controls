@@ -74,7 +74,7 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
         if (options.id) {
             dataOptions = options._dataOptionsValue.listsConfigs[options.id]
         }
-        if (dataOptions.breadCrumbsItems !== undefined) {
+        if (dataOptions && dataOptions.breadCrumbsItems !== undefined) {
             this._breadCrumbsItems = dataOptions.breadCrumbsItems;
         } else if (this._sourceController !== options.sourceController) {
             // FIXME пока страница не обернута в браузер, sourceController задается на опциях

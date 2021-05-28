@@ -7,7 +7,7 @@
 
     <ws:if data="{{ item.shouldDisplayTitle(itemType) }}">
         <div class="{{ item.getTitleClasses(itemType, titleStyle, hasTitle, titleLines, titleColorStyle) }}" title="{{ item.getDisplayValue() }}">
-            <div class="{{ item.getEllipsisClasses(itemType, titleLines, staticHeight, hasTitle) }}" style="{{ item.getTitleStyles(itemType, titleLines, textColor) }}">
+            <div attr:itemprop="name" class="{{ item.getEllipsisClasses(itemType, titleLines, staticHeight, hasTitle) }}" style="{{ item.getTitleStyles(itemType, titleLines, textColor) }}">
                 <ws:if data="{{ item.getSearchValue() }}">
                     <Controls.decorator:Highlight highlightedValue="{{ item.getSearchValue() }}" className="{{highlightClassName}}">
                         <ws:value>
@@ -37,6 +37,7 @@
         <ws:if data="{{ item.shouldDisplayDescription(itemType, description, descriptionLines) }}">
             <div class="{{ item.getDescriptionClasses(itemType, descriptionLines) }}"
                  style="{{ item.getDescriptionStyles(itemType, descriptionLines, textColor) }}"
+                 attr:itemprop="description"
                  title="{{description}}">
                 {{description}}
             </div>

@@ -371,6 +371,13 @@ export default class ControllerClass {
    private _updateFilterAndLoad(filter: QueryWhereExpression<unknown>, root: TKey): Promise<RecordSet|Error> {
       this._searchStarted(filter);
       this._sourceController.setRoot(root);
+
+      // Перезададим параметры навигации т.к. они могли измениться.
+      // Сейчас explorer хранит у себя ссылку на объект navigation и меняет в нем значение position
+      // Правим по задаче https://online.sbis.ru/opendoc.html?guid=4f23b2e1-89ea-4a1d-bd58-ce7f9d00b58d
+      this._sourceController.setNavigation(null);
+      this._sourceController.setNavigation(this._options.navigation);
+
       return this._searchPromise =
           this._sourceController
               .load(undefined, undefined, filter)

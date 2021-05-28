@@ -862,7 +862,7 @@ export default abstract class TileItem<T extends Model = Model> {
             classes += ' controls-TileView__item_animated';
         }
         if (this.isDragged()) {
-            classes += ' controls-ListView__item_dragging controls-ListView__itemContent_dragging';
+            classes += ' controls-ListView__itemContent_dragging';
         }
         if (this.canShowActions()) {
             classes += ' controls-ListView__item_showActions';
@@ -917,9 +917,7 @@ export default abstract class TileItem<T extends Model = Model> {
         if (this.shouldDisplayMarker(marker)) {
             classes += ' controls-TileView__item_withMarker';
         } else if (border !== false) {
-            classes += ' controls-TileView__item_withoutMarker';
-        } else {
-            classes += ' controls-TileView__item_withoutBorder';
+            classes += ' controls-TileView__item_withBorder';
         }
 
         return classes;

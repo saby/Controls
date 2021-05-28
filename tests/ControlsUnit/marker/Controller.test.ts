@@ -491,7 +491,9 @@ describe('Controls/marker/Controller', () => {
       items.remove(breadcrumbItem.getContents()[0]);
 
       result = controller.onCollectionRemove(2, [breadcrumbItem]);
-      assert.equal(result, 2);
+      // markedKey не должен пересчитаться, т.к. хлебная крошка не может быть маркирована
+      // и ее удаление в этом случае ничего не значит
+      assert.equal(result, 3);
       assert.isFalse(breadcrumbItem.isMarked());
 
       controller.setMarkedKey(2);

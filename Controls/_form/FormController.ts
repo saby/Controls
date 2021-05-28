@@ -237,11 +237,12 @@ class FormController extends ControllerBase<IFormController> {
                 });
                 updateRecord();
             });
-        } else if (!this._isConfirmShowed) {
-            if (newOptions.hasOwnProperty('isNewRecord')) {
-                this._isNewRecord = newOptions.isNewRecord;
-            }
         } else {
+            if (!this._isConfirmShowed) {
+                if (newOptions.hasOwnProperty('isNewRecord')) {
+                    this._isNewRecord = newOptions.isNewRecord;
+                }
+            }
             updateRecord();
         }
     }

@@ -148,21 +148,23 @@ export class Controller {
       // поэтому на скрытых элементах нужно сбросить состояние marked
       removedItems.forEach((item) => item.Markable && item.setMarked(false, true));
 
+      const removeMarkedItem = !!removedItems.find((it) => it.Markable && it.getContents().getKey() === this._markedKey);
+      if (!removeMarkedItem) {
+         return this._markedKey;
+      }
+
       let markedKeyAfterRemove = this._getMarkedKeyAfterRemove(removedItemsIndex);
 
       // Если свернули узел внутри которого есть маркер, то маркер нужно поставить на узел
       // TODO нужно только для дерева, можно подумать над наследованием
       if (removedItems[0] instanceof TreeItem && this._markedKey !== undefined && this._markedKey !== null) {
-         const removeMarkedItem = !!removedItems.find((it) => it.Markable && it.getContents().getKey() === this._markedKey);
-         if (removeMarkedItem) {
-            const parent = removedItems[0].getParent();
-            // На корневой узел ставить маркер нет смысла, т.к. в этом случае должно отработать именно удаление элементов, а не скрытие
-            if (parent && parent !== this._model.getRoot() && parent.Markable) {
-               const parentItem = parent.getContents();
-               if (parentItem) {
-                  // Если родитель это корень то ключ это contents, актуально для explorer
-                  markedKeyAfterRemove = parent.isRoot() ? parentItem : parentItem.getKey();
-               }
+         const parent = removedItems[0].getParent();
+         // На корневой узел ставить маркер нет смысла, т.к. в этом случае должно отработать именно удаление элементов, а не скрытие
+         if (parent && parent !== this._model.getRoot() && parent.Markable) {
+            const parentItem = parent.getContents();
+            if (parentItem) {
+               // Если родитель это корень то ключ это contents, актуально для explorer
+               markedKeyAfterRemove = parent.isRoot() ? parentItem : parentItem.getKey();
             }
          }
       }
