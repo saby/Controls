@@ -630,8 +630,14 @@ export interface IGridControl extends IList {
  */
 
 /**
- * @cfg Если опция определена, то в таблице будет использоваться {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/template/#string расширенное редактирование строк}.
- * @name Controls/_interface/grid/IGridControl#IitemEditorTemplate
+ * @name Controls/_interface/grid/IGridControl#itemEditorTemplate
+ * @cfg {TemplateFunction|String} Пользовательский шаблон, используемый в таблице для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования строки по месту} без деления на ячейки.
+ * @default undefined
+ * @remark
+ * При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/grid:ItemEditorTemplate}.
+ * Если опция определена, то в таблице будет использоваться {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/template/#string расширенное редактирование строк}.
+ * Подробнее об настройке шаблона читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/template/#item-editor-template здесь}.
+ 
  */
 
 /**
