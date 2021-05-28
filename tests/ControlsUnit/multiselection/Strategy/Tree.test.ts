@@ -171,6 +171,18 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          const result = strategy.unselect({selected: [3], excluded: []}, 3);
          assert.deepEqual(result, {selected: [], excluded: []});
       });
+
+      it('clear entry path', () => {
+         const entryPath = [
+            {id: 2, parent: 1},
+            {id: 1, parent: null}
+         ];
+         strategyWithDescendantsAndAncestors.setEntryPath(entryPath);
+
+         const result = strategyWithDescendantsAndAncestors.unselect({selected: [2], excluded: []}, 1);
+         assert.deepEqual(result, {selected: [], excluded: []});
+         assert.deepEqual(entryPath, [{id: 1, parent: null}]);
+      });
    });
 
    describe('selectAll', () => {
