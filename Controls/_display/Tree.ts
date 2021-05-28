@@ -724,6 +724,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
         const diff = ArraySimpleValuesUtil.getArrayDifference(this._expandedItems, expandedKeys);
 
+        const session = this._startUpdateSession();
+
         //region Добавленные ключи нужно развернуть
         if (diff.added[0] === null) {
             this._getItems().forEach((item) => {
@@ -738,8 +740,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             diff.added.forEach((id) => {
                 const item = this.getItemBySourceKey(id, false);
                 if (item && item['[Controls/_display/TreeItem]']) {
-                    // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
-                    item.setExpanded(true);
+                    item.setExpanded(true, true);
                 }
             });
         }
@@ -775,6 +776,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         //endregion
 
         this._expandedItems = [...expandedKeys];
+
+        this._reSort();
+        this._reFilter();
+        this._finishUpdateSession(session);
     }
 
     setCollapsedItems(collapsedKeys: CrudEntityKey[]): void {
@@ -784,10 +789,13 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
         // TODO зарефакторить по задаче https://online.sbis.ru/opendoc.html?guid=5d8d38d0-3ade-4393-bced-5d7fbd1ca40b
         const diff = ArraySimpleValuesUtil.getArrayDifference(this._collapsedItems, collapsedKeys);
+
+        const session = this._startUpdateSession();
+
         diff.removed.forEach((it) => {
             const item = this.getItemBySourceKey(it);
             if (item && item['[Controls/_display/TreeItem]']) {
-                item.setExpanded(true);
+                item.setExpanded(true, true);
             }
         });
 
@@ -796,11 +804,14 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         collapsedKeys.forEach((key) => {
             const item = this.getItemBySourceKey(key);
             if (item && item['[Controls/_display/TreeItem]']) {
-                // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
                 this._collapseChilds(item);
-                item.setExpanded(false);
+                item.setExpanded(false, true);
             }
         });
+
+        this._reSort();
+        this._reFilter();
+        this._finishUpdateSession(session);
     }
 
     resetExpandedItems(): void {

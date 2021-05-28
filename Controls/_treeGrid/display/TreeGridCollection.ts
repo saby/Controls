@@ -217,10 +217,6 @@ export default class TreeGridCollection<
         this._nextVersion();
     }
 
-    setExpandedItems(expandedKeys: CrudEntityKey[]): void {
-        super.setExpandedItems(expandedKeys);
-    }
-
     protected _removeItems(start: number, count?: number): T[] {
         const result = super._removeItems(start, count);
 
