@@ -2,6 +2,7 @@
    <ws:if data="{{(item || itemData).getImageFit() === 'contain' || itemType === 'rich'}}">
       <!--Делаем всегда object-fit: contain(background-size: contain) кроссбраузерно, пока поддерживаем ie11-->
       <svg role="image"
+           attr:itemprop="image"
            xmlns="http://www.w3.org/2000/svg"
            height="{{ item.getImageHeightAttribute(itemType) }}"
            width="{{ item.getImageWidthAttribute(itemType) }}"

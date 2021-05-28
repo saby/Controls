@@ -171,6 +171,18 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          const result = strategy.unselect({selected: [3], excluded: []}, 3);
          assert.deepEqual(result, {selected: [], excluded: []});
       });
+
+      it('clear entry path', () => {
+         const entryPath = [
+            {id: 2, parent: 1},
+            {id: 1, parent: null}
+         ];
+         strategyWithDescendantsAndAncestors.setEntryPath(entryPath);
+
+         const result = strategyWithDescendantsAndAncestors.unselect({selected: [2], excluded: []}, 1);
+         assert.deepEqual(result, {selected: [], excluded: []});
+         assert.deepEqual(entryPath, [{id: 1, parent: null}]);
+      });
    });
 
    describe('selectAll', () => {
@@ -472,6 +484,39 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          let res = strategy.getSelectionForModel({selected: [1], excluded: [112]});
          assert.deepEqual(toArrayKeys(res.get(true)), [111]);
          assert.deepEqual(toArrayKeys(res.get(false)), [112]);
+         assert.deepEqual(toArrayKeys(res.get(null)), []);
+      });
+
+      it('unselect item from ENTRY_PATH', () => {
+         const items = new RecordSet({
+            rawData: [
+               {id: 1, parent: null, node: null},
+               {id: 2, parent: null, node: null}
+            ],
+            keyProperty: 'id'
+         });
+         const model = new Tree({
+            collection: items,
+            root: null,
+            keyProperty: 'id',
+            parentProperty: 'parent',
+            nodeProperty: 'node'
+         });
+         const strategy = new TreeSelectionStrategy({
+            selectDescendants: true,
+            selectAncestors: true,
+            rootId: null,
+            model,
+            selectionType: 'all',
+            recursiveSelection: false,
+            entryPath: [
+               {id: 1, parent: null}
+            ]
+         });
+
+         let res = strategy.getSelectionForModel({selected: [], excluded: []});
+         assert.deepEqual(toArrayKeys(res.get(true)), []);
+         assert.deepEqual(toArrayKeys(res.get(false)), [1, 2]);
          assert.deepEqual(toArrayKeys(res.get(null)), []);
       });
 

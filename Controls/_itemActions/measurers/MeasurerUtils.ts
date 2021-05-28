@@ -7,6 +7,7 @@ import { IShownItemAction } from '../interface/IItemActionsObject';
 export class MeasurerUtils {
     /**
      * Возвращает набор опций свайпа, которые нужно показать на странице.
+     * Фильтрует все элементы, у которых нет родителя и сортирует их по TItemActionShowType
      * @param actions
      */
     static getActualActions(actions: IShownItemAction[]): IShownItemAction[] {
