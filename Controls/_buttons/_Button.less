@@ -324,6 +324,11 @@
 .controls-Button_functionalButton_style-pale {
    border-color: var(--pale_contrast_background-color_button_functionalButton);
    background-color: var(--pale_contrast_background-color_button_functionalButton);
+   &.controls-Button_functionalButton_style-translucent {
+      border-width: 0;
+      background-color: rgba(0, 0, 0, .2);
+      backdrop-filter: blur(14px);
+   }
 }
 
 .controls-Button_functionalButton_style-readonly {
@@ -434,7 +439,7 @@
 }
 
 .controls-Button_button_style-unaccented.controls-Button_bg-contrast {
-   border-color: var(--unaccented_hover_contrast_background-color);
+   border-color: var(--unaccented_contrast_background-color);
 }
 
 .controls-Button_button_style-readonly.controls-Button_bg-contrast {
