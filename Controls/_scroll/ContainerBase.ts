@@ -101,7 +101,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         // может быть сразу проскролен. Исправляем эту ситуацию.
         // Не будем скроллить в случае, если на странице есть нативные якоря для скролла,
         // т.е. в ссылке присутсвует хэш
-        if (!location.hash || this._container.dataset?.scrollContainerNode) {
+        if (!location.hash && this._container.dataset?.scrollContainerNode) {
             this._children.content.scrollTop = 0;
         }
     }
