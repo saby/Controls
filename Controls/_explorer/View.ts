@@ -868,7 +868,9 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._viewName = VIEW_TABLE_NAMES[viewMode];
         }
         this._markerStrategy = MARKER_STRATEGY[viewMode];
-        this._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS[viewMode];
+        this._viewModelConstructor = this._options.fix1182121846 && viewMode === 'list'
+            ? 'Controls/treeGrid:TreeGridCollection'
+            : VIEW_MODEL_CONSTRUCTORS[viewMode];
         this._itemContainerGetter = ITEM_GETTER[viewMode];
     }
 
