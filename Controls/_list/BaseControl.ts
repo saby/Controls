@@ -2478,7 +2478,7 @@ const _private = {
     updateIndicatorContainerHeight(self, viewRect: DOMRect, viewportRect: DOMRect): void {
         let top;
         let bottom;
-        if (self._isScrollShown || (self._needScrollCalculation && viewRect && viewportRect)) {
+        if (self._isScrollShown || viewRect && viewportRect) {
             top = Math.max(viewRect.y, viewportRect.y);
             bottom = Math.min(viewRect.y + viewRect.height, viewportRect.y + viewportRect.height);
         } else {
@@ -5149,6 +5149,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         const key = contents.getKey();
 
         if (!readOnly) {
+            const selectionController = _private.getSelectionController(this);
+
             let newSelection;
 
             if (e.nativeEvent && e.nativeEvent.shiftKey) {
@@ -5158,6 +5160,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
 
             this._notify('checkboxClick', [key, item.isSelected()]);
+            this._notify('selectedLimitChanged', [selectionController.getLimit()]);
             _private.changeSelection(this, newSelection);
         }
 

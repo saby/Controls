@@ -1,4 +1,9 @@
 <ws:template name="label">
+  <ws:if data="{{collectionItem.shouldDisplayLevelPadding(withoutLevelPadding) }}">
+      <ws:for data="i in collectionItem.getPropertyLevel() - 1">
+          <div class="{{collectionItem.getLevelIndentClasses()}}"></div>
+      </ws:for>
+  </ws:if>
   <ws:if data="{{collectionItem.isNode()}}">
     <div class="controls-PropertyGrid__editor_nodeCaption_wrapper_theme-{{theme}}">
       <Controls.heading:Title scope="{{_options}}"
@@ -36,6 +41,11 @@
         </div>
     </ws:if>
     <ws:if data="{{collectionItem.getEditorTemplateName()}}">
+        <ws:if data="{{!(!item.editorOptions.jumpingLabel && item.caption) && collectionItem.shouldDisplayLevelPadding(withoutLevelPadding)}}">
+            <ws:for data="i in collectionItem.getPropertyLevel() - 1">
+                <div class="{{collectionItem.getLevelIndentClasses()}}"></div>
+            </ws:for>
+        </ws:if>
        <div class="controls-PropertyGrid__gridLayout_editor
                    controls-PropertyGrid__gridLayout_editor_theme-{{theme}}
                    {{collectionItem.isHovered() && highlightOnHover ? 'controls-PropertyGrid__cell_highlightOnHover_theme-' + theme}}

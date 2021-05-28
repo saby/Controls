@@ -384,10 +384,13 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
         // TODO: Подскрол горизонтального скролла
     },
 
-    beforeRowActivated(target: HTMLElement): void {
-        const isCellEdit = this._listModel.getEditingConfig()?.mode === 'cell';
-        const correctTarget: HTMLElement = isCellEdit ? (target.closest('.controls-Grid__row-cell') || target) : target;
-        this._columnScrollScrollIntoView(correctTarget);
+    beforeRowActivated(target): void {
+        const cell = target.closest('.controls-Grid__row-cell') || target;
+        if (cell.className.indexOf(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`) !== 1) {
+            return;
+        }
+        const isCellEditing = this._listModel.getEditingConfig()?.mode === 'cell';
+        this._columnScrollScrollIntoView(isCellEditing ? cell : target);
     }
 });
 

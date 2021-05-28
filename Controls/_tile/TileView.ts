@@ -200,12 +200,7 @@ export default class TileView extends ListView {
 
     protected _onItemMouseEnter(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem): void {
         super._onItemMouseEnter(e, item);
-        if (this._shouldProcessHover() && !this._listModel.getHoveredItem()) {
-            this._mouseMoveTimeout = setTimeout(() => {
-                this._setHoveredItem(this, item, e);
-                this._clearMouseMoveTimeout();
-            }, ZOOM_DELAY);
-        }
+        this._setHoveredItemIfNeed(e, item);
     }
 
     protected _onItemMouseLeave(event: SyntheticEvent, item: TileCollectionItem): void {
@@ -229,8 +224,18 @@ export default class TileView extends ListView {
         ) {
             this._setHoveredItemPosition(event, item);
         }
+        this._setHoveredItemIfNeed(event, item);
 
         super._onItemMouseMove(event, item);
+    }
+
+    private _setHoveredItemIfNeed(event: SyntheticEvent, item: TileCollectionItem): void {
+        if (this._shouldProcessHover() && !this._listModel.getHoveredItem()) {
+            this._mouseMoveTimeout = setTimeout(() => {
+                this._setHoveredItem(this, item, event);
+                this._clearMouseMoveTimeout();
+            }, ZOOM_DELAY);
+        }
     }
 
     protected _setHoveredItemPosition(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem): void {

@@ -20,6 +20,7 @@ const MORE_BUTTON_TEXT = rk('Ещё...');
 
 interface IReceivedState {
     items: RecordSet<object>;
+    containerWidth: number;
 }
 
 export interface ITabsAdaptiveButtonsOptions extends ITabsButtonsOptions {
@@ -80,6 +81,11 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
             Logger.error('Не задана обязательная опция containerWidth. Вкладки не будут построены.', this);
         }
         if (receivedState) {
+            if (options.containerWidth !== receivedState.containerWidth) {
+                Logger.warn('Опция containerWidth на клиенте и сервере имеет разные значения,' +
+                    'вкладки могут прыгать при построении', this);
+
+            }
             this._items = receivedState.items;
             this._moreButtonWidth = this._getTextWidth(MORE_BUTTON_TEXT, 'm');
             this._calcVisibleItems(this._items, options);
@@ -96,7 +102,8 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
                     const getReceivedData = (opts: ITabsAdaptiveButtonsOptions) => {
                         this._prepareItems(opts);
                         resolve({
-                            items: this._items
+                            items: this._items,
+                            containerWidth: options.containerWidth
                         });
                     };
 
