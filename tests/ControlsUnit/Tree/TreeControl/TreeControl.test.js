@@ -818,7 +818,7 @@ define([
          });
       });
       it('TreeControl._beforeUpdate name of property', function() {
-         return new Promise((resolve, reject) => {
+         return new Promise(async(resolve, reject) => {
             var
                source = new sourceLib.Memory({
                   data: [
@@ -828,7 +828,7 @@ define([
                   ],
                   keyProperty: 'id'
                }),
-               treeControl = correctCreateTreeControl({
+               treeControl = await correctCreateTreeControlAsync({
                   columns: [],
                   source: source,
                   items: new collection.RecordSet({
@@ -841,18 +841,20 @@ define([
                }),
                treeGridViewModel = treeControl.getViewModel();
             setTimeout(() => {
-               treeControl._beforeUpdate({
+               const newOptions = {
                   viewModelConstructor: treeControl._options.viewModelConstructor,
                   root: 'testRoot',
                   parentProperty: 'parentKey',
                   nodeProperty: 'itemType',
-                   multiSelectVisibility: 'hidden',
-                   selectedKeys: [],
-                   excludedKeys: [],
-                   selectionType: 'all',
+                  multiSelectVisibility: 'hidden',
+                  selectedKeys: [],
+                  excludedKeys: [],
+                  selectionType: 'all',
                   hasChildrenProperty: 'hasChildren',
                   source: source
-               });
+               };
+               treeControl._sourceController.updateOptions(newOptions);
+               treeControl._beforeUpdate(newOptions);
                try {
                   assert.equal(treeGridViewModel._options.parentProperty, 'parentKey');
                   assert.equal(treeGridViewModel._model._options.parentProperty, 'parentKey');
@@ -1948,7 +1950,9 @@ define([
                setExpandedItems: () => null,
                getExpandedItems: () => null,
                getState: () => {
-                  return {};
+                  return {
+                     parentProperty: 'Раздел'
+                  };
                },
                updateOptions: () => null,
                hasLoaded: () => true,
