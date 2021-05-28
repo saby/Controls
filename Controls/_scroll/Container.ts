@@ -163,7 +163,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             if (!this._paging) {
                 this._paging = new PagingModel();
             }
-            this._paging.isVisible = this._scrollModel.canVerticalScroll;
+            this._paging.isVisible = this._scrollModel.canVerticalScroll && options.scrollMode !== 'none';
             if (this._options.pagingMode !== options.pagingMode) {
                 this._paging.pagingMode = options.pagingMode;
             }
@@ -654,7 +654,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             scrollMode: descriptor(String).oneOf([
                 'vertical',
                 'horizontal',
-                'verticalHorizontal'
+                'verticalHorizontal',
+                'none'
             ])
         };
     }

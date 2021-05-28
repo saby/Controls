@@ -708,12 +708,17 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     protected _getScrollContainerCssClass(options: IContainerBaseOptions): string {
-        if (options.scrollMode === SCROLL_MODE.VERTICAL) {
-            return 'controls-Scroll-ContainerBase__scroll_vertical';
-        } else if (options.scrollMode === SCROLL_MODE.HORIZONTAL) {
-            return 'controls-Scroll-ContainerBase__scroll_horizontal';
+        switch (options.scrollMode) {
+            case SCROLL_MODE.VERTICAL:
+                return 'controls-Scroll-ContainerBase__scroll_vertical';
+            case SCROLL_MODE.HORIZONTAL:
+                return 'controls-Scroll-ContainerBase__scroll_horizontal';
+            case SCROLL_MODE.NONE:
+                return  'controls-Scroll-ContainerBase__scroll_none';
+            default:
+                return 'controls-Scroll-ContainerBase__scroll_verticalHorizontal';
+
         }
-        return 'controls-Scroll-ContainerBase__scroll_verticalHorizontal';
     }
 
     protected _updateContentWrapperCssClass(): void {
