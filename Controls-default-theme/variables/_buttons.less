@@ -148,21 +148,25 @@
    //
    // Общие цвета фона кнопок
 
-   --background-color_button: transparent;
-   --primary_background-color_button: transparent;
+   --background-color_button: var(--background-color);
+   --primary_background-color_button: var(--background-color);
    --primary_contrast_background-color_button: var(--primary_contrast_background-color);
    --primary_hover_background-color_button: var(--primary_hover_same_background-color);
    --primary_active_background-color_button: var(--primary_active_same_background-color);
-   --secondary_background-color_button: transparent;
+   --secondary_background-color_button: var(--background-color);
    --secondary_contrast_background-color_button: var(--secondary_contrast_background-color);
    --secondary_hover_background-color_button: var(--secondary_hover_same_background-color);
    --secondary_active_background-color_button: var(--secondary_active_same_background-color);
-   --readonly_background-color_button: transparent;
+   --readonly_background-color_button: var(--background-color);
    --readonly_contrast_background-color_button: var(--background-color);
    --default_contrast_background-color_button: #fff;
-   --default_border-color_button: #cecece;
+   --default_border-color_button: #ccc;
    --default_hover_border-color_button: #aab0c1;
    --default_active_border-color_button: #aab0c1;
+   --default_active_background-color_button: #ebedf0;
+   --translucent_contrast_background-color_button: rgba(0, 0, 0, .5);
+   --translucent_hover_border-color_button: rgba(0, 0, 0, .75);
+   --translucent_active_border-color_button: rgba(0, 0, 0, .85);
    // Цвет фона кнопок в режиме отображения тулбара
 
    --background-color_button_toolButton: transparent;
@@ -187,8 +191,6 @@
    --success_active_background-color_button_functionalButton: var(--success_active_contrast_background-color);
    --danger_active_background-color_button_functionalButton: var(--danger_active_contrast_background-color);
    --unaccented_active_background-color_button_functionalButton: var(--unaccented_hover_background-color_button_functionalButton);
-   --pale_contrast_background-color_button_functionalButton: rgba(255, 255, 255, 0.75);
-
 
    // Обводка кнопок
    //
@@ -198,8 +200,8 @@
 
    // Цвета обводки кнопок
 
-   --primary_border-color_button: var(--primary_color);
-   --secondary_border-color_button: var(--secondary_color);
+   --primary_border-color_button: var(--primary_contrast_background-color);
+   --secondary_border-color_button: var(--secondary_contrast_background-color);
    --readonly_border-color_button: var(--readonly_color);
    --border-color_button_toolButton: rgba(0, 0, 0, 0.08);
    --border-color_hover_button_toolButton: #f2f2f2;
