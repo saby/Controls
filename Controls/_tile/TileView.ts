@@ -230,7 +230,8 @@ export default class TileView extends ListView {
     }
 
     private _setHoveredItemIfNeed(event: SyntheticEvent, item: TileCollectionItem): void {
-        if (this._shouldProcessHover() && !this._listModel.getHoveredItem()) {
+        if (this._shouldProcessHover() && (this._listModel.getHoveredItem() !== item)) {
+            this._clearMouseMoveTimeout();
             this._mouseMoveTimeout = setTimeout(() => {
                 this._setHoveredItem(this, item, event);
                 this._clearMouseMoveTimeout();
