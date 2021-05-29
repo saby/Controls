@@ -1,8 +1,8 @@
 <ws:template name="gridView">
     <div class="{{ _getGridViewClasses(_options) }}"
+         style="{{ _getGridViewStyles(_options) }}"
          on:focusIn="_onFocusIn()"
-         style="{{ _getGridViewStyles(_options) }}">
-
+    >
         <!-- Header -->
         <ws:if data="{{ _listModel.getHeader() }}">
             <ws:partial template="{{ _listModel.getHeader().getRow().getTemplate() }}"
@@ -13,6 +13,7 @@
                         on:click="_onHeaderRowClick()"
             />
         </ws:if>
+
         <!-- Results (top) -->
         <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'top' }}">
             <ws:partial template="{{ _listModel.getResults().getTemplate() }}"
@@ -21,20 +22,18 @@
                         style="{{ _options.style }}"
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
+
         <!-- Скроллбар горизонтального скролла. -->
-        <ws:if data="{{ _options.columnScroll && realGridView && (_listModel.getHeader() || (_listModel.getResults() && _listModel.getResultsPosition() === 'top')) }}">
-            <Controls.columnScroll:ScrollBar
+        <ws:if data="{{ _options.columnScroll }}">
+            <Controls.columnScroll:NewScrollBar
                     name="horizontalScrollBar"
-                    attr:style="{{ _getHorizontalScrollBarStyles() }} width: {{ _horizontalScrollWidth }};"
-                    attr:class="{{ _showFakeGridWithColumnScroll ? 'controls-Grid__ColumnScroll_hidden' }}"
+                    attr:style="{{ _getColumnScrollThumbStyles(_options) }}"
                     stickyHeader="{{ true }}"
-                    trackVisible="{{ true }}"
-                    contentSize="{{ _contentSizeForHScroll }}"
-                    scrollWidth="{{ _horizontalScrollWidth }}"
                     backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
-                    on:positionChanged="_onHorizontalPositionChangedHandler()"
-                    on:mouseup="_onScrollBarMouseUp()"/>
+                    on:positionChanged="_onColumnScrollThumbPositionChanged()"
+                    on:dragEnd="_onColumnScrollThumbDragEnd()"/>
         </ws:if>
+
         <!-- Items -->
         <div name="itemsContainer" class="controls-GridViewV__itemsContainer">
             <!-- TODO избавиться от прокидывания _onBreadcrumbClick https://online.sbis.ru/doc/0649e69a-d507-4024-9f99-c70205f535ef-->
@@ -63,13 +62,14 @@
                 </ws:editArrowTemplate>
             </ws:partial>
         </div>
+
         <!-- emptyTemplate -->
         <ws:if data="{{ _listModel.getEmptyGridRow() && _isEmpty() }}">
             <ws:partial template="{{ _listModel.getEmptyGridRow().getTemplate() }}"
                         attr:name="emptyView"
                         item="{{ _listModel.getEmptyGridRow() }}"
                         style="{{ _options.style }}"
-                        containerSize="{{ _containerSize }}"
+                        containerSize="{{ _$columnScrollEmptyViewMaxWidth }}"
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
 
@@ -86,7 +86,7 @@
             <ws:partial template="{{ _listModel.getFooter().getTemplate() }}"
                         attr:name="footer"
                         item="{{ _listModel.getFooter() }}"
-                        containerSize="{{ _containerSize }}"
+                        containerSize="{{ _$columnScrollEmptyViewMaxWidth }}"
                         style="{{ _options.style }}"
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
@@ -94,51 +94,31 @@
 </ws:template>
 
 <div name="gridWrapper"
-     on:wheel="_onGridWrapperWheel()"
-     on:mouseenter="_onWrapperMouseEnter()"
-     class="controls_list_theme-{{_options.theme}} {{ _getGridViewWrapperClasses(_options) }}">
+     on:wheel="_onColumnScrollViewWheel()"
+     class="{{ _getGridViewWrapperClasses(_options) }}">
 
-    <style if="{{ _options.columnScroll }}" name="columnScrollStylesContainer" data-vdom-ignore="true"></style>
     <style>{{_getLadderTopOffsetStyles()}}</style>
 
-    <!-- Тени для горизонтального скролла -->
-    <ws:if data="{{ _options.columnScroll && isColumnScrollVisible() && !_showFakeGridWithColumnScroll}}">
-        <div name="columnScrollShadowStart" class="{{ _columnScrollShadowClasses.start }}"></div>
-        <div name="columnScrollShadowEnd" class="{{ _columnScrollShadowClasses.end }}"></div>
-    </ws:if>
-
-    <!-- Оверлей скролла колонок мышкой -->
-    <ws:if data="{{ _options.columnScroll && !_showFakeGridWithColumnScroll}}">
-        <div class="{{ _dragScrollOverlayClasses }}"
-             on:mousemove="_onMoveDragScroll('mouse')"
-             on:touchmove="_onMoveDragScroll('touch')"
-             on:mouseup="_onStopDragScrolling('mouse')"
-             on:touchend="_onStopDragScrolling('touch')"
-             on:mouseleave="_onStopDragScrolling('mouse')">
-        </div>
+    <ws:if data="{{ _options.columnScroll }}">
+        <Controls.columnScroll:StyleContainers name="columnScrollStyleContainers"/>
+        <Controls.columnScroll:Shadows backgroundStyle="{{ _options.backgroundStyle }}"
+                                       needBottomPadding="{{ _options.needBottomPadding }}"/>
+        <Controls.columnScroll:DragScrollOverlay if="{{ _isDragScrollEnabledByOptions(_options) }}"
+                                                 on:mousemove="_onColumnScrollDragScrolling('mouse')"
+                                                 on:touchmove="_onColumnScrollDragScrolling('touch')"
+                                                 on:mouseup="_onColumnScrollStopDragScrolling('mouse')"
+                                                 on:touchend="_onColumnScrollStopDragScrolling('touch')"
+                                                 on:mouseleave="_onColumnScrollStopDragScrolling('mouse')"/>
+        <Controls.event:Listener event="controlResize" on:controlResize="_onColumnScrollWrapperResized()"/>
     </ws:if>
 
     <!-- Контент таблицы -->
     <ws:partial template="gridView"
                 attr:name="grid"
-                attr:class="{{ _showFakeGridWithColumnScroll ? 'controls-Grid__ColumnScroll_hidden' }}"
-                realGridView="{{ true }}"
-                on:mousedown="_onStartDragScrolling('mouse')"
-                on:touchstart="_onStartDragScrolling('touch')"
-                on:mousemove="_onMoveDragScroll('mouse')"
-                on:touchmove="_onMoveDragScroll('touch')"
-                on:mouseup="_onStopDragScrolling('mouse')"
-                on:touchend="_onStopDragScrolling('touch')"/>
-
-    <!-- Серверная верстка таблицы с горизонтальным скролом и колонками изначально прокрученными вконец -->
-    <ws:if data="{{ _showFakeGridWithColumnScroll }}">
-        <ws:partial template="gridView" attr:class="controls-Grid__ColumnScroll__fixedPart"/>
-        <div class="{{ _columnScrollViewController.getColumnScrollFakeShadowClasses('start', _options.needBottomPadding) }}"
-             style="{{ _columnScrollViewController.getColumnScrollFakeShadowStyles('start') }}"></div>
-        <div class="controls-Grid__ColumnScroll__scrollablePart">
-            <ws:partial template="gridView"/>
-        </div>
-    </ws:if>
-
-    <Controls.event:Listener if="{{ _options.columnScroll }}" event="controlResize" on:controlResize="_resizeHandler()"/>
+                on:mousedown="_onColumnScrollStartDragScrolling('mouse')"
+                on:touchstart="_onColumnScrollStartDragScrolling('touch')"
+                on:mousemove="_onColumnScrollDragScrolling('mouse')"
+                on:touchmove="_onColumnScrollDragScrolling('touch')"
+                on:mouseup="_onColumnScrollStopDragScrolling('mouse')"
+                on:touchend="_onColumnScrollStopDragScrolling('touch')"/>
 </div>
