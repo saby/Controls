@@ -1343,3 +1343,49 @@
 .controls-TileView__item_roundBorder_topRight_m {
    border-top-right-radius: var(--border_radius_m_tile);
 }
+
+.controls-TileView__item_roundBorder_bottomLeft {
+   // TODO: @variants: xs, s, m, l, xl; - заменить использования значений на стандартные
+   @variants: 3xs, 2xs, xs, s, m;
+
+   .for(@variants, {
+      &_@{_item},
+      &_@{_item}.controls-TileView__item_withMarker::after,
+      &_@{_item} .controls-TileView__itemActions_topRight {
+         border-bottom-left-radius: ~"var(--border_radius_@{_item}_tile)";
+      }
+   });
+}
+
+.controls-TileView__item_roundBorder_bottomRight {
+   @variants: 3xs, 2xs, xs, s, m;
+
+   .for(@variants, {
+      &_@{_item},
+      &_@{_item}.controls-TileView__item_withMarker::after {
+         border-bottom-right-radius: ~"var(--border_radius_@{_item}_tile)";
+      }
+   });
+}
+
+.controls-TileView__item_roundBorder_topLeft {
+   @variants: 3xs, 2xs, xs, s, m;
+
+   .for(@variants, {
+      &_@{_item},
+      &_@{_item}.controls-TileView__item_withMarker::after {
+         border-top-left-radius: ~"var(--border_radius_@{_item}_tile)";
+      }
+   });
+}
+
+.controls-TileView__item_roundBorder_topRight {
+   @variants: 3xs, 2xs, xs, s, m;
+
+   .for(@variants, {
+      &_@{_item},
+      &_@{_item}.controls-TileView__item_withMarker::after {
+         border-top-right-radius: ~"var(--border_radius_@{_item}_tile)";
+      }
+   });
+}

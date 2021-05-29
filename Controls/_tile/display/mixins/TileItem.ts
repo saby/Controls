@@ -718,6 +718,7 @@ export default abstract class TileItem<T extends Model = Model> {
         }
 
         classes += ` ${this.getItemPaddingClasses()}`;
+        classes += ` ${this.getRoundBorderClasses()}`;
 
         switch (itemType) {
             case 'default':
@@ -790,7 +791,6 @@ export default abstract class TileItem<T extends Model = Model> {
         titleStyle: string = 'light'
     ): string {
         let classes = '';
-        classes += ` ${this.getRoundBorderClasses()}`;
         if (itemType === 'small') {
             classes += ' controls-TileView__smallTemplate_wrapper';
             if (this.canShowActions()) {
@@ -1181,7 +1181,7 @@ export default abstract class TileItem<T extends Model = Model> {
     }
 
     getRoundBorderClasses(): string {
-        let classes = `controls-TileView__item_roundBorder_topLeft_${this.getTopLeftRoundBorder()}`;
+        let classes = ` controls-TileView__item_roundBorder_topLeft_${this.getTopLeftRoundBorder()}`;
         classes += ` controls-TileView__item_roundBorder_topRight_${this.getTopRightRoundBorder()}`;
         classes += ` controls-TileView__item_roundBorder_bottomLeft_${this.getBottomLeftRoundBorder()}`;
         classes += ` controls-TileView__item_roundBorder_bottomRight_${this.getBottomRightRoundBorder()}`;
