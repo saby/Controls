@@ -248,7 +248,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             isAdd: true,
             addPosition: options.addPosition,
             targetItem: options.targetItem,
-            columnIndex: -1
+            columnIndex: 0
         });
     }
 
