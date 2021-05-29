@@ -44,42 +44,8 @@ describe('Controls/grid_clean/GridView', () => {
                 setItemPadding: () => {},
                 isDragging: () => false
             };
-            options = { listModel: mockListViewModel };
+            options = { listModel: mockListViewModel, isFullGridSupport: true };
             gridView = new GridView(options);
-        });
-
-        describe('disabled. Should ignore all methods', () => {
-
-            it('_beforeMount', async () => {
-                await gridView._beforeMount(options);
-                assert.isNull(gridView._columnScrollViewController);
-            });
-
-            it('handlers', () => {
-                let columnScrollCallCount = 0;
-
-                const handlers = [
-                    '_onHorizontalPositionChangedHandler',
-                    '_onGridWrapperWheel',
-                    '_onScrollBarMouseUp',
-                    '_onStartDragScrolling',
-                    '_onMoveDragScroll',
-                    '_onStopDragScrolling',
-                    '_resizeHandler'
-                ];
-                gridView._actualizeColumnScroll = () => {
-                    columnScrollCallCount++;
-                };
-                handlers.forEach((hName) => {
-                    gridView[hName]({
-                        stopPropagation: () => {},
-                        target: {
-                            closest: (selector) => null
-                        }
-                    });
-                });
-                assert.equal(columnScrollCallCount, 0);
-            });
         });
 
         describe('._getGridTemplateColumns()', () => {
@@ -107,30 +73,6 @@ describe('Controls/grid_clean/GridView', () => {
                 mockListViewModel.getCount = () => 10;
                 mockListViewModel.getColumnsConfig = () => columns;
                 assert.equal(gridView._getGridTemplateColumns(options), 'grid-template-columns: 1fr 1fr 0px;');
-            });
-        });
-        describe('_getHorizontalScrollBarStyles', () => {
-            it('should call _columnScrollViewController.getScrollBarStyles with correct arguments', () => {
-                let testArguments = [];
-                const columns = [{}, {}];
-                options.columns = columns;
-                options.multiSelectVisibility = 'hidden';
-                options.columnScroll = true;
-
-                gridView._beforeMount(options);
-
-                mockListViewModel.getCount = () => 10;
-                mockListViewModel.getColumnsConfig = () => columns;
-
-                gridView._columnScrollViewController = {
-                    isVisible: () => true,
-                    getScrollBarStyles: () => {
-                        // @ts-ignore
-                        testArguments = arguments;
-                    }
-                };
-                gridView._getHorizontalScrollBarStyles();
-                assert.equal(testArguments.length, 2);
             });
         });
     });

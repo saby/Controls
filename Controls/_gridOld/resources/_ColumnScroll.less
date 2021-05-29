@@ -1,5 +1,6 @@
 @import "../../_scroll/Scroll/_contentEnvironmentZIndex";
 
+.controls-ColumnScroll__thumb,
 .controls-ColumnScroll {
    position: absolute;
    top: 0;
@@ -23,6 +24,10 @@
    pointer-events: none;
    width: var(--columnscroll_shadow-blur_grid);
    box-sizing: border-box;
+}
+
+.controls-GridNew__ColumnScroll__shadow {
+   visibility: hidden;
 }
 
 .controls-ColumnScroll__shadow_without-bottom-padding {
@@ -85,4 +90,8 @@
 
 .controls-Grid__ColumnScroll__shadow_withMultiselect {
    margin-left: var(--click-area_width_checkbox);
+}
+
+.controls-ColumnScroll__thumb {
+   display: none;
 }

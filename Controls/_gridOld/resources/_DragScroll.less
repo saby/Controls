@@ -1,4 +1,5 @@
-.controls-Grid__DragScroll__overlay {
+.controls-Grid__DragScroll__overlay,
+.controls-Grid__DragScrollNew__overlay {
    position: fixed;
    left: 0;
    top: 0;
@@ -6,11 +7,13 @@
    height: 100%;
 }
 
+.controls-Grid__DragScrollNew__overlay,
 .controls-Grid__DragScroll__overlay_activated {
    z-index: 999;
    cursor: grabbing;
 }
 
+.controls-Grid__DragScrollNew__overlay,
 .controls-Grid__DragScroll__overlay_deactivated {
    display: none;
 }
