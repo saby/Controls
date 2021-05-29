@@ -237,7 +237,7 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
         return `controls_list_theme-${options.theme} ${this._getColumnScrollWrapperClasses(options)}`;
     },
 
-    _getGridViewClasses(options): string {
+    _getGridViewClasses(options, columnScrollPartName?: 'fixed' | 'scrollable'): string {
         let classes = `controls-Grid controls-Grid_${options.style}`;
         if (GridLadderUtil.isSupportLadder(options.ladderProperties)) {
             classes += ` controls-Grid_support-ladder ${this._ladderOffsetSelector}`;
@@ -255,7 +255,7 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
             classes += ' controls-Grid_dragging_process';
         }
 
-        classes += ` ${this._getColumnScrollContentClasses(options)}`;
+        classes += ` ${this._getColumnScrollContentClasses(options, columnScrollPartName)}`;
         return classes;
     },
 
@@ -377,10 +377,6 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
             options.stickyColumn,
             this._listModel.isDragging()
         );
-    },
-
-    _onFocusIn(e: SyntheticEvent): void {
-        // TODO: Подскрол горизонтального скролла
     },
 
     beforeRowActivated(target: HTMLElement): void {

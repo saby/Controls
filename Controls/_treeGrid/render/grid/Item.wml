@@ -96,7 +96,7 @@
 </ws:template>
 
 
-<ws:if data="{{ (item || itemData).isSticked() }}">
+<ws:if data="{{ isSticked !== false && (item || itemData).isSticked() }}">
    <Controls.scroll:Group>
       <div attr:data-qa="{{(item || itemData).getQAData(marker)}}"
            attr:class="{{ (item || itemData).getItemClasses({

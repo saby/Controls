@@ -8,20 +8,23 @@ import {
 import {SyntheticEvent} from 'UI/Vdom';
 import {DestroyableMixin} from 'Types/entity';
 
-interface IViewOptions extends IControlOptions {
+interface IColumnScrollMixinOptions {
     columnScroll?: boolean;
     dragScrolling?: boolean;
-
+    preventServerSideColumnScroll?: boolean;
     stickyColumnsCount?: number;
-    columns: Object[];
     isFullGridSupport: boolean;
+    startDragNDropCallback?: () => void;
+}
+
+interface IViewOptions extends IControlOptions, IColumnScrollMixinOptions {
+    columns: Object[];
     header: Object[];
     backgroundStyle?: string;
     needShowEmptyTemplate?: boolean;
     itemsDragNDrop?: boolean;
     headerVisibility?: string;
     headerInEmptyListVisible?: boolean;
-    startDragNDropCallback?: () => void;
     columnScrollStartPosition?: 'end';
     itemActionsPosition?: string;
     multiSelectVisibility?: string;
@@ -47,13 +50,17 @@ interface IView extends Control<IViewOptions> {
 }
 
 interface IColumnScrollViewMixin {
-    '[Controls/_grid/ViewMixins/ColumnScrollViewMixin]': true;
+    '[Controls/_grid/ViewMixins/ColumnScroll]': true;
     _$columnScrollController: ColumnScrollController;
     _$columnScrollSelector: string;
     _$dragScrollController: DragScrollController;
     _$dragScrollStylesContainer: HTMLStyleElement;
     _$columnScrollFreezeCount: number;
     _$columnScrollEmptyViewMaxWidth: number;
+
+    // Scrolled to end server-side render
+    _$columnScrollUseFakeRender: boolean;
+    _$pendingMouseEnterForActivate: boolean;
 
     // IFreezable
     _freezeColumnScroll(): void;
@@ -75,11 +82,12 @@ interface IColumnScrollViewMixin {
     _getColumnScrollEmptyViewMaxWidth(): number;
     _getColumnScrollThumbStyles(options: IViewOptions): string;
     _getColumnScrollWrapperClasses(options: IViewOptions): string;
-    _getColumnScrollContentClasses(options: IViewOptions): string;
+    _getColumnScrollContentClasses(options: IViewOptions, columnScrollPartName?: 'fixed' | 'scrollable'): string;
 
     // EventHandlers
     _onColumnScrollThumbPositionChanged(e: SyntheticEvent<null>, newPosition: number): void;
     _onColumnScrollThumbDragEnd(e: SyntheticEvent<null>): void;
+    _onColumnScrollViewMouseEnter(e: SyntheticEvent<MouseEvent>): void;
     _onColumnScrollViewWheel(e: SyntheticEvent<WheelEvent>): void;
     _onColumnScrollWrapperResized(): void;
     _onColumnScrollStartDragScrolling(e: SyntheticEvent<TouchEvent | MouseEvent>, startBy: 'mouse' | 'touch'): void;

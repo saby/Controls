@@ -1,14 +1,13 @@
 <ws:template name="gridView">
-    <div class="{{ _getGridViewClasses(_options) }}"
-         style="{{ _getGridViewStyles(_options) }}"
-         on:focusIn="_onFocusIn()"
-    >
+    <div class="{{ _getGridViewClasses(_options, columnScrollPartName) }}"
+         style="{{ _getGridViewStyles(_options) }}">
         <!-- Header -->
         <ws:if data="{{ _listModel.getHeader() }}">
             <ws:partial template="{{ _listModel.getHeader().getRow().getTemplate() }}"
-                        attr:name="header"
+                        attr:name="header{{columnScrollPartName === 'scrollable' ? '_fake'}}"
                         item="{{ _listModel.getHeader().getRow() }}"
                         style="{{ _options.style }}"
+                        isSticked="{{ columnScrollPartName !== 'scrollable' }}"
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
                         on:click="_onHeaderRowClick()"
             />
@@ -17,7 +16,8 @@
         <!-- Results (top) -->
         <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'top' }}">
             <ws:partial template="{{ _listModel.getResults().getTemplate() }}"
-                        attr:name="results"
+                        attr:name="results{{columnScrollPartName === 'scrollable' ? '_fake'}}"
+                        isSticked="{{ columnScrollPartName !== 'scrollable' }}"
                         item="{{ _listModel.getResults() }}"
                         style="{{ _options.style }}"
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
@@ -26,7 +26,7 @@
         <!-- Скроллбар горизонтального скролла. -->
         <ws:if data="{{ _options.columnScroll }}">
             <Controls.columnScroll:NewScrollBar
-                    name="horizontalScrollBar"
+                    name="horizontalScrollBar{{columnScrollPartName === 'scrollable' ? '_fake'}}"
                     attr:style="{{ _getColumnScrollThumbStyles(_options) }}"
                     stickyHeader="{{ true }}"
                     backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
@@ -77,7 +77,7 @@
         <!-- Results (bottom) -->
         <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'bottom' }}">
             <ws:partial template="{{ _listModel.getResults().getTemplate() }}"
-                        attr:name="results"
+                        attr:name="results{{columnScrollPartName === 'scrollable' ? '_fake'}}"
                         item="{{ _listModel.getResults() }}"
                         style="{{ _options.style }}"
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
@@ -85,7 +85,7 @@
         <!-- Footer -->
         <ws:if data="{{ _listModel.getFooter() }}">
             <ws:partial template="{{ _listModel.getFooter().getTemplate() }}"
-                        attr:name="footer"
+                        attr:name="footer{{columnScrollPartName === 'scrollable' ? '_fake'}}"
                         item="{{ _listModel.getFooter() }}"
                         containerSize="{{ _getColumnScrollEmptyViewMaxWidth() }}"
                         style="{{ _options.style }}"
@@ -96,6 +96,7 @@
 
 <div name="gridWrapper"
      on:wheel="_onColumnScrollViewWheel()"
+     on:mouseenter="_onColumnScrollViewMouseEnter()"
      class="{{ _getGridViewWrapperClasses(_options) }}">
 
     <style>{{_getLadderTopOffsetStyles()}}</style>
@@ -116,10 +117,18 @@
     <!-- Контент таблицы -->
     <ws:partial template="gridView"
                 attr:name="grid"
+                columnScrollPartName="fixed"
                 on:mousedown="_onColumnScrollStartDragScrolling('mouse')"
                 on:touchstart="_onColumnScrollStartDragScrolling('touch')"
                 on:mousemove="_onColumnScrollDragScrolling('mouse')"
                 on:touchmove="_onColumnScrollDragScrolling('touch')"
                 on:mouseup="_onColumnScrollStopDragScrolling('mouse')"
                 on:touchend="_onColumnScrollStopDragScrolling('touch')"/>
+
+    <ws:if data="{{ _$columnScrollUseFakeRender }}">
+        <div class="controls-Grid__ColumnScroll__fakeScrollablePartWrapper">
+            <!-- На фейке отключены стики шабки, имена всех детей имеют префикс _fake -->
+            <ws:partial template="gridView" columnScrollPartName="scrollable"/>
+        </div>
+    </ws:if>
 </div>

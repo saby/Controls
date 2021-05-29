@@ -1,7 +1,6 @@
 <ws:template name="gridView">
     <table class="{{ _getGridViewClasses(_options) }}"
-           style="{{ _getGridViewStyles(_options) }}"
-           on:focusIn="_onFocusIn()">
+           style="{{ _getGridViewStyles(_options) }}">
 
         <!-- Colgroup. Describes columns widths -->
         <ws:partial template="wml!Controls/_grid/Render/table/Colgroup" colgroup="{{ _listModel.getColgroup() }}"/>
@@ -115,7 +114,7 @@
                 stickyHeader="{{ false }}"
                 backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
                 on:positionChanged="_onColumnScrollThumbPositionChanged()"
-                on:mouseup="_onColumnScrollThumbDragEnd()"/>
+                on:dragEnd="_onColumnScrollThumbDragEnd()"/>
     </ws:if>
 
     <!-- Контент таблицы -->

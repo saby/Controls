@@ -1,6 +1,7 @@
 import {Guid} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {detection} from 'Env/Env';
+import {IContainers as IStyleContainers} from './StyleContainers/StyleContainers';
 
 export interface IControllerOptions {
     stickyColumnsCount?: number;
@@ -8,11 +9,10 @@ export interface IControllerOptions {
     isFullGridSupport?: boolean;
     stickyLadderCellsCount?: number;
     getFixedPartWidth: () => number;
+    useFakeRender?: boolean;
 
     transformSelector?: string;
     backgroundStyle?: string;
-
-    containers?: Record<string, HTMLElement>;
 }
 
 interface IShouldDrawColumnScrollResult {
@@ -62,14 +62,20 @@ export default class ColumnScrollController {
     private _currentScrollDirection: TScrollDirection;
     private _scrollableColumns: HTMLElement[];
 
-    constructor(options: IControllerOptions) {
+    constructor(options: IControllerOptions & {containers: IStyleContainers & {scrollContainer, contentContainer}}) {
         this._options = {...options};
         this._options.backgroundStyle = this._options.backgroundStyle || 'default';
         this._options.stickyColumnsCount = this._options.stickyColumnsCount || 1;
         this._options.isFullGridSupport = !!options.isFullGridSupport;
 
         if (options.containers) {
-            this.setContainers(options.containers);
+            this.setContainers({
+                scrollContainer: options.containers.scrollContainer,
+                contentContainer: options.containers.contentContainer,
+                stylesContainer: options.containers.staticStyles,
+                transformStylesContainer: options.containers.transformStyles,
+                shadowsStylesContainer: options.containers.shadowsStyles
+            });
             delete this._options.containers;
         }
 
@@ -416,7 +422,7 @@ export default class ColumnScrollController {
         const transformSelector = this._transformSelector;
         let newHTML = '';
 
-        newHTML += ` .${transformSelector} .js-controls-ColumnScroll__thumb {display: flex;}`;
+        newHTML += ` .${transformSelector} .js-controls-ColumnScroll__thumb {display: flex; ${this._options.useFakeRender ? 'visibility: hidden;' : ''}}`;
         if (!this._options.isFullGridSupport) {
             newHTML += ` .${transformSelector} .js-controls-ColumnScroll__thumb {width: ${this._scrollWidth}px;}`;
 
@@ -441,8 +447,10 @@ export default class ColumnScrollController {
         let newHTML = '';
 
         // Обновление теней не должно вызывать перерисовку
-        newHTML += `.${transformSelector}>.js-controls-ColumnScroll__shadows .js-controls-ColumnScroll__shadow-start {${this.getShadowStyles('start')}}`;
-        newHTML += `.${transformSelector}>.js-controls-ColumnScroll__shadows .js-controls-ColumnScroll__shadow-end {${this.getShadowStyles('end')}}`;
+        if (!this._options.useFakeRender) {
+            newHTML += `.${transformSelector}>.js-controls-ColumnScroll__shadows .js-controls-ColumnScroll__shadow-start {${this.getShadowStyles('start')}}`;
+            newHTML += `.${transformSelector}>.js-controls-ColumnScroll__shadows .js-controls-ColumnScroll__shadow-end {${this.getShadowStyles('end')}}`;
+        }
 
         return newHTML;
     }
@@ -480,6 +488,11 @@ export default class ColumnScrollController {
                 });
             }
         }
+    }
+
+    disableFakeRender(): void {
+        this._options.useFakeRender = false;
+        this._drawTransform(this._scrollPosition, this._options.isFullGridSupport, true);
     }
 
     scrollByWheel(e: SyntheticEvent<WheelEvent>): number {

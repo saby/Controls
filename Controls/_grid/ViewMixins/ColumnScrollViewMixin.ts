@@ -41,6 +41,28 @@ const getViewHeader = (self) => {
     return header;
 };
 
+const isSizeAffectsOptionsChanged = (changedOptions: Record<string, unknown>): boolean => {
+    return Boolean(
+        changedOptions.hasOwnProperty('columns') ||
+        changedOptions.hasOwnProperty('header') ||
+        changedOptions.hasOwnProperty('breadCrumbsMode') ||
+        changedOptions.hasOwnProperty('sorting') ||
+        changedOptions.hasOwnProperty('source') ||
+        changedOptions.hasOwnProperty('stickyColumnsCount')
+    );
+};
+
+const disablePendingMouseEnterActivation = (self: TColumnScrollViewMixin) => {
+    self._$pendingMouseEnterForActivate = false;
+    if (self._$columnScrollController) {
+        self._doAfterReload(() => {
+            self._doOnComponentDidUpdate(() => {
+                self._$columnScrollController.disableFakeRender();
+            });
+        });
+    }
+};
+
 //#region Создание, обновление и разрушение контроллеров
 
 const createColumnScroll = (self: TColumnScrollViewMixin, options: IAbstractViewOptions) => {
@@ -48,7 +70,6 @@ const createColumnScroll = (self: TColumnScrollViewMixin, options: IAbstractView
         self._$columnScrollSelector = ColumnScrollController.createUniqSelector();
     }
 
-    const header = getViewHeader(self);
     const styleContainers = self._children.columnScrollStyleContainers.getContainers();
 
     self._$columnScrollController = new ColumnScrollController({
@@ -57,14 +78,13 @@ const createColumnScroll = (self: TColumnScrollViewMixin, options: IAbstractView
         backgroundStyle: options.backgroundStyle || 'default',
         isEmptyTemplateShown: !!options.needShowEmptyTemplate,
         transformSelector: self._$columnScrollSelector,
-        getFixedPartWidth: () => getFixedPartWidth(self._children.gridWrapper, header),
+        getFixedPartWidth: () => getFixedPartWidth(self._children.gridWrapper, getViewHeader(self)),
         containers: {
             scrollContainer: self._children.gridWrapper,
             contentContainer: self._children.grid,
-            stylesContainer: styleContainers.staticStyles,
-            transformStylesContainer: styleContainers.transformStyles,
-            shadowsStylesContainer: styleContainers.shadowsStyles
-        }
+            ...styleContainers
+        },
+        useFakeRender: self._$columnScrollUseFakeRender
     });
 
     self._notify('toggleHorizontalScroll', [true]);
@@ -74,6 +94,7 @@ const destroyColumnScroll = (self: TColumnScrollViewMixin) => {
     self._$columnScrollController.destroy();
     self._$columnScrollController = null;
     self._$dragScrollStylesContainer = null;
+    self._$columnScrollUseFakeRender = false;
     if (self._$dragScrollController) {
         destroyDragScroll(self);
     }
@@ -171,13 +192,15 @@ const getFixedPartWidth = (gridWrapper: HTMLDivElement, header: HTMLDivElement) 
 //#endregion
 
 export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
-    '[Controls/_grid/ViewMixins/ColumnScrollViewMixin]': true,
-    _$columnScrollController: null,
+    '[Controls/_grid/ViewMixins/ColumnScroll]': true,
     _$columnScrollSelector: null,
+    _$columnScrollController: null,
     _$dragScrollController: null,
     _$dragScrollStylesContainer: null,
     _$columnScrollFreezeCount: 0,
     _$columnScrollEmptyViewMaxWidth: 0,
+    _$columnScrollUseFakeRender: false,
+    _$pendingMouseEnterForActivate: false,
 
     //#region IFreezable
 
@@ -201,6 +224,9 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
     _columnScrollOnViewBeforeMount(options: IAbstractViewOptions): void {
         if (options.columnScroll) {
             this._$columnScrollSelector = ColumnScrollController.createUniqSelector();
+            if (options.isFullGridSupport && options.columnScrollStartPosition === 'end' && !options.preventServerSideColumnScroll) {
+                this._$columnScrollUseFakeRender = true;
+            }
         }
     },
 
@@ -219,6 +245,10 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
             if (this._options.needShowEmptyTemplate) {
                 this._$columnScrollEmptyViewMaxWidth = ColumnScrollController.getEmptyViewMaxWidth(this._children, this._options);
             }
+            if (this._$columnScrollUseFakeRender) {
+                this._$columnScrollUseFakeRender = false;
+                this._$pendingMouseEnterForActivate = false;
+            }
             return;
         }
 
@@ -230,6 +260,10 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
             this._options.isFullGridSupport
         );
         if (!shouldDrawResult.status) {
+            if (this._$columnScrollUseFakeRender) {
+                this._$columnScrollUseFakeRender = false;
+                this._$pendingMouseEnterForActivate = false;
+            }
             return;
         }
 
@@ -245,6 +279,11 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
 
         if (this._options.columnScrollStartPosition === 'end') {
             scrollToEnd(this);
+        }
+
+        if (this._$columnScrollUseFakeRender) {
+            this._$columnScrollUseFakeRender = false;
+            this._$pendingMouseEnterForActivate = true;
         }
     },
 
@@ -273,7 +312,10 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
     // _componentDidUpdate
     _columnScrollOnViewDidUpdate(oldOptions: IAbstractViewOptions): void {
         // Горизонтальный скролл выключен. Если он раньше был, то разрушился на beforeUpdate.
-        if (!this._options.columnScroll || !canShowColumnScroll(this, this._options) || this._isColumnScrollFrozen()) {
+        if (
+            !this._options.columnScroll ||
+            !canShowColumnScroll(this, this._options) || this._isColumnScrollFrozen()
+        ) {
             return;
         }
 
@@ -283,18 +325,17 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
         let shouldResetColumnScroll = false;
 
         // Опции, при смене которых в любом случае придется пересчитать размеры
-        shouldCheckSizes = shouldCheckSizes || (
-            changedOptions.hasOwnProperty('columns') ||
-            changedOptions.hasOwnProperty('header') ||
-            changedOptions.hasOwnProperty('sorting') ||
-            changedOptions.hasOwnProperty('stickyColumnsCount')
-        );
+        shouldCheckSizes = isSizeAffectsOptionsChanged(changedOptions);
 
-        // Включили горизонтальный скролл. Не факт что он будет нужен, необходимо взять размеры.
+        // Включили горизонтальный скролл, либо изменили опции, при которых скролл
+        // недопустим, например пустой список без зеголовков. Не факт что он будет нужен.
+        // Необходимо взять размеры.
         if (
             !shouldCheckSizes && (
                 (this._options.columnScroll && !oldOptions.columnScroll) ||
-                (canShowColumnScroll(this, this._options) && !this._$columnScrollController)
+                (!this._$columnScrollController && (
+                    !canShowColumnScroll(this, oldOptions) && canShowColumnScroll(this, this._options)
+                ))
             )
         ) {
             shouldCheckSizes = true;
@@ -348,8 +389,12 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
 
             recalculateSizes(this, this._options, calcResult.sizes);
 
-            if (shouldResetColumnScroll && this._options.columnScrollStartPosition === 'end') {
-                scrollToEnd(this);
+            if (shouldResetColumnScroll) {
+                this._resetColumnScroll(this._options);
+            }
+
+            if (this._$pendingMouseEnterForActivate) {
+                disablePendingMouseEnterActivation(this);
             }
         } else if (shouldCreateDragScroll) {
             createDragScroll(this, this._options);
@@ -377,7 +422,7 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
         }
         if (options.columnScrollStartPosition === 'end') {
             scrollToEnd(this);
-        } else {
+        } else if (this._$columnScrollController.getScrollPosition() !== 0) {
             setScrollPosition(this, 0);
         }
     },
@@ -416,16 +461,24 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
     },
 
     _getColumnScrollWrapperClasses(options: IAbstractViewOptions): string {
+        let classes = '';
         if (options.columnScroll) {
-            return this._$columnScrollSelector;
+            classes += this._$columnScrollSelector;
+            if (this._$columnScrollUseFakeRender) {
+                classes += ' controls-Grid__ColumnScrollWrapper_withFakeRender';
+            }
         }
-        return '';
+        return classes;
     },
 
-    _getColumnScrollContentClasses(options: IAbstractViewOptions): string {
+    _getColumnScrollContentClasses(options: IAbstractViewOptions, columnScrollPartName?: 'fixed' | 'scrollable'): string {
         let classes = '';
         if (options.columnScroll) {
             classes += `${COLUMN_SCROLL_JS_SELECTORS.CONTENT}`;
+
+            if (this._$columnScrollUseFakeRender && columnScrollPartName === 'fixed') {
+                classes += ' controls-Grid__ColumnScroll__fakeFixedPart';
+            }
 
             if (this._isDragScrollEnabledByOptions(options)) {
                 classes += ` ${DRAG_SCROLL_JS_SELECTORS.CONTENT}`;
@@ -461,6 +514,12 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
 
     _onColumnScrollThumbDragEnd(e: SyntheticEvent<null>): void {
         scrollToColumnEdge(this);
+    },
+
+    _onColumnScrollViewMouseEnter(e: SyntheticEvent): void {
+        if (this._$pendingMouseEnterForActivate) {
+            disablePendingMouseEnterActivation(this);
+        }
     },
 
     _onColumnScrollViewWheel(e: SyntheticEvent<WheelEvent>): void {
@@ -508,8 +567,12 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
 
             recalculateSizes(this, this._options, shouldDrawResult.sizes);
 
-            if (shouldResetColumnScroll && this._options.columnScrollStartPosition === 'end') {
-                scrollToEnd(this);
+            if (shouldResetColumnScroll) {
+                this._resetColumnScroll(this._options);
+            }
+
+            if (this._$pendingMouseEnterForActivate) {
+                disablePendingMouseEnterActivation(this);
             }
         }
     },
