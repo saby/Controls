@@ -7,8 +7,8 @@ import {groupConstants as constView} from 'Controls/list';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IEditingConfig} from 'Controls/display';
 
-const data = getData().map((item) => {
-    if (item.brand === 'apple') {
+const data = getData().slice(4, 8).map((item) => {
+    if (item.brand === 'acer') {
         item.brand = constView.hiddenGroup;
     }
     return item;

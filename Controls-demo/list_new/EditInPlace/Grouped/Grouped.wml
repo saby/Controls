@@ -3,9 +3,9 @@
             keyProperty="id"
             name="list"
             source="{{_viewSource}}"
-            on:beforeBeginEdit="_onBeforeBeginEdit()"
             groupProperty="brand"
-            editingConfig="{{_editingConfig}}">
+            editingConfig="{{_editingConfig}}"
+            on:beforeBeginEdit="_onBeforeBeginEdit()">
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate">
                 <ws:contentTemplate>
@@ -27,10 +27,6 @@
                                      buttonStyle="{{ _addPosition === 'bottom' ? 'primary' : 'secondary' }}"
                                      caption="Add position: BOTTOM"
                                      attr:class="demo-EditInPlace__addBottom"/>
-            <Controls.buttons:Button on:click="_resetGroup()"
-                                     buttonStyle="secondary"
-                                     caption="Set 'Xiaomi' group"
-                                     attr:class="demo-EditInPlace__resetGroup"/>
         </ws:footerTemplate>
     </Controls.list:View>
 </div>
