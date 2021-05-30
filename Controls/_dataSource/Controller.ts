@@ -137,6 +137,15 @@ export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
         isEqualFormat(oldList, newList);
 }
 
+const OPTIONS_FOR_UPDATE_AFTER_LOAD = [
+    'groupProperty',
+    'sorting',
+    'navigation',
+    'nodeProperty',
+    'nodeTypeProperty',
+    'dataLoadCallback'
+];
+
 /**
  * @typedef {Object} SourceConfig
  * @description Конфигурация навигации ({@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#cursor по курсору} или {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#page постраничная}).
@@ -493,11 +502,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             source,
 
             filter: this._filter,
-            sorting: this._options.sorting,
-            navigation: this._options.navigation,
 
             parentProperty: this._parentProperty,
-            nodeProperty: this._options.nodeProperty,
             root: this._root,
 
             items: this._items,
@@ -508,10 +514,11 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             // FIXME sourceController не должен создаваться, если нет source
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
-            dataLoadCallback: this._options.dataLoadCallback,
-            expandedItems: this._expandedItems,
-            nodeTypeProperty: this._options.nodeTypeProperty
+            expandedItems: this._expandedItems
         };
+        OPTIONS_FOR_UPDATE_AFTER_LOAD.forEach((optionName) => {
+            state[optionName] = this._options[optionName];
+        });
         return state;
     }
 
