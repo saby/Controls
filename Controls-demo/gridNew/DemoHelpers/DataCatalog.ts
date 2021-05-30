@@ -1791,7 +1791,7 @@ const getEditing = () => {
             {
                 displayProperty: 'email',
                 width: '200px',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditor'
+                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorEmail'
             },
             {
                 displayProperty: 'required',
@@ -1801,7 +1801,7 @@ const getEditing = () => {
             {
                 displayProperty: 'length',
                 width: 'max-content',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorDate'
+                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorLength'
             },
             {
                 displayProperty: 'title',
