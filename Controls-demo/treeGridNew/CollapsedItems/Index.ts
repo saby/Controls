@@ -12,9 +12,15 @@ export default class extends Control {
    protected _expandedItems: CrudEntityKey[] = [null];
 
    protected _beforeMount(): void {
+      const data = Gadgets.getDataSet();
+
+      data.push({
+         id: 31, title: 'Leaf 31', Раздел: 3, 'Раздел@': null, Раздел$: null
+      });
+
       this._viewSource = new Memory({
          keyProperty: 'id',
-         data: Gadgets.getDataSet()
+         data
       });
    }
 
