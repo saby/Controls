@@ -4,7 +4,7 @@
             name="list"
             source="{{_viewSource}}"
             on:beforeBeginEdit="_onBeforeBeginEdit()"
-            groupingKeyCallback="{{_groupingKeyCallback}}"
+            groupProperty="brand"
             editingConfig="{{_editingConfig}}">
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate">
@@ -18,7 +18,7 @@
             </ws:partial>
         </ws:itemTemplate>
         <ws:footerTemplate>
-            <Controls.list:AddButton caption="Add record" on:click="_beginAdd()" attr:style="margin-right: 20px"/>
+            <Controls.list:AddButton caption="Add record to '{{_activeGroup}}'" on:click="_beginAdd()" attr:style="margin-right: 20px"/>
             <Controls.buttons:Button on:click="_setPosition('top')"
                                      buttonStyle="{{ _addPosition === 'top' ? 'primary' : 'secondary' }}"
                                      caption="Add position: TOP" attr:style="margin-right: 10px"
@@ -27,6 +27,10 @@
                                      buttonStyle="{{ _addPosition === 'bottom' ? 'primary' : 'secondary' }}"
                                      caption="Add position: BOTTOM"
                                      attr:class="demo-EditInPlace__addBottom"/>
+            <Controls.buttons:Button on:click="_resetGroup()"
+                                     buttonStyle="secondary"
+                                     caption="Set 'Xiaomi' group"
+                                     attr:class="demo-EditInPlace__resetGroup"/>
         </ws:footerTemplate>
     </Controls.list:View>
 </div>
