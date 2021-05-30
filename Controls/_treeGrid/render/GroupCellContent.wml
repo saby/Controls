@@ -6,8 +6,8 @@
         <ws:if data="{{ groupNodeConfig.textVisible !== false }}">
             <div class="{{ (gridColumn || itemData).getContentTextClasses(groupNodeConfig.separatorVisibility, groupNodeConfig.textAlign) }}
                     {{ (gridColumn || itemData).getExpanderClasses(groupNodeConfig.expanderVisible, groupNodeConfig.expanderAlign) }}">
-                <ws:if data="{{ contentTemplate }}">
-                    <ws:partial template="{{ contentTemplate }}"
+                <ws:if data="{{ groupNodeConfig.contentTemplate }}">
+                    <ws:partial template="{{ groupNodeConfig.contentTemplate }}"
                                 item="{{ item || itemData }}"
                                 itemData="{{ item || itemData }}"
                                 column="{{ gridColumn || itemData }}"/>
