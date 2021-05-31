@@ -102,6 +102,10 @@ const GridView = ListView.extend({
             listModel.setResultsPosition(options.resultsPosition);
         }
 
+        if (changes.includes('resultsVisibility')) {
+            listModel.setResultsVisibility(options.resultsVisibility);
+        }
+
         if (changes.includes('ladderProperties')) {
             listModel.setLadderProperties(options.ladderProperties);
         }
@@ -150,6 +154,9 @@ const GridView = ListView.extend({
             }
             if (changedOptions.hasOwnProperty('resultsPosition')) {
                 changes.push('resultsPosition');
+            }
+            if (changedOptions.hasOwnProperty('resultsVisibility')) {
+                changes.push('resultsVisibility');
             }
             if (changedOptions.hasOwnProperty('items')) {
                 changes.push('items');
