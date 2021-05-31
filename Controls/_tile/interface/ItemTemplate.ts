@@ -57,6 +57,7 @@ export default interface IItemTemplateOptions {
  * @cfg {Boolean} Отображение рамки вокруг элемента плитки.
  * @default true
  * @example
+ * В следующем примере отображение рамки вокруг элемента плитки отключено.
  * <pre class="brush: html; highlight: [7]">
  * <!-- WML -->
  * <Controls.tile:View
