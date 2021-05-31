@@ -80,8 +80,8 @@ export default class TreeGridCollection<
         return this._$nodeTypeProperty;
     }
 
-    setGroupNodeVisibility(nodeTypeProperty: TGroupNodeVisibility): void {
-        this._$groupNodeVisibility = nodeTypeProperty;
+    setGroupNodeVisibility(groupNodeVisibility: TGroupNodeVisibility): void {
+        this._$groupNodeVisibility = groupNodeVisibility;
         this._nextVersion();
     }
 
