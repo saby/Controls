@@ -55,10 +55,11 @@ export default interface IItemTemplateOptions {
     * @default true
     * @example
     * В следующем примере отображение рамки вокруг элемента плитки отключено.
-    * <pre class="brush: html; highlight: [7]">
+    * <pre class="brush: html; highlight: [8]">
     * <!-- WML -->
     * <Controls.tile:View
-    *    source="{{_source}}">
+    *    source="{{_source}}"
+    *    imageProperty="image">
     *    <ws:itemTemplate>
     *       <ws:partial
     *          template="Controls/tile:ItemTemplate"
