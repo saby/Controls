@@ -246,6 +246,7 @@ describe('Controls/grid_clean/GridView', () => {
 
     describe('Header', () => {
         let headerVisibility;
+        let resultsVisibility;
         let colspanGroup;
         let gridView;
 
@@ -261,6 +262,9 @@ describe('Controls/grid_clean/GridView', () => {
                 setHeaderVisibility: (value) => {
                     headerVisibility = value;
                 },
+                setResultsVisibility: (value) => {
+                    resultsVisibility = value;
+                },
                 setColspanGroup: (value) => {
                     colspanGroup = value;
                 }
@@ -271,6 +275,12 @@ describe('Controls/grid_clean/GridView', () => {
             const newVisibility = 'visible';
             gridView._beforeUpdate({headerVisibility: newVisibility});
             assert.equal(headerVisibility, newVisibility);
+        });
+
+        it('update results visibility', () => {
+            const newVisibility = 'visible';
+            gridView._beforeUpdate({resultsVisibility: newVisibility});
+            assert.equal(resultsVisibility, newVisibility);
         });
 
         it('update colspanGroup', () => {
