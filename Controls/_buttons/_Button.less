@@ -1,5 +1,5 @@
 .button-shadow() {
-   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .25);
+   box-shadow: 0 3px 5px 0 rgba(0, 0, 0, .25);
 }
 
 //common styles
@@ -158,12 +158,17 @@
 }
 
 .controls-Button_functionalButton {
-   box-shadow: var(--box-shadow_button_functionalButton);
+   .button-shadow();
+}
+
+// Временное решение, будет удалено после правок в engine
+.extControls-doubleButton .controls-Button_functionalButton,
+.extControls-chooseButton .controls-Button_functionalButton {
+   box-shadow: none;
 }
 
 .controls-Button_button:active,
-.controls-Button_toolButton:active,
-.controls-Button_functionalButton.controls-Button_clickable:active {
+.controls-Button_toolButton:active {
    box-shadow: none;
 }
 
@@ -321,14 +326,26 @@
    background-color: var(--info_contrast_background-color);
 }
 
+.controls-Button_functionalButton_style-default {
+   border-color: var(--default_contrast_background-color_button);
+   background-color: var(--default_contrast_background-color_button);
+}
+
 .controls-Button_functionalButton_style-pale {
-   border-color: var(--pale_contrast_background-color_button_functionalButton);
-   background-color: var(--pale_contrast_background-color_button_functionalButton);
+   border-color: var(--pale_contrast_background-color);
+   background-color: var(--pale_contrast_background-color);
+   box-shadow: none;
+
+   &.controls-Button_functionalButton_style-translucent {
+      border-width: 0;
+      background-color: var(--translucent_background-color_button);
+   }
 }
 
 .controls-Button_functionalButton_style-readonly {
    border-color: var(--readonly_border-color_button_functionalButton);
    background-color: var(--readonly_background-color_button_functionalButton);
+   box-shadow: none;
 }
 
 .ws-is-hover {
@@ -365,8 +382,16 @@
    }
 
    .controls-Button_functionalButton_style-pale:hover {
-      border-color: var(--background-color);
-      background-color: var(--background-color);
+      border-color: var(--pale_hover_contrast_background-color);
+      background-color: var(--pale_hover_contrast_background-color);
+
+      &.controls-Button_functionalButton_style-translucent {
+         background-color: var(--translucent_hover_background-color_button);
+      }
+   }
+
+   .controls-Button_functionalButton_style-default:hover {
+      border-color: var(--default_hover_border-color_button);
    }
 }
 
@@ -405,7 +430,16 @@
    }
 
    .controls-Button_functionalButton_style-pale:active {
-      background-color: var(--background-color);
+      border-color: var(--pale_active_contrast_background-color);
+      background-color: var(--pale_active_contrast_background-color);
+      &.controls-Button_functionalButton_style-translucent {
+         background-color: var(--translucent_active_background-color_button);
+      }
+   }
+
+   .controls-Button_functionalButton_style-default:active {
+      border-color: var(--default_active_border-color_button);
+      background-color: var(--default_active_background-color_button);
    }
 }
 //background
@@ -417,6 +451,7 @@
    }
    .controls-Button_button_style-@{_item}.controls-Button_bg-contrast {
       background-color: ~"var(--@{_item}_contrast_background-color)";
+      border-color: ~"var(--@{_item}_contrast_background-color)";
       .button-shadow();
    }
 });
@@ -439,7 +474,6 @@
 
 .controls-Button_button_style-readonly.controls-Button_bg-contrast {
    background-color: var(--readonly_contrast_background-color_button);
-   .button-shadow();
 }
 
 .controls-Button_button_style-default.controls-Button_bg-contrast {
@@ -453,6 +487,7 @@
 
 .controls-Button_button_style-pale.controls-Button_bg-contrast {
    background-color: var(--pale_contrast_background-color);
+   border-color: var(--pale_contrast_background-color);
    .controls-Button__text_clickable_bg-contrast {
       color: var(--text-color_button);
    }
@@ -505,69 +540,11 @@
    }
 
    .controls-Button_button_style-pale:active {
-      background-color: var(--pale_active_background-color_button);
+      background-color: var(--pale_active_contrast_background-color);
    }
    .controls-Button_button_style-default:active {
       border-color: var(--default_active_border-color_button);
-   }
-}
-
-.controls-Button_functionalButton_style-primary {
-   background-color: var(--primary_background-color_button_functionalButton);
-}
-
-.controls-Button_functionalButton_style-secondary {
-   background-color: var(--secondary_background-color_button_functionalButton);
-}
-
-.controls-Button_functionalButton_style-success {
-   background-color: var(--success_background-color_button_functionalButton);
-}
-
-.controls-Button_functionalButton_style-danger {
-   background-color: var(--danger_color);
-}
-
-.controls-Button_functionalButton_style-warning {
-   background-color: var(--warning_color);
-}
-
-.controls-Button_functionalButton_style-unaccented {
-   background-color: var(--unaccented_background-color_button_functionalButton);
-}
-
-.controls-Button_functionalButton_style-readonly {
-   background-color: var(--readonly_background-color_button_functionalButton);
-}
-
-.ws-is-hover {
-   .controls-Button_functionalButton_style-success:hover {
-      background-color: var(--success_hover_background-color_button_functionalButton);
-   }
-   .controls-Button_functionalButton_style-danger:hover {
-      background-color: var(--danger_hover_background-color_button_functionalButton);
-   }
-   .controls-Button_functionalButton_style-secondary:hover {
-      background-color: var(--secondary_hover_background-color_button_functionalButton);
-   }
-   .controls-Button_functionalButton_style-unaccented:hover {
-      background-color: var(--unaccented_hover_background-color_button_functionalButton);
-   }
-}
-
-.ws-is-no-touch,
-.ws-is-touch {
-   .controls-Button_functionalButton_style-success:active {
-      background-color: var(--success_active_background-color_button_functionalButton);
-   }
-   .controls-Button_functionalButton_style-danger:active {
-      background-color: var(--danger_active_background-color_button_functionalButton);
-   }
-   .controls-Button_functionalButton_style-secondary:active {
-      background-color: var(--secondary_active_background-color_button_functionalButton);
-   }
-   .controls-Button_functionalButton_style-unaccented:active {
-      background-color: var(--unaccented_active_background-color_button_functionalButton);
+      background-color: var(--default_active_background-color_button);
    }
 }
 
