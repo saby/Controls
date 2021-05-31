@@ -107,14 +107,14 @@
  */
 
 /**
- * @typedef {String} Controls/_columns/ColumnsView/ColumnsMode
+ * @typedef {String} Controls/columns:View/ColumnsMode
  * @variant auto Автоматическое распределение записей по колонкам.
  * @variant fixed Каждая запись располагается в заранее определенную колонку.
  */
 
  /**
  * @name Controls/columns:View#columnsMode
- * @cfg {Controls/_columns/ColumnsView/ColumnsMode.typedef} Режим распределения записей по колонкам.
+ * @cfg {Controls/columns:View/ColumnsMode.typedef} Режим распределения записей по колонкам.
  * @default auto
  * @remark
  * Дополнительно необходимо задать значение для опции {@link columnProperty}, а также для каждого элемента данных в соответствующем поле указать номер колонки.
