@@ -5,10 +5,12 @@
             {{!_isExpandedPopup ? _getSizeCssClass('height')}}">
    <ws:if data="{{_options.chooseMonths || _options.chooseQuarters || _options.chooseHalfyears}}">
       <div class="controls-PeriodLiteDialog__header">
-         <div class="controls-PeriodLiteDialog__currentValue"
-              title="{[Текущий период]}"
-              on:click="_onHeaderClick()">{{_caption}}
-         </div>
+         <ws:partial
+            caption="{{ _caption }}"
+            on:click="_onHeaderClick()"
+            startValue="{{ _options.startValue }}"
+            endValue="{{ _options.endValue }}"
+            template="{{ _options.headerTemplate }}"/>
          <div class="controls-PeriodLiteDialog__close
                      controls-icon controls-icon_size-m
                      controls-PeriodLiteDialog__close_position-{{_closeBtnPosition}}" title="{[Закрыть]}"

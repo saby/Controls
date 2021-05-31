@@ -1,0 +1,9 @@
+<div class="controls-PeriodLiteDialog__currentValue"
+     title="{[Текущий период]}">
+    <ws:if data="{{ contentTemplate }}">
+        <ws:partial caption="{{ caption }}" startValue="{{ startValue }}" endValue="{{ endValue }}" template="{{ contentTemplate }}"/>
+    </ws:if>
+    <ws:else>
+        {{caption}}
+    </ws:else>
+</div>
