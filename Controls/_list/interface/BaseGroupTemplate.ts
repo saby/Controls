@@ -1,4 +1,4 @@
-export default interface IBaseGroupTemplateOptions {
+export interface IBaseGroupTemplate {
    expanderAlign?: string;
    separatorVisibility?: boolean;
    expanderVisible?: boolean;

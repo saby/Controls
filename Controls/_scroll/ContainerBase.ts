@@ -181,6 +181,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                 this._registrars[registrar].destroy();
             }
         }
+
+        if (detection.isMobileIOS) {
+            Bus.globalChannel().unsubscribe('MobileInputFocus', this._lockScrollPositionUntilKeyboardShown);
+        }
+
         this._scrollModel = null;
         this._oldScrollState = null;
         this._isUnmounted = true;
