@@ -2,9 +2,9 @@
     <Controls.treeGrid:View
             keyProperty="id"
             source="{{ _viewSource }}"
-            parentProperty="parent"
+            parentProperty="dynamicParent"
             nodeProperty="type"
-            nodeTypeProperty="{{ _nodeTypeProperty }}"
+            nodeTypeProperty="nodeType"
             rowSeparatorSize="s"
             colspanCallback="{{ _colspanCallback }}"
             useNewNodeFooters="{{ true }}"
