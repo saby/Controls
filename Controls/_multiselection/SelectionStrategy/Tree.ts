@@ -437,15 +437,35 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          // entryPath это путь от выбранных узлов до текущих элементов. У нас в списке этих узлов нет, поэтому считаем,
          // что эти узлы выбраны, чтобы выбрались все их дети
          this._entryPath.forEach((it) => {
-            const hasItem = this._model.getCollection().getRecordById(it.id);
-            // Если элемент есть в коллекции, то его выбранность можно определить без entryPath
-            if (!hasItem) {
+            // Если один из родителей в entry_path точно выбран (лежит в selectedKeys), то и его дети точно выбраны
+            const parentIsSelected = this._parentFromEntryPathIsSelected(it.id, selectedKeys);
+            if (parentIsSelected) {
                selectedKeysWithEntryPath.push(it.id);
             }
          });
       }
 
       return selectedKeysWithEntryPath;
+   }
+
+   /**
+    * Возвращает true, если один из родителей в ENTRY_PATH выбран, иначе false
+    * @param key
+    * @param selectedKeys
+    * @private
+    */
+   private _parentFromEntryPathIsSelected(key: CrudEntityKey, selectedKeys: CrudEntityKey[]): boolean {
+      const entryPath = this._entryPath.find((it) => it.id === key);
+      if (entryPath) {
+         const parentKey = entryPath.parent;
+         if (selectedKeys.includes(parentKey)) {
+            return true;
+         } else {
+            return this._parentFromEntryPathIsSelected(parentKey, selectedKeys);
+         }
+      }
+
+      return false;
    }
 
    private _clearEntryPath(ids: CrudEntityKey[]): void {
