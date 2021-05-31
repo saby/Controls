@@ -170,3 +170,13 @@ export interface IBase {
  * @demo Controls-demo/Input/ContrastBackground/Index
  * @default false
  */
+
+/**
+ * @name Controls/_input/interface/IBase#placeholderVisible
+ * @cfg {Boolean} Определяет, нужно ли показывать подсказку в состоянии readOnly.
+ * @remark
+ * * false - Подсказка будет скрыта при readOnly = true.
+ * * true - Подсказка будет отображена при readOnly = true.
+ * @default false
+ * @demo Controls-demo/Input/PlaceholderVisible/Index
+ */

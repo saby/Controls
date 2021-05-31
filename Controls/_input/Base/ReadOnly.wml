@@ -1,4 +1,4 @@
-<ws:if data="{{!hidePlaceholder || value}}">
+<ws:if data="{{!placeholderVisible || value}}">
     <div name="readOnlyField" class="controls-InputBase__field_readOnly controls-{{controlName}}__field_margin-{{horizontalPadding}}">{{value}}</div>
 </ws:if>
 <ws:else>

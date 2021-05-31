@@ -32,7 +32,7 @@
          <ws:partial options="{{_options}}"
                      scope="{{_readOnlyField.scope}}"
                      horizontalPadding="{{_horizontalPadding}}"
-                     hidePlaceholder="{{_options.hidePlaceholderWithReadOnly || _hidePlaceholder}}"
+                     placeholderVisible="{{_options.placeholderVisible || _hidePlaceholder}}"
                      value="{{_viewModel.displayValue}}"
                      template="{{_readOnlyField.template}}"/>
       </ws:if>
