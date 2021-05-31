@@ -12,14 +12,14 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
     protected _nodeTypeProperty: string = NODE_TYPE_PROPERTY;
-    protected _expandedItems: CrudEntityKey[] = [];
+    protected _expandedItems: CrudEntityKey[] = [null];
     protected _collapsedItems: CrudEntityKey[] = undefined;
 
     protected _navigation: INavigationOptionValue<INavigationSourceConfig> = {
         source: 'page',
         view: 'demand',
         sourceConfig: {
-            pageSize: 4,
+            pageSize: 3,
             page: 0,
             hasMore: false
         },
@@ -30,9 +30,9 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
-            parentProperty: 'parent',
             keyProperty: 'id',
-            data
+            data,
+            filter: (): boolean => true
         });
     }
 
