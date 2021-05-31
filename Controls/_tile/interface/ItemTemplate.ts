@@ -50,23 +50,23 @@ export default interface IItemTemplateOptions {
     * @demo Controls-demo/Tile/Shadows/Index
     */
    shadowVisibility?: string;
+   /**
+    * @cfg {Boolean} Отображение рамки вокруг элемента плитки.
+    * @default true
+    * @example
+    * В следующем примере отображение рамки вокруг элемента плитки отключено.
+    * <pre class="brush: html; highlight: [7]">
+    * <!-- WML -->
+    * <Controls.tile:View
+    *    source="{{_source}}">
+    *    <ws:itemTemplate>
+    *       <ws:partial
+    *          template="Controls/tile:ItemTemplate"
+    *          border="{{false}}"/>
+    *    </ws:itemTemplate>
+    * </Controls.tile:View>
+    * </pre>
+    */
+   border?: boolean;
 }
 
-/**
- * @name Controls/_tile/interface/ItemTemplate#border
- * @cfg {Boolean} Отображение рамки вокруг элемента плитки.
- * @default true
- * @example
- * В следующем примере отображение рамки вокруг элемента плитки отключено.
- * <pre class="brush: html; highlight: [7]">
- * <!-- WML -->
- * <Controls.tile:View
- *    source="{{_source}}">
- *    <ws:itemTemplate>
- *       <ws:partial
- *          template="Controls/tile:ItemTemplate"
- *          border="{{false}}"/>
- *    </ws:itemTemplate>
- * </Controls.tile:View>
- * </pre>
- */
