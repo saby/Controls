@@ -1846,7 +1846,7 @@ const getEditing = () => {
             },
             {
                 displayProperty: 'length',
-                width: '105px',
+                width: '59px',
                 template: 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorLength'
             },
             {

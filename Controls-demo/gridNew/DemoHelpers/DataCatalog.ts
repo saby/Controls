@@ -1800,7 +1800,7 @@ const getEditing = () => {
             },
             {
                 displayProperty: 'length',
-                width: '105px',
+                width: '59px',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorLength'
             },
             {
