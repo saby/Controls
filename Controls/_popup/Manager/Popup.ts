@@ -299,7 +299,7 @@ class Popup extends Control<IPopupControlOptions> {
     private _needListenResizeObserver(): boolean {
         // Если размеров, ограничивающих контейнер, на окне нет, то
         // отслеживание изменение размеров окна осуществляется через resizeObserverUtil
-        const hasSizes = this._options.position.width !== undefined && this._options.position.height !== undefined;
+        const hasSizes = this._options.position.width !== undefined || this._options.position.height !== undefined;
         return !hasSizes && !detection.isIE;
     }
 
