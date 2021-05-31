@@ -281,10 +281,14 @@ export default class ControllerClass {
 
    private _dataLoadCallback(event: unknown, items: RecordSet): void {
       const filter = this._getFilter();
-      const isSearchMode = !!this._sourceController.getFilter()[this._options.searchParam];
+      const sourceController = this._sourceController;
+      const isSearchMode = !!sourceController.getFilter()[this._options.searchParam];
 
       if (this.isSearchInProcess() && this._searchValue) {
          this._sourceController.setFilter(filter);
+         if (!sourceController.isDeepReload() && !sourceController.isExpandAll()) {
+            sourceController.setExpandedItems([]);
+         }
 
          if (this._options.startingWith === 'root' && !isSearchMode && this._options.parentProperty) {
             const newRoot = ControllerClass._getRoot(this._path, this._root, this._options.parentProperty);
@@ -295,7 +299,7 @@ export default class ControllerClass {
             }
          }
 
-         this._sourceController.setFilter(this._getFilter());
+         sourceController.setFilter(this._getFilter());
       } else if (!this._searchValue) {
          this._misspellValue = '';
       }
@@ -367,6 +371,13 @@ export default class ControllerClass {
    private _updateFilterAndLoad(filter: QueryWhereExpression<unknown>, root: TKey): Promise<RecordSet|Error> {
       this._searchStarted(filter);
       this._sourceController.setRoot(root);
+
+      // Перезададим параметры навигации т.к. они могли измениться.
+      // Сейчас explorer хранит у себя ссылку на объект navigation и меняет в нем значение position
+      // Правим по задаче https://online.sbis.ru/opendoc.html?guid=4f23b2e1-89ea-4a1d-bd58-ce7f9d00b58d
+      this._sourceController.setNavigation(null);
+      this._sourceController.setNavigation(this._options.navigation);
+
       return this._searchPromise =
           this._sourceController
               .load(undefined, undefined, filter)

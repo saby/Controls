@@ -33,7 +33,6 @@ class ToolbarBox extends Control<IControlOptions> {
    private _itemClick(event, item): void {
       this._currentClick = 'Вы нажали на ' + item.getId();
    }
-   static _theme: string[] = ['Controls/Classes'];
 
    static _styles: string[] = ['Controls-demo/Toolbar/BoxView/ToolbarBox', 'Controls-demo/Controls-demo'];
 }

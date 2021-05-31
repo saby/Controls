@@ -52,8 +52,6 @@ class Counter extends Control<ICounterOptions> implements IFontColorStyle, IFont
 
     protected _template: TemplateFunction = counterTemplate;
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static getDefaultOptions(): object {
         return {
             fontSize: 'l',

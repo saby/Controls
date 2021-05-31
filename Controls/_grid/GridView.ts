@@ -97,6 +97,10 @@ const GridView = ListView.extend({
             listModel.setResultsPosition(options.resultsPosition);
         }
 
+        if (changes.includes('resultsVisibility')) {
+            listModel.setResultsVisibility(options.resultsVisibility);
+        }
+
         if (changes.includes('ladderProperties')) {
             listModel.setLadderProperties(options.ladderProperties);
         }
@@ -113,7 +117,9 @@ const GridView = ListView.extend({
             // TODO: Переделать по https://online.sbis.ru/opendoc.html?guid=73950100-bf2c-44cf-9e59-d29ddbb58d3a
             // Чинит проблемы https://online.sbis.ru/opendoc.html?guid=a6f1e8c3-dd71-43b9-a1a8-9270c2f85c0d
             // Нужно как то сообщать контроллеру фиксированных блоков, что блок стал видимым, что бы рассчитать его.
-            this._notify('controlResize', [], {bubbling: true});
+            if (newOptions.columnScroll) {
+                this._notify('controlResize', [], {bubbling: true});
+            }
         });
     },
 
@@ -148,6 +154,9 @@ const GridView = ListView.extend({
             if (changedOptions.hasOwnProperty('resultsPosition')) {
                 changes.push('resultsPosition');
             }
+            if (changedOptions.hasOwnProperty('resultsVisibility')) {
+                changes.push('resultsVisibility');
+            }
             if (changedOptions.hasOwnProperty('items')) {
                 changes.push('items');
             }
@@ -174,7 +183,9 @@ const GridView = ListView.extend({
                 // TODO: Переделать по https://online.sbis.ru/opendoc.html?guid=73950100-bf2c-44cf-9e59-d29ddbb58d3a
                 // Чинит проблемы https://online.sbis.ru/opendoc.html?guid=a6f1e8c3-dd71-43b9-a1a8-9270c2f85c0d
                 // Нужно как то сообщать контроллеру фиксированных блоков, что блок стал видимым, что бы рассчитать его.
-                this._notify('controlResize', [], {bubbling: true});
+                if (newOptions.columnScroll) {
+                    this._notify('controlResize', [], {bubbling: true});
+                }
             });
         }
     },
@@ -183,6 +194,9 @@ const GridView = ListView.extend({
         GridView.superclass._beforeUpdate.apply(this, arguments);
         if (!newOptions.columnScroll && this._columnScrollViewController) {
             this._destroyColumnScroll();
+        }
+        if (this._columnScrollViewController && this._options.needShowEmptyTemplate !== newOptions.needShowEmptyTemplate) {
+            this._columnScrollViewController.setIsEmptyTemplateShown(newOptions.needShowEmptyTemplate);
         }
 
         if (newOptions.sorting !== this._options.sorting) {
@@ -196,6 +210,8 @@ const GridView = ListView.extend({
         if (this._options.rowSeparatorSize !== newOptions.rowSeparatorSize) {
             this._listModel.setRowSeparatorSize(newOptions.rowSeparatorSize);
         }
+
+        this._listModel.setColspanGroup(!newOptions.columnScroll || !this.isColumnScrollVisible());
     },
 
     _beforeUnmount(): void {
@@ -246,7 +262,7 @@ const GridView = ListView.extend({
 
         // Дополнительная колонка для отображения застиканных операций над записью при горизонтальном скролле.
         // Если в списке нет данных, дополнительная колонка не нужна, т.к. операций над записью точно нет.
-        if (isFullGridSupport() && !!options.columnScroll && options.itemActionsPosition !== 'custom' && this._listModel.getCount()) {
+        if (isFullGridSupport() && !!options.columnScroll && options.itemActionsPosition !== 'custom') {
             columnsWidths.push('0px');
         }
 
@@ -623,6 +639,19 @@ const GridView = ListView.extend({
         } else {
             targetRect = target.getBoundingClientRect();
         }
+        this._columnScrollViewController.scrollToElementIfHidden(targetRect);
+        this._applyColumnScrollChanges();
+    },
+
+    beforeRowActivated(target): void {
+        const isCellEditing = this._listModel.getEditingConfig()?.mode === 'cell';
+        const cell = target.closest('.controls-Grid__row-cell') || target;
+
+        if (cell.className.indexOf(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`) !== 1) {
+            return;
+        }
+
+        const targetRect = (isCellEditing ? cell : target).getBoundingClientRect();
         this._columnScrollViewController.scrollToElementIfHidden(targetRect);
         this._applyColumnScrollChanges();
     }

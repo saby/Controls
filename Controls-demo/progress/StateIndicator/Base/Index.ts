@@ -19,8 +19,6 @@ class Base extends Control<IControlOptions> {
             {value: 50, className: '', title: 'Отрицательно'}
         ];
     }
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

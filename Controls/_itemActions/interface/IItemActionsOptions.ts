@@ -66,7 +66,7 @@ export interface IItemActionsOptions {
 
     /**
      * @name Controls/_itemActions/interface/IItemActions#itemActionsPosition
-     * @cfg {Controls/itemActions.TItemActionsPosition} Позиционирование панели {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/position/ опций записи}.
+     * @cfg {Controls/itemActions/TItemActionsPosition.typedef} Позиционирование панели {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/position/ опций записи}.
      * @remark
      * Пример использования значения custom можно посмотреть в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/position/#custom-position статье}.
      * @demo Controls-demo/list_new/ItemActions/ItemActionsPosition/Outside/Index Панель с опциями записи отображается под элементом.
@@ -210,7 +210,7 @@ export interface IItemActionsOptions {
 
     /**
      * @name Controls/_itemActions/interface/IItemActions#actionCaptionPosition
-     * @cfg {Controls/itemActions.TActionCaptionPosition} Позиция заголовка для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи}, когда они отображаются в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/swipe-mobile/ режиме swipe}.
+     * @cfg {Controls/itemActions/TActionCaptionPosition.typedef} Позиция заголовка для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи}, когда они отображаются в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/swipe-mobile/ режиме swipe}.
      * @demo Controls-demo/List/Swipe/Scenarios
      * @see itemActions
      * @see actionAlignment
@@ -218,7 +218,7 @@ export interface IItemActionsOptions {
 
     /*ENG
      * @name Controls/_itemActions/interface/IItemActions#actionCaptionPosition
-     * @cfg {Controls/itemActions.TActionCaptionPosition} Determines where the caption of an item action will be displayed on swipe.
+     * @cfg {Controls/itemActions/TActionCaptionPosition.typedef} Determines where the caption of an item action will be displayed on swipe.
      * @demo Controls-demo/List/Swipe/Scenarios
      * @variant right Title will be displayed to the right of the action's icon.
      * @variant bottom Title will be displayed under the action's icon.

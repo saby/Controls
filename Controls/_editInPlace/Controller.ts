@@ -176,7 +176,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Обновить опции контроллера.
-     * @method
+     * @function
      * @param {Controls/_editInPlace/IEditInPlaceOptions} newOptions Новые опции.
      * @void
      *
@@ -201,7 +201,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Возвращает true, если в коллекции есть запущенное редактирование
-     * @method
+     * @function
      * @return {Boolean}
      * @public
      */
@@ -219,7 +219,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Получить редактируемый элемент
-     * @method
+     * @function
      * @return {IEditableCollectionItem}
      * @public
      */
@@ -229,7 +229,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Начинать добавление переданного элемента. Если элемент не передан, ожидается что он будет возвращен из функции обратного вызова IEditInPlaceOptions.onBeforeBeginEdit.
-     * @method
+     * @function
      * @param {IBeginEditUserOptions} userOptions Пользовательские параметры начала редактирования.
      * @param {Object} options Параметры начала редактирования.
      * @return {TAsyncOperationResult}
@@ -248,13 +248,13 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             isAdd: true,
             addPosition: options.addPosition,
             targetItem: options.targetItem,
-            columnIndex: -1
+            columnIndex: 0
         });
     }
 
     /**
      * Запустить редактирование переданного элемента. Если элемент не передан, ожидается что он будет возвращен из функции обратного вызова IEditInPlaceOptions.onBeforeBeginEdit.
-     * @method
+     * @function
      * @param {IBeginEditUserOptions} userOptions Параметры начала редактирования.
      * @param {Object} options Параметры начала редактирования.
      * @return {TAsyncOperationResult}
@@ -270,7 +270,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Завершить редактирование элемента и сохранить изменения.
-     * @method
+     * @function
      * @param {TCommitStrategy} strategy Стратегия сохранения изменений.
      * @return {TAsyncOperationResult}
      *
@@ -288,7 +288,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Завершить редактирование элемента и отменить изменения.
-     * @method
+     * @function
      * @param {Boolean} force Принудительно завершить редактирование, игнорируя результат колбека beforeEndEdit
      * @return {TAsyncOperationResult}
      *
@@ -306,7 +306,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Получить следующий элемент коллекции, для которого доступно редактирование.
-     * @method
+     * @function
      * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
@@ -316,7 +316,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Получить предыдущий элемент коллекции, для которого доступно редактирование.
-     * @method
+     * @function
      * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */

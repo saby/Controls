@@ -481,8 +481,19 @@ const _private = {
         } else {
             const wasItemsReplaced = oldCollection && !isEqualItems(oldCollection, items);
             listModel.setItems(items, newOptions);
-            self._items = listModel.getCollection();
 
+            // Старая модель пересоздает коллекцию, необходимо передать новую в контроллер редактирования,
+            // т.к. пересоздание коллекции могло произойти во время запуска/завершения редактирования.
+            // Данный костыль нужен только для поддержания добавления в конец/начало списка в старых моделях.
+            // При отказе от старых моделей костыль можно удалить.
+            // Доработка добавления в в конец/начало списка будет реализовано по
+            // https://online.sbis.ru/opendoc.html?guid=000ff88b-f37e-4aa6-9bd3-3705bb721014
+            if (self._editInPlaceController && self._getEditingConfig().task1181625554) {
+                self._editInPlaceController.updateOptions({
+                    collection: listModel.getDisplay()
+                });
+            }
+            self._items = listModel.getCollection();
             if (wasItemsReplaced) {
                 self._onItemsReady(newOptions, self._items);
             }
@@ -759,10 +770,15 @@ const _private = {
 
         if (_private.isDemandNavigation(options.navigation) && self._hasMoreData(sourceController, 'down')) {
             self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ? !self._listViewModel.isAllGroupsCollapsed() : true;
-        } else if (_private.isCutNavigation(options.navigation)) {
-            self._shouldDrawCut = self._items.getCount() === options.navigation.sourceConfig?.pageSize && self._items.getMetaData().more;
+        } else if (
+            _private.isCutNavigation(options.navigation) &&
+            self._items.getCount() === options.navigation.sourceConfig.pageSize &&
+            self._hasMoreData(sourceController, 'down')
+        ) {
+            self._shouldDrawCut = true;
         } else {
             self._shouldDrawFooter = false;
+            self._shouldDrawCut = false;
         }
 
         if (self._shouldDrawFooter) {
@@ -1223,33 +1239,6 @@ const _private = {
     },
     needShowPagingByScrollSize(self, viewSize: number, viewportSize: number): boolean {
         let result = self._pagingVisible;
-        /**
-         * Правильнее будет проверять что размер viewport не равен 0.
-         * Это нужно для того, чтобы пэйджинг в таком случае не отобразился.
-         * viewport может быть равен 0 в том случае, когда блок скрыт через display:none, а после становится видим.
-         */
-        if (viewportSize !== 0) {
-            let pagingPadding = self._pagingPadding;
-            if (pagingPadding === null) {
-                pagingPadding = self._isPagingPadding() ? PAGING_PADDING : 0;
-            }
-            const scrollHeight = Math.max(_private.calcViewSize(viewSize, result,
-                pagingPadding),
-                !self._options.disableVirtualScroll && self._scrollController?.calculateVirtualScrollHeight() || 0);
-            const proportion = (scrollHeight / viewportSize);
-
-            // начиличе пэйджинга зависит от того превышают данные два вьюпорта или нет
-            if (!result) {
-                result = proportion >= MIN_SCROLL_PAGING_SHOW_PROPORTION;
-            }
-
-            // если все данные поместились на один экран, то скрываем пэйджинг
-            if (result) {
-                result = proportion > MAX_SCROLL_PAGING_HIDE_PROPORTION;
-            }
-        } else {
-            result = false;
-        }
 
         // если мы для списка раз вычислили, что нужен пэйджинг, то возвращаем этот статус
         // это нужно для ситуации, если первая пачка данных вернула естьЕще (в этом случае пэйджинг нужен)
@@ -1281,6 +1270,41 @@ const _private = {
             if (!self._scrollPagingCtr && result && _private.needScrollPaging(self._options.navigation)) {
                 _private.createScrollPagingController(self, hasMoreData);
             }
+        }
+
+        /**
+         * Правильнее будет проверять что размер viewport не равен 0.
+         * Это нужно для того, чтобы пэйджинг в таком случае не отобразился.
+         * viewport может быть равен 0 в том случае, когда блок скрыт через display:none, а после становится видим.
+         */
+        if (viewportSize !== 0) {
+            let pagingPadding = self._pagingPadding;
+            if (pagingPadding === null) {
+                pagingPadding = self._isPagingPadding() ? PAGING_PADDING : 0;
+            }
+            const scrollHeight = Math.max(_private.calcViewSize(viewSize, result,
+                pagingPadding),
+                !self._options.disableVirtualScroll && self._scrollController?.calculateVirtualScrollHeight() || 0);
+            const proportion = (scrollHeight / viewportSize);
+
+            if (proportion > 0) {
+
+                // начиличе пэйджинга зависит от того превышают данные два вьюпорта или нет
+                if (!result) {
+                    result = proportion >= MIN_SCROLL_PAGING_SHOW_PROPORTION;
+                }
+
+                // если все данные поместились на один экран, то скрываем пэйджинг
+                if (result) {
+                    result = proportion > MAX_SCROLL_PAGING_HIDE_PROPORTION;
+                }
+            } else {
+                self._cachedPagingState = false;
+                result = false;
+            }
+
+        } else {
+            result = false;
         }
 
         if (self._cachedPagingState === true) {
@@ -1708,7 +1732,7 @@ const _private = {
             }
             if (action === IObservable.ACTION_RESET) {
                 if (self._updatePagingOnResetItems) {
-                    _private.updatePagingData(self, self._items.getMetaData().more);
+                    _private.updatePagingData(self, self._items.getMetaData().more, self._options);
                 }
                 self._updatePagingOnResetItems = true;
             }
@@ -1776,7 +1800,13 @@ const _private = {
                             result = self._scrollController.handleRemoveItems(removedItemsIndex, removedItems);
                             break;
                         case IObservable.ACTION_RESET:
-                            result = self._scrollController.handleResetItems();
+
+                        // TODO: Нужно научить virtualScroll обрабатывать reset коллекции с сохранением положения скролла
+                        // Сейчас можем сохранить только если не поменялось количество записей. 
+                        // Таких кейсов еще не было, но вообще могут появиться https://online.sbis.ru/opendoc.html?guid=1bff2e6e-d018-4ac9-be37-ca77cb0a8030
+                            if (!self._keepScrollAfterReload || newItems.length !== removedItems.length) {
+                                result = self._scrollController.handleResetItems();
+                            }
                             break;
                     }
                     if (result) {
@@ -2341,8 +2371,8 @@ const _private = {
         return navigation && navigation.view === 'pages';
     },
 
-    isPagingNavigationVisible(self, hasMoreData) {
-        const navigation = self._options.navigation;
+    isPagingNavigationVisible(self, hasMoreData, options) {
+        const navigation = options.navigation;
         if (navigation?.viewConfig?.pagingMode === 'hidden') {
             return false;
         }
@@ -2359,17 +2389,17 @@ const _private = {
         return hasMoreData === true || self._knownPagesCount > 1;
     },
 
-    updatePagingData(self, hasMoreData) {
+    updatePagingData(self, hasMoreData, options) {
         self._pagingCfg = {
             arrowState: {
                 begin: 'visible',
                 prev: 'visible',
                 next: 'visible',
-                end: self._options.navigation?.viewConfig?.showEndButton ? 'visible' : 'hidden'
+                end: options.navigation?.viewConfig?.showEndButton ? 'visible' : 'hidden'
             }
         };
         self._knownPagesCount = _private.calcPaging(self, hasMoreData, self._currentPageSize);
-        self._pagingNavigationVisible = _private.isPagingNavigationVisible(self, hasMoreData);
+        self._pagingNavigationVisible = _private.isPagingNavigationVisible(self, hasMoreData, options);
         self._pagingLabelData = _private.getPagingLabelData(hasMoreData, self._currentPageSize, self._currentPage);
         self._selectedPageSizeKey = PAGE_SIZE_ARRAY.find((item) => item.pageSize === self._currentPageSize);
         self._selectedPageSizeKey = self._selectedPageSizeKey ? [self._selectedPageSizeKey.id] : [1];
@@ -2382,7 +2412,7 @@ const _private = {
             totalItemsCount = self._pagingLabelData.totalItemsCount || 0;
         }
         const itemsCount = totalItemsCount + countDifferece;
-        _private.updatePagingData(self, itemsCount);
+        _private.updatePagingData(self, itemsCount, self._options);
     },
 
     resetPagingNavigation(self, navigation) {
@@ -2452,7 +2482,7 @@ const _private = {
     updateIndicatorContainerHeight(self, viewRect: DOMRect, viewportRect: DOMRect): void {
         let top;
         let bottom;
-        if (self._isScrollShown || (self._needScrollCalculation && viewRect && viewportRect)) {
+        if (self._isScrollShown || viewRect && viewportRect) {
             top = Math.max(viewRect.y, viewportRect.y);
             bottom = Math.min(viewRect.y + viewRect.height, viewportRect.y + viewportRect.height);
         } else {
@@ -3192,16 +3222,17 @@ const _private = {
         // Контакты используют новый рендер, на котором нет обертки для редактируемой строки.
         // В новом рендере она не нужна
         if (self._children.listView && self._children.listView.activateEditingRow) {
+            // todo Нативный scrollIntoView приводит к прокрутке в том числе и по горизонтали и запретить её никак.
+            // Решением стало отключить прокрутку при видимом горизонтальном скролле.
+            // https://online.sbis.ru/opendoc.html?guid=d07d149e-7eaf-491f-a69a-c87a50596dfe
+            const hasColumnScroll = self._children.listView &&
+                self._children.listView.isColumnScrollVisible &&
+                self._children.listView.isColumnScrollVisible();
+
             const activator = () => {
-                if (self._children.listView.beforeRowActivated) {
+                if (!self._options.useNewModel && self._children.listView.beforeRowActivated) {
                     self._children.listView.beforeRowActivated();
                 }
-                // todo Нативный scrollIntoView приводит к прокрутке в том числе и по горизонтали и запретить её никак.
-                // Решением стало отключить прокрутку при видимом горизонтальном скролле.
-                // https://online.sbis.ru/opendoc.html?guid=d07d149e-7eaf-491f-a69a-c87a50596dfe
-                const hasColumnScroll = self._children.listView &&
-                    self._children.listView.isColumnScrollVisible &&
-                    self._children.listView.isColumnScrollVisible();
                 if (hasColumnScroll) {
                     enableScrollToElement = false;
                 }
@@ -3209,7 +3240,11 @@ const _private = {
                 return rowActivator();
             };
 
-            self._editInPlaceInputHelper.activateInput(activator);
+            self._editInPlaceInputHelper.activateInput(activator, hasColumnScroll ? (target) => {
+                if (self._children.listView.beforeRowActivated) {
+                    self._children.listView.beforeRowActivated(target);
+                }
+            } : undefined);
         }
     },
 
@@ -3286,7 +3321,8 @@ const _private = {
      */
     isAllowedHoverFreeze(self): boolean {
         return (!self._dndListController || !self._dndListController.isDragging()) &&
-            (!self._editInPlaceController || !self._editInPlaceController.isEditing());
+            (!self._editInPlaceController || !self._editInPlaceController.isEditing()) &&
+            !(this._context?.isTouch?.isTouch);
     }
 };
 
@@ -3498,6 +3534,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this.__errorController = options.errorController || new dataSourceError.Controller({});
         this._startDragNDropCallback = this._startDragNDropCallback.bind(this);
         this._resetValidation = this._resetValidation.bind(this);
+        this._onWindowResize = this._onWindowResize.bind(this);
     }
 
     /**
@@ -3685,7 +3722,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             self._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
             if (self._pagingNavigation) {
                 const hasMoreData = self._items.getMetaData().more;
-                _private.updatePagingData(self, hasMoreData);
+                _private.updatePagingData(self, hasMoreData, newOptions);
             }
 
             self._afterReloadCallback(newOptions, self._items, self._listViewModel);
@@ -3851,6 +3888,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
+    protected _onWindowResize(): void {
+        // Если изменили размеры окна, то нужно скрыть меню для itemActions. Иначе меню уезжает куда-то в сторону.
+        _private.closeActionsMenu(this);
+    }
+
     _getScrollParams(): IScrollParams {
         let headersHeight = 0;
         let offsetTop = 0;
@@ -3890,6 +3932,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     protected _afterMount(): void {
         this._isMounted = true;
+
+        if (constants.isBrowserPlatform) {
+            window.addEventListener('resize', this._onWindowResize);
+        }
 
         if (this._useServerSideColumnScroll) {
             this._useServerSideColumnScroll = false;
@@ -4015,7 +4061,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._listViewModel.setEmptyTemplate(newOptions.emptyTemplate);
         }
         // todo При отказе от старой - выпилить проверку "useNewModel".
-        if (!isEqual(newOptions.filter, this._options.filter) && newOptions.useNewModel) {
+        // Мало проверять только на измененный фильтр, записи могут просто переместить
+        if (/*!isEqual(newOptions.filter, this._options.filter) && */newOptions.useNewModel) {
             this._listViewModel.setEmptyTemplateOptions({items: this._items, filter: newOptions.filter});
         }
 
@@ -4406,7 +4453,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                         !this._pagingNavigationVisible &&
                         this._items &&
                         this._loadedBySourceController) {
-                        _private.updatePagingData(this, this._items.getMetaData().more);
+                        _private.updatePagingData(this, this._items.getMetaData().more, this._options);
                     }
                 }
             });
@@ -4622,6 +4669,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // При разрушении списка нужно в ПМО сбросить счетчик выбранных записей
         if (_private.hasSelectionController(this)) {
             this._notify('listSelectedKeysCountChanged', [0, false], {bubbling: true});
+        }
+
+        if (constants.isBrowserPlatform) {
+            window.removeEventListener('resize', this._onWindowResize);
         }
 
         super._beforeUnmount();
@@ -5056,6 +5107,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         const key = contents.getKey();
 
         if (!readOnly) {
+            const selectionController = _private.getSelectionController(this);
+
             let newSelection;
 
             if (e.nativeEvent && e.nativeEvent.shiftKey) {
@@ -5065,6 +5118,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
 
             this._notify('checkboxClick', [key, item.isSelected()]);
+            this._notify('selectedLimitChanged', [selectionController.getLimit()]);
             _private.changeSelection(this, newSelection);
         }
 
@@ -5140,7 +5194,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     }
                     if (self._pagingNavigation) {
                         const hasMoreDataDown = list.getMetaData().more;
-                        _private.updatePagingData(self, hasMoreDataDown);
+                        _private.updatePagingData(self, hasMoreDataDown, self._options);
                     }
                     let listModel = self._listViewModel;
 

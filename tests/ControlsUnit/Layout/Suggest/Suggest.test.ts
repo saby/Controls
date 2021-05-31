@@ -734,6 +734,15 @@ describe('Controls/suggest', () => {
             assert.equal(inputContainer._markerVisibility, 'visible');
             assert.isTrue(loadEndSpy.calledOnce);
          });
+
+         it('value is cleared', async () => {
+            const value = '';
+            inputContainer._inputActive = true;
+            inputContainer._getSourceController().load = () => Promise.resolve(new RecordSet());
+            await inputContainer._resolveLoad(value);
+            assert.equal(inputContainer._searchValue, value);
+            assert.isTrue(!inputContainer._showContent);
+         });
       });
 
       it('Suggest::_resolveSearch', async () => {
@@ -970,6 +979,7 @@ describe('Controls/suggest', () => {
          assert.isTrue(suggestActivated);
          assert.isTrue(suggestComponent._suggestMarkedKey === null);
          assert.isTrue(suggestComponent._sourceController !== sourceController);
+         assert.isTrue(suggestComponent._searchController === null);
       });
 
       it('Suggest::_beforeMount', () => {

@@ -91,6 +91,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
             // InfoBox close by outside click only if trigger is set to 'demand' or 'click'.
             closeOnOutsideClick: this._options.trigger === 'click' || this._options.trigger === 'demand',
             floatCloseButton: this._options.floatCloseButton,
+            closeButtonVisibility: this._options.closeButtonVisibility,
             eventHandlers: {
                 onResult: this._resultHandler,
                 onClose: this._closeHandler
@@ -134,9 +135,9 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     protected _contentTouchStartHandler(event: Event): void {
         if (this._options.trigger === 'hover|touch') {
             this._startOpeningPopup();
+            event.preventDefault();
+            event.stopPropagation();
         }
-        event.preventDefault();
-        event.stopPropagation();
     }
 
     protected _contentClickHandler(event: Event): void {
@@ -154,6 +155,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
 
     protected _contentMouseleaveHandler(): void {
         if (this._options.trigger === 'hover' || this._options.trigger === 'hover|touch') {
+            this._openCalmTimer.stop();
             this._closeCalmTimer.start();
         }
     }
@@ -205,7 +207,8 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
             style: 'secondary',
             showDelay: 300,
             hideDelay: 300,
-            trigger: 'hover'
+            trigger: 'hover',
+            closeButtonVisibility: true
         };
     }
 }

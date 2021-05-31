@@ -3,6 +3,7 @@ import * as sinon from 'sinon';
 
 import { GridCollection } from 'Controls/grid';
 import { RecordSet } from 'Types/collection';
+import {Model} from "Types/entity";
 
 const RAW_DATA = [
     { id: 1, name: 'Ivan', surname: 'Kashitsyn' },
@@ -20,11 +21,11 @@ describe('Controls/grid_clean/display/GridCollection/getResults', () => {
     it('Create results in constructor', () => {
         const sandbox = sinon.createSandbox();
 
-        function MockedResultsRow(options) {
+        function MockedResultsConstructor(options) {
             assert.strictEqual(options.multiSelectVisibility, 'visible');
         }
 
-        sandbox.replace(GridCollection.prototype, 'getResultsRowClass', () => MockedResultsRow);
+        sandbox.replace(GridCollection.prototype, 'getResultsConstructor', () => MockedResultsConstructor);
 
         const gridCollection = new GridCollection({
             collection: new RecordSet({
@@ -45,11 +46,11 @@ describe('Controls/grid_clean/display/GridCollection/getResults', () => {
     it('Create results after setCollection', () => {
         const sandbox = sinon.createSandbox();
 
-        function MockedResultsRow(options) {
+        function MockedResultsConstructor(options) {
             assert.strictEqual(options.multiSelectVisibility, 'visible');
         }
 
-        sandbox.replace(GridCollection.prototype, 'getResultsRowClass', () => MockedResultsRow);
+        sandbox.replace(GridCollection.prototype, 'getResultsConstructor', () => MockedResultsConstructor);
 
         const gridCollection = new GridCollection({
             resultsPosition: 'top',
@@ -70,5 +71,38 @@ describe('Controls/grid_clean/display/GridCollection/getResults', () => {
         gridCollection.getResults();
 
         sandbox.restore();
+    });
+
+    describe('columnSeparator', () => {
+        // Обновляем данные результатов, проверяем, что columnSeparator проставился
+        it('constructor', () => {
+            const recordSet = new RecordSet({
+                keyProperty: 'id',
+                rawData: [
+                    {id: 1, title: ''},
+                    {id: 2, title: ''}
+                ]
+            });
+            const collection = new GridCollection({
+                collection: recordSet,
+                columns: [{ width: ''}],
+                columnSeparatorSize: 's'
+            });
+
+            const stubGetResultsConstructor = sinon.stub(collection, 'getResultsConstructor');
+            stubGetResultsConstructor.callsFake(() => ((options) => {
+                assert.strictEqual(options.columnSeparatorSize, 's');
+            }));
+
+            // сбрасываем результаты
+            collection.setResultsPosition(null);
+            collection.setResultsPosition('top');
+
+            // Вызываем инициализацию строки резудьтатов
+            collection.getResults();
+
+            sinon.assert.called(stubGetResultsConstructor);
+            stubGetResultsConstructor.restore();
+        });
     });
 });

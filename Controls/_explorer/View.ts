@@ -8,8 +8,7 @@ import * as randomId from 'Core/helpers/Number/randomId';
 import {constants} from 'Env/Env';
 import {Logger} from 'UI/Utils';
 import {Model} from 'Types/entity';
-import {IItemPadding, IList, ListView, } from 'Controls/list';
-import {ViewTemplate as ColumnsViewTemplate, ItemContainerGetter} from 'Controls/columns';
+import {IItemPadding, IList, ListView} from 'Controls/list';
 import {SingleColumnStrategy, MultiColumnStrategy} from 'Controls/marker';
 import {isEqual} from 'Types/object';
 import {CrudEntityKey, DataSet, LOCAL_MOVE_POSITION} from 'Types/source';
@@ -78,7 +77,12 @@ const VIEW_MODEL_CONSTRUCTORS = {
     search: 'Controls/searchBreadcrumbsGrid:SearchGridCollection',
     tile: null,
     table: 'Controls/treeGrid:TreeGridCollection',
-    list: 'Controls/treeGrid:TreeGridCollection'
+    // Правка решения https://online.sbis.ru/opendoc.html?guid=bbee027c-f13d-4b6a-8835-c956d14c2f3a
+    // т.к. стрельнуло здесь https://online.sbis.ru/opendoc.html?guid=715e6fca-1982-4b17-a29f-4862ef3e03f3
+    // Из-за того что для viewMode table и list были заданы одинаковые коллекции изменение набора колонок
+    // с прикладной стороны в режиме list не приводило к прокидыванию новых колонок с модель и в итоге
+    // таблица разъезжалась при переключении в режим table
+    list: 'Controls/display:Tree'
 };
 
 const EXPLORER_CONSTANTS = {
@@ -186,12 +190,6 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _isGoingFront: boolean;
 
     protected _beforeMount(cfg: IExplorerOptions): Promise<void> {
-        if (cfg.useColumns) {
-            VIEW_NAMES.list = ColumnsViewTemplate;
-            MARKER_STRATEGY.list = MultiColumnStrategy;
-            ITEM_GETTER.list = ItemContainerGetter;
-            VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
-        }
         if (cfg.itemPadding) {
             this._itemPadding = cfg.itemPadding;
         }
@@ -205,7 +203,13 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._backgroundStyle = cfg.backgroundStyle;
         }
         if (cfg.header) {
-            this._header = cfg.viewMode === 'tile' ? undefined : cfg.header;
+            // нужно проставить и _header и _newHeader иначе здесь ниже в _setViewMode
+            // при _applyNewVisualOptions проставится this._newHeader в _header, т.к.
+            // они сейчас сравниваются на равенство
+            // TODO: Нужно отрефакторить эту логику. Сейчас заголовок нужен только
+            //  при viewMode === 'search' || 'table' + на него завязана проверка видимости
+            //  шапки с хлебными крошками в PathWrapper, но эту проверку можно также на viewMode сделать
+            this._newHeader = this._header = cfg.viewMode === 'tile' ? undefined : cfg.header;
         }
 
         this._itemActionsPosition = cfg.itemActionsPosition;
@@ -441,12 +445,6 @@ export default class Explorer extends Control<IExplorerOptions> {
                 }
             }
 
-            this._setRoot(item.getKey());
-            // При search не должны сбрасывать маркер, так как он встанет на папку
-            if (this._options.searchNavigationMode !== 'expand') {
-                this._isGoingFront = true;
-            }
-
             // При проваливании нужно сбросить восстановленное значение курсора
             // иначе данные загрузятся не корректные
             if (
@@ -454,6 +452,12 @@ export default class Explorer extends Control<IExplorerOptions> {
                 this._restoredCursor === this._navigation.sourceConfig.position
             ) {
                 this._navigation.sourceConfig.position = null;
+            }
+
+            this._setRoot(item.getKey());
+            // При search не должны сбрасывать маркер, так как он встанет на папку
+            if (this._options.searchNavigationMode !== 'expand') {
+                this._isGoingFront = true;
             }
         };
 
@@ -682,6 +686,11 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     // endregion remover
 
+    // TODO удалить по https://online.sbis.ru/opendoc.html?guid=2ad525f0-2b48-4108-9a03-b2f9323ebee2
+    _clearSelection(): void {
+        this._children.treeControl.clearSelection();
+    }
+
     /**
      * Возвращает идентификатор текущего корневого узла
      */
@@ -728,10 +737,15 @@ export default class Explorer extends Control<IExplorerOptions> {
         navigation: INavigationOptionValue<INavigationPageSourceConfig>
     ): void {
 
-        const store = this._restoredMarkedKeys || {
-            [root]: {markedKey: null},
-            [topRoot]: {markedKey: null}
-        } as IMarkedKeysStore;
+        const store = this._restoredMarkedKeys || {} as IMarkedKeysStore;
+
+        if (!store[root]) {
+            store[root] = {markedKey: null};
+        }
+
+        if (!store[topRoot]) {
+            store[topRoot] = {markedKey: null};
+        }
 
         // Если хлебных крошек нет, то дальше идти нет смысла
         if (!breadcrumbs?.length) {
@@ -808,6 +822,14 @@ export default class Explorer extends Control<IExplorerOptions> {
             if (this._children.treeControl.isAllSelected()) {
                 this._children.treeControl.clearSelection();
             }
+
+            if (
+                this._isCursorNavigation(this._navigation) &&
+                this._restoredCursor === this._navigation.sourceConfig.position
+            ) {
+                this._navigation.sourceConfig.position = null;
+            }
+
             this._isGoingBack = false;
         }
 
@@ -839,20 +861,22 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
     }
 
-    private _setViewConfig(viewMode: TExplorerViewMode): void {
+    private _setViewConfig(viewMode: TExplorerViewMode, cfg: any): void {
         if (isFullGridSupport()) {
             this._viewName = VIEW_NAMES[viewMode];
         } else {
             this._viewName = VIEW_TABLE_NAMES[viewMode];
         }
         this._markerStrategy = MARKER_STRATEGY[viewMode];
-        this._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS[viewMode];
+        this._viewModelConstructor = cfg.fix1182121846 && viewMode === 'list'
+            ? 'Controls/treeGrid:TreeGridCollection'
+            : VIEW_MODEL_CONSTRUCTORS[viewMode];
         this._itemContainerGetter = ITEM_GETTER[viewMode];
     }
 
     private _setViewModeSync(viewMode: TExplorerViewMode, cfg: IExplorerOptions): void {
         this._viewMode = viewMode;
-        this._setViewConfig(this._viewMode);
+        this._setViewConfig(this._viewMode, cfg);
         this._applyNewVisualOptions();
 
         if (this._isMounted) {
@@ -871,6 +895,10 @@ export default class Explorer extends Control<IExplorerOptions> {
             });
         } else if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
             this._setViewModePromise = this._loadTileViewMode(cfg).then(() => {
+                this._setViewModeSync(viewMode, cfg);
+            });
+        } else if (viewMode === 'list' && cfg.useColumns) {
+            this._setViewModePromise = this._loadColumnsViewMode().then(() => {
                 this._setViewModeSync(viewMode, cfg);
             });
         } else {
@@ -894,9 +922,13 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._backgroundStyle = this._newBackgroundStyle;
             this._newBackgroundStyle = null;
         }
-        if (this._newHeader) {
+
+        // _newHeader может измениться на undefined при смене с табличного представления
+        if (this._newHeader !== this._header) {
             this._header = this._newHeader;
-            this._newHeader = null;
+            // Не надо занулять this._newHeader иначе при следующем вызове
+            // _applyNewVisualOptions это может вызвать сброс шапки
+            /*this._newHeader = null;*/
         }
         if (this._newItemActionsPosition) {
             this._itemActionsPosition = this._newItemActionsPosition;
@@ -963,6 +995,17 @@ export default class Explorer extends Control<IExplorerOptions> {
                 });
             });
         }
+    }
+
+    private _loadColumnsViewMode(): Promise<void> {
+        return import('Controls/columns').then((columns) => {
+            VIEW_NAMES.list = columns.ViewTemplate;
+            MARKER_STRATEGY.list = MultiColumnStrategy;
+            ITEM_GETTER.list = columns.ItemContainerGetter;
+            VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
+        }).catch((err) => {
+            Logger.error('Controls/_explorer/View: ' + err.message, this, err);
+        });
     }
 
     private _loadOldViewMode(options: IExplorerOptions): Promise<void> {

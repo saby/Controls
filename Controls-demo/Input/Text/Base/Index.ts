@@ -6,7 +6,6 @@ class Index extends Control<IControlOptions> {
     protected _value2: string = null;
     protected _value3: string = null;
     protected _template: TemplateFunction = controlTemplate;
-    static _theme: string[] = ['Controls/Classes'];
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

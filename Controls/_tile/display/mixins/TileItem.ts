@@ -350,6 +350,12 @@ export default abstract class TileItem<T extends Model = Model> {
         return !this.isSwiped() && (this.hasVisibleActions() || this.isEditing()) && itemActionsPosition !== 'custom';
     }
 
+    getItemActionsControl(itemType: TTileItem = 'default'): string|undefined {
+        if (itemType === 'preview') {
+            return 'Controls/tile:TileItemActions';
+        }
+    }
+
     shouldDisplaySwipeTemplate(): boolean {
         return this.isSwiped() && (this.hasVisibleActions() || this.isEditing());
     }
@@ -544,11 +550,9 @@ export default abstract class TileItem<T extends Model = Model> {
                 break;
             case 'rich':
                 classes += ' controls-TileView__richTemplate_image';
+                classes += ' controls-TileView__image';
+                classes += ' controls-TileView__image_align_center';
                 classes += ` controls-TileView__richTemplate_image_viewMode_${imageViewMode}`;
-
-                if (imagePosition === 'top' && (imageViewMode === 'rectangle' && imageProportion !== 1 || imageSize === 'xl')) {
-                    classes += ' controls-TileView__image controls-TileView__image_align_center';
-                }
                 break;
         }
 
@@ -841,7 +845,7 @@ export default abstract class TileItem<T extends Model = Model> {
             classes += ' controls-TileView__item_animated';
         }
         if (this.isDragged()) {
-            classes += ' controls-ListView__item_dragging controls-ListView__itemContent_dragging';
+            classes += ' controls-ListView__itemContent_dragging';
         }
         if (this.canShowActions()) {
             classes += ' controls-ListView__item_showActions';
@@ -896,9 +900,7 @@ export default abstract class TileItem<T extends Model = Model> {
         if (this.shouldDisplayMarker(marker)) {
             classes += ' controls-TileView__item_withMarker';
         } else if (border !== false) {
-            classes += ' controls-TileView__item_withoutMarker';
-        } else {
-            classes += ' controls-TileView__item_withoutBorder';
+            classes += ' controls-TileView__item_withBorder';
         }
 
         return classes;

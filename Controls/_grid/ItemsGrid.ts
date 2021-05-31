@@ -4,8 +4,14 @@ import GridViewTable from 'Controls/_grid/GridViewTable';
 import {IItemsViewOptions, ItemsView as ListItemsView, ListControl as viewTemplate} from 'Controls/list';
 
 /**
- * Контрол плоской таблицы, который умеет работать по {@link RecordSet}
+ * Контрол плоской таблицы, который умеет работать без источника данных.
+ * В качестве данных ожидает {@link RecordSet} переданный в опцию {@link IItemsViewOptions.items}.
+ * @mixes Controls/list:IItemsView
+ * @demo Controls-demo/gridNew/ItemsView/Base/Index
+ *
+ * @public
  * @author Уфимцев Д.Ю.
+ * @class Controls/grid:ItemsView
  */
 export default class ItemsGrid<TOptions extends IItemsViewOptions = IItemsViewOptions> extends ListItemsView<TOptions> {
     //region override base template props

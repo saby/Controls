@@ -31,8 +31,6 @@ class Base extends Control<IControlOptions> {
         }
         return interval;
     }
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

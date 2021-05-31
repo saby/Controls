@@ -70,6 +70,16 @@ export default class TreeItem<T extends Model = Model> extends mixin<
     protected _$hasNodeWithChildren: boolean;
 
     /**
+     * Признак, означающий что в узле можно еще подгрузить данные
+     * @protected
+     */
+    protected _$hasMore: boolean;
+
+    // TODO должен быть указан парвильный тип, но сейчас футеры есть только в триГриде
+    //  и если указать типом TreeGridNodeFooterRow, то будет неправильная зависимость
+    private _nodeFooter: TreeItem;
+
+    /**
      * Признак, что узел является целью при перетаскивании
      * @private
      */
@@ -256,8 +266,28 @@ export default class TreeItem<T extends Model = Model> extends mixin<
     }
 
     hasMoreStorage(): boolean {
-        const hasMoreStorage = this._$owner.getHasMoreStorage();
-        return !!(hasMoreStorage && hasMoreStorage[this.getContents().getKey()]);
+        return this._$hasMore;
+    }
+
+    setHasMoreStorage(hasMore: boolean): void {
+        if (this._$hasMore !== hasMore) {
+            this._$hasMore = hasMore;
+
+            const nodeFooter = this.getNodeFooter();
+            if (nodeFooter) {
+                nodeFooter.setHasMoreStorage(hasMore);
+            }
+
+            this._nextVersion();
+        }
+    }
+
+    setNodeFooter(nodeFooter: TreeItem): void {
+        this._nodeFooter = nodeFooter;
+    }
+
+    getNodeFooter(): TreeItem {
+        return this._nodeFooter;
     }
 
     // TODO есть ExpandableMixin, иконку тоже наверное нужно туда перенести
@@ -443,5 +473,6 @@ Object.assign(TreeItem.prototype, {
     _$childrenProperty: '',
     _$hasChildrenProperty: '',
     _$hasNodeWithChildren: true,
+    _$hasMore: false,
     _instancePrefix: 'tree-item-'
 });

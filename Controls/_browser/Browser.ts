@@ -22,7 +22,8 @@ import {
     ISourceOptions,
     TSelectionType,
     ISelectionObject,
-    TKey
+    TKey,
+    ISelectFieldsOptions
 } from 'Controls/interface';
 import Store from 'Controls/Store';
 import {SHADOW_VISIBILITY} from 'Controls/scroll';
@@ -44,7 +45,7 @@ type TViewMode = 'search' | 'tile' | 'table' | 'list';
 
 interface IListConfiguration extends IControlOptions, ISearchOptions, ISourceOptions,
     Required<IFilterOptions>, Required<IHierarchyOptions>, IHierarchySearchOptions,
-    IMarkerListOptions, IShadowsOptions {
+    IMarkerListOptions, IShadowsOptions, ISelectFieldsOptions {
     searchNavigationMode: string;
     groupHistoryId: string;
     searchValue: string;
@@ -85,6 +86,7 @@ type TErrbackConfig = dataSourceError.ViewConfig & { error: Error };
  * @mixes Controls/interface:IHierarchy
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:ISearch
+ * @mixes Controls/interface:ISelectFields
  * @mixes Controls/interface/IHierarchySearch
  *
  * @demo Controls-demo/Search/FlatList/Index
@@ -237,6 +239,9 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._storeCtxCallbackId = Store.onPropertyChanged('_contextName', () => {
                 this._storeCallbackIds.forEach((id) => Store.unsubscribe(id));
                 this._storeCallbackIds = this._createNewStoreObservers();
+                if (!options.hasOwnProperty('searchValue') && this._searchValue) {
+                    this._setSearchValue('');
+                }
             }, true);
         }
     }
@@ -407,7 +412,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             }
 
             return updateResult;
-        });
+        }).catch((error) => error);
     }
 
     private _afterSourceLoad(sourceController: SourceController, options: IBrowserOptions): void {
@@ -878,6 +883,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._updateViewMode(this._previousViewMode);
             this._previousViewMode = null;
         }
+        this._updateContext();
     }
 
     private _dataLoadCallback(data: RecordSet, direction?: Direction): void {
@@ -933,6 +939,10 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             filterController.resetPrefetch();
             this._filter = filterController.getFilter() as QueryWhereExpression<unknown>;
             this._notify('filterChanged', [this._filter]);
+            // Состояние _filter - не реактивное, и в случае,
+            // если не задают опцию filter, то _beforeUpdate не будет вызван и данные не перезагрузятся,
+            // т.к. sourceController обновляется только на _beforeUpdate
+            this._forceUpdate();
         }
     }
 

@@ -280,7 +280,8 @@ define(['Types/collection', 'Controls/display', 'Env/Env', 'Controls/treeGrid'],
             nodeProperty: 'type',
             root: null,
             columns: [{}],
-            expandedItems: [null]
+            expandedItems: [null],
+            nodeFooterTemplate: () => ''
          });
          const ladder = Util.prepareLadder({
             display,
@@ -337,7 +338,8 @@ define(['Types/collection', 'Controls/display', 'Env/Env', 'Controls/treeGrid'],
             nodeProperty: 'type',
             root: null,
             columns: [{}],
-            expandedItems: [null]
+            expandedItems: [null],
+            nodeFooterTemplate: () => ''
          });
          const ladder = Util.prepareLadder({
             display,

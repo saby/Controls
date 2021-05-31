@@ -10,8 +10,6 @@ class ConvertPunycode extends Control<IControlOptions> {
         document.execCommand('copy');
     }
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

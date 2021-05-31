@@ -115,7 +115,7 @@ export interface IValueOptions<T> {
      * @cfg {Controls/input:ICallbackData} Функция обратного вызова, вызывается после основного процесса обработки входных данных.
      * @remark
      * Метод используется, когда требуется изменить поведение обработки ввода.
-     * @return {Controls/_input/interface/IFieldData} Измененные данные.
+     * Из функции возвращаются измененные данные (см. {@link Controls/_input/interface/IFieldData}). 
      * @demo Controls-demo/Input/InputCallback/Index
      */
     inputCallback: ICallback<T>;

@@ -6,7 +6,6 @@ class Size extends Control<IControlOptions> {
     protected _expanded1: boolean = false;
     protected _expanded2: boolean = false;
     protected _expanded3: boolean = false;
-    static _theme: string[] = ['Controls/Classes'];
 
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/toggle/BigSeparator/SeparatorSize/Index'];
 }

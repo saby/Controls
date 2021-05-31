@@ -11,8 +11,8 @@ export type TColumns = IColumn[];
 /**
  * @typedef {String} TCellPaddingVariant
  * @description Возможные значения отступов внутри ячейки таблицы
- * @variant S Небольшой отступ.
- * @variant M Средний отступ.
+ * @variant s Небольшой отступ.
+ * @variant m Средний отступ.
  * @variant null Нулевой отступ.
  */
 export type TCellPaddingVariant = 'S' | 'M' | 'null';
@@ -213,7 +213,8 @@ export interface IColumn extends IColspanParams {
      * ]
      * </pre>
      *
-     * <pre class="brush: html; highlight: [4]">
+     * <pre class="brush: html; highlight: [5]">
+     * <!-- WML -->
      * <Controls.grid:View
      *     keyProperty="id"
      *     source="{{_viewSource}}"
@@ -288,7 +289,7 @@ export interface IColumn extends IColspanParams {
      * Для отображения строки итогов необходимо задать значение в опции {@link Controls/grid:View#resultsPosition resultsPosition}.
      * @example
      * <pre class="brush: html; highlight: [5,6,7,8,9,10,11]">
-     * <Controls.grid:View>
+     * <Controls.grid:View source="{{_viewSource}}">
      *     <ws:columns>
      *         <ws:Array>
      *             <ws:Object displayProperty="Name">
@@ -455,7 +456,10 @@ export interface IColumn extends IColspanParams {
     /**
      * @cfg {string} Цвет фона колонки при наведении курсора мыши.
      *
-     * @remark Для определения собственных цветов при наведении, необходимо указать специальный hoverBackgroundStyle, а
+     * @remark
+     * Позволяет определить произвольный фон колонки при наведении.
+     * Для отключения цвета при наведении используйте значение "transparent"
+     * Для определения собственных цветов при наведении, необходимо указать специальный hoverBackgroundStyle, а
      * также определить в своем less-файле стиль controls-Grid__item_background-hover_@{yourBackgroundStyle}_theme-@{themeName}.
      * @see backgroundColorStyle
      */

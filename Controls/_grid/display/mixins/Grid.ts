@@ -126,6 +126,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$emptyTemplate: TemplateFunction;
     protected _$sorting: Array<{[p: string]: string}>;
     protected _$emptyTemplateColumns: IEmptyTemplateColumn[];
+    protected _$colspanGroup: boolean;
     protected _$backgroundStyle: string;
 
     protected _isFullGridSupport: boolean = isFullGridSupport();
@@ -174,6 +175,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             this._initializeHeader({
                 columns: this._$columns,
                 backgroundStyle: this._$backgroundStyle,
+                columnSeparatorSize: this._$columnSeparatorSize,
                 owner: this,
                 header: this._$header,
                 sorting: this._$sorting,
@@ -223,6 +225,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 multiSelectVisibility: this._$multiSelectVisibility,
                 resultsTemplate: this._$resultsTemplate,
                 backgroundStyle: this._$backgroundStyle,
+                columnSeparatorSize: this._$columnSeparatorSize,
                 resultsColspanCallback: this._$resultsColspanCallback
             });
         }
@@ -246,6 +249,14 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             results.setColspanCallback(resultsColspanCallback);
         }
         this._nextVersion();
+    }
+
+    setColspanGroup(colspanGroup: boolean): void {
+        if (this._$colspanGroup !== colspanGroup) {
+            this._$colspanGroup = colspanGroup;
+            this._updateItemsProperty('setColspanGroup', this._$colspanGroup, '[Controls/_display/grid/GroupRow]');
+            this._nextVersion();
+        }
     }
 
     getColspanCallback(): TColspanCallback {
@@ -419,6 +430,13 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         }
     }
 
+    setResultsVisibility(resultsVisibility: TResultsVisibility): void {
+        if (this._$resultsVisibility !== resultsVisibility) {
+            this._$resultsVisibility = resultsVisibility;
+            this._nextVersion();
+        }
+    }
+
     protected _hasItemsToCreateResults(): boolean {
         return this.getCollectionCount() > 1;
     }
@@ -459,7 +477,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _initializeResults(options: IOptions): void {
-        const resultsRowClass = this.getResultsRowClass();
+        const resultsRowClass = this.getResultsConstructor();
         this._$results = new resultsRowClass({
             owner: this,
             multiSelectVisibility: options.multiSelectVisibility,
@@ -468,6 +486,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             rowTemplateOptions: {},
             metaResults: this.getMetaResults(),
             backgroundStyle: options.backgroundStyle,
+            columnSeparatorSize: options.columnSeparatorSize,
             colspanCallback: options.resultsColspanCallback
         });
     }
@@ -491,10 +510,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             if (collectionItem instanceof DataRow) {
                 collectionItem.updateContentsVersion();
             }
-        })
+        });
     }
 
-    getResultsRowClass() {
+    getResultsConstructor(): typeof ResultsRow {
         return ResultsRow;
     }
 
@@ -512,7 +531,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             return this._$headerModel.getRows().indexOf(row);
         } else if (row instanceof HeaderRow) {
             return 0;
-        } else if (row instanceof this.getResultsRowClass()) {
+        } else if (row instanceof this.getResultsConstructor()) {
             let index = getHeaderOffset();
             if (this.getResultsPosition() !== 'top') {
                 index += this.getCount();
@@ -558,7 +577,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     hasItemActionsSeparatedCell(): boolean {
-        return !!this.getColumnsConfig() && this.hasColumnScroll() && this._$itemActionsPosition !== 'custom' && !!this.getCount();
+        return !!this.getColumnsConfig() && this.hasColumnScroll() && this._$itemActionsPosition !== 'custom';
     }
 
     // FIXME: Временное решение - аналог RowEditor из старых таблиц(редактирование во всю строку).
@@ -612,6 +631,7 @@ Object.assign(Grid.prototype, {
     _$resultsColspanCallback: null,
     _$columnSeparatorSize: null,
     _$resultsTemplate: null,
+    _$colspanGroup: true,
     _$columnScroll: false,
     _$stickyColumnsCount: 1,
     _$sorting: null,

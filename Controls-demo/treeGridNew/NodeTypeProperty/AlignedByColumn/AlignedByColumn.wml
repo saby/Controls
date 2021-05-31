@@ -1,68 +1,13 @@
-<ws:template name="decoratedPriceColumnTemplate">
-    <ws:partial template="Controls/grid:ColumnTemplate">
-        <ws:contentTemplate>
-            <ws:if data="{{contentTemplate.itemData.getDefaultDisplayValue() !== ''}}">
-                <Controls.decorator:Money value="{{ contentTemplate.itemData.getDefaultDisplayValue() }}"
-                                          fontColorStyle="{{ contentTemplate.item.isGroupNode() ? 'group' : 'default' }}"
-                                          useGrouping="{{false}}"/>
-            </ws:if>
-        </ws:contentTemplate>
-    </ws:partial>
-</ws:template>
-
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-base-treeGridView">
     <Controls.treeGrid:View
             keyProperty="id"
             source="{{ _viewSource }}"
             parentProperty="parent"
             nodeProperty="type"
-            nodeTypeProperty="{{ _nodeTypeProperty }}"
+            nodeTypeProperty="nodeType"
             rowSeparatorSize="s"
             colspanCallback="{{ _colspanCallback }}"
+            columns="{{ _columns }}"
             bind:expandedItems="_expandedItems"
-            bind:collapsedItems="_collapsedItems">
-        <ws:columns>
-            <ws:Array>
-                <ws:Object displayProperty="title" width="300px">
-                    <ws:template>
-                        <ws:if data="{{ template.item.isGroupNode() }}">
-                            <ws:partial template="Controls/treeGrid:GroupColumnTemplate"
-                                        textAlign="right"/>
-                        </ws:if>
-                        <ws:else>
-                            <ws:partial template="Controls/grid:ColumnTemplate"/>
-                        </ws:else>
-                    </ws:template>
-                </ws:Object>
-                <ws:Object displayProperty="count" width="100px" align="right"/>
-                <ws:Object displayProperty="price" width="100px" align="right">
-                    <ws:template>
-                        <ws:if data="{{ template.item.isGroupNode() }}">
-                            <ws:partial template="Controls/treeGrid:GroupColumnTemplate"
-                                        textVisible="{{false}}"/>
-                        </ws:if>
-                        <ws:else>
-                            <ws:partial template="decoratedPriceColumnTemplate"/>
-                        </ws:else>
-                    </ws:template>
-                </ws:Object>
-                <ws:Object displayProperty="price1" width="100px" align="right">
-                    <ws:template>
-                        <ws:partial template="decoratedPriceColumnTemplate"/>
-                    </ws:template>
-                </ws:Object>
-                <ws:Object displayProperty="price2" width="100px" align="right">
-                    <ws:template>
-                        <ws:partial template="decoratedPriceColumnTemplate"/>
-                    </ws:template>
-                </ws:Object>
-                <ws:Object displayProperty="tax" width="50px" align="right"/>
-                <ws:Object displayProperty="price3" width="100px" align="right" fontSize="s">
-                    <ws:template>
-                        <ws:partial template="decoratedPriceColumnTemplate"/>
-                    </ws:template>
-                </ws:Object>
-            </ws:Array>
-        </ws:columns>
-    </Controls.treeGrid:View>
+            bind:collapsedItems="_collapsedItems"/>
 </div>

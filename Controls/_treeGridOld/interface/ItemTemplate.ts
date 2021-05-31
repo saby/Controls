@@ -42,7 +42,7 @@ export default interface IItemTemplateOptions {
     withoutLevelPadding?: boolean;
     /**
      * @typedef {String} ExpanderIcon
-     * @description Допустимые значения для опции {@link expanderIcon}.
+     * @description Значения для опции {@link expanderIcon}.
      * @variant none Иконки всех узлов не отображаются.
      * @variant node Иконки всех узлов отображаются как иконки узлов.
      * @variant emptyNode Иконки всех узлов отображаются как иконки пустых узлов.

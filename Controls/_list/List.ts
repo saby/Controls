@@ -62,6 +62,7 @@ import {Model} from 'Types/entity';
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
+ * @mixes Controls/interface:ISelectFields
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:ISorting
@@ -168,6 +169,11 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
     }
 
     // endregion remover
+
+    // TODO удалить по https://online.sbis.ru/opendoc.html?guid=2ad525f0-2b48-4108-9a03-b2f9323ebee2
+    _clearSelection(): void {
+        this._children.listControl.clearSelection();
+    }
 
     _notifyHandler = EventUtils.tmplNotify;
 

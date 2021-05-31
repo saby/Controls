@@ -14,12 +14,14 @@ import InvisibleTreeTileItem from 'Controls/_treeTile/display/InvisibleTreeTileI
 import {default as ItemsView} from 'Controls/_treeTile/ItemsView';
 import {register} from 'Types/di';
 import * as FolderTemplate from 'wml!Controls/_treeTile/render/Folder';
+import TreeTileItemActions from 'Controls/_treeTile/itemActions/Control';
 
 export {
     View,
     ItemsView,
     TreeTileView,
-    FolderTemplate
+    FolderTemplate,
+    TreeTileItemActions
 };
 
 register('Controls/treeTile:TreeTileCollection', TreeTileCollection, {instantiate: false});

@@ -15,8 +15,6 @@ class TagEvents extends Control<IControlOptions> {
         this._notify('openInfoBox', [config], {bubbling: true})
     }
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default TagEvents;

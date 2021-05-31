@@ -24,6 +24,7 @@ export interface IPropertyGridOptions extends IControlOptions {
     editorColumnOptions?: IPropertyGridColumnOptions;
     captionColumnOptions?: IPropertyGridColumnOptions;
     itemPadding: IItemPadding;
+    withoutLevelPadding?: boolean;
 }
 
 /**
@@ -226,7 +227,7 @@ export interface IPropertyGrid {
  * @cfg {function} Функция управления видимостью операций над записью.
  * @param {ItemAction} action Объект с настройкой действия.
  * @param {Types/entity:Model} item Экземпляр записи, действие над которой обрабатывается.
- * @returns {Boolean} Определяет, должна ли операция отображаться.
+ * @remark Если из функции возвращается true, то операция отображается.
  * @demo Controls-demo/PropertyGridNew/ItemActionVisibilityCallback/Index
  */
 

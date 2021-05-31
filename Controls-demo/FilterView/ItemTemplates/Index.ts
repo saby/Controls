@@ -57,8 +57,6 @@ class ViewModes extends Control<IControlOptions> {
         {name: 'author', value: 'Ivanov K.K.', textValue: 'Author: Ivanov K.K.', resetValue: '', viewMode: 'basic'}
     ];
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default ViewModes;

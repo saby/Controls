@@ -30,8 +30,6 @@ class Index extends Control<IControlOptions> {
 
     private _month: Date = new Date(2019, 2);
 
-    static _theme: string[] = ['Controls/Classes'];
-
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

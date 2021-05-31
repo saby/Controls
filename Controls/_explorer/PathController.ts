@@ -7,6 +7,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 // @ts-ignore
 import * as template from 'wml!Controls/_explorer/PathController/PathController';
 import { IGridControl, IHeaderCell } from 'Controls/interface';
+import {TExplorerViewMode} from 'Controls/_explorer/interface/IExplorer';
 
 interface IOptions extends IControlOptions, IGridControl {
     breadCrumbsItems: Path;
@@ -17,6 +18,7 @@ interface IOptions extends IControlOptions, IGridControl {
     backButtonCaption: string;
     backButtonIconStyle: string;
     backButtonFontColorStyle: string;
+    viewMode?: TExplorerViewMode;
 }
 
 function isItemsEqual(oldItems: Path, newItems: Path): boolean {
@@ -48,7 +50,7 @@ export default class PathController extends Control<IOptions> {
     protected _beforeMount(options: IOptions): void {
         // Пропатчим первую колонку хлебными крошками если надо
         this._header = PathController._getHeader(options, options.breadCrumbsItems);
-        this._needShadow = PathController._isNeedShadow(this._header);
+        this._needShadow = PathController._isNeedShadow(this._header, options.viewMode);
     }
 
     protected _beforeUpdate(newOptions: IOptions): void {
@@ -65,7 +67,11 @@ export default class PathController extends Control<IOptions> {
             this._options.multiSelectVisibility !== newOptions.multiSelectVisibility
         ) {
             this._header = PathController._getHeader(newOptions, newOptions.breadCrumbsItems);
-            this._needShadow = PathController._isNeedShadow(this._header);
+            this._needShadow = PathController._isNeedShadow(this._header, newOptions.viewMode);
+        }
+
+        if (this._options.viewMode !== newOptions.viewMode) {
+            this._needShadow = PathController._isNeedShadow(this._header, newOptions.viewMode);
         }
     }
 
@@ -74,7 +80,7 @@ export default class PathController extends Control<IOptions> {
      */
     goBack(e: Event): void {
         require(['Controls/breadcrumbs'], (breadcrumbs) => {
-            breadcrumbs.HeadingPathCommon.onBackButtonClick.call(this, e);
+            breadcrumbs.HeadingPathCommon.onBackButtonClick.call(this, e, 'breadCrumbsItems');
         });
     }
 
@@ -118,8 +124,13 @@ export default class PathController extends Control<IOptions> {
         return newHeader;
     }
 
-    private static _isNeedShadow(header: IHeaderCell[]): boolean {
-        // если есть заголовок, то тень будет под ним, и нам не нужно рисовать ее под хлебными крошками
-        return !header;
+    /**
+     * Определяет нужно ли рисовать тень у StickyHeader в котором лежат хлебные крошки
+     */
+    private static _isNeedShadow(header: IHeaderCell[], viewModel: TExplorerViewMode): boolean {
+        // В табличном представлении если есть заголовок, то тень будет под ним,
+        // и нам не нужно рисовать ее под хлебными крошками. В противном случае
+        // тень у StickyHeader нужна всегда.
+        return viewModel !== 'table' || !header;
     }
 }

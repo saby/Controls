@@ -38,8 +38,6 @@ class ViewModes extends Control<IControlOptions> {
             }
         ]
     });
-
-    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/toggle/CheckboxGroup/Direction/Style'];
 }
 export default ViewModes;
