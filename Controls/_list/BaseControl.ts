@@ -6740,13 +6740,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             return false;
         }
 
-        // Если нет элементов, то должен отображаться глобальный индикатор
-        const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down'
-            && !!this._items && !!this._items.getCount();
+        const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down';
         // Если порционный поиск был прерван, то никаких ромашек не должно показываться, т.к. больше не будет подгрузок
         const isAborted = _private.getPortionedSearch(this).isAborted();
+        // Если нет элементов, то должен отображаться глобальный индикатор
+        const hasItems = !!this._items && !!this._items.getCount();
         return (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection && this._scrollController.isRangeOnEdge('down'))
-            && !this._portionedSearchInProgress && !isAborted;
+            && !this._portionedSearchInProgress && !isAborted && hasItems;
     }
 
     _shouldDisplayTopPortionedSearch(): boolean {
