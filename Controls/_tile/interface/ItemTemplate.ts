@@ -51,3 +51,21 @@ export default interface IItemTemplateOptions {
     */
    shadowVisibility?: string;
 }
+
+/**
+ * @name Controls/_tile/interface/ItemTemplate#border
+ * @cfg {Boolean} Отображение рамки вокруг элемента плитки.
+ * @default true
+ * @example
+ * <pre class="brush: html; highlight: [7]">
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    source="{{_source}}">
+ *    <ws:itemTemplate>
+ *       <ws:partial
+ *          template="Controls/tile:ItemTemplate"
+ *          border="{{false}}"/>
+ *    </ws:itemTemplate>
+ * </Controls.tile:View>
+ * </pre>
+ */
