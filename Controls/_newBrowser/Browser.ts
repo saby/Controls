@@ -35,7 +35,7 @@ import * as DefaultTileItemTemplate from 'wml!Controls/_newBrowser/templates/Til
 import {View} from 'Controls/explorer';
 import 'css!Controls/listTemplates';
 import {factory} from 'Types/chain';
-import {ContextOptions as DataOptions} from 'Controls/context';
+import {ContextOptions as dataContext} from 'Controls/context';
 //endregion
 
 interface IReceivedState {
@@ -195,13 +195,13 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     //endregion
 
     /**
-     * Получить dataOptions из контекста
-     * Если нет контекста, то поведение странное: на сервере dataOptions нет, а на клиенте это просто конструктор контекста, а не объект.
+     * Получить dataContext из контекста
+     * Если нет контекста, то поведение странное: на сервере dataContext нет, а на клиенте это просто конструктор контекста, а не объект.
      * @param contexts
      * @private
      */
-    private _getDataOptions(contexts: Record<string, any>): Record<string, any> | void {
-        return contexts.dataOptions?.sourceController ? contexts.dataOptions : null;
+    private _getDataContext(contexts: Record<string, any>): Record<string, any> | void {
+        return contexts.dataContext?.sourceController ? contexts.dataContext : null;
     }
     //region ⎆ life circle hooks
 
@@ -210,10 +210,10 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         contexts?: object,
         receivedState?: IReceivedState
     ): Promise<IReceivedState> | void {
-        this._dataOptions = this._getDataOptions(contexts);
+        this._dataContext = this._getDataContext(contexts);
         this._initState(options);
         let result = Promise.resolve(undefined);
-        if (this._dataOptions) {
+        if (this._dataContext) {
             this._processItemsMetadata(this._detailDataSource.sourceController.getItems(), options);
             this._afterViewModeChanged(options);
         } else if (receivedState) {
@@ -241,14 +241,14 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     }
 
     protected _beforeUpdate(newOptions?: IOptions, contexts?: unknown): void {
-        this._dataOptions = this._getDataOptions(contexts);
+        this._dataContext = this._getdataContext(contexts);
         const masterOps = this._buildMasterExplorerOption(newOptions);
         const detailOps = this._buildDetailExplorerOptions(newOptions);
         const filterChanged = !isEqual(this._options.filter, newOptions.filter);
         if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
             this._createTemplateControllers(newOptions.listConfiguration, newOptions);
         }
-        if (!this._dataOptions) {
+        if (!this._dataContext) {
             const isChanged = this._detailDataSource.updateOptions(detailOps) || filterChanged;
             if (isChanged) {
                 this._detailDataSource.sourceController.reload();
@@ -285,7 +285,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
         this.root = this._detailExplorerOptions.root;
         this._masterMarkedKey = this.root;
-        if (this._dataOptions) {
+        if (this._dataContext) {
             this._viewMode = newOptions.viewMode;
             this._searchValue = newOptions.searchValue;
         }
@@ -342,7 +342,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * Вызывает перезагрузку данных в detail-колонке
      */
     reload(): Promise<RecordSet> {
-        if (this._dataOptions) {
+        if (this._dataContext) {
             const detailExplorer = this._children.detailList;
             return detailExplorer.reload.apply(detailExplorer, arguments);
         } else {
@@ -422,7 +422,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             .then((newRoots) => {
                 // Если меняют root когда находимся в режиме поиска, то нужно
                 // сбросить поиск и отобразить содержимое нового root
-                if (this.viewMode === DetailViewMode.search && !this._dataOptions) {
+                if (this.viewMode === DetailViewMode.search && !this._dataContext) {
                     this._resetSearch().then(() => {
                         this._changeRoot(newRoots);
                     });
@@ -769,7 +769,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             itemTemplate: compiledOptions.itemTemplate || DefaultListItemTemplate,
             tileItemTemplate: compiledOptions.tileItemTemplate || DefaultTileItemTemplate,
 
-            sourceController: this._detailDataSource?.sourceController || this._dataOptions?.sourceController,
+            sourceController: this._detailDataSource?.sourceController || this._dataContext?.sourceController,
 
             dataLoadCallback: (items, direction) => {
                 this._onDetailDataLoadCallback(items, direction, options);
@@ -890,7 +890,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     //endregion
     static contextTypes() {
         return {
-            dataOptions: DataOptions
+            dataContext: dataContext
         };
     }
 }

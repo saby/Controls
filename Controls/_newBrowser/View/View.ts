@@ -27,7 +27,7 @@ import * as DefaultListItemTemplate from 'wml!Controls/_newBrowser/templates/Lis
 // @ts-ignore
 import * as DefaultTileItemTemplate from 'wml!Controls/_newBrowser/templates/TileItemTemplate';
 import 'css!Controls/listTemplates';
-import {ContextOptions as DataOptions} from 'Controls/context';
+import {ContextOptions as dataContext} from 'Controls/context';
 //endregion
 
 interface IReceivedState {
@@ -156,8 +156,8 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         contexts?: object,
         receivedState?: IReceivedState
     ): Promise<IReceivedState> | void {
-        this._dataOptions = contexts.dataOptions;
-        if (this._dataOptions.listsConfigs) {
+        this._dataContext = contexts.dataContext;
+        if (this._dataContext.listsConfigs) {
             this._initState(options);
             this._processItemsMetadata(this._detailDataSource.getItems(), options);
             this._afterViewModeChanged(options);
@@ -169,15 +169,15 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     }
 
     protected _beforeUpdate(newOptions?: IOptions, contexts?: unknown): void {
-        this._dataOptions = contexts.dataOptions;
-        const isDetailRootChanged = this._detailExplorerOptions.root !== this._dataOptions.listsConfigs.detail.root;
+        this._dataContext = contexts.dataContext;
+        const isDetailRootChanged = this._detailExplorerOptions.root !== this._dataContext.listsConfigs.detail.root;
         if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
             this._createTemplateControllers(newOptions.listConfiguration, newOptions);
         }
 
         this._userViewMode = newOptions.userViewMode;
-        this._detailExplorerOptions = this._dataOptions.listsConfigs.detail;
-        this._masterExplorerOptions = this._dataOptions.listsConfigs.master;
+        this._detailExplorerOptions = this._dataContext.listsConfigs.detail;
+        this._masterExplorerOptions = this._dataContext.listsConfigs.master;
 
         //region update master
         const newMasterVisibility = Browser.calcMasterVisibility(newOptions);
@@ -307,7 +307,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     private _initState(options: IOptions): void {
         this._userViewMode = options.userViewMode;
         this._appliedViewMode = options.userViewMode;
-        const listsConfigs = this._dataOptions.listsConfigs;
+        const listsConfigs = this._dataContext.listsConfigs;
         this._detailExplorerOptions = listsConfigs.detail;
         this._masterExplorerOptions = listsConfigs.master;
         this._detailDataSource = listsConfigs.detail.sourceController;
@@ -434,7 +434,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     //endregion
     static contextTypes() {
         return {
-            dataOptions: DataOptions
+            dataContext: dataContext
         };
     }
 }
