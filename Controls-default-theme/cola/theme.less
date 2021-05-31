@@ -10,37 +10,45 @@
    // палитра
 
    --primary_color: #df1c33;
-   --primary_text-color: #df1c33;
-   --primary_hover_text-color: #f00;
+   --primary_text-color: var(--primary_color);
+   --primary_hover_text-color: #ad0014;
    --primary_icon-color: var(--primary_color);
+   --primary_hover_icon-color: var(--primary_hover_text-color);
+   --primary_border-color: var(--primary_color);
+   --primary_background-color: #fff5f6;
+   --primary_hover_background-color: #ffebed;
+   --primary_active_background-color: #ffdbdf;
+   --primary_same_background-color: #ffebed;
+   --primary_hover_same_background-color: #ffdbdf;
+   --primary_active_same_background-color: #ffccd2;
+   --primary_contrast_background-color: #ff384f;
+   --primary_hover_contrast_background-color: #ff243d;
+   --primary_active_contrast_background-color: #d6551f;
 
    --secondary_color: #999;
-   --secondary_text-color: #666;
+   --secondary_text-color: #666666;
+   --secondary_hover_text-color: #474747;
+   --secondary_icon-color: var(--secondary_color);
+   --secondary_hover_icon-color: var(--secondary_hover_text-color);
+   --secondary_border-color: var(--secondary_color);
+   --secondary_contrast_background-color: #808080;
+   --secondary_hover_contrast_background-color: #757575;
+   --secondary_active_contrast_background-color: #878787;
 
    // buttons
 
    --secondary_background-color_button_functionalButton: #df1c33;
    --secondary_hover_background-color_button_functionalButton: #f00;
-   --primary_hover_background-color_button: #ffd4d4;
-   --primary_active_background-color_button: #ffd4d4;
 
-   // heading
-   --primary_text-color_heading: #df1c33;
-   --primary_hover_text-color_heading: #f00;
 
    //filter
    --icon-color_filterButton_filterView: #999999;
 
    //tabs
    --unselected_item_text-color_tabs: #000;
-   --primary_item_text-color_tabs: #df1c33;
    --primary_marker_color_tabs: #df1c33;
 }
 
-.controls_filterPopup_theme-@{themeName} {
-   //filterPopup
-   --empty-item_text-color_filterSimplePanel: #DF1C33;
-}
 
 .controls_popupTemplate_theme-@{themeName} {
    // popupTemplate
