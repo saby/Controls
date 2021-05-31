@@ -181,6 +181,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
     private _hierarchyRelation: relation.Hierarchy;
 
     private _expandedItems: TKey[];
+    private _reStoredExpandedItems: TKey[];
     private _deepReload: boolean;
     private _collapsedGroups: TArrayGroupId;
 
@@ -421,8 +422,16 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         if (!this._expandedItems || this._expandedItems.length === 0 || !this._options.nodeTypeProperty) {
             expandedItems = this._expandedItems;
         } else {
+            // Запрашиваем список последних сохранённых id раскрытых записей
+            const lastSavedHistory = nodeHistoryUtil.getCached(this._options.nodeHistoryId);
             expandedItems = this._expandedItems.filter((key) => {
-                const nodeTypeProperty = this._items.getRecordById(key).get(this._options.nodeTypeProperty);
+                const record = this._items.getRecordById(key);
+                // Если записи нет в текущем списке, но она оказалась в expandedItems, проверяем,
+                // есть ли она в списке последних сохранённых id.
+                if (!record) {
+                    return lastSavedHistory ? lastSavedHistory.indexOf(key) !== -1 : false;
+                }
+                const nodeTypeProperty = record.get(this._options.nodeTypeProperty);
                 if (this._options.nodeHistoryType === 'node') {
                     return nodeTypeProperty !== 'group';
                 }
