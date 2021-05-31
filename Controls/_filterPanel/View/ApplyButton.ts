@@ -6,7 +6,7 @@ export default class ApplyButton extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _applyCaption: string = rk('Применить');
 
-    protected _handleCick(): void {
+    protected _handleClick(): void {
        this._notify('sendResult', [], {bubbling: true});
     }
 }

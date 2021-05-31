@@ -11,6 +11,7 @@ import * as coreClone from 'Core/core-clone';
 interface IFilterViewModelOptions {
     source: IFilterItem[];
     collapsedGroups: string[] | number[];
+    filterViewMode: string;
 }
 
 interface IFilterGroup {
@@ -54,7 +55,12 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
     private _getSource(source: IFilterItem[]): IFilterItem[] {
         const newSource = [];
         source.forEach((item) => {
-            const editorOptions = {...item.editorOptions, ...{viewMode: item.viewMode}};
+            const editorOptions = {
+                ...item.editorOptions,
+                ...{
+                    viewMode: item.viewMode,
+                    filterViewMode: this._options.filterViewMode
+                }};
             newSource.push({...item, ...{editorOptions}});
         });
         return newSource;
@@ -125,22 +131,6 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         this._groupItems = this._getGroupItemsBySource(this._source);
         this._editingObject = this._getEditingObjectBySource(this._source);
         this._nextVersion();
-    }
-
-    getChangedEditorName(editingObject: Record<string, IExtendedPropertyValue>): string {
-        return Object.keys(this._editingObject).find((key) => {
-            return !isEqual(this._editingObject[key], editingObject[key]);
-        });
-    }
-
-    getChangedEditorObject(editingObject: Record<string, IExtendedPropertyValue>, name: string): object {
-        return editingObject[name];
-    }
-
-    getSourceItemByName(editorName: string): IFilterItem {
-        return this._source.find((item) => {
-            return item.name === editorName;
-        });
     }
 
     setEditingObjectValue(editorName: string, editorValue: object): void {

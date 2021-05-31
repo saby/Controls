@@ -29,8 +29,7 @@ class Tumbler extends Control<ITumblerOptions> implements ITumbler {
     protected _selectedKeyChangedHandler(event: SyntheticEvent, value: string|number): void {
         const extendedValue = {
             value,
-            textValue: this._getTextValue(value),
-            target: this._getEditorTarget(event)
+            textValue: this._getTextValue(value)
         };
         this._notify('propertyValueChanged', [extendedValue], {bubbling: true});
     }
@@ -38,10 +37,6 @@ class Tumbler extends Control<ITumblerOptions> implements ITumbler {
     protected _extendedCaptionClickHandler(event: SyntheticEvent): void {
         const value = this._options.items.at(0).getKey();
         this._selectedKeyChangedHandler(event, value);
-    }
-
-    private _getEditorTarget(event: SyntheticEvent): HTMLElement | EventTarget | Control<{}, void> {
-        return event.target.closest('.controls-FilterViewPanel__baseEditor-container');
     }
 
     private _getTextValue(id: string|number): string {

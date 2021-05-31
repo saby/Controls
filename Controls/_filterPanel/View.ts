@@ -55,49 +55,37 @@ export default class View extends Control<IViewPanelOptions> {
         bottom: 'null'
     };
     protected _viewModel: ViewModel = null;
-    protected _applyButtonSticky: StickyOpener;
-    protected _applyButtonTemplate: TemplateFunction = ApplyButton;
 
     protected _beforeMount(options: IViewPanelOptions): void {
         this._viewModel = new ViewModel({
             source: options.source,
-            collapsedGroups: options.collapsedGroups
+            collapsedGroups: options.collapsedGroups,
+            filterViewMode: options.viewMode
         });
     }
 
     protected _beforeUpdate(options: IViewPanelOptions): void {
         this._viewModel.update({
             source: options.source,
-            collapsedGroups: options.collapsedGroups
+            collapsedGroups: options.collapsedGroups,
+            filterViewMode: options.viewMode
         });
     }
 
     protected _resetFilter(): void {
         this._viewModel.resetFilter();
-        if (this._applyButtonSticky) {
-            this._applyButtonSticky.close();
-        }
         this._notifyChanges();
     }
 
     protected _applyFilter(editorGroup: string): void {
         this._notifyChanges();
         this._viewModel.collapseGroup(editorGroup);
-        if (this._applyButtonSticky) {
-            this._applyButtonSticky.close();
-        }
         this._notify('filterApplied');
     }
 
     protected _editingObjectChanged(event: SyntheticEvent, editingObject: Record<string, any>): void {
-        const editorName = this._viewModel.getChangedEditorName(editingObject);
-        const editorConfig = this._viewModel.getChangedEditorObject(editingObject, editorName);
-        if (this._options.viewMode === 'default') {
-            const sourceItem = this._viewModel.getSourceItemByName(editorName);
-            this._showApplyButton(editorConfig, sourceItem);
-        }
         this._viewModel.setEditingObject(editingObject);
-        if (editorConfig.needApply) {
+        if (this._options.viewMode === 'default') {
             this._notifyChanges();
         }
     }
@@ -116,38 +104,9 @@ export default class View extends Control<IViewPanelOptions> {
         this._notify('collapsedGroupsChanged', [this._viewModel.getCollapsedGroups()]);
     }
 
-    private _showApplyButton(editorConfig: object, sourceItem: IFilterItem): void {
-        if (editorConfig.target) {
-            this._getApplyButtonSticky().open({
-                opener: null,
-                template: this._applyButtonTemplate,
-                targetPoint: {
-                    horizontal: 'right'
-                },
-                direction: {
-                    horizontal: 'right'
-                },
-                target: editorConfig.target,
-                eventHandlers: {
-                    onResult: this._applyFilter.bind(this, sourceItem.group)
-                }
-            });
-        }
-    }
-
-    private _getApplyButtonSticky(): StickyOpener {
-        if (!this._applyButtonSticky) {
-            this._applyButtonSticky = new StickyOpener();
-        }
-        return this._applyButtonSticky;
-    }
-
     private _resetFilterItem(dispItem: GroupItem<Model>): void {
         const itemContent = dispItem.getContents();
         this._viewModel.resetFilterItem(itemContent);
-        if (this._applyButtonSticky) {
-            this._applyButtonSticky.close();
-        }
         this._notifyChanges();
     }
 

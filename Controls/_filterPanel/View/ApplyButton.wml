@@ -1,5 +1,5 @@
 <div class="controls-EditorList__applyButton"
-     on:click="_handleCick()">
+     on:mousedown="_handleClick()">
     <div class="controls-EditorList__applyButton-text">
         {{_applyCaption}}
     </div>
