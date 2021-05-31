@@ -20,6 +20,7 @@ import {IOptions as ITreeGridGroupDataRowOptions} from './TreeGridGroupDataRow';
 import {Model as EntityModel, Model} from 'Types/entity';
 import {IObservable} from 'Types/collection';
 import {CrudEntityKey} from 'Types/source';
+import {TGroupNodeVisibility} from '../interface/ITreeGrid';
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
@@ -53,6 +54,7 @@ export default class TreeGridCollection<
     readonly '[Controls/treeGrid:TreeGridCollection]': boolean;
 
     protected _$nodeTypeProperty: string;
+    protected _$groupNodeVisibility: TGroupNodeVisibility;
 
     constructor(options: IOptions<S, T>) {
         super(options);
@@ -78,27 +80,22 @@ export default class TreeGridCollection<
         return this._$nodeTypeProperty;
     }
 
-    private _calculateGroupNodesCount(): number {
-        if (!this.getNodeTypeProperty()) {
-            return 0;
-        }
-        let count = 0;
-        this.getCollection().each((record) => {
-            if (record.get(this.getNodeTypeProperty())) {
-                count++;
-            }
-        });
-        return count;
+    setGroupNodeVisibility(nodeTypeProperty: TGroupNodeVisibility): void {
+        this._$groupNodeVisibility = nodeTypeProperty;
+        this._nextVersion();
     }
 
-    private _updateGroupNodesVisibility(): void {
-        const groupNodesCount = this._calculateGroupNodesCount();
-        if (groupNodesCount === 0) {
-            return;
+    private _isNodeGroupVisible(): boolean {
+        if (this._$groupNodeVisibility !== 'hasdata') {
+            return true;
         }
+        return !this.getMetaData().singleGroupNode;
+    }
+
+    private _updateGroupNodeVisibility(): void {
         const firstItem = this.at(0);
         if (firstItem.isGroupNode()) {
-            firstItem.setIsHiddenGroup(groupNodesCount < 2);
+            firstItem.setIsHiddenGroup(!this._isNodeGroupVisible());
         }
     }
 
@@ -189,7 +186,7 @@ export default class TreeGridCollection<
         }
 
         if (this._$nodeTypeProperty) {
-            this._updateGroupNodesVisibility();
+            this._updateGroupNodeVisibility();
         }
 
         // Сбрасываем модель заголовка если его видимость зависит от наличия данных и текущее действие
@@ -263,7 +260,7 @@ export default class TreeGridCollection<
         // Строит фабрику, которая работает с TreeGridGroupDataRow
         const GroupNodeFactory = (factoryOptions?: ITreeGridGroupDataRowOptions<S>): ItemsFactory<T> => {
             factoryOptions.itemModule = 'Controls/treeGrid:TreeGridGroupDataRow';
-            factoryOptions.isHiddenGroup = this._calculateGroupNodesCount() < 2;
+            factoryOptions.isHiddenGroup = !this._isNodeGroupVisible();
             return superFactory.call(this, factoryOptions);
         };
 
@@ -320,5 +317,6 @@ Object.assign(TreeGridCollection.prototype, {
     '[Controls/treeGrid:TreeGridCollection]': true,
     _moduleName: 'Controls/treeGrid:TreeGridCollection',
     _itemModule: 'Controls/treeGrid:TreeGridDataRow',
+    _$groupNodeVisibility: 'visible',
     _$nodeTypeProperty: null
 });
