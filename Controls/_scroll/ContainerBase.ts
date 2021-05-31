@@ -62,6 +62,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     private _savedScrollPosition: number = 0;
 
     private _virtualNavigationRegistrar: RegisterClass;
+    private _virtualNavigationState: {top: boolean, bottom: boolean} = { top: false, bottom: false };
 
     private _contentType: CONTENT_TYPE = CONTENT_TYPE.regular;
 
@@ -266,7 +267,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _registerIt(event: SyntheticEvent, registerType: string, component: any,
-                callback: () => void, triggers): void {
+                callback: Function, triggers): void {
         switch (registerType) {
             case 'scrollStateChanged':
                 this._registrars.scrollStateChanged.register(event, registerType, component, callback);
@@ -285,6 +286,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                 break;
             case 'virtualNavigation':
                 this._virtualNavigationRegistrar.register(event, registerType, component, callback);
+
+                // Список на afterMount сообщает о том, нужно ли показывать контент сверху и снизу.
+                // Но контент ниже списка строится после списка, и на момент события еще не построен.
+                // Сообщаем нижнему VirtualScrollContainer'у состояние виртуальной навигации при его регистрации.
+                callback('bottom', this._virtualNavigationState.bottom);
                 break;
         }
     }
@@ -309,15 +315,17 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         }
     }
 
-    protected _enableVirtualNavigationHandler(event: SyntheticEvent): void {
-        event.stopImmediatePropagation()
-        this._virtualNavigationRegistrar.start(true);
+    protected _enableVirtualNavigationHandler(event: SyntheticEvent, position: 'top' | 'bottom'): void {
+        event.stopImmediatePropagation();
+        this._virtualNavigationState[position] = true;
+        this._virtualNavigationRegistrar.start(position, true);
 
     }
 
-    protected _disableVirtualNavigationHandler(event: SyntheticEvent): void {
-        event.stopImmediatePropagation()
-        this._virtualNavigationRegistrar.start(false);
+    protected _disableVirtualNavigationHandler(event: SyntheticEvent, position: 'top' | 'bottom'): void {
+        event.stopImmediatePropagation();
+        this._virtualNavigationState[position] = false;
+        this._virtualNavigationRegistrar.start(position, false);
     }
 
     // _createEdgeIntersectionObserver() {
