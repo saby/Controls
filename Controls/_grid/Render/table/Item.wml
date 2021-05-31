@@ -49,7 +49,7 @@
                                         checkboxReadOnly="{{ checkboxReadOnly }}"/>
                     <ws:multiSelectTemplate>
                         <ws:partial template="{{multiSelectTpl}}" _preventMergeOptions="{{ true }}">
-                            <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+                            <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}" multiSelectClasses="{{item.getMultiSelectClasses()}}"/>
                         </ws:partial>
                     </ws:multiSelectTemplate>
                     <ws:afterContentTemplate>
