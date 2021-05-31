@@ -77,8 +77,8 @@
 .controls-FilterViewPanel__groupReset {
    cursor: pointer;
    color: var(--group_color_filterViewPanel);
-   padding-left: var(--reset-button_padding-left_filterView);
-   padding-top: var(--reset-button_padding-top_filterView);
+   padding-left: var(--offset_2xs);
+   padding-top: var(--offset_2xs);
 }
 
 .controls-FilterViewPanel__groupReset-icon {
@@ -112,10 +112,10 @@
 .controls-FilterViewPanel__group-result_wrapper {
    display: flex;
    flex-direction: row;
-   background-color: var(--group-result_background-color_filterViewPanel);
+   background-color: var(--background-color);
    border-radius: var(--group-result_border-radius_filterViewPanel);
-   padding: var(--group-result_padding-top_filterViewPanel) var(--group-result_horizontal-offset_filterViewPanel);
-   margin-left: calc(-1 * var(--group-result_horizontal-offset_filterViewPanel));
+   padding: var(--offset_xs) var(--offset_m);
+   margin-left: calc(-1 * var(--offset_m));
    cursor: pointer;
 }
 
@@ -238,7 +238,7 @@
    height: var(--apply-button_height_filterViewPanel);
    width: var(--apply-button_width_filterViewPanel);
    background-image: var(--apply-button_image_filterViewPanel);
-   margin-left: var(--apply-button_horizontal-offset_filterViewPanel);
+   margin-left: var(---offset_s);
    cursor: pointer;
    &:active {
       background-image: var(--apply-button_image_filterViewPanel);
@@ -246,7 +246,7 @@
 }
 
 .controls-EditorList__applyButton-text {
-   padding-left: var(--apply-button_padding-left_filterViewPanel);
-   font-size: var(--apply-button_font-size_filterViewPanel);
-   color: var(--apply-button_text-color_filterViewPanel);
+   padding-left: var(--offset_m);
+   font-size: var(--font-size_xs);
+   color: var(--contrast_text-color);
 }
