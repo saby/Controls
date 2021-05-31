@@ -1205,7 +1205,7 @@ define(
             position = StickyStrategy.getPosition(popupCfg, targetCoords);
             assert.equal(position.bottom, 250);
             assert.equal(position.left, 200);
-            assert.equal(position.height, 250);
+            assert.equal(position.height, 500);
 
             popupCfg.restrictiveContainerCoords = {
                top: 100,
