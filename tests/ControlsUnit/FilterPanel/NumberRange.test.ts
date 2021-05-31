@@ -60,7 +60,7 @@ describe('Controls/filterPanel:NumberRangeEditor', () => {
         });
     });
 
-    describe('_notifyExtendedValue', () => {
+    describe('_processPropertyValueChanged', () => {
         const numberRangeEditor = new NumberRangeEditor({});
         let changesNotified = false;
         const event = {
@@ -68,16 +68,16 @@ describe('Controls/filterPanel:NumberRangeEditor', () => {
                 closest: () => {}
             }
         };
-        numberRangeEditor._notify = () => {
+        numberRangeEditor._notifyPropertyValueChanged = () => {
             changesNotified = true;
         };
         it('minValue is bigger than maxValue', () => {
-            numberRangeEditor._notifyExtendedValue(event, [4, 3]);
+            numberRangeEditor._processPropertyValueChanged(event, [4, 3]);
             assert.isFalse(changesNotified);
         });
 
         it('minValue is less than maxValue', () => {
-            numberRangeEditor._notifyExtendedValue(event, [3, 4]);
+            numberRangeEditor._processPropertyValueChanged(event, [3, 4]);
             assert.isTrue(changesNotified);
         });
     });
