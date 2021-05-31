@@ -273,11 +273,13 @@
 .ws-is-hover {
    .controls-Button_toolButton:hover {
       border-color: var(--border-color_hover_button_toolButton);
+      background-color: var(--background-color_hover_button_toolButton);
    }
 }
 
 .controls-Button_toolButton:active {
    border-color: var(--border-color_hover_button_toolButton);
+   background-color: var(--background-color_hover_button_toolButton);
 }
 
 .controls-Button_functionalButton {
@@ -427,6 +429,10 @@
    background-color: var(--secondary_background-color_button);
 }
 
+.controls-Button_button_style-readonly.controls-Button_bg-same {
+   background-color: var(--readonly_background-color_button);
+}
+
 .controls-Button_button_style-unaccented.controls-Button_bg-contrast {
    border-color: var(--unaccented_hover_contrast_background-color);
 }
@@ -459,6 +465,7 @@
       }
       .controls-Button_button_style-@{_item}.controls-Button_bg-contrast:hover {
          background-color: ~"var(--@{_item}_hover_contrast_background-color)";
+         border-color: ~"var(--@{_item}_hover_contrast_background-color)";
       }
    });
 
@@ -485,6 +492,7 @@
       }
       .controls-Button_button_style-@{_item}.controls-Button_bg-contrast:active {
          background-color: ~"var(--@{_item}_active_contrast_background-color)";
+         border-color: ~"var(--@{_item}_active_contrast_background-color)";
       }
    });
 
@@ -494,6 +502,13 @@
 
    .controls-Button_button_style-secondary:active.controls-Button_bg-same {
       background-color: var(--secondary_active_background-color_button);
+   }
+
+   .controls-Button_button_style-pale:active {
+      background-color: var(--pale_active_background-color_button);
+   }
+   .controls-Button_button_style-default:active {
+      border-color: var(--default_active_border-color_button);
    }
 }
 

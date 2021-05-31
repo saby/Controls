@@ -171,7 +171,9 @@ export default class HeaderRow<T> extends Row<T> {
             } as IColumn;
 
             const prevColumnIndex = columnIndex - (
-                columnIndex > 1 && this._$header[columnIndex - 1].startColumn === column.startColumn ? 2 : 1);
+                (columnIndex > 1 &&
+                this._$header[columnIndex - 1].startColumn === column.startColumn &&
+                column.startColumn !== undefined) ? 2 : 1);
 
             const previousColumn: IColumn = {
                 ...this._$header[prevColumnIndex],

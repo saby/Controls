@@ -449,6 +449,22 @@ export default abstract class Row<T> {
             });
         }
 
+        if (creatingColumnsParams.length === 1 && this.getColumnsConfig().length > 1) {
+            creatingColumnsParams[0].isActsAsRowTemplate = true;
+            if (this.hasColumnScroll()) {
+                creatingColumnsParams[0].isFixed = true;
+            }
+        }
+
+        // isSingleColspanedCell определяется и ипользуется не так как задумывалась и называется.
+        // Флаг должен указывать, что ячейка по своей сути является шаблоном всей строки.
+        // При этом не должно играть роли, как прикладной разработчик определил шаблон строки:
+        // через rowTemplate или растянув первую ячейку до конца. Сейчас isSingleColspanedCell
+        // смотрит на количество колонок не в таблице, а в строке. Флаг стал использоваться неправильно
+        // из-за спутаности css классов, сейчас не все классы общие и многие ячейки дублируют логику,
+        // например пустое представления. Места использования и css классы будут поправлены по существующей задаче
+        // Будет править https://online.sbis.ru/opendoc.html?guid=024784a6-cc47-4d1a-9179-08c897edcf72
+        // FIXME: Используйте isActsAsRowTemplate, в случае, если нужно понять, является ли ячейка шаблоном всей строки.
         if (creatingColumnsParams.length === 1 && (this._$rowTemplate || columns.length > 1)) {
             creatingColumnsParams[0].isSingleColspanedCell = true;
             if (this.hasColumnScroll()) {

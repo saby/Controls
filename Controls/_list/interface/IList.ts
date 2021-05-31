@@ -667,7 +667,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @name Controls/_list/interface/IList#rowSeparatorSize
- * @cfg {Controls/_list/interface/IList/RowSeparatorSize.typedef} Высота {@link /doc/platform/developmentapl/interface-development/controls/list/grid/line-separator/#row линии-разделителя строк}.
+ * @cfg {Controls/_list/interface/IList/RowSeparatorSize.typedef} Высота {@link /doc/platform/developmentapl/interface-development/controls/list/grid/separator/#row линии-разделителя строк}.
  * @default s
  */
 

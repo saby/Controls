@@ -107,7 +107,7 @@
  */
 
 /**
- * @typedef {String} ColumnsMode
+ * @typedef {String} Controls/_columns/ColumnsView/ColumnsMode
  * @variant auto Автоматическое распределение записей по колонкам.
  * @variant fixed Каждая запись располагается в заранее определенную колонку.
  */

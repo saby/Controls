@@ -62,6 +62,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$rowspan: number;
     protected _$isFixed: boolean;
     protected _$isSingleColspanedCell: boolean;
+    protected _$isActsAsRowTemplate: boolean;
     protected _$isLadderCell: boolean;
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
@@ -223,7 +224,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
                       templateHighlightOnHover?: boolean,
                       templateHoverBackgroundStyle?: string): string {
         const hasColumnScroll = this._$owner.hasColumnScroll();
-        const hoverBackgroundStyle = templateHoverBackgroundStyle || this._$owner.getHoverBackgroundStyle();
+        const hoverBackgroundStyle = this._$column.hoverBackgroundStyle ||
+            templateHoverBackgroundStyle || this._$owner.getHoverBackgroundStyle();
 
         let wrapperClasses = '';
 
@@ -266,7 +268,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             return ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
         }
 
-        if (templateHighlightOnHover !== false && !isCellEditMode) {
+        if (templateHighlightOnHover !== false && hoverBackgroundStyle !== 'transparent' && !isCellEditMode) {
             wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle} `;
         }
 
@@ -355,7 +357,9 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             contentClasses += ` controls-Grid__row-cell__content_background_${backgroundColorStyle}`;
         }
 
-        if (templateHighlightOnHover !== false && this._$owner.getEditingConfig()?.mode !== 'cell') {
+        if (templateHighlightOnHover !== false &&
+            hoverBackgroundStyle !== 'transparent' &&
+            this._$owner.getEditingConfig()?.mode !== 'cell') {
             contentClasses += ` controls-Grid__item_background-hover_${hoverBackgroundStyle}`;
         }
 
@@ -617,6 +621,7 @@ Object.assign(Cell.prototype, {
 
     _$isFixed: null,
     _$isSingleColspanedCell: null,
+    _$isActsAsRowTemplate: null,
     _$isLadderCell: null,
     _$isHiddenForLadder: null
 });

@@ -24,6 +24,7 @@ export interface IPropertyGridOptions extends IControlOptions {
     editorColumnOptions?: IPropertyGridColumnOptions;
     captionColumnOptions?: IPropertyGridColumnOptions;
     itemPadding: IItemPadding;
+    withoutLevelPadding?: boolean;
 }
 
 /**

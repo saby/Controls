@@ -6,7 +6,7 @@ import TileView from 'Controls/_tile/TileView';
  * В качестве данных ожидает {@link RecordSet} переданный в опцию {@link IItemsViewOptions.items}.
  *
  * @demo Controls-demo/tileNew/ItemsView/Base/Index
- *
+ * @mixes Controls/list:IItemsView
  * @public
  * @author Уфимцев Д.Ю.
  * @class Controls/tile:ItemsView

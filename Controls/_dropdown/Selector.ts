@@ -52,7 +52,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IMultiSelectable
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/interface/ISelectorDialog
+ * @mixes Controls/interface:ISelectorDialog
  * @mixes Controls/interface:IIconSize
  * @mixes Controls/interface:ITextValue
  * @mixes Controls/interface:IFontSize
@@ -79,7 +79,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @mixes Controls/interface:IMultiSelectable
  * @mixes Controls/dropdown:IFooterTemplate
  * @mixes Controls/dropdown:IHeaderTemplate
- * @mixes Controls/interface/ISelectorDialog
+ * @mixes Controls/interface:ISelectorDialog
  * @mixes Controls/dropdown:IGrouped
  * @mixes Controls/interface:ITextValue
  * 

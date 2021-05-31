@@ -628,12 +628,15 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             }
         }
 
-        if (newOptions.nodeFooterTemplate !== this._options.nodeFooterTemplate) {
-            viewModel.setNodeFooterTemplate(newOptions.nodeFooterTemplate);
-        }
-
+        // nodeFooterVisibilityCallback нужно проставлять раньше nodeFooterTemplate, т.к.
+        // изменение темплейта вызовет пересчет футеров, а в колбэке уже может быть изменено условие,
+        // поэтому нужно сперва пересчитаться по актуальному колбэку
         if (newOptions.nodeFooterVisibilityCallback !== this._options.nodeFooterVisibilityCallback) {
             viewModel.setNodeFooterVisibilityCallback(newOptions.nodeFooterVisibilityCallback);
+        }
+
+        if (newOptions.nodeFooterTemplate !== this._options.nodeFooterTemplate) {
+            viewModel.setNodeFooterTemplate(newOptions.nodeFooterTemplate);
         }
 
         // TODO: Удалить #rea_1179794968
@@ -706,7 +709,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         // сделана некорректно. Как откажемся от неё, то можно использовать стандартное сравнение опций.
         const currentExpandedItems = this._expandController.getExpandedItems();
         const expandedItemsFromSourceCtrl = sourceController && sourceController.getExpandedItems();
-        const wasResetExpandedItems = expandedItemsFromSourceCtrl && !expandedItemsFromSourceCtrl.length
+        const wasResetExpandedItems = !isSourceControllerLoading && expandedItemsFromSourceCtrl && !expandedItemsFromSourceCtrl.length
             && currentExpandedItems && currentExpandedItems.length;
         if (wasResetExpandedItems) {
             _private.resetExpandedItems(this);
@@ -1011,7 +1014,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     protected _afterItemsSet(options): void {
         super._afterItemsSet.apply(this, arguments);
         if (options.markerMoveMode === 'leaves') {
-            this.setMarkerOnFirstLeaf(options);
+            this.setMarkerOnFirstLeaf(options, options.markedKey);
         }
     }
     protected _afterCollectionReset(): void {
@@ -1063,11 +1066,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
-    private setMarkerOnFirstLeaf(options) {
+    private setMarkerOnFirstLeaf(options, startKey) {
         const markerController = this.getMarkerController();
         const model = this._listViewModel;
         const list = model.getCollection();
-        const current = list.getRecordById(this._options.markedKey) || list.at(0);
+        const current = list.getRecordById(startKey) || list.at(0);
         if (current) {
             if (current.get(this._options.nodeProperty) !== null) {
                 this._tempItem = current.getKey();

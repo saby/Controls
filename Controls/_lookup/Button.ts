@@ -61,7 +61,7 @@ export interface ISelectorButtonOptions extends IControlOptions, IValidationStat
  * @mixes Controls/interface:ICaption
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/interface:ITextValue
- * @mixes Controls/interface/ISelectorDialog
+ * @mixes Controls/interface:ISelectorDialog
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/interface:IMultiSelectable
  * @mixes Controls/interface:ISource

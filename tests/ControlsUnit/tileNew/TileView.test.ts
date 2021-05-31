@@ -115,7 +115,7 @@ describe('Controls/_tile/TileView', () => {
             const item = new GroupItem();
             assert.doesNotThrow(tileView._onItemMouseLeave.bind(tileView, event, item));
         });
-        
+
         it('tile item', () => {
             const owner = {
                 getDisplayProperty: () => '',
@@ -190,6 +190,58 @@ describe('Controls/_tile/TileView', () => {
             tileView._afterUpdate();
 
             assert.isTrue(item.canShowActions());
+        });
+        it('animation dont start with hovered item', async () => {
+            const mockedItemContainer = {
+                getBoundingClientRect: () => {
+                    return {};
+                },
+                querySelector: () => {
+                    return {
+                        getBoundingClientRect: () => {
+                            return {};
+                        },
+                        classList: {
+                            add: () => null,
+                            remove: () => null
+                        },
+                        style: {}
+                    };
+                }
+            };
+
+            model.setTileScalingMode('inside');
+            model.getItemContainerPosition = () => {
+                return {};
+            };
+            model.getItemContainerPositionInDocument = () => {
+                return {};
+            };
+            model.getItemContainerStartPosition = () => {
+                return {
+                    left: 10,
+                    right: 10
+                };
+            };
+            tileView.getItemsContainer = () => mockedItemContainer;
+
+            const event = new SyntheticEvent(null, {
+                target: {
+                    closest: (style) => {
+                        if (style === '.js-controls-TileView__withoutZoom') {
+                            return null;
+                        }
+                        if (style === '.controls-TileView__item') {
+                            return mockedItemContainer;
+                        }
+                    }
+                }
+            });
+            const item = model.at(0);
+            tileView._mouseMoveTimeout = null;
+            model.setHoveredItem(item);
+            tileView._onItemMouseEnter(event, item);
+            assert.isNull(tileView._mouseMoveTimeout);
         });
     });
 });

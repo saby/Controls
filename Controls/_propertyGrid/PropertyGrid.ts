@@ -345,7 +345,8 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
     static getDefaultOptions(): Partial<IPropertyGridOptions> {
         return {
             keyProperty: 'name',
-            groupProperty: PROPERTY_GROUP_FIELD
+            groupProperty: PROPERTY_GROUP_FIELD,
+            withoutLevelPadding: true
         };
     }
 }

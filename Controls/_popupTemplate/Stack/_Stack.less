@@ -157,6 +157,7 @@
 .controls-StackTemplate__bottomArea {
    background: var(--footer_background-color_stack);
    border-top: var(--footer_top-border-thickness_stack) solid var(--footer_top-border-color_stack);
+   flex-shrink: 0;
 }
 
 .controls-background-stackHeader {
@@ -170,9 +171,25 @@
 }
 
 .ws-is-hover .controls-stack-Button__rightPanel__close:hover .controls-icon_style-label {
-   color: var(--secondary_text-color);
+   color: var(--close-button_hover_text-color_stack);
 }
 
 .controls-stack-Button__rightPanel__close.controls-Button_functionalButton {
    box-shadow: none;
+}
+
+.controls-StackTemplate__top-area_default {
+   background-color: var(--background-color);
+}
+
+.controls-StackTemplate__top-area_unaccented {
+   background-color: var(--header_background-color_stack_unaccented);
+}
+
+.controls-StackTemplate__top-area_success {
+   background-color: var(--success_background-color);
+}
+
+.controls-StackTemplate__top-area_danger {
+   background-color: var(--danger_background-color);
 }

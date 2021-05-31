@@ -30,11 +30,26 @@ describe('Controls/scroll:ContainerBase', () => {
    });
 
    describe('_componentDidMount', () => {
-      it('should restor scrollTop to 0', () => {
+      it('should restore scrollTop to 0', () => {
          const control: ContainerBase = new ContainerBase(options);
          control._children = { content: { scrollTop: 10 } };
+         control._container = {
+            dataset: {
+               scrollContainerNode: 'true'
+            }
+         };
          control._componentDidMount();
          assert.strictEqual(control._children.content.scrollTop, 0);
+      });
+
+      it('should not restore scrollTop to 0', () => {
+         const control: ContainerBase = new ContainerBase(options);
+         control._children = { content: { scrollTop: 10 } };
+         control._container = {
+            dataset: { /* scrollContainerNode is missing */}
+         };
+         control._componentDidMount();
+         assert.strictEqual(control._children.content.scrollTop, 10);
       });
    });
 
@@ -120,6 +135,7 @@ describe('Controls/scroll:ContainerBase', () => {
             }
          };
          sinon.stub(control, '_resizeObserver');
+         sinon.stub(control, '_isHorizontalScroll');
          control._afterMount();
          control._afterUpdate();
 
@@ -165,6 +181,11 @@ describe('Controls/scroll:ContainerBase', () => {
    describe('_beforeUnmount', () => {
       it('should destroy models and controllers', () => {
          const control: ContainerBase = new ContainerBase(options);
+         control._container = {
+            dataset: {
+               scrollContainerNode: 0
+            }
+         };
          control._beforeMount(options);
 
          sinon.stub(control._resizeObserver, 'terminate');
@@ -213,6 +234,7 @@ describe('Controls/scroll:ContainerBase', () => {
          };
          sinon.stub(control, '_resizeObserver');
          sinon.stub(control, '_observeContentSize');
+         sinon.stub(control, '_isHorizontalScroll');
          control._afterMount();
 
          control._resizeHandler();
@@ -233,8 +255,8 @@ describe('Controls/scroll:ContainerBase', () => {
          control._beforeMount(options);
 
          control._container = {
-            // closest: sinon.stub().returns(true)
-            offsetParent: null
+            closest: sinon.stub().returns(true),
+            className: ''
          }
 
          const getComputedStyle = global.getComputedStyle;
@@ -306,6 +328,7 @@ describe('Controls/scroll:ContainerBase', () => {
          };
          sinon.stub(control, '_resizeObserver');
          sinon.stub(control, '_observeContentSize');
+         sinon.stub(control, '_isHorizontalScroll');
          control._afterMount();
 
          control._scrollHandler({currentTarget: { scrollTop: position }});
@@ -494,6 +517,7 @@ describe('Controls/scroll:ContainerBase', () => {
             };
             sinon.stub(control, '_resizeObserver');
             sinon.stub(control, '_observeContentSize');
+            sinon.stub(control, '_isHorizontalScroll');
             control._afterMount();
 
             control._scrollModel._scrollTop = control._children.content.scrollTop;
@@ -574,6 +598,7 @@ describe('Controls/scroll:ContainerBase', () => {
          };
          sinon.stub(inst, '_resizeObserver');
          sinon.stub(inst, '_observeContentSize');
+         sinon.stub(inst, '_isHorizontalScroll');
          inst._afterMount();
          assert.isFalse(inst._updateState({ scrollTop: 0 }));
          sinon.restore();
@@ -604,6 +629,7 @@ describe('Controls/scroll:ContainerBase', () => {
          };
          sinon.stub(inst, '_resizeObserver');
          sinon.stub(inst, '_observeContentSize');
+         sinon.stub(inst, '_isHorizontalScroll');
          inst._afterMount();
          assert.isTrue(inst._updateState({ scrollTop: 1 }));
          sinon.restore();
@@ -643,6 +669,7 @@ describe('Controls/scroll:ContainerBase', () => {
           };
           sinon.stub(control, '_resizeObserver');
           sinon.stub(control, '_observeContentSize');
+         sinon.stub(control, '_isHorizontalScroll');
           control._afterMount();
 
          sinon.stub(control._registrars.listScroll, 'startOnceTarget');

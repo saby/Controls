@@ -18,7 +18,7 @@ export interface IItemsTreeGridOptions extends IItemsViewOptions, ITreeGridOptio
 /**
  * Контрол древовидной таблицы, который умеет работать без источника данных.
  * В качестве данных ожидает {@link RecordSet} переданный в опцию {@link IItemsTreeGridOptions.items}.
- *
+ * @mixes Controls/list:IItemsView
  * @demo Controls-demo/gridNew/ItemsView/Base/Index
  *
  * @public

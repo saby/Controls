@@ -451,7 +451,7 @@ define(
             beforeEach(() => {
                const records = [];
                for (let i = 0; i < 15; i++) {
-                  records.push({ get: () => {} });
+                  records.push({ key: String(i), doNotSaveToHistory: undefined });
                }
                menuControl = getMenu();
                items = new collection.RecordSet({
@@ -466,6 +466,18 @@ define(
                const result = menuControl._isExpandButtonVisible(items, newMenuOptions);
                assert.isTrue(result);
                assert.equal(menuControl._visibleIds.length, 10);
+            });
+
+            it('expandButton visible, history menu with fixed item', () => {
+               const newMenuOptions = { allowPin: true, root: null };
+               items.append([new entity.Model({
+                  rawData: { key: 'doNotSaveToHistory', doNotSaveToHistory: true },
+                  keyProperty: 'key'
+               })]);
+
+               const result = menuControl._isExpandButtonVisible(items, newMenuOptions);
+               assert.isTrue(result);
+               assert.equal(menuControl._visibleIds.length, 11);
             });
 
             it('expandButton hidden, history menu', () => {
