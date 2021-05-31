@@ -1144,7 +1144,15 @@ define([
 
          assert.isNull(ctrl._loadingIndicatorState);
       });
+      it('shouldDrawCut', () => {
+         const shouldDrawCut = lists.BaseControl._private.shouldDrawCut;
+         assert.isTrue(shouldDrawCut({view: 'cut'}, true, false));
+         assert.isFalse(shouldDrawCut({view: 'cut'}, false, false));
+         assert.isFalse(shouldDrawCut({view: 'page'}, true, false));
+         assert.isTrue(shouldDrawCut({view: 'cut'}, false, true));
+         assert.isTrue(shouldDrawCut({view: 'cut'}, true, true));
 
+      });
       it('prepareFooter', function() {
          let bcHasMoreData = false;
          var
