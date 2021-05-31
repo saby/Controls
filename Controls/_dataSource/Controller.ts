@@ -181,7 +181,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
     private _hierarchyRelation: relation.Hierarchy;
 
     private _expandedItems: TKey[];
-    private _reStoredExpandedItems: TKey[];
     private _deepReload: boolean;
     private _collapsedGroups: TArrayGroupId;
 
