@@ -6631,6 +6631,14 @@ define([
                 baseControl._items = notEmptyRs;
                 assert.isNotOk(baseControl._shouldDisplayBottomLoadingIndicator());
              });
+
+             it('empty model', () => {
+                baseControl._loadingIndicatorState = 'bottom';
+                baseControl._attachLoadDownTriggerToNull = true;
+                baseControl.__needShowEmptyTemplate = () => false;
+                baseControl._items = null;
+                assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
+             });
           });
 
           it('attachToNull, onCollectionChanged', () => {

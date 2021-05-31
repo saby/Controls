@@ -402,6 +402,54 @@ define([
             instance._itemsSetCallback();
             assert.strictEqual(instance._viewMode, 'tile');
          });
+
+         it('async change view mode', async () => {
+            const cfg = {
+               viewMode: 'view1',
+               columns: [{}, {}, {}],
+               header: [{}, {}, {}]
+            };
+            const cfg2 = {
+               viewMode: 'view2',
+               columns: [{}],
+               header: [{}]
+            };
+
+            let viewModePromise;
+            let resolveViewMode;
+            const instance = new explorerMod.View(cfg);
+            instance._beforeMount(cfg);
+            instance.saveOptions(cfg);
+            instance._children = {
+               treeControl: {
+                  resetExpandedItems: () => null
+               }
+            };
+            instance._setViewMode = (viewMode, cfg) => {
+               viewModePromise = new Promise((resolve) => {
+                  resolveViewMode = resolve;
+               }).then(() => {
+                  instance._setViewModeSync(viewMode, cfg);
+               });
+
+               return viewModePromise;
+            };
+
+            instance._beforeUpdate(cfg2);
+
+            // При асинхронной смене viewMode набор примененных колонок и заголовок
+            // не должны измениться
+            assert.strictEqual(instance._header, cfg.header);
+            assert.strictEqual(instance._columns, cfg.columns);
+
+            resolveViewMode();
+            await viewModePromise;
+
+            // После асинхронной смены viewMode набор примененных колонок и заголовок
+            // должны измениться
+            assert.strictEqual(instance._header, cfg2.header);
+            assert.strictEqual(instance._columns, cfg2.columns);
+         });
       });
 
       describe('_onBreadcrumbsChanged', () => {

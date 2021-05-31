@@ -34,6 +34,10 @@ class ButtonStyle extends Control<IControlOptions> {
             iconStyle: 'primary'
         },
         {
+            buttonStyle: 'default',
+            iconStyle: 'primary'
+        },
+        {
             buttonStyle: 'pale',
             iconStyle: 'primary'
         }];
