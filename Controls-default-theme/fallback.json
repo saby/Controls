@@ -173,6 +173,7 @@
   "--border-radius_default_block": "8px",
   "--box-shadow_block": "0 0 6px rgba(0, 0, 0, 0.15)",
   "--box-shadow-blur_block": "6px",
+  "--space-between_block": "8px",
   "--margin_block": "-6px",
   "--padding_block": "6px",
   "--page_background-image": "url('/cdn/OnlineCDN/themes/1.0.0/background.jpg')",
