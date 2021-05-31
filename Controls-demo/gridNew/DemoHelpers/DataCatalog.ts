@@ -1645,6 +1645,7 @@ interface IEditingData {
     documentSign?: number;
     taxBase?: number;
     document?: string;
+    editableTitle?: string;
 }
 
 const getEditing = () => {
@@ -1827,6 +1828,7 @@ const getEditing = () => {
             {
                 id: 1,
                 title: 'Новороссийский морской торговый порт',
+                editableTitle: 'основан в 1845 г.',
                 documentSign: 145465097,
                 taxBase: 17215.00,
                 document: 'б/н'
@@ -1834,6 +1836,7 @@ const getEditing = () => {
             {
                 id: 2,
                 title: 'Морской порт Санкт-Петербург',
+                editableTitle: 'основан в 1703 г.',
                 documentSign: 1015108104,
                 taxBase: 21015.00,
                 document: '48000560-ABCC'
@@ -1841,6 +1844,7 @@ const getEditing = () => {
             {
                 id: 3,
                 title: 'Морской торговый порт Усть-Луга',
+                editableTitle: 'основан в 2001 г.',
                 documentSign: 2418052,
                 taxBase: 890145.04,
                 document: '456990005'
@@ -1855,22 +1859,22 @@ const getEditing = () => {
         getDecoratedEditingColumns: (): IColumn[] => [
             {
                 displayProperty: 'title',
-                width: '300px',
+                width: '200px',
                 template: baseEditor
             },
             {
                 displayProperty: 'taxBase',
-                width: '200px',
+                width: '110px',
                 template: moneyEditor
             },
             {
                 displayProperty: 'documentSign',
-                width: '150px',
+                width: '110px',
                 template: numberEditor
             },
             {
                 displayProperty: 'document',
-                width: '150px',
+                width: '110px',
                 template: defaultEditor
             }
         ]
