@@ -757,6 +757,9 @@ const _private = {
         }
     },
     // endregion key handlers
+    shouldDrawCut(navigation, hasMoreData, expanded): boolean {
+        return _private.isCutNavigation(navigation) && (hasMoreData || expanded);
+    },
 
     prepareFooter(self, options, sourceController: SourceController): void {
         let
@@ -765,10 +768,9 @@ const _private = {
         if (_private.isDemandNavigation(options.navigation) && self._hasMoreData(sourceController, 'down')) {
             self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ? !self._listViewModel.isAllGroupsCollapsed() : true;
         } else if (
-            _private.isCutNavigation(options.navigation) &&
-            self._items.getCount() === options.navigation.sourceConfig.pageSize &&
-            self._hasMoreData(sourceController, 'down')
-        ) {
+            _private.shouldDrawCut(options.navigation,
+                                   self._hasMoreData(sourceController, 'down'),
+                                   self._expanded)) {
             self._shouldDrawCut = true;
         } else {
             self._shouldDrawFooter = false;
@@ -1796,7 +1798,7 @@ const _private = {
                         case IObservable.ACTION_RESET:
 
                         // TODO: Нужно научить virtualScroll обрабатывать reset коллекции с сохранением положения скролла
-                        // Сейчас можем сохранить только если не поменялось количество записей. 
+                        // Сейчас можем сохранить только если не поменялось количество записей.
                         // Таких кейсов еще не было, но вообще могут появиться https://online.sbis.ru/opendoc.html?guid=1bff2e6e-d018-4ac9-be37-ca77cb0a8030
                             if (!self._keepScrollAfterReload || newItems.length !== removedItems.length) {
                                 result = self._scrollController.handleResetItems();
@@ -6193,11 +6195,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._sourceController.setNavigation(undefined);
             this._reload(this._options).then(() => {
                 this._expanded = true;
+                _private.prepareFooter(this, this._options, this._sourceController);
             });
         } else {
             this._sourceController.setNavigation(this._options.navigation);
             this._reload(this._options).then(() => {
                 this._expanded = false;
+                _private.prepareFooter(this, this._options, this._sourceController);
             });
         }
     }
