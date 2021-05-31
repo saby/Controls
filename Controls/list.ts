@@ -7,7 +7,6 @@
  * @includes IContentTemplate Controls/_list/interface/IContentTemplate
  * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
- * @includes IBaseGroupTemplate Controls/_list/interface/IBaseGroupTemplate
  * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
@@ -30,7 +29,6 @@
  * @includes IContentTemplate Controls/_list/interface/IContentTemplate
  * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
- * @includes IBaseGroupTemplate Controls/_list/interface/IBaseGroupTemplate
  * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
@@ -98,6 +96,7 @@ export {CharacteristicsTemplate};
 
 export {MoveController, IMoveControllerOptions}  from 'Controls/_list/Controllers/MoveController';
 export {IMovableList, IMoveDialogTemplate, IMovableOptions} from 'Controls/_list/interface/IMovableList';
+export {IBaseGroupTemplate} from 'Controls/_list/interface/BaseGroupTemplate';
 
 export {RemoveController} from 'Controls/_list/Controllers/RemoveController';
 export {IRemovableList} from 'Controls/_list/interface/IRemovableList';
