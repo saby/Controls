@@ -1,16 +1,28 @@
+import {TemplateFunction} from 'UI/Base';
 import {Model} from 'Types/entity';
 import {mixin} from 'Types/util';
 import {GridGroupCellMixin, IGridRowOptions} from 'Controls/grid';
 import TreeGridDataCell from 'Controls/_treeGrid/display/TreeGridDataCell';
+import {IGroupNodeColumn} from 'Controls/_treeGrid/interface/IGroupNodeColumn';
+
+const GROUP_CELL_TEMPLATE = 'Controls/treeGrid:GroupColumnTemplate';
 
 export default class TreeGridGroupDataCell<T extends Model>
     extends mixin<TreeGridDataCell<T>, GridGroupCellMixin<any>>(TreeGridDataCell, GridGroupCellMixin) {
     readonly '[Controls/treeGrid:TreeGridGroupDataCell]': boolean;
 
+    protected readonly _$column: IGroupNodeColumn;
     readonly _$isExpanded: boolean;
 
     constructor(options?: IGridRowOptions<T>) {
         super(options);
+    }
+
+    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction | string {
+        if (this._$column.groupNodeConfig) {
+            return GROUP_CELL_TEMPLATE;
+        }
+        return this._$column.template || this._defaultCellTemplate;
     }
 
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover?: boolean, templateHoverBackgroundStyle?: string): string {
