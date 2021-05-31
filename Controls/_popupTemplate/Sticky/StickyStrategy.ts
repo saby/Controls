@@ -428,7 +428,7 @@ const INVERTING_CONST = {
          if (popupCfg.restrictiveContainerCoords) {
             position.maxHeight -= popupCfg.restrictiveContainerCoords.top;
             if (popupCfg.sizes.height > position.maxHeight) {
-               position.height = popupCfg.sizes.height;
+               position.height = position.maxHeight;
             }
          }
 
