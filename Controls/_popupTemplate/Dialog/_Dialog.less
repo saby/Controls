@@ -10,9 +10,15 @@
    box-shadow: var(--box-shadow_dialog);
    border: var(--border-thickness_dialog) solid var(--border-color_dialog);
 }
-
+//Разбитие border-radius необходимо с целью решения баги на MAC, так как если на нижнем элементе диалогового окна
+//задан отступ, то он ломает border-radius.
 .controls-DialogTemplate_minimize {
    border-radius: var(--border-radius_dialog);
+}
+
+.controls-DialogTemplate_border-radius-footer {
+   border-bottom-right-radius: var(--border-radius_dialog);
+   border-bottom-left-radius: var(--border-radius_dialog);
 }
 
 .controls-DialogTemplate_backgroundStyle-default {
