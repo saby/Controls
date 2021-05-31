@@ -1,7 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/EmptyGrid/Editing/Editing';
 import {Memory} from 'Types/source';
-import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import { IHeaderCell } from 'Controls/grid';
 import {Record as entityRecord} from 'Types/entity';
@@ -14,8 +13,8 @@ export default class extends Control {
     private _hasItems = false;
     private _isEditing = false;
 
-    protected _header: IHeaderCell[] = getCountriesStats().getDefaultHeader().slice(1);
-    protected _columns: IColumn[] = getCountriesStats().getColumnsWithFixedWidths().slice(1).map((c) => ({
+    protected _header: IHeaderCell[] = Countries.getHeader().slice(1);
+    protected _columns: IColumn[] = Countries.getColumnsWithFixedWidths().slice(1).map((c) => ({
         ...c,
         template: editingCell
     }));

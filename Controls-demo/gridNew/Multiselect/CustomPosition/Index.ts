@@ -1,7 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/Multiselect/CustomPosition/CustomPosition';
 import {Memory} from 'Types/source';
-import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import * as cellTemplate from 'wml!Controls-demo/gridNew/Multiselect/CustomPosition/CellTemplate';
 
@@ -20,7 +19,7 @@ export default class extends Control {
     protected _beforeMount(): void {
         this._viewSource = new Memory({
             keyProperty: 'id',
-            data: getCountriesStats().getData().slice(0, 7)
+            data: Countries.getData().slice(0, 7)
         });
     }
 

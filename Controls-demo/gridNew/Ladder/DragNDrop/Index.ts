@@ -1,7 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/Ladder/DragNDrop/DragNDrop';
 import {Memory} from 'Types/source';
-import {getTasks} from '../../DemoHelpers/DataCatalog';
 import * as Dnd from 'Controls/dragnDrop';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Collection} from 'Controls/display';
@@ -10,6 +9,7 @@ import {RecordSet} from 'Types/collection';
 import {TItemsReadyCallback} from 'Controls-demo/types';
 import {IItemAction} from 'Controls/_itemActions/interface/IItemAction';
 import {showType} from 'Controls/toolbars';
+import { Tasks } from 'Controls-demo/gridNew/DemoHelpers/Data/Tasks';
 
 interface INoStickyLadderColumn {
     template: string;
@@ -20,7 +20,7 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     protected _itemsReadyCallback: TItemsReadyCallback = this._itemsReady.bind(this);
-    protected _columns: INoStickyLadderColumn[] = getTasks().getColumns();
+    protected _columns: INoStickyLadderColumn[] = Tasks.getColumns();
     private _itemsFirst: RecordSet = null;
     protected _ladderProperties: string[] = ['photo', 'date'];
     protected _itemActions: IItemAction = [{
@@ -43,7 +43,7 @@ export default class extends Control {
     protected _beforeMount(): void {
         this._viewSource = new Memory({
             keyProperty: 'id',
-            data: getTasks().getData()
+            data: Tasks.getData()
         });
     }
 

@@ -1,16 +1,16 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/EditingRow/EditingRow';
 import {Memory} from 'Types/source';
-import {getPorts} from '../../DemoHelpers/DataCatalog';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import * as cellTemplate from 'wml!Controls-demo/gridNew/EditInPlace/EditingRow/cellTemplate';
+import { Ports } from 'Controls-demo/gridNew/DemoHelpers/Data/Ports';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     protected _documentSignMemory: Memory;
-    private data: object[] = getPorts().getData().map((cur) => this.getData(cur));
+    private data: object[] = Ports.getData().map((cur) => this.getData(cur));
     protected selectedKey: number = 1;
     protected _fakeId: number = 100;
 
@@ -36,7 +36,7 @@ export default class extends Control {
 
         this._documentSignMemory = new Memory({
             keyProperty: 'id',
-            data: getPorts().getDocumentSigns()
+            data: Ports.getDocumentSigns()
         });
     }
 
