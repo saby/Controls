@@ -791,6 +791,7 @@ export default abstract class TileItem<T extends Model = Model> {
         titleStyle: string = 'light'
     ): string {
         let classes = '';
+        classes += ` ${this.getRoundBorderClasses()}`;
         if (itemType === 'small') {
             classes += ' controls-TileView__smallTemplate_wrapper';
             if (this.canShowActions()) {
