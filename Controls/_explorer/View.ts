@@ -14,14 +14,14 @@ import {isEqual} from 'Types/object';
 import {CrudEntityKey, DataSet, LOCAL_MOVE_POSITION} from 'Types/source';
 import {
     IBasePageSourceConfig, IBaseSourceConfig,
-    IDraggableOptions, IFilterOptions, IHeaderCell,
+    IDraggableOptions, IFilterOptions,
     IHierarchyOptions,
     INavigationOptions,
     INavigationOptionValue,
     INavigationPageSourceConfig,
     ISelectionObject, ISortingOptions, ISourceOptions,
     TKey,
-    IGridControl, INavigationPositionSourceConfig
+    INavigationPositionSourceConfig
 } from 'Controls/interface';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {RecordSet} from 'Types/collection';
@@ -39,6 +39,7 @@ import 'css!Controls/explorer';
 import { isFullGridSupport } from 'Controls/display';
 import PathController from 'Controls/_explorer/PathController';
 import {Object as EventObject} from 'Env/Event';
+import {IColumn, IGridControl, IHeaderCell} from 'Controls/grid';
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -141,7 +142,6 @@ export default class Explorer extends Control<IExplorerOptions> {
     protected _groupTemplate: TemplateFunction;
     protected _notifyHandler: typeof EventUtils.tmplNotify = EventUtils.tmplNotify;
     protected _backgroundStyle: string;
-    protected _header: object;
     protected _itemsReadyCallback: Function;
     protected _itemsSetCallback: Function;
     protected _itemPadding: object;
@@ -149,12 +149,34 @@ export default class Explorer extends Control<IExplorerOptions> {
     protected _needSetMarkerCallback: (item: Model, domEvent: Event) => boolean;
     protected _breadCrumbsDragHighlighter: Function;
     protected _canStartDragNDrop: Function;
+
+    /**
+     * Текущая применяемая конфигурация колонок
+     */
+    protected _columns: IColumn[];
+    /**
+     * Новая конфигурация колонок, которую мы задерживаем до выполнения асинхронной операции.
+     */
+    protected _newColumns: IColumn[];
+
+    /**
+     * Текущая применяемая конфигурация заголовков колонок
+     */
+    protected _header: IHeaderCell[];
+    /**
+     * Новая конфигурация заголовков колонок, которую мы задерживаем до выполнения асинхронной операции.
+     */
+    protected _newHeader: IHeaderCell[];
+    /**
+     * Конфигурация видимости заголовка, которую мы задерживаем до выполнения
+     * асинхронной операции
+     */
     protected _headerVisibility: string;
+
     protected _children: {
         treeControl: TreeControl,
         pathController: PathController
     };
-    protected _dataLoadCallback: Function;
 
     /**
      * Идентификатор узла данные которого отображаются в текущий момент.
@@ -180,7 +202,6 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _itemActionsPosition: string;
     private _newItemTemplate: TemplateFunction;
     private _newBackgroundStyle: string;
-    private _newHeader: IHeaderCell[];
     private _isGoingBack: boolean;
     // Восстановленное значение курсора при возврате назад по хлебным крошкам
     private _restoredCursor: unknown;
@@ -210,6 +231,9 @@ export default class Explorer extends Control<IExplorerOptions> {
             //  при viewMode === 'search' || 'table' + на него завязана проверка видимости
             //  шапки с хлебными крошками в PathWrapper, но эту проверку можно также на viewMode сделать
             this._newHeader = this._header = cfg.viewMode === 'tile' ? undefined : cfg.header;
+        }
+        if (cfg.columns) {
+            this._columns = this._newColumns = cfg.columns;
         }
 
         this._itemActionsPosition = cfg.itemActionsPosition;
@@ -280,6 +304,10 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         if (cfg.header !== this._options.header || isViewModeChanged) {
             this._newHeader = cfg.viewMode === 'tile' ? undefined : cfg.header;
+        }
+
+        if (cfg.columns !== this._options.columns) {
+            this._newColumns = cfg.columns;
         }
 
         if (cfg.itemActionsPosition !== this._options.itemActionsPosition) {
@@ -930,6 +958,11 @@ export default class Explorer extends Control<IExplorerOptions> {
             // _applyNewVisualOptions это может вызвать сброс шапки
             /*this._newHeader = null;*/
         }
+
+        if (this._newColumns !== this._columns) {
+            this._columns = this._newColumns;
+        }
+
         if (this._newItemActionsPosition) {
             this._itemActionsPosition = this._newItemActionsPosition;
             this._newItemActionsPosition = null;
