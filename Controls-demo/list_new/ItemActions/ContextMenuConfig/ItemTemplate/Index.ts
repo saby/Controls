@@ -15,7 +15,7 @@ interface IItemActionWithTemplate extends IItemAction {
 }
 
 interface ISrcData {
-   id: number;
+   key: number;
    title: string;
 }
 
@@ -47,7 +47,7 @@ const itemActions: IItemActionWithTemplate[] = [
 
 const data: ISrcData[] = [
    {
-      id: 1,
+      key: 1,
       title: 'Кнопка "Скачать" в меню показана при помощи шаблона'
    }
 ];
@@ -59,7 +59,7 @@ export default class ItemTemplate extends Control<IControlOptions> {
 
    protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
       this._viewSource = new Memory({
-         keyProperty: 'id',
+         keyProperty: 'key',
          data
       });
    }

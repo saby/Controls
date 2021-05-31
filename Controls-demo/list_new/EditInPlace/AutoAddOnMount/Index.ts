@@ -20,12 +20,12 @@ export default class extends Control {
     protected _beforeMount(): Promise<void> {
 
         this._emptyViewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: []
         });
 
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: getData().slice(0, 3)
         });
 

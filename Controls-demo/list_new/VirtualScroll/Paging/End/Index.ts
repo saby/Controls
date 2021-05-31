@@ -12,7 +12,7 @@ export default class extends Control {
     protected _beforeMount(): void {
         this._count = 199;
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: this._dataArray
         });
     }

@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <Controls.scroll:Container attr:class="controlsDemo__height400">
-        <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
+        <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="key>
             <Controls.list:Container>
                 <Controls.grid:View
                         on:dragStart="_dragStart()"

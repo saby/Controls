@@ -2,13 +2,13 @@
     <Controls.toggle:RadioGroup
             bind:selectedKey="_selectedKey"
             attr:style="padding-left:12px"
-            keyProperty="id"
+            keyProperty="key
             direction="horizontal"
             source="{{_radioSource}}"
     />
     <div class="controlsDemo__wrapper">
         <Controls.grid:View
-                keyProperty="id"
+                keyProperty="key
                 multiSelectVisibility="{{_multiselect}}"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"/>

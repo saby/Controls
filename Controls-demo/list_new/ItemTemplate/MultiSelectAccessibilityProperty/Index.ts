@@ -19,7 +19,7 @@ export default class extends Control {
         data[4].checkboxState = MultiSelectAccessibility.enabled;
 
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data
         });
     }

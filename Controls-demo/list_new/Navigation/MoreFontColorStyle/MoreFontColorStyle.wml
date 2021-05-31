@@ -3,7 +3,7 @@
         <div class="controls-text-label">default</div>
         <Controls.scroll:Container>
             <Controls.list:View
-                    keyProperty="id"
+                    keyProperty="key"
                     source="{{_viewSource}}">
                 <ws:navigation source="page" view="demand">
                     <ws:sourceConfig pageSize="{{1}}" page="{{0}}" hasMore="{{false}}"/>
@@ -16,7 +16,7 @@
         <div class="controls-text-label">moreFontColorStyle=link</div>
         <Controls.scroll:Container>
             <Controls.list:View
-                    keyProperty="id"
+                    keyProperty="key"
                     source="{{_viewSource}}"
                     moreFontColorStyle="link">
                 <ws:navigation source="page" view="demand">
@@ -30,7 +30,7 @@
         <div class="controls-text-label">moreFontColorStyle=primary</div>
         <Controls.scroll:Container>
             <Controls.list:View
-                    keyProperty="id"
+                    keyProperty="key"
                     source="{{_viewSource}}"
                     moreFontColorStyle="primary">
                 <ws:navigation source="page" view="demand">
@@ -44,7 +44,7 @@
         <div class="controls-text-label">moreFontColorStyle=secondary</div>
         <Controls.scroll:Container>
             <Controls.list:View
-                    keyProperty="id"
+                    keyProperty="key"
                     source="{{_viewSource}}"
                     moreFontColorStyle="secondary">
                 <ws:navigation source="page" view="demand">
@@ -58,7 +58,7 @@
         <div class="controls-text-label">moreFontColorStyle=success</div>
         <Controls.scroll:Container>
             <Controls.list:View
-                    keyProperty="id"
+                    keyProperty="key"
                     source="{{_viewSource}}"
                     moreFontColorStyle="success">
                 <ws:navigation source="page" view="demand">
@@ -72,7 +72,7 @@
         <div class="controls-text-label">moreFontColorStyle=warning</div>
         <Controls.scroll:Container>
             <Controls.list:View
-                    keyProperty="id"
+                    keyProperty="key"
                     source="{{_viewSource}}"
                     moreFontColorStyle="warning">
                 <ws:navigation source="page" view="demand">
@@ -86,7 +86,7 @@
         <div class="controls-text-label">moreFontColorStyle=danger</div>
         <Controls.scroll:Container>
             <Controls.list:View
-                    keyProperty="id"
+                    keyProperty="key"
                     source="{{_viewSource}}"
                     moreFontColorStyle="danger">
                 <ws:navigation source="page" view="demand">
@@ -100,7 +100,7 @@
         <div class="controls-text-label">moreFontColorStyle=unaccented</div>
         <Controls.scroll:Container>
             <Controls.list:View
-                    keyProperty="id"
+                    keyProperty="key"
                     source="{{_viewSource}}"
                     moreFontColorStyle="unaccented">
                 <ws:navigation source="page" view="demand">
@@ -114,7 +114,7 @@
         <div class="controls-text-label">moreFontColorStyle=label</div>
         <Controls.scroll:Container>
             <Controls.list:View
-                    keyProperty="id"
+                    keyProperty="key"
                     source="{{_viewSource}}"
                     moreFontColorStyle="label">
                 <ws:navigation source="page" view="demand">
@@ -128,7 +128,7 @@
         <div class="controls-text-label">moreFontColorStyle=info</div>
         <Controls.scroll:Container>
             <Controls.list:View
-                    keyProperty="id"
+                    keyProperty="key"
                     source="{{_viewSource}}"
                     moreFontColorStyle="info">
                 <ws:navigation source="page" view="demand">
@@ -142,7 +142,7 @@
         <div class="controls-text-label">moreFontColorStyle=default</div>
         <Controls.scroll:Container>
             <Controls.list:View
-                    keyProperty="id"
+                    keyProperty="key"
                     source="{{_viewSource}}"
                     moreFontColorStyle="default">
                 <ws:navigation source="page" view="demand">

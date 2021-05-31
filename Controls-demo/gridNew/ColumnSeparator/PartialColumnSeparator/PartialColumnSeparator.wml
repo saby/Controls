@@ -6,7 +6,7 @@
                                       caption="Show column separator"/>
         </div>
         <Controls.grid:View
-                keyProperty="id"
+                keyProperty="key
                 source="{{_viewSource}}"
                 header="{{_header}}"
                 columns="{{_columns1}}"
@@ -20,7 +20,7 @@
             <Controls.toggle:Checkbox bind:value="_columnSeparator2" caption="Show column separator"/>
         </div>
         <Controls.grid:View
-                keyProperty="id"
+                keyProperty="key
                 source="{{_viewSource}}"
                 header="{{_header}}"
                 columns="{{_columns2}}"
@@ -35,7 +35,7 @@
             <Controls.toggle:Checkbox bind:value="_columnSeparator3" caption="Show column separator"/>
         </div>
         <Controls.grid:View
-                keyProperty="id"
+                keyProperty="key
                 source="{{_viewSource}}"
                 header="{{_header}}"
                 columns="{{_columns3}}"

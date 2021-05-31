@@ -6,12 +6,12 @@ import {RecordSet} from 'Types/collection';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 
 interface IRawData {
-    id: number;
+    key: number;
     title: string;
 }
 
 const format = {
-    id: 'integer',
+    key: 'integer',
     title: 'string'
 };
 
@@ -61,7 +61,7 @@ export default class Index extends Control<IControlOptions> {
         this._lastRowId = 0;
         this._items = new RecordSet({
             format,
-            keyProperty: 'id',
+            keyProperty: 'key',
             rawData: [
                 this._generateRow(),
                 this._generateRow()
@@ -73,10 +73,10 @@ export default class Index extends Control<IControlOptions> {
      * Генерирует сырые данные для новой строки
      */
     private _generateRow(): IRawData {
-        const id = ++this._lastRowId;
+        const key = ++this._lastRowId;
         return {
-            id,
-            title: `row with id ${id}`
+            key,
+            title: `row with id ${key}`
         };
     }
 

@@ -9,9 +9,9 @@ export default class extends Control {
     private _newData: unknown = getData().slice(0, 1);
 
     protected _beforeMount(): void {
-        this._newData[0].id = null;
+        this._newData[0].key = null;
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: this._newData
         });
     }

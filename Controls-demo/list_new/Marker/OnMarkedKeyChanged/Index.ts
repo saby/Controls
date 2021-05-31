@@ -7,17 +7,17 @@ import * as Template from 'wml!Controls-demo/list_new/Marker/OnMarkedKeyChanged/
 
 const data = [
     {
-        id: 1,
+        key: 1,
         title: 'На записи разрешена установка маркера',
         markable: true
     },
     {
-        id: 2,
+        key: 2,
         title: 'На записи запрещена установка маркера',
         markable: false
     },
     {
-        id: 3,
+        key: 3,
         title: 'На записи разрешена установка маркера',
         markable: true
     }
@@ -33,7 +33,7 @@ export default class extends Control {
     protected _beforeMount(): void {
         this._boundItemsReadyCallback = this._itemsReadyCallback.bind(this);
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data
         });
     }

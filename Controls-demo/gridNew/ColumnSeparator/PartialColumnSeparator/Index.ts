@@ -57,7 +57,7 @@ export default class extends Control {
         ];
 
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             // tslint:disable-next-line
             data: getCountriesStats().getData().splice(0, 5)
         });

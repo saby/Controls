@@ -32,7 +32,7 @@ export default class extends Control {
         showType: showType.TOOLBAR,
         handler: function(item: Record): void {
             this._children.list.removeItems({
-                selected: [item.get('id')],
+                selected: [item.get('key')],
                 excluded: []
             }).then(() => {
                 this._children.list.reload();
@@ -42,7 +42,7 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: getTasks().getData()
         });
     }

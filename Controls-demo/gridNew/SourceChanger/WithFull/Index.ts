@@ -48,7 +48,7 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new InitialMemory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data
         });
         this._navigation = {
@@ -63,7 +63,7 @@ export default class extends Control {
             }
         };
         this._viewSource2 = new DemoSource({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: data2
         });
     }

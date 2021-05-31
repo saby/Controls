@@ -16,7 +16,7 @@ export default class extends Control {
         // tslint:disable-next-line
         this._header[0].template = 'wml!Controls-demo/gridNew/Header/Multiheader/VerticalAlign/VerticalAlignHeaderCell';
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: getCountriesStats().getData()
         });
     }
