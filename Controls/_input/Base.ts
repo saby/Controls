@@ -171,7 +171,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
      */
     protected _isMobileIOS: boolean = null;
 
-    protected _hidePlaceholder: boolean = null;
+    protected _placeholderVisible: boolean = null;
     /**
      * @type {Boolean|null} Determined whether to hide the placeholder using css.
      * @private
@@ -257,11 +257,11 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
          * with AutoFill enabled is possible through css or the status value from <input>.
          * The state is not available until the control is mount to DOM. So hide the placeholder until then.
          */
-        this._hidePlaceholder = this._autoComplete !== 'off' && !this._hidePlaceholderUsingCSS;
+        this._placeholderVisible = this._autoComplete === 'off' || this._hidePlaceholderUsingCSS;
     }
 
-    protected _afterMount(): void {
-        this._hidePlaceholder = false;
+    protected _afterMount(options: IBaseInputOptions): void {
+        this._updatePlaceholderVisible(options);
     }
 
     protected _beforeUpdate(newOptions: IBaseInputOptions): void {
@@ -270,6 +270,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
         this._updateViewModel(newViewModelOptions, this._getValue(newOptions));
         this._updateSelectionByOptions(newOptions);
         this._updateHorizontalPadding(newOptions);
+        this._updatePlaceholderVisible(newOptions);
     }
 
     /**
@@ -278,6 +279,12 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
      */
     protected _renderStyle(): string {
         return '';
+    }
+
+    private _updatePlaceholderVisible(options: IBaseInputOptions): void {
+        this._placeholderVisible = options.placeholderVisible !== undefined ?
+            options.placeholderVisible :
+            !options.readOnly;
     }
 
     /**

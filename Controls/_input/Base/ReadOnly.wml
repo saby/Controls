@@ -8,6 +8,7 @@
                     attr:class="controls-InputBase__placeholder_readOnly"
                     placeholderTemplate="{{_options.placeholderTemplate}}"
                     value="{{value}}"
+                    placeholderVisible="{{placeholderVisible}}"
         />
     </div>
 </ws:else>

@@ -1,5 +1,9 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
+        <div>placeholderVisible="false"</div>
+        <Controls.input:Text placeholderVisible="{{false}}" attr:class="controlsDemo__input" placeholder="Enter your name"/>
+    </div>
+    <div class="controlsDemo__cell">
         <div>readOnly="true" placeholderVisible="true"</div>
         <Controls.input:Text readOnly="{{true}}" placeholderVisible="{{true}}" attr:class="controlsDemo__input" placeholder="Enter your name"/>
     </div>
@@ -10,11 +14,5 @@
     <div class="controlsDemo__cell">
         <div>readOnly="true" placeholderVisible="true" value="Hello world"</div>
         <Controls.input:Text readOnly="{{true}}" placeholderVisible="{{true}}" value="Hello world" attr:class="controlsDemo__input" placeholder="Enter your name"/>
-    </div>
-    <div class="controlsDemo__cell">
-        <div>readOnly="true"</div>
-        <Controls.jumpingLabel:InputContainer readOnly="{{true}}" attr:class="controlsDemo__input" caption="Enter your name">
-            <Controls.input:Text/>
-        </Controls.jumpingLabel:InputContainer>
     </div>
 </div>
