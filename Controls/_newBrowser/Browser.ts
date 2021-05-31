@@ -241,7 +241,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     }
 
     protected _beforeUpdate(newOptions?: IOptions, contexts?: unknown): void {
-        this._dataContext = this._getdataContext(contexts);
+        this._dataContext = this._getDataContext(contexts);
         const masterOps = this._buildMasterExplorerOption(newOptions);
         const detailOps = this._buildDetailExplorerOptions(newOptions);
         const filterChanged = !isEqual(this._options.filter, newOptions.filter);
