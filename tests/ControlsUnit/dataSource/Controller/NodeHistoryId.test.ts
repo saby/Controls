@@ -177,5 +177,27 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
         stubRestore.restore();
     });
 
+    it('should store groups without an error if data was changed', async () => {
+        const controller = getController({
+            nodeHistoryId: 'CHANGE_DATA_HISTORY_ID',
+            nodeTypeProperty: 'nodeType'
+        });
 
+        const stubRestore = sinon.stub(nodeHistoryUtil, 'restore').callsFake((key: any) => Promise.resolve(undefined));
+        // Возвращаем id групп, которых нет в текущем списке.
+        const stubGetCached = sinon.stub(nodeHistoryUtil, 'getCached').callsFake((key: any) => [0, 3, 6]);
+        const stubStore = sinon.stub(nodeHistoryUtil, 'store').callsFake((items: CrudEntityKey[], key: string) => {
+            return Promise.resolve(true);
+        });
+
+        await controller.reload(null, true);
+
+        controller.setExpandedItems([0, 3, 6, 7]);
+        controller.updateExpandedItemsInUserStorage();
+
+        sinon.assert.calledWith(stubStore, [0, 6], 'CHANGE_DATA_HISTORY_ID');
+        stubStore.restore();
+        stubGetCached.restore();
+        stubRestore.restore();
+    });
 });
