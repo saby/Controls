@@ -60,12 +60,12 @@ export interface IControllerOptions {
     theme: string;
     /**
      * Размер иконок операций с записью
-     * варианты 's'|'m'
+     * варианты 's'|'m'|'l'
      */
     iconSize?: TItemActionsSize;
     /**
      * Размер иконки меню
-     * варианты 's'|'m'
+     * варианты 's'|'m'|'l'
      */
     menuIconSize?: TItemActionsSize;
     /**
