@@ -1702,23 +1702,23 @@ const getEditing = () => {
             {
                 id: '1',
                 email: 'semen@gmail.com',
-                required: '89069953970',
+                required: '+79069953970',
                 length: '1234',
-                title: 'title'
+                title: 'Тандер, АО (Магнит)'
             },
             {
                 id: '2',
                 email: 'artem@gmail.com',
-                required: '89069953970',
+                required: '+74951235469',
                 length: '123',
-                title: 'title'
+                title: 'Абак, ООО'
             },
             {
                 id: '3',
                 email: 'oleg@gmail.com',
-                required: '89069953970',
-                length: 'hello',
-                title: 'title'
+                required: '+79156542315',
+                length: '2121',
+                title: 'Основа, ООО'
             }
         ],
         getEditingColumns: (): IColumn[] => [
@@ -1790,22 +1790,22 @@ const getEditing = () => {
         getEditingColumnsValidation: () => [
             {
                 displayProperty: 'email',
-                width: '200px',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditor'
+                width: '150px',
+                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorEmail'
             },
             {
                 displayProperty: 'required',
-                width: 'max-content',
+                width: '105px',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorRequired'
             },
             {
                 displayProperty: 'length',
-                width: 'max-content',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorDate'
+                width: '105px',
+                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorLength'
             },
             {
                 displayProperty: 'title',
-                width: 'max-content',
+                width: '150px',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorTitle'
             }
         ],
