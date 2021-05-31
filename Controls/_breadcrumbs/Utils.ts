@@ -75,18 +75,19 @@ export default {
         return 0;
     },
     calculateItemsWithDots(items: Record[], options: IBreadCrumbsOptions, indexEdge: number, width: number, dotsWidth: number, getTextWidth: Function = this.getTextWidth): Record[] {
+        const crumbsItems = items || [];
         let secondContainerWidth = 0;
         let shrinkItemIndex;
-        const itemsWidth = this.getItemsWidth(items, options, getTextWidth);
-        for (let i = indexEdge; i < items.length; i++) {
+        const itemsWidth = this.getItemsWidth(crumbsItems, options, getTextWidth);
+        for (let i = indexEdge; i < crumbsItems.length; i++) {
             secondContainerWidth += itemsWidth[i];
         }
         // Сначала пробуем замылить предпоследнюю крошку
-        secondContainerWidth -= itemsWidth[items.length - 2];
-        const minWidthOfPenultimateItem = items.length > 2 ? this.getMinWidth(items, options, items.length - 2, getTextWidth) : undefined;
+        secondContainerWidth -= itemsWidth[crumbsItems.length - 2];
+        const minWidthOfPenultimateItem = crumbsItems.length > 2 ? this.getMinWidth(crumbsItems, options, crumbsItems.length - 2, getTextWidth) : undefined;
         secondContainerWidth += minWidthOfPenultimateItem;
         // если второй контейнер по ширине больше, чем доступная ширина, начинаем расчеты
-        if (secondContainerWidth > width && items.length > 2) {
+        if (secondContainerWidth > width && crumbsItems.length > 2) {
             // предпоследняя не уместилась - сразу вычитаем ее мин.ширину
             secondContainerWidth -= minWidthOfPenultimateItem;
             const secondContainerItems = [];
@@ -95,8 +96,8 @@ export default {
             let index;
             let currentMinWidth;
             // предпоследняя не поместилась - начинаем с пред-предпоследней и так далее
-            for (index = items.length - 3; index >= indexEdge; index--) {
-                currentMinWidth = this.getMinWidth(items, options, index, getTextWidth);
+            for (index = crumbsItems.length - 3; index >= indexEdge; index--) {
+                currentMinWidth = this.getMinWidth(crumbsItems, options, index, getTextWidth);
                 if (secondContainerWidth <= width) {
                     break;
                 } else if (this.canShrink(currentMinWidth, itemsWidth[index], secondContainerWidth, width)) {
@@ -110,8 +111,8 @@ export default {
             index = index === -1 && indexEdge === 0 ? 0 : index;
             // заполняем крошками, которые влезли, второй контейнер (не считая последней)
             for (let j = indexEdge; j <= index; j++) {
-                const itemTitle = items[j].get(options.displayProperty) || '';
-                secondContainerItems.push(PrepareDataUtil.getItemData(j, items, true, j === index && itemTitle.length > 3));
+                const itemTitle = crumbsItems[j].get(options.displayProperty) || '';
+                secondContainerItems.push(PrepareDataUtil.getItemData(j, crumbsItems, true, j === index && itemTitle.length > 3));
             }
             // добавляем точки
             const dotsItem = new Model({
@@ -128,16 +129,16 @@ export default {
                 hasArrow: true
             });
             // добавляем последнюю папку
-            secondContainerItems.push(PrepareDataUtil.getItemData(items.length - 1, items, true, false));
+            secondContainerItems.push(PrepareDataUtil.getItemData(crumbsItems.length - 1, crumbsItems, true, false));
 
             return secondContainerItems;
 
         } else {
             // если все остальные крошки поместились - пушим по второй контейнер
             const secondContainerItems = [];
-            const preLastItemTitle = items?.[items.length - 2]?.get(options.displayProperty) || '';
-            for (let j = indexEdge; j < items.length; j++) {
-                secondContainerItems.push(PrepareDataUtil.getItemData(j, items, true, j === items.length - 2 && preLastItemTitle.length > 3));
+            const preLastItemTitle = crumbsItems?.[crumbsItems.length - 2]?.get(options.displayProperty) || '';
+            for (let j = indexEdge; j < crumbsItems.length; j++) {
+                secondContainerItems.push(PrepareDataUtil.getItemData(j, crumbsItems, true, j === crumbsItems.length - 2 && preLastItemTitle.length > 3));
             }
             if (secondContainerItems.length <= 2) {
                 secondContainerItems.forEach((item) => {
