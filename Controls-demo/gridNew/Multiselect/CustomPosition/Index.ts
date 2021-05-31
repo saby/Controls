@@ -3,6 +3,7 @@ import * as Template from 'wml!Controls-demo/gridNew/Multiselect/CustomPosition/
 import {Memory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
 import * as cellTemplate from 'wml!Controls-demo/gridNew/Multiselect/CustomPosition/CellTemplate';
+import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

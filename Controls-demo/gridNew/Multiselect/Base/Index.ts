@@ -2,6 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/Multiselect/Base/Base';
 import {Memory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
+import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 interface IColumn {
     displayProperty: string;

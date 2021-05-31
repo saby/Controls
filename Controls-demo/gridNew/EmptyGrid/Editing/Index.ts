@@ -5,6 +5,7 @@ import { IColumn } from 'Controls/grid';
 import { IHeaderCell } from 'Controls/grid';
 import {Record as entityRecord} from 'Types/entity';
 import * as editingCell from 'wml!Controls-demo/gridNew/EmptyGrid/Editing/cellEditor';
+import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
