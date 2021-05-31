@@ -4,18 +4,8 @@ import {RecordSet} from 'Types/collection';
 import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
 
 describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/IsHiddenGroup', () => {
-    let recordSet: RecordSet;
-
-    function getCollection(): TreeGridCollection {
-        return new TreeGridCollection({
-            nodeTypeProperty: 'nodeType',
-            columns: [],
-            collection: recordSet
-        });
-    }
-
-    beforeEach(() => {
-        recordSet = new RecordSet({
+    function getRecordSet(): RecordSet {
+        return new RecordSet({
             rawData: [
                 {
                     id: 1,
@@ -32,14 +22,66 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/IsHidd
             ],
             keyProperty: 'id'
         });
+    }
+
+    function getCollection(options?: any): TreeGridCollection<any, any> {
+        return new TreeGridCollection({
+            ...options,
+            nodeTypeProperty: 'nodeType',
+            columns: [],
+            collection: options?.collection || getRecordSet()
+        });
+    }
+
+    it('the only group should not be hidden +groupNodeVisibility=undefined, +singleGroupNode=undefined', () => {
+        assert.isFalse(getCollection().at(0).isHiddenGroup());
     });
 
-    it('should mark the only group as hidden', () => {
-        assert.isTrue(getCollection().at(0).isHiddenGroup());
+    it('the only group should not be hidden, +groupNodeVisibility=visible, +singleGroupNode=true', () => {
+        const recordSet = getRecordSet();
+        recordSet.setMetaData({
+            singleGroupNode: true
+        });
+        const collection = getCollection({
+            groupNodeVisibility: 'visible',
+            collection: recordSet
+        });
+        assert.isFalse(collection.at(0).isHiddenGroup());
+    });
+
+    it('the only group should not be hidden, +groupNodeVisibility=hasdata, +singleGroupNode=false', () => {
+        const recordSet = getRecordSet();
+        recordSet.setMetaData({
+            singleGroupNode: false
+        });
+        const collection = getCollection({
+            groupNodeVisibility: 'hasdata',
+            collection: recordSet
+        });
+        assert.isFalse(collection.at(0).isHiddenGroup());
+    });
+
+    it('the only group should be hidden, +groupNodeVisibility=hasdata, +singleGroupNode=true', () => {
+        const recordSet = getRecordSet();
+        recordSet.setMetaData({
+            singleGroupNode: true
+        });
+        const collection = getCollection({
+            groupNodeVisibility: 'hasdata',
+            collection: recordSet
+        });
+        assert.isTrue(collection.at(0).isHiddenGroup());
     });
 
     it('should change group visibility on append', () => {
-        const collection = getCollection();
+        const recordSet = getRecordSet();
+        recordSet.setMetaData({
+            singleGroupNode: true
+        });
+        const collection = getCollection({
+            groupNodeVisibility: 'hasdata',
+            collection: recordSet
+        });
         assert.isTrue(collection.at(0).isHiddenGroup());
 
         const newItems = new RecordSet({
@@ -59,13 +101,16 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/IsHidd
             ]
         });
 
+        recordSet.setMetaData({
+            singleGroupNode: false
+        });
         recordSet.append(newItems);
 
         assert.isFalse(collection.at(0).isHiddenGroup());
     });
 
     it('should change group visibility on delete', () => {
-        recordSet = new RecordSet({
+        const recordSet = new RecordSet({
             rawData: [
                 {
                     id: 1,
@@ -94,20 +139,35 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/IsHidd
             ],
             keyProperty: 'id'
         });
-        const collection = getCollection();
+        recordSet.setMetaData({
+            singleGroupNode: false
+        });
+
+        const collection = getCollection({
+            groupNodeVisibility: 'hasdata',
+            collection: recordSet
+        });
         assert.isFalse(collection.at(0).isHiddenGroup());
 
         recordSet.removeAt(3);
-
-        assert.isFalse(collection.at(0).isHiddenGroup());
-
+        recordSet.setMetaData({
+            singleGroupNode: true
+        });
         recordSet.removeAt(2);
 
         assert.isTrue(collection.at(0).isHiddenGroup());
     });
 
     it('getItemClasses', () => {
-        const itemClasses = getCollection().at(0).getItemClasses({
+        const recordSet = getRecordSet();
+        recordSet.setMetaData({
+            singleGroupNode: true
+        });
+        const collection = getCollection({
+            groupNodeVisibility: 'hasdata',
+            collection: recordSet
+        });
+        const itemClasses = collection.at(0).getItemClasses({
             style: 'default'
         });
         CssClassesAssert.include(itemClasses, 'controls-ListView__groupHidden');
