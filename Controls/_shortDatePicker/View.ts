@@ -9,6 +9,7 @@ import listTmpl = require('wml!Controls/_shortDatePicker/List');
 import ItemWrapper = require('wml!Controls/_shortDatePicker/ItemWrapper');
 import {date as formatDate} from 'Types/formatter';
 import monthTmpl = require('wml!Controls/_shortDatePicker/monthTemplate');
+import * as headerTemplate from 'wml!Controls/_shortDatePicker/headerTemplate';
 import {Logger} from 'UI/Utils';
 import {Utils as dateControlsUtils} from 'Controls/dateRange';
 import 'css!Controls/shortDatePicker';
@@ -521,6 +522,7 @@ class View extends Control<IDateLitePopupOptions> {
         PeriodDialogOptions.itemTemplate = ItemWrapper;
         PeriodDialogOptions.monthTemplate = monthTmpl;
         PeriodDialogOptions.dateConstructor = WSDate;
+        PeriodDialogOptions.headerTemplate = headerTemplate;
         return PeriodDialogOptions;
     }
 

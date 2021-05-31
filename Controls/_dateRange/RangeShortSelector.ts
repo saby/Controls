@@ -41,7 +41,7 @@ interface IRangeShortSelectorOptions extends IControlOptions {
  * @mixes Controls/dateRange:IPeriodLiteDialog
  * @mixes Controls/dateRange:IDateRange
  * @mixes Controls/interface:IDisplayedRanges
- * 
+ *
  * @mixes Controls/interface:IOpenPopup
  * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:IUnderline
@@ -104,6 +104,7 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
 
                 source: this._options.source,
                 monthTemplate: this._options.monthTemplate,
+                headerTemplate: this._options.headerTemplate,
                 itemTemplate: this._options.itemTemplate,
                 displayedRanges: this._options.displayedRanges,
                 stubTemplate: this._options.stubTemplate,
