@@ -285,7 +285,7 @@ export interface INavigationViewConfig {
 export interface INavigationOptionValue<U> {
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#source
-     * @cfg {Controls/_interface/INavigation/INavigationOptionValue/TNavigationSource.typedef} Режим {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @cfg {Controls/interface.TNavigationSource} Режим {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
      * <pre class="brush: html; highlight: [3]">
      * <!-- WML -->
@@ -302,7 +302,7 @@ export interface INavigationOptionValue<U> {
     source?: TNavigationSource;
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#view
-     * @cfg {Controls/_interface/INavigation/INavigationOptionValue/TNavigationView.typedef} Вид {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
+     * @cfg {Controls/interface:INavigation.TNavigationView} Вид {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
      * @example
      * <pre class="brush: html; highlight: [4]">
      * <!-- WML -->
@@ -316,7 +316,7 @@ export interface INavigationOptionValue<U> {
     view?: TNavigationView;
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#sourceConfig
-     * @cfg {Controls/_interface/INavigation/INavigationOptionValue/INavigationSourceConfig.typedef} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @cfg {Controls/interface.INavigationSourceConfig} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
      * <pre class="brush: html; highlight: [4]">
      * <!-- WML -->
