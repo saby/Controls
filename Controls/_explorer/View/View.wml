@@ -24,6 +24,7 @@
                <Controls.tree:TreeControl scope="{{_options}}"
                                           itemPadding="{{_itemPadding}}"
                                           header="{{content.header}}"
+                                          columns="{{_columns}}"
                                           name="treeControl"
                                           viewName="{{_viewName}}"
                                           markerStrategy="{{_markerStrategy}}"
