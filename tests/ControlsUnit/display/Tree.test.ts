@@ -1796,6 +1796,20 @@ describe('Controls/_display/Tree', () => {
             assert.isFalse(rsTree.getItemBySourceKey(11).isExpanded());
         });
 
+        it('empty model', () => {
+            const rs = new RecordSet({
+                rawData: [],
+                keyProperty: 'id'
+            });
+            const tree = getObservableTree<Model>(rs);
+
+            tree.setExpandedItems([1, 2, 3]);
+            assert.deepEqual(tree.getExpandedItems(), [1, 2, 3]);
+
+            tree.setCollapsedItems([1, 2, 3]);
+            assert.deepEqual(tree.getCollapsedItems(), [1, 2, 3]);
+        });
+
         describe('create item with right expanded state', () => {
             it('all expandable', () => {
                 rsTree.setExpandedItems([null]);

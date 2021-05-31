@@ -718,7 +718,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     setExpandedItems(expandedKeys: CrudEntityKey[]): void {
-        if (!this.getCount() || isEqual(this._expandedItems, expandedKeys)) {
+        if (isEqual(this._expandedItems, expandedKeys)) {
             return;
         }
 
@@ -778,7 +778,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     setCollapsedItems(collapsedKeys: CrudEntityKey[]): void {
-        if (!this.getCount() || isEqual(this._collapsedItems, collapsedKeys)) {
+        if (isEqual(this._collapsedItems, collapsedKeys)) {
             return;
         }
 
