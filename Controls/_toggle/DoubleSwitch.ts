@@ -17,7 +17,7 @@ export interface IDoubleSwitchOptions extends IControlOptions, ICheckableOptions
 const CAPTIONS_LENGTH = 2;
 /**
  * Двойной переключатель, который позволяет выбрать один из двух взаимоисключающих вариантов.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2Ftoggle%2FDoubleSwitch%2FIndex демо-пример}
@@ -28,7 +28,7 @@ const CAPTIONS_LENGTH = 2;
  * @implements Controls/toggle:ICheckable
  * @implements Controls/interface:ITooltip
  * @implements Controls/interface:IContrastBackground
- * 
+ *
  * @public
  * @author Красильников А.С.
  *
@@ -42,7 +42,7 @@ const CAPTIONS_LENGTH = 2;
  * @extends UI/Base:Control
  * @implements Controls/toggle:ICheckable
  * @implements Controls/interface:ITooltip
- * 
+ *
  * @public
  * @author Красильников А.С.
  *
@@ -98,7 +98,8 @@ class DoubleSwitch extends Control<IDoubleSwitchOptions> implements ICheckable, 
    static getDefaultOptions(): object {
       return {
          value: false,
-         contrastBackground: true
+         contrastBackground: true,
+         orientation: 'horizontal'
       };
    }
    static getOptionTypes(): object {
