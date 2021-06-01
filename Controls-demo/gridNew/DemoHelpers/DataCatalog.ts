@@ -305,7 +305,7 @@ const getCountriesStats = () => {
             }
         ],
 
-        getColumnsWithoutwidths: (): IColumn[] => [
+        getColumnsWithoutWidths: (): IColumn[] => [
             {
                 displayProperty: 'number',
                 width: ''
@@ -342,7 +342,7 @@ const getCountriesStats = () => {
             }
 
         ],
-        getColumnsWithFixedwidths: (): IColumn[] => [
+        getColumnsWithFixedWidths: (): IColumn[] => [
             {
                 displayProperty: 'number',
                 width: '30px'
@@ -368,7 +368,7 @@ const getCountriesStats = () => {
                 width: '120px'
             }
         ],
-        getColumnsWithwidthsForSortingDemo: (): IColumnRes[] => [
+        getColumnsWithWidthsForSortingDemo: (): IColumnRes[] => [
             {
                 displayProperty: 'number',
                 width: '40px'
@@ -397,7 +397,7 @@ const getCountriesStats = () => {
                 align: 'right'
             }
         ],
-        getColumnsWithwidths: (): IColumnRes[] => [
+        getColumnsWithWidths: (): IColumnRes[] => [
             {
                 displayProperty: 'number',
                 width: '40px'
@@ -409,28 +409,28 @@ const getCountriesStats = () => {
             {
                 displayProperty: 'capital',
                 width: 'max-content',
-                compatiblewidth: '98px'
+                compatibleWidth: '98px'
             },
             {
                 displayProperty: 'population',
                 width: 'max-content',
                 result: 3956986345,
                 resultTemplate: resultCellTpl,
-                compatiblewidth: '118px'
+                compatibleWidth: '118px'
             },
             {
                 displayProperty: 'square',
                 width: 'max-content',
                 result: 12423523,
                 resultTemplate: resultCellTpl,
-                compatiblewidth: '156px'
+                compatibleWidth: '156px'
             },
             {
                 displayProperty: 'populationDensity',
                 width: 'max-content',
                 result: 5.8,
                 resultTemplate: resultCellTpl,
-                compatiblewidth: '60px'
+                compatibleWidth: '60px'
             }
         ],
         getColumnsForDragScrolling: (): IColumn[] => ([
@@ -446,7 +446,7 @@ const getCountriesStats = () => {
             {
                 displayProperty: 'capital',
                 width: 'max-content',
-                compatiblewidth: '98px'
+                compatibleWidth: '98px'
             },
             {
                 width: '200px',
@@ -455,18 +455,18 @@ const getCountriesStats = () => {
             {
                 displayProperty: 'population',
                 width: 'max-content',
-                compatiblewidth: '100px',
+                compatibleWidth: '100px',
                 template: dragScrollPopulationCell
             },
             {
                 displayProperty: 'square',
                 width: 'max-content',
-                compatiblewidth: '83px'
+                compatibleWidth: '83px'
             },
             {
                 displayProperty: 'populationDensity',
                 width: 'max-content',
-                compatiblewidth: '175px'
+                compatibleWidth: '175px'
             }
         ]),
         getResults: (): IResults => ({
@@ -519,7 +519,7 @@ const getCountriesStats = () => {
             {
                 displayProperty: 'populationDensity',
                 width: 'max-content',
-                compatiblewidth: '60px'
+                compatibleWidth: '60px'
             }
         ],
         getColumnsWithValign: () => [
@@ -893,7 +893,7 @@ const getCountriesStats = () => {
             {
                 displayProperty: 'number',
                 width: 'max-content',
-                compatiblewidth: '44px',
+                compatibleWidth: '44px',
                 template: countryRatingNumber
             },
             {
@@ -915,7 +915,7 @@ const getCountriesStats = () => {
             {
                 displayProperty: 'populationDensity',
                 width: 'max-content',
-                compatiblewidth: '60px'
+                compatibleWidth: '60px'
             }
         ]
     };
@@ -1887,7 +1887,7 @@ interface keyataForShow {
     maxContent: string;
 }
 
-function forShowwidths(): {
+function forShowWidths(): {
     getData(): keyataForShow[];
     getHeader(): IHeaderCell[];
     getColumns1(): IColumn[];
@@ -1946,27 +1946,27 @@ function forShowwidths(): {
                 {
                     displayProperty: 'maxContent',
                     width: 'max-content',
-                    compatiblewidth: '147px'
+                    compatibleWidth: '147px'
                 },
                 {
                     displayProperty: 'fr1of3',
                     width: '1fr',
-                    compatiblewidth: '30%'
+                    compatibleWidth: '30%'
                 },
                 {
                     displayProperty: 'fr2of3',
                     width: '2fr',
-                    compatiblewidth: '60%'
+                    compatibleWidth: '60%'
                 },
                 {
                     displayProperty: 'auto',
                     width: 'auto',
-                    compatiblewidth: '139px'
+                    compatibleWidth: '139px'
                 },
                 {
                     displayProperty: 'minMax',
                     width: 'minmax(50px, 200px)',
-                    compatiblewidth: '200px'
+                    compatibleWidth: '200px'
                 }
             ];
         }
@@ -2250,7 +2250,7 @@ export {
     getTasks,
     getTasksWithHkeydenGroup,
     getPorts,
-    forShowwidths,
+    forShowWidths,
     getEditing,
     countries,
     DragNDrop,
