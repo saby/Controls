@@ -1,0 +1,15 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth550">
+    <Controls.explorer:View
+            attr:class="demo-Explorer ControlsDemo-Explorer"
+            source="{{_viewSource}}"
+            keyProperty="id"
+            parentProperty="parent"
+            nodeProperty="parent@"
+            columns="{{_columns}}">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/treeGrid:ItemTemplate" scope="{{ itemTemplate }}">
+                <div> {{ itemTemplate.item.contents.get('title') }} </div>
+            </ws:partial>
+        </ws:itemTemplate>
+    </Controls.explorer:View>
+</div>

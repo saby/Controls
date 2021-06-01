@@ -1,5 +1,5 @@
-<div class="controlsDemo__wrapper">
-    <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height500">
+<div class="controlsDemo__wrapper ">
+    <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height200">
         <Controls.list:View source="{{_viewSource}}"
                             name="list"
                             keyProperty="id"
