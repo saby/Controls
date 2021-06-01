@@ -1,8 +1,8 @@
 define([
    'Env/Env',
    'Controls/_scroll/StickyHeader',
-   'Controls/_scroll/StickyHeader/Utils',
-   'Controls/_scroll/StickyHeader/FastUpdate',
+   'Controls/_scroll/StickyBlock/Utils',
+   'Controls/_scroll/StickyBlock/FastUpdate',
    'Controls/scroll',
    'Core/core-merge'
 ], function(

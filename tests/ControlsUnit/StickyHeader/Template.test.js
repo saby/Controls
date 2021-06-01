@@ -3,7 +3,7 @@ define(
       'Controls/scroll',
       'Env/Env',
       'ControlsUnit/resources/TemplateUtil',
-      'Controls/_scroll/StickyHeader/Utils',
+      'Controls/_scroll/StickyBlock/Utils',
       'Controls/_scroll/StickyHeader',
       'UI/Base'
    ],

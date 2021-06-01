@@ -2,7 +2,7 @@ define([
    'Env/Env',
    'Controls/scroll',
    'Core/core-merge',
-    'Controls/_scroll/StickyHeader/Utils'
+    'Controls/_scroll/StickyBlock/Utils'
 ], function(
    Env,
    scroll,

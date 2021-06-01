@@ -6,7 +6,7 @@
  * @includes HotKeysContainer Controls/_scroll/HotKeysContainer
  * @includes IntersectionObserverController Controls/_scroll/IntersectionObserver/Controller
  * @includes IntersectionObserverContainer Controls/_scroll/IntersectionObserver/Container
- * @includes Group Controls/_scroll/StickyHeader/Group
+ * @includes Group Controls/_scroll/StickyBlock/Group
  * @includes IScrollbars Controls/_scroll/Container/Interface/IScrollbars
  * @public
  * @author Крайнов Д.О.
@@ -20,14 +20,15 @@
  * @includes HotKeysContainer Controls/_scroll/HotKeysContainer
  * @includes IntersectionObserverController Controls/_scroll/IntersectionObserver/Controller
  * @includes IntersectionObserverContainer Controls/_scroll/IntersectionObserver/Container
- * @includes Group Controls/_scroll/StickyHeader/Group
+ * @includes Group Controls/_scroll/StickyBlock/Group
  * @includes IScrollbars Controls/_scroll/Container/Interface/IScrollbars
  * @public
  * @author Крайнов Д.О.
  */
 
 import Container from 'Controls/_scroll/ScrollContextConsumer';
-export {default as StickyHeader} from 'Controls/_scroll/StickyHeader';
+export {default as StickyHeader} from 'Controls/_scroll/StickyBlock';
+export {default as StickyBlock} from 'Controls/_scroll/StickyBlock';
 export {scrollToElement} from 'Controls/_scroll/Utils/scrollToElement';
 export {SCROLL_DIRECTION} from 'Controls/_scroll/Utils/Scroll';
 export {hasScrollbar} from './_scroll/Utils/HasScrollbar';
@@ -39,7 +40,7 @@ export {getScrollbarWidth, getScrollbarWidthByMeasuredBlock} from './_scroll/Uti
 import {default as _Scrollbar} from 'Controls/_scroll/Scroll/Scrollbar';
 import _scrollContext from 'Controls/_scroll/Scroll/Context';
 import ScrollContextProvider from 'Controls/_scroll/ScrollContextProvider';
-import _stickyHeaderController from 'Controls/_scroll/StickyHeader/Controller';
+import _stickyHeaderController from 'Controls/_scroll/StickyBlock/Controller';
 import IntersectionObserverController from 'Controls/_scroll/IntersectionObserver/Controller';
 import IntersectionObserverContainer from 'Controls/_scroll/IntersectionObserver/Container';
 import EdgeIntersectionObserver from 'Controls/_scroll/IntersectionObserver/EdgeIntersectionObserver';
@@ -49,9 +50,9 @@ import _ContainerBase from 'Controls/_scroll/ContainerBase';
 import VirtualScrollContainer from 'Controls/_scroll/VirtualScrollContainer';
 import {SHADOW_VISIBILITY} from 'Controls/_scroll/Container/Interface/IShadows';
 
-import Group from 'Controls/_scroll/StickyHeader/Group';
-import {isStickySupport, getNextId as getNextStickyId, getOffset as getStickyOffset} from 'Controls/_scroll/StickyHeader/Utils';
-import {getHeadersHeight as getStickyHeadersHeight} from 'Controls/_scroll/StickyHeader/Utils/getHeadersHeight';
+import Group from 'Controls/_scroll/StickyBlock/Group';
+import {isStickySupport, getNextId as getNextStickyId, getOffset as getStickyOffset} from 'Controls/_scroll/StickyBlock/Utils';
+import {getHeadersHeight as getStickyHeadersHeight} from 'Controls/_scroll/StickyBlock/Utils/getHeadersHeight';
 import HotKeysContainer from 'Controls/_scroll/HotKeysContainer';
 
 export {

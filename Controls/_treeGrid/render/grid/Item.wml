@@ -108,7 +108,7 @@
            'showItemActionsOnHover': showItemActionsOnHover
        }) }}">
          <ws:for data="column in (item || itemData).getColumns()">
-            <Controls.scroll:StickyHeader position="{{ (item || itemData).getStickyHeaderPosition() }}"
+            <Controls.scroll:StickyBlock position="{{ (item || itemData).getStickyHeaderPosition() }}"
                                           mode="{{ (item || itemData).getStickyHeaderMode() }}"
                                           shadowVisibility="{{column.shadowVisibility}}"
                                           backgroundStyle="{{ backgroundStyle }}"
@@ -117,7 +117,7 @@
                                           attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover, hoverBackgroundStyle) }}"
                                           attr:style="{{ column.getWrapperStyles(containerSize) }}">
                <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
-            </Controls.scroll:StickyHeader>
+            </Controls.scroll:StickyBlock>
          </ws:for>
       </div>
    </Controls.scroll:Group>

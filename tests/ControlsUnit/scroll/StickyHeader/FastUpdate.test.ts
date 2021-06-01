@@ -1,4 +1,4 @@
-import fastUpdate from 'Controls/_scroll/StickyHeader/FastUpdate';
+import fastUpdate from 'Controls/_scroll/StickyBlock/FastUpdate';
 
 describe('Controls/_scroll/StickyHeader/FastUpdate', () => {
     describe('resetSticky', () => {
