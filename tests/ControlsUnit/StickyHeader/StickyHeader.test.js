@@ -1,6 +1,6 @@
 define([
    'Env/Env',
-   'Controls/_scroll/StickyHeader',
+   'Controls/_scroll/StickyBlock',
    'Controls/_scroll/StickyBlock/Utils',
    'Controls/_scroll/StickyBlock/FastUpdate',
    'Controls/scroll',
@@ -33,7 +33,7 @@ define([
       options = {
       };
 
-   describe('Controls/_scroll/StickyHeader', function() {
+   describe('Controls/_scroll/StickyBlock', function() {
       describe('Initialisation', function() {
          it('should set correct header id', function() {
             const component = createComponent(StickyHeader, options);

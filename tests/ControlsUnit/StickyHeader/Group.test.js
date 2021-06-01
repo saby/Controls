@@ -25,7 +25,7 @@ define([
          calculateHeadersOffsets: false
       };
 
-   describe('Controls/_scroll/StickyHeader/Group', function() {
+   describe('Controls/_scroll/StickyBlock/Group', function() {
       describe('Initialisation', function() {
          it('should set correct header id', function() {
             const component = createComponent(scroll.Group, options);

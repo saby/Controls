@@ -73,7 +73,7 @@ define([
             }
          };
 
-   describe('Controls/_scroll/StickyHeader/Controller', function() {
+   describe('Controls/_scroll/StickyBlock/Controller', function() {
       let component, container, result;
 
       beforeEach(function() {

@@ -1,6 +1,6 @@
 import fastUpdate from 'Controls/_scroll/StickyBlock/FastUpdate';
 
-describe('Controls/_scroll/StickyHeader/FastUpdate', () => {
+describe('Controls/_scroll/StickyBlock/FastUpdate', () => {
     describe('resetSticky', () => {
         it("should add an element to reset", () => {
             const stickyHeaderElement = {};

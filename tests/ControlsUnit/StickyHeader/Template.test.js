@@ -4,7 +4,7 @@ define(
       'Env/Env',
       'ControlsUnit/resources/TemplateUtil',
       'Controls/_scroll/StickyBlock/Utils',
-      'Controls/_scroll/StickyHeader',
+      'Controls/_scroll/StickyBlock',
       'UI/Base'
    ],
    function(scroll, Env, TemplateUtil, StickyHeaderUtils, _StickyHeaderLib, UIBase) {

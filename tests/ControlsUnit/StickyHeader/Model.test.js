@@ -6,7 +6,7 @@ define(
 
       'use strict';
 
-      describe('Controls/_scroll/StickyHeader/Model', function() {
+      describe('Controls/_scroll/StickyBlock/Model', function() {
          var topTarget = {};
          var bottomTarget = {};
          var result, model;
