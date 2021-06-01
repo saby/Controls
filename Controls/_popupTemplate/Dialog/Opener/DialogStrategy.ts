@@ -189,10 +189,14 @@ class DialogStrategy {
     }
 
     private _calculateLimitOfSizes(popupOptions: IDialogPopupOptions = {}, windowData: IPopupPosition): ILimitingSizes {
+        let maxHeight = popupOptions.maxHeight || windowData.height;
+        if (windowData.height < popupOptions.top + popupOptions.maxHeight) {
+            maxHeight = windowData.height - popupOptions.top;
+        }
         return {
             minWidth: popupOptions.minWidth,
             minHeight: popupOptions.minHeight,
-            maxHeight: Math.min(popupOptions.maxHeight || windowData.height, windowData.height),
+            maxHeight: Math.min(maxHeight, windowData.height),
             maxWidth: Math.min(popupOptions.maxWidth || windowData.width, windowData.width)
         };
     }

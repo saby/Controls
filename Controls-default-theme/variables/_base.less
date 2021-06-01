@@ -11,8 +11,8 @@
    --hover_background-transparent-color: #f0f5fb00;
    --unaccented_color: #999;
    --readonly_color: #ccc;
-   --invalid_border-color: var(--danger_color);
-   --invalid_focus_background-color: #fadadd;
+   --invalid_border-color: var(--danger_border-color);
+   --invalid_focus_background-color: var(--danger_same_background-color);
    --marker_color: #ff7033;
    --border-color: #ccc;
    --readonly_marker-color: #313e78;
@@ -33,6 +33,7 @@
    --icon-color: #000;
    --contrast_icon-color: #fff;
    --unaccented_icon-color: #ccc;
+   --unaccented_hover_icon-color: #999;
 
 
    // Новая палитра
@@ -139,10 +140,10 @@
    --unaccented_border-color: #d2d6da;
    --unaccented_hover_border-color: #aab0c1;
 
-   --pale_contrast_background-color: #f1f2f5;
-   --pale_border-color: #ecedf0;
-   --pale_hover_contrast_background-color: #f4f5f7;
-   --pale_active_contrast_background-color: #f4f5f7;
+   --pale_contrast_background-color: #f2f3f3;
+   --pale_border-color: #EBEDF0;
+   --pale_hover_contrast_background-color: #EBEDF0;
+   --pale_active_contrast_background-color: #E3E5E8;
    // Шрифты
    //
    // Общие размеры шрифтов
@@ -244,6 +245,7 @@
    --border-radius_default_block: 8px;
    --box-shadow-blur_block: 6px;
    --box-shadow_block: 0 0 var(--box-shadow-blur_block) rgba(0, 0, 0, 0.15);
+   --offset_block: var(--offset_s);
 
    // Фон сайта
    --page_background-image: url('/cdn/OnlineCDN/themes/1.0.0/background.jpg');

@@ -1,0 +1,32 @@
+.controls-MultipleInputNew__separator {
+   width: var(--border-thickness);
+   margin: var(--offset_2xs) var(--offset_2xs) var(--offset_2xs) 0;
+   background-color: var(--border-color);
+   user-select: none;
+}
+
+.controls-MultipleInputNew {
+   display: flex;
+   border-bottom: var(--border-thickness_inputText) var(--border-style_inputText) var(--border-color);
+}
+
+.controls-MultipleInputNew__lookup {
+   flex-shrink: 1;
+   min-width: 1px;
+}
+
+.controls-MultipleInputNew__lookup_last {
+   flex-grow: 1;
+}
+
+.controls-MultipleInputNew__lookup-notSelected {
+   flex-shrink: 0;
+}
+
+.controls-MultipleInputNew__lookup-withoutSize .controls-Field {
+   position: absolute;
+}
+
+.controls-MultipleInputNew__lookup-withoutSize .controls-InputBase__placeholder {
+   position: static;
+}

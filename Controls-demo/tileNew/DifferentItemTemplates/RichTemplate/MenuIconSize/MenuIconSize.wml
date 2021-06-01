@@ -1,0 +1,42 @@
+<ws:template name="tileView">
+   <Controls.treeTile:View
+      displayProperty="title"
+      parentProperty="parent"
+      nodeProperty="parent@"
+      multiSelectVisibility="visible"
+      bind:selectedKeys="_selectedKeys"
+      tileMode="static"
+      itemActions="{{_itemActions}}"
+      tileWidth="410"
+      imageProperty="image"
+      keyProperty="id"
+      menuIconSize="{{menuIconSize}}"
+      source="{{_viewSource}}">
+      <ws:itemTemplate>
+         <ws:partial
+            template="Controls/tile:RichTemplate"
+            border="{{false}}"
+            gradientColor="{{itemTemplate.itemData.item.gradientColor}}"
+            titleLines="{{itemTemplate.itemData.item.titleLines}}"
+            descriptionLines="{{itemTemplate.itemData.item.titleLines}}"
+            imageSize="{{itemTemplate.itemData.item.imageSize}}"
+            imageViewMode="{{itemTemplate.itemData.item.imageViewMode}}"
+            imagePosition="{{itemTemplate.itemData.item.imagePosition}}"
+            description="{{itemTemplate.itemData.item.description}}"
+            imageCompressionCoefficient="{{itemTemplate.itemData.item.imageCompressionCoefficient}}"
+            imageEffect="gradient"
+            scope="{{itemTemplate}}">
+         </ws:partial>
+      </ws:itemTemplate>
+   </Controls.treeTile:View>
+</ws:template>
+
+<div class="controlsDemo__wrapper">
+   <ws:for data="size in _menuIconSizes">
+   <div class="controlsDemo__cell" attr:key="{{size}}">
+      <div class="controls-text-label">Размер иконки меню '{{size}}'</div>
+      <ws:partial template="tileView" 
+                  menuIconSize="{{ size }}"></ws:partial>
+   </div>
+   </ws:for>
+</div>

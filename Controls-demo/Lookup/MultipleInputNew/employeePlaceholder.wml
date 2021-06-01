@@ -1,0 +1,3 @@
+<span>
+  или <Controls.lookup:Link caption="сотрудника" lookupName="employee"/>
+</span>

@@ -1145,7 +1145,15 @@ define([
 
          assert.isNull(ctrl._loadingIndicatorState);
       });
+      it('shouldDrawCut', () => {
+         const shouldDrawCut = lists.BaseControl._private.shouldDrawCut;
+         assert.isTrue(shouldDrawCut({view: 'cut'}, true, false));
+         assert.isFalse(shouldDrawCut({view: 'cut'}, false, false));
+         assert.isFalse(shouldDrawCut({view: 'page'}, true, false));
+         assert.isTrue(shouldDrawCut({view: 'cut'}, false, true));
+         assert.isTrue(shouldDrawCut({view: 'cut'}, true, true));
 
+      });
       it('prepareFooter', function() {
          let bcHasMoreData = false;
          var
@@ -6630,6 +6638,14 @@ define([
                 baseControl._showContinueSearchButtonDirection = 'down';
                 baseControl._items = notEmptyRs;
                 assert.isNotOk(baseControl._shouldDisplayBottomLoadingIndicator());
+             });
+
+             it('empty model', () => {
+                baseControl._loadingIndicatorState = 'bottom';
+                baseControl._attachLoadDownTriggerToNull = true;
+                baseControl.__needShowEmptyTemplate = () => false;
+                baseControl._items = null;
+                assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
              });
           });
 

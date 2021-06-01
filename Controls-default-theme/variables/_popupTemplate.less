@@ -80,11 +80,6 @@
 
    // Переменные для инфобокса
    //
-   // Кнопка для вызова инфобокса
-
-   --icon-color_infobox_button: var(--unaccented_icon-color);
-   --icon-color_hover_infobox_button: var(--secondary_hover_icon-color);
-
    // Стрелка инфобокса
 
    --arrow_base_length_infobox: 16px;
@@ -111,8 +106,6 @@
    --border-thickness_infobox: var(--border-thickness);
    --border-radius_infobox: 6px;
    --border-color_infobox: #bdbdbd;
-   --secondary_border-color_infobox: var(--secondary_color);
-   --info_border-color_infobox: #5856d6;
    --box-shadow-offset_infobox: 0 0 6px 0;
    --box-shadow-color_infobox: rgba(0, 0, 0, 0.35);
    --invalid_box-shadow-color_infobox: rgba(208, 77, 77, 0.4);
@@ -120,7 +113,7 @@
    // Цвета фона
 
    --background-color_infobox: #f7f8fa;
-   --info_background-color_infobox: #f2f2fe;
+   --info_background-color_infobox: var(--info_background-color);
 
    // Размер шрифта в тексте подсказки
 
@@ -235,8 +228,8 @@
    // Маркер
 
    --marker_thickness_confirmation: 3px;
-   --secondary_marker_color_confirmation: var(--link_text-color);
-   --primary_marker_color_confirmation: var(--primary_text-color);
+   --secondary_marker_color_confirmation: var(--secondary_contrast_background-color);
+   --primary_marker_color_confirmation: var(--primary_contrast_background-color);
 
    // Текст
 
@@ -280,7 +273,7 @@
    // Маркер
 
    --marker_thickness_notification: var(--marker_thickness_confirmation);
-   --secondary_marker_color_notification: var(--secondary_marker_color_confirmation);
+   --secondary_marker_color_notification: var(--secondary_contrast_background-color);
 
    // Текст
 

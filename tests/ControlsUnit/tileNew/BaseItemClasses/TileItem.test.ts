@@ -24,4 +24,19 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
             CssClassesAssert.include(classes, 'controls-TileView__item_roundBorder_bottomRight_default');
         });
     });
+
+    describe('geItemClasses', () => {
+        it('roundBorder', () => {
+            const owner = {
+                getDisplayProperty: () => 'display',
+                getMarkerVisibility: () => 'hidden'
+            };
+            const item = new TileCollectionItem({owner, roundBorder: {tl: 's', tr: 'xs', bl: 'm'}});
+            const classes = item.getItemClasses();
+            CssClassesAssert.include(classes, 'controls-TileView__item_roundBorder_topLeft_s');
+            CssClassesAssert.include(classes, 'controls-TileView__item_roundBorder_topRight_xs');
+            CssClassesAssert.include(classes, 'controls-TileView__item_roundBorder_bottomLeft_m');
+            CssClassesAssert.include(classes, 'controls-TileView__item_roundBorder_bottomRight_default');
+        });
+    });
 });

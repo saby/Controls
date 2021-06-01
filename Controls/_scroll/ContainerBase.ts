@@ -20,7 +20,7 @@ import {Entity} from 'Controls/dragnDrop';
 
 export interface IContainerBaseOptions extends IControlOptions {
     _notScrollableContent?: boolean; // Для HintWrapper, который сверстан максмально неудобно для скроллКонтейнера.
-    scrollMode?: SCROLL_MODE;
+    scrollOrientation?: SCROLL_MODE;
 }
 
 const KEYBOARD_SHOWING_DURATION: number = 500;
@@ -75,7 +75,8 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
     _beforeMount(options: IContainerBaseOptions, context?, receivedState?) {
         this._virtualNavigationRegistrar = new RegisterClass({register: 'virtualNavigation'});
-        if (!this._isHorizontalScroll(options.scrollMode)) {
+        const scrollOrientation = ContainerBase.getScrollOrientation(options);
+        if (!this._isHorizontalScroll(scrollOrientation)) {
             this._resizeObserver = new ResizeObserverUtil(this, this._resizeObserverCallback, this._resizeHandler);
         }
         this._resizeObserverSupported = this._resizeObserver?.isResizeObserverSupported();
@@ -114,15 +115,16 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _afterMount(): void {
+        const scrollOrientation = ContainerBase.getScrollOrientation(this._options);
         if (!this._scrollModel) {
             this._createScrollModel();
         }
-        if (!this._resizeObserver?.isResizeObserverSupported() || this._isHorizontalScroll(this._options.scrollMode)) {
+        if (!this._resizeObserver?.isResizeObserverSupported() || this._isHorizontalScroll(scrollOrientation)) {
             RegisterUtil(this, 'controlResize', this._controlResizeHandler, { listenAll: true });
             // ResizeObserver при инициализации контрола стрелнет событием ресайза.
             // Вызваем метод при инициализации сами если браузер не поддерживает ResizeObserver
             this._controlResizeHandler();
-        } else if (this._options.scrollMode === SCROLL_MODE.VERTICAL_HORIZONTAL) {
+        } else if (scrollOrientation === SCROLL_MODE.VERTICAL_HORIZONTAL) {
             // Из-за особенности верстки, контейнер, с которого мы считываем размеры скролла, растягивается только
             // по высоте. По ширине он совпадает с размерами своего родителя. Из-за этого невозможно определить ширину
             // скролла. Будем считать ширину скролла с дочернего элемента.
@@ -152,7 +154,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _beforeUpdate(options: IContainerBaseOptions) {
-        if (options.scrollMode !== this._options.scrollMode) {
+        if (ContainerBase.getScrollOrientation(options) !== ContainerBase.getScrollOrientation(this._options)) {
             this._scrollCssClass = this._getScrollContainerCssClass(options);
         }
     }
@@ -181,6 +183,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                 this._registrars[registrar].destroy();
             }
         }
+
+        if (detection.isMobileIOS) {
+            Bus.globalChannel().unsubscribe('MobileInputFocus', this._lockScrollPositionUntilKeyboardShown);
+        }
+
         this._scrollModel = null;
         this._oldScrollState = null;
         this._isUnmounted = true;
@@ -191,16 +198,10 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         clearInterval(this._autoScrollInterval);
     }
 
-    private _isHorizontalScroll(scrollModeOption: string): boolean {
-        const scrollMode = scrollModeOption.toLowerCase();
+    private _isHorizontalScroll(scrollOrientationOption: string): boolean {
+        const scrollOrientation = scrollOrientationOption.toLowerCase();
         // При горизонтальном скролле будет работать с событием controlResize
-        return scrollMode.indexOf('horizontal') !== -1;
-    }
-
-    private _isHorizontalScroll(scrollModeOption: string): boolean {
-        const scrollMode = scrollModeOption.toLowerCase();
-        // При горизонтальном скролле будет работать с событием controlResize
-        return scrollMode.indexOf('horizontal') !== -1;
+        return scrollOrientation.indexOf('horizontal') !== -1;
     }
 
     _controlResizeHandler(): void {
@@ -731,7 +732,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     protected _getScrollContainerCssClass(options: IContainerBaseOptions): string {
-        switch (options.scrollMode) {
+        switch (ContainerBase.getScrollOrientation(options)) {
             case SCROLL_MODE.VERTICAL:
                 return 'controls-Scroll-ContainerBase__scroll_vertical';
             case SCROLL_MODE.HORIZONTAL:
@@ -1050,6 +1051,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         if (!event.propagating()) {
             return this._notify(eventName, args) || event.result;
         }
+    }
+
+    // TODO: Удалить после https://online.sbis.ru/opendoc.html?guid=a880359e-1c09-4a79-8284-c386920a20cf
+    static getScrollOrientation(options: IContainerBaseOptions): string {
+        return options.scrollMode || options.scrollOrientation;
     }
 
     static _theme: string[] = ['Controls/scroll'];
