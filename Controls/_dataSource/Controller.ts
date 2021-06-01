@@ -592,7 +592,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             isMultiNavigation &&
             this.isDeepReload() &&
             this._expandedItems?.length &&
-            !direction;
+            !direction &&
+            key === this._root;
         let resultQueryParams;
 
         if (isHierarchyQueryParamsNeeded) {
