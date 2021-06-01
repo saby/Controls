@@ -27,7 +27,7 @@
             </div>
          </ws:if>
          <ws:else>
-            <ws:partial template="{{_options.placeholder}}"/>
+            <ws:partial template="{{_options.placeholder}}" attr:class="controls-Lookup__placeholder_style-{{_options.style}}"/>
          </ws:else>
       </ws:if>
    </ws:placeholder>
@@ -54,7 +54,8 @@
                      attr:class="controls-Lookup__fieldWrapper
                      {{_options.multiline ? 'controls-Lookup__fieldWrapper-size-' + _inlineHeight }}
                      controls-Lookup__fieldWrapper_content_width_{{_options.multiline && _options.inputWidth ? 'custom' : 'default'}}
-                     {{_options.forComment ? 'controls-Lookup__fieldWrapper_for_comment'}}"
+                     {{_options.forComment ? 'controls-Lookup__fieldWrapper_for_comment'}}
+                     controls-Lookup__fieldWrapper_style-{{_options.style}}"
                      attr:style="width: {{_options.inputWidth}}px;"
                      on:keyDown="_keyDownInput()"/>
       </ws:else>
