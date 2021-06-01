@@ -412,6 +412,16 @@ describe('Controls/dataSource:SourceController', () => {
             ok(controller.getItems().at(0).get('key') !== undefined);
             ok(controller.getItems().at(0).get('title') === undefined);
         });
+
+        it('load with selectFields and navigation', async () => {
+            const options = getControllerOptions();
+            options.navigation = getPagingNavigation();
+            options.selectFields = ['key'];
+            const controller = getController(options);
+            await controller.reload();
+            ok(controller.getItems().at(0).get('key') !== undefined);
+            ok(controller.getItems().at(0).get('title') === undefined);
+        });
     });
 
     describe('cancelLoading', () => {
