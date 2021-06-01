@@ -255,5 +255,18 @@ Array.prototype.splice.apply(extendedData, [1, 0,
         type: null,
         hasChild: true,
         nodeType: null
+    },
+    {
+        id: 5,
+        title: 'Смартфоны',
+        count: '1 шт',
+        price: '',
+        price1: '',
+        price2: '',
+        price3: '',
+        parent: null,
+        type: true,
+        hasChild: false,
+        nodeType: 'group'
     }
 ]);
