@@ -34,8 +34,8 @@ export class Controller {
 
    private get _selection(): ISelection {
       return {
-         selected: this._selectedKeys,
-         excluded: this._excludedKeys
+         selected: this._selectedKeys || [],
+         excluded: this._excludedKeys || []
       };
    }
    private set _selection(selection: ISelection): void {
