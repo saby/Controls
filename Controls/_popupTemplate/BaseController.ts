@@ -192,8 +192,8 @@ abstract class BaseController {
         const containerSizes: IPopupSizes = this.getContentSizes(container);
 
         item.sizes = {
-            width: item.popupOptions.width || containerSizes.width,
-            height: item.popupOptions.height || containerSizes.height
+            width: Math.min(item.popupOptions.width || containerSizes.width, containerSizes.width),
+            height: Math.min(item.popupOptions.height || containerSizes.height, containerSizes.height)
         };
         return item.sizes;
     }
