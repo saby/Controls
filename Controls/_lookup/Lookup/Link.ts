@@ -38,6 +38,10 @@ export default class Link extends Control<IControlOptions> {
       if (!this._options.readOnly) {
          this._notify('click');
       }
+
+      if (this._options.lookupName) {
+         this._notify('showSelector', [this._options.lookupName], {bubbling: true});
+      }
    }
 
    static getDefaultOptions(): object {
