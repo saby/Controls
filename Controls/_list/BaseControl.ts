@@ -2757,9 +2757,14 @@ const _private = {
                     self._notify('updatePlaceholdersSize', [result.placeholders], {bubbling: true});
                 }
                 if (result.shadowVisibility?.up || result.placeholders.top > 0 || self._hasMoreData(self._sourceController, 'up')) {
-                    self._notify('enableVirtualNavigation', [], { bubbling: true });
+                    self._notify('enableVirtualNavigation', ['top'], { bubbling: true });
                 } else {
-                    self._notify('disableVirtualNavigation', [], { bubbling: true });
+                    self._notify('disableVirtualNavigation', ['top'], { bubbling: true });
+                }
+                if (result.shadowVisibility?.down || result.placeholders.bottom > 0 || self._hasMoreData(self._sourceController, 'down')) {
+                    self._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
+                } else {
+                    self._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
                 }
             }
             if (self._items && typeof self._items.getRecordById(result.activeElement || self._options.activeElement) !== 'undefined') {
@@ -3945,9 +3950,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         if (this._hasMoreData(this._sourceController, 'up')) {
-            this._notify('enableVirtualNavigation', [], { bubbling: true });
+            this._notify('enableVirtualNavigation', ['top'], { bubbling: true });
         } else {
-            this._notify('disableVirtualNavigation', [], { bubbling: true });
+            this._notify('disableVirtualNavigation', ['top'], { bubbling: true });
+        }
+        if (this._hasMoreData(this._sourceController, 'down')) {
+            this._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
+        } else {
+            this._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
         }
 
         if (!this.__error) {
