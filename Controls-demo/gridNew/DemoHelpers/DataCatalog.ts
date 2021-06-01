@@ -293,180 +293,180 @@ const getCountriesStats = () => {
         getColumnsForVirtual: (): IColumn[] => [
             {
                 displayProperty: 'number',
-                wkeyth: '40px'
+                width: '40px'
             },
             {
                 displayProperty: 'country',
-                wkeyth: '200px'
+                width: '200px'
             },
             {
                 displayProperty: 'capital',
-                wkeyth: '200px'
+                width: '200px'
             }
         ],
 
-        getColumnsWithoutWkeyths: (): IColumn[] => [
+        getColumnsWithoutwidths: (): IColumn[] => [
             {
                 displayProperty: 'number',
-                wkeyth: ''
+                width: ''
             },
             {
                 displayProperty: 'country',
-                wkeyth: ''
+                width: ''
             },
             {
                 displayProperty: 'capital',
-                wkeyth: ''
+                width: ''
             },
             {
                 displayProperty: 'population',
-                wkeyth: ''
+                width: ''
             },
             {
                 displayProperty: 'square',
-                wkeyth: ''
+                width: ''
             },
             {
                 displayProperty: 'populationDensity',
-                wkeyth: ''
+                width: ''
             }
         ],
         getColumnsForLoad: (): IColumn[] => [
             {
                 displayProperty: 'key',
-                wkeyth: '50px'
+                width: '50px'
             },
             {
                 displayProperty: 'load',
-                wkeyth: '200px'
+                width: '200px'
             }
 
         ],
-        getColumnsWithFixedWkeyths: (): IColumn[] => [
+        getColumnsWithFixedwidths: (): IColumn[] => [
             {
                 displayProperty: 'number',
-                wkeyth: '30px'
+                width: '30px'
             },
             {
                 displayProperty: 'country',
-                wkeyth: '200px'
+                width: '200px'
             },
             {
                 displayProperty: 'capital',
-                wkeyth: '100px'
+                width: '100px'
             },
             {
                 displayProperty: 'population',
-                wkeyth: '150px'
+                width: '150px'
             },
             {
                 displayProperty: 'square',
-                wkeyth: '100px'
+                width: '100px'
             },
             {
                 displayProperty: 'populationDensity',
-                wkeyth: '120px'
+                width: '120px'
             }
         ],
-        getColumnsWithWkeythsForSortingDemo: (): IColumnRes[] => [
+        getColumnsWithwidthsForSortingDemo: (): IColumnRes[] => [
             {
                 displayProperty: 'number',
-                wkeyth: '40px'
+                width: '40px'
             },
             {
                 displayProperty: 'country',
-                wkeyth: '280px'
+                width: '280px'
             },
             {
                 displayProperty: 'capital',
-                wkeyth: '130px'
+                width: '130px'
             },
             {
                 displayProperty: 'population',
-                wkeyth: '100px'
+                width: '100px'
             },
             {
                 displayProperty: 'square',
-                wkeyth: '100px',
+                width: '100px',
                 align: 'right'
             },
             {
                 displayProperty: 'populationDensity',
-                wkeyth: '150px',
+                width: '150px',
                 result: 5.8,
                 align: 'right'
             }
         ],
-        getColumnsWithWkeyths: (): IColumnRes[] => [
+        getColumnsWithwidths: (): IColumnRes[] => [
             {
                 displayProperty: 'number',
-                wkeyth: '40px'
+                width: '40px'
             },
             {
                 displayProperty: 'country',
-                wkeyth: '300px'
+                width: '300px'
             },
             {
                 displayProperty: 'capital',
-                wkeyth: 'max-content',
-                compatibleWkeyth: '98px'
+                width: 'max-content',
+                compatiblewidth: '98px'
             },
             {
                 displayProperty: 'population',
-                wkeyth: 'max-content',
+                width: 'max-content',
                 result: 3956986345,
                 resultTemplate: resultCellTpl,
-                compatibleWkeyth: '118px'
+                compatiblewidth: '118px'
             },
             {
                 displayProperty: 'square',
-                wkeyth: 'max-content',
+                width: 'max-content',
                 result: 12423523,
                 resultTemplate: resultCellTpl,
-                compatibleWkeyth: '156px'
+                compatiblewidth: '156px'
             },
             {
                 displayProperty: 'populationDensity',
-                wkeyth: 'max-content',
+                width: 'max-content',
                 result: 5.8,
                 resultTemplate: resultCellTpl,
-                compatibleWkeyth: '60px'
+                compatiblewidth: '60px'
             }
         ],
         getColumnsForDragScrolling: (): IColumn[] => ([
             {
                 displayProperty: 'number',
-                wkeyth: '40px'
+                width: '40px'
             },
             {
                 displayProperty: 'country',
-                wkeyth: '300px',
+                width: '300px',
                 template: notDraggableCell
             },
             {
                 displayProperty: 'capital',
-                wkeyth: 'max-content',
-                compatibleWkeyth: '98px'
+                width: 'max-content',
+                compatiblewidth: '98px'
             },
             {
-                wkeyth: '200px',
+                width: '200px',
                 template: notScrollableCell
             },
             {
                 displayProperty: 'population',
-                wkeyth: 'max-content',
-                compatibleWkeyth: '100px',
+                width: 'max-content',
+                compatiblewidth: '100px',
                 template: dragScrollPopulationCell
             },
             {
                 displayProperty: 'square',
-                wkeyth: 'max-content',
-                compatibleWkeyth: '83px'
+                width: 'max-content',
+                compatiblewidth: '83px'
             },
             {
                 displayProperty: 'populationDensity',
-                wkeyth: 'max-content',
-                compatibleWkeyth: '175px'
+                width: 'max-content',
+                compatiblewidth: '175px'
             }
         ]),
         getResults: (): IResults => ({
@@ -493,54 +493,54 @@ const getCountriesStats = () => {
         getColumnsWithAlign: (): IColumn[] => [
             {
                 displayProperty: 'number',
-                wkeyth: '40px',
+                width: '40px',
                 align: 'right'
             },
             {
                 displayProperty: 'country',
-                wkeyth: '300px',
+                width: '300px',
                 align: 'center'
             },
             {
                 displayProperty: 'capital',
-                wkeyth: '1fr',
+                width: '1fr',
                 align: 'left'
             },
             {
                 displayProperty: 'population',
-                wkeyth: '150px',
+                width: '150px',
                 align: 'right'
             },
             {
                 displayProperty: 'square',
-                wkeyth: '150px',
+                width: '150px',
                 align: 'left'
             },
             {
                 displayProperty: 'populationDensity',
-                wkeyth: 'max-content',
-                compatibleWkeyth: '60px'
+                width: 'max-content',
+                compatiblewidth: '60px'
             }
         ],
         getColumnsWithValign: () => [
             {
                 displayProperty: 'number',
-                wkeyth: '40px',
+                width: '40px',
                 valign: 'right'
             },
             {
                 displayProperty: 'country',
-                wkeyth: '300px',
+                width: '300px',
                 valign: 'top'
             },
             {
                 displayProperty: 'capital',
-                wkeyth: '1fr',
+                width: '1fr',
                 valign: 'bottom'
             },
             {
                 displayProperty: 'population',
-                wkeyth: '150px'
+                width: '150px'
             }
         ],
         getDefaultHeader: (): IHeaderCell[] => [
@@ -892,30 +892,30 @@ const getCountriesStats = () => {
         getColumnsWithTemplate: (): IColumn[] => [
             {
                 displayProperty: 'number',
-                wkeyth: 'max-content',
-                compatibleWkeyth: '44px',
+                width: 'max-content',
+                compatiblewidth: '44px',
                 template: countryRatingNumber
             },
             {
                 displayProperty: 'country',
-                wkeyth: '300px'
+                width: '300px'
             },
             {
                 displayProperty: 'capital',
-                wkeyth: '100px'
+                width: '100px'
             },
             {
                 displayProperty: 'population',
-                wkeyth: '150px'
+                width: '150px'
             },
             {
                 displayProperty: 'square',
-                wkeyth: '150px'
+                width: '150px'
             },
             {
                 displayProperty: 'populationDensity',
-                wkeyth: 'max-content',
-                compatibleWkeyth: '60px'
+                width: 'max-content',
+                compatiblewidth: '60px'
             }
         ]
     };
@@ -926,15 +926,15 @@ const getTagStyleData = () => {
         getColumns: (): IColumn[] => [
             {
                 displayProperty: 'number',
-                wkeyth: '40px'
+                width: '40px'
             },
             {
                 displayProperty: 'country',
-                wkeyth: '200px'
+                width: '200px'
             },
             {
                 displayProperty: 'population',
-                wkeyth: '150px',
+                width: '150px',
                 align: 'right',
                 tagStyleProperty: 'tagStyle'
             }
@@ -1193,12 +1193,12 @@ const getMultilineLadder = () => {
         getColumns: () => [
             {
                 template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderMultilineDateTime',
-                wkeyth: '125px',
+                width: '125px',
                 stickyProperty: ['date', 'time']
             },
             {
                 template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderMultilineName',
-                wkeyth: '300px'
+                width: '300px'
             }
         ],
         getHeader: () => [
@@ -1316,44 +1316,44 @@ const getTasks = () => {
         getColumns: () => [
             {
                 template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksPhoto',
-                wkeyth: '98px'
+                width: '98px'
             },
             {
                 template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksDescription',
-                wkeyth: '1fr'
+                width: '1fr'
             },
             {
                 template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksReceived',
-                wkeyth: '200px'
+                width: '200px'
             }
         ],
         getDefaultColumns: (): IColumn[] => [
             {
                 displayProperty: 'key',
-                wkeyth: '30px'
+                width: '30px'
             },
             {
                 displayProperty: 'state',
-                wkeyth: '200px'
+                width: '200px'
             },
             {
                 displayProperty: 'date',
-                wkeyth: '100px'
+                width: '100px'
             }
         ],
         getDefaultWithEditingColumns: (): IColumn[] => [
             {
                 displayProperty: 'key',
-                wkeyth: '30px'
+                width: '30px'
             },
             {
                 displayProperty: 'state',
-                wkeyth: '200px',
+                width: '200px',
                 template: 'wml!Controls-demo/gridNew/Grouped/WithEditing/_cellEditor'
             },
             {
                 displayProperty: 'date',
-                wkeyth: '100px',
+                width: '100px',
                 template: 'wml!Controls-demo/gridNew/Grouped/WithEditing/_cellEditor'
             }
         ]
@@ -1476,44 +1476,44 @@ const getTasksWithHkeydenGroup = () => {
         getColumns: () => [
             {
                 template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksPhoto',
-                wkeyth: '98px'
+                width: '98px'
             },
             {
                 template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksDescription',
-                wkeyth: '1fr'
+                width: '1fr'
             },
             {
                 template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksReceived',
-                wkeyth: '200px'
+                width: '200px'
             }
         ],
         getDefaultColumns: (): IColumn[] => [
             {
                 displayProperty: 'key',
-                wkeyth: '30px'
+                width: '30px'
             },
             {
                 displayProperty: 'state',
-                wkeyth: '200px'
+                width: '200px'
             },
             {
                 displayProperty: 'date',
-                wkeyth: '100px'
+                width: '100px'
             }
         ],
         getDefaultWithEditingColumns: (): IColumn[] => [
             {
                 displayProperty: 'key',
-                wkeyth: '30px'
+                width: '30px'
             },
             {
                 displayProperty: 'state',
-                wkeyth: '200px',
+                width: '200px',
                 template: 'wml!Controls-demo/gridNew/Grouped/WithEditing/_cellEditor'
             },
             {
                 displayProperty: 'date',
-                wkeyth: '100px',
+                width: '100px',
                 template: 'wml!Controls-demo/gridNew/Grouped/WithEditing/_cellEditor'
             }
         ]
@@ -1575,45 +1575,45 @@ const getPorts = () => {
         ],
         getColumns: (): IColumn[] => [
             {
-                wkeyth: '100px',
+                width: '100px',
                 displayProperty: 'invoice'
             },
             {
-                wkeyth: '200px',
+                width: '200px',
                 displayProperty: 'documentSign'
             },
             {
-                wkeyth: '200px',
+                width: '200px',
                 displayProperty: 'document'
             },
             {
-                wkeyth: '1fr',
+                width: '1fr',
                 displayProperty: 'description'
             },
             {
-                wkeyth: '200px',
+                width: '200px',
                 displayProperty: 'taxBase'
             }
         ],
         getColumnsDND: (): IColumn[] => [
             {
-                wkeyth: '100px',
+                width: '100px',
                 displayProperty: 'invoice'
             },
             {
-                wkeyth: '200px',
+                width: '200px',
                 displayProperty: 'documentNum'
             },
             {
-                wkeyth: '200px',
+                width: '200px',
                 displayProperty: 'taxBase'
             },
             {
-                wkeyth: '1fr',
+                width: '1fr',
                 displayProperty: 'description'
             },
             {
-                wkeyth: '200px',
+                width: '200px',
                 displayProperty: 'document'
             }
         ],
@@ -1724,38 +1724,38 @@ const getEditing = () => {
         getEditingColumns: (): IColumn[] => [
             {
                 displayProperty: 'title',
-                wkeyth: '180px',
+                width: '180px',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor'
             },
             {
                 displayProperty: 'price',
-                wkeyth: '100px',
+                width: '100px',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor',
                 resultTemplate: resTpl,
                 results: 3
             },
             {
                 displayProperty: 'balance',
-                wkeyth: '100px',
+                width: '100px',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor',
                 resultTemplate: resTpl,
                 results: 3
             },
             {
                 displayProperty: 'description',
-                wkeyth: '200px',
+                width: '200px',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor'
             },
             {
                 displayProperty: 'costPrice',
-                wkeyth: '100px',
+                width: '100px',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor',
                 resultTemplate: resTpl,
                 results: 9
             },
             {
                 displayProperty: 'balanceCostSumm',
-                wkeyth: '100px',
+                width: '100px',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor',
                 resultTemplate: resTpl,
                 results: 6
@@ -1764,13 +1764,13 @@ const getEditing = () => {
         getEditingAlignColumns: (): IColumn[] => [
             {
                 displayProperty: 'title',
-                wkeyth: '180px',
+                width: '180px',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/Align/_cellEditor',
                 align: 'right'
             },
             {
                 displayProperty: 'description',
-                wkeyth: '100px',
+                width: '100px',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/Align/_cellEditor',
                 align: 'right'
             }
@@ -1778,34 +1778,34 @@ const getEditing = () => {
         getEditingSizeColumns: (size): IColumn[] => [
             {
                 displayProperty: 'title',
-                wkeyth: '180px',
+                width: '180px',
                 template: `wml!Controls-demo/gridNew/EditInPlace/Size/${size}/_cellEditor`,
             },
             {
                 displayProperty: 'description',
-                wkeyth: '100px',
+                width: '100px',
                 template: `wml!Controls-demo/gridNew/EditInPlace/Size/${size}/_cellEditor`,
             }
         ],
         getEditingColumnsValkeyation: () => [
             {
                 displayProperty: 'email',
-                wkeyth: '200px',
+                width: '200px',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/Valkeyation/_cellEditor'
             },
             {
                 displayProperty: 'required',
-                wkeyth: 'max-content',
+                width: 'max-content',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/Valkeyation/_cellEditorRequired'
             },
             {
                 displayProperty: 'length',
-                wkeyth: 'max-content',
+                width: 'max-content',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/Valkeyation/_cellEditorDate'
             },
             {
                 displayProperty: 'title',
-                wkeyth: 'max-content',
+                width: 'max-content',
                 template: 'wml!Controls-demo/gridNew/EditInPlace/Valkeyation/_cellEditorTitle'
             }
         ],
@@ -1855,22 +1855,22 @@ const getEditing = () => {
         getDecoratedEditingColumns: (): IColumn[] => [
             {
                 displayProperty: 'title',
-                wkeyth: '300px',
+                width: '300px',
                 template: baseEditor
             },
             {
                 displayProperty: 'taxBase',
-                wkeyth: '200px',
+                width: '200px',
                 template: moneyEditor
             },
             {
                 displayProperty: 'documentSign',
-                wkeyth: '150px',
+                width: '150px',
                 template: numberEditor
             },
             {
                 displayProperty: 'document',
-                wkeyth: '150px',
+                width: '150px',
                 template: defaultEditor
             }
         ]
@@ -1887,7 +1887,7 @@ interface keyataForShow {
     maxContent: string;
 }
 
-function forShowWkeyths(): {
+function forShowwidths(): {
     getData(): keyataForShow[];
     getHeader(): IHeaderCell[];
     getColumns1(): IColumn[];
@@ -1941,32 +1941,32 @@ function forShowWkeyths(): {
             return [
                 {
                     displayProperty: 'px',
-                    wkeyth: '150px'
+                    width: '150px'
                 },
                 {
                     displayProperty: 'maxContent',
-                    wkeyth: 'max-content',
-                    compatibleWkeyth: '147px'
+                    width: 'max-content',
+                    compatiblewidth: '147px'
                 },
                 {
                     displayProperty: 'fr1of3',
-                    wkeyth: '1fr',
-                    compatibleWkeyth: '30%'
+                    width: '1fr',
+                    compatiblewidth: '30%'
                 },
                 {
                     displayProperty: 'fr2of3',
-                    wkeyth: '2fr',
-                    compatibleWkeyth: '60%'
+                    width: '2fr',
+                    compatiblewidth: '60%'
                 },
                 {
                     displayProperty: 'auto',
-                    wkeyth: 'auto',
-                    compatibleWkeyth: '139px'
+                    width: 'auto',
+                    compatiblewidth: '139px'
                 },
                 {
                     displayProperty: 'minMax',
-                    wkeyth: 'minmax(50px, 200px)',
-                    compatibleWkeyth: '200px'
+                    width: 'minmax(50px, 200px)',
+                    compatiblewidth: '200px'
                 }
             ];
         }
@@ -1987,7 +1987,7 @@ const cellPadding = () => ({
     getCollumns: () => ([
         {
             displayProperty: 'number',
-            wkeyth: '100px',
+            width: '100px',
             template: itemCountr,
             cellPadding: {
                 right: 's'
@@ -1995,7 +1995,7 @@ const cellPadding = () => ({
         },
         {
             displayProperty: 'country',
-            wkeyth: '100px',
+            width: '100px',
             template: itemTpl,
             cellPadding: {
                 left: 's',
@@ -2004,7 +2004,7 @@ const cellPadding = () => ({
         },
         {
             displayProperty: 'capital',
-            wkeyth: '100px'
+            width: '100px'
         }
     ]),
     getData: (): keyataForPadding[] => ([
@@ -2133,13 +2133,13 @@ const DragNDrop = (): IForDnD => ({
     }],
     columns: [{
         displayProperty: 'key',
-        wkeyth: '30px'
+        width: '30px'
     }, {
         displayProperty: 'title',
-        wkeyth: '200px'
+        width: '200px'
     }, {
         displayProperty: 'additional',
-        wkeyth: '200px'
+        width: '200px'
     }]
 });
 
@@ -2250,7 +2250,7 @@ export {
     getTasks,
     getTasksWithHkeydenGroup,
     getPorts,
-    forShowWkeyths,
+    forShowwidths,
     getEditing,
     countries,
     DragNDrop,
