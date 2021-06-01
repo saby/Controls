@@ -14,6 +14,16 @@ export const nodeHistoryUtil = {
     },
 
     /**
+     * Restore state of expandable items from cache without service call
+     * @param key Key to store array of expandable items
+     */
+    getCached(key: string): CrudEntityKey[] {
+        const config = USER.getConfig();
+        const result = config.get(key);
+        return result !== undefined ? JSON.parse(result) : undefined;
+    },
+
+    /**
      * Restore state of expandable items from UserConfig
      * @param key Key to store array of expandable items
      */

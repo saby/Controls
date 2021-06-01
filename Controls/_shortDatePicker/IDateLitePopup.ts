@@ -18,9 +18,7 @@ export interface IDateLitePopupOptions extends IControlOptions {
    monthTemplate?: TemplateFunction;
    itemTemplate?: TemplateFunction;
    stickyPosition?: object;
-
-   // TODO: устаревшая опция
-   range?: Date[];
+   headerContentTemplate?: TemplateFunction;
 }
 
 const EMPTY_CAPTIONS = {
@@ -218,6 +216,27 @@ export default {
              *       }
              *    }
              * </pre>
+             */
+
+            /**
+             * @name Controls/shortDatePicker/IDateLitePopup#headerContentTemplate
+             * @cfg {HTMLElement} Шаблон текста в заголовке
+             * @remark
+             * В шаблон передаются поля
+             * <ul>
+             *     <li>startValue - начало текущего периода</li>
+             *     <li>endValue - конец текущего периода</li>
+             *     <li>caption - текст, который выводился бы по умолчанию</li>
+             * </ul>
+             * @example
+             * <pre>
+             *     <Controls.shortDatePicker:View>
+             *         <ws:headerContentTemplate>
+             *              <div>{{_getHeaderCaption(headerContentTemplate.startValue, headerContentTemplate.endValue)}}</div>
+             *         <ws:headerContentTemplate>
+             *     </Controls.shortDatePicker:View>
+             * </pre>
+             * @demo Controls-demo/dateRange/LiteSelector/HeaderContentTemplate/Index
              */
          };
       },

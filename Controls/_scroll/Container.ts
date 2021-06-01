@@ -163,7 +163,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             if (!this._paging) {
                 this._paging = new PagingModel();
             }
-            this._paging.isVisible = this._scrollModel.canVerticalScroll && options.scrollMode !== 'none';
+            this._paging.isVisible = this._scrollModel.canVerticalScroll && ContainerBase.getScrollOrientation(this._options) !== 'none';
             if (this._options.pagingMode !== options.pagingMode) {
                 this._paging.pagingMode = options.pagingMode;
             }
@@ -648,7 +648,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
                 SHADOW_MODE.JS,
                 SHADOW_MODE.MIXED
             ]),
-            scrollMode: descriptor(String).oneOf([
+            scrollOrientation: descriptor(String).oneOf([
                 'vertical',
                 'horizontal',
                 'verticalHorizontal',
@@ -663,7 +663,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             ...getShadowsDefaultOptions(),
             shadowStyle: 'default',
             backgroundStyle: DEFAULT_BACKGROUND_STYLE,
-            scrollMode: 'vertical',
+            scrollOrientation: 'vertical',
             syncDomOptimization: true
         };
     }
@@ -738,7 +738,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
  */
 
 /**
- * @name Controls/_scroll/Container#scrollMode
+ * @name Controls/_scroll/Container#scrollOrientation
  * @cfg {String} Определяет направление скроллирования
  * @demo Controls-demo\Scroll\ScrollMode\Index
  * @default vertical

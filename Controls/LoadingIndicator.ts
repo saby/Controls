@@ -242,7 +242,7 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
      * Скрывает индикатор загрузки.
      * @function
      * @name Controls/LoadingIndicator#hide
-     * @param {Number} id Идентификатор индикатора загрузки.
+     * @param {String} id Идентификатор индикатора загрузки.
      * @see show
      */
     hide(id?: string): void {

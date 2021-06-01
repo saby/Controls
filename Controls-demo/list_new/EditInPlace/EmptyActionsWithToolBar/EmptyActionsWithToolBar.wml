@@ -2,7 +2,8 @@
     <Controls.list:View
             name="list"
             keyProperty="id"
-            source="{{_viewSource}}">
+            source="{{_viewSource}}"
+            editingConfig="{{_editingConfig}}">
         <ws:editingConfig editOnClick="{{true}}" toolbarVisibility="{{true}}"/>
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate">
