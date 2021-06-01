@@ -8,7 +8,7 @@ import { TagStyle } from 'Controls-demo/gridNew/DemoHelpers/Data/TagStyle';
 export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _viewSource: Memory;
-    protected _columns = getTagStyleData().getColumns();
+    protected _columns = TagStyle.getColumns();
 
     // Номер выбранной колонки
     protected _currentColumnIndex: number = null;
