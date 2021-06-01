@@ -1013,8 +1013,8 @@
 }
 
 .controls-TileView__item_fixed {
-   //Set the value to more than scrollContainer, so that when you increase the tiles appear above the shadows and scrollbar.
-   z-index: calc(var(--z-index_Scroll-contentEnvironment) + 1);
+   // Задаем z-index согласно статье https://wi.sbis.ru/doc/platform/developmentapl/interface-development/pattern-and-practice/zindex/
+   z-index: 31;
    position: fixed;
 }
 
