@@ -286,6 +286,9 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             case 'virtualNavigation':
                 this._virtualNavigationRegistrar.register(event, registerType, component, callback);
                 break;
+            case 'scrollResize':
+                this._registrars.scrollResize.register(event, registerType, component, callback);
+                break;
         }
     }
 
@@ -305,6 +308,9 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                 break;
             case 'virtualNavigation':
                 this._virtualNavigationRegistrar.unregister(event, registerType, component);
+                break;
+            case 'scrollResize':
+                this._registrars.scrollResize.unregister(event, registerType, component);
                 break;
         }
     }
