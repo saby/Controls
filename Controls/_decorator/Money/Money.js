@@ -16,14 +16,14 @@ define('Controls/_decorator/Money/Money', ['UI/Executor', 'Controls/_decorator/r
       try {
          var out = markupGenerator.joinElements([markupGenerator.createTag('span', {
             'attributes': {
-               'class': Money.getMainClass(thelpers.getter(data, ['_options', 'underline']), thelpers.getter(data, ['_options', 'style'])),
+               'class': Money.calculateMainClass(thelpers.getter(data, ['_options', 'underline']), thelpers.getter(data, ['_options', 'style'])),
                'title': (thelpers.wrapUndef(markupGenerator.escape(thelpers.getter(data, ['_tooltip']))))
             },
             'events': {},
             'key': key + '0_'
          }, [((thelpers.getter(data, ['_options', 'currency']) && thelpers.getter(data, ['_options', 'currencyPosition']) === 'left') ? ([markupGenerator.createTag('span', {
             'attributes': {
-               'class': Money.getCurrencyClass(thelpers.getter(data, ['_options', 'currencySize']), thelpers.getter(data, ['_options', 'fontColorStyle']), thelpers.getter(data, ['_options', 'fontWeight']))
+               'class': Money.calculateCurrencyClass(thelpers.getter(data, ['_options', 'currencySize']), thelpers.getter(data, ['_options', 'fontColorStyle']), thelpers.getter(data, ['_options', 'fontWeight']))
             },
             'events': {},
             'key': key + '0_0_0_'
@@ -32,13 +32,13 @@ define('Controls/_decorator/Money/Money', ['UI/Executor', 'Controls/_decorator/r
             key: key + '0_0_0_'
          } : {}, defCollection, viewController)]) : markupGenerator.createText('')), markupGenerator.createTag('span', {
             'attributes': {
-               'class': Money.getStrokedClass(thelpers.getter(data, ['_options', 'stroked']))
+               'class': Money.calculateStrokedClass(thelpers.getter(data, ['_options', 'stroked']))
             },
             'events': {},
             'key': key + '0_1_'
          }, [markupGenerator.createTag('span', {
             'attributes': {
-               'class': Money.getIntegerClass(thelpers.getter(data, ['_options', 'fontSize']), thelpers.getter(data, ['_fontColorStyle']), thelpers.getter(data, ['_options', 'fontWeight']), thelpers.getter(data, ['_options', 'currency']), thelpers.getter(data, ['_options', 'currencyPosition']), thelpers.getter(data, ['_isDisplayFractionPath']))
+               'class': Money.calculateIntegerClass(thelpers.getter(data, ['_options', 'fontSize']), thelpers.getter(data, ['_fontColorStyle']), thelpers.getter(data, ['_options', 'fontWeight']), thelpers.getter(data, ['_options', 'currency']), thelpers.getter(data, ['_options', 'currencyPosition']), thelpers.getter(data, ['_isDisplayFractionPath']))
             },
             'events': {},
             'key': key + '0_1_0_'
@@ -47,7 +47,7 @@ define('Controls/_decorator/Money/Money', ['UI/Executor', 'Controls/_decorator/r
             key: key + '0_1_0_'
          } : {}, defCollection, viewController), ((thelpers.getter(data, ['_isDisplayFractionPath']).apply(funcContext, [thelpers.getter(data, ['_formattedNumber', 'fraction']), thelpers.getter(data, ['_options', 'showEmptyDecimals'])]) && thelpers.getter(data, ['_options', 'abbreviationType']) !== 'long') ? ([markupGenerator.createTag('span', {
             'attributes': {
-               'class': Money.getFractionClass(thelpers.getter(data, ['_formattedNumber', 'fraction']), thelpers.getter(data, ['_fontColorStyle']), thelpers.getter(data, ['_fractionFontSize']), thelpers.getter(data, ['_options', 'currency']), thelpers.getter(data, ['_options', 'currencyPosition']))
+               'class': Money.calculateFractionClass(thelpers.getter(data, ['_formattedNumber', 'fraction']), thelpers.getter(data, ['_fontColorStyle']), thelpers.getter(data, ['_fractionFontSize']), thelpers.getter(data, ['_options', 'currency']), thelpers.getter(data, ['_options', 'currencyPosition']))
             },
             'events': {},
             'key': key + '0_1_1_0_'
@@ -59,7 +59,7 @@ define('Controls/_decorator/Money/Money', ['UI/Executor', 'Controls/_decorator/r
             key: key + '0_1_'
          } : {}, defCollection, viewController), ((thelpers.getter(data, ['_options', 'currency']) && thelpers.getter(data, ['_options', 'currencyPosition']) === 'right') ? ([markupGenerator.createTag('span', {
             'attributes': {
-               'class': Money.getCurrencyClass(thelpers.getter(data, ['_options', 'currencySize']), thelpers.getter(data, ['_options', 'fontColorStyle']), thelpers.getter(data, ['_options', 'fontWeight']))
+               'class': Money.calculateCurrencyClass(thelpers.getter(data, ['_options', 'currencySize']), thelpers.getter(data, ['_options', 'fontColorStyle']), thelpers.getter(data, ['_options', 'fontWeight']))
             },
             'events': {},
             'key': key + '0_2_0_'
