@@ -9,7 +9,7 @@
                 on:navigationParamsChanged="_navigationParamsChanged()"
                 dataLoadCallback="{{_dataLoadCallback}}"
                 source="{{_source}}"
-                keyProperty="id">
+                keyProperty="key">
             <ws:navigation source="page" view="infinity">
                 <ws:sourceConfig page="{{0}}" pageSize="{{50}}" hasMore="{{false}}"/>
             </ws:navigation>

@@ -17,7 +17,7 @@ export default class extends Control {
         this._header.splice(1, 1);
         this._columns.splice(1, 1);
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: getCountriesStats().getData().slice(0, MAXITEM)
         });
     }

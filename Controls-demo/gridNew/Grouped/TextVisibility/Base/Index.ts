@@ -19,12 +19,12 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: getTasks().getData()
         });
         // displayProperty: 'caption',
         this._radioSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: [{
                 id: null,
                 title: 'null'

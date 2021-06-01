@@ -12,7 +12,7 @@ export default class extends Control {
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: boolean) {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: getData()
         });
     }

@@ -7,7 +7,7 @@ import { IItemAction } from 'Controls/itemActions';
 
 interface IItem {
     title: string;
-    id: number | string;
+    key: number | string;
 }
 
 export default class extends Control {
@@ -17,13 +17,13 @@ export default class extends Control {
     private _dataArray: unknown = generateData({
         count: 100,
         beforeCreateItemCallback: (item: IItem) => {
-            item.title = `Запись с идентификатором ${item.id} и каким то не очень длинным текстом`;
+            item.title = `Запись с идентификатором ${item.key} и каким то не очень длинным текстом`;
         }
     });
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: this._dataArray
         });
     }

@@ -18,7 +18,7 @@ export default class extends Control {
    private count: number = 0;
 
    private dataArray: IItem[] = generateData({
-      keyProperty: 'id',
+      keyProperty: 'key',
       count: 50,
       beforeCreateItemCallback: (item: IItem) => {
          item.capital = 'South';
@@ -30,7 +30,7 @@ export default class extends Control {
 
    protected _beforeMount(): void {
       this._viewSource = new Memory({
-         keyProperty: 'id',
+         keyProperty: 'key',
          data: this.dataArray
       });
    }

@@ -14,7 +14,7 @@ interface IArrowState {
 
 interface IItem {
     title: string;
-    id: number;
+    key: number;
     keyProperty: string;
     count: number;
 }
@@ -29,14 +29,14 @@ export default class extends Control {
     protected _viewSource: Memory;
     private _dataArray: unknown = generateData({
         count: MAX_ELEMENTS_COUNT, beforeCreateItemCallback: (item: IItem) => {
-            item.title = `Запись с ключом ${item.id}.`;
+            item.title = `Запись с ключом ${item.key}.`;
         }
     });
     private _arrowState: IArrowState;
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: this._dataArray
         });
 

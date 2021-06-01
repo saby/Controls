@@ -2,38 +2,32 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/EditInPlace/AutoAddOnMount/AutoAddOnMount';
 import {Memory} from 'Types/source';
 import {getFewCategories as getData} from '../../DemoHelpers/DataCatalog';
-
-interface IEditCfg {
-    autoAddOnInit?: boolean;
-    toolbarVisibility?: boolean;
-    item?: unknown;
-    editOnClick?: boolean;
-}
+import { IEditingConfig } from 'Controls/display';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     private _viewSource: Memory;
     private _emptyViewSource: Memory;
 
-    protected _editingConfig: IEditCfg = null;
+    protected _editingConfig: IEditingConfig = null;
 
     protected _beforeMount(): Promise<void> {
 
         this._emptyViewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: []
         });
 
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: getData().slice(0, 3)
         });
 
-        return this._viewSource.read(1).then((res) => {
+        return this._viewSource.read(1).then((record) => {
             this._editingConfig = {
                 autoAddOnInit: true,
                 toolbarVisibility: true,
-                item: res,
+                item: record,
                 editOnClick: true
             };
         });

@@ -5,7 +5,7 @@ import {generateData} from "Controls-demo/list_new/DemoHelpers/DataCatalog";
 
 interface IItem {
     title: string;
-    id: number | string;
+    key: number | string;
 }
 
 export default class extends Control {
@@ -18,17 +18,17 @@ export default class extends Control {
     private _dataArray: unknown = generateData({
         count: 300,
         beforeCreateItemCallback: (item: IItem) => {
-            item.title = `Запись с идентификатором ${item.id}`;
+            item.title = `Запись с идентификатором ${item.key}`;
         }
     });
     protected _beforeMount(): void {
         this._source = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: this._dataArray
         });
         this._dataLoadCallback = (list) => {
             list.each((item) => {
-                item.set('title', `Запись с идентификатором ${item.get('id')}.  Количество перезагрузок: ${this._reloadsCount}`);
+                item.set('title', `Запись с идентификатором ${item.get('key')}.  Количество перезагрузок: ${this._reloadsCount}`);
             });
         };
     }

@@ -31,7 +31,7 @@ export default class extends Control {
         };
 
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: getCountriesStats().getData().slice(0, MAXITEM)
         });
     }

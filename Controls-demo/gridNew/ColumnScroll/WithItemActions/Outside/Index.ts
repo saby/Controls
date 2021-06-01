@@ -22,7 +22,7 @@ export default class extends Control {
         data[2].country = `${country} ${country} ${country} ${country} ${country} ${country}`;
 
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data
         });
     }

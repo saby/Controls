@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__list_new-itemTepmlate-NoHighlightOnHover">
-    <Controls.list:View keyProperty="id"
+    <Controls.list:View keyProperty="key"
                         source="{{_viewSource}}"
                         itemActions="{{_itemActions}}">
         <ws:itemTemplate>

@@ -1,27 +1,27 @@
-function getSourceData(): Array<{ id: string, title: string }> {
+function getSourceData(): Array<{ key: string, title: string }> {
     return [
         {
-            id: '1',
+            key: '1',
             title: 'Moscow'
         },
         {
-            id: '2',
+            key: '2',
             title: 'Tokyo'
         },
         {
-            id: '3',
+            key: '3',
             title: 'New-York'
         },
         {
-            id: '4',
+            key: '4',
             title: 'Beograd'
         },
         {
-            id: '5',
+            key: '5',
             title: 'Paris'
         },
         {
-            id: '6',
+            key: '6',
             title: 'Berlin'
         }
         ];

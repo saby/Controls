@@ -30,7 +30,7 @@ export default class extends Control {
         this._fullColumns[5].width = '80px';
 
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: getCountriesStats().getData().slice(0, 7)
         });
     }

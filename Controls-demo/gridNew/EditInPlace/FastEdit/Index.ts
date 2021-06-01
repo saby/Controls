@@ -27,7 +27,7 @@ export default class extends Control {
         // tslint:disable-next-line
         const data = getCountriesStats().getData().slice(0, 5);
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data
         });
     }
@@ -36,9 +36,9 @@ export default class extends Control {
         if (isAdd && options.item === undefined) {
             return {
                 item: new Model({
-                    keyProperty: 'id',
+                    keyProperty: 'key',
                     rawData: {
-                        id: ++this._fakeId,
+                        key: ++this._fakeId,
                         number: this._items.getCount() + 1,
                         country: '',
                         capital: '',
