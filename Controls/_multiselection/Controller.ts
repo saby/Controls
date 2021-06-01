@@ -34,8 +34,8 @@ export class Controller {
 
    private get _selection(): ISelection {
       return {
-         selected: this._selectedKeys,
-         excluded: this._excludedKeys
+         selected: this._selectedKeys || [],
+         excluded: this._excludedKeys || []
       };
    }
    private set _selection(selection: ISelection): void {
@@ -45,8 +45,8 @@ export class Controller {
 
    constructor(options: ISelectionControllerOptions) {
       this._model = options.model;
-      this._selectedKeys = options.selectedKeys.slice();
-      this._excludedKeys = options.excludedKeys.slice();
+      this._selectedKeys = options.selectedKeys ? options.selectedKeys.slice() : [];
+      this._excludedKeys = options.excludedKeys ? options.excludedKeys.slice() : [];
       this._strategy = options.strategy;
       this._searchValue = options.searchValue;
       this._filter = options.filter;

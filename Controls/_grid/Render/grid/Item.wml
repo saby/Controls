@@ -74,7 +74,7 @@
 </ws:template>
 
 
-<ws:if data="{{ (item || itemData).isSticked(style, stickyCallback, item) }}">
+<ws:if data="{{ isSticked !== false && (item || itemData).isSticked(style, stickyCallback, item) }}">
     <Controls.scroll:Group>
         <div attr:data-qa="{{(item || itemData).getQAData(marker)}}"
              attr:class="{{ (item || itemData).getItemClasses({

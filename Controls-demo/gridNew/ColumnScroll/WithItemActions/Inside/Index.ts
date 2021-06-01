@@ -15,6 +15,7 @@ export default class extends Control {
     protected _header: IHeaderCell[] = Countries.getHeader();
 
     protected _beforeMount(): void {
+        this._columns[5].compatibleWidth = '175px';
         const data = Countries.getData();
         // tslint:disable-next-line
         const country = data[2].country;

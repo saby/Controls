@@ -1,10 +1,10 @@
 /*
- * @typedef {String} Controls/_interface/INavigation/INavigationOptionValue/TNavigationSource
+ * @typedef {String} TNavigationSource
  * @variant position Position-based navigation (cursor).
  * @variant page Page-based navigation.
  */
 /**
- * @typedef {String} Controls/_interface/INavigation/INavigationOptionValue/TNavigationSource
+ * @typedef {String} TNavigationSource
  * @description Допустимые значения для параметра {@link Controls/interface:INavigationOptionValue#source source}.
  * @variant position  Навигация по курсору. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#cursor здесь}.
  * @variant page Навигация с фиксированным количеством загружаемых записей. {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#page здесь}.
@@ -12,7 +12,7 @@
 export type TNavigationSource = 'position' | 'page';
 
 /*
- * @typedef {String} Controls/_interface/INavigation/INavigationOptionValue/TNavigationView
+ * @typedef {String} TNavigationView
  * @variant infinity Infinite scroll.
  * @variant pages Pages with paging control.
  * @variant demand Load next when requested (for example, hasMore button clicked).
@@ -20,7 +20,7 @@ export type TNavigationSource = 'position' | 'page';
  */
 
 /**
- * @typedef {String} Controls/_interface/INavigation/INavigationOptionValue/TNavigationView
+ * @typedef {String} TNavigationView
  * @description Виды {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
  * @variant infinity {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/infinite-scrolling/ Бесконечная прокрутка}.
  * Список отображается в виде "бесконечной ленты" записей.
@@ -285,7 +285,7 @@ export interface INavigationViewConfig {
 export interface INavigationOptionValue<U> {
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#source
-     * @cfg {Controls/interface.TNavigationSource} Режим {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @cfg {Controls/interface:INavigation/TNavigationSource.typedef} Режим {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
      * <pre class="brush: html; highlight: [3]">
      * <!-- WML -->
@@ -302,7 +302,7 @@ export interface INavigationOptionValue<U> {
     source?: TNavigationSource;
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#view
-     * @cfg {Controls/interface:INavigation.TNavigationView} Вид {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
+     * @cfg {Controls/interface:INavigation/TNavigationView.typedef} Вид {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
      * @example
      * <pre class="brush: html; highlight: [4]">
      * <!-- WML -->
@@ -316,7 +316,7 @@ export interface INavigationOptionValue<U> {
     view?: TNavigationView;
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#sourceConfig
-     * @cfg {Controls/interface.INavigationSourceConfig} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @cfg {Controls/interface:INavigation/INavigationSourceConfig.typedef} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
      * <pre class="brush: html; highlight: [4]">
      * <!-- WML -->
