@@ -675,6 +675,23 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
+    getBigGradientStyles(itemType: TTileItem = 'default', gradientStartColor: string = '#ffffff', gradientStopColor: string = '#ffffff'): string {
+        let styles = '';
+
+        switch (itemType) {
+            case 'default':
+            case 'small':
+            case 'medium':
+            case 'preview':
+                break;
+            case 'rich':
+                styles += ` background: linear-gradient(to bottom, ${gradientStartColor} 0%, ${gradientStopColor} 100%);`;
+                break;
+        }
+
+        return styles;
+    }
+
     getGradientStyles(itemType: TTileItem = 'default', gradientColor: string = '#ffffff', gradientType: string = 'dark'): string {
         let styles = '';
 
@@ -1073,7 +1090,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getTitleStyles(itemType: TTileItem = 'default', titleLines: number = 1): string {
+    getTitleStyles(itemType: TTileItem = 'default', titleLines: number = 1, textColor: string = 'inherit'): string {
         let styles = '';
         switch (itemType) {
             case 'default':
@@ -1085,6 +1102,7 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'rich':
             case 'preview':
                 styles = `-webkit-line-clamp: ${titleLines};`;
+                styles += `color: ${textColor};`;
                 break;
         }
 
@@ -1135,7 +1153,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getDescriptionStyles(itemType: TTileItem = 'default', descriptionLines: number = 1): string {
+    getDescriptionStyles(itemType: TTileItem = 'default', descriptionLines: number = 1, textColor: string = 'inherit'): string {
         let styles = '';
         switch (itemType) {
             case 'default':
@@ -1146,6 +1164,7 @@ export default abstract class TileItem<T extends Model = Model> {
                 break;
             case 'rich':
                 styles = `-webkit-line-clamp: ${descriptionLines};`;
+                styles += `color: ${textColor};`;
                 break;
             case 'preview':
                 break;
