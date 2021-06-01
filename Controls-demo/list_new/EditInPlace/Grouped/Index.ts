@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/EditInPlace/Grouped/Grouped';
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
-import {getGroupedCatalog as getData} from '../../DemoHelpers/DataCatalog';
+import {getEditableGroupedCatalog as getData} from '../../DemoHelpers/Data/Groups';
 import {groupConstants as constView} from 'Controls/list';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IEditingConfig} from 'Controls/display';
