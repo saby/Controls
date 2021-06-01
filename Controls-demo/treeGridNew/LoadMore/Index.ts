@@ -1,14 +1,14 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/LoadMore/LoadMore';
 import {Memory} from 'Types/source';
-import {Gadgets} from '../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
+import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat();
+    protected _columns: IColumn[] = Flat.getColumns();
     protected _navigation: INavigationOptionValue<INavigationSourceConfig> = {
         source: 'page',
         view: 'demand',
@@ -25,7 +25,7 @@ export default class extends Control {
     protected _beforeMount(): void {
         this._viewSource = new Memory({
             keyProperty: 'id',
-            data: Gadgets.getFlatData()
+            data: Flat.getData()
         });
     }
 

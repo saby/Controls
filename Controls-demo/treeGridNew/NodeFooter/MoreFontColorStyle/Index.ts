@@ -1,14 +1,14 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/NodeFooter/MoreFontColorStyle/MoreFontColorStyle';
 import {HierarchicalMemory} from 'Types/source';
-import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import {IColumn} from 'Controls/grid';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
+import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat();
+    protected _columns: IColumn[] = Flat.getColumns();
 
     private _expandedItems1 = [];
     private _expandedItems2 = [];
