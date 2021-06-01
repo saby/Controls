@@ -5,28 +5,21 @@ import {Model} from 'Types/entity';
 import {getGroupedCatalog as getData} from '../../DemoHelpers/DataCatalog';
 import {groupConstants as constView} from 'Controls/list';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {IEditingConfig} from 'Controls/display';
-
-const data = getData().slice(1).map((item) => {
-    if (item.brand === 'apple') {
-        item.brand = constView.hiddenGroup;
-    }
-    return item;
-});
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: Memory;
+    private _viewSource: Memory;
     private _fakeItemId: number;
-    private _activeGroup: string = 'Xiaomi';
-    protected _editingConfig: IEditingConfig = {
+    private _activeGroup: string;
+    private _editingConfig = {
         editOnClick: true,
         sequentialEditing: true,
         addPosition: 'top'
     };
-    protected _addPosition: string = 'top';
+    private _addPosition = 'top';
 
     protected _beforeMount(): void {
+        const data = getData();
         this._viewSource = new Memory({
             keyProperty: 'id',
             data
@@ -39,8 +32,9 @@ export default class extends Control {
         this._editingConfig.addPosition = position;
     }
 
-    protected _resetGroup(): void {
-        this._activeGroup = 'Xiaomi';
+    private _groupingKeyCallback(item: Model): string {
+        const groupId = item.get('brand');
+        return groupId === 'apple' ? constView.hiddenGroup : groupId;
     }
 
     protected _onBeforeBeginEdit(
@@ -48,7 +42,7 @@ export default class extends Control {
         options: { item?: Model },
         isAdd: boolean): Promise<{item: Model}> | void {
         if (!isAdd) {
-            this._activeGroup = options.item.get('brand');
+            this._activeGroup = this._groupingKeyCallback(options.item);
             return;
         }
     }
@@ -59,7 +53,7 @@ export default class extends Control {
             rawData: {
                 id: ++this._fakeItemId,
                 title: '',
-                brand:  this._activeGroup
+                brand:  this._activeGroup || 'asd'
             }
         });
         this._children.list.beginAdd({item});
