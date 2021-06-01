@@ -3,19 +3,19 @@ import * as Template from 'wml!Controls-demo/treeGridNew/OnExpandedItemsChanged/
 import {HierarchicalMemory, CrudEntityKey} from 'Types/source';
 import {IColumn} from 'Controls/grid';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {eventsData} from '../DemoHelpers/DataCatalog';
+import {Events} from '../DemoHelpers/Data/Events';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _columns: IColumn[] = eventsData.getColumns();
+    protected _columns: IColumn[] = Events.getColumns();
     protected _expandedItems: CrudEntityKey[] = [];
     protected _collapsedItems: CrudEntityKey[];
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
             keyProperty: 'id',
-            data: eventsData.getDataExpandedItemsChanged(),
+            data: Events.getDataExpandedItemsChanged(),
             parentProperty: 'parent',
             filter: (): boolean => true
         });
