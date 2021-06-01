@@ -9,7 +9,7 @@ import ListView = require('Controls/_list/ListView');
 
 export interface IItemsViewOptions extends IControlOptions {
     /**
-     * @name Controls/_list/IItemsView
+     * @name Controls/_list/IItemsView#items
      * @cfg {Types/collection:RecordSet} Список записей, данные которого нужно отобразить в списке.
      */
     items?: RecordSet;
