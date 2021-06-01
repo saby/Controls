@@ -1,0 +1,4 @@
+<div class="js-controls-ColumnScroll__shadows">
+    <div class="{{ _getClasses(_options, 'start') }}"></div>
+    <div class="{{ _getClasses(_options, 'end') }}"></div>
+</div>

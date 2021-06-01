@@ -7,35 +7,27 @@
                  title="{{item}}">
                {{item}}
             </div>
-            <div title="{{!collapsedGroups[item] ? 'Свернуть' : 'Развернуть'}}"
-                 class="controls-FilterViewPanel__groupExpander
-              controls-icon
-              controls-icon_size-s
-              controls-PropertyGrid__groupExpander
-              {{!collapsedGroups[item] ? 'icon-CollapseLight' : 'icon-ExpandLight'}}"></div>
-         </div>
-         <div class="controls-FilterViewPanel__groupReset"
-              ws-no-focus="{{true}}"
-              title="{[Сбросить фильтр]}">
-            <ws:if data="{{collapsedGroups[item] && _options.groupItems[item].textValue.length}}">
-               <span class="icon-CloseNew controls-FilterViewPanel__groupReset-icon"> </span>
-            </ws:if>
-            <ws:else>
-               {{_options.resetCaption}}
-            </ws:else>
          </div>
       </div>
       <ws:if data="{{collapsedGroups[item] && _options.groupItems[item].textValue.length}}">
-         <div class="controls-FilterViewPanel__group-marker"></div>
-         <div class="controls-FilterViewPanel__group-result_wrapper">
-            <div class="controls-FilterViewPanel__group-result">
-               {{_options.groupItems[item].textValue}}
+         <div class="controls-FilterViewPanel__group-result-container">
+            <div class="controls-FilterViewPanel__group-result_wrapper">
+               <div class="controls-FilterViewPanel__group-result">
+                  {{_options.groupItems[item].textValue}}
+               </div>
+               <ws:if data="{{_options.groupItems[item].afterEditorTemplate}}">
+                  <Controls.Container.Async templateName="{{_options.groupItems[item].afterEditorTemplate}}">
+                     <ws:partial template="{{ content.resolvedTemplate }}"/>
+                  </Controls.Container.Async>
+               </ws:if>
             </div>
-            <ws:if data="{{_options.groupItems[item].afterEditorTemplate}}">
-               <Controls.Container.Async templateName="{{_options.groupItems[item].afterEditorTemplate}}">
-                  <ws:partial template="{{ content.resolvedTemplate }}"/>
-               </Controls.Container.Async>
-            </ws:if>
+            <div class="controls-FilterViewPanel__groupReset"
+                 ws-no-focus="{{true}}"
+                 title="{[Сбросить фильтр]}">
+               <ws:if data="{{collapsedGroups[item] && _options.groupItems[item].textValue.length}}">
+                  <span class="icon-CloseNew controls-FilterViewPanel__groupReset-icon"> </span>
+               </ws:if>
+            </div>
          </div>
       </ws:if>
    </div>
