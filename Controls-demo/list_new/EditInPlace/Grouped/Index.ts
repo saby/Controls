@@ -7,7 +7,7 @@ import {groupConstants as constView} from 'Controls/list';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IEditingConfig} from 'Controls/display';
 
-const data = getData().slice(2).map((item) => {
+const data = getData().slice(1).map((item) => {
     if (item.brand === 'apple') {
         item.brand = constView.hiddenGroup;
     }
@@ -24,7 +24,6 @@ export default class extends Control {
         sequentialEditing: true,
         addPosition: 'top'
     };
-    protected _collapsedGroups: string[] = ['asus', 'hp'];
     protected _addPosition: string = 'top';
 
     protected _beforeMount(): void {
