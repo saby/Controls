@@ -1,6 +1,6 @@
-import {Gadgets} from '../../DemoHelpers/DataCatalog';
+import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
-export const getColumns = Gadgets.getGridColumnsForFlat;
+export const getColumns = Flat.getColumns;
 
 export const generateData = (): Array<{
     id: number,

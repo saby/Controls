@@ -1,0 +1,18 @@
+<Controls.list:View name="list" source="{{_viewSource}}">
+    <ws:editingConfig
+            editOnClick="{{true}}"
+            autoAdd="{{true}}"
+            toolbarVisibility="{{ true }}"
+            autoAddByApplyButton="{{false}}"/>
+    <ws:itemTemplate>
+        <ws:partial template="Controls/list:ItemTemplate">
+            <ws:contentTemplate>
+                <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.item.contents.title }}">
+                    <ws:editorTemplate>
+                        <Controls.input:Text bind:value="itemTemplate.item.contents.title"/>
+                    </ws:editorTemplate>
+                </ws:partial>
+            </ws:contentTemplate>
+        </ws:partial>
+    </ws:itemTemplate>
+</Controls.list:View>

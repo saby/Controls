@@ -38,16 +38,6 @@
    color: var(--button_color-hover_filterViewPanel);
 }
 
-.controls-FilterViewPanel__group-marker {
-   position: absolute;
-   width: var(--group-marker_size_filterViewPanel);
-   height: var(--group-marker_size_filterViewPanel);
-   background-color: var(--group-marker_color_filterViewPanel);
-   border-radius: 50%;
-   top: calc((var(--group_height_filterViewPanel) - var(--group-marker_size_filterViewPanel)) / 2);
-   left: calc((var(--padding-left_filterViewPanel) - var(--group-marker_size_filterViewPanel)) / 2);
-}
-
 .controls-FilterViewPanel__group-content {
    cursor: pointer;
    color: var(--group_color_filterViewPanel);
@@ -57,10 +47,10 @@
    white-space: nowrap;
 }
 
-.controls-FilterViewPanel__groupExpander:hover,
-.controls-FilterViewPanel__groupReset-icon:hover,
-.controls-FilterViewPanel__groupReset:hover {
-   color: var(--button_color-hover_filterViewPanel);
+.controls-FilterViewPanel__group-result-container {
+   width: 100%;
+   display: flex;
+   flex-direction: row;
 }
 
 .controls-PropertyGrid__groupExpander.controls-FilterViewPanel__groupExpander {
@@ -87,6 +77,8 @@
 .controls-FilterViewPanel__groupReset {
    cursor: pointer;
    color: var(--group_color_filterViewPanel);
+   padding-left: var(--offset_2xs);
+   padding-top: var(--offset_2xs);
 }
 
 .controls-FilterViewPanel__groupReset-icon {
@@ -100,6 +92,7 @@
 .controls-FilterViewPanel__group-wrapper {
    position: relative;
    padding-left: var(--padding-left_filterViewPanel);
+   padding-right: var(--offset_xl);
 }
 
 .controls-FilterViewPanel__group-wrapper-collapsed,
@@ -120,6 +113,11 @@
 .controls-FilterViewPanel__group-result_wrapper {
    display: flex;
    flex-direction: row;
+   background-color: var(--background-color);
+   border-radius: var(--group-result_border-radius_filterViewPanel);
+   padding: var(--offset_xs) var(--offset_m);
+   margin-left: calc(-1 * var(--offset_m));
+   cursor: pointer;
 }
 
 .controls-FilterViewPanel__group-result {
@@ -128,10 +126,6 @@
 
 .controls-FilterViewPanel__propertyGrid.controls-PropertyGrid {
    padding: var(--content_padding_propertyGrid) 0;
-}
-
-.controls-FilterViewPanel__propertyGrid_viewMode-default.controls-PropertyGrid {
-   padding-bottom: 0;
 }
 
 .controls-FilterEditors__list-item {
@@ -233,4 +227,23 @@
 .controls-FilterViewPanel_header__applyButton {
    position: absolute;
    right: var(--heading_horizontal-offset_filterViewPanel);
+}
+
+.controls-EditorList__applyButton {
+   display: flex;
+   align-items: center;
+   height: var(--apply-button_height_filterViewPanel);
+   width: var(--apply-button_width_filterViewPanel);
+   background-image: var(--apply-button_image_filterViewPanel);
+   margin-left: var(--offset_s);
+   cursor: pointer;
+   &:active {
+      background-image: var(--apply-button_image_filterViewPanel);
+   }
+}
+
+.controls-EditorList__applyButton-text {
+   padding-left: var(--offset_m);
+   font-size: var(--font-size_xs);
+   color: var(--contrast_text-color);
 }

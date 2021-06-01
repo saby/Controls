@@ -48,6 +48,13 @@ export interface IBaseOptions extends IContrastBackgroundOptions, IBorderVisibil
     paste?: (value: string) => void;
 }
 
+export const enum PLACEHOLDER_VISIBILITY {
+    EMPTY = 'empty',
+    EDITABLE = 'editable',
+    // Подробности установки данного значения в _beforeMount (_input/Base.ts).
+    HIDDEN = 'hidden'
+}
+
 export interface IBaseFieldTemplate {
     leftFieldTemplate?: TemplateFunction;
     rightFieldTemplate?: TemplateFunction;
@@ -169,4 +176,13 @@ export interface IBase {
  * @name Controls/_input/interface/IBase#contrastBackground
  * @demo Controls-demo/Input/ContrastBackground/Index
  * @default false
+ */
+
+/**
+ * @name Controls/_input/interface/IBase#placeholderVisibility
+ * @cfg {String} Определяет видимость подсказки.
+ * @variant editable Подсказка отображается, когда поле пустое и доступно для редактирования.
+ * @variant empty Подсказка отображается, когда поле пустое.
+ * @default editable
+ * @demo Controls-demo/Input/PlaceholderVisibility/Index
  */

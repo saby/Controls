@@ -10,9 +10,13 @@ export default class TreeGridViewTable extends TreeGridView {
         return TableItem;
     }
 
+    protected _getGridViewWrapperClasses(options: any): string {
+        return `${super._getGridViewWrapperClasses(options)} controls-Grid__Wrapper_table-layout`;
+    }
+
     protected _getGridViewClasses(options: any): string {
         const classes = super._getGridViewClasses(options);
-        return `${classes} controls-Grid_table-layout controls-Grid_table-layout_${options.columnScroll !== true ? 'fixed' : 'auto'}`;
+        return `${classes} controls-Grid_table-layout controls-Grid_table-layout_fixed`;
     }
 
     protected _getGridViewStyles(): string {
