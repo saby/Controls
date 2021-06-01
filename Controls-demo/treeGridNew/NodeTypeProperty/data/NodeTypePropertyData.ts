@@ -1,5 +1,5 @@
 export interface IData {
-    id: number;
+    key: number;
     title: string;
     count: string;
     price: string;
@@ -16,7 +16,7 @@ export interface IData {
 
 export const data: IData[] =  [
     {
-        id: 1,
+        key: 1,
         title: 'Товары и материалы',
         count: '5 шт',
         price: '',
@@ -30,7 +30,7 @@ export const data: IData[] =  [
         nodeType: 'group'
     },
     {
-        id: 12,
+        key: 12,
         title: 'Сервер SL2500/4UT8G2',
         count: '1 шт',
         price: '1180657',
@@ -44,7 +44,7 @@ export const data: IData[] =  [
         nodeType: null
     },
     {
-        id: 13,
+        key: 13,
         title: 'ПО Антивирус Dr. Web',
         count: '99 шт',
         price: '997',
@@ -58,7 +58,7 @@ export const data: IData[] =  [
         nodeType: null
     },
     {
-        id: 14,
+        key: 14,
         title: 'Конфеты Raffaello 175 гр.',
         count: '27 шт',
         price: '87',
@@ -72,7 +72,7 @@ export const data: IData[] =  [
         nodeType: null
     },
     {
-        id: 15,
+        key: 15,
         title: 'Устройство хранения USB',
         count: '9 шт',
         price: '116',
@@ -86,7 +86,7 @@ export const data: IData[] =  [
         nodeType: null
     },
     {
-        id: 2,
+        key: 2,
         title: 'Услуги и работы',
         count: '',
         price: '',
@@ -100,7 +100,7 @@ export const data: IData[] =  [
         nodeType: 'group'
     },
     {
-        id: 21,
+        key: 21,
         title: 'Подключение интернета',
         count: '2 ч',
         price: '',
@@ -114,7 +114,7 @@ export const data: IData[] =  [
         nodeType: null
     },
     {
-        id: 3,
+        key: 3,
         title: 'Неисключительные права',
         count: '',
         price: '',
@@ -128,7 +128,7 @@ export const data: IData[] =  [
         nodeType: 'group'
     },
     {
-        id: 32,
+        key: 32,
         title: 'Права использования "СБИС ЭО-Базовый, Бюджет"',
         count: '1 шт',
         price: '1204500',
@@ -142,7 +142,7 @@ export const data: IData[] =  [
         nodeType: null
     },
     {
-        id: 33,
+        key: 33,
         title: 'Права использования аккаунта sbis.ru в течение 1 года',
         count: '1 шт',
         price: '4500',
@@ -156,7 +156,7 @@ export const data: IData[] =  [
         nodeType: null
     },
     {
-        id: 34,
+        key: 34,
         title: 'Права использования "СБИС Расширенный аналитический блок"',
         count: '1 шт',
         price: '9800',
@@ -174,7 +174,7 @@ export const data: IData[] =  [
 export const extendedData: IData[] = data.slice();
 Array.prototype.splice.apply(extendedData, [1, 0,
     {
-        id: 11,
+        key: 11,
         title: 'Laptops',
         count: '5 шт',
         price: '368520',
@@ -188,7 +188,7 @@ Array.prototype.splice.apply(extendedData, [1, 0,
         nodeType: null
     },
     {
-        id: 111,
+        key: 111,
         title: 'MacBook Pro',
         count: '1 шт',
         price: '111325',
@@ -202,7 +202,7 @@ Array.prototype.splice.apply(extendedData, [1, 0,
         nodeType: null
     },
     {
-        id: 112,
+        key: 112,
         title: 'MacBook Pro 15,3',
         count: '1 шт',
         price: '111325',
@@ -216,7 +216,7 @@ Array.prototype.splice.apply(extendedData, [1, 0,
         nodeType: null
     },
     {
-        id: 113,
+        key: 113,
         title: 'MacBook Pro 15,2',
         count: '1 шт',
         price: '115303',
@@ -230,7 +230,7 @@ Array.prototype.splice.apply(extendedData, [1, 0,
         nodeType: null
     },
     {
-        id: 114,
+        key: 114,
         title: 'MacBookPro 14,3',
         count: '1 шт',
         price: '112300',
@@ -244,7 +244,7 @@ Array.prototype.splice.apply(extendedData, [1, 0,
         nodeType: null
     },
     {
-        id: 115,
+        key: 115,
         title: 'MacBook Pro 14,2',
         count: '1 шт',
         price: '100455',
@@ -258,7 +258,7 @@ Array.prototype.splice.apply(extendedData, [1, 0,
         nodeType: null
     },
     {
-        id: 5,
+        key: 5,
         title: 'Смартфоны',
         count: '1 шт',
         price: '',
@@ -274,7 +274,7 @@ Array.prototype.splice.apply(extendedData, [1, 0,
 
 export const dynamicParentData = [
     {
-        id: 1,
+        key: 1,
         title: 'Товары и материалы',
         count: '5 шт',
         price: '',
@@ -289,7 +289,7 @@ export const dynamicParentData = [
         nodeType: 'group'
     },
     {
-        id: 11,
+        key: 11,
         title: 'Laptops',
         count: '5 шт',
         price: '368520',
@@ -304,7 +304,7 @@ export const dynamicParentData = [
         nodeType: null
     },
     {
-        id: 111,
+        key: 111,
         title: 'MacBook Pro',
         count: '1 шт',
         price: '111325',
@@ -319,7 +319,7 @@ export const dynamicParentData = [
         nodeType: null
     },
     {
-        id: 112,
+        key: 112,
         title: 'MacBook Pro 15,3',
         count: '1 шт',
         price: '111325',
@@ -334,7 +334,7 @@ export const dynamicParentData = [
         nodeType: null
     },
     {
-        id: 113,
+        key: 113,
         title: 'MacBook Pro 15,2',
         count: '1 шт',
         price: '115303',
@@ -349,7 +349,7 @@ export const dynamicParentData = [
         nodeType: null
     },
     {
-        id: 114,
+        key: 114,
         title: 'MacBookPro 14,3',
         count: '1 шт',
         price: '112300',
@@ -364,7 +364,7 @@ export const dynamicParentData = [
         nodeType: null
     },
     {
-        id: 115,
+        key: 115,
         title: 'MacBook Pro 14,2',
         count: '1 шт',
         price: '100455',
@@ -379,7 +379,7 @@ export const dynamicParentData = [
         nodeType: null
     },
     {
-        id: 12,
+        key: 12,
         title: 'Сервер SL2500/4UT8G2',
         count: '1 шт',
         price: '1180657',
@@ -394,7 +394,7 @@ export const dynamicParentData = [
         nodeType: null
     },
     {
-        id: 13,
+        key: 13,
         title: 'ПО Антивирус Dr. Web',
         count: '99 шт',
         price: '997',
@@ -409,7 +409,7 @@ export const dynamicParentData = [
         nodeType: null
     },
     {
-        id: 14,
+        key: 14,
         title: 'Конфеты Raffaello 175 гр.',
         count: '27 шт',
         price: '87',
@@ -424,7 +424,7 @@ export const dynamicParentData = [
         nodeType: null
     },
     {
-        id: 15,
+        key: 15,
         title: 'Устройство хранения USB',
         count: '9 шт',
         price: '116',
@@ -439,7 +439,7 @@ export const dynamicParentData = [
         nodeType: null
     },
     {
-        id: 2,
+        key: 2,
         title: 'Услуги и работы',
         count: '',
         price: '',
@@ -454,7 +454,7 @@ export const dynamicParentData = [
         nodeType: 'group'
     },
     {
-        id: 21,
+        key: 21,
         title: 'Подключение интернета',
         count: '2 ч',
         price: '',

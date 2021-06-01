@@ -17,10 +17,10 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._items = new RecordSet({
-            keyProperty: 'id',
+            keyProperty: 'key',
             rawData: [
                 {
-                    id: 1,
+                    key: 1,
                     group: groupConstants.hiddenGroup,
                     node: null,
                     parent: null,
@@ -28,7 +28,7 @@ export default class extends Control {
                     hasChildren: false
                 },
                 {
-                    id: 2,
+                    key: 2,
                     group: 'group 1',
                     node: null,
                     parent: null,
@@ -36,7 +36,7 @@ export default class extends Control {
                     hasChildren: false
                 },
                 {
-                    id: 3,
+                    key: 3,
                     group: 'group 2',
                     node: null,
                     parent: null,

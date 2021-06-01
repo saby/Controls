@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo__treeGrid__configuration controlsDemo_Configuration__grid-one controlsDemo__maxWidth500">
     <Controls.treeGrid:View
             name="tree1"
-            keyProperty="id"
+            keyProperty="key"
             source="{{_viewSource}}"
             columns="{{_columns}}"
             parentProperty="parent"

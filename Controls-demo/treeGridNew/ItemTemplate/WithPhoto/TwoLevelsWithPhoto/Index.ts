@@ -17,7 +17,7 @@ export default class extends Control<IControlOptions> {
          this._expandedItems = [];
       }
       this._viewSourceTwo = new Memory({
-         keyProperty: 'id',
+         keyProperty: 'key',
          data: WithPhoto.getDataTwoLvl()
       });
 

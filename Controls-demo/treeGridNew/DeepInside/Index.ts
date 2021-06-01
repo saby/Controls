@@ -39,7 +39,7 @@ export default class extends Control {
             { id: 8, title: 'Лист 8', parent: null, nodeType: null }
         ];
         this._viewSource = new HierarchicalMemory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data,
             filter: (): boolean => true
         });

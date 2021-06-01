@@ -6,7 +6,7 @@ import {IColumn} from "Controls/grid";
 export const VirtualScrollHasMore = {
     // 70 записей. У первой записи 100 детей.
     getData: (): Array<{
-        id: number,
+        key: number,
         title: string,
         parent: number | null,
         type: boolean | null
@@ -15,7 +15,7 @@ export const VirtualScrollHasMore = {
         const itemsCount = 70;
 
         result[0] = {
-            id: 0,
+            key: 0,
             title: `Запись первого уровня с id = ${0}. Много дочерних элементов.`,
             parent: null,
             type: true
@@ -24,13 +24,13 @@ export const VirtualScrollHasMore = {
         for (let i = 1; i < itemsCount; i++) {
             result.push(
                 {
-                    id: i,
+                    key: i,
                     title: `Запись первого уровня с id = ${i}. Без детей.`,
                     parent: null,
                     type: true
                 },
                 {
-                    id: itemsCount + i,
+                    key: itemsCount + i,
                     title: `Запись второго уровня с id = ${itemsCount + i}`,
                     parent: 0,
                     type: null

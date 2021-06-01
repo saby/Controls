@@ -8,7 +8,7 @@ export const WithPhoto = {
     getDataTwoLvl(): IData[] {
         return [
             {
-                id: 1, title: 'Apple', Раздел: null, 'Раздел@': true, photo: explorerImages[1], rating: '9.5',
+                key: 1, title: 'Apple', Раздел: null, 'Раздел@': true, photo: explorerImages[1], rating: '9.5',
                 country: 'Южная Корея'
             },
             {

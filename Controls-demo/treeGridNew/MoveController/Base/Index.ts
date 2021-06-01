@@ -17,7 +17,7 @@ export default class extends Control {
          width: ''
       }];
       this._viewSource = new HierarchicalMemory({
-         keyProperty: 'id',
+         keyProperty: 'key',
          data: Flat.getData(),
          filter: (item, filter) => {
             const parent = filter.hasOwnProperty('parent') ? filter.parent : null;

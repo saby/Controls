@@ -13,7 +13,7 @@ export default class extends Control {
     protected _itemActions: IItemAction[] = getItemActions();
     protected _columns: IColumn[] = [
         {
-            displayProperty: 'id',
+            displayProperty: 'key',
             width: '60px'
         },
         {

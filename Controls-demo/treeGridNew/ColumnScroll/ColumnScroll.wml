@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <Controls.scroll:Container attr:style="width: 600px; height: 400px">
         <Controls.treeGrid:View
-                keyProperty="id"
+                keyProperty="key"
                 parentProperty="parent"
                 nodeProperty="type"
                 source="{{_viewSource}}"
