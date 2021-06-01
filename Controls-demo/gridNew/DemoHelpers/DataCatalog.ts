@@ -1,25 +1,25 @@
-import * as numberResultTpl from 'wml!Controls-demo/grkeyNew/resources/ResultCellTemplates/Number';
-import * as countryRatingNumber from 'wml!Controls-demo/grkeyNew/resources/CellTemplates/CountryRatingNumber';
+import * as numberResultTpl from 'wml!Controls-demo/gridNew/resources/ResultCellTemplates/Number';
+import * as countryRatingNumber from 'wml!Controls-demo/gridNew/resources/CellTemplates/CountryRatingNumber';
 import {constants} from 'Env/Env';
-import 'wml!Controls-demo/grkeyNew/resources/CellTemplates/LadderTasksPhoto';
-import 'wml!Controls-demo/grkeyNew/resources/CellTemplates/LadderTasksDescription';
-import 'wml!Controls-demo/grkeyNew/resources/CellTemplates/LadderTasksReceived';
-import 'wml!Controls-demo/grkeyNew/resources/CellTemplates/LadderMultilineDateTime';
-import 'wml!Controls-demo/grkeyNew/resources/CellTemplates/LadderMultilineName';
-import * as baseEditor from 'wml!Controls-demo/grkeyNew/EditInPlace/Decorators/baseEditor';
-import * as moneyEditor from 'wml!Controls-demo/grkeyNew/EditInPlace/Decorators/moneyEditor';
-import * as numberEditor from 'wml!Controls-demo/grkeyNew/EditInPlace/Decorators/numberEditor';
-import * as defaultEditor from 'wml!Controls-demo/grkeyNew/EditInPlace/Decorators/defaultEditor';
+import 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksPhoto';
+import 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksDescription';
+import 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksReceived';
+import 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderMultilineDateTime';
+import 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderMultilineName';
+import * as baseEditor from 'wml!Controls-demo/gridNew/EditInPlace/Decorators/baseEditor';
+import * as moneyEditor from 'wml!Controls-demo/gridNew/EditInPlace/Decorators/moneyEditor';
+import * as numberEditor from 'wml!Controls-demo/gridNew/EditInPlace/Decorators/numberEditor';
+import * as defaultEditor from 'wml!Controls-demo/gridNew/EditInPlace/Decorators/defaultEditor';
 import * as Images from 'Controls-demo/DragNDrop/Images';
-import * as itemTpl from 'wml!Controls-demo/grkeyNew/resources/CellTemplates/CellWithBgc';
-import * as itemCountr from 'wml!Controls-demo/grkeyNew/resources/CellTemplates/CountryTemp';
-import * as resTpl from 'wml!Controls-demo/grkeyNew/EditInPlace/EditingCell/resultsTpl';
-import * as notScrollableCell from 'wml!Controls-demo/grkeyNew/ColumnScroll/DragScrolling/notScrollableCell';
-import * as notDraggableCell from 'wml!Controls-demo/grkeyNew/ColumnScroll/DragScrolling/notDraggableCell';
-import * as dragScrollPopulationCell from 'wml!Controls-demo/grkeyNew/ColumnScroll/DragScrolling/populationCell';
+import * as itemTpl from 'wml!Controls-demo/gridNew/resources/CellTemplates/CellWithBgc';
+import * as itemCountr from 'wml!Controls-demo/gridNew/resources/CellTemplates/CountryTemp';
+import * as resTpl from 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/resultsTpl';
+import * as notScrollableCell from 'wml!Controls-demo/gridNew/ColumnScroll/DragScrolling/notScrollableCell';
+import * as notDraggableCell from 'wml!Controls-demo/gridNew/ColumnScroll/DragScrolling/notDraggableCell';
+import * as dragScrollPopulationCell from 'wml!Controls-demo/gridNew/ColumnScroll/DragScrolling/populationCell';
 
-import { IColumn } from 'Controls/grkey';
-import { IHeaderCell } from 'Controls/grkey';
+import { IColumn } from 'Controls/grid';
+import { IHeaderCell } from 'Controls/grid';
 
 export interface keyata {
     key: number;
@@ -1192,12 +1192,12 @@ const getMultilineLadder = () => {
         ],
         getColumns: () => [
             {
-                template: 'wml!Controls-demo/grkeyNew/resources/CellTemplates/LadderMultilineDateTime',
+                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderMultilineDateTime',
                 wkeyth: '125px',
                 stickyProperty: ['date', 'time']
             },
             {
-                template: 'wml!Controls-demo/grkeyNew/resources/CellTemplates/LadderMultilineName',
+                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderMultilineName',
                 wkeyth: '300px'
             }
         ],
@@ -1315,15 +1315,15 @@ const getTasks = () => {
         ],
         getColumns: () => [
             {
-                template: 'wml!Controls-demo/grkeyNew/resources/CellTemplates/LadderTasksPhoto',
+                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksPhoto',
                 wkeyth: '98px'
             },
             {
-                template: 'wml!Controls-demo/grkeyNew/resources/CellTemplates/LadderTasksDescription',
+                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksDescription',
                 wkeyth: '1fr'
             },
             {
-                template: 'wml!Controls-demo/grkeyNew/resources/CellTemplates/LadderTasksReceived',
+                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksReceived',
                 wkeyth: '200px'
             }
         ],
@@ -1349,12 +1349,12 @@ const getTasks = () => {
             {
                 displayProperty: 'state',
                 wkeyth: '200px',
-                template: 'wml!Controls-demo/grkeyNew/Grouped/WithEditing/_cellEditor'
+                template: 'wml!Controls-demo/gridNew/Grouped/WithEditing/_cellEditor'
             },
             {
                 displayProperty: 'date',
                 wkeyth: '100px',
-                template: 'wml!Controls-demo/grkeyNew/Grouped/WithEditing/_cellEditor'
+                template: 'wml!Controls-demo/gridNew/Grouped/WithEditing/_cellEditor'
             }
         ]
     };
@@ -1475,15 +1475,15 @@ const getTasksWithHkeydenGroup = () => {
         ],
         getColumns: () => [
             {
-                template: 'wml!Controls-demo/grkeyNew/resources/CellTemplates/LadderTasksPhoto',
+                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksPhoto',
                 wkeyth: '98px'
             },
             {
-                template: 'wml!Controls-demo/grkeyNew/resources/CellTemplates/LadderTasksDescription',
+                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksDescription',
                 wkeyth: '1fr'
             },
             {
-                template: 'wml!Controls-demo/grkeyNew/resources/CellTemplates/LadderTasksReceived',
+                template: 'wml!Controls-demo/gridNew/resources/CellTemplates/LadderTasksReceived',
                 wkeyth: '200px'
             }
         ],
@@ -1509,12 +1509,12 @@ const getTasksWithHkeydenGroup = () => {
             {
                 displayProperty: 'state',
                 wkeyth: '200px',
-                template: 'wml!Controls-demo/grkeyNew/Grouped/WithEditing/_cellEditor'
+                template: 'wml!Controls-demo/gridNew/Grouped/WithEditing/_cellEditor'
             },
             {
                 displayProperty: 'date',
                 wkeyth: '100px',
-                template: 'wml!Controls-demo/grkeyNew/Grouped/WithEditing/_cellEditor'
+                template: 'wml!Controls-demo/gridNew/Grouped/WithEditing/_cellEditor'
             }
         ]
     };
@@ -1725,38 +1725,38 @@ const getEditing = () => {
             {
                 displayProperty: 'title',
                 wkeyth: '180px',
-                template: 'wml!Controls-demo/grkeyNew/EditInPlace/EditingCell/_cellEditor'
+                template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor'
             },
             {
                 displayProperty: 'price',
                 wkeyth: '100px',
-                template: 'wml!Controls-demo/grkeyNew/EditInPlace/EditingCell/_cellEditor',
+                template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor',
                 resultTemplate: resTpl,
                 results: 3
             },
             {
                 displayProperty: 'balance',
                 wkeyth: '100px',
-                template: 'wml!Controls-demo/grkeyNew/EditInPlace/EditingCell/_cellEditor',
+                template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor',
                 resultTemplate: resTpl,
                 results: 3
             },
             {
                 displayProperty: 'description',
                 wkeyth: '200px',
-                template: 'wml!Controls-demo/grkeyNew/EditInPlace/EditingCell/_cellEditor'
+                template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor'
             },
             {
                 displayProperty: 'costPrice',
                 wkeyth: '100px',
-                template: 'wml!Controls-demo/grkeyNew/EditInPlace/EditingCell/_cellEditor',
+                template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor',
                 resultTemplate: resTpl,
                 results: 9
             },
             {
                 displayProperty: 'balanceCostSumm',
                 wkeyth: '100px',
-                template: 'wml!Controls-demo/grkeyNew/EditInPlace/EditingCell/_cellEditor',
+                template: 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor',
                 resultTemplate: resTpl,
                 results: 6
             }
@@ -1765,13 +1765,13 @@ const getEditing = () => {
             {
                 displayProperty: 'title',
                 wkeyth: '180px',
-                template: 'wml!Controls-demo/grkeyNew/EditInPlace/Align/_cellEditor',
+                template: 'wml!Controls-demo/gridNew/EditInPlace/Align/_cellEditor',
                 align: 'right'
             },
             {
                 displayProperty: 'description',
                 wkeyth: '100px',
-                template: 'wml!Controls-demo/grkeyNew/EditInPlace/Align/_cellEditor',
+                template: 'wml!Controls-demo/gridNew/EditInPlace/Align/_cellEditor',
                 align: 'right'
             }
         ],
@@ -1779,34 +1779,34 @@ const getEditing = () => {
             {
                 displayProperty: 'title',
                 wkeyth: '180px',
-                template: `wml!Controls-demo/grkeyNew/EditInPlace/Size/${size}/_cellEditor`,
+                template: `wml!Controls-demo/gridNew/EditInPlace/Size/${size}/_cellEditor`,
             },
             {
                 displayProperty: 'description',
                 wkeyth: '100px',
-                template: `wml!Controls-demo/grkeyNew/EditInPlace/Size/${size}/_cellEditor`,
+                template: `wml!Controls-demo/gridNew/EditInPlace/Size/${size}/_cellEditor`,
             }
         ],
         getEditingColumnsValkeyation: () => [
             {
                 displayProperty: 'email',
                 wkeyth: '200px',
-                template: 'wml!Controls-demo/grkeyNew/EditInPlace/Valkeyation/_cellEditor'
+                template: 'wml!Controls-demo/gridNew/EditInPlace/Valkeyation/_cellEditor'
             },
             {
                 displayProperty: 'required',
                 wkeyth: 'max-content',
-                template: 'wml!Controls-demo/grkeyNew/EditInPlace/Valkeyation/_cellEditorRequired'
+                template: 'wml!Controls-demo/gridNew/EditInPlace/Valkeyation/_cellEditorRequired'
             },
             {
                 displayProperty: 'length',
                 wkeyth: 'max-content',
-                template: 'wml!Controls-demo/grkeyNew/EditInPlace/Valkeyation/_cellEditorDate'
+                template: 'wml!Controls-demo/gridNew/EditInPlace/Valkeyation/_cellEditorDate'
             },
             {
                 displayProperty: 'title',
                 wkeyth: 'max-content',
-                template: 'wml!Controls-demo/grkeyNew/EditInPlace/Valkeyation/_cellEditorTitle'
+                template: 'wml!Controls-demo/gridNew/EditInPlace/Valkeyation/_cellEditorTitle'
             }
         ],
         getEditingHeaderValkeyations: (): IHeaderCell[] => [
