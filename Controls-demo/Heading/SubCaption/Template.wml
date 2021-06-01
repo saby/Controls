@@ -1,0 +1,16 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">fontColorStyle=primary</div>
+        <div class="controls-Header_all__clickable">
+            <Controls.heading:Back caption="Бровкина Кристина" fontColorStyle="primary" fontSize="4xl" newIcon="true" attr:style="margin-right: 4px"/>
+            <span class="controls-text-unaccented">Стилист-визажист</span>
+        </div>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">fontColorStyle=secondary</div>
+        <div class="controls-Header_all__clickable">
+            <Controls.heading:Back caption="Бровкина Кристина" fontColorStyle="secondary" fontSize="4xl" newIcon="true"  attr:style="margin-right: 4px"/>
+            <span class="controls-text-primary controls-fontsize-4xl">Стилист-визажист</span>
+        </div>
+    </div>
+</div>

@@ -116,11 +116,6 @@ import {saveConfig} from 'Controls/Application/SettingsController';
 
 //#region Const
 
-// TODO: getDefaultOptions зовётся при каждой перерисовке,
-//  соответственно если в опции передаётся не примитив, то они каждый раз новые.
-//  Нужно убрать после https://online.sbis.ru/opendoc.html?guid=1ff4a7fb-87b9-4f50-989a-72af1dd5ae18
-const defaultSelectedKeys = [];
-const defaultExcludedKeys = [];
 
 // = 28 + 6 + 6 см controls-BaseControl_paging-Padding_theme TODO не должно такого быть, он в разных темах разный
 const PAGING_PADDING = 40;
@@ -2715,14 +2710,14 @@ const _private = {
         self._notify('listSelectionTypeForAllSelectedChanged', [selectionType], {bubbling: true});
     },
 
-    changeSelection(self: typeof BaseControl, newSelection: ISelectionObject): Promise<ISelectionObject>|ISelectionObject {
+    changeSelection(self: BaseControl, newSelection: ISelectionObject): Promise<ISelectionObject>|ISelectionObject {
         const controller = _private.getSelectionController(self);
         const selectionDifference = controller.getSelectionDifference(newSelection);
         let result = self._notify('beforeSelectionChanged', [selectionDifference]);
 
         const handleResult = (selection) => {
             _private.notifySelection(self, selection);
-            if (!self._options.hasOwnProperty('selectedKeys')) {
+            if (self._options.selectedKeys === undefined) {
                 controller.setSelection(selection);
             }
             self._notify('listSelectedKeysCountChanged', [controller.getCountOfSelected(selection), controller.isAllSelected(true, selection)], {bubbling: true});
@@ -2757,9 +2752,14 @@ const _private = {
                     self._notify('updatePlaceholdersSize', [result.placeholders], {bubbling: true});
                 }
                 if (result.shadowVisibility?.up || result.placeholders.top > 0 || self._hasMoreData(self._sourceController, 'up')) {
-                    self._notify('enableVirtualNavigation', [], { bubbling: true });
+                    self._notify('enableVirtualNavigation', ['top'], { bubbling: true });
                 } else {
-                    self._notify('disableVirtualNavigation', [], { bubbling: true });
+                    self._notify('disableVirtualNavigation', ['top'], { bubbling: true });
+                }
+                if (result.shadowVisibility?.down || result.placeholders.bottom > 0 || self._hasMoreData(self._sourceController, 'down')) {
+                    self._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
+                } else {
+                    self._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
                 }
             }
             if (self._items && typeof self._items.getRecordById(result.activeElement || self._options.activeElement) !== 'undefined') {
@@ -3945,9 +3945,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         if (this._hasMoreData(this._sourceController, 'up')) {
-            this._notify('enableVirtualNavigation', [], { bubbling: true });
+            this._notify('enableVirtualNavigation', ['top'], { bubbling: true });
         } else {
-            this._notify('disableVirtualNavigation', [], { bubbling: true });
+            this._notify('disableVirtualNavigation', ['top'], { bubbling: true });
+        }
+        if (this._hasMoreData(this._sourceController, 'down')) {
+            this._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
+        } else {
+            this._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
         }
 
         if (!this.__error) {
@@ -4392,11 +4397,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
             // В browser когда скрывают видимость чекбоксов, еще и сбрасывают selection
             if (selectionChanged && (newOptions.multiSelectVisibility !== 'hidden' || _private.hasSelectionController(this)) || visibilityChangedFromHidden && newOptions.selectedKeys?.length || this._options.selectionType !== newOptions.selectionType) {
-                const newSelection = {
-                    selected: newOptions.selectedKeys,
-                    excluded: newOptions.excludedKeys
-                };
                 const controller = _private.getSelectionController(this, newOptions);
+                const newSelection = newOptions.selectedKeys === undefined
+                    ? controller.getSelection()
+                    : {
+                        selected: newOptions.selectedKeys,
+                        excluded: newOptions.excludedKeys || []
+                    };
                 controller.setSelection(newSelection);
                 this._notify('listSelectedKeysCountChanged', [controller.getCountOfSelected(), controller.isAllSelected()], {bubbling: true});
             }
@@ -7192,8 +7199,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             multiSelectPosition: 'default',
             markerVisibility: 'onactivated',
             style: 'default',
-            selectedKeys: defaultSelectedKeys,
-            excludedKeys: defaultExcludedKeys,
             loadingIndicatorTemplate: 'Controls/list:LoadingIndicatorTemplate',
             continueSearchTemplate: 'Controls/list:ContinueSearchTemplate',
             virtualScrollConfig: {},
