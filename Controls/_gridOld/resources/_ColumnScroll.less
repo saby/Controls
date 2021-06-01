@@ -1,5 +1,6 @@
 @import "../../_scroll/Scroll/_contentEnvironmentZIndex";
 
+.controls-ColumnScroll__thumb,
 .controls-ColumnScroll {
    position: absolute;
    top: 0;
@@ -23,6 +24,10 @@
    pointer-events: none;
    width: var(--columnscroll_shadow-blur_grid);
    box-sizing: border-box;
+}
+
+.controls-GridNew__ColumnScroll__shadow {
+   visibility: hidden;
 }
 
 .controls-ColumnScroll__shadow_without-bottom-padding {
@@ -85,4 +90,43 @@
 
 .controls-Grid__ColumnScroll__shadow_withMultiselect {
    margin-left: var(--click-area_width_checkbox);
+}
+
+.controls-ColumnScroll__thumb {
+   display: none;
+}
+
+// Загрузка с проскролом вконец в новых таблицах
+.controls-Grid__ColumnScrollWrapper_withFakeRender {
+   position: relative;
+   cursor: pointer;
+}
+
+// Фиксированная часть при фейковом рендере. Эта часть является настоящей таблице и останется при активации.
+.controls-Grid__ColumnScroll__fakeFixedPart {
+   // На обеих частях убираем интерактивность, она может спровоцировать артефакты (неполный ховер).
+   pointer-events: none;
+   z-index: 1;
+}
+// Скроллируемые ячейки фиксированной части скрыты.
+.controls-Grid__ColumnScroll__fakeFixedPart .controls-Grid_columnScroll__scrollable {
+   visibility: hidden;
+}
+
+// Обертка фейковой скроллируемой части таблицы. Только с оберткой можно отцентрировать эту часть.
+.controls-Grid__ColumnScroll__fakeScrollablePartWrapper {
+   // Прижимаем обертку со скроллируемой частью к верхнему правому углу видимой области.
+   position: absolute;
+   right: 0;
+   top: 0;
+
+   // На обеих частях убираем интерактивность, она может спровоцировать артефакты (неполный ховер).
+   pointer-events: none;
+
+   // Индекс ноль, т.к. эта часть должна заходить под фиксированную, у которой индекс 1.
+   z-index: 0;
+
+   // Скроллируемая часть минимально должна закрывать всю видимую область, чтобы таблица растягивалась.
+   // Нужно для всех кейсов, но заметно в таблицах, в которой скролл по размерам не будет нужен.
+   min-width: 100%;
 }

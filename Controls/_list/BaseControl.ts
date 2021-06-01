@@ -3228,9 +3228,9 @@ const _private = {
             // todo Нативный scrollIntoView приводит к прокрутке в том числе и по горизонтали и запретить её никак.
             // Решением стало отключить прокрутку при видимом горизонтальном скролле.
             // https://online.sbis.ru/opendoc.html?guid=d07d149e-7eaf-491f-a69a-c87a50596dfe
-            const hasColumnScroll = self._children.listView &&
+            const hasColumnScroll = self._options.useNewModel ? self._isColumnScrollVisible : (self._children.listView &&
                 self._children.listView.isColumnScrollVisible &&
-                self._children.listView.isColumnScrollVisible();
+                self._children.listView.isColumnScrollVisible());
 
             const activator = () => {
                 if (!self._options.useNewModel && self._children.listView.beforeRowActivated) {
@@ -3449,7 +3449,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _blockItemActionsByScroll = false;
 
     _needBottomPadding = false;
-    _noDataBeforeReload = null;
+    _noDataBeforeReload = false;
 
     _keepScrollAfterReload = false;
     _resetScrollAfterReload = false;
@@ -3514,6 +3514,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _dataLoadCallback = null;
 
     _useServerSideColumnScroll = false;
+    _isColumnScrollVisible = false;
 
     _uniqueId = null;
 
@@ -4223,6 +4224,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                ? newOptions.sourceController.getItems()
                : this._options.useNewModel ? this._listViewModel.getCollection() : this._listViewModel.getItems();
             this._listViewModel.destroy();
+
+            this._noDataBeforeReload = !(items && items.getCount());
 
             if (newOptions.useNewModel) {
                 this._listViewModel = this._createNewModel(
@@ -5268,11 +5271,16 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             Logger.error('BaseControl: Source option is undefined. Can\'t load data', self);
         }
         return resDeferred.addCallback((result) => {
-            const hasColumnScroll = self._isMounted && self._children.listView &&
-                self._children.listView.isColumnScrollVisible && self._children.listView.isColumnScrollVisible();
+            if (self._isMounted && self._children.listView) {
+                if (cfg.useNewModel) {
+                    self._children.listView.reset();
+                } else {
+                    const hasColumnScroll = self._children.listView.isColumnScrollVisible && self._children.listView.isColumnScrollVisible();
 
-            if (hasColumnScroll) {
-                self._children.listView.resetColumnScroll();
+                    if (hasColumnScroll) {
+                        self._children.listView.resetColumnScroll();
+                    }
+                }
             }
             return result;
         });
@@ -6065,7 +6073,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._options.columnScroll) {
             // Не должно быть завязки на горизонтальный скролл.
             // https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
-            hasDragScrolling = this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible() && (
+            hasDragScrolling = (this._options.useNewModel ? this._isColumnScrollVisible : (
+                this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible()
+            )) && (
                 typeof this._options.dragScrolling === 'boolean' ? this._options.dragScrolling : !this._options.itemsDragNDrop
             );
         }
@@ -6742,8 +6752,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // Если нет элементов, то должен отображаться глобальный индикатор
         const shouldDisplayIndicator = this._loadingIndicatorState === 'all'
             || !!this._loadingIndicatorState && (!this._items || !this._items.getCount());
-        return shouldDisplayIndicator && !this._portionedSearchInProgress && this._showLoadingIndicator &&
-           !(this._children.listView && this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible());
+        return shouldDisplayIndicator && !this._portionedSearchInProgress && this._showLoadingIndicator && (
+            this._options.useNewModel ? !this._isColumnScrollVisible :
+                !(this._children.listView && this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible())
+        );
     }
 
     _shouldDisplayBottomLoadingIndicator(): boolean {
@@ -7186,6 +7198,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         return `controls__BaseControl__footer ${paddingClassName}`;
+    }
+
+    _onToggleHorizontalScroll(e, visibility: boolean): void {
+        // TODO: Должно переехать в GridControl, когда он появится.
+        this._isColumnScrollVisible = visibility;
     }
 
     static getDefaultOptions(): Partial<IBaseControlOptions> {
