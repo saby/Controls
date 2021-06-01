@@ -22,4 +22,8 @@ export default class ListController extends BaseController<IListConfig, TreeItem
     get imageViewMode(): string {
         return this._viewModeConfig.list.imageViewMode;
     }
+
+    get imageProperty(): string {
+        return this._$browserOptions.detail.imageProperty;
+    }
 }
