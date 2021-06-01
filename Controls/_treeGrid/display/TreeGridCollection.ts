@@ -85,7 +85,7 @@ export default class TreeGridCollection<
         this._nextVersion();
     }
 
-    private _isNodeGroupVisible(): boolean {
+    private _isGroupNodeVisible(): boolean {
         if (this._$groupNodeVisibility !== 'hasdata') {
             return true;
         }
@@ -95,7 +95,7 @@ export default class TreeGridCollection<
     private _updateGroupNodeVisibility(): void {
         const firstItem = this.at(0);
         if (firstItem.isGroupNode()) {
-            firstItem.setIsHiddenGroup(!this._isNodeGroupVisible());
+            firstItem.setIsHiddenGroup(!this._isGroupNodeVisible());
         }
     }
 
@@ -260,7 +260,7 @@ export default class TreeGridCollection<
         // Строит фабрику, которая работает с TreeGridGroupDataRow
         const GroupNodeFactory = (factoryOptions?: ITreeGridGroupDataRowOptions<S>): ItemsFactory<T> => {
             factoryOptions.itemModule = 'Controls/treeGrid:TreeGridGroupDataRow';
-            factoryOptions.isHiddenGroup = !this._isNodeGroupVisible();
+            factoryOptions.isHiddenGroup = !this._isGroupNodeVisible();
             return superFactory.call(this, factoryOptions);
         };
 
