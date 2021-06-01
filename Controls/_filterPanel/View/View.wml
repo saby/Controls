@@ -2,7 +2,7 @@
    <Controls.scroll:Container attr:class="controls-FilterViewPanel__scroll">
       <ws:if data="{{_viewModel.hasBasicItems()}}">
          <ws:if data="{{_options.viewMode === 'filterPanelStack'}}">
-            <Controls.scroll:StickyHeader backgroundStyle="transparent">
+            <Controls.scroll:StickyBlock backgroundStyle="transparent">
                <div class="controls-FilterViewPanel__header
                            controls-FilterViewPanel__header_backgroundStyle-{{_options.backgroundStyle}}">
                      <Controls.icon:Icon icon="icon-FilterNew"
@@ -28,7 +28,7 @@
                                               readOnly="{{_viewModel.isFilterReseted()}}"
                                               on:click="_resetFilter()"/>
                </div>
-            </Controls.scroll:StickyHeader>
+            </Controls.scroll:StickyBlock>
          </ws:if>
 
          <Controls.propertyGrid:PropertyGrid
@@ -52,8 +52,8 @@
          </Controls.propertyGrid:PropertyGrid>
       </ws:if>
       <ws:if data="{{_options.viewMode === 'default'}}">
-         <Controls.scroll:StickyHeader backgroundStyle="filterPanel"
-                                       position="bottom"
+         <Controls.scroll:StickyBlock backgroundStyle="filterPanel"
+                                      position="{{ {'vertical': 'bottom'} }}"
                                        attr:class="controls-FilterViewPanel__applyButton-{{_options.viewMode}}">
             <Controls.buttons:Button viewMode="linkButton"
                                      caption="{{rk('Сбросить все')}}"
@@ -61,7 +61,7 @@
                                      fontSize="m"
                                      attr:class="controls-FilterViewPanel__applyButton"
                                      on:click="_resetFilter()"/>
-         </Controls.scroll:StickyHeader>
+         </Controls.scroll:StickyBlock>
       </ws:if>
       <ws:if data="{{_viewModel.hasExtendedItems()}}">
          <div class="controls-FilterViewPanel__additional-editors-container">

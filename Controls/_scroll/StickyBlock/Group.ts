@@ -11,11 +11,12 @@ import {
     getGapFixSize,
     SHADOW_VISIBILITY_BY_CONTROLLER,
     MODE
-} from 'Controls/_scroll/StickyHeader/Utils';
-import template = require('wml!Controls/_scroll/StickyHeader/Group');
+} from 'Controls/_scroll/StickyBlock/Utils';
+import template = require('wml!Controls/_scroll/StickyBlock/Group');
 import {SHADOW_VISIBILITY} from './Utils';
 import {RegisterClass} from 'Controls/event';
 import fastUpdate from './FastUpdate';
+import StickyBlock from 'Controls/_scroll/StickyBlock';
 
 interface IHeaderData extends TRegisterEventData {
     top: number;
@@ -49,7 +50,7 @@ interface IStickyHeaderGroupOptions extends IControlOptions {
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less переменные тем оформления}
  *
  * @extends UI/Base:Control
- * @class Controls/_scroll/StickyHeader/Group
+ * @class Controls/_scroll/StickyBlock/Group
  * @author Красильников А.С.
  * @public
  */
@@ -339,8 +340,9 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         fastUpdate.measure(() => {
             for (const id of this._delayedHeaders) {
                 data = this._headers[id];
+                const stickyPosition = StickyBlock.getStickyPosition(data.inst._options);
                 for (const position of [POSITION.top, POSITION.bottom]) {
-                    if (data.inst._options.position.indexOf(position) !== -1) {
+                    if (stickyPosition.vertical.indexOf(position) !== -1) {
                         offset = data.inst.getOffset(this._container, position);
                         this._headers[data.id][position] = offset;
                         offsets[position][data.id] = this._offset[position] + offset;
@@ -380,15 +382,15 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
     }
 }
 /**
- * @name Controls/_scroll/StickyHeader/Group#content
+ * @name Controls/_scroll/StickyBlock/Group#content
  * @cfg {Function} Content in which several fixed headers are inserted.
  */
 
 /**
  * @event Change the fixation state.
- * @name Controls/_scroll/StickyHeader/Group#fixed
+ * @name Controls/_scroll/StickyBlock/Group#fixed
  * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
- * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} information Information about the fixation event.
+ * @param {Controls/_scroll/StickyBlock/Types/InformationFixationEvent.typedef} information Information about the fixation event.
  */
 
 Object.defineProperty(Group, 'defaultProps', {

@@ -1,7 +1,7 @@
 define([
    'Controls/scroll',
    'Core/core-merge',
-   'Controls/_scroll/StickyHeader/Utils'
+   'Controls/_scroll/StickyBlock/Utils'
 ], function(
    scroll,
    coreMerge,
@@ -25,7 +25,7 @@ define([
          calculateHeadersOffsets: false
       };
 
-   describe('Controls/_scroll/StickyHeader/Group', function() {
+   describe('Controls/_scroll/StickyBlock/Group', function() {
       describe('Initialisation', function() {
          it('should set correct header id', function() {
             const component = createComponent(scroll.Group, options);

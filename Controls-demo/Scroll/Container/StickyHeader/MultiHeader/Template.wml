@@ -3,15 +3,15 @@
       <div class="controlsDemo-StickyHeader-MultiHeader__headers">
          <Controls.scroll:Group>
             <div class="controlsDemo-StickyHeader-MultiHeader__headers-wrapper">
-               <Controls.scroll:StickyHeader attr:class="controlsDemo-StickyHeader-MultiHeader__header1">
+               <Controls.scroll:StickyBlock attr:class="controlsDemo-StickyHeader-MultiHeader__header1">
                   <div class="controlsDemo__wrapper">Header 1</div>
-               </Controls.scroll:StickyHeader>
-               <Controls.scroll:StickyHeader attr:class="controlsDemo-StickyHeader-MultiHeader__header2">
+               </Controls.scroll:StickyBlock>
+               <Controls.scroll:StickyBlock attr:class="controlsDemo-StickyHeader-MultiHeader__header2">
                   <div class="controlsDemo__wrapper">Header 2</div>
-               </Controls.scroll:StickyHeader>
-               <Controls.scroll:StickyHeader attr:class="controlsDemo-StickyHeader-MultiHeader__header3">
+               </Controls.scroll:StickyBlock>
+               <Controls.scroll:StickyBlock attr:class="controlsDemo-StickyHeader-MultiHeader__header3">
                   <div class="controlsDemo__wrapper">Header 3</div>
-               </Controls.scroll:StickyHeader>
+               </Controls.scroll:StickyBlock>
             </div>
          </Controls.scroll:Group>
          <div class="controlsDemo-StickyHeader-MultiHeader__content">

@@ -10,7 +10,7 @@ import {IFixedEventData,
     getGapFixSize
 } from './Utils';
 import { SHADOW_VISIBILITY as SCROLL_SHADOW_VISIBILITY } from 'Controls/_scroll/Container/Interface/IShadows';
-import StickyHeader from 'Controls/_scroll/StickyHeader';
+import StickyBlock from 'Controls/_scroll/StickyBlock';
 import fastUpdate from './FastUpdate';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
 
@@ -349,7 +349,7 @@ class StickyHeaderController {
 
     /**
      * @param {Vdom/Vdom:SyntheticEvent} event
-     * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} fixedHeaderData
+     * @param {Controls/_scroll/StickyBlock/Types/InformationFixationEvent.typedef} fixedHeaderData
      * @private
      */
     fixedHandler(event, fixedHeaderData: IFixedEventData) {
@@ -466,7 +466,8 @@ class StickyHeaderController {
             const newHeaders: [] = [];
             this._delayedHeaders = this._delayedHeaders.filter((header: TRegisterEventData) => {
                 if (!isHidden(header.inst.getHeaderContainer())) {
-                    this._addToHeadersStack(header.id, header.position);
+                    const headerPosition = StickyBlock.getStickyPosition(header);
+                    this._addToHeadersStack(header.id, headerPosition);
                     newHeaders.push(header.id);
                     return false;
                 }
@@ -522,7 +523,7 @@ class StickyHeaderController {
 
     /**
      * Update information about the fixation state.
-     * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} data Data about the header that changed the fixation state.
+     * @param {Controls/_scroll/StickyBlock/Types/InformationFixationEvent.typedef} data Data about the header that changed the fixation state.
      */
     private _updateFixationState(data: IFixedEventData) {
         let isFixationUpdated = false;
@@ -572,38 +573,52 @@ class StickyHeaderController {
         }
     }
 
-    private _addToHeadersStack(id: number, position: POSITION) {
-        if (position === 'topbottom') {
-            this._addToHeadersStack(id, 'top');
-            this._addToHeadersStack(id, 'bottom');
-            return;
-        }
-        if (position === 'leftright') {
-            this._addToHeadersStack(id, 'leftright');
-            this._addToHeadersStack(id, 'leftright');
-            return;
-        }
-        const
-            headersStack = this._headersStack[position],
-            newHeaderOffset = this._getHeaderOffset(id, position),
-            headerContainerSizes = this._headers[id].inst.getHeaderContainer().getBoundingClientRect();
-        let headerContainerSize;
-        if (position === 'left' || position === 'right') {
-            headerContainerSize = headerContainerSizes.width;
-        } else {
-            headerContainerSize = headerContainerSizes.height;
+    private _addToHeadersStack(id: number, headerPosition: POSITION): void {
+        const addToHeadersStack = (position) => {
+            const
+                headersStack = this._headersStack[position],
+                newHeaderOffset = this._getHeaderOffset(id, position),
+                headerContainerSizes = this._headers[id].inst.getHeaderContainer().getBoundingClientRect();
+            let headerContainerSize;
+            if (position === 'left' || position === 'right') {
+                headerContainerSize = headerContainerSizes.width;
+            } else {
+                headerContainerSize = headerContainerSizes.height;
+            }
+
+            // Ищем позицию первого элемента, смещение которого больше текущего.
+            // Если смещение у элементов одинаковое, но у добавляемоего заголовка высота равна нулю,
+            // то считаем, что добавляемый находится выше. Вставляем новый заголовок в этой позиции.
+            let index = headersStack.findIndex((headerId) => {
+                const headerOffset = this._getHeaderOffset(headerId, position);
+                return headerOffset > newHeaderOffset ||
+                    (headerOffset === newHeaderOffset && headerContainerSize === 0);
+            });
+            index = index === -1 ? headersStack.length : index;
+            headersStack.splice(index, 0, id);
+        };
+
+        switch (headerPosition.vertical) {
+            case 'top':
+            case 'bottom':
+                addToHeadersStack(headerPosition.vertical);
+                break;
+            case 'topBottom':
+                addToHeadersStack('top');
+                addToHeadersStack('bottom');
+                break;
         }
 
-        // Ищем позицию первого элемента, смещение которого больше текущего.
-        // Если смещение у элементов одинаковое, но у добавляемоего заголовка высота равна нулю,
-        // то считаем, что добавляемый находится выше. Вставляем новый заголовок в этой позиции.
-        let index = headersStack.findIndex((headerId) => {
-            const headerOffset = this._getHeaderOffset(headerId, position);
-            return headerOffset > newHeaderOffset ||
-                (headerOffset === newHeaderOffset && headerContainerSize === 0);
-        });
-        index = index === -1 ? headersStack.length : index;
-        headersStack.splice(index, 0, id);
+        switch (headerPosition.horizontal) {
+            case 'left':
+            case 'right':
+                addToHeadersStack(headerPosition.horizontal);
+                break;
+            case 'leftRight':
+                addToHeadersStack('left');
+                addToHeadersStack('right');
+                break;
+        }
     }
 
     private _updateFixedInitially(position: POSITION): void {
@@ -615,7 +630,7 @@ class StickyHeaderController {
 
         let
             headersHeight: number = 0,
-            headerInst: StickyHeader;
+            headerInst: StickyBlock;
 
         for (let headerId: number of headersStack) {
             headerInst = this._headers[headerId].inst;
@@ -629,7 +644,7 @@ class StickyHeaderController {
             if (headerOffset !== 0) {
                 // При расчете высоты заголовка, мы учитываем devicePixelRatio. Нужно его учитывать и здесь, иначе
                 // расчеты не сойдутся. Делайем это только если headerOffset не равен нулю, т.е. после первой итерации.
-                headerOffset -= Math.abs(1 - StickyHeader.getDevicePixelRatio());
+                headerOffset -= Math.abs(1 - StickyBlock.getDevicePixelRatio());
             }
 
             headerOffset += headerInst.offsetTop;
