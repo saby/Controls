@@ -4,6 +4,7 @@ import {Memory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
 import { IHeaderCell } from 'Controls/grid';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
+import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

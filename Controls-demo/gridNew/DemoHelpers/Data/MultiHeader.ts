@@ -63,7 +63,7 @@ export const MultiHeader = {
     ],
     getHeader2: (): IHeaderCell[] => [
         {
-            caption: 'Географические характеристики стран',
+            title: 'Географические характеристики стран',
             startRow: 1,
             endRow: 3,
             startColumn: 1,
