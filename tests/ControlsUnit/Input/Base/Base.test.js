@@ -295,9 +295,12 @@ define(
                   value: '',
                   autoComplete: 'on'
                });
-               assert.equal(ctrl._hidePlaceholder, true);
-               ctrl._afterMount();
-               assert.equal(ctrl._hidePlaceholder, false);
+               assert.equal(ctrl._placeholderVisibility, 'hidden');
+               options = {
+                  placeholderVisibility: 'empty'
+               };
+               ctrl._afterMount(options);
+               assert.equal(ctrl._placeholderVisibility, 'empty');
             });
             it('The autoComplete equal "off".', function() {
                ctrl._hidePlaceholderUsingCSS = false;
@@ -305,9 +308,12 @@ define(
                   value: '',
                   autoComplete: 'off'
                });
-               assert.equal(ctrl._hidePlaceholder, false);
-               ctrl._afterMount();
-               assert.equal(ctrl._hidePlaceholder, false);
+               assert.equal(ctrl._placeholderVisibility, 'empty');
+               options = {
+                  placeholderVisibility: 'empty'
+               };
+               ctrl._afterMount(options);
+               assert.equal(ctrl._placeholderVisibility, 'empty');
             });
          });
       });

@@ -1,17 +1,17 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/ResultsFromMeta/CustomResultsRow/CustomResultsRow';
-import {HierarchicalMemory} from 'Types/source';
+import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
-import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import {Model} from 'Types/entity';
 import { IColumn } from 'Controls/grid';
 import { IHeaderCell } from 'Controls/grid';
+import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: HierarchicalMemory;
-    protected _header: IHeaderCell[] = Gadgets.getHeaderForFlat();
-    protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat();
+    protected _viewSource: Memory;
+    protected _header: IHeaderCell[] = Flat.getHeader();
+    protected _columns: IColumn[] = Flat.getColumns();
     private _fullResultsIndex: number = 0;
     private _partialResultsIndex: number = 0;
 
@@ -21,10 +21,9 @@ export default class extends Control {
     }
 
     protected _beforeMount(): void {
-        this._viewSource = new HierarchicalMemory({
+        this._viewSource = new Memory({
             keyProperty: 'id',
-            parentProperty: 'parent',
-            data: Gadgets.getFlatData()
+            data: Flat.getData()
         });
     }
 
@@ -50,8 +49,8 @@ export default class extends Control {
     private _setResultRow(): void {
         const results = this._children.tree._children.listControl
             .getViewModel().getItems().getMetaData().results;
-        results.set('price', Gadgets.getResults().partial[this._partialResultsIndex]);
-        this._fullResultsIndex = ++this._partialResultsIndex % Gadgets.getResults().partial.length;
+        results.set('price', Flat.getResults().partial[this._partialResultsIndex]);
+        this._fullResultsIndex = ++this._partialResultsIndex % Flat.getResults().partial.length;
     }
 
     private _generateResults(items: RecordSet): Model {
@@ -67,11 +66,11 @@ export default class extends Control {
             ]
         });
 
-        const data = Gadgets.getResults().full[this._fullResultsIndex];
+        const data = Flat.getResults().full[this._fullResultsIndex];
         results.set('rating', data.rating);
         results.set('price', data.price);
 
-        this._fullResultsIndex = ++this._fullResultsIndex % Gadgets.getResults().full.length;
+        this._fullResultsIndex = ++this._fullResultsIndex % Flat.getResults().full.length;
         return results;
     }
 

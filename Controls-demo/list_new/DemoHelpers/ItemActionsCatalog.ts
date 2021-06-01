@@ -76,16 +76,7 @@ function getActionsWithDisplayMode(): IItemAction[] {
         }];
 }
 
-function getMoreActions(): Array<{
-    id: number
-    title: string
-    showType?: number
-    icon?: string
-    iconStyle?: string
-    handler?: Function
-    parent?: number
-    'parent@'?: true | false
-}> {
+function getMoreActions(): IItemAction[] {
     return [
         {
             id: 10,

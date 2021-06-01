@@ -126,6 +126,18 @@ var ListView = BaseControl.extend(
             }
         },
 
+        _doOnComponentDidUpdate(callback): void {
+            if (this._waitingComponentDidUpdate) {
+                if (this._callbackOnComponentDidUpdate) {
+                    this._callbackOnComponentDidUpdate.push(callback);
+                } else {
+                    this._callbackOnComponentDidUpdate = [callback];
+                }
+            } else {
+                callback();
+            }
+        },
+
         setReloadingState(state): void {
             this._reloadInProgress = state;
             if (state === false && this._callbackAfterReload) {
@@ -170,6 +182,7 @@ var ListView = BaseControl.extend(
 
         _beforeUpdate: function(newOptions) {
             this._updateInProgress = true;
+            this._waitingComponentDidUpdate = true;
             if (newOptions.listModel && (this._listModel != newOptions.listModel)) {
                 this._listModel = newOptions.listModel;
                 this._listModel.subscribe('onListChange', this._onListChangeFnc);
@@ -185,6 +198,16 @@ var ListView = BaseControl.extend(
             this._applyNewOptionsAfterReload(this._options, newOptions);
         },
 
+        _componentDidUpdate() {
+            this._waitingComponentDidUpdate = false;
+            if (this._callbackOnComponentDidUpdate) {
+                this._callbackOnComponentDidUpdate.forEach((callback) => {
+                    callback();
+                });
+                this._callbackOnComponentDidUpdate = null;
+            }
+        },
+
         _afterUpdate() {
             this._updateInProgress = false;
             if (this._callbackAfterUpdate) {
@@ -193,6 +216,10 @@ var ListView = BaseControl.extend(
                 });
                 this._callbackAfterUpdate = null;
             }
+        },
+
+        // Сброс к изначальному состоянию без ремаунта, например при reload'е.
+        reset(): void {
         },
 
         _resolveItemTemplate(options) {

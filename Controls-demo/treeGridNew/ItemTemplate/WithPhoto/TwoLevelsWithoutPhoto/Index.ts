@@ -1,15 +1,15 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/ItemTemplate/WithPhoto/TwoLevelsWithoutPhoto/TwoLevelsWithoutPhoto';
-import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
-import {Gadgets} from '../../../DemoHelpers/DataCatalog';
+import {CrudEntityKey, Memory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
+import {WithPhoto} from "Controls-demo/treeGridNew/DemoHelpers/Data/WithPhoto";
 
 export default class extends Control<IControlOptions> {
    protected _template: TemplateFunction = Template;
-   protected _viewSource: HierarchicalMemory;
+   protected _viewSource: Memory;
    // tslint:disable-next-line
    protected _expandedItems: CrudEntityKey[] = [1, 2, 4];
-   protected _twoLvlColumnsNoPhoto: IColumn[] = Gadgets.getGridTwoLevelColumnsWithPhoto().map((cur) => ({
+   protected _twoLvlColumnsNoPhoto: IColumn[] = WithPhoto.getGridTwoLevelColumnsWithPhoto().map((cur) => ({
       ...cur, template: undefined
    }));
 
@@ -17,10 +17,9 @@ export default class extends Control<IControlOptions> {
       if (options.hasOwnProperty('collapseNodes')) {
          this._expandedItems = [];
       }
-      this._viewSource = new HierarchicalMemory({
+      this._viewSource = new Memory({
          keyProperty: 'id',
-         parentProperty: 'parent',
-         data: Gadgets.getDataTwoLvl()
+         data: WithPhoto.getDataTwoLvl()
       });
    }
 

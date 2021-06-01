@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/treeGridNew/MoveController/Base/Bas
 import {HierarchicalMemory} from 'Types/source';
 import {IColumn} from 'Controls/grid';
 import {IItemAction, TItemActionShowType} from 'Controls/itemActions';
-import {Gadgets} from '../../DemoHelpers/DataCatalog';
+import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
@@ -18,7 +18,7 @@ export default class extends Control {
       }];
       this._viewSource = new HierarchicalMemory({
          keyProperty: 'id',
-         data: Gadgets.getFlatData(),
+         data: Flat.getData(),
          filter: (item, filter) => {
             const parent = filter.hasOwnProperty('parent') ? filter.parent : null;
             if (parent && parent.forEach) {

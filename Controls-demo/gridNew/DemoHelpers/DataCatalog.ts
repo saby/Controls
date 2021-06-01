@@ -1678,27 +1678,27 @@ const getEditing = () => {
                 description: 'Текст 3'
             }
         ],
-        getEditingValkeyationData: (): IEditingData[] => [
+        getEditingValidationData: (): IEditingData[] => [
             {
                 key: '1',
                 email: 'semen@gmail.com',
-                required: '89069953970',
+                required: '+79069953970',
                 length: '1234',
-                title: 'title'
+                title: 'Тандер, АО (Магнит)'
             },
             {
                 key: '2',
                 email: 'artem@gmail.com',
-                required: '89069953970',
+                required: '+74951235469',
                 length: '123',
-                title: 'title'
+                title: 'Абак, ООО'
             },
             {
                 key: '3',
                 email: 'oleg@gmail.com',
-                required: '89069953970',
-                length: 'hello',
-                title: 'title'
+                required: '+79156542315',
+                length: '2121',
+                title: 'Основа, ООО'
             }
         ],
         getEditingColumns: (): IColumn[] => [
@@ -1767,29 +1767,29 @@ const getEditing = () => {
                 template: `wml!Controls-demo/gridNew/EditInPlace/Size/${size}/_cellEditor`,
             }
         ],
-        getEditingColumnsValkeyation: () => [
+        getEditingColumnsValidation: () => [
             {
                 displayProperty: 'email',
-                width: '200px',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/Valkeyation/_cellEditor'
+                width: '150px',
+                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorEmail'
             },
             {
                 displayProperty: 'required',
-                width: 'max-content',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/Valkeyation/_cellEditorRequired'
+                width: '105px',
+                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorRequired'
             },
             {
                 displayProperty: 'length',
-                width: 'max-content',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/Valkeyation/_cellEditorDate'
+                width: '59px',
+                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorLength'
             },
             {
                 displayProperty: 'title',
-                width: 'max-content',
-                template: 'wml!Controls-demo/gridNew/EditInPlace/Valkeyation/_cellEditorTitle'
+                width: '150px',
+                template: 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorTitle'
             }
         ],
-        getEditingHeaderValkeyations: (): IHeaderCell[] => [
+        getEditingHeaderValidations: (): IHeaderCell[] => [
             {
                 title: 'email'
             },
