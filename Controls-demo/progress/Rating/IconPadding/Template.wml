@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth350">
+<ws:for data="iconPadding in _iconPadding">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label">{{iconPadding}}</div>
+      <Controls.progress:Rating value="{{_value}}"
+                                readOnly="{{true}}"
+                                iconPadding="{{iconPadding}}"
+      />
+   </div>
+</ws:for>
+</div>

@@ -82,7 +82,7 @@ const _private = {
  * Отображает выделенные звезды в зависимости от оценки
  * @remark
  * Полезные ссылки:
- * * {@link /materials/Controls-demo/app/Controls-demo%2Fprogress%2FRaiting%2FIndex демо-пример}
+ * * {@link /materials/Controls-demo/app/Controls-demo%2Fprogress%2FRating%2FIndex демо-пример}
  * @class Controls/_progress/Rating
  * @extends UI/Base:Control
  * @author Нигматуллина Л.Э.
@@ -148,9 +148,10 @@ class Rating extends Control<IRatingOptions> {
         if (!this._options.readOnly) {
             _private.updateCountStars.call(this, event);
             if (this._selectStars !== this._options.value) {
-                this._isHalfStar = null;
                 this._notify('valueChanged', [this._selectStars]);
             }
+            this._isHalfStar = null;
+            this._notify('precisionChanged', [0]);
         }
     }
     static _theme: string[] = ['Controls/progress'];
