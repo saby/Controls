@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/Validation/Validation';
 import {Memory} from 'Types/source';
-import 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditor';
-import 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorDate';
+import 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorEmail';
+import 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorLength';
 import 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorRequired';
 import 'wml!Controls-demo/gridNew/EditInPlace/Validation/_cellEditorTitle';
 import {LengthChecker, ChangedChecker} from './Custom';
