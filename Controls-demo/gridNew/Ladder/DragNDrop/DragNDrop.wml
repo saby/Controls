@@ -9,6 +9,8 @@
                         itemActions="{{_itemActions}}"
                         itemsReadyCallback="{{_itemsReadyCallback}}"
                         itemsDragNDrop="{{true}}"
+                        multiSelectVisibility="visible"
+                        bind:selectedKeys="_selectedKeys"
                         columns="{{_columns}}"
                         ladderProperties="{{_ladderProperties}}">
                     <ws:draggingTemplate>
