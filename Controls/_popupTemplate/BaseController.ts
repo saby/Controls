@@ -193,7 +193,7 @@ abstract class BaseController {
 
         item.sizes = {
             width: item.popupOptions.width || containerSizes.width,
-            height: Math.min(item.popupOptions.height || containerSizes.height, containerSizes.height)
+            height: item.popupOptions.height || containerSizes.height
         };
         return item.sizes;
     }
