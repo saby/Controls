@@ -997,15 +997,28 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
 /**
  * @name Controls/_scroll/StickyBlock#position
- * @cfg {String} Определяет позицию прилипания.
- * @demo Controls-demo\Scroll\StickyHeader\Position\Index
- * @variant top Прилипание к верхнему краю.
- * @variant bottom Прилипание к нижнему краю.
- * @variant topbottom Прилипание к верхнему и нижнему краю.
- * @variant left Прилипание к левому краюю.
- * @variant right Прилипание к правому краю.
- * @variant leftright Прилипание к левому краюю и к правому краю.
- * @default top
+ * @cfg {Object} Определяет позицию прилипания.
+ * @remark
+ * В качестве значения передается объект с полями horizontal и vertical
+ * Значеиня horizontal:
+ * <ul>
+ *     <li>top - блок будет прилипать сверху</li>
+ *     <li>bottom - блок будет прилипать снизу</li>
+ *     <li>topBottom - блок будет прилипать и сверху и снизу</li>
+ * </ul>
+ * Значеиня vertical:
+ * <ul>
+ *     <li>left - блок будет прилипать слева</li>
+ *     <li>right - блок будет прилипать справа</li>
+ *     <li>leftRight - блок будет прилипать и слева и справа</li>
+ * </ul>
+ * @example
+ * <pre>
+ *     <Controls.scroll:StickyBlock position="{{ { 'horizontal': 'top', 'vertical': 'left' } }}">
+ *         <div> Блок будет прилипать сверху и слева </div>
+ *     </Controls.scroll:StickyBlock/>
+ * </pre>
+ * @default { vertical: 'top'}
  */
 
 /*
