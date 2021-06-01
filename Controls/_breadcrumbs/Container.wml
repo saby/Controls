@@ -3,6 +3,9 @@
                items="{{_breadCrumbsItems}}"
                keyProperty="{{_keyProperty}}"
                parentProperty="{{_parentProperty}}"
+               rootVisible="{{_dragOnBreadCrumbs}}"
+               highlighter="{{[_breadCrumbsDragHighlighter]}}"
+               on:hoveredItemChanged="_hoveredCrumbChanged()"
                on:itemClick="_itemClickHandler()"
    />
 </ws:if>
