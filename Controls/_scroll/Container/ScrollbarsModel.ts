@@ -9,6 +9,7 @@ import {IScrollbarsOptions} from './Interface/IScrollbars';
 import ScrollbarModel, {Offsets} from './ScrollbarModel';
 import {IScrollState} from '../Utils/ScrollState';
 import {SCROLL_MODE} from './Type';
+import ContainerBase from 'Controls/_scroll/ContainerBase';
 
 interface ISerializeState {
     overflowHidden: boolean;
@@ -42,24 +43,25 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         super(options);
 
         this._options = options;
+        const scrollOrientationOption = ContainerBase.getScrollOrientation(options);
 
         if (receivedState) {
             this._overflowHidden = receivedState.overflowHidden;
             this._styleHideScrollbar = receivedState.styleHideScrollbar ||
-                ScrollWidthUtil.calcStyleHideScrollbar(options.scrollMode);
+                ScrollWidthUtil.calcStyleHideScrollbar(scrollOrientationOption);
         } else {
             this._overflowHidden = ScrollHeightFixUtil.calcHeightFix();
-            this._styleHideScrollbar = ScrollWidthUtil.calcStyleHideScrollbar(options.scrollMode);
+            this._styleHideScrollbar = ScrollWidthUtil.calcStyleHideScrollbar(scrollOrientationOption);
         }
 
         // На мобильных устройствах используется нативный скролл, на других платформенный.
         this._useNativeScrollbar = detection.isMobileIOS || detection.isMobileAndroid;
 
-        const scrollMode = options.scrollMode.toLowerCase();
-        if (options.scrollbarVisible && scrollMode.indexOf('vertical') !== -1) {
+        const scrollOrientation = scrollOrientationOption.toLowerCase();
+        if (options.scrollbarVisible && scrollOrientation.indexOf('vertical') !== -1) {
             this._models.vertical = new ScrollbarModel(SCROLL_DIRECTION.VERTICAL, options);
         }
-        if (options.scrollbarVisible && scrollMode.indexOf('horizontal') !== -1) {
+        if (options.scrollbarVisible && scrollOrientation.indexOf('horizontal') !== -1) {
             this._models.horizontal = new ScrollbarModel(SCROLL_DIRECTION.HORIZONTAL, options);
         }
     }
@@ -106,7 +108,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         }
 
         // Используем clientHeight в качестве offsetHeight если нижний скролбар не отбражается.
-        const isHorizontalScrollbarHidden = this._options.scrollMode === SCROLL_MODE.VERTICAL &&
+        const isHorizontalScrollbarHidden = ContainerBase.getScrollOrientation(this._options) === SCROLL_MODE.VERTICAL &&
             !detection.firefox && !detection.isIE;
         const overflowHidden = ScrollHeightFixUtil.calcHeightFix({
             scrollHeight: scrollState.scrollHeight,
@@ -203,7 +205,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     }
 
     private _getOverflowClass(): string {
-        switch (this._options.scrollMode) {
+        switch (ContainerBase.getScrollOrientation(this._options)) {
             case SCROLL_MODE.VERTICAL:
                 return ' controls-Scroll-ContainerBase__scroll_vertical';
             case SCROLL_MODE.HORIZONTAL:

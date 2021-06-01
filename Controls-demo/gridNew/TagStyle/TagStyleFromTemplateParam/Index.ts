@@ -10,6 +10,7 @@ import * as template from 'wml!Controls-demo/gridNew/TagStyle/TagStyleFromTempla
 export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _viewSource: Memory;
+    protected _columns = getTagStyleData().getColumns();
 
     // Номер выбранной колонки
     protected _currentColumnIndex: number = null;

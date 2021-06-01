@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper__padding-left controlsDemo_fixedWidth800">
     <div class="controlsDemo_ColumnsView_itemTemplate-title controlsDemo__cell">Controls.scroll:ContainerBase</div>
     <Controls.scroll:Container
-            scrollMode="verticalHorizontal"
+            scrollOrientation="verticalHorizontal"
             attr:class="controlsDemo__height500 controlsDemo_fixedWidth300 ControlsDemo-external_scrollable_area">
         <div >
             <p>
