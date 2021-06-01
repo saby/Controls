@@ -1,10 +1,11 @@
 import {detection} from 'Env/Env';
 import {Bus} from 'Env/Event';
+import {descriptor} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {RegisterClass, RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {ResizeObserverUtil, RESIZE_OBSERVER_BOX} from 'Controls/sizeUtils';
-import {getScrollContainerPageCoords, SCROLL_DIRECTION} from './Utils/Scroll';
+import {getScrollContainerPageCoords, SCROLL_DIRECTION, SCROLL_POSITION} from './Utils/Scroll';
 import {scrollToElement} from './Utils/scrollToElement';
 import {scrollTo} from './Utils/Scroll';
 import ScrollState from './Utils/ScrollState';
@@ -18,9 +19,16 @@ import {getHeadersHeight} from './StickyHeader/Utils/getHeadersHeight';
 import {location} from 'Application/Env';
 import {Entity} from 'Controls/dragnDrop';
 
+
+
+interface IInitialScrollPosition {
+    vertical: SCROLL_POSITION.START | SCROLL_POSITION.END;
+    horizontal: SCROLL_POSITION.START | SCROLL_POSITION.END;
+}
 export interface IContainerBaseOptions extends IControlOptions {
     _notScrollableContent?: boolean; // Для HintWrapper, который сверстан максмально неудобно для скроллКонтейнера.
     scrollMode?: SCROLL_MODE;
+    initialScrollPosition: IInitialScrollPosition;
 }
 
 const KEYBOARD_SHOWING_DURATION: number = 500;
@@ -32,6 +40,19 @@ const enum CONTENT_TYPE {
     restricted = 'restricted'
 }
 
+/**
+ * Контейнер со скроллом.
+ *
+ * @remark
+ * Контрол работает как нативный скролл: нативные скроллбары появляются, когда размеры контента больше размеров контрола. Для корректной работы контрола необходимо ограничить его высоту.
+ *
+ * @class Controls/_scroll/ContainerBase
+ *
+ * @public
+ * @author Миронов А.Ю.
+ * @demo Controls-demo/Scroll/ContainerBase/Default/Index
+ *
+ */
 export default class ContainerBase<T extends IContainerBaseOptions> extends Control<IContainerBaseOptions> {
     protected _template: TemplateFunction = template;
     protected _container: HTMLElement = null;
@@ -64,6 +85,8 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     private _virtualNavigationRegistrar: RegisterClass;
 
     private _contentType: CONTENT_TYPE = CONTENT_TYPE.regular;
+
+    protected _initialScrollPositionCssClass: string;
 
     // Флаг, идентифицирующий включен или выключен в текущий момент
     // функционал автоскролла при приближении мыши к верхней/нижней границе
@@ -100,17 +123,22 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         if (options._notScrollableContent) {
             this._updateContentType(CONTENT_TYPE.restricted);
         }
+        this._initialScrollPositionInit(options);
     }
 
     protected _componentDidMount(): void {
+        const isInitialScrollPositionStart: boolean = !this._options.initialScrollPosition ||
+            !this._options.initialScrollPosition?.vertical ||
+            this._options.initialScrollPosition?.vertical === SCROLL_POSITION.START
         // Если одна область заменяется на другую с однотипной версткой и встроенным скролл контейнером,
         // то ядро не пересоздает dom контейнеры, и может так полуится, что вновь созданный скролл контейнер
         // может быть сразу проскролен. Исправляем эту ситуацию.
         // Не будем скроллить в случае, если на странице есть нативные якоря для скролла,
         // т.е. в ссылке присутсвует хэш
-        if (!location.hash && this._container.dataset?.scrollContainerNode) {
+        if (isInitialScrollPositionStart && (!location.hash && this._container.dataset?.scrollContainerNode)) {
             this._children.content.scrollTop = 0;
         }
+        this._initialScrollPositionResetAfterInitialization();
     }
 
     _afterMount(): void {
@@ -206,6 +234,40 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         const scrollMode = scrollModeOption.toLowerCase();
         // При горизонтальном скролле будет работать с событием controlResize
         return scrollMode.indexOf('horizontal') !== -1;
+    }
+
+    private _initialScrollPositionInit(options): void {
+        if (options.initialScrollPosition?.vertical === SCROLL_POSITION.END) {
+            this._initialScrollPositionCssClass = 'controls-Scroll-ContainerBase__scrollPosition-vertical-end';
+        } else if (options.initialScrollPosition?.horizontal === SCROLL_POSITION.END) {
+            this._initialScrollPositionCssClass = 'controls-Scroll-ContainerBase__scrollPosition-horizontal-end';
+        } else {
+            this._initialScrollPositionCssClass = 'controls-Scroll-ContainerBase__scrollPosition-regular';
+        }
+    }
+
+    private _initialScrollPositionResetAfterInitialization(): void {
+        if (this._options.initialScrollPosition?.vertical === 'end' ||
+                this._options.initialScrollPosition?.horizontal === 'end') {
+            const container = this._children.content;
+
+            this._initialScrollPositionCssClass = 'controls-Scroll-ContainerBase__scrollPosition-regular';
+
+            container.classList.add('controls-Scroll-ContainerBase__scrollPosition-regular');
+
+            if (this._options.initialScrollPosition?.vertical === 'end') {
+                container.classList.remove('controls-Scroll-ContainerBase__scrollPosition-vertical-end');
+                // В режиме "flex-direction: column-reverse" контенейнер прокручен к концу,
+                // и scrollTop считается с конца. Т.е. scrollTop в этот сосент равен 0. А когда скролируют
+                // в обратную сторону он становтися отрицательным. После того как мы меняем flex-direction,
+                // скролл прокручивается в начало, его необходимо вернуть в конец.
+                container.scrollTop = container.scrollHeight;
+            } else if (this._options.initialScrollPosition?.horizontal === 'end') {
+                container.classList.remove('controls-Scroll-ContainerBase__scrollPosition-horizontal-end');
+                container.scrollLeft = container.scrollWidth;
+            }
+
+        }
     }
 
     _controlResizeHandler(): void {
@@ -1058,4 +1120,39 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     static _theme: string[] = ['Controls/scroll'];
+
+    static getOptionTypes(): object {
+        return {
+            scrollMode: descriptor(String).oneOf([
+                SCROLL_MODE.VERTICAL,
+                SCROLL_MODE.HORIZONTAL,
+                SCROLL_MODE.VERTICAL_HORIZONTAL,
+                SCROLL_MODE.NONE
+            ])
+        };
+    }
+
+    static getDefaultOptions(): object {
+        return {
+            scrollMode: 'vertical'
+        };
+    }
 }
+
+/**
+ * @typedef {String} Controls/_scroll/ContainerBase/TInitialScrollPosition
+ * @variant start Положение скрола в скролл контейнере нахожиться в начале.
+ * @variant end Положение скрола в скролл контейнере нахожиться в конце.
+ */
+
+/**
+ * @typedef {Object} Controls/_scroll/ContainerBase/initialScrollPosition
+ * @property {Controls/_scroll/ContainerBase/TInitialScrollPosition} [vertical] Определяет положение скрола в момент инициализации по вертикали.
+ * @property {Controls/_scroll/ContainerBase/TInitialScrollPosition} [horizontal] Определяет положение скрола в момент инициализации по горизонтали.
+ */
+
+/**
+ * @name Controls/_scroll/Container#initialScrollPosition
+ * @property {Controls/_scroll/ContainerBase/initialScrollPosition} initialScrollPosition Определяет положение скрола в момент инициализации.
+ * @demo Controls-demo/Scroll/ContainerBase/InitialScrollPosition/Index
+ */

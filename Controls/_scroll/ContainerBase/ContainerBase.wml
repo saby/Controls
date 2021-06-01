@@ -3,7 +3,7 @@
 то обработчики всплывающих событий не срабатывают и атрибуты не навешиваются.
 https://online.sbis.ru/opendoc.html?guid=10a3ac25-9b67-4b76-9706-ba8e73415246
 -->
-<div class="controls-Scroll-ContainerBase {{_scrollCssClass}} controls-Scroll__content"
+<div class="controls-Scroll-ContainerBase {{_scrollCssClass}} {{_initialScrollPositionCssClass}}"
     name="content"
     on:scroll="_scrollHandler()"
     on:doScroll="_doScrollHandler()"
