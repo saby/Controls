@@ -295,7 +295,7 @@ Object.defineProperty(Rating, 'defaultProps', {
  */
 /**
  * @name Controls/_progress/Rating#iconPadding
- * @cfg {String} Растояние метжду звездами
+ * @cfg {String} Расстояние между звездами
  * Возможные значения:
  * * null
  * * 2xs
@@ -307,7 +307,7 @@ Object.defineProperty(Rating, 'defaultProps', {
  */
 /**
  * @name Controls/_progress/Rating#iconPadding
- * @cfg {Number} Color of highlighted star
+ * @cfg {Number} Distance between stars
  * @remark
  * Possible values:
  * * null
