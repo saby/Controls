@@ -1,7 +1,7 @@
 <div class="controlsDemo__flexRow">
     <div class="options-wrap demo-scrollMode__verticalHorizontal">
         <div class="controls-text-label">position=top</div>
-        <Controls.scroll:Container class="controlsDemo__ml2 controlsDemo_fixedWidth300 controlsDemo__height300" scrollMode="verticalHorizontal">
+        <Controls.scroll:Container class="controlsDemo__ml2 controlsDemo_fixedWidth300 controlsDemo__height300" scrollOrientation="verticalHorizontal">
             <div class="controlsDemo_fixedWidth550">
                 <Controls.scroll:StickyHeader position="top" attr:style="width: 60px; border: 1px solid #000;">
                     <div>
@@ -30,7 +30,7 @@
     </div>
     <div class="options-wrap demo-scrollMode__verticalHorizontal">
         <div class="controls-text-label">position=bottom</div>
-        <Controls.scroll:Container class="controlsDemo__ml2 controlsDemo_fixedWidth300 controlsDemo__height300" scrollMode="verticalHorizontal">
+        <Controls.scroll:Container class="controlsDemo__ml2 controlsDemo_fixedWidth300 controlsDemo__height300" scrollOrientation="verticalHorizontal">
             <div class="controlsDemo_fixedWidth550">
                 <div>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
@@ -59,7 +59,7 @@
     </div>
     <div class="options-wrap demo-scrollMode__verticalHorizontal">
         <div class="controls-text-label">position=left</div>
-        <Controls.scroll:Container class="controlsDemo__ml2 controlsDemo_fixedWidth300 controlsDemo__height300" scrollMode="verticalHorizontal">
+        <Controls.scroll:Container class="controlsDemo__ml2 controlsDemo_fixedWidth300 controlsDemo__height300" scrollOrientation="verticalHorizontal">
             <div class="controlsDemo_fixedWidth550">
                 <Controls.scroll:StickyHeader position="left" attr:style="width: 60px; border: 1px solid #000;">
                     <div>
@@ -88,7 +88,7 @@
     </div>
     <div class="options-wrap demo-scrollMode__verticalHorizontal">
         <div class="controls-text-label">position=right</div>
-        <Controls.scroll:Container class="controlsDemo__ml2 controlsDemo_fixedWidth300 controlsDemo__height300" scrollMode="verticalHorizontal">
+        <Controls.scroll:Container class="controlsDemo__ml2 controlsDemo_fixedWidth300 controlsDemo__height300" scrollOrientation="verticalHorizontal">
             <div class="controlsDemo_fixedWidth550">
                 <div class="controlsDemo__flex">
                     <div style="width: 400px;">
