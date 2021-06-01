@@ -661,7 +661,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         // Включаю оптимизацию для всех заголовков на ios, в 5100 проблем выявлено не было
         const isIosOptimizedMode = this._isMobileIOS && task1181007458 !== true;
         const stickyPosition = StickyBlock.getStickyPosition({position: positionFromOptions});
-        if (stickyPosition.vertical?.indexOf(POSITION.top) !== -1 && this._stickyHeadersHeight.top !== null) {
+        if (stickyPosition.vertical && stickyPosition.vertical?.indexOf(POSITION.top) !== -1 && this._stickyHeadersHeight.top !== null) {
             top = this._stickyHeadersHeight.top;
             if (offsetTop) {
                 top += offsetTop;
@@ -670,17 +670,17 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
             style += 'top: ' + (top - (checkOffset ? offset : 0)) + 'px;';
         }
 
-        if (stickyPosition.vertical?.toLowerCase().indexOf(POSITION.bottom) !== -1 && this._stickyHeadersHeight.bottom !== null) {
+        if (stickyPosition.vertical && stickyPosition.vertical?.toLowerCase().indexOf(POSITION.bottom) !== -1 && this._stickyHeadersHeight.bottom !== null) {
             bottom = this._stickyHeadersHeight.bottom;
             style += 'bottom: ' + (bottom - offset) + 'px;';
         }
 
-        if (stickyPosition.horizontal?.indexOf(POSITION.left) !== -1 && this._stickyHeadersHeight.left !== null) {
+        if (stickyPosition.horizontal && stickyPosition.horizontal?.indexOf(POSITION.left) !== -1 && this._stickyHeadersHeight.left !== null) {
             left = this._stickyHeadersHeight.left;
             style += 'left: ' + (left) + 'px;';
         }
 
-        if (stickyPosition.horizontal?.toLowerCase().indexOf(POSITION.right) !== -1 && this._stickyHeadersHeight.right !== null) {
+        if (stickyPosition.horizontal && stickyPosition.horizontal?.toLowerCase().indexOf(POSITION.right) !== -1 && this._stickyHeadersHeight.right !== null) {
             right = this._stickyHeadersHeight.right;
             style += 'right: ' + (right) + 'px;';
         }
