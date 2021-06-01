@@ -1,22 +1,17 @@
-export type TExpanderVisibility = 'visible'|'hasChildren'|'hasChildrenOrHover';
+import { ITree, IOptions as ITreeOptions } from 'Controls/tree';
 
-export interface IOptions {
-    parentProperty: string;
-    nodeProperty: string;
+export interface IOptions extends ITreeOptions {
     nodeTypeProperty?: string;
-    groupProperty?: string;
-    hasChildrenProperty?: string;
-    expanderVisibility?: TExpanderVisibility;
 }
 
 /**
- * Интерфейс дерева
+ * Интерфейс дерева-таблицы
  * @mixes Controls/interface/IGroupedList
  *
  * @public
  * @author Аверкиев П.А.
  */
-export default interface ITreeGrid {
+export default interface ITreeGrid extends ITree {
     readonly '[Controls/_treeGrid/interface/ITreeGrid]': true;
 }
 

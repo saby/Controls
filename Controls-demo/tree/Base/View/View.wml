@@ -1,0 +1,15 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <Controls.tree:View
+            keyProperty="key"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            parentProperty="parent"
+            multiSelectVisibility="visible"
+            nodeProperty="type">
+        <ws:nodeFooterTemplate>
+            <Controls.tree:NodeFooterTemplate>
+                <div>footer template</div>
+            </Controls.tree:NodeFooterTemplate>
+        </ws:nodeFooterTemplate>
+    </Controls.tree:View>
+</div>
