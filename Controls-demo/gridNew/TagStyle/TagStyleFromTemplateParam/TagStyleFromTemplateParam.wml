@@ -4,7 +4,7 @@
         _currentColumnIndex + ' со значением ' + _currentValue) : ''}}
     </div>
     <Controls.grid:View
-            keyProperty="key
+            keyProperty="key"
             source="{{_viewSource}}"
             multiSelectVisibility="hidden"
             on:tagClick="_onTagClickCustomHandler()"

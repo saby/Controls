@@ -15,7 +15,7 @@ export default class extends Control {
         this._viewSource = new Memory({
             keyProperty: 'id',
             data: []
-        });
+        });Controls-demo/treeGrid/LoadMore/Index.ts
 
         return this._viewSource.create().then((record) => {
             this._editingConfig = {
