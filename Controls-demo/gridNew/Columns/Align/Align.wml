@@ -2,5 +2,8 @@
     <Controls.grid:View
             keyProperty="key"
             source="{{_viewSource}}"
-            columns="{{_columns}}"/>
+            columns="{{_columns}}"
+            rowSeparatorSize="s"
+            columnSeparatorSize="s"
+    />
 </div>

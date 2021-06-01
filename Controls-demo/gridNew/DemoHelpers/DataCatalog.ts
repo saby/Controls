@@ -522,27 +522,6 @@ const getCountriesStats = () => {
                 compatibleWidth: '60px'
             }
         ],
-        getColumnsWithValign: () => [
-            {
-                displayProperty: 'number',
-                width: '40px',
-                valign: 'right'
-            },
-            {
-                displayProperty: 'country',
-                width: '300px',
-                valign: 'top'
-            },
-            {
-                displayProperty: 'capital',
-                width: '1fr',
-                valign: 'bottom'
-            },
-            {
-                displayProperty: 'population',
-                width: '150px'
-            }
-        ],
         getDefaultHeader: (): IHeaderCell[] => [
             {
                 title: '#'
