@@ -1,0 +1,15 @@
+<div class="controlsDemo__flexColumn controlsDemo__ml2">
+    <Controls.dateRange:RangeShortSelector
+            bind:startValue="_startValue"
+            bind:endValue="_endValue"
+            chooseHalfyears="{{false}}"
+            chooseQuarters="{{false}}">
+        <ws:headerTemplate>
+            <ws:partial template="Controls/shortDatePicker:HeaderTemplate">
+                <ws:contentTemplate>
+                    {{ _getHeaderCaption(contentTemplate.startValue, contentTemplate.endValue) }}
+                </ws:contentTemplate>
+            </ws:partial>
+        </ws:headerTemplate>
+    </Controls.dateRange:RangeShortSelector>
+</div>
