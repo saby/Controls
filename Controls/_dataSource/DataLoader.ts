@@ -19,6 +19,7 @@ import {ControllerClass as SearchController} from 'Controls/search';
 import {ISearchControllerOptions} from 'Controls/_search/ControllerClass';
 import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {constants} from 'Env/Constants';
+import * as randomId from 'Core/helpers/Number/randomId';
 
 const DEFAULT_LOAD_TIMEOUT = 10000;
 const DEBUG_DEFAULT_LOAD_TIMEOUT = 30000;
@@ -342,8 +343,13 @@ export default class DataLoader {
 
     getState(): Record<string, IControllerState> {
         const state = {};
+        const dragRandomId = randomId();
         this.each((config, id) => {
-            state[id] = {...config, ...this.getSourceController(id).getState()};
+            state[id] = {
+                ...config,
+                ...this.getSourceController(id).getState(),
+                dragControlId: `${dragRandomId}_${id}`
+            };
         });
         return state;
     }
