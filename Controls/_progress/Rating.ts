@@ -88,7 +88,7 @@ const _private = {
  * @author Нигматуллина Л.Э.
  * @public
  *
- * @demo Controls-demo/progress/Bar/Base/Index
+ * @demo Controls-demo/progress/Rating/Index
  */
 
 /**
