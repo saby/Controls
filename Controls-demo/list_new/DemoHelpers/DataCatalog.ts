@@ -149,14 +149,20 @@ function getGroupedCatalog(): Array<{
             longBrandName: 'apple'
         },
         {
-            id: 4,
-            title: 'Apple iPad Pro 2016',
-            brand: 'apple',
-            longBrandName: 'apple'
+            id: 2,
+            title: 'ASUS X751SA-TY124D',
+            brand: 'asus',
+            longBrandName: 'asus'
         },
         {
-            id: 7,
-            title: 'iPhone X Max',
+            id: 3,
+            title: 'HP 250 G5 (W4N28EA)',
+            brand: 'hp',
+            longBrandName: 'hp'
+        },
+        {
+            id: 4,
+            title: 'Apple iPad Pro 2016',
             brand: 'apple',
             longBrandName: 'apple'
         },
@@ -167,22 +173,16 @@ function getGroupedCatalog(): Array<{
             longBrandName: 'acer'
         },
         {
-            id: 9,
-            title: 'ACER Aspire F 15 F5-573G-51Q7',
-            brand: 'acer',
-            longBrandName: 'acer'
-        },
-        {
-            id: 2,
-            title: 'ASUS X751SA-TY124D',
-            brand: 'asus',
-            longBrandName: 'asus'
-        },
-        {
             id: 6,
             title: 'ASUS X541SA-XO056D',
             brand: 'asus',
             longBrandName: 'asus'
+        },
+        {
+            id: 7,
+            title: 'iPhone X Max',
+            brand: 'apple',
+            longBrandName: 'apple'
         },
         {
             id: 8,
@@ -192,10 +192,10 @@ function getGroupedCatalog(): Array<{
                 ' (Public TWSE: 2357 LSE: ASKD), based in Beitou District, Taipei, Taiwan'
         },
         {
-            id: 3,
-            title: 'HP 250 G5 (W4N28EA)',
-            brand: 'hp',
-            longBrandName: 'hp'
+            id: 9,
+            title: 'ACER Aspire F 15 F5-573G-51Q7',
+            brand: 'acer',
+            longBrandName: 'acer'
         }
     ];
 }
