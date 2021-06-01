@@ -1,15 +1,15 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/NodeFooter/Configuration/DefaultFooterColspaned/DefaultFooterColspaned';
 import {HierarchicalMemory} from 'Types/source';
-import {Gadgets} from '../../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
+import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat().map((c) => ({...c, compatibleWidth: '150px'}));
+    protected _columns: IColumn[] = Flat.getColumns().map((c) => ({...c, compatibleWidth: '150px'}));
     protected _hoveredCellIndex: number = -1;
 
     protected _navigation: INavigationOptionValue<INavigationSourceConfig> = {
