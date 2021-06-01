@@ -1,0 +1,73 @@
+<ws:template name="tplOpt">
+   <div class="controls-text-label" attr:style="line-height: 24px;">{{value}}</div>
+</ws:template>
+<div class="controlsDemo__wrapper">
+<div class="controlsDemo__cell">
+   <div class="controls-text-label">Базовая настройка компонента рейтинга</div>
+   <div class="ws-flexbox">
+      <div>
+         <div class="ws-flexbox ws-align-self-center">
+            <ws:partial template="tplOpt" value="value:"/>
+            <Controls.input:Number bind:value="_value"/>
+         </div>
+         <div class="ws-flexbox ws-align-self-center">
+            <ws:partial template="tplOpt" value="precision:"/>
+            <Controls.input:Number bind:value="_precision"/>
+         </div>
+         <div class="ws-flexbox ws-align-self-center">
+            <ws:partial template="tplOpt" value="readOnly:"/>
+            <Controls.toggle:Checkbox bind:value="_readOnly"/>
+         </div>
+         <div class="ws-flexbox ws-align-self-center">
+            <ws:partial template="tplOpt" value="iconSize:"/>
+            <Controls.source:SelectedKey bind:selectedKey="_iconSize">
+               <Controls.dropdown:Selector keyProperty="id"
+                                           displayProperty="id"
+                                           mulitiSelect="{{false}}"
+                                           source="{{_sourceIconSize}}"
+               />
+            </Controls.source:SelectedKey>
+         </div>
+         <div class="ws-flexbox ws-align-self-center">
+            <ws:partial template="tplOpt" value="iconPadding:"/>
+            <Controls.source:SelectedKey bind:selectedKey="_iconPadding">
+               <Controls.dropdown:Selector keyProperty="id"
+                                           displayProperty="id"
+                                           mulitiSelect="{{false}}"
+                                           source="{{_sourceIconPadding}}"
+               />
+            </Controls.source:SelectedKey>
+         </div>
+         <div class="ws-flexbox ws-align-self-center">
+            <ws:partial template="tplOpt" value="iconStyle:"/>
+            <Controls.source:SelectedKey bind:selectedKey="_iconStyle">
+               <Controls.dropdown:Selector keyProperty="id"
+                                           displayProperty="id"
+                                           mulitiSelect="{{false}}"
+                                           source="{{_sourceIconStyle}}"
+               />
+            </Controls.source:SelectedKey>
+         </div>
+         <div class="ws-flexbox ws-align-self-center">
+            <ws:partial template="tplOpt" value="emptyIconStyle:"/>
+            <Controls.source:SelectedKey bind:selectedKey="_emptyIconStyle">
+               <Controls.dropdown:Selector keyProperty="id"
+                                           displayProperty="id"
+                                           mulitiSelect="{{false}}"
+                                           source="{{_sourceIconStyle}}"
+               />
+            </Controls.source:SelectedKey>
+         </div>
+      </div>
+      <Controls.progress:Rating bind:value="_value"
+                                readOnly="{{_readOnly}}"
+                                precision="{{_precision}}"
+                                iconSize="{{_iconSize}}"
+                                iconPadding="{{_iconPadding}}"
+                                iconStyle="{{_iconStyle}}"
+                                emptyIconStyle="{{_emptyIconStyle}}"
+                                attr:class="ws-align-items-center"
+      />
+   </div>
+</div>
+</div>

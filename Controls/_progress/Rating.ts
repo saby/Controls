@@ -82,7 +82,7 @@ const _private = {
  * Отображает выделенные звезды в зависимости от оценки
  * @remark
  * Полезные ссылки:
- * * {@link /materials/Controls-demo/app/Controls-demo%2fprogress%2fBar%2fIndex демо-пример}
+ * * {@link /materials/Controls-demo/app/Controls-demo%2Fprogress%2FRaiting%2FIndex демо-пример}
  * @class Controls/_progress/Rating
  * @extends UI/Base:Control
  * @author Нигматуллина Л.Э.
@@ -99,7 +99,7 @@ const _private = {
  * @author Nigmatullina L.E.
  * @public
  *
- * @demo Controls-demo/progress/Bar/Base/Index
+ * @demo Controls-demo/progress/Rating/Index
  */
 class Rating extends Control<IRatingOptions> {
     protected _template: TemplateFunction = template;
