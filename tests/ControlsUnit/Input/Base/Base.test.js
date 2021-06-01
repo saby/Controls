@@ -295,12 +295,12 @@ define(
                   value: '',
                   autoComplete: 'on'
                });
-               assert.equal(ctrl._placeholderVisible, false);
+               assert.equal(ctrl._placeholderVisibility, 'hidden');
                options = {
-                  placeholderVisible: false
+                  placeholderVisibility: 'empty'
                };
                ctrl._afterMount(options);
-               assert.equal(ctrl._placeholderVisible, false);
+               assert.equal(ctrl._placeholderVisibility, 'empty');
             });
             it('The autoComplete equal "off".', function() {
                ctrl._hidePlaceholderUsingCSS = false;
@@ -308,12 +308,12 @@ define(
                   value: '',
                   autoComplete: 'off'
                });
-               assert.equal(ctrl._placeholderVisible, true);
+               assert.equal(ctrl._placeholderVisibility, 'empty');
                options = {
-                  placeholderVisible: false
+                  placeholderVisibility: 'empty'
                };
                ctrl._afterMount(options);
-               assert.equal(ctrl._placeholderVisible, false);
+               assert.equal(ctrl._placeholderVisibility, 'empty');
             });
          });
       });

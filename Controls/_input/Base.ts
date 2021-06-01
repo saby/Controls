@@ -8,7 +8,7 @@ import * as ViewModel from 'Controls/_input/Base/ViewModel';
 import * as unEscapeASCII from 'Core/helpers/String/unEscapeASCII';
 import {hasHorizontalScroll} from 'Controls/scroll';
 import {processKeydownEvent} from 'Controls/_input/resources/Util';
-import {IBaseOptions} from 'Controls/_input/interface/IBase';
+import {IBaseOptions, PLACEHOLDER_VISIBILITY} from 'Controls/_input/interface/IBase';
 import template = require('wml!Controls/_input/Base/Base');
 import fieldTemplate = require('wml!Controls/_input/Base/Field');
 import readOnlyFieldTemplate = require('wml!Controls/_input/Base/ReadOnly');
@@ -34,6 +34,7 @@ interface IFieldTemplate {
         autoWidth?: boolean;
     };
 }
+
 export interface IBaseInputOptions extends IBaseOptions, IControlOptions {}
 /**
  * @type {Number} The width of the cursor in the field measured in pixels.
@@ -171,7 +172,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
      */
     protected _isMobileIOS: boolean = null;
 
-    protected _placeholderVisible: boolean = null;
+    protected _placeholderVisibility: PLACEHOLDER_VISIBILITY = null;
     /**
      * @type {Boolean|null} Determined whether to hide the placeholder using css.
      * @private
@@ -257,11 +258,13 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
          * with AutoFill enabled is possible through css or the status value from <input>.
          * The state is not available until the control is mount to DOM. So hide the placeholder until then.
          */
-        this._placeholderVisible = this._autoComplete === 'off' || this._hidePlaceholderUsingCSS;
+        this._placeholderVisibility = (this._autoComplete === 'off' || this._hidePlaceholderUsingCSS) ?
+            PLACEHOLDER_VISIBILITY.EMPTY :
+            PLACEHOLDER_VISIBILITY.HIDDEN;
     }
 
     protected _afterMount(options: IBaseInputOptions): void {
-        this._updatePlaceholderVisible(options);
+        this._updatePlaceholderVisibility(options);
     }
 
     protected _beforeUpdate(newOptions: IBaseInputOptions): void {
@@ -270,7 +273,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
         this._updateViewModel(newViewModelOptions, this._getValue(newOptions));
         this._updateSelectionByOptions(newOptions);
         this._updateHorizontalPadding(newOptions);
-        this._updatePlaceholderVisible(newOptions);
+        this._updatePlaceholderVisibility(newOptions);
     }
 
     /**
@@ -281,10 +284,10 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
         return '';
     }
 
-    private _updatePlaceholderVisible(options: IBaseInputOptions): void {
-        this._placeholderVisible = options.placeholderVisible !== undefined ?
-            options.placeholderVisible :
-            !options.readOnly;
+    private _updatePlaceholderVisibility(options: IBaseInputOptions): void {
+        if (this._placeholderVisibility !== options.placeholderVisibility) {
+            this._placeholderVisibility = options.placeholderVisibility;
+        }
     }
 
     /**
@@ -678,7 +681,8 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
             fontColorStyle: 'default',
             spellCheck: true,
             selectOnClick: false,
-            contrastBackground: false
+            contrastBackground: false,
+            placeholderVisibility: PLACEHOLDER_VISIBILITY.EDITABLE
         };
     }
 
@@ -718,6 +722,10 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
                 'success',
                 'warning',
                 'secondary'
+            ]),
+            placeholderVisibility: descriptor(String).oneOf([
+                PLACEHOLDER_VISIBILITY.EDITABLE,
+                PLACEHOLDER_VISIBILITY.EMPTY
             ])
         };
     }

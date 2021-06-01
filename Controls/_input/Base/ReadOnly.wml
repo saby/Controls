@@ -1,4 +1,4 @@
-<ws:if data="{{!placeholderVisible || value}}">
+<ws:if data="{{placeholderVisibility === 'editable' || value}}">
     <div name="readOnlyField" class="controls-InputBase__field_readOnly controls-{{controlName}}__field_margin-{{horizontalPadding}}">{{value}}</div>
 </ws:if>
 <ws:else>
@@ -8,7 +8,7 @@
                     attr:class="controls-InputBase__placeholder_readOnly"
                     placeholderTemplate="{{_options.placeholderTemplate}}"
                     value="{{value}}"
-                    placeholderVisible="{{placeholderVisible}}"
+                    placeholderVisibility="{{placeholderVisibility}}"
         />
     </div>
 </ws:else>
