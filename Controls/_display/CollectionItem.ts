@@ -693,8 +693,11 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
             this.isMarked() && this._isSupportSticky(this.getOwner().getStyle());
     }
 
-    getStickyHeaderPosition(stickyCallback: Function): string {
-        return stickyCallback ? 'top' : 'topbottom';
+    getStickyHeaderPosition(stickyCallback: Function): {} {
+        const stickyVerticalPosition = stickyCallback ? 'top' : 'topBottom';
+        return {
+            vertical: stickyVerticalPosition
+        }
     }
 
     protected _isSupportSticky(style: string = 'default'): boolean {

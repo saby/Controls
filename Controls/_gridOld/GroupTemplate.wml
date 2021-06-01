@@ -45,7 +45,7 @@
    </div>
 </ws:template>
 <ws:template name="groupRightStickyTemplate">
-      <Controls.scroll:StickyHeader
+      <Controls.scroll:StickyBlock
         task1181007458="{{ itemData.task1181007458 }}"
         backgroundStyle="{{itemData.backgroundStyle}}"
         attr:class="controls-ListView__stickyGroup_{{itemData.style}} controls-ListView__groupContent"
@@ -59,10 +59,10 @@
                         {{separatorVisibility === false && (columnAlignGroup !== undefined || textAlign !== 'left') ? 'controls-ListView__groupContent-withoutGroupSeparator controls-ListView__groupContent_right'}}"
                         itemData="{{itemData}}"/>
          </ws:if>
-      </Controls.scroll:StickyHeader>
+      </Controls.scroll:StickyBlock>
 </ws:template>
 <ws:template name="groupContentStickyWrapper">
-<Controls.scroll:StickyHeader
+<Controls.scroll:StickyBlock
         task1181007458="{{ itemData.task1181007458 }}"
         backgroundStyle="{{itemData.backgroundStyle}}"
         attr:class="controls-ListView__stickyGroup_{{itemData.style}} controls-ListView__groupContent
@@ -70,7 +70,7 @@
                controls-ListView__groupContent_align-{{textAlign || 'left'}}"
         fixedZIndex="{{4}}">
    <ws:partial template="groupContentTemplate" itemData="{{itemData}}"/>
-</Controls.scroll:StickyHeader>
+</Controls.scroll:StickyBlock>
 </ws:template>
 <ws:template name="groupContentWrapper">
 <div class="controls-ListView__groupContent

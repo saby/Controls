@@ -2,9 +2,9 @@
    <div class="controlsDemo__wrapper">
       <span> Включение/Отлкючение фиксации</span>
       <Controls.scroll:Container attr:class="controlsDemo_fixedWidth350 controlsDemo__height300">
-         <Controls.scroll:StickyHeader mode="{{_mode}}">
+         <Controls.scroll:StickyBlock mode="{{_mode}}">
             <h2 class="controlsDemo__wrapper">Header</h2>
-         </Controls.scroll:StickyHeader>
+         </Controls.scroll:StickyBlock>
 
          <div class="controlsDemo-StickyHeader-MultiHeader__content">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -30,12 +30,12 @@
    <div class="controlsDemo__wrapper">
       <span>Смена режима</span>
       <Controls.scroll:Container attr:class="controlsDemo_fixedWidth350 controlsDemo__height300">
-         <Controls.scroll:StickyHeader mode="{{_stickyMode}}">
+         <Controls.scroll:StickyBlock mode="{{_stickyMode}}">
             <h2 class="controlsDemo__wrapper">Header1</h2>
-         </Controls.scroll:StickyHeader>
-         <Controls.scroll:StickyHeader mode="{{_stickyMode}}">
+         </Controls.scroll:StickyBlock>
+         <Controls.scroll:StickyBlock mode="{{_stickyMode}}">
             <h2 class="controlsDemo__wrapper">Header2</h2>
-         </Controls.scroll:StickyHeader>
+         </Controls.scroll:StickyBlock>
 
          <div class="controlsDemo-StickyHeader-MultiHeader__content">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -64,22 +64,22 @@
             <div class="controlsDemo-StickyHeader-Mode__headers">
                <Controls.scroll:Group>
                   <div class="controlsDemo-StickyHeader-Mode__headers-wrapper">
-                     <Controls.scroll:StickyHeader mode="{{ _groupMode }}">
+                     <Controls.scroll:StickyBlock mode="{{ _groupMode }}">
                         <div class="controlsDemo__wrapper">Header 1</div>
-                     </Controls.scroll:StickyHeader>
-                     <Controls.scroll:StickyHeader mode="{{ _groupMode }}">
+                     </Controls.scroll:StickyBlock>
+                     <Controls.scroll:StickyBlock mode="{{ _groupMode }}">
                         <div class="controlsDemo__wrapper">Header 2</div>
-                     </Controls.scroll:StickyHeader>
+                     </Controls.scroll:StickyBlock>
                   </div>
                </Controls.scroll:Group>
                <Controls.scroll:Group>
                   <div class="controlsDemo-StickyHeader-Mode__headers-wrapper">
-                     <Controls.scroll:StickyHeader mode="{{ _groupMode }}">
+                     <Controls.scroll:StickyBlock mode="{{ _groupMode }}">
                         <div class="controlsDemo__wrapper">Header 3</div>
-                     </Controls.scroll:StickyHeader>
-                     <Controls.scroll:StickyHeader mode="{{ _groupMode }}">
+                     </Controls.scroll:StickyBlock>
+                     <Controls.scroll:StickyBlock mode="{{ _groupMode }}">
                         <div class="controlsDemo__wrapper">Header 4</div>
-                     </Controls.scroll:StickyHeader>
+                     </Controls.scroll:StickyBlock>
                   </div>
                </Controls.scroll:Group>
 

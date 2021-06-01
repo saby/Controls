@@ -89,11 +89,11 @@
 </ws:template>
 
 <ws:template name="STICKY_LADDER_HEADER_CONTENT">
-   <Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{'transparent'}}"
+   <Controls.scroll:StickyBlock position="{{ {'vertical' : 'topBottom'} }}" backgroundStyle="{{'transparent'}}"
                                  shadowVisibility="hidden"
                                  mode="replaceable">
       <ws:partial template="COLUMN_CONTENT" isLadderHeader="{{ true }}" currentColumn="{{currentColumn}}" ladderWrapperClass="controls-Grid__cell-content-wrapper_ladder" stickyProperty="{{stickyProperty}}" attr:class="{{itemData.getClassesLadderHeading(currentColumn, itemData.theme)}}"/>
-   </Controls.scroll:StickyHeader>
+   </Controls.scroll:StickyBlock>
 </ws:template>
 
 <ws:template name="STICKY_LADDER_HEADER">
@@ -172,7 +172,7 @@
       <ws:partial template="itemActionsTemplateChooser" itemActionsContainerStyles="{{itemData.gridCellStyles}}"/>
    </ws:if>
    <!-- сюда попадаем только в случае застиканной записи в мастер или мастер классик, константа стиля находится в itemData.style -->
-   <Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{itemData.style + '_sticked'}}"
+   <Controls.scroll:StickyBlock position="{{ {'vertical' : 'topBottom'} }}" backgroundStyle="{{itemData.style + '_sticked'}}"
                           mode="{{stickyMode}}"
                           shadowVisibility="lastVisible"
                           attr:class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}
@@ -182,7 +182,7 @@
                                       {{ marker !== false ? currentColumn.classList.marked }}"
                           attr:style="{{currentColumn.gridCellStyles + itemData.getCellStyle(itemData, currentColumn, colspan)}}">
       <ws:partial template="COLUMN_CONTENT"/>
-   </Controls.scroll:StickyHeader>
+   </Controls.scroll:StickyBlock>
    <ws:if data="{{ itemData.columnScroll && itemData.itemActionsDrawPosition === 'after' }}">
       <ws:if data="{{ itemData.isDrawActions(itemData, currentColumn, colspan) }}">
          <ws:partial template="itemActionsTemplateChooser" itemActionsContainerStyles="{{itemData.itemActionsGridCellStyles}}"/>
