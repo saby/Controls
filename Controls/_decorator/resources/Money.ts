@@ -1,18 +1,18 @@
-export function getMainClass(underline: string, style: string): string {
+export function calculateMainClass(underline: string, style: string): string {
     return 'controls-DecoratorMoney' + `${underline === 'hovered' ? ' controls-DecoratorMoney__underline' : ''}
             ${style ? ' controls-DecoratorMoney_style-' + style : ''}`;
 }
 
-export function getCurrencyClass(currencySize: string, fontColorStyle: string, fontWeight: string): string {
+export function calculateCurrencyClass(currencySize: string, fontColorStyle: string, fontWeight: string): string {
     return `${currencySize ? 'controls-fontsize-' + currencySize : ''} ${fontColorStyle ? ' controls-text-' + fontColorStyle : ''}
             ${fontWeight ? ' controls-fontweight-' + fontWeight : ''}`;
 }
 
-export function getStrokedClass(stroked: boolean): string {
+export function calculateStrokedClass(stroked: boolean): string {
     return `${stroked ? 'controls-DecoratorMoney__stroked' : ''}`;
 }
 
-export function getIntegerClass(
+export function calculateIntegerClass(
     fontSize: string,
     fontColorStyle: string,
     fontWeight: string,
@@ -25,7 +25,7 @@ export function getIntegerClass(
             ${currency && currencyPosition === 'right' && isDisplayFractionPath ? ' controls-margin_right-2xs' + fontWeight : ''}`;
 }
 
-export function getFractionClass(
+export function calculateFractionClass(
     fraction: string,
     fontColorStyle: string,
     fractionFontSize: string,
