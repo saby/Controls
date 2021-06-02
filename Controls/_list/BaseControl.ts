@@ -2889,8 +2889,8 @@ const _private = {
             activeElement: options.activeElement,
             useNewModel: options.useNewModel,
             forceInitVirtualScroll: options?.navigation?.view === 'infinity',
-            topTriggerPositionCoefficient: options.topTriggerPositionCoefficient,
-            bottomTriggerPositionCoefficient: options.bottomTriggerPositionCoefficient,
+            topTriggerOffsetCoefficient: options.topTriggerOffsetCoefficient,
+            bottomTriggerOffsetCoefficient: options.bottomTriggerOffsetCoefficient,
             resetTopTriggerOffset: self._resetTopTriggerOffset,
             resetDownTriggerOffset: self._resetDownTriggerOffset
         });

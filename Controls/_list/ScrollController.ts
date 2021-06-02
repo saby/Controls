@@ -39,8 +39,8 @@ export interface IOptions extends IControlOptions, ICompatibilityOptions {
     needScrollCalculation: boolean;
     collection: Collection<Record>;
     activeElement: string | number;
-    topTriggerPositionCoefficient: number;
-    bottomTriggerPositionCoefficient: number;
+    topTriggerOffsetCoefficient: number;
+    bottomTriggerOffsetCoefficient: number;
     forceInitVirtualScroll: boolean;
     resetTopTriggerOffset: boolean;
     resetDownTriggerOffset: boolean;
@@ -714,9 +714,9 @@ export default class ScrollController {
         const maxBottomOffset = scrollHeight - maxTopOffset;
 
         this._topTriggerOffset = Math.min((scrollHeight && viewportHeight ? Math.min(scrollHeight, viewportHeight) : 0) *
-            (this._options.topTriggerPositionCoefficient || DEFAULT_TRIGGER_OFFSET), maxTopOffset);
+            (this._options.topTriggerOffsetCoefficient || DEFAULT_TRIGGER_OFFSET), maxTopOffset);
         this._bottomTriggerOffset = Math.min((scrollHeight && viewportHeight ? Math.min(scrollHeight, viewportHeight) : 0) *
-            (this._options.bottomTriggerPositionCoefficient || DEFAULT_TRIGGER_OFFSET), maxBottomOffset);
+            (this._options.bottomTriggerOffsetCoefficient || DEFAULT_TRIGGER_OFFSET), maxBottomOffset);
 
         const topTriggerOffset = resetTopTriggerOffset ? 0 : this._topTriggerOffset;
         const bottomTriggerOffset = resetDownTriggerOffset ? 0 : this._bottomTriggerOffset;
@@ -743,8 +743,8 @@ export default class ScrollController {
             virtualScrollConfig: {
                 mode: 'remove'
             },
-            topTriggerPositionCoefficient: DEFAULT_TRIGGER_OFFSET,
-            bottomTriggerPositionCoefficient: DEFAULT_TRIGGER_OFFSET
+            topTriggerOffsetCoefficient: DEFAULT_TRIGGER_OFFSET,
+            bottomTriggerOffsetCoefficient: DEFAULT_TRIGGER_OFFSET
         };
     }
 }

@@ -2,8 +2,8 @@
     <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height300">
         <Controls.list:View source="{{_viewSource}}"
                             bind:activeElement="_activeElement"
-                            topTriggerPositionCoefficient="{{3}}"
-                            bottomTriggerPositionCoefficient="{{3}}"
+                            topTriggerOffsetCoefficient="{{3}}"
+                            bottomTriggerOffsetCoefficient="{{3}}"
                             keyProperty="key">
             <ws:navigation view="infinity"/>
             <ws:virtualScrollConfig pageSize="{{5}}"/>
