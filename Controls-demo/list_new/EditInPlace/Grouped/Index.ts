@@ -19,11 +19,12 @@ export default class extends Control {
     protected _addPosition: string = 'top';
 
     protected _beforeMount(): void {
+        const data = getData();
         this._viewSource = new Memory({
             keyProperty: 'id',
             data
         });
-        this._fakeItemId = getData().length;
+        this._fakeItemId = data.length;
     }
 
     protected _setPosition(e, position: 'top' | 'bottom'): void {
