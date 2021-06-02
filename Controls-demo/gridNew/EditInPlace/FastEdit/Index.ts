@@ -4,8 +4,8 @@ import * as editingCellNumber from 'wml!Controls-demo/gridNew/EditInPlace/FastEd
 import * as editingCellText from 'wml!Controls-demo/gridNew/EditInPlace/FastEdit/editingCellText';
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
-import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
+import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -15,7 +15,7 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._itemsReadyCallback = this._itemsReadyCallback.bind(this);
-        this._columns = getCountriesStats().getColumnsWithFixedWidths().map((column, index) => {
+        this._columns = Countries.getColumnsWithFixedWidths().map((column, index) => {
             const resultColumn = column;
             // tslint:disable-next-line
             if (index !== 0) {
@@ -25,7 +25,7 @@ export default class extends Control {
             return resultColumn;
         });
         // tslint:disable-next-line
-        const data = getCountriesStats().getData().slice(0, 5);
+        const data = Countries.getData().slice(0, 5);
         this._viewSource = new Memory({
             keyProperty: 'key',
             data

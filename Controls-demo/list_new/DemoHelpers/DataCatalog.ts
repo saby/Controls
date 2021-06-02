@@ -455,8 +455,6 @@ export {
     getFewCategories,
     getCursorData,
     getGroupedCatalog,
-    getGroupedCatalogForSwitchingGroup,
-    getGroupedCatalogWithHiddenGroup,
     getEditableCatalog,
     generateData,
     getDataForComplexScroll,

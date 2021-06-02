@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/Columns/CellNoClickable/CellNoClickable';
 import {Memory} from 'Types/source';
-import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
+import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -11,7 +11,7 @@ export default class extends Control {
         this._viewSource = new Memory({
             keyProperty: 'key',
             // tslint:disable-next-line
-            data: getCountriesStats().getData().slice(0, 5)
+            data: Countries.getData().slice(0, 5)
         });
     }
 

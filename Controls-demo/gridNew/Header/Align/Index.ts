@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/Header/Align/Align';
 import {Memory} from 'Types/source';
-import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IHeaderCell } from 'Controls/grid';
 import { IColumn } from 'Controls/grid';
+import {Countries} from "Controls-demo/gridNew/DemoHelpers/Data/Countries";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -48,8 +48,8 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
-            data: getCountriesStats().getData().slice(0, 5)
+            keyProperty: 'id',
+            data: Countries.getData().slice(0, 5)
         });
     }
 
