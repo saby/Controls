@@ -22,11 +22,11 @@ interface IDialogPosition {
 
 class DialogStrategy {
 
-    protected _validateCoordinate(position: IDialogPosition, maxHeight: number, maxWidth: number): void {
-        if (position.height !== 'undefined' && position.height > maxHeight) {
+    protected _validateCoordinate(position: IDialogPosition, maxHeight: number, maxWidth: number): IDialogPosition {
+        if (position.height > maxHeight) {
             position.height = maxHeight;
         }
-        if (position.width !== 'undefined' && position.width > maxWidth) {
+        if (position.width > maxWidth) {
             position.width = maxWidth;
         }
         return position;
@@ -45,8 +45,8 @@ class DialogStrategy {
             minHeight, maxHeight
         }: ILimitingSizes = this._calculateLimitOfSizes(popupOptions, windowData);
 
-        const position = this._validateCoordinate(this._getPositionCoordinates(windowData, containerSizes, item),
-                                                    maxHeight, maxWidth);
+        const positionCoordinates = this._getPositionCoordinates(windowData, containerSizes, item);
+        const position = this._validateCoordinate(positionCoordinates, maxHeight, maxWidth);
 
         return {
             ...position,
@@ -181,7 +181,7 @@ class DialogStrategy {
 
         let diff;
         // check overflowX
-        const containerWidth = (width !== undefined && containerSizes.width > width) ? width : containerSizes.width;
+        const containerWidth = Math.min(containerSizes.width, width || 0);
         diff = (popupPosition[horizontalPositionProperty] + containerWidth) -
             (windowData.width + windowData.left);
         horizontalValue -= Math.max(0, diff);
@@ -190,7 +190,7 @@ class DialogStrategy {
         }
 
         // check overflowY
-        const containerHeight = (height !== undefined && containerSizes.height > height) ? height : containerSizes.height;
+        const containerHeight = Math.min(containerSizes.height, height || 0);
         diff = (popupPosition[verticalPositionProperty] + containerHeight) -
             (windowData.height + windowData.top);
         verticalValue -= Math.max(0, diff);
