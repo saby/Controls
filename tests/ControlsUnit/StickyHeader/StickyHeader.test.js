@@ -51,7 +51,7 @@ define([
                top: true,
                bottom: false
             }, {
-               position: 'topBottom',
+               position: 'topbottom',
                top: true,
                bottom: true
             }].forEach((test) => {

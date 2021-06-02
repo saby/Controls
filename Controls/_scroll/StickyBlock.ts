@@ -894,8 +894,9 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         return this._isStickySupport && options.mode !== MODE.notsticky;
     }
 
-    private _updateCanShadowVisible(position: IStickyHeaderOptions): void {
-        const verticalPosition = StickyBlock.getStickyPosition(position).vertical;
+    private _updateCanShadowVisible(options: IStickyHeaderOptions): void {
+        const stickyPosition = StickyBlock.getStickyPosition(options);
+        const verticalPosition = (stickyPosition?.vertical || '').toLowerCase();
         const top: boolean = verticalPosition.includes(POSITION.bottom);
         const bottom: boolean = verticalPosition.includes(POSITION.top);
         if (this._canShadowVisible.top !== top || this._canShadowVisible.bottom !== bottom) {
