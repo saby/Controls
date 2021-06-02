@@ -2,7 +2,10 @@
     <Controls.list:View
             name="list"
             keyProperty="id"
-            source="{{_viewSource}}">
+            source="{{_viewSource}}"
+            on:afterBeginEdit="_onAfterBeginEdit()"
+            on:beforeEndEdit="_onBeforeEndEdit()"
+            on:afterEndEdit="_onAfterEndEdit()">
         <ws:editingConfig editOnClick="{{true}}"/>
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate">
@@ -16,8 +19,7 @@
             </ws:partial>
         </ws:itemTemplate>
         <ws:footerTemplate>
-            <Controls.list:AddButton caption="Добавить пустую запись" on:click="_beginAddEmpty()"/>
-            <Controls.list:AddButton caption="Добавить запись с предустановками" on:click="_beginAddTemplated()"/>
+            <Controls.list:AddButton if="{{ _isEditing }}" caption="Сохранить" on:click="_commit()"/>
         </ws:footerTemplate>
     </Controls.list:View>
 </div>
