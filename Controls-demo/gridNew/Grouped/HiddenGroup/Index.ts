@@ -10,7 +10,7 @@ export default class extends Control<IControlOptions> {
     protected _viewSource: Memory;
     protected _columns: IColumn[] = [
         {
-            displayProperty: 'id',
+            displayProperty: 'key',
             width: '30px'
         },
         {

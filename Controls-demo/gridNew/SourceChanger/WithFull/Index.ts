@@ -46,7 +46,7 @@ export default class extends Control {
     private _viewSource2: Memory;
     protected _columns: IColumn[] = [
         {
-            displayProperty: 'id',
+            displayProperty: 'key',
             width: '50px'
         },
         {

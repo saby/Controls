@@ -16,7 +16,7 @@ export const Images = {
 export const Tasks = {
     getData: (): IData[] => [
         {
-            id: 1,
+            key: 1,
             message: 'Регламент: Ошибка в разработку. Автор: Дубенец Д.А. Описание: (reg-chrome-presto) 3.18.150 controls - Поехала верстка кнопок когда они задизейблены prestocarry',
             fullName: 'Крайнов Дмитрий',
             photo: Images.krainov,
@@ -25,7 +25,7 @@ export const Tasks = {
             group: 'CONTROLS_HIDDEN_GROUP'
         },
         {
-            id: 2,
+            key: 2,
             message: 'Регламент: Ошибка в разработку. Автор: Волчихина Л.С. Описание: Отображение колонок. При снятии галки с колонки неверная всплывающая подсказка',
             fullName: 'Крайнов Дмитрий',
             photo: Images.krainov,
@@ -34,7 +34,7 @@ export const Tasks = {
             group: 'CONTROLS_HIDDEN_GROUP'
         },
         {
-            id: 3,
+            key: 3,
             message: 'Смотри надошибку. Нужно сделать тесты, чтобы так в будущем не разваливалось',
             fullName: 'Крайнов Дмитрий',
             photo: Images.krainov,
@@ -43,7 +43,7 @@ export const Tasks = {
             group: 'CONTROLS_HIDDEN_GROUP'
         },
         {
-            id: 4,
+            key: 4,
             message: 'Регламент: Ошибка в разработку. Автор: Оборевич К.А. Описание: Розница. Замечания к шрифтам в окнах Что сохранить в PDF/Excel и Что напечатать',
             fullName: 'Крайнов Дмитрий',
             photo: Images.krainov,
@@ -52,7 +52,7 @@ export const Tasks = {
             group: 'Крайнов Дмитрий'
         },
         {
-            id: 5,
+            key: 5,
             message: 'Пустая строка при сканировании в упаковку Тест-онлайн adonis1/adonis123 1) Создать документ списания 2) отсканировать в него наименование/открыть РР/+Упаковка 3) Заполнить данные по упаковке/отсканировать еще 2 марки',
             fullName: 'Корбут Антон',
             photo: Images.korbyt,
@@ -61,7 +61,7 @@ export const Tasks = {
             group: 'Корбут Антон'
         },
         {
-            id: 6,
+            key: 6,
             message: 'Разобраться с getViewModel - либо наследование, либо создавать модель прямо в TreeControl и передавать в BaseControl, либо ещё какой то вариант придумать.',
             fullName: 'Кесарева Дарья',
             photo: Images.kesareva,
@@ -70,7 +70,7 @@ export const Tasks = {
             group: 'Кесарева Дарья'
         },
         {
-            id: 7,
+            key: 7,
             message: 'Научить reload обновлять табличное представление VDOM с сохранением набранных данных (например загруженных по кнопке "еще"). В данный момент есть deepReload, но он не сохраняет набранные данные.',
             fullName: 'Кесарева Дарья',
             photo: Images.kesareva,
@@ -79,7 +79,7 @@ export const Tasks = {
             group: 'Кесарева Дарья'
         },
         {
-            id: 8,
+            key: 8,
             message: 'Лесенка на VDOM. Перевести алгоритм на предварительный расчет в модели. Сделать демку.',
             fullName: 'Кесарева Дарья',
             photo: Images.kesareva,
@@ -88,7 +88,7 @@ export const Tasks = {
             group: 'Кесарева Дарья'
         },
         {
-            id: 9,
+            key: 9,
             message: 'Прошу сделать возможность отключения: 1) ховера на айтемах  у Controls/List, 2) курсор: поинтер',
             fullName: 'Кесарева Дарья',
             photo: Images.kesareva,
@@ -97,7 +97,7 @@ export const Tasks = {
             group: 'Кесарева Дарья'
         },
         {
-            id: 10,
+            key: 10,
             message: 'через шаблон ячейки должна быть возможность управлять colspan (или rowspan) отдельной ячейки. <ws:partial template="standartCellTemplate" colspan="2"> типа такого если я напишу, то у меня будет ячейка на две колонки',
             fullName: 'Кесарева Дарья',
             photo: Images.kesareva,
@@ -106,7 +106,7 @@ export const Tasks = {
             group: 'Кесарева Дарья'
         },
         {
-            id: 11,
+            key: 11,
             message: 'Не работают хлебные крошки и навигация по' +
                 'ним если идентификатор записи равен 0 Как повторить',
             fullName: 'Догадкин Владимир',
@@ -116,7 +116,7 @@ export const Tasks = {
             group: 'Догадкин Владимир'
         },
         {
-            id: 12,
+            key: 12,
             message: 'Не работает collapse в группировке в дереве test-online.sbis.ru сталин/Сталин123',
             fullName: 'Догадкин Владимир',
             photo: Images.dogadkin,
@@ -141,7 +141,7 @@ export const Tasks = {
     ],
     getDefaultColumns: (): IColumn[] => [
         {
-            displayProperty: 'id',
+            displayProperty: 'key',
             width: '30px'
         },
         {
@@ -155,7 +155,7 @@ export const Tasks = {
     ],
     getDefaultWithEditingColumns: (): IColumn[] => [
         {
-            displayProperty: 'id',
+            displayProperty: 'key',
             width: '30px'
         },
         {

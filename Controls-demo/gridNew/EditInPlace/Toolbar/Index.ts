@@ -52,13 +52,13 @@ export default class extends Control {
 
     _beforeBeginEdit(e: SyntheticEvent<null>, options: { item: Model }, isAdd: boolean): { item: Model } | void {
         if (isAdd) {
-            const id = ++this._fakeItemId;
+            const key = ++this._fakeItemId;
             return {
                 item: new Model({
                     keyProperty: 'key',
                     rawData: {
-                        id,
-                        number: id + 1,
+                        key,
+                        number: key + 1,
                         country: null,
                         capital: null,
                         population: null,

@@ -60,7 +60,7 @@ export const DnD: IForDnD = {
         Раздел: null
     }],
     getColumns: () =>  [{
-        displayProperty: 'id',
+        displayProperty: 'key',
         width: '30px'
     }, {
         displayProperty: 'title',
