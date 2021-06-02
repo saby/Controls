@@ -21,6 +21,9 @@ export default class extends Control {
                 selectorTemplate: {
                     templateName: 'Controls-demo/Lookup/MultipleInputNew/CompanySelector'
                 },
+                suggestTemplate: {
+                    templateName: 'Controls/suggestPopup:SuggestTemplate'
+                },
                 source: new Memory({
                     data: [
                         {
@@ -46,6 +49,9 @@ export default class extends Control {
                 searchParam: 'title',
                 selectorTemplate: {
                     templateName: 'Controls-demo/Lookup/MultipleInputNew/ContractorSelector'
+                },
+                suggestTemplate: {
+                    templateName: 'Controls/suggestPopup:SuggestTemplate'
                 },
                 source: new Memory({
                     data: [
@@ -73,6 +79,9 @@ export default class extends Control {
                 keyProperty: 'id',
                 selectorTemplate: {
                     templateName: 'Controls-demo/Lookup/MultipleInputNew/EmployeeSelector'
+                },
+                suggestTemplate: {
+                    templateName: 'Controls/suggestPopup:SuggestTemplate'
                 },
                 source: new Memory({
                     data: [
