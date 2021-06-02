@@ -89,8 +89,8 @@ class DialogController extends BaseController {
         /* start: Return all values to the node. Need for vdom synchronizer */
         container.style.width = width;
         container.style.height = height;
-        container.style.maxWidth = '';
-        container.style.maxHeight = '';
+        container.style.maxWidth = item.position.maxWidth ? `${item.position.maxWidth}px` : '';
+        container.style.maxHeight = item.position.maxHeight ? `${item.position.maxHeight}px` : '';
         scroll?.scrollTop = scrollTop;
         /* end: Return all values to the node. Need for vdom synchronizer */
 
