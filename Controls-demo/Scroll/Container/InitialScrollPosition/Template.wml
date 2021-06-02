@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper {{_options.theme.indexOf('large')<0 ? 'controlsDemo_fixedWidth500' : 'controlsDemo_fixedWidth800'}}">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Scroll/Container/InitialScrollPosition/VerticalEnd/Index' }}">
+            <a href="{{content.href}}">Проскролен до конца по вертикали</a>
+        </Router.router:Reference>
+        <Controls-demo.Scroll.Container.InitialScrollPosition.VerticalEnd.Index/>
+    </div>
+
+    <div class="controlsDemo__cell ControlsDemo-grouped__withEditing">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Scroll/Container/InitialScrollPosition/HorizontalEnd/Index' }}">
+            <a href="{{content.href}}">Проскролен до конца по горизонтали</a>
+        </Router.router:Reference>
+        <Controls-demo.Scroll.Container.InitialScrollPosition.HorizontalEnd.Index/>
+    </div>
+
+</div>

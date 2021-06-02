@@ -835,13 +835,15 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         return result;
     }
 
-    protected _notifyDraggingItemMouseMove(itemData, nativeEvent): void {
+    protected _draggingItemMouseMove(itemData: TreeItem, event: SyntheticEvent<MouseEvent>): void {
+        super._draggingItemMouseMove(itemData, event);
+
         const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
         const dndListController = this.getDndListController();
         const targetIsNotDraggableItem = dndListController.getDraggableItem()?.getContents() !== dispItem.getContents();
         if (dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() !== null && targetIsNotDraggableItem) {
-            const targetElement = _private.getTargetRow(this, nativeEvent);
-            const mouseOffsetInTargetItem = this._calculateOffset(nativeEvent, targetElement);
+            const targetElement = _private.getTargetRow(this, event);
+            const mouseOffsetInTargetItem = this._calculateOffset(event, targetElement);
             const dragTargetPosition = dndListController.calculateDragPosition({
                 targetItem: dispItem,
                 mouseOffsetInTargetItem
@@ -869,6 +871,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 }
             }
         }
+    }
+
+    protected _dragLeave(): void {
+        super._dragLeave();
+        this._clearTimeoutForExpandOnDrag();
     }
 
     protected _notifyDragEnd(dragObject, targetPosition) {

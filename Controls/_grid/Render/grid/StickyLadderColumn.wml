@@ -1,6 +1,6 @@
 <div class="{{ (gridColumn || itemData).getStickyContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
      style="{{ (gridColumn || itemData).getStickyContentStyles() }}">
-   <Controls.scroll:StickyHeader position="topbottom"
+   <Controls.scroll:StickyBlock position="{{ {'vertical' : 'topBottom'} }}"
                                  backgroundStyle="{{'transparent'}}"
                                  shadowVisibility="hidden"
                                  mode="replaceable"
@@ -10,5 +10,5 @@
                      attr:class="{{ gridColumn.getOriginalContentClasses(theme, cursor, templateHighlightOnHover) }}"
                      scope="{{ _options }}"
                      stickyProperty="{{ gridColumn.getStickyProperty() }}"/>
-   </Controls.scroll:StickyHeader>
+   </Controls.scroll:StickyBlock>
 </div>

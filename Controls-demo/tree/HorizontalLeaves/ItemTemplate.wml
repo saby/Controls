@@ -1,0 +1,19 @@
+<Controls.tree:ItemTemplate
+        scope="{{ _options }}"
+        expanderIcon="none"
+        levelIndentSize="null"
+        highlightOnHover="{{ !!item.isNode() }}"
+        attr:class="{{ item.isNode() ? 'ControlsDemo-HorizontalLeaves_node' : 'ControlsDemo-HorizontalLeaves_leaf' }}">
+    <ws:contentTemplate>
+        <ws:if data="{{ item.isNode() }}">
+            <div class="ControlsDemo-HorizontalLeaves_nodeTitle">{{ item.contents.title }}</div>
+        </ws:if>
+        <ws:else>
+            <div class="ControlsDemo-HorizontalLeaves_leafWrapper">
+                <div class="ControlsDemo-HorizontalLeaves_leafStatus">{{ item.contents.status }}</div>
+                <img class="ControlsDemo-HorizontalLeaves_leafImage" src="{{ item.contents.image }}"/>
+                <div class="ControlsDemo-HorizontalLeaves_leafTitle">{{ item.contents.title }}</div>
+            </div>
+        </ws:else>
+    </ws:contentTemplate>
+</Controls.tree:ItemTemplate>

@@ -19,7 +19,7 @@
 
                      controls-VScrollbar__thumb_size-{{_thumbThickness}}_theme-{{_options.theme}}
                      controls-VScrollbar__thumb_{{_thumbStyle}}_theme-{{_options.theme}}
-                     controls-VScrollbar__thumb_{{_options.direction}}
+                     controls-VScrollbar__thumb_{{_options.direction}}_theme-{{_options.theme}}
                      controls-VScrollbar__thumb_{{_options.direction}}_size-{{_thumbThickness}}_theme-{{_options.theme}}
                      {{_dragging ? 'controls-VScrollbar__thumb_dragging_size-' + _thumbThickness + ' controls-VScrollbar__thumb_dragging_' + _thumbStyle + '_theme-' + _options.theme}}"
          ></div>
