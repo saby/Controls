@@ -469,7 +469,7 @@ export const dynamicParentData = [
         nodeType: null
     },
     {
-        id: 3,
+        key: 3,
         title: 'Неисключительные права',
         count: '',
         price: '',
@@ -484,7 +484,7 @@ export const dynamicParentData = [
         nodeType: 'group'
     },
     {
-        id: 32,
+        key: 32,
         title: 'Права использования "СБИС ЭО-Базовый, Бюджет"',
         count: '1 шт',
         price: '1204500',
@@ -499,7 +499,7 @@ export const dynamicParentData = [
         nodeType: null
     },
     {
-        id: 33,
+        key: 33,
         title: 'Права использования аккаунта sbis.ru в течение 1 года',
         count: '1 шт',
         price: '4500',
@@ -514,7 +514,7 @@ export const dynamicParentData = [
         nodeType: null
     },
     {
-        id: 34,
+        key: 34,
         title: 'Права использования "СБИС Расширенный аналитический блок"',
         count: '1 шт',
         price: '9800',

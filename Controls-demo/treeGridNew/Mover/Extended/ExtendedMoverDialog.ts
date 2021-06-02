@@ -38,7 +38,7 @@ export default class extends Control<IControlOptions> {
                 onResult: (folderName): void => {
                     self._options.source.update(new RecordSet({
                         rawData: [{
-                            id: ++self._moverItemsCount,
+                            key: ++self._moverItemsCount,
                             title: folderName,
                             parent: null,
                             type: true

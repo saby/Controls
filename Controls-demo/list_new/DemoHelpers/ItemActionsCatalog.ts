@@ -3,45 +3,45 @@ import { IItemAction, TActionDisplayMode, TItemActionShowType } from 'Controls/i
 function getActionsForContacts(): IItemAction[] {
     return [
         {
-            key: 1,
+            id: 1,
             title: 'Прочитано',
             showType: TItemActionShowType.TOOLBAR
         },
         {
-            key: 2,
+            id: 2,
             icon: 'icon-PhoneNull',
             title: 'Позвонить',
             showType: TItemActionShowType.MENU_TOOLBAR
         },
         {
-            key: 3,
+            id: 3,
             icon: 'icon-EmptyMessage',
             title: 'Написать',
             'parent@': true,
             showType: TItemActionShowType.TOOLBAR
         },
         {
-            key: 4,
+            id: 4,
             icon: 'icon-Chat',
             title: 'Диалог',
             showType: TItemActionShowType.MENU_TOOLBAR,
             parent: 3
         },
         {
-            key: 5,
+            id: 5,
             icon: 'icon-Email',
             title: 'Email',
             showType: TItemActionShowType.MENU,
             parent: 3
         },
         {
-            key: 6,
+            id: 6,
             icon: 'icon-Profile',
             title: 'Профиль пользователя',
             showType: TItemActionShowType.MENU
         },
         {
-            key: 7,
+            id: 7,
             title: 'Удалить',
             showType: TItemActionShowType.MENU,
             icon: 'icon-Erase',
@@ -52,7 +52,7 @@ function getActionsForContacts(): IItemAction[] {
 function getActionsWithDisplayMode(): IItemAction[] {
     return [
         {
-            key: 1,
+            id: 1,
             icon: 'icon-Email',
             title: 'Email',
             displayMode: TActionDisplayMode.BOTH,
@@ -60,14 +60,14 @@ function getActionsWithDisplayMode(): IItemAction[] {
             showType: TItemActionShowType.TOOLBAR
         },
         {
-            key: 2,
+            id: 2,
             icon: 'icon-Profile',
             title: 'Профиль пользователя',
             displayMode: TActionDisplayMode.TITLE,
             showType: TItemActionShowType.TOOLBAR
         },
         {
-            key: 3,
+            id: 3,
             title: 'Удалить',
             showType: TItemActionShowType.TOOLBAR,
             displayMode: TActionDisplayMode.ICON,

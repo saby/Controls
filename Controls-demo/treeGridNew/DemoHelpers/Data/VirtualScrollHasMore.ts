@@ -36,7 +36,7 @@ export const VirtualScrollHasMore = {
                     type: null
                 },
                 {   // tslint:disable-next-line
-                    id: itemsCount + (2 * i),
+                    key: itemsCount + (2 * i),
                     // tslint:disable-next-line
                     title: `Запись второго уровня с id = ${itemsCount + itemsCount + (2 * i)}`,
                     parent: 0,
@@ -45,7 +45,7 @@ export const VirtualScrollHasMore = {
             );
         }
 
-        return result.sort((a, b) => a.id > b.id ? 1 : -1);
+        return result.sort((a, b) => a.key > b.key ? 1 : -1);
     },
     getColumns: (): IColumn[] => ([{
         displayProperty: 'title',
@@ -53,7 +53,7 @@ export const VirtualScrollHasMore = {
     }]),
     getDataForVirtual: (): IData[] => [
         {
-            id: 1,
+            key: 1,
             title: 'Apple',
             country: 'США',
             rating: '8.5',
@@ -63,7 +63,7 @@ export const VirtualScrollHasMore = {
             photo: explorerImages[0]
         },
         {
-            id: 2,
+            key: 2,
             title: 'Iphone 1',
             parent: 1,
             rating: '9.2',
@@ -72,7 +72,7 @@ export const VirtualScrollHasMore = {
             photo: explorerImages[1]
         },
         {
-            id: 11,
+            key: 11,
             title: 'Iphone 2',
             parent: 1,
             rating: '9.2',
@@ -81,21 +81,21 @@ export const VirtualScrollHasMore = {
             photo: explorerImages[1]
         },
         {
-            id: 100,
+            key: 100,
             title: 'Iphone 1 pro',
             parent: 11,
             rating: '9.2',
             type: null
         },
         {
-            id: 101,
+            key: 101,
             title: 'Iphone 2 default',
             parent: 11,
             rating: '9.2',
             type: null
         },
         {
-            id: 12,
+            key: 12,
             title: 'Iphone 3',
             parent: 1,
             rating: '9.2',
@@ -103,21 +103,21 @@ export const VirtualScrollHasMore = {
             hasChild: true
         },
         {
-            id: 103,
+            key: 103,
             title: 'Iphone 3 pro',
             parent: 12,
             rating: '9.2',
             type: null
         },
         {
-            id: 104,
+            key: 104,
             title: 'Iphone 3 default',
             parent: 12,
             rating: '9.2',
             type: null
         },
         {
-            id: 13,
+            key: 13,
             title: 'Iphone 3s',
             parent: 1,
             rating: '9.2',
@@ -126,7 +126,7 @@ export const VirtualScrollHasMore = {
             photo: explorerImages[0]
         },
         {
-            id: 14,
+            key: 14,
             title: 'Iphone 4',
             parent: 1,
             rating: '9.2',
@@ -135,7 +135,7 @@ export const VirtualScrollHasMore = {
             photo: explorerImages[0]
         },
         {
-            id: 3,
+            key: 3,
             title: 'iPhone 5',
             rating: '9.5',
             parent: null,
@@ -143,7 +143,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 135,
+            key: 135,
             title: 'Usable Phone',
             modelId: 'MM16',
             rating: '7.2',
@@ -152,7 +152,7 @@ export const VirtualScrollHasMore = {
             type: null
         },
         {
-            id: 136,
+            key: 136,
             title: 'Unusable Phone',
             modelId: 'MM16',
             rating: '7.2',
@@ -161,7 +161,7 @@ export const VirtualScrollHasMore = {
             type: null
         },
         {
-            id: 137,
+            key: 137,
             title: 'Pencel',
             modelId: 'MM16',
             rating: '7.2',
@@ -170,7 +170,7 @@ export const VirtualScrollHasMore = {
             type: null
         },
         {
-            id: 138,
+            key: 138,
             title: 'Magic Pencel',
             modelId: 'MM16',
             rating: '7.2',
@@ -179,7 +179,7 @@ export const VirtualScrollHasMore = {
             type: null
         },
         {
-            id: 4,
+            key: 4,
             title: 'iPhone 5s',
             rating: '8.9',
             parent: null,
@@ -187,42 +187,42 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 6,
+            key: 6,
             title: 'iPhone X Series',
             rating: '7.6',
             parent: null,
             type: true
         },
         {
-            id: 7,
+            key: 7,
             title: 'iPhone 6s',
             rating: '7.4',
             parent: null,
             type: true
         },
         {
-            id: 8,
+            key: 8,
             title: 'iPhone Xs Max',
             rating: '6.8',
             parent: null,
             type: true
         },
         {
-            id: 9,
+            key: 9,
             title: 'iPhone XR',
             rating: '7.1',
             parent: 6,
             type: true
         },
         {
-            id: 10,
+            key: 10,
             title: 'Notebooks',
             parent: null,
             rating: '9.4',
             type: true
         },
         {
-            id: 11,
+            key: 11,
             title: 'MacBook Pro',
             rating: '7.2',
             modelId: 'MacBookPro15,4',
@@ -233,7 +233,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 12,
+            key: 12,
             title: 'MacBook Pro',
             modelId: 'MacBookPro15,3',
             rating: '6.9',
@@ -244,7 +244,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 120,
+            key: 120,
             title: 'MacBook Pro Next',
             rating: '7.2',
             modelId: 'MacBookPro15,4',
@@ -255,7 +255,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 121,
+            key: 121,
             title: 'MacBook Pro Prev',
             modelId: 'MacBookPro15,3',
             rating: '6.9',
@@ -266,7 +266,7 @@ export const VirtualScrollHasMore = {
             type: null
         },
         {
-            id: 123,
+            key: 123,
             title: 'MacBook Air',
             rating: '7.2',
             modelId: 'MacBookPro15,4',
@@ -277,7 +277,7 @@ export const VirtualScrollHasMore = {
             type: null
         },
         {
-            id: 124,
+            key: 124,
             title: 'MacBook Air',
             modelId: 'MacBookPro15,3',
             rating: '6.9',
@@ -288,7 +288,7 @@ export const VirtualScrollHasMore = {
             type: null
         },
         {
-            id: 13,
+            key: 13,
             title: 'MacBook Air',
             modelId: 'MacBookPro15,2',
             size: '13 дюймов',
@@ -299,7 +299,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 15,
+            key: 15,
             title: 'MacBook Pro',
             modelId: 'MacBookPro14,2',
             size: '13 дюймов',
@@ -310,7 +310,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 16,
+            key: 16,
             title: 'Magic Mouse 2',
             modelId: 'MM16',
             rating: '7.2',
@@ -319,7 +319,7 @@ export const VirtualScrollHasMore = {
             type: null
         },
         {
-            id: 130,
+            key: 130,
             title: 'Magic Mouse 3',
             modelId: 'MM16',
             rating: '7.2',
@@ -328,7 +328,7 @@ export const VirtualScrollHasMore = {
             type: null
         },
         {
-            id: 131,
+            key: 131,
             title: 'Magic Pencel 3',
             modelId: 'MM16',
             rating: '7.2',
@@ -337,7 +337,7 @@ export const VirtualScrollHasMore = {
             type: null
         },
         {
-            id: 132,
+            key: 132,
             title: 'Magic Stick',
             modelId: 'MM16',
             rating: '7.2',
@@ -346,7 +346,7 @@ export const VirtualScrollHasMore = {
             type: null
         },
         {
-            id: 133,
+            key: 133,
             title: 'Magic Box',
             modelId: 'MM16',
             rating: '7.2',
@@ -355,7 +355,7 @@ export const VirtualScrollHasMore = {
             type: null
         },
         {
-            id: 17,
+            key: 17,
             title: 'Samsung',
             country: 'Южная Корея',
             rating: '8.0',
@@ -365,7 +365,7 @@ export const VirtualScrollHasMore = {
             photo: explorerImages[0]
         },
         {
-            id: 18,
+            key: 18,
             title: 'Meizu',
             rating: '7.5',
             country: 'КНР',
@@ -374,7 +374,7 @@ export const VirtualScrollHasMore = {
             photo: explorerImages[0]
         },
         {
-            id: 19,
+            key: 19,
             title: 'Asus',
             rating: '7.3',
             country: 'Тайвань',
@@ -383,7 +383,7 @@ export const VirtualScrollHasMore = {
             photo: explorerImages[0]
         },
         {
-            id: 20,
+            key: 20,
             title: 'Acer',
             rating: '7.1',
             country: 'Тайвань',
@@ -392,35 +392,35 @@ export const VirtualScrollHasMore = {
             photo: explorerImages[1]
         },
         {
-            id: 23,
+            key: 23,
             title: 'Samusng 1',
             rating: '9.5',
             parent: 17,
             type: null
         },
         {
-            id: 24,
+            key: 24,
             title: 'Samsung 2',
             rating: '9.5',
             parent: 17,
             type: null
         },
         {
-            id: 25,
+            key: 25,
             title: 'Samsung 3',
             rating: '9.5',
             parent: 17,
             type: null
         },
         {
-            id: 26,
+            key: 26,
             title: 'Samsung 4',
             rating: '9.5',
             parent: 17,
             type: null
         },
         {
-            id: 30,
+            key: 30,
             title: 'iPhone 2009',
             rating: '9.5',
             parent: 3,
@@ -428,7 +428,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 31,
+            key: 31,
             title: 'iPhone 2010',
             rating: '8.9',
             parent: 3,
@@ -436,7 +436,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 32,
+            key: 32,
             title: 'iPhone 2011',
             rating: '9.5',
             parent: 3,
@@ -444,7 +444,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 33,
+            key: 33,
             title: 'iPhone 2012',
             rating: '8.9',
             parent: 3,
@@ -452,7 +452,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 34,
+            key: 34,
             title: 'iPhone 2013',
             rating: '9.5',
             parent: 3,
@@ -460,7 +460,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 35,
+            key: 35,
             title: 'iPhone 2014',
             rating: '8.9',
             parent: 3,
@@ -468,7 +468,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 36,
+            key: 36,
             title: 'iPhone 2015',
             rating: '9.5',
             parent: 3,
@@ -476,7 +476,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 37,
+            key: 37,
             title: 'iPhone 2016',
             rating: '8.9',
             parent: 3,
@@ -484,7 +484,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 38,
+            key: 38,
             title: 'iPhone 2017',
             rating: '9.5',
             parent: 3,
@@ -492,7 +492,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 39,
+            key: 39,
             title: 'iPhone 2010',
             rating: '8.9',
             parent: 4,
@@ -500,7 +500,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 40,
+            key: 40,
             title: 'Galaxy 2011',
             rating: '8.9',
             parent: 4,
@@ -508,7 +508,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 41,
+            key: 41,
             title: 'Smthy 2012',
             rating: '8.9',
             parent: 4,
@@ -516,7 +516,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 42,
+            key: 42,
             title: 'Eho 2013',
             rating: '8.9',
             parent: 4,
@@ -524,7 +524,7 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 43,
+            key: 43,
             title: 'Charger 2014',
             rating: '8.9',
             parent: 4,
@@ -532,238 +532,238 @@ export const VirtualScrollHasMore = {
             type: true
         },
         {
-            id: 44,
+            key: 44,
             title: 'Phone 2000',
             rating: '8.9',
             parent: null,
             type: null
         },
         {
-            id: 45,
+            key: 45,
             title: 'Asus 2001',
             rating: '3',
             parent: null,
             type: null
         },
         {
-            id: 46,
+            key: 46,
             title: 'Aser 2002',
             rating: '2',
             parent: null,
             type: null
         },
         {
-            id: 47,
+            key: 47,
             title: 'Iphone 2003',
             rating: '2',
             parent: null,
             type: null
         },
         {
-            id: 48,
+            key: 48,
             title: 'Samsung 2004',
             rating: '3.6',
             parent: null,
             type: null
         },
         {
-            id: 49,
+            key: 49,
             title: 'Note 2005',
             rating: '8.9',
             parent: null,
             type: null
         },
         {
-            id: 50,
+            key: 50,
             title: 'Del 2006',
             rating: '8.9',
             parent: null,
             type: null
         },
         {
-            id: 51,
+            key: 51,
             title: 'Hp 2007',
             rating: '9.6',
             parent: null,
             type: null
         },
         {
-            id: 52,
+            key: 52,
             title: 'Cristal 2008',
             rating: '3.1',
             parent: null,
             type: null
         },
         {
-            id: 53,
+            key: 53,
             title: 'Phone 2009',
             rating: '2.4',
             parent: null,
             type: null
         },
         {
-            id: 54,
+            key: 54,
             title: 'Balalaika 2010',
             rating: '8.9',
             parent: null,
             type: null
         },
         {
-            id: 55,
+            key: 55,
             title: 'Elements 2011',
             rating: '9',
             parent: null,
             type: null
         },
         {
-            id: 56,
+            key: 56,
             title: 'Light House 2012',
             rating: '4',
             parent: null,
             type: null
         },
         {
-            id: 57,
+            key: 57,
             title: 'Google Chrome',
             rating: '0.2',
             parent: null,
             type: null
         },
         {
-            id: 58,
+            key: 58,
             title: 'Explorer',
             rating: '5',
             parent: null,
             type: null
         },
         {
-            id: 59,
+            key: 59,
             title: 'Spider Monky',
             rating: '6',
             parent: null,
             type: null
         },
         {
-            id: 60,
+            key: 60,
             title: 'V8',
             rating: '8',
             parent: null,
             type: null
         },
         {
-            id: 61,
+            key: 61,
             title: 'IE 2001',
             rating: '8.9',
             parent: null,
             type: null
         },
         {
-            id: 62,
+            key: 62,
             title: 'IE 2002',
             rating: '3',
             parent: null,
             type: null
         },
         {
-            id: 63,
+            key: 63,
             title: 'IE 2003',
             rating: '2',
             parent: null,
             type: null
         },
         {
-            id: 64,
+            key: 64,
             title: 'IE 2004',
             rating: '2',
             parent: null,
             type: null
         },
         {
-            id: 65,
+            key: 65,
             title: 'IE 2005',
             rating: '3.6',
             parent: null,
             type: null
         },
         {
-            id: 66,
+            key: 66,
             title: 'Chrome 2006',
             rating: '8.9',
             parent: null,
             type: null
         },
         {
-            id: 67,
+            key: 67,
             title: 'Mozila 2007',
             rating: '8.9',
             parent: null,
             type: null
         },
         {
-            id: 68,
+            key: 68,
             title: 'Mozila 2008',
             rating: '9.6',
             parent: null,
             type: null
         },
         {
-            id: 69,
+            key: 69,
             title: 'Chrome 2009',
             rating: '3.1',
             parent: null,
             type: null
         },
         {
-            id: 70,
+            key: 70,
             title: 'Yandex 2010',
             rating: '2.4',
             parent: null,
             type: null
         },
         {
-            id: 71,
+            key: 71,
             title: 'Chrome 2010',
             rating: '8.9',
             parent: null,
             type: null
         },
         {
-            id: 72,
+            key: 72,
             title: 'Mozila 2011',
             rating: '9',
             parent: null,
             type: null
         },
         {
-            id: 73,
+            key: 73,
             title: 'Light House 2011',
             rating: '4',
             parent: null,
             type: null
         },
         {
-            id: 74,
+            key: 74,
             title: 'Google Chrome 2014',
             rating: '0.2',
             parent: null,
             type: null
         },
         {
-            id: 75,
+            key: 75,
             title: 'Explorer 2015',
             rating: '5',
             parent: null,
             type: null
         },
         {
-            id: 76,
+            key: 76,
             title: 'Web engine 2016',
             rating: '6',
             parent: null,
             type: null
         },
         {
-            id: 77,
+            key: 77,
             title: 'V8 2017',
             rating: '8',
             parent: null,
