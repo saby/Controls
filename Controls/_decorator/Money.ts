@@ -265,7 +265,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
 
     private static toString(value: string, precision: number): string {
         if (value === null) {
-            return '0' + precision ? '.' + Money.getZeroFractionPath(precision) : '';
+            return '0' + (precision ? '.00' : '');
         }
         if (typeof value === 'number') {
             return numberToString(value);
@@ -282,7 +282,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         const dotPosition = value.indexOf('.');
 
         if (dotPosition === -1) {
-            return value + `.${Money.getZeroFractionPath(precision)}`;
+            return value + (precision ? '.00' : '');
         }
 
         if (!precision) {
@@ -292,7 +292,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         const fractionLength = value.length - dotPosition - 1;
 
         if (fractionLength < precision) {
-            return value + Money.getZeroFractionPath(precision - fractionLength);
+            return value + '0'.repeat(precision - fractionLength);
         }
 
         if (fractionLength > precision) {
@@ -300,10 +300,6 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         }
 
         return value;
-    }
-
-    private static getZeroFractionPath(precision: number): string {
-        return '0'.repeat(precision);
     }
 
     static getDefaultOptions(): Partial<IMoneyOptions> {
@@ -330,7 +326,10 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
             fontSize: descriptor(String),
             useGrouping: descriptor(Boolean),
             showEmptyDecimals: descriptor(Boolean),
-            precision: descriptor(Number),
+            precision: descriptor(Number).oneOf([
+                0,
+                2
+            ]),
             value: descriptor(String, Number, null),
             currencySize: descriptor(String),
             currencyPosition: descriptor(String),
