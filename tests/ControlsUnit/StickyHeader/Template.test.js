@@ -44,6 +44,7 @@ define(
                ctrl._container = {
                   offsetParent: true
                };
+               ctrl._canShadowVisible = { top: true, bottom: true };
                template = TemplateUtil.clearTemplate(ctrl._template);
             });
 
@@ -75,6 +76,8 @@ define(
                inst._reverseOffsetStyle = ctrl._reverseOffsetStyle;
                inst._getBottomShadowStyle = ctrl._getBottomShadowStyle;
                inst._getNormalizedContainer = ctrl._getNormalizedContainer;
+               inst._updateCanShadowVisible = ctrl._updateCanShadowVisible;
+               inst._canShadowVisible = { top: true, bottom: true };
                inst._getComputedStyle = () => {
                   return {};
                };
