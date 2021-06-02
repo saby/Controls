@@ -44,6 +44,12 @@ export class Controller {
     private _collapsedItems: TKey[];
 
     private _model: Tree<Model, TreeItem<Model>>;
+
+    /**
+     * Флаг, идентифицирующий нужно или нет вызывать ф-ию загрузчик
+     * при развороте узлов.
+     */
+    private _loaderIsEnabled: boolean = true;
     //endregion
 
     constructor(options: IOptions) {
@@ -186,6 +192,20 @@ export class Controller {
     }
 
     /**
+     * Отключает указанную ф-ию загрузчик при развороте узлов
+     */
+    disableLoader(): void {
+        this._loaderIsEnabled = false;
+    }
+
+    /**
+     * Включает указанную ф-ию загрузчик при развороте узлов
+     */
+    enableLoader(): void {
+        this._loaderIsEnabled = true;
+    }
+
+    /**
      * Выполняет анализ и обработку переданных данных после чего применяет их к моделе.
      * 1. Если опция singleExpand выставлена, то оставит только по одной id в expandedItems
      * для каждого уровня иерархии
@@ -193,9 +213,14 @@ export class Controller {
      * 3. Если expandedItems и collapsedItems имеют пересечение, то это пересечение выкидывается из
      * expandedItems
      */
-    private _applyState(expandedItems: TKey[] = [], collapsedItems: TKey[] = [], callBeforeChangeModel?: Function): void | Promise<unknown> {
+    private _applyState(
+        expandedItems: TKey[] = [],
+        collapsedItems: TKey[] = [],
+        callBeforeChangeModel?: Function
+    ): void | Promise<unknown> {
+
         let newExpandedItems = [...expandedItems];
-        let newCollapsedItems = [...collapsedItems];
+        const newCollapsedItems = [...collapsedItems];
 
         //region 1. singleExpand
         // Если сказано что на одном уровне может быть только один развернутый итем,
@@ -355,8 +380,8 @@ export class Controller {
             return result;
         };
 
-        // Если в опциях указана ф-ия загрузчик, то вызовем её
-        const loadResult = this._options.loader ? this._options.loader(itemId) : undefined;
+        // Если в опциях указана ф-ия загрузчик и она включена, то вызовем её
+        const loadResult = this._options.loader && this._loaderIsEnabled ? this._options.loader(itemId) : undefined;
         if (loadResult instanceof Promise) {
             return loadResult.then(expand);
         } else {
