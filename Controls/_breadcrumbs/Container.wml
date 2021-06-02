@@ -1,8 +1,15 @@
 <ws:if data="{{_items}}">
-   <ws:partial template="{{_options.content}}"
-               items="{{_items}}"
-               on:itemClick="_itemClickHandler()"
-   />
+   <Controls.dragnDrop:Container on:documentDragEnd="_documentDragEnd()" on:documentDragStart="_documentDragStart()">
+      <ws:partial template="{{_options.content}}"
+                  items="{{_items}}"
+                  keyProperty="{{_keyProperty}}"
+                  parentProperty="{{_parentProperty}}"
+                  rootVisible="{{_dragOnBreadCrumbs}}"
+                  highlighter="{{[_breadCrumbsDragHighlighter]}}"
+                  on:hoveredItemChanged="_hoveredCrumbChanged()"
+                  on:itemClick="_itemClickHandler()"
+      />
+   </Controls.dragnDrop:Container>
 </ws:if>
 <ws:else>
    <invisible-node/>
