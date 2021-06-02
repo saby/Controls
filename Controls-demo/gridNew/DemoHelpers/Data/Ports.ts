@@ -4,7 +4,7 @@ import {IData} from "Controls-demo/gridNew/DemoHelpers/DataCatalog";
 export const Ports = {
     getData: (): IData[] => [
         {
-            id: 1,
+            key: 1,
             name: 'Новороссийский морской торговый порт',
             invoice: 3500,
             documentSign: 1,
@@ -17,7 +17,7 @@ export const Ports = {
             shipper: null
         },
         {
-            id: 2,
+            key: 2,
             name: 'Морской порт Санкт-Петербург',
             invoice: 3501,
             documentSign: 1,
@@ -30,7 +30,7 @@ export const Ports = {
             shipper: null
         },
         {
-            id: 3,
+            key: 3,
             name: 'Морской торговый порт Усть-Луга',
             invoice: 3502,
             documentSign: 2,
@@ -87,13 +87,13 @@ export const Ports = {
             displayProperty: 'document'
         }
     ],
-    getDocumentSigns: (): Array<{ id: number, title: string }> => [
+    getDocumentSigns: (): Array<{ key: number, title: string }> => [
         {
-            id: 1,
+            key: 1,
             title: 'ТД предусмотрено'
         },
         {
-            id: 2,
+            key: 2,
             title: 'ТД не предусмотрено'
         }
     ]

@@ -47,7 +47,7 @@ export default class extends Control {
         // tslint:disable-next-line
         const data = Countries.getData().slice(0, 5);
         this._fakeItemId = data[data.length - 1].id;
-        this._viewSource = new Memory({keyProperty: 'id', data});
+        this._viewSource = new Memory({keyProperty: 'key', data});
     }
 
     _beforeBeginEdit(e: SyntheticEvent<null>, options: { item: Model }, isAdd: boolean): { item: Model } | void {
@@ -55,7 +55,7 @@ export default class extends Control {
             const id = ++this._fakeItemId;
             return {
                 item: new Model({
-                    keyProperty: 'id',
+                    keyProperty: 'key',
                     rawData: {
                         id,
                         number: id + 1,

@@ -14,7 +14,7 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: Events.getDataBeforeCollapsed(),
             parentProperty: 'parent',
             filter: (): boolean => true

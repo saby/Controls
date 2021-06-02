@@ -18,27 +18,27 @@ export default class extends Control {
    protected _beforeMount(): void {
        const data = [
            {
-               id: 1, title: 'Node', Раздел: null, 'Раздел@': true, Раздел$: null, hasChild: true
+               key: 1, title: 'Node', Раздел: null, 'Раздел@': true, Раздел$: null, hasChild: true
            }, {
-               id: 11, title: 'Node', Раздел: 1, 'Раздел@': true, Раздел$: null
+               key: 11, title: 'Node', Раздел: 1, 'Раздел@': true, Раздел$: null
            }, {
-               id: 111, title: 'Leaf', Раздел: 11, 'Раздел@': null, Раздел$: null
+               key: 111, title: 'Leaf', Раздел: 11, 'Раздел@': null, Раздел$: null
            }, {
-               id: 12, title: 'Hidden node', Раздел: 1, 'Раздел@': false, Раздел$: true, hasChild: false
+               key: 12, title: 'Hidden node', Раздел: 1, 'Раздел@': false, Раздел$: true, hasChild: false
            }, {
-               id: 13, title: 'Leaf', Раздел: 1, 'Раздел@': null, Раздел$: null
+               key: 13, title: 'Leaf', Раздел: 1, 'Раздел@': null, Раздел$: null
            }, {
-               id: 2, title: 'Node 2', Раздел: null, 'Раздел@': true, Раздел$: null, hasChild: true
+               key: 2, title: 'Node 2', Раздел: null, 'Раздел@': true, Раздел$: null, hasChild: true
            }, {
-               id: 21, title: 'Leaf 21', Раздел: 2, 'Раздел@': null, Раздел$: null
+               key: 21, title: 'Leaf 21', Раздел: 2, 'Раздел@': null, Раздел$: null
            }, {
-               id: 3, title: 'Node 3', Раздел: null, 'Раздел@': true, Раздел$: null, hasChild: false
+               key: 3, title: 'Node 3', Раздел: null, 'Раздел@': true, Раздел$: null, hasChild: false
            }, {
-               id: 31, title: 'Leaf 31', Раздел: 3, 'Раздел@': null, Раздел$: null
+               key: 31, title: 'Leaf 31', Раздел: 3, 'Раздел@': null, Раздел$: null
            }
       ];
       this._viewSource = new Memory({
-         keyProperty: 'id',
+         keyProperty: 'key',
          data
       });
    }

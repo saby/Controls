@@ -38,7 +38,7 @@ export const CellPadding = {
     ],
     getData: () => [
         {
-            id: 0,
+            key: 0,
             number: 'Russian Federation',
             country: 'Российская Федерация',
             capital: 'Москва',
@@ -47,7 +47,7 @@ export const CellPadding = {
             populationDensity: 8
         },
         {
-            id: 1,
+            key: 1,
             number: 'Canada',
             country: 'Канада',
             capital: 'Оттава',
@@ -56,7 +56,7 @@ export const CellPadding = {
             populationDensity: 3
         },
         {
-            id: 2,
+            key: 2,
             number: 'Unated States of America',
             country: 'Соединенные Штаты Америки',
             capital: 'Вашингтон',
@@ -65,7 +65,7 @@ export const CellPadding = {
             populationDensity: 30.71
         },
         {
-            id: 3,
+            key: 3,
             number: 'Peoples Republic of China',
             country: 'Китайская народная республика',
             capital: 'Пекин',
@@ -74,7 +74,7 @@ export const CellPadding = {
             populationDensity: 136.12
         },
         {
-            id: 4,
+            key: 4,
             number: 'trinidad and tabago',
             country: 'Тринидад и Табаго',
             capital: 'Город',

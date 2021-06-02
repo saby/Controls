@@ -2,7 +2,7 @@ import { IColumn } from 'Controls/grid';
 import * as Images from 'Controls-demo/DragNDrop/Images';
 
 interface IDndData {
-    id: number;
+    key: number;
     title: string;
     additional: string;
     image: string;
@@ -17,42 +17,42 @@ interface IForDnD {
 
 export const DnD: IForDnD = {
     getData: () => [{
-        id: 0,
+        key: 0,
         title: 'America',
         additional: 'USA',
         image: Images[0],
         'Раздел@': true,
         Раздел: null
     }, {
-        id: 1,
+        key: 1,
         title: 'France',
         additional: 'Europe',
         image: Images[1],
         'Раздел@': true,
         Раздел: null
     }, {
-        id: 2,
+        key: 2,
         title: 'Solar',
         additional: 'Star',
         image: Images[2],
         'Раздел@': true,
         Раздел: null
     }, {
-        id: 3,
+        key: 3,
         title: 'Luna',
         additional: 'Sattelite',
         image: Images[3],
         'Раздел@': null,
         Раздел: null
     }, {
-        id: 4,
+        key: 4,
         title: 'Pizza',
         additional: 'Food',
         image: Images[4],
         'Раздел@': null,
         Раздел: null
     }, {
-        id: 5,
+        key: 5,
         title: 'Monkey',
         additional: 'Animals',
         image: Images[5],

@@ -1,7 +1,7 @@
 import {IColumn, IHeaderCell} from "Controls/grid";
 
 interface IDataForShow {
-    id: number;
+    key: number;
     px: string;
     fr1of3: string;
     fr2of3: string;
@@ -15,7 +15,7 @@ export const CrossBrowserWidths = {
     getData(): IDataForShow[] {
         return [
             {
-                id: 1,
+                key: 1,
                 px: 'Строго 150px',
                 fr1of3: '1/3 свободного пространства. fr - гибкая ширина. fr расчитывается как доля от оставшегося свободного пространства внутри грида. Грубо говоря, сначала браузер просчитает ширины всех остальных колонок, потом fr',
                 fr2of3: '2/3 свободного пространства. После этого доступная ширина будет разделена на сумму всех коэффициентов указаных у колонок с fr(в данном гриде - 3) и распределена между колонками, в соответствии с коэффициентами.',
@@ -24,7 +24,7 @@ export const CrossBrowserWidths = {
                 maxContent: 'По ширине'
             },
             {
-                id: 2,
+                key: 2,
                 px: 'Ячейка 2/1',
                 maxContent: 'самой широкой ячеки',
                 fr1of3: 'Ячейка 2/3',

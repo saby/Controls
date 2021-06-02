@@ -19,7 +19,7 @@ export default class extends Control {
         this._columns[0].width = '350px';
 
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: Countries.getData()
         });
     }

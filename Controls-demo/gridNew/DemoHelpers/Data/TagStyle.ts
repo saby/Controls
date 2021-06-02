@@ -20,7 +20,7 @@ export const TagStyle = {
     ],
     getData: (): IData[] => [
         {
-            id: 0,
+            key: 0,
             number: 1,
             country: 'Россия',
             capital: 'Москва',
@@ -30,7 +30,7 @@ export const TagStyle = {
             tagStyle: null
         },
         {
-            id: 1,
+            key: 1,
             number: 2,
             country: 'Канада',
             capital: 'Оттава',
@@ -40,7 +40,7 @@ export const TagStyle = {
             tagStyle: 'info'
         },
         {
-            id: 2,
+            key: 2,
             number: 3,
             country: 'Соединенные Штаты Америки',
             capital: 'Вашингтон',
@@ -50,7 +50,7 @@ export const TagStyle = {
             tagStyle: 'danger'
         },
         {
-            id: 3,
+            key: 3,
             number: 4,
             country: 'Китай',
             capital: 'Пекин',
@@ -60,7 +60,7 @@ export const TagStyle = {
             tagStyle: 'primary'
         },
         {
-            id: 4,
+            key: 4,
             number: 5,
             country: 'Бразилия',
             capital: 'Бразилиа',
@@ -70,7 +70,7 @@ export const TagStyle = {
             tagStyle: 'success'
         },
         {
-            id: 5,
+            key: 5,
             number: 6,
             country: 'Австралия',
             capital: 'Канберра',
@@ -80,7 +80,7 @@ export const TagStyle = {
             tagStyle: 'warning'
         },
         {
-            id: 6,
+            key: 6,
             number: 7,
             country: 'Индия',
             capital: 'Нью-Дели',
@@ -90,7 +90,7 @@ export const TagStyle = {
             tagStyle: 'secondary'
         },
         {
-            id: 7,
+            key: 7,
             number: 8,
             country: 'Аргентина',
             capital: 'Буэнос-Айрес',

@@ -28,7 +28,7 @@ export default class extends Control {
     protected _beforeMount(): void {
         UserConfig.setParam('LIST_COLLAPSED_GROUP_' + this.GROUP_HISTORY_ID_NAME, JSON.stringify(['Крайнов Дмитрий']));
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: Tasks.getData()
         });
     }

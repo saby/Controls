@@ -3,7 +3,7 @@ import * as resTpl from 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/resul
 import { IHeaderCell } from "Controls/grid";
 
 export interface IEditingData {
-    id: number | string;
+    key: number | string;
     title?: string;
     description?: string;
     price?: string;
@@ -22,7 +22,7 @@ export interface IEditingData {
 export const Editing = {
     getEditingData: (): IEditingData[] => [
         {
-            id: 1,
+            key: 1,
             title: 'Время',
             description: 'Погода',
             price: '1',

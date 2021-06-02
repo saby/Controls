@@ -13,7 +13,7 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._items = new RecordSet({
-            keyProperty: 'id',
+            keyProperty: 'key',
             rawData: Countries.getData()
         });
     }

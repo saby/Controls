@@ -1,7 +1,7 @@
 import { IColumn } from 'Controls/grid';
 
 export interface IData {
-    id: number;
+    key: number;
     number?: number;
     country?: string;
     capital?: string;
