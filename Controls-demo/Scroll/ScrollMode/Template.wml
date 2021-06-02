@@ -1,7 +1,7 @@
 <div class="pageWrap">
     <div class="options-wrap demo-scrollMode__verticalHorizontal">
-        <div class="options-value">scrollMode = verticalHorizontal</div>
-        <Controls.scroll:Container class="scroll-container" scrollMode="verticalHorizontal">
+        <div class="options-value">scrollOrientation = verticalHorizontal</div>
+        <Controls.scroll:Container class="scroll-container" scrollOrientation="verticalHorizontal">
             <div class="content">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                 ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -22,8 +22,8 @@
         </Controls.scroll:Container>
     </div>
     <div class="options-wrap demo-scrollMode__verticalDefault">
-        <div class="options-value">scrollMode = vertical (default)</div>
-        <Controls.scroll:Container class="scroll-container" scrollMode="vertical">
+        <div class="options-value">scrollOrientation = vertical (default)</div>
+        <Controls.scroll:Container class="scroll-container" scrollOrientation="vertical">
             <div class="content">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                 ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco

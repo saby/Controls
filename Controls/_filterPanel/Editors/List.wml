@@ -1,6 +1,5 @@
 <ws:template name="listBase">
    <Controls.grid:View source="{{_options.source}}"
-                       filter="{{_filter}}"
                        columns="{{_columns}}"
                        keyProperty="{{_options.keyProperty}}"
                        selectedKeys="{{_selectedKeys}}"
@@ -14,7 +13,7 @@
                        itemsReadyCallback="{{_itemsReadyCallback}}"
                        on:itemClick="_handleItemClick()">
       <ws:multiSelectTemplate>
-         <ws:partial template="{{_circleTemplate}}" style="{{_options.style}}"/>
+         <ws:partial template="{{_circleTemplate}}" style="{{_options.style}}" on:click="_handleCheckBoxClick()"/>
       </ws:multiSelectTemplate>
    </Controls.grid:View>
 </ws:template>
@@ -23,11 +22,11 @@
    <ws:if data="{{_options.selectorTemplate}}">
       <ws:partial template="listBase">
          <ws:footerTemplate>
-            <Controls.buttons:Button viewMode="linkButton"
-                                     caption="{{_options.showSelectorCaption}}"
-                                     fontColorStyle="label"
-                                     on:click="_handleFooterClick()"
-                                     attr:class="controls-EditorList__footer"/>
+            <div class="controls-EditorList__footer">
+               <Controls.toggle:BigSeparator contrastBackground="{{false}}"
+                                             iconSize="l"
+                                             on:click="_handleFooterClick()"/>
+            </div>
          </ws:footerTemplate>
       </ws:partial>
    </ws:if>

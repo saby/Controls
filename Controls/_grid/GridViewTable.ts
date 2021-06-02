@@ -14,6 +14,11 @@ const GridViewTable = GridView.extend({
         return TableItem;
     },
 
+    _getGridViewWrapperClasses(options): string {
+        const classes = GridViewTable.superclass._getGridViewWrapperClasses.apply(this, arguments);
+        return `${classes} controls-Grid__Wrapper_table-layout`;
+    },
+
     _getGridViewClasses(options): string {
         const classes = GridViewTable.superclass._getGridViewClasses.apply(this, arguments);
         return `${classes} controls-Grid_table-layout controls-Grid_table-layout_fixed`;

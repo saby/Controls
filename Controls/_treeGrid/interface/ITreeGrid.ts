@@ -1,9 +1,18 @@
 export type TExpanderVisibility = 'visible'|'hasChildren'|'hasChildrenOrHover';
 
+/**
+ * @typedef {String} Controls/_treeGrid/interface/ITreeGrid/TGroupNodeVisibility
+ * Доступные значения для {@link Controls/_treeGrid/interface/ITreeGrid#groupNodeVisibility видимости групп в иерархической группировке}
+ * @variant visible Всегда показывать полученные из источника данных группы в иерархической группировке.
+ * @variant hasdata Показывать полученные из источника данных группы в иерархической группировке только если в метаданных передан параметр singleGroupNode со значением, отличным от true.
+ */
+export type TGroupNodeVisibility = 'hasdata' | 'visible';
+
 export interface IOptions {
     parentProperty: string;
     nodeProperty: string;
     nodeTypeProperty?: string;
+    groupNodeVisibility?: TGroupNodeVisibility;
     groupProperty?: string;
     hasChildrenProperty?: string;
     expanderVisibility?: TExpanderVisibility;
@@ -41,8 +50,9 @@ export default interface ITreeGrid {
  * <pre class="brush: js">
  * // TypeScript
  * class MyControl extends Control<IControlOptions> {
- *    _source: new RecordSet({
- *        rawData: [
+ *    _source: new Memory({
+ *        keyProperty: 'id',
+ *        data: [
  *            {
  *                id: 1,
  *                customNodeType: 'group',
@@ -64,4 +74,10 @@ export default interface ITreeGrid {
  *    })
  * }
  * </pre>
+ *
+ * @name Controls/_treeGrid/interface/ITreeGrid#groupNodeVisibility
+ * @cfg {TGroupNodeVisibility} Видимость групп в иерархической группировке
+ * @variant visible Всегда показывать полученные из источника данных группы в иерархической группировке.
+ * @variant hasdata Показывать полученные из источника данных группы в иерархической группировке только если в метаданных передан параметр singleGroupNode со значением, отличным от true.
+ * @default visible
  */

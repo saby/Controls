@@ -7,7 +7,18 @@
       <div class="controls-PeriodLiteDialog__header">
          <div class="controls-PeriodLiteDialog__currentValue"
               title="{[Текущий период]}"
-              on:click="_onHeaderClick()">{{_caption}}
+              on:click="_onHeaderClick()">
+            <ws:if data="{{ _options.headerContentTemplate }}">
+               <ws:partial
+                       template="{{ _options.headerContentTemplate }}"
+                       caption="{{ _caption }}"
+                       startValue="{{ _options.startValue }}"
+                       endValue="{{ _options.endValue }}"
+               />
+            </ws:if>
+            <ws:else>
+               {{_caption}}
+            </ws:else>
          </div>
          <div class="controls-PeriodLiteDialog__close
                      controls-icon controls-icon_size-m

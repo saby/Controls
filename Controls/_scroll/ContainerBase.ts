@@ -20,7 +20,7 @@ import {Entity} from 'Controls/dragnDrop';
 
 export interface IContainerBaseOptions extends IControlOptions {
     _notScrollableContent?: boolean; // Для HintWrapper, который сверстан максмально неудобно для скроллКонтейнера.
-    scrollMode?: SCROLL_MODE;
+    scrollOrientation?: SCROLL_MODE;
 }
 
 const KEYBOARD_SHOWING_DURATION: number = 500;
@@ -62,6 +62,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     private _savedScrollPosition: number = 0;
 
     private _virtualNavigationRegistrar: RegisterClass;
+    private _virtualNavigationState: {top: boolean, bottom: boolean} = { top: false, bottom: false };
 
     private _contentType: CONTENT_TYPE = CONTENT_TYPE.regular;
 
@@ -75,7 +76,8 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
     _beforeMount(options: IContainerBaseOptions, context?, receivedState?) {
         this._virtualNavigationRegistrar = new RegisterClass({register: 'virtualNavigation'});
-        if (!this._isHorizontalScroll(options.scrollMode)) {
+        const scrollOrientation = ContainerBase.getScrollOrientation(options);
+        if (!this._isHorizontalScroll(scrollOrientation)) {
             this._resizeObserver = new ResizeObserverUtil(this, this._resizeObserverCallback, this._resizeHandler);
         }
         this._resizeObserverSupported = this._resizeObserver?.isResizeObserverSupported();
@@ -114,15 +116,16 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _afterMount(): void {
+        const scrollOrientation = ContainerBase.getScrollOrientation(this._options);
         if (!this._scrollModel) {
             this._createScrollModel();
         }
-        if (!this._resizeObserver?.isResizeObserverSupported() || this._isHorizontalScroll(this._options.scrollMode)) {
+        if (!this._resizeObserver?.isResizeObserverSupported() || this._isHorizontalScroll(scrollOrientation)) {
             RegisterUtil(this, 'controlResize', this._controlResizeHandler, { listenAll: true });
             // ResizeObserver при инициализации контрола стрелнет событием ресайза.
             // Вызваем метод при инициализации сами если браузер не поддерживает ResizeObserver
             this._controlResizeHandler();
-        } else if (this._options.scrollMode === SCROLL_MODE.VERTICAL_HORIZONTAL) {
+        } else if (scrollOrientation === SCROLL_MODE.VERTICAL_HORIZONTAL) {
             // Из-за особенности верстки, контейнер, с которого мы считываем размеры скролла, растягивается только
             // по высоте. По ширине он совпадает с размерами своего родителя. Из-за этого невозможно определить ширину
             // скролла. Будем считать ширину скролла с дочернего элемента.
@@ -152,7 +155,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _beforeUpdate(options: IContainerBaseOptions) {
-        if (options.scrollMode !== this._options.scrollMode) {
+        if (ContainerBase.getScrollOrientation(options) !== ContainerBase.getScrollOrientation(this._options)) {
             this._scrollCssClass = this._getScrollContainerCssClass(options);
         }
     }
@@ -196,16 +199,10 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         clearInterval(this._autoScrollInterval);
     }
 
-    private _isHorizontalScroll(scrollModeOption: string): boolean {
-        const scrollMode = scrollModeOption.toLowerCase();
+    private _isHorizontalScroll(scrollOrientationOption: string): boolean {
+        const scrollOrientation = scrollOrientationOption.toLowerCase();
         // При горизонтальном скролле будет работать с событием controlResize
-        return scrollMode.indexOf('horizontal') !== -1;
-    }
-
-    private _isHorizontalScroll(scrollModeOption: string): boolean {
-        const scrollMode = scrollModeOption.toLowerCase();
-        // При горизонтальном скролле будет работать с событием controlResize
-        return scrollMode.indexOf('horizontal') !== -1;
+        return scrollOrientation.indexOf('horizontal') !== -1;
     }
 
     _controlResizeHandler(): void {
@@ -266,7 +263,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _registerIt(event: SyntheticEvent, registerType: string, component: any,
-                callback: () => void, triggers): void {
+                callback: Function, triggers): void {
         switch (registerType) {
             case 'scrollStateChanged':
                 this._registrars.scrollStateChanged.register(event, registerType, component, callback);
@@ -285,6 +282,14 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                 break;
             case 'virtualNavigation':
                 this._virtualNavigationRegistrar.register(event, registerType, component, callback);
+
+                // Список на afterMount сообщает о том, нужно ли показывать контент сверху и снизу.
+                // Но контент ниже списка строится после списка, и на момент события еще не построен.
+                // Сообщаем нижнему VirtualScrollContainer'у состояние виртуальной навигации при его регистрации.
+                callback('bottom', this._virtualNavigationState.bottom);
+                break;
+            case 'scrollResize':
+                this._registrars.scrollResize.register(event, registerType, component, callback);
                 break;
         }
     }
@@ -306,18 +311,23 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             case 'virtualNavigation':
                 this._virtualNavigationRegistrar.unregister(event, registerType, component);
                 break;
+            case 'scrollResize':
+                this._registrars.scrollResize.unregister(event, registerType, component);
+                break;
         }
     }
 
-    protected _enableVirtualNavigationHandler(event: SyntheticEvent): void {
-        event.stopImmediatePropagation()
-        this._virtualNavigationRegistrar.start(true);
+    protected _enableVirtualNavigationHandler(event: SyntheticEvent, position: 'top' | 'bottom'): void {
+        event.stopImmediatePropagation();
+        this._virtualNavigationState[position] = true;
+        this._virtualNavigationRegistrar.start(position, true);
 
     }
 
-    protected _disableVirtualNavigationHandler(event: SyntheticEvent): void {
-        event.stopImmediatePropagation()
-        this._virtualNavigationRegistrar.start(false);
+    protected _disableVirtualNavigationHandler(event: SyntheticEvent, position: 'top' | 'bottom'): void {
+        event.stopImmediatePropagation();
+        this._virtualNavigationState[position] = false;
+        this._virtualNavigationRegistrar.start(position, false);
     }
 
     // _createEdgeIntersectionObserver() {
@@ -736,7 +746,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     protected _getScrollContainerCssClass(options: IContainerBaseOptions): string {
-        switch (options.scrollMode) {
+        switch (ContainerBase.getScrollOrientation(options)) {
             case SCROLL_MODE.VERTICAL:
                 return 'controls-Scroll-ContainerBase__scroll_vertical';
             case SCROLL_MODE.HORIZONTAL:
@@ -1055,6 +1065,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         if (!event.propagating()) {
             return this._notify(eventName, args) || event.result;
         }
+    }
+
+    // TODO: Удалить после https://online.sbis.ru/opendoc.html?guid=a880359e-1c09-4a79-8284-c386920a20cf
+    static getScrollOrientation(options: IContainerBaseOptions): string {
+        return options.scrollMode || options.scrollOrientation;
     }
 
     static _theme: string[] = ['Controls/scroll'];
