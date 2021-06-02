@@ -433,7 +433,7 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
         return showSelector(this, popupOptions, this._options.multiSelect);
     }
 
-    getContainer(): HTMLElement {
+    getLookupContainer(): HTMLElement {
         return this._container;
     }
 
