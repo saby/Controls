@@ -307,7 +307,12 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
     }
 
     protected _keyDownHandler(event: SyntheticEvent<KeyboardEvent>): void {
-        processKeydownEvent(event, ['Backspace']);
+        const additionalKeys = [];
+        // Backspace поле ввода должно обработать и запревентить только если есть что удалять.
+        if (this._options.value) {
+            additionalKeys.push('Backspace');
+        }
+        processKeydownEvent(event, additionalKeys);
     }
 
     protected _selectHandler(): void {
@@ -488,7 +493,10 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
      * @private
      */
     protected _getField(): Field<String, IViewModelOptions> {
-        return this._children[this._fieldName] as Field<String, IViewModelOptions>;
+        if (this._children.hasOwnProperty(this._fieldName)) {
+            return this._children[this._fieldName] as Field<String, IViewModelOptions>;
+        }
+        return null;
     }
 
     protected _getReadOnlyField(): HTMLElement | void {
