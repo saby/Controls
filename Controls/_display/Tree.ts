@@ -734,6 +734,11 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
                 item.setExpanded(true);
             });
+
+            // Если diff.added[0] === null, значит все записи развернуты,
+            // последующая обработка не требуется
+            this._expandedItems = [...expandedKeys];
+            return;
         } else {
             diff.added.forEach((id) => {
                 const item = this.getItemBySourceKey(id, false);
