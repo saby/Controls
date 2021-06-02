@@ -64,4 +64,12 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
                index: 2
         });
     });
+
+    it('move outside list', () => {
+        const newPosition = strategy.calculatePosition({targetItem: null});
+        assert.deepEqual(newPosition, {
+            index: 1,
+            dispItem: model.getItemBySourceKey(2)
+        });
+    })
 });
