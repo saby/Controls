@@ -4218,7 +4218,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.checkRequiredOptions(this, newOptions);
         }
 
-        if (oldViewModelConstructorChanged && this._listViewModel) {
+        if ((oldViewModelConstructorChanged || !!newOptions._recreateCollection) && this._listViewModel) {
             this._viewModelConstructor = newOptions.viewModelConstructor;
             const items = this._loadedBySourceController
                ? newOptions.sourceController.getItems()
