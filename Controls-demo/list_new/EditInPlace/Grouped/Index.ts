@@ -31,10 +31,6 @@ export default class extends Control {
         this._editingConfig.addPosition = position;
     }
 
-    protected _resetGroup(): void {
-        this._activeGroup = 'Xiaomi';
-    }
-
     protected _onBeforeBeginEdit(
         e: SyntheticEvent<null>,
         options: { item?: Model },
