@@ -109,7 +109,7 @@
  * Элемент <input> с шириной по stretcher`у может быть прокручен по горизонтали.
  * Предположительно, <input> имеет болшую ширину из-за курсора в поле. Расстояние от текста до курсора равно
  * 1px, и ширина самого курсора тоже 1px. В качестве решения нужно увеличить ширину на 2px.
- * В edge ширину нужно увеличить на 4px. Откуда берутся ещё 2px не понятно, какой-то баг. Так как поле визуально
+ * В edge и MAC ширину нужно увеличить на 4px. Откуда берутся ещё 2px не понятно, какой-то баг. Так как поле визуально
  * увеличится, то нужно уменьшить отступ от текста до границы поля на это же значение.
  * https://jsfiddle.net/kz0awcu6/
  */
@@ -128,6 +128,10 @@
    .expansionFix(2px);
 
    .ws-is-ie12 {
+      .expansionFix(4px);
+   }
+
+   .ws-is-mac {
       .expansionFix(4px);
    }
 }
@@ -154,4 +158,8 @@ textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus {
    transition: background-color 2147483647s ease-in-out 0s;
+}
+
+.controls-InputBase__placeholder_readOnly {
+   position: relative;
 }

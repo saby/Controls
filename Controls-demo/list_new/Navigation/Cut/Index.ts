@@ -12,7 +12,7 @@ export default class CutNavigation extends Control {
 
    protected _beforeMount(): void {
       this._source = new Memory({
-         keyProperty: 'id',
+         keyProperty: 'key',
          data: getSourceData()
       });
       this._navigation = {

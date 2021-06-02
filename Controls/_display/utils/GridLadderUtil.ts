@@ -149,7 +149,7 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
                 processLadder({
                     itemIndex: idx,
                     value: item.get ? item.get(ladderProperties[fIdx]) : undefined,
-                    prevValue: prevItem && prevItem.get ? prevItem.get(ladderProperties[fIdx]) : undefined,
+                    prevValue: prevItem ? (prevItem.get ? prevItem.get(ladderProperties[fIdx]) : undefined) : NaN,
                     state: ladderState[ladderProperties[fIdx]],
                     ladder: ladder[idx][ladderProperties[fIdx]],
                     mainLadder: ladder[idx][mainLadderProperty]
@@ -164,7 +164,7 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
                 processStickyLadder({
                     itemIndex: idx,
                     value: item.get ? item.get(stickyProperties[fIdx]) : undefined,
-                    prevValue: prevItem && prevItem.get ? prevItem.get(stickyProperties[fIdx]) : undefined,
+                    prevValue: prevItem ? (prevItem.get ? prevItem.get(stickyProperties[fIdx]) : undefined) : NaN,
                     state: stickyLadderState[stickyProperties[fIdx]],
                     ladder: stickyLadder[idx][stickyProperties[fIdx]],
                     mainLadder: stickyLadder[idx][mainLadderProperty]

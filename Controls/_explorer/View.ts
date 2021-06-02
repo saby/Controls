@@ -78,12 +78,7 @@ const VIEW_MODEL_CONSTRUCTORS = {
     search: 'Controls/searchBreadcrumbsGrid:SearchGridCollection',
     tile: null,
     table: 'Controls/treeGrid:TreeGridCollection',
-    // Правка решения https://online.sbis.ru/opendoc.html?guid=bbee027c-f13d-4b6a-8835-c956d14c2f3a
-    // т.к. стрельнуло здесь https://online.sbis.ru/opendoc.html?guid=715e6fca-1982-4b17-a29f-4862ef3e03f3
-    // Из-за того что для viewMode table и list были заданы одинаковые коллекции изменение набора колонок
-    // с прикладной стороны в режиме list не приводило к прокидыванию новых колонок с модель и в итоге
-    // таблица разъезжалась при переключении в режим table
-    list: 'Controls/display:Tree'
+    list: 'Controls/treeGrid:TreeGridCollection'
 };
 
 const EXPLORER_CONSTANTS = {
@@ -132,6 +127,7 @@ interface IMarkedKeysStore {
 }
 
 export default class Explorer extends Control<IExplorerOptions> {
+    //region protected fields
     protected _template: TemplateFunction = template;
     protected _viewName: string;
     protected _markerStrategy: string;
@@ -149,6 +145,11 @@ export default class Explorer extends Control<IExplorerOptions> {
     protected _needSetMarkerCallback: (item: Model, domEvent: Event) => boolean;
     protected _breadCrumbsDragHighlighter: Function;
     protected _canStartDragNDrop: Function;
+    /**
+     * Флаг идентифицирует нужно или нет пересоздавать коллекцию для списка.
+     * Прокидывается в TreeControl (BaseControl).
+     */
+    protected _recreateCollection: boolean = false;
 
     /**
      * Текущая применяемая конфигурация колонок
@@ -177,7 +178,9 @@ export default class Explorer extends Control<IExplorerOptions> {
         treeControl: TreeControl,
         pathController: PathController
     };
+    //endregion
 
+    //region private fields
     /**
      * Идентификатор узла данные которого отображаются в текущий момент.
      */
@@ -209,6 +212,7 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     private _items: RecordSet;
     private _isGoingFront: boolean;
+    //endregion
 
     protected _beforeMount(cfg: IExplorerOptions): Promise<void> {
         if (cfg.itemPadding) {
@@ -248,7 +252,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         };
         this._onCollectionChange = this._onCollectionChange.bind(this);
 
-        this._dragControlId = randomId();
+        this._dragControlId = cfg.dragControlId || randomId();
         this._navigation = cfg.navigation;
 
         const root = this._getRoot(cfg.root);
@@ -271,6 +275,12 @@ export default class Explorer extends Control<IExplorerOptions> {
         // Проверяем именно root в опциях
         // https://online.sbis.ru/opendoc.html?guid=4b67d75e-1770-4e79-9629-d37ee767203b
         const isRootChanged = cfg.root !== this._options.root;
+
+        // Нужно пересоздавать коллекцию если viewMode меняют со списка на таблицу.
+        // Т.к. у списка и таблицы заданы одинаковые коллекции, то изменение набора колонок
+        // с прикладной стороны в режиме list не приводит к прокидыванию новых колонок в модель
+        // и в итоге таблица разъезжается при переключении в режим таблицы
+        this._recreateCollection = this._needRecreateCollection(this._options.viewMode, cfg.viewMode);
 
         // Мы не должны ставить маркер до проваливания, т.к. это лишняя синхронизация.
         // Но если отменили проваливание, то нужно поставить маркер.
@@ -816,6 +826,18 @@ export default class Explorer extends Control<IExplorerOptions> {
         this._restoredMarkedKeys = store;
     }
 
+    private _needRecreateCollection(oldViewMode: TExplorerViewMode, newViewMode: TExplorerViewMode): boolean {
+        if (oldViewMode === 'list' && newViewMode === 'table') {
+            return true;
+        }
+
+        if (oldViewMode === 'table' && newViewMode === 'list') {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * На основании переданного root и значения опции headerVisibility вычисляет
      * итоговую видимость заголовка таблицы.
@@ -889,22 +911,20 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
     }
 
-    private _setViewConfig(viewMode: TExplorerViewMode, cfg: any): void {
+    private _setViewConfig(viewMode: TExplorerViewMode): void {
         if (isFullGridSupport()) {
             this._viewName = VIEW_NAMES[viewMode];
         } else {
             this._viewName = VIEW_TABLE_NAMES[viewMode];
         }
         this._markerStrategy = MARKER_STRATEGY[viewMode];
-        this._viewModelConstructor = cfg.fix1182121846 && viewMode === 'list'
-            ? 'Controls/treeGrid:TreeGridCollection'
-            : VIEW_MODEL_CONSTRUCTORS[viewMode];
+        this._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS[viewMode];
         this._itemContainerGetter = ITEM_GETTER[viewMode];
     }
 
     private _setViewModeSync(viewMode: TExplorerViewMode, cfg: IExplorerOptions): void {
         this._viewMode = viewMode;
-        this._setViewConfig(this._viewMode, cfg);
+        this._setViewConfig(this._viewMode);
         this._applyNewVisualOptions();
 
         if (this._isMounted) {

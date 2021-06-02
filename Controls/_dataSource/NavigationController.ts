@@ -399,6 +399,7 @@ export default class NavigationController {
         return {
             filter: userQueryParams.filter || {},
             sorting: userQueryParams.sorting,
+            select: userQueryParams.select,
             limit: undefined,
             offset: undefined
         };

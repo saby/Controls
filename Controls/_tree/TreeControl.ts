@@ -274,19 +274,12 @@ const _private = {
     resetExpandedItems(self: TreeControl): void {
         const viewModel = self.getViewModel();
         const reset = () => {
-            // TODO: не дело тут обрабатывать прикладной случай, если сказали что нужно сделать reset
-            //  то нужно его сделать в любом случае. А проверками должен заниматься более высокоуровневый компонент,
-            //  например, explorer.
-            //  Это проверка была добавлена по ошибке
-            //  https://online.sbis.ru/opendoc.html?guid=604eed91-e6d3-4bda-9574-6002cf523531
             viewModel.setHasMoreStorage({});
-            if (!self._expandController.isAllExpanded()) {
-                self._expandController.resetExpandedItems();
+            self._expandController.resetExpandedItems();
 
-                if (self._isMounted) {
-                    self._notify('expandedItemsChanged', [self._expandController.getExpandedItems()]);
-                    self._notify('collapsedItemsChanged', [self._expandController.getCollapsedItems()]);
-                }
+            if (self._isMounted) {
+                self._notify('expandedItemsChanged', [self._expandController.getExpandedItems()]);
+                self._notify('collapsedItemsChanged', [self._expandController.getCollapsedItems()]);
             }
         };
 
@@ -719,7 +712,12 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 if (viewModel) {
                     const expandedItems = _private.getExpandedItems(this, newOptions, viewModel.getCollection(), newOptions.expandedItems);
                     viewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems));
+
+                    // Отключаем загрузку данных контроллером, т.к. все данные уже загружены
+                    // нужна только синхронизация expandedItems в моделе
+                    this._expandController.disableLoader();
                     this._expandController.setExpandedItems(newOptions.expandedItems);
+                    this._expandController.enableLoader();
                 }
             } else {
                 this._updateExpandedItemsAfterReload = true;
@@ -837,13 +835,15 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         return result;
     }
 
-    protected _notifyDraggingItemMouseMove(itemData, nativeEvent): void {
+    protected _draggingItemMouseMove(itemData: TreeItem, event: SyntheticEvent<MouseEvent>): void {
+        super._draggingItemMouseMove(itemData, event);
+
         const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
         const dndListController = this.getDndListController();
         const targetIsNotDraggableItem = dndListController.getDraggableItem()?.getContents() !== dispItem.getContents();
         if (dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() !== null && targetIsNotDraggableItem) {
-            const targetElement = _private.getTargetRow(this, nativeEvent);
-            const mouseOffsetInTargetItem = this._calculateOffset(nativeEvent, targetElement);
+            const targetElement = _private.getTargetRow(this, event);
+            const mouseOffsetInTargetItem = this._calculateOffset(event, targetElement);
             const dragTargetPosition = dndListController.calculateDragPosition({
                 targetItem: dispItem,
                 mouseOffsetInTargetItem
@@ -871,6 +871,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 }
             }
         }
+    }
+
+    protected _dragLeave(): void {
+        super._dragLeave();
+        this._clearTimeoutForExpandOnDrag();
     }
 
     protected _notifyDragEnd(dragObject, targetPosition) {

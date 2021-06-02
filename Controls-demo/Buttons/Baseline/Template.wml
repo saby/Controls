@@ -1,7 +1,7 @@
 
 <div>
     <span class="baseline_span first_span">baseline</span>
-    <Controls.buttons:Button href="https://online.sbis.ru/" readOnly="{{false}}" icon="icon-Add" iconSize="s" caption="caption" iconStyle="default"/>
+    <Controls.buttons:Button href="https://online.sbis.ru/" readOnly="{{false}}" icon="icon-Add" iconSize="s" caption="caption" iconStyle="default" tooltip="caption"/>
     <span class="baseline_span">baseline</span>
     <Controls.buttons:Button readOnly="{{false}}" icon="icon-Add" iconSize="s" caption="caption"/>
     <span class="baseline_span">baseline</span>

@@ -18,7 +18,7 @@ export default class extends Control<IControlOptions> {
       }
       const data = Flat.getData();
       data.push({
-         id: 6,
+         key: 6,
          title: 'Subtask',
          rating: '',
          country: '',
@@ -27,7 +27,7 @@ export default class extends Control<IControlOptions> {
          subtask: true
       });
       this._viewSource = new Memory({
-         keyProperty: 'id',
+         keyProperty: 'key',
          data
       });
    }

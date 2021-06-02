@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__grid-header-default ">
     <Controls.grid:View
-            keyProperty="id"
+            keyProperty="key"
             source="{{_viewSource}}"
             header="{{_header}}"
             columns="{{_columns}}"

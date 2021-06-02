@@ -2,17 +2,13 @@ import { Control, TemplateFunction } from 'UI/Base';
 import { Memory } from 'Types/source';
 import { IColumn } from 'Controls/grid';
 
-import { getTasks } from '../../DemoHelpers/DataCatalog';
 import * as Template from 'wml!Controls-demo/gridNew/Grouped/RightTemplate/RightTemplate';
-
-interface IItem {
-    get: (item: string) => string;
-}
+import {Tasks} from "Controls-demo/gridNew/DemoHelpers/Data/Tasks";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _columns: IColumn[] = getTasks().getDefaultColumns().concat([
+    protected _columns: IColumn[] = Tasks.getDefaultColumns().concat([
         {
             displayProperty: 'message',
             width: '200px',
@@ -23,8 +19,8 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
-            data: getTasks().getData()
+            keyProperty: 'key',
+            data: Tasks.getData()
         });
     }
 

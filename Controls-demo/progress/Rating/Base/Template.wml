@@ -1,0 +1,13 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label">Базовая настройка компонента рейтинга</div>
+      <div class="ws-flexbox">
+         <div>
+            <div class="controls-text-label">value: {{_value}},  precision: {{_precision}}</div>
+            <Controls.progress:Rating bind:value="_value"
+                                      bind:precision="_precision"
+            />
+         </div>
+      </div>
+   </div>
+</div>

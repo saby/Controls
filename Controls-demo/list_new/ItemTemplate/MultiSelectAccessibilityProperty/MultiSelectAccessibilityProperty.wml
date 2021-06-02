@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__list_new-itemTepmlate-NoHighlightOnHover">
     <Controls.list:View
-            keyProperty="id"
+            keyProperty="key"
             source="{{_viewSource}}"
             multiSelectVisibility="visible"
             multiSelectAccessibilityProperty="checkboxState"

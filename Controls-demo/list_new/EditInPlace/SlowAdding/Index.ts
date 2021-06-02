@@ -14,10 +14,10 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: [
                 {
-                    id: 1,
+                    key: 1,
                     beforeBeginEditTitle: 'Записи не редактируются, только добавление. Добавление начнется с задержкой. ' +
                         'Например, долгая валидация на сервере(3 секунды), появится индикатор. При этом редактированию, не был возвращен Promise.'
                 }
@@ -33,9 +33,9 @@ export default class extends Control {
                 }, TIMEOUT3500);
             }).then(() => {
                 return new Model({
-                    keyProperty: 'id',
+                    keyProperty: 'key',
                     rawData: {
-                        id: ++this._lastItemId,
+                        key: ++this._lastItemId,
                         beforeBeginEditTitle: 'Редактирование завершится после задержки в 3 сек. Например, долгая валидация на сервере, появится индикатор. При этом, не был возвращен Promise.'
                     }
                 });

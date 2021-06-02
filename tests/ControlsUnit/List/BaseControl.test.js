@@ -8967,6 +8967,33 @@ define([
                assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[], [], [1]]).called);
             });
          });
+
+         describe('work without options', () => {
+            it('toggle item', () => {
+               const newCfg = { ...cfg, selectedKeys: undefined, excludedKeys: undefined };
+               baseControl.saveOptions(newCfg);
+               baseControl._beforeMount(newCfg);
+
+               const notifySpy = sinon.spy(baseControl, '_notify');
+               baseControl._onCheckBoxClick({}, baseControl._listViewModel.getItemBySourceKey(1) );
+               assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[1], [1], []]).calledOnce);
+               assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
+            });
+
+            it('on beforeUpdate pass undefined', () => {
+               const newCfg = { ...cfg, selectedKeys: [1] };
+               baseControl.saveOptions(newCfg);
+               baseControl._beforeMount(newCfg);
+
+               const notifySpy = sinon.spy(baseControl, '_notify');
+               baseControl._beforeUpdate({ ...newCfg, selectedKeys: undefined });
+               assert.isFalse(notifySpy.withArgs('selectedKeysChanged').calledOnce);
+               assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
+
+               const model = baseControl.getViewModel();
+               assert.isTrue(model.getItemBySourceKey(1).isSelected())
+            });
+         })
       });
 
       // endregion

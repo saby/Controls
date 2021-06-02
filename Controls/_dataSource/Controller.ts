@@ -38,6 +38,7 @@ import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {fetch, HTTPStatus} from 'Browser/Transport';
 import {default as calculatePath, Path} from 'Controls/_dataSource/calculatePath';
+import * as randomId from 'Core/helpers/Number/randomId';
 
 export interface IControllerState {
     keyProperty: string;
@@ -137,6 +138,15 @@ export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
         isEqualFormat(oldList, newList);
 }
 
+const OPTIONS_FOR_UPDATE_AFTER_LOAD = [
+    'groupProperty',
+    'sorting',
+    'navigation',
+    'nodeProperty',
+    'nodeTypeProperty',
+    'dataLoadCallback'
+];
+
 /**
  * @typedef {Object} SourceConfig
  * @description Конфигурация навигации ({@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#cursor по курсору} или {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#page постраничная}).
@@ -218,6 +228,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
      * при редактировании названия папки в которой находимся.
      */
     private _breadcrumbsRecordSet: RecordSet;
+    private _dragRandomId: string;
     private _loadPromise: CancelablePromise<RecordSet|Error>;
     private _prepareFilterPromise: CancelablePromise<QueryWhereExpression<unknown>|Error>;
     private _loadError: Error;
@@ -247,6 +258,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         this._resolveNavigationParamsChangedCallback(cfg);
         this._collectionChange = this._collectionChange.bind(this);
         this._updateBreadcrumbsData = this._updateBreadcrumbsData.bind(this);
+        this._dragRandomId = randomId();
         this._options = cfg;
         this.setFilter(cfg.filter || {});
         this.setNavigation(cfg.navigation);
@@ -292,7 +304,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
      * Перезагружает данные из источника данных
      * @param {SourceConfig} sourceConfig Конфигурация навигации источника данных (например, размер и номер страницы для постраничной навигации),
      * которую можно передать при вызове reload, чтобы перезагрузка произошла с этими параметрами. По умолчанию перезагрузка происходит с параметрами, переданными в опции {@link Controls/interface:INavigation#navigation navigation}.
-     * @param {Boolean} isFirstLoad Флаг первичной загрузки. 
+     * @param {Boolean} isFirstLoad Флаг первичной загрузки.
      * @return {Types/collection:RecordSet}
      */
     reload(sourceConfig?: INavigationSourceConfig, isFirstLoad?: boolean): LoadResult {
@@ -493,25 +505,24 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             source,
 
             filter: this._filter,
-            sorting: this._options.sorting,
-            navigation: this._options.navigation,
 
             parentProperty: this._parentProperty,
-            nodeProperty: this._options.nodeProperty,
             root: this._root,
 
             items: this._items,
             breadCrumbsItems: this._breadCrumbsItems,
             backButtonCaption: this._backButtonCaption,
             breadCrumbsItemsWithoutBackButton: this._breadCrumbsItemsWithoutBackButton,
+            dragControlId: this._dragRandomId,
 
             // FIXME sourceController не должен создаваться, если нет source
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
-            dataLoadCallback: this._options.dataLoadCallback,
-            expandedItems: this._expandedItems,
-            nodeTypeProperty: this._options.nodeTypeProperty
+            expandedItems: this._expandedItems
         };
+        OPTIONS_FOR_UPDATE_AFTER_LOAD.forEach((optionName) => {
+            state[optionName] = this._options[optionName];
+        });
         return state;
     }
 
@@ -541,6 +552,9 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
                 const nodeTypeProperty = record.get(this._options.nodeTypeProperty);
                 if (this._options.nodeHistoryType === 'node') {
                     return nodeTypeProperty !== 'group';
+
+                } else if (this._options.nodeHistoryType === 'all') {
+                    return true;
                 }
                 return nodeTypeProperty === 'group';
             });
@@ -721,7 +735,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             isMultiNavigation &&
             this.isDeepReload() &&
             this._expandedItems?.length &&
-            !direction;
+            !direction &&
+            key === this._root;
         let resultQueryParams;
 
         if (isHierarchyQueryParamsNeeded) {

@@ -8,9 +8,9 @@ export interface ISortingButtonOptions extends IControlOptions {
 /**
  * Контрол, используемый для изменения сортировки внутри таблиц
  *
- * @class Controls/_gridOld/SortingButton
+ * @class Controls/_grid/SortingButton
  * @extends UI/Base:Control
- * @mixes Controls/_gridOld/SortingButton/Styles
+ * @mixes Controls/_grid/SortingButton/Styles
  *
  * @public
  *
@@ -25,7 +25,7 @@ class SortingButton extends Control<ISortingButtonOptions> {
 
 }
 /**
- * @name Controls/_gridOld/SortingButton#property
+ * @name Controls/_grid/SortingButton#property
  * @cfg {String} Поле для сортировки.
  */
 export default SortingButton;

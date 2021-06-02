@@ -40,8 +40,8 @@ export default class extends Control {
                 name: 'owners',
                 resetValue: [],
                 caption: '',
-                value: ['Новиков Д.В.', 'Кошелев А.Е.'],
-                textValue: 'Новиков Д.В., Кошелев А.Е.',
+                value: [],
+                textValue: '',
                 editorTemplateName: 'Controls/filterPanel:ListEditor',
                 editorOptions: {
                     multiSelect: true,

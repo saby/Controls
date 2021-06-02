@@ -23,6 +23,9 @@ const MODERN_IE_VERSION = 11;
  * Специализированный заголовок-кнопка для перехода на предыдущий уровень.
  *
  * @remark
+ * Может использоваться самостоятельно или в составе составных кнопок, состоящих из {@link Controls/heading:Back} и прикладной верстки.
+ * Для одновременной подсветки всех частей кнопки при наведении используйте класс controls-Header_all__clickable на контейнере.
+ * Кликабельность заголовка зависит от {@link readOnly режима отображения}.
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader демо-пример}
  * * {@link /doc/platform/developmentapl/interface-development/controls/text-and-styles/heading/ руководство разработчика}
@@ -42,6 +45,7 @@ const MODERN_IE_VERSION = 11;
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Heading/Back/SizesAndStyles/Index
+ * @demo Controls-demo/Heading/SubCaption/Index
  */
 
  /**

@@ -16,16 +16,20 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: getData()
         });
     }
 
-    protected _beginAdd(): void {
+    protected _beginAddEmpty(): void {
+        this._children.list.beginAdd();
+    }
+
+    protected _beginAddTemplated(): void {
         this._children.list.beginAdd({
             item: new Model({
-                keyProperty: 'id',
-                rawData: {id: ++this._fakeItemId, title: ''}
+                keyProperty: 'key',
+                rawData: {key: ++this._fakeItemId, title: 'Новая запись...'}
             })
         });
     }

@@ -1,20 +1,16 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/Grouped/groupHistoryId/groupHistoryId';
 import {Memory} from 'Types/source';
-import {getTasks} from '../../DemoHelpers/DataCatalog';
 import {IColumn} from 'Controls/grid';
 import { UserConfig } from 'EnvConfig/Config';
-
-interface IItem {
-    get: (item: string) => string;
-}
+import {Tasks} from "Controls-demo/gridNew/DemoHelpers/Data/Tasks";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     protected _columns: IColumn[] = [
         {
-            displayProperty: 'id',
+            displayProperty: 'key',
             width: '30px'
         },
         {
@@ -32,8 +28,8 @@ export default class extends Control {
     protected _beforeMount(): void {
         UserConfig.setParam('LIST_COLLAPSED_GROUP_' + this.GROUP_HISTORY_ID_NAME, JSON.stringify(['Крайнов Дмитрий']));
         this._viewSource = new Memory({
-            keyProperty: 'id',
-            data: getTasks().getData()
+            keyProperty: 'key',
+            data: Tasks.getData()
         });
     }
 

@@ -1,10 +1,9 @@
 <div class="controlsDemo__wrapper">
     <Controls.list:View
             name="list"
-            keyProperty="id"
+            keyProperty="key"
             source="{{_viewSource}}"
             editingConfig="{{_editingConfig}}">
-        <ws:editingConfig editOnClick="{{true}}" toolbarVisibility="{{true}}"/>
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate">
                 <ws:contentTemplate>

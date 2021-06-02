@@ -6,12 +6,12 @@ import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import { IColumn } from 'Controls/grid';
 import { IHeaderCell } from 'Controls/grid';
-import { getCountriesStats } from 'Controls-demo/gridNew/DemoHelpers/DataCatalog';
+import {Countries} from "Controls-demo/gridNew/DemoHelpers/Data/Countries";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _header: IHeaderCell[] = getCountriesStats().getDefaultHeader();
+    protected _header: IHeaderCell[] = Countries.getDefaultHeader();
     protected _columns: IColumn[] = [
         {
             displayProperty: 'number',
@@ -41,8 +41,8 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
-            data: getCountriesStats().getData().splice(0, 5)
+            keyProperty: 'key',
+            data: Countries.getData().splice(0, 5)
         });
     }
 

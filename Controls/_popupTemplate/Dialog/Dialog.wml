@@ -22,7 +22,7 @@
             </div>
         </ws:else>
         <ws:if data="{{ _options.bodyContentTemplate }}">
-            <div class="controls-DialogTemplate__content-area">
+            <div class="controls-DialogTemplate__content-area {{ !_options.footerContentTemplate && !_options.maximize ? 'controls-DialogTemplate_border-radius-footer'}}">
                 <ws:partial template="{{_options.bodyContentTemplate}}"
                             scope="{{_options.contentAreaOptions}}"
                             bodyContentTemplate="{{null}}"
@@ -31,7 +31,8 @@
             </div>
         </ws:if>
         <ws:if data="{{ _options.footerContentTemplate }}">
-            <ws:partial template="{{ _options.footerContentTemplate}}" attr:class="controls-DialogTemplate__footer"></ws:partial>
+            <ws:partial template="{{ _options.footerContentTemplate}}" attr:class="controls-DialogTemplate__footer
+                                                                                   {{!_options.maximize ? 'controls-DialogTemplate_border-radius-footer'}}"></ws:partial>
         </ws:if>
     </div>
 </Controls.dragnDrop:Container>

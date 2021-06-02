@@ -1,0 +1,18 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/tree/Base/Index' }}">
+            <a href="{{content.href}}">Базовая настройка дерева</a>
+        </Router.router:Reference>
+        <Controls-demo.tree.Base.Index/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/tree/HorizontalLeaves/Index' }}">
+            <a href="{{content.href}}">Дерево, в котором листья расположены по горизонтали</a>
+        </Router.router:Reference>
+        <Controls-demo.tree.Base.Index/>
+    </div>
+</div>

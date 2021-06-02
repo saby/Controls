@@ -18,10 +18,10 @@ export default class extends Control {
     private _newData: unknown = getData().slice(0, 1);
     protected _editingConfig: IEditCfg = null;
     protected _beforeMount(): Promise<void> {
-        this._newData[0].id = 1;
+        this._newData[0].key = 1;
 
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: this._newData
         });
         return this._viewSource.read(1).then((res) => {

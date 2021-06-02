@@ -22,6 +22,15 @@ interface IDialogPosition {
 
 class DialogStrategy {
 
+    protected _validateCoordinate(position: IDialogPosition, maxHeight: number, maxWidth: number): IDialogPosition {
+        if (position.height > maxHeight) {
+            position.height = maxHeight;
+        }
+        if (position.width > maxWidth) {
+            position.width = maxWidth;
+        }
+        return position;
+    }
     /**
      * Returns popup position
      * @function Controls/_popupTemplate/Dialog/Opener/DialogStrategy#getPosition
@@ -36,7 +45,8 @@ class DialogStrategy {
             minHeight, maxHeight
         }: ILimitingSizes = this._calculateLimitOfSizes(popupOptions, windowData);
 
-        const position = this._getPositionCoordinates(windowData, containerSizes, item);
+        const positionCoordinates = this._getPositionCoordinates(windowData, containerSizes, item);
+        const position = this._validateCoordinate(positionCoordinates, maxHeight, maxWidth);
 
         return {
             ...position,
@@ -171,14 +181,22 @@ class DialogStrategy {
 
         let diff;
         // check overflowX
-        diff = (popupPosition[horizontalPositionProperty] + containerSizes.width) -
+        const containerWidth = Math.min(containerSizes.width, width || containerSizes.width);
+        diff = (popupPosition[horizontalPositionProperty] + containerWidth) -
             (windowData.width + windowData.left);
         horizontalValue -= Math.max(0, diff);
+        if (horizontalValue < 0) {
+            horizontalValue = 0;
+        }
 
         // check overflowY
-        diff = (popupPosition[verticalPositionProperty] + containerSizes.height) -
+        const containerHeight = Math.min(containerSizes.height, height || containerSizes.height);
+        diff = (popupPosition[verticalPositionProperty] + containerHeight) -
             (windowData.height + windowData.top);
         verticalValue -= Math.max(0, diff);
+        if (verticalValue < 0) {
+           verticalValue = 0;
+        }
 
         return {
             height,
@@ -190,7 +208,7 @@ class DialogStrategy {
 
     private _calculateLimitOfSizes(popupOptions: IDialogPopupOptions = {}, windowData: IPopupPosition): ILimitingSizes {
         let maxHeight = popupOptions.maxHeight || windowData.height;
-        if (windowData.height < popupOptions.top + popupOptions.maxHeight) {
+        if (windowData.height < popupOptions.top + maxHeight) {
             maxHeight = windowData.height - popupOptions.top;
         }
         return {

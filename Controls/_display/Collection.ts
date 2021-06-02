@@ -3,7 +3,7 @@ import Abstract, {IEnumerable, IOptions as IAbstractOptions} from './Abstract';
 import CollectionEnumerator from './CollectionEnumerator';
 import CollectionItem, {IOptions as ICollectionItemOptions, ICollectionItemCounters} from './CollectionItem';
 import GroupItem from './GroupItem';
-import {Model as EntityModel} from 'Types/entity';
+import {Model, Model as EntityModel} from 'Types/entity';
 import IItemsStrategy from './IItemsStrategy';
 import ItemsStrategyComposer from './itemsStrategy/Composer';
 import DirectItemsStrategy from './itemsStrategy/Direct';
@@ -234,12 +234,14 @@ type TEditingMode = 'cell' | 'row';
  */
 export interface IEditingConfig {
     mode?: 'row' | 'cell';
-    addPosition?: 'top'|'bottom';
-    toolbarVisibility?: boolean;
     editOnClick?: boolean;
-    autoAdd?: boolean;
     sequentialEditing?: boolean;
-    item?: CollectionItem<any>;
+    addPosition?: 'top' | 'bottom';
+    item?: Model;
+    autoAdd?: boolean;
+    autoAddOnInit?: boolean;
+    autoAddByApplyButton?: boolean;
+    toolbarVisibility?: boolean;
     backgroundStyle?: string;
 }
 

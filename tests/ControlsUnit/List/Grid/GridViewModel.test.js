@@ -1273,7 +1273,9 @@ define(['Controls/gridOld', 'Core/core-merge', 'Types/collection', 'Types/entity
             });
          assert.deepEqual(groupingLadderViewModel._ladder.ladder, {
             '0': {
-               'date': {}
+               'date': {
+                  'ladderLength': 1
+               }
             },
             '1': {
                'date': {

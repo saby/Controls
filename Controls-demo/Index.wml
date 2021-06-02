@@ -2,7 +2,6 @@
    <SbisEnvUI.Bootstrap scope="{{_options}}"
                          theme="{{content.theme}}"
                          popupHeaderTheme="{{_getPopupHeaderTheme(content.theme)}}"
-                         bodyClass="controls-default-bg"
                          title="{{_title}}"
                          links="{{ _links }}"
                          dataLoaderModule="Controls-demo/DataLoader"

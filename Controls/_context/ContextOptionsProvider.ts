@@ -13,6 +13,7 @@ const CONTEXT_FIELDS: ReadonlyArray<keyof IContextOptionsValue> = [
     'keyProperty',
     'filter',
     'sourceController',
+    'navigation',
     'listsConfigs',
     'listsSelectedKeys',
     'listsExcludedKeys',

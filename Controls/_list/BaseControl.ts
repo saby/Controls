@@ -116,11 +116,6 @@ import {saveConfig} from 'Controls/Application/SettingsController';
 
 //#region Const
 
-// TODO: getDefaultOptions зовётся при каждой перерисовке,
-//  соответственно если в опции передаётся не примитив, то они каждый раз новые.
-//  Нужно убрать после https://online.sbis.ru/opendoc.html?guid=1ff4a7fb-87b9-4f50-989a-72af1dd5ae18
-const defaultSelectedKeys = [];
-const defaultExcludedKeys = [];
 
 // = 28 + 6 + 6 см controls-BaseControl_paging-Padding_theme TODO не должно такого быть, он в разных темах разный
 const PAGING_PADDING = 40;
@@ -1014,7 +1009,7 @@ const _private = {
         if (navigation) {
             switch (navigation.view) {
                 case 'infinity':
-                    result = !loadedList.getCount();
+                    result = !loadedList || !loadedList.getCount();
                     break;
                 case 'maxCount':
                     result = _private.needLoadByMaxCountNavigation(listViewModel, navigation);
@@ -2715,14 +2710,14 @@ const _private = {
         self._notify('listSelectionTypeForAllSelectedChanged', [selectionType], {bubbling: true});
     },
 
-    changeSelection(self: typeof BaseControl, newSelection: ISelectionObject): Promise<ISelectionObject>|ISelectionObject {
+    changeSelection(self: BaseControl, newSelection: ISelectionObject): Promise<ISelectionObject>|ISelectionObject {
         const controller = _private.getSelectionController(self);
         const selectionDifference = controller.getSelectionDifference(newSelection);
         let result = self._notify('beforeSelectionChanged', [selectionDifference]);
 
         const handleResult = (selection) => {
             _private.notifySelection(self, selection);
-            if (!self._options.hasOwnProperty('selectedKeys')) {
+            if (self._options.selectedKeys === undefined) {
                 controller.setSelection(selection);
             }
             self._notify('listSelectedKeysCountChanged', [controller.getCountOfSelected(selection), controller.isAllSelected(true, selection)], {bubbling: true});
@@ -2757,9 +2752,14 @@ const _private = {
                     self._notify('updatePlaceholdersSize', [result.placeholders], {bubbling: true});
                 }
                 if (result.shadowVisibility?.up || result.placeholders.top > 0 || self._hasMoreData(self._sourceController, 'up')) {
-                    self._notify('enableVirtualNavigation', [], { bubbling: true });
+                    self._notify('enableVirtualNavigation', ['top'], { bubbling: true });
                 } else {
-                    self._notify('disableVirtualNavigation', [], { bubbling: true });
+                    self._notify('disableVirtualNavigation', ['top'], { bubbling: true });
+                }
+                if (result.shadowVisibility?.down || result.placeholders.bottom > 0 || self._hasMoreData(self._sourceController, 'down')) {
+                    self._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
+                } else {
+                    self._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
                 }
             }
             if (self._items && typeof self._items.getRecordById(result.activeElement || self._options.activeElement) !== 'undefined') {
@@ -2889,6 +2889,8 @@ const _private = {
             activeElement: options.activeElement,
             useNewModel: options.useNewModel,
             forceInitVirtualScroll: options?.navigation?.view === 'infinity',
+            topTriggerOffsetCoefficient: options.topTriggerOffsetCoefficient,
+            bottomTriggerOffsetCoefficient: options.bottomTriggerOffsetCoefficient,
             resetTopTriggerOffset: self._resetTopTriggerOffset,
             resetDownTriggerOffset: self._resetDownTriggerOffset
         });
@@ -3228,9 +3230,9 @@ const _private = {
             // todo Нативный scrollIntoView приводит к прокрутке в том числе и по горизонтали и запретить её никак.
             // Решением стало отключить прокрутку при видимом горизонтальном скролле.
             // https://online.sbis.ru/opendoc.html?guid=d07d149e-7eaf-491f-a69a-c87a50596dfe
-            const hasColumnScroll = self._children.listView &&
+            const hasColumnScroll = self._options.useNewModel ? self._isColumnScrollVisible : (self._children.listView &&
                 self._children.listView.isColumnScrollVisible &&
-                self._children.listView.isColumnScrollVisible();
+                self._children.listView.isColumnScrollVisible());
 
             const activator = () => {
                 if (!self._options.useNewModel && self._children.listView.beforeRowActivated) {
@@ -3355,6 +3357,9 @@ const _private = {
  */
 
 export interface IBaseControlOptions extends IControlOptions {
+    keyProperty: string;
+    viewModelConstructor: string;
+    navigation?: INavigationOptionValue<INavigationSourceConfig>;
     sourceController?: SourceController;
     items?: RecordSet;
 }
@@ -3449,7 +3454,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _blockItemActionsByScroll = false;
 
     _needBottomPadding = false;
-    _noDataBeforeReload = null;
+    _noDataBeforeReload = false;
 
     _keepScrollAfterReload = false;
     _resetScrollAfterReload = false;
@@ -3514,6 +3519,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _dataLoadCallback = null;
 
     _useServerSideColumnScroll = false;
+    _isColumnScrollVisible = false;
 
     _uniqueId = null;
 
@@ -3945,9 +3951,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         if (this._hasMoreData(this._sourceController, 'up')) {
-            this._notify('enableVirtualNavigation', [], { bubbling: true });
+            this._notify('enableVirtualNavigation', ['top'], { bubbling: true });
         } else {
-            this._notify('disableVirtualNavigation', [], { bubbling: true });
+            this._notify('disableVirtualNavigation', ['top'], { bubbling: true });
+        }
+        if (this._hasMoreData(this._sourceController, 'down')) {
+            this._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
+        } else {
+            this._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
         }
 
         if (!this.__error) {
@@ -4212,12 +4223,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.checkRequiredOptions(this, newOptions);
         }
 
-        if (oldViewModelConstructorChanged && this._listViewModel) {
+        if ((oldViewModelConstructorChanged || !!newOptions._recreateCollection) && this._listViewModel) {
             this._viewModelConstructor = newOptions.viewModelConstructor;
             const items = this._loadedBySourceController
                ? newOptions.sourceController.getItems()
                : this._options.useNewModel ? this._listViewModel.getCollection() : this._listViewModel.getItems();
             this._listViewModel.destroy();
+
+            this._noDataBeforeReload = !(items && items.getCount());
 
             if (newOptions.useNewModel) {
                 this._listViewModel = this._createNewModel(
@@ -4392,11 +4405,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
             // В browser когда скрывают видимость чекбоксов, еще и сбрасывают selection
             if (selectionChanged && (newOptions.multiSelectVisibility !== 'hidden' || _private.hasSelectionController(this)) || visibilityChangedFromHidden && newOptions.selectedKeys?.length || this._options.selectionType !== newOptions.selectionType) {
-                const newSelection = {
-                    selected: newOptions.selectedKeys,
-                    excluded: newOptions.excludedKeys
-                };
                 const controller = _private.getSelectionController(this, newOptions);
+                const newSelection = newOptions.selectedKeys === undefined
+                    ? controller.getSelection()
+                    : {
+                        selected: newOptions.selectedKeys,
+                        excluded: newOptions.excludedKeys || []
+                    };
                 controller.setSelection(newSelection);
                 this._notify('listSelectedKeysCountChanged', [controller.getCountOfSelected(), controller.isAllSelected()], {bubbling: true});
             }
@@ -5261,11 +5276,16 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             Logger.error('BaseControl: Source option is undefined. Can\'t load data', self);
         }
         return resDeferred.addCallback((result) => {
-            const hasColumnScroll = self._isMounted && self._children.listView &&
-                self._children.listView.isColumnScrollVisible && self._children.listView.isColumnScrollVisible();
+            if (self._isMounted && self._children.listView) {
+                if (cfg.useNewModel) {
+                    self._children.listView.reset();
+                } else {
+                    const hasColumnScroll = self._children.listView.isColumnScrollVisible && self._children.listView.isColumnScrollVisible();
 
-            if (hasColumnScroll) {
-                self._children.listView.resetColumnScroll();
+                    if (hasColumnScroll) {
+                        self._children.listView.resetColumnScroll();
+                    }
+                }
             }
             return result;
         });
@@ -6058,7 +6078,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._options.columnScroll) {
             // Не должно быть завязки на горизонтальный скролл.
             // https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
-            hasDragScrolling = this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible() && (
+            hasDragScrolling = (this._options.useNewModel ? this._isColumnScrollVisible : (
+                this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible()
+            )) && (
                 typeof this._options.dragScrolling === 'boolean' ? this._options.dragScrolling : !this._options.itemsDragNDrop
             );
         }
@@ -6307,7 +6329,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         // TODO dnd при наследовании TreeControl <- BaseControl не нужно будет событие
         if (this._dndListController && this._dndListController.isDragging()) {
-            this._notifyDraggingItemMouseMove(itemData, nativeEvent);
+            this._draggingItemMouseMove(itemData, nativeEvent);
         }
         if (hoverFreezeController && itemData.ItemActionsItem) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
@@ -6316,9 +6338,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    _notifyDraggingItemMouseMove(itemData, nativeEvent): void {
-        this._notify('draggingItemMouseMove', [itemData, nativeEvent]);
-    }
+    _draggingItemMouseMove(item: CollectionItem, event: SyntheticEvent): void { }
 
     _itemMouseLeave(event, itemData, nativeEvent) {
         this._notify('itemMouseLeave', [itemData.item, nativeEvent]);
@@ -6735,8 +6755,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // Если нет элементов, то должен отображаться глобальный индикатор
         const shouldDisplayIndicator = this._loadingIndicatorState === 'all'
             || !!this._loadingIndicatorState && (!this._items || !this._items.getCount());
-        return shouldDisplayIndicator && !this._portionedSearchInProgress && this._showLoadingIndicator &&
-           !(this._children.listView && this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible());
+        return shouldDisplayIndicator && !this._portionedSearchInProgress && this._showLoadingIndicator && (
+            this._options.useNewModel ? !this._isColumnScrollVisible :
+                !(this._children.listView && this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible())
+        );
     }
 
     _shouldDisplayBottomLoadingIndicator(): boolean {
@@ -7181,6 +7203,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return `controls__BaseControl__footer ${paddingClassName}`;
     }
 
+    _onToggleHorizontalScroll(e, visibility: boolean): void {
+        // TODO: Должно переехать в GridControl, когда он появится.
+        this._isColumnScrollVisible = visibility;
+    }
+
     static getDefaultOptions(): Partial<IBaseControlOptions> {
         return {
             attachLoadTopTriggerToNull: true,
@@ -7192,8 +7219,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             multiSelectPosition: 'default',
             markerVisibility: 'onactivated',
             style: 'default',
-            selectedKeys: defaultSelectedKeys,
-            excludedKeys: defaultExcludedKeys,
             loadingIndicatorTemplate: 'Controls/list:LoadingIndicatorTemplate',
             continueSearchTemplate: 'Controls/list:ContinueSearchTemplate',
             virtualScrollConfig: {},

@@ -3,7 +3,7 @@ import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 export const Flat = {
     getData: () => [
         {
-            id: 1,
+            key: 1,
             title: 'Apple',
             country: 'США',
             rating: '8.5',
@@ -13,7 +13,7 @@ export const Flat = {
             photo: explorerImages[0]
         },
         {
-            id: 11,
+            key: 11,
             title: 'Smartphones1',
             parent: 1,
             rating: '9.2',
@@ -22,7 +22,7 @@ export const Flat = {
             photo: explorerImages[1]
         },
         {
-            id: 12,
+            key: 12,
             title: 'Smartphones2',
             parent: 1,
             rating: '9.2',
@@ -31,7 +31,7 @@ export const Flat = {
             photo: explorerImages[1]
         },
         {
-            id: 13,
+            key: 13,
             title: 'Smartphones3',
             parent: 1,
             rating: '9.2',
@@ -40,7 +40,7 @@ export const Flat = {
             photo: explorerImages[0]
         },
         {
-            id: 14,
+            key: 14,
             title: 'Smartphones4',
             parent: 1,
             rating: '9.2',
@@ -49,7 +49,7 @@ export const Flat = {
             photo: explorerImages[0]
         },
         {
-            id: 15,
+            key: 15,
             title: 'Smartphones5',
             parent: 1,
             rating: '9.2',
@@ -58,56 +58,56 @@ export const Flat = {
             photo: explorerImages[0]
         },
         {
-            id: 151,
+            key: 151,
             title: 'iPhone 4s',
             rating: '9.5',
             parent: 15,
             type: null
         },
         {
-            id: 152,
+            key: 152,
             title: 'iPhone 4',
             rating: '8.9',
             parent: 15,
             type: null
         },
         {
-            id: 153,
+            key: 153,
             title: 'iPhone X Series',
             rating: '7.6',
             parent: 15,
             type: false
         },
         {
-            id: 1531,
+            key: 1531,
             title: 'iPhone Xs',
             rating: '7.4',
             parent: 153,
             type: null
         },
         {
-            id: 1532,
+            key: 1532,
             title: 'iPhone Xs Max',
             rating: '6.8',
             parent: 153,
             type: null
         },
         {
-            id: 1533,
+            key: 1533,
             title: 'iPhone XR',
             rating: '7.1',
             parent: 153,
             type: null
         },
         {
-            id: 16,
+            key: 16,
             title: 'Notebooks',
             parent: 1,
             rating: '9.4',
             type: false
         },
         {
-            id: 161,
+            key: 161,
             title: 'MacBook Pro',
             rating: '7.2',
             modelId: 'MacBookPro15,4',
@@ -119,7 +119,7 @@ export const Flat = {
             photo: explorerImages[3]
         },
         {
-            id: 162,
+            key: 162,
             title: 'MacBook Pro',
             modelId: 'MacBookPro15,3',
             rating: '6.9',
@@ -131,7 +131,7 @@ export const Flat = {
             photo: explorerImages[3]
         },
         {
-            id: 163,
+            key: 163,
             title: 'MacBook Pro',
             modelId: 'MacBookPro15,2',
             size: '13 дюймов',
@@ -143,7 +143,7 @@ export const Flat = {
             photo: explorerImages[3]
         },
         {
-            id: 164,
+            key: 164,
             title: 'MacBook Pro',
             modelId: 'MacBookPro14,3',
             rating: '8.8',
@@ -155,7 +155,7 @@ export const Flat = {
             photo: explorerImages[3]
         },
         {
-            id: 165,
+            key: 165,
             title: 'MacBook Pro',
             modelId: 'MacBookPro14,2',
             size: '13 дюймов',
@@ -167,7 +167,7 @@ export const Flat = {
             photo: explorerImages[3]
         },
         {
-            id: 17,
+            key: 17,
             title: 'Magic Mouse 2',
             modelId: 'MM16',
             rating: '7.2',
@@ -176,7 +176,7 @@ export const Flat = {
             type: null
         },
         {
-            id: 2,
+            key: 2,
             title: 'Samsung',
             country: 'Южная Корея',
             rating: '8.0',
@@ -186,35 +186,35 @@ export const Flat = {
             photo: explorerImages[0]
         },
         {
-            id: 21,
+            key: 21,
             title: 'Samusng A10',
             rating: '9.5',
             parent: 2,
             type: null
         },
         {
-            id: 22,
+            key: 22,
             title: 'Samsung A20',
             rating: '9.5',
             parent: 2,
             type: null
         },
         {
-            id: 23,
+            key: 23,
             title: 'Samsung A30',
             rating: '9.5',
             parent: 2,
             type: null
         },
         {
-            id: 24,
+            key: 24,
             title: 'Samsung A40',
             rating: '9.5',
             parent: 2,
             type: null
         },
         {
-            id: 3,
+            key: 3,
             title: 'Meizu',
             rating: '7.5',
             country: 'КНР',
@@ -223,7 +223,7 @@ export const Flat = {
             photo: explorerImages[0]
         },
         {
-            id: 4,
+            key: 4,
             title: 'Asus',
             rating: '7.3',
             country: 'Тайвань',
@@ -232,7 +232,7 @@ export const Flat = {
             photo: explorerImages[0]
         },
         {
-            id: 5,
+            key: 5,
             title: 'Acer',
             rating: '7.1',
             country: 'Тайвань',

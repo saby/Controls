@@ -1,5 +1,5 @@
 export interface IData {
-   id: number;
+   key: number;
    parent?: null | number;
    'parent@'?: null | Boolean;
    title: string;

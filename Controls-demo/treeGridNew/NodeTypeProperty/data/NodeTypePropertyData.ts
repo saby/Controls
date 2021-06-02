@@ -1,5 +1,5 @@
 export interface IData {
-    id: number;
+    key: number;
     title: string;
     count: string;
     price: string;
@@ -7,15 +7,16 @@ export interface IData {
     price2: string;
     tax: string;
     price3: string;
-    parent: number;
     type: boolean;
     hasChild: boolean;
     nodeType: string;
+    parent?: number;
+    groupParent?: number;
 }
 
 export const data: IData[] =  [
     {
-        id: 1,
+        key: 1,
         title: 'Товары и материалы',
         count: '5 шт',
         price: '',
@@ -29,7 +30,7 @@ export const data: IData[] =  [
         nodeType: 'group'
     },
     {
-        id: 12,
+        key: 12,
         title: 'Сервер SL2500/4UT8G2',
         count: '1 шт',
         price: '1180657',
@@ -43,7 +44,7 @@ export const data: IData[] =  [
         nodeType: null
     },
     {
-        id: 13,
+        key: 13,
         title: 'ПО Антивирус Dr. Web',
         count: '99 шт',
         price: '997',
@@ -57,7 +58,7 @@ export const data: IData[] =  [
         nodeType: null
     },
     {
-        id: 14,
+        key: 14,
         title: 'Конфеты Raffaello 175 гр.',
         count: '27 шт',
         price: '87',
@@ -71,7 +72,7 @@ export const data: IData[] =  [
         nodeType: null
     },
     {
-        id: 15,
+        key: 15,
         title: 'Устройство хранения USB',
         count: '9 шт',
         price: '116',
@@ -85,7 +86,7 @@ export const data: IData[] =  [
         nodeType: null
     },
     {
-        id: 2,
+        key: 2,
         title: 'Услуги и работы',
         count: '',
         price: '',
@@ -99,7 +100,7 @@ export const data: IData[] =  [
         nodeType: 'group'
     },
     {
-        id: 21,
+        key: 21,
         title: 'Подключение интернета',
         count: '2 ч',
         price: '',
@@ -113,7 +114,7 @@ export const data: IData[] =  [
         nodeType: null
     },
     {
-        id: 3,
+        key: 3,
         title: 'Неисключительные права',
         count: '',
         price: '',
@@ -127,7 +128,7 @@ export const data: IData[] =  [
         nodeType: 'group'
     },
     {
-        id: 32,
+        key: 32,
         title: 'Права использования "СБИС ЭО-Базовый, Бюджет"',
         count: '1 шт',
         price: '1204500',
@@ -141,7 +142,7 @@ export const data: IData[] =  [
         nodeType: null
     },
     {
-        id: 33,
+        key: 33,
         title: 'Права использования аккаунта sbis.ru в течение 1 года',
         count: '1 шт',
         price: '4500',
@@ -155,7 +156,7 @@ export const data: IData[] =  [
         nodeType: null
     },
     {
-        id: 34,
+        key: 34,
         title: 'Права использования "СБИС Расширенный аналитический блок"',
         count: '1 шт',
         price: '9800',
@@ -173,7 +174,7 @@ export const data: IData[] =  [
 export const extendedData: IData[] = data.slice();
 Array.prototype.splice.apply(extendedData, [1, 0,
     {
-        id: 11,
+        key: 11,
         title: 'Laptops',
         count: '5 шт',
         price: '368520',
@@ -187,7 +188,7 @@ Array.prototype.splice.apply(extendedData, [1, 0,
         nodeType: null
     },
     {
-        id: 111,
+        key: 111,
         title: 'MacBook Pro',
         count: '1 шт',
         price: '111325',
@@ -201,7 +202,7 @@ Array.prototype.splice.apply(extendedData, [1, 0,
         nodeType: null
     },
     {
-        id: 112,
+        key: 112,
         title: 'MacBook Pro 15,3',
         count: '1 шт',
         price: '111325',
@@ -215,7 +216,7 @@ Array.prototype.splice.apply(extendedData, [1, 0,
         nodeType: null
     },
     {
-        id: 113,
+        key: 113,
         title: 'MacBook Pro 15,2',
         count: '1 шт',
         price: '115303',
@@ -229,7 +230,7 @@ Array.prototype.splice.apply(extendedData, [1, 0,
         nodeType: null
     },
     {
-        id: 114,
+        key: 114,
         title: 'MacBookPro 14,3',
         count: '1 шт',
         price: '112300',
@@ -243,7 +244,7 @@ Array.prototype.splice.apply(extendedData, [1, 0,
         nodeType: null
     },
     {
-        id: 115,
+        key: 115,
         title: 'MacBook Pro 14,2',
         count: '1 шт',
         price: '100455',
@@ -257,7 +258,7 @@ Array.prototype.splice.apply(extendedData, [1, 0,
         nodeType: null
     },
     {
-        id: 5,
+        key: 5,
         title: 'Смартфоны',
         count: '1 шт',
         price: '',
@@ -270,3 +271,261 @@ Array.prototype.splice.apply(extendedData, [1, 0,
         nodeType: 'group'
     }
 ]);
+
+export const dynamicParentData = [
+    {
+        key: 1,
+        title: 'Товары и материалы',
+        count: '5 шт',
+        price: '',
+        price1: '1168520',
+        price2: '',
+        tax: '',
+        price3: '1218520',
+        parent: null,
+        groupParent: null,
+        type: true,
+        hasChild: true,
+        nodeType: 'group'
+    },
+    {
+        key: 11,
+        title: 'Laptops',
+        count: '5 шт',
+        price: '368520',
+        price1: '368520',
+        price2: '',
+        tax: '',
+        price3: '218520',
+        parent: null,
+        groupParent: 1,
+        type: true,
+        hasChild: true,
+        nodeType: null
+    },
+    {
+        key: 111,
+        title: 'MacBook Pro',
+        count: '1 шт',
+        price: '111325',
+        price1: '111325',
+        price2: '',
+        tax: '18',
+        price3: '121325',
+        parent: 11,
+        groupParent: 1,
+        type: null,
+        hasChild: true,
+        nodeType: null
+    },
+    {
+        key: 112,
+        title: 'MacBook Pro 15,3',
+        count: '1 шт',
+        price: '111325',
+        price1: '111325',
+        price2: '',
+        tax: '18',
+        price3: '131363.5',
+        parent: 11,
+        groupParent: 1,
+        type: null,
+        hasChild: true,
+        nodeType: null
+    },
+    {
+        key: 113,
+        title: 'MacBook Pro 15,2',
+        count: '1 шт',
+        price: '115303',
+        price1: '115303',
+        price2: '',
+        tax: '18',
+        price3: '136057.54',
+        parent: 11,
+        groupParent: 1,
+        type: null,
+        hasChild: true,
+        nodeType: null
+    },
+    {
+        key: 114,
+        title: 'MacBookPro 14,3',
+        count: '1 шт',
+        price: '112300',
+        price1: '112300',
+        price2: '',
+        tax: '18',
+        price3: '132514',
+        parent: 11,
+        groupParent: 1,
+        type: null,
+        hasChild: true,
+        nodeType: null
+    },
+    {
+        key: 115,
+        title: 'MacBook Pro 14,2',
+        count: '1 шт',
+        price: '100455',
+        price1: '100455',
+        price2: '',
+        tax: '18',
+        price3: '118536.9',
+        parent: 11,
+        groupParent: 1,
+        type: null,
+        hasChild: true,
+        nodeType: null
+    },
+    {
+        key: 12,
+        title: 'Сервер SL2500/4UT8G2',
+        count: '1 шт',
+        price: '1180657',
+        price1: '97700',
+        price2: '16587',
+        tax: '18',
+        price3: '997700',
+        parent: null,
+        groupParent: 1,
+        type: null,
+        hasChild: false,
+        nodeType: null
+    },
+    {
+        key: 13,
+        title: 'ПО Антивирус Dr. Web',
+        count: '99 шт',
+        price: '997',
+        price1: '1260',
+        price2: '226',
+        tax: '18',
+        price3: '126000',
+        parent: null,
+        groupParent: 1,
+        type: null,
+        hasChild: false,
+        nodeType: null
+    },
+    {
+        key: 14,
+        title: 'Конфеты Raffaello 175 гр.',
+        count: '27 шт',
+        price: '87',
+        price1: '99',
+        price2: '17',
+        tax: '18',
+        price3: '1230',
+        parent: null,
+        groupParent: 1,
+        type: null,
+        hasChild: false,
+        nodeType: null
+    },
+    {
+        key: 15,
+        title: 'Устройство хранения USB',
+        count: '9 шт',
+        price: '116',
+        price1: '158',
+        price2: '23',
+        tax: '18',
+        price3: '1488',
+        parent: null,
+        groupParent: 1,
+        type: null,
+        hasChild: false,
+        nodeType: null
+    },
+    {
+        key: 2,
+        title: 'Услуги и работы',
+        count: '',
+        price: '',
+        price1: '700',
+        price2: '',
+        tax: '',
+        price3: '1488',
+        parent: null,
+        groupParent: null,
+        type: true,
+        hasChild: true,
+        nodeType: 'group'
+    },
+    {
+        key: 21,
+        title: 'Подключение интернета',
+        count: '2 ч',
+        price: '',
+        price1: '700',
+        price2: '41',
+        tax: '18',
+        price3: '1400',
+        parent: null,
+        groupParent: 2,
+        type: null,
+        hasChild: false,
+        nodeType: null
+    },
+    {
+        key: 3,
+        title: 'Неисключительные права',
+        count: '',
+        price: '',
+        price1: '1318300',
+        price2: '',
+        tax: '',
+        price3: '1318300',
+        parent: null,
+        groupParent: null,
+        type: true,
+        hasChild: true,
+        nodeType: 'group'
+    },
+    {
+        key: 32,
+        title: 'Права использования "СБИС ЭО-Базовый, Бюджет"',
+        count: '1 шт',
+        price: '1204500',
+        price1: '1304500',
+        price2: '197400',
+        tax: '18',
+        price3: '1304500',
+        parent: null,
+        groupParent: 3,
+        type: null,
+        hasChild: false,
+        nodeType: null
+    },
+    {
+        key: 33,
+        title: 'Права использования аккаунта sbis.ru в течение 1 года',
+        count: '1 шт',
+        price: '4500',
+        price1: '4500',
+        price2: '984',
+        tax: '18',
+        price3: '4500',
+        parent: null,
+        groupParent: 3,
+        type: null,
+        hasChild: false,
+        nodeType: null
+    },
+    {
+        key: 34,
+        title: 'Права использования "СБИС Расширенный аналитический блок"',
+        count: '1 шт',
+        price: '9800',
+        price1: '9800',
+        price2: '1447',
+        tax: '18',
+        price3: '9800',
+        parent: null,
+        groupParent: 3,
+        type: null,
+        hasChild: false,
+        nodeType: null
+    }
+];

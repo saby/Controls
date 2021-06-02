@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <Controls.grid:View
             useTableInOldBrowsers="{{true}}"
-            keyProperty="id"
+            keyProperty="key"
             source="{{_viewSource}}"
             hoverBackgroundStyle="primary"
             columns="{{_columns}}">

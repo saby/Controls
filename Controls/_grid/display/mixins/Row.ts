@@ -96,8 +96,11 @@ export default abstract class Row<T> {
             (stickyCallback ? 'replaceable' : 'notsticky');
     }
 
-    getStickyHeaderPosition(stickyCallback: Function): string {
-        return stickyCallback ? 'top' : 'topbottom';
+    getStickyHeaderPosition(stickyCallback: Function): {} {
+        const stickyVerticalPosition = stickyCallback ? 'top' : 'topBottom';
+        return {
+            vertical: stickyVerticalPosition
+        }
     }
 
     //region Аспект "Стилевое оформление. Классы и стили строки"
@@ -578,6 +581,10 @@ export default abstract class Row<T> {
 
     getStickyColumnsCount(): number {
         return this._$owner.getStickyColumnsCount();
+    }
+
+    setStickyColumnsCount(): void {
+        this._reinitializeColumns(true);
     }
 
     hasItemActionsSeparatedCell(): boolean {
