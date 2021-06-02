@@ -498,7 +498,10 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
      * @private
      */
     protected _getField(): Field<String, IViewModelOptions> {
-        return this._children[this._fieldName] as Field<String, IViewModelOptions>;
+        if (this._children.hasOwnProperty(this._fieldName)) {
+            return this._children[this._fieldName] as Field<String, IViewModelOptions>;
+        }
+        return null;
     }
 
     protected _getReadOnlyField(): HTMLElement | void {
