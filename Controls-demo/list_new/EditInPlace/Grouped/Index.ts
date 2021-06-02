@@ -2,21 +2,21 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/EditInPlace/Grouped/Grouped';
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
-import {getGroupedCatalog as getData} from '../../DemoHelpers/DataCatalog';
-import {groupConstants as constView} from 'Controls/list';
+import {getEditableGroupedCatalog as getData} from '../../DemoHelpers/Data/Groups';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {IEditingConfig} from 'Controls/display';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
+    protected _viewSource: Memory;
     private _fakeItemId: number;
-    private _activeGroup: string;
-    private _editingConfig = {
+    private _activeGroup: string = 'Xiaomi';
+    protected _editingConfig: IEditingConfig = {
         editOnClick: true,
         sequentialEditing: true,
         addPosition: 'top'
     };
-    private _addPosition = 'top';
+    protected _addPosition: string = 'top';
 
     protected _beforeMount(): void {
         const data = getData();
@@ -32,17 +32,12 @@ export default class extends Control {
         this._editingConfig.addPosition = position;
     }
 
-    private _groupingKeyCallback(item: Model): string {
-        const groupId = item.get('brand');
-        return groupId === 'apple' ? constView.hiddenGroup : groupId;
-    }
-
     protected _onBeforeBeginEdit(
         e: SyntheticEvent<null>,
         options: { item?: Model },
         isAdd: boolean): Promise<{item: Model}> | void {
         if (!isAdd) {
-            this._activeGroup = this._groupingKeyCallback(options.item);
+            this._activeGroup = options.item.get('brand');
             return;
         }
     }
@@ -53,7 +48,7 @@ export default class extends Control {
             rawData: {
                 key: ++this._fakeItemId,
                 title: '',
-                brand:  this._activeGroup || 'asd'
+                brand:  this._activeGroup
             }
         });
         this._children.list.beginAdd({item});

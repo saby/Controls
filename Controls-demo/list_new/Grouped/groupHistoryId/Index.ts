@@ -1,7 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/Grouped/groupHistoryId/groupHistoryId';
 import {Memory} from 'Types/source';
-import {getGroupedCatalog as getData} from '../../DemoHelpers/DataCatalog';
+import {getGroupedCatalog as getData} from '../../DemoHelpers/Data/Groups';
 
 // Патч нужен, чтобы демка не выдавала ошибки
 import '../../../Utils/WebApiScopePatch';
