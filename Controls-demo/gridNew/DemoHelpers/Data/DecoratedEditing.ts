@@ -9,21 +9,21 @@ import { IEditingData } from "./Editing";
 export const DecoratedEditing = {
     getDecoratedEditingData: (): IEditingData[] => [
         {
-            id: 1,
+            key: 1,
             title: 'Новороссийский морской торговый порт',
             documentSign: 145465097,
             taxBase: 17215.00,
             document: 'б/н'
         },
         {
-            id: 2,
+            key: 2,
             title: 'Морской порт Санкт-Петербург',
             documentSign: 1015108104,
             taxBase: 21015.00,
             document: '48000560-ABCC'
         },
         {
-            id: 3,
+            key: 3,
             title: 'Морской торговый порт Усть-Луга',
             documentSign: 2418052,
             taxBase: 890145.04,

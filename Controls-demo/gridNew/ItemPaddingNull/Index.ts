@@ -10,7 +10,7 @@ export default class extends Control {
     protected _itemPadding = { top: 'null', bottom: 'null' };
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: Countries.getData()
         });
     }

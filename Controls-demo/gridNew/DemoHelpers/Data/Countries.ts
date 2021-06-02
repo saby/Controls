@@ -12,7 +12,7 @@ interface IResults {
 export const Countries = {
     getData: (): IData[] => [
         {
-            id: 0,
+            key: 0,
             number: 1,
             country: 'Россия',
             capital: 'Москва',
@@ -21,7 +21,7 @@ export const Countries = {
             populationDensity: 8
         },
         {
-            id: 1,
+            key: 1,
             number: 2,
             country: 'Канада',
             capital: 'Оттава',
@@ -30,7 +30,7 @@ export const Countries = {
             populationDensity: 3
         },
         {
-            id: 2,
+            key: 2,
             number: 3,
             country: 'Соединенные Штаты Америки',
             capital: 'Вашингтон',
@@ -39,7 +39,7 @@ export const Countries = {
             populationDensity: 30.71
         },
         {
-            id: 3,
+            key: 3,
             number: 4,
             country: 'Китай',
             capital: 'Пекин',
@@ -48,7 +48,7 @@ export const Countries = {
             populationDensity: 136.12
         },
         {
-            id: 4,
+            key: 4,
             number: 5,
             country: 'Бразилия',
             capital: 'Бразилиа',
@@ -57,7 +57,7 @@ export const Countries = {
             populationDensity: 21.86
         },
         {
-            id: 5,
+            key: 5,
             number: 6,
             country: 'Австралия',
             capital: 'Канберра',
@@ -66,7 +66,7 @@ export const Countries = {
             populationDensity: 3
         },
         {
-            id: 6,
+            key: 6,
             number: 7,
             country: 'Индия',
             capital: 'Нью-Дели',
@@ -75,7 +75,7 @@ export const Countries = {
             populationDensity: 328.59
         },
         {
-            id: 7,
+            key: 7,
             number: 8,
             country: 'Аргентина',
             capital: 'Буэнос-Айрес',
@@ -84,7 +84,7 @@ export const Countries = {
             populationDensity: 4.29
         },
         {
-            id: 8,
+            key: 8,
             number: 9,
             country: 'Казахстан',
             capital: 'Нур-Султан',
@@ -93,7 +93,7 @@ export const Countries = {
             populationDensity: 6.00
         },
         {
-            id: 9,
+            key: 9,
             number: 10,
             country: 'Судан',
             capital: 'Хартум',
@@ -102,7 +102,7 @@ export const Countries = {
             populationDensity: 16.04
         },
         {
-            id: 10,
+            key: 10,
             number: 11,
             country: 'Алжир',
             capital: 'Алжир',
@@ -111,7 +111,7 @@ export const Countries = {
             populationDensity: 13.66
         },
         {
-            id: 11,
+            key: 11,
             number: 12,
             country: 'Конго',
             capital: 'Браззавиль',
@@ -120,7 +120,7 @@ export const Countries = {
             populationDensity: 25.62
         },
         {
-            id: 12,
+            key: 12,
             number: 13,
             country: 'Мексика',
             capital: 'Мехико',
@@ -129,7 +129,7 @@ export const Countries = {
             populationDensity: 53.84
         },
         {
-            id: 13,
+            key: 13,
             number: 14,
             country: 'Саудовская Аравия',
             capital: 'Эр-Рияд',
@@ -138,7 +138,7 @@ export const Countries = {
             populationDensity: 13.47
         },
         {
-            id: 14,
+            key: 14,
             number: 15,
             country: 'Индонезия',
             capital: 'Джакарта',
@@ -147,7 +147,7 @@ export const Countries = {
             populationDensity: 126.06
         },
         {
-            id: 15,
+            key: 15,
             number: 16,
             country: 'Ливия',
             capital: 'Триполи',
@@ -156,7 +156,7 @@ export const Countries = {
             populationDensity: 3.00
         },
         {
-            id: 16,
+            key: 16,
             number: 17,
             country: 'Иран',
             capital: 'Тегеран',
@@ -165,7 +165,7 @@ export const Countries = {
             populationDensity: 41.27
         },
         {
-            id: 17,
+            key: 17,
             number: 18,
             country: 'Монголия',
             capital: 'Улан-Батор',
@@ -174,7 +174,7 @@ export const Countries = {
             populationDensity: 2.00
         },
         {
-            id: 18,
+            key: 18,
             number: 19,
             country: 'Перу',
             capital: 'Лима',

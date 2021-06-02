@@ -10,7 +10,7 @@ export default class extends Control<IControlOptions> {
     protected _viewSource: Memory;
     protected _columns: IColumn[] = [
         {
-            displayProperty: 'id',
+            displayProperty: 'key',
             width: '30px'
         },
         {
@@ -25,7 +25,7 @@ export default class extends Control<IControlOptions> {
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: Tasks.getData()
         });
     }

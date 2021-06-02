@@ -1,18 +1,19 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGrid/Expander/ExpanderPosition/RightWithColumnTemplate/RightWithColumnTemplate';
 import * as CntTpl from 'wml!Controls-demo/treeGrid/Expander/ExpanderPosition/RightWithColumnTemplate/content';
-import {Memory} from 'Types/source';
+import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: Memory;
+    protected _viewSource: HierarchicalMemory;
     protected _columns: IColumn[];
 
     protected _beforeMount(): void {
-        this._viewSource = new Memory({
+        this._viewSource = new HierarchicalMemory({
             keyProperty: 'id',
+            parentProperty: 'parent',
             data: Gadgets.getFlatData()
         });
         this._columns = [

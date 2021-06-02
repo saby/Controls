@@ -1,6 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGrid/LoadMore/LoadMore';
-import {Memory} from 'Types/source';
+import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
@@ -8,7 +8,7 @@ import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interfac
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: Memory;
+    protected _viewSource: HierarchicalMemory;
     protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat();
     protected _navigation: INavigationOptionValue<INavigationSourceConfig> = {
         source: 'page',
@@ -24,8 +24,9 @@ export default class extends Control {
     };
 
     protected _beforeMount(): void {
-        this._viewSource = new Memory({
+        this._viewSource = new HierarchicalMemory({
             keyProperty: 'id',
+            parentProperty: 'parent',
             data: Gadgets.getFlatData()
         });
     }

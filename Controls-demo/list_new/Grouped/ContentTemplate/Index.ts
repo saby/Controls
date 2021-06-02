@@ -11,7 +11,7 @@ export default class extends Control<IControlOptions> {
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: getData()
         });
     }

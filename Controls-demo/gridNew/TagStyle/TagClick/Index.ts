@@ -20,7 +20,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
         const data = TagStyle.getData().slice(1, 2);
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data
         });
     }

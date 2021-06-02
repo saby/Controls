@@ -21,7 +21,7 @@ export default class extends Control {
 
     private _setViewSource(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: Editing.getEditingData()
         });
     }

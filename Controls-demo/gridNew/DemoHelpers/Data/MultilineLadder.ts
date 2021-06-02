@@ -6,163 +6,163 @@ import {IData} from "Controls-demo/gridNew/DemoHelpers/DataCatalog";
 export const MultilineLadder = {
     getData: (): IData[] => [
         {
-            id: 1,
+            key: 1,
             date: '01 мая',
             time: '06:02',
             name: 'Колесов В.'
         },
         {
-            id: 3,
+            key: 3,
             date: '01 мая',
             time: '06:02',
             name: 'Авраменко А.'
         },
         {
-            id: 30,
+            key: 30,
             date: '01 мая',
             time: '06:02',
             name: 'Панихин К.'
         },
         {
-            id: 31,
+            key: 31,
             date: '01 мая',
             time: '08:25',
             name: 'Авраменко А.'
         },
         {
-            id: 32,
+            key: 32,
             date: '01 мая',
             time: '08:25',
             name: 'Панихин К.'
         },
         {
-            id: 33,
+            key: 33,
             date: '01 мая',
             time: '08:33',
             name: 'Авраменко А.'
         },
         {
-            id: 34,
+            key: 34,
             date: '01 мая',
             time: '08:33',
             name: 'Панихин К.'
         },
         {
-            id: 35,
+            key: 35,
             date: '01 мая',
             time: '08:33',
             name: 'Колесов В.'
         },
         {
-            id: 5,
+            key: 5,
             date: '02 мая',
             time: '07:41',
             name: 'Колесов В.'
         },
         {
-            id: 51,
+            key: 51,
             date: '02 мая',
             time: '07:41',
             name: 'Авраменко А.'
         },
         {
-            id: 6,
+            key: 6,
             date: '02 мая',
             time: '08:25',
             name: 'Авраменко А.'
         },
         {
-            id: 61,
+            key: 61,
             date: '02 мая',
             time: '08:25',
             name: 'Панихин К.'
         },
         {
-            id: 8,
+            key: 8,
             date: '03 мая',
             time: '09:41',
             name: 'Колесов В.'
         },
         {
-            id: 81,
+            key: 81,
             date: '03 мая',
             time: '09:41',
             name: 'Колесов В.'
         },
         {
-            id: 82,
+            key: 82,
             date: '03 мая',
             time: '09:41',
             name: 'Авраменко А.'
         },
         {
-            id: 9,
+            key: 9,
             date: '03 мая',
             time: '09:55',
             name: 'Колесов В.'
         },
         {
-            id: 91,
+            key: 91,
             date: '03 мая',
             time: '09:55',
             name: 'Авраменко А.'
         },
         {
-            id: 11,
+            key: 11,
             date: '04 мая',
             time: '06:02',
             name: 'Колесов В.'
         },
         {
-            id: 12,
+            key: 12,
             date: '04 мая',
             time: '06:02',
             name: 'Авраменко А.'
         },
         {
-            id: 13,
+            key: 13,
             date: '04 мая',
             time: '08:25',
             name: 'Авраменко А.'
         },
         {
-            id: 14,
+            key: 14,
             date: '04 мая',
             time: '08:25',
             name: 'Колесов В.'
         },
         {
-            id: 141,
+            key: 141,
             date: '04 мая',
             time: '08:41',
             name: 'Колесов В.'
         },
         {
-            id: 142,
+            key: 142,
             date: '04 мая',
             time: '08:41',
             name: 'Колесов В.'
         },
         {
-            id: 15,
+            key: 15,
             date: '06 мая',
             time: '07:41',
             name: 'Колесов В.'
         },
         {
-            id: 17,
+            key: 17,
             date: '06 мая',
             time: '07:41',
             name: 'Колесов В.'
         },
         {
-            id: 18,
+            key: 18,
             date: '06 мая',
             time: '09:41',
             name: 'Колесов В.'
         },
         {
-            id: 19,
+            key: 19,
             date: '06 мая',
             time: '09:41',
             name: 'Колесов В.'

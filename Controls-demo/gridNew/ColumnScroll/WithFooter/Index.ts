@@ -15,7 +15,7 @@ export default class extends Control {
     protected _beforeMount(): void {
         this._columns2[1].width = '200px';
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             // tslint:disable-next-line
             data: Countries.getData().slice(0, 3)
         });

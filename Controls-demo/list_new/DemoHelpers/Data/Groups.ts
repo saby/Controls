@@ -1,63 +1,63 @@
 import {groupConstants} from 'Controls/display';
 
 function getGroupedCatalog(): Array<{
-    id: number
+    key: number
     title: string
     brand: string
     longBrandName: string
 }> {
     return [
         {
-            id: 1,
+            key: 1,
             title: 'MacBook Pro',
             brand: 'apple',
             longBrandName: 'apple'
         },
         {
-            id: 2,
+            key: 2,
             title: 'ASUS X751SA-TY124D',
             brand: 'asus',
             longBrandName: 'asus'
         },
         {
-            id: 3,
+            key: 3,
             title: 'HP 250 G5 (W4N28EA)',
             brand: 'hp',
             longBrandName: 'hp'
         },
         {
-            id: 4,
+            key: 4,
             title: 'Apple iPad Pro 2016',
             brand: 'apple',
             longBrandName: 'apple'
         },
         {
-            id: 5,
+            key: 5,
             title: 'ACER One 10 S1002-15GT',
             brand: 'acer',
             longBrandName: 'acer'
         },
         {
-            id: 6,
+            key: 6,
             title: 'ASUS X541SA-XO056D',
             brand: 'asus',
             longBrandName: 'asus'
         },
         {
-            id: 7,
+            key: 7,
             title: 'iPhone X Max',
             brand: 'apple',
             longBrandName: 'apple'
         },
         {
-            id: 8,
+            key: 8,
             title: 'ASUS Zenbook F-234',
             brand: 'asus',
             longBrandName: 'AsusTek Computer Inc. stylised as ASUSTeK' +
                 ' (Public TWSE: 2357 LSE: ASKD), based in Beitou District, Taipei, Taiwan'
         },
         {
-            id: 9,
+            key: 9,
             title: 'ACER Aspire F 15 F5-573G-51Q7',
             brand: 'acer',
             longBrandName: 'acer'
@@ -66,26 +66,26 @@ function getGroupedCatalog(): Array<{
 }
 
 function getEditableGroupedCatalog(): Array<{
-    id: number
+    key: number
     title: string
     brand: string
     longBrandName: string
 }> {
     return [
         {
-            id: 1,
+            key: 1,
             title: 'MacBook Pro',
             brand: groupConstants.hiddenGroup,
             longBrandName: 'apple'
         },
         {
-            id: 2,
+            key: 2,
             title: 'ASUS X751SA-TY124D',
             brand: 'asus',
             longBrandName: 'asus'
         },
         {
-            id: 3,
+            key: 3,
             title: 'HP 250 G5 (W4N28EA)',
             brand: 'hp',
             longBrandName: 'hp'

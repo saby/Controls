@@ -27,10 +27,10 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: [
                 {
-                    id: 1,
+                    key: 1,
                     title: 'Apple',
                     country: 'США',
                     rating: '8.5',
@@ -38,7 +38,7 @@ export default class extends Control {
                     type: true
                 },
                 {
-                    id: 11,
+                    key: 11,
                     title: 'Notebooks',
                     country: 'США',
                     rating: '8.5',
@@ -46,7 +46,7 @@ export default class extends Control {
                     type: false
                 },
                 {
-                    id: 12,
+                    key: 12,
                     title: 'IPhones',
                     country: 'США',
                     rating: '8.5',
@@ -54,7 +54,7 @@ export default class extends Control {
                     type: false
                 },
                 {
-                    id: 121,
+                    key: 121,
                     title: 'IPhone XS',
                     country: 'США',
                     rating: '8.5',
@@ -62,7 +62,7 @@ export default class extends Control {
                     type: null
                 },
                 {
-                    id: 122,
+                    key: 122,
                     title: 'IPhone X',
                     country: 'США',
                     rating: '8.5',
@@ -70,7 +70,7 @@ export default class extends Control {
                     type: null
                 },
                 {
-                    id: 13,
+                    key: 13,
                     title: 'iPad Air 2015',
                     country: 'США',
                     rating: '8.5',
@@ -78,7 +78,7 @@ export default class extends Control {
                     type: null
                 },
                 {
-                    id: 14,
+                    key: 14,
                     title: 'iPad Air 2017',
                     country: 'США',
                     rating: '8.5',

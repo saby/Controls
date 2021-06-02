@@ -13,7 +13,7 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: Countries.getData()
         });
         this._columns[1].width = '224px';

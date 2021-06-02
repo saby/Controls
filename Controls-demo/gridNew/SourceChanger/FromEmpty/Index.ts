@@ -32,7 +32,7 @@ export default class extends Control {
     private _viewSource2: Memory;
     protected _columns: IColumn[] = [
         {
-            displayProperty: 'id',
+            displayProperty: 'key',
             width: '50px'
         },
         {
@@ -45,7 +45,7 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: []
         });
         this._navigation = {
@@ -60,7 +60,7 @@ export default class extends Control {
             }
         };
         this._viewSource2 = new DemoSource({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data
         });
     }

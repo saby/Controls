@@ -30,7 +30,7 @@ export default class extends Control {
 
     protected _beforeMount(options?: {}, contexts?: object, receivedState?: void): Promise<void> | void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: Tasks.getData()
         });
         // tslint:disable-next-line

@@ -16,7 +16,7 @@ export default class extends Control {
    protected _beforeMount(options?: {}, contexts?: object, receivedState?: void): Promise<void> | void {
       super._beforeMount(options, contexts, receivedState);
       this._viewSource = new Memory({
-         keyProperty: 'id',
+         keyProperty: 'key',
          data: Countries.getData()
       });
    }

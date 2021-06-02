@@ -7,7 +7,7 @@ import {CrudEntityKey} from 'Types/source';
 
 interface IItem {
     title: string;
-    id: number;
+    key: number;
     keyProperty: string;
     count: number;
 }
@@ -24,7 +24,7 @@ export default class extends Control {
     protected _viewSource: Memory;
     private _dataArray: unknown = generateData({
         count: MAX_ELEMENTS_COUNT, beforeCreateItemCallback: (item: IItem) => {
-            item.title = `Запись с ключом ${item.id}.`;
+            item.title = `Запись с ключом ${item.key}.`;
         }
     });
     protected _textInfo: string = '';
@@ -33,7 +33,7 @@ export default class extends Control {
     protected _beforeMount(): void {
         this._count = MAX_ELEMENTS_COUNT - 1;
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: this._dataArray
         });
     }

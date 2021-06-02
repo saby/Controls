@@ -3,7 +3,7 @@ import * as resTpl from 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/resul
 import { IHeaderCell } from "Controls/grid";
 
 export interface IEditingData {
-    id: number | string;
+    key: number | string;
     title?: string;
     description?: string;
     price?: string;
@@ -22,7 +22,7 @@ export interface IEditingData {
 export const Editing = {
     getEditingData: (): IEditingData[] => [
         {
-            id: 1,
+            key: 1,
             title: 'Время',
             description: 'Погода',
             price: '1',
@@ -32,7 +32,7 @@ export const Editing = {
             costPrice: '3'
         },
         {
-            id: 2,
+            key: 2,
             title: 'Масса',
             description: 'Скорость',
             price: '1',
@@ -42,7 +42,7 @@ export const Editing = {
             costPrice: '3'
         },
         {
-            id: 3,
+            key: 3,
             title: 'Давление',
             description: 'Плотность',
             price: '1',
@@ -54,38 +54,38 @@ export const Editing = {
     ],
     getEditingAlignData: (): IEditingData[] => [
         {
-            id: 1,
+            key: 1,
             title: 'Очень длинный текст, с выравниванием по правому краю.',
             description: 'Текст 1'
         },
         {
-            id: 2,
+            key: 2,
             title: 'Длинный текст',
             description: 'Текст 2'
         },
         {
-            id: 3,
+            key: 3,
             title: 'Текст',
             description: 'Текст 3'
         }
     ],
     getEditingValidationData: (): IEditingData[] => [
         {
-            id: '1',
+            key: '1',
             email: 'semen@gmail.com',
             required: '+79069953970',
             length: '1234',
             title: 'Тандер, АО (Магнит)'
         },
         {
-            id: '2',
+            key: '2',
             email: 'artem@gmail.com',
             required: '+74951235469',
             length: '123',
             title: 'Абак, ООО'
         },
         {
-            id: '3',
+            key: '3',
             email: 'oleg@gmail.com',
             required: '+79156542315',
             length: '2121',

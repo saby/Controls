@@ -57,13 +57,13 @@ export default class extends Control {
         this._columns[2].width = '1fr';
         this._columns[3].template = PopulationColumn;
         this._emptyViewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: []
         });
         const data = Countries.getData();
         data[2].show = true;
         this._notEmptyViewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data
         });
         this._viewSource = this._notEmptyViewSource;

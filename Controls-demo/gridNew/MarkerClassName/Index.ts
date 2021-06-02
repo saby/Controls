@@ -28,20 +28,20 @@ export default class extends Control {
 
     protected _beforeMount(options?: {}, contexts?: object, receivedState?: void): Promise<void> | void {
         this._viewSourceImage = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: Tasks.getData()
         });
 
         this._viewSourceText = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: [
                 {
-                    id: 1,
+                    key: 1,
                     px: 'Строго 150px',
                     fr1of3: '1/3 свободного пространства. fr - гибкая ширина. fr расчитывается как доля от оставшегося свободного пространства внутри грида. Грубо говоря, сначала браузер просчитает ширины всех остальных колонок, потом fr',
                 },
                 {
-                    id: 2,
+                    key: 2,
                     px: 'Ячейка 2/1',
                     fr1of3: 'Ячейка 2/3',
                 }

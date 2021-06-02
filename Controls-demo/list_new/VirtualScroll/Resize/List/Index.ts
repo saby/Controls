@@ -4,18 +4,18 @@ import {Memory} from 'Types/source';
 import {generateData} from 'Controls-demo/list_new/DemoHelpers/DataCatalog';
 
 interface IItem {
-    id: number;
+    key: number;
     title: string;
 }
 
 function getMemory(): Memory {
     return new Memory({
-        keyProperty: 'id',
+        keyProperty: 'key',
         data: generateData<IItem>({
             count: 100,
             entityTemplate: {title: 'number'},
             beforeCreateItemCallback(item: IItem): void {
-                item.title = `Запись #${item.id}`;
+                item.title = `Запись #${item.key}`;
             }
         })
     });

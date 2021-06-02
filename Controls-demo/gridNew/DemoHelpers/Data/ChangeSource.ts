@@ -1,5 +1,5 @@
 interface IDataForChangeSource {
-    id: number;
+    key: number;
     load: string | number;
     title: string;
 }
@@ -12,72 +12,72 @@ interface IChangeSource {
 export const ChangeSourceData: IChangeSource = {
     getData1: () => [
         {
-            id: 1,
+            key: 1,
             load: 'One',
             title: 'hello'
         }, {
-            id: 2,
+            key: 2,
             load: 'Two',
             title: 'hello'
 
         }, {
-            id: 3,
+            key: 3,
             load: 'three',
             title: 'hello'
 
         }, {
-            id: 4,
+            key: 4,
             load: 'Four',
             title: 'hello'
 
         }, {
-            id: 5,
+            key: 5,
             load: 'Five',
             title: 'hello'
 
         }, {
-            id: 6,
+            key: 6,
             load: 'Six',
             title: 'hello'
 
         }, {
-            id: 7,
+            key: 7,
             load: 'Seven',
             title: 'hello'
 
         }],
     getData2: () => [
         {
-            id: 1,
+            key: 1,
             load: 1,
             title: 'hello'
         }, {
-            id: 2,
+            key: 2,
             load: 2,
             title: 'hello'
 
         }, {
-            id: 3,
+            key: 3,
             load: 2,
             title: 'hello'
 
         }, {
-            id: 4,
+            key: 4,
             load: 2,
             title: 'hello'
 
         }, {
-            id: 5,
+            key: 5,
             load: 2,
             title: 'hello'
 
         }, {
-            id: 6,
+            key: 6,
             load: 2,
             title: 'hello'
 
         }, {
-            id: 7,
+            key: 7,
             load: 2,
             title: 'hello'
 

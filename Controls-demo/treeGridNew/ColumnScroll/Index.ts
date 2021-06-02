@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/ColumnScroll/ColumnScroll';
-import {CrudEntityKey, Memory} from 'Types/source';
+import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
 import {getActionsForContacts as getItemActions} from '../../list_new/DemoHelpers/ItemActionsCatalog';
 import { IItemAction } from 'Controls/itemActions';
 import { IColumn } from 'Controls/grid';
@@ -9,11 +9,11 @@ import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: Memory;
+    protected _viewSource: HierarchicalMemory;
     protected _itemActions: IItemAction[] = getItemActions();
     protected _columns: IColumn[] = [
         {
-            displayProperty: 'id',
+            displayProperty: 'key',
             width: '60px'
         },
         {
@@ -72,8 +72,9 @@ export default class extends Control {
         // tslint:disable-next-line
         data[2].country = `${country} ${country} ${country}`;
 
-        this._viewSource = new Memory({
-            keyProperty: 'id',
+        this._viewSource = new HierarchicalMemory({
+            keyProperty: 'key',
+            parentProperty: 'parent',
             data
         });
     }

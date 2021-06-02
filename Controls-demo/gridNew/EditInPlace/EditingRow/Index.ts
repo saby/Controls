@@ -28,14 +28,14 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: this.data
         });
 
         this._cellTemplate = cellTemplate;
 
         this._documentSignMemory = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: Ports.getDocumentSigns()
         });
     }
@@ -50,9 +50,9 @@ export default class extends Control {
         if (isAdd && !options.item) {
             return {
                 item: new Model({
-                    keyProperty: 'id',
+                    keyProperty: 'key',
                     rawData: {
-                        id: ++this._fakeId,
+                        key: ++this._fakeId,
                         name: '',
                         invoice: '0',
                         documentSign: '0',

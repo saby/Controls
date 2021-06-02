@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__treeGrid__configuration controlsDemo_Configuration__grid-two controlsDemo__maxWidth500">
     <Controls.treeGrid:View
-            keyProperty="id"
+            keyProperty="key"
             name="tree2"
             source="{{_viewSource}}"
             columns="{{_columns}}"

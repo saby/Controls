@@ -21,7 +21,7 @@ export default class extends Control<IBaseIndexOptions> {
     protected _beforeMount(options?: IBaseIndexOptions, contexts?: object, receivedState?: void): Promise<void> | void {
         this._showTitle = !options || options.showTitle !== false;
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: Flat.getData()
         });
     }

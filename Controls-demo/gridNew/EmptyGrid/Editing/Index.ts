@@ -24,18 +24,18 @@ export default class extends Control {
         this._columns[0].width = '400px';
         this._columns[4].width = 'auto';
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: []
         });
     }
 
     protected _beginAdd() {
-        const id = this._fakeId++;
+        const key = this._fakeId++;
         this._children.grid.beginAdd({
             item: new entityRecord({
                 rawData: {
-                    id,
-                    number: id + 1,
+                    key,
+                    number: key + 1,
                     country: null,
                     capital: null,
                     population: null,

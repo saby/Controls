@@ -28,10 +28,10 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: [
                 {
-                    id: 0,
+                    key: 0,
                     number: 1,
                     country: 'Россия',
                     capital: 'Москва',
@@ -40,7 +40,7 @@ export default class extends Control {
                     populationDensity: 8
                 },
                 {
-                    id: 1,
+                    key: 1,
                     number: 2,
                     country: 'Соединенные Штаты Америки',
                     capital: 'Вашингтон',
@@ -49,7 +49,7 @@ export default class extends Control {
                     populationDensity: 30.71
                 },
                 {
-                    id: 2,
+                    key: 2,
                     number: 3,
                     country: 'Доминиканская Республика',
                     capital: 'Санто-Доминго',
@@ -58,7 +58,7 @@ export default class extends Control {
                     populationDensity: 30.71
                 },
                 {
-                    id: 3,
+                    key: 3,
                     number: 4,
                     country: 'Новая Зеландия',
                     capital: 'Веллингтон',
@@ -67,7 +67,7 @@ export default class extends Control {
                     populationDensity: 30.71
                 },
                 {
-                    id: 4,
+                    key: 4,
                     number: 5,
                     country: 'Бразилия',
                     capital: 'Бразилиа',

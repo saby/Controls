@@ -28,14 +28,14 @@ export default class extends Control {
         style: 'bordered',
         showType: showType.TOOLBAR,
         handler: function(item: Record): void {
-            this._children.remover.removeItems([item.get('id')]);
+            this._children.remover.removeItems([item.get('key')]);
         }.bind(this)
     }];
 
     protected _beforeMount(): void {
         const data = Editing.getEditingData();
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data
         });
         this._lastId = data.length + 1;
@@ -56,9 +56,9 @@ export default class extends Control {
     protected _beginAdd(): void {
         this._children.list.beginAdd({
            item: new Model({
-              keyProperty: 'id',
+              keyProperty: 'key',
               rawData: {
-                 id: this._lastId++,
+                 key: this._lastId++,
                  title: '',
                  description: '',
                  price: '',

@@ -17,7 +17,7 @@ export default class extends Control {
         // tslint:disable-next-line
         this._header[0].template = 'wml!Controls-demo/gridNew/Header/Multiheader/GridCaption/GridCaptionHeaderCell';
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: Countries.getData()
         });
     }
