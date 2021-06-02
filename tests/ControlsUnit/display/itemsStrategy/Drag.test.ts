@@ -195,7 +195,7 @@ describe('Controls/_display/itemsStrategy/Drag', () => {
       strategy.splice(1, 1, [], 'rm');
       strategy.invalidate();
       items = strategy.items;
-      assert.equal(items.length, 3);
+      assert.equal(items.length, 2);
    });
 
    it('test drag strategy with adjacency strategy', () => {
@@ -257,5 +257,18 @@ describe('Controls/_display/itemsStrategy/Drag', () => {
 
       assert.equal(strategy.items.length, 3);
       assert.isNotOk(strategy.avatarItem);
+   });
+
+   it('drag some last items', () => {
+      strategy = new Drag({
+         source,
+         display,
+         draggableItem: display.getItemBySourceKey(3),
+         draggedItemsKeys: [2, 3],
+         targetIndex: 2
+      });
+
+      const items = strategy.items;
+      assert.equal(items.length, 2);
    });
 });
