@@ -16,7 +16,7 @@ interface IEmptyColumnColumns {
 /**
  * Шаблон, который используется для отображения {@link Controls/grid:View таблицы} без элементов с возможностью добавления.
  *
- * @class Controls/_gridOld/interface/EditingEmptyTemplate
+ * @class Controls/_grid/interface/EditingEmptyTemplate
  * @author Авраменко А.С.
  * @public
  * 
@@ -76,7 +76,7 @@ interface IEmptyColumnColumns {
  */
 export default interface IEditingEmptyTemplateOptions {
     /**
-     * @typedef {String} Controls/_gridOld/interface/EditingEmptyTemplate/Spacing
+     * @typedef {String} Controls/_grid/interface/EditingEmptyTemplate/Spacing
      * @descrition Допустимые значения для опций {@link topSpacing} и {@link bottomSpacing}.
      * @variant xs Минимальный отступ.
      * @variant s Маленький отступ.
@@ -87,7 +87,7 @@ export default interface IEditingEmptyTemplateOptions {
      */
 
     /**
-     * @cfg {Controls/_gridOld/interface/EditingEmptyTemplate/Spacing.typedef|null} Отступ между верхней границей и шаблоном contentTemplate.
+     * @cfg {Controls/_grid/interface/EditingEmptyTemplate/Spacing.typedef|null} Отступ между верхней границей и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
      * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
@@ -95,7 +95,7 @@ export default interface IEditingEmptyTemplateOptions {
      */
     topSpacing?: string;
     /**
-     * @cfg {Controls/_gridOld/interface/EditingEmptyTemplate/Spacing.typedef|null} Отступ между нижней границей и шаблоном contentTemplate.
+     * @cfg {Controls/_grid/interface/EditingEmptyTemplate/Spacing.typedef|null} Отступ между нижней границей и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
      * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
@@ -103,7 +103,7 @@ export default interface IEditingEmptyTemplateOptions {
      */
     bottomSpacing?: string;
     /**
-     * @cfg {Array.<Controls/_gridOld/interface/EditingEmptyTemplate/IEmptyColumnColumns.typedef>} Конфигурация колонок пустой таблицы.
+     * @cfg {Array.<Controls/_grid/interface/EditingEmptyTemplate/IEmptyColumnColumns.typedef>} Конфигурация колонок пустой таблицы.
      */
     columns?: IEmptyColumnColumns[];
 }

@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для отображения заголовка {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ группы} в {@link Controls/grid:View таблице}, {@link Controls/treeGrid:View дереве} и {@link Controls/explorer:View иерархическом проводнике}.
  * 
- * @class Controls/_gridOld/interface/GroupTemplate
+ * @class Controls/_grid/interface/GroupTemplate
  * @mixes Controls/list:IBaseGroupTemplate
  * @author Авраменко А.С.
  * @see Controls/interface/IGroupedGrid#groupTemplate
