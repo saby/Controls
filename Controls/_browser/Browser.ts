@@ -64,6 +64,7 @@ interface IListConfiguration extends IControlOptions, ISearchOptions, ISourceOpt
 export interface IBrowserOptions extends IListConfiguration {
     listsOptions: IListConfiguration[];
     sourceControllerId?: string;
+    _dataOptionsValue?: IContextOptionsValue;
 }
 
 interface IReceivedState {
@@ -139,7 +140,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                            _: unknown,
                            receivedState?: TReceivedState): void | Promise<TReceivedState | Error | void> {
         this._initStates(options, receivedState);
-        this._dataLoader = new DataLoader(this._getDataLoaderOptions(options, context, receivedState));
+        this._dataLoader = new DataLoader(this._getDataLoaderOptions(options, receivedState));
 
         return this._loadDependencies(options, () => {
             return this._beforeMountInternal(options, undefined, receivedState);
@@ -707,7 +708,6 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     private _getDataLoaderOptions(
         options: IBrowserOptions,
-        context: typeof ContextOptions,
         receivedState?: TReceivedState
     ): IDataLoaderOptions {
         const loadDataConfigs = (Browser._getListsOptions(options)).map((listOptions, index) => {
@@ -719,7 +719,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 historyItems: receivedState?.[index]?.historyItems || listOptions.historyItems,
                 source: receivedState ? this._getOriginalSource(listOptions as IBrowserOptions) : listOptions.source,
                 searchStartCallback: this._searchStartCallback,
-                sourceController: Browser._getSourceControllerForDataLoader(options, context)
+                sourceController: Browser._getSourceControllerForDataLoader(options)
             };
         });
 
@@ -959,8 +959,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     private static _getSourceControllerForDataLoader(
-        {sourceController, sourceControllerId}: IBrowserOptions,
-        context: typeof ContextOptions
+        {sourceController, sourceControllerId, _dataOptionsValue}: IBrowserOptions
     ): SourceController|void {
         let browserSourceController;
 
@@ -969,10 +968,10 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         }
 
         if (!sourceController) {
-            if (context?.listsConfigs && sourceControllerId && context.listsConfigs[sourceControllerId]) {
-                browserSourceController = context.listsConfigs[sourceControllerId].sourceController;
-            } else if (context?.sourceController) {
-                browserSourceController = context?.sourceController;
+            if (_dataOptionsValue && sourceControllerId && _dataOptionsValue.listsConfigs[sourceControllerId]) {
+                browserSourceController = _dataOptionsValue.listsConfigs[sourceControllerId].sourceController;
+            } else if (_dataOptionsValue?.sourceController) {
+                browserSourceController = _dataOptionsValue.sourceController;
             }
         }
 

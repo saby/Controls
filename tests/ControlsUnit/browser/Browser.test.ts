@@ -200,25 +200,26 @@ describe('Controls/browser:Browser', () => {
                it('sourceController in context', async () => {
                    const options = getBrowserOptions();
                    const sourceController = new NewSourceController(options);
-                   const context = {...options};
-                   context.sourceController = sourceController;
+                   options._dataOptionsValue = {
+                       sourceController
+                   };
                    const browser = getBrowser(options);
-                   await browser._beforeMount(options, context);
+                   await browser._beforeMount(options);
                    assert.ok(browser._getSourceController() === sourceController);
                });
                it('sourceController in listsConfig', async () => {
                    const options = getBrowserOptions();
                    const sourceController = new NewSourceController(options);
-                   const context = {
+                   options._dataOptionsValue = {
                        listsConfigs: {
                            testSourceControllerId: {
-                               sourceController: sourceController
+                               sourceController
                            }
                        }
                    };
                    options.sourceControllerId = 'testSourceControllerId';
                    const browser = getBrowser(options);
-                   await browser._beforeMount(options, context);
+                   await browser._beforeMount(options);
                    assert.ok(browser._getSourceController() === sourceController);
                });
             });
