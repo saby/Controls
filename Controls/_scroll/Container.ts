@@ -20,9 +20,10 @@ import {
     SHADOW_VISIBILITY
 } from './Container/Interface/IShadows';
 import {IIntersectionObserverObject} from './IntersectionObserver/Types';
-import fastUpdate from './StickyHeader/FastUpdate';
-import StickyHeaderController from './StickyHeader/Controller';
-import {IFixedEventData, TRegisterEventData, TYPE_FIXED_HEADERS, MODE} from './StickyHeader/Utils';
+import fastUpdate from './StickyBlock/FastUpdate';
+import StickyHeaderController from './StickyBlock/Controller';
+import {IFixedEventData, TRegisterEventData, TYPE_FIXED_HEADERS, MODE} from './StickyBlock/Utils';
+import StickyBlock from './StickyBlock';
 import {POSITION} from './Container/Type';
 import {SCROLL_DIRECTION} from './Utils/Scroll';
 import {IHasUnrenderedContent, IScrollState} from './Utils/ScrollState';
@@ -135,7 +136,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const hasBottomHeaders = (): boolean => {
             const headers = Object.values(this._stickyHeaderController._headers);
             for (let i = 0; i < headers.length; i++) {
-                if (headers[i].position === POSITION.BOTTOM || headers[i].position === POSITION.RIGHT) {
+                const position = StickyBlock.getStickyPosition({position: headers[i].position});
+                if (position?.vertical === POSITION.BOTTOM || position?.horizontal === POSITION.RIGHT) {
                     return true;
                 }
             }

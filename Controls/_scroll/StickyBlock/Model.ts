@@ -91,7 +91,7 @@ export = simpleExtend.extend({
          case this._bottomTarget:
             return 'bottom';
          default:
-             Logger.error('Controls/_scroll/StickyHeader/Model: Unexpected target');
+             Logger.error('Controls/_scroll/StickyBlock/Model: Unexpected target');
             return 'bottom';
       }
    },
@@ -102,11 +102,11 @@ export = simpleExtend.extend({
     * @private
     */
    _getFixedPosition: function() {
-      var result = '';
+      let result = '';
 
-      if (this._position.indexOf('top') !== -1 && !this._intersection.top && this._intersection.bottom) {
+      if (this._position.vertical && this._position.vertical?.indexOf('top') !== -1 && !this._intersection.top && this._intersection.bottom) {
          result = 'top';
-      } else if (this._position.indexOf('bottom') !== -1 && !this._intersection.bottom && this._intersection.top) {
+      } else if (this._position.vertical && this._position.vertical?.toLowerCase().indexOf('bottom') !== -1 && !this._intersection.bottom && this._intersection.top) {
          result = 'bottom';
       }
 

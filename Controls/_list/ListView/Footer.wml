@@ -3,13 +3,13 @@
       * item: Controls/_display/Footer
 -->
 <ws:if data="{{item.isStickedToBottom()}}">
-   <Controls.scroll:StickyHeader position="bottom">
+   <Controls.scroll:StickyBlock position="{{ {'vertical' : 'bottom'} }}">
       <ws:content>
          <div>
             <ws:partial template="{{item.getContentTemplate()}}"/>
          </div>
       </ws:content>
-   </Controls.scroll:StickyHeader>
+   </Controls.scroll:StickyBlock>
 </ws:if>
 <ws:else>
    <div>
