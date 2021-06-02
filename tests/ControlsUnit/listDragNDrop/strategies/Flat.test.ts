@@ -69,7 +69,6 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
         const newPosition = strategy.calculatePosition({targetItem: null});
         assert.deepEqual(newPosition, {
             index: 1,
-            position: 'after',
             dispItem: model.getItemBySourceKey(2)
         });
     })
