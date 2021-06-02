@@ -124,6 +124,7 @@ export default class ScrollController {
             const result = {
                 triggerOffset: this.getTriggerOffset(this._viewHeight,
                                                      this._viewportHeight,
+                                                     this._lastScrollTop,
                                                      this._options.resetTopTriggerOffset,
                                                      this._options.resetDownTriggerOffset)};
             newParams.topTrigger = this._topTriggerOffset;
@@ -161,6 +162,7 @@ export default class ScrollController {
                 if (!params) {
                     result.triggerOffset = this.getTriggerOffset(this._viewHeight,
                                                                  this._viewportHeight,
+                                                                 this._lastScrollTop,
                                                                  this._options.resetTopTriggerOffset,
                                                                  this._options.resetDownTriggerOffset);
                 }
