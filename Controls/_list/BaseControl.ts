@@ -1009,7 +1009,7 @@ const _private = {
         if (navigation) {
             switch (navigation.view) {
                 case 'infinity':
-                    result = !loadedList.getCount();
+                    result = !loadedList || !loadedList.getCount();
                     break;
                 case 'maxCount':
                     result = _private.needLoadByMaxCountNavigation(listViewModel, navigation);
