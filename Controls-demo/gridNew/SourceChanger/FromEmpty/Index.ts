@@ -1,11 +1,11 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/SourceChanger/FromEmpty/FromEmpty';
 import {Memory} from 'Types/source';
-import {getCountriesStats, changeSourceData} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
+import {ChangeSourceData} from "Controls-demo/gridNew/DemoHelpers/Data/ChangeSource";
 
-const { data2: data } = changeSourceData();
+const data = ChangeSourceData.getData2();
 // tslint:disable
 class DemoSource extends Memory {
     queryNumber: number = 0;
@@ -30,7 +30,16 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     private _viewSource2: Memory;
-    protected _columns: IColumn[] = getCountriesStats().getColumnsForLoad();
+    protected _columns: IColumn[] = [
+        {
+            displayProperty: 'id',
+            width: '50px'
+        },
+        {
+            displayProperty: 'load',
+            width: '200px'
+        }
+    ];
     private _resolve: unknown = null;
     protected _navigation: INavigationOptionValue<INavigationSourceConfig>;
 

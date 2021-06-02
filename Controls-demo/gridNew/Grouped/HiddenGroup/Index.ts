@@ -2,9 +2,8 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {Memory} from 'Types/source';
 import {IColumn} from 'Controls/grid';
 
-import {getTasksWithHiddenGroup} from '../../DemoHelpers/DataCatalog';
-
 import * as Template from 'wml!Controls-demo/gridNew/Grouped/HiddenGroup/HiddenGroup';
+import { Tasks } from 'Controls-demo/gridNew/DemoHelpers/Data/Tasks';
 
 export default class extends Control<IControlOptions> {
     protected _template: TemplateFunction = Template;
@@ -27,7 +26,7 @@ export default class extends Control<IControlOptions> {
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
         this._viewSource = new Memory({
             keyProperty: 'id',
-            data: getTasksWithHiddenGroup().getData()
+            data: Tasks.getData()
         });
     }
 

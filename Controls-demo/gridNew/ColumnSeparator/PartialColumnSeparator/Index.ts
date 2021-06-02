@@ -1,11 +1,11 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/ColumnSeparator/PartialColumnSeparator/PartialColumnSeparator';
 import {Memory} from 'Types/source';
-import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import * as clone from 'Core/core-clone';
 import { IColumn } from 'Controls/grid';
 import { IHeaderCell } from 'Controls/grid';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -25,7 +25,7 @@ export default class extends Control {
     protected _columnSeparator3: boolean = true;
 
     protected _beforeMount(): void {
-        let columnData = clone(getCountriesStats().getColumnsWithFixedWidths());
+        let columnData = clone(Countries.getColumnsWithFixedWidths());
         // tslint:disable-next-line
         columnData = [...columnData.slice(0, 2), ...columnData.slice(3, 6)];
         // tslint:disable-next-line
@@ -59,7 +59,7 @@ export default class extends Control {
         this._viewSource = new Memory({
             keyProperty: 'id',
             // tslint:disable-next-line
-            data: getCountriesStats().getData().splice(0, 5)
+            data: Countries.getData().splice(0, 5)
         });
 
     }
