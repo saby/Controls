@@ -15,26 +15,11 @@ export default class extends Control {
             textOverflow: 'ellipsis'
         }
     ]);
-    protected _radioSource: Memory;
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
             keyProperty: 'key',
             data: Tasks.getData()
-        });
-        // displayProperty: 'caption',
-        this._radioSource = new Memory({
-            keyProperty: 'id',
-            data: [{
-                id: null,
-                title: 'null'
-            }, {
-                id: 'left',
-                title: 'left'
-            }, {
-                id: 'right',
-                title: 'right'
-            }]
         });
     }
 

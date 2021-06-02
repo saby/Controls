@@ -27,7 +27,7 @@ export default class extends Control {
             handler: this._itemActionEditClickHandlerWithoutParams
         }];
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: getData().slice(0, 5)
         });
     }

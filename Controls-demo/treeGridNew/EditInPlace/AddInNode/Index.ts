@@ -19,7 +19,7 @@ export default class extends Control {
             c.template = ColumnTemplate
         });
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: Flat.getData()
         });
     }
@@ -27,7 +27,7 @@ export default class extends Control {
     protected _beginAdd(): void {
         this._children.tree.beginAdd({
             item: new Model({
-                keyProperty: 'id',
+                keyProperty: 'key',
                 rawData: {
                     id: this._fakeKey++,
                     title: '',
