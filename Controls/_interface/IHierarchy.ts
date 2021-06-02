@@ -5,7 +5,7 @@
  * @variant groups Только группы
  * @variant both Узлы и группы
  */
-export type TNodeHistoryType = 'node' | 'group' | 'both';
+export type TNodeHistoryType = 'node' | 'group' | 'all';
 
 export interface IHierarchyOptions {
     nodeProperty?: string;
