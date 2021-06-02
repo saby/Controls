@@ -2,7 +2,7 @@
     <Controls.dataSource:error.Container name="errorContainer">
         <Controls.list:View
                 name="list"
-                keyProperty="id"
+                keyProperty="key"
                 itemActions="{{_itemActions}}"
                 itemActionVisibilityCallback="{{_itemActionVisibilityCallback}}"
                 source="{{_viewSource}}">
