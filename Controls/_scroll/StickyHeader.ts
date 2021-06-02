@@ -282,6 +282,9 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         });
 
         RegisterUtil(this, 'scrollStateChanged', this._onScrollStateChanged);
+        // Обработаем scrollResize, который генерируется при срабатывание resizeObserver'a скролл контейнера,
+        // т.к в случае поддержки бразуером resizeObserver'a controlResize'ы не обрабатываются.
+        RegisterUtil(this, 'scrollResize', this._resizeHandler);
         RegisterUtil(this, 'controlResize', this._resizeHandler);
 
         this._initObserver();
@@ -289,6 +292,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
     _release(): void {
         UnregisterUtil(this, 'controlResize');
+        UnregisterUtil(this, 'scrollResize');
         UnregisterUtil(this, 'scrollStateChanged');
         if (this._model) {
             //Let the listeners know that the element is no longer fixed before the unmount.
