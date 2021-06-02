@@ -17,12 +17,14 @@
             <div class="controls-listTemplates-ColorfulTemplate__caption
                         controls-margin_right-m ws-ellipsis
                         controls-fontsize-3xl controls-fontweight-bold
-                        controls-listTemplates-ColorfulTemplate__caption_{{_options.item.contents[_options.dominantThemeColorProperty]}}">
+                        controls-listTemplates-ColorfulTemplate__caption_{{_options.item.contents[_options.dominantThemeColorProperty]}}"
+                 title="{{_options.title}}">
                {{_options.title}}
             </div>
             <div class="controls-listTemplates-ColorfulTemplate__description
                         controls-fontsize-m controls-text-label ws-ellipsis
-                        controls-listTemplates-ColorfulTemplate__description_{{_options.item.contents[_options.dominantThemeColorProperty]}}">
+                        controls-listTemplates-ColorfulTemplate__description_{{_options.item.contents[_options.dominantThemeColorProperty]}}"
+                 title="{{_options.description}}">
                {{_options.description}}
             </div>
          </div>
