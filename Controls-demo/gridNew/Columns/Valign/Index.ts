@@ -2,8 +2,8 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/Columns/Valign/Valign';
 import * as CellTemplate from 'wml!Controls-demo/gridNew/Columns/Valign/CellTemplate';
 import {Memory} from 'Types/source';
-import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
+import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -39,7 +39,7 @@ export default class extends Control {
         this._viewSource = new Memory({
             keyProperty: 'id',
             // tslint:disable-next-line
-            data: getCountriesStats().getData().slice(0, 5)
+            data: Countries.getData().slice(0, 5)
         });
     }
 

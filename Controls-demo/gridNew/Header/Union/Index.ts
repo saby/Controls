@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/gridNew/Header/Union/Union';
 import {Memory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
 import { IHeaderCell } from 'Controls/grid';
-import {getCountriesStats} from "Controls-demo/gridNew/DemoHelpers/DataCatalog";
+import {Countries} from "Controls-demo/gridNew/DemoHelpers/Data/Countries";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -27,12 +27,12 @@ export default class extends Control {
             align: 'center'
         }
     ];
-    protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths();
+    protected _columns: IColumn[] = Countries.getColumnsWithWidths();
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
             keyProperty: 'id',
-            data: getCountriesStats().getData()
+            data: Countries.getData().slice(0, 5)
         });
     }
 
