@@ -107,7 +107,7 @@ export default class MultipleInputNew extends Control<IMultipleInputNewOptions> 
             if (!this._selectedKeys[name].length && index !== this._options.lookupsOptions.length - 1) {
                 if (!this._lookupSizes[name]) {
                     this._lookupSizes = {...this._lookupSizes};
-                    this._lookupSizes[name] = this._children[name].getContainer().getBoundingClientRect().width;
+                    this._lookupSizes[name] = this._children[name].getLookupContainer().getBoundingClientRect().width;
                 }
             } else if (this._lookupSizes.hasOwnProperty(name)) {
                 this._lookupSizes = {...this._lookupSizes};

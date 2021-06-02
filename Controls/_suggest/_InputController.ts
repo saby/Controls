@@ -1118,9 +1118,6 @@ export default class InputContainer extends Control<IInputControllerOptions> {
          footerTemplate: {
             templateName: 'Controls/suggestPopup:FooterTemplate'
          },
-         suggestTemplate: {
-            templateName: 'Controls/suggestPopup:SuggestTemplate'
-         },
          suggestStyle: 'default',
          suggestState: false,
          minSearchLength: 3,
