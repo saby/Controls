@@ -77,6 +77,7 @@ export default class PathWrapper extends Control<IOptions> {
     }
 
     private static _isWithoutBackButton(header: IHeaderCell[], viewMode: TExplorerViewMode): boolean {
-        return viewMode === 'table' && !!(header && header[0] && (header[0] as any).isBreadCrumbs);
+        return (viewMode === 'table' || viewMode === 'search') &&
+            !!(header && header[0] && (header[0] as any).isBreadCrumbs);
     }
 }
