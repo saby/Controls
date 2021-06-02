@@ -25,7 +25,7 @@ import viewName = require('Controls/_gridOld/GridView');
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface/IGroupedGrid
  * @mixes Controls/interface/IGridItemTemplate
- * @mixes Controls/_gridOld/interface/IPropStorage
+ * @mixes Controls/_grid/interface/IPropStorage
  * @mixes Controls/marker:IMarkerList
  *
  * @public
@@ -54,7 +54,7 @@ import viewName = require('Controls/_gridOld/GridView');
  * @mixes Controls/interface:IGridControl
  * @mixes Controls/interface/IGridItemTemplate
  * @mixes Controls/interface:IDraggable
- * @mixes Controls/_gridOld/interface/IPropStorage
+ * @mixes Controls/_grid/interface/IPropStorage
  * @mixes Controls/marker:IMarkerList
  *
  *

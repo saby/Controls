@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для отображения подала {@link Controls/grid:View таблицы}.
  * 
- * @class Controls/_gridOld/interface/FooterTemplate
+ * @class Controls/_grid/interface/FooterTemplate
  * @author Авраменко А.С.
  * @see Controls/grid:View#footerTemplate
  * @see Controls/grid:View
@@ -24,7 +24,7 @@
 
 export default interface IFooterTemplateOptions {
     /**
-     * @name Controls/_gridOld/interface/FooterTemplate#contentTemplate
+     * @name Controls/_grid/interface/FooterTemplate#contentTemplate
      * @cfg {TemplateFunction|String} Шаблон, описывающий контент подвала.
      */
     contentTemplate?: string;

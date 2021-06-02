@@ -1,6 +1,6 @@
 /**
  * Шаблон для отображения строки в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/template/#item-editor-template режиме редактирования} без деления на колонки.
- * @class Controls/_gridOld/interface/IitemEditorTemplate
+ * @class Controls/_grid/interface/IitemEditorTemplate
  * @author Авраменко А.С.
  * @example
  * <pre class="brush: html; highlight: [3-10]">

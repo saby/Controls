@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для отображения {@link Controls/grid:View таблицы} без элементов в виде набора колонок.
  * 
- * @class Controls/_gridOld/interface/EmptyColumnTemplate
+ * @class Controls/_grid/interface/EmptyColumnTemplate
  * @author Авраменко А.С.
  * @see Controls/grid:View#emptyTemplateColumns
  * @see Controls/grid:View
@@ -41,7 +41,7 @@
 
  export default interface IEmptyColumnTemplateOptions {
     /**
-     * @name Controls/_gridOld/interface/EmptyColumnTemplate#contentTemplate
+     * @name Controls/_grid/interface/EmptyColumnTemplate#contentTemplate
      * @cfg {TemplateFunction|String} Шаблон, описывающий контент.
      */
     contentTemplate?: string;

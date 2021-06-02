@@ -11,7 +11,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
 /**
  * Шаблон, который по умолчанию используется для отображения ячеек в {@link Controls/grid:View таблице}.
  *
- * @class Controls/_gridOld/interface/ColumnTemplate
+ * @class Controls/_grid/interface/ColumnTemplate
  * @author Авраменко А.С.
  *
  * @see Controls/_interface/grid/IGridControl/Column.typedef
