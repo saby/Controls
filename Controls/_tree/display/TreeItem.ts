@@ -15,18 +15,27 @@ export default class TreeItem<T extends Model = Model>
     readonly DisplaySearchValue: boolean = true;
     readonly Markable: boolean = true;
     readonly SelectableItem: boolean = true;
-    readonly LadderSupport: boolean = true;
     readonly DraggableItem: boolean = true;
-    protected _$searchValue: string;
-    protected _$hasStickyGroup: boolean;
 
     // region Expander
-
     shouldDisplayExpanderBlock(): boolean {
         return this._$owner.getExpanderVisibility() === 'hasChildren' ? this._$owner.hasNodeWithChildren() : true;
     }
-
     // endregion Expander
+
+    // region Classes
+    getTreeWrapperClasses(): string {
+        let classes = 'controls-Tree__itemContentTreeWrapper';
+        if (!this._isDefaultRenderMultiSelect()) {
+            classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}`;
+        }
+        return classes;
+    }
+
+    protected _getLeftSpacingContentClasses(): string {
+        return '';
+    }
+    // endregion Classes
 }
 
 Object.assign(TreeItem.prototype, {

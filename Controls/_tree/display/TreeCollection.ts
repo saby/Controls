@@ -83,18 +83,6 @@ export default class TreeCollection<
 
     // endregion
 
-    // region HasNodeWithChildren
-
-    protected _setHasNodeWithChildren(hasNodeWithChildren: boolean): void {
-        super._setHasNodeWithChildren(hasNodeWithChildren);
-        // todo myplan
-        /*if (this.getFooter()) {
-            this.getFooter().setHasNodeWithChildren(hasNodeWithChildren);
-        }*/
-    }
-
-    // endregion HasNodeWithChildren
-
     // region itemsFactoryResolver
 
     protected _itemsFactoryResolver(superFactory: ItemsFactory<T>, options?: ITreeItemOptions<S>): ItemsFactory<T> {

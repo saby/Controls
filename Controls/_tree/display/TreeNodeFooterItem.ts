@@ -30,7 +30,7 @@ export default class TreeNodeFooterItem extends TreeItem<null> {
     }
 
     getContentClasses(theme: string, style: string = 'default'): string {
-        return super.getContentClasses(theme, style) + ' controls-TreeView__itemContent';
+        return super.getContentClasses(theme, style) + ' controls-Tree__itemContentTreeWrapper';
     }
 
     getExpanderPaddingClasses(tmplExpanderSize?: string, theme: string = 'default'): string {
@@ -46,6 +46,14 @@ export default class TreeNodeFooterItem extends TreeItem<null> {
 
     shouldDisplayVisibleFooter(content: TemplateFunction): boolean {
         return this.hasMoreStorage() || !!content;
+    }
+
+    protected _getLeftSpacingContentClasses(): string {
+        if (this._isDefaultRenderMultiSelect()) {
+            return ` controls-ListView__itemContent_withCheckboxes`;
+        } else {
+            return ` controls-ListView__item-leftPadding_${this.getOwner().getLeftPadding().toLowerCase()}`;
+        }
     }
 }
 

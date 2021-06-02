@@ -985,13 +985,23 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
         classes += ` controls-ListView__item-rightPadding_${rightSpacing}`;
 
-        if (this.getMultiSelectVisibility() !== 'hidden' && this.getMultiSelectPosition() !== 'custom') {
-           classes += ` controls-ListView__itemContent_withCheckboxes`;
-        } else {
-           classes += ` controls-ListView__item-leftPadding_${this.getOwner().getLeftPadding().toLowerCase()}`;
-        }
+        classes += this._getLeftSpacingContentClasses();
 
         return classes;
+    }
+
+    // region MultiSelect
+    protected _isDefaultRenderMultiSelect(): boolean {
+        return this.getMultiSelectVisibility() !== 'hidden' && this.getMultiSelectPosition() !== 'custom';
+    }
+    // endregion MultiSelect
+
+    protected _getLeftSpacingContentClasses(): string {
+        if (this._isDefaultRenderMultiSelect()) {
+            return ` controls-ListView__itemContent_withCheckboxes`;
+        } else {
+            return ` controls-ListView__item-leftPadding_${this.getOwner().getLeftPadding().toLowerCase()}`;
+        }
     }
 
     protected _getCursorClasses(cursor: string = 'pointer', clickable: boolean = true): string {

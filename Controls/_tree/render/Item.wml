@@ -11,7 +11,7 @@
    <ws:if data="{{ (item || itemData).shouldDisplayMarker(marker) }}">
       <div class="{{(item || itemData).getMarkerClasses(theme, style, markerClassName, itemPadding)}}"></div>
    </ws:if>
-   <div class="controls-TreeView__itemContent">
+   <div class="{{ (item || itemData).getTreeWrapperClasses() }}">
       <ws:if data="{{(item || itemData).shouldDisplayExpanderBlock()}}">
          <ws:if data="{{ (item || itemData).shouldDisplayLevelPadding(withoutLevelPadding) }}">
             <ws:for data="i in (item || itemData).getLevel() - 1">

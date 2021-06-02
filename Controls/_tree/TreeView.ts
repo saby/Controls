@@ -12,7 +12,7 @@ export default class TreeView extends ListView {
 
     _beforeUpdate(newOptions: any): void {
         super._beforeUpdate(newOptions);
-        // todo myplan MIXIN
+
         if (this._options.expanderSize !== newOptions.expanderSize) {
             this._listModel.setExpanderSize(newOptions.expanderSize);
         }
@@ -21,9 +21,7 @@ export default class TreeView extends ListView {
     protected _onItemClick(e: SyntheticEvent, dispItem: TreeItem<Model>): void {
         if (dispItem['[Controls/tree:TreeNodeFooterItem]']) {
             e.stopImmediatePropagation();
-            // todo myplan MIXIN + fix class
-            // if (e.target.closest('.js-controls-TreeGrid__nodeFooter__LoadMoreButton')) {
-            if (e.target.closest('.js-controls-Tree__nodeFooter__LoadMoreButton')) {
+            if (e.target.closest('.js-controls-TreeGrid__nodeFooter__LoadMoreButton')) {
                 this._notify('loadMore', [dispItem.getNode()]);
             }
             return;
@@ -33,7 +31,6 @@ export default class TreeView extends ListView {
     }
 
     protected _onItemMouseUp(e: SyntheticEvent, dispItem: TreeItem<Model>): void {
-        // todo myplan MIXIN
         if (dispItem['[Controls/tree:TreeNodeFooterItem]']) {
             e.stopImmediatePropagation();
             return;
@@ -43,7 +40,6 @@ export default class TreeView extends ListView {
     }
 
     protected _onItemMouseDown(e: SyntheticEvent, dispItem: TreeItem<Model>): void {
-        // todo myplan MIXIN
         if (dispItem['[Controls/tree:TreeNodeFooterItem]']) {
             e.stopImmediatePropagation();
             return;

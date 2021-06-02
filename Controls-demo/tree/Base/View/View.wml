@@ -8,7 +8,7 @@
             nodeProperty="type">
         <ws:nodeFooterTemplate>
             <Controls.tree:NodeFooterTemplate>
-                <div>footer template</div>
+                <b>footer template</b>
             </Controls.tree:NodeFooterTemplate>
         </ws:nodeFooterTemplate>
     </Controls.tree:View>
