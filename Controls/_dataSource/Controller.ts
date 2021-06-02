@@ -433,6 +433,9 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
                 const nodeTypeProperty = record.get(this._options.nodeTypeProperty);
                 if (this._options.nodeHistoryType === 'node') {
                     return nodeTypeProperty !== 'group';
+
+                } else if (this._options.nodeHistoryType === 'both') {
+                    return true;
                 }
                 return nodeTypeProperty === 'group';
             });
