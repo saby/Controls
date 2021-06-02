@@ -81,7 +81,13 @@ export default class TreeGridDataRow<T extends Model = Model>
         classes += `controls-GridView__itemV_marker-${style} `;
         classes += `controls-GridView__itemV_marker-${style}_rowSpacingBottom-${itemPadding.bottom} `;
         classes += `controls-GridView__itemV_marker-${style}_rowSpacingTop-${itemPadding.top} `;
-        classes += `controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'height' : ('padding-' + (itemPadding.top || 'l') + '_' + markerClassName)} `;
+        classes += 'controls-ListView__itemV_marker_';
+        if (markerClassName === 'default') {
+            classes += 'height ';
+            classes += 'controls-GridView__itemV_marker_vertical-position-top ';
+        } else {
+            classes += `${'padding-' + (itemPadding.top || this.getTopPadding() || 'l') + '_' + markerClassName} `;
+        }
         classes += `controls-ListView__itemV_marker-${this.getMarkerPosition()} `;
         return classes;
     }
