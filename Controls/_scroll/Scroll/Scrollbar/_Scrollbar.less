@@ -171,25 +171,49 @@
 }
 
 //thumbStyle
-.controls-VScrollbar__thumb_accented_theme-@{themeName} {
+.controls-VScrollbar__thumb_accented_vertical_theme-@{themeName} {
    background-color: @accented_thumb_background-color_scrollbar;
 }
 
-.controls-VScrollbar__thumb_unaccented_theme-@{themeName} {
+.controls-VScrollbar__thumb_unaccented_vertical_theme-@{themeName} {
    background-color: @unaccented_thumb_background-color_scrollbar;
 }
 
 .ws-is-hover {
-   .controls-VScrollbar__thumb_accented_theme-@{themeName}:hover {
-      background-color: @accented_thumb_hover_background-color_scrollbar;
-   }
-
-   .controls-VScrollbar__thumb_unaccented_theme-@{themeName}:hover {
+   .controls-VScrollbar__thumb_unaccented_vertical_theme-@{themeName}:hover {
       background-color: @unaccented_thumb_hover_background-color_scrollbar;
    }
 }
 
-.controls-VScrollbar__thumb_accented_theme-@{themeName}:hover,
+.controls-VScrollbar__thumb_accented_vertical_theme-@{themeName}:hover,
 .controls-VScrollbar__thumb_dragging_accented_theme-@{themeName} {
    background-color: @accented_thumb_hover_background-color_scrollbar;
+}
+
+.controls-VScrollbar__thumb_accented_horizontal_theme-@{themeName} {
+   background-color: @accented_thumb_background-color_scrollbar;
+}
+
+.controls-VScrollbar__thumb_unaccented_horizontal_theme-@{themeName} {
+   background-color: @unaccented_thumb_background-color_scrollbar;
+}
+
+.ws-is-hover {
+   .controls-VScrollbar__thumb_unaccented_horizontal_theme-@{themeName}:hover {
+      background-color: @unaccented_thumb_hover_background-color_scrollbar;
+   }
+}
+
+.controls-VScrollbar__thumb_accented_horizontal_theme-@{themeName}:hover,
+.controls-VScrollbar__thumb_dragging_horizontal_theme-@{themeName} {
+   background-color: @accented_thumb_hover_background-color_scrollbar;
+}
+
+// TODO: Удалить вместе с переводом на css vars https://online.sbis.ru/opendoc.html?guid=e728fa33-5736-4649-83d4-a6c07f5f09d2
+.controls-VScrollbar__thumb_accented_horizontal_theme-default {
+   background-color: rgba(0, 0, 0, 0.15);
+}
+
+.controls-VScrollbar__thumb_accented_horizontal_theme-default:hover {
+   background-color: rgba(0, 0, 0, 0.2);
 }
