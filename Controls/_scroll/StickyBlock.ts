@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {isStickySupport, POSITION} from 'Controls/_scroll/StickyHeader/Utils';
+import {isStickySupport, POSITION} from 'Controls/_scroll/StickyBlock/Utils';
 import {Logger} from 'UI/Utils';
 import {constants, detection} from 'Env/Env';
 import {descriptor} from 'Types/entity';
@@ -15,15 +15,15 @@ import {
     SHADOW_VISIBILITY,
     SHADOW_VISIBILITY_BY_CONTROLLER,
     validateIntersectionEntries
-} from './StickyHeader/Utils';
-import fastUpdate from './StickyHeader/FastUpdate';
+} from './StickyBlock/Utils';
+import fastUpdate from './StickyBlock/FastUpdate';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {IScrollState} from '../Utils/ScrollState';
 import {SCROLL_POSITION} from './Utils/Scroll';
 import {IntersectionObserver} from 'Controls/sizeUtils';
 import {EventUtils} from 'UI/Events';
-import Model = require('Controls/_scroll/StickyHeader/Model');
-import template = require('wml!Controls/_scroll/StickyHeader/StickyHeader');
+import Model = require('Controls/_scroll/StickyBlock/Model');
+import template = require('wml!Controls/_scroll/StickyBlock/StickyHeader');
 
 export enum BACKGROUND_STYLE {
     TRANSPARENT = 'transparent',
@@ -57,7 +57,7 @@ interface IResizeObserver {
  *
  * @public
  * @extends UI/Base:Control
- * @class Controls/_scroll/StickyHeader
+ * @class Controls/_scroll/StickyBlock
  *
  * @mixes Control/interface:IBackgroundStyle
  *
@@ -75,7 +75,7 @@ interface IResizeObserver {
  * @class Controls/_scroll/StickyHeader
  * @author Красильников А.С.
  */
-export default class StickyHeader extends Control<IStickyHeaderOptions> {
+export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
     /**
      * @type {Function} Component display template.
@@ -97,7 +97,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
      */
     protected _isMobilePlatform: boolean = detection.isMobilePlatform;
     protected _isMobileAndroid: boolean = detection.isMobileAndroid;
-    protected _isIOSChrome: boolean = StickyHeader._isIOSChrome();
+    protected _isIOSChrome: boolean = StickyBlock._isIOSChrome();
     protected _isMobileIOS: boolean = detection.isMobileIOS;
 
     private _isFixed: boolean = false;
@@ -133,7 +133,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
     protected _notifyHandler: Function = EventUtils.tmplNotify;
 
-    protected _moduleName: string = 'Controls/_scroll/StickyHeader/_StickyHeader';
+    protected _moduleName: string = 'Controls/_scroll/StickyBlock/_StickyHeader';
 
     /**
      * The position property with sticky value is not supported in ie and edge lower version 16.
@@ -253,7 +253,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         this._notify('stickyRegister', [{
             id: this._index,
             inst: this,
-            position: this._options.position,
+            position: StickyBlock.getStickyPosition(this._options),
             mode: this._options.mode,
             shadowVisibility: this._options.shadowVisibility
         }, true], {bubbling: true});
@@ -270,7 +270,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         // отказаться от closest.
         this._scroll = this._container.closest('.controls-Scroll, .controls-Scroll-Container');
         if (!this._scroll) {
-            Logger.warn('Controls.scroll:StickyHeader: Используются фиксация заголовков вне Controls.scroll:Container. Либо используйте Controls.scroll:Container, либо уберите, либо отключите фиксацию заголовков в контролах в которых она включена.', this);
+            Logger.warn('Controls.scroll:StickyBlock: Используются фиксация заголовков вне Controls.scroll:Container. Либо используйте Controls.scroll:Container, либо уберите, либо отключите фиксацию заголовков в контролах в которых она включена.', this);
             return;
         }
 
@@ -278,7 +278,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         this._model = new Model({
             topTarget: children.observationTargetTop,
             bottomTarget: children.observationTargetBottom,
-            position: this._options.position,
+            position: StickyBlock.getStickyPosition(this._options)
         });
 
         RegisterUtil(this, 'scrollStateChanged', this._onScrollStateChanged);
@@ -347,7 +347,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
                     // offsetHeight округляет к ближайшему числу, из-за этого на масштабе просвечивают полупиксели.
                     // Такое решение подходит тоько для десктопа, т.к. на мобильных устройствах devicePixelRatio всегда
                     // равен 2.75
-                    this._height -= Math.abs(1 - StickyHeader.getDevicePixelRatio());
+                    this._height -= Math.abs(1 - StickyBlock.getDevicePixelRatio());
                 }
             }
             if (this._model?.isFixed()) {
@@ -463,15 +463,15 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (isInitializing || !scrollState.canVerticalScroll && !scrollState.canHorizontalScroll) {
             return;
         }
-
-        if ((this._options.position === 'top' || this._options.position === 'bottom' ||
-            this._options.position === 'topbottom') &&
+        const position = StickyBlock.getStickyPosition(this._options);
+        if ((position.vertical === 'top' || position.vertical === 'bottom' ||
+            position.vertical === 'topBottom') &&
             scrollState.canVerticalScroll !== this._scrollState.canVerticalScroll) {
             changed = true;
         }
 
-        if ((this._options.position === 'left' || this._options.position === 'right' ||
-            this._options.position === 'leftright') &&
+        if ((position.horizontal === 'left' || position.horizontal === 'right' ||
+            position.horizontal === 'leftRight') &&
             scrollState.canHorizontalScroll !== this._scrollState.canHorizontalScroll) {
             changed = true;
         }
@@ -664,8 +664,8 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         fixedPosition = this._model ? this._model.fixedPosition : undefined;
         // Включаю оптимизацию для всех заголовков на ios, в 5100 проблем выявлено не было
         const isIosOptimizedMode = this._isMobileIOS && task1181007458 !== true;
-
-        if (positionFromOptions.indexOf(POSITION.top) !== -1 && this._stickyHeadersHeight.top !== null) {
+        const stickyPosition = StickyBlock.getStickyPosition({position: positionFromOptions});
+        if (stickyPosition.vertical && stickyPosition.vertical?.indexOf(POSITION.top) !== -1 && this._stickyHeadersHeight.top !== null) {
             top = this._stickyHeadersHeight.top;
             if (offsetTop) {
                 top += offsetTop;
@@ -674,17 +674,17 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             style += 'top: ' + (top - (checkOffset ? offset : 0)) + 'px;';
         }
 
-        if (positionFromOptions.indexOf(POSITION.bottom) !== -1 && this._stickyHeadersHeight.bottom !== null) {
+        if (stickyPosition.vertical && stickyPosition.vertical?.toLowerCase().indexOf(POSITION.bottom) !== -1 && this._stickyHeadersHeight.bottom !== null) {
             bottom = this._stickyHeadersHeight.bottom;
             style += 'bottom: ' + (bottom - offset) + 'px;';
         }
 
-        if (positionFromOptions.indexOf(POSITION.left) !== -1 && this._stickyHeadersHeight.left !== null) {
+        if (stickyPosition.horizontal && stickyPosition.horizontal?.indexOf(POSITION.left) !== -1 && this._stickyHeadersHeight.left !== null) {
             left = this._stickyHeadersHeight.left;
             style += 'left: ' + (left) + 'px;';
         }
 
-        if (positionFromOptions.indexOf(POSITION.right) !== -1 && this._stickyHeadersHeight.right !== null) {
+        if (stickyPosition.horizontal && stickyPosition.horizontal?.toLowerCase().indexOf(POSITION.right) !== -1 && this._stickyHeadersHeight.right !== null) {
             right = this._stickyHeadersHeight.right;
             style += 'right: ' + (right) + 'px;';
         }
@@ -696,8 +696,8 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         // Повсеместно включать нельзя, на заголовках где есть бордеры или в контенте есть разные цвета фона
         // могут наблюдаться проблемы.
         let position = fixedPosition;
-        if (!position && isIosOptimizedMode && positionFromOptions !== 'topbottom') {
-            position = this._options.position;
+        if (!position && isIosOptimizedMode && (stickyPosition.vertical === 'top' || stickyPosition.vertical === 'bottom')) {
+            position = stickyPosition.vertical;
         }
         if (position && this._container) {
             if (offset) {
@@ -754,7 +754,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         // beyond the limits of the scrollable container, taking into account round-off errors,
         // it should be located with an offset of -3 pixels from the upper border of the container.
         let coord: number = this._stickyHeadersHeight[position] + 2;
-        if (StickyHeader.getDevicePixelRatio() !== 1) {
+        if (StickyBlock.getDevicePixelRatio() !== 1) {
             coord += 1;
         }
         if (position === POSITION.top && offsetTop && shadowVisibility !== SHADOW_VISIBILITY.hidden) {
@@ -817,12 +817,12 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         //The shadow from above is shown if the element is fixed from below, from below if the element is fixed from above.
         const fixedPosition: POSITION = shadowPosition === POSITION.top ? POSITION.bottom : POSITION.top;
 
-        if (this._initialShowShadow && this._options.position === fixedPosition) {
+        if (this._initialShowShadow && this._options.position.vertical === fixedPosition) {
             return true;
         }
 
         if (this._isShadowVisibleByController[fixedPosition] !== SHADOW_VISIBILITY_BY_CONTROLLER.auto &&
-                this._model?.fixedPosition === fixedPosition) {
+            this._model?.fixedPosition === fixedPosition) {
             return this._isShadowVisibleByController[fixedPosition] === SHADOW_VISIBILITY_BY_CONTROLLER.visible;
         }
 
@@ -888,6 +888,31 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return this._isStickySupport && options.mode !== MODE.notsticky;
     }
 
+    static getStickyPosition(options: IStickyHeaderOptions): {} {
+        switch (options.position) {
+            case 'top':
+            case 'bottom':
+                return {
+                    vertical: options.position
+                };
+            case 'topbottom':
+                return  {
+                    vertical: 'topBottom'
+                };
+            case 'left':
+            case 'right':
+                return {
+                    horizontal: options.position
+                };
+            case 'leftright':
+                return {
+                    horizontal: 'leftRight'
+                };
+            default:
+                return options.position;
+        }
+    }
+
     static _isIOSChrome(): boolean {
         return detection.isMobileIOS && detection.chrome;
     }
@@ -899,9 +924,11 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             shadowVisibility: SHADOW_VISIBILITY.visible,
             backgroundStyle: BACKGROUND_STYLE.DEFAULT,
             mode: MODE.replaceable,
-            position: POSITION.top,
             offsetTop: 0,
-            offsetLeft: 0
+            offsetLeft: 0,
+            position: {
+                vertical: 'top'
+            }
         };
     }
 
@@ -918,14 +945,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
                 MODE.replaceable,
                 MODE.stackable,
                 MODE.notsticky
-            ]),
-            position: descriptor(String).oneOf([
-                'top',
-                'bottom',
-                'topbottom',
-                'left',
-                'right',
-                'leftright'
             ])
         };
     }
@@ -941,7 +960,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
 }
 /**
- * @name Controls/_scroll/StickyHeader#content
+ * @name Controls/_scroll/StickyBlock#content
  * @cfg {Function} Содержимое заголовка, которое будет зафиксировано.
  */
 
@@ -951,7 +970,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
  */
 
 /**
- * @name Controls/_scroll/StickyHeader#mode
+ * @name Controls/_scroll/StickyBlock#mode
  * @cfg {String} Режим прилипания заголовка.
  * @variant replaceable Заменяемый заголовок. Следующий заголовок заменяет текущий.
  * @variant stackable Составной заголовок. Следующий заголовок прилипает к нижней части текущего.
@@ -965,7 +984,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
  */
 
 /**
- * @name Controls/_scroll/StickyHeader#shadowVisibility
+ * @name Controls/_scroll/StickyBlock#shadowVisibility
  * @cfg {String} Устанавливает видимость тени.
  * @variant visible Показать тень.
  * @variant hidden Не показывать.
@@ -981,16 +1000,29 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
  */
 
 /**
- * @name Controls/_scroll/StickyHeader#position
- * @cfg {String} Определяет позицию прилипания.
- * @demo Controls-demo\Scroll\StickyHeader\Position\Index
- * @variant top Прилипание к верхнему краю.
- * @variant bottom Прилипание к нижнему краю.
- * @variant topbottom Прилипание к верхнему и нижнему краю.
- * @variant left Прилипание к левому краюю.
- * @variant right Прилипание к правому краю.
- * @variant leftright Прилипание к левому краюю и к правому краю.
- * @default top
+ * @name Controls/_scroll/StickyBlock#position
+ * @cfg {Object} Определяет позицию прилипания.
+ * @remark
+ * В качестве значения передается объект с полями horizontal и vertical
+ * Значеиня horizontal:
+ * <ul>
+ *     <li>top - блок будет прилипать сверху</li>
+ *     <li>bottom - блок будет прилипать снизу</li>
+ *     <li>topBottom - блок будет прилипать и сверху и снизу</li>
+ * </ul>
+ * Значеиня vertical:
+ * <ul>
+ *     <li>left - блок будет прилипать слева</li>
+ *     <li>right - блок будет прилипать справа</li>
+ *     <li>leftRight - блок будет прилипать и слева и справа</li>
+ * </ul>
+ * @example
+ * <pre>
+ *     <Controls.scroll:StickyBlock position="{{ { 'horizontal': 'top', 'vertical': 'left' } }}">
+ *         <div> Блок будет прилипать сверху и слева </div>
+ *     </Controls.scroll:StickyBlock/>
+ * </pre>
+ * @default { vertical: 'top'}
  */
 
 /*
@@ -1003,48 +1035,48 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
  */
 
 /**
- * @name Controls/_scroll/StickyHeader#fixedZIndex
+ * @name Controls/_scroll/StickyBlock#fixedZIndex
  * @cfg {Number} Определяет значение z-index на заголовке, когда он зафиксирован
  * @default 2
  */
 
 /**
- * @name Controls/_scroll/StickyHeader#zIndex
+ * @name Controls/_scroll/StickyBlock#zIndex
  * @cfg {Number} Определяет значение z-index на заголовке, когда он не зафиксирован
  * @default undefined
  */
 
 /**
- * @name Controls/_scroll/StickyHeader#offsetTop
+ * @name Controls/_scroll/StickyBlock#offsetTop
  * @cfg {Number} Определяет смещение позиции прилипания вниз относитильно позиции прилипания по умолчанию
  * @default 0
  */
 
 /**
- * @name Controls/_scroll/StickyHeader#offsetLeft
+ * @name Controls/_scroll/StickyBlock#offsetLeft
  * @cfg {Number} Определяет смещение позиции прилипания вправо относитильно позиции прилипания по умолчанию
  * @default 0
  */
 
 /**
  * @event Происходит при изменении состояния фиксации.
- * @name Controls/_scroll/StickyHeader#fixed
+ * @name Controls/_scroll/StickyBlock#fixed
  * @param {Vdom/Vdom:SyntheticEvent} event Дескриптор события.
- * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} information Информация о событии фиксации.
+ * @param {Controls/_scroll/StickyBlock/Types/InformationFixationEvent.typedef} information Информация о событии фиксации.
  */
 
 /*
  * @event Change the fixation state.
  * @name Controls/_scroll/StickyHeader#fixed
  * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
- * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} information Information about the fixation event.
+ * @param {Controls/_scroll/StickyBlock/Types/InformationFixationEvent.typedef} information Information about the fixation event.
  */
 
-Object.defineProperty(StickyHeader, 'defaultProps', {
-   enumerable: true,
-   configurable: true,
+Object.defineProperty(StickyBlock, 'defaultProps', {
+    enumerable: true,
+    configurable: true,
 
-   get(): object {
-      return StickyHeader.getDefaultOptions();
-   }
+    get(): object {
+        return StickyBlock.getDefaultOptions();
+    }
 });

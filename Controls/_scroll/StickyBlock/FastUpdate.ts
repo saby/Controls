@@ -12,7 +12,7 @@
  * 3. В некоторых сценриях мы устанавливаем ситили сразу же в обход шаблнизации и жизненных циклов компоннетов чтобы
  * не было скачков.
  *
- * @class Controls/_scroll/StickyHeader/FastUpdate
+ * @class Controls/_scroll/StickyBlock/FastUpdate
  */
 class FastUpdate {
     _measures: Function[] = [];

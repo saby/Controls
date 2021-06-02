@@ -21,7 +21,7 @@
 
 <ws:if data="{{_needCrumbs}}">
    <ws:if data="{{_options.stickyHeader}}">
-      <Controls.scroll:StickyHeader
+      <Controls.scroll:StickyBlock
               mode="stackable"
               shadowVisibility="{{_options.needShadow ? 'lastVisible' : 'hidden'}}"
               fixedZIndex="{{5}}"
@@ -30,7 +30,7 @@
          <div class="controls-Explorer__PathWrapper">
             <ws:partial template="headingPath" />
          </div>
-      </Controls.scroll:StickyHeader>
+      </Controls.scroll:StickyBlock>
    </ws:if>
    <ws:else>
       <div class="controls-Explorer__PathWrapper">
