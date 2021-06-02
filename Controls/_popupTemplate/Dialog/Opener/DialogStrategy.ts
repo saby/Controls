@@ -181,7 +181,7 @@ class DialogStrategy {
 
         let diff;
         // check overflowX
-        const containerWidth = Math.min(containerSizes.width, width || 0);
+        const containerWidth = Math.min(containerSizes.width, width || containerSizes.width);
         diff = (popupPosition[horizontalPositionProperty] + containerWidth) -
             (windowData.width + windowData.left);
         horizontalValue -= Math.max(0, diff);
@@ -190,7 +190,7 @@ class DialogStrategy {
         }
 
         // check overflowY
-        const containerHeight = Math.min(containerSizes.height, height || 0);
+        const containerHeight = Math.min(containerSizes.height, height || containerSizes.height);
         diff = (popupPosition[verticalPositionProperty] + containerHeight) -
             (windowData.height + windowData.top);
         verticalValue -= Math.max(0, diff);
