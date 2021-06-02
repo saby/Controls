@@ -291,7 +291,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
                index: 1,
-               position: 'before',
+               position: 'after',
                dispItem: model.getItemBySourceKey(1)
             });
          });
@@ -305,7 +305,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
                index: 1,
-               position: 'before',
+               position: 'after',
                dispItem: model.getItemBySourceKey(1)
             });
          });
