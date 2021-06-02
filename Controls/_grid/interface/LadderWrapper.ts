@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для построения {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ лесенки} в {@link Controls/grid:View таблице}.
  *  
- * @class Controls/_gridOld/interface/LadderWrapper
+ * @class Controls/_grid/interface/LadderWrapper
  * @author Авраменко А.С.
  * @see Controls/grid:View#ladderProperties
  * @see Controls/grid:IGridControl#columns
@@ -33,7 +33,7 @@
 
 export default interface ILadderWrapperOptions {
    /**
-    * @name Controls/_gridOld/interface/LadderWrapper#ladderProperty
+    * @name Controls/_grid/interface/LadderWrapper#ladderProperty
     * @cfg {Array.<String>|String} Имена полей, для которых будет работать {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ лесенка}.
     * @default undefined
     */

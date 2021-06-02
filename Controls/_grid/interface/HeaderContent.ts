@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для отображения {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ ячейки заголовка} в {@link Controls/grid:View таблице}.
  *  
- * @class Controls/_gridOld/interface/HeaderContent
+ * @class Controls/_grid/interface/HeaderContent
  * @author Авраменко А.С.
  * @see Controls/grid:IGridControl/HeaderCell.typedef
  * @see Controls/grid:IGridControl#header

@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для отображения {@link Controls/grid:View таблицы} без элементов.
  * 
- * @class Controls/_gridOld/interface/EmptyTemplate
+ * @class Controls/_grid/interface/EmptyTemplate
  * @author Авраменко А.С.
  * @extends Controls/list:EmptyTemplate
  * @see Controls/grid:View#emptyTemplate

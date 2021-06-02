@@ -3,7 +3,7 @@ import {TFontWeight} from 'Controls/_interface/IFontWeight';
 /**
  * Шаблон, который по умолчанию используется для отображения ячеек {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/template/#columns итогов} в {@link Controls/grid:View таблице}.
  * 
- * @class Controls/_gridOld/interface/ResultColumnTemplate
+ * @class Controls/_grid/interface/ResultColumnTemplate
  * @author Авраменко А.С.
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
@@ -118,13 +118,13 @@ export default interface IResultColumnTemplateOptions {
 
     /**
      * @description Допустимые значения для опции {@link fontWeight}.
-     * @typedef {String} Controls/_gridOld/interface/ResultColumnTemplate/TFontWeight
+     * @typedef {String} Controls/_grid/interface/ResultColumnTemplate/TFontWeight
      * @variant bold
      * @variant default
      */
 
     /**
-     * @cfg {Controls/_gridOld/interface/ResultColumnTemplate/TFontWeight.typedef} Начертание шрифта.
+     * @cfg {Controls/_grid/interface/ResultColumnTemplate/TFontWeight.typedef} Начертание шрифта.
      * @default bold
      */
     fontWeight?: TFontWeight;
@@ -132,7 +132,7 @@ export default interface IResultColumnTemplateOptions {
 
     /**
      * @description Допустимые значения для опции {@link fontColorStyle}.
-     * @typedef {String} Controls/_gridOld/interface/ResultColumnTemplate/FontColorStyle
+     * @typedef {String} Controls/_grid/interface/ResultColumnTemplate/FontColorStyle
      * @variant secondary
      * @variant success
      * @variant danger
@@ -141,7 +141,7 @@ export default interface IResultColumnTemplateOptions {
      */
 
     /**
-     * @cfg {Controls/_gridOld/interface/ResultColumnTemplate/FontColorStyle.typedef} Стиль цвета текста результатов.
+     * @cfg {Controls/_grid/interface/ResultColumnTemplate/FontColorStyle.typedef} Стиль цвета текста результатов.
      * @default secondary
      * @remark
      * Стиль цвета текста задается константой из стандартного набора цветов, который определен для текущей темы оформления.
