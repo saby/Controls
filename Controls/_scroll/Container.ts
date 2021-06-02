@@ -633,6 +633,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     static getOptionTypes(): object {
         return {
+            ...ContainerBase.getOptionTypes(),
+
             topShadowVisibility: descriptor(String).oneOf([
                 SHADOW_VISIBILITY.AUTO,
                 SHADOW_VISIBILITY.HIDDEN,
@@ -649,23 +651,17 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
                 SHADOW_MODE.CSS,
                 SHADOW_MODE.JS,
                 SHADOW_MODE.MIXED
-            ]),
-            scrollOrientation: descriptor(String).oneOf([
-                'vertical',
-                'horizontal',
-                'verticalHorizontal',
-                'none'
             ])
         };
     }
 
     static getDefaultOptions(): object {
         return {
+            ...ContainerBase.getDefaultOptions(),
             ...getScrollbarsDefaultOptions(),
             ...getShadowsDefaultOptions(),
             shadowStyle: 'default',
             backgroundStyle: DEFAULT_BACKGROUND_STYLE,
-            scrollOrientation: 'vertical',
             syncDomOptimization: true
         };
     }
