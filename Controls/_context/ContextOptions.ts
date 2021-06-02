@@ -8,7 +8,12 @@
 
 import * as DataContext from 'Core/DataContext';
 import { ISourceControllerState, NewSourceController } from 'Controls/dataSource';
-import { TFilter, TKey } from 'Controls/interface';
+import {
+   INavigationOptionValue,
+   INavigationSourceConfig,
+   TFilter,
+   TKey
+} from 'Controls/interface';
 import { RecordSet } from 'Types/collection';
 
 export interface IContextOptionsValue {
@@ -18,6 +23,7 @@ export interface IContextOptionsValue {
    keyProperty?: TKey;
    filter?: TFilter;
    sourceController?: NewSourceController;
+   navigation?: INavigationOptionValue<INavigationSourceConfig>;
    listsConfigs?: ISourceControllerState[];
    listsSelectedKeys?: TKey[];
    listsExcludedKeys?: TKey[];
