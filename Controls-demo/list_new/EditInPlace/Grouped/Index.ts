@@ -3,16 +3,8 @@ import * as Template from 'wml!Controls-demo/list_new/EditInPlace/Grouped/Groupe
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {getEditableGroupedCatalog as getData} from '../../DemoHelpers/Data/Groups';
-import {groupConstants as constView} from 'Controls/list';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IEditingConfig} from 'Controls/display';
-
-const data = getData().slice(2).map((item) => {
-    if (item.brand === 'apple') {
-        item.brand = constView.hiddenGroup;
-    }
-    return item;
-});
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -24,7 +16,6 @@ export default class extends Control {
         sequentialEditing: true,
         addPosition: 'top'
     };
-    protected _collapsedGroups: string[] = ['asus', 'hp'];
     protected _addPosition: string = 'top';
 
     protected _beforeMount(): void {
@@ -32,7 +23,7 @@ export default class extends Control {
             keyProperty: 'id',
             data
         });
-        this._fakeItemId = data.length;
+        this._fakeItemId = getData().length;
     }
 
     protected _setPosition(e, position: 'top' | 'bottom'): void {
