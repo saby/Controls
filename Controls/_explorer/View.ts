@@ -248,7 +248,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         };
         this._onCollectionChange = this._onCollectionChange.bind(this);
 
-        this._dragControlId = randomId();
+        this._dragControlId = cfg.dragControlId || randomId();
         this._navigation = cfg.navigation;
 
         const root = this._getRoot(cfg.root);
