@@ -126,7 +126,7 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          selection = { selected: [2], excluded: [] };
          selection = strategyWithDescendantsAndAncestors.unselect(selection, 3);
          assert.deepEqual(selection.selected, [2]);
-         assert.deepEqual(selection.excluded, [3]);
+         assert.deepEqual(selection.excluded, [2, 3]);
 
          // снимаем выбор с последнего ребенка
          selection = { selected: [2], excluded: [3] };
@@ -150,10 +150,10 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
       it('unselect child', () => {
          // Снять выбор с последнего ближнего ребенка, но ребенок невыбранного ребенка выбран
-         let selection = { selected: [1, 3], excluded: [4] };
+         let selection = { selected: [1, 3], excluded: [1, 4] };
          selection = strategyWithDescendantsAndAncestors.unselect(selection, 5);
          assert.deepEqual(selection.selected, [1, 3]);
-         assert.deepEqual(selection.excluded, [4, 5]);
+         assert.deepEqual(selection.excluded, [1, 4, 5]);
 
          // Снять выбор с ребенка ребенка (проверка рекурсивной проверки выбранных детей)
          selection = strategyWithDescendantsAndAncestors.unselect(selection, 3);
@@ -212,6 +212,79 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
          const newSelection = strategy.unselect({ selected: [null], excluded: [null] }, 1);
          assert.deepEqual(newSelection, {selected: [], excluded: []});
+      });
+
+      it('unselect from selected node one child', () => {
+         const items = new RecordSet({
+            rawData: [
+               {id: 1, parent: null, node: true},
+               {id: 11, parent: 1, node: null},
+               {id: 12, parent: 1, node: null}
+            ],
+            keyProperty: 'id'
+         });
+         const model = new Tree({
+            collection: items,
+            root: null,
+            keyProperty: 'id',
+            parentProperty: 'parent',
+            nodeProperty: 'node',
+            expandedItems: [null]
+         });
+         const strategy = new TreeSelectionStrategy({
+            selectDescendants: true,
+            selectAncestors: true,
+            rootId: null,
+            model,
+            selectionType: 'all',
+            recursiveSelection: false
+         });
+
+         // Проверяем, что если из узла исключили хоть один элемент, то и сам узел должен попасть в excluded,
+         // чтобы БЛ прислал всех детей, исключая узел
+         let result = strategy.unselect({selected: [1], excluded: []}, 11);
+         assert.deepEqual(result, {selected: [1], excluded: [1, 11]});
+
+         // снимаем выбор с последнего ребенка, selection должен очиститься
+         result = strategy.unselect({selected: [1], excluded: [1, 11]}, 12);
+         assert.deepEqual(result, {selected: [], excluded: []});
+      });
+
+      it('unselect from selected node one child of child (test deep)', () => {
+         const items = new RecordSet({
+            rawData: [
+               {id: 1, parent: null, node: true},
+               {id: 11, parent: 1, node: true},
+               {id: 111, parent: 11, node: null},
+               {id: 112, parent: 11, node: null}
+            ],
+            keyProperty: 'id'
+         });
+         const model = new Tree({
+            collection: items,
+            root: null,
+            keyProperty: 'id',
+            parentProperty: 'parent',
+            nodeProperty: 'node',
+            expandedItems: [null]
+         });
+         const strategy = new TreeSelectionStrategy({
+            selectDescendants: true,
+            selectAncestors: true,
+            rootId: null,
+            model,
+            selectionType: 'all',
+            recursiveSelection: false
+         });
+
+         // Проверяем, что если из узла исключили хоть один элемент, то и сам узел должен попасть в excluded,
+         // чтобы БЛ прислал всех детей, исключая узел
+         let result = strategy.unselect({selected: [1], excluded: []}, 111);
+         assert.deepEqual(result, {selected: [1], excluded: [1, 111]});
+
+         // снимаем выбор с последнего ребенка, selection должен очиститься
+         result = strategy.unselect({selected: [1], excluded: [1, 111]}, 112);
+         assert.deepEqual(result, {selected: [], excluded: []});
       });
    });
 
