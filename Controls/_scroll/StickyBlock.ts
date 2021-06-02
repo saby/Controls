@@ -180,7 +180,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         if (options.shadowVisibility === SHADOW_VISIBILITY.initial) {
             this._initialShowShadow = true;
         }
-        this._updateCanShadowVisible(options.position);
+        this._updateCanShadowVisible(options);
         this._updateStyles(options);
     }
 
@@ -220,7 +220,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
             return;
         }
         if (options.position !== this._options.position) {
-            this._updateCanShadowVisible(options.position);
+            this._updateCanShadowVisible(options);
         }
 
         if (options.mode !== this._options.mode) {
@@ -894,15 +894,16 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         return this._isStickySupport && options.mode !== MODE.notsticky;
     }
 
-    private _updateCanShadowVisible(position: POSITION): void {
-        const top: boolean = position.includes(POSITION.bottom);
-        const bottom: boolean = position.includes(POSITION.top);
+    private _updateCanShadowVisible(position: IStickyHeaderOptions): void {
+        const verticalPosition = StickyBlock.getStickyPosition(position).vertical;
+        const top: boolean = verticalPosition.includes(POSITION.bottom);
+        const bottom: boolean = verticalPosition.includes(POSITION.top);
         if (this._canShadowVisible.top !== top || this._canShadowVisible.bottom !== bottom) {
             this._canShadowVisible = { top, bottom };
         }
     }
 
-    static getStickyPosition(options: IStickyHeaderOptions): {} {
+    static getStickyPosition(options: IStickyHeaderOptions): Partial<{vertical: string, horizontal: string}> {
         switch (options.position) {
             case 'top':
             case 'bottom':
