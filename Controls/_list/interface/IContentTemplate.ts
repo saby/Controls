@@ -32,7 +32,7 @@ export default interface IContentTemplateOptions {
     * В области видимости шаблона доступны переменные **item** и **itemActionsTemplate**
     * 
     * Также в области видимости шаблона есть переменная **itemActionsTemplate**, с помощью которой можно отобразить панель {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи} в пользовательском шаблоне. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, что показано в примере № 4.
-    * Переменная **item** позволяет получить доступ к свойству **contents** — это объект, который содержит данные обрабатываемого элемента.
+    * Переменная **item** позволяет получить доступ к свойству **contents** — это объект, который содержит данные обрабатываемого элемента. Также, можно получить доступ к методу isMarked(), с помощью которого можно определить, отмечена ли запись {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркером}.
     * 
     * Переменная **itemActionsTemplate** позволяет отобразить панель {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи} в пользовательском шаблоне. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, что показано в примере № 4.
     * 
