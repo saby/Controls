@@ -13,8 +13,8 @@ import {IScrollState} from './Utils/ScrollState';
 import {SCROLL_MODE} from './Container/Type';
 import template = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
 import {EventUtils} from 'UI/Events';
-import {isHidden} from './StickyHeader/Utils';
-import {getHeadersHeight} from './StickyHeader/Utils/getHeadersHeight';
+import {isHidden} from './StickyBlock/Utils';
+import {getHeadersHeight} from './StickyBlock/Utils/getHeadersHeight';
 import {location} from 'Application/Env';
 import {Entity} from 'Controls/dragnDrop';
 
