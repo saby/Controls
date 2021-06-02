@@ -548,6 +548,9 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     },
 
     setDragPosition(position: IDragPosition<CollectionItem<Model>>): void {
+        if (!position.position) {
+            position.position = 'before';
+        }
         this.setDragTargetPosition(position);
     },
 
