@@ -82,14 +82,17 @@
 }
 
 .controls-Button__close_toolButton {
+   margin-right: var(--margin-right_closeButton_toolButton);
    width: var(--width_closeButton_toolButton);
    height: var(--height_closeButton_toolButton);
+   background-color: var(--background-color_closeButton_toolButton);
    border-color: var(--border-color_closeButton_toolButton);
    border-width: var(--border-thickness_closeButton_toolButton);
    border-radius: var(--border-radius_closeButton_toolButton);
    box-shadow: var(--box-shadow_closeButton_toolButton);
    &:active {
       border-color: var(--border-color_active_closeButton_toolButton);
+      background-color: var(--border-color_active_closeButton_toolButton);
       box-shadow: var(--box-shadow_closeButton_toolButton); //none
    }
 }
@@ -140,6 +143,6 @@
    }
 
    .controls-Button__close_toolButton_transparent:hover {
-      background-color: var(--background-color_hover_closeButton_toolButton);
+      background-color: var(--background-color_contrast_hover_button_toolButton);
    }
 }

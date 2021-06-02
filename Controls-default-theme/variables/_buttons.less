@@ -90,17 +90,7 @@
 
    // Радиус скругления обводки кнопки-иконки для тулбара.
 
-   --border-radius_button_toolButton: 2px;
-   --border-radius_xs_button_toolButton: calc(var(--inline_height_xs) / 2);
-   --border-radius_s_button_toolButton: calc(var(--inline_height_s) / 2);
-   --border-radius_m_button_toolButton: calc(var(--inline_height_m) / 2);
-   --border-radius_l_button_toolButton: calc(var(--inline_height_l) / 2);
-   --border-radius_xl_button_toolButton: calc(var(--inline_height_xl) / 2);
-   --border-radius_2xl_button_toolButton: calc(var(--inline_height_2xl) / 2);
-   --border-radius_3xl_button_toolButton: calc(var(--inline_height_3xl) / 2);
-   --border-radius_4xl_button_toolButton: calc(var(--inline_height_4xl) / 2);
-   --border-radius_5xl_button_toolButton: calc(var(--inline_height_5xl) / 2);
-   --border-radius_default_button_toolButton: calc(var(--inline_height_default) / 2);
+   --border-radius_button_toolButton: 50%;
 
    // Радиус скругления обводки функциональной кнопки
 
@@ -182,15 +172,15 @@
    --success_background-color_button_functionalButton: var(--success_contrast_background-color);
    --primary_background-color_button_functionalButton: var(--primary_contrast_background-color);
    --readonly_background-color_button_functionalButton: transparent;
-   --unaccented_background-color_button_functionalButton: var(--pale_contrast_background-color);
+   --unaccented_background-color_button_functionalButton: var(--unaccented_contrast_background-color);
    --secondary_hover_background-color_button_functionalButton: var(--secondary_hover_contrast_background-color);
    --success_hover_background-color_button_functionalButton: var(--success_hover_contrast_background-color);
    --danger_hover_background-color_button_functionalButton: var(--danger_hover_contrast_background-color);
-   --unaccented_hover_background-color_button_functionalButton: var(--pale_hover_contrast_background-color);
+   --unaccented_hover_background-color_button_functionalButton: var(--unaccented_hover_contrast_background-color);
    --secondary_active_background-color_button_functionalButton: var(--secondary_active_contrast_background-color);
    --success_active_background-color_button_functionalButton: var(--success_active_contrast_background-color);
    --danger_active_background-color_button_functionalButton: var(--danger_active_contrast_background-color);
-   --unaccented_active_background-color_button_functionalButton: var(--unaccented_hover_background-color_button_functionalButton);
+   --unaccented_active_background-color_button_functionalButton: var(--unaccented_active_contrast_background-color);
 
    // Обводка кнопок
    //
@@ -203,7 +193,7 @@
    --primary_border-color_button: var(--primary_color);
    --secondary_border-color_button: var(--secondary_color);
    --readonly_border-color_button: var(--readonly_color);
-   --border-color_button_toolButton: rgba(0, 0, 0, 0.08);
+   --border-color_button_toolButton: var(--background-color_button_toolButton);
    --border-color_hover_button_toolButton: #f2f2f2;
    --readonly_border-color_button_toolButton: rgba(0, 0, 0, 0.08);
    --readonly_border-color_button_functionalButton: rgba(0, 0, 0, 0.08);
