@@ -51,7 +51,7 @@ import {default as splitIntoTriads, concatTriads, NUMBER_DIGITS_TRIAD, SPLITTER}
 import {default as toString} from './_decorator/inputUtils/toString';
 import {default as numberToString} from './_decorator/inputUtils/numberToString';
 import {partOfNumber, escapeSpecialChars, addWordCheck} from './_decorator/inputUtils/RegExp';
-import {getLinks, parseLinks} from './_decorator/Markup/resources/linkDecorateUtils';
+import {getLinks, parseLinks, linkParseRegExp} from './_decorator/Markup/resources/linkDecorateUtils';
 
 export {
     Converter,
@@ -70,5 +70,6 @@ export {
     escapeSpecialChars,
     addWordCheck,
     getLinks,
-    parseLinks
+    parseLinks,
+    linkParseRegExp
 };
