@@ -57,11 +57,13 @@ interface IListConfiguration extends IControlOptions, ISearchOptions, ISourceOpt
     root?: Key;
     fastFilterSource?: unknown;
     historyItems?: IFilterItem[];
+    sourceController?: SourceController;
     id?: string;
 }
 
 export interface IBrowserOptions extends IListConfiguration {
     listsOptions: IListConfiguration[];
+    sourceControllerId?: string;
 }
 
 interface IReceivedState {
@@ -137,7 +139,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                            _: unknown,
                            receivedState?: TReceivedState): void | Promise<TReceivedState | Error | void> {
         this._initStates(options, receivedState);
-        this._dataLoader = new DataLoader(this._getDataLoaderOptions(options, receivedState));
+        this._dataLoader = new DataLoader(this._getDataLoaderOptions(options, context, receivedState));
 
         return this._loadDependencies(options, () => {
             return this._beforeMountInternal(options, undefined, receivedState);
@@ -703,7 +705,11 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         };
     }
 
-    private _getDataLoaderOptions(options: IBrowserOptions, receivedState?: TReceivedState): IDataLoaderOptions {
+    private _getDataLoaderOptions(
+        options: IBrowserOptions,
+        context: typeof ContextOptions,
+        receivedState?: TReceivedState
+    ): IDataLoaderOptions {
         const loadDataConfigs = (Browser._getListsOptions(options)).map((listOptions, index) => {
             return {
                 ...listOptions,
@@ -712,7 +718,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 items: receivedState?.[index]?.data,
                 historyItems: receivedState?.[index]?.historyItems || listOptions.historyItems,
                 source: receivedState ? this._getOriginalSource(listOptions as IBrowserOptions) : listOptions.source,
-                searchStartCallback: this._searchStartCallback
+                searchStartCallback: this._searchStartCallback,
+                sourceController: Browser._getSourceControllerForDataLoader(options, context)
             };
         });
 
@@ -949,6 +956,27 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _hasFilterSourceInOptions(options: IBrowserOptions): boolean {
         return Browser._hasInOptions(options, ['filterButtonSource', 'fastFilterSource']) ||
                !!this._getSearchValue(options);
+    }
+
+    private static _getSourceControllerForDataLoader(
+        {sourceController, sourceControllerId}: IBrowserOptions,
+        context: typeof ContextOptions
+    ): SourceController|void {
+        let browserSourceController;
+
+        if (sourceController) {
+            browserSourceController = sourceController;
+        }
+
+        if (!sourceController) {
+            if (context?.listsConfigs && sourceControllerId && context.listsConfigs[sourceControllerId]) {
+                browserSourceController = context.listsConfigs[sourceControllerId].sourceController;
+            } else if (context?.sourceController) {
+                browserSourceController = context?.sourceController;
+            }
+        }
+
+        return browserSourceController;
     }
 
     private static _checkLoadResult(options: IListConfiguration[], loadResult: IReceivedState[] = []): boolean {
