@@ -67,6 +67,11 @@ export default class PathWrapper extends Control<IOptions> {
             return false;
         }
 
+        // В режиме поиска хлебные крошки показывать не надо
+        if (options.viewMode === 'search') {
+            return false;
+        }
+
         const items = options.breadCrumbsItems;
         return !!items &&
             (
