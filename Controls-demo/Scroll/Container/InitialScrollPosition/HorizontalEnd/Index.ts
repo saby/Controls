@@ -5,9 +5,7 @@ export default class ContainerDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
     protected _initialScrollPosition = {
         horizontal: 'end'
-    }
-
-    static _theme: string[] = ['Controls/Classes'];
+    };
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
