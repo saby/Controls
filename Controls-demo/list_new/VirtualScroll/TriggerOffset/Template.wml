@@ -1,0 +1,26 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height300">
+        <Controls.list:View source="{{_viewSource}}"
+                            bind:activeElement="_activeElement"
+                            topTriggerOffsetCoefficient="{{3}}"
+                            bottomTriggerOffsetCoefficient="{{3}}"
+                            keyProperty="key">
+            <ws:navigation view="infinity"/>
+            <ws:virtualScrollConfig pageSize="{{5}}"/>
+            <ws:itemTemplate>
+                <ws:partial template="Controls/list:ItemTemplate" scope="{{ _options }}">
+                    <ws:contentTemplate>
+                        <Controls-demo.list_new.VirtualScroll.TriggerOffset.BigItem key="{{contentTemplate.item.contents.key}}"
+                                                                                    height="{{contentTemplate.item.contents.height}}"
+                                                                                    title="{{contentTemplate.item.contents.title}}"
+                                                                                    on:itemUnmount="_itemUnmount()"
+                                                                                    on:itemMount="_itemMount()"/>
+                    </ws:contentTemplate>
+                </ws:partial>
+            </ws:itemTemplate>
+        </Controls.list:View>
+    </Controls.scroll:Container>
+    <ws:for data="index,item in _itemsState">
+        <span class="{{(item.rendered ? 'controls-text-success' : 'controls-text-danger')}}">{{index}} | </span>
+    </ws:for>
+</div>
