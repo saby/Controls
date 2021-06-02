@@ -4,8 +4,8 @@ import { RecordSet } from 'Types/collection';
 import { detection } from 'Env/Env';
 import {assert} from 'chai';
 import * as sinon from 'sinon';
-import {SyntheticEvent} from 'UI/Vdom';
-import {adapter} from "Types/entity";
+import {adapter} from 'Types/entity';
+import {NewSourceController} from 'Controls/dataSource';
 
 const browserData = [
     {
@@ -186,6 +186,42 @@ describe('Controls/browser:Browser', () => {
                 await browser._beforeMount(options, {});
                 browser.saveOptions(options);
                 assert.deepStrictEqual(browser._filter, {filterField: 'historyValue'});
+            });
+
+            describe('sourceController on mount', () => {
+               it('sourceController in options', async () => {
+                   const options = getBrowserOptions();
+                   const sourceController = new NewSourceController(options);
+                   options.sourceController = sourceController;
+                   const browser = getBrowser(options);
+                   await browser._beforeMount(options);
+                   assert.ok(browser._getSourceController() === sourceController);
+               });
+               it('sourceController in context', async () => {
+                   const options = getBrowserOptions();
+                   const sourceController = new NewSourceController(options);
+                   options._dataOptionsValue = {
+                       sourceController
+                   };
+                   const browser = getBrowser(options);
+                   await browser._beforeMount(options);
+                   assert.ok(browser._getSourceController() === sourceController);
+               });
+               it('sourceController in listsConfig', async () => {
+                   const options = getBrowserOptions();
+                   const sourceController = new NewSourceController(options);
+                   options._dataOptionsValue = {
+                       listsConfigs: {
+                           testSourceControllerId: {
+                               sourceController
+                           }
+                       }
+                   };
+                   options.sourceControllerId = 'testSourceControllerId';
+                   const browser = getBrowser(options);
+                   await browser._beforeMount(options);
+                   assert.ok(browser._getSourceController() === sourceController);
+               });
             });
 
             describe('init expandedItems', () => {
