@@ -42,7 +42,7 @@ const linkPattern = `(${linkPrefixPattern}(?:[^\\s()\\ud800-\\udfff]{0,500}))`;
 const emailPattern = '([\\wа-яёА-ЯЁ!#$%&\'*+\\-/=?^`{|}~.]{1,500}@[^\\s@()\\ud800-\\udfff]{1,500}\\.([\\wа-яёА-ЯЁ]{1,500}))';
 const endingPattern = '([^.,:\\s()\\ud800-\\udfff\"\'])';
 const characterRegExp = /[\wа-яёА-ЯЁ]/;
-const linkParseRegExp = new RegExp(`(?:(?:${emailPattern}|${linkPattern})${endingPattern})|(.|\\s)`, 'g');
+export const linkParseRegExp = new RegExp(`(?:(?:${emailPattern}|${linkPattern})${endingPattern})|(.|\\s)`, 'g');
 
 const needDecorateParentNodeSet: Set<Array<any[]|string>> = new Set();
 let stringReplacersArray: Array<any[]|string> = [];

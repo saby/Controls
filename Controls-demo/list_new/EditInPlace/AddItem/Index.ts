@@ -21,11 +21,15 @@ export default class extends Control {
         });
     }
 
-    protected _beginAdd(): void {
+    protected _beginAddEmpty(): void {
+        this._children.list.beginAdd();
+    }
+
+    protected _beginAddTemplated(): void {
         this._children.list.beginAdd({
             item: new Model({
                 keyProperty: 'key',
-                rawData: {key: ++this._fakeItemId, title: ''}
+                rawData: {key: ++this._fakeItemId, title: 'Новая запись...'}
             })
         });
     }

@@ -38,6 +38,7 @@ import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {fetch, HTTPStatus} from 'Browser/Transport';
 import {default as calculatePath, Path} from 'Controls/_dataSource/calculatePath';
+import * as randomId from 'Core/helpers/Number/randomId';
 
 export interface IControllerState {
     keyProperty: string;
@@ -227,6 +228,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
      * при редактировании названия папки в которой находимся.
      */
     private _breadcrumbsRecordSet: RecordSet;
+    private _dragRandomId: string;
     private _loadPromise: CancelablePromise<RecordSet|Error>;
     private _prepareFilterPromise: CancelablePromise<QueryWhereExpression<unknown>|Error>;
     private _loadError: Error;
@@ -256,6 +258,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         this._resolveNavigationParamsChangedCallback(cfg);
         this._collectionChange = this._collectionChange.bind(this);
         this._updateBreadcrumbsData = this._updateBreadcrumbsData.bind(this);
+        this._dragRandomId = randomId();
         this._options = cfg;
         this.setFilter(cfg.filter || {});
         this.setNavigation(cfg.navigation);
@@ -301,7 +304,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
      * Перезагружает данные из источника данных
      * @param {SourceConfig} sourceConfig Конфигурация навигации источника данных (например, размер и номер страницы для постраничной навигации),
      * которую можно передать при вызове reload, чтобы перезагрузка произошла с этими параметрами. По умолчанию перезагрузка происходит с параметрами, переданными в опции {@link Controls/interface:INavigation#navigation navigation}.
-     * @param {Boolean} isFirstLoad Флаг первичной загрузки. 
+     * @param {Boolean} isFirstLoad Флаг первичной загрузки.
      * @return {Types/collection:RecordSet}
      */
     reload(sourceConfig?: INavigationSourceConfig, isFirstLoad?: boolean): LoadResult {
@@ -510,6 +513,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             breadCrumbsItems: this._breadCrumbsItems,
             backButtonCaption: this._backButtonCaption,
             breadCrumbsItemsWithoutBackButton: this._breadCrumbsItemsWithoutBackButton,
+            dragControlId: this._dragRandomId,
 
             // FIXME sourceController не должен создаваться, если нет source
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
@@ -728,7 +732,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             isMultiNavigation &&
             this.isDeepReload() &&
             this._expandedItems?.length &&
-            !direction;
+            !direction &&
+            key === this._root;
         let resultQueryParams;
 
         if (isHierarchyQueryParamsNeeded) {

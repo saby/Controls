@@ -3,9 +3,6 @@
             name="list"
             keyProperty="key"
             source="{{_viewSource}}">
-        <ws:footerTemplate>
-            <Controls.list:AddButton caption="Add record" on:click="_beginAdd()"/>
-        </ws:footerTemplate>
         <ws:editingConfig editOnClick="{{true}}"/>
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate">
@@ -18,5 +15,9 @@
                 </ws:contentTemplate>
             </ws:partial>
         </ws:itemTemplate>
+        <ws:footerTemplate>
+            <Controls.list:AddButton caption="Добавить пустую запись" on:click="_beginAddEmpty()"/>
+            <Controls.list:AddButton caption="Добавить запись с предустановками" on:click="_beginAddTemplated()"/>
+        </ws:footerTemplate>
     </Controls.list:View>
 </div>

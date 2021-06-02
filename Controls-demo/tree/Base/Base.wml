@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/tree/Base/View/Index' }}">
+            <a href="{{content.href}}">Базовая настройка дерева</a>
+        </Router.router:Reference>
+        <Controls-demo.tree.Base.View.Index/>
+    </div>
+
+</div>

@@ -1009,7 +1009,7 @@ const _private = {
         if (navigation) {
             switch (navigation.view) {
                 case 'infinity':
-                    result = !loadedList.getCount();
+                    result = !loadedList || !loadedList.getCount();
                     break;
                 case 'maxCount':
                     result = _private.needLoadByMaxCountNavigation(listViewModel, navigation);
@@ -3355,6 +3355,9 @@ const _private = {
  */
 
 export interface IBaseControlOptions extends IControlOptions {
+    keyProperty: string;
+    viewModelConstructor: string;
+    navigation?: INavigationOptionValue<INavigationSourceConfig>;
     sourceController?: SourceController;
     items?: RecordSet;
 }
@@ -4218,7 +4221,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.checkRequiredOptions(this, newOptions);
         }
 
-        if (oldViewModelConstructorChanged && this._listViewModel) {
+        if ((oldViewModelConstructorChanged || !!newOptions._recreateCollection) && this._listViewModel) {
             this._viewModelConstructor = newOptions.viewModelConstructor;
             const items = this._loadedBySourceController
                ? newOptions.sourceController.getItems()
@@ -6324,7 +6327,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         // TODO dnd при наследовании TreeControl <- BaseControl не нужно будет событие
         if (this._dndListController && this._dndListController.isDragging()) {
-            this._notifyDraggingItemMouseMove(itemData, nativeEvent);
+            this._draggingItemMouseMove(itemData, nativeEvent);
         }
         if (hoverFreezeController && itemData.ItemActionsItem) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
@@ -6333,9 +6336,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    _notifyDraggingItemMouseMove(itemData, nativeEvent): void {
-        this._notify('draggingItemMouseMove', [itemData, nativeEvent]);
-    }
+    _draggingItemMouseMove(item: CollectionItem, event: SyntheticEvent): void { }
 
     _itemMouseLeave(event, itemData, nativeEvent) {
         this._notify('itemMouseLeave', [itemData.item, nativeEvent]);

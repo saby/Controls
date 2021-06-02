@@ -1903,12 +1903,6 @@ define([
          };
          const treeControl = await correctCreateTreeControlAsync(cfg);
 
-         it('not should resetExpandedItems if expanded all', () => {
-            treeControl.resetExpandedItems();
-            const expandedItems = treeControl.getViewModel().getExpandedItems();
-            assert.deepEqual(expandedItems, [null]);
-         });
-
          it('call when model is not created', () => {
             const treeControl = new tree.TreeControl({keyProperty: 'id'});
             treeControl._beforeMount({keyProperty: 'id'});
