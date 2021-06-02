@@ -1,0 +1,18 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <Controls.tree:View
+            attr:class="ControlsDemo-HorizontalLeaves_tree"
+            keyProperty="key"
+            source="{{ _viewSource }}"
+            parentProperty="parent"
+            markerVisibility="hidden"
+            expandedItems="{{ _expandedItems }}"
+            itemTemplate="{{ _itemTemplate }}"
+            itemActions="{{ _itemActions }}"
+            nodeProperty="type">
+        <ws:nodeFooterTemplate>
+            <Controls.tree:NodeFooterTemplate expanderIcon="none" levelIndentSize="null">
+                <Controls.list:AddButton caption="Зал, схема зала"/>
+            </Controls.tree:NodeFooterTemplate>
+        </ws:nodeFooterTemplate>
+    </Controls.tree:View>
+</div>

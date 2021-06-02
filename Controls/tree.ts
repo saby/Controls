@@ -10,6 +10,7 @@ import { default as View } from 'Controls/_tree/Tree';
 import { register } from 'Types/di';
 
 import * as NodeFooterTemplate from 'wml!Controls/_tree/render/NodeFooterTemplate';
+import * as ItemTemplate from 'wml!Controls/_tree/render/Item';
 
 /**
  * Библиотека контролов, позволяющая работать с иерархией.
@@ -29,7 +30,8 @@ export {
     TreeItem,
     View,
     TreeNodeFooterItem,
-    NodeFooterTemplate
+    NodeFooterTemplate,
+    ItemTemplate
 };
 
 register('Controls/tree:TreeCollection', TreeCollection, {instantiate: false});

@@ -27,7 +27,7 @@ export default class TreeItem<T extends Model = Model>
     getTreeWrapperClasses(): string {
         let classes = 'controls-Tree__itemContentTreeWrapper';
         if (!this._isDefaultRenderMultiSelect()) {
-            classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}`;
+            classes += ` controls-ListView__item-leftPadding_${this.getOwner().getLeftPadding().toLowerCase()}`;
         }
         return classes;
     }
