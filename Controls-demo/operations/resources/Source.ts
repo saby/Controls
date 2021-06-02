@@ -57,13 +57,11 @@ export default class extends Memory {
         marked.forEach((id) => {
             id = +id;
 
-            if (!isInExcluded(id, excluded)) {
-                if (isNode(items.getRecordById(id))) {
-                    count++;
-                    count += getChildrenCount(id, items, excluded);
-                } else {
-                    count++;
-                }
+            if (isNode(items.getRecordById(id))) {
+                count++;
+                count += getChildrenCount(id, items, excluded);
+            } else if (!isInExcluded(id, excluded)) {
+                count++;
             }
         });
 
