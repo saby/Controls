@@ -11,7 +11,7 @@ import {Countries} from "Controls-demo/gridNew/DemoHelpers/Data/Countries";
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _header: IHeaderCell[] = Countries.getDefaultHeader();
+    protected _header: IHeaderCell[] = Countries.getHeader();
     protected _columns: IColumn[] = [
         {
             displayProperty: 'number',
