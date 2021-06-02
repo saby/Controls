@@ -187,11 +187,11 @@ export interface INavigationPageSourceConfig extends IBasePageSourceConfig {
 }
 
 /*
- * @typedef {Object} Controls/_interface/INavigation/INavigationOptionValue/INavigationSourceConfig
+ * @typedef {Object} INavigationSourceConfig
  * @description Source configuration for both page-based and position-based (cursor) navigation.
  */
 /**
- * @typedef {Object} Controls/_interface/INavigation/INavigationOptionValue/INavigationSourceConfig
+ * @typedef {Object} INavigationSourceConfig
  * @description Параметры режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
  * Параметры для режима {@link Controls/interface:INavigationPositionSourceConfig Навигация по курсору}.
  * Параметры для режима {@link Controls/interface:INavigationPageSourceConfig Навигация с фиксированным количеством загружаемых записей}.
