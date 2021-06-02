@@ -1,7 +1,7 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {Memory} from 'Types/source';
 
-import {getGroupedCatalog as getData} from '../../DemoHelpers/DataCatalog';
+import {getGroupedCatalog as getData} from '../../DemoHelpers/Data/Groups';
 
 import * as Template from 'wml!Controls-demo/list_new/Grouped/NoSticky/NoSticky';
 
