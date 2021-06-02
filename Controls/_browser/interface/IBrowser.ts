@@ -24,3 +24,9 @@
  * @name Controls/_browser/interface/IBrowser#root
  * @cfg {Number|String} Идентификатор корневого узла. Значение опции root добавляется в фильтре в поле {@link Controls/interface:IHierarchy/#parentProperty parentProperty}.
  */
+
+/**
+ * @name Controls/_browser/interface/IBrowser#sourceControllerId
+ * @cfg {String} Идентификатор, по которому будет получен sourceController из контекста.
+ * @remark Опцию следует задавать, если в конексте передаётся несколько sourceController'ов
+ */
