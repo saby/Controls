@@ -5,48 +5,48 @@ import {CrudEntityKey, Memory} from 'Types/source';
 
 const hierarchyItems = [
     {
-        key: 0,
+        key: 'group_0',
         title: 'Интерфейсный фреймворк',
         parent: null,
         type: true,
         nodeType: 'group'
     },
     {
-        key: 1,
+        key: 'leaf_1',
         title: 'Sasha',
         type: null,
-        parent: 0
+        parent: 'group_0'
     },
     {
-        key: 2,
+        key: 'leaf_2',
         title: 'Dmitry',
         type: null,
-        parent: 0
+        parent: 'group_0'
     },
     {
-        key: 3,
+        key: 'node_3',
         title: 'Списки',
         type: true,
-        parent: 0
+        parent: 'group_0'
     },
     {
-        key: 31,
+        key: 'leaf_31',
         title: 'Alex',
         type: null,
         parent: 3
     },
     {
-        key: 4,
+        key: 'group_4',
         title: 'Склад',
         parent: null,
         type: true,
         nodeType: 'group'
     },
     {
-        key: 5,
+        key: 'leaf_5',
         title: 'Michail',
         type: null,
-        parent: 4
+        parent: 'group_4'
     }
 ];
 
@@ -77,36 +77,42 @@ function getController(additionalOptions: object = {}): NewSourceController {
 }
 
 describe('Controls/dataSource/Controller/NodeHistoryId', () => {
+    let sandbox: any;
+    beforeEach(() => {
+        sandbox = sinon.createSandbox();
+    });
+
+    afterEach(() => {
+        sandbox.restore();
+    });
+
     // 1. Если !expandedItems && options.nodeHistoryId то дёргаем History При загрузке
     it('should call restore from history method', async () => {
-        const sinonSandbox = sinon.createSandbox();
         const controller = getController({
             expandedItems: undefined,
             nodeHistoryId: 'NODE_HISTORY_ID'
         });
 
-        const stubRestore = sinonSandbox.stub(nodeHistoryUtil, 'restore').callsFake( (id) => {
+        const stubRestore = sandbox.stub(nodeHistoryUtil, 'restore').callsFake( (id) => {
             assert.equal(id, 'NODE_HISTORY_ID');
-            return Promise.resolve([1]);
+            return Promise.resolve(['group_0']);
         });
 
         await controller.reload(null, true);
 
-        sinonSandbox.assert.calledOnce(stubRestore);
-        sinonSandbox.restore();
+        sandbox.assert.calledOnce(stubRestore);
     });
 
     // 2. Если expandedItems && options.nodeHistoryId то всё равно дёргаем History При загрузке
     it('should call restore from history method when expandedItems', async () => {
         const controller = getController({
-            expandedItems: [1],
+            expandedItems: ['group_0'],
             nodeHistoryId: 'NODE_HISTORY_ID'
         });
-        const spyRestore = sinon.spy(nodeHistoryUtil, 'restore');
+        const spyRestore = sandbox.spy(nodeHistoryUtil, 'restore');
         await controller.reload(null, true);
 
-        sinon.assert.called(spyRestore);
-        spyRestore.restore();
+        sandbox.assert.called(spyRestore);
     });
 
     // 3. Если !options.nodeHistoryId то не дёргаем History При загрузке
@@ -114,11 +120,10 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
         const controller = getController({
             nodeHistoryId: undefined
         });
-        const stubRestore = sinon.spy(nodeHistoryUtil, 'restore');
+        const stubRestore = sandbox.spy(nodeHistoryUtil, 'restore');
         await controller.reload(null, true);
 
-        sinon.assert.notCalled(stubRestore);
-        stubRestore.restore();
+        sandbox.assert.notCalled(stubRestore);
     });
 
     // 4. Не дёргаем History если isFirstLoad !== true
@@ -126,11 +131,10 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
         const controller = getController({
             nodeHistoryId: 'NODE_HISTORY_ID'
         });
-        const stubRestore = sinon.spy(nodeHistoryUtil, 'restore');
+        const stubRestore = sandbox.spy(nodeHistoryUtil, 'restore');
         await controller.reload(null, false);
 
-        sinon.assert.notCalled(stubRestore);
-        stubRestore.restore();
+        sandbox.assert.notCalled(stubRestore);
     });
 
     it('should consider nodeHistoryType=group', async () => {
@@ -140,19 +144,17 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
             nodeHistoryType: 'group'
         });
 
-        const stubRestore = sinon.stub(nodeHistoryUtil, 'restore').callsFake((key: any) => Promise.resolve(undefined));
-        const stubStore = sinon.stub(nodeHistoryUtil, 'store').callsFake((items: CrudEntityKey[], key: string) => {
+        sandbox.stub(nodeHistoryUtil, 'restore').callsFake((key: any) => Promise.resolve(undefined));
+        const stubStore = sandbox.stub(nodeHistoryUtil, 'store').callsFake((items: CrudEntityKey[], key: string) => {
             return Promise.resolve(true);
         });
 
         await controller.reload(null, true);
 
-        controller.setExpandedItems([0, 3]);
+        controller.setExpandedItems(['group_0', 'node_3']);
         controller.updateExpandedItemsInUserStorage();
 
-        sinon.assert.calledWith(stubStore, [0], 'GROUP_NODE_HISTORY_ID');
-        stubStore.restore();
-        stubRestore.restore();
+        sandbox.assert.calledWith(stubStore, ['group_0'], 'GROUP_NODE_HISTORY_ID');
     });
 
     it('should consider nodeHistoryType=node', async () => {
@@ -162,19 +164,37 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
             nodeHistoryType: 'node'
         });
 
-        const stubRestore = sinon.stub(nodeHistoryUtil, 'restore').callsFake((key: any) => Promise.resolve(undefined));
-        const stubStore = sinon.stub(nodeHistoryUtil, 'store').callsFake((items: CrudEntityKey[], key: string) => {
+        sandbox.stub(nodeHistoryUtil, 'restore').callsFake((key: any) => Promise.resolve(undefined));
+        const stubStore = sandbox.stub(nodeHistoryUtil, 'store').callsFake((items: CrudEntityKey[], key: string) => {
             return Promise.resolve(true);
         });
 
         await controller.reload(null, true);
 
-        controller.setExpandedItems([0, 3]);
+        controller.setExpandedItems(['group_0', 'node_3']);
         controller.updateExpandedItemsInUserStorage();
 
-        sinon.assert.calledWith(stubStore, [3], 'ONLY_NODE_HISTORY_ID');
-        stubStore.restore();
-        stubRestore.restore();
+        sandbox.assert.calledWith(stubStore, ['node_3'], 'ONLY_NODE_HISTORY_ID');
+    });
+
+    it('should consider nodeHistoryType=all', async () => {
+        const controller = getController({
+            nodeHistoryId: 'ONLY_NODE_HISTORY_ID',
+            nodeTypeProperty: 'nodeType',
+            nodeHistoryType: 'all'
+        });
+
+        sandbox.stub(nodeHistoryUtil, 'restore').callsFake((key: any) => Promise.resolve(undefined));
+        const stubStore = sandbox.stub(nodeHistoryUtil, 'store').callsFake((items: CrudEntityKey[], key: string) => {
+            return Promise.resolve(true);
+        });
+
+        await controller.reload(null, true);
+
+        controller.setExpandedItems(['group_0', 'node_3']);
+        controller.updateExpandedItemsInUserStorage();
+
+        sandbox.assert.calledWith(stubStore, ['group_0', 'node_3'], 'ONLY_NODE_HISTORY_ID');
     });
 
     it('should store groups without an error if data was changed', async () => {
@@ -183,21 +203,19 @@ describe('Controls/dataSource/Controller/NodeHistoryId', () => {
             nodeTypeProperty: 'nodeType'
         });
 
-        const stubRestore = sinon.stub(nodeHistoryUtil, 'restore').callsFake((key: any) => Promise.resolve(undefined));
+        sandbox.stub(nodeHistoryUtil, 'restore').callsFake((key: any) => Promise.resolve(undefined));
         // Возвращаем id групп, которых нет в текущем списке.
-        const stubGetCached = sinon.stub(nodeHistoryUtil, 'getCached').callsFake((key: any) => [0, 3, 6]);
-        const stubStore = sinon.stub(nodeHistoryUtil, 'store').callsFake((items: CrudEntityKey[], key: string) => {
+        sandbox.stub(nodeHistoryUtil, 'getCached')
+            .callsFake((key: any) => ['group_0', 'node_3', 'inexisting_node_6']);
+        const stubStore = sandbox.stub(nodeHistoryUtil, 'store').callsFake((items: CrudEntityKey[], key: string) => {
             return Promise.resolve(true);
         });
 
         await controller.reload(null, true);
 
-        controller.setExpandedItems([0, 3, 6, 7]);
+        controller.setExpandedItems(['group_0', 'node_3', 'inexisting_node_6', 'inexisting_node_7']);
         controller.updateExpandedItemsInUserStorage();
 
-        sinon.assert.calledWith(stubStore, [0, 6], 'CHANGE_DATA_HISTORY_ID');
-        stubStore.restore();
-        stubGetCached.restore();
-        stubRestore.restore();
+        sandbox.assert.calledWith(stubStore, ['group_0', 'inexisting_node_6'], 'CHANGE_DATA_HISTORY_ID');
     });
 });

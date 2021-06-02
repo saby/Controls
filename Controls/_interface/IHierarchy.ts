@@ -3,9 +3,9 @@
  * @typedef TNodeHistoryType
  * @variant nodes Только узлы
  * @variant groups Только группы
- * @variant both Узлы и группы
+ * @variant all Узлы и группы
  */
-export type TNodeHistoryType = 'node' | 'group';
+export type TNodeHistoryType = 'node' | 'group' | 'all';
 
 export interface IHierarchyOptions {
     nodeProperty?: string;
@@ -129,5 +129,5 @@ export default interface IHierarchy {
 /**
  * @name Controls/_interface/IHierarchy#nodeHistoryType
  * @cfg {TNodeHistoryType} Тип сохраняемых в историю узлов
- * @default groups
+ * @default group
  */

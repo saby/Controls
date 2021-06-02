@@ -183,6 +183,36 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          assert.deepEqual(result, {selected: [], excluded: []});
          assert.deepEqual(entryPath, [{id: 1, parent: null}]);
       });
+
+      it('unselect last node with childs when all is selected', () => {
+         const items = new RecordSet({
+            rawData: [
+               {id: 1, parent: null, node: null},
+               {id: 11, parent: 1, node: null},
+               {id: 12, parent: 1, node: null}
+            ],
+            keyProperty: 'id'
+         });
+         const model = new Tree({
+            collection: items,
+            root: null,
+            keyProperty: 'id',
+            parentProperty: 'parent',
+            nodeProperty: 'node',
+            expandedItems: [null]
+         });
+         const strategy = new TreeSelectionStrategy({
+            selectDescendants: true,
+            selectAncestors: true,
+            rootId: null,
+            model,
+            selectionType: 'all',
+            recursiveSelection: false
+         });
+
+         const newSelection = strategy.unselect({ selected: [null], excluded: [null] }, 1);
+         assert.deepEqual(newSelection, {selected: [], excluded: []});
+      });
    });
 
    describe('selectAll', () => {

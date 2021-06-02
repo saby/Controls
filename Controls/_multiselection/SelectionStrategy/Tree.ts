@@ -565,7 +565,10 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          for (let i = 0; i < childes.getCount(); i++) {
             const child = childes.at(i);
             const childId = this._getKey(child);
-            if (child.getChildren(false).getCount() > 0) {
+
+            // Если ребенок не выбран, то на его детей точно не нужно смотреть
+            const childIsExcluded = selection.excluded.includes(childId);
+            if (!childIsExcluded && child.getChildren(false).getCount() > 0) {
                result = result && this._isAllChildrenExcluded(selection, child);
             } else {
                result = result && selection.excluded.includes(childId);

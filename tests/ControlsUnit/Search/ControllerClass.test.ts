@@ -114,6 +114,14 @@ describe('Controls/search:ControllerClass', () => {
       assert.isTrue(loadSpy.withArgs(undefined, undefined, filter).called);
    });
 
+   it('load canceled while searching', () => {
+      const filter = sourceController.getFilter();
+      controllerClass.search('testValue');
+      sourceController.cancelLoading();
+
+      assert.deepStrictEqual(filter, sourceController.getFilter());
+   });
+
    it('getFilter', () => {
       const resultFilter = {
          testParam: 'testSearchValue',

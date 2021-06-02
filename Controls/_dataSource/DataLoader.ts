@@ -210,7 +210,7 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
 
         return new Promise((resolve) => {
             if (loadConfig.source) {
-                sourceController.reload()
+                sourceController.reload(undefined, true)
                     .catch((error) => error)
                     .finally(() => {
                         resolve(getLoadResult(loadConfig, sourceController, filterController, filterHistoryItems));
