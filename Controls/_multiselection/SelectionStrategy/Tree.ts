@@ -421,6 +421,12 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
       ArraySimpleValuesUtil.removeSubArray(selection.selected, [itemId]);
       if (this._isAllSelected(selection, parentId)) {
+         // Если из узла исключили хоть один элемент, то и сам узел должен попасть в excluded,
+         // чтобы БЛ прислал всех детей, исключая сам узел.
+         const selectedParentId = this._getSelectedParentKey(itemId, selection.selected);
+         if (selectedParentId !== undefined) {
+            ArraySimpleValuesUtil.addSubArray(selection.excluded, [selectedParentId]);
+         }
          ArraySimpleValuesUtil.addSubArray(selection.excluded, [itemId]);
       }
 
@@ -759,6 +765,24 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
       const parent = item.getParent();
       return this._getKey(parent);
+   }
+
+   /**
+    * Возвращает ключ одного из родителей, который находится в selectedKeys
+    * @param key
+    * @param selected
+    * @private
+    */
+   private _getSelectedParentKey(key: CrudEntityKey, selected: CrudEntityKey[]): CrudEntityKey {
+      const item = this._model.getItemBySourceKey(key);
+      let parent = item.getParent();
+
+      const parentIsSelected = (parent) => selected.includes(this._getKey(parent))
+      while(!parentIsSelected(parent)) {
+         parent = parent.getParent();
+      }
+
+      return parentIsSelected(parent) ? this._getKey(parent) : undefined;
    }
 
    /**
