@@ -740,19 +740,13 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     // аргумент rowSeparatorSize тоже только для старой модели.
     // когда нигде точно не останется мест использования, надо будет избавиться от этих аргументов.
     // + здесь же, возможно, стоит вызывать описанный ниже метод getItemActionPositionClasses.
-    getItemActionClasses(itemActionsPosition: string, theme?: string, isLastRow?: boolean, rowSeparatorSize?: string): string {
+    getItemActionClasses(itemActionsPosition: string): string {
         let itemActionClasses = `controls-itemActionsV_${itemActionsPosition}`;
+        const rowSeparatorSize = this.getRowSeparatorSize();
+        const isLastRow = this.isLastItem();
         if (itemActionsPosition === 'outside') {
-            const defaultSize = ' controls-itemActionsV__outside_bottom_size-default';
-            if (isLastRow) {
-                if (rowSeparatorSize) {
-                    itemActionClasses += ` controls-itemActionsV__outside_bottom_size-${rowSeparatorSize}`;
-                } else {
-                    itemActionClasses += defaultSize;
-                }
-            } else {
-                itemActionClasses += defaultSize;
-            }
+            itemActionClasses += ' controls-itemActionsV__outside_bottom_size-' +
+                (isLastRow && rowSeparatorSize ? rowSeparatorSize : 'default');
         }
         return itemActionClasses;
     }
