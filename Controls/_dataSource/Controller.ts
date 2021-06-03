@@ -784,8 +784,17 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
                     resultFilter[parentProperty] = Array.isArray(resultFilter[parentProperty]) ?
                         resultFilter[parentProperty] :
                         [];
-                    resultFilter[parentProperty].push(root);
-                    resultFilter[parentProperty] = resultFilter[parentProperty].concat(expandedItems);
+                    // Добавляет root в фильтр expanded узлов
+                    if (resultFilter[parentProperty].indexOf(root) === -1) {
+                        resultFilter[parentProperty].push(root);
+                    }
+                    // Добавляет expandedItems в фильтр expanded узлов
+                    // concat тут не подходит, т.к. иначе дублируются ключи в фильтре. БЛ такое не переваривает
+                    expandedItems.forEach((key) => {
+                        if (resultFilter[parentProperty].indexOf(key) === -1) {
+                            resultFilter[parentProperty].push(key);
+                        }
+                    });
                 } else if (root !== undefined) {
                     resultFilter[parentProperty] = root;
                 }
