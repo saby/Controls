@@ -39,7 +39,7 @@ export default class Popup implements IPopupHelper {
 
     constructor(modules: string[] = [], themes: string[] = []) {
         this.modules = Popup.POPUP_MODULES.concat(modules);
-        this.themes = Popup.POPUP_THEMES.concat(themes);
+        this.themes = themes;
     }
 
     /**
@@ -127,13 +127,6 @@ export default class Popup implements IPopupHelper {
         'css!Controls/popup',
         'css!Controls/popupConfirmation',
         'css!Controls/buttons'
-    ];
-
-    /**
-     * Стили, которые нужны для нормального отображения диалогов.
-     */
-    private static readonly POPUP_THEMES: string[] = [
-        'Controls/Classes'
     ];
 
     /**
