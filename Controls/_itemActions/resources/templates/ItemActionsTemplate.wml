@@ -3,7 +3,7 @@
         js-controls-ListView__visible-on-hoverFreeze
         {{!editingStyle && (highlightOnHover !== false || itemActionsPosition === 'outside') ? 'controls-itemActionsV_style_' + (style ? style : 'default') }}
         {{itemData.getItemActionPositionClasses(itemActionsPosition, itemActionsClass, itemData.itemPadding, theme)}}
-        {{itemData.getItemActionClasses(itemActionsPosition, theme, itemData.isLastRow, itemData.rowSeparatorSize)}}
+        {{itemData.getItemActionClasses(itemActionsPosition)}}
         {{itemData.isEditing() ? 'controls-itemActionsV_editing' + (editingStyle && editingStyle !== 'default' ? '_' + editingStyle : '')}}
         {{itemData.isEditing() && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
         {{itemData.isActive() && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
