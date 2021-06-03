@@ -83,7 +83,7 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
 
     private _subscribeItemsChanged(options): void {
         this._sourceController = options.sourceController;
-        this._sourceController.getItems().subscribe('itemsChanged', this._updateBreadCrumbsItems);
+        this._sourceController.subscribe('itemsChanged', this._updateBreadCrumbsItems);
     }
 
     private _updateBreadCrumbsItems(): void {
@@ -105,9 +105,11 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
     }
 
     private static _getKeyProperty(options): string {
-        return options._dataOptionsValue.keyProperty || options.sourceController && options.sourceController.getKeyProperty()
+        return options._dataOptionsValue.keyProperty ||
+            options.sourceController && options.sourceController.getKeyProperty();
     }
     private static _getParentProperty(options): string {
-        return options._dataOptionsValue.parentProperty || options.sourceController && options.sourceController.getParentProperty()
+        return options._dataOptionsValue.parentProperty ||
+            options.sourceController && options.sourceController.getParentProperty();
     }
 }
