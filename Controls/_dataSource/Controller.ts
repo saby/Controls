@@ -32,7 +32,6 @@ import {default as groupUtil} from './GroupUtil';
 import {nodeHistoryUtil} from './nodeHistoryUtil';
 import {isEqual} from 'Types/object';
 import {mixin} from 'Types/util';
-// @ts-ignore
 import * as cInstance from 'Core/core-instance';
 import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
@@ -115,7 +114,8 @@ function getModelModuleName(model: string|Function): string {
 function isEqualFormat(oldList: RecordSet, newList: RecordSet): boolean {
     const oldListFormat = oldList && oldList['[Types/_entity/FormattableMixin]'] && oldList.getFormat(true);
     const newListFormat = newList && newList['[Types/_entity/FormattableMixin]'] && newList.getFormat(true);
-    return (oldListFormat && newListFormat && oldListFormat.isEqual(newListFormat) || !newList.getCount() || !oldList.getCount()) ||
+    const isListsEmpty = !newList.getCount() || !oldList.getCount();
+    return (oldListFormat && newListFormat && oldListFormat.isEqual(newListFormat) || isListsEmpty) ||
            (!oldListFormat && !newListFormat);
 }
 
@@ -954,7 +954,10 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
      * @param isFirstLoad
      * @private
      */
-    private _resolveExpandedHierarchyItems(options: IControllerOptions, isFirstLoad: boolean): Promise<CrudEntityKey[]> {
+    private _resolveExpandedHierarchyItems(
+        options: IControllerOptions,
+        isFirstLoad: boolean
+    ): Promise<CrudEntityKey[]> {
         const expandedItems = this._expandedItems || options.expandedItems;
         if (options.nodeHistoryId && isFirstLoad) {
             return nodeHistoryUtil.restore(options.nodeHistoryId)

@@ -6,14 +6,11 @@ import {RecordSet} from 'Types/collection';
 import {Record, Model} from 'Types/entity';
 import {Logger} from 'UI/Utils';
 import IParamsCalculator from './interface/IParamsCalculator';
-
-// TODO Общие типы
-type TPosition = any;
 /**
  * Позиция, от которой нужно начинать скролл
  * Является массивом из любых типов (number, date, string и тд)
  */
-type TPositionValue = any[];
+type TPositionValue = unknown[];
 type TField = string | string[];
 type TFieldValue = string[];
 

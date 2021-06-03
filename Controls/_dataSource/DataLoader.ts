@@ -1,4 +1,4 @@
-import {default as NewSourceController, IControllerOptions, IControllerState} from 'Controls/_dataSource/Controller';
+import {default as NewSourceController, IControllerState} from 'Controls/_dataSource/Controller';
 import {IFilterItem, ControllerClass as FilterController, IFilterControllerOptions} from 'Controls/filter';
 import {
     ISourceOptions,
@@ -66,6 +66,7 @@ export interface ILoadDataConfig extends
     minSearchLength?: number;
     searchDelay?: number;
     items?: RecordSet;
+    loadTimeout?: number;
 }
 
 export interface ILoadDataCustomConfig extends IBaseLoadDataConfig {
@@ -89,6 +90,7 @@ export interface ILoadDataResult extends ILoadDataConfig {
 }
 
 type TLoadedConfigs = Map<string, ILoadDataResult|ILoadDataConfig>;
+type TLoadConfig = ILoadDataConfig|ILoadDataCustomConfig;
 
 function isNeedPrepareFilter(loadDataConfig: ILoadDataConfig): boolean {
     return !!(loadDataConfig.filterButtonSource || loadDataConfig.fastFilterSource || loadDataConfig.searchValue);
@@ -157,7 +159,7 @@ function getLoadResult(
             data: {
                 query: sourceController.getLoadError() || sourceController.getItems()
             }
-        }): undefined,
+        }) : undefined,
         data: sourceController.getItems(),
         error: sourceController.getLoadError(),
         filter: sourceController.getFilter(),
@@ -217,7 +219,7 @@ function loadDataByConfig(
             ...loadConfig,
             sorting,
             filter: filterController ? filterController.getFilter() : loadConfig.filter,
-            loadTimeout: loadTimeout
+            loadTimeout
         });
 
         return new Promise((resolve) => {
@@ -248,7 +250,7 @@ export default class DataLoader {
     }
 
     load<T extends ILoadDataResult>(
-        sourceConfigs: Array<ILoadDataConfig|ILoadDataCustomConfig> = this._loadDataConfigs
+        sourceConfigs: TLoadConfig[] = this._loadDataConfigs
     ): Promise<T[]> {
         return Promise.all(this.loadEvery<T>(sourceConfigs)).then((results) => {
             this._fillLoadedConfigStorage(results);
@@ -257,7 +259,7 @@ export default class DataLoader {
     }
 
     loadEvery<T extends ILoadDataConfig|ILoadDataCustomConfig>(
-        sourceConfigs: Array<ILoadDataConfig|ILoadDataCustomConfig> = this._loadDataConfigs,
+        sourceConfigs: TLoadConfig[] = this._loadDataConfigs,
         loadTimeout?: number
     ): Array<Promise<T>> {
         const loadDataPromises = [];
@@ -317,7 +319,8 @@ export default class DataLoader {
 
     getFilterController(id?: string): FilterController {
         const config = this._getConfig(id);
-        let {filterController, historyItems} = config;
+        let {filterController} = config;
+        const {historyItems} = config;
 
         if (!filterController) {
             if (isLoaded('Controls/filter')) {

@@ -10,7 +10,7 @@ export interface IQueryParams {
    meta?: IQueryParamsMeta;
    limit?: number;
    offset?: number;
-   filter?: QueryWhereExpression<any>;
+   filter?: QueryWhereExpression<unknown>;
    sorting?: QueryOrderSelector;
    select?: QuerySelectExpression;
 }
