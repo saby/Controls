@@ -784,8 +784,13 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
                     resultFilter[parentProperty] = Array.isArray(resultFilter[parentProperty]) ?
                         resultFilter[parentProperty] :
                         [];
-                    resultFilter[parentProperty].push(root);
-                    resultFilter[parentProperty] = resultFilter[parentProperty].concat(expandedItems);
+                    // Добавляет root в фильтр expanded узлов
+                    if (resultFilter[parentProperty].indexOf(root) === -1) {
+                        resultFilter[parentProperty].push(root);
+                    }
+                    // Добавляет отсутствующие expandedItems в фильтр expanded узлов
+                    resultFilter[parentProperty] = resultFilter[parentProperty]
+                        .concat(expandedItems.filter((key) => resultFilter[parentProperty].indexOf(key) === -1));
                 } else if (root !== undefined) {
                     resultFilter[parentProperty] = root;
                 }

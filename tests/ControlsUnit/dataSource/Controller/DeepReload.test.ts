@@ -78,7 +78,7 @@ function getController(additionalOptions: object = {}): NewSourceController {
 }
 
 describe('Controls/dataSource/Controller/DeepReload', () => {
-    it('deepReload to direction when nodeTypeProperty is set', async () => {
+    it('deepReload to direction when deepScrollLoad is set', async () => {
         const source = getMemoryWithHierarchyItems();
         const controller = getController({
             nodeTypeProperty: 'nodeType',
@@ -99,7 +99,7 @@ describe('Controls/dataSource/Controller/DeepReload', () => {
         sinon.assert.called(spyQuery);
     });
 
-    it('deepReload to direction when nodeTypeProperty is not set', async () => {
+    it('no deepReload to direction when deepScrollLoad is not set', async () => {
         const source = getMemoryWithHierarchyItems();
         const controller = getController({
             nodeTypeProperty: 'nodeType',
@@ -109,11 +109,41 @@ describe('Controls/dataSource/Controller/DeepReload', () => {
 
         const spyQuery = sinon.stub(source, 'query')
             .callsFake((query?: Query) => {
+
+                // assertion here
                 assert.deepEqual(query.getWhere().parent, null);
+
                 return Promise.resolve(new DataSet());
             });
         await controller.load('down', null);
 
+        // assertion is above
+        sinon.assert.called(spyQuery);
+    });
+
+    it('deepReload to direction when deepScrollLoad + filter, should not duplicate filter', async () => {
+        const source = getMemoryWithHierarchyItems();
+        const controller = getController({
+            nodeTypeProperty: 'nodeType',
+            expandedItems: ['group_0', 'group_4'],
+            deepScrollLoad: true,
+            filter: {
+                parent: ['group_0', 'group_4']
+            },
+            source
+        });
+
+        const spyQuery = sinon.stub(source, 'query')
+            .callsFake((query?: Query) => {
+
+                // assertion here
+                assert.equal(query.getWhere().parent.length, 3);
+
+                return Promise.resolve(new DataSet());
+            });
+        await controller.load('down', null);
+
+        // assertion is above
         sinon.assert.called(spyQuery);
     });
 });
