@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__flexColumn controlsDemo__ml1 {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth500' : 'controlsDemo_fixedWidth300'}}">
-        <div class="controlsDemo__cell controlsDemo__mb1">
+        <div class="controlsDemo__cell">
             <div class="controls-text-label">fontSize=xs</div>
             <Controls.dropdown:Selector source="{{_source}}"
                                      displayProperty="title"
@@ -8,7 +8,7 @@
                                      fontSize="xs"
                                      bind:selectedKeys="_selectedKeys"/>
         </div>
-        <div class="controlsDemo__cell controlsDemo__mb1">
+        <div class="controlsDemo__cell">
             <div class="controls-text-label">fontSize=xs</div>
             <Controls.dropdown:Selector source="{{_source}}"
                                      displayProperty="title"
@@ -16,7 +16,7 @@
                                      fontSize="s"
                                      bind:selectedKeys="_selectedKeys"/>
         </div>
-        <div class="controlsDemo__cell controlsDemo__mb1">
+        <div class="controlsDemo__cell">
             <div class="controls-text-label">fontSize=m</div>
             <Controls.dropdown:Selector source="{{_source}}"
                                      displayProperty="title"
@@ -24,7 +24,7 @@
                                      fontSize="m"
                                      bind:selectedKeys="_selectedKeys"/>
         </div>
-        <div class="controlsDemo__cell controlsDemo__mb1">
+        <div class="controlsDemo__cell">
             <div class="controls-text-label">fontSize=l</div>
             <Controls.dropdown:Selector source="{{_source}}"
                                      displayProperty="title"
@@ -32,7 +32,7 @@
                                      fontSize="l"
                                      bind:selectedKeys="_selectedKeys"/>
         </div>
-        <div class="controlsDemo__cell controlsDemo__mb1">
+        <div class="controlsDemo__cell">
             <div class="controls-text-label">fontSize=xl</div>
             <Controls.dropdown:Selector source="{{_source}}"
                                      displayProperty="title"
@@ -40,7 +40,7 @@
                                      fontSize="xl"
                                      bind:selectedKeys="_selectedKeys"/>
         </div>
-        <div class="controlsDemo__cell controlsDemo__mb1">
+        <div class="controlsDemo__cell">
             <div class="controls-text-label">fontSize=2xl</div>
             <Controls.dropdown:Selector source="{{_source}}"
                                      displayProperty="title"
@@ -50,7 +50,7 @@
         </div>
     </div>
     <div class="controlsDemo__flexColumn controlsDemo__ml1 {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth500' : 'controlsDemo_fixedWidth300'}}">
-        <div class="controlsDemo__cell controlsDemo__mb1">
+        <div class="controlsDemo__cell">
             <div class="controls-text-label">fontSize=3xl</div>
             <Controls.dropdown:Selector source="{{_source}}"
                                      displayProperty="title"
@@ -58,7 +58,7 @@
                                      fontSize="3xl"
                                      bind:selectedKeys="_selectedKeys"/>
         </div>
-        <div class="controlsDemo__cell controlsDemo__mb1">
+        <div class="controlsDemo__cell">
             <div class="controls-text-label">fontSize=4xl</div>
             <Controls.dropdown:Selector source="{{_source}}"
                                      displayProperty="title"
@@ -66,7 +66,7 @@
                                      fontSize="4xl"
                                      bind:selectedKeys="_selectedKeys"/>
         </div>
-        <div class="controlsDemo__cell controlsDemo__mb1">
+        <div class="controlsDemo__cell">
             <div class="controls-text-label">fontSize=5xl</div>
             <Controls.dropdown:Selector source="{{_source}}"
                                      displayProperty="title"
@@ -74,7 +74,7 @@
                                      fontSize="5xl"
                                      bind:selectedKeys="_selectedKeys"/>
         </div>
-        <div class="controlsDemo__cell controlsDemo__mb1">
+        <div class="controlsDemo__cell">
             <div class="controls-text-label">fontSize=6xl</div>
             <Controls.dropdown:Selector source="{{_source}}"
                                      displayProperty="title"
@@ -82,7 +82,7 @@
                                      fontSize="6xl"
                                      bind:selectedKeys="_selectedKeys"/>
         </div>
-        <div class="controlsDemo__cell controlsDemo__mb1">
+        <div class="controlsDemo__cell">
             <div class="controls-text-label">fontSize=7xl</div>
             <Controls.dropdown:Selector source="{{_source}}"
                                      displayProperty="title"
