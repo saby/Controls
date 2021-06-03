@@ -1,21 +1,23 @@
 //Panel background
-// Без каскада сейчас нельзя: https://online.sbis.ru/opendoc.html?guid=a65ae72b-65d4-41ca-b028-2c84433f4439
-.controls-FilterPanel__vertical .controls-DialogTemplate__top-area {
+.controls-DialogTemplate__top-area_verticalFilterPanel {
    background-color: var(--header_background-color_vertical_filterPanel);
 }
-// Без каскада сейчас нельзя: https://online.sbis.ru/opendoc.html?guid=a65ae72b-65d4-41ca-b028-2c84433f4439
-.controls-FilterPanel__horizontal .controls-DialogTemplate__top-area {
+
+.controls-DialogTemplate__top-area_horizontalFilterPanel {
    background-color: var(--header_background-color_horizontal_filterPanel);
+}
+
+.controls-DialogTemplate_backgroundStyle-verticalFilterPanel {
+   background-color: var(--background-color_vertical_filterPanel);
+}
+
+.controls-DialogTemplate_backgroundStyle-horizontalFilterPanel {
+   background-color: var(--background-color_horizontal_filterPanel);
 }
 
 .controls-FilterPanel__content-horizontal {
    display: flex;
    flex-direction: row;
-   background-color: var(--background-color_horizontal_filterPanel);
-}
-
-.controls-FilterPanel__content-vertical {
-   background-color: var(--background-color_vertical_filterPanel);
 }
 
 //Panel width
