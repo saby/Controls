@@ -80,6 +80,7 @@ export interface IControllerOptions extends
     navigationParamsChangedCallback?: Function;
     loadTimeout?: number;
     items?: RecordSet;
+    deepScrollLoad?: boolean;
     nodeTypeProperty?: string;
 }
 
@@ -908,10 +909,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             return this._resolveExpandedHierarchyItems(options, isFirstLoad).then((expandedItems) => {
                 this.setExpandedItems(expandedItems);
                 resultFilter = {...initialFilter};
-                // Загрузка с deepReload необходима, если мы пытаемся загрузить по скроллу
-                // раскрытые узлы. Пока это поведение будем включать только у тех, кто использует
-                // новый функционал группировки и задаёт nodeTypeProperty.
-                const isLoadToDirectionWithExpandedItems = direction && this._options.nodeTypeProperty;
+                const isLoadToDirectionWithExpandedItems = direction && this._options.deepScrollLoad;
                 const isDeepReload = (this.isDeepReload() || isLoadToDirectionWithExpandedItems) && root === this._root;
 
                 // Набираем все раскрытые узлы

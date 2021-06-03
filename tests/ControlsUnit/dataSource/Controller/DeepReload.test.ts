@@ -83,6 +83,7 @@ describe('Controls/dataSource/Controller/DeepReload', () => {
         const controller = getController({
             nodeTypeProperty: 'nodeType',
             expandedItems: ['group_0', 'group_4'],
+            deepScrollLoad: true,
             source
         });
 
@@ -101,6 +102,7 @@ describe('Controls/dataSource/Controller/DeepReload', () => {
     it('deepReload to direction when nodeTypeProperty is not set', async () => {
         const source = getMemoryWithHierarchyItems();
         const controller = getController({
+            nodeTypeProperty: 'nodeType',
             expandedItems: ['group_0', 'group_4'],
             source
         });
