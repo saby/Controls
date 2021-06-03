@@ -374,7 +374,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                 this._registrars.virtualScrollMove.unregister(event, registerType, component);
                 break;
             case 'scroll':
-                this._registrars.scroll.unregister(event, registerType, component);
+                this._registrars.scroll.unregister(event, registerType, component, {listenAll: true});
                 break;
             case 'virtualNavigation':
                 this._virtualNavigationRegistrar.unregister(event, registerType, component);
