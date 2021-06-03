@@ -25,7 +25,7 @@ export interface ICollectionItemStyled {
      * CSS classes to show Item Actions
      * @param itemActionsPosition position relative to Item: 'inside' | 'outside'
      */
-    getItemActionClasses(itemActionsPosition: string, theme?: string): string;
+    getItemActionClasses(itemActionsPosition: string): string;
     /**
      * Возвращает Класс для позиционирования опций записи.
      * Если опции вне строки, то возвращает пустую строку
