@@ -40,7 +40,6 @@ define([
 
       beforeEach(() => {
          originalModules = Popup.POPUP_MODULES;
-         originalThemes = Popup.POPUP_THEMES;
          originalImportThemes = Popup.importThemes;
          Popup.importThemes = importThemes;
          fakeModules.forEach(defineModule);
@@ -49,7 +48,6 @@ define([
       afterEach(() => {
          fakeModules.forEach(undefModule);
          Popup.POPUP_MODULES = originalModules;
-         Popup.POPUP_THEMES = originalThemes;
          Popup.importThemes = originalImportThemes;
          sinon.restore();
       });
@@ -57,8 +55,7 @@ define([
       describe('preloadPopup()', () => {
          it('loads default modules', () => {
             Popup.POPUP_MODULES = [fakeModuleNames[0], fakeModuleNames[1]];
-            Popup.POPUP_THEMES = [fakeModuleNames[2], fakeModuleNames[3]];
-            const p = new Popup();
+            const p = new Popup([], [fakeModuleNames[2], fakeModuleNames[3]]);
             return p.preloadPopup().then((result) => {
                assert.strictEqual(result.name, fakeModuleNames[0]);
             });
@@ -66,8 +63,7 @@ define([
 
          it('loads additional modules', () => {
             Popup.POPUP_MODULES = [fakeModuleNames[0]];
-            Popup.POPUP_THEMES = [fakeModuleNames[1]];
-            const p = new Popup([fakeModuleNames[2]], [fakeModuleNames[3]]);
+            const p = new Popup([fakeModuleNames[2]], [fakeModuleNames[1], fakeModuleNames[3]]);
             return p.preloadPopup().then((result) => {
                assert.strictEqual(result.name, fakeModuleNames[0]);
             });
@@ -75,8 +71,7 @@ define([
 
          it('result fulfilled with undefined', () => {
             Popup.POPUP_MODULES = [fakeModuleNames[0]];
-            Popup.POPUP_THEMES = ['FakeFailModule1'];
-            const p = new Popup();
+            const p = new Popup([], ['FakeFailModule1']);
             return p.preloadPopup().then((result) => {
                assert.isUndefined(result);
             });
@@ -86,8 +81,7 @@ define([
       describe('openConfirmation()', () => {
          it('calls openPopup()', () => {
             Popup.POPUP_MODULES = [fakeModuleNames[0]];
-            Popup.POPUP_THEMES = [fakeModuleNames[1]];
-            const p = new Popup();
+            const p = new Popup([], [fakeModuleNames[1]]);
             const options = {};
             return p.openConfirmation(options).then(() => {
                const popup = require(fakeModuleNames[0]);
@@ -105,8 +99,7 @@ define([
 
          it('calls showDefaultDialog()', () => {
             Popup.POPUP_MODULES = [fakeModuleNames[0]];
-            Popup.POPUP_THEMES = ['FakeFailModule1'];
-            const p = new Popup();
+            const p = new Popup([], ['FakeFailModule1']);
             sinon.stub(Popup, 'showDefaultDialog');
             const options = { message: 'test' };
             return p.openConfirmation(options).then(() => {
@@ -134,8 +127,7 @@ define([
          beforeEach(() => {
             sinon.stub(Popup, 'showDefaultDialog');
             Popup.POPUP_MODULES = [fakeModuleNames[0]];
-            Popup.POPUP_THEMES = [fakeModuleNames[1]];
-            p = new Popup();
+            p = new Popup([], [fakeModuleNames[1]]);
          });
 
          afterEach(() => {
@@ -183,11 +175,10 @@ define([
 
          it('combines dialogTemplate options with templateOptions', () => {
             Popup.POPUP_MODULES = [fakeModuleNames[0]];
-            Popup.POPUP_THEMES = [fakeModuleNames[1]];
             const dialogTmplOptions = { dialogOption: 'dialogTemplateOption' };
             const dialogOptions = { templateOptions: dialogTmplOptions, handler: 42 };
             const viewConfig = { options: { configOption: 'configTemplateOption' } };
-            const p = new Popup();
+            const p = new Popup([], [fakeModuleNames[1]]);
             return p.openDialog(viewConfig, dialogOptions).then(() => {
                const popup = require(fakeModuleNames[0]);
                const cfg = popup.Dialog.openPopup.getCall(0).args[0];
@@ -275,7 +266,6 @@ define([
       describe('closeDialog()', () => {
          it('does nothing if popupId is empty', () => {
             Popup.POPUP_MODULES = [fakeModuleNames[0]];
-            Popup.POPUP_THEMES = [];
             const p = new Popup();
             return p.closeDialog(undefined).then(() => {
                const popup = require(fakeModuleNames[0]);
@@ -285,8 +275,7 @@ define([
 
          it('does nothing if popup modules was not loaded', () => {
             Popup.POPUP_MODULES = [fakeModuleNames[0]];
-            Popup.POPUP_THEMES = ['FakeFailModule1'];
-            const p = new Popup();
+            const p = new Popup([], ['FakeFailModule1']);
             return p.closeDialog('testPopupId').then(() => {
                const popup = require(fakeModuleNames[0]);
                assert.isNotOk(popup.Dialog.closePopup.called, 'closePopup() should not be called');
@@ -295,7 +284,6 @@ define([
 
          it('calls closePopup()', () => {
             Popup.POPUP_MODULES = [fakeModuleNames[0]];
-            Popup.POPUP_THEMES = [];
             const popupId = String(Date.now());
             const p = new Popup();
             return p.closeDialog(popupId).then(() => {
