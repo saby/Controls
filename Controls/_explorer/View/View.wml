@@ -37,6 +37,7 @@
                                           itemActionsPosition="{{_itemActionsPosition}}"
                                           disableVirtualScroll="{{_viewMode==='tile'}}"
                                           plainItemsContainer="{{!(_options.useColumns && _viewMode === 'list')}}"
+                                          actionMode="{{_viewMode==='tile' ? _options.actionMode : 'strict'}}"
                                           dragControlId="{{ _dragControlId }}"
                                           canStartDragNDrop="{{ _canStartDragNDrop }}"
                                           markerVisibility="{{ _options.markerVisibility }}"
