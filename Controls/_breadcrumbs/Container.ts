@@ -1,6 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls/_breadcrumbs/Container';
-import {calculatePath, Path, NewSourceController as SourceController} from 'Controls/dataSource';
+import {Path, NewSourceController as SourceController} from 'Controls/dataSource';
 import {IDragObject} from 'Controls/dragnDrop';
 import {TKey} from 'Controls/interface';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -25,7 +25,8 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
     protected _breadCrumbsDragHighlighter: Function;
 
     protected _beforeMount(options: IContainerOptions): void {
-        this._collectionChange = this._collectionChange.bind(this);
+        this._breadCrumbsDragHighlighter = this._dragHighlighter.bind(this);
+        this._updateBreadCrumbsItems = this._updateBreadCrumbsItems.bind(this);
         this._keyProperty = BreadCrumbsContainer._getKeyProperty(options);
         this._parentProperty = BreadCrumbsContainer._getParentProperty(options);
 
@@ -38,7 +39,7 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
 
     protected _beforeUnmount(): void {
         if (this._sourceController) {
-            this._sourceController.getItems().unsubscribe('onCollectionChange', this._collectionChange);
+            this._sourceController.unsubscribe('itemsChanged', this._updateBreadCrumbsItems);
             this._sourceController.destroy();
         }
     }
@@ -80,26 +81,13 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
         this._dragOnBreadCrumbs = false;
     }
 
-    private _getPathItems(options): Path {
+    private _subscribeItemsChanged(options): void {
         this._sourceController = options.sourceController;
-        this._sourceController.getItems().subscribe('onCollectionChange', this._collectionChange);
-        return this._getCalculatePath(this._sourceController.getItems());
+        this._sourceController.getItems().subscribe('itemsChanged', this._updateBreadCrumbsItems);
     }
 
-    private _getCalculatePath(items): Path {
-        return calculatePath(items).path;
-    }
-
-    private _collectionChange(event: Event,
-                              action: string,
-                              newItems,
-                              newItemsIndex: number,
-                              oldItems,
-                              oldItemsIndex: number,
-                              reason: string): void {
-        if (reason === 'assign') {
-            this._breadCrumbsItems = this._getCalculatePath(this._sourceController.getItems());
-        }
+    private _updateBreadCrumbsItems(): void {
+        this._breadCrumbsItems = this._sourceController.getState().breadCrumbsItems;
     }
 
     private _setBreadCrumbsItems(options): void {
@@ -111,7 +99,8 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
             this._breadCrumbsItems = dataOptions.breadCrumbsItems;
         } else if (this._sourceController !== options.sourceController) {
             // FIXME пока страница не обернута в браузер, sourceController задается на опциях
-            this._breadCrumbsItems = this._getPathItems(options);
+            this._subscribeItemsChanged(options);
+            this._updateBreadCrumbsItems();
         }
     }
 
