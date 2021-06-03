@@ -1,5 +1,5 @@
 import {TemplateFunction} from 'UI/Base';
-import {ISearch} from 'Controls/interface';
+import {ISearchOptions} from 'Controls/interface';
 import {IMenuControlOptions} from 'Controls/menu';
 import {CollectionItem} from 'Controls/display';
 import {Model, CrudEntityKey} from 'Types/entity';
@@ -9,11 +9,11 @@ export interface IFooterItemData {
     key: CrudEntityKey;
 }
 
-export interface IMenuPopupOptions extends IMenuControlOptions, ISearch {
-    headerContentTemplate: TemplateFunction;
-    footerContentTemplate: TemplateFunction;
-    closeButtonVisibility: boolean;
-    footerItemData: IFooterItemData;
+export interface IMenuPopupOptions extends IMenuControlOptions, ISearchOptions {
+    headerContentTemplate?: TemplateFunction;
+    footerContentTemplate?: TemplateFunction;
+    closeButtonVisibility?: boolean;
+    footerItemData?: IFooterItemData;
     trigger: 'click' | 'hover';
 }
 
