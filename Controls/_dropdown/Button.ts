@@ -105,6 +105,7 @@ export default class Button extends BaseDropdown {
     protected _tmplNotify: Function = EventUtils.tmplNotify;
     protected _hasItems: boolean = true;
     protected _calmTimer: CalmTimer;
+    private _isMouseMoveHandled: boolean = false;
 
     _beforeMount(options: IButtonOptions,
                  context: object,
@@ -189,9 +190,15 @@ export default class Button extends BaseDropdown {
         if (!isLeftMouseButton(event)) {
             return;
         }
+
+        // В режиме открытия по ховеру: если мы обработали клик по кнопке до открытия меню и выбрали первую запись,
+        // то по mouseenter меню открываться не должно до тех пор, пока курсор не уйдет с кнопки или не кликнут в нее.
+        // Иначе при любом движении меню откроется, хоть мы уже и выбрали первую запись.
+        this._isMouseMoveHandled = false;
         if (this._calmTimer.isStarted()) {
-            if (this._controller.getItems() && this._controller.getItems().getCount() &&
-                !this._isOpened && this._options.isAutoItemClick !== false) {
+            const hasItems = this._controller.getItems() && this._controller.getItems().getCount();
+            if (hasItems && !this._isOpened && this._options.isAutoItemClick !== false) {
+                this._isMouseMoveHandled = true;
                 this._onItemClickHandler([this._controller.getItems().at(0)]);
                 this._calmTimer.stop();
             }
@@ -202,13 +209,14 @@ export default class Button extends BaseDropdown {
 
     _handleMouseLeave(event: SyntheticEvent<MouseEvent>): void {
         super._handleMouseLeave(event);
+        this._isMouseMoveHandled = false;
         this._calmTimer.stop();
     }
 
     _handleMouseMove(event: SyntheticEvent<MouseEvent>): void {
         const isOpenMenuPopup = !(event.nativeEvent.relatedTarget
             && event.nativeEvent.relatedTarget.closest('.controls-Menu__popup'));
-        if (this._options.menuPopupTrigger === 'hover' && isOpenMenuPopup) {
+        if (this._options.menuPopupTrigger === 'hover' && isOpenMenuPopup && !this._isMouseMoveHandled) {
             this._calmTimer.start();
         }
     }

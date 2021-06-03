@@ -1705,7 +1705,7 @@ var
             controls-GridView__itemV_marker-${style}
             controls-GridView__itemV_marker-${style}_rowSpacingBottom-${current.itemPadding.bottom}
             controls-GridView__itemV_marker-${style}_rowSpacingTop-${current.itemPadding.top}
-            controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'height' : ('padding-' + (current.itemPadding.top || 'l') + '_' + markerClassName)}
+            controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'height controls-GridView__itemV_marker_vertical-position-top' : ('padding-' + (current.itemPadding.top || 'l') + '_' + markerClassName)}
             controls-ListView__itemV_marker-${current.markerPosition}
             ${!!current.isDragging ? ' controls-ListView__itemContent_dragging' : ''}`;
 
