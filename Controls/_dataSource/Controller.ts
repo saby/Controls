@@ -980,14 +980,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         isFirstLoad: boolean,
         direction: Direction
     ): Promise<QueryWhereExpression<unknown>> {
-<<<<<<< HEAD
-        return this._getFilterHierarchy(filter, this._options, key, isFirstLoad);
-=======
-        return this._getFilterForCollapsedGroups(filter, this._options)
-            .then((preparedFilter: QueryWhereExpression<unknown>) => {
-                return this._getFilterHierarchy(preparedFilter, this._options, key, isFirstLoad, direction);
-            });
->>>>>>> origin/21.2200/bugfix/apa/grouping/saving-of-groups
+        return this._getFilterHierarchy(filter, this._options, key, isFirstLoad, direction);
     }
 
     private _processQueryResult(
