@@ -80,6 +80,7 @@ export interface IControllerOptions extends
     navigationParamsChangedCallback?: Function;
     loadTimeout?: number;
     items?: RecordSet;
+    deepScrollLoad?: boolean;
     nodeTypeProperty?: string;
 }
 
@@ -835,7 +836,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         if (this._options.source) {
             const filterPromise = filter && !direction ?
                 Promise.resolve(filter) :
-                this._prepareFilterForQuery(filter || this._filter, key, isFirstLoad);
+                this._prepareFilterForQuery(filter || this._filter, key, isFirstLoad, direction);
             this.cancelLoading();
             this._prepareFilterPromise = new CancelablePromise(filterPromise);
             this._loadPromise = new CancelablePromise(
@@ -899,7 +900,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         initialFilter: QueryWhereExpression<unknown>,
         options: IControllerOptions,
         root: TKey = this._root,
-        isFirstLoad: boolean ): Promise<QueryWhereExpression<unknown>>{
+        isFirstLoad: boolean,
+        direction: Direction): Promise<QueryWhereExpression<unknown>>{
         const parentProperty = this._parentProperty;
         let resultFilter: QueryWhereExpression<unknown>;
 
@@ -907,7 +909,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             return this._resolveExpandedHierarchyItems(options, isFirstLoad).then((expandedItems) => {
                 this.setExpandedItems(expandedItems);
                 resultFilter = {...initialFilter};
-                const isDeepReload = this.isDeepReload() && root === this._root;
+                const isLoadToDirectionWithExpandedItems = direction && this._options.deepScrollLoad;
+                const isDeepReload = (this.isDeepReload() || isLoadToDirectionWithExpandedItems) && root === this._root;
 
                 // Набираем все раскрытые узлы
                 if (expandedItems?.length && expandedItems?.[0] !== null && isDeepReload) {
@@ -972,9 +975,10 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
     private _prepareFilterForQuery(
         filter: QueryWhereExpression<unknown>,
         key: TKey,
-        isFirstLoad: boolean
+        isFirstLoad: boolean,
+        direction: Direction
     ): Promise<QueryWhereExpression<unknown>> {
-        return this._getFilterHierarchy(filter, this._options, key, isFirstLoad);
+        return this._getFilterHierarchy(filter, this._options, key, isFirstLoad, direction);
     }
 
     private _processQueryResult(
