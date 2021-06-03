@@ -17,7 +17,7 @@ import numberToString from 'Controls/_decorator/inputUtils/toString';
 import {abbreviateNumber} from 'Controls/_decorator/resources/Formatter';
 // tslint:disable-next-line:ban-ts-ignore
 //@ts-ignore
-import * as template from 'wml!Controls/_decorator/Money/Money';
+import * as MoneyTemplate from 'Controls/_decorator/Money/Money';
 import 'css!Controls/decorator';
 import 'css!Controls/CommonClasses';
 
@@ -154,6 +154,8 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
  * @demo Controls-demo/Decorator/Money/Index
  *
  * @author Красильников А.С.
+ *
+ * TODO Необходимо избавиться от контрола в пользу функционального компонента https://online.sbis.ru/doc/5bbf7182-c95d-42e2-a8ab-b83f77b53a91
  */
 
 class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, IFontColorStyle, IFontSize, IFontWeight {
@@ -176,7 +178,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     readonly '[Controls/_interface/INumberFormat]': boolean = true;
 
     protected _options: IMoneyOptions;
-    protected _template: TemplateFunction = template;
+    protected _template: TemplateFunction = MoneyTemplate;
 
     // Used in template
     protected _isDisplayFractionPath(value: string, showEmptyDecimals: boolean, precision: number): boolean {
