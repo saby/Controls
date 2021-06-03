@@ -41,7 +41,8 @@ export function getItems(): any[] {
         {key: 6, title: 'Development', '@parent': true},
         {key: 7, title: 'Assignment for accounting', parent: null},
         {key: 8, title: 'Assignment for delivery', parent: null},
-        {key: 9, title: 'Assignment for logisticians', parent: null}
+        {key: 9, title: 'Assignment for logisticians', parent: null},
+        {key: 100, title: 'Не сохраняется в историю', parent: null, doNotSaveToHistory: true}
     ];
 
     const coordSub = ['Coordination', 'Negotiate the discount', 'Harmonization of price changes', 'Approval of participation in trading',
