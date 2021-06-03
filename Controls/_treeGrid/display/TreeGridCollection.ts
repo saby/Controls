@@ -24,6 +24,7 @@ import {TGroupNodeVisibility} from '../interface/ITreeGrid';
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
+    groupNodeVisibility?: string;
     nodeTypeProperty?: string;
 }
 
@@ -93,8 +94,11 @@ export default class TreeGridCollection<
     }
 
     private _updateGroupNodeVisibility(): void {
+        if (this._$groupNodeVisibility !== 'hasdata' || this.getCount() === 0) {
+            return;
+        }
         const firstItem = this.at(0);
-        if (firstItem.isGroupNode()) {
+        if (firstItem && firstItem.isGroupNode()) {
             firstItem.setIsHiddenGroup(!this._isGroupNodeVisible());
         }
     }
@@ -185,7 +189,7 @@ export default class TreeGridCollection<
             this._updateItemsLadder();
         }
 
-        if (this._$nodeTypeProperty) {
+        if (changeAction === IObservable.ACTION_RESET) {
             this._updateGroupNodeVisibility();
         }
 
@@ -198,6 +202,21 @@ export default class TreeGridCollection<
         }
 
         this._$results = null;
+    }
+
+    protected _handleCollectionChangeAdd(): void {
+        super._handleCollectionChangeAdd();
+        this._updateGroupNodeVisibility();
+    }
+
+    protected _handleCollectionChangeRemove(): void {
+        super._handleCollectionChangeRemove();
+        this._updateGroupNodeVisibility();
+    }
+
+    protected _handleCollectionChangeReplace(): void {
+        super._handleCollectionChangeReplace();
+        this._updateGroupNodeVisibility();
     }
 
     protected _getItemsFactory(): ItemsFactory<T> {
