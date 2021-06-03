@@ -41,6 +41,30 @@ define([
             assert.strictEqual(component._index, component2._index - 1);
          });
 
+         describe('should set correct _canShadowVisible', () => {
+            [{
+               position: 'top',
+               top: false,
+               bottom: true
+            }, {
+               position: 'bottom',
+               top: true,
+               bottom: false
+            }, {
+               position: 'topbottom',
+               top: true,
+               bottom: true
+            }].forEach((test) => {
+               it(test.position, function() {
+                  const component = createComponent(StickyHeader, { position: test.position });
+                  assert.strictEqual(component._canShadowVisible.top, test.top);
+                  assert.strictEqual(component._canShadowVisible.bottom, test.bottom);
+               });
+            });
+
+         });
+
+
          it('should not initialise observer if fixation disabled', function () {
             const component = createComponent(StickyHeader, { mode: 'notsticky' });
             component._container = {

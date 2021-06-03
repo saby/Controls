@@ -1,5 +1,4 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {isStickySupport, POSITION} from 'Controls/_scroll/StickyHeader/Utils';
 import {Logger} from 'UI/Utils';
 import {constants, detection} from 'Env/Env';
 import {descriptor} from 'Types/entity';
@@ -10,6 +9,7 @@ import {
     IFixedEventData,
     IOffset,
     isHidden,
+    isStickySupport,
     MODE,
     POSITION,
     SHADOW_VISIBILITY,
@@ -148,6 +148,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
     protected _topObserverStyle: string = '';
     protected _bottomObserverStyle: string = '';
+    protected _canShadowVisible: { top: boolean, bottom: boolean } = { top: false, bottom: false };
 
     private _stickyDestroy: boolean = false;
     private _scroll: HTMLElement;
@@ -179,6 +180,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (options.shadowVisibility === SHADOW_VISIBILITY.initial) {
             this._initialShowShadow = true;
         }
+        this._updateCanShadowVisible(options.position);
         this._updateStyles(options);
     }
 
@@ -217,6 +219,10 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (!this._isStickyEnabled(this._options)) {
             return;
         }
+        if (options.position !== this._options.position) {
+            this._updateCanShadowVisible(options.position);
+        }
+
         if (options.mode !== this._options.mode) {
             if (options.mode === MODE.notsticky) {
                 this._release();
@@ -882,6 +888,14 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
     private _isStickyEnabled(options: IStickyHeaderOptions): boolean {
         return this._isStickySupport && options.mode !== MODE.notsticky;
+    }
+
+    private _updateCanShadowVisible(position: POSITION): void {
+        const top: boolean = position.includes(POSITION.bottom);
+        const bottom: boolean = position.includes(POSITION.top);
+        if (this._canShadowVisible.top !== top || this._canShadowVisible.bottom !== bottom) {
+            this._canShadowVisible = { top, bottom };
+        }
     }
 
     static _isIOSChrome(): boolean {
