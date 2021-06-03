@@ -82,7 +82,7 @@ class PageParamsCalculator implements IParamsCalculator {
 
                     // если мы загрузили 0 страницу размера 30 , то мы сейчас на 2 странице размера 10
                     let newCurrentPage = (config.page + 1) * pageSizeCoef - 1;
-                    let newPrevPage = config.page * pageSizeCoef - 1;
+                    const newPrevPage = config.page * pageSizeCoef - 1;
                     if (typeof metaMore === 'number') {
                         const maxPage = Math.ceil(metaMore / storeParams.pageSize) - 1;
                         newCurrentPage = Math.min(maxPage, newCurrentPage);
@@ -131,7 +131,7 @@ class PageParamsCalculator implements IParamsCalculator {
         shiftMode: TNavigationPagingMode,
         navigationQueryConfig: IBasePageSourceConfig
     ): IBasePageSourceConfig {
-        let config: Partial<IBasePageSourceConfig> = {};
+        const config: Partial<IBasePageSourceConfig> = {};
         if (direction === 'backward') {
             config.page = 0;
         } else if (direction === 'forward') {
@@ -147,7 +147,7 @@ class PageParamsCalculator implements IParamsCalculator {
                 // так как offset рассчитается как page*pageSize.
                 // ставим page = 1
                 // а pageSize = 30
-                //TODO: https://online.sbis.ru/opendoc.html?guid=53c4e82d-8e21-4fc8-81dc-ccf2a8c6ba9f
+                // TODO: https://online.sbis.ru/opendoc.html?guid=53c4e82d-8e21-4fc8-81dc-ccf2a8c6ba9f
                 if ((metaMore / store.getState().pageSize) % 1 > 0) {
                     config.pageSize = store.getState().pageSize * (config.page - 1);
                     config.page = 1;
