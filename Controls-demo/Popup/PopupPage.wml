@@ -131,13 +131,6 @@
    <Controls.scroll:Container attr:class="ControlsDemo-PopupPage__external-scroll-container">
       <Controls.scroll:Container attr:class="ControlsDemo-PopupPage__internal-scroll-container" name="scrollContainer">
          <Controls.buttons:Button name="stickyInScrollButton" caption="stickyInScroll" on:click="openStickyInScroll()" attr:class="ControlsDemo-PopupPage__stickyButton"/>
-         <Controls.popup:Sticky name="stickyInScroll"
-                                onResult="{{_onResult}}"
-                                actionOnScroll="close"
-                                template="Controls-demo/Popup/TestDialog"
-         >
-            <ws:direction vertical="bottom" horizontal="left"/>
-         </Controls.popup:Sticky>
       </Controls.scroll:Container>
    </Controls.scroll:Container>
    <div style="margin-top: 10px;">
