@@ -24,12 +24,12 @@ export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions, I
     selectorOpener?: Stack;
     itemActions?: IItemAction[];
     itemActionVisibilityCallback?: TItemActionVisibilityCallback;
-    dataLoadCallback: Function;
-    dataLoadErrback: Function;
-    selectorDialogResult: Function;
+    dataLoadCallback?: Function;
+    dataLoadErrback?: Function;
+    selectorDialogResult?: Function;
     sourceController?: NewSourceController;
     calmTimer?: CalmTimer;
-    historyRoot: string;
+    historyRoot?: string;
 }
 
 /**

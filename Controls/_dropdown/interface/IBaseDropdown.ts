@@ -1,11 +1,15 @@
 import {IControlOptions} from 'UI/Base';
-import {ITooltipOptions, ISearchOptions} from 'Controls/interface';
-import { IStickyPopupOptions } from 'Controls/_popup/interface/ISticky';
-import {IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
-import {IDropdownSourceOptions} from './IDropdownSource';
+import {ISourceOptions, ITooltipOptions, ISearchOptions} from 'Controls/interface';
+import { IStickyPopupOptions } from 'Controls/popup';
+import {IMenuPopupOptions} from 'Controls/menu';
+import {ICrudPlus} from 'Types/source';
 export type TKey = string|number|null;
 
-export interface IBaseDropdownOptions extends IControlOptions, IDropdownSourceOptions,
+export interface IDropdownSourceOptions {
+    source?: ICrudPlus
+}
+
+export interface IBaseDropdownOptions extends IControlOptions, ISourceOptions,
     IMenuPopupOptions, IStickyPopupOptions, ITooltipOptions, ISearchOptions {
     dropdownClassName?: string;
     historyId?: string;

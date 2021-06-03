@@ -2,13 +2,13 @@ import rk = require('i18n!Controls');
 import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dropdown/ComboBox/ComboBox');
 import * as Utils from 'Types/util';
-import {prepareEmpty, loadItems, isEmptyItem} from 'Controls/_dropdown/Util';
+import {prepareEmpty, loadItems} from 'Controls/_dropdown/Util';
 import {EventUtils} from 'UI/Events';
 import Controller from 'Controls/_dropdown/_Controller';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {ISingleSelectableOptions, IBorderStyleOptions, IValidationStatusOptions, IInputPlaceholder,
-   IInputPlaceholderOptions, IContrastBackgroundOptions} from 'Controls/interface';
+   IInputPlaceholderOptions, IContrastBackgroundOptions, IContrastBackground} from 'Controls/interface';
 import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import {IStickyPopupOptions} from 'Controls/popup';
@@ -77,7 +77,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @demo Controls-demo/dropdown_new/Combobox/Source/Index
  */
 
-class ComboBox extends BaseDropdown implements IInputPlaceholder {
+class ComboBox extends BaseDropdown implements IInputPlaceholder, IContrastBackground {
    protected _template: TemplateFunction = template;
    protected _notifyHandler: Function = EventUtils.tmplNotify;
    protected _controller: Controller;
