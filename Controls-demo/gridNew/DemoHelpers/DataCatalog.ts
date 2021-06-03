@@ -858,6 +858,52 @@ const getCountriesStats = () => {
                 endColumn: 6
             }
         ],
+        getMultiHeaderVar3: (): IHeader[] => [
+            {
+                title: 'Географические характеристики стран',
+                startRow: 1,
+                endRow: 3,
+                startColumn: 1,
+                endColumn: 2,
+                valign: 'bottom'
+            },
+            {
+                title: 'Столица',
+                startRow: 1,
+                endRow: 3,
+                startColumn: 2,
+                endColumn: 3,
+                valign: 'top'
+            },
+            {
+                title: 'Цифры',
+                startRow: 1,
+                endRow: 2,
+                startColumn: 3,
+                endColumn: 6
+            },
+            {
+                title: 'Население',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 3,
+                endColumn: 4
+            },
+            {
+                title: 'Площадь км2',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 4,
+                endColumn: 5
+            },
+            {
+                title: 'Плотность населения чел/км2',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 5,
+                endColumn: 6
+            }
+        ],
         getHeaderWithSorting: (textOverflow): IHeader[] => [
             {
                 title: '#'
