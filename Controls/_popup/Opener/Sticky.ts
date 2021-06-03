@@ -35,11 +35,7 @@ class Sticky extends BaseOpener<IStickyOpenerOptions> implements IStickyOpener {
     private _actionOnScroll: string = 'none';
 
     open(popupOptions: IStickyPopupOptions): Promise<string | undefined> {
-        return super.open(getStickyConfig(popupOptions), this._getController());
-    }
-
-    protected _getController(): string {
-        return POPUP_CONTROLLER;
+        return super.open(getStickyConfig(popupOptions), POPUP_CONTROLLER);
     }
 
     protected _getConfig(popupOptions: IStickyOpenerOptions = {}): IStickyOpenerOptions {
@@ -61,22 +57,7 @@ class Sticky extends BaseOpener<IStickyOpenerOptions> implements IStickyOpener {
     }
 
     protected _scrollHandler(event: Event, scrollEvent: Event, initiator: string): void {
-        if (this.isOpened() && event.type === 'scroll') {
-            // Из-за флага listenAll на listener'e, подписка доходит до application'a всегда.
-            // На ios при показе клавиатуры стреляет событие скролла, что приводит к вызову текущего обработчика
-            // и закрытию окна. Для ios отключаю реакцию на скролл, событие скролла стрельнуло на body.
-            if (detection.isMobileIOS && (scrollEvent.target === document.body || scrollEvent.target === document)) {
-                return;
-            } else if (this._actionOnScroll === 'close') {
-                this.close();
-            } else if (this._actionOnScroll === 'track') {
-                this._updatePopup();
-            }
-        }
-    }
-
-    private _updatePopup(): void {
-        ManagerController.popupUpdated(this._getCurrentPopupId());
+        Sticky._scrollHandler(event, scrollEvent, this._actionOnScroll, this._getCurrentPopupId());
     }
 
     static getDefaultOptions(): IStickyOpenerOptions {
@@ -89,6 +70,21 @@ class Sticky extends BaseOpener<IStickyOpenerOptions> implements IStickyOpener {
         const newCfg = getStickyConfig(config);
         const moduleName = Sticky.prototype._moduleName;
         return openPopup(newCfg, POPUP_CONTROLLER, moduleName);
+    }
+
+    static _scrollHandler(event: Event, scrollEvent: Event, actionOnScroll: string, popupId: string): void {
+        if (event.type === 'scroll') {
+            // Из-за флага listenAll на listener'e, подписка доходит до application'a всегда.
+            // На ios при показе клавиатуры стреляет событие скролла, что приводит к вызову текущего обработчика
+            // и закрытию окна. Для ios отключаю реакцию на скролл, событие скролла стрельнуло на body.
+            if (detection.isMobileIOS && (scrollEvent.target === document.body || scrollEvent.target === document)) {
+                return;
+            } else if (actionOnScroll === 'close') {
+                BaseOpener.closeDialog(popupId);
+            } else if (actionOnScroll === 'track') {
+                ManagerController.popupUpdated(popupId);
+            }
+        }
     }
 
     static openPopup(config: IStickyPopupOptions): Promise<string> {
