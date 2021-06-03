@@ -154,6 +154,8 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
  * @demo Controls-demo/Decorator/Money/Index
  *
  * @author Красильников А.С.
+ *
+ * TODO Необходимо избавиться от контрола в пользу функционального компонента https://online.sbis.ru/doc/5bbf7182-c95d-42e2-a8ab-b83f77b53a91
  */
 
 class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, IFontColorStyle, IFontSize, IFontWeight {
