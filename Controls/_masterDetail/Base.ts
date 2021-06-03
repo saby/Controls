@@ -271,6 +271,12 @@ class Base extends Control<IMasterDetail, string> {
         }
     }
 
+    protected _afterUpdate(oldOptions?: IMasterDetail): void {
+        if (oldOptions.masterVisibility !== this._options.masterVisibility) {
+            this._startResizeRegister();
+        }
+    }
+
     private _isMasterFixed(options: IMasterDetail): boolean {
         return options.scrollTop !== undefined;
     }
