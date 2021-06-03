@@ -1,7 +1,7 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls/_breadcrumbs/Container';
 import {ContextOptions as DataOptions} from 'Controls/context';
-import {calculatePath, Path, ISourceControllerState, NewSourceController as SourceController} from 'Controls/dataSource';
+import {Path, ISourceControllerState, NewSourceController as SourceController} from 'Controls/dataSource';
 import {IDragObject} from 'Controls/dragnDrop';
 import {TKey} from 'Controls/interface';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -25,7 +25,7 @@ export default class BreadCrumbsContainer extends Control<IControlOptions> {
 
     protected _beforeMount(options: IControlOptions, context: IDataContext): void {
         this._breadCrumbsDragHighlighter = this._dragHighlighter.bind(this);
-        this._collectionChange = this._collectionChange.bind(this);
+        this._updateBreadCrumbsItems = this._updateBreadCrumbsItems.bind(this);
         this._setDataOptions(options, context);
 
         this._keyProperty = BreadCrumbsContainer._getKeyProperty(options, this._dataOptions);
@@ -41,7 +41,7 @@ export default class BreadCrumbsContainer extends Control<IControlOptions> {
 
     protected _beforeUnmount(): void {
         if (this._sourceController) {
-            this._sourceController.unsubscribe('onCollectionChange', this._collectionChange);
+            this._sourceController.unsubscribe('itemsChanged', this._updateBreadCrumbsItems);
             this._sourceController.destroy();
         }
     }
@@ -93,7 +93,7 @@ export default class BreadCrumbsContainer extends Control<IControlOptions> {
     private _setPathItems(options): void {
         let sourceController = this._getSourceController(options);
         if (sourceController) {
-            this._items = this._getPathItems(sourceController.getItems());
+            this._items = sourceController.getState().breadCrumbsItems;
         }
     }
 
@@ -102,25 +102,13 @@ export default class BreadCrumbsContainer extends Control<IControlOptions> {
             this._sourceController = this._dataOptions.sourceController;
         } else if (options.sourceController && this._sourceController !== options.sourceController) {
             this._sourceController = options.sourceController;
-            this._sourceController.getItems().subscribe('onCollectionChange', this._collectionChange);
+            this._sourceController.subscribe('itemsChanged', this._updateBreadCrumbsItems);
         }
         return this._sourceController;
     }
 
-    private _getPathItems(items): Path {
-        return calculatePath(items).path;
-    }
-
-    private _collectionChange(event: Event,
-                              action: string,
-                              newItems,
-                              newItemsIndex: number,
-                              oldItems,
-                              oldItemsIndex: number,
-                              reason: string): void {
-        if (reason === 'assign') {
-            this._items = this._getPathItems(this._sourceController.getItems());
-        }
+    private _updateBreadCrumbsItems(): void {
+        this._items = this._sourceController.getState().breadCrumbsItems;
     }
 
     private static _getKeyProperty(options, context): string {
