@@ -65,6 +65,7 @@ export interface ILoadDataConfig extends
     minSearchLength?: number;
     searchDelay?: number;
     items?: RecordSet;
+    loadTimeout?: number;
 }
 
 export interface ILoadDataCustomConfig extends IBaseLoadDataConfig {
@@ -184,14 +185,14 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
             .catch(() => {
                 filterController = getFilterController(loadConfig as IFilterControllerOptions);
             });
-        filterPromise = wrapTimeout(filterPromise, getLoadTimeout()).catch(() => {
+        filterPromise = wrapTimeout(filterPromise, getLoadTimeout(loadConfig)).catch(() => {
             Logger.info('Controls/dataSource:loadData: Данные фильтрации не загрузились за 1 секунду');
         });
     }
 
     if (loadConfig.propStorageId) {
         sortingPromise = loadSavedConfig(loadConfig.propStorageId, ['sorting']);
-        sortingPromise = wrapTimeout(sortingPromise, getLoadTimeout()).catch(() => {
+        sortingPromise = wrapTimeout(sortingPromise, getLoadTimeout(loadConfig)).catch(() => {
             Logger.info('Controls/dataSource:loadData: Данные сортировки не загрузились за 1 секунду');
         });
     }
@@ -205,12 +206,12 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
             ...loadConfig,
             sorting,
             filter: filterController ? filterController.getFilter() : loadConfig.filter,
-            loadTimeout: getLoadTimeout()
+            loadTimeout: getLoadTimeout(loadConfig)
         });
 
         return new Promise((resolve) => {
             if (loadConfig.source) {
-                sourceController.reload(undefined, true)
+                sourceController.reload()
                     .catch((error) => error)
                     .finally(() => {
                         resolve(getLoadResult(loadConfig, sourceController, filterController, filterHistoryItems));
@@ -222,8 +223,8 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
     });
 }
 
-function getLoadTimeout(): Number {
-    return constants.isProduction ? DEFAULT_LOAD_TIMEOUT : DEBUG_DEFAULT_LOAD_TIMEOUT;
+function getLoadTimeout(loadConfig: ILoadDataConfig): Number {
+    return loadConfig.loadTimeout || (constants.isProduction ? DEFAULT_LOAD_TIMEOUT : DEBUG_DEFAULT_LOAD_TIMEOUT);
 }
 
 export default class DataLoader {
