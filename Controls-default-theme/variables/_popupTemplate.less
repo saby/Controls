@@ -2,12 +2,12 @@
 //
 // Тень
 .controls_popupTemplate_theme-@{themeName} {
-   --box-shadow_closeButton_toolButton: var(--box-shadow_button_toolButton);
+   --box-shadow_closeButton_toolButton: var(--box-shadow_button);
 
    // Фон
 
    --background-color_closeButton_toolButton: var(--background-color_button_toolButton);
-   --background-color_hover_closeButton_toolButton: var(--background-color_button_toolButton);
+   --background-color_hover_closeButton_toolButton: var(--background-color_hover_button_toolButton);
    --background-color_active_closeButton_toolButton: var(--background-color_active_button_toolButton);
    --contrast_background-color_closeButton_toolButton: var(--background-color_contrast_button_toolButton);
    --contrast_hover_background-color_closeButton_toolButton: var(--background-color_contrast_hover_button_toolButton);
@@ -26,18 +26,19 @@
    // Обводка
 
    --border-color_closeButton_toolButton: var(--border-color_button_toolButton);
-   --border-color_hover_closeButton_toolButton: #ccc;
-   --border-color_active_closeButton_toolButton: #ccc;
-   --border-thickness_closeButton_toolButton: var(--border-thickness_button) 0 var(--border-thickness_button) var(--border-thickness_button);
+   --border-color_hover_closeButton_toolButton: var(--background-color_contrast_hover_button_toolButton);
+   --border-color_active_closeButton_toolButton: var(--background-color_contrast_active_button_toolButton);
+   --border-thickness_closeButton_toolButton: 0;
    --border-thickness_closeButton_functionalButton: 0;
-   --border-radius_closeButton_toolButton: var(--border-radius_button_toolButton) 0 0 var(--border-radius_button_toolButton);
+   --border-radius_closeButton_toolButton: var(--border-radius_button_toolButton);
    --border-radius_closeButton_functionalButton: 20px 0 0 20px;
 
 
    // Размеры
 
    --height_closeButton_toolButton: var(--inline_height_l);
-   --width_closeButton_toolButton: 36px;
+   --width_closeButton_toolButton: 28px;
+   --margin-right_closeButton_toolButton: 8px;
    --height_closeButton_functionalButton: var(--inline_height_l);
    --width_closeButton_functionalButton: 32px;
    --width_closeButton_link: var(--inline_height_m);
