@@ -190,5 +190,22 @@ export default Suggest;
 
 /**
  * @name Controls/_suggest/Selector#value
- * @cfg {} Значение поля ввода. Для контрола {@link Controls/suggest:Selector} значение опции value можно только прочитать.
+ * @cfg {* | null} Значение поля ввода.
+ * @example
+ * <pre class="brush: html; highlight: [3]">
+ * <!-- WML -->
+ * <Controls.suggest:Selector
+ *    bind:value="_suggestDownValue"
+ *    displayProperty="title"
+ *    searchParam="title"
+ *    autoDropDown="{{true}}"
+ *    navigation="{{_navigation}}"
+ *    source="{{_source}}">
+ *    <ws:suggestTemplate templateName="wml!Controls-demo/Suggest_new/Selector/AutoDropDown/resources/SuggestTemplate">
+ *       <ws:templateOptions demoClass="demo-SuggestInputList"/>
+ *    </ws:suggestTemplate>
+ * </Controls.suggest:Selector>
+ * </pre>
+ * @remark
+ * Для контрола {@link Controls/suggest:Selector} значение опции value можно только прочитать.
  */
