@@ -49,7 +49,7 @@ export default class CollectionItem<T> extends BaseCollectionItem<T> {
         return ' controls-ColumnsView__itemContent';
     }
 
-    getItemActionClasses(itemActionsPosition: string, theme?: string): string {
+    getItemActionClasses(itemActionsPosition: string): string {
         return `controls-ColumnsView__itemActionsV_${itemActionsPosition}`;
     }
 }

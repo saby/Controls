@@ -11,6 +11,7 @@ export type TGroupNodeVisibility = 'hasdata' | 'visible';
 export interface IOptions extends ITreeOptions {
     nodeTypeProperty?: string;
     groupNodeVisibility?: TGroupNodeVisibility;
+    deepScrollLoad?: boolean;
 }
 
 /**
@@ -75,4 +76,12 @@ export default interface ITreeGrid extends ITree {
  * @variant visible Всегда показывать полученные из источника данных группы в иерархической группировке.
  * @variant hasdata Показывать полученные из источника данных группы в иерархической группировке только если в метаданных передан параметр singleGroupNode со значением, отличным от true.
  * @default visible
+ */
+
+/**
+ * @name Controls/_treeGrid/interface/ITreeGrid#deepScrollLoad
+ * @cfg {String} Имя свойства, содержащего информацию о типе узла.
+ * @remark
+ * Опция необходима для подгрузки дерева с раскрытыми узлами по скроллу. При этом необходимо с БЛ линейно
+ * возвращать строго отсортированные данные дерева с раскрытыми узлами.
  */

@@ -155,9 +155,9 @@ const _private = {
         };
         itemsModelCurrent.isEditing = (): boolean => itemsModelCurrent.dispItem.isEditing();
         itemsModelCurrent.isMarked = (): boolean => itemsModelCurrent.dispItem.isMarked();
-        itemsModelCurrent.getItemActionClasses = (itemActionsPosition: string, theme?: string, isLastRow?: boolean, rowSeparatorSize?: string): string => (
+        itemsModelCurrent.getItemActionClasses = (itemActionsPosition: string, isLastRow?: boolean, rowSeparatorSize?: string): string => (
             itemsModelCurrent.dispItem.getItemActionClasses ?
-                itemsModelCurrent.dispItem.getItemActionClasses(itemActionsPosition, theme, isLastRow, rowSeparatorSize) : ''
+                itemsModelCurrent.dispItem.getItemActionClasses(itemActionsPosition, isLastRow, rowSeparatorSize) : ''
         );
         itemsModelCurrent.getItemActionPositionClasses = (itemActionsPosition: string, itemActionsClass: string, itemPadding: {top?: string, bottom?: string}, theme: string): string => (
             itemsModelCurrent.dispItem.getItemActionPositionClasses ?

@@ -5,10 +5,12 @@
    controls-background-{{ _options.backgroundStyle }}
    controls-StickyHeader_position" style="{{_style + (_options.style || '')}}"
         name="content">
-      <!-- We use visibility style instead of "display: none;" statement to prevent jumps when scrolling on iPad -->
-      <div class="controls-Scroll__shadow controls-StickyHeader__shadow-top controls-Scroll__shadow_horizontal
-               {{ !_isTopShadowVisible ? ' ws-invisible' }}"
-      ></div>
+      <ws:if data="{{_canShadowVisible.top}}">
+         <!-- We use visibility style instead of "display: none;" statement to prevent jumps when scrolling on iPad -->
+         <div class="controls-Scroll__shadow controls-StickyHeader__shadow-top controls-Scroll__shadow_horizontal
+                  {{ !_isTopShadowVisible ? ' ws-invisible' }}"
+         ></div>
+      </ws:if>
 
       <div name="observationTargetTop" class="controls-StickyHeader__observationTargetTop" style="{{ _getObserverStyle('top', _options.offsetTop, _options.shadowVisibility) }}"></div>
       <!-- Remove scope="{{_options}}" after complete https://online.sbis.ru/opendoc.html?guid=dd8d85ac-2024-41f6-b9b3-550b4413b566 -->
@@ -19,12 +21,15 @@
                   on:arrowClick="_notifyHandler('arrowClick')"
                   on:controlResize="_selfResizeHandler()"/>
       <div name="observationTargetBottom" class="controls-StickyHeader__observationTargetBottom" style="{{ _getObserverStyle('bottom', _options.offsetTop, _options.shadowVisibility) }}"></div>
-      <!--We use visibility style insted of "display: none;" statement to prevent jumps when scrolling on iPad -->
-      <!-- visibility: hidden; добавляет scrollHeight, хотя тень невидима. -->
-      <!-- Проблема возникает например если свернуть последнюю группировку. -->
-      <div class="controls-Scroll__shadow controls-StickyHeader__shadow-bottom controls-Scroll__shadow_horizontal
-               {{ !_isBottomShadowVisible ? (_isMobileIOS ? ' ws-invisible' : ' ws-hidden') }}"
-           name="shadowBottom"></div>
+
+      <ws:if data="{{_canShadowVisible.bottom}}">
+         <!--We use visibility style insted of "display: none;" statement to prevent jumps when scrolling on iPad -->
+         <!-- visibility: hidden; добавляет scrollHeight, хотя тень невидима. -->
+         <!-- Проблема возникает например если свернуть последнюю группировку. -->
+         <div class="controls-Scroll__shadow controls-StickyHeader__shadow-bottom controls-Scroll__shadow_horizontal
+                  {{ !_isBottomShadowVisible ? (_isMobileIOS ? ' ws-invisible' : ' ws-hidden') }}"
+              name="shadowBottom"></div>
+      </ws:if>
    </div>
 </ws:if>
 <ws:else>
