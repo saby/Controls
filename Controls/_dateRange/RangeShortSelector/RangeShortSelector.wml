@@ -5,6 +5,7 @@
       startValue="{{_rangeModel.startValue}}"
       endValue="{{_rangeModel.endValue}}"
       fontColorStyle="{{_options.fontColorStyle}}"
+      fontWeight="{{ _options.fontWeight }}"
       on:mouseenter="_mouseEnterHandler()"
       on:mouseleave="_mouseLeaveHandler()"
       on:rangeChanged="_rangeChangedHandler()"
