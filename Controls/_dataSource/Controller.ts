@@ -796,6 +796,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         this._breadcrumbsRecordSet = this._items instanceof RecordSet ? this._items.getMetaData().path : null;
         this._subscribeBreadcrumbsChange(this._breadcrumbsRecordSet);
         this._updateBreadcrumbsData();
+        this._notify('itemsChanged', items);
     }
 
     private _appendItems(items: RecordSet): void {
