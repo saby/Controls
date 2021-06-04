@@ -1146,11 +1146,11 @@ define([
       });
       it('shouldDrawCut', () => {
          const shouldDrawCut = lists.BaseControl._private.shouldDrawCut;
-         assert.isTrue(shouldDrawCut({view: 'cut'}, true, false));
-         assert.isFalse(shouldDrawCut({view: 'cut'}, false, false));
-         assert.isFalse(shouldDrawCut({view: 'page'}, true, false));
-         assert.isTrue(shouldDrawCut({view: 'cut'}, false, true));
-         assert.isTrue(shouldDrawCut({view: 'cut'}, true, true));
+         assert.isTrue(shouldDrawCut({view: 'cut', sourceConfig: {pageSize: 3}}, { getCount: () => 3 }, true, false));
+         assert.isTrue(shouldDrawCut({view: 'cut', sourceConfig: {pageSize: 3}}, { getCount: () => 10 }, false, true));
+         assert.isFalse(shouldDrawCut({view: 'cut', sourceConfig: {pageSize: 3}}, { getCount: () => 3 }, false, false));
+         assert.isFalse(shouldDrawCut({view: 'cut', sourceConfig: {pageSize: 3}}, { getCount: () => 3 }, false, true));
+         assert.isFalse(shouldDrawCut({view: 'pages', sourceConfig: {pageSize: 3}}, { getCount: () => 3 }, true, false));
 
       });
       it('prepareFooter', function() {
