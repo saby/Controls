@@ -251,7 +251,12 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         if (!this._dataOptions) {
             const isChanged = this._detailDataSource.updateOptions(detailOps) || filterChanged;
             if (isChanged) {
-                this._detailDataSource.sourceController.reload();
+                this._loading = true;
+                this._detailDataSource.sourceController.reload().finally(() => {
+                    if (!this._destroyed) {
+                        this._loading = false;
+                    }
+                });;
             }
             // Обязательно вызываем setFilter иначе фильтр в sourceController может
             // не обновиться при updateOptions. Потому что updateOptions сравнивает
