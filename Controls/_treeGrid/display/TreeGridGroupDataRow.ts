@@ -15,6 +15,7 @@ export default class TreeGridGroupDataRow<T extends Model> extends TreeGridDataR
     readonly DraggableItem: boolean = false;
     readonly LadderSupport: boolean = false;
     readonly ItemActionsItem: boolean = false;
+    readonly GroupNodeItem: boolean = true;
 
     protected _$isHiddenGroup: boolean;
 
