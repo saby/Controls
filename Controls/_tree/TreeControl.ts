@@ -912,7 +912,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             // https://online.sbis.ru/opendoc.html?guid=4017725f-9e22-41b9-adab-0d79ad13fdc9
             if (dispItem && (
                 (eventResult !== false && this._options.expandByItemClick && dispItem.isNode() !== null) ||
-                dispItem.isGroupNode())) {
+                dispItem.GroupNodeItem)) {
                 const expandResult = _private.toggleExpanded(this, dispItem);
 
                 if (returnExpandResult) {

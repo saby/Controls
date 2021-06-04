@@ -8,7 +8,7 @@ import {
     CollectionItem,
     ItemsFactory,
     itemsStrategy,
-    ITreeCollectionOptions, IItemActionsTemplateConfig, IHasMoreData
+    ITreeCollectionOptions, IItemActionsTemplateConfig, IHasMoreData, IGroupNode
 } from 'Controls/display';
 import {
     GridGroupRow,
@@ -16,7 +16,7 @@ import {
     IGridCollectionOptions
 } from 'Controls/grid';
 import TreeGridFooterRow from './TreeGridFooterRow';
-import {IOptions as ITreeGridGroupDataRowOptions} from './TreeGridGroupDataRow';
+import {default as TreeGridGroupDataRow, IOptions as ITreeGridGroupDataRowOptions} from './TreeGridGroupDataRow';
 import {Model as EntityModel, Model} from 'Types/entity';
 import {IObservable} from 'Types/collection';
 import {CrudEntityKey} from 'Types/source';
@@ -24,6 +24,7 @@ import {TGroupNodeVisibility} from '../interface/ITreeGrid';
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
+    groupNodeVisibility?: string;
     nodeTypeProperty?: string;
 }
 
@@ -73,6 +74,7 @@ export default class TreeGridCollection<
 
     setNodeTypeProperty(nodeTypeProperty: string): void {
         this._$nodeTypeProperty = nodeTypeProperty;
+        this._updateGroupNodeVisibility();
         this._nextVersion();
     }
 
@@ -82,20 +84,34 @@ export default class TreeGridCollection<
 
     setGroupNodeVisibility(groupNodeVisibility: TGroupNodeVisibility): void {
         this._$groupNodeVisibility = groupNodeVisibility;
+        this._updateGroupNodeVisibility();
         this._nextVersion();
     }
 
-    private _isGroupNodeVisible(): boolean {
-        if (this._$groupNodeVisibility !== 'hasdata') {
+    private _isGroupNodeVisible(record: Model): boolean {
+        // Скрываем только группы.
+        if (this._$groupNodeVisibility !== 'hasdata' || record.get(this.getNodeTypeProperty()) !== 'group') {
             return true;
         }
         return !this.getMetaData().singleGroupNode;
     }
 
     private _updateGroupNodeVisibility(): void {
-        const firstItem = this.at(0);
-        if (firstItem.isGroupNode()) {
-            firstItem.setIsHiddenGroup(!this._isGroupNodeVisible());
+        const groupNodes: Array<TreeGridGroupDataRow<S>> = [];
+        this.each((item) => {
+            if (item && item.GroupNodeItem) {
+                groupNodes.push(item as TreeGridGroupDataRow<S>);
+            }
+        });
+        if (groupNodes.length === 0) {
+            return;
+        }
+        if (groupNodes.length === 1) {
+            groupNodes[0].setIsHiddenGroup(!this._isGroupNodeVisible(groupNodes[0].getContents()));
+        } else {
+            groupNodes.forEach((groupNode) => {
+                groupNode.setIsHiddenGroup(false);
+            });
         }
     }
 
@@ -185,7 +201,7 @@ export default class TreeGridCollection<
             this._updateItemsLadder();
         }
 
-        if (this._$nodeTypeProperty) {
+        if (changeAction === IObservable.ACTION_RESET && this.getCount() > 0) {
             this._updateGroupNodeVisibility();
         }
 
@@ -198,6 +214,22 @@ export default class TreeGridCollection<
         }
 
         this._$results = null;
+    }
+
+    protected _handleCollectionChangeAdd(): void {
+        super._handleCollectionChangeAdd();
+        this._updateGroupNodeVisibility();
+    }
+
+    protected _handleCollectionChangeRemove(): void {
+        super._handleCollectionChangeRemove();
+        if (this.getCount() > 0) {
+            this._updateGroupNodeVisibility();
+        }
+    }
+
+    protected _handleCollectionChangeReplace(): void {
+        super._handleCollectionChangeReplace();
     }
 
     protected _getItemsFactory(): ItemsFactory<T> {
@@ -260,7 +292,7 @@ export default class TreeGridCollection<
         // Строит фабрику, которая работает с TreeGridGroupDataRow
         const GroupNodeFactory = (factoryOptions?: ITreeGridGroupDataRowOptions<S>): ItemsFactory<T> => {
             factoryOptions.itemModule = 'Controls/treeGrid:TreeGridGroupDataRow';
-            factoryOptions.isHiddenGroup = !this._isGroupNodeVisible();
+            factoryOptions.isHiddenGroup = !this._isGroupNodeVisible(factoryOptions.contents);
             return superFactory.call(this, factoryOptions);
         };
 
