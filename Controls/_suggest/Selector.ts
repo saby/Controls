@@ -5,7 +5,6 @@ import {CrudWrapper} from 'Controls/dataSource';
 import {Service, Source} from 'Controls/history';
 import {object} from 'Types/util';
 import {getOptionTypes} from 'Controls/_suggest/Utils';
-import {SyntheticEvent} from 'Vdom/Vdom';
 import 'css!Controls/suggest';
 
 var _private = {
@@ -60,6 +59,7 @@ var _private = {
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/suggest:ISuggest
  * @mixes Controls/interface:INavigation
+ * @mixes Controls/interface:ISingleSelectable
  *
  * @author Герасимов А.М.
  * @public
