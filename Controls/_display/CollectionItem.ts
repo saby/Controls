@@ -464,6 +464,20 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         if (this._$editing === editing && this._$editingContents === editingContents) {
             return;
         }
+        /*
+        * Версия CollectionItem при редактировании = локальная версия CollectionItem + версия редактируемой модели.
+        * Во время изменения редактируемой записи версия поднимается на редактируемой модели - клоне оригинала.
+        * При отмене редактирования нужно применять накопленные изменения версий, иначе может быть ошибочное поведение.
+        * Например,
+        * 1. У записи версия 10.
+        * 2. Вошли в режим редактирования, +локальная версия = 11, версия клона = 0, итого 11.
+        * 3. Ввели 1 знак, локальная версия = 11, +версия клона, итого 12.
+        * 4. Отменили редактирование, +локальная версия = 11 + 1 = 12.
+        * Итог - строка не перерисовалась, т.к. в режиме редактирования и после выхода из него версии одинаковые.
+        * */
+        if (!editing) {
+            this._version += this._getVersionableVersion(this._$editingContents);
+        }
         this._$editing = editing;
         if (typeof columnIndex === 'number' && this._$editingColumnIndex !== columnIndex) {
             this._$editingColumnIndex = columnIndex;
