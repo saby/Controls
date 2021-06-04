@@ -15,7 +15,7 @@
                     tooltip="Document">
             </Controls.dropdown:Button>
       </div>
-      <div class="controlsDemo__wrapper ControlsDemo-ButtonsMenu-right_bottom">
+      <div class="ControlsDemo-ButtonsMenu-right_bottom">
          <Controls.dropdown:Button
                  keyProperty="id"
                  buttonStyle="secondary"
