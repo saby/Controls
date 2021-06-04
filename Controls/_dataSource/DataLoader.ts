@@ -224,7 +224,7 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
 }
 
 function getLoadTimeout(loadConfig: ILoadDataConfig): Number {
-    return loadConfig.loadTimeout || (constants.isProduction ? DEFAULT_LOAD_TIMEOUT : DEBUG_DEFAULT_LOAD_TIMEOUT);
+    return loadConfig?.loadTimeout || (constants.isProduction ? DEFAULT_LOAD_TIMEOUT : DEBUG_DEFAULT_LOAD_TIMEOUT);
 }
 
 export default class DataLoader {
