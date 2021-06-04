@@ -380,7 +380,7 @@ const _private = {
         }
     },
 
-    supportAttachLoadTriggerToNull(options: any, direction: 'up'|'down'): boolean {
+    supportAttachLoadTriggerToNull(options: any, direction: 'up' | 'down'): boolean {
         // Поведение отложенной загрузки вверх нужно опциональное, например, для контактов
         // https://online.sbis.ru/opendoc.html?guid=f07ea1a9-743c-42e4-a2ae-8411d59bcdce
         if (
@@ -398,7 +398,7 @@ const _private = {
         return true;
     },
 
-    needAttachLoadTriggerToNull(self, direction: 'up'|'down'): boolean {
+    needAttachLoadTriggerToNull(self, direction: 'up' | 'down'): boolean {
         const sourceController = self._sourceController;
         return sourceController && self._hasMoreData(sourceController, direction);
     },
@@ -582,7 +582,7 @@ const _private = {
 
     hasMoreDataInAnyDirection(self, sourceController: SourceController): boolean {
         return self._hasMoreData(sourceController, 'up') ||
-               self._hasMoreData(sourceController, 'down');
+            self._hasMoreData(sourceController, 'down');
     },
 
     getHasMoreData(self): object {
@@ -613,8 +613,8 @@ const _private = {
         optionsToValidateOnlyOnList.forEach(validateIfOptionsIsSetOnlyOnList);
     },
 
-    getAllDataCount(self): number|undefined {
-       return self._listViewModel?.getCollection().getMetaData().more;
+    getAllDataCount(self): number | undefined {
+        return self._listViewModel?.getCollection().getMetaData().more;
     },
 
     scrollToItem(self, key: TItemKey, toBottom?: boolean, force?: boolean): Promise<void> {
@@ -758,8 +758,14 @@ const _private = {
         }
     },
     // endregion key handlers
-    shouldDrawCut(navigation, hasMoreData, expanded): boolean {
-        return _private.isCutNavigation(navigation) && (hasMoreData || expanded);
+
+    shouldDrawCut(navigation, items, hasMoreData, expanded): boolean {
+        /*
+         * Кат нужен, если есть еще данные
+         * или кат развернут и данных больше, чем размер страницы
+         */
+        return _private.isCutNavigation(navigation) &&
+                    (hasMoreData || expanded && items && items.getCount() > (navigation.sourceConfig.pageSize));
     },
 
     prepareFooter(self, options, sourceController: SourceController): void {
@@ -770,6 +776,7 @@ const _private = {
             self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ? !self._listViewModel.isAllGroupsCollapsed() : true;
         } else if (
             _private.shouldDrawCut(options.navigation,
+                                   self._items,
                                    self._hasMoreData(sourceController, 'down'),
                                    self._expanded)) {
             self._shouldDrawCut = true;
