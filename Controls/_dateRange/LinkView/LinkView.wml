@@ -12,6 +12,7 @@
            <ws:if data="{{ _viewMode == 'selector' }}">
               <span
                     class="controls-DateLinkView__value {{!_options.readOnly? 'controls-DateLinkView__value-' + _options.underline}}
+                    controls-DateLinkView__value_fontWeight-{{ _options.fontWeight }}
                     {{_fontSize? 'controls-fontsize-' + _fontSize}}
                     {{_fontColorStyle? 'controls-text-' + _fontColorStyle + ' controls-DateLinkView_text-' + _fontColorStyle + '-hover'}}
                     {{ _styleClass }} {{ _valueEnabledClass }}"
