@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">fontWeight=bold</div>
+        <Controls.dateRange:LinkView bind:startValue="_startValue"
+                                     bind:endValue="_endValue"
+                                     fontWeight="bold"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">fontWeight=default</div>
+        <Controls.dateRange:LinkView bind:startValue="_startValue"
+                                     bind:endValue="_endValue"
+                                     fontWeight="default"/>
+    </div>
+</div>
