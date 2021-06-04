@@ -72,7 +72,7 @@
   "--danger_hover_contrast_background-color": "#c22219",
   "--danger_active_contrast_background-color": "#aa2018",
 
-  "--success_color": "#007516",
+  "--success_color": "#069922",
   "--success_text-color": "#007516",
   "--success_hover_text-color": "#16922e",
   "--success_icon-color": "#0aa928",
