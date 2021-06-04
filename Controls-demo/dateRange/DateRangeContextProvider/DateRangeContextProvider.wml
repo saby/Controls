@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo__maxWidth200">
     <div class="controlsDemo__cell">
         <Controls.dateRange:DateRangeContextProvider attr:class="controlsDemo__flex controlsDemo-DateRangeContextProvider_default">
             <div>
