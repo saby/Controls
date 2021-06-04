@@ -55,12 +55,10 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
     }
 
     protected _isScrollAvailable({
-        slidingPanelOptions,
-        controlButtonVisibility
+        slidingPanelOptions
     }: ISlidingPanelTemplateOptions): boolean {
         const scrollContentHeight = this._isPanelMounted ? this._getScrollAvailableHeight() : 0;
-        const controllerContainer = this._children.controlLine;
-        const controllerHeight = this._isPanelMounted && controlButtonVisibility ? controllerContainer.clientHeight : 0;
+        const controllerHeight = this._getControlLineHeight();
         const contentHeight = scrollContentHeight + controllerHeight;
         const hasMoreContent = this._scrollState ?
             this._scrollState.clientHeight < this._scrollState.scrollHeight : false;
@@ -84,6 +82,10 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
     protected _scrollStateChanged(event: SyntheticEvent<MouseEvent>, scrollState: object): void {
         this._scrollState = scrollState;
         this._scrollAvailable = this._isScrollAvailable(this._options);
+    }
+
+    protected _getControlLineHeight(): number {
+        return this._children.controlLine?.clientHeight;
     }
 
     protected _getScrollAvailableHeight(): number {
