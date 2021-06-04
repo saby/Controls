@@ -31,6 +31,7 @@ interface IRangeSelector extends IControlOptions, IDateRangeOptions, IBaseSelect
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:IUnderline
+ * @mixes Controls/interface:IFontWeight
  * @mixes Controls/interface:IOpenPopup
  * @mixes Controls/dateRange:ICaptionFormatter
  * @mixes Controls/interface:IDateRangeValidators
@@ -53,6 +54,12 @@ interface IRangeSelector extends IControlOptions, IDateRangeOptions, IBaseSelect
  * @author Красильников А.С.
  * @demo Controls-demo/Input/Date/RangeLink
  *
+ */
+
+/**
+ * @name Controls/_dateRange/RangeSelector#fontWeight
+ * @demo Controls-demo/dateRange/LinkView/FontWeight/Index
+ * @default bold
  */
 export default class RangeSelector extends BaseSelector<IRangeSelector> {
     protected _template: TemplateFunction = componentTmpl;
