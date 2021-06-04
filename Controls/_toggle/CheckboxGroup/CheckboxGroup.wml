@@ -1,4 +1,4 @@
-<div class="controls-CheckboxGroup controls-Input_negativeOffset">
+<div class="controls-CheckboxGroup">
    <ws:partial template="{{_groupTemplate}}"
                groupTemplate="{{_groupTemplate}}"
                itemTemplate="{{_options.itemTemplate}}"
