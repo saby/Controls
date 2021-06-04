@@ -112,10 +112,10 @@ export default class BreadCrumbsContainer extends Control<IControlOptions> {
     }
 
     private static _getKeyProperty(options, context): string {
-        return context.keyProperty || options.sourceController && options.sourceController.getKeyProperty()
+        return context && context.keyProperty || options.sourceController && options.sourceController.getKeyProperty();
     }
     private static _getParentProperty(options, context): string {
-        return context.parentProperty || options.sourceController && options.sourceController.getParentProperty()
+        return context && context.parentProperty || options.sourceController && options.sourceController.getParentProperty();
     }
 
     static contextTypes(): IDataContext {
