@@ -9,16 +9,18 @@ class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompatibility>(Cell, 
     //region Аспект "Стилевое оформление"
     getWrapperClasses(theme: string, backgroundColorStyle: string = 'default', style: string = 'default', highlightOnHover?: boolean): string {
         let classes;
+        const columnScrollClasses = this._$owner.hasColumnScroll() ? this._getColumnScrollWrapperClasses() : '';
 
         // todo https://online.sbis.ru/opendoc.html?guid=024784a6-cc47-4d1a-9179-08c897edcf72
         const hasRowTemplate = this._$owner.getRowTemplate();
 
         if (this._$isSingleColspanedCell && hasRowTemplate) {
-            classes = '';
+            classes = columnScrollClasses;
         } else if (this.isMultiSelectColumn()) {
             classes = 'controls-GridView__emptyTemplate__checkBoxCell '
                 + 'controls-Grid__row-cell-editing '
-                + `controls-Grid__row-cell-background-editing_${backgroundColorStyle}`;
+                + `controls-Grid__row-cell-background-editing_${backgroundColorStyle} `
+                + `${columnScrollClasses}`;
         } else {
             classes = super.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover)
                 + ' controls-Grid__row-cell-background-editing_default';
@@ -50,6 +52,13 @@ class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompatibility>(Cell, 
         }
 
         return classes;
+    }
+
+    getContentStyles(containerSize?: number): string {
+        if (containerSize && this._$isActsAsRowTemplate) {
+            return `width: ${containerSize}px;`;
+        }
+        return '';
     }
 
     //endregion

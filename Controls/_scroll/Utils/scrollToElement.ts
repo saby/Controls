@@ -118,11 +118,11 @@ export function scrollToElement(element: HTMLElement, toBottomOrPosition?: Boole
       let innerStickyHeaderHeight;
       const stickyHeaderClass = 'controls-StickyHeader';
       if (element.classList.contains(stickyHeaderClass)) {
-          innerStickyHeaderHeight = element.clientHeight;
+          innerStickyHeaderHeight = element.offsetHeight;
       } else {
           const innerStickyHeader = element.querySelector(`.${stickyHeaderClass}`);
           if (innerStickyHeader) {
-              innerStickyHeaderHeight = innerStickyHeader.clientHeight;
+              innerStickyHeaderHeight = innerStickyHeader.offsetHeight;
               innerStickyHeaderHeight -= getGapFixSize();
           }
       }

@@ -244,9 +244,9 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
      * @private
      */
     protected _itemActionMouseDown(event: SyntheticEvent<MouseEvent>,
-                               item: CollectionItem<Model>,
-                               action: IItemAction,
-                               clickEvent: SyntheticEvent<MouseEvent>): void {
+                                   item: CollectionItem<Model>,
+                                   action: IItemAction,
+                                   clickEvent: SyntheticEvent<MouseEvent>): void {
         const contents: Model = item.getContents();
         if (action && !action['parent@'] && action.handler) {
             action.handler(contents);
@@ -865,12 +865,16 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _getSourceController(
-        {source, navigation, keyProperty, sourceController}: IMenuControlOptions): SourceController {
+        {source, navigation, keyProperty, filter,
+            sourceController, root, parentProperty}: IMenuControlOptions): SourceController {
         if (!this._sourceController) {
             this._sourceController = sourceController || new SourceController({
                 source,
+                filter,
                 navigation,
-                keyProperty
+                keyProperty,
+                root,
+                parentProperty
             });
         }
         return this._sourceController;
@@ -889,10 +893,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _loadItems(options: IMenuControlOptions): Promise<RecordSet> {
-        const filter: QueryWhere = merge({}, options.filter);
-        filter[options.parentProperty] = options.root;
         const sourceController = this._getSourceController(options);
-        sourceController.setFilter(filter);
 
         return sourceController.load().then(
             (items: RecordSet): RecordSet => {
@@ -920,15 +921,24 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             });
         } else if (options.allowPin && !options.subMenuLevel) {
             this._visibleIds = [];
+            const fixedIds = [];
             factory(items).each((item) => {
                 if (MenuControl._isItemCurrentRoot(item, options))  {
                     this._visibleIds.push(item.getKey());
+                    if (item.get('doNotSaveToHistory')) {
+                        fixedIds.push(item.getKey());
+                    }
                 }
             });
             hasAdditional = this._visibleIds.length > MAX_HISTORY_VISIBLE_ITEMS_COUNT + 1;
             if (hasAdditional) {
                 this._visibleIds.splice(MAX_HISTORY_VISIBLE_ITEMS_COUNT);
             }
+            fixedIds.forEach((fixedId) => {
+               if (!this._visibleIds.includes(fixedId)) {
+                   this._visibleIds.push(fixedId);
+               }
+            });
         }
         return hasAdditional;
     }
@@ -956,7 +966,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                 targetPoint: {
                     horizontal: 'right'
                 },
-                hoverController: this._options.hoverController,
+                calmTimer: this._options.calmTimer,
                 backgroundStyle: this._options.backgroundStyle,
                 trigger: this._options.trigger
             };

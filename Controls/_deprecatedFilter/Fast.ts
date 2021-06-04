@@ -478,11 +478,13 @@ var Fast = Control.extend(/** @lends Controls/_filter/Fast.prototype */{
          navigation: this._configs[index].navigation,
          selectorDialogResult: this._onSelectorTemplateResult.bind(this),
          afterSelectorOpenCallback: this._afterSelectorOpenCallback.bind(this),
-         dropdownClassName: 'controls-FastFilter_width-popup'
+         dropdownClassName: `controls-FastFilter_width-popup controls_popupTemplate_theme-${this._options.theme} controls_filterPopup_theme-${this._options.theme} controls_dropdownPopup_theme-${this._options.theme}`
       };
+      const className = (this._options.popupClassName || (this._configs[index].multiSelect ? 'controls-FastFilter_multiSelect-popup' : 'controls-FastFilter-popup')) +
+          ` controls_popupTemplate_theme-${this._options.theme} controls_dropdownPopup_theme-${this._options.theme}`;
       var config = {
          templateOptions: Merge(_private.getItemPopupConfig(this._configs[index]), templateOptions),
-         className: (this._configs[index].multiSelect ? 'controls-FastFilter_multiSelect-popup' : 'controls-FastFilter-popup'),
+         className,
          fittingMode: {
             horizontal: 'overflow',
             vertical: 'adaptive'

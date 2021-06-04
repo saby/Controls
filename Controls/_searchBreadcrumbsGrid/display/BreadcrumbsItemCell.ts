@@ -24,10 +24,12 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
       }
    }
 
+   getDefaultDisplayValue(): string {
+      return '';
+   }
+
    getDisplayValue(): string {
-      const breadcrumbs = this.getContents();
-      const value = breadcrumbs[breadcrumbs.length - 1].get(this.getDisplayProperty());
-      return value ?? '';
+      return this.getDefaultDisplayValue();
    }
 
    getSearchValue(): string {

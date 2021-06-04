@@ -21,7 +21,7 @@
    </div>
 </ws:template>
 
-<div class="controls-HistoryList">
+<div class="controls_filterPopup_theme-{{_options.theme}} controls-HistoryList">
    <ws:if data="{{_items.getCount()}}">
       <div class="controls-HistoryList__heading">{[Ранее отбирались]}</div>
       <div class="controls-HistoryList__content {{_isMaxHeight && _options.orientation === 'vertical' ? 'controls-HistoryList_block-maxHeight' : ''}}">

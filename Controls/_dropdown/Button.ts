@@ -25,6 +25,7 @@ export interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHei
     fontSize?: string;
     showHeader?: boolean;
     menuPopupTrigger?: 'click' | 'hover';
+    isAutoItemClick?: boolean;
 }
 
 /**
@@ -104,6 +105,7 @@ export default class Button extends BaseDropdown {
     protected _tmplNotify: Function = EventUtils.tmplNotify;
     protected _hasItems: boolean = true;
     protected _calmTimer: CalmTimer;
+    private _isMouseMoveHandled: boolean = false;
 
     _beforeMount(options: IButtonOptions,
                  context: object,
@@ -111,7 +113,7 @@ export default class Button extends BaseDropdown {
         this._offsetClassName = cssStyleGeneration(options);
         this._dataLoadCallback = this._dataLoadCallback.bind(this);
         this._controller = new Controller(this._getControllerOptions(options));
-        this._calmTimer = new CalmTimer();
+        this._calmTimer = new CalmTimer(this._openMenu.bind(this));
 
         if (!options.lazyItemsLoading) {
             return loadItems(this._controller, receivedState, options.source);
@@ -119,7 +121,7 @@ export default class Button extends BaseDropdown {
     }
 
     _beforeUnmount(): void {
-        this._calmTimer.resetTimeOut();
+        this._calmTimer.stop();
     }
 
     _beforeUpdate(options: IButtonOptions): void {
@@ -188,19 +190,34 @@ export default class Button extends BaseDropdown {
         if (!isLeftMouseButton(event)) {
             return;
         }
-        this.openMenu();
+
+        // В режиме открытия по ховеру: если мы обработали клик по кнопке до открытия меню и выбрали первую запись,
+        // то по mouseenter меню открываться не должно до тех пор, пока курсор не уйдет с кнопки или не кликнут в нее.
+        // Иначе при любом движении меню откроется, хоть мы уже и выбрали первую запись.
+        this._isMouseMoveHandled = false;
+        if (this._calmTimer.isStarted()) {
+            const hasItems = this._controller.getItems() && this._controller.getItems().getCount();
+            if (hasItems && !this._isOpened && this._options.isAutoItemClick !== false) {
+                this._isMouseMoveHandled = true;
+                this._onItemClickHandler([this._controller.getItems().at(0)]);
+                this._calmTimer.stop();
+            }
+        } else {
+            this.openMenu();
+        }
     }
 
     _handleMouseLeave(event: SyntheticEvent<MouseEvent>): void {
         super._handleMouseLeave(event);
-        this._calmTimer.resetTimeOut();
+        this._isMouseMoveHandled = false;
+        this._calmTimer.stop();
     }
 
     _handleMouseMove(event: SyntheticEvent<MouseEvent>): void {
         const isOpenMenuPopup = !(event.nativeEvent.relatedTarget
             && event.nativeEvent.relatedTarget.closest('.controls-Menu__popup'));
-        if (this._options.menuPopupTrigger === 'hover' && isOpenMenuPopup) {
-            this._calmTimer.start(this._openMenu.bind(this));
+        if (this._options.menuPopupTrigger === 'hover' && isOpenMenuPopup && !this._isMouseMoveHandled) {
+            this._calmTimer.start();
         }
     }
 
@@ -271,7 +288,8 @@ export default class Button extends BaseDropdown {
             fontSize: 'm',
             iconStyle: 'secondary',
             contrastBackground: false,
-            lazyItemsLoading: false
+            lazyItemsLoading: false,
+            isAutoItemClick: true
         };
     }
 }
@@ -309,6 +327,36 @@ export default class Button extends BaseDropdown {
  *    displayProperty="title"
  *    source="{{_source)}}"
  *    lazyItemsLoading="{{true}}" />
+ * </pre>
+ * <pre>
+ * // JavaScript
+ * _source:null,
+ * _beforeMount: function() {
+ *    this._source = new source.Memory({
+ *       idProperty: 'id',
+ *       data: [
+ *          {id: 1, title: 'Name', icon: 'icon-small icon-TrendUp'},
+ *          {id: 2, title: 'Date of change', icon: 'icon-small icon-TrendDown'}
+ *       ]
+ *    });
+ * }
+ * </pre>
+ */
+
+/**
+ * @name Controls/_dropdown/Button#reloadOnOpen
+ * @cfg {Boolean} Определяет, будут ли элементы меню загружаться при каждом клике на кнопку..
+ * @default false
+ * @example
+ * В данном примере данные для меню будут загружены при каждом клике по кнопке.
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.dropdown:Button
+ *    bind:selectedKeys="_selectedKeys"
+ *    keyProperty="id"
+ *    displayProperty="title"
+ *    source="{{_source)}}"
+ *    reloadOnOpen="{{true}}" />
  * </pre>
  * <pre>
  * // JavaScript

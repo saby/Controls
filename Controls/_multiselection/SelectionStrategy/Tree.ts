@@ -200,6 +200,11 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
       const selectedKeysWithEntryPath = this._mergeEntryPath(selection.selected);
 
+      const selectionWithEntryPath = {
+         selected: selectedKeysWithEntryPath,
+         excluded: selection.excluded
+      };
+
       let doNotSelectNodes = false;
       if (searchValue) {
          let isOnlyNodesInItems = true;
@@ -219,7 +224,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
             });
          }
 
-         doNotSelectNodes = this._isAllSelected(selection, this._rootId) && !isOnlyNodesInItems;
+         doNotSelectNodes = this._isAllSelected(selectionWithEntryPath, this._rootId) && !isOnlyNodesInItems;
       }
 
       const handleItem = (item) => {
@@ -230,22 +235,19 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          const key = this._getKey(item);
          const parentId = this._getKey(item.getParent());
          const isNode = this._isNode(item);
-         const inSelected = selection.selected.includes(key);
-         const inExcluded = selection.excluded.includes(key);
+         const inSelected = selectionWithEntryPath.selected.includes(key);
+         const inExcluded = selectionWithEntryPath.excluded.includes(key);
 
          let isSelected;
          if (!this._selectAncestors && !this._selectDescendants) {
             // В этом случае мы вообще не смотри на узлы, т.к. выбранность элемента не зависит от выбора родительского узла
             // или выбранность узла не зависит от его детей
-            isSelected = this._canBeSelected(item) && !inExcluded && (inSelected || this._isAllSelectedInRoot(selection));
+            isSelected = this._canBeSelected(item, false) && !inExcluded && (inSelected || this._isAllSelectedInRoot(selectionWithEntryPath));
          } else {
-            isSelected = this._canBeSelected(item) && (!inExcluded && (inSelected || this._isAllSelected(selection, parentId)) || isNode && this._isAllSelected(selection, key));
+            isSelected = this._canBeSelected(item, false) && (!inExcluded && (inSelected || this._isAllSelected(selectionWithEntryPath, parentId)) || isNode && this._isAllSelected(selectionWithEntryPath, key));
 
             if ((this._selectAncestors || searchValue) && isNode) {
-               isSelected = this._getStateNode(item, isSelected, {
-                  selected: selectedKeysWithEntryPath,
-                  excluded: selection.excluded
-               });
+               isSelected = this._getStateNode(item, isSelected, selectionWithEntryPath);
             }
          }
 
@@ -279,8 +281,10 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
                   selectedNodes.push(key);
                }
 
-               const countBySelectionType = !(this._selectionType === 'leaf' && this._isNode(item));
-               if (!selection.excluded.includes(key) && countBySelectionType) {
+               // если по ключу не смогли получить запись, то она еще не подгружена,
+               // по дефолту считаем, что она не ридонли
+               const canBeSelected = !item || this._canBeSelected(item) && !item.isRoot();
+               if (!selection.excluded.includes(key) && canBeSelected) {
                   countItemsSelected++;
                }
             }
@@ -426,28 +430,53 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       }
    }
 
-   // TODO после починки юнитов, попробовать переписать. Какая-то дичь
    private _mergeEntryPath(selectedKeys: TKeys): TKeys {
-      const entryPathObject: Object = {};
       const selectedKeysWithEntryPath: TKeys = selectedKeys.slice();
 
       if (this._entryPath) {
-         this._entryPath.forEach((pathData) => {
-            entryPathObject[pathData.id] = pathData.parent;
-         });
-
-         this._entryPath.forEach((pathData) => {
-            if (selectedKeys.includes(pathData.id)) {
-               for (let keyItem = pathData.parent; entryPathObject[keyItem]; keyItem = entryPathObject[keyItem]) {
-                  if (!selectedKeys.includes(keyItem)) {
-                     selectedKeysWithEntryPath.push(keyItem);
-                  }
-               }
+         // entryPath это путь от выбранных узлов до текущих элементов. У нас в списке этих узлов нет, поэтому считаем,
+         // что эти узлы выбраны, чтобы выбрались все их дети
+         this._entryPath.forEach((it) => {
+            // Если один из родителей в entry_path точно выбран (лежит в selectedKeys), то и его дети точно выбраны
+            const parentIsSelected = this._parentFromEntryPathIsSelected(it.id, selectedKeys);
+            if (parentIsSelected) {
+               selectedKeysWithEntryPath.push(it.id);
             }
          });
       }
 
       return selectedKeysWithEntryPath;
+   }
+
+   /**
+    * Возвращает true, если один из родителей в ENTRY_PATH выбран, иначе false
+    * @param key
+    * @param selectedKeys
+    * @private
+    */
+   private _parentFromEntryPathIsSelected(key: CrudEntityKey, selectedKeys: CrudEntityKey[]): boolean {
+      const entryPath = this._entryPath.find((it) => it.id === key);
+      if (entryPath) {
+         const parentKey = entryPath.parent;
+         if (selectedKeys.includes(parentKey)) {
+            return true;
+         } else {
+            return this._parentFromEntryPathIsSelected(parentKey, selectedKeys);
+         }
+      }
+
+      return false;
+   }
+
+   private _clearEntryPath(ids: CrudEntityKey[]): void {
+      if (this._entryPath) {
+         ids.forEach((childId) => {
+            const entryIndex = this._entryPath.findIndex((entryPath) => entryPath.id === childId);
+            if (entryIndex !== -1) {
+               this._entryPath.splice(entryIndex, 1);
+            }
+         });
+      }
    }
 
    private _hasSelectedParent(key: CrudEntityKey, selection: ISelection): boolean {
@@ -536,7 +565,10 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          for (let i = 0; i < childes.getCount(); i++) {
             const child = childes.at(i);
             const childId = this._getKey(child);
-            if (child.getChildren(false).getCount() > 0) {
+
+            // Если ребенок не выбран, то на его детей точно не нужно смотреть
+            const childIsExcluded = selection.excluded.includes(childId);
+            if (!childIsExcluded && child.getChildren(false).getCount() > 0) {
                result = result && this._isAllChildrenExcluded(selection, child);
             } else {
                result = result && selection.excluded.includes(childId);
@@ -659,6 +691,10 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       const childrenIds = this._getAllChildrenIds(node);
       ArraySimpleValuesUtil.removeSubArray(selection.selected, childrenIds);
       ArraySimpleValuesUtil.removeSubArray(selection.excluded, childrenIds);
+
+      // нужно из entryPath удалить ключи удаленных записей, иначе мы будем считать что запись выбрана по entryPath
+      // пересчитывать entryPath никто не будет, т.к. это нужно отправлять запрос на бл на каждый клик по чекбоксу
+      this._clearEntryPath(childrenIds);
    }
 
    /**
@@ -725,9 +761,18 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       return this._getKey(parent);
    }
 
-   private _canBeSelected(item: TreeItem<Model>): boolean {
+   /**
+    * Проверяет можно ли сделать переданный итем выбранным.
+    * @param {TreeItem<Model>} item - проверяемый итем
+    * @param {Boolean} [readonlyCheck = true] - нужно ли проверять итем на признак readonly его чекбокса
+    */
+   private _canBeSelected(item: TreeItem<Model>, readonlyCheck: boolean = true): boolean {
+      // Проверяем доступность чекбокса итема. В некоторых случаях нужно учитывать признак readonly
+      // а в некоторых нет. Поэтому опционально проверяем доступность чекбокса.
+      const choiceIsAvailable = readonlyCheck ? !item.isReadonlyCheckbox() : item.isVisibleCheckbox();
       const canBeSelectedBySelectionType = this._canBeSelectedBySelectionType(item);
-      return canBeSelectedBySelectionType && !item.isReadonlyCheckbox();
+
+      return canBeSelectedBySelectionType && choiceIsAvailable;
    }
 
    private _canBeSelectedBySelectionType(item: TreeItem<Model>): boolean {

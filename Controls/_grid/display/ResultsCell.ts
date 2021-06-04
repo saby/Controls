@@ -72,11 +72,17 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
                       templateHighlightOnHover: boolean): string {
         const isMultiSelectColumn = this.isMultiSelectColumn();
 
+        let wrapperClasses = '';
         if (isMultiSelectColumn) {
-            return 'controls-Grid__results-cell-checkbox';
+            wrapperClasses += 'controls-Grid__results-cell-checkbox';
+
+            if (this._$owner.hasColumnScroll()) {
+                wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
+            }
+            return wrapperClasses;
         }
 
-        let wrapperClasses = 'controls-Grid__results-cell'
+        wrapperClasses += 'controls-Grid__results-cell'
                             + ` controls-Grid__cell_${style}`
                             + ` ${this._getWrapperPaddingClasses(theme)}`
                             + ` ${this._getColumnSeparatorClasses(theme)}`;
@@ -107,38 +113,7 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
             return '';
         }
 
-        let classes = '';
-
-        const leftPadding = this._$owner.getLeftPadding();
-        const rightPadding = this._$owner.getRightPadding();
-
-        // todo <<< START >>> need refactor css classes names
-        const compatibleLeftPadding = leftPadding === 'default' ? '' : leftPadding;
-        const compatibleRightPadding = rightPadding === 'default' ? '' : rightPadding;
-        // todo <<< END >>>
-
-        if (!this.isFirstColumn()) {
-            if (this._$owner.getMultiSelectVisibility() === 'hidden' || this.getColumnIndex() > 1) {
-                classes += ' controls-Grid__cell_spacingLeft';
-                if (compatibleLeftPadding) {
-                    classes += `_${compatibleLeftPadding}`;
-                }
-            }
-        } else {
-            classes += ` controls-Grid__cell_spacingFirstCol_${leftPadding}`;
-        }
-
-        // right padding
-        if (this.isLastColumn()) {
-            classes += ` controls-Grid__cell_spacingLastCol_${rightPadding}`;
-        } else {
-            classes += ' controls-Grid__cell_spacingRight';
-            if (compatibleRightPadding) {
-                classes += `_${compatibleRightPadding}`;
-            }
-        }
-
-        return classes;
+        return this._getHorizontalPaddingClasses(theme);
     }
 
     getWrapperStyles(): string {

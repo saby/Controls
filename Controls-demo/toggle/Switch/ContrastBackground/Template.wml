@@ -1,0 +1,18 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <div class="controlsDemo__cell demo-switchBase__contrast-true">
+        <div class="controls-text-label controlsDemo_widthFit controls-text-label_theme-{{_options.theme}}">
+            contrastBackground=true
+        </div>
+        <Controls.toggle:Switch bind:value="_value"
+                                contrastBackground="{{true}}"
+                                caption="state"/>
+    </div>
+    <div class="controlsDemo__cell demo-switchBase__contrast-true">
+        <div class="controls-text-label controlsDemo_widthFit controls-text-label_theme-{{_options.theme}}">
+            contrastBackground=false
+        </div>
+        <Controls.toggle:Switch bind:value="_value2"
+                                contrastBackground="{{false}}"
+                                caption="state"/>
+    </div>
+</div>

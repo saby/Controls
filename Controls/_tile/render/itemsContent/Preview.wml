@@ -17,7 +17,7 @@
         </ws:bottomRightTpl>
         <ws:itemActionsTpl>
             <ws:if data="{{ (item || itemData).shouldDisplayItemActions(itemType, itemActionsPosition, 'title') }}">
-                <ws:partial template="Controls/_tile/itemActions/Control" item="{{(item)}}">
+                <ws:partial template="{{ item.getItemActionsControl(itemType) }}" item="{{(item)}}">
                     <ws:partial template="{{itemActionsTemplate}}"
                                 actionPadding="{{ (item || itemData).getActionPadding(itemType) }}"
                                 actionStyle="{{!titleStyle || titleStyle === 'light' ? 'tileLight' : 'tileDark'}}"
@@ -38,9 +38,9 @@
             </ws:else>
         </ws:itemActionsTpl>
     </ws:partial>
-    <ws:partial if="{{footerTemplate}}"
+    <ws:partial if="{{ (item || itemData).shouldDisplayFooterTemplate(itemType, footerTemplate, 'content') }}"
                 template="{{footerTemplate}}"
-                attr:class="controls-TileView__item_footer"
+                attr:class="{{ (item || itemData).getFooterClasses() }}"
                 itemData="{{(item || itemData)}}"
                 item="{{(item || itemData)}}"/>
 </div>

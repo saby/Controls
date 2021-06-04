@@ -9,6 +9,7 @@ import * as getZIndex from 'Controls/Utils/getZIndex';
 import template = require('wml!Controls/_popup/InfoBox/InfoBox');
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {CalmTimer} from 'Controls/_popup/fastOpenUtils/FastOpen';
+import {detection} from 'Env/Env';
 
 interface IInfoBoxTouchContext {
     isTouch: {
@@ -46,14 +47,23 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     protected _beforeMount(options: IInfoBoxOptions): void {
         this._resultHandler = this._resultHandler.bind(this);
         this._closeHandler = this._closeHandler.bind(this);
-        this._calmTimer = new CalmTimer();
+        this._openCalmTimer = new CalmTimer(() => {
+            if (!this._opened && !this._context.isTouch.isTouch) {
+                this._startOpeningPopup();
+            }
+        });
+        this._closeCalmTimer = new CalmTimer(() => {
+            this.close();
+            this._forceUpdate();
+        });
     }
 
     protected _beforeUnmount(): void {
         if (this._opened) {
             this.close();
         }
-        this._calmTimer.resetTimeOut();
+        this._openCalmTimer.stop();
+        this._closeCalmTimer.stop();
     }
 
     open(): void {
@@ -67,7 +77,8 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
             this._children.infoBoxOpener.open(config);
         }
 
-        this._calmTimer.resetTimeOut();
+        this._openCalmTimer.stop();
+        this._closeCalmTimer.stop();
         this._opened = true;
         this._forceUpdate();
     }
@@ -85,6 +96,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
             // InfoBox close by outside click only if trigger is set to 'demand' or 'click'.
             closeOnOutsideClick: this._options.trigger === 'click' || this._options.trigger === 'demand',
             floatCloseButton: this._options.floatCloseButton,
+            closeButtonVisibility: this._options.closeButtonVisibility,
             eventHandlers: {
                 onResult: this._resultHandler,
                 onClose: this._closeHandler
@@ -101,16 +113,13 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
                 this._children.infoBoxOpener.close(delay);
             }
         }
-        this._calmTimer.resetTimeOut();
+        this._openCalmTimer.stop();
         this._opened = false;
     }
 
     private _startOpeningPopup(): void {
-        const callback = () => {
-            this.open();
-            this._forceUpdate();
-        };
-        this._calmTimer.open(callback.bind(this), this._options.showDelay);
+        this.open();
+        this._forceUpdate();
     }
 
     protected _contentMousedownHandler(event: SyntheticEvent<MouseEvent>): void {
@@ -124,35 +133,43 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
 
     protected _contentMousemoveHandler(): void {
         if (this._options.trigger === 'hover' || this._options.trigger === 'hover|touch') {
-            const callback = () => {
-                if (!this._opened && !this._context.isTouch.isTouch) {
-                    this._startOpeningPopup();
-                }
-            };
-            this._calmTimer.start(callback.bind(this));
+            this._openCalmTimer.start();
         }
     }
 
-    protected _contentTouchStartHandler(): void {
+    protected _contentTouchStartHandler(event: Event): void {
         if (this._options.trigger === 'hover|touch') {
             this._startOpeningPopup();
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }
+
+    protected _contentClickHandler(event: Event): void {
+        // Остановка события тача не остановит событие клика.
+        // Будем останавливать сами событие клика в случае если инфобокс:
+        // 1. Открывается по клику
+        // 2. Открывается по тачу. Делаем проверку на isMobilePlatform, т.к. иначе мы бы так же останавливали событие
+        // по ховеру на десктопе.
+        if ((this._options.trigger === 'hover|touch' && detection.isMobilePlatform) ||
+            this._options.trigger === 'click') {
+            event.preventDefault();
+            event.stopPropagation();
         }
     }
 
     protected _contentMouseleaveHandler(): void {
         if (this._options.trigger === 'hover' || this._options.trigger === 'hover|touch') {
-            const callback = () => {
-                this.close();
-                this._forceUpdate();
-            };
-            this._calmTimer.close(callback.bind(this), this._options.hideDelay);
+            this._openCalmTimer.stop();
+            this._closeCalmTimer.start();
         }
     }
 
     private _resultHandler(event: SyntheticEvent<MouseEvent>): void {
         switch (event.type) {
             case 'mouseenter':
-                this._calmTimer.resetTimeOut();
+                this._openCalmTimer.stop();
+                this._closeCalmTimer.stop();
                 break;
             case 'mouseleave':
                 if (this._options.trigger === 'hover' || this._options.trigger === 'hover|touch') {
@@ -201,7 +218,8 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
             style: 'secondary',
             showDelay: 300,
             hideDelay: 300,
-            trigger: 'hover'
+            trigger: 'hover',
+            closeButtonVisibility: true
         };
     }
 }

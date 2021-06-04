@@ -1,4 +1,4 @@
-<div class="controls-Cut__container">
+<div class="controls_spoiler_theme-{{_options.theme}} controls-Cut__container">
    <div class="controls-Cut
             controls-Cut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_maxHeight
             controls-Cut_lineHeight-{{_options.lineHeight}}">

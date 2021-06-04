@@ -10,7 +10,7 @@ import {
 } from 'Types/entity';
 import { TemplateFunction } from 'UI/Base';
 
-import { IColumn, IColspanParams, TColumnSeparatorSize } from 'Controls/interface';
+import { IColumn, IColspanParams, TColumnSeparatorSize } from './interface/IColumn';
 
 import { IItemPadding, TMarkerClassName } from 'Controls/display';
 import { COLUMN_SCROLL_JS_SELECTORS } from 'Controls/columnScroll';
@@ -61,6 +61,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$rowspan: number;
     protected _$isFixed: boolean;
     protected _$isSingleColspanedCell: boolean;
+    protected _$isActsAsRowTemplate: boolean;
     protected _$isLadderCell: boolean;
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
@@ -289,7 +290,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             wrapperClasses += ` controls-background-${style}`;
 
         } else {
-            wrapperClasses += ` controls-background-${this._$backgroundStyle}`;
+            wrapperClasses += ` controls-background-${this._$backgroundStyle || style}`;
         }
         return wrapperClasses;
     }
@@ -338,6 +339,11 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
             // Для лесенки критична установка этого стиля именно в Content
             contentClasses += ` controls-background-${this._$backgroundStyle}`;
+        }
+
+        if (this.getOwner().getStickyLadder()) {
+            // Во время днд отключаем лесенку, а контент отображаем принудительно с помощью visibility: visible
+            contentClasses += ' controls-Grid__row-cell__content_ladderHeader';
         }
 
         if (backgroundColorStyle) {
@@ -438,9 +444,9 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
     protected _getColumnScrollWrapperClasses(theme: string): string {
         if (this._$isFixed) {
-            return `${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} js-controls-ColumnScroll__notDraggable controls-GridNew__cell_fixed`;
+            return ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} js-controls-ColumnScroll__notDraggable controls-GridNew__cell_fixed`;
         }
-        return COLUMN_SCROLL_JS_SELECTORS.SCROLLABLE_ELEMENT;
+        return ` ${COLUMN_SCROLL_JS_SELECTORS.SCROLLABLE_ELEMENT}`;
     }
 
     protected _getHorizontalPaddingClasses(theme: string): string {
@@ -453,7 +459,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         const cellPadding = this._$column.cellPadding;
 
         const isFirstColumnAfterCheckbox = this.getColumnIndex() === 1 && this._$owner.hasMultiSelectColumn();
-        if (this._$owner.getMultiSelectVisibility() === 'hidden' && this.isFirstColumn()) {
+        if (!this._$owner.hasMultiSelectColumn() && this.isFirstColumn()) {
             classes += ` controls-Grid__cell_spacingFirstCol_${leftPadding}`;
         } else if (!this.isFirstColumn() && !isFirstColumnAfterCheckbox) {
             classes += ' controls-Grid__cell_spacingLeft';
@@ -517,6 +523,10 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
      */
     getColumnIndex(takeIntoAccountColspans?: boolean = false): number {
         return this._$owner.getColumnIndex(this, takeIntoAccountColspans);
+    }
+
+    isLadderCell(): boolean {
+        return false;
     }
 
     isFirstColumn(): boolean {
@@ -601,6 +611,7 @@ Object.assign(Cell.prototype, {
 
     _$isFixed: null,
     _$isSingleColspanedCell: null,
+    _$isActsAsRowTemplate: null,
     _$isLadderCell: null,
     _$isHiddenForLadder: null
 });

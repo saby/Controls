@@ -86,6 +86,9 @@ class NumberRangeEditor extends Control<INumberRangeOptions> implements INumberR
     }
 
     protected _handleInputCompleted(event: SyntheticEvent, value: number): void {
+        if (this._needReplaceMinMaxValues()) {
+            this._replaceMinMaxValues(this._minValue, this._maxValue);
+        }
         this._notifyExtendedValue([this._minValue, this._maxValue]);
     }
 
@@ -104,10 +107,19 @@ class NumberRangeEditor extends Control<INumberRangeOptions> implements INumberR
         }
     }
 
+    private _needReplaceMinMaxValues(): boolean {
+        return this._minValue && this._maxValue && this._minValue > this._maxValue;
+    }
+
+    private _replaceMinMaxValues(minValue: number, maxValue: number): void {
+        this._minValue = maxValue;
+        this._maxValue = minValue;
+    }
+
     private _needNotifyChanges(values: number[]): boolean {
         const minValue = values[0];
         const maxValue = values[1];
-        return minValue < maxValue || !minValue || !maxValue;
+        return minValue <= maxValue || !minValue || !maxValue;
     }
 
     private _isValueEmpty(value: number[]): boolean {

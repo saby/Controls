@@ -35,8 +35,17 @@
    overflow-x: hidden;
 }
 
+.controls-Scroll-ContainerBase__scroll_horizontal {
+   overflow-y: hidden;
+   overflow-x: scroll;
+}
+
 .controls-Scroll-ContainerBase__scroll_verticalHorizontal {
    overflow: scroll;
+}
+
+.controls-Scroll-ContainerBase__scroll_none {
+   overflow: hidden;
 }
 
 // Chrome после обновления с 83 до 84 версии по умолчанию стал overflow-anchor: visible, из-за этого происходит
@@ -45,7 +54,8 @@
 // https://bugs.chromium.org/p/chromium/issues/detail?id=1105785
 .ws-is-chrome {
    .controls-Scroll-ContainerBase__scroll_vertical,
-   .controls-Scroll-ContainerBase__scroll_verticalHorizontal {
+   .controls-Scroll-ContainerBase__scroll_verticalHorizontal,
+   .controls-Scroll-ContainerBase__scroll_horizontal {
       overflow-anchor: none;
    }
 }

@@ -45,6 +45,7 @@ export interface ILoadDataConfig extends
     type?: 'list';
     sorting?: TSortingOptionValue;
     sourceController?: NewSourceController;
+    filterController?: FilterController;
     filter?: TFilter;
     filterButtonSource?: IFilterItem[];
     fastFilterSource?: object[];
@@ -177,7 +178,7 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
 
         filterPromise
             .then(({controller, historyItems}) => {
-                filterController = controller;
+                filterController = loadConfig.filterController = controller;
                 filterHistoryItems = historyItems;
             })
             .catch(() => {
@@ -209,9 +210,11 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
 
         return new Promise((resolve) => {
             if (loadConfig.source) {
-                sourceController.reload().finally(() => {
-                    resolve(getLoadResult(loadConfig, sourceController, filterController, filterHistoryItems));
-                });
+                sourceController.reload(undefined, true)
+                    .catch((error) => error)
+                    .finally(() => {
+                        resolve(getLoadResult(loadConfig, sourceController, filterController, filterHistoryItems));
+                    });
             } else {
                 resolve(getLoadResult(loadConfig, sourceController, filterController, filterHistoryItems));
             }

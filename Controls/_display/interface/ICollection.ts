@@ -107,7 +107,6 @@ export interface ICollection<S extends Model, T extends ICollectionItem> extends
     getLeftPadding(): string;
     getStyle(): string;
     getItemUid(item: T): string;
-    getMarkerVisibility(): string;
     getRowSeparatorSize(): string;
     getItemsDragNDrop(): boolean;
     notifyItemChange(item: T, properties?: object): void;

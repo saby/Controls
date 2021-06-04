@@ -1,4 +1,4 @@
-<div class="{{ (gridColumn || itemData).getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
+<div class="{{ (gridColumn || itemData).getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover, editable) }}"
      style="{{ (gridColumn || itemData).getContentStyles() }}">
 
     <ws:if data="{{ !!contentTemplate }}">
@@ -18,7 +18,8 @@
     <ws:else>
         <ws:if data="{{ (gridColumn || itemData).config.tooltipProperty }}">
             <Controls.Container.Async templateName="Controls/popup:InfoboxTarget">
-                <ws:partial template="{{content.resolvedTemplate}}">
+                <ws:partial template="{{content.resolvedTemplate}}"
+                            attr:class="{{ (gridColumn || itemData).getTooltipOverflowClasses() }}">
                     <ws:content>
                         <ws:if data="{{ (gridColumn || itemData).hasCellContentRender() }}">
                             <!-- Контент по умолчанию, обрезка длинного текста с многоточием -->
@@ -45,7 +46,7 @@
                 <!-- Контент по умолчанию, обрезка длинного текста с многоточием -->
                 <div class="{{ (gridColumn || itemData).getTextOverflowClasses() }}">
                     <ws:partial template="{{(gridColumn || itemData).getCellContentRender()}}"
-                                title="{{ (gridColumn || itemData).getTextOverflowTitle() }}"
+                                attr:title="{{ (gridColumn || itemData).getTextOverflowTitle() }}"
                                 value="{{(gridColumn || itemData).getDefaultDisplayValue()}}"
                                 searchValue="{{(gridColumn || itemData).getSearchValue()}}"
                                 scope="{{(gridColumn || itemData).config}}"/>

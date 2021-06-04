@@ -77,6 +77,26 @@ export { default as GridRowMixin } from 'Controls/_grid/display/mixins/Row';
 export { default as GridGroupCellMixin } from 'Controls/_grid/display/mixins/GroupCell';
 export { IItemTemplateParams } from 'Controls/_grid/display/mixins/Row';
 
+export {
+    TColumns,
+    IColumn,
+    IColspanParams,
+    ICellPadding,
+    TCellAlign,
+    TCellPaddingVariant,
+    TCellVerticalAlign,
+    TOverflow,
+    IColumnSeparatorSizeConfig,
+    TColumnSeparatorSize
+} from './_grid/display/interface/IColumn';
+
+export {
+    THeader,
+    IHeaderCell
+} from './_grid/display/interface/IHeaderCell';
+
+export { IGridControl } from './_grid/display/interface/IGridControl';
+
 import GridRow, {IOptions as IGridRowOptions} from 'Controls/_grid/display/Row';
 import { default as GridItemActionsCell } from 'Controls/_grid/display/ItemActionsCell';
 import GridCell, {IOptions as IGridCellOptions} from 'Controls/_grid/display/Cell';
@@ -147,19 +167,3 @@ export {
     IDisplaySearchValueOptions, IDisplaySearchValue,
     CheckboxCell
 };
-
-export {
-    IGridControl,
-    TColumns,
-    IColumn,
-    IColspanParams,
-    ICellPadding,
-    TCellAlign,
-    TCellPaddingVariant,
-    TCellVerticalAlign,
-    TOverflow,
-    IColumnSeparatorSizeConfig,
-    TColumnSeparatorSize,
-    THeader,
-    IHeaderCell
-} from 'Controls/interface';

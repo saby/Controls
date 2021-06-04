@@ -21,6 +21,9 @@ describe('Controls.Validators.IsValidDate', () => {
     }, {
         value: new Date(1300, 0, 1),
         resp: 'Дата заполнена некорректно'
+    }, {
+        value: new Date(3100, 0),
+        resp: 'Дата заполнена некорректно'
     }
     ].forEach((test) => {
         it(`should return ${test.resp} for ${test.value}`, () => {

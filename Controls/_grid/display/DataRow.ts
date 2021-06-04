@@ -6,7 +6,7 @@ import Row, {IOptions as IRowOptions} from './Row';
 import DataCell, { IOptions as IGridDataCellOptions } from './DataCell';
 import ILadderSupport from './interface/ILadderSupport';
 import { IDisplaySearchValue, IDisplaySearchValueOptions } from './interface/IDisplaySearchValue';
-import {IColumn} from 'Controls/interface';
+import { IColumn } from './interface/IColumn';
 import { Model } from 'Types/entity';
 
 export interface IOptions<T> extends IRowOptions<T>, IDisplaySearchValueOptions {

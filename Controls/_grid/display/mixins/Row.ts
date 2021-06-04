@@ -2,7 +2,8 @@ import {TemplateFunction} from 'UI/Base';
 import {create} from 'Types/di';
 import {isEqual} from 'Types/object';
 import {Model as EntityModel} from 'Types/entity';
-import {IColspanParams, IColumn, TColumns, TColumnSeparatorSize, THeader} from 'Controls/interface';
+import {IColspanParams, IColumn, TColumns, TColumnSeparatorSize} from '../interface/IColumn';
+import {THeader} from '../interface/IHeaderCell';
 import {Collection, ICollectionItemOptions as IBaseOptions, ILadderConfig, IStickyLadderConfig, TLadderElement} from 'Controls/display';
 import Cell, {IOptions as ICellOptions} from '../Cell';
 import {TResultsPosition} from '../ResultsRow';
@@ -42,6 +43,8 @@ export interface IOptions<T> extends IBaseOptions<T> {
     rowTemplate: TemplateFunction;
     rowTemplateOptions: object;
     columnSeparatorSize?: TColumnSeparatorSize;
+    colspanGroup?: boolean;
+    hasStickyGroup?: boolean;
 }
 
 export default abstract class Row<T> {
@@ -110,9 +113,6 @@ export default abstract class Row<T> {
             && this.isLastItem()) {
             itemClasses += ' controls-ListView__itemV_last';
         }
-        if (this.getIsFirstItem()) {
-            itemClasses += ' controls-ListView__itemV_first';
-        }
 
         return itemClasses;
     }
@@ -162,7 +162,10 @@ export default abstract class Row<T> {
     //endregion
 
     //region Аспект "Лесенка"
-
+    getStickyLadderCellsCount(): number {
+        const stickyProperties = this.getStickyLadderProperties(this._$columns[0]);
+        return stickyProperties ? stickyProperties.length : 0;
+    }
     getStickyLadderProperties(column: IColumn): string[] {
         let stickyProperties = column && column.stickyProperty;
         if (stickyProperties && !(stickyProperties instanceof Array)) {
@@ -279,6 +282,7 @@ export default abstract class Row<T> {
                 wrapperStyle: stickyLadderStyleForSecondProperty,
                 contentStyle: `left: -${this.getColumnsConfig()[0].width}; right: 0;`,
                 stickyProperty: stickyLadderProperties[1],
+                isFixed: this.hasColumnScroll(),
                 stickyHeaderZIndex: 1
             }));
         }
@@ -292,6 +296,7 @@ export default abstract class Row<T> {
                     wrapperStyle: stickyLadderStyleForFirstProperty,
                     contentStyle: stickyLadderStyleForSecondProperty ? `left: 0; right: -${this.getColumnsConfig()[0].width};` : '',
                     stickyProperty: stickyLadderProperties[0],
+                    isFixed: this.hasColumnScroll(),
                     stickyHeaderZIndex: 2
                 })
             ] as Array<Cell<T, Row<T>>>).concat(this._$columnItems);
@@ -312,6 +317,10 @@ export default abstract class Row<T> {
     setBackgroundStyle(backgroundStyle: string): void {
         this._$backgroundStyle = backgroundStyle;
         this._reinitializeColumns();
+    }
+
+    getBackgroundStyle(): string {
+        return this._$backgroundStyle;
     }
 
     /**
@@ -439,6 +448,22 @@ export default abstract class Row<T> {
             });
         }
 
+        if (creatingColumnsParams.length === 1 && this.getColumnsConfig().length > 1) {
+            creatingColumnsParams[0].isActsAsRowTemplate = true;
+            if (this.hasColumnScroll()) {
+                creatingColumnsParams[0].isFixed = true;
+            }
+        }
+
+        // isSingleColspanedCell определяется и ипользуется не так как задумывалась и называется.
+        // Флаг должен указывать, что ячейка по своей сути является шаблоном всей строки.
+        // При этом не должно играть роли, как прикладной разработчик определил шаблон строки:
+        // через rowTemplate или растянув первую ячейку до конца. Сейчас isSingleColspanedCell
+        // смотрит на количество колонок не в таблице, а в строке. Флаг стал использоваться неправильно
+        // из-за спутаности css классов, сейчас не все классы общие и многие ячейки дублируют логику,
+        // например пустое представления. Места использования и css классы будут поправлены по существующей задаче
+        // Будет править https://online.sbis.ru/opendoc.html?guid=024784a6-cc47-4d1a-9179-08c897edcf72
+        // FIXME: Используйте isActsAsRowTemplate, в случае, если нужно понять, является ли ячейка шаблоном всей строки.
         if (creatingColumnsParams.length === 1 && (this._$rowTemplate || columns.length > 1)) {
             creatingColumnsParams[0].isSingleColspanedCell = true;
             if (this.hasColumnScroll()) {
@@ -467,6 +492,11 @@ export default abstract class Row<T> {
                 this._reinitializeColumns(true);
             }
         }
+    }
+
+    resetColumns(): void {
+        this._$columnItems = null;
+        this._nextVersion();
     }
 
     setColspanCallback(colspanCallback: TColspanCallback): void {
@@ -717,8 +747,6 @@ export default abstract class Row<T> {
     abstract isDragged(): boolean;
 
     abstract isSticked(): boolean;
-
-    abstract getIsFirstItem(): boolean;
 
     abstract isLastItem(): boolean;
 

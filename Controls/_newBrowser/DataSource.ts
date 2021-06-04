@@ -11,13 +11,19 @@ export class DataSource {
     readonly sourceController: SourceController;
 
     private searchController: SearchController;
+    private sourceOptions: IDetailOptions;
 
     get root(): TKey {
         return this.sourceController.getRoot();
     }
 
-    constructor(private sourceOptions: IDetailOptions) {
-        this.sourceController = new SourceController(sourceOptions);
+    constructor(options) {
+        this.sourceOptions = options;
+        if (options.sourceController) {
+            this.sourceController = options.sourceController;
+        } else {
+            this.sourceController = new SourceController(this.sourceOptions);
+        }
     }
 
     destroy(): void {

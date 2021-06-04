@@ -15,7 +15,7 @@
 }
 
 .ws-is-mobile-platform .controls-Stack__resizingLine {
-   left: -var(--resizingLine_mobile_offset-left_stack);
+   left: calc(var(--resizingLine_mobile_offset-left_stack) * -1);
    width: var(--resizingLine_mobile_thickness_stack);
    .controls-ResizingLine__areaWrapper_horizontal {
       width: calc(var(--resizingLine_mobile_thickness_stack) - var(--resizingLine_mobile_offset-left_stack));

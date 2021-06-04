@@ -5,6 +5,7 @@ import { detection } from 'Env/Env';
 import {assert} from 'chai';
 import * as sinon from 'sinon';
 import {SyntheticEvent} from 'UI/Vdom';
+import {adapter} from "Types/entity";
 
 const browserData = [
     {
@@ -117,10 +118,10 @@ describe('Controls/browser:Browser', () => {
                 assert.ok(browser._inputSearchValue === '');
 
                 options = {...options};
-                options.searchValue = 'test';
+                options.searchValue = 'tes';
                 await browser._beforeMount(options);
-                assert.ok(browser._searchValue === 'test');
-                assert.ok(browser._inputSearchValue === 'test');
+                assert.ok(browser._searchValue === 'tes');
+                assert.ok(browser._inputSearchValue === 'tes');
                 assert.ok(browser._viewMode === 'search');
             });
 
@@ -515,18 +516,19 @@ describe('Controls/browser:Browser', () => {
                 const browser = getBrowser(options);
                 await browser._beforeMount(options);
                 browser.saveOptions(options);
+                assert.deepStrictEqual(browser._filter, {
+                    testField: 'filterValue',
+                    name: 'searchValue'
+                });
                 await browser._getSearchController();
 
                 options = {...options};
                 options.filter = { testField: 'newFilterValue' };
                 options.searchValue = '';
                 options.source = new Memory();
-                const sandBox = sinon.createSandbox();
-                const notifyStub = sandBox.stub(browser, '_notify');
                 await browser._beforeUpdate(options);
-
-                assert.ok(notifyStub.calledWith('filterChanged', [{ testField: 'newFilterValue' }]));
-                sandBox.restore();
+                assert.deepStrictEqual(browser._filter, { testField: 'newFilterValue' });
+                assert.deepStrictEqual(browser._getSourceController().getFilter(), { testField: 'newFilterValue' });
             });
 
             it('searchParam is changed', async () => {
@@ -551,12 +553,23 @@ describe('Controls/browser:Browser', () => {
                 const browser = getBrowser(options);
                 await browser._beforeMount(options);
                 browser.saveOptions(options);
+                await browser._getSearchController();
 
                 options = {...options};
                 options.filter = {};
                 options.searchValue = 'test';
                 browser._beforeUpdate(options);
                 assert.deepStrictEqual(browser._filter.name, 'test');
+
+                options = {...options};
+                delete options.searchValue;
+                options.filter = {
+                    testField: 'newFilterValue'
+                };
+                browser._searchValue = 'test';
+                browser._beforeUpdate(options);
+                assert.deepStrictEqual(browser._filter.name, 'test');
+                assert.ok(browser._getSearchControllerSync().getRoot() === null);
             });
 
             it('update source and searchValue should reset inputSearchValue', async () => {
@@ -611,6 +624,27 @@ describe('Controls/browser:Browser', () => {
 
                 browser._dataLoader.getSourceController().cancelLoading();
                 assert.ok(browser._loading);
+            });
+
+            it('search returns recordSet with another format', async () => {
+                const options = getBrowserOptions();
+                const browser = getBrowser(options);
+                await browser._beforeMount(options);
+                browser.saveOptions(options);
+
+                browser._source.query = () => {
+                    return Promise.resolve(
+                        new RecordSet({
+                            adapter: new adapter.Sbis(),
+                            format: [
+                                { name: 'testName2', type: 'string' }
+                            ]
+                        })
+                    );
+                };
+                await browser._search(null, 'testSearchValue');
+                assert.ok(browser._sourceControllerState.items.getFormat().getFieldIndex('testName2') !== -1);
+                assert.ok(browser._items.getFormat().getFieldIndex('testName2') !== -1);
             });
 
         });
@@ -777,6 +811,20 @@ describe('Controls/browser:Browser', () => {
             browser._beforeUpdate({...options, expandedItems: [1]});
             assert.deepEqual(browser._dataOptionsContext.expandedItems, [1]);
         });
+
+        it('items in sourceController are changed', async () => {
+            const options = getBrowserOptions();
+            const browser = getBrowser(options);
+            await browser._beforeMount(options);
+            browser.saveOptions(options);
+
+            const items = new RecordSet();
+            browser._getSourceController().setItems(null);
+            browser._getSourceController().setItems(items);
+
+            browser._beforeUpdate(options);
+            assert.ok(browser._items === items);
+        });
     });
 
     describe('_updateSearchController', () => {
@@ -877,6 +925,8 @@ describe('Controls/browser:Browser', () => {
             options.source.query = searchQueryMock;
             await browser._beforeUpdate(options);
             assert.ok(browser._misspellValue === 'Саша');
+            assert.ok(browser._returnedOnlyByMisspellValue);
+            assert.ok(browser._searchValue === 'Cfif');
         });
 
         it('path is updated in searchController after load', async () => {

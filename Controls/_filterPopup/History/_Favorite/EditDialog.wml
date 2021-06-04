@@ -12,7 +12,8 @@
 <Controls.form:PrimaryAction on:triggered="_apply()">
    <Controls.popupTemplate:Dialog headingCaption="{[Параметры]}"
                                   headingFontColorStyle="default"
-                                  attr:class="controls-FilterPanel__FavoriteEditDialog">
+                                  attr:class="controls_filterPopup_theme-{{_options.theme}}
+                                              controls-FilterPanel__FavoriteEditDialog">
 
       <ws:headerContentTemplate>
          <Controls.source:SelectedKey bind:selectedKey="_isClient">

@@ -58,7 +58,7 @@ class Picker extends Control<IControlOptions> {
             ...PopupUtil.getCommonOptions(this),
             target: this._container,
             template: 'Controls/datePopup',
-            className: 'controls-PeriodDialog__picker',
+            className: `controls-PeriodDialog__picker controls_datePicker_theme-${this._options.theme}`,
             templateOptions: {
                 ...PopupUtil.getTemplateOptions(this),
                 startValue: value,

@@ -110,9 +110,15 @@ const _private = {
                 }
                 const childsOfCollapsedItem = model.getChildren(parent);
                 childsOfCollapsedItem.forEach((it) => {
+                    if (!it['[Controls/_display/TreeItem]'] || it.isNode() === null || !it.isExpanded()) {
+                        return;
+                    }
+
                     const key = it.getContents().getKey();
                     if (newExpandedItems.includes(key)) {
                         newExpandedItems.splice(newExpandedItems.indexOf(key), 1);
+                    } else if (!newCollapsedItems.includes(key)) {
+                        newCollapsedItems.push(key);
                     }
                     collapseChilds(it);
                 });
@@ -130,6 +136,11 @@ const _private = {
                 }
             });
         }
+
+        // проставляем hasMoreStorage до простановки expandedItems, чтобы футеры узлов правильно посчитать за один раз
+        model.setHasMoreStorage(
+            _private.prepareHasMoreStorage(self.getSourceController(), newExpandedItems)
+        );
 
         if (!options.expandedItems || options.markerMoveMode === 'leaves') {
             model.setExpandedItems(newExpandedItems);
@@ -151,6 +162,9 @@ const _private = {
             _private.toggleExpandedOnNewModel(self, self._options, listViewModel, dispItem);
         } else {
             listViewModel.toggleExpanded(dispItem, expanded);
+            listViewModel.setHasMoreStorage(
+                _private.prepareHasMoreStorage(self.getSourceController(), listViewModel.getExpandedItems())
+            );
         }
 
         self._notify(expanded ? 'afterItemExpand' : 'afterItemCollapse', [dispItem.getContents()]);
@@ -215,9 +229,6 @@ const _private = {
                     .load(undefined, nodeKey)
                     .then((list) => {
                         _private.toggleExpandedOnModel(self, listViewModel, dispItem, expanded);
-                        listViewModel.setHasMoreStorage(
-                            _private.prepareHasMoreStorage(baseSourceController, listViewModel.getExpandedItems())
-                        );
                         if (options.nodeLoadCallback) {
                             options.nodeLoadCallback(list, nodeKey);
                         }
@@ -297,9 +308,7 @@ const _private = {
         const items = viewModel.getCollection();
 
         const sourceController = self.getSourceController();
-        // не нужно загружать узел, если уже все записи есть в рекордсете
-        const isAlreadyLoaded = (sourceController ? sourceController.hasLoaded(nodeKey) : !!self._options.items)
-            || !!viewModel.getChildrenByRecordSet(nodeKey).length;
+        const isAlreadyLoaded = (sourceController ? sourceController.hasLoaded(nodeKey) : !!self._options.items);
 
         if (isAlreadyLoaded) {
             return false;
@@ -340,8 +349,6 @@ const _private = {
 
         self.showIndicator();
         return sourceController.load('down', nodeKey).then((list) => {
-                const expandedItems = _private.getExpandedItems(self, self._options, self._listViewModel.getCollection());
-                self._listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems));
                 self.stopBatchAdding();
                 return list;
             })
@@ -358,14 +365,15 @@ const _private = {
         return expandedItems instanceof Array && expandedItems[0] === null;
     },
 
-    isDeepReload({deepReload}, deepReloadState: boolean): boolean {
-        return  deepReload || deepReloadState;
-    },
+
 
     resetExpandedItems(self: TreeControl): void {
         const viewModel = self._listViewModel;
-        let shouldCancelEditing = false;
+        if (!viewModel) {
+            return;
+        }
 
+        let shouldCancelEditing = false;
         if (self._editingItem) {
             const editingKey = self._editingItem.getContents().getKey();
             viewModel.getExpandedItems().forEach((itemKey) => {
@@ -379,18 +387,22 @@ const _private = {
 
         const reset = () => {
             const isAllExpanded = self._options.expandedItems instanceof Array && self._options.expandedItems[0] === null;
+            viewModel.setHasMoreStorage({});
             if (!isAllExpanded) {
                 if (self._options.useNewModel) {
-                    viewModel.setExpandedItems([]);
-                    self._notify('expandedItemsChanged', [[]]);
+                    if (!isEqual(viewModel.getExpandedItems(), [])) {
+                        viewModel.setExpandedItems([]);
+                        self._notify('expandedItemsChanged', [[]]);
+                    }
 
-                    viewModel.setCollapsedItems([]);
-                    self._notify('collapsedItemsChanged', [[]]);
+                    if (!isEqual(viewModel.getCollapsedItems(), [])) {
+                        viewModel.setCollapsedItems([]);
+                        self._notify('collapsedItemsChanged', [[]]);
+                    }
                 } else {
                     viewModel.resetExpandedItems();
                 }
             }
-            viewModel.setHasMoreStorage({});
         };
 
         if (shouldCancelEditing) {
@@ -526,25 +538,24 @@ const _private = {
         return target;
     },
 
-    getExpandedItems(self: TreeControl, options, items): TKey[] {
+    getExpandedItems(self: TreeControl, options: ITreeControlOptions, items: RecordSet, expandedItems: CrudEntityKey[]): CrudEntityKey[] {
         if (!items) {
             return [];
         }
-        const modelExpandedItems = self._listViewModel.getExpandedItems();
-        let expandedItems;
+        let realExpandedItems;
 
-        if (_private.isExpandAll(modelExpandedItems) && options.nodeProperty) {
-            expandedItems = [];
+        if (_private.isExpandAll(expandedItems) && options.nodeProperty) {
+            realExpandedItems = [];
             items.each((item) => {
                 if (item.get(options.nodeProperty) !== null) {
-                    expandedItems.push(item.get(self._keyProperty));
+                    realExpandedItems.push(item.get(self._keyProperty));
                 }
             });
         } else {
-            expandedItems = modelExpandedItems.slice();
+            realExpandedItems = expandedItems.slice();
         }
 
-        return expandedItems;
+        return realExpandedItems;
     }
 };
 
@@ -561,15 +572,16 @@ const _private = {
 
 export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOptions> extends BaseControl<ITreeControlOptions> {
     private _root = null;
-    private _needResetExpandedItems = false;
-    private _updateExpandedItemsAfterReload = false;
+    private _needResetExpandedItems: boolean = false;
+    private _updateExpandedItemsAfterReload: boolean = false;
     private _currentItem = null;
     private _tempItem = null;
     private _markedLeaf = '';
     private _doAfterItemExpanded = null;
     private _goToNextAfterExpand: true;
-    private _scrollToLeaf = null;
-    private _scrollToLeafOnDrawItems = false;
+    private _scrollToLeaf: boolean = null;
+    private _scrollToLeafOnDrawItems: boolean = false;
+    protected _plainItemsContainer: boolean = true;
 
     private _itemOnWhichStartCountDown = null;
     private _timeoutForExpandOnDrag = null;
@@ -578,6 +590,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     constructor(options: TOptions) {
         super(options);
         this._expandNodeOnDrag = this._expandNodeOnDrag.bind(this);
+        this._nodeDataMoreLoadCallback = this._nodeDataMoreLoadCallback.bind(this);
         if (typeof options.root !== 'undefined') {
             this._root = options.root;
         }
@@ -590,7 +603,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const superResult = super._beforeMount(...args);
         const doBeforeMount = () => {
             const options = args[0];
-
+            this._plainItemsContainer = options.plainItemsContainer;
             if (options.sourceController) {
                 // FIXME для совместимости, т.к. сейчас люди задают опции, которые требуетюся для запроса
                 //  и на списке и на Browser'e
@@ -600,6 +613,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     options.root !== undefined && options.root !== sourceControllerState.root) {
                     options.sourceController.updateOptions({...options, keyProperty: this._keyProperty});
                 }
+
+                options.sourceController.setNodeDataMoreLoadCallback(this._nodeDataMoreLoadCallback);
             }
         };
         return !superResult ? doBeforeMount() : superResult.then(doBeforeMount);
@@ -699,6 +714,13 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             }
         }
 
+        // nodeFooterVisibilityCallback нужно проставлять раньше nodeFooterTemplate, т.к.
+        // изменение темплейта вызовет пересчет футеров, а в колбэке уже может быть изменено условие,
+        // поэтому нужно сперва пересчитаться по актуальному колбэку
+        if (newOptions.nodeFooterVisibilityCallback !== this._options.nodeFooterVisibilityCallback) {
+            viewModel.setNodeFooterVisibilityCallback(newOptions.nodeFooterVisibilityCallback);
+        }
+
         if (newOptions.nodeFooterTemplate !== this._options.nodeFooterTemplate) {
             viewModel.setNodeFooterTemplate(newOptions.nodeFooterTemplate);
         }
@@ -733,6 +755,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const searchValueChanged = this._options.searchValue !== newOptions.searchValue;
         const isSourceControllerLoading = sourceController && sourceController.isLoading();
         let updateSourceController = false;
+        this._plainItemsContainer = newOptions.plainItemsContainer;
 
         if (typeof newOptions.root !== 'undefined' && this._root !== newOptions.root) {
             this._root = newOptions.root;
@@ -762,20 +785,21 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             }
         }
 
-        if (searchValueChanged && newOptions.searchValue && !_private.isDeepReload(this, newOptions)) {
-            _private.resetExpandedItems(this);
-        }
-
         // todo [useNewModel] viewModel.getExpandedItems() нужен, т.к. для старой модели установка expandedItems
         // сделана некорректно. Как откажемся от неё, то можно использовать стандартное сравнение опций.
         const currentExpandedItems = viewModel ? viewModel.getExpandedItems() : this._options.expandedItems;
-        if (newOptions.expandedItems && !isEqual(newOptions.expandedItems, currentExpandedItems) && newOptions.source) {
+        const expandedItemsFromSourceCtrl = sourceController && sourceController.getExpandedItems();
+        const wasResetExpandedItems = !isSourceControllerLoading && expandedItemsFromSourceCtrl && !expandedItemsFromSourceCtrl.length
+            && currentExpandedItems && currentExpandedItems.length;
+        if (wasResetExpandedItems) {
+            _private.resetExpandedItems(this);
+        } else if (newOptions.expandedItems && !isEqual(newOptions.expandedItems, currentExpandedItems)) {
             if ((newOptions.source === this._options.source || newOptions.sourceController) && !isSourceControllerLoading ||
                 (searchValueChanged && newOptions.sourceController)) {
                 if (viewModel) {
-                    viewModel.setExpandedItems(newOptions.expandedItems);
-                    const expandedItems = _private.getExpandedItems(this, this._options, viewModel.getCollection());
+                    const expandedItems = _private.getExpandedItems(this, newOptions, viewModel.getCollection(), newOptions.expandedItems);
                     viewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems));
+                    viewModel.setExpandedItems(newOptions.expandedItems);
                 }
             } else {
                 this._updateExpandedItemsAfterReload = true;
@@ -792,6 +816,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         this._updateTreeControlModel(newOptions);
 
         if (sourceController) {
+            sourceController.setNodeDataMoreLoadCallback(this._nodeDataMoreLoadCallback);
+
             const sourceControllerState = sourceController.getState();
             if (newOptions.parentProperty && sourceControllerState.parentProperty !== newOptions.parentProperty) {
                 updateSourceController = true;
@@ -824,6 +850,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     protected _beforeUnmount(): void {
         this._scrollToLeaf = null;
         this._clearTimeoutForExpandOnDrag();
+        if (this.getSourceController()) {
+            this.getSourceController().setNodeDataMoreLoadCallback(null);
+        }
         super._beforeUnmount(...arguments);
     }
 
@@ -893,7 +922,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
         const dndListController = this.getDndListController();
         const targetIsNotDraggableItem = dndListController.getDraggableItem()?.getContents() !== dispItem.getContents();
-        if (dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() && targetIsNotDraggableItem) {
+        if (dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() !== null && targetIsNotDraggableItem) {
             const targetElement = _private.getTargetRow(this, nativeEvent);
             const mouseOffsetInTargetItem = this._calculateOffset(nativeEvent, targetElement);
             const dragTargetPosition = dndListController.calculateDragPosition({
@@ -1001,7 +1030,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     }
 
     _onViewKeyDown(event): void {
-        this._onTreeViewKeyDown(event);
+        if (this._listViewModel.SupportExpand !== false) {
+            this._onTreeViewKeyDown(event);
+        }
         if (!event.stopped && event._bubbling !== false) {
             super._onViewKeyDown(event);
         }
@@ -1016,27 +1047,32 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             const modelRoot = this._listViewModel.getRoot();
             const root = this._options.root !== undefined ? this._options.root : this._root;
             const viewModelRoot = modelRoot ? modelRoot.getContents() : root;
+
+            // Всегда нужно пересчитывать hasMoreStorage, т.к. даже если нет загруженных элементов или не deepReload,
+            // то мы должны сбросить hasMoreStorage
+            const sourceController = this.getSourceController();
+            const expandedItems = _private.getExpandedItems(
+                this, options, loadedList,
+                this._updateExpandedItemsAfterReload ? options.expandedItems : this._listViewModel.getExpandedItems()
+            );
+            if (sourceController) {
+                // Вызываем метод с флагом reBuildNodeFooters, т.к. после перезагрузки не будет события с добавлением
+                // элементов и футеры без флага не посчитаются
+                this._listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems), true);
+            }
+
             if (this._updateExpandedItemsAfterReload) {
                 this._listViewModel.setExpandedItems(options.expandedItems);
                 this._updateExpandedItemsAfterReload = false;
             }
-            const isDeepReload = _private.isDeepReload(options, this._deepReload);
 
-            if (!isDeepReload || this._needResetExpandedItems) {
+            if (this._needResetExpandedItems) {
                 _private.resetExpandedItems(this);
                 this._needResetExpandedItems = false;
             }
 
             if (viewModelRoot !== root) {
                 this._listViewModel.setRoot(root);
-            }
-
-            // Всегда нужно пересчитывать hasMoreStorage, т.к. даже если нет загруженных элементов или не deepReload,
-            // то мы должны сбросить hasMoreStorage
-            const sourceController = this.getSourceController();
-            const expandedItems = _private.getExpandedItems(this, options, loadedList);
-            if (sourceController) {
-                this._listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems));
             }
         }
         // reset deepReload after loading data (see reload method or constructor)
@@ -1046,7 +1082,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     protected _afterItemsSet(options): void {
         super._afterItemsSet.apply(this, arguments);
         if (options.markerMoveMode === 'leaves') {
-            this.setMarkerOnFirstLeaf(options);
+            this.setMarkerOnFirstLeaf(options, options.markedKey);
         }
     }
     protected _afterCollectionReset(): void {
@@ -1098,11 +1134,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
-    private setMarkerOnFirstLeaf(options) {
+    private setMarkerOnFirstLeaf(options, startKey) {
         const markerController = this.getMarkerController();
         const model = this._listViewModel;
         const list = model.getCollection();
-        const current = list.getRecordById(this._options.markedKey) || list.at(0);
+        const current = list.getRecordById(startKey) || list.at(0);
         if (current) {
             if (current.get(this._options.nodeProperty) !== null) {
                 this._tempItem = current.getKey();
@@ -1111,7 +1147,14 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     this._doAfterItemExpanded = null;
                     this._applyMarkedLeaf(itemKey, model, markerController);
                 };
-                this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, options);
+                const eventResult = this._notify('beforeItemExpand', [current]);
+                if (eventResult instanceof Promise) {
+                        eventResult.then(() => {
+                            this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, options);
+                        });
+                } else {
+                    this._expandedItemsToNotify = this._expandToFirstLeaf(this._tempItem, list, options);
+                }
             } else {
                 this._applyMarkedLeaf(current.getKey(), model, markerController);
             }
@@ -1194,7 +1237,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _getMarkedLeaf(key: CrudEntityKey, model): 'first' | 'last' | 'middle' | 'single' {
         const index = model.getIndexByKey(key);
-        const hasNextLeaf = model.getLastItem().get(model.getKeyProperty()) !== key || model.getHasMoreData();
+        const hasNextLeaf = !model.isLastItem(model.getItemBySourceKey(key)) || model.getHasMoreData();
         let hasPrevLeaf = false;
         for (let i = index - 1; i >= 0; i--) {
             if (model.at(i).isNode() === null || !this._isExpanded(model.at(i).getContents(), model)) {
@@ -1259,7 +1302,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 }
             };
 
-            if (key === model.getLastItem().get(model.getKeyProperty())) {
+            if (model.isLastItem(model.getItemBySourceKey(key))) {
                 this._shiftToDirection('down').then(goToNextItem);
             } else {
                 goToNextItem();
@@ -1363,7 +1406,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
         if (this._listViewModel && this._listViewModel['[Controls/_display/Tree]']) {
             const expanderVisibility = this._listViewModel.getExpanderVisibility();
-            const hasExpander = this._listViewModel.getExpanderIcon() !== 'none'
+            const expanderPosition = options.expanderPosition || 'default';
+            const hasExpander = expanderPosition === 'default'
+                && this._listViewModel.getExpanderIcon() !== 'none'
                 && (expanderVisibility === 'hasChildren' && this._listViewModel.hasNodeWithChildren()
                 || expanderVisibility !== 'hasChildren' && this._listViewModel.hasNode());
             if (hasExpander) {
@@ -1375,6 +1420,15 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
 
         return result;
+    }
+
+    protected _nodeDataMoreLoadCallback(): void {
+        // пересчитываем hasMoreStorage до того, как элементы засетятся в модель,
+        // чтобы в модели был только один пересчет элементов
+        const expandedItems = _private.getExpandedItems(
+            this, this._options, this._listViewModel.getCollection(), this._listViewModel.getExpandedItems()
+        );
+        this._listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(this.getSourceController(), expandedItems));
     }
 
     static getDefaultOptions() {

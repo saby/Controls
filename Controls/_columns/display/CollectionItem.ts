@@ -1,4 +1,4 @@
-import {CollectionItem as BaseCollectionItem, ICollectionItemOptions as IBaseOptions} from 'Controls/display';
+import {TreeItem as BaseCollectionItem, ICollectionItemOptions as IBaseOptions} from 'Controls/display';
 import Collection from './Collection';
 
 export interface IOptions<T> extends IBaseOptions<T> {
@@ -49,7 +49,7 @@ export default class CollectionItem<T> extends BaseCollectionItem<T> {
         return ' controls-ColumnsView__itemContent';
     }
 
-    getItemActionClasses(itemActionsPosition: string, theme?: string): string {
+    getItemActionClasses(itemActionsPosition: string): string {
         return `controls-ColumnsView__itemActionsV_${itemActionsPosition}`;
     }
 }

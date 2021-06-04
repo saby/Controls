@@ -27,17 +27,18 @@ export default interface IContentTemplateOptions {
     * @name Controls/_list/interface/IContentTemplate#contentTemplate
     * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий содержимое элемента.
     * @remark
-    * В области видимости шаблона доступны переменные **itemData** и **itemActionsTemplate**
+    * В области видимости шаблона доступны переменные **item** и **itemActionsTemplate**
     * 
     * Также в области видимости шаблона есть переменная **itemActionsTemplate**, с помощью которой можно отобразить панель {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи} в пользовательском шаблоне. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, что показано в примере № 4.
-    * Переменная **itemData** позволяет получить доступ к свойству **item** — это объект, который содержит данные обрабатываемого элемента.
+    * Переменная <b>item</b> позволяет получить доступ к свойству <b>contents</b> — это объект, который содержит данные обрабатываемого элемента.
+    * Переменная <b>item.getLevel</b> позволяет получить доступ к функции, которая возвращает уровень вложенности отосительно корня.
     * 
     * Переменная **itemActionsTemplate** позволяет отобразить панель {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи} в пользовательском шаблоне. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, что показано в примере № 4.
     * 
     * @example
     * 
     * В следующих примерах показано, как изменять опции шаблона для контрола {@link Controls/list:View}, однако то же самое справедливо и для других {@link /doc/platform/developmentapl/interface-development/controls/list/ списочных контролов}.
-    * В примерах №№ 1, 2 и 3 показано, как получить доступ к переменной itemData из области видимости шаблона.
+    * В примерах №№ 1, 2 и 3 показано, как получить доступ к переменной item из области видимости шаблона.
     * 
     * **Пример 1.** Контрол и шаблон настроены в одном WML-файле.
     * <pre class="brush: html">

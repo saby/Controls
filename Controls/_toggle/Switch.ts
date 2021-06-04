@@ -1,12 +1,19 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import SwitchTemplate = require('wml!Controls/_toggle/Switch/Switch');
 import {descriptor as EntityDescriptor} from 'Types/entity';
 import {ICheckable, ICheckableOptions} from './interface/ICheckable';
-import {ITooltip, ITooltipOptions, IValidationStatus, IValidationStatusOptions} from 'Controls/interface';
+import {
+    IContrastBackgroundOptions,
+    ITooltip,
+    ITooltipOptions,
+    IValidationStatus,
+    IValidationStatusOptions
+} from 'Controls/interface';
 import 'css!Controls/toggle';
 import 'css!Controls/CommonClasses';
+import SwitchTemplate = require('wml!Controls/_toggle/Switch/Switch');
 
-export interface ISwitchOptions extends IControlOptions, ICheckableOptions, ITooltipOptions, IValidationStatusOptions {
+export interface ISwitchOptions extends IControlOptions, ICheckableOptions,
+    ITooltipOptions, IValidationStatusOptions, IContrastBackgroundOptions {
    caption: string;
    captionPosition: string;
 }
@@ -22,7 +29,8 @@ export interface ISwitchOptions extends IControlOptions, ICheckableOptions, IToo
  * @extends UI/Base:Control
  * @implements Controls/toggle:ICheckable
  * @implements Controls/interface:ITooltip
- * 
+ * @implements Controls/interface:IContrastBackground
+ *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/toggle/Switch/Base/Index
@@ -61,7 +69,8 @@ class Switch extends Control<ISwitchOptions> implements ITooltip, ICheckable, IV
       return {
          value: false,
          captionPosition: 'right',
-         validationStatus: 'valid'
+         validationStatus: 'valid',
+         contrastBackground: true
       };
    }
    static getOptionTypes(): object {
@@ -83,6 +92,13 @@ Object.defineProperty(Switch, 'defaultProps', {
       return Switch.getDefaultOptions();
    }
 });
+
+/**
+ * @name Controls/_toggle/Switch#contrastBackground
+ * @cfg {string}
+ * @default true
+ * @demo Controls-demo/toggle/Switch/ContrastBackground/Index
+ */
 
 /**
  * @name Controls/_toggle/Switch#caption

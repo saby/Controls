@@ -7,19 +7,31 @@ define([
       describe('needCrumbs', function() {
          const needCrumbs = PathWrapper.default._isNeedCrumbs;
 
+         it('View mode "tile", items.length === 1', function() {
+            assert.isTrue(
+               needCrumbs({
+                  breadCrumbsItems: ['first'],
+                  rootVisible: false,
+                  header: [{ title: 'back', isBreadCrumbs: true }],
+                  viewMode: 'tile'
+               })
+            );
+         });
+
          it('BackButton is in header, items.length === 1', function() {
             assert.isFalse(
                needCrumbs({
-                  items: ['first'],
+                  breadCrumbsItems: ['first'],
                   rootVisible: false,
-                  header: [{ title: 'back', isBreadCrumbs: true }]
+                  header: [{ title: 'back', isBreadCrumbs: true }],
+                  viewMode: 'table'
                })
             );
          });
 
          it('BackButton is not in header, items.length === 1', function() {
             assert.isTrue(needCrumbs({
-               items: ['first'],
+               breadCrumbsItems: ['first'],
                rootVisible: false
             }));
          });
@@ -27,7 +39,7 @@ define([
          it('BackButton is in header, items.length === 2', function() {
             assert.isTrue(needCrumbs({
                header: [{ title: 'back' }],
-               items: ['first', 'second'],
+               breadCrumbsItems: ['first', 'second'],
                rootVisible: false
             }));
          });

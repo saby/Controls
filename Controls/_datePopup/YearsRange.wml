@@ -1,4 +1,4 @@
-<div class="controls-PeriodDialog-Years">
+<div class="controls_datePicker_theme-{{_options.theme}} controls-PeriodDialog-Years">
    <div class="controls-PeriodDialog-Years__prevNextBtn">
       <span tabindex="0"
             on:keyDown="_prevNextBtnKeyDownHandler(-1)"

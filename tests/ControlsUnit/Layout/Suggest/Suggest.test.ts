@@ -734,6 +734,15 @@ describe('Controls/suggest', () => {
             assert.equal(inputContainer._markerVisibility, 'visible');
             assert.isTrue(loadEndSpy.calledOnce);
          });
+
+         it('value is cleared', async () => {
+            const value = '';
+            inputContainer._inputActive = true;
+            inputContainer._getSourceController().load = () => Promise.resolve(new RecordSet());
+            await inputContainer._resolveLoad(value);
+            assert.equal(inputContainer._searchValue, value);
+            assert.isTrue(!inputContainer._showContent);
+         });
       });
 
       it('Suggest::_resolveSearch', async () => {
@@ -946,6 +955,7 @@ describe('Controls/suggest', () => {
          });
          let suggestActivated = false;
          let updated = false;
+         let sourceController;
          suggestComponent.activate = () => {
             suggestActivated = true;
          };
@@ -962,11 +972,14 @@ describe('Controls/suggest', () => {
          assert.isTrue(updated);
 
          /* tabSelectedKey changed, filter must be changed */
+         sourceController = suggestComponent._sourceController;
          suggestComponent._suggestMarkedKey = 'test';
          suggestComponent._tabsSelectedKeyChanged('test');
          assert.equal(suggestComponent._filter.currentTab, 'test');
          assert.isTrue(suggestActivated);
          assert.isTrue(suggestComponent._suggestMarkedKey === null);
+         assert.isTrue(suggestComponent._sourceController !== sourceController);
+         assert.isTrue(suggestComponent._searchController === null);
       });
 
       it('Suggest::_beforeMount', () => {

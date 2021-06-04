@@ -1,4 +1,4 @@
-<span attr:class="controls-Button__close sbisname-window-title-close"
+<span attr:class="controls_popupTemplate_theme-{{_options.theme}} controls-Button__close sbisname-window-title-close"
       attr:ws-creates-context="false"
       attr:data-qa="controls-stack-Button__close"
       sbisname="floatAreaCloseButton">

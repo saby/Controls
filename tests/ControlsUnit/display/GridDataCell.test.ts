@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { Model as EntityModel, Model } from 'Types/entity';
 
 import { GridCollection, GridDataCell, GridDataRow, TColspanCallback } from 'Controls/grid';
-import { IColumn } from 'Controls/interface';
+import { IColumn } from 'Controls/grid';
 
 describe('Controls/display/GridDataCell', () => {
     let owner: GridDataRow<Model>;
@@ -38,8 +38,7 @@ describe('Controls/display/GridDataCell', () => {
             },
             getContents(): Model {
                 return {} as undefined as Model;
-            },
-            getMarkerVisibility: () => 'hidden'
+            }
         } as Partial<GridDataRow<Model>> as undefined as GridDataRow<Model>;
     });
 
@@ -86,7 +85,6 @@ describe('Controls/display/GridDataCell', () => {
                 isActive: () => false,
                 getRowSeparatorSize: () => 's',
                 getEditingConfig: () => ({}),
-                getMarkerVisibility: () => 'hidden',
                 getItemEditorTemplate: () => {},
                 isFullGridSupport: () => true
             } as undefined as GridCollection<Model>;

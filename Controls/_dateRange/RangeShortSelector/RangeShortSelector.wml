@@ -1,4 +1,4 @@
-<div class="controls-DateRangeSelectorLite">
+<div class="controls_shortDatePicker_theme-{{_options.theme}} controls-DateRangeSelectorLite">
    <Controls._dateRange.RangeShortSelectorLink
       name="linkView"
       scope="{{_options}}"

@@ -149,6 +149,7 @@ export default class _Controller implements IDropdownController {
          if (sourceChanged) {
             this._resetLoadPromises();
          }
+
          if (newOptions.lazyItemsLoading && !this._isOpened) {
             /* source changed, items is not actual now */
             this._preloadedItems = null;
@@ -169,11 +170,7 @@ export default class _Controller implements IDropdownController {
 
    reload(): Promise<RecordSet> {
       this._preloadedItems = null;
-      return this._loadItems(this._options).addCallback((items) => {
-         if (items && this._isOpened) {
-            this._open();
-         }
-      });
+      return this._loadItems(this._options);
    }
 
    tryPreloadItems(): Promise<void> {
@@ -282,7 +279,7 @@ export default class _Controller implements IDropdownController {
    }
 
    handleClose(): void {
-       if (this._items && !this._items.getCount() && this._options.searchParam) {
+       if (this._items && !this._items.getCount() && this._options.searchParam || this._options.reloadOnOpen) {
            this._setItems(null);
        }
        this._isOpened = false;
@@ -299,6 +296,10 @@ export default class _Controller implements IDropdownController {
       });
    }
 
+   getItems(): RecordSet<Model> {
+      return this._items;
+   }
+
    private _open(popupOptions?: object): Promise<unknown[]> {
       if (this._options.readOnly) {
          return Promise.resolve();
@@ -313,6 +314,7 @@ export default class _Controller implements IDropdownController {
          }
       }
       const openPopup = () => {
+         this._isOpened = true;
          this._sticky.open(this._getPopupOptions(this._popupOptions));
       };
       if (this._preloadedItems) {
@@ -324,7 +326,6 @@ export default class _Controller implements IDropdownController {
              const count = this._items.getCount();
              if (count > 1 || count === 1 && (this._options.emptyText || this._options.footerContentTemplate)) {
                 this._createMenuSource(this._items);
-                this._isOpened = true;
                 return openPopup();
              } else if (count === 1) {
                 return Promise.resolve([this._items.at(0)]);
@@ -441,7 +442,7 @@ export default class _Controller implements IDropdownController {
       });
    }
 
-   private _loadItems(options: IDropdownControllerOptions, source: ICrudPlus): Promise<RecordSet|Error> {
+   private _loadItems(options: IDropdownControllerOptions, source?: ICrudPlus): Promise<RecordSet|Error> {
       return this._getSourceController(options, source).then((sourceController) => {
           return sourceController.load().then((items) => {
              return this._resolveLoadedItems(options, items);
@@ -484,6 +485,9 @@ export default class _Controller implements IDropdownController {
       }
       this._setItems(items);
       this._updateSelectedItems(options);
+      if (items && this._isOpened) {
+         this._open();
+      }
       return items;
    }
 
@@ -623,7 +627,7 @@ export default class _Controller implements IDropdownController {
    private _loadMenuTemplates(options: object): Promise<any> {
       if (!this._loadMenuTempPromise) {
          let templatesToLoad = ['Controls/menu'];
-         let templates = ['headTemplate', 'itemTemplate', 'footerContentTemplate'];
+         let templates = ['headTemplate', 'headerTemplate', 'itemTemplate', 'footerContentTemplate'];
          templates.forEach((template) => {
             if (typeof options[template] === 'string') {
                templatesToLoad.push(options[template]);
@@ -697,7 +701,8 @@ export default class _Controller implements IDropdownController {
       };
       const config = {
          templateOptions: Object.assign(baseConfig, templateOptions),
-         className: this._options.popupClassName,
+         className: this._options.popupClassName + ` controls_dropdownPopup_theme-${this._options.theme}
+          controls_popupTemplate_theme-${this._options.theme}`,
          template: 'Controls/menu:Popup',
          actionOnScroll: 'close',
          target: this.target,
@@ -711,7 +716,19 @@ export default class _Controller implements IDropdownController {
          closeOnOutsideClick: true
       };
       const popupConfig = Merge(popupOptions, this._options.menuPopupOptions || {});
-      return Merge(config, popupConfig || {});
+      const result = Merge(config, popupConfig || {});
+      const root = result.templateOptions.root;
+      if (root) {
+         this._updateSourceInOptions(root, result);
+      }
+      return result;
+   }
+
+   private _updateSourceInOptions(root: string, result): void {
+      const parent = this._items.getRecordById(root).getKey();
+      if (this._items.getIndexByValue(this._options.parentProperty, parent) === -1) {
+         result.templateOptions.source = this._options.source;
+      }
    }
 }
 

@@ -24,6 +24,7 @@ export interface IPropertyGridOptions extends IControlOptions {
     editorColumnOptions?: IPropertyGridColumnOptions;
     captionColumnOptions?: IPropertyGridColumnOptions;
     itemPadding: IItemPadding;
+    withoutLevelPadding?: boolean;
 }
 
 /**
@@ -51,6 +52,13 @@ export interface IPropertyGrid {
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Controls/_propertyGrid/PropertyGridCollectionItem} item Элемент, по которому произвели клик.
  * @param {Object} originalEvent Дескриптор исходного события.
+ */
+
+/**
+ * @event Происходит при изменении объекта, свойства которого являются значениями для редакторов.
+ * @name Controls/_propertyGrid/IPropertyGrid#editingObjectChanged
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Object | Types/entity:Model} editingObject Объект, с обновленными значениями для редакторов.
  */
 
 /**

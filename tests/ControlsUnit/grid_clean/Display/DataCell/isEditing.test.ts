@@ -13,6 +13,7 @@ describe('Controls/grid_clean/Display/DataCell/isEditing', () => {
         const mockedOwner = {
                 getHoverBackgroundStyle: () => 'default',
                 isDragged: () => false,
+                getStickyLadder: () => false,
                 hasItemActionsSeparatedCell: () => false,
                 getTopPadding: () => 'default',
                 getBottomPadding: () => 'default',
@@ -24,6 +25,7 @@ describe('Controls/grid_clean/Display/DataCell/isEditing', () => {
                 getColumnIndex: () => 0,
                 getColumnsCount: () => 0,
                 getMultiSelectVisibility: () => 'hidden',
+                hasMultiSelectColumn: () => false,
                 isAnimatedForSelection: () => false
         };
 
@@ -47,6 +49,22 @@ describe('Controls/grid_clean/Display/DataCell/isEditing', () => {
             cAssert.notInclude(
                 cell.getContentClasses('default', 'default'),
                 'controls-Grid__row-cell_single-cell_editing'
+            );
+        });
+
+        it('.getContentClasses() for last editable column', () => {
+            const cell = new GridDataCell({
+                owner: {
+                    ...mockedOwner,
+                    getColumnsCount: () => 1,
+                    isEditing: () => false,
+                    getEditingColumnIndex: () => 0
+                },
+                column: {displayProperty: 'key'}
+            });
+            cAssert.include(
+                cell.getContentClasses('default', 'default'),
+                'controls-Grid__row-cell_editing-mode-single-cell_last'
             );
         });
 

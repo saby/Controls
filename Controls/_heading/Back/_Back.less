@@ -52,6 +52,26 @@
    background-image: var(--primary_icon_background-image_s_headingBack);
 }
 
+// В Яндекс браузере для win-XP css переменные поддерживаются не в полном объеме, из-за чего браузер ожидает полный путь с указанием домена
+// Поэтому каскадом задаем корректный путь
+.ws-is-chrome.ws-is-windows-xp {
+   .controls-Back_style-primary_size-m:before {
+      background-image: url('/resources/Controls-default-theme/img/BackArrowOrange.svg');
+   }
+   .controls-Back__wrapper:active {
+      .controls-Back_style-primary_size-m:before {
+         background-image: url('/resources/Controls-default-theme/img/BackArrowOrange.svg');
+      }
+   }
+   &.ws-is-hover {
+      .controls-Back__wrapper:hover {
+         .controls-Back_style-primary_size-m:before {
+            background-image: url('/resources/Controls-default-theme/img/BackArrowOrange.svg');
+         }
+      }
+   }
+}
+
 .controls-Back_style-primary:before {
    background-repeat: no-repeat;
    content: '';

@@ -2,7 +2,7 @@ import { TemplateFunction } from 'UI/Base';
 import { TreeItem } from 'Controls/display';
 import { Model } from 'Types/entity';
 import TreeGridDataRow from './TreeGridDataRow';
-import {GridRow as Row, GridCell as Cell} from 'Controls/grid';
+import {GridRow as Row, GridCell as Cell, IColumn, TColspanCallbackResult} from 'Controls/grid';
 
 export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     readonly '[Controls/treeGrid:TreeGridNodeFooterRow]': boolean;
@@ -63,10 +63,6 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
         return this.getColumns(this._colspan).length;
     }
 
-    hasMoreStorage(): boolean {
-        return this.getNode().hasMoreStorage();
-    }
-
     getTemplate(): TemplateFunction | string {
         return this._$owner.getNodeFooterTemplate() || 'Controls/treeGrid:NodeFooterTemplate';
     }
@@ -105,6 +101,12 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     isSupportStickyLadder(): boolean {
         const ladderProperties = this.getStickyLadder();
         return ladderProperties && !!Object.keys(ladderProperties).length;
+    }
+
+    protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
+        // В данный момент nodeFooter не поддерживает colspanCallback,
+        // TODO поддержка будет по https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
+        return undefined;
     }
 }
 

@@ -9,8 +9,16 @@
 
 .controls-DoubleSwitch__toggle {
    border-width: var(--border-thickness_switcher);
-   border-color: var(--border-color_switcher);
    border-radius: var(--border-radius_switcher);
+}
+
+.controls-DoubleSwitch__toggle_bg-contrast {
+   border-color: var(--contrast-background-color_checked_switcher);
+   background-color: var(--contrast-background-color_checked_switcher);
+}
+
+.controls-DoubleSwitch__toggle_bg-same {
+   border-color: var(--border-color_switcher);
 }
 
 .controls-DoubleSwitch {
@@ -20,6 +28,10 @@
 .controls-DoubleSwitch__wrapper {
    display: inline-flex;
    width: 100%;
+}
+
+.controls-DoubleSwitch__toggle_horizontal__wrapper {
+   align-items: center;
 }
 
 .controls-DoubleSwitch__toggle_enabled {
@@ -110,7 +122,8 @@
 }
 
 .ws-is-hover {
-   .controls-DoubleSwitch__text_enabled_unselected:hover {
+   .controls-DoubleSwitch__text_enabled_unselected:hover,
+   .controls-DoubleSwitch__text_enabled_selected:hover {
       text-decoration: underline;
    }
 

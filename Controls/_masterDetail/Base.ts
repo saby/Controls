@@ -8,6 +8,7 @@ import {setSettings, getSettings} from 'Controls/Application/SettingsController'
 import {IPropStorageOptions} from 'Controls/interface';
 import {ContextOptions} from 'Controls/context';
 import 'css!Controls/masterDetail';
+import { Logger} from 'UI/Utils';
 
 const RESIZE_DELAY = 50;
 
@@ -299,7 +300,6 @@ class Base extends Control<IMasterDetail, string> {
         if (this._prevCurrentWidth !== this._currentWidth) {
             this._prevCurrentWidth = this._currentWidth;
             this._startResizeRegister();
-            this._setSettings(parseInt(this._currentWidth, 10));
         }
     }
 
@@ -402,6 +402,9 @@ class Base extends Control<IMasterDetail, string> {
     }
 
     private _isCanResizing(options: IMasterDetail): boolean {
+        if (options.propStorageId && (!options.masterWidth || !options.masterMaxWidth || !options.masterMinWidth)) {
+            Logger.warn('Для движения границ заданы не все настройки. Проверьте опции masterWidth, masterMaxWidth, masterMinWidth.', this);
+        }
         const canResizing = options.masterWidth && options.masterMaxWidth && options.masterMinWidth &&
             options.masterMaxWidth !== options.masterMinWidth && options.propStorageId;
         return !!canResizing;
@@ -418,6 +421,7 @@ class Base extends Control<IMasterDetail, string> {
         this._currentWidth = width + 'px';
         this._updateOffset(this._options);
         this._notify('masterWidthChanged', [this._currentWidth]);
+        this._setSettings(parseInt(this._currentWidth, 10));
     }
 
     private _isPercentValue(value: string | number): boolean {

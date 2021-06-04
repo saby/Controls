@@ -1,4 +1,6 @@
-<div class="controls-PeriodLiteDialog
+<div class="controls_shortDatePicker_theme-{{_options.theme}}
+            controls_popupTemplate_theme-{{_options.theme}}
+            controls-PeriodLiteDialog
             {{_getSizeCssClass('width')}} {{_options.popupClassName}}
             {{!_isExpandedPopup ? _getSizeCssClass('height')}}">
    <ws:if data="{{_options.chooseMonths || _options.chooseQuarters || _options.chooseHalfyears}}">

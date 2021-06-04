@@ -99,6 +99,10 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
         // for override
     }
 
+    protected _keyDownHandler() {
+
+    }
+
     protected _getModelConstructor(): string|Function {
         return 'Controls/display:Collection';
     }
@@ -167,6 +171,11 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
     }
 
     // endregion remover
+
+    // TODO удалить по https://online.sbis.ru/opendoc.html?guid=2ad525f0-2b48-4108-9a03-b2f9323ebee2
+    _clearSelection(): void {
+        this._children.listControl.clearSelection();
+    }
 
     _notifyHandler = EventUtils.tmplNotify;
 

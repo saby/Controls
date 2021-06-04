@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <div class="controlsDemo__cell">
         <div attr:class="controls-text-label">controls-padding_top-3xs controls-padding_right-2xs controls-padding_bottom-xs controls-padding_left-s</div>
         <div class="controls-padding_top-3xs controls-padding_right-2xs controls-padding_bottom-xs controls-padding_left-s border inline">

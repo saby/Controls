@@ -20,7 +20,7 @@
                && (!itemData.multiSelect || itemData.isEmptyItem || itemData.isFixedItem)}}">
             <div class="controls-Menu__row_selected controls-Menu__row_selected
                         {{_options.multiLine ? 'controls-Menu__row_selected-multiLine'}}
-                        controls-Menu__content_{{additionalTextTemplate ? 'padding'}}"></div>
+                        {{additionalTextTemplate ? 'controls-Menu__content_padding'}}"></div>
          </ws:if>
          <ws:if data="{{(multiSelectTpl || itemData.multiSelectTpl) && (itemData.multiSelect || multiSelect) && !itemData.isFixedItem}}">
             <ws:partial template="{{multiSelectTpl || itemData.multiSelectTpl}}" scope="{{_options}}" class="{{itemData.isEmptyItem ? 'controls-Menu__row-checkbox_invisible'}}"/>
@@ -57,11 +57,12 @@
       </div>
 
       <ws:if data="{{_options.allowPin &&
-                     treeItem.getContents().has('pinned') &&
-                     !treeItem.getContents().get(itemData.nodeProperty) &&
-                     !(treeItem.getContents().get('pinned') === true &&
-                      treeItem.getContents().get(itemData.parentProperty) !== _options.historyRoot) &&
-                      !(_options.historyRoot && !treeItem.getContents().get(itemData.parentProperty))}}">
+                     !item.contents.get('doNotSaveToHistory') &&
+                     item.contents.has('pinned') &&
+                     !item.contents.get(itemData.nodeProperty) &&
+                     !(item.contents.get('pinned') === true &&
+                      item.contents.get(itemData.parentProperty) !== _options.historyRoot) &&
+                      !(_options.historyRoot && !item.contents.get(itemData.parentProperty))}}">
          <ws:partial template="wml!Controls/_menu/Render/pinTemplate" scope="{{_options}}"/>
       </ws:if>
 

@@ -1,4 +1,4 @@
-<div attr:class="controls-MonthSlider-Slider" attr:animationState="{{_animationState}}">
+<div attr:class="controls-MonthSlider-Slider controls_calendar_theme-{{_options.theme}}" attr:animationState="{{_animationState}}">
    <ws:for data="index, item in _items">
       <div attr:class="controls-MonthSlider-Slider__item {{item.transitionClasses}}" attr:name="{{'container' + index}}">
          <ws:partial

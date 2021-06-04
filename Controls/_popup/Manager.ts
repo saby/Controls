@@ -46,6 +46,7 @@ class Manager {
     _popupItems: List<IPopupItem> = new List();
     private _pageScrolled: Function;
     private _popupResizeOuter: Function;
+    private _dragTimer: number;
 
     constructor(options = {}) {
         this.initTheme(options);
@@ -62,7 +63,9 @@ class Manager {
     init(context: IManagerTouchContext): void {
         this._updateContext(context);
         ManagerController.setManager(this);
-        EventBus.channel('navigation').subscribe('onBeforeNavigate', this._navigationHandler.bind(this));
+        this._subscribeToPageDragNDrop();
+        this._navigationHandler = this._navigationHandler.bind(this);
+        EventBus.channel('navigation').subscribe('onBeforeNavigate', this._navigationHandler);
 
         if (detection.isMobilePlatform) {
             window.addEventListener('orientationchange', () => {
@@ -169,7 +172,12 @@ class Manager {
         if (item) {
             const oldOptions: IPopupOptions = item.popupOptions;
             item.popupOptions = options;
-            this._moveToTop(item);
+
+            // Пока отключаю смену z-index при переоткрытии. Повторный вызов open используют в 2х сценариях -
+            // когда хотят открыть "новый" документ и когда просто хотят обновить часть опций, не задавая новый контекст
+            // открытия. Во 2м случае обновления z-index быть не должно. Нужно продумать как разделить 2 этих сценария.
+            // Пример https://online.sbis.ru/opendoc.html?guid=1f38986e-d9fc-4210-b65a-3c5eca75ecb8
+            // this._moveToTop(item);
             const updateOptionsResult: null | Promise<null> =
                 item.controller.elementUpdateOptions(item, this._getItemContainer(id));
             if (updateOptionsResult instanceof Promise) {
@@ -245,13 +253,23 @@ class Manager {
              item.popupState === item.controller.POPUP_STATE_DESTROYED);
     }
 
+    private _subscribeToPageDragNDrop(): void {
+        // Подписка и на платформенное перемещение, и на нативное, т.к. перемещение файлов из ОС тоже нужно отследить.
+        const handler = this.eventHandler.bind(this, 'pageDragnDropHandler');
+        EventBus.channel('dragnDrop').subscribe('documentDragStart', handler);
+        if (document) {
+            document.addEventListener('dragenter', handler);
+        }
+    }
+
     // Если из текушего окна не открыто других окон, то поднимем его выше среди окон того же уровня (с тем же родителем)
     // при переоткрытии.
     private _moveToTop(item: IPopupItem): void {
         let itemIndex;
         let newIndex;
         const hasChild = item.childs.length > 0;
-        if (hasChild) {
+        const hasParent = !!item.parentId;
+        if (hasChild || hasParent) {
             return;
         }
         this._popupItems.each((elem: IPopupItem, index: number) => {
@@ -271,7 +289,7 @@ class Manager {
     private orientationChangeHandler(): void {
         let needUpdate = false;
         this._popupItems.each((item) => {
-            if (this._popupUpdated(item.id)) {
+            if (this._orientationChanged(item.id)) {
                 needUpdate = true;
             }
         });
@@ -437,6 +455,14 @@ class Manager {
             element.controller._elementMaximized(element, this._getItemContainer(id), state);
             Manager._notifyEvent('managerPopupMaximized', [element, this._popupItems]);
             return true;
+        }
+        return false;
+    }
+
+    protected _orientationChanged(id: string): boolean {
+        const element = this.find(id);
+        if (element) {
+            return element.controller.orientationChanged(element, this._getItemContainer(id));
         }
         return false;
     }
@@ -833,6 +859,33 @@ class Manager {
         } else {
             item.popupOptions = oldOptions;
         }
+    }
+
+    protected _popupInsideDrag(action: string, id: string): void {
+        const value = action === 'Start';
+        let item = this.find(id);
+        // Текущее и все родительские окна помечаем как те, в которых происходит d'n'd.
+        while (item) {
+            item.isDragOnPopup = value;
+            item = this.find(item.parentId);
+        }
+    }
+
+    protected _pageDragnDropHandler(): boolean {
+        const delay = 10;
+        if (this._dragTimer) {
+            clearTimeout(this._dragTimer);
+        }
+        // Общий обработчик троттлим в течение 10мс. Нужно для того, чтобы понять, не происходит ли dnd внутри окна
+        // и не быть завязаным на порядок срабатывания событий.
+        this._dragTimer = setTimeout(() => {
+            this._dragTimer = null;
+            this._popupItems.each((item) => {
+                if (item.controller.dragNDropOnPage(item)) {
+                    this.remove(item.id);
+                }
+            });
+        }, delay);
     }
 
     // TODO Должно быть удалено после https://online.sbis.ru/opendoc.html?guid=f2b13a65-f404-4fbd-a05c-bbf6b59358e6

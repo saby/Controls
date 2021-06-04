@@ -30,6 +30,8 @@ import {IObservable, RecordSet} from 'Types/collection';
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 import { ISourceCollection } from './interface/ICollection';
 
+export type TNodeFooterVisibilityCallback<S extends Model = Model> = (contents: S) => boolean;
+
 export interface ISerializableState<S, T> extends IDefaultSerializableState<S, T> {
     _root: T;
 }
@@ -50,6 +52,7 @@ interface IItemsFactoryOptions<S> {
     expanderTemplate?: TemplateFunction;
     hasNodeWithChildren?: boolean;
     expanded?: boolean;
+    hasMore?: boolean;
 }
 
 export interface IOptions<S, T> extends ICollectionOptions<S, T> {
@@ -64,6 +67,7 @@ export interface IOptions<S, T> extends ICollectionOptions<S, T> {
     hasMoreStorage?: Record<string, boolean>;
     expandedItems?: CrudEntityKey[];
     collapsedItems?: CrudEntityKey[];
+    nodeFooterVisibilityCallback?: TNodeFooterVisibilityCallback;
 }
 
 /**
@@ -124,6 +128,9 @@ function onCollectionItemChange<T extends Model>(event: EventObject, item: T, in
     if (this.instance.getExpanderVisibility() === 'hasChildren') {
         if (!this.instance.getHasChildrenProperty() && properties.hasOwnProperty(this.instance.getParentProperty())) {
             this.instance._recountHasChildrenByRecordSet();
+
+            // нужно пересчитать, т.к. hasNodeWithChildren может считаться по рекордсету, если нет hasChildrenProperty
+            this.instance._recountHasNodeWithChildren();
         } else if (properties.hasOwnProperty(this.instance.getHasChildrenProperty())) {
             this.instance._recountHasNodeWithChildren();
         }
@@ -274,7 +281,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
      * Колбэк, определяющий для каких узлов нужен подвал
      * @protected
      */
-    protected _$nodeFooterVisibilityCallback: (nodeContents: S) => boolean;
+    protected _$nodeFooterVisibilityCallback: TNodeFooterVisibilityCallback;
 
     /**
      * Стратегия перетаскивания записей
@@ -321,6 +328,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
         if (options.collapsedItems instanceof Array) {
             this.setCollapsedItems(options.collapsedItems);
+        }
+
+        if (options.expandedItems instanceof Array) {
+            this._reBuildNodeFooters(true);
         }
 
         if (this.getExpanderVisibility() === 'hasChildren') {
@@ -393,13 +404,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // region Drag-n-drop
 
-    setDraggedItems(draggableItem: T, draggedItemsKeys: Array<number | string>): void {
-        if (draggableItem.isExpanded()) {
-            this.toggleExpanded(draggableItem);
-        }
-        super.setDraggedItems(draggableItem, draggedItemsKeys);
-    }
-
     setDragPosition(position: IDragPosition<T>): void {
         const dragStrategy = this.getStrategyInstance(this._dragStrategy) as TreeDrag;
 
@@ -451,8 +455,45 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     setNodeFooterTemplate(nodeFooterTemplate: TemplateFunction): void {
         if (this._$nodeFooterTemplate !== nodeFooterTemplate) {
             this._$nodeFooterTemplate = nodeFooterTemplate;
+            this._reBuildNodeFooters();
             this._nextVersion();
         }
+    }
+
+    setNodeFooterVisibilityCallback(callback: TNodeFooterVisibilityCallback): void {
+        if (this._$nodeFooterVisibilityCallback !== callback) {
+            this._$nodeFooterVisibilityCallback = callback;
+
+            const strategy = this.getStrategyInstance(NodeFooter) as any as NodeFooter;
+            strategy.setNodeFooterVisibilityCallback(callback);
+            this._reBuildNodeFooters(true);
+
+            this._nextVersion();
+        }
+    }
+
+    setHasMoreStorage(storage: Record<string, boolean>, reBuildNodeFooters: boolean = false): void {
+        if (!isEqual(this._$hasMoreStorage, storage)) {
+            this._$hasMoreStorage = storage;
+            this._updateItemsHasMore(storage);
+            if (reBuildNodeFooters) {
+                this._reBuildNodeFooters(true);
+            }
+            this._nextVersion();
+        }
+    }
+
+    getHasMoreStorage(): Record<string, boolean> {
+        return this._$hasMoreStorage;
+    }
+
+    private _updateItemsHasMore(storage: Record<string, boolean>): void {
+        Object.keys(storage).forEach((key) => {
+            const item = this.getItemBySourceKey(key);
+            if (item && item['[Controls/_display/TreeItem]']) {
+                item.setHasMoreStorage(storage[key]);
+            }
+        });
     }
 
     // endregion NodeFooter
@@ -533,9 +574,12 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     setNodeProperty(nodeProperty: string): void {
         if (this._$nodeProperty !== nodeProperty) {
+            const session = this._startUpdateSession();
             this._$nodeProperty = nodeProperty;
             this._hierarchyRelation.setNodeProperty(nodeProperty);
+            this._reBuild(true);
             this._nextVersion();
+            this._finishUpdateSession(session, true);
         }
     }
 
@@ -605,10 +649,9 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._$root = root;
         this._root = null;
 
-        this._resetEdgeItems();
+        this._reBuildNodeFooters(true);
         this._reIndex();
         this._reAnalize();
-        this._updateEdgeItems();
     }
 
     /**
@@ -675,7 +718,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     setExpandedItems(expandedKeys: CrudEntityKey[]): void {
-        if (!this.getCount() || isEqual(this._expandedItems, expandedKeys)) {
+        if (isEqual(this._expandedItems, expandedKeys)) {
             return;
         }
 
@@ -712,12 +755,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 }
             });
         }
-        this._resetEdgeItems();
-        this._updateEdgeItems();
     }
 
     setCollapsedItems(collapsedKeys: CrudEntityKey[]): void {
-        if (!this.getCount() || isEqual(this._collapsedItems, collapsedKeys)) {
+        if (isEqual(this._collapsedItems, collapsedKeys)) {
             return;
         }
 
@@ -787,71 +828,9 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // endregion Expanded/Collapsed
 
-    // region Аспект "крайние записи"
-
-    getFirstItem(): Model<any> {
-        if (!this._firstItem) {
-            const children = this.getChildrenByRecordSet(this.getRoot().getContents());
-            this._firstItem = children[0];
-        }
-        return this._firstItem;
-    }
-
-    getLastItem(): Model {
-        if (!this._lastItem) {
-            this._lastItem = this._getLastItemRecursive(this.getRoot().getContents());
-        }
-        return this._lastItem;
-    }
-
-    private _getLastItemRecursive(root: S): S {
-        // Обращаемся к иерархии для получения детей
-        const children = this.getChildrenByRecordSet(root);
-        const lastChild: S = children[children.length - 1];
-        // Если узел и у него нет детей, то он последний
-        if (children.length === 0) {
-            return root;
-        }
-        const isNode = (lastChild.get ? lastChild.get(this._$nodeProperty) : lastChild[this._$nodeProperty]) !== null;
-        const lastChildKey = lastChild.getKey ? lastChild.getKey() : lastChild[this._$keyProperty];
-
-        // expandedItems появляются только после того, как был вызван Tree.setExpandedItems
-        const expandedItems = this.getExpandedItems();
-        if (isNode && expandedItems && (
-            this.isExpandAll() ||
-            (expandedItems && expandedItems.indexOf(lastChildKey) !== -1)
-        )) {
-            return this._getLastItemRecursive(lastChild);
-        }
-        return lastChild;
-    }
-
-    // endregion Аспект "крайние записи"
-
-    setHasMoreStorage(storage: Record<string, boolean>): void {
-        if (!isEqual(this._$hasMoreStorage, storage)) {
-            this._$hasMoreStorage = storage;
-            this._reBuildNodeFooters();
-            this._nextVersion();
-        }
-    }
-
-    getHasMoreStorage(): Record<string, boolean> {
-        return this._$hasMoreStorage;
-    }
-
     // endregion
 
     // region Protected methods
-
-    protected _handleAfterCollectionChange(changedItems: ISessionItems<T> = [], changeAction?: string): void {
-        super._handleAfterCollectionChange(changedItems, changeAction);
-
-        const changedProperties = changedItems.properties;
-        if (changedProperties && (changedProperties === 'expanded' || changedProperties.hasOwnProperty('expanded'))) {
-            this._reBuildNodeFooters();
-        }
-    }
 
     protected _getItemsStrategy: () => IItemsStrategy<S, T>;
 
@@ -869,6 +848,11 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             if (!('node' in options)) {
                 options.node = object.getPropertyValue<boolean>(options.contents, this._$nodeProperty);
             }
+
+            if (this.getHasMoreStorage() && this.getHasMoreStorage()[key]) {
+                options.hasMore = true;
+            }
+
             return parent.call(this, options);
         };
     }
@@ -918,12 +902,16 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._childrenMap = {};
     }
 
-    protected _reBuildNodeFooters(): void {
-        const session = this._startUpdateSession();
-        this.getStrategyInstance(NodeFooter)?.invalidate();
-        this._reSort();
-        this._reFilter();
-        this._finishUpdateSession(session, true);
+    protected _reBuildNodeFooters(reset: boolean = false): void {
+        if (reset) {
+            const session = this._startUpdateSession();
+            this.getStrategyInstance(NodeFooter)?.reset();
+            this._reSort();
+            this._reFilter();
+            this._finishUpdateSession(session, true);
+        } else {
+            this.getStrategyInstance(NodeFooter)?.invalidate();
+        }
     }
 
     protected _bindHandlers(): void {
@@ -1137,10 +1125,13 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         for (let i = 0; i < collection.getCount(); i++) {
             const item = collection.at(i);
             const isNode = item.get(this.getNodeProperty()) !== null;
+            // TODO убрать кривую проверку, после переноса nodeTypeProperty в Tree
+            //  https://online.sbis.ru/opendoc.html?guid=ccebc1db-8f2c-48bd-a8f3-b5910668b598
+            const isGroupNode = item.get(this.getNodeTypeProperty && this.getNodeTypeProperty());
             const hasChildren = this.getHasChildrenProperty()
                 ? item.get(this.getHasChildrenProperty())
                 : !!this.getChildrenByRecordSet(item).length;
-            if (isNode && hasChildren) {
+            if (isNode && hasChildren && !isGroupNode) {
                 hasNodeWithChildren = true;
                 break;
             }
@@ -1204,6 +1195,39 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             declaredChildrenProperty: this.getHasChildrenProperty()
         });
     }
+
+    // region ItemsChanges
+
+    protected _handleCollectionChangeAdd(): void {
+        super._handleCollectionChangeAdd();
+
+        this._reBuildNodeFooters();
+    }
+
+    protected _handleCollectionChangeRemove(): void {
+        super._handleCollectionChangeRemove();
+
+        this._reBuildNodeFooters();
+    }
+
+    protected _handleCollectionChangeReplace(): void {
+        super._handleCollectionChangeReplace();
+
+        this._reBuildNodeFooters();
+    }
+
+    protected _handleNotifyItemChangeRebuild(item: T, properties?: object|string): boolean {
+        let result = super._handleNotifyItemChangeRebuild(item, properties);
+
+        if (properties === 'expanded' || properties.hasOwnProperty('expanded')) {
+            this._reBuildNodeFooters();
+            result = true;
+        }
+
+        return result;
+    }
+
+    // endregion ItemsChanges
 }
 
 Object.assign(Tree.prototype, {

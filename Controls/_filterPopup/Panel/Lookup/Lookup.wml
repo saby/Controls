@@ -1,4 +1,4 @@
-<div class="controls-FilterPanel__Lookup">
+<div class="controls_filterPopup_theme-{{_options.theme}} controls-FilterPanel__Lookup">
    <ws:if data="{{_caption}}">
       <Controls._filterPopup.Panel.Link
             attr:class="controls-FilterPanel__Lookup_link"

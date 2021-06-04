@@ -21,6 +21,7 @@
    </ws:if>
 
    <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"
+               scope="{{ gridColumn.config.templateOptions }}"
                attr:key="{{ gridColumn.getInstanceId() }}"
                item="{{ (item || itemData) }}"
                column="{{ gridColumn }}"
@@ -30,6 +31,8 @@
                theme="{{ theme }}"
                style="{{ style }}"
                cursor="{{ cursor }}"
+               backgroundColorStyle="{{ backgroundColorStyle }}"
+               backgroundStyle="{{ backgroundStyle }}"
                itemActionsTemplate="{{ itemActionsTemplate }}"
                itemActionsClass="{{ itemActionsClass }}"
                templateHighlightOnHover="{{ templateHighlightOnHover }}"
@@ -46,7 +49,7 @@
                           checkboxReadOnly="{{ checkboxReadOnly }}"/>
       <ws:multiSelectTemplate>
          <ws:partial template="{{multiSelectTpl}}" _preventMergeOptions="{{ true }}">
-            <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+            <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}" multiSelectClasses="{{item.getMultiSelectClasses()}}"/>
          </ws:partial>
       </ws:multiSelectTemplate>
       <ws:afterContentTemplate>
@@ -110,6 +113,7 @@
                                           shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
                                           backgroundStyle="{{ backgroundStyle }}"
                                           fixedZIndex="{{ column.getZIndex()}}"
+                                          attr:key="sticky_{{ column.getInstanceId() }}"
                                           attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover, hoverBackgroundStyle) }}"
                                           attr:style="{{ column.getWrapperStyles(containerSize) }}">
                <ws:partial template="COLUMN" gridColumn="{{ column }}"/>

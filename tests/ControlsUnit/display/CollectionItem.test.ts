@@ -3,6 +3,7 @@ import {RecordSet} from 'Types/collection';
 import {Collection, CollectionItem} from 'Controls/display';
 import {ICollection} from '../../../Controls/_display/interface/ICollection';
 import { CssClassesAssert } from 'ControlsUnit/CustomAsserts';
+import {Model} from 'Types/entity';
 
 interface IChangedData<T> {
     item?: CollectionItem<T>;
@@ -500,6 +501,7 @@ describe('Controls/_display/CollectionItem', () => {
             getMultiSelectVisibility(): string { return multiSelectVisibility; },
             getMultiSelectPosition(): string { return 'default'; },
             getRowSeparatorSize: function () { return ''; },
+            isLastItem: function () { return false },
             getNavigation: function () { return {
                 view: 'page'
             }}
@@ -571,6 +573,28 @@ describe('Controls/_display/CollectionItem', () => {
 
             assert.strictEqual(given.item, item);
             assert.strictEqual(given.property, 'editing');
+        });
+
+        it('should apply all versions update after cancel editing', () => {
+            const contents = new Model({
+                keyProperty: 'id',
+                rawData: { id: 1, title: '' }
+            });
+            const item = new CollectionItem({ contents });
+
+            assert.equal(item.getVersion(), 0);
+            item.setEditing(true, contents);
+            assert.equal(item.getVersion(), 1);
+
+            contents.set('title', '1'); // +2
+            contents.set('title', '12'); // +2
+            contents.set('title', '123'); // +2
+
+            assert.equal(item.getVersion(), 7);
+
+            item.setEditing(false);
+
+            assert.equal(item.getVersion(), 8);
         });
 
         it('returns the editing contents as the contents in edit mode', () => {

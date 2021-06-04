@@ -2,6 +2,6 @@
     <ws:partial
             template="{{ content.resolvedTemplate }}"
             scope="{{_options}}"
-            attr:class="controls-MenuButton__popup-header"
+            attr:class="controls-MenuButton__popup-header {{!_options.closeButtonVisibility ? 'controls-MenuButton__popup-header-paddingRight'}}"
     />
 </Controls.Container.Async>

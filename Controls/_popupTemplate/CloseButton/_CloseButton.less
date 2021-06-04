@@ -23,6 +23,40 @@
    }
 }
 
+// В Яндекс браузере для win-XP css переменные поддерживаются не в полном объеме, из-за чего браузер ожидает полный путь с указанием домена
+// Поэтому каскадом задаем корректный путь
+.ws-is-chrome.ws-is-windows-xp {
+   .controls-Button__close__icon_toolButton,
+   .controls-Button__close__icon_functionalButton {
+      background-image: url('/resources/Controls-default-theme/img/DefaultCloseIcon.svg');
+      &:active {
+         background-image: url('/resources/Controls-default-theme/img/CloseIconHovered.svg');
+      }
+   }
+
+   .controls-Button__close__icon_link,
+   .controls-Button__close__icon_linkButton {
+      background-image: url('/resources/Controls-default-theme/img/LightCloseIcon.svg');
+      &:active {
+         background-image: url('/resources/Controls-default-theme/img/CloseIconHovered.svg');
+      }
+   }
+   &.ws-is-hover {
+      .controls-Button__close_toolButton:hover,
+      .controls-Button__close_functionalButton:hover {
+         .controls-Button__close__icon_toolButton,
+         .controls-Button__close__icon_functionalButton {
+            background-image: url('/resources/Controls-default-theme/img/CloseIconHovered.svg');
+         }
+      }
+
+      .controls-Button__close__icon_link:hover,
+      .controls-Button__close__icon_linkButton:hover {
+         background-image: url('/resources/Controls-default-theme/img/CloseIconHovered.svg');
+      }
+   }
+}
+
 .controls-Button__close__icon_link,
 .controls-Button__close__icon_linkButton {
    background-image: var(--icon_background-image_closeButton_link);

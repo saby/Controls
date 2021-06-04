@@ -539,6 +539,14 @@ describe('Controls/dataSource:SourceController', () => {
             deepStrictEqual(controller.getExpandedItems(), ['testRoot']);
 
             options = {...options};
+            controller.updateOptions(options);
+            // Если проставлен флаг deepReload, то expandedItems не сбросятся
+            deepStrictEqual(controller.getExpandedItems(), ['testRoot']);
+
+            // флаг deepReload сбросится только после перезагрузки
+            await controller.reload();
+
+            options = {...options};
             options.root = 'testRoot';
             controller.updateOptions(options);
             deepStrictEqual(controller.getExpandedItems(), []);
@@ -636,26 +644,95 @@ describe('Controls/dataSource:SourceController', () => {
             ok(hasMoreResult);
         });
 
-        it('different items format', () => {
-            const items = new RecordSet({
-                adapter: new adapter.Sbis(),
-                format: [
-                    { name: 'testName', type: 'string' }
-                ]
-            });
-            const otherItems = new RecordSet({
-                adapter: new adapter.Sbis(),
-                format: [
-                    { name: 'testName2', type: 'string' }
-                ]
-            });
-            const controller = getController();
+        describe('different items format', () => {
+            it('items with same format', () => {
+                const controller = getController();
+                const items = new RecordSet({
+                    adapter: new adapter.Sbis(),
+                    rawData: {
+                        d: [['1']],
+                        s: [{n: 'testName', t: 'string'}]
+                    },
+                    format: [
+                        { name: 'testName', type: 'string' }
+                    ],
+                    keyProperty: 'id'
+                });
+                const itemsWithSameFormat = new RecordSet({
+                    adapter: new adapter.Sbis(),
+                    rawData: {
+                        d: [['1']],
+                        s: [{n: 'testName', t: 'string'}]
+                    },
+                    format: [
+                        { name: 'testName', type: 'string' }
+                    ],
+                    keyProperty: 'id'
+                });
 
-            controller.setItems(items);
-            ok(controller.getItems() === items);
+                controller.setItems(items);
+                controller.setItems(itemsWithSameFormat);
+                ok(controller.getItems() === items);
+            });
 
-            controller.setItems(otherItems);
-            ok(controller.getItems() === otherItems);
+            it('items with different format', () => {
+                const items = new RecordSet({
+                    adapter: new adapter.Sbis(),
+                    rawData: {
+                        d: [['1']],
+                        s: [{n: 'testName', t: 'string'}]
+                    },
+                    format: [
+                        { name: 'testName', type: 'string' }
+                    ],
+                    keyProperty: 'id'
+                });
+                const otherItems = new RecordSet({
+                    adapter: new adapter.Sbis(),
+                    rawData: {
+                        d: [['1']],
+                        s: [{n: 'testName2', t: 'string'}]
+                    },
+                    format: [
+                        { name: 'testName2', type: 'string' }
+                    ],
+                    keyProperty: 'id'
+                });
+                const controller = getController();
+
+                controller.setItems(items);
+                controller.setItems(otherItems);
+                ok(controller.getItems() === otherItems);
+            });
+
+            it('empty items', () => {
+                const items = new RecordSet({
+                    adapter: new adapter.Sbis(),
+                    rawData: {
+                        d: [],
+                        s: []
+                    },
+                    format: [],
+                    keyProperty: 'id'
+                });
+                const otherItems = new RecordSet({
+                    adapter: new adapter.Sbis(),
+                    rawData: {
+                        d: [['1']],
+                        s: [{n: 'testName2', t: 'string'}]
+                    },
+                    format: [
+                        { name: 'testName2', type: 'string' }
+                    ],
+                    keyProperty: 'id'
+                });
+                const controller = getController();
+
+                controller.setItems(items);
+                controller.setItems(otherItems);
+                ok(controller.getItems() === items);
+            });
+
         });
 
     });

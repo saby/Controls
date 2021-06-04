@@ -38,9 +38,12 @@
    position: absolute;
    width: var(--marker_thickness_list);
    background-color: var(--marker_color_list);
-   top: 0;
    z-index: 2;
    max-height: 100%;
+}
+
+.controls-GridView__itemV_marker_vertical-position-top {
+   top: 0;
 }
 
 .controls-Grid__header {
@@ -270,14 +273,15 @@
 
 .controls-Grid__row-cell_master {
    font-size: var(--master_item_font-size_list);
-   border-color: var(--master_item_background-color_list);
-   border-style: solid;
-   border-bottom-width: var(--master_item_separator_thickness_list);
-   border-top-width: var(--master_item_separator_thickness_list);
+   border-bottom: var(--master_item_separator_thickness_list) solid var(--master_item_background-color_list) ;
 }
 
 .controls-ColumnScroll_visible .controls-GridNew__cell_fixed {
    z-index: 3;
+}
+
+.controls-ColumnScroll_visible .controls-GridNew__cell_fixed.controls-Grid__row-ladder-cell {
+   z-index: 4;
 }
 
 // Строка редактирования имеет свой z-index, который вешается на все ячейки.
@@ -304,6 +308,10 @@
    text-overflow: ellipsis;
    white-space: nowrap;
    max-width: 100%;
+}
+
+.controls-Grid__cell_tooltip_ellipsis {
+   overflow: hidden;
 }
 
 .controls-Grid__header-cell_halign_left {
@@ -350,6 +358,9 @@
       background-color: var(--item_hover_background-color_list);
    }
    .controls-Grid__row_highlightOnHover_default:hover .controls-background-stack {
+      background-color: var(--item_hover_background-color_list);
+   }
+   .controls-Grid__row_highlightOnHover_default:hover .controls-background-infoBox {
       background-color: var(--item_hover_background-color_list);
    }
    .controls-Grid__row_highlightOnHover_default:hover .controls-Grid__row-cell__content_hiddenForLadder {
@@ -417,7 +428,8 @@
 
 .controls-Grid__row-cell-editing {
    > .controls-itemActionsV,
-   +.controls-itemActionsV__container > .controls-itemActionsV
+   +.controls-itemActionsV__container > .controls-itemActionsV,
+   +.controls-Grid-table-layout__itemActions__container > .controls-Grid__table__relative-cell-wrapper > .controls-itemActionsV
    {
       visibility: visible;
       opacity: 1;
@@ -813,7 +825,8 @@
    padding-bottom: var(--height_outside_itemActions);
 }
 
-.controls-GridView__footer__itemActionsV_outside {
+// Необходимая мера, т.к. иногда CSS от list прилетает позже и ломает высоту
+.controls-ListView__footer.controls-GridView__footer__itemActionsV_outside {
    min-height: var(--height_outside_itemActions);
 }
 
@@ -862,6 +875,7 @@
 
 .controls-Grid__row-cell_selected-master {
    font-weight: bold;
+   color: var(--master_item_selected_text-color_list);
    font-size: var(--master_item_selected_font-size_list);
 }
 
@@ -916,6 +930,15 @@
    .controls-itemActionsV {
       pointer-events: auto;
    }
+}
+
+.ws-is-firefox .controls-Grid__itemAction__emptyContainer > * {
+   // Баг в FireFox.
+   // В шапку, подвал и другие части грида(кроме строк данных) добавляется фейковая ячейка под операции над записью.
+   // Если эта ячейка обернута в стики шапку, то минимальный scrollWidth у ячейки - 1px.
+   // Так происходит из-за вложенного элемента с position: absolute, left: 1px и заданной высотой.
+   // Demo: https://jsfiddle.net/Razevel/3ezr9ouj/
+   display: none;
 }
 
 .controls-Grid__cell_header-content_border-bottom {

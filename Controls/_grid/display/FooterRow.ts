@@ -1,6 +1,6 @@
 import {TemplateFunction} from 'UI/Base';
 import {isEqual} from 'Types/object';
-import {IColumn, TColumns} from 'Controls/interface';
+import {IColumn, TColumns} from './interface/IColumn';
 import {IItemActionsTemplateConfig} from 'Controls/display';
 import Row from './Row';
 import FooterCell, {IOptions as IFooterCellOptions} from 'Controls/_grid/display/FooterCell';
@@ -19,6 +19,17 @@ export default class FooterRow<T> extends Row<string> {
     setFooter(footerTemplate: TemplateFunction, footer?: TColumns): void {
         this.setRowTemplate(footerTemplate);
         this.setColumns(footer);
+    }
+
+    resetColumns(): void {
+        // todo Переписать по: https://online.sbis.ru/opendoc.html?guid=d86329c7-5c85-4c7f-97c9-791502f6f1dd
+        // Надо сделать так, чтобы у класса Row была опция columnsConfig и она всегда содержит оригинальную колонку,
+        // переданную в опции columns списка.
+        // Также у класса Row должна быть другая опция - columns. Это уже набор колонок, рассчитанный самой коллекцией.
+        // Например, задав columns=[{},{}] и footerTemplate=function(){}, то должен создаваться класс Row с опциями
+        // columnsConfig=[{}, {}] и columns=[{ template: function(){} }].
+        this._$columnItems = null;
+        this._nextVersion();
     }
 
     getItemClasses(): string {

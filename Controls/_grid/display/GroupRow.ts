@@ -15,7 +15,8 @@ import Collection from './Collection';
 import {IColumn} from 'Controls/grid';
 import {TColspanCallbackResult} from 'Controls/_grid/display/mixins/Grid';
 import {IOptions as IGroupCellOptions} from 'Controls/_grid/display/GroupCell';
-import {IItemTemplateParams} from "Controls/_grid/display/mixins/Row";
+import {IItemTemplateParams} from 'Controls/_grid/display/mixins/Row';
+import ItemActionsCell from 'Controls/_grid/display/ItemActionsCell';
 
 const GROUP_Z_INDEX_DEFAULT = 2;
 const GROUP_Z_INDEX_WITHOUT_HEADERS_AND_RESULTS = 3;
@@ -44,6 +45,7 @@ export default class GroupRow<T> extends mixin<
     protected _$columnItems: Array<DataCell<T>>;
     protected _groupTemplate: TemplateFunction|string;
     protected _$metaResults: EntityModel;
+    protected _$colspanGroup: boolean;
 
     constructor(options?: IOptions<T>) {
         super({...options, columns: options.owner.getColumnsConfig()});
@@ -125,14 +127,49 @@ export default class GroupRow<T> extends mixin<
         return this._$metaResults;
     }
 
+    getColspanGroup(): boolean {
+        return this._$colspanGroup;
+    }
+
+    setColspanGroup(colspanGroup: boolean): void {
+        if (this._$colspanGroup !== colspanGroup) {
+            this._$colspanGroup = colspanGroup;
+            this._reinitializeColumns();
+        }
+    }
+
     protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
-        return 'end';
+        if (!this._$colspanGroup && this.hasColumnScroll() && (columnIndex < this.getStickyColumnsCount())) {
+            return this.getStickyColumnsCount();
+        } else {
+            return 'end';
+        }
     }
 
     protected _initializeColumns(): void {
+
+        // TODO: Перевезти на базовый механизм, аналогично подвалу, результатам и пустому представлению.
+        //  Все методы уже есть для этого
+
         if (this._$columns) {
-            this._$columnItems = this._prepareColumnItems(this._$columns, this.getColumnsFactory());
+            this._$columnItems = this._prepareColumnItems(
+                this._$columns,
+                this.getColumnsFactory(),
+                true,
+                true,
+                true
+            );
             this._processStickyLadderCells();
+
+            if (this.hasItemActionsSeparatedCell()) {
+                this._$columnItems.push(new ItemActionsCell({
+                    owner: this,
+                    instanceId: `${this.key}_column_separated-actions`,
+                    // FIXME: Ну как же ноль, если это последняя ячейка.
+                    ...this._getColumnFactoryParams({}, 0),
+                    column: {}
+                }));
+            }
         }
     }
 
@@ -140,10 +177,12 @@ export default class GroupRow<T> extends mixin<
         return {
             ...super._getColumnFactoryParams(column, columnIndex),
             columnsLength: this._$columns.length,
+            column: {},
             contents: this.getContents(),
 			zIndex: this.getStickyHeaderZIndex(),
             metaResults: this.getMetaResults(),
-            groupTemplate: this._groupTemplate
+            groupTemplate: this._groupTemplate,
+            colspanGroup: this._$colspanGroup
         };
     }
 }
@@ -154,6 +193,7 @@ Object.assign(GroupRow.prototype, {
     _moduleName: 'Controls/grid:GridGroupRow',
     _cellModule: 'Controls/grid:GridGroupCell',
     _instancePrefix: 'grid-group-item-',
+    _$colspanGroup: true,
     _$columns: null,
     _$metaResults: null
 });

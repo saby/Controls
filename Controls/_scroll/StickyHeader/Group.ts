@@ -262,6 +262,14 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
                 data.inst[POSITION.bottom] = this._offset[POSITION.bottom];
             }
 
+            for (const position of [POSITION.top, POSITION.bottom]) {
+                data.inst.updateShadowVisibility(this._isShadowVisibleByController[position], position);
+            }
+
+            if (this._isFixed) {
+                data.inst.updateFixed([data.id]);
+            }
+
             data.inst.setSyncDomOptimization(this._syncDomOptimization);
 
             // Register group after first header is registered
@@ -285,6 +293,13 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
             if (!Object.keys(this._headers).length) {
                 this._notify('stickyRegister', [{id: this._index}, false], {bubbling: true});
                 this._isRegistry = false;
+                // Сбрасываем офсет, т.к после анрегистра группы в нее следом могут добавиться новые заголовки.
+                this._offset = {
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0
+                };
             }
         }
     }

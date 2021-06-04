@@ -217,12 +217,23 @@ export default class ScrollController {
      */
     getFirstVisibleRecord(listViewContainer: HTMLElement, baseContainer: HTMLElement, scrollTop: number): Model {
         const topOffset = this._getTopOffsetForItemsContainer(listViewContainer, baseContainer);
-        const verticalOffset = scrollTop - topOffset + (getStickyHeadersHeight(baseContainer, 'top', 'allFixed') || 0);
+        const placeholder = this._virtualScroll?.rangeChanged ? this._placeholders.top : 0;
+        const verticalOffset = scrollTop - topOffset - placeholder + (getStickyHeadersHeight(baseContainer, 'top', 'allFixed') || 0);
 
         let firstItemIndex = this._options.collection.getStartIndex();
         firstItemIndex += this._getFirstVisibleItemIndex(listViewContainer.children, verticalOffset);
         firstItemIndex = Math.min(firstItemIndex, this._options.collection.getStopIndex());
         return this._options.collection.at(firstItemIndex);
+    }
+
+    getLastVisibleRecord(listViewContainer: HTMLElement, baseContainer: HTMLElement, scrollTop: number): Model {
+        const topOffset = this._getTopOffsetForItemsContainer(listViewContainer, baseContainer);
+        const verticalOffset = this._viewportHeight + scrollTop - topOffset + (getStickyHeadersHeight(baseContainer, 'top', 'allFixed') || 0);
+
+        let lastItemIndex = this._options.collection.getStartIndex();
+        lastItemIndex += this._getFirstVisibleItemIndex(listViewContainer.children, verticalOffset);
+        lastItemIndex = Math.min(lastItemIndex, this._options.collection.getStopIndex());
+        return this._options.collection.at(lastItemIndex - 1);
     }
 
     /**
@@ -232,8 +243,9 @@ export default class ScrollController {
      * @private
      */
     private _getFirstVisibleItemIndex(items: HTMLElement[], verticalOffset: number): number {
+        const firstElementIndex = this._options.virtualScrollConfig.mode === 'hide' ? this._virtualScroll.getRange().start : 0;
         const itemsCount = items.length;
-        let itemsHeight = 0;
+        let itemsHeight = firstElementIndex;
         let i = 0;
         if (verticalOffset <= 0) {
             return 0;
@@ -242,11 +254,12 @@ export default class ScrollController {
             itemsHeight += uDimension(items[i]).height;
             i++;
         }
-        return i;
+        return i - firstElementIndex;
     }
 
     private _getTopOffsetForItemsContainer(listViewContainer: HTMLElement, baseControlContainer: HTMLElement): number {
-        let offsetTop = uDimension(listViewContainer.children[0], true).top;
+        const firstElementIndex = this._options.virtualScrollConfig.mode === 'hide' ? this._virtualScroll.getRange().start : 0;
+        let offsetTop = uDimension(listViewContainer.children[firstElementIndex], true).top;
         const container = baseControlContainer[0] || baseControlContainer;
         offsetTop += container.offsetTop - uDimension(container).top;
         return offsetTop;

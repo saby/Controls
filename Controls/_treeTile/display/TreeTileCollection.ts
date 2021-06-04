@@ -4,7 +4,6 @@ import {TileMixin} from 'Controls/tile';
 import TreeTileCollectionItem from './TreeTileCollectionItem';
 import {ItemsFactory, itemsStrategy, Tree, TreeItem} from 'Controls/display';
 import InvisibleStrategy from './strategy/Invisible';
-import {CrudEntityKey} from "Types/source";
 
 /**
  * Рекурсивно проверяет скрыт ли элемент сворачиванием родительских узлов

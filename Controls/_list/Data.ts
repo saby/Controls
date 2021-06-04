@@ -196,7 +196,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          this._setItemsAndUpdateContext();
       } else if (options.source) {
          return this._sourceController
-             .reload()
+             .reload(undefined, true)
              .then((items) => {
                 const state = this._sourceController.getState();
                 this._items = state.items;
@@ -229,6 +229,10 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
 
       if (this._options.sourceController !== newOptions.sourceController) {
          this._sourceController = newOptions.sourceController;
+      }
+
+      if (this._sourceController && (this._sourceController.getItems() !== this._items)) {
+         this._items = this._sourceController.getItems();
       }
 
       if (this._sourceController) {

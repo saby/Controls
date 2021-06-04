@@ -22,6 +22,7 @@ export interface IMoverDialogTemplateOptions extends IControlOptions {
     nodeProperty: string;
     parentProperty: string;
     filter?: QueryWhereExpression<unknown>;
+    headingCaption?: string;
 }
 
 /**
@@ -148,6 +149,12 @@ export default class extends Control<IMoverDialogTemplateOptions> {
  * @remark
  * - true Отображается кнопка "В корень" над списком. Клик по кнопке перемещает записи в корень иерархии (см. {@link /materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo демо-пример}).
  * - false Кнопка скрыта.
+ */
+
+/**
+ * @name Controls/_moverDialog/Template#headingCaption
+ * @cfg {String} Заголовок окна перемещения.
+ * @default 'Выбор раздела'
  */
 
 /**

@@ -21,37 +21,45 @@
 
 .controls-ListView__itemV_marker_padding-default_image-l,
 .controls-ListView__itemV_marker_padding-l_image-l {
+   top: calc(var(--item_padding-top_l_list) + var(--item-separator_s_thickness_list));
    height: var(--marker_height_padding-l_image-l_list);
 }
 
 .controls-ListView__itemV_marker_padding-default_image-m,
 .controls-ListView__itemV_marker_padding-l_image-m {
+   top: calc(var(--item_padding-top_l_list) + var(--item-separator_s_thickness_list));
    height: var(--marker_height_padding-l_image-m_list);
 }
 
 .controls-ListView__itemV_marker_padding-default_image-s,
 .controls-ListView__itemV_marker_padding-l_image-s {
+   top: calc(var(--item_padding-top_l_list) + var(--item-separator_s_thickness_list));
    height: var(--marker_height_padding-l_image-s_list);
 }
 
 .controls-ListView__itemV_marker_padding-default_image-xs,
 .controls-ListView__itemV_marker_padding-l_image-xs {
+   top: calc(var(--item_padding-top_l_list) + var(--item-separator_s_thickness_list));
    height: var(--marker_height_padding-l_image-xs_list);
 }
 
 .controls-ListView__itemV_marker_padding-s_image-l {
+   top: calc(var(--item_padding-top_s_list) + var(--item-separator_s_thickness_list));
    height: var(--marker_height_padding-s_image-l_list);
 }
 
 .controls-ListView__itemV_marker_padding-s_image-m {
+   top: calc(var(--item_padding-top_s_list) + var(--item-separator_s_thickness_list));
    height: var(--marker_height_padding-s_image-m_list);
 }
 
 .controls-ListView__itemV_marker_padding-s_image-s {
+   top: calc(var(--item_padding-top_s_list) + var(--item-separator_s_thickness_list));
    height: var(--marker_height_padding-s_image-s_list);
 }
 
 .controls-ListView__itemV_marker_padding-s_image-xs {
+   top: calc(var(--item_padding-top_s_list) + var(--item-separator_s_thickness_list));
    height: var(--marker_height_padding-s_image-xs_list);
 }
 
@@ -77,25 +85,47 @@
    height: var(--marker_height_padding-l_text-xs_list);
 }
 
-.controls-ListView__itemV_marker_padding-s_text-2xl {
+.controls-ListView__itemV_marker_padding-s_text-2xl,
+.controls-ListView__itemV_marker_padding-null_text-2xl {
    height: var(--marker_height_padding-s_text-2xl_list);
 }
 
-.controls-ListView__itemV_marker_padding-s_text-xl {
+.controls-ListView__itemV_marker_padding-s_text-xl,
+.controls-ListView__itemV_marker_padding-null_text-xl {
    height: var(--marker_height_padding-s_text-xl_list);
 }
 
-.controls-ListView__itemV_marker_padding-s_text-l {
+.controls-ListView__itemV_marker_padding-s_text-l,
+.controls-ListView__itemV_marker_padding-null_text-l {
    height: var(--marker_height_padding-s_text-l_list);
 }
 
-.controls-ListView__itemV_marker_padding-s_text-m {
+.controls-ListView__itemV_marker_padding-s_text-m,
+.controls-ListView__itemV_marker_padding-null_text-m {
    height: var(--marker_height_padding-s_text-m_list);
 }
 
-.controls-ListView__itemV_marker_padding-s_text-xs {
+.controls-ListView__itemV_marker_padding-s_text-xs,
+.controls-ListView__itemV_marker_padding-null_text-xs {
    height: var(--marker_height_padding-s_text-xs_list);
 }
+
+.controls-ListView__itemV_marker_padding-null_image-l {
+   height: var(--marker_height_padding-s_image-l_list);
+}
+
+.controls-ListView__itemV_marker_padding-null_image-m {
+   height: var(--marker_height_padding-s_image-m_list);
+}
+
+.controls-ListView__itemV_marker_padding-null_image-s {
+   height: var(--marker_height_padding-s_image-s_list);
+}
+
+.controls-ListView__itemV_marker_padding-null_image-xs {
+   height: var(--marker_height_padding-s_image-xs_list);
+}
+
 .controls-ListView__itemV_marker-left {
    left: 0;
 }
@@ -449,16 +479,26 @@
    display: inline-block;
    color: var(--grouping_expander_text-color_list);
    white-space: nowrap;
-   text-align: center;
    flex-shrink: 1;
    user-select: none;
    overflow: hidden;
    text-overflow: ellipsis;
 }
 
+.controls-ListView__groupContent_left {
+   text-align: left;
+}
+
+.controls-ListView__groupContent_right {
+   text-align: right;
+}
+
+.controls-ListView__groupContent_center {
+   text-align: center;
+}
+
 .controls-ListView__groupContent-withoutGroupSeparator {
    flex-grow: 1;
-   text-align: right;
 }
 
 /* В safari на iPad так отрисовывается Tensor-font, что у блоков с текстом сверху на ~1 пиксель больше отступ, чем
@@ -612,6 +652,7 @@
 
 .controls-ListView__item__marked_master {
    font-size: var(--master_item_selected_font-size_list);
+   color: var(--master_item_selected_text-color_list);
    font-weight: bold;
 }
 
@@ -629,6 +670,10 @@
    }
 }
 
+.ws-is-ie .controls-ListView__item__marked_master {
+   background-color: var(--master_item_selected_background-color_list);
+}
+
 .ws-is-mobile-chrome-ios .controls-ListView__item__marked_master,
 .ws-is-desktop-safari .controls-ListView__item__marked_master,
 .ws-is-mobile-safari .controls-ListView__item__marked_master {
@@ -640,7 +685,13 @@
 }
 
 .controls-ListView__itemV_marker_master {
-   display: none;
+   position: absolute;
+   box-sizing: border-box;
+   width: var(--master-marker_thickness_list);
+   height: var(--master-marker_height_list);
+   background-color: var(--master-marker_color_list);
+   top: 0;
+   left: 0;
 }
 
 .controls-ListView__groupContent_cursor-default {
@@ -656,8 +707,10 @@
 }
 
 .controls-ListView__item_master {
-   padding-top: var(--master_item_separator_thickness_list);
-   padding-bottom: var(--master_item_separator_thickness_list);
+   border-color: var(--master_item_background-color_list);
+   border-style: solid;
+   border-width: 0;
+   border-bottom-width: var(--master_item_separator_thickness_list);
 }
 
 //Пока страница не ожила, мы не знаем тач устройство или нет, так что на мобильных устройствах нужно скрыть операции над записью

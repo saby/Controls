@@ -61,6 +61,36 @@ define(
                assert.deepEqual(items.getRawData().length, defaultItems.length);
             });
 
+            it('with root', () => {
+               const menuOptions = Clone(defaultOptions);
+               menuOptions.source = new source.Memory({
+                  keyProperty: 'key',
+                  data: [
+                     { key: 'all', title: 'все страны', node: true },
+                     { key: '1', title: 'Россия', parent: 'all' },
+                     { key: '2', title: 'США', parent: 'all' }
+                  ]
+               });
+               menuOptions.root = 'all';
+               menuOptions.parentProperty = 'parent';
+               menuOptions.nodeProperty = 'node';
+               const menuControl = getMenu(menuOptions);
+               return menuControl._loadItems(menuOptions).addCallback((items) => {
+                  assert.equal(items.getCount(), 2);
+               });
+            });
+
+            it('with filter', () => {
+               const menuOptions = Clone(defaultOptions);
+               menuOptions.filter = {
+                  title: 'все страны'
+               };
+               const menuControl = getMenu(menuOptions);
+               return menuControl._loadItems(menuOptions).addCallback((items) => {
+                  assert.equal(items.getCount(), 1);
+               });
+            });
+
             it('with navigation', () => {
                const menuOptions = Clone(defaultOptions);
                menuOptions.navigation = {
@@ -420,7 +450,7 @@ define(
             beforeEach(() => {
                const records = [];
                for (let i = 0; i < 15; i++) {
-                  records.push({ get: () => {} });
+                  records.push({ key: String(i), doNotSaveToHistory: undefined });
                }
                menuControl = getMenu();
                items = new collection.RecordSet({
@@ -435,6 +465,18 @@ define(
                const result = menuControl._isExpandButtonVisible(items, newMenuOptions);
                assert.isTrue(result);
                assert.equal(menuControl._visibleIds.length, 10);
+            });
+
+            it('expandButton visible, history menu with fixed item', () => {
+               const newMenuOptions = { allowPin: true, root: null };
+               items.append([new entity.Model({
+                  rawData: { key: 'doNotSaveToHistory', doNotSaveToHistory: true },
+                  keyProperty: 'key'
+               })]);
+
+               const result = menuControl._isExpandButtonVisible(items, newMenuOptions);
+               assert.isTrue(result);
+               assert.equal(menuControl._visibleIds.length, 11);
             });
 
             it('expandButton hidden, history menu', () => {

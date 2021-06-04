@@ -194,6 +194,11 @@ class FormController extends ControllerBase<IFormController> {
         const needRead: boolean = !isPreloadWay && newOptions.key !== undefined && this._options.key !== newOptions.key;
         const needCreate: boolean = !isPreloadWay && newOptions.key === undefined &&
             !newOptions.record && this._createMetaDataOnUpdate !== createMetaData;
+        const updateRecord = () => {
+            if (newOptions.record && this._record !== newOptions.record) {
+                this._setRecord(newOptions.record);
+            }
+        };
 
         if (newOptions.record && this._record !== newOptions.record) {
             const isEqualId = this._isEqualId(this._record, newOptions.record);
@@ -201,18 +206,18 @@ class FormController extends ControllerBase<IFormController> {
                 this._confirmRecordChangeHandler(() => {
                     this._setRecord(newOptions.record);
                 });
-            } else {
-                this._setRecord(newOptions.record);
             }
         }
         if (needRead) {
             // Если текущий рекорд изменен, то покажем вопрос
             this._confirmRecordChangeHandler(() => {
                 this.read(newOptions.key, newOptions.readMetaData);
+                updateRecord();
             }, () => {
                 this._tryDeleteNewRecord().then(() => {
                     this.read(newOptions.key, newOptions.readMetaData);
                 });
+                updateRecord();
             });
         } else if (needCreate) {
             // Если нет ключа и записи - то вызовем метод создать.
@@ -229,11 +234,15 @@ class FormController extends ControllerBase<IFormController> {
                     }
                     this._createMetaDataOnUpdate = null;
                 });
+                updateRecord();
             });
-        } else if (!this._isConfirmShowed) {
-            if (newOptions.hasOwnProperty('isNewRecord')) {
-                this._isNewRecord = newOptions.isNewRecord;
+        } else {
+            if (!this._isConfirmShowed) {
+                if (newOptions.hasOwnProperty('isNewRecord')) {
+                    this._isNewRecord = newOptions.isNewRecord;
+                }
             }
+            updateRecord();
         }
     }
 

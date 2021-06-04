@@ -12,14 +12,15 @@ import {IExplorerOptions} from 'Controls/_newBrowser/interfaces/IExplorerOptions
 import {MasterVisibilityEnum} from 'Controls/_newBrowser/interfaces/IMasterOptions';
 import {BeforeChangeRootResult, IRootsData} from 'Controls/_newBrowser/interfaces/IRootsData';
 import {IBrowserViewConfig, NodesPosition} from 'Controls/_newBrowser/interfaces/IBrowserViewConfig';
+import {default as ListController} from './TemplateControllers/List';
+import {default as TileController} from './TemplateControllers/Tile';
+import {default as TableController} from './TemplateControllers/Table';
 import {isEqual} from 'Types/object';
 import {EventUtils} from 'UI/Events';
 import {
     buildDetailOptions,
     buildMasterOptions,
-    getListConfiguration,
-    ListConfig,
-    TileConfig
+    getListConfiguration
 } from 'Controls/_newBrowser/utils';
 //region templates import
 // tslint:disable-next-line:ban-ts-ignore
@@ -33,6 +34,8 @@ import * as DefaultListItemTemplate from 'wml!Controls/_newBrowser/templates/Lis
 import * as DefaultTileItemTemplate from 'wml!Controls/_newBrowser/templates/TileItemTemplate';
 import {View} from 'Controls/explorer';
 import 'css!Controls/listTemplates';
+import {factory} from 'Types/chain';
+import {ContextOptions as DataOptions} from 'Controls/context';
 //endregion
 
 interface IReceivedState {
@@ -72,6 +75,8 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         masterList: View
     };
 
+    protected _itemToScroll: string | number | void = null;
+
     /**
      * Enum со списком доступных вариантов отображения контента в detail-колонке.
      * Используется в шаблоне компонента.
@@ -100,6 +105,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             ? this._viewMode
             : (this._userViewMode || this._viewMode);
     }
+
     // Пользовательский режим отображения, задается опцией сверху
     private _userViewMode: DetailViewMode;
     // Текущий режим отображения, полученный их метаданных ответа,
@@ -130,6 +136,8 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      */
     protected _inputSearchString: string;
 
+    protected _hasImageInItems: boolean = false;
+
     /**
      * Значение опции searchValue, которое прокидывается в explorer.
      * Проставляется после того как получены результаты поиска
@@ -153,9 +161,11 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      */
     protected _listConfiguration: IBrowserViewConfig;
 
-    protected _tileCfg: TileConfig;
+    protected _tileCfg: TileController;
 
-    protected _listCfg: ListConfig;
+    protected _listCfg: ListController;
+
+    protected _tableCfg: TableController;
 
     /**
      * Опции для Controls/explorer:View в master-колонке
@@ -184,6 +194,15 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     //endregion
     //endregion
 
+    /**
+     * Получить dataOptions из контекста
+     * Если нет контекста, то поведение странное: на сервере dataOptions нет, а на клиенте это просто конструктор контекста, а не объект.
+     * @param contexts
+     * @private
+     */
+    private _getDataOptions(contexts: Record<string, any>): Record<string, any> | void {
+        return contexts.dataOptions?.sourceController ? contexts.dataOptions : null;
+    }
     //region ⎆ life circle hooks
 
     protected _beforeMount(
@@ -191,11 +210,13 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         contexts?: object,
         receivedState?: IReceivedState
     ): Promise<IReceivedState> | void {
-
+        this._dataOptions = this._getDataOptions(contexts);
         this._initState(options);
         let result = Promise.resolve(undefined);
-
-        if (receivedState) {
+        if (this._dataOptions) {
+            this._processItemsMetadata(this._detailDataSource.sourceController.getItems(), options);
+            this._afterViewModeChanged(options);
+        } else if (receivedState) {
             this._detailDataSource.setItems(receivedState.detailItems);
             this._processItemsMetadata(receivedState.detailItems, options);
             this._afterViewModeChanged(options);
@@ -220,40 +241,42 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     }
 
     protected _beforeUpdate(newOptions?: IOptions, contexts?: unknown): void {
+        this._dataOptions = this._getDataOptions(contexts);
         const masterOps = this._buildMasterExplorerOption(newOptions);
         const detailOps = this._buildDetailExplorerOptions(newOptions);
+        const filterChanged = !isEqual(this._options.filter, newOptions.filter);
         if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
             this._createTemplateControllers(newOptions.listConfiguration, newOptions);
         }
+        if (!this._dataOptions) {
+            const isChanged = this._detailDataSource.updateOptions(detailOps) || filterChanged;
+            if (isChanged) {
+                this._detailDataSource.sourceController.reload();
+            }
+            // Обязательно вызываем setFilter иначе фильтр в sourceController может
+            // не обновиться при updateOptions. Потому что updateOptions сравнивает
+            // не внутреннее поле _filter, фильтр который был передан в опциях при создании,
+            // либо при последнем updateOptions
+            this._detailDataSource.setFilter(detailOps.filter);
 
-        const isChanged = this._detailDataSource.updateOptions(detailOps);
-        if (isChanged) {
-            this._detailDataSource.sourceController.reload();
-        }
-        // Обязательно вызываем setFilter иначе фильтр в sourceController может
-        // не обновиться при updateOptions. Потому что updateOptions сравнивает
-        // не внутреннее поле _filter, фильтр который был передан в опциях при создании,
-        // либо при последнем updateOptions
-        this._detailDataSource.setFilter(detailOps.filter);
+            if (detailOps.searchValue && detailOps.searchValue !== this._searchValue) {
+                this._setSearchString(newOptions.searchValue);
+                return;
+            }
 
-        if (detailOps.searchValue && detailOps.searchValue !== this._searchValue) {
-            this._setSearchString(newOptions.searchValue);
-            return;
-        }
-
-        if (!newOptions.searchValue && this._searchValue) {
-            this._resetSearch({
-                masterRoot: masterOps.root,
-                detailRoot: detailOps.root
-            });
-            return;
+            if (!newOptions.searchValue && this._searchValue) {
+                this._resetSearch({
+                    masterRoot: masterOps.root,
+                    detailRoot: detailOps.root
+                });
+                return;
+            }
         }
 
         // Все что нужно применится в detailDataLoadCallback
         if (this._search === 'search') {
             return;
         }
-
         this._userViewMode = newOptions.userViewMode;
 
         this._detailExplorerOptions = detailOps;
@@ -262,6 +285,10 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
         this.root = this._detailExplorerOptions.root;
         this._masterMarkedKey = this.root;
+        if (this._dataOptions) {
+            this._viewMode = newOptions.viewMode;
+            this._searchValue = newOptions.searchValue;
+        }
 
         // Обновляем фон только если не менялся root, т.к. в этом случае фон нужно обносить после загрузки данных,
         // и переключаются не на плитку или переключение на плитку уже состоялось ранее, т.к. в этом случае
@@ -307,6 +334,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     protected _beforeUnmount(): void {
         this._detailDataSource.destroy();
     }
+
     //endregion
 
     //region public methods
@@ -314,7 +342,12 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * Вызывает перезагрузку данных в detail-колонке
      */
     reload(): Promise<RecordSet> {
-        return this._detailDataSource.loadData();
+        if (this._dataOptions) {
+            const detailExplorer = this._children.detailList;
+            return detailExplorer.reload.apply(detailExplorer, arguments);
+        } else {
+            return this._detailDataSource.loadData();
+        }
     }
 
     // нужно уметь реагировать на результат выполнения команд самостоятельно.
@@ -389,8 +422,10 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             .then((newRoots) => {
                 // Если меняют root когда находимся в режиме поиска, то нужно
                 // сбросить поиск и отобразить содержимое нового root
-                if (this.viewMode === DetailViewMode.search) {
-                    this._resetSearch();
+                if (this.viewMode === DetailViewMode.search && !this._dataOptions) {
+                    this._resetSearch().then(() => {
+                        this._changeRoot(newRoots);
+                    });
                     return;
                 }
 
@@ -491,10 +526,10 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * Сбрасывает в _detailDataSource параметры фильтра, отвечающие за поиск,
      * и если нужно меняет у него root.
      */
-    private _resetSearch(): void {
+    private _resetSearch(): Promise<void> {
         this._detailDataSource.sourceController.cancelLoading();
 
-        this._detailDataSource
+        return this._detailDataSource
             .resetSearchString()
             .then(() => {
                 const newRoot = this._detailDataSource.getSearchControllerRoot();
@@ -541,12 +576,28 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._notify('listConfigurationChanged', [cfg]);
     }
 
+    private _hasImages(items: RecordSet, imageProperty: string): boolean {
+        return !!factory(items).filter((item) => {
+            return !!item.get(imageProperty);
+        }).first();
+    }
+
     //region ⇑ events handlers
-    private _onDetailDataLoadCallback(items: RecordSet, direction: string): void {
+    private _onDetailDataLoadCallback(items: RecordSet, direction: string, options: IOptions): void {
         // Не обрабатываем последующие загрузки страниц. Нас интересует только
         // загрузка первой страницы
-        if (direction) {
+        if (direction && options.detail.imageProperty && !this._hasImageInItems) {
+            this._hasImageInItems = this._hasImages(items, options.detail.imageProperty);
+            const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
+            if (imageVisibility !== this._listCfg.getImageVisibility()) {
+                this._itemToScroll = this._children.detailList.getLastVisibleItemKey();
+                this._listCfg.setImageVisibility(imageVisibility);
+                this._tileCfg.setImageVisibility(imageVisibility);
+                this._tableCfg.setImageVisibility(imageVisibility);
+            }
             return;
+        } else if (!this._hasImageInItems) {
+            this._hasImageInItems = this._hasImages(items, options.detail.imageProperty);
         }
 
         if (this._inputSearchString) {
@@ -567,6 +618,13 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._afterViewModeChanged();
     }
 
+    protected _afterRender(): void {
+        if (this._itemToScroll) {
+            this._children.detailList.scrollToItem(this._itemToScroll, true);
+            this._itemToScroll = null;
+        }
+    }
+
     protected _onExplorerItemClick(
         event: SyntheticEvent,
         isMaster: boolean,
@@ -574,7 +632,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         clickEvent: unknown,
         columnIndex?: number
     ): unknown {
-
         const explorerOptions = isMaster ? this._masterExplorerOptions : this._detailExplorerOptions;
         const notifyResult = this._notify('itemClick', [item, clickEvent, columnIndex]);
         if (notifyResult !== false) {
@@ -613,8 +670,22 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
     protected _createTemplateControllers(cfg: IBrowserViewConfig, options: IOptions): void {
         this._listConfiguration = cfg;
-        this._tileCfg = new TileConfig(this._listConfiguration, options);
-        this._listCfg = new ListConfig(this._listConfiguration, options);
+        const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
+        this._tileCfg = new TileController({
+            listConfiguration: this._listConfiguration,
+            imageVisibility,
+            browserOptions: options
+        });
+        this._listCfg = new ListController({
+            listConfiguration: this._listConfiguration,
+            imageVisibility,
+            browserOptions: options
+        });
+        this._tableCfg = new TableController({
+            listConfiguration: this._listConfiguration,
+            imageVisibility,
+            browserOptions: options
+        });
     }
 
     //endregion
@@ -698,10 +769,10 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             itemTemplate: compiledOptions.itemTemplate || DefaultListItemTemplate,
             tileItemTemplate: compiledOptions.tileItemTemplate || DefaultTileItemTemplate,
 
-            sourceController: this._detailDataSource?.sourceController,
+            sourceController: this._detailDataSource?.sourceController || this._dataOptions?.sourceController,
 
             dataLoadCallback: (items, direction) => {
-                this._onDetailDataLoadCallback(items, direction);
+                this._onDetailDataLoadCallback(items, direction, options);
 
                 if (compiledOptions.dataLoadCallback) {
                     compiledOptions.dataLoadCallback(items, direction);
@@ -737,6 +808,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             this._detailBgColor = options.detail.backgroundColor || '#ffffff';
         }
     }
+
     //endregion
 
     //region base control overrides
@@ -747,6 +819,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
         return super._notify(eventName, args, options);
     }
+
     //endregion
 
     //region • static utils
@@ -815,7 +888,11 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         }
     }
     //endregion
-
+    static contextTypes() {
+        return {
+            dataOptions: DataOptions
+        };
+    }
 }
 
 /**

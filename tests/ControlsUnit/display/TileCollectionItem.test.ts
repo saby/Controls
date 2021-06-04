@@ -1,4 +1,5 @@
 import { assert } from 'chai';
+import * as sinon from 'sinon';
 
 import {CollectionItem, TileCollectionItem} from 'Controls/display';
 
@@ -98,6 +99,23 @@ describe('Controls/_display/TileCollectionItem', () => {
 
         assert.strictEqual(given.item, item);
         assert.strictEqual(given.property, 'hovered');
+    });
+
+    it('.setHovered(false) sets canShowActions to false', () => {
+        const owner = {
+            notifyItemChange(item: TileCollectionItem<string>, property: string): void {
+            }
+        };
+
+        const item = new TileCollectionItem({ owner: owner as any });
+        const sandbox = sinon.createSandbox();
+        const setCanShowActionsSpy = sandbox.spy(item, 'setCanShowActions');
+
+        item.setHovered(true);
+        item.setHovered(false);
+
+        setCanShowActionsSpy.calledWith(false);
+        sandbox.restore();
     });
 
     describe('.setActive() (override)', () => {
@@ -274,15 +292,13 @@ describe('Controls/_display/TileCollectionItem', () => {
             getShadowVisibility(): string {
                 return '#visibility#';
             },
-            getMarkerVisibility(): string {
-                return 'onactivated';
-            },
             getSwipeAnimation() {
                 return this._swipeAnimation;
             },
             setSwipeAnimation(animation) {
                 this._swipeAnimation = animation;
             },
+            hasMultiSelectColumn: () => false,
             isEditing() {
                 return false;
             }

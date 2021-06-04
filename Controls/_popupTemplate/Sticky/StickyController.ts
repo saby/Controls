@@ -8,6 +8,7 @@ import * as cInstance from 'Core/core-instance';
 import {Logger} from 'UI/Utils';
 import {getScrollbarWidthByMeasuredBlock} from 'Controls/scroll';
 import {constants, detection} from 'Env/Env';
+import {Controller as ManagerController} from 'Controls/popup';
 
 export type TVertical = 'top' | 'bottom' | 'center';
 export type THorizontal = 'left' | 'right' | 'center';
@@ -163,7 +164,8 @@ const _private = {
 
     getFakeDivMargins(item) {
         const fakeDiv = _private.getFakeDiv();
-        fakeDiv.className = item.popupOptions.className;
+        const theme = ManagerController.getTheme();
+        fakeDiv.className = item.popupOptions.className + ` controls_popupTemplate_theme-${theme}`;
 
         const styles = this.getContainerStyles(fakeDiv);
         return {
@@ -202,7 +204,7 @@ const _private = {
 /**
  * Sticky Popup Controller
  * @class Controls/_popupTemplate/Sticky/StickyController
- * 
+ *
  * @private
  */
 class StickyController extends BaseController {
@@ -335,6 +337,11 @@ class StickyController extends BaseController {
         return this.elementAfterUpdated(item, container);
     }
 
+    dragNDropOnPage(item): boolean {
+        const hasChilds = !!item.childs.length;
+        return !item.isDragOnPopup && item.popupOptions.closeOnOutsideClick && !hasChilds;
+    }
+
     getDefaultConfig(item) {
         _private.setStickyContent(item);
         item.popupOptions = _private.prepareOriginPoint(item.popupOptions);
@@ -343,7 +350,9 @@ class StickyController extends BaseController {
         item.position = {
             top: -10000,
             left: -10000,
+            minWidth: item.popupOptions.minWidth,
             maxWidth: item.popupOptions.maxWidth || _private.getWindowWidth(),
+            minHeight: item.popupOptions.minHeight,
             maxHeight: item.popupOptions.maxHeight || _private.getWindowHeight(),
             width: item.popupOptions.width,
             height: item.popupOptions.height,

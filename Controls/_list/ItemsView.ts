@@ -41,4 +41,11 @@ export default class ItemsView<TOptions extends IItemsViewOptions = IItemsViewOp
      */
     protected _notifyHandler: typeof EventUtils.tmplNotify = EventUtils.tmplNotify;
     //endregion
+
+    static defaultProps: object = {
+        multiSelectVisibility: 'hidden',
+        multiSelectPosition: 'default',
+        stickyHeader: true,
+        style: 'default'
+    };
 }

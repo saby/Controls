@@ -830,19 +830,19 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       const scopeOptions = options ?? this._options;
 
       return this._getSourceController(scopeOptions).load().then((recordSet) => {
-         if (recordSet instanceof RecordSet &&
-            this._shouldShowSuggest(recordSet) &&
-            (this._inputActive || this._tabsSelectedKey !== null)) {
-
-            this._setItems(recordSet);
-            if (scopeOptions.dataLoadCallback) {
-               scopeOptions.dataLoadCallback(recordSet);
-            }
+         if ((this._inputActive || this._tabsSelectedKey !== null)) {
             this._loadEnd(recordSet);
 
-            this._updateSuggestState();
+            if (recordSet instanceof RecordSet && this._shouldShowSuggest(recordSet)) {
+               this._setItems(recordSet);
+               if (scopeOptions.dataLoadCallback) {
+                  scopeOptions.dataLoadCallback(recordSet);
+               }
 
-            return recordSet as RecordSet;
+               this._updateSuggestState();
+
+               return recordSet as RecordSet;
+            }
          }
       }).catch((e) => this._searchErrback(e));
    }
@@ -889,7 +889,8 @@ export default class InputContainer extends Control<IInputControllerOptions> {
                minSearchLength: this._options.minSearchLength,
                searchDelay: this._options.searchDelay as number,
                searchParam: this._options.searchParam,
-               searchValueTrim: this._options.trim
+               searchValueTrim: this._options.trim,
+               navigation: this._options.navigation
             } as ISearchControllerOptions);
             return this._searchController;
          }).catch((error) => this._searchErrback(error));
@@ -977,6 +978,8 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       // change only filter for query, tabSelectedKey will be changed after processing query result,
       // otherwise interface will blink
       if (this._tabsSelectedKey !== tabId) {
+         this._sourceController = null;
+         this._searchController = null;
          this._setFilterAndLoad(this._options.filter, this._options, tabId)
              .finally(() => {
                 changeTabCallback();

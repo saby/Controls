@@ -14,59 +14,6 @@ interface IData {
    width: string | number;
    isShadow: boolean;
 }
-const characteristics = [
-    [
-        {
-            icon: 'icon-Actor',
-            tooltip: '1 Текст при наведении',
-            title: 'Человек'
-        },
-        {
-            icon: 'icon-Bell',
-            tooltip: '2 Текст при наведении',
-            title: 'Колокол'
-        },
-        {
-            icon: 'icon-Bike',
-            tooltip: '3 Текст при наведении',
-            title: 'Велосипед'
-        },
-        {
-            icon: 'icon-Admin',
-            tooltip: '4 Текст при наведении',
-            title: 'Гаечный Ключ'
-        },
-        {
-            icon: 'icon-Android',
-            tooltip: '5 Текст при наведении',
-            title: 'Андроид'
-        },
-        {
-            icon: 'icon-Attach',
-            tooltip: '6 Текст при наведении',
-            title: 'Скрепка'
-        }
-    ],
-    [
-
-        {
-            icon: 'icon-Actor',
-            tooltip: 'Человек'
-        },
-        {
-            icon: 'icon-Bell',
-            tooltip: 'Колокол'
-        },
-        {
-            icon: 'icon-Bike',
-            tooltip: 'Велосипед'
-        },
-        {
-            icon: 'icon-Love',
-            tooltip: 'Сердце'
-        }
-    ]
-];
 export const Gadgets = {
    getData: (): IData[] => [{
       id: 1,
@@ -324,8 +271,7 @@ export const Gadgets = {
             'parent@': null,
             imageHeight: 's',
             image: explorerImages[8],
-            isShadow: true,
-            characteristics: characteristics[0]
+            isShadow: true
         }, {
             id: 2,
             parent: null,
@@ -339,8 +285,7 @@ export const Gadgets = {
             imageViewMode: 'ellipse',
             imageHeight: 'm',
             image: explorerImages[8],
-            isShadow: true,
-            characteristics: characteristics[1]
+            isShadow: true
         }, {
             id: 3,
             parent: null,

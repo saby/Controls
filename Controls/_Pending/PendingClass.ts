@@ -1,5 +1,6 @@
 import * as ParallelDeferred from 'Core/ParallelDeferred';
 import {constants} from 'Env/Env';
+import {Logger} from 'UI/Utils';
 
 interface IPendingOptions {
     notifyHandler: TNotifier;
@@ -61,6 +62,11 @@ class PendingClass {
     }
 
     registerPending(def: Promise<void>, config: IPendingConfig = {}): void {
+        if (!this._validatePromise(def)) {
+            Logger.error('Controls/Pending', 'При регистрации пендинга произошла ошибка: В параметр' +
+                'события registerPending первым аргументом передан не promise.');
+        }
+
         const root = config.root || null;
         if (!this._pendings[root]) {
             this._pendings[root] = {};
@@ -101,6 +107,10 @@ class PendingClass {
         this._pendingsCounter++;
     }
 
+    private _validatePromise(promise: Promise): boolean {
+        return promise && (promise instanceof Promise || promise._moduleName === 'Core/Deferred');
+    }
+
     hideIndicators(root: string): void {
         let pending;
         if (this._pendings) {
@@ -115,23 +125,27 @@ class PendingClass {
     }
 
     unregisterPending(root: string, id: number): void {
-        // hide indicator if no more pendings with indicator showing
-        this.hideIndicators(root);
-        if (this._pendings) {
-            delete this._pendings[root][id];
-            // Если корень пуст - удалим корень.
-            if (Object.keys(this._pendings[root]).length === 0) {
-                delete this._pendings[root];
-            }
-            // notify if no more pendings
-            if (!this.hasRegisteredPendings(root)) {
-                this._notify('pendingsFinished', []);
+        // Может произойти ситуация, когда промис пендинга зарезолвился, мы начали удаление пендинга из this._pendings и
+        // код упал с ошибкой (например в прикладном обработчике на pendingFinished). Тогда у промиса стрельнет catch,
+        // который мы так же обработаем и попадем в этот метод второй раз. Ставлю защиту
+        const rootPending = this._pendings && this._pendings[root];
+        if (rootPending) {
+            this.hideIndicators(root);
+            if (this._pendings) {
+                delete rootPending[id];
+                // Если корень пуст - удалим корень.
+                if (Object.keys(rootPending).length === 0) {
+                    delete this._pendings[root];
+                }
+                // notify if no more pendings
+                if (!this.hasRegisteredPendings(root)) {
+                    this._notify('pendingsFinished', []);
+                }
             }
         }
-
     }
 
-    
+
     finishPendingOperations(forceFinishValue: boolean, root: string = null): Promise<unknown> {
         let pendingResolver, pendingReject;
         const resultPromise = new Promise((resolve, reject) => {

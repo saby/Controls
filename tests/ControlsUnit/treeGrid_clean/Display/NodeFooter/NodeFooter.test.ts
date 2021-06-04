@@ -64,7 +64,8 @@ describe('Controls/_display/itemsStrategy/NodeFooter', () => {
             nodeProperty: 'type',
             root: null,
             columns: [{}],
-            expandedItems: [null]
+            expandedItems: [null],
+            nodeFooterTemplate: () => ''
         });
         // Нужны только триИтемы
         const items = tree.getItems().filter((it) => !it['[Controls/treeGrid:TreeGridNodeFooterRow]']);
@@ -109,5 +110,27 @@ describe('Controls/_display/itemsStrategy/NodeFooter', () => {
             const removedFooter = items.find((it) => it.getContents() === 'node-footer-2');
             assert.isNotOk(removedFooter);
         });
+    });
+
+    it('not call callback for node if show more button', () => {
+        let calledForNodeWithMore = false;
+
+        const nodeFooterVisibilityCallback = (contents) => {
+            calledForNodeWithMore = contents.getKey() === 1;
+            return true;
+        };
+
+        tree.setHasMoreStorage({
+            1: true
+        });
+
+        strategy = new NodeFooter({
+            display: tree,
+            source,
+            nodeFooterVisibilityCallback: () => true
+        });
+        strategy.items;
+
+        assert.isFalse(calledForNodeWithMore);
     });
 });

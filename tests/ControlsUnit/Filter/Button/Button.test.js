@@ -149,7 +149,7 @@ define(
          it('_private.setPopupOptions', function() {
             let expectedResult = {
                closeOnOutsideClick: true,
-               className: 'controls-FilterButton-popup-orientation-left',
+               className: 'controls-FilterButton-popup-orientation-left controls_popupTemplate_theme-default controls_filterPopup_theme-default',
                targetPoint: {
                   vertical: 'top',
                   horizontal: 'right'
@@ -158,17 +158,17 @@ define(
                   horizontal: 'left'
                }
             };
-            let filterSelector = {},
+            let filterSelector = { },
                alignment = 'right';
-            filterMod.Selector._private.setPopupOptions(filterSelector, alignment);
+            filterMod.Selector._private.setPopupOptions(filterSelector, alignment,'default');
             assert.deepStrictEqual(filterSelector._popupOptions, expectedResult);
 
             expectedResult = {
                closeOnOutsideClick: true,
-               className: 'controls-FilterButton-popup-orientation-right'
+               className: 'controls-FilterButton-popup-orientation-right controls_popupTemplate_theme-default controls_filterPopup_theme-default'
             };
             alignment = 'left';
-            filterMod.Selector._private.setPopupOptions(filterSelector, alignment);
+            filterMod.Selector._private.setPopupOptions(filterSelector, alignment,'default');
             assert.deepStrictEqual(filterSelector._popupOptions, expectedResult);
          });
 

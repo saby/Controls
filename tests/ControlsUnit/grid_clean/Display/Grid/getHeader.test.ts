@@ -3,6 +3,7 @@ import { RecordSet } from 'Types/collection';
 import { Model } from 'Types/entity';
 import * as sinon from 'sinon';
 import { GridCollection } from 'Controls/grid';
+import Header from "Controls/_grid/display/Header";
 
 describe('Controls/grid_clean/Display/Grid/getHeader', () => {
 
@@ -88,6 +89,37 @@ describe('Controls/grid_clean/Display/Grid/getHeader', () => {
                 recordSet.removeAt(1);
 
                 assert.isTrue(!!collection.getHeader());
+            });
+
+            // обновляем шапку, проверяем, что columnSeparator проставился
+            it('set columnSeparator on columns update', () => {
+                const recordSet = new RecordSet({
+                    keyProperty: 'id',
+                    rawData: [
+                        {id: 1, title: ''},
+                        {id: 2, title: ''}
+                    ]
+                });
+                const collection = new GridCollection({
+                    collection: recordSet,
+                    columns: [{ width: ''}],
+                    header: [{ caption: ''}],
+                    columnSeparatorSize: 's'
+                });
+
+                const stubGetHeaderConstructor = sinon.stub(collection, 'getHeaderConstructor');
+                stubGetHeaderConstructor.callsFake(() => ((options) => {
+                    assert.strictEqual(options.columnSeparatorSize, 's');
+                }));
+
+                // сбрасываем заголовок
+                collection.setHeader([{ caption: ''}]);
+
+                // Вызываем инициализацию заголовков
+                collection.getHeader();
+
+                sinon.assert.called(stubGetHeaderConstructor);
+                stubGetHeaderConstructor.restore();
             });
         });
     });

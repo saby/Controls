@@ -7,6 +7,7 @@ import {NewSourceController} from 'Controls/dataSource';
 import * as sinon from 'sinon';
 import {Logger} from 'UI/Utils';
 import {CssClassesAssert as aAssert} from 'ControlsUnit/CustomAsserts';
+import {fetch, HTTPStatus} from 'Browser/Transport';
 
 const getData = (dataCount: number = 0) => {
     const data = [];
@@ -123,6 +124,49 @@ describe('Controls/list_clean/BaseControl', () => {
             assert.isTrue(!!baseControl._listViewModel.getCollapsedGroups());
         });
     });
+    describe('handleKeyDown', async() => {
+        const baseControlCfg = await getCorrectBaseControlConfigAsync({
+            viewName: 'Controls/List/ListView',
+            keyProperty: 'id',
+            viewModelConstructor: ListViewModel,
+            source: new Memory()
+        });
+        let baseControl;
+
+        beforeEach(() => {
+            baseControl = new BaseControl(baseControlCfg);
+        });
+
+        afterEach(() => {
+            baseControl.destroy();
+            baseControl = undefined;
+        });
+        it('skip event if altKey', () => {
+            const eventAlt = { nativeEvent: { altKey: true, keyCode: 40} };
+            const event = {
+                nativeEvent: {
+                    altKey: false,
+                    keyCode: 40
+                },
+                stopImmediatePropagation: () => null,
+                target: {
+                    closest: () => {
+                        return true;
+                    }
+                }
+            };
+            const sandbox = sinon.createSandbox();
+            let keyDownDownCalled = false;
+            sandbox.stub(BaseControl._private, 'keyDownDown').callsFake(() => {
+                keyDownDownCalled = true;
+            });
+            baseControl.handleKeyDown(eventAlt);
+            assert.isFalse(keyDownDownCalled);
+            baseControl.handleKeyDown(event);
+            assert.isTrue(keyDownDownCalled);
+            sandbox.restore();
+        });
+    });
     describe('BaseControl watcher paging', () => {
         const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
@@ -222,8 +266,9 @@ describe('Controls/list_clean/BaseControl', () => {
             };
             baseControl._getItemsContainer = () => {
                 return {
-                    children: []
-                }
+                    children: [],
+                    querySelectorAll: () => []
+                };
             };
             assert.isFalse(baseControl._pagingVisible);
             baseControl._viewportSize = 400;
@@ -280,11 +325,13 @@ describe('Controls/list_clean/BaseControl', () => {
                 clientHeight: 1000
             };
             baseControl._itemsContainerReadyHandler(null, () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             });
             baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             baseControl._mouseEnter(null);
 
@@ -321,11 +368,13 @@ describe('Controls/list_clean/BaseControl', () => {
                 clientHeight: 1000
             };
             baseControl._itemsContainerReadyHandler(null, () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             });
             baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             baseControl._mouseEnter(null);
 
@@ -354,11 +403,13 @@ describe('Controls/list_clean/BaseControl', () => {
                 clientHeight: 1000
             };
             baseControl._itemsContainerReadyHandler(null, () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             });
             baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             baseControl._mouseEnter(null);
 
@@ -394,11 +445,13 @@ describe('Controls/list_clean/BaseControl', () => {
                 clientHeight: 1000
             };
             baseControl._itemsContainerReadyHandler(null, () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             });
             baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             baseControl._mouseEnter(null);
 
@@ -434,11 +487,13 @@ describe('Controls/list_clean/BaseControl', () => {
                 clientHeight: 1040
             };
             baseControl._itemsContainerReadyHandler(null, () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             });
             baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             baseControl._mouseEnter(null);
 
@@ -519,7 +574,8 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._listViewModel._stopIndex = 100;
             baseControl._viewportSize = 400;
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             baseControl._mouseEnter(null);
             let doScrollNotified = false;
@@ -574,7 +630,8 @@ describe('Controls/list_clean/BaseControl', () => {
             };
             baseControl._viewportSize = 400;
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             assert.isFalse(baseControl._isPagingPadding());
             cfgClone.navigation.viewConfig.pagingMode = 'base';
@@ -596,7 +653,8 @@ describe('Controls/list_clean/BaseControl', () => {
             };
             baseControl._viewportSize = 400;
             baseControl._getItemsContainer = () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             };
             baseControl._mouseEnter(null);
             assert.isTrue(baseControl._pagingVisible);
@@ -634,7 +692,8 @@ describe('Controls/list_clean/BaseControl', () => {
                 clientHeight: 1000
             };
             baseControl._itemsContainerReadyHandler(null, () => {
-                return {children: []};
+                return {children: [],
+                    querySelectorAll: () => []};
             });
             baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
             baseControl._mouseEnter(null);
@@ -946,15 +1005,15 @@ describe('Controls/list_clean/BaseControl', () => {
             assert.isTrue(shiftToDirectionStub.calledWith('down'));
         });
         it('moveMarkerToNext', () => {
-            BaseControl._private.moveMarkerToNext(baseControl, { preventDefault: () => null });
+            BaseControl._private.moveMarkerToDirection(baseControl, { preventDefault: () => null }, 'Forward');
             assert.isFalse(shiftToDirectionStub.called);
             baseControl._beforeUpdate({...baseControlCfg, markedKey: 1});
-            BaseControl._private.moveMarkerToNext(baseControl, { preventDefault: () => null });
+            BaseControl._private.moveMarkerToDirection(baseControl, { preventDefault: () => null }, 'Forward');
             assert.isTrue(shiftToDirectionStub.calledOnce);
             assert.isTrue(shiftToDirectionStub.calledWith('down'));
         });
         it('moveMarkerToPrevious', () => {
-            BaseControl._private.moveMarkerToPrevious(baseControl, { preventDefault: () => null });
+            BaseControl._private.moveMarkerToDirection(baseControl, { preventDefault: () => null }, 'Backward');
             assert.isTrue(shiftToDirectionStub.calledOnce);
             assert.isTrue(shiftToDirectionStub.calledWith('up'));
         });
@@ -1121,6 +1180,37 @@ describe('Controls/list_clean/BaseControl', () => {
                 baseControlOptions.loading = false;
                 baseControl._beforeUpdate(baseControlOptions);
                 assert.ok(!baseControl.__error);
+            });
+
+            it('sourceController load error on _beforeUpdate', async () => {
+                let sourceControllerOptions = getBaseControlOptionsWithEmptyItems();
+                const sourceController = new NewSourceController(sourceControllerOptions);
+                let baseControlOptions = {...sourceControllerOptions, sourceController};
+                const baseControl = new BaseControl(baseControlOptions);
+                await sourceController.reload();
+                await baseControl._beforeMount(baseControlOptions);
+                baseControl.saveOptions(baseControlOptions);
+
+                sourceControllerOptions = {...sourceControllerOptions};
+                sourceControllerOptions.source = new Memory();
+                sourceControllerOptions.source.query = () => {
+                    const error = new fetch.Errors.HTTP({
+                        httpError: HTTPStatus.GatewayTimeout,
+                        message: undefined,
+                        url: undefined
+                    });
+                    error.processed = true;
+                    return Promise.reject(error);
+                };
+                sourceController.updateOptions(sourceControllerOptions);
+                await sourceController.reload().catch(() => {});
+                baseControlOptions.loading = true;
+                baseControl.saveOptions(baseControlOptions);
+
+                baseControlOptions = {...baseControlOptions};
+                baseControlOptions.loading = false;
+                const errorResult = await baseControl._beforeUpdate(baseControlOptions);
+                assert.ok(errorResult.error);
             });
 
             it('_beforeUpdate while source controller is loading', async () => {
@@ -1296,23 +1386,23 @@ describe('Controls/list_clean/BaseControl', () => {
     describe('getFooterClasses', () => {
         [
             // multiSelectVisibility, multiSelectPosition, itemPadding, expectedResult
-            ['hidden', undefined, undefined, 'controls__BaseControl__footer__paddingLeft_default'],
-            ['hidden', undefined, {}, 'controls__BaseControl__footer__paddingLeft_default'],
-            ['hidden', undefined, {left: 'xl'}, 'controls__BaseControl__footer__paddingLeft_xl'],
-            ['hidden', undefined, {left: 'XL'}, 'controls__BaseControl__footer__paddingLeft_xl'],
+            ['hidden', 'default', undefined, undefined, 'controls__BaseControl__footer-default__paddingLeft_default'],
+            ['hidden', 'default', undefined, {}, 'controls__BaseControl__footer-default__paddingLeft_default'],
+            ['hidden', 'default', undefined, {left: 'xl'}, 'controls__BaseControl__footer-default__paddingLeft_xl'],
+            ['hidden', 'default', undefined, {left: 'XL'}, 'controls__BaseControl__footer-default__paddingLeft_xl'],
 
-            ['visible', undefined, undefined, 'controls__BaseControl__footer__paddingLeft_withCheckboxes'],
-            ['visible', undefined, {left: 'xl'}, 'controls__BaseControl__footer__paddingLeft_withCheckboxes'],
+            ['visible', 'default', undefined, undefined, 'controls__BaseControl__footer-default__paddingLeft_withCheckboxes'],
+            ['visible', 'default', undefined, {left: 'xl'}, 'controls__BaseControl__footer-default__paddingLeft_withCheckboxes'],
 
-            ['visible', 'custom', undefined, 'controls__BaseControl__footer__paddingLeft_default'],
-            ['visible', 'custom', {left: 'xl'}, 'controls__BaseControl__footer__paddingLeft_xl'],
-            ['visible', 'custom', {left: 'XL'}, 'controls__BaseControl__footer__paddingLeft_xl']
-        ].forEach(([multiSelectVisibility, multiSelectPosition, itemPadding, expectedResult]) => {
-            it(`multiSelectVisibility='${multiSelectVisibility}', multiSelectPosition='${multiSelectPosition}', itemPadding='${itemPadding}'`, () => {
+            ['visible', 'default', 'custom', undefined, 'controls__BaseControl__footer-default__paddingLeft_default'],
+            ['visible', 'default', 'custom', {left: 'xl'}, 'controls__BaseControl__footer-default__paddingLeft_xl'],
+            ['visible', 'default', 'custom', {left: 'XL'}, 'controls__BaseControl__footer-default__paddingLeft_xl']
+        ].forEach(([multiSelectVisibility, style,  multiSelectPosition, itemPadding, expectedResult]) => {
+            it(`multiSelectVisibility='${multiSelectVisibility}', style='${style}', multiSelectPosition='${multiSelectPosition}', itemPadding='${itemPadding}'`, () => {
                 const baseControl = new BaseControl({});
 
                 aAssert.isSame(
-                    baseControl._getFooterClasses({ multiSelectVisibility, multiSelectPosition, itemPadding }),
+                    baseControl._getFooterClasses({ multiSelectVisibility, style, multiSelectPosition, itemPadding }),
                     `controls__BaseControl__footer ${expectedResult}`
                 );
             });

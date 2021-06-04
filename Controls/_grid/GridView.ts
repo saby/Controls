@@ -10,6 +10,8 @@ import { Model } from 'Types/entity';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import ColumnScrollViewController, {COLUMN_SCROLL_JS_SELECTORS} from './ViewControllers/ColumnScroll';
 import { _Options } from 'UI/Vdom';
+import {getDimensions} from 'Controls/sizeUtils';
+import {Guid} from 'Types/entity';
 import 'css!Controls/grid';
 import 'css!Controls/CommonClasses';
 
@@ -21,6 +23,7 @@ const GridView = ListView.extend({
     _isFullMounted: false,
 
     _columnScrollViewController: null,
+    _isColumnScrollUpdateFrozen: false,
     _columnScrollWrapperClasses: '',
     _columnScrollContentClasses: '',
     _dragScrollOverlayClasses: '',
@@ -29,6 +32,7 @@ const GridView = ListView.extend({
     _horizontalScrollWidth: 0,
     _fixedColumnsWidth: 0,
     _scrollableColumnsWidth: 0,
+    _ladderOffsetSelector: '',
 
     _beforeMount(options): void {
         let result = GridView.superclass._beforeMount.apply(this, arguments);
@@ -57,6 +61,8 @@ const GridView = ListView.extend({
             this._listModel.setFooter(options.footerTemplate, options.footer, true);
         }
 
+        this._ladderOffsetSelector = `controls-GridView__ladderOffset-${this._createGuid()}`;
+
         return result;
     },
 
@@ -84,6 +90,10 @@ const GridView = ListView.extend({
             listModel.setHeader(options.header);
         }
 
+        if (changes.includes('headerVisibility')) {
+            listModel.setHeaderVisibility(options.headerVisibility);
+        }
+
         if (changes.includes('columnScroll')) {
             listModel.setColumnScroll(options.columnScroll);
         }
@@ -91,11 +101,30 @@ const GridView = ListView.extend({
         if (changes.includes('resultsPosition')) {
             listModel.setResultsPosition(options.resultsPosition);
         }
+
+        if (changes.includes('resultsVisibility')) {
+            listModel.setResultsVisibility(options.resultsVisibility);
+        }
+
+        if (changes.includes('ladderProperties')) {
+            listModel.setLadderProperties(options.ladderProperties);
+        }
+
+        if (changes.includes('emptyTemplateColumns')) {
+            listModel.setEmptyTemplateColumns(options.emptyTemplateColumns);
+        }
     },
 
     _applyChangedOptions(newOptions, oldOptions, changes): void {
         this._doAfterUpdate(() => {
+            this._isColumnScrollUpdateFrozen = false;
             this._actualizeColumnScroll(newOptions, oldOptions);
+            // TODO: Переделать по https://online.sbis.ru/opendoc.html?guid=73950100-bf2c-44cf-9e59-d29ddbb58d3a
+            // Чинит проблемы https://online.sbis.ru/opendoc.html?guid=a6f1e8c3-dd71-43b9-a1a8-9270c2f85c0d
+            // Нужно как то сообщать контроллеру фиксированных блоков, что блок стал видимым, что бы рассчитать его.
+            if (newOptions.columnScroll) {
+                this._notify('stickyHeaderOffsetTopChanged', [], {bubbling: true});
+            }
         });
     },
 
@@ -111,6 +140,9 @@ const GridView = ListView.extend({
             if (changedOptions.hasOwnProperty('header')) {
                 changes.push('header');
             }
+            if (changedOptions.hasOwnProperty('headerVisibility')) {
+                changes.push('headerVisibility');
+            }
             if (changedOptions.hasOwnProperty('columns')) {
                 changes.push('columns');
             }
@@ -123,8 +155,17 @@ const GridView = ListView.extend({
             if (changedOptions.hasOwnProperty('resultsPosition')) {
                 changes.push('resultsPosition');
             }
+            if (changedOptions.hasOwnProperty('resultsVisibility')) {
+                changes.push('resultsVisibility');
+            }
             if (changedOptions.hasOwnProperty('items')) {
                 changes.push('items');
+            }
+            if (changedOptions.hasOwnProperty('ladderProperties')) {
+                changes.push('ladderProperties');
+            }
+            if (changedOptions.hasOwnProperty('emptyTemplateColumns')) {
+                changes.push('emptyTemplateColumns');
             }
         }
 
@@ -132,16 +173,32 @@ const GridView = ListView.extend({
             // Набор колонок необходимо менять после перезагрузки. Иначе возникает ошибка, когда список
             // перерисовывается с новым набором колонок, но со старыми данными. Пример ошибки:
             // https://online.sbis.ru/opendoc.html?guid=91de986a-8cb4-4232-b364-5de985a8ed11
+            this._isColumnScrollUpdateFrozen = true;
             this._doAfterReload(() => {
                 this._applyChangedOptions(newOptions, oldOptions, changes);
                 this._applyChangedOptionsToModel(this._listModel, newOptions, changes);
+            });
+        } else if (!this._isColumnScrollUpdateFrozen) {
+            this._doAfterUpdate(() => {
+                this._actualizeColumnScroll(newOptions, oldOptions);
+                // TODO: Переделать по https://online.sbis.ru/opendoc.html?guid=73950100-bf2c-44cf-9e59-d29ddbb58d3a
+                // Чинит проблемы https://online.sbis.ru/opendoc.html?guid=a6f1e8c3-dd71-43b9-a1a8-9270c2f85c0d
+                // Нужно как то сообщать контроллеру фиксированных блоков, что блок стал видимым, что бы рассчитать его.
+                if (newOptions.columnScroll) {
+                    this._notify('stickyHeaderOffsetTopChanged', [], {bubbling: true});
+                }
             });
         }
     },
 
     _beforeUpdate(newOptions): void {
         GridView.superclass._beforeUpdate.apply(this, arguments);
-
+        if (!newOptions.columnScroll && this._columnScrollViewController) {
+            this._destroyColumnScroll();
+        }
+        if (this._columnScrollViewController && this._options.needShowEmptyTemplate !== newOptions.needShowEmptyTemplate) {
+            this._columnScrollViewController.setIsEmptyTemplateShown(newOptions.needShowEmptyTemplate);
+        }
         this._applyNewOptionsAfterReload(this._options, newOptions);
 
         if (newOptions.sorting !== this._options.sorting) {
@@ -155,6 +212,8 @@ const GridView = ListView.extend({
         if (this._options.rowSeparatorSize !== newOptions.rowSeparatorSize) {
             this._listModel.setRowSeparatorSize(newOptions.rowSeparatorSize);
         }
+
+        this._listModel.setColspanGroup(!newOptions.columnScroll || !this.isColumnScrollVisible());
     },
 
     _beforeUnmount(): void {
@@ -191,7 +250,9 @@ const GridView = ListView.extend({
         const ladderStickyColumn = GridLadderUtil.getStickyColumn({
             columns
         });
-        if (ladderStickyColumn) {
+
+        // Во время днд отключаем лесенку, а контент отображаем принудительно с помощью visibility: visible
+        if (ladderStickyColumn && !this._listModel.isDragging()) {
             if (ladderStickyColumn.property.length === 2) {
                 columnsWidths.splice(1, 0, '0px');
             }
@@ -203,11 +264,38 @@ const GridView = ListView.extend({
 
         // Дополнительная колонка для отображения застиканных операций над записью при горизонтальном скролле.
         // Если в списке нет данных, дополнительная колонка не нужна, т.к. операций над записью точно нет.
-        if (isFullGridSupport() && !!options.columnScroll && options.itemActionsPosition !== 'custom' && this._listModel.getCount()) {
+        if (isFullGridSupport() && !!options.columnScroll && options.itemActionsPosition !== 'custom') {
             columnsWidths.push('0px');
         }
 
         return GridLayoutUtil.getTemplateColumnsStyle(columnsWidths);
+    },
+
+    _createGuid(): string {
+        return Guid.create();
+    },
+
+    _getLadderTopOffsetStyles(): string {
+        if (!this._container) {
+            return '';
+        }
+        let headerHeight = 0;
+        let resultsHeight = 0;
+        const header = this._container.getElementsByClassName('controls-Grid__header')[0] as HTMLElement;
+        const results = this._container.getElementsByClassName('controls-Grid__results')[0] as HTMLElement;
+        const hasTopResults = results && this._listModel.getResultsPosition() !== 'bottom';
+        if (header) {
+            headerHeight = getDimensions(header).height;
+        }
+        if (hasTopResults) {
+            resultsHeight = getDimensions(results).height;
+        }
+        const ladderClass = `controls-Grid__row-cell__ladder-spacing${header ? '_withHeader' : ''}${hasTopResults ? '_withResults' : ''}`;
+        return `.${this._ladderOffsetSelector} .${ladderClass} {` +
+                  `top: calc(var(--item_line-height_l_grid) + ${headerHeight + resultsHeight}px) !important;}` +
+                `.${this._ladderOffsetSelector} .${ladderClass}_withGroup {` +
+                   `top: calc(var(--item_line-height_l_grid) + var(--grouping_height_list) + ${headerHeight + resultsHeight}px) !important;}`;
+
     },
 
     _getGridViewWrapperClasses(): string {
@@ -217,14 +305,19 @@ const GridView = ListView.extend({
     _getGridViewClasses(options): string {
         let classes = `controls-Grid controls-Grid_${options.style}`;
         if (GridLadderUtil.isSupportLadder(options.ladderProperties)) {
-            classes += ' controls-Grid_support-ladder';
+            classes += ` controls-Grid_support-ladder ${this._ladderOffsetSelector}`;
         }
 
         if (options.itemActionsPosition === 'outside' &&
             !this._listModel.getFooter() &&
             !(this._listModel.getResults() && this._listModel.getResultsPosition() === 'bottom')
         ) {
-            classes += ` controls-GridView__paddingBottom__itemActionsV_outside`;
+            classes += ' controls-GridView__paddingBottom__itemActionsV_outside';
+        }
+
+        // Во время днд отключаем лесенку, а контент отображаем принудительно с помощью visibility: visible
+        if (this._listModel.isDragging()) {
+            classes += ' controls-Grid_dragging_process';
         }
 
         classes += ` ${this._columnScrollContentClasses}`;
@@ -353,7 +446,11 @@ const GridView = ListView.extend({
     },
 
     isColumnScrollVisible(): boolean {
-        return !!this._columnScrollViewController?.isVisible() && (
+        // метод вызывается из _shouldDisplayMiddleLoadingIndicator. Он может вызваться в такой момент,
+        // что в BaseControl уже новая модель, а в gridView еще старая, которая уже задестроена
+        // TODO от этой зависимости должны избавиться по задаче https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
+
+        return !!this._columnScrollViewController?.isVisible() && !this._listModel.destroyed && (
             !!this._listModel.getCount() ||
             this._listModel.isEditing() ||
             this._options.headerVisibility === 'visible' ||
@@ -369,7 +466,7 @@ const GridView = ListView.extend({
         return this._columnScrollViewController.getScrollBarStyles(this._options, GridLadderUtil.stickyLadderCellsCount(
             this._listModel.getColumnsConfig(),
             this._options.stickyColumn,
-            this._listModel.getDraggableItem()
+            this._listModel.isDragging()
         ));
     },
 
@@ -377,7 +474,7 @@ const GridView = ListView.extend({
         const stickyLadderCellsCount = GridLadderUtil.stickyLadderCellsCount(
             this._options.columns,
             this._options.stickyColumn,
-            this._listModel.getDraggableItem()
+            this._listModel.isDragging()
         );
         this._columnScrollViewController = new ColumnScrollViewController({
             ...options,
@@ -525,7 +622,7 @@ const GridView = ListView.extend({
     },
 
     _resizeHandler(): void {
-        if (this._columnScrollViewController && this.isColumnScrollVisible()) {
+        if (this._options.columnScroll) {
             this._actualizeColumnScroll(this._options);
         }
     },
@@ -538,7 +635,26 @@ const GridView = ListView.extend({
             || !!target.closest(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`)) {
             return;
         }
-        this._columnScrollViewController.scrollToElementIfHidden(target.getBoundingClientRect());
+        let targetRect;
+        if (this._listModel.getEditingConfig()?.mode === 'cell') {
+            targetRect = (target.closest('.controls-Grid__row-cell') || target).getBoundingClientRect();
+        } else {
+            targetRect = target.getBoundingClientRect();
+        }
+        this._columnScrollViewController.scrollToElementIfHidden(targetRect);
+        this._applyColumnScrollChanges();
+    },
+
+    beforeRowActivated(target): void {
+        const isCellEditing = this._listModel.getEditingConfig()?.mode === 'cell';
+        const cell = target.closest('.controls-Grid__row-cell') || target;
+
+        if (cell.className.indexOf(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`) !== 1) {
+            return;
+        }
+
+        const targetRect = (isCellEditing ? cell : target).getBoundingClientRect();
+        this._columnScrollViewController.scrollToElementIfHidden(targetRect);
         this._applyColumnScrollChanges();
     }
 

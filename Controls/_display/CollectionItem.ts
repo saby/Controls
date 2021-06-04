@@ -178,14 +178,13 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
      */
     protected _contentsIndex: number;
 
-    protected _$isLastItem: boolean;
-    protected _$isFirstItem: boolean;
-
     readonly '[Types/_entity/IVersionable]': boolean;
 
     protected _version: number;
 
     protected _counters: ICollectionItemCounters;
+
+    protected _isLastItem: boolean;
 
     readonly '[Controls/_display/IEditableCollectionItem]': boolean = true;
 
@@ -396,7 +395,6 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     shouldDisplayMarker(templateMarker: boolean = true): boolean {
         return (
             templateMarker &&
-            this._$owner.getMarkerVisibility() !== 'hidden' &&
             this.isMarked() &&
             !this.getOwner().isEditing()
         );
@@ -408,10 +406,9 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         if (markerClassName === 'default') {
             markerClass += 'height';
         } else {
-            markerClass += `padding-${(itemPadding.top || 'l')}_${markerClassName}`;
+            markerClass += `padding-${(itemPadding.top || this.getTopPadding() || 'l')}_${markerClassName}`;
         }
         markerClass += ` controls-ListView__itemV_marker_${style}`;
-        markerClass += ' controls-ListView__itemV_marker';
         markerClass += ` controls-ListView__itemV_marker-${this.getMarkerPosition()}`;
         return markerClass;
     }
@@ -466,6 +463,20 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     setEditing(editing: boolean, editingContents?: T, silent?: boolean, columnIndex?: number): void {
         if (this._$editing === editing && this._$editingContents === editingContents) {
             return;
+        }
+        /*
+        * Версия CollectionItem при редактировании = локальная версия CollectionItem + версия редактируемой модели.
+        * Во время изменения редактируемой записи версия поднимается на редактируемой модели - клоне оригинала.
+        * При отмене редактирования нужно применять накопленные изменения версий, иначе может быть ошибочное поведение.
+        * Например,
+        * 1. У записи версия 10.
+        * 2. Вошли в режим редактирования, +локальная версия = 11, версия клона = 0, итого 11.
+        * 3. Ввели 1 знак, локальная версия = 11, +версия клона, итого 12.
+        * 4. Отменили редактирование, +локальная версия = 11 + 1 = 12.
+        * Итог - строка не перерисовалась, т.к. в режиме редактирования и после выхода из него версии одинаковые.
+        * */
+        if (!editing) {
+            this._version += this._getVersionableVersion(this._$editingContents);
         }
         this._$editing = editing;
         if (typeof columnIndex === 'number' && this._$editingColumnIndex !== columnIndex) {
@@ -627,33 +638,18 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._nextVersion();
     }
 
-    // region Аспект "крайние записи"
-
-    setIsFirstItem(state: boolean): void {
-        if (this._$isFirstItem === state) {
-            return;
-        }
-        this._$isFirstItem = state;
-        this._nextVersion();
-    }
-
-    getIsFirstItem(): boolean {
-        return this._$isFirstItem;
-    }
-
-    setIsLastItem(state: boolean): void {
-        if (this._$isLastItem === state) {
-            return;
-        }
-        this._$isLastItem = state;
+    resetIsLastItem(): void {
+        this._isLastItem = undefined;
         this._nextVersion();
     }
 
     isLastItem(): boolean {
-        return this._$isLastItem;
+        if (this._isLastItem === undefined) {
+            this._isLastItem = this.getOwner().isLastItem(this);
+            this._nextVersion();
+        }
+        return this._isLastItem;
     }
-
-    // endregion Аспект "крайние записи"
 
     // region Drag-n-drop
 
@@ -758,19 +754,13 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     // аргумент rowSeparatorSize тоже только для старой модели.
     // когда нигде точно не останется мест использования, надо будет избавиться от этих аргументов.
     // + здесь же, возможно, стоит вызывать описанный ниже метод getItemActionPositionClasses.
-    getItemActionClasses(itemActionsPosition: string, theme?: string, isLastRow?: boolean, rowSeparatorSize?: string): string {
+    getItemActionClasses(itemActionsPosition: string): string {
         let itemActionClasses = `controls-itemActionsV_${itemActionsPosition}`;
+        const rowSeparatorSize = this.getRowSeparatorSize();
+        const isLastRow = this.isLastItem();
         if (itemActionsPosition === 'outside') {
-            const defaultSize = ' controls-itemActionsV__outside_bottom_size-default';
-            if (isLastRow) {
-                if (rowSeparatorSize) {
-                    itemActionClasses += ` controls-itemActionsV__outside_bottom_size-${rowSeparatorSize}`;
-                } else {
-                    itemActionClasses += defaultSize;
-                }
-            } else {
-                itemActionClasses += defaultSize;
-            }
+            itemActionClasses += ' controls-itemActionsV__outside_bottom_size-' +
+                (isLastRow && rowSeparatorSize ? rowSeparatorSize : 'default');
         }
         return itemActionClasses;
     }
@@ -843,9 +833,6 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
             && this.isLastItem()) {
             contentClasses += ' controls-ListView__itemV_last';
-        }
-        if (this.getIsFirstItem()) {
-            contentClasses += ' controls-ListView__itemV_first';
         }
 
         if (isAnimatedForSelection) {
@@ -1104,8 +1091,6 @@ Object.assign(CollectionItem.prototype, {
     _$topPadding: 'default',
     _$bottomPadding: 'default',
     _$markerPosition: undefined,
-    _$isLastItem: false,
-    _$isFirstItem: false,
     _contentsIndex: undefined,
     _version: 0,
     _counters: null,

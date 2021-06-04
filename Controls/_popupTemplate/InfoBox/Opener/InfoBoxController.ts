@@ -6,6 +6,7 @@ import StickyStrategy = require('Controls/_popupTemplate/Sticky/StickyStrategy')
 import {IPopupItem, IPopupSizes, IPopupPosition, Controller} from 'Controls/popup';
 import {constants} from 'Env/Env';
 import collection = require('Types/collection');
+import {Controller as ManagerController} from 'Controls/popup';
 
 interface IInfoBoxThemeConstants {
     ARROW_WIDTH?: number;
@@ -23,8 +24,8 @@ interface IInfoBoxSide {
     c: string;
 }
 
-function getConstants() {
-    return themeConstantsGetter('controls-InfoBox__themeConstants', {
+function getConstants(themeName: string) {
+    return themeConstantsGetter(`controls-InfoBox__themeConstants controls_popupTemplate_theme-${themeName}`, {
         ARROW_WIDTH: 'marginLeft',
         ARROW_H_OFFSET: 'marginRight',
         ARROW_V_OFFSET: 'marginBottom',
@@ -35,13 +36,21 @@ function getConstants() {
 
 // todo: https://online.sbis.ru/opendoc.html?guid=b385bef8-31dd-4601-9716-f3593dfc9d41
 let themeConstants: IInfoBoxThemeConstants = {};
-const constantsInit = new Promise<void>((resolve, reject) => {
-    if (!constants.isBrowserPlatform) { return resolve(); }
-    import('Controls/popupTemplate')
-        .then(({ InfoBox }) => InfoBox.loadCSS())
-        .then(() => { themeConstants = getConstants(); })
-        .then(resolve, reject);
-});
+let constantsInit;
+
+// Нужно инициализировать константы после построения, т.к. во время реквайра тема не инициализирована
+function initConstants(): Promise<unknown> {
+    if (!constantsInit) {
+        constantsInit = new Promise<void>((resolve, reject) => {
+            if (!constants.isBrowserPlatform) { return resolve(); }
+            import('Controls/popupTemplate')
+                .then(({ InfoBox }) => InfoBox.loadCSS())
+                .then(() => { themeConstants = getConstants(ManagerController.getTheme()); })
+                .then(resolve, reject);
+        });
+    }
+    return constantsInit;
+}
 
 const SIDES: IInfoBoxSide = {
     t: 'top',
@@ -137,7 +146,7 @@ class InfoBoxController extends StickyController.constructor {
             right: undefined,
             bottom: undefined
         };
-        return constantsInit.then(() => {
+        return initConstants().then(() => {
             if (item.popupOptions.target) {
                 // Calculate the width of the infobox before its positioning.
                 // It is impossible to count both the size and the position at the same time, because the position is related to the size.

@@ -18,6 +18,7 @@ import TreeGridFooterRow from './TreeGridFooterRow';
 import {Model as EntityModel, Model} from 'Types/entity';
 import {IObservable} from 'Types/collection';
 import {CrudEntityKey} from "Types/source";
+import CollectionItem from "Controls/_display/CollectionItem";
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
@@ -56,10 +57,14 @@ export default class TreeGridCollection<
         super(options);
         GridMixin.call(this, options);
 
+        this._setupProjectionFilters();
+    }
+
+    protected _setupProjectionFilters(): void {
         // TODO должно быть в Tree. Перенести туда, когда полностью перейдем на новую коллекцию TreeGrid.
         //  Если сразу в Tree положим, то все разломаем
         this.addFilter(
-           (contents, sourceIndex, item, collectionIndex) => itemIsVisible(item)
+            (contents, sourceIndex, item, collectionIndex) => itemIsVisible(item)
         );
     }
 
@@ -131,6 +136,24 @@ export default class TreeGridCollection<
             this._updateItemsLadder();
         }
         this._updateItemsProperty('setColumns', this._$columns);
+    }
+
+    isLastItem(item: CollectionItem): boolean {
+        // TODO Сделать возможным делать последний NodeFooter last, если он содержит данные
+        //  Сейчас прямо в шаблоне проверяется как shouldDisplayVisibleFooter(content)
+        //  Как можно проверить из кода - не ясно
+        const enumerator = this._getUtilityEnumerator();
+
+        // определяем через enumerator последнюю запись перед NodeFooter и её индекс
+        enumerator.setPosition(this.getCount() - 1)
+        let resultItemIndex = enumerator.getCurrentIndex();
+        let resultItem = enumerator.getCurrent();
+        while (resultItem && resultItem['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
+            enumerator.movePrevious();
+            resultItemIndex = enumerator.getCurrentIndex();
+            resultItem = enumerator.getCurrent();
+        }
+        return resultItemIndex === this.getIndex(item);
     }
 
     protected _handleAfterCollectionChange(changedItems: TreeGridDataRow[], changeAction?: string): void {
@@ -233,6 +256,7 @@ export default class TreeGridCollection<
             ...options,
             owner: this,
             columns: options.footer,
+            shouldAddFooterPadding: options.itemActionsPosition === 'outside',
             rowTemplate: options.footerTemplate,
             hasNodeWithChildren: this._hasNodeWithChildren
         });

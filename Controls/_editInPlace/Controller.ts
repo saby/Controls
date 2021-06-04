@@ -243,7 +243,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
         return this._endPreviousAndBeginEdit(userOptions, {
             isAdd: true,
             addPosition: options.addPosition,
-            columnIndex: -1
+            columnIndex: 0
         });
     }
 

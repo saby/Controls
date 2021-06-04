@@ -96,20 +96,20 @@
    --marker_color_list: var(--marker_color);
 
    --marker_height_default_list: 100%;
-   --marker_height_padding-s_image-l_list: 48px;
-   --marker_height_padding-s_image-m_list: 40px;
-   --marker_height_padding-s_image-s_list: 32px;
-   --marker_height_padding-s_image-xs_list: 24px;
+   --marker_height_padding-s_image-l_list: 40px;
+   --marker_height_padding-s_image-m_list: 32px;
+   --marker_height_padding-s_image-s_list: 24px;
+   --marker_height_padding-s_image-xs_list: 16px;
    --marker_height_padding-s_text-2xl_list: 30px;
    --marker_height_padding-s_text-xl_list: 31px;
    --marker_height_padding-s_text-l_list: 31px;
    --marker_height_padding-s_text-m_list: 32px;
    --marker_height_padding-s_text-xs_list: 34px;
 
-   --marker_height_padding-l_image-l_list: 54px;
-   --marker_height_padding-l_image-m_list: 46px;
-   --marker_height_padding-l_image-s_list: 38px;
-   --marker_height_padding-l_image-xs_list: 30px;
+   --marker_height_padding-l_image-l_list: 40px;
+   --marker_height_padding-l_image-m_list: 32px;
+   --marker_height_padding-l_image-s_list: 24px;
+   --marker_height_padding-l_image-xs_list: 16px;
    --marker_height_padding-l_text-2xl_list: 36px;
    --marker_height_padding-l_text-xl_list: 37px;
    --marker_height_padding-l_text-l_list: 37px;
@@ -197,9 +197,10 @@
    // Список в стиле Мастер - деталь
 
    // Разделитель
-   --master_separator_thickness_list: 3px;
-   --master_separator_contrast-color_list: #F0F0F0;
-   --master_separator_color_list: var(--detail_background-color_masterDetail);
+   --master_separator_thickness_list: 0;
+   --master_separator_contrast-color_list: transparent;
+   --master_separator_color_list: #F0F0F0;
+   --master-same_separator_thickness_list: 3px;
 
    // Маркер
    --master-marker_thickness_list: 0;
@@ -208,12 +209,12 @@
 
    // Цвет фона элемента
    --master_item_background-color_list: #F8F8F8;
-   --master_item_separator_thickness_list: 1px;
+   --master_item_separator_thickness_list: 2px;
    --master_item_hover_background-color_list: #f1f2f5;
    --master_item_selected_background-color_list: #f1f2f5;
 
    // Текст
-   --master_item_selected_text-color_list: #D94700;
+   --master_item_selected_text-color_list: var(--text-color);
    --master_item_font-size_list: var(--font-size_l);
    --master_item_selected_font-size_list: var(--font-size_l);
 
@@ -224,11 +225,15 @@
    --master_item_border-radius_list: 4px;
 
    // Цвет фона списка detail
-   --detail_contrast_background-color_masterDetail: transparent;
+   --detail_contrast_background-color_masterDetail: var(--background-color);
    --detail_background-color_masterDetail: #F8F8F8;
-   --detail-new_background_masterDetail: var(--background-color);
+   --detail-new_background_masterDetail: transparent;
 
    --editing-toolbar_offset-left_listEditInPlace: var(--offset_xs);
+
+   // Изменение размера
+   --resizingLine_mobile_offset-left_masterDetail: 15px;
+   --resizingLine_mobile_thickness_masterDetail: 25px;
 
    // Разделители между элементами
 

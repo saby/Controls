@@ -45,7 +45,7 @@ var _private = {
             var container = nativeEvent ? nativeEvent.target.closest('.controls-ListView__itemV') : null;
             self._notify('hoveredItemChanged', [item, container]);
         }
-    },
+    }
 };
 
 var ListView = BaseControl.extend(
@@ -69,28 +69,36 @@ var ListView = BaseControl.extend(
                if (this._destroyed) {
                    return;
                }
-               // todo refactor by task https://online.sbis.ru/opendoc.html?guid=80fbcf1f-5804-4234-b635-a3c1fc8ccc73
-               // Из новой коллекции нотифается collectionChanged, в котором тип изменений указан в newItems.properties
-               let itemChangesType;
-               if (this._options.useNewModel) {
-                  // В событии новой модели нет такого параметра как changesType, из-за этого в action лежит newItems
-                  itemChangesType = action ? action.properties : null;
-               } else {
-                  itemChangesType = newItems ? newItems.properties : null;
-               }
-
-               if (changesType !== 'hoveredItemChanged' &&
-                  changesType !== 'activeItemChanged' &&
-                  changesType !== 'loadingPercentChanged' &&
-                  changesType !== 'markedKeyChanged' &&
-                  changesType !== 'itemActionsUpdated' &&
-                  itemChangesType !== 'marked' &&
-                  itemChangesType !== 'hovered' &&
-                  itemChangesType !== 'active' &&
-                  !this._pendingRedraw) {
+               if (this._isPendingRedraw(event, changesType, action, newItems)) {
                   this._pendingRedraw = true;
                }
             };
+        },
+
+        _isPendingRedraw(event, changesType, action, newItems) {
+            // todo refactor by task https://online.sbis.ru/opendoc.html?guid=80fbcf1f-5804-4234-b635-a3c1fc8ccc73
+            // Из новой коллекции нотифается collectionChanged, в котором тип изменений указан в newItems.properties
+            let itemChangesType;
+            if (this._options.useNewModel) {
+                // В событии новой модели нет такого параметра как changesType, из-за этого в action лежит newItems
+                itemChangesType = action ? action.properties : null;
+            } else {
+                itemChangesType = newItems ? newItems.properties : null;
+            }
+
+            if (changesType !== 'hoveredItemChanged' &&
+                changesType !== 'activeItemChanged' &&
+                changesType !== 'loadingPercentChanged' &&
+                changesType !== 'markedKeyChanged' &&
+                changesType !== 'itemActionsUpdated' &&
+                itemChangesType !== 'marked' &&
+                itemChangesType !== 'hovered' &&
+                itemChangesType !== 'active' &&
+                itemChangesType !== 'canShowActions' &&
+                itemChangesType !== 'animated' &&
+                itemChangesType !== 'fixedPosition') {
+                return true;
+            }
         },
 
         _doAfterReload(callback): void {

@@ -2,7 +2,6 @@
 
    //common
    --background-color: #424851;
-   --contrast_background-color_editableArea: var(--background-color);
    --unaccented_background-color: #424851;
    --unaccented_background-transparent-color: #42485100;
    --hover_background-color: #464d57;
@@ -23,7 +22,8 @@
    --link_text-color_inline: var(--link_text-color);
    --link_hover_text-color_inline: var(--link_hover_text-color);
    --readonly_marker-color: var(--readonly_color);
-   --page_background-image: url(/cdn/OnlineCDN/themes/1.0.0/background-dark.jpg) #575e64;
+   --page_background-image: url('/cdn/OnlineCDN/themes/1.0.0/background-dark.jpg');
+   --page_background-color: #575e64;
 
    //button
    --primary_border-color_button: #eb6c65;
@@ -34,8 +34,8 @@
    --border-color_button_toolButton: #4d535e;
    --border-color_hover_button_toolButton: #535c68;
    --readonly_border-color_button_toolButton: #6b6b6b;
-   --unaccented_background-color_button_functionalButton: #6ed4d0;
-   --unaccented_hover_background-color_button_functionalButton: #5eb4b1;
+   --unaccented_background-color_button_functionalButton: #4d535e;
+   --unaccented_hover_background-color_button_functionalButton: #535c68;
    --secondary_background-color_button_functionalButton: #6ed4d0;
    --success_background-color_button_functionalButton: #62ac62;
    --success_border-color_button_functionalButton: #62ac62;
@@ -50,6 +50,9 @@
    --border-color_inputText: #4d535e #4d535e #797979 #4d535e;
    --border-color_hover_inputText: #4d535e #4d535e #6ed4d0 #4d535e;
    --border-color_focus_inputText: #4d535e #4d535e #6ed4d0 #4d535e;
+   --border-contrast-color_inputText: #4d535e #4d535e #797979 #4d535e;
+   --border-contrast-color_hover_inputText: #4d535e #4d535e #6ed4d0 #4d535e;
+   --border-contrast-color_focus_inputText: #4d535e #4d535e #6ed4d0 #4d535e;
    --readonly_border-color_inputText: transparent transparent #424851 transparent;
    --placeholder-color_inputText: #6b6b6b;
    --invalid_focus_background-color_inputText: var(--background-color);
@@ -75,6 +78,145 @@
    --icon_container_background_color_BigSeparator: #383d44;
    --readonly_marker-box_border-color_checkbox: var(--readonly_color);
 
+   //blocks
+   --separator_color_block: #535c68;
+
+   //search
+   --reset-button_icon-color_searchInput: #999;
+   --background-color_searchInput: #424851;
+   --background-color_contrast_searchInput: #424851;
+   --border-color_searchInput: #656d79;
+   --border-color_focus_searchInput: #656d79;
+   --border-color_hover_searchInput: #656d79;
+   --caret-color_empty_searchInput: #ccc;
+   --border-color_contrast_searchInput: var(--border-color_searchInput);
+
+   //operations
+   --background-color_operationsPanel: #30343b;
+   --separator_color_operationsButton: #636c74;
+
+   //FilterView
+   --reset-button_icon-color_filterView: #999;
+   --reset-button_color_filterPanel: var(--secondary_color);
+
+   //FilterViewPanel
+   --background-color_filterViewPanel: #30343b;
+   --heading_border_color_filterViewPanel: #6b6b6b;
+   --list-editor_color-hover_filterViewPanel: #464d57;
+
+   //List
+   --item_editing_background-color_list: #383D44;
+   --master_separator_color_list: #535c68;
+
+   --item_separator_s_color_list: #4a515a;
+   --item_separator_l_color_list: #4a515a;
+   --item_edge_separator_s_color_list: #6b6b6b;
+
+   --master_item_background-color_list: #30343b;
+   --master_item_hover_background-color_list: #464D57;
+   --master_item_selected_background-color_list: #464D57;
+   --master_separator_contrast-color_list: #535c68;
+
+   --grouping_separator_color_list: #6b6b6b;
+
+   //dropdown
+   --item_background-color_menu: #383d44;
+   --empty-item_text-color_dropdownSelector: var(--secondary_color);
+
+   // Controls/tabs:Buttons
+   --separator_color_tabs: #6b6b6b;
+   --border-color_tabs: #6b6b6b;
+   --unselected_item_text-color_tabs: var(--primary_text-color);
+   --primary_item_text-color_tabs: var(--primary_text-color);
+   --primary_marker_color_tabs: var(--link_text-color);
+   --marker_hover_color_tabs: #6b6b6b;
+
+   //loadingIndicator
+   --content_background-color_loadingIndicator:                                   #383d44;
+   --spinner_l_background-image_loadingIndicator:                                 url("img/loading.gif");
+   --text-color_loadingIndicator:                                                 #CCC;
+
+   //lookup
+   --trigger_icon-color_lookupInput: var(--link_text-color);
+}
+
+.controls_list_theme-@{themeName} {
+   //Grid
+   --header_background-color_grid: #424851;
+   --header_text-color_grid: #999;
+   --columnscroll_shadow-start-color_grid: rgba(0,0,0,0.15);
+   --columnscroll_shadow-end-color_grid: rgba(0,0,0,0);
+   --columnscroll_separator_color_grid: #393E46;
+   --column_separator_s_color_grid: #4a515a;
+
+   //treeGrid
+   --node_expander_icon-color_treeGrid: #545b67;
+   --node_expander_hover_icon-color_treeGrid: var(--secondary_hover_icon-color);
+   --hidden-node_expander_hover_icon-color_treeGrid: var(--node_expander_hover_icon-color_treeGrid);
+   --master_node_expander_hover_icon-color_treeGrid: var(--node_expander_hover_icon-color_treeGrid);
+   --master_hidden-node_expander_hover_icon-color_treeGrid: var(--node_expander_hover_icon-color_treeGrid);
+}
+
+.controls_calendar_theme-@{themeName} {
+   //MonthView
+   --monthview_background-color_monthSlider: #383d44;
+   --monthview_item_background-color_monthSlider: #424851;
+   --monthview_item_text-color_monthSlider: #b8b8b8;
+   --monthview_weekend_text-color_monthSlider: #d94700;
+   --monthview_item_hover_border-color_monthSlider: #b8b8b8;
+}
+
+.controls_paging_theme-@{themeName} {
+   //Paging
+   --arrow_separator_color_paging: #6b6b6b;
+   --marker_hover_color_paging: #6b6b6b;
+}
+
+.controls_filterPopup_theme-@{themeName} {
+   //FilterPanel
+   --background-color_vertical_filterPanel: #383d44;
+   --background-color_horizontal_filterPanel: var(--background-color_vertical_filterPanel);
+   --extended_heading_text-color_filterPanel: var(--secondary_text-color);
+   --history_heading_text-color_filterPanel: var(--secondary_text-color);
+   --history_item_pin-button_icon-color_filterPanel: var(--secondary_color);
+   --history_item_pin-button_toggled_icon-color_filterPanel: var(--secondary_color);
+   --history_item_pin-button_hover_icon-color_filterPanel: #ff7033;
+   --history_vertical_item_text-color_filterPanel: var(--secondary_color);
+   --history_vertical_item_hover_text-color_filterPanel: var(--item_hover_text-color_filterPanel);
+   --history_background-color_filterPanel: transparent;
+   --item_text-color_filterPanel: var(--secondary_color);
+   --item_hover_text-color_filterPanel: var(--secondary_hover_text-color);
+}
+
+.controls_datePicker_theme-@{themeName} {
+   // Controls/DatePopup
+   --background-color_datePicker: #383d44;
+   --header_background-color_datePicker: #383d44;
+   --border-color_datePicker: #30343b;
+   --yearlist_block-separator_color_datePicker: #535c68;
+   --shadow_end-color_datePicker: rgba(56, 61, 68, 0);
+   --shadow_start-color_datePicker: rgba(0, 0, 0, 0.15);
+
+   // Controls/DateRange
+   --monthnav_item_text-color_datePicker: #b8b8b8;
+   --monthnav_item_border-color_datePicker: #535c68;
+   --monthlist_heading_text-color_datePicker: #ccc;
+   --monthlist_monthview_item_background-color_datePicker: #424851;
+   --monthlist_monthview_weekend_text-color_datePicker: #d94700;
+   --calendar-header_border-bottom-color_datePicker: #30343b;
+   --monthnav_year_border-color_datePicker: #535c68;
+   --monthlist_monthview_item_text-color_datePicker: #b8b8b8;
+
+   // MonthView
+   --rangeSelection_item_background-color_datePicker: #525b69;
+   --yearlist_item_hover_background-color_datePicker: #525b69;
+   --rangeSelection_item_hover_background-color_datePicker: #68707f;
+   --rangeSelection_item_edge_background-color_datePicker: #68707f;
+   --rangeSelection_border_color_datePicker: #ff7033;
+   --rangeSelection_border_single_color_datePicker: #ff7033;
+}
+
+.controls_popupTemplate_theme-@{themeName} {
    //dialog
    --background-color_dialog: #383d44;
    --header_background-color_dialog: #383d44;
@@ -90,6 +232,7 @@
    --footer_background-color_stack: transparent;
    --footer_top-border-color_stack: #6b6b6b;
    --border-color_stack: rgba(247, 247, 247, 0.23);
+   --close-button_hover_text-color_stack: #fff;
 
    //confirmation
    --secondary_marker_color_confirmation: #6ed4d0;
@@ -115,129 +258,13 @@
    --border-color_hover_closeButton_toolButton: #4d535e;
    --contrast_background-color_closeButton_toolButton: #424851;
    --background-color_closeButton_toolButton: #424851;
+}
 
-   //blocks
-   --separator_color_block: #535c68;
-
-   //search
-   --reset-button_icon-color_searchInput: #999;
-   --background-color_searchInput: #424851;
-   --background-color_contrast_searchInput: #424851;
-   --border-color_searchInput: #656d79;
-   --border-color_focus_searchInput: #656d79;
-   --border-color_hover_searchInput: #656d79;
-   --caret-color_empty_searchInput: #ccc;
-   --border-color_contrast_searchInput: var(--border-color_searchInput);
-
-   //operations
-   --background-color_operationsPanel: #30343b;
-   --separator_color_operationsButton: #636c74;
-
-   //FilterView
-   --reset-button_icon-color_filterView: #999;
-   --reset-button_color_filterPanel: var(--secondary_color);
-
-   //FilterPanel
-   --background-color_vertical_filterPanel: #383d44;
-   --background-color_horizontal_filterPanel: var(--background-color_vertical_filterPanel);
-   --extended_heading_text-color_filterPanel: var(--secondary_text-color);
-   --history_heading_text-color_filterPanel: var(--secondary_text-color);
-   --history_item_pin-button_icon-color_filterPanel: var(--secondary_color);
-   --history_item_pin-button_toggled_icon-color_filterPanel: var(--secondary_color);
-   --history_item_pin-button_hover_icon-color_filterPanel: #ff7033;
-   --history_vertical_item_text-color_filterPanel: var(--secondary_color);
-   --history_vertical_item_hover_text-color_filterPanel: var(--item_hover_text-color_filterPanel);
-   --history_background-color_filterPanel: transparent;
-   --item_text-color_filterPanel: var(--secondary_color);
-   --item_hover_text-color_filterPanel: var(--secondary_hover_text-color);
-
-   //FilterViewPanel
-   --background-color_filterViewPanel: #30343b;
-   --heading_border_color_filterViewPanel: #6b6b6b;
-   --list-editor_color-hover_filterViewPanel: #464d57;
-
+.controls_suggestPopup_theme-@{themeName} {
    // Suggest
    --popup_border-color_suggest: #4d535e;
+}
 
-   //MonthView
-   --monthview_background-color_monthSlider: #383d44;
-   --rangeSelection_item_background-color_datePicker: #525b69;
-   --yearlist_item_hover_background-color_datePicker: #525b69;
-   --rangeSelection_item_hover_background-color_datePicker: #68707f;
-   --rangeSelection_item_edge_background-color_datePicker: #68707f;
-   --rangeSelection_border_color_datePicker: #ff7033;
-   --rangeSelection_border_single_color_datePicker: #ff7033;
-   --monthview_item_background-color_monthSlider: #424851;
-   --monthview_item_text-color_monthSlider: #b8b8b8;
-   --monthview_weekend_text-color_monthSlider: #d94700;
-   --monthview_item_hover_border-color_monthSlider: #b8b8b8;
-
-   // Controls/DatePopup
-   --background-color_datePicker: #383d44;
-   --header_background-color_datePicker: #383d44;
-   --border-color_datePicker: #30343b;
-   --yearlist_block-separator_color_datePicker: #535c68;
-   --shadow_end-color_datePicker: rgba(56, 61, 68, 0);
-   --shadow_start-color_datePicker: rgba(0, 0, 0, 0.15);
-
-   // Controls/DateRange
-   --monthnav_item_text-color_datePicker: #b8b8b8;
-   --monthnav_item_border-color_datePicker: #535c68;
-   --monthlist_heading_text-color_datePicker: #ccc;
-   --monthlist_monthview_item_background-color_datePicker: #424851;
-   --monthlist_monthview_weekend_text-color_datePicker: #d94700;
-   --calendar-header_border-bottom-color_datePicker: #30343b;
-   --monthnav_year_border-color_datePicker: #535c68;
-   --monthlist_monthview_item_text-color_datePicker: #b8b8b8;
-
-   //Paging
-   --arrow_separator_color_paging: #6b6b6b;
-   --marker_hover_color_paging: #6b6b6b;
-
-   //List
-   --item_editing_background-color_list: #383D44;
-   --master_separator_color_list: #535c68;
-
-   --item_separator_s_color_list: #4a515a;
-   --item_separator_l_color_list: #4a515a;
-   --item_edge_separator_s_color_list: #6b6b6b;
-
-   --master_item_background-color_list: #30343b;
-   --master_item_hover_background-color_list: #464D57;
-   --master_item_selected_background-color_list: #464D57;
-   --master_separator_contrast-color_list: #535c68;
-
-   --grouping_separator_color_list: #6b6b6b;
-
-   //Grid
-   --header_background-color_grid: #424851;
-   --header_text-color_grid: #999;
-   --columnscroll_shadow-start-color_grid: rgba(0,0,0,0.15);
-   --columnscroll_shadow-end-color_grid: rgba(0,0,0,0);
-   --columnscroll_separator_color_grid: #393E46;
-   --column_separator_s_color_grid: #4a515a;
-
-   //treeGrid
-   --node_expander_icon-color_treeGrid: #545b67;
-   --node_expander_hover_icon-color_treeGrid: var(--secondary_hover_icon-color);
-   --hidden-node_expander_hover_icon-color_treeGrid: var(--node_expander_hover_icon-color_treeGrid);
-   --master_node_expander_hover_icon-color_treeGrid: var(--node_expander_hover_icon-color_treeGrid);
-   --master_hidden-node_expander_hover_icon-color_treeGrid: var(--node_expander_hover_icon-color_treeGrid);
-
-   //dropdown
-   --item_background-color_menu: #383d44;
-   --empty-item_text-color_dropdownSelector: var(--secondary_color);
-
-   // Controls/tabs:Buttons
-   --separator_color_tabs: #6b6b6b;
-   --border-color_tabs: #6b6b6b;
-   --unselected_item_text-color_tabs: var(--primary_text-color);
-   --primary_item_text-color_tabs: var(--primary_text-color);
-   --primary_marker_color_tabs: var(--link_text-color);
-   --marker_hover_color_tabs: #6b6b6b;
-
-   //loadingIndicator
-   --content_background-color_loadingIndicator:                                   #383d44;
-   --spinner_l_background-image_loadingIndicator:                                 url("img/loading.gif");
-   --text-color_loadingIndicator:                                                 #CCC;
+.controls_editableArea_theme-@{themeName} {
+   --contrast_background-color_editableArea: var(--background-color);
 }

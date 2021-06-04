@@ -7,8 +7,9 @@ import {descriptor as EntityDescriptor} from 'Types/entity';
 import {ICheckable, ICheckableOptions} from './interface/ICheckable';
 import {ITooltip, ITooltipOptions} from 'Controls/interface';
 import 'css!Controls/toggle';
+import {IContrastBackgroundOptions} from "Controls/_interface/IContrastBackground";
 
-export interface IDoubleSwitchOptions extends IControlOptions, ICheckableOptions, ITooltipOptions {
+export interface IDoubleSwitchOptions extends IControlOptions, ICheckableOptions, ITooltipOptions, IContrastBackgroundOptions {
    captions?: string[];
    orientation?: string;
 }
@@ -16,7 +17,7 @@ export interface IDoubleSwitchOptions extends IControlOptions, ICheckableOptions
 const CAPTIONS_LENGTH = 2;
 /**
  * Двойной переключатель, который позволяет выбрать один из двух взаимоисключающих вариантов.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2Ftoggle%2FDoubleSwitch%2FIndex демо-пример}
@@ -26,7 +27,8 @@ const CAPTIONS_LENGTH = 2;
  * @extends UI/Base:Control
  * @implements Controls/toggle:ICheckable
  * @implements Controls/interface:ITooltip
- * 
+ * @implements Controls/interface:IContrastBackground
+ *
  * @public
  * @author Красильников А.С.
  *
@@ -40,7 +42,7 @@ const CAPTIONS_LENGTH = 2;
  * @extends UI/Base:Control
  * @implements Controls/toggle:ICheckable
  * @implements Controls/interface:ITooltip
- * 
+ *
  * @public
  * @author Красильников А.С.
  *
@@ -95,7 +97,9 @@ class DoubleSwitch extends Control<IDoubleSwitchOptions> implements ICheckable, 
 
    static getDefaultOptions(): object {
       return {
-         value: false
+         value: false,
+         contrastBackground: true,
+         orientation: 'horizontal'
       };
    }
    static getOptionTypes(): object {
@@ -105,6 +109,7 @@ class DoubleSwitch extends Control<IDoubleSwitchOptions> implements ICheckable, 
             'vertical',
             'horizontal'
          ]),
+          contrastBackground: EntityDescriptor(Boolean),
 
          // TODO: сделать проверку на массив когда будет сделана задача
          // https://online.sbis.ru/opendoc.html?guid=2016ea16-ed0d-4413-82e5-47c3aeaeac59
@@ -121,6 +126,13 @@ Object.defineProperty(DoubleSwitch, 'defaultProps', {
       return DoubleSwitch.getDefaultOptions();
    }
 });
+
+/**
+ * @name Controls/_toggle/DoubleSwitch#contrastBackground
+ * @cfg {string}
+ * @default true
+ * @demo Controls-demo/toggle/DoubleSwitch/ContrastBackground/Index
+ */
 
 /**
  * @name Controls/_toggle/DoubleSwitch#captions

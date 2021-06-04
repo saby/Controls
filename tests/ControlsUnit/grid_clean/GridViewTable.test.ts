@@ -4,14 +4,20 @@ import {CssClassesAssert as assertClasses} from 'ControlsUnit/CustomAsserts';
 
 describe('Controls/grid_clean/GridViewTable', () => {
 
+    const listModel = {
+        isDragging: () => false
+    };
+
     let gridView: typeof GridViewTable;
-    let options = {};
+    let options;
 
     beforeEach(() => {
-        gridView = new GridViewTable(options);
+        options = {};
     });
 
     it('_getGridViewClasses', () => {
+        gridView = new GridViewTable(options);
+        gridView._listModel = listModel;
         assertClasses.include(
             gridView._getGridViewClasses(options),
             'controls-Grid_table-layout controls-Grid_table-layout_fixed'

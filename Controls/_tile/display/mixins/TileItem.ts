@@ -16,6 +16,8 @@ import {itemTemplate} from "Controls/switchableArea";
 
 const DEFAULT_WIDTH_PROPORTION = 1;
 
+export type TTileItem = 'default'|'invisible'|'medium'|'preview'|'rich'|'small';
+
 export const TILE_SIZES = {
     s: {
         horizontal: {
@@ -242,7 +244,7 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region AutoResizer
 
-    shouldDisplayAutoResizer(itemType: string = 'default', staticHeight: boolean, imagePosition?: string, imageViewMode?: string, imageProportion?: number): boolean {
+    shouldDisplayAutoResizer(itemType: TTileItem = 'default', staticHeight: boolean, imagePosition?: string, imageViewMode?: string, imageProportion?: number): boolean {
         if (itemType === 'rich') {
             return imagePosition === 'top' && imageViewMode === 'rectangle' && !!imageProportion;
         } else {
@@ -250,14 +252,14 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getAutoResizerStyles(itemType: string = 'default', width?: number, imageProportion?: number, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
+    getAutoResizerStyles(itemType: TTileItem = 'default', width?: number, imageProportion?: number, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
         if (itemType === 'rich') {
             return ` padding-top: ${100 * imageProportion}%`;
         }
         return `padding-top: ${(this.getTileHeight() / this.getTileWidth(width, imagePosition, imageViewMode)) * 100}%;`;
     }
 
-    getAutoResizerClasses(itemType: string = 'default', staticHeight?: boolean, hasTitle?: boolean): string {
+    getAutoResizerClasses(itemType: TTileItem = 'default', staticHeight?: boolean, hasTitle?: boolean): string {
         if (itemType === 'preview') {
             return '';
         }
@@ -270,6 +272,10 @@ export default abstract class TileItem<T extends Model = Model> {
     }
 
     // endregion AutoResizer
+
+    getItemType(itemType: TTileItem, nodeContentTemplate?: TemplateFunction): TTileItem {
+        return itemType;
+    }
 
     getCompressionCoefficient(): number {
         return DEFAULT_COMPRESSION_COEFF;
@@ -335,7 +341,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return this._$canShowActions;
     }
 
-    shouldDisplayItemActions(itemType: string = 'default', itemActionsPositionTemplate: string, place?: 'wrapper'|'title'): boolean {
+    shouldDisplayItemActions(itemType: TTileItem = 'default', itemActionsPositionTemplate: string, place?: 'wrapper'|'title'): boolean {
         // В превью темплейте itemActions должны показываться внутри блока с названием
         if (itemType === 'preview' && place === 'wrapper') {
             return false;
@@ -344,11 +350,17 @@ export default abstract class TileItem<T extends Model = Model> {
         return !this.isSwiped() && (this.hasVisibleActions() || this.isEditing()) && itemActionsPosition !== 'custom';
     }
 
+    getItemActionsControl(itemType: TTileItem = 'default'): string|undefined {
+        if (itemType === 'preview') {
+            return 'Controls/tile:TileItemActions';
+        }
+    }
+
     shouldDisplaySwipeTemplate(): boolean {
         return this.isSwiped() && (this.hasVisibleActions() || this.isEditing());
     }
 
-    getItemActionsClasses(itemType: string = 'default', itemActionsClass?: string): string {
+    getItemActionsClasses(itemType: TTileItem = 'default', itemActionsClass?: string): string {
         let classes = '';
 
         switch (itemType) {
@@ -376,7 +388,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getActionMode(itemType: string = 'default'): string {
+    getActionMode(itemType: TTileItem = 'default'): string {
         if (itemType === 'preview') {
             return 'adaptive';
         } else if (itemType === 'small') {
@@ -386,7 +398,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return '';
     }
 
-    getActionPadding(itemType: string = 'default'): string {
+    getActionPadding(itemType: TTileItem = 'default'): string {
         if (itemType === 'preview') {
             return 'null';
         }
@@ -461,7 +473,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return object.getPropertyValue<number>(this.getContents(), this.getImageWidthProperty());
     }
 
-    getImageHeightAttribute(itemType: string = 'default'): string {
+    getImageHeightAttribute(itemType: TTileItem = 'default'): string {
         if (itemType === 'rich') {
             return '';
         } else {
@@ -469,7 +481,7 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getImageWidthAttribute(itemType: string = 'default'): string {
+    getImageWidthAttribute(itemType: TTileItem = 'default'): string {
         if (itemType === 'rich') {
             return '';
         } else {
@@ -477,8 +489,13 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getImageUrl(widthTpl?: number, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
-        const baseUrl = object.getPropertyValue<string>(this.getContents(), this.getImageProperty());
+    getImageUrl(
+        widthTpl?: number,
+        imagePosition: string = 'top',
+        imageViewMode: string = 'rectangle',
+        fallbackImage?: string
+    ): string {
+        const baseUrl = object.getPropertyValue<string>(this.getContents(), this.getImageProperty()) || fallbackImage;
         if (this.getImageFit() === 'cover') {
             const imageSizes = getImageSize(
                 this.getTileWidth(widthTpl, imagePosition, imageViewMode),
@@ -506,11 +523,11 @@ export default abstract class TileItem<T extends Model = Model> {
         return !contentTemplate;
     }
 
-    getImageTemplate(itemType: string = 'default'): TemplateFunction {
+    getImageTemplate(itemType: TTileItem = 'default'): TemplateFunction {
         return ImageTemplate;
     }
 
-    getImageClasses(itemType: string = 'default', widthTpl?: number, imageAlign: string = 'center', imageViewMode?: string, imageProportion?: number, imagePosition?: string, imageSize?: string, imageFit?: string, imageProportionOnItem?: string): string {
+    getImageClasses(itemType: TTileItem = 'default', widthTpl?: number, imageAlign: string = 'center', imageViewMode?: string, imageProportion?: number, imagePosition?: string, imageSize?: string, imageFit?: string, imageProportionOnItem?: string): string {
         let classes = '';
 
         switch (itemType) {
@@ -533,18 +550,16 @@ export default abstract class TileItem<T extends Model = Model> {
                 break;
             case 'rich':
                 classes += ' controls-TileView__richTemplate_image';
+                classes += ' controls-TileView__image';
+                classes += ' controls-TileView__image_align_center';
                 classes += ` controls-TileView__richTemplate_image_viewMode_${imageViewMode}`;
-
-                if (imagePosition === 'top' && (imageViewMode === 'rectangle' && imageProportion !== 1 || imageSize === 'xl')) {
-                    classes += ' controls-TileView__image controls-TileView__image_align_center';
-                }
                 break;
         }
 
         return classes ;
     }
 
-    getImageWrapperClasses(itemType: string = 'default', templateHasTitle?: boolean, templateTitleStyle?: string, imageViewMode: string = 'rectangle', imageProportion?: number, imagePosition?: string, imageSize?: string,  imageProportionOnItem?: string): string {
+    getImageWrapperClasses(itemType: TTileItem = 'default', templateHasTitle?: boolean, templateTitleStyle?: string, imageViewMode: string = 'rectangle', imageProportion?: number, imagePosition?: string, imageSize?: string,  imageProportionOnItem?: string): string {
         let classes = 'controls-TileView__imageWrapper';
         if (templateTitleStyle === 'accent') {
             classes += ' controls-TileView__imageWrapper_accent';
@@ -586,7 +601,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getImageWrapperStyles(itemType: string = 'default', imageViewMode: string = 'rectangle', imagePosition?: string): string {
+    getImageWrapperStyles(itemType: TTileItem = 'default', imageViewMode: string = 'rectangle', imagePosition?: string): string {
         let styles = '';
         if (this.getTileMode() === 'dynamic') {
             let height = this.getTileHeight();
@@ -611,7 +626,7 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getImagePreserveAspectRatio(itemType: string = 'default', imageFit?: string): string {
+    getImagePreserveAspectRatio(itemType: TTileItem = 'default', imageFit?: string): string {
         switch (itemType) {
             case 'default':
             case 'small':
@@ -627,7 +642,7 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region ImageGradient
 
-    shouldDisplayGradient(itemType: string = 'default', imageEffect?: string, imageViewMode?: string, imagePosition?: string, position?: string): boolean {
+    shouldDisplayGradient(itemType: TTileItem = 'default', imageEffect?: string, imageViewMode?: string, imagePosition?: string, position?: string): boolean {
         switch (itemType) {
             case 'default':
             case 'small':
@@ -640,7 +655,7 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getGradientClasses(itemType: string = 'default', gradientType: string = 'dark'): string {
+    getGradientClasses(itemType: TTileItem = 'default', gradientType: string = 'dark'): string {
         let classes = '';
 
         switch (itemType) {
@@ -660,7 +675,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getGradientStyles(itemType: string = 'default', gradientColor: string = '#ffffff', gradientType: string = 'dark'): string {
+    getGradientStyles(itemType: TTileItem = 'default', gradientColor: string = '#ffffff', gradientType: string = 'dark'): string {
         let styles = '';
 
         switch (itemType) {
@@ -695,7 +710,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getItemClasses(itemType: string = 'default', templateClickable?: boolean, hasTitle?: boolean, cursor: string = 'pointer', templateMarker?: boolean, templateShadowVisibility?: string, border?: boolean): string {
+    getItemClasses(itemType: TTileItem = 'default', templateClickable?: boolean, hasTitle?: boolean, cursor: string = 'pointer', templateMarker?: boolean, templateShadowVisibility?: string, border?: boolean): string {
         let classes = 'controls-TileView__item controls-ListView__itemV';
 
         if (templateClickable !== false) {
@@ -703,7 +718,6 @@ export default abstract class TileItem<T extends Model = Model> {
         }
 
         classes += ` ${this.getItemPaddingClasses()}`;
-        classes += ` ${this.getRoundBorderClasses()}`;
 
         switch (itemType) {
             case 'default':
@@ -738,7 +752,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getItemStyles(itemType: string = 'default', templateWidth?: number, staticHeight?: boolean, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
+    getItemStyles(itemType: TTileItem = 'default', templateWidth?: number, staticHeight?: boolean, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
         const width = this.getTileWidth(templateWidth, imagePosition, imageViewMode);
         if (this.getTileMode() === 'dynamic') {
             const flexBasis = width * this.getCompressionCoefficient();
@@ -766,7 +780,7 @@ export default abstract class TileItem<T extends Model = Model> {
     }
 
     getWrapperClasses(
-        itemType: string = 'default',
+        itemType: TTileItem = 'default',
         templateShadowVisibility?: string,
         marker?: boolean,
         highlightOnHover?: boolean,
@@ -775,15 +789,17 @@ export default abstract class TileItem<T extends Model = Model> {
         border?: boolean,
         titleStyle: string = 'light'
     ): string {
+        let classes = '';
+        classes += ` ${this.getRoundBorderClasses()}`;
         if (itemType === 'small') {
-            let classes = 'controls-TileView__smallTemplate_wrapper';
+            classes += ' controls-TileView__smallTemplate_wrapper';
             if (this.canShowActions()) {
                 classes += ' controls-ListView__item_showActions';
             }
             return classes;
         }
 
-        let classes = 'controls-TileView__itemContent js-controls-ListView__measurableContainer';
+        classes += ' controls-TileView__itemContent js-controls-ListView__measurableContainer';
 
         if (height === 'auto') {
             classes += ' controls-TileView__item_autoHeight';
@@ -829,7 +845,7 @@ export default abstract class TileItem<T extends Model = Model> {
             classes += ' controls-TileView__item_animated';
         }
         if (this.isDragged()) {
-            classes += ' controls-ListView__item_dragging controls-ListView__itemContent_dragging';
+            classes += ' controls-ListView__itemContent_dragging';
         }
         if (this.canShowActions()) {
             classes += ' controls-ListView__item_showActions';
@@ -844,7 +860,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getWrapperStyles(itemType: string = 'default'): string {
+    getWrapperStyles(itemType: TTileItem = 'default'): string {
         let styles = this.getFixedPositionStyle() || '';
 
         switch (itemType) {
@@ -884,9 +900,7 @@ export default abstract class TileItem<T extends Model = Model> {
         if (this.shouldDisplayMarker(marker)) {
             classes += ' controls-TileView__item_withMarker';
         } else if (border !== false) {
-            classes += ' controls-TileView__item_withoutMarker';
-        } else {
-            classes += ' controls-TileView__item_withoutBorder';
+            classes += ' controls-TileView__item_withBorder';
         }
 
         return classes;
@@ -896,7 +910,7 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region Content
 
-    getContentTemplate(itemType: string = 'default', contentTemplate?: TemplateFunction, nodeContentTemplate?: TemplateFunction): TemplateFunction {
+    getContentTemplate(itemType: TTileItem = 'default', contentTemplate?: TemplateFunction): TemplateFunction {
         if (contentTemplate) {
             return contentTemplate;
         }
@@ -914,7 +928,7 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getContentClasses(itemType: string = 'default', imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
+    getContentClasses(itemType: TTileItem = 'default', imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
         let classes = '';
 
         switch (itemType) {
@@ -940,7 +954,7 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region Title
 
-    shouldDisplayTitle(itemType: string = 'default'): boolean {
+    shouldDisplayTitle(itemType: TTileItem = 'default'): boolean {
         switch (itemType) {
             case 'default':
                 return !!this.getDisplayValue() || this.hasVisibleActions() || this.isEditing();
@@ -949,11 +963,11 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'rich':
                 return true;
             case 'preview':
-                return !!this.getDisplayValue() && (!this.canShowActions() || !this.hasVisibleActions());
+                return !!this.getDisplayValue() && (this.isUnscaleable() || !this.canShowActions());
         }
     }
 
-    getTitleWrapperClasses(itemType: string = 'default', titleLines: number = 1, gradientType: string = 'dark', titleStyle: string = 'light'): string {
+    getTitleWrapperClasses(itemType: TTileItem = 'default', titleLines: number = 1, gradientType: string = 'dark', titleStyle: string = 'light'): string {
         let classes = '';
 
         switch (itemType) {
@@ -979,7 +993,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getTitleWrapperStyles(itemType: string = 'default', imageViewMode: string, imagePosition: string, gradientColor: string = '#FFF'): string {
+    getTitleWrapperStyles(itemType: TTileItem = 'default', imageViewMode: string, imagePosition: string, gradientColor: string = '#FFF'): string {
         let styles = '';
 
         switch (itemType) {
@@ -1000,7 +1014,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return styles;
     }
 
-    getTitleClasses(itemType: string = 'default', titleStyle?: string, hasTitle?: boolean, titleLines: number = 1, titleColorStyle: string = 'default'): string {
+    getTitleClasses(itemType: TTileItem = 'default', titleStyle?: string, hasTitle?: boolean, titleLines: number = 1, titleColorStyle: string = 'default'): string {
         let classes = '';
         switch (itemType) {
             case 'default':
@@ -1034,7 +1048,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getEllipsisClasses(itemType: string = 'default', titleLines: number = 1, staticHeight?: boolean, hasTitle?: boolean): string {
+    getEllipsisClasses(itemType: TTileItem = 'default', titleLines: number = 1, staticHeight?: boolean, hasTitle?: boolean): string {
         let classes = '';
 
         switch (itemType) {
@@ -1058,7 +1072,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getTitleStyles(itemType: string = 'default', titleLines: number = 1): string {
+    getTitleStyles(itemType: TTileItem = 'default', titleLines: number = 1): string {
         let styles = '';
         switch (itemType) {
             case 'default':
@@ -1080,7 +1094,7 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region Description
 
-    shouldDisplayDescription(itemType: string = 'default', description: string, descriptionLines: number): boolean {
+    shouldDisplayDescription(itemType: TTileItem = 'default', description: string, descriptionLines: number): boolean {
         switch (itemType) {
             case 'default':
                 return false;
@@ -1095,7 +1109,7 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getDescriptionClasses(itemType: string = 'default', descriptionLines: number): string {
+    getDescriptionClasses(itemType: TTileItem = 'default', descriptionLines: number): string {
         let classes = '';
         switch (itemType) {
             case 'default':
@@ -1120,7 +1134,7 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getDescriptionStyles(itemType: string = 'default', descriptionLines: number = 1): string {
+    getDescriptionStyles(itemType: TTileItem = 'default', descriptionLines: number = 1): string {
         let styles = '';
         switch (itemType) {
             case 'default':
@@ -1175,7 +1189,23 @@ export default abstract class TileItem<T extends Model = Model> {
     }
     // endregion RoundBorder
 
-    getMultiSelectStyles(itemType: string = 'default'): string {
+    // region Footer
+
+    shouldDisplayFooterTemplate(itemType: TTileItem = 'default', footerTemplate: TemplateFunction, place: 'wrapper'|'content'): boolean {
+        if (!footerTemplate) {
+            return false;
+        }
+
+        return itemType === 'small' && place === 'wrapper' || itemType === 'preview' && place === 'content';
+    }
+
+    getFooterClasses(): string {
+        return 'controls-TileView__item_footer';
+    }
+
+    // endregion Footer
+
+    getMultiSelectStyles(itemType: TTileItem = 'default'): string {
         let styles = '';
 
         switch (itemType) {

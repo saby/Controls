@@ -41,10 +41,35 @@ define([
             assert.strictEqual(component._index, component2._index - 1);
          });
 
+         describe('should set correct _canShadowVisible', () => {
+            [{
+               position: 'top',
+               top: false,
+               bottom: true
+            }, {
+               position: 'bottom',
+               top: true,
+               bottom: false
+            }, {
+               position: 'topbottom',
+               top: true,
+               bottom: true
+            }].forEach((test) => {
+               it(test.position, function() {
+                  const component = createComponent(StickyHeader, { position: test.position });
+                  assert.strictEqual(component._canShadowVisible.top, test.top);
+                  assert.strictEqual(component._canShadowVisible.bottom, test.bottom);
+               });
+            });
+
+         });
+
+
          it('should not initialise observer if fixation disabled', function () {
             const component = createComponent(StickyHeader, { mode: 'notsticky' });
             component._container = {
-               closest: () => true
+               closest: () => true,
+               className: ''
             };
             sinon.stub(component, '_createObserver');
             sinon.stub(component, '_updateComputedStyle');
@@ -58,7 +83,8 @@ define([
          it('should not create a observer if the control was created invisible, and must create after it has become visible', function () {
             const component = createComponent(StickyHeader, options);
             component._container = {
-               closest: () => true
+               closest: () => true,
+               className: ''
             };
             sinon.stub(component, '_createObserver');
             sinon.stub(component, '_updateComputedStyle');
@@ -77,7 +103,8 @@ define([
             component._container = {
                closest: (selector) => {
                   return selector !== '.ws-hidden';
-               }
+               },
+               className: ''
             };
             sinon.stub(component, '_createObserver');
             sinon.stub(component, '_updateComputedStyle');
@@ -132,7 +159,8 @@ define([
             component._container = {
                closest: (selector) => {
                   return selector !== '.ws-hidden';
-               }
+               },
+               className: ''
             };
             sinon.stub(component, '_createObserver');
             sinon.stub(component, '_updateComputedStyle');
@@ -174,7 +202,8 @@ define([
             component._container = {
                closest: (selector) => {
                   return selector !== '.ws-hidden';
-               }
+               },
+               className: ''
             };
             sinon.stub(component, '_createObserver');
             sinon.stub(component, '_updateComputedStyle');
@@ -406,7 +435,8 @@ define([
             const component = createComponent(StickyHeader, {offsetTop: 10});
             component._container = {
                closest: () => false,
-               offsetHeight: 10
+               offsetHeight: 10,
+               className: ''
             };
             assert.strictEqual(component.height, 10);
          });
@@ -485,6 +515,27 @@ define([
             assert.isTrue(component._isFixed);
             sinon.assert.notCalled(component._forceUpdate);
             sinon.restore();
+         });
+
+         it('should update shadows by scroll state if model does not initialized.', function() {
+            const component = createComponent(StickyHeader, {});
+            sinon.stub(component, '_init');
+            component._scrollState = {
+               verticalPosition: 'middle'
+            };
+            component._children = {
+               shadowBottom: {
+                  classList: {
+                     remove: sinon.stub()
+                  }
+               }
+            }
+            component.updateFixed([component._index]);
+            return Promise.resolve().then(() => {
+               assert.isTrue(component._isBottomShadowVisible);
+               sinon.assert.calledOnce(component._children.shadowBottom.classList.remove);
+               sinon.restore();
+            });
          });
       });
 

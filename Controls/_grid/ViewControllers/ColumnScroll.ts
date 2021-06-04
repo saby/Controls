@@ -186,6 +186,19 @@ export default class ColumnScroll {
                 resolvePromise({status});
             }
         };
+        const updateScrollBar = () => {
+            if (this._scrollBar) {
+                this._scrollBar.recalcSizes();
+                this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
+            }
+        };
+
+        const updateDragScroll = () => {
+            this._dragScroll?.updateScrollData({
+                scrollLength: this._columnScroll.getScrollLength(),
+                scrollPosition: this._columnScroll.getScrollPosition()
+            });
+        };
 
         if (needBySize) {
             if (!this._columnScroll) {
@@ -195,12 +208,8 @@ export default class ColumnScroll {
                         if (this._options.columnScrollStartPosition === 'end') {
                             this._columnScroll.setScrollPosition(newSizes.contentSize - newSizes.containerSize);
                         }
-                        this._dragScroll?.updateScrollData({
-                            scrollLength: this._columnScroll.getScrollLength(),
-                            scrollPosition: this._columnScroll.getScrollPosition()
-                        });
-                        this._scrollBar.recalcSizes();
-                        this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
+                        updateDragScroll();
+                        updateScrollBar();
                         resolve('created');
                     }, true);
             } else {
@@ -213,6 +222,8 @@ export default class ColumnScroll {
                         // Смена колонок может не вызвать событие resize на обёртке грида(ColumnScroll), если общая ширина колонок до обновления и после одинакова.
                         this._columnScroll.updateSizes(() => {
                             this._options = this._updateOptions(options);
+                            updateDragScroll();
+                            updateScrollBar();
                             resolve('updated');
                         }, true);
 
@@ -223,23 +234,24 @@ export default class ColumnScroll {
                         // Создание columnScroll на beforeUpdate невозможно, т.к. контроллер создается только по мере необходимости.
                         resolve('updated' );
                     } else {
+                        this._columnScroll.toggleTransform(false);
                         const newContentSize = options.containers.content.scrollWidth;
                         const newContainerSize = options.isFullGridSupport ? options.containers.content.offsetWidth : options.containers.wrapper.offsetWidth;
                         const actualSizes = this.getSizes();
-
                         const isResized = actualSizes.containerSize !== newContainerSize || actualSizes.contentSize !== newContentSize;
+                        this._columnScroll.toggleTransform(true);
 
                         if (isResized) {
                             // Смена колонок может не вызвать событие resize на обёртке грида(ColumnScroll), если общая ширина колонок до обновления и после одинакова.
                             this._columnScroll.updateSizes(() => {
+                                updateDragScroll();
+                                updateScrollBar();
                                 resolve('updated');
                             });
                         } else {
                             resolve('actual');
                         }
                     }
-                    this._scrollBar.recalcSizes();
-                    this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
             }
         } else {
             if (!this._columnScroll) {
@@ -306,8 +318,12 @@ export default class ColumnScroll {
             stickyLadderCellsCount: this._options.stickyLadderCellsCount,
             isEmptyTemplateShown: options.needShowEmptyTemplate,
             getFixedPartWidth: () => {
+                const header = this._header || options.containers.header;
+                if (!header) {
+                    return 0;
+                }
                 // Находим последнюю фиксированную ячейку заголовка / результата
-                const fixedElements = options.containers.header.querySelectorAll(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`);
+                const fixedElements = header.querySelectorAll(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`);
                 const lastFixedCell = fixedElements[fixedElements.length - 1] as HTMLElement;
 
                 // Ширина фиксированной части должна учитывать отступ таблицы от внешнего контейнера
@@ -365,6 +381,12 @@ export default class ColumnScroll {
         });
     }
 
+    setIsEmptyTemplateShown(newState): void {
+        if (this._columnScroll) {
+            this._columnScroll.setIsEmptyTemplateShown(newState);
+        }
+    }
+
     scrollToElementIfHidden(columnRect: DOMRect): void {
         if (this._columnScroll) {
             this._columnScroll.scrollToElementIfHidden(columnRect);
@@ -372,12 +394,13 @@ export default class ColumnScroll {
         }
     }
 
-    getScrollBarStyles({columns, itemActionsPosition}, stickyColumns: number = 0): string {
+    getScrollBarStyles({columns, itemActionsPosition, multiSelectVisibility, multiSelectPosition}, stickyColumns: number = 0): string {
         let offset = 0;
         let lastCellOffset = 0;
+        const hasMultiSelectColumn = multiSelectVisibility !== 'hidden' && multiSelectPosition !== 'custom';
 
         // Учёт колонки с чекбоксами для выбора записей
-        if (this._options.hasMultiSelectColumn) {
+        if (hasMultiSelectColumn) {
             offset += 1;
         }
 
@@ -451,6 +474,8 @@ export default class ColumnScroll {
                 // if (!isOverlay && startBy === 'touch') {
                 //     this._notify('closeSwipe', []);
                 // }
+                e.stopImmediatePropagation();
+                e.nativeEvent.stopImmediatePropagation();
                 this._columnScroll.setScrollPosition(newPosition);
                 this._dragScroll.setScrollPosition(this._columnScroll.getScrollPosition());
                 this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
@@ -463,7 +488,9 @@ export default class ColumnScroll {
         if (!this._dragScroll || !this._isGrabbing) {
             return;
         }
-        this._columnScroll.scrollToColumnWithinContainer(this._header);
+        if (this._dragScroll.isScrolled()) {
+            this._columnScroll.scrollToColumnWithinContainer(this._header);
+        }
         this._dragScroll.setScrollPosition(this._columnScroll.getScrollPosition());
         this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
 

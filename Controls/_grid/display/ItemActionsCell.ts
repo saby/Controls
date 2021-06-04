@@ -16,7 +16,7 @@ export default class ItemActionsCell<T> extends Cell<T, Row<T>> implements IItem
 
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover?: boolean, templateHoverBackgroundStyle?: string): string {
         if (!this._$owner.DisplayItemActions) {
-            return '';
+            return this._$owner.isFullGridSupport() ? 'controls-Grid__itemAction__emptyContainer' : '';
         }
         if (this._$owner.isFullGridSupport()) {
             return 'controls-itemActionsV__container controls-Grid__itemAction js-controls-ColumnScroll__notDraggable';
@@ -34,7 +34,7 @@ export default class ItemActionsCell<T> extends Cell<T, Row<T>> implements IItem
     }
 
     shouldDisplayItemActions(): boolean {
-        return !!this._$owner.DisplayItemActions;
+        return !!this._$owner.DisplayItemActions && (this._$owner.hasVisibleActions() || this._$owner.isEditing());
     }
 }
 

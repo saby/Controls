@@ -99,7 +99,11 @@ define([
          let createPromiseResolverReed;
          let createPromiseResolverDelete;
          let createPromise;
+         const originConfirmationCallback = FC._confirmRecordChangeHandler;
          const record = {
+            isChanged: () => false
+         };
+         const diffRecord = {
             isChanged: () => false
          };
 
@@ -117,6 +121,9 @@ define([
             createCalled = true;
             createPromise = new Promise((res) => { createPromiseResolver = res; });
             return createPromise;
+         };
+         FC._confirmRecordChangeHandler = (positiveCallback, negativeCallback) => {
+            return positiveCallback();
          };
          FC._crudController = {
             setDataSource() {}
@@ -142,6 +149,22 @@ define([
 
          setRecordCalled = false;
          readCalled = false;
+
+         // Рекорд должен обновиться, если показали окно и ответили "Нет"
+         FC._confirmRecordChangeHandler = (positiveCallback, negativeCallback) => {
+            return negativeCallback();
+         };
+         FC._beforeUpdate({
+            record: diffRecord,
+            key: 'key1'
+         });
+         assert.equal(setRecordCalled, true);
+
+         FC._confirmRecordChangeHandler = (positiveCallback) => {
+            return positiveCallback();
+         };
+         setRecordCalled = false;
+         readCalled = false;
          FC._beforeUpdate({
             isNewRecord: true
          });
@@ -158,6 +181,7 @@ define([
          createCalled = false;
          let updateCalled = false;
          let confirmPopupCalled = false;
+         FC._confirmRecordChangeHandler = originConfirmationCallback;
          FC._showConfirmPopup = () => {
             confirmPopupCalled = true;
             return new Promise((res) => {

@@ -13,7 +13,7 @@ export const ERROR_MSG = {
     HAS_NO_EDITING: 'There is no running edit in collection.',
     EDITING_IS_ALREADY_RUNNING: 'Editing is already running. Commit or cancel current before beginning new.',
     NO_FORMAT_FOR_KEY_PROPERTY: 'There is no format for item\'s key property. It is required if trying to add item with empty key. set item\'s key or format of key property.',
-    PARENT_OF_ADDING_ITEM_DOES_NOT_EXIST: 'Adding in tree error. The parent of adding item doesn\'t exist. Check if the parentProperty field is filled in correctly and parent is displayed.' +
+    PARENT_OF_ADDING_ITEM_DOES_NOT_EXIST: 'Adding in tree error. The parent of adding item doesn\'t exist. Check if the parentProperty field is filled in correctly and parent is displayed. ' +
         'If you want to add item to the root, the parentProperty value of the added item must be "null"'
 };
 

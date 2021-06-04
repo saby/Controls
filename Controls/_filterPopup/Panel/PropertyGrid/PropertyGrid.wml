@@ -1,22 +1,26 @@
-<div class="controls-FilterPanel__PropertyGrid">
+<div class="controls_filterPopup_theme-{{_options.theme}} controls-FilterPanel__PropertyGrid">
    <ws:for data="index, item in _items">
       <ws:if data="{{_isItemVisible(item)}}">
-         <ws:if data="{{(item[_options.itemTemplateProperty] || _options.itemTemplate.templateName).at}}">
+         <ws:if data="{{(item[_options.itemTemplateProperty] || _options.itemTemplate.templateName).charAt}}">
             <Controls.Container.Async
+               tabindex="{{_changedIndex === index ? '1' : '0'}}"
                templateName="{{item[_options.itemTemplateProperty] || _options.itemTemplate.templateName}}">
-               <div class="controls-FilterPanel__PropertyGrid__item
-                           {{index === _lastVisibleIndex ? 'controls-FilterPanel__PropertyGrid__lastItem' : 'controls-FilterPanel__PropertyGrid__notLastItem'}}">
-                  <ws:partial template="{{content.resolvedTemplate}}"
-                              item="{{item}}"
-                              templateOptions="{{_options.itemTemplate.templateOptions}}"
-                              on:valueChanged="_valueChangedHandler(index)"
-                              on:visibilityChanged="_visibilityChangedHandler(index)"
-                              on:textValueChanged="_textValueChangedHandler(index)"
-                              tabindex="{{_changedIndex === index ? '1' : '0'}}"
-                              on:selectedKeysChanged="_valueChangedHandler(index)"
-                              on:selectedKeyChanged="_valueChangedHandler(index)"
-                              on:rangeChanged="_rangeChangedHandler(index)"/>
-               </div>
+               <ws:templateOptions
+                     item="{{item}}"/>
+               <ws:content>
+                  <div class="controls-FilterPanel__PropertyGrid__item
+                              {{index === _lastVisibleIndex ? 'controls-FilterPanel__PropertyGrid__lastItem' : 'controls-FilterPanel__PropertyGrid__notLastItem'}}">
+                     <ws:partial template="{{content.resolvedTemplate}}"
+                                 item="{{content.item}}"
+                                 templateOptions="{{_options.itemTemplate.templateOptions}}"
+                                 on:valueChanged="_valueChangedHandler(index)"
+                                 on:visibilityChanged="_visibilityChangedHandler(index)"
+                                 on:textValueChanged="_textValueChangedHandler(index)"
+                                 on:selectedKeysChanged="_valueChangedHandler(index)"
+                                 on:selectedKeyChanged="_valueChangedHandler(index)"
+                                 on:rangeChanged="_rangeChangedHandler(index)"/>
+                  </div>
+               </ws:content>
             </Controls.Container.Async>
          </ws:if>
          <ws:else>

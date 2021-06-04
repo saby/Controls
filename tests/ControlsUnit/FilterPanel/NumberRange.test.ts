@@ -25,6 +25,14 @@ describe('Controls/filterPanel:NumberRangeEditor', () => {
             assert.equal(textValue, '0 - 5');
             assert.isTrue(changesNotified);
         });
+
+        it('maxValue is less than minValue', () => {
+            numberRangeEditor._minValue = 10;
+            numberRangeEditor._maxValue = 1;
+            numberRangeEditor._handleInputCompleted(null, 1);
+            assert.equal(numberRangeEditor._minValue, 1);
+            assert.equal(numberRangeEditor._maxValue, 10);
+        });
     });
 
     describe('_handleMinValueChanged', () => {
@@ -56,6 +64,14 @@ describe('Controls/filterPanel:NumberRangeEditor', () => {
         it('minValue is less than maxValue', () => {
             numberRangeEditor._notifyExtendedValue([3, 4]);
             assert.isTrue(changesNotified);
+        });
+    });
+
+    describe('_needNotifyChanges', () => {
+        const numberRangeEditor = new NumberRangeEditor({});
+        it('minValue is equal to maxValue', () => {
+            const value = [1, 1];
+            assert.isTrue(numberRangeEditor._needNotifyChanges(value));
         });
     });
 });

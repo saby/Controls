@@ -13,7 +13,10 @@ import {ISlidingPanelTemplateOptions} from 'Controls/_popupSliding/interface/ISl
  */
 export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> {
     protected _template: TemplateFunction = template;
-    protected _dragStartScrollHeight: number;
+    protected _dragStartHeightDimensions: {
+        scrollHeight: number;
+        contentHeight: number;
+    };
     protected _touchDragOffset: IDragObject['offset'];
     protected _scrollAvailable: boolean = false;
     protected _position: string = 'bottom';
@@ -59,8 +62,11 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         const controllerContainer = this._children.controlLine;
         const controllerHeight = this._isPanelMounted && controlButtonVisibility ? controllerContainer.clientHeight : 0;
         const contentHeight = scrollContentHeight + controllerHeight;
+        const hasMoreContent = this._scrollState ?
+            this._scrollState.clientHeight < this._scrollState.scrollHeight : false;
+
         return slidingPanelOptions.height === slidingPanelOptions.maxHeight ||
-            slidingPanelOptions.height === contentHeight;
+            slidingPanelOptions.height === contentHeight && !hasMoreContent;
     }
 
     protected _dragEndHandler(): void {
@@ -75,8 +81,9 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         this._children.dragNDrop.startDragNDrop(null, event);
     }
 
-    protected _scrollStateChanged(event: SyntheticEvent<MouseEvent>, scrollState: object) {
+    protected _scrollStateChanged(event: SyntheticEvent<MouseEvent>, scrollState: object): void {
         this._scrollState = scrollState;
+        this._scrollAvailable = this._isScrollAvailable(this._options);
     }
 
     protected _getScrollAvailableHeight(): number {
@@ -102,9 +109,18 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
             Если свайпают внутри скролла и скролл не в самом верху,
             то не тянем шторку, т.к. пользователь пытается скроллить
          */
-        if (this._scrollAvailable && (this._getScrollTop() !== 0 || this._isSwipeInsideScroll(event))) {
+        if (this._scrollAvailable && (this._getScrollTop() !== 0 && this._isSwipeInsideScroll(event))) {
+
+            // Расчет оффсета тача должен начинаться только с того момента как закончится скролл, а не со старта тача
+            this._currentTouchYPosition = null;
             return;
         }
+
+        // Если тач начался со скролла, то оффсет нужно начинать с того момента, как закончился скролл
+        if (!this._currentTouchYPosition) {
+            this._currentTouchYPosition = event.nativeEvent.changedTouches[0].clientY;
+        }
+
         const currentTouchY = event.nativeEvent.changedTouches[0].clientY;
         const offsetY = currentTouchY - this._currentTouchYPosition;
 
@@ -154,8 +170,11 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
 
         /* Запоминаем высоту скролла, чтобы при увеличении проверять на то,
            что не увеличим шторку больше, чем есть контента */
-        if (!this._dragStartScrollHeight) {
-            this._dragStartScrollHeight = this._children.customContentWrapper.clientHeight;
+        if (!this._dragStartHeightDimensions) {
+            this._dragStartHeightDimensions = {
+                scrollHeight: this._children.customContentWrapper.clientHeight,
+                contentHeight: this._children.customContent.clientHeight
+            };
         }
         this._notify('popupDragStart', [
             this._getDragOffsetWithOverflowChecking(offset)
@@ -165,7 +184,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
 
     protected _notifyDragEnd(): void {
         this._notify('popupDragEnd', [], {bubbling: true});
-        this._dragStartScrollHeight = null;
+        this._dragStartHeightDimensions = null;
     }
 
     private _getDragOffsetWithOverflowChecking(dragOffset: IDragObject['offset']): IDragObject['offset'] {
@@ -174,9 +193,25 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
 
         // В зависимости от позиции высоту шторки увеличивает либо положительный, либо отрицательный сдвиг по оси "y"
         const realHeightOffset = this._position === 'top' ? offsetY : -offsetY;
-        const scrollContentOffset = contentHeight - this._dragStartScrollHeight;
+        const {
+            scrollHeight: startScrollHeight,
+            contentHeight: startContentHeight
+        } = this._dragStartHeightDimensions;
+        const scrollContentOffset = contentHeight - startScrollHeight;
+
+        // Если остаток доступного контента меньше сдвига, то сдвигаем на размер оставшегося контента
         if (realHeightOffset > scrollContentOffset) {
-            offsetY = this._position === 'top' ? scrollContentOffset : -scrollContentOffset;
+
+            /*
+                Если изначально контент меньше высоты шторки, и шторку пытаюстся развернуть,
+                то не учитываем разницу в скролле и контенте, т.к. шторка всё равно не будет сдвигаться,
+                А если пытаюся свернуть, то вызываем закрытие передавая текущий оффсет
+             */
+            if (startContentHeight < startScrollHeight) {
+                offsetY = realHeightOffset > 0 ? 0 : offsetY;
+            } else {
+                offsetY = this._position === 'top' ? scrollContentOffset : -scrollContentOffset;
+            }
         }
         return {
             x: dragOffset.x,

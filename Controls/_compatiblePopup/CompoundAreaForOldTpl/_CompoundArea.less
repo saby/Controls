@@ -6,6 +6,11 @@
    &.controls-CompoundArea_type-dialog {
       border-radius: var(--border-radius_dialog);
    }
+
+   &.controls-CompoundArea_type-sticky {
+      border-radius: var(--border-radius_dialog);
+   }
+
    //в слое совместимости рисуем свою тень в стеке
    .controls-StackTemplate .controls-StackTemplate-shadow {
       display: none!important;
@@ -86,6 +91,13 @@ body:not(.rtl-Body) .controls-CompoundArea {
    .ws-window-titlebar-custom {
       position: relative;
    }
+
+   &.controls-CompoundArea_type-stack:not(.ws-float-area-has-close-button) {
+      .ws-float-area-title {
+         max-width: 100%;
+      }
+   }
+
    .ws-float-area-title {
       font-size: 18px !important;
       font-weight: bold !important;

@@ -1,7 +1,7 @@
 import {Memory} from 'Types/source';
 import {Control, TemplateFunction} from 'UI/Base';
 import {BeforeChangeRootResult, Browser, DetailViewMode, IBrowserViewConfig, IRootsData} from 'Controls/newBrowser';
-import {FlatHierarchy} from 'Controls-demo/_DemoData/Data';
+import {FlatHierarchy} from 'Controls-demo/DemoData';
 import {DemoSource, getDefaultViewCfg} from 'Controls-demo/NewBrowser/DemoSource';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore

@@ -1,6 +1,6 @@
 <Controls.scroll:ScrollContextProvider pagingVisible="{{ false }}">
     <Controls.validate:Controller name="formController" on:keyDown="_keyDownHandler()" on:click="_onClickHandler()">
-        <div class="controls-PeriodDialog">
+        <div class="controls_datePicker_theme-{{_options.theme}} controls_popupTemplate_theme-{{_options.theme}} controls-PeriodDialog">
             <ws:partial
                     template="{{_headerTmpl}}"
                     _options="{{_options}}"

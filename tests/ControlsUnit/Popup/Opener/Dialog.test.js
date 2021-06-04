@@ -160,7 +160,7 @@ define(
             sizesTest.width = 700;
             let position = DialogStrategy.getPosition(windowData, sizesTest, { popupOptions });
             assert.equal(position.left, 0);
-            assert.equal(position.width, 600);
+            assert.equal(position.width, 500);
          });
 
          it('dialog popupoptions sizes config', () => {
@@ -251,8 +251,8 @@ define(
             }, container);
             assert.equal(container.style.width, 10);
             assert.equal(container.style.height, 10);
-            assert.equal(container.style.maxWidth, '');
-            assert.equal(container.style.maxHeight, '');
+            assert.equal(container.style.maxWidth, '20px');
+            assert.equal(container.style.maxHeight, '30px');
          });
 
          it('dialog default position', () => {
@@ -432,8 +432,8 @@ define(
             });
             assert.equal(position.left, 610);
             assert.equal(position.top, 320);
-            assert.equal(position.width, sizes.width); // размеры не изменились
-            assert.equal(position.height, sizes.height);
+            assert.equal(position.width, 100);
+            assert.equal(position.height, 100);
             assert.equal(position.maxWidth, 100);
             assert.equal(position.minWidth, 10);
             assert.equal(position.minHeight, 10);

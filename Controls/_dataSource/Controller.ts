@@ -37,6 +37,7 @@ import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {fetch, HTTPStatus} from 'Browser/Transport';
 import {default as calculatePath, Path} from 'Controls/_dataSource/calculatePath';
+import * as randomId from 'Core/helpers/Number/randomId';
 import TreeControl from "Controls/_tree/TreeControl";
 
 export interface IControllerState {
@@ -78,6 +79,8 @@ export interface IControllerOptions extends
     navigationParamsChangedCallback?: Function;
     loadTimeout?: number;
     items?: RecordSet;
+    deepScrollLoad?: boolean;
+    nodeTypeProperty?: string;
 }
 
 interface ILoadConfig {
@@ -86,6 +89,7 @@ interface ILoadConfig {
     key?: TKey;
     navigationSourceConfig?: INavigationSourceConfig;
     direction?: Direction;
+    isFirstLoad?: boolean;
 }
 
 type LoadPromiseResult = RecordSet|Error;
@@ -109,16 +113,16 @@ function getModelModuleName(model: string|Function): string {
 }
 
 function isEqualFormat(oldList: RecordSet, newList: RecordSet): boolean {
-    const oldListFormat = oldList && oldList.hasDeclaredFormat() && oldList.getFormat(true);
-    const newListFormat = newList && newList.hasDeclaredFormat() && newList.getFormat(true);
-    return (oldListFormat && newListFormat && oldListFormat.isEqual(newListFormat)) ||
+    const oldListFormat = oldList && oldList['[Types/_entity/FormattableMixin]'] && oldList.getFormat(true);
+    const newListFormat = newList && newList['[Types/_entity/FormattableMixin]'] && newList.getFormat(true);
+    return (oldListFormat && newListFormat && oldListFormat.isEqual(newListFormat) || !newList.getCount() || !oldList.getCount()) ||
            (!oldListFormat && !newListFormat);
 }
 
 export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
     const getProtoOf = Object.getPrototypeOf.bind(Object);
-    const items1Model = oldList.getModel();
-    const items2Model = newList.getModel();
+    const items1Model = oldList && oldList['[Types/_collection/RecordSet]'] && oldList.getModel();
+    const items2Model = newList && newList['[Types/_collection/RecordSet]'] && newList.getModel();
     let isModelEqual = items1Model === items2Model;
 
     if (!isModelEqual && (getModelModuleName(items1Model) === getModelModuleName(items2Model))) {
@@ -131,14 +135,10 @@ export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
         (getProtoOf(newList).constructor == getProtoOf(newList).constructor) &&
         // tslint:disable-next-line:triple-equals
         (getProtoOf(newList.getAdapter()).constructor == getProtoOf(oldList.getAdapter()).constructor) &&
-        isEqualFormat(newList, oldList);
+        isEqualFormat(oldList, newList);
 }
 
-export default class Controller extends mixin<
-    ObservableMixin
-    >(
-    ObservableMixin
-) {
+export default class Controller extends mixin<ObservableMixin>(ObservableMixin) {
     private _options: IControllerOptions;
     private _filter: QueryWhereExpression<unknown>;
     private _items: RecordSet;
@@ -163,12 +163,14 @@ export default class Controller extends mixin<
      * при редактировании названия папки в которой находимся.
      */
     private _breadcrumbsRecordSet: RecordSet;
+    private _dragRandomId: string;
     private _loadPromise: CancelablePromise<RecordSet|Error>;
     private _prepareFilterPromise: CancelablePromise<QueryWhereExpression<unknown>|Error>;
     private _loadError: Error;
     private _processCollectionChangeEvent: boolean = true;
 
     private _dataLoadCallback: Function;
+    private _nodeDataMoreLoadCallback: Function;
     // Необходимо для совместимости в случае, если dataLoadCallback задают на списке, а где-то сверху есть dataContainer
     private _dataLoadCallbackFromOptions: Function;
 
@@ -191,6 +193,7 @@ export default class Controller extends mixin<
         this._resolveNavigationParamsChangedCallback(cfg);
         this._collectionChange = this._collectionChange.bind(this);
         this._updateBreadcrumbsData = this._updateBreadcrumbsData.bind(this);
+        this._dragRandomId = randomId();
         this._options = cfg;
         this.setFilter(cfg.filter || {});
         this.setNavigation(cfg.navigation);
@@ -222,12 +225,13 @@ export default class Controller extends mixin<
         });
     }
 
-    reload(sourceConfig?: INavigationSourceConfig): LoadResult {
+    reload(sourceConfig?: INavigationSourceConfig, isFirstLoad?: boolean): LoadResult {
         this._deepReload = true;
 
         return this._load({
             key: this._root,
-            navigationSourceConfig: sourceConfig
+            navigationSourceConfig: sourceConfig,
+            isFirstLoad
         }).then((result) => {
             this._deepReload = false;
             return result;
@@ -272,6 +276,10 @@ export default class Controller extends mixin<
         return keyProperty;
     }
 
+    getParentProperty(): string {
+        return this._parentProperty;
+    }
+
     getLoadError(): Error {
         return this._loadError;
     }
@@ -302,7 +310,7 @@ export default class Controller extends mixin<
 
     setRoot(key: TKey): void {
         this._setRoot(key);
-        this._notify('rootChanged', key);
+        this._notify('rootChanged', key, this._options.id);
     }
 
     getRoot(): TKey {
@@ -318,7 +326,7 @@ export default class Controller extends mixin<
     updateOptions(newOptions: IControllerOptions): boolean {
         const isFilterChanged =
             !isEqual(newOptions.filter, this._options.filter) &&
-            !isEqual(this._filter, newOptions.filter);
+            !isEqual(newOptions.filter, this._filter);
         const isSourceChanged = newOptions.source !== this._options.source;
         const isNavigationChanged = !isEqual(newOptions.navigation, this._options.navigation);
         const rootChanged =
@@ -370,8 +378,8 @@ export default class Controller extends mixin<
             !isEqual(newOptions.sorting, this._options.sorting) ||
             (this._parentProperty && rootChanged);
 
-        const resetExpandedItemsOnDeepReload = this._isDeepReload() && !rootChanged;
-        if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || Controller._isExpandAll(this.getExpandedItems()))) {
+        const resetExpandedItemsOnDeepReload = this.isDeepReload() && !rootChanged;
+        if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || this.isExpandAll())) {
             this.setExpandedItems([]);
         }
         this._options = newOptions;
@@ -389,18 +397,21 @@ export default class Controller extends mixin<
             navigation: this._options.navigation,
 
             parentProperty: this._parentProperty,
+            nodeProperty: this._options.nodeProperty,
             root: this._root,
 
             items: this._items,
             breadCrumbsItems: this._breadCrumbsItems,
             backButtonCaption: this._backButtonCaption,
             breadCrumbsItemsWithoutBackButton: this._breadCrumbsItemsWithoutBackButton,
+            dragControlId: this._dragRandomId,
 
             // FIXME sourceController не должен создаваться, если нет source
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
             dataLoadCallback: this._options.dataLoadCallback,
-            expandedItems: this._expandedItems
+            expandedItems: this._expandedItems,
+            nodeTypeProperty: this._options.nodeTypeProperty
         };
         return state;
     }
@@ -415,7 +426,30 @@ export default class Controller extends mixin<
     }
 
     updateExpandedItemsInUserStorage(): void  {
-        nodeHistoryUtil.store(this._expandedItems, this._options.nodeHistoryId);
+        let expandedItems: TKey[];
+        if (!this._expandedItems || this._expandedItems.length === 0 || !this._options.nodeTypeProperty) {
+            expandedItems = this._expandedItems;
+        } else {
+            // Запрашиваем список последних сохранённых id раскрытых записей
+            const lastSavedHistory = nodeHistoryUtil.getCached(this._options.nodeHistoryId);
+            expandedItems = this._expandedItems.filter((key) => {
+                const record = this._items.getRecordById(key);
+                // Если записи нет в текущем списке, но она оказалась в expandedItems, проверяем,
+                // есть ли она в списке последних сохранённых id.
+                if (!record) {
+                    return lastSavedHistory ? lastSavedHistory.indexOf(key) !== -1 : false;
+                }
+                const nodeTypeProperty = record.get(this._options.nodeTypeProperty);
+                if (this._options.nodeHistoryType === 'node') {
+                    return nodeTypeProperty !== 'group';
+
+                } else if (this._options.nodeHistoryType === 'all') {
+                    return true;
+                }
+                return nodeTypeProperty === 'group';
+            });
+        }
+        nodeHistoryUtil.store(expandedItems, this._options.nodeHistoryId);
     }
 
     getExpandedItems(): TKey[] {
@@ -435,6 +469,10 @@ export default class Controller extends mixin<
 
     setDataLoadCallback(callback: Function): void {
         this._dataLoadCallback = callback;
+    }
+
+    setNodeDataMoreLoadCallback(callback: Function): void {
+        this._nodeDataMoreLoadCallback = callback;
     }
 
     hasLoaded(key: TKey): boolean {
@@ -474,6 +512,15 @@ export default class Controller extends mixin<
 
     getOptions(): IControllerOptions {
         return this._options;
+    }
+
+    isDeepReload(): boolean {
+        return this._deepReload || this._options.deepReload;
+    }
+
+    isExpandAll(): boolean {
+        const expandedItems = this.getExpandedItems();
+        return expandedItems instanceof Array && expandedItems[0] === null;
     }
 
     destroy(): void {
@@ -555,9 +602,10 @@ export default class Controller extends mixin<
         const isMultiNavigation = this._isMultiNavigation(navigationSourceConfig);
         const isHierarchyQueryParamsNeeded =
             isMultiNavigation &&
-            this._isDeepReload() &&
+            this.isDeepReload() &&
             this._expandedItems?.length &&
-            !direction;
+            !direction &&
+            key === this._root;
         let resultQueryParams;
 
         if (isHierarchyQueryParamsNeeded) {
@@ -574,15 +622,11 @@ export default class Controller extends mixin<
                 key,
                 navigationSourceConfig,
                 NAVIGATION_DIRECTION_COMPATIBILITY[direction],
-                !isMultiNavigation
+                !isMultiNavigation || key !== this._root
             );
         }
 
         return resultQueryParams;
-    }
-
-    private _isDeepReload(): boolean {
-        return this._deepReload || this._options.deepReload;
     }
 
     private _isMultiNavigation(navigationSourceConfig: INavigationSourceConfig): boolean {
@@ -620,6 +664,7 @@ export default class Controller extends mixin<
         this._breadcrumbsRecordSet = this._items instanceof RecordSet ? this._items.getMetaData().path : null;
         this._subscribeBreadcrumbsChange(this._breadcrumbsRecordSet);
         this._updateBreadcrumbsData();
+        this._notify('itemsChanged', items);
     }
 
     private _appendItems(items: RecordSet): void {
@@ -656,11 +701,11 @@ export default class Controller extends mixin<
         return this._processCollectionChangeEvent;
     }
 
-    private _load({direction, key, navigationSourceConfig, filter}: ILoadConfig): LoadResult {
+    private _load({direction, key, navigationSourceConfig, filter, isFirstLoad}: ILoadConfig): LoadResult {
         if (this._options.source) {
             const filterPromise = filter && !direction ?
                 Promise.resolve(filter) :
-                this._prepareFilterForQuery(filter || this._filter, key);
+                this._prepareFilterForQuery(filter || this._filter, key, isFirstLoad, direction);
             this.cancelLoading();
             this._prepareFilterPromise = new CancelablePromise(filterPromise);
             this._loadPromise = new CancelablePromise(
@@ -722,23 +767,31 @@ export default class Controller extends mixin<
     private _getFilterHierarchy(
         initialFilter: QueryWhereExpression<unknown>,
         options: IControllerOptions,
-        root: TKey = this._root): Promise<QueryWhereExpression<unknown>> {
+        root: TKey = this._root,
+        isFirstLoad: boolean,
+        direction: Direction): Promise<QueryWhereExpression<unknown>>{
         const parentProperty = this._parentProperty;
         let resultFilter: QueryWhereExpression<unknown>;
 
         if (parentProperty) {
-            return this._resolveExpandedHierarchyItems(options).then((expandedItems) => {
+            return this._resolveExpandedHierarchyItems(options, isFirstLoad).then((expandedItems) => {
                 this.setExpandedItems(expandedItems);
                 resultFilter = {...initialFilter};
-                const isDeepReload = this._isDeepReload() && root === this._root;
+                const isLoadToDirectionWithExpandedItems = direction && this._options.deepScrollLoad;
+                const isDeepReload = (this.isDeepReload() || isLoadToDirectionWithExpandedItems) && root === this._root;
 
                 // Набираем все раскрытые узлы
                 if (expandedItems?.length && expandedItems?.[0] !== null && isDeepReload) {
                     resultFilter[parentProperty] = Array.isArray(resultFilter[parentProperty]) ?
                         resultFilter[parentProperty] :
                         [];
-                    resultFilter[parentProperty].push(root);
-                    resultFilter[parentProperty] = resultFilter[parentProperty].concat(expandedItems);
+                    // Добавляет root в фильтр expanded узлов
+                    if (resultFilter[parentProperty].indexOf(root) === -1) {
+                        resultFilter[parentProperty].push(root);
+                    }
+                    // Добавляет отсутствующие expandedItems в фильтр expanded узлов
+                    resultFilter[parentProperty] = resultFilter[parentProperty]
+                        .concat(expandedItems.filter((key) => resultFilter[parentProperty].indexOf(key) === -1));
                 } else if (root !== undefined) {
                     resultFilter[parentProperty] = root;
                 }
@@ -774,11 +827,12 @@ export default class Controller extends mixin<
     /**
      * Возвращает Promise с идентификаторами раскрытых узлов
      * @param options
+     * @param isFirstLoad
      * @private
      */
-    private _resolveExpandedHierarchyItems(options: IControllerOptions): Promise<CrudEntityKey[]> {
+    private _resolveExpandedHierarchyItems(options: IControllerOptions, isFirstLoad: boolean): Promise<CrudEntityKey[]> {
         const expandedItems = this._expandedItems || options.expandedItems;
-        if (options.nodeHistoryId) {
+        if (options.nodeHistoryId && isFirstLoad) {
             return nodeHistoryUtil.restore(options.nodeHistoryId)
                 .then((restored) => {
                     return restored || expandedItems || [];
@@ -793,11 +847,13 @@ export default class Controller extends mixin<
 
     private _prepareFilterForQuery(
         filter: QueryWhereExpression<unknown>,
-        key: TKey
+        key: TKey,
+        isFirstLoad: boolean,
+        direction: Direction
     ): Promise<QueryWhereExpression<unknown>> {
         return this._getFilterForCollapsedGroups(filter, this._options)
             .then((preparedFilter: QueryWhereExpression<unknown>) => {
-                return this._getFilterHierarchy(preparedFilter, this._options, key);
+                return this._getFilterHierarchy(preparedFilter, this._options, key, isFirstLoad, direction);
             });
     }
 
@@ -819,6 +875,9 @@ export default class Controller extends mixin<
 
         if (loadedInCurrentRoot && this._dataLoadCallback) {
             dataLoadCallbackResult = this._dataLoadCallback(result, direction);
+        } else if (this._nodeDataMoreLoadCallback) {
+            // Вызываем только когда подгружают узел, определяется по loadedInCurrentRoot
+            this._nodeDataMoreLoadCallback();
         }
 
         if (loadedInCurrentRoot || direction) {
@@ -1017,10 +1076,6 @@ export default class Controller extends mixin<
         }
 
         return resultSource;
-    }
-
-    private static _isExpandAll(expandedItems: TKey[]): boolean {
-        return expandedItems instanceof Array && expandedItems[0] === null;
     }
 
 }

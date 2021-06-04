@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/MasterDetail/Grouped/Grouped';
 import {Gadgets} from 'Controls-demo/Explorer_new/DataHelpers/DataCatalog';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
-import { IColumn } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 import { TRoot, IHeader } from 'Controls-demo/types';
 import 'css!Controls/masterDetail';
 import 'css!Controls/CommonClasses';

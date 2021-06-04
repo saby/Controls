@@ -1,11 +1,11 @@
 import { mixin } from 'Types/util';
 import { ITreeItemOptions, TreeItem, IItemPadding, TMarkerClassName, IGroupNode } from 'Controls/display';
-import { IGridRowOptions, GridCell, GridRowMixin, IDisplaySearchValue, IDisplaySearchValueOptions, IGridDataCellOptions, GridItemActionsCell } from 'Controls/grid';
+import { IGridRowOptions, GridCell, GridRowMixin, IDisplaySearchValue, IDisplaySearchValueOptions} from 'Controls/grid';
 import TreeGridCollection from './TreeGridCollection';
-import { IColumn } from 'Controls/interface';
+import { IColumn } from 'Controls/grid';
 import { Model } from 'Types/entity';
-import ResultsCell from "Controls/_grid/display/ResultsCell";
-import TreeCheckboxCell from "Controls/_treeGrid/display/TreeCheckboxCell";
+import TreeCheckboxCell from './TreeCheckboxCell';
+import {ITreeGridDataCellOptions} from './TreeGridDataCell';
 
 export interface IOptions<T extends Model> extends IGridRowOptions<T>, ITreeItemOptions<T>, IDisplaySearchValueOptions {
     owner: TreeGridCollection<T>;
@@ -58,8 +58,8 @@ export default class TreeGridDataRow<T extends Model = Model>
         super.setEditing(editing, editingContents, silent, columnIndex);
         this.setRowTemplate(editing ? this._$owner.getItemEditorTemplate() : undefined);
         const colspanCallback = this._$owner.getColspanCallback();
-        if (colspanCallback) {
-            this._reinitializeColumns();
+        if (colspanCallback || this.getEditingConfig()?.mode === 'cell') {
+            this._reinitializeColumns(true);
         }
     }
 
@@ -81,7 +81,13 @@ export default class TreeGridDataRow<T extends Model = Model>
         classes += `controls-GridView__itemV_marker-${style} `;
         classes += `controls-GridView__itemV_marker-${style}_rowSpacingBottom-${itemPadding.bottom} `;
         classes += `controls-GridView__itemV_marker-${style}_rowSpacingTop-${itemPadding.top} `;
-        classes += `controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'height' : ('padding-' + (itemPadding.top || 'l') + '_' + markerClassName)} `;
+        classes += 'controls-ListView__itemV_marker_';
+        if (markerClassName === 'default') {
+            classes += 'height ';
+            classes += 'controls-GridView__itemV_marker_vertical-position-top ';
+        } else {
+            classes += `${'padding-' + (itemPadding.top || this.getTopPadding() || 'l') + '_' + markerClassName} `;
+        }
         classes += `controls-ListView__itemV_marker-${this.getMarkerPosition()} `;
         return classes;
     }
@@ -94,10 +100,23 @@ export default class TreeGridDataRow<T extends Model = Model>
         }
     }
 
-    protected _getColumnFactoryParams(column: IColumn, columnIndex: number): Partial<IGridDataCellOptions<T>> {
+    setDragTargetNode(isTarget: boolean): void {
+        const changed = isTarget !== this.isDragTargetNode();
+        super.setDragTargetNode(isTarget);
+        if (changed) {
+            this.getColumns().forEach((it) => {
+                if (it['[Controls/treeGrid:TreeGridDataCell]']) {
+                    it.setDragTargetNode(isTarget);
+                }
+            });
+        }
+    }
+
+    protected _getColumnFactoryParams(column: IColumn, columnIndex: number): Partial<ITreeGridDataCellOptions<T>> {
         return {
             ...super._getColumnFactoryParams(column, columnIndex),
-            searchValue: this._$searchValue
+            searchValue: this._$searchValue,
+            isDragTargetNode: this.isDragTargetNode()
         };
     }
 

@@ -7,5 +7,7 @@ export const enum POSITION {
 
 export const enum SCROLL_MODE {
     VERTICAL = 'vertical',
-    VERTICAL_HORIZONTAL = 'verticalHorizontal'
+    HORIZONTAL = 'horizontal',
+    VERTICAL_HORIZONTAL = 'verticalHorizontal',
+    NONE = 'none'
 }

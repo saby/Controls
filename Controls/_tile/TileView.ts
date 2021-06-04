@@ -13,6 +13,7 @@ import {constants} from 'Env/Env';
 import {getItemSize} from './utils/imageUtil';
 import {createPositionInBounds} from './utils/createPosition';
 import 'css!Controls/tile';
+import CollectionItem from "Controls/_display/CollectionItem";
 
 const AVAILABLE_CONTAINER_VERTICAL_PADDINGS = ['null', 'default'];
 const AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS = ['null', 'default', 'xs', 's', 'm', 'l', 'xl', '2xl'];
@@ -25,7 +26,6 @@ export default class TileView extends ListView {
     protected _mouseMoveTimeout: number;
     protected _listModel: TileCollection;
 
-    protected _animatedItem: TileCollectionItem<unknown> = null;
     protected _animatedItemTargetPosition: string;
     protected _shouldPerformAnimation: boolean;
 
@@ -96,29 +96,47 @@ export default class TileView extends ListView {
         // endregion Update Model
 
         if (newOptions.listModel !== this._listModel) {
-            this._animatedItem = null;
             this._setHoveredItem(this, null, null);
         }
-        this._shouldPerformAnimation =
-            this._animatedItem && !this._animatedItem.destroyed && this._animatedItem.isFixed();
+        const hoveredItem = this._listModel.getHoveredItem();
+        this._shouldPerformAnimation = hoveredItem && !hoveredItem.destroyed
+            && hoveredItem['[Controls/_tile/mixins/TileItem]'] && hoveredItem.isFixed();
     }
 
     protected _afterUpdate(): void {
         super._afterUpdate();
-        if (this._animatedItem) {
-            if (this._animatedItem.destroyed) {
-                this._animatedItem = null;
-            } else if (
+
+        const hoveredItem = this._listModel.getHoveredItem();
+        if (hoveredItem && !hoveredItem.destroyed &&  hoveredItem['[Controls/_tile/mixins/TileItem]']) {
+            // actions нужно всегда показать после отрисовки hoveredItem
+            hoveredItem.setCanShowActions(true);
+
+            if (
                 this._shouldPerformAnimation &&
-                this._animatedItem.isFixed() &&
-                !this._animatedItem.isAnimated()
+                hoveredItem.isFixed() &&
+                !hoveredItem.isAnimated()
             ) {
-                this._animatedItem.setAnimated(true);
-                this._animatedItem.setFixedPositionStyle(this._animatedItemTargetPosition);
-                this._animatedItem.setCanShowActions(true);
-                this._animatedItem = null;
+                hoveredItem.setAnimated(true);
+                hoveredItem.setFixedPositionStyle(this._animatedItemTargetPosition);
             }
         }
+    }
+
+    protected _isPendingRedraw(event, changesType, action, newItems) {
+        return !this.isLoadingPercentsChanged(action) && super._isPendingRedraw(event, changesType, action, newItems);
+    }
+    /**
+     * TODO https://online.sbis.ru/opendoc.html?guid=b8b8bd83-acd7-44eb-a915-f664b350363b
+     *  Костыль, позволяющий определить, что мы загружаем файл и его прогрессбар изменяется
+     *  Это нужно, чтобы в ListView не вызывался resize при изменении прогрессбара и не сбрасывался hovered в плитке
+     */
+    isLoadingPercentsChanged(newItems: Array<CollectionItem<Model>>): boolean {
+        return newItems &&
+            newItems[0] &&
+            newItems[0].getContents() &&
+            newItems[0].getContents().getChanged &&
+            newItems[0].getContents().getChanged().indexOf('docviewLoadingPercent') !== -1 &&
+            newItems[0].getContents().getChanged().indexOf('docviewIsLoading') === -1;
     }
 
     _beforeUnmount(): void {
@@ -157,7 +175,7 @@ export default class TileView extends ListView {
                 closeOnOutsideClick: true,
                 maxWidth: menuOptions.previewWidth + MENU_MAX_WIDTH,
                 target: imageWrapper,
-                className: 'controls-TileView__itemActions_menu_popup',
+                className: `controls-TileView__itemActions_menu_popup controls_popupTemplate_theme-${this._options.theme}`,
                 targetPoint: {
                     vertical: 'top',
                     horizontal: 'left'
@@ -182,11 +200,7 @@ export default class TileView extends ListView {
 
     protected _onItemMouseEnter(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem): void {
         super._onItemMouseEnter(e, item);
-        if (this._shouldProcessHover()) {
-            this._mouseMoveTimeout = setTimeout(() => {
-                this._setHoveredItem(this, item, e);
-            }, ZOOM_DELAY);
-        }
+        this._setHoveredItemIfNeed(e, item);
     }
 
     protected _onItemMouseLeave(event: SyntheticEvent, item: TileCollectionItem): void {
@@ -194,7 +208,9 @@ export default class TileView extends ListView {
             this._setHoveredItem(this, null, event);
             // С помощью флага canShowActions отображают itemActions. Когда показываются itemActions, скрывается title.
             // Поэтому после того как увели мышь с итема, нужно сбросить флаг canShowActions, чтобы показать title.
-            item.setCanShowActions(false);
+            if (item['[Controls/_tile/mixins/TileItem]']) {
+                item.setCanShowActions(false);
+            }
         }
         this._clearMouseMoveTimeout();
         super._onItemMouseLeave(event, item);
@@ -208,8 +224,19 @@ export default class TileView extends ListView {
         ) {
             this._setHoveredItemPosition(event, item);
         }
+        this._setHoveredItemIfNeed(event, item);
 
         super._onItemMouseMove(event, item);
+    }
+
+    private _setHoveredItemIfNeed(event: SyntheticEvent, item: TileCollectionItem): void {
+        if (this._shouldProcessHover() && (this._listModel.getHoveredItem() !== item)) {
+            this._clearMouseMoveTimeout();
+            this._mouseMoveTimeout = setTimeout(() => {
+                this._setHoveredItem(this, item, event);
+                this._clearMouseMoveTimeout();
+            }, ZOOM_DELAY);
+        }
     }
 
     protected _setHoveredItemPosition(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem): void {
@@ -260,11 +287,9 @@ export default class TileView extends ListView {
                     documentRect
                 );
                 item.setFixedPositionStyle(this._convertPositionToStyle(startItemPositionInDocument));
-                this._animatedItem = item;
                 this._animatedItemTargetPosition = targetPositionStyle;
             } else {
                 item.setFixedPositionStyle(targetPositionStyle);
-                item.setCanShowActions(true);
             }
         }
     }
@@ -280,6 +305,13 @@ export default class TileView extends ListView {
     }
 
     private _setHoveredItem(self: TileView, item: TileCollectionItem, event: SyntheticEvent): void {
+        // Элемент могут удалить, но hover на нем успеет сработать. Проверяем что элемент точно еще есть в модели.
+        // Может прийти null, чтобы сбросить элемент
+        const hasItem = item === null || !!this._listModel.getItemBySourceItem(item.getContents());
+        if (!hasItem) {
+            return;
+        }
+
         if (
             !this._destroyed &&
             this._listModel && !this._listModel.destroyed &&
@@ -287,10 +319,6 @@ export default class TileView extends ListView {
             !this._listModel.getActiveItem()
         ) {
             this._listModel.setHoveredItem(item);
-            if (item && item['[Controls/_tile/mixins/TileItem]']) {
-                // canShowActions нужно тоже проставлять с задержкой, чтобы itemActions показывались уже посчитанными
-                item.setCanShowActions(true);
-            }
         }
 
         if (this._needUpdateActions(item, event)) {

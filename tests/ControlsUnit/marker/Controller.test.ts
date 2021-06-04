@@ -28,6 +28,13 @@ describe('Controls/marker/Controller', () => {
       controller = new MarkerController({ model, markerVisibility: 'visible', markedKey: undefined });
    });
 
+   describe('constructor', () => {
+      it('init marker in model', () => {
+         controller = new MarkerController({ model, markerVisibility: 'visible', markedKey: 1 });
+         assert.isTrue(model.getItemBySourceKey(1).isMarked());
+      });
+   });
+
    describe('updateOptions', () => {
       it('change options', () => {
           controller.updateOptions({
@@ -59,6 +66,16 @@ describe('Controls/marker/Controller', () => {
          assert.equal(newModel.getItemBySourceKey(2).getVersion(), 0);
          assert.equal(newModel.getItemBySourceKey(3).getVersion(), 0);
       });
+
+      it('change markerVisibility to hidden', () => {
+         controller.setMarkedKey(1)
+
+         controller.updateOptions({
+            model, markerVisibility: 'hidden'
+         });
+
+         model.each((item) => assert.isFalse(item.isMarked()));
+      });
    });
 
    describe('setMarkedKey', () => {
@@ -73,10 +90,10 @@ describe('Controls/marker/Controller', () => {
              keyProperty: 'id'
          }));
 
-         assert.equal(model.getVersion(), 2);
+         assert.equal(model.getVersion(), 3);
 
-         assert.equal(model.getItemBySourceKey(1).getVersion(), 0);
-         assert.equal(model.getItemBySourceKey(3).getVersion(), 0);
+         assert.equal(model.getItemBySourceKey(1).getVersion(), 1);
+         assert.equal(model.getItemBySourceKey(3).getVersion(), 2);
          assert.isFalse(model.getItemBySourceKey(1).isMarked());
 
          controller.setMarkedKey(1);
@@ -86,10 +103,10 @@ describe('Controls/marker/Controller', () => {
          assert.isFalse(model.getItemBySourceKey(3).isMarked());
 
          // Проверяем что версия изменилась один раз для маркера
-         assert.equal(model.getVersion(), 3);
-         assert.equal(model.getItemBySourceKey(1).getVersion(), 1);
-         assert.equal(model.getItemBySourceKey(2).getVersion(), 0);
-         assert.equal(model.getItemBySourceKey(3).getVersion(), 0);
+         assert.equal(model.getVersion(), 4);
+         assert.equal(model.getItemBySourceKey(1).getVersion(), 2);
+         assert.equal(model.getItemBySourceKey(2).getVersion(), 1);
+         assert.equal(model.getItemBySourceKey(3).getVersion(), 2);
       });
 
       it('another key', () => {
@@ -474,11 +491,30 @@ describe('Controls/marker/Controller', () => {
       items.remove(breadcrumbItem.getContents()[0]);
 
       result = controller.onCollectionRemove(2, [breadcrumbItem]);
-      assert.equal(result, 2);
+      // markedKey не должен пересчитаться, т.к. хлебная крошка не может быть маркирована
+      // и ее удаление в этом случае ничего не значит
+      assert.equal(result, 3);
       assert.isFalse(breadcrumbItem.isMarked());
 
       controller.setMarkedKey(2);
       result = controller.onCollectionRemove(2, [model.getItemBySourceKey(2)]);
       assert.equal(result, 2);
+   });
+
+   describe('shouldMoveMarkerOnScrollPaging', () => {
+      it('by default', () => {
+         const controller = new MarkerController({});
+         assert.isTrue(controller.shouldMoveMarkerOnScrollPaging());
+      });
+
+      it('pass option is false', () => {
+         const controller = new MarkerController({moveMarkerOnScrollPaging: false});
+         assert.isFalse(controller.shouldMoveMarkerOnScrollPaging());
+      });
+
+      it('pass option is true', () => {
+         const controller = new MarkerController({moveMarkerOnScrollPaging: true});
+         assert.isTrue(controller.shouldMoveMarkerOnScrollPaging());
+      });
    });
 });

@@ -2,7 +2,7 @@ import { TemplateFunction } from 'UI/Base';
 import {Model as EntityModel, OptionsToPropertyMixin} from 'Types/entity';
 import { mixin } from 'Types/util';
 
-import { IColspanParams, IColumn } from 'Controls/interface';
+import { IColumn } from './interface/IColumn';
 import { default as GridGroupCellMixin } from 'Controls/_grid/display/mixins/GroupCell';
 
 import DataCell from './DataCell';
@@ -16,6 +16,7 @@ export interface IOptions<T> {
     groupTemplate: TemplateFunction|string;
     zIndex?: number;
     metaResults: EntityModel;
+    colspanGroup?: boolean;
 }
 
 export default class GroupCell<T>
@@ -25,6 +26,7 @@ export default class GroupCell<T>
     protected _$zIndex: number;
     protected _$groupTemplate: TemplateFunction|string;
     protected _$metaResults: EntityModel;
+    protected _$colspanGroup: EntityModel;
 
     constructor(options?: IOptions<T>) {
         super(options);
@@ -37,24 +39,30 @@ export default class GroupCell<T>
         return this.getColspanStyles();
     }
 
+    getContentClasses(theme: string): string {
+        let classes = '';
+        // TODO необходимо разобраться с высотой групп.
+        //  https://online.sbis.ru/opendoc.html?guid=6693d47c-515c-4751-949d-55be05fe124e
+        classes += ' controls-Grid__row-cell__content_baseline_S';
+
+        if (this.isFirstColumn()) {
+            classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}`;
+        }
+        if (this.isLastColumn()) {
+            classes += ` controls-Grid__cell_spacingLastCol_${this._$owner.getRightPadding()}`;
+        }
+
+        classes += this._getContentAlignClasses();
+        classes += ' controls-ListView__groupContent';
+        return classes;
+    }
+
     getZIndex(): number {
         return this._$zIndex;
     }
 
     getContentStyles(): string {
         return 'display: contents;';
-    }
-
-    _getColspanParams(): IColspanParams {
-        const hasMultiSelect = this._$owner.hasMultiSelectColumn();
-        const ladderStickyColumn = this._$owner.getStickyColumn();
-        const ladderColumnLength = ladderStickyColumn ? ladderStickyColumn.property.length : 0;
-        const startColumn = hasMultiSelect ? 2 : 1;
-        const endColumn = startColumn + this._$columnsLength + ladderColumnLength;
-        return {
-            startColumn,
-            endColumn
-        };
     }
 
     getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {
@@ -75,19 +83,17 @@ export default class GroupCell<T>
 
     getRightTemplateClasses(separatorVisibility: boolean,
                             textVisible: boolean,
-                            columnAlignGroup: number,
-                            textAlign: string,
-                            theme: string): string {
+                            columnAlignGroup: number): string {
         let classes = `controls-ListView__groupContent-rightTemplate`;
-        const groupPaddingClasses = this._$owner.getGroupPaddingClasses(theme, 'right');
+        const groupPaddingClasses = this._$owner.getGroupPaddingClasses(undefined, 'right');
 
         if (!this._shouldFixGroupOnColumn(columnAlignGroup, textVisible)) {
             classes += ' ' + groupPaddingClasses;
         }
 
         // should add space before rightTemplate
-        if (separatorVisibility === false && (textVisible === false || textAlign !== 'right')) {
-            classes += ' controls-ListView__groupContent-withoutGroupSeparator';
+        if (!this._$colspanGroup || (separatorVisibility === false && textVisible === false)) {
+            classes += ' controls-ListView__groupContent-withoutGroupSeparator controls-ListView__groupContent_right';
         }
 
         return classes;
@@ -117,6 +123,7 @@ Object.assign(GroupCell.prototype, {
     _$owner: null,
     _$columnsLength: null,
     _$zIndex: 2,
+    _$colspanGroup: true,
     _$contents: null,
     _$groupTemplate: 'Controls/grid:GroupTemplate',
     _$metaResults: null

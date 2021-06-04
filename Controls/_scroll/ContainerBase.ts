@@ -68,8 +68,10 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
     _beforeMount(options: IContainerBaseOptions, context?, receivedState?) {
         this._virtualNavigationRegistrar = new RegisterClass({register: 'virtualNavigation'});
-        this._resizeObserver = new ResizeObserverUtil(this, this._resizeObserverCallback, this._resizeHandler);
-        this._resizeObserverSupported = this._resizeObserver.isResizeObserverSupported();
+        if (!this._isHorizontalScroll(options.scrollMode)) {
+            this._resizeObserver = new ResizeObserverUtil(this, this._resizeObserverCallback, this._resizeHandler);
+        }
+        this._resizeObserverSupported = this._resizeObserver?.isResizeObserverSupported();
         this._registrars.scrollStateChanged = new RegisterClass({register: 'scrollStateChanged'});
         // событие viewportResize используется только в списках.
         this._registrars.viewportResize = new RegisterClass({register: 'viewportResize'});
@@ -99,7 +101,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         // может быть сразу проскролен. Исправляем эту ситуацию.
         // Не будем скроллить в случае, если на странице есть нативные якоря для скролла,
         // т.е. в ссылке присутсвует хэш
-        if (!location.hash) {
+        if (!location.hash && this._container.dataset?.scrollContainerNode) {
             this._children.content.scrollTop = 0;
         }
     }
@@ -108,7 +110,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         if (!this._scrollModel) {
             this._createScrollModel();
         }
-        if (!this._resizeObserver.isResizeObserverSupported()) {
+        if (!this._resizeObserver?.isResizeObserverSupported() || this._isHorizontalScroll(this._options.scrollMode)) {
             RegisterUtil(this, 'controlResize', this._controlResizeHandler, { listenAll: true });
             // ResizeObserver при инициализации контрола стрелнет событием ресайза.
             // Вызваем метод при инициализации сами если браузер не поддерживает ResizeObserver
@@ -155,22 +157,40 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _beforeUnmount(): void {
-        if (!this._resizeObserver.isResizeObserverSupported()) {
+        // Установим дата аттрибут, чтобы в будущем была возможность определить, был ли в этой ноде скролл контейнер.
+        // Подробности в комментарии в _componentDidMount.
+        this._container.dataset?.scrollContainerNode = 'true';
+        if (!this._resizeObserver?.isResizeObserverSupported()) {
             UnregisterUtil(this, 'controlResize', {listenAll: true});
         }
-        this._resizeObserver.terminate();
+        this._resizeObserver?.terminate();
         for (const registrar in this._registrars) {
             if (this._registrars.hasOwnProperty(registrar)) {
                 this._registrars[registrar].destroy();
             }
         }
+
+        if (detection.isMobileIOS) {
+            Bus.globalChannel().unsubscribe('MobileInputFocus', this._lockScrollPositionUntilKeyboardShown);
+        }
+
         this._scrollModel = null;
         this._oldScrollState = null;
         this._isUnmounted = true;
     }
 
+    private _isHorizontalScroll(scrollModeOption: string): boolean {
+        const scrollMode = scrollModeOption.toLowerCase();
+        // При горизонтальном скролле будет работать с событием controlResize
+        return scrollMode.indexOf('horizontal') !== -1;
+    }
+
     _controlResizeHandler(): void {
-        this._resizeObserver.controlResizeHandler();
+        if (this._resizeObserver) {
+            this._resizeObserver.controlResizeHandler();
+        } else {
+            this._resizeHandler();
+        }
     }
 
     _observeContentSize(): void {
@@ -185,7 +205,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         const contentElements: HTMLElement[] = this._getElementsForHeightCalculation();
         this._observedElements = this._observedElements.filter((element: HTMLElement) => {
             if (!contentElements.includes(element)) {
-                this._resizeObserver.unobserve(element);
+                this._resizeObserver?.unobserve(element);
                 return false;
             }
             return true;
@@ -193,7 +213,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _observeElementSize(element: HTMLElement): void {
-        this._resizeObserver.observe(element, { box: RESIZE_OBSERVER_BOX.borderBox });
+        this._resizeObserver?.observe(element, { box: RESIZE_OBSERVER_BOX.borderBox });
     }
 
     _isObserved(element: HTMLElement): boolean {
@@ -207,7 +227,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         ];
     }
 
-    _resizeHandler(e: SyntheticEvent): void {
+    _resizeHandler(): void {
         this._onResizeContainer(this._getFullStateFromDOM());
     }
 
@@ -509,22 +529,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             if (entry.target === this._children.content) {
                 newState.clientHeight = entry.contentRect.height;
                 newState.clientWidth = entry.contentRect.width;
-            } else if (entry.target === this._children.userContent.children[0] && this._options.scrollMode === SCROLL_MODE.VERTICAL_HORIZONTAL) {
-                // Списки имуют ширину равную ширине скролл контейнера, но в данном сценарии используется дерево
-                // и контент вылазит по горизонтали за пределы корня списка и соответсвенно скролл контейнера.
-                // Иконки должны прижиматься к правому краю и, в том числе по этой причине, мы не можем растянуть
-                // корневой контейнер списка шире скролл контейнера. Поэтому берем ширину с помощью scrollWidth.
-                // В данном сценарии мы не можем отследить изменение ширины потому что она не меняется,
-                // меняется высота. Но этого триггера достаточно, т.к. добавление людого контента в списках приводят
-                // к изменению высоты. Нормально решение будет делаться в рамках проекта.
-                // https://online.sbis.ru/opendoc.html?guid=b0f50709-5cc2-484f-ba2b-8502ccfa77f8
-                newState.scrollWidth = this._children.content.scrollWidth;
             } else {
                 this._updateContentType();
                 // Свойство borderBoxSize учитывает размеры отступов при расчете. Поддерживается не во всех браузерах.
                 if (entry.borderBoxSize) {
                     const scrollStateProperties = {
-                        // scrollWidth: 'inlineSize',
                         scrollHeight: 'blockSize'
                     };
                     for (const property of Object.keys(scrollStateProperties)) {
@@ -533,7 +542,6 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                             entry.borderBoxSize[0][borderBoxSizeProperty] : entry.borderBoxSize[borderBoxSizeProperty];
                     }
                 } else {
-                    // newState.scrollWidth = entry.contentRect.width;
                     newState.scrollHeight = entry.contentRect.height;
                 }
 
@@ -542,6 +550,15 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                 }
             }
         }
+
+        // Списки имуют ширину равную ширине скролл контейнера, но в данном сценарии используется дерево
+        // и контент вылазит по горизонтали за пределы корня списка и соответсвенно скролл контейнера.
+        // Иконки должны прижиматься к правому краю и, в том числе по этой причине, мы не можем растянуть
+        // корневой контейнер списка шире скролл контейнера. Поэтому берем ширину с помощью scrollWidth.
+        // В данном сценарии мы не можем отследить изменение ширины потому что она не меняется,
+        // меняется высота. Но этого триггера достаточно, т.к. добавление людого контента в списках приводят
+        // к изменению высоты.
+        newState.scrollWidth = this._children.content.scrollWidth;
 
         if (newState.scrollHeight < newState.clientHeight) {
             newState.scrollHeight = newState.clientHeight;
@@ -625,12 +642,17 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _getFullStateFromDOM(): IScrollState {
+        // Используем getBoundingClientRect а не clientHeight и clientWidth потому что, clientHeight и clientWidth
+        // возвращают округленные целые значения. В событиях ресайза приходят дробные значения соответсвующие
+        // getBoundingClientRect. Если использовать clientHeight и clientWidth, то будут генериоваться лишние
+        // события сообщающие что изменился размер скорлл контейнера на значения меньше одного пикселя.
+        const containerRect: DOMRect = this._children.content.getBoundingClientRect()
         const newState = {
             scrollTop: this._children.content.scrollTop,
             scrollLeft: this._children.content.scrollLeft,
-            clientHeight: this._children.content.clientHeight,
+            clientHeight: containerRect.height,
             scrollHeight: this._children.content.scrollHeight, // В observer берем со content, иначе значения будут отличаться
-            clientWidth: this._children.content.clientWidth,
+            clientWidth: containerRect.width,
             scrollWidth: this._children.content.scrollWidth
         };
         return newState;
@@ -691,9 +713,17 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     protected _getScrollContainerCssClass(options: IContainerBaseOptions): string {
-        return options.scrollMode === SCROLL_MODE.VERTICAL ?
-                   'controls-Scroll-ContainerBase__scroll_vertical' :
-                   'controls-Scroll-ContainerBase__scroll_verticalHorizontal';
+        switch (options.scrollMode) {
+            case SCROLL_MODE.VERTICAL:
+                return 'controls-Scroll-ContainerBase__scroll_vertical';
+            case SCROLL_MODE.HORIZONTAL:
+                return 'controls-Scroll-ContainerBase__scroll_horizontal';
+            case SCROLL_MODE.NONE:
+                return  'controls-Scroll-ContainerBase__scroll_none';
+            default:
+                return 'controls-Scroll-ContainerBase__scroll_verticalHorizontal';
+
+        }
     }
 
     protected _updateContentWrapperCssClass(): void {

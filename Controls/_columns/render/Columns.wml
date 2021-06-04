@@ -1,4 +1,4 @@
-<div attr:class="controls-ListViewV controls-ColumnsView">
+<div attr:class="controls_columns_theme-{{_options.theme}} controls-ListViewV controls-ColumnsView">
    <ws:if data="{{ _options.listModel }}">
       <div attr:class="controls-ColumnsView__itemsContainer" style="{{_getItemsContainerStyle()}}" name="itemsContainer">
          <ws:for data="i in _options.listModel.getColumnsCount()">

@@ -1,4 +1,5 @@
-<div class="controls-CutButton__container controls-CutButton__container_{{ _options.expanded ? 'extended' : 'notExtended'}}_size-{{ _options.iconSize }}
+<div class="controls_spoiler_theme-{{_options.theme}}
+            controls-CutButton__container controls-CutButton__container_{{ _options.expanded ? 'extended' : 'notExtended'}}_size-{{ _options.iconSize }}
             controls-CutButton__container_{{ _options.expanded ? 'extended' : 'notExtended'}} controls-CutButton__container_lineHeight-{{ _options.lineHeight }}
             controls-CutButton__container_position-{{ _options.buttonPosition }}">
     <div class="controls-CutButton controls-CutButton_background-{{ _options.backgroundStyle }} controls-CutButton_size-{{ _options.iconSize }}">

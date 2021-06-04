@@ -75,13 +75,6 @@ export default class View extends List {
         this._viewModelConstructor = this._getModelConstructor();
     }
 
-    private _shouldOpenExtendedMenu(isActionMenu: boolean, isContextMenu: boolean, item): boolean {
-        const isScalingTile = this._options.tileScalingMode !== 'none' &&
-            this._options.tileScalingMode !== 'overlap' &&
-            !item.isNode();
-        return this._options.actionMenuViewMode === 'preview' && !isActionMenu && !(isScalingTile && isContextMenu);
-    }
-
     protected _getModelConstructor(): string {
         return 'Controls/tile:TileCollection';
     }

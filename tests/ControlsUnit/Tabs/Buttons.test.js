@@ -91,14 +91,6 @@ define([
             tabs._options.keyProperty = 'id';
          });
 
-         it('should update _isAnimatedMakerVisible', function() {
-            tabs._beforeUpdate({
-               items: items,
-               selectedKey: 3
-            });
-            assert.isTrue(tabs._isAnimatedMakerVisible);
-         });
-
          it('should\'t update _isAnimatedMakerVisible if align changed', function() {
 
             tabs._beforeUpdate({
@@ -141,24 +133,6 @@ define([
             tabs._options.items = items;
             tabs._options.selectedKey = 1;
             tabs._options.keyProperty = 'id';
-         });
-
-         it('should call _startMarkerAnimationDelayed', function() {
-            tabs._beforeUpdate({
-               items: items,
-               selectedKey: 3
-            });
-
-            tabs._options.selectedKey = 3;
-
-            sinon.stub(tabs, '_startMarkerAnimationDelayed');
-
-            tabs._afterUpdate({
-               items: items,
-               selectedKey: 1
-            });
-            sinon.assert.calledOnce(tabs._startMarkerAnimationDelayed);
-            sinon.restore();
          });
       });
 
@@ -617,6 +591,20 @@ define([
             const item = {
                width: '20px'
             };
+            const result = tabs._tabCanShrink(item);
+            assert.isFalse(result);
+         });
+         it('should return true', () => {
+            const tabs = new tabsMod.Buttons();
+            const item = {};
+            tabs._hasMainTab = false;
+            const result = tabs._tabCanShrink(item);
+            assert.isTrue(result);
+         });
+         it('should return false', () => {
+            const tabs = new tabsMod.Buttons();
+            const item = {};
+            tabs._hasMainTab = true;
             const result = tabs._tabCanShrink(item);
             assert.isFalse(result);
          });

@@ -1,4 +1,4 @@
-<div class="controls-StackTemplate" ws-tab-cycling="true">
+<div class="controls_popupTemplate_theme-{{_options.theme}} controls-StackTemplate" ws-tab-cycling="true">
     <div class="controls-StackTemplate-shadow"></div>
     <div class="controls-StackTemplate-content_wrapper">
         <div class="controls-StackTemplate-content">
@@ -33,6 +33,7 @@
             <div class="controls-StackTemplate__content-area">
                 <ws:partial template="{{_options.bodyContentTemplate}}"
                             scope="{{_options}}"
+                            hasRightTemplate="{{!!_stackRightPanel}}"
                             bodyContentTemplate="{{null}}"
                             headerContentTemplate="{{null}}"
                             footerContentTemplate="{{null}}">  <!-- Опция с тем же названием есть на выпадающем списке.
@@ -55,18 +56,18 @@
                 <Controls.buttons:Button
                    attr:data-qa="controls-stack-Button__close"
                    icon="icon-Close"
-                   iconStyle="secondary"
-                   buttonStyle="secondary"
+                   iconStyle="label"
+                   buttonStyle="unaccented"
                    iconSize="m"
-                   viewMode="onlinePageHeader"
+                   viewMode="functionalButton"
                    inlineHeight="xl"
                    tooltip="{[Закрыть]}"
                    readOnly="{{false}}"
-                   attr:class="controls-stack-Button__close"
+                   attr:class="controls-stack-Button__close controls-stack-Button__rightPanel__close ws-flex-shrink-0"
                    on:click="close()"
                 />
                 <Controls.Container.Async templateName="{{_stackRightPanel}}">
-                    <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}"/>
+                    <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}" rightPanelOptions="{{_options.rightPanelOptions}}"/>
                 </Controls.Container.Async>
             </div>
         </ws:if>

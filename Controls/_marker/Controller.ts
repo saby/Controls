@@ -1,8 +1,8 @@
-import { IOptions, TVisibility, Visibility } from './interface';
+import { IOptions, TVisibility, Visibility, IMarkerStrategy, IMarkerStrategyCtor } from './interface';
+import {default as SingleColumnStrategy} from './strategy/SingleColumn';
 import { Collection, CollectionItem, TreeItem } from 'Controls/display';
 import { Model } from 'Types/entity';
-import {CrudEntityKey} from 'Types/source';
-
+import { CrudEntityKey } from 'Types/source';
 /**
  * Контроллер управляющий маркером в списке
  * @class Controls/_marker/Controller
@@ -13,11 +13,18 @@ export class Controller {
    private _model: Collection<Model, CollectionItem<Model>>;
    private _markerVisibility: TVisibility;
    private _markedKey: CrudEntityKey;
+   private _markerStrategy: IMarkerStrategy;
 
    constructor(options: IOptions) {
+      const markerStrategy = options.markerStrategy || SingleColumnStrategy;
+      this._markerStrategy = new markerStrategy({model: options.model, moveMarkerOnScrollPaging: options.moveMarkerOnScrollPaging});
       this._model = options.model;
       this._markerVisibility = options.markerVisibility;
       this._markedKey = options.markedKey;
+
+      if (this._markedKey !== null && this._markedKey !== undefined) {
+         this._model.setMarkedKey(this._markedKey, true);
+      }
    }
 
    /**
@@ -33,6 +40,14 @@ export class Controller {
          this.setMarkedKey(this.getMarkedKey());
       }
 
+      if (this._markerVisibility !== options.markerVisibility) {
+         this._markerVisibility = options.markerVisibility;
+         if (this._markerVisibility === 'hidden') {
+            this.setMarkedKey(null);
+         }
+      }
+      const markerStrategy = options.markerStrategy || SingleColumnStrategy;
+      this._markerStrategy = new markerStrategy({model: options.model, moveMarkerOnScrollPaging: options.moveMarkerOnScrollPaging});
       this._markerVisibility = options.markerVisibility;
    }
 
@@ -77,9 +92,15 @@ export class Controller {
     * Высчитывает ключ следующего элемента
     * @return {CrudEntityKey} Ключ следующего элемента
     */
-   getNextMarkedKey(): CrudEntityKey {
+   getNextMarkedKey(): CrudEntityKey | void {
       const index = this._model.getIndex(this._model.getItemBySourceKey(this._markedKey));
-      const nextMarkedKey = this._calculateNearbyByDirectionItemKey(index + 1, true);
+      const nextMarkedKey = this._markerStrategy.getNextMarkedKey(index + 1);
+      return nextMarkedKey === null ? this._markedKey : nextMarkedKey;
+   }
+
+   getMarkedKeyByDirection(direction: TDirection): CrudEntityKey | void {
+      const index = this._model.getIndex(this._model.getItemBySourceKey(this._markedKey));
+      const nextMarkedKey = this._markerStrategy.getMarkedKeyByDirection(index, direction);
       return nextMarkedKey === null ? this._markedKey : nextMarkedKey;
    }
 
@@ -87,9 +108,9 @@ export class Controller {
     * Высчитывает ключ предыдущего элемента
     * @return {CrudEntityKey} Ключ предыдущего элемента
     */
-   getPrevMarkedKey(): CrudEntityKey {
+   getPrevMarkedKey(): CrudEntityKey | void {
       const index = this._model.getIndex(this._model.getItemBySourceKey(this._markedKey));
-      const prevMarkedKey = this._calculateNearbyByDirectionItemKey(index - 1, false);
+      const prevMarkedKey = this._markerStrategy.getPrevMarkedKey(index - 1);
       return prevMarkedKey === null ? this._markedKey : prevMarkedKey;
    }
 
@@ -109,7 +130,7 @@ export class Controller {
          return contents.getKey();
       }
       const index = this._model.getIndex(item);
-      const nextMarkedKey = this._calculateNearbyByDirectionItemKey(index + 1, true);
+      const nextMarkedKey = this._markerStrategy.getNextMarkedKey(index);
       return nextMarkedKey === null ? this._markedKey : nextMarkedKey;
    }
 
@@ -127,20 +148,23 @@ export class Controller {
       // поэтому на скрытых элементах нужно сбросить состояние marked
       removedItems.forEach((item) => item.Markable && item.setMarked(false, true));
 
+      const removeMarkedItem = !!removedItems.find((it) => it.Markable && it.getContents().getKey() === this._markedKey);
+      if (!removeMarkedItem) {
+         return this._markedKey;
+      }
+
       let markedKeyAfterRemove = this._getMarkedKeyAfterRemove(removedItemsIndex);
 
       // Если свернули узел внутри которого есть маркер, то маркер нужно поставить на узел
       // TODO нужно только для дерева, можно подумать над наследованием
       if (removedItems[0] instanceof TreeItem && this._markedKey !== undefined && this._markedKey !== null) {
-         const removeMarkedItem = !!removedItems.find((it) => it.Markable && it.getContents().getKey() === this._markedKey);
-         if (removeMarkedItem) {
-            const parent = removedItems[0].getParent();
-            // На корневой узел ставить маркер нет смысла, т.к. в этом случае должно отработать именно удаление элементов, а не скрытие
-            if (parent && parent !== this._model.getRoot() && parent.Markable) {
-               const parentItem = parent.getContents();
-               if (parentItem ) {
-                  markedKeyAfterRemove = parentItem.getKey();
-               }
+         const parent = removedItems[0].getParent();
+         // На корневой узел ставить маркер нет смысла, т.к. в этом случае должно отработать именно удаление элементов, а не скрытие
+         if (parent && parent !== this._model.getRoot() && parent.Markable) {
+            const parentItem = parent.getContents();
+            if (parentItem) {
+               // Если родитель это корень то ключ это contents, актуально для explorer
+               markedKeyAfterRemove = parent.isRoot() ? parentItem : parentItem.getKey();
             }
          }
       }
@@ -194,6 +218,10 @@ export class Controller {
       return newMarkedKey;
    }
 
+   shouldMoveMarkerOnScrollPaging(): boolean {
+      return this._markerStrategy.shouldMoveMarkerOnScrollPaging();
+   }
+
    /**
     * Зануляет все ссылки внутри контроллера
     * @void
@@ -216,47 +244,26 @@ export class Controller {
     */
    private _calculateNearbyItemKey(index: number): CrudEntityKey {
       // Считаем ключ следующего элемента
-      let newMarkedKey = this._calculateNearbyByDirectionItemKey(index, true);
+      let newMarkedKey = this._markerStrategy.getNextMarkedKey(index);
 
       // Считаем ключ предыдущего элемента, если следующего нет
       if (newMarkedKey === null) {
-         newMarkedKey = this._calculateNearbyByDirectionItemKey(index, false);
+         newMarkedKey = this._markerStrategy.getPrevMarkedKey(index);
       }
 
       return newMarkedKey;
    }
 
    /**
-    * Возвращает ключ ближайшего элемента в направлении next
-    * @param index Индекс элемента, к которому искать ближайший элемент
-    * @param next Следующий или предыдущий
-    * @private
-    */
-   private _calculateNearbyByDirectionItemKey(index: number, next: boolean): CrudEntityKey {
-      const count = this._model.getCount();
-      let item;
-
-      const indexInBounds = (i) => next ? i < count : i >= 0;
-      let resIndex = index;
-      while (indexInBounds(resIndex)) {
-         item = this._model.at(resIndex);
-         if (item && item.Markable) { break; }
-         resIndex += next ? 1 : -1;
-      }
-
-      return item ? this._getKey(item) : null;
-   }
-
-   /**
     * Возвращает ключ первого элемента модели
     * @private
     */
-   private _getFirstItemKey(): CrudEntityKey {
+   private _getFirstItemKey(): CrudEntityKey | void {
       if (!this._model.getCount()) {
          return null;
       }
 
-      return this._calculateNearbyByDirectionItemKey(0, true);
+      return this._markerStrategy.getNextMarkedKey(0);
    }
 
    private _getMarkedKeyAfterRemove(removedIndex: number): CrudEntityKey {

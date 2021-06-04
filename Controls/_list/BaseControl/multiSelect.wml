@@ -1,11 +1,12 @@
 <ws:if data="{{item.isVisibleCheckbox()}}">
   <ws:template name="multiSelectContent">
       <ws:partial template="{{multiSelectTemplate}}"
-                  attr:class="{{ itemData && itemData.multiSelectClassList ? itemData.multiSelectClassList : item.getMultiSelectClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
+                  attr:class="{{ itemData && itemData.multiSelectClassList ? itemData.multiSelectClassList : (multiSelectClasses || item.getMultiSelectClasses(theme, backgroundColorStyle, cursor, highlightOnHover)) }}"
                   triState="{{ triState }}"
                   readOnly="{{ item.isReadonlyCheckbox() || checkboxReadOnly || false}}"
                   value="{{ item.isSelected() }}"
-                  on:click="_onCheckBoxClick(item, item.isReadonlyCheckbox() || checkboxReadOnly)"/>
+                  on:click="_onCheckBoxClick(item, item.isReadonlyCheckbox() || checkboxReadOnly)"
+                  _preventMergeEvents="{{ true }}"/>
   </ws:template>
 
   <ws:if data="{{multiSelectTemplate}}">

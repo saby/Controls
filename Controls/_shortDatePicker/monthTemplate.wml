@@ -1,4 +1,4 @@
-<div class="controls-PeriodLiteDialog__vLayoutItem
+<div class="controls_shortDatePicker_theme-{{_options.theme}} controls-PeriodLiteDialog__vLayoutItem
     controls-PeriodLiteDialog__vLayoutItem-clickable"
      title="{{ month.tooltip }}">
     <div class="controls-PeriodLiteDialog__vLayoutItem-caption">

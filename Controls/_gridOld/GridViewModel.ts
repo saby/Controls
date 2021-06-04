@@ -30,7 +30,7 @@ import {IItemActionsTemplateConfig} from 'Controls/itemActions';
 import * as Grouping from 'Controls/_list/Controllers/Grouping';
 import {COLUMN_SCROLL_JS_SELECTORS, DRAG_SCROLL_JS_SELECTORS} from 'Controls/columnScroll';
 import { shouldAddActionsCell } from 'Controls/_gridOld/utils/GridColumnScrollUtil';
-import {IHeaderCell} from 'Controls/interface';
+import {IHeaderCell} from 'Controls/grid';
 import { IDragPosition, GridLadderUtil } from 'Controls/display';
 import {IPreparedColumn, prepareColumns} from 'Controls/Utils/GridColumnsColspanUtil';
 
@@ -1705,7 +1705,7 @@ var
             controls-GridView__itemV_marker-${style}
             controls-GridView__itemV_marker-${style}_rowSpacingBottom-${current.itemPadding.bottom}
             controls-GridView__itemV_marker-${style}_rowSpacingTop-${current.itemPadding.top}
-            controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'height' : ('padding-' + (current.itemPadding.top || 'l') + '_' + markerClassName)}
+            controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'height controls-GridView__itemV_marker_vertical-position-top' : ('padding-' + (current.itemPadding.top || 'l') + '_' + markerClassName)}
             controls-ListView__itemV_marker-${current.markerPosition}
             ${!!current.isDragging ? ' controls-ListView__itemContent_dragging' : ''}`;
 
@@ -2597,6 +2597,10 @@ var
             } else {
                 columnCfg.columnSpan = params.columnsLength;
                 columnCfg.columnSpan += this.stickyLadderCellsCount();
+
+                if (colspanFor === 'customResults' && this._shouldAddActionsCell()) {
+                    columnCfg.columnSpan++;
+                }
 
                 return GridLayoutUtil.getColumnStyles(columnCfg);
             }

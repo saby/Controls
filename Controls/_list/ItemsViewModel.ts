@@ -11,6 +11,7 @@ import {RecordSet} from 'Types/collection';
 import {Record, Model} from 'Types/entity';
 import {isEqual} from 'Types/object';
 import {CollectionItem, groupConstants} from 'Controls/display';
+import {isEqualItems} from 'Controls/dataSource';
 
 /**
  *
@@ -33,14 +34,6 @@ var _private = {
 
     },
 
-    // проверка на то, нужно ли создавать новый инстанс рекордсета или же можно положить данные в старый
-    isEqualItems: function(oldList, newList) {
-        return oldList && cInstance.instanceOfModule(oldList, 'Types/collection:RecordSet') &&
-            (newList.getModel() === oldList.getModel()) &&
-            (newList.getKeyProperty() === oldList.getKeyProperty()) &&
-            (Object.getPrototypeOf(newList).constructor == Object.getPrototypeOf(newList).constructor) &&
-            (Object.getPrototypeOf(newList.getAdapter()).constructor == Object.getPrototypeOf(oldList.getAdapter()).constructor);
-    },
     prepareCollapsedGroupsByArray(collapsedGroups: Grouping.TArrayGroupId): {} {
         const result = {};
         if (collapsedGroups) {
@@ -551,7 +544,7 @@ var ItemsViewModel = BaseViewModel.extend({
     // todo task1179709412 https://online.sbis.ru/opendoc.html?guid=43f508a9-c08b-4938-b0e8-6cfa6abaff21
     setItems(items, cfg): void {
         const metaData = items.getMetaData();
-        if (_private.isEqualItems(this._items, items)) {
+        if (isEqualItems(this._items, items)) {
             this._items.setMetaData(metaData);
             this._items.assign(items);
             this._updateSubscriptionOnMetaChange(this._items, items, true);

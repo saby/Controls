@@ -395,7 +395,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
         if (!detection.isMobileIOS) {
             RegisterUtil(this, 'scroll', this._handleScroll.bind(this), {listenAll: true});
         }
-        const popupOptions = {
+        let popupOptions = {
             opener: this,
             templateOptions: {
                 items,
@@ -409,7 +409,9 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
                 onResult: this._resultHandler.bind(this)
             }
         };
-        this._getFilterPopupOpener().open(Merge(popupOptions, panelPopupOptions));
+        Merge(popupOptions, panelPopupOptions);
+        popupOptions.className += ` controls_popupTemplate_theme-${this._options.theme} controls_filterPopup_theme-${this._options.theme} controls_dropdownPopup_theme-${this._options.theme}`;
+        this._getFilterPopupOpener().open(popupOptions);
     }
 
     private _handleScroll(): void {

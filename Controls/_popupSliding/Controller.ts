@@ -34,7 +34,10 @@ class Controller extends BaseController {
         return true;
     }
 
-    elementUpdated(item: ISlidingPanelItem, container: HTMLDivElement): boolean {
+    elementUpdated(item: ISlidingPanelItem, container: HTMLDivElement, forced?: boolean): boolean {
+        if (!this._isTopPopup(item) && !forced) {
+            return false;
+        }
         item.sizes = this._getPopupSizes(item, container);
         item.position = SlidingPanelStrategy.getPosition(item);
         return true;
@@ -92,7 +95,7 @@ class Controller extends BaseController {
     getDefaultConfig(item: ISlidingPanelItem): void|Promise<void> {
         item.position = SlidingPanelStrategy.getStartPosition(item);
         const className = `${item.popupOptions.className || ''} controls-SlidingPanel__popup
-            controls-SlidingPanel__animation`;
+            controls-SlidingPanel__animation controls_popupSliding_theme-${PopupController.getTheme()}`;
 
         item.popupOptions.className = className;
         item.popupOptions.content = PopupContent;
@@ -127,6 +130,10 @@ class Controller extends BaseController {
 
     popupDragEnd(item: ISlidingPanelItem): void {
         item.dragStartHeight = null;
+    }
+
+    orientationChanged(item: ISlidingPanelItem, container: HTMLDivElement): boolean {
+        return this.elementUpdated(item, container, true);
     }
 
     private _finishPopupClosing(item: ISlidingPanelItem): void {
@@ -175,6 +182,10 @@ class Controller extends BaseController {
 
     private _hasOpenedPopups(): boolean {
         return !!this._panels.length;
+    }
+
+    private _isTopPopup(item: ISlidingPanelItem): boolean {
+        return this._panels.indexOf(item) === this._panels.length - 1;
     }
 
     /**

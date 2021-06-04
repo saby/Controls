@@ -1,4 +1,5 @@
 <div for="index, week in monthViewModel.getMonthArray()" class="controls-MonthViewVDOM__tableRow
+                    controls_calendar_theme-{{_options.theme}}
                     {{ newMode !== true? 'controls-MonthViewVDOM__tableRow-old' }}">
     <ws:if data="{{newMode !== true}}">
         <div for="indexOfDay, value in week"

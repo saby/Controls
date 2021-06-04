@@ -328,7 +328,9 @@ define([
             id: 2,
             inst: {
                _container: {},
-               setSyncDomOptimization: () => {}
+               setSyncDomOptimization: () => {},
+               updateFixed: () => {},
+               updateShadowVisibility: () => {}
             },
             position: 'top'
          };
@@ -378,6 +380,19 @@ define([
             component._stickyRegisterHandler(event, data, true);
 
             sinon.assert.calledWith(component._notify, 'stickyRegister');
+            sinon.restore();
+         });
+
+         it('should update fixed property on sticky header if group is fixed and isShadowVisibleByController !== hidden', function() {
+            const component = createComponent(scroll.Group, options);
+            component._isFixed = true;
+            sinon.stub(component, '_notify');
+            const stubUpdateFixed = sinon.stub(data.inst, 'updateFixed');
+
+            component._stickyRegisterHandler(event, data, true);
+
+            sinon.assert.calledWith(component._notify, 'stickyRegister');
+            sinon.assert.calledOnce(stubUpdateFixed);
             sinon.restore();
          });
 

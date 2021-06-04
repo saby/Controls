@@ -1,4 +1,4 @@
-.controls_theme-@{themeName} {
+.controls_datePicker_theme-@{themeName} {
   // Переменные для большого выбора периода
   //
   // Тени
@@ -87,7 +87,7 @@
   --yearlist_halfyears_width_datePicker:                                            30px;
   --yearlist_halfyears_text-color_datePicker:                                       var(--secondary_text-color);
   --yearlist_halfyears_font-size_datePicker:                                        var(--font-size_3xl);
-  --yearlist_halfyears_backround-color_datePicker:                                  var(--background-color_datePicker);
+  --yearlist_halfyears_background-color_datePicker:                                 var(--background-color_datePicker);
 
   //Граница выбранного периода
 
@@ -338,7 +338,7 @@
 
   // Позиционирование попапа
   --shift-top_PeriodDialog-picker:                                                  calc(-1 * ((var(--header_height_datePicker) - var(--inline_height_default)) / 2));
-  --shift-left_PeriodDialog-picker:                                                 calc(-1 * (var(--header_padding-left_datePicker) + var(--icon-size_s) + var(--switcher_offset_datePicker)));
+  --shift-left_PeriodDialog-picker:                                                 calc(-1 * (var(--header_padding-left_datePicker) + var(--switcher_icon-size_datePicker) + var(--switcher_offset_datePicker)));
   --shift-left_PeriodDialog-picker-withoutModeBtn:                                  calc(-1 * var(--header_padding-left_datePicker));
   //TODO: Добавить в fallback;
   --shift-top_PeriodDialog-selector:                                                calc((var(--height_dateRangeSelector) - var(--header_height_datePicker) + 1px) / 2);

@@ -1,7 +1,17 @@
+/**
+ * Тип сохряняемых в историю узлов
+ * @typedef TNodeHistoryType
+ * @variant nodes Только узлы
+ * @variant groups Только группы
+ * @variant all Узлы и группы
+ */
+export type TNodeHistoryType = 'node' | 'group' | 'all';
+
 export interface IHierarchyOptions {
     nodeProperty?: string;
     parentProperty?: string;
     nodeHistoryId?: string;
+    nodeHistoryType?: TNodeHistoryType;
 }
 
 /**
@@ -114,4 +124,10 @@ export default interface IHierarchy {
 /**
  * @name Controls/_interface/IHierarchy#nodeHistoryId
  * @cfg {String} Идентификатор, по которому на {@link /doc/platform/developmentapl/middleware/parameter_service/ Сервисе параметров} сохраняется текущее состояние развернутости узлов.
+ */
+
+/**
+ * @name Controls/_interface/IHierarchy#nodeHistoryType
+ * @cfg {TNodeHistoryType} Тип сохраняемых в историю узлов
+ * @default group
  */

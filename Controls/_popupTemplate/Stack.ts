@@ -15,6 +15,7 @@ export interface IStackTemplateOptions extends IControlOptions, IPopupTemplateOp
     stackMinWidth?: number;
     stackMinimizedWidth?: number;
     stackWidth?: number;
+    rightPanelOptions?: object;
 
 }
 
@@ -126,6 +127,20 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
 });
 
 /**
+ * @name Controls/_popupTemplate/Stack#bodyContentTemplate
+ * @cfg {function|String} Основной контент шаблона, располагается под headerContentTemplate.
+ * @remark
+ * По новым стандартам справа от стековой панели может отображаться область с тулбаром.
+ * В этом случае крестик закрытия будет отображаться в этой области. В случае если области с тулбаром нет,
+ * то крестик закрытия отображается внутри стековой раскладки.
+ * Если на контроле опция {@link headerContentTemplate} и {@link headingCaption} не заданы и шапка стековой
+ * раскладки <b>не отображается</b>, то отступ контента до крестика может различаться.
+ * Для того чтобы регулировать отступ контента до крестика в этих 2х ситуациях, на шаблон, объявленный внутри
+ * bodyContentTemplate, контрол отдает опцию <b>hasRightTemplate</b> (только на чтение).
+ * Опция отвечает за наличие справа от стекового шаблона области с тулбаром.
+ */
+
+/**
  * @name Controls/_popupTemplate/Stack#maximizeButtonVisibility
  * @cfg {Boolean} Определяет, будет ли отображаться кнопка изменения размера.
  * @default false
@@ -196,6 +211,11 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
  *    ...
  * }
  * </pre>
+ */
+
+/**
+ * @name Controls/_popupTemplate/Stack#rightPanelOptions
+ * @cfg {Object} Опции правой панели.
  */
 
 export default StackTemplate;

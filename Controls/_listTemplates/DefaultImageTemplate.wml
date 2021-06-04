@@ -1,9 +1,8 @@
-<div class="controls-listTemplates__imageTemplate" attr:style="{{(height ? 'height:' + (height * (!isNode || viewMode !== 'rectangle' ? 1 : compressionCoefficient)) + 'px; ' : '')
-+ 'width:' + (width ? width + 'px;' : '')}}">
+<div class="controls-listTemplates__imageTemplate">
    <div class="controls-listTemplates__imageTemplate_image
                controls-listTemplates__imageTemplate_image_{{imageFit || 'cover'}}
                controls-listTemplates__imageTemplate_image_viewMode-{{viewMode}}"
-        style="{{'background-image: url(' + src + ')'}}"></div>
+        style="{{'background-image: url(' + (src || fallbackImage) + ')'}}"></div>
    <ws:partial
            if="{{afterImageTemplate}}"
            template="{{afterImageTemplate}}"

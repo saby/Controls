@@ -1,6 +1,7 @@
 <ws:template name="imageTemplate">
    <ws:partial template="wml!Controls/_listTemplates/DefaultImageTemplate"
                attr:class="controls-listTemplates_tableCellTemplate-image"
+               fallbackImage="{{_options.fallbackImage}}"
                viewMode="{{_options.viewMode}}"
                src="{{_options.item.contents[_options.imageProperty]}}"/>
 </ws:template>
@@ -20,6 +21,7 @@
                     template="imageTemplate"
                     viewMode="{{_options.imageViewMode}}"
                     imageProperty="{{_options.imageProperty}}"
+                    fallbackImage="{{_options.fallbackImage}}"
                     scope="{{_options}}"/>
          </ws:if>
          <div class="controls-listTemplates__tableCellTemplate__content
@@ -45,6 +47,7 @@
    <ws:contentTemplate>
       <ws:partial
               template="itemContentTpl"
+              fallbackImage="{{_options.fallbackImage}}"
               imageProperty="{{_options.imageProperty}}"
               imageViewMode="{{_options.imageViewMode}}"
               scope="{{contentTemplate}}"/>

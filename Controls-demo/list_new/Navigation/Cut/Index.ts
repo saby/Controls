@@ -4,17 +4,6 @@ import {INavigationOptionValue, INavigationPageSourceConfig} from 'Controls/inte
 import {getSourceData} from 'Controls-demo/list_new/Navigation/Cut/DataCatalog';
 import controlTemplate = require('wml!Controls-demo/list_new/Navigation/Cut/CutNavigation');
 
-class InitialMemory extends Memory {
-   query(): Promise<any> {
-       return super.query.apply(this, arguments).addCallback((items) => {
-           const rawData = items.getRawData();
-           rawData.meta.more = false;
-           items.setRawData(rawData);
-           return items;
-       });
-   }
-}
-
 export default class CutNavigation extends Control {
    protected _template: TemplateFunction = controlTemplate;
    protected _source: Memory;
@@ -22,7 +11,7 @@ export default class CutNavigation extends Control {
    protected _navigation1: INavigationOptionValue<INavigationPageSourceConfig>;
 
    protected _beforeMount(): void {
-      this._source = new InitialMemory({
+      this._source = new Memory({
          keyProperty: 'id',
          data: getSourceData()
       });
@@ -31,6 +20,7 @@ export default class CutNavigation extends Control {
          view: 'cut',
          sourceConfig: {
             pageSize: 2,
+            hasMore: false,
             page: 0
          }
       };
@@ -39,6 +29,7 @@ export default class CutNavigation extends Control {
          view: 'cut',
          sourceConfig: {
             pageSize: 3,
+            hasMore: false,
             page: 0
          }
       };

@@ -14,7 +14,7 @@ class FooterCell<T> extends Cell<T, FooterRow<T>> {
                       backgroundColorStyle: string,
                       style: string = 'default',
                       templateHighlightOnHover: boolean): string {
-        let wrapperClasses = 'controls-GridView__footer__cell';
+        let wrapperClasses = 'controls-ListView__footer controls-GridView__footer__cell';
 
         wrapperClasses += this._getControlsBackgroundClass(style, backgroundColorStyle);
 
@@ -32,7 +32,11 @@ class FooterCell<T> extends Cell<T, FooterRow<T>> {
     }
 
     getWrapperStyles(containerSize?: number): string {
-        return `${this.getColspanStyles()} ${(this._$isSingleColspanedCell && containerSize) ? `width: ${containerSize}px;` : ''}`;
+        let styles = this.getColspanStyles();
+        if (containerSize && this._$isActsAsRowTemplate) {
+            styles += ` width: ${containerSize}px;`;
+        }
+        return styles;
     }
 
     getContentClasses(theme: string): string {

@@ -44,6 +44,7 @@
                             theme="{{ theme }}"
                             cursor="{{ cursor }}"
                             backgroundColorStyle="{{ backgroundColorStyle }}"
+                            backgroundStyle="{{ backgroundStyle }}"
                             highlightOnHover="{{ highlightOnHover }}"
                             itemActionsTemplate="{{ itemActionsTemplate }}"
                             itemActionsClass="{{ itemActionsClass }}"
@@ -60,7 +61,7 @@
                                         checkboxReadOnly="{{ checkboxReadOnly }}"/>
                     <ws:multiSelectTemplate>
                         <ws:partial template="{{multiSelectTpl}}" _preventMergeOptions="{{ true }}" attr:class="{{(item || itemData).getMultiSelectClasses(theme)}}">
-                            <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+                            <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}" multiSelectClasses="{{item.getMultiSelectClasses()}}"/>
                         </ws:partial>
                     </ws:multiSelectTemplate>
                     <ws:afterContentTemplate>

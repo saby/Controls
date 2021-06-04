@@ -1,7 +1,9 @@
 import IItemsStrategy from 'Controls/_display/IItemsStrategy';
 import TreeItem from '../TreeItem';
-import Tree from '../Tree';
+import Tree, { TNodeFooterVisibilityCallback } from '../Tree';
 import {Model} from 'Types/entity';
+import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
+import {TemplateFunction} from "UI/Base";
 
 interface IOptions<S, T extends TreeItem<S>> {
     source: IItemsStrategy<S, T>;
@@ -55,6 +57,12 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
         return itemsOrder.map((index) => items[index]);
     }
 
+    setNodeFooterVisibilityCallback(callback: TNodeFooterVisibilityCallback): void {
+        if (this._options.nodeFooterVisibilityCallback !== callback) {
+            this._options.nodeFooterVisibilityCallback = callback;
+        }
+    }
+
     at(index: number): T {
         const itemsOrder = this._getItemsOrder();
         const itemIndex = itemsOrder[index];
@@ -87,7 +95,6 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
 
     invalidate(): void {
         this._itemsOrder = null;
-        this._nodeFooters = [];
         return this.source.invalidate();
     }
 
@@ -115,6 +122,7 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
             const index = this._nodeFooters.findIndex((footer: T) => footer.getNode() === item);
             if (index !== -1) {
                 this._nodeFooters.splice(index, 1);
+                item.setNodeFooter(null);
             }
         });
     }
@@ -160,36 +168,40 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
         items: T[],
         options: ISortOptions<S, T>
     ): number[] {
-
         const nodeFooterContents = options.nodeFooters.map((it) => it.getContents());
-        for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
-            const item = items[itemIndex];
 
-            if (!item['[Controls/_display/TreeItem]'] || item['[Controls/treeGrid:TreeGridNodeFooterRow]'] || item.isNode() === null || !item.isExpanded()) {
-                continue;
+        // считаем новый список футеров
+        const nodesWithFooters = NodeFooter._countNodesWithFooters(
+            items, options.nodeFooterVisibilityCallback, options.display.getNodeFooterTemplate()
+        );
+        const newNodeFooterContents = nodesWithFooters.map((it) => NodeFooter._getNodeFooterContent(it));
+
+        // удаляем из текущего списка футеров уже не нужные футеры
+        nodeFooterContents.forEach((nodeFooterContent, index) => {
+            if (newNodeFooterContents.indexOf(nodeFooterContent) === -1) {
+                const removedNodeFooter = options.nodeFooters.splice(index, 1)[0];
+                const node = removedNodeFooter.getNode();
+                node.setNodeFooter(null);
             }
+        });
 
-            const nodeFooterContent = 'node-footer-' + item.getContents().getKey();
-            // TODO нужно добавить проверку, чтобы не создавать лишние футеры.
-            //  Нужно определить, что если в узле нет данных и для него не определен content, тофутер не нужно создавать
-            //  Сейчас в этой ситуации, он создастся и не отобразится и это наверное сломает виртуальный скролл
-            //  UPD: временно до решения проблемы, отображаем скрытый див
-            if (
-                nodeFooterContents.includes(nodeFooterContent)
-                || options.nodeFooterVisibilityCallback instanceof Function && !options.nodeFooterVisibilityCallback(item.getContents())
-            ) {
-                continue;
+        // добавляем в текущий список футеров новые футеры
+        newNodeFooterContents.forEach((nodeFooterContent, index) => {
+            if (nodeFooterContents.indexOf(nodeFooterContent) === -1) {
+                const item = nodesWithFooters[index];
+                const nodeFooter = options.display.createItem({
+                    itemModule: 'Controls/treeGrid:TreeGridNodeFooterRow',
+                    contents: nodeFooterContent,
+                    parent: item,
+                    hasMore: item.hasMoreStorage()
+                });
+                options.nodeFooters.splice(index, 0, nodeFooter);
+                item.setNodeFooter(nodeFooter);
             }
+        });
 
-            const nodeFooter = options.display.createItem({
-                itemModule: 'Controls/treeGrid:TreeGridNodeFooterRow',
-                contents: nodeFooterContent,
-                parent: item
-            });
-
-            options.nodeFooters.push(nodeFooter);
-            nodeFooterContents.push(nodeFooterContent);
-        }
+        // обновляем ссылки в футерах и в узлах, т.к. элементы могут пересоздаться.
+        NodeFooter._updateNodesInNodeFooters(items, options.nodeFooters);
 
         const getItemsCount = (node) => {
             const oneOfParentsIsEqualNode = (item) => {
@@ -232,6 +244,51 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
         });
 
         return itemsOrder;
+    }
+
+    private static _getNodeFooterContent(item: TreeItem): string {
+        return 'node-footer-' + item.getContents().getKey();
+    }
+
+    private static _countNodesWithFooters(
+        items: TreeItem[], nodeFooterVisibilityCallback: TNodeFooterVisibilityCallback, nodeFooterTemplate: TemplateFunction
+    ): TreeItem[] {
+        const nodesWithFooter = [];
+
+        for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
+            const item = items[itemIndex];
+
+            // Проверяем, что запись это узел и он развернут
+            if (
+                !item['[Controls/_display/TreeItem]'] || item['[Controls/treeGrid:TreeGridNodeFooterRow]']
+                || item.isNode() === null || !item.isExpanded()
+            ) {
+                continue;
+            }
+
+            // Проверяем что в узле есть еще записи или определен футер темплейт и прикладники разрешили его показывать
+            // nodeFooterVisibilityCallback вызываем только когда будем отображать прикладной темплейт,
+            // если отображаем Еще, то всегда показываем nodeFooter
+            if (!item.hasMoreStorage() && (!nodeFooterTemplate || nodeFooterVisibilityCallback instanceof Function && !nodeFooterVisibilityCallback(item.getContents()))
+            ) {
+                continue;
+            }
+
+            nodesWithFooter.push(item);
+        }
+
+        return nodesWithFooter;
+    }
+
+    private static _updateNodesInNodeFooters(items: TreeItem[], nodeFooters: TreeItem[]): void {
+        nodeFooters.forEach((footer) => {
+            const nodeKey = footer.getNode().getContents().getKey();
+            const newNode = items.find((it) => it.key === nodeKey);
+            if (newNode) {
+                footer.setParent(newNode);
+                newNode.setNodeFooter(footer);
+            }
+        });
     }
 }
 
