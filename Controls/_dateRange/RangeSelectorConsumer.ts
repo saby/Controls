@@ -16,6 +16,7 @@ import DateRangeSelectorConsumer from 'Controls/_dateRange/_DateRangeSelectorCon
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:IUnderline
+ * @mixes Controls/interface:IFontWeight
  * @mixes Controls/interface:IOpenPopup
  * @mixes Controls/dateRange:ICaptionFormatter
  * @mixes Controls/interface:IDateRangeValidators
@@ -29,6 +30,12 @@ import DateRangeSelectorConsumer from 'Controls/_dateRange/_DateRangeSelectorCon
  * @see Controls/_dateRange/DateRangeContextProvider
  * @see Controls/_buttons/ArrowButton
  * @see Controls/_dateRange/ArrowButtonConsumer
+ */
+
+/**
+ * @name Controls/_dateRange/RangeSelectorConsumer#fontWeight
+ * @demo Controls-demo/dateRange/LinkView/FontWeight/Index
+ * @default bold
  */
 
 export default class RangeSelectorConsumer extends Control {

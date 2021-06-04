@@ -7,6 +7,7 @@
                     class="controls-RangeShortSelectorLink__value {{!_options.readOnly? 'controls-RangeShortSelectorLink__value-' + _options.underline}}
                     {{_fontSize? 'controls-fontsize-' + _fontSize}}
                     {{_fontColorStyle ? ' controls-text-' + _fontColorStyle + ' controls-RangeShortSelectorLink_text-' + _fontColorStyle + '-hover'}}
+                    controls-RangeShortSelectorLink__value_fontWeight-{{ _options.fontWeight }}
                     {{ _styleClass }} {{ _valueEnabledClass }}"
                     name="openPopupTarget"
                     title="{{_options.tooltip}}"
