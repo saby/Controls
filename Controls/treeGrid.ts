@@ -44,6 +44,7 @@ import TreeGridGroupDataRow from 'Controls/_treeGrid/display/TreeGridGroupDataRo
 import TreeGridGroupDataCell from 'Controls/_treeGrid/display/TreeGridGroupDataCell';
 import TreeGridViewTable from './_treeGrid/TreeGridViewTable';
 import { IGroupNodeColumn } from 'Controls/_treeGrid/interface/IGroupNodeColumn';
+import { TGroupNodeVisibility } from 'Controls/_treeGrid/interface/ITreeGrid';
 
 export {
     TreeGridFooterCell,
@@ -54,7 +55,8 @@ export {
     TreeGridNodeFooterCell,
     TreeGridGroupDataRow,
     TreeGridGroupDataCell,
-    IGroupNodeColumn
+    IGroupNodeColumn,
+    TGroupNodeVisibility
 };
 
 register('Controls/treeGrid:TreeGridCollection', TreeGridCollection, {instantiate: false});

@@ -1,7 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {CrudEntityKey, Memory} from 'Types/source';
 import {Model} from 'Types/entity';
-import {IColumn, TColspanCallbackResult} from 'Controls/grid';
+import {TColspanCallbackResult} from 'Controls/grid';
+import {IGroupNodeColumn} from 'Controls/treeGrid';
 
 import {dynamicParentData as data} from '../data/NodeTypePropertyData';
 import {DynamicParentModelName} from './DynamicParentModel';
@@ -13,6 +14,25 @@ export default class extends Control {
     protected _viewSource: Memory;
     protected _expandedItems: CrudEntityKey[] = [null];
     protected _collapsedItems: CrudEntityKey[] = undefined;
+    protected _columns: IGroupNodeColumn[] = [
+        {
+            displayProperty: 'title',
+            width: '300px',
+            groupNodeConfig: {
+                textAlign: 'center'
+            }
+        },
+        {
+            displayProperty: 'count',
+            width: '100px',
+            align: 'right'
+        },
+        {
+            displayProperty: 'price',
+            width: '100px',
+            align: 'right'
+        }
+    ];
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
@@ -22,7 +42,7 @@ export default class extends Control {
         });
     }
 
-    protected _colspanCallback(item: Model, column: IColumn, columnIndex: number, isEditing: boolean): TColspanCallbackResult {
+    protected _colspanCallback(item: Model, column: IGroupNodeColumn, columnIndex: number, isEditing: boolean): TColspanCallbackResult {
         if (typeof item === 'string' || item.get('nodeType') === 'group') {
             return 'end';
         }
