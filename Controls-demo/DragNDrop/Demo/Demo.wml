@@ -42,7 +42,7 @@
    </Controls.list:DataContainer>
    <h2>Перемещение в реестре с иерархией</h2>
    <Controls.popup:Confirmation name="popupOpener" />
-   <Controls.list:DataContainer source="{{_viewSourceSecond}}" keyProperty="id" attr:class="demo-DragNDrop__explorer">
+   <Controls.list:DataContainer source="{{_viewSourceSecond}}" parentProperty="parent" keyProperty="id" attr:class="demo-DragNDrop__explorer">
       <div>
          <Controls.list:Mover name="listMoverSecond" parentProperty="parent"/>
          <Controls.list:Container>
@@ -51,7 +51,6 @@
                on:dragStart="_dragStartSecond()"
                on:dragEnd="_dragEndSecond()"
                itemsDragNDrop="{{true}}"
-               parentProperty="parent"
                nodeProperty="type"
                displayProperty="title"
                viewMode="table"
@@ -72,7 +71,7 @@
       </div>
    </Controls.list:DataContainer>
    <h2>Перемещение в папку (реестр в виде плитки)</h2>
-   <Controls.list:DataContainer source="{{_viewSourceThird}}" keyProperty="id" attr:class="demo-DragNDrop__tile">
+   <Controls.list:DataContainer source="{{_viewSourceThird}}" keyProperty="id" parentProperty="parent" attr:class="demo-DragNDrop__tile">
       <div>
          <Controls.list:Mover name="listMoverThird" parentProperty="parent"/>
          <Controls.list:Container>
@@ -80,7 +79,6 @@
                on:dragStart="_dragStartThird()"
                on:dragEnd="_dragEndThird()"
                itemsDragNDrop="{{true}}"
-               parentProperty="parent"
                nodeProperty="type"
                displayProperty="title"
                imageProperty="image"

@@ -23,6 +23,7 @@ import 'css!Controls/CommonClasses';
 import 'css!Controls/treeGrid';
 import {TreeSiblingStrategy} from './Strategies/TreeSiblingStrategy';
 import {ExpandController} from 'Controls/expandCollapse';
+import {Logger} from 'UI/Utils';
 
 const HOT_KEYS = {
     expandMarkedItem: constants.key.right,
@@ -738,6 +739,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
             const sourceControllerState = sourceController.getState();
             if (newOptions.parentProperty && sourceControllerState.parentProperty !== newOptions.parentProperty) {
+                Logger.error('TreeControl: для корректной работы опцию parentProperty необходимо задавать на Controls/list:DataContainer (Layout/browsers:Browser)', this);
                 updateSourceController = true;
             }
         }
