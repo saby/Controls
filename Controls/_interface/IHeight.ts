@@ -5,7 +5,7 @@ export interface IHeightOptions {
 /**
  * Интерфейс для контролов, которые поддерживают разные значения высоты.
  * @public
- * @author Авраменко А.С.
+ * @author Красильников А.С.
  */
 /*
  * Interface for control, which has different height values
@@ -24,6 +24,8 @@ export default interface IHeight {
  * @variant l
  * @variant xl
  * @variant 2xl
+ * @variant 3xl
+ * @variant 4xl
  * @variant default
  * @demo Controls-demo/Buttons/SizesAndHeights/Index
  * @demo Controls-demo/Input/SizesAndHeights/Index
