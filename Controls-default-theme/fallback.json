@@ -543,6 +543,7 @@
   "--hierarchy_padding-left_checkbox-group": "var(--offset_2xl)",
 
   "--item_offset-vertical_radioGroup": "var(--offset_s)",
+  "--item_first-offset-vertical_radioGroup": "3px",
   "--item_offset-horizontal_radioGroup": "var(--offset_m)",
   "--item_height_radioGroup": "var(--inline_height_m)",
   "--text_offset_radioGroup": "var(--text_offset_switcher)",
