@@ -1,5 +1,5 @@
-.button-shadow() {
-   box-shadow: 0 3px 5px 0 rgba(0, 0, 0, .25);
+.box-shadow_button() {
+   box-shadow: var(--box-shadow_contrast);
 }
 
 //common styles
@@ -158,7 +158,7 @@
 }
 
 .controls-Button_functionalButton {
-   .button-shadow();
+   box-shadow: var(--box-shadow_button_functionalButton);
 }
 
 // Временное решение, будет удалено после правок в engine
@@ -453,7 +453,7 @@
    .controls-Button_button_style-@{_item}.controls-Button_bg-contrast {
       background-color: ~"var(--@{_item}_contrast_background-color)";
       border-color: ~"var(--@{_item}_contrast_background-color)";
-      .button-shadow();
+      .box-shadow_button();
    }
 });
 
@@ -480,7 +480,7 @@
 .controls-Button_button_style-default.controls-Button_bg-contrast {
    border-color: var(--default_contrast_background-color_button);
    background-color: var(--default_contrast_background-color_button);
-   .button-shadow();
+   .box-shadow_button();
    .controls-Button__text_clickable_bg-contrast {
       color: var(--text-color_button);
    }
