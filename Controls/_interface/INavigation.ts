@@ -310,7 +310,7 @@ export interface INavigationOptionValue<U> {
     view?: TNavigationView;
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#sourceConfig
-     * @cfg {Controls/interface:INavigationPositionSourceConfig.typedef | Controls/interface:INavigationPageSourceConfig.typedef} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @cfg {Controls/interface:INavigationPositionSourceConfig | Controls/interface:INavigationPageSourceConfig} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
      * Пример конфигурации режима работы с источником данных для навигации по курсору.
      * <pre class="brush: html; highlight: [4]">
