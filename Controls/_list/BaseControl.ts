@@ -3307,6 +3307,37 @@ const _private = {
             _private.isAllowedHoverFreeze(self);
     },
 
+    freezeHoveredItem(self: BaseControl, item: CollectionItem<Model> & {dispItem: CollectionItem<Model>}): void {
+        const startIndex = self._listViewModel.getStartIndex();
+        const itemIndex = self._listViewModel.getIndex(item.dispItem || item);
+
+        const htmlNodeIndex = itemIndex - startIndex + 1;
+        const hoveredContainers = HoverFreeze.getHoveredItemContainers(
+            self._container,
+            htmlNodeIndex,
+            _private.getViewUniqueClass(self),
+            LIST_MEASURABLE_CONTAINER_SELECTOR
+        );
+
+        if (!hoveredContainers.length) {
+            return;
+        }
+
+        // zero element in grid will be row itself; it doesn't have any background color, then lets take the last one
+        const lastContainer = hoveredContainers[hoveredContainers.length - 1];
+        const hoverBackgroundColor = getComputedStyle(lastContainer).backgroundColor;
+
+        self._children.itemActionsOutsideStyle.innerHTML = HoverFreeze.getItemHoverFreezeStyles(
+            _private.getViewUniqueClass(self),
+            htmlNodeIndex,
+            hoverBackgroundColor
+        );
+    },
+
+    unfreezeHoveredItems(self: BaseControl): void {
+        self._children.itemActionsOutsideStyle.innerHTML = '';
+    },
+
     initHoverFreezeController(self): void {
         self._hoverFreezeController = new HoverFreeze({
             uniqueClass: _private.getViewUniqueClass(self),
@@ -3774,6 +3805,21 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._keyProperty = options.keyProperty ||
             (this._sourceController && this._sourceController.getKeyProperty()) ||
             options.items?.getKeyProperty();
+    }
+
+    /**
+     * Замораживает hover подсветку строки для указанной записи
+     */
+    freezeHoveredItem(item: Model): void {
+        const collectionItem = this._listViewModel.getItemBySourceItem(item);
+        _private.freezeHoveredItem(this, collectionItem);
+    }
+
+    /**
+     * Размораживает все ранее замороженные итемы
+     */
+    unfreezeHoveredItems(): void {
+        _private.unfreezeHoveredItems(this);
     }
 
     scrollMoveSyncHandler(params: IScrollParams): void {
