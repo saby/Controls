@@ -9,9 +9,7 @@ import {TKey} from 'Controls/_menu/interface/IMenuControl';
 import {Model} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import Utils = require('Types/util');
-import {Visibility as MarkerVisibility} from 'Controls/marker';
 import {IItemAction} from 'Controls/itemActions';
-import {create as DiCreate} from 'Types/di';
 import 'css!Controls/menu';
 import 'css!Controls/CommonClasses';
 
