@@ -195,14 +195,12 @@ export default class Button extends BaseDropdown {
         // то по mouseenter меню открываться не должно до тех пор, пока курсор не уйдет с кнопки или не кликнут в нее.
         // Иначе при любом движении меню откроется, хоть мы уже и выбрали первую запись.
         this._isMouseMoveHandled = false;
-        if (this._calmTimer.isStarted()) {
-            const hasItems = this._controller.getItems() && this._controller.getItems().getCount();
-            if (hasItems && !this._isOpened && this._options.isAutoItemClick !== false) {
+        const hasItems = this._controller.getItems() && this._controller.getItems().getCount();
+        if (this._calmTimer.isStarted() && hasItems) {
+            if (!this._isOpened && this._options.isAutoItemClick !== false) {
                 this._isMouseMoveHandled = true;
                 this._onItemClickHandler([this._controller.getItems().at(0)]);
                 this._calmTimer.stop();
-            } else if (!hasItems) {
-                this.openMenu();
             }
         } else {
             this.openMenu();
