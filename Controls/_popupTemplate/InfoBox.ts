@@ -14,6 +14,7 @@ export interface IInfoboxTemplateOptions extends IControlOptions, IValidationSta
     style: TStyle;
     floatCloseButton?: boolean;
     closeButtonVisibility: boolean;
+    overflow: boolean;
 }
 /**
  * Базовый шаблон {@link /doc/platform/developmentapl/interface-development/controls/openers/infobox/ всплывающей подсказки}.
@@ -87,10 +88,18 @@ export default class InfoboxTemplate extends Control<IInfoboxTemplateOptions> {
         return {
             closeButtonVisibility: true,
             validationStatus: 'valid',
-            style: 'secondary'
+            style: 'secondary',
+            overflow: true
         };
     }
 }
+
+/**
+ * @name Controls/_popupTemplate/InfoBox#overflow
+ * @cfg {Boolean} Определяет применяемость стиля overflow: hidden для контейнера.
+ * @default true
+ * @demo Controls-demo/PopupTemplate/Infobox/Overflow/Index
+ */
 
 /**
  * @name Controls/_popupTemplate/InfoBox#closeButtonVisibility

@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth350 controlsDemo__height200">
+    <div class="controls-text-secondary">overflow=true</div>
+    <Controls.popupTemplate:InfoBox stickyPosition="{{_options.stickyPosition}}" closeButtonVisibility="{{false}}">
+        <ws:content>
+            <div attr:style="border: 1px solid black;width: 400px;height: 100px;border-radius: 10px;position: relative;top: -10px"></div>
+        </ws:content>
+    </Controls.popupTemplate:InfoBox>
+    <div class="controls-text-secondary" attr:style="margin: 10px 0">overflow=false</div>
+    <Controls.popupTemplate:InfoBox overflow="{{false}}" stickyPosition="{{_options.stickyPosition}}" closeButtonVisibility="{{false}}">
+        <ws:content>
+            <div attr:style="border: 1px solid black;width: 400px;height: 100px;border-radius: 10px;position: relative;top: -10px;"></div>
+        </ws:content>
+    </Controls.popupTemplate:InfoBox>
+</div>
