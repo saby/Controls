@@ -7,7 +7,7 @@ import Context = require('Core/Context');
 import Deferred = require('Core/Deferred');
 import randomId = require('Core/helpers/Number/randomId');
 import library = require('Core/library');
-import {isVDOMTemplate} from 'Controls/popup';
+import {Controller as ManagerController, isVDOMTemplate} from 'Controls/popup';
 import {getDimensions} from 'Controls/sizeUtils';
 function loadTemplate(name: string) {
    const libraryInfo = library.parse(name);
@@ -21,6 +21,7 @@ function loadTemplate(name: string) {
 }
 // Minimum popup indentation from the right edge
 const MINIMAL_PANEL_DISTANCE = 100;
+const RIGHT_PANEL_WIDTH = 52;
 /**
  * Слой совместимости для базового опенера для открытия старых шаблонов
  */
@@ -43,7 +44,10 @@ const BaseOpener = {
       return document?.documentElement.clientWidth - coords.right;
    },
    _prepareConfigForOldTemplate(cfg, templateClass): void {
-      const rightOffset = cfg.isStack ? this._getTargetRightCoords() : 0;
+      let rightOffset = cfg.isStack ? this._getTargetRightCoords() : 0;
+      if (ManagerController.getRightTemplate()) {
+         rightOffset += RIGHT_PANEL_WIDTH;
+      }
       let
          templateOptions = this._getTemplateOptions(templateClass),
          parentContext;

@@ -4,6 +4,7 @@
  * @public
  */
 export default interface IGroupNode {
+    GroupNodeItem: boolean;
     /**
      * Возвращает true, если узел необходимо показать как группу.
      */

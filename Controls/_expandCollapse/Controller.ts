@@ -248,9 +248,9 @@ export class Controller {
                 return;
             }
 
-            this._collapseChilds(newExpandedItems, newCollapsedItems, id);
+            this._collapseChildren(newExpandedItems, newCollapsedItems, id);
         });
-        collapseDiff.added.forEach((id) => this._collapseChilds(newExpandedItems, newCollapsedItems, id));
+        collapseDiff.added.forEach((id) => this._collapseChildren(newExpandedItems, newCollapsedItems, id));
         //endregion
 
         //region 3. Если есть пересечение между expanded и collapsed, то считаем что collapsed приоритетнее
@@ -279,6 +279,10 @@ export class Controller {
             // Пробежимся по итемам модели и развернем все для
             // которых явно не сказано что они должны быть свернуты
             this._model?.each((item) => {
+                if (!item['[Controls/_display/TreeItem]']) {
+                    return;
+                }
+
                 const id = item.getContents().getKey();
                 // Если запись это лист или явно сказано что запись должна быть свернута,
                 // то и не разворачиваем её
@@ -406,18 +410,18 @@ export class Controller {
     /**
      * Удаляет из переданного массива id дочерних узлов для указанного parentItemId
      */
-    private _collapseChilds(expandedItems: TKey[], collapsedItems: TKey[], parentItemId: TKey): void {
+    private _collapseChildren(expandedItems: TKey[], collapsedItems: TKey[], parentItemId: TKey): void {
         const item = this._getItem(parentItemId);
         if (!item) {
             return;
         }
 
-        const collapseChilds = (parent) => {
+        const collapseChildren = (parent) => {
             if (!parent) {
                 return;
             }
-            const childsOfCollapsedItem = this._model.getChildren(parent);
-            childsOfCollapsedItem.forEach((it) => {
+            const childrenOfCollapsedItem = this._model.getChildren(parent);
+            childrenOfCollapsedItem.forEach((it) => {
                 if (!it['[Controls/_display/TreeItem]'] || it.isNode() === null || !it.isExpanded()) {
                     return;
                 }
@@ -428,11 +432,11 @@ export class Controller {
                 } else {
                     removeKey(expandedItems, key);
                 }
-                collapseChilds(it);
+                collapseChildren(it);
             });
         };
 
-        collapseChilds(item);
+        collapseChildren(item);
     }
 }
 

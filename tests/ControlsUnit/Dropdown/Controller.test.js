@@ -702,6 +702,13 @@ define(
                dropdownController._selectedItems = selectedItems;
                const result = dropdownController._resolveLoadedItems(newConfig, loadedItems);
                assert.equal(result.getCount(), 3);
+
+               // reopen the dropdown, if open
+               dropdownController._isOpened = true;
+               let opened = false;
+               dropdownController._open = () => { opened = true; };
+               dropdownController._resolveLoadedItems(newConfig, loadedItems);
+               assert.isTrue(opened);
             });
          });
 

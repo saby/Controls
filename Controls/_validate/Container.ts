@@ -131,6 +131,7 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
      * @returns {Boolean}
      * @see setValidationResult
      * @see validate
+     * @demo Controls-demo/Validate/isValid/Index
      */
     isValid(): boolean {
         return !this._validationResult;

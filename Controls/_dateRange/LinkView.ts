@@ -26,8 +26,9 @@ export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyl
  * @extends UI/Base:Control
  * @mixes Controls/interface:IResetValues
  * @mixes Controls/interface:IFontSize
- * 
+ *
  * @mixes Controls/interface:IUnderline
+ * @mixes Controls/interface:IFontWeight
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/dateRange:ICaptionFormatter
  *
@@ -35,6 +36,12 @@ export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyl
  * @author Красильников А.С.
  * @demo Controls-demo/Input/Date/LinkView
  *
+ */
+
+/**
+ * @name Controls/_dateRange/LinkView#fontWeight
+ * @demo Controls-demo/dateRange/LinkView/FontWeight/Index
+ * @default bold
  */
 class LinkView extends Control<ILinkViewControlOptions> implements IFontColorStyle {
    _template: TemplateFunction = componentTmpl;
@@ -235,6 +242,7 @@ LinkView.getDefaultOptions = () => {
    return {
       ...IDateLinkView.getDefaultOptions(),
       emptyCaption: IDateLinkView.EMPTY_CAPTIONS.NOT_SPECIFIED,
+      fontWeight: 'bold'
    };
 };
 

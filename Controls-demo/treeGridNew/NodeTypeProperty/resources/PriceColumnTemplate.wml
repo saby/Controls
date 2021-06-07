@@ -2,7 +2,7 @@
     <ws:contentTemplate>
         <ws:if data="{{contentTemplate.itemData.getDefaultDisplayValue() !== ''}}">
             <Controls.decorator:Money value="{{ contentTemplate.itemData.getDefaultDisplayValue() }}"
-                                      fontColorStyle="{{ contentTemplate.item.isGroupNode() ? 'group' : 'default' }}"
+                                      fontColorStyle="{{ contentTemplate.item.contents.get('nodeType') === 'group ? 'group' : 'default' }}"
                                       useGrouping="{{false}}"/>
         </ws:if>
     </ws:contentTemplate>

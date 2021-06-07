@@ -174,6 +174,27 @@ define(['Controls/_masterDetail/Base'], function (masterDetail) {
          Control.destroy();
       });
 
+      it('_afterUpdate', () => {
+         const Control = new masterDetail.default();
+         const oldOptions = {
+            masterVisibility: false
+         };
+         let isStartRegister = false;
+         Control._options = {
+            masterVisibility: false
+         };
+         Control._startResizeRegister = () => isStartRegister = true;
+
+         Control._afterUpdate(oldOptions);
+         assert.isFalse(isStartRegister);
+
+         Control._options.masterVisibility = true;
+         Control._afterUpdate(oldOptions);
+         assert.isTrue(isStartRegister);
+
+         Control.destroy();
+      });
+
       it('_resizeHandler with propStorageId', () => {
          const Control = new masterDetail.default();
          let isUpdateOffset = false;

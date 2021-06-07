@@ -1,6 +1,6 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo__maxWidth200">
     <div class="controlsDemo__cell">
-        <Controls.dateRange:DateRangeContextProvider attr:class="controlsDemo__flex">
+        <Controls.dateRange:DateRangeContextProvider attr:class="controlsDemo__flex controlsDemo-DateRangeContextProvider_default">
             <div>
                 <Controls.dateRange:ArrowButtonConsumer direction="left"/>
                 <Controls.dateRange:RangeSelectorConsumer
@@ -12,7 +12,7 @@
         </Controls.dateRange:DateRangeContextProvider>
     </div>
     <div class="controlsDemo__cell">
-        <Controls.dateRange:DateRangeContextProvider attr:class="controlsDemo__flex">
+        <Controls.dateRange:DateRangeContextProvider attr:class="controlsDemo__flex controlsDemo-DateRangeContextProvider_left">
             <div>
                 <Controls.dateRange:ArrowButtonConsumer direction="left"/>
                 <Controls.dateRange:ArrowButtonConsumer direction="right"/>
@@ -24,7 +24,7 @@
         </Controls.dateRange:DateRangeContextProvider>
     </div>
     <div class="controlsDemo__cell">
-        <Controls.dateRange:DateRangeContextProvider attr:class="controlsDemo__flex">
+        <Controls.dateRange:DateRangeContextProvider attr:class="controlsDemo__flex controlsDemo-DateRangeContextProvider_right">
             <div>
                 <Controls.dateRange:RangeShortSelectorConsumer
                         bind:startValue="_startValue3"

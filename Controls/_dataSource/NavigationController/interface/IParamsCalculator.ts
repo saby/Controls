@@ -19,7 +19,7 @@ export default interface IParamsCalculator {
          direction: TNavigationDirection,
          listForCurrentStore?: Model[],
          additionalMeta?: object
-     ): any;
+     ): unknown;
      shiftToEdge(
          store: INavigationStore,
          direction: TNavigationDirection,
