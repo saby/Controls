@@ -240,6 +240,16 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._isMounted = true;
     }
 
+    protected _getDetailBreadCrumbsVisibility(detailOptions: object): string {
+        if (detailOptions.breadCrumbsVisibility) {
+            return detailOptions.breadCrumbsVisibility;
+        } else {
+            return (this._masterVisibility === this._masterVisibilityEnum.visible ||
+                   (this._appliedViewMode === this._viewModeEnum.search && !this._dataOptions)
+            ? 'hidden' : 'visible');
+        }
+    }
+
     protected _beforeUpdate(newOptions?: IOptions, contexts?: unknown): void {
         this._dataOptions = this._getDataOptions(contexts);
         const masterOps = this._buildMasterExplorerOption(newOptions);
