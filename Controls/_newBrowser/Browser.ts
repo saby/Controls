@@ -494,12 +494,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._search = 'search';
         this._inputSearchString = searchString;
 
-        // Перед поиском в режиме searchStartingWith === 'root' сбросим root
-        // в sourceController иначе результаты неправильно проставятся в items
-        if (this._options.detail.searchStartingWith !== 'current') {
-            this._detailDataSource.sourceController.setRoot(null);
-        }
-
         this._detailDataSource
             .setSearchString(searchString)
             .then();
