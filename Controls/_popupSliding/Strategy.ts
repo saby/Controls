@@ -1,4 +1,5 @@
 import {IPopupItem, IPopupPosition, ISlidingPanelPopupOptions} from 'Controls/popup';
+import {constants} from 'Env/Env';
 
 export enum AnimationState {
     initializing = 'initializing',
@@ -116,11 +117,7 @@ class Strategy {
      * @private
      */
     private _getWindowHeight(): number {
-        const visualViewport = window.visualViewport;
-        return (
-            visualViewport && visualViewport.height ||
-            window.innerHeight
-        );
+        return constants.isBrowserPlatform && window.innerHeight;
     }
 
     /**
