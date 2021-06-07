@@ -251,7 +251,7 @@ class PositionParamsCalculator implements IParamsCalculator {
         let nextPosition;
 
         if (metaNextPosition instanceof RecordSet && id) {
-            nextPosition = metaNextPosition.getRecordById(id).get('nav_result');
+            nextPosition = metaNextPosition.at(metaNextPosition.getIndexByValue('id', id)).get('nav_result');
         } else {
             nextPosition = metaNextPosition;
         }
