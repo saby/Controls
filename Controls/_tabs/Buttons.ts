@@ -6,7 +6,6 @@ import {CrudWrapper} from 'Controls/dataSource';
 import {RecordSet} from 'Types/collection';
 import {SbisService} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {isLeftMouseButton} from 'Controls/popup';
 import {IItems, IItemTemplateOptions} from 'Controls/interface';
 import {ITabsButtons, ITabsButtonsOptions, ITabButtonItem} from './interface/ITabsButtons';
@@ -134,10 +133,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
     }
 
-    protected _afterMount(): void {
-        RegisterUtil(this, 'controlResize', this._resizeHandler, {listenAll: true});
-    }
-
     protected _beforeUpdate(newOptions: ITabsOptions): void {
         let itemsChanged: boolean = false;
 
@@ -179,7 +174,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _beforeUnmount(): void {
-        UnregisterUtil(this, 'controlResize', {listenAll: true});
         if (this._markerAnimationTimer) {
             clearTimeout(this._markerAnimationTimer);
         }
@@ -192,15 +186,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
 
     protected _touchStartHandler(): void {
         this._updateMarker();
-    }
-
-    protected _resizeHandler(): void {
-        // В хотфикс чиним конкретный сценарий, и сразу удаляю _resizeHandler в 3100,
-        // анимированный маркер показывается только на время переключения, и рассчитывается перед запуском анимации.
-        if (this._marker.isInitialized() && this._animatedMarkerSelectedKey === this._options.selectedKey) {
-            this._marker.reset();
-            this._updateMarker();
-        }
     }
 
     protected _updateMarker(): void {
