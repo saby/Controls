@@ -1,7 +1,6 @@
 import IItemsStrategy, {IOptions as IItemsStrategyOptions} from '../IItemsStrategy';
 import CollectionItem from '../CollectionItem';
 import TreeItem from '../TreeItem';
-import GroupItem from '../GroupItem';
 import Tree from '../Tree';
 import {DestroyableMixin, SerializableMixin, ISerializableState as IDefaultSerializableState} from 'Types/entity';
 import {mixin, protect, object, logger} from 'Types/util';
@@ -11,6 +10,7 @@ import {throttle} from 'Types/function';
 interface IOptions<S, T> {
     keyProperty?: string;
     parentProperty?: string;
+    nodeProperty?: string;
     source: IItemsStrategy<S, T>;
 }
 
@@ -111,6 +111,8 @@ function buildGroupsMap<T>(sourceItems: T[]): Map<T, number> {
 
 interface ITreeIndexOptions<T> {
     keyProperty: string;
+    parentProperty: string;
+    nodeProperty: string;
     sourceItems: T[];
     childrenMap: Map<number | string, number[]>;
     groupsMap: Map<T, number>;
@@ -127,7 +129,9 @@ interface ITreeIndexOptions<T> {
  * @param options.groupsMap A map with "element -> group index" scheme
  * @param options.parentsMap Anindex with "Child -> parent" scheme (fills on the fly)
  * @param options.path Path to the current node from the top of the tree (fills on the fly)
- * @param options.keyProperty Property name with element id
+ * @param options.keyProperty Property name with element key
+ * @param options.parentProperty Property name with element parent key
+ * @param options.nodeProperty Property name with element type
  * @param [parentIndex] Current parent element index
  * @return An array with "tree index -> source element index" scheme
  */
@@ -140,6 +144,8 @@ function buildTreeIndex<T>(options: ITreeIndexOptions<T>, parentIndex?: number):
     let lastGroup = options.lastGroup;
     const path = options.path;
     const keyProperty = options.keyProperty;
+    const parentProperty = options.parentProperty;
+    const nodeProperty = options.nodeProperty;
     const parentId = path[path.length - 1];
 
     // Check if that parentId is not behind
@@ -147,7 +153,8 @@ function buildTreeIndex<T>(options: ITreeIndexOptions<T>, parentIndex?: number):
         logger.error(
             'Controls/display:itemsStrategy.AdjacencyList',
             `Wrong data hierarchy relation: recursive traversal detected: parent with id "${parentId}" ` +
-            `is already in progress. Path: ${path.join(' -> ')}.`
+            `is already in progress. Path: ${path.join(' -> ')}.` +
+            `config: { keyProperty: "${keyProperty}", parentProperty: "${parentProperty}", nodeProperty: "${nodeProperty}" }`
         );
         return result;
     }
@@ -218,7 +225,7 @@ function buildTreeIndex<T>(options: ITreeIndexOptions<T>, parentIndex?: number):
  * @class Controls/_display/ItemsStrategy/AdjacencyList
  * @mixes Types/_entity/DestroyableMixin
  * @mixes Types/_entity/SerializableMixin
- * 
+ *
  * @author Мальцев А.А.
  * @private
  */
@@ -594,6 +601,8 @@ export default class AdjacencyList<S, T extends TreeItem<S>> extends mixin<
 
         return buildTreeIndex({
             keyProperty: options.keyProperty,
+            parentProperty: options.parentProperty,
+            nodeProperty: options.nodeProperty,
             sourceItems,
             childrenMap,
             groupsMap,
