@@ -224,6 +224,13 @@ Object.defineProperty(BreadCrumbsPath, 'defaultProps', {
 });
 
 /**
+ * @name Controls/_breadcrumbs/HeadingPath#backButtonNewIcon
+ * @cfg {Boolean} Отображение кнопки "Назад" в новом дизайне.
+ * @default false
+ * @demo Controls-demo/BreadCrumbs/newIcon/Index
+ */
+
+/**
  * @name Controls/_breadcrumbs/HeadingPath#backButtonIconStyle
  * @cfg {String} Стиль отображения иконки кнопки "Назад".
  * @see Controls/_heading/Back#iconStyle
