@@ -68,7 +68,7 @@ interface ISerializableState extends IDefaultSerializableState {
  * @class Controls/_display/ItemsStrategy/Group
  * @mixes Types/_entity/DestroyableMixin
  * @mixes Types/_entity/SerializableMixin
- * 
+ *
  * @author Мальцев А.А.
  * @private
  */
@@ -315,14 +315,14 @@ export default class Group<S, T extends CollectionItem<S> = CollectionItem<S>> e
             if (groupsId.indexOf(groupId) === -1) {
                 const isCollapsed = options.collapsedGroups && options.collapsedGroups.indexOf(groupId) !== -1;
                 const isFirstStickedGroup = this._isFirstVisibleGroup(groupsId, groupId) && options.display.isStickyHeader();
+                const additionalParams = display?.getAdditionalGroupConstructorParams() || {};
                 const group = new options.groupConstructor({
                     owner: display as any,
                     contents: groupId,
                     expanded: !isCollapsed,
-                    multiSelectVisibility: display?.getMultiSelectVisibility(),
-                    metaResults: display?.getMetaResults(),
                     hasMoreDataUp: display?.hasMoreDataUp(),
-                    isFirstStickedItem: isFirstStickedGroup
+                    isFirstStickedItem: isFirstStickedGroup,
+                    ...additionalParams
                 }) as GroupItem<IGroup>;
 
                 groupIndex = groups.length;

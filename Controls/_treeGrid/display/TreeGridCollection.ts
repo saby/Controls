@@ -208,6 +208,14 @@ export default class TreeGridCollection<
     protected _getGroupItemConstructor(): new() => GridGroupRow<T> {
         return GridGroupRow;
     }
+
+    getAdditionalGroupConstructorParams() {
+        return {
+            ...super.getAdditionalGroupConstructorParams(),
+            colspanGroup: this._$colspanGroup
+        };
+    }
+
     setEditing(editing: boolean): void {
         super.setEditing(editing);
 
