@@ -619,11 +619,11 @@ export default abstract class TileItem<T extends Model = Model> {
     }
 
     getImageAlignClasses(imageAlign: string): string {
+        let classes = 'ws-flexbox ws-justify-content-center ws-align-items-center';
         if (imageAlign === 'top') {
-            return 'controls-TileView__imageAlign_wrapper ws-flexbox ws-justify-content-center ws-align-items-center';
-        } else {
-            return '';
+            classes += ' controls-TileView__imageAlign_wrapper';
         }
+        return classes;
     }
 
     getImagePreserveAspectRatio(itemType: TTileItem = 'default', imageFit?: string): string {
