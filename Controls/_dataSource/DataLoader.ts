@@ -66,6 +66,7 @@ export interface ILoadDataConfig extends
     minSearchLength?: number;
     searchDelay?: number;
     items?: RecordSet;
+    loadTimeout?: number;
 }
 
 export interface ILoadDataCustomConfig extends IBaseLoadDataConfig {
@@ -196,14 +197,14 @@ function loadDataByConfig(
             .catch(() => {
                 filterController = getFilterController(loadConfig as IFilterControllerOptions);
             });
-        filterPromise = wrapTimeout(filterPromise, loadTimeout).catch(() => {
+        filterPromise = wrapTimeout(filterPromise, getLoadTimeout(loadConfig)).catch(() => {
             Logger.info('Controls/dataSource:loadData: Данные фильтрации не загрузились за 1 секунду');
         });
     }
 
     if (loadConfig.propStorageId) {
         sortingPromise = loadSavedConfig(loadConfig.propStorageId, ['sorting']);
-        sortingPromise = wrapTimeout(sortingPromise, loadTimeout).catch(() => {
+        sortingPromise = wrapTimeout(sortingPromise, getLoadTimeout(loadConfig)).catch(() => {
             Logger.info('Controls/dataSource:loadData: Данные сортировки не загрузились за 1 секунду');
         });
     }
@@ -217,7 +218,7 @@ function loadDataByConfig(
             ...loadConfig,
             sorting,
             filter: filterController ? filterController.getFilter() : loadConfig.filter,
-            loadTimeout: loadTimeout
+            loadTimeout: getLoadTimeout(loadConfig)
         });
 
         return new Promise((resolve) => {
@@ -234,8 +235,8 @@ function loadDataByConfig(
     });
 }
 
-function getLoadTimeout(): number {
-    return constants.isProduction ? DEFAULT_LOAD_TIMEOUT : DEBUG_DEFAULT_LOAD_TIMEOUT;
+function getLoadTimeout(loadConfig: ILoadDataConfig): Number {
+    return loadConfig?.loadTimeout || (constants.isProduction ? DEFAULT_LOAD_TIMEOUT : DEBUG_DEFAULT_LOAD_TIMEOUT);
 }
 
 export default class DataLoader {
