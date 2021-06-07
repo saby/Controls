@@ -11,7 +11,8 @@
             viewMode="{{_options.viewMode}}"/>
 </ws:template>
 <ws:template name="sortingSelector">
-    <div class="controls-SortingSelector controls_list_theme-{{_options.theme}}">
+    <div class="controls-SortingSelector controls_list_theme-{{_options.theme}}"
+         title="{{_currentTitle}}">
         <ws:if data="{{_singleField }}">
             <ws:partial template="iconButton" on:click="_switchValue()"/>
         </ws:if>
