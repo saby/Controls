@@ -201,6 +201,8 @@ export default class Button extends BaseDropdown {
                 this._isMouseMoveHandled = true;
                 this._onItemClickHandler([this._controller.getItems().at(0)]);
                 this._calmTimer.stop();
+            } else if (!hasItems) {
+                this.openMenu();
             }
         } else {
             this.openMenu();
