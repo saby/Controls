@@ -123,6 +123,7 @@ class ListEditor extends Control<IListEditorOptions> {
         if (selectedKeys.length) {
             this._items.assign(result);
         }
+        this._editorTarget = this._container;
         this._processPropertyValueChanged(selectedKeys, !this._options.multiSelect, result);
         this._navigation = this._getNavigation(this._options);
     }
@@ -154,7 +155,7 @@ class ListEditor extends Control<IListEditorOptions> {
             value,
             textValue: this._getTextValue(selectorResult || value),
             needCollapse,
-            target: this._editorTarget || this._container
+            target: this._editorTarget
         };
         this._selectedKeys = value;
         this._setColumns(this._options.displayProperty, this._selectedKeys, this._options.keyProperty, this._options.additionalTextProperty);
