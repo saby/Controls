@@ -218,15 +218,17 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
         return SortingSelector.getDefaultOptions();
     }
 });
+
 /**
- * @typedef {Object} SortingParam
+ * @typedef {Object} Controls/_gridOld/SortingSelector/SortingParam
+ * @description Допустимые свойства объекта, которые передаются в массиве {@link sortingParams}.
  * @property {String|null} paramName Имя поля элемента, по которому может осуществляться сортировка. Чтобы задать сброс сортировки, нужно указать значение null.
+ * Если не задан пункт, сбрасывающий сортировку, то необходимо указать непустую конфигурацию сортировки в опции value.
  * @property {String} title Подпись пункта меню, соответствующего данному полю.
- * @property {String} icon Иконка для пункта меню. Задается в формате 'Controls/sortIcons:<Имя иконки>'. Доступные иконки можно посмотреть на демо-примере.
- * @remark Если не задан пункт, сбрасывающий сортировку, то необходимо указать непустую конфигурацию сортировки в опции value..
- *
- * @demo Controls-demo/gridNew/Sorting/SortingSelector/IconsSvg/Index
+ * @property {String} [icon=undefined] Имя иконки, которая отображается в меню рядом с подписью (см. свойство title), а также в заголовке выпадающего меню. Список иконок {@link /icons/ тут}.
+ * @property {String} [iconSize=l] Размер иконки. Допустимые значения описаны {@link Controls/interface:IIconSize#iconSize здесь}.
  */
+
 
 /**
  * @name Controls/_grid/SortingSelector#sortingParams
