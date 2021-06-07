@@ -5559,6 +5559,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return new Promise((resolve) => {
             // Редактирование может запуститься при построении.
             const eventResult = this._isMounted ? this._notify('beforeBeginEdit', [options, isAdd]) : undefined;
+            _private.removeShowActionsClass(this);
             if (this._savedItemClickArgs && this._isMounted) {
                 // itemClick стреляет, даже если после клика начался старт редактирования, но itemClick
                 // обязательно должен случиться после события beforeBeginEdit.
@@ -5716,6 +5717,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         item.contents.unsubscribe('onPropertyChange', this._resetValidation);
+        _private.removeShowActionsClass(this);
         _private.updateItemActions(this, this._options);
     }
 
@@ -6378,6 +6380,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         const hoverFreezeController = this._hoverFreezeController;
         if (!this._addShowActionsClass &&
             (!this._dndListController || !this._dndListController.isDragging()) &&
+            (!this._editInPlaceController || !this._editInPlaceController.isEditing()) &&
             !this._itemActionsMenuId &&
             (!hoverFreezeController || hoverFreezeController.getCurrentItemKey() === null)) {
             _private.addShowActionsClass(this);
