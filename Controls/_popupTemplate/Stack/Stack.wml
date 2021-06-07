@@ -57,7 +57,7 @@
                    attr:data-qa="controls-stack-Button__close"
                    icon="icon-Close"
                    iconStyle="label"
-                   buttonStyle="unaccented"
+                   buttonStyle="pale"
                    iconSize="m"
                    viewMode="functionalButton"
                    inlineHeight="xl"
