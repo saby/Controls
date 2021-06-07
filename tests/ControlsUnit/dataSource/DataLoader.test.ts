@@ -2,9 +2,10 @@ import {DataLoader, ILoadDataResult, ILoadDataConfig, ILoadDataCustomConfig} fro
 import {Memory, PrefetchProxy} from 'Types/source';
 import {ok, deepStrictEqual} from 'assert';
 import {NewSourceController} from 'Controls/dataSource';
-import {createSandbox} from 'sinon';
+import {createSandbox, useFakeTimers} from 'sinon';
 import {default as groupUtil} from 'Controls/_dataSource/GroupUtil';
 import {RecordSet} from 'Types/collection';
+import {HTTPStatus} from 'Browser/Transport';
 
 function getDataArray(): object[] {
     return [
@@ -220,6 +221,29 @@ describe('Controls/dataSource:loadData', () => {
 
         const loadDataResult = await getDataLoader().load([loadDataConfigWithFilter]);
         ok((loadDataResult[0] as ILoadDataResult).data.getCount() === 1);
+    });
+
+    it('load with default load timeout', async () => {
+        const fakeTimer = useFakeTimers();
+        const source = getSource();
+        source.query = () => new Promise(() => {
+            Promise.resolve().then(() => {
+                fakeTimer.tick(40000);
+            });
+        });
+        const loadDataConfig = {
+            source,
+            filter: {}
+        };
+
+        const dataLoader = getDataLoader();
+        const loadDataResult = dataLoader.load([loadDataConfig]);
+        return new Promise((resolve) => {
+            loadDataResult.then((loadResult ) => {
+                ok(loadResult[0].sourceController.getLoadError().status === HTTPStatus.GatewayTimeout);
+                resolve();
+            });
+        });
     });
 
 });
