@@ -591,7 +591,7 @@ describe('Controls/_source/NavigationController', () => {
                             nav_result: {before: [1], after: [11]}
                         }
                     ],
-                    keyProperty: 'id'
+                    keyProperty: 'anyKeyProperty'
                 });
 
                 rs.setMetaData({
