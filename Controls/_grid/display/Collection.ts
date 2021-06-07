@@ -21,6 +21,11 @@ export interface IOptions<
     T extends Row<S> = Row<S>
 > extends IBaseOptions<S, T>, IGridMixinOptions { }
 
+/**
+ * @public
+ * @mixes Controls/grid:GridMixin
+ * @author Авраменко А.С.
+ */
 export default class Collection<
     S,
     T extends Row<S> = Row<S>
@@ -190,3 +195,44 @@ Object.assign(Collection.prototype, {
     _moduleName: 'Controls/grid:GridCollection',
     _itemModule: 'Controls/grid:GridDataRow'
 });
+
+/**
+ * @typedef {Object} IEmptyTemplateColumn
+ * @description
+ * Объект конфигурации колонки представления {@link /doc/platform/developmentapl/interface-development/controls/list/grid/empty-grid/ пустой таблицы}.
+ * @param {TemplateFunction} template Элемент, для которого рассчитывается объединение
+ * @param {Number} startColumn Начальный индекс колонки.
+ * @param {Number} endColumn Конечный индекс колонки.
+ */
+
+/**
+ * @typedef {Function} TResultsColspanCallback
+ * @description
+ * Функция обратного вызова для расчёта объединения колонок строки (колспана).
+ * @param {Controls/interface:IColumn} column Колонка грида
+ * @param {Number} columnIndex Индекс колонки грида
+ * @returns {Controls/grid:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
+ */
+
+/**
+ * @typedef {Function} TColspanCallback
+ * @description
+ * Функция обратного вызова для расчёта объединения колонок строки (колспана).
+ * @param {Types/entity:Model} item Элемент, для которого рассчитывается объединение
+ * @param {Controls/interface:IColumn} column Колонка грида
+ * @param {Number} columnIndex Индекс колонки грида
+ * @param {Boolean} isEditing Актуальное состояние редактирования элемента
+ * @returns {Controls/grid:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
+ */
+
+/**
+ * @description
+ * Тип результата, возвращаемого из функции colspanCallback (функции обратного вызова для расчёта объединения колонок строки).
+ */
+
+/**
+ * @typedef {Function} TEditArrowVisibilityCallback
+ * @description
+ * Функция обратного вызова для определения видимости кнопки редактирования
+ * @param item Model
+ */
