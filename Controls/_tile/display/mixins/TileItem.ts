@@ -611,10 +611,6 @@ export default abstract class TileItem<T extends Model = Model> {
             styles += ` height: ${height}px;`;
         }
 
-        if (itemType === 'rich' && imagePosition === 'top' && imageViewMode !== 'rectangle') {
-            styles += ' align-self: center; ';
-        }
-
         return styles;
     }
 
