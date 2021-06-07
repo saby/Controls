@@ -65,10 +65,10 @@ var _private = {
       return result;
    },
 
-   getDropDownContainerSize(container?: HTMLElement): object {
-      container = container ||
+   getDropDownContainerSize(container?: HTMLElement): DOMRect {
+      const dropdownContainer = container ||
          document.getElementsByClassName('controls-Popup__stack-target-container')[0] || document.body;
-      return container.getBoundingClientRect();
+      return dropdownContainer.getBoundingClientRect();
    },
 
    updateHeight(self): void {
@@ -132,10 +132,12 @@ var __ContentLayer = Control.extend({
    _height: '0px',
    _openDirection: 'right',
    _maxHeight: 'none',
+   _minWidth: '',
    _showContent: false,
 
    _afterMount(): void {
       _private.updateHeight(this);
+      this._minWidth = this._getMinWidth();
    },
 
    _afterUpdate(): void {
@@ -160,6 +162,13 @@ var __ContentLayer = Control.extend({
       _private.updateMaxHeight(this);
       _private.updateHeight(this);
       _private.determineOpenDirection(this);
+   },
+
+   _getMinWidth(): string {
+      return this._options.target.offsetWidth +
+             this._children.closeButton._container.offsetWidth +
+             Math.abs(this._container.offsetLeft) * 2 +
+             'px';
    },
 
    close(): void {
