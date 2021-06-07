@@ -113,4 +113,28 @@ describe('Controls/itemActions/Controller/EditInPlace', () => {
         assert.equal(collection.at(2).getVersion(), 1);
         assert.equal(collection.at(3).getVersion(), 1);
     });
+
+    it('change EIP record, should update version only for editing items', () => {
+        const controller = initController({collection});
+
+        collection.at(1).setEditing(true);
+        controller.update({
+            ...defaultControllerOptions,
+            collection,
+            editingItem: collection.at(1)
+        });
+        collection.at(1).setEditing(false);
+
+        collection.at(2).setEditing(true);
+        controller.update({
+            ...defaultControllerOptions,
+            collection,
+            editingItem: collection.at(2)
+        });
+
+        assert.equal(collection.at(0).getVersion(), 1);
+        assert.equal(collection.at(1).getVersion(), 3);
+        assert.equal(collection.at(2).getVersion(), 2);
+        assert.equal(collection.at(3).getVersion(), 1);
+    });
 });
