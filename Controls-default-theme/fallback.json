@@ -574,7 +574,7 @@
   "--counter_offset_tumbler": "4px",
   "--counter_text-color_tumbler": "var(--primary_text-color)",
   "--box-shadow_closeButton_toolButton": "var(--box-shadow_button)",
-  "--box-shadow_closeButton_functionalButton": "0 3px 5px 0 rgba(0, 0, 0, .25)",
+  "--box-shadow_closeButton_functionalButton": "none",
   "--background-color_closeButton_toolButton": "var(--background-color_button_toolButton)",
   "--background-color_hover_closeButton_toolButton": "var(--background-color_hover_button_toolButton)",
   "--background-color_active_closeButton_toolButton": "var(--background-color_active_button_toolButton)",
