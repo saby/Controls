@@ -47,6 +47,7 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
     private _currentIcon: string = '';
     private _currentCaption: string = '';
     private _orders: object = {};
+    private _currentTitle: object = {};
     private _source: Memory;
     private _saveLinkToItems: Function;
     private _items: RecordSet;
@@ -104,6 +105,7 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
 
                 this._selectedKeys = [this._currentParamName];
                 this._currentCaption = dataElem.title;
+                this._currentTitle = { ASC: dataElem.titleAsc, DESC: dataElem.titleDesc }[this._orders[key]];
                 if (dataElem.icon) {
                     this._nocaption = true;
                     this._arrowIconStyle = dataElem.iconStyle || 'secondary';
@@ -131,6 +133,12 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
     }
 
     private _getCaption(): string {
+        if (!this._currentIcon) {
+            return this._currentCaption;
+        }
+    }
+
+    private _getTooltip(): string {
         if (!this._currentIcon) {
             return this._currentCaption;
         }
