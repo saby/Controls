@@ -191,6 +191,12 @@ define([
                _order: '2',
                type: 'photo'
             },
+             item3 = {
+                 karambola: '10',
+                 _order: '2',
+                 type: 'photo',
+                 isMainTab: true
+             },
             options = {
                style: 'additional',
                selectedKey: '15',
@@ -198,11 +204,13 @@ define([
             },
             expected = 'controls-Tabs_style_secondary__item_state_selected ' +
                'controls-Tabs__item_state_selected ',
-            expected2 = 'controls-Tabs__item_state_default';
+            expected2 = 'controls-Tabs__item_state_default',
+            expected3 = 'controls-Tabs__item_state_main';
          const tabs = new tabsMod.Buttons();
          tabs.saveOptions(options);
          assert.equal(expected, tabs._prepareItemSelectedClass(item), 'wrong order cross-brwoser styles');
          assert.equal(expected2, tabs._prepareItemSelectedClass(item2), 'wrong order cross-brwoser styles');
+         assert.equal(expected3, tabs._prepareItemSelectedClass(item3), 'wrong order cross-brwoser styles');
           tabs.destroy();
       });
 
@@ -220,7 +228,7 @@ define([
                const tabs = new tabsMod.Buttons();
                tabs.saveOptions(options);
 
-               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__item_state_main controls-Tabs__main-marker');
+               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__main-marker');
 
                tabs.destroy();
             });
@@ -229,7 +237,7 @@ define([
                const tabs = new tabsMod.Buttons();
                tabs.saveOptions({ selectedKey: '16', keyProperty: 'karambola'} );
 
-               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__item_state_main');
+               assert.equal(tabs._prepareItemMarkerClass(item), '');
 
                tabs.destroy();
             });
