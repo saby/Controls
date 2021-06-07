@@ -312,7 +312,7 @@ export interface INavigationOptionValue<U> {
      * @name Controls/_interface/INavigation/INavigationOptionValue#sourceConfig
      * @cfg {Controls/interface:INavigationPositionSourceConfig.typedef | Controls/interface:INavigationPageSourceConfig.typedef} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
-     * Пример конфигурации режима работы с источником для навигации по курсору.
+     * Пример конфигурации режима работы с источником данных для навигации по курсору.
      * <pre class="brush: html; highlight: [4]">
      * <!-- WML -->
      * <Controls.list:View source="{{_viewSource}}">
@@ -321,7 +321,7 @@ export interface INavigationOptionValue<U> {
      *    </ws:navigation>
      * </Controls.list:View>
      * </pre>
-     * Пример конфигурации режима  работы с источником для навигации с фиксированным количеством загружаемых записей.
+     * Пример конфигурации режима  работы с источником данных для навигации с фиксированным количеством загружаемых записей.
      * <pre class="brush: html; highlight: [4]">
      * <!-- WML -->
      * <Controls.list:View keyProperty="id" source="{{_viewSource}}">
