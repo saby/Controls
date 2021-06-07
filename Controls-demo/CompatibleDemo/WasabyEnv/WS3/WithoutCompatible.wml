@@ -1,0 +1,18 @@
+<div class="compatibleDemo__column">
+    <div class="compatibleDemo__row">
+        Слой совместимости:&nbsp;
+        <div class="compatibleDemo__icon compatibleDemo__icon{{ _compatibleReady ? '__resolved' : '__pendding'}}"></div>
+    </div>
+    <div class="compatibleDemo__row">
+        Значение _text:&nbsp;
+        <Controls.heading:Title caption=" {{ _text }}" readOnly="{{true}}" fontColorStyle="primary" fontSize="l"/>
+    </div>
+    <div class="compatibleDemo__row">
+        <Controls.heading:Title caption="Controls.input:Text:" readOnly="{{true}}" fontColorStyle="secondary" fontSize="l" attr:class="compatibleDemo__row__fill"/>
+        <Controls.input:Text name="textBox" bind:value="_text" />
+    </div>
+    <div class="compatibleDemo__row">
+        <Controls.heading:Title caption="Без совместимости!" readOnly="{{true}}" fontColorStyle="primary" fontSize="l" attr:class="compatibleDemo__row__fill"/>
+        <SBIS3.CONTROLS.TextBox text="{{ _text }}" />
+    </div>
+</div>

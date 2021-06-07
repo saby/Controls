@@ -2,7 +2,7 @@
     <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height500">
         <Controls.treeGrid:View
                 useTableInOldBrowsers="{{true}}"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 parentProperty="parent"

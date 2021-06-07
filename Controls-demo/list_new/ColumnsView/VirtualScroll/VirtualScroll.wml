@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
    <Controls.scroll:Container attr:class="controlsDemo__height400 controlsDemo__minWidth600 controlsDemo__maxWidth800">
       <Controls.columns:View
-         keyProperty="key"
+         keyProperty="id"
          source="{{ _viewSource }}"
          itemActions="{{_itemActions}}"
          markerVisibility="visible"

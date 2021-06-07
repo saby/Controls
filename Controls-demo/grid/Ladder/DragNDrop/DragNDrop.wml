@@ -8,8 +8,6 @@
                         name="list"
                         itemActions="{{_itemActions}}"
                         itemsReadyCallback="{{_itemsReadyCallback}}"
-                        multiSelectVisibility="visible"
-                        bind:selectedKeys="_selectedKeys"
                         itemsDragNDrop="{{true}}"
                         columns="{{_columns}}"
                         ladderProperties="{{_ladderProperties}}">

@@ -27,10 +27,7 @@ export {default as Notification} from 'Controls/_popup/Opener/Notification';
 export {default as Infobox} from './_popup/Opener/InfoBox';
 export {default as Previewer} from './_popup/Opener/Previewer';
 export {default as Edit} from './_popup/Opener/Edit';
-import EditContainer = require('wml!Controls/_popup/Opener/Edit/WrappedContainer');
-export {
-    EditContainer
-};
+export {default as EditContainer} from './_popup/Opener/Edit/Container';
 
 export {default as InfoboxButton} from './_popup/InfoBox/InfoboxButton';
 export {default as PreviewerTarget} from './_popup/Previewer';

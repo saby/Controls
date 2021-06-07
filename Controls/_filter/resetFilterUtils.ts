@@ -15,23 +15,19 @@ export function hasResetValue(items) {
       return hasReset;
 }
 
-export function resetFilterItem(item) {
-   const resetValue = getPropValue(item, 'resetValue');
-   const textValue = getPropValue(item, 'textValue');
-
-   if (getPropValue(item, 'visibility') !== undefined) {
-      setPropValue(item, 'visibility', false);
-   }
-   if (resetValue !== undefined) {
-      setPropValue(item, 'value', resetValue);
-   }
-   if (textValue !== undefined) {
-      setPropValue(item, 'textValue', textValue === null ? textValue : '');
-   }
-}
-
 export function resetFilter(items) {
    factory(items).each((item) => {
-      resetFilterItem(item);
+      const resetValue = getPropValue(item, 'resetValue');
+      const textValue = getPropValue(item, 'textValue');
+
+      if (getPropValue(item, 'visibility') !== undefined) {
+         setPropValue(item, 'visibility', false);
+      }
+      if (resetValue !== undefined) {
+         setPropValue(item, 'value', resetValue);
+      }
+      if (textValue !== undefined) {
+         setPropValue(item, 'textValue', textValue === null ? textValue : '');
+      }
    });
 }

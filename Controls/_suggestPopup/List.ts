@@ -76,7 +76,7 @@ const _private = {
 };
 
 /**
- * Контрол-контейнер, который используется для работы <a href="/doc/platform/developmentapl/interface-development/controls/input-elements/input/suggest/">автодополнения</a> в поле ввода.
+ * Контрол-контейнер, который используется для работы <a href="/doc/platform/developmentapl/interface-development/controls/input/suggest/">автодополнения</a> в поле ввода.
  * Он обеспечивает связь поля ввода и списка внутри выпадающего блока.
  * @remark
  *

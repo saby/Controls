@@ -5,11 +5,10 @@ import {TemplateFunction} from 'UI/Base';
 import {GroupItem} from 'Controls/display';
 import {IFilterItem} from 'Controls/filter';
 import {IItemPadding} from 'Controls/display';
+import * as rk from 'i18n!Controls';
 import {Model} from 'Types/entity';
-import ApplyButton from 'Controls/_filterPanel/View/ApplyButton';
 import 'css!Controls/filterPanel';
 import {default as ViewModel} from './View/ViewModel';
-import {StickyOpener} from 'Controls/popup';
 
 /**
  * Контрол "Панель фильтра с набираемыми параметрами".
@@ -51,6 +50,7 @@ interface IViewPanelOptions {
 
 export default class View extends Control<IViewPanelOptions> {
     protected _template: TemplateFunction = template;
+    protected _resetCaption: string = rk('все');
     protected _itemPadding: IItemPadding = {
         bottom: 'null'
     };
@@ -59,16 +59,14 @@ export default class View extends Control<IViewPanelOptions> {
     protected _beforeMount(options: IViewPanelOptions): void {
         this._viewModel = new ViewModel({
             source: options.source,
-            collapsedGroups: options.collapsedGroups,
-            filterViewMode: options.viewMode
+            collapsedGroups: options.collapsedGroups
         });
     }
 
     protected _beforeUpdate(options: IViewPanelOptions): void {
         this._viewModel.update({
             source: options.source,
-            collapsedGroups: options.collapsedGroups,
-            filterViewMode: options.viewMode
+            collapsedGroups: options.collapsedGroups
         });
     }
 
@@ -77,9 +75,8 @@ export default class View extends Control<IViewPanelOptions> {
         this._notifyChanges();
     }
 
-    protected _applyFilter(editorGroup: string): void {
+    protected _applyFilter(): void {
         this._notifyChanges();
-        this._viewModel.collapseGroup(editorGroup);
         this._notify('filterApplied');
     }
 
@@ -100,6 +97,8 @@ export default class View extends Control<IViewPanelOptions> {
         this._viewModel.handleGroupClick(itemContents, isResetClick);
         if (isResetClick) {
             this._resetFilterItem(dispItem);
+        } else {
+            dispItem.toggleExpanded();
         }
         this._notify('collapsedGroupsChanged', [this._viewModel.getCollapsedGroups()]);
     }

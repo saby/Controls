@@ -1,2 +1,0 @@
-<Controls.context:ContextOptionsConsumer scope="{{ _options }}"
-                                         contextOptionsInnerComponent="{{ _innerTemplate }}" />

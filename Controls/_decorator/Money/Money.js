@@ -45,7 +45,7 @@ define('Controls/_decorator/Money/Money', ['UI/Executor', 'Controls/_decorator/r
          }, [markupGenerator.createText('' + (thelpers.wrapUndef(markupGenerator.escape(thelpers.getter(data, ['_formattedNumber', 'integer'])))) + '', key + '0_1_0_0_')], attr ? {
             context: attr.context,
             key: key + '0_1_0_'
-         } : {}, defCollection, viewController), ((thelpers.getter(data, ['_isDisplayFractionPath']).apply(funcContext, [thelpers.getter(data, ['_formattedNumber', 'fraction']), thelpers.getter(data, ['_options', 'showEmptyDecimals']), thelpers.getter(data, ['_options', 'precision'])]) && thelpers.getter(data, ['_options', 'abbreviationType']) !== 'long') ? ([markupGenerator.createTag('span', {
+         } : {}, defCollection, viewController), ((thelpers.getter(data, ['_isDisplayFractionPath']).apply(funcContext, [thelpers.getter(data, ['_formattedNumber', 'fraction']), thelpers.getter(data, ['_options', 'showEmptyDecimals'])]) && thelpers.getter(data, ['_options', 'abbreviationType']) !== 'long') ? ([markupGenerator.createTag('span', {
             'attributes': {
                'class': Money.calculateFractionClass(thelpers.getter(data, ['_formattedNumber', 'fraction']), thelpers.getter(data, ['_fontColorStyle']), thelpers.getter(data, ['_fractionFontSize']), thelpers.getter(data, ['_options', 'currency']), thelpers.getter(data, ['_options', 'currencyPosition']))
             },

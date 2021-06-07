@@ -11,7 +11,7 @@ export default class extends Control {
       this._viewSource = new HierarchicalMemory({
          keyProperty: 'id',
          parentProperty: 'parent',
-         data: Gadgets.getDataWithRealImages()
+         data: Gadgets.getData()
       });
    }
 

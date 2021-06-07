@@ -227,7 +227,7 @@ export interface IPropertyGrid {
  * @cfg {function} Функция управления видимостью операций над записью.
  * @param {ItemAction} action Объект с настройкой действия.
  * @param {Types/entity:Model} item Экземпляр записи, действие над которой обрабатывается.
- * @remark Если из функции возвращается true, то операция отображается.
+ * @returns {Boolean} Определяет, должна ли операция отображаться.
  * @demo Controls-demo/PropertyGridNew/ItemActionVisibilityCallback/Index
  */
 

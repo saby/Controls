@@ -38,6 +38,8 @@ class Root extends Control {
         });
     }
 
+    static _theme: string[] = ['Controls/Classes'];
+
 
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Menu/Menu'];
 }

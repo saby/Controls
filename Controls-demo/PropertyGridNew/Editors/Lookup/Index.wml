@@ -1,3 +1,0 @@
-<Controls.propertyGrid:PropertyGrid
-        bind:editingObject="_editingObject"
-        source="{{_source}}"/>

@@ -2,7 +2,7 @@
     <Controls.treeGrid:View
             useTableInOldBrowsers="{{true}}"
             source="{{_viewSource}}"
-            keyProperty="key"
+            keyProperty="id"
             columns="{{_columns}}"
             bind:expandedItems="_expandedItems"
             bind:collapsedItems="_collapsedItems"

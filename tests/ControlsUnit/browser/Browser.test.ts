@@ -4,8 +4,8 @@ import { RecordSet } from 'Types/collection';
 import { detection } from 'Env/Env';
 import {assert} from 'chai';
 import * as sinon from 'sinon';
-import {adapter} from 'Types/entity';
-import {NewSourceController} from 'Controls/dataSource';
+import {SyntheticEvent} from 'UI/Vdom';
+import {adapter} from "Types/entity";
 
 const browserData = [
     {
@@ -134,7 +134,7 @@ describe('Controls/browser:Browser', () => {
                 };
                 const browser = getBrowser(options);
                 await browser._beforeMount(options);
-                assert.ok(browser._contextState.source === options.source);
+                assert.ok(browser._dataOptionsContext.source === options.source);
             });
 
             it('_beforeMount with receivedState and dataLoadCallback', async () => {
@@ -188,42 +188,6 @@ describe('Controls/browser:Browser', () => {
                 assert.deepStrictEqual(browser._filter, {filterField: 'historyValue'});
             });
 
-            describe('sourceController on mount', () => {
-               it('sourceController in options', async () => {
-                   const options = getBrowserOptions();
-                   const sourceController = new NewSourceController(options);
-                   options.sourceController = sourceController;
-                   const browser = getBrowser(options);
-                   await browser._beforeMount(options);
-                   assert.ok(browser._getSourceController() === sourceController);
-               });
-               it('sourceController in context', async () => {
-                   const options = getBrowserOptions();
-                   const sourceController = new NewSourceController(options);
-                   options._dataOptionsValue = {
-                       sourceController
-                   };
-                   const browser = getBrowser(options);
-                   await browser._beforeMount(options);
-                   assert.ok(browser._getSourceController() === sourceController);
-               });
-               it('sourceController in listsConfig', async () => {
-                   const options = getBrowserOptions();
-                   const sourceController = new NewSourceController(options);
-                   options._dataOptionsValue = {
-                       listsConfigs: {
-                           testSourceControllerId: {
-                               sourceController
-                           }
-                       }
-                   };
-                   options.sourceControllerId = 'testSourceControllerId';
-                   const browser = getBrowser(options);
-                   await browser._beforeMount(options);
-                   assert.ok(browser._getSourceController() === sourceController);
-               });
-            });
-
             describe('init expandedItems', () => {
                 it('with receivedState', async () => {
                     const receivedState = {
@@ -234,7 +198,7 @@ describe('Controls/browser:Browser', () => {
                     options.expandedItems = [1];
                     const browser = getBrowser(options);
                     await browser._beforeMount(options, {}, [receivedState]);
-                    assert.deepEqual(browser._contextState.expandedItems, [1]);
+                    assert.deepEqual(browser._dataOptionsContext.expandedItems, [1]);
                     assert.deepEqual(browser._getSourceController().getExpandedItems(), [1]);
                 });
 
@@ -243,7 +207,7 @@ describe('Controls/browser:Browser', () => {
                     options.expandedItems = [1];
                     const browser = getBrowser(options);
                     await browser._beforeMount(options, {}, []);
-                    assert.deepEqual(browser._contextState.expandedItems, [1]);
+                    assert.deepEqual(browser._dataOptionsContext.expandedItems, [1]);
                     assert.deepEqual(browser._getSourceController().getExpandedItems(), [1]);
                 });
             });
@@ -275,7 +239,7 @@ describe('Controls/browser:Browser', () => {
 
                     const browser = getBrowser(options);
                     await browser._beforeMount(options, {});
-                    assert.deepStrictEqual(browser._contextState.filter, filter);
+                    assert.deepStrictEqual(browser._dataOptionsContext.filter, filter);
                     assert.deepStrictEqual(browser._filter, filter);
                 });
 
@@ -298,7 +262,7 @@ describe('Controls/browser:Browser', () => {
 
                     const browser = getBrowser(options);
                     await browser._beforeMount(options, {});
-                    assert.deepStrictEqual(browser._contextState.filter, expectedFilter);
+                    assert.deepStrictEqual(browser._dataOptionsContext.filter, expectedFilter);
                     assert.deepStrictEqual(browser._filter, expectedFilter);
                 });
 
@@ -845,21 +809,7 @@ describe('Controls/browser:Browser', () => {
             const browser = getBrowser(options);
             await browser._beforeMount(options);
             browser._beforeUpdate({...options, expandedItems: [1]});
-            assert.deepEqual(browser._contextState.expandedItems, [1]);
-        });
-
-        it('items in sourceController are changed', async () => {
-            const options = getBrowserOptions();
-            const browser = getBrowser(options);
-            await browser._beforeMount(options);
-            browser.saveOptions(options);
-
-            const items = new RecordSet();
-            browser._getSourceController().setItems(null);
-            browser._getSourceController().setItems(items);
-
-            browser._beforeUpdate(options);
-            assert.ok(browser._items === items);
+            assert.deepEqual(browser._dataOptionsContext.expandedItems, [1]);
         });
 
         it('items in sourceController are changed', async () => {

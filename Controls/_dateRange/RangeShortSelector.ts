@@ -41,11 +41,10 @@ interface IRangeShortSelectorOptions extends IControlOptions {
  * @mixes Controls/dateRange:IPeriodLiteDialog
  * @mixes Controls/dateRange:IDateRange
  * @mixes Controls/interface:IDisplayedRanges
- *
+ * 
  * @mixes Controls/interface:IOpenPopup
  * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:IUnderline
- * @mixes Controls/interface:IFontWeight
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/dateRange:ICaptionFormatter
  *
@@ -53,12 +52,6 @@ interface IRangeShortSelectorOptions extends IControlOptions {
  * @author Красильников А.С.
  * @demo Controls-demo/dateRange/LiteSelector/Index
  *
- */
-
-/**
- * @name Controls/_dateRange/RangeShortSelector#fontWeight
- * @demo Controls-demo/dateRange/LinkView/FontWeight/Index
- * @default bold
  */
 
 export default class RangeShortSelector extends BaseSelector<IRangeShortSelectorOptions> {
@@ -111,7 +104,6 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
 
                 source: this._options.source,
                 monthTemplate: this._options.monthTemplate,
-                headerContentTemplate: this._options.headerContentTemplate,
                 itemTemplate: this._options.itemTemplate,
                 displayedRanges: this._options.displayedRanges,
                 stubTemplate: this._options.stubTemplate,

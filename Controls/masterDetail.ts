@@ -16,8 +16,5 @@
  * @author Авраменко А.С.
  */
 
-import Base = require('wml!Controls/_masterDetail/WrappedBase');
-export {
-    Base
-};
+export {default as Base} from 'Controls/_masterDetail/Base';
 export {default as List} from 'Controls/_masterDetail/List';

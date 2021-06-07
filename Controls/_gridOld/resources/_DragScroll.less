@@ -1,5 +1,4 @@
-.controls-Grid__DragScroll__overlay,
-.controls-Grid__DragScrollNew__overlay {
+.controls-Grid__DragScroll__overlay {
    position: fixed;
    left: 0;
    top: 0;
@@ -7,23 +6,80 @@
    height: 100%;
 }
 
-.controls-Grid__DragScrollNew__overlay,
 .controls-Grid__DragScroll__overlay_activated {
    z-index: 999;
    cursor: grabbing;
 }
 
-.controls-Grid__Wrapper_table-layout {
-   .controls-Grid__DragScrollNew__overlay,
-   .controls-Grid__DragScroll__overlay_activated {
-      cursor: move;
-   }
-}
-
-.controls-Grid__DragScrollNew__overlay,
 .controls-Grid__DragScroll__overlay_deactivated {
    display: none;
 }
+
+// Курссор лапка, когда возможно скроллирование перетаскиванием.
+// Курсор появляется, только если в списке не идет перемещение записей.
+// Пока нет доступа к DragNDrop контроллеру, мы не можем понять, идет ли в списке перемещение записей.
+// Доступное решение на данный момент :not(.селектор_процесса_dnd). Использование отрицания усиливает селектор и не срабатывает класс
+// .controls-Grid__DragScroll__content_grabbing отвечающий за курсор при скроллировании (сжатая в кулак лапка). Добавляем отрицание этого класса сюда.
+.controls-Grid__DragScroll__content:not(.controls-Grid_dragging_process):not(.controls-Grid__DragScroll__content_grabbing) {
+   .controls-Grid__row-cell:not(.js-controls-ColumnScroll__notDraggable) {
+      .controls-Grid__row-cell__content {
+         cursor: grab;
+      }
+
+      .controls-Grid__row-cell_cursor-pointer.js-controls-ColumnScroll__notDraggable,
+      .controls-Grid__row-cell_cursor-pointer .js-controls-ColumnScroll__notDraggable {
+         cursor: pointer;
+      }
+
+      .controls-Grid__row-cell_cursor-default.js-controls-ColumnScroll__notDraggable,
+      .controls-Grid__row-cell_cursor-default .js-controls-ColumnScroll__notDraggable {
+         cursor: default;
+      }
+   }
+
+   .controls-Grid__header-cell:not(.js-controls-ColumnScroll__notDraggable) {
+      // Удалить после https://online.sbis.ru/opendoc.html?guid=43399cd1-c875-42da-8b6c-3c1e3a413cbc
+      cursor: grab;
+
+      .controls-Grid__header-cell__content {
+         cursor: grab;
+      }
+
+      .controls-Grid__row-cell_cursor-pointer.js-controls-ColumnScroll__notDraggable,
+      .controls-Grid__row-cell_cursor-pointer .js-controls-ColumnScroll__notDraggable {
+         cursor: pointer;
+      }
+
+      .controls-Grid__row-cell_cursor-default.js-controls-ColumnScroll__notDraggable,
+      .controls-Grid__row-cell_cursor-default .js-controls-ColumnScroll__notDraggable {
+         cursor: default;
+      }
+   }
+
+   .controls-Grid__results-cell:not(.js-controls-ColumnScroll__notDraggable) {
+      // Удалить после https://online.sbis.ru/opendoc.html?guid=43399cd1-c875-42da-8b6c-3c1e3a413cbc
+      cursor: grab;
+
+      .controls-Grid__results-cell__content {
+         cursor: grab;
+      }
+
+      .controls-Grid__row-cell_cursor-pointer.js-controls-ColumnScroll__notDraggable,
+      .controls-Grid__row-cell_cursor-pointer .js-controls-ColumnScroll__notDraggable {
+         cursor: pointer;
+      }
+
+      .controls-Grid__row-cell_cursor-default.js-controls-ColumnScroll__notDraggable,
+      .controls-Grid__row-cell_cursor-default .js-controls-ColumnScroll__notDraggable {
+         cursor: default;
+      }
+   }
+
+   .controls-GridView__footer__cell:not(.controls-Grid_columnScroll__fixed) {
+      cursor: grab;
+   }
+}
+
 
 .controls-Grid__DragScroll__content_grabbing {
    .controls-Grid__row-cell:not(.js-controls-ColumnScroll__notDraggable) {

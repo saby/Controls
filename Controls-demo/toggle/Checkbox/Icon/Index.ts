@@ -7,6 +7,8 @@ class ViewModes extends Control<IControlOptions> {
     protected _value2: boolean = false;
     protected _value3: boolean = false;
     protected _value4: boolean = false;
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default ViewModes;

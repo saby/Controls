@@ -3,6 +3,7 @@ import template = require('wml!Controls/_lookupPopup/Container');
 import chain = require('Types/chain');
 import Utils = require('Types/util');
 import cInstance = require('Core/core-instance');
+import {ContextOptions} from 'Controls/context';
 import {CrudWrapper} from 'Controls/dataSource';
 import {selectionToRecord} from 'Controls/operations';
 import {adapter as adapterLib} from 'Types/entity';
@@ -50,10 +51,10 @@ var _private = {
       };
    },
 
-   getSelectedKeys: function(options) {
+   getSelectedKeys: function(options, context) {
       const selectedItems = _private.getSelectedItems(options);
       const items = _private.getFilteredItems(selectedItems, _private.getFilterFunction(options.selectionFilter));
-      return _private.getKeysByItems(items, options._dataOptionsValue.keyProperty);
+      return _private.getKeysByItems(items, context.dataOptions.keyProperty);
    },
 
    // TODO: вообще не уверен что это нужно, но я побоялся трогать
@@ -168,10 +169,10 @@ var _private = {
       };
    },
 
-   getInitialSelectedItems(self, options): List|RecordSet {
+   getInitialSelectedItems(self, options, context): List|RecordSet {
       const selectedItems = _private.getSelectedItems(options).clone();
       const itemsToRemove = [];
-      const keyProp = options._dataOptionsValue.keyProperty;
+      const keyProp = context.dataOptions.keyProperty;
 
       selectedItems.each((item) => {
          if (!self._selectedKeys.includes(item.get(keyProp))) {
@@ -270,7 +271,7 @@ var _private = {
    },
 
    loadSelectedItems(self: object, filter: QueryWhereExpression<unknown>): Promise<RecordSet> {
-      const dataOptions = self._options._dataOptionsValue;
+      const dataOptions = self.context.get('dataOptions');
       const items = dataOptions.items;
       let loadItemsPromise;
 
@@ -317,7 +318,7 @@ var _private = {
  * Должен использоваться внутри Controls/lookupPopup:Controller.
  * В одном Controls/lookupPopup:Controller можно использовать несколько контейнеров.
  *
- * Подробное описание и инструкцию по настройке смотрите в <a href='/doc/platform/developmentapl/interface-development/controls/input-elements/directory/layout-selector-stack/'>статье</a>.
+ * Подробное описание и инструкцию по настройке смотрите в <a href='/doc/platform/developmentapl/interface-development/controls/directory/layout-selector-stack/'>статье</a>.
  *
  * <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">Пример</a> использования контрола.
  *
@@ -356,22 +357,22 @@ var Container = Control.extend({
    _selectCompleteInitiator: false,
    _loadingIndicatorId: null,
 
-   _beforeMount(options): void {
-      this._selectedKeys = _private.getSelectedKeys(options);
+   _beforeMount(options, context): void {
+      this._selectedKeys = _private.getSelectedKeys(options, context);
       this._excludedKeys = [];
-      this._initialSelection = _private.getInitialSelectedItems(this, options);
+      this._initialSelection = _private.getInitialSelectedItems(this, options, context);
    },
 
    _afterMount(): void {
       RegisterUtil(this, 'selectComplete', this._selectComplete.bind(this));
    },
 
-   _beforeUpdate(newOptions): void {
+   _beforeUpdate(newOptions, context): void {
       const currentSelectedItems = this._options.selectedItems;
       const newSelectedItems = newOptions.selectedItems;
 
       if (currentSelectedItems !== newSelectedItems) {
-         this._selectedKeys = _private.getSelectedKeys(newOptions);
+         this._selectedKeys = _private.getSelectedKeys(newOptions, context);
       }
    },
 
@@ -382,7 +383,7 @@ var Container = Control.extend({
 
    _selectComplete(): void {
       const options = this._options;
-      const dataOptions = options._dataOptionsValue;
+      const dataOptions = this.context.get('dataOptions');
       const items = dataOptions.items;
       const keyProperty = options.keyProperty;
       let loadPromise;
@@ -450,6 +451,12 @@ var Container = Control.extend({
       this._selectCompleteInitiator = true;
    }
 });
+
+Container.contextTypes = function() {
+   return {
+      dataOptions: ContextOptions
+   };
+};
 
 Container.getDefaultOptions = function getDefaultOptions() {
    return {

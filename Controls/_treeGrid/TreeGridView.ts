@@ -14,12 +14,6 @@ export default class TreeGridView extends GridView {
         if (this._options.expanderSize !== newOptions.expanderSize) {
             this._listModel.setExpanderSize(newOptions.expanderSize);
         }
-        if (this._options.nodeTypeProperty !== newOptions.nodeTypeProperty) {
-            this._listModel.setNodeTypeProperty(newOptions.nodeTypeProperty);
-        }
-        if (this._options.groupNodeVisibility !== newOptions.groupNodeVisibility) {
-            this._listModel.setGroupNodeVisibility(newOptions.groupNodeVisibility);
-        }
     }
 
     protected _resolveBaseItemTemplate(options: any): TemplateFunction {

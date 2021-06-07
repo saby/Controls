@@ -15,17 +15,17 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: getData()
         });
     }
 
     protected _beforeEndEdit(e: SyntheticEvent<null>, item: Model): Promise<void | string> | string {
-        if (item.get('key') === 1 && item.get('beforeEndEditTitle') === '') {
+        if (item.get('id') === 1 && item.get('beforeEndEditTitle') === '') {
             return constEditing.CANCEL;
         }
         // tslint:disable-next-line
-        if (item.get('key') === 2) {
+        if (item.get('id') === 2) {
             return new Promise((resolve) => {
                 setTimeout(() => {
                     resolve();
@@ -33,7 +33,7 @@ export default class extends Control {
             });
         }
         // tslint:disable-next-line
-        if (item.get('key') === 3) {
+        if (item.get('id') === 3) {
             return new Promise((resolve) => {
                 setTimeout(() => {
                     resolve();
@@ -41,7 +41,7 @@ export default class extends Control {
             });
         }
         // tslint:disable-next-line
-        if (item.get('key') === 4) {
+        if (item.get('id') === 4) {
             return new Promise((resolve) => {
                 setTimeout(() => {
                     if (item.get('beforeEndEditTitle') === '') {

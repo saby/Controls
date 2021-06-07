@@ -77,7 +77,7 @@ export interface IFilterItem {
  * @property {String} displayProperty Name of the item property that content will be displayed. Only affects the value when selecting.
  * @property {Types/source:Base} source Object that implements ICrud interface for data access. If 'items' is specified, 'source' will be ignored.
  * @property {Boolean} multiSelect Determines whether multiple selection is set.
- * @property {Controls/interface:ISelectorDialog} selectorTemplate Items selection panel template.
+ * @property {Controls/interface/ISelectorDialog} selectorTemplate Items selection panel template.
  * @property {Function} itemTemplate Template for item render. For more information, see {@link Controls/_menu/interface/IMenuBase#itemTemplate}
  * @property {String} itemTemplateProperty Name of the item property that contains template for item render. For more information, see {@link Controls/_menu/interface/IMenuBase#itemTemplateProperty}
  * @property {Object} filter Filter configuration - object with field names and their values. {@link Controls/_interface/IFilter}

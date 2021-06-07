@@ -7,6 +7,7 @@ class DemoControl extends Control<IControlOptions> {
     private _month: Date = new Date(2017, 0, 1);
     private _startValue: Date = new Date(2017, 0, 5);
     private _endValue: Date = new Date(2017, 0, 15);
+    static _theme: string[] = ['Controls/Classes'];
 
     private _changeStartValue = (event, coeff: number): void => {
         this._startValue = new Date(this._startValue.getFullYear(), this._startValue.getMonth(), this._startValue.getDate() - coeff);

@@ -10,10 +10,6 @@ define('Controls-demo/Popup/PopupPage',
       var PopupPage = Base.Control.extend({
          _template: template,
 
-         _afterMount: function() {
-            this._stickyInScroll = new popupLib.StickyOpener();
-         },
-
          openDialog: function () {
             this._children.dialog.open({
                opener: this._children.dialogButton,
@@ -39,13 +35,7 @@ define('Controls-demo/Popup/PopupPage',
             });
          },
          openStickyInScroll: function () {
-            this._stickyInScroll.open({
-               template: 'Controls-demo/Popup/TestDialog',
-               actionOnScroll: 'close',
-               direction: {
-                  vertical: 'bottom',
-                  horizontal: 'left',
-               },
+            this._children.stickyInScroll.open({
                target: this._children.stickyInScrollButton,
                opener: this._children.stickyInScrollButton,
                templateOptions: {

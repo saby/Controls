@@ -22,14 +22,14 @@ export interface IItemActionsCollection extends IBaseCollection<Model, IItemActi
     /**
      * Установить состояние флага "Опции записи заданы для элементов коллекции"
      * @param {Boolean} assigned Состояние флага "Опции записи заданы для элементов коллекции"
-     * @function
+     * @method
      * @public
      */
     setActionsAssigned(assigned: boolean): void;
 
     /**
      * Получить состояние флага "Опции записи заданы для элементов коллекции"
-     * @function
+     * @method
      * @public
      * @return {Boolean} Состояние флага "Опции записи заданы для элементов коллекции"
      */
@@ -38,14 +38,14 @@ export interface IItemActionsCollection extends IBaseCollection<Model, IItemActi
     /**
      * Установить в модель текущий активный элемент
      * @param {Controls/_itemActions/interface/IItemActionsItem} item Текущий активный элемент
-     * @function
+     * @method
      * @public
      */
     setActiveItem(item: IItemActionsItem): void;
 
     /**
      * Получить из модели текущий активный элемент
-     * @function
+     * @method
      * @public
      * @return {Controls/_itemActions/interface/IItemActionsItem} Текущий активный элемент
      */
@@ -53,7 +53,7 @@ export interface IItemActionsCollection extends IBaseCollection<Model, IItemActi
 
     /**
      * Получить состояние флага "Один из элементов коллекции редактируется"
-     * @function
+     * @method
      * @public
      * @return {Boolean} Состояние флага "Один из элементов коллекции редактируется"
      */
@@ -62,14 +62,14 @@ export interface IItemActionsCollection extends IBaseCollection<Model, IItemActi
     /**
      * Установить в модель конфиг для itemActionsTemplate/swipeTemplate
      * @param {Object} config Конфиг для itemActionsTemplate/swipeTemplate
-     * @function
+     * @method
      * @public
      */
     setActionsTemplateConfig(config: IItemActionsTemplateConfig): void;
 
     /**
      * Получить конфиг для itemActionsTemplate/swipeTemplate
-     * @function
+     * @method
      * @public
      * @return {Object} Конфиг для itemActionsTemplate/swipeTemplate
      */
@@ -78,14 +78,14 @@ export interface IItemActionsCollection extends IBaseCollection<Model, IItemActi
     /**
      * Установить в модель конфиг для отображения swipeTemplate
      * @param {Object} config Конфиг специфичный для swipeTemplate
-     * @function
+     * @method
      * @public
      */
     setSwipeConfig?(config: ISwipeConfig): void;
 
     /**
      * Получить конфиг для отображения swipeTemplate
-     * @function
+     * @method
      * @public
      * @return {Object} Конфиг специфичный для swipeTemplate
      */

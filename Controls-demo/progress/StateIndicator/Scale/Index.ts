@@ -8,6 +8,8 @@ class Base extends Control<IControlOptions> {
     protected _beforeMount(): void {
         this._data = [{value: 5, className: '', title: 'Положительно'}];
     }
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

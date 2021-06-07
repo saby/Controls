@@ -32,7 +32,7 @@ export interface ISelectorButtonOptions extends IControlOptions, IValidationStat
  * Поддерживает одиночный и множественный выбор.
  *
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/directory/lookup/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/directory/lookup/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_lookup.less переменные тем оформления}
  *
  *
@@ -61,7 +61,7 @@ export interface ISelectorButtonOptions extends IControlOptions, IValidationStat
  * @mixes Controls/interface:ICaption
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/interface:ITextValue
- * @mixes Controls/interface:ISelectorDialog
+ * @mixes Controls/interface/ISelectorDialog
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/interface:IMultiSelectable
  * @mixes Controls/interface:ISource

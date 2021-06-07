@@ -7,9 +7,9 @@
  * @see Controls/interface/IGroupedList#groupTemplate
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html; highlight: [3-16]">
+ * <pre class="brush: html">
  * <!-- WML -->
- * <Controls.list:View source="{{_viewSource}}">
+ * <Controls.list:View>
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/list:GroupTemplate"
  *          separatorVisibility="{{ false }}"

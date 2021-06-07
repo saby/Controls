@@ -1,7 +1,7 @@
 import { CrudEntityKey } from 'Types/source';
 import { Model } from 'Types/entity';
 import { IDragPosition } from 'Controls/display';
-import { IOffset } from '../_scroll/StickyBlock/Utils';
+import { IOffset } from '../_scroll/StickyHeader/Utils';
 
 /**
  * Тип позиции, которая указывает куда вставляется элемент относительно элемента, на который навели

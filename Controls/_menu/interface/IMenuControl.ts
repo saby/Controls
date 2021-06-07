@@ -24,12 +24,12 @@ export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions, I
     selectorOpener?: Stack;
     itemActions?: IItemAction[];
     itemActionVisibilityCallback?: TItemActionVisibilityCallback;
-    dataLoadCallback?: Function;
-    dataLoadErrback?: Function;
-    selectorDialogResult?: Function;
+    dataLoadCallback: Function;
+    dataLoadErrback: Function;
+    selectorDialogResult: Function;
     sourceController?: NewSourceController;
     calmTimer?: CalmTimer;
-    historyRoot?: string;
+    historyRoot: string;
 }
 
 /**
@@ -137,6 +137,6 @@ export default interface IMenuControl {
 /**
  * @name Controls/_menu/interface/IMenuControl#additionalProperty
  * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню.
- * Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/input-elements/dropdown-menu/item-config/#additional">здесь</a>.
+ * Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/item-config/#additional">здесь</a>.
  * @demo Controls-demo/dropdown_new/Button/AdditionalProperty/Index
  */

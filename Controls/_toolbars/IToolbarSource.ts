@@ -36,7 +36,6 @@ export default interface IToolbarSource {
  * @variant right Текст расположен после иконки.
  */
 export interface IToolBarItem {
-    [key: string]: unknown;
     readonly?: boolean;
     caption?: string;
     contrastBackground?: boolean;

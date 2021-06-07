@@ -6,28 +6,25 @@ import {TemplateFunction} from 'UI/Base';
  * @author Михайлов С.Е
  * @see Controls/tile:View
  * @example
- * <pre class="brush: html; highlight: [3-9]">
+ * <pre class="brush: html">
  * <!-- WML -->
- * <Controls.tile:View source="{{_viewSource}}" imageProperty="image">
+ * <Controls.tile:View>
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/tile:PreviewTemplate"
- *          titleStyle="dark"
- *          gradientType="light"
- *          titleLines="2">
+ *                   titleStyle="dark"
+ *                   gradientType="light"
+ *                   titleLines="2">
  *       </ws:partial>
  *    </ws:itemTemplate>
  * </Controls.tile:View>
  * </pre>
  * @public
- * @remark
- * Подробнее о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/tile/item/preview/ здесь}.
  * @demo Controls-demo/tileNew/DifferentItemTemplates/PreviewTemplate/Index
  */
 
 export default interface IPreviewTemplateOptions {
     /**
      * @cfg {Number} Количество строк в заголовке.
-     * @see titleStyle
      */
     titleLines?: number;
     /**
@@ -39,7 +36,7 @@ export default interface IPreviewTemplateOptions {
     /**
      * @cfg {TitleStyle} Стиль отображения заголовка плитки.
      * @default light
-     * @see titleLines
+     * @see gradientType
      */
     titleStyle?: 'light' | 'dark';
     /**
@@ -62,22 +59,22 @@ export default interface IPreviewTemplateOptions {
      */
     gradientColor?: string;
     /**
-     * @cfg {TemplateFunction|String} Шаблон справа от заголовка плитки.
+     * @cfg {TemplateFunction} Шаблон справа от заголовка плитки.
      * @default undefined
      * @see gradientType
      */
     bottomRightTemplate: TemplateFunction;
     /**
-     * @cfg {TemplateFunction|String} Шаблон подвала элемента.
+     * @cfg {TemplateFunction} Шаблон подвала элемента.
      * @default undefined
-     * @see topTemplate
+     * @see gradientType
      */
     footerTemplate: TemplateFunction;
 
     /**
-     * @cfg {TemplateFunction|String} Шаблон шапки элемента.
+     * @cfg {TemplateFunction} Шаблон шапки элемента.
      * @default undefined
-     * @see footerTemplate
+     * @see gradientType
      */
     topTemplate: TemplateFunction;
 }

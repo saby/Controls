@@ -17,6 +17,8 @@ export default class extends Control {
             data: Gadgets.getSearchData()
         });
     }
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = [
         'Controls-demo/Controls-demo'
     ];

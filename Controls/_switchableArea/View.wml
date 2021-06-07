@@ -4,7 +4,6 @@
             <ws:partial template="{{ _options.itemTemplate }}"
                         currentItemKey="{{ item.key}}"
                         attr:class="{{ _selectedKey!== item.key ? 'ws-hidden' }}"
-                        attr:key="{{ item.key }}"
                         key="{{ item.key }}"
                         autofocus="{{ item.autofocus }}"
                         itemTemplate="{{ item.itemTemplate }}"

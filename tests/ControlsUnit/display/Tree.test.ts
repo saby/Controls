@@ -1739,7 +1739,7 @@ describe('Controls/_display/Tree', () => {
             assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
         });
 
-        xit('setExpandedItems collapse childs', () => {
+        it('setExpandedItems collapse childs', () => {
             rsTree.setExpandedItems([1]);
             rsTree.getItemBySourceKey(11).setExpanded(true);
             assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
@@ -2559,6 +2559,10 @@ describe('Controls/_display/Tree', () => {
             assert.isFalse(hasNodeFooter);
             const node = tree.getItemBySourceKey(1);
             assert.isNotOk(node.getNodeFooter()); // проверяем что ссылка на футер занулилась
+        });
+
+        it('', () => {
+
         });
     });
 });

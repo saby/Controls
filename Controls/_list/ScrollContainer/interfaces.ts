@@ -33,9 +33,8 @@ export interface IContainerHeights {
     viewport: number;
     // Высота контейнера
     scroll: number;
-    // Отступы триггеров
-    topTrigger: number;
-    bottomTrigger: number;
+    // Высота триггера
+    trigger: number;
 }
 
 export interface IItemsHeights {

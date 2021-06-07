@@ -21,7 +21,6 @@ import 'css!Controls/dropdown';
 import 'css!Controls/CommonClasses';
 
 interface IInputOptions extends IBaseDropdownOptions {
-   maxVisibleItems?: number;
    fontColorStyle?: string;
    fontSize?: string;
    showHeader?: boolean;
@@ -39,7 +38,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  *
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2Fdropdown_new%2FInput%2FIndex демо-пример}
- * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/dropdown-menu/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdown.less переменные тем оформления dropdown}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdownPopup.less переменные тем оформления dropdownPopup}
  *
@@ -52,7 +51,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IMultiSelectable
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/interface:ISelectorDialog
+ * @mixes Controls/interface/ISelectorDialog
  * @mixes Controls/interface:IIconSize
  * @mixes Controls/interface:ITextValue
  * @mixes Controls/interface:IFontSize
@@ -79,7 +78,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @mixes Controls/interface:IMultiSelectable
  * @mixes Controls/dropdown:IFooterTemplate
  * @mixes Controls/dropdown:IHeaderTemplate
- * @mixes Controls/interface:ISelectorDialog
+ * @mixes Controls/interface/ISelectorDialog
  * @mixes Controls/dropdown:IGrouped
  * @mixes Controls/interface:ITextValue
  * 
@@ -153,7 +152,7 @@ export default class Selector extends BaseDropdown {
    }
 
    _selectedItemsChangedHandler(items: Model[], newSelectedKeys: TKey[]): void|unknown {
-      const text = this._getText(items, this._options) + this._getMoreText(items, this._options.maxVisibleItems);
+      const text = this._getText(items[0], this._options) + this._getMoreText(items);
       this._notify('textValueChanged', [text]);
 
       if (!isEqual(this._options.selectedKeys, newSelectedKeys) || this._options.task1178744737) {
@@ -180,9 +179,9 @@ export default class Selector extends BaseDropdown {
          this._isEmptyItem = isEmptyItem(this._item, options.emptyText,
              options.keyProperty, options.emptyKey);
          this._icon = this._isEmptyItem ? null : getPropValue(this._item, 'icon');
-         this._text = this._getText(items, options);
-         this._hasMoreText = this._getMoreText(items, options.maxVisibleItems);
-         this._tooltip = this._getFullText(items, options.displayProperty);
+         this._text = this._getText(items[0], options);
+         this._hasMoreText = this._getMoreText(items);
+         this._tooltip = this._getTooltip(items, options.displayProperty);
       }
    }
 
@@ -267,34 +266,29 @@ export default class Selector extends BaseDropdown {
       return keys;
    }
 
-   private _getFullText(items: Model[], displayProperty: string, maxVisibleItems?: number): string {
-      const texts = [];
+   private _getTooltip(items: Model[], displayProperty: string): string {
+      const tooltips = [];
       factory(items).each((item) => {
-         if (!maxVisibleItems || texts.length < maxVisibleItems) {
-            texts.push(getPropValue(item, displayProperty));
-         }
+         tooltips.push(getPropValue(item, displayProperty));
       });
-      return texts.join(', ');
+      return tooltips.join(', ');
    }
 
-   private _getText(items: Model[],
-                    {emptyText, emptyKey, keyProperty, displayProperty, maxVisibleItems}: Partial<IInputOptions>): string {
-      const item = items[0];
+   private _getText(item: Model,
+                    {emptyText, emptyKey, keyProperty, displayProperty}: Partial<IInputOptions>): string {
       let text = '';
       if (isEmptyItem(item, emptyText, keyProperty, emptyKey)) {
          text = prepareEmpty(emptyText);
       } else {
-         text = this._getFullText(items, displayProperty, maxVisibleItems);
+         text = getPropValue(item, displayProperty);
       }
       return text;
    }
 
-   private _getMoreText(items: Model[], maxVisibleItems): string {
+   private _getMoreText(items: Model[]): string {
       let moreText = '';
-      if (maxVisibleItems) {
-         if (items.length > maxVisibleItems) {
-            moreText = ', ' + rk('еще') + ' ' + (items.length - maxVisibleItems);
-         }
+      if (items.length > 1) {
+         moreText = ', ' + rk('еще') + ' ' + (items.length - 1);
       }
       return moreText;
    }
@@ -303,49 +297,13 @@ export default class Selector extends BaseDropdown {
       this.closeMenu();
    }
 
-   static getDefaultOptions(): Partial<IInputOptions> {
+   static getDefaultOptions(): Partial<IBaseDropdownOptions> {
       return {
          iconSize: 's',
-         emptyKey: null,
-         maxVisibleItems: 1
+         emptyKey: null
       };
    }
 }
-/**
- * @name Controls/_dropdown/Selector#maxVisibleItems
- * @cfg {Number} Максимальное количество выбранных записей, которые будут отображены.
- * @default 1
- * @demo Controls-demo/dropdown_new/Input/MaxVisibleItems/Index
- * @example
- * Отображение всех выбранных записей.
- * <pre class="brush: html">
- * <!-- WML -->
- * <Controls.dropdown:Selector
- *    bind:selectedKeys="_selectedKeys"
- *    keyProperty="key"
- *    displayProperty="title"
- *    source="{{_source)}}"
- *    multiSelect="{{true}}"
- *    maxVisibleItems="{{null}}">
- * </Controls.dropdown:Selector>
- * </pre>
- * <pre class="brush: js">
- * // JavaScript
- * this._source = new Memory({
- *    keyProperty: 'key',
- *    data: [
- *        {key: 1, title: 'Ярославль'},
- *        {key: 2, title: 'Москва'},
- *        {key: 3, title: 'Санкт-Петербург'},
- *        {key: 4, title: 'Новосибирск'},
- *        {key: 5, title: 'Нижний новгород'},
- *        {key: 6, title: 'Кострома'},
- *        {key: 7, title: 'Рыбинск'}
- *    ]
- * });
- * </pre>
- */
-
 /**
  * @name Controls/_dropdown/Selector#contentTemplate
  * @cfg {Function} Шаблон, который будет отображать вызываемый элемент.

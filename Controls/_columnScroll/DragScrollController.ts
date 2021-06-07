@@ -61,10 +61,6 @@ export default class DragScroll {
         this._scrollPosition = newScrollPosition;
     }
 
-    setScrollLength(newScrollLength: number): void {
-        this._scrollLength = newScrollLength;
-    }
-
     updateScrollData(params: {
         scrollLength: number;
         scrollPosition: number;
@@ -74,11 +70,7 @@ export default class DragScroll {
     }
 
     isScrolled(): boolean {
-        return this._isMouseDown && this._maxMouseMoveDistance.x > 0;
-    }
-
-    isStarted(): boolean {
-        return this._isMouseDown;
+        return this._isMouseDown && this._maxMouseMoveDistance.x > 0
     }
 
     /**

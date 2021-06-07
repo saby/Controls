@@ -11,6 +11,7 @@ const baseStackConfig = {
 
 class RestrictiveContainer extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Popup/Dialog/RestrictiveContainer/Index', 'Controls-demo/Controls-demo'];
     private _dialogOpener: DialogOpener;
 

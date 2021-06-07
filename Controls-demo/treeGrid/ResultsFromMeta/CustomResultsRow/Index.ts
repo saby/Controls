@@ -1,16 +1,16 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGrid/ResultsFromMeta/CustomResultsRow/CustomResultsRow';
-import {HierarchicalMemory} from 'Types/source';
+import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import {Model} from 'Types/entity';
 import { IColumn } from 'Controls/grid';
-import { IHeaderCell } from 'Controls/grid';
+import { IHeader } from 'Controls-demo/types';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: HierarchicalMemory;
-    protected _header: IHeaderCell[] = Gadgets.getHeaderForFlat();
+    protected _viewSource: Memory;
+    protected _header: IHeader[] = Gadgets.getHeaderForFlat();
     protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat();
     private _fullResultsIndex: number = 0;
     private _partialResultsIndex: number = 0;
@@ -21,9 +21,8 @@ export default class extends Control {
     }
 
     protected _beforeMount(): void {
-        this._viewSource = new HierarchicalMemory({
+        this._viewSource = new Memory({
             keyProperty: 'id',
-            parentProperty: 'parent',
             data: Gadgets.getFlatData()
         });
     }

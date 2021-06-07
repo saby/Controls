@@ -25,15 +25,15 @@ var _private = {
      * @param compatibility
      * @return {string}
      */
-    calcStyleHideScrollbar: function (scrollbarWidth, scrollOrientation) {
+    calcStyleHideScrollbar: function (scrollbarWidth, scrollMode) {
         var style;
 
         if (scrollbarWidth) {
-            const scrollOrientationValue = scrollOrientation.toLowerCase();
-            if (scrollOrientationValue.indexOf('vertical') !== -1) {
+            const scrollModeValue = scrollMode.toLowerCase();
+            if (scrollModeValue.indexOf('vertical') !== -1) {
                 style =  `margin-right: -${scrollbarWidth}px;`;
             }
-            if (scrollOrientationValue.indexOf('horizontal') !== -1) {
+            if (scrollModeValue.indexOf('horizontal') !== -1) {
                 style += `margin-bottom: -${scrollbarWidth}px;`;
             }
         } else if (scrollbarWidth === 0) {
@@ -47,21 +47,21 @@ var _private = {
 export = {
     _private: _private,
 
-    calcStyleHideScrollbar: function (scrollOrientation) {
+    calcStyleHideScrollbar: function (scrollMode) {
         var scrollbarWidth, styleHideScrollbar;
 
-        if (typeof _private.styleHideScrollbar[scrollOrientation] === 'string') {
-            styleHideScrollbar = _private.styleHideScrollbar[scrollOrientation];
+        if (typeof _private.styleHideScrollbar[scrollMode] === 'string') {
+            styleHideScrollbar = _private.styleHideScrollbar[scrollMode];
         } else {
             scrollbarWidth = _private.calcScrollbarWidth(detection);
-            styleHideScrollbar = _private.calcStyleHideScrollbar(scrollbarWidth, scrollOrientation);
+            styleHideScrollbar = _private.calcStyleHideScrollbar(scrollbarWidth, scrollMode);
         }
 
         /**
          * Do not cache on the server and firefox.
          */
         if (!(!constants.isBrowserPlatform || detection.firefox)) {
-            _private.styleHideScrollbar[scrollOrientation] = styleHideScrollbar;
+            _private.styleHideScrollbar[scrollMode] = styleHideScrollbar;
         }
 
         return styleHideScrollbar;

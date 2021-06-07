@@ -248,7 +248,7 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
         assert.isTrue(initialLastItem.isLastItem());
 
         newItem.setEditing(true, item, false);
-        collection.setAddingItem(newItem, {position: 'bottom'});
+        collection.setAddingItem(newItem);
 
         assert.isFalse(collection.getItemBySourceKey(2).isLastItem());
         assert.isTrue(newItem.isLastItem());

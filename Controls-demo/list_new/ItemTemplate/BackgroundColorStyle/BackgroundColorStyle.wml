@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <Controls.list:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}">
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate"

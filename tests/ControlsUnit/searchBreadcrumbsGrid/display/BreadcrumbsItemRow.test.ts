@@ -91,7 +91,7 @@ describe('Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemRow', () => {
    describe('isGroupNode', () => {
       it('can not be group node', () => {
          const item = searchGridCollection.at(0);
-         assert.notExists(item.GroupNodeItem);
+         assert.isFalse(item.isGroupNode());
       });
    });
 });

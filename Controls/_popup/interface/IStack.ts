@@ -9,7 +9,7 @@ export interface IStackPopupOptions extends IBasePopupOptions {
 }
 
 /**
- * Интерфейс для опций {@link /doc/platform/developmentapl/interface-development/controls/openers/stack/ стековых окон}.
+ * Интерфейс для опций стековых окон.
  * @public
  * @author Красильников А.С.
  */
@@ -18,15 +18,14 @@ export interface IStackOpener extends IOpener {
 }
 
 /**
- * Метод открытия {@link /doc/platform/developmentapl/interface-development/controls/openers/stack/ стекового окна}.
- * @function Controls/_popup/interface/IStackOpener#open
- * @param {Controls/_popup/interface/IStackOpener/PopupOptions.typedef} popupOptions Конфигурация стекового окна.
- * @remark
- * Если требуется открыть окно, без создания {@link Controls/popup:Stack} в верстке, следует использовать статический метод {@link openPopup}.
+ * Метод открытия стековой панели.
  * Повторный вызов этого метода вызовет переририсовку контрола.
- * @return Promise<void>
+ * @function Controls/_popup/interface/IStackOpener#open
+ * @param {Controls/_popup/interface/IStackOpener/PopupOptions.typedef} popupOptions Конфигурация стековой панели.
+ * @remark
+ * Если требуется открыть окно, без создания popup:Stack в верстке, следует использовать статический метод {@link openPopup}.
  * @example
- * В этом примере показано, как открыть и закрыть стековое окно.
+ * В этом примере показано, как открыть и закрыть стековую панель.
  * <pre class="brush: html">
  * <!-- WML-->
  * <Controls.popup:Stack name="stack" template="Controls-demo/Popup/TestStack" modal="{{true}}">
@@ -46,25 +45,12 @@ export interface IStackOpener extends IOpener {
  *    }
  * }
  * </pre>
- * <pre class="brush: js">
- * // TypeScript
- * import {StackOpener} from 'Controls/popup';
- *
- * this._stack = new StackOpener();
- *
- * openStack() {
- *     this._stack.open({
- *         template: 'Example/MyStackTemplate',
- *         opener: this._children.myButton
- *     });
- * }
- * </pre>
  * @see close
  */
 
 /**
  * @name Controls/_popup/interface/IStackOpener#close
- * @description Метод закрытия стекового окна.
+ * @description Метод закрытия стековой панели.
  * @example
  * <pre class="brush: html">
  * <!-- WML -->
@@ -83,34 +69,23 @@ export interface IStackOpener extends IOpener {
  *    }
  * }
  * </pre>
- * 
- * <pre class="brush: js">
- * // TypeScript
- * import {StackOpener} from 'Controls/popup';
- *
- * this._stack = new StackOpener();
- *
- * closeStack() {
- *     this._stack.close();
- * }
- * </pre>
  * @see open
  */
 
 /**
  * @typedef {Object} Controls/_popup/interface/IStackOpener/PopupOptions
- * @description Конфигурация стекового окна.
- * @property {Boolean} [autofocus=true] Установится ли фокус на шаблон попапа после его открытия.
- * @property {Boolean} [modal=false] Будет ли открываемое окно блокировать работу пользователя с родительским приложением.
- * @property {String} className Имена классов, которые будут применены к корневой ноде стекового окна.
- * @property {Boolean} [closeOnOutsideClick=false] Определяет возможность закрытия стекового окна по клику вне.
- * @property {function|String} template Шаблон стекового окна.
+ * @description Конфигурация стековой панели.
+ * @property {Boolean} [autofocus=true] Определяет, установится ли фокус на шаблон попапа после его открытия.
+ * @property {Boolean} [modal=false] Определяет, будет ли открываемое окно блокировать работу пользователя с родительским приложением.
+ * @property {String} className Имена классов, которые будут применены к корневой ноде всплывающего окна.
+ * @property {Boolean} [closeOnOutsideClick=false] Определяет возможность закрытия всплывающего окна по клику вне.
+ * @property {function|String} template Шаблон всплывающего окна.
  * @property {function|String} templateOptions Опции для контрола, переданного в {@link template}.
- * @property {Number} minWidth Минимально допустимая ширина стекового окна. Значение указывается в px.
- * @property {Number} maxWidth Максимально допустимая ширина стекового окна. Значение указывается в px.
- * @property {Number} width Текущая ширина стекового окна. Значение указывается в px.
- * @property {Node} opener Логический инициатор открытия стекового окна (см. {@link /doc/platform/developmentapl/interface-development/ui-library/focus/activate-control/#control-opener Определение понятия "опенер контрола"}).
- * @property {Controls/_popup/interface/IBaseOpener/EventHandlers.typedef} eventHandlers Функции обратного вызова на события стекового окна.
+ * @property {Number} minWidth Минимально допустимая ширина всплывающего окна. Значение указывается в px.
+ * @property {Number} maxWidth Максимально допустимая ширина всплывающего окна. Значение указывается в px.
+ * @property {Number} width Текущая ширина всплывающего окна. Значение указывается в px.
+ * @property {Node} opener Логический инициатор открытия всплывающего окна. Читайте подробнее {@link /doc/platform/developmentapl/interface-development/ui-library/focus/index/#control-opener здесь}.
+ * @property {Controls/_popup/interface/IBaseOpener/EventHandlers.typedef} eventHandlers Функции обратного вызова на события стековой панели.
  */
 
 /*
@@ -131,7 +106,7 @@ export interface IStackOpener extends IOpener {
 
 /**
  * @name Controls/_popup/interface/IStackOpener#minWidth
- * @cfg {Number} Минимально допустимая ширина стекового окна.
+ * @cfg {Number} Минимально допустимая ширина стековой панели.
  * @remark
  * Значение может быть задано как на опциях Controls/popup:Stack, так и на дефолтных опциях шаблона {@link template}.
  * Приоритетнее то, которое задано на Controls/popup:Stack.
@@ -143,7 +118,7 @@ export interface IStackOpener extends IOpener {
 
 /**
  * @name Controls/_popup/interface/IStackOpener#width
- * @cfg {Number} Текущая ширина стекового окна.
+ * @cfg {Number} Текущая ширина стековой панели.
  * @remark
  * Значение может быть задано как на опциях Controls/popup:Stack, так и на дефолтных опциях шаблона {@link template}.
  * Приоритетнее то, которое задано на Controls/popup:Stack.
@@ -155,7 +130,7 @@ export interface IStackOpener extends IOpener {
 
     /**
  * @name Controls/_popup/interface/IStackOpener#maxWidth
- * @cfg {Number} Максимально допустимая ширина стекового окна.
+ * @cfg {Number} Максимально допустимая ширина стековой панели.
  * @remark
  * Значение может быть задано как на опциях Controls/popup:Stack, так и на дефолтных опциях шаблона {@link template}.
  * Приоритетнее то, которое задано на Controls/popup:Stack.
@@ -192,7 +167,6 @@ export interface IStackOpener extends IOpener {
  * </pre>
  * 
  * <pre class="brush: js">
- * // TypeScript
  * import {StackOpener} from 'Controls/popup';
  * _beforeMount(): void{
  *    this._stackOpener = new StackOpener();
@@ -209,33 +183,4 @@ export interface IStackOpener extends IOpener {
  * }
  * </pre>
  * @demo Controls-demo/Popup/Stack/RestrictiveContainer/Index
- */
-
-/**
- * Разрушает экземпляр класса
- * @name Controls/_popup/PopupHelper/Stack#destroy
- * @function
- * @example
- * <pre class="brush: js">
- * import {StackOpener} from 'Controls/popup';
- *
- * this._stack = new StackOpener();
- *
- * _beforeUnmount() {
- *     this._stack.destroy();
- *     this._stack = null;
- * }
- * </pre>
- * @see open
- * @see close
- * @see isOpened
- */
-
-/**
- * @name Controls/_popup/PopupHelper/Stack#isOpened
- * @description Возвращает информацию о том, открыто ли стековое окно.
- * @function
- * @see open
- * @see close
- * @see destroy
  */

@@ -58,13 +58,7 @@
         on:selectedPageChanged="__pagingChangePage()" />
 </ws:template>
 
-<!--
- Внутренний футер, содержащий:
-   * контрол для пейджинации
-   * кнопку "Ещё"
-   * cut-кнопку "(•••)"
--->
-<ws:template name="sysFooterTemplate">
+<ws:template name="footerTemplateIf">
     <div class="{{ _getFooterClasses(_options) }}">
         <ws:if data="{{_pagingNavigation && _pagingNavigationVisible}}">
             <div class="controls-BaseControl__footerPaging_wrapper">
@@ -79,12 +73,7 @@
             </div>
         </ws:if>
         <ws:if data="{{_shouldDrawFooter}}">
-            <ws:partial
-               template="wml!Controls/_list/BaseControl/Footer"
-               moreFontColorStyle="{{_options.moreFontColorStyle}}"
-               loadMoreCaption="{{_loadMoreCaption}}"
-               theme="{{_options.theme}}"
-            />
+            <ws:partial template="wml!Controls/_list/BaseControl/Footer" moreFontColorStyle="{{_options.moreFontColorStyle}}" loadMoreCaption="{{_loadMoreCaption}}" theme="{{_options.theme}}"/>
         </ws:if>
         <ws:if data="{{_shouldDrawCut}}">
             <ws:partial template="wml!Controls/_list/BaseControl/Cut" bind:expanded="_expanded" cutSize="{{_cutSize}}"/>
@@ -109,11 +98,10 @@
 </ws:template>
 
 <ws:template name="viewTpl">
-    <div class="controls-BaseControl__viewContainer" name="viewContainer">
+    <div class="controls-BaseControl__viewContainer controls-ScrollController" name="viewContainer">
         <ws:partial if="{{ _shouldDisplayMiddleLoadingIndicator() }}" template="loadingIndicator"/>
 
         <div name="topVirtualScrollTrigger" style="position: relative; top: 0;{{_hideTopTrigger ? ' display: none;'}}"></div>
-       <!-- render _viewName -->
         <ws:partial
                 attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
                 attr:style="{{_attachLoadTopTriggerToNull ? 'padding-top: ' + _attachedToNullLoadTopTriggerOffset + 'px;'}}"
@@ -159,7 +147,6 @@
                 on:saveScrollPosition="_stopBubblingEvent()"
                 on:restoreScrollPosition="_stopBubblingEvent()"
                 on:loadMore="_onClickMoreButton()"
-                on:toggleHorizontalScroll="_onToggleHorizontalScroll()"
         >
             <ws:itemActionsTemplate>
                 <ws:partial
@@ -175,8 +162,8 @@
             </ws:swipeTemplate>
             <ws:tagTemplate>
                 <ws:partial template="wml!Controls/Application/TagTemplate/TagTemplate"
-                            on:click="_onTagClickHandler(tagTemplate.item, tagTemplate.columnIndex)"
-                            on:mouseenter="_onTagHoverHandler(tagTemplate.item, tagTemplate.columnIndex)"/>
+                            on:click="_onTagClickHandler(tagTemplate.dispItem, tagTemplate.columnIndex)"
+                            on:mouseenter="_onTagHoverHandler(tagTemplate.dispItem, tagTemplate.columnIndex)"/>
             </ws:tagTemplate>
             <ws:viewTemplate>
                 <ws:partial template="{{_options.viewName}}"/>
@@ -189,7 +176,7 @@
             </ws:emptyTemplate>
         </ws:partial>
 
-        <ws:partial template="sysFooterTemplate"/>
+        <ws:partial template="footerTemplateIf"/>
 
         <div name="bottomVirtualScrollTrigger" style="position: relative; bottom: 0;"></div>
         <Controls._list.BaseControl.Scroll.Emitter on:emitListScroll="_observeScrollHandler()" name="scrollObserver"/>

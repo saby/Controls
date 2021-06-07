@@ -2,7 +2,7 @@
     <Controls.scroll:Container attr:class="controlsDemo__height300" shadowMode="js">
         <Controls.list:Mover name="listMover"/>
         <Controls.grid:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 ladderProperties="{{_ladderProperties}}"/>

@@ -20,8 +20,8 @@ define('Controls-demo/Index', [
    var ModuleClass = Base.Control.extend(
       {
          _template: template,
-         _beforeMount: function(options) {
-            this._links = this._prepareLinks(options);
+         _beforeMount: function() {
+            this._links = this._prepareLinks();
             this._title = this._getTitle();
             this._settigsController = {
                getSettings: function(ids) {
@@ -57,14 +57,9 @@ define('Controls-demo/Index', [
          },
          _afterMount: function() {
             window.localStorage.setItem('controlSettingsStorage', JSON.stringify({}));
-
-            // активация системы фокусов
-            if (!Env.detection.isMobilePlatform) {
-               this.activate();
-            }
          },
 
-         _prepareLinks: function(options) {
+         _prepareLinks: function() {
             var fontsArray = [
                Env.constants.tensorFont,
                Env.constants.tensorFontBold,
@@ -78,11 +73,6 @@ define('Controls-demo/Index', [
                   type: 'font/woff2', crossorigin: 'anonymous'
                });
             }
-            links.push({
-               rel: 'shortcut icon',
-               href: options.resourceRoot + 'Controls-demo/wasaby.ico?v=1',
-               type: 'image/x-icon'
-            });
             return links;
          },
 

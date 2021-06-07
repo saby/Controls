@@ -4,7 +4,7 @@
         <ws:content>
             <Controls.scroll:Container attr:class="controlsDemo__maxWidth500" attr:style="max-height: 250px">
                 <Controls.list:View source="{{_viewSource}}"
-                                    keyProperty="key"
+                                    keyProperty="id"
                                     navigation="{{_options.navigation}}">
                     <ws:virtualScrollConfig pageSize="{{20}}"/>
                 </Controls.list:View>

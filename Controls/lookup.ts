@@ -33,7 +33,6 @@ export {default as Collection} from "Controls/_lookup/SelectedCollection";
 export {default as Link} from 'Controls/_lookup/Lookup/Link';
 export {default as PlaceholderChooser} from 'Controls/_lookup/PlaceholderChooser';
 export {default as Opener} from 'Controls/_lookup/Opener';
-export {default as MultipleInputNew, IMultipleInputNewOptions} from 'Controls/_lookup/MultipleInputNew';
 
 export {ILookupOptions} from 'Controls/_lookup/Lookup';
 export {ISelectorButtonOptions as ISelectorOptions} from 'Controls/_lookup/Button';

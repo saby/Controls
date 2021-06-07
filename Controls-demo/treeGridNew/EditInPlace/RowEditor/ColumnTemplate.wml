@@ -1,5 +1,0 @@
-<ws:partial template="Controls/grid:ColumnTemplate" scope="{{_options}}">
-    <div style="padding-bottom: 30px">
-        Расширенный шаблон редактирования
-    </div>
-</ws:partial>

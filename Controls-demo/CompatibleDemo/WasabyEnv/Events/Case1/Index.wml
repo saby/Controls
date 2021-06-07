@@ -1,0 +1,8 @@
+<div class="wasabyEnv">
+    <div>
+        WasabyEnv
+    </div>
+    <Controls.buttons:Button on:mouseDown="_mouseDownHandler()" caption="Click count: {{clickCount}}" attr:class="controlsDemo-CompatibleDemo__click-count"/>
+    <Core.CompoundContainer component="Controls-demo/CompatibleDemo/WasabyEnv/Events/Case1/WS3Control">
+    </Core.CompoundContainer>
+</div>

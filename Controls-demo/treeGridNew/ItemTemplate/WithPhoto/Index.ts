@@ -1,29 +1,28 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/ItemTemplate/WithPhoto/WithPhoto';
 import {Memory} from 'Types/source';
+import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
-import {WithPhoto} from "Controls-demo/treeGridNew/DemoHelpers/Data/WithPhoto";
-import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
    protected _viewSource: Memory;
    protected _viewSourceTwo: Memory;
-   protected _columns: IColumn[] = WithPhoto.getGridColumnsWithPhoto();
-   protected _twoLvlColumns: IColumn[] = WithPhoto.getGridTwoLevelColumnsWithPhoto();
-   protected _twoLvlColumnsNoPhoto: IColumn[] = WithPhoto.getGridTwoLevelColumnsWithPhoto().map((cur) => ({
+   protected _columns: IColumn[] = Gadgets.getGridColumnsWithPhoto();
+   protected _twoLvlColumns: IColumn[] = Gadgets.getGridTwoLevelColumnsWithPhoto();
+   protected _twoLvlColumnsNoPhoto: IColumn[] = Gadgets.getGridTwoLevelColumnsWithPhoto().map((cur) => ({
       ...cur, template: undefined
    }));
 
    protected _beforeMount(): void {
       this._viewSource = new Memory({
-         keyProperty: 'key',
-         data: Flat.getData()
+         keyProperty: 'id',
+         data: Gadgets.getFlatData()
       });
 
       this._viewSourceTwo = new Memory({
-         keyProperty: 'key',
-         data: WithPhoto.getDataTwoLvl()
+         keyProperty: 'id',
+         data: Gadgets.getDataTwoLvl()
       });
 
    }

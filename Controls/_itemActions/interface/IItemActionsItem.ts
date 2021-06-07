@@ -20,7 +20,7 @@ export interface IItemActionsItem extends ICollectionItem {
 
     /**
      * Получить опции записи
-     * @function
+     * @method
      * @public
      * @return {Controls/_itemActions/interface/IItemActionsObject} Опции записи
      */
@@ -30,14 +30,14 @@ export interface IItemActionsItem extends ICollectionItem {
      * Установить опции записи
      * @param {Controls/_itemActions/interface/IItemActionsObject} actions Опции записи
      * @param {boolean} [silent=false] Не генерировать событие onCurrentChange
-     * @function
+     * @method
      * @public
      */
     setActions(actions: IItemActionsObject, silent?: boolean): void;
 
     /**
      * Получить состояние активности текущего элемента
-     * @function
+     * @method
      * @public
      * @return {Boolean} Состояние активности текущего элемента
      */
@@ -47,14 +47,14 @@ export interface IItemActionsItem extends ICollectionItem {
      * Установить состояние активности текущего элемента
      * @param {Boolean} active Состояние активности текущего элемента
      * @param {Boolean} silent Не генерировать событие onCurrentChange
-     * @function
+     * @method
      * @public
      */
     setActive(active: boolean, silent?: boolean): void;
 
     /**
      * Получить состояние свайпа текущего элемента
-     * @function
+     * @method
      * @public
      * @return {Boolean} Состояние свайпа текущего элемента
      */
@@ -64,14 +64,14 @@ export interface IItemActionsItem extends ICollectionItem {
      * Установить состояние свайпа текущего элемента
      * @param {Boolean} swiped Состояние свайпа текущего элемента
      * @param {Boolean} silent Не генерировать событие onCurrentChange
-     * @function
+     * @method
      * @public
      */
     setSwiped(swiped: boolean, silent?: boolean): void;
 
     /**
      * Получить состояние редактирования текущего элемента
-     * @function
+     * @method
      * @public
      * @return {Boolean} Состояние редактирования текущего элемента
      */
@@ -80,14 +80,14 @@ export interface IItemActionsItem extends ICollectionItem {
     /**
      * Установить в модель текущее состояние анимации
      * @param {Controls/display:ANIMATION_STATE} state Текущее состояние анимации
-     * @function
+     * @method
      * @public
      */
     setSwipeAnimation?(state: ANIMATION_STATE): void;
 
     /**
      * Получить текущее состояние анимации
-     * @function
+     * @method
      * @public
      * @return {Controls/display:ANIMATION_STATE} Текущее состояние анимации
      */

@@ -3,6 +3,7 @@ import template = require('wml!Controls-demo/LoadingIndicator/isGlobal/IsGlobal'
 
 class IsGlobal extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
+    static _theme: string[] = ['Controls/Classes'];
     private _firstId = null;
 
     protected _firstOpen(): void {

@@ -1,0 +1,58 @@
+.compatibleDemo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 16px 0 16px;
+  width: fit-content;
+  max-width: 1024px;
+  &__column{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin: 0;
+    width: fit-content;
+    flex-grow: 1;
+    max-width: 1024px;
+  }
+  &__row {
+    display: flex;
+    flex-direction: row;
+    margin: 4px;
+    align-items: baseline;
+    &__fill{
+      flex-grow: 1;
+      margin-right: 0.5rem;
+    }
+  }
+  &__navigationButton{
+    margin: 8px 0;
+    max-width: 200px;
+  }
+  &__rowLimited{
+    display: flex;
+    margin: 0;
+    flex-direction: row;
+  }
+  &__buttonContainer{
+    display: flex;
+    align-items: center;
+  }
+  &__icon{
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 1px solid #808080;
+      &__pendding{
+        background: #D94700;
+        animation: blinker 2s linear infinite;
+      }
+      &__resolved{
+        background: #069922;
+      }
+    }
+}
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

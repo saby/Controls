@@ -1,5 +1,5 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import { PrefetchLinksStore } from 'UICommon/Deps';
+import { PrefetchLinksStore } from 'UI/Deps';
 import { AppData } from 'UI/State';
 import * as template from 'wml!Controls/Application/Page';
 import {Body as PageBody, Head as PageHead} from 'Application/Page';
@@ -17,6 +17,7 @@ import {setController as setSettingsController, IPopupSettingsController} from
        'Controls/Application/SettingsController';
 import {ManagerClass as PopupManager, GlobalController as PopupGlobalController, IPopupItem} from
        'Controls/popup';
+import {TouchContextField} from 'Controls/context';
 import {RegisterClass} from 'Controls/event';
 import {ControllerClass as DnDController} from 'Controls/dragnDrop';
 import { getConfig } from 'Application/Env';
@@ -135,6 +136,7 @@ export default class Application extends Control<IApplication> {
    private _isPopupShow: boolean;
    private _isSuggestShow: boolean;
    private _touchController: TouchDetect;
+   private _touchObjectContext: TouchContextField;
 
    // start hooks
    protected _beforeMount(options: IApplication): void {
@@ -192,7 +194,7 @@ export default class Application extends Control<IApplication> {
       channelPopupManager.subscribe('managerPopupBeforeDestroyed', this._popupBeforeDestroyedHandler, this);
 
       this._globalPopup.registerGlobalPopup();
-      this._popupManager.init();
+      this._popupManager.init(this._getChildContext());
 
    }
    protected _beforeUpdate(options: IApplication): void {
@@ -213,7 +215,7 @@ export default class Application extends Control<IApplication> {
          }
          elements[0].textContent = this._options.title;
       }
-      this._popupManager.updateOptions(this._options.popupHeaderTheme);
+      this._popupManager.updateOptions(this._options.popupHeaderTheme, this._getChildContext());
    }
    protected _beforeUnmount(): void {
       for (const register in this._registers) {
@@ -360,7 +362,18 @@ export default class Application extends Control<IApplication> {
    }
    private _initIsAdaptiveClass(cfg: IApplication): void {// TODO: toso
       if (cfg.isAdaptive) {
-         PageHead.getInstance().createTag('meta', {
+         let HeadAPI = PageHead.getInstance();
+         let tagsId = HeadAPI.getTag('meta', { name: 'viewport' });
+         if (tagsId) {
+            if (tagsId instanceof Array) {
+               tagsId.forEach(function(tagId) {
+                  HeadAPI.deleteTag(tagId);
+               });
+            } else {
+               HeadAPI.deleteTag(tagsId);
+            }
+         }
+         HeadAPI.createTag('meta', {
             name: 'viewport',
             content: 'width=device-width, initial-scale=1.0, user-scalable=no'
          });
@@ -492,6 +505,7 @@ export default class Application extends Control<IApplication> {
    }
    private _createTouchDetector(): void {
       this._touchController = TouchDetect.getInstance();
+      this._touchObjectContext = new TouchContextField.create();
    }
    // end create helpers
 
@@ -577,6 +591,12 @@ export default class Application extends Control<IApplication> {
 
    private _isHover(): boolean {
       return !this._bodyClassesState.touch && !this._bodyClassesState.drag;
+   }
+
+   private _getChildContext(): object {
+      return {
+         isTouch: this._touchObjectContext
+      };
    }
 
    private static _isIOS13(): boolean {

@@ -1,0 +1,3 @@
+<div>
+    <Controls.buttons:Button caption="button" on:click="handler()"/>
+</div>

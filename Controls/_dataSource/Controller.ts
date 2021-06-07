@@ -14,8 +14,7 @@ import {
     ISortingOptions,
     ISourceOptions,
     TKey,
-    TNavigationPagingMode,
-    ISelectFieldsOptions
+    TNavigationPagingMode
 } from 'Controls/interface';
 import {RecordSet} from 'Types/collection';
 import {
@@ -32,12 +31,14 @@ import {default as groupUtil} from './GroupUtil';
 import {nodeHistoryUtil} from './nodeHistoryUtil';
 import {isEqual} from 'Types/object';
 import {mixin} from 'Types/util';
+// @ts-ignore
 import * as cInstance from 'Core/core-instance';
 import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {fetch, HTTPStatus} from 'Browser/Transport';
 import {default as calculatePath, Path} from 'Controls/_dataSource/calculatePath';
 import * as randomId from 'Core/helpers/Number/randomId';
+import TreeControl from "Controls/_tree/TreeControl";
 
 export interface IControllerState {
     keyProperty: string;
@@ -68,8 +69,7 @@ export interface IControllerOptions extends
     IGroupingOptions,
     ISourceOptions,
     IPromiseSelectableOptions,
-    INavigationOptions<INavigationSourceConfig>,
-    ISelectFieldsOptions{
+    INavigationOptions<INavigationSourceConfig> {
     dataLoadErrback?: Function;
     dataLoadCallback?: Function;
     root?: TKey;
@@ -115,8 +115,7 @@ function getModelModuleName(model: string|Function): string {
 function isEqualFormat(oldList: RecordSet, newList: RecordSet): boolean {
     const oldListFormat = oldList && oldList['[Types/_entity/FormattableMixin]'] && oldList.getFormat(true);
     const newListFormat = newList && newList['[Types/_entity/FormattableMixin]'] && newList.getFormat(true);
-    const isListsEmpty = !newList.getCount() || !oldList.getCount();
-    return (oldListFormat && newListFormat && oldListFormat.isEqual(newListFormat) || isListsEmpty) ||
+    return (oldListFormat && newListFormat && oldListFormat.isEqual(newListFormat) || !newList.getCount() || !oldList.getCount()) ||
            (!oldListFormat && !newListFormat);
 }
 
@@ -138,71 +137,6 @@ export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
         (getProtoOf(newList.getAdapter()).constructor == getProtoOf(oldList.getAdapter()).constructor) &&
         isEqualFormat(oldList, newList);
 }
-
-const OPTIONS_FOR_UPDATE_AFTER_LOAD = [
-    'groupProperty',
-    'sorting',
-    'navigation',
-    'nodeProperty',
-    'nodeTypeProperty',
-    'dataLoadCallback'
-];
-
-/**
- * @typedef {Object} SourceConfig
- * @description Конфигурация навигации ({@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#cursor по курсору} или {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#page постраничная}).
- * Также, в конфигурации можно передать опцию multiNavigation, если метод БЛ поддерживает работу с {@link /doc/platform/developmentapl/interface-development/controls/list/tree/node/managing-node-expand/#multi-navigation множественной навигацией}.
- */
-
-
-/**
- * Класс-загрузчик данных
- * Поддерживает работу с навигацией и фильтрацией
- * Подготавливает параметры для запроса
- * @class Controls/_dataSource/Controller
- * @mixes Controls/interface:INavigation
- * @mixes Controls/interface:IHierarchy
- * @mixes Controls/interface:ISource
- * @mixes Controls/interface:ISelectFields
- * @example
- * <pre class="brush: js>
- *      import {NewSourceController} from 'Controls/dataSource';
- *      import {Memory} from 'Types/source';
- *
- *     _beforeMount() {
- *         const source = new Memory({
- *             rawData: [
- *                 {
- *                     id: 0,
- *                     cityName: 'Yaroslavl'
- *                 },
- *                 {
- *                     id: 1,
- *                     cityName: 'Moscow'
- *                 },
- *                 {
- *                     id: 2,
- *                     cityName: 'St. Petersburg'
- *                 }
- *             ],
- *             keyProperty: 'id'
- *         });
- *         const sourceController = new NewSourceController({
- *             source: source,
- *             filter: {
- *                 cityName: 'Yaroslavl'
- *             },
- *             keyProperty: 'id';
- *         })
- *
- *         sourceController.reload().then((items) => {
- *             ...
- *         });
- *     }
- * </pre>
- * @public
- * @author Герасимов А.М.
- */
 
 export default class Controller extends mixin<ObservableMixin>(ObservableMixin) {
     private _options: IControllerOptions;
@@ -273,9 +207,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         if (cfg.expandedItems !== undefined) {
             this.setExpandedItems(cfg.expandedItems);
         }
-        if (cfg.groupHistoryId) {
-            this._restoreCollapsedGroups(cfg.groupHistoryId, cfg.collapsedGroups);
-        }
         this.setParentProperty(cfg.parentProperty);
 
         if (cfg.items) {
@@ -283,13 +214,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         }
     }
 
-    /**
-     * Выполняет загрузку из источника данных
-     * @param {string} direction Направление загрузки данных, поддерживаются значения: up, down
-     * @param {string|number|null} key Корень, для которого необходимо выполнить загрузку данных
-     * @param {object} filter Фильтр, с которым будет выполнена загрузка данных
-     * @return {Types/collection:RecordSet}
-     */
     load(direction?: Direction,
          key: TKey = this._root,
          filter?: QueryWhereExpression<unknown>
@@ -301,13 +225,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         });
     }
 
-    /**
-     * Перезагружает данные из источника данных
-     * @param {SourceConfig} sourceConfig Конфигурация навигации источника данных (например, размер и номер страницы для постраничной навигации),
-     * которую можно передать при вызове reload, чтобы перезагрузка произошла с этими параметрами. По умолчанию перезагрузка происходит с параметрами, переданными в опции {@link Controls/interface:INavigation#navigation navigation}.
-     * @param {Boolean} isFirstLoad Флаг первичной загрузки.
-     * @return {Types/collection:RecordSet}
-     */
     reload(sourceConfig?: INavigationSourceConfig, isFirstLoad?: boolean): LoadResult {
         this._deepReload = true;
 
@@ -321,36 +238,18 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         });
     }
 
-    /**
-     * Читает запись из источника данных
-     * @param {string|number} key Первичный ключ записи
-     * @param {object} meta Дополнительные мета данные
-     */
     read(key: TKey, meta?: object): Promise<EntityRecord> {
         return (this._options.source as ICrud).read(key, meta);
     }
 
-    /**
-     * Обновляет запись в источнике данных
-     * @param {Types/entity:Record} item Обновляемая запись или рекордсет
-     */
     update(item: Model): Promise<void> {
         return (this._options.source as ICrud).update(item);
     }
 
-    /**
-     * Создает пустую запись через источник данных (при этом она не сохраняется в хранилище)
-     * @param {object} meta Дополнительные мета данные, которые могут понадобиться для создания записи
-     * @return {Promise<Record>}
-     */
     create(meta?: object): Promise<EntityRecord> {
         return (this._options.source as ICrud).create(meta);
     }
 
-    /**
-     * Устанавливает новый набор элементов коллекции.
-     * @param {Types/collection:RecordSet} items набор элементов коллекции.
-     */
     setItems(items: RecordSet): RecordSet {
         if (this._hasNavigationBySource()) {
             this._destroyNavigationController();
@@ -360,10 +259,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         return this._items;
     }
 
-    /**
-     * Возвращает элементы коллекции
-     * @return {Types/collection:RecordSet} коллекция
-     */
     getItems(): RecordSet {
         return this._items;
     }
@@ -413,19 +308,11 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         }
     }
 
-    /**
-     * Устанавливает узел, относительно которого будет производиться выборка данных
-     * @param {string|number} key
-     */
     setRoot(key: TKey): void {
         this._setRoot(key);
         this._notify('rootChanged', key, this._options.id);
     }
 
-    /**
-     * Возвращает узел, относительно которого будет производиться выборка данных списочным методом
-     * @return {string|number} Идентификатор корня.
-     */
     getRoot(): TKey {
         return this._root;
     }
@@ -480,8 +367,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             this.setNavigation(newOptions.navigation);
         }
 
-        if (newOptions.groupHistoryId !== this._options.groupHistoryId) {
-            this._restoreCollapsedGroups(newOptions.groupHistoryId, newOptions.collapsedGroups);
+        if (newOptions.groupHistoryId !== this._options.groupHistoryId && !newOptions.groupHistoryId) {
+            this._collapsedGroups = null;
         }
 
         const isChanged =
@@ -506,8 +393,11 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             source,
 
             filter: this._filter,
+            sorting: this._options.sorting,
+            navigation: this._options.navigation,
 
             parentProperty: this._parentProperty,
+            nodeProperty: this._options.nodeProperty,
             root: this._root,
 
             items: this._items,
@@ -519,11 +409,10 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             // FIXME sourceController не должен создаваться, если нет source
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
-            expandedItems: this._expandedItems
+            dataLoadCallback: this._options.dataLoadCallback,
+            expandedItems: this._expandedItems,
+            nodeTypeProperty: this._options.nodeTypeProperty
         };
-        OPTIONS_FOR_UPDATE_AFTER_LOAD.forEach((optionName) => {
-            state[optionName] = this._options[optionName];
-        });
         return state;
     }
 
@@ -567,11 +456,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         return this._expandedItems;
     }
 
-    /**
-     * Возвращает, если ли ещё данные для загрузки
-     * @param direction {string} Направление, для которого необходимо проверить, если ли ещё данные для загрузки
-     * @param key {string|number} Идентификатор узла
-     */
     hasMoreData(direction: Direction, key: TKey = this._root): boolean {
         let hasMoreData = false;
 
@@ -591,10 +475,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         this._nodeDataMoreLoadCallback = callback;
     }
 
-    /**
-     * Возвращает признак, была ли выполнена загрузка узла по переданному идентификатору
-     * @param {string|number} key Идентификатор узла
-     */
     hasLoaded(key: TKey): boolean {
         let loadedResult;
 
@@ -608,10 +488,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         return loadedResult;
     }
 
-    /**
-     * Возвращает, выполняется ли в данный момент загрузка данных
-     * @returns {boolean}
-     */
     isLoading(): boolean {
         return !!this._loadPromise;
     }
@@ -623,9 +499,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         }
     }
 
-    /**
-     * Отменяет текущий активный запрос к источнику данных
-     */
     cancelLoading(): void {
         if (this._loadPromise) {
             this._loadPromise.cancel();
@@ -650,10 +523,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         return expandedItems instanceof Array && expandedItems[0] === null;
     }
 
-    /**
-     * Разрушает экземпляр класса.
-     * Выполняет отмену запросов, а так же необходимые отписки от событий.
-     */
     destroy(): void {
         this.cancelLoading();
         this._unsubscribeItemsCollectionChangeEvent();
@@ -728,8 +597,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         const navigationController = this._getNavigationController(this._navigation);
         const userQueryParams = {
             filter: queryParams.filter,
-            sorting: queryParams.sorting,
-            select: queryParams.select
+            sorting: queryParams.sorting
         };
         const isMultiNavigation = this._isMultiNavigation(navigationSourceConfig);
         const isHierarchyQueryParamsNeeded =
@@ -796,7 +664,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         this._breadcrumbsRecordSet = this._items instanceof RecordSet ? this._items.getMetaData().path : null;
         this._subscribeBreadcrumbsChange(this._breadcrumbsRecordSet);
         this._updateBreadcrumbsData();
-        this._notify('itemsChanged', items);
     }
 
     private _appendItems(items: RecordSet): void {
@@ -887,8 +754,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
 
         let params: IQueryParams | IQueryParams[] = {
             filter,
-            sorting: this._options.sorting,
-            select: this._options.selectFields
+            sorting: this._options.sorting
         };
 
         if (this._hasNavigationBySource()) {
@@ -963,10 +829,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
      * @param isFirstLoad
      * @private
      */
-    private _resolveExpandedHierarchyItems(
-        options: IControllerOptions,
-        isFirstLoad: boolean
-    ): Promise<CrudEntityKey[]> {
+    private _resolveExpandedHierarchyItems(options: IControllerOptions, isFirstLoad: boolean): Promise<CrudEntityKey[]> {
         const expandedItems = this._expandedItems || options.expandedItems;
         if (options.nodeHistoryId && isFirstLoad) {
             return nodeHistoryUtil.restore(options.nodeHistoryId)
@@ -987,7 +850,10 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         isFirstLoad: boolean,
         direction: Direction
     ): Promise<QueryWhereExpression<unknown>> {
-        return this._getFilterHierarchy(filter, this._options, key, isFirstLoad, direction);
+        return this._getFilterForCollapsedGroups(filter, this._options)
+            .then((preparedFilter: QueryWhereExpression<unknown>) => {
+                return this._getFilterHierarchy(preparedFilter, this._options, key, isFirstLoad, direction);
+            });
     }
 
     private _processQueryResult(
@@ -1165,14 +1031,38 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         this._dataLoadCallbackFromOptions = dataLoadCallback;
     }
 
-    private _restoreCollapsedGroups(groupHistoryId: string, collapsedGroups: TArrayGroupId): void {
-        if (!groupHistoryId) {
-            this._collapsedGroups = null;
-            return;
+    private _getFilterForCollapsedGroups(
+        initialFilter: QueryWhereExpression<unknown>,
+        options: IControllerOptions
+    ): Promise<QueryWhereExpression<unknown>> {
+        const historyId = options.groupHistoryId || options.historyIdCollapsedGroups;
+        const collapsedGroups = options.collapsedGroups;
+        const getFilterWithCollapsedGroups = (collapsedGroupsIds: TArrayGroupId) => {
+            let modifiedFilter;
+
+            if (collapsedGroupsIds && collapsedGroupsIds.length) {
+                modifiedFilter = { ...initialFilter };
+                modifiedFilter.collapsedGroups = collapsedGroupsIds;
+            } else {
+                modifiedFilter = initialFilter;
+            }
+
+            return modifiedFilter;
+        };
+        let resultFilterPromise;
+
+        if (collapsedGroups && collapsedGroups.length) {
+            resultFilterPromise = Promise.resolve(getFilterWithCollapsedGroups(collapsedGroups));
+        } else if (historyId) {
+            resultFilterPromise = groupUtil.restoreCollapsedGroups(historyId).then(
+                (restoredCollapsedGroups?: TArrayGroupId) =>
+                    getFilterWithCollapsedGroups(this._collapsedGroups = restoredCollapsedGroups)
+            );
+        } else {
+            resultFilterPromise = Promise.resolve(initialFilter);
         }
-        groupUtil.restoreCollapsedGroups(groupHistoryId).then((restoredCollapsedGroups: TArrayGroupId) => {
-            this._collapsedGroups = restoredCollapsedGroups || collapsedGroups;
-        });
+
+        return resultFilterPromise;
     }
 
     private static _getSource(source: ICrud | ICrudPlus | PrefetchProxy): IData & ICrud {

@@ -9,6 +9,7 @@ class Content extends Control<IControlOptions> {
     protected _expanded2: boolean = true;
 
     protected _template: TemplateFunction = controlTemplate;
+    static _theme: string[] = ['Controls/Classes'];
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

@@ -34,6 +34,7 @@ export interface IOptions<T extends Model = Model> {
     editingContents?: T;
     owner?: ICollection<T, CollectionItem<T>>;
     isAdd?: boolean;
+    addPosition?: 'top' | 'bottom';
     multiSelectVisibility?: string;
     multiSelectAccessibilityProperty?: string;
     rowSeparatorSize?: string;
@@ -48,8 +49,6 @@ export interface IOptions<T extends Model = Model> {
     markerPosition: string;
     isLastItem?: boolean;
     isFirstItem?: boolean;
-    hasMoreDataUp?: boolean;
-    isFirstStickedItem?: boolean;
     roundBorder?: object;
 }
 
@@ -172,12 +171,6 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     protected _$multiSelectAccessibilityProperty: string;
 
-    protected _shadowVisibility: string = 'lastVisible';
-
-    protected _$hasMoreDataUp: boolean;
-
-    protected _$isFirstStickedItem: boolean;
-
     protected _instancePrefix: string;
 
     /**
@@ -197,19 +190,15 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     readonly isAdd: boolean;
 
+    readonly addPosition: 'top' | 'bottom';
+
     constructor(options?: IOptions<T>) {
         super();
         OptionsToPropertyMixin.call(this, options);
         SerializableMixin.call(this);
         this._counters = {};
         this.isAdd = (options && options.isAdd) || false;
-
-        // Для элементов, которые создаются сразу застканными, задается shadowVisibility='initial'.
-        // Это сделано для оптимизации, чтобы не было лишних прыжков теней при изначальной отрисовке,
-        // когда есть данные вверх
-        if (this.hasMoreDataUp() && this._$isFirstStickedItem) {
-            this._shadowVisibility = 'initial';
-        }
+        this.addPosition = (options && options.addPosition) || 'bottom';
     }
 
     // endregion
@@ -288,7 +277,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     }
 
     isStickyHeader(): boolean {
-        return this.getOwner()?.isStickyHeader();
+        return this.getOwner().isStickyHeader();
     }
 
     /**
@@ -700,26 +689,13 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     // endregion Drag-n-drop
 
-    isSticked(style: string, stickyCallback: Function, item: CollectionItem): boolean {
-        return stickyCallback ?
-            stickyCallback(item.getContents()) :
-            this.isMarked() && this._isSupportSticky(this.getOwner().getStyle());
-    }
-
-    getStickyHeaderPosition(stickyCallback: Function): {} {
-        const stickyVerticalPosition = stickyCallback ? 'top' : 'topBottom';
-        return {
-            vertical: stickyVerticalPosition
-        }
+    isSticked(): boolean {
+        return this.isMarked() && this._isSupportSticky(this.getOwner().getStyle());
     }
 
     protected _isSupportSticky(style: string = 'default'): boolean {
         return this.getOwner().isStickyMarkedItem() !== false &&
             (style === 'master');
-    }
-
-    getShadowVisibility(): string {
-        return this._shadowVisibility;
     }
 
     getQAData(marker: boolean): string {
@@ -835,10 +811,6 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         return this._$style;
     }
 
-    hasMoreDataUp(): boolean {
-        return this._$hasMoreDataUp;
-    }
-
     /**
      * Возвращает строку с классами, устанавливаемыми в шаблоне элемента div'а, расположенного внутри корневого div'a -
      * так называемого контентного div'a.
@@ -858,7 +830,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         }
 
         const navigation = this.getOwner().getNavigation();
-        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().hasMoreData())
+        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
             && this.isLastItem()) {
             contentClasses += ' controls-ListView__itemV_last';
         }
@@ -995,23 +967,13 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
         classes += ` controls-ListView__item-rightPadding_${rightSpacing}`;
 
-        classes += this._getLeftSpacingContentClasses();
+        if (this.getMultiSelectVisibility() !== 'hidden' && this.getMultiSelectPosition() !== 'custom') {
+           classes += ` controls-ListView__itemContent_withCheckboxes`;
+        } else {
+           classes += ` controls-ListView__item-leftPadding_${this.getOwner().getLeftPadding().toLowerCase()}`;
+        }
 
         return classes;
-    }
-
-    // region MultiSelect
-    protected _isDefaultRenderMultiSelect(): boolean {
-        return this.getMultiSelectVisibility() !== 'hidden' && this.getMultiSelectPosition() !== 'custom';
-    }
-    // endregion MultiSelect
-
-    protected _getLeftSpacingContentClasses(): string {
-        if (this._isDefaultRenderMultiSelect()) {
-            return ` controls-ListView__itemContent_withCheckboxes`;
-        } else {
-            return ` controls-ListView__item-leftPadding_${this.getOwner().getLeftPadding().toLowerCase()}`;
-        }
     }
 
     protected _getCursorClasses(cursor: string = 'pointer', clickable: boolean = true): string {
@@ -1129,8 +1091,6 @@ Object.assign(CollectionItem.prototype, {
     _$topPadding: 'default',
     _$bottomPadding: 'default',
     _$markerPosition: undefined,
-    _$hasMoreDataUp: false,
-    _$isFirstStickedItem: false,
     _contentsIndex: undefined,
     _version: 0,
     _counters: null,

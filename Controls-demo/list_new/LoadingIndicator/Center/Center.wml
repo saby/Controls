@@ -2,7 +2,7 @@
     <Controls.scroll:Container>
         <Controls.list:View
                 name="list"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"/>
     </Controls.scroll:Container>
     <a href="#" class="controls-text-link" style="position: relative; z-index: 99999; margin-right: 10px" on:click="_reloadList()">Reload list</a>

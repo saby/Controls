@@ -10,8 +10,7 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/SetExp
         notifyItemChange: () => {},
         hasItemActionsSeparatedCell: () => false,
         isFullGridSupport: () => true,
-        hasColumnScroll: () => false,
-        isStickyHeader: () => false
+        hasColumnScroll: () => false
     } as undefined as TreeGridCollection<any>;
 
     const columns = [

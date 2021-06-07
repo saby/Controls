@@ -3,7 +3,7 @@ import * as template from 'wml!Controls-demo/list_new/VirtualScroll/Reload/ByCur
 import {DataSet, Memory, Query} from 'Types/source';
 
 interface IItem {
-    key: number;
+    id: number;
     title: string;
 }
 
@@ -12,11 +12,11 @@ class PositionSourceMock extends Memory {
         const filter = query.getWhere();
         const limit = query.getLimit();
 
-        const isPrepend = typeof filter['key<='] !== 'undefined';
-        const isAppend = typeof filter['key>='] !== 'undefined';
-        const isPosition = typeof filter['key~'] !== 'undefined';
+        const isPrepend = typeof filter['id<='] !== 'undefined';
+        const isAppend = typeof filter['id>='] !== 'undefined';
+        const isPosition = typeof filter['id~'] !== 'undefined';
         const items: IItem[] = [];
-        let position = filter['key<='] || filter['key>='] || filter['key~'] || 0;
+        let position = filter['id<='] || filter['id>='] || filter['id~'] || 0;
 
         if (isPrepend) {
             position -= limit;
@@ -24,7 +24,7 @@ class PositionSourceMock extends Memory {
 
         for (let i = 0; i < limit; i++, position++) {
             items.push({
-                key: position,
+                id: position,
                 title: `Запись #${position}`
             });
         }
@@ -44,7 +44,7 @@ export default class extends Control {
     protected _position: number = 0;
 
     protected _beforeMount(): void {
-        this._source = new PositionSourceMock({keyProperty: 'key'});
+        this._source = new PositionSourceMock({keyProperty: 'id'});
     }
 
     protected _changePosition(): void {

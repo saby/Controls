@@ -1,17 +1,16 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGrid/Expander/ExpanderVisibility/HasChildrenOrHover/HasChildrenOrHover';
-import {HierarchicalMemory, CrudEntityKey} from 'Types/source';
+import {Memory, CrudEntityKey} from 'Types/source';
 import {Gadgets} from '../../../DemoHelpers/DataCatalog';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   protected _viewSource: HierarchicalMemory;
+   protected _viewSource: Memory;
    protected _expandedItems: CrudEntityKey[] = [null];
 
    protected _beforeMount(): void {
-      this._viewSource = new HierarchicalMemory({
+      this._viewSource = new Memory({
          keyProperty: 'id',
-         parentProperty: 'parent',
          data: Gadgets.getDataSet(),
          filter: () => true
       });

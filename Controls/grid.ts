@@ -42,29 +42,6 @@ import SortingButton from 'Controls/_grid/SortingButton';
 import SortingSelector from 'Controls/_grid/SortingSelector';
 import {register} from 'Types/di';
 
-/**
- * Библиотека контролов, которые реализуют плоский список, отображающийся в виде таблицы.
- * @library Controls/grid
- * @includes ItemTemplate Controls/_grid/interface/ItemTemplate
- * @includes ResultsTemplate Controls/_grid/interface/ResultsTemplate
- * @includes GroupTemplate Controls/_grid/interface/GroupTemplate
- * @includes HeaderContent Controls/_grid/interface/HeaderContent
- * @includes LadderWrapper Controls/_grid/interface/LadderWrapper
- * @includes ColumnTemplate Controls/_grid/interface/ColumnTemplate
- * @includes ResultColumnTemplate Controls/_grid/interface/ResultColumnTemplate
- * @includes EditingEmptyTemplate Controls/_grid/interface/EditingEmptyTemplate
- * @includes FooterTemplate Controls/_grid/interface/FooterTemplate
- * @includes EmptyTemplate Controls/_grid/interface/EmptyTemplate
- * @includes EmptyColumnTemplate Controls/_grid/interface/EmptyColumnTemplate
- * @includes RowEditor Controls/_grid/interface/RowEditor
- * @includes IPropStorage Controls/_grid/interface/IPropStorage
- * @includes ITagColumn Controls/_grid/interface/ITagColumn
- * @includes SortingButton Controls/_grid/SortingButton
- * @includes ItemEditorTemplate Controls/_grid/interface/IitemEditorTemplate
- * @public
- * @author Крайнов Д.О.
- */
-
 export {
     View,
     ItemsView,

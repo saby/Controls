@@ -1,10 +1,10 @@
 define(
    [
-      'Controls/_search/Input/Search'
+      'UI/Base',
+      'Controls/search'
    ],
-   function(searchExport) {
+   function(Base, searchMod) {
       'use strict';
-      const Search = searchExport.default;
 
       describe('Controls/_search/Input/Search', function() {
          var valueSearch;
@@ -12,7 +12,7 @@ define(
 
          describe('search', function() {
             it('Click on search', function() {
-               let search = new Search();
+               let search = new searchMod.Input();
                let searched = false;
                let activated = false;
                const eventMock = {stopPropagation: () => {}};
@@ -44,7 +44,7 @@ define(
             });
 
             it('_resetClick', function() {
-               let search = new Search();
+               let search = new searchMod.Input();
                let resetClicked = false;
                let activated = false;
 
@@ -74,7 +74,7 @@ define(
             });
 
             it('_resetClick', function() {
-               let search = new Search();
+               let search = new searchMod.Input();
                let eventPreventDefault = false;
                let eventStopPropagation = false;
                let event = {
@@ -93,14 +93,14 @@ define(
 
             it('reset', function() {
                let valueReseted = false;
-               let search = new Search();
+               let search = new searchMod.Input();
                search._resetClick = () => { valueReseted = true; };
                search.reset();
                assert.isTrue(valueReseted);
             });
 
             it('Enter click', function() {
-               let search = new Search();
+               let search = new searchMod.Input();
                let activated = false;
                let eventStopped;
                search._notify = (e, args) => {
@@ -122,7 +122,7 @@ define(
             });
 
             it('Focus out', function() {
-               let search = new Search();
+               let search = new searchMod.Input();
 
                const beforeMount = search._beforeMount;
 
@@ -152,15 +152,15 @@ define(
             });
 
             it('isVisibleResetButton', function() {
-               let search = new Search();
+               let search = new searchMod.Input();
                search._beforeMount({ readOnly: false, value: '' });
-               assert.isFalse(Search._private.isVisibleResetButton.call(search));
+               assert.isFalse(searchMod.Input._private.isVisibleResetButton.call(search));
 
                search._viewModel.displayValue = 'test text';
-               assert.isTrue(Search._private.isVisibleResetButton.call(search));
+               assert.isTrue(searchMod.Input._private.isVisibleResetButton.call(search));
 
                search._options.readOnly = true;
-               assert.isFalse(Search._private.isVisibleResetButton.call(search));
+               assert.isFalse(searchMod.Input._private.isVisibleResetButton.call(search));
             });
          });
       });

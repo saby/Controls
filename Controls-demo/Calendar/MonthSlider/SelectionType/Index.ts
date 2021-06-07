@@ -8,6 +8,7 @@ class DemoControl extends Control<IControlOptions> {
     private _month2: Date = this._month;
     private _month3: Date = this._month;
     private _month4: Date = this._month;
+    static _theme: string[] = ['Controls/Classes'];
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

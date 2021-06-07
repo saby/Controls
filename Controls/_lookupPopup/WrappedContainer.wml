@@ -1,9 +1,3 @@
 <Controls._lookupPopup.__ControllerContextConsumer scope="{{ _options }}">
-    <ws:controllerOptionsInnerComponent>
-        <Controls.context:ContextOptionsConsumer scope="{{ controllerOptionsInnerComponent }}">
-            <ws:contextOptionsInnerComponent>
-                <Controls._lookupPopup.Container scope="{{ contextOptionsInnerComponent }}" />
-            </ws:contextOptionsInnerComponent>
-        </Controls.context:ContextOptionsConsumer>
-    </ws:controllerOptionsInnerComponent>
+    <Controls._lookupPopup.Container scope="{{ content }}" />
 </Controls._lookupPopup.__ControllerContextConsumer>

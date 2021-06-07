@@ -10,7 +10,7 @@ import {
    NewSourceController as SourceController, nodeHistoryUtil, Path
 } from 'Controls/dataSource';
 import {ISourceControllerState} from 'Controls/dataSource';
-import { IContextOptionsValue } from 'Controls/context';
+import {ContextOptions} from 'Controls/context';
 import {
    ISourceOptions,
    IHierarchyOptions,
@@ -70,7 +70,6 @@ interface IReceivedState {
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IHierarchy
  * @mixes Controls/interface:ISource
- * @mixes Controls/interface:ISelectFields
  * @extends UI/Base:Control
  *
  * @public
@@ -116,13 +115,13 @@ interface IReceivedState {
 
 class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_list/Data.prototype */{
    protected _template: TemplateFunction = template;
-   protected _contextState: IContextOptionsValue;
    private _isMounted: boolean;
    private _loading: boolean = false;
    private _itemsReadyCallback: Function = null;
    private _errorRegister: RegisterClass = null;
    private _sourceController: SourceController = null;
    private _source: ICrudPlus | ICrud & ICrudPlus & IData;
+   private _dataOptionsContext: typeof ContextOptions;
    private _sourceControllerState: ISourceControllerState;
    private _root: TKey = null;
 
@@ -174,6 +173,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
 
       // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
       this._filter = controllerState.filter;
+      this._dataOptionsContext = this._createContext(controllerState);
 
       if (!this._options.nodeHistoryId) {
          this._expandedItems = options.expandedItems;
@@ -380,10 +380,8 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          this._items = this._sourceController.setItems(items);
          this._updateBreadcrumbsFromSourceController();
 
-         this._contextState = {
-            ...this._contextState,
-            items: this._items
-         };
+         this._dataOptionsContext.items = this._items;
+         this._dataOptionsContext.updateConsumers();
       }
 
       if (this._options.itemsReadyCallback) {
@@ -416,10 +414,19 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       event.stopPropagation();
    }
 
+   private _createContext(options?: ISourceControllerState): typeof ContextOptions {
+      return new ContextOptions(options);
+   }
+
    private _updateContext(sourceControllerState: ISourceControllerState): void {
-      this._contextState = {
-         ...sourceControllerState
-      };
+      const curContext = this._dataOptionsContext;
+
+      for (const i in sourceControllerState) {
+         if (sourceControllerState.hasOwnProperty(i)) {
+            curContext[i] = sourceControllerState[i];
+         }
+      }
+      curContext.updateConsumers();
       this._sourceControllerState = sourceControllerState;
       if (this._options.nodeHistoryId) {
          this._expandedItems = sourceControllerState.expandedItems;
@@ -510,6 +517,12 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       if (this._isMounted) {
          this._notify('breadCrumbsItemsChanged', [this._breadCrumbsItems]);
       }
+   }
+
+   _getChildContext(): object {
+      return {
+         dataOptions: this._dataOptionsContext
+      };
    }
 
    _onDataError(event, errbackConfig): void {

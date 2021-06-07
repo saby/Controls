@@ -11,7 +11,6 @@ import * as coreClone from 'Core/core-clone';
 interface IFilterViewModelOptions {
     source: IFilterItem[];
     collapsedGroups: string[] | number[];
-    filterViewMode: string;
 }
 
 interface IFilterGroup {
@@ -55,12 +54,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
     private _getSource(source: IFilterItem[]): IFilterItem[] {
         const newSource = [];
         source.forEach((item) => {
-            const editorOptions = {
-                ...item.editorOptions,
-                ...{
-                    viewMode: item.viewMode,
-                    filterViewMode: this._options.filterViewMode
-                }};
+            const editorOptions = {...item.editorOptions, ...{viewMode: item.viewMode}};
             newSource.push({...item, ...{editorOptions}});
         });
         return newSource;
@@ -204,6 +198,9 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         this._collapsedGroups = this._collapsedGroups.slice();
         if (this._collapsedGroups.length && this._collapsedGroups.includes(group)) {
             this._collapsedGroups = this._collapsedGroups.filter((item) => group !== item);
+            this._nextVersion();
+        } else if (!isResetClick) {
+            this._collapsedGroups = this._collapsedGroups.concat(group);
             this._nextVersion();
         }
     }

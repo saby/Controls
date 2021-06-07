@@ -111,10 +111,8 @@ export default class GroupRow<T> extends mixin<
         return 'replaceable';
     }
 
-    getStickyHeaderPosition(): {} {
-        return {
-            vertical: 'top'
-        };
+    getStickyHeaderPosition(): string {
+        return 'top';
     }
 
     getStickyHeaderZIndex(): number {

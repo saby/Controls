@@ -3,13 +3,13 @@ import * as Template from 'wml!Controls-demo/grid/EmptyGrid/WithHeader/WithHeade
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
-import { IHeaderCell } from 'Controls/grid';
+import { IHeader } from 'Controls-demo/types';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
 
-    protected _header: IHeaderCell[] = getCountriesStats().getDefaultHeader();
+    protected _header: IHeader[] = getCountriesStats().getDefaultHeader();
     protected _columns: IColumn[] = getCountriesStats().getColumnsWithoutWidths();
 
     protected _beforeMount(): void {

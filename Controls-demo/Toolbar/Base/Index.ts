@@ -23,6 +23,8 @@ class Base extends Control<IControlOptions> {
     protected _itemClick(e: Event, item: Record): void {
         this._currentClick = 'Вы нажали на ' + item.getId();
     }
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

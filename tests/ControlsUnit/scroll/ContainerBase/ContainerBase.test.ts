@@ -4,7 +4,7 @@ import {fake, assert as sinonAssert} from 'sinon';
 import {_ContainerBase as ContainerBase} from 'Controls/scroll';
 import {IContainerBaseOptions} from 'Controls/_scroll/ContainerBase';
 import {SCROLL_MODE} from 'Controls/_scroll/Container/Type';
-import {SCROLL_DIRECTION, SCROLL_POSITION} from 'Controls/_scroll/Utils/Scroll';
+import {SCROLL_DIRECTION} from 'Controls/_scroll/Utils/Scroll';
 
 var global = (function() { return this || (0,eval)('this') })();
 
@@ -26,31 +26,6 @@ describe('Controls/scroll:ContainerBase', () => {
          control._beforeMount(options);
          assert.isDefined(control._resizeObserver);
          assert.strictEqual(control._scrollCssClass, 'controls-Scroll-ContainerBase__scroll_vertical');
-         assert.strictEqual(control._initialScrollPositionCssClass, 'controls-Scroll-ContainerBase__scrollPosition-regular');
-      });
-
-      it('initialScrollPosition, vertical: end', () => {
-         const testOptions = {
-            ...options,
-            initialScrollPosition: {
-               vertical: SCROLL_POSITION.END
-            }
-         };
-         const control: ContainerBase = new ContainerBase(testOptions);
-         control._beforeMount(testOptions);
-         assert.strictEqual(control._initialScrollPositionCssClass, 'controls-Scroll-ContainerBase__scrollPosition-vertical-end');
-      });
-
-      it('initialScrollPosition, horizontal: end', () => {
-         const testOptions = {
-            ...options,
-            initialScrollPosition: {
-               horizontal: SCROLL_POSITION.END
-            }
-         };
-         const control: ContainerBase = new ContainerBase(testOptions);
-         control._beforeMount(testOptions);
-         assert.strictEqual(control._initialScrollPositionCssClass, 'controls-Scroll-ContainerBase__scrollPosition-horizontal-end');
       });
    });
 
@@ -75,64 +50,6 @@ describe('Controls/scroll:ContainerBase', () => {
          };
          control._componentDidMount();
          assert.strictEqual(control._children.content.scrollTop, 10);
-      });
-
-
-      it('should restore flex-direction and set scrollTop to end. vertical: end.', () => {
-         const testOptions = {
-            ...options,
-            initialScrollPosition: {
-               vertical: SCROLL_POSITION.END
-            }
-         };
-         const control: ContainerBase = new ContainerBase(testOptions);
-         control._options = testOptions;
-         control._children = {
-            content: {
-               scrollTop: 10,
-               scrollHeight: 100,
-               classList: {
-                  remove: fake(),
-                  add: fake()
-               }
-            }
-         };
-         control._componentDidMount();
-         assert.strictEqual(control._children.content.scrollTop, 100);
-         sinonAssert.calledWith(control._children.content.classList.remove,
-             'controls-Scroll-ContainerBase__scrollPosition-vertical-end');
-         sinonAssert.calledWith(control._children.content.classList.add,
-             'controls-Scroll-ContainerBase__scrollPosition-regular');
-      });
-
-      it('should restore flex-direction and set scrollTop to end. horizontal: end.', () => {
-         const testOptions = {
-            ...options,
-            initialScrollPosition: {
-               horizontal: SCROLL_POSITION.END
-            }
-         };
-         const control: ContainerBase = new ContainerBase(testOptions);
-         control._options = testOptions;
-         control._children = {
-            content: {
-               scrollLeft: 10,
-               scrollWidth: 100,
-               classList: {
-                  remove: fake(),
-                  add: fake()
-               }
-            }
-         };
-         control._container = {
-            dataset: {}
-         }
-         control._componentDidMount();
-         assert.strictEqual(control._children.content.scrollLeft, 100);
-         sinonAssert.calledWith(control._children.content.classList.remove,
-             'controls-Scroll-ContainerBase__scrollPosition-horizontal-end');
-         sinonAssert.calledWith(control._children.content.classList.add,
-             'controls-Scroll-ContainerBase__scrollPosition-regular');
       });
    });
 
@@ -333,28 +250,28 @@ describe('Controls/scroll:ContainerBase', () => {
    });
 
    describe('_resizeObserverCallback', () => {
-      // it('should\'t update state if container is invisible', () => {
-      //    const control: ContainerBase = new ContainerBase(options);
-      //    control._beforeMount(options);
-      //
-      //    control._container = {
-      //       closest: sinon.stub().returns(true),
-      //       className: ''
-      //    }
-      //
-      //    const getComputedStyle = global.getComputedStyle;
-      //    global.getComputedStyle = () => { return {} };
-      //
-      //    sinon.stub(control, '_updateStateAndGenerateEvents');
-      //
-      //    control._resizeObserverCallback();
-      //
-      //    sinon.assert.notCalled(control._updateStateAndGenerateEvents);
-      //
-      //    global.getComputedStyle = getComputedStyle;
-      //
-      //    sinon.restore();
-      // });
+      it('should\'t update state if container is invisible', () => {
+         const control: ContainerBase = new ContainerBase(options);
+         control._beforeMount(options);
+
+         control._container = {
+            closest: sinon.stub().returns(true),
+            className: ''
+         }
+
+         const getComputedStyle = global.getComputedStyle;
+         global.getComputedStyle = () => { return {} };
+
+         sinon.stub(control, '_updateStateAndGenerateEvents');
+
+         control._resizeObserverCallback();
+
+         sinon.assert.notCalled(control._updateStateAndGenerateEvents);
+
+         global.getComputedStyle = getComputedStyle;
+
+         sinon.restore();
+      });
    });
 
    describe('_scrollHandler', () => {

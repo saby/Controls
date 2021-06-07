@@ -4,7 +4,7 @@
  *
  * @remark
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/drag-n-drop/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dragnDrop.less переменные тем оформления}
  *
  * @class Controls/_dragnDrop/Entity
@@ -23,13 +23,6 @@
 
 export default class Entity {
     protected _options: object;
-
-    /**
-     * Флаг на основании которого ScrollContainer понимает стоит ли для текущего
-     * перетаскиваемого объекта включать механизм автоскролла при приближении курсора
-     * к нижней или верхней границам ScrollContainer'а
-     */
-    readonly allowAutoscroll: boolean = false;
 
     constructor(options: object) {
         this._options = options;

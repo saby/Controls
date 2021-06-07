@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__maxWidth600">
     <Controls.grid:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"
             resultsPosition="bottom"/>

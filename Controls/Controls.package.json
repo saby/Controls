@@ -5,6 +5,7 @@
   ],
   "exclude": [
     "Controls/Application/Compatible",
+    "wml!Controls/Application/CompatibleScripts",
     "Controls/Application/HeadDataContext",
     "Controls/Application/AppData"
   ],

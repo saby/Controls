@@ -3,7 +3,7 @@ import {showType} from 'Controls/toolbars';
 const LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc posuere nulla ex, consectetur lacinia odio blandit sit amet.';
 
 function getFewCategories(): Array<{
-    key: number,
+    id: number,
     title: string,
     description: string,
     byDemand?: 'Popular' | 'Unpopular' | 'Hit!',
@@ -14,7 +14,7 @@ function getFewCategories(): Array<{
 }> {
     return [
         {
-            key: 1,
+            id: 1,
             title: 'Notebooks',
             description: 'Trusted Reviews ranks all your top laptop and notebook options, whether you want a ...',
             byDemand: 'Popular',
@@ -24,7 +24,7 @@ function getFewCategories(): Array<{
             value: 'cursor - default, hovered - false'
         },
         {
-            key: 2,
+            id: 2,
             title: 'Tablets',
             byDemand: 'Unpopular',
             description: 'Tablets are great for playing games, reading, homework, keeping kids entertained in the back seat of the car',
@@ -32,7 +32,7 @@ function getFewCategories(): Array<{
             value: 'cursor - pointer, hovered - true'
         },
         {
-            key: 3,
+            id: 3,
             title: 'Laptop computers',
             description: 'Explore PCs and laptops to discover the right device that powers all that you do',
             byDemand: 'Unpopular',
@@ -42,7 +42,7 @@ function getFewCategories(): Array<{
             value: 'cursor - default, hovered - true'
         },
         {
-            key: 4,
+            id: 4,
             title: 'Apple gadgets',
             description: 'Explore new Apple accessories for a range of Apple products',
             byDemand: 'Hit!',
@@ -51,7 +51,7 @@ function getFewCategories(): Array<{
             value: 'cursor - pointer, hovered - false'
         },
         {
-            key: 5,
+            id: 5,
             title: 'Android gadgets',
             description: 'These 25 clever phone accessories and Android-compatible gadgets',
             byDemand: 'Popular',
@@ -62,72 +62,72 @@ function getFewCategories(): Array<{
         }
     ];
 }
-function getDataForComplexScroll(): Array<{key: number, title: string, withList: boolean}> {
+function getDataForComplexScroll(): Array<{id: number, title: string, withList: boolean}> {
     return [
         {
-            key: 1,
+            id: 1,
             title: 'Простой элемент 1',
             withList: false
         },
         {
-            key: 2,
+            id: 2,
             title: 'Простой элемент 2',
             withList: false
         },
         {
-            key: 3,
+            id: 3,
             title: 'Сложный элемент 3',
             withList: true
         },
         {
-            key: 4,
+            id: 4,
             title: 'Простой элемент 4',
             withList: false
         },
         {
-            key: 5,
+            id: 5,
             title: 'Простой элемент 5',
             withList: false
         },
         {
-            key: 6,
+            id: 6,
             title: 'Сложный элемент 6',
             withList: true
         },
         {
-            key: 7,
+            id: 7,
             title: 'Сложный элемент 7',
             withList: true
         },
         {
-            key: 8,
+            id: 8,
             title: 'Сложный элемент 8',
             withList: true
         }
     ]
 }
-function getCursorData(): Array<{key: number, value: string, cursor?: 'default' | 'pointer', hovered: boolean}> {
+function getCursorData(): Array<{id: number, value: string, cursor?: 'default' | 'pointer', hovered: boolean}> {
     return [
         {
-            key: 1,
+            id: 1,
             value: 'cursor - default, hovered - false',
             cursor: 'default',
             hovered: false
         },
         {
-            key: 2,
+            id: 2,
             value: 'cursor - pointer, hovered - true',
             cursor: 'pointer',
             hovered: true
         },
         {
-            key: 3,
+            id: 3,
             value: 'cursor - default, hovered - true',
             cursor: 'default',
             hovered: true
         },
         {
-            key: 4,
+            id: 4,
             value: 'cursor - pointer, hovered - false',
             cursor: 'pointer',
             hovered: false
@@ -135,45 +135,110 @@ function getCursorData(): Array<{key: number, value: string, cursor?: 'default' 
     ];
 }
 
+function getGroupedCatalog(): Array<{
+    id: number
+    title: string
+    brand: string
+    longBrandName: string
+}> {
+    return [
+        {
+            id: 1,
+            title: 'MacBook Pro',
+            brand: 'apple',
+            longBrandName: 'apple'
+        },
+        {
+            id: 2,
+            title: 'ASUS X751SA-TY124D',
+            brand: 'asus',
+            longBrandName: 'asus'
+        },
+        {
+            id: 3,
+            title: 'HP 250 G5 (W4N28EA)',
+            brand: 'hp',
+            longBrandName: 'hp'
+        },
+        {
+            id: 4,
+            title: 'Apple iPad Pro 2016',
+            brand: 'apple',
+            longBrandName: 'apple'
+        },
+        {
+            id: 5,
+            title: 'ACER One 10 S1002-15GT',
+            brand: 'acer',
+            longBrandName: 'acer'
+        },
+        {
+            id: 6,
+            title: 'ASUS X541SA-XO056D',
+            brand: 'asus',
+            longBrandName: 'asus'
+        },
+        {
+            id: 7,
+            title: 'iPhone X Max',
+            brand: 'apple',
+            longBrandName: 'apple'
+        },
+        {
+            id: 8,
+            title: 'ASUS Zenbook F-234',
+            brand: 'asus',
+            longBrandName: 'AsusTek Computer Inc. stylised as ASUSTeK' +
+                ' (Public TWSE: 2357 LSE: ASKD), based in Beitou District, Taipei, Taiwan'
+        },
+        {
+            id: 9,
+            title: 'ACER Aspire F 15 F5-573G-51Q7',
+            brand: 'acer',
+            longBrandName: 'acer'
+        }
+    ];
+}
+
 function getEditableCatalog(): Array<{
-    key: number,
+    id: number,
     beforeBeginEditTitle: string,
     beforeEndEditTitle?: string
 }> {
     return [
         {
-            key: 0,
+            id: 0,
             beforeBeginEditTitle: 'Стандартное начало редактирования',
             beforeEndEditTitle: 'Стандартное завершение редактирования'
         },
         {
-            key: 1,
+            id: 1,
             beforeBeginEditTitle: 'В строке недоступно редактирование',
             beforeEndEditTitle: 'Редактирование не завершится если поле пустое'
         },
         {
-            key: 2,
+            id: 2,
             beforeBeginEditTitle: 'Редактирование начнется с задержкой. Например, долгая валидация на сервере, 1сек, индикатор не появится',
             beforeEndEditTitle: 'Редактирование завершится после задержки в 1 сек. Например, долгая валидация на сервере, индикатор не появится'
 
         },
         {
-            key: 3,
+            id: 3,
             beforeBeginEditTitle: 'Редактирование начнется с задержкой. Например, долгая валидация на сервере, 3сек, появится индикатор',
             beforeEndEditTitle: 'Редактирование завершится после задержки в 3 сек. Например, долгая валидация на сервере, появится индикатор'
         },
         {
-            key: 4,
+            id: 4,
             beforeBeginEditTitle: 'Редактирование не начнется, при этом валидация занимает 1 сек.',
             beforeEndEditTitle: 'Редактирование не завершится если поле пустое, при этом валидация занимает 1 сек.'
         }
     ];
 }
 
-function getContactsCatalog(): Array<{ key: number, title: string }> {
+function getContactsCatalog(): Array<{ id: number, title: string }> {
     return [
         {
-            key: 0,
+            id: 0,
             title: 'What makes every American a typical one is a desire to get' +
                 ' a well-paid job that will cover their credit card. A credit card is an' +
                 ' indispensable part of life in America. In other words, any American knows' +
@@ -181,17 +246,17 @@ function getContactsCatalog(): Array<{ key: number, title: string }> {
                 ' or haunt them for years... re-establish his/her good credit by applying for a secured credit.'
         },
         {
-            key: 1,
+            id: 1,
             title: 'For those who are deep in credit card debt, there are some' +
                 ' Credit Services agencies that offer anyone in America both online or' +
                 ' telephone, and face-to-face counseling.'
         },
         {
-            key: 2,
+            id: 2,
             title: 'The agencies’ average client makes about $32,000 a year.'
         },
         {
-            key: 3,
+            id: 3,
             title: 'Once debts have been repaid, an American can re-establish his/her good' +
                 ' credit by applying for a secured credit card and paying the balance off regularly.'
         }
@@ -269,8 +334,8 @@ function generateData<
     // tslint:disable-next-line
     TEntityData extends Record<string, any> = {}
     >(
-        {count, entityTemplate = {key: 'number', title: 'string'},
-        keyProperty = 'key',
+        {count, entityTemplate = {id: 'number', title: 'string'},
+        keyProperty = 'id',
         // tslint:disable-next-line
         beforeCreateItemCallback = () => {}}: IGenerateDataOptions<TEntityData>
     ): TEntityData[] {
@@ -319,65 +384,65 @@ function generateData<
 const changeSourceData = (): IChangeSource => ({
     data: [
         {
-            key: 1,
+            id: 1,
             title: 'One'
         }, {
-            key: 2,
+            id: 2,
             title: 'Two'
 
         }, {
-            key: 3,
+            id: 3,
             title: 'three'
 
         }, {
-            key: 4,
+            id: 4,
             title: 'Four'
 
         }, {
-            key: 5,
+            id: 5,
             title: 'Five'
 
         }, {
-            key: 6,
+            id: 6,
             title: 'Six'
 
         }, {
-            key: 7,
+            id: 7,
             title: 'Seven'
 
         }],
     data2: [
         {
-            key: 1,
+            id: 1,
             load: 1,
             title: 1
         }, {
-            key: 2,
+            id: 2,
             load: 2,
             title: 2
 
         }, {
-            key: 3,
+            id: 3,
             load: 2,
             title: 3
 
         }, {
-            key: 4,
+            id: 4,
             load: 2,
             title: 4
 
         }, {
-            key: 5,
+            id: 5,
             load: 2,
             title: 5
 
         }, {
-            key: 6,
+            id: 6,
             load: 2,
             title: 6
 
         }, {
-            key: 7,
+            id: 7,
             load: 2,
             title: 7
 
@@ -389,6 +454,9 @@ export {
     getContactsCatalogWithActions,
     getFewCategories,
     getCursorData,
+    getGroupedCatalog,
+    getGroupedCatalogForSwitchingGroup,
+    getGroupedCatalogWithHiddenGroup,
     getEditableCatalog,
     generateData,
     getDataForComplexScroll,

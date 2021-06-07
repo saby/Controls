@@ -3,6 +3,7 @@ import controlTemplate = require('wml!Controls-demo/datePopup/SelectionType/Temp
 
 class Component extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
+    static _theme: string[] = ['Controls/Classes'];
 
     protected _beforeMount() {
         this._startValueRange = new Date(2019, 0, 1);

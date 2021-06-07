@@ -1,6 +1,7 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/VirtualScroll/NavigationSwitcher/NavigationSwitcher';
-import {INavigationOptionValue, INavigationSourceConfig, TNavigationDirection} from 'Controls/interface';
+import {TNavigationDirection} from 'Controls/interface';
+import { INavigation } from 'Controls-demo/types';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
 export interface INavigationSwitcherOptions extends IControlOptions {
@@ -13,7 +14,7 @@ export interface INavigationSwitcherOptions extends IControlOptions {
 
 export class NavigationSwitcher extends Control<INavigationSwitcherOptions> {
     protected _template: TemplateFunction = Template;
-    protected _navigation: INavigationOptionValue<INavigationSourceConfig> = null;
+    protected _navigation: INavigation = null;
 
     _beforeMount(newOptions: INavigationSwitcherOptions): void {
         this._navigation = this.getNavigation({
@@ -36,7 +37,7 @@ export class NavigationSwitcher extends Control<INavigationSwitcherOptions> {
         direction?: INavigationSwitcherOptions['direction'],
         page?: INavigationSwitcherOptions['page'],
         totalCount: INavigationSwitcherOptions['totalCount']
-    }): INavigationOptionValue<INavigationSourceConfig> {
+    }): INavigation {
         // tslint:disable-next-line
         const pageSize = cfg.pageSize || this._options.pageSize || 100;
 

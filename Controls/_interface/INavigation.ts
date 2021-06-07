@@ -1,23 +1,15 @@
-/*
- * @typedef {String} TNavigationSource
- * @variant position Position-based navigation (cursor).
- * @variant page Page-based navigation.
- */
 /**
  * @typedef {String} TNavigationSource
  * @description Допустимые значения для параметра {@link Controls/interface:INavigationOptionValue#source source}.
  * @variant position  Навигация по курсору. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#cursor здесь}.
  * @variant page Навигация с фиксированным количеством загружаемых записей. {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#page здесь}.
  */
-export type TNavigationSource = 'position' | 'page';
-
 /*
- * @typedef {String} TNavigationView
- * @variant infinity Infinite scroll.
- * @variant pages Pages with paging control.
- * @variant demand Load next when requested (for example, hasMore button clicked).
- * @variant maxCount Load data until threshold value set in {@link Controls/_interface/INavigation/INavigationViewConfig.typedef maxCountValue}.
+ * @typedef {String} TNavigationSource
+ * @variant position Position-based navigation (cursor).
+ * @variant page Page-based navigation.
  */
+export type TNavigationSource = 'position' | 'page';
 
 /**
  * @typedef {String} TNavigationView
@@ -40,6 +32,14 @@ export type TNavigationSource = 'position' | 'page';
  * Список отображает настроенное количество записей.
  * Загрузка оставшихся записей происходит по кнопке сворачивания/разворачивания.
  * При развернутом списке отображаются все записи, при свернутом количество записей настраивается в параметре pageSize.
+ */
+
+/*
+ * @typedef {String} TNavigationView
+ * @variant infinity Infinite scroll.
+ * @variant pages Pages with paging control.
+ * @variant demand Load next when requested (for example, hasMore button clicked).
+ * @variant maxCount Load data until threshold value set in {@link Controls/_interface/INavigation/INavigationViewConfig.typedef maxCountValue}.
  */
 export type TNavigationView = 'infinity' | 'pages' | 'demand' | 'maxCount' | 'cut';
 
@@ -85,25 +85,6 @@ export interface IBasePositionSourceConfig {
      * Подробнее об использовании свойства читайте {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#parametr-source-limit здесь}.
      */
     limit?: number;
-    /**
-     * Включает режим {@link /doc/platform/developmentapl/service-development/service-contract/logic/list/navigate/multinavigation/ множественной навигации}.
-     * @default false
-     * @example
-     * <pre class="brush: html; highlight: [9]">
-     * <!-- WML -->
-     * <Controls.list:View source="{{_viewSource}}">
-     *    <ws:navigation source="position" view="infinity">
-     *       <ws:sourceConfig 
-     *          field="id"
-     *          position="{{_position}}"
-     *          direction="bothways"
-     *          limit="{{20}}"
-     *          multiNavigation="{{true}}" />
-     *       <ws:viewConfig totalInfo="basic"/>
-     *    </ws:navigation>
-     * </Controls.list:View>
-     * </pre>
-     */
     multiNavigation?: boolean;
 }
 
@@ -126,14 +107,13 @@ export interface INavigationPositionSourceConfig extends IBasePositionSourceConf
 
 /*
  * @typedef {Object} Controls/_interface/INavigation/IBasePageSourceConfig
- * @description Базовая конфигурация для {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#data-parametr Навигация с фиксированным количеством загружаемых записей}.
+ * @description Конфигурация для постраничной навигации.
  * @property {Number} page Номер загружаемой страницы.
  * @property {Number} pageSize Размер загружаемой страницы.
  */
 
 /**
- * @description Базовая конфигурация для {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#data-parametr Навигация с фиксированным количеством загружаемых записей}.
- * 
+ * @description Конфигурация для постраничной навигации.
  * @public
  * @author Крайнов Д.О.
  */
@@ -146,24 +126,6 @@ export interface IBasePageSourceConfig {
      * Размер загружаемой страницы.
      */
     pageSize: number;
-    /**
-     * Включает режим {@link /doc/platform/developmentapl/service-development/service-contract/logic/list/navigate/multinavigation/ множественной навигации}.
-     * @default false
-     * @example
-     * <pre class="brush: html; highlight: [8]">
-     * <!-- WML -->
-     * <Controls.list:View source="{{_viewSource}}">
-     *    <ws:navigation source="page" view="pages">
-     *       <ws:sourceConfig 
-     *          pageSize="{{10}}"
-     *          page="{{0}}"
-     *          hasMore="{{false}}" 
-     *          multiNavigation="{{true}}" />
-     *       <ws:viewConfig totalInfo="basic"/>
-     *    </ws:navigation>
-     * </Controls.list:View>
-     * </pre>
-     */
     multiNavigation?: boolean;
 }
 
@@ -187,7 +149,7 @@ export interface INavigationPageSourceConfig extends IBasePageSourceConfig {
 }
 
 /*
- * @typedef {Object} INavigationSourceConfig
+ * @typedef {Object} Controls/_interface/INavigation/INavigationSourceConfig
  * @description Source configuration for both page-based and position-based (cursor) navigation.
  */
 /**
@@ -236,7 +198,7 @@ type TNavigationPagingPadding = 'default' | 'null';
 type TNavigationPagingPosition= 'left' | 'right';
 
 /**
- * @description Параметры для конфигурации {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
+ * @description Допустимые параметры для конфигурации {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
  * @public
  * @author Крайнов Д.О.
  */
@@ -277,6 +239,9 @@ export interface INavigationViewConfig {
     pagingPosition?: TNavigationPagingPosition;
 }
 
+/*
+ * @name Controls/_interface/INavigation/INavigationOptionValue
+ */
 /**
  * @description Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/ навигации} в {@link /doc/platform/developmentapl/interface-development/controls/list/ списке}.
  * @public
@@ -284,10 +249,9 @@ export interface INavigationViewConfig {
  */
 export interface INavigationOptionValue<U> {
     /**
-     * @name Controls/_interface/INavigation/INavigationOptionValue#source
-     * @cfg {Controls/interface:INavigation/TNavigationSource.typedef} Режим {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * Режим {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
-     * <pre class="brush: html; highlight: [3]">
+     * <pre class="brush: html">
      * <!-- WML -->
      * <Controls.list:View source="{{_viewSource}}">
      * <ws:navigation source="position" view="pages">
@@ -301,24 +265,23 @@ export interface INavigationOptionValue<U> {
      */
     source?: TNavigationSource;
     /**
-     * @name Controls/_interface/INavigation/INavigationOptionValue#view
-     * @cfg {Controls/interface:INavigation/TNavigationView.typedef} Вид {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
+     * Вид {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
      * @example
-     * <pre class="brush: html; highlight: [4]">
+     * <pre class="brush: html">
      * <!-- WML -->
      * <Controls.scroll:Container>
-     *     <Controls.list:View source="{{_viewSource}}">
-     *         <ws:navigation source="page" view="infinity"/>
-     *     </Controls.list:View>
+     * <Controls.list:View source="{{_viewSource}}">
+     *    <ws:navigation source="page" view="infinity"/>
+     * </Controls.list:View>
      * </Controls.scroll:Container>
      * </pre>
      */
     view?: TNavigationView;
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#sourceConfig
-     * @cfg {Controls/interface:INavigation/INavigationSourceConfig.typedef} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @cfg {Controls/_interface/INavigation/INavigationSourceConfig.typedef} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
-     * <pre class="brush: html; highlight: [4]">
+     * <pre class="brush: html">
      * <!-- WML -->
      * <Controls.list:View source="{{_viewSource}}">
      *    <ws:navigation source="position" view="infinity">
@@ -329,11 +292,9 @@ export interface INavigationOptionValue<U> {
      */
     sourceConfig?: U;
     /**
-     * @name Controls/_interface/INavigation/INavigationOptionValue#viewConfig
-     * @cfg {Controls/interface:INavigationViewConfig} Конфигурация вида {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
+     * Конфигурация вида {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
      * @example
-     * <pre class="brush: html; highlight: [5]">
-     * <!-- WML -->
+     * <pre class="brush: html">
      * <Controls.list:View source="{{_viewSource}}">
      *     <ws:navigation source="page" view="pages">
      *         <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}"/>
@@ -349,14 +310,6 @@ export interface INavigationOptions<U> {
     navigation?: INavigationOptionValue<U>;
 }
 
-/*
- * Interface for list navigation.
- *
- * @interface Controls/_interface/INavigation
- * @public
- * @author Крайнов Д.О.
- */
-
 /**
  * Интерфейс для контролов, поддерживающих {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/ навигацию}.
  *
@@ -364,6 +317,15 @@ export interface INavigationOptions<U> {
  * @public
  * @author Крайнов Д.О.
  */
+
+/**
+ * Interface for list navigation.
+ *
+ * @interface Controls/_interface/INavigation
+ * @public
+ * @author Крайнов Д.О.
+ */
+
 export default interface INavigation {
     readonly '[Controls/_interface/INavigation]': boolean;
 }
@@ -376,6 +338,7 @@ export default interface INavigation {
  * <pre class="brush: html">
  * <!-- WML -->
  * <Controls.list:View
+ *    keyProperty="id"
  *    source="{{_source}}"
  *    navigation="{{_navigation}}" />
  * </pre>
@@ -412,7 +375,7 @@ export default interface INavigation {
  * @demo Controls-demo/list_new/Navigation/ScrollPaging/Index
  */
 
-/*
+/**
  * @name Controls/_interface/INavigation#navigation
  * @cfg {Navigation} List navigation configuration. Configures data source navigation (pages, offset, position) and navigation view (pages, infinite scroll, etc.)
  * @example
@@ -453,5 +416,28 @@ export default interface INavigation {
  *       }
  *    };
  * }
+ * </pre>
+ */
+
+/**
+ * @name Controls/interface:INavigationSourceConfig#multiNavigation 
+ * @cfg {Boolean} Включает режим множественной навигации.
+ * @default false
+ * @remark Подробнее читайте в статье "{@link /doc/platform/developmentapl/service-development/service-contract/logic/list/navigate/multinavigation/ Множественная навигация в списочных контролах}".
+ * @example
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.list:View
+ *    keyProperty="id"
+ *    source="{{_viewSource}}">
+ *    <ws:navigation source="page" view="pages">
+ *       <ws:sourceConfig 
+ *          pageSize="{{10}}"
+ *          page="{{0}}"
+ *          hasMore="{{false}}" 
+ *          multiNavigation="{{true}}" >
+ *       <ws:viewConfig totalInfo="basic"/>
+ *    </ws:navigation>
+ * </Controls.list:View>
  * </pre>
  */

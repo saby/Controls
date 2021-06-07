@@ -38,7 +38,7 @@
 </ws:template>
 
 <ws:template name="stickyCell">
-         <Controls.scroll:StickyBlock
+         <Controls.scroll:StickyHeader
               attr:key="{{(headerColumn.key)}}"
               attr:class="{{headerColumn.cellClasses}}"
               attr:style="{{headerColumn.style ? headerColumn.style : ''}}{{headerColumn.cellStyles}}"
@@ -57,7 +57,7 @@
                      headerColumn="{{headerColumn}}"
                      hasMultiSelect="{{hasMultiSelect}}"
                      headerModel="{{ headerModel }}"/>
-      </Controls.scroll:StickyBlock>
+      </Controls.scroll:StickyHeader>
 </ws:template>
 
 <ws:template name="header">

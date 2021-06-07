@@ -8,7 +8,7 @@ export interface IItemTemplateOptions {
     itemTemplateProperty?: string;
     /**
      * @name Controls/_interface/IItemTemplate#itemTemplate
-     * @cfg {TemplateFunction|String} Шаблон элемента списка.
+     * @cfg {TemplateFunction} Шаблон элемента списка.
      * @remark
      * По умолчанию используется шаблон "Controls/list:ItemTemplate".
      *

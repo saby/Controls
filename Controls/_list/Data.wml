@@ -1,4 +1,3 @@
-<Controls.context:ContextOptionsProvider value="{{ _contextState }}">
 <ws:partial template="{{_options.content}}"
             on:filterChanged="_filterChanged()"
             on:rootChanged="_rootChanged()"
@@ -24,4 +23,3 @@
             source="{{_sourceControllerState.source}}"
             root="{{_sourceControllerState.root}}"
             expandedItems="{{_options.nodeHistoryId ? _expandedItems : _options.expandedItems}}"/>
-</Controls.context:ContextOptionsProvider>

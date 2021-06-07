@@ -50,6 +50,6 @@
 
 /**
  * @name Controls/dropdown:GroupTemplate#contentTemplate
- * @cfg {String|TemplateFunction|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
+ * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
  * @default undefined
  */

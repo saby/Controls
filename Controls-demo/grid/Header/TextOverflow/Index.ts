@@ -3,14 +3,14 @@ import * as Template from 'wml!Controls-demo/grid/Header/TextOverflow/TextOverfl
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
-import { IHeaderCell } from 'Controls/grid';
+import {IHeader} from 'Controls-demo/types';
 
 const MAXITEM = 10;
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _header: IHeaderCell[] = getCountriesStats().getLongHeader('ellipsis');
+    protected _header: IHeader[] = getCountriesStats().getLongHeader('ellipsis');
     protected _columns: IColumn[] = getCountriesStats().getColumnsWithFixedWidths();
 
     protected _beforeMount(): void {

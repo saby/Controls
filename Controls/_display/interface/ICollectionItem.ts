@@ -7,7 +7,7 @@ export interface ICollectionItem<S extends Model = Model> extends IInstantiable,
 
     /**
      * Получить представление текущего элемента
-     * @function
+     * @method
      * @public
      * @return {Types/entity:Model} Опции записи
      */

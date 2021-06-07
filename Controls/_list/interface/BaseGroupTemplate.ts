@@ -1,4 +1,4 @@
-export interface IBaseGroupTemplate {
+export default interface IBaseGroupTemplateOptions {
    expanderAlign?: string;
    separatorVisibility?: boolean;
    expanderVisible?: boolean;
@@ -79,12 +79,11 @@ export interface IBaseGroupTemplate {
 
 /**
  * @name Controls/_list/interface/IBaseGroupTemplate#rightTemplate
- * @cfg {String|TemplateFunction|undefined} Пользовательский шаблон, отображаемый в правой части заголовка группы.
+ * @cfg {String|Function|undefined} Пользовательский шаблон, отображаемый в правой части заголовка группы.
  * @default undefined
  * @demo Controls-demo/list_new/Grouped/RightTemplate/Index
- * @markdown
  * @remark
- * В области видимости шаблона доступна переменная **item** со следующими свойствами:
+ * В области видимости шаблона доступна переменная **itemData** со следующими свойствами:
  *
  * * item — идентификатор отрисовываемой группы, полученный из {@link Controls/interface/IGroupedGrid#groupProperty groupProperty}.
  * * {@link Types/collection:RecordSet#metaData metaData} — метаданные рекордсета, который загружен для таблицы.
@@ -94,13 +93,13 @@ export interface IBaseGroupTemplate {
  *
  *
  * **Пример 1.** Контрол и шаблон groupTemplate настроены в одном WML-файле.
- * <pre class="brush: html; highlight: [3-9]">
+ * <pre class="brush: html">
  * <!-- file1.wml -->
- * <Controls.list:View source="{{_viewSource}}">
+ * <Controls.list:View>
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/list:GroupTemplate" scope="{{groupTemplate}}">
  *          <ws:rightTemplate>
- *             {{ rightTemplate.item.metaData.groupResults[rightTemplate.item.contents] }}
+ *             {{ rightTemplate.itemData.metaData.groupResults[rightTemplate.item.contents] }}
  *          </ws:rightTemplate>
  *       </ws:partial>
  *    </ws:groupTemplate>
@@ -108,9 +107,9 @@ export interface IBaseGroupTemplate {
  * </pre>
  *
  * **Пример 2.** Контрол и шаблон groupTemplate настроены в отдельных WML-файлах.
- * <pre class="brush: html; highlight: [3-5]">
+ * <pre class="brush: html">
  * <!-- file1.wml -->
- * <Controls.list:View source="{{_viewSource}}">
+ * <Controls.list:View>
  *    <ws:groupTemplate>
  *       <ws:partial template="wml!file2" scope="{{groupTemplate}}"/>
  *    </ws:groupTemplate>
@@ -121,16 +120,16 @@ export interface IBaseGroupTemplate {
  * <!-- file2.wml -->
  * <ws:partial template="Controls/list:GroupTemplate">
  *    <ws:rightTemplate>
- *       {{ rightTemplate.item.metaData.groupResults[rightTemplate.item.contents] }}
+ *       {{ rightTemplate.itemData.metaData.groupResults[rightTemplate.item.contents] }}
  *    </ws:rightTemplate>
  * </ws:partial>
  * </pre>
  *
  * **Пример 3.** Контрол и шаблон rightTemplate настроены в отдельных WML-файлах.
  *
- * <pre class="brush: html; highlight: [3-9]">
+ * <pre class="brush: html">
  * <!-- file1.wml -->
- * <Controls.list:View source="{{_viewSource}}">
+ * <Controls.list:View>
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/list:GroupTemplate">
  *          <ws:rightTemplate>
@@ -143,16 +142,16 @@ export interface IBaseGroupTemplate {
  *
  * <pre class="brush: html">
  * <!-- file2.wml -->
- * {{ rightTemplate.item.metaData.groupResults[rightTemplate.item.contents] }}
+ * {{ rightTemplate.itemData.metaData.groupResults[rightTemplate.item.contents] }}
  * </pre>
  */
 /**
  * @name Controls/_list/interface/IBaseGroupTemplate#contentTemplate
- * @cfg {String|TemplateFunction|undefined} Пользовательский шаблон вместо текста заголовка группы.
+ * @cfg {String|Function|undefined} Пользовательский шаблон вместо текста заголовка группы.
  * @default undefined
  * @demo Controls-demo/list_new/Grouped/ContentTemplate/Index
  * @remark
- * В области видимости шаблона доступна переменная **item** со следующими свойствами:
+ * В области видимости шаблона доступна переменная **itemData** со следующими свойствами:
  *
  * * item — идентификатор отрисовываемой группы, полученный из {@link Controls/interface/IGroupedGrid#groupProperty groupProperty}.
  * * {@link Types/collection:RecordSet#metaData metaData} — метаданные рекордсета, который загружен для списка.
@@ -160,13 +159,13 @@ export interface IBaseGroupTemplate {
  * @example
  * В следующих примерах показано, как изменять опции шаблона для контрола {@link Controls/list:View}, однако то же самое справедливо и для других списочных контролов.
  *
- * В примерах №№ 1, 2 и 3 показано, как получить доступ к переменной item из области видимости шаблона.
+ * В примерах №№ 1, 2 и 3 показано, как получить доступ к переменной itemData из области видимости шаблона.
  *
  * **Пример 1.** Контрол и шаблон groupTemplate настроены в одном WML-файле.
  *
- * <pre class="brush: html; highlight: [3-10]">
+ * <pre class="brush: html">
  * <!-- file1.wml -->
- * <Controls.list:View source="{{_viewSource}}">
+ * <Controls.list:View>
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/list:GroupTemplate" scope="{{groupTemplate}}">
  *          <ws:contentTemplate>
@@ -179,16 +178,16 @@ export interface IBaseGroupTemplate {
  * </pre>
  *
  * **Пример 2.** Контрол и шаблон groupTemplate настроены в отдельных WML-файлах.
- * <pre class="brush: html; highlight: [3-5]">
+ * <pre class="brush: html">
  * <!-- file1.wml -->
- * <Controls.list:View source="{{_viewSource}}">
+ * <Controls.list:View>
  *    <ws:groupTemplate>
  *       <ws:partial template="wml!file2" scope="{{groupTemplate}}"/>
  *    </ws:groupTemplate>
  * </Controls.list:View>
  * </pre>
  *
- * <pre class="brush: html;">
+ * <pre class="brush: html">
  * <!-- file2.wml -->
  * <ws:partial template="Controls/list:GroupTemplate">
  *    <ws:contentTemplate>
@@ -200,9 +199,9 @@ export interface IBaseGroupTemplate {
  *
  * **Пример 3.** Контрол и шаблон contentTemplate настроены в отдельных WML-файлах.
  *
- * <pre class="brush: html; highlight: [3-9]">
+ * <pre class="brush: html">
  * <!-- file1.wml -->
- * <Controls.list:View source="{{_viewSource}}">
+ * <Controls.list:View>
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/list:GroupTemplate">
  *          <ws:contentTemplate>

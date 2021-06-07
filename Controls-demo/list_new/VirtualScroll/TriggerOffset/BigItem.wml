@@ -1,3 +1,0 @@
-<div class="{{'controlsDemo_bordered controlsDemo__height' + _options.height}}">
-    {{_options.title}}
-</div>

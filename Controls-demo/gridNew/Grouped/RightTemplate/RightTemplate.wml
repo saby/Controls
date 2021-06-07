@@ -6,7 +6,7 @@
         <Controls.list:Container>
             <Controls.grid:View
                     attr:class=""
-                    keyProperty="key"
+                    keyProperty="id"
                     source="{{_viewSource}}"
                     rowSeparatorSize="s"
                     columns="{{_columns}}"

@@ -1,3 +1,0 @@
-<ws:partial template="Controls/grid:ColumnTemplate"
-            scope="{{_options}}"
-            cursor="pointer"/>

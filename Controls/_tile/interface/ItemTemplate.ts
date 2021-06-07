@@ -6,9 +6,9 @@
  * @author Авраменко А.С.
  * @see Controls/tile:View
  * @example
- * <pre class="brush: html; highlight: [3-12]">
+ * <pre class="brush: html">
  * <!-- WML -->
- * <Controls.tile:View source="{{_viewSource}}">
+ * <Controls.tile:View>
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/tile:ItemTemplate">
  *          <ws:contentTemplate>
@@ -29,45 +29,23 @@
 
 export default interface IItemTemplateOptions {
    /**
-    * @cfg {String} Видимость заголовка плитки.
+    * @cfg {Boolean} Подпись к плитке.
     * @see titleStyle
     */
    hasTitle?: string;
    /**
-    * @cfg {Boolean} Динамическое изменение высоты плитки, когда плитка отображается со статической шириной, т.е. опция {@link Controls/tile:ITile#tileMode tileMode} установлена в значение static.
+    * @cfg {Number} Будет ли автоматически изменяться высота плитки, когда плитка отображается со статической шириной, т.е. опция {@link tileMode} установлена в значение static.
     */
    staticHeight?: boolean;
    /**
     * @typedef {String} ShadowVisibility
-    * @description Допустимые значения для опции {@link shadowVisibility}.
     * @variant visible Отображается.
     * @variant hidden Не отображается.
-    * @variant onhover Отображается только при наведении курсора на плитку.
+    * @variant onhover Отображается только при наведении на плитку.
     */
    /**
     * @cfg {ShadowVisibility} Нужно ли отображать тень для плитки.
     * @default visible
-    * @demo Controls-demo/Tile/Shadows/Index
     */
    shadowVisibility?: string;
-   /**
-    * @cfg {Boolean} Отображение рамки вокруг элемента плитки.
-    * @default true
-    * @example
-    * В следующем примере отображение рамки вокруг элемента плитки отключено.
-    * <pre class="brush: html; highlight: [8]">
-    * <!-- WML -->
-    * <Controls.tile:View
-    *    source="{{_source}}"
-    *    imageProperty="image">
-    *    <ws:itemTemplate>
-    *       <ws:partial
-    *          template="Controls/tile:ItemTemplate"
-    *          border="{{false}}"/>
-    *    </ws:itemTemplate>
-    * </Controls.tile:View>
-    * </pre>
-    */
-   border?: boolean;
 }
-

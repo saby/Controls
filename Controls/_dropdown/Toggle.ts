@@ -20,7 +20,6 @@ interface IToggleOptions extends IControlOptions {
  * @class Controls/_dropdown/Toggle
  * @extends UI/Base:Control
  * @mixes Controls/interface:IMultiSelectable
- * @demo Controls-demo/dropdown_new/Toggle/Index
  *
  * @public
  * @author Золотова Э.Е.

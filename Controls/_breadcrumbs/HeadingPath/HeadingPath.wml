@@ -9,7 +9,6 @@
                                                     backButtonStyle="{{ _options.backButtonStyle }}"
                                                     backButtonIconStyle="{{ _options.backButtonIconStyle }}"
                                                     backButtonFontColorStyle="{{ _options.backButtonFontColorStyle }}"
-                                                    backButtonNewIcon="{{_options.backButtonNewIcon}}"
                                                     showActionButton="{{_options.showActionButton}}"
                                                     displayMode="{{_options.displayMode}}"
                                                     afterBackButtonTemplate="{{_options.afterBackButtonTemplate}}"

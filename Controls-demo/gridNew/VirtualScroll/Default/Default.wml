@@ -4,7 +4,7 @@
         <ws:content>
             <Controls.scroll:Container attr:style="height: 300px;">
                 <Controls.grid:View
-                        keyProperty="key"
+                        keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
                         navigation="{{_options.navigation}}">

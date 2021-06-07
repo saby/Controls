@@ -3,6 +3,7 @@ import template = require('wml!Controls-demo/LoadingIndicator/Delay/Delay');
 
 class Delay extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
+    static _theme: string[] = ['Controls/Classes'];
     _openFirst(e, time): void {
         this._children.loadingIndicatorFirst.show({});
         setTimeout(function() {

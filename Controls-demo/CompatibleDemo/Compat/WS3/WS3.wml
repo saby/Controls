@@ -1,0 +1,9 @@
+<div class="compatibleDemo__column">
+    <div class="compatibleDemo__row">
+        <SBIS3.CONTROLS.Label caption="" class="compatibleDemo__row__fill" name="validateText"/>
+    </div>
+    <div class="compatibleDemo__row">
+        <SBIS3.CONTROLS.Label caption="SBIS3.CONTROLS.TextBox" owner="myTextBox" class="compatibleDemo__row__fill"/>
+        <SBIS3.CONTROLS.TextBox text="{{ 'myContextFieldName'|mutable:_text }}" name="myTextBox"/>
+    </div>
+</div>

@@ -2,18 +2,18 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/DragNDrop/DragNDrop';
 import * as ListEntity from 'Controls-demo/DragNDrop/ListEntity';
 import {HierarchicalMemory} from 'Types/source';
+import {Gadgets} from '../DemoHelpers/DataCatalog';
 import {RecordSet} from 'Types/collection';
 import { TRoot, TItemsReadyCallback } from 'Controls-demo/types';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';
 import { IColumn } from 'Controls/grid';
-import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _columns: IColumn[] = Flat.getColumns();
+    protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat();
     protected _viewMode: string = 'table';
     protected _root: TRoot = null;
     protected _selectedKeys: Number[] = [];
@@ -23,8 +23,8 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
-            keyProperty: 'key',
-            data: Flat.getData(),
+            keyProperty: 'id',
+            data: Gadgets.getFlatData(),
             parentProperty: 'parent'
         });
     }

@@ -5,7 +5,7 @@
     </div>
 
     <Controls.grid:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
 
             navigation="{{_navigation}}"

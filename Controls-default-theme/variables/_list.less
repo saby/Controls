@@ -45,6 +45,24 @@
    --pagesCounter_font-size_list: var(--font-size_s);
    --pagesSelector_offset-left_list: var(--offset_2xs);
 
+   // Кнопка сброса поиска
+
+   --abortSearch_text-color_list: var(--link_text-color);
+   --abortSearch_hover_text-color_list: var(--link_hover_text-color);
+   --abortSearch_active_text-color_list: var(--abortSearch_hover_text-color_list);
+   --abortSearch_font-size_list: var(--font-size_default);
+
+   // Кнопка продолжения поиска
+
+   --continueSearch_text-color_list: var(--link_text-color);
+   --continueSearch_hover_text-color_list: var(--link_hover_text-color);
+   --continueSearch_active_text-color_list: var(--continueSearch_hover_text-color_list);
+   --continueSearch_font-size_list: var(--font-size_default);
+   --continueSearch_icon-offset_list: var(--offset_s);
+   --continueSearch_icon-color_list: var(--secondary_icon-color);
+   --continueSearch_hover_icon-color_list: var(--secondary_hover_icon-color);
+   --continueSearch_padding-top_list: var(--offset_s);
+
    // Индикатор загрузки
    --loadingIndicator_iterativeSearch_box-shadow_list: 0 0 8px rgba(0, 0, 0, 0.12);
 
@@ -69,6 +87,8 @@
    --item_dragging_counter_top_list: 4px;
    --item_dragging_counter_padding_list: 0 6px;
    --item_dragging_counter_font-size_list: 14px;
+   --item_dragging_counter_background-color_list: #D94700;
+   --item_dragging_counter_color_list: #ffffff;
 
    // Маркер
 
@@ -136,8 +156,8 @@
    --grouping_expander_padding-right_list: var(--offset_m);
    --grouping_expander_font-size_list: var(--font-size_xs);
    --grouping_expander_text-color_list: var(--unaccented_text-color);
-   --grouping_expander_hover_text-color_list: var(--secondary_hover_icon-color);
-   --grouping_expander_active_text-color_list: var(--grouping_expander_hover_text-color_list);
+   --grouping_expander_hover_text-color_list: var(--link_hover_text-color);
+   --grouping_expander_active_text-color_list: var(--link_hover_text-color);
    --grouping_expander_icon-size_list: var(--icon-size_s);
    --grouping_expander_icon-size-2xs_list: var(--icon-size_2xs);
    --grouping_expander_icon-size-xs_list: var(--icon-size_xs);
@@ -231,4 +251,13 @@
    --list-text-color_decoratorMoney: var(--secondary_text-color);
 
    --z-index_Scroll-contentEnvironment: 29;
+
+   // loading indicator
+   --spinner_l_size_loadingIndicator: 32px;
+   --content_background-color_loadingIndicator: var(--background-color);
+   --spinner_s_background-image_loadingIndicator: url('/cdn/LoaderIndicator/1.0.0/ajax-loader-indicator.gif');
+   --spinner_l_background-image_loadingIndicator: url('/cdn/LoaderIndicator/1.0.0/ajax-loader-indicator.gif');
+   --content_l_border_radius_loadingIndicator: 8px;
+   --content_l_padding_loadingIndicator: var(--offset_s);
+   --text-color_loadingIndicator: var(--text-color);
 }

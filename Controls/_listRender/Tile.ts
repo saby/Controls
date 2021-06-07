@@ -8,7 +8,7 @@ import defaultItemTemplate = require('wml!Controls/_listRender/Tile/resources/It
 import { TileCollection, TileCollectionItem } from 'Controls/display';
 import { debounce } from 'Types/function';
 import { SyntheticEvent } from 'Vdom/Vdom';
-import { TouchDetect } from 'Env/Touch';
+import { TouchContextField } from 'Controls/context';
 import {constants} from 'Env/Env';
 import 'css!Controls/tile';
 
@@ -196,7 +196,7 @@ export default class TileRender extends BaseRender {
     }
 
     private _isTouch(): boolean {
-        return TouchDetect.getInstance().isTouch();
+        return this._context?.isTouch?.isTouch;
     }
 
     private _shouldProcessHover(): boolean {
@@ -209,6 +209,12 @@ export default class TileRender extends BaseRender {
     static getDefaultOptions(): Partial<ITileRenderOptions> {
         return {
             itemTemplate: defaultItemTemplate
+        };
+    }
+
+    static contextTypes() {
+        return {
+            isTouch: TouchContextField
         };
     }
 }

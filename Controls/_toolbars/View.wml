@@ -9,7 +9,6 @@
                         buttonTemplateOptions="{{ _getSimpleButtonTemplateOptionsByItem(item) }}"
                         theme="{{_options.theme}}"
                         isFirstItem="{{_firstItem === item}}"
-                        attr:data-qa="{{item[_options.keyProperty]}}"
                         on:click="_itemClickHandler(item)"/>
          </ws:if>
       </ws:for>

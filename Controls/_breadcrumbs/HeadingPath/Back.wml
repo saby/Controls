@@ -7,7 +7,6 @@
                                style="{{ _options.backButtonStyle }}"
                                iconStyle="{{ _options.backButtonIconStyle }}"
                                fontColorStyle="{{ _options.backButtonFontColorStyle }}"
-                               newIcon="{{_options.backButtonNewIcon}}"
                                fontSize="headingPathBack"
                                theme="{{ _options.theme}}"
                                on:click="_onBackButtonClick()"/>

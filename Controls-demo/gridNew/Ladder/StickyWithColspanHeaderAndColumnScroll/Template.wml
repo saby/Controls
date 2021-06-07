@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <Controls.scroll:Container attr:class="controlsDemo__mb1 controlsDemo__height200 controlsDemo_fixedWidth500" shadowMode="js">
         <Controls.grid:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 header="{{_header}}"
@@ -11,7 +11,7 @@
     </Controls.scroll:Container>
     <Controls.scroll:Container attr:class="controlsDemo__height200 controlsDemo_fixedWidth800" shadowMode="js">
         <Controls.grid:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 header="{{_header}}"

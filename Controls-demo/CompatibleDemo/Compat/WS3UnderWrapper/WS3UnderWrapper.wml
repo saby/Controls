@@ -1,0 +1,3 @@
+<div class="compatibleDemo__row">
+    <Controls-demo.CompatibleDemo.Compat.DemoControls.TextBoxWrapper _text="{{ _text }}"/>
+</div>

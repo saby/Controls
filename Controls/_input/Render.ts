@@ -194,6 +194,8 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
         this._setState(this._options);
     }
 
+    static _theme: string[] = ['Controls/Classes'];
+
     private static notSupportFocusWithin(): boolean {
         return detection.isIE || (detection.isWinXP && detection.yandex);
     }

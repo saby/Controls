@@ -1,16 +1,17 @@
 define('Controls-demo/InfoBox/Opener/InfoBox',
    [
       'UI/Base',
-      'Env/Touch',
+      'Controls/context',
       'wml!Controls-demo/InfoBox/resources/content',
       'wml!Controls-demo/InfoBox/Opener/InfoBox',
    ],
-   function(Base, EnvTouch, contentTpl, template) {
+   function(Base, context, contentTpl, template) {
       'use strict';
 
       var message = 'MESSAGE';
       var InfoBox = Base.Control.extend({
          _template: template,
+         _theme: ['Controls/Classes'],
          _blocks: null,
          _icons: null,
          _cfgRight: null,
@@ -338,7 +339,7 @@ define('Controls-demo/InfoBox/Opener/InfoBox',
          },
 
          _open: function(e, cfg) {
-            if (!EnvTouch.TouchDetect.getInstance().isTouch()) {
+            if (!this._context.isTouch.isTouch) {
                cfg.target = e.target;
                this._children.IBOpener.open(cfg);
             }
@@ -348,6 +349,12 @@ define('Controls-demo/InfoBox/Opener/InfoBox',
             this._children.IBOpener.open(cfg);
          }
       });
+
+      InfoBox.contextTypes = function() {
+         return {
+            isTouch: context.TouchContextField
+         };
+      };
 
       InfoBox._styles = ['Controls-demo/InfoBox/Opener/InfoBox'];
 

@@ -26,14 +26,14 @@ export default interface IContainer {
     /**
      * Показать парковочный компонент, отображающий данные об ошибке
      * @param viewConfig
-     * @function
+     * @method
      * @public
      */
     show(viewConfig: ViewConfig): void;
 
     /**
      * Скрыть компонент, отображающий данные об ошибке
-     * @function
+     * @method
      * @public
      */
     hide(): void;

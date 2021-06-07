@@ -1,17 +1,8 @@
 import { assert } from 'chai';
-import { createSandbox } from 'sinon';
 
 import { Tile } from 'Controls/listRender';
-import { TouchDetect } from 'Env/Touch';
 
 describe('Controls/_listRender/Tile', () => {
-    let sandbox;
-    beforeEach(() => {
-       sandbox = createSandbox();
-    });
-    afterEach(() => {
-        sandbox.restore();
-    });
     const defaultCfg = {
         listModel: {
             destroyed: true,
@@ -185,8 +176,12 @@ describe('Controls/_listRender/Tile', () => {
             tile._debouncedSetHoveredItem = tile._setHoveredItem = (item) => {
                 hoveredItem = item;
             };
-            sandbox.stub(TouchDetect.getInstance(), 'isTouch').returns(false);
-        });
+            tile._context = {
+                isTouch: {
+                    isTouch: false
+                }
+            };
+        })
 
         it('_onItemWheel()', () => {
             tile._onItemWheel();

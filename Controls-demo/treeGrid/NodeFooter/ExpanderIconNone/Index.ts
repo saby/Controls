@@ -3,8 +3,7 @@ import * as Template from 'wml!Controls-demo/treeGrid/NodeFooter/ExpanderIconNon
 import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
-import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
-
+import { INavigation } from 'Controls-demo/types';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -16,7 +15,7 @@ export default class extends Control {
         }
     ];
     protected _expandedItems: number[] = [];
-    protected _navigation: INavigationOptionValue<INavigationSourceConfig> = {
+    protected _navigation: INavigation = {
         source: 'page',
         view: 'demand',
         sourceConfig: {

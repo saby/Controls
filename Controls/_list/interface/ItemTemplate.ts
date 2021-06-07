@@ -10,9 +10,8 @@
  * @see Controls/list:View
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html; highlight: [3-9]">
- * <!-- WML -->
- * <Controls.list:View source="{{_viewSource}}">
+ * <pre class="brush: html">
+ * <Controls.list:View>
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/list:ItemTemplate" marker="{{false}}" scope="{{itemTemplate}}"> 
  *          <ws:contentTemplate>

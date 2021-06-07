@@ -21,7 +21,7 @@
                  class="controls-PropertyGrid__groupExpander
                         {{expanderAlign ? 'controls-PropertyGrid__groupExpander-' + expanderAlign + '_theme-' + theme}}
                         controls-icon
-                        controls-icon_size-s
+                        controls-icon_size-s_theme-{{theme}}
                         {{!collapsedGroups[item] ? 'icon-MarkCollapseBold' : 'icon-MarkExpandBold'}}
                         controls-PropertyGrid__groupExpander_theme-{{theme}}"></div>
         </ws:if>

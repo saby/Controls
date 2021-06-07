@@ -2,11 +2,9 @@
    <ws:if data="{{(item || itemData).getImageFit() === 'contain' || itemType === 'rich'}}">
       <!--Делаем всегда object-fit: contain(background-size: contain) кроссбраузерно, пока поддерживаем ie11-->
       <svg role="image"
-           attr:itemprop="image"
            xmlns="http://www.w3.org/2000/svg"
            height="{{ item.getImageHeightAttribute(itemType) }}"
            width="{{ item.getImageWidthAttribute(itemType) }}"
-           style="{{ item.getBigGradientStyles(itemType, gradientStartColor, gradientStopColor ) }}"
            class="{{ (item || itemData).getImageClasses(itemType, width || itemWidth, imageAlign, imageViewMode, imageProportion, imagePosition, imageSize, imageFit, imageProportionOnItem) }}"
            preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}">
          <image preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}" height="100%" width="100%" xlink:href="{{ (item || itemData).getImageUrl(width || itemWidth, imagePosition, imageViewMode, fallbackImage) }}"></image>

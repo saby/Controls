@@ -130,7 +130,6 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$backgroundStyle: string;
 
     protected _isFullGridSupport: boolean = isFullGridSupport();
-    protected _footer: FooterRow<S>;
 
     protected constructor(options: IOptions) {
         const supportLadder = GridLadderUtil.isSupportLadder(this._$ladderProperties);
@@ -142,6 +141,9 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
         if (this._headerIsVisible(options.header)) {
             this._initializeHeader(options);
+        }
+        if (options.footerTemplate || options.footer) {
+            this._$footer = this._initializeFooter(options);
         }
         if (this._resultsIsVisible()) {
             this._initializeResults(options);
@@ -179,8 +181,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 owner: this,
                 header: this._$header,
                 sorting: this._$sorting,
-                multiSelectVisibility: this._$multiSelectVisibility,
-                hasMoreDataUp: this.hasMoreDataUp()
+                multiSelectVisibility: this._$multiSelectVisibility
             } as IOptions);
         }
 
@@ -199,23 +200,25 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         this.getEmptyGridRow()?.setRowTemplateOptions(options);
     }
 
-    setFooter(options: IOptions): void {
-        const footerModel = this.getFooter();
-
-        if (footerModel) {
-            footerModel.setRowTemplate(options.footerTemplate);
-            footerModel.setColumns(options.footer);
+    setFooter(footerTemplate: TemplateFunction, footer: TFooter, silent?: boolean): void {
+        if (this.getFooter()) {
+            this.getFooter().setFooter(footerTemplate, footer);
         } else {
-            this._footer = this._initializeFooter({
+            this._$footer = this._initializeFooter({
                 multiSelectVisibility: this._$multiSelectVisibility,
-                footerTemplate: options.footerTemplate,
-                footer: options.footer,
                 backgroundStyle: this._$backgroundStyle,
+                footerTemplate,
+                footer,
                 columnSeparatorSize: this._$columnSeparatorSize
             });
         }
+        if (!silent) {
+            this._nextVersion();
+        }
+    }
 
-        this._nextVersion();
+    getFooter(): FooterRow<S> {
+        return this._$footer;
     }
 
     getResults(): ResultsRow<S> {
@@ -460,10 +463,6 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _initializeFooter(options: IOptions): FooterRow<S> {
-        if (!options.footerTemplate && !options.footer) {
-            return;
-        }
-
         return new FooterRow({
             owner: this,
             multiSelectVisibility: options.multiSelectVisibility,
@@ -573,11 +572,6 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     setStickyColumnsCount(stickyColumnsCount: number): void {
         this._$stickyColumnsCount = stickyColumnsCount;
-        this._updateItemsProperty('setStickyColumnsCount', stickyColumnsCount, 'setStickyColumnsCount');
-        if (this.getHeader()) {
-            this.getHeader().setStickyColumnsCount(stickyColumnsCount);
-        }
-
         this._nextVersion();
     }
 
@@ -596,8 +590,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     // region Controls/_display/CollectionItem
 
     abstract getMetaResults(): EntityModel;
-    abstract hasMoreData(): boolean;
-    abstract hasMoreDataUp(): boolean;
+    abstract getHasMoreData(): boolean;
     abstract getCollectionCount(): number;
     abstract getViewIterator(): IViewIterator;
     abstract getStartIndex(): number;
@@ -608,7 +601,6 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     abstract getItemBySourceItem(item: S): T;
     abstract getItemBySourceKey(key: string | number): T;
     abstract getCollection(): IBaseCollection<S, T>;
-    abstract getFooter(): FooterRow<S>;
     abstract each(callback: EnumeratorCallback<T>, context?: object): void;
 
     protected abstract _nextVersion(): void;

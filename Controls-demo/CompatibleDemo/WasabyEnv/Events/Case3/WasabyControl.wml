@@ -1,0 +1,7 @@
+<div class="wasabyControl">
+    <div>
+        WasabyEnv
+    </div>
+    <Controls.search:Input bind:value="value" on:valueChanged="_changeValuesHandler()" attr:class="controlsDemo-CompatibleDemo__search"/>
+    <Controls.input:Area value="{{textValue}}" attr:class="controlsDemo-CompatibleDemo__textarea"/>
+</div>

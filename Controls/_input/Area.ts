@@ -23,7 +23,7 @@ import 'css!Controls/input';
  * Вы можете переместить текст в следующую строку с помощью {@link newLineKey горячих клавиш}.
  *
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/input/text/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/input/text/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_input.less переменные тем оформления}
  *
  * @class Controls/_input/Area

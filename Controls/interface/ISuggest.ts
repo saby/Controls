@@ -50,7 +50,7 @@ export interface ISuggestFooterTemplate {
 }
 
 /**
- * Интерфейс для {@link /doc/platform/developmentapl/interface-development/controls/input-elements/input/suggest/ автодополнения}.
+ * Интерфейс для {@link /doc/platform/developmentapl/interface-development/controls/input/suggest/ автодополнения}.
  * @public
  * @author Герасимов А.М.
  */
@@ -65,7 +65,7 @@ interface ISuggest {
    readonly _options: {
       /**
        * @name Controls/interface/ISuggest#suggestTemplate
-       * @cfg {ISuggestTemplateProp|null} Шаблон {@link /doc/platform/developmentapl/interface-development/controls/input-elements/input/suggest/ автодополнения}, который отображает результаты поиска.
+       * @cfg {ISuggestTemplateProp|null} Шаблон {@link /doc/platform/developmentapl/interface-development/controls/input/suggest/ автодополнения}, который отображает результаты поиска.
        * @remark Корневым контролом автодополнения должен быть Controls/Container/Suggest/List, этому контролу можно передать в контентной опции контрол ({@link Controls/list:View} или {@link Controls/grid:View}), который отобразит список.
        * @remark Вы можете установить ширину окна с автодополнением, добавив собственный класс в suggestTemplate и установив минимальную ширину. По умолчанию ширина автодополнения равна ширине поля ввода.
        * @demo Controls-demo/Suggest_new/SearchInput/SuggestTemplate/SuggestTemplate
@@ -133,7 +133,7 @@ interface ISuggest {
 
       /**
        * @name Controls/interface/ISuggest#emptyTemplate
-       * @cfg {IEmptyTemplateProp|null} Шаблон, который будет отображаться в {@link /doc/platform/developmentapl/interface-development/controls/input-elements/input/suggest/ автодополнении}, если поисковой запрос не вернул результатов.
+       * @cfg {IEmptyTemplateProp|null} Шаблон, который будет отображаться в {@link /doc/platform/developmentapl/interface-development/controls/input/suggest/ автодополнении}, если поисковой запрос не вернул результатов.
        * @remark Если опция имеет значение null, то автодополнение не отобразится, если поисковой запрос не вернул результатов.
        * @demo Controls-demo/Suggest_new/SearchInput/EmptyTemplate/EmptyTemplate
        * @example
@@ -175,7 +175,7 @@ interface ISuggest {
 
       /**
        * @name Controls/interface/ISuggest#footerTemplate
-       * @cfg {ISuggestFooterTemplate} Шаблон подвала {@link /doc/platform/developmentapl/interface-development/controls/input-elements/input/suggest/ автодополнения}.
+       * @cfg {ISuggestFooterTemplate} Шаблон подвала {@link /doc/platform/developmentapl/interface-development/controls/input/suggest/ автодополнения}.
        * @demo Controls-demo/Suggest_new/SearchInput/FooterTemplate/FooterTemplate
        * @example
        * <pre class="brush: html">
@@ -232,7 +232,7 @@ interface ISuggest {
 
       /**
        * @name Controls/interface/ISuggest#historyId
-       * @cfg {String} Уникальный идентификатор для сохранения истории выбора записей из {@link /doc/platform/developmentapl/interface-development/controls/input-elements/input/suggest/ автодополнения}.
+       * @cfg {String} Уникальный идентификатор для сохранения истории выбора записей из {@link /doc/platform/developmentapl/interface-development/controls/input/suggest/ автодополнения}.
        * @remark Если элементы были ранее выбраны, автодополнение с этими элементами будет отображаться после того, как на поле ввода перейдет фокус.
        * @example
        * <pre class="brush: html">
@@ -254,7 +254,7 @@ interface ISuggest {
 
       /**
        * @name Controls/interface/ISuggest#autoDropDown
-       * @cfg {Boolean} Отобразить {@link /doc/platform/developmentapl/interface-development/controls/input-elements/input/suggest/ автодополнение}, когда на поле ввода перейдет фокус.
+       * @cfg {Boolean} Отобразить {@link /doc/platform/developmentapl/interface-development/controls/input/suggest/ автодополнение}, когда на поле ввода перейдет фокус.
        * @example
        * В этом примере автодополнение будет показано после фокусировки на поле ввода.
        * <pre class="brush: html">
@@ -276,7 +276,7 @@ interface ISuggest {
 
       /**
        * @name Controls/interface/ISuggest#suggestPopupOptions
-       * @cfg {Controls/popup:IStickyOpener} Конфигурация всплывающего блока {@link /doc/platform/developmentapl/interface-development/controls/input-elements/input/suggest/ автодополнения}.
+       * @cfg {Controls/popup:IStickyOpener} Конфигурация всплывающего блока {@link /doc/platform/developmentapl/interface-development/controls/input/suggest/ автодополнения}.
        * @example
        * В этом примере автодополнение будет открыто вверх.
        * <pre class="brush: js">

@@ -23,6 +23,7 @@ import 'css!Controls/decorator';
  * @typedef {string|number|null} Controls/_decorator/INumber/TValue
  */
 type TValue = string | number | null;
+
 /**
  * Тип данных для аббревиатуры
  * @typedef {string} Controls/_decorator/INumber/TAbbreviationType
@@ -31,13 +32,6 @@ type TValue = string | number | null;
  * @variant none
  */
 type TAbbreviationType = 'none' | 'short' | 'long';
-/**
- * Тип данных для подчеркивания
- * @typedef {string} Controls/_decorator/INumber/TUnderline
- * @variant hovered
- * @variant none
- */
-type TUnderline = 'hovered' | 'none';
 type RoundingFn = (number: string, precision: number) => string;
 
 /**
@@ -82,13 +76,6 @@ export interface INumberOptions extends IControlOptions, INumberFormatOptions, I
      * @demo Controls-demo/Decorator/Number/Abbreviation/Index
      */
     abbreviationType?: TAbbreviationType;
-    /**
-     * @name Controls/_decorator/INumber#underline
-     * @cfg {Controls/_decorator/INumber/TUnderline.typedef} Вариант подчеркивания.
-     * @default none
-     * @demo Controls-demo/Decorator/Number/Underline/Index
-     */
-    underline?: TUnderline;
 }
 
 /**

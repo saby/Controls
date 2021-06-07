@@ -49,11 +49,12 @@ export type IVirtualScrollMode = 'remove' | 'hide';
  * @example
  * В следующем примере показана конфигурация виртуального скролла: в свойстве pageSize задан размер виртуальной страницы.
  * Также задана конфигурация навигации в опции navigation.
- * <pre class="brush: html; highlight: [4,5]">
+ * <pre class="brush: html; highlight: [5,6]">
  * <!-- WML -->
  * <Controls.scroll:Container ...>
  *     <Controls.list:View
  *         source="{{_viewSource}}"
+ *         keyProperty="id"
  *         navigation="{{_options.navigation}}">
  *         <ws:virtualScrollConfig pageSize="{{100}}"/>
  *     </Controls.list:View>

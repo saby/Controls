@@ -2,7 +2,7 @@
     <Controls.scroll:Container attr:style="height: 250px; width: 530px;">
         <Controls.list:Container>
             <Controls.grid:View
-                    keyProperty="key"
+                    keyProperty="id"
                     source="{{_viewSource}}"
                     rowSeparatorSize="s"
                     columns="{{_columns}}"

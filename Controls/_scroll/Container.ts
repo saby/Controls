@@ -20,10 +20,9 @@ import {
     SHADOW_VISIBILITY
 } from './Container/Interface/IShadows';
 import {IIntersectionObserverObject} from './IntersectionObserver/Types';
-import fastUpdate from './StickyBlock/FastUpdate';
-import StickyHeaderController from './StickyBlock/Controller';
-import {IFixedEventData, TRegisterEventData, TYPE_FIXED_HEADERS, MODE} from './StickyBlock/Utils';
-import StickyBlock from './StickyBlock';
+import fastUpdate from './StickyHeader/FastUpdate';
+import StickyHeaderController from './StickyHeader/Controller';
+import {IFixedEventData, TRegisterEventData, TYPE_FIXED_HEADERS, MODE} from './StickyHeader/Utils';
 import {POSITION} from './Container/Type';
 import {SCROLL_DIRECTION} from './Utils/Scroll';
 import {IHasUnrenderedContent, IScrollState} from './Utils/ScrollState';
@@ -136,8 +135,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const hasBottomHeaders = (): boolean => {
             const headers = Object.values(this._stickyHeaderController._headers);
             for (let i = 0; i < headers.length; i++) {
-                const position = StickyBlock.getStickyPosition({position: headers[i].position});
-                if (position?.vertical === POSITION.BOTTOM || position?.horizontal === POSITION.RIGHT) {
+                if (headers[i].position === POSITION.BOTTOM || headers[i].position === POSITION.RIGHT) {
                     return true;
                 }
             }
@@ -165,7 +163,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             if (!this._paging) {
                 this._paging = new PagingModel();
             }
-            this._paging.isVisible = this._scrollModel.canVerticalScroll && ContainerBase.getScrollOrientation(this._options) !== 'none';
+            this._paging.isVisible = this._scrollModel.canVerticalScroll && options.scrollMode !== 'none';
             if (this._options.pagingMode !== options.pagingMode) {
                 this._paging.pagingMode = options.pagingMode;
             }
@@ -266,7 +264,14 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
                 this._shadows.updateScrollState(this._scrollModel);
             }
 
-            if (this._scrollModel && this._isInitializationDelayed()) {
+            // При инициализации не обновляем скрол бары. Инициализируем их по наведению мышкой.
+            // Оптимизация отключена для ie. С оптимизацией некоректно работал :hover для скролбаров.
+            // На демке без наших стилей иногда не появляется скролбар по ховеру. Такое впечатление что не происходит
+            // paint после ховера и после снятия ховера. Изменение любых стилей через девтулсы исправляет ситуаци.
+            // Если покрасить подложку по которой движется скролл красным, то после ховера видно, как она перерисовыатся
+            // только в местах где по ней проехал скролбар.
+            // После отключения оптимизации проблема почему то уходит.
+            if (this._scrollModel && (this._wasMouseEnter || detection.isIE)) {
                 this._scrollbars.updateScrollState(this._scrollModel, this._container);
             }
 
@@ -505,16 +510,6 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         this._scrollbars.updatePlaceholdersSize(placeholdersSizes);
     }
 
-    private _isInitializationDelayed(): boolean {
-        // Оптимизация отключена для ie. С оптимизацией некорректно работал :hover для скролбаров.
-        // На демке без наших стилей иногда не появляется скролбар по ховеру. Такое впечатление что не происходит
-        // paint после ховера и после снятия ховера. Изменение любых стилей через девтулсы исправляет ситуаци.
-        // Если покрасить подложку по которой движется скролл красным, то после ховера видно, как она перерисовыатся
-        // только в местах где по ней проехал скролбар.
-        // После отключения оптимизации проблема почему то уходит.
-        return this._wasMouseEnter || detection.isIE;
-    }
-
     // Intersection observer
 
     private _initIntersectionObserverController(): void {
@@ -602,9 +597,15 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     protected _headersResizeHandler(): void {
         const scrollbarOffsetTop = this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.initialFixed);
         const scrollbarOffsetBottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.initialFixed);
-        // Обновляем скролбары только после наведения мышкой.
+        // Обновляе скролбары только после наведения мышкой.
+        // Оптимизация отключена для ie. С оптимизацией некоректно работал :hover для скролбаров.
+        // На демке без наших стилей иногда не появляется скролбар по ховеру. Такое впечатление что не происходит
+        // paint после ховера и после снятия ховера. Изменение любых стилей через девтулсы исправляет ситуаци.
+        // Если покрасить подложку по которой движется скролл красным, то после ховера видно, как она перерисовыатся
+        // только в местах где по ней проехал скролбар.
+        // После отключения оптимизации проблема почему то уходит.
         this._scrollbars.setOffsets({ top: scrollbarOffsetTop, bottom: scrollbarOffsetBottom },
-            this._isInitializationDelayed());
+            this._wasMouseEnter || detection.isIE);
         if (this._scrollbars.vertical && this._scrollbars.vertical.isVisible && this._children.hasOwnProperty('scrollBar')) {
             this._children.scrollBar.setViewportSize(
                 this._children.content.offsetHeight - scrollbarOffsetTop - scrollbarOffsetBottom);
@@ -633,8 +634,6 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     static getOptionTypes(): object {
         return {
-            ...ContainerBase.getOptionTypes(),
-
             topShadowVisibility: descriptor(String).oneOf([
                 SHADOW_VISIBILITY.AUTO,
                 SHADOW_VISIBILITY.HIDDEN,
@@ -651,17 +650,23 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
                 SHADOW_MODE.CSS,
                 SHADOW_MODE.JS,
                 SHADOW_MODE.MIXED
+            ]),
+            scrollMode: descriptor(String).oneOf([
+                'vertical',
+                'horizontal',
+                'verticalHorizontal',
+                'none'
             ])
         };
     }
 
     static getDefaultOptions(): object {
         return {
-            ...ContainerBase.getDefaultOptions(),
             ...getScrollbarsDefaultOptions(),
             ...getShadowsDefaultOptions(),
             shadowStyle: 'default',
             backgroundStyle: DEFAULT_BACKGROUND_STYLE,
+            scrollMode: 'vertical',
             syncDomOptimization: true
         };
     }
@@ -736,7 +741,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
  */
 
 /**
- * @name Controls/_scroll/Container#scrollOrientation
+ * @name Controls/_scroll/Container#scrollMode
  * @cfg {String} Определяет направление скроллирования
  * @demo Controls-demo\Scroll\ScrollMode\Index
  * @default vertical

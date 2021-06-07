@@ -2,7 +2,7 @@
     <div class="controlsDemo__wrapper controlsDemo__flexRow">
         <div class="controlsDemo__cell">
             <Controls.grid:View
-                    keyProperty="key"
+                    keyProperty="id"
                     source="{{_viewSource}}"
                     columns="{{_smallColumns}}"
                     itemActions="{{_itemActions}}"
@@ -15,7 +15,7 @@
 
         <div class="controlsDemo__cell">
             <Controls.grid:View
-                    keyProperty="key"
+                    keyProperty="id"
                     source="{{_viewSource}}"
                     multiSelectVisibility="visible"
                     columns="{{_smallColumns}}"
@@ -33,7 +33,7 @@
         <div class="controlsDemo__wrapper controlsDemo__flexRow">
             <div class="controlsDemo__cell">
                 <Controls.grid:View
-                        keyProperty="key"
+                        keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_smallColumns}}"
                         itemActions="{{_itemActions}}"
@@ -43,7 +43,7 @@
 
             <div class="controlsDemo__cell">
                 <Controls.grid:View
-                        keyProperty="key"
+                        keyProperty="id"
                         source="{{_viewSource}}"
                         multiSelectVisibility="visible"
                         columns="{{_smallColumns}}"
@@ -57,7 +57,7 @@
     <div class="controlsDemo__wrapper controlsDemo__flexRow">
         <div class="controlsDemo__cell">
             <Controls.grid:View
-                    keyProperty="key"
+                    keyProperty="id"
                     source="{{_viewSource}}"
                     itemActions="{{_itemActions}}"
                     itemActionsPosition="outside"
@@ -70,7 +70,7 @@
 
         <div class="controlsDemo__cell">
             <Controls.grid:View
-                    keyProperty="key"
+                    keyProperty="id"
                     source="{{_viewSource}}"
                     multiSelectVisibility="visible"
                     columns="{{_smallColumns}}"
@@ -86,7 +86,7 @@
     <div class="controlsDemo__wrapper controlsDemo__flexRow">
         <div class="controlsDemo__cell">
             <Controls.grid:View
-                    keyProperty="key"
+                    keyProperty="id"
                     source="{{_viewSource}}"
                     columns="{{_fullColumns}}"
                     itemActions="{{_itemActions}}"
@@ -116,7 +116,7 @@
 
         <div class="controlsDemo__cell">
             <Controls.grid:View
-                    keyProperty="key"
+                    keyProperty="id"
                     source="{{_viewSource}}"
                     multiSelectVisibility="visible"
                     columns="{{_fullColumns}}"

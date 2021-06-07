@@ -163,6 +163,8 @@ class BreadCrumbs extends Control<IControlOptions> {
         this.info = '';
         this._arrowActivated = true;
     }
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/BreadCrumbs/BreadCrumbs/BreadCrumbs'];
 }
 

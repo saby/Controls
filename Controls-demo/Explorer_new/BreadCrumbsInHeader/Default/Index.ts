@@ -3,8 +3,7 @@ import * as Template from 'wml!Controls-demo/Explorer_new/BreadCrumbsInHeader/De
 import {Gadgets} from '../../DataHelpers/DataCatalog';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
 import { IColumn } from 'Controls/grid';
-import {TRoot} from 'Controls-demo/types';
-import { IHeaderCell } from 'Controls/grid';
+import {TRoot, IHeader} from 'Controls-demo/types';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -12,7 +11,7 @@ export default class extends Control {
     protected _columns: IColumn[] = Gadgets.getGridColumns();
     protected _viewMode: string = 'table';
     protected _root: TRoot = 1;
-    protected _header: IHeaderCell[] = Gadgets.getHeader();
+    protected _header: IHeader[] = Gadgets.getHeader();
 
     protected _beforeMount(): void {
         this._viewSource = new MemorySource({

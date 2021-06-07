@@ -1,8 +1,8 @@
 <ws:template name="block">
    <div class="ws-Block ws-Block_style_2">
-      <Controls.scroll:StickyBlock attr:class="example-NotificationCenter__stickyHeader ws-flexbox ws-align-items-center">
+      <Controls.scroll:StickyHeader attr:class="example-NotificationCenter__stickyHeader ws-flexbox ws-align-items-center">
          <Controls.heading:Title caption="{{dataSource.getKeyProperty()}}" fontColorStyle="primary" fontSize="3xl"/>
-      </Controls.scroll:StickyBlock>
+      </Controls.scroll:StickyHeader>
       <Controls.list:View source="{{dataSource}}"
                      idProperty="{{dataSource.getKeyProperty()}}">
          <ws:itemTemplate>

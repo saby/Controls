@@ -1,15 +1,11 @@
 import {IControlOptions} from 'UI/Base';
-import {ISourceOptions, ITooltipOptions, ISearchOptions} from 'Controls/interface';
-import { IStickyPopupOptions } from 'Controls/popup';
-import {IMenuPopupOptions} from 'Controls/menu';
-import {ICrudPlus} from 'Types/source';
+import {ITooltipOptions, ISearchOptions} from 'Controls/interface';
+import { IStickyPopupOptions } from 'Controls/_popup/interface/ISticky';
+import {IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
+import {IDropdownSourceOptions} from './IDropdownSource';
 export type TKey = string|number|null;
 
-export interface IDropdownSourceOptions {
-    source?: ICrudPlus
-}
-
-export interface IBaseDropdownOptions extends IControlOptions, ISourceOptions,
+export interface IBaseDropdownOptions extends IControlOptions, IDropdownSourceOptions,
     IMenuPopupOptions, IStickyPopupOptions, ITooltipOptions, ISearchOptions {
     dropdownClassName?: string;
     historyId?: string;
@@ -36,7 +32,7 @@ export default interface IBaseDropdown {
 /**
  * @name Controls/_dropdown/interface/IBaseDropdown#historyId
  * @cfg {String} Уникальный идентификатор для сохранения истории выбора записей.
- * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/input-elements/dropdown-menu/item-config/#history здесь}.
+ * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/item-config/#history здесь}.
  * @demo Controls-demo/dropdown_new/Button/HistoryId/Index
  * @example
  * <pre class="brush: html">
@@ -283,7 +279,7 @@ export default interface IBaseDropdown {
  * @property {String} [title] Определяет текст элемента.
  * @property {String} [tooltip] Определяет текст всплывающей подсказки, появляющейся при наведении на элемент, если он отличается от title.
  * @property {String} [pinned] Определяет является ли пункт закрепленным.
- * @property {Boolean} [doNotSaveToHistory] Используется для меню с историей, определяет можно ли пункт запинить или добавить в историю.
+ * @property {String} [doNotSaveToHistory] Используется для меню с историей, определяет можно ли пункт запинить или добавить в историю.
  * Пункт будет отображен на той же позиции, на которой он находится в загруженном рекордсете. В меню с множественным выбором клик по такому пункту сбрасывает выделение.
  *
  */

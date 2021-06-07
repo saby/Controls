@@ -6,6 +6,8 @@ class FontWeight extends Control<IControlOptions> {
     protected _expanded1: boolean = false;
     protected _expanded2: boolean = false;
     protected _template: TemplateFunction = controlTemplate;
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default FontWeight;

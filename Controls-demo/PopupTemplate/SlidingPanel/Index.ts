@@ -25,6 +25,7 @@ class Index extends Control<IControlOptions> {
         this._slidingPanelOptions = {...this._slidingPanelOptions};
         detection.isPhone = value;
     }
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/PopupTemplate/SlidingPanel/Index/Index'];
 }
 

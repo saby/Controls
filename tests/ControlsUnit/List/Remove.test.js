@@ -49,7 +49,7 @@ define([
          remover.removeItems(items);
       });
 
-      it('afterItemsRemove notify event with params', async function() {
+      it('afterItemsRemove notify event with params', function(done) {
          var
              items = [2, 3],
              result = 'custom_result',
@@ -61,6 +61,7 @@ define([
             if (event === 'afterItemsRemove') {
                assert.equal(args[0], items);
                assert.equal(args[1], result);
+               done();
             }
             if (event === 'selectedTypeChanged') {
                assert.equal(args[0], 'unselectAll');
@@ -68,9 +69,9 @@ define([
             }
          };
 
-         await remover.removeItems(items);
-
-         assert.isTrue(unselectAllNotified);
+         remover.removeItems(items).then(() => {
+            assert.isTrue(unselectAllNotified);
+         });
       });
 
       it('beforeItemsRemove return false', function() {
@@ -84,42 +85,47 @@ define([
          assert.equal(remover._items.getCount(), 3);
       });
 
-      it('beforeItemsRemove return Deferred', async function() {
+      it('beforeItemsRemove return Deferred', function() {
          remover._notify = function(event) {
             if (event === 'beforeItemsRemove') {
                return Deferred.success();
             }
          };
 
-         await remover.removeItems([1, 2, 3]);
-
-         assert.equal(remover._items.getCount(), 0);
+         remover.removeItems([1, 2, 3]).then(() => {
+            assert.equal(remover._items.getCount(), 0);
+         });
       });
 
-      it('removeItems from source', async function() {
-         await remover.removeItems([1, 2]);
-         const dataSet = await remover._source.query();
-
-         assert.equal(dataSet.getAll().getCount(), 1);
+      it('removeItems from source', function(done) {
+         remover.removeItems([1, 2]).then(() => {
+            remover._source.query().addCallback(function(dataSet) {
+               assert.equal(dataSet.getAll().getCount(), 1);
+               done();
+            });
+         });
       });
 
-      it('removeItems from items', async function() {
-         await remover.removeItems([1, 2]);
-         assert.equal(remover._items.getCount(), 1);
+      it('removeItems from items', function() {
+         remover.removeItems([1, 2]).then(() => {
+            assert.equal(remover._items.getCount(), 1);
+         });
       });
 
-      it('remove by selection', async function() {
-         await remover.removeItems({
+      it('remove by selection', function() {
+         remover.removeItems({
             selected: [1, 2],
             excluded: []
+         }).then(() => {
+            assert.equal(remover._items.getCount(), 1);
          });
-         assert.equal(remover._items.getCount(), 1);
 
-         await remover.removeItems({
+         remover.removeItems({
             selected: [3],
             excluded: []
+         }).then(() => {
+            assert.equal(remover._items.getCount(), 0);
          });
-         assert.equal(remover._items.getCount(), 0);
       });
    });
 });

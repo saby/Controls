@@ -7,7 +7,6 @@ export default class extends Control<IControlOptions> {
     protected _source: Memory;
     protected _selectedKeys: number[] = [1];
     protected _selectedKeys2: number[] = [1, 2, 4];
-    protected _selectedKeys3: number[] = [1, 2, 4];
 
     protected _beforeMount(): void {
         this._source = new Memory({

@@ -32,7 +32,6 @@
          <ws:partial options="{{_options}}"
                      scope="{{_readOnlyField.scope}}"
                      horizontalPadding="{{_horizontalPadding}}"
-                     placeholderVisibility="{{_placeholderVisibility}}"
                      value="{{_viewModel.displayValue}}"
                      template="{{_readOnlyField.template}}"/>
       </ws:if>
@@ -47,7 +46,7 @@
                      template="{{_field.template}}"
                      wasActionUser="{{_wasActionUser}}"
                      value="{{_viewModel.displayValue}}"
-                     placeholderVisibility="{{_placeholderVisibility}}"
+                     hidePlaceholder="{{_hidePlaceholder}}"
                      hidePlaceholderUsingCSS="{{_hidePlaceholderUsingCSS}}"
                      isBrowserPlatform="{{_isBrowserPlatform}}"
                      inputKey="{{ _inputKey }}"

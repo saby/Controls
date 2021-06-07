@@ -70,7 +70,6 @@ export interface IButton extends IContrastBackground {
  * @remark
  * Стиль может влиять на цвет фона или цвет границы для различных значений режима отображения (viewMode).
  * @demo Controls-demo/Buttons/ButtonStyle/Index
- * @demo Controls-demo/Buttons/ButtonStyleFull/Index
  * @example
  * Кнопка со стилем "Primary" с иконкой по умолчанию.
  * <pre>

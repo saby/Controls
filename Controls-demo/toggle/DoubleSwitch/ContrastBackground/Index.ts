@@ -4,6 +4,8 @@ import * as Template from 'wml!Controls-demo/toggle/DoubleSwitch/ContrastBackgro
 class Base extends Control<IControlOptions> {
     protected _template: TemplateFunction = Template;
     protected _value: boolean = false;
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default Base;

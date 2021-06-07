@@ -1,6 +1,7 @@
 <div class="controlsDemo__cell">
     <Controls.grid:View
-            keyProperty="key"
+            name="grid"
+            keyProperty="id"
             source="{{ _viewSource }}"
             header="{{ _header }}"
             columns="{{ _columns }}">

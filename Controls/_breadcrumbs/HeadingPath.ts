@@ -27,7 +27,7 @@ const SIZES = {
  *
  * @remark
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/navigation/bread-crumbs/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/content-managment/bread-crumbs/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/6156a9009ee88d96bf73c8b1200e197f9db1c3c8/Controls-default-theme/variables/_breadcrumbs.less переменные тем оформления}
  *
  * @class Controls/_breadcrumbs/HeadingPath
@@ -222,13 +222,6 @@ Object.defineProperty(BreadCrumbsPath, 'defaultProps', {
       return BreadCrumbsPath.getDefaultOptions();
    }
 });
-
-/**
- * @name Controls/_breadcrumbs/HeadingPath#backButtonNewIcon
- * @cfg {Boolean} Отображение кнопки "Назад" в новом дизайне.
- * @default false
- * @demo Controls-demo/BreadCrumbs/newIcon/Index
- */
 
 /**
  * @name Controls/_breadcrumbs/HeadingPath#backButtonIconStyle

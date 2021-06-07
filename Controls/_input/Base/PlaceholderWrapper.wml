@@ -1,3 +1,0 @@
-<div class="controls-InputBase__placeholder {{placeholderVisibility === 'hidden' || value ? 'ws-hidden'}}">
-    <ws:partial template="{{placeholderTemplate}}" on:click="_placeholderClickHandler()"/>
-</div>

@@ -43,5 +43,7 @@ export default class ContainerBaseDemo extends Control<IControlOptions> {
         this._expanded = !this._expanded;
     }
 
+    static _theme: string[] = ['Controls/Classes'];
+
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Scroll/Container/Stretchable/Style'];
 }

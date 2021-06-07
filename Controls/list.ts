@@ -7,6 +7,7 @@
  * @includes IContentTemplate Controls/_list/interface/IContentTemplate
  * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
+ * @includes IBaseGroupTemplate Controls/_list/interface/IBaseGroupTemplate
  * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
@@ -14,8 +15,6 @@
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
  * @includes IMovable Controls/_list/interface/IMovable
- * @includes Mover Controls/_list/Mover
- * @includes IItemsView Controls/_list/IItemsView
  * @public
  * @author Крайнов Д.О.
  */
@@ -29,6 +28,7 @@
  * @includes IContentTemplate Controls/_list/interface/IContentTemplate
  * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
+ * @includes IBaseGroupTemplate Controls/_list/interface/IBaseGroupTemplate
  * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
@@ -36,12 +36,11 @@
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
  * @includes IMovable Controls/_list/interface/IMovable
- * @includes Mover Controls/_list/Mover
  * @public
  * @author Крайнов Д.О.
  */
 export {default as AddButton} from 'Controls/_list/AddButton';
-export { default as Container } from 'Controls/_list/WrappedContainer';
+import {default as Container} from 'Controls/_list/Container';
 import EmptyTemplate = require('wml!Controls/_list/emptyTemplate');
 import GroupTemplate = require('wml!Controls/_list/GroupTemplate');
 import ItemTemplate = require('wml!Controls/_list/ItemTemplateChooser');
@@ -55,7 +54,6 @@ import EditingTemplate = require('wml!Controls/_list/EditingTemplateChooser');
 import BaseEditingTemplate = require('wml!Controls/_list/EditInPlace/baseEditingTemplate');
 import MoneyEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated/Money');
 import NumberEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated/Number');
-import FooterTemplate = require('wml!Controls/_list/ListView/Footer');
 
 import BaseViewModel = require('Controls/_list/BaseViewModel');
 import ListViewModel = require('Controls/_list/ListViewModel');
@@ -83,7 +81,7 @@ import ItemActionsHelpers = require('Controls/_list/ItemActions/Helpers');
 // region @deprecated
 
 import Remover = require('Controls/_list/Remover');
-import Mover from 'Controls/_list/WrappedMover';
+import * as Mover from 'Controls/_list/Mover';
 export {IMoveItemsParams, IMover, IRemover, BEFORE_ITEMS_MOVE_RESULT} from 'Controls/_list/interface/IMoverAndRemover';
 
 // endregion @deprecated
@@ -96,16 +94,14 @@ export {CharacteristicsTemplate};
 
 export {MoveController, IMoveControllerOptions}  from 'Controls/_list/Controllers/MoveController';
 export {IMovableList, IMoveDialogTemplate, IMovableOptions} from 'Controls/_list/interface/IMovableList';
-export {IBaseGroupTemplate} from 'Controls/_list/interface/BaseGroupTemplate';
 
 export {RemoveController} from 'Controls/_list/Controllers/RemoveController';
 export {IRemovableList} from 'Controls/_list/interface/IRemovableList';
 
 export {default as ItemsView, IItemsViewOptions} from 'Controls/_list/ItemsView';
 
-export {ISiblingStrategy, ISiblingStrategyOptions} from 'Controls/_list/interface/ISiblingStrategy';
-
 export {
+    Container,
     EmptyTemplate,
     GroupTemplate,
     ItemTemplate,
@@ -121,7 +117,6 @@ export {
     BaseEditingTemplate,
     MoneyEditingTemplate,
     NumberEditingTemplate,
-    FooterTemplate,
     ItemActionsHelpers,
     BaseViewModel,
     ListViewModel,

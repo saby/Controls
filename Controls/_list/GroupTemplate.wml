@@ -37,9 +37,9 @@
 </ws:template>
 
 <ws:if data="{{(item || itemData).isSticked()}}">
-   <Controls.scroll:StickyBlock backgroundStyle="{{ backgroundStyle }}">
+   <Controls.scroll:StickyHeader backgroundStyle="{{ backgroundStyle }}">
       <ws:partial template="localGroupTemplate" attr:class="controls-ListView__stickyGroup_{{ style }}"/>
-   </Controls.scroll:StickyBlock>
+   </Controls.scroll:StickyHeader>
 </ws:if>
 <ws:else>
    <ws:partial template="localGroupTemplate"/>

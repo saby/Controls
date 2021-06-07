@@ -8,7 +8,7 @@
                 bind:activeElement="_activeElement"
                 source="{{_source}}"
                 displayProperty="title"
-                keyProperty="key"
+                keyProperty="id"
                 itemTemplateProperty="template">
             <ws:navigation view="infinity"/>
             <ws:virtualScrollConfig pageSize="{{3}}"/>

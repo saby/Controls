@@ -4,13 +4,13 @@ import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import * as clone from 'Core/core-clone';
 import { IColumn } from 'Controls/grid';
-import { IHeaderCell } from 'Controls/grid';
+import { IHeader } from 'Controls-demo/types';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _header: IHeaderCell[];
+    protected _header: IHeader[];
     protected _columns1: IColumn[];
     protected _columns2: IColumn[];
     protected _columns3: IColumn[];

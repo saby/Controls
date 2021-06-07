@@ -400,6 +400,9 @@ class ScenarioSecond extends Control<IControlOptions> {
             })];
     }
 
+
+    static _theme: string[] = ['Controls/Classes'];
+
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/BreadCrumbs/Scenarios/Scenarios'];
 }
 export default ScenarioSecond;

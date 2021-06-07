@@ -74,10 +74,6 @@ export default class TreeTileCollection<
         }
     }
 
-    getExpanderIcon(): string {
-        return 'none';
-    }
-
     protected _getItemsFactory(): ItemsFactory<T> {
         const parent = super._getItemsFactory();
 

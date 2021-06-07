@@ -1,6 +1,6 @@
 import cInstance = require('Core/core-instance');
 import {getDimensions} from 'Controls/sizeUtils';
-import {getGapFixSize, POSITION, TYPE_FIXED_HEADERS} from 'Controls/_scroll/StickyBlock/Utils';
+import {getGapFixSize, POSITION, TYPE_FIXED_HEADERS} from 'Controls/_scroll/StickyHeader/Utils';
 
 const SCROLL_CONTAINERS_SELECTOR = '.controls-Scroll, .controls-Scroll-Container';
 

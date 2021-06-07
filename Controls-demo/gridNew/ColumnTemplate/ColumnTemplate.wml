@@ -2,7 +2,7 @@
 <Controls.scroll:Container attr:style="max-width: 1182px">
     <div class="controlsDemo__inline-flex">
         <Controls.grid:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}">
         </Controls.grid:View>

@@ -15,6 +15,8 @@ class ValidationFontColorStyle extends Control<IControlOptions> {
         this._children.inputContainer2.validate();
         super._afterMount(options, contexts);
     }
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

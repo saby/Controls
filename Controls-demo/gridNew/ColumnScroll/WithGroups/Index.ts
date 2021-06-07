@@ -1,15 +1,15 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/ColumnScroll/WithGroups/WithGroups';
 import {Memory} from 'Types/source';
+import {getTasks} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
-import { Tasks } from 'Controls-demo/gridNew/DemoHelpers/Data/Tasks';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     protected _separatorVisibility: boolean = false;
     protected _columns: IColumn[] = [
-        ...Tasks.getDefaultColumns(),
+        ...getTasks().getDefaultColumns(),
         {
             displayProperty: 'message',
             width: '150px'
@@ -23,8 +23,8 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
-            data: Tasks.getData()
+            keyProperty: 'id',
+            data: getTasks().getData()
         });
     }
 

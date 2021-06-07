@@ -8,5 +8,5 @@
     <rect xmlns="http://www.w3.org/2000/svg"
           class="controls-ListEditor__innerCircle
                   controls-ListEditor__innerCircle_{{_options.selected || value ? 'selected-' + style : 'unselected'}}"
-          x="3" y="3" width="6" height="6" rx="4" ry="4"/>
+          x="2" y="2" width="8" height="8" rx="4" ry="4"/>
 </svg>

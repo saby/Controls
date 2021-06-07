@@ -19,14 +19,14 @@ let OUTER_INDENT_INPUT = 0;
  *
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2FLookup%2FIndex демо-пример}
- * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/directory/lookup/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/directory/lookup/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_lookup.less переменные тем оформления}
  *
  * @class Controls/_lookup/MultipleInput
  * @extends UI/Base:Control
  * @mixes Controls/interface:ILookup
  * @mixes Controls/interface/ISelectedCollection
- * @mixes Controls/interface:ISelectorDialog
+ * @mixes Controls/interface/ISelectorDialog
  * @mixes Controls/interface/ISuggest
  * @mixes Controls/interface:ISearch
  * @mixes Controls/interface:ISource
@@ -57,7 +57,7 @@ let OUTER_INDENT_INPUT = 0;
  * @extends UI/Base:Control
  * @mixes Controls/interface:ILookup
  * @mixes Controls/interface/ISelectedCollection
- * @mixes Controls/interface:ISelectorDialog
+ * @mixes Controls/interface/ISelectorDialog
  * @mixes Controls/interface/ISuggest
  * @mixes Controls/interface:ISearch
  * @mixes Controls/interface:ISource

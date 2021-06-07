@@ -5,11 +5,9 @@
       <div class="controls-ReportDialog__title">{{_options.title}}</div>
       <div class="controls-ReportDialog__message">{{_message}}</div>
       <ws:if data="{{_options.errors}}">
-         <Controls.scroll:Container>
-            <ws:for data="index, error in _options.errors">
-               <div class="controls-ReportDialog__error {{index === 0 ? ' controls-ReportDialog__error_first' : ' controls-ReportDialog__error_withSpacing'}}">{{error}}</div>
-            </ws:for>
-         </Controls.scroll:Container>
+         <ws:for data="index, error in _options.errors">
+            <div class="controls-ReportDialog__error {{index === 0 ? ' controls-ReportDialog__error_first' : ' controls-ReportDialog__error_withSpacing'}}">{{error}}</div>
+         </ws:for>
       </ws:if>
    </ws:bodyContentTemplate>
    <ws:footerContentTemplate>

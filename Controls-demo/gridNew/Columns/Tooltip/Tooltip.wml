@@ -2,28 +2,21 @@
     <div class="controlsDemo__cell">
         <Controls.grid:View
                 attr:class="controlsDemo__inline-flex"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}">
             <ws:columns>
                 <ws:Array>
                     <ws:Object displayProperty="country"
-                               tooltipProperty="country"/>
+                               tooltip="Государство"/>
                     <ws:Object displayProperty="population"
-                               tooltipProperty="population"
+                               tooltip="Население"
                                displayType="number"
                     />
                     <ws:Object displayProperty="populationDensity"
-                               tooltipProperty="populationDensity"
+                               tooltip="Зарплата"
                                displayType="money"/>
                 </ws:Array>
             </ws:columns>
-            <ws:header>
-                <ws:Array>
-                    <ws:Object title=""/>
-                    <ws:Object title="Население (человек)"/>
-                    <ws:Object title="Плотность (человек/км²)"/>
-                </ws:Array>
-            </ws:header>
         </Controls.grid:View>
     </div>
 </div>

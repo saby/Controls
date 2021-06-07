@@ -6,7 +6,7 @@ import { error as dataSourceError } from 'Controls/dataSource';
 import { IContainerConstructor } from 'Controls/_dataSource/error';
 import { Model } from 'Types/entity';
 import { Memory } from 'Types/source';
-import {CRUD_EVENTS, default as CrudController, ICrudConfig} from 'Controls/_form/CrudController';
+import { CRUD_EVENTS, default as CrudController } from 'Controls/_form/CrudController';
 import { DialogOpener } from 'Controls/error';
 import { Mode } from 'Controls/error';
 import ControllerBase from 'Controls/_form/ControllerBase';
@@ -59,7 +59,6 @@ interface IConfigInMounting {
 
 interface IUpdateConfig {
     additionalData: IAdditionalData;
-    showLoadingIndicator: boolean;
 }
 
 export const enum INITIALIZING_WAY {
@@ -132,7 +131,7 @@ class FormController extends ControllerBase<IFormController> {
     ): Promise<ICrudResult> | void {
         this._errorController = options.errorController || new dataSourceError.Controller({});
         this._crudController = new CrudController(options.source, this._notifyHandler.bind(this),
-            this.registerPendingNotifier.bind(this));
+            this.registerPendingNotifier.bind(this), this.indicatorNotifier.bind(this));
         const receivedError = receivedState.errorConfig;
         const receivedData = receivedState.data;
 
@@ -303,6 +302,7 @@ class FormController extends ControllerBase<IFormController> {
             const removePromise = this._tryDeleteNewRecord();
             this._notifyToOpener(CRUD_EVENTS.DELETE_STARTED, [this._record, this._getRecordId(), {removePromise}]);
         }
+        this._crudController.hideIndicator();
         this._crudController = null;
         this._dialogOpener?.destroy();
         this._dialogOpener = null;
@@ -409,9 +409,9 @@ class FormController extends ControllerBase<IFormController> {
         return this._record && this._isNewRecord && this._getRecordId();
     }
 
-    create(createMetaData: unknown, config?: ICrudConfig): Promise<undefined | Model> {
+    create(createMetaData: unknown): Promise<undefined | Model> {
         createMetaData = createMetaData || this._options.createMetaData;
-        return this._crudController.create(createMetaData, config).then(
+        return this._crudController.create(createMetaData).then(
             this._createHandler.bind(this),
             this._crudErrback.bind(this)
         );
@@ -425,9 +425,9 @@ class FormController extends ControllerBase<IFormController> {
         return record;
     }
 
-    read(key: string, readMetaData: unknown, config?: ICrudConfig): Promise<Model> {
+    read(key: string, readMetaData: unknown): Promise<Model> {
         readMetaData = readMetaData || this._options.readMetaData;
-        return this._crudController.read(key, readMetaData, config).then(
+        return this._crudController.read(key, readMetaData).then(
             this._readHandler.bind(this),
             this._crudErrback.bind(this)
         );
@@ -530,8 +530,8 @@ class FormController extends ControllerBase<IFormController> {
         return updateDef;
     }
 
-    delete(destroyMetaData: unknown, config?: ICrudConfig): Promise<Model | undefined> {
-        const resultProm = this._crudController.delete(this._record, destroyMetaData || this._options.destroyMetaData, config);
+    delete(destroyMetaData: unknown): Promise<Model | undefined> {
+        const resultProm = this._crudController.delete(this._record, destroyMetaData || this._options.destroyMetaData);
 
         return resultProm.then((record) => {
             this._setRecord(null);

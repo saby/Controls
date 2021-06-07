@@ -6,12 +6,12 @@ import BaseOpenerUtil from 'Controls/_popup/Opener/BaseOpenerUtil';
 import {IndicatorOpener} from 'Controls/LoadingIndicator';
 
 interface IOpenerStaticMethods {
-    _openPopup: (popupOptions: IBasePopupOptions) => Promise<string>;
-    openPopup: (popupOptions: IBasePopupOptions) => Promise<string>;
+    _openPopup: (popupOptions: IBasePopupOptions, popupController?: string) => Promise<string>;
+    openPopup: (popupOptions: IBasePopupOptions, popupController?: string) => Promise<string>;
     closePopup: (popupId: string) => void;
 }
 /**
- * Базовый хелпер для открытия {@link /doc/platform/developmentapl/interface-development/controls/openers/ всплывающих окон}.
+ * Базовый хелпер для открытия всплывающих окон.
  * @class Controls/_popup/PopupHelper/Base
  * @implements Controls/popup:IBaseOpener
  *
@@ -30,7 +30,7 @@ export default class Base {
         this._options = cfg;
     }
 
-    open(popupOptions: IBasePopupOptions): Promise<void> {
+    open(popupOptions: IBasePopupOptions, popupController?: string): Promise<void> {
         return new Promise((resolve,reject) => {
             const config: IBasePopupOptions = BaseOpenerUtil.getConfig(this._options, popupOptions);
             config.isHelper = true;
@@ -48,19 +48,25 @@ export default class Base {
             }
             config._events = {
                 onOpen: () => {
-                    this._openHandler();
+                    this._hideIndicator();
                     resolve();
                 },
                 onClose: () => {
-                    this._closeHandler();
+                    this._hideIndicator();
+                    // Защита. Могут позвать close и сразу open. В этом случае мы
+                    // инициируем закрытие окна, откроем новое и после стрельнет onCLose, который очистит id нового окна.
+                    // В итоге повторый вызов метода close ничего не сделает, т.к. popupId уже почищен.
+                    if (!this.isOpened()) {
+                        this._popupId = null;
+                    }
                 }
             };
             if (config.dataLoaders) {
                 config._prefetchPromise = ManagerController.loadData(config.dataLoaders);
             }
 
-            this._openPopup(config);
-        });
+            this._openPopup(config, popupController);
+        })
     }
 
     close(): void {
@@ -93,20 +99,6 @@ export default class Base {
         promise.catch(() => {
             this._hideIndicator();
         });
-    }
-
-    protected _openHandler(): void {
-        this._hideIndicator();
-    }
-
-    protected _closeHandler(): void {
-        this._hideIndicator();
-        // Защита. Могут позвать close и сразу open. В этом случае мы
-        // инициируем закрытие окна, откроем новое и после стрельнет onCLose, который очистит id нового окна.
-        // В итоге повторый вызов метода close ничего не сделает, т.к. popupId уже почищен.
-        if (!this.isOpened()) {
-            this._popupId = null;
-        }
     }
 
     private _hideIndicator(): void {

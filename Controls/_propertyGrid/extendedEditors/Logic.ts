@@ -17,7 +17,6 @@ interface ILogicEditorOptions extends IEditorOptions {
  * @class Controls/_propertyGrid/extendedEditors/Logic
  * @extends UI/Base:Control
  * @author Золотова Э.Е.
- * @demo Controls-demo/PropertyGridNew/Editors/Logic/Index
  * @public
  */
 

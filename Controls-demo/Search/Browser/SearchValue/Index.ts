@@ -28,5 +28,7 @@ export default class Index extends Control<IControlOptions> {
    protected _resetSearchValue(event: SyntheticEvent): void {
       this._searchValue = null;
    }
+
+   static _theme: string[] = ['Controls/Classes'];
    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

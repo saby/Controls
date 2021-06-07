@@ -1,6 +1,7 @@
 import {RecordSet, List} from 'Types/collection';
 import {Logger} from 'UI/Utils';
 
+// @ts-ignore
 import * as cClone from 'Core/core-clone';
 
 import INavigationStore from './NavigationController/interface/INavigationStore';
@@ -13,7 +14,7 @@ import PositionParamsCalculator from './NavigationController/PositionParamsCalcu
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
 import {TNavigationSource, IBaseSourceConfig, INavigationSourceConfig, TNavigationDirection, TNavigationPagingMode} from 'Controls/interface';
 import {IHashMap} from 'Types/declarations';
-import {applied, Record as EntityRecord, Model, relation} from 'Types/entity';
+import {applied, Record, Model, relation} from 'Types/entity';
 import {isEqual} from 'Types/object';
 
 /**
@@ -28,7 +29,7 @@ import {isEqual} from 'Types/object';
  * @private
  * @author Аверкиев П.А.
  */
-type IType<T> = new(...args: unknown[]) => T;
+type IType<T> = new(...args: any[]) => T;
 interface INavigationStoresListItem {
     id: TKey;
     store: INavigationStore;
@@ -91,7 +92,7 @@ export interface INavigationControllerOptions {
 }
 
 type TKey = string | number | null; // TODO общий тип
-type NavigationRecord = EntityRecord<{
+type NavigationRecord = Record<{
     id: TKey,
     nav_result: object | number | boolean
 }>;
@@ -385,7 +386,8 @@ export default class NavigationController {
             // Добавляем в фильтр раздел и помечаем это поле, как первичный ключ
             // Оно используется для формирования множественной навигации,
             // Само поле будет удалено из фильтра перед запросом.
-            (resultParams.filter as Record<string, unknown>).__root = new applied.PrimaryKey(addItem.id);
+            // @ts-ignore
+            resultParams.filter.__root = new applied.PrimaryKey(addItem.id);
 
             resultParamsArray.push(resultParams);
         });
@@ -397,7 +399,6 @@ export default class NavigationController {
         return {
             filter: userQueryParams.filter || {},
             sorting: userQueryParams.sorting,
-            select: userQueryParams.select,
             limit: undefined,
             offset: undefined
         };

@@ -3,5 +3,7 @@ import controlTemplate = require('wml!Controls-demo/dropdown_new/Input/GroupProp
 
 export default class extends Control {
     protected _template: TemplateFunction = controlTemplate;
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

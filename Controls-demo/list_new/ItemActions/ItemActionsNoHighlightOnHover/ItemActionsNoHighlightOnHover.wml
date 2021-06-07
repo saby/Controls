@@ -2,7 +2,7 @@
     <div class="controlsDemo__wrapper controlsDemo__list_new-itemActions-noHighlight-inside">
         <h3>Inside</h3>
         <Controls.list:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 itemActions="{{_itemActions}}">
             <ws:itemTemplate>
@@ -14,7 +14,7 @@
     <div class="controlsDemo__wrapper controlsDemo__list_new-itemActions-noHighlight-outside">
         <h3>Outside</h3>
         <Controls.list:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 itemActions="{{_itemActions}}"
                 itemActionsPosition="outside">

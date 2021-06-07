@@ -3,7 +3,7 @@
         <Controls.scroll:HotKeysContainer>
             <Controls.grid:View
                     name="view"
-                    keyProperty="key"
+                    keyProperty="id"
                     source="{{_viewSource}}"
                     columns="{{_columns}}"
                     searchValue="{{_searchValue}}"
@@ -31,6 +31,6 @@
             </Controls.grid:View>
         </Controls.scroll:HotKeysContainer>
     </Controls.scroll:Container>
-    <a href="#" class="controls-text-link ControlsDemo-portionedSearch_startSearch" style="position: relative; z-index: 99999; margin-right: 10px" on:click="_startSearch()">start search</a>
-    <a href="#" class="controls-text-link ControlsDemo-portionedSearch_resetSearch" style="position: relative; z-index: 99999; margin-right: 10px" on:click="_resetSearch()">reset search</a>
+    <a href="#" class="controls-text-link_theme-default ControlsDemo-portionedSearch_startSearch" style="position: relative; z-index: 99999; margin-right: 10px" on:click="_startSearch()">start search</a>
+    <a href="#" class="controls-text-link_theme-default ControlsDemo-portionedSearch_resetSearch" style="position: relative; z-index: 99999; margin-right: 10px" on:click="_resetSearch()">reset search</a>
 </div>

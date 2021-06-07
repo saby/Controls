@@ -71,6 +71,7 @@ class ItemActions extends Control<IControlOptions> {
         }
         return actionVisibility;
     }
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default ItemActions;

@@ -14,7 +14,7 @@ import {isEqual, merge} from 'Types/object';
 import * as cInstance from 'Core/core-instance';
 import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
 import {groupConstants as constView} from 'Controls/list';
-import { TouchDetect } from 'Env/Touch';
+import {TouchContextField} from 'Controls/context';
 import {IItemAction, Controller as ItemActionsController} from 'Controls/itemActions';
 import {error as dataSourceError, NewSourceController as SourceController} from 'Controls/dataSource';
 import {ISelectorTemplate} from 'Controls/_interface/ISelectorDialog';
@@ -50,10 +50,6 @@ const MAX_HISTORY_VISIBLE_ITEMS_COUNT = 10;
  * @mixes Controls/menu:IMenuControl
  * @mixes Controls/menu:IMenuBase
  * @mixes Controls/dropdown:IGrouped
- * @mixes Controls/interface/IPromisedSelectable
- * @mixes Controls/interface:ISelectorDialog
- * @mixes Controls/interface:IBackgroundStyle
- * 
  * @demo Controls-demo/Menu/Control/Source/Index
  *
  * @author Герасимов А.М.
@@ -372,7 +368,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _isTouch(): boolean {
-        return TouchDetect.getInstance().isTouch();
+        return this._context?.isTouch?.isTouch;
     }
 
     protected _checkBoxClick(event: SyntheticEvent<MouseEvent>): void {
@@ -1180,25 +1176,32 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             markerVisibility: 'onactivated'
         };
     }
+
+    static contextTypes(): object {
+        return {
+            isTouch: TouchContextField
+        };
+    }
 }
 /**
- * @name Controls/_menu/MenuControl#multiSelect
- * @cfg {Boolean} Видимость чекбоксов в меню.
+ * @name Controls/_menu/Control#multiSelect
+ * @cfg {Boolean} Определяет, установлен ли множественный выбор.
  * @default false
  * @demo Controls-demo/Menu/Control/MultiSelect/Index
  * @example
  * Множественный выбор установлен.
- * <pre class="brush: html; highlight: [7]">
- * <!-- WML -->
+ * WML:
+ * <pre>
  * <Controls.menu:Control
- *    selectedKeys="{{_selectedKeys}}"
- *    keyProperty="id"
- *    displayProperty="title"
- *    source="{{_source}}"
- *    multiSelect="{{true}}" />
+ *       selectedKeys="{{_selectedKeys}}"
+ *       keyProperty="id"
+ *       displayProperty="title"
+ *       source="{{_source}}"
+ *       multiSelect="{{true}}">
+ * </Controls.menu:Control>
  * </pre>
- * <pre class="brush: js;">
- * // JavaScript
+ * JS:
+ * <pre>
  * this._source = new Memory({
  *    keyProperty: 'id',
  *    data: [
@@ -1212,35 +1215,40 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
  */
 
 /**
- * @name Controls/_menu/MenuControl#root
+ * @name Controls/_menu/Control#selectedKeys
+ * @cfg {Array.<Number|String>} Массив ключей выбранных элементов.
+ * @demo Controls-demo/Menu/Control/SelectedKeys/Index
+ */
+
+/**
+ * @name Controls/_menu/Control#root
  * @cfg {Number|String|null} Идентификатор корневого узла.
  * @demo Controls-demo/Menu/Control/Root/Index
  */
 
 /**
  * @event Происходит при выборе элемента.
- * @name Controls/_menu/MenuControl#itemClick
+ * @name Controls/_menu/Control#itemClick
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Выбранный элемент.
  * @remark Из обработчика события можно возвращать результат обработки. Если результат будет равен false, подменю не закроется.
  * По умолчанию, когда выбран пункт с иерархией, подменю закрывается.
  * @example
  * В следующем примере показано, как незакрывать подменю, если кликнули на пункт с иерархией.
- * <pre class="brush: html; highlight: [6]">
- * <!-- WML -->
- * <Controls.menu:Control
- *    displayProperty="title"
- *    keyProperty="key"
- *    source="{{_source}}"
- *    on:itemClick="_itemClickHandler()" />
+ * <pre>
+ *    <Controls.menu:Control
+ *          displayProperty="title"
+ *          keyProperty="key"
+ *          source="{{_source}}"
+ *          on:itemClick="_itemClickHandler()" />
  * </pre>
- * <pre  class="brush: js;">
- * // TypeScript
- * protected _itemClickHandler(e, item): boolean {
- *     if (item.get(nodeProperty)) {
- *         return false;
- *     }
- * }
+ * TS:
+ * <pre>
+ *    protected _itemClickHandler(e, item): boolean {
+ *       if (item.get(nodeProperty)) {
+ *          return false;
+ *       }
+ *    }
  * </pre>
  */
 

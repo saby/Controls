@@ -1,14 +1,17 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
+import {CollectionItem} from 'Controls/display';
 import {Record} from 'Types/entity';
 
+import {getCountriesStats, IData} from '../../DemoHelpers/DataCatalog';
+
 import * as template from 'wml!Controls-demo/gridNew/TagStyle/TagStyleFromTemplateParam/TagStyleFromTemplateParam';
-import { TagStyle } from 'Controls-demo/gridNew/DemoHelpers/Data/TagStyle';
+
+const MAXITEM = 7;
 
 export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _viewSource: Memory;
-    protected _columns = TagStyle.getColumns();
 
     // Номер выбранной колонки
     protected _currentColumnIndex: number = null;
@@ -20,9 +23,9 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _currentValue: string;
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
-        const data = TagStyle.getData();
+        const data = this._getModifiedData().slice(0, MAXITEM);
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data
         });
     }
@@ -37,13 +40,13 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
      */
     protected _onTagClickCustomHandler(
         event: Event,
-        item: Record,
+        item: CollectionItem<Record>,
         columnIndex: number,
         nativeEvent: Event
     ): void {
         this._currentColumnIndex = columnIndex;
         this._currentEvent = 'click';
-        this._currentValue = item.get('population');
+        this._currentValue = item.getContents().get('population');
     }
 
     /**
@@ -55,13 +58,32 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
      * @private
      */
     protected _onTagHoverCustomHandler(
-        event: Event, item: Record,
+        event: Event, item: CollectionItem<Record>,
         columnIndex: number,
         nativeEvent: Event
     ): void {
         this._currentColumnIndex = columnIndex;
         this._currentEvent = 'hover';
-        this._currentValue = item.get('population');
+        this._currentValue = item.getContents().get('population');
+    }
+
+    private _getModifiedData(): IData[] {
+        const styleVariants = [
+            null,
+            'info',
+            'danger',
+            'primary',
+            'success',
+            'warning',
+            'secondary'
+        ];
+        return getCountriesStats().getData().map((cur, i) => {
+            const index = i <= (styleVariants.length - 1) ? i : i % (styleVariants.length - 1);
+            return {
+                ...cur,
+                tagStyle: styleVariants[index]
+            };
+        });
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];

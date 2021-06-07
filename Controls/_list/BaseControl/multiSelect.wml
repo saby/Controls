@@ -5,7 +5,8 @@
                   triState="{{ triState }}"
                   readOnly="{{ item.isReadonlyCheckbox() || checkboxReadOnly || false}}"
                   value="{{ item.isSelected() }}"
-                  on:click="_onCheckBoxClick(item, item.isReadonlyCheckbox() || checkboxReadOnly)"/>
+                  on:click="_onCheckBoxClick(item, item.isReadonlyCheckbox() || checkboxReadOnly)"
+                  _preventMergeEvents="{{ true }}"/>
   </ws:template>
 
   <ws:if data="{{multiSelectTemplate}}">

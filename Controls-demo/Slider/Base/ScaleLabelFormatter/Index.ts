@@ -12,6 +12,8 @@ class Base extends Control<IControlOptions> {
     protected _scaleLabelFormatter(value: number): string {
         return `${value}%`;
     }
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

@@ -1,8 +1,8 @@
 <Controls.scroll:Container attr:class="controlsDemo-StickyHeader">
    <div>
-      <Controls.scroll:StickyBlock>
+      <Controls.scroll:StickyHeader>
          <div class="controlsDemo-StickyHeader__stickyHeader controlsDemo-StickyHeader__stickyHeader-top">WS4</div>
-      </Controls.scroll:StickyBlock>
+      </Controls.scroll:StickyHeader>
       <p>
          Интерфейсный фреймворк СБИС решает задачу стандартизации разработки web-приложений и предоставляет богатую
          библиотеку готовых решений.

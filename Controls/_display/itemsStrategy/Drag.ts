@@ -215,7 +215,7 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
 
     static sortItems<S extends Model = Model, T extends CollectionItem<S> = CollectionItem<S>>(
         items: T[],
-        options: ISortOptions<T>
+        options: ISortOptions
     ): number[] {
         const itemsCount = items.length;
         if (!itemsCount) {
@@ -226,22 +226,15 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
             return [0];
         }
 
-        const itemsOrder = new Array(itemsCount);
+        const itemsOrder = new Array(itemsCount - 1);
         for (let i = 0; i < itemsCount; i++) {
             itemsOrder[i] = i;
         }
 
         if (options.avatarItem) {
-            // targetIndex и startIndex не могут быть больше itemsCount.
-            // Это может произойти, например, если выделили несколько записей в конце списка и потащили за последнюю,
-            // тогда перетаскиваемые записи скроются, но индексы были посчитаны до скрытия и будут указывать за пределы.
-            let targetIndex = options.targetIndex < itemsCount
-                ? this.getIndexGivenFilter(options.targetIndex, options.filterMap)
-                : itemsCount - 1;
-            const startIndex = options.startIndex < itemsCount ? options.startIndex : itemsCount - 1;
-
-            itemsOrder.splice(startIndex, 1);
-            itemsOrder.splice(targetIndex, 0, startIndex);
+            const targetIndex = this.getIndexGivenFilter(options.targetIndex, options.filterMap);
+            itemsOrder.splice(options.startIndex, 1);
+            itemsOrder.splice(targetIndex, 0, options.startIndex);
         }
 
         return itemsOrder;

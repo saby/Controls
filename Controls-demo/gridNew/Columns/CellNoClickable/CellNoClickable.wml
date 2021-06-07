@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <Controls.grid:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}">
         <ws:columns>
             <ws:Array>

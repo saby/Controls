@@ -1,7 +1,6 @@
-import {IControlOptions, TemplateFunction} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import DateRangeTemplate = require('wml!Controls/_filterPanel/Editors/NumberRange');
-import {BaseEditor} from 'Controls/_filterPanel/Editors/Base';
 import 'css!Controls/filterPanel';
 
 interface INumberRangeOptions extends IControlOptions {
@@ -36,7 +35,7 @@ interface INumberRange {
 
 /**
  * @name Controls/_filterPanel/Editors/NumberRange#afterEditorTemplate
- * @cfg {TemplateFunction|String} Шаблон, который отобразится справа от редактора.
+ * @cfg {TemplateFunction} Шаблон, который отобразится справа от редактора.
  * @demo Controls-demo/filterPanel/NumberRangeEditor/Index
  * @example
  * Создаем шаблон, который передадим в afterEditorTemplate:
@@ -58,7 +57,7 @@ interface INumberRange {
  * </pre>
  */
 
-class NumberRangeEditor extends BaseEditor implements INumberRange {
+class NumberRangeEditor extends Control<INumberRangeOptions> implements INumberRange {
     readonly '[Controls/_filterPanel/Editors/NumberRange]': boolean = true;
     protected _template: TemplateFunction = DateRangeTemplate;
     protected _minValue: number|null = null;
@@ -78,7 +77,7 @@ class NumberRangeEditor extends BaseEditor implements INumberRange {
         if (value < this._maxValue || !this._maxValue) {
             this._minValue = value;
         } else {
-            this._processPropertyValueChanged(event, [this._minValue, this._maxValue]);
+            this._notifyExtendedValue([this._minValue, this._maxValue]);
         }
     }
 
@@ -90,7 +89,7 @@ class NumberRangeEditor extends BaseEditor implements INumberRange {
         if (this._needReplaceMinMaxValues()) {
             this._replaceMinMaxValues(this._minValue, this._maxValue);
         }
-        this._processPropertyValueChanged(event, [this._minValue, this._maxValue]);
+        this._notifyExtendedValue([this._minValue, this._maxValue]);
     }
 
     private _updateValues(newValue: number[]): void {
@@ -98,13 +97,13 @@ class NumberRangeEditor extends BaseEditor implements INumberRange {
         this._maxValue = newValue[1] !== undefined ? newValue[1] : null;
     }
 
-    private _processPropertyValueChanged(event: SyntheticEvent, value: number[]): void {
+    private _notifyExtendedValue(value: number[]): void {
         const extendedValue = {
             value,
             textValue: !this._isValueEmpty(value) ? this._getTextValue(value) : ''
         };
         if (this._needNotifyChanges(value)) {
-            this._notifyPropertyValueChanged(extendedValue);
+            this._notify('propertyValueChanged', [extendedValue], {bubbling: true});
         }
     }
 

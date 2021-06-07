@@ -5,7 +5,6 @@ import ShadowModel from './ShadowModel';
 import {IShadowsOptions, IShadowsVisibilityByInnerComponents, SHADOW_VISIBILITY} from './Interface/IShadows';
 import {IScrollState} from "../Utils/ScrollState";
 import {Offsets} from "./ScrollbarModel";
-import ContainerBase from 'Controls/_scroll/ContainerBase';
 
 
 export default class ShadowsModel extends mixin<VersionableMixin>(VersionableMixin) implements IVersionable {
@@ -16,12 +15,12 @@ export default class ShadowsModel extends mixin<VersionableMixin>(VersionableMix
     constructor(options: IShadowsOptions) {
         super(options);
 
-        const scrollOrientation = ContainerBase.getScrollOrientation(options).toLowerCase();
-        if (scrollOrientation.indexOf('vertical') !== -1) {
+        const scrollMode = options.scrollMode.toLowerCase();
+        if (scrollMode.indexOf('vertical') !== -1) {
             this._models.top = new ShadowModel(POSITION.TOP, options);
             this._models.bottom = new ShadowModel(POSITION.BOTTOM, options);
         }
-        if (scrollOrientation.indexOf('horizontal') !== -1) {
+        if (scrollMode.indexOf('horizontal') !== -1) {
             this._models.left = new ShadowModel(POSITION.LEFT, options);
             this._models.right = new ShadowModel(POSITION.RIGHT, options);
         }

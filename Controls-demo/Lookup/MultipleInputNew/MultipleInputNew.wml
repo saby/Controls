@@ -1,6 +1,0 @@
-<Controls.lookup:MultipleInputNew
-    lookupsOptions="{{_lookupOptions}}"
-    on:selectedKeysChanged="_selectedKeysChanged()"
-    on:valueChanged="_valueChanged()"
-    attr:class="controlsDemo_fixedWidth550">
-</Controls.lookup:MultipleInputNew>

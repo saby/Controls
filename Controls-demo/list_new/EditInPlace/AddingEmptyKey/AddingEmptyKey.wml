@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth350">
     <Controls.list:View
             name="list"
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             on:beforeEndEdit="_onBeforeEndEdit()">
         <ws:footerTemplate>

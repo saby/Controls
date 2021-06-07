@@ -3,6 +3,7 @@ import Deferred = require('Core/Deferred');
 import cInstance = require('Core/core-instance');
 import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
 import {Logger} from 'UI/Utils';
+import {ContextOptions as dataOptions} from 'Controls/context';
 
 import {MoveController, IMoveControllerOptions} from './Controllers/MoveController';
 import {Model} from 'Types/entity';
@@ -407,12 +408,12 @@ var Mover = BaseAction.extend({
     _moveDialogTemplate: null,
     _moveDialogOptions: null,
     _template: Template,
-    _beforeMount: function (options) {
-        _private.updateDataOptions(this, options, options._dataOptionsValue);
+    _beforeMount: function (options, context) {
+        _private.updateDataOptions(this, options, context.dataOptions);
     },
 
-    _beforeUpdate: function (options) {
-        _private.updateDataOptions(this, options, options._dataOptionsValue);
+    _beforeUpdate: function (options, context) {
+        _private.updateDataOptions(this, options, context.dataOptions);
     },
 
     moveItemUp: function (item) {
@@ -476,6 +477,12 @@ Object.defineProperty(Mover, 'defaultProps', {
       return Mover.getDefaultOptions();
    }
 });
+
+Mover.contextTypes = function () {
+    return {
+        dataOptions: dataOptions
+    };
+};
 
 Mover._private = _private;
 

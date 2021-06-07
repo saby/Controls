@@ -1,42 +1,82 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo__treeGrid__configuration">
 
     <div class="controlsDemo__cell controlsDemo__flexRow controlsDemo__mb2">
-        <div class="controlsDemo__cell controlsDemo__mr2">
-            <Router.router:Reference attr:class="controls-text-label"
-                                     state="/Controls-demo/app/:app"
-                                     app="{{ 'Controls-demo/treeGridNew/NodeFooter/Configuration/DefaultFooterColspaned/Index' }}">
-                <a href="{{content.href}}">Подвал не определен</a>
-            </Router.router:Reference>
-            <Controls-demo.treeGridNew.NodeFooter.Configuration.DefaultFooterColspaned.Index/>
+
+        <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_Configuration__grid-one">
+            <div class="controls-text-label">Подвал не определен</div>
+
+            <Controls.treeGrid:View
+                    name="tree1"
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}"
+                    parentProperty="parent"
+                    nodeProperty="type"
+                    navigation="{{_navigation}}" />
         </div>
 
-        <div class="controlsDemo__cell">
-            <Router.router:Reference attr:class="controls-text-label"
-                                     state="/Controls-demo/app/:app"
-                                     app="{{ 'Controls-demo/treeGridNew/NodeFooter/Configuration/DefaultFooter/Index' }}">
-                <a href="{{content.href}}">Кастомный подвал не определен, colspan false</a>
-            </Router.router:Reference>
-            <Controls-demo.treeGridNew.NodeFooter.Configuration.DefaultFooter.Index/>
+
+        <div class="controlsDemo__cell controlsDemo_Configuration__grid-two">
+            <div class="controls-text-label">Кастомный подвал не определен, colspan false</div>
+
+            <Controls.treeGrid:View
+                    keyProperty="id"
+                    name="tree2"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}"
+                    parentProperty="parent"
+                    nodeProperty="type"
+                    navigation="{{_navigation}}">
+                <ws:nodeFooterTemplate>
+                    <ws:partial template="Controls/treeGrid:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass" />
+                </ws:nodeFooterTemplate>
+            </Controls.treeGrid:View>
         </div>
+
     </div>
 
     <div class="controlsDemo__cell controlsDemo__flexRow controlsDemo__mb2">
-        <div class="controlsDemo__cell controlsDemo__mr2">
-            <Router.router:Reference attr:class="controls-text-label"
-                                     state="/Controls-demo/app/:app"
-                                     app="{{ 'Controls-demo/treeGridNew/NodeFooter/Configuration/CustomFooterColspaned/Index' }}">
-                <a href="{{content.href}}">Задан прикладной шаблон подвала узла, с colspan</a>
-            </Router.router:Reference>
-            <Controls-demo.treeGridNew.NodeFooter.Configuration.CustomFooterColspaned.Index/>
+
+        <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_Configuration__grid-three">
+            <div class="controls-text-label">Задан прикладной шаблон подвала узла, с colspan</div>
+
+            <Controls.treeGrid:View
+                    keyProperty="id"
+                    name="tree3"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}"
+                    parentProperty="parent"
+                    nodeProperty="type"
+                    navigation="{{_navigation}}">
+                <ws:nodeFooterTemplate>
+                    <ws:partial template="Controls/treeGrid:NodeFooterTemplate" cellClassName="customClass">
+                        <Controls.list:AddButton caption="Добавить товар" />
+                    </ws:partial>
+                </ws:nodeFooterTemplate>
+            </Controls.treeGrid:View>
         </div>
 
-        <div class="controlsDemo__cell controlsDemo__mr2">
-            <Router.router:Reference attr:class="controls-text-label"
-                                     state="/Controls-demo/app/:app"
-                                     app="{{ 'Controls-demo/treeGridNew/NodeFooter/Configuration/CustomFooter/Index' }}">
-                <a href="{{content.href}}">Задан прикладной шаблон подвала узла, без colspan</a>
-            </Router.router:Reference>
-            <Controls-demo.treeGridNew.NodeFooter.Configuration.CustomFooter.Index/>
+
+
+        <div class="controlsDemo__cell controlsDemo_Configuration__grid-four">
+            <div class="controls-text-label">Задан прикладной шаблон подвала узла, без colspan</div>
+
+            <Controls.treeGrid:View
+                    keyProperty="id"
+                    name="tree4"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}"
+                    parentProperty="parent"
+                    nodeProperty="type"
+                    navigation="{{_navigation}}">
+                <ws:nodeFooterTemplate>
+                    <ws:partial template="Controls/treeGrid:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass">
+                        <Controls.list:AddButton caption="Добавить товар" />
+                    </ws:partial>
+                </ws:nodeFooterTemplate>
+            </Controls.treeGrid:View>
         </div>
     </div>
+
+
 </div>

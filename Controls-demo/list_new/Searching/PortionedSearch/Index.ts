@@ -14,7 +14,7 @@ export default class extends Control {
     protected _beforeMount(): void {
         this._viewSource = new PortionedSearchSource({
             source: new Memory({
-                keyProperty: 'key',
+                keyProperty: 'id',
                 data: this._dataArray,
                 // tslint:disable-next-line
                 filter: (item: any, query: any) => {
@@ -47,5 +47,7 @@ export default class extends Control {
         this._searchValue = '';
         this._filter = {};
     }
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

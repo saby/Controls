@@ -2,18 +2,17 @@ import IItemsStrategy from 'Controls/_display/IItemsStrategy';
 import TreeItem from '../TreeItem';
 import Tree, { TNodeFooterVisibilityCallback } from '../Tree';
 import {Model} from 'Types/entity';
+import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 import {TemplateFunction} from "UI/Base";
 
 interface IOptions<S, T extends TreeItem<S>> {
     source: IItemsStrategy<S, T>;
     display: Tree<S, T>;
-    itemModule?: string;
     nodeFooterVisibilityCallback?: (nodeItem: S) => boolean;
 }
 
 interface ISortOptions<S, T extends TreeItem<S>> {
     display: Tree<S, T>;
-    itemModule?: string;
     nodeFooters: Array<T>;
     nodeFooterVisibilityCallback?: (nodeItem: S) => boolean;
 }
@@ -155,7 +154,6 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
     protected _createItemsOrder(): number[] {
         return NodeFooter.sortItems<S, T>(this.source.items, {
             display: this.options.display,
-            itemModule: this.options.itemModule,
             nodeFooters: this._nodeFooters,
             nodeFooterVisibilityCallback: this.options.nodeFooterVisibilityCallback
         });
@@ -192,7 +190,7 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
             if (nodeFooterContents.indexOf(nodeFooterContent) === -1) {
                 const item = nodesWithFooters[index];
                 const nodeFooter = options.display.createItem({
-                    itemModule: options.itemModule || 'Controls/treeGrid:TreeGridNodeFooterRow',
+                    itemModule: 'Controls/treeGrid:TreeGridNodeFooterRow',
                     contents: nodeFooterContent,
                     parent: item,
                     hasMore: item.hasMoreStorage()

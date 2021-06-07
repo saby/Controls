@@ -21,7 +21,6 @@ import 'css!Controls/dateRange';
  * @mixes Controls/dateRange:IDayTemplate
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IUnderline
- * @implements Controls/interface:IFontWeight
  * @mixes Controls/dateRange:ICaptionFormatter
  * @mixes Controls/dateRange:IDateSelector
  *
@@ -29,12 +28,6 @@ import 'css!Controls/dateRange';
  * @author Красильников А.С.
  * @demo Controls-demo/Input/Date/Link
  *
- */
-
-/**
- * @name Controls/_dateRange/DateSelector#fontWeight
- * @demo Controls-demo/dateRange/LinkView/FontWeight/Index
- * @default bold
  */
 
 /*ENG

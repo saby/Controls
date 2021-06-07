@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { PrefetchLinksStore } from 'UICommon/Deps';
+import { PrefetchLinksStore } from 'UI/Deps';
 import * as CApp from 'Controls/Application';
 
 const prefetchModule = 'Module/File';

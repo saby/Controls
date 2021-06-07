@@ -7,7 +7,7 @@
         <Controls.input:Number attr:style="margin-left: 10px" bind:value="_dndDelay" placeholder="Drag'N'Drop delay in ms"/>
     </div>
 
-    <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="key">
+    <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
         <div>
             <Controls.list:Mover name="listMover"/>
             <Controls.operations:Controller bind:selectedKeys="_selectedKeys">

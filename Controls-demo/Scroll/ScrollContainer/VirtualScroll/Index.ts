@@ -66,5 +66,7 @@ export default class SlowVirtualScrollDemo extends Control<IControlOptions> {
         this._children.scrollContainer.scrollTo(165);
     }
 
+    static _theme: string[] = ['Controls/Classes'];
+
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Scroll/ScrollContainer/VirtualScroll/Style'];
 }

@@ -12,7 +12,7 @@ import 'css!Controls/list';
 
 'use strict';
 /**
- * Контроллер для <a href="/doc/platform/developmentapl/interface-development/controls/input-elements/input/edit/">редактирования по месту в полях ввода</a>.
+ * Контроллер для <a href="/doc/platform/developmentapl/interface-development/controls/input/edit/">редактирования по месту в полях ввода</a>.
  *
  * @class Controls/_editableArea/View
  * @extends UI/Base:Control

@@ -1,12 +1,12 @@
 define(
    [
-      'Controls/_scroll/StickyBlock/Model'
+      'Controls/_scroll/StickyHeader/Model'
    ],
    function(Model) {
 
       'use strict';
 
-      describe('Controls/_scroll/StickyBlock/Model', function() {
+      describe('Controls/_scroll/StickyHeader/Model', function() {
          var topTarget = {};
          var bottomTarget = {};
          var result, model;
@@ -31,9 +31,7 @@ define(
                   model = new Model({
                      topTarget: topTarget,
                      bottomTarget: bottomTarget,
-                     position: {
-                        vertical: 'top'
-                     }
+                     position: 'top'
                   });
                });
 
@@ -107,9 +105,7 @@ define(
                   model = new Model({
                      topTarget: topTarget,
                      bottomTarget: bottomTarget,
-                     position: {
-                        vertical: 'bottom'
-                     }
+                     position: 'bottom'
                   });
                });
                it('Both targets not intersection', function () {

@@ -10,7 +10,7 @@
          </div>
       </ws:headerContentTemplate>
       <ws:bodyContentTemplate>
-         <Controls.list:DataContainer source="{{_source}}" keyProperty="id" filter="{{_filter}}" parentProperty="{{_options.parentProperty}}">
+         <Controls.list:DataContainer source="{{_source}}" keyProperty="id" filter="{{_filter}}">
             <Controls.lookupPopup:Container multiSelect="{{_options.multiSelect}}">
                <Controls.operations:Controller>
                   <Controls.list:Container>

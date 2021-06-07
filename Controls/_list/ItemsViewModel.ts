@@ -390,8 +390,8 @@ var ItemsViewModel = BaseViewModel.extend({
         return this._curIndex;
     },
 
-    getItemById: function(id: string | number, keyProperty: string, withFilter: boolean = true) {
-        return this._display ? this._display.getItemBySourceKey(id, withFilter) : undefined;
+    getItemById: function(id, keyProperty) {
+        return this._display ? this._display.getItemBySourceKey(id) : undefined;
     },
 
     getItemBySourceKey: function(id) {
@@ -679,10 +679,9 @@ var ItemsViewModel = BaseViewModel.extend({
         this._onAfterCollectionChangeFnc = null;
     },
 
-    setHasMoreData(hasMoreDataObject: object): boolean {
+    setHasMoreData(hasMoreData: boolean): boolean {
         const display = this.getDisplay();
         if (display) {
-            const hasMoreData = hasMoreDataObject instanceof Object ? hasMoreDataObject.up || hasMoreDataObject.down : hasMoreDataObject;
             return this._display.setHasMoreData(hasMoreData);
         }
     },
@@ -690,13 +689,8 @@ var ItemsViewModel = BaseViewModel.extend({
     getHasMoreData(): boolean {
         const display = this.getDisplay();
         if (display) {
-            const hasMoreData = this._display.getHasMoreData();
-            return hasMoreData instanceof Object ? hasMoreData.up || hasMoreData.down : hasMoreData;
+            return this._display.getHasMoreData();
         }
-    },
-
-    hasMoreData(): boolean {
-        return this.getHasMoreData();
     },
 
     getTheme(): string|undefined {

@@ -1,6 +1,6 @@
 <div class="controlsDemo__cell">
     <Controls.scroll:Container>
-        <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="key" attr:class="controlsDemo__inline-flex">
+        <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" attr:class="controlsDemo__inline-flex">
             <ws:content>
                 <div>
                     <Controls.list:Remover name="remover" on:afterItemsRemove="_afterItemsRemove()"/>

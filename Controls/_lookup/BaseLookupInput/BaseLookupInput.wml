@@ -13,7 +13,6 @@
             emptyTemplate="{{_options.emptyTemplate}}"
             minSearchLength="{{_options.minSearchLength}}"
             source="{{_options.suggestSource || _options.source}}"
-            suggestTarget="{{_options.suggestTarget}}"
             keyProperty="{{_options.suggestKeyProperty || _options.keyProperty}}"
             historyId="{{_options.historyId}}"
             searchParam="{{_options.searchParam}}"
@@ -111,14 +110,12 @@
                                                     on:menuOpened="_toolbarMenuOpenedHandler()"
                                                     attr:class="controls-Lookup__toolbar"/>
                         </ws:if>
-                        <ws:if data="{{_options.showSelectButton !== false}}">
-                          <ws:partial template="{{_showSelectorTemplate}}"
-                                      name="showSelector"
-                                      horizontalPadding="{{_horizontalPadding}}"
-                                      on:mousedown="_onMouseDownShowSelector()"
-                                      on:mouseleave="_linkMouseLeaveHandler()"
-                                      on:mouseenter="_linkMouseEnterHandler()"/>
-                        </ws:if>
+                        <ws:partial template="{{_showSelectorTemplate}}"
+                                    name="showSelector"
+                                    horizontalPadding="{{_horizontalPadding}}"
+                                    on:mousedown="_onMouseDownShowSelector()"
+                                    on:mouseleave="_linkMouseLeaveHandler()"
+                                    on:mouseenter="_linkMouseEnterHandler()"/>
                     </div>
                 </ws:if>
             </ws:rightFieldWrapper>

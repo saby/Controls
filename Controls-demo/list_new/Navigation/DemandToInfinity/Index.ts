@@ -10,7 +10,7 @@ export default class extends Control {
     protected _view: 'demand' | 'infinity' = 'demand';
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: this._dataArray
         });
     }

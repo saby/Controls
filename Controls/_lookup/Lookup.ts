@@ -1,5 +1,7 @@
 import {default as BaseLookupInput, ILookupInputOptions} from 'Controls/_lookup/BaseLookupInput';
 import {SelectedItems} from './BaseControllerClass';
+import showSelector from 'Controls/_lookup/showSelector';
+import {IStackPopupOptions} from 'Controls/_popup/interface/IStack';
 import {getWidth} from 'Controls/sizeUtils';
 import {Model} from 'Types/entity';
 import * as selectedCollectionUtils from 'Controls/_lookup/SelectedCollection/Utils';
@@ -8,11 +10,13 @@ import * as itemsTemplate from 'wml!Controls/_lookup/SelectedCollection/Selected
 import * as ContentTemplate from 'wml!Controls/_lookup/SelectedCollection/_ContentTemplate';
 import * as CrossTemplate from 'wml!Controls/_lookup/SelectedCollection/_CrossTemplate';
 import * as CounterTemplate from 'wml!Controls/_lookup/SelectedCollection/CounterTemplate';
+import {default as BaseLookup} from './BaseLookup';
 import * as itemTemplate from 'wml!Controls/_lookup/SelectedCollection/ItemTemplate';
 
 const MAX_VISIBLE_ITEMS = 20;
 let SHOW_SELECTOR_WIDTH = 0;
 let CLEAR_RECORDS_WIDTH = 0;
+let LEFT_OFFSET_COUNTER = 0;
 
 export interface ILookupOptions extends ILookupInputOptions {
    multiLine?: boolean;
@@ -25,7 +29,7 @@ export interface ILookupOptions extends ILookupInputOptions {
  * Поддерживает автовысоту в зависимости от выбранных значений {@link multiLine}, а также одиночный и множественный выбор (см. {@link multiSelect}).
  *
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/directory/lookup/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/directory/lookup/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_lookup.less переменные тем оформления}
  *
  *
@@ -70,7 +74,7 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @extends UI/Base:Control
  * @mixes Controls/interface:ILookup
  * @mixes Controls/interface/ISelectedCollection
- * @mixes Controls/interface:ISelectorDialog
+ * @mixes Controls/interface/ISelectorDialog
  * @mixes Controls/interface/ISuggest
  * @mixes Controls/interface:ISearch
  * @mixes Controls/interface:ISource
@@ -98,6 +102,17 @@ export default class Lookup extends BaseLookupInput {
    protected _availableWidthCollection: number = null;
    protected _counterWidth: number;
    protected _fieldWrapperMinHeight: number = null;
+
+   showSelector(popupOptions?: IStackPopupOptions): void {
+      this.closeSuggest();
+      // Если lookup лежит на stack панели, и окно выборе окажется шире этой stack панели,
+      // то по особой логике в мехнизме окон, stack панель будет скрыта через display: none,
+      // из-за этого возникает проблема при выборе, поле связи не может посчитать размеры,
+      // т.к. лежит в скрытом блоке, чтобы решить эту пробелму,
+      // кэшируем размеры перед открытием окна выбора
+      this._getFieldWrapperWidth();
+      return showSelector(this, popupOptions, this._options.multiSelect);
+   }
 
    _calculateSizes(options: ILookupOptions): void {
       const itemsCount = this._items.getCount();
@@ -387,6 +402,18 @@ export default class Lookup extends BaseLookupInput {
              (options.multiSelect || options.comment) &&
              (!options.readOnly || this._items.getCount() > 1);
    }
+
+   static getDefaultOptions(): object {
+      return {
+         ...BaseLookup.getDefaultOptions(),
+         ...{
+            displayProperty: 'title',
+            multiSelect: false,
+            maxVisibleItems: 7,
+            itemTemplate
+         }
+      };
+   }
 }
 /**
  * @name Controls/_lookup/Lookup#multiLine
@@ -557,3 +584,12 @@ export default class Lookup extends BaseLookupInput {
  * @param {Types/entity:Record} item Элемент, по которому производим клик.
  * @param {Object} nativeEvent Объект нативного события браузера.
  */
+
+Object.defineProperty(Lookup, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Lookup.getDefaultOptions();
+   }
+});

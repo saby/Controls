@@ -5,7 +5,7 @@ import {
     ICollectionOptions as IBaseOptions,
     ItemsFactory,
     IItemActionsTemplateConfig,
-    GridLadderUtil, IHasMoreData
+    GridLadderUtil
 } from 'Controls/display';
 
 import GroupRow from './GroupRow';
@@ -75,7 +75,7 @@ export default class Collection<
         }
     }
 
-    setHasMoreData(hasMoreData: IHasMoreData): void {
+    setHasMoreData(hasMoreData: boolean): void {
         super.setHasMoreData(hasMoreData);
         if (this.getFooter()) {
             this.getFooter().setHasMoreData(hasMoreData);

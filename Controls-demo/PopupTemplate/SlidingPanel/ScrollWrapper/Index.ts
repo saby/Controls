@@ -21,6 +21,7 @@ class Index extends Control<IControlOptions> {
             }
         });
     }
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default Index;

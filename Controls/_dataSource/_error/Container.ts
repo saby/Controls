@@ -69,7 +69,7 @@ export default class Container extends Control<IContainerConfig> implements ICon
 
     /**
      * Скрыть сообщение об ошибке.
-     * @function
+     * @method
      * @public
      */
     hide(): void {
@@ -88,7 +88,7 @@ export default class Container extends Control<IContainerConfig> implements ICon
     /**
      * Показать сообщение об ошибке.
      * @param {Controls/_dataSource/_error/ViewConfig} viewConfig
-     * @function
+     * @method
      * @public
      */
     show(viewConfig: ViewConfig): void {

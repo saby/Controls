@@ -5,7 +5,7 @@
                                        expanded="{{_expanded}}"
                                        captions="{{_options.captions}}"
                                        captionPosition="{{_options.captionPosition}}"
-                                       fontSize="{{_options.headingFontSize || _options.fontSize}}"
+                                       fontSize="{{_options.fontSize || _options.headingFontSize}}"
                                        fontWeight="{{_options.headingFontWeight}}"
                                        fontColorStyle="{{_options.headingFontColorStyle}}"
                                        tooltip="{{_options.tooltip}}"

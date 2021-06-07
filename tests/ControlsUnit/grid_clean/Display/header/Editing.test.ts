@@ -8,9 +8,13 @@ describe('Controls/grid_clean/Display/header/Editing', () => {
     describe('behaviour of header with headerVisibility={hasdata} while editing', () => {
         const addItem = (collection) => {
             const contents = new Model({ rawData: {} });
-            const editingItem = collection.createItem({ contents, isAdd: true });
+            const editingItem = collection.createItem({
+                contents,
+                isAdd: true,
+                addPosition: 'bottom'
+            });
             editingItem.setEditing(true, contents, false);
-            collection.setAddingItem(editingItem, {position: 'bottom'});
+            collection.setAddingItem(editingItem);
             collection.setEditing(true);
         };
 

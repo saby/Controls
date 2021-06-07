@@ -8,7 +8,7 @@
             <Controls.list:View
                     itemsReadyCallback="{{_itemsReadyCallback}}"
                     source="{{_source}}"
-                    keyProperty="key"
+                    keyProperty="id"
                     navigation="{{_options.navigation}}">
                 <ws:virtualScrollConfig pageSize="{{20}}"/>
             </Controls.list:View>

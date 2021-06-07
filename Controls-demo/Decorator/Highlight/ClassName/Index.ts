@@ -11,6 +11,8 @@ class ClassName extends Control<IControlOptions> {
     protected _highlightedValue = 'мама маму рама';
     protected _template: TemplateFunction = controlTemplate;
 
+    static _theme: string[] = ['Controls/Classes'];
+
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Decorator/Highlight/ClassName/ClassName'];
 }
 

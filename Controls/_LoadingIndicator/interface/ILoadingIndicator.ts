@@ -42,7 +42,7 @@ export default interface ILoadingIndicator {
  */
 
 /**
- * @typedef {String} Controls/LoadingIndicator/interface/ILoadingIndicator/Scroll.typedef
+ * @typedef {String} Scroll
  * @description Значения, которыми настраивается градиент для прокручивания объекта привязки.
  * @variant '' Без градиента.
  * @variant left Градиент слева направо (увелечение цветового наполнения).
@@ -53,7 +53,7 @@ export default interface ILoadingIndicator {
 
 /**
  * @name Controls/LoadingIndicator/interface/ILoadingIndicator#scroll
- * @cfg {Controls/LoadingIndicator/interface/ILoadingIndicator/Scroll.typedef} Добавляет градиент к фону индикатора для прокручивания объекта привязки.
+ * @cfg {Scroll} Добавляет градиент к фону индикатора для прокручивания объекта привязки.
  * @default '' (пустая строка)
  * @demo Controls-demo/LoadingIndicator/Scroll/Index
  */
@@ -73,7 +73,7 @@ export default interface ILoadingIndicator {
  */
 
 /**
- * @typedef {Srting} Controls/LoadingIndicator/interface/ILoadingIndicator/Overlay
+ * @typedef {Srting} Overlay
  * @description Значения, которыми настраивается оверлей индикатора.
  * @variant default Невидимый фон, индикатор блокирует клики.
  * @variant dark Темный фон, индикатор блокирует клики.
@@ -82,7 +82,7 @@ export default interface ILoadingIndicator {
 
 /**
  * @name Controls/LoadingIndicator/interface/ILoadingIndicator#overlay
- * @cfg {Controls/LoadingIndicator/interface/ILoadingIndicator/Overlay.typedef} Настройка оверлея индикатора.
+ * @cfg {Overlay} Настройка оверлея индикатора.
  * @default default
  * @demo Controls-demo/LoadingIndicator/Overlay/Index
  */

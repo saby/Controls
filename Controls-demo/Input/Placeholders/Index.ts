@@ -10,6 +10,8 @@ class Placeholders extends Control<IControlOptions> {
         this._value = Math.random().toString(36).slice(2);
     }
 
+    static _theme: string[] = ['Controls/Classes'];
+
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Input/Placeholders/Placeholders'];
 }
 

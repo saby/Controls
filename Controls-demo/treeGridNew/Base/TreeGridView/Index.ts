@@ -1,19 +1,17 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/Base/TreeGridView/TreeGridView';
-import {HierarchicalMemory} from 'Types/source';
-import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
+import {Memory} from 'Types/source';
+import {Gadgets} from '../../DemoHelpers/DataCatalog';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: HierarchicalMemory;
-    protected _columns: unknown[] = Flat.getColumns();
+    protected _viewSource: Memory;
+    protected _columns: unknown[] = Gadgets.getGridColumnsForFlat();
 
     protected _beforeMount(): void {
-        this._viewSource = new HierarchicalMemory({
-            keyProperty: 'key',
-            data: Flat.getData(),
-            parentProperty: 'parent',
-            filter: (): boolean => true
+        this._viewSource = new Memory({
+            keyProperty: 'id',
+            data: Gadgets.getFlatData()
         });
     }
 

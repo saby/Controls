@@ -16,12 +16,12 @@ interface IPositionHasMoreCompatible {
 type TPositionHasMore = IPositionHasMore;
 
 // TODO Общие типы
-type TPosition = unknown;
+type TPosition = any;
 /**
  * Позиция, от которой нужно начинать скролл
  * Является массивом из любых типов (number, date, string и тд)
  */
-type TPositionValue = unknown[];
+type TPositionValue = any[];
 type TField = string | string[];
 type TFieldValue = string[];
 
@@ -147,9 +147,7 @@ class PositionNavigationStore implements INavigationStore {
      * TODO Необходимо убрать этот метод, когда своместимость более не понадобится
      * @param position
      */
-    private static _convertDirection(
-        position: TNavigationDirection | 'before' | 'after' | 'both'
-    ): TNavigationDirection {
+    private static _convertDirection(position: TNavigationDirection | 'before' | 'after' | 'both'): TNavigationDirection {
         const map = {
             before: 'backward',
             after: 'forward',

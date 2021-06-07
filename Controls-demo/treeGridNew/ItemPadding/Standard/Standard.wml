@@ -2,7 +2,7 @@
     <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-default">
         <div if="{{_showTitle}}" class="controls-text-label">Стандартные отступы</div>
         <Controls.treeGrid:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 parentProperty="parent"

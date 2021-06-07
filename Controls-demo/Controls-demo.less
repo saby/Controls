@@ -1,3 +1,4 @@
+@import "Controls-default-theme/_theme";
 @spacing_demo_default: 12px;
 @spacing_demo_default_controls: 4px;
 
@@ -323,7 +324,7 @@
     background-color: rgba(255, 193, 85, 0.33);
 }
 .controlsDemo__Grid_header-with-add-button__gridTitle {
-  color: var(--primary_text-color);
+  color: @primary_text-color;
   font-family: 'TensorFont Полужирный', 'TensorFont';
   font-weight: 700;
   font-style: normal;
@@ -433,8 +434,8 @@
    white-space: nowrap;
    position: relative;
    flex-shrink: 0;
-   background-color: var(--background-color_operationsPanel);
-   height: var(--height_operationsPanel);
+   background-color: @background-color_operationsPanel;
+   height: @height_operationsPanel;
 }
 
 .controlsDemo__fixedWidth-s_theme-dark,

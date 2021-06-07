@@ -7,7 +7,7 @@ import { IColumn } from 'Controls/grid';
 import * as Template from 'wml!Controls-demo/treeGridNew/EditArrow/Base/Base';
 import * as TreeMemory from 'Controls-demo/List/Tree/TreeMemory';
 import * as memorySourceFilter from 'Controls-demo/Utils/MemorySourceFilter';
-import { IHeaderCell } from 'Controls/grid';
+import { IHeader } from 'Controls-demo/types';
 
 import { TreeData, TreeColumns, TreeHeader } from 'Controls-demo/treeGridNew/EditArrow/resources/resources';
 
@@ -19,7 +19,7 @@ export default class Base extends Control<IControlOptions> {
 
     __beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
         this._source = new TreeMemory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             parentProperty: 'parent',
             filter: memorySourceFilter(),
             data: TreeData

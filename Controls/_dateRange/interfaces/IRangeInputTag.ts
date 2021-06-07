@@ -17,7 +17,7 @@
 /**
  * @name Controls/_dateRange/interfaces/IRangeInputTag#startTagStyle
  * @cfg {String} Стиль индикатора в стартовом поле.
- * Подробнее читайте <a href='/doc/platform/developmentapl/interface-development/controls/input-elements/input/#_3'>здесь</a>.
+ * Подробнее читайте <a href='/doc/platform/developmentapl/interface-development/controls/input/#_3'>здесь</a>.
  * @variant secondary
  * @variant success
  * @variant primary
@@ -220,7 +220,7 @@
 /**
  * @name Controls/_dateRange/interfaces/IRangeInputTag#endTagStyle
  * @cfg {String} Стиль индикатора в конечном поле (цветной индикатор, показанный в правом верхнем углу поля).
- * Подробнее читайте <a href='/doc/platform/developmentapl/interface-development/controls/input-elements/input/#_3'>здесь</a>.
+ * Подробнее читайте <a href='/doc/platform/developmentapl/interface-development/controls/input/#_3'>здесь</a>.
  * @variant secondary
  * @variant success
  * @variant primary
@@ -297,7 +297,7 @@
 /**
  * @event Происходит при клике по индикатору в конечном поле.
  * @name Controls/_dateRange/interfaces/IRangeInputTag#endTagClick
- * Подробнее читайте <a href='/doc/platform/developmentapl/interface-development/controls/input-elements/input/#_3'>здесь</a>.
+ * Подробнее читайте <a href='/doc/platform/developmentapl/interface-development/controls/input/#_3'>здесь</a>.
  * @param {Object} event Нативное событие.
  * Может использоваться для получения таргета (DOM-узла тега), чтобы показать всплывающую подсказку.
  * @remark Событие никогда не запустится, если вы не укажете опцию tagStyle в поле.
@@ -361,7 +361,7 @@
 /**
  * @event Происходит при наведении курсора на индикатор в конечном поле.
  * @name Controls/_dateRange/interfaces/IRangeInputTag#endTagHover
- * Подробнее читайте <a href='/doc/platform/developmentapl/interface-development/controls/input-elements/input/#_3'>здесь</a>.
+ * Подробнее читайте <a href='/doc/platform/developmentapl/interface-development/controls/input/#_3'>здесь</a>.
  * @param {Object} event Нативное событие.
  * Может использоваться для получения таргета (DOM-узла тега), чтобы показать всплывающую подсказку.
  * @remark Событие никогда не запустится, если вы не укажете опцию tagStyle в поле.

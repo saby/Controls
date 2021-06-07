@@ -4,6 +4,8 @@ import controlTemplate = require('wml!Controls-demo/Input/BorderVisibility/Borde
 class BorderVisibility extends Control<IControlOptions> {
     protected _placeholder: string = 'Tooltip';
     protected _template: TemplateFunction = controlTemplate;
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

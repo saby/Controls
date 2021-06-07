@@ -2,7 +2,8 @@ import {Control, TemplateFunction} from 'UI/Base';
 import {HierarchicalMemory} from 'Types/source';
 import {Guid, Model} from 'Types/entity';
 
-import { IColumn, TColspanCallbackResult } from 'Controls/grid';
+import { IColumn } from 'Controls/grid';
+import { TColspanCallbackResult } from 'Controls/display';
 
 import {generateData, getColumns} from './DataCatalog';
 
@@ -16,7 +17,7 @@ export default class extends Control {
    protected _beforeMount(): void {
       const sourceData = generateData();
       this._viewSource = new HierarchicalMemory({
-         keyProperty: 'key',
+         keyProperty: 'id',
          data: sourceData
       });
    }
@@ -29,9 +30,9 @@ export default class extends Control {
       const guid = Guid.create();
       this._children.list.beginAdd({
          item: new Model({
-            keyProperty: 'key',
+            keyProperty: 'id',
             rawData: {
-               key: guid,
+               id: guid,
                title: `Запись первого уровня с id = ${guid}. Отменяет поведение скролла вместо кнопки "Ещё".`,
                parent: null,
                type: null

@@ -1,4 +1,4 @@
-<Controls.scroll:StickyBlock
+<Controls.scroll:StickyHeader
         mode="replaceable"
         shadowVisibility="visible">
    <ws:partial template="Controls/dropdown:ItemTemplate"
@@ -7,4 +7,4 @@
                multiSelect="{{false}}"
                class="controls-SimplePanel-dropdown__emptyItem">
    </ws:partial>
-</Controls.scroll:StickyBlock>
+</Controls.scroll:StickyHeader>

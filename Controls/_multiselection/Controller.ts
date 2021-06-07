@@ -34,8 +34,8 @@ export class Controller {
 
    private get _selection(): ISelection {
       return {
-         selected: this._selectedKeys || [],
-         excluded: this._excludedKeys || []
+         selected: this._selectedKeys,
+         excluded: this._excludedKeys
       };
    }
    private set _selection(selection: ISelection): void {
@@ -45,8 +45,8 @@ export class Controller {
 
    constructor(options: ISelectionControllerOptions) {
       this._model = options.model;
-      this._selectedKeys = options.selectedKeys ? options.selectedKeys.slice() : [];
-      this._excludedKeys = options.excludedKeys ? options.excludedKeys.slice() : [];
+      this._selectedKeys = options.selectedKeys.slice();
+      this._excludedKeys = options.excludedKeys.slice();
       this._strategy = options.strategy;
       this._searchValue = options.searchValue;
       this._filter = options.filter;
@@ -185,7 +185,7 @@ export class Controller {
     * Если не передан то будет считать по состоянию контроллера
     */
    getCountOfSelected(selection?: ISelection): number|null {
-      return this._strategy.getCount(selection || this._selection, this._model.hasMoreData(), this._limit);
+      return this._strategy.getCount(selection || this._selection, this._model.getHasMoreData(), this._limit);
    }
 
    /**
@@ -199,7 +199,7 @@ export class Controller {
    isAllSelected(byEveryItem: boolean = true, selection?: ISelection, rootId?: CrudEntityKey): boolean {
       return this._strategy.isAllSelected(
          selection || this._selection,
-         this._model.hasMoreData(),
+         this._model.getHasMoreData(),
          this._model.getCount(),
          byEveryItem,
          rootId
@@ -255,7 +255,7 @@ export class Controller {
     */
    toggleAll(): ISelection {
       const initSelection = this._filterChanged ? this._removeFilteredItemKeys(this._selection) : this._selection;
-      return this._strategy.toggleAll(initSelection, this._model.hasMoreData());
+      return this._strategy.toggleAll(initSelection, this._model.getHasMoreData());
    }
 
    /**

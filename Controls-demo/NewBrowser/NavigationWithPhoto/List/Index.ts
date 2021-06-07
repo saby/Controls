@@ -1,6 +1,6 @@
 import {Memory} from 'Types/source';
 import {Control, TemplateFunction} from 'UI/Base';
-import {BeforeChangeRootResult, DetailViewMode, IBrowserViewConfig, IRootsData} from 'Controls/newBrowser';
+import {BeforeChangeRootResult, Browser, DetailViewMode, IBrowserViewConfig, IRootsData} from 'Controls/newBrowser';
 import {FlatHierarchy, BrandsImages} from 'Controls-demo/DemoData';
 import {DemoSource, getDefaultViewCfg} from 'Controls-demo/NewBrowser/DemoSource';
 import {constants} from 'Env/Env';

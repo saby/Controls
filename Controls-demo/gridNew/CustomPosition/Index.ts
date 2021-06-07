@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/CustomPosition/CustomPosition';
 import {Memory} from 'Types/source';
+import {getCountriesStats} from '../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import * as cellTemplate from 'wml!Controls-demo/gridNew/CustomPosition/CellTemplate';
-import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -19,8 +19,8 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
-            data: Countries.getData().slice(0, 7)
+            keyProperty: 'id',
+            data: getCountriesStats().getData().slice(0, 7)
         });
     }
 

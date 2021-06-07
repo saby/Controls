@@ -91,7 +91,6 @@
    min-width: auto;
 }
 
-.controls-ColumnScroll__thumbWrapper,
 .controls-Grid_columnScroll_wrapper {
    z-index: 4;
    position: sticky;
@@ -158,6 +157,30 @@
 
 .controls-Grid__row-result-cell__content-font-weight_default {
    font-weight: var(--font-weight);
+}
+
+.controls-Grid__row-result-cell__content-font-weight_bold {
+   font-weight: bold;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_secondary {
+   color: var(--secondary_text-color);
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_unaccented {
+   color: var(--unaccented_text-color);
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_readonly {
+   color: var(--readonly_color);
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_danger {
+   color: var(--danger_color);
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_success {
+   color: var(--success_color);
 }
 
 .controls-GridViewV__itemsContainer {
@@ -398,7 +421,7 @@
       }
 
       .controls-Grid__editArrow:hover {
-         fill: var(--secondary_hover_icon-color);
+         fill: var(--edit-arrow_hover_icon-color_grid);
       }
    }
 }
@@ -994,7 +1017,7 @@
 .controls-Grid__editArrow {
    position: relative;
    z-index: 1;
-   fill: var(--secondary_icon-color);
+   fill: var(--edit-arrow_icon-color_grid);
    width: var(--edit-arrow_icon-size_grid);
    min-width: var(--edit-arrow_icon-size_grid);
    display: inline-flex;

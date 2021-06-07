@@ -2,9 +2,9 @@ import { Control, TemplateFunction } from 'UI/Base';
 import template = require('wml!Controls-demo/list_new/ColumnsView/Default/Default');
 import {Memory as MemorySource, Memory} from 'Types/source';
 import {generateData} from '../../DemoHelpers/DataCatalog';
+import { INavigation } from 'Controls-demo/types';
 import { SyntheticEvent } from 'UI/Vdom';
 import { ItemsEntity } from 'Controls/dragnDrop';
-import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 const NUMBER_OF_ITEMS = 1000;
 
@@ -13,21 +13,21 @@ export default class RenderDemo extends Control {
 
     protected _viewSource: Memory;
 
-    protected _navigation: INavigationOptionValue<INavigationSourceConfig>;
+    protected _navigation: INavigation;
 
-    private _dataArray: Array<{key: number, title: string}>;
+    private _dataArray: Array<{id: number, title: string}>;
 
     protected _beforeMount(): void {
-        this._dataArray = generateData<{key: number, title: string}>({
+        this._dataArray = generateData<{id: number, title: string}>({
             count: NUMBER_OF_ITEMS,
             entityTemplate: {title: 'string'},
             beforeCreateItemCallback: (item) => {
-                item.title = `Запись с id="${item.key}". `;
+                item.title = `Запись с id="${item.id}". `;
             }
         });
         this._viewSource = new MemorySource({
             data: this._dataArray,
-            keyProperty: 'key'
+            keyProperty: 'id'
         });
         this._navigation = {
             source: 'page',

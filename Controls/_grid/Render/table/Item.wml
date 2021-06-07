@@ -63,7 +63,7 @@
                              class="{{ (gridColumn || itemData).getTagClasses(afterContentTemplate.theme) }}">
                             <ws:partial template="{{ afterContentTemplate.tagTemplate }}"
                                         tagStyle="{{ (gridColumn || itemData).getTagStyle(afterContentTemplate.tagStyle) }}"
-                                        item="{{ item || itemData }}"
+                                        dispItem="{{ (gridColumn || itemData).getOwner() }}"
                                         columnIndex="{{ (gridColumn || itemData).getColumnIndex() }}"/>
                         </div>
                     </ws:afterContentTemplate>

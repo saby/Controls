@@ -8,22 +8,14 @@ import TreeGridViewTable from 'Controls/_treeGrid/TreeGridViewTable';
 import {default as ITreeGrid, IOptions as ITreeGridOptions} from 'Controls/_treeGrid/interface/ITreeGrid';
 
 /**
- * Опции для контрола {@link Controls/treeGrid:ItemsView}
- *
- * @public
+ * Опции для контрола {@link ItemsTreeGrid}
  * @author Уфимцев Д.Ю.
  */
 export interface IItemsTreeGridOptions extends IItemsViewOptions, ITreeGridOptions {}
 
 /**
- * Контрол древовидной таблицы, который умеет работать без источника данных.
- * В качестве данных ожидает {@link RecordSet} переданный в опцию {@link IItemsTreeGridOptions.items}.
- * @mixes Controls/list:IItemsView
- * @demo Controls-demo/treeGridNew/ItemsView/Base/Index
- *
- * @public
+ * Контрол древовидной таблицы, который умеет работать по {@link RecordSet}
  * @author Уфимцев Д.Ю.
- * @class Controls/treeGrid:ItemsView
  */
 export default class ItemsTreeGrid extends ItemsGrid<IItemsTreeGridOptions> implements ITreeGrid {
     //region override base template props

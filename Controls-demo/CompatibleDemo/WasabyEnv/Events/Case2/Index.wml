@@ -1,0 +1,13 @@
+<div class="wasabyEnv">
+    <div>
+        WasabyEnv
+    </div>
+    <div>
+        <Controls.toggle:Switch bind:value="value" caption="Click First" attr:class="controlsDemo-CompatibleDemo__outer-switcher"/>
+    </div>
+    <div>
+        <Controls.toggle:Checkbox readOnly="{{false}}" bind:value="value1" caption="Click Second" triState="{{false}}" tooltip="Tooltip" attr:class="controlsDemo-CompatibleDemo__outer-checkbox"/>
+    </div>
+    <Core.CompoundContainer component="Controls-demo/CompatibleDemo/WasabyEnv/Events/Case2/WS3Control">
+    </Core.CompoundContainer>
+</div>

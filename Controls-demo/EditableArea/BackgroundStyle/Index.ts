@@ -8,6 +8,8 @@ import * as template from 'wml!Controls-demo/EditableArea/BackgroundStyle/Backgr
 class BackgroundStyle extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _editObject: Record = editObject;
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/EditableArea/BackgroundStyle/BackgroundStyle'];
 }
 export default BackgroundStyle;

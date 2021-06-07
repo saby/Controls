@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth800 controlDemo__grid-header-noSticky">
     <Controls.scroll:Container attr:style="height: 400px">
         <Controls.grid:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 header="{{_header}}"
                 stickyHeader="{{false}}"

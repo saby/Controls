@@ -1,6 +1,8 @@
 <ws:partial template="Controls/grid:ColumnTemplate" scope="{{_options}}" attr:class="controls-ListEditor__columns">
     <ws:contentTemplate>
-        <div class="controls-ListEditor__column"
+        <div class="{{column.config.selected && column.config.selected.length && !column.config.selected.includes(item.contents[column.config.keyProperty]) ?
+                    'controls-ListEditor__column_unselected-title'}}
+                    controls-ListEditor__column"
              title="{{item.contents[column.config.displayProperty]}}">
             {{item.contents[column.config.displayProperty]}}
         </div>

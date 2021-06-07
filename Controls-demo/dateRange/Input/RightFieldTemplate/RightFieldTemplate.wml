@@ -6,12 +6,12 @@
             <ws:rightFieldTemplate>
                 <Controls.dateRange:WeekdayFormatter value="{{ rightFieldTemplate.value }}"/>
                 <ws:if data="{{ rightFieldTemplate.inputPosition === 'left'}}">
-                     <span class="controls-icon controls-icon_style-unaccented
-                        controls-icon_size-s icon-Time"></span>
+                     <span class="controls-icon controls-icon_style-unaccented_theme-{{ _options.theme }}
+                        controls-icon_size-s_theme-{{ _options.theme }} icon-Time"></span>
                 </ws:if>
                 <ws:else>
-                    <span class="controls-icon controls-icon_style-unaccented
-                        controls-icon_size-s icon-Search2"></span>
+                    <span class="controls-icon controls-icon_style-unaccented_theme-{{ _options.theme }}
+                        controls-icon_size-s_theme-{{ _options.theme }} icon-Search2"></span>
                 </ws:else>
             </ws:rightFieldTemplate>
         </Controls.dateRange:Input>

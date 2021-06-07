@@ -4,14 +4,14 @@ import {Model} from 'Types/entity';
 import { IItemAction, TItemActionShowType } from 'Controls/itemActions';
 
 export interface ISrcData {
-    key: number;
+    id: number;
     title: string;
     description: string;
 }
 
 export const columns = [
     {
-        displayProperty: 'key'
+        displayProperty: 'id'
     },
     {
         displayProperty: 'title'
@@ -23,32 +23,32 @@ export const columns = [
 
 export const srcData: ISrcData[] = [
     {
-        key: 1,
+        id: 1,
         title: 'Notebooks 1',
         description: 'Другое название 1'
     },
     {
-        key: 2,
+        id: 2,
         title: 'Notebooks 2',
         description: 'Описание вот такое'
     },
     {
-        key: 3,
+        id: 3,
         title: 'Smartphones 3 ',
         description: 'Хватит страдать'
     },
     {
-        key: 4,
+        id: 4,
         title: 'Notebooks 1',
         description: 'Другое название 1'
     },
     {
-        key: 5,
+        id: 5,
         title: 'Notebooks 2',
         description: 'Описание вот такое'
     },
     {
-        key: 6,
+        id: 6,
         title: 'Smartphones 3 ',
         description: 'Хватит страдать'
     }

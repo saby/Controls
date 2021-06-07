@@ -240,9 +240,6 @@ export class CrudWrapper {
         if (queryParams.meta) {
             query = query.meta(queryParams.meta);
         }
-        if (queryParams.select) {
-            query = query.select(queryParams.select);
-        }
         return query;
     }
 }

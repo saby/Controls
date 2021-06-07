@@ -63,9 +63,8 @@ export interface IHeaderCell extends IControlOptions, IRowspanParams, IColspanPa
      * Подробнее о работе с шаблоном читайте в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ документации}.
      * @example
      * **Пример 1.** Шаблон и контрол сконфигурированы в одном WML-файле.
-     * <pre class="brush: html; highlight: [6-12]">
-     * <!-- WML -->
-     * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
+     * <pre class="brush: html">
+     * <Controls.grid:View>
      *    <ws:header>
      *       <ws:Array>
      *          <ws:Object title="City">
@@ -83,9 +82,9 @@ export interface IHeaderCell extends IControlOptions, IRowspanParams, IColspanPa
      * </pre>
      *
      * **Пример 2.** Контрол и шаблоны сконфигурированы в отдельных WML-файлах.
-     * <pre class="brush: html; highlight: [6-8]">
+     * <pre class="brush: html">
      * <!-- file1.wml -->
-     * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
+     * <Controls.grid:View>
      *    <ws:header>
      *       <ws:Array>
      *          <ws:Object title="City">
@@ -109,9 +108,9 @@ export interface IHeaderCell extends IControlOptions, IRowspanParams, IColspanPa
      *
      * **Пример 3.** Шаблон contentTemplate сконфигурирован в отдельном WML-файле.
      *
-     * <pre class="brush: html; highlight: [8-10]">
+     * <pre class="brush: html">
      * <!-- file1.wml -->
-     * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
+     * <Controls.grid:View>
      *    <ws:header>
      *       <ws:Array>
      *          <ws:Object title="City">
@@ -135,9 +134,8 @@ export interface IHeaderCell extends IControlOptions, IRowspanParams, IColspanPa
      *
      * **Пример 4.** Конфигурация колонки для выравнивания контента по копейкам. На шаблон добавлен CSS-класс "controls-Grid&#95;&#95;cell&#95;spacing&#95;money".
      *
-     * <pre class="brush: html; highlight: [7]">
-     * <!-- WML -->
-     * <Controls.grid:View source="{{_viewSource}}" columns="{{_columns}}">
+     * <pre class="brush: html; highlight: [6]">
+     * <Controls.grid:View>
      *    <ws:header>
      *       <ws:Array>
      *          <ws:Object>

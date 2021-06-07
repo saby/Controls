@@ -3,7 +3,7 @@ import * as template from 'wml!Controls-demo/list_new/VirtualScroll/Tree/Tree';
 import {DataSet, Memory, Query, QueryWhereExpression} from 'Types/source';
 
 interface IItem {
-    key: number;
+    id: number;
     title: string;
     node: boolean;
     parent: number;
@@ -16,11 +16,11 @@ class PositionSourceMock extends Memory {
         const filter: QueryWhereExpression<unknown> = query.getWhere();
         const limit: number = query.getLimit();
 
-        const isPrepend = typeof filter['key<='] !== 'undefined';
-        const isAppend = typeof filter['key>='] !== 'undefined';
-        const isPosition = typeof filter['key~'] !== 'undefined';
+        const isPrepend = typeof filter['id<='] !== 'undefined';
+        const isAppend = typeof filter['id>='] !== 'undefined';
+        const isPosition = typeof filter['id~'] !== 'undefined';
         const items: IItem[] = [];
-        let position = filter['key<='] || filter['key>='] || filter['key~'] || 0;
+        let position = filter['id<='] || filter['id>='] || filter['id~'] || 0;
         const originPosition = position;
         // tslint:disable-next-line
         position += filter.parent || 0;
@@ -31,7 +31,7 @@ class PositionSourceMock extends Memory {
 
         for (let i = 0; i < limit; i++, position++) {
             items.push({
-                key: position,
+                id: position,
                 title: `Запись #${position}`,
                 parent: position > COUNTNUMBER ? COUNTNUMBER : null,
                 node: position === COUNTNUMBER ? true : null
@@ -52,7 +52,7 @@ export default class extends Control {
     protected _source: PositionSourceMock;
 
     protected _beforeMount(): void {
-        this._source = new PositionSourceMock({ keyProperty: 'key' });
+        this._source = new PositionSourceMock({ keyProperty: 'id' });
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];

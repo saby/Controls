@@ -2,6 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Input/Area/TextAlign/Index');
 
 class TextAlignments extends Control<IControlOptions> {
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
     private static _defaultValue = 'text';
     protected _rightValue = TextAlignments._defaultValue;

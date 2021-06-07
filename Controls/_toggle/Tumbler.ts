@@ -20,7 +20,7 @@ interface ITumblerOptions extends IButtonGroupOptions, IItemTemplateOptions {}
 
 /**
  * @name Controls/_toggle/Tumbler#itemTemplate
- * @cfg {TemplateFunction|String} Шаблон элемента кнопочного переключателя.
+ * @cfg {TemplateFunction} Шаблон элемента кнопочного переключателя.
  * @demo Controls-demo/toggle/Tumbler/ItemTemplate/Index
  *
  * По умолчанию используется шаблон "Controls/toogle:tumblerItemTemplate".

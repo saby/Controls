@@ -1,6 +1,6 @@
 <div class="controlsDemo__cell">
     <Controls.grid:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             colspanCallback="{{ _colspanCallback }}"
             on:beforeBeginEdit="_onBeforeBeginEdit()">

@@ -1,17 +1,16 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/ColumnScroll/LoadMore/LoadMore';
 import {Memory} from 'Types/source';
+import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
-import { IHeaderCell } from 'Controls/grid';
-import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
-import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
+import { IHeader, INavigation } from 'Controls-demo/types';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _columns: IColumn[] = Countries.getColumnsWithWidths();
-    protected _header: IHeaderCell[] = Countries.getHeader();
-    protected _navigation: INavigationOptionValue<INavigationSourceConfig> = {
+    protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths();
+    protected _header: IHeader[] = getCountriesStats().getDefaultHeader();
+    protected _navigation: INavigation = {
         source: 'page',
         view: 'pages',
         sourceConfig: {
@@ -26,8 +25,8 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
-            data: Countries.getData()
+            keyProperty: 'id',
+            data: getCountriesStats().getData()
         });
     }
 

@@ -25,9 +25,6 @@ export default class HeaderRow<T> extends Row<T> {
 
     constructor(options?: IOptions<T>) {
         super(options);
-
-        // Заголовок будет всегда застикан при отрисовке, когда есть данные вверх
-        this._shadowVisibility = this.hasMoreDataUp() ? 'initial' : 'lastVisible';
     }
 
     getIndex(): number {
@@ -111,8 +108,7 @@ export default class HeaderRow<T> extends Row<T> {
                     sorting: this._getSortingBySortingProperty(column.sortingProperty),
                     backgroundStyle: this._$backgroundStyle,
                     cellPadding: this._getCellPaddingForHeaderColumn(column, index),
-                    columnSeparatorSize: this._getColumnSeparatorSizeForColumn(column, index),
-                    shadowVisibility: this.getShadowVisibility()
+                    columnSeparatorSize: this._getColumnSeparatorSizeForColumn(column, index)
                 });
             });
 
@@ -140,8 +136,7 @@ export default class HeaderRow<T> extends Row<T> {
                     startColumn: 1,
                     endColumn: 2
                 },
-                isFixed: true,
-                shadowVisibility: this.getShadowVisibility()
+                isFixed: true
             }));
         }
     }

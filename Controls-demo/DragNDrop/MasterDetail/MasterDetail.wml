@@ -6,7 +6,7 @@
                                    attr:class="demo-DragNDrop__MasterDetail_master_search_input"/>
          </div>
          <Controls.scroll:Container attr:class="demo-DragNDrop__MasterDetail_master">
-            <Controls.list:DataContainer name="dataContainer" source="{{_masterSource}}" keyProperty="id" parentProperty="Раздел">
+            <Controls.list:DataContainer name="dataContainer" source="{{_masterSource}}" keyProperty="id">
                <div>
                   <Controls.list:Mover name="masterMover" parentProperty="Раздел"/>
                   <Controls.list:Container>
@@ -17,6 +17,7 @@
                            on:dragStart="_dragStartMaster()"
                            on:dragEnd="_dragEndMaster()"
                            on:dragEnter="_dragEnterMaster()"
+                           parentProperty="Раздел"
                            style="master"
                            markerVisibility='visible'
                            nodeProperty="Раздел@"

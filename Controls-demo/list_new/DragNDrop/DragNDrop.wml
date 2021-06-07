@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <Controls.buttons:Button caption="Toggle multiselectVisibility" on:click="_onToggle()"/>
-    <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="key">
+    <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
         <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
             <div>
             <Controls.list:Mover name="listMover"/>

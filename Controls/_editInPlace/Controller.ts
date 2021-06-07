@@ -40,7 +40,6 @@ interface IBeginEditUserOptions {
  * @description Параметры начала редактирования.
  * @property {Boolean} [isAdd=undefined] isAdd Флаг, принимает значение true, если запись добавляется.
  * @property {TAddPosition} [addPosition=undefined] addPosition Позиция в коллекции добавляемого элемента.
- * @property {Types/entity:Model} [targetItem=undefined] targetItem Запись на месте которой запустится добавление.
  * @property {Number} [columnIndex=undefined] columnIndex Индекс колонки, которая будет редактироваться. Доступно при режиме редактирования отдельных ячеек.
  *
  * @private
@@ -48,7 +47,6 @@ interface IBeginEditUserOptions {
 interface IBeginEditOptions {
     isAdd?: boolean;
     addPosition?: TAddPosition;
-    targetItem?: Model;
     columnIndex?: number;
 }
 
@@ -164,7 +162,6 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
         begin?: TAsyncOperationResult;
         end?: TAsyncOperationResult;
     } = {};
-    private _addParams: {targetItem?: Model, addPosition?: TAddPosition} = {};
 
     constructor(options: IEditInPlaceOptions & IEditInPlaceCallbacks) {
         super();
@@ -176,7 +173,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Обновить опции контроллера.
-     * @function
+     * @method
      * @param {Controls/_editInPlace/IEditInPlaceOptions} newOptions Новые опции.
      * @void
      *
@@ -201,7 +198,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Возвращает true, если в коллекции есть запущенное редактирование
-     * @function
+     * @method
      * @return {Boolean}
      * @public
      */
@@ -219,7 +216,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Получить редактируемый элемент
-     * @function
+     * @method
      * @return {IEditableCollectionItem}
      * @public
      */
@@ -229,7 +226,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Начинать добавление переданного элемента. Если элемент не передан, ожидается что он будет возвращен из функции обратного вызова IEditInPlaceOptions.onBeforeBeginEdit.
-     * @function
+     * @method
      * @param {IBeginEditUserOptions} userOptions Пользовательские параметры начала редактирования.
      * @param {Object} options Параметры начала редактирования.
      * @return {TAsyncOperationResult}
@@ -242,19 +239,17 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      *
      * @remark Запуск добавления может быть отменен. Для этого из функции обратного вызова IEditInPlaceOptions.onBeforeBeginEdit необхобимо вернуть константу отмены.
      */
-    add(userOptions: IBeginEditUserOptions = {},
-        options: { addPosition: TAddPosition, targetItem?: Model } = { addPosition: 'bottom' }): TAsyncOperationResult {
+    add(userOptions: IBeginEditUserOptions = {}, options: { addPosition: TAddPosition } = { addPosition: 'bottom' }): TAsyncOperationResult {
         return this._endPreviousAndBeginEdit(userOptions, {
             isAdd: true,
             addPosition: options.addPosition,
-            targetItem: options.targetItem,
             columnIndex: 0
         });
     }
 
     /**
      * Запустить редактирование переданного элемента. Если элемент не передан, ожидается что он будет возвращен из функции обратного вызова IEditInPlaceOptions.onBeforeBeginEdit.
-     * @function
+     * @method
      * @param {IBeginEditUserOptions} userOptions Параметры начала редактирования.
      * @param {Object} options Параметры начала редактирования.
      * @return {TAsyncOperationResult}
@@ -270,7 +265,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Завершить редактирование элемента и сохранить изменения.
-     * @function
+     * @method
      * @param {TCommitStrategy} strategy Стратегия сохранения изменений.
      * @return {TAsyncOperationResult}
      *
@@ -288,7 +283,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Завершить редактирование элемента и отменить изменения.
-     * @function
+     * @method
      * @param {Boolean} force Принудительно завершить редактирование, игнорируя результат колбека beforeEndEdit
      * @return {TAsyncOperationResult}
      *
@@ -306,7 +301,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Получить следующий элемент коллекции, для которого доступно редактирование.
-     * @function
+     * @method
      * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
@@ -316,7 +311,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     /**
      * Получить предыдущий элемент коллекции, для которого доступно редактирование.
-     * @function
+     * @method
      * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
@@ -350,7 +345,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             return this._operationsPromises.begin;
         }
 
-        const { isAdd = false, addPosition = 'bottom', targetItem, columnIndex } = options;
+        const { isAdd = false, addPosition = 'bottom', columnIndex } = options;
 
         this._operationsPromises.begin = new Promise((resolve) => {
             // Ждем результат колбека "до начала редактирования".
@@ -384,8 +379,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             }
 
             if (isAdd) {
-                this._addParams = { targetItem, addPosition };
-                this._collectionEditor.add(model, addPosition, targetItem, columnIndex);
+                this._collectionEditor.add(model, addPosition, columnIndex);
             } else {
                 this._collectionEditor.edit(model, columnIndex);
             }
@@ -449,13 +443,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
         this._operationsPromises.end = new Promise((resolve) => {
             if (this._options.onBeforeEndEdit) {
-                let sourceIndex;
-                if (this._addParams.targetItem) {
-                    const collectionIndex = this._options.collection.getCollection().getIndex(this._addParams.targetItem);
-                    sourceIndex = collectionIndex + (this._addParams.addPosition === 'bottom' ? 1 : 0);
-                }
-
-                const result = this._options.onBeforeEndEdit(editingItem, willSave, isAdd, false, sourceIndex);
+                const result = this._options.onBeforeEndEdit(editingItem, willSave, isAdd);
                 resolve(force ? void 0 : result);
             } else {
                 resolve();
@@ -467,7 +455,6 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             if (result === CONSTANTS.CANCEL || this.destroyed) {
                 return {canceled: true};
             }
-            this._addParams = {};
             this._collectionEditor[willSave ? 'commit' : 'cancel']();
             (this._options.collection.getCollection() as unknown as RecordSet).acceptChanges();
             return this._options?.onAfterEndEdit(editingCollectionItem, isAdd, willSave);

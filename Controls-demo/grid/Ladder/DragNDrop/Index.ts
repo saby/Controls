@@ -23,7 +23,6 @@ export default class extends Control {
     protected _columns: INoStickyLadderColumn[] = getTasks().getColumns();
     private _itemsFirst: RecordSet = null;
     protected _ladderProperties: string[] = ['photo', 'date'];
-    private _selectedKeys: number[] = [];
     protected _itemActions: IItemAction = [{
         id: 1,
         icon: 'icon-Erase',

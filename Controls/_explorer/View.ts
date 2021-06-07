@@ -1245,7 +1245,6 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @mixes Controls/list:IMovableList
  * @mixes Controls/list:IRemovableList
  * @mixes Controls/marker:IMarkerList
- * @mixes Controls/tile:ITreeTile
  *
  * @public
  * @author Авраменко А.С.
@@ -1292,9 +1291,8 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @cfg {string} Имя свойства элемента, содержимое которого будет отображаться.
  * @remark Поле используется для вывода хлебных крошек.
  * @example
- * <pre class="brush: html; highlight: [2]">
- * <!-- WML -->
- * <Controls.explorer:View source="{{_viewSource}}" columns="{{_columns}}" viewMode="table" displayProperty="title" parentProperty="parent" nodeProperty="parent@">
+ * <pre>
+ * <Controls.explorers:View displayProperty="title">
  *     ...
  * </Controls.explorer:View>
  * </pre>
@@ -1304,10 +1302,11 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @name Controls/_explorer/View#displayProperty
  * @cfg {string} sets the property to be displayed in search results
  * @example
- * <pre class="brush: html; highlight: [2]">
- * <!-- WML -->
- * <Controls.explorer:View source="{{_viewSource}}" columns="{{_columns}}" viewMode="table" displayProperty="title" parentProperty="parent" nodeProperty="parent@">
- *     ...
+ * <pre class="brush:html">
+ * <Controls.explorers:View
+ *   ...
+ *   displayProperty="title">
+ *       ...
  * </Controls.explorer:View>
  * </pre>
  */
@@ -1315,13 +1314,11 @@ Object.defineProperty(Explorer, 'defaultProps', {
 /**
  * @name Controls/_explorer/View#breadcrumbsDisplayMode
  * @cfg {Boolean} Отображение крошек в несколько строк {@link Controls/breadcrumbs:HeadingPath#displayMode}
- * @see afterBreadCrumbsTemplate
  */
 
 /**
  * @name Controls/_explorer/View#afterBreadCrumbsTemplate
  * @cfg {TemplateFunction|string} Пользовательский шаблон, который будет выведен справа от {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/breadcrumbs/ хлебных крошек}.
- * @see breadcrumbsDisplayMode
  */
 
 /**
@@ -1338,9 +1335,8 @@ Object.defineProperty(Explorer, 'defaultProps', {
  *
  * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/item/ руководстве разработчика}.
  * @example
- * <pre class="brush: html; highlight: [3-5]">
- * <!-- WML -->
- * <Controls.explorer:View source="{{_viewSource}}" columns="{{_columns}}" viewMode="table" displayProperty="title" parentProperty="parent" nodeProperty="parent@"> 
+ * <pre class="brush: html;">
+ * <Controls.explorer:View>
  *     <ws:tileItemTemplate>
  *         <ws:partial template="Controls/tile:ItemTemplate" highlightOnHover="{{false}}" />
  *     </ws:tileItemTemplate>
@@ -1358,8 +1354,7 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * Позволяет установить пользовательский шаблон отображения группы (**именно шаблон**, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/list:GroupTemplate}.
  * @example
  * <pre class="brush: html;">
- * <!-- WML -->
- * <Controls.explorer:View source="{{_viewSource}}" columns="{{_columns}}" viewMode="table" displayProperty="title" parentProperty="parent" nodeProperty="parent@">
+ * <Controls.explorer:View>
  *     <ws:tileGroupTemplate>
  *         <ws:partial template="Controls/list:GroupTemplate"/>
  *     </ws:tileGroupTemplate>
@@ -1370,26 +1365,26 @@ Object.defineProperty(Explorer, 'defaultProps', {
  */
 
 /**
- * @typedef {String} Controls/_explorer/View/TBreadCrumbsMode
- * @description Допустимые зачения для опции {@link breadCrumbsMode}.
- * @variant row Все ячейки строки с хлебными крошками объединяются в одну ячейку, в которой выводятся хлебные крошки.
- * @variant cell Ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
+ * @typedef {String} TBreadCrumbsMode
+ * @variant row - все ячейки строки с хлебными крошками объединяются в одну ячейку в которой выводятся хлебные крошки.
+ * @variant cell - ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
  * конфигурацией колонок. При таком режиме прикладной разработчик может задать кастомное содержимое для ячеек
  * строки с хлебными крошками.
  */
 
 /**
  * @name Controls/_explorer/View#breadCrumbsMode
- * @cfg {Controls/_explorer/View/TBreadCrumbsMode.typedef} Режим вывода строки с хлебными крошками в результатах поиска.
+ * @cfg {TBreadCrumbsMode} Задает режим вывода строки с хлебными крошками в результатах поиска
  * @default row
  * @markdown
  * @remark
  * Данная опция позволяет сконфигурировать вывод строки с хлебными крошками. Возможны 2 варианта:
- * 
- * * row - все ячейки строки с хлебными крошками объединяются в одну ячейку в которой выводятся хлебные крошки.
- * * cell - ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
+ * <ul>
+ *     <li>row - все ячейки строки с хлебными крошками объединяются в одну ячейку в которой выводятся хлебные крошки.</li>
+ *     <li>cell - ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
  * конфигурацией колонок. При таком режиме прикладной разработчик может задать кастомное содержимое для ячеек
- * строки с хлебными крошками.
+ * строки с хлебными крошками.</li>
+ * </ul>
  */
 
 /**

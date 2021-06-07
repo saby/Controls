@@ -66,14 +66,14 @@ describe('Controls/_grid/display/DataCell', () => {
            it('not should display marker', () => {
                shouldDisplayMarker = false;
 
-               const cell = new DataCell({owner, markerPosition: 'left', column: { width: '' }});
+               const cell = new DataCell({owner, markerPosition: 'left'});
                assert.isFalse(cell.shouldDisplayMarker(true));
            });
 
            it('should display marker and is first column', () => {
                shouldDisplayMarker = true;
 
-               const cell = new DataCell({owner, markerPosition: 'left', isFirstDataCell: true, column: { width: '' }});
+               const cell = new DataCell({owner, markerPosition: 'left', isFirstDataCell: true});
                assert.isTrue(cell.shouldDisplayMarker(true));
            });
 
@@ -158,7 +158,7 @@ describe('Controls/_grid/display/DataCell', () => {
         });
 
         it('not should display marker', () => {
-            const cell = new DataCell({owner, column: { width: '' }});
+            const cell = new DataCell({owner});
             CssClassesAssert.notInclude(
                 cell.getWrapperClasses('default', '', 'master', false),
                 'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-master ' +
@@ -170,7 +170,7 @@ describe('Controls/_grid/display/DataCell', () => {
         it('should display marker and is last column', () => {
             shouldDisplayMarker = true;
 
-            const cell = new DataCell({owner, column: { width: '' }});
+            const cell = new DataCell({owner});
             CssClassesAssert.include(
                 cell.getWrapperClasses('default', '', 'master', false),
                 'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-master ' +
@@ -183,7 +183,7 @@ describe('Controls/_grid/display/DataCell', () => {
             shouldDisplayMarker = true;
             columnsCount = 2;
 
-            const cell = new DataCell({owner, column: { width: '' }});
+            const cell = new DataCell({owner});
             CssClassesAssert.include(
                 cell.getWrapperClasses('default', '', 'master', false),
                 'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-master ' +
@@ -196,7 +196,7 @@ describe('Controls/_grid/display/DataCell', () => {
             columnsCount = 2;
             columnIndex = 1;
 
-            const cell = new DataCell({owner, column: { width: '' }});
+            const cell = new DataCell({owner});
             CssClassesAssert.include(
                 cell.getWrapperClasses('default', '', 'master', false),
                 'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-master ' +

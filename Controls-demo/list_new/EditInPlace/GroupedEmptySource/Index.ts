@@ -17,7 +17,7 @@ export default class extends Control {
     protected _beforeMount(): void {
         const data = [];
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data
         });
         this._fakeItemId = data.length;
@@ -30,9 +30,9 @@ export default class extends Control {
 
     protected _beginAdd(): void {
         const item = new Model({
-            keyProperty: 'key',
+            keyProperty: 'id',
             rawData: {
-                key: ++this._fakeItemId,
+                id: ++this._fakeItemId,
                 title: '',
                 brand: 'asd'
             }

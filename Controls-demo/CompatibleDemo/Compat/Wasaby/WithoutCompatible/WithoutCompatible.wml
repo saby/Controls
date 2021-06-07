@@ -1,0 +1,13 @@
+<div class="compatibleDemo__column">
+    <div class="compatibleDemo__row">
+        <Controls.heading:Title caption="{{_text}}" readOnly="{{true}}" fontColorStyle="secondary" fontSize="l" attr:class="compatibleDemo__row__fill"/>
+    </div>
+    <div class="compatibleDemo__row">
+        <Controls.heading:Title caption="Controls.input:Text:" readOnly="{{true}}" fontColorStyle="secondary" fontSize="l" attr:class="compatibleDemo__row__fill"/>
+        <Controls.input:Text name="textBox" bind:value="_text" />
+    </div>
+    <div class="compatibleDemo__row">
+        <Controls.heading:Title caption="Controls.input:Text:" readOnly="{{true}}" fontColorStyle="secondary" fontSize="l" attr:class="compatibleDemo__row__fill"/>
+        <Controls.input:Text name="textBox" bind:value="_text" />
+    </div>
+</div>

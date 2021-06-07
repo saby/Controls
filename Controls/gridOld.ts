@@ -1,3 +1,21 @@
+/**
+ * Библиотека контролов, которые реализуют плоский список, отображающийся в виде таблицы.
+ * @library Controls/grid
+ * @includes ItemTemplate Controls/_gridOld/interface/ItemTemplate
+ * @includes ResultsTemplate Controls/_gridOld/interface/ResultsTemplate
+ * @includes GroupTemplate Controls/_gridOld/interface/GroupTemplate
+ * @includes HeaderContent Controls/_gridOld/interface/HeaderContent
+ * @includes LadderWrapper Controls/_gridOld/interface/LadderWrapper
+ * @includes ColumnTemplate Controls/_gridOld/interface/ColumnTemplate
+ * @includes ResultColumnTemplate Controls/_gridOld/interface/ResultColumnTemplate
+ * @includes EditingEmptyTemplate Controls/_gridOld/interface/EditingEmptyTemplate
+ * @includes RowEditor Controls/_gridOld/interface/RowEditor
+ * @includes IPropStorage Controls/_gridOld/interface/IPropStorage
+ * @includes ITagColumn Controls/_gridOld/interface/ITagColumn
+ * @public
+ * @author Крайнов Д.О.
+ */
+
 import {default as View} from 'Controls/_gridOld/Grid';
 import * as GridLayoutUtil from './_gridOld/utils/GridLayoutUtil';
 
@@ -24,7 +42,7 @@ import ColumnTemplate = require('wml!Controls/_gridOld/layout/common/ColumnConte
 import ColumnLightTemplate = require('wml!Controls/_gridOld/layout/common/ColumnContentLight');
 
 import HeaderContent = require('wml!Controls/_gridOld/HeaderContent');
-import SortingButton from 'Controls/_grid/SortingButton';
+import SortingButton from 'Controls/_gridOld/SortingButton';
 import GridView = require('Controls/_gridOld/GridView');
 import GridViewModel = require('Controls/_gridOld/GridViewModel');
 

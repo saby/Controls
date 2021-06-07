@@ -1,7 +1,7 @@
 import {IItemPadding, ListView} from 'Controls/list';
 import template = require('wml!Controls/_tile/render/TileView');
 import defaultItemTpl = require('wml!Controls/_tile/render/items/Default');
-import { TouchDetect } from 'Env/Touch';
+import {TouchContextField} from 'Controls/context';
 import { TILE_SCALING_MODE, ZOOM_COEFFICIENT, ZOOM_DELAY} from './utils/Constants';
 import {isEqual} from 'Types/object';
 import { TemplateFunction } from 'UI/Base';
@@ -204,7 +204,7 @@ export default class TileView extends ListView {
     }
 
     protected _onItemMouseLeave(event: SyntheticEvent, item: TileCollectionItem): void {
-        if (!TouchDetect.getInstance().isTouch() && !item.isActive()) {
+        if (!this._context?.isTouch?.isTouch && !item.isActive()) {
             this._setHoveredItem(this, null, event);
             // С помощью флага canShowActions отображают itemActions. Когда показываются itemActions, скрывается title.
             // Поэтому после того как увели мышь с итема, нужно сбросить флаг canShowActions, чтобы показать title.
@@ -465,7 +465,7 @@ export default class TileView extends ListView {
     private _shouldProcessHover(): boolean {
         // document не инициализирован в юнит тестах
         return (
-            !TouchDetect.getInstance().isTouch() &&
+            !this._context?.isTouch?.isTouch &&
             !document?.body?.classList?.contains('ws-is-drag')
         );
     }
@@ -475,6 +475,12 @@ export default class TileView extends ListView {
             itemsHeight: 150,
             tileMode: 'static',
             tileScalingMode: TILE_SCALING_MODE.NONE
+        };
+    }
+
+    static contextTypes(): object {
+        return {
+            isTouch: TouchContextField
         };
     }
 }

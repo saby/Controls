@@ -1013,8 +1013,8 @@
 }
 
 .controls-TileView__item_fixed {
-   // Задаем z-index согласно статье https://wi.sbis.ru/doc/platform/developmentapl/interface-development/pattern-and-practice/zindex/
-   z-index: 31;
+   //Set the value to more than scrollContainer, so that when you increase the tiles appear above the shadows and scrollbar.
+   z-index: calc(var(--z-index_Scroll-contentEnvironment) + 1);
    position: fixed;
 }
 
@@ -1060,7 +1060,7 @@
 
 // TODO для старой модели нужно
 .controls-TileView__item_withMarkerOldModel {
-   border: var(--item_border-thickness_tile) solid var(--marker_color);
+   border: var(--item_border-thickness_tile) solid var(--item_marked_border-color_tile);
 }
 
 .controls-TileView__item_withBorder::after {
@@ -1082,7 +1082,7 @@
    left: 0;
    right: 0;
    bottom: 0;
-   border: var(--item_border-thickness_tile) solid var(--marker_color);
+   border: var(--item_border-thickness_tile) solid var(--item_marked_border-color_tile);
    border-radius: inherit;
    pointer-events: none;
 }
@@ -1261,48 +1261,83 @@
    bottom: 0;
 }
 
-.controls-TileView__item_roundBorder_bottomLeft {
-   // TODO: @variants: xs, s, m, l, xl; - заменить использования значений на стандартные
-   @variants: 3xs, 2xs, xs, s, m;
-
-   .for(@variants, {
-      &_@{_item},
-      &_@{_item}.controls-TileView__item_withMarker::after,
-      &_@{_item} .controls-TileView__itemActions_topRight {
-         border-bottom-left-radius: ~"var(--border_radius_@{_item}_tile)";
-      }
-   });
+.controls-TileView__item_roundBorder_bottomLeft_3xs {
+   border-bottom-left-radius: var(--border_radius_3xs_tile);
 }
 
-.controls-TileView__item_roundBorder_bottomRight {
-   @variants: 3xs, 2xs, xs, s, m;
-
-   .for(@variants, {
-      &_@{_item},
-      &_@{_item}.controls-TileView__item_withMarker::after {
-         border-bottom-right-radius: ~"var(--border_radius_@{_item}_tile)";
-      }
-   });
+.controls-TileView__item_roundBorder_bottomLeft_2xs {
+   border-bottom-left-radius: var(--border_radius_2xs_tile);
 }
 
-.controls-TileView__item_roundBorder_topLeft {
-   @variants: 3xs, 2xs, xs, s, m;
-
-   .for(@variants, {
-      &_@{_item},
-      &_@{_item}.controls-TileView__item_withMarker::after {
-         border-top-left-radius: ~"var(--border_radius_@{_item}_tile)";
-      }
-   });
+.controls-TileView__item_roundBorder_bottomLeft_xs {
+   border-bottom-left-radius: var(--border_radius_xs_tile);
 }
 
-.controls-TileView__item_roundBorder_topRight {
-   @variants: 3xs, 2xs, xs, s, m;
+.controls-TileView__item_roundBorder_bottomLeft_s {
+   border-bottom-left-radius: var(--border_radius_s_tile);
+}
 
-   .for(@variants, {
-      &_@{_item},
-      &_@{_item}.controls-TileView__item_withMarker::after {
-         border-top-right-radius: ~"var(--border_radius_@{_item}_tile)";
-      }
-   });
+.controls-TileView__item_roundBorder_bottomLeft_m {
+   border-bottom-left-radius: var(--border_radius_m_tile);
+}
+
+
+.controls-TileView__item_roundBorder_bottomRight_3xs {
+   border-bottom-right-radius: var(--border_radius_3xs_tile);
+}
+
+.controls-TileView__item_roundBorder_bottomRight_2xs {
+   border-bottom-right-radius: var(--border_radius_2xs_tile);
+}
+
+.controls-TileView__item_roundBorder_bottomRight_xs {
+   border-bottom-right-radius: var(--border_radius_xs_tile);
+}
+
+.controls-TileView__item_roundBorder_bottomRight_s {
+   border-bottom-right-radius: var(--border_radius_s_tile);
+}
+
+.controls-TileView__item_roundBorder_bottomRight_m {
+   border-bottom-right-radius: var(--border_radius_m_tile);
+}
+
+.controls-TileView__item_roundBorder_topLeft_3xs {
+   border-top-left-radius: var(--border_radius_3xs_tile);
+}
+
+.controls-TileView__item_roundBorder_topLeft_2xs {
+   border-top-left-radius: var(--border_radius_2xs_tile);
+}
+
+.controls-TileView__item_roundBorder_topLeft_xs {
+   border-top-left-radius: var(--border_radius_xs_tile);
+}
+
+.controls-TileView__item_roundBorder_topLeft_s {
+   border-top-left-radius: var(--border_radius_s_tile);
+}
+
+.controls-TileView__item_roundBorder_topLeft_m {
+   border-top-left-radius: var(--border_radius_m_tile);
+}
+
+.controls-TileView__item_roundBorder_topRight_3xs {
+   border-top-right-radius: var(--border_radius_3xs_tile);
+}
+
+.controls-TileView__item_roundBorder_topRight_2xs {
+   border-top-right-radius: var(--border_radius_2xs_tile);
+}
+
+.controls-TileView__item_roundBorder_topRight_xs {
+   border-top-right-radius: var(--border_radius_xs_tile);
+}
+
+.controls-TileView__item_roundBorder_topRight_s {
+   border-top-right-radius: var(--border_radius_s_tile);
+}
+
+.controls-TileView__item_roundBorder_topRight_m {
+   border-top-right-radius: var(--border_radius_m_tile);
 }

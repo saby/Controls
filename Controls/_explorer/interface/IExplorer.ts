@@ -15,12 +15,12 @@
  */
 
 /**
- * @typedef {String} Controls/_explorer/interface/IExplorer/TExplorerViewMode
- * @description Допустимые значения для опции {@link viewMode}.
+ * Режим отображения списка
+ * @typedef {String} TExplorerViewMode
  * @variant table Таблица.
- * @variant search Поиск.
+ * @variant search Режим поиска.
  * @variant tile Плитка.
- * @variant list Плоский список.
+ * @variant list Список.
  */
 
 /*
@@ -35,7 +35,7 @@ export type TExplorerViewMode = 'table' | 'search' | 'tile' | 'list';
 
 /**
  * @name Controls/_explorer/interface/IExplorer#viewMode
- * @cfg {Controls/_explorer/interface/IExplorer/TExplorerViewMode.typedef} {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/view-mode/ Режим отображения} иерархического проводника.
+ * @cfg {TExplorerViewMode} Режим отображения списка.
  * @demo Controls-demo/Explorer/Explorer
  */
 
@@ -76,7 +76,7 @@ export type TExplorerViewMode = 'table' | 'search' | 'tile' | 'list';
 
 /**
  * @name Controls/_explorer/interface/IExplorer#showActionButton
- * @cfg {Boolean} Определяет, должна ли отображаться стрелка рядом с кнопкой "Назад".
+ * @cfg {Boolean} Определяет, должна ли отображаться стрелка рядом с кнопкой «назад».
  * @default false
  */
 
@@ -95,13 +95,13 @@ export type TExplorerViewMode = 'table' | 'search' | 'tile' | 'list';
 /**
  * @typedef {String} Controls/_explorer/interface/IExplorer/SearchStartingWith
  * @description Допустимые значения для опции {@link searchStartingWith}.
- * @variant root Поиск происходит в {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/navigation/root/ корне}.
+ * @variant root Поиск происходит в корне.
  * @variant current Поиск происходит в текущем резделе.
  */
 
 /**
  * @name Controls/_explorer/interface/IExplorer#searchStartingWith
- * @cfg {Controls/_explorer/interface/IExplorer/SearchStartingWith.typedef} Режим поиска в иерархическом проводнике.
+ * @cfg {Controls/_explorer/interface/IExplorer/SearchStartingWith.typedef} Режим поиска в иерархическом списке.
  * @default root
  */
 
@@ -113,6 +113,6 @@ export type TExplorerViewMode = 'table' | 'search' | 'tile' | 'list';
  */
 /**
  * @name Controls/_explorer/interface/IExplorer#searchNavigationMode
- * @cfg {Controls/_explorer/interface/IExplorer/SearchNavigationMode.typedef} Режим навигации при поиске в иерархическом проводнике.
+ * @cfg {Controls/_explorer/interface/IExplorer/SearchNavigationMode.typedef} Режим навигации при поиске в иерархическом списке.
  * @default open
  */

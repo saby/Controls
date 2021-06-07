@@ -11,7 +11,7 @@
     </div>
     <Controls.scroll:Container attr:style="width: {{ _tableWidth }}; height: 400px" shadowMode="js">
         <Controls.grid:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 columnScroll="{{true}}"

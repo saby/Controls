@@ -1,8 +1,0 @@
-<div class="controlsDemo__wrapper controlsDemo__grid-tagStyleProperty controlsDemo__maxWidth800">
-    <Controls.grid:View
-            keyProperty="key"
-            source="{{_viewSource}}"
-            columns="{{_columns}}"
-            multiSelectVisibility="hidden"
-            on:tagHover="_onTagHoverCustomHandler()"/>
-</div>

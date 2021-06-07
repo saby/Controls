@@ -2,7 +2,7 @@
     <div class="controlsDemo__cell">
         <Controls.grid:View
                 attr:class="controlsDemo__inline-flex"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}">
             <ws:columns>
                 <ws:Array>

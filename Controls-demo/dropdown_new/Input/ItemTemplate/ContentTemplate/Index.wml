@@ -8,6 +8,7 @@
                                  source="{{_source}}">
             <ws:itemTemplate>
                 <ws:partial
+                        multiSelect="{{true}}"
                         template="Controls/dropdown:ItemTemplate">
                     <ws:contentTemplate>
                         <div>{{itemTemplate.itemData.item.get('title')}}</div>

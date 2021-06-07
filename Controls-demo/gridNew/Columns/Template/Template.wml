@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <Controls.grid:View
             attr:class="controlsDemo__inline-flex"
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"/>
 </div>

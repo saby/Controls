@@ -1,11 +1,10 @@
 import {detection} from 'Env/Env';
 import {Bus} from 'Env/Event';
-import {descriptor} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {RegisterClass, RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {ResizeObserverUtil, RESIZE_OBSERVER_BOX} from 'Controls/sizeUtils';
-import {getScrollContainerPageCoords, SCROLL_DIRECTION, SCROLL_POSITION} from './Utils/Scroll';
+import {SCROLL_DIRECTION} from './Utils/Scroll';
 import {scrollToElement} from './Utils/scrollToElement';
 import {scrollTo} from './Utils/Scroll';
 import ScrollState from './Utils/ScrollState';
@@ -14,21 +13,13 @@ import {IScrollState} from './Utils/ScrollState';
 import {SCROLL_MODE} from './Container/Type';
 import template = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
 import {EventUtils} from 'UI/Events';
-import {isHidden} from './StickyBlock/Utils';
-import {getHeadersHeight} from './StickyBlock/Utils/getHeadersHeight';
+import {isHidden} from './StickyHeader/Utils';
+import {getHeadersHeight} from './StickyHeader/Utils/getHeadersHeight';
 import {location} from 'Application/Env';
-import {Entity} from 'Controls/dragnDrop';
 
-
-
-interface IInitialScrollPosition {
-    vertical: SCROLL_POSITION.START | SCROLL_POSITION.END;
-    horizontal: SCROLL_POSITION.START | SCROLL_POSITION.END;
-}
 export interface IContainerBaseOptions extends IControlOptions {
     _notScrollableContent?: boolean; // Для HintWrapper, который сверстан максмально неудобно для скроллКонтейнера.
-    scrollOrientation?: SCROLL_MODE;
-    initialScrollPosition: IInitialScrollPosition;
+    scrollMode?: SCROLL_MODE;
 }
 
 const KEYBOARD_SHOWING_DURATION: number = 500;
@@ -40,25 +31,6 @@ const enum CONTENT_TYPE {
     restricted = 'restricted'
 }
 
-const enum SCROLL_POSITION_CSS {
-    verticalEnd = 'controls-Scroll-ContainerBase__scrollPosition-vertical-end',
-    horizontalEnd = 'controls-Scroll-ContainerBase__scrollPosition-horizontal-end',
-    regular = 'controls-Scroll-ContainerBase__scrollPosition-regular'
-}
-
-/**
- * Контейнер со скроллом.
- *
- * @remark
- * Контрол работает как нативный скролл: нативные скроллбары появляются, когда размеры контента больше размеров контрола. Для корректной работы контрола необходимо ограничить его высоту.
- *
- * @class Controls/_scroll/ContainerBase
- *
- * @public
- * @author Миронов А.Ю.
- * @demo Controls-demo/Scroll/ContainerBase/Default/Index
- *
- */
 export default class ContainerBase<T extends IContainerBaseOptions> extends Control<IContainerBaseOptions> {
     protected _template: TemplateFunction = template;
     protected _container: HTMLElement = null;
@@ -89,24 +61,14 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     private _savedScrollPosition: number = 0;
 
     private _virtualNavigationRegistrar: RegisterClass;
-    private _virtualNavigationState: {top: boolean, bottom: boolean} = { top: false, bottom: false };
 
     private _contentType: CONTENT_TYPE = CONTENT_TYPE.regular;
-
-    protected _initialScrollPositionCssClass: string;
-
-    // Флаг, идентифицирующий включен или выключен в текущий момент
-    // функционал автоскролла при приближении мыши к верхней/нижней границе
-    // скролл контейнера
-    private _autoScroll: boolean = false;
-    private _autoScrollInterval: number;
 
     private _isUnmounted: boolean = false;
 
     _beforeMount(options: IContainerBaseOptions, context?, receivedState?) {
         this._virtualNavigationRegistrar = new RegisterClass({register: 'virtualNavigation'});
-        const scrollOrientation = ContainerBase.getScrollOrientation(options);
-        if (!this._isHorizontalScroll(scrollOrientation)) {
+        if (!this._isHorizontalScroll(options.scrollMode)) {
             this._resizeObserver = new ResizeObserverUtil(this, this._resizeObserverCallback, this._resizeHandler);
         }
         this._resizeObserverSupported = this._resizeObserver?.isResizeObserverSupported();
@@ -131,35 +93,29 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         if (options._notScrollableContent) {
             this._updateContentType(CONTENT_TYPE.restricted);
         }
-        this._initialScrollPositionInit(options);
     }
 
     protected _componentDidMount(): void {
-        const isInitialScrollPositionStart: boolean = !this._options.initialScrollPosition ||
-            !this._options.initialScrollPosition?.vertical ||
-            this._options.initialScrollPosition?.vertical === SCROLL_POSITION.START
         // Если одна область заменяется на другую с однотипной версткой и встроенным скролл контейнером,
         // то ядро не пересоздает dom контейнеры, и может так полуится, что вновь созданный скролл контейнер
         // может быть сразу проскролен. Исправляем эту ситуацию.
         // Не будем скроллить в случае, если на странице есть нативные якоря для скролла,
         // т.е. в ссылке присутсвует хэш
-        if (isInitialScrollPositionStart && (!location.hash && this._container.dataset?.scrollContainerNode)) {
+        if (!location.hash && this._container.dataset?.scrollContainerNode) {
             this._children.content.scrollTop = 0;
         }
-        this._initialScrollPositionResetAfterInitialization();
     }
 
     _afterMount(): void {
-        const scrollOrientation = ContainerBase.getScrollOrientation(this._options);
         if (!this._scrollModel) {
             this._createScrollModel();
         }
-        if (!this._resizeObserver?.isResizeObserverSupported() || this._isHorizontalScroll(scrollOrientation)) {
+        if (!this._resizeObserver?.isResizeObserverSupported() || this._isHorizontalScroll(this._options.scrollMode)) {
             RegisterUtil(this, 'controlResize', this._controlResizeHandler, { listenAll: true });
             // ResizeObserver при инициализации контрола стрелнет событием ресайза.
             // Вызваем метод при инициализации сами если браузер не поддерживает ResizeObserver
             this._controlResizeHandler();
-        } else if (scrollOrientation === SCROLL_MODE.VERTICAL_HORIZONTAL) {
+        } else if (this._options.scrollMode === SCROLL_MODE.VERTICAL_HORIZONTAL) {
             // Из-за особенности верстки, контейнер, с которого мы считываем размеры скролла, растягивается только
             // по высоте. По ширине он совпадает с размерами своего родителя. Из-за этого невозможно определить ширину
             // скролла. Будем считать ширину скролла с дочернего элемента.
@@ -181,15 +137,10 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             this._lockScrollPositionUntilKeyboardShown = this._lockScrollPositionUntilKeyboardShown.bind(this);
             Bus.globalChannel().subscribe('MobileInputFocus', this._lockScrollPositionUntilKeyboardShown);
         }
-
-        // Регистрируем события о начале и окончании перетаскивания, что бы включать/выключать
-        // режим автоскролла при приближении мышки верхнему/нижнему краю скролл контейнера
-        this._notify('register', ['documentDragStart', this, this._onDragStart], { bubbling: true });
-        this._notify('register', ['documentDragEnd', this, this._onDragEnd], { bubbling: true });
     }
 
     _beforeUpdate(options: IContainerBaseOptions) {
-        if (ContainerBase.getScrollOrientation(options) !== ContainerBase.getScrollOrientation(this._options)) {
+        if (options.scrollMode !== this._options.scrollMode) {
             this._scrollCssClass = this._getScrollContainerCssClass(options);
         }
     }
@@ -226,51 +177,12 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         this._scrollModel = null;
         this._oldScrollState = null;
         this._isUnmounted = true;
-
-        this._notify('unregister', ['documentDragStart', this], {bubbling: true});
-        this._notify('unregister', ['documentDragEnd', this], {bubbling: true});
-        this._autoScroll = false;
-        clearInterval(this._autoScrollInterval);
     }
 
-    private _isHorizontalScroll(scrollOrientationOption: string): boolean {
-        const scrollOrientation = scrollOrientationOption.toLowerCase();
+    private _isHorizontalScroll(scrollModeOption: string): boolean {
+        const scrollMode = scrollModeOption.toLowerCase();
         // При горизонтальном скролле будет работать с событием controlResize
-        return scrollOrientation.indexOf('horizontal') !== -1;
-    }
-
-    private _initialScrollPositionInit(options): void {
-        if (options.initialScrollPosition?.vertical === SCROLL_POSITION.END) {
-            this._initialScrollPositionCssClass = SCROLL_POSITION_CSS.verticalEnd;
-        } else if (options.initialScrollPosition?.horizontal === SCROLL_POSITION.END) {
-            this._initialScrollPositionCssClass = SCROLL_POSITION_CSS.horizontalEnd;
-        } else {
-            this._initialScrollPositionCssClass = SCROLL_POSITION_CSS.regular;
-        }
-    }
-
-    private _initialScrollPositionResetAfterInitialization(): void {
-        if (this._options.initialScrollPosition?.vertical === SCROLL_POSITION.END ||
-                this._options.initialScrollPosition?.horizontal === SCROLL_POSITION.END) {
-            const container = this._children.content;
-
-            this._initialScrollPositionCssClass = SCROLL_POSITION_CSS.regular;
-
-            container.classList.add(SCROLL_POSITION_CSS.regular);
-
-            if (this._options.initialScrollPosition?.vertical === SCROLL_POSITION.END) {
-                container.classList.remove(SCROLL_POSITION_CSS.verticalEnd);
-                // В режиме "flex-direction: column-reverse" контенейнер прокручен к концу,
-                // и scrollTop считается с конца. Т.е. scrollTop в этот сосент равен 0. А когда скролируют
-                // в обратную сторону он становтися отрицательным. После того как мы меняем flex-direction,
-                // скролл прокручивается в начало, его необходимо вернуть в конец.
-                container.scrollTop = container.scrollHeight;
-            } else if (this._options.initialScrollPosition?.horizontal === SCROLL_POSITION.END) {
-                container.classList.remove(SCROLL_POSITION_CSS.horizontalEnd);
-                container.scrollLeft = container.scrollWidth;
-            }
-
-        }
+        return scrollMode.indexOf('horizontal') !== -1;
     }
 
     _controlResizeHandler(): void {
@@ -331,7 +243,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _registerIt(event: SyntheticEvent, registerType: string, component: any,
-                callback: Function, triggers): void {
+                callback: () => void, triggers): void {
         switch (registerType) {
             case 'scrollStateChanged':
                 this._registrars.scrollStateChanged.register(event, registerType, component, callback);
@@ -350,14 +262,6 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                 break;
             case 'virtualNavigation':
                 this._virtualNavigationRegistrar.register(event, registerType, component, callback);
-
-                // Список на afterMount сообщает о том, нужно ли показывать контент сверху и снизу.
-                // Но контент ниже списка строится после списка, и на момент события еще не построен.
-                // Сообщаем нижнему VirtualScrollContainer'у состояние виртуальной навигации при его регистрации.
-                callback('bottom', this._virtualNavigationState.bottom);
-                break;
-            case 'scrollResize':
-                this._registrars.scrollResize.register(event, registerType, component, callback);
                 break;
         }
     }
@@ -374,28 +278,23 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                 this._registrars.virtualScrollMove.unregister(event, registerType, component);
                 break;
             case 'scroll':
-                this._registrars.scroll.unregister(event, registerType, component, {listenAll: true});
+                this._registrars.scroll.unregister(event, registerType, component);
                 break;
             case 'virtualNavigation':
                 this._virtualNavigationRegistrar.unregister(event, registerType, component);
                 break;
-            case 'scrollResize':
-                this._registrars.scrollResize.unregister(event, registerType, component);
-                break;
         }
     }
 
-    protected _enableVirtualNavigationHandler(event: SyntheticEvent, position: 'top' | 'bottom'): void {
-        event.stopImmediatePropagation();
-        this._virtualNavigationState[position] = true;
-        this._virtualNavigationRegistrar.start(position, true);
+    protected _enableVirtualNavigationHandler(event: SyntheticEvent): void {
+        event.stopImmediatePropagation()
+        this._virtualNavigationRegistrar.start(true);
 
     }
 
-    protected _disableVirtualNavigationHandler(event: SyntheticEvent, position: 'top' | 'bottom'): void {
-        event.stopImmediatePropagation();
-        this._virtualNavigationState[position] = false;
-        this._virtualNavigationRegistrar.start(position, false);
+    protected _disableVirtualNavigationHandler(event: SyntheticEvent): void {
+        event.stopImmediatePropagation()
+        this._virtualNavigationRegistrar.start(false);
     }
 
     // _createEdgeIntersectionObserver() {
@@ -814,7 +713,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     protected _getScrollContainerCssClass(options: IContainerBaseOptions): string {
-        switch (ContainerBase.getScrollOrientation(options)) {
+        switch (options.scrollMode) {
             case SCROLL_MODE.VERTICAL:
                 return 'controls-Scroll-ContainerBase__scroll_vertical';
             case SCROLL_MODE.HORIZONTAL:
@@ -953,68 +852,6 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         });
     }
 
-    // Autoscroll
-
-    private _onDragStart(dragObject: {entity: Entity}): void {
-        this._autoScroll = !!dragObject.entity?.allowAutoscroll;
-    }
-
-    private _onDragEnd(): void {
-        this._autoScroll = false;
-    }
-
-    protected _onMouseLeave(): void {
-        // При выходе мыши за границы контейнера нужно стопнуть интервал
-        clearInterval(this._autoScrollInterval);
-    }
-
-    /**
-     * Обрабатываем движение курсором мыши для того, что бы инициировать автоскролл когда курсор
-     * подходит к верхней или нижней границе контейнера
-     */
-    protected _onMouseMove(event: SyntheticEvent): void {
-        if (!this._autoScroll) {
-            return;
-        }
-
-        const cords = getScrollContainerPageCoords(this._container);
-        const mouseEvent = event.nativeEvent as MouseEvent;
-
-        // Высота области относительно верхней/нижней границы контейнера при попадании в которую нужно
-        // делать подскролл
-        const edge = 50;
-        // Определяем находится ли курсор в рамках текущей ширины контейнера
-        const inX = mouseEvent.pageX > cords.left && mouseEvent.pageX < cords.right;
-        // Определяем находится ли курсор у верхней границы скролл контейнера
-        const needScrollTop = mouseEvent.pageY > cords.top && mouseEvent.pageY < (cords.top + edge);
-        // Определяем находится ли курсор у нижней границы скролл контейнера
-        const needScrollBottom = mouseEvent.pageY < cords.bottom && mouseEvent.pageY > (cords.bottom - edge);
-        // Величина на которую делаем подскролл
-        const delta = 30;
-
-        clearInterval(this._autoScrollInterval);
-        if (!(inX && (needScrollTop || needScrollBottom))) {
-            return;
-        }
-
-        // Вешаем интервал что бы если пользователь остановил курсор автоскролл продолжал работать
-        this._autoScrollInterval = setInterval(() => {
-            if (!this._autoScroll) {
-                clearInterval(this._autoScrollInterval);
-                return;
-            }
-
-            const scrollTop = (this._children.content as HTMLElement).scrollTop;
-            if (inX && needScrollTop) {
-                this._setScrollTop(scrollTop - delta);
-            }
-
-            if (inX && needScrollBottom) {
-                this._setScrollTop(scrollTop + delta);
-            }
-        }, 100);
-    }
-
     // Виртуальный скролл
 
     private _isVirtualPlaceholderMode(): boolean {
@@ -1135,45 +972,5 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         }
     }
 
-    // TODO: Удалить после https://online.sbis.ru/opendoc.html?guid=a880359e-1c09-4a79-8284-c386920a20cf
-    static getScrollOrientation(options: IContainerBaseOptions): string {
-        return options.scrollMode || options.scrollOrientation;
-    }
-
     static _theme: string[] = ['Controls/scroll'];
-
-    static getOptionTypes(): object {
-        return {
-            scrollOrientation: descriptor(String).oneOf([
-                SCROLL_MODE.VERTICAL,
-                SCROLL_MODE.HORIZONTAL,
-                SCROLL_MODE.VERTICAL_HORIZONTAL,
-                SCROLL_MODE.NONE
-            ])
-        };
-    }
-
-    static getDefaultOptions(): object {
-        return {
-            scrollOrientation: 'vertical'
-        };
-    }
 }
-
-/**
- * @typedef {String} Controls/_scroll/ContainerBase/TInitialScrollPosition
- * @variant start Положение скрола в скролл контейнере находиться в начале.
- * @variant end Положение скрола в скролл контейнере находиться в конце.
- */
-
-/**
- * @typedef {Object} Controls/_scroll/ContainerBase/initialScrollPosition
- * @property {Controls/_scroll/ContainerBase/TInitialScrollPosition} [vertical] Определяет положение скрола в момент инициализации по вертикали.
- * @property {Controls/_scroll/ContainerBase/TInitialScrollPosition} [horizontal] Определяет положение скрола в момент инициализации по горизонтали.
- */
-
-/**
- * @name Controls/_scroll/Container#initialScrollPosition
- * @property {Controls/_scroll/ContainerBase/initialScrollPosition} initialScrollPosition Определяет положение скрола в момент инициализации.
- * @demo Controls-demo/Scroll/ContainerBase/InitialScrollPosition/Index
- */

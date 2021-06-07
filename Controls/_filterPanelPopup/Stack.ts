@@ -14,7 +14,7 @@ import 'css!Controls/filterPanelPopup';
 
 /**
  * @name Controls/_filterPanelPopup/Stack#bodyContentTemplate
- * @cfg {TemplateFunction|String} Шаблон окна панели фильтров.
+ * @cfg {TemplateFunction} Шаблон окна панели фильтров.
  */
 
 export default class Stack extends Control<IControlOptions> {

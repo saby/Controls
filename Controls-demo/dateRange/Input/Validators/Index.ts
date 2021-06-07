@@ -11,6 +11,8 @@ class DemoControl extends Control<IControlOptions> {
     protected _startValue3: Date;
     protected _endValue3: Date;
 
+    static _theme: string[] = ['Controls/Classes'];
+
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default DemoControl;

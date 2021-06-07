@@ -1,4 +1,4 @@
-<Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id" parentProperty="Раздел">
+<Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
    <div>
       <Controls.list:Mover name="listMover" parentProperty="Раздел"/>
       <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
@@ -8,6 +8,7 @@
                     on:dragEnd="_dragEnd()"
                     displayProperty="title"
                     viewMode="table"
+                    parentProperty="Раздел"
                     nodeProperty="Раздел@"
                     itemsDragNDrop="{{true}}"
                     itemsReadyCallback="{{_itemsReadyCallback}}"

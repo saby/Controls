@@ -1,9 +1,9 @@
 <div>
    <Controls.scroll:Container attr:style="height: 300px;">
       <div>
-         <Controls.scroll:StickyBlock>
+         <Controls.scroll:StickyHeader>
             <div>Top header</div>
-         </Controls.scroll:StickyBlock>
+         </Controls.scroll:StickyHeader>
          <Controls.list:View
             class="test_list_1"
             name="list"
@@ -11,9 +11,9 @@
             allowEmptySelection="{{false}}"
             keyProperty="id">
          </Controls.list:View>
-         <Controls.scroll:StickyBlock position="{{ {'vertical' : 'bottom'} }}">
+         <Controls.scroll:StickyHeader position="bottom">
             <div>Bottom header</div>
-         </Controls.scroll:StickyBlock>
+         </Controls.scroll:StickyHeader>
       </div>
    </Controls.scroll:Container>
    <Controls.buttons:Button caption="scroll to top" on:click="_scrollTo('top', 0)" class="ControlsDemo__scrollTop" />

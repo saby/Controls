@@ -1,19 +1,18 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/EditingCell';
 import {Memory} from 'Types/source';
+import {getEditing, IColumnRes} from '../../DemoHelpers/DataCatalog';
 import {showType} from 'Controls/toolbars';
 import 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor';
 import {Model, Record} from 'Types/entity';
 import { TItemsReadyCallback } from 'Controls-demo/types';
 import {RecordSet} from 'Types/collection';
 import { IItemAction } from 'Controls/itemActions';
-import { Editing } from 'Controls-demo/gridNew/DemoHelpers/Data/Editing';
-import { IColumnRes } from 'Controls-demo/gridNew/DemoHelpers/DataCatalog';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _columns: IColumnRes[] = Editing.getEditingColumns();
+    protected _columns: IColumnRes[] = getEditing().getEditingColumns();
     protected _markedKey: number;
     protected _dataLoadCallback: TItemsReadyCallback = this._dataCallback.bind(this);
     protected _items: RecordSet;
@@ -28,14 +27,14 @@ export default class extends Control {
         style: 'bordered',
         showType: showType.TOOLBAR,
         handler: function(item: Record): void {
-            this._children.remover.removeItems([item.get('key')]);
+            this._children.remover.removeItems([item.get('id')]);
         }.bind(this)
     }];
 
     protected _beforeMount(): void {
-        const data = Editing.getEditingData();
+        const data = getEditing().getEditingData();
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data
         });
         this._lastId = data.length + 1;
@@ -56,9 +55,9 @@ export default class extends Control {
     protected _beginAdd(): void {
         this._children.list.beginAdd({
            item: new Model({
-              keyProperty: 'key',
+              keyProperty: 'id',
               rawData: {
-                 key: this._lastId++,
+                 id: this._lastId++,
                  title: '',
                  description: '',
                  price: '',

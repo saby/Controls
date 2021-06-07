@@ -1,0 +1,105 @@
+<div class="compatibleDemo__column">
+    <div class="compatibleDemo__row">
+        <SBIS3.CONTROLS.Label caption="Application compat = true" />
+    </div>
+    <hr/>
+    <div class="compatibleDemo__column">
+        <div class="compatibleDemo__row">
+            <b>Загрузка Wasaby-контрола в старом окружении без слоя совместимости.</b>
+        </div>
+        <div class="compatibleDemo__row">
+            Проблемы:
+        </div>
+        <div class="compatibleDemo__row">
+            <div class="compatibleDemo__column">
+                <div class="compatibleDemo__row">
+                    1) Не оживает верстка. Нет реактивности.
+                </div>
+                <div class="compatibleDemo__row">
+                    2) Пропадают значения по-умолчанию.
+                </div>
+                <div class="compatibleDemo__row">
+                    3) Проблемы с фокусом при вводе.
+                </div>
+            </div>
+        </div>
+        <div class="compatibleDemo__row">
+            <a href="{{'/Controls-demo/CompatibleDemo/Compat/Wasaby/WithoutCompatible'}}">Wasaby без слоя совместимости</a>
+        </div>
+    </div>
+    <hr/>
+    <div class="compatibleDemo__column">
+        <div class="compatibleDemo__row">
+            <b>Загрузка WS3-контрола в старом окружении без CompaundControl.</b>
+        </div>
+        <div class="compatibleDemo__row">
+            <a href="{{'/Controls-demo/CompatibleDemo/Compat/WS3'}}">WS3 без CompaondControl</a>
+        </div>
+    </div>
+    <hr/>
+    <div class="compatibleDemo__column">
+        <div class="compatibleDemo__row">
+            <b>Загрузка WS3-контрола в старом окружении с CompaundControl.</b>
+        </div>
+        <div class="compatibleDemo__row">
+            Проблемы:
+        </div>
+        <div class="compatibleDemo__row">
+            <div class="compatibleDemo__column">
+                <div class="compatibleDemo__row">
+                    1) Контрол не построится. В консоль упадет ошибка.
+                </div>
+            </div>
+        </div>
+        <div class="compatibleDemo__row">
+            <a href="{{'/Controls-demo/CompatibleDemo/Compat/WS3Compound'}}">WS3 c CompoundControl</a>
+        </div>
+    </div>
+    <hr/>
+    <div class="compatibleDemo__column">
+        <div class="compatibleDemo__row">
+            <b>Загрузка WS3-контрола в старом окружении в контроле обертке.</b>
+        </div>
+        <div class="compatibleDemo__row">
+            <a href="{{'/Controls-demo/CompatibleDemo/Compat/WS3UnderWrapper'}}">WS3 в контроле обертке</a>
+        </div>
+    </div>
+    <hr/>
+    <div class="compatibleDemo__column">
+        <div class="compatibleDemo__row">
+            <b>Создание wasaby-контрола в старом окружении через  Base.Control.createControl().</b>
+        </div>
+        <div class="compatibleDemo__row">
+            <a href="{{'/Controls-demo/CompatibleDemo/Compat/Wasaby/CreateControl'}}">Wasaby-контрол в старом окружении</a>
+        </div>
+    </div>
+    <hr/>
+    <div class="compatibleDemo__column">
+        <div class="compatibleDemo__row">
+            <b>Создание wasaby-контрола в старом окружении через CoreCreator.</b>
+        </div>
+        <div class="compatibleDemo__row">
+            <a href="{{'/Controls-demo/CompatibleDemo/Compat/Wasaby/CoreCreator'}}">Wasaby-контрол в старом окружении</a>
+        </div>
+    </div>
+    <hr/>
+    <div class="compatibleDemo__column">
+        <div class="compatibleDemo__row">
+            <b>Создание wasaby-контрола в старом окружении через Base.Control.createControl(). С опцией value</b>
+        </div>
+        <div class="compatibleDemo__row">
+            Проблемы:
+        </div>
+        <div class="compatibleDemo__row">
+            <div class="compatibleDemo__column">
+                <div class="compatibleDemo__row">
+                    1) Контрол нельзя будет редактировать.
+                </div>
+            </div>
+        </div>
+        <div class="compatibleDemo__row">
+            <a href="{{'/Controls-demo/CompatibleDemo/Compat/Wasaby/CreateControlWithValue'}}">Wasaby-контрол в старом окружении с опцией value</a>
+        </div>
+    </div>
+    <hr/>
+</div>

@@ -4,6 +4,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_list/List');
 
+import Deferred = require('Core/Deferred');
 import {EventUtils} from 'UI/Events';
 import viewName = require('Controls/_list/ListView');
 import {default as ListControl} from 'Controls/_list/BaseControl';
@@ -13,7 +14,6 @@ import {IMovableList} from './interface/IMovableList';
 import {IRemovableList} from './interface/IRemovableList';
 import { RecordSet } from 'Types/collection';
 import 'css!Controls/list';
-import {Model} from 'Types/entity';
 
 /**
  * Контрол "Плоский список" позволяет отображать данные из различных источников в виде упорядоченного списка.
@@ -32,17 +32,20 @@ import {Model} from 'Types/entity';
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
+ * @mixes Controls/list:IList
+ * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface/IEditableList
  * @mixes Controls/interface:ISorting
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface/IGroupedList
- * @mixes Controls/list:IVirtualScrollConfig
- * @mixes Controls/list:IList
  * @mixes Controls/list:IClickableView
  * @mixes Controls/list:IReloadableList
  * @mixes Controls/marker:IMarkerList
- * @mixes Controls/itemActions:IItemActions
+ *
+ * @mixes Controls/list:IVirtualScrollConfig
+ *
  * @implements Controls/list:IListNavigation
+ *
  *
  * @author Авраменко А.С.
  * @public
@@ -62,7 +65,6 @@ import {Model} from 'Types/entity';
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/interface:ISelectFields
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:ISorting
@@ -109,7 +111,7 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
         return this._children.listControl.reload(keepScroll, sourceConfig);
     }
 
-    reloadItem(key: string, readMeta: object, replaceItem: boolean, reloadType: string = 'read'): Promise<Model> {
+    reloadItem(key: string, readMeta: object, replaceItem: boolean, reloadType: string = 'read'): Deferred {
         const listControl = this._children.listControl;
         return listControl.reloadItem.apply(listControl, arguments);
     }
@@ -123,19 +125,19 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
     }
 
     beginEdit(options: object): Promise<void | {canceled: true}> {
-        return this._options.readOnly ? Promise.reject() : this._children.listControl.beginEdit(options);
+        return this._options.readOnly ? Deferred.fail() : this._children.listControl.beginEdit(options);
     }
 
     beginAdd(options: object): Promise<void | { canceled: true }> {
-        return this._options.readOnly ? Promise.reject() : this._children.listControl.beginAdd(options);
+        return this._options.readOnly ? Deferred.fail() : this._children.listControl.beginAdd(options);
     }
 
     cancelEdit(): Promise<void | { canceled: true }> {
-        return this._options.readOnly ? Promise.reject() : this._children.listControl.cancelEdit();
+        return this._options.readOnly ? Deferred.fail() : this._children.listControl.cancelEdit();
     }
 
     commitEdit(): Promise<void | { canceled: true }> {
-        return this._options.readOnly ? Promise.reject() : this._children.listControl.commitEdit();
+        return this._options.readOnly ? Deferred.fail() : this._children.listControl.commitEdit();
     }
 
     // region mover
@@ -195,9 +197,3 @@ Object.defineProperty(List, 'defaultProps', {
       return List.getDefaultOptions();
    }
 });
-/**
- * @name Controls/_list/List#itemPadding
- * @cfg
- * @demo Controls-demo/list_new/ItemPadding/DifferentPadding/Index В примере заданы горизонтальные отступы.
- * @demo Controls-demo/list_new/ItemPadding/NoPadding/Index В примере отступы отсутствуют.
- */

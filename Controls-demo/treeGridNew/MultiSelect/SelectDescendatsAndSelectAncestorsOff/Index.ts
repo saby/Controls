@@ -1,19 +1,19 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/MultiSelect/SelectDescendatsAndSelectAncestorsOff/SelectDescendatsAndSelectAncestorsOff';
 import {Memory} from 'Types/source';
-import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
+import {Gadgets} from '../../DemoHelpers/DataCatalog';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _columns: object[] = Flat.getColumns();
+    protected _columns: object[] = Gadgets.getGridColumnsForFlat();
     protected _selectedKeys: number[] = [];
     protected _excludedKeys: number[] = [];
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
-            data: Flat.getData()
+            keyProperty: 'id',
+            data: Gadgets.getFlatData()
         });
     }
 

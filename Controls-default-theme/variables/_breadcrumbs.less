@@ -15,13 +15,16 @@
    --item_font-size_default_breadcrumbsView: var(--font-size_xs);
    --item_text-color_default_breadcrumbsView: var(--label_text-color);
    --item_hover_text-color_default_breadcrumbsView: var(--link_hover_text-color);
-   --item_active_text-color_default_breadcrumbsView: var(--item_hover_text-color_default_breadcrumbsView);
+   --item_active_text-color_default_breadcrumbsView: var(--link_hover_text-color);
    --item_text_min-width_breadcrumbs: 28px;
    // Удалить после того, как гриды перейдут на css variable
    --item_font-size_2xl_grid: var(--font-size_2xl);
 
    // Иконки
    --item_icon-size_default_breadcrumbsView: var(--icon-size_s);
+   --item_icon-color_default_breadcrumbsView: var(--label_text-color);
+   --item_hover_icon-color_default_breadcrumbsView: var(--secondary_hover_icon-color);
+   --item_active_icon-color_default_breadcrumbsView: var(--secondary_hover_icon-color);
 
    // Переменные для всплывающего окна с полным путем
    --popup_max-width_breadcrumbsView: 800px;
@@ -31,6 +34,7 @@
 
    // Переменные для отображения драг'н'дропа
    --droppable_border-thickness_breadcrumbsView: 1px;
+   --droppable_border-color_breadcrumbsView: #d94700;
    --droppable_border-radius_breadcrumbsView: 4px;
    --droppable_padding-horizontal_breadcrumbsView: var(--offset_2xs);
 
@@ -41,6 +45,9 @@
 
    // Иконка "домой"
    --home_icon-size_breadcrumbsPath: var(--icon-size_s);
+   --home_icon-color_breadcrumbsPath: var(--label_text-color);
+   --home_hover_icon-color_breadcrumbsPath: var(--secondary_hover_icon-color);
+   --home_active_icon-color_breadcrumbsPath: var(--secondary_hover_icon-color);
    --home_offset_breadcrumbsPath: var(--offset_2xs);
 
    // Переменные для темизации хлебных крошек с кнопкой "назад"
@@ -52,7 +59,7 @@
    --back_editButton_icon-size_breadcrumbsHeadingPath: var(--icon-size_s);
    --back_editButton_icon-color_breadcrumbsHeadingPath: var(--secondary_icon-color);
    --back_editButton_hover_icon-color_breadcrumbsHeadingPath: var(--secondary_hover_icon-color);
-   --back_editButton_active_icon-color_breadcrumbsHeadingPath: var(--back_editButton_hover_icon-color_breadcrumbsHeadingPath);
+   --back_editButton_active_icon-color_breadcrumbsHeadingPath: var(--secondary_hover_icon-color);
    --back_editButton_readonly_icon-color_breadcrumbsHeadingPath: var(--readonly_color);
 
    // Счетчик в кнопке "назад"

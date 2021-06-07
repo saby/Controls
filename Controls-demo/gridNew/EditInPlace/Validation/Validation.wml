@@ -1,11 +1,12 @@
 <div class="controlsDemo__cell">
-    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="key"
+    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id"
                                  attr:class="controlsDemo__inline-flex"
                                  attr:style="max-width: 356px">
         <ws:content>
             <div>
                 <Controls.list:Container>
                     <Controls.grid:View
+                            name="list"
                             bind:markedKey="_markedKey"
                             dataLoadCallback="{{_dataLoadCallback}}"
                             itemActionsPosition="outside"

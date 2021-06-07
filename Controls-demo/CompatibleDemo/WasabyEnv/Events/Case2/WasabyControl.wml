@@ -1,0 +1,7 @@
+<div class="wasabyControl">
+    <div>
+        WasabyEnv
+    </div>
+    <Controls.toggle:Switch bind:value="value" caption="Click First" attr:class="controlsDemo-CompatibleDemo__inner-switcher"/>
+    <Controls.toggle:Checkbox readOnly="{{false}}" bind:value="value1" caption="Click Second" triState="{{false}}" tooltip="Tooltip" attr:class="controlsDemo-CompatibleDemo__inner-checkbox"/>
+</div>

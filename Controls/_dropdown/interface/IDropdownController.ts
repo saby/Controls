@@ -1,5 +1,7 @@
 import {Control, IControlOptions} from 'UI/Base';
+import {ISearchOptions} from 'Controls/interface';
 import {IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
+import {IDropdownSourceOptions} from './IDropdownSource';
 import {RecordSet} from 'Types/collection';
 import {DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {IStickyPosition} from 'Controls/popup';
@@ -23,7 +25,8 @@ export default interface IDropdownController {
     getItems(): RecordSet<Model>;
 }
 
-export interface IDropdownControllerOptions extends IControlOptions, IMenuPopupOptions {
+export interface IDropdownControllerOptions extends IControlOptions, IDropdownSourceOptions,
+    IMenuPopupOptions, ISearchOptions {
     keyProperty: string;
     notifyEvent: Function;
     lazyItemsLoading?: boolean;

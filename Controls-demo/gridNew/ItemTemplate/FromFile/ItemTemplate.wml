@@ -1,3 +1,0 @@
-<ws:partial template="Controls/grid:ItemTemplate"
-            backgroundColorStyle="{{ item.contents.get('number') % 2 ? 'secondary' : 'default' }}"
-            scope="{{ _options }}"/>

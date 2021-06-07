@@ -5,6 +5,7 @@ import {CrudWrapper} from 'Controls/dataSource';
 import {Service, Source} from 'Controls/history';
 import {object} from 'Types/util';
 import {getOptionTypes} from 'Controls/_suggest/Utils';
+import {SyntheticEvent} from 'Vdom/Vdom';
 import 'css!Controls/suggest';
 
 var _private = {
@@ -59,7 +60,6 @@ var _private = {
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/suggest:ISuggest
  * @mixes Controls/interface:INavigation
- * @mixes Controls/interface:ISingleSelectable
  *
  * @author Герасимов А.М.
  * @public
@@ -187,25 +187,3 @@ Object.defineProperty(Suggest, 'defaultProps', {
 Suggest._private = _private;
 
 export default Suggest;
-
-/**
- * @name Controls/_suggest/Selector#value
- * @cfg {* | null} Значение поля ввода.
- * @example
- * <pre class="brush: html; highlight: [3]">
- * <!-- WML -->
- * <Controls.suggest:Selector
- *    bind:value="_suggestDownValue"
- *    displayProperty="title"
- *    searchParam="title"
- *    autoDropDown="{{true}}"
- *    navigation="{{_navigation}}"
- *    source="{{_source}}">
- *    <ws:suggestTemplate templateName="wml!Controls-demo/Suggest_new/Selector/AutoDropDown/resources/SuggestTemplate">
- *       <ws:templateOptions demoClass="demo-SuggestInputList"/>
- *    </ws:suggestTemplate>
- * </Controls.suggest:Selector>
- * </pre>
- * @remark
- * Для контрола {@link Controls/suggest:Selector} значение опции value можно только прочитать.
- */

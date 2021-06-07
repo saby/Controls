@@ -1,7 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/ItemTemplate/MultiSelectAccessibilityProperty/MultiSelectAccessibilityProperty';
 import {Memory} from 'Types/source';
-import {MultiSelectAccessibility} from 'Controls/list';
 import {getFewCategories as getData} from '../../DemoHelpers/DataCatalog';
 
 export default class extends Control {
@@ -12,14 +11,14 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         const data = getData();
-        data[0].checkboxState = MultiSelectAccessibility.disabled;
-        data[1].checkboxState = MultiSelectAccessibility.disabled;
-        data[2].checkboxState = MultiSelectAccessibility.hidden;
-        data[3].checkboxState = MultiSelectAccessibility.enabled;
-        data[4].checkboxState = MultiSelectAccessibility.enabled;
+        data[0].checkboxState = false;
+        data[1].checkboxState = false;
+        data[2].checkboxState = null;
+        data[3].checkboxState = true;
+        data[4].checkboxState = true;
 
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data
         });
     }

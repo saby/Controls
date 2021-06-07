@@ -23,7 +23,7 @@ export interface ILookupPopupControllerOptions extends IControlOptions {
  * Используется вместе с {@link Controls/lookupPopup:Container}.
  * Можно использовать как плоский, так и иерархический список.
  *
- * Подробное описание и инструкцию по настройке смотрите в <a href='/doc/platform/developmentapl/interface-development/controls/input-elements/directory/layout-selector-stack/'>статье</a>.
+ * Подробное описание и инструкцию по настройке смотрите в <a href='/doc/platform/developmentapl/interface-development/controls/directory/layout-selector-stack/'>статье</a>.
  *
  * <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">Пример</a> использования контрола.
  *

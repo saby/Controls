@@ -2,9 +2,8 @@ import * as CntTpl from 'wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto/conte
 import * as CntTwoLvlTpl from 'wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto/contentTwoLvl';
 import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 
-import { IHeaderCell } from 'Controls/grid';
+import { IHeader } from 'Controls-demo/types';
 import { IColumn } from 'Controls/grid';
-
 
 export interface IData {
    id: number;
@@ -450,7 +449,7 @@ export const Gadgets = {
             }
         ];
     },
-    getHeaderForColumnScroll(): IHeaderCell[] {
+    getHeaderForColumnScroll(): IHeader[] {
         return [
             {
                 title: '#'
@@ -526,7 +525,7 @@ export const Gadgets = {
         ];
     },
 
-    getCellPaddingHeader: (): IHeaderCell[] => {
+    getCellPaddingHeader: (): IHeader[] => {
         return [
             {
                 title: 'cellPadding: right: S'
@@ -579,7 +578,7 @@ export const Gadgets = {
             }
         ];
     },
-    getHeaderForFlat(): IHeaderCell[] {
+    getHeaderForFlat(): IHeader[] {
         return [
             {
                 title: 'Наименование'
@@ -592,7 +591,7 @@ export const Gadgets = {
             }
         ];
     },
-    getLongHeader: (): IHeaderCell[] => [
+    getLongHeader: (): IHeader[] => [
         {
             title: 'Население страны по данным на 2018г - 2019г.'
         },
@@ -603,7 +602,7 @@ export const Gadgets = {
             title: 'Плотность населения чел/км2'
         }
     ],
-    getMultiHeader: (): IHeaderCell[] => [
+    getMultiHeader: (): IHeader[] => [
         {
             title: 'Название',
             startRow: 1,

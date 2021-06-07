@@ -202,7 +202,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
     /**
      * @name Controls/_tabs/interface/ITabsButtons#markerThickness
      * @cfg {Controls/_tabs/interface/ITabsButtons/MarkerThickness.typedef} Определяет толщину подчеркивания вкладок
-     * @default l
+     * @default s
      * @demo Controls-demo/Tabs/Buttons/MarkerThickness/Index
      */
     markerThickness?: string;

@@ -16,7 +16,7 @@ const RELATION_COEFFICIENT_BETWEEN_PAGE_AND_SEGMENT = 4;
  * @author Авраменко А.С.
  */
 export default class VirtualScroll {
-    private _containerHeightsData: IContainerHeights = {scroll: 0, topTrigger: 0, bottomTrigger: 0, viewport: 0};
+    private _containerHeightsData: IContainerHeights = {scroll: 0, trigger: 0, viewport: 0};
     private _options: IVirtualScrollOptions;
     private _itemsHeightData: IItemsHeights = {itemsHeights: [], itemsOffsets: []};
     private _range: IRange = {start: 0, stop: 0};
@@ -95,7 +95,7 @@ export default class VirtualScroll {
         const itemsHeights = this._itemsHeightData.itemsHeights;
         const pageSize = this._options.pageSize;
         const itemsCount = this._itemsCount;
-        const triggerHeight = this._containerHeightsData.topTrigger;
+        const triggerHeight = this._containerHeightsData.trigger;
 
         let start = 0;
         let stop: number;
@@ -211,21 +211,19 @@ export default class VirtualScroll {
     /**
      * Запоминает данные из ресайза вьюпорта на инстанс
      * @param viewportHeight
-     * @param topTriggerHeight
-     * @param bottomTriggerHeight
+     * @param triggerHeight
      */
-    viewportResize(viewportHeight: number, topTriggerHeight: number, bottomTriggerHeight: number): void {
-        this.applyContainerHeightsData({viewport: viewportHeight, topTrigger: topTriggerHeight, bottomTrigger: bottomTriggerHeight});
+    viewportResize(viewportHeight: number, triggerHeight: number): void {
+        this.applyContainerHeightsData({viewport: viewportHeight, trigger: triggerHeight});
     }
 
     /**
      * Запоминает данные из ресайза вью на инстанс
      * @param viewHeight
-     * @param topTriggerHeight
-     * @param bottomTriggerHeight
+     * @param triggerHeight
      */
-    viewResize(viewHeight: number, topTriggerHeight: number, bottomTriggerHeight: number): void {
-        this.applyContainerHeightsData({scroll: viewHeight, topTrigger: topTriggerHeight, bottomTrigger: bottomTriggerHeight});
+    viewResize(viewHeight: number, triggerHeight: number): void {
+        this.applyContainerHeightsData({scroll: viewHeight, trigger: triggerHeight});
     }
 
     /**
@@ -535,9 +533,9 @@ export default class VirtualScroll {
     private _getItemsToHideQuantityToUp(): number {
         let quantity = 0;
         let stop = this._range.stop - 1;
-        const {viewport, topTrigger} = this._containerHeightsData;
+        const {viewport, trigger} = this._containerHeightsData;
         const {itemsOffsets} = this._itemsHeightData;
-        const offsetDistance = viewport * 2 + topTrigger;
+        const offsetDistance = viewport * 2 + trigger;
 
         while (itemsOffsets[stop] > offsetDistance) {
             stop--;
@@ -554,9 +552,9 @@ export default class VirtualScroll {
         let quantity = 0;
         let start = this._range.start;
         let sumHeight = 0;
-        const {viewport, bottomTrigger, scroll} = this._containerHeightsData;
+        const {viewport, trigger, scroll} = this._containerHeightsData;
         const {itemsHeights} = this._itemsHeightData;
-        const offsetDistance = (scroll - viewport) - bottomTrigger - viewport;
+        const offsetDistance = (scroll - viewport) - trigger - viewport;
 
         while (sumHeight + itemsHeights[start] < offsetDistance) {
             sumHeight += itemsHeights[start];

@@ -1,11 +1,11 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
 import {IItemAction} from 'Controls/itemActions';
-import {getActionsForContacts as getItemActions} from 'Controls-demo/list_new/DemoHelpers/ItemActionsCatalog';
+import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
+import {getActionsForContacts as getItemActions} from '../../../list_new/DemoHelpers/ItemActionsCatalog';
 import {TColspanCallbackResult} from 'Controls/display';
 
 import * as Template from 'wml!Controls-demo/gridNew/ItemActions/CustomHoverArea/CustomHoverArea';
-import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 const MAXINDEX = 4;
 
@@ -16,8 +16,8 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
-            data: Countries.getData().slice(1, MAXINDEX)
+            keyProperty: 'id',
+            data: getCountriesStats().getData().slice(1, MAXINDEX)
         });
     }
 

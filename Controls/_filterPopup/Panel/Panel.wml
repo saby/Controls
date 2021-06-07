@@ -42,8 +42,6 @@
 <Controls.scroll:ScrollContextProvider pagingVisible="{{ false }}">
    <Controls.form:PrimaryAction on:triggered="_applyFilter()">
       <Controls.popupTemplate:Dialog headingCaption="{{_options.headingCaption}}"
-                                     headerBackgroundStyle="{{_options.orientation}}FilterPanel"
-                                     backgroundStyle="{{_options.orientation}}FilterPanel"
                                      headingFontColorStyle="{{_options.headingStyle}}"
                                      attr:class="controls_filterPopup_theme-{{_options.theme}}
                                                  controls-PanelFilter
@@ -74,9 +72,7 @@
             </div>
          </ws:headerContentTemplate>
          <ws:bodyContentTemplate>
-            <Controls.scroll:Container
-                    backgroundStyle="filterPanel"
-                    attr:class="controls-ScrollContainer__flex">
+            <Controls.scroll:Container attr:class="controls-ScrollContainer__flex">
                <ws:if data="{{_options.orientation === 'horizontal'}}">
                   <div class="controls-FilterPanel__content-horizontal">
                      <div class="controls-FilterPanel__filtersWrapper

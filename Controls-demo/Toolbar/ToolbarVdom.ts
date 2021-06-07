@@ -266,6 +266,7 @@ class ToolbarVdom extends Control<IControlOptions> {
    private _itemClick(event, item): void {
       this._currentClick = 'Вы нажали на ' + item.getId();
    }
+   static _theme: string[] = ['Controls/Classes'];
 
    static _styles: string[] = ['Controls-demo/Toolbar/ToolbarVdom', 'Controls-demo/Controls-demo'];
 }

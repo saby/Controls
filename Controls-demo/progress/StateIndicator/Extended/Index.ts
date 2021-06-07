@@ -33,6 +33,8 @@ class Base extends Control<IControlOptions> {
         };
         this._children.IBOpener.open(config);
     }
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

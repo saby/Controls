@@ -16,12 +16,10 @@ import {EventUtils} from 'UI/Events';
 import {ICrudPlus} from 'Types/source';
 import {IHashMap} from 'Types/declarations';
 import InputRenderLookup from './BaseLookupView/InputRender';
-import {DependencyTimer, IStackPopupOptions, IDialogPopupOptions} from 'Controls/popup';
+import {DependencyTimer} from 'Controls/popup';
 import {_InputController as LayoutInputContainer} from 'Controls/suggest';
 import {load} from 'WasabyLoader/Library';
 import {RecordSet} from 'Types/collection';
-import * as itemTemplate from 'wml!Controls/_lookup/SelectedCollection/ItemTemplate';
-import showSelector from 'Controls/_lookup/showSelector';
 
 const KEY_CODE_F2 = 113;
 
@@ -60,7 +58,7 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
     private _subscribedOnResizeEvent: boolean = false;
     protected _horizontalPadding: string;
     protected _maxVisibleItems: number = 0;
-    protected _listOfDependentOptions: string[] = [];
+    protected _listOfDependentOptions: string[];
 
     private _loadSelectorTemplatePromise: Promise<unknown> = null;
     private _dependenciesTimer: DependencyTimer = null;
@@ -422,49 +420,9 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
         this._children.inputRender.paste(value);
     }
 
-    showSelector(popupOptions?: IStackPopupOptions): boolean {
-        this.closeSuggest();
-        // Если lookup лежит на stack панели, и окно выборе окажется шире этой stack панели,
-        // то по особой логике в мехнизме окон, stack панель будет скрыта через display: none,
-        // из-за этого возникает проблема при выборе, поле связи не может посчитать размеры,
-        // т.к. лежит в скрытом блоке, чтобы решить эту пробелму,
-        // кэшируем размеры перед открытием окна выбора
-        this._getFieldWrapperWidth();
-        return showSelector(this, popupOptions, this._options.multiSelect);
-    }
+    protected abstract _calculateSizes(options: ILookupInputOptions): void;
 
-    getLookupContainer(): HTMLElement {
-        return this._container;
-    }
+    protected abstract _isNeedCalculatingSizes(options: ILookupInputOptions): boolean;
 
-    protected _isNeedCalculatingSizes(options: ILookupInputOptions): boolean {
-        return false;
-    }
-
-    protected _calculateSizes(options: ILookupInputOptions): void { }
-
-    protected _isInputVisible(options: ILookupInputOptions): boolean {
-        return !!(this._isEmpty() || options.multiSelect);
-    }
-
-    static getDefaultOptions(): object {
-        return {
-            ...BaseLookup.getDefaultOptions(),
-            ...{
-                displayProperty: 'title',
-                multiSelect: false,
-                maxVisibleItems: 7,
-                itemTemplate
-            }
-        };
-    }
+    protected abstract _isInputVisible(options: ILookupInputOptions): boolean;
 }
-
-Object.defineProperty(BaseLookupInput, 'defaultProps', {
-    enumerable: true,
-    configurable: true,
-
-    get(): object {
-        return BaseLookupInput.getDefaultOptions();
-    }
-});

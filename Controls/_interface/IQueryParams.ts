@@ -1,4 +1,4 @@
-import {QueryNavigationType, QueryOrderSelector, QueryWhereExpression, QuerySelectExpression} from 'Types/source';
+import {QueryNavigationType, QueryOrderSelector, QueryWhereExpression} from 'Types/source';
 
 export type Direction = 'up' | 'down';
 
@@ -10,7 +10,6 @@ export interface IQueryParams {
    meta?: IQueryParamsMeta;
    limit?: number;
    offset?: number;
-   filter?: QueryWhereExpression<unknown>;
+   filter?: QueryWhereExpression<any>;
    sorting?: QueryOrderSelector;
-   select?: QuerySelectExpression;
 }

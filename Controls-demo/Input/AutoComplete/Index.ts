@@ -15,6 +15,8 @@ class TextAlignments extends Control<IControlOptions> {
         "language", "bday", "sex", "tel", "url"
     ];
     protected _template: TemplateFunction = template;
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

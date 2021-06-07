@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <Controls.list:View keyProperty="key" source="{{_viewSource}}">
+    <Controls.list:View keyProperty="id" source="{{_viewSource}}">
         <ws:itemPadding top="null" bottom="null" left="null" right="null"/>
     </Controls.list:View>
 </div>

@@ -11,6 +11,8 @@ class Index extends Control<IControlOptions> {
         return date ? formatDate(date, formatDate.SHORT_MONTH) : '';
     }
 
+    static _theme: string[] = ['Controls/Classes'];
+
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

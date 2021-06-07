@@ -3,20 +3,22 @@
  */
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_popup/Opener/Edit/Container');
-import { IContextOptionsValue } from 'Controls/context';
-import { RecordSet } from 'Types/collection';
+import {ContextOptions} from 'Controls/context';
+import {RecordSet} from 'Types/collection';
 
-interface IContainerOptions extends IControlOptions {
-    _dataOptionsValue: IContextOptionsValue;
+interface IContainerContext {
+    dataOptions: {
+        items: RecordSet
+    };
 }
 /**
  * Контрол используют в качестве контейнера для {@link Controls/popup:Edit}. Он получает данные и передаёт их в Controls/popup:Edit.
  * @remark
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_popupTemplate.less переменные тем оформления}
- *
+ * 
  * @class Controls/_popup/Opener/Edit/Container
- *
+ * 
  * @extends UI/Base:Control
  * @see Controls/popup:Edit
  * @see Controls/list:DataContainer
@@ -28,20 +30,26 @@ interface IContainerOptions extends IControlOptions {
  * Подробнее об организации поиска и фильтрации в реестре читайте {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-and-search/ здесь}.
  * Подробнее о классификации контролов Wasaby и схеме их взаимодействия читайте {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/ здесь}.
  */
-class Container extends Control<IContainerOptions> {
+class Container extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _items: RecordSet;
 
-    _beforeMount(options: IContainerOptions): void {
-        this._updateItems(options);
+    _beforeMount(options: IControlOptions, context: IContainerContext): void {
+        this._updateItems(context);
     }
-    _beforeUpdate(options: IContainerOptions): void {
-        this._updateItems(options);
+    _beforeUpdate(options: IControlOptions, context: IContainerContext): void {
+        this._updateItems(context);
     }
-    _updateItems(options: IContainerOptions): void {
-        if (options._dataOptionsValue && options._dataOptionsValue.items) {
-            this._items = options._dataOptionsValue.items;
+    _updateItems(context: IContainerContext): void {
+        if (context.dataOptions && context.dataOptions.items) {
+            this._items = context.dataOptions.items;
         }
+    }
+
+    static contextTypes(): IContainerContext {
+        return {
+            dataOptions: ContextOptions
+        };
     }
 }
 

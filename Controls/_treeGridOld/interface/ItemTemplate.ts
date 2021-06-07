@@ -7,9 +7,8 @@
  * @see Controls/interface/ITreeGridItemTemplate#itemTemplateProperty
  * @see Controls/treeGrid:View
  * @example
- * <pre class="brush: html; highlight: [3-5]">
- * <!-- WML -->
- * <Controls.treeGrid:View source="{{_viewSource}}" columns="{{_columns}}" parentProperty="parent" nodeProperty="type">>
+ * <pre class="brush: html">
+ * <Controls.treeGrid:View>
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/treeGrid:ItemTemplate" levelIndentSize="null" expanderSize="l" expanderIcon="node" />
  *    </ws:itemTemplate>
@@ -25,7 +24,7 @@
 export default interface IItemTemplateOptions {
     /**
      * @typedef {String} Controls/_treeGridOld/interface/ItemTemplate/Size
-     * @description Допустимые значения для опций {@link expanderSize} и {@link levelIndentSize}.
+     * @default Допустимые значения для опций {@link expanderSize} и {@link levelIndentSize}.
      * @variant s Маленький размер.
      * @variant m Средний размер.
      * @variant l Большой размер.
@@ -42,7 +41,7 @@ export default interface IItemTemplateOptions {
     withoutLevelPadding?: boolean;
     /**
      * @typedef {String} ExpanderIcon
-     * @description Значения для опции {@link expanderIcon}.
+     * @description Допустимые значения для опции {@link expanderIcon}.
      * @variant none Иконки всех узлов не отображаются.
      * @variant node Иконки всех узлов отображаются как иконки узлов.
      * @variant emptyNode Иконки всех узлов отображаются как иконки пустых узлов.

@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-base-treeGridView">
     <Controls.list:DataContainer source="{{ _viewSource }}"
                                  root="{{null}}"
-                                 keyProperty="key"
+                                 keyProperty="id"
                                  parentProperty="parent"
                                  nodeProperty="type"
                                  nodeTypeProperty="nodeType"
@@ -12,8 +12,23 @@
         <Controls.treeGrid:View
                 rowSeparatorSize="s"
                 colspanCallback="{{ _colspanCallback }}"
-                useNewNodeFooters="{{ true }}"
-                columns="{{ _columns }}">
+                useNewNodeFooters="{{ true }}">
+            <ws:columns>
+                <ws:Array>
+                    <ws:Object displayProperty="title" width="300px">
+                        <ws:template>
+                            <ws:if data="{{ template.item.isGroupNode() }}">
+                                <ws:partial template="Controls/treeGrid:GroupColumnTemplate"/>
+                            </ws:if>
+                            <ws:else>
+                                <ws:partial template="Controls/grid:ColumnTemplate"/>
+                            </ws:else>
+                        </ws:template>
+                    </ws:Object>
+                    <ws:Object displayProperty="rating" width="100px" align="right"/>
+                    <ws:Object displayProperty="country" width="100px" align="right"/>
+                </ws:Array>
+            </ws:columns>
             <ws:nodeFooterTemplate>
                 <ws:partial template="Controls/treeGrid:NodeFooterTemplate">
                     <Controls.list:AddButton caption="Добавить товар"/>

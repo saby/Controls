@@ -2,13 +2,13 @@ import rk = require('i18n!Controls');
 import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dropdown/ComboBox/ComboBox');
 import * as Utils from 'Types/util';
-import {prepareEmpty, loadItems} from 'Controls/_dropdown/Util';
+import {prepareEmpty, loadItems, isEmptyItem} from 'Controls/_dropdown/Util';
 import {EventUtils} from 'UI/Events';
 import Controller from 'Controls/_dropdown/_Controller';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {ISingleSelectableOptions, IBorderStyleOptions, IValidationStatusOptions, IInputPlaceholder,
-   IInputPlaceholderOptions, IContrastBackgroundOptions, IContrastBackground} from 'Controls/interface';
+   IInputPlaceholderOptions, IContrastBackgroundOptions} from 'Controls/interface';
 import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import {IStickyPopupOptions} from 'Controls/popup';
@@ -35,7 +35,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @remark
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2Fdropdown_new%2FCombobox%2FIndex демо-пример}
- * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/dropdown-menu/combobox/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/combobox/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdown.less переменные тем оформления dropdown}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdownPopup.less переменные тем оформления dropdownPopup}
  *
@@ -77,7 +77,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @demo Controls-demo/dropdown_new/Combobox/Source/Index
  */
 
-class ComboBox extends BaseDropdown implements IInputPlaceholder, IContrastBackground {
+class ComboBox extends BaseDropdown implements IInputPlaceholder {
    protected _template: TemplateFunction = template;
    protected _notifyHandler: Function = EventUtils.tmplNotify;
    protected _controller: Controller;
@@ -266,6 +266,8 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder, IContrastBackg
       }
       return validationStatus;
    }
+
+   static _theme: string[] = ['Controls/Classes'];
 
    static getDefaultOptions(): object {
       return {

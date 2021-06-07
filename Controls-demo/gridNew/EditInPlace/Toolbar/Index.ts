@@ -4,11 +4,11 @@ import * as editingCellNumber from 'wml!Controls-demo/gridNew/EditInPlace/Toolba
 import * as editingCellText from 'wml!Controls-demo/gridNew/EditInPlace/Toolbar/editingCellText';
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
+import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {showType} from 'Controls/toolbars';
 import { IColumn } from 'Controls/grid';
 import {IItemAction} from 'Controls/itemActions';
-import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -35,7 +35,7 @@ export default class extends Control {
     ];
 
     protected _beforeMount(): void {
-        this._columns = Countries.getColumnsWithFixedWidths().map((column, index) => {
+        this._columns = getCountriesStats().getColumnsWithFixedWidths().map((column, index) => {
             const resultColumn = column;
             // tslint:disable-next-line
             if (index !== 0) {
@@ -45,20 +45,20 @@ export default class extends Control {
             return resultColumn;
         });
         // tslint:disable-next-line
-        const data = Countries.getData().slice(0, 5);
+        const data = getCountriesStats().getData().slice(0, 5);
         this._fakeItemId = data[data.length - 1].id;
-        this._viewSource = new Memory({keyProperty: 'key', data});
+        this._viewSource = new Memory({keyProperty: 'id', data});
     }
 
     _beforeBeginEdit(e: SyntheticEvent<null>, options: { item: Model }, isAdd: boolean): { item: Model } | void {
         if (isAdd) {
-            const key = ++this._fakeItemId;
+            const id = ++this._fakeItemId;
             return {
                 item: new Model({
-                    keyProperty: 'key',
+                    keyProperty: 'id',
                     rawData: {
-                        key,
-                        number: key + 1,
+                        id,
+                        number: id + 1,
                         country: null,
                         capital: null,
                         population: null,

@@ -1,3 +1,4 @@
+import rk = require('i18n!Controls');
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import * as ListTemplate from 'wml!Controls/_filterPanel/Editors/List';
@@ -5,7 +6,6 @@ import * as ColumnTemplate from 'wml!Controls/_filterPanel/Editors/resources/Col
 import * as AdditionalColumnTemplate from 'wml!Controls/_filterPanel/Editors/resources/AdditionalColumnTemplate';
 import * as CircleTemplate from 'wml!Controls/_filterPanel/Editors/resources/CircleTemplate';
 import {StackOpener, DialogOpener} from 'Controls/popup';
-import {BaseEditor} from 'Controls/_filterPanel/Editors/Base';
 import {Model} from 'Types/entity';
 import {
     IFilterOptions,
@@ -26,6 +26,7 @@ import 'css!Controls/filterPanel';
 export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISourceOptions,
     INavigationOptions<unknown>, IItemActionsOptions, IList, IColumn, ISelectorDialogOptions {
     propertyValue: number[]|string[];
+    showSelectorCaption?: string;
     additionalTextProperty: string;
     multiSelect: boolean;
 }
@@ -38,6 +39,13 @@ export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISo
  * @mixes Controls/interface:INavigation
  * @author Мельникова Е.А.
  * @public
+ */
+
+/**
+ * @name Controls/_filterPanel/Editors/List#showSelectorCaption
+ * @cfg {String} Заголовок для кнопки в подвале списка, которая открывает окно выбора из справочника.
+ * @demo Controls-demo/filterPanel/ListEditor/ShowSelectorCaption/Index
+ * @default Другие
  */
 
 /**
@@ -61,7 +69,7 @@ export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISo
  * @default false
  */
 
-class ListEditor extends BaseEditor {
+class ListEditor extends Control<IListEditorOptions> {
     protected _template: TemplateFunction = ListTemplate;
     protected _circleTemplate: TemplateFunction = CircleTemplate;
     protected _columns: object[] = null;
@@ -70,26 +78,32 @@ class ListEditor extends BaseEditor {
     protected _selectedKeys: string[]|number[] = [];
     protected _filter: object = {};
     protected _navigation: INavigationOptionValue<unknown> = null;
-    protected _editorTarget: HTMLElement | EventTarget;
     private _itemsReadyCallback: Function = null;
 
     protected _beforeMount(options: IListEditorOptions): void {
         this._selectedKeys = options.propertyValue;
         this._setColumns(options.displayProperty, options.propertyValue, options.keyProperty, options.additionalTextProperty);
         this._itemsReadyCallback = this._handleItemsReadyCallback.bind(this);
-        this._navigation = options.navigation;
+        this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
+        if (!this._selectedKeys.length) {
+            this._navigation = this._getNavigation(options);
+        }
     }
 
     protected _beforeUpdate(options: IListEditorOptions): void {
         const valueChanged =
             !isEqual(options.propertyValue, this._options.propertyValue) &&
             !isEqual(options.propertyValue, this._selectedKeys);
+        const filterChanged = !isEqual(options.filter, this._options.filter);
         const displayPropertyChanged = options.displayProperty !== this._options.displayProperty;
         const additionalDataChanged = options.additionalTextProperty !== this._options.additionalTextProperty;
         if (additionalDataChanged || valueChanged || displayPropertyChanged) {
             this._selectedKeys = options.propertyValue;
             this._setColumns(options.displayProperty, options.propertyValue, options.keyProperty, options.additionalTextProperty);
             this._navigation = this._getNavigation(options);
+        }
+        if (filterChanged || (valueChanged && !this._selectedKeys.length)) {
+            this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
         }
     }
 
@@ -100,20 +114,16 @@ class ListEditor extends BaseEditor {
     protected _handleItemClick(event: SyntheticEvent, item: Model, nativeEvent: SyntheticEvent): void {
         const contentClick = nativeEvent.target.closest('.controls-ListEditor__columns');
         if (contentClick) {
-            this._processPropertyValueChanged([item.get(this._options.keyProperty)], true);
+            this._notifyPropertyValueChanged([item.get(this._options.keyProperty)], true);
         }
     }
 
     protected _handleSelectedKeysChanged(event: SyntheticEvent, keys: string[]|number[]): void {
-        this._processPropertyValueChanged(keys, !this._options.multiSelect);
-    }
-
-    protected _handleCheckBoxClick(event: SyntheticEvent, keys: string[]|number[]): void {
-        this._editorTarget = this._getEditorTarget(event);
+        this._notifyPropertyValueChanged(keys, !this._options.multiSelect);
     }
 
     protected _handleSelectedKeyChanged(event: SyntheticEvent, key: string|number): void {
-        this._processPropertyValueChanged([key], !this._options.multiSelect);
+        this._notifyPropertyValueChanged([key], !this._options.multiSelect);
     }
 
     protected _handleSelectorResult(result: Model[]): void {
@@ -123,8 +133,9 @@ class ListEditor extends BaseEditor {
         });
         if (selectedKeys.length) {
             this._items.assign(result);
+            this._setFilter(selectedKeys, this._options.filter, this._options.keyProperty);
         }
-        this._processPropertyValueChanged(selectedKeys, !this._options.multiSelect, result);
+        this._notifyPropertyValueChanged(selectedKeys, !this._options.multiSelect, result);
         this._navigation = this._getNavigation(this._options);
     }
 
@@ -150,15 +161,15 @@ class ListEditor extends BaseEditor {
         });
     }
 
-    protected _processPropertyValueChanged(value: string[] | number[], needCollapse: boolean, selectorResult?: Model[]): void {
+    protected _notifyPropertyValueChanged(value: string[] | number[] , needCollapse?: boolean, selectorResult?: Model[]): void {
         const extendedValue = {
             value,
             textValue: this._getTextValue(selectorResult || value),
-            needCollapse: true
+            needCollapse
         };
         this._selectedKeys = value;
         this._setColumns(this._options.displayProperty, this._selectedKeys, this._options.keyProperty, this._options.additionalTextProperty);
-        this._notifyPropertyValueChanged(extendedValue, needCollapse);
+        this._notify('propertyValueChanged', [extendedValue], {bubbling: true});
     }
 
     protected _setColumns(displayProperty: string, propertyValue: string[]|number[], keyProperty: string, additionalTextProperty?: string): void {
@@ -183,8 +194,11 @@ class ListEditor extends BaseEditor {
         }
     }
 
-    private _getEditorTarget(event: SyntheticEvent): HTMLElement | EventTarget {
-        return event.target.closest('.controls-Grid__row').lastChild;
+    private _setFilter(selectedKeys: string[]|number[], filter: object, keyProperty: string): void {
+        this._filter = {...filter};
+        if (selectedKeys && selectedKeys.length) {
+            this._filter[keyProperty] = selectedKeys;
+        }
     }
 
     private _getNavigation(options: IListEditorOptions): INavigationOptionValue<unknown> {
@@ -226,6 +240,7 @@ class ListEditor extends BaseEditor {
 
     static getDefaultOptions(): object {
         return {
+            showSelectorCaption: rk('Другие'),
             style: 'default',
             itemPadding: {
                 right: 'm'

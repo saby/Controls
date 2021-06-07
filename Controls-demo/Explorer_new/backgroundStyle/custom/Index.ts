@@ -4,8 +4,7 @@ import {Gadgets} from '../../DataHelpers/DataCatalog';
 import {Memory} from 'Types/source';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
 import { IColumn } from 'Controls/grid';
-import {TRoot} from 'Controls-demo/types';
-import { IHeaderCell } from 'Controls/grid';
+import {TRoot, IHeader} from 'Controls-demo/types';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
@@ -20,7 +19,7 @@ export default class extends Control {
    protected _searchStartingWithSource: Memory = null;
    protected _emptyFilter: object = {demo: 123};
    protected _filter: object = {demo: 123, title: 'Жесткий диск Seagate Original SATA-III 1Tb ST1000NC001 Constellation СS (7200rpm) 64Mb 3.5'};
-   protected _header: IHeaderCell[] = [
+   protected _header: IHeader[] = [
       {
          title: ''
       },
@@ -57,6 +56,8 @@ export default class extends Control {
          ]
       });
    }
+
+   static _theme: string[] = ['Controls/Classes'];
    static _styles: string[] = [
       'Controls-demo/Controls-demo',
       'Controls-demo/Explorer_new/backgroundStyle/custom/backgroundStyleCustom'

@@ -77,7 +77,7 @@
 
     <ws:if data="{{_suggestOpened && (!_dependenciesDeferred || _dependenciesDeferred.isReady())}}">
         <ws:partial template="{{_options.layerName}}"
-                    name="layerOpener" target="{{_options.suggestTarget || _container}}"
+                    name="layerOpener" target="{{_container}}"
                     filter="{{_filter}}" searchValue="{{_searchValue}}"
                     showContent="{{_showContent}}"
                     showFooter="{{!!_options.footerTemplate}}"

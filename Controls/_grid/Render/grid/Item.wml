@@ -49,7 +49,7 @@
                  class="{{ (gridColumn || itemData).getTagClasses(afterContentTemplate.theme) }}">
                 <ws:partial template="{{ afterContentTemplate.tagTemplate }}"
                             tagStyle="{{ (gridColumn || itemData).getTagStyle(afterContentTemplate.tagStyle) }}"
-                            item="{{ item || itemData }}"
+                            dispItem="{{ (gridColumn || itemData).getOwner() }}"
                             columnIndex="{{ (gridColumn || itemData).getColumnIndex() }}"/>
             </div>
         </ws:afterContentTemplate>
@@ -74,7 +74,7 @@
 </ws:template>
 
 
-<ws:if data="{{ isSticked !== false && (item || itemData).isSticked(style, stickyCallback, item) }}">
+<ws:if data="{{ (item || itemData).isSticked() }}">
     <Controls.scroll:Group>
         <div attr:data-qa="{{(item || itemData).getQAData(marker)}}"
              attr:class="{{ (item || itemData).getItemClasses({
@@ -86,16 +86,16 @@
                 'showItemActionsOnHover': showItemActionsOnHover
             }) }}">
             <ws:for data="column in (item || itemData).getColumns()">
-                <Controls.scroll:StickyBlock position="{{ (item || itemData).getStickyHeaderPosition(stickyCallback) }}"
-                                              mode="{{ (item || itemData).getStickyHeaderMode(stickyCallback) }}"
+                <Controls.scroll:StickyHeader position="{{ (item || itemData).getStickyHeaderPosition() }}"
+                                              mode="{{ (item || itemData).getStickyHeaderMode() }}"
                                               backgroundStyle="{{backgroundStyle}}"
-                                              shadowVisibility="{{column.shadowVisibility}}"
+                                              shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
                                               fixedZIndex="{{ column.getZIndex()}}"
                                               attr:key="sticky_{{ column.getInstanceId() }}"
                                               attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover, hoverBackgroundStyle) }}"
                                               attr:style="{{ column.getWrapperStyles(containerSize) }}">
                     <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
-                </Controls.scroll:StickyBlock>
+                </Controls.scroll:StickyHeader>
             </ws:for>
         </div>
     </Controls.scroll:Group>

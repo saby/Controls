@@ -1272,10 +1272,9 @@ var
             }
         },
 
-        setHasMoreData(hasMoreDataObject: object, silent: boolean = false): void {
-            const hasMoreData = hasMoreDataObject instanceof Object ? hasMoreDataObject.up || hasMoreDataObject.down : hasMoreDataObject;
+        setHasMoreData(hasMoreData: boolean, silent: boolean = false): void {
             const isNextModelVersion = this.getHasMoreData() !== hasMoreData;
-            this._model.setHasMoreData(hasMoreDataObject);
+            this._model.setHasMoreData(hasMoreData);
             if (isNextModelVersion) {
                 this.nextModelVersion();
             }
@@ -1283,10 +1282,6 @@ var
 
         getHasMoreData(): boolean {
           return this._model.getHasMoreData();
-        },
-
-        hasMoreData(): boolean {
-          return this._model.hasMoreData();
         },
 
         isDrawResults: function() {
@@ -1997,6 +1992,19 @@ var
             return this._model.getNext();
         },
 
+        getNextByKey: function() {
+            return this._model.getNextByKey.apply(this._model, arguments);
+        },
+        getPrevByKey: function() {
+            return this._model.getPrevByKey.apply(this._model, arguments);
+        },
+        getNextByIndex: function() {
+            return this._model.getNextByIndex.apply(this._model, arguments);
+        },
+        getPrevByIndex: function() {
+            return this._model.getPrevByIndex.apply(this._model, arguments);
+        },
+
         isLast: function() {
             return this._model.isLast();
         },
@@ -2263,8 +2271,8 @@ var
         },
 
         // New Model compatibility
-        getItemBySourceKey(key: number | string, withFilter: boolean = true): Model {
-            return this._model.getItemBySourceKey(key, withFilter);
+        getItemBySourceKey(key: number | string): Model {
+            return this._model.getItemBySourceKey(key);
         },
 
         // New Model compatibility

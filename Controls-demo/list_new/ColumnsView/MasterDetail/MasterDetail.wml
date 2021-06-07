@@ -7,7 +7,7 @@
                                       attr:class="demo-DragNDrop__MasterDetail_master_search_input"/>
             </div>
             <Controls.scroll:Container attr:class="demo-DragNDrop__MasterDetail_master">
-               <Controls.list:DataContainer name="dataContainer" source="{{_masterSource}}" keyProperty="key">
+               <Controls.list:DataContainer name="dataContainer" source="{{_masterSource}}" keyProperty="id">
                   <div>
                      <Controls.list:Mover name="masterMover" parentProperty="Раздел"/>
                      <Controls.list:Container>
@@ -43,12 +43,12 @@
       <ws:detail>
          <div class="ws-flexbox ws-flex-column ws-flex-grow-1">
             <Controls.scroll:Container attr:class="demo-DragNDrop__MasterDetail_detail">
-               <Controls.list:DataContainer name="dataContainer" source="{{_detailSource}}" keyProperty="key">
+               <Controls.list:DataContainer name="dataContainer" source="{{_detailSource}}" keyProperty="id">
                   <div>
                      <Controls.list:Mover name="detailMover"/>
                      <Controls.list:Container>
                         <Controls.columns:View
-                                keyProperty="key"
+                                keyProperty="id"
                                 source="{{ _viewSource }}"
                                 columnsMode="auto"
                                 name="detailList"

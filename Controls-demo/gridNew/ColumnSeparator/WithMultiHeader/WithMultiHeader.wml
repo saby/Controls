@@ -4,7 +4,7 @@
         <Controls.toggle:Checkbox bind:value="_columnSeparator" caption="Show column separator"/>
     </div>
     <Controls.grid:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             header="{{_header}}"
             columns="{{_columns}}"

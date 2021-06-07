@@ -1,0 +1,1 @@
+<SbisEnvUI.Bootstrap scope="{{_options}}" compat="{{ true }}" />

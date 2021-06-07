@@ -38,4 +38,6 @@ export default class extends Control {
     _selectComplete() {
         this._children.SelectorController._selectComplete();
     }
+
+    static _theme: string[] = ['Controls/Classes'];
 }

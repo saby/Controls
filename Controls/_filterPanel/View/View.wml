@@ -2,7 +2,7 @@
    <Controls.scroll:Container attr:class="controls-FilterViewPanel__scroll">
       <ws:if data="{{_viewModel.hasBasicItems()}}">
          <ws:if data="{{_options.viewMode === 'filterPanelStack'}}">
-            <Controls.scroll:StickyBlock backgroundStyle="transparent">
+            <Controls.scroll:StickyHeader backgroundStyle="transparent">
                <div class="controls-FilterViewPanel__header
                            controls-FilterViewPanel__header_backgroundStyle-{{_options.backgroundStyle}}">
                      <Controls.icon:Icon icon="icon-FilterNew"
@@ -28,7 +28,7 @@
                                               readOnly="{{_viewModel.isFilterReseted()}}"
                                               on:click="_resetFilter()"/>
                </div>
-            </Controls.scroll:StickyBlock>
+            </Controls.scroll:StickyHeader>
          </ws:if>
 
          <Controls.propertyGrid:PropertyGrid
@@ -50,6 +50,18 @@
                            groupItems="{{_viewModel.getGroupItems()}}"/>
             </ws:groupTemplate>
          </Controls.propertyGrid:PropertyGrid>
+      </ws:if>
+      <ws:if data="{{_options.viewMode === 'default'}}">
+         <Controls.scroll:StickyHeader backgroundStyle="filterPanel"
+                                       position="bottom"
+                                       attr:class="controls-FilterViewPanel__applyButton-{{_options.viewMode}}">
+            <Controls.buttons:Button viewMode="linkButton"
+                                     caption="{{rk('Сбросить все')}}"
+                                     fontColorStyle="link"
+                                     fontSize="m"
+                                     attr:class="controls-FilterViewPanel__applyButton"
+                                     on:click="_resetFilter()"/>
+         </Controls.scroll:StickyHeader>
       </ws:if>
       <ws:if data="{{_viewModel.hasExtendedItems()}}">
          <div class="controls-FilterViewPanel__additional-editors-container">

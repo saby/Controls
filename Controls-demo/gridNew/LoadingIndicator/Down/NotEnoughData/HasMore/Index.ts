@@ -15,12 +15,12 @@ export default class extends Control {
     private _dataArray: unknown = generateData({count: 50,
         entityTemplate: {title: 'string'},
         beforeCreateItemCallback: (item) => {
-            item.title = (item.key + 1) + ') Запись с id = ' + item.key;
+            item.title = (item.id + 1) + ') Запись с id = ' + item.id;
         }});
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: this._dataArray
         });
         this._slowDownSource(this._viewSource, 2000);

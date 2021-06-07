@@ -8,7 +8,6 @@ import * as rk from 'i18n!*';
 import {IHashMap} from 'Types/declarations';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
-import {ISiblingStrategy} from '../interface/ISiblingStrategy';
 
 // @todo https://online.sbis.ru/opendoc.html?guid=2f35304f-4a67-45f4-a4f0-0c928890a6fc
 type TSource = SbisService|ICrudPlus;
@@ -41,10 +40,6 @@ export interface IMoveControllerOptions {
      * @cfg Array<{[columnName: string] Массив сортировок. Необходим при перемещении записей вверх/вниз
      */
     sorting: QueryOrderSelector;
-    /**
-     * Стратегия поиска соседних записей
-     */
-    siblingStrategy: ISiblingStrategy;
 }
 
 /**
@@ -69,9 +64,6 @@ export class MoveController {
     // Сортировка при перемещении вверх/вниз
     private _sorting: QueryOrderSelector;
 
-    // Стратегия поиска следующего/предыдущего элемента в списке
-    private _siblingStrategy: ISiblingStrategy;
-
     constructor(options: IMoveControllerOptions) {
         this.updateOptions(options);
     }
@@ -86,7 +78,6 @@ export class MoveController {
         this._source = options.source;
         this._parentProperty = options.parentProperty;
         this._sorting = options.sorting;
-        this._siblingStrategy = options.siblingStrategy;
     }
 
     /**
@@ -108,26 +99,6 @@ export class MoveController {
          targetKey: CrudEntityKey,
          position: LOCAL_MOVE_POSITION): Promise<DataSet | void> {
         return this._moveInSource(selection, filter, targetKey, position);
-    }
-
-    /**
-     * Перемещает переданный элемент на один пункт вверх.
-     * @param {Controls/interface:ISelectionObject} selection Элементы для перемещения.
-     * @returns {Promise} Отложенный результат перемещения.
-     */
-    moveUp(selection: ISelectionObject): Promise<void> {
-        const siblingKey = this._getSiblingKey(selection.selected[0], LOCAL_MOVE_POSITION.Before);
-        return this.move(selection, {}, siblingKey, LOCAL_MOVE_POSITION.Before) as Promise<void>;
-    }
-
-    /**
-     * Перемещает переданный элемент на один пункт вниз.
-     * @param {Controls/interface:ISelectionObject} selection Элементы для перемещения.
-     * @returns {Promise} Отложенный результат перемещения.
-     */
-    moveDown(selection: ISelectionObject): Promise<void> {
-        const siblingKey = this._getSiblingKey(selection.selected[0], LOCAL_MOVE_POSITION.After);
-        return this.move(selection, {}, siblingKey, LOCAL_MOVE_POSITION.After) as Promise<void>;
     }
 
     /**
@@ -237,17 +208,6 @@ export class MoveController {
             query,
             parentProperty: this._parentProperty
         });
-    }
-
-    private _getSiblingKey(selectedKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): CrudEntityKey {
-        let siblingItem;
-        if (position === LOCAL_MOVE_POSITION.Before) {
-            siblingItem = this._siblingStrategy.getPrevByKey(selectedKey);
-        } else {
-            siblingItem = this._siblingStrategy.getNextByKey(selectedKey);
-        }
-        const siblingKey = siblingItem && siblingItem.getKey();
-        return siblingKey !== undefined ? siblingKey : null;
     }
 
     /**

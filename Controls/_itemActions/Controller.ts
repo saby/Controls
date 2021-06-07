@@ -60,14 +60,9 @@ export interface IControllerOptions {
     theme: string;
     /**
      * Размер иконок операций с записью
-     * варианты 's'|'m'|'l'
+     * варианты 's'|'m'
      */
     iconSize?: TItemActionsSize;
-    /**
-     * Размер иконки меню
-     * варианты 's'|'m'|'l'
-     */
-    menuIconSize?: TItemActionsSize;
     /**
      * Имя свойства, которое содержит конфигурацию для панели с опциями записи.
      */
@@ -148,7 +143,6 @@ export class Controller {
     private _editArrowAction: IItemAction;
     private _contextMenuConfig: IContextMenuConfig;
     private _iconSize: TItemActionsSize;
-    private _menuIconSize: TItemActionsSize;
     private _actionMode: 'adaptive' | 'strict';
     // вариант расположения опций в свайпе на момент инициализации
     private _actionsAlignment: 'horizontal' | 'vertical';
@@ -191,7 +185,6 @@ export class Controller {
         this._contextMenuConfig = options.contextMenuConfig;
         this._actionMode = options.actionMode || DEFAULT_ACTION_MODE;
         this._iconSize = options.iconSize || DEFAULT_ACTION_SIZE;
-        this._menuIconSize = options.menuIconSize || DEFAULT_ACTION_SIZE;
         this._actionsAlignment = options.actionAlignment || DEFAULT_ACTION_ALIGNMENT;
         this._itemActionsPosition = options.itemActionsPosition || DEFAULT_ACTION_POSITION;
         this._collection = options.collection;
@@ -698,7 +691,6 @@ export class Controller {
                     icon: 'icon-SettingsNew',
                     style: 'secondary',
                     iconStyle: 'secondary',
-                    size: this._menuIconSize,
                     isMenu: true
                 });
             }

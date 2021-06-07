@@ -21,5 +21,7 @@ export default class extends Control {
             keyProperty: 'key'
         });
     }
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

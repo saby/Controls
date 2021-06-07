@@ -20,6 +20,10 @@ const ItemTemplate = function() {
 ItemTemplate.stable = true;
 ItemTemplate.isWasabyTemplate = true;
 
+/**
+ * @includes GroupColumnTemplate Controls/_treeGrid/interface/GroupColumnTemplate
+ */
+
 export {
     View,
     ItemsView,
@@ -43,8 +47,6 @@ import { isFullGridSupport } from 'Controls/display';
 import TreeGridGroupDataRow from 'Controls/_treeGrid/display/TreeGridGroupDataRow';
 import TreeGridGroupDataCell from 'Controls/_treeGrid/display/TreeGridGroupDataCell';
 import TreeGridViewTable from './_treeGrid/TreeGridViewTable';
-import { IGroupNodeColumn } from 'Controls/_treeGrid/interface/IGroupNodeColumn';
-import { TGroupNodeVisibility } from 'Controls/_treeGrid/interface/ITreeGrid';
 
 export {
     TreeGridFooterCell,
@@ -54,9 +56,7 @@ export {
     TreeGridNodeFooterRow,
     TreeGridNodeFooterCell,
     TreeGridGroupDataRow,
-    TreeGridGroupDataCell,
-    IGroupNodeColumn,
-    TGroupNodeVisibility
+    TreeGridGroupDataCell
 };
 
 register('Controls/treeGrid:TreeGridCollection', TreeGridCollection, {instantiate: false});

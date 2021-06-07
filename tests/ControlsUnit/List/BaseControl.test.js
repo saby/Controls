@@ -12,7 +12,6 @@ define([
    'Core/Deferred',
    'Core/core-instance',
    'Env/Env',
-   'Env/Touch',
    'Core/core-clone',
    'Types/entity',
    'Controls/Application/SettingsController',
@@ -24,7 +23,7 @@ define([
    'Controls/dataSource',
    'Controls/marker',
    'Core/polyfill/PromiseAPIDeferred'
-], function(sourceLib, collection, lists, tree, treeGrid, grid, tUtil, cDeferred, cInstance, Env, EnvTouch, clone, entity, SettingsController, popup, listDragNDrop, dragNDrop, listRender, itemActions, dataSource, marker) {
+], function(sourceLib, collection, lists, tree, treeGrid, grid, tUtil, cDeferred, cInstance, Env, clone, entity, SettingsController, popup, listDragNDrop, dragNDrop, listRender, itemActions, dataSource, marker) {
    describe('Controls.List.BaseControl', function() {
       var data, result, source, rs, sandbox;
 
@@ -4024,12 +4023,12 @@ define([
             assert.equal(args[1], 2);
          };
 
-         const isTouchStub = sandbox.stub(EnvTouch.TouchDetect.getInstance(), 'isTouch').returns(true);
+         self._context = { isTouch: { isTouch: true } };
 
          lists.BaseControl._private.startDragNDrop(self, domEvent, itemData);
          assert.isFalse(notifyCalled, 'On touch device can\'t drag');
 
-         isTouchStub.returns(false);
+         self._context.isTouch.isTouch = false;
 
          lists.BaseControl._private.startDragNDrop(self, domEvent, itemData);
          assert.isTrue(notifyCalled);
@@ -6037,6 +6036,34 @@ define([
 
          await instance.reload();
          assert.isTrue(portionSearchReseted);
+      });
+
+      it('_beforeUpdate with new groupingLoader', async function() {
+         let cfg = {
+            viewName: 'Controls/List/ListView',
+            viewModelConfig: {
+               items: [],
+               keyProperty: 'id'
+            },
+            viewModelConstructor: lists.ListViewModel,
+            keyProperty: 'id',
+            source: source
+         };
+         let instance = correctCreateBaseControl(cfg);
+         instance.saveOptions(cfg);
+         await instance._beforeMount(cfg);
+
+         assert.isFalse(!!instance._groupingLoader);
+         instance._beforeUpdate({ ...cfg, groupProperty: 'NewProp' });
+         instance._options.groupProperty = 'NewProp';
+         assert.isTrue(!!instance._groupingLoader);
+         instance._beforeUpdate({ ...cfg, groupProperty: undefined });
+         assert.isFalse(!!instance._groupingLoader);
+         cfg.navigation = {
+            view: 'demand'
+         };
+         instance._beforeUpdate({ ...cfg, groupProperty: 'NewProp' });
+         assert.isFalse(!!instance._groupingLoader);
       });
 
       // Иногда необходимо переинициализировать опции записи в момент обновления контрола
@@ -8101,14 +8128,10 @@ define([
       describe('MoveController', () => {
          const moveController = {
             move: () => Promise.resolve(),
-            moveUp: () => Promise.resolve(),
-            moveDown: () => Promise.resolve(),
             moveWithDialog: () => Promise.resolve(),
             updateOptions: () => {}
          };
          let spyMove;
-         let spyMoveUp;
-         let spyMoveDown;
          let spyMoveWithDialog;
          let cfg;
          let baseControl;
@@ -8147,29 +8170,25 @@ define([
                isEditing: () => false
             };
             spyMove = sinon.spy(moveController, 'move');
-            spyMoveUp = sinon.spy(moveController, 'moveUp');
-            spyMoveDown = sinon.spy(moveController, 'moveDown');
             spyMoveWithDialog = sinon.spy(moveController, 'moveWithDialog');
          });
 
          afterEach(() => {
             spyMove.restore();
-            spyMoveUp.restore();
-            spyMoveDown.restore();
             spyMoveWithDialog.restore();
          });
 
          // moveItemUp вызывает moveController
          it('moveItemUp() should call moveController', () => {
             return baseControl.moveItemUp(2).then(() => {
-               sinon.assert.called(spyMoveUp);
+               sinon.assert.called(spyMove);
             });
          });
 
          // moveItemDown вызывает moveController
          it('moveItemDown() should call moveController', () => {
             return baseControl.moveItemDown(2).then(() => {
-               sinon.assert.called(spyMoveDown);
+               sinon.assert.called(spyMove);
             });
          });
 
@@ -8229,9 +8248,6 @@ define([
             viewModelConfig: {
                items: [],
                keyProperty: 'id'
-            },
-            itemContainerGetter: {
-               getItemContainerByIndex: () => ({})
             },
             viewModelConstructor: lists.ListViewModel,
             keyProperty: 'id',
@@ -8354,28 +8370,28 @@ define([
 
             it('to next', () => {
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 1);
 
                lists.BaseControl._private.moveMarkerToDirection(baseControl, event, 'Forward');
                assert.isTrue(preventDefaultCalled);
                assert.isTrue(activateCalled);
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 3);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(3).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(3).getVersion(), 3);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(3).getVersion(), 1);
             });
 
             it('to prev', function() {
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 1);
 
                lists.BaseControl._private.moveMarkerToDirection(baseControl, event, 'Backward');
                assert.isTrue(preventDefaultCalled);
                assert.isTrue(activateCalled);
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 3);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(1).getVersion(), 4);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(1).getVersion(), 3);
             });
 
             it('empty list', () => {
@@ -8692,9 +8708,6 @@ define([
             selectedKeys: [],
             excludedKeys: [],
             selectedKeysCount: 0,
-            itemContainerGetter: {
-               getItemContainerByIndex: () => ({})
-            },
             source
          });
          let baseControl, viewModel;
@@ -8967,33 +8980,6 @@ define([
                assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[], [], [1]]).called);
             });
          });
-
-         describe('work without options', () => {
-            it('toggle item', () => {
-               const newCfg = { ...cfg, selectedKeys: undefined, excludedKeys: undefined };
-               baseControl.saveOptions(newCfg);
-               baseControl._beforeMount(newCfg);
-
-               const notifySpy = sinon.spy(baseControl, '_notify');
-               baseControl._onCheckBoxClick({}, baseControl._listViewModel.getItemBySourceKey(1) );
-               assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[1], [1], []]).calledOnce);
-               assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
-            });
-
-            it('on beforeUpdate pass undefined', () => {
-               const newCfg = { ...cfg, selectedKeys: [1] };
-               baseControl.saveOptions(newCfg);
-               baseControl._beforeMount(newCfg);
-
-               const notifySpy = sinon.spy(baseControl, '_notify');
-               baseControl._beforeUpdate({ ...newCfg, selectedKeys: undefined });
-               assert.isFalse(notifySpy.withArgs('selectedKeysChanged').calledOnce);
-               assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
-
-               const model = baseControl.getViewModel();
-               assert.isTrue(model.getItemBySourceKey(1).isSelected())
-            });
-         })
       });
 
       // endregion

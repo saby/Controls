@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/ColumnSeparator/WithMultiHeader/WithMultiHeader';
 import {Memory} from 'Types/source';
+import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import * as clone from 'Core/core-clone';
-import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -14,7 +14,7 @@ export default class extends Control {
     protected _columnSeparator: boolean = true;
 
     protected _beforeMount(): void {
-        let columnData = clone(Countries.getColumnsWithFixedWidths());
+        let columnData = clone(getCountriesStats().getColumnsWithFixedWidths());
         // tslint:disable-next-line
         columnData = [...columnData.slice(0, 2), ...columnData.slice(3, 6)];
         // tslint:disable-next-line
@@ -36,9 +36,9 @@ export default class extends Control {
         ];
 
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             // tslint:disable-next-line
-            data: Countries.getData().splice(0, 5)
+            data: getCountriesStats().getData().splice(0, 5)
         });
 
     }

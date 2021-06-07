@@ -6,11 +6,11 @@ import {getFewCategories as getData} from '../DemoHelpers/DataCatalog';
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _sorting: Array = [{key: 'DESC'}];
+    protected _sorting: Array = [{id: 'DESC'}];
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: getData()
         });
     }

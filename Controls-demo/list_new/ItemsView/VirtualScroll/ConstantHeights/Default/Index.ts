@@ -7,7 +7,7 @@ import {RecordSet} from 'Types/collection';
 
 interface IItem {
     title: string;
-    key: number;
+    id: number;
     keyProperty: string;
     count: number;
 }
@@ -17,16 +17,16 @@ export default class extends Control {
     protected _items: RecordSet;
 
     private dataArray: IItem[] = generateData({
-        keyProperty: 'key',
+        keyProperty: 'id',
         count: 300,
         beforeCreateItemCallback: (item: IItem) => {
-            item.title = `Запись с ключом ${item.key}.`;
+            item.title = `Запись с ключом ${item.id}.`;
         }
     });
 
     protected _beforeMount(): void {
         this._items = new RecordSet({
-            keyProperty: 'key',
+            keyProperty: 'id',
             rawData: this.dataArray
         });
     }

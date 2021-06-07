@@ -10,7 +10,6 @@ import {goUpByControlTree} from 'UI/Focus';
 import {List} from 'Types/collection';
 import {Bus as EventBus} from 'Env/Event';
 import {constants, detection} from 'Env/Env';
-import { TouchDetect } from 'Env/Touch';
 import {debounce} from 'Types/function';
 import * as randomId from 'Core/helpers/Number/randomId';
 import * as Deferred from 'Core/Deferred';
@@ -29,6 +28,12 @@ const ORIENTATION_CHANGE_DELAY = 50;
 interface IManagerOptions extends IControlOptions {
     popupHeaderTheme: string;
     popupSettingsController: Control;
+}
+
+interface IManagerTouchContext {
+    isTouch: {
+        isTouch: boolean;
+    };
 }
 
 const RESIZE_DELAY = 10;
@@ -55,8 +60,8 @@ class Manager {
         ManagerController.setTheme(options.theme);
     }
 
-    init(): void {
-        this._updateContext();
+    init(context: IManagerTouchContext): void {
+        this._updateContext(context);
         ManagerController.setManager(this);
         this._subscribeToPageDragNDrop();
         this._navigationHandler = this._navigationHandler.bind(this);
@@ -73,13 +78,6 @@ class Manager {
             });
         }
 
-        if (constants.isBrowserPlatform) {
-            // Если смена урла осуществляется по кнопками вперед и назад в браузере - обрабатываем их как клик мимо
-            window.addEventListener('popstate', () => {
-                this.historyChangeHandler();
-            });
-        }
-
         if (detection.isMobileIOS) {
             this._controllerVisibilityChangeHandler = this._controllerVisibilityChangeHandler.bind(this);
             EventBus.globalChannel().subscribe('MobileInputFocus', this._controllerVisibilityChangeHandler);
@@ -87,8 +85,8 @@ class Manager {
         }
     }
 
-    updateOptions(popupHeaderTheme: string): void {
-        this._updateContext();
+    updateOptions(popupHeaderTheme: string, context: IManagerTouchContext): void {
+        this._updateContext(context);
         // Theme of the popup header can be changed dynamically.
         // The option is not inherited, so in order for change option in 1 synchronization cycle,
         // we have to make an event model on ManagerController.
@@ -300,8 +298,8 @@ class Manager {
         }
     }
 
-    private _updateContext(): void {
-        this._contextIsTouch = TouchDetect.getInstance().isTouch();
+    private _updateContext(context: IManagerTouchContext): void {
+        this._contextIsTouch = context && context.isTouch && context.isTouch.isTouch;
     }
 
     private _createItemConfig(options: IPopupOptions, controller: IPopupController): IPopupItem {
@@ -483,28 +481,17 @@ class Manager {
     }
 
     protected mouseDownHandler(event: Event): void {
-        this._outsideClickHandler(event);
-    }
-
-    protected historyChangeHandler(): void {
-        this._outsideClickHandler();
-    }
-
-    private _outsideClickHandler(event?: Event): void {
-        const target = event?.target as HTMLElement;
-        const isClickToOverlay = target ? this._elementIsPopupOverlay(target) : false;
-        const isClickToIgnoredArea = target ? this._isIgnoreActivationArea(target) : false;
-        if (isClickToOverlay) {
+        if (this._elementIsPopupOverlay(event.target as Element)) {
             const popupContainer = ManagerController.getContainer();
             const popupItem = ManagerController.find(popupContainer.getOverlayId());
             if (popupItem && popupItem.popupState !== popupItem.controller.POPUP_STATE_INITIALIZING) {
                 this._closePopupByOutsideClick(popupItem);
             }
-        } else if (!isClickToIgnoredArea) {
+        } else if (!this._isIgnoreActivationArea(event.target as HTMLElement)) {
             const popupsForClose = [];
             this._popupItems.each((item) => {
                 if (item) {
-                    const parentControls = target ? goUpByControlTree(target) : [];
+                    const parentControls = goUpByControlTree(event.target);
                     const popupInstance = ManagerController.getContainer().getPopupById(item.id);
 
                     // Check the link between target and popup

@@ -33,14 +33,14 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterCell', () => {
     describe('getWrapperClasses', () => {
         it('is drag target node', () => {
             mockedOwner.isDragTargetNode = () => true;
-            const cell = new TreeCheckboxCell({owner: mockedOwner, column: { width: '' }});
+            const cell = new TreeCheckboxCell({owner: mockedOwner});
             const classes = cell.getWrapperClasses('default');
             CssClassesAssert.include(classes, 'controls-TreeGridView__dragTargetNode controls-TreeGridView__dragTargetNode_first');
         });
 
         it('is not drag target node', () => {
             mockedOwner.isDragTargetNode = () => false;
-            const cell = new TreeCheckboxCell({owner: mockedOwner, column: { width: '' }});
+            const cell = new TreeCheckboxCell({owner: mockedOwner});
             const classes = cell.getWrapperClasses('default');
             CssClassesAssert.notInclude(classes, 'controls-TreeGridView__dragTargetNode controls-TreeGridView__dragTargetNode_first');
         });

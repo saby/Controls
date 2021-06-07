@@ -10,6 +10,8 @@ class TooltipVisible extends Control<IControlOptions> {
         this._value = 30;
         this._value2 = 85;
     }
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

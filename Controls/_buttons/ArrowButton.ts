@@ -29,6 +29,8 @@ class ArrowButton extends Control<IArrowButtonOptions>  {
         }
     }
 
+    static _theme: string[] = ['Controls/Classes'];
+
     static getDefaultOptions(): object {
         return {
             inlineHeight: 's',
@@ -59,7 +61,7 @@ Object.defineProperty(ArrowButton, 'defaultProps', {
  * @cfg {TArrowButtonDirection} Выбор стороны, куда будет указывтаь стрелка в кнопке.
  * @example
  * <pre class="brush: html">
- * <Controls.buttons:ArrowButton direction="left"/>
+ * <Controls.Buttons:ArrowButton direction="left"/>
  * </pre>
  * @demo Controls-demo/Buttons/ArrowButton/Direction/Index
  */

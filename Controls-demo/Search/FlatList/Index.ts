@@ -17,5 +17,7 @@ export default class FlatList extends Control<IControlOptions> {
          filter: memorySourceFilter('department')
       });
    }
+
+   static _theme: string[] = ['Controls/Classes'];
    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

@@ -8,5 +8,5 @@ export default interface IAction {
     /**
      * Запускает действие над записью
      */
-    execute(meta?: any): Promise<void | string>;
+    execute(): Promise<void | string>;
 }

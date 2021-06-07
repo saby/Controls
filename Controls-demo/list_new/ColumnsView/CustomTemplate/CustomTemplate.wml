@@ -2,7 +2,7 @@
    <div on:click="removeItems()">remove selected items</div>
    <Controls.scroll:Container attr:class="controlsDemo__height400 controlsDemo__minWidth600">
       <Controls.columns:View
-         keyProperty="key"
+         keyProperty="id"
          source="{{ _viewSource }}"
          columnsMode="auto"
          bind:selectedKeys="_selectedKeys"

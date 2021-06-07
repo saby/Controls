@@ -1,0 +1,10 @@
+<div class="compatibleDemo__row">
+    <Core.CompoundContainer component="SBIS3.CONTROLS/Label">
+        <ws:componentOptions caption="SBIS3.CONTROLS.TextBox">
+        </ws:componentOptions>
+    </Core.CompoundContainer>
+    <Core.CompoundContainer component="SBIS3.CONTROLS/TextBox">
+        <ws:componentOptions text="{{ _text }}">
+        </ws:componentOptions>
+    </Core.CompoundContainer>
+</div>

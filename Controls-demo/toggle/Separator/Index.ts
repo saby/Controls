@@ -12,6 +12,8 @@ class ViewModes extends Control<IControlOptions> {
         this._expanded3 = !this._expanded3;
     }
 
+    static _theme: string[] = ['Controls/Classes'];
+
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default ViewModes;

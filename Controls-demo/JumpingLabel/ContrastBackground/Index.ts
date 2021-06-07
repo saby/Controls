@@ -5,6 +5,8 @@ import 'Controls/input';
 
 class ContrastBackground extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
+
+    static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

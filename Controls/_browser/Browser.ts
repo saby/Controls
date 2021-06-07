@@ -7,7 +7,7 @@ import {IFilterItem} from 'Controls/filter';
 import {IFilterControllerOptions, IFilterHistoryData} from 'Controls/_filter/ControllerClass';
 import {EventUtils} from 'UI/Events';
 import {RecordSet} from 'Types/collection';
-import { IContextOptionsValue } from 'Controls/context';
+import {ContextOptions} from 'Controls/context';
 import {RegisterClass} from 'Controls/event';
 import {
     error as dataSourceError,
@@ -22,8 +22,7 @@ import {
     ISourceOptions,
     TSelectionType,
     ISelectionObject,
-    TKey,
-    ISelectFieldsOptions
+    TKey
 } from 'Controls/interface';
 import Store from 'Controls/Store';
 import {SHADOW_VISIBILITY} from 'Controls/scroll';
@@ -45,7 +44,7 @@ type TViewMode = 'search' | 'tile' | 'table' | 'list';
 
 interface IListConfiguration extends IControlOptions, ISearchOptions, ISourceOptions,
     Required<IFilterOptions>, Required<IHierarchyOptions>, IHierarchySearchOptions,
-    IMarkerListOptions, IShadowsOptions, ISelectFieldsOptions {
+    IMarkerListOptions, IShadowsOptions {
     searchNavigationMode: string;
     groupHistoryId: string;
     searchValue: string;
@@ -57,14 +56,11 @@ interface IListConfiguration extends IControlOptions, ISearchOptions, ISourceOpt
     root?: Key;
     fastFilterSource?: unknown;
     historyItems?: IFilterItem[];
-    sourceController?: SourceController;
     id?: string;
 }
 
 export interface IBrowserOptions extends IListConfiguration {
     listsOptions: IListConfiguration[];
-    sourceControllerId?: string;
-    _dataOptionsValue?: IContextOptionsValue;
 }
 
 interface IReceivedState {
@@ -73,6 +69,10 @@ interface IReceivedState {
 }
 
 type TReceivedState = IReceivedState[] | Error | void;
+
+interface IDataChildContext {
+    dataOptions: IBrowserOptions;
+}
 
 type TErrbackConfig = dataSourceError.ViewConfig & { error: Error };
 
@@ -89,7 +89,6 @@ type TErrbackConfig = dataSourceError.ViewConfig & { error: Error };
  * @mixes Controls/interface:IHierarchy
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:ISearch
- * @mixes Controls/interface:ISelectFields
  * @mixes Controls/interface/IHierarchySearch
  *
  * @demo Controls-demo/Search/FlatList/Index
@@ -101,12 +100,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     protected _topShadowVisibility: SHADOW_VISIBILITY | 'gridauto' = SHADOW_VISIBILITY.AUTO;
     protected _bottomShadowVisibility: SHADOW_VISIBILITY | 'gridauto' = SHADOW_VISIBILITY.AUTO;
-    protected _contextState: IContextOptionsValue;
 
     protected _listMarkedKey: Key = null;
     private _root: Key = null;
     private _deepReload: boolean = undefined;
 
+    private _dataOptionsContext: typeof ContextOptions;
     protected _sourceControllerState: IControllerState;
     protected _items: RecordSet;
 
@@ -137,18 +136,18 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _listsOptions: IListConfiguration[];
 
     protected _beforeMount(options: IBrowserOptions,
-                           _: unknown,
+                           context?: typeof ContextOptions,
                            receivedState?: TReceivedState): void | Promise<TReceivedState | Error | void> {
         this._initStates(options, receivedState);
         this._dataLoader = new DataLoader(this._getDataLoaderOptions(options, receivedState));
 
         return this._loadDependencies(options, () => {
-            return this._beforeMountInternal(options, undefined, receivedState);
+            return this._beforeMountInternal(options, context, receivedState);
         });
     }
 
     private _beforeMountInternal(options: IBrowserOptions,
-                                 _: unknown,
+                                 context?: typeof ContextOptions,
                                  receivedState?: TReceivedState): void | Promise<TReceivedState | Error | void> {
         if (Browser._checkLoadResult(this._listsOptions, receivedState as IReceivedState[])) {
             this._updateFilterAndFilterItems(options);
@@ -292,13 +291,13 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         ];
     }
 
-    protected _beforeUpdate(newOptions: IBrowserOptions): void | Promise<RecordSet> {
+    protected _beforeUpdate(newOptions: IBrowserOptions, context: typeof ContextOptions): void | Promise<RecordSet> {
         return this._loadDependencies(newOptions, () => {
-            return this._beforeUpdateInternal(newOptions);
+            return this._beforeUpdateInternal(newOptions, context);
         });
     }
 
-    protected _beforeUpdateInternal(newOptions: IBrowserOptions): void | Promise<RecordSet> {
+    protected _beforeUpdateInternal(newOptions: IBrowserOptions, context: typeof ContextOptions): void | Promise<RecordSet> {
         if (newOptions.listsOptions) {
             if (!isEqual(newOptions.listsOptions, this._options.listsOptions)) {
                 this._listsOptions = Browser._getListsOptions(newOptions);
@@ -554,21 +553,37 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         }
         this._dataLoader.getFilterController().updateFilterItems(items);
         this._updateFilterAndFilterItems(this._options);
-        this._contextState = {
-            ...this._contextState,
-            filter: this._filter
-        };
+        this._dataOptionsContext.filter = this._filter;
         this._notify('filterChanged', [this._filter]);
+    }
+
+    protected _getChildContext(): IDataChildContext {
+        return {
+            dataOptions: this._dataOptionsContext
+        };
     }
 
     private _updateContext(): void {
         const sourceControllerState = this._getSourceController().getState();
-        this._contextState = {
+        const contextState = {
             ...sourceControllerState,
             listsConfigs: this._dataLoader.getState(),
             listsSelectedKeys: this._getOperationsController().getSelectedKeysByLists(),
             listsExcludedKeys: this._getOperationsController().getExcludedKeysByLists()
         };
+
+        if (!this._dataOptionsContext) {
+            this._dataOptionsContext = new ContextOptions(contextState);
+        } else {
+            const curContext = this._dataOptionsContext;
+
+            for (const i in contextState) {
+                if (contextState.hasOwnProperty(i)) {
+                    curContext[i] = contextState[i];
+                }
+            }
+            curContext.updateConsumers();
+        }
         this._sourceControllerState = sourceControllerState;
     }
 
@@ -706,10 +721,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         };
     }
 
-    private _getDataLoaderOptions(
-        options: IBrowserOptions,
-        receivedState?: TReceivedState
-    ): IDataLoaderOptions {
+    private _getDataLoaderOptions(options: IBrowserOptions, receivedState?: TReceivedState): IDataLoaderOptions {
         const loadDataConfigs = (Browser._getListsOptions(options)).map((listOptions, index) => {
             return {
                 ...listOptions,
@@ -718,8 +730,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 items: receivedState?.[index]?.data,
                 historyItems: receivedState?.[index]?.historyItems || listOptions.historyItems,
                 source: receivedState ? this._getOriginalSource(listOptions as IBrowserOptions) : listOptions.source,
-                searchStartCallback: this._searchStartCallback,
-                sourceController: Browser._getSourceControllerForDataLoader(options)
+                searchStartCallback: this._searchStartCallback
             };
         });
 
@@ -958,26 +969,6 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                !!this._getSearchValue(options);
     }
 
-    private static _getSourceControllerForDataLoader(
-        {sourceController, sourceControllerId, _dataOptionsValue}: IBrowserOptions
-    ): SourceController|void {
-        let browserSourceController;
-
-        if (sourceController) {
-            browserSourceController = sourceController;
-        }
-
-        if (!sourceController) {
-            if (_dataOptionsValue && sourceControllerId && _dataOptionsValue.listsConfigs[sourceControllerId]) {
-                browserSourceController = _dataOptionsValue.listsConfigs[sourceControllerId].sourceController;
-            } else if (_dataOptionsValue?.sourceController) {
-                browserSourceController = _dataOptionsValue.sourceController;
-            }
-        }
-
-        return browserSourceController;
-    }
-
     private static _checkLoadResult(options: IListConfiguration[], loadResult: IReceivedState[] = []): boolean {
         return loadResult && loadResult.filter(
             (result, index) =>
@@ -1004,6 +995,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     private static _hasRootInOptions(options: IBrowserOptions): boolean {
         return Browser._hasInOptions(options, ['root']);
+    }
+
+    static contextTypes(): object {
+        return {
+            dataOptions: ContextOptions
+        };
     }
 
     static getDefaultOptions(): object {

@@ -1,0 +1,4 @@
+<div>
+    <Controls-demo.Compatible.Events.WasabyChild />
+    <div class="result-container">{{value}}</div>
+</div>

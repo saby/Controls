@@ -498,6 +498,17 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         }
     },
 
+    // для совместимости с новой моделью
+    getNextByKey(key: string|number): Model {
+        const nextKey = this.getNextItemKey(key);
+        return this.getItemBySourceKey(nextKey);
+    },
+    // для совместимости с новой моделью
+    getPrevByKey(key: string|number): Model {
+        const nextKey = this.getPreviousItemKey(key);
+        return this.getItemBySourceKey(nextKey);
+    },
+
     getMarkedKey() {
         return this._markedKey;
     },
@@ -548,9 +559,6 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     },
 
     setDragPosition(position: IDragPosition<CollectionItem<Model>>): void {
-        if (!position.position) {
-            position.position = 'before';
-        }
         this.setDragTargetPosition(position);
     },
 
@@ -666,6 +674,17 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             nextIndex++;
         }
     },
+
+    // для совместимости с новой моделью
+    getNextByIndex(index: number): Model {
+        const id = this.getNextItem(index);
+        return this.getItemBySourceKey(id);
+    },
+    // для совместимости с новой моделью
+    getPrevByIndex(index: number): Model {
+        const id = this.getPreviousItem(index);
+        return this.getItemBySourceKey(id);
+    },
     // для совместимости с новой моделью
     getIndexBySourceIndex(sourceIndex: number): number {
         return this.getDisplay().getIndexBySourceIndex(sourceIndex);
@@ -683,8 +702,8 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     },
 
     // New Model compatibility
-    getItemBySourceKey(key: number | string, withFilter: boolean = true): Model {
-        return this.getItemById(key, this.getKeyProperty(), withFilter);
+    getItemBySourceKey(key: number | string): Model {
+        return this.getItemById(key, this.getKeyProperty());
     },
 
     // New Model compatibility

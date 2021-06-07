@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <Controls.list:DataContainer attr:class="controlsDemo__inline-flex" keyProperty="key" source="{{_viewSource}}">
+    <Controls.list:DataContainer attr:class="controlsDemo__inline-flex" keyProperty="id" source="{{_viewSource}}">
         <div>
             <Controls.list:Remover name="remover" on:afterItemsRemove="_afterItemsRemove()"/>
             <Controls.grid:View

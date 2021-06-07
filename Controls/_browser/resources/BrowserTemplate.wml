@@ -1,4 +1,3 @@
-<Controls.context:ContextOptionsProvider value="{{ _contextState }}">
 <ws:partial
         template="{{_options.content}}"
         scope="{{_options}}"
@@ -52,5 +51,4 @@
         on:filterHistoryApply="_filterHistoryApply()"
         on:inputSearchValueChanged="_inputSearchValueChanged()"
 />
-</Controls.context:ContextOptionsProvider>
 

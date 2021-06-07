@@ -4,7 +4,7 @@ import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../../../list_new/DemoHelpers/ItemActionsCatalog';
 import { IColumn } from 'Controls/grid';
-import { IHeaderCell } from 'Controls/grid';
+import { IHeader } from 'Controls-demo/types';
 import { IItemAction } from 'Controls/itemActions';
 
 export default class extends Control {
@@ -12,10 +12,9 @@ export default class extends Control {
     protected _viewSource: Memory;
     protected _itemActions: IItemAction[] = getItemActions();
     protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths();
-    protected _header: IHeaderCell[] = getCountriesStats().getDefaultHeader();
+    protected _header: IHeader[] = getCountriesStats().getDefaultHeader();
 
     protected _beforeMount(): void {
-        this._columns[5].compatibleWidth = '175px';
         const data = getCountriesStats().getData();
         // tslint:disable-next-line
         const country = data[2].country;

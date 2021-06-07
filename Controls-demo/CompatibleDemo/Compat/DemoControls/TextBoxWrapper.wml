@@ -1,0 +1,4 @@
+<div>
+    <SBIS3.CONTROLS.Label caption="DemoControls.TextBoxWrapperStyled" owner="myTextBox" class="compatibleDemo__row__fill"/>
+    <SBIS3.CONTROLS.TextBox  name="myTextBox" text="{{ _text }}"/>
+</div>

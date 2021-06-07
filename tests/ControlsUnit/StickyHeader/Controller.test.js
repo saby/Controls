@@ -2,7 +2,7 @@ define([
    'Env/Env',
    'Controls/scroll',
    'Core/core-merge',
-    'Controls/_scroll/StickyBlock/Utils'
+    'Controls/_scroll/StickyHeader/Utils'
 ], function(
    Env,
    scroll,
@@ -73,7 +73,7 @@ define([
             }
          };
 
-   describe('Controls/_scroll/StickyBlock/Controller', function() {
+   describe('Controls/_scroll/StickyHeader/Controller', function() {
       let component, container, result;
 
       beforeEach(function() {

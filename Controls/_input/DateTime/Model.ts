@@ -1,12 +1,7 @@
 import cExtend = require('Core/core-simpleExtend');
 import entity = require('Types/entity');
-import {INPUT_MODE} from 'Controls/_input/interface/IInputDisplayValue';
 import StringValueConverter from 'Controls/_input/DateTime/StringValueConverter';
 import {Base as dateUtils} from 'Controls/dateUtils';
-
-const ALL_SPACES_REGEXP = /[ ]/g;
-const VALID_PARTIAL_DATE_REGEXP = /^[0  ]{2}\.[0  ]{2}\.\d{2,4}$/;
-const MONTH_DAY_PART_REGEXP = /^(.*)\.\d{2,4}$/;
 
    var _private = {
       updateLastValue: function(self) {
@@ -24,16 +19,6 @@ const MONTH_DAY_PART_REGEXP = /^(.*)\.\d{2,4}$/;
 
          // если ничего не поменялось - не надо изменять версию
          if (oldValue !== value || oldTextValue !== self._textValue) {
-            self._nextVersion();
-         }
-      },
-      updateDisplayValue: function(self, displayValue) {
-         const normalizedDisplayValue = displayValue.replace(ALL_SPACES_REGEXP, self._replacer);
-         const oldTextValue = self._textValue;
-         self._value = self._stringValueConverter.getValueByString(normalizedDisplayValue);
-         self._textValue = normalizedDisplayValue;
-         _private.updateLastValue(self);
-         if (oldTextValue !== self._textValue) {
             self._nextVersion();
          }
       }
@@ -61,7 +46,6 @@ const MONTH_DAY_PART_REGEXP = /^(.*)\.\d{2,4}$/;
       _lastValue: null,
       _stringValueConverter: null,
       _mask: null,
-      _inputMode: null,
       _replacer: ' ',
 
       constructor: function(options) {
@@ -73,16 +57,9 @@ const MONTH_DAY_PART_REGEXP = /^(.*)\.\d{2,4}$/;
             dateConstructor: options.dateConstructor
          });
          this._mask = options.mask;
-         this._inputMode = options.inputMode;
-         if (options.displayValue) {
-            this._textValue = options.displayValue.replace(ALL_SPACES_REGEXP, this._replacer);
-            this._value = this._stringValueConverter.getValueByString(this._textValue);
-         } else {
-            this._value = options.value;
-            this._textValue = this._stringValueConverter.getStringByValue(options.value);
-         }
+         this._value = options.value;
          this._lastValue = this._value;
-
+         this._textValue = this._stringValueConverter.getStringByValue(options.value);
       },
 
       /**
@@ -96,13 +73,9 @@ const MONTH_DAY_PART_REGEXP = /^(.*)\.\d{2,4}$/;
             dateConstructor: options.dateConstructor,
             yearSeparatesCenturies: options._yearSeparatesCenturies
          });
-         if (this._mask !== options.mask || !dateUtils.isDatesEqual(this._value, options.value) || this._displayValue !== options.displayValue) {
+         if (this._mask !== options.mask || !dateUtils.isDatesEqual(this._value, options.value)) {
             this._mask = options.mask;
-            if (options.displayValue) {
-               _private.updateDisplayValue(this, options.displayValue)
-            } else {
-               _private.updateValue(this, options.value);
-            }
+            _private.updateValue(this, options.value);
          }
       },
 
@@ -119,7 +92,7 @@ const MONTH_DAY_PART_REGEXP = /^(.*)\.\d{2,4}$/;
             return;
          }
          _private.updateValue(this, value);
-         this._notify('valueChanged', [value, this.displayValue]);
+         this._notify('valueChanged', [value, this._textValue]);
       },
 
       /**
@@ -131,32 +104,20 @@ const MONTH_DAY_PART_REGEXP = /^(.*)\.\d{2,4}$/;
       },
 
       set textValue(value) {
-         let newValue;
+         var newValue;
          if (this._textValue === value) {
             return;
          }
          this._nextVersion();
          this._textValue = value;
          newValue = this._stringValueConverter.getValueByString(value, this._lastValue);
-
-         const valueChanged = !dateUtils.isDatesEqual(this._value, newValue);
-
-         if (valueChanged) {
+         if (!dateUtils.isDatesEqual(this._value, newValue)) {
             this._value = newValue;
             this._nextVersion();
 
             _private.updateLastValue(this);
-            this._notify('valueChanged', [this._value, this.displayValue]);
+            this._notify('valueChanged', [this._value, this._textValue]);
          }
-
-         if (valueChanged || this._inputMode === INPUT_MODE.partial) {
-            this._notify('valueChanged', [this._value, this.displayValue]);
-         }
-
-      },
-
-      get displayValue(): string {
-         return this._textValue.replace(RegExp(this._replacer, 'g'), ' ');
       },
 
       /**
@@ -174,15 +135,9 @@ const MONTH_DAY_PART_REGEXP = /^(.*)\.\d{2,4}$/;
       autocomplete: function(textValue, autocompleteType) {
          this._nextVersion();
          this._textValue = textValue;
-         this.value = this._stringValueConverter.getValueByString(textValue, this._lastValue, autocompleteType, this._inputMode);
+         this.value = this._stringValueConverter.getValueByString(textValue, this._lastValue, autocompleteType);
          if (dateUtils.isValidDate(this.value)) {
             this._textValue = this._stringValueConverter.getStringByValue(this.value);
-         } else if (this._inputMode === INPUT_MODE.partial && !!this._textValue.match(VALID_PARTIAL_DATE_REGEXP)) {
-            const monthDayPart = this._textValue.match(MONTH_DAY_PART_REGEXP);
-            if (monthDayPart && monthDayPart[1].includes('0')) {
-               this._textValue = this._textValue.replace(RegExp(this._replacer, 'g'), '0');
-               this._notify('valueChanged', [this._value, this.displayValue]);
-            }
          }
       },
       setCurrentDate: function() {

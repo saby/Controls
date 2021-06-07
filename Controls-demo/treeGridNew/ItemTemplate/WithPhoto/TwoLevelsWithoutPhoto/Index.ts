@@ -1,15 +1,15 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/ItemTemplate/WithPhoto/TwoLevelsWithoutPhoto/TwoLevelsWithoutPhoto';
 import {CrudEntityKey, Memory} from 'Types/source';
+import {Gadgets} from '../../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
-import {WithPhoto} from "Controls-demo/treeGridNew/DemoHelpers/Data/WithPhoto";
 
 export default class extends Control<IControlOptions> {
    protected _template: TemplateFunction = Template;
    protected _viewSource: Memory;
    // tslint:disable-next-line
    protected _expandedItems: CrudEntityKey[] = [1, 2, 4];
-   protected _twoLvlColumnsNoPhoto: IColumn[] = WithPhoto.getGridTwoLevelColumnsWithPhoto().map((cur) => ({
+   protected _twoLvlColumnsNoPhoto: IColumn[] = Gadgets.getGridTwoLevelColumnsWithPhoto().map((cur) => ({
       ...cur, template: undefined
    }));
 
@@ -18,8 +18,8 @@ export default class extends Control<IControlOptions> {
          this._expandedItems = [];
       }
       this._viewSource = new Memory({
-         keyProperty: 'key',
-         data: WithPhoto.getDataTwoLvl()
+         keyProperty: 'id',
+         data: Gadgets.getDataTwoLvl()
       });
    }
 

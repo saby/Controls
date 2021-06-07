@@ -14,7 +14,7 @@ export default class ListVisibleItemActions extends Control<IControlOptions> {
 
    protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
       this._viewSource = new Memory({
-         keyProperty: 'key',
+         keyProperty: 'id',
          data: srcData
       });
    }

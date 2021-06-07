@@ -5,7 +5,7 @@ import {generateData} from '../../DemoHelpers/DataCatalog';
 
 interface IItem {
     title: string;
-    key: number;
+    id: number;
     keyProperty: string;
     count: number;
 }
@@ -16,16 +16,16 @@ export default class extends Control {
     private _itemsCount: number = 50;
 
     private dataArray: IItem[] = generateData({
-        keyProperty: 'key',
+        keyProperty: 'id',
         count: 50,
         beforeCreateItemCallback: (item: IItem) => {
-            item.title = `Запись с ключом ${item.key}.`;
+            item.title = `Запись с ключом ${item.id}.`;
         }
     });
 
     protected _addItem(): void {
         const item = {
-            key: ++this._itemsCount,
+            id: ++this._itemsCount,
             title: `Запись с ключом ${this._itemsCount}.`
         };
         this._children.list.beginAdd({item});
@@ -33,7 +33,7 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: this.dataArray
         });
     }

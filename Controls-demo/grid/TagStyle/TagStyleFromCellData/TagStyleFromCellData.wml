@@ -9,5 +9,7 @@
             columns="{{_columns}}"
             multiSelectVisibility="hidden"
             on:tagClick="_onTagClickCustomHandler()"
-            on:tagHover="_onTagHoverCustomHandler()"/>
+            on:tagHover="_onTagHoverCustomHandler()"
+    >
+    </Controls.gridOld:View>
 </div>
