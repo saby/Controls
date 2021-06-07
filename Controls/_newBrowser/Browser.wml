@@ -44,6 +44,7 @@
                  name="detailList"
                  itemOpenHandler="{{_options.itemOpenHandler}}"
                  root="{{root}}"
+                 loading="{{_loading}}"
                  on:rootChanged="_onDetailRootChanged()"
                  on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
                  on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
