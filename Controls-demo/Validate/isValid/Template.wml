@@ -1,0 +1,19 @@
+<div class="controlsDemo__ml2">
+    <div class="controlsDemo__cell ws-flexbox ws-align-items-end">
+        <Controls.validate:InputContainer name="InputValidate"
+                                          value="{{_value}}"
+                                          on:validateFinished="_validateHandler()"
+                                          attr:class="validate_item_input ControlsDemo-ValidateInfobox_inputValidate2">
+            <ws:validators>
+                <ws:Function value="{{_value}}">Controls/validate:isEmail</ws:Function>
+            </ws:validators>
+            <ws:content>
+                <Controls.input:Text
+                        name="textBox"
+                        bind:value="_value"
+                        placeholder="Введите Email"/>
+            </ws:content>
+        </Controls.validate:InputContainer>
+        <div class="controlsDemo__ml2 controls-text-{{ _validityState ? 'success' : 'danger' }}">Валидность введенных  данных</div>
+    </div>
+</div>
