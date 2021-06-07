@@ -154,7 +154,7 @@ function buildTreeIndex<T>(options: ITreeIndexOptions<T>, parentIndex?: number):
             'Controls/display:itemsStrategy.AdjacencyList',
             `Wrong data hierarchy relation: recursive traversal detected: parent with id "${parentId}" ` +
             `is already in progress. Path: ${path.join(' -> ')}.` +
-            `config: { keyProperty="${keyProperty}"; parentProperty="${parentProperty}"; nodeProperty="${nodeProperty}" }`
+            `config: { keyProperty: "${keyProperty}", parentProperty: "${parentProperty}", nodeProperty: "${nodeProperty}" }`
         );
         return result;
     }
