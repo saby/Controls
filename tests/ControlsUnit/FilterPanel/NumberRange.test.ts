@@ -68,7 +68,7 @@ describe('Controls/filterPanel:NumberRangeEditor', () => {
                 closest: () => {}
             }
         };
-        numberRangeEditor._notifyPropertyValueChanged = () => {
+        numberRangeEditor._notify = () => {
             changesNotified = true;
         };
         it('minValue is bigger than maxValue', () => {
