@@ -145,7 +145,8 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder, IContrastBackg
             },
             targetPoint: this._targetPoint,
             openerControl: this,
-            readOnly: this._readOnly
+            readOnly: this._readOnly,
+            roundedCorner: false
          }
       };
    }

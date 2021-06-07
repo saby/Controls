@@ -5,6 +5,7 @@
       <Controls.popupTemplate:Sticky
               attr:class="controls-Popup__isolatedFocusingContext
                           controls-Menu__popup-template
+                          {{_options.roundedCorner !== false ? 'controls-Menu__popup-roundedCorner'}}
                           controls-Menu__popup-background-{{_options.backgroundStyle}}
                           controls-Menu__popup-direction-vertical-{{_verticalDirection}}
                           {{!_options.headerTemplate && _verticalDirection === 'top' ? 'controls-Menu__popup-reverse'}}
