@@ -22,50 +22,14 @@ import { EnumeratorCallback } from 'Types/collection';
 type THeaderVisibility = 'visible' | 'hasdata';
 type TResultsVisibility = 'visible' | 'hasdata';
 
-/**
- * @typedef {Function} TEditArrowVisibilityCallback
- * @description
- * Функция обратного вызова для определения видимости кнопки редактирования
- * @param item Model
- */
 export type TEditArrowVisibilityCallback = (item: EntityModel) => boolean;
 
-/**
- * @description
- * Тип результата, возвращаемого из функции colspanCallback (функции обратного вызова для расчёта объединения колонок строки).
- */
 export type TColspanCallbackResult = number | 'end';
 
-/**
- * @typedef {Function} TColspanCallback
- * @description
- * Функция обратного вызова для расчёта объединения колонок строки (колспана).
- * @param {Types/entity:Model} item Элемент, для которого рассчитывается объединение
- * @param {Controls/interface:IColumn} column Колонка грида
- * @param {Number} columnIndex Индекс колонки грида
- * @param {Boolean} isEditing Актуальное состояние редактирования элемента
- * @returns {Controls/grid:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
- */
 export type TColspanCallback = (item: EntityModel, column: IColumn, columnIndex: number, isEditing: boolean) => TColspanCallbackResult;
 
-/**
- * @typedef {Function} TResultsColspanCallback
- * @description
- * Функция обратного вызова для расчёта объединения колонок строки (колспана).
- * @param {Controls/interface:IColumn} column Колонка грида
- * @param {Number} columnIndex Индекс колонки грида
- * @returns {Controls/grid:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
- */
 export type TResultsColspanCallback = (column: IColumn, columnIndex: number) => TColspanCallbackResult;
 
-/**
- * @typedef {Object} IEmptyTemplateColumn
- * @description
- * Объект конфигурации колонки представления {@link /doc/platform/developmentapl/interface-development/controls/list/grid/empty-grid/ пустой таблицы}.
- * @param {TemplateFunction} template Элемент, для которого рассчитывается объединение
- * @param {Number} startColumn Начальный индекс колонки.
- * @param {Number} endColumn Конечный индекс колонки.
- */
 export interface IEmptyTemplateColumn {
     template: TemplateFunction;
     startColumn?: number;
