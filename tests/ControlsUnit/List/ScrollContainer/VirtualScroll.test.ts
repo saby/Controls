@@ -99,6 +99,14 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
                 // tslint:disable-next-line:no-magic-numbers
                 instance.shiftRangeToScrollPosition(160));
         });
+        it('without pageSize', () => {
+            instance = new controller({}, {trigger: 10});
+            // tslint:disable-next-line:no-magic-numbers
+            instance.resetRange(0, 8, {itemsHeights: [20, 20, 20, 20, 20, 20, 20, 20]});
+            assert.deepEqual({range: {start: 0, stop: 8}, placeholders: {top: 0, bottom: 0}},
+                // tslint:disable-next-line:no-magic-numbers
+                instance.shiftRangeToScrollPosition(0));
+        });
     });
     describe('.addItems', () => {
         let instance: controller;

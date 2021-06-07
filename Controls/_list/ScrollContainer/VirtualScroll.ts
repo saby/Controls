@@ -105,9 +105,13 @@ export default class VirtualScroll {
             tempPlaceholderSize += itemsHeights[start];
             start++;
         }
-
-        start = Math.max(start - (Math.trunc(pageSize / 2)), 0);
-        stop = Math.min(start + pageSize, itemsCount);
+        if (pageSize) {
+            start = Math.max(start - (Math.trunc(pageSize / 2)), 0);
+            stop = Math.min(start + pageSize, itemsCount);
+        } else {
+            start = 0;
+            stop = itemsCount;
+        }
 
         // Если мы скроллим быстро к концу списка, startIndex может вычислиться такой,
         // что число отрисовываемых записей будет меньше virtualPageSize (например если
@@ -116,7 +120,7 @@ export default class VirtualScroll {
         // Нам нужно всегда рендерить virtualPageSize записей, если это возможно, т. е. когда
         // в коллекции достаточно записей. Поэтому если мы находимся в конце списка, пробуем
         // отодвинуть startIndex назад так, чтобы отрисовывалось нужное число записей.
-        if (stop === itemsCount) {
+        if (pageSize && stop === itemsCount) {
             const missingCount = pageSize - (stop - start);
             if (missingCount > 0) {
                 start = Math.max(start - missingCount, 0);
