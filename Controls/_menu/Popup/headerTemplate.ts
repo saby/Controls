@@ -7,7 +7,7 @@ import 'css!Controls/CommonClasses';
 /**
  * Контрол шапка меню.
  * @class Controls/menu:HeaderTemplate
- * @extends UI/_base/Control
+ * @extends UICore/Base:Control
  * @mixes Controls/interface:ICaption
  * @mixes Controls/interface:IIcon
  * @mixes Controls/interface:IIconSize

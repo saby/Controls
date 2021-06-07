@@ -5,7 +5,7 @@ import 'css!Controls/menu';
 /**
  * Шапка меню со строкой поиска.
  * @class Controls/menu:SearchHeaderTemplate
- * @extends UI/_base/Control
+ * @extends UICore/Base:Control
  * @private
  * @demo Controls-demo/dropdown_new/Search/SearchWidth/Index
  *

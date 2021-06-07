@@ -277,7 +277,7 @@ export default interface IBaseDropdown {
 /**
  * @typedef {Object} Controls/_dropdown/interface/IBaseDropdown/Item
  * @property {Object} [itemTemplateOptions] Опции, которые будут переданы в шаблон пункта.
- * @property {Boolean} [readOnly] Определяет, может ли пользователь изменить значение контрола. {@link UI/_base/Control#readOnly См. подробнее}
+ * @property {Boolean} [readOnly] Определяет, может ли пользователь изменить значение контрола. {@link UICore/Base:Control#readOnly См. подробнее}
  * @property {String} [iconStyle] Определяет цвет иконки элемента.{@link Controls/_interface/IIconStyle#iconStyle См. подробнее}
  * @property {String} [icon] Определяет иконку элемента. {@link Controls/_interface/IIcon#icon См. подробнее}
  * @property {String} [title] Определяет текст элемента.
