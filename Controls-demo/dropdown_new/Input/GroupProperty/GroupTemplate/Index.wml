@@ -1,14 +1,12 @@
 <div class="controlsDemo__flexColumn">
-   <div class="controlsDemo__wrapper">
-      <Controls.dropdown:Selector
-              keyProperty="key"
-              displayProperty="title"
-              source="{{_source}}"
-              groupProperty="group"
-              bind:selectedKeys="_selectedKeys" >
-         <ws:groupTemplate>
-            <ws:partial template="Controls/dropdown:GroupTemplate" showText="{{true}}"/>
-         </ws:groupTemplate>
-      </Controls.dropdown:Selector>
-   </div>
+   <Controls.dropdown:Selector
+           keyProperty="key"
+           displayProperty="title"
+           source="{{_source}}"
+           groupProperty="group"
+           bind:selectedKeys="_selectedKeys" >
+      <ws:groupTemplate>
+         <ws:partial template="Controls/dropdown:GroupTemplate" showText="{{true}}"/>
+      </ws:groupTemplate>
+   </Controls.dropdown:Selector>
 </div>
