@@ -581,6 +581,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
         // Не отклеиваем заголовки scrollTop отрицательный.
         if (this._negativeScrollTop && this._model.fixedPosition === '') {
+            this._model.fixedPosition = fixedPosition;
             return;
         }
 
