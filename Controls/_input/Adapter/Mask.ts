@@ -11,7 +11,7 @@ import {EventUtils} from 'UI/Events';
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_input.less переменные тем оформления}
  *
  * @class Controls/_input/Adapter/Mask
- * @extends UI/_base/Control
+ * @extends UICore/Base:Control
  * @mixes Controls/decorator:IMask
  * @public
  * @demo Controls-demo/Input/AdapterMask/Index

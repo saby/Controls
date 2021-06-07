@@ -91,7 +91,7 @@ export interface IRenderOptions extends IControlOptions, IHeightOptions, IBorder
  * Контрол для рендеринга текстового поля.
  *
  * @class Controls/_input/Render
- * @extends UI/_base/Control
+ * @extends UICore/Base:Control
  *
  * @mixes Controls/interface:IHeight
  * @mixes Controls/interface:IFontSize

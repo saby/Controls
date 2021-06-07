@@ -23,7 +23,7 @@ const ICON_SIZES = [['icon-small', 's'], ['icon-medium', 'm'], ['icon-large', 'l
 /**
  * Контрол меню рендер.
  * @class Controls/menu:Render
- * @extends UI/_base/Control
+ * @extends UICore/Base:Control
  * @private
  *
  * @author Герасимов А.М.
