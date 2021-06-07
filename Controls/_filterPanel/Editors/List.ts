@@ -5,7 +5,6 @@ import * as ColumnTemplate from 'wml!Controls/_filterPanel/Editors/resources/Col
 import * as AdditionalColumnTemplate from 'wml!Controls/_filterPanel/Editors/resources/AdditionalColumnTemplate';
 import * as CircleTemplate from 'wml!Controls/_filterPanel/Editors/resources/CircleTemplate';
 import {StackOpener, DialogOpener} from 'Controls/popup';
-import {BaseEditor} from 'Controls/_filterPanel/Editors/Base';
 import {Model} from 'Types/entity';
 import {
     IFilterOptions,
@@ -61,7 +60,7 @@ export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISo
  * @default false
  */
 
-class ListEditor extends BaseEditor {
+class ListEditor extends Control<IListEditorOptions> {
     protected _template: TemplateFunction = ListTemplate;
     protected _circleTemplate: TemplateFunction = CircleTemplate;
     protected _columns: object[] = null;
@@ -154,11 +153,12 @@ class ListEditor extends BaseEditor {
         const extendedValue = {
             value,
             textValue: this._getTextValue(selectorResult || value),
-            needCollapse: true
+            needCollapse,
+            target: this._editorTarget || this._container
         };
         this._selectedKeys = value;
         this._setColumns(this._options.displayProperty, this._selectedKeys, this._options.keyProperty, this._options.additionalTextProperty);
-        this._notifyPropertyValueChanged(extendedValue, needCollapse);
+        this._notify('propertyValueChanged', [extendedValue], {bubbling: true});
     }
 
     protected _setColumns(displayProperty: string, propertyValue: string[]|number[], keyProperty: string, additionalTextProperty?: string): void {
