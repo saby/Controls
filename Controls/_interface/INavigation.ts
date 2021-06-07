@@ -190,12 +190,6 @@ export interface INavigationPageSourceConfig extends IBasePageSourceConfig {
  * @typedef {Object} INavigationSourceConfig
  * @description Source configuration for both page-based and position-based (cursor) navigation.
  */
-/**
- * @typedef {Object} INavigationSourceConfig
- * @description Параметры режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
- * Параметры для режима {@link Controls/interface:INavigationPositionSourceConfig Навигация по курсору}.
- * Параметры для режима {@link Controls/interface:INavigationPageSourceConfig Навигация с фиксированным количеством загружаемых записей}.
- */
 export type INavigationSourceConfig = INavigationPositionSourceConfig | INavigationPageSourceConfig;
 export type IBaseSourceConfig = IBasePositionSourceConfig | IBasePageSourceConfig;
 
@@ -316,13 +310,24 @@ export interface INavigationOptionValue<U> {
     view?: TNavigationView;
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#sourceConfig
-     * @cfg {Controls/interface:INavigation/INavigationSourceConfig.typedef} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @cfg {Controls/interface:INavigationPositionSourceConfig.typedef | Controls/interface:INavigationPageSourceConfig.typedef} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
      * @example 
+     * Пример конфигурации режима Навигация по курсору.
      * <pre class="brush: html; highlight: [4]">
      * <!-- WML -->
      * <Controls.list:View source="{{_viewSource}}">
      *    <ws:navigation source="position" view="infinity">
      *       <ws:sourceConfig field="id" position="{{_position}}" direction="bothways" limit="{{20}}"/>
+     *    </ws:navigation>
+     * </Controls.list:View>
+     * </pre>
+     * Пример конфигурации режима Навигация с фиксированным количеством загружаемых записей.
+     * <pre class="brush: html; highlight: [4]">
+     * <!-- WML -->
+     * <Controls.list:View keyProperty="id" source="{{_viewSource}}">
+     *    <ws:navigation source="page" view="pages">
+     *       <ws:sourceConfig pageSize="{{25}}" page="{{0}}" hasMore="{{false}}"/>
+     *       <ws:viewConfig pagingMode="basic" totalInfo="basic"/>
      *    </ws:navigation>
      * </Controls.list:View>
      * </pre>
