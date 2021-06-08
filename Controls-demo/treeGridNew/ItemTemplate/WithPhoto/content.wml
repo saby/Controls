@@ -8,7 +8,7 @@
             <ws:if data="{{gridColumn.isFirstColumn() && item.getContents()['photo']}}">
                 <img attr:class="demoTreeWithProto__imageBlock" src="{{item.getContents()['photo']}}"/>
             </ws:if>
-            <ws:else data="{{itemData.item['type'] === null}}">
+            <ws:else data="{{item.contents['type'] === null}}">
                 <div class="demoTreeWithProto__imageBlock"></div>
             </ws:else>
             <span>{{item.getContents()['title']}}</span>

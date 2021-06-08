@@ -1,9 +1,0 @@
-<div class="controlsDemo__wrapper">
-    <Controls.treeGridOld:View
-            keyProperty="id"
-            source="{{_viewSource}}"
-            columns="{{_columns}}"
-            markItemByExpanderClick="{{false}}"
-            parentProperty="parent"
-            nodeProperty="type"/>
-</div>

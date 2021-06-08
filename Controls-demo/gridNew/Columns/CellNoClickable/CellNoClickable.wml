@@ -6,13 +6,13 @@
             <ws:Array>
                 <ws:Object displayProperty="number" width="40px">
                     <ws:template>
-                        <ws:partial template="Controls/grid:ColumnTemplate" cursor="default" itemData="{{itemData}}"/>
+                        <ws:partial template="Controls/grid:ColumnTemplate" cursor="default" scope="{{ _options }}"/>
                     </ws:template>
                 </ws:Object>
                 <ws:Object displayProperty="country" width="300px"/>
                 <ws:Object displayProperty="capital" width="max-content" compatibleWidth="98px">
                     <ws:template>
-                        <ws:partial template="Controls/grid:ColumnTemplate" cursor="default" itemData="{{itemData}}"/>
+                        <ws:partial template="Controls/grid:ColumnTemplate" cursor="default" scope="{{ _options }}"/>
                     </ws:template>
                 </ws:Object>
             </ws:Array>

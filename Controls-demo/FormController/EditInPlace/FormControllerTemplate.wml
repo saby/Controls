@@ -17,7 +17,7 @@
                                    on:updateSuccessed="_updateSuccessedHandler()"
                                    on:deleteSuccessed="_deleteSuccessedHandler()">
             <div>
-               <Controls.gridOld:View
+               <Controls.grid:View
                   attr:class="ControlsDemo-EipScenarios__list"
                   source="{{ _viewSource2 }}"
                   columns="{{ _gridColumns2 }}"
@@ -28,7 +28,7 @@
                   <ws:editingConfig>
                      <ws:Object editOnClick="{{true}}" toolbarVisibility="{{true}}" autoAdd="{{true}}"/>
                   </ws:editingConfig>
-               </Controls.gridOld:View>
+               </Controls.grid:View>
                <div class="controls-MyFormController__block">
                   <div class="controls-MyFormController__row controls-MyFormController__title">Название:</div>
                   <div class="controls-MyFormController__row">

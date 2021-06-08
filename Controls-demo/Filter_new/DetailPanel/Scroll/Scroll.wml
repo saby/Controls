@@ -19,8 +19,8 @@
                               <img class="controls-demo-FilterView__footerItem-photo"
                                    src="{{_resourceRoot}}Controls-demo/Previewer/image/GreenFilled.png"/>
                               <div class="controls-demo-FilterView__description ws-flex-column">
-                                 <div>Элемент{{itemTemplate.itemData.item.key}}</div>
-                                 <div>С описанием{{itemTemplate.itemData.item.key}}</div>
+                                 <div>Элемент{{itemTemplate.item.contents.key}}</div>
+                                 <div>С описанием{{itemTemplate.item.contents.key}}</div>
                               </div>
                            </div>
                         </ws:contentTemplate>
@@ -38,8 +38,8 @@
                               <img class="controls-demo-FilterView__footerItem-photo"
                                    src="{{_resourceRoot}}Controls-demo/Previewer/image/GreenFilled.png"/>
                               <div class="controls-demo-FilterView__description ws-flex-column">
-                                 <div>Элемент{{itemTemplate.itemData.item.key}}</div>
-                                 <div>С описанием{{itemTemplate.itemData.item.key}}</div>
+                                 <div>Элемент{{itemTemplate.item.contents.key}}</div>
+                                 <div>С описанием{{itemTemplate.item.contents.key}}</div>
                               </div>
                            </div>
                         </ws:contentTemplate>

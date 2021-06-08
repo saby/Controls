@@ -14,8 +14,8 @@
             <ws:partial template="Controls/list:ItemTemplate">
                 <ws:contentTemplate>
                     <div style="padding: 3px;" on:click="_contentClick( itemTemplate.itemData)">
-                        <div>{{itemTemplate.itemData.item.title}}</div>
-                        <div style="font-size: 11px; color: grey">{{itemTemplate.itemData.item.description}}</div>
+                        <div>{{itemTemplate.item.contents.title}}</div>
+                        <div style="font-size: 11px; color: grey">{{itemTemplate.item.contents.description}}</div>
                     </div>
                 </ws:contentTemplate>
             </ws:partial>
@@ -38,8 +38,8 @@
             <ws:partial template="Controls/list:ItemTemplate">
                 <ws:contentTemplate>
                     <div>
-                        <div>{{itemTemplate.itemData.item.title}}</div>
-                        <div style="font-size: 11px; color: grey">{{itemTemplate.itemData.item.description}}</div>
+                        <div>{{itemTemplate.item.contents.title}}</div>
+                        <div style="font-size: 11px; color: grey">{{itemTemplate.item.contents.description}}</div>
                     </div>
                 </ws:contentTemplate>
             </ws:partial>

@@ -14,7 +14,7 @@
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate">
                 <ws:contentTemplate>
-                        <div style="height:{{itemTemplate.itemData.item.id=== 3 ?  _height + 'px' : '36px'}}"  on:click="_contentClick( itemTemplate.itemData)">
+                        <div style="height:{{itemTemplate.item.contents.id=== 3 ?  _height + 'px' : '36px'}}"  on:click="_contentClick( itemTemplate.itemData)">
                             <div class="height_item">text texttext texttext texttext texttext texttext texttext texttext texttext texttext texttext texttext texttext texttext texttext texttext texttext</div>
                         </div>
                 </ws:contentTemplate>

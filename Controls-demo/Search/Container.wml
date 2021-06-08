@@ -12,9 +12,9 @@
                             <ws:partial template="Controls/list:ItemTemplate">
                                 <ws:contentTemplate>
                                     <div style="padding: 4px; display: flex; justify-content: space-between">
-                                        <div style="width: 300px">{{itemTemplate.itemData.item.get('department')}}</div>
-                                        <div style="font-size: 13px; color: darkblue">{{itemTemplate.itemData.item.get('owner')}}</div>
-                                        <div style="font-size: 13px; color: limegreen">{{itemTemplate.itemData.item.get('id')}}</div>
+                                        <div style="width: 300px">{{itemTemplate.item.contents.get('department')}}</div>
+                                        <div style="font-size: 13px; color: darkblue">{{itemTemplate.item.contents.get('owner')}}</div>
+                                        <div style="font-size: 13px; color: limegreen">{{itemTemplate.item.contents.get('id')}}</div>
                                     </div>
                                 </ws:contentTemplate>
                             </ws:partial>

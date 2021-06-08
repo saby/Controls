@@ -1,5 +1,5 @@
-<ws:if data="{{ column.result }}">
-   <span class="{{ column.displayProperty.indexOf('overdue') !== -1 ? 'demo-Overdue' : '' }}">{{column.result}}</span>
+<ws:if data="{{column.config.result }}">
+   <span class="{{column.config.displayProperty.indexOf('overdue') !== -1 ? 'demo-Overdue' : '' }}">{{column.result}}</span>
 </ws:if>
 <ws:else>
    <invisible-node />

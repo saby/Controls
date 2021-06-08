@@ -11,7 +11,7 @@
                             iconAlign="right"
                             multiLine="{{true}}">
                     <ws:additionalTextTemplate>
-                        <div>{{itemTemplate.itemData.item.get('comment')}}</div>
+                        <div>{{itemTemplate.item.contents.get('comment')}}</div>
                     </ws:additionalTextTemplate>
                 </ws:partial>
             </ws:itemTemplate>

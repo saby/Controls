@@ -1,5 +1,5 @@
 <ws:partial template="Controls/dropdown:GroupTemplate"
-            itemData="{{itemData}}"
+            scope="{{ _options }}"
             showText="{{true}}"
             textAlign="right"
 />

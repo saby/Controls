@@ -15,10 +15,10 @@
                 <div class="controls-demo-SuggestV__full">
                     <div class="controls-demo-SuggestV__info">
                         <div class="controls-demo-SuggestV__first">
-                            {{itemSuggestTemplate.itemData.item.get('title')}}
+                            {{itemSuggestTemplate.item.contents.get('title')}}
                         </div>
                         <div class="controls-demo-SuggestV__second">
-                            {{itemSuggestTemplate.itemData.item.get('example')}}
+                            {{itemSuggestTemplate.item.contents.get('example')}}
                         </div>
                     </div>
                 </div>
