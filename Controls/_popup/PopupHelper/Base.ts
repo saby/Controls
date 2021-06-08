@@ -4,6 +4,7 @@ import * as randomId from 'Core/helpers/Number/randomId';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import BaseOpenerUtil from 'Controls/_popup/Opener/BaseOpenerUtil';
 import {IndicatorOpener} from 'Controls/LoadingIndicator';
+import {Logger} from 'UI/Utils';
 
 interface IOpenerStaticMethods {
     _openPopup: (popupOptions: IBasePopupOptions, popupController?: string) => Promise<string>;
@@ -71,7 +72,7 @@ export default class Base {
 
     close(): void {
         this._cancelOpen();
-        this._opener.closePopup(this._popupId);
+        this._getOpener().closePopup(this._popupId);
         this._popupId = null;
     }
 
@@ -88,7 +89,7 @@ export default class Base {
     }
 
     protected _openPopup(config: IBasePopupOptions, popupController: string): void {
-        const promise = this._opener._openPopup(config, popupController);
+        const promise = this._getOpener()._openPopup(config, popupController);
         this._openPromise.push(promise);
         promise.then(() => {
             const index = this._openPromise.indexOf(promise);
@@ -106,6 +107,15 @@ export default class Base {
             IndicatorOpener.hide(this._indicatorId);
             this._indicatorId = null;
         }
+    }
+
+    private _getOpener(): IOpenerStaticMethods {
+        const message = 'Controls/popup: Инстанс открыватора уничтожен (был вызван метод destroy),' +
+            ' для открытия окна использовать задестроенный инстанс нельзя.';
+        if (!this._opener) {
+            Logger.error(message);
+        }
+        return this._opener;
     }
 
     private _cancelOpen(): void {
