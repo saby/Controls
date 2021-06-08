@@ -270,9 +270,11 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
         return this._getGridTemplateColumns(options);
     },
 
-    reset(): void {
+    reset(params: {keepScroll?: boolean} = {}): void {
         GridView.superclass.reset.apply(this, arguments);
-        this._resetColumnScroll(this._options);
+        if (!params.keepScroll) {
+            this._resetColumnScroll(this._options);
+        }
     },
 
     _isEmpty(): boolean {

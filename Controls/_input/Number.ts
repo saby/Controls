@@ -4,9 +4,9 @@ import {descriptor} from 'Types/entity';
 import ViewModel from './Number/ViewModel';
 import {INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
 import {IOnlyPositive, IOnlyPositiveOptions} from 'Controls/_input/interface/IOnlyPositive';
-import {IBaseFieldTemplate} from 'Controls/_input/interface/IBase';
+import {IFieldTemplateOptions} from 'Controls/_input/interface/IFieldTemplate';
 
-interface INumberInputOptions extends IBaseInputOptions, INumberLengthOptions, IOnlyPositiveOptions, IBaseFieldTemplate {
+interface INumberInputOptions extends IBaseInputOptions, INumberLengthOptions, IOnlyPositiveOptions, IFieldTemplateOptions {
     value?: number | string | null;
     useGrouping?: boolean;
     showEmptyDecimals?: boolean;
@@ -27,6 +27,7 @@ interface INumberInputOptions extends IBaseInputOptions, INumberLengthOptions, I
  * @implements Controls/input:IOnlyPositive
  * @implements Controls/interface:INumberFormat
  * @implements Controls/input:INumberLength
+ * @implements Controls/input:IFieldTemplate
  *
  * @public
  * @demo Controls-demo/Input/Number/Base/Index

@@ -1,4 +1,3 @@
-import {TemplateFunction} from 'UI/Base';
 import {IContrastBackgroundOptions} from 'Controls/interface';
 import { IBorderVisibilityOptions } from 'Controls/_input/interface/IBorderVisibility';
 export type TextAlign = 'left' | 'right' | 'center';
@@ -53,11 +52,6 @@ export const enum PLACEHOLDER_VISIBILITY {
     EDITABLE = 'editable',
     // Подробности установки данного значения в _beforeMount (_input/Base.ts).
     HIDDEN = 'hidden'
-}
-
-export interface IBaseFieldTemplate {
-    leftFieldTemplate?: TemplateFunction;
-    rightFieldTemplate?: TemplateFunction;
 }
 
 /**
@@ -144,16 +138,6 @@ export interface IBase {
  * * false - Отсутствует проверка правописания и грамматики.
  * * true - Браузер проверяет правописание и грамматику в тексте.
  * @demo Controls-demo/Input/SpellCheck/Index
- */
-/**
- * @name Controls/_input/interface/IBaseFieldTemplate#leftFieldTemplate
- * @cfg {String|TemplateFunction} Строка или шаблон, содержащие прикладной контент, который будет отображаться слева от текста в поле ввода.
- * @demo Controls-demo/Input/FieldTemplate/Index
- */
-/**
- * @name Controls/_input/interface/IBaseFieldTemplate#rightFieldTemplate
- * @cfg {String|TemplateFunction} Строка или шаблон, содержащие прикладной контент, который будет отображаться справа от текста в поле ввода.
- * @demo Controls-demo/Input/FieldTemplate/Index
  */
 /**
  * @name Controls/_input/interface/IBase#tooltip
