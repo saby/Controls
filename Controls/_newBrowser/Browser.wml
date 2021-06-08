@@ -58,10 +58,7 @@
 
                  viewMode="{{viewMode}}"
                  scope="{{_detailExplorerOptions}}"
-                 breadcrumbsVisibility="{{
-               (_masterVisibility === _masterVisibilityEnum.visible || (_appliedViewMode === _viewModeEnum.search && !_dataContext)
-                  ? 'hidden'
-                  : 'visible')
+                 breadcrumbsVisibility="{{_getDetailBreadCrumbsVisibility(_options.detail)}}
             }}"
                  searchValue="{{_searchValue}}"
                  on:markedKeyChanged="_notifyHandler('markedKeyChanged')"
