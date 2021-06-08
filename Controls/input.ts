@@ -51,6 +51,7 @@ export {IInputDisplayValue, IInputDisplayValueOptions} from 'Controls/_input/int
 export {IValue, IValueOptions, ICallback, ICallbackData, IFieldData} from 'Controls/_input/interface/IValue';
 export {IBorderVisibility, IBorderVisibilityOptions, TBorderVisibility,
     getDefaultBorderVisibilityOptions, getOptionBorderVisibilityTypes} from './_input/interface/IBorderVisibility';
+export {IFieldTemplate, IFieldTemplateOptions} from './_input/interface/IFieldTemplate';
 
 // Helpers
 import * as ActualAPI from 'Controls/_input/ActualAPI';

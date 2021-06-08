@@ -37,6 +37,8 @@
             style="{{_options.style}}"
             tooltip="{{_options.tooltip}}"
             searchButtonVisible="{{_options.searchButtonVisible}}"
+            leftFieldTemplate="{{_options.leftFieldTemplate}}"
+            rightFieldTemplate="{{_options.rightFieldTemplate}}"
             on:searchClick="_searchClick()"
             on:resetClick="_resetClick()"
             on:valueChanged="_changeValueHandler()"

@@ -1,7 +1,7 @@
 import {BaseText, IBaseTextInputOptions} from 'Controls/_input/BaseText';
-import {IBaseFieldTemplate} from 'Controls/_input/interface/IBase';
+import {IFieldTemplateOptions} from 'Controls/_input/interface/IFieldTemplate';
 
-interface ITextInputOptions extends IBaseTextInputOptions, IBaseFieldTemplate {}
+interface ITextInputOptions extends IBaseTextInputOptions, IFieldTemplateOptions {}
 
 /**
  * Однострочное поле ввода текста.
@@ -15,6 +15,7 @@ interface ITextInputOptions extends IBaseTextInputOptions, IBaseFieldTemplate {}
  *
  * @mixes Controls/input:IText
  * @mixes Controls/interface:IInputPlaceholder
+ * @mixes Controls/input:IFieldTemplate
  *
  * @public
  * @demo Controls-demo/Input/Text/Base/Index

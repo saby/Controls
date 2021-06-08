@@ -10,14 +10,13 @@
              on:mousedown="_resetMousedown()"
              attr:ws-no-focus="true"></div>
     </ws:if>
-    <ws:if data="{{options.searchButtonVisible}}">
-        <div class="controls-Search__button
-                    controls-Search__button_{{options.readOnly ? 'readOnly' : 'enabled'}}
-                    controls-Search__searchButton
-                    controls-Search__searchButton_inlineheight-{{inlineHeight}}
-                    controls-Search__searchButton_position
-                    controls-Search__searchButton_color{{calculateState()}} icon-Search2"
-             on:mousedown="_searchClick()"
-             attr:ws-no-focus="true"></div>
+    <ws:if data="{{options.searchButtonAlign !== 'left' && options.searchButtonVisible}}">
+        <ws:partial template="wml!Controls/_search/Input/SearchTemplate/searchButton"
+                    searchButtonAlign="{{options.searchButtonAlign}}"
+                    inlineHeight="{{options.inlineHeight}}"
+                    calculateState="{{calculateState}}"/>
+    </ws:if>
+    <ws:if data="{{options.rightFieldTemplate}}">
+        <ws:partial template="{{options.rightFieldTemplate}}" />
     </ws:if>
 </div>

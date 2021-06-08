@@ -30,6 +30,7 @@ import 'css!Controls/suggest';
  * @mixes Controls/interface:IInputPlaceholder
  * @mixes Controls/input:IText
  * @mixes Controls/input:IValue
+ * @mixes Controls/input:IFieldTemplate
  *
  * @public
  * @demo Controls-demo/Suggest_new/Input/DisplayProperty/DisplayProperty
