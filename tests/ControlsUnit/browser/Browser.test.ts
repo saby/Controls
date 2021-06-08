@@ -363,7 +363,9 @@ describe('Controls/browser:Browser', () => {
                     browser._getSearchControllerSync().setPath(path);
                     options.source.query = () => {
                         return new Promise((resolve) => {
-                            setTimeout(resolve, 100);
+                            setTimeout(() => {
+                                resolve(new DataSet());
+                            }, 100);
                         });
                     };
 
