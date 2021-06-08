@@ -2442,6 +2442,61 @@ define([
          }, 100);
       });
 
+      it('scrollToEdge without data', () => {
+         const empty = [];
+         const rs = new collection.RecordSet({
+            keyProperty: 'id',
+            rawData: empty
+         });
+
+         const source = new sourceLib.Memory({
+            keyProperty: 'id',
+            data: empty
+         });
+
+         const cfg = {
+            keyProperty: 'id',
+            viewName: 'Controls/List/ListView',
+            source: source,
+            viewConfig: {
+               keyProperty: 'id'
+            },
+            viewModelConfig: {
+               items: rs,
+               keyProperty: 'id'
+            },
+            viewModelConstructor: 'Controls/display:Collection',
+            useNewModel: true,
+            navigation: {
+               source: 'page',
+               sourceConfig: {
+                  pageSize: 6,
+                  page: 0,
+                  hasMore: false
+               },
+               view: 'infinity',
+               viewConfig: {
+                  pagingMode: 'direct'
+               }
+            }
+         };
+         const ctrl = correctCreateBaseControl(cfg);
+         ctrl.saveOptions(cfg);
+         ctrl._beforeMount(cfg);
+
+         // попытка получить последний элемент в пустом списке - ошибка
+         const spyGetLast = sinon.spy(ctrl.getViewModel(), 'getLast');
+         const spyJumpToEnd = sinon.spy(lists.BaseControl._private, 'jumpToEnd');
+
+         // прокручиваем к низу
+         return lists.BaseControl._private.scrollToEdge(ctrl, 'down').then(() => {
+            sinon.assert.called(spyJumpToEnd);
+            sinon.assert.notCalled(spyGetLast);
+            spyGetLast.restore();
+            spyJumpToEnd.restore();
+         });
+      });
+
       it('__onPagingArrowClick', async function() {
          var rs = new collection.RecordSet({
             keyProperty: 'id',
