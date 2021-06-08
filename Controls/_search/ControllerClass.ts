@@ -62,7 +62,6 @@ const SERVICE_FILTERS = {
  *    }).then((result) => {...}); // Результат поиска после передачи нового значения посредством опций
  * </pre>
  *
- * @class Controls/_search/ControllerClass
  * @implements Controls/interface:ISearch
  * @implements Controls/interface:IHierarchy
  * @implements Controls/interface/IHierarchySearch
