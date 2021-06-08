@@ -46,6 +46,20 @@ describe('Controls.input:Render', () => {
             } as IRenderOptions);
 
             assert.deepEqual(inst._border, {
+               top: false,
+               right: false,
+               bottom: true,
+               left: false
+            });
+
+            inst._beforeUpdate({
+               ...defaultOptions,
+               borderVisibility: 'partial',
+               contrastBackground: false,
+               minLines: 2
+            } as IRenderOptions);
+
+            assert.deepEqual(inst._border, {
                top: true,
                right: false,
                bottom: true,
