@@ -1,7 +1,7 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate" attr:class="js-controls-ListView__notEditable demo-Grid__item controls-Grid__row-cell__content_baseline_L" itemData="{{itemData}}">
+<ws:partial template="Controls/grid:ColumnTemplate" attr:class="js-controls-ListView__notEditable demo-Grid__item controls-Grid__row-cell__content_baseline_L" scope="{{ _options }}">
    <ws:contentTemplate>
-      <ws:if data="{{itemData.item[itemData.column.displayProperty]}}">
-         {{itemData.item[itemData.column.displayProperty]}} <span class="demo-Grid__item__units">кг</span>
+      <ws:if data="{{item.contents[column.config.displayProperty]}}">
+         {{item.contents[column.config.displayProperty]}} <span class="demo-Grid__item__units">кг</span>
       </ws:if>
    </ws:contentTemplate>
 </ws:partial>

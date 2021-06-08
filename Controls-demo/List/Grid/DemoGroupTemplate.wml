@@ -1,13 +1,13 @@
-<ws:partial template="Controls/gridOld:GroupTemplate" itemData="{{itemData}}" columnAlignGroup="{{1}}">
+<ws:partial template="Controls/grid:GroupTemplate" scope="{{ _options }}" columnAlignGroup="{{1}}">
    <ws:contentTemplate>
-      <ws:if data="{{itemData.item === 'nonexclusive'}}">Неисключительные права</ws:if>
-      <ws:if data="{{itemData.item === 'works'}}">Работы</ws:if>
-      <ws:if data="{{itemData.item === 'goods'}}">Товары и материалы</ws:if>
+      <ws:if data="{{item.contents === 'nonexclusive'}}">Неисключительные права</ws:if>
+      <ws:if data="{{item.contents === 'works'}}">Работы</ws:if>
+      <ws:if data="{{item.contents === 'goods'}}">Товары и материалы</ws:if>
    </ws:contentTemplate>
    <ws:rightTemplate>
-      <ws:partial template="Controls/list:GroupContentResultsTemplate" itemData="{{itemData}}">
+      <ws:partial template="Controls/list:GroupContentResultsTemplate" scope="{{ _options }}">
          <ws:contentTemplate>
-            <Controls.decorator:Money value="{{itemData.metaData.groupResults[itemData.item]}}" fontColorStyle="group" useGrouping="{{false}}"/>
+            <Controls.decorator:Money value="{{itemData.metaData.groupResults[item.contents]}}" fontColorStyle="group" useGrouping="{{false}}"/>
          </ws:contentTemplate>
       </ws:partial>
    </ws:rightTemplate>

@@ -7,7 +7,7 @@
                  name="multiSelector">
             <Controls.scroll:Container attr:class="demo-Grid__wrapper" attr:test_name="default">
                <Controls.list:Container>
-                  <Controls.gridOld:View
+                  <Controls.grid:View
                           attr:class="demo-Grid__control test_grid_1"
                           displayProperty="title"
                           bind:markedKey="_markedKey1"
@@ -23,14 +23,14 @@
                           itemActionsPosition="outside"
                           columns="{{gridColumns}}"
                           bind:sorting="_sorting">
-                  </Controls.gridOld:View>
+                  </Controls.grid:View>
                </Controls.list:Container>
             </Controls.scroll:Container>
          </Controls.operations:Controller>
       </Controls.list:DataContainer>
       <Controls.scroll:Container attr:class="demo-Grid__wrapper" attr:test_name="selected_record">
          <ws:content>
-            <Controls.gridOld:View
+            <Controls.grid:View
                     attr:class="demo-Grid__control test_grid_2"
                     keyProperty="id"
                     displayProperty="title"
@@ -45,7 +45,7 @@
                     itemActionVisibilityCallback="{{_showAction}}"
                     columns="{{gridColumns}}">
                <ws:itemPadding right="M" left="S" top="s" bottom="s"/>
-            </Controls.gridOld:View>
+            </Controls.grid:View>
          </ws:content>
       </Controls.scroll:Container>
    </div>
@@ -57,7 +57,7 @@
             <Controls.scroll:Container attr:class="demo-Grid__wrapper" attr:test_name="mark_record">
                <Controls.list:Container>
 
-                     <Controls.gridOld:View
+                     <Controls.grid:View
                              attr:class="demo-Grid__control test_grid_3"
                              displayProperty="title"
                              bind:markedKey="_markedKey3"
@@ -70,7 +70,7 @@
                              itemActionsPosition="outside"
                              columns="{{gridColumns}}">
                         <ws:itemPadding right="L" left="M"/>
-                     </Controls.gridOld:View>
+                     </Controls.grid:View>
 
                </Controls.list:Container>
             </Controls.scroll:Container>
@@ -78,7 +78,7 @@
       </Controls.list:DataContainer>
       <Controls.scroll:Container attr:class="demo-Grid__wrapper" attr:test_name="no_title">
          <ws:content>
-            <Controls.gridOld:View
+            <Controls.grid:View
                     attr:class="demo-Grid__control test_grid_4"
                     keyProperty="id"
                     displayProperty="title"
@@ -91,7 +91,7 @@
                     itemActionVisibilityCallback="{{_showAction}}"
                     columns="{{gridColumns}}">
                <ws:itemPadding right="XL" left="L" top="L" bottom="L"/>
-            </Controls.gridOld:View>
+            </Controls.grid:View>
          </ws:content>
       </Controls.scroll:Container>
    </div>
@@ -102,7 +102,7 @@
    <div class="demo-Grid__container test_container_3">
       <Controls.scroll:Container attr:class="demo-Grid__wrapper">
          <ws:content>
-            <Controls.gridOld:View
+            <Controls.grid:View
                     attr:class="demo-Grid__control test_grid_5"
                     keyProperty="id"
                     source = "{{_viewSource}}"
@@ -129,7 +129,7 @@
                      </ws:Object>
                   </ws:Array>
                </ws:header>
-            </Controls.gridOld:View>
+            </Controls.grid:View>
          </ws:content>
       </Controls.scroll:Container>
    </div>

@@ -1,20 +1,20 @@
 <div class="demo-News__item">
-    <img if="{{itemData.item.banner}}" class="demo-News__banner" src="{{itemData.item.banner}}"/>
+    <img if="{{item.contents.banner}}" class="demo-News__banner" src="{{item.contents.banner}}"/>
     <div class="demo-News__header">
-        <img class="demo-News__authorPhoto" src="{{itemData.item.authorPhoto}}"/>
-        <span class="demo-News__signature">{{itemData.item.orgName ? itemData.item.orgName + ' '}}{{itemData.item.author}}</span>
+        <img class="demo-News__authorPhoto" src="{{item.contents.authorPhoto}}"/>
+        <span class="demo-News__signature">{{item.contents.orgName ? item.contents.orgName + ' '}}{{item.contents.author}}</span>
         <ws:if data="{{!itemData.isSwiped}}">
             <ws:partial template="{{itemActionsTemplate}}"
                         scope="{{_options}}"
                         attr:class="itemActions-demo_itemActions"/>
         </ws:if>
-        <span class="demo-News__date{{itemData.item.isNew ? ' demo-News__date_new'}}">{{itemData.item.date}}</span>
+        <span class="demo-News__date{{item.contents.isNew ? ' demo-News__date_new'}}">{{item.contents.date}}</span>
     </div>
     <div class="demo-News__content">
-        <div if="{{itemData.item.title}}" class="demo-News__title">{{itemData.item.title}}</div>
-        <div class="demo-News__text">{{itemData.item.text}}</div>
+        <div if="{{item.contents.title}}" class="demo-News__title">{{item.contents.title}}</div>
+        <div class="demo-News__text">{{item.contents.text}}</div>
     </div>
-    <img if="{{itemData.item.photo}}" class="demo-News__photo" src="{{itemData.item.photo}}"/>
+    <img if="{{item.contents.photo}}" class="demo-News__photo" src="{{item.contents.photo}}"/>
     <div class="demo-News__footer">
         <div class="demo-News__comments icon-16 icon-EmptyMessage icon-disabled"></div>
         <div class="demo-News__viewCount icon-16 icon-Show icon-disabled"></div>

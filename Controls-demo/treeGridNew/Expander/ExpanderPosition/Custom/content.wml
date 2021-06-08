@@ -1,8 +1,8 @@
 <ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL"
             scope="{{_options}}">
     <ws:contentTemplate>
-        <span>{{itemData.item['title']}}</span>
-        <ws:if data="{{itemData.columnIndex === 0}}">
+        <span>{{item.contents['title']}}</span>
+        <ws:if data="{{column.configIndex === 0}}">
             <ws:partial template="{{ expanderTemplate }}"/>
         </ws:if>
     </ws:contentTemplate>

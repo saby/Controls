@@ -3,12 +3,12 @@
     <Controls.scroll:Container attr:class="ControlsDemo-scroll_with_grid">
         <div>
             <div attr:class="ControlsDemo-padding_text">{{_demoText}}</div>
-            <Controls.gridOld:View
+            <Controls.grid:View
                     header="{{_gridHeader}}"
                     source="{{_viewSource}}"
                     columns="{{_gridColumns}}"
                     keyProperty="id">
-            </Controls.gridOld:View>
+            </Controls.grid:View>
         </div>
     </Controls.scroll:Container>
 </div>

@@ -9,7 +9,7 @@
                     groupProperty="fullName">
                 <ws:groupTemplate>
                     <ws:partial template="Controls/grid:GroupTemplate"
-                                itemData="{{itemData}}"
+                                scope="{{ _options }}"
                                 separatorVisibility={{false}}
                                 expanderVisible={{true}}
                                 textAlign="left">

@@ -1,24 +1,24 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate" itemData="{{itemData}}">
+<ws:partial template="Controls/grid:ColumnTemplate" scope="{{ _options }}">
     <ws:contentTemplate>
         <div class="demo-PersonInfo">
             <ws:if data="{{itemData.dispItem.isNode && itemData.dispItem.isNode()}}">
-                <span class="demo-PersonInfo__department">{{itemData.item.department}}</span>
-                <span class="demo-PersonInfo__head">{{itemData.item.name}} ({{itemData.item.count}})</span>
+                <span class="demo-PersonInfo__department">{{item.contents.department}}</span>
+                <span class="demo-PersonInfo__head">{{item.contents.name}} ({{item.contents.count}})</span>
             </ws:if>
             <ws:else>
-                <img class="demo-PersonInfo__photo" src="{{itemData.item['photo']}}"/>
+                <img class="demo-PersonInfo__photo" src="{{item.contents['photo']}}"/>
                 <div class="demo-PersonInfo__row">
                     <div>
-                        <span class="demo-PersonInfo__name">{{itemData.item.name}}</span>
-                        <span class="demo-PersonInfo__phone">{{itemData.item.phone}}</span>
+                        <span class="demo-PersonInfo__name">{{item.contents.name}}</span>
+                        <span class="demo-PersonInfo__phone">{{item.contents.phone}}</span>
                     </div>
                     <div>
-                        <span class="demo-PersonInfo__position">{{itemData.item.position}}</span>
+                        <span class="demo-PersonInfo__position">{{item.contents.position}}</span>
                     </div>
                 </div>
                 <div class="demo-PersonInfo__badges">
                     <i class="demo-PersonInfo__likesIcon demo-PersonInfo__icon icon-ThumbUp2"/>
-                    <span class="demo-PersonInfo__likes"> {{itemData.item.likes}}</span>
+                    <span class="demo-PersonInfo__likes"> {{item.contents.likes}}</span>
                 </div>
             </ws:else>
         </div>

@@ -1,9 +1,0 @@
-<div class="controlsDemo__wrapper controlsDemo__maxWidth800">
-    <Controls.gridOld:View
-            useTableInOldBrowsers="{{true}}"
-            keyProperty="id"
-            source="{{_viewSource}}"
-            hoverBackgroundStyle="primary"
-            columns="{{_columns}}">
-    </Controls.gridOld:View>
-</div>

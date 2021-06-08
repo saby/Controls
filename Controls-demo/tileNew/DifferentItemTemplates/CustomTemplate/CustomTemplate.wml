@@ -7,13 +7,13 @@
             source="{{_viewSource}}">
         <ws:itemTemplate>
             <ws:partial
-                    itemWidth="{{itemTemplate.itemData.item.width}}"
+                    itemWidth="{{itemTemplate.item.contents.width}}"
                     template="Controls/tile:ItemTemplate"
-                    hasTitle="{{itemTemplate.itemData.item.isDocument}}">
+                    hasTitle="{{itemTemplate.item.contents.isDocument}}">
                 <ws:contentTemplate>
                     <div class="controlsDemo__customTileTpl">
-                        <img src="{{itemTemplate.itemData.item.image}}" class="controlsDemo__customTileTpl-img"/>
-                        <p class="controlsDemo__customTileTpl-title">{{itemTemplate.itemData.item.title}}</p>
+                        <img src="{{itemTemplate.item.contents.image}}" class="controlsDemo__customTileTpl-img"/>
+                        <p class="controlsDemo__customTileTpl-title">{{itemTemplate.item.contents.title}}</p>
                     </div>
                 </ws:contentTemplate>
             </ws:partial>
