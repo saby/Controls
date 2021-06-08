@@ -1,5 +1,5 @@
 <div class="controlsDemo__flexRow">
-   <div class="controlsDemo__wrapper controlsDemo-Dropdown_absolute">
+   <div class="controlsDemo__wrapper">
       <Controls.dropdown:Button
               keyProperty="key"
               displayProperty="title"
