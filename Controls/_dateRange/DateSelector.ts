@@ -2,6 +2,7 @@ import BaseSelector, {IBaseSelectorOptions} from 'Controls/_dateRange/BaseSelect
 import ILinkView from './interfaces/ILinkView';
 import {IDateSelectorOptions} from './interfaces/IDateSelector';
 import componentTmpl = require('wml!Controls/_dateRange/DateSelector/DateSelector');
+import * as monthCaptionTemplate from 'wml!Controls/_dateRange/DateSelector/monthCaptionTemplate';
 import {Base as dateUtils, Popup as PopupUtil} from 'Controls/dateUtils';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -58,6 +59,7 @@ import 'css!Controls/dateRange';
 
 export default class DateSelector extends BaseSelector<IDateSelectorOptions> {
    protected _template: TemplateFunction = componentTmpl;
+   protected _monthCaptionTemplate: TemplateFunction = monthCaptionTemplate;
    private _state: string;
    EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
 
@@ -89,6 +91,7 @@ export default class DateSelector extends BaseSelector<IDateSelectorOptions> {
             rightFieldTemplate: this._options.rightFieldTemplate,
             calendarSource: this._options.calendarSource,
             dayTemplate: this._options.dayTemplate,
+            monthCaptionTemplate: this._options.monthCaptionTemplate,
             closeButtonEnabled: true,
             rangeselect: false,
             selectionType: 'single',
