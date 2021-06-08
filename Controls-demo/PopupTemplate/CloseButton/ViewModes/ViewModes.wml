@@ -9,6 +9,6 @@
     </div>
     <div class="controlsDemo__cell controlsDemo_ViewModes__functionalButton">
         <div class="controls-text-label">viewMode=functionalButton</div>
-        <Controls.popupTemplate:CloseButton viewMode="functionalButton"></Controls.popupTemplate:CloseButton>
+        <Controls.popupTemplate:CloseButton viewMode="functionalButton" transparent="{{false}}"></Controls.popupTemplate:CloseButton>
     </div>
 </div>
