@@ -12,7 +12,6 @@
          <ws:partial
                  template="{{ contentTemplate }}"
                  item="{{ item }}"
-                 useNewModel="{{ true }}"
                  searchValue="{{ searchValue }}"
                  itemActionsTemplate="{{ itemActionsTemplate }}"
                  swipeTemplate="{{ swipeTemplate }}"/>

@@ -56,7 +56,6 @@ export interface ITreeControlOptions extends IBaseControlOptions, IHierarchyOpti
     markItemByExpanderClick?: boolean;
     expanderSize?: 's'|'m'|'l'|'xl';
     markedLeafChangeCallback: Function;
-    useNewModel?: boolean;
     singleExpand?: boolean;
 }
 
@@ -176,7 +175,7 @@ const _private = {
         if (self._editingItem) {
             const listViewModel = self.getViewModel();
             shouldCancelEditing = _private.hasInParents(
-                self._options.useNewModel ? listViewModel : listViewModel.getDisplay(),
+                listViewModel,
                 self._editingItem.getContents().getKey(),
                 dispItem.contents.getKey()
             );
@@ -293,7 +292,7 @@ const _private = {
             const editingKey = self._editingItem.getContents().getKey();
             self._expandController.getExpandedItems().forEach((itemKey) => {
                 shouldCancelEditing = shouldCancelEditing || _private.hasInParents(
-                    self._options.useNewModel ? viewModel : viewModel.getDisplay(),
+                    viewModel,
                     editingKey,
                     itemKey
                 );
@@ -341,7 +340,7 @@ const _private = {
 
     applyReloadedNodes(self: TreeControl, viewModel, nodeKey, keyProp, nodeProp, newItems) {
         var itemsToRemove = [];
-        var items = self._options.useNewModel ? viewModel.getCollection() : viewModel.getItems();
+        var items = viewModel.getCollection();
         var checkItemForRemove = function(item) {
             if (newItems.getIndexByValue(keyProp, item.get(keyProp)) === -1) {
                 itemsToRemove.push(item);
@@ -507,7 +506,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             singleExpand: options.singleExpand,
             expandedItems: options.expandedItems,
             collapsedItems: options.collapsedItems,
-            useOldModel: !options.useNewModel,
             loader: this._expandLoader.bind(this)
         });
 
@@ -699,8 +697,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             collapsedItems: newOptions.collapsedItems
         });
 
-        // todo [useNewModel] viewModel.getExpandedItems() нужен, т.к. для старой модели установка expandedItems
-        // сделана некорректно. Как откажемся от неё, то можно использовать стандартное сравнение опций.
         const currentExpandedItems = this._expandController.getExpandedItems();
         const expandedItemsFromSourceCtrl = sourceController && sourceController.getExpandedItems();
         const wasResetExpandedItems = !isSourceControllerLoading && expandedItemsFromSourceCtrl && !expandedItemsFromSourceCtrl.length
@@ -840,7 +836,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     protected _draggingItemMouseMove(itemData: TreeItem, event: SyntheticEvent<MouseEvent>): void {
         super._draggingItemMouseMove(itemData, event);
 
-        const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
+        const dispItem = itemData;
         const dndListController = this.getDndListController();
         const targetIsNotDraggableItem = dndListController.getDraggableItem()?.getContents() !== dispItem.getContents();
         if (dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() !== null && targetIsNotDraggableItem) {
@@ -904,7 +900,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const eventResult = superResult;
 
         if (eventResult !== false && this._options.expandByItemClick && item.get(this._options.nodeProperty) !== null) {
-            const display = this._options.useNewModel ? this._listViewModel : this._listViewModel.getDisplay();
+            const display = this._listViewModel;
             const dispItem = display.getItemBySourceItem(item);
 
             // Если в проекции нет такого элемента, по которому произошел клик, то это хлебная крошка, а не запись.
@@ -957,8 +953,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
 
         if (this._mouseDownExpanderKey === key && MouseUp.isButton(nativeEvent, MouseButtons.Left)) {
-            const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
-            _private.toggleExpanded(this, dispItem);
+            _private.toggleExpanded(this, itemData);
 
             if (this._options.markItemByExpanderClick) {
                 this.setMarkedKey(key);
@@ -1353,9 +1348,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             if (hasExpander) {
                 result += ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
             }
-        } else if (!this._options.useNewModel) {
-            // в старой модели всегда добавляем отступ, удалить когда избавимся от старой модели
-            result += ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
         }
 
         return result;

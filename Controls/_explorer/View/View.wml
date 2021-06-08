@@ -42,7 +42,6 @@
                                           canStartDragNDrop="{{ _canStartDragNDrop }}"
                                           markerVisibility="{{ _options.markerVisibility }}"
                                           navigation="{{ _navigation }}"
-                                          useNewModel="{{!_options.useOldModel}}"
                                           backgroundStyle="{{ _backgroundStyle }}"
                                           headerVisibility="{{ _headerVisibility }}"
                                           root="{{content._options.root}}"

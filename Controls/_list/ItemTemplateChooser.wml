@@ -1,6 +1,0 @@
-<ws:if data="{{ useNewModel }}">
-   <ws:partial template="{{ 'Controls/listRender:itemTemplateWrapper' }}" scope="{{ _options }}" />
-</ws:if>
-<ws:else>
-   <ws:partial template="wml!Controls/_list/ItemTemplate" scope="{{ _options }}" />
-</ws:else>

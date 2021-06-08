@@ -67,7 +67,6 @@ import { TemplateFunction } from 'UI/Base';
 export default class Grid extends List {
     protected _viewName: TemplateFunction = null;
     protected _viewTemplate: TemplateFunction = viewTemplate;
-    protected _supportNewModel: boolean = true;
 
     _beforeMount(options): Promise<void> {
         const superResult = super._beforeMount(options);

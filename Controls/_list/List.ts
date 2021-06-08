@@ -87,10 +87,9 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
     protected _viewTemplate: unknown = ListControl;
     protected _viewModelConstructor = null;
     protected _children: { listControl: ListControl };
-    protected _supportNewModel: boolean = true;
 
     _beforeMount(options) {
-        this._viewModelConstructor = this._getModelConstructor(options.useNewModel);
+        this._viewModelConstructor = this._getModelConstructor();
     }
 
     protected _getActionsMenuConfig(e, item, clickEvent, action, isContextMenu) {
