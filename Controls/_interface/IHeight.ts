@@ -27,6 +27,7 @@ export default interface IHeight {
  * @variant 3xl
  * @variant 4xl
  * @variant default
+ * @default m
  * @demo Controls-demo/Buttons/SizesAndHeights/Index
  * @demo Controls-demo/Input/SizesAndHeights/Index
  * @remark
