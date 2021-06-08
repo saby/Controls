@@ -241,8 +241,8 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     }
 
     protected _getDetailBreadCrumbsVisibility(detailOptions: object): string {
-        if (detailOptions.breadCrumbsVisibility) {
-            return detailOptions.breadCrumbsVisibility;
+        if (detailOptions.breadcrumbsVisibility) {
+            return detailOptions.breadcrumbsVisibility;
         } else {
             return (this._masterVisibility === this._masterVisibilityEnum.visible ||
                    (this._appliedViewMode === this._viewModeEnum.search && !this._dataOptions)
