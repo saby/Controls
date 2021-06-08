@@ -219,7 +219,7 @@ var ListView = BaseControl.extend(
         },
 
         // Сброс к изначальному состоянию без ремаунта, например при reload'е.
-        reset(): void {
+        reset(params: {keepScroll?: boolean} = {}): void {
         },
 
         _resolveItemTemplate(options) {
