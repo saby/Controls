@@ -129,7 +129,7 @@ export default class ControllerClass {
       if (this._rootBeforeSearch && this._root !== this._rootBeforeSearch && this._options.startingWith === 'current') {
          this._root = this._rootBeforeSearch;
       }
-      if (!this._isSearchMode()) {
+      if (!this._isSearchMode() && this._options.parentProperty) {
          this._sourceController.setRoot(this._root);
       }
       this._rootBeforeSearch = null;
