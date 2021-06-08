@@ -5334,7 +5334,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return resDeferred.addCallback((result) => {
             if (self._isMounted && self._children.listView) {
                 if (cfg.useNewModel) {
-                    self._children.listView.reset();
+                    self._children.listView.reset({
+                        keepScroll: self._keepScrollAfterReload
+                    });
                 } else {
                     const hasColumnScroll = self._children.listView.isColumnScrollVisible && self._children.listView.isColumnScrollVisible();
 
