@@ -582,10 +582,6 @@ export default abstract class Row<T> {
         return this._$owner.hasItemActionsSeparatedCell();
     }
 
-    getEditingConfig() {
-        return this._$owner.getEditingConfig();
-    }
-
     isFullGridSupport(): boolean {
         return this._$owner.isFullGridSupport();
     }
