@@ -1,5 +1,6 @@
 import rk = require('i18n!Controls');
-import * as buttonsTemplate from 'wml!Controls/_search/Input/Buttons';
+import * as rightTemplate from 'wml!Controls/_search/Input/SearchTemplate/rightTemplate';
+import * as leftTemplate from 'wml!Controls/_search/Input/SearchTemplate/leftTemplate';
 import {generateStates, Base, TextViewModel as ViewModel} from 'Controls/input';
 import {throttle} from 'Types/function';
 import {descriptor} from 'Types/entity';
@@ -131,9 +132,14 @@ class Search extends Base {
         this._field.scope.controlName = CONTROL_NAME;
         this._readOnlyField.scope.controlName = CONTROL_NAME;
 
-        this._rightFieldWrapper.template = buttonsTemplate;
+        const calculateState = _private.calculateStateButton.bind(this);
+
+        this._rightFieldWrapper.template = rightTemplate;
         this._rightFieldWrapper.scope.isVisibleReset = _private.isVisibleResetButton.bind(this);
-        this._rightFieldWrapper.scope.calculateState = _private.calculateStateButton.bind(this);
+        this._rightFieldWrapper.scope.calculateState = calculateState;
+
+        this._leftFieldWrapper.template = leftTemplate;
+        this._leftFieldWrapper.scope.calculateState = calculateState;
     }
 
     protected _notifyInputCompleted(): void {
@@ -223,6 +229,7 @@ class Search extends Base {
        defaultOptions.searchButtonVisible = true;
        defaultOptions.validationStatus = 'valid';
        defaultOptions.spellcheck = false;
+       defaultOptions.searchButtonAlign = 'right';
 
        return defaultOptions;
     }
