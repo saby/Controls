@@ -20,22 +20,24 @@ export interface ISearchInputContainerOptions extends IControlOptions {
  * Использование c контролом {@link Controls/browser:Browser} можно посмотреть в демо {@link /materials/Controls-demo/app/Controls-demo%2FSearch%2FFlatList%2FIndex Controls-demo/Search/FlatList}
  *
  * @example
- * <pre>
- *    <Controls.search:InputContainer on:search="_search()" on:searchReset="_searchReset()">
- *       <Controls.search:Input/>
- *    </Controls.search:InputContainer>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.search:InputContainer on:search="_search()" on:searchReset="_searchReset()">
+ *    <Controls.search:Input/>
+ * </Controls.search:InputContainer>
  * </pre>
- * <pre>
- *    class ExampleControl extends Control {
- *       ...
- *       protected _search(event: SyntheticEvent, value: string) {
- *          // Выполняем поиск
- *       }
- *       protected _searchReset(event: SyntheticEvent) {
- *          // Сбрасываем поиск
- *       }
- *       ...
- *    }
+ * <pre class="brush: js">
+ * // TypeScript
+ * class ExampleControl extends Control {
+ *     ...
+ *     protected _search(event: SyntheticEvent, value: string) {
+ *         // Выполняем поиск
+ *     }
+ *     protected _searchReset(event: SyntheticEvent) {
+ *         // Сбрасываем поиск
+ *     }
+ *     ...
+ * }
  * </pre>
  * @class Controls/_search/Input/Container
  * @extends UI/Base:Control
