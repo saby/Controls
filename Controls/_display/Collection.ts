@@ -4075,7 +4075,7 @@ Object.assign(Collection.prototype, {
     _$bottomPadding: 'default',
     _$stickyMarkedItem: true,
     _$searchValue: '',
-    _$editingConfig: {},
+    _$editingConfig: null,
     _$unique: false,
     _$importantItemProperties: null,
     _$hasMoreData: {up: false, down: false},

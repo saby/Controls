@@ -2149,6 +2149,8 @@ var
                     }
                     return '';
                 };
+
+                column.getEditingConfig = () => this.getEditingConfig();
             });
 
             this._footer = prepared;
