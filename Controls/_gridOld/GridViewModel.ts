@@ -1908,7 +1908,8 @@ var
                         getActions: current.getActions,
                         getContents: current.getContents,
                         hasMultiSelectColumn: current.hasMultiSelectColumn,
-                        columnScrollVisibility: current.columnScrollVisibility
+                        columnScrollVisibility: current.columnScrollVisibility,
+                        getEditingConfig: current.getEditingConfig
                 };
                 currentColumn.classList = _private.getItemColumnCellClasses(self, current, current.theme, backgroundColorStyle);
 
