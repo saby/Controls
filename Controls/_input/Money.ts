@@ -5,9 +5,9 @@ import {descriptor} from 'Types/entity';
 import ViewModel from './Number/ViewModel';
 import {INumberLength, INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
 import {IOnlyPositive, IOnlyPositiveOptions} from 'Controls/_input/interface/IOnlyPositive';
-import {IBaseFieldTemplate} from 'Controls/_input/interface/IBase';
+import {IFieldTemplateOptions} from 'Controls/_input/interface/IFieldTemplate';
 
-interface IMoneyOptions extends IBaseInputOptions, INumberLengthOptions, IOnlyPositiveOptions, IBaseFieldTemplate {}
+interface IMoneyOptions extends IBaseInputOptions, INumberLengthOptions, IOnlyPositiveOptions, IFieldTemplateOptions {}
 
 /**
  * Поле ввода числовых значений. Отличается от {@link Controls/input:Number} отображением введенного значения, согласно стандарту денежных полей ввода.
@@ -23,6 +23,7 @@ interface IMoneyOptions extends IBaseInputOptions, INumberLengthOptions, IOnlyPo
  *
  * @mixes Controls/input:IOnlyPositive
  * @mixes Controls/input:INumberLength
+ * @mixes Controls/input:IFieldTemplate
  *
  * @public
  * @demo Controls-demo/Input/Money/Base/Index

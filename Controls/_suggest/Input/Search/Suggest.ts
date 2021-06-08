@@ -23,6 +23,7 @@ import 'Controls/search';
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/suggest:ISuggest
  * @mixes Controls/interface:INavigation
+ * @mixes Controls/input:IFieldTemplate
  * @demo Controls-demo/Suggest_new/SearchInput/AutoDropDown/AutoDropDown
  * @public
  * @author Герасимов А.М.
