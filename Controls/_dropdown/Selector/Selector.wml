@@ -12,6 +12,7 @@
                                           'controls-Dropdown-validationStatus_invalid'}}">
     <ws:content>
         <ws:partial template="{{_options.contentTemplate || _defaultContentTemplate}}"
+                    attr:data-qa="controls-dropdown-opener"
                     item="{{_item}}"
                     icon="{{_icon}}"
                     iconSize="{{_item && _item.get('iconSize') || _options.iconSize}}"
