@@ -98,3 +98,9 @@ Object.defineProperty(Grid, 'defaultProps', {
       return Grid.getDefaultOptions();
    }
 });
+
+/**
+ * @name Controls/_grid/Grid#itemPadding
+ * @cfg {Controls/_list/interface/IList/ItemPadding.typedef}
+ * @demo Controls-demo/grid/ItemPaddingNull/Index
+ */
