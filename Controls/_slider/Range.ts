@@ -129,7 +129,7 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
       if (this._startValue !== val) {
          this._notify('startValueChanged', [val]);
          if (!this._options.hasOwnProperty('startValue')) {
-            this._startValue = val; 
+            this._startValue = val;
          }
       }
    }
@@ -271,6 +271,20 @@ Object.defineProperty(Range, 'defaultProps', {
  *    this._endValue = 40;
  * </pre>
  * @see startValue
+ */
+
+/**
+ * @event Происходит при изменении начального значения слайдера.
+ * @name Controls/_slider/Range#startValueChanged
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Number} startValue Новое значение.
+ */
+
+/**
+ * @event Происходит при изменении конечного значения слайдера.
+ * @name Controls/_slider/Range#endValueChanged
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Number} endValue Новое значение.
  */
 
 export default Range;
