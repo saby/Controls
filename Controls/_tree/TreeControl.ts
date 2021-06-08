@@ -156,6 +156,9 @@ const _private = {
                     }
                 }
 
+                // Актуализируем информацию по раскрытым узлам в sourceController, иначе на beforeUpdate
+                // применится старое состояние из sourceController
+                self.getSourceController()?.setExpandedItems(self._expandController.getExpandedItems());
                 self._notify('expandedItemsChanged', [self._expandController.getExpandedItems()]);
                 self._notify('collapsedItemsChanged', [self._expandController.getCollapsedItems()]);
                 self._notify(expanded ? 'afterItemExpand' : 'afterItemCollapse', [item]);
@@ -710,7 +713,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             collapsedItems: newOptions.collapsedItems
         });
 
-        const currentExpandedItems = this._options.expnadedItems;
+        const currentExpandedItems = this._expandController.getExpandedItems();
         const expandedItemsFromSourceCtrl = sourceController && sourceController.getExpandedItems();
         // Если в sourceController нет expandedItems, а у нас в опциях есть, значит нужно сбросить раскрытые узлы
         const wasResetExpandedItems = !isSourceControllerLoading &&
