@@ -6,7 +6,6 @@
         markerStrategy="{{_markerStrategy}}"
         plainItemsContainer="{{_plainItemsContainer}}"
         itemContainerGetter="{{_itemContainerGetter}}"
-        useNewModel="{{_supportNewModel || _options.useNewModel}}"
         viewModelConstructor="{{_viewModelConstructor}}">
     </ws:partial>
 </Controls._list.Data>

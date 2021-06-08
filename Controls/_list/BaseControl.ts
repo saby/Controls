@@ -455,51 +455,21 @@ const _private = {
         const listModel = self._listViewModel;
         const oldCollection = listModel.getCollection();
 
-        // todo task1179709412 https://online.sbis.ru/opendoc.html?guid=43f508a9-c08b-4938-b0e8-6cfa6abaff21
-        if (self._options.useNewModel) {
-            // TODO restore marker + maybe should recreate the model completely
-            if (!isEqualItems(oldCollection, items) || oldCollection !== items) {
-                self._onItemsReady(newOptions, items);
+        // TODO restore marker + maybe should recreate the model completely
+        if (!isEqualItems(oldCollection, items) || oldCollection !== items) {
+            self._onItemsReady(newOptions, items);
 
-                listModel.setCollection(items);
-                if (self._options.itemsSetCallback) {
-                    self._options.itemsSetCallback(items);
-                }
-
-                self._afterItemsSet(newOptions);
-            }
-
-            // При старой модели зовется из модели. Нужен чтобы в explorer поменять модель только уже при наличии данных
+            listModel.setCollection(items);
             if (self._options.itemsSetCallback) {
                 self._options.itemsSetCallback(items);
             }
-        } else {
-            const wasItemsReplaced = oldCollection && !isEqualItems(oldCollection, items);
-            listModel.setItems(items, newOptions);
 
-            // Старая модель пересоздает коллекцию, необходимо передать новую в контроллер редактирования,
-            // т.к. пересоздание коллекции могло произойти во время запуска/завершения редактирования.
-            // Данный костыль нужен только для поддержания добавления в конец/начало списка в старых моделях.
-            // При отказе от старых моделей костыль можно удалить.
-            // Доработка добавления в в конец/начало списка будет реализовано по
-            // https://online.sbis.ru/opendoc.html?guid=000ff88b-f37e-4aa6-9bd3-3705bb721014
-            if (self._editInPlaceController && self._getEditingConfig().task1181625554) {
-                self._editInPlaceController.updateOptions({
-                    collection: listModel.getDisplay()
-                });
-            }
-            self._items = listModel.getCollection();
-            if (wasItemsReplaced) {
-                self._onItemsReady(newOptions, self._items);
-            }
             self._afterItemsSet(newOptions);
+        }
 
-            // todo Опция task1178907511 предназначена для восстановления скролла к низу списка после его перезагрузки.
-            // Используется в админке: https://online.sbis.ru/opendoc.html?guid=55dfcace-ec7d-43b1-8de8-3c1a8d102f8c.
-            // Удалить после выполнения https://online.sbis.ru/opendoc.html?guid=83127138-bbb8-410c-b20a-aabe57051b31
-            if (self._options.task1178907511 && _private.hasMarkerController(self)) {
-                self._markedKeyForRestoredScroll = _private.getMarkerController(self).getMarkedKey();
-            }
+        // При старой модели зовется из модели. Нужен чтобы в explorer поменять модель только уже при наличии данных
+        if (self._options.itemsSetCallback) {
+            self._options.itemsSetCallback(items);
         }
 
         self._items = listModel.getCollection();
@@ -520,11 +490,9 @@ const _private = {
     },
 
     initializeModel(self, options, list): void {
-        const listModel = self._listViewModel;
-
         // Модели могло изначально не создаться (не передали receivedState и source)
         // https://online.sbis.ru/opendoc.html?guid=79e62139-de7a-43f1-9a2c-290317d848d0
-        if (!self._destroyed && options.useNewModel && list) {
+        if (!self._destroyed && list) {
             self._initNewModel(options, list, options);
             self._shouldNotifyOnDrawItems = true;
         }
@@ -790,7 +758,7 @@ const _private = {
                 // Единственный способ однозначно понять, что выводится дерево - проверить что список строится
                 // по проекци для дерева.
                 // TODO: должно быть убрано после того, как TreeControl будет наследоваться от BaseControl
-                const display = options.useNewModel ? self._listViewModel : self._listViewModel.getDisplay();
+                const display = self._listViewModel;
                 loadedDataCount = display && display['[Controls/_display/Tree]'] ?
                     display.getChildren(display.getRoot()).getCount() :
                     self._items.getCount();
@@ -1728,8 +1696,7 @@ const _private = {
 
         // TODO Понять, какое ускорение мы получим, если будем лучше фильтровать
         // изменения по changesType в новой модели
-        // TODO: убрать флаг newModelChanged, когда не будет "старой" модели
-        const newModelChanged = self._options.useNewModel && _private.isNewModelItemsChange(action, newItems);
+        const newModelChanged = _private.isNewModelItemsChange(action, newItems);
         if (self._pagingNavigation) {
             if (action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_ADD) {
                 _private.updatePagingDataByItemsChanged(self, newItems, removedItems);
@@ -1768,7 +1735,7 @@ const _private = {
                 _private.resetPortionedSearchAndCheckLoadToDirection(self, self._options);
             }
 
-            if (self._options.useNewModel && reason === 'assign' && self._options.itemsSetCallback) {
+            if (reason === 'assign' && self._options.itemsSetCallback) {
                 self._options.itemsSetCallback();
             }
 
@@ -1952,39 +1919,28 @@ const _private = {
         return !newItems || !newItems.properties || propertyVariants.indexOf(newItems.properties) === -1;
     },
 
-    initListViewModelHandler(self, model, useNewModel: boolean) {
-        if (useNewModel) {
-            model.subscribe('onCollectionChange', (...args: any[]) => {
-                self._onCollectionChanged.apply(
+    initListViewModelHandler(self, model) {
+        model.subscribe('onCollectionChange', (...args: any[]) => {
+            self._onCollectionChanged.apply(
+                self,
+                [
+                    args[0], // event
+                    null, // changes type
+                    ...args.slice(1) // the rest of the arguments
+                ]
+            );
+        });
+        model.subscribe('onAfterCollectionChange', (...args: any[]) => {
+            _private.onAfterCollectionChanged.apply(
+                null,
+                [
                     self,
-                    [
-                        args[0], // event
-                        null, // changes type
-                        ...args.slice(1) // the rest of the arguments
-                    ]
-                );
-            });
-            model.subscribe('onAfterCollectionChange', (...args: any[]) => {
-                _private.onAfterCollectionChanged.apply(
-                    null,
-                    [
-                        self,
-                        args[0], // event
-                        null, // changes type
-                        ...args.slice(1) // the rest of the arguments
-                    ]
-                );
-            });
-        } else {
-            model.subscribe('onListChange', self._onCollectionChanged.bind(self));
-            model.subscribe('onAfterCollectionChange', _private.onAfterCollectionChanged.bind(null, self));
-        }
-
-        if (!useNewModel) {
-            model.subscribe('onGroupsExpandChange', function(event, changes) {
-                _private.groupsExpandChangeHandler(self, changes);
-            });
-        }
+                    args[0], // event
+                    null, // changes type
+                    ...args.slice(1) // the rest of the arguments
+                ]
+            );
+        });
     },
 
     /**
@@ -2313,8 +2269,7 @@ const _private = {
     needBottomPadding(options, listViewModel) {
         const isEditing = !!listViewModel?.isEditing();
 
-        const display = listViewModel ? (options.useNewModel ? listViewModel : listViewModel.getDisplay()) : null;
-        const hasVisibleItems = !!display?.getCount();
+        const hasVisibleItems = !!listViewModel?.getCount();
 
         return (
             (hasVisibleItems || isEditing) &&
@@ -2531,10 +2486,7 @@ const _private = {
         if (self._listViewModel.getCount() === 0) {
             return Promise.resolve();
         }
-        const lastItem =
-            self._options.useNewModel
-            ? self._listViewModel.getLast()?.getContents()
-            : self._listViewModel.getLastItem();
+        const lastItem = self._listViewModel.getLast()?.getContents();
 
         const lastItemKey = ItemsUtil.getPropertyValue(lastItem, self._keyProperty);
 
@@ -2901,7 +2853,6 @@ const _private = {
             needScrollCalculation: self._needScrollCalculation,
             collection: self._listViewModel,
             activeElement: options.activeElement,
-            useNewModel: options.useNewModel,
             forceInitVirtualScroll: options?.navigation?.view === 'infinity',
             topTriggerOffsetCoefficient: options.topTriggerOffsetCoefficient,
             bottomTriggerOffsetCoefficient: options.bottomTriggerOffsetCoefficient,
@@ -3244,14 +3195,9 @@ const _private = {
             // todo Нативный scrollIntoView приводит к прокрутке в том числе и по горизонтали и запретить её никак.
             // Решением стало отключить прокрутку при видимом горизонтальном скролле.
             // https://online.sbis.ru/opendoc.html?guid=d07d149e-7eaf-491f-a69a-c87a50596dfe
-            const hasColumnScroll = self._options.useNewModel ? self._isColumnScrollVisible : (self._children.listView &&
-                self._children.listView.isColumnScrollVisible &&
-                self._children.listView.isColumnScrollVisible());
+            const hasColumnScroll = self._isColumnScrollVisible;
 
             const activator = () => {
-                if (!self._options.useNewModel && self._children.listView.beforeRowActivated) {
-                    self._children.listView.beforeRowActivated();
-                }
                 if (hasColumnScroll) {
                     enableScrollToElement = false;
                 }
@@ -3592,9 +3538,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._useServerSideColumnScroll = typeof shouldPrevent === 'boolean' ? !shouldPrevent : true;
         }
 
-        if (newOptions.useNewModel) {
-            _private.addShowActionsClass(this);
-        }
+        _private.addShowActionsClass(this);
 
         return this._doBeforeMount(newOptions, receivedState);
     }
@@ -3617,7 +3561,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         // Try to start initial editing
         addOperation(() => {
-            if (newOptions.useNewModel ? this._listViewModel : this._listViewModel?.getDisplay()) {
+            if (this._listViewModel) {
                 return this._tryStartInitialEditing(newOptions);
             }
         });
@@ -3660,7 +3604,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._afterItemsSet(cfg);
 
         if (this._listViewModel) {
-            _private.initListViewModelHandler(this, this._listViewModel, true);
+            _private.initListViewModelHandler(this, this._listViewModel);
         }
         this._shouldNotifyOnDrawItems = true;
         _private.prepareFooter(this, cfg, this._sourceController);
@@ -3716,10 +3660,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         };
 
         self._viewModelConstructor = newOptions.viewModelConstructor;
-        if (!newOptions.useNewModel && newOptions.viewModelConstructor) {
-            viewModelConfig.supportVirtualScroll = self._needScrollCalculation;
-            self._listViewModel = new newOptions.viewModelConstructor(viewModelConfig);
-        } else if (newOptions.useNewModel && items) {
+        if (items) {
             self._onItemsReady(newOptions, items);
             self._listViewModel = self._createNewModel(
                 items,
@@ -3731,17 +3672,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (self._listViewModel) {
             self._shouldNotifyOnDrawItems = true;
-            _private.initListViewModelHandler(self, self._listViewModel, newOptions.useNewModel);
+            _private.initListViewModelHandler(self, self._listViewModel);
         }
 
         if (items) {
             _private.setHasMoreData(self._listViewModel, _private.getHasMoreData(self), true);
 
-            if (newOptions.useNewModel) {
-                self._items = self._listViewModel.getCollection();
-            } else {
-                self._items = self._listViewModel.getItems();
-            }
+            self._items = self._listViewModel.getCollection();
             self._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
             if (self._pagingNavigation) {
                 const hasMoreData = self._items.getMetaData().more;
@@ -4084,15 +4021,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         const sortingChanged = !isEqual(newOptions.sorting, this._options.sorting);
         const groupPropertyChanged = newOptions.groupProperty !== this._options.groupProperty;
 
-        // todo При отказе от старой - выпилить проверку "useNewModel".
-        if (emptyTemplateChanged && newOptions.useNewModel) {
+        if (emptyTemplateChanged) {
             this._listViewModel.setEmptyTemplate(newOptions.emptyTemplate);
         }
-        // todo При отказе от старой - выпилить проверку "useNewModel".
-        // Мало проверять только на измененный фильтр, записи могут просто переместить
-        if (/*!isEqual(newOptions.filter, this._options.filter) && */newOptions.useNewModel) {
-            this._listViewModel.setEmptyTemplateOptions({items: this._items, filter: newOptions.filter});
-        }
+        this._listViewModel.setEmptyTemplateOptions({items: this._items, filter: newOptions.filter});
 
         if (this._listViewModel.setSupportVirtualScroll) {
             this._listViewModel.setSupportVirtualScroll(!!this._needScrollCalculation);
@@ -4108,16 +4040,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._listViewModel.setDisplayProperty(newOptions.displayProperty);
         }
 
-        if (!newOptions.useNewModel) {
-            this._listViewModel.setBackgroundStyle(newOptions.backgroundStyle);
-        }
-
         if (newOptions.collapsedGroups !== this._options.collapsedGroups) {
             GroupingController.setCollapsedGroups(this._listViewModel, newOptions.collapsedGroups);
-        }
-
-        if (newOptions.markerVisibility !== this._options.markerVisibility && !newOptions.useNewModel) {
-            this._listViewModel.setMarkerVisibility(newOptions.markerVisibility);
         }
 
         if (newOptions.theme !== this._options.theme) {
@@ -4144,16 +4068,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._listViewModel.setItemTemplateProperty(newOptions.itemTemplateProperty);
         }
 
-        if (newOptions.useNewModel && newOptions.itemActionsPosition !== this._options.itemActionsPosition) {
+        if (newOptions.itemActionsPosition !== this._options.itemActionsPosition) {
             this._listViewModel.setItemActionsPosition(newOptions.itemActionsPosition);
         }
 
         if (!isEqual(this._options.itemPadding, newOptions.itemPadding)) {
             this._listViewModel.setItemPadding(newOptions.itemPadding);
-        }
-
-        if (sortingChanged && !newOptions.useNewModel) {
-            this._listViewModel.setSorting(newOptions.sorting);
         }
 
         if (groupPropertyChanged) {
@@ -4241,35 +4161,25 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._viewModelConstructor = newOptions.viewModelConstructor;
             const items = this._loadedBySourceController
                ? newOptions.sourceController.getItems()
-               : this._options.useNewModel ? this._listViewModel.getCollection() : this._listViewModel.getItems();
+               : this._listViewModel.getCollection();
             this._listViewModel.destroy();
 
             this._noDataBeforeReload = !(items && items.getCount());
 
-            if (newOptions.useNewModel) {
-                this._listViewModel = this._createNewModel(
-                   items,
-                   {...newOptions, keyProperty: this._keyProperty},
-                   newOptions.viewModelConstructor
-                );
-            } else {
-                this._listViewModel = new newOptions.viewModelConstructor(cMerge({...newOptions}, {
-                    items,
-                    supportVirtualScroll: !!this._needScrollCalculation,
-                    keyProperty: this._keyProperty
-                }));
-            }
+            this._listViewModel = this._createNewModel(
+                items,
+                {...newOptions, keyProperty: this._keyProperty},
+                newOptions.viewModelConstructor
+            );
 
             // Важно обновить коллекцию в scrollContainer перед сбросом скролла, т.к. scrollContainer реагирует на
             // scroll и произведет неправильные расчёты, т.к. у него старая collection.
             // https://online.sbis.ru/opendoc.html?guid=caa331de-c7df-4a58-b035-e4310a1896df
             this._updateScrollController(newOptions);
 
-            _private.initListViewModelHandler(this, this._listViewModel, newOptions.useNewModel);
+            _private.initListViewModelHandler(this, this._listViewModel);
             this._modelRecreated = true;
-            if (newOptions.useNewModel) {
-                this._onItemsReady(newOptions, items);
-            }
+            this._onItemsReady(newOptions, items);
             this._shouldNotifyOnDrawItems = true;
 
             _private.setHasMoreData(this._listViewModel, _private.getHasMoreData(this));
@@ -4437,7 +4347,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (this._editInPlaceController) {
             this._editInPlaceController.updateOptions({
-                collection: newOptions.useNewModel ? this._listViewModel : this._listViewModel.getDisplay()
+                collection: this._listViewModel
             });
         }
 
@@ -5291,17 +5201,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
         return resDeferred.addCallback((result) => {
             if (self._isMounted && self._children.listView) {
-                if (cfg.useNewModel) {
-                    self._children.listView.reset({
-                        keepScroll: self._keepScrollAfterReload
-                    });
-                } else {
-                    const hasColumnScroll = self._children.listView.isColumnScrollVisible && self._children.listView.isColumnScrollVisible();
-
-                    if (hasColumnScroll) {
-                        self._children.listView.resetColumnScroll();
-                    }
-                }
+                self._children.listView.reset({
+                    keepScroll: self._keepScrollAfterReload
+                });
             }
             return result;
         });
@@ -5374,60 +5276,41 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _onGroupClick(e, groupId, baseEvent, dispItem) {
         const collapseGroupAfterEndEdit = (collection) => {
-            const display = this._options.useNewModel ? collection : collection.getDisplay();
-
-            if (groupId === display.getGroup()(display.find((i) => i.isEditing()).contents)) {
+            if (groupId === collection.getGroup()(collection.find((i) => i.isEditing()).contents)) {
                 this._cancelEdit().then((result) => {
                     if (!(result && result.canceled)) {
-                        if (this._options.useNewModel) {
-                            dispItem.setExpanded(!dispItem.isExpanded());
-                        } else {
-                            GroupingController.toggleGroup(collection, groupId);
-                        }
+                        dispItem.setExpanded(!dispItem.isExpanded());
                     }
                 });
             } else {
-                if (this._options.useNewModel) {
-                    dispItem.setExpanded(!dispItem.isExpanded());
-                } else {
-                    GroupingController.toggleGroup(collection, groupId);
-                }
+                dispItem.setExpanded(!dispItem.isExpanded());
             }
         };
 
         if (baseEvent.target.closest('.controls-ListView__groupExpander')) {
             const collection = this._listViewModel;
-            if (this._options.useNewModel) {
-                const needExpandGroup = !dispItem.isExpanded();
-                dispItem.setExpanded(needExpandGroup);
+            const needExpandGroup = !dispItem.isExpanded();
+            dispItem.setExpanded(needExpandGroup);
 
-                // TODO временное решение для новой модели https://online.sbis.ru/opendoc.html?guid=e20934c7-95fa-44f3-a7c2-c2a3ec32e8a3
-                const collapsedGroups = collection.getCollapsedGroups() || [];
-                const groupIndex = collapsedGroups.indexOf(groupId);
-                if (groupIndex === -1) {
-                    if (!needExpandGroup) {
-                        collapsedGroups.push(groupId);
-                    }
-                } else if (needExpandGroup) {
-                    collapsedGroups.splice(groupIndex, 1);
+            // TODO временное решение для новой модели https://online.sbis.ru/opendoc.html?guid=e20934c7-95fa-44f3-a7c2-c2a3ec32e8a3
+            const collapsedGroups = collection.getCollapsedGroups() || [];
+            const groupIndex = collapsedGroups.indexOf(groupId);
+            if (groupIndex === -1) {
+                if (!needExpandGroup) {
+                    collapsedGroups.push(groupId);
                 }
-                const changes = {
-                    changeType: needExpandGroup ? 'expand' : 'collapse',
-                    group: groupId,
-                    collapsedGroups
-                };
-                // При setExpanded() не обновляется collection.collapsedGroups, на основе которого стратегия
-                // определяет, какие группы надо создавать свёрнутыми. Поэтому обновляем его тут.
-                collection.setCollapsedGroups(collapsedGroups);
-                _private.groupsExpandChangeHandler(this, changes);
-            } else {
-                const needExpandGroup = !collection.isGroupExpanded(groupId);
-                if (this.isEditing()) {
-                    collapseGroupAfterEndEdit(collection);
-                } else {
-                    GroupingController.toggleGroup(collection, groupId);
-                }
+            } else if (needExpandGroup) {
+                collapsedGroups.splice(groupIndex, 1);
             }
+            const changes = {
+                changeType: needExpandGroup ? 'expand' : 'collapse',
+                group: groupId,
+                collapsedGroups
+            };
+            // При setExpanded() не обновляется collection.collapsedGroups, на основе которого стратегия
+            // определяет, какие группы надо создавать свёрнутыми. Поэтому обновляем его тут.
+            collection.setCollapsedGroups(collapsedGroups);
+            _private.groupsExpandChangeHandler(this, changes);
         }
     }
 
@@ -5507,7 +5390,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         this._editInPlaceController = new EditInPlaceController({
             mode: this._getEditingConfig(options).mode,
-            collection: options.useNewModel ? this._listViewModel : this._listViewModel.getDisplay(),
+            collection: this._listViewModel,
             onBeforeBeginEdit: this._beforeBeginEditCallback.bind(this),
             onAfterBeginEdit: this._afterBeginEditCallback.bind(this),
             onBeforeEndEdit: this._beforeEndEditCallback.bind(this),
@@ -5824,7 +5707,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 return Promise.resolve();
             }
             this._continuationEditingDirection = direction;
-            const collection = this._options.useNewModel ? this._listViewModel : this._listViewModel.getDisplay();
+            const collection = this._listViewModel;
             const columnIndex = this._getEditingConfig()?.mode === 'cell' ? collection.find((cItem) => cItem.isEditing()).getEditingColumnIndex() : undefined;
             let shouldActivateInput = true;
             if (this._listViewModel['[Controls/_display/grid/mixins/Grid]']) {
@@ -6087,18 +5970,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             return;
         }
         let hasDragScrolling = false;
-        if (this._options.useNewModel) {
-            const contents = _private.getPlainItemContents(itemData);
-            this._mouseDownItemKey = contents.getKey();
-        } else {
-            this._mouseDownItemKey = itemData.key;
-        }
+        const contents = _private.getPlainItemContents(itemData);
+        this._mouseDownItemKey = contents.getKey();
         if (this._options.columnScroll) {
             // Не должно быть завязки на горизонтальный скролл.
             // https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
-            hasDragScrolling = (this._options.useNewModel ? this._isColumnScrollVisible : (
-                this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible()
-            )) && (
+            hasDragScrolling = this._isColumnScrollVisible && (
                 typeof this._options.dragScrolling === 'boolean' ? this._options.dragScrolling : !this._options.itemsDragNDrop
             );
         }
@@ -6115,12 +5992,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _itemMouseUp(e, itemData, domEvent): void {
         let key;
-        if (this._options.useNewModel) {
-            const contents = _private.getPlainItemContents(itemData);
-            key = contents.getKey();
-        } else {
-            key = itemData.key;
-        }
+        const contents = _private.getPlainItemContents(itemData);
+        key = contents.getKey();
         // Маркер должен ставиться именно по событию mouseUp, т.к. есть сценарии при которых блок над которым произошло
         // событие mouseDown и блок над которым произошло событие mouseUp - это разные блоки.
         // Например, записи в мастере или запись в списке с dragScrolling'ом.
@@ -6591,11 +6464,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _createNewModel(items, modelConfig, modelName): void {
-        // Подразумеваем, что Controls/display уже загружен. Он загружается при подключении
-        // библиотеки Controls/listRender
-        if (typeof modelName !== 'string') {
-            throw new TypeError('BaseControl: model name has to be a string when useNewModel is enabled');
-        }
         return diCreate(modelName, {
             ...modelConfig,
             collection: items,
@@ -6774,10 +6642,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // Если нет элементов, то должен отображаться глобальный индикатор
         const shouldDisplayIndicator = this._loadingIndicatorState === 'all'
             || !!this._loadingIndicatorState && (!this._items || !this._items.getCount());
-        return shouldDisplayIndicator && !this._portionedSearchInProgress && this._showLoadingIndicator && (
-            this._options.useNewModel ? !this._isColumnScrollVisible :
-                !(this._children.listView && this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible())
-        );
+        return shouldDisplayIndicator && !this._portionedSearchInProgress && this._showLoadingIndicator && !this._isColumnScrollVisible;
     }
 
     _shouldDisplayBottomLoadingIndicator(): boolean {
@@ -7062,10 +6927,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _processItemMouseEnterWithDragNDrop(itemData): void {
         let dragPosition;
-        const targetItem = this._options.useNewModel ? itemData : itemData.dispItem;
+        const targetItem = itemData;
         const targetIsNode = targetItem && targetItem['[Controls/_display/TreeItem]'] && targetItem.isNode();
         if (this._dndListController.isDragging() && !targetIsNode) {
-            const targetItem = this._options.useNewModel ? itemData : itemData.dispItem;
             dragPosition = this._dndListController.calculateDragPosition({targetItem});
             if (dragPosition) {
                 const changeDragTarget = this._notify('changeDragTarget', [this._dndListController.getDragEntity(), dragPosition.dispItem.getContents(), dragPosition.position]);

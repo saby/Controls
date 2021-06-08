@@ -1,5 +1,0 @@
-<colgroup class="controls-Grid__colgroup">
-   <ws:for data="listModel.resetColgroupColumns(); listModel.isEndColgroupColumn(); listModel.goToNextColgroupColumn();">
-      <col class="{{listModel.getCurrentColgroupColumn().classes}}" style="{{listModel.getCurrentColgroupColumn().style}}"/>
-   </ws:for>
-</colgroup>

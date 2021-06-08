@@ -1,5 +1,4 @@
 import { TreeControl } from 'Controls/_tree/TreeControl';
-import * as TreeViewModel from 'Controls/_tree/Tree/TreeViewModel';
 import { ITreeControlOptions } from 'Controls/_tree/interface/ITreeControlOptions';
 import ITree, { IOptions } from 'Controls/_tree/interface/ITree';
 import { default as ItemsView } from 'Controls/_tree/ItemsTree';
@@ -21,7 +20,6 @@ import * as ItemTemplate from 'wml!Controls/_tree/render/Item';
  */
 export {
     TreeControl,
-    TreeViewModel,
     ITreeControlOptions,
     ITree,
     IOptions,

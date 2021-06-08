@@ -29,7 +29,6 @@ export interface IOptions {
      * true если на одном уровне может быть раскрыт только один узел
      */
     singleExpand?: boolean;
-    useOldModel?: boolean;
 }
 
 /**
@@ -351,11 +350,6 @@ export class Controller {
 
     private _setCollapsedItems(collapsedItems: TKey[]): void {
         this._collapsedItems = collapsedItems;
-        // В случае работы со старой моделью нужно ручками схлопнуть каждый итем,
-        // т.к. в старой моделе метод setCollapsedItems не меняет состояние итемов.
-        if (this._options.useOldModel) {
-            this._collapsedItems.forEach((id) => this._collapseItem(id));
-        }
         this._model?.setCollapsedItems(collapsedItems);
     }
 
@@ -372,39 +366,8 @@ export class Controller {
      * в ней итем с указанным itemId.
      */
     private _expandItem(itemId: TKey): void | Promise<unknown> {
-        const expand = (result?) => {
-            const item = this._getItem(itemId);
-
-            if (item && item['[Controls/_display/TreeItem]'] && this._options.useOldModel) {
-                // tslint:disable-next-line:ban-ts-ignore
-                // @ts-ignore - метод старой модели принимает 2 параметра
-                this._model.toggleExpanded(item, true);
-            }
-
-            return result;
-        };
-
         // Если в опциях указана ф-ия загрузчик и она включена, то вызовем её
-        const loadResult = this._options.loader && this._loaderIsEnabled ? this._options.loader(itemId) : undefined;
-        if (loadResult instanceof Promise) {
-            return loadResult.then(expand);
-        } else {
-            expand();
-        }
-    }
-
-    /**
-     * Сворачивает итем с указанным itemId.
-     * Метод актуален только при работе со старой моделью.
-     */
-    private _collapseItem(itemId: TKey): void {
-        const item = this._getItem(itemId);
-
-        if (item && item['[Controls/_display/TreeItem]'] && this._options.useOldModel) {
-            // tslint:disable-next-line:ban-ts-ignore
-            // @ts-ignore - метод старой модели принимает 2 параметра
-            this._model.toggleExpanded(item, false);
-        }
+        return this._options.loader && this._loaderIsEnabled ? this._options.loader(itemId) : undefined;
     }
 
     /**
