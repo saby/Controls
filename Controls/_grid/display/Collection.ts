@@ -150,6 +150,13 @@ export default class Collection<
         return GroupRow;
     }
 
+    getAdditionalGroupConstructorParams() {
+        return {
+            ...super.getAdditionalGroupConstructorParams(),
+            colspanGroup: this._$colspanGroup
+        };
+    }
+
     setGroupProperty(groupProperty: string): boolean {
         const groupPropertyChanged = super.setGroupProperty(groupProperty);
         if (groupPropertyChanged) {

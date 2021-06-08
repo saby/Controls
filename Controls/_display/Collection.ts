@@ -1715,6 +1715,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return GroupItem;
     }
 
+    getAdditionalGroupConstructorParams() {
+        return {
+            multiSelectVisibility: this.getMultiSelectVisibility(),
+            metaResults: this.getMetaResults()
+        };
+    }
+
     /**
      * Возвращает метод группировки элементов проекции
      * @see group
