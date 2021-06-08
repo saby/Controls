@@ -14,7 +14,8 @@ import {
     POSITION,
     SHADOW_VISIBILITY,
     SHADOW_VISIBILITY_BY_CONTROLLER,
-    validateIntersectionEntries
+    validateIntersectionEntries,
+    IPositionOrientation
 } from './StickyBlock/Utils';
 import fastUpdate from './StickyBlock/FastUpdate';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
@@ -641,7 +642,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
     private _updateStyles(options: IStickyHeaderOptions): void {
         this._updateStyle(options.position, options.fixedZIndex, options.zIndex, options.offsetTop, options.task1177692247, options.task1181007458);
-        this._updateShadowStyles(options.mode, options.shadowVisibility);
+        this._updateShadowStyles(options.mode, options.shadowVisibility, options.position);
         this._updateObserversStyles(options.offsetTop, options.shadowVisibility);
     }
 
@@ -808,9 +809,9 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         }
     }
 
-    private _updateShadowStyles(mode: MODE, shadowVisibility: SHADOW_VISIBILITY): void {
-        this._isTopShadowVisible = this._isShadowVisible(POSITION.top, mode, shadowVisibility);
-        this._isBottomShadowVisible = this._isShadowVisible(POSITION.bottom, mode, shadowVisibility);
+    private _updateShadowStyles(mode: MODE, shadowVisibility: SHADOW_VISIBILITY, position: IPositionOrientation): void {
+        this._isTopShadowVisible = this._isShadowVisible(POSITION.top, mode, shadowVisibility, position);
+        this._isBottomShadowVisible = this._isShadowVisible(POSITION.bottom, mode, shadowVisibility, position);
     }
 
     protected updateShadowVisibility(visibility: SHADOW_VISIBILITY_BY_CONTROLLER, position: POSITION): void {
@@ -820,11 +821,11 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         }
     }
 
-    protected _isShadowVisible(shadowPosition: POSITION, mode: MODE, shadowVisibility: SHADOW_VISIBILITY): boolean {
+    protected _isShadowVisible(shadowPosition: POSITION, mode: MODE, shadowVisibility: SHADOW_VISIBILITY, position: IPositionOrientation): boolean {
         //The shadow from above is shown if the element is fixed from below, from below if the element is fixed from above.
         const fixedPosition: POSITION = shadowPosition === POSITION.top ? POSITION.bottom : POSITION.top;
 
-        if (this._initialShowShadow && this._options.position.vertical === fixedPosition) {
+        if (this._initialShowShadow && position.vertical === fixedPosition) {
             return true;
         }
 
