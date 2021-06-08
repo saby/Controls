@@ -1351,6 +1351,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         const enumerator = this._getUtilityEnumerator();
         const lastIndex = enumerator.getCount() - 1;
 
+        if (lastIndex === -1) {
+            return;
+        }
+
         enumerator.setPosition(lastIndex);
         const item = enumerator.getCurrent();
 

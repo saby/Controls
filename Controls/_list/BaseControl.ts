@@ -2527,6 +2527,10 @@ const _private = {
         }
     },
     jumpToEnd(self): Promise<void> {
+        // Если в списке нет записей, то мы уже в конце списка
+        if (self._listViewModel.getCount() === 0) {
+            return Promise.resolve();
+        }
         const lastItem =
             self._options.useNewModel
             ? self._listViewModel.getLast()?.getContents()

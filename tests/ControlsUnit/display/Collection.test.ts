@@ -2377,6 +2377,16 @@ describe('Controls/_display/Collection', () => {
         it('should return last item', () => {
             assert.strictEqual(display.getLast(), display.at(display.getCount() - 1));
         });
+
+        it('should return undefined in empty list', () => {
+            list = new ObservableList({
+                items: []
+            });
+            display = new CollectionDisplay({
+                collection: list
+            });
+            assert.strictEqual(display.getLast(), undefined);
+        });
     });
 
     describe('.getNext()', () => {
