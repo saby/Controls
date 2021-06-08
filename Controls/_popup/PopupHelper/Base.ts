@@ -110,8 +110,7 @@ export default class Base {
     }
 
     private _getOpener(): IOpenerStaticMethods {
-        const message = 'Controls/popup: Инстанс открыватора уничтожен (был вызван метод destroy),' +
-            ' для открытия окна использовать задестроенный инстанс нельзя.';
+        const message = 'Controls/popup: Попытка открыть окно с помощью задестроенного опенера';
         if (!this._opener) {
             Logger.error(message);
         }
