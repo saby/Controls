@@ -24,7 +24,7 @@
   "--contrast_icon-color": "#ffffff",
   "--unaccented_icon-color": "#cccccc",
 
-  "--primary_color": "#cc3d00",
+  "--primary_color": "#ff7033",
   "--primary_text-color": "#cc3d00",
   "--primary_hover_text-color": "#e27140",
   "--primary_icon-color": "#f47843",
@@ -40,7 +40,7 @@
   "--primary_hover_contrast_background-color": "#e4662f",
   "--primary_active_contrast_background-color": "#d6551f",
 
-  "--secondary_color": "#153f6f",
+  "--secondary_color": "#587ab0",
   "--secondary_text-color": "#153f6f",
   "--secondary_hover_text-color": "#2f5b8e",
   "--secondary_icon-color": "#7694b8",
@@ -56,7 +56,7 @@
   "--secondary_hover_contrast_background-color": "#2b5688",
   "--secondary_active_contrast_background-color": "#274c77",
 
-  "--danger_color": "#bd0a00",
+  "--danger_color": "#d04d4d",
   "--danger_text-color": "#bd0a00",
   "--danger_hover_text-color": "#cc271e",
   "--danger_icon-color": "#f44d43",
@@ -88,7 +88,7 @@
   "--success_hover_contrast_background-color": "#128c29",
   "--success_active_contrast_background-color": "#127d26",
 
-  "--warning_color": "#d68f00",
+  "--warning_color": "#fec63f",
   "--warning_text-color": "#d68f00",
   "--warning_hover_text-color": "#e4b24e",
   "--warning_icon-color": "#f5be51",
