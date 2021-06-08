@@ -18,7 +18,7 @@ import {ICollectionItem} from './interface/ICollectionItem';
 import IMarkable, {TMarkerClassName} from './interface/IMarkable';
 import { IItemCompatibilityListViewModel, ItemCompatibilityListViewModel } from './ItemCompatibilityListViewModel';
 import {IEditableCollectionItem} from './interface/IEditableCollectionItem';
-import Collection from 'Controls/_display/Collection';
+import Collection, {IEditingConfig} from 'Controls/_display/Collection';
 import IItemActionsItem from './interface/IItemActionsItem';
 import {IRoundBorder} from "Controls/_tile/display/mixins/Tile";
 import {isEqual} from "Types/object";
@@ -462,6 +462,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     isEditing(): boolean {
         return this._$editing;
+    }
+
+    getEditingConfig(): IEditingConfig {
+        return this._$owner.getEditingConfig();
     }
 
     // TODO: Убрать columnIndex.

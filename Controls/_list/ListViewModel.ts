@@ -186,6 +186,10 @@ const _private = {
         itemsModelCurrent.isReadonlyCheckbox = () => {
             return itemsModelCurrent.dispItem.isReadonlyCheckbox();
         };
+
+        itemsModelCurrent.getEditingConfig = () => {
+            return itemsModelCurrent.dispItem.getEditingConfig();
+        };
     },
     getSeparatorSizes(options: IListSeparatorOptions): IListSeparatorOptions['rowSeparatorSize'] {
         return options.rowSeparatorSize ? options.rowSeparatorSize.toLowerCase() : null;
