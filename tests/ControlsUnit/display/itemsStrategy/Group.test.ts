@@ -441,11 +441,11 @@ describe('Controls/_display/itemsStrategy/Group', () => {
             const groups = [];
             const options: any = {
                 display: {
-                    getMultiSelectVisibility() {
-                        return 'hidden';
-                    },
-                    getMetaResults() {
-                        return {};
+                    getAdditionalGroupConstructorParams() {
+                        return {
+                            multiSelectVisibility: 'hidden',
+                            metaResults: {}
+                        };
                     }
                 },
                 groups,
@@ -470,11 +470,11 @@ describe('Controls/_display/itemsStrategy/Group', () => {
             const groups = [];
             const options: any = {
                 display: {
-                    getMultiSelectVisibility() {
-                        return 'hidden';
-                    },
-                    getMetaResults() {
-                        return {};
+                    getAdditionalGroupConstructorParams() {
+                        return {
+                            multiSelectVisibility: 'hidden',
+                            metaResults: {}
+                        };
                     }
                 },
                 groups,
@@ -514,11 +514,11 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                 const groups = [];
                 const options: any = {
                     display: {
-                        getMultiSelectVisibility() {
-                            return 'hidden';
-                        },
-                        getMetaResults() {
-                            return {};
+                        getAdditionalGroupConstructorParams() {
+                            return {
+                                multiSelectVisibility: 'hidden',
+                                metaResults: {}
+                            };
                         }
                     },
                     groups,
@@ -555,11 +555,11 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                 const groups = [];
                 const options: any = {
                     display: {
-                        getMultiSelectVisibility() {
-                            return 'hidden';
-                        },
-                        getMetaResults() {
-                            return {};
+                        getAdditionalGroupConstructorParams() {
+                            return {
+                                multiSelectVisibility: 'hidden',
+                                metaResults: {}
+                            };
                         }
                     },
                     groups,
@@ -592,11 +592,11 @@ describe('Controls/_display/itemsStrategy/Group', () => {
             ];
             const options: any = {
                 display: {
-                    getMultiSelectVisibility() {
-                        return 'hidden';
-                    },
-                    getMetaResults() {
-                        return {};
+                    getAdditionalGroupConstructorParams() {
+                        return {
+                            multiSelectVisibility: 'hidden',
+                            metaResults: {}
+                        };
                     }
                 },
                 groups,
