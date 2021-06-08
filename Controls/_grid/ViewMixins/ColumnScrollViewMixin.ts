@@ -396,7 +396,11 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
             if (this._$pendingMouseEnterForActivate) {
                 disablePendingMouseEnterActivation(this);
             }
-        } else if (shouldCreateDragScroll) {
+        } else if (this._$columnScrollController && shouldCreateDragScroll) {
+            // Скроллирование перетаскиванеим - это часть горизонтального скролла,
+            // которая не может без него существовать. Создаем, только если горизонтальный скролл есть и
+            // включили/стало доступно скролливование перетаскиванием. В остальных случаях, контроллер создастся
+            // при включении горизонтального скролла.
             createDragScroll(this, this._options);
             updateSizesInDragScrollController(this);
         }
