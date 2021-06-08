@@ -956,7 +956,7 @@ describe('Controls/browser:Browser', () => {
            browser.saveOptions(options);
            await browser._getSearchController();
 
-           browser._handleItemOpen('test123', undefined, 'test123');
+           browser._handleItemOpen('test123', undefined);
 
            assert.equal(browser._root, 'test123');
            assert.equal(browser._getSearchControllerSync()._root, 'test123');
@@ -970,7 +970,7 @@ describe('Controls/browser:Browser', () => {
            browser.saveOptions(options);
            await browser._search(null, 'testSearchValue');
 
-           browser._handleItemOpen('testRoot', undefined, null);
+           browser._handleItemOpen('testRoot', undefined);
            assert.ok(!browser._inputSearchValue);
            assert.equal(browser._root, 'testRoot');
            assert.deepStrictEqual(browser._filter, {parentProperty: null});

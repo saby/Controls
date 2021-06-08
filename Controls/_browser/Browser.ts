@@ -484,7 +484,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         return this._dataLoader.getSearchControllerSync(id);
     }
 
-    protected _handleItemOpen(root: Key, items: RecordSet, dataRoot: Key = null): void {
+    protected _handleItemOpen(root: Key, items: RecordSet): void {
+        const currentRoot = this._root;
         if (this._isSearchViewMode() && this._options.searchNavigationMode === 'expand') {
             this._notify('expandedItemsChanged', [this._getSearchControllerSync().getExpandedItemsForOpenRoot(root, items)]);
 
@@ -495,7 +496,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._getSearchControllerSync()?.setRoot(root);
             this._root = root;
         }
-        if (root !== dataRoot && this._getSearchControllerSync()) {
+        if (root !== currentRoot && this._getSearchControllerSync()) {
             this._resetSearch();
             this._inputSearchValue = '';
             if (this._options.useStore) {
