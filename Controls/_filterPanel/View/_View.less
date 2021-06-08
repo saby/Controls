@@ -39,7 +39,6 @@
 }
 
 .controls-FilterViewPanel__group-content {
-   cursor: pointer;
    color: var(--group_color_filterViewPanel);
    font-size: var(--group_font-size_filterViewPanel);
    overflow: hidden;
@@ -65,13 +64,6 @@
    flex-direction: row;
    height: var(--group_height_filterViewPanel);
    overflow: hidden;
-}
-
-.controls-FilterViewPanel__group:hover {
-   .controls-FilterViewPanel__groupExpander,
-   .controls-FilterViewPanel__group-content {
-      color: var(--button_color-hover_filterViewPanel);
-   }
 }
 
 .controls-FilterViewPanel__groupReset {
@@ -126,6 +118,10 @@
 
 .controls-FilterViewPanel__propertyGrid.controls-PropertyGrid {
    padding: var(--content_padding_propertyGrid) 0;
+}
+
+.controls-FilterViewPanel__propertyGrid_viewMode-default.controls-PropertyGrid {
+   padding-bottom: 0;
 }
 
 .controls-FilterEditors__list-item {
