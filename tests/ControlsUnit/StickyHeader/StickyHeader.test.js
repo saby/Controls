@@ -584,6 +584,15 @@ define([
             assert.isTrue(component._isShadowVisible('bottom', mode, shadowVisibility));
          });
 
+         it('should show shadow', function() {
+            const component = createComponent(StickyHeader, {});
+            component._initialShowShadow = true;
+            const position = {
+               vertical: 'bottom'
+            };
+            assert.isTrue(component._isShadowVisible('top', '', '', position));
+         });
+
          it('should not show shadow if it disabled by controller', function() {
             const component = createComponent(StickyHeader, {});
             component._context = {};
