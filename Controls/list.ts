@@ -97,8 +97,6 @@ export {IBaseGroupTemplate} from 'Controls/_list/interface/BaseGroupTemplate';
 export {RemoveController} from 'Controls/_list/Controllers/RemoveController';
 export {IRemovableList} from 'Controls/_list/interface/IRemovableList';
 
-export {default as ItemsView, IItemsViewOptions} from 'Controls/_list/ItemsView';
-
 export {ISiblingStrategy, ISiblingStrategyOptions} from 'Controls/_list/interface/ISiblingStrategy';
 
 export {
