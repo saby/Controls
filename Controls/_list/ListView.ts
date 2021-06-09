@@ -250,7 +250,7 @@ var ListView = BaseControl.extend(
             }
         },
 
-        resizeNotifyOnListChanged: function() {
+        onViewResized: function() {
             _private.resizeNotifyOnListChanged(this);
         },
 
@@ -266,7 +266,7 @@ var ListView = BaseControl.extend(
 
         _afterRender: function() {
             if (this._pendingRedraw) {
-                this.resizeNotifyOnListChanged();
+                this.onViewResized();
             }
             this._pendingRedraw = false;
         },
