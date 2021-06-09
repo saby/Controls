@@ -35,17 +35,17 @@
    align-items: center;
    justify-content: center;
    box-sizing: content-box;
-   font-size: var(--monthview_item_font-size_monthSlider);
-   margin-top: var(--monthview_item_border-thickness_monthSlider);
-   margin-left: var(--monthview_item_border-thickness_monthSlider);
+   font-size: var(--font-size_m);
+   margin-top: var(--border-thickness);
+   margin-left: var(--border-thickness);
 }
 
 .controls-MonthViewVDOM__item_style-default {
-   font-size: var(--monthview_item_font-size_monthSlider);
-   min-width: var(--monthview_item_width_monthSlider);
+   font-size: var(--font-size_m);
+   min-width: var(--monthview_item_height_monthSlider);
    min-height: var(--monthview_item_height_monthSlider);
-   margin-top: var(--monthview_item_border-thickness_monthSlider);
-   margin-left: var(--monthview_item_border-thickness_monthSlider);
+   margin-top: var(--border-thickness);
+   margin-left: var(--border-thickness);
    width: 100%;
 }
 
@@ -66,7 +66,7 @@
    .controls-MonthView__backgroundColor-otherMonthDay-selected,
    .controls-MonthView__backgroundColor-otherMonthDay-selected-startend-unfinished {
       &:hover {
-         background: var(--monthlist_monthview_item_selected_hover_background-color_datePicker);
+         background: var(--rangeSelection_item_hover_background-color_datePicker);
       }
    }
 
@@ -74,25 +74,25 @@
    .controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished-hovered,
    .controls-MonthView__backgroundColor-otherMonthDay-selected-hovered,
    .controls-MonthView__backgroundColor-otherMonthDay-selected-startend-unfinished-hovered {
-      background: var(--monthlist_monthview_item_selected_hover_background-color_datePicker);
+      background: var(--rangeSelection_item_hover_background-color_datePicker);
    }
    .controls-MonthView__border-currentMonthDay-unselected {
       &:hover {
-         outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
+         outline: var(--border-thickness) solid var(--monthview_item_hover_border-color_monthSlider);
       }
    }
    .controls-MonthView__border-currentMonthDay-unselected {
       &:hover {
-         outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
+         outline: var(--border-thickness) solid var(--monthview_item_hover_border-color_monthSlider);
       }
    }
 
    .controls-MonthView__border-hover {
-      outline:var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
+      outline:var(--border-thickness) solid var(--monthview_item_hover_border-color_monthSlider);
    }
    .controls-MonthView__backgroundColor-currentMonthDay-unselected:hover,
    .controls-MonthView__backgroundColor-otherMonthDay-unselected:hover {
-      background: var(--monthview_item_hover_background-color_monthSlider);
+      background: var(--monthview_item_background-color_monthSlider);
       border-radius: var(--monthview_item_hover_border-radius_monthSlider);
    }
 
@@ -107,7 +107,7 @@
    .controls-MonthView__backgroundColor-otherMonthDay-selected,
    .controls-MonthView__backgroundColor-otherMonthDay-selected-startend-unfinished {
       &:active {
-         background: var(--monthlist_monthview_item_selected_hover_background-color_datePicker);
+         background: var(--rangeSelection_item_hover_background-color_datePicker);
       }
    }
 
@@ -115,25 +115,25 @@
    .controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished-hovered,
    .controls-MonthView__backgroundColor-otherMonthDay-selected-hovered,
    .controls-MonthView__backgroundColor-otherMonthDay-selected-startend-unfinished-hovered {
-      background: var(--monthlist_monthview_item_selected_hover_background-color_datePicker);
+      background: var(--rangeSelection_item_hover_background-color_datePicker);
    }
    .controls-MonthView__border-currentMonthDay-unselected {
       &:active {
-         outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
+         outline: var(--border-thickness) solid var(--monthview_item_hover_border-color_monthSlider);
       }
    }
    .controls-MonthView__border-currentMonthDay-unselected {
       &:active {
-         outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
+         outline: var(--border-thickness) solid var(--monthview_item_hover_border-color_monthSlider);
       }
    }
 
    .controls-MonthView__border-hover {
-      outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
+      outline: var(--border-thickness) solid var(--monthview_item_hover_border-color_monthSlider);
    }
    .controls-MonthView__backgroundColor-currentMonthDay-unselected:active,
    .controls-MonthView__backgroundColor-otherMonthDay-unselected:active {
-      background: var(--monthview_item_hover_background-color_monthSlider);
+      background: var(--monthview_item_background-color_monthSlider);
       border-radius: var(--monthview_item_hover_border-radius_monthSlider);
    }
 }
@@ -142,7 +142,7 @@
 .controls-MonthView__item-border-start,
 .controls-MonthView__item-border-end {
    outline-style: solid;
-   outline-width: var(--monthview_item_border-thickness_monthSlider);
+   outline-width: var(--border-thickness);
    outline-color: var(--monthview_item_hover_border-color_monthSlider);
 }
 
@@ -192,11 +192,11 @@
    display: flex;
    flex-direction: column;
    width: var(--monthview_width_monthSlider);
-   background: var(--monthview_background-color_monthSlider);
+   background: var(--background-color);
 }
 
 .controls-MonthViewVDOM__tableRow-old {
-   flex-basis: calc(var(--monthview_item_height_monthSlider) + var(--monthview_item_border-thickness_monthSlider));
+   flex-basis: calc(var(--monthview_item_height_monthSlider) + var(--border-thickness));
    margin-right: var(--monthview_item_border-thickness_monthSlide);
 }
 
@@ -207,7 +207,7 @@
     right: var(--monthview_today_offset_monthSlider);
     border-radius: var(--monthview_today_border-radius_monthSlider);
     background-color: var(--monthview_today_background-color_monthSlider);
-    border: var(--monthview_today_border-thickness_monthSlider) solid var(--monthview_today_border-color_monthSlider);
+    border: var(--monthview_today_border-thickness_monthSlider) solid var(--monthview_item_border-color_monthSlider);
 }
 
 .controls-MonthViewVDOM__item-today-background {

@@ -146,7 +146,7 @@
 
 
 /*.controls-BreadCrumbsView__dropTarget_withoutArrow:after {
-   left: calc(-1 * var(--droppable_padding-horizontal_breadcrumbsView));
+   left: calc(-1 * var(--offset_2xs));
 }*/
 .controls-BreadCrumbsView__titleWrapper {
    overflow: hidden;
@@ -185,7 +185,7 @@
 }
 
 .controls-BreadCrumbsView__menuItem {
-   height: var(--popup_item_height_breadcrumbsView);
+   height: var(--inline_height_xl);
 }
 
 .controls-BreadCrumbsView__menuTitle {
@@ -201,8 +201,8 @@
 }
 
 .controls-BreadCrumbsView__indentation {
-   .icon(var(--popup_item_icon-size_breadcrumbsView));
-   color: var(--popup_item_icon-color_breadcrumbsView);
+   .icon(var(--icon-size_s));
+   color: var(--label_text-color);
 }
 
 .ws-is-hover {
@@ -245,7 +245,7 @@
 .controls-Grid__breadCrumbs {
    .controls-BreadCrumbsView__crumb, .controls-BreadCrumbsView__menu__dots {
       &:before {
-         font-size: var(--item_font-size_2xl_grid);
+         font-size: var(--font-size_2xl);
       }
    }
 }

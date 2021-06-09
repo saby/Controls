@@ -94,12 +94,12 @@
 }
 
 .controls-Slider__point_enabled {
-   border: var(--marker_border-thickness_slider) solid var(--marker_border-color_slider);
+   border: var(--marker_border-thickness_slider) solid var(--secondary_contrast_background-color);
    background-color: var(--marker_background-color_slider);
 }
 
 .controls-Slider__point_disabled {
-   border: var(--marker_border-thickness_slider) solid var(--readonly_marker_border-color_slider);
+   border: var(--marker_border-thickness_slider) solid var(--readonly_color);
    cursor: auto;
 }
 
@@ -186,7 +186,7 @@
 
 .controls-Slider__line__empty_disabled,
 .controls-Slider__line__full_disabled {
-   background-color: var(--readonly_track_color_slider);
+   background-color: var(--readonly_color);
 }
 
 .controls-Slider__line__wrapper {
@@ -240,7 +240,7 @@
    justify-content: center;
    width: 0;
    position: relative;
-   font-size: var(--scale_font-size_slider);
+   font-size: var(--font-size_m);
 }
 
 .controls-Slider__segmentValue {
@@ -273,15 +273,15 @@
 }
 
 .controls-Slider__segment_disabled {
-   color: var(--readonly_scale_text-color_slider);
+   color: var(--readonly_color);
 }
 
 .controls-Slider__segment_enabled:after {
-   background-color: var(--tick_color_slider);
+   background-color: var(--unselected_track_color_slider);
 }
 
 .controls-Slider__segment_disabled:after {
-   background-color: var(--readonly_tick_color_slider);
+   background-color: var(--readonly_track_color_slider);
 }
 
 .controls-Slider__segment:first-child {
@@ -303,39 +303,39 @@
 }
 
 .controls-Slider__tooltipValue {
-   padding: var(--tooltip_padding-vertical_slider) var(--tooltip_padding-horizontal_slider);
-   background-color: var(--tooltip_background-color_slider);
+   padding: var(--offset_2xs) var(--offset_s);
+   background-color: var(--marker_background-color_slider);
    border-radius: var(--tooltip_border-radius_slider);
    box-shadow: var(--tooltip_box-shadow_slider);
-   font-size: var(--tooltip_font-size_slider);
+   font-size: var(--font-size_l);
 }
 
 .controls-Slider__point_big_tooltipValue_position-top {
-   bottom: calc(var(--marker_l_size_slider) + var(--tooltip_offset_slider));
+   bottom: calc(var(--marker_l_size_slider) + var(--offset_3xs));
 }
 
 .controls-Slider__point_small_tooltipValue_position-top {
-   bottom: calc(var(--marker_s_size_slider) + var(--tooltip_offset_slider));
+   bottom: calc(var(--marker_s_size_slider) + var(--offset_3xs));
 }
 
 .controls-Slider__point_big_tooltipValue_position-bottom {
-   top: calc(var(--marker_l_size_slider) + var(--tooltip_offset_slider));
+   top: calc(var(--marker_l_size_slider) + var(--offset_3xs));
 }
 
 .controls-Slider__point_small_tooltipValue_position-bottom {
-   top: calc(var(--marker_s_size_slider) + var(--tooltip_offset_slider));
+   top: calc(var(--marker_s_size_slider) + var(--offset_3xs));
 }
 
 .controls-Slider__point_big_tooltipValue_position-center {
    top: 50%;
    transform: translate(-50%, -50%);
-   font-size: var(--tooltip_position-center_font-size-big_slider);
+   font-size: var(--font-size_s);
 }
 
 .controls-Slider__point_small_tooltipValue_position-center {
    top: 50%;
    transform: translate(-50%, -50%);
-   font-size: var(--tooltip_position-center_font-size-small_slider);
+   font-size: var(--font-size_xs);
 }
 
 .controls-Slider__point_tooltip {
