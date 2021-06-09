@@ -56,7 +56,7 @@ const enum SCROLL_POSITION_CSS {
  *
  * @public
  * @author Миронов А.Ю.
- * @demo Controls-demo/Scroll/ContainerBase/Default/Index
+ * @demo Controls-demo/Scroll/ContainerBase/Index
  *
  */
 export default class ContainerBase<T extends IContainerBaseOptions> extends Control<IContainerBaseOptions> {
