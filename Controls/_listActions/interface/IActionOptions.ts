@@ -59,7 +59,7 @@ export default interface IActionOptions {
 
 /**
  * @name Controls/_listActions/interface/IAction#columns
- * @cfg {Array<Controls/interface:IColumn>} Конфигурация колонок
+ * @cfg {Array<Controls/grid:IColumn>} Конфигурация колонок
  */
 
 /**
