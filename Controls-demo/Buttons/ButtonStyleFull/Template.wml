@@ -19,7 +19,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=functionalButton and controls-Button_functionalButton_translucent</div>
+        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=functionalButton and controls-Button_functionalButton_style-translucent</div>
         <Controls.buttons:Button attr:class="controls-Button_functionalButton_style-translucent"
                                  viewMode="functionalButton"
                                  buttonStyle="pale"
