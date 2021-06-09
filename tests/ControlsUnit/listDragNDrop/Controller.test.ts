@@ -4,7 +4,6 @@
 import { assert } from 'chai';
 import { spy } from 'sinon';
 import { DndController, FlatStrategy } from 'Controls/listDragNDrop';
-import { ListViewModel } from 'Controls/list';
 import { RecordSet } from 'Types/collection';
 import { ItemsEntity } from 'Controls/dragnDrop';
 import { Collection } from 'Controls/display';
@@ -21,12 +20,12 @@ describe('Controls/_listDragNDrop/Controller', () => {
       keyProperty: 'id'
    });
    const cfg = {
-      items,
+      collection: items,
       keyProperty: 'id'
    };
 
    beforeEach(() => {
-      model = new ListViewModel(cfg);
+      model = new Collection(cfg);
       controller = new DndController(model, FlatStrategy);
    });
 
@@ -152,10 +151,11 @@ describe('Controls/_listDragNDrop/Controller', () => {
 
          newPosition = controller.calculateDragPosition({targetItem: model.getItemBySourceKey(2)});
          assert.equal(newPosition.index, 1);
-         assert.equal(newPosition.position, 'before');
+         assert.equal(newPosition.position, 'after');
 
          newPosition = controller.calculateDragPosition({targetItem: model.getItemBySourceKey(1)});
-         assert.deepEqual(newPosition, { index: 1, position: 'after' });
+         assert.equal(newPosition.index, 0);
+         assert.equal(newPosition.position, 'before');
       });
    });
 
