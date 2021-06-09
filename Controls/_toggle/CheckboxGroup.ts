@@ -53,6 +53,43 @@ export interface ICheckboxGroupOptions extends IControlOptions,
  * @author Красильников А.С.
  * @demo Controls-demo/toggle/CheckboxGroup/Base/Index
  */
+
+/**
+ * @name Controls/_toggle/CheckboxGroup#displayProperty
+ * @cfg {String} Имя поля элемента, значение которого будет отображаться в названии кнопок тумблера.
+ *
+ * @example
+ * Пример описания.
+ * <pre>
+ *    <Controls.toggle:CheckboxGroup displayProperty="caption" source="{{_items1}}" bind:selectedKey="_selectedKey1"/>
+ * </pre>
+ *
+ * <pre>
+ *   new Memory({
+        keyProperty: 'key',
+        data: [
+            {
+                key: 1,
+                title: 'title 1',
+                caption: 'caption 1'
+            },
+            {
+                key: 2,
+                title: 'title 2',
+                caption: 'caption 2'
+            },
+            {
+                key: 3,
+                title: 'title 3',
+                caption: 'caption 3'
+            }
+        ]
+    });
+ * </pre>
+ *
+ * @demo Controls-demo/toggle/CheckboxGroup/displayProperty/Index
+ */
+
 class CheckboxGroup extends Control<ICheckboxGroupOptions, RecordSet> implements ISource,
                                                                       IMultiSelectable, IHierarchy, IToggleGroup {
     '[Controls/_interface/ISource]': boolean = true;

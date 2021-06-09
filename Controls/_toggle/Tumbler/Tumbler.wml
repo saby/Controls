@@ -10,7 +10,8 @@
                  name="TumblerButton{{index}}">
                 <ws:partial
                     template="{{_getTemplate(_options.itemTemplate, itemData, _options.itemTemplateProperty)}}"
-                    item="{{itemData}}"/>
+                    item="{{itemData}}"
+                    displayProperty="{{_options.displayProperty}}"/>
             </div>
         </ws:for>
         <div class="controls-Tumbler__button-background"

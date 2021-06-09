@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">displayProperty = title</div>
+        <Controls.toggle:Chips items="{{_items1}}" bind:selectedKeys="_selectedKeys1" attr:class="ControlsDemo-ButtonGroup__twoButtons"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">displayProperty = caption</div>
+        <Controls.toggle:Chips displayProperty="caption" items="{{_items1}}" bind:selectedKeys="_selectedKeys2" attr:class="ControlsDemo-ButtonGroup__twoButtons"/>
+    </div>
+</div>

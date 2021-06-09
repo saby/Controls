@@ -10,7 +10,7 @@
                     _icon="{{itemData.get('icon')}}"
                     _iconSize="{{itemData.get('iconSize') || 's'}}"
                     _iconStyle="{{_getIconStyle(itemData)}}"
-                    _caption="{{itemData.get('caption')}}"/>
+                    _caption="{{itemData.get(_options.displayProperty || 'title') ||  itemData.get('caption')}}"/>
     </ws:template>
 
     <div class="controls-ButtonGroup__wrapper">
