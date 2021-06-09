@@ -916,7 +916,13 @@ const _private = {
                 self._loadToDirectionInProgress = false;
                 self._handleLoadToDirection = false;
 
-                _private.hideIndicator(self);
+                const hideIndicatorOnCancelQuery =
+                    (error.isCanceled || error.canceled) &&
+                    !self._sourceController?.isLoading();
+
+                if (hideIndicatorOnCancelQuery) {
+                    _private.hideIndicator(self);
+                }
                 // скроллим в край списка, чтобы при ошибке загрузки данных шаблон ошибки сразу был виден
                 if (!error.canceled && !error.isCanceled) {
                     _private.scrollPage(self, (direction === 'up' ? 'Up' : 'Down'));
@@ -5297,7 +5303,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 if (self._destroyed) {
                     return;
                 }
-                _private.hideIndicator(self);
                 return _private.processError(self, {
                     error
                 }).then(function(result: ICrudResult) {
