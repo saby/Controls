@@ -106,26 +106,27 @@ define('Controls/interface/ISelectedCollection', [
 
    /**
     * @name Controls/interface/ISelectedCollection#itemTemplate
-    * @cfg {Function|String} Шаблон выбранного элемента.
+    * @cfg {Function|String} Шаблон отображения выбранного элемента.
     * @markdown
     * @remark
-    * Базовый шаблон для Controls/lookup:Input и Controls.lookup:Selector: "Controls.lookup:ItemTemplate".
-    * Базовый шаблон поддерживают такие параметры как:
-    *     * contentTemplate {Function|String} - Шаблон содержимого элемента.
-    *     * crossTemplate {Function|String} - Шаблон крестика удаления элемента.
-    *     * displayProperty {String} - Имя поля, значение которого будет отображаться.
-    *     * clickable {Boolean} - Определяет, показывать ли подчеркивание при наведении, допустим только в случае использования contentTemplate по умолчанию.
-    *     * size {Enum} - Размер текста для содержимого элемента, допустим только в случае использования contentTemplate по умолчанию.
-    *         * m
-    *         * l
-    *         * xl
-    *         * 2xl
-    *         * 3xl
-    *     * style {Enum} - Стиль текста для содержимого элемента, допустим только в случае использования contentTemplate по умолчанию.
-    *         * default
-    *         * bold
-    *         * accent
-    *         * primary
+    * Для отображения элементов {@link Controls/lookup:Input} и {@link Controls/lookup:Selector} используется базовый шаблон {@link Controls/lookup:ItemTemplate}.
+    * Базовый шаблон поддерживают следующие параметры:
+    * 
+    * * contentTemplate {Function|String} - Шаблон содержимого элемента.
+    * * crossTemplate {Function|String} - Шаблон крестика удаления элемента.
+    * * displayProperty {String} - Имя поля, значение которого будет отображаться.
+    * * clickable {Boolean} - Определяет, показывать ли подчеркивание при наведении, допустим только в случае использования contentTemplate по умолчанию.
+    * * size {Enum} - Размер текста для содержимого элемента, допустим только в случае использования contentTemplate по умолчанию.
+    *     * m
+    *     * l
+    *     * xl
+    *     * 2xl
+    *     * 3xl
+    * * style {Enum} - Стиль текста для содержимого элемента, допустим только в случае использования contentTemplate по умолчанию.
+    *     * default
+    *     * bold
+    *     * accent
+    *     * primary
     *
     * Если вы переопределите contentTemplate/crossTemplate, вы не будете уведомлены о событиях itemClick/crossClick.
     * Для правильной работы необходимо пометить свой контент классами:
@@ -140,7 +141,7 @@ define('Controls/interface/ISelectedCollection', [
     *    source="{{_source}}"
     *    keyProperty="id">
     *    <ws:itemTemplate>
-    *       <ws:partial template="Controls.lookup:ItemTemplate"
+    *       <ws:partial template="Controls/lookup:ItemTemplate"
     *          style="primary"
     *          size="xl"
     *          displayProperty="title"

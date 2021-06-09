@@ -13,7 +13,6 @@ interface IExpandableInputOptions extends IBaseOptions, ITextOptions,
 /**
  * Контрол "Разворачиваемый поиск". Является однострочным полем ввода. Контрол используют в реестрах для ввода поискового запроса.
  *
- * @class Controls/_search/Input/ExpandableInput/Search
  * @extends UI/Base:Control
  * @mixes Controls/search:Input
  * @public

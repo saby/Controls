@@ -91,6 +91,8 @@
 
 <div name="gridWrapper"
      on:wheel="_onColumnScrollViewWheel()"
+     on:mouseenter="_onColumnScrollViewMouseEnter()"
+     on:focusIn="_onFocusIn()"
      class="{{ _getGridViewWrapperClasses(_options) }}">
 
     <ws:if data="{{ _options.columnScroll }}">

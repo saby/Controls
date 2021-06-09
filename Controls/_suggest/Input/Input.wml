@@ -27,6 +27,7 @@
       scope="{{_options}}"
       size="{{undefined}}"
       fontStyle="{{undefined}}"
+      leftFieldTemplate="{{_options.leftFieldTemplate}}"
       on:tagClick="_notifyHandler('tagClick')"
       on:tagHover="_notifyHandler('tagHover')"
       on:valueChanged="_changeValueHandler()"

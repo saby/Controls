@@ -10,6 +10,11 @@ export const enum POSITION {
     right = 'right'
 }
 
+export interface IPositionOrientation {
+    vertical: POSITION;
+    horizontal: POSITION;
+}
+
 export const enum SHADOW_VISIBILITY {
     visible = 'visible',
     hidden = 'hidden',

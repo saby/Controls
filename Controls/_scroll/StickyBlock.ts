@@ -14,7 +14,8 @@ import {
     POSITION,
     SHADOW_VISIBILITY,
     SHADOW_VISIBILITY_BY_CONTROLLER,
-    validateIntersectionEntries
+    validateIntersectionEntries,
+    IPositionOrientation
 } from './StickyBlock/Utils';
 import fastUpdate from './StickyBlock/FastUpdate';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
@@ -72,7 +73,7 @@ interface IResizeObserver {
  *
  * @public
  * @extends UI/Base:Control
- * @class Controls/_scroll/StickyHeader
+ * @class Controls/_scroll/StickyBlock
  * @author Красильников А.С.
  */
 export default class StickyBlock extends Control<IStickyHeaderOptions> {
@@ -608,8 +609,11 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         if (this._model.fixedPosition !== fixedPosition) {
             this._fixationStateChangeHandler(this._model.fixedPosition, fixedPosition);
             this._updateStyles(this._options);
+            this._updateCanShadowVisible(this._options);
             fastUpdate.mutate(() => {
-                if (this._isBottomShadowVisible) {
+                // shadowBottom может не быть в DOM, т.к он стоит под условием и при изменении _canShadowVisible.bottom
+                // отрисуется в следующем цикле синхронизации.
+                if (this._isBottomShadowVisible && this._children.hasOwnProperty('shadowBottom')) {
                     this._children.shadowBottom.classList.remove(this._isMobileIOS ? 'ws-invisible' : 'ws-hidden');
                 }
                 this._container.style.zIndex = this._model?.fixedPosition ? this._options.fixedZIndex : '';
@@ -641,7 +645,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
     private _updateStyles(options: IStickyHeaderOptions): void {
         this._updateStyle(options.position, options.fixedZIndex, options.zIndex, options.offsetTop, options.task1177692247, options.task1181007458);
-        this._updateShadowStyles(options.mode, options.shadowVisibility);
+        this._updateShadowStyles(options.mode, options.shadowVisibility, options.position);
         this._updateObserversStyles(options.offsetTop, options.shadowVisibility);
     }
 
@@ -808,9 +812,9 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         }
     }
 
-    private _updateShadowStyles(mode: MODE, shadowVisibility: SHADOW_VISIBILITY): void {
-        this._isTopShadowVisible = this._isShadowVisible(POSITION.top, mode, shadowVisibility);
-        this._isBottomShadowVisible = this._isShadowVisible(POSITION.bottom, mode, shadowVisibility);
+    private _updateShadowStyles(mode: MODE, shadowVisibility: SHADOW_VISIBILITY, position: IPositionOrientation): void {
+        this._isTopShadowVisible = this._isShadowVisible(POSITION.top, mode, shadowVisibility, position);
+        this._isBottomShadowVisible = this._isShadowVisible(POSITION.bottom, mode, shadowVisibility, position);
     }
 
     protected updateShadowVisibility(visibility: SHADOW_VISIBILITY_BY_CONTROLLER, position: POSITION): void {
@@ -820,11 +824,11 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         }
     }
 
-    protected _isShadowVisible(shadowPosition: POSITION, mode: MODE, shadowVisibility: SHADOW_VISIBILITY): boolean {
+    protected _isShadowVisible(shadowPosition: POSITION, mode: MODE, shadowVisibility: SHADOW_VISIBILITY, position: IPositionOrientation): boolean {
         //The shadow from above is shown if the element is fixed from below, from below if the element is fixed from above.
         const fixedPosition: POSITION = shadowPosition === POSITION.top ? POSITION.bottom : POSITION.top;
 
-        if (this._initialShowShadow && this._options.position.vertical === fixedPosition) {
+        if (this._initialShowShadow && position.vertical === fixedPosition) {
             return true;
         }
 
@@ -982,7 +986,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
  */
 
 /*
- * @name Controls/_scroll/StickyHeader#content
+ * @name Controls/_scroll/StickyBlock#content
  * @cfg {Function} Sticky header content.
  */
 
@@ -994,7 +998,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
  */
 
 /*
- * @name Controls/_scroll/StickyHeader#mode
+ * @name Controls/_scroll/StickyBlock#mode
  * @cfg {String} Sticky header mode.
  * @variant replaceable Replaceable header. The next header replaces the current one.
  * @variant stackable Stackable header.  The next header is stick to the bottom of the current one.
@@ -1009,7 +1013,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
  */
 
 /*
- * @name Controls/_scroll/StickyHeader#shadowVisibility
+ * @name Controls/_scroll/StickyBlock#shadowVisibility
  * @cfg {String} Shadow visibility.
  * @variant visible Show.
  * @variant hidden Do not show.
@@ -1017,22 +1021,41 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
  */
 
 /**
+ * @typedef {Object} StickyVerticalPosition
+ * @description Определяет, с какой стороны произайдет прилипание по вертикали
+ * @variant 'top'
+ * @variant 'bottom'
+ * @variant 'topBottom'
+ */
+
+/**
+ * @typedef {Object} StickyHorizontalPosition
+ * @description Определяет, с какой стороны произайдет прилипание по горизонтали
+ * @variant 'left'
+ * @variant 'right'
+ * @variant 'leftRight'
+ */
+
+/**
+ * @typedef {Object} StickyPosition
+ * @description Конфигурация позиции прилипающего блока
+ * @property {StickyVerticalPosition} vertical
+ * @property {StickyHorizontalPosition} horizontal
+ */
+
+/**
  * @name Controls/_scroll/StickyBlock#position
- * @cfg {Object} Определяет позицию прилипания.
+ * @cfg {StickyPosition} Определяет позицию прилипания.
  * @remark
  * В качестве значения передается объект с полями horizontal и vertical
  * Значеиня horizontal:
- * <ul>
- *     <li>top - блок будет прилипать сверху</li>
- *     <li>bottom - блок будет прилипать снизу</li>
- *     <li>topBottom - блок будет прилипать и сверху и снизу</li>
- * </ul>
+ * * top - блок будет прилипать сверху
+ * * bottom - блок будет прилипать снизу
+ * * topBottom - блок будет прилипать и сверху и снизу
  * Значеиня vertical:
- * <ul>
- *     <li>left - блок будет прилипать слева</li>
- *     <li>right - блок будет прилипать справа</li>
- *     <li>leftRight - блок будет прилипать и слева и справа</li>
- * </ul>
+ * * left - блок будет прилипать слева
+ * * right - блок будет прилипать справа
+ * * leftRight - блок будет прилипать и слева и справа
  * @example
  * <pre>
  *     <Controls.scroll:StickyBlock position="{{ { 'horizontal': 'top', 'vertical': 'left' } }}">
@@ -1040,10 +1063,11 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
  *     </Controls.scroll:StickyBlock/>
  * </pre>
  * @default { vertical: 'top'}
+ * @demo Controls-demo/Scroll/StickyHeader/Position/Index
  */
 
 /*
- * @name Controls/_scroll/StickyHeader#position
+ * @name Controls/_scroll/StickyBlock#position
  * @cfg {String} Determines which side the control can sticky.
  * @variant top Top side.
  * @variant bottom Bottom side.
@@ -1084,7 +1108,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
 /*
  * @event Change the fixation state.
- * @name Controls/_scroll/StickyHeader#fixed
+ * @name Controls/_scroll/StickyBlock#fixed
  * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
  * @param {Controls/_scroll/StickyBlock/Types/InformationFixationEvent.typedef} information Information about the fixation event.
  */

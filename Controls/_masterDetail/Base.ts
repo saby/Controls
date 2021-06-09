@@ -25,6 +25,7 @@ interface IMasterDetail extends IControlOptions, IPropStorageOptions {
     masterOffsetTop?: number;
     masterPosition: 'left' | 'right';
     _dataOptionsValue?: IContextOptionsValue;
+    newDesign?: boolean;
 }
 /**
  * Контрол, который обеспечивает связь между двумя контролами для отображения подробной информации по выбранному элементу.
@@ -126,7 +127,7 @@ class Base extends Control<IMasterDetail, string> {
     /**
      * @name Controls/_masterDetail/Base#scrollOffsetTop
      * @cfg {Number} Определяет смещение позиции прилипания внутри скроллируемой области.
-     * Подробнее {@link Controls/_scroll/StickyHeader#offsetTop}
+     * Подробнее {@link Controls/_scroll/StickyBlock#offsetTop}
      */
 
     /**
@@ -141,6 +142,12 @@ class Base extends Control<IMasterDetail, string> {
      * @remark
      * * left - Мастер располагается слева от детейла.
      * * right - Мастер располагается справа от детейла.
+     */
+
+    /**
+     * @name Controls/_masterDetail/Base#newDesign
+     * @cfg {Boolean} Флаг для настройки отображения двухколоночного реестра в новом дизайне.
+     * @demo Controls-demo/MasterDetail/NewDesign/Index
      */
 
     /*
@@ -178,7 +185,7 @@ class Base extends Control<IMasterDetail, string> {
         this._canResizing = this._isCanResizing(options);
         this._masterFixed = this._isMasterFixed(options);
         this._prepareLimitSizes(options);
-        this._newDesign = options._dataOptionsValue?.newDesign;
+        this._newDesign = options._dataOptionsValue?.newDesign || options.newDesign;
         if (receivedState) {
             this._currentWidth = receivedState;
         } else if (options.propStorageId) {
@@ -249,7 +256,7 @@ class Base extends Control<IMasterDetail, string> {
     }
 
     protected _beforeUpdate(options: IMasterDetail): void|Promise<unknown> {
-        this._newDesign = options._dataOptionsValue?.newDesign;
+        this._newDesign = options._dataOptionsValue?.newDesign || options.newDesign;
 
         this._masterFixed = this._isMasterFixed(options);
 
