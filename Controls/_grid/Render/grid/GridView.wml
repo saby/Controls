@@ -112,7 +112,7 @@
                                                  on:mouseup="_onColumnScrollStopDragScrolling('mouse')"
                                                  on:touchend="_onColumnScrollStopDragScrolling('touch')"
                                                  on:mouseleave="_onColumnScrollStopDragScrolling('mouse')"/>
-        <Controls.event:Listener event="controlResize" on:controlResize="_onColumnScrollWrapperResized()"/>
+        <Controls.event:Listener event="controlResize" on:controlResize="_onColumnScrollViewResized()"/>
     </ws:if>
 
     <!-- Контент таблицы -->
