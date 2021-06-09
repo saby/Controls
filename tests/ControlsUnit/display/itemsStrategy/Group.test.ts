@@ -12,11 +12,11 @@ import {
 
 function getMockedDisplay(): Object {
     return {
-        getMultiSelectVisibility() {
-            return 'hidden';
-        },
-        getMetaResults() {
-            return {};
+        getAdditionalGroupConstructorParams() {
+            return {
+                multiSelectVisibility: 'hidden',
+                metaResults: {}
+            };
         },
         hasMoreDataUp: () => false,
         isStickyHeader: () => false

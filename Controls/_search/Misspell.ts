@@ -10,10 +10,9 @@ import 'css!Controls/search';
   * Полезные ссылки:
   * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/ руководство разработчика по организации поиска и фильтрации в реестре}
   * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/ руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия}
-  * * {@link https://github.com/saby/wasaby-controls/blob/691ea993b54186e06053160a2c88d66fb629f4ed/Controls-default-theme/variables/_search.less переменные тем оформления}
   * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/search/change-layout/ Поиск со сменой раскладки}
+  * * {@link https://github.com/saby/wasaby-controls/blob/691ea993b54186e06053160a2c88d66fb629f4ed/Controls-default-theme/variables/_search.less переменные тем оформления}
   * 
-  * @class Controls/_search/Misspell
   * @mixes Controls/interface:ICaption
   * @extends UI/Base:Control
   *
@@ -22,7 +21,7 @@ import 'css!Controls/search';
   */
 /*
  * //TODO KONGO A control that displays a tooltip if misspell was in search text was found.
- * @class Controls/_search/Misspell
+ * 
  * @mixes Controls/interface:ICaption
  * @extends UI/Base:Control
  *

@@ -126,7 +126,7 @@ class Base extends Control<IMasterDetail, string> {
     /**
      * @name Controls/_masterDetail/Base#scrollOffsetTop
      * @cfg {Number} Определяет смещение позиции прилипания внутри скроллируемой области.
-     * Подробнее {@link Controls/_scroll/StickyHeader#offsetTop}
+     * Подробнее {@link Controls/_scroll/StickyBlock#offsetTop}
      */
 
     /**
