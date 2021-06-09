@@ -774,6 +774,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 searchPromises.push(this._dataLoader.getSearchController(id).then((searchController) => {
                     return searchController.search(value).finally(() => {
                         if (!this._destroyed) {
+                            this._loading = false;
                             this._afterSourceLoad(
                                 this._getSourceController(id),
                                 this._listsOptions[index] as IBrowserOptions
