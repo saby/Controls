@@ -6,8 +6,6 @@ define([
    'Types/collection',
    'Controls/list',
    'Controls/tree',
-   'Controls/treeGridOld',
-   'Controls/gridOld',
    'Controls/toolbars',
    'Core/Deferred',
    'Core/core-instance',
@@ -24,7 +22,7 @@ define([
    'Controls/dataSource',
    'Controls/marker',
    'Core/polyfill/PromiseAPIDeferred'
-], function(sourceLib, collection, lists, tree, treeGrid, grid, tUtil, cDeferred, cInstance, Env, EnvTouch, clone, entity, SettingsController, popup, listDragNDrop, dragNDrop, listRender, itemActions, dataSource, marker) {
+], function(sourceLib, collection, lists, tree, tUtil, cDeferred, cInstance, Env, EnvTouch, clone, entity, SettingsController, popup, listDragNDrop, dragNDrop, listRender, itemActions, dataSource, marker) {
    describe('Controls.List.BaseControl', function() {
       var data, result, source, rs, sandbox;
 
@@ -362,82 +360,6 @@ define([
             sandbox.restore();
          });
       });
-
-      it('setHasMoreData', async function() {
-         var gridColumns = [
-            {
-               displayProperty: 'title',
-               width: '1fr',
-               valign: 'top',
-               style: 'default',
-               textOverflow: 'ellipsis'
-            },
-            {
-               displayProperty: 'price',
-               width: 'auto',
-               align: 'right',
-               valign: 'bottom',
-               style: 'default'
-            },
-            {
-               displayProperty: 'balance',
-               width: 'auto',
-               align: 'right',
-               valign: 'middle',
-               style: 'default'
-            }
-         ];
-         var gridData = [
-            {
-               'id': '123',
-               'title': 'Хлеб',
-               'price': 50,
-               'balance': 15
-            },
-         ];
-         var source = new sourceLib.Memory({
-            idProperty: 'id',
-            data: gridData,
-         });
-         var sourceController = new dataSource.NewSourceController({
-            source: source,
-            keyProperty: 'id'
-         });
-         sourceController.setItems(new collection.RecordSet({ rawData: gridData }));
-         var cfg = {
-            viewName: 'Controls/Grid/GridView',
-            source: source,
-            sourceController: sourceController,
-            displayProperty: 'title',
-            columns: gridColumns,
-            resultsPosition: 'top',
-            keyProperty: 'id',
-            navigation: {
-               view: 'infinity',
-               source: 'page',
-               sourceConfig: {
-                  pageSize: 2,
-                  page: 0,
-                  hasMore: false
-               }
-            },
-            virtualScrollConfig: {
-               pageSize: 100
-            },
-            viewModelConstructor: grid.GridViewModel,
-         };
-         var ctrl = correctCreateBaseControl(cfg);
-         ctrl.saveOptions(cfg);
-         await ctrl._beforeMount(cfg);
-         assert.equal(undefined, ctrl.getViewModel()
-            .getResultsPosition());
-
-         ctrl._sourceController.hasMoreData = () => true;
-         await ctrl.reload();
-         assert.equal('top', ctrl.getViewModel()
-            .getResultsPosition());
-      });
-
 
       it('errback to callback', function() {
          return new Promise(function(resolve, reject) {
@@ -6197,30 +6119,6 @@ define([
             assert.isTrue(isDeactivateSwipeCalled);
          });
 
-         // Необходимо вызывать updateItemActions при изиенении модели (Демка Controls-demo/Explorer/ExplorerLayout)
-         it('should call updateItemActions when Model constructor has changed', () => {
-            const columns = [
-               {
-                  displayProperty: 'title',
-                  width: '1fr',
-                  valign: 'top',
-                  style: 'default',
-                  textOverflow: 'ellipsis'
-               }
-            ];
-            instance._listViewModel.setActionsAssigned(true);
-            sandbox.replace(lists.BaseControl._private, 'updateItemActions', (self, options) => {
-               updateItemActionsCalled = true;
-            });
-            instance._beforeUpdate({
-               ...cfg,
-               source: instance._options.source,
-               columns,
-               viewModelConstructor: grid.GridViewModel
-            });
-            assert.isTrue(updateItemActionsCalled);
-         });
-
          // при неидентичности source необходимо перезапрашивать данные этого source и затем вызывать updateItemActions
          it('should call updateItemActions when data was reloaded', async () => {
             instance._listViewModel.setActionsAssigned(true);
@@ -8546,40 +8444,6 @@ define([
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
             });
 
-            it('updateOptions with new model', () => {
-               const searchViewModel = new treeGrid.SearchGridViewModel({
-                  items: new collection.RecordSet({
-                     rawData: [{
-                        id: 1,
-                        type: true,
-                        parent: null
-                     }, {
-                        id: 2,
-                        type: null,
-                        parent: 1
-                     }],
-                     keyProperty: 'id'
-                  }),
-                  parentProperty: 'parent',
-                  nodeProperty: 'type',
-                  keyProperty: 'id'
-               });
-
-               const notifySpy = sinon.spy(baseControl, '_notify');
-
-               baseControl.setMarkedKey(3);
-               baseControl._listViewModel = searchViewModel;
-               baseControl._modelRecreated = true;
-               baseControl._beforeUpdate(cfg);
-
-
-               assert.isTrue(notifySpy.withArgs('beforeMarkedKeyChanged', [2]).called);
-               assert.isTrue(notifySpy.withArgs('markedKeyChanged', [2]).called);
-
-               assert.isFalse(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
-               assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-            });
-
             it('setMarkedKey', () => {
                const newCfg = {
                   ...cfg,
@@ -8633,40 +8497,6 @@ define([
                };
                baseControl._beforeUpdate(newCfg);
 
-               assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-            });
-
-            it('updateOptions with new model', () => {
-               const searchViewModel = new treeGrid.SearchGridViewModel({
-                  items: new collection.RecordSet({
-                     rawData: [{
-                        id: 1,
-                        type: true,
-                        parent: null
-                     }, {
-                        id: 2,
-                        type: null,
-                        parent: 1
-                     }],
-                     keyProperty: 'id'
-                  }),
-                  parentProperty: 'parent',
-                  nodeProperty: 'type',
-                  keyProperty: 'id'
-               });
-
-               const notifySpy = sinon.spy(baseControl, '_notify');
-
-               baseControl.setMarkedKey(3);
-               baseControl._listViewModel = searchViewModel;
-               baseControl._modelRecreated = true;
-               baseControl._beforeUpdate(cfg);
-
-
-               assert.isTrue(notifySpy.withArgs('beforeMarkedKeyChanged', [2]).called);
-               assert.isTrue(notifySpy.withArgs('markedKeyChanged', [2]).called);
-
-               assert.isFalse(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
             });
 
