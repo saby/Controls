@@ -194,7 +194,7 @@ export interface IColumn extends IColspanParams {
      *
      * По умолчанию Controls/grid:ColumnTemplate отображает значение поля, имя которого задано в конфигурации колонки в свойстве {@link displayProperty}. Также шаблон Controls/grid:ColumnTemplate поддерживает {@link Controls/grid:ColumnTemplate параметры}, с помощью которых можно изменить отображение ячейки.
      *
-     * При настройке пользовательского шаблона следует использовать директиву {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}. Также в опцию template можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@Link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ColumnTemplate.
+     * При настройке пользовательского шаблона следует использовать директиву {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}. Также в опцию template можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ColumnTemplate.
      *
      * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/columns/template/ руководстве разработчика}.
      * @see Controls/grid:ColumnTemplate
