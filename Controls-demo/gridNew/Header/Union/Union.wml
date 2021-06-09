@@ -1,0 +1,8 @@
+<div class="controlsDemo__wrapper controlsDemo__grid-header-multiHeader-base controlsDemo__height400 controlsDemo_widthFit">
+    <Controls.grid:View
+            backgroundStyle="default"
+            keyProperty="key"
+            source="{{_viewSource}}"
+            header="{{_header}}"
+            columns="{{_columns}}"/>
+</div>

@@ -59,6 +59,20 @@ type TCurrencyPosition = 'right' | 'left';
  * @variant l
  */
 type TCurrencySize = '2xs' | 'xs' | 's' | 'm' | 'l';
+/**
+ * Тип данных для подчеркивания
+ * @typedef {string} Controls/_decorator/IMoney/TUnderline
+ * @variant hovered
+ * @variant none
+ */
+type TUnderline = 'hovered' | 'none';
+/**
+ * Тип данных количества знаков после запятой
+ * @typedef {string} Controls/_decorator/IMoney/TPrecision
+ * @variant 0
+ * @variant 2
+ */
+type TPrecision = 0 | 2;
 
 interface IPaths {
     integer: string;
@@ -102,6 +116,20 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
      * @demo Controls-demo/Decorator/Money/Currency/Index
      */
     currencyPosition?: TCurrencyPosition;
+    /**
+     * @name Controls/_decorator/IMoney#underline
+     * @cfg {Controls/_decorator/IMoney/TUnderline.typedef} Вариант подчеркивания.
+     * @default none
+     * @demo Controls-demo/Decorator/Money/Underline/Index
+     */
+    underline?: TUnderline;
+    /**
+     * @name Controls/_decorator/IMoney#precision
+     * @cfg {Number} Количество знаков после запятой.
+     * @default 2
+     * @demo Controls-demo/Decorator/Money/Precision/Index
+     */
+    precision?: TPrecision;
 }
 
 /**
@@ -153,8 +181,8 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     protected _template: TemplateFunction = MoneyTemplate;
 
     // Used in template
-    protected _isDisplayFractionPath(value: string, showEmptyDecimals: boolean): boolean {
-        return showEmptyDecimals || value !== '.00';
+    protected _isDisplayFractionPath(value: string, showEmptyDecimals: boolean, precision: number): boolean {
+        return (showEmptyDecimals || value !== '.00') && !!precision;
     }
 
     private _getTooltip(options: IMoneyOptions): string {
@@ -181,7 +209,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     }
 
     private _formatNumber(options: IMoneyOptions): string | IPaths {
-        const value = Money.toFormat(Money.toString(this._value));
+        const value = Money.toFormat(Money.toString(this._value, options.precision), options.precision);
 
         let [integer, fraction] = this._splitValueIntoParts(value);
 
@@ -234,12 +262,12 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         this._tooltip = this._getTooltip(newOptions);
     }
 
-    private static FRACTION_LENGTH: number = 2;
-    private static ZERO_FRACTION_PATH: string = '0'.repeat(Money.FRACTION_LENGTH);
+    // private static FRACTION_LENGTH: number = 2;
+    // private static ZERO_FRACTION_PATH: string = '0'.repeat(Money.FRACTION_LENGTH);
 
-    private static toString(value: string): string {
+    private static toString(value: string, precision: number): string {
         if (value === null) {
-            return '0.' + Money.ZERO_FRACTION_PATH;
+            return '0' + (precision ? '.00' : '');
         }
         if (typeof value === 'number') {
             return numberToString(value);
@@ -252,18 +280,25 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
      * Приводит value к формату:
      * 1. Значение должно иметь {Money.FRACTION_LENGTH} знака в дробной части. Недостоющие знаки заменяются нулями.
      */
-    private static toFormat(value: string): string {
+    private static toFormat(value: string, precision: number): string {
         const dotPosition = value.indexOf('.');
 
         if (dotPosition === -1) {
-            return value + `.${Money.ZERO_FRACTION_PATH}`;
+            return value + (precision ? '.00' : '');
+        }
+
+        if (!precision) {
+            return value.substr(0, dotPosition);
         }
 
         const fractionLength = value.length - dotPosition - 1;
-        if (fractionLength < Money.FRACTION_LENGTH) {
-            return value + '0'.repeat(Money.FRACTION_LENGTH - fractionLength);
-        } else if (fractionLength > Money.FRACTION_LENGTH) {
-            return value.substr(0, dotPosition + Money.FRACTION_LENGTH + 1);
+
+        if (fractionLength < precision) {
+            return value + '0'.repeat(precision - fractionLength);
+        }
+
+        if (fractionLength > precision) {
+            return value.substr(0, dotPosition + precision + 1);
         }
 
         return value;
@@ -276,6 +311,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
             fontSize: 'm',
             fontWeight: 'default',
             useGrouping: true,
+            precision: 2,
             showEmptyDecimals: true,
             currencySize: 's',
             currencyPosition: 'right',
@@ -292,6 +328,10 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
             fontSize: descriptor(String),
             useGrouping: descriptor(Boolean),
             showEmptyDecimals: descriptor(Boolean),
+            precision: descriptor(Number).oneOf([
+                0,
+                2
+            ]),
             value: descriptor(String, Number, null),
             currencySize: descriptor(String),
             currencyPosition: descriptor(String),

@@ -543,7 +543,7 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
         }
     },
 
-    _onColumnScrollWrapperResized(): void {
+    _onColumnScrollViewResized(): void {
         if (this._options.columnScroll && canShowColumnScroll(this, this._options)) {
 
             // Считаем размеры, если горизонтальный скролл не нужен, то удаляем.

@@ -560,7 +560,7 @@ define(['Controls/gridOld', 'Types/collection'], function(gridMod, collection) {
                await new Promise((resolve) => {
                   contentContainer.offsetWidth = 125;
                   contentContainer.scrollWidth = 600;
-                  gridView.resizeNotifyOnListChanged();
+                  gridView.onViewResized();
 
                   setTimeout(() => {
                      assert.equal(gridView._containerSize, 125);
@@ -973,7 +973,7 @@ define(['Controls/gridOld', 'Types/collection'], function(gridMod, collection) {
             };
             gridView._isFullMounted = true;
 
-            gridView.resizeNotifyOnListChanged();
+            gridView.onViewResized();
             assert.isTrue(columnScrollResizeHandlerCalled);
             assert.isTrue(updateShadowStyleCalled);
          });

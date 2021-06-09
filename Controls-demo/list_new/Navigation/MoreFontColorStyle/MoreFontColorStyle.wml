@@ -1,155 +1,90 @@
 <div class="controlsDemo__wrapper  controlsDemo__flexRow">
     <div class="controlsDemo__cell controlsDemo_fixedWidth500 moreFontColorStyle">
-        <div class="controls-text-label">default</div>
-        <Controls.scroll:Container>
-            <Controls.list:View
-                    keyProperty="id"
-                    source="{{_viewSource}}">
-                <ws:navigation source="page" view="demand">
-                    <ws:sourceConfig pageSize="{{1}}" page="{{0}}" hasMore="{{false}}"/>
-                    <ws:viewConfig pagingMode="basic"/>
-                </ws:navigation>
-            </Controls.list:View>
-        </Controls.scroll:Container>
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/MoreFontColorStyle/Default/Index' }}">
+            <a href="{{content.href}}">default</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.MoreFontColorStyle.Default.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500 moreFontColorStyleLink">
-        <div class="controls-text-label">moreFontColorStyle=link</div>
-        <Controls.scroll:Container>
-            <Controls.list:View
-                    keyProperty="id"
-                    source="{{_viewSource}}"
-                    moreFontColorStyle="link">
-                <ws:navigation source="page" view="demand">
-                    <ws:sourceConfig pageSize="{{1}}" page="{{0}}" hasMore="{{false}}"/>
-                    <ws:viewConfig pagingMode="basic"/>
-                </ws:navigation>
-            </Controls.list:View>
-        </Controls.scroll:Container>
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/MoreFontColorStyle/Link/Index' }}">
+            <a href="{{content.href}}">moreFontColorStyle=link</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.MoreFontColorStyle.Link.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500 moreFontColorStylePrimary">
-        <div class="controls-text-label">moreFontColorStyle=primary</div>
-        <Controls.scroll:Container>
-            <Controls.list:View
-                    keyProperty="id"
-                    source="{{_viewSource}}"
-                    moreFontColorStyle="primary">
-                <ws:navigation source="page" view="demand">
-                    <ws:sourceConfig pageSize="{{1}}" page="{{0}}" hasMore="{{false}}"/>
-                    <ws:viewConfig pagingMode="basic"/>
-                </ws:navigation>
-            </Controls.list:View>
-        </Controls.scroll:Container>
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/MoreFontColorStyle/Primary/Index' }}">
+            <a href="{{content.href}}">moreFontColorStyle=primary</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.MoreFontColorStyle.Primary.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500 moreFontColorStyleSecondary">
-        <div class="controls-text-label">moreFontColorStyle=secondary</div>
-        <Controls.scroll:Container>
-            <Controls.list:View
-                    keyProperty="id"
-                    source="{{_viewSource}}"
-                    moreFontColorStyle="secondary">
-                <ws:navigation source="page" view="demand">
-                    <ws:sourceConfig pageSize="{{1}}" page="{{0}}" hasMore="{{false}}"/>
-                    <ws:viewConfig pagingMode="basic"/>
-                </ws:navigation>
-            </Controls.list:View>
-        </Controls.scroll:Container>
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/MoreFontColorStyle/Secondary/Index' }}">
+            <a href="{{content.href}}">moreFontColorStyle=secondary</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.MoreFontColorStyle.Secondary.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500 moreFontColorStyleSuccess">
-        <div class="controls-text-label">moreFontColorStyle=success</div>
-        <Controls.scroll:Container>
-            <Controls.list:View
-                    keyProperty="id"
-                    source="{{_viewSource}}"
-                    moreFontColorStyle="success">
-                <ws:navigation source="page" view="demand">
-                    <ws:sourceConfig pageSize="{{1}}" page="{{0}}" hasMore="{{false}}"/>
-                    <ws:viewConfig pagingMode="basic"/>
-                </ws:navigation>
-            </Controls.list:View>
-        </Controls.scroll:Container>
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/MoreFontColorStyle/Success/Index' }}">
+            <a href="{{content.href}}">moreFontColorStyle=success</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.MoreFontColorStyle.Success.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500 moreFontColorStyleWarning">
-        <div class="controls-text-label">moreFontColorStyle=warning</div>
-        <Controls.scroll:Container>
-            <Controls.list:View
-                    keyProperty="id"
-                    source="{{_viewSource}}"
-                    moreFontColorStyle="warning">
-                <ws:navigation source="page" view="demand">
-                    <ws:sourceConfig pageSize="{{1}}" page="{{0}}" hasMore="{{false}}"/>
-                    <ws:viewConfig pagingMode="basic"/>
-                </ws:navigation>
-            </Controls.list:View>
-        </Controls.scroll:Container>
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/MoreFontColorStyle/Warning/Index' }}">
+            <a href="{{content.href}}">moreFontColorStyle=warning</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.MoreFontColorStyle.Warning.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500 moreFontColorStyleDanger">
-        <div class="controls-text-label">moreFontColorStyle=danger</div>
-        <Controls.scroll:Container>
-            <Controls.list:View
-                    keyProperty="id"
-                    source="{{_viewSource}}"
-                    moreFontColorStyle="danger">
-                <ws:navigation source="page" view="demand">
-                    <ws:sourceConfig pageSize="{{1}}" page="{{0}}" hasMore="{{false}}"/>
-                    <ws:viewConfig pagingMode="basic"/>
-                </ws:navigation>
-            </Controls.list:View>
-        </Controls.scroll:Container>
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/MoreFontColorStyle/Danger/Index' }}">
+            <a href="{{content.href}}">moreFontColorStyle=danger</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.MoreFontColorStyle.Danger.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500 moreFontColorStyleUnaccented">
-        <div class="controls-text-label">moreFontColorStyle=unaccented</div>
-        <Controls.scroll:Container>
-            <Controls.list:View
-                    keyProperty="id"
-                    source="{{_viewSource}}"
-                    moreFontColorStyle="unaccented">
-                <ws:navigation source="page" view="demand">
-                    <ws:sourceConfig pageSize="{{1}}" page="{{0}}" hasMore="{{false}}"/>
-                    <ws:viewConfig pagingMode="basic"/>
-                </ws:navigation>
-            </Controls.list:View>
-        </Controls.scroll:Container>
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/MoreFontColorStyle/Unaccented/Index' }}">
+            <a href="{{content.href}}">moreFontColorStyle=unaccented</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.MoreFontColorStyle.Unaccented.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500 moreFontColorStyleLabel">
-        <div class="controls-text-label">moreFontColorStyle=label</div>
-        <Controls.scroll:Container>
-            <Controls.list:View
-                    keyProperty="id"
-                    source="{{_viewSource}}"
-                    moreFontColorStyle="label">
-                <ws:navigation source="page" view="demand">
-                    <ws:sourceConfig pageSize="{{1}}" page="{{0}}" hasMore="{{false}}"/>
-                    <ws:viewConfig pagingMode="basic"/>
-                </ws:navigation>
-            </Controls.list:View>
-        </Controls.scroll:Container>
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/MoreFontColorStyle/Label/Index' }}">
+            <a href="{{content.href}}">moreFontColorStyle=label</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.MoreFontColorStyle.Label.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500 moreFontColorStyleInfo">
-        <div class="controls-text-label">moreFontColorStyle=info</div>
-        <Controls.scroll:Container>
-            <Controls.list:View
-                    keyProperty="id"
-                    source="{{_viewSource}}"
-                    moreFontColorStyle="info">
-                <ws:navigation source="page" view="demand">
-                    <ws:sourceConfig pageSize="{{1}}" page="{{0}}" hasMore="{{false}}"/>
-                    <ws:viewConfig pagingMode="basic"/>
-                </ws:navigation>
-            </Controls.list:View>
-        </Controls.scroll:Container>
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/MoreFontColorStyle/Info/Index' }}">
+            <a href="{{content.href}}">moreFontColorStyle=info</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.MoreFontColorStyle.Info.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500 moreFontColorStyleDefault">
-        <div class="controls-text-label">moreFontColorStyle=default</div>
-        <Controls.scroll:Container>
-            <Controls.list:View
-                    keyProperty="id"
-                    source="{{_viewSource}}"
-                    moreFontColorStyle="default">
-                <ws:navigation source="page" view="demand">
-                    <ws:sourceConfig pageSize="{{1}}" page="{{0}}" hasMore="{{false}}"/>
-                    <ws:viewConfig pagingMode="basic"/>
-                </ws:navigation>
-            </Controls.list:View>
-        </Controls.scroll:Container>
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/MoreFontColorStyle/DefaultValue/Index' }}">
+            <a href="{{content.href}}">moreFontColorStyle=default</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.MoreFontColorStyle.DefaultValue.Index/>
     </div>
 </div>

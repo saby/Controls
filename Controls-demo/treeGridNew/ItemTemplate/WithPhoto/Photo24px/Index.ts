@@ -1,13 +1,14 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/ItemTemplate/WithPhoto/Photo24px/Photo24px';
 import {CrudEntityKey, Memory} from 'Types/source';
-import {Gadgets} from '../../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
+import {WithPhoto} from "Controls-demo/treeGridNew/DemoHelpers/Data/WithPhoto";
+import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 export default class extends Control<IControlOptions> {
    protected _template: TemplateFunction = Template;
    protected _viewSource: Memory;
-   protected _columns: IColumn[] = Gadgets.getGridColumnsWithPhoto();
+   protected _columns: IColumn[] = WithPhoto.getGridColumnsWithPhoto();
    // tslint:disable-next-line
    protected _expandedItems: CrudEntityKey[] = [ 1, 15, 153 ];
 
@@ -15,9 +16,9 @@ export default class extends Control<IControlOptions> {
       if (options.hasOwnProperty('collapseNodes')) {
          this._expandedItems = [];
       }
-      const data = Gadgets.getFlatData();
+      const data = Flat.getData();
       data.push({
-         id: 6,
+         key: 6,
          title: 'Subtask',
          rating: '',
          country: '',
@@ -26,7 +27,7 @@ export default class extends Control<IControlOptions> {
          subtask: true
       });
       this._viewSource = new Memory({
-         keyProperty: 'id',
+         keyProperty: 'key',
          data
       });
    }

@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/Columns/HighlightOnHover/HighlightOnHover';
 import {Memory} from 'Types/source';
-import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
+import {Countries} from "Controls-demo/gridNew/DemoHelpers/Data/Countries";
 
 const columns: IColumn[] = [
     {
@@ -41,9 +41,9 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             // tslint:disable-next-line
-            data: getCountriesStats().getData().slice(0, 5)
+            data: Countries.getData().slice(0, 5)
         });
     }
 

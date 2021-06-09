@@ -5,7 +5,7 @@ import {RecordSet} from 'Types/collection';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 
 interface IRawData {
-    id: number;
+    key: number;
     title: string;
     group: string;
 }
@@ -36,7 +36,7 @@ export default class Index extends Control<IControlOptions> {
     protected _resetRows(): void {
         this._lastRowId = 0;
         this._items = new RecordSet({
-            keyProperty: 'id',
+            keyProperty: 'key',
             rawData: [
                 this._generateRow(),
                 this._generateRow(),
@@ -50,14 +50,14 @@ export default class Index extends Control<IControlOptions> {
      * Генерирует сырые данные для новой строки
      */
     private _generateRow(): IRawData {
-        const id = ++this._lastRowId;
-        if (id % 3 === 0) {
+        const key = ++this._lastRowId;
+        if (key % 3 === 0) {
             this._lastGroupId += 1;
         }
 
         return {
-            id,
-            title: `row with id ${id}`,
+            key,
+            title: `row with id ${key}`,
             group: `group ${this._lastGroupId}`
         };
     }

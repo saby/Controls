@@ -24,8 +24,7 @@ class CloseButton extends Control<IControlOptions> {
 
    static getDefaultOptions(): object {
       return {
-         viewMode: 'toolButton',
-         transparent: true
+         viewMode: 'toolButton'
       };
    }
 }
@@ -59,23 +58,6 @@ Object.defineProperty(CloseButton, 'defaultProps', {
  * Отображение функциональной кнопки закрытия:
  * <pre>
  *    <Controls.popupTemplate:CloseButton viewMode="functionalButton"/>
- * </pre>
- */
-
-/**
- * @name Controls/_popupTemplate/CloseButton#transparent
- * @cfg {Boolean} Определяет фон кнопки.
- * @variant true Кнопке будет установлен прозрачный фон.
- * @variant false Кнопка имеет фон по умолчанию для этого режима отображения и стиля.
- * @default true
- * @example
- * Кнопка "Закрыть" с прозрачным фоном:
- * <pre class="brush: html">
- * <Controls.popupTemplate:CloseButton viewMode="toolButton" transparent="{{true}}"/>
- * </pre>
- * Кнопка "Закрыть" с непрозрачным фоном.
- * <pre class="brush: html">
- * <Controls.popupTemplate:CloseButton viewMode="toolButton" transparent="{{false}}"/>
  * </pre>
  */
 export default CloseButton;

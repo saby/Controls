@@ -1,0 +1,23 @@
+<div class="controlsDemo__wrapper">
+    <Controls.dataSource:error.Container name="errorContainer">
+        <Controls.list:View
+                name="list"
+                keyProperty="key"
+                itemActions="{{_itemActions}}"
+                itemActionVisibilityCallback="{{_itemActionVisibilityCallback}}"
+                source="{{_viewSource}}">
+            <ws:editingConfig toolbarVisibility="{{ true }}"/>
+            <ws:itemTemplate>
+                <ws:partial template="Controls/list:ItemTemplate">
+                    <ws:contentTemplate>
+                        <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.item.contents.title }}">
+                            <ws:editorTemplate>
+                                <Controls.input:Text contrastBackground="{{true}}" attr:style="width: calc(100% - 55px)" bind:value="itemTemplate.item.contents.title"/>
+                            </ws:editorTemplate>
+                        </ws:partial>
+                    </ws:contentTemplate>
+                </ws:partial>
+            </ws:itemTemplate>
+        </Controls.list:View>
+    </Controls.dataSource:error.Container>
+</div>

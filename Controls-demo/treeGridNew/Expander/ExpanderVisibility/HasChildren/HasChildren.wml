@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_treeGrid-reverseType-byItemClick">
     <Controls.treeGrid:View
             source="{{_viewSource}}"
-            keyProperty="id"
+            keyProperty="key"
             columns="{{_columns}}"
             parentProperty="Раздел"
             nodeProperty="Раздел@"

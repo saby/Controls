@@ -1,0 +1,25 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth350">
+    <Controls.list:View
+            name="list"
+            keyProperty="key"
+            source="{{_viewSource}}"
+            on:afterBeginEdit="_onAfterBeginEdit()"
+            on:beforeEndEdit="_onBeforeEndEdit()"
+            on:afterEndEdit="_onAfterEndEdit()">
+        <ws:editingConfig editOnClick="{{true}}"/>
+        <ws:itemTemplate>
+            <ws:partial template="Controls/list:ItemTemplate">
+                <ws:contentTemplate>
+                    <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.item.contents.title }}">
+                        <ws:editorTemplate>
+                            <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.item.contents.title"/>
+                        </ws:editorTemplate>
+                    </ws:partial>
+                </ws:contentTemplate>
+            </ws:partial>
+        </ws:itemTemplate>
+        <ws:footerTemplate>
+            <Controls.list:AddButton if="{{ _isEditing }}" caption="Отменить редактирование" on:click="_cancel()"/>
+        </ws:footerTemplate>
+    </Controls.list:View>
+</div>

@@ -1,0 +1,13 @@
+<div class="controlsDemo__cell controlsDemo_fixedWidth500 moreFontColorStyle">
+    <Controls.scroll:Container>
+        <Controls.list:View
+                keyProperty="key"
+                source="{{_viewSource}}"
+                moreFontColorStyle="danger">
+            <ws:navigation source="page" view="demand">
+                <ws:sourceConfig pageSize="{{1}}" page="{{0}}" hasMore="{{false}}"/>
+                <ws:viewConfig pagingMode="basic"/>
+            </ws:navigation>
+        </Controls.list:View>
+    </Controls.scroll:Container>
+</div>

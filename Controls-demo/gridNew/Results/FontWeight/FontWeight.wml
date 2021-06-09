@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper">
+    <Controls.grid:View
+            keyProperty="key"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            dataLoadCallback="{{ _dataLoadCallback }}"
+            resultsPosition="top">
+    </Controls.grid:View>
+</div>

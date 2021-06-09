@@ -4,11 +4,10 @@ import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
 import {TColspanCallbackResult} from 'Controls/grid';
 import {IGroupNodeColumn} from 'Controls/treeGrid';
 
-import { Gadgets } from '../../DemoHelpers/DataCatalog';
-
 import * as Template from 'wml!Controls-demo/treeGridNew/NodeHistoryId/NodeHistoryType/NodeHistoryType';
+import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
-const preparedData = Gadgets.getFlatData().map((item) => {
+const preparedData = Flat.getData().map((item) => {
     item.nodeType = (item.parent === null && item.type ? 'group' : '');
     return item;
 });
@@ -39,7 +38,7 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: preparedData,
             parentProperty: 'parent'
         });

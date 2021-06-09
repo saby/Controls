@@ -6,7 +6,7 @@
     <Controls.scroll:Container>
         <Controls.grid:View
                 name="grid"
-                keyProperty="id"
+                keyProperty="key"
                 source="{{_viewSource}}"
                 useNewEmptyTemplate="{{ true }}"
                 multiSelectVisibility="visible"

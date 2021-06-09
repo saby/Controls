@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
+    <Controls.treeGrid:View
+            name="tree"
+            keyProperty="key"
+            source="{{_viewSource}}"
+            parentProperty="parent"
+            nodeProperty="type"
+            columns="{{_columns}}"
+            bind:markedKey="_markedKey"
+            on:markedKeyChanged="_onMarkedKeyChanged()"
+            expandByItemClick="{{ true }}">
+        <ws:editingConfig toolbarVisibility="{{true}}"/>
+        <ws:footerTemplate>
+            <Controls.list:AddButton if="{{ _showAddButton }}" caption="Добавить запись в выбранную папку" on:click="_beginAdd()"/>
+        </ws:footerTemplate>
+    </Controls.treeGrid:View>
+</div>

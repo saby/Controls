@@ -3,9 +3,9 @@ import {Memory} from 'Types/source';
 import {CollectionItem} from 'Controls/display';
 import {Record} from 'Types/entity';
 
-import {Gadgets, IData} from '../../DemoHelpers/DataCatalog';
-
 import * as template from 'wml!Controls-demo/treeGridNew/TagStyle/TagStyleFromTemplateParam/TagStyleFromTemplateParam';
+import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
+import {IData} from "Controls-demo/treeGridNew/DemoHelpers/Interface";
 
 const MAXITEM = 7;
 
@@ -28,7 +28,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
         const data = this._getModifiedData().slice(0, MAXITEM);
         this._viewSource = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data
         });
     }
@@ -80,7 +80,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
             'warning',
             'secondary'
         ];
-        return Gadgets.getFlatData().map((cur, i) => {
+        return Flat.getData().map((cur, i) => {
             const index = i <= (styleVariants.length - 1) ? i : i % (styleVariants.length - 1);
             return {
                 ...cur,

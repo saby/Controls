@@ -5,7 +5,7 @@ import {generateData} from 'Controls-demo/list_new/DemoHelpers/DataCatalog';
 import {RecordSet} from 'Types/collection';
 
 interface IItem {
-    id: number;
+    key: number;
     title: string;
 }
 
@@ -21,13 +21,13 @@ export default class extends Control {
         count: 100,
         entityTemplate: {title: 'number'},
         beforeCreateItemCallback: (item) => {
-            item.title = `Запись #${item.id}`;
+            item.title = `Запись #${item.key}`;
         }
     });
 
     protected _beforeMount(): void {
         this._source = new Memory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             data: this._dataArray
         });
     }
@@ -40,7 +40,7 @@ export default class extends Control {
         this._newItemsOrderNumber++;
         this._items[edge === 'start' ? 'prepend' : 'append'](new RecordSet({
             rawData: [{
-                id: this._newItemsOrderNumber,
+                key: this._newItemsOrderNumber,
                 title: `Новая запись #${this._newItemsOrderNumber}`
             }]
         }));

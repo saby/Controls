@@ -1,9 +1,9 @@
-import {Gadgets} from '../../DemoHelpers/DataCatalog';
+import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
-export const getColumns = Gadgets.getGridColumnsForFlat;
+export const getColumns = Flat.getColumns;
 
 export const generateData = (): Array<{
-    id: number,
+    key: number,
     title: string,
     parent: number | null,
     type: boolean | null
@@ -12,13 +12,13 @@ export const generateData = (): Array<{
     const result = [];
     const parents = [
         {
-            id: '1',
+            key: '1',
             title: 'Запись первого уровня с id = 1. Много дочерних элементов.',
             parent: null,
             type: true
         },
         {
-            id: '2',
+            key: '2',
             title: 'Запись первого уровня с id = 2. Много дочерних элементов.',
             parent: null,
             type: true

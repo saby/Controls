@@ -4,17 +4,17 @@ import * as Template from 'wml!Controls-demo/gridNew/ItemsView/Base/Index';
 import {IColumn} from 'Controls/grid';
 import {RecordSet} from 'Types/collection';
 import {Control, TemplateFunction} from 'UI/Base';
-import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
+import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _items: RecordSet;
-    protected _columns: IColumn[] = getCountriesStats().getColumnsWithoutWidths();
+    protected _columns: IColumn[] = Countries.getColumns();
 
     protected _beforeMount(): void {
         this._items = new RecordSet({
-            keyProperty: 'id',
-            rawData: getCountriesStats().getData()
+            keyProperty: 'key',
+            rawData: Countries.getData()
         });
     }
 

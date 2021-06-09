@@ -1,0 +1,25 @@
+<div class="controlsDemo__wrapper">
+    <Controls.list:View
+            name="list"
+            keyProperty="key"
+            source="{{_viewSource}}">
+        <ws:editingConfig editOnClick="{{true}}"/>
+        <ws:itemTemplate>
+            <ws:partial template="Controls/list:ItemTemplate">
+                <ws:contentTemplate>
+                    <ws:partial template="Controls/list:BaseEditingTemplate" value="{{ itemTemplate.item.contents.title }}">
+                        <ws:editorTemplate>
+                            <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.item.contents.title"/>
+                        </ws:editorTemplate>
+                        <ws:viewTemplate>
+                            <span>{{ itemTemplate.item.contents.title }}. </span>
+                            <span class="js-controls-ListView__notEditable"
+                                  style="border-radius: 3px; background-color: #f2f2f2;"
+                            >Not editable text</span>
+                        </ws:viewTemplate>
+                    </ws:partial>
+                </ws:contentTemplate>
+            </ws:partial>
+        </ws:itemTemplate>
+    </Controls.list:View>
+</div>

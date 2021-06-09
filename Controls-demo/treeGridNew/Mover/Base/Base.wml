@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
+    <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="key">
         <div>
             <Controls.buttons:Button icon="icon-Move" caption="Переместить" on:click="_moveButtonClick()" viewMode="linkButton"/>
             <Controls.operations:Controller bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys">
@@ -14,7 +14,7 @@
                             <ws:templateOptions
                                     root="{{null}}"
                                     showRoot="{{true}}"
-                                    keyProperty="id"
+                                    keyProperty="key"
                                     parentProperty="parent"
                                     searchParam="title"
                                     filter="{{_filter}}"

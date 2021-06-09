@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-base-treeGridView">
+    <Controls.treeGrid:View
+            keyProperty="key"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            parentProperty="parent"
+            expandedItems="{{_expandedItems}}"
+            collapsedItems="{{_collapsedItems}}"
+            on:expandedItemsChanged="_onExpandedItemsChanged()"
+            nodeProperty="nodeType"/>
+</div>
