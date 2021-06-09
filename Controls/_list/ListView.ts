@@ -204,7 +204,7 @@ var ListView = BaseControl.extend(
         },
 
         // Сброс к изначальному состоянию без ремаунта, например при reload'е.
-        reset(): void {
+        reset(params: {keepScroll?: boolean} = {}): void {
         },
 
         _resolveItemTemplate(options) {
@@ -235,7 +235,7 @@ var ListView = BaseControl.extend(
             }
         },
 
-        resizeNotifyOnListChanged: function() {
+        onViewResized: function() {
             _private.resizeNotifyOnListChanged(this);
         },
 
@@ -251,7 +251,7 @@ var ListView = BaseControl.extend(
 
         _afterRender: function() {
             if (this._pendingRedraw) {
-                this.resizeNotifyOnListChanged();
+                this.onViewResized();
             }
             this._pendingRedraw = false;
         },

@@ -12,7 +12,7 @@ import { TemplateFunction } from 'UI/Base';
 
 import { IColumn, IColspanParams, TColumnSeparatorSize } from './interface/IColumn';
 
-import { IItemPadding, TMarkerClassName } from 'Controls/display';
+import {IEditingConfig, IItemPadding, TMarkerClassName} from 'Controls/display';
 import { COLUMN_SCROLL_JS_SELECTORS } from 'Controls/columnScroll';
 
 import Row from './Row';
@@ -132,6 +132,10 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
     isEditing(): boolean {
         return false;
+    }
+
+    getEditingConfig(): IEditingConfig {
+        return this._$owner.getEditingConfig();
     }
 
     // region Аспект "Colspan. Объединение ячеек по горизонтали"

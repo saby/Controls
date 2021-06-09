@@ -155,6 +155,9 @@ const _private = {
                     }
                 }
 
+                // Актуализируем информацию по раскрытым узлам в sourceController, иначе на beforeUpdate
+                // применится старое состояние из sourceController
+                self.getSourceController()?.setExpandedItems(self._expandController.getExpandedItems());
                 self._notify('expandedItemsChanged', [self._expandController.getExpandedItems()]);
                 self._notify('collapsedItemsChanged', [self._expandController.getCollapsedItems()]);
                 self._notify(expanded ? 'afterItemExpand' : 'afterItemCollapse', [item]);
@@ -432,7 +435,18 @@ const _private = {
         return target;
     },
 
-    getExpandedItems(self: TreeControl, options: ITreeControlOptions, items: RecordSet, expandedItems: CrudEntityKey[]): CrudEntityKey[] {
+    /**
+     * Возвращает идентификаторы раскрытых узлов. В случае если переданные expandedItems не равны
+     * [null], то вернутся копия переданного массива. В противном случае вернутся идентификаторы
+     * всех узлов, присутствующих в указанных items
+     */
+    getExpandedItems(
+        self: TreeControl,
+        options: ITreeControlOptions,
+        items: RecordSet,
+        expandedItems: CrudEntityKey[]
+    ): CrudEntityKey[] {
+
         if (!items) {
             return [];
         }
@@ -699,13 +713,19 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
         const currentExpandedItems = this._expandController.getExpandedItems();
         const expandedItemsFromSourceCtrl = sourceController && sourceController.getExpandedItems();
-        const wasResetExpandedItems = !isSourceControllerLoading && expandedItemsFromSourceCtrl && !expandedItemsFromSourceCtrl.length
-            && currentExpandedItems && currentExpandedItems.length;
+        // Если в sourceController нет expandedItems, а у нас в опциях есть, значит нужно сбросить раскрытые узлы
+        const wasResetExpandedItems = !isSourceControllerLoading &&
+            expandedItemsFromSourceCtrl && !expandedItemsFromSourceCtrl.length &&
+            currentExpandedItems && currentExpandedItems.length;
+
         if (wasResetExpandedItems) {
             _private.resetExpandedItems(this);
         } else if (newOptions.expandedItems && !isEqual(newOptions.expandedItems, currentExpandedItems)) {
-            if ((newOptions.source === this._options.source || newOptions.sourceController) && !isSourceControllerLoading ||
-                (searchValueChanged && newOptions.sourceController)) {
+
+            if (
+                (newOptions.source === this._options.source || newOptions.sourceController) && !isSourceControllerLoading ||
+                (searchValueChanged && newOptions.sourceController)
+            ) {
                 if (viewModel) {
                     const expandedItems = _private.getExpandedItems(this, newOptions, viewModel.getCollection(), newOptions.expandedItems);
                     viewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems));
@@ -719,6 +739,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             } else {
                 this._updateExpandedItemsAfterReload = true;
             }
+
             if (sourceController && !isEqual(newOptions.expandedItems, sourceController.getExpandedItems())) {
                 sourceController.setExpandedItems(newOptions.expandedItems);
             }
