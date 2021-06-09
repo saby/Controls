@@ -297,6 +297,25 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
         }
     },
 
+    /**
+     * Необходимо проскролить таблицу горизонтально к полю ввода, которое будет активировано.
+     * В противном случае, браузер проскролит всю таблицу (обертку).
+     * Событие срабатывает при вводе фокуса в таблицу, до активации поля ввода и
+     * только на уже редактируемой строке.
+     * Логика подскрола к полю ввода при начале редактирования строки реализована в GridView.beforeRowActivated
+     */
+    _onFocusIn(e: SyntheticEvent): void {
+        const target = e.target as HTMLElement;
+
+        if (
+            this.isColumnScrollVisible() &&
+            this._listModel.isEditing() &&
+            (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')
+        ) {
+            this._columnScrollScrollIntoView(target);
+        }
+    },
+
     _onHeaderRowClick(event: SyntheticEvent): void {
         const target = event.target as HTMLElement;
         const headerRow = this._listModel.getHeader();
@@ -388,6 +407,12 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
         );
     },
 
+    /**
+     * Необходимо проскролить таблицу горизонтально к полю ввода, которое будет активировано.
+     * В противном случае, браузер проскролит всю таблицу (обертку).
+     * Событие срабатывает при входе в режим редактирования, до активации поля ввода.
+     * Логика подскрола к полю ввода в уже редактируемой строке реализована в GridView._onFocusIn
+     */
     beforeRowActivated(target: HTMLElement): void {
         this._columnScrollScrollIntoView(target);
     }

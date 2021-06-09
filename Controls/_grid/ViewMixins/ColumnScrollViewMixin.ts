@@ -41,14 +41,18 @@ const getViewHeader = (self) => {
     return header;
 };
 
-const isSizeAffectsOptionsChanged = (changedOptions: Record<string, unknown>): boolean => {
+const isSizeAffectsOptionsChanged = (newOptions: IAbstractViewOptions, oldOptions: IAbstractViewOptions): boolean => {
+    const changedOptions: Record<string, unknown> = _Options.getChangedOptions(newOptions, oldOptions);
+    const hasCheckboxColumn = (o) => o.multiSelectVisibility !== 'visible' && o.multiSelectPosition !== 'custom';
+
     return Boolean(
         changedOptions.hasOwnProperty('columns') ||
         changedOptions.hasOwnProperty('header') ||
         changedOptions.hasOwnProperty('breadCrumbsMode') ||
         changedOptions.hasOwnProperty('sorting') ||
         changedOptions.hasOwnProperty('source') ||
-        changedOptions.hasOwnProperty('stickyColumnsCount')
+        changedOptions.hasOwnProperty('stickyColumnsCount') ||
+        (hasCheckboxColumn(oldOptions) !== hasCheckboxColumn(newOptions))
     );
 };
 
@@ -319,13 +323,12 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
             return;
         }
 
-        const changedOptions = _Options.getChangedOptions(this._options, oldOptions);
         let shouldCheckSizes = false;
         let shouldCreateDragScroll = false;
         let shouldResetColumnScroll = false;
 
         // Опции, при смене которых в любом случае придется пересчитать размеры
-        shouldCheckSizes = isSizeAffectsOptionsChanged(changedOptions);
+        shouldCheckSizes = isSizeAffectsOptionsChanged(this._options, oldOptions);
 
         // Включили горизонтальный скролл, либо изменили опции, при которых скролл
         // недопустим, например пустой список без зеголовков. Не факт что он будет нужен.
@@ -494,7 +497,7 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
     _columnScrollScrollIntoView(target: HTMLElement): void {
         if (this._$columnScrollController) {
             const cell = target.closest('.controls-Grid__row-cell') || target;
-            if (cell.className.indexOf(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`) !== -1) {
+            if (cell.className.indexOf(COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT) !== -1) {
                 return;
             }
             const isCellEditing = this._listModel.getEditingConfig()?.mode === 'cell';
