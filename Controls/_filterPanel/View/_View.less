@@ -4,7 +4,7 @@
 }
 
 .controls-FilterViewPanel-background {
-   background-color: var(--background-color-popup_filterViewPanel);
+   background-color: var(--background-color);
 }
 
 .controls-FilterViewPanel__header {
@@ -12,8 +12,8 @@
    display: flex;
    flex-direction: row;
    align-items: baseline;
-   background-color: var(--background-color-popup_filterViewPanel);
-   padding: var(--heading_vertical-offset_filterViewPanel) var(--heading_horizontal-offset_filterViewPanel);
+   background-color: var(--background-color);
+   padding: var(--heading_vertical-offset_filterViewPanel) var(--offset_m);
    height: var(--heading_height_filterViewPanel);
    line-height: var(--heading_height_filterViewPanel);
 }
@@ -23,25 +23,25 @@
 }
 
 .controls-FilterViewPanel__header_backgroundStyle-filterPanelPopup {
-   background-color: var(--background-color-popup_filterViewPanel);
+   background-color: var(--background-color);
 }
 
 .controls-FilterViewPanel__resetButton {
-   font-size: var(--button_font-size_filterViewPanel);
-   color: var(--button_color_filterViewPanel);
+   font-size: var(--font-size_m);
+   color: var(--label_text-color);
    cursor: pointer;
 }
 
 .controls-FilterEditors__list_button-more,
 .controls-FilterViewPanel__resetButton:hover {
    text-decoration: underline;
-   color: var(--button_color-hover_filterViewPanel);
+   color: var(--link_hover_text-color);
 }
 
 .controls-FilterViewPanel__group-content {
    cursor: pointer;
-   color: var(--group_color_filterViewPanel);
-   font-size: var(--group_font-size_filterViewPanel);
+   color: var(--label_text-color);
+   font-size: var(--font-size_m);
    overflow: hidden;
    text-overflow: ellipsis;
    white-space: nowrap;
@@ -55,7 +55,7 @@
 
 .controls-PropertyGrid__groupExpander.controls-FilterViewPanel__groupExpander {
    color: var(--unaccented_icon-color);
-   margin: 0 var(--group-expander_horizontal-offset_filterViewPanel);
+   margin: 0 var(--offset_2xs);
    cursor: pointer;
    align-self: center;
 }
@@ -70,13 +70,13 @@
 .controls-FilterViewPanel__group:hover {
    .controls-FilterViewPanel__groupExpander,
    .controls-FilterViewPanel__group-content {
-      color: var(--button_color-hover_filterViewPanel);
+      color: var(--link_hover_text-color);
    }
 }
 
 .controls-FilterViewPanel__groupReset {
    cursor: pointer;
-   color: var(--group_color_filterViewPanel);
+   color: var(--label_text-color);
    padding-left: var(--offset_2xs);
    padding-top: var(--offset_2xs);
 }
@@ -91,23 +91,23 @@
 
 .controls-FilterViewPanel__group-wrapper {
    position: relative;
-   padding-left: var(--padding-left_filterViewPanel);
+   padding-left: var(--offset_2xl);
    padding-right: var(--offset_xl);
 }
 
 .controls-FilterViewPanel__group-wrapper-collapsed,
 .controls-FilterViewPanel__propertyGrid_itemTemplate {
-   margin-bottom: var(--padding-bottom_filterViewPanel);
+   margin-bottom: var(--offset_m);
 }
 
 .controls-FilterViewPanel__propertyGrid_itemTemplate {
-   margin-left: var(--padding-left_filterViewPanel);
+   margin-left: var(--offset_2xl);
 }
 
 .controls-FilterViewPanel__group-header {
    display: flex;
    justify-content: space-between;
-   padding-right: var(--padding-right_filterViewPanel);
+   padding-right: var(--offset_m);
 }
 
 .controls-FilterViewPanel__group-result_wrapper {
@@ -121,16 +121,16 @@
 }
 
 .controls-FilterViewPanel__group-result {
-   font-size: var(--group_font-size_filterViewPanel);
+   font-size: var(--font-size_m);
 }
 
 .controls-FilterViewPanel__propertyGrid.controls-PropertyGrid {
-   padding: var(--content_padding_propertyGrid) 0;
+   padding: var(--offset_m) 0;
 }
 
 .controls-FilterEditors__list-item {
-   padding-left: var(--padding-left_filterViewPanel);
-   padding-right: var(--padding-right_filterViewPanel);
+   padding-left: var(--offset_2xl);
+   padding-right: var(--offset_m);
 }
 
 .controls-FilterViewPanel__propertyGrid-default {
@@ -138,7 +138,7 @@
 }
 
 .controls-FilterViewPanel__propertyGrid-contrast {
-   background-color: var(--background-color-popup_filterViewPanel);
+   background-color: var(--background-color);
 }
 
 .controls-FilterViewPanel__scroll {
@@ -146,29 +146,29 @@
 }
 
 .controls-FilterViewPanel__additional-caption {
-   color: var(--caption-additional-editor_color_filterViewPanel);
-   margin-right: var(--padding-right_filterViewPanel);
-   margin-left: var(--padding-left_filterViewPanel);
-   padding-top: var(--additional-editor_vertical-offset_filterViewPanel);
-   font-size: var(--caption-additional-editor_font-size_filterViewPanel);
+   color: var(--label_text-color);
+   margin-right: var(--offset_m);
+   margin-left: var(--offset_2xl);
+   padding-top: var(--offset_2xl);
+   font-size: var(--font-size_m);
 }
 
 .controls-FilterViewPanel__additional-header {
    display: flex;
    flex-direction: row;
    align-items: baseline;
-   padding: var(--heading_vertical-offset_filterViewPanel) var(--heading_horizontal-offset_filterViewPanel);
+   padding: var(--heading_vertical-offset_filterViewPanel) var(--offset_m);
    height: var(--heading_height_filterViewPanel);
    line-height: var(--heading_height_filterViewPanel);
 }
 
 .controls-FilterViewPanel__additional-default {
-   border-top: var(--border-additional-editor_thickness_filterViewPanel) solid var(--border-additional-editor_color_filterViewPanel);
+   border-top: var(--border-thickness) solid var(--border-color_switcher);
 }
 
 .controls-FilterViewPanel__additional-editors-container {
    flex-grow: 1;
-   padding-bottom: var(--additional-editor_vertical-offset_filterViewPanel);
+   padding-bottom: var(--offset_2xl);
    background-color: var(--background-color_filterViewPanel);
 
 }
@@ -178,13 +178,13 @@
    flex-wrap: wrap;
    width: 100%;
    box-sizing: border-box;
-   padding-left: calc(var(--padding-left_filterViewPanel) - var(--additional-editor_horizontal-offset_filterViewPanel));
-   padding-right: var(--padding-right_filterViewPanel);
+   padding-left: calc(var(--offset_2xl) - var(--additional-editor_horizontal-offset_filterViewPanel));
+   padding-right: var(--offset_m);
 }
 
 .controls-FilterViewPanel__additional-editor {
    cursor: pointer;
-   height: var(--additional-editor_height_filterViewPanel);
+   height: var(--inline_height_s);
    padding: 0 var(--additional-editor_horizontal-offset_filterViewPanel);
    margin-top: var(--additional-editor_margin-top_filterViewPanel);
    border-radius: var(--additional-editor_border-radius_filterViewPanel);
@@ -192,16 +192,16 @@
 }
 
 .controls-FilterViewPanel__additional-editor:hover {
-   background: var(--additional-editor-hover_background-color_filterViewPanel);
+   background: var(--background-color);
 }
 
 .controls-FilterViewPanel__filter-icon {
    .icon-size(var(--reset-button_icon-size_filterView));
-   color: var(--heading_icon_color_filterViewPanel);
+   color: var(--secondary_text-color);
 }
 
 .controls-FilterViewPanel__filter-caption {
-   padding: 0 var(--additional-caption_horizontal-offset_filterViewPanel);
+   padding: 0 var(--offset_xs);
 }
 
 .controls-inlineheight-filterPanel {
@@ -210,7 +210,7 @@
    width: var(--apply-button_inline-height_menuPopup);
    border-radius: var(--apply-button_border-radius_menuPopup);
    position: absolute;
-   right: calc(var(--heading_close-btn_offset_filterViewPanel) + var(--width_closeButton_link) + var(--padding-right_filterViewPanel));
+   right: calc(var(--offset_s) + var(--width_closeButton_link) + var(--offset_m));
    top: calc((var(--heading_height_filterViewPanel) - var(--apply-button_inline-height_menuPopup)) / 2);
 }
 
@@ -221,12 +221,12 @@
    background-color: var(--background-color_filterViewPanel);
    height: var(--heading-default_height_filterViewPanel);
    line-height: var(--heading-default_height_filterViewPanel);
-   padding-bottom: var(--padding-bottom_filterViewPanel);
+   padding-bottom: var(--offset_m);
 }
 
 .controls-FilterViewPanel_header__applyButton {
    position: absolute;
-   right: var(--heading_horizontal-offset_filterViewPanel);
+   right: var(--offset_m);
 }
 
 .controls-EditorList__applyButton {

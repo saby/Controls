@@ -1,6 +1,6 @@
 @padding-horizontal_default_menu: calc(var(--border-thickness_sticky) + var(--item_padding-horizontal_l_menu));
 
-@popup_offset-top_default_menu_button: calc(-1 * ((var(--item_height_menu) - var(--inline_height_m_button)) / 2 + var(--border-thickness_sticky)));
+@popup_offset-top_default_menu_button: calc(-1 * ((var(--item_height_menu) - var(--inline_height_m)) / 2 + var(--border-thickness_sticky)));
 @popup_offset-left_default_menu_button: calc(-1 * (@padding-horizontal_default_menu - var(--padding-horizontal_m_button)));
 
 .controls-MenuButton_button__m_popup { // viewMode = 'button' inlineHeight = 'm'
@@ -14,12 +14,12 @@
 }
 
 .controls-MenuButton_button__s_popup { // viewMode = 'button' inlineHeight = 's'
-   margin-top: calc(-1 * ((var(--item_height_menu) - var(--inline_height_s_button)) / 2 + var(--border-thickness_sticky)));
+   margin-top: calc(-1 * ((var(--item_height_menu) - var(--inline_height_s)) / 2 + var(--border-thickness_sticky)));
    margin-left: calc(-1 * (@padding-horizontal_default_menu - var(--padding-horizontal_s_button)));
 }
 
 .controls-MenuButton_button__l_popup { // viewMode = 'button' inlineHeight = 'l'
-   margin-top: calc(-1 * ((var(--item_height_menu) - var(--inline_height_l_button)) / 2 + var(--border-thickness_sticky)));
+   margin-top: calc(-1 * ((var(--item_height_menu) - var(--inline_height_l)) / 2 + var(--border-thickness_sticky)));
    margin-left: calc(-1 * (@padding-horizontal_default_menu - var(--padding-horizontal_l_button)));
 }
 
@@ -41,7 +41,7 @@
 }
 
 .controls-MenuButton_link__l_popup {
-   margin-top: calc(-1 * ((var(--item_height_menu) - var(--inline_height_l_button)) / 2 + var(--border-thickness_sticky)));
+   margin-top: calc(-1 * ((var(--item_height_menu) - var(--inline_height_l)) / 2 + var(--border-thickness_sticky)));
    margin-left: calc(-1 * @padding-horizontal_default_menu);
 }
 
@@ -55,22 +55,22 @@
 
 .controls-MenuButton_toolButton__xl_popup,
 .controls-MenuButton_functionalButton__xl_popup {
-   margin-top: calc(-1 * ((var(--item_height_menu) - var(--inline_height_xl_button)) / 2 + var(--border-thickness_sticky)));
-   margin-left: calc(-1 * (@padding-horizontal_default_menu - (var(--inline_height_xl_button) - var(--icon-size_l)) / 2));
+   margin-top: calc(-1 * ((var(--item_height_menu) - var(--inline_height_xl)) / 2 + var(--border-thickness_sticky)));
+   margin-left: calc(-1 * (@padding-horizontal_default_menu - (var(--inline_height_xl) - var(--icon-size_l)) / 2));
 }
 
 .controls-MenuButton_toolButton__l_popup,
 .controls-MenuButton_functionalButton__l_popup {
-   margin-top: calc(-1 * ((var(--item_height_menu) - var(--inline_height_l_button)) / 2 + var(--border-thickness_sticky)));
-   margin-left: calc(-1 * (@padding-horizontal_default_menu - ((var(--inline_height_l_button) - var(--icon-size_m)) / 2)));
+   margin-top: calc(-1 * ((var(--item_height_menu) - var(--inline_height_l)) / 2 + var(--border-thickness_sticky)));
+   margin-left: calc(-1 * (@padding-horizontal_default_menu - ((var(--inline_height_l) - var(--icon-size_m)) / 2)));
 }
 
 .controls-MenuButton_toolButton__default_popup,
 .controls-MenuButton_toolButton__m_popup,
 .controls-MenuButton_functionalButton__default_popup,
 .controls-MenuButton_functionalButton__m_popup {
-   margin-top: calc(-1 * ((var(--item_height_menu) - var(--inline_height_m_button)) / 2 + var(--border-thickness_sticky)));
-   margin-left: calc(-1 * (@padding-horizontal_default_menu - ((var(--inline_height_m_button) - var(--icon-size_s)) / 2)));
+   margin-top: calc(-1 * ((var(--item_height_menu) - var(--inline_height_m)) / 2 + var(--border-thickness_sticky)));
+   margin-left: calc(-1 * (@padding-horizontal_default_menu - ((var(--inline_height_m) - var(--icon-size_s)) / 2)));
 }
 
 @padding-horizontal_duplicate-head: calc(var(--item_padding-horizontal_l_menu) + var(--border-thickness_sticky));
