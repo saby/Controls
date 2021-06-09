@@ -337,11 +337,12 @@
    border-color: var(--pale_contrast_background-color);
    background-color: var(--pale_contrast_background-color);
    box-shadow: none;
+}
 
-   &.controls-Button_functionalButton_style-translucent {
-      border-width: 0;
-      background-color: var(--translucent_background-color_button);
-   }
+.controls-Button_functionalButton_style-translucent > .controls-Button_functionalButton_style-pale,
+.controls-Button_functionalButton_style-translucent.controls-Button_functionalButton_style-pale {
+   border-width: 0;
+   background-color: var(--translucent_background-color_button);
 }
 
 .controls-Button_functionalButton_style-readonly {
@@ -386,10 +387,11 @@
    .controls-Button_functionalButton_style-pale:hover {
       border-color: var(--pale_hover_contrast_background-color);
       background-color: var(--pale_hover_contrast_background-color);
+   }
 
-      &.controls-Button_functionalButton_style-translucent {
-         background-color: var(--translucent_hover_background-color_button);
-      }
+   .controls-Button_functionalButton_style-translucent > .controls-Button_functionalButton_style-pale:hover,
+   .controls-Button_functionalButton_style-translucent.controls-Button_functionalButton_style-pale:hover {
+      background-color: var(--translucent_hover_background-color_button);
    }
 
    .controls-Button_functionalButton_style-default:hover {
@@ -434,9 +436,11 @@
    .controls-Button_functionalButton_style-pale:active {
       border-color: var(--pale_active_contrast_background-color);
       background-color: var(--pale_active_contrast_background-color);
-      &.controls-Button_functionalButton_style-translucent {
-         background-color: var(--translucent_active_background-color_button);
-      }
+   }
+
+   .controls-Button_functionalButton_style-translucent > .controls-Button_functionalButton_style-pale:active,
+   .controls-Button_functionalButton_style-translucent.controls-Button_functionalButton_style-pale:active {
+      background-color: var(--translucent_active_background-color_button);
    }
 
    .controls-Button_functionalButton_style-default:active {
