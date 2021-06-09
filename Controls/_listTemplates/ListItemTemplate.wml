@@ -85,7 +85,6 @@
                   scope="{{contentTemplate}}"
                   itemData="{{_options.item || _options.itemData}}"
                   item="{{_options.item || _options.itemData}}"
-                  afterImageTemplate="{{_options.afterImageTemplate}}"
                   isEditing="{{item.isEditing()}}"
                   imageProperty="{{_options.imageProperty}}"
                   imagePosition="{{_options.imagePosition}}"
