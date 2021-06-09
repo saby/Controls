@@ -609,8 +609,11 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         if (this._model.fixedPosition !== fixedPosition) {
             this._fixationStateChangeHandler(this._model.fixedPosition, fixedPosition);
             this._updateStyles(this._options);
+            this._updateCanShadowVisible(this._options);
             fastUpdate.mutate(() => {
-                if (this._isBottomShadowVisible) {
+                // shadowBottom может не быть в DOM, т.к он стоит под условием и при изменении _canShadowVisible.bottom
+                // отрисуется в следующем цикле синхронизации.
+                if (this._isBottomShadowVisible && this._children.hasOwnProperty('shadowBottom')) {
                     this._children.shadowBottom.classList.remove(this._isMobileIOS ? 'ws-invisible' : 'ws-hidden');
                 }
                 this._container.style.zIndex = this._model?.fixedPosition ? this._options.fixedZIndex : '';
