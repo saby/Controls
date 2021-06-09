@@ -266,9 +266,11 @@ define([
             assert.include(component._getStyle(position, fixedZIndex), 'z-index: 2;');
          });
 
-         it('should return correct top.', function() {
+         it('should return correct top and bottom.', function() {
             const fixedZIndex = 2;
-            const position = 'topbottom';
+            const position = {
+               vertical: 'topBottom'
+            };
             const component = createComponent(StickyHeader, {fixedZIndex, position });
             component._stickyHeadersHeight = {
                top: 10,
@@ -280,6 +282,24 @@ define([
 
             component._model = { fixedPosition: 'bottom' };
             assert.include(component._getStyle(position, fixedZIndex), 'bottom: 20px;');
+         });
+
+         it('should return correct left and right.', () => {
+            const fixedZIndex = 2;
+            const position = {
+               horizontal: 'leftRight'
+            };
+            const component = createComponent(StickyHeader, {fixedZIndex, position });
+            component._stickyHeadersHeight = {
+               left: 10,
+               right: 20
+            };
+
+            component._model = { fixedPosition: 'left' };
+            assert.include(component._getStyle(position, fixedZIndex), 'left: 10px;');
+
+            component._model = { fixedPosition: 'right' };
+            assert.include(component._getStyle(position, fixedZIndex), 'right: 20px;');
          });
 
          it('should return correct min-height.', function() {
@@ -626,6 +646,99 @@ define([
 
             EnvLib.detection.isMobilePlatform = isMobilePlatform;
             sinon.restore();
+         });
+      });
+      describe('_onScrollStateChanged', () => {
+         [{
+            position: {
+               vertical: 'top'
+            }
+         }, {
+            position: {
+               vertical: 'bottom'
+            }
+         }, {
+            position: {
+               vertical: 'topBottom'
+            }
+         }, {
+            position: {
+               horizontal: 'left'
+            }
+         }, {
+            position: {
+               horizontal: 'right'
+            }
+         }, {
+            position: {
+               horizontal: 'leftRight'
+            }
+         }].forEach((test, index) => {
+            it('should call updateStylesStub' + index, () => {
+               const component = createComponent(StickyHeader, {position: test.position});
+               const updateStylesStub = sinon.stub(component, '_updateStyles');
+               component._initialized = true;
+               component._scrollState = {
+                  hasUnrenderedContent: {
+                     top: false,
+                     bottom: false
+                  },
+                  canVerticalScroll: false,
+                  canHorizontalScroll: false
+               };
+               const scrollState = {
+                  hasUnrenderedContent: {
+                     top: false,
+                     bottom: false
+                  },
+                  canVerticalScroll: true,
+                  canHorizontalScroll: true
+               };
+               const oldScrollState = {
+                  canVerticalScroll: false
+               };
+               component._onScrollStateChanged(scrollState, oldScrollState);
+               sinon.assert.called(updateStylesStub);
+            });
+         });
+      });
+
+      describe('getStickyPosition ', () => {
+         [{
+            position: 'top',
+            result: {
+               vertical: 'top'
+            }
+         }, {
+            position: 'bottom',
+            result: {
+               vertical: 'bottom'
+            }
+         }, {
+            position: 'topbottom',
+            result: {
+               vertical: 'topBottom'
+            }
+         }, {
+            position: 'left',
+            result: {
+               horizontal: 'left'
+            }
+         }, {
+            position: 'right',
+            result: {
+               horizontal: 'right'
+            }
+         }, {
+            position: 'leftright',
+            result: {
+               horizontal: 'leftRight'
+            }
+         }].forEach((test) => {
+            it('should return correct position', () => {
+               const result = StickyHeader.getStickyPosition(test);
+               assert.equal(JSON.stringify(result), JSON.stringify(test.result));
+            });
          });
       });
    });
