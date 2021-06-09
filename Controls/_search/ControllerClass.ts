@@ -128,6 +128,9 @@ export default class ControllerClass {
       if (this._rootBeforeSearch && this._root !== this._rootBeforeSearch && this._options.startingWith === 'current') {
          this._root = this._rootBeforeSearch;
       }
+      if (!this._isSearchMode() && this._options.parentProperty) {
+         this._sourceController.setRoot(this._root);
+      }
       this._rootBeforeSearch = null;
       const filter = this._getFilter();
 
@@ -281,7 +284,6 @@ export default class ControllerClass {
    private _dataLoadCallback(event: unknown, items: RecordSet): void {
       const filter = this._getFilter();
       const sourceController = this._sourceController;
-      const isSearchMode = !!sourceController.getFilter()[this._options.searchParam];
 
       if (this.isSearchInProcess() && this._searchValue) {
          this._sourceController.setFilter(filter);
@@ -289,7 +291,7 @@ export default class ControllerClass {
             sourceController.setExpandedItems([]);
          }
 
-         if (this._options.startingWith === 'root' && !isSearchMode && this._options.parentProperty) {
+         if (this._options.startingWith === 'root' && !this._isSearchMode() && this._options.parentProperty) {
             const newRoot = ControllerClass._getRoot(this._path, this._root, this._options.parentProperty);
 
             if (newRoot !== this._root) {
@@ -419,6 +421,10 @@ export default class ControllerClass {
 
    private _searchEnded(): void {
       this._searchInProgress = false;
+   }
+
+   private _isSearchMode(): boolean {
+      return !!this._sourceController.getFilter()[this._options.searchParam];
    }
 
    private static _getPath(items: RecordSet): RecordSet {
