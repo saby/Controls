@@ -1,13 +1,15 @@
 import {Control} from 'UI/Base';
 import {IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_moverDialog/Template/Template');
-import {Record} from 'Types/entity';
+import cellTemplate = require('wml!Controls/_moverDialog/Template/CellTemplate');
+import {Model} from 'Types/entity';
 import {ICrudPlus, QueryWhereExpression} from 'Types/source';
+import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import rk = require('i18n!Controls');
-import {TKeysSelection, TColumns} from 'Controls/interface';
+import {TColumns} from 'Controls/grid';
+import {TKeysSelection} from 'Controls/interface';
 import 'css!Controls/moverDialog';
-
 
 export interface IMoverDialogTemplateOptions extends IControlOptions {
     displayProperty: string;
@@ -23,6 +25,8 @@ export interface IMoverDialogTemplateOptions extends IControlOptions {
     parentProperty: string;
     filter?: QueryWhereExpression<unknown>;
     headingCaption?: string;
+    rootTitle?: string;
+    rootLabelVisible?: boolean;
 }
 
 /**
@@ -74,12 +78,18 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         // Выписана задача: https://online.sbis.ru/opendoc.html?guid=aeaff20a-ee07-4d1b-8a9d-2528a269bc91
         this._columns = options.columns.slice();
         this._columns[0].textOverflow = 'ellipsis';
+        this._columns[0].template = cellTemplate;
+        this._columns[0].templateOptions = {
+            rootLabelVisible: options.rootLabelVisible !== false
+        };
+
         this._onItemClick = this._onItemClick.bind(this);
         this._itemsFilterMethod = this._itemsFilterMethod.bind(this);
         this._itemActionVisibilityCallback = this._itemActionVisibilityCallback.bind(this);
+        this._dataLoadCallback = this._dataLoadCallback.bind(this);
     }
 
-    protected _itemsFilterMethod(item: Record): boolean {
+    protected _itemsFilterMethod(item: Model): boolean {
         let result = true;
 
         if (item.get) {
@@ -89,12 +99,15 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         return result;
     }
 
-    protected _itemActionVisibilityCallback(action: object, item: Record): boolean {
+    protected _itemActionVisibilityCallback(action: object, item: Model): boolean {
         return item.get(this._options.hasChildrenProperty);
     }
 
-    protected _onItemClick(event: SyntheticEvent<MouseEvent>, item: Record): void {
-        if (!item.get(this._options.hasChildrenProperty)) {
+    protected _onItemClick(event: SyntheticEvent<MouseEvent>, item: Model): void {
+        if (item.getKey() === 'root') {
+            this._applyMove(this._options.root);
+
+        } else if (!item.get(this._options.hasChildrenProperty)) {
             this._applyMove(item);
         }
     }
@@ -107,13 +120,35 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         return this._notify('beforeMarkedKeyChanged', [newKey]);
     }
 
-    protected _onItemActionsClick(event: SyntheticEvent<MouseEvent>, action: object, item: Record): void {
+    protected _onItemActionsClick(event: SyntheticEvent<MouseEvent>, action: object, item: Model): void {
         this._applyMove(item);
     }
 
-    protected _applyMove(item: Record): void {
+    protected _applyMove(item: Model): void {
         this._notify('sendResult', [item], {bubbling: true});
         this._notify('close', [], {bubbling: true});
+    }
+
+    protected _dataLoadCallback(recordSet: RecordSet): void {
+        if (this._root === this._options.root && this._options.showRoot) {
+            recordSet.add(new Model({
+                keyProperty: recordSet.getKeyProperty(),
+                rawData: this._getRootRawData()
+            }), 0);
+        }
+    }
+
+    /**
+     * Генерирует запись "В корень"
+     * @private
+     */
+    private _getRootRawData(): {[p: string]: string | number} {
+        return {
+            [this._options.parentProperty]: this._root || null,
+            [this._options.nodeProperty]: null,
+            [this._options.keyProperty]: 'root',
+            [this._options.displayProperty || 'title']: this._options.rootTitle
+        };
     }
 
     static getDefaultOptions = (): object => {
@@ -155,6 +190,17 @@ export default class extends Control<IMoverDialogTemplateOptions> {
  * @name Controls/_moverDialog/Template#headingCaption
  * @cfg {String} Заголовок окна перемещения.
  * @default 'Выбор раздела'
+ */
+
+/**
+ * @name Controls/_moverDialog/Template#rootTitle
+ * @cfg {String} Заголовок корневой записи.
+ */
+
+/**
+ * @name Controls/_moverDialog/Template#rootLabelVisible
+ * @cfg {Boolean} Флаг, позволяющий включить или отключить пометку "(в корень)"
+ * @default true
  */
 
 /**

@@ -1,0 +1,16 @@
+<ws:if data="{{item.contents.key === 'root'}}">
+    <ws:partial template="Controls/grid:ColumnTemplate"
+                attr:class="controls-MoveDialog__root"
+                data-qa="controls-MoveDialog__root"
+                scope="{{_options}}">
+        <ws:contentTemplate>
+            <div>
+                {{ gridColumn.getDefaultDisplayValue() }}
+                <div if="{{rootLabelVisible}}" class="controls-MoveDialog__label">({[В корень]})</div>
+            </div>
+        </ws:contentTemplate>
+    </ws:partial>
+</ws:if>
+<ws:else>
+    <ws:partial template="Controls/grid:ColumnTemplate" scope="{{ _options }}"/>
+</ws:else>

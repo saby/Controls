@@ -15,4 +15,12 @@
         </Router.router:Reference>
         <Controls-demo.treeGridNew.Mover.Extended.Index/>
     </div>
+    <div class="controlsDemo__cell controlsDemo__mr4">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/Mover/RootLabelVisible/Index' }}">
+            <a href="{{content.href}}">Конфигурация перемещения со скрытой пометкой "(в корень)"</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.Mover.RootLabelVisible.Index/>
+    </div>
 </div>

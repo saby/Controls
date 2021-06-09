@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGridNew/Mover/Base/Base';
+import * as Template from 'wml!Controls-demo/treeGridNew/Mover/RootLabelVisible/RootLabelVisible';
 import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
 import {ISelectionObject} from 'Controls/interface';
