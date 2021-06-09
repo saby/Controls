@@ -7,14 +7,13 @@ import * as Dnd from 'Controls/dragnDrop';
 import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';
 
-const NUMBER_OF_ITEMS = 25;
+const NUMBER_OF_ITEMS = 200 ;
 
 export default class RenderDemo extends Control {
     protected _template: TemplateFunction = template;
     protected _viewSource: Memory;
     private _dataArray: Array<{id: number, title: string}>;
     protected _selectedKeys: Number[] = [];
-    private _multiselect: 'visible'|'hidden' = 'hidden';
 
     protected _beforeMount(): void {
         this._dataArray = generateData<{id: number, key: number, title: string}>({
@@ -38,11 +37,7 @@ export default class RenderDemo extends Control {
     }
 
     protected _dragEnd(_: SyntheticEvent, entity: Collection<Model>, target: unknown, position: string): void {
-        this._selectedKeys = [];
         return this._children.listMover.moveItems(entity.getItems(), target, position);
-    }
-    protected _onToggle(): void {
-        this._multiselect = this._multiselect === 'visible' ? 'hidden' : 'visible';
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
