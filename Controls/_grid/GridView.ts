@@ -284,8 +284,8 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
      * Изменения размеров "снаружи" сама таблица не слушает, только миксин горизонтального скролла.
      * Обработка происходит в методе ColumnScrollViewMixin._onColumnScrollViewResized
      */
-    resizeNotifyOnListChanged(): void {
-        GridView.superclass.resizeNotifyOnListChanged.apply(this, arguments);
+    onViewResized(): void {
+        GridView.superclass.onViewResized.apply(this, arguments);
         this._onColumnScrollViewResized();
     },
 

@@ -551,8 +551,8 @@ var
             _private.destroyColumnScroll(this);
         },
 
-        resizeNotifyOnListChanged(): void {
-            GridView.superclass.resizeNotifyOnListChanged.apply(this, arguments);
+        onViewResized(): void {
+            GridView.superclass.onViewResized.apply(this, arguments);
 
             // TODO: Проверить https://online.sbis.ru/opendoc.html?guid=a768cb95-9c30-4f75-b1fb-9182228e5550 #rea_columnnScroll
             if (this._isFullMounted && this._options.columnScroll) {
