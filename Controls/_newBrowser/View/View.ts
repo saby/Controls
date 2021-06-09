@@ -111,7 +111,6 @@ export default class View extends Control<IOptions, IReceivedState> {
     protected _listConfiguration: IBrowserViewConfig;
     protected _tileCfg: TileController = null;
     protected _listCfg: ListController = null;
-    protected _options: IOptions;
     protected _dataContext: Record<string, any> = null;
     protected _masterDataSource: SourceController = null;
     protected _hasImageInItems: boolean = false;
