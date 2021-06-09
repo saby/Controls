@@ -20,6 +20,7 @@ interface IHoverFreezeItemData {
     key: CrudEntityKey;
     index: number;
     startIndex?: number;
+    nativeEvent?: SyntheticEvent;
 }
 
 interface IPoint {
@@ -87,11 +88,12 @@ export default class HoverFreeze {
      * Таймер реально запускается только если
      * сделали ховер по новой записи впервые или после "разморозки", или по текущей записи в "заморозке"
      * @param itemKey
+     * @param nativeEvent
      * @param itemIndex
      * @param startIndex
      */
-    startFreezeHoverTimeout(itemKey: CrudEntityKey, itemIndex: number, startIndex: number): void {
-        this._startFreezeHoverTimeout(itemKey, itemIndex, startIndex, HOVER_FREEZE_TIMEOUT);
+    startFreezeHoverTimeout(itemKey: CrudEntityKey, nativeEvent: SyntheticEvent, itemIndex: number, startIndex: number): void {
+        this._startFreezeHoverTimeout(itemKey, nativeEvent, itemIndex, startIndex, HOVER_FREEZE_TIMEOUT);
     }
 
     startUnfreezeHoverTimeout(event: SyntheticEvent): void {
@@ -110,6 +112,7 @@ export default class HoverFreeze {
                     const timeout = HOVER_FREEZE_TIMEOUT - HOVER_UNFREEZE_TIMEOUT;
                     this._startFreezeHoverTimeout(
                         this._delayedItemData.key,
+                        this._delayedItemData.nativeEvent,
                         this._delayedItemData.index,
                         this._delayedItemData.startIndex,
                         timeout);
@@ -126,12 +129,13 @@ export default class HoverFreeze {
      * если задан таймаут "разморозки" и есть уже "замороженная" запись.
      * Используется при движении курсора мыши внутри записи.
      * @param itemKey
+     * @param nativeEvent
      * @param itemIndex
      * @param startIndex
      */
-    setDelayedHoverItem(itemKey: CrudEntityKey, itemIndex: number, startIndex: number): void {
+    setDelayedHoverItem(itemKey: CrudEntityKey, nativeEvent: SyntheticEvent, itemIndex: number, startIndex: number): void {
         if (this._itemData !== null && !!this._itemUnfreezeHoverTimeout) {
-            this._setDelayedItemData(itemKey, itemIndex, startIndex);
+            this._setDelayedItemData(itemKey, nativeEvent, itemIndex, startIndex);
         }
     }
 
@@ -163,7 +167,7 @@ export default class HoverFreeze {
         }
     }
 
-    private _startFreezeHoverTimeout(itemKey: CrudEntityKey, itemIndex: number, startIndex: number, timeout: number): void {
+    private _startFreezeHoverTimeout(itemKey: CrudEntityKey, nativeEvent: SyntheticEvent, itemIndex: number, startIndex: number, timeout: number): void {
         if (this._itemData === null || this._itemData?.key === itemKey) {
             // если уже были таймеры разлипания/залипания, то глушим их
             this._clearUnfreezeHoverTimeout();
@@ -174,17 +178,28 @@ export default class HoverFreeze {
             // Стартуем новый таймер залипания.
             this._itemFreezeHoverTimeout = setTimeout(() => {
                 // Выставляем новую запись как залипшую:
-                this._freezeHover(itemKey, itemIndex, startIndex);
+                this._freezeHover(itemKey, itemIndex, this._calculateHTMLNodeIndex(nativeEvent, itemIndex, startIndex));
             }, timeout);
         }
+    }
+
+    private _calculateHTMLNodeIndex(nativeEvent: SyntheticEvent, itemIndex: number, startIndex: number): number {
+        if (nativeEvent && nativeEvent.target) {
+            const itemContainer = nativeEvent.target.closest('.controls-ListView__itemV');
+            if (itemContainer) {
+                const listContainer = itemContainer.parentNode;
+                return [].slice.call(listContainer.children).indexOf(itemContainer) + 1;
+            }
+        }
+        return itemIndex - startIndex + 1;
     }
 
     private _setItemData(key: CrudEntityKey, index: number): void {
         this._itemData = { key, index };
     }
 
-    private _setDelayedItemData(key: CrudEntityKey, index: number, startIndex: number): void {
-        this._delayedItemData = { key, index, startIndex };
+    private _setDelayedItemData(key: CrudEntityKey, nativeEvent: SyntheticEvent, index: number, startIndex: number): void {
+        this._delayedItemData = { key, index, startIndex, nativeEvent };
     }
 
     /**
@@ -246,12 +261,11 @@ export default class HoverFreeze {
      * Устанавливает необходимые CSS классы и выполняет _freezeHoverCallback
      * @param itemKey
      * @param itemIndex
-     * @param startIndex
+     * @param htmlNodeIndex
      * @private
      */
-    private _freezeHover(itemKey: CrudEntityKey, itemIndex: number, startIndex: number): void {
+    private _freezeHover(itemKey: CrudEntityKey, itemIndex: number, htmlNodeIndex: number): void {
         this._clearFreezeHoverTimeout();
-        const htmlNodeIndex = itemIndex - startIndex + 1;
         const hoveredContainers = this._getHoveredItemContainers(htmlNodeIndex);
         if (hoveredContainers.length) {
             // zero element in grid will be row itself; it doesn't have any background color, then lets take the last one
