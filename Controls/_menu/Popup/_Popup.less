@@ -28,7 +28,7 @@
 }
 
 .controls-Menu__popup-header-multiSelect {
-   padding-right: calc(var(--apply-button_inline-height_menuPopup) + (var(--apply-button_offset_menuPopup) * 2));
+   padding-right: calc(var(--apply-button_inline-height_menuPopup) + (var(--offset_xs) * 2));
 }
 
 .controls-Menu__popup-list-padding-top {
@@ -113,7 +113,7 @@
 .controls-Menu__popup_header_search {
    display: flex;
    align-items: center;
-   margin-right: var(--search_offset-right_menuPopup);
+   margin-right: var(--offset_m);
 }
 
 .controls-Menu__popup_header_search_width_s {
@@ -156,11 +156,11 @@
 }
 
 .controls-Menu_withClose__applyButton {
-   right: calc(var(--close-button_offset-right_sticky) + var(--width_closeButton_link) + var(--apply-button_offset_menuPopup));
+   right: calc(var(--close-button_offset-right_sticky) + var(--width_closeButton_link) + var(--offset_xs));
 }
 
 .controls-Menu_withoutClose__applyButton {
-   right: var(--apply-button_offset_menuPopup);
+   right: var(--offset_xs);
 }
 
 // в edge не работает box-shadow с calc
