@@ -51,7 +51,7 @@
    height: calc(var(--yearlist_month_height_datePicker) - var(--yearlist_item_border-thickness_datePicker) * 2);
    width: var(--yearlist_quarters_width_datePicker);
    color: var(--yearlist_quarters_text-color_datePicker);
-   font-size: var(--yearlist_quarters_font-size_datePicker);
+   font-size: var(--font-size_l);
    background-color: var(--yearlist_quarters_background-color_datePicker);
    border-right: var(--yearlist_block-separator_thickness_datePicker) solid var(--yearlist_block-separator_color_datePicker);
 }
@@ -81,7 +81,7 @@
 }
 
 .controls-PeriodDialog-MonthsRange__halfYearsPanel-button {
-   background-color: var(--yearlist_halfyears_background-color_datePicker);
+   background-color: var(--background-color_datePicker);
    width: var(--yearlist_halfyears_width_datePicker);
    color: var(--yearlist_halfyears_text-color_datePicker);
    font-size: var(--yearlist_halfyears_font-size_datePicker);
@@ -150,7 +150,7 @@
       top: calc(-1 * var(--yearlist_item_border-thickness_datePicker));
       left: calc(var(--yearlist_halfyears_width_datePicker) + var(--yearlist_block-separator_thickness_datePicker));
       right: calc(-1 * var(--yearlist_item_border-thickness_datePicker));
-      border: solid var(--yearlist_item_border-thickness_datePicker) var(--yearlist_halfyears_hover_border-color_datePicker);
+      border: solid var(--yearlist_item_border-thickness_datePicker) var(--yearlist_quarters_hover_border-color_datePicker);
    }
 }
 
@@ -170,11 +170,11 @@
 }
 
 .controls-MonthView__textColor-currentMonthDay-workday_style-monthRangeItem {
-   color: var(--yearlist_monthview_item_text-color_datePicker);
+   color: var(--monthlist_monthview_item_text-color_datePicker);
 }
 
 .controls-MonthView__textColor-currentMonthDay-weekend_style-monthRangeItem {
-   color: var(--yearlist_monthview_weekend_text-color_datePicker);
+   color: var(--monthlist_monthview_weekend_text-color_datePicker);
 }
 
 .controls-MonthViewVDOM__item_style-monthRangeItem {
