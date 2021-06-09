@@ -223,6 +223,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         }
     }
 
+    getColspanGroup(): boolean {
+        return this._$colspanGroup;
+    }
+
     getColspanCallback(): TColspanCallback {
         return this._$colspanCallback;
     }
