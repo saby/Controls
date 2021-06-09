@@ -60,7 +60,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
     * * **nodeType**  — тип элемента. Возвращает true для типа "узел", false — для типа "скрытый узел", null  — для типа "лист". Актуально для контрола {@link Controls/treeGrid:View Дерево}.
     * * **isEditing()** — возвращает true, если для записи выполняется {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
     * * **getLevel()** — возвращает уровень вложенности элемента относительно корня иерархии. Актуально для контрола {@link Controls/treeGrid:View Дерево}.
-    * * **getLadder()** — возвращает объект с конфигурацией {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ лесенки} для записи. Пример объекта конфигурации:
+    * * **getLadder()** — возвращает объект с конфигурацией {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ лесенки} для текущей записи. Пример объекта конфигурации:
     * <pre class="brush: js">
     * {
     *    prop1: {ladderLength: number},
