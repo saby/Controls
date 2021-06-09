@@ -15,12 +15,15 @@ define(
                let search = new Search();
                let searched = false;
                let activated = false;
+               let newValue = '';
                const eventMock = {stopPropagation: () => {}};
 
                search._beforeMount({});
                search._notify = (e, args) => {
                   if (e === 'searchClick') {
                      searched = true;
+                  } else if (e === 'valueChanged') {
+                     newValue = args[0];
                   }
                };
                search.activate = () => {
@@ -41,6 +44,11 @@ define(
                assert.isFalse(searched);
                assert.isTrue(activated);
 
+               search._options.trim = true;
+               search._viewModel.displayValue = '    test text     ';
+               search._searchClick(eventMock);
+               assert.equal(search._viewModel.displayValue, 'test text');
+               assert.equal(newValue, 'test text');
             });
 
             it('_resetClick', function() {
