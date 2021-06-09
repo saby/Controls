@@ -9,7 +9,7 @@
 }
 
 .controls-TileView__previewTemplate_title_singleLine {
-   min-height: var(--title_single_line_height_preview_tile);
+   min-height: var(--inline_height_xl);
 }
 
 .controls-TileView__previewTemplate_title_multiLine {
@@ -54,8 +54,8 @@
 
 .controls-TileView__previewTemplate_topTemplate {
    position: absolute;
-   top: var(--top_template_offset_top_preview_tile);
-   right: var(--top_template_offset_right_preview_tile);
+   top: var(--offset_xs);
+   right: var(--offset_xs);
 }
 
 .controls-TileView__previewTemplate_bottomRightTemplate {
@@ -76,7 +76,7 @@
 }
 
 .controls-TileView__previewTemplate_itemActions_node {
-   padding-right: var(--item_padding_itemActions);
+   padding-right: var(--offset_xs);
 }
 
 .controls-itemActionsV__action_style_tileDark + .controls-itemActionsV__action_style_tileDark {
@@ -103,7 +103,7 @@
 
    .controls-BaseControl_showActions_onhover {
       .controls-TileView__previewTemplate:hover.controls-TileView__previewTemplate_actions_showed.controls-TileView__previewTemplate_node .controls-TileView__previewTemplate_title_text {
-         padding-right: calc(var(--item_padding_itemActions) + var(--icon-size_m));
+         padding-right: calc(var(--offset_xs) + var(--icon-size_m));
       }
       .controls-TileView__previewTemplate:hover.controls-TileView__previewTemplate_actions_showed {
          &:not(.controls-TileView__previewTemplate_node) .controls-TileView__previewTemplate_title_text,

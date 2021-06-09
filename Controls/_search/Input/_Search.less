@@ -25,12 +25,12 @@
 
 .controls-Search_state-search__input_border {
    border-color: var(--border-color_focus_searchInput);
-   background: var(--background-color_focus_searchInput);
+   background: var(--background-color_searchInput);
 }
 
 .controls-Search_state-searchContrast__input_border {
    border-color: var(--border-color_contrast_focus_searchInput);
-   background: var(--background-color_contrast_focus_searchInput);
+   background: var(--background-color_contrast_searchInput);
 }
 
 .controls-Render_state-search-valid_caretFilled,
@@ -39,7 +39,7 @@
 
    &:focus-within {
       border-color: var(--border-color_focus_searchInput);
-      background: var(--background-color_focus_searchInput);
+      background: var(--background-color_searchInput);
    }
 
 }
@@ -55,7 +55,7 @@
 .controls-Render_state-searchContrast-invalid-active,
 .controls-Render_state-searchContrast-invalidAccent-active {
    border-color: var(--border-color_contrast_focus_searchInput);
-   background: var(--background-color_contrast_focus_searchInput);
+   background: var(--background-color_contrast_searchInput);
 }
 
 .ws-is-hover {
@@ -74,20 +74,20 @@
 
 .controls-Render_state-search-readonly {
    border-color: var(--readonly_border-color_searchInput);
-   background: var(--readonly_background-color_searchInput);
+   background: var(--background-color_searchInput);
 }
 
 .controls-Render_state-searchContrast-readonly {
    border-color: var(--readonly_border-color_searchInput);
-   background: var(--readonly_contrast_background-color_searchInput);
+   background: var(--background-color_contrast_searchInput);
 }
 
 .controls-Search__field_margin-xs {
-   margin: 0 var(--reset-button_offset-left_searchInput) 0 calc(var(--padding-left_searchInput) - var(--border-thickness_inputText));
+   margin: 0 var(--offset_2xs) 0 calc(var(--padding-left_searchInput) - var(--border-thickness));
 }
 
 .controls-Search__field_margin-null {
-   margin: 0 var(--reset-button_offset-left_searchInput) 0 calc(var(--padding-left_searchInput) - var(--border-thickness_inputText));
+   margin: 0 var(--offset_2xs) 0 calc(var(--padding-left_searchInput) - var(--border-thickness));
 }
 
 .controls-Search__buttons {
@@ -105,11 +105,11 @@
 }
 
 .controls-Search__searchButton_inlineheight-s {
-   .icon-size(var(--trigger_s_icon-size_searchInput));
+   .icon-size(var(--icon-size_s));
 }
 
 .controls-Search__searchButton_inlineheight-xs {
-   .icon-size(var(--trigger_xs_icon-size_searchInput));
+   .icon-size(var(--icon-size_s));
 }
 
 .controls-Search__searchButton_inlineheight-m,
@@ -118,15 +118,15 @@
 }
 
 .controls-Search__searchButton_inlineheight-l {
-   .icon-size(var(--trigger_l_icon-size_searchInput));
+   .icon-size(var(--icon-size_l));
 }
 
 .controls-Search__searchButton_inlineheight-xl {
-   .icon-size(var(--trigger_xl_icon-size_searchInput));
+   .icon-size(var(--icon-size_l));
 }
 
 .controls-Search__searchButton_inlineheight-2xl {
-   .icon-size(var(--trigger_2xl_icon-size_searchInput));
+   .icon-size(var(--icon-size_l));
 }
 
 .controls-Search__searchButton_color {
@@ -150,7 +150,7 @@
 }
 
 .controls-Search__resetButton_color:active {
-   color: var(--reset-button_active_icon-color_searchInput);
+   color: var(--reset-button_icon-color_searchInput);
 }
 
 .ws-is-hover {
@@ -159,12 +159,12 @@
    }
 
    .controls-Search__resetButton_color:hover {
-      color: var(--reset-button_hover_icon-color_searchInput);
+      color: var(--reset-button_icon-color_searchInput);
    }
 }
 
 .controls-Search__searchButton_position {
-   margin-right: calc(var(--padding-right_searchInput) - var(--border-thickness_inputText));
+   margin-right: calc(var(--padding-right_searchInput) - var(--border-thickness));
 }
 
 .controls-Search__resetButton_position {
@@ -176,16 +176,16 @@
 }
 
 .controls-Search__nativeField_caretFilled {
-   caret-color: var(--caret-color_fill_searchInput);
+   caret-color: var(--text-color);
 }
 
 .controls-Search__expandable-search {
-   height: var(--icon-size-expandableSearch);
-   width: var(--icon-size-expandableSearch);
+   height: var(--icon-size_m);
+   width: var(--icon-size_m);
 }
 
 .controls-Search__expandable-container {
-   height: var(--icon-size-expandableSearch);
+   height: var(--icon-size_m);
    overflow: hidden;
    position: relative;
 }
@@ -222,7 +222,7 @@
 }
 
 .controls-Search__expandable-reset-button {
-   color: var(--reset-button_color-expandableSearch);
+   color: var(--readonly_color);
    cursor: pointer;
    background: var(--close-button_icon-background-expandableSearch);
    &::after {
@@ -236,16 +236,16 @@
 }
 
 .controls-Search__expandable-reset-button:hover {
-   color: var(--reset-button_color_hover-expandableSearch);
+   color: var(--link_hover_text-color);
 }
 
 .controls-Search__expandable-reset-button:active {
-   color: var(--reset-button_color_active-expandableSearch);
+   color: var(--reset-button_color_hover-expandableSearch);
 }
 
 .controls-Search__expandable-button-container {
    overflow: hidden;
-   width: var(--icon-size-expandableSearch);
+   width: var(--icon-size_m);
 }
 
 .controls-Search__expandable-button-animation {
@@ -278,7 +278,7 @@
 
 @keyframes iconLeftMove {
    0% {
-      transform: translateX(var(--icon-size-expandableSearch));
+      transform: translateX(var(--icon-size_m));
    }
 
    100% {
@@ -290,6 +290,6 @@
 //demo https://jsfiddle.net/gersasha/ew03jha4/2/
 .ws-is-mobile-safari {
    .controls-Search__nativeField_caretEmpty {
-      caret-color: var(--caret-color_fill_searchInput);
+      caret-color: var(--text-color);
    }
 }

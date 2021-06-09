@@ -42,7 +42,7 @@
 
 .controls-EditableArea__applyButton {
    height: var(--height_applyButton_editableArea);
-   width: var(--width_applyButton_editableArea);
+   width: var(--height_applyButton_editableArea);
    border-radius: var(--border-radius_applyButton_editableArea);
    box-shadow: var(--box-shadow_applyButton_editableArea);
    background-color: var(--background-color_applyButton_editableArea);
@@ -53,7 +53,7 @@
 }
 .controls-EditableArea__applyButton:active {
    box-shadow: none;
-   background-color: var(--background-color_active_applyButton_editableArea);
+   background-color: var(--success_active_background-color_button_functionalButton);
 }
 
 .controls-EditableArea__closeButton {
@@ -64,7 +64,7 @@
    border-color: var(--border-color_button_toolButton);
    border-radius: var(--border-radius_closeButton_editableArea);
    box-shadow: var(--box-shadow_closeButton_editableArea);
-   margin-left: var(--toolbar_padding-left_editableArea);
+   margin-left: var(--offset_m);
    margin-right: var(--toolbar_padding-right_editableArea);
    background-color: var(--background-color_closeButton_editableArea);
 }
@@ -108,5 +108,5 @@
 }
 
 .controls-EditableArea_isEditing_wrapper {
-   margin-left: var(--toolbar_button_offset_editableArea);
+   margin-left: var(--offset_m);
 }
