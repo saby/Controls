@@ -137,14 +137,7 @@ class Search extends Base {
     }
 
     protected _notifyInputCompleted(): void {
-        if (this._options.trim) {
-            let trimmedValue = this._viewModel.displayValue.trim();
-
-            if (trimmedValue !== this._viewModel.displayValue) {
-                this._viewModel.displayValue = trimmedValue;
-                this._notifyValueChanged();
-            }
-        }
+        this._trimValue();
 
         super._notifyInputCompleted.apply(this, arguments);
     }
@@ -177,6 +170,8 @@ class Search extends Base {
             return;
         }
 
+        this._trimValue();
+
         event.stopPropagation();
         this._notifySearchClick(event);
 
@@ -206,6 +201,17 @@ class Search extends Base {
         super._clickHandler.apply(this, arguments);
 
         this._wasActionUser = true;
+    }
+
+    private _trimValue(): void {
+        if (this._options.trim) {
+            let trimmedValue = this._viewModel.displayValue.trim();
+
+            if (trimmedValue !== this._viewModel.displayValue) {
+                this._viewModel.displayValue = trimmedValue;
+                this._notifyValueChanged();
+            }
+        }
     }
 
     reset(): void {
