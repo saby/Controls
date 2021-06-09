@@ -5303,6 +5303,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 if (self._destroyed) {
                     return;
                 }
+                _private.hideIndicator(self);
                 return _private.processError(self, {
                     error
                 }).then(function(result: ICrudResult) {
