@@ -1,7 +1,6 @@
-import {assert} from 'chai';
 import * as sinon from 'sinon';
-import {BaseControl, IBaseControlOptions, ListViewModel} from 'Controls/list';
-import {Memory} from 'Types/source';
+import {BaseControl, IBaseControlOptions} from 'Controls/list';
+import {RecordSet} from 'Types/collection';
 import {CollectionItem} from 'Controls/display';
 import {Model} from 'Types/entity';
 
@@ -23,10 +22,10 @@ describe('Controls/_list/BaseControl/HoverFreezeController', () => {
             itemActionsPosition: 'outside',
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
-            viewModelConstructor: ListViewModel,
-            source: new Memory({
+            viewModelConstructor: 'Controls/display:Collection',
+            items: new RecordSet({
                 keyProperty: 'id',
-                data: []
+                rawData: []
             })
         };
         baseControl = new BaseControl<IBaseControlOptions>(config);
