@@ -217,7 +217,7 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
       if (changed) {
          if (this._viewMode !== 'label') {
             this._styleClass = '';
-            if (newOption.readOnly && !(newOption.fontColorStyle || newOption.fontSize)) {
+            if (newOption.readOnly) {
                this._styleClass = 'controls-DateLinkView__style-readOnly';
                this._fontColorStyle = 'default';
             }
