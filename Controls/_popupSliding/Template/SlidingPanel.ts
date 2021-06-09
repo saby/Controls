@@ -146,7 +146,11 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
      * @protected
      */
     protected _isSwipeInsideScroll(touchEvent: SyntheticEvent<TouchEvent>): boolean {
-        const scrollClassName = 'controls-SlidingPanel__scrollWrapper';
+        /**
+         * TODO: Нужно избавиться от связности.
+         * https://online.sbis.ru/opendoc.html?guid=64510772-df48-4af8-a240-7ac2b7509cff
+         */
+        const scrollClassName = 'controls-Scroll';
         let currentNode: HTMLElement = touchEvent.target;
         while (currentNode && currentNode !== this._container) {
             const isScroll = currentNode.classList.contains(scrollClassName);
