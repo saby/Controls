@@ -1,5 +1,5 @@
 <ws:template name="CaptionTemplate">
-    <span class="controls-Tumbler__button-caption">{{ item.get('caption') }}</span>
+    <span class="controls-Tumbler__button-caption">{{ item.get(displayProperty || 'title') ||  item.get('caption') }}</span>
 </ws:template>
 
 <ws:if data="{{contentTemplate}}">

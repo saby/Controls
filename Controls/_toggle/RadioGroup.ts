@@ -120,3 +120,40 @@ export default Radio;
  * @cfg
  * @demo Controls-demo/toggle/RadioGroup/Direction/Index
  */
+
+
+/**
+ * @name Controls/_toggle/RadioGroup#displayProperty
+ * @cfg {String} Имя поля элемента, значение которого будет отображаться в названии кнопок тумблера.
+ *
+ * @example
+ * Пример описания.
+ * <pre>
+ *    <Controls.toggle:RadioGroup displayProperty="caption" source="{{_items1}}" bind:selectedKey="_selectedKey1"/>
+ * </pre>
+ *
+ * <pre>
+ *   new Memory({
+        keyProperty: 'key',
+        data: [
+            {
+                key: 1,
+                title: 'title 1',
+                caption: 'caption 1'
+            },
+            {
+                key: 2,
+                title: 'title 2',
+                caption: 'caption 2'
+            },
+            {
+                key: 3,
+                title: 'title 3',
+                caption: 'caption 3'
+            }
+        ]
+    });
+ * </pre>
+ *
+ * @demo Controls-demo/toggle/RadioGroup/displayProperty/Index
+ */

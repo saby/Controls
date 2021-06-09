@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <div class="controlsDemo__cell demo-RadioGroup__group1">
+        <div class="controls-text-label">displayProperty = caption</div>
+        <Controls.toggle:RadioGroup
+                bind:selectedKey="_selectedKey1"
+                displayProperty="caption"
+                keyProperty="id"
+                source="{{_source}}"
+        />
+    </div>
+    <div class="controlsDemo__cell demo-RadioGroup__group1">
+        <div class="controls-text-label">displayProperty = title</div>
+        <Controls.toggle:RadioGroup
+                bind:selectedKey="_selectedKey2"
+                keyProperty="id"
+                source="{{_source}}"
+        />
+    </div>
+</div>

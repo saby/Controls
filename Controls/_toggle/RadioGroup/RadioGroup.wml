@@ -8,6 +8,7 @@
                                          controls-RadioItem__wrapper"
                             item="{{item}}"
                             readOnly="{{_options.readOnly || item['readOnly']}}"
+                            displayProperty="{{_options.displayProperty}}"
                             selected="{{item[_options.keyProperty] === _options.selectedKey}}"/>
             </ws:for>
         </div>
