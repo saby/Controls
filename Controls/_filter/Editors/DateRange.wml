@@ -5,6 +5,7 @@
                endValue="{{_options.value[1] || null}}"
                emptyCaption="{{_emptyCaption}}"
                fontColorStyle="{{_fontColorStyle}}"
+               type="filter"
                clearButtonVisibility="{{!_reseted && _options.clearButtonVisibility}}"
                attr:class="controls-FilterEditor-DateRange"
                on:rangeChanged="_rangeChanged()" />
