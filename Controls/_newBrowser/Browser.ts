@@ -566,7 +566,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         }
 
         // Применим новую конфигурацию к отображению detail-списка
-        this._applyListConfiguration(getListConfiguration(items), options);
+        if (!options.listConfiguration) {
+            this._applyListConfiguration(getListConfiguration(items), options);
+        }
     }
 
     /**
