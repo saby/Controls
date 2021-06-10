@@ -2,9 +2,9 @@
    <ws:bodyContentTemplate>
       <Controls.browser:Browser source="{{_options.source}}"
                                 bind:filter="_filter"
-                                bind:searchValue="_searchValue"
                                 bind:root="_root"
                                 bind:expandedItems="_expandedItems"
+                                searchValue="{{_searchValue}}"
                                 navigation="{{_options.navigation}}"
                                 dataLoadCallback="{{_options.dataLoadCallback}}"
                                 keyProperty="{{_options.keyProperty}}"
@@ -12,7 +12,7 @@
                                 parentProperty="{{_options.parentProperty}}"
                                 displayProperty="{{_options.displayProperty}}">
             <div class="controls-MoveDialog__content">
-               <Controls.search:InputContainer attr:class="controls-MoveDialog__search ">
+               <Controls.search:InputContainer attr:class="controls-MoveDialog__search" bind:inputSearchValue="_searchValue">
                   <Controls.search:Input/>
                </Controls.search:InputContainer>
                <Controls.scroll:Container attr:class="controls-MoveDialog__scroll">
