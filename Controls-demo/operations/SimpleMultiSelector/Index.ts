@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls-demo/operations/SimpleMultiSelector/Template';
 import {Memory} from 'Types/source';
-import {Gadgets} from 'Controls-demo/treeGrid/DemoHelpers/DataCatalog';
+import {Gadgets} from 'Controls-demo/treeGridNew/DemoHelpers/DataCatalog';
 
 export default class MultiSelectorCheckboxDemo extends Control {
     _template: TemplateFunction = template;

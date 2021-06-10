@@ -11,8 +11,8 @@
                 displayProperty="department"
                 columns="{{_columns4}}"
                 header="{{_header4}}"
-                source="{{_viewSource4}}">
-            <ws:results position="top" />
+                source="{{_viewSource4}}"
+                resultsPosition="top">
         </Controls.explorer:View>
     </div>
     <div class="demo-BreadCrumbs__example controlsDemo-BreadCrumbs__serviceBlock">
