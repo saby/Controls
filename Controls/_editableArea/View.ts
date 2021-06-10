@@ -57,7 +57,11 @@ export default class View extends Control<IViewControlOptions> {
       /* В режиме редактирования создается клон, ссылка остается на старый объект.
       Поэтому при изменении опций копируем ссылку актуального объекта */
       if (newOptions.editObject !== this._options.editObject) {
-         this._editObject = newOptions.editObject;
+          if (this._isEditing) {
+              this._initEditObject(newOptions.editObject);
+          } else {
+              this._editObject = newOptions.editObject;
+          }
       }
    }
    protected _afterUpdate(): void {
@@ -107,10 +111,14 @@ export default class View extends Control<IViewControlOptions> {
       }
    }
 
+    protected _initEditObject(editObject: Record<any>): void {
+        this._editObject = editObject.clone();
+        // Если опция editObject изменилась, то она ждет подтверждения изменения, делаем подтверждение у клона.
+        this._editObject.acceptChanges();
+    }
+
    beginEdit(event: SyntheticEvent<MouseEvent>, res: boolean = false): void {
-      this._editObject = this._options.editObject.clone();
-      // Если опция editObject изменилась, то она ждет подтверждения изменения, делаем подтверждение у клона.
-      this._editObject.acceptChanges();
+      this._initEditObject(this._options.editObject);
       // TODO: res - это результат события со старым названием. Снести вместе со старым контролом 3.19.110
       const result = res || this._notify('beforeBeginEdit', [this._editObject], {
          bubbling: true
