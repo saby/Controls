@@ -6322,7 +6322,7 @@ define([
             instance = await correctCreateBaseControlAsync(cfg);
             instance.saveOptions(cfg);
             instance._listViewModel = new lists.ListViewModel(cfg.viewModelConfig);
-			instance._keyProperty = 'id';
+            instance._keyProperty = 'id';
          });
 
          it('should create selection controller', async () => {
