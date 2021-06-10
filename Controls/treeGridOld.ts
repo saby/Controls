@@ -2,6 +2,7 @@
  * Библиотека контролов, которые реализуют иерархический список, отображающийся в виде дерева.
  * @library Controls/treeGrid
  * @includes ItemTemplate Controls/_treeGridOld/interface/ItemTemplate
+ * @includes IGroupNodeColumn Controls/_treeGrid/interface/IGroupNodeColumn
  * @includes RowEditor Controls/_treeGridOld/interface/RowEditor
  * @public
  * @author Крайнов Д.О.
