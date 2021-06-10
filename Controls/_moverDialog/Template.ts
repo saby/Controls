@@ -136,7 +136,9 @@ export default class extends Control<IMoverDialogTemplateOptions> {
     }
 
     protected _dataLoadCallback(recordSet: RecordSet): void {
-        if (recordSet.getCount() > 0 && this._root === this._options.root && this._options.showRoot) {
+        if ((!this._searchValue || this._searchValue.length === 0) &&
+            this._root === this._options.root &&
+            this._options.showRoot) {
             recordSet.add(new Model({
                 keyProperty: recordSet.getKeyProperty(),
                 rawData: this._getRootRawData()
