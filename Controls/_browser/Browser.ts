@@ -497,10 +497,13 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._root = root;
         }
         if (root !== currentRoot && this._getSearchControllerSync()) {
-            this._resetSearch();
             this._inputSearchValue = '';
-            if (this._options.useStore) {
-                Store.sendCommand('resetSearch');
+
+            if (this._searchValue) {
+                this._resetSearch();
+                if (this._options.useStore) {
+                    Store.sendCommand('resetSearch');
+                }
             }
         }
     }
