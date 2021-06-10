@@ -5,3 +5,4 @@
       footer="{{_footerCfg}}"
    />
 </div>
+controls-ListView__footer
