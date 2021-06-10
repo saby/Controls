@@ -58,7 +58,7 @@ export default class View extends Control<IViewControlOptions> {
       Поэтому при изменении опций копируем ссылку актуального объекта */
       if (newOptions.editObject !== this._options.editObject) {
           if (this._isEditing) {
-              this._initEditObject(newOptions.editObject);
+              this._cloneEditObject(newOptions.editObject);
           } else {
               this._editObject = newOptions.editObject;
           }
@@ -111,14 +111,15 @@ export default class View extends Control<IViewControlOptions> {
       }
    }
 
-    protected _initEditObject(editObject: Record<any>): void {
+    protected _cloneEditObject(editObject: Record<any>): void {
+        // При любом изменении данных будет обновляться editObject, что может приводить к ошибкам. Чтобы этого избежать, клонируем его
         this._editObject = editObject.clone();
         // Если опция editObject изменилась, то она ждет подтверждения изменения, делаем подтверждение у клона.
         this._editObject.acceptChanges();
     }
 
    beginEdit(event: SyntheticEvent<MouseEvent>, res: boolean = false): void {
-      this._initEditObject(this._options.editObject);
+      this._cloneEditObject(this._options.editObject);
       // TODO: res - это результат события со старым названием. Снести вместе со старым контролом 3.19.110
       const result = res || this._notify('beforeBeginEdit', [this._editObject], {
          bubbling: true
