@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют propertyGrid и набор стандартных редакторов типов.
- * @library Controls/propertyGrid
+ * @library
  * @includes PropertyGrid Controls/_propertyGrid/PropertyGrid
  * @includes TabbedView Controls/_propertyGrid/TabbedView
  * @includes GroupTemplate Controls/propertyGrid:GroupTemplate
@@ -25,7 +25,7 @@
 
 /*
  * PropertyGrid library
- * @library Controls/propertyGrid
+ * @library
  * @includes PropertyGrid Controls/_propertyGrid/PropertyGrid
  * @includes GroupTemplate Controls/_propertyGrid/groupTemplate
  * @includes BooleanEditor Controls/_propertyGrid/defaultEditors/Boolean

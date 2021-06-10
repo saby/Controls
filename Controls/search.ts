@@ -1,7 +1,7 @@
 /**
  * Библиотека контролов, которые служат для организации поиска в списках.
  * Подробнее об организации поиска и фильтрации данных в реестре <a href="/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/">здесь</a>.
- * @library Controls/search
+ * @library
  * @includes InputContainer Controls/_search/Input/Container
  * @includes Misspell Controls/_search/Misspell
  * @includes MisspellContainer Controls/_search/Misspell/Container
@@ -15,7 +15,7 @@
 
 /*
  * Search library
- * @library Controls/search
+ * @library
  * @includes InputContainer Controls/_search/Input/Container
  * @includes Misspell Controls/_search/Misspell
  * @includes MisspellContainer Controls/_search/Misspell/Container

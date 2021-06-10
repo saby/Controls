@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют панель фильтрации и её содержимое.
- * @library Controls/filterPopup
+ * @library
  * @includes Panel Controls/_filterPopup/Panel
  * @includes DetailPanel Controls/_filterPopup/DetailPanel
  * @includes SimplePanel Controls/_filterPopup/SimplePanel
@@ -19,7 +19,7 @@
 
 /*
  * filterPopup library
- * @library Controls/filterPopup
+ * @library
  * @includes Panel Controls/_filterPopup/Panel
  * @includes DetailPanel Controls/_filterPopup/DetailPanel
  * @includes SimplePanel Controls/_filterPopup/SimplePanel

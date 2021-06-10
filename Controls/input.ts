@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые служат для ввода значений различного типа. Примеры типов: строка, число, дата, телефон и т.д.
- * @library Controls/input
+ * @library
  * @includes DateTimeModel Controls/_input/DateTime/Model
  * @includes AdapterMask Controls/_input/Adapter/Mask
  * @includes ISelection Controls/_input/interface/ISelection

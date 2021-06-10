@@ -1,6 +1,6 @@
 /*
  * Библиотека контролов.
- * @library Controls/operationsPanel
+ * @library
  * @includes Panel Controls/_operationsPanel/OperationsPanel
  * @private
  * @author Крайнов Д.О.
@@ -8,7 +8,7 @@
 
 /*
  * operations library
- * @library Controls/operationsPanel
+ * @library
  * @includes Panel Controls/_operationsPanel/OperationsPanel
  * @private
  * @author Крайнов Д.О.
