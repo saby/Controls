@@ -81,6 +81,7 @@
 </ws:if>
 <ws:else>
     <ws:partial template="scrollTpl"
+                on:wheel="_onWheelHandler()"
                 on:mouseenter="_mouseenterHandler()"
                 on:mouseleave="_mouseleaveHandler()"
                 on:scrollbarTaken="_scrollbarTakenHandler()"
