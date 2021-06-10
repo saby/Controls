@@ -59,6 +59,7 @@ export default class extends Control<IMoverDialogTemplateOptions> {
     protected _itemActions: any[];
     protected _root: string|number;
     protected _expandedItems: any[];
+    protected _searchValue: string = '';
     protected _filter: QueryWhereExpression<unknown>;
     private _columns: TColumns;
 
@@ -69,8 +70,8 @@ export default class extends Control<IMoverDialogTemplateOptions> {
             showType: 2
         }];
         this._root = options.root;
+        this._filter = options.filter || {};
         this._expandedItems = options.expandedItems;
-        this._filter = options.filter;
 
         // TODO: сейчас прикладной программист передает в MoveDialog опцию columns, что плохо, он может повлиять на
         // отображение колонки, а диалог во всех реестрах должен выглядеть одинаково. Нужно убрать возможно передавать
@@ -87,6 +88,11 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         this._itemsFilterMethod = this._itemsFilterMethod.bind(this);
         this._itemActionVisibilityCallback = this._itemActionVisibilityCallback.bind(this);
         this._dataLoadCallback = this._dataLoadCallback.bind(this);
+    }
+
+    resetSearch(): void {
+        this._searchValue = '';
+        this._filter = this._options.filter || {};
     }
 
     protected _itemsFilterMethod(item: Model): boolean {
@@ -130,7 +136,7 @@ export default class extends Control<IMoverDialogTemplateOptions> {
     }
 
     protected _dataLoadCallback(recordSet: RecordSet): void {
-        if (this._root === this._options.root && this._options.showRoot) {
+        if (recordSet.getCount() > 0 && this._root === this._options.root && this._options.showRoot) {
             recordSet.add(new Model({
                 keyProperty: recordSet.getKeyProperty(),
                 rawData: this._getRootRawData()

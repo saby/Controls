@@ -2,6 +2,7 @@
    <ws:bodyContentTemplate>
       <Controls.browser:Browser source="{{_options.source}}"
                                 bind:filter="_filter"
+                                bind:searchValue="_searchValue"
                                 bind:root="_root"
                                 bind:expandedItems="_expandedItems"
                                 navigation="{{_options.navigation}}"

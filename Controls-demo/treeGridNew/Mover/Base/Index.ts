@@ -9,8 +9,8 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
     protected _columns: IColumn[];
-    private _selectedKeys: [];
-    private _excludedKeys: CrudEntityKey[];
+    private _selectedKeys: CrudEntityKey[] = [];
+    private _excludedKeys: CrudEntityKey[] = [];
 
     protected _beforeMount(): void {
         this._columns = [{

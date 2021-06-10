@@ -1,4 +1,4 @@
-<ws:if data="{{item.contents.key === 'root'}}">
+<ws:if data="{{item.getContents().getKey() === 'root'}}">
     <ws:partial template="Controls/grid:ColumnTemplate"
                 attr:class="controls-MoveDialog__root"
                 data-qa="controls-MoveDialog__root"
