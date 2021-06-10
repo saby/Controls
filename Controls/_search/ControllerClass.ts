@@ -284,6 +284,7 @@ export default class ControllerClass {
    private _dataLoadCallback(event: unknown, items: RecordSet): void {
       const filter = this._getFilter();
       const sourceController = this._sourceController;
+      const isSearchMode = this._isSearchMode();
 
       if (this.isSearchInProcess() && this._searchValue) {
          this._sourceController.setFilter(filter);
@@ -291,7 +292,7 @@ export default class ControllerClass {
             sourceController.setExpandedItems([]);
          }
 
-         if (this._options.startingWith === 'root' && !this._isSearchMode() && this._options.parentProperty) {
+         if (this._options.startingWith === 'root' && !isSearchMode && this._options.parentProperty) {
             const newRoot = ControllerClass._getRoot(this._path, this._root, this._options.parentProperty);
 
             if (newRoot !== this._root) {
