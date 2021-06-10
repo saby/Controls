@@ -1,3 +1,10 @@
+/**
+ * @library Controls/treeGrid
+ * @includes IGroupNodeColumn Controls/_treeGrid/interface/IGroupNodeColumn
+ * @public
+ * @author Крайнов Д.О.
+ */
+
 import { default as View } from 'Controls/_treeGrid/TreeGrid';
 import { default as ItemsView } from 'Controls/_treeGrid/ItemsTreeGrid';
 import TreeGridView from 'Controls/_treeGrid/TreeGridView';
