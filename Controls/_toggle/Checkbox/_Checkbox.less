@@ -55,7 +55,7 @@
       box-sizing: border-box;
       content: '';
       position: absolute;
-      border-width: var(--marker-box_border-thickness_checkbox);
+      border-width: var(--border-thickness);
       border-style: solid;
       width: var(--marker-box_size_checkbox);
       height: var(--marker-box_size_checkbox);
@@ -77,10 +77,10 @@
    top: var(--true_marker_padding-top_checkbox);
 }
 .controls-CheckboxMarker__icon-checked-color_enabled {
-   fill: var(--marker_color_checkbox);
+   fill: var(--marker_color);
 }
 .controls-CheckboxMarker__icon-checked-color_disabled {
-   fill: var(--readonly_marker_color_checkbox);
+   fill: var(--readonly_marker-color);
 }
 .controls-CheckboxMarker__icon-checked-color_transparent {
    fill: transparent;
@@ -96,10 +96,10 @@
    margin: calc((var(--height_checkbox) - var(--tristate_marker_size_checkbox)) / 2) calc((var(--click-area_width_checkbox) - var(--tristate_marker_size_checkbox)) / 2);
 }
 .controls-CheckboxMarker__state-null__icon-color__disabled:after{
-   background-color: var(--readonly_marker_color_checkbox);
+   background-color: var(--readonly_marker-color);
 }
 .controls-CheckboxMarker__state-null__icon-color__enabled:after{
-   background-color: var(--marker_color_checkbox);
+   background-color: var(--marker_color);
 }
 //растягиваем ширину, чтоб корректно переносился заголовок
 .controls-Checkbox__caption {
