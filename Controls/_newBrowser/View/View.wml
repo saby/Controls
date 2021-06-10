@@ -53,6 +53,7 @@
                         on:dragStart="_notifyHandler('detailDragStart')"
                         on:dragEnd="_notifyHandler('detailDragEnd')"
                         dataLoadCallback="{{_onDetailDataLoadCallback}}"
+                        on:changeDragTarget="_notifyHandler('detailChangeDragTarget')"
                         searchValue="{{_options.searchValue}}"
                         tileSize="{{_tileCfg.tileSize}}"
                         viewMode="{{viewMode}}"
