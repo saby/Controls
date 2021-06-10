@@ -4117,8 +4117,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._listViewModel.setRowSeparatorSize(newOptions.rowSeparatorSize);
         }
 
-        this._listViewModel.setKeyProperty(this._keyProperty);
-
         if (this._options.displayProperty !== newOptions.displayProperty) {
             this._listViewModel.setDisplayProperty(newOptions.displayProperty);
         }
@@ -4228,7 +4226,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._moveController.updateOptions(_private.prepareMoverControllerOptions(this, newOptions));
         }
 
-        const oldViewModelConstructorChanged = newOptions.viewModelConstructor !== this._viewModelConstructor;
+        const oldViewModelConstructorChanged = newOptions.viewModelConstructor !== this._viewModelConstructor ||
+                                    (this._listViewModel && this._keyProperty !== this._listViewModel.getKeyProperty());
 
         if (this._editInPlaceController && (oldViewModelConstructorChanged || loadStarted)) {
             if (this.isEditing()) {
@@ -4260,21 +4259,21 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._listViewModel.destroy();
 
             this._noDataBeforeReload = !(items && items.getCount());
-
-            if (newOptions.useNewModel) {
-                this._listViewModel = this._createNewModel(
-                   items,
-                   {...newOptions, keyProperty: this._keyProperty},
-                   newOptions.viewModelConstructor
-                );
-            } else {
-                this._listViewModel = new newOptions.viewModelConstructor(cMerge({...newOptions}, {
-                    items,
-                    supportVirtualScroll: !!this._needScrollCalculation,
-                    keyProperty: this._keyProperty
-                }));
+            if (newOptions.viewModelConstructor) {
+                if (newOptions.useNewModel) {
+                    this._listViewModel = this._createNewModel(
+                        items,
+                        {...newOptions, keyProperty: this._keyProperty},
+                        newOptions.viewModelConstructor
+                    );
+                } else {
+                    this._listViewModel = new newOptions.viewModelConstructor(cMerge({...newOptions}, {
+                        items,
+                        supportVirtualScroll: !!this._needScrollCalculation,
+                        keyProperty: this._keyProperty
+                    }));
+                }
             }
-
             // Важно обновить коллекцию в scrollContainer перед сбросом скролла, т.к. scrollContainer реагирует на
             // scroll и произведет неправильные расчёты, т.к. у него старая collection.
             // https://online.sbis.ru/opendoc.html?guid=caa331de-c7df-4a58-b035-e4310a1896df

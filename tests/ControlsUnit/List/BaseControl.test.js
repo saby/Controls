@@ -5534,17 +5534,14 @@ define([
              instance = correctCreateBaseControl(cfg);
          instance.saveOptions(cfg);
          await instance._beforeMount(cfg);
-         let newKeyProperty;
-         instance._listViewModel.setKeyProperty = (value) => {
-            newKeyProperty = value;
-         };
+         const oldModel = instance._listViewModel;
          const keyProperty = 'name';
          const newCfg = {
             ...cfg,
             keyProperty
          };
          instance._beforeUpdate(newCfg);
-         assert.equal(newKeyProperty, 'name');
+         assert.isFalse(instance._listViewModel !== oldModel);
          instance.destroy();
       });
 
@@ -6106,6 +6103,7 @@ define([
             };
             instance = correctCreateBaseControl(cfg);
             instance.saveOptions(cfg);
+            instance._beforeMount(cfg);
             instance._viewModelConstructor = cfg.viewModelConstructor;
             instance._listViewModel = new lists.ListViewModel(cfg.viewModelConfig);
             instance._itemActionsController = {
@@ -6324,6 +6322,7 @@ define([
             instance = await correctCreateBaseControlAsync(cfg);
             instance.saveOptions(cfg);
             instance._listViewModel = new lists.ListViewModel(cfg.viewModelConfig);
+			instance._keyProperty = 'id';
          });
 
          it('should create selection controller', async () => {
