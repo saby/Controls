@@ -43,7 +43,7 @@ export interface IMoverDialogTemplateOptions extends IControlOptions {
  * @mixes Controls/interface:IHierarchy
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/interface:ISource
- * @mixes Controls/interface:IGridControl
+ * @mixes Controls/grid:IGridControl
  * @implements Controls/tree:ITreeControl
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions

@@ -376,6 +376,45 @@ describe('Controls/browser:Browser', () => {
                     await searchPromise;
                     assert.ok(!browser._loading);
                 });
+                it('search with root was canceled', async () => {
+                    const options = {
+                        ...getBrowserOptions(),
+                        startingWith: 'root',
+                        root: 'currentRoot',
+                        parentProperty: 'parent'
+                    };
+                    const path = new RecordSet({
+                        rawData: [
+                            {
+                                id: 0,
+                                parent: 'root'
+                            }
+                        ],
+                        keyProperty: 'id'
+                    });
+                    const browser = getBrowser(options);
+                    await browser._beforeMount(options, {});
+                    browser.saveOptions(options);
+                    await browser._getSearchController();
+                    browser._getSearchControllerSync().setPath(path);
+                    options.source.query = () => {
+                        return new Promise((resolve) => {
+                            setTimeout(() => {
+                                resolve(new DataSet());
+                            }, 100);
+                        });
+                    };
+
+                    const sourceController = browser._getSourceController();
+                    const currentRoot = sourceController.getRoot();
+                    const searchPromise = browser._search(eventMock, 'test');
+                    await browser._getSearchController();
+
+                    browser._resetSearch();
+                    // root проставляется в обработчике ошибки promise, а этот код всегда асинхронный
+                    await searchPromise;
+                    assert.ok(sourceController.getRoot() === currentRoot);
+                });
             });
 
             describe('_searchReset', () => {
@@ -1006,7 +1045,7 @@ describe('Controls/browser:Browser', () => {
            browser.saveOptions(options);
            await browser._getSearchController();
 
-           browser._handleItemOpen('test123', undefined, 'test123');
+           browser._handleItemOpen('test123', undefined);
 
            assert.equal(browser._root, 'test123');
            assert.equal(browser._getSearchControllerSync()._root, 'test123');
@@ -1020,7 +1059,7 @@ describe('Controls/browser:Browser', () => {
            browser.saveOptions(options);
            await browser._search(null, 'testSearchValue');
 
-           browser._handleItemOpen('testRoot', undefined, null);
+           browser._handleItemOpen('testRoot', undefined);
            assert.ok(!browser._inputSearchValue);
            assert.equal(browser._root, 'testRoot');
            assert.deepStrictEqual(browser._filter, {parentProperty: null});

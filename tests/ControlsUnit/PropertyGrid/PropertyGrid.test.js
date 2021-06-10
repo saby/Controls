@@ -73,6 +73,12 @@ define([
                 assert.equal(resultPropertyValue.get('test'), 2);
                 assert.ok(resultPropertyValue === propertyValue);
                 assert.ok(propertyChangedCount === 1);
+
+                resultPropertyValue = ViewInstance._updatePropertyValue(propertyValue, 'test2', 0);
+                assert.equal(resultPropertyValue.get('test'), 2);
+                assert.equal(resultPropertyValue.get('test2'), 0);
+                assert.ok(resultPropertyValue === propertyValue);
+                assert.ok(propertyChangedCount === 2);
             });
         });
 

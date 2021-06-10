@@ -34,6 +34,7 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
     _componentDidMount(): void {
         GridView.superclass._componentDidMount.apply(this, arguments);
         this._columnScrollOnViewDidMount();
+        this._listModel.setColspanGroup(!this._options.columnScroll || !this.isColumnScrollVisible());
     },
 
     _applyChangedOptionsToModel(listModel, options, changes): void {
@@ -270,9 +271,23 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
         return this._getGridTemplateColumns(options);
     },
 
-    reset(): void {
+    reset(params: {keepScroll?: boolean} = {}): void {
         GridView.superclass.reset.apply(this, arguments);
-        this._resetColumnScroll(this._options);
+        if (!params.keepScroll) {
+            this._resetColumnScroll(this._options);
+        }
+    },
+
+    /**
+     * Обработка изменения размеров View "изнутри", т.е. внутри таблицы
+     * произошли изменения, которые потенциально приведут к изменению размеров таблицы/колонок.
+     *
+     * Изменения размеров "снаружи" сама таблица не слушает, только миксин горизонтального скролла.
+     * Обработка происходит в методе ColumnScrollViewMixin._onColumnScrollViewResized
+     */
+    onViewResized(): void {
+        GridView.superclass.onViewResized.apply(this, arguments);
+        this._onColumnScrollViewResized();
     },
 
     _isEmpty(): boolean {
@@ -292,6 +307,25 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
                 return;
             }
             this._notify('itemClick', [contents, e, this._getCellIndexByEventTarget(e)]);
+        }
+    },
+
+    /**
+     * Необходимо проскролить таблицу горизонтально к полю ввода, которое будет активировано.
+     * В противном случае, браузер проскролит всю таблицу (обертку).
+     * Событие срабатывает при вводе фокуса в таблицу, до активации поля ввода и
+     * только на уже редактируемой строке.
+     * Логика подскрола к полю ввода при начале редактирования строки реализована в GridView.beforeRowActivated
+     */
+    _onFocusIn(e: SyntheticEvent): void {
+        const target = e.target as HTMLElement;
+
+        if (
+            this.isColumnScrollVisible() &&
+            this._listModel.isEditing() &&
+            (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')
+        ) {
+            this._columnScrollScrollIntoView(target);
         }
     },
 
@@ -386,6 +420,12 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
         );
     },
 
+    /**
+     * Необходимо проскролить таблицу горизонтально к полю ввода, которое будет активировано.
+     * В противном случае, браузер проскролит всю таблицу (обертку).
+     * Событие срабатывает при входе в режим редактирования, до активации поля ввода.
+     * Логика подскрола к полю ввода в уже редактируемой строке реализована в GridView._onFocusIn
+     */
     beforeRowActivated(target: HTMLElement): void {
         this._columnScrollScrollIntoView(target);
     }

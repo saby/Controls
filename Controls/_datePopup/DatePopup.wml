@@ -67,7 +67,9 @@
                             ranges="{{_options.ranges}}"
                             on:monthClick="_monthRangeMonthClick()"
                             _date="{{_options._date}}"
-                            on:fixedPeriodClick="_monthRangeFixedPeriodClick()">
+                            on:fixedPeriodClick="_monthRangeFixedPeriodClick()"
+                            monthCaptionTemplate="{{_options.monthCaptionTemplate}}"
+                    >
                         <ws:dayTemplate>
                             <ws:partial
                                     template="{{_dayTmpl}}"

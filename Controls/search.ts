@@ -1,14 +1,7 @@
 /**
- * Библиотека контролов, которые служат для организации поиска в списках.
- * Подробнее об организации поиска и фильтрации данных в реестре <a href="/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/">здесь</a>.
+ * Библиотека контролов, которые служат для {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/ организации поиска в списках}.
+ * @markdown
  * @library Controls/search
- * @includes InputContainer Controls/_search/Input/Container
- * @includes Misspell Controls/_search/Misspell
- * @includes MisspellContainer Controls/_search/Misspell/Container
- * @includes Input Controls/_search/Input/Search
- * @includes ExpandableInput Controls/_search/Input/ExpandableInput/Search
- * @includes SearchResolver Controls/_search/SearchResolver
- * @includes ControllerClass Controls/_search/ControllerClass
  * @public
  * @author Крайнов Д.О.
  */
@@ -16,13 +9,6 @@
 /*
  * Search library
  * @library Controls/search
- * @includes InputContainer Controls/_search/Input/Container
- * @includes Misspell Controls/_search/Misspell
- * @includes MisspellContainer Controls/_search/Misspell/Container
- * @includes Input Controls/_search/Input/Search
- * @includes ExpandableInput Controls/_search/Input/ExpandableInput/Search
- * @includes SearchResolver Controls/_search/SearchResolver
- * @includes ControllerClass Controls/_search/ControllerClass
  * @public
  * @author Крайнов Д.О.
  */

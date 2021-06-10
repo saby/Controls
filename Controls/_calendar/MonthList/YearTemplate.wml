@@ -30,6 +30,7 @@
                _options="{{_options}}"
                dayTemplate="{{dayTemplate}}"
                dayHeaderTemplate="{{ dayHeaderTemplate }}"
+               monthCaptionTemplate="{{monthCaptionTemplate}}"
             />
          </ws:for>
       </ws:else>

@@ -67,20 +67,6 @@
    }
 }
 
-.controls-Button__close_toolButton_transparent {
-   background-color: var(--background-color_closeButton_toolButton);
-   &:active {
-      background-color: var(--background-color_active_closeButton_toolButton);
-   }
-}
-
-.controls-Button__close_toolButton_untransparent {
-   background-color: var(--contrast_background-color_closeButton_toolButton);
-   &:active {
-      background-color: var(--contrast_active_background-color_closeButton_toolButton);
-   }
-}
-
 .controls-Button__close_toolButton {
    margin-right: var(--margin-right_closeButton_toolButton);
    width: var(--width_closeButton_toolButton);
@@ -100,12 +86,14 @@
 .controls-Button__close_functionalButton {
    width: var(--width_closeButton_functionalButton);
    height: var(--height_closeButton_functionalButton);
+   margin-right: var(--margin-right_closeButton_functionalButton);
    border-width: var(--border-thickness_closeButton_functionalButton);
    border-radius: var(--border-radius_closeButton_functionalButton);
-   box-shadow: var(--box-shadow_closeButton_toolButton);
-   background-color: var(--background-color_closeButton_functionalButton);
+   box-shadow: var(--box-shadow_closeButton_functionalButton);
+   background-color: var(--pale_contrast_background-color);
    &:active {
       box-shadow: var(--box-shadow_closeButton_toolButton); //none
+      background-color: var(--pale_active_contrast_background-color);
    }
 }
 
@@ -113,6 +101,13 @@
 .controls-Button__close_functionalButton {
    border-style: solid;
    box-sizing: border-box;
+}
+
+.controls-Button_functionalButton_style-translucent > .controls-Button__close_functionalButton {
+   background-color: var(--translucent_background-color_button);
+   &:active {
+      background-color: var(--translucent_active_background-color_button);
+   }
 }
 
 .controls-Button__close_link,
@@ -129,17 +124,22 @@
    }
 
    //button and icon must be hovered at the same time
-   .controls-Button__close_toolButton:hover,
-   .controls-Button__close_functionalButton:hover {
+   .controls-Button__close_toolButton:hover {
       border-color: var(--border-color_hover_closeButton_toolButton);
-      .controls-Button__close__icon_toolButton,
+      background-color: var(--background-color_contrast_hover_button_toolButton);
+      .controls-Button__close__icon_toolButton {
+         background-image: var(--icon_hovered_background-image_closeButton_toolButton);
+      }
+   }
+   .controls-Button__close_functionalButton:hover {
+      background-color: var(--pale_hover_contrast_background-color);
       .controls-Button__close__icon_functionalButton {
          background-image: var(--icon_hovered_background-image_closeButton_toolButton);
       }
    }
 
-   .controls-Button__close_toolButton_untransparent:hover {
-      background-color: var(--contrast_hover_background-color_closeButton_toolButton);
+   .controls-Button_functionalButton_style-translucent > .controls-Button__close_functionalButton:hover {
+      background-color: var(--translucent_hover_background-color_button);
    }
 
    .controls-Button__close_toolButton_transparent:hover {

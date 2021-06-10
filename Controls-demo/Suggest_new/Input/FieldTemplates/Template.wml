@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+        <Controls.suggest:Input
+                attr:class="demo-SuggestNew__noDelay"
+                bind:value="_suggestDefaultValue"
+                displayProperty="title"
+                searchParam="title"
+                source="{{_source}}">
+            <ws:leftFieldTemplate>
+                <span>{{' Шаблон слева '}}</span>
+            </ws:leftFieldTemplate>
+            <ws:rightFieldTemplate>
+                <span>{{' Шаблон справа '}}</span>
+            </ws:rightFieldTemplate>
+        </Controls.suggest:Input>
+    </div>
+</div>

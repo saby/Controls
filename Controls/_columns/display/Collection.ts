@@ -6,6 +6,7 @@ import IColumnsStrategy from '../interface/IColumnsStrategy';
 import Auto from './columnsStrategy/Auto';
 import Fixed from './columnsStrategy/Fixed';
 import {DEFAULT_COLUMNS_COUNT, DEFAULT_MIN_WIDTH, SPACING} from '../Constants';
+import DragStrategy from 'Controls/_display/itemsStrategy/Drag';
 
 export default class Collection<
     S extends Model = Model,
@@ -22,6 +23,7 @@ export default class Collection<
     protected _$columnMinWidth: number;
     protected _currentWidth: number;
     protected _columnsCount: number;
+    protected _dragColumn: number = null;
     protected _$spacing: number = SPACING;
     constructor(options) {
         super(options);
@@ -131,7 +133,7 @@ export default class Collection<
 
     private setColumnOnItem(item: T, index: number): void {
         if (!item.isDragged()) {
-            const column = this._columnsStrategy.calcColumn(this, index + this._addingColumnsCounter, this._$columnsCount);
+            const column = this._columnsStrategy.calcColumn(this, this._dragColumn === null ? index + this._addingColumnsCounter : this._dragColumn, this._$columnsCount);
             item.setColumn(column);
         }
     }
@@ -301,6 +303,14 @@ export default class Collection<
             }
         }
         super.setDragPosition(position);
+    }
+
+    resetDraggedItems(): void {
+        const strategy = this.getStrategyInstance(this._dragStrategy) as unknown as ColumnsDragStrategy<S>;
+        const avatarItem = strategy.avatarItem;
+        this._dragColumn = avatarItem.getColumn();
+        super.resetDraggedItems();
+        this._dragColumn = null;
     }
 }
 

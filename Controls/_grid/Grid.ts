@@ -22,7 +22,7 @@ import { TemplateFunction } from 'UI/Base';
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
- * @mixes Controls/interface:IGridControl
+ * @mixes Controls/grid:IGridControl
  * @mixes Controls/interface/IGridItemTemplate
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface/IGroupedGrid
@@ -53,7 +53,7 @@ import { TemplateFunction } from 'UI/Base';
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:ISorting
- * @mixes Controls/interface:IGridControl
+ * @mixes Controls/grid:IGridControl
  * @mixes Controls/interface/IGridItemTemplate
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/grid:IPropStorage
@@ -98,3 +98,9 @@ Object.defineProperty(Grid, 'defaultProps', {
       return Grid.getDefaultOptions();
    }
 });
+
+/**
+ * @name Controls/_grid/Grid#itemPadding
+ * @cfg {Controls/_list/interface/IList/ItemPadding.typedef}
+ * @demo Controls-demo/grid/ItemPaddingNull/Index
+ */

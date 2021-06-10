@@ -22,8 +22,9 @@ export interface ICheckboxGroupOptions extends IControlOptions,
 }
 /**
  * Группа контролов, которые предоставляют пользователям возможность выбора между двумя или более параметрами.
- * 
+ *
  * @remark
+ * Для того, чтобы убрать отступ у контролла, нужно навесить CSS-класс **controls-Input_negativeOffset**
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/69b02f939005820476d32a184ca50b72f9533076/Controls-default-theme/variables/_toggle.less переменные тем оформления}
  *
@@ -33,7 +34,7 @@ export interface ICheckboxGroupOptions extends IControlOptions,
  * @implements Controls/interface:IMultiSelectable
  * @implements Controls/interface:IHierarchy
  * @implements Controls/toggle:IToggleGroup
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/toggle/CheckboxGroup/Base/Index
@@ -48,11 +49,48 @@ export interface ICheckboxGroupOptions extends IControlOptions,
  * @mixes Controls/interface:IMultiSelectable
  * @mixes Controls/interface:IHierarchy
  * @implements Controls/toggle:IToggleGroup
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/toggle/CheckboxGroup/Base/Index
  */
+
+/**
+ * @name Controls/_toggle/CheckboxGroup#displayProperty
+ * @cfg {String} Имя поля элемента, значение которого будет отображаться в названии кнопок тумблера.
+ *
+ * @example
+ * Пример описания.
+ * <pre>
+ *    <Controls.toggle:CheckboxGroup displayProperty="caption" source="{{_items1}}" bind:selectedKey="_selectedKey1"/>
+ * </pre>
+ *
+ * <pre>
+ *   new Memory({
+        keyProperty: 'key',
+        data: [
+            {
+                key: 1,
+                title: 'title 1',
+                caption: 'caption 1'
+            },
+            {
+                key: 2,
+                title: 'title 2',
+                caption: 'caption 2'
+            },
+            {
+                key: 3,
+                title: 'title 3',
+                caption: 'caption 3'
+            }
+        ]
+    });
+ * </pre>
+ *
+ * @demo Controls-demo/toggle/CheckboxGroup/displayProperty/Index
+ */
+
 class CheckboxGroup extends Control<ICheckboxGroupOptions, RecordSet> implements ISource,
                                                                       IMultiSelectable, IHierarchy, IToggleGroup {
     '[Controls/_interface/ISource]': boolean = true;

@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow demo-SearchSuggest__container controlsDemo__mb3">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+        <Controls.suggest:SearchInput
+                attr:class="ControlsDemo-Suggest__simple"
+                bind:value="_suggestDownValue"
+                displayProperty="true"
+                searchParam="title"
+                navigation="{{_navigation}}"
+                source="{{_source}}">
+            <ws:suggestTemplate templateName="wml!Controls-demo/Suggest_new/SearchInput/AutoDropDown/resources/SuggestTemplate"/>
+            <ws:leftFieldTemplate>
+                <span>{{' Шаблон слева '}}</span>
+            </ws:leftFieldTemplate>
+            <ws:rightFieldTemplate>
+                <span>{{' Шаблон справа '}}</span>
+            </ws:rightFieldTemplate>
+        </Controls.suggest:SearchInput>
+    </div>
+</div>

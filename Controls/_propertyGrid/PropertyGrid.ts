@@ -183,14 +183,11 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
                 newEditingObject[name] = value;
                 const format = Model.fromObject(newEditingObject, resultEditingObject.getAdapter()).getFormat();
                 const propertyFormat = format.at(format.getFieldIndex(name));
-                resultEditingObject.addField(
-                    {
-                        name: propertyFormat.getName(),
-                        type: propertyFormat.getType()
-                    },
-                    void 0,
-                    value
-                );
+                resultEditingObject.addField({
+                    name: propertyFormat.getName(),
+                    type: propertyFormat.getType(),
+                    defaultValue: value
+                });
             }
             resultEditingObject.set(name, value);
             this._listModel.setEditingObject(resultEditingObject);
