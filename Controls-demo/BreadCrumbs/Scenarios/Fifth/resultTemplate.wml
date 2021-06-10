@@ -1,10 +1,12 @@
-<ws:if data="{{column.config.result }}">
-   <Controls.decorator:Money value="{{column.result}}"
-                             fontColorStlye="results"
-                             fontSize="l"
-                             fontWeight="bold"
-                             useGrouping="{{true}}"/>
-</ws:if>
-<ws:else>
-<invisible-node />
-</ws:else>
+<ws:partial template="Controls/grid:ResultColumnTemplate" scope="{{ _options }}">
+   <ws:if data="{{ column.config.result }}">
+      <Controls.decorator:Money value="{{ column.config.result }}"
+                                fontColorStlye="results"
+                                fontSize="l"
+                                fontWeight="bold"
+                                useGrouping="{{true}}"/>
+   </ws:if>
+   <ws:else>
+      <invisible-node />
+   </ws:else>
+</ws:partial>

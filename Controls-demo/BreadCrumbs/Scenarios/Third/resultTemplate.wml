@@ -1,6 +1,8 @@
-<ws:if data="{{column.config.result }}">
-   <span class="{{column.config.displayProperty.indexOf('overdue') !== -1 ? 'demo-Overdue' : '' }}">{{column.result}}</span>
-</ws:if>
-<ws:else>
-   <invisible-node />
-</ws:else>
+<ws:partial template="Controls/grid:ResultColumnTemplate" scope="{{ _options }}">
+   <ws:if data="{{ column.config.result }}">
+      <span class="{{column.config.displayProperty.indexOf('overdue') !== -1 ? 'demo-Overdue' : '' }}">{{ column.config.result }}</span>
+   </ws:if>
+   <ws:else>
+      <invisible-node />
+   </ws:else>
+</ws:partial>

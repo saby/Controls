@@ -5,6 +5,6 @@
       <Controls.decorator:Money value="{{item.contents[column.config.displayProperty]}}"
                                 fontColorStyle="{{column.config.displayProperty !== 'sum' ? 'unaccented' : 'default'}}"
                                 useGrouping="{{true}}"/>
-      <span if="{{!item.isNode() && column.configIndex === 1}}">шт</span>
+      <span if="{{!item.isNode() && column.config.displayProperty === 'amount'}}">шт</span>
    </ws:contentTemplate>
 </ws:partial>

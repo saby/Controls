@@ -5,7 +5,7 @@
       <ws:if data="{{!item.isNode()}}">
          <Controls.decorator:Money value="{{item.contents[column.config.displayProperty]}}"
                                    useGrouping="{{true}}"/>
-         <span if="{{column.configIndex === 2}}">шт</span>
+         <span if="{{column.config.displayProperty === 'remainder'}}">шт</span>
       </ws:if>
    </ws:contentTemplate>
 </ws:partial>

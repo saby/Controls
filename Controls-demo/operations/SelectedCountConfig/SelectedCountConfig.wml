@@ -10,6 +10,7 @@
                             columns="{{_gridColumns}}"
                             parentProperty="parent"
                             nodeProperty="type"
+                            resultsPosition="top"
                             multiSelectVisibility="onhover"/>
                 </Controls.list:Container>
 
