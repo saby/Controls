@@ -52,20 +52,23 @@ const getSourceController = (options: Partial<IControllerOptions>) => {
    });
 };
 
-const defaultOptionsControllerClass = {
-   minSearchLength: 3,
-   searchDelay: 50,
-   searchParam: 'testParam',
-   searchValue: '',
-   searchValueTrim: false,
-   sourceController: getSourceController({})
+const  getSearchControllerClassOptions = (options = {}) => {
+   const defaultOptions = {
+      minSearchLength: 3,
+      searchDelay: 50,
+      searchParam: 'testParam',
+      searchValue: '',
+      searchValueTrim: false,
+      sourceController: getSourceController(options)
+   };
+   return {
+      ...defaultOptions,
+      ...options
+   };
 };
 
 const getSearchController = (options) => {
-   return new ControllerClass({
-      ...defaultOptionsControllerClass,
-      ...options
-   });
+   return new ControllerClass(getSearchControllerClassOptions(options));
 };
 
 describe('Controls/search:ControllerClass', () => {
@@ -178,7 +181,7 @@ describe('Controls/search:ControllerClass', () => {
          }).called);
       });
 
-      it('startingWith: root', () => {
+      it('startingWith: root', async () => {
          const hierarchyOptions = {
             parentProperty: 'parentProperty',
             root: 'testRoot',
@@ -201,8 +204,9 @@ describe('Controls/search:ControllerClass', () => {
          });
 
          searchController.setPath(path);
-         searchController.search('testSearchValue');
+         await searchController.search('testSearchValue');
          assert.ok(sourceController.getRoot() === null);
+         assert.ok(sourceController.getFilter()['parentProperty'] === null);
       });
 
       it('without parent property', () => {
