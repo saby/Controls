@@ -1,22 +1,23 @@
 <ws:template name="itemTemplate">
-   <div>
+   <div on:keyup="_keyPressed()">
       <ws:if data="{{_options._yearHovered === _options.currentYear}}">
          <div class="controls-PeriodLiteDialog__item-background-hovered border-top-hidden"></div>
       </ws:if>
       <ws:for data="halfYearIndex as halfYear in _yearModel">
-         <div class="controls-PeriodLiteDialog-item__halfYear">
+         <div class="controls-PeriodLiteDialog-item__halfYear" tabindex="-1">
             <div if="{{(_halfYearHovered === halfYear.number)}}"
                  class="controls-PeriodLiteDialog__item-background-hovered">
             </div>
             <ws:for data="quarter in halfYear.quarters">
                <div class="controls-PeriodLiteDialog{{ !_options.chooseHalfyears ? '_monthsAndQuarters'}}-item__quarter
                    {{ quarter.number === 3 ? 'controls-PeriodLiteDialog' + ( !_options.chooseHalfyears ? '_monthsAndQuarters') + '-lastItem__quarter' }}"
-                 title="{{ quarter.tooltip }}">
+                 title="{{ quarter.tooltip }}"
+                  tabindex="-1">
                   <div if="{{(_quarterHovered === quarter.number)}}"
                        class="controls-PeriodLiteDialog__item-background-hovered"></div>
                   <div class="controls-PeriodLiteDialog{{ !_options.chooseHalfyears ? '_monthsAndQuarters'}}-item__month-wrapper
                            controls-PeriodLiteDialog-item__month-background{{ _options._yearHovered === _options.currentYear || (_halfYearHovered === halfYear.number)?
-                           '-transparent'}}">
+                           '-transparent'}}" tabindex="-1">
                      <ws:for data="month in quarter.months">
                         <ws:partial
                                 on:click="_onMonthClick(month.date)"
@@ -36,6 +37,9 @@
                        on:touchstart="_onQuarterMouseEnter(quarter.number, _options.currentYear)"
                        on:mouseleave="_onQuarterMouseLeave(quarter.number)"
                        on:touchmove="_onQuarterMouseLeave(quarter.number)"
+                       on:blur="_onBlurQuarter()"
+                       tabindex="0"
+                       name="q-{{quarter.number}}"
                   >
                      {{ quarter.name }}
                   </div>
@@ -50,7 +54,10 @@
                  on:touchstart="_onHalfYearMouseEnter(halfYear.number)"
                  on:mouseleave="_onHalfYearMouseLeave()"
                  on:touchmove="_onHalfYearMouseLeave()"
+                 on:blur="_onBlurHalfYear()"
                  title="{{ halfYear.tooltip }}"
+                 tabindex="0"
+                 name="h-{{halfYear.number}}"
             >
                {{ halfYear.name }}
             </div>

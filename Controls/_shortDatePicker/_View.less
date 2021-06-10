@@ -89,13 +89,17 @@
    line-height: var(--item_layout_line-height_shortDatePicker);
 }
 
+.controls-PeriodLiteDialog__vLayoutItem:focus-within,
+.controls-PeriodLiteDialog__item-background-hovered {
+   border: var(--item_border-thickness_shortDatePicker) solid var(--item_active_border-color_shortDatePicker);
+}
+
 .controls-PeriodLiteDialog__item-background-hovered {
    position: absolute;
    top: 0;
    height: 100%;
    width: 100%;
    box-sizing: border-box;
-   border: var(--item_border-thickness_shortDatePicker) solid var(--item_active_border-color_shortDatePicker);
    background-color: var(--item_background-color_shortDatePicker);
 }
 

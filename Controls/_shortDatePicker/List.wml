@@ -4,7 +4,8 @@
         stubTemplate="{{stubTemplate}}"
         bind:position="_position"
         attr:class="controls-PeriodLiteDialog-MonthList{{ isExpandedPopup ? '_expanded' }}"
-        source="{{_options.source}}">
+        source="{{_options.source}}"
+        on:focus="_focusHandler()">
     <ws:yearHeaderTemplate>
 
         <div
@@ -13,12 +14,17 @@
                 on:mouseleave="_onYearMouseLeave()"
                 on:touchmove="_onYearMouseLeave()"
                 on:click="_onYearClick(yearHeaderTemplate.date.getFullYear())"
+                on:keyup="_keyPressed(yearHeaderTemplate.date.getFullYear())"
                 class="controls-PeriodLiteDialog__fullYear-listElement
                        {{ _options.chooseYears && _yearHovered === yearHeaderTemplate.date.getFullYear() ?  'controls-PeriodLiteDialog__fullYear-listElement-hovered' +
                        ' controls-PeriodLiteDialog__fullYear-listElement-hovered controls-PeriodLiteDialog__yearHeader-background-hovered'}}
                        controls-PeriodLiteDialog__vLayoutItem-caption controls-PeriodLiteDialog__text-align-left
                     {{ _options.chooseMonths && _options.chooseQuarters ? 'controls-PeriodLiteDialog__fullPicker'}}">
-            {{ yearHeaderTemplate.date.getFullYear() }}
+            <div tabindex="0"
+                 on:blur="_onBlurYear()"
+            >
+                {{ yearHeaderTemplate.date.getFullYear() }}
+            </div>
         </div>
     </ws:yearHeaderTemplate>
     <ws:yearTemplate>

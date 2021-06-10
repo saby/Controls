@@ -1,7 +1,7 @@
 <div class="controls_shortDatePicker_theme-{{_options.theme}} controls-PeriodLiteDialog__vLayoutItem
     controls-PeriodLiteDialog__vLayoutItem-clickable"
      title="{{ month.tooltip }}">
-    <div class="controls-PeriodLiteDialog__vLayoutItem-caption">
+    <div class="controls-PeriodLiteDialog__vLayoutItem-caption" tabindex="0">
         <ws:if data="{{!!contentTemplate}}">
             <ws:partial template="{{contentTemplate}}" value="{{month.date}}"/>
         </ws:if>

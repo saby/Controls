@@ -7,6 +7,7 @@ import itemFullTmpl = require('wml!Controls/_shortDatePicker/ItemFull');
 import itemQuartersTmpl = require('wml!Controls/_shortDatePicker/ItemQuarters');
 import {Date as WSDate} from 'Types/entity';
 import {IDateConstructor, IDateConstructorOptions} from 'Controls/interface';
+import {SyntheticEvent} from 'Vdom/Vdom';
 
 interface IShortDatePickerOptions extends IControlOptions, IDateConstructorOptions {
     currentYear?: number;
@@ -93,6 +94,7 @@ class BodyItem extends Control<IShortDatePickerOptions> implements IDateConstruc
     }
 
     protected _onQuarterMouseEnter(event: Event, quarter: number): void {
+        this._halfYearHovered = null;
         this._quarterHovered = quarter;
     }
 
@@ -101,6 +103,7 @@ class BodyItem extends Control<IShortDatePickerOptions> implements IDateConstruc
     }
 
     protected _onHalfYearMouseEnter(event: Event, halfYear: number): void {
+        this._quarterHovered = null;
         this._halfYearHovered = halfYear;
     }
 
@@ -137,6 +140,26 @@ class BodyItem extends Control<IShortDatePickerOptions> implements IDateConstruc
 
     protected _onMonthClick(event: Event, month: Date): void {
         this._notify('sendResult', [month, dateUtils.getEndOfMonth(month)], {bubbling: true});
+    }
+
+    protected _keyPressed(event: SyntheticEvent): void {
+        const targetName = event.target.getAttribute('name');
+        if (targetName) {
+            const period = parseInt(targetName[2], 10);
+            if (targetName[0] === 'q') {
+                this._quarterHovered = period;
+            } else {
+                this._halfYearHovered = period;
+            }
+        }
+    }
+
+    protected _onBlurHalfYear(): void {
+        this._halfYearHovered = null;
+    }
+
+    protected _onBlurQuarter(): void {
+        this._quarterHovered = null;
     }
 
     static getDefaultOptions(): IShortDatePickerOptions {

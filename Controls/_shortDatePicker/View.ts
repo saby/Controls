@@ -12,6 +12,7 @@ import monthTmpl = require('wml!Controls/_shortDatePicker/monthTemplate');
 import {Logger} from 'UI/Utils';
 import {Utils as dateControlsUtils} from 'Controls/dateRange';
 import 'css!Controls/shortDatePicker';
+import {SyntheticEvent} from "Vdom/Vdom";
 
 const enum POSITION {
     RIGHT = 'right',
@@ -63,6 +64,9 @@ class View extends Control<IDateLitePopupOptions> {
     protected _nextArrowButtonReadOnly: boolean = false;
 
     protected _beforeMount(options: IDateLitePopupOptions): void {
+        document.body.addEventListener('focus', function(e) {
+            console.log(e.target);
+        }, true);
         this._displayedRanges = options.displayedRanges;
         if (!options.emptyCaption) {
             if (options.chooseMonths && (options.chooseQuarters || options.chooseHalfyears)) {
@@ -239,6 +243,14 @@ class View extends Control<IDateLitePopupOptions> {
         if (this._options.chooseYears) {
             this._yearHovered = year;
         }
+    }
+
+    protected _keyPressed(event: SyntheticEvent, year: Date): void {
+        this._yearHovered = year;
+    }
+
+    protected _onBlurYear(): void {
+        this._yearHovered = null;
     }
 
     protected _hitsDisplayedRange(year: number, index: number): boolean {

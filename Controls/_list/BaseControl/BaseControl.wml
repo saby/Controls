@@ -206,7 +206,7 @@
          on:mouseenter="_mouseEnter()"
          on:mouseleave="_mouseLeave()"
          on:mouseMove="_onListMouseMove()">
-        <div name="fakeFocusElem" tabindex="0" class="controls-BaseControl__fakeFocusElem"></div>
+<!--        <div name="fakeFocusElem" tabindex="0" class="controls-BaseControl__fakeFocusElem"></div>-->
 
         <style name="itemActionsOutsideStyle" data-vdom-ignore="true"></style>
 
