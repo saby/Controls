@@ -1,7 +1,7 @@
 import Deferred = require('Core/Deferred');
-import StickyController = require('Controls/_popupTemplate/Sticky/StickyController');
+import {StickyController} from 'Controls/_popupTemplate/Sticky/StickyController';
 import themeConstantsGetter = require('Controls/_popupTemplate/InfoBox/Opener/resources/themeConstantsGetter');
-import cMerge = require('Core/core-merge');
+import * as cMerge from 'Core/core-merge';
 import StickyStrategy = require('Controls/_popupTemplate/Sticky/StickyStrategy');
 import {IPopupItem, IPopupSizes, IPopupPosition, Controller} from 'Controls/popup';
 import {constants} from 'Env/Env';
@@ -71,10 +71,10 @@ const INVERTED_SIDES: IInfoBoxSide = {
 /**
  * InfoBox Popup Controller
  * @class Controls/_popupTemplate/InfoBox/Opener/InfoBoxController
- * 
+ *
  * @private
  */
-class InfoBoxController extends StickyController.constructor {
+class InfoBoxController extends StickyController {
     _openedPopupId: string = null;
     _checkHiddenId: number | null = null;
     TYPE: string = 'InfoBox';
@@ -88,7 +88,7 @@ class InfoBoxController extends StickyController.constructor {
         this._openedPopupId = item.id;
 
         // Not calculate the coordinates of target, when it is located on the hidden popup.
-        if (InfoBoxController._removeHiddenElement(item) || !isTargetVisible) {
+        if (this._removeHiddenElement(item) || !isTargetVisible) {
             return false;
         } else {
             /**
@@ -98,7 +98,7 @@ class InfoBoxController extends StickyController.constructor {
              * https://online.sbis.ru/opendoc.html?guid=a88a5697-5ba7-4ee0-a93a-221cce572430
              */
             this._checkHiddenId = setInterval(() => {
-                InfoBoxController._removeHiddenElement(item);
+                this._removeHiddenElement(item);
             }, 1000);
         }
 
@@ -248,8 +248,8 @@ class InfoBoxController extends StickyController.constructor {
         return null;
     }
 
-    private static _removeHiddenElement(item: IPopupItem): boolean {
-        const targetHidden: boolean = InfoBoxController._getTargetNode(item).closest('.ws-hidden');
+    private _removeHiddenElement(item: IPopupItem): boolean {
+        const targetHidden: boolean = !!this._getTargetNode(item).closest('.ws-hidden');
         if (targetHidden) {
             Controller.remove(item.id);
             return true;
@@ -258,4 +258,4 @@ class InfoBoxController extends StickyController.constructor {
         return false;
     }
 }
-export = new InfoBoxController();
+export default new InfoBoxController();

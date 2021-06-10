@@ -1,4 +1,6 @@
 import { IOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
+import {Control} from "UICore/Base";
+import {IStickyPositionOffset} from 'Controls/_popup/interface/ISticky';
 
 export interface IDialogPopupOptions extends IBasePopupOptions {
     minWidth?: number;
@@ -13,6 +15,8 @@ export interface IDialogPopupOptions extends IBasePopupOptions {
     right?: number;
     resizeDirection?: IResizeDirection;
     maximize?: boolean;
+    target?: HTMLElement | EventTarget | Control;
+    offset?: IStickyPositionOffset;
     restrictiveContainer?: string;
 }
 
@@ -78,6 +82,24 @@ export interface IResizeDirection {
  * @cfg {IResizeDirection} Направление, в котором попап будет увеличиваться при динамическом изменении размеров контента.
  * В этом случае противоположная сторона будет зафиксирована и не изменит свою позицию относительно окна браузера.
  * @demo Controls-demo/Popup/Dialog/ResizeDirection/Index
+ */
+/**
+ * @name Controls/_popup/interface/IDialogOpener#target
+ * @cfg {Node|Control} Элемент (DOM-элемент или контрол), относительно которого позиционируется диалоговое окно
+ * Если включено перемещение окна с помощью D'n'D и пользователь его переместил, то позиционирование окна будет
+ * относительно сохраненной позиции.
+ * @demo Controls-demo/Popup/Dialog/Target/Index
+ */
+
+/**
+ * @typedef {Object} Controls/_popup/interface/IDialogOpener/Offset
+ * @description Свойства объекта, который передается в опцию {@link offset}.
+ * @property {Number} vertical Отступ по вертикали. Значение задается в px.
+ * @property {Number} horizontal Отступ по горизонтали. Значение задается в px.
+ */
+/**
+ * @name Controls/_popup/interface/IDialogOpener#offset
+ * @cfg {Controls/_popup/interface/IDialogOpener/Offset.typedef} Конфигурация отступов от точки позиционирования {@link target} до диалогового окна
  */
 /*
  * @name Controls/_popup/interface/IDialogOpener#top
@@ -189,7 +211,7 @@ export interface IResizeDirection {
  *    ...
  * }
  * </pre>
- * 
+ *
  * <pre class="brush: js">
  * // TypeScript
  * import {DialogOpener} from 'Controls/popup';
@@ -240,7 +262,7 @@ export interface IResizeDirection {
  *    ...
  * };
  * </pre>
- * 
+ *
  * <pre class="brush: js">
  * // TypeScript
  * import {DialogOpener} from 'Controls/popup';
