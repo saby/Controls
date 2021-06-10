@@ -3,6 +3,10 @@ import {IBaseGroupTemplate} from 'Controls/list';
 
 /**
  * Интерфейс колонки списка с иерархической группировкой.
+ * @interface Controls/_treeGrid/interface/IGroupNodeColumn
+ * 
+ * @public
+ * @author Аверкиев П.А.
  */
 export interface IGroupNodeColumn extends IColumn {
     /**
