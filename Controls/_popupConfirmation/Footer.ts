@@ -23,6 +23,64 @@ export interface IFooterOptions extends IControlOptions, IConfirmationFooterOpti
 class Footer extends Control<IFooterOptions> implements IConfirmationFooter {
     protected _template: TemplateFunction = template;
     protected _tmplNotify: Function = EventUtils.tmplNotify;
+    protected _buttons: unknown;
+
+    protected _beforeMount(options: IFooterOptions): void {
+        this._prepareData(options);
+    }
+
+    protected _prepareData(options: IFooterOptions): void {
+        if (options.buttons) {
+            this._buttons = options.buttons;
+        } else {
+            if (options.type === 'ok') {
+                this._buttons = [
+                    {
+                        caption: options.okCaption,
+                        viewMode: 'button',
+                        buttonStyle: options.primaryAction === 'yes' ? 'primary' : 'secondary',
+                        value: true
+                    }
+                ];
+            } else if (options.type === 'yesno') {
+                this._buttons = [
+                    {
+                        caption: options.yesCaption,
+                        viewMode: 'button',
+                        buttonStyle: options.primaryAction === 'yes' ? 'primary' : 'secondary',
+                        value: true
+                    },
+                    {
+                        caption: options.noCaption,
+                        viewMode: 'button',
+                        buttonStyle: options.primaryAction === 'no' ? 'primary' : 'secondary',
+                        value: false
+                    }
+                ];
+            } else if (options.type === 'yesnocancel') {
+                this._buttons = [
+                    {
+                        caption: options.yesCaption,
+                        viewMode: 'button',
+                        buttonStyle: options.primaryAction === 'yes' ? 'primary' : 'secondary',
+                        value: true
+                    },
+                    {
+                        caption: options.noCaption,
+                        viewMode: 'button',
+                        buttonStyle: options.primaryAction === 'no' ? 'primary' : 'secondary',
+                        value: false
+                    },
+                    {
+                        caption: options.cancelCaption,
+                        viewMode: 'button',
+                        buttonStyle: options.primaryAction === 'cancel' ? 'primary' : 'secondary',
+                        value: undefined
+                    }
+                ];
+            }
+        }
+    }
 
     static getDefaultOptions(): IFooterOptions {
         return {
