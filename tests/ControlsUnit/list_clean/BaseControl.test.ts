@@ -825,7 +825,6 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl.saveOptions(baseControlOptions);
 
             baseControlOptions = {...baseControlOptions};
-            baseControlOptions.useNewModel = true;
             baseControl._pagingNavigation = true;
             baseControlOptions.searchValue = 'testSearchValue';
             loadStarted = false;
@@ -1059,7 +1058,6 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._beforeUpdate({
                 ...baseControlCfg,
                 filter: {field: 'ASC'},
-                useNewModel: true,
                 loading: true
             });
             assert.isTrue(isEditingCancelled);

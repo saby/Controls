@@ -167,11 +167,9 @@ var _private = {
                 collection: self._items,
                 keyProperty: self._keyProperty,
                 parentProperty: self._options.parentProperty,
-                nodeProperty: self._options.nodeProperty
+                nodeProperty: self._options.nodeProperty,
+                root: self._options.root !== undefined ? self._options.root : null
             });
-            if (self._options.root) {
-                display.setRoot(self._options.root)
-            }
             itemFromProjection = display.getItemBySourceItem(_private.getModelByItem(self, item));
             siblingItem = display[position === LOCAL_MOVE_POSITION.Before ? 'getPrevious' : 'getNext'](itemFromProjection);
             result = siblingItem ? siblingItem.getContents() : null;

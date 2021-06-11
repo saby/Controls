@@ -1411,7 +1411,7 @@ define([
             const event = { nativeEvent: { ctrlKey: false }, isStopped: () => true, stopImmediatePropagation: () => {} };
             lists.BaseControl._private.enterHandler(
             {
-               _options: {useNewModel: false},
+               _options: {},
                getViewModel: () => ({
                   getMarkedItem: () => myMarkedItem
                }),
@@ -2384,7 +2384,6 @@ define([
                keyProperty: 'id'
             },
             viewModelConstructor: 'Controls/display:Collection',
-            useNewModel: true,
             navigation: {
                source: 'page',
                sourceConfig: {
@@ -3168,7 +3167,6 @@ define([
                collection: [],
                keyProperty: 'id'
             },
-            useNewModel: true,
             viewModelConstructor: 'Controls/display:Collection',
             source: source,
          };
@@ -3832,7 +3830,6 @@ define([
          const cfg = {
             viewName: 'Controls/List/ListView',
             viewModelConstructor: 'Controls/display:Collection',
-            useNewModel: true,
             keyProperty: 'id',
             groupProperty: 'group',
             source: new sourceLib.Memory({
@@ -5367,7 +5364,6 @@ define([
          var cfg = {
             viewName: 'Controls/List/ListView',
             viewModelConstructor: 'Controls/display:Collection',
-            useNewModel: true,
             keyProperty: 'id',
             source: source,
             filter: filter,
@@ -5644,8 +5640,7 @@ define([
          instance._afterRender();
 
          instance.saveOptions({
-            ...cfg,
-            useNewModel: true
+            ...cfg
          });
 
          var fakeNotify = sandbox.spy(instance, '_notify')
@@ -5695,8 +5690,7 @@ define([
          instance._afterRender();
 
          instance.saveOptions({
-            ...cfg,
-            useNewModel: true
+            ...cfg
          });
 
          var fakeNotify = sandbox.spy(instance, '_notify')
@@ -7808,7 +7802,6 @@ define([
                viewName: 'Controls/List/ListView',
                keyProperty: 'id',
                viewModelConstructor: 'Controls/display:Collection',
-               useNewModel: true,
                items,
                draggingTemplate: {}
             };
@@ -8334,7 +8327,6 @@ define([
             it('set marked key after load items', async () => {
                const cfg = {
                   viewModelConstructor: 'Controls/display:Collection',
-                  useNewModel: true,
                   keyProperty: 'id',
                   markerVisibility: 'visible'
                };

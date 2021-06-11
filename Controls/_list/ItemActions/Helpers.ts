@@ -15,7 +15,8 @@ function getDisplay(items, parentProperty, nodeProperty, root) {
           collection: items,
           keyProperty: items.getKeyProperty(),
           parentProperty: parentProperty,
-          nodeProperty: nodeProperty
+          nodeProperty: nodeProperty,
+          root: root !== undefined ? root : null
       });
       cachedVersion = items.getVersion();
    }
