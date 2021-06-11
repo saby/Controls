@@ -191,8 +191,7 @@ describe('Controls/search:ControllerClass', () => {
          const sourceController = getSourceController(hierarchyOptions);
          const searchController = getSearchController({
             sourceController,
-            ...hierarchyOptions,
-            saveRootOnSearch: true // в 21.4000 это будет поведением по-умолчанию
+            ...hierarchyOptions
          });
          const path = new RecordSet({
             rawData: [

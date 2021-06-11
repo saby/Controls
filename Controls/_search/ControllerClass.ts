@@ -126,8 +126,7 @@ export default class ControllerClass {
       this._misspellValue = '';
       this._viewMode = this._previousViewMode;
       this._previousViewMode = null;
-      if (this._rootBeforeSearch && this._root !== this._rootBeforeSearch &&
-         (this._options.startingWith === 'current' || this._options.saveRootOnSearch)) {
+      if (this._rootBeforeSearch && this._root !== this._rootBeforeSearch) {
          this._root = this._rootBeforeSearch;
       }
       if (!this._isSearchMode() && this._options.parentProperty) {
@@ -159,8 +158,7 @@ export default class ControllerClass {
       if (this._searchValue !== newSearchValue || !this._searchPromise) {
          this._searchValue = newSearchValue;
          if (!this._rootBeforeSearch &&
-             this._root !== this._rootBeforeSearch &&
-             this._options.saveRootOnSearch) {
+             this._root !== this._rootBeforeSearch) {
             this._rootBeforeSearch = this._root;
          }
          return this._updateFilterAndLoad(
