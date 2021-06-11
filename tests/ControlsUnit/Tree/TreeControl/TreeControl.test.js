@@ -1188,7 +1188,7 @@ define([
       });
 
       it('collapsedItems bindind', async function(){
-         //collapsedItems задана, и после обновления контрола, должна соответствовать начальной опции
+         // collapsedItems задана, и после обновления контрола, должна соответствовать начальной опции
          const _cfg = {
             source: new sourceLib.Memory({
                data: [
@@ -1971,6 +1971,7 @@ define([
 
          it('check expandedItems and collapsedItems options', async() => {
             treeControl._expandController.setExpandedItems([0]);
+            treeControl._expandController.applyStateToModel();
             treeControl.saveOptions({...cfg, expandedItems: [0], collapsedItems: []});
             notifySpy.resetHistory();
             await treeControl.toggleExpanded(0);
@@ -1979,6 +1980,7 @@ define([
             assert.isTrue(notifySpy.withArgs('collapsedItemsChanged', [[]]).called);
 
             treeControl._expandController.setCollapsedItems([0]);
+            treeControl._expandController.applyStateToModel();
             treeControl.saveOptions({...cfg, expandedItems: [], collapsedItems: [0]});
             notifySpy.resetHistory();
             await treeControl.toggleExpanded(0);
@@ -1988,6 +1990,7 @@ define([
 
             treeControl._expandController.setExpandedItems([null]);
             treeControl._expandController.setCollapsedItems([]);
+            treeControl._expandController.applyStateToModel();
             treeControl.saveOptions({...cfg, expandedItems: [null], collapsedItems: []});
             notifySpy.resetHistory();
             await treeControl.toggleExpanded(0);
@@ -1997,6 +2000,7 @@ define([
 
             treeControl._expandController.setExpandedItems([null]);
             treeControl._expandController.setCollapsedItems([0]);
+            treeControl._expandController.applyStateToModel();
             treeControl.saveOptions({...cfg, expandedItems: [null], collapsedItems: [0]});
             notifySpy.resetHistory();
             await treeControl.toggleExpanded(0);
@@ -2007,6 +2011,7 @@ define([
 
          it('remove child keys from expanded items', async () => {
             treeControl._expandController.setExpandedItems([0, 1]);
+            treeControl._expandController.applyStateToModel();
             treeControl.saveOptions({...cfg, expandedItems: [0, 1], collapsedItems: []});
             notifySpy.resetHistory();
             await treeControl.toggleExpanded(0);
