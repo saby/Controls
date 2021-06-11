@@ -161,6 +161,16 @@ define([
                }
             };
 
+         it('_beforeUpdate', () => {
+            instance.saveOptions(cfg);
+            instance._beforeMount(cfg);
+            instance.beginEdit(event);
+            assert.isTrue(instance._isEditing);
+            assert.isFalse(instance._options.editObject === instance._editObject);
+            instance._beforeUpdate(cfg);
+            assert.isFalse(instance._options.editObject === instance._editObject);
+         });
+
          it('without cancelling', function() {
             instance.saveOptions(cfg);
             instance._beforeMount(cfg);
