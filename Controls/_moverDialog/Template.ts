@@ -1,5 +1,5 @@
-import {Control} from 'UI/Base';
-import {IControlOptions, TemplateFunction} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {Logger} from 'UI/Utils';
 import template = require('wml!Controls/_moverDialog/Template/Template');
 import cellTemplate = require('wml!Controls/_moverDialog/Template/CellTemplate');
 import {Model} from 'Types/entity';
@@ -15,7 +15,11 @@ export interface IMoverDialogTemplateOptions extends IControlOptions {
     displayProperty: string;
     root?: string|number;
     searchParam: string;
+
+    // @deprecated
     showRoot?: boolean;
+
+    rootVisible?: boolean;
     columns: TColumns;
     expandedItems: [];
     movedItems: TKeysSelection;
@@ -138,7 +142,7 @@ export default class extends Control<IMoverDialogTemplateOptions> {
     protected _dataLoadCallback(recordSet: RecordSet): void {
         if ((!this._searchValue || this._searchValue.length === 0) &&
             this._root === this._options.root &&
-            this._options.showRoot) {
+            (this._options.showRoot || this._options.rootVisible)) {
             recordSet.add(new Model({
                 keyProperty: recordSet.getKeyProperty(),
                 rawData: this._getRootRawData()
@@ -186,18 +190,12 @@ export default class extends Control<IMoverDialogTemplateOptions> {
  */
 
 /**
- * @name Controls/_moverDialog/Template#showRoot
+ * @name Controls/_moverDialog/Template#rootVisible
  * @cfg {Boolean} Разрешить перемещение записей в корень иерархии.
  * @default false
  * @remark
  * - true Отображается кнопка "В корень" над списком. Клик по кнопке перемещает записи в корень иерархии (см. {@link /materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo демо-пример}).
  * - false Кнопка скрыта.
- */
-
-/**
- * @name Controls/_moverDialog/Template#headingCaption
- * @cfg {String} Заголовок окна перемещения.
- * @default 'Выбор раздела'
  */
 
 /**
@@ -212,12 +210,18 @@ export default class extends Control<IMoverDialogTemplateOptions> {
  */
 
 /**
+ * @name Controls/_moverDialog/Template#headingCaption
+ * @cfg {String} Заголовок окна перемещения.
+ * @default 'Выбор раздела'
+ */
+
+/**
  * @event Происходит при выборе раздела для перемещения записей.
  * @name Controls/_moverDialog/Template#sendResult
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Раздел, куда перемещаются выбранные записи.
  * @remark
- * Выбор раздела производится кликом по записи, кнопкам "Выбрать" и "В корень" (см. {@link showRoot}).
+ * Выбор раздела производится кликом по записи, кнопкам "Выбрать" и "В корень" (см. {@link rootVisible}).
  * Клик по папке не производит выбора раздела для перемещения.
  * Событие всплываемое (см. <a href="/doc/platform/developmentapl/interface-development/ui-library/events/">Работа с событиями</a>).
  * Событие происходит непосредственно перед событием {@link close}.

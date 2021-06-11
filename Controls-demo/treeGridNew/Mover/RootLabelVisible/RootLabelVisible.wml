@@ -15,7 +15,7 @@
                         <ws:moveDialogTemplate templateName="Controls/moverDialog:Template">
                             <ws:templateOptions
                                     root="{{null}}"
-                                    showRoot="{{true}}"
+                                    rootVisible="{{true}}"
                                     keyProperty="key"
                                     parentProperty="parent"
                                     hasChildrenProperty="hasChild"
