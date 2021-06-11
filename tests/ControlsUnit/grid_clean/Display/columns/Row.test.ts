@@ -27,28 +27,72 @@ describe('Controls/grid_clean/Display/columns/Row', () => {
         record = undefined;
     });
 
-    it('.setColumns()', () => {
-        const gridRow = new GridDataRow({
-            owner: {
-                ...mockedCollection,
-                getColumnsConfig: () => [{displayProperty: 'before'}]
-            },
-            columns: [{displayProperty: 'before'}],
-            contents: record
+    describe('.setColumns()', () => {
+        it('[DATA] => [DATA]', () => {
+            const gridRow = new GridDataRow({
+                owner: {
+                    ...mockedCollection,
+                    getColumnsConfig: () => [{displayProperty: 'before'}]
+                },
+                columns: [{displayProperty: 'before'}],
+                contents: record
+            });
+
+            assert.isArray(gridRow.getColumns());
+            assert.equal(gridRow.getColumns().length, 1);
+            assert.deepEqual(gridRow.getColumns()[0].getColumnConfig(), {displayProperty: 'before'});
+            assert.equal(gridRow.getVersion(), 0);
+
+            // Устанавливаем новые колонки
+            gridRow.setColumns([{displayProperty: 'after'}]);
+
+            assert.isArray(gridRow.getColumns());
+            assert.equal(gridRow.getColumns().length, 1);
+            assert.deepEqual(gridRow.getColumns()[0].getColumnConfig(), {displayProperty: 'after'});
+            assert.equal(gridRow.getVersion(), 1);
         });
 
-        assert.isArray(gridRow.getColumns());
-        assert.equal(gridRow.getColumns().length, 1);
-        assert.deepEqual(gridRow.getColumns()[0].getColumnConfig(), {displayProperty: 'before'});
-        assert.equal(gridRow.getVersion(), 0);
+        it('[NULL] => [DATA]', () => {
+            const gridRow = new GridDataRow({
+                owner: {
+                    ...mockedCollection,
+                    getColumnsConfig: () => [{displayProperty: 'before'}]
+                },
+                columns: [{displayProperty: 'before'}],
+                contents: record
+            });
 
-        // Устанавливаем новые колонки
-        gridRow.setColumns([{displayProperty: 'after'}]);
+            gridRow.setColumns(null);
+            assert.equal(gridRow.getVersion(), 1);
+            assert.isUndefined(gridRow.getColumns());
 
-        assert.isArray(gridRow.getColumns());
-        assert.equal(gridRow.getColumns().length, 1);
-        assert.deepEqual(gridRow.getColumns()[0].getColumnConfig(), {displayProperty: 'after'});
-        assert.equal(gridRow.getVersion(), 1);
+            // Устанавливаем новые колонки
+            gridRow.setColumns([{displayProperty: 'after'}]);
+
+            assert.equal(gridRow.getVersion(), 2);
+            assert.equal(gridRow.getColumns().length, 1);
+        });
+
+        it('[DATA] => [NULL]', () => {
+            const gridRow = new GridDataRow({
+                owner: {
+                    ...mockedCollection,
+                    getColumnsConfig: () => [{displayProperty: 'before'}]
+                },
+                columns: [{displayProperty: 'before'}],
+                contents: record
+            });
+
+            assert.isArray(gridRow.getColumns());
+            assert.equal(gridRow.getColumns().length, 1);
+            assert.deepEqual(gridRow.getColumns()[0].getColumnConfig(), {displayProperty: 'before'});
+            assert.equal(gridRow.getVersion(), 0);
+
+            // Устанавливаем новые колонки
+            gridRow.setColumns(null);
+
+            assert.equal(gridRow.getVersion(), 1);
+            assert.isNull(gridRow.getColumns());
+        });
     });
-
 });
