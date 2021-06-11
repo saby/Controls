@@ -9,21 +9,21 @@
    <ws:itemPadding left="null" right="null" bottom="null" top="null" />
    <ws:itemTemplate>
       <ws:partial template="Controls/list:ItemTemplate"
-                  itemActionsClass="demo-News__itemActions_position{{itemTemplate.itemData.item.banner ? ' demo-News__itemActions_position_withBanner'}}">
+                  itemActionsClass="demo-News__itemActions_position{{itemTemplate.item.contents.banner ? ' demo-News__itemActions_position_withBanner'}}">
          <ws:contentTemplate>
             <div class="demo-News__item">
-               <img if="{{itemTemplate.itemData.item.banner}}" class="demo-News__banner" src="{{itemTemplate.itemData.item.banner}}"/>
+               <img if="{{itemTemplate.item.contents.banner}}" class="demo-News__banner" src="{{itemTemplate.item.contents.banner}}"/>
                <div class="demo-News__header">
-                  <img class="demo-News__authorPhoto" src="{{itemTemplate.itemData.item.authorPhoto}}"/>
-                  <span class="demo-News__author">{{itemTemplate.itemData.item.author}}</span>
-                  <span if="{{itemTemplate.itemData.item.orgName}}" class="demo-News__orgName">{{itemTemplate.itemData.item.orgName}}</span>
-                  <span class="demo-News__date{{itemTemplate.itemData.item.isNew ? ' demo-News__date_new'}}">{{itemTemplate.itemData.item.date}}</span>
+                  <img class="demo-News__authorPhoto" src="{{itemTemplate.item.contents.authorPhoto}}"/>
+                  <span class="demo-News__author">{{itemTemplate.item.contents.author}}</span>
+                  <span if="{{itemTemplate.item.contents.orgName}}" class="demo-News__orgName">{{itemTemplate.item.contents.orgName}}</span>
+                  <span class="demo-News__date{{itemTemplate.item.contents.isNew ? ' demo-News__date_new'}}">{{itemTemplate.item.contents.date}}</span>
                </div>
                <div class="demo-News__content">
-                  <div if="{{itemTemplate.itemData.item.title}}" class="demo-News__title">{{itemTemplate.itemData.item.title}}</div>
-                  <div class="demo-News__text">{{itemTemplate.itemData.item.text}}</div>
+                  <div if="{{itemTemplate.item.contents.title}}" class="demo-News__title">{{itemTemplate.item.contents.title}}</div>
+                  <div class="demo-News__text">{{itemTemplate.item.contents.text}}</div>
                </div>
-               <img if="{{itemTemplate.itemData.item.photo}}" class="demo-News__photo" src="{{itemTemplate.itemData.item.photo}}"/>
+               <img if="{{itemTemplate.item.contents.photo}}" class="demo-News__photo" src="{{itemTemplate.item.contents.photo}}"/>
                <div class="demo-News__footer">
                   <div class="demo-News__comments icon-16 icon-EmptyMessage icon-disabled"></div>
                   <div class="demo-News__viewCount icon-16 icon-Show icon-disabled"></div>

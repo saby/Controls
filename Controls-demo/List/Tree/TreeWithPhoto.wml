@@ -1,7 +1,7 @@
 <div class="demoTreeWithProto__wrapper">
    <div class="demoTreeWithProto__gridWrapper">
       <div>16px image</div>
-      <Controls.treeGridOld:View
+      <Controls.treeGrid:View
          attr:class="demoTreeWithProto__treeGrid16"
          keyProperty="id"
          parentProperty="Раздел"
@@ -9,11 +9,11 @@
          source="{{_viewSource}}"
          itemTemplate="wml!Controls-demo/List/Tree/TreeWithPhoto-item16"
          columns="{{_viewColumns}}">
-      </Controls.treeGridOld:View>
+      </Controls.treeGrid:View>
    </div>
    <div class="demoTreeWithProto__gridWrapper">
       <div>24px image</div>
-      <Controls.treeGridOld:View
+      <Controls.treeGrid:View
               attr:class="demoTreeWithProto__treeGrid24"
               keyProperty="id"
               parentProperty="Раздел"
@@ -21,11 +21,11 @@
               source="{{_viewSource}}"
               itemTemplate="wml!Controls-demo/List/Tree/TreeWithPhoto-item24"
               columns="{{_viewColumns}}">
-      </Controls.treeGridOld:View>
+      </Controls.treeGrid:View>
    </div>
    <div class="demoTreeWithProto__gridWrapper">
       <div>32px image</div>
-      <Controls.treeGridOld:View
+      <Controls.treeGrid:View
               attr:class="demoTreeWithProto__treeGrid32"
               keyProperty="id"
               parentProperty="Раздел"
@@ -33,11 +33,11 @@
               source = "{{_viewSource}}"
               itemTemplate="wml!Controls-demo/List/Tree/TreeWithPhoto-item32"
               columns="{{_viewColumns}}">
-      </Controls.treeGridOld:View>
+      </Controls.treeGrid:View>
    </div>
    <div class="demoTreeWithProto__gridWrapper">
       <div>40px image</div>
-      <Controls.treeGridOld:View
+      <Controls.treeGrid:View
               attr:class="demoTreeWithProto__treeGrid40"
               keyProperty="id"
               parentProperty="Раздел"
@@ -45,11 +45,11 @@
               source="{{_viewSource}}"
               itemTemplate="wml!Controls-demo/List/Tree/TreeWithPhoto-item40"
               columns="{{_viewColumns}}">
-      </Controls.treeGridOld:View>
+      </Controls.treeGrid:View>
    </div>
    <div class="demoTreeWithProto__gridWrapper">
       <div>Two levels tree</div>
-      <Controls.treeGridOld:View
+      <Controls.treeGrid:View
               attr:class="demoTreeWithProto__treeGridTwoLevels"
               keyProperty="id"
               parentProperty="Раздел"
@@ -57,6 +57,6 @@
               source="{{_viewSourceTwoLevels}}"
               itemTemplate="wml!Controls-demo/List/Tree/TreeWithPhoto-itemTwoLevels"
               columns="{{_viewColumnsTwoLevels}}">
-      </Controls.treeGridOld:View>
+      </Controls.treeGrid:View>
    </div>
 </div>

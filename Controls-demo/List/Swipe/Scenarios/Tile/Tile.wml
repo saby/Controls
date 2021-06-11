@@ -1,4 +1,4 @@
-<Controls.explorer:View useOldModel="{{ true }}"
+<Controls.explorer:View
    parentProperty="parent"
    nodeProperty="type"
    displayProperty="title"
@@ -9,6 +9,6 @@
    actionAlignment="vertical"
    itemActions="{{_itemActions}}">
    <ws:tileItemTemplate>
-      <ws:partial template="Controls/tileOld:ItemTemplate" hasTitle="{{tileItemTemplate.itemData.item.isDocument}}"/>
+      <ws:partial template="Controls/tile:ItemTemplate" hasTitle="{{tileItemTemplate.item.contents.isDocument}}"/>
    </ws:tileItemTemplate>
 </Controls.explorer:View>

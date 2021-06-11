@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth550">
     <div class="controlsDemo__wrapper">
         <Controls.scroll:Container attr:class="demo-Explorer__scrollContainer controlsDemo__height300">
-            <Controls.explorer:View useOldModel="{{ true }}"
+            <Controls.explorer:View
                     source="{{_viewSource}}"
                     bind:root="_root"
                     attr:class="demo-Explorer"

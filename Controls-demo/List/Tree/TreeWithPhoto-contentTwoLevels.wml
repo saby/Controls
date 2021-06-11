@@ -1,11 +1,11 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL" itemData="{{itemData}}">
+<ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL" scope="{{ _options }}">
    <ws:contentTemplate>
-      <ws:if data="{{itemData.item['photo']}}">
-         <img attr:class="demoTreeWithProto__imageBlock" src="{{itemData.item['photo']}}"/>
+      <ws:if data="{{item.contents['photo']}}">
+         <img attr:class="demoTreeWithProto__imageBlock" src="{{item.contents['photo']}}"/>
       </ws:if>
       <ws:else>
          <div attr:class="demoTreeWithProto__imageBlock"></div>
       </ws:else>
-      <span>{{itemData.item['title']}}</span>
+      <span>{{item.contents['title']}}</span>
    </ws:contentTemplate>
 </ws:partial>

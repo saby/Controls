@@ -1,8 +1,8 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate" scope="{{_options}}">
+<ws:partial template="Controls/grid:ColumnTemplate" scope="{{_options}}">
    <ws:contentTemplate>
       <div class="ws-flexbox ws-flex-column">
-         <div>{{itemData.item.date}}</div>
-         <div class="demo-Shipments__additionalText">{{itemData.item.additionalText}}</div>
+         <div>{{item.contents.date}}</div>
+         <div class="demo-Shipments__additionalText">{{item.contents.additionalText}}</div>
       </div>
    </ws:contentTemplate>
 </ws:partial>

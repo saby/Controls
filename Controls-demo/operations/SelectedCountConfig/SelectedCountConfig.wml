@@ -5,11 +5,12 @@
         <div>
             <Controls.operations:Panel selectedCountConfig="{{_selectedCountConfig}}" source="{{null}}" items="{{null}}"/>
                 <Controls.list:Container>
-                    <Controls.treeGridOld:View
+                    <Controls.treeGrid:View
                             keyProperty="id"
                             columns="{{_gridColumns}}"
                             parentProperty="parent"
                             nodeProperty="type"
+                            resultsPosition="top"
                             multiSelectVisibility="onhover"/>
                 </Controls.list:Container>
 

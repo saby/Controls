@@ -1,10 +1,10 @@
 <div class="controls-demo__SuggestPG-item">
-    <ws:if data="{{itemData.getPropValue(itemData.item, 'city')}}">
-        <div><b>{{itemData.getPropValue(itemData.item, 'city')}}</b></div>
+    <ws:if data="{{itemData.getPropValue(item.contents, 'city')}}">
+        <div><b>{{itemData.getPropValue(item.contents, 'city')}}</b></div>
         <div><i>The best city in the World</i></div>
     </ws:if>
-    <ws:if data="{{itemData.getPropValue(itemData.item, 'name')}}">
-        <div><b>{{itemData.getPropValue(itemData.item, 'name')}}</b></div>
+    <ws:if data="{{itemData.getPropValue(item.contents, 'name')}}">
+        <div><b>{{itemData.getPropValue(item.contents, 'name')}}</b></div>
         <div><i>The best name in the World</i></div>
     </ws:if>
 </div>

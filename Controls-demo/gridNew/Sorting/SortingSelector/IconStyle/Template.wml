@@ -1,9 +1,9 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
         <div class="controls-text-label">different icons</div>
-        <Controls.gridOld:SortingSelector
+        <Controls.grid:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting">
-        </Controls.gridOld:SortingSelector>
+        </Controls.grid:SortingSelector>
     </div>
 </div>

@@ -2,7 +2,7 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls-demo/operations/SelectedCountConfig/SelectedCountConfig';
 import {Memory} from 'Types/source';
 import {default as CountSource} from 'Controls-demo/operations/resources/Source';
-import {Gadgets} from 'Controls-demo/treeGrid/DemoHelpers/DataCatalog';
+import {Gadgets} from 'Controls-demo/treeGridNew/DemoHelpers/DataCatalog';
 
 export default class extends Control {
     _template = template;

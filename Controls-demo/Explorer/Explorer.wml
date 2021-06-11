@@ -6,7 +6,7 @@
          <Controls.operations:Controller bind:selectedKeys="_selectedKeys"
                                            bind:excludedKeys="_excludedKeys">
             <Controls.list:Container stickyHeader="{{ false }}">
-               <Controls.explorer:View useOldModel="{{ true }}"
+               <Controls.explorer:View
                   attr:class="demo-Explorer ControlsDemo-Explorer"
                   backgroundStyle="default"
                   keyProperty="id"
@@ -22,10 +22,10 @@
                   columns="{{_viewColumns}}">
                   <ws:tileItemTemplate>
                      <ws:partial
-                        template="Controls/tileOld:ItemTemplate"
+                        template="Controls/tile:ItemTemplate"
                         folderWidth="{{250}}"
                         itemWidth="{{250}}"
-                        hasTitle="{{tileItemTemplate.itemData.item.isDocument}}">
+                        hasTitle="{{tileItemTemplate.item.contents.isDocument}}">
                         <ws:contentTemplate>
                            <ws:partial template="wml!Controls-demo/Explorer/resources/CustomItemContent"/>
                         </ws:contentTemplate>

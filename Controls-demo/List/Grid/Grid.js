@@ -10,7 +10,7 @@ define('Controls-demo/List/Grid/Grid', [
    'wml!Controls-demo/List/Grid/DemoHeaderCostPrice',
    'wml!Controls-demo/List/Grid/DemoName',
    'Controls/scroll',
-   'Controls/gridOld',
+   'Controls/grid',
    'wml!Controls-demo/List/Grid/Results',
 ], function(Env, Base, GridData, template, source) {
    'use strict';

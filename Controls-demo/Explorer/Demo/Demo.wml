@@ -2,7 +2,7 @@
    <div class="demo-Tile">
       <h1>Плитка</h1>
       <h2>Плитка с одинаковой шириной</h2>
-      <Controls.explorer:View useOldModel="{{ true }}"
+      <Controls.explorer:View
          attr:class="demo-Tile__static demo-Tile__staticEqualWidth"
          parentProperty="parent"
          nodeProperty="type"
@@ -19,7 +19,7 @@
          bind:excludedKeys="_excludedKeys"
          itemsReadyCallback="{{_itemsReadyCallbackThird}}">
          <ws:tileItemTemplate>
-            <ws:partial template="Controls/tileOld:ItemTemplate" hasTitle="{{tileItemTemplate.itemData.item.isDocument}}"/>
+            <ws:partial template="Controls/tile:ItemTemplate" hasTitle="{{tileItemTemplate.item.contents.isDocument}}"/>
          </ws:tileItemTemplate>
          <ws:emptyTemplate>
             <ws:partial template="Controls/list:EmptyTemplate">
@@ -30,7 +30,7 @@
          </ws:emptyTemplate>
       </Controls.explorer:View>
       <h2>Плитка с разной шириной (без увеличения)</h2>
-      <Controls.tileOld:View
+      <Controls.tile:View
          attr:class="demo-Tile__dynamic demo-Tile__dynamicDifferentWidth"
          tileMode="dynamic"
          displayProperty="title"
@@ -44,13 +44,13 @@
          <ws:itemTemplate>
             <ws:partial
                         shadowVisibility="onhover"
-                        template="Controls/tileOld:ItemTemplate"
-                        hasTitle="{{itemTemplate.itemData.item.isDocument}}"
-                        itemWidth="{{itemTemplate.itemData.item.get('width')}}"/>
+                        template="Controls/tile:ItemTemplate"
+                        hasTitle="{{itemTemplate.item.contents.isDocument}}"
+                        itemWidth="{{itemTemplate.item.contents.get('width')}}"/>
          </ws:itemTemplate>
-      </Controls.tileOld:View>
+      </Controls.tile:View>
       <h2>Плитка с разной шириной (с увеличением)</h2>
-      <Controls.tileOld:View
+      <Controls.tile:View
          attr:class="demo-Tile__dynamic demo-Tile__dynamic_zoom"
          tileMode="dynamic"
          displayProperty="title"
@@ -65,13 +65,13 @@
          <ws:itemTemplate>
             <ws:partial
                         shadowVisibility="hidden"
-                        template="Controls/tileOld:ItemTemplate"
-                        hasTitle="{{itemTemplate.itemData.item.isDocument}}"
-                        itemWidth="{{itemTemplate.itemData.item.get('width')}}"/>
+                        template="Controls/tile:ItemTemplate"
+                        hasTitle="{{itemTemplate.item.contents.isDocument}}"
+                        itemWidth="{{itemTemplate.item.contents.get('width')}}"/>
          </ws:itemTemplate>
-      </Controls.tileOld:View>
+      </Controls.tile:View>
       <h2>Плитка с одинаковой шириной(увеличение внутри контейнера)</h2>
-      <Controls.tileOld:View
+      <Controls.tile:View
          attr:class="demo-Tile__static demo-Tile__staticContainerEqualWidth"
          parentProperty="parent"
          nodeProperty="type"
@@ -87,11 +87,11 @@
          bind:excludedKeys="_excludedKeys"
          itemsReadyCallback="{{_itemsReadyCallbackThird}}">
          <ws:itemTemplate>
-            <ws:partial template="Controls/tileOld:ItemTemplate" markerVisibility="{{false}}" hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+            <ws:partial template="Controls/tile:ItemTemplate" markerVisibility="{{false}}" hasTitle="{{itemTemplate.item.contents.isDocument}}"/>
          </ws:itemTemplate>
-      </Controls.tileOld:View>
+      </Controls.tile:View>
       <h2>Плитка с группировкой</h2>
-      <Controls.tileOld:View
+      <Controls.tile:View
          attr:class="demo-Tile__static demo-Tile__staticGroup"
          tileMode="static"
          parentProperty="parent"
@@ -106,9 +106,9 @@
          <ws:itemTemplate>
             <ws:partial
                         shadowVisibility="onhover"
-                        template="Controls/tileOld:ItemTemplate"
-                        hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+                        template="Controls/tile:ItemTemplate"
+                        hasTitle="{{itemTemplate.item.contents.isDocument}}"/>
          </ws:itemTemplate>
-      </Controls.tileOld:View>
+      </Controls.tile:View>
    </div>
 </Controls.scroll:Container>
