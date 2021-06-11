@@ -4466,15 +4466,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             } else {
                 items.at(currentItemIndex).merge(item);
             }
-
-            // New item has a version of 0. If the replaced item has the same
-            // version, it will not be redrawn. Notify the model that the
-            // item was reloaded to force its redraw.
-            // Данный код актуален только для старой модели
-            if (item && item.getId && this._listViewModel.markItemReloaded instanceof Function) {
-                this._listViewModel.markItemReloaded(item.getId());
-                this._itemReloaded = true;
-            }
         };
 
         if (currentItemIndex === -1) {
@@ -5275,18 +5266,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _onGroupClick(e, groupId, baseEvent, dispItem) {
-        const collapseGroupAfterEndEdit = (collection) => {
-            if (groupId === collection.getGroup()(collection.find((i) => i.isEditing()).contents)) {
-                this._cancelEdit().then((result) => {
-                    if (!(result && result.canceled)) {
-                        dispItem.setExpanded(!dispItem.isExpanded());
-                    }
-                });
-            } else {
-                dispItem.setExpanded(!dispItem.isExpanded());
-            }
-        };
-
         if (baseEvent.target.closest('.controls-ListView__groupExpander')) {
             const collection = this._listViewModel;
             const needExpandGroup = !dispItem.isExpanded();
