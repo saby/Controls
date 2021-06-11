@@ -53,6 +53,7 @@
                         on:afterEndEdit="_notifyHandler('afterEndEdit')"
                         on:dragStart="_notifyHandler('detailDragStart')"
                         on:dragEnd="_notifyHandler('detailDragEnd')"
+                        on:drawItems="_notifyHandler('drawItems')"
                         dataLoadCallback="{{_onDetailDataLoadCallback}}"
                         searchValue="{{_options.searchValue}}"
                         tileSize="{{_tileCfg.tileSize}}"
