@@ -7,7 +7,7 @@ import {IDialogPopupOptions} from 'Controls/_popup/interface/IDialog';
  * @class Controls/_popup/PopupHelper/Dialog
  * @implements Controls/popup:IDialogOpener
  * @implements Controls/popup:IBaseOpener
- * @implements Controls/interface:IBaseOpener
+ * @implements Controls/interface:IPropStorage
  *
  * @remark
  * Для предотвращения потенциальной утечки памяти не забывайте уничтожать экземпляр опенера с помощью метода {@link Controls/popup:IDialogOpener#destroy destroy}.
