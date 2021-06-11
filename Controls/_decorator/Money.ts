@@ -191,7 +191,6 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
             integer = this._useGrouping ? splitIntoTriads(integer) : integer;
         }
 
-        integer = integer.replace('-', '- ');
         return {
             integer,
             fraction,
@@ -257,17 +256,18 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         const dotPosition = value.indexOf('.');
 
         if (dotPosition === -1) {
-            return value + `.${Money.ZERO_FRACTION_PATH}`;
+            return `${value}.${Money.ZERO_FRACTION_PATH}`.replace('-', '- ');
         }
 
         const fractionLength = value.length - dotPosition - 1;
+        let result: string = value;
         if (fractionLength < Money.FRACTION_LENGTH) {
-            return value + '0'.repeat(Money.FRACTION_LENGTH - fractionLength);
+            result = value + '0'.repeat(Money.FRACTION_LENGTH - fractionLength);
         } else if (fractionLength > Money.FRACTION_LENGTH) {
-            return value.substr(0, dotPosition + Money.FRACTION_LENGTH + 1);
+            result = value.substr(0, dotPosition + Money.FRACTION_LENGTH + 1);
         }
 
-        return value;
+        return result.replace('-', '- ');
     }
 
     static getDefaultOptions(): Partial<IMoneyOptions> {
