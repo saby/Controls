@@ -45,6 +45,7 @@ class StickyHeaderController {
     // Если созданный заголвок невидим, то мы не можем посчитать его позицию.
     // Учтем эти заголовки после ближайшего события ресайза.
     private _delayedHeaders: TRegisterEventData[] = [];
+    private _nonSizeHeaders: number[] = [];
     private _initialized: boolean = false;
     private _syncUpdate: boolean = false;
     private _updateTopBottomInitialized: boolean = false;
@@ -262,7 +263,7 @@ class StickyHeaderController {
             }
         } else {
             // При 'отрегистриации' удаляем заголовок из всех возможных стэков
-            this._deleteElementFromElementsHeightStack(this._headers[data.id].inst.getHeaderContainer(), 0);
+            this._deleteElementFromElementsHeightStack(this._headers[data.id].inst.getHeaderContainer());
             this._unobserveStickyHeader(this._headers[data.id]);
             delete this._headers[data.id];
             this._removeFromStack(data.id, this._headersStack);
@@ -288,35 +289,41 @@ class StickyHeaderController {
             this._stickyHeaderResizeObserver.unobserve(elem);
         });
     }
-    private _deleteElementFromElementsHeightStack(element: HTMLElement, height: number): boolean {
-        if (height === 0) {
-            this._elementsHeight.forEach((item, index) => {
-                if (item.key === element) {
-                    this._elementsHeight.splice(index, 1);
-                    this._needUpdateHeadersAfterVisibleChange = true;
-                    return true;
-                }
-            });
-        }
-        return false;
+    private _deleteElementFromElementsHeightStack(element: HTMLElement): void {
+        this._elementsHeight.forEach((item, index) => {
+            if (item.key === element) {
+                this._elementsHeight.splice(index, 1);
+                this._needUpdateHeadersAfterVisibleChange = true;
+            }
+        });
     }
 
-    private _updateElementsHeight(element: HTMLElement, height: number) {
+    private _updateElementsHeight(element: HTMLElement, height: number, headerId: number): boolean {
         let heightChanged: boolean = false;
         const heightEntry: IHeightEntry = this._elementsHeight.find((item: IHeightEntry) => {
-                return item.key === element;
+            return item.key === element;
         });
         // Если у элемента высота ровна нулю, то удаляем его из массива высот.
         // Так мы избавимся от утечки в _elementsHeight.
-        const isElementDeleted = this._deleteElementFromElementsHeightStack(element, height);
-        if (!isElementDeleted) {
+        if (height === 0) {
+            this._deleteElementFromElementsHeightStack(element);
+            if (headerId !== undefined) {
+                heightChanged = true;
+                this._nonSizeHeaders.push(headerId);
+            }
+        } else {
             if (heightEntry) {
                 if (heightEntry.value !== height) {
                     heightEntry.value = height;
                     heightChanged = true;
                 }
             } else {
-                // ResizeObserver всегда кидает событие сразу после добавления элемента. Не будем генрировать
+                if (headerId && this._nonSizeHeaders.includes(headerId)) {
+                    const index = this._nonSizeHeaders.indexOf(headerId);
+                    this._nonSizeHeaders.splice(index, 1);
+                    heightChanged = true;
+                }
+                // ResizeObserver всегда кидает событие сразу после добавления элемента. Не будем генерировать
                 // событие, а просто сохраним текущую высоту если это первое событие для элемента и высоту
                 // этого элемента мы еще не сохранили.
                 this._elementsHeight.push({key: element, value: height});
@@ -327,16 +334,55 @@ class StickyHeaderController {
     }
 
     private _resizeObserverCallback(entries: any): void {
-        if(isHidden(this._container)) {
-                return;
+        if (isHidden(this._container)) {
+            return;
         }
         let heightChanged = false;
         for (const entry of entries) {
-            heightChanged = this._updateElementsHeight(entry.target, entry.contentRect.height) || heightChanged;
+            const header = this._getHeaderFromNode(entry.target);
+            heightChanged = this._updateElementsHeight(entry.target, entry.contentRect.height, header?.index) || heightChanged;
+            // Если у заголовка поменялась высота, то нужно его удалить или добавить (до этого была высота = 0)
+            // в headersStack:
+            if (heightChanged) {
+                // В момент переключения по вкладкам в мастер детейле на ноде может не быть замаунчен стикиБлок
+                if (header && this._headers[header.index]) {
+                    this._changeHeadersStackByHeader(header, entry.contentRect.height);
+                }
+            }
         }
         if (heightChanged) {
             this.resizeHandler();
         }
+    }
+
+    private _changeHeadersStackByHeader(header: StickyBlock, headerHeight: number): void {
+        if (headerHeight === 0) {
+            this._removeFromStack(header.index, this._headersStack);
+            // Если заголовок опять в будущем отобразится нужно будет пересчитать его offset.
+            this._headers[header.index].offset = {};
+        } else {
+            const addToHeadersStack = (position) => {
+                if (!this._headersStack[position].includes(header.index)) {
+                    this._addToHeadersStack(header.index, position);
+                }
+            };
+
+            const headerPosition = StickyBlock.getStickyPosition(this._headers[header.index]);
+            switch (headerPosition.vertical) {
+                case 'top':
+                case 'bottom':
+                    addToHeadersStack(headerPosition.vertical);
+                    break;
+                case 'topBottom':
+                    addToHeadersStack('top');
+                    addToHeadersStack('bottom');
+                    break;
+            }
+        }
+    }
+
+    private _getHeaderFromNode(container: HTMLElement): any {
+        return container.controlNodes[0]?.control;
     }
 
     private _getStickyHeaderElements(header: TRegisterEventData): NodeListOf<HTMLElement> {
