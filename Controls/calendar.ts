@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые служат для задания и отображения диапазона дат в рамках одного или нескольких месяцев.
- * @library Controls/calendar
+ * @library
  * @includes Month Controls/_calendar/Month
  * @includes MonthList Controls/_calendar/MonthList
  * @includes MonthSlider Controls/_calendar/MonthSlider
@@ -20,7 +20,7 @@
 
 /*
  * calendar library
- * @library Controls/calendar
+ * @library
  * @includes Month Controls/_calendar/Month
  * @includes MonthList Controls/_calendar/MonthList
  * @includes MonthSlider Controls/_calendar/MonthSlider

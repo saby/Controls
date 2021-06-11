@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют выезжающую панель фильтров</a>.
- * @library Controls/filterPanel
+ * @library
  * @includes View Controls/_filterPanel/View
  * @includes Container Controls/_filterPanel/View/Container
  * @includes ListEditor Controls/_filterPanel/Editors/List

@@ -1,6 +1,6 @@
 /**
  * Библиотека стандартных действий над записями
- * @library Controls/listActions
+ * @library
  * @includes IAction Controls/_listActions/interface/IAction
  */
 

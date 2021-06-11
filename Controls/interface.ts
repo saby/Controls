@@ -1,6 +1,6 @@
 /**
  * Библиотека, содержащая интерфейсы, которые используются в нескольких библиотеках.
- * @library Controls/interface
+ * @library
  * @includes ITextValue Controls/_interface/ITextValue
  * @includes ICanBeDefaultOpener Controls/_interface/ICanBeDefaultOpener
  * @includes IContrastBackground Controls/_interface/IContrastBackground

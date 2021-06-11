@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют содержимое всплывающих окон.
- * @library Controls/popupTemplate
+ * @library
  * @includes IPopupTemplateBase Controls/_popupTemplate/interface/IPopupTemplateBase
  * @public
  * @author Крайнов Д.О.

@@ -1,13 +1,13 @@
 /**
  * Библиотека контролов, открывающих всплывающие окна. Существуют окна нескольких видов, которые различаются внешним видом и алгоритмом позиционирования.
- * @library Controls/popup
+ * @library
  * @public
  * @author Крайнов Д.О.
  */
 
 /*
  * popup library
- * @library Controls/popup
+ * @library
  * @public
  * @author Крайнов Д.О.
  */

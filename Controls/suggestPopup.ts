@@ -4,7 +4,7 @@
  *
  * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/input/ Поле ввода с автодополнением}
  * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/directory/lookup/ Поле выбора}
- * @library Controls/suggestPopup
+ * @library
  * @includes ListContainer Controls/_suggestPopup/List
  * @includes FooterTemplate Controls/suggestPopup:FooterTemplate
  * @public
@@ -13,7 +13,7 @@
 
 /*
  * suggestPopup library
- * @library Controls/suggestPopup
+ * @library
  * @includes ListContainer Controls/_suggestPopup/List
  * @includes FooterTemplate Controls/suggestPopup:FooterTemplate
  * @public
