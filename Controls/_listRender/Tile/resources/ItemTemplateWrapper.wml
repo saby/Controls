@@ -1,1 +1,0 @@
-<ws:partial template="wml!Controls/_listRender/Tile/resources/ItemTemplate" scope="{{ _options }}" width="{{ itemWidth }}" />

@@ -1,4 +1,0 @@
-<Controls._listRender.View
-   collection="Controls/grid:GridCollection"
-   render="Controls/listRender:Grid"
-   scope="{{ _options }}" />

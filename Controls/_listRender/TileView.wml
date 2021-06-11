@@ -1,7 +1,0 @@
-<Controls._listRender.View
-   collection="Controls/display:TileCollection"
-   render="Controls/listRender:Tile"
-   scope="{{ _options }}"
-
-   actionAlignment="{{ _options.actionAlignment || 'vertical' }}"
-   actionCaptionPosition="{{ _options.actionCaptionPosition || 'none' }}"/>
