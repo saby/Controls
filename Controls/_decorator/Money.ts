@@ -284,29 +284,24 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         const dotPosition = value.indexOf('.');
 
         if (dotPosition === -1) {
-            return value + (precision ? '.00' : '');
+            return (value + (precision ? '.00' : '')).replace('-', '- ');
         }
 
         if (!precision) {
-            return value.substr(0, dotPosition);
+            return value.substr(0, dotPosition).replace('-', '- ');
         }
 
         const fractionLength = value.length - dotPosition - 1;
-
+        let result = value;
         if (fractionLength < precision) {
-            return value + '0'.repeat(precision - fractionLength);
+            result = value + '0'.repeat(precision - fractionLength);
         }
 
         if (fractionLength > precision) {
-            return value.substr(0, dotPosition + precision + 1);
-        let result: string = value;
-        if (fractionLength < Money.FRACTION_LENGTH) {
-            result = value + '0'.repeat(Money.FRACTION_LENGTH - fractionLength);
-        } else if (fractionLength > Money.FRACTION_LENGTH) {
-            result = value.substr(0, dotPosition + Money.FRACTION_LENGTH + 1);
+            result = value.substr(0, dotPosition + precision + 1);
         }
 
-        return value;
+        return result.replace('-', '- ');
     }
 
     static getDefaultOptions(): Partial<IMoneyOptions> {
