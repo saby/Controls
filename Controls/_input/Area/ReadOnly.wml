@@ -1,6 +1,5 @@
 <div name="readOnlyField"
-     class="controls-Area__field_readOnly
-            controls-Area__field_margin-{{horizontalPadding}} controls-Area__fieldWrapper">
+     class="controls-Area__field_readOnly controls-Area__fieldWrapper">
    <ws:if data="{{value}}">
       <div class="controls-Area__wrapURLs_container">
          <Controls.decorator:WrapURLs value="{{value}}" class="controls-Area__wrapURLs"/>

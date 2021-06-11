@@ -125,6 +125,7 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
     protected _fontWeight: string;
     protected _inlineHeight: string;
     protected _fontColorStyle: string;
+    protected _horizontalPadding: string;
     protected _template: TemplateFunction = template;
 
     readonly '[Controls/_interface/IHeight]': boolean = true;
@@ -176,6 +177,7 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
         this._border = Render._detectToBorder(options.borderVisibility, options.minLines, options.contrastBackground);
         this._fontWeight = Render._getFontWeight(options.fontWeight, options.fontSize);
         this._setState(options);
+        this._updateHorizontalPadding(options);
     }
 
     protected _beforeUpdate(options: IRenderOptions): void {
@@ -186,12 +188,25 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
             this._fontWeight = Render._getFontWeight(options.fontWeight, options.fontSize);
         }
         this._setState(options);
+        this._updateHorizontalPadding(options);
     }
 
     protected _setContentActive(event: SyntheticEvent<FocusEvent>, newContentActive: boolean): void {
         this._contentActive = newContentActive;
 
         this._setState(this._options);
+    }
+
+    private _updateHorizontalPadding(options: IRenderOptions): void {
+        let padding;
+        if (options.horizontalPadding) {
+            padding = options.horizontalPadding;
+        } else if (options.contrastBackground !== false) {
+            padding = 'xs';
+        } else {
+            padding = 'null';
+        }
+        this._horizontalPadding = padding;
     }
 
     private static notSupportFocusWithin(): boolean {
