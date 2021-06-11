@@ -91,6 +91,8 @@ export interface ILoadDataResult extends ILoadDataConfig {
 
 type TLoadedConfigs = Map<string, ILoadDataResult|ILoadDataConfig>;
 type TLoadConfig = ILoadDataConfig|ILoadDataCustomConfig;
+type TLoadResult = ILoadDataResult|ILoadDataCustomConfig;
+type TLoadPromiseResult = Promise<TLoadResult>;
 
 function isNeedPrepareFilter(loadDataConfig: ILoadDataConfig): boolean {
     return !!(loadDataConfig.filterButtonSource || loadDataConfig.fastFilterSource || loadDataConfig.searchValue);
@@ -251,7 +253,7 @@ export default class DataLoader {
 
     load<T extends ILoadDataResult>(
         sourceConfigs: TLoadConfig[] = this._loadDataConfigs
-    ): Promise<T[]> {
+    ): Promise<TLoadResult[]> {
         return Promise.all(this.loadEvery<T>(sourceConfigs)).then((results) => {
             this._fillLoadedConfigStorage(results);
             return results;
@@ -261,7 +263,7 @@ export default class DataLoader {
     loadEvery<T extends ILoadDataConfig|ILoadDataCustomConfig>(
         sourceConfigs: TLoadConfig[] = this._loadDataConfigs,
         loadTimeout?: number
-    ): Array<Promise<T>> {
+    ): TLoadPromiseResult[] {
         const loadDataPromises = [];
         let loadPromise;
 

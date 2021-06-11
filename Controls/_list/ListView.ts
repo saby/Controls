@@ -254,7 +254,7 @@ var ListView = BaseControl.extend(
             _private.resizeNotifyOnListChanged(this);
         },
 
-        _afterMount: function() {
+        _componentDidMount: function() {
             this._notify('itemsContainerReady', [this.getItemsContainer.bind(this)]);
             // todo костыль до тех пор, пока не перейдем на отслеживание ресайза через нативное событие в двух основныых
             // местах - в окнах и в scrollContainer'e.
