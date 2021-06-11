@@ -24,7 +24,7 @@
   "--contrast_icon-color": "#ffffff",
   "--unaccented_icon-color": "#cccccc",
 
-  "--primary_color": "#cc3d00",
+  "--primary_color": "#ff7033",
   "--primary_text-color": "#cc3d00",
   "--primary_hover_text-color": "#e27140",
   "--primary_icon-color": "#f47843",
@@ -40,7 +40,7 @@
   "--primary_hover_contrast_background-color": "#e4662f",
   "--primary_active_contrast_background-color": "#d6551f",
 
-  "--secondary_color": "#153f6f",
+  "--secondary_color": "#587ab0",
   "--secondary_text-color": "#153f6f",
   "--secondary_hover_text-color": "#2f5b8e",
   "--secondary_icon-color": "#656c87",
