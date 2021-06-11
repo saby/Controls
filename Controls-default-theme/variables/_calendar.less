@@ -2,9 +2,9 @@
   //Общие переменные для переключателя месяцев
   //
   //Цвета и размеры
-  --monthview_width_monthSlider:                                                  calc(var(--monthview_item_height_monthSlider) * 7 + var(--border-thickness) * 8);
+  --monthview_width_monthSlider:                                                  calc(var(--monthview_item_height_monthSlider) * 7 + var(--monthview_item_border-thickness_monthSlider) * 8);
   --monthview_height_monthSlider:                                                 calc(var(--weekdays_height_monthSlider) + var(--header_height_monthSlider) +
-                                                                                  6 * (var(--monthview_item_height_monthSlider) + var(--border-thickness)));
+                                                                                  6 * (var(--monthview_item_height_monthSlider) + var(--monthview_item_border-thickness_monthSlider)));
 
 
   //Переменные для шапки переключателя
@@ -32,6 +32,7 @@
 
 
   //Обводка
+  --monthview_item_border-thickness_monthSlider: var(--border-thickness);
 
   --monthview_item_hover_border-radius_monthSlider:                               3px;
   --monthview_today_border-radius_monthSlider:                                    3px;

@@ -152,7 +152,7 @@
 }
 
 .controls-Menu__content_readOnly {
-   color: var(--readonly_color);
+   color: var(--readonly_item_text-color_menu);
 }
 
 .controls-Menu__content_singleLine {
@@ -172,7 +172,7 @@
 }
 
 .controls-Menu__content-readOnly {
-   color: var(--readonly_color);
+   color: var(--readonly_item_text-color_menu);
 }
 
 .controls-Menu_content_padding {
@@ -210,7 +210,7 @@
 }
 
 .controls-Menu__arrow_readOnly {
-   color: var(--readonly_color);
+   color: var(--readonly_hierarchy_icon-color_menu);
 }
 
 .controls-Menu__arrow_default {
@@ -223,13 +223,13 @@
 
 .controls-Menu__iconPin {
    .align-items(center);
-   .icon-size(var(--icon-size_s));
+   .icon-size(var(--pin-button_icon-size_menu));
 
    position: absolute;
    display: none;
-   right: var(--offset_m);
-   top: calc((var(--item_height_menu) - var(--icon-size_s)) / 2);
-   color: var(--unaccented_icon-color);
+   right: var(--pin-button_offset-right_menu);
+   top: calc((var(--item_height_menu) - var(--pin-button_icon-size_menu)) / 2);
+   color: var(--pin-button_icon-color_menu);
 }
 
 .controls-Menu__iconPin.controls-Menu__iconPin_swiped {
@@ -371,7 +371,7 @@
 }
 
 .controls-ListView__item-rightPadding_menu-pin {
-   padding-right: calc(var(--offset_xs) + var(--icon-size_s) + var(--offset_m));
+   padding-right: calc(var(--pin-button_offset-left_menu) + var(--pin-button_icon-size_menu) + var(--pin-button_offset-right_menu));
 }
 
 .controls-ListView__item-rightPadding_menu-xs {
@@ -402,7 +402,7 @@
    }
 
    .controls-Menu__iconPin:hover {
-      color: var(--secondary_hover_icon-color);
+      color: var(--pin-button_hover_icon-color_menu);
    }
 }
 
