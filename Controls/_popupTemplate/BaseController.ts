@@ -6,12 +6,16 @@ import * as TargetCoords from 'Controls/_popupTemplate/TargetCoords';
 import {Control} from 'UI/Base';
 import {goUpByControlTree} from 'UI/Focus';
 import {Logger} from 'UI/Utils';
+import {constants} from 'Env/Env';
+import * as cMerge from 'Core/core-merge';
+import * as cInstance from 'Core/core-instance';
 
 export interface IDragOffset {
     x: number;
     y: number;
 }
 
+let _fakeDiv: HTMLDivElement;
 /**
  * Base Popup Controller
  * @class Controls/_popupTemplate/BaseController
@@ -248,6 +252,107 @@ abstract class BaseController {
 
     private _goUpByControlTree(container: HTMLElement): Control[] {
         return goUpByControlTree(container);
+    }
+
+    protected _getTargetCoords(cfg, sizes = {}) {
+        if (cfg.popupOptions.nativeEvent) {
+            const top = cfg.popupOptions.nativeEvent.clientY;
+            const left = cfg.popupOptions.nativeEvent.clientX;
+            const size = 1;
+            const positionCfg = {
+                direction: {
+                    horizontal: 'right',
+                    vertical: 'bottom'
+                }
+            };
+            cMerge(cfg.popupOptions, positionCfg);
+            sizes.margins = {top: 0, left: 0};
+            return {
+                width: size,
+                height: size,
+                top,
+                left,
+                bottom: top + size,
+                right: left + size,
+                topScroll: 0,
+                leftScroll: 0
+            };
+        }
+
+        if (!constants.isBrowserPlatform) {
+            return {
+                width: 0,
+                height: 0,
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+                topScroll: 0,
+                leftScroll: 0
+            };
+        }
+        return TargetCoords.get(this._getTargetNode(cfg));
+    }
+
+    private _getTargetNode(item: IPopupItem): HTMLElement {
+        if (cInstance.instanceOfModule(item.popupOptions.target, 'UI/Base:Control')) {
+            return item.popupOptions.target._container;
+        }
+        return item.popupOptions.target || (constants.isBrowserPlatform && document.body);
+    }
+
+    protected _getMargins(item: IPopupItem): {top: number, left: number} {
+        // If the classes have not changed, then the indents remain the same
+        if ((item.className || '') === (item.popupOptions.className || '')) {
+            if (!item.margins) {
+                item.margins = {
+                    top: 0,
+                    left: 0
+                };
+            }
+        } else {
+            item.className = item.popupOptions.className;
+            item.margins = this._getFakeDivMargins(item);
+        }
+
+        return {
+            top: item.margins.top || 0,
+            left: item.margins.left || 0
+        };
+    }
+
+    private _getFakeDivMargins(item: IPopupItem): {top: number, left: number} {
+        const fakeDiv = this._getFakeDiv();
+        const theme = ManagerController.getTheme();
+        fakeDiv.className = item.popupOptions.className + ` controls_popupTemplate_theme-${theme}`;
+
+        const styles = this._getContainerStyles(fakeDiv);
+        return {
+            top: parseFloat(styles.marginTop),
+            left: parseFloat(styles.marginLeft)
+        };
+    }
+
+    private _getFakeDiv(): HTMLDivElement {
+        if (!constants.isBrowserPlatform) {
+            return {
+                marginLeft: 0,
+                marginTop: 0
+            };
+        }
+        // create fake div on invisible part of window, cause user class can overlap the body
+        if (!_fakeDiv) {
+            _fakeDiv = document.createElement('div');
+            _fakeDiv.style.position = 'absolute';
+            _fakeDiv.style.left = '-10000px';
+            _fakeDiv.style.top = '-10000px';
+            document.body.appendChild(_fakeDiv);
+        }
+        return _fakeDiv;
+    }
+
+    private _getContainerStyles(container: Element): object {
+        return window.getComputedStyle(container);
     }
 
     private static rootContainers = {};

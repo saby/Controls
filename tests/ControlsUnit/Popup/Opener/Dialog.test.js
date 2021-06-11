@@ -320,42 +320,6 @@ define(
             assert.equal(item.position.left, -10000);
          });
 
-         it('calc coordinates _fixCompatiblePosition', () => {
-            let item = {
-                  popupOptions: {
-                     width: 730,
-                     left: 785
-                  },
-                  position: {},
-                  dragged: false
-               },
-               windowData = {
-                  width: 1920,
-                  height: 960,
-               };
-
-            DialogController._getRestrictiveContainerSize = () => windowData;
-            DialogController._fixCompatiblePosition(item);
-            assert.equal(item.position.left, 785);
-
-            windowData = {
-               width: 1080,
-               height: 960,
-            };
-            DialogController._getRestrictiveContainerSize = () => windowData;
-            DialogController._fixCompatiblePosition(item);
-
-            let calculateLeft = item.popupOptions.left - ((item.popupOptions.left + item.popupOptions.width) - windowData.width);
-            assert.equal(item.position.left, calculateLeft);
-
-            item.popupOptions.left = 0;
-            item.popupOptions.top = 0;
-            DialogController._fixCompatiblePosition(item);
-
-            assert.equal(item.position.top, 0);
-            assert.equal(item.position.left, 0);
-         });
-
          it('dialog drag start', function() {
             let item = {
                position: {
@@ -516,6 +480,20 @@ define(
             let position = DialogStrategy.getPosition(windowData, dialogSizes, item);
             assert.equal(position.left, 100);
             assert.equal(position.top, 100);
+
+            item.popupOptions.offset = {
+               vertical: 10,
+               horizontal: 5
+            };
+            position = DialogStrategy.getPosition(windowData, dialogSizes, item);
+            assert.equal(position.left, 105);
+            assert.equal(position.top, 110);
+
+            delete item.popupOptions.offset;
+            item.popupOptions.left = 1900;
+            item.popupOptions.width = 50;
+            position = DialogStrategy.getPosition(windowData, dialogSizes, item);
+            assert.equal(position.left, 1870);
          });
 
          it('restrictive container, maximize = true', () => {

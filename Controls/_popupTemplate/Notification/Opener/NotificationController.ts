@@ -21,7 +21,7 @@ interface INotificationOptions extends IPopupOptions {
 /**
  * Notification Popup Controller
  * @class Controls/_popupTemplate/Notification/Opener/NotificationController
- * 
+ *
  * @private
  * @extends Controls/_popupTemplate/BaseController
  */
@@ -96,4 +96,4 @@ class NotificationController extends BaseController {
         item.popupOptions.content = NotificationContent;
     }
 }
-export = new NotificationController();
+export default new NotificationController();
