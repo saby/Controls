@@ -191,6 +191,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
             integer = this._useGrouping ? splitIntoTriads(integer) : integer;
         }
 
+        integer = integer.replace('-', '- ');
         return {
             integer,
             fraction,
