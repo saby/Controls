@@ -14,7 +14,7 @@
                </div>
                <Controls.scroll:Container attr:class="controls-demo_MasterDetail_master" shadowMode="js">
                   <Controls.masterDetail:List bind:markedKey="_markedKey" selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
-                     <Controls.gridOld:View
+                     <Controls.grid:View
                              source="{{_masterSource}}"
                              keyProperty="id"
                              style="master"
@@ -23,7 +23,7 @@
                              itemActions="{{_itemActions}}"
                              columns="{{gridColumns}}"
                      >
-                     </Controls.gridOld:View>
+                     </Controls.grid:View>
                   </Controls.masterDetail:List>
                </Controls.scroll:Container>
             </div>
@@ -44,7 +44,7 @@
                         <ws:partial template="Controls/list:ItemTemplate">
                            <ws:contentTemplate>
                               <ws:partial
-                                      item="{{itemTemplate.itemData.item}}"
+                                      item="{{itemTemplate.item.contents}}"
                                       template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
                               />
                            </ws:contentTemplate>
@@ -77,7 +77,7 @@
                      <ws:itemTemplate>
                         <ws:partial template="Controls/list:ItemTemplate">
                            <ws:contentTemplate>
-                              <div class="controls-demo_MasterDetail-item-list">{{itemTemplate.itemData.item.name}}</div>
+                              <div class="controls-demo_MasterDetail-item-list">{{itemTemplate.item.contents.name}}</div>
                            </ws:contentTemplate>
                         </ws:partial>
                      </ws:itemTemplate>
@@ -102,7 +102,7 @@
                      <ws:partial template="Controls/list:ItemTemplate">
                         <ws:contentTemplate>
                            <ws:partial
-                                   item="{{itemTemplate.itemData.item}}"
+                                   item="{{itemTemplate.item.contents}}"
                                    template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
                            />
                         </ws:contentTemplate>
@@ -129,7 +129,7 @@
                </div>
                <Controls.scroll:Container attr:class="controls-demo_MasterDetail_master" shadowMode="js">
                   <Controls.masterDetail:List bind:markedKey="_markedKey3" selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
-                     <Controls.treeGridOld:View
+                     <Controls.treeGrid:View
                              source="{{_masterSource}}"
                              keyProperty="id"
                              parentProperty="Раздел"
@@ -140,7 +140,7 @@
                              itemActions="{{_itemActions}}"
                              columns="{{gridColumns}}"
                      >
-                     </Controls.treeGridOld:View>
+                     </Controls.treeGrid:View>
                   </Controls.masterDetail:List>
                </Controls.scroll:Container>
             </div>
@@ -161,7 +161,7 @@
                         <ws:partial template="Controls/list:ItemTemplate">
                            <ws:contentTemplate>
                               <ws:partial
-                                      item="{{itemTemplate.itemData.item}}"
+                                      item="{{itemTemplate.item.contents}}"
                                       template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
                               />
                            </ws:contentTemplate>

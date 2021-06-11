@@ -11,11 +11,11 @@
       <ws:itemTemplate>
          <ws:partial
                  template="Controls/tile:RichTemplate"
-                 imageViewMode="{{itemTemplate.itemData.item.imageViewMode}}"
+                 imageViewMode="{{itemTemplate.item.contents.imageViewMode}}"
                  imageProportion="1:1"
                  imagePosition="top"
-                 description="{{itemTemplate.itemData.item.description}}"
-                 imageCompressionCoefficient="{{itemTemplate.itemData.item.imageCompressionCoefficient}}"
+                 description="{{itemTemplate.item.contents.description}}"
+                 imageCompressionCoefficient="{{itemTemplate.item.contents.imageCompressionCoefficient}}"
                  imageEffect="none"
                  scope="{{itemTemplate}}">
          </ws:partial>

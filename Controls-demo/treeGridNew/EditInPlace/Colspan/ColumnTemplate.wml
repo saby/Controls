@@ -4,12 +4,12 @@
             <div class="controlDemo__input-row">
                 <div class="controlsDemo__ml1">
                     <span class="controlsDemo__wrapper__horizontal">Наименование</span>
-                    <Controls.input:Text contrastBackground="{{true}}" fontSize="inherit" bind:value="itemData.item['title']" selectOnClick="{{ false }}"/>
+                    <Controls.input:Text contrastBackground="{{true}}" fontSize="inherit" bind:value="item.contents['title']" selectOnClick="{{ false }}"/>
                 </div>
-                <ws:if data="{{itemData.item['parent'] === null}}">
+                <ws:if data="{{item.contents['parent'] === null}}">
                     <div class="controlsDemo__ml1">
                         <span class="controlsDemo__wrapper__horizontal">Страна</span>
-                        <Controls.input:Text contrastBackground="{{true}}" fontSize="inherit" bind:value="itemData.item['country']"
+                        <Controls.input:Text contrastBackground="{{true}}" fontSize="inherit" bind:value="item.contents['country']"
                                              selectOnClick="{{ false }}"/>
                     </div>
                 </ws:if>

@@ -1,4 +1,4 @@
-<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+<ws:partial template="Controls/grid:ColumnTemplate" scope="{{ _options }}">
     <ws:contentTemplate>
         <div>
             Шаблон редактирования строки

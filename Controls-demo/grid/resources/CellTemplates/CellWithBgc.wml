@@ -1,7 +1,0 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate" itemData="{{itemData}}">
-    <ws:contentTemplate>
-        <div style="white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;">{{itemData.item['country']}}</div>
-    </ws:contentTemplate>
-</ws:partial>

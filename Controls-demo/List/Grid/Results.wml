@@ -1,4 +1,4 @@
-<ws:if data="{{ column.result }}">
+<ws:if data="{{column.config.result }}">
    <Controls.decorator:Money value="{{column.result}}" fontColorStyle="results" fontWeight="bold" fontSize="l"/>
 </ws:if>
 <ws:else>

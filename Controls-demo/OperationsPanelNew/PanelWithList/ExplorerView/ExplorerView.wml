@@ -29,7 +29,7 @@
             </ws:if>
 
             <Controls.list:Container>
-               <Controls.explorer:View useOldModel="{{ true }}" displayProperty="department" columns="{{_gridColumns}}" multiSelectVisibility="visible"/>
+               <Controls.explorer:View displayProperty="department" columns="{{_gridColumns}}" multiSelectVisibility="visible"/>
             </Controls.list:Container>
          </div>
       </Controls.operations:Controller>
