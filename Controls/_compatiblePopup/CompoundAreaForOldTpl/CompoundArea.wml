@@ -23,7 +23,8 @@
          closeButtonVisibility="{{!_options.hideCross}}"
          closeButtonTransparent="{{_options.closeButtonTransparent}}"
          closeButtonViewMode="{{_options.closeButtonViewMode}}"
-         draggable="{{_options.draggable}}">
+         draggable="{{_options.draggable}}"
+         maximize="{{_options.maximize}}">
          <ws:bodyContentTemplate>
                <div name="compoundBlock" attr:class="controls-CompoundArea__container {{_getDialogClasses()}}"></div>
          </ws:bodyContentTemplate>
