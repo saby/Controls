@@ -408,9 +408,9 @@
   "--default_hover_border-color_button": "#aab0c1",
   "--default_active_border-color_button": "#aab0c1",
   "--default_active_background-color_button": "#EBEDF0",
-  "--translucent_background-color_button": "rgba(0, 0, 0, .5)",
-  "--translucent_hover_background-color_button": "rgba(0, 0, 0, .75)",
-  "--translucent_active_background-color_button": "rgba(0, 0, 0, .85)",
+  "--translucent_background-color_button": "rgba(0, 0, 0, .35)",
+  "--translucent_hover_background-color_button": "rgba(0, 0, 0, .60)",
+  "--translucent_active_background-color_button": "rgba(0, 0, 0, .70)",
 
   "--secondary_toggled_border-color_toggleButton_button": "var(--secondary_color)",
   "--primary_toggled_border-color_toggleButton_button": "var(--primary_color)",
