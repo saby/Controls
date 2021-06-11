@@ -18,20 +18,22 @@ const DEFAULT_ITEMS = [
    }, {
       id: 'unselectAll',
       title: rk('Снять')
-   }, {
-      id: 'toggleAll',
-      title: rk('Инвертировать')
    }
 ];
 
-const SHOW_SELECTED_ITEM =  {
+const SHOW_SELECTED_ITEM = {
    id: 'selected',
    title: rk('Показать отмеченные')
 };
 
-const SHOW_ALL_ITEM =  {
+const SHOW_ALL_ITEM = {
    id: 'all',
    title: rk('Показать все')
+};
+
+const SHOW_INVERT_ITEM = {
+   id: 'toggleAll',
+   title: rk('Инвертировать')
 };
 
 const SHOW_SELECT_COUNT = [
@@ -164,6 +166,10 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
          } else {
             additionalItems.push(...SHOW_SELECT_COUNT);
          }
+      }
+
+      if (!(options.selectionViewMode === 'partial')) {
+         additionalItems.push(SHOW_INVERT_ITEM);
       }
 
       return additionalItems;
