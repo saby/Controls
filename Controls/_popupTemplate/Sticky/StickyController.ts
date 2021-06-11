@@ -3,12 +3,11 @@ import StickyStrategy = require('Controls/_popupTemplate/Sticky/StickyStrategy')
 import * as cMerge from 'Core/core-merge';
 import * as cClone from 'Core/core-clone';
 import * as cInstance from 'Core/core-instance';
-import StickyContent from 'wml!Controls/_popupTemplate/Sticky/StickyContent';
+import * as StickyContent from 'wml!Controls/_popupTemplate/Sticky/StickyContent';
 import TargetCoords = require('Controls/_popupTemplate/TargetCoords');
 import {Logger} from 'UI/Utils';
 import {getScrollbarWidthByMeasuredBlock} from 'Controls/scroll';
 import {constants, detection} from 'Env/Env';
-import {Controller as ManagerController} from 'Controls/popup';
 
 export type TVertical = 'top' | 'bottom' | 'center';
 export type THorizontal = 'left' | 'right' | 'center';
