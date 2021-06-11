@@ -59,11 +59,8 @@ import FooterTemplate = require('wml!Controls/_list/ListView/Footer');
 import {default as ListControl, LIST_EDITING_CONSTANTS as editing} from 'Controls/_list/BaseControl';
 import ListView = require('Controls/_list/ListView');
 import GroupContentResultsTemplate = require('wml!Controls/_list/GroupContentResultsTemplate');
-import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
-import TreeItemsUtil = require('Controls/_list/resources/utils/TreeItemsUtil');
 import {default as BaseControl, IBaseControlOptions} from 'Controls/_list/BaseControl';
 import ScrollEmitter = require('Controls/_list/BaseControl/Scroll/Emitter');
-import SearchItemsUtil = require('Controls/_list/resources/utils/SearchItemsUtil');
 import HotKeysContainer from 'Controls/_list/HotKeysContainer';
 import InertialScrolling from 'Controls/_list/resources/utils/InertialScrolling';
 import {IVirtualScrollConfig} from './_list/interface/IVirtualScroll';
@@ -111,7 +108,6 @@ export {
     Remover,
     DataContainer,
     IDataOptions,
-    _forTemplate,
 
     EditingTemplate,
     BaseEditingTemplate,
@@ -122,12 +118,9 @@ export {
     ListControl,
     ListView,
     GroupContentResultsTemplate,
-    ItemsUtil,
-    TreeItemsUtil,
     BaseControl,
     IBaseControlOptions,
     ScrollEmitter,
-    SearchItemsUtil,
     CssClassList,
     createClassListCollection,
     getItemsBySelection,

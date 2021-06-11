@@ -1,4 +1,4 @@
-import TreeItemsUtil = require('Controls/_list/resources/utils/TreeItemsUtil');
+import { Tree } from 'Controls/display';
 
 var MOVE_DIRECTION = {
     'UP': 'up',
@@ -11,11 +11,12 @@ let cachedVersion;
 function getDisplay(items, parentProperty, nodeProperty, root) {
    //Кешируем проекцию, т.к. её создание тежеловесная операция, а данный метод будет вызываться для каждой записи в списке.
    if (!cachedDisplay || cachedDisplay.getCollection() !== items || cachedVersion !== items.getVersion()) {
-      cachedDisplay = TreeItemsUtil.getDefaultDisplayTree(items, {
-         keyProperty: items.getKeyProperty(),
-         parentProperty: parentProperty,
-         nodeProperty: nodeProperty
-      }, {});
+      cachedDisplay = new Tree({
+          collection: items,
+          keyProperty: items.getKeyProperty(),
+          parentProperty: parentProperty,
+          nodeProperty: nodeProperty
+      });
       cachedVersion = items.getVersion();
    }
    if (root !== undefined) {
@@ -52,11 +53,11 @@ function getSiblingItem(direction, item, items, parentProperty, nodeProperty, ro
 
 /**
  * Список хелперов для отображения панели операций над записью.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_list.less переменные тем оформления}
- * 
+ *
  * @class Controls/_list/ItemActions/Helpers
  * @public
  * @author Сухоручкин А.С.
@@ -84,7 +85,7 @@ var helpers = {
 
     /**
      * Хелпер для отображения {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи} наверху/внизу.
-     * @function 
+     * @function
      * @name Controls/_list/ItemActions/Helpers#reorderMoveActionsVisibility
      * @param {MoveDirection} direction Направление.
      * @param {Types/entity:Record} item Экземпляр элемента, действие которого обрабатывается.

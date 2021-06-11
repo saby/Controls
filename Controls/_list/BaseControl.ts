@@ -60,13 +60,10 @@ import {
 } from 'Controls/itemActions';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 
-import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
-import ListViewModel from 'Controls/_list/ListViewModel';
 import ScrollPagingController from 'Controls/_list/Controllers/ScrollPaging';
 import PortionedSearch from 'Controls/_list/Controllers/PortionedSearch';
 import * as GroupingController from 'Controls/_list/Controllers/Grouping';
 import HoverFreeze from 'Controls/_list/Controllers/HoverFreeze';
-import {ISwipeEvent} from 'Controls/listRender';
 
 import {
     Controller as EditInPlaceController,
@@ -2488,7 +2485,7 @@ const _private = {
         }
         const lastItem = self._listViewModel.getLast()?.getContents();
 
-        const lastItemKey = ItemsUtil.getPropertyValue(lastItem, self._keyProperty);
+        const lastItemKey = lastItem.getKey ? lastItem.getKey() : lastItem;
 
         self._wasScrollToEnd = true;
 
@@ -5025,7 +5022,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    __needShowEmptyTemplate(emptyTemplate: Function | null, listViewModel: ListViewModel, emptyTemplateColumns): boolean {
+    __needShowEmptyTemplate(emptyTemplate: Function | null, listViewModel, emptyTemplateColumns): boolean {
         // Described in this document: https://docs.google.com/spreadsheets/d/1fuX3e__eRHulaUxU-9bXHcmY9zgBWQiXTmwsY32UcsE
         const noData = !listViewModel || !listViewModel.getCount();
         const noEdit = !listViewModel || !_private.isEditing(this);
@@ -6356,7 +6353,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
      * @private
      */
 
-    _onItemSwipe(e: SyntheticEvent<Event>, item: CollectionItem<Model>, swipeEvent: SyntheticEvent<ISwipeEvent>): void {
+    _onItemSwipe(e: SyntheticEvent<Event>, item: CollectionItem<Model>, swipeEvent): void {
         if (item['[Controls/_display/GroupItem]']) {
             return;
         }
