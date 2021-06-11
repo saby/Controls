@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые служат для отображения элемента коллекции или выбора элемента из выпадающего окна.
- * @library Controls/dropdown
+ * @library
  * @includes Button Controls/_dropdown/Button
  * @includes Selector Controls/_dropdown/Selector
  * @includes Combobox Controls/_dropdown/ComboBox
@@ -18,7 +18,7 @@
 
 /*
  * dropdown library
- * @library Controls/dropdown
+ * @library
  * @includes Button Controls/_dropdown/Button
  * @includes Selector Controls/_dropdown/Selector
  * @includes Combobox Controls/_dropdown/ComboBox

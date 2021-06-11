@@ -1,6 +1,6 @@
 /**
  * Библиотека, которая реализует <a href='/doc/platform/developmentapl/interface-development/controls/input-elements/buttons-switches/toolbar/'>набор команд</a> в виде кнопок и выпадающего меню с дополнительными командами.
- * @library Controls/toolbars
+ * @library
  * @includes ItemTemplate Controls/toolbars:ItemTemplate
  * @includes IToolbar Controls/toolbars:IToolbar
  * @public

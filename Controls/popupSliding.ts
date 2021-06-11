@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют содержимое попапа-шторки.
- * @library Controls/popupSliding
+ * @library
  * @public
  * @author Красильников А.С.
  */

@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые предназначены для преобразования данных к какому-либо внешнему виду.
- * @library Controls/decorator
+ * @library
  * @includes RegExp Controls/_decorator/inputUtils/RegExp
  * @includes IDate Controls/_decorator/IDate
  * @includes IHighlight Controls/_decorator/IHighlight
@@ -14,7 +14,7 @@
 
 /*
  * Decoratror library
- * @library Controls/decorator
+ * @library
  * @includes RegExp Controls/_decorator/inputUtils/RegExp
  * @public
  * @author Крайнов Д.О.
