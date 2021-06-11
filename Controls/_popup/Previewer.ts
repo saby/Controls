@@ -81,6 +81,8 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
             opener: this,
             target: this._container,
             template: 'Controls/popup:PreviewerTemplate',
+            // При открытии превьюера не должен блокироваться интерфейс индикатором загрузки.
+            showIndicator: false,
             targetPoint: {
                 vertical: 'bottom',
                 horizontal: 'right'
