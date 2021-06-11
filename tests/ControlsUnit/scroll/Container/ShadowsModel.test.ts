@@ -256,5 +256,14 @@ describe('Controls/scroll:Container ShadowsModel', () => {
                 assert.equal(test.shadowVisible, shadowVisible);
             });
         });
+
+        it ('shadow should be hidden if optimization shadows = true', () => {
+            const shadows = new ShadowsModel({
+                isOptimizeShadowEnabled: true,
+                scrollMode: SCROLL_MODE.VERTICAL
+            });
+            const shadowVisible = shadows.top._getShadowEnable();
+            assert.equal(false, shadowVisible);
+        });
     });
 });

@@ -183,6 +183,9 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
     }
 
     private _getShadowEnable(): boolean {
+        if (this._options.isOptimizeShadowEnabled) {
+            return false;
+        }
         if (this._options[`${this._position}ShadowVisibility`] !== SHADOW_VISIBILITY.AUTO) {
             return this._isShadowEnable();
         }

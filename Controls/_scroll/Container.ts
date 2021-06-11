@@ -224,7 +224,10 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     }
 
     private _getShadowsModelOptions(options: IContainerBaseOptions): any {
-        const shadowsModel = {...options};
+        const shadowsModel = {
+            ...options,
+            isOptimizeShadowEnabled: this._isOptimizeShadowEnabled
+        };
         // gridauto нужно для таблицы
         if (options.topShadowVisibility === 'gridauto') {
             shadowsModel.topShadowVisibility = this._gridAutoShadows ? 'visible' : 'auto';
@@ -551,7 +554,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     }
 
     protected _getIsOptimizeShadowEnabled(options: IContainerOptions): boolean {
-        return options.shadowMode === SHADOW_MODE.CSS && Container._isCssShadowsSupported();
+        return (options.shadowMode === SHADOW_MODE.CSS && Container._isCssShadowsSupported()) ||
+            (options.shadowMode === SHADOW_MODE.MIXED && !this._wasMouseEnter);
     }
 
     // StickyHeaderController
