@@ -2,7 +2,7 @@
    <ws:for data="i in _options.data.length">
       <div class="controls-legend-line_theme-{{_options.theme}}">
          <div class="controls-legend-line_titleWrapper">
-            <div class="{{_options.data[i].className!='' ? _options.data[i].className : 'controls-StateIndicator__sector' + (i+1)}}_theme-{{_options.theme}} controls-legend-color_theme-{{_options.theme}}">
+            <div class="{{_options.data[i].className ? _options.data[i].className : 'controls-StateIndicator__sector' + (i+1)}}_theme-{{_options.theme}} controls-legend-color_theme-{{_options.theme}}">
             </div>
             <div class="controls-legend-title_theme-{{_options.theme}}">
                {{ _options.data[i].title}}

@@ -261,8 +261,9 @@ export default class View extends Control<IOptions, IReceivedState> {
     }
 
     private _processItemsMetadata(items: RecordSet, options: IOptions = this._options): void {
-        // Применим новую конфигурацию к отображению detail-списка
-        this._applyListConfiguration(getListConfiguration(items), options);
+        if (!options.listConfiguration) {
+            this._applyListConfiguration(getListConfiguration(items), options);
+        }
     }
 
     /**
