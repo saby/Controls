@@ -1,12 +1,12 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_L" itemData="{{itemData}}">
+<ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_L" scope="{{ _options }}">
    <ws:contentTemplate>
-      <div class="controls-EditingTemplateText__editorWrapper controls-EditingTemplateText__editorWrapper_align_{{itemData.column.align ? itemData.column.align : 'left'}}">
-         <ws:if data="{{itemData.isEditing()}}">
+      <div class="controls-EditingTemplateText__editorWrapper controls-EditingTemplateText__editorWrapper_align_{{column.config.align ? column.config.align : 'left'}}">
+         <ws:if data="{{item.isEditing()}}">
             <Controls.lookup:Input attr:class="controls-EditingTemplateText__editor"
-                                   bind:value="itemData.item[itemData.column.displayProperty]"
+                                   bind:value="item.contents[column.config.displayProperty]"
                                    searchParam="title"
-                                   source="{{itemData.item.source}}"
-                                   bind:selectedKeys="itemData.item.selectedKeys"
+                                   source="{{item.contents.source}}"
+                                   bind:selectedKeys="item.contents.selectedKeys"
                                    keyProperty="id"
                                    displayProperty="category"
                                    selectOnClick="{{ false }}">
@@ -22,20 +22,20 @@
                </ws:itemTemplate>
             </Controls.lookup:Input>
             <Controls.lookup:Input attr:class="controls-EditingTemplateText__editor"
-                                   bind:value="itemData.item.subdivision"
+                                   bind:value="item.contents.subdivision"
                                    searchParam="title"
-                                   source="{{itemData.item.source}}"
+                                   source="{{item.contents.source}}"
                                    keyProperty="id"
                                    displayProperty="subdivision"
                                    selectOnClick="{{ false }}">
                <ws:lookupTemplate templateName="Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector"/>
                <ws:suggestTemplate templateName="Controls-demo/Input/Lookup/Suggest/SuggestTemplate"/>
             </Controls.lookup:Input>
-            <ws:if data="{{ itemData.item.subdivision2 }}">
+            <ws:if data="{{ item.contents.subdivision2 }}">
                <Controls.lookup:Input attr:class="controls-EditingTemplateText__editor"
-                                      bind:value="itemData.item.subdivision2"
+                                      bind:value="item.contents.subdivision2"
                                       searchParam="title"
-                                      source="{{itemData.item.source}}"
+                                      source="{{item.contents.source}}"
                                       keyProperty="id"
                                       displayProperty="subdivision2"
                                       selectOnClick="{{ false }}">
@@ -45,15 +45,15 @@
             </ws:if>
          </ws:if>
          <ws:else>
-            <div class="controls-EditingTemplateText {{itemData.columnIndex !== 5 ? 'controls-EditingTemplateText_enabled'}}{{itemData.columnIndex !== 5 && itemData.isActive ? ' controls-EditingTemplateText_active'}} controls-EditingTemplateText_size_default">
-               <span class="controls-addition-color">{{ itemData.item[itemData.column.displayProperty] }}</span>
+            <div class="controls-EditingTemplateText {{column.configIndex !== 5 ? 'controls-EditingTemplateText_enabled'}}{{column.configIndex !== 5 && itemData.isActive ? ' controls-EditingTemplateText_active'}} controls-EditingTemplateText_size_default">
+               <span class="controls-addition-color">{{ item.contents[column.config.displayProperty] }}</span>
             </div>
-            <div class="controls-EditingTemplateText {{itemData.columnIndex !== 5 ? 'controls-EditingTemplateText_enabled'}}{{itemData.columnIndex !== 5 && itemData.isActive ? ' controls-EditingTemplateText_active'}} controls-EditingTemplateText_size_default">
-               <span class="controls-addition-color">{{ itemData.item.subdivision }}</span>
+            <div class="controls-EditingTemplateText {{column.configIndex !== 5 ? 'controls-EditingTemplateText_enabled'}}{{column.configIndex !== 5 && itemData.isActive ? ' controls-EditingTemplateText_active'}} controls-EditingTemplateText_size_default">
+               <span class="controls-addition-color">{{ item.contents.subdivision }}</span>
             </div>
-            <ws:if data="{{ itemData.item.subdivision2 }}">
-               <div class="controls-EditingTemplateText {{itemData.columnIndex !== 5 ? 'controls-EditingTemplateText_enabled'}}{{itemData.columnIndex !== 5 && itemData.isActive ? ' controls-EditingTemplateText_active'}} controls-EditingTemplateText_size_default">
-                  <span class="controls-addition-color">{{ itemData.item.subdivision2 }}</span>
+            <ws:if data="{{ item.contents.subdivision2 }}">
+               <div class="controls-EditingTemplateText {{column.configIndex !== 5 ? 'controls-EditingTemplateText_enabled'}}{{column.configIndex !== 5 && itemData.isActive ? ' controls-EditingTemplateText_active'}} controls-EditingTemplateText_size_default">
+                  <span class="controls-addition-color">{{ item.contents.subdivision2 }}</span>
                </div>
             </ws:if>
          </ws:else>

@@ -2,7 +2,7 @@
 <ws:contentTemplate>
     <ws:partial template="Controls/list:EditingTemplate"
                 value="{{ item.contents.length }}"
-                itemData="{{ column }}"
+                scope="{{ _options }}"
                 enabled="{{true}}">
         <ws:editorTemplate>
             <Controls.validate:InputContainer name="InputValidate">

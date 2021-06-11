@@ -78,7 +78,7 @@
             <ws:itemTemplate>
                 <ws:partial template="Controls/treeGrid:ItemTemplate"
                             levelIndentSize="xl"
-                            expanderSize="{{itemTemplate.itemData.item.get('parent') === 1 ? 'xl'}}"/>
+                            expanderSize="{{itemTemplate.item.contents.get('parent') === 1 ? 'xl'}}"/>
             </ws:itemTemplate>
             <ws:nodeFooterTemplate>
                 <ws:partial template="Controls/treeGrid:NodeFooterTemplate"

@@ -1,8 +1,8 @@
-<Controls.treeGridOld:View
+<Controls.treeGrid:View
         source="{{_viewSource}}"
         keyProperty="id"
         columns="{{_columns}}"
         hasChildrenProperty="hasChild"
         parentProperty="parent"
         expanderVisibility="hasChildren">
-</Controls.treeGridOld:View>
+</Controls.treeGrid:View>

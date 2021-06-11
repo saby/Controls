@@ -1,3 +1,3 @@
 <div class="controls-demo__SuggestPG-item">
-    {{itemData.getPropValue(itemData.item, 'city') || itemData.getPropValue(itemData.item, 'name')}}
+    {{itemData.getPropValue(item.contents, 'city') || itemData.getPropValue(item.contents, 'name')}}
 </div>

@@ -6,7 +6,7 @@
                  name="multiSelector">
             <Controls.scroll:Container attr:class="demo-Grid__wrapper vertical" scn="1" attr:style="width:90%">
                <Controls.list:Container>
-                  <Controls.gridOld:View
+                  <Controls.grid:View
                           backgroundStyle="default"
                           markedKey="448390"
                           stickyHeader="{{true}}"
@@ -20,7 +20,7 @@
                           columnScroll="{{true}}"
                           columnScrollStartPosition="end"
                           stickyColumnsCount="{{_stickyColumnsCount > 0 ? _stickyColumnsCount : 1}}">
-                  </Controls.gridOld:View>
+                  </Controls.grid:View>
                </Controls.list:Container>
             </Controls.scroll:Container>
          </Controls.operations:Controller>

@@ -12,6 +12,6 @@
       <ws:partial
          shadowVisibility="onhover"
          template="Controls/tile:ItemTemplate"
-         hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+         hasTitle="{{itemTemplate.item.contents.isDocument}}"/>
    </ws:itemTemplate>
 </Controls.treeTile:View>

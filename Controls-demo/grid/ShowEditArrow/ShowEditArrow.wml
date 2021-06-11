@@ -1,8 +1,0 @@
-<div class="controlsDemo__wrapper">
-    <Controls.gridOld:View
-            attr:style="max-width: 274px;"
-            keyProperty="id"
-            showEditArrow="{{true}}"
-            source="{{_viewSource}}"
-            columns="{{_columns}}"/>
-</div>

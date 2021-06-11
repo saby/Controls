@@ -13,7 +13,7 @@
          <ws:partial
             template="Controls/tile:ItemTemplate"
             scope="{{itemTemplate}}"
-            hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+            hasTitle="{{itemTemplate.item.contents.isDocument}}"/>
       </ws:itemTemplate>
    </Controls.treeTile:View>
 </div>

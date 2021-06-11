@@ -10,7 +10,7 @@
                     groupProperty="fullName">
                 <ws:groupTemplate>
                     <ws:partial template="Controls/grid:GroupTemplate"
-                                itemData="{{ itemData }}"
+                                scope="{{ _options }}"
                                 separatorVisibility="{{ true }}"
                                 expanderVisible="{{ true }}"
                                 textVisible="{{ false }}">

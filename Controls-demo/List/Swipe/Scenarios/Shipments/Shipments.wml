@@ -1,4 +1,4 @@
-<Controls.gridOld:View
+<Controls.grid:View
    displayProperty="title"
    keyProperty="id"
    source="{{_source}}"

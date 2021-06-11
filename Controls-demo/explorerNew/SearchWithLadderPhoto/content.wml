@@ -3,7 +3,7 @@
     <ws:contentTemplate>
         <ws:if data="{{item.getColumnIndex() === 0 && item.contents['image']}}">
             <ws:partial
-                    template="Controls/grid:LadderWrapper"
+                    template="{{ ladderWrapper }}"
                     ladderProperty="image">
                 <img attr:class="demoExplorerWithPhoto__imageBlock" src="{{item.contents['image']}}"/>
             </ws:partial>

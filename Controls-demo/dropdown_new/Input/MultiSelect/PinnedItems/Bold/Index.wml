@@ -12,7 +12,7 @@
             </ws:headerTemplate>
             <ws:itemTemplate>
                 <ws:partial template="Controls/dropdown:ItemTemplate"
-                            class="{{itemTemplate.itemData.item.get('pinned') ? 'controlsDemo__dropdownItem_bold'}}"/>
+                            class="{{itemTemplate.item.contents.get('pinned') ? 'controlsDemo__dropdownItem_bold'}}"/>
             </ws:itemTemplate>
         </Controls.dropdown:Selector>
     </div>

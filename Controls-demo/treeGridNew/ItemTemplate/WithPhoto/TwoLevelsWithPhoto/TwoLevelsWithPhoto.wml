@@ -8,7 +8,7 @@
         columns="{{_twoLvlColumns}}"
         bind:expandedItems="_expandedItems">
         <ws:itemTemplate>
-            <ws:partial template="Controls/treeGrid:ItemTemplate" withoutLevelPadding="{{true}}" itemData="{{itemData}}"/>
+            <ws:partial template="Controls/treeGrid:ItemTemplate" withoutLevelPadding="{{true}}" scope="{{ _options }}"/>
         </ws:itemTemplate>
         <ws:footerTemplate>
             <ws:partial template="Controls/grid:FooterTemplate">
