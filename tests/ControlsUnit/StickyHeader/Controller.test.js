@@ -720,7 +720,52 @@ define([
          });
       });
 
+      describe('_changeHeadersStackByHeader', () => {
+         let sandbox;
+         beforeEach(function() {
+            sandbox = sinon.createSandbox();
+         });
+
+         afterEach(function() {
+            sandbox.restore();
+            sandbox = null;
+         });
+
+         it('should remove header from headersStack', () => {
+            const stb = sandbox.stub(component, '_removeFromStack');
+            const header = {
+               index: 0
+            };
+            component._headers[0] = {
+               offset: {}
+            };
+            component._changeHeadersStackByHeader(header, 0);
+            sinon.assert.calledOnce(stb);
+         });
+
+         it('should add header to headersStack', () => {
+            const stb = sandbox.stub(component, '_addToHeadersStack');
+            const header = {
+               index: 0
+            };
+            component._headers[0] = {
+               position: 'top'
+            };
+            component._changeHeadersStackByHeader(header, 100);
+            sinon.assert.calledOnce(stb);
+         });
+      });
+
       describe('_resizeObserverCallback', () => {
+         let sandbox;
+         beforeEach(function() {
+            sandbox = sinon.createSandbox();
+         });
+
+         afterEach(function() {
+            sandbox.restore();
+            sandbox = null;
+         });
          it('should push new elements to array of heights', () => {
             const entries = [
                {
@@ -736,11 +781,13 @@ define([
                   }
                }
             ];
+            sandbox.stub(component, '_getHeaderFromNode');
             component._resizeObserverCallback(entries);
 
             assert.equal(component._elementsHeight.length, entries.length);
          });
-         it('should set height to element', () => {
+
+         it('should set height to element and call changeHeadersStackByHeader', () => {
             const result = 200;
             const entries = [
                {
@@ -756,11 +803,15 @@ define([
                   value: 100
                }
             ];
-
+            component._headers = [1];
+            sandbox.stub(component, '_getHeaderFromNode').returns({index: 0});
+            const stb = sandbox.stub(component, '_changeHeadersStackByHeader');
             component._resizeObserverCallback(entries);
+            sinon.assert.calledOnce(stb);
 
             assert.equal(component._elementsHeight[0].value, result);
          });
+
          it('should delete element if its height is 0', () => {
             const entries = [
                {
@@ -785,7 +836,7 @@ define([
                   value: 100
                }
             ];
-
+            sandbox.stub(component, '_getHeaderFromNode');
             component._resizeObserverCallback(entries);
 
             assert.equal(component._elementsHeight.length, 0);
@@ -796,6 +847,7 @@ define([
                closest: sinon.stub().returns(true)
             };
             sinon.stub(component, 'resizeHandler');
+            sandbox.stub(component, '_getHeaderFromNode');
 
             component._resizeObserverCallback([]);
 
