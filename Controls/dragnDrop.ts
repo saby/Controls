@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют перемещение элементов при помощи курсора мыши.
- * @library Controls/dragnDrop
+ * @library
  * @includes Container Controls/_dragnDrop/Container
  * @includes Controller Controls/_dragnDrop/Controller
  * @includes DraggingTemplate Controls/_dragnDrop/DraggingTemplate
@@ -13,7 +13,7 @@
 
 /*
  * dragnDrop library
- * @library Controls/dragnDrop
+ * @library
  * @includes Container Controls/_dragnDrop/Container
  * @includes Controller Controls/_dragnDrop/Controller
  * @includes DraggingTemplate Controls/_dragnDrop/DraggingTemplate

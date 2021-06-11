@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые служат для организации преобразования данных для нескольких элементов списка.
- * @library Controls/operations
+ * @library
  * @includes Panel Controls/_operations/Panel
  * @includes PanelContainer Controls/_operations/Panel/Container
  * @includes Button Controls/_operations/Button
@@ -14,7 +14,7 @@
 
 /*
  * operations library
- * @library Controls/operations
+ * @library
  * @includes Panel Controls/_operations/Panel
  * @includes PanelContainer Controls/_operations/Panel/Container
  * @includes Button Controls/_operations/Button
