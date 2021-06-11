@@ -1,14 +1,13 @@
 import {default as BaseController} from 'Controls/_popupTemplate/BaseController';
 import StickyStrategy = require('Controls/_popupTemplate/Sticky/StickyStrategy');
-import cMerge = require('Core/core-merge');
-import cClone = require('Core/core-clone');
-import TargetCoords = require('Controls/_popupTemplate/TargetCoords');
-import StickyContent = require('wml!Controls/_popupTemplate/Sticky/StickyContent');
+import * as cMerge from 'Core/core-merge';
+import * as cClone from 'Core/core-clone';
 import * as cInstance from 'Core/core-instance';
+import * as StickyContent from 'wml!Controls/_popupTemplate/Sticky/StickyContent';
+import TargetCoords = require('Controls/_popupTemplate/TargetCoords');
 import {Logger} from 'UI/Utils';
 import {getScrollbarWidthByMeasuredBlock} from 'Controls/scroll';
 import {constants, detection} from 'Env/Env';
-import {Controller as ManagerController} from 'Controls/popup';
 
 export type TVertical = 'top' | 'bottom' | 'center';
 export type THorizontal = 'left' | 'right' | 'center';
@@ -47,8 +46,6 @@ const DEFAULT_OPTIONS = {
         vertical: 'adaptive'
     }
 };
-
-let _fakeDiv;
 
 const _private = {
     prepareOriginPoint(config) {
@@ -141,63 +138,6 @@ const _private = {
     },
     setStickyContent(item) {
         item.popupOptions.content = StickyContent;
-    },
-    getMargins(item) {
-        // If the classes have not changed, then the indents remain the same
-        if ((item.className || '') === (item.popupOptions.className || '')) {
-            if (!item.margins) {
-                item.margins = {
-                    top: 0,
-                    left: 0
-                };
-            }
-        } else {
-            item.className = item.popupOptions.className;
-            item.margins = _private.getFakeDivMargins(item);
-        }
-
-        return {
-            top: item.margins.top,
-            left: item.margins.left
-        };
-    },
-
-    getFakeDivMargins(item) {
-        const fakeDiv = _private.getFakeDiv();
-        const theme = ManagerController.getTheme();
-        fakeDiv.className = item.popupOptions.className + ` controls_popupTemplate_theme-${theme}`;
-
-        const styles = this.getContainerStyles(fakeDiv);
-        return {
-            top: parseFloat(styles.marginTop),
-            left: parseFloat(styles.marginLeft)
-        };
-    },
-
-    getContainerStyles(container: Element): object {
-        return window.getComputedStyle(container);
-    },
-
-    /**
-     * Creates fake div to calculate margins.
-     * Element is created with position absolute and far beyond the screen left position
-     */
-    getFakeDiv(): HTMLDivElement {
-        if (!constants.isBrowserPlatform) {
-            return {
-                marginLeft: 0,
-                marginTop: 0
-            };
-        }
-        // create fake div on invisible part of window, cause user class can overlap the body
-        if (!_fakeDiv) {
-            _fakeDiv = document.createElement('div');
-            _fakeDiv.style.position = 'absolute';
-            _fakeDiv.style.left = '-10000px';
-            _fakeDiv.style.top = '-10000px';
-            document.body.appendChild(_fakeDiv);
-        }
-        return _fakeDiv;
     }
 };
 
@@ -207,7 +147,7 @@ const _private = {
  *
  * @private
  */
-class StickyController extends BaseController {
+export class StickyController extends BaseController {
     TYPE: string = 'Sticky';
     _private = _private;
     _bodyOverflow: string;
@@ -373,7 +313,7 @@ class StickyController extends BaseController {
     prepareConfig(item, container) {
         _private.removeOrientationClasses(item);
         this._getPopupSizes(item, container);
-        item.sizes.margins = _private.getMargins(item);
+        item.sizes.margins = this._getMargins(item);
         _private.prepareConfig(this, item, item.sizes);
     }
 
@@ -427,47 +367,6 @@ class StickyController extends BaseController {
         }
     }
 
-    private _getTargetCoords(cfg, sizes) {
-        if (cfg.popupOptions.nativeEvent) {
-            const top = cfg.popupOptions.nativeEvent.clientY;
-            const left = cfg.popupOptions.nativeEvent.clientX;
-            const size = 1;
-            const positionCfg = {
-                direction: {
-                    horizontal: 'right',
-                    vertical: 'bottom'
-                }
-            };
-            cMerge(cfg.popupOptions, positionCfg);
-            sizes = sizes || {};
-            sizes.margins = {top: 0, left: 0};
-            return {
-                width: size,
-                height: size,
-                top,
-                left,
-                bottom: top + size,
-                right: left + size,
-                topScroll: 0,
-                leftScroll: 0
-            };
-        }
-
-        if (!constants.isBrowserPlatform) {
-            return {
-                width: 0,
-                height: 0,
-                top: 0,
-                left: 0,
-                bottom: 0,
-                right: 0,
-                topScroll: 0,
-                leftScroll: 0
-            };
-        }
-        return TargetCoords.get(StickyController._getTargetNode(cfg));
-    }
-
     private _printTargetRemovedWarn(): void {
         Logger.warn('Controls/popup:Sticky: Пропал target из DOM. Позиция окна может быть не верная');
     }
@@ -476,13 +375,6 @@ class StickyController extends BaseController {
         const targetCoords = this._getTargetCoords(item, {});
         return !!targetCoords.width;
     }
-
-    protected static _getTargetNode(cfg): HTMLElement {
-        if (cInstance.instanceOfModule(cfg.popupOptions.target, 'UI/Base:Control')) {
-            return cfg.popupOptions.target._container;
-        }
-        return cfg.popupOptions.target || (constants.isBrowserPlatform && document.body);
-    }
 }
 
-export = new StickyController();
+export default new StickyController();

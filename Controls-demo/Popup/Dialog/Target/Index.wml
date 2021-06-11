@@ -1,0 +1,13 @@
+<div>
+    <div style="margin: 30px">
+        <Controls.buttons:Button name="dialogButton" caption="openTargetDialog" on:click="openDialog()" attr:class="ControlsDemo-PopupPage__dialogTargetButton"/>
+    </div>
+
+    <div style="margin: 30px">
+        <Controls.buttons:Button name="dialogButtonWithOffset1" caption="openTargetDialog with offset" on:click="openDialogWithOffset1()" attr:class="ControlsDemo-PopupPage__dialogTargetButtonWithOffset1"/>
+    </div>
+
+    <div style="margin: 30px">
+        <Controls.buttons:Button name="dialogButtonWithOffset2" caption="openTargetDialog with offset by classname" on:click="openDialogWithOffset2()" attr:class="ControlsDemo-PopupPage__dialogTargetButtonWithOffset2"/>
+    </div>
+</div>
