@@ -17,7 +17,6 @@ export interface ISearchControllerOptions extends ISearchOptions,
    viewMode?: TViewMode;
    items?: RecordSet;
    searchStartCallback?: Function;
-   saveRootOnSearch?: boolean; // Временная опция, удалена в 21.4000
 }
 
 const SERVICE_FILTERS = {
