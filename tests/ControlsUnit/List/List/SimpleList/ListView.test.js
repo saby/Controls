@@ -468,7 +468,7 @@ define([
             lv._notify = (eventName) => {
                notifyList.push(eventName);
             }
-            lv._afterMount();
+            lv._componentDidMount();
             assert.equal('itemsContainerReady', notifyList[0]);
          });
       });

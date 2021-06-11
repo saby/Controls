@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-secondary">displayProperty = caption</div>
+        <Controls.toggle:CheckboxGroup source="{{_source}}"
+                                       displayProperty="caption"
+                                       direction="vertical"
+                                       bind:selectedKeys="_selectedKeys1"
+                                       keyProperty="key"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-secondary">displayProperty = title</div>
+        <Controls.toggle:CheckboxGroup source="{{_source}}"
+                                       direction="vertical"
+                                       bind:selectedKeys="_selectedKeys2"
+                                       keyProperty="key"/>
+    </div>
+</div>

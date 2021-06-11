@@ -13,8 +13,6 @@
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
- * @includes IMovable Controls/_list/interface/IMovable
- * @includes Mover Controls/_list/Mover
  * @includes IItemsView Controls/_list/IItemsView
  * @public
  * @author Крайнов Д.О.
@@ -35,8 +33,7 @@
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
- * @includes IMovable Controls/_list/interface/IMovable
- * @includes Mover Controls/_list/Mover
+ * @includes IItemsView Controls/_list/IItemsView
  * @public
  * @author Крайнов Д.О.
  */

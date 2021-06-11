@@ -235,11 +235,11 @@ var ListView = BaseControl.extend(
             }
         },
 
-        resizeNotifyOnListChanged: function() {
+        onViewResized: function() {
             _private.resizeNotifyOnListChanged(this);
         },
 
-        _afterMount: function() {
+        _componentDidMount: function() {
             this._notify('itemsContainerReady', [this.getItemsContainer.bind(this)]);
             // todo костыль до тех пор, пока не перейдем на отслеживание ресайза через нативное событие в двух основныых
             // местах - в окнах и в scrollContainer'e.
@@ -251,7 +251,7 @@ var ListView = BaseControl.extend(
 
         _afterRender: function() {
             if (this._pendingRedraw) {
-                this.resizeNotifyOnListChanged();
+                this.onViewResized();
             }
             this._pendingRedraw = false;
         },

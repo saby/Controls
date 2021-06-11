@@ -23,7 +23,7 @@ describe('Controls/list_clean/ListView', () => {
             listView = undefined;
         });
 
-        it('After mount', () => {
+        it('componentDidMount', () => {
             // ListView should notify 'controlResize' in afterMount.
             // We have already tried to remove this code:
             // https://online.sbis.ru/opendoc.html?guid=663a401e-089a-4867-8095-4f00bf27f6a3
@@ -31,7 +31,7 @@ describe('Controls/list_clean/ListView', () => {
             // https://online.sbis.ru/opendoc.html?guid=bc07c15c-9613-4f69-9f3d-c7fb5c3d37c2
             const notifySpy = sinon.spy(listView, '_notify');
             listView._beforeMount(listViewCfg);
-            listView._afterMount();
+            listView._componentDidMount();
             assert.isTrue(notifySpy.withArgs('controlResize').called);
         });
     });

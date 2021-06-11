@@ -56,14 +56,26 @@ export type TCursor = 'default' | 'pointer' | 'right';
     * Переменная **item** позволяет получить доступ к следующими свойствам:
     *
     * * **index** — порядковый номер строки. Отсчет от 0.
-    * * **isEditing()** — возвращает true, если для записи выполняется {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
     * * **contents** (тип {@link Types/entity:Record}) — элемент, данные которого отображаются в колонке.
-    * * **getLevel()** — возвращает уровень вложенности элемента относительно корня иерархии. Актуально для контрола {@link Controls/treeGrid:View Дерево}.
     * * **nodeType**  — тип элемента. Возвращает true для типа "узел", false — для типа "скрытый узел", null  — для типа "лист". Актуально для контрола {@link Controls/treeGrid:View Дерево}.
+    * * **isEditing()** — возвращает true, если для записи выполняется {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
+    * * **getLevel()** — возвращает уровень вложенности элемента относительно корня иерархии. Актуально для контрола {@link Controls/treeGrid:View Дерево}.
+    * * **getLadder()** — возвращает объект с конфигурацией {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ лесенки} для текущей записи. Пример объекта конфигурации:
+    * <pre class="brush: js">
+    * {
+    *    prop1: {ladderLength: number},
+    *    ... ,
+    *    propN: {ladderLength: number}
+    * }
+    * </pre>
+    * где:
+    * 
+    * * prop1, ... , propN — поля, для которых рассчитывается лесенка.
+    * * ladderLength — количество записей с одинаковым значением текущего поля подряд. ladderLength присутствует только у первой записи в ряде (это та запись, у которой отображается значение).
     * 
     * Переменная **column** позволяет получить доступ к следующими свойствам:
     * 
-    * * **config** (тип {@link Controls/interface:IColumn IColumn}) — объект с конфигурацией колонки.
+    * * **config** (тип {@link Controls/grid:IColumn IColumn}) — объект с конфигурацией колонки.
     * * **index** — порядковый номер колонки. Отсчет от 0. 
     *
     * Переменная **editArrowTemplate** позволяет отобразить {@link Controls/grid:IGridControl#showEditArrow стрелку-шеврон} в прикладном шаблоне для первой колонки. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 4.

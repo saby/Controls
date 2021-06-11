@@ -882,7 +882,13 @@ const _private = {
                 self._loadToDirectionInProgress = false;
                 self._handleLoadToDirection = false;
 
-                _private.hideIndicator(self);
+                const hideIndicatorOnCancelQuery =
+                    (error.isCanceled || error.canceled) &&
+                    !self._sourceController?.isLoading();
+
+                if (hideIndicatorOnCancelQuery) {
+                    _private.hideIndicator(self);
+                }
                 // скроллим в край списка, чтобы при ошибке загрузки данных шаблон ошибки сразу был виден
                 if (!error.canceled && !error.isCanceled) {
                     _private.scrollPage(self, (direction === 'up' ? 'Up' : 'Down'));
@@ -1944,13 +1950,22 @@ const _private = {
      * Получает контейнер для
      * @param self
      * @param item
+     * @param clickEvent
      * @param isMenuClick
      */
-    resolveItemContainer(self, item, isMenuClick: boolean): HTMLElement {
+    resolveItemContainer(self: BaseControl,
+                         item: CollectionItem, clickEvent: SyntheticEvent, isMenuClick: boolean): HTMLElement {
         // TODO: self._container может быть не HTMLElement, а jQuery-элементом,
         //  убрать после https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
         const container = self._container.get ? self._container.get(0) : self._container;
-
+        if (isMenuClick) {
+            return self._targetItem;
+        }
+        // Из-за оптимизации scroll с группировкой нельзя доверять индексам, ищем ближайшую запись по target
+        if (clickEvent && clickEvent.target) {
+            return clickEvent.target.closest('.controls-ListView__itemV');
+        }
+        // @TODO код ниже при скролле с группой будет давать неверный индекс. Его нужно будет выпилить в 4000.
         // Т.к., например, breadcrumbs отсутствует в source, но иногда нам нужно получать его target
         // логичнее использовать именно getIndex(), а не getSourceIndexByItem()
         // кроме того, в старой модели в itemData.index записывается именно результат getIndex()
@@ -1979,7 +1994,7 @@ const _private = {
         // TODO нужно заменить на item.getContents() при переписывании моделей. item.getContents() должен возвращать Record
         //  https://online.sbis.ru/opendoc.html?guid=acd18e5d-3250-4e5d-87ba-96b937d8df13
         const contents = _private.getPlainItemContents(item);
-        const itemContainer = _private.resolveItemContainer(self, item, isMenuClick);
+        const itemContainer = _private.resolveItemContainer(self, item, clickEvent, isMenuClick);
         const result = self._notify('actionClick', [action, contents, itemContainer, clickEvent.nativeEvent]);
         if (action.handler) {
             action.handler(contents);
@@ -4031,8 +4046,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._listViewModel.setRowSeparatorSize(newOptions.rowSeparatorSize);
         }
 
-        this._listViewModel.setKeyProperty(this._keyProperty);
-
         if (this._options.displayProperty !== newOptions.displayProperty) {
             this._listViewModel.setDisplayProperty(newOptions.displayProperty);
         }
@@ -4130,7 +4143,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._moveController.updateOptions(_private.prepareMoverControllerOptions(this, newOptions));
         }
 
-        const oldViewModelConstructorChanged = newOptions.viewModelConstructor !== this._viewModelConstructor;
+        const oldViewModelConstructorChanged = newOptions.viewModelConstructor !== this._viewModelConstructor ||
+                                    (this._listViewModel && this._keyProperty !== this._listViewModel.getKeyProperty());
 
         if (this._editInPlaceController && (oldViewModelConstructorChanged || loadStarted)) {
             if (this.isEditing()) {
@@ -4162,13 +4176,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._listViewModel.destroy();
 
             this._noDataBeforeReload = !(items && items.getCount());
-
-            this._listViewModel = this._createNewModel(
-                items,
-                {...newOptions, keyProperty: this._keyProperty},
-                newOptions.viewModelConstructor
-            );
-
+            if (newOptions.viewModelConstructor) {
+                this._listViewModel = this._createNewModel(
+                    items,
+                    {...newOptions, keyProperty: this._keyProperty},
+                    newOptions.viewModelConstructor
+                );
+            }
             // Важно обновить коллекцию в scrollContainer перед сбросом скролла, т.к. scrollContainer реагирует на
             // scroll и произведет неправильные расчёты, т.к. у него старая collection.
             // https://online.sbis.ru/opendoc.html?guid=caa331de-c7df-4a58-b035-e4310a1896df
@@ -6161,7 +6175,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             !this._itemActionsMenuId) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
-            this._hoverFreezeController.startFreezeHoverTimeout(itemKey, itemIndex, this._listViewModel.getStartIndex());
+            this._hoverFreezeController.startFreezeHoverTimeout(itemKey, event, itemIndex, this._listViewModel.getStartIndex());
         }
     }
 
@@ -6178,7 +6192,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 if (!_private.hasHoverFreezeController(this)) {
                     _private.initHoverFreezeController(this);
                 }
-                this._hoverFreezeController.startFreezeHoverTimeout(itemKey, itemIndex, this._listViewModel.getStartIndex());
+                this._hoverFreezeController.startFreezeHoverTimeout(itemKey, nativeEvent, itemIndex, this._listViewModel.getStartIndex());
             }
         }
         this._notify('itemMouseEnter', [itemData.item, nativeEvent]);
@@ -6202,7 +6216,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (hoverFreezeController && itemData.ItemActionsItem) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
             const itemIndex = this._listViewModel.getIndex(itemData.dispItem || itemData);
-            hoverFreezeController.setDelayedHoverItem(itemKey, itemIndex, this._listViewModel.getStartIndex());
+            hoverFreezeController.setDelayedHoverItem(itemKey, nativeEvent, itemIndex, this._listViewModel.getStartIndex());
         }
     }
 

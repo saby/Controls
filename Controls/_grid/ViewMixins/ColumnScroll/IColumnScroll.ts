@@ -89,7 +89,7 @@ interface IColumnScrollViewMixin {
     _onColumnScrollThumbDragEnd(e: SyntheticEvent<null>): void;
     _onColumnScrollViewMouseEnter(e: SyntheticEvent<MouseEvent>): void;
     _onColumnScrollViewWheel(e: SyntheticEvent<WheelEvent>): void;
-    _onColumnScrollWrapperResized(): void;
+    _onColumnScrollViewResized(): void;
     _onColumnScrollStartDragScrolling(e: SyntheticEvent<TouchEvent | MouseEvent>, startBy: 'mouse' | 'touch'): void;
     _onColumnScrollDragScrolling(e: SyntheticEvent<TouchEvent | MouseEvent>, startBy: 'mouse' | 'touch'): void;
     _onColumnScrollStopDragScrolling(e: SyntheticEvent<TouchEvent | MouseEvent>, startBy: 'mouse' | 'touch'): void;

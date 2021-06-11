@@ -34,7 +34,7 @@ export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISo
  * Контрол используют в качестве редактора для выбора значений из списка на {@link Controls/filterPanel:View панели фильтров}.
  * @class Controls/_filterPanel/Editors/List
  * @extends Core/Control
- * @mixes Controls/interface:IGridControl
+ * @mixes Controls/grid:IGridControl
  * @mixes Controls/interface:INavigation
  * @author Мельникова Е.А.
  * @public

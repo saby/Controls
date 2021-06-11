@@ -1,0 +1,87 @@
+<div class="controlsDemo__wrapper controls-demo_MasterDetail-background controlsDemo__flexRow">
+   <div class="controlsDemo__masterDetail-container">
+      <div class="controls-text-label">newDesign = true</div>
+      <Controls.masterDetail:Base newDesign="{{true}}">
+         <ws:master>
+            <Controls.scroll:Container shadowMode="js">
+               <Controls.masterDetail:List bind:markedKey="_markedKey">
+                  <Controls.grid:View
+                          source="{{_masterSource}}"
+                          style="master"
+                          backgroundStyle="master"
+                          keyProperty="id"
+                          markerVisibility="visible"
+                          itemActions="{{_itemActions}}"
+                          columns="{{_gridColumns}}"
+                  >
+                  </Controls.grid:View>
+               </Controls.masterDetail:List>
+            </Controls.scroll:Container>
+         </ws:master>
+         <ws:detail>
+            <Controls.scroll:Container attr:class="controlsDemo_fixedWidth500">
+               <Controls.list:View
+                       keyProperty="id"
+                       source="{{_detailSource}}"
+                       backgroundStyle="detail">
+                  <ws:filter myOpt="{{detail.selectedMasterValue || '0'}}">
+                  </ws:filter>
+                  <ws:itemTemplate>
+                     <ws:partial template="Controls/list:ItemTemplate">
+                        <ws:contentTemplate>
+                           <ws:partial
+                                   item="{{itemTemplate.itemData.item}}"
+                                   template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
+                           />
+                        </ws:contentTemplate>
+                     </ws:partial>
+                  </ws:itemTemplate>
+               </Controls.list:View>
+            </Controls.scroll:Container>
+         </ws:detail>
+      </Controls.masterDetail:Base>
+   </div>
+
+   <div class="controlsDemo__masterDetail-container">
+      <div class="controls-text-label">newDesign = false</div>
+      <Controls.masterDetail:Base>
+         <ws:master>
+            <Controls.scroll:Container shadowMode="js">
+               <Controls.masterDetail:List bind:markedKey="_markedKey">
+                  <Controls.grid:View
+                          source="{{_masterSource}}"
+                          style="master"
+                          backgroundStyle="master"
+                          keyProperty="id"
+                          markerVisibility="visible"
+                          itemActions="{{_itemActions}}"
+                          columns="{{_gridColumns}}"
+                  >
+                  </Controls.grid:View>
+               </Controls.masterDetail:List>
+            </Controls.scroll:Container>
+         </ws:master>
+         <ws:detail>
+            <Controls.scroll:Container attr:class="controlsDemo_fixedWidth500">
+               <Controls.list:View
+                       keyProperty="id"
+                       source="{{_detailSource}}"
+                       backgroundStyle="detail">
+                  <ws:filter myOpt="{{detail.selectedMasterValue || '0'}}">
+                  </ws:filter>
+                  <ws:itemTemplate>
+                     <ws:partial template="Controls/list:ItemTemplate">
+                        <ws:contentTemplate>
+                           <ws:partial
+                                   item="{{itemTemplate.itemData.item}}"
+                                   template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
+                           />
+                        </ws:contentTemplate>
+                     </ws:partial>
+                  </ws:itemTemplate>
+               </Controls.list:View>
+            </Controls.scroll:Container>
+         </ws:detail>
+      </Controls.masterDetail:Base>
+   </div>
+</div>

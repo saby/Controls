@@ -58,8 +58,7 @@
 
                  viewMode="{{viewMode}}"
                  scope="{{_detailExplorerOptions}}"
-                 breadcrumbsVisibility="{{_getDetailBreadCrumbsVisibility(_options.detail)}}
-            }}"
+                 breadcrumbsVisibility="{{_getDetailBreadCrumbsVisibility(_options.detail)}}"
                  searchValue="{{_searchValue}}"
                  on:markedKeyChanged="_notifyHandler('markedKeyChanged')"
                  on:editArrowClick="_notifyHandler('editArrowClick')"

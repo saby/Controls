@@ -1,21 +1,25 @@
 <ws:template name="masterTemplate">
-    <ws:if data="{{_options.masterHeaderTemplate}}">
-        <ws:partial template="{{_options.masterHeaderTemplate}}"/>
-    </ws:if>
-    <Controls.list:Container id="master">
-        <Controls.explorer:View
-                scope="{{_masterExplorerOptions}}"
-                bind:markedKey="_masterMarkedKey"
-                on:dragStart="_notifyHandler('masterDragStart')"
-                on:dragEnd="_notifyHandler('masterDragEnd')"
-                on:dragEnter="_notifyHandler('masterDragEnter')"
-                on:actionClick="_notifyHandler('masterActionClick')"
-                on:itemClick="_onExplorerItemClick(true)"
-        />
-    </Controls.list:Container>
-    <ws:if data="{{_options.masterFooterTemplate}}">
-        <ws:partial template="{{_options.masterFooterTemplate}}"/>
-    </ws:if>
+    <div class="controls-newBrowser__master">
+        <ws:if data="{{_options.masterHeaderTemplate}}">
+            <ws:partial template="{{_options.masterHeaderTemplate}}"/>
+        </ws:if>
+        <Controls.list:Container id="master">
+            <Controls.explorer:View
+                    scope="{{_masterExplorerOptions}}"
+                    markedKey="{{_detailExplorerOptions.root}}"
+                    style="master"
+                    on:dragStart="_notifyHandler('masterDragStart')"
+                    on:dragEnd="_notifyHandler('masterDragEnd')"
+                    on:dragEnter="_notifyHandler('masterDragEnter')"
+                    on:actionClick="_notifyHandler('masterActionClick')"
+                    on:itemClick="_onExplorerItemClick(true)"
+                    on:changeDragTarget="_notifyHandler('masterChangeDragTarget')"
+            />
+        </Controls.list:Container>
+        <ws:if data="{{_options.masterFooterTemplate}}">
+            <ws:partial template="{{_options.masterFooterTemplate}}"/>
+        </ws:if>
+    </div>
 </ws:template>
 
 <ws:template name="detailTemplate">
@@ -49,7 +53,10 @@
                         on:afterEndEdit="_notifyHandler('afterEndEdit')"
                         on:dragStart="_notifyHandler('detailDragStart')"
                         on:dragEnd="_notifyHandler('detailDragEnd')"
-                        tileSize="{{_tileCfg.imageSize}}"
+                        dataLoadCallback="{{_onDetailDataLoadCallback}}"
+                        searchValue="{{_options.searchValue}}"
+                        tileSize="{{_tileCfg.tileSize}}"
+                        on:changeDragTarget="_notifyHandler('detailChangeDragTarget')"
                         viewMode="{{viewMode}}"
                         scope="{{_detailExplorerOptions}}"
                         breadcrumbsVisibility="{{

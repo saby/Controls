@@ -403,17 +403,6 @@ define([
          });
       });
 
-      describe('_afterMount', function() {
-         it('should subscribe on resize events', function() {
-            const tabs = new tabsMod.Buttons();
-            sinon.stub(event, 'RegisterUtil');
-            tabs._afterMount();
-            sinon.assert.calledOnce(event.RegisterUtil);
-            sinon.assert.calledWith(event.RegisterUtil, tabs, 'controlResize', tabs._resizeHandler, { listenAll: true });
-            sinon.restore();
-         });
-      });
-
       it('_afterMount', function() {
          var tabs = new tabsMod.Buttons(),
             data = [
@@ -439,17 +428,6 @@ define([
              done();
          };
          tabs._beforeUpdate(options);
-      });
-
-      describe('_beforeUnmount', function() {
-         it('should subscribe on resize events', function() {
-            const tabs = new tabsMod.Buttons();
-            sinon.stub(event, 'UnregisterUtil');
-            tabs._beforeUnmount();
-            sinon.assert.calledOnce(event.UnregisterUtil);
-            sinon.assert.calledWith(event.UnregisterUtil, tabs, 'controlResize', { listenAll: true });
-            sinon.restore();
-         });
       });
 
       it('_onItemClick', function() {
@@ -506,20 +484,6 @@ define([
 
       });
 
-      describe('_resizeHandler', () => {
-         it('should\'t update model if model does not initialized', () => {
-            const tabs = new tabsMod.Buttons();
-
-            sinon.stub(tabs._marker, 'reset');
-
-            tabs._resizeHandler();
-
-            sinon.assert.notCalled(tabs._marker.reset);
-            sinon.restore();
-            tabs.destroy();
-         });
-
-      });
       describe('_prepareItemStyles', () => {
          it('flex-order without width restrictions', () => {
             const tabs = new tabsMod.Buttons();

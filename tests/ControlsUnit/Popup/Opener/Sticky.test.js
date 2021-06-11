@@ -9,6 +9,8 @@ define(
    (StickyStrategy, StickyController, popupLib, UIBase, cClone) => {
       'use strict';
 
+      StickyController = StickyController.default;
+
       describe('Controls/_popup/Opener/Sticky', () => {
          var targetCoords = {
             top: 200,
@@ -101,17 +103,17 @@ define(
             cfg.popupOptions.target = new UIBase.Control({});
             cfg.popupOptions.target._container = '123';
             assert.equal(cfg.popupOptions.target._container,
-               StickyController.constructor._getTargetNode(cfg));
+               StickyController._getTargetNode(cfg));
             cfg.popupOptions.target.destroy();
 
             //Тестируем: передаем в опцию target domNode
             cfg.popupOptions.target = '222';
             assert.equal(cfg.popupOptions.target,
-               StickyController.constructor._getTargetNode(cfg));
+               StickyController._getTargetNode(cfg));
 
             //Тестируем: передаем не контрол и не domNode
             cfg.popupOptions.target = null;
-            assert.isFalse(StickyController.constructor._getTargetNode(cfg));
+            assert.isFalse(StickyController._getTargetNode(cfg));
          });
 
          it('Sticky updated classes', () => {
@@ -687,28 +689,6 @@ define(
             assert.equal(position.bottom, 740);
          });
 
-         it('getFakeDivMargins', () => {
-            StickyController._private.getFakeDiv = () => {
-               return {
-                  currentStyle: {
-                     marginTop: '10.2px',
-                     marginLeft: '11.4px'
-                  }
-               };
-            };
-            StickyController._private.getContainerStyles = (container) => {
-               return container.currentStyle;
-            };
-
-            const item = {
-               popupOptions: {}
-            };
-
-            const margins = StickyController._private.getFakeDivMargins(item);
-            assert.equal(margins.left, 11.4);
-            assert.equal(margins.top, 10.2);
-         });
-
          it('elementAfterUpdated', () => {
             let item = {
                popupOptions: {},
@@ -749,45 +729,6 @@ define(
             StickyController._isTargetVisible = isTargetVisible;
          });
 
-         it('getMargins', () => {
-            let margins = {
-               top: 1,
-               left: 2,
-            };
-            StickyController._private.getFakeDivMargins = () => margins;
-            let item = {
-               popupOptions: {
-                  maxWidth: 200,
-                  width: 150,
-                  maxHeight: 200
-               }
-            };
-            assert.deepEqual({
-               left: 0,
-               top: 0
-            }, StickyController._private.getMargins(item));
-
-            item.popupOptions.className = '1';
-            assert.deepEqual({
-               left: 2,
-               top: 1
-            }, StickyController._private.getMargins(item));
-
-            margins = {
-               top: 3,
-               left: 4,
-            };
-            assert.deepEqual({
-               left: 2,
-               top: 1
-            }, StickyController._private.getMargins(item));
-
-            item.popupOptions.className = '2';
-            assert.deepEqual({
-               left: 4,
-               top: 3
-            }, StickyController._private.getMargins(item));
-         });
          it('moveContainer', () => {
             let position = {
                right: -10

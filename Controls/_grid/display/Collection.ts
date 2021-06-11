@@ -216,7 +216,7 @@ Object.assign(Collection.prototype, {
  * @typedef {Function} TResultsColspanCallback
  * @description
  * Функция обратного вызова для расчёта объединения колонок строки (колспана).
- * @param {Controls/interface:IColumn} column Колонка грида
+ * @param {Controls/grid:IColumn} column Колонка грида
  * @param {Number} columnIndex Индекс колонки грида
  * @returns {Controls/grid:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
  */
@@ -226,7 +226,7 @@ Object.assign(Collection.prototype, {
  * @description
  * Функция обратного вызова для расчёта объединения колонок строки (колспана).
  * @param {Types/entity:Model} item Элемент, для которого рассчитывается объединение
- * @param {Controls/interface:IColumn} column Колонка грида
+ * @param {Controls/grid:IColumn} column Колонка грида
  * @param {Number} columnIndex Индекс колонки грида
  * @param {Boolean} isEditing Актуальное состояние редактирования элемента
  * @returns {Controls/grid:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.

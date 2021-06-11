@@ -277,6 +277,18 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
         }
     },
 
+    /**
+     * Обработка изменения размеров View "изнутри", т.е. внутри таблицы
+     * произошли изменения, которые потенциально приведут к изменению размеров таблицы/колонок.
+     *
+     * Изменения размеров "снаружи" сама таблица не слушает, только миксин горизонтального скролла.
+     * Обработка происходит в методе ColumnScrollViewMixin._onColumnScrollViewResized
+     */
+    onViewResized(): void {
+        GridView.superclass.onViewResized.apply(this, arguments);
+        this._onColumnScrollViewResized();
+    },
+
     _isEmpty(): boolean {
         return this._options.needShowEmptyTemplate;
     },

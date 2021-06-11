@@ -1,7 +1,6 @@
 import {Model} from 'Types/entity';
 import {SyntheticEvent} from 'UI/Vdom';
 import {RecordSet} from 'Types/collection';
-import {TKey} from 'Controls/_interface/IItems';
 import {Control, TemplateFunction} from 'UI/Base';
 import {NewSourceController as SourceController} from 'Controls/dataSource';
 import {IOptions} from 'Controls/_newBrowser/interfaces/IOptions';
@@ -9,25 +8,22 @@ import {DetailViewMode} from 'Controls/_newBrowser/interfaces/IDetailOptions';
 import {IExplorerOptions} from 'Controls/_newBrowser/interfaces/IExplorerOptions';
 import {MasterVisibilityEnum} from 'Controls/_newBrowser/interfaces/IMasterOptions';
 import {IBrowserViewConfig, NodesPosition} from 'Controls/_newBrowser/interfaces/IBrowserViewConfig';
+import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
 import {EventUtils} from 'UI/Events';
+import {CrudEntityKey} from 'Types/source';
+import {View as ExplorerView} from 'Controls/explorer';
 import {
-    getListConfiguration,
-    ListConfig,
-    TileConfig
+    getListConfiguration
 } from 'Controls/_newBrowser/utils';
-//region templates import
-// tslint:disable-next-line:ban-ts-ignore
-// @ts-ignore
 import * as ViewTemplate from 'wml!Controls/_newBrowser/View/View';
-// tslint:disable-next-line:ban-ts-ignore
-// @ts-ignore
 import * as DefaultListItemTemplate from 'wml!Controls/_newBrowser/templates/ListItemTemplate';
-// tslint:disable-next-line:ban-ts-ignore
-// @ts-ignore
 import * as DefaultTileItemTemplate from 'wml!Controls/_newBrowser/templates/TileItemTemplate';
 import 'css!Controls/listTemplates';
 import {ContextOptions as dataContext} from 'Controls/context';
+import {default as TileController} from 'Controls/_newBrowser/TemplateControllers/Tile';
+import {default as ListController} from 'Controls/_newBrowser/TemplateControllers/List';
+import {default as TableController} from 'Controls/_newBrowser/TemplateControllers/Table';
 //endregion
 
 interface IReceivedState {
@@ -48,15 +44,9 @@ interface IReceivedState {
  * @author Уфимцев Д.Ю.
  * @class Controls/newBrowser:Browser
  */
-export default class Browser extends Control<IOptions, IReceivedState> {
+export default class View extends Control<IOptions, IReceivedState> {
 
     //region ⽥ fields
-    /**
-     * true если explorer загрузил шаблон и модель для плитки.
-     * Делает он это при первом переключении в плиточный режим.
-     */
-    private _isTileLoaded: boolean = false;
-
     /**
      * Шаблон отображения компонента
      */
@@ -64,8 +54,8 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     protected _notifyHandler: Function = EventUtils.tmplNotify;
     protected _defaultTileItemTemplate: TemplateFunction = DefaultTileItemTemplate;
     protected _defaultListItemTemplate: TemplateFunction = DefaultListItemTemplate;
-
     protected _detailDataSource: SourceController = null;
+    protected _tableCfg: TableController = null;
 
     /**
      * Enum со списком доступных вариантов отображения контента в detail-колонке.
@@ -101,8 +91,10 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     // либо выставленный нами явно в 'search' при поиске
     private _viewMode: DetailViewMode;
     protected _appliedViewMode: DetailViewMode;
-
-    protected _masterMarkedKey: TKey;
+    protected _children: {
+        detailList: ExplorerView
+        masterList: ExplorerView
+    };
     /**
      * В случае если для detail-списка указана опция searchStartingWith === 'root'
      * то после поиска сбрасывается текущее значение root, которое на время отображения
@@ -117,12 +109,12 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * к данным для detail-колонки. Заполняется в {@link _applyListConfiguration}
      */
     protected _listConfiguration: IBrowserViewConfig;
-
-    protected _tileCfg: TileConfig;
-
-    protected _listCfg: ListConfig;
-
+    protected _tileCfg: TileController = null;
+    protected _listCfg: ListController = null;
+    protected _dataContext: Record<string, any> = null;
     protected _masterDataSource: SourceController = null;
+    protected _hasImageInItems: boolean = false;
+    protected _itemToScroll: CrudEntityKey = null;
 
     /**
      * Опции для Controls/explorer:View в master-колонке
@@ -151,14 +143,23 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     //endregion
     //endregion
 
+    constructor() {
+        super();
+        this._onDetailDataLoadCallback = this._onDetailDataLoadCallback.bind(this);
+    }
+
+    private _processItems(items: RecordSet): void {
+        this._hasImageInItems = this._hasImages(items, this._detailExplorerOptions.imageProperty);
+    }
+
     protected _beforeMount(
         options?: IOptions,
-        contexts?: object,
-        receivedState?: IReceivedState
+        contexts?: object
     ): Promise<IReceivedState> | void {
         this._dataContext = contexts.dataContext;
         if (this._dataContext.listsConfigs) {
             this._initState(options);
+            this._processItems(this._detailDataSource.getItems());
             this._processItemsMetadata(this._detailDataSource.getItems(), options);
             this._afterViewModeChanged(options);
         }
@@ -166,6 +167,32 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
     protected _componentDidMount(options?: IOptions, contexts?: unknown): void {
         this._isMounted = true;
+    }
+
+    private _hasImages(items: RecordSet, imageProperty: string): boolean {
+        return !!factory(items).filter((item) => {
+            return !!item.get(imageProperty);
+        }).first();
+    }
+
+    //region ⇑ events handlers
+    private _onDetailDataLoadCallback(items: RecordSet, direction: string): void {
+        // Не обрабатываем последующие загрузки страниц. Нас интересует только
+        // загрузка первой страницы
+        if (direction && this._detailExplorerOptions.imageProperty && !this._hasImageInItems) {
+            this._hasImageInItems = this._hasImages(items, this._detailExplorerOptions.imageProperty);
+            const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
+            if (imageVisibility !== this._listCfg.getImageVisibility()) {
+                this._itemToScroll = this._children.detailList.getLastVisibleItemKey();
+                this._listCfg.setImageVisibility(imageVisibility);
+                this._tileCfg.setImageVisibility(imageVisibility);
+                this._tableCfg.setImageVisibility(imageVisibility);
+            }
+            return;
+        } else if (!this._hasImageInItems) {
+            this._hasImageInItems = this._hasImages(items, this._detailExplorerOptions.imageProperty);
+        }
+        this._processItemsMetadata(items);
     }
 
     protected _beforeUpdate(newOptions?: IOptions, contexts?: unknown): void {
@@ -176,28 +203,20 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         }
 
         this._userViewMode = newOptions.userViewMode;
-        this._detailExplorerOptions = this._dataContext.listsConfigs.detail;
-        this._masterExplorerOptions = this._dataContext.listsConfigs.master;
+        this._detailExplorerOptions = this._getListOptions(this._dataContext.listsConfigs.detail, newOptions.detail);
+        this._masterExplorerOptions = this._getListOptions(this._dataContext.listsConfigs.master, newOptions.master);
 
         //region update master
-        const newMasterVisibility = Browser.calcMasterVisibility(newOptions);
-        // Если видимость мастера не меняется, то меняем _masterRoot,
-        // т.к. если он есть, то произойдет загрузка новых данных, а если нет,
-        // то не произойдет, но _masterRoot будет актуальным
-        if (this._masterVisibility === newMasterVisibility) {
-            this._masterRoot = newOptions.masterRoot;
-        }
+        const newMasterVisibility = View.calcMasterVisibility(newOptions);
 
-        // Если мастера не было и его надо показать, сразу меняем его
-        // видимость и _masterRoot, это вызовет его показ и загрузку данных
+
         if (
             this._masterVisibility === MasterVisibilityEnum.hidden &&
             newMasterVisibility === MasterVisibilityEnum.visible
         ) {
-            if (!isDetailRootChanged && (this._isTileLoaded || this.viewMode !== DetailViewMode.tile)) {
+            if (!isDetailRootChanged && this.viewMode !== DetailViewMode.tile) {
                 this._masterVisibility = newMasterVisibility;
             }
-            this._masterRoot = newOptions.masterRoot;
         }
 
         // Если мастер есть и скрывается, то ничего не меняем, все изменения
@@ -206,7 +225,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             this._masterVisibility === MasterVisibilityEnum.visible &&
             newMasterVisibility === MasterVisibilityEnum.hidden
         ) {
-            if (!isDetailRootChanged && (this._isTileLoaded || this.viewMode !== DetailViewMode.tile)) {
+            if (!isDetailRootChanged && this.viewMode !== DetailViewMode.tile) {
                 this._masterVisibility = newMasterVisibility;
             }
         }
@@ -242,19 +261,15 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      */
     private _afterViewModeChanged(options: IOptions = this._options): void {
         this._appliedViewMode = this.viewMode;
-        if (this._appliedViewMode === DetailViewMode.tile) {
-            this._isTileLoaded = true;
-        }
-
         this._updateMasterVisibility(options);
         this._updateDetailBgColor(options);
-        // Уведомляем о том, что изменился режим отображения списка в detail-колонке
         this._notify('viewModeChanged', [this.viewMode]);
     }
 
     private _processItemsMetadata(items: RecordSet, options: IOptions = this._options): void {
-        // Применим новую конфигурацию к отображению detail-списка
-        this._applyListConfiguration(getListConfiguration(items), options);
+        if (!options.listConfiguration) {
+            this._applyListConfiguration(getListConfiguration(items), options);
+        }
     }
 
     /**
@@ -282,6 +297,13 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._afterViewModeChanged();
     }
 
+    protected _getListOptions(
+        listConfig: Partial<IExplorerOptions>,
+        listOptions: Partial<IExplorerOptions>
+    ): IExplorerOptions {
+        return {...listConfig, ...listOptions};
+    }
+
     protected _onExplorerItemClick(
         event: SyntheticEvent,
         isMaster: boolean,
@@ -294,8 +316,22 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
     protected _createTemplateControllers(cfg: IBrowserViewConfig, options: IOptions): void {
         this._listConfiguration = cfg;
-        this._tileCfg = new TileConfig(this._listConfiguration, options);
-        this._listCfg = new ListConfig(this._listConfiguration, options);
+        const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
+        this._tileCfg = new TileController({
+            listConfiguration: this._listConfiguration,
+            imageVisibility,
+            browserOptions: options
+        });
+        this._listCfg = new ListController({
+            listConfiguration: this._listConfiguration,
+            imageVisibility,
+            browserOptions: options
+        });
+        this._tableCfg = new TableController({
+            listConfiguration: this._listConfiguration,
+            imageVisibility,
+            browserOptions: options
+        });
     }
 
     //endregion
@@ -308,17 +344,12 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._userViewMode = options.userViewMode;
         this._appliedViewMode = options.userViewMode;
         const listsConfigs = this._dataContext.listsConfigs;
-        this._detailExplorerOptions = listsConfigs.detail;
-        this._masterExplorerOptions = listsConfigs.master;
+        this._detailExplorerOptions = this._getListOptions(listsConfigs.detail, options.detail);
+        this._masterExplorerOptions = this._getListOptions(listsConfigs.master, options.master);
         this._detailDataSource = listsConfigs.detail.sourceController;
         this._masterDataSource = listsConfigs.master.sourceController;
         if (options.listConfiguration) {
             this._createTemplateControllers(options.listConfiguration, options);
-        }
-        // Если при инициализации указано плиточное представление,
-        // значит шаблон и модель плитки уже загружены
-        if (this.viewMode === DetailViewMode.tile) {
-            this._isTileLoaded = true;
         }
         this._updateMasterVisibility(options);
     }
@@ -335,7 +366,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             return;
         }
 
-        this._masterVisibility = Browser.calcMasterVisibility({
+        this._masterVisibility = View.calcMasterVisibility({
             master: options.master,
             userViewMode: this._appliedViewMode,
             listConfiguration: this._listConfiguration
@@ -357,7 +388,14 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * Вызывает перезагрузку данных в detail-колонке
      */
     reload(): Promise<RecordSet> {
-        return this.children.detailList.reload();
+        const detailExplorer = this._children.detailList;
+        return detailExplorer.reload.apply(detailExplorer, arguments);
+    }
+
+    // нужно уметь реагировать на результат выполнения команд самостоятельно.
+    reloadMaster(): Promise<RecordSet> {
+        const masterExplorer = this._children.masterList;
+        return masterExplorer.reload.apply(masterExplorer, arguments);
     }
 
     reloadItem(): unknown {
@@ -384,9 +422,8 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         const detailExplorer = this._children.detailList;
         return detailExplorer.moveItemDown.apply(detailExplorer, arguments);
     }
+
     //endregion
-
-
     //region base control overrides
     protected _notify(eventName: string, args?: unknown[], options?: { bubbling?: boolean }): unknown {
         if (!this._isMounted) {
@@ -402,7 +439,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         'Controls/newBrowser'
     ];
 
-    static calcMasterVisibility(options: IOptions): MasterVisibilityEnum {
+    static calcMasterVisibility(options: Partial<IOptions>): MasterVisibilityEnum {
         if (options.master?.visibility) {
             return options.master.visibility;
         }
@@ -417,69 +454,16 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         return MasterVisibilityEnum.hidden;
     }
 
-    static getDefaultOptions(): IOptions {
-        return {
-            master: {
-                visibility: MasterVisibilityEnum.hidden
-            },
-            detail: {
-                searchStartingWith: 'root'
-            }
-        };
-    }
-
-    static validateOptions(options: IOptions): void {
-    }
+    static defaultProps: Partial<IOptions> = {
+        master: {
+            visibility: MasterVisibilityEnum.hidden
+        }
+    };
 
     //endregion
-    static contextTypes() {
+    static contextTypes(): object {
         return {
             dataContext: dataContext
         };
     }
 }
-
-/**
- * @event Событие об изменении режима отображения списка в detail-колонке
- * @name Controls/newBrowser:Browser#viewModeChanged
- * @param {DetailViewMode} viewMode Текущий режим отображения списка
- */
-
-/**
- * @event Событие, которое генерируется перед сменой root. Вы можете использовать это событие
- * что бы:
- *  * отменить смету root - вернуть false из обработчика события
- *  * подменить root - вернуть объект с полями masterRoot и detailRoot
- * Также результатом выполнения обработчика может быть Promise, который резолвится
- * выше описанными значениями.
- *
- * @name Controls/newBrowser:Browser#beforeRootChanged
- * @param {IRootsData} roots Новые id корневых директорий для master- и detail-списков
- */
-
-/**
- * @event Событие об изменении корня в detail-списке
- * @name Controls/newBrowser:Browser#rootChanged
- * @param {TKey} root Текущий корневой узел
- */
-
-/**
- * @event Событие об изменении корня в master-списке
- * @name Controls/newBrowser:Browser#masterRootChanged
- * @param {TKey} root Текущий корневой узел
- */
-
-/**
- * @event Событие об изменении текущей корневого папки в detail-колонке
- * @name Controls/newBrowser:Browser#detailRootChanged
- * @param {string} root Текущая корневая папка
- */
-
-Object.defineProperty(Browser, 'defaultProps', {
-    enumerable: true,
-    configurable: true,
-
-    get(): object {
-        return Browser.getDefaultOptions();
-    }
-});

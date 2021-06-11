@@ -6,6 +6,7 @@
                     on:valueChanged="_valueChangedHandler(item)"
                     attr:class="controls-CheckboxGroup__item_{{_options.direction}}"
                     item="{{item}}"
+                    displayProperty="{{_options.displayProperty}}"
                     readOnly="{{_options.readOnly}}"/>
         <ws:if data="{{item[_options.nodeProperty]}}">
             <ws:partial template="{{_options.groupTemplate}}"
