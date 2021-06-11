@@ -154,7 +154,7 @@
                               iconAlign="right"
                               multiLine="{{true}}">
                      <ws:additionalTextTemplate>
-                        <div>{{itemTemplate.itemData.item.get('comment')}}</div>
+                        <div>{{itemTemplate.item.contents.get('comment')}}</div>
                      </ws:additionalTextTemplate>
                   </ws:partial>
                </ws:itemTemplate>
@@ -170,7 +170,7 @@
                   <ws:partial template="Controls/dropdown:ItemTemplate"
                               multiLine="{{true}}">
                      <ws:additionalTextTemplate>
-                        <div>{{itemTemplate.itemData.item.get('description')}}</div>
+                        <div>{{itemTemplate.item.contents.get('description')}}</div>
                      </ws:additionalTextTemplate>
                   </ws:partial>
                </ws:itemTemplate>

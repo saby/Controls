@@ -26,13 +26,13 @@
                   <ws:contentTemplate>
                      <div style="padding: 4px; display: flex; justify-content: space-between">
                         <div style="width: 200px">
-                           {{itemTemplate.itemData.item.get('firstName')}}
+                           {{itemTemplate.item.contents.get('firstName')}}
                         </div>
                         <div style="font-size: 13px; color: darkblue">
-                           {{itemTemplate.itemData.item.get('lastName')}}
+                           {{itemTemplate.item.contents.get('lastName')}}
                         </div>
                         <div style="font-size: 13px; color: limegreen">
-                           {{itemTemplate.itemData.item.get('id')}}
+                           {{itemTemplate.item.contents.get('id')}}
                         </div>
                      </div>
                   </ws:contentTemplate>

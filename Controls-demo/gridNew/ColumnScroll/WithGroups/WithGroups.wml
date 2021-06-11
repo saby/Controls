@@ -21,7 +21,7 @@
                             expanderVisible="{{true}}"
                             columnAlignGroup="{{3}}">
                         <ws:contentTemplate>
-                            <span>{{contentTemplate.itemData.item}}</span>
+                            <span>{{contentTemplate.item.contents}}</span>
                         </ws:contentTemplate>
                     </ws:partial>
                 </ws:groupTemplate>

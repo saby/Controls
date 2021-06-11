@@ -1,1 +1,1 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_L" itemData="{{itemData}}" />
+<ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_L" scope="{{ _options }}" />

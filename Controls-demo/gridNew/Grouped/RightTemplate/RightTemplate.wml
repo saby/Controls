@@ -13,13 +13,13 @@
                     groupProperty="fullName">
                 <ws:groupTemplate>
                     <ws:partial template="Controls/grid:GroupTemplate"
-                                itemData="{{itemData}}"
+                                scope="{{ _options }}"
                                 separatorVisibility={{false}}
                                 expanderVisible={{true}}
                                 expanderAlign="right"
                                 columnAlignGroup="{{2}}">
                         <ws:rightTemplate>
-                            <Controls.decorator:Money value="{{itemData.metaData.groupResults[itemData.item]}}" fontColorStyle="group" useGrouping="{{false}}"/>
+                            <Controls.decorator:Money value="{{itemData.metaData.groupResults[item.contents]}}" fontColorStyle="group" useGrouping="{{false}}"/>
                         </ws:rightTemplate>
                     </ws:partial>
                 </ws:groupTemplate>

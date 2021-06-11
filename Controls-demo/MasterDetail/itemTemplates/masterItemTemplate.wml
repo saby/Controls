@@ -1,12 +1,12 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL" itemData="{{itemData}}">
+<ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL" scope="{{ _options }}">
    <ws:contentTemplate>
       <div class="controls-demo_MasterDetail-item-list">
          <div class="controls-demo_MasterDetail-item-list-name">
-            {{itemData.item.name}}
+            {{item.contents.name}}
          </div>
-         <ws:if data="{{itemData.item.counter}}">
+         <ws:if data="{{item.contents.counter}}">
             <div class="controls-demo_MasterDetail-item-list-counter">
-               {{itemData.item.counter}}
+               {{item.contents.counter}}
             </div>
          </ws:if>
       </div>

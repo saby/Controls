@@ -4,7 +4,7 @@
          <ws:partial template="Controls/list:ItemTemplate">
             <ws:contentTemplate>
                <ws:partial showStatus="{{true}}"
-                           user="{{itemTemplate.itemData.item}}"
+                           user="{{itemTemplate.item.contents}}"
                            template="wml!Controls-demo/Container/resources/User"/>
             </ws:contentTemplate>
          </ws:partial>

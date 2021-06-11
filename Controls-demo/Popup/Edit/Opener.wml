@@ -12,7 +12,7 @@
 
          <Controls.scroll:Container attr:class="demo-Grid__wrapper" attr:test_name="selected_record">
             <Controls.list:Container>
-               <Controls.gridOld:View
+               <Controls.grid:View
                   attr:class="demo-Grid__control demo-PopupEditOpener__grid"
                   itemPadding="{{ _itemPadding }}"
                   name="grid"
@@ -22,7 +22,7 @@
                   itemTemplate="wml!Controls-demo/List/Grid/DemoItem"
                   itemActions="{{_itemActions}}"
                   columns="{{gridColumns}}">
-               </Controls.gridOld:View>
+               </Controls.grid:View>
             </Controls.list:Container>
          </Controls.scroll:Container>
       </div>

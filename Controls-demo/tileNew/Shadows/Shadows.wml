@@ -8,9 +8,9 @@
                 source="{{_viewSource}}">
                 <ws:itemTemplate>
                         <ws:partial
-                                shadowVisibility="{{itemTemplate.itemData.item.isShadow === false ? 'hidden'}}"
+                                shadowVisibility="{{itemTemplate.item.contents.isShadow === false ? 'hidden'}}"
                                 template="Controls/tile:ItemTemplate"
-                                hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+                                hasTitle="{{itemTemplate.item.contents.isDocument}}"/>
                 </ws:itemTemplate>
         </Controls.treeTile:View>
 </div>

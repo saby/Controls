@@ -18,12 +18,12 @@
                      <ws:partial template="Controls/list:ItemTemplate" itemActionsClass="demo-DragNDrop__list_itemActionsPosition" attr:class="demo-DragNDrop__list_item">
                         <ws:contentTemplate>
                            <div class="demo-DragNDrop__list_itemContent">
-                              <img class="demo-DragNDrop__list_item_icon" src="{{itemTemplate.itemData.item.get('image')}}" />
+                              <img class="demo-DragNDrop__list_item_icon" src="{{itemTemplate.item.contents.get('image')}}" />
                               <div class="demo-DragNDrop__list_item_text">
-                                 <div class="demo-DragNDrop__list_item_mainText controls-List_DragNDrop__notDraggable">{{itemTemplate.itemData.item.get('title')}}</div>
-                                 <div class="demo-DragNDrop__list_item_additionalText controls-List_DragNDrop__notDraggable">{{itemTemplate.itemData.item.get('additional')}}</div>
+                                 <div class="demo-DragNDrop__list_item_mainText controls-List_DragNDrop__notDraggable">{{itemTemplate.item.contents.get('title')}}</div>
+                                 <div class="demo-DragNDrop__list_item_additionalText controls-List_DragNDrop__notDraggable">{{itemTemplate.item.contents.get('additional')}}</div>
                               </div>
-                              <div class="demo-DragNDrop__list_item_usersCount">{{itemTemplate.itemData.item.get('usersCunt')}}</div>
+                              <div class="demo-DragNDrop__list_item_usersCount">{{itemTemplate.item.contents.get('usersCunt')}}</div>
                            </div>
                         </ws:contentTemplate>
                      </ws:partial>
@@ -46,7 +46,7 @@
       <div>
          <Controls.list:Mover name="listMoverSecond" parentProperty="parent"/>
          <Controls.list:Container>
-            <Controls.explorer:View useOldModel="{{ true }}"
+            <Controls.explorer:View
                bind:root="_root"
                on:dragStart="_dragStartSecond()"
                on:dragEnd="_dragEndSecond()"
@@ -75,7 +75,7 @@
       <div>
          <Controls.list:Mover name="listMoverThird" parentProperty="parent"/>
          <Controls.list:Container>
-            <Controls.explorer:View useOldModel="{{ true }}"
+            <Controls.explorer:View
                on:dragStart="_dragStartThird()"
                on:dragEnd="_dragEndThird()"
                itemsDragNDrop="{{true}}"
@@ -94,7 +94,7 @@
                   </ws:partial>
                </ws:draggingTemplate>
                <ws:tileItemTemplate>
-                  <ws:partial template="Controls/tileOld:ItemTemplate" hasTitle="{{true}}">
+                  <ws:partial template="Controls/tile:ItemTemplate" hasTitle="{{true}}">
                   </ws:partial>
                </ws:tileItemTemplate>
             </Controls.explorer:View>
