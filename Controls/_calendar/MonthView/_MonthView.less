@@ -36,16 +36,16 @@
    justify-content: center;
    box-sizing: content-box;
    font-size: var(--font-size_m);
-   margin-top: var(--border-thickness);
-   margin-left: var(--border-thickness);
+   margin-top: var(--monthview_item_border-thickness_monthSlider);
+   margin-left: var(--monthview_item_border-thickness_monthSlider);
 }
 
 .controls-MonthViewVDOM__item_style-default {
    font-size: var(--font-size_m);
    min-width: var(--monthview_item_height_monthSlider);
    min-height: var(--monthview_item_height_monthSlider);
-   margin-top: var(--border-thickness);
-   margin-left: var(--border-thickness);
+   margin-top: var(--monthview_item_border-thickness_monthSlider);
+   margin-left: var(--monthview_item_border-thickness_monthSlider);
    width: 100%;
 }
 
@@ -78,17 +78,17 @@
    }
    .controls-MonthView__border-currentMonthDay-unselected {
       &:hover {
-         outline: var(--border-thickness) solid var(--monthview_item_hover_border-color_monthSlider);
+         outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
       }
    }
    .controls-MonthView__border-currentMonthDay-unselected {
       &:hover {
-         outline: var(--border-thickness) solid var(--monthview_item_hover_border-color_monthSlider);
+         outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
       }
    }
 
    .controls-MonthView__border-hover {
-      outline:var(--border-thickness) solid var(--monthview_item_hover_border-color_monthSlider);
+      outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
    }
    .controls-MonthView__backgroundColor-currentMonthDay-unselected:hover,
    .controls-MonthView__backgroundColor-otherMonthDay-unselected:hover {
@@ -119,17 +119,17 @@
    }
    .controls-MonthView__border-currentMonthDay-unselected {
       &:active {
-         outline: var(--border-thickness) solid var(--monthview_item_hover_border-color_monthSlider);
+         outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
       }
    }
    .controls-MonthView__border-currentMonthDay-unselected {
       &:active {
-         outline: var(--border-thickness) solid var(--monthview_item_hover_border-color_monthSlider);
+         outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
       }
    }
 
    .controls-MonthView__border-hover {
-      outline: var(--border-thickness) solid var(--monthview_item_hover_border-color_monthSlider);
+      outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
    }
    .controls-MonthView__backgroundColor-currentMonthDay-unselected:active,
    .controls-MonthView__backgroundColor-otherMonthDay-unselected:active {
@@ -142,7 +142,7 @@
 .controls-MonthView__item-border-start,
 .controls-MonthView__item-border-end {
    outline-style: solid;
-   outline-width: var(--border-thickness);
+   outline-width: var(--monthview_item_border-thickness_monthSlider);
    outline-color: var(--monthview_item_hover_border-color_monthSlider);
 }
 
@@ -196,7 +196,7 @@
 }
 
 .controls-MonthViewVDOM__tableRow-old {
-   flex-basis: calc(var(--monthview_item_height_monthSlider) + var(--border-thickness));
+   flex-basis: calc(var(--monthview_item_height_monthSlider) + var(--monthview_item_border-thickness_monthSlider));
    margin-right: var(--monthview_item_border-thickness_monthSlide);
 }
 
