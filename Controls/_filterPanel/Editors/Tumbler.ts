@@ -29,7 +29,8 @@ class Tumbler extends Control<ITumblerOptions> implements ITumbler {
     protected _selectedKeyChangedHandler(event: SyntheticEvent, value: string|number): void {
         const extendedValue = {
             value,
-            textValue: this._getTextValue(value)
+            textValue: this._getTextValue(value),
+            target: this._container
         };
         this._notify('propertyValueChanged', [extendedValue], {bubbling: true});
     }
