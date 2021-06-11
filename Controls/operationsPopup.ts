@@ -1,13 +1,13 @@
 /**
  * Библиотека контролов, содержащая всплывающие окна, которые используются при работе с массовыми операциями над записями.
- * @library Controls/operationsPopup
+ * @library
  * @includes ReportDialog Controls/_operationsPopup/ReportDialog
  * @public
  * @author Крайнов Д.О.
  */
 /*
  * operationsPopup library
- * @library Controls/operationsPopup
+ * @library
  * @includes ReportDialog Controls/_operationsPopup/ReportDialog
  * @public
  * @author Крайнов Д.О.

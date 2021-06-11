@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, визуально отображающих состояние процесса.
- * @library Controls/progress
+ * @library
  * @includes StateIndicator Controls/_progress/StateIndicator
  * @includes Legend Controls/_progress/Legend
  * @includes Bar Controls/_progress/Bar
@@ -10,7 +10,7 @@
 
 /*
  * Progress indicators library
- * @library Controls/progress
+ * @library
  * @includes StateIndicator Controls/_progress/StateIndicator
  * @includes Legend Controls/_progress/Legend
  * @includes Bar Controls/_progress/Bar
