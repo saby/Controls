@@ -175,7 +175,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
       this._filter = controllerState.filter;
 
-      if (!this._options.nodeHistoryId) {
+      if (!options.nodeHistoryId) {
          this._expandedItems = options.expandedItems;
       }
 
@@ -235,6 +235,10 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          this._items = this._sourceController.getItems();
       }
 
+      if (newOptions.nodeHistoryId !== this._nodeHistoryId) {
+         this._nodeHistoryId = newOptions.nodeHistoryId;
+      }
+
       if (this._sourceController) {
          if (newOptions.sourceController) {
             updateResult = this._updateWithSourceControllerInOptions(newOptions);
@@ -243,7 +247,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          }
       }
 
-      if (!isEqual(newOptions.expandedItems, this._options.expandedItems) && !this._options.nodeHistoryId) {
+      if (!isEqual(newOptions.expandedItems, this._options.expandedItems) && !this._nodeHistoryId) {
          this._expandedItems = newOptions.expandedItems;
       }
 
@@ -279,7 +283,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          this._filter = this._sourceController.getFilter();
          this._updateContext(this._sourceController.getState());
       } else if (expandedItemsChanged) {
-         if (this._options.nodeHistoryId) {
+         if (this._nodeHistoryId) {
             this._sourceController.updateExpandedItemsInUserStorage();
          }
          this._updateContext(this._sourceController.getState());
@@ -317,7 +321,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
 
       } else if (this._expandedItems !== expandedItems) {
          this._sourceController.setExpandedItems(expandedItems);
-         if (this._options.nodeHistoryId) {
+         if (this._nodeHistoryId) {
             this._sourceController.updateExpandedItemsInUserStorage();
          }
          this._updateContext(this._sourceController.getState());
@@ -421,7 +425,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          ...sourceControllerState
       };
       this._sourceControllerState = sourceControllerState;
-      if (this._options.nodeHistoryId) {
+      if (this._nodeHistoryId) {
          this._expandedItems = sourceControllerState.expandedItems;
       }
    }
