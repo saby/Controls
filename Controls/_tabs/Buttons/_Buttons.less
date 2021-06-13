@@ -87,10 +87,16 @@
 
 .controls-Tabs_inlineHeight-s {
    height: var(--item_height_s_tabs);
+   // в ie есть баг, когда tabs находится внутри flex, высота начинает рассчитываться не правильно, поэтому задаем минимальную высоту
+   //https://online.sbis.ru/opendoc.html?guid=49a5076b-7187-4b40-98ad-481a1595bb18
+   min-height: var(--item_height_s_tabs);
 }
 
 .controls-Tabs_inlineHeight-l {
    height: var(--item_height_l_tabs);
+   // в ie есть баг, когда tabs находится внутри flex, высота начинает рассчитываться не правильно, поэтому задаем минимальную высоту
+   //https://online.sbis.ru/opendoc.html?guid=49a5076b-7187-4b40-98ad-481a1595bb18
+   min-height: var(--item_height_l_tabs);
 }
 
 .controls-Tabs_border-s {
