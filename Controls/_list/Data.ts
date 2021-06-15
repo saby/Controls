@@ -171,10 +171,6 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
       // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
       this._filter = controllerState.filter;
 
-      if (!options.nodeHistoryId) {
-         this._expandedItems = options.expandedItems;
-      }
-
       if (options.sourceController) {
          // Если контроллер задан выше, чем появилось дерево, то надо установить в него expandedItems из опций
          if (options.expandedItems && !controllerState.expandedItems) {
