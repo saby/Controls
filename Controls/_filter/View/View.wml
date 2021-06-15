@@ -71,7 +71,7 @@
          <div name="detailPanelTarget" class="controls-FilterView__icon
                                               controls-FilterView-button-{{_options.alignment}}
                                               controls-FilterView__icon_state_{{_options.readOnly ? 'disabled' : 'enabled' }}
-                                              icon-FilterBig"
+                                              icon-FilterNew"
               on:mousedown="openDetailPanel()">
          </div>
       </ws:if>
