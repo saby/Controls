@@ -13,6 +13,10 @@ function reducerRight(value: string, current: string, index: number, arr: string
    return `${current}${value}`;
 }
 
+/**
+ * Функция возвращает строку, в которой целая часть числа разделена на триады.
+ * @param original Декорируемое число.
+ */
 export default function splitIntoTriads(original: string): string {
    const part = original.match(partOfNumber).slice(1, 5);
 
