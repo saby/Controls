@@ -6,6 +6,7 @@
         <Controls.list:Container id="master">
             <Controls.explorer:View
                     scope="{{_masterExplorerOptions}}"
+                    name="masterList"
                     markedKey="{{_detailExplorerOptions.root}}"
                     style="master"
                     on:dragStart="_notifyHandler('masterDragStart')"
