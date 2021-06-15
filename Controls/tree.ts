@@ -13,7 +13,7 @@ import * as ItemTemplate from 'wml!Controls/_tree/render/Item';
 
 /**
  * Библиотека контролов, позволяющая работать с иерархией.
- * @library Controls/tree
+ * @library
  * @includes ITreeControl Controls/_tree/interface/ITreeControl
  * @public
  * @author Аверкиев П.А.

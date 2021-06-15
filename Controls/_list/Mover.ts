@@ -189,10 +189,14 @@ var _private = {
         };
         if (contextDataOptions) {
             controllerOptions.source = newOptions.source || contextDataOptions.source;
-            self._source = controllerOptions.source;
             self._keyProperty = newOptions.keyProperty || contextDataOptions.keyProperty;
             self._filter = contextDataOptions.filter;
+        } else {
+            controllerOptions.source = newOptions.source;
+            self._keyProperty = newOptions.keyProperty;
+            self._filter = newOptions.filter;
         }
+        self._source = controllerOptions.source;
         if (newOptions.moveDialogTemplate) {
             controllerOptions.popupOptions = {
                 opener: self

@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют плоский список. Список может строиться по данным, полученным из источника. Также можно организовать удаление и перемещение данных.
- * @library Controls/list
+ * @library
  * @includes ItemTemplate Controls/_list/interface/ItemTemplate
  * @includes IClickableView Controls/_list/interface/IClickableView
  * @includes IBaseItemTemplate Controls/_list/interface/IBaseItemTemplate
@@ -20,7 +20,7 @@
 
 /*
  * List library
- * @library Controls/list
+ * @library
  * @includes ItemTemplate Controls/_list/interface/ItemTemplate
  * @includes IClickableView Controls/_list/interface/IClickableView
  * @includes IBaseItemTemplate Controls/_list/interface/IBaseItemTemplate

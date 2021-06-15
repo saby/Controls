@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов для работы с формами.
- * @library Controls/form
+ * @library
  * @includes CrudController Controls/_form/CrudController
  * @includes Controller Controls/_form/FormController
  * @includes IFormController Controls/_form/interface/IFormController
@@ -12,7 +12,7 @@
 
 /*
  * form library
- * @library Controls/form
+ * @library
  * @includes CrudController Controls/_form/CrudController
  * @includes Controller Controls/_form/FormController
  * @includes IFormController Controls/_form/interface/IFormController
