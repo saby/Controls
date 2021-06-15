@@ -458,6 +458,14 @@
    //overflow: hidden;
 }
 
+// TODO необходимо разобраться с высотой групп.
+//  Базовая линия в группе сейчас должна быть 16px из-за expander.
+//  https://online.sbis.ru/opendoc.html?guid=6693d47c-515c-4751-949d-55be05fe124e
+.controls-ListView__groupContent_baseline_default:before {
+   content: '\200b';
+   font-size: var(--grouping_expander_icon-size_list);
+}
+
 .controls-ListView__groupSeparator {
    height: calc(var(--grouping_height_list) / 2 - var(--grouping_separator_thickness_list));
    margin-bottom: calc(var(--grouping_height_list) / 2);
