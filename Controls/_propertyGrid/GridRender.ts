@@ -34,8 +34,10 @@ export default class IPropertyGridRender extends Control<IPropertyGridGridRender
             caption: captionTemplateOptions?.width || '1fr',
             editor: editorTemplateOptions?.width || '1fr'
         };
-        return isFullGridSupport() ? `-ms-grid-columns: ${width.compatibleCaption} ${width.compatibleEditor}` :
-            `grid-template-columns: ${width.caption} ${width.editor}`;
+        const captionColumnWidth = isFullGridSupport() ? width.caption : width.compatibleCaption;
+        const editorColumn = isFullGridSupport() ? width.editor : width.compatibleEditor;
+        return `-ms-grid-columns: ${width.compatibleCaption} ${width.compatibleEditor}
+                 grid-template-columns: ${captionColumnWidth} ${editorColumn}`;
     }
 
     protected _getItemStyles(item: PropertyGridItem<Model>, columnIndex: number, colspan?: boolean): string {
