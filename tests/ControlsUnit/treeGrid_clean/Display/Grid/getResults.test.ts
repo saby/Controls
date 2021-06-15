@@ -36,6 +36,7 @@ describe('Controls/treeGrid_clean/Display/Grid/getResults', () => {
                 nodeProperty: 'type',
                 resultsVisibility: 'visible',
                 multiSelectVisibility: 'visible',
+                task1182250038: true,
                 columns: [{}],
                 expandedItems: [ null ],
                 root: null
