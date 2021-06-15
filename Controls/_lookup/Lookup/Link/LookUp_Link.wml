@@ -1,9 +1,9 @@
-<a attr:class="controls-Lookup__link
+<span class="controls-Lookup__link
                controls-Lookup__link-inlineheight-{{_options.inlineHeight ? _options.inlineHeight : 'default'}}
                controls-Lookup__link-{{_options.readOnly ? 'readOnly' : 'default'}}
                controls-fontsize-{{_options.fontSize}}"
-   attr:ws-no-focus="true"
-   on:click="_clickHandler()"
-   on:keypress="_keyUpHandler()">
-   <span attr:class="controls-Lookup__link__text controls-Lookup__link__text-{{_options.readOnly ? 'readOnly' : 'default'}}">{{_options.caption}}</span>
-</a>
+      attr:ws-no-focus="true"
+      on:click="_clickHandler()"
+      on:keypress="_keyUpHandler()">
+   <span class="controls-Lookup__link__text controls-Lookup__link__text-{{_options.readOnly ? 'readOnly' : 'default'}}">{{_options.caption}}</span>
+</span>
