@@ -195,7 +195,9 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _resizeHandler(): void {
-        if (this._marker.isInitialized()) {
+        // В хотфикс чиним конкретный сценарий, и сразу удаляю _resizeHandler в 3100,
+        // анимированный маркер показывается только на время переключения, и рассчитывается перед запуском анимации.
+        if (this._marker.isInitialized() && this._animatedMarkerSelectedKey === this._options.selectedKey) {
             this._marker.reset();
             this._updateMarker();
         }

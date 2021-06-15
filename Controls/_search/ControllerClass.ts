@@ -129,6 +129,9 @@ export default class ControllerClass {
       if (this._rootBeforeSearch && this._root !== this._rootBeforeSearch && this._options.startingWith === 'current') {
          this._root = this._rootBeforeSearch;
       }
+      if (!this._isSearchMode() && this._options.parentProperty) {
+         this._sourceController.setRoot(this._root);
+      }
       this._rootBeforeSearch = null;
       const filter = this._getFilter();
 
@@ -282,7 +285,7 @@ export default class ControllerClass {
    private _dataLoadCallback(event: unknown, items: RecordSet): void {
       const filter = this._getFilter();
       const sourceController = this._sourceController;
-      const isSearchMode = !!sourceController.getFilter()[this._options.searchParam];
+      const isSearchMode = this._isSearchMode();
 
       if (this.isSearchInProcess() && this._searchValue) {
          this._sourceController.setFilter(filter);
@@ -375,8 +378,10 @@ export default class ControllerClass {
       // Перезададим параметры навигации т.к. они могли измениться.
       // Сейчас explorer хранит у себя ссылку на объект navigation и меняет в нем значение position
       // Правим по задаче https://online.sbis.ru/opendoc.html?guid=4f23b2e1-89ea-4a1d-bd58-ce7f9d00b58d
-      this._sourceController.setNavigation(null);
-      this._sourceController.setNavigation(this._options.navigation);
+      if (!this._sourceController.isLoading()) {
+         this._sourceController.setNavigation(null);
+         this._sourceController.setNavigation(this._options.navigation);
+      }
 
       return this._searchPromise =
           this._sourceController
@@ -420,6 +425,10 @@ export default class ControllerClass {
 
    private _searchEnded(): void {
       this._searchInProgress = false;
+   }
+
+   private _isSearchMode(): boolean {
+      return !!this._sourceController.getFilter()[this._options.searchParam];
    }
 
    private static _getPath(items: RecordSet): RecordSet {

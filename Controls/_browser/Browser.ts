@@ -484,7 +484,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         return this._dataLoader.getSearchControllerSync(id);
     }
 
-    protected _handleItemOpen(root: Key, items: RecordSet, dataRoot: Key = null): void {
+    protected _handleItemOpen(root: Key, items: RecordSet): void {
+        const currentRoot = this._root;
         if (this._isSearchViewMode() && this._options.searchNavigationMode === 'expand') {
             this._notify('expandedItemsChanged', [this._getSearchControllerSync().getExpandedItemsForOpenRoot(root, items)]);
 
@@ -495,11 +496,14 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._getSearchControllerSync()?.setRoot(root);
             this._root = root;
         }
-        if (root !== dataRoot && this._getSearchControllerSync()) {
-            this._resetSearch();
+        if (root !== currentRoot && this._getSearchControllerSync()) {
             this._inputSearchValue = '';
-            if (this._options.useStore) {
-                Store.sendCommand('resetSearch');
+
+            if (this._searchValue) {
+                this._resetSearch();
+                if (this._options.useStore) {
+                    Store.sendCommand('resetSearch');
+                }
             }
         }
     }
@@ -784,6 +788,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 searchPromises.push(this._dataLoader.getSearchController(id).then((searchController) => {
                     return searchController.search(value).finally(() => {
                         if (!this._destroyed) {
+                            this._loading = false;
                             this._afterSourceLoad(
                                 this._getSourceController(id),
                                 this._listsOptions[index] as IBrowserOptions

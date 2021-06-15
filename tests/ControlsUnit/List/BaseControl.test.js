@@ -769,33 +769,23 @@ define([
          assert.isFalse(ctrl._listViewModel.getHasMoreData());
       });
 
-      // Тест отключен до решения задачи https://online.sbis.ru/opendoc.html?guid=51841686-80a2-4ae9-9362-fd9f8c2a293b
-      // т.к. на данный момент потребности в serviceDataLoadCallback больше нет и он был выпилен
-      xit('loadToDirection down with portioned load', async function() {
-         const source = new sourceLib.Memory({
-            keyProperty: 'id',
-            data: data
-         });
+      it('loadToDirection down with portioned load', async function() {
          let isIterativeSearch = false;
-         let ladingIndicatorTimer;
-         const setIterativeMetaData = (items) => {
-            if (items) {
-               let metaData = items.getMetaData();
-               metaData.iterative = isIterativeSearch;
-               items.setMetaData(metaData);
-            }
+
+         const sourceMock = new sourceLib.Memory({
+            keyProperty: 'id'
+         });
+         sourceMock.query = () => {
+            const items = new collection.RecordSet();
+            let metaData = items.getMetaData();
+            metaData.iterative = isIterativeSearch;
+            items.setMetaData(metaData);
+            return Promise.resolve(items);
          };
 
          const cfg = {
             viewName: 'Controls/List/ListView',
-            dataLoadCallback: function() {
-               dataLoadFired = true;
-            },
-            serviceDataLoadCallback: function(currentItems, loadedItems) {
-               setIterativeMetaData(loadedItems);
-               setIterativeMetaData(loadedItems);
-            },
-            source: source,
+            source: sourceMock,
             viewConfig: {
                keyProperty: 'id'
             },
@@ -824,22 +814,9 @@ define([
          ctrl._portionedSearch = lists.BaseControl._private.getPortionedSearch(ctrl);
 
          isIterativeSearch = true;
-         setIterativeMetaData(ctrl._items);
          await lists.BaseControl._private.loadToDirection(ctrl, 'down');
-         ladingIndicatorTimer = ctrl._loadingIndicatorTimer;
-         assert.isTrue(ctrl._portionedSearchInProgress);
          assert.isNull(ctrl._showContinueSearchButtonDirection);
          assert.isNull(ctrl._loadingIndicatorTimer);
-
-         let loadingIndicatorTimer = setTimeout(() => {});
-         ctrl._loadingIndicatorTimer = loadingIndicatorTimer;
-         await lists.BaseControl._private.loadToDirection(ctrl, 'up');
-         assert.isTrue(ctrl._portionedSearchInProgress);
-         assert.isTrue(loadingIndicatorTimer !== ctrl._loadingIndicatorTimer, 'loading indicator timer did not reset');
-
-         isIterativeSearch = false;
-         await lists.BaseControl._private.loadToDirection(ctrl, 'down');
-         assert.isFalse(ctrl._portionedSearchInProgress);
       });
 
       it('loadToDirection down with getHasMoreData option', async function() {
