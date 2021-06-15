@@ -573,7 +573,7 @@ export class Controller {
         this._collection.setActionsTemplateConfig({
             toolbarVisibility: options.editingToolbarVisible,
             style: options.style,
-            editingStyle: !!options.editingItem && options.editingStyle,
+            editingStyle: (options.editingItem && options.editingStyle) || undefined,
             itemActionsClass: options.itemActionsClass,
             size: this._iconSize,
             itemActionsPosition: this._itemActionsPosition,
