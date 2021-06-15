@@ -572,9 +572,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         }
 
         // Применим новую конфигурацию к отображению detail-списка
-        if (!options.listConfiguration) {
-            this._applyListConfiguration(getListConfiguration(items), options);
-        }
+        this._applyListConfiguration(options.listConfiguration || getListConfiguration(items), options);
     }
 
     /**
