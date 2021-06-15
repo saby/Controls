@@ -687,16 +687,6 @@
    background-color: var(--master_item_selected_background-color_list);
 }
 
-.ws-is-mobile-chrome-ios .controls-ListView__item__marked_master,
-.ws-is-desktop-safari .controls-ListView__item__marked_master,
-.ws-is-mobile-safari .controls-ListView__item__marked_master {
-   // ave safari 13
-   // https://online.sbis.ru/opendoc.html?guid=6d560d7a-c140-4d06-a1b6-53b326efe950
-   // иначе все position: absolute элементы внутри position: sticky
-   // начинают сроиться относительно родителя уровнем выше
-   transform: translateZ(0);
-}
-
 .controls-ListView__itemV_marker_master {
    position: absolute;
    box-sizing: border-box;
