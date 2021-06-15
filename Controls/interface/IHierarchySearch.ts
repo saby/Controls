@@ -1,5 +1,5 @@
 export interface IHierarchySearchOptions {
-    startingWith?: string;
+    startingWith?: 'root'|'current';
     searchNavigationMode?: string;
 }
 /**
