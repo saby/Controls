@@ -179,6 +179,15 @@ export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
  * * single - выделенный лист единственный в дереве.
  */
 
+/**
+ * Загружает модель из {@link /doc/platform/developmentapl/interface-development/controls/list/source/ источника данных}, объединяет изменения в текущих данных и отображает элемент.
+ * @name Controls/_treeGridOld/View#reloadItem
+ * @function
+ * @param {String} key Идентификатор элемента коллекции, который должен быть перезагружен из источника.
+ * @param {Object} readMeta Метаинформация, которая будет передана методу запроса/чтения.
+ * @param {String} direction Если аргумент установлен в значение "depth", то перезагрузка происходит с сохранением загруженных записей, т.е. они остаются в списке на клиенте.
+ */
+
 Object.defineProperty(Tree, 'defaultProps', {
    enumerable: true,
    configurable: true,
