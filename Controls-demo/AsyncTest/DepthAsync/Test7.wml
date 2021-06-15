@@ -27,7 +27,7 @@
                 <ws:if data="{{_isGrid}}">
                     <Controls-demo.AsyncTest.Childs.CaseSecond.NotAsync.Grid value="7"/>
                 </ws:if>
-                <Controls.scroll:Container attr:class="asyncDemo__column__scroll">
+                <Controls.scroll:Container attr:class="asyncDemo__column__scroll" shadowMode="js">
                     <ws:if data="{{_readOnly}}">
                         <Controls-demo.AsyncTest.Childs.CaseSecond.Async.Element value="10" delay="500"/>
                     </ws:if>
