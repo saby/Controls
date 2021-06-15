@@ -22,9 +22,9 @@
                                     <ws:partial template="Controls/list:ItemTemplate">
                                         <ws:contentTemplate>
                                             <div>
-                                                <span class="{{ !itemTemplate.itemData.item.get('city') ? 'ControlsDemo-Lookup__item_bold' }}">{{itemTemplate.itemData.item.get('title')}}</span>
-                                                <ws:if data="{{itemTemplate.itemData.item.get('city')}}">
-                                                    <span class="controlsDemo-Selector__title"> ({{itemTemplate.itemData.item.get('city')}})</span>
+                                                <span class="{{ !itemTemplate.item.contents.get('city') ? 'ControlsDemo-Lookup__item_bold' }}">{{itemTemplate.item.contents.get('title')}}</span>
+                                                <ws:if data="{{itemTemplate.item.contents.get('city')}}">
+                                                    <span class="controlsDemo-Selector__title"> ({{itemTemplate.item.contents.get('city')}})</span>
                                                 </ws:if>
                                             </div>
                                         </ws:contentTemplate>

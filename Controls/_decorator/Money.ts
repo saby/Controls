@@ -186,7 +186,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         let [integer, fraction] = this._splitValueIntoParts(value);
 
         if (options.abbreviationType === 'long') {
-            integer = abbreviateNumber(options.value, options.abbreviationType);
+            integer = Money.correctValue(abbreviateNumber(options.value, options.abbreviationType));
         } else {
             integer = this._useGrouping ? splitIntoTriads(integer) : integer;
         }
@@ -256,17 +256,22 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         const dotPosition = value.indexOf('.');
 
         if (dotPosition === -1) {
-            return value + `.${Money.ZERO_FRACTION_PATH}`;
+            return Money.correctValue(`${value}.${Money.ZERO_FRACTION_PATH}`);
         }
 
         const fractionLength = value.length - dotPosition - 1;
+        let result: string = value;
         if (fractionLength < Money.FRACTION_LENGTH) {
-            return value + '0'.repeat(Money.FRACTION_LENGTH - fractionLength);
+            result = value + '0'.repeat(Money.FRACTION_LENGTH - fractionLength);
         } else if (fractionLength > Money.FRACTION_LENGTH) {
-            return value.substr(0, dotPosition + Money.FRACTION_LENGTH + 1);
+            result = value.substr(0, dotPosition + Money.FRACTION_LENGTH + 1);
         }
 
-        return value;
+        return Money.correctValue(result);
+    }
+
+    private static correctValue(value: string): string {
+        return value.replace('-', '- ');
     }
 
     static getDefaultOptions(): Partial<IMoneyOptions> {

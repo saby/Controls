@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют список, отображающийся в виде плитки.
- * @library Controls/tile
+ * @library
  * @includes ItemTemplate Controls/_tile/interface/ItemTemplate
  * @includes ITile Controls/_tile/interface/ITile
  * @includes SmallItemTemplate Controls/_tile/interface/ISmallTemplate

@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют стековую панель фильтров</a>.
- * @library Controls/filterPanelPopup
+ * @library
  * @includes Stack Controls/_filterPanelPopup/Stack
  * @public
  * @author Мельникова Е.А.

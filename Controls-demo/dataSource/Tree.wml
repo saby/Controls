@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
-   <Controls.treeGridOld:View
+   <Controls.treeGrid:View
       keyProperty="id"
       source="{{_source}}"
       parentProperty="parent"
@@ -13,5 +13,5 @@
          <ws:sourceConfig pageSize="{{2}}" page="{{0}}" hasMore="{{false}}"/>
          <ws:viewConfig pagingMode="basic"/>
       </ws:navigation>
-   </Controls.treeGridOld:View>
+   </Controls.treeGrid:View>
 </div>

@@ -1,7 +1,0 @@
-<ws:partial template="Controls/gridOld:HeaderContent" colData="{{colData}}">
-    <ws:contentTemplate>
-        <div style="color: #069922;">
-            Плотность населения чел/км<sup>2</sup>
-        </div>
-    </ws:contentTemplate>
-</ws:partial>

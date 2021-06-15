@@ -1,8 +1,0 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate" itemData="{{itemData}}">
-    <ws:contentTemplate>
-        <div>
-            {{ itemData.item[itemData.column.displayProperty || 'title'] }}
-        </div>
-        <ws:partial template="{{itemActionsTemplate}}" highlightOnHover="{{ false }}"/>
-    </ws:contentTemplate>
-</ws:partial>

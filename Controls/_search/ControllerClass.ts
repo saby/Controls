@@ -17,6 +17,7 @@ export interface ISearchControllerOptions extends ISearchOptions,
    viewMode?: TViewMode;
    items?: RecordSet;
    searchStartCallback?: Function;
+   saveRootOnSearch?: boolean; // Временная опция, удалена в 21.4000
 }
 
 const SERVICE_FILTERS = {
@@ -125,7 +126,8 @@ export default class ControllerClass {
       this._misspellValue = '';
       this._viewMode = this._previousViewMode;
       this._previousViewMode = null;
-      if (this._rootBeforeSearch && this._root !== this._rootBeforeSearch && this._options.startingWith === 'current') {
+      if (this._rootBeforeSearch && this._root !== this._rootBeforeSearch &&
+         (this._options.startingWith === 'current' || this._options.saveRootOnSearch)) {
          this._root = this._rootBeforeSearch;
       }
       if (!this._isSearchMode() && this._options.parentProperty) {
@@ -156,6 +158,11 @@ export default class ControllerClass {
 
       if (this._searchValue !== newSearchValue || !this._searchPromise) {
          this._searchValue = newSearchValue;
+         if (!this._rootBeforeSearch &&
+             this._root !== this._rootBeforeSearch &&
+             this._options.saveRootOnSearch) {
+            this._rootBeforeSearch = this._root;
+         }
          return this._updateFilterAndLoad(
              this._getFilter(),
              this._getRoot()
@@ -296,7 +303,6 @@ export default class ControllerClass {
             const newRoot = ControllerClass._getRoot(this._path, this._root, this._options.parentProperty);
 
             if (newRoot !== this._root) {
-               this._rootBeforeSearch = this._root;
                this._root = newRoot;
             }
          }

@@ -1,7 +1,0 @@
-<div class="controlsDemo__wrapper">
-    <Controls.gridOld:View
-            keyProperty="id"
-            source="{{_viewSource}}"
-            rowSeparatorSize="s"
-            columns="{{_columns}}"/>
-</div>

@@ -92,7 +92,6 @@ define([
          let setRecordCalled = false;
          let readCalled = false;
          let createCalled = false;
-         let createDeferred = new Deferred();
          let createPromiseResolver;
          let createPromiseResolverUpdate;
          let createPromiseResolverShow;
@@ -279,6 +278,42 @@ define([
          assert.equal(updateCalled, true);
          assert.equal(createCalled, true);
          assert.equal(FC._isNewRecord, true);
+
+         // Рекорд не должен поменяться прежде чем ответят на конфирм
+         setRecordCalled = false;
+         confirmPopupCalled = false;
+         FC._isConfirmShowed = false;
+
+         oldRecord = {
+            isChanged: () => true
+         };
+         FC._options.record = oldRecord;
+         FC._record = oldRecord;
+         FC._beforeUpdate({
+            record: {}
+         });
+
+         assert.equal(setRecordCalled, false);
+         assert.equal(confirmPopupCalled, true);
+
+         // Рекорд должен поменяться, если окно подтверждения не показалось
+         readCalled = false;
+         createCalled = false;
+         setRecordCalled = false;
+         confirmPopupCalled = false;
+         FC._isConfirmShowed = false;
+
+         oldRecord = {
+            isChanged: () => false
+         };
+         FC._options.record = oldRecord;
+         FC._record = oldRecord;
+         FC._beforeUpdate({
+            record: {}
+         });
+
+         assert.equal(setRecordCalled, true);
+         assert.equal(confirmPopupCalled, false);
 
          FC.destroy();
       });

@@ -1,4 +1,4 @@
-<Controls.explorer:View useOldModel="{{ true }}" itemActions="{{_itemActions}}"
+<Controls.explorer:View itemActions="{{_itemActions}}"
                    header="{{_header}}"
                    source="{{_source}}"
                    columns="{{_columns}}"

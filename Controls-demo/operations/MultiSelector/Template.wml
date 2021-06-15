@@ -5,7 +5,7 @@
         <div>
             <Controls.operations:MultiSelector/>
             <Controls.list:Container>
-                <Controls.treeGridOld:View
+                <Controls.treeGrid:View
                         keyProperty="id"
                         columns="{{_gridColumns}}"
                         parentProperty="parent"

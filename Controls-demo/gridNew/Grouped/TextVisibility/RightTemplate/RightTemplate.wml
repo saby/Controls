@@ -10,12 +10,12 @@
                     groupProperty="fullName">
                 <ws:groupTemplate>
                     <ws:partial template="Controls/grid:GroupTemplate"
-                                itemData="{{ itemData }}"
+                                scope="{{ _options }}"
                                 separatorVisibility="{{ true }}"
                                 expanderVisible="{{ true }}"
                                 textVisible="{{ false }}">
                         <ws:rightTemplate>
-                            <Controls.decorator:Money value="{{itemData.metaData.groupResults[itemData.item]}}" fontColorStyle="group" useGrouping="{{false}}"/>
+                            <Controls.decorator:Money value="{{itemData.metaData.groupResults[item.contents]}}" fontColorStyle="group" useGrouping="{{false}}"/>
                         </ws:rightTemplate>
                     </ws:partial>
                 </ws:groupTemplate>

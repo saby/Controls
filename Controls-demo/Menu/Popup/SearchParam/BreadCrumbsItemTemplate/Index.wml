@@ -13,8 +13,9 @@
                     <span class="ControlsDemo-Menu_breadCrumbs-icon icon-medium icon-Sticker"></span>
                     <ws:partial template="Controls/breadcrumbs:ItemTemplate">
                         <ws:contentTemplate>
-                     <span class="ControlsDemo-Menu_breadCrumbs-text">
-                        {{breadCrumbsItemTemplate.itemData.item.get(breadCrumbsItemTemplate.displayProperty)}}</span>
+                            <span class="ControlsDemo-Menu_breadCrumbs-text">
+                                {{breadCrumbsItemTemplate.itemData.item.get(breadCrumbsItemTemplate.displayProperty)}}
+                            </span>
                         </ws:contentTemplate>
                     </ws:partial>
                 </div>
