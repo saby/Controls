@@ -7,6 +7,7 @@
  * @library
  * @includes ListContainer Controls/_suggestPopup/List
  * @includes FooterTemplate Controls/suggestPopup:FooterTemplate
+ * @includes SuggestTemplate Controls/suggestPopup:SuggestTemplate
  * @public
  * @author Крайнов Д.О.
  */
@@ -16,6 +17,7 @@
  * @library
  * @includes ListContainer Controls/_suggestPopup/List
  * @includes FooterTemplate Controls/suggestPopup:FooterTemplate
+ * @includes SuggestTemplate Controls/suggestPopup:SuggestTemplate
  * @public
  * @author Крайнов Д.О.
  */
