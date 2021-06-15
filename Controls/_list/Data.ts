@@ -132,7 +132,6 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
    protected _breadCrumbsItemsWithoutBackButton: Path;
    protected _expandedItems: CrudEntityKey[];
    protected _shouldSetExpandedItemsOnUpdate: boolean;
-   private _nodeHistoryId: string;
 
    private _filter: QueryWhereExpression<unknown>;
 
@@ -150,9 +149,6 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          this._errorRegister = new RegisterClass({register: 'dataError'});
       }
 
-      if (options.nodeHistoryId) {
-         this._nodeHistoryId = options.nodeHistoryId;
-      }
       if (options.expandedItems) {
          this._shouldSetExpandedItemsOnUpdate = true;
       }
@@ -235,10 +231,6 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          this._items = this._sourceController.getItems();
       }
 
-      if (newOptions.nodeHistoryId !== this._nodeHistoryId) {
-         this._nodeHistoryId = newOptions.nodeHistoryId;
-      }
-
       if (this._sourceController) {
          if (newOptions.sourceController) {
             updateResult = this._updateWithSourceControllerInOptions(newOptions);
@@ -247,7 +239,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          }
       }
 
-      if (!isEqual(newOptions.expandedItems, this._options.expandedItems) && !this._nodeHistoryId) {
+      if (!isEqual(newOptions.expandedItems, this._options.expandedItems) && !newOptions.nodeHistoryId) {
          this._expandedItems = newOptions.expandedItems;
       }
 
@@ -283,7 +275,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          this._filter = this._sourceController.getFilter();
          this._updateContext(this._sourceController.getState());
       } else if (expandedItemsChanged) {
-         if (this._nodeHistoryId) {
+         if (newOptions.nodeHistoryId) {
             this._sourceController.updateExpandedItemsInUserStorage();
          }
          this._updateContext(this._sourceController.getState());
@@ -321,7 +313,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
 
       } else if (this._expandedItems !== expandedItems) {
          this._sourceController.setExpandedItems(expandedItems);
-         if (this._nodeHistoryId) {
+         if (this._options.nodeHistoryId) {
             this._sourceController.updateExpandedItemsInUserStorage();
          }
          this._updateContext(this._sourceController.getState());
@@ -425,9 +417,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          ...sourceControllerState
       };
       this._sourceControllerState = sourceControllerState;
-      if (this._nodeHistoryId) {
-         this._expandedItems = sourceControllerState.expandedItems;
-      }
+      this._expandedItems = sourceControllerState.expandedItems;
    }
 
    // https://online.sbis.ru/opendoc.html?guid=e5351550-2075-4550-b3e7-be0b83b59cb9
