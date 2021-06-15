@@ -19,7 +19,7 @@
                                     keyProperty="key"
                                     parentProperty="parent"
                                     hasChildrenProperty="hasChild"
-                                    rootTtile="Бренды"
+                                    rootTitle="Бренды"
                                     searchParam="title"
                                     nodeProperty="type"
                                     source="{{_viewSource}}"
