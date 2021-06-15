@@ -93,23 +93,17 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
     currencyPosition?: TCurrencyPosition;
 }
 
-const FRACTION_LENGTH: number = 2;
-const ZERO_FRACTION_PATH: string = '0'.repeat(FRACTION_LENGTH);
-
 export function calculateMainClass(underline: string, style: string): string {
     return 'controls-DecoratorMoney' + `${underline === 'hovered' ? ' controls-DecoratorMoney__underline' : ''}
             ${style ? ' controls-DecoratorMoney_style-' + style : ''}`;
 }
-
 export function calculateCurrencyClass(currencySize: string, fontColorStyle: string, fontWeight: string): string {
     return `${currencySize ? 'controls-fontsize-' + currencySize : ''} ${fontColorStyle ? ' controls-text-' + fontColorStyle : ''}
             ${fontWeight ? ' controls-fontweight-' + fontWeight : ''}`;
 }
-
 export function calculateStrokedClass(stroked: boolean): string {
     return `${stroked ? 'controls-DecoratorMoney__stroked' : ''}`;
 }
-
 export function calculateIntegerClass(
     fontSize: string,
     fontColorStyle: string,
@@ -122,7 +116,6 @@ export function calculateIntegerClass(
             ${fontWeight ? ' controls-fontweight-' + fontWeight : ''} ${currency && currencyPosition === 'left' ? ' controls-margin_left-2xs' + fontWeight : ''}
             ${currency && currencyPosition === 'right' && isDisplayFractionPath ? ' controls-margin_right-2xs' + fontWeight : ''}`;
 }
-
 export function calculateFractionClass(
     fraction: string,
     fontColorStyle: string,
@@ -153,12 +146,17 @@ export function calculateFontColorStyle(stroked: boolean, options: IMoneyOptions
     }
 }
 
-export function isDisplayFractionPath(value: string, showEmptyDecimals: boolean): boolean {
-    return showEmptyDecimals || value !== '.00';
+export function isDisplayFractionPath(value: string, showEmptyDecimals: boolean, precision: number): boolean {
+    return (showEmptyDecimals || value !== '.00') && !!precision;
 }
 
-export function calculateFormattedNumber(value: TValue, useGrouping: boolean, abbreviationType: TAbbreviationType): string | IPaths {
-    const formattedValue = toFormat(toString(value));
+export function calculateFormattedNumber(
+    value: TValue,
+    useGrouping: boolean,
+    abbreviationType: TAbbreviationType,
+    precision: number
+): string | IPaths {
+    const formattedValue = toFormat(toString(value, precision), precision);
 
     let [integer, fraction] = splitValueIntoParts(formattedValue);
 
@@ -175,19 +173,25 @@ export function calculateFormattedNumber(value: TValue, useGrouping: boolean, ab
     };
 }
 
-function toFormat(value: string): string {
+function toFormat(value: string, precision: number): string {
     const dotPosition = value.indexOf('.');
 
     if (dotPosition === -1) {
-        return correctValue(`${value}.${ZERO_FRACTION_PATH}`);
+        return correctValue(value + (precision ? '.00' : ''));
+    }
+
+    if (!precision) {
+        return value.substr(0, dotPosition);
     }
 
     const fractionLength = value.length - dotPosition - 1;
     let result: string = value;
-    if (fractionLength < FRACTION_LENGTH) {
-        result = value + '0'.repeat(FRACTION_LENGTH - fractionLength);
-    } else if (fractionLength > FRACTION_LENGTH) {
-        result = value.substr(0, dotPosition + FRACTION_LENGTH + 1);
+    if (fractionLength < precision) {
+        result = value + '0'.repeat(precision - fractionLength);
+    }
+
+    if (fractionLength > precision) {
+        result = value.substr(0, dotPosition + precision + 1);
     }
 
     return correctValue(result);
@@ -197,9 +201,9 @@ function correctValue(value: string): string {
     return value.replace('-', '- ');
 }
 
-function toString(value: TValue): string {
+function toString(value: TValue, precision: number): string {
     if (value === null) {
-        return '0.' + ZERO_FRACTION_PATH;
+        return '0' + (precision ? '.00' : '');
     }
     if (typeof value === 'number') {
         return numberToString(value);
