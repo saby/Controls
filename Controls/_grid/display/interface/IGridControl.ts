@@ -507,7 +507,7 @@ export interface IGridControl extends IList {
  * @typedef {String} Controls/_grid/display/interface/IGridControl/ResultsVisibility
  * @description Допустимые значения для опции {@link resultsVisibility}.
  * @variant hasdata Отображается при наличии более 1 элемента в таблице.
- * @variant visible Отображается всегда, вне зависимости от количества элементов в таблице.
+ * @variant visible Отображается при наличии хотя бы 1 элемента в таблице.
  */
 
 /**
@@ -637,7 +637,7 @@ export interface IGridControl extends IList {
  * При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/grid:ItemEditorTemplate}.
  * Если опция определена, то в таблице будет использоваться {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/template/#string расширенное редактирование строк}.
  * Подробнее об настройке шаблона читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/template/#item-editor-template здесь}.
- 
+
  */
 
 /**
