@@ -1,5 +1,5 @@
 import {Model, Record} from 'Types/entity';
-import {DataSet, SbisService, ICrudPlus, Query, QueryOrderSelector} from 'Types/source';
+import {DataSet, SbisService, ICrudPlus, Query, QueryOrderSelector, DataMixin} from 'Types/source';
 import {Logger} from 'UI/Utils';
 import {ISelectionObject} from 'Controls/interface';
 import {Confirmation, Dialog, IBasePopupOptions} from 'Controls/popup';
@@ -11,7 +11,7 @@ import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import {ISiblingStrategy} from '../interface/ISiblingStrategy';
 
 // @todo https://online.sbis.ru/opendoc.html?guid=2f35304f-4a67-45f4-a4f0-0c928890a6fc
-type TSource = SbisService|ICrudPlus;
+type TSource = SbisService|ICrudPlus & DataMixin;
 type TFilterObject = IHashMap<any>;
 
 interface IValidationResult {
@@ -164,8 +164,11 @@ export class MoveController {
         const templateOptions: IMoverDialogTemplateOptions = {
             movedItems: selection.selected,
             source: this._source,
+            keyProperty: this._source.getKeyProperty(),
             ...(this._popupOptions.templateOptions as IMoverDialogTemplateOptions)
         };
+
+        const root = templateOptions.root || null;
 
         return new Promise((resolve) => {
             Dialog.openPopup({
@@ -174,9 +177,9 @@ export class MoveController {
                 closeOnOutsideClick: true,
                 template: this._popupOptions.template,
                 eventHandlers: {
-                    onResult: (target: Model) => {
+                    onResult: (target: Model | CrudEntityKey) => {
                         // null при перемещении записей в корень
-                        const targetKey = target === null ? target : target.getKey();
+                        const targetKey = target === root ? target : (target as Model).getKey();
                         resolve(
                             this._moveInSource(selection, filter, targetKey, LOCAL_MOVE_POSITION.On) as Promise<DataSet>
                         );
