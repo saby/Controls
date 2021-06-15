@@ -7,7 +7,7 @@ const SPECIAL_CHARS = /[$^*+?.(){}[\]\\|]/g;
  * $3 - The separator of the integer and fractional parts.
  * $4 - Fractional part.
  */
-export const partOfNumber: RegExp =  /(-?)([0-9]*)([.,]?)([0-9]*)/;
+export const partOfNumber: RegExp =  /(-? ?)([0-9]*)([.,]?)([0-9]*)/;
 
 /**
  * Escaping special characters of a regular expression.
