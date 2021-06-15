@@ -2,6 +2,7 @@
    <ws:partial template="{{itemTemplate.item.getContents()[_options.itemTemplateProperty] || _options.itemTemplate}}"
                itemData="{{_getItemData(itemTemplate.item)}}"
                treeItem="{{itemTemplate.item}}"
+               emptyText="{{_options.emptyText}}"
                nodeProperty="{{_options.nodeProperty}}"
                keyProperty="{{_options.keyProperty}}"
                displayProperty="{{_options.displayProperty}}"
