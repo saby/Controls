@@ -59,6 +59,7 @@ export interface IOptions {
     columnSeparatorSize?: TColumnSeparatorSize;
     multiSelectVisibility?: string;
     itemActionsPosition?: 'inside' | 'outside' | 'custom';
+    task1182250038?: boolean;
     backgroundStyle: string;
 }
 
@@ -78,6 +79,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$stickyColumn: {};
     protected _$resultsPosition: TResultsPosition;
     protected _$resultsVisibility: TResultsVisibility;
+    // Костыль-опция до 21.4000
+    protected _$task1182250038: boolean;
     protected _$showEditArrow: boolean;
     protected _$editArrowVisibilityCallback: TEditArrowVisibilityCallback;
     protected _$colspanCallback: TColspanCallback;
@@ -406,10 +409,16 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _hasItemsToCreateResults(): boolean {
+        if (this._$task1182250038) {
+            return this.getCollectionCount() > (this._$resultsVisibility === 'visible' ? 0 : 1);
+        }
         return this.getCollectionCount() > 1;
     }
 
     protected _resultsIsVisible(): boolean {
+        if (this._$task1182250038) {
+            return !!this._$resultsPosition && this._hasItemsToCreateResults();
+        }
         return !!this._$resultsPosition && (this._$resultsVisibility === 'visible' || this._hasItemsToCreateResults());
     }
 
@@ -595,6 +604,7 @@ Object.assign(Grid.prototype, {
     _$header: null,
     _$headerVisibility: 'hasdata',
     _$resultsVisibility: 'hasdata',
+    _$task1182250038: false,
     _$resultsPosition: null,
     _$ladderProperties: null,
     _$stickyColumn: null,
