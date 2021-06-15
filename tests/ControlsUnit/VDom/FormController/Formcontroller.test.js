@@ -287,6 +287,7 @@ define([
             isChanged: () => true
          };
          FC._options.record = oldRecord;
+         FC._record = oldRecord;
          FC._beforeUpdate({
             record: {}
          });
@@ -305,6 +306,7 @@ define([
             isChanged: () => false
          };
          FC._options.record = oldRecord;
+         FC._record = oldRecord;
          FC._beforeUpdate({
             record: {}
          });
