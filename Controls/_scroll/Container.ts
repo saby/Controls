@@ -466,12 +466,6 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     }
 
     protected _mouseenterHandler(event) {
-        if (this._gridAutoShadows && this._scrollModel?.canVerticalScroll) {
-            this._gridAutoShadows = false;
-            this._shadows.updateOptions(this._getShadowsModelOptions(this._options));
-            this._updateShadows();
-        }
-
         // Если до mouseenter не вычисляли скроллбар, сделаем это сейчас.
         if (!this._wasMouseEnter) {
             this._wasMouseEnter = true;
@@ -485,6 +479,12 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             if (!compatibility.touch) {
                 this._initHeaderController();
             }
+        }
+
+        if (this._gridAutoShadows && this._scrollModel?.canVerticalScroll) {
+            this._gridAutoShadows = false;
+            this._shadows.updateOptions(this._getShadowsModelOptions(this._options));
+            this._updateShadows();
         }
 
         if (this._scrollbars.take()) {

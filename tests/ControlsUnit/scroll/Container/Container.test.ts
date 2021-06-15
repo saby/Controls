@@ -552,6 +552,7 @@ describe('Controls/scroll:Container', () => {
             component._shadows._models.bottom._scrollState.canVerticalScroll = true;
             component._shadows._models.top._isVisible = false;
             component._shadows._models.bottom._isVisible = false;
+            component._isOptimizeShadowEnabled = false;
             component._updateShadowVisibility(
                 event, { top: SHADOW_VISIBILITY.VISIBLE, bottom: SHADOW_VISIBILITY.VISIBLE });
             assert.isTrue(component._shadows._models.top.isVisible);
@@ -571,6 +572,7 @@ describe('Controls/scroll:Container', () => {
             component._shadows._models.bottom._scrollState.canVerticalScroll = true;
             component._shadows._models.top._isVisible = false;
             component._shadows._models.bottom._isVisible = false;
+            component._isOptimizeShadowEnabled = false;
             component._updateShadowVisibility(
                 event, { top: SHADOW_VISIBILITY.VISIBLE, bottom: SHADOW_VISIBILITY.VISIBLE });
             assert.isTrue(component._shadows._models.top.isVisible);
@@ -586,6 +588,7 @@ describe('Controls/scroll:Container', () => {
             sinon.stub(component._stickyHeaderController, 'init');
             component._shadows._models.top._scrollState.canVerticalScroll = true;
             component._shadows._models.bottom._scrollState.canVerticalScroll = true;
+            component._isOptimizeShadowEnabled = false;
             component._updateShadowVisibility(
                 event, { top: SHADOW_VISIBILITY.VISIBLE, bottom: SHADOW_VISIBILITY.VISIBLE });
             sinon.assert.called(component._stickyHeaderController.init);
@@ -602,6 +605,7 @@ describe('Controls/scroll:Container', () => {
             component._shadows._models.bottom._scrollState.verticalPosition = SCROLL_POSITION.MIDDLE;
             component._shadows._models.top._isVisible = true;
             component._shadows._models.bottom._isVisible = true;
+            component._isOptimizeShadowEnabled = false;
             component._updateShadowVisibility(
                 event, { top: SHADOW_VISIBILITY.HIDDEN, bottom: SHADOW_VISIBILITY.HIDDEN });
             assert.isFalse(component._shadows._models.top.isVisible);
