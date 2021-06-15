@@ -413,7 +413,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
- * Загружает модель из {@link /doc/platform/developmentapl/interface-development/controls/list/source/ источника данных}, объединяет изменения в текущих данные и отображает элемент.
+ * Загружает модель из {@link /doc/platform/developmentapl/interface-development/controls/list/source/ источника данных}, объединяет изменения в текущих данных и отображает элемент.
  * @function Controls/_list/interface/IList#reloadItem
  * @param {String} key Идентификатор элемента коллекции, который должен быть перезагружен из источника.
  * @param {Object} readMeta Метаинформация, которая будет передана методу запроса/чтения.
@@ -421,7 +421,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * Если параметр имеет значение true, элемент коллекции будет заменен загруженным элементом.
  * Если параметр имеет значение false (по умолчанию), загруженные элементы будут объединены в элемент коллекции.
  * @param {Controls/_list/interface/IList/ReloadType.typedef} [reloadType=read] Определяет, как будет загружен элемент.
- * @return {Promise<RecordSet>} В случае успешной загрузки, Promise вернет список отображаемых дочерних элементов для загруженного узла.
+ * @return {Promise<Model>} В случае успешной загрузки, Promise вернет список отображаемых дочерних элементов для загруженного узла.
  * @example
  * <pre class="brush: js">
  * _itemUpdated: function(id) {
