@@ -1,5 +1,3 @@
-<Controls.Application.ApplicationWrapper caption="ItemActions Custom" demoname="Controls-demo/List/ItemActions/ItemActionsCustom.wml">
-    <ws:content>
-        <Controls-demo.List.ItemActionsCustom />
-    </ws:content>
-</Controls.Application.ApplicationWrapper>
+<div>
+    <Controls-demo.List.ItemActionsCustom />
+</div>
