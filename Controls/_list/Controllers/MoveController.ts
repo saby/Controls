@@ -178,7 +178,6 @@ export class MoveController {
                 template: this._popupOptions.template,
                 eventHandlers: {
                     onResult: (target: Model | CrudEntityKey) => {
-                        // null при перемещении записей в корень
                         const targetKey = target === root ? target : (target as Model).getKey();
                         resolve(
                             this._moveInSource(selection, filter, targetKey, LOCAL_MOVE_POSITION.On) as Promise<DataSet>

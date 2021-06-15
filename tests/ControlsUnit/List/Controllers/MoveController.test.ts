@@ -202,6 +202,32 @@ describe('Controls/list_clean/MoveController', () => {
                 });
         });
 
+        it('moveWithDialog() + source !== null', () => {
+            const stubMove = sandbox.stub(source, 'move')
+                .callsFake((items: CrudEntityKey[], target: CrudEntityKey, meta?: IHashMap<any>) => {
+
+                    // assertion here
+                    assert.equal(target, 'ROOT');
+                    return Promise.resolve();
+                });
+            sandbox.stub(Dialog, 'openPopup').callsFake((args) => {
+                return Promise.resolve(args.eventHandlers.onResult('ROOT'));
+            });
+            cfg.popupOptions.templateOptions = {
+                ...cfg.popupOptions.templateOptions as object,
+                root: 'ROOT'
+            };
+            controller = new MoveController(cfg);
+            return resolveMoveWithDialog(controller, selectionObject, {myProp: 'test'})
+                .then((result: boolean) => {
+                    // assertion is above
+                    // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
+                    sinonAssert.notCalled(stubLoggerError);
+                    sinonAssert.called(stubMove);
+                    assert.isNotFalse(result);
+                });
+        });
+
         // Передан popupOptions без template при перемещении методом moveWithDialog()
         it('moveWithDialog() + popupOptions.template is not set', () => {
             // to prevent popup open
