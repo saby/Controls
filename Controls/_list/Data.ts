@@ -165,6 +165,11 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
 
       this._sourceController = options.sourceController || this._getSourceController(options, receivedState);
       this._fixRootForMemorySource(options);
+      // Подпишемся на изменение данных хлебных крошек для того, что бы если пользователь
+      // руками меняет path в RecordSet то эти изменения долетели до контролов
+      this._sourceController.subscribe('breadcrumbsDataChanged', () => {
+         this._updateBreadcrumbsFromSourceController();
+      });
 
       const controllerState = this._sourceController.getState();
 
