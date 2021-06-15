@@ -658,6 +658,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
                 return false;
             }
         }
+        return notifyResult;
     }
 
     /**
