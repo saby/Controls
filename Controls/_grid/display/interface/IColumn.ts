@@ -29,6 +29,15 @@ export interface ICellPadding {
 }
 
 /**
+ * @typedef {Object} IDisplayTypeOptions
+ * @description Настройки для типа отображаемых данных.
+ * @property {searchHighlight} [searchHighlight=true] Подсветку данных при поиске (по умолчанию подсветка включена).
+ */
+export interface IDisplayTypeOptions {
+    searchHighlight?: boolean;
+}
+
+/**
  * @typedef {String} TCellAlign
  * @description Значения для выравнивания ячеек по горизонтали.
  * @variant left По левому краю.
@@ -430,6 +439,22 @@ export interface IColumn extends IColspanParams {
     /**
      * @cfg {Object} Настройки для типа отображаемых данных.
      * @example
+     * В следующем примере показано как отключить подсветку данных при поиске.
+     *
+     * <pre class="brush: js">
+     * ...
+     * protected _columns: IColumn[] = [
+     *     {
+     *         displayProperty: 'price',
+     *         displayType: 'string',
+     *         displayTypeOptions: {
+     *             searchHighlight: false
+     *         }
+     *     },
+     * ...
+     * ]
+     * </pre>
+     * @example
      * В следующем примере показано как отобразить поле записи типа "деньги" без группировки триад цифр.
      *
      * <pre class="brush: js">
@@ -446,7 +471,7 @@ export interface IColumn extends IColspanParams {
      * ]
      * </pre>
      */
-    displayTypeOptions?: object;
+    displayTypeOptions?: IDisplayTypeOptions;
     fontColorStyle?: TFontColorStyle;
     /**
      * @cfg {string} Цвет фона колонки.
