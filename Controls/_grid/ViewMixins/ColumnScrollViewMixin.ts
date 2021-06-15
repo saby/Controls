@@ -500,11 +500,9 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
             if (cell.className.indexOf(COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT) !== -1) {
                 return;
             }
-            const isCellEditing = this._listModel.getEditingConfig()?.mode === 'cell';
-            const targetRect = (isCellEditing ? cell : target).getBoundingClientRect();
             // Стили должны быть применены незамедлительно, в не через requestAnimationFrame,
             // иначе нативный подскролл сработает раньше, затем подскролл горизонтального скролла.
-            const isScrolled = this._$columnScrollController.scrollToElementIfHidden(targetRect, true);
+            const isScrolled = this._$columnScrollController.scrollToElementIfHidden(cell.getBoundingClientRect(), true);
             if (isScrolled) {
                 setScrollPosition(this, this._$columnScrollController.getScrollPosition(), true);
             }
