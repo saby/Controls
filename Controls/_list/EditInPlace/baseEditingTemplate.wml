@@ -1,6 +1,5 @@
 <div class="controls-EditingTemplateText__editorWrapper
-            controls-EditingTemplateText__editorWrapper_align_{{ itemData && itemData.getEditingConfig().mode === 'cell' ? (align || 'default') : (align ? align : 'left') }}
-            controls_list_theme-{{_options.theme}}">
+            controls-EditingTemplateText__editorWrapper_align_{{ itemData && itemData.getEditingConfig().mode === 'cell' ? (align || 'default') : (align ? align : 'left') }}">
     <ws:if data="{{itemData && itemData.isEditing()}}">
         <ws:partial attr:class="controls-EditingTemplateText__editor" template="{{editorTemplate}}" />
     </ws:if>
