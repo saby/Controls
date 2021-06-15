@@ -7,7 +7,6 @@ import 'css!Controls/columns';
 
 export default class Columns extends View {/** @lends Controls/_list/List.prototype */
     _viewName: TemplateFunction = Render;
-    _supportNewModel: boolean = true;
     _markerStrategy: MultiColumnStrategy = MultiColumnStrategy;
     _itemContainerGetter: ItemContainerGetter = ItemContainerGetter;
     _plainItemsContainer: boolean = false;

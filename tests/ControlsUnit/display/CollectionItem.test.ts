@@ -746,14 +746,8 @@ describe('Controls/_display/CollectionItem', () => {
             assert.equal(result, ' controls-itemActionsV_position_topRight controls-itemActionsV_padding-top_null ');
         });
 
-        // Всегда, кроме новой модели происходит попытка рассчитать класс, добавляющий padding
-        it('getItemActionPositionClasses() should try to add padding class for any case except of useNewModel', () => {
-            const result = item.getItemActionPositionClasses('inside', 'controls-itemActionsV_position_topRight', {top: 's', bottom: 's'}, 'default', false);
-            assert.equal(result, ' controls-itemActionsV_position_topRight controls-itemActionsV_padding-top_default ');
-        });
-
         // Если новая модель, то в любом случае не считается класс, добавляющий padding
-        it('getItemActionPositionClasses() should not add padding class in case of useNewModel', () => {
+        it('getItemActionPositionClasses() should not add padding class', () => {
             const result = item.getItemActionPositionClasses('inside', null, {top: 's', bottom: 's'}, 'default', true);
             assert.equal(result, ' controls-itemActionsV_position_bottomRight controls-itemActionsV_padding-bottom_default ');
         });
