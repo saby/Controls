@@ -14,9 +14,9 @@ function reducerRight(value: string, current: string, index: number, arr: string
 }
 
 /**
- * Функция находит в строке число и разделяет его на триады.
+ * Находит в строке число и разделяет его целую часть на триады.
  * @param original
- * @returns Строка, в которой число разделено на триады.
+ * @returns Строка, где целая часть числа разделена на триады.
  */
 export default function splitIntoTriads(original: string): string {
    const part = original.match(partOfNumber).slice(1, 5);
