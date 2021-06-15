@@ -5,8 +5,8 @@
                 scope="{{_options}}">
         <ws:contentTemplate>
             <div>
-                {{ gridColumn.getDefaultDisplayValue() }}
-                <div if="{{rootLabelVisible}}" class="controls-MoveDialog__label">({[В корень]})</div>
+                <div if="{{gridColumn.getDefaultDisplayValue()}}" class="controls-MoveDialog__title">{{ gridColumn.getDefaultDisplayValue() }}</div>
+                <div if="{{rootLabelVisible}}" class="controls-MoveDialog__label">({[в корень]})</div>
             </div>
         </ws:contentTemplate>
     </ws:partial>

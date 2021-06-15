@@ -19,7 +19,7 @@
                                     keyProperty="key"
                                     parentProperty="parent"
                                     hasChildrenProperty="hasChild"
-                                    rootTitle="Бренды"
+                                    rootTitle="Каталог"
                                     rootLabelVisible="{{false}}"
                                     searchParam="title"
                                     nodeProperty="type"
