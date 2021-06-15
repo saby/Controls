@@ -83,10 +83,7 @@ export default
    }
 
    protected _hasItemsToCreateResults(): boolean {
-      if (this._$task1182250038) {
-         return this.getCollectionCount() > (this._$resultsVisibility === 'visible' ? 0 : 1);
-      }
-      return this.getCollectionCount() > 1;
+      return this.getCollectionCount() > (this._$resultsVisibility === 'visible' ? 0 : 1);
    }
 
    protected _getItemsFactory(): ItemsFactory<T> {

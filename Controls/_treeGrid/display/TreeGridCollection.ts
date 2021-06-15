@@ -316,10 +316,7 @@ export default class TreeGridCollection<
 
     protected _hasItemsToCreateResults(): boolean {
         const rootItems = this.getChildrenByRecordSet(this.getRoot().getContents());
-        if (this._$task1182250038) {
-            return rootItems.length > (this._$resultsVisibility === 'visible' ? 0 : 1);
-        }
-        return rootItems.length > 1;
+        return rootItems.length > (this._$resultsVisibility === 'visible' ? 0 : 1);
     }
 
     protected _initializeFooter(options: IOptions<S, T>): TreeGridFooterRow<S> {
