@@ -10,13 +10,15 @@
              on:mousedown="_resetMousedown()"
              attr:ws-no-focus="true"></div>
     </ws:if>
+
+    <ws:if data="{{options.rightFieldTemplate}}">
+        <ws:partial template="{{options.rightFieldTemplate}}" />
+    </ws:if>
+
     <ws:if data="{{options.searchButtonAlign !== 'left' && options.searchButtonVisible}}">
         <ws:partial template="wml!Controls/_search/Input/SearchTemplate/searchButton"
                     searchButtonAlign="{{options.searchButtonAlign}}"
                     inlineHeight="{{options.inlineHeight}}"
                     calculateState="{{calculateState}}"/>
-    </ws:if>
-    <ws:if data="{{options.rightFieldTemplate}}">
-        <ws:partial template="{{options.rightFieldTemplate}}" />
     </ws:if>
 </div>
