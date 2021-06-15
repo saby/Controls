@@ -1,6 +1,6 @@
 /*
  * compatiblePopup library
- * @library Controls/compatiblePopup
+ * @library
  * @includes BaseOpener Controls/_compatiblePopup/BaseOpener
  * @includes ShowDialogHelpers Controls/_compatiblePopup/ShowDialogHelpers
  * @private 

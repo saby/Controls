@@ -4,9 +4,9 @@
           <ws:partial template="Controls/list:ItemTemplate">
               <ws:contentTemplate>
                <ws:if data="{{_options.dialogMode}}">
-                  <img src="{{itemTemplate.itemData.item['photo']}}"/>
+                  <img src="{{itemTemplate.item.contents['photo']}}"/>
                </ws:if>
-                <span class="controlsDemo__wrapper">{{itemTemplate.itemData.item.title}}</span>
+                <span class="controlsDemo__wrapper">{{itemTemplate.item.contents.title}}</span>
               </ws:contentTemplate>
           </ws:partial>
       </ws:itemTemplate>

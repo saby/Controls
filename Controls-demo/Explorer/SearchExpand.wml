@@ -16,7 +16,7 @@
                     attr:class="demo-Search__searchinput"/>
             </Controls.search:InputContainer>
             <Controls.list:Container>
-                <Controls.explorer:View useOldModel="{{ true }}"
+                <Controls.explorer:View
                         attr:class="demo-Explorer ControlsDemo-Explorer"
                         multiSelectVisibility="{{_multiselectVisibility}}"
                         displayProperty="title"

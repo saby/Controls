@@ -1,8 +1,8 @@
-<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+<ws:partial template="Controls/grid:ColumnTemplate" scope="{{ _options }}">
     <ws:contentTemplate>
         <div>
-            {{ itemData.item[column.config.displayProperty || 'title'] }}
+            {{ item.contents[column.config.displayProperty || 'title'] }}
         </div>
-        <ws:partial template="{{itemActionsTemplate}}" itemData="{{ itemData }}" highlightOnHover="{{ false }}"/>
+        <ws:partial template="{{itemActionsTemplate}}" scope="{{ _options }}" highlightOnHover="{{ false }}"/>
     </ws:contentTemplate>
 </ws:partial>

@@ -7,16 +7,16 @@
                         scope="{{itemTemplate}}">
                 <ws:contentTemplate>
                     <div>
-                        {{contentTemplate.itemData.item.title}}
+                        {{contentTemplate.item.contents.title}}
                         <svg class="controls-icon_size-m controls-icon_style-danger">
-                            <use xlink:href="{{contentTemplate.itemData.item.svgIconUrl}}"/>
+                            <use xlink:href="{{contentTemplate.item.contents.svgIconUrl}}"/>
                         </svg>
                     </div>
                     <div>
                         <ws:for data="i in 10">
                             <div>Блок с иконкой {{i}}
                                 <svg class="controls-icon_size-m controls-icon_style-danger">
-                                    <use xlink:href="{{contentTemplate.itemData.item.svgIconUrl}}"/>
+                                    <use xlink:href="{{contentTemplate.item.contents.svgIconUrl}}"/>
                                 </svg>
                             </div>
                         </ws:for>

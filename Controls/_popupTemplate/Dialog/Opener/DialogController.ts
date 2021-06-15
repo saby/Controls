@@ -12,6 +12,7 @@ interface IDialogItem extends IPopupItem {
     popupOptions: IDialogOptions;
     startPosition: IPopupPosition;
     dragged: boolean;
+    targetCoords: object;
 }
 
 interface IDialogOptions extends IPopupOptions {
@@ -191,27 +192,15 @@ class DialogController extends BaseController {
         // After popup will be transferred to the synchronous change of coordinates,
         // we need to return the calculation of the position with the keyboard.
         // Positioning relative to body
-        item.position = DialogStrategy.getPosition(this._getRestrictiveContainerSize(item), sizes, item);
-        this._fixCompatiblePosition(item);
-    }
-
-    _fixCompatiblePosition(item: IDialogItem): void {
-        // COMPATIBLE: for old windows user can set the coordinates relative to the body
-        if (!item.dragged) {
-            if (item.popupOptions.top !== undefined) {
-                item.position.top = item.popupOptions.top;
-            }
-            if (item.popupOptions.left !== undefined) {
-                // Calculating the left position when reducing the size of the browser window
-                const differenceWindowWidth: number =
-                    (item.popupOptions.left + item.popupOptions.width) - this._getRestrictiveContainerSize(item).width;
-                if (differenceWindowWidth > 0) {
-                    item.position.left = item.popupOptions.left - differenceWindowWidth;
-                } else {
-                    item.position.left = item.popupOptions.left;
-                }
-            }
+        if (item.popupOptions.target) {
+            item.targetCoords = this._getTargetCoords(item);
         }
+        const windowData = this._getRestrictiveContainerSize(item);
+        if (!item.sizes) {
+            item.sizes = {};
+        }
+        item.sizes.margins = this._getMargins(item);
+        item.position = DialogStrategy.getPosition(windowData, sizes, item);
     }
 
     private _getPopupCoords(
@@ -301,4 +290,4 @@ class DialogController extends BaseController {
     }
 }
 
-export = new DialogController();
+export default new DialogController();

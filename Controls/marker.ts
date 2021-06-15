@@ -1,6 +1,6 @@
 /**
  * Библиотека, которая предоставляет функционал для отметки {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркером}.
- * @library Controls/marker
+ * @library
  * @public
  * @includes IMarkerList Controls/_marker/interface/IMarkerList
  * @author Панихин К.А.

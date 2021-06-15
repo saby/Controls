@@ -15,10 +15,10 @@
                   <ws:partial template="Controls/list:ItemTemplate" attr:class="demo-DragNDrop__item">
                      <ws:contentTemplate>
                         <div class="demo-DragNDrop__itemContent">
-                           <img class="demo-DragNDrop__icon" src="{{itemTemplate.itemData.item.get('image')}}" />
+                           <img class="demo-DragNDrop__icon" src="{{itemTemplate.item.contents.get('image')}}" />
                            <div class="demo-DragNDrop__text">
-                              <div class="demo-DragNDrop__mainText">{{itemTemplate.itemData.item.get('title')}}</div>
-                              <div class="demo-DragNDrop__additionalText">{{itemTemplate.itemData.item.get('additional')}}</div>
+                              <div class="demo-DragNDrop__mainText">{{itemTemplate.item.contents.get('title')}}</div>
+                              <div class="demo-DragNDrop__additionalText">{{itemTemplate.item.contents.get('additional')}}</div>
                            </div>
                         </div>
                      </ws:contentTemplate>

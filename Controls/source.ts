@@ -1,6 +1,6 @@
 /**
  * Библиотека, содержащая механизмы, которые подготавливают данные для контролов.
- * @library Controls/source
+ * @library
  * @includes EnumAdapter Controls/_source/Adapter/Enum
  * @includes SelectedKey Controls/_source/Adapter/SelectedKey
  * @author Крайнов Д.О.
@@ -8,7 +8,7 @@
 
 /*
  * source library
- * @library Controls/source
+ * @library
  * @includes EnumAdapter Controls/_source/Adapter/Enum
  * @includes SelectedKey Controls/_source/Adapter/SelectedKey
  * @author Крайнов Д.О.

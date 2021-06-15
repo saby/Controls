@@ -30,7 +30,7 @@
                      <ws:partial template="Controls/list:ItemTemplate">
                         <ws:contentTemplate>
                            <ws:partial
-                                   item="{{itemTemplate.itemData.item}}"
+                                   item="{{itemTemplate.item.contents}}"
                                    template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
                            />
                         </ws:contentTemplate>
@@ -58,7 +58,7 @@
                      <ws:itemTemplate>
                         <ws:partial template="Controls/list:ItemTemplate">
                            <ws:contentTemplate>
-                              <div class="controls-demo_MasterDetail-item-list">{{itemTemplate.itemData.item.name}}</div>
+                              <div class="controls-demo_MasterDetail-item-list">{{itemTemplate.item.contents.name}}</div>
                            </ws:contentTemplate>
                         </ws:partial>
                      </ws:itemTemplate>
@@ -78,7 +78,7 @@
                      <ws:partial template="Controls/list:ItemTemplate">
                         <ws:contentTemplate>
                            <ws:partial
-                                   item="{{itemTemplate.itemData.item}}"
+                                   item="{{itemTemplate.item.contents}}"
                                    template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
                            />
                         </ws:contentTemplate>
@@ -122,7 +122,7 @@
                      <ws:partial template="Controls/list:ItemTemplate">
                         <ws:contentTemplate>
                            <ws:partial
-                                   item="{{itemTemplate.itemData.item}}"
+                                   item="{{itemTemplate.item.contents}}"
                                    template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
                            />
                         </ws:contentTemplate>

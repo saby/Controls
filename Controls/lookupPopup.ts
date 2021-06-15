@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют панель выбора из справочника и её содержимое.
- * @library Controls/lookupPopup
+ * @library
  * @includes Container Controls/_lookupPopup/Container
  * @includes ListContainer Controls/_lookupPopup/List/Container
  * @includes Controller Controls/_lookupPopup/Controller
@@ -12,7 +12,7 @@
 
 /*
  * Lookup popup library
- * @library Controls/lookupPopup
+ * @library
  * @includes Container Controls/_lookupPopup/Container
  * @includes ListContainer Controls/_lookupPopup/List/Container
  * @includes Controller Controls/_lookupPopup/Controller

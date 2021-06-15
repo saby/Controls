@@ -10,7 +10,7 @@
          <ws:itemTemplate>
             <ws:partial template="Controls/menu:ItemTemplate">
                <ws:additionalTextTemplate>
-                  <div>{{itemTemplate.itemData.item.get('comment')}}</div>
+                  <div>{{itemTemplate.item.contents.get('comment')}}</div>
                </ws:additionalTextTemplate>
             </ws:partial>
          </ws:itemTemplate>

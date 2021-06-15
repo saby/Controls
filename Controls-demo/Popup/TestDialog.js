@@ -11,6 +11,12 @@ define('Controls-demo/Popup/TestDialog',
          _draggable: false,
          _headText: '',
 
+         _beforeMount: function(options) {
+            if (options.draggable) {
+               this._draggable = options.draggable;
+            }
+         },
+
          _close: function(){
             this._notify('close', [], {bubbling: true});
          },

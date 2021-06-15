@@ -1,10 +1,10 @@
 <div class="controls-demo-SuggestV__full">
     <div class="controls-demo-SuggestV__info">
         <div class="controls-demo-SuggestV__first">
-            {{itemData.getPropValue(itemData.item, title)}}
+            {{itemData.getPropValue(item.contents, title)}}
         </div>
         <div class="controls-demo-SuggestV__second">
-            {{itemData.getPropValue(itemData.item, comment)}}
+            {{itemData.getPropValue(item.contents, comment)}}
         </div>
     </div>
 </div>

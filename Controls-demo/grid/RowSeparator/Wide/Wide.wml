@@ -1,8 +1,0 @@
-<div class="controlsDemo__wrapper">
-    <Controls.gridOld:View
-            keyProperty="id"
-            attr:class="controlsDemo__inline-flex"
-            source="{{_viewSource}}"
-            rowSeparatorSize="l"
-            columns="{{_columns}}"/>
-</div>

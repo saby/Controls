@@ -10,7 +10,7 @@
                 <ws:partial
                         template="Controls/dropdown:ItemTemplate">
                     <ws:contentTemplate>
-                        <div>{{itemTemplate.itemData.item.get('title')}}</div>
+                        <div>{{itemTemplate.item.contents.get('title')}}</div>
                     </ws:contentTemplate>
                 </ws:partial>
             </ws:itemTemplate>
