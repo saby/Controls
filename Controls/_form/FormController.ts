@@ -241,9 +241,8 @@ class FormController extends ControllerBase<IFormController> {
                 if (newOptions.hasOwnProperty('isNewRecord')) {
                     this._isNewRecord = newOptions.isNewRecord;
                 }
-            	updateData();
+                updateData();
             }
-            updateData();
         }
     }
 

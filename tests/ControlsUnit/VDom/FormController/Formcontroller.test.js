@@ -282,6 +282,7 @@ define([
          // Рекорд не должен поменяться прежде чем ответят на конфирм
          setRecordCalled = false;
          confirmPopupCalled = false;
+         FC._isConfirmShowed = false;
 
          oldRecord = {
             isChanged: () => true
