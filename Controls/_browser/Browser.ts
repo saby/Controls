@@ -264,10 +264,14 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     ): void {
         event.stopImmediatePropagation();
         this._getOperationsController().executeAction({
+            source: this._source,
             target: clickEvent,
             selection,
             item,
-            filter: this._filter
+            filter: this._filter,
+            parentProperty: this._getSourceController().getParentProperty(),
+            nodeProperty: this._options.nodeProperty,
+            sourceController: this._getSourceController()
         });
     }
 
