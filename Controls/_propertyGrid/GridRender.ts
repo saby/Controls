@@ -5,7 +5,7 @@ import * as itemTemplate from 'wml!Controls/_propertyGrid/Render/resources/itemT
 import * as toggleEditorsTemplate from 'wml!Controls/_propertyGrid/Render/resources/toggleEditorsGroupTemplate';
 import {default as PropertyGridItem } from './PropertyGridCollectionItem';
 import PropertyGridCollection from './PropertyGridCollection';
-import {detection} from 'Env/Env';
+import {isFullGridSupport} from 'Controls/display';
 import {Model} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
@@ -28,14 +28,13 @@ export default class IPropertyGridRender extends Control<IPropertyGridGridRender
     }
 
     protected _getColumnsWidth(captionTemplateOptions: IColumnOptions, editorTemplateOptions: IColumnOptions): string {
-        const isIE = detection.isIE;
         const width = {
             compatibleCaption: captionTemplateOptions?.compatibleWidth || '1fr',
             compatibleEditor: editorTemplateOptions?.compatibleWidth || '1fr',
             caption: captionTemplateOptions?.width || '1fr',
             editor: editorTemplateOptions?.width || '1fr'
         };
-        return isIE ? `-ms-grid-columns: ${width.compatibleCaption} ${width.compatibleEditor}` :
+        return isFullGridSupport() ? `-ms-grid-columns: ${width.compatibleCaption} ${width.compatibleEditor}` :
             `grid-template-columns: ${width.caption} ${width.editor}`;
     }
 
