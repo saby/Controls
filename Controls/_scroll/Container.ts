@@ -103,7 +103,6 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     private _gridAutoShadows: boolean = true;
 
     _beforeMount(options: IContainerOptions, context, receivedState) {
-        this._shadows = new ShadowsModel(this._getShadowsModelOptions(options));
         this._scrollbars = new ScrollbarsModel(options, receivedState);
         this._stickyHeaderController = new StickyHeaderController({ resizeCallback: this._headersResizeHandler.bind(this) });
         // При инициализации оптимизированные тени включаем только если они явно включены, или включен режим auto.
@@ -113,6 +112,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             (options.shadowMode === SHADOW_MODE.CSS ||
                 (options.shadowMode === SHADOW_MODE.MIXED &&
                     (options.topShadowVisibility === SHADOW_VISIBILITY.AUTO || options.bottomShadowVisibility === SHADOW_VISIBILITY.AUTO)));
+        this._shadows = new ShadowsModel(this._getShadowsModelOptions(options));
         this._optimizeShadowClass = this._getOptimizeShadowClass(options);
 
         super._beforeMount(...arguments);
@@ -482,9 +482,9 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         }
 
         if (this._gridAutoShadows && this._scrollModel?.canVerticalScroll) {
+            this._updateShadows();
             this._gridAutoShadows = false;
             this._shadows.updateOptions(this._getShadowsModelOptions(this._options));
-            this._updateShadows();
         }
 
         if (this._scrollbars.take()) {

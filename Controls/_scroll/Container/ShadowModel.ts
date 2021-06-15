@@ -157,10 +157,6 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
         return isChanged;
     }
 
-    isStickyHeadersShadowsEnabled(): boolean {
-        return this._getShadowEnable();
-    }
-
     getStickyHeadersShadowsVisibility(): SHADOW_VISIBILITY {
         let visibility: SHADOW_VISIBILITY = SHADOW_VISIBILITY.AUTO;
         if (this._visibilityByInnerComponents !== SHADOW_VISIBILITY.AUTO) {
