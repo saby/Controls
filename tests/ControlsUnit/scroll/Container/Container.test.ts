@@ -109,7 +109,7 @@ describe('Controls/scroll:Container', () => {
         });
 
         it('should init sticky header controller if shadows are forced enabled.', () => {
-            component = createComponent(Container, { topShadowVisibility: SHADOW_VISIBILITY.VISIBLE });
+            component = createComponent(Container, { topShadowVisibility: SHADOW_VISIBILITY.VISIBLE, shadowMode: SHADOW_MODE.JS });
             sinon.stub(component._stickyHeaderController, 'init');
             component._children = {
                 content: {
