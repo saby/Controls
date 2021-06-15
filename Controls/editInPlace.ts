@@ -1,6 +1,6 @@
 /**
  * Библиотека, которая предоставляет редактирование по месту в коллекции.
- * @library Controls/editInPlace
+ * @library
  * @includes Controller Controls/_editInPlace/Controller
  *
  * @public
@@ -9,7 +9,7 @@
 
 /*
  * Library that provides edit in place for collection
- * @library Controls/editInPlace
+ * @library
  * @includes Controller Controls/_editInPlace/Controller
  *
  * @public

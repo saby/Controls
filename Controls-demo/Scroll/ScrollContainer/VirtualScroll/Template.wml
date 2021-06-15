@@ -1,6 +1,6 @@
 <div class="pageWrap">
     <Controls.scroll:Container attr:style="height: 300px;" name="scrollContainer">
-        <Controls.gridOld:View
+        <Controls.grid:View
                 keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"

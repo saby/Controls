@@ -1,5 +1,5 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate" itemData="{{itemData}}">
+<ws:partial template="Controls/grid:ColumnTemplate" scope="{{ _options }}">
    <ws:contentTemplate>
-      <span class="demo-DragNDrop__explorerItem_time">{{itemData.item.time}}</span>
+      <span class="demo-DragNDrop__explorerItem_time">{{item.contents.time}}</span>
    </ws:contentTemplate>
 </ws:partial>

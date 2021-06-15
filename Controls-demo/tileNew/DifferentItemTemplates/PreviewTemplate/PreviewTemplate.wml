@@ -19,17 +19,17 @@
       <ws:itemTemplate>
          <ws:partial
             template="Controls/tile:PreviewTemplate"
-            titleStyle="{{itemTemplate.itemData.item.titleStyle}}"
-            gradientType="{{itemTemplate.itemData.item.gradientType}}"
-            gradientColor="{{itemTemplate.itemData.item.gradientColor}}"
-            titleLines="{{itemTemplate.itemData.item.titleLines}}"
-            hasTitle="{{itemTemplate.itemData.item.isDocument}}"
+            titleStyle="{{itemTemplate.item.contents.titleStyle}}"
+            gradientType="{{itemTemplate.item.contents.gradientType}}"
+            gradientColor="{{itemTemplate.item.contents.gradientColor}}"
+            titleLines="{{itemTemplate.item.contents.titleLines}}"
+            hasTitle="{{itemTemplate.item.contents.isDocument}}"
             scope="{{itemTemplate}}">
             <ws:topTemplate>
-               <div>{{itemTemplate.itemData.item.additionalText}}</div>
+               <div>{{itemTemplate.item.contents.additionalText}}</div>
             </ws:topTemplate>
             <ws:bottomRightTemplate>
-               <div>{{itemTemplate.itemData.item.counter}}</div>
+               <div>{{itemTemplate.item.contents.counter}}</div>
             </ws:bottomRightTemplate>
          </ws:partial>
       </ws:itemTemplate>

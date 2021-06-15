@@ -1,4 +1,4 @@
-<ws:partial template="Controls/gridOld:HeaderContent" colData="{{colData}}">
+<ws:partial template="Controls/grid:HeaderContent" scope="{{ _options }}">
     <ws:contentTemplate>
         <span class="controlsDemo__Grid_header-with-add-button__gridTitle">{{column.config.title}}</span>
     </ws:contentTemplate>

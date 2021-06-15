@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые служат для организации постраничной навигации в различных контролах.
- * @library Controls/paging
+ * @library
  * @includes Paging Controls/_paging/Paging
  * @public
  * @author Крайнов Д.О.
@@ -8,7 +8,7 @@
 
 /*
  * Paging library
- * @library Controls/paging
+ * @library
  * @includes Paging Controls/_paging/Paging
  * @public
  * @author Крайнов Д.О.

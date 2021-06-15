@@ -17,7 +17,7 @@
                         <ws:itemPadding top="s"/>
                         <ws:itemTemplate>
                             <ws:partial template="Controls/grid:ItemTemplate"
-                                        itemData="{{itemData}}"
+                                        scope="{{ _options }}"
                                         markerClassName="default"/>
                         </ws:itemTemplate>
                     </Controls.grid:View>
@@ -38,7 +38,7 @@
                         <ws:itemPadding top="s"/>
                         <ws:itemTemplate>
                             <ws:partial template="Controls/grid:ItemTemplate"
-                                        itemData="{{itemData}}"
+                                        scope="{{ _options }}"
                                         markerClassName="image-l"/>
                         </ws:itemTemplate>
                     </Controls.grid:View>
@@ -58,7 +58,7 @@
                         <ws:itemPadding top="l"/>
                         <ws:itemTemplate>
                             <ws:partial template="Controls/grid:ItemTemplate"
-                                        itemData="{{itemData}}"
+                                        scope="{{ _options }}"
                                         markerClassName="image-l"/>
                         </ws:itemTemplate>
                     </Controls.grid:View>
@@ -79,7 +79,7 @@
                         <ws:itemPadding top="s"/>
                         <ws:itemTemplate>
                             <ws:partial template="Controls/grid:ItemTemplate"
-                                        itemData="{{itemData}}"
+                                        scope="{{ _options }}"
                                         markerClassName="image-m"/>
                         </ws:itemTemplate>
                     </Controls.grid:View>
@@ -99,7 +99,7 @@
                         <ws:itemPadding top="m"/>
                         <ws:itemTemplate>
                             <ws:partial template="Controls/grid:ItemTemplate"
-                                        itemData="{{itemData}}"
+                                        scope="{{ _options }}"
                                         markerClassName="image-l"/>
                         </ws:itemTemplate>
                     </Controls.grid:View>
@@ -120,7 +120,7 @@
                         <ws:itemPadding top="s"/>
                         <ws:itemTemplate>
                             <ws:partial template="Controls/grid:ItemTemplate"
-                                        itemData="{{itemData}}"
+                                        scope="{{ _options }}"
                                         markerClassName="image-s"/>
                         </ws:itemTemplate>
                     </Controls.grid:View>
@@ -140,7 +140,7 @@
                         <ws:itemPadding top="l"/>
                         <ws:itemTemplate>
                             <ws:partial template="Controls/grid:ItemTemplate"
-                                        itemData="{{itemData}}"
+                                        scope="{{ _options }}"
                                         markerClassName="image-s"/>
                         </ws:itemTemplate>
                     </Controls.grid:View>
@@ -161,7 +161,7 @@
                         <ws:itemPadding top="s"/>
                         <ws:itemTemplate>
                             <ws:partial template="Controls/grid:ItemTemplate"
-                                        itemData="{{itemData}}"
+                                        scope="{{ _options }}"
                                         markerClassName="image-xs"/>
                         </ws:itemTemplate>
                     </Controls.grid:View>
@@ -181,7 +181,7 @@
                         <ws:itemPadding top="l"/>
                         <ws:itemTemplate>
                             <ws:partial template="Controls/grid:ItemTemplate"
-                                        itemData="{{itemData}}"
+                                        scope="{{ _options }}"
                                         markerClassName="image-xs"/>
                         </ws:itemTemplate>
                     </Controls.grid:View>
@@ -207,7 +207,7 @@
                     <ws:itemPadding top="s"/>
                     <ws:itemTemplate>
                         <ws:partial template="Controls/grid:ItemTemplate"
-                                    itemData="{{itemData}}"
+                                    scope="{{ _options }}"
                                     markerClassName="default"/>
                     </ws:itemTemplate>
                 </Controls.grid:View>
@@ -225,7 +225,7 @@
                     <ws:itemPadding top="s"/>
                     <ws:itemTemplate>
                         <ws:partial template="Controls/grid:ItemTemplate"
-                                    itemData="{{itemData}}"
+                                    scope="{{ _options }}"
                                     markerClassName="text-2xl"/>
                     </ws:itemTemplate>
                 </Controls.grid:View>
@@ -242,7 +242,7 @@
                     <ws:itemPadding top="l"/>
                     <ws:itemTemplate>
                         <ws:partial template="Controls/grid:ItemTemplate"
-                                    itemData="{{itemData}}"
+                                    scope="{{ _options }}"
                                     markerClassName="text-2xl"/>
                     </ws:itemTemplate>
                 </Controls.grid:View>
@@ -260,7 +260,7 @@
                     <ws:itemPadding top="s"/>
                     <ws:itemTemplate>
                         <ws:partial template="Controls/grid:ItemTemplate"
-                                    itemData="{{itemData}}"
+                                    scope="{{ _options }}"
                                     markerClassName="text-xl"/>
                     </ws:itemTemplate>
                 </Controls.grid:View>
@@ -277,7 +277,7 @@
                     <ws:itemPadding top="l"/>
                     <ws:itemTemplate>
                         <ws:partial template="Controls/grid:ItemTemplate"
-                                    itemData="{{itemData}}"
+                                    scope="{{ _options }}"
                                     markerClassName="text-xl"/>
                     </ws:itemTemplate>
                 </Controls.grid:View>
@@ -295,7 +295,7 @@
                     <ws:itemPadding top="s"/>
                     <ws:itemTemplate>
                         <ws:partial template="Controls/grid:ItemTemplate"
-                                    itemData="{{itemData}}"
+                                    scope="{{ _options }}"
                                     markerClassName="text-l"/>
                     </ws:itemTemplate>
                 </Controls.grid:View>
@@ -312,7 +312,7 @@
                     <ws:itemPadding top="l"/>
                     <ws:itemTemplate>
                         <ws:partial template="Controls/grid:ItemTemplate"
-                                    itemData="{{itemData}}"
+                                    scope="{{ _options }}"
                                     markerClassName="text-l"/>
                     </ws:itemTemplate>
                 </Controls.grid:View>
@@ -330,7 +330,7 @@
                     <ws:itemPadding top="s"/>
                     <ws:itemTemplate>
                         <ws:partial template="Controls/grid:ItemTemplate"
-                                    itemData="{{itemData}}"
+                                    scope="{{ _options }}"
                                     markerClassName="text-m"/>
                     </ws:itemTemplate>
                 </Controls.grid:View>
@@ -347,7 +347,7 @@
                     <ws:itemPadding top="l"/>
                     <ws:itemTemplate>
                         <ws:partial template="Controls/grid:ItemTemplate"
-                                    itemData="{{itemData}}"
+                                    scope="{{ _options }}"
                                     markerClassName="text-m"/>
                     </ws:itemTemplate>
                 </Controls.grid:View>
@@ -365,7 +365,7 @@
                     <ws:itemPadding top="s"/>
                     <ws:itemTemplate>
                         <ws:partial template="Controls/grid:ItemTemplate"
-                                    itemData="{{itemData}}"
+                                    scope="{{ _options }}"
                                     markerClassName="text-xs"/>
                     </ws:itemTemplate>
                 </Controls.grid:View>
@@ -382,7 +382,7 @@
                     <ws:itemPadding top="l"/>
                     <ws:itemTemplate>
                         <ws:partial template="Controls/grid:ItemTemplate"
-                                    itemData="{{itemData}}"
+                                    scope="{{ _options }}"
                                     markerClassName="text-xs"/>
                     </ws:itemTemplate>
                 </Controls.grid:View>

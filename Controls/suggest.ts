@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, позволяющих выводить подсказку при вводе текста.
- * @library Controls/suggest
+ * @library
  * @includes Input Controls/_suggest/Input
  * @includes SearchInput Controls/_suggest/Input/Search/Suggest
  * @includes Selector Controls/_suggest/Selector
@@ -12,7 +12,7 @@
 
 /*
  * suggest library
- * @library Controls/suggest
+ * @library
  * @includes Input Controls/_suggest/Input
  * @includes SearchInput Controls/_suggest/Input/Search/Suggest
  * @includes Selector Controls/_suggest/Selector

@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые позволяют организовать <a href="/doc/platform/developmentapl/interface-development/forms-and-validation/validation/">валидацию</a> данных на форме.
- * @library Controls/validate
+ * @library
  * @includes Controller Controls/_validate/Controller
  * @includes ControllerClass Controls/_validate/ControllerClass
  * @includes Container Controls/_validate/Container

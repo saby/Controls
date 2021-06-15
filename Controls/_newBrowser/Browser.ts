@@ -203,6 +203,10 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     private _getDataContext(contexts: Record<string, any>): Record<string, any> | void {
         return contexts.dataContext?.sourceController ? contexts.dataContext : null;
     }
+
+    private _processItems(items: RecordSet): void {
+        this._hasImageInItems = this._hasImages(items, this._detailExplorerOptions.imageProperty);
+    }
     //region ⎆ life circle hooks
 
     protected _beforeMount(
@@ -214,10 +218,12 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._initState(options);
         let result = Promise.resolve(undefined);
         if (this._dataContext) {
+            this._processItems(this._detailDataSource.sourceController.getItems());
             this._processItemsMetadata(this._detailDataSource.sourceController.getItems(), options);
             this._afterViewModeChanged(options);
         } else if (receivedState) {
             this._detailDataSource.setItems(receivedState.detailItems);
+            this._processItems(this._detailDataSource.sourceController.getItems());
             this._processItemsMetadata(receivedState.detailItems, options);
             this._afterViewModeChanged(options);
         } else {

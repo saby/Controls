@@ -7,7 +7,7 @@ import collection = require('Types/collection');
 import TargetCoords = require('Controls/_popupTemplate/TargetCoords');
 import Deferred = require('Core/Deferred');
 import {parse as parserLib} from 'Core/library';
-import StackContent = require('Controls/_popupTemplate/Stack/Opener/StackContent');
+import StackContent from 'Controls/_popupTemplate/Stack/Opener/StackContent';
 import {detection} from 'Env/Env';
 import {Bus} from 'Env/Event';
 
@@ -545,4 +545,4 @@ class StackController extends BaseController {
     }
 }
 
-export = new StackController();
+export default new StackController();

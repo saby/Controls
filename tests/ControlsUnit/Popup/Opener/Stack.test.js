@@ -719,7 +719,7 @@ define(
             assert.equal(item.popupOptions.stackWidth, 500);
          });
          it('stack resizing', () => {
-            let stackContentInstance = new popupTemplate.StackContent.default({});
+            let stackContentInstance = new popupTemplate.StackContent({});
             let item = {
                stackMinWidth: 500,
                stackMaxWidth: 1200,

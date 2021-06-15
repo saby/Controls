@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые служат для отображения одного или нескольких элементов коллекции или выбора элементов из справочника.
- * @library Controls/lookup
+ * @library
  * @includes Selector Controls/_lookup/Button
  * @includes Input Controls/_lookup/Lookup
  * @includes MultipleInput Controls/_lookup/MultipleInput
@@ -14,7 +14,7 @@
 
 /*
  * Lookup library
- * @library Controls/lookup
+ * @library
  * @includes Selector Controls/_lookup/Button
  * @includes Input Controls/_lookup/Lookup
  * @includes MultipleInput Controls/_lookup/MultipleInput

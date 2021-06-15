@@ -1,6 +1,6 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate"
+<ws:partial template="Controls/grid:ColumnTemplate"
             attr:class="js-controls-ListView__notEditable"
-            itemData="{{itemData}}">
+            scope="{{ _options }}">
     <ws:contentTemplate>
         <div>Не редактируемая ячейка</div>
     </ws:contentTemplate>

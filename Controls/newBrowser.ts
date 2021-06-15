@@ -4,7 +4,7 @@
  * содержится иерархический список с деревом каталогов, а в правой/detail колонке отображается
  * содержимое каталога выбранного в master колонке.
  *
- * @library Controls/newBrowser
+ * @library
  * @includes IMaster Controls/newBrowser:IMaster
  * @includes IDetail Controls/newBrowser:IDetail
  * @author Уфимцев Д.Ю.

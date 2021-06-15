@@ -823,7 +823,7 @@ define([
          });
 
          it('long link', () => {
-            const goodStr = 'https://ya.ru/' + 'a'.repeat(500);
+            const goodStr = 'https://ya.ru/' + 'a'.repeat(2048);
             const parentNode = ['p', goodStr];
             const checkStr = linkDecorateUtils.wrapLinksInString(parentNode[1], parentNode);
             assert.equal(goodStr, checkStr);

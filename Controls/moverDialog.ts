@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, отвечающих за отображение диалога перемещения.
- * @library Controls/moverDialog
+ * @library
  * @includes BaseTemplate Controls/_moverDialog/BaseTemplate
  * @includes Template Controls/_moverDialog/Template
  * @author Авраменко А.С.

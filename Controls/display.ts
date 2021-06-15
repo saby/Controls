@@ -1,6 +1,6 @@
 /**
  * Библиотека, которая предоставляет различные виды коллекций.
- * @library Controls/display
+ * @library
  * @includes Abstract Controls/_display/Abstract
  * @includes Collection Controls/_display/Collection
  * @includes Enum Controls/_display/Enum
@@ -19,7 +19,7 @@
 
 /*
  * Library that provides various views over collections
- * @library Controls/display
+ * @library
  * @includes Abstract Controls/_display/Abstract
  * @includes Collection Controls/_display/Collection
  * @includes Enum Controls/_display/Enum

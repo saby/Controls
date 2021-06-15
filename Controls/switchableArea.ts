@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют область с возможностью переключения контента.
- * @library Controls/switchableArea
+ * @library
  * @includes View Controls/_switchableArea/View
  * @includes itemTemplate Controls/switchableArea:itemTemplate
  * @public
@@ -9,7 +9,7 @@
 
 /*
  * switchableArea library
- * @library Controls/switchableArea
+ * @library
  * @includes View Controls/_switchableArea/View
  * @includes itemTemplate Controls/switchableArea:itemTemplate
  * @public

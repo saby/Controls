@@ -18,16 +18,16 @@
                 <ws:contentTemplate>
                     <ws:partial template="Controls/list:EditingTemplate"
                                 attr:class="controls-EditingTemplateDemo"
-                                value="{{ itemTemplate.itemData.item.title }}"
+                                value="{{ itemTemplate.item.contents.title }}"
                                 enabled="{{true}}">
                         <ws:editorTemplate>
                             <Controls.validate:InputContainer>
                                 <ws:validators>
-                                    <ws:Function value="{{ itemTemplate.itemData.item.title }}">Controls/validate:isRequired</ws:Function>
-                                    <ws:Function value="{{ itemTemplate.itemData.item.title }}">Controls-demo/List/EditInPlace/Validators:Validators.size</ws:Function>
+                                    <ws:Function value="{{ itemTemplate.item.contents.title }}">Controls/validate:isRequired</ws:Function>
+                                    <ws:Function value="{{ itemTemplate.item.contents.title }}">Controls-demo/List/EditInPlace/Validators:Validators.size</ws:Function>
                                 </ws:validators>
                                 <ws:content>
-                                    <Controls.input:Text bind:value="itemTemplate.itemData.item.title"
+                                    <Controls.input:Text bind:value="itemTemplate.item.contents.title"
                                                          selectOnClick="{{ false }}" />
                                 </ws:content>
                             </Controls.validate:InputContainer>
@@ -106,10 +106,10 @@
                     <ws:contentTemplate>
                         <ws:partial template="Controls/list:EditingTemplate"
                                     attr:class="controls-EditingTemplateDemo"
-                                    value="{{ itemTemplate.itemData.item.title }}"
+                                    value="{{ itemTemplate.item.contents.title }}"
                                     enabled="{{true}}">
                             <ws:editorTemplate>
-                                <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.itemData.item.title"
+                                <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.item.contents.title"
                                                      selectOnClick="{{ false }}" />
                             </ws:editorTemplate>
                         </ws:partial>
@@ -135,10 +135,10 @@
                     <ws:contentTemplate>
                         <ws:partial template="Controls/list:EditingTemplate"
                                     attr:class="controls-EditingTemplateDemo"
-                                    value="{{ itemTemplate.itemData.item.title }}"
+                                    value="{{ itemTemplate.item.contents.title }}"
                                     enabled="{{true}}">
                             <ws:editorTemplate>
-                                <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.itemData.item.title"
+                                <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.item.contents.title"
                                                      selectOnClick="{{ false }}" />
                             </ws:editorTemplate>
                         </ws:partial>
@@ -163,10 +163,10 @@
                     <ws:contentTemplate>
                         <ws:partial template="Controls/list:EditingTemplate"
                                     attr:class="controls-EditingTemplateDemo"
-                                    value="{{ itemTemplate.itemData.item.title }}"
+                                    value="{{ itemTemplate.item.contents.title }}"
                                     enabled="{{true}}">
                             <ws:editorTemplate>
-                                <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.itemData.item.title"
+                                <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.item.contents.title"
                                                      selectOnClick="{{ false }}" />
                             </ws:editorTemplate>
                         </ws:partial>

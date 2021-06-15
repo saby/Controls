@@ -17,7 +17,7 @@
                     groupHistoryId="{{_groupHistoryId}}"
                     groupProperty="fullName">
                 <ws:groupTemplate>
-                    <ws:partial template="Controls/grid:GroupTemplate" itemData="{{itemData}}" expanderAlign="right">
+                    <ws:partial template="Controls/grid:GroupTemplate" scope="{{ _options }}" expanderAlign="right">
                     </ws:partial>
                 </ws:groupTemplate>
             </Controls.grid:View>

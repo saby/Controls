@@ -1,13 +1,13 @@
 /// <amd-module name='Controls/popupConfirmation' />
 /**
  * Библиотека контролов, которые реализуют содержимое всплывающих окон.
- * @library Controls/popupConfirmation
+ * @library
  * @public
  * @author Красильников А.С.
  */
 /*
  * popupConfirmation library
- * @library Controls/popupConfirmation
+ * @library
  * @public
  * @author Красильников А.С.
  */

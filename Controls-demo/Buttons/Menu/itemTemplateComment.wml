@@ -1,11 +1,11 @@
 <ws:partial template="Controls/dropdown:ItemTemplate"
-            itemData="{{itemData}}"
+            scope="{{ _options }}"
             multiLine="{{true}}">
    <ws:contentTemplate>
       <div class="ControlsDemo-ButtonsMenu__templateComment">
-         {{itemData.getPropValue(itemData.item, 'title')}}
+         {{itemData.getPropValue(item.contents, 'title')}}
          <div class="ControlsDemo-ButtonsMenu__comment">
-            {{itemData.getPropValue(itemData.item, 'comment')}}
+            {{itemData.getPropValue(item.contents, 'comment')}}
          </div>
       </div>
    </ws:contentTemplate>
