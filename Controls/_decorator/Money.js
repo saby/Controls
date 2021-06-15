@@ -5,20 +5,21 @@ define('Controls/_decorator/Money', ['UI/Executor', 'Controls/_decorator/resourc
         var key = thelpers.validateNodeKey(attr && attr.key);
 
         var value = data.value || null;
-        var useGrouping = data.useGrouping || true;
+        var useGrouping = data.useGrouping === false ? false : true;
         var abbreviationType = data.abbreviationType || 'none';
-        var formattedNumber = Money.calculateFormattedNumber(value, useGrouping, abbreviationType);
+        var precision = data.precision === 0 ? 0 : 2;
+        var formattedNumber = Money.calculateFormattedNumber(value, useGrouping, abbreviationType, precision);
         var stroked = data.stroked || false;
         var fontColorStyle = Money.calculateFontColorStyle(stroked, data) || 'default';
         var fontSize = data.fontSize || 'm';
         var fontWeight = data.fontWeight || 'default';
-        var showEmptyDecimals = data.showEmptyDecimals || true;
+        var showEmptyDecimals = data.showEmptyDecimals === false ? false : true;
         var currencySize = data.currencySize || 's';
         var currencyPosition = data.currencyPosition || 'right';
         var underline = data.underline || 'none';
         var currency = Money.calculateCurrency(data.currency);
         var fractionFontSize = Money.calculateFractionFontSize(fontSize);
-        var isDisplayFractionPath = Money.isDisplayFractionPath(value, showEmptyDecimals);
+        var isDisplayFractionPath = Money.isDisplayFractionPath(formattedNumber.fraction, showEmptyDecimals, precision);
 
         var mainClass = Money.calculateMainClass(underline, data.style);
         var calculateCurrencyClass = Money.calculateCurrencyClass(currencySize, fontColorStyle, fontWeight);
