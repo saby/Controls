@@ -1,5 +1,5 @@
 import {Model, Record} from 'Types/entity';
-import {DataSet, SbisService, ICrudPlus, Query, QueryOrderSelector, DataMixin} from 'Types/source';
+import {DataSet, SbisService, Memory, Query, QueryOrderSelector} from 'Types/source';
 import {Logger} from 'UI/Utils';
 import {ISelectionObject} from 'Controls/interface';
 import {Confirmation, Dialog, IBasePopupOptions} from 'Controls/popup';
@@ -11,7 +11,7 @@ import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import {ISiblingStrategy} from '../interface/ISiblingStrategy';
 
 // @todo https://online.sbis.ru/opendoc.html?guid=2f35304f-4a67-45f4-a4f0-0c928890a6fc
-type TSource = SbisService|ICrudPlus & DataMixin;
+type TSource = SbisService|Memory;
 type TFilterObject = IHashMap<any>;
 
 interface IValidationResult {
