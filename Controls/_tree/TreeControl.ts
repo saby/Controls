@@ -311,6 +311,8 @@ const _private = {
         } else {
             reset();
         }
+
+        self._expandController.applyStateToModel();
     },
 
     reloadItem(self: TreeControl, key: TKey) {
