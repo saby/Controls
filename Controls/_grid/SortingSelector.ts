@@ -27,8 +27,12 @@ export interface ISortingSelectorOptions extends IControlOptions, IFontColorStyl
     value: [object];
     header: string;
     viewMode: IViewMode;
+    iconSize: 's' | 'm' | 'l';
 }
 
+const iconSizeMap = {
+    s: 'm', m: 'l'
+};
 /**
  * Контрол в виде кнопки с выпадающим меню, используемый для изменения сортировки. Рекомендуется, если в реестре нет заголовков.
  *
@@ -144,6 +148,14 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
         }
     }
 
+    private _getIconSize(): string {
+        return this._nocaption ? (iconSizeMap[this._options.iconSize] || 'l') : 's';
+    }
+
+    private _getInlineHeight(): string {
+        return this._nocaption ? (this._options.viewMode !== 'linkButton' ? 'xl' : this._options.iconSize) : 'm';
+    }
+
     protected _dropdownItemClick(e: SyntheticEvent<Event>, key: number|string): boolean | void {
         if (key === null) {
             this._resetValue();
@@ -205,7 +217,8 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
     }
     static getDefaultOptions(): Partial<ISortingSelectorOptions> {
         return {
-            viewMode: 'linkButton'
+            viewMode: 'linkButton',
+            iconSize: 'm'
         };
     }
 }
@@ -339,5 +352,15 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
  * @cfg {String} Заголовок для выпадающего списка сортировки.
  * @remark Если заголовок не требуется, опцию можно не указывать.
  * @demo Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithHeader/Index
+ */
+
+/**
+ * @name Controls/grid:SortingSelector#iconSize
+ * @cfg {String} Размер иконки кнопки.
+ * @variant s малый
+ * @variant m средний
+ * @variant l большой
+ * @remark Не влияет на размер иконок в меню, их размер фиксирован.
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/IconSize/Index
  */
 export default SortingSelector;
