@@ -217,6 +217,8 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
       if (changed) {
          if (this._viewMode !== 'label') {
             this._styleClass = '';
+            // В стандарте выбора периода цвет вызывающего элемента в режиме чтения отличается от цвета в стандарте
+            // фильтров. Не будем навешивать свой цвет, если контрол используется в фильтрах.
             if (newOption.readOnly && newOption.type !== 'filter') {
                this._styleClass = 'controls-DateLinkView__style-readOnly';
                this._fontColorStyle = 'default';
