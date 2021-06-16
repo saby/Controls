@@ -7609,7 +7609,7 @@ define([
             secondBaseControl.getViewModel().setCollection(rs);
             secondBaseControl._documentDragging = true;
 
-            secondBaseControl._notify = () => true;
+            secondBaseControl._notify = (eName) => eName === 'beforeSelectionChanged' ? undefined : true;
             const dragEntity = new dragNDrop.ItemsEntity({ items: [1] });
             secondBaseControl._dragEnter({ entity: dragEntity });
             assert.isOk(secondBaseControl._dndListController);
@@ -7618,7 +7618,7 @@ define([
 
             secondBaseControl._dndListController = null;
             const newRecord = new entity.Model({ rawData: { id: 0 }, keyProperty: 'id' });
-            secondBaseControl._notify = () => newRecord;
+            secondBaseControl._notify = (eName) => eName === 'beforeSelectionChanged' ? undefined : newRecord;
             secondBaseControl._dragEnter({ entity: dragEntity });
             assert.isOk(secondBaseControl._dndListController);
             assert.isOk(secondBaseControl._dndListController.getDragEntity());
