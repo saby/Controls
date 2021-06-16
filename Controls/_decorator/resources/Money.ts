@@ -153,6 +153,14 @@ export function calculateFontColorStyle(stroked: boolean, options: IMoneyOptions
     }
 }
 
+export function calculateTooltip(formattedNumber: object, options: IMoneyOptions): string {
+    if (options.hasOwnProperty('tooltip')) {
+        return options.tooltip;
+    }
+
+    return formattedNumber.number;
+}
+
 export function isDisplayFractionPath(value: string, showEmptyDecimals: boolean): boolean {
     return showEmptyDecimals || value !== '.00';
 }
@@ -163,10 +171,12 @@ export function calculateFormattedNumber(value: TValue, useGrouping: boolean, ab
     let [integer, fraction] = splitValueIntoParts(formattedValue);
 
     if (abbreviationType === 'long') {
-        integer = correctValue(abbreviateNumber(formattedValue, abbreviationType));
+        integer = abbreviateNumber(formattedValue, abbreviationType);
     } else {
         integer = useGrouping ? splitIntoTriads(integer) : integer;
     }
+
+    integer = correctValue(integer);
 
     return {
         integer,
@@ -179,18 +189,17 @@ function toFormat(value: string): string {
     const dotPosition = value.indexOf('.');
 
     if (dotPosition === -1) {
-        return correctValue(`${value}.${ZERO_FRACTION_PATH}`);
+        return value + `.${ZERO_FRACTION_PATH}`;
     }
 
     const fractionLength = value.length - dotPosition - 1;
-    let result: string = value;
     if (fractionLength < FRACTION_LENGTH) {
-        result = value + '0'.repeat(FRACTION_LENGTH - fractionLength);
+        return value + '0'.repeat(FRACTION_LENGTH - fractionLength);
     } else if (fractionLength > FRACTION_LENGTH) {
-        result = value.substr(0, dotPosition + FRACTION_LENGTH + 1);
+        return value.substr(0, dotPosition + FRACTION_LENGTH + 1);
     }
 
-    return correctValue(result);
+    return value;
 }
 
 function correctValue(value: string): string {

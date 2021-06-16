@@ -19,6 +19,7 @@ define('Controls/_decorator/Money', ['UI/Executor', 'Controls/_decorator/resourc
       var currency = Money.calculateCurrency(data.currency);
       var fractionFontSize = Money.calculateFractionFontSize(fontSize);
       var isDisplayFractionPath = Money.isDisplayFractionPath(value, showEmptyDecimals);
+      var tooltip = Money.calculateTooltip(formattedNumber, data);
 
       var mainClass = Money.calculateMainClass(underline, data.style);
       var calculateCurrencyClass = Money.calculateCurrencyClass(currencySize, fontColorStyle, fontWeight);
@@ -40,7 +41,7 @@ define('Controls/_decorator/Money', ['UI/Executor', 'Controls/_decorator/resourc
          var out = markupGenerator.joinElements([markupGenerator.createTag('span', {
             'attributes': {
                'class': mainClass,
-               'title': data.tooltip || formattedNumber.fraction
+               'title': tooltip
             },
             'events': {},
             'key': key + '0_'

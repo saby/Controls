@@ -37,6 +37,7 @@ export {default as IMask} from 'Controls/_decorator/resources/IMask';
 export {default as Date, IDateOptions} from 'Controls/_decorator/Date';
 export {Money};
 export {IMoneyOptions} from 'Controls/_decorator/resources/Money';
+export * as MoneyFunctions from 'Controls/_decorator/resources/Money';
 
 export * from './_decorator/resources/IMask';
 export * from './_decorator/resources/Util';
