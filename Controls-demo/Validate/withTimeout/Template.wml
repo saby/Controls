@@ -1,0 +1,36 @@
+<div class="controlsDemo__ml1">
+    <div>Синхронный валидатор</div>
+    <div class="controlsDemo__cell ws-flexbox">
+        <Controls.validate:InputContainer name="InputValidate"
+                                          value="{{_value1}}">
+            <ws:validators>
+                <ws:Function value="{{_value1}}">Controls/validate:isEmail</ws:Function>
+            </ws:validators>
+            <ws:content>
+                <Controls.input:Text
+                        name="textBox"
+                        bind:value="_value1"
+                        placeholder="Введите Email"/>
+            </ws:content>
+        </Controls.validate:InputContainer>
+    </div>
+    <div class="controls-text-secondary">Асинхронная валидация.После ввода данных произойдет имитация долгой
+        валидации(более 2с), в следствии чего появится индикатор.</div>
+    <div class="controlsDemo__cell ws-flexbox">
+        <Controls.validate:InputContainer name="InputValidate"
+                                          value="{{_value2}}">
+            <ws:validators>
+                <ws:Function value="{{_value2}}">Controls-demo/Validate/withTimeout/validationFunc:default</ws:Function>
+            </ws:validators>
+            <ws:errorTemplate>
+                <div class="controls-text-secondary">Ошибка валидации</div>
+            </ws:errorTemplate>
+            <ws:content>
+                <Controls.input:Text
+                        name="textBox"
+                        bind:value="_value2"
+                        placeholder="Введите Email"/>
+            </ws:content>
+        </Controls.validate:InputContainer>
+    </div>
+</div>
