@@ -25,7 +25,6 @@ export type TTagStyle = 'info' | 'danger' | 'primary' | 'success' | 'warning' | 
  * Интерфейс для конфигурации колонки c тегом в {@link Controls/grid:View таблице} и {@link Controls/treeGrid:View дереве}.
  *
  * @interface Controls/_grid/interface/ITagColumn
- * @mixes Controls/_gridOld/interface/IColumn
  * @public
  * @author Аверкиев П.А.
  */
@@ -33,7 +32,6 @@ export type TTagStyle = 'info' | 'danger' | 'primary' | 'success' | 'warning' | 
  * Interface for column with enabled tagTemplate in controls {@link Controls/grid:View Таблица} & {@link Controls/treeGrid:View Дерево}.
  *
  * @interface Controls/_grid/interface/ITagColumn
- * @mixes Controls/_gridOld/interface/IColumn
  * @public
  * @author Аверкиев П.А.
  */

@@ -20,7 +20,6 @@ describe('Controls/grid_clean/GridView', () => {
                 columns: [{}],
             };
             const gridOptions = {
-                useNewModel: true,
                 listModel: new GridCollection(collectionOptions),
                 keyProperty: 'key',
                 footerTemplate: () => '',

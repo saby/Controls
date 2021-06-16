@@ -5,9 +5,7 @@ define([
    'Types/source',
    'Types/collection',
    'Controls/list',
-   'Controls/tree',
-   'Controls/treeGridOld',
-   'Controls/gridOld',
+   'Controls/treeGrid',
    'Controls/toolbars',
    'Core/Deferred',
    'Core/core-instance',
@@ -23,8 +21,9 @@ define([
    'Controls/itemActions',
    'Controls/dataSource',
    'Controls/marker',
-   'Core/polyfill/PromiseAPIDeferred'
-], function(sourceLib, collection, lists, tree, treeGrid, grid, tUtil, cDeferred, cInstance, Env, EnvTouch, clone, entity, SettingsController, popup, listDragNDrop, dragNDrop, listRender, itemActions, dataSource, marker) {
+   'Controls/display',
+   'Core/polyfill/PromiseAPIDeferred',
+], function(sourceLib, collection, lists, treeGrid, tUtil, cDeferred, cInstance, Env, EnvTouch, clone, entity, SettingsController, popup, listDragNDrop, dragNDrop, listRender, itemActions, dataSource, marker, display) {
    describe('Controls.List.BaseControl', function() {
       var data, result, source, rs, sandbox;
 
@@ -175,10 +174,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             source: source,
             filter: filter
          };
@@ -197,7 +196,7 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
             navigation: {
@@ -212,7 +211,7 @@ define([
             virtualScrollConfig: {
                pageSize: 100
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             source: source
          };
          var ctrl = await correctCreateBaseControlAsync(cfg);
@@ -363,82 +362,6 @@ define([
          });
       });
 
-      it('setHasMoreData', async function() {
-         var gridColumns = [
-            {
-               displayProperty: 'title',
-               width: '1fr',
-               valign: 'top',
-               style: 'default',
-               textOverflow: 'ellipsis'
-            },
-            {
-               displayProperty: 'price',
-               width: 'auto',
-               align: 'right',
-               valign: 'bottom',
-               style: 'default'
-            },
-            {
-               displayProperty: 'balance',
-               width: 'auto',
-               align: 'right',
-               valign: 'middle',
-               style: 'default'
-            }
-         ];
-         var gridData = [
-            {
-               'id': '123',
-               'title': 'Хлеб',
-               'price': 50,
-               'balance': 15
-            },
-         ];
-         var source = new sourceLib.Memory({
-            idProperty: 'id',
-            data: gridData,
-         });
-         var sourceController = new dataSource.NewSourceController({
-            source: source,
-            keyProperty: 'id'
-         });
-         sourceController.setItems(new collection.RecordSet({ rawData: gridData }));
-         var cfg = {
-            viewName: 'Controls/Grid/GridView',
-            source: source,
-            sourceController: sourceController,
-            displayProperty: 'title',
-            columns: gridColumns,
-            resultsPosition: 'top',
-            keyProperty: 'id',
-            navigation: {
-               view: 'infinity',
-               source: 'page',
-               sourceConfig: {
-                  pageSize: 2,
-                  page: 0,
-                  hasMore: false
-               }
-            },
-            virtualScrollConfig: {
-               pageSize: 100
-            },
-            viewModelConstructor: grid.GridViewModel,
-         };
-         var ctrl = correctCreateBaseControl(cfg);
-         ctrl.saveOptions(cfg);
-         await ctrl._beforeMount(cfg);
-         assert.equal(undefined, ctrl.getViewModel()
-            .getResultsPosition());
-
-         ctrl._sourceController.hasMoreData = () => true;
-         await ctrl.reload();
-         assert.equal('top', ctrl.getViewModel()
-            .getResultsPosition());
-      });
-
-
       it('errback to callback', function() {
          return new Promise(function(resolve, reject) {
             var source = new sourceLib.Memory({
@@ -461,10 +384,10 @@ define([
                   keyProperty: 'key'
                },
                viewModelConfig: {
-                  items: [],
+                  collection: [],
                   keyProperty: 'key'
                },
-               viewModelConstructor: lists.ListViewModel
+               viewModelConstructor: 'Controls/display:Collection'
             };
 
             var ctrl = correctCreateBaseControl(cfg);
@@ -509,7 +432,7 @@ define([
          const cfg = {
             viewName: 'Controls/List/ListView',
             source: new sourceLib.Memory({}),
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             keyProperty: 'id',
             dataLoadCallback: function() {
                dataLoadCallbackCalled = true;
@@ -563,7 +486,7 @@ define([
                 viewName: 'Controls/List/ListView',
                 source: source,
                 sourceController: sourceController,
-                viewModelConstructor: lists.ListViewModel,
+                viewModelConstructor: 'Controls/display:Collection',
                 keyProperty: 'id'
              },
              loadedItems = new collection.RecordSet({
@@ -613,7 +536,7 @@ define([
                 viewName: 'Controls/List/ListView',
                 source: source,
                 sourceController: sourceController,
-                viewModelConstructor: lists.ListViewModel,
+                viewModelConstructor: 'Controls/display:Collection',
                 keyProperty: 'id',
                 itemsReadyCallback
              },
@@ -661,10 +584,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel
+            viewModelConstructor: 'Controls/display:Collection'
          };
 
          var ctrl = correctCreateBaseControl(cfg);
@@ -682,10 +605,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             navigation: {
                view: 'infinity',
                source: 'page',
@@ -724,10 +647,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             navigation: {
                source: 'page',
                sourceConfig: {
@@ -760,14 +683,14 @@ define([
          assert.equal(4, lists.BaseControl._private.getItemsCount(ctrl), 'Items wasn\'t load');
          assert.isTrue(dataLoadFired, 'dataLoadCallback is not fired');
          assert.equal(ctrl._loadingState, null);
-         assert.isTrue(ctrl._listViewModel.getHasMoreData());
+         assert.deepEqual(ctrl._listViewModel.getHasMoreData(), { up: false, down: true });
          assert.isTrue(ctrl._sourceController.hasMoreData('down', 'testRoot'));
 
          loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
          await loadPromise;
          assert.isFalse(ctrl._portionedSearchInProgress);
          assert.isNull(ctrl._showContinueSearchButtonDirection);
-         assert.isFalse(ctrl._listViewModel.getHasMoreData());
+         assert.deepEqual(ctrl._listViewModel.getHasMoreData(), { up: false, down: false });
       });
 
       it('loadToDirection down with portioned load', async function() {
@@ -791,10 +714,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             navigation: {
                source: 'page',
                sourceConfig: {
@@ -847,10 +770,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             navigation: {
                source: 'page',
                sourceConfig: {
@@ -880,11 +803,11 @@ define([
          assert.equal(4, lists.BaseControl._private.getItemsCount(ctrl), 'Items wasn\'t load');
          assert.isTrue(dataLoadFired, 'dataLoadCallback is not fired');
          assert.equal(ctrl._loadingState, null);
-         assert.isTrue(ctrl._listViewModel.getHasMoreData());
+         assert.deepEqual(ctrl._listViewModel.getHasMoreData(), { up: false, down: true });
 
          loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
          await loadPromise;
-         assert.isFalse(ctrl._listViewModel.getHasMoreData());
+         assert.deepEqual(ctrl._listViewModel.getHasMoreData(), { up: false, down: false });
       });
 
       describe('_continueSearch', () => {
@@ -991,10 +914,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             navigation: {
                view: 'infinity',
                source: 'page',
@@ -1083,10 +1006,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             navigation: {
                view: 'infinity',
                source: 'page',
@@ -1274,10 +1197,6 @@ define([
                   getMetaData: () => ({
                      more: test.data[2].getAllDataCount()
                   })
-               }),
-               getDisplay: () => ({
-                  '[Controls/_display/Tree]': false,
-				  getCount: () => test.data[2].getLoadedDataCount(),
                })
             };
             lists.BaseControl._private.prepareFooter.apply(null, test.data);
@@ -1287,8 +1206,7 @@ define([
             test.data[1].groupingKeyCallback = () => 123;
             baseControl._listViewModel = {
                isAllGroupsCollapsed: () => true,
-               getCount: () => undefined,
-               getDisplay: () => ({})
+               getCount: () => undefined
             };
             lists.BaseControl._private.prepareFooter.apply(null, test.data);
             assert.isFalse(test.data[0]._shouldDrawFooter, 'Invalid prepare footer on step #' + index + ' with all collapsed groups');
@@ -1298,7 +1216,7 @@ define([
       it('moveMarker activates the control', async function() {
          const
             cfg = {
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                keyProperty: 'key',
                source: new sourceLib.Memory({
                   idProperty: 'key',
@@ -1365,7 +1283,7 @@ define([
          }));
          var
             cfg = {
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                markerVisibility: 'visible',
                keyProperty: 'key',
                source: source,
@@ -1374,8 +1292,8 @@ define([
             baseControl = correctCreateBaseControl(cfg);
          baseControl.saveOptions(cfg);
          await baseControl._beforeMount(cfg);
-         baseControl._listViewModel.setMarkedKey(1);
-         assert.equal(1, baseControl._listViewModel.getMarkedKey());
+         baseControl.setMarkedKey(1);
+         assert.equal(1, baseControl.getMarkerController().getMarkedKey());
          baseControl._loadingIndicatorState = 'all';
          baseControl._onViewKeyDown({
             target: {
@@ -1391,7 +1309,7 @@ define([
             preventDefault: function() {
             },
          });
-         assert.equal(1, baseControl._listViewModel.getMarkedKey());
+         assert.isTrue(baseControl._listViewModel.at(0).isMarked());
          baseControl._onViewKeyDown({
             target: {
                closest: function() {
@@ -1406,13 +1324,13 @@ define([
             preventDefault: function() {
             },
          });
-         assert.equal(1, baseControl._listViewModel.getMarkedKey());
+         assert.isTrue(baseControl._listViewModel.at(0).isMarked());
       });
 
       it('enterHandler', async function() {
          var
             cfg = {
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                markerVisibility: 'visible',
                keyProperty: 'key',
                markedKey: 1,
@@ -1470,7 +1388,7 @@ define([
             const event = { nativeEvent: { ctrlKey: false }, isStopped: () => true, stopImmediatePropagation: () => {} };
             lists.BaseControl._private.enterHandler(
             {
-               _options: {useNewModel: false},
+               _options: {},
                getViewModel: () => ({
                   getMarkedItem: () => myMarkedItem
                }),
@@ -1514,10 +1432,10 @@ define([
             cfg = getCorrectBaseControlConfig({
                viewName: 'Controls/List/ListView',
                viewModelConfig: {
-                  items: [],
+                  collection: [],
                   keyProperty: 'key'
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                keyProperty: 'key',
                source,
                ...options
@@ -1608,7 +1526,7 @@ define([
                viewName: 'Controls/List/ListView',
                source: lnSource,
                keyProperty: 'id',
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                selectedKeys: [1],
                excludedKeys: []
             },
@@ -1636,10 +1554,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: rs,
+               collection: rs,
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             navigation: {
                source: 'page',
                sourceConfig: {
@@ -1678,8 +1596,8 @@ define([
             viewName: 'Controls/List/ListView',
             source: source,
             viewConfig: { keyProperty: 'id' },
-            viewModelConfig: { items: [], keyProperty: 'id' },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConfig: { collection: [], keyProperty: 'id' },
+            viewModelConstructor: 'Controls/display:Collection',
             navigation: {
                source: 'page',
                sourceConfig: {
@@ -1749,10 +1667,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: rs,
+               collection: rs,
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             navigation: {
                view: 'infinity',
                source: 'page',
@@ -2024,10 +1942,10 @@ define([
                   keyProperty: 'id'
                },
                viewModelConfig: {
-                  items: rs,
+                  collection: rs,
                   keyProperty: 'id'
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                navigation: {
                   view: 'infinity',
                   source: 'page',
@@ -2143,10 +2061,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: rs,
+               collection: rs,
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             navigation: {
                view: 'infinity',
                source: 'page',
@@ -2369,10 +2287,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: rs,
+               collection: rs,
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             navigation: {
                source: 'page',
                sourceConfig: {
@@ -2439,11 +2357,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: rs,
+               collection: rs,
                keyProperty: 'id'
             },
             viewModelConstructor: 'Controls/display:Collection',
-            useNewModel: true,
             navigation: {
                source: 'page',
                sourceConfig: {
@@ -2493,10 +2410,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: rs,
+               collection: rs,
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             navigation: {
                source: 'page',
                sourceConfig: {
@@ -2601,12 +2518,12 @@ define([
 
       it('__needShowEmptyTemplate', async function() {
          let baseControlOptions = {
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             viewConfig: {
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: rs,
+               collection: rs,
                keyProperty: 'id'
             },
             viewName: 'Controls/List/ListView',
@@ -2695,7 +2612,7 @@ define([
                 source: lnSource,
                 keyProperty: 'id',
                 markedKey: 3,
-                viewModelConstructor: lists.ListViewModel
+                viewModelConstructor: 'Controls/display:Collection'
              },
              lnBaseControl = correctCreateBaseControl(lnCfg);
 
@@ -2715,7 +2632,7 @@ define([
                viewName: 'Controls/List/ListView',
                source: lnSource,
                keyProperty: 'id',
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                selectedKeys: [1],
                excludedKeys: [],
                markedKey: 1,
@@ -2731,7 +2648,7 @@ define([
          assert.isTrue(item.isSelected());
 
          // Меняю наверняка items, чтобы если этого не произойдет в reload, упали тесты
-         baseControl._listViewModel.setItems(new collection.RecordSet({
+         baseControl._listViewModel.setCollection(new collection.RecordSet({
             keyProperty: 'id',
             rawData: data
          }));
@@ -2739,12 +2656,6 @@ define([
          item = baseControl._listViewModel.getItemBySourceKey(1);
          item.setMarked(false);
          item.setSelected(false);
-
-         await baseControl.reload(false, {});
-
-         item = baseControl._listViewModel.getItemBySourceKey(1);
-         assert.isTrue(item.isMarked());
-         assert.isTrue(item.isSelected());
       });
 
       describe('getItemActionsController', () => {
@@ -2787,11 +2698,11 @@ define([
                   idProperty: 'id'
                },
                viewModelConfig: {
-                  items: [],
+                  collection: [],
                   idProperty: 'id'
                },
                markedKey: null,
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                source: source,
                keyProperty: 'id'
             };
@@ -2886,11 +2797,12 @@ define([
          let cfg;
          let baseControl;
 
-         const initTestBaseControl = (config) => {
+         const initTestBaseControl = async (cfg) => {
+            const config = await getCorrectBaseControlConfigAsync(cfg);
             const _baseControl = new lists.BaseControl(config);
             _baseControl.saveOptions(config);
             _baseControl._beginAdd = () => Promise.resolve();
-            _baseControl._beforeMount(config);
+            await _baseControl._beforeMount(config);
             _baseControl._container = {
                clientHeight: 100,
                getBoundingClientRect: () => ({ y: 0 })
@@ -2916,7 +2828,7 @@ define([
                      title: '123'
                   }
                ],
-               viewModelConstructor: lists.ListViewModel
+               viewModelConstructor: 'Controls/display:Collection'
             };
             isActionsUpdated = false;
             stubItemActionsController = sinon.stub(itemActions.Controller.prototype, 'update').callsFake(() => {
@@ -2928,16 +2840,20 @@ define([
             stubItemActionsController.restore();
          });
 
-         it('control in error state, should not call update', function() {
-            baseControl = initTestBaseControl(cfg);
+         it('control in error state, should not call update', async function() {
+            baseControl = await initTestBaseControl(cfg);
+            baseControl._itemActionsController = null;
             baseControl.__error = true;
+            isActionsUpdated = false;
             lists.BaseControl._private.updateItemActions(baseControl, baseControl._options);
             assert.isFalse(isActionsUpdated);
             baseControl.__error = false;
          });
-         it('without listViewModel should not call update', function() {
-            baseControl = initTestBaseControl(cfg);
+         it('without listViewModel should not call update', async function() {
+            baseControl = await initTestBaseControl(cfg);
             baseControl._listViewModel = null;
+            baseControl._itemActionsController = null;
+            isActionsUpdated = false;
             lists.BaseControl._private.updateItemActions(baseControl, baseControl._options);
             assert.isFalse(isActionsUpdated);
             baseControl._beforeMount(cfg);
@@ -2945,26 +2861,26 @@ define([
 
          // Если нет опций записи, проперти, и тулбар для редактируемой записи выставлен в false, то не надо
          // инициализировать контроллер
-         it('should not initialize controller when there are no itemActions, no itemActionsProperty and toolbarVisibility is false', () => {
-            baseControl = initTestBaseControl({ ...cfg, itemActions: null });
+         it('should not initialize controller when there are no itemActions, no itemActionsProperty and toolbarVisibility is false', async () => {
+            baseControl = await initTestBaseControl({ ...cfg, itemActions: null });
             lists.BaseControl._private.updateItemActions(baseControl, baseControl._options);
             assert.isFalse(isActionsUpdated);
          });
 
-         it('should initialize controller when itemActions are set, but, there are no itemActionsProperty and toolbarVisibility is false', () => {
-            baseControl = initTestBaseControl({ ...cfg });
+         it('should initialize controller when itemActions are set, but, there are no itemActionsProperty and toolbarVisibility is false', async () => {
+            baseControl = await initTestBaseControl({ ...cfg });
             lists.BaseControl._private.updateItemActions(baseControl, baseControl._options);
             assert.isTrue(isActionsUpdated);
          });
 
-         it('should initialize controller when itemActionsProperty is set, but, there are no itemActions and toolbarVisibility is false', () => {
-            baseControl = initTestBaseControl({ ...cfg, itemActions: null, itemActionsProperty: 'myActions' });
+         it('should initialize controller when itemActionsProperty is set, but, there are no itemActions and toolbarVisibility is false', async () => {
+            baseControl = await initTestBaseControl({ ...cfg, itemActions: null, itemActionsProperty: 'myActions' });
             lists.BaseControl._private.updateItemActions(baseControl, baseControl._options);
             assert.isTrue(isActionsUpdated);
          });
 
-         it('should initialize controller when toolbarVisibility is true, but, there are no itemActions and no itemActionsProperty', () => {
-            baseControl = initTestBaseControl({
+         it('should initialize controller when toolbarVisibility is true, but, there are no itemActions and no itemActionsProperty', async () => {
+            baseControl = await initTestBaseControl({
                ...cfg,
                itemActions: null,
                editingConfig: {
@@ -2984,7 +2900,7 @@ define([
                viewName: 'Controls/List/ListView',
                source: source,
                keyProperty: 'id',
-               viewModelConstructor: lists.ListViewModel
+               viewModelConstructor: 'Controls/display:Collection'
             },
             baseControl = correctCreateBaseControl(cfg),
             doScrollNotified = false;
@@ -3047,7 +2963,7 @@ define([
                viewName: 'Controls/List/ListView',
                source: lnSource,
                keyProperty: 'id',
-               viewModelConstructor: lists.ListViewModel
+               viewModelConstructor: 'Controls/display:Collection'
             },
             lnBaseControl = new lists.BaseControl(lnCfg);
          lnBaseControl.saveOptions(lnCfg);
@@ -3075,7 +2991,7 @@ define([
                 viewName: 'Controls/List/ListView',
                 source: lnSource,
                 keyProperty: 'id',
-                viewModelConstructor: lists.ListViewModel
+                viewModelConstructor: 'Controls/display:Collection'
              },
              lnBaseControl = new lists.BaseControl(lnCfg);
          lnBaseControl.saveOptions(lnCfg);
@@ -3102,7 +3018,7 @@ define([
                keyProperty: 'id',
                viewName: 'Controls/List/ListView',
                source: source,
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                itemActions: [{id: 1}, {id: 2}]
             };
             originalEvent = {
@@ -3128,7 +3044,7 @@ define([
                   stopPropagationCalled = true;
                }
             };
-            ctrl._onItemClick(event, ctrl._listViewModel.getItems().at(2), originalEvent);
+            ctrl._onItemClick(event, ctrl._listViewModel.getCollection().at(2), originalEvent);
             assert.isTrue(stopPropagationCalled);
          });
 
@@ -3141,7 +3057,7 @@ define([
                },
                isBubbling: () => false
             };
-            ctrl._onItemClick(event, ctrl._listViewModel.getItems().at(2), {
+            ctrl._onItemClick(event, ctrl._listViewModel.getCollection().at(2), {
                target: { closest: () => null }
             });
             assert.isFalse(stopPropagationCalled);
@@ -3156,7 +3072,7 @@ define([
                isDeactivateSwipeCalled = true;
             };
             ctrl._listViewModel.setActionsAssigned(true);
-            ctrl._onItemClick(event, ctrl._listViewModel.getItems().at(2), originalEvent);
+            ctrl._onItemClick(event, ctrl._listViewModel.getCollection().at(2), originalEvent);
             assert.isTrue(isDeactivateSwipeCalled);
          });
       });
@@ -3170,10 +3086,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             source: source,
          };
          const ctrl = await correctCreateBaseControlAsync(cfg);
@@ -3191,10 +3107,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             source: undefined,
          };
          let cfgWithSource = await getCorrectBaseControlConfigAsync({
@@ -3225,10 +3141,9 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            useNewModel: true,
             viewModelConstructor: 'Controls/display:Collection',
             source: source,
          };
@@ -3268,26 +3183,21 @@ define([
             itemActionsPosition: 'outside'
          };
          let count = 10;
-         let items = {
-            getCount: function() {
-               return count;
-            }
-         };
          const model = {
             isEditing: function() {
                return false;
             },
-            getDisplay: () => ({
-               getCount: () => count
-            })
+            getCount: function() {
+               return count;
+            }
          };
          const editingModel = {
             isEditing: function() {
                return true;
             },
-            getDisplay: () => ({
-               getCount: () => count
-            })
+            getCount: function() {
+               return count;
+            }
          };
 
          assert.isTrue(lists.BaseControl._private.needBottomPadding(cfg, model), "itemActionsPosinon is outside, padding is needed");
@@ -3332,10 +3242,10 @@ define([
                      keyProperty: 'id'
                   },
                   viewModelConfig: {
-                     items: rs,
+                     collection: rs,
                   },
                   keyProperty: 'id',
-                  viewModelConstructor: lists.ListViewModel,
+                  viewModelConstructor: 'Controls/display:Collection',
                   navigation: {
                      source: 'page',
                      sourceConfig: {
@@ -3434,10 +3344,10 @@ define([
                      keyProperty: 'id'
                   },
                   viewModelConfig: {
-                     items: rs,
+                     collection: rs,
                      keyProperty: 'id'
                   },
-                  viewModelConstructor: lists.ListViewModel,
+                  viewModelConstructor: 'Controls/display:Collection',
                   editingConfig: {
                      addPosition: 'top'
                   },
@@ -3502,11 +3412,11 @@ define([
                      keyProperty: 'id'
                   },
                   viewModelConfig: {
-                     items: rs,
+                     collection: rs,
                      keyProperty: 'id',
                      selectedKeys: [1, 3]
                   },
-                  viewModelConstructor: lists.ListViewModel,
+                  viewModelConstructor: 'Controls/display:Collection',
                   navigation: {
                      source: 'page',
                      sourceConfig: {
@@ -3650,11 +3560,11 @@ define([
                      keyProperty: 'id'
                   },
                   viewModelConfig: {
-                     items: rs,
+                     collection: rs,
                      keyProperty: 'id',
                      selectedKeys: [1, 3]
                   },
-                  viewModelConstructor: lists.ListViewModel,
+                  viewModelConstructor: 'Controls/display:Collection',
                   navigation: {
                      source: 'page',
                      sourceConfig: {
@@ -3745,14 +3655,14 @@ define([
                   keyProperty: 'id'
                },
                viewModelConfig: {
-                  items: rs,
+                  collection: rs,
                   keyProperty: 'id',
                   selectedKeys: [1, 3]
                },
                editingConfig: {
                   item: new entity.Model({ keyProperty: 'id', rawData: { id: 1910 } })
                },
-               viewModelConstructor: lists.ListViewModel
+               viewModelConstructor: 'Controls/display:Collection'
             };
             const baseControl = correctCreateBaseControl(cfg);
             let isRegistered = false;
@@ -3781,11 +3691,11 @@ define([
                      keyProperty: 'id'
                   },
                   viewModelConfig: {
-                     items: rs,
+                     collection: rs,
                      keyProperty: 'id',
                      selectedKeys: [1, 3]
                   },
-                  viewModelConstructor: lists.ListViewModel
+                  viewModelConstructor: 'Controls/display:Collection'
                };
                const baseControl = correctCreateBaseControl(cfg);
                let isRegistered = false;
@@ -3820,33 +3730,42 @@ define([
             let cancelCalled;
 
             const cfg = {
+               groupProperty: 'group',
                viewName: 'Controls/List/ListView',
-               source: source,
+               source: new sourceLib.Memory({
+                  keyProperty: 'key',
+                  data: [
+                     {
+                        key: 1,
+                        group: 'gr1'
+                     },
+                     {
+                        key: 2,
+                        group: 'gr1'
+                     },
+                     {
+                        key: 3,
+                        group: 'gr1'
+                     }
+                  ]
+               }),
                viewConfig: {
                   keyProperty: 'id'
                },
                viewModelConfig: {
-                  items: rs,
+                  collection: rs,
                   keyProperty: 'id',
                   selectedKeys: [1, 3]
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                keyProperty: 'id',
             };
 
-            beforeEach(async () => {
+            beforeEach(async() => {
                cancelCalled = false;
-               ctrl = correctCreateBaseControl(cfg);
+               ctrl = await correctCreateBaseControlAsync(cfg);
                ctrl.saveOptions(cfg);
                await ctrl._beforeMount(cfg);
-               ctrl._listViewModel.getDisplay = () => ({
-                  find: () => ({
-                     contents: {}
-                  }),
-                  getGroup: () => () => 1,
-                  getCollapsedGroups: () => {}
-               });
-               ctrl._listViewModel.toggleGroup = () => {};
                ctrl.isEditing = () => true;
                ctrl._cancelEdit = () => {
                   cancelCalled = true;
@@ -3859,21 +3778,12 @@ define([
                sandbox.restore();
             });
 
-            it('should cancel editing if its group will be collapsed', () => {
-               ctrl._onGroupClick({}, 1, {
-                  target: {
-                     closest: () => true
-                  }
-               });
-               assert.isTrue(cancelCalled);
-            });
-
             it('should not cancel editing if the other group will be collapsed', () => {
-               ctrl._onGroupClick({}, 2, {
+               ctrl._onGroupClick({}, 'gr1', {
                   target: {
                      closest: () => true
                   }
-               });
+               }, ctrl.getViewModel().at(0));
                assert.isFalse(cancelCalled);
             });
 
@@ -3882,11 +3792,11 @@ define([
                   cancelCalled = false;
                   return Promise.resolve({ canceled: true });
                };
-               ctrl._onGroupClick({}, 1, {
+               ctrl._onGroupClick({}, 'gr1', {
                   target: {
                      closest: () => true
                   }
-               });
+               }, ctrl.getViewModel().at(0));
                assert.isFalse(cancelCalled);
             });
          });
@@ -3897,7 +3807,6 @@ define([
          const cfg = {
             viewName: 'Controls/List/ListView',
             viewModelConstructor: 'Controls/display:Collection',
-            useNewModel: true,
             keyProperty: 'id',
             groupProperty: 'group',
             source: new sourceLib.Memory({
@@ -3944,11 +3853,11 @@ define([
                    keyProperty: 'id'
                 },
                 viewModelConfig: {
-                   items: rs,
+                   collection: rs,
                    keyProperty: 'id',
                    selectedKeys: [1, 3]
                 },
-                viewModelConstructor: lists.ListViewModel,
+                viewModelConstructor: 'Controls/display:Collection',
                 navigation: {
                    source: 'page',
                    sourceConfig: {
@@ -3967,8 +3876,9 @@ define([
 
          ctrl = await correctCreateBaseControlAsync(cfg);
          ctrl.saveOptions(cfg);
+         await ctrl._beforeMount(cfg);
          ctrl.itemsDragNDrop = true;
-         ctrl._itemMouseDown({}, {key: 1}, {target: { closest: () => null }, nativeEvent: {button: 0}});
+         ctrl._itemMouseDown({}, ctrl.getViewModel().at(0), {target: { closest: () => null }, nativeEvent: {button: 0}});
          assert.isNull(ctrl._draggingItem);
       });
       it('can\'t start drag if canStartDragNDrop return false', async function () {
@@ -3980,11 +3890,11 @@ define([
                   keyProperty: 'id'
                },
                viewModelConfig: {
-                  items: rs,
+                  collection: rs,
                   keyProperty: 'id',
                   selectedKeys: [1, 3]
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                navigation: {
                   source: 'page',
                   sourceConfig: {
@@ -4004,8 +3914,9 @@ define([
             ctrl;
          ctrl = await correctCreateBaseControlAsync(cfg);
          ctrl.saveOptions(cfg);
+         await ctrl._beforeMount(cfg);
          ctrl.itemsDragNDrop = true;
-         ctrl._itemMouseDown({}, { key: 1 }, { target: { closest: () => null }, nativeEvent: { button: 0 } });
+         ctrl._itemMouseDown({}, ctrl.getViewModel().at(0), { target: { closest: () => null }, nativeEvent: { button: 0 } });
          assert.isNull(ctrl._draggingItem);
       });
 
@@ -4019,8 +3930,8 @@ define([
                selectedKeys: [],
                excludedKeys: [],
             },
-            _listViewModel: new lists.ListViewModel({
-               items: new collection.RecordSet({
+            _listViewModel: new display.Collection({
+               collection: new collection.RecordSet({
                   rawData: data,
                   keyProperty: 'id'
                }),
@@ -4094,7 +4005,7 @@ define([
                return dragEntity;
             },
             calculateDragPosition(params) {
-               assert.deepEqual(params.targetItem, itemData.dispItem);
+               assert.deepEqual(params.targetItem, itemData);
                return dragPosition;
             },
             setDragPosition(position) {
@@ -4177,12 +4088,12 @@ define([
                   keyProperty: 'id'
                },
                viewModelConfig: {
-                  items: rs,
+                  collection: rs,
                   keyProperty: 'id',
                   selectedKeys: [null],
                   excludedKeys: []
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                navigation: {
                   source: 'page',
                   sourceConfig: {
@@ -4245,10 +4156,10 @@ define([
                keyProperty: 'id'
             },
             viewModelConfig: {
-               items: rs,
+               collection: rs,
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel
+            viewModelConstructor: 'Controls/display:Collection'
          };
          var
             dragEnded,
@@ -4335,12 +4246,12 @@ define([
                   keyProperty: 'id'
                },
                viewModelConfig: {
-                  items: rs,
+                  collection: rs,
                   keyProperty: 'id',
                   selectedKeys: [null],
                   excludedKeys: []
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                navigation: {
                   source: 'page',
                   sourceConfig: {
@@ -4426,10 +4337,10 @@ define([
                   idProperty: 'id'
                },
                viewModelConfig: {
-                  items: rs,
+                  collection: rs,
                   idProperty: 'id'
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                source: source,
                selectedKeys: [1],
                excludedKeys: [],
@@ -4443,10 +4354,7 @@ define([
                }
             };
             instance.saveOptions(cfg);
-            return (instance._beforeMount(cfg) || Promise.resolve()).then(() => {
-               instance._listViewModel.setItems(rs, cfg);
-               instance._items = rs;
-            });
+            return (instance._beforeMount(cfg) || Promise.resolve());
          }
 
          function initSwipeEvent(direction) {
@@ -4782,11 +4690,11 @@ define([
                   idProperty: 'id'
                },
                viewModelConfig: {
-                  items: [],
+                  collection: [],
                   idProperty: 'id'
                },
                markedKey: null,
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                source: source,
                keyProperty: 'id'
             };
@@ -5088,12 +4996,12 @@ define([
             instance._itemActionsController.setActiveItem(item);
             instance.getViewModel()
                ._notify(
-                  'onListChange',
-                  'collectionChanged',
+                  'onCollectionChange',
                   collection.IObservable.ACTION_REMOVE,
                   null,
                   null,
                   [{
+                     ItemActionsItem: true,
                      getContents: () => {
                         return {
                            getKey: () => 2
@@ -5113,12 +5021,12 @@ define([
             instance._itemActionsController.setActiveItem(item);
             instance.getViewModel()
                ._notify(
-                  'onListChange',
-                  'collectionChanged',
+                  'onCollectionChange',
                   collection.IObservable.ACTION_REPLACE,
                   null,
                   null,
                   [{
+                     ItemActionsItem: true,
                      getContents: () => {
                         return {
                            getKey: () => 2
@@ -5126,6 +5034,41 @@ define([
                      },
                      setMarked: () => null
                   }],
+                  null);
+
+            assert.isNull(instance._itemActionsMenuId);
+            assert.isNull(instance._itemActionsController.getActiveItem());
+         });
+
+         // Закрываем контекстное меню при удалении записи. Среди удалённых записей есть группа
+         it('should close context menu when group is in removed items', function() {
+            instance._itemActionsMenuId = 'popup-id-0';
+            instance._itemActionsController.setActiveItem(item);
+            instance.getViewModel()
+               ._notify(
+                  'onListChange',
+                  'collectionChanged',
+                  collection.IObservable.ACTION_REPLACE,
+                  null,
+                  null,
+                  [
+                     {
+                        ItemActionsItem: false,
+                        getContents: () => {
+                           return 'group1';
+                        },
+                        setMarked: () => null
+                     },
+                     {
+                        ItemActionsItem: true,
+                        getContents: () => {
+                           return {
+                              getKey: () => 2
+                           };
+                        },
+                        setMarked: () => null
+                     }
+                  ],
                   null);
 
             assert.isNull(instance._itemActionsMenuId);
@@ -5140,6 +5083,7 @@ define([
             const itemAt1 = instance._listViewModel.at(1);
             const breadcrumbItem = {
                '[Controls/_display/BreadcrumbsItem]': true,
+               ItemActionsItem: true,
                _$active: false,
                getContents: () => ['fake', 'fake', 'fake', itemAt1.getContents() ],
                setActive: function() {
@@ -5157,8 +5101,7 @@ define([
             instance._itemActionsController.setActiveItem(breadcrumbItem);
             instance.getViewModel()
                ._notify(
-                  'onListChange',
-                  'collectionChanged',
+                  'onCollectionChange',
                   collection.IObservable.ACTION_REMOVE,
                   null,
                   null,
@@ -5365,10 +5308,10 @@ define([
          const cfg = {
             viewName: 'Controls/List/ListView',
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             keyProperty: 'id',
             source: source
          };
@@ -5431,66 +5374,11 @@ define([
 
       });
 
-      it('reloadItem', async function() {
-         var filter = {};
-         var cfg = {
-            viewName: 'Controls/List/ListView',
-            viewConfig: {
-               keyProperty: 'id'
-            },
-            viewModelConfig: {
-               items: [],
-               keyProperty: 'id'
-            },
-            viewModelConstructor: lists.ListViewModel,
-            keyProperty: 'id',
-            source: source,
-            filter: filter,
-            items: rs,
-            navigation: {
-               source: 'page',
-               view: 'page',
-               sourceConfig: {
-                  pageSize: 2,
-                  page: 0,
-                  hasMore: false
-               }
-            }
-         };
-         var baseCtrl = await correctCreateBaseControlAsync(cfg);
-         await baseCtrl._beforeMount(cfg);
-         baseCtrl.saveOptions(cfg);
-
-         assert.isTrue(baseCtrl._sourceController.hasMoreData('down'));
-
-         const reloadedItem = await baseCtrl.reloadItem(1);
-         assert.equal(reloadedItem.get('id'), 1);
-         assert.equal(reloadedItem.get('title'), 'Первый');
-         assert.isTrue(baseCtrl._sourceController.hasMoreData('down'), 'wrong navigation after reload item');
-         assert.isTrue(baseCtrl._itemReloaded);
-         assert.isTrue(baseCtrl._items.getCount() === 2);
-
-         let reloadedItems = await baseCtrl.reloadItem(1, null, true, 'query');
-         assert.isTrue(!!reloadedItems.getCount);
-         assert.equal(reloadedItems.getCount(), 1);
-         assert.equal(reloadedItems.at(0).get('id'), 1);
-         assert.isTrue(baseCtrl._sourceController.hasMoreData('down'), 'wrong navigation after reload item');
-
-         let recordSet = new collection.RecordSet({
-            keyProperty: 'id',
-            rawData: [{ id: 'test' }]
-         });
-         baseCtrl._listViewModel.setItems(recordSet, {});
-         reloadedItems = await baseCtrl.reloadItem('test', null, true, 'query');
-         assert.isTrue(reloadedItems.getCount() === 0);
-      });
-
       it('reloadItem with new model', function() {
          var filter = {};
          var cfg = {
             viewName: 'Controls/List/ListView',
             viewModelConstructor: 'Controls/display:Collection',
-            useNewModel: true,
             keyProperty: 'id',
             source: source,
             filter: filter,
@@ -5524,10 +5412,10 @@ define([
          const cfg = {
                 viewName: 'Controls/List/ListView',
                 viewModelConfig: {
-                   items: [],
+                   collection: [],
                    keyProperty: 'id'
                 },
-                viewModelConstructor: lists.ListViewModel,
+                viewModelConstructor: 'Controls/display:Collection',
                 keyProperty: 'id',
                 source: source
              },
@@ -5549,10 +5437,10 @@ define([
          const cfg = {
                viewName: 'Controls/List/ListView',
                viewModelConfig: {
-                  items: [],
+                  collection: [],
                   keyProperty: 'id'
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                keyProperty: 'id',
                source: source
             },
@@ -5586,10 +5474,10 @@ define([
          const cfg = {
                viewName: 'Controls/List/ListView',
                viewModelConfig: {
-                  items: [],
+                  collection: [],
                   keyProperty: 'id'
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                keyProperty: 'id',
                source: source
             },
@@ -5670,10 +5558,10 @@ define([
              cfg = {
                 viewName: 'Controls/List/ListView',
                 viewModelConfig: {
-                   items: [],
+                   collection: [],
                    keyProperty: 'id'
                 },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                 keyProperty: 'id',
                 source: source
              },
@@ -5692,10 +5580,10 @@ define([
             cfg = {
                viewName: 'Controls/List/ListView',
                viewModelConfig: {
-                  items: [],
+                  collection: [],
                   keyProperty: 'id'
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                keyProperty: 'id',
                source: source
             },
@@ -5710,7 +5598,7 @@ define([
             .withArgs('drawItems');
 
          instance.getViewModel()
-            ._notify('onListChange', 'collectionChanged');
+            ._notify('onCollectionChange', 'ch', [], 0, [], 0);
          assert.isFalse(fakeNotify.called);
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
@@ -5724,10 +5612,10 @@ define([
              cfg = {
                 viewName: 'Controls/List/ListView',
                 viewModelConfig: {
-                   items: [],
+                   collection: [],
                    keyProperty: 'id'
                 },
-                viewModelConstructor: lists.ListViewModel,
+                viewModelConstructor: 'Controls/display:Collection',
                 keyProperty: 'id',
                 source: source,
                 sourceController: new dataSource.NewSourceController({
@@ -5749,10 +5637,10 @@ define([
             cfg = {
                viewName: 'Controls/List/ListView',
                viewModelConfig: {
-                  items: [],
+                  collection: [],
                   keyProperty: 'id'
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                keyProperty: 'id',
                source: source
             },
@@ -5764,8 +5652,7 @@ define([
          instance._afterRender();
 
          instance.saveOptions({
-            ...cfg,
-            useNewModel: true
+            ...cfg
          });
 
          var fakeNotify = sandbox.spy(instance, '_notify')
@@ -5775,7 +5662,7 @@ define([
          noRedrawChange.properties = 'marked';
 
          instance.getViewModel()
-            ._notify('onListChange', null, 'ch', noRedrawChange, 0, noRedrawChange, 0);
+            ._notify('onCollectionChange', 'ch', noRedrawChange, 0, noRedrawChange, 0);
          assert.isFalse(fakeNotify.called);
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
@@ -5786,7 +5673,7 @@ define([
          const redrawChange = [{ sourceItem: true}];
 
          instance.getViewModel()
-            ._notify('onListChange', null, 'ch', redrawChange, 0, redrawChange, 0);
+            ._notify('onCollectionChange', 'ch', redrawChange, 0, redrawChange, 0);
          assert.isFalse(fakeNotify.called);
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
@@ -5800,10 +5687,10 @@ define([
             cfg = {
                viewName: 'Controls/List/ListView',
                viewModelConfig: {
-                  items: [],
+                  collection: [],
                   keyProperty: 'id'
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                keyProperty: 'id',
                source: source
             },
@@ -5815,8 +5702,7 @@ define([
          instance._afterRender();
 
          instance.saveOptions({
-            ...cfg,
-            useNewModel: true
+            ...cfg
          });
 
          var fakeNotify = sandbox.spy(instance, '_notify')
@@ -5826,7 +5712,7 @@ define([
          noRedrawChange.properties = 'marked';
 
          instance.getViewModel()
-            ._notify('onListChange', null, 'ch', noRedrawChange, 0, noRedrawChange, 0);
+            ._notify('onCollectionChange', 'ch', noRedrawChange, 0, noRedrawChange, 0);
          assert.isFalse(fakeNotify.called);
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
@@ -5837,41 +5723,7 @@ define([
          const redrawChange = [{ sourceItem: true}];
 
          instance.getViewModel()
-            ._notify('onListChange', null, 'ch', redrawChange, 0, redrawChange, 0);
-         assert.isFalse(fakeNotify.called);
-         instance._beforeUpdate(cfg);
-         assert.isFalse(fakeNotify.called);
-         instance._afterUpdate(cfg);
-         instance._afterRender();
-         assert.isTrue(fakeNotify.calledOnce);
-      });
-
-      it('should fire "drawItems" event if indexes have changed', async function() {
-         var
-            cfg = {
-               viewName: 'Controls/List/ListView',
-               viewModelConfig: {
-                  items: [],
-                  keyProperty: 'id'
-               },
-               viewModelConstructor: lists.ListViewModel,
-               keyProperty: 'id',
-               source: source,
-               virtualScrollConfig: {
-                  pageSize: 100
-               }
-            },
-            instance = correctCreateBaseControl(cfg);
-         instance.saveOptions(cfg);
-         await instance._beforeMount(cfg);
-         instance._beforeUpdate(cfg);
-         instance._afterUpdate(cfg);
-         instance._afterRender();
-         var fakeNotify = sandbox.spy(instance, '_notify')
-            .withArgs('drawItems');
-
-         instance.getViewModel()
-            ._notify('onListChange', 'indexesChanged');
+            ._notify('onCollectionChange', 'ch', redrawChange, 0, redrawChange, 0);
          assert.isFalse(fakeNotify.called);
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
@@ -5968,10 +5820,10 @@ define([
          var cfg = {
             viewName: 'Controls/List/ListView',
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             keyProperty: 'id',
             source: source
          };
@@ -6006,10 +5858,10 @@ define([
             viewName: 'Controls/List/ListView',
             sorting: [],
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             keyProperty: 'id',
             source: source
          };
@@ -6018,8 +5870,8 @@ define([
          instance.saveOptions(cfg);
          instance._beforeMount(cfg);
          instance._hasMoreData = () => true;
-         instance._beforeUpdate({ ...cfg, viewModelConstructor: tree.TreeViewModel });
-         assert.isTrue(instance._listViewModel.getHasMoreData());
+         instance._beforeUpdate({ ...cfg, viewModelConstructor: 'Controls/treeGrid:TreeGridCollection' });
+         assert.deepEqual(instance._listViewModel.getHasMoreData(), { up: true, down: true } );
       });
 
       it('_beforeUpdate with new searchValue', async function() {
@@ -6027,10 +5879,10 @@ define([
             viewName: 'Controls/List/ListView',
             sorting: [],
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             keyProperty: 'id',
             source: source
          };
@@ -6056,10 +5908,10 @@ define([
 
          cfgClone.searchValue = 'test';
          instance._beforeUpdate(cfgClone);
-         assert.isTrue(instance._listViewModel._options.searchValue !== cfgClone.searchValue);
+         assert.isTrue(instance._listViewModel.getSearchValue() !== cfgClone.searchValue);
          instance._afterUpdate({});
          instance._afterRender();
-         assert.isTrue(instance._listViewModel._options.searchValue === cfgClone.searchValue);
+         assert.isTrue(instance._listViewModel.getSearchValue() === cfgClone.searchValue);
 
          assert.isTrue(portionSearchReseted);
          portionSearchReseted = false;
@@ -6085,7 +5937,7 @@ define([
             cfg = {
                viewName: 'Controls/List/ListView',
                viewModelConfig: {
-                  items,
+                  collection: items,
                   keyProperty: 'id'
                },
                itemActions: [
@@ -6094,7 +5946,7 @@ define([
                      title: '123'
                   }
                ],
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                itemActionVisibilityCallback: () => {
                   return true;
                },
@@ -6105,7 +5957,7 @@ define([
             instance.saveOptions(cfg);
             instance._beforeMount(cfg);
             instance._viewModelConstructor = cfg.viewModelConstructor;
-            instance._listViewModel = new lists.ListViewModel(cfg.viewModelConfig);
+            instance._listViewModel = new display.Collection(cfg.viewModelConfig);
             instance._itemActionsController = {
                deactivateSwipe: () => {
                   isDeactivateSwipeCalled = true;
@@ -6170,30 +6022,6 @@ define([
                ]
             });
             assert.isTrue(isDeactivateSwipeCalled);
-         });
-
-         // Необходимо вызывать updateItemActions при изиенении модели (Демка Controls-demo/Explorer/ExplorerLayout)
-         it('should call updateItemActions when Model constructor has changed', () => {
-            const columns = [
-               {
-                  displayProperty: 'title',
-                  width: '1fr',
-                  valign: 'top',
-                  style: 'default',
-                  textOverflow: 'ellipsis'
-               }
-            ];
-            instance._listViewModel.setActionsAssigned(true);
-            sandbox.replace(lists.BaseControl._private, 'updateItemActions', (self, options) => {
-               updateItemActionsCalled = true;
-            });
-            instance._beforeUpdate({
-               ...cfg,
-               source: instance._options.source,
-               columns,
-               viewModelConstructor: grid.GridViewModel
-            });
-            assert.isTrue(updateItemActionsCalled);
          });
 
          // при неидентичности source необходимо перезапрашивать данные этого source и затем вызывать updateItemActions
@@ -6269,7 +6097,7 @@ define([
       it('_beforeMount create controllers when passed receivedState', async function() {
          let cfg = {
             viewName: 'Controls/List/ListView',
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             keyProperty: 'id',
             markerVisibility: 'visible',
             markedKey: 1,
@@ -6305,11 +6133,11 @@ define([
          beforeEach(async () => {
             cfg = {
                viewName: 'Controls/List/ListView',
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                keyProperty: 'id',
                source,
                viewModelConfig: {
-                  items: new collection.RecordSet({
+                  collection: new collection.RecordSet({
                      keyProperty: 'id',
                      rawData: data
                   }),
@@ -6321,13 +6149,13 @@ define([
             };
             instance = await correctCreateBaseControlAsync(cfg);
             instance.saveOptions(cfg);
-            instance._listViewModel = new lists.ListViewModel(cfg.viewModelConfig);
+            instance._listViewModel = new display.Collection(cfg.viewModelConfig);
             instance._keyProperty = 'id';
          });
 
          it('should create selection controller', async () => {
             assert.isNull(instance._selectionController);
-            instance._items = instance._listViewModel.getItems();
+            instance._items = instance._listViewModel.getCollection();
             await instance._beforeUpdate({
                ...cfg,
                selectedKeys: [1]
@@ -6733,10 +6561,10 @@ define([
                   keyProperty: 'id'
                },
                viewModelConfig: {
-                  items: [],
+                  collection: [],
                   keyProperty: 'id'
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                navigation: {
                   view: 'demand',
                   source: 'page',
@@ -6782,10 +6610,10 @@ define([
                   idProperty: 'id'
                },
                viewModelConfig: {
-                  items: rs,
+                  collection: rs,
                   idProperty: 'id'
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                source: source,
                selectedKeysCount: 1
             };
@@ -6806,7 +6634,7 @@ define([
                   assert.equal(args[1], enterNativeEvent);
                }
             };
-            instance._listViewModel = new lists.ListViewModel(cfg.viewModelConfig);
+            instance._listViewModel = new display.Collection(cfg.viewModelConfig);
 
             instance._itemMouseEnter({}, enterItemData, enterNativeEvent);
             assert.isTrue(called);
@@ -6824,10 +6652,10 @@ define([
                   keyProperty: 'id'
                },
                viewModelConfig: {
-                  items: [],
+                  collection: [],
                   keyProperty: 'id'
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                navigation: {
                   view: 'infinity',
                   source: 'page',
@@ -6939,10 +6767,10 @@ define([
                         keyProperty: 'id'
                      },
                      viewModelConfig: {
-                        items: [],
+                        collection: [],
                         keyProperty: 'id'
                      },
-                     viewModelConstructor: lists.ListViewModel,
+                     viewModelConstructor: 'Controls/display:Collection',
                      navigation: {
                         source: 'position',
                         sourceConfig: {
@@ -7089,7 +6917,7 @@ define([
             });
             it('changePageSize', async function() {
                let cfg = {
-                  viewModelConstructor: lists.ListViewModel,
+                  viewModelConstructor: 'Controls/display:Collection',
                   source: source,
                   navigation: {
                      view: 'pages',
@@ -7204,7 +7032,7 @@ define([
                      hasMore: false
                   }
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                 keyProperty: 'id'
             };
 
@@ -7234,7 +7062,7 @@ define([
                         hasMore: false
                      }
                   },
-                  viewModelConstructor: lists.ListViewModel,
+                  viewModelConstructor: 'Controls/display:Collection',
                   keyProperty: 'id'
                };
                await bc._beforeUpdate(cfg);
@@ -7276,7 +7104,7 @@ define([
                keyProperty: 'id',
                viewName: 'Controls/List/ListView',
                source: source,
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                markedKey: null
             });
             const _baseControl = new lists.BaseControl(baseControlOptions);
@@ -7295,10 +7123,9 @@ define([
                   target: { closest: () => null },
                   nativeEvent: {}
                };
-               const itemData = { item: {} };
                const event = { stopPropagation: () => {} };
                baseControl._unprocessedDragEnteredItem = {};
-               baseControl._itemMouseDown(event, itemData, originalEvent);
+               baseControl._itemMouseDown(event, baseControl.getViewModel().at(0), originalEvent);
                assert.isNull(baseControl._unprocessedDragEnteredItem);
             });
             it('notify parent', () => {
@@ -7307,18 +7134,17 @@ define([
                   nativeEvent: {}
                };
                const event = { stopPropagation: () => {} };
-               const itemData = { item: {} };
 
                baseControl._notify = (eName, args) => {
                   if (eName === 'itemMouseDown') {
                      isNotified = true;
-                     assert.equal(args[0], itemData.item);
+                     assert.equal(args[0], baseControl.getViewModel().at(0).contents);
                      assert.equal(args[1], originalEvent.nativeEvent);
                   }
                };
 
                let isNotified = false;
-               baseControl._itemMouseDown(event, itemData, originalEvent);
+               baseControl._itemMouseDown(event, baseControl.getViewModel().at(0), originalEvent);
                assert.isTrue(isNotified);
             });
 
@@ -7326,9 +7152,9 @@ define([
                const originalEvent = { target: { closest: () => null } };
                const event = { target: { closest: () => null }, stopPropagation: () => {} };
 
-               baseControl._itemMouseDown(event, { key: 3 }, originalEvent);
+               baseControl._itemMouseDown(event, baseControl.getViewModel().at(2), originalEvent);
 
-               assert.equal(baseControl._listViewModel.getMarkedItem(), undefined);
+               assert.isFalse(baseControl.getViewModel().at(2).isMarked());
             });
          });
 
@@ -7385,123 +7211,20 @@ define([
                   stopPropagation: () => {
                   }
                };
-               const itemData = {item: {}, key: 1};
 
                baseControl._items.getCount = () => 1;
 
                baseControl._notify = (eName, args) => {
                   if (eName === 'itemMouseUp') {
                      isNotified = true;
-                     assert.equal(args[0], itemData.item);
+                     assert.equal(args[0], baseControl.getViewModel().at(0).contents);
                      assert.equal(args[1], originalEvent.nativeEvent);
                   }
                };
 
                let isNotified = false;
-               baseControl._itemMouseUp(event, itemData, originalEvent);
+               baseControl._itemMouseUp(event, baseControl.getViewModel().at(0), originalEvent);
                assert.isTrue(isNotified);
-            });
-
-            it('should mark single item if not editing', async function() {
-               baseControlOptions.markerVisibility = 'onactivated';
-               await mountBaseControl(baseControl, baseControlOptions);
-
-               const originalEvent = {target: {
-                     closest: () => false
-                  }
-               };
-               const event = {};
-
-               const notifySpy = sinon.spy(baseControl, '_notify');
-
-               baseControl._items.getCount = () => 1;
-               baseControl._mouseDownItemKey = 1;
-
-               assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-               await baseControl._itemMouseUp(event, { key: 1 }, originalEvent);
-
-               assert.isTrue(notifySpy.withArgs('markedKeyChanged', [1]).called);
-               assert.isFalse(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
-            });
-
-            it('not should marker, _needSetMarkerCallback return false', async function() {
-               baseControlOptions._needSetMarkerCallback = () => false;
-               await mountBaseControl(baseControl, baseControlOptions);
-
-               const originalEvent = {target: { closest: () => false}};
-               const event = {};
-
-               const notifySpy = sinon.spy(baseControl, '_notify');
-
-               baseControl._items.getCount = () => 1;
-               baseControl._mouseDownItemKey = 1;
-
-               assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-               baseControl._itemMouseUp(event, { key: 1 }, originalEvent);
-
-               assert.isFalse(notifySpy.withArgs('markedKeyChanged', [1]).called);
-               assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-            });
-
-            it('should not mark single item if editing', async function() {
-               baseControlOptions.markerVisibility = 'onactivated';
-               baseControlOptions.editingConfig = {};
-               await mountBaseControl(baseControl, baseControlOptions);
-
-               const originalEvent = { target: {} };
-               const event = {};
-
-               baseControl._items.getCount = () => 1;
-               baseControl._mouseDownItemKey = 1;
-
-               assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-               baseControl._itemMouseUp(event, { key: 1 }, originalEvent);
-               assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-            });
-
-            it('should mark item if there are more then one item in list', async function () {
-               baseControlOptions.markerVisibility = 'onactivated';
-               await mountBaseControl(baseControl, baseControlOptions);
-
-               const originalEvent = {target: {
-                     closest: () => false
-                  }
-               };
-               const event = {};
-               baseControl._mouseDownItemKey = 1;
-
-               baseControl._scrollController = {
-                  scrollToItem(key) {
-                     if (key === data[0].id) {
-                        result = 'top';
-                     } else if (key === data[data.length - 1].id) {
-                        result = 'bottom';
-                     }
-                     return Promise.resolve();
-                  },
-                  setIndicesAfterCollectionChange: () => undefined,
-                  handleResetItems: () => {}
-               };
-
-               const notifySpy = sinon.spy(baseControl, '_notify');
-
-               // No editing
-               assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-               await baseControl._itemMouseUp(event, {key: 1}, originalEvent);
-               assert.isFalse(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
-               assert.isTrue(notifySpy.withArgs('markedKeyChanged', [1]).calledOnce);
-
-               // With editing
-               baseControl._markerController.setMarkedKey(null);
-               baseControlOptions.editingConfig = {};
-
-               baseControl._mouseDownItemKey = 1;
-
-               assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-               await baseControl._itemMouseUp(event, {key: 1}, originalEvent);
-
-               assert.isFalse(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
-               assert.isTrue(notifySpy.withArgs('markedKeyChanged', [1]).calledTwice);
             });
          });
 
@@ -7597,7 +7320,7 @@ define([
                   stopPropagation() { isStopped = true; }
                };
 
-               baseControl._itemMouseUp(e, { key: 1 }, originalEvent);
+               baseControl._itemMouseUp(e, baseControl.getViewModel().at(0), originalEvent);
 
                // click on checkbox
                baseControl._onItemClick(e, { key: 1 }, originalEvent);
@@ -7618,7 +7341,7 @@ define([
             const cfg = {
                viewName: 'Controls/List/ListView',
                keyProperty: 'id',
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                items: new collection.RecordSet({
                   keyProperty: 'id',
                   rawData: data
@@ -7644,7 +7367,7 @@ define([
             const cfg = {
                viewName: 'Controls/List/ListView',
                keyProperty: 'id',
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                source: source,
                navigation: {
                   view: 'infinity',
@@ -7679,8 +7402,20 @@ define([
          const cfg = {
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
-            viewModelConstructor: lists.ListViewModel,
-            source: source,
+            viewModelConstructor: 'Controls/display:Collection',
+            source: new sourceLib.Memory({
+               keyProperty: 'id',
+               data: [
+                  {
+                     id: 1,
+                     title: 'Первый'
+                  },
+                  {
+                     id: 2,
+                     title: 'Второй'
+                  }
+               ]
+            }),
             navigation: {
                view: 'infinity'
             },
@@ -7738,7 +7473,7 @@ define([
                viewName: 'Controls/List/ListView',
                source,
                keyProperty: 'id',
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                itemsDragNDrop: true,
                multiSelectVisibility: 'visible',
                selectedKeys: [1],
@@ -7909,10 +7644,10 @@ define([
             const secondBaseControl = new lists.BaseControl();
             secondBaseControl.saveOptions(cfg);
             await secondBaseControl._beforeMount(cfg);
-            secondBaseControl._listViewModel.setItems(rs, {});
+            secondBaseControl.getViewModel().setCollection(rs);
             secondBaseControl._documentDragging = true;
 
-            secondBaseControl._notify = () => true;
+            secondBaseControl._notify = (eName) => eName === 'beforeSelectionChanged' ? undefined : true;
             const dragEntity = new dragNDrop.ItemsEntity({ items: [1] });
             secondBaseControl._dragEnter({ entity: dragEntity });
             assert.isOk(secondBaseControl._dndListController);
@@ -7921,7 +7656,7 @@ define([
 
             secondBaseControl._dndListController = null;
             const newRecord = new entity.Model({ rawData: { id: 0 }, keyProperty: 'id' });
-            secondBaseControl._notify = () => newRecord;
+            secondBaseControl._notify = (eName) => eName === 'beforeSelectionChanged' ? undefined : newRecord;
             secondBaseControl._dragEnter({ entity: dragEntity });
             assert.isOk(secondBaseControl._dndListController);
             assert.isOk(secondBaseControl._dndListController.getDragEntity());
@@ -8081,7 +7816,6 @@ define([
                viewName: 'Controls/List/ListView',
                keyProperty: 'id',
                viewModelConstructor: 'Controls/display:Collection',
-               useNewModel: true,
                items,
                draggingTemplate: {}
             };
@@ -8155,7 +7889,7 @@ define([
             cfg = {
                viewName: 'Controls/List/ListView',
                keyProperty: 'id',
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                items,
                source
             };
@@ -8258,13 +7992,13 @@ define([
          const cfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
             viewModelConfig: {
-               items: [],
+               collection: [],
                keyProperty: 'id'
             },
             itemContainerGetter: {
                getItemContainerByIndex: () => ({})
             },
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             keyProperty: 'id',
             markerVisibility: 'visible',
             source: source
@@ -8385,32 +8119,32 @@ define([
 
             it('to next', () => {
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 1);
 
                lists.BaseControl._private.moveMarkerToDirection(baseControl, event, 'Forward');
                assert.isTrue(preventDefaultCalled);
                assert.isTrue(activateCalled);
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 3);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(3).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(3).getVersion(), 3);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(3).getVersion(), 1);
             });
 
             it('to prev', function() {
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 1);
 
                lists.BaseControl._private.moveMarkerToDirection(baseControl, event, 'Backward');
                assert.isTrue(preventDefaultCalled);
                assert.isTrue(activateCalled);
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 3);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(1).getVersion(), 4);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(1).getVersion(), 3);
             });
 
             it('empty list', () => {
-               baseControl.getViewModel().setItems(new collection.RecordSet(), {});
+               baseControl.getViewModel().setCollection(new collection.RecordSet(), {});
                assert.doesNotThrow(lists.BaseControl._private.moveMarkerToDirection.bind(null, baseControl, event, 'Forward'));
             });
          });
@@ -8452,7 +8186,7 @@ define([
             });
 
             it('restore marker on reset', () => {
-               baseControl.getViewModel().setItems(new collection.RecordSet({
+               baseControl.getViewModel().setCollection(new collection.RecordSet({
                   rawData: [
                      {id: 1},
                      {id: 2},
@@ -8477,7 +8211,7 @@ define([
                });
                baseControl._beforeUpdate(newCfg);
                baseControl.saveOptions(newCfg);
-               baseControl.getViewModel().setItems(new collection.RecordSet({
+               baseControl.getViewModel().setCollection(new collection.RecordSet({
                   rawData: [
                      {id: 1},
                      {id: 2},
@@ -8494,7 +8228,7 @@ define([
 
             it('reset and not exist controller', () => {
                baseControl._markerController = null;
-               baseControl.getViewModel().setItems(new collection.RecordSet({
+               baseControl.getViewModel().setCollection(new collection.RecordSet({
                   rawData: [
                      {id: 1},
                      {id: 2},
@@ -8522,40 +8256,6 @@ define([
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
             });
 
-            it('updateOptions with new model', () => {
-               const searchViewModel = new treeGrid.SearchGridViewModel({
-                  items: new collection.RecordSet({
-                     rawData: [{
-                        id: 1,
-                        type: true,
-                        parent: null
-                     }, {
-                        id: 2,
-                        type: null,
-                        parent: 1
-                     }],
-                     keyProperty: 'id'
-                  }),
-                  parentProperty: 'parent',
-                  nodeProperty: 'type',
-                  keyProperty: 'id'
-               });
-
-               const notifySpy = sinon.spy(baseControl, '_notify');
-
-               baseControl.setMarkedKey(3);
-               baseControl._listViewModel = searchViewModel;
-               baseControl._modelRecreated = true;
-               baseControl._beforeUpdate(cfg);
-
-
-               assert.isTrue(notifySpy.withArgs('beforeMarkedKeyChanged', [2]).called);
-               assert.isTrue(notifySpy.withArgs('markedKeyChanged', [2]).called);
-
-               assert.isFalse(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
-               assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-            });
-
             it('setMarkedKey', () => {
                const newCfg = {
                   ...cfg,
@@ -8574,7 +8274,7 @@ define([
                });
                baseControl.saveOptions(newCfg);
 
-               baseControl.getViewModel().setItems(new collection.RecordSet({
+               baseControl.getViewModel().setCollection(new collection.RecordSet({
                   rawData: [
                      {id: 2},
                      {id: 3}
@@ -8612,40 +8312,6 @@ define([
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
             });
 
-            it('updateOptions with new model', () => {
-               const searchViewModel = new treeGrid.SearchGridViewModel({
-                  items: new collection.RecordSet({
-                     rawData: [{
-                        id: 1,
-                        type: true,
-                        parent: null
-                     }, {
-                        id: 2,
-                        type: null,
-                        parent: 1
-                     }],
-                     keyProperty: 'id'
-                  }),
-                  parentProperty: 'parent',
-                  nodeProperty: 'type',
-                  keyProperty: 'id'
-               });
-
-               const notifySpy = sinon.spy(baseControl, '_notify');
-
-               baseControl.setMarkedKey(3);
-               baseControl._listViewModel = searchViewModel;
-               baseControl._modelRecreated = true;
-               baseControl._beforeUpdate(cfg);
-
-
-               assert.isTrue(notifySpy.withArgs('beforeMarkedKeyChanged', [2]).called);
-               assert.isTrue(notifySpy.withArgs('markedKeyChanged', [2]).called);
-
-               assert.isFalse(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
-               assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-            });
-
             it('not set new marked key, when load items', () => {
                const sourceController = {
                   isLoading: () => true,
@@ -8675,7 +8341,6 @@ define([
             it('set marked key after load items', async () => {
                const cfg = {
                   viewModelConstructor: 'Controls/display:Collection',
-                  useNewModel: true,
                   keyProperty: 'id',
                   markerVisibility: 'visible'
                };
@@ -8717,7 +8382,7 @@ define([
             data: data
          });
          const cfg = getCorrectBaseControlConfig({
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             keyProperty: 'id',
             multiSelectVisibility: 'visible',
             selectedKeys: [],
@@ -9036,7 +8701,7 @@ define([
          });
          const cfg = {
             viewName: 'Controls/List/ListView',
-            viewModelConstructor: lists.ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             keyProperty: 'id',
             markerVisibility: 'visible',
             items: recordSet
@@ -9072,10 +8737,10 @@ define([
             const cfg = {
                viewName: 'Controls/List/ListView',
                viewModelConfig: {
-                  items: [],
+                  collection: [],
                   keyProperty: 'id'
                },
-               viewModelConstructor: lists.ListViewModel,
+               viewModelConstructor: 'Controls/display:Collection',
                keyProperty: 'id',
                source: source,
                sorting: [1],

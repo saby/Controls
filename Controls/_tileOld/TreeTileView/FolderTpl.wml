@@ -1,3 +1,0 @@
-<ws:partial template="wml!Controls/_tileOld/TileView/resources/SmallTemplate"
-            width="{{width || itemData.itemWidth || itemData.defaultFolderWidth}}"
-            scope="{{_options}}"/>
