@@ -93,6 +93,10 @@ const _private = {
     },
 
     toggleExpanded(self: TreeControl, dispItem: TreeItem): Promise<unknown> {
+        if (self.getViewModel().SupportExpand === false) {
+            return Promise.resolve();
+        }
+
         const item = dispItem.getContents();
         const nodeKey = item.getKey();
         const expanded = !self._expandController.isItemExpanded(nodeKey);
@@ -306,6 +310,8 @@ const _private = {
         } else {
             reset();
         }
+
+        self._expandController.applyStateToModel();
     },
 
     reloadItem(self: TreeControl, key: TKey) {

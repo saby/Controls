@@ -1,6 +1,6 @@
 define(
-   ['Controls/suggestPopup', 'Controls/_suggestPopup/List', 'Env/Env', 'Types/entity', 'Types/collection', 'Controls/dataSource', 'Types/source'],
-   function(suggestPopup, SuggestPopupListContainer, Env, entity, collection, dataSource, sourceLib) {
+   ['Controls/suggestPopup', 'Controls/_suggestPopup/List', 'Env/Env', 'Types/entity', 'Types/collection', 'Controls/dataSource', 'Types/source', 'sinon'],
+   function(suggestPopup, SuggestPopupListContainer, Env, entity, collection, dataSource, sourceLib, sinon) {
 
       'use strict';
 
@@ -94,6 +94,38 @@ define(
 
             suggestList._tabsSelectedKeyChanged(null, 'test');
             assert.equal(tab, 'test');
+         });
+
+         it('tabsSelectedKeyChanged with promise from event', async function() {
+            const sourceController = new dataSource.NewSourceController({
+               source: new sourceLib.Memory()
+            });
+            const optionsObject = {
+               _suggestListOptions: {
+                  tabsSelectedKey: null,
+                  sourceController
+               }
+            };
+            const optionsObjectWithNewKey = {
+               _suggestListOptions: {
+                  tabsSelectedKey: 'test',
+                  sourceController
+               }
+            };
+            const suggestList = new SuggestPopupListContainer();
+            suggestList._beforeMount(optionsObject);
+            suggestList.saveOptions(optionsObject);
+            const sandBox = sinon.createSandbox();
+            const promise = Promise.resolve();
+            sandBox.replace(suggestList, '_notify', () => {
+               return promise;
+            });
+
+            suggestList._beforeUpdate(optionsObjectWithNewKey);
+            assert.ok(suggestList._tabsChangedPromise === promise);
+
+            await promise;
+            assert.ok(suggestList._tabsChangedPromise === null);
          });
 
          it('isTabChanged', function() {

@@ -89,6 +89,27 @@ define([
             tabs._options.items = items;
             tabs._options.selectedKey = 1;
             tabs._options.keyProperty = 'id';
+
+            tabs._container = {
+               getBoundingClientRect: () => {
+                  return {
+                     left: 0,
+                     right: 0
+                  };
+               }
+            };
+
+            for (let i = 0; i < data.length; i++) {
+               tabs._children[`Tab${i}`] = {
+                  getBoundingClientRect: () => {
+                     return {
+                        left: i*10,
+                        right: i*10,
+                        width: i*10
+                     };
+                  }
+               };
+            }
          });
 
          it('should\'t update _isAnimatedMakerVisible if align changed', function() {
@@ -98,6 +119,22 @@ define([
                selectedKey: 2
             });
             assert.isFalse(tabs._isAnimatedMakerVisible);
+         });
+
+         it('should\'t update marker model if selectedKey changed', function() {
+            sinon.stub(Marker.default, 'getComputedStyle').returns({ borderLeftWidth: 0, borderRightWidth: 0 });
+
+            tabs._mouseEnterHandler();
+            const right = tabs._marker.getOffset();
+            assert.strictEqual(tabs._marker.getOffset(), 0);
+
+            tabs._beforeUpdate({
+               items: items,
+               selectedKey: 3,
+               keyProperty: 'id'
+            });
+            assert.strictEqual(tabs._marker.getOffset(), 20);
+            sinon.restore();
          });
 
          it('should\'t update _isAnimatedMakerVisible if items changed', function() {
@@ -480,6 +517,7 @@ define([
             assert.equal(tabs._marker.getWidth(), 10, 'leftButtonClick _onItemClick');
 
             tabs.destroy();
+            sinon.restore();
          });
 
       });

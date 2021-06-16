@@ -740,3 +740,26 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Controls/_list/interface/IList/ButtonName.typedef} buttonName Кнопка, по которой кликнули.
  */
+
+/**
+ * @event Происходит при изменении лимита при выборе записей пачками в ПМО.
+ * @name Controls/_list/interface/IList#selectedLimitChanged
+ * @param {Vdom/Vdom:SyntheticEvent<Event>} event Дескриптор события.
+ * @param {number} limit Лимит на количество записей.
+ * @example
+ * В следующем примере показано, как подписаться на событие изменения лимита и обработать его.
+ * Требуется для того, чтобы в дальнейшем передать лимит на БЛ, т.к. выбрано записей может быть больше, чем загружено.
+ * <pre class="brush: html">
+ * <Controls.list:View on:selectedLimitChanged="selectedLimitChanged()"/>
+ * </pre>
+ * <pre class="brush: js">
+ * // TypeScript
+ * class MyClass {
+ *    private _limit: number;
+ *
+ *    protected selectedLimitChanged(e: Event, limit: number) {
+ *       this._limit = limit;
+ *    }
+ * }
+ * </pre>
+ */
