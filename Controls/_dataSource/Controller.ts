@@ -258,7 +258,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         EventRaisingMixin.call(this, cfg);
         this._resolveNavigationParamsChangedCallback(cfg);
         this._collectionChange = this._collectionChange.bind(this);
-        this._updateBreadcrumbsData = this._updateBreadcrumbsData.bind(this);
+        this._onBreadcrumbsCollectionChanged = this._onBreadcrumbsCollectionChanged.bind(this);
         this._dragRandomId = randomId();
         this._options = cfg;
         this.setFilter(cfg.filter || {});
@@ -1074,13 +1074,13 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
     private _subscribeBreadcrumbsChange(breadcrumbs: RecordSet): void {
         this._unsubscribeBreadcrumbsChange();
         if (breadcrumbs) {
-            breadcrumbs.subscribe('onCollectionChange', this._updateBreadcrumbsData);
+            breadcrumbs.subscribe('onCollectionChange', this._onBreadcrumbsCollectionChanged);
         }
     }
 
     private _unsubscribeBreadcrumbsChange(): void {
         if (this._breadcrumbsRecordSet) {
-            this._breadcrumbsRecordSet.unsubscribe('onCollectionChange', this._updateBreadcrumbsData);
+            this._breadcrumbsRecordSet.unsubscribe('onCollectionChange', this._onBreadcrumbsCollectionChanged);
         }
     }
 
@@ -1111,6 +1111,11 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         this._breadCrumbsItems = pathResult.path;
         this._backButtonCaption = pathResult.backButtonCaption;
         this._breadCrumbsItemsWithoutBackButton = pathResult.pathWithoutItemForBackButton;
+    }
+
+    private _onBreadcrumbsCollectionChanged(): void {
+        this._updateBreadcrumbsData();
+        this._notify('breadcrumbsDataChanged');
     }
 
     private _getFirstItemFromRoot(): Model|void {

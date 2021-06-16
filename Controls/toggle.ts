@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые позволяют организовать выбор из одного или нескольких значений.
- * @library Controls/toggle
+ * @library
  * @includes Button Controls/_toggle/Button
  * @includes Switch Controls/_toggle/Switch
  * @includes DoubleSwitch Controls/_toggle/DoubleSwitch
@@ -21,7 +21,7 @@
 
 /*
  * toggle library
- * @library Controls/toggle
+ * @library
  * @includes Button Controls/_toggle/Button
  * @includes Switch Controls/_toggle/Switch
  * @includes DoubleSwitch Controls/_toggle/DoubleSwitch

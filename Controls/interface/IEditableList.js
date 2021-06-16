@@ -524,7 +524,7 @@ define('Controls/interface/IEditableList', [
     *
     * Используйте этот метод в ситуациях, когда вы хотите начать редактирование из нестандартного места, например, из {@link /doc/platform/developmentapl/interface-development/controls/list/actions/operations/ панели действий элемента}.
     *
-    * Формат полей редактируемой записи может отличаться от формата полей Types/Collection:RecordSet, отображаемый списком. Подробнее читайтет {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/code/#begin-edit-format здесь}.
+    * Формат полей редактируемой записи может отличаться от формата полей Types/Collection:RecordSet, отображаемый списком. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/code/#begin-edit-format здесь}.
     * @example
     * В следующем примере показано, как начать редактирование элемента.
     * <pre class="brush: html;">

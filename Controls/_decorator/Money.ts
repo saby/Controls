@@ -214,7 +214,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         let [integer, fraction] = this._splitValueIntoParts(value);
 
         if (options.abbreviationType === 'long') {
-            integer = abbreviateNumber(options.value, options.abbreviationType);
+            integer = Money.correctValue(abbreviateNumber(options.value, options.abbreviationType));
         } else {
             integer = this._useGrouping ? splitIntoTriads(integer) : integer;
         }
@@ -284,24 +284,28 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         const dotPosition = value.indexOf('.');
 
         if (dotPosition === -1) {
-            return value + (precision ? '.00' : '');
+            return Money.correctValue(value + (precision ? '.00' : ''));
         }
 
         if (!precision) {
-            return value.substr(0, dotPosition);
+            return Money.correctValue(value.substr(0, dotPosition));
         }
 
         const fractionLength = value.length - dotPosition - 1;
-
+        let result = value;
         if (fractionLength < precision) {
-            return value + '0'.repeat(precision - fractionLength);
+            result = value + '0'.repeat(precision - fractionLength);
         }
 
         if (fractionLength > precision) {
-            return value.substr(0, dotPosition + precision + 1);
+            result = value.substr(0, dotPosition + precision + 1);
         }
 
-        return value;
+        return Money.correctValue(result);
+    }
+
+    private static correctValue(value: string): string {
+        return value.replace('-', '- ');
     }
 
     static getDefaultOptions(): Partial<IMoneyOptions> {

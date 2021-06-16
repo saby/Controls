@@ -573,7 +573,7 @@ export class Controller {
         this._collection.setActionsTemplateConfig({
             toolbarVisibility: options.editingToolbarVisible,
             style: options.style,
-            editingStyle: !!options.editingItem && options.editingStyle,
+            editingStyle: (options.editingItem && options.editingStyle) || undefined,
             itemActionsClass: options.itemActionsClass,
             size: this._iconSize,
             itemActionsPosition: this._itemActionsPosition,
@@ -878,7 +878,7 @@ export class Controller {
     }
 
     private static _resolveItemActionClass(theme: string): string {
-        return `controls-itemActionsV__action_icon controls_list_theme-${theme}`;
+        return 'controls-itemActionsV__action_icon';
     }
 
     private static _isMatchingActionLists(

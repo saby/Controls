@@ -82,14 +82,14 @@ describe('Controls/grid_clean/Display/Footer/FooterRow/UpdateOption', () => {
             { template: secondFooterCellTemplate }
         ];
         footerRow.setFooter(firstFooterTemplate, newColumns);
-        assert.strictEqual(footerRow.getVersion(), 2);
+        assert.strictEqual(footerRow.getVersion(), 3);
         footerColumns = footerRow.getColumns();
         assert.strictEqual(footerColumns.length, 1);
         assert.strictEqual(footerColumns[0].getTemplate(), firstFooterTemplate);
 
         // clear "footerTemplate"
         footerRow.setFooter(undefined, newColumns);
-        assert.strictEqual(footerRow.getVersion(), 3);
+        assert.strictEqual(footerRow.getVersion(), 4);
         footerColumns = footerRow.getColumns();
         assert.strictEqual(footerColumns.length, 2);
         assert.strictEqual(footerColumns[0].getTemplate(), firstFooterCellTemplate);

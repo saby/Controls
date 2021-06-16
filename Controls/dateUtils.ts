@@ -1,6 +1,6 @@
 /**
  * Библиотека, содержащая утилиты для работы с датами.
- * @library Controls/dateUtils
+ * @library
  * @includes Base Controls/_utils/dateUtils/Date
  * @includes Range Controls/_utils/dateUtils/DateRangeUtil
  * @public

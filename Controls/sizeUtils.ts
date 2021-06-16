@@ -1,5 +1,5 @@
 /**
- * @library Controls/sizeUtils
+ * @library
  * @includes getDimensions Controls/_utils/sizeUtils/getDimensions
  * @includes DOMUtil Controls/_utils/sizeUtils/DOMUtil
  * @includes getTextWidth Controls/_utils/sizeUtils/getTextWidth

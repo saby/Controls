@@ -44,7 +44,7 @@ import {register} from 'Types/di';
 
 /**
  * Библиотека контролов, которые реализуют плоский список, отображающийся в виде таблицы.
- * @library Controls/grid
+ * @library
  * @includes ItemTemplate Controls/_grid/interface/ItemTemplate
  * @includes ResultsTemplate Controls/_grid/interface/ResultsTemplate
  * @includes GroupTemplate Controls/_grid/interface/GroupTemplate

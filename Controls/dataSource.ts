@@ -1,7 +1,7 @@
 /// <amd-module name="Controls/dataSource" />
 /**
  * Библиотека компонентов для упрощения загрузки данных: формирования запросов, обработки ошибок.
- * @library Controls/dataSource
+ * @library
  * @includes error Controls/dataSource/error
  * @includes requestDataUtil Controls/_dataSource/requestDataUtil
  * @public

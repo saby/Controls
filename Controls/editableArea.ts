@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые служат для отображения данных с возможностью редактирования.
- * @library Controls/editableArea
+ * @library
  * @includes View Controls/_editableArea/View
  * @includes Base Controls/_editableArea/Templates/Editors/Base
  * @includes DateTime Controls/_editableArea/Templates/Editors/DateTime
@@ -12,7 +12,7 @@
 
 /*
  * editableArea library
- * @library Controls/editableArea
+ * @library
  * @includes View Controls/_editableArea/View
  * @includes Base Controls/_editableArea/Templates/Editors/Base
  * @includes DateTime Controls/_editableArea/Templates/Editors/DateTime

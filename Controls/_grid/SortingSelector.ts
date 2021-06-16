@@ -36,6 +36,7 @@ export interface ISortingSelectorOptions extends IControlOptions, IFontColorStyl
  * @public
  * @implements Controls/interface:IFontColorStyle
  * @implements Controls/interface:IFontSize
+ * @implements Controls/grid:IPropStorage
  * @demo Controls-demo/grid/Sorting/SortingSelector/Default/Index
  * @demo Controls-demo/grid/Sorting/SortingSelector/Icons/Index
  * @author Авраменко А.С.
@@ -220,7 +221,7 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
 });
 
 /**
- * @typedef {Object} Controls/_gridOld/SortingSelector/SortingParam
+ * @typedef {Object} Controls/_grid/SortingSelector/SortingParam
  * @description Допустимые свойства объекта, которые передаются в массиве {@link sortingParams}.
  * @property {String|null} paramName Имя поля элемента, по которому может осуществляться сортировка. Чтобы задать сброс сортировки, нужно указать значение null.
  * Если не задан пункт, сбрасывающий сортировку, то необходимо указать непустую конфигурацию сортировки в опции value.

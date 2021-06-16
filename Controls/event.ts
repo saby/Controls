@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, позволяющих организовать работу событий сверху вниз.
- * @library Controls/event
+ * @library
  * @includes Register Controls/_event/Register
  * @includes Listener Controls/_event/Listener
  * @public
@@ -11,7 +11,7 @@
 
 /*
  * event library
- * @library Controls/event
+ * @library
  * @includes Register Controls/_event/Register
  * @includes Listener Controls/_event/Listener
  * @public
