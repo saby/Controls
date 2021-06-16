@@ -397,7 +397,7 @@ const getCountriesStats = () => {
                 align: 'right'
             }
         ],
-        getColumnsWithWidths: (): IColumnRes[] => [
+        getColumnsWithWidths: (setCompatibleWidth: boolean = true): IColumnRes[] => [
             {
                 displayProperty: 'number',
                 width: '40px'
@@ -409,28 +409,28 @@ const getCountriesStats = () => {
             {
                 displayProperty: 'capital',
                 width: 'max-content',
-                compatibleWidth: '98px'
+                compatibleWidth: setCompatibleWidth ? '98px' : undefined
             },
             {
                 displayProperty: 'population',
                 width: 'max-content',
                 result: 3956986345,
                 resultTemplate: resultCellTpl,
-                compatibleWidth: '118px'
+                compatibleWidth: setCompatibleWidth ? '118px' : undefined
             },
             {
                 displayProperty: 'square',
                 width: 'max-content',
                 result: 12423523,
                 resultTemplate: resultCellTpl,
-                compatibleWidth: '156px'
+                compatibleWidth: setCompatibleWidth ? '156px' : undefined
             },
             {
                 displayProperty: 'populationDensity',
                 width: 'max-content',
                 result: 5.8,
                 resultTemplate: resultCellTpl,
-                compatibleWidth: '60px'
+                compatibleWidth: setCompatibleWidth ? '60px' : undefined
             }
         ],
         getColumnsForDragScrolling: (): IColumn[] => ([

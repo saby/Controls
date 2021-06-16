@@ -9,7 +9,7 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     protected _header: IHeaderCell[] = getCountriesStats().getDefaultHeader();
-    protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths();
+    protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths(false);
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
