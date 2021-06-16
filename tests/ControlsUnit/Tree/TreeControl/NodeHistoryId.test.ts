@@ -40,7 +40,6 @@ describe('Controls/Tree/TreeControl/NodeHistoryId', () => {
         config = {
             viewName: 'Controls/List/TreeGridView',
             root: null,
-            useNewModel: true,
             keyProperty: 'id',
             parentProperty: 'parent',
             nodeHistoryId: 'NODE_HISTORY_ID',

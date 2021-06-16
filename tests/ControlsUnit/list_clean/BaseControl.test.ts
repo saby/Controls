@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {BaseControl, ListViewModel} from 'Controls/list';
+import {BaseControl} from 'Controls/list';
 import {IEditableListOption} from 'Controls/_list/interface/IEditableList';
 import {RecordSet} from 'Types/collection';
 import {Memory, PrefetchProxy, DataSet} from 'Types/source';
@@ -26,7 +26,7 @@ function getBaseControlOptionsWithEmptyItems(): object {
     return {
         viewName: 'Controls/List/ListView',
         keyProperty: 'id',
-        viewModelConstructor: ListViewModel,
+        viewModelConstructor: 'Controls/display:Collection',
         source: new Memory()
     };
 }
@@ -82,7 +82,7 @@ describe('Controls/list_clean/BaseControl', () => {
         const baseControlCfg = await getCorrectBaseControlConfigAsync({
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
-            viewModelConstructor: ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             source: new Memory()
         });
         let baseControl;
@@ -128,7 +128,7 @@ describe('Controls/list_clean/BaseControl', () => {
         const baseControlCfg = await getCorrectBaseControlConfigAsync({
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
-            viewModelConstructor: ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             source: new Memory()
         });
         let baseControl;
@@ -171,7 +171,7 @@ describe('Controls/list_clean/BaseControl', () => {
         const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
-            viewModelConstructor: ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             source: new Memory({
                 keyProperty: 'id',
                 data: []
@@ -289,7 +289,7 @@ describe('Controls/list_clean/BaseControl', () => {
         const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
-            viewModelConstructor: ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             items: new RecordSet({
                 keyProperty: 'id',
                 rawData: []
@@ -570,8 +570,7 @@ describe('Controls/list_clean/BaseControl', () => {
                 getAllDataCount: () => 1000,
                 hasMoreData: () => false
             };
-            baseControl._listViewModel._startIndex = 0;
-            baseControl._listViewModel._stopIndex = 100;
+            baseControl._listViewModel.getStopIndex = () => 100;
             baseControl._viewportSize = 400;
             baseControl._getItemsContainer = () => {
                 return {children: [],
@@ -733,7 +732,7 @@ describe('Controls/list_clean/BaseControl', () => {
         const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
-            viewModelConstructor: ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             items: new RecordSet({
                 keyProperty: 'id',
                 rawData: []
@@ -826,7 +825,6 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl.saveOptions(baseControlOptions);
 
             baseControlOptions = {...baseControlOptions};
-            baseControlOptions.useNewModel = true;
             baseControl._pagingNavigation = true;
             baseControlOptions.searchValue = 'testSearchValue';
             loadStarted = false;
@@ -902,7 +900,7 @@ describe('Controls/list_clean/BaseControl', () => {
                     keyProperty: 'keyProperty',
                     data: []
                 }),
-                viewModelConstructor: ListViewModel
+                viewModelConstructor: 'Controls/display:Collection'
             });
 
             let baseControl = new BaseControl(baseControlOptions);
@@ -971,7 +969,7 @@ describe('Controls/list_clean/BaseControl', () => {
         const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
             keyProperty: 'key',
-            viewModelConstructor: ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             multiSelectVisibility: 'visible',
             markerVisibility: 'visible',
             selectedKeys: [],
@@ -1025,7 +1023,7 @@ describe('Controls/list_clean/BaseControl', () => {
         const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
-            viewModelConstructor: ListViewModel,
+            viewModelConstructor: 'Controls/display:Collection',
             items: new RecordSet({
                 keyProperty: 'id',
                 rawData: []
@@ -1060,7 +1058,6 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._beforeUpdate({
                 ...baseControlCfg,
                 filter: {field: 'ASC'},
-                useNewModel: true,
                 loading: true
             });
             assert.isTrue(isEditingCancelled);

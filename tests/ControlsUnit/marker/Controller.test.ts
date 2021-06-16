@@ -3,9 +3,9 @@
 
 import { assert } from 'chai';
 import { MarkerController } from 'Controls/marker';
-import { ListViewModel } from 'Controls/list';
+import { Collection } from 'Controls/display';
 import { RecordSet } from 'Types/collection';
-import { SearchGridViewModel } from 'Controls/treeGridOld';
+import { SearchGridCollection } from 'Controls/searchBreadcrumbsGrid';
 import { Tree } from 'Controls/display';
 import * as ListData from 'ControlsUnit/ListData';
 import { Model } from 'Types/entity';
@@ -22,8 +22,8 @@ describe('Controls/marker/Controller', () => {
          ],
          keyProperty: 'id'
       });
-      model = new ListViewModel({
-         items
+      model = new Collection({
+         collection: items
       });
       controller = new MarkerController({ model, markerVisibility: 'visible', markedKey: undefined });
    });
@@ -47,8 +47,8 @@ describe('Controls/marker/Controller', () => {
       });
 
       it('model changed', () => {
-         const newModel = new ListViewModel({
-            items
+         const newModel = new Collection({
+            collection: items
          });
          controller.setMarkedKey(1);
          controller.updateOptions({
@@ -81,7 +81,7 @@ describe('Controls/marker/Controller', () => {
    describe('setMarkedKey', () => {
       it('same key', () => {
          controller = new MarkerController({model, markerVisibility: 'visible', markedKey: 1});
-         model.setItems(new RecordSet({
+         model.setCollection(new RecordSet({
              rawData: [
                  {id: 1},
                  {id: 2},
@@ -90,10 +90,10 @@ describe('Controls/marker/Controller', () => {
              keyProperty: 'id'
          }));
 
-         assert.equal(model.getVersion(), 3);
+         assert.equal(model.getVersion(), 2);
 
-         assert.equal(model.getItemBySourceKey(1).getVersion(), 1);
-         assert.equal(model.getItemBySourceKey(3).getVersion(), 2);
+         assert.equal(model.getItemBySourceKey(1).getVersion(), 0);
+         assert.equal(model.getItemBySourceKey(3).getVersion(), 0);
          assert.isFalse(model.getItemBySourceKey(1).isMarked());
 
          controller.setMarkedKey(1);
@@ -103,10 +103,10 @@ describe('Controls/marker/Controller', () => {
          assert.isFalse(model.getItemBySourceKey(3).isMarked());
 
          // Проверяем что версия изменилась один раз для маркера
-         assert.equal(model.getVersion(), 4);
-         assert.equal(model.getItemBySourceKey(1).getVersion(), 2);
-         assert.equal(model.getItemBySourceKey(2).getVersion(), 1);
-         assert.equal(model.getItemBySourceKey(3).getVersion(), 2);
+         assert.equal(model.getVersion(), 3);
+         assert.equal(model.getItemBySourceKey(1).getVersion(), 1);
+         assert.equal(model.getItemBySourceKey(2).getVersion(), 0);
+         assert.equal(model.getItemBySourceKey(3).getVersion(), 0);
       });
 
       it('another key', () => {
@@ -164,7 +164,7 @@ describe('Controls/marker/Controller', () => {
 
       it('markerVisibility = visible and not exists item with marked key', () => {
          controller = new MarkerController({model, markerVisibility: 'visible', markedKey: 1});
-         model.setItems(new RecordSet({
+         model.setCollection(new RecordSet({
             rawData: [
                {id: 2},
                {id: 3}
@@ -302,7 +302,7 @@ describe('Controls/marker/Controller', () => {
          controller.setMarkedKey(1);
          assert.isTrue(model.getItemBySourceKey(1).isMarked());
 
-         model.setItems(new RecordSet({
+         model.setCollection(new RecordSet({
             rawData: [
                {id: 1},
                {id: 2},
@@ -312,12 +312,12 @@ describe('Controls/marker/Controller', () => {
          }));
          assert.isFalse(model.getItemBySourceKey(1).isMarked());
 
-         assert.equal(model.getVersion(), 3);
+         assert.equal(model.getVersion(), 2);
          controller.onCollectionAdd([model.getItemBySourceKey(1)]);
          assert.isTrue(model.getItemBySourceKey(1).isMarked());
          assert.isFalse(model.getItemBySourceKey(2).isMarked());
          assert.isFalse(model.getItemBySourceKey(3).isMarked());
-         assert.equal(model.getVersion(), 4);
+         assert.equal(model.getVersion(), 3);
       });
    });
 
@@ -326,7 +326,7 @@ describe('Controls/marker/Controller', () => {
          controller.setMarkedKey(1);
          assert.isTrue(model.getItemBySourceKey(1).isMarked());
 
-         model.setItems(new RecordSet({
+         model.setCollection(new RecordSet({
             rawData: [
                {id: 1},
                {id: 2},
@@ -336,12 +336,12 @@ describe('Controls/marker/Controller', () => {
          }));
          assert.isFalse(model.getItemBySourceKey(1).isMarked());
 
-         assert.equal(model.getVersion(), 3);
+         assert.equal(model.getVersion(), 2);
          controller.onCollectionReplace([model.getItemBySourceKey(1)]);
          assert.isTrue(model.getItemBySourceKey(1).isMarked());
          assert.isFalse(model.getItemBySourceKey(2).isMarked());
          assert.isFalse(model.getItemBySourceKey(3).isMarked());
-         assert.equal(model.getVersion(), 4);
+         assert.equal(model.getVersion(), 3);
       });
    });
 
@@ -350,7 +350,7 @@ describe('Controls/marker/Controller', () => {
          controller.setMarkedKey(1);
          assert.isTrue(model.getItemBySourceKey(1).isMarked());
 
-         model.setItems(new RecordSet({
+         model.setCollection(new RecordSet({
             rawData: [
                {id: 1},
                {id: 2},
@@ -360,20 +360,20 @@ describe('Controls/marker/Controller', () => {
          }));
          assert.isFalse(model.getItemBySourceKey(1).isMarked());
 
-         assert.equal(model.getVersion(), 3);
+         assert.equal(model.getVersion(), 2);
          const newMarkedKey = controller.onCollectionReset();
          assert.equal(newMarkedKey, 1);
          assert.isTrue(model.getItemBySourceKey(1).isMarked());
          assert.isFalse(model.getItemBySourceKey(2).isMarked());
          assert.isFalse(model.getItemBySourceKey(3).isMarked());
-         assert.equal(model.getVersion(), 4);
+         assert.equal(model.getVersion(), 3);
       });
 
       it('not exists marked item, visible', () => {
          controller.setMarkedKey(1);
          assert.isTrue(model.getItemBySourceKey(1).isMarked());
 
-         model.setItems(new RecordSet({
+         model.setCollection(new RecordSet({
             rawData: [
                {id: 2},
                {id: 3}
@@ -381,12 +381,12 @@ describe('Controls/marker/Controller', () => {
             keyProperty: 'id'
          }));
 
-         assert.equal(model.getVersion(), 3);
+         assert.equal(model.getVersion(), 2);
          const newMarkedKey = controller.onCollectionReset();
          assert.equal(newMarkedKey, 2);
          assert.isFalse(model.getItemBySourceKey(2).isMarked());
          assert.isFalse(model.getItemBySourceKey(3).isMarked());
-         assert.equal(model.getVersion(), 3);
+         assert.equal(model.getVersion(), 2);
       });
 
       it('not exists marked item, onactivated and was set marker before reset', () => {
@@ -394,7 +394,7 @@ describe('Controls/marker/Controller', () => {
          ctrl.setMarkedKey(1);
          assert.isTrue(model.getItemBySourceKey(1).isMarked());
 
-         model.setItems(new RecordSet({
+         model.setCollection(new RecordSet({
             rawData: [
                {id: 2},
                {id: 3}
@@ -410,7 +410,7 @@ describe('Controls/marker/Controller', () => {
 
       it('not exists marked item, onactivated and was not set marker before reset', () => {
          const ctrl = new MarkerController({ model, markerVisibility: 'onactivated', markedKey: null });
-         model.setItems(new RecordSet({
+         model.setCollection(new RecordSet({
             rawData: [
                {id: 2},
                {id: 3}
@@ -462,8 +462,9 @@ describe('Controls/marker/Controller', () => {
          keyProperty: 'id'
       });
 
-      const model = new SearchGridViewModel({
-         items,
+      const model = new SearchGridCollection({
+         collection: items,
+         root: null,
          keyProperty: 'id',
          parentProperty: 'parent',
          nodeProperty: 'nodeType',

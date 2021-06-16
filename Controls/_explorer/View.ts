@@ -110,7 +110,6 @@ interface IExplorerOptions
     itemOpenHandler?: Function;
     searchStartingWith?: 'root' | 'current';
     sourceController?: NewSourceController;
-    useOldModel?: boolean;
     expandByItemClick?: boolean;
     /**
      * Задает режим вывода строки с хлебными крошками в результатах поиска
@@ -799,7 +798,10 @@ export default class Explorer extends Control<IExplorerOptions> {
             actualIds.push(crumbKey + '');
             store[crumbKey] = {
                 parent: parentKey,
-                markedKey: null
+                markedKey: null,
+                // В крошке может не быть информации о курсоре, но она могла быть
+                // в самой записи в которую провалились
+                cursorPosition: store[crumbKey]?.cursorPosition
             };
 
             if (store[parentKey]) {
@@ -937,11 +939,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._updateRootOnViewModeChanged(viewMode, cfg);
         }
 
-        if (cfg.useOldModel && viewMode !== 'tile') {
-            this._setViewModePromise = this._loadOldViewMode(cfg).then(() => {
-                this._setViewModeSync(viewMode, cfg);
-            });
-        } else if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
+        if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
             this._setViewModePromise = this._loadTileViewMode(cfg).then(() => {
                 this._setViewModeSync(viewMode, cfg);
             });
@@ -1025,29 +1023,16 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     private _loadTileViewMode(options: IExplorerOptions): Promise<void> {
-        if (!options.useOldModel) {
-            return new Promise((resolve) => {
-                import('Controls/treeTile').then((tile) => {
-                    VIEW_NAMES.tile = tile.TreeTileView;
-                    VIEW_TABLE_NAMES.tile = tile.TreeTileView;
-                    VIEW_MODEL_CONSTRUCTORS.tile = 'Controls/treeTile:TreeTileCollection';
-                    resolve();
-                }).catch((err) => {
-                    Logger.error('Controls/_explorer/View: ' + err.message, this, err);
-                });
+        return new Promise((resolve) => {
+            import('Controls/treeTile').then((tile) => {
+                VIEW_NAMES.tile = tile.TreeTileView;
+                VIEW_TABLE_NAMES.tile = tile.TreeTileView;
+                VIEW_MODEL_CONSTRUCTORS.tile = 'Controls/treeTile:TreeTileCollection';
+                resolve();
+            }).catch((err) => {
+                Logger.error('Controls/_explorer/View: ' + err.message, this, err);
             });
-        } else {
-            return new Promise((resolve) => {
-                import('Controls/tileOld').then((tile) => {
-                    VIEW_NAMES.tile = tile.TreeView;
-                    VIEW_TABLE_NAMES.tile = tile.TreeView;
-                    VIEW_MODEL_CONSTRUCTORS.tile = tile.TreeViewModel;
-                    resolve();
-                }).catch((err) => {
-                    Logger.error('Controls/_explorer/View: ' + err.message, this, err);
-                });
-            });
-        }
+        });
     }
 
     private _loadColumnsViewMode(): Promise<void> {
@@ -1058,24 +1043,6 @@ export default class Explorer extends Control<IExplorerOptions> {
             VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
         }).catch((err) => {
             Logger.error('Controls/_explorer/View: ' + err.message, this, err);
-        });
-    }
-
-    private _loadOldViewMode(options: IExplorerOptions): Promise<void> {
-        return new Promise((resolve) => {
-            import('Controls/treeGridOld').then((treeGridOld) => {
-                VIEW_NAMES.table = treeGridOld.TreeGridView;
-                VIEW_NAMES.search = treeGridOld.SearchView;
-                VIEW_TABLE_NAMES.table = treeGridOld.TreeGridView;
-                VIEW_TABLE_NAMES.search = treeGridOld.SearchView;
-
-                VIEW_MODEL_CONSTRUCTORS.table = treeGridOld.ViewModel;
-                VIEW_MODEL_CONSTRUCTORS.list = treeGridOld.ViewModel;
-                VIEW_MODEL_CONSTRUCTORS.search = treeGridOld.SearchGridViewModel;
-                resolve();
-            }).catch((err) => {
-                Logger.error('Controls/_explorer/View: ' + err.message, this, err);
-            });
         });
     }
 
@@ -1340,7 +1307,7 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @example
  * <pre class="brush: html; highlight: [3-5]">
  * <!-- WML -->
- * <Controls.explorer:View source="{{_viewSource}}" columns="{{_columns}}" viewMode="table" displayProperty="title" parentProperty="parent" nodeProperty="parent@"> 
+ * <Controls.explorer:View source="{{_viewSource}}" columns="{{_columns}}" viewMode="table" displayProperty="title" parentProperty="parent" nodeProperty="parent@">
  *     <ws:tileItemTemplate>
  *         <ws:partial template="Controls/tile:ItemTemplate" highlightOnHover="{{false}}" />
  *     </ws:tileItemTemplate>
@@ -1385,7 +1352,7 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @markdown
  * @remark
  * Данная опция позволяет сконфигурировать вывод строки с хлебными крошками. Возможны 2 варианта:
- * 
+ *
  * * row - все ячейки строки с хлебными крошками объединяются в одну ячейку в которой выводятся хлебные крошки.
  * * cell - ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
  * конфигурацией колонок. При таком режиме прикладной разработчик может задать кастомное содержимое для ячеек

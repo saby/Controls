@@ -96,7 +96,9 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     }
 
     getCellContentRender(): string {
-        if (this.getSearchValue() && this.getDisplayValue()) {
+        if (this.getSearchValue() &&
+            this.getDisplayValue() &&
+            this._$column.displayTypeOptions?.searchHighlight !== false) {
             return STRING_SEARCH_RENDER;
         }
 

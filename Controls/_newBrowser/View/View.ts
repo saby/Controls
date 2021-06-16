@@ -267,9 +267,7 @@ export default class View extends Control<IOptions, IReceivedState> {
     }
 
     private _processItemsMetadata(items: RecordSet, options: IOptions = this._options): void {
-        if (!options.listConfiguration) {
-            this._applyListConfiguration(getListConfiguration(items), options);
-        }
+        this._applyListConfiguration(options.listConfiguration || getListConfiguration(items), options);
     }
 
     /**

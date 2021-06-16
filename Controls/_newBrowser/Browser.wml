@@ -56,6 +56,7 @@
                  on:beforeItemsMove="_notifyHandler('detailBeforeItemsMove')"
                  on:afterBeginEdit="_notifyHandler('afterBeginEdit')"
                  on:afterEndEdit="_notifyHandler('afterEndEdit')"
+                 on:drawItems="_notifyHandler('drawItems')"
                  tileSize="{{_tileCfg.tileSize}}"
 
                  viewMode="{{viewMode}}"
