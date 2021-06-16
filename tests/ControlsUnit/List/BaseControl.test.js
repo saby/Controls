@@ -5046,8 +5046,7 @@ define([
             instance._itemActionsController.setActiveItem(item);
             instance.getViewModel()
                ._notify(
-                  'onListChange',
-                  'collectionChanged',
+                  'onCollectionChange',
                   collection.IObservable.ACTION_REPLACE,
                   null,
                   null,
