@@ -66,8 +66,8 @@
                    attr:class="controls-stack-Button__close controls-stack-Button__rightPanel__close ws-flex-shrink-0"
                    on:click="close()"
                 />
-                <Controls.Container.Async templateName="{{_stackRightPanel}}">
-                    <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}" rightPanelOptions="{{_options.rightPanelOptions}}"/>
+                <Controls.Container.Async templateName="{{_stackRightPanel}}" templateOptions="{{_options.rightPanelOptions}}">
+                    <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}"/>
                 </Controls.Container.Async>
             </div>
         </ws:if>
