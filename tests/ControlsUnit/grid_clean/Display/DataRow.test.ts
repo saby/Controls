@@ -131,22 +131,23 @@ describe('Controls/grid_clean/Display/DataRow', () => {
             columns,
             contents: record
         });
+        assert.strictEqual(gridRow.getVersion(), 0, 'The row version after initialize must be equals "0". No other variants!');
 
         gridRow.updateLadder(initialLadder.ladder, initialLadder.stickyLadder);
 
         let columnsItems = gridRow.getColumns();
         assert.strictEqual(columnsItems.length, 4);
-        assert.strictEqual(gridRow.getVersion(), 0, 'The row version after initialize must be equals "0". No other variants!');
+        assert.strictEqual(gridRow.getVersion(), 1);
 
         gridRow.updateLadder(initialLadder.ladder, initialLadder.stickyLadder);
         columnsItems = gridRow.getColumns();
         assert.strictEqual(columnsItems.length, 4);
-        assert.strictEqual(gridRow.getVersion(), 0, 'The row version after setLadder(currentLadder) must be equals "0". No other variants!');
+        assert.strictEqual(gridRow.getVersion(), 1, 'The row version after setLadder(currentLadder) must be equals "1". No other variants!');
 
         gridRow.updateLadder(secondLadder.ladder, secondLadder.stickyLadder);
         columnsItems = gridRow.getColumns();
         assert.strictEqual(columnsItems.length, 4);
-        assert.strictEqual(gridRow.getVersion(), 1, 'The row version after setLadder(newLadder) must be equals "1". No other variants!');
+        assert.strictEqual(gridRow.getVersion(), 2, 'The row version after setLadder(newLadder) must be equals "2". No other variants!');
     });
 
     it('Set editing of separated column', () => {
