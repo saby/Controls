@@ -2801,11 +2801,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             addIndex: options.index,
             groupMethod: this.getGroup()
         }, GroupItemsStrategy);
+        this._resetLastItem();
     }
 
     resetAddingItem(): void {
         if (this.getStrategyInstance(AddStrategy)) {
             this.removeStrategy(AddStrategy);
+            this._resetLastItem();
         }
     }
 

@@ -83,13 +83,16 @@ describe('Controls/_display/itemsStrategy/Composer', () => {
             const StrategyC = getStrategy();
             const composer = new Composer();
 
-            composer
-                .prepend(StrategyA)
-                .prepend(StrategyB)
-                .prepend(StrategyC, {}, StrategyA);
+            composer.prepend(StrategyA)
+                    .prepend(StrategyB);
+
+            const instanceB = composer.getInstance(StrategyB);
+
+            composer.prepend(StrategyC, {}, StrategyA);
 
             assert.instanceOf(composer.getResult(), StrategyA);
             assert.isUndefined(composer.getInstance<IStrategy>(StrategyB).source);
+            assert.strictEqual(composer.getInstance<IStrategy>(StrategyB), instanceB);
             assert.instanceOf(composer.getInstance<IStrategy>(StrategyC).source, StrategyB);
             assert.instanceOf(composer.getInstance<IStrategy>(StrategyA).source, StrategyC);
         });
