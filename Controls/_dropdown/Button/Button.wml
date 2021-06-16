@@ -8,6 +8,7 @@
         <Controls.buttons:Button
                 name="content"
                 attr:class="controls-MenuButton__BaseButton"
+                attr:data-qa="controls-dropdown-opener"
                 icon="{{_options.icon}}"
                 iconSize="{{_options.iconSize}}"
                 iconStyle="{{_options.iconStyle}}"
