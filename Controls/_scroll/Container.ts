@@ -104,7 +104,6 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     private _gridAutoShadows: boolean = true;
 
     _beforeMount(options: IContainerOptions, context, receivedState) {
-        this._shadows = new ShadowsModel(this._getShadowsModelOptions(options));
         this._scrollbars = new ScrollbarsModel(options, receivedState);
         this._stickyHeaderController = new StickyHeaderController({ resizeCallback: this._headersResizeHandler.bind(this) });
         // При инициализации оптимизированные тени включаем только если они явно включены, или включен режим auto.
@@ -114,6 +113,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             (options.shadowMode === SHADOW_MODE.CSS ||
                 (options.shadowMode === SHADOW_MODE.MIXED &&
                     (options.topShadowVisibility === SHADOW_VISIBILITY.AUTO || options.bottomShadowVisibility === SHADOW_VISIBILITY.AUTO)));
+        this._shadows = new ShadowsModel(this._getShadowsModelOptions(options));
         this._optimizeShadowClass = this._getOptimizeShadowClass(options);
 
         super._beforeMount(...arguments);
@@ -226,7 +226,10 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     }
 
     private _getShadowsModelOptions(options: IContainerBaseOptions): any {
-        const shadowsModel = {...options};
+        const shadowsModel = {
+            ...options,
+            isOptimizeShadowEnabled: this._isOptimizeShadowEnabled
+        };
         // gridauto нужно для таблицы
         if (options.topShadowVisibility === 'gridauto') {
             shadowsModel.topShadowVisibility = this._gridAutoShadows ? 'visible' : 'auto';
@@ -458,12 +461,6 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     }
 
     protected _mouseenterHandler(event) {
-        if (this._gridAutoShadows && this._scrollModel?.canVerticalScroll) {
-            this._gridAutoShadows = false;
-            this._shadows.updateOptions(this._getShadowsModelOptions(this._options));
-            this._updateShadows();
-        }
-
         // Если до mouseenter не вычисляли скроллбар, сделаем это сейчас.
         if (!this._wasMouseEnter) {
             this._wasMouseEnter = true;
@@ -477,6 +474,12 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             if (!compatibility.touch) {
                 this._initHeaderController();
             }
+        }
+
+        if (this._gridAutoShadows && this._scrollModel?.canVerticalScroll) {
+            this._updateShadows();
+            this._gridAutoShadows = false;
+            this._shadows.updateOptions(this._getShadowsModelOptions(this._options));
         }
 
         if (this._scrollbars.take()) {
@@ -556,7 +559,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     }
 
     protected _getIsOptimizeShadowEnabled(options: IContainerOptions): boolean {
-        return options.shadowMode === SHADOW_MODE.CSS && Container._isCssShadowsSupported();
+        return (options.shadowMode === SHADOW_MODE.CSS && Container._isCssShadowsSupported()) ||
+            (options.shadowMode === SHADOW_MODE.MIXED && !this._wasMouseEnter);
     }
 
     // StickyHeaderController

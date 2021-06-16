@@ -109,7 +109,7 @@ describe('Controls/scroll:Container', () => {
         });
 
         it('should init sticky header controller if shadows are forced enabled.', () => {
-            component = createComponent(Container, { topShadowVisibility: SHADOW_VISIBILITY.VISIBLE });
+            component = createComponent(Container, { topShadowVisibility: SHADOW_VISIBILITY.VISIBLE, shadowMode: SHADOW_MODE.JS });
             sinon.stub(component._stickyHeaderController, 'init');
             component._children = {
                 content: {
@@ -261,37 +261,6 @@ describe('Controls/scroll:Container', () => {
             assert.strictEqual(component._scrollCssClass, ' controls-Scroll__content_hideNativeScrollbar controls-Scroll-ContainerBase__scroll_verticalHorizontal');
         });
 
-        describe('shadows', () => {
-            it('should update shadows models if optimized shadows are enabled and there are sticky headers', () => {
-                const component = createComponent(Container, {scrollMode: 'vertical'});
-                component._isOptimizeShadowEnabled = true;
-                component._children = {
-                    content: {
-                        getBoundingClientRect: getBoundingClientRectMock
-                    }
-                };
-                component._scrollModel = {
-                    clone: () => {
-                        return 0;
-                    },
-                    updateState: () => {
-                        return true;
-                    },
-                    canVerticalScroll: true
-                };
-                sinon.stub(component._stickyHeaderController, 'hasFixed').returns(true);
-
-                assert.isFalse(component._shadows.top.isStickyHeadersShadowsEnabled());
-                component._updateState({
-                    ...state,
-                    scrollTop: 10
-                });
-                assert.isTrue(component._shadows.top.isStickyHeadersShadowsEnabled());
-
-                sinon.restore();
-            });
-        });
-
         describe('scrollbars', () => {
             it('should initialize scrollbars only after mouseenter', () => {
                 const component = createComponent(Container, {scrollMode: 'vertical'});
@@ -335,7 +304,7 @@ describe('Controls/scroll:Container', () => {
 
                 // В реальнности метод задебоунсен, в тестах выключаем дебоунс.
                 component._scrollbars._updateContainerSizes = ScrollbarsModel.prototype._updateContainerSizes;
-
+                sinon.stub(component._shadows, 'updateOptions');
                 component._mouseenterHandler();
                 assert.isFalse(component._scrollbars.vertical.isVisible);
 
@@ -354,6 +323,7 @@ describe('Controls/scroll:Container', () => {
 
                 component._updateState(state);
                 assert.isTrue(component._scrollbars.vertical.isVisible);
+                sinon.restore();
             });
         });
 
@@ -525,7 +495,7 @@ describe('Controls/scroll:Container', () => {
             sinon.assert.called(event.stopImmediatePropagation);
         });
 
-        it('should set always visible', () => {
+        it('should set always visible (Optimize Shadow disabled)', () => {
             const component = createComponent(Container, {});
             const version: number = component._shadows.getVersion();
             sinon.stub(component, '_updateStateAndGenerateEvents');
@@ -535,6 +505,9 @@ describe('Controls/scroll:Container', () => {
             component._shadows._models.bottom._scrollState.canVerticalScroll = true;
             component._shadows._models.top._isVisible = false;
             component._shadows._models.bottom._isVisible = false;
+            component._isOptimizeShadowEnabled = false;
+            component._shadows._models.top._options.isOptimizeShadowEnabled = false;
+            component._shadows._models.bottom._options.isOptimizeShadowEnabled = false;
             component._updateShadowVisibility(
                 event, { top: SHADOW_VISIBILITY.VISIBLE, bottom: SHADOW_VISIBILITY.VISIBLE });
             assert.isTrue(component._shadows._models.top.isVisible);
@@ -544,6 +517,7 @@ describe('Controls/scroll:Container', () => {
             assert.notEqual(component._shadows.getVersion(), version);
             sinon.restore();
         });
+
         it('should\'t update version until the mouse has been hover.', () => {
             const component = createComponent(Container, {});
             const version: number = component._shadows.getVersion();
@@ -552,6 +526,7 @@ describe('Controls/scroll:Container', () => {
             component._shadows._models.bottom._scrollState.canVerticalScroll = true;
             component._shadows._models.top._isVisible = false;
             component._shadows._models.bottom._isVisible = false;
+            component._isOptimizeShadowEnabled = false;
             component._updateShadowVisibility(
                 event, { top: SHADOW_VISIBILITY.VISIBLE, bottom: SHADOW_VISIBILITY.VISIBLE });
             assert.isTrue(component._shadows._models.top.isVisible);
@@ -571,6 +546,7 @@ describe('Controls/scroll:Container', () => {
             component._shadows._models.bottom._scrollState.canVerticalScroll = true;
             component._shadows._models.top._isVisible = false;
             component._shadows._models.bottom._isVisible = false;
+            component._isOptimizeShadowEnabled = false;
             component._updateShadowVisibility(
                 event, { top: SHADOW_VISIBILITY.VISIBLE, bottom: SHADOW_VISIBILITY.VISIBLE });
             assert.isTrue(component._shadows._models.top.isVisible);
@@ -586,6 +562,7 @@ describe('Controls/scroll:Container', () => {
             sinon.stub(component._stickyHeaderController, 'init');
             component._shadows._models.top._scrollState.canVerticalScroll = true;
             component._shadows._models.bottom._scrollState.canVerticalScroll = true;
+            component._isOptimizeShadowEnabled = false;
             component._updateShadowVisibility(
                 event, { top: SHADOW_VISIBILITY.VISIBLE, bottom: SHADOW_VISIBILITY.VISIBLE });
             sinon.assert.called(component._stickyHeaderController.init);
@@ -602,6 +579,7 @@ describe('Controls/scroll:Container', () => {
             component._shadows._models.bottom._scrollState.verticalPosition = SCROLL_POSITION.MIDDLE;
             component._shadows._models.top._isVisible = true;
             component._shadows._models.bottom._isVisible = true;
+            component._isOptimizeShadowEnabled = false;
             component._updateShadowVisibility(
                 event, { top: SHADOW_VISIBILITY.HIDDEN, bottom: SHADOW_VISIBILITY.HIDDEN });
             assert.isFalse(component._shadows._models.top.isVisible);
