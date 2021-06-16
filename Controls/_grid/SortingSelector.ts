@@ -356,7 +356,7 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
 
 /**
  * @name Controls/grid:SortingSelector#iconSize
- * @cfg {String} Размер инконки кнопки.иконки.
+ * @cfg {String} Размер инконки кнопки.
  * @variant s малый
  * @variant m средний
  * @variant l большой
