@@ -69,7 +69,6 @@ import TileView = require('./TileView');
 
 export default class View extends List {
     protected _viewName: TemplateFunction = TileView;
-    protected _supportNewModel: boolean = true;
 
     protected _beforeMount(): void {
         this._viewModelConstructor = this._getModelConstructor();
@@ -101,7 +100,7 @@ Object.defineProperty(View, 'defaultProps', {
  * @cfg
  * @demo Controls-demo/Tile/ItemPadding/PaddingS/Index
  * @example
- * <pre class="brush: html"> 
+ * <pre class="brush: html">
  * <!-- WML -->
  * <Controls.tile:View source="{{_viewSource}}" imageProperty="image">
  *    <ws:itemPadding

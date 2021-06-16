@@ -8,7 +8,7 @@ import ViewTemplate = require('wml!Controls/_menu/Render/Render');
 import {TKey} from 'Controls/_menu/interface/IMenuControl';
 import {Model} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {ItemsUtil} from 'Controls/list';
+import Utils = require('Types/util');
 import {Visibility as MarkerVisibility} from 'Controls/marker';
 import {IItemAction} from 'Controls/itemActions';
 import {create as DiCreate} from 'Types/di';
@@ -68,7 +68,13 @@ class MenuRender extends Control<IMenuRenderOptions> {
             nodeProperty: this._options.nodeProperty,
             multiSelectTpl,
             itemClassList: this._getClassList(treeItem),
-            getPropValue: ItemsUtil.getPropertyValue,
+            getPropValue: (itemContents, field) => {
+                if (!(itemContents instanceof Object)) {
+                    return itemContents;
+                } else {
+                    return Utils.object.getPropertyValue(itemContents, field);
+                }
+            },
             isEmptyItem: this._isEmptyItem(treeItem),
             isFixedItem: this._isFixedItem(treeItem),
             isSelected: treeItem.isSelected.bind(treeItem)

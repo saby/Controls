@@ -2,7 +2,6 @@
    scope="{{_options}}"
    template="{{_viewTemplate}}"
 
-   useNewModel="{{true}}"
    viewName="{{_viewName}}"
    viewModelConstructor="{{_viewModelConstructor}}"
 

@@ -41,30 +41,23 @@ export {default as AddButton} from 'Controls/_list/AddButton';
 export { default as Container } from 'Controls/_list/WrappedContainer';
 import EmptyTemplate = require('wml!Controls/_list/emptyTemplate');
 import GroupTemplate = require('wml!Controls/_list/GroupTemplate');
-import ItemTemplate = require('wml!Controls/_list/ItemTemplateChooser');
+import ItemTemplate = require('wml!Controls/_list/ItemTemplate');
 import {default as View} from 'Controls/_list/List';
 import BaseAction from 'Controls/_list/BaseAction';
 import LoadingIndicatorTemplate = require('wml!Controls/_list/PortionedSearchTemplate');
 import ContinueSearchTemplate = require('wml!Controls/_list/resources/ContinueSearchTemplate');
 import {default as DataContainer, IDataOptions} from 'Controls/_list/Data';
-import _forTemplate = require('wml!Controls/_list/resources/For');
-import EditingTemplate = require('wml!Controls/_list/EditingTemplateChooser');
+import EditingTemplate = require('wml!Controls/_list/EditInPlace/EditingTemplate');
 import BaseEditingTemplate = require('wml!Controls/_list/EditInPlace/baseEditingTemplate');
 import MoneyEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated/Money');
 import NumberEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated/Number');
 import FooterTemplate = require('wml!Controls/_list/ListView/Footer');
 
-import BaseViewModel = require('Controls/_list/BaseViewModel');
-import ListViewModel = require('Controls/_list/ListViewModel');
 import {default as ListControl, LIST_EDITING_CONSTANTS as editing} from 'Controls/_list/BaseControl';
 import ListView = require('Controls/_list/ListView');
 import GroupContentResultsTemplate = require('wml!Controls/_list/GroupContentResultsTemplate');
-import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
-import TreeItemsUtil = require('Controls/_list/resources/utils/TreeItemsUtil');
 import {default as BaseControl, IBaseControlOptions} from 'Controls/_list/BaseControl';
 import ScrollEmitter = require('Controls/_list/BaseControl/Scroll/Emitter');
-import SearchItemsUtil = require('Controls/_list/resources/utils/SearchItemsUtil');
-import ItemsViewModel = require('Controls/_list/ItemsViewModel');
 import HotKeysContainer from 'Controls/_list/HotKeysContainer';
 import InertialScrolling from 'Controls/_list/resources/utils/InertialScrolling';
 import {IVirtualScrollConfig} from './_list/interface/IVirtualScroll';
@@ -112,7 +105,6 @@ export {
     Remover,
     DataContainer,
     IDataOptions,
-    _forTemplate,
 
     EditingTemplate,
     BaseEditingTemplate,
@@ -120,21 +112,15 @@ export {
     NumberEditingTemplate,
     FooterTemplate,
     ItemActionsHelpers,
-    BaseViewModel,
-    ListViewModel,
     ListControl,
     ListView,
     GroupContentResultsTemplate,
-    ItemsUtil,
-    TreeItemsUtil,
     BaseControl,
     IBaseControlOptions,
     ScrollEmitter,
-    SearchItemsUtil,
     CssClassList,
     createClassListCollection,
     getItemsBySelection,
-    ItemsViewModel,
     LoadingIndicatorTemplate,
     ContinueSearchTemplate,
     HotKeysContainer,

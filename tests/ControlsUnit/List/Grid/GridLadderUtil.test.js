@@ -1,7 +1,7 @@
 define(['Types/collection', 'Controls/display', 'Env/Env', 'Controls/treeGrid'], function(Collection, Display, Env, TreeGrid) {
    const Util = Display.GridLadderUtil;
 
-   describe('Controls/_gridOld/GridLadderUtil', function() {
+   describe('Controls/display:GridLadderUtil', function() {
       it('isSupportLadder', function() {
          assert.isFalse(Util.isSupportLadder(undefined));
          assert.isFalse(Util.isSupportLadder([]));
