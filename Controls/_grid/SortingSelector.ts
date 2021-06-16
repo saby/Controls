@@ -353,4 +353,14 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
  * @remark Если заголовок не требуется, опцию можно не указывать.
  * @demo Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithHeader/Index
  */
+
+/**
+ * @name Controls/grid:SortingSelector#iconSize
+ * @cfg {String} Размер инконки кнопки.иконки.
+ * @variant s малый
+ * @variant m средний
+ * @variant l большой
+ * @remark Не влияет на размер иконок в меню, их размер фиксирован.
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/IconSize/Index
+ */
 export default SortingSelector;
