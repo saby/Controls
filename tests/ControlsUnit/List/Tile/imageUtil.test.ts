@@ -1,5 +1,26 @@
 import {assert} from 'chai';
-import {getImageClasses, getImageUrl, getImageSize, IMAGE_FIT, getImageRestrictions} from 'Controls/_tile/utils/imageUtil';
+import {getItemSize, getImageClasses, getImageUrl, getImageSize, IMAGE_FIT, getImageRestrictions} from 'Controls/_tile/utils/imageUtil';
+
+function mockHTMLElement(width, height) {
+    return {
+        classList: {
+            _classList: [],
+            add: function(className) {
+                this._classList.push(className);
+            },
+            remove: function(className) {
+                this._classList.splice(this._classList.indexOf(className), 1);
+            }
+        },
+        style: {},
+        getBoundingClientRect: function() {
+            return {
+                width: width,
+                height: height
+            };
+        }
+    };
+}
 
 describe('tileImageUtil', () => {
     describe('getImageClasses', () => {
@@ -85,6 +106,32 @@ describe('tileImageUtil', () => {
             it('Картинка полностью пропорциональна плитке', () => {
                 const restrictions = getImageRestrictions(300, 300, 500, 500);
                 assert.isTrue(restrictions.height);
+            });
+        });
+
+        describe('getItemSize', function() {
+            const items = {
+                '.controls-TileView__itemContent': mockHTMLElement(100, 100),
+                '.controls-TileView__imageWrapper': mockHTMLElement(100, 75)
+            };
+            const item = {
+                querySelector: function(selector) {
+                    return items[selector];
+                }
+            } as HTMLElement;
+
+            it('without imageWrapper', function() {
+                var hasError = false;
+
+                delete items['.controls-TileView__imageWrapper'];
+
+                try {
+                    getItemSize(item, 1, 'static');
+                } catch (e) {
+                    hasError = true;
+                }
+
+                assert.isFalse(hasError);
             });
         });
     });

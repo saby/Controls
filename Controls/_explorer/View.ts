@@ -110,7 +110,6 @@ interface IExplorerOptions
     itemOpenHandler?: Function;
     searchStartingWith?: 'root' | 'current';
     sourceController?: NewSourceController;
-    useOldModel?: boolean;
     expandByItemClick?: boolean;
     /**
      * Задает режим вывода строки с хлебными крошками в результатах поиска
@@ -940,11 +939,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._updateRootOnViewModeChanged(viewMode, cfg);
         }
 
-        if (cfg.useOldModel && viewMode !== 'tile') {
-            this._setViewModePromise = this._loadOldViewMode(cfg).then(() => {
-                this._setViewModeSync(viewMode, cfg);
-            });
-        } else if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
+        if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
             this._setViewModePromise = this._loadTileViewMode(cfg).then(() => {
                 this._setViewModeSync(viewMode, cfg);
             });
@@ -1028,29 +1023,16 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     private _loadTileViewMode(options: IExplorerOptions): Promise<void> {
-        if (!options.useOldModel) {
-            return new Promise((resolve) => {
-                import('Controls/treeTile').then((tile) => {
-                    VIEW_NAMES.tile = tile.TreeTileView;
-                    VIEW_TABLE_NAMES.tile = tile.TreeTileView;
-                    VIEW_MODEL_CONSTRUCTORS.tile = 'Controls/treeTile:TreeTileCollection';
-                    resolve();
-                }).catch((err) => {
-                    Logger.error('Controls/_explorer/View: ' + err.message, this, err);
-                });
+        return new Promise((resolve) => {
+            import('Controls/treeTile').then((tile) => {
+                VIEW_NAMES.tile = tile.TreeTileView;
+                VIEW_TABLE_NAMES.tile = tile.TreeTileView;
+                VIEW_MODEL_CONSTRUCTORS.tile = 'Controls/treeTile:TreeTileCollection';
+                resolve();
+            }).catch((err) => {
+                Logger.error('Controls/_explorer/View: ' + err.message, this, err);
             });
-        } else {
-            return new Promise((resolve) => {
-                import('Controls/tileOld').then((tile) => {
-                    VIEW_NAMES.tile = tile.TreeView;
-                    VIEW_TABLE_NAMES.tile = tile.TreeView;
-                    VIEW_MODEL_CONSTRUCTORS.tile = tile.TreeViewModel;
-                    resolve();
-                }).catch((err) => {
-                    Logger.error('Controls/_explorer/View: ' + err.message, this, err);
-                });
-            });
-        }
+        });
     }
 
     private _loadColumnsViewMode(): Promise<void> {
@@ -1061,24 +1043,6 @@ export default class Explorer extends Control<IExplorerOptions> {
             VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
         }).catch((err) => {
             Logger.error('Controls/_explorer/View: ' + err.message, this, err);
-        });
-    }
-
-    private _loadOldViewMode(options: IExplorerOptions): Promise<void> {
-        return new Promise((resolve) => {
-            import('Controls/treeGridOld').then((treeGridOld) => {
-                VIEW_NAMES.table = treeGridOld.TreeGridView;
-                VIEW_NAMES.search = treeGridOld.SearchView;
-                VIEW_TABLE_NAMES.table = treeGridOld.TreeGridView;
-                VIEW_TABLE_NAMES.search = treeGridOld.SearchView;
-
-                VIEW_MODEL_CONSTRUCTORS.table = treeGridOld.ViewModel;
-                VIEW_MODEL_CONSTRUCTORS.list = treeGridOld.ViewModel;
-                VIEW_MODEL_CONSTRUCTORS.search = treeGridOld.SearchGridViewModel;
-                resolve();
-            }).catch((err) => {
-                Logger.error('Controls/_explorer/View: ' + err.message, this, err);
-            });
         });
     }
 

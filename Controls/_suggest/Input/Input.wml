@@ -28,6 +28,7 @@
       size="{{undefined}}"
       fontStyle="{{undefined}}"
       leftFieldTemplate="{{_options.leftFieldTemplate}}"
+      fontWeight="{{_options.fontWeight}}"
       on:tagClick="_notifyHandler('tagClick')"
       on:tagHover="_notifyHandler('tagHover')"
       on:valueChanged="_changeValueHandler()"

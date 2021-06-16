@@ -45,20 +45,6 @@ describe('Controls/_listRender/View', () => {
             assert.isOk(view._collection);
             assert.strictEqual(view._collection._moduleName, cfg.collection);
         });
-
-        it('can create tile collection', async () => {
-            const cfg = {
-                ...defaultCfg,
-                collection: 'Controls/display:TileCollection',
-                render: 'Controls/listRender:Tile'
-            };
-            const view = new View(cfg);
-            await view._beforeMount(cfg);
-
-            assert.isOk(view._collection);
-            assert.strictEqual(view._collection._moduleName, cfg.collection);
-        });
-
         it('wraps items recordset into the collection', async () => {
             const view = new View(defaultCfg);
             await view._beforeMount(defaultCfg);

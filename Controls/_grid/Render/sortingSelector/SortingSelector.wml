@@ -1,8 +1,8 @@
 <ws:template name="iconButton">
     <Controls.buttons:Button
             attr:class="controls-SortingSelector_button"
-            inlineHeight="{{_nocaption ? 'xl' : 'm'}}"
-            iconSize="{{(_nocaption) ? 'l' : 's' }}"
+            inlineHeight="{{_getInlineHeight()}}"
+            iconSize="{{_getIconSize() }}"
             icon="{{_getIcon()}}"
             fontColorStyle="{{_options.fontColorStyle}}"
             captionPosition="{{(!_nocaption && _currentParamName) ? 'left' : 'right' }}"
