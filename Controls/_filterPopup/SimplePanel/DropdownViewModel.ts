@@ -1,7 +1,10 @@
 /**
  * Created by as.krasilnikov on 26.12.2017.
  */
-import {BaseViewModel, ItemsUtil, ItemsViewModel} from 'Controls/list';
+import * as BaseViewModel from 'Controls/_filterPopup/SimplePanel/oldViewModel/BaseViewModel';
+import * as ItemsViewModel from 'Controls/_filterPopup/SimplePanel/oldViewModel/ItemsViewModel';
+import * as ItemsUtil from 'Controls/_filterPopup/SimplePanel/oldViewModel/ItemsUtil';
+
 import {Utils} from 'Controls/itemActions';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';

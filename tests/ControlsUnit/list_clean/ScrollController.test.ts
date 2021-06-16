@@ -20,7 +20,6 @@ describe('Controls/list_clean/ScrollController', () => {
             const controller = new ScrollController({
                 collection,
                 virtualScrollConfig: {},
-                useNewModel: true,
                 needScrollCalculation: true
             });
             controller.handleResetItems();
@@ -35,7 +34,6 @@ describe('Controls/list_clean/ScrollController', () => {
             const controller = new ScrollController({
                 collection,
                 virtualScrollConfig: {},
-                useNewModel: true,
                 needScrollCalculation: false
             });
             controller.handleResetItems();
@@ -49,7 +47,6 @@ describe('Controls/list_clean/ScrollController', () => {
                 controller = new ScrollController({
                     collection: null,
                     virtualScrollConfig: {},
-                    useNewModel: true,
                     needScrollCalculation: false
                 });
              } catch (e) {
@@ -66,7 +63,6 @@ describe('Controls/list_clean/ScrollController', () => {
             const controller = new ScrollController({
                 collection,
                 virtualScrollConfig: {},
-                useNewModel: true,
                 needScrollCalculation: true
             });
             controller.handleResetItems();
@@ -85,7 +81,6 @@ describe('Controls/list_clean/ScrollController', () => {
             const controller = new ScrollController({
                 collection,
                 virtualScrollConfig: {},
-                useNewModel: true,
                 needScrollCalculation: true
             });
             controller.handleResetItems();
@@ -98,7 +93,6 @@ describe('Controls/list_clean/ScrollController', () => {
                 options: {
                     collection: newCollection,
                     virtualScrollConfig: {},
-                    useNewModel: true,
                     needScrollCalculation: false
                 },
                 params: {}
@@ -112,7 +106,6 @@ describe('Controls/list_clean/ScrollController', () => {
             const controller = new ScrollController({
                 collection,
                 virtualScrollConfig: {},
-                useNewModel: true,
                 needScrollCalculation: false
             });
             controller.handleResetItems();
@@ -125,7 +118,6 @@ describe('Controls/list_clean/ScrollController', () => {
                 options: {
                     collection: newCollection,
                     virtualScrollConfig: {},
-                    useNewModel: true,
                     needScrollCalculation: true
                 }
             });
@@ -138,7 +130,6 @@ describe('Controls/list_clean/ScrollController', () => {
             const controller = new ScrollController({
                 collection,
                 virtualScrollConfig: {},
-                useNewModel: true,
                 needScrollCalculation: true
             });
             controller.handleResetItems();
@@ -151,7 +142,6 @@ describe('Controls/list_clean/ScrollController', () => {
                 options: {
                     collection: newCollection,
                     virtualScrollConfig: null,
-                    useNewModel: true,
                     needScrollCalculation: true
                 }
             });

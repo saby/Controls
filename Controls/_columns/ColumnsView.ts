@@ -34,7 +34,6 @@
  * <pre class="brush: html;">
  * <Controls.columns:View
  *     keyProperty="id"
- *     useNewModel="{{true}}"
  *     source="{{_viewSource}}" />
  * </pre>
  * @demo Controls-demo/list_new/ColumnsView/Default/Index
@@ -47,7 +46,6 @@
  * <pre class="brush: html; highlight: [5,6,7,8,9,10,11]">
  * <Controls.columns:View
  *     keyProperty="id"
- *     useNewModel="{{true}}"
  *     source="{{_viewSource}}">
  *     <ws:itemTemplate>
  *         <ws:partial template="Controls/columns:ItemTemplate">
@@ -68,7 +66,6 @@
  * <pre class="brush: html;">
  * <Controls.columns:View
  *     keyProperty="id"
- *     useNewModel="{{true}}"
  *     columnMinWidth="{{300}}"
  *     columnMaxWidth="{{500}}"
  *     source="{{ _viewSource }}"/>
@@ -84,7 +81,6 @@
  * <pre class="brush: html;>
  * <Controls.columns:View
  *     keyProperty="id"
- *     useNewModel="{{true}}"
  *     columnMinWidth="{{300}}"
  *     columnMaxWidth="{{500}}"
  *     source="{{_viewSource}}"/>

@@ -1,12 +1,13 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { ListView, ListViewModel } from 'Controls/list';
+import { ListView } from 'Controls/list';
+import { Collection } from 'Controls/display';
 
 describe('Controls/list_clean/ListView', () => {
     describe('controlResize', () => {
         const listViewCfg = {
-            listModel: new ListViewModel({
-                items: [],
+            listModel: new Collection({
+                collection: [],
                 keyProperty: 'id'
             }),
             keyProperty: 'id'

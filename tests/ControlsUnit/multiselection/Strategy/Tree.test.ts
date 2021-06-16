@@ -6,9 +6,9 @@ import { TreeSelectionStrategy } from 'Controls/multiselection';
 import { Model } from 'Types/entity';
 import * as ListData from 'ControlsUnit/ListData';
 import { RecordSet } from 'Types/collection';
-import { Search, Tree, TreeItem } from 'Controls/display';
+import { Tree, TreeItem } from 'Controls/display';
 import GroupItem from 'Controls/_display/GroupItem';
-import { SearchGridViewModel } from 'Controls/treeGridOld';
+import { SearchGridCollection } from 'Controls/searchBreadcrumbsGrid';
 
 describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
    const model = new Tree({
@@ -623,8 +623,9 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
             keyProperty: 'id'
          });
 
-         const searchModel = new SearchGridViewModel({
-            items,
+         const searchModel = new SearchGridCollection({
+            collection: items,
+            root: null,
             keyProperty: 'id',
             parentProperty: 'parent',
             nodeProperty: 'nodeType',

@@ -63,7 +63,6 @@ function createTreeControl(
         nodeProperty: 'node',
         hasChildrenProperty: 'hasChildren',
         viewModelConstructor: 'Controls/treeGrid:TreeGridCollection',
-        useNewModel: true,
         columns: [],
         ...cfg
     };

@@ -1,9 +1,0 @@
-<div class="controls-Grid__editArrow-wrapper">
-      <div if="{{itemData.column.textOverflow}}" class="controls-Grid__editArrow-withTextOverflow"></div>
-      <div class="controls-Grid__editArrow-blur controls-Grid__editArrow-blur_style-{{itemData.style}}_background"></div>
-      <div on:click="_onEditArrowClick(itemData.item)"
-           class="controls-Grid__editArrow controls-Grid__editArrow controls-Grid__editArrow_style-{{itemData.style}}_background">
-           <svg class="controls-Grid__editArrow-icon " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M9,9.94l-6,6v-2l4-4-4-4v-2Zm5,0-6,6v-2l4-4-4-4v-2Z"/></svg>
-      </div>
-</div>
-

@@ -43,7 +43,6 @@
                  highlightOnHover="{{ itemActionsTemplate.highlightOnHover }}"
                  scope="{{ collection.getActionsTemplateConfig(itemActionsTemplate) }}"
                  itemActionsClass="{{ itemActionsTemplate.itemActionsClass || collection.getActionsTemplateConfig().itemActionsClass }}"
-                 useNewModel="{{ true }}"
                  itemData="{{ item }}" />
       </ws:itemActionsTemplate>
       <ws:swipeTemplate>

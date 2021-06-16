@@ -29,11 +29,7 @@ export interface IScrollParams {
     applyScrollTopCallback?: Function;
 }
 
-interface ICompatibilityOptions {
-    useNewModel: boolean;
-}
-
-export interface IOptions extends IControlOptions, ICompatibilityOptions {
+export interface IOptions extends IControlOptions {
     virtualScrollConfig: IVirtualScrollConfig;
     disableVirtualScroll: boolean;
     needScrollCalculation: boolean;
@@ -90,7 +86,7 @@ export default class ScrollController {
     constructor(options: any) {
         this._options = {...ScrollController.getDefaultOptions(), ...options};
         if (options.needScrollCalculation && options.virtualScrollConfig) {
-            if (options.useNewModel && options.collection) {
+            if (options.collection) {
                 ScrollController._setCollectionIterator(options.collection, options.virtualScrollConfig.mode);
             }
         }
@@ -147,9 +143,7 @@ export default class ScrollController {
             )) {
                 this._options.disableVirtualScroll = options.disableVirtualScroll;
                 if (options.needScrollCalculation && options.virtualScrollConfig) {
-                    if (options.useNewModel) {
-                        ScrollController._setCollectionIterator(options.collection, options.virtualScrollConfig.mode);
-                    }
+                    ScrollController._setCollectionIterator(options.collection, options.virtualScrollConfig.mode);
                 }
                 result = this._initVirtualScroll(options);
                 this._options.collection = options.collection;

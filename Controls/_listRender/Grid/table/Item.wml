@@ -1,8 +1,0 @@
-<tr attr:class="controls-Grid__row controls-ListView__itemV controls-ListView__itemV_cursor-pointer controls-Grid__row_highlightOnHover_default controls-Grid__row_default">
-   <ws:for data="column in item.getColumns()">
-      <ws:partial
-         template="wml!Controls/_listRender/Grid/table/Column"
-         attr:key="{{ column.getInstanceId() }}"
-         column="{{ column }}" />
-   </ws:for>
-</tr>

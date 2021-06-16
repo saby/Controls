@@ -5,7 +5,6 @@ import ListViewTpl = require('wml!Controls/_list/ListView/ListView');
 import GroupTemplate = require('wml!Controls/_list/GroupTemplate');
 import defaultItemTemplate = require('wml!Controls/_list/ItemTemplate');
 import * as forTemplate from 'wml!Controls/_list/Render/For';
-import * as oldForTemplate from 'wml!Controls/_list/resources/For';
 import 'css!Controls/list';
 import {isEqual} from "Types/object";
 import {_Options} from 'UI/Vdom';
@@ -80,12 +79,8 @@ var ListView = BaseControl.extend(
             // todo refactor by task https://online.sbis.ru/opendoc.html?guid=80fbcf1f-5804-4234-b635-a3c1fc8ccc73
             // Из новой коллекции нотифается collectionChanged, в котором тип изменений указан в newItems.properties
             let itemChangesType;
-            if (this._options.useNewModel) {
-                // В событии новой модели нет такого параметра как changesType, из-за этого в action лежит newItems
-                itemChangesType = action ? action.properties : null;
-            } else {
-                itemChangesType = newItems ? newItems.properties : null;
-            }
+            // В событии новой модели нет такого параметра как changesType, из-за этого в action лежит newItems
+            itemChangesType = action ? action.properties : null;
 
             if (changesType !== 'hoveredItemChanged' &&
                 changesType !== 'activeItemChanged' &&
@@ -158,19 +153,9 @@ var ListView = BaseControl.extend(
             if (newOptions.listModel) {
                 this._listModel = newOptions.listModel;
 
-                if (newOptions.useNewModel) {
-                    this._listModel.subscribe('onCollectionChange', this._onListChangeFnc);
-                } else {
-                    this._listModel.subscribe('onListChange', this._onListChangeFnc);
-                    // Если изменить опцию модели пока ListView не построена, то они и не применятся.
-                    this._listModel.setItemPadding(newOptions.itemPadding, true);
-                }
+                this._listModel.subscribe('onCollectionChange', this._onListChangeFnc);
             }
-            if (newOptions.useNewModel) {
-                this._forTemplate = forTemplate;
-            } else {
-                this._forTemplate = oldForTemplate;
-            }
+            this._forTemplate = forTemplate;
             this._itemTemplate = this._resolveItemTemplate(newOptions);
         },
 
@@ -282,12 +267,10 @@ var ListView = BaseControl.extend(
             // TODO: Убрать, preventItemEvent когда это больше не понадобится
             // https://online.sbis.ru/doc/cefa8cd9-6a81-47cf-b642-068f9b3898b7
             if (!e.preventItemEvent) {
-                if (this._options.useNewModel) {
-                    if (dispItem['[Controls/_display/GroupItem]']) {
-                        const groupItem = dispItem.getContents();
-                        this._notify('groupClick', [groupItem, e, dispItem], {bubbling: true});
-                        return;
-                    }
+                if (dispItem['[Controls/_display/GroupItem]']) {
+                    const groupItem = dispItem.getContents();
+                    this._notify('groupClick', [groupItem, e, dispItem], {bubbling: true});
+                    return;
                 }
                 var item = dispItem.getContents();
                 this._notify('itemClick', [item, e]);
@@ -330,11 +313,9 @@ var ListView = BaseControl.extend(
         },
 
         _onItemMouseDown: function(event, itemData) {
-            if (this._options.useNewModel) {
-                if (itemData['[Controls/_display/GroupItem]']) {
-                    event.stopPropagation();
-                    return;
-                }
+            if (itemData['[Controls/_display/GroupItem]']) {
+                event.stopPropagation();
+                return;
             }
             if (itemData && itemData.isSwiped()) {
                // TODO: Сейчас на itemMouseDown список переводит фокус на fakeFocusElement и срабатывает событие listDeactivated.
@@ -351,11 +332,9 @@ var ListView = BaseControl.extend(
         },
 
         _onItemMouseUp(e, itemData) {
-            if (this._options.useNewModel) {
-                if (itemData['[Controls/_display/GroupItem]']) {
-                    e.stopPropagation();
-                    return;
-                }
+            if (itemData['[Controls/_display/GroupItem]']) {
+                e.stopPropagation();
+                return;
             }
             this._notify('itemMouseUp', [itemData, e]);
         },

@@ -27,7 +27,6 @@
          template="{{ _options.itemActionsTemplate.itemActionsTemplate || 'Controls/itemActions:ItemActionsTemplate' }}"
          scope="{{ collection.getActionsTemplateConfig() }}"
          itemActionsClass="{{ itemActionsTemplate.itemActionsClass || collection.getActionsTemplateConfig().itemActionsClass }}"
-         useNewModel="{{ true }}"
          itemData="{{ item }}" />
    </ws:itemActionsTemplate>
    <ws:swipeTemplate>
