@@ -1670,16 +1670,22 @@ const _private = {
     },
 
     /**
-     * Закрывает меню опций записи у активной записи, если она есть
+     * Закрывает меню опций записи у активной записи, если она есть в списке изменённых или удалённых
      * @param self
-     * @param items
+     * @param items список изменённых или удалённых из модели записей
      */
     closeItemActionsMenuForActiveItem(self: typeof BaseControl, items: Array<CollectionItem<Model>>): void {
         const activeItem = self._itemActionsController.getActiveItem();
-        if (activeItem && items && items.find((item) => {
+        let activeItemContents;
+        if (activeItem) {
+            activeItemContents = _private.getPlainItemContents(activeItem);
+        }
+        if (activeItemContents && items && items.find((item) => {
+            if (!item.ItemActionsItem) {
+                return false;
+            }
             const itemContents = _private.getPlainItemContents(item);
-            const activeItemContents = _private.getPlainItemContents(item);
-            return itemContents?.getKey() === activeItemContents?.getKey();
+            return itemContents?.getKey() === activeItemContents.getKey();
         })) {
             _private.closeActionsMenu(self);
         }
