@@ -506,6 +506,7 @@ define([
                      cursorPosition: ['Title2', 2]
                   },
                   2: {
+                     cursorPosition: undefined,
                      markedKey: null,
                      parent: 1
                   }
