@@ -12,6 +12,7 @@ import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRed
 import {IOperationsPanelItem, IOperationsPanelOptions} from './_interface/IOperationsPanel';
 import 'css!Controls/toolbars';
 import 'css!Controls/operationsPanel';
+import Store from 'Controls/Store';
 
 /*
  * Контрол, предназначенный для операций над множеством записей списка.
@@ -137,8 +138,9 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
 
    protected _beforeMount(options: IOperationsPanelOptions): Promise<void> | void {
       let result;
-
+      this._updateOperationPanelConfig(options);
       if (options.source) {
+         Store.dispatch('operationToolbarItems', options.source.data);
          result = this._loadData(options.source);
          if (result instanceof Promise) {
             result.then((data) => {this._loadDataCallback(data, options); });
@@ -160,6 +162,18 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
          this._notify('controlResize', [], {bubbling: true});
       });
       this._notify('operationsPanelOpened');
+      Store.onPropertyChanged('executeOperation', ({toolbarItem, event}) => {
+         if (toolbarItem.get('id') === 'toggleAll') {
+            this._notify('selectedTypeChanged', ['toggleAll'], {
+               bubbling: true
+            });
+         } else {
+            this._notify('itemClick', [toolbarItem, event, {
+               selected: this._options.selectedKeys,
+               excluded: this._options.excludedKeys
+            }]);
+         }
+      });
    }
 
    protected _onResize(): void {
@@ -167,7 +181,9 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
    }
 
    protected _afterUpdate(oldOptions: IOperationsPanelOptions): void {
+      this._updateOperationPanelConfig(this._options);
       if (this._options.source !== oldOptions.source) {
+         Store.dispatch('operationToolbarItems', this._options.source.data);
          // We should recalculate the size of the toolbar only when all the children have updated,
          // otherwise available width may be incorrect.
          const loadResult = this._loadData(this._options.source);
@@ -192,6 +208,17 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
          selected: this._options.selectedKeys,
          excluded: this._options.excludedKeys
       }]);
+   }
+
+   protected _updateOperationPanelConfig(options): void {
+      Store.dispatch('operationPanelConfig', {
+         selectedKeys: options.selectedKeys,
+         excludedKeys: options.excludedKeys,
+         selectedKeysCount: options.selectedKeysCount,
+         selectionViewMode: options.selectionViewMode,
+         selectedCountConfig: options.selectedCountConfig,
+         isAllSelected: options.isAllSelected
+      });
    }
 
 }

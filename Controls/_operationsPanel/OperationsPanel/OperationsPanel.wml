@@ -1,35 +1,41 @@
-<div class="controls-operationsPanelV{{ _initialized ? ' controls-operationsPanelV_initialized' : ' controls-operationsPanelV_notInitialized' }}">
-   <Controls.operations:MultiSelector selectedKeys="{{ _options.selectedKeys }}"
-                                       excludedKeys="{{ _options.excludedKeys }}"
-                                       size="{{_options.multiSelectSize}}"
-                                       fontColorStyle="{{_options.fontColorStyle}}"
-                                       fontSize="{{_options.multiSelectFontSize}}"
-                                       selectedKeysCount="{{ _options.selectedKeysCount }}"
-                                       selectionViewMode="{{ _options.selectionViewMode }}"
-                                       selectedCountConfig="{{ _options.selectedCountConfig }}"
-                                       isAllSelected="{{ _options.isAllSelected }}"
-                                       attr:class="{{ _initialized ? '' : 'ws-invisible' }}" />
-   <div class="controls-operationsPanelV__actions controls-operationsPanelV__actions{{ _initialized ? '' : ' controls-operationsPanelV__actions_notInitialized' }}" name="toolbarBlock">
-      <ws:if data="{{_toolbarSource && _initialized}}">
-         <Controls.toolbars:View attr:class="controls-operationsPanelV__toolbar"
-                           popupFooterTemplate="{{_options.popupFooterTemplate}}"
-                           parentProperty="{{_options.parentProperty}}"
-                           nodeProperty="{{_options.nodeProperty}}"
-                           keyProperty="{{_options.keyProperty}}"
-                           iconSize="m"
-                           fontColorStyle="{{_options.fontColorStyle}}"
-                           iconStyle="{{_options.iconStyle}}"
-                           source="{{_toolbarSource}}"
-                           on:itemClick="_itemClickHandler()"
-                           itemTemplate="{{ _options.itemTemplate }}"
-                           itemTemplateProperty="{{ _options.itemTemplateProperty }}">
-         </Controls.toolbars:View>
-      </ws:if>
-   </div>
-   <ws:if data="{{_options.rightTemplate}}">
-      <ws:partial attr:class="controls-operationsPanelV__rightTemplate {{ _initialized ? '' : 'ws-invisible' }}"
-                  template="{{_options.rightTemplate}}"/>
-   </ws:if>
-   <Controls.event:Listener event="controlResize"
-                            on:controlResize="_onResize()"/>
-</div>
+<ws:if data="{{!this._options.newDesign}}">
+    <div class="controls-operationsPanelV{{ _initialized ? ' controls-operationsPanelV_initialized' : ' controls-operationsPanelV_notInitialized' }}">
+        <Controls.operations:MultiSelector selectedKeys="{{ _options.selectedKeys }}"
+                                           excludedKeys="{{ _options.excludedKeys }}"
+                                           size="{{_options.multiSelectSize}}"
+                                           fontColorStyle="{{_options.fontColorStyle}}"
+                                           fontSize="{{_options.multiSelectFontSize}}"
+                                           selectedKeysCount="{{ _options.selectedKeysCount }}"
+                                           selectionViewMode="{{ _options.selectionViewMode }}"
+                                           selectedCountConfig="{{ _options.selectedCountConfig }}"
+                                           isAllSelected="{{ _options.isAllSelected }}"
+                                           attr:class="{{ _initialized ? '' : 'ws-invisible' }}"/>
+        <div class="controls-operationsPanelV__actions controls-operationsPanelV__actions{{ _initialized ? '' : ' controls-operationsPanelV__actions_notInitialized' }}"
+             name="toolbarBlock">
+            <ws:if data="{{_toolbarSource && _initialized}}">
+                <Controls.toolbars:View attr:class="controls-operationsPanelV__toolbar"
+                                        popupFooterTemplate="{{_options.popupFooterTemplate}}"
+                                        parentProperty="{{_options.parentProperty}}"
+                                        nodeProperty="{{_options.nodeProperty}}"
+                                        keyProperty="{{_options.keyProperty}}"
+                                        iconSize="m"
+                                        fontColorStyle="{{_options.fontColorStyle}}"
+                                        iconStyle="{{_options.iconStyle}}"
+                                        source="{{_toolbarSource}}"
+                                        on:itemClick="_itemClickHandler()"
+                                        itemTemplate="{{ _options.itemTemplate }}"
+                                        itemTemplateProperty="{{ _options.itemTemplateProperty }}">
+                </Controls.toolbars:View>
+            </ws:if>
+        </div>
+        <ws:if data="{{_options.rightTemplate}}">
+            <ws:partial attr:class="controls-operationsPanelV__rightTemplate {{ _initialized ? '' : 'ws-invisible' }}"
+                        template="{{_options.rightTemplate}}"/>
+        </ws:if>
+        <Controls.event:Listener event="controlResize"
+                                 on:controlResize="_onResize()"/>
+    </div>
+</ws:if>
+<ws:else>
+    <div name="toolbarBlock"></div>
+</ws:else>

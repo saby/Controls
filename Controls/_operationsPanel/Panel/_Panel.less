@@ -1,0 +1,27 @@
+.controls-operationsPanelNew {
+  display: inline-flex;
+  height: var(--inline_height_l);
+  border-radius: var(--border-radius_default_block);
+  background-color: var(--secondary_hover_background-color);
+  box-shadow: var(--box-shadow_block);
+}
+.controls-operationsPanelNew__closeButton {
+  font-weight: bold;
+}
+
+.ws-is-hover {
+  .controls-operationsPanelNew__caption:hover {
+    cursor: grab;
+  }
+  .controls-operationsPanelNew__closeButton {
+    cursor: pointer;
+  }
+}
+
+.ws-is-drag .controls-operationsPanelNew__caption {
+  cursor: grabbing;
+}
+
+.controls-operationPanel__offset {
+  margin-top: calc(-1 * var(--inline_height_l));
+}
