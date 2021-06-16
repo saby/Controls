@@ -422,7 +422,7 @@ export default class ColumnScrollController {
         const transformSelector = this._transformSelector;
         let newHTML = '';
 
-        newHTML += ` .${transformSelector} .js-controls-ColumnScroll__thumb {display: flex; ${this._options.useFakeRender ? 'visibility: hidden;' : ''}}`;
+        newHTML += ` .${transformSelector} .js-controls-ColumnScroll__thumb.controls-VScrollbar {display: flex; ${this._options.useFakeRender ? 'visibility: hidden;' : ''}}`;
         if (!this._options.isFullGridSupport) {
             newHTML += ` .${transformSelector} .js-controls-ColumnScroll__thumb {width: ${this._scrollWidth}px;}`;
 
