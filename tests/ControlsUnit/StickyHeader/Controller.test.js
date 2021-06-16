@@ -158,12 +158,12 @@ define([
             component.init(container);
             component._headers[data.id] = data;
             sinon.stub(data.inst, 'setSyncDomOptimization');
-            sinon.stub(component, '_deleteElementFromElementsHeightStack');
+            sinon.stub(component, '_deleteElementFromElementsHeight');
             sinon.stub(component, '_unobserveStickyHeader');
 
             return component.registerHandler(event, data, false, false, false).then(function() {
                sinon.assert.notCalled(data.inst.setSyncDomOptimization);
-               sinon.assert.calledOnce(component._deleteElementFromElementsHeightStack);
+               sinon.assert.calledOnce(component._deleteElementFromElementsHeight);
             });
          });
 
@@ -709,17 +709,6 @@ define([
          });
       });
 
-      describe('resizeContainerHandler', () => {
-         it('should call resizeHandler if _needUpdateHeadersAfterVisibleChange = true', () => {
-            let stub = sinon.stub(component, 'resizeHandler');
-            component._needUpdateHeadersAfterVisibleChange = true;
-            component.resizeContainerHandler();
-
-            sinon.assert.calledOnce(stub);
-            stub.restore();
-         });
-      });
-
       describe('_changeHeadersStackByHeader', () => {
          let sandbox;
          beforeEach(function() {
@@ -734,24 +723,24 @@ define([
          it('should remove header from headersStack', () => {
             const stb = sandbox.stub(component, '_removeFromStack');
             const header = {
-               index: 0
+               id: 0
             };
             component._headers[0] = {
                offset: {}
             };
-            component._changeHeadersStackByHeader(header, 0);
+            component._changeHeadersStackByHeader(header, 'remove');
             sinon.assert.calledOnce(stb);
          });
 
          it('should add header to headersStack', () => {
             const stb = sandbox.stub(component, '_addToHeadersStack');
             const header = {
-               index: 0
+               id: 0
             };
             component._headers[0] = {
                position: 'top'
             };
-            component._changeHeadersStackByHeader(header, 100);
+            component._changeHeadersStackByHeader(header, 'add');
             sinon.assert.calledOnce(stb);
          });
       });
@@ -787,8 +776,33 @@ define([
             assert.equal(component._elementsHeight.length, entries.length);
          });
 
-         it('should set height to element and call changeHeadersStackByHeader', () => {
+         it('should set height to element (100 to 200) and not called changeHeadersStackByHeader', () => {
             const result = 200;
+            const entries = [
+               {
+                  target: 0,
+                  contentRect: {
+                     height: result
+                  }
+               }
+            ];
+            component._elementsHeight = [
+               {
+                  key: 0,
+                  value: 100
+               }
+            ];
+            component._headers = [1];
+            sandbox.stub(component, '_getHeaderFromNode').returns({index: 0});
+            const stb = sandbox.stub(component, '_changeHeadersStackByHeader');
+            component._resizeObserverCallback(entries);
+            sinon.assert.notCalled(stb);
+
+            assert.equal(component._elementsHeight[0].value, result);
+         });
+
+         it('should set height to element (100 to 0) and called changeHeadersStackByHeader', () => {
+            const result = 0;
             const entries = [
                {
                   target: 0,
@@ -810,36 +824,6 @@ define([
             sinon.assert.calledOnce(stb);
 
             assert.equal(component._elementsHeight[0].value, result);
-         });
-
-         it('should delete element if its height is 0', () => {
-            const entries = [
-               {
-                  target: 0,
-                  contentRect: {
-                     height: 0
-                  }
-               }, {
-                  target: 1,
-                  contentRect: {
-                     height: 0
-                  }
-               }
-            ];
-
-            component._elementsHeight = [
-               {
-                  key: 0,
-                  value: 100
-               }, {
-                  key: 1,
-                  value: 100
-               }
-            ];
-            sandbox.stub(component, '_getHeaderFromNode');
-            component._resizeObserverCallback(entries);
-
-            assert.equal(component._elementsHeight.length, 0);
          });
 
          it('should\' update headers if scroll container is hidden', () => {
