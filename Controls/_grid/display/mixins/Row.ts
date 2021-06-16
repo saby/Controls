@@ -25,7 +25,7 @@ export interface IItemTemplateParams {
     clickable?: boolean;
 }
 
-interface IInitializeColumnsOptions {
+export interface IInitializeColumnsOptions {
     shouldAddStickyLadderCells?: boolean;
     shouldAddMultiSelectCell?: boolean;
     addEmptyCellsForStickyLadder?: boolean;
