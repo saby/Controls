@@ -457,11 +457,12 @@ define(
             assert.equal(actualError, 'error');
          });
 
-         it('loadDependencies, isLoadingBeforeOpening', async() => {
+         it('loadDependencies, _loadDependsPromise', async() => {
             const controller = getDropdownController(config);
 
-            controller.loadDependencies(true, null, true);
+            controller.loadDependencies();
             assert.isOk(controller._loadMenuTempPromise);
+            assert.isOk(controller._loadDependsPromise);
 
             controller._loadMenuTempPromise = null;
             await controller.loadDependencies();
