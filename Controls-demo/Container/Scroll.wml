@@ -23,7 +23,7 @@
                                            topShadowVisibility="{{shadowVisibility}}"
                                            bottomShadowVisibility="{{shadowVisibility}}"
 
-                                           optimizeShadow="{{false}}">
+                                           shadowMode="js">
 
                     <div>
                         <ws:for data="index in _numberOfRecords">
