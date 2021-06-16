@@ -457,6 +457,18 @@ define(
             assert.equal(actualError, 'error');
          });
 
+         it('loadDependencies, _loadDependsPromise', async() => {
+            const controller = getDropdownController(config);
+
+            controller.loadDependencies();
+            assert.isOk(controller._loadMenuTempPromise);
+            assert.isOk(controller._loadDependsPromise);
+
+            controller._loadMenuTempPromise = null;
+            await controller.loadDependencies();
+            assert.isNotOk(controller._loadMenuTempPromise);
+         });
+
          it('check empty item update', () => {
             let dropdownController = getDropdownController(config),
                selectedItems = [];
