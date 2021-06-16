@@ -164,7 +164,6 @@ export class MoveController {
         const templateOptions: IMoverDialogTemplateOptions = {
             movedItems: selection.selected,
             source: this._source,
-            keyProperty: this._source.getKeyProperty(),
             ...(this._popupOptions.templateOptions as IMoverDialogTemplateOptions)
         };
 
