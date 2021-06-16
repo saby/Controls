@@ -798,7 +798,10 @@ export default class Explorer extends Control<IExplorerOptions> {
             actualIds.push(crumbKey + '');
             store[crumbKey] = {
                 parent: parentKey,
-                markedKey: null
+                markedKey: null,
+                // В крошке может не быть информации о курсоре, но она могла быть
+                // в самой записи в которую провалились
+                cursorPosition: store[crumbKey]?.cursorPosition
             };
 
             if (store[parentKey]) {

@@ -40,15 +40,9 @@ define(
                SlidingPanelStrategy._getWindowHeight = () => 900;
                const position = SlidingPanelStrategy.getPosition(item);
 
-               assert.deepEqual(position, {
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  maxHeight: 800,
-                  minHeight: 400,
-                  height: 400,
-                  position: 'fixed'
-               });
+               assert.equal(position.height, 400);
+               assert.equal(position.minHeight, 400);
+               assert.equal(position.maxHeight, 800);
             });
             it('with initial position', () => {
                const SlidingPanelStrategy = new StrategyConstructor();
@@ -176,7 +170,9 @@ define(
                   bottom: 0
                };
 
-               sandbox.stub(StrategySingleton, 'getPosition');
+               sandbox.stub(StrategySingleton, 'getPosition').callsFake(() => {
+                  return {};
+               });
                sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
                sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
                   return {
