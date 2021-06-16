@@ -54,6 +54,20 @@ type TCurrencyPosition = 'right' | 'left';
  * @variant l
  */
 type TCurrencySize = '2xs' | 'xs' | 's' | 'm' | 'l';
+/**
+ * Тип данных для подчеркивания
+ * @typedef {string} Controls/_decorator/IMoney/TUnderline
+ * @variant hovered
+ * @variant none
+ */
+type TUnderline = 'hovered' | 'none';
+/**
+ * Тип данных количества знаков после запятой
+ * @typedef {string} Controls/_decorator/IMoney/TPrecision
+ * @variant 0
+ * @variant 2
+ */
+type TPrecision = 0 | 2;
 
 export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, ITooltipOptions,
     IFontColorStyleOptions, IFontWeightOptions, IFontSizeOptions {
@@ -91,10 +105,21 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
      * @demo Controls-demo/Decorator/Money/Currency/Index
      */
     currencyPosition?: TCurrencyPosition;
+    /**
+     * @name Controls/_decorator/IMoney#underline
+     * @cfg {Controls/_decorator/IMoney/TUnderline.typedef} Вариант подчеркивания.
+     * @default none
+     * @demo Controls-demo/Decorator/Money/Underline/Index
+     */
+    underline?: TUnderline;
+    /**
+     * @name Controls/_decorator/IMoney#precision
+     * @cfg {Number} Количество знаков после запятой.
+     * @default 2
+     * @demo Controls-demo/Decorator/Money/Precision/Index
+     */
+    precision?: TPrecision;
 }
-
-const FRACTION_LENGTH: number = 2;
-const ZERO_FRACTION_PATH: string = '0'.repeat(FRACTION_LENGTH);
 
 export function calculateMainClass(underline: string, style: string): string {
     return 'controls-DecoratorMoney' + `${underline === 'hovered' ? ' controls-DecoratorMoney__underline' : ''}
@@ -161,12 +186,17 @@ export function calculateTooltip(formattedNumber: object, options: IMoneyOptions
     return formattedNumber.number;
 }
 
-export function isDisplayFractionPath(value: string, showEmptyDecimals: boolean): boolean {
-    return showEmptyDecimals || value !== '.00';
+export function isDisplayFractionPath(value: string, showEmptyDecimals: boolean, precision: number): boolean {
+    return (showEmptyDecimals || value !== '.00') && !!precision;
 }
 
-export function calculateFormattedNumber(value: TValue, useGrouping: boolean, abbreviationType: TAbbreviationType): string | IPaths {
-    const formattedValue = toFormat(toString(value));
+export function calculateFormattedNumber(
+    value: TValue,
+    useGrouping: boolean,
+    abbreviationType: TAbbreviationType,
+    precision: number
+): string | IPaths {
+    const formattedValue = toFormat(toString(value, precision), precision);
 
     let [integer, fraction] = splitValueIntoParts(formattedValue);
 
@@ -185,18 +215,24 @@ export function calculateFormattedNumber(value: TValue, useGrouping: boolean, ab
     };
 }
 
-function toFormat(value: string): string {
+function toFormat(value: string, precision: number): string {
     const dotPosition = value.indexOf('.');
 
     if (dotPosition === -1) {
-        return value + `.${ZERO_FRACTION_PATH}`;
+        return value + (precision ? '.00' : '');
+    }
+
+    if (!precision) {
+        return value.substr(0, dotPosition);
     }
 
     const fractionLength = value.length - dotPosition - 1;
-    if (fractionLength < FRACTION_LENGTH) {
-        return value + '0'.repeat(FRACTION_LENGTH - fractionLength);
-    } else if (fractionLength > FRACTION_LENGTH) {
-        return value.substr(0, dotPosition + FRACTION_LENGTH + 1);
+    if (fractionLength < precision) {
+        return value + '0'.repeat(precision - fractionLength);
+    }
+
+    if (fractionLength > precision) {
+        return value.substr(0, dotPosition + precision + 1);
     }
 
     return value;
@@ -206,9 +242,9 @@ function correctValue(value: string): string {
     return value.replace('-', '- ');
 }
 
-function toString(value: TValue): string {
+function toString(value: TValue, precision: number): string {
     if (value === null) {
-        return '0.' + ZERO_FRACTION_PATH;
+        return '0' + (precision ? '.00' : '');
     }
     if (typeof value === 'number') {
         return numberToString(value);

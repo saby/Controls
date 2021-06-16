@@ -7,7 +7,8 @@ define('Controls/_decorator/Money', ['UI/Executor', 'Controls/_decorator/resourc
       var value = data.value || null;
       var useGrouping = data.useGrouping === false ? false : true;
       var abbreviationType = data.abbreviationType || 'none';
-      var formattedNumber = Money.calculateFormattedNumber(value, useGrouping, abbreviationType);
+      var precision = data.precision === 0 ? 0 : 2;
+      var formattedNumber = Money.calculateFormattedNumber(value, useGrouping, abbreviationType, precision);
       var stroked = data.stroked || false;
       var fontColorStyle = Money.calculateFontColorStyle(stroked, data) || 'default';
       var fontSize = data.fontSize || 'm';
@@ -18,7 +19,7 @@ define('Controls/_decorator/Money', ['UI/Executor', 'Controls/_decorator/resourc
       var underline = data.underline || 'none';
       var currency = Money.calculateCurrency(data.currency);
       var fractionFontSize = Money.calculateFractionFontSize(fontSize);
-      var isDisplayFractionPath = Money.isDisplayFractionPath(formattedNumber.fraction, showEmptyDecimals);
+      var isDisplayFractionPath = Money.isDisplayFractionPath(formattedNumber.fraction, showEmptyDecimals, precision);
       var tooltip = Money.calculateTooltip(formattedNumber, data);
 
       var mainClass = Money.calculateMainClass(underline, data.style);
