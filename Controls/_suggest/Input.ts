@@ -22,6 +22,7 @@ import 'css!Controls/suggest';
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IFontSize
+ * @mixes Controls/interface:IFontWeight
  * @mixes Controls/interface:IHeight
  * @mixes Controls/interface:IValidationStatus
  * @mixes Controls/interface:IContrastBackground
