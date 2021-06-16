@@ -203,8 +203,13 @@ export default class _Controller implements IDropdownController {
       });
    }
 
-   loadDependencies(needLoadMenuTemplates: boolean = true, source?: ICrudPlus): Promise<unknown[]> {
+   loadDependencies(needLoadMenuTemplates: boolean = true, source?: ICrudPlus, isLoadingBeforeOpening?: boolean): Promise<unknown[]> {
       const deps = [];
+
+      if (this._isLoadingBeforeOpening) {
+         return Promise.resolve();
+      }
+
       if (needLoadMenuTemplates) {
          deps.push(this._loadMenuTemplates(this._options));
       }
@@ -220,7 +225,10 @@ export default class _Controller implements IDropdownController {
          deps.push(this._loadItemsTemplates(this._options));
       }
 
+      this._isLoadingBeforeOpening = isLoadingBeforeOpening;
+
       return Promise.allSettled(deps).then((results) => {
+         this._isLoadingBeforeOpening = false;
          const errorResult = results.find((result) => result.reason);
          if (errorResult) {
             return Promise.reject(errorResult.reason);
@@ -321,7 +329,7 @@ export default class _Controller implements IDropdownController {
          this._source = this._options.source;
          this._resolveLoadedItems(this._options, this._preloadedItems);
       }
-      return this.loadDependencies(!this._preloadedItems, source).then(
+      return this.loadDependencies(!this._preloadedItems, source, true).then(
           () => {
              const count = this._items.getCount();
              if (count > 1 || count === 1 && (this._options.emptyText || this._options.footerContentTemplate)) {
