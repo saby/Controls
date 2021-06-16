@@ -799,7 +799,10 @@ export default class Explorer extends Control<IExplorerOptions> {
             actualIds.push(crumbKey + '');
             store[crumbKey] = {
                 parent: parentKey,
-                markedKey: null
+                markedKey: null,
+                // В крошке может не быть информации о курсоре, но она могла быть
+                // в самой записи в которую провалились
+                cursorPosition: store[crumbKey]?.cursorPosition
             };
 
             if (store[parentKey]) {
@@ -1340,7 +1343,7 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @example
  * <pre class="brush: html; highlight: [3-5]">
  * <!-- WML -->
- * <Controls.explorer:View source="{{_viewSource}}" columns="{{_columns}}" viewMode="table" displayProperty="title" parentProperty="parent" nodeProperty="parent@"> 
+ * <Controls.explorer:View source="{{_viewSource}}" columns="{{_columns}}" viewMode="table" displayProperty="title" parentProperty="parent" nodeProperty="parent@">
  *     <ws:tileItemTemplate>
  *         <ws:partial template="Controls/tile:ItemTemplate" highlightOnHover="{{false}}" />
  *     </ws:tileItemTemplate>
@@ -1385,7 +1388,7 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @markdown
  * @remark
  * Данная опция позволяет сконфигурировать вывод строки с хлебными крошками. Возможны 2 варианта:
- * 
+ *
  * * row - все ячейки строки с хлебными крошками объединяются в одну ячейку в которой выводятся хлебные крошки.
  * * cell - ячейки строки с хлебными крошками не объединяются, выводятся в соответствии с заданной
  * конфигурацией колонок. При таком режиме прикладной разработчик может задать кастомное содержимое для ячеек
