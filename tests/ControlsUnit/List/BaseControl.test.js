@@ -5094,6 +5094,7 @@ define([
                   null,
                   null,
                   [{
+                     ItemActionsItem: true,
                      getContents: () => {
                         return {
                            getKey: () => 2
@@ -5119,6 +5120,7 @@ define([
                   null,
                   null,
                   [{
+                     ItemActionsItem: true,
                      getContents: () => {
                         return {
                            getKey: () => 2
@@ -5126,6 +5128,41 @@ define([
                      },
                      setMarked: () => null
                   }],
+                  null);
+
+            assert.isNull(instance._itemActionsMenuId);
+            assert.isNull(instance._itemActionsController.getActiveItem());
+         });
+
+         // Закрываем контекстное меню при удалении записи. Среди удалённых записей есть группа
+         it('should close context menu when group is in removed items', function() {
+            instance._itemActionsMenuId = 'popup-id-0';
+            instance._itemActionsController.setActiveItem(item);
+            instance.getViewModel()
+               ._notify(
+                  'onListChange',
+                  'collectionChanged',
+                  collection.IObservable.ACTION_REPLACE,
+                  null,
+                  null,
+                  [
+                     {
+                        ItemActionsItem: false,
+                        getContents: () => {
+                           return 'group1';
+                        },
+                        setMarked: () => null
+                     },
+                     {
+                        ItemActionsItem: true,
+                        getContents: () => {
+                           return {
+                              getKey: () => 2
+                           };
+                        },
+                        setMarked: () => null
+                     }
+                  ],
                   null);
 
             assert.isNull(instance._itemActionsMenuId);
@@ -5140,6 +5177,7 @@ define([
             const itemAt1 = instance._listViewModel.at(1);
             const breadcrumbItem = {
                '[Controls/_display/BreadcrumbsItem]': true,
+               ItemActionsItem: true,
                _$active: false,
                getContents: () => ['fake', 'fake', 'fake', itemAt1.getContents() ],
                setActive: function() {
