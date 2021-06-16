@@ -1,0 +1,7 @@
+<SbisEnvUI.Bootstrap>
+   <ws:content>
+      <div>
+         <Controls.buttons:Button caption="Кнопка в стиле" />
+      </div>
+   </ws:content>
+</SbisEnvUI.Bootstrap>
