@@ -636,11 +636,13 @@ define('Controls/interface/IEditableList', [
    /**
     * Завершает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование/добавление по месту} с сохранением введенных данных.
     * @function Controls/interface/IEditableList#commitEdit
-    * @returns {Promise}
+    * @returns {Promise<void | { canceled: true }>}
     * @remark
-    * Promise разрешается после монтирования контрола в DOM.
-    * 
     * Используйте этот метод, когда вы хотите завершить редактирование в ответ на действие пользователя, например, когда пользователь пытается закрыть диалоговое окно, используйте этот метод для сохранения изменений.
+    * 
+    * Promise разрешается после монтирования контрола в DOM.
+    * При ошибке {@link /doc/platform/developmentapl/interface-development/forms-and-validation/validation/client-validate/ валидации} Promise возвращает { canceled: true }.
+    * Если редактирование успешно завершилось, то Promise ничего возвращает.
     *
     * При завершении редактирования по месту происходят события, подробнее о которых читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/events/ здесь}.
     * @example
