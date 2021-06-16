@@ -66,12 +66,14 @@ interface ISuggest {
       /**
        * @name Controls/interface/ISuggest#suggestTemplate
        * @cfg {ISuggestTemplateProp|null} Шаблон {@link /doc/platform/developmentapl/interface-development/controls/input-elements/input/suggest/ автодополнения}, который отображает результаты поиска.
-       * @remark Корневым контролом автодополнения должен быть Controls/Container/Suggest/List, этому контролу можно передать в контентной опции контрол ({@link Controls/list:View} или {@link Controls/grid:View}), который отобразит список.
-       * @remark Вы можете установить ширину окна с автодополнением, добавив собственный класс в suggestTemplate и установив минимальную ширину. По умолчанию ширина автодополнения равна ширине поля ввода.
+       * @remark 
+       * По умолчанию в качестве шаблона используется {@link Controls/suggestPopup:SuggestTemplate}.
+       * Корневым контролом автодополнения должен быть {@link Controls/suggestPopup:ListContainer}, этому контролу можно передать в контентной опции контрол ({@link Controls/list:View} или {@link Controls/grid:View}), который отобразит список.
+       * Вы можете установить ширину окна с автодополнением, добавив собственный класс в suggestTemplate и установив минимальную ширину. По умолчанию ширина автодополнения равна ширине поля ввода.
        * @demo Controls-demo/Suggest_new/SearchInput/SuggestTemplate/SuggestTemplate
        * @editor function
        * @example
-       * <pre class="bruhs: html">
+       * <pre class="brush: html">
        * <!-- suggestTemplate.wml -->
        * <Controls.suggestPopup:ListContainer attr:class="myClass">
        *    <Controls.list:View keyProperty="id">
@@ -82,12 +84,12 @@ interface ISuggest {
        * </Controls.suggestPopup:ListContainer>
        * </pre>
        * 
-       * <pre class="bruhs: css">
+       * <pre class="brush: css">
        * .myClass {
        *    min-width: 300px;
        * }
        * </pre>
-       * <pre class="bruhs: css">
+       * <pre class="brush: css">
        * <!-- WML -->
        * <Controls.suggest:Input>
        *    <ws:suggestTemplate templateName="wml!SuggestTemplate">

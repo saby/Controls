@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов для организации двухколоночных списков, в которых выбор элемента из первой колонки влияет на содержимое второй колонки.
- * @library Controls/masterDetail
+ * @library
  * @includes Base Controls/_masterDetail/Base
  * @includes List Controls/_masterDetail/List
  * @public
@@ -9,7 +9,7 @@
 
 /*
  * masterDetail library
- * @library Controls/masterDetail
+ * @library
  * @includes Base Controls/_masterDetail/Base
  * @includes List Controls/_masterDetail/List
  * @public

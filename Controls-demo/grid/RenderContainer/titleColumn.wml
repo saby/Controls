@@ -1,3 +1,0 @@
-<div attr:style="font-weight: bold;">
-   {{ item.getContents().title }}
-</div>

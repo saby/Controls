@@ -1,8 +1,8 @@
 <ws:partial template="Controls/dropdown:ItemTemplate"
-            itemData="{{itemData}}">
+            scope="{{ _options }}">
     <ws:contentTemplate>
         <div class="ControlsDemo-DropdownSelector-subItem">
-            {{itemData.getPropValue(itemData.item, 'title')}}
+            {{itemData.getPropValue(item.contents, 'title')}}
         </div>
     </ws:contentTemplate>
 </ws:partial>

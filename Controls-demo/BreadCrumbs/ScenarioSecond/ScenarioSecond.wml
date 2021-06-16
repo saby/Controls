@@ -2,7 +2,7 @@
     <div class="demo-BreadCrumbs__example controlsDemo-BreadCrumbs__multilineHeaders">
         <Controls.heading:Title caption="Реестр с многострочными заголовками"
                                 fontSize="4xl"/>
-        <Controls.explorer:View useOldModel="{{ true }}"
+        <Controls.explorer:View
                 keyProperty="id"
                 bind:root="_root4"
                 parentProperty="parent"
@@ -11,8 +11,8 @@
                 displayProperty="department"
                 columns="{{_columns4}}"
                 header="{{_header4}}"
-                source="{{_viewSource4}}">
-            <ws:results position="top" />
+                source="{{_viewSource4}}"
+                resultsPosition="top">
         </Controls.explorer:View>
     </div>
     <div class="demo-BreadCrumbs__example controlsDemo-BreadCrumbs__serviceBlock">
@@ -62,7 +62,7 @@
                     <Controls.search:Input/>
                 </Controls.search:InputContainer>
                 <Controls.list:Container>
-                    <Controls.explorer:View useOldModel="{{ true }}"
+                    <Controls.explorer:View
                             displayProperty="department"
                             parentProperty="parent"
                             nodeProperty="@parent"
@@ -76,7 +76,7 @@
     <div class="demo-BreadCrumbs__example controlsDemo-BreadCrumbs__fillAllWidth">
         <Controls.heading:Title caption="Заголовки занимают всю доступную ширину"
                                 fontSize="4xl"/>
-        <Controls.explorer:View useOldModel="{{ true }}"
+        <Controls.explorer:View
                 keyProperty="id"
                 parentProperty="parent"
                 nodeProperty="parent@"

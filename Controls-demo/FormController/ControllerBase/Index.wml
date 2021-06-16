@@ -3,7 +3,7 @@
         attr:class="demo-FormControllerBase__create"
         caption="Создать"
         on:click="_createClickHandler()"/>
-    <Controls.gridOld:View
+    <Controls.grid:View
             name="grid"
             keyProperty="id"
             attr:class="demo-Grid__control demo-FormControllerBase__grid"
@@ -14,5 +14,5 @@
             source="{{ _listSource }}"
             columns="{{_gridColumns}}"
             header="{{_gridHeader}}">
-    </Controls.gridOld:View>
+    </Controls.grid:View>
 </div>

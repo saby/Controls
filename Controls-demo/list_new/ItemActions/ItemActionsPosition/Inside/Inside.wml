@@ -2,7 +2,6 @@
     <Controls.list:View
             keyProperty="key"
             source="{{_viewSource}}"
-            useNewModel="{{true}}"
             itemActions="{{_itemActions}}"
             itemsDragNDrop="{{true}}"/>
 </div>

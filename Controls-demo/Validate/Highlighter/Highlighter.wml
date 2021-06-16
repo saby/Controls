@@ -1,0 +1,41 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell controlsDemo__maxWidth200">
+        <div class="controls-text-label">validationStatus=valid</div>
+        <Controls.validate:Highlighter name="InputValidate"
+                                          value="{{_value}}"
+                                       validationStatus="valid">
+            <ws:content>
+                <Controls.input:Text
+                        name="textBox"
+                        bind:value="_value"
+                        placeholder="Введите Email"/>
+            </ws:content>
+        </Controls.validate:Highlighter>
+    </div>
+    <div class="controlsDemo__cell controlsDemo__maxWidth200">
+        <div class="controls-text-label">validationStatus=invalid</div>
+        <Controls.validate:Highlighter name="InputValidate"
+                                       value="{{_value}}"
+                                       validationStatus="invalid">
+            <ws:content>
+                <Controls.input:Text
+                        name="textBox"
+                        bind:value="_value"
+                        placeholder="Введите Email"/>
+            </ws:content>
+        </Controls.validate:Highlighter>
+    </div>
+    <div class="controlsDemo__cell controlsDemo__maxWidth200">
+        <div class="controls-text-label">validationStatus=invalidAccent</div>
+        <Controls.validate:Highlighter name="InputValidate"
+                                       value="{{_value}}"
+                                       validationStatus="invalidAccent">
+            <ws:content>
+                <Controls.input:Text
+                        name="textBox"
+                        bind:value="_value"
+                        placeholder="Введите Email"/>
+            </ws:content>
+        </Controls.validate:Highlighter>
+    </div>
+</div>

@@ -111,7 +111,6 @@ const _private = {
  * </Controls.suggestPopup:ListContainer>
  * </pre>
  * @demo Controls-demo/LookupNew/Input/SuggestPopupOptions/Index
- * @class Controls/_suggestPopup/List
  * @extends UI/Base:Control
  * @author Герасимов А.М.
  *
@@ -136,6 +135,7 @@ const List = Control.extend({
    _items: null,
    _layerName: null,
    _isSuggestListEmpty: false,
+   _tabsChangedPromise: null,
 
    _beforeMount(options) {
       this._collectionChange = this._collectionChange.bind(this);
@@ -158,6 +158,7 @@ const List = Control.extend({
       if (items) {
          this._itemsReadyCallback(items);
       }
+      this._setSourceController(options);
    },
 
    _beforeUpdate(newOptions) {
@@ -165,7 +166,7 @@ const List = Control.extend({
 
       /* Need notify after getting tab from query */
       if (_private.isTabChanged(this._suggestListOptions, tabKey)) {
-         this._notify('tabsSelectedKeyChanged', [tabKey]);
+         this._tabsChanged(tabKey);
       }
 
       const currentReverseList = this._reverseList;
@@ -178,6 +179,8 @@ const List = Control.extend({
             this._suggestListOptions.suggestDirectionChangedCallback('down');
          }
       }
+
+      this._setSourceController(newOptions);
    },
 
    _tabsSelectedKeyChanged(event, key) {
@@ -190,7 +193,7 @@ const List = Control.extend({
 
       // FIXME remove after https://online.sbis.ru/opendoc.html?guid=5c91cf92-f61e-4851-be28-3f196945884c
       if (this._options.task1176635657) {
-         this._notify('tabsSelectedKeyChanged', [key]);
+         this._tabsChanged(key);
       }
    },
 
@@ -213,13 +216,35 @@ const List = Control.extend({
 
       if (currentTabMetaKey && currentTabMetaKey !== this._suggestListOptions.tabsSelectedKey) {
          this._suggestListOptions.tabsSelectedKey = currentTabMetaKey;
-         this._notify('tabsSelectedKeyChanged', [currentTabMetaKey]);
+         this._tabsChanged(currentTabMetaKey);
       }
    },
 
    _unsubscribeFromItemsEvents(): void {
       if (this._items) {
          this._items.unsubscribe('onCollectionChange', this._collectionChange);
+      }
+   },
+
+   _tabsChanged(key: string|number): void {
+      const eventResult = this._notify('tabsSelectedKeyChanged', [key]);
+
+      if (eventResult instanceof Promise) {
+         this._tabsChangedPromise = eventResult;
+         eventResult.finally(() => {
+            this._tabsChangedPromise = null;
+         });
+      }
+   },
+
+   _setSourceController(options): void {
+      const sourceController = this._suggestListOptions.sourceController || options.sourceController;
+      if (this._tabsChangedPromise) {
+         this._tabsChangedPromise.finally(() => {
+            this._sourceController = sourceController;
+         });
+      } else if (!sourceController?.isLoading()) {
+         this._sourceController = sourceController;
       }
    },
 

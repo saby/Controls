@@ -1,20 +1,15 @@
 import {assert} from 'chai';
+import * as sinon from 'sinon';
 import {
     Controller as ItemActionsController,
     IControllerOptions
 } from 'Controls/_itemActions/Controller';
-
-import {
-    IItemAction,
-    TItemActionShowType,
-    IItemActionsCollection,
-    IItemActionsItem, IItemActionsObject, IItemActionsTemplateConfig
-} from 'Controls/itemActions';
 import {Collection} from 'Controls/display';
 import {RecordSet} from 'Types/collection';
 
 describe('Controls/itemActions/Controller/EditInPlace', () => {
     let collection: Collection;
+    let sandbox;
 
     const defaultControllerOptions = {
         editingItem: null,
@@ -62,6 +57,11 @@ describe('Controls/itemActions/Controller/EditInPlace', () => {
                 keyProperty: 'key'
             })
         });
+        sandbox = sinon.createSandbox();
+    });
+
+    afterEach(() => {
+        sandbox.restore();
     });
 
     it('set EIP, should update version only for editing item', () => {
@@ -136,5 +136,28 @@ describe('Controls/itemActions/Controller/EditInPlace', () => {
         assert.equal(collection.at(1).getVersion(), 3);
         assert.equal(collection.at(2).getVersion(), 2);
         assert.equal(collection.at(3).getVersion(), 1);
+    });
+
+    it ('set EIP + editingItem changed, should not update actionsTemplateConfig on model', () => {
+        const spySetActionsTemplateConfig = sandbox.spy(collection, 'setActionsTemplateConfig');
+
+        assert.equal(collection.getVersion(), 0);
+        const controller = initController({collection});
+
+        assert.equal(collection.getVersion(), 2);
+        const actionsTemplateConfig = {...collection.getActionsTemplateConfig(undefined)};
+
+        collection.at(1).setEditing(true);
+        controller.update({
+            ...defaultControllerOptions,
+            collection,
+            editingItem: collection.at(1)
+        });
+
+        sinon.assert.calledTwice(spySetActionsTemplateConfig);
+
+        // сам setActionsTemplateConfig не меняет версию, раньше тут было бы 4
+        assert.equal(collection.getVersion(), 3);
+        assert.deepEqual(actionsTemplateConfig, collection.getActionsTemplateConfig(undefined));
     });
 });

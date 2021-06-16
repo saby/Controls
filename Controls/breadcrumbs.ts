@@ -1,13 +1,13 @@
 /**
  * Библиотека контролов, которые служат для поддержки навигации, позволяющей  пользователю перейти c текущей страницы/документа на любой уровень вложенности.
- * @library Controls/breadcrumbs
+ * @library
  * @includes IBreadCrumbs Controls/_breadcrumbs/interface/IBreadCrumbs
  * @author Авраменко А. С.
  */
 
 /*
  * Breadcrumbs library
- * @library Controls/breadcrumbs
+ * @library
  * @author Авраменко А. С.
  */
 import ItemTemplate = require('wml!Controls/_breadcrumbs/View/resources/itemTemplate');

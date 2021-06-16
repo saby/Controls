@@ -151,8 +151,8 @@ define(
                   abbreviationType: 'none'
                });
                assert.deepEqual(ctrl._formattedNumber, {
-                  number: '-1000.00',
-                  integer: '-1000',
+                  number: '- 1000.00',
+                  integer: '- 1000',
                   fraction: '.00'
                });
             });
@@ -164,8 +164,8 @@ define(
                   abbreviationType: 'none'
                });
                assert.deepEqual(ctrl._formattedNumber, {
-                  number: '-1 000.00',
-                  integer: '-1 000',
+                  number: '- 1 000.00',
+                  integer: '- 1 000',
                   fraction: '.00'
                });
             });

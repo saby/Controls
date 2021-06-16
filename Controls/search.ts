@@ -1,14 +1,14 @@
 /**
  * Библиотека контролов, которые служат для {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/ организации поиска в списках}.
  * @markdown
- * @library Controls/search
+ * @library
  * @public
  * @author Крайнов Д.О.
  */
 
 /*
  * Search library
- * @library Controls/search
+ * @library
  * @public
  * @author Крайнов Д.О.
  */

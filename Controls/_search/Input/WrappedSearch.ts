@@ -101,14 +101,14 @@ export default class WrappedSearch extends Control {
 
 /**
  * @event Происходит при клике на кнопку поиска.
- * @name Controls/_search/Input/Search#searchClick
+ * @name Controls/_search/Input/WrappedSearch#searchClick
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object} nativeEvent Объект нативного события браузера.
  */
 
 /**
  * @event Происходит при клике на кнопку сброса.
- * @name Controls/_search/Input/Search#resetClick
+ * @name Controls/_search/Input/WrappedSearch#resetClick
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  */
 
@@ -135,15 +135,15 @@ export default class WrappedSearch extends Control {
 
 /*
  * @event Occurs when search button is clicked.
- * @name Controls/_search/Input/Search#searchClick
+ * @name Controls/_search/Input/WrappedSearch#searchClick
  */
 /*
  * @event Occurs when reset button is clicked.
- * @name Controls/_search/Input/Search#resetClick
+ * @name Controls/_search/Input/WrappedSearch#resetClick
  */
 
 /**
- * @name Controls/_search/Input/Search#searchButtonVisible
+ * @name Controls/_search/Input/WrappedSearch#searchButtonVisible
  * @cfg {Boolean} Определяет отображение иконки лупы внутри поля поиска, клик по которой запускает поиск.
  * @default true
  * @remark
@@ -152,7 +152,7 @@ export default class WrappedSearch extends Control {
  */
 
 /**
- * @name Controls/_search/Input/Search#contrastBackground
+ * @name Controls/_search/Input/WrappedSearch#contrastBackground
  * @cfg
  * @default false
  * @remark
@@ -169,7 +169,7 @@ export default class WrappedSearch extends Control {
 
 /**
  * Сбрасывает значение в строке поиска
- * @name  Controls/_search/Input/Search#reset
+ * @name  Controls/_search/Input/WrappedSearch#reset
  * @function
  * @example
  * <pre class="brush: js">

@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые служат для <a href="/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/">организации фильтрации в списках</a>.
- * @library Controls/filter
+ * @library
  * @includes View Controls/_filter/View
  * @includes ViewItemTemplate Controls/filter:ItemTemplate
  * @includes ViewContainer Controls/_filter/View/Container
@@ -15,7 +15,7 @@
 
 /*
  * filter library
- * @library Controls/filter
+ * @library
  * @includes View Controls/_filter/View
  * @includes ViewItemTemplate Controls/filter:ItemTemplate
  * @includes ViewContainer Controls/_filter/View/Container

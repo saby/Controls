@@ -4,15 +4,15 @@
          <ws:partial template="Controls/list:ItemTemplate">
             <ws:contentTemplate>
                <div>
-                  <ws:partial user="{{users.getRecordById(itemTemplate.itemData.item.get('user'))}}"
+                  <ws:partial user="{{users.getRecordById(itemTemplate.item.contents.get('user'))}}"
                               template="wml!Controls-demo/Container/resources/User"/>
                   <div class="ws-flexbox ws-flex-column ControlsDemo-Scroll__messageInfo">
                      <div class="ws-flexbox ws-justify-content-between ws-align-items-center">
-                        <div>{{itemTemplate.itemData.item.get('message')}}</div>
+                        <div>{{itemTemplate.item.contents.get('message')}}</div>
                         <div class="icon-Close icon-error ControlsDemo-Scroll__closeBtn"></div>
                      </div>
                      <div class="ws-align-self-end ControlsDemo-Scroll__messageTime">
-                        {{itemTemplate.itemData.item.get('time').getHours()}}:{{itemTemplate.itemData.item.get('time').getMinutes()}}
+                        {{itemTemplate.item.contents.get('time').getHours()}}:{{itemTemplate.item.contents.get('time').getMinutes()}}
                      </div>
                   </div>
                </div>

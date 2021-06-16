@@ -1,7 +1,0 @@
-<ws:partial template="Controls/gridOld:HeaderContent" colData="{{colData}}">
-    <ws:contentTemplate>
-        <div style="color: #FF7033;">
-            Площадь км<sup>2</sup>
-        </div>
-    </ws:contentTemplate>
-</ws:partial>

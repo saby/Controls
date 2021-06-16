@@ -12,14 +12,14 @@
             <ws:partial template="Controls/list:ItemTemplate"
                         on:mousedown="_onMouseDownNote(itemTemplate.itemData)"
                         on:touchstart="_onMouseDownNote(itemTemplate.itemData)"
-                        attr:class="{{'notes-item ' + (itemTemplate.itemData.item.get('id') === _draggingItemId ? 'notes-draggingItem')}}"
-                        attr:style="{{'top:' + itemTemplate.itemData.item.position.top + 'px;' +
-                                      'left:' + itemTemplate.itemData.item.position.left + 'px;' +
-                                      'width:' + itemTemplate.itemData.item.size.width + 'px;' +
-                                      'height:' + itemTemplate.itemData.item.size.height + 'px;'}}">
+                        attr:class="{{'notes-item ' + (itemTemplate.item.contents.get('id') === _draggingItemId ? 'notes-draggingItem')}}"
+                        attr:style="{{'top:' + itemTemplate.item.contents.position.top + 'px;' +
+                                      'left:' + itemTemplate.item.contents.position.left + 'px;' +
+                                      'width:' + itemTemplate.item.contents.size.width + 'px;' +
+                                      'height:' + itemTemplate.item.contents.size.height + 'px;'}}">
                 <ws:contentTemplate>
                     <div>
-                        <div class="notes-title">{{itemTemplate.itemData.item.get('title')}}</div>
+                        <div class="notes-title">{{itemTemplate.item.contents.get('title')}}</div>
                         <span class="notes-triangle icon-size icon-Arrow1730 icon-disabled action-hover"
                               on:mousedown="_onMouseDownTriangle(itemTemplate.itemData)"
                               on:touchstart="_onMouseDownTriangle(itemTemplate.itemData)"></span>

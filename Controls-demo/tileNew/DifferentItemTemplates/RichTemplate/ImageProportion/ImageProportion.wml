@@ -14,14 +14,14 @@
       <ws:itemTemplate>
          <ws:partial
             template="Controls/tile:RichTemplate"
-            gradientColor="{{itemTemplate.itemData.item.gradientColor}}"
-            titleLines="{{itemTemplate.itemData.item.titleLines}}"
-            descriptionLines="{{itemTemplate.itemData.item.titleLines}}"
-            imageSize="{{itemTemplate.itemData.item.imageSize}}"
+            gradientColor="{{itemTemplate.item.contents.gradientColor}}"
+            titleLines="{{itemTemplate.item.contents.titleLines}}"
+            descriptionLines="{{itemTemplate.item.contents.titleLines}}"
+            imageSize="{{itemTemplate.item.contents.imageSize}}"
             imageViewMode="{{'rectangle'}}"
             imagePosition="{{'top'}}"
-            description="{{itemTemplate.itemData.item.description}}"
-            imageProportion="{{itemTemplate.itemData.item.imageProportion}}"
+            description="{{itemTemplate.item.contents.description}}"
+            imageProportion="{{itemTemplate.item.contents.imageProportion}}"
             imageEffect="gradient"
             scope="{{itemTemplate}}">
          </ws:partial>

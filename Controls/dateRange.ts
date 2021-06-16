@@ -36,7 +36,7 @@ export {
 
 /**
  * Библиотека контролов, которые служат для отображения диапазона дат и выбора дат из выпадающей панели.
- * @library Controls/dateRange
+ * @library
  * @includes Input Controls/_dateRange/Input
  * @includes RangeSelector Controls/_dateRange/RangeSelector
  * @includes RangeShortSelector Controls/_dateRange/RangeShortSelector
@@ -64,7 +64,7 @@ export {
 
 /*
  * Date range library
- * @library Controls/dateRange
+ * @library
  * @includes Input Controls/_dateRange/Input
  * @includes RangeSelector Controls/_dateRange/RangeSelector
  * @includes RangeShortSelector Controls/_dateRange/RangeShortSelector

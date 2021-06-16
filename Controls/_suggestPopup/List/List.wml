@@ -16,7 +16,7 @@
         <ws:partial template="{{_options.content}}"
                     scope="{{_suggestListOptions}}"
                     markedKey="{{_markedKey}}"
-                    sourceController="{{_suggestListOptions.sourceController || _options.sourceController}}"
+                    sourceController="{{_sourceController}}"
                     navigation="{{_navigation}}"
                     itemsReadyCallback="{{_itemsReadyCallback}}"
                     on:markedKeyChanged="_markedKeyChanged()">

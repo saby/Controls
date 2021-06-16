@@ -1,4 +1,4 @@
-<ws:if data="{{ column.result }}">
+<ws:if data="{{column.config.result }}">
    <Controls.decorator:Money value="{{column.result}}"
                              fontColorStyle="{{column.displayProperty === 'NDS' ? 'unaccented' : 'results'}}"
                              fontSize="l"

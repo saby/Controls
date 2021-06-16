@@ -1,6 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют колонки плоского списка.
- * @library Controls/columns
+ * @library
  * @includes View Controls/columns:View
  * @public
  * @author Аверкиев П.А.
@@ -8,7 +8,7 @@
 
 /*
  * List Columns library
- * @library Controls/columns
+ * @library
  * @includes View Controls/columns:View
  * @public
  * @author Колесов В. А.

@@ -2,7 +2,7 @@
     <div class="demo-BreadCrumbs__example controlsDemo-BreadCrumbs__withoutHeaders">
         <Controls.heading:Title caption="Реестр без заголовков"
                                 fontSize="4xl"/>
-        <Controls.explorer:View useOldModel="{{ true }}"
+        <Controls.explorer:View
                 bind:root="_root"
                 keyProperty="id"
                 parentProperty="parent"
@@ -19,7 +19,7 @@
         <div>
             <Controls.input:Label caption='Без строки "Итого"' />
         </div>
-        <Controls.explorer:View useOldModel="{{ true }}"
+        <Controls.explorer:View
                 keyProperty="id"
                 bind:root="_root1"
                 parentProperty="parent"
@@ -36,7 +36,7 @@
         <div>
             <Controls.input:Label caption='Со строкой "Итого"' />
         </div>
-        <Controls.explorer:View useOldModel="{{ true }}"
+        <Controls.explorer:View
                 keyProperty="id"
                 bind:root="_root2"
                 parentProperty="parent"
@@ -46,8 +46,8 @@
                 rowSeparatorSize="s"
                 columns="{{_columns2}}"
                 header="{{_header2}}"
-                source="{{_viewSource2}}">
-            <ws:results position="top" />
+                source="{{_viewSource2}}"
+                resultsPosition="top">
         </Controls.explorer:View>
     </div>
     <div class="demo-BreadCrumbs__example controlsDemo-BreadCrumbs__exitStack">
@@ -67,7 +67,7 @@
                 </ws:headerContentTemplate>
                 <ws:bodyContentTemplate>
                     <Controls.scroll:Container>
-                        <Controls.explorer:View useOldModel="{{ true }}"
+                        <Controls.explorer:View
                                 keyProperty="id"
                                 showActionButton="{{true}}"
                                 parentProperty="parent"
@@ -75,8 +75,8 @@
                                 displayProperty="title"
                                 columns="{{_columns3}}"
                                 header="{{_header3}}"
-                                source="{{_viewSource3}}">
-                            <ws:results position="top" />
+                                source="{{_viewSource3}}"
+                                resultsPosition="top">
                         </Controls.explorer:View>
                     </Controls.scroll:Container>
                 </ws:bodyContentTemplate>

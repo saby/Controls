@@ -37,7 +37,8 @@
                name="customContentContainer"
                attr:class="controls-SlidingPanel__customContent"
                attr:style="{{ _scrollAvailable ? '' : 'height: auto;' }}"
-               template="{{ _options.bodyContentTemplate }}">
+               template="{{ _options.bodyContentTemplate }}"
+               scope="{{_options}}">
                <ws:controllerButtonTemplate>
                   <ws:partial
                      template="controller"/>

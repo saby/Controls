@@ -3201,10 +3201,7 @@ const _private = {
             if (options.moveDialogTemplate.templateName) {
                 controllerOptions.popupOptions = {
                     template: options.moveDialogTemplate.templateName,
-                    templateOptions: {
-                        ...options.moveDialogTemplate.templateOptions,
-                        keyProperty: self._keyProperty
-                    } as IMoverDialogTemplateOptions
+                    templateOptions: options.moveDialogTemplate.templateOptions
                 };
             } else {
                 Logger.error('Mover: Wrong type of moveDialogTemplate option, use object notation instead of template function', self);

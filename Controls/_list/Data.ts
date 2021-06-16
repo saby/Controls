@@ -132,7 +132,6 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
    protected _breadCrumbsItemsWithoutBackButton: Path;
    protected _expandedItems: CrudEntityKey[];
    protected _shouldSetExpandedItemsOnUpdate: boolean;
-   private _nodeHistoryId: string;
 
    private _filter: QueryWhereExpression<unknown>;
 
@@ -150,9 +149,6 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          this._errorRegister = new RegisterClass({register: 'dataError'});
       }
 
-      if (options.nodeHistoryId) {
-         this._nodeHistoryId = options.nodeHistoryId;
-      }
       if (options.expandedItems) {
          this._shouldSetExpandedItemsOnUpdate = true;
       }
@@ -169,15 +165,16 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
 
       this._sourceController = options.sourceController || this._getSourceController(options, receivedState);
       this._fixRootForMemorySource(options);
+      // Подпишемся на изменение данных хлебных крошек для того, что бы если пользователь
+      // руками меняет path в RecordSet то эти изменения долетели до контролов
+      this._sourceController.subscribe('breadcrumbsDataChanged', () => {
+         this._updateBreadcrumbsFromSourceController();
+      });
 
       const controllerState = this._sourceController.getState();
 
       // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
       this._filter = controllerState.filter;
-
-      if (!this._options.nodeHistoryId) {
-         this._expandedItems = options.expandedItems;
-      }
 
       if (options.sourceController) {
          // Если контроллер задан выше, чем появилось дерево, то надо установить в него expandedItems из опций
@@ -243,7 +240,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          }
       }
 
-      if (!isEqual(newOptions.expandedItems, this._options.expandedItems) && !this._options.nodeHistoryId) {
+      if (!isEqual(newOptions.expandedItems, this._options.expandedItems) && !newOptions.nodeHistoryId) {
          this._expandedItems = newOptions.expandedItems;
       }
 
@@ -279,7 +276,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          this._filter = this._sourceController.getFilter();
          this._updateContext(this._sourceController.getState());
       } else if (expandedItemsChanged) {
-         if (this._options.nodeHistoryId) {
+         if (newOptions.nodeHistoryId) {
             this._sourceController.updateExpandedItemsInUserStorage();
          }
          this._updateContext(this._sourceController.getState());
@@ -421,9 +418,7 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
          ...sourceControllerState
       };
       this._sourceControllerState = sourceControllerState;
-      if (this._options.nodeHistoryId) {
-         this._expandedItems = sourceControllerState.expandedItems;
-      }
+      this._expandedItems = sourceControllerState.expandedItems;
    }
 
    // https://online.sbis.ru/opendoc.html?guid=e5351550-2075-4550-b3e7-be0b83b59cb9

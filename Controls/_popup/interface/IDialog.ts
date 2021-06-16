@@ -176,6 +176,7 @@ export interface IResizeDirection {
  * @property {Number} left Расстояние от диалогового окна до левого края экрана.
  * @property {Node} opener Логический инициатор открытия диалогового окна (см. {@link /doc/platform/developmentapl/interface-development/ui-library/focus/activate-control/#control-opener Определение понятия "опенер контрола"}).
  * @property {Controls/_popup/interface/IBaseOpener.typedef} eventHandlers Функции обратного вызова на события диалогового окна.
+ * @property {String} propStorageId Уникальный идентификатор контрола, по которому будет сохраняться конфигурация в хранилище данных..
  */
 
 /**
