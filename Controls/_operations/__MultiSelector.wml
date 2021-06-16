@@ -3,18 +3,19 @@
         <div class="controls-MultiSelector__caption
                     controls-fontsize-{{_options.fontSize}}
                     controls-text-{{_options.fontColorStyle}}"
-             title="{{_menuCaption}}">{{_menuCaption}}</div>
+             title="{{_menuCaption}}">{{_menuCaption}}
+        </div>
     </ws:if>
     <ws:else>
-        <Controls.dropdown:Button name="myMenuButton2"
-                                  keyProperty="id"
-                                  viewMode="link"
-                                  buttonStyle="secondary"
-                                  fontColorStyle="{{_options.fontColorStyle}}"
-                                  caption="{{_menuCaption}}"
-                                  fontSize="{{_options.fontSize}}"
-                                  on:onMenuItemActivate="_onMenuItemActivate()"
-                                  source="{{_menuSource}}"/>
+        <Controls.dropdown:Button
+                keyProperty="id"
+                viewMode="link"
+                buttonStyle="secondary"
+                fontColorStyle="{{_options.fontColorStyle}}"
+                caption="{{_menuCaption}}"
+                fontSize="{{_options.fontSize}}"
+                on:menuItemActivate="_onMenuItemActivate()"
+                source="{{_menuSource}}"/>
     </ws:else>
     <Controls.LoadingIndicator
             name="countIndicator"

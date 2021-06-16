@@ -13,6 +13,7 @@ import {IOperationsPanelItem, IOperationsPanelOptions} from './_interface/IOpera
 import 'css!Controls/toolbars';
 import 'css!Controls/operationsPanel';
 import Store from 'Controls/Store';
+import {DialogOpener} from 'Controls/popup';
 
 /*
  * Контрол, предназначенный для операций над множеством записей списка.
@@ -55,6 +56,8 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
    protected _notifyHandler: typeof EventUtils.tmplNotify = EventUtils.tmplNotify;
    protected _items: RecordSet = null;
    protected _toolbarSource: Memory = null;
+   protected _dialogOpener: DialogOpener = null;
+   protected _storeCallbackId: string = null;
    protected _children: {
       toolbarBlock: HTMLElement
    };
@@ -155,6 +158,13 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
       return result;
    }
 
+   protected _beforeUnmount(): void {
+      if (this._storeCallbackId) {
+         Store.unsubscribe(this._storeCallbackId);
+      }
+      this._dialogOpener?.destroy();
+   }
+
    protected _afterMount(): void {
       this._checkToolbarWidth();
       this._setInitializedState(this._options);
@@ -162,7 +172,7 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
          this._notify('controlResize', [], {bubbling: true});
       });
       this._notify('operationsPanelOpened');
-      Store.onPropertyChanged('executeOperation', ({toolbarItem, event}) => {
+      this._storeCallbackId = Store.onPropertyChanged('executeOperation', ({toolbarItem, event}) => {
          if (toolbarItem.get('id') === 'toggleAll') {
             this._notify('selectedTypeChanged', ['toggleAll'], {
                bubbling: true
@@ -174,6 +184,9 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
             }]);
          }
       });
+      if (this._options.newDesign) {
+         this._openOperationPanel();
+      }
    }
 
    protected _onResize(): void {
@@ -221,6 +234,28 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
       });
    }
 
+   protected _getDialogOpener(): Promise<DialogOpener> {
+      if (!this._dialogOpener) {
+         return import('Controls/popup').then((popup) => {
+            this._dialogOpener = new popup.DialogOpener();
+            return this._dialogOpener;
+         });
+      } else {
+         return Promise.resolve(this._dialogOpener);
+      }
+   }
+
+   private _openOperationPanel(): void {
+      this._getDialogOpener().then((opener) => {
+         const target = this._children.toolbarBlock;
+         opener.open({
+            template: 'Controls/operationsPanel:Panel',
+            opener: this,
+            className: 'controls-operationPanel__offset',
+            target
+         });
+      });
+   }
 }
 
 Object.defineProperty(OperationsPanel, 'defaultProps', {
