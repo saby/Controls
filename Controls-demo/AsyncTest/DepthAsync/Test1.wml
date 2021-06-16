@@ -26,7 +26,7 @@
             <div class="asyncDemo__scheme__canvas">
                 <ws:partial template="wml!Controls-demo/AsyncTest/Childs/CaseSecond/NotAsync/Background"/>
                 <ws:partial if="{{_isGrid}}" template="wml!Controls-demo/AsyncTest/Childs/CaseSecond/NotAsync/Grid"/>
-                <Controls.scroll:Container attr:class="asyncDemo__column__scroll">
+                <Controls.scroll:Container attr:class="asyncDemo__column__scroll" shadowMode="js">
                     <ws:if data="{{_readOnly}}">
                         <ws:partial template="wml!Controls-demo/AsyncTest/Childs/CaseSecond/NotAsync/Element" value="10"/>
                     </ws:if>

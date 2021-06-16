@@ -157,15 +157,12 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
         return isChanged;
     }
 
-    isStickyHeadersShadowsEnabled(): boolean {
-        return this._getShadowEnable();
-    }
-
     getStickyHeadersShadowsVisibility(): SHADOW_VISIBILITY {
         let visibility: SHADOW_VISIBILITY = SHADOW_VISIBILITY.AUTO;
         if (this._visibilityByInnerComponents !== SHADOW_VISIBILITY.AUTO) {
             visibility = this._visibilityByInnerComponents;
-        } else if(!this._getShadowEnable() || !this._getVisibleByState(this._scrollState)) {
+        } else if ((!this._getShadowEnable() && !this._options.isOptimizeShadowEnabled)
+            || !this._getVisibleByState(this._scrollState)) {
             visibility = SHADOW_VISIBILITY.HIDDEN;
         }
         return visibility;
@@ -183,6 +180,9 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
     }
 
     private _getShadowEnable(): boolean {
+        if (this._options.isOptimizeShadowEnabled) {
+            return false;
+        }
         if (this._options[`${this._position}ShadowVisibility`] !== SHADOW_VISIBILITY.AUTO) {
             return this._isShadowEnable();
         }

@@ -17,6 +17,7 @@ export interface IShadowsOptions {
     rightShadowVisibility: SHADOW_VISIBILITY;
     shadowMode: SHADOW_MODE;
     shadowStyle: string;
+    isOptimizeShadowEnabled: boolean;
 }
 
 export interface IShadowsVisibilityByInnerComponents {
