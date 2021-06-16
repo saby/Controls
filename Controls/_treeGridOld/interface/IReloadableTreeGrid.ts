@@ -14,10 +14,10 @@ export interface IReloadableTreeGrid {
  * @name Controls/_treeGridOld/interface/IReloadableTreeGrid#reload
  * @function
  * @param {boolean} keepScroll Сохранить ли позицию скролла после перезагрузки.
- * @param {Controls/interface:INavigationOptionValue#sourceConfig} sourceConfig Конфигурация источника данных для перезагрузки.
+ * @param {Controls/interface:INavigationPositionSourceConfig | Controls/interface:INavigationPageSourceConfig} sourceConfig Конфигурация источника данных для перезагрузки.
  * @remark
  * Перезагрузка выполняется с сохранением раскрытых узлов.
- * При этом в поле фильтра, указанное в parentProperty будет отправлен массив раскрытых узлов.
+ * При этом в поле фильтра, указанное в parentProperty, будет отправлен массив раскрытых узлов.
  * Если в результате запроса для этих узлов будут присланы дочерние элементы, то узлы останутся раскрытыми, иначе они будут свёрнуты.
  * Постраничная навигация в запросе передается для корня и её параметр {@link Controls/_interface/INavigation/PageSourceConfig.typedef pageSize} необходимо применять для всех узлов.
  * Обратите внимание! При смене фильтра/навигации/source список раскрытых узлов сбрасывается.

@@ -87,12 +87,19 @@ export function canScrollByState(scrollState: IScrollState,
 }
 
 /**
+ * Интерфейс описывает структуру объекта, представляющего координаты элемента на странице
+ */
+export interface IContainerCoords {
+    top: number;
+    left: number;
+    bottom: number;
+    right: number;
+}
+
+/**
  * Возвращает координаты элемента скролл контейнера на странице
  */
-export function getScrollContainerPageCoords(
-    elem: HTMLElement
-): {top: number, left: number, bottom: number, right: number} {
-
+export function getScrollContainerPageCoords(elem: HTMLElement): IContainerCoords {
     const box = elem.getBoundingClientRect();
     const body = document.body;
     const docEl = document.documentElement;
@@ -108,5 +115,35 @@ export function getScrollContainerPageCoords(
         left: box.left + scrollLeft - clientLeft,
         bottom: box.bottom + scrollTop - clientTop,
         right: box.right + scrollLeft - clientLeft
+    };
+}
+
+/**
+ * Ф-ия определяет находится ли курсор внутри элемента и рядом с его верхней/нижней границей.
+ *
+ * @param coords - координаты элемента относительно страницы
+ * @param cursorPosition - объект, содержащий информацию о положении курсора относительно страницы
+ * @param edge - величина виртуальной границы от нижнего/верхнего края элемента при попадании
+ * курсора в которую считать что курсор находится рядом с краем этого элемента
+ *
+ * @return {} Объект с информацией находится ли курсор рядом с одной из границ и рядом с какой границе он находится
+ */
+export function isCursorAtBorder(
+    coords: IContainerCoords,
+    cursorPosition: { pageX: number, pageY: number },
+    edge: number
+): { near: boolean, nearTop: boolean, nearBottom: boolean } {
+
+    // Определяем находится ли курсор в рамках текущей ширины контейнера
+    const inX = cursorPosition.pageX > coords.left && cursorPosition.pageX < coords.right;
+    // Определяем находится ли курсор у верхней границы элемента
+    const nearTop = cursorPosition.pageY > coords.top && cursorPosition.pageY < (coords.top + edge);
+    // Определяем находится ли курсор у нижней границы элемента
+    const nearBottom = cursorPosition.pageY < coords.bottom && cursorPosition.pageY > (coords.bottom - edge);
+
+    return {
+        nearTop,
+        nearBottom,
+        near: inX && (nearTop || nearBottom)
     };
 }

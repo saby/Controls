@@ -45,6 +45,7 @@ class Strategy {
         return {
             left: 0,
             right: 0,
+            width: this._getWindowWidth(),
             [position]: DEFAULT_POSITION_VALUE,
             maxHeight,
             minHeight,
@@ -119,6 +120,16 @@ class Strategy {
     private _getWindowHeight(): number {
         return constants.isBrowserPlatform && window.innerHeight;
     }
+
+    /**
+     * Получение ширины окна
+     * @return {number}
+     * @private
+     */
+    private _getWindowWidth(): number {
+        return constants.isBrowserPlatform && window.innerWidth;
+    }
+
 
     /**
      * Устанавливает противоположную позицию, удаляя дефолтное значение.

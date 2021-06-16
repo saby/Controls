@@ -5,7 +5,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {RegisterClass, RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {ResizeObserverUtil, RESIZE_OBSERVER_BOX} from 'Controls/sizeUtils';
-import {getScrollContainerPageCoords, SCROLL_DIRECTION, SCROLL_POSITION} from './Utils/Scroll';
+import {getScrollContainerPageCoords, isCursorAtBorder, SCROLL_DIRECTION, SCROLL_POSITION} from './Utils/Scroll';
 import {scrollToElement} from './Utils/scrollToElement';
 import {scrollTo} from './Utils/Scroll';
 import ScrollState from './Utils/ScrollState';
@@ -32,6 +32,12 @@ export interface IContainerBaseOptions extends IControlOptions {
 }
 
 const KEYBOARD_SHOWING_DURATION: number = 500;
+
+/**
+ * Величина виртуальной границы относительно верхнего/нижнего края скролл контейнера
+ * при попадании в которую нужно запустить процесс автоскролла.
+ */
+const AUTOSCROLL_SIZE: number = 50;
 
 const enum CONTENT_TYPE {
     regular = 'regular',
@@ -99,7 +105,9 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     // функционал автоскролла при приближении мыши к верхней/нижней границе
     // скролл контейнера
     private _autoScroll: boolean = false;
-    private _autoScrollInterval: number;
+    private _autoScrollInterval: NodeJS.Timeout;
+    // Флаг, идентифицирующий что нужно пропустить обработку автоскролла
+    private _skipAutoscroll: boolean = false;
 
     private _isUnmounted: boolean = false;
 
@@ -955,8 +963,14 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
     // Autoscroll
 
-    private _onDragStart(dragObject: {entity: Entity}): void {
+    private _onDragStart(dragObject: {entity: Entity, domEvent: MouseEvent}): void {
+        const coords = getScrollContainerPageCoords(this._container);
+
         this._autoScroll = !!dragObject.entity?.allowAutoscroll;
+        // Если при начале перетаскивания курсор уже находится около границы контейнера,
+        // то автоскролл запускать не нужно, надо дождаться пока он выйдет из области и только
+        // при следующем заходе запустить процесс автоскроллинга
+        this._skipAutoscroll = isCursorAtBorder(coords, dragObject.domEvent, AUTOSCROLL_SIZE).near;
     }
 
     private _onDragEnd(): void {
@@ -966,6 +980,9 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     protected _onMouseLeave(): void {
         // При выходе мыши за границы контейнера нужно стопнуть интервал
         clearInterval(this._autoScrollInterval);
+        // При выходе курсора за границы скролл контейнера так же нужно сбросить
+        // флаг что бы автоскролл запустился при следующем заходе в область
+        this._skipAutoscroll = false;
     }
 
     /**
@@ -977,26 +994,25 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             return;
         }
 
-        const cords = getScrollContainerPageCoords(this._container);
         const mouseEvent = event.nativeEvent as MouseEvent;
-
-        // Высота области относительно верхней/нижней границы контейнера при попадании в которую нужно
-        // делать подскролл
-        const edge = 50;
-        // Определяем находится ли курсор в рамках текущей ширины контейнера
-        const inX = mouseEvent.pageX > cords.left && mouseEvent.pageX < cords.right;
-        // Определяем находится ли курсор у верхней границы скролл контейнера
-        const needScrollTop = mouseEvent.pageY > cords.top && mouseEvent.pageY < (cords.top + edge);
-        // Определяем находится ли курсор у нижней границы скролл контейнера
-        const needScrollBottom = mouseEvent.pageY < cords.bottom && mouseEvent.pageY > (cords.bottom - edge);
-        // Величина на которую делаем подскролл
-        const delta = 30;
+        const cords = getScrollContainerPageCoords(this._container);
+        const cursorAtBorder = isCursorAtBorder(cords, mouseEvent, AUTOSCROLL_SIZE);
 
         clearInterval(this._autoScrollInterval);
-        if (!(inX && (needScrollTop || needScrollBottom))) {
+        // Если курсор не внутри скролл контейнера и не рядом с его верхней/нижней границей
+        // или сказано что нужно пропустить обработку, то выходим
+        if (!cursorAtBorder.near || this._skipAutoscroll) {
+            // Если курсор не в границах области в которой включается автоскролл,
+            // то сбрасываем _skipAutoscroll что бы автоскролл запустился при следующем заходе в область
+            if (!cursorAtBorder.near) {
+                this._skipAutoscroll = false;
+            }
+
             return;
         }
 
+        // Величина на которую делаем подскролл
+        const delta = 30;
         // Вешаем интервал что бы если пользователь остановил курсор автоскролл продолжал работать
         this._autoScrollInterval = setInterval(() => {
             if (!this._autoScroll) {
@@ -1005,11 +1021,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             }
 
             const scrollTop = (this._children.content as HTMLElement).scrollTop;
-            if (inX && needScrollTop) {
+            if (cursorAtBorder.near && cursorAtBorder.nearTop) {
                 this._setScrollTop(scrollTop - delta);
             }
 
-            if (inX && needScrollBottom) {
+            if (cursorAtBorder.near && cursorAtBorder.nearBottom) {
                 this._setScrollTop(scrollTop + delta);
             }
         }, 100);

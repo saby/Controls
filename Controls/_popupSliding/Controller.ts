@@ -23,6 +23,7 @@ class Controller extends BaseController {
         item.sizes = this._getPopupSizes(item, container);
         // После создания запускаем анимацию изменив позицию
         item.position = SlidingPanelStrategy.getShowingPosition(item);
+        item.popupOptions._workspaceWidth = item.position.width;
         item.animationState = AnimationState.showing;
 
         // Фиксим оттягивание документа при свайпе на IOS
@@ -40,6 +41,7 @@ class Controller extends BaseController {
         }
         item.sizes = this._getPopupSizes(item, container);
         item.position = SlidingPanelStrategy.getPosition(item);
+        item.popupOptions._workspaceWidth = item.position.width;
         return true;
     }
 
@@ -52,6 +54,7 @@ class Controller extends BaseController {
 
         // Запускаем анимацию закрытия и откладываем удаление до её окончания
         item.position = SlidingPanelStrategy.getHidingPosition(item);
+        item.popupOptions._workspaceWidth = item.position.width;
         item.animationState = AnimationState.closing;
         return new Promise((resolve) => {
             this._destroyPromiseResolvers[item.id] = resolve;
@@ -89,6 +92,7 @@ class Controller extends BaseController {
             item.position = SlidingPanelStrategy.getPosition(item);
         }
         item.popupOptions.slidingPanelData = this._getPopupTemplatePosition(item);
+        item.popupOptions._workspaceWidth = item.position.width;
         return true;
     }
 
@@ -125,6 +129,7 @@ class Controller extends BaseController {
         position.height = newHeight;
         item.sizes.height = newHeight;
         item.position = SlidingPanelStrategy.getPosition(item);
+        item.popupOptions._workspaceWidth = item.position.width;
         item.popupOptions.slidingPanelData = this._getPopupTemplatePosition(item);
     }
 

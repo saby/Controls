@@ -152,6 +152,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             itemsChanged = true;
         }
         if (!itemsChanged && newOptions.selectedKey !== this._options.selectedKey) {
+            this._updateMarkerSelectedIndex(newOptions, false);
+
             const selectedItem = this._getItemByKey(this._options.selectedKey);
             if (!!selectedItem?.isMainTab) {
                 this._updateMarkerSelectedIndex(newOptions);
@@ -220,7 +222,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
     }
 
-    protected _updateMarkerSelectedIndex(options: ITabsButtonsOptions): void {
+    protected _updateMarkerSelectedIndex(options: ITabsButtonsOptions, startAnimation: boolean = true): void {
         if (!this._marker.isInitialized()) {
             return;
         }
@@ -231,7 +233,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const align = this._marker.getAlign();
         const changed = this._marker.setSelectedIndex(index);
         // Не заускаем анимацию при переключении с группы вкладок слева на группу вкладок справа.
-        if (changed && align && align === this._marker.getAlign() &&
+        if (changed && startAnimation && align && align === this._marker.getAlign() &&
                 this._options.animationMode !== ANIMATION_MODE.none) {
             this._isAnimatedMakerVisible = true;
             this._isAnimationProcessing = true;
@@ -252,7 +254,9 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 
     protected _transitionEndHandler() {
-        if (!this._isUnmounted) {
+        // анимация идет по нескольким стилям, например width и right, по этому обработчик срабатывает несколько раз,
+        // не пересчитываем состояние повторно.
+        if (this._isAnimationProcessing && !this._isUnmounted) {
             this._notify('animationEnd');
 
             this._isAnimationProcessing = false;

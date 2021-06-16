@@ -6,12 +6,14 @@
         <Controls.list:Container id="master">
             <Controls.explorer:View
                     scope="{{_masterExplorerOptions}}"
+                    name="masterList"
                     markedKey="{{_detailExplorerOptions.root}}"
                     style="master"
                     on:dragStart="_notifyHandler('masterDragStart')"
                     on:dragEnd="_notifyHandler('masterDragEnd')"
                     on:dragEnter="_notifyHandler('masterDragEnter')"
                     on:actionClick="_notifyHandler('masterActionClick')"
+                    on:beforeItemsMove="_notifyHandler('masterBeforeItemsMove')"
                     on:itemClick="_onExplorerItemClick(true)"
                     on:changeDragTarget="_notifyHandler('masterChangeDragTarget')"
             />
@@ -53,6 +55,7 @@
                         on:afterEndEdit="_notifyHandler('afterEndEdit')"
                         on:dragStart="_notifyHandler('detailDragStart')"
                         on:dragEnd="_notifyHandler('detailDragEnd')"
+                        on:beforeItemsMove="_notifyHandler('detailBeforeItemsMove')"
                         dataLoadCallback="{{_onDetailDataLoadCallback}}"
                         searchValue="{{_options.searchValue}}"
                         tileSize="{{_tileCfg.tileSize}}"
