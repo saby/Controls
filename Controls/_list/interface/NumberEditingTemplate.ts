@@ -4,13 +4,12 @@ import IEditingTemplateOptions from './EditingTemplate'
 /**
  * Шаблон для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} числовых полей в {@link Controls/list:View плоских списках}.
  * В режиме чтения выводит значение с помощью {@link Controls/decorator:Number}.
- * 
+ *
  * @class Controls/_list/interface/NumberEditingTemplate
  * @mixes Controls/list:EditingTemplate
  * @mixes Controls/decorator:INumber
  * @author Авраменко А.С.
  * @see Controls/list:View
- * @see Controls/list:BaseEditingTemplate
  * @see Controls/list:EditingTemplate
  * @see Controls/list:MoneyEditingTemplate
  * @example

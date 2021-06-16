@@ -7,7 +7,6 @@
  * @includes IContentTemplate Controls/_list/interface/IContentTemplate
  * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
- * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
@@ -27,7 +26,6 @@
  * @includes IContentTemplate Controls/_list/interface/IContentTemplate
  * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
- * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
@@ -48,7 +46,7 @@ import LoadingIndicatorTemplate = require('wml!Controls/_list/PortionedSearchTem
 import ContinueSearchTemplate = require('wml!Controls/_list/resources/ContinueSearchTemplate');
 import {default as DataContainer, IDataOptions} from 'Controls/_list/Data';
 import EditingTemplate = require('wml!Controls/_list/EditInPlace/EditingTemplate');
-import BaseEditingTemplate = require('wml!Controls/_list/EditInPlace/baseEditingTemplate');
+import BaseEditingTemplate = EditingTemplate;
 import MoneyEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated/Money');
 import NumberEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated/Number');
 import FooterTemplate = require('wml!Controls/_list/ListView/Footer');

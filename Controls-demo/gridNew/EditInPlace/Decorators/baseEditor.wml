@@ -1,6 +1,6 @@
 <ws:partial template="Controls/grid:ColumnTemplate" itemData="{{gridColumn}}">
     <ws:contentTemplate>
-        <ws:partial template="Controls/list:BaseEditingTemplate" scope="{{ _options }}" enabled="{{false}}">
+        <ws:partial template="Controls/list:EditingTemplate" scope="{{ _options }}" enabled="{{false}}">
             <ws:viewTemplate>
                 <b>{{item.contents['title']}}</b>
             </ws:viewTemplate>

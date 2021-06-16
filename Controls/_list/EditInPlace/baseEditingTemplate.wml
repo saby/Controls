@@ -1,16 +1,16 @@
 <div class="controls-EditingTemplateText__editorWrapper
-            controls-EditingTemplateText__editorWrapper_align_{{ itemData && itemData.getEditingConfig().mode === 'cell' ? (align || 'default') : (align ? align : 'left') }}">
-    <ws:if data="{{itemData && itemData.isEditing()}}">
+            controls-EditingTemplateText__editorWrapper_align_{{ editableTarget && editableTarget.getEditingConfig().mode === 'cell' ? (align || 'default') : (align ? align : 'left') }}">
+    <ws:if data="{{editableTarget && editableTarget.isEditing()}}">
         <ws:partial attr:class="controls-EditingTemplateText__editor" template="{{editorTemplate}}" />
     </ws:if>
     <ws:else>
         <div attr:title="{{ value }}" class="controls-EditingTemplateText
                 controls-EditingTemplateText_border-partial
-                {{ !(itemData && itemData.getEditingConfig().mode === 'cell') ? 'controls-EditingTemplateText_withPadding' }}
+                {{ !(editableTarget && editableTarget.getEditingConfig().mode === 'cell') ? 'controls-EditingTemplateText_withPadding' }}
                 {{enabled ? 'controls-EditingTemplateText_enabled'}}
                 controls-EditingTemplateText_size_{{size ? size : 'default'}}
                 controls-EditingTemplateText_style_{{style ? style : 'default'}}
-                {{itemData && itemData.isActive() ? 'controls-EditingTemplateText_active'}}">
+                {{editableTarget && editableTarget.isActive() ? 'controls-EditingTemplateText_active'}}">
             <div class="controls-EditingTemplateText__inner">
                 <ws:partial template="{{ viewTemplate }}"/>
             </div>
