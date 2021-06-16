@@ -3,7 +3,7 @@
         <div class='controlsDemo__button_wrapper'>
             <span class='controlsDemo__button' on:click="_switchNavigation()">Сменить навигацию</span>
         </div>
-        <Controls.scroll:Container class="controlsDemo__cell controlsDemo__height400">
+        <Controls.scroll:Container class="controlsDemo__height400">
             <Controls.list:View
                     keyProperty="key"
                     source="{{_viewSource}}">
