@@ -123,6 +123,7 @@ export default class _Controller implements IDropdownController {
 
       if (this._templateOptionsChanged(newOptions, oldOptions)) {
          this._loadMenuTempPromise = null;
+         this._loadDependsPromise = null;
          if (this._isOpened) {
             this._open();
          }
@@ -148,6 +149,9 @@ export default class _Controller implements IDropdownController {
 
          if (sourceChanged) {
             this._resetLoadPromises();
+            if (!this._opening) {
+               this._loadDependsPromise = null;
+            }
          }
 
          if (newOptions.lazyItemsLoading && !this._isOpened) {
@@ -204,7 +208,12 @@ export default class _Controller implements IDropdownController {
    }
 
    loadDependencies(needLoadMenuTemplates: boolean = true, source?: ICrudPlus): Promise<unknown[]> {
+      if (this._loadDependsPromise) {
+         return this._loadDependsPromise;
+      }
+
       const deps = [];
+
       if (needLoadMenuTemplates) {
          deps.push(this._loadMenuTemplates(this._options));
       }
@@ -220,7 +229,9 @@ export default class _Controller implements IDropdownController {
          deps.push(this._loadItemsTemplates(this._options));
       }
 
-      return Promise.allSettled(deps).then((results) => {
+      return this._loadDependsPromise = Promise.allSettled(deps).then((results) => {
+         this._loadDependsPromise = null;
+
          const errorResult = results.find((result) => result.reason);
          if (errorResult) {
             return Promise.reject(errorResult.reason);
@@ -305,6 +316,7 @@ export default class _Controller implements IDropdownController {
          return Promise.resolve();
       }
 
+      this._opening = true;
       let source;
       if (popupOptions) {
          this._popupOptions = popupOptions;
@@ -315,13 +327,14 @@ export default class _Controller implements IDropdownController {
       }
       const openPopup = () => {
          this._isOpened = true;
+         this._opening = false;
          this._sticky.open(this._getPopupOptions(this._popupOptions));
       };
       if (this._preloadedItems) {
          this._source = this._options.source;
          this._resolveLoadedItems(this._options, this._preloadedItems);
       }
-      return this.loadDependencies(!this._preloadedItems, source).then(
+      return this.loadDependencies(!this._preloadedItems, source, true).then(
           () => {
              const count = this._items.getCount();
              if (count > 1 || count === 1 && (this._options.emptyText || this._options.footerContentTemplate)) {
