@@ -498,12 +498,30 @@ class StickyHeaderController {
         const headersStack: [] = this._headersStack[position];
         let fixedHeadersHeight: number = 0;
         let replaceableHeight: number = 0;
-        for (const headerId of headersStack) {
+
+        // Спилить метод после того как будет сделана задача
+        // https://online.sbis.ru/opendoc.html?guid=8089ac76-89d3-42c0-9ef2-8b187014559f
+
+        const isFixed: Function = (headerId: number, headersHeight) => {
+            return this._getHeaderOffset(headerId, position) < headersHeight;
+        }
+
+        for (let i = 0; i < headersStack.length; i++) {
+            const headerId: number = headersStack[i];
             const header = this._headers[headerId];
 
             if (headers.includes(headerId)) {
-                if (this._getHeaderOffset(headerId, position) < fixedHeadersHeight + replaceableHeight) {
-                    header.inst.setFixedPosition(POSITION.top);
+                const currentHeadersHeight: number = fixedHeadersHeight + replaceableHeight;
+                if (isFixed(headerId, currentHeadersHeight)) {
+                    if (isLastVisibleModes(header.inst.shadowVisibility)) {
+                        const nextHeaderId = headersStack[i + 1];
+                        const nextHeaderIsFixed: boolean = isFixed(nextHeaderId, currentHeadersHeight + header.inst.height);
+                        if (headersStack.length === i + 1 || !nextHeaderIsFixed) {
+                            header.inst.setFixedPosition(POSITION.top);
+                        }
+                    } else {
+                        header.inst.setFixedPosition(POSITION.top);
+                    }
                 }
             }
 
