@@ -89,7 +89,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     updateOptions(options: IScrollbarsOptions): void {
         for (let scrollbar of Object.keys(this._models)) {
             this._models[scrollbar].updateOptions({
-                ...options, scrollbarVisible: options.scrollbarVisible || !this._wheelEventHappened
+                ...options, scrollbarVisible: options.scrollbarVisible || (!this._wheelEventHappened && !this._useNativeScrollbar)
             });
         }
     }
