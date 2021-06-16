@@ -14,9 +14,13 @@ export default class TreeGridViewTable extends TreeGridView {
         return `${super._getGridViewWrapperClasses(options)} controls-Grid__Wrapper_table-layout`;
     }
 
-    protected _getGridViewClasses(options: any): string {
+    protected _getGridViewClasses(options): string {
         const classes = super._getGridViewClasses(options);
-        return `${classes} controls-Grid_table-layout controls-Grid_table-layout_fixed`;
+
+        // При горизонтальном скролле ЕДИНСТВЕННО ВЕРНОЕ значение свойства table-layout - это auto.
+        // Такая настройка позволяет колонкам тянуться, тогда как fixed жестко ограничивает их ширины.
+        const isFixedLayout = options.columnScroll !== true;
+        return `${classes} controls-Grid_table-layout controls-Grid_table-layout_${isFixedLayout ? 'fixed' : 'auto'}`;
     }
 
     protected _getGridViewStyles(): string {
