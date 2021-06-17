@@ -69,7 +69,7 @@ define(
                   },
                   displayValue: ''
                };
-               sinon.stub(ctrl, '_isTextSelection').returns(false);
+               sinon.stub(ctrl, '_isTextSelected').returns(false);
 
                ctrl._keyDownHandler(event);
                assert.isTrue(stubPropagation.notCalled);
@@ -89,7 +89,7 @@ define(
                   },
                   displayValue: ''
                };
-               sinon.stub(ctrl, '_isTextSelection').returns(false);
+               sinon.stub(ctrl, '_isTextSelected').returns(false);
 
                ctrl._keyDownHandler(event);
                assert.isTrue(stubPropagation.notCalled);
@@ -111,7 +111,7 @@ define(
                   },
                   displayValue: ''
                };
-               sinon.stub(ctrl, '_isTextSelection').returns(false);
+               sinon.stub(ctrl, '_isTextSelected').returns(false);
 
                ctrl._keyDownHandler(event);
                assert.isTrue(stubPropagation.calledOnce);
@@ -133,7 +133,7 @@ define(
                   },
                   displayValue: ''
                };
-               sinon.stub(ctrl, '_isTextSelection').returns(false);
+               sinon.stub(ctrl, '_isTextSelected').returns(false);
 
                ctrl._keyDownHandler(event);
                assert.isTrue(stubPropagation.calledOnce);
@@ -149,7 +149,14 @@ define(
 
             beforeEach(function() {
                ctrl.paste = ProxyCall.apply(ctrl.paste, 'paste', calls, true);
-               sinon.stub(ctrl, '_isTextSelection').returns(true);
+               ctrl._viewModel = {
+                  selection: {
+                     end: 1,
+                     start: 0
+                  },
+                  displayValue: 'test'
+               };
+               sinon.stub(ctrl, '_isTextSelected').returns(true);
                preventDefault = ProxyCall.apply(preventDefault, 'preventDefault', calls, true);
                stopPropagation = ProxyCall.apply(stopPropagation, 'stopPropagation', calls, true);
             });
