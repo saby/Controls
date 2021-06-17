@@ -32,6 +32,18 @@
             on:touchstart="_touchStartHandler()"
             on:touchmove="_touchMoveHandler()"
             on:touchend="_touchEndHandler()">
+            <ws:if data="{{ _options.headerContentTemplate }}">
+               <div class="controls-SlidingPanel__customContent-header">
+                  <ws:partial
+                      template="{{ _options.headerContentTemplate }}"
+                      scope="{{ _options }}">
+                     <ws:controllerButtonTemplate>
+                        <ws:partial
+                             template="controller"/>
+                     </ws:controllerButtonTemplate>
+                  </ws:partial>
+               </div>
+            </ws:if>
             <ws:partial
                on:scrollStateChanged="_scrollStateChanged()"
                name="customContentContainer"
@@ -41,7 +53,7 @@
                scope="{{_options}}">
                <ws:controllerButtonTemplate>
                   <ws:partial
-                     template="controller"/>
+                          template="controller"/>
                </ws:controllerButtonTemplate>
             </ws:partial>
          </div>

@@ -101,6 +101,7 @@ class Controller extends BaseController {
         const className = `${item.popupOptions.className || ''} controls-SlidingPanel__popup
             controls-SlidingPanel__animation controls_popupSliding_theme-${PopupController.getTheme()}`;
 
+        item.popupOptions._workspaceWidth = item.position.width;
         item.popupOptions.className = className;
         item.popupOptions.content = PopupContent;
         item.popupOptions.slidingPanelData = this._getPopupTemplatePosition(item);
