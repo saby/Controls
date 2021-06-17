@@ -169,6 +169,10 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
     private _syncDomOptimization: boolean = true;
 
+    get index(): number {
+        return this._index;
+    }
+
     constructor(cfg: IStickyHeaderOptions) {
         super(cfg);
         this._observeHandler = this._observeHandler.bind(this);
