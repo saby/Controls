@@ -11,7 +11,8 @@
 </ws:if>
 <ws:else>
     <div class="controls-MonthViewVDOM__item controls-MonthViewVDOM__item_style-{{sizeStyle? sizeStyle : 'default'}}
-    {{ monthViewModel._prepareClass(value, fontColorStyle, backgroundStyle, borderStyle, fontWeight) }}">
+    {{ monthViewModel._prepareClass(value, fontColorStyle, backgroundStyle, borderStyle, fontWeight) }}"
+         data-qa="{{ value.selected ? 'controls-MonthViewVDOM__item-selected' }}">
         <ws:if data="{{value.clickable}}">
             <div if="{{value.today}}"
                  class="controls-MonthViewVDOM__item-today-background
