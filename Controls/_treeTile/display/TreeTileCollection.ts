@@ -33,6 +33,8 @@ export default class TreeTileCollection<
 
     protected _$folderWidth: number;
 
+    readonly SupportExpand: boolean = false;
+
     constructor(options: any) {
         super(options);
 
