@@ -16,15 +16,38 @@ const ERROR_MESSAGES = {
 
 //#region private methods
 
-const canShowColumnScroll = (self, options: IAbstractViewOptions): boolean => {
+/**
+ * Метод возвращает true, в случае если columnScroll можно построить. При этом нет гарантии что он будет построен.
+ * Это станет достоверно известно только после подсчета размеров. Таким образом, горизонтальный скролл точно
+ * отобразится при выполнении двух условий: горизонтальный скролл вцелом можно показать и контент больше
+ * контейнера-обертки.
+ *
+ * Некоторые специфические кейсы:
+ *  - таблица пустая, отображается пустое представление, шапка скрыта. Не строим контроллер, но считаем размеры.
+ *      Ширины всех колонок могут быть настроены в px и их сумма будет превышать ширину контейнера-обертки.
+ *      В таком случае шаблон пустого списка будет растянут на ширину всех колонок и "уедет" вправо.
+ *  - таблица пустая, отображается пустое представление, шапка показывается. Аналогично предыдущему пункту, плюс
+ *      шапка тоже "уедет". Следовательно нужно не только создать, но и показать.
+ *  FIXME: Поддержаны не все варианты. Возможно, при пустом представлении тоже нужно создавать контроллеры для
+ *   консистентноси, он будет обновляться при изменении размеров, но сам скролл колонок будет скрыт.
+ *
+ * @param {TColumnScrollViewMixin} self текущий инстанс представления с примесью.
+ * @param {IAbstractViewOptions} options опции представления с примесью.
+ *
+ * @return {Boolean} Флаг, указывающий, можно ли строить горизонтальный скролл.
+ */
+const canShowColumnScroll = (self: TColumnScrollViewMixin, options: IAbstractViewOptions): boolean => {
     if (options.header instanceof Array && options.header.length === 0) {
         throw Error(ERROR_MESSAGES.HEADER_IS_EMPTY);
     }
+
+    // TODO: Все пограничные случаи следует описать в аннотации метода.
     return Boolean(
         !self._listModel.destroyed && (
-            !options.needShowEmptyTemplate ||
-            options.headerVisibility === 'visible' ||
-            options.headerInEmptyListVisible === true
+            options.needShowEmptyTemplate ? (
+                options.headerVisibility === 'visible' ||
+                options.headerInEmptyListVisible === true
+            ) : !!self._listModel.getCount()
         )
     );
 };
