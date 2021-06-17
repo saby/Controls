@@ -42,6 +42,12 @@ const Context = DataContext.extend({
       this._$value = { ...options };
    },
    updateValue(options: IContextOptionsValue): void {
+      for (const i in options) {
+         if (options.hasOwnProperty(i)) {
+            // TODO: это для обратной совместимости, пока в остальных репах не перейду на Consumer
+            this[i] = options[i];
+         }
+      }
       this._$value = {
          ...this._$value,
          ...options
