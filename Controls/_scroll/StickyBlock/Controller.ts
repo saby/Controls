@@ -329,9 +329,13 @@ class StickyHeaderController {
         return !this._headers[id];
     }
 
+    private _isGroup(id: number): boolean {
+        return !!this._headers[id].inst.getChildrenHeaders;
+    }
+
     private _getGroupByHeader(header: StickyBlock) {
         for (const headerId in this._headers) {
-            if (this._headers[headerId].inst.getChildrenHeaders) {
+            if (this._isGroup(headerId)) {
                 const groupChildren = this._headers[headerId].inst.getChildrenHeaders();
                 const isHeaderGroup = groupChildren.find((groupHeader) => groupHeader.id === header.index);
                 if (isHeaderGroup) {
@@ -351,6 +355,7 @@ class StickyHeaderController {
         const updateHeaders = [];
         for (const entry of entries) {
             const header = this._getHeaderFromNode(entry.target);
+            // В момент переключения по вкладкам в мастер детейле на ноде может не быть замаунчен стикиБлок
             if (header) {
                 const heightEntry = this._getElementHeightEntry(entry.target);
                 if (heightEntry) {
