@@ -1,10 +1,11 @@
+import {TemplateFunction} from 'UI/Base';
+
 /**
  * Шаблон, который по умолчанию используется для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} в {@link /doc/platform/developmentapl/interface-development/controls/list/ списках}.
- *  
+ *
  * @class Controls/_list/interface/EditingTemplate
  * @author Авраменко А.С.
  * @see Controls/list:View
- * @see Controls/list:BaseEditingTemplate
  * @see Controls/list:NumberEditingTemplate
  * @see Controls/list:MoneyEditingTemplate
  * @example
@@ -15,7 +16,10 @@
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
  *          <ws:contentTemplate>
- *             <ws:partial template="Controls/list:EditingTemplate" value="{{ contentTemplate.item.contents.title }}" enabled="{{ true }}">
+ *             <ws:partial template="Controls/list:EditingTemplate" enabled="{{ true }}">
+ *                 <ws:viewTemplate>
+ *                      Title: {{ contentTemplate.item.contents.title }}
+ *                  </ws:viewTemplate>
  *                <ws:editorTemplate>
  *                   <Controls.validate:InputContainer>
  *                      <ws:validators>
@@ -40,9 +44,17 @@
 export default interface IEditingTemplateOptions {
     /**
      * @name Controls/_list/interface/EditingTemplate#editorTemplate
-     * @cfg {String|TemplateFunction} Шаблон, отображаемый поверх элемента в режиме редактирования. 
+     * @cfg {String|TemplateFunction} Шаблон, отображаемый поверх элемента в режиме редактирования.
      */
-    editorTemplate?: string;
+    editorTemplate?: string | TemplateFunction;
+
+    /**
+     * @name Controls/_list/interface/EditingTemplate#viewTemplate
+     * @cfg {String|TemplateFunction} Шаблон, отображаемый внутри элемента в режиме просмотра.
+     * @remark Настройка viewTemplate приоритетнее {@link Controls/_list/interface/EditingTemplate#value value}.
+     */
+    viewTemplate?: string | TemplateFunction;
+
     /**
      * @name Controls/_list/interface/EditingTemplate#enabled
      * @cfg {Boolean} Когда опция задана в значение true, при наведении курсора мыши на элемент в режиме редактирования будет выделяться фон у контрола-редактора.
@@ -52,7 +64,7 @@ export default interface IEditingTemplateOptions {
     enabled?: boolean;
     /**
      * @name Controls/_list/interface/EditingTemplate#value
-     * @cfg {String} Текст, отображаемый внутри элемента в режиме просмотра.
+     * @cfg {String} Текст, отображаемый внутри элемента в режиме просмотра, если не задан {@link Controls/list:EditingTemplate#viewTemplate шаблон отображения данных в режиме просмотра}.
      */
     value?: string;
     /**
@@ -62,11 +74,11 @@ export default interface IEditingTemplateOptions {
      * @variant s Маленький размер.
      * @variant m Средний размер.
      * @variant l Большой размер.
-     */ 
+     */
 
     /**
      * @name Controls/_list/interface/EditingTemplate#size
-     * @cfg {Controls/_list/interface/EditingTemplate/Size.typedef} Размер шрифта для {@link Controls/list:EditingTemplate#value текста}, который отображается внутри элемента в режиме просмотра. 
+     * @cfg {Controls/_list/interface/EditingTemplate/Size.typedef} Размер шрифта для {@link Controls/list:EditingTemplate#value текста}, который отображается внутри элемента в режиме просмотра.
      * @default default
      * @see Controls/list:EditingTemplate#value
      * @remark
@@ -74,4 +86,3 @@ export default interface IEditingTemplateOptions {
      */
     size?: string;
  }
- 
