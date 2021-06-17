@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMaxWidth600">
         <div class="controlsDemo__cell">
             <Controls.grid:View
                     keyProperty="key"
@@ -30,7 +30,7 @@
 
     <div>
         <div class="controls-text-label">Старый способ. Без подвалов</div>
-        <div class="controlsDemo__wrapper controlsDemo__flexRow">
+        <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMaxWidth600">
             <div class="controlsDemo__cell">
                 <Controls.grid:View
                         keyProperty="key"
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMaxWidth600">
         <div class="controlsDemo__cell">
             <Controls.grid:View
                     keyProperty="key"
@@ -83,7 +83,7 @@
         </div>
     </div>
 
-    <div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMaxWidth600">
         <div class="controlsDemo__cell">
             <Controls.grid:View
                     keyProperty="key"

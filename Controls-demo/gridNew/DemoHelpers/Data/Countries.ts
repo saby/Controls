@@ -245,7 +245,7 @@ export const Countries = {
             width: '120px'
         }
     ],
-    getColumnsWithWidths: (): IColumnRes[] => [
+    getColumnsWithWidths: (setCompatibleWidths: boolean = true): IColumnRes[] => [
         {
             displayProperty: 'number',
             width: '40px'
@@ -257,28 +257,28 @@ export const Countries = {
         {
             displayProperty: 'capital',
             width: 'max-content',
-            compatibleWidth: '98px'
+            compatibleWidth: setCompatibleWidths ? '98px' : undefined
         },
         {
             displayProperty: 'population',
             width: 'max-content',
             result: 3956986345,
             resultTemplate: numberResultTpl,
-            compatibleWidth: '118px'
+            compatibleWidth: setCompatibleWidths ? '118px' : undefined
         },
         {
             displayProperty: 'square',
             width: 'max-content',
             result: 12423523,
             resultTemplate: numberResultTpl,
-            compatibleWidth: '156px'
+            compatibleWidth: setCompatibleWidths ? '156px' : undefined
         },
         {
             displayProperty: 'populationDensity',
             width: 'max-content',
             result: 5.8,
             resultTemplate: numberResultTpl,
-            compatibleWidth: '60px'
+            compatibleWidth: setCompatibleWidths ? '60px' : undefined
         }
     ],
     getLongHeader: (textOverflow): IHeaderCell[] => [
