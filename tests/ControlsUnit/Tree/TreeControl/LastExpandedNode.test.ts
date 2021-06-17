@@ -40,7 +40,6 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
         const config: ITreeControlOptions = {
             viewName: 'Controls/List/TreeGridView',
             root: null,
-            useNewModel: true,
             keyProperty: 'id',
             parentProperty: 'parent',
             nodeProperty: 'type',

@@ -33,8 +33,7 @@ describe('Controls/_tile/TileView', () => {
             listModel: model,
             keyProperty: 'id',
             tileScalingMode: 'outside',
-            tileWidth: 200,
-            useNewModel: true
+            tileWidth: 200
         };
 
         tileView = new TileView(cfg);

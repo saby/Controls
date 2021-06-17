@@ -3,10 +3,12 @@
  */
 define([
    'Controls/list',
-   'Types/collection'
+   'Types/collection',
+   'Controls/display'
 ], function(
    lists,
-   collection
+   collection,
+   controlsDisplay
 ) {
    describe('Controls.List.ListView', function() {
       var data, data2, display, sandbox;
@@ -53,8 +55,8 @@ define([
       });
 
       it('Item click', function () {
-         var model = new lists.ListViewModel({
-            items: data,
+         var model = new controlsDisplay.Collection({
+            collection: data,
             keyProperty: 'id',
             markedKey: null
          });
@@ -67,7 +69,7 @@ define([
          lv.saveOptions(cfg);
          lv._beforeMount(cfg);
 
-         var dispItem = lv._listModel._display.at(2);
+         var dispItem = lv._listModel.at(2);
          var notifyResult = null;
          lv._notify = function(e, args) {
             notifyResult = args[0];
@@ -108,8 +110,8 @@ define([
          }
          let itemPaddingChanged = false;
 
-         var model = new lists.ListViewModel({
-            items: testData,
+         var model = new controlsDisplay.Collection({
+            collection: testData,
             keyProperty: 'id',
             markedKey: null,
             itemPadding: itemPadding
@@ -126,8 +128,8 @@ define([
 
          lv._beforeUpdate(cfg);
 
-         model = new lists.ListViewModel({
-            items: testData2,
+         model = new controlsDisplay.Collection({
+            collection: testData2,
             keyProperty: 'id',
             markedKey: null,
             itemPadding: itemPadding
@@ -155,8 +157,8 @@ define([
       it('should notify about resize after the list was updated with new items', function() {
          var
              cfg = {
-                listModel: new lists.ListViewModel({
-                   items: [],
+                listModel: new controlsDisplay.Collection({
+                   collection: [],
                    keyProperty: 'id'
                 }),
                 keyProperty: 'id'
@@ -166,46 +168,17 @@ define([
          listView._beforeMount(cfg);
          var stub = sandbox.stub(listView, '_notify').withArgs('controlResize', [], { bubbling: true });
 
-         listView._listModel._notify('onListChange');
+         listView._listModel._notify('onCollectionChange');
          assert.isFalse(stub.called);
          listView._afterRender(cfg);
          assert.isTrue(stub.calledOnce);
       });
 
-      it('set actual item padding in existing model', function() {
-         const oldItemPadding = {
-            top: 'null',
-            bottom: 'null',
-            left: 'null',
-            right: 'null'
-         };
-         const newItemPadding = {
-            top: 'xl',
-            bottom: 'xl',
-            left: 'm',
-            right: 'xs'
-         };
-         const cfg = {
-            itemPadding: newItemPadding,
-            listModel: new lists.ListViewModel({
-               items: [],
-               itemPadding: oldItemPadding,
-               keyProperty: 'id'
-            }),
-            keyProperty: 'id'
-         };
-         assert.deepEqual(cfg.listModel._options.itemPadding, oldItemPadding);
-         const listView = new lists.ListView(cfg);
-         listView.saveOptions(cfg);
-         listView._beforeMount(cfg);
-         assert.deepEqual(listView._listModel._options.itemPadding, newItemPadding);
-      });
-
       it('should notify about resize only once even if the list was changed multiple times during an update', function() {
          var
             cfg = {
-               listModel: new lists.ListViewModel({
-                  items: [],
+               listModel: new controlsDisplay.Collection({
+                  collection: [],
                   keyProperty: 'id'
                }),
                keyProperty: 'id'
@@ -215,9 +188,9 @@ define([
          listView._beforeMount(cfg);
          var stub = sandbox.stub(listView, '_notify').withArgs('controlResize', [], { bubbling: true });
 
-         listView._listModel._notify('onListChange');
-         listView._listModel._notify('onListChange');
-         listView._listModel._notify('onListChange');
+         listView._listModel._notify('onCollectionChange');
+         listView._listModel._notify('onCollectionChange');
+         listView._listModel._notify('onCollectionChange');
          listView._beforeUpdate(cfg);
          listView._afterRender();
          assert.isTrue(stub.calledOnce);
@@ -226,8 +199,8 @@ define([
       it('should not notify about resize by hoveredItemChanged, activeItemChanged or markedKeyChanged', function() {
          var
             cfg = {
-               listModel: new lists.ListViewModel({
-                  items: [],
+               listModel: new controlsDisplay.Collection({
+                  collection: [],
                   keyProperty: 'id'
                }),
                keyProperty: 'id'
@@ -237,13 +210,9 @@ define([
          listView._beforeMount(cfg);
          var stubControlResize = sandbox.stub(listView, '_notify').withArgs('controlResize', [], { bubbling: true });
 
-         listView._listModel._notify('onListChange', 'hoveredItemChanged');
-         listView._listModel._notify('onListChange', 'activeItemChanged');
-         listView._listModel._notify('onListChange', 'markedKeyChanged');
-         listView._listModel._notify('onListChange', 'itemActionsUpdated');
-         listView._listModel._notify('onListChange', 'collectionChanged', 'ch', { properties: 'marked' });
-         listView._listModel._notify('onListChange', 'collectionChanged', 'ch', { properties: 'hovered' });
-         listView._listModel._notify('onListChange', 'collectionChanged', 'ch', { properties: 'active' });
+         listView._listModel._notify('onCollectionChange', 'ch', { properties: 'marked' });
+         listView._listModel._notify('onCollectionChange', 'ch', { properties: 'hovered' });
+         listView._listModel._notify('onCollectionChange', 'ch', { properties: 'active' });
          listView._beforeUpdate(cfg);
          listView._afterUpdate();
          assert.isTrue(stubControlResize.notCalled);
@@ -267,8 +236,8 @@ define([
                item: {}
             },
             eventQueue = [],
-            model = new lists.ListViewModel({
-               items: data,
+            model = new controlsDisplay.Collection({
+               collection: data,
                keyProperty: 'id',
                markedKey: null
             }),
@@ -305,8 +274,8 @@ define([
 
       it('_onItemMouseDown', function() {
          const
-            model = new lists.ListViewModel({
-               items: data,
+            model = new controlsDisplay.Collection({
+               collection: data,
                keyProperty: 'id',
                markedKey: null
             }),
@@ -319,7 +288,7 @@ define([
          lv.saveOptions(cfg);
          lv._beforeMount(cfg);
 
-         const dispItem = lv._listModel._display.at(2);
+         const dispItem = lv._listModel.at(2);
          let notifyResult = null;
          lv._notify = function(e, args) {
             notifyResult = args[0];
@@ -330,8 +299,8 @@ define([
       describe('_onItemContextMenu', function() {
          it('contextMenuVisibility: true', function() {
             var
-               model = new lists.ListViewModel({
-                  items: data,
+               model = new controlsDisplay.Collection({
+                  collection: data,
                   keyProperty: 'id',
                   markedKey: null
                }),
@@ -358,8 +327,8 @@ define([
          });
          it('contextMenuVisibility: false', function() {
             var
-               model = new lists.ListViewModel({
-                  items: data,
+               model = new controlsDisplay.Collection({
+                  collection: data,
                   keyProperty: 'id',
                   markedKey: null
                }),
@@ -381,8 +350,8 @@ define([
          });
          it('itemContextMenu event should fire if contextMenuVisibility: true and the list has no editing items', function() {
             var
-               model = new lists.ListViewModel({
-                  items: data,
+               model = new controlsDisplay.Collection({
+                  collection: data,
                   keyProperty: 'id',
                   markedKey: null
                }),
@@ -409,8 +378,8 @@ define([
                hoveredItemChangedCount++;
             }
          };
-         var model = new lists.ListViewModel({
-            items: new collection.RecordSet({
+         var model = new controlsDisplay.Collection({
+            collection: new collection.RecordSet({
                rawData: data,
                keyProperty: 'id'
             }),
@@ -438,8 +407,8 @@ define([
 
       describe('_afterMount', function() {
          it('should not fire markedKeyChanged if _options.markerVisibility is \'visible\', but markedKey is not undefined', function() {
-            var model = new lists.ListViewModel({
-               items: new collection.RecordSet({
+            var model = new controlsDisplay.Collection({
+               collection: new collection.RecordSet({
                   rawData: data,
                   keyProperty: 'id'
                }),
@@ -468,8 +437,8 @@ define([
          });
 
          it('should not fire markedKeyChanged if _options.markerVisibility is not \'visible\'', function() {
-            var model = new lists.ListViewModel({
-               items: new collection.RecordSet({
+            var model = new controlsDisplay.Collection({
+               collection: new collection.RecordSet({
                   rawData: data,
                   keyProperty: 'id'
                }),

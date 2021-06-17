@@ -3,8 +3,8 @@
 
 import { assert } from 'chai';
 import { RecordSet } from 'Types/collection';
-import { TreeViewModel } from 'Controls/tree';
 import {TreeStrategy} from 'Controls/listDragNDrop';
+import { TreeGridCollection } from 'Controls/treeGrid';
 
 function equalPosition(pos1, pos2): boolean {
    assert.equal(pos1.index, pos2.index, 'Индексы разные');
@@ -56,7 +56,8 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
       keyProperty: 'id'
    });
    const cfg = {
-      items,
+      root: null,
+      collection: items,
       keyProperty: 'id',
       parentProperty: 'parent',
       nodeProperty: 'node',
@@ -66,7 +67,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
    let strategy;
 
    beforeEach(() => {
-      model = new TreeViewModel(cfg);
+      model = new TreeGridCollection(cfg);
    });
 
    describe('calculatePosition', () => {
@@ -237,14 +238,6 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
                index: 2,
                position: 'before',
                dispItem: targetNode
-            });
-
-            mouseOffsetInTargetItem = {top: 0.8, bottom: 0.2};
-            newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
-            equalPosition(newPosition, {
-               index: 2,
-               position: 'after',
-               dispItem: model.getItemBySourceKey(2)
             });
          });
       });

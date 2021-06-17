@@ -55,7 +55,7 @@ export interface IDateSelectorOptions extends IBaseSelectorOptions {
  */
 
 /**
- * @name Controls/dateRange/IDateSelector#monthCaptionTemplate
+ * @name Controls/_dateRange/interfaces/IDateSelector#monthCaptionTemplate
  * @cfg {HTMLElement} Шаблон заголовка месяца.
  * @remark
  * В шаблон передается:

@@ -69,8 +69,8 @@ export default class ShadowsModel extends mixin<VersionableMixin>(VersionableMix
         // В этом случае нам нужна синхронизация.
         if ((isTopStateChanged || isBottomStateChanged) &&
             (needUpdate ||
-                this._models.top?.getVisibilityByInnerComponents() === SHADOW_VISIBILITY.VISIBLE ||
-                this._models.bottom?.getVisibilityByInnerComponents() === SHADOW_VISIBILITY.VISIBLE)) {
+                (this._models.top?.getVisibilityByInnerComponents() === SHADOW_VISIBILITY.VISIBLE && isTopStateChanged) ||
+                (this._models.bottom?.getVisibilityByInnerComponents() === SHADOW_VISIBILITY.VISIBLE && isBottomStateChanged))) {
             this._nextVersion();
         }
     }

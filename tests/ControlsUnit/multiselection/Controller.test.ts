@@ -3,13 +3,13 @@
 
 import { assert } from 'chai';
 import { FlatSelectionStrategy, SelectionController, TreeSelectionStrategy, ISelectionItem } from 'Controls/multiselection';
-import {ListViewModel, MultiSelectAccessibility} from 'Controls/list';
+import { MultiSelectAccessibility } from 'Controls/list';
 import { RecordSet } from 'Types/collection';
-import { SearchGridViewModel} from 'Controls/treeGridOld';
 import { Collection, CollectionItem, Tree } from 'Controls/display';
 import { Model } from 'Types/entity';
 import * as ListData from 'ControlsUnit/ListData';
-import TreeGridCollection from 'Controls/_treeGrid/display/TreeGridCollection';
+import { TreeGridCollection } from 'Controls/treeGrid';
+import { SearchGridCollection } from 'Controls/searchBreadcrumbsGrid';
 
 describe('Controls/_multiselection/Controller', () => {
    const items = new RecordSet({
@@ -24,15 +24,15 @@ describe('Controls/_multiselection/Controller', () => {
    let controller, model, strategy;
 
    beforeEach(() => {
-      model = new ListViewModel({
-         items,
+      model = new Collection({
+         collection: items,
          keyProperty: 'id'
       });
 
-      strategy = new FlatSelectionStrategy({model: model.getDisplay() });
+      strategy = new FlatSelectionStrategy({model });
 
       controller = new SelectionController({
-         model: model.getDisplay(),
+         model,
          strategy,
          filter: {},
          selectedKeys: [],
@@ -41,18 +41,18 @@ describe('Controls/_multiselection/Controller', () => {
    });
 
    it('updateOptions', () => {
-      model =  new ListViewModel({
-         items,
+      model =  new Collection({
+         collection: items,
          keyProperty: 'id'
       });
 
       controller.updateOptions({
-         model: model.getDisplay(),
-         strategyOptions: { model: model.getDisplay() }
+         model,
+         strategyOptions: { model }
       });
 
-      assert.equal(controller._model, model.getDisplay());
-      assert.deepEqual(controller._strategy._model, model.getDisplay());
+      assert.equal(controller._model, model);
+      assert.deepEqual(controller._strategy._model, model);
    });
 
    describe('toggleItem', () => {
@@ -62,8 +62,8 @@ describe('Controls/_multiselection/Controller', () => {
       });
 
       it('toggle breadcrumbs', () => {
-         model = new SearchGridViewModel({
-            items: new RecordSet({
+         model = new SearchGridCollection({
+            collection: new RecordSet({
                rawData: [{
                   id: 1,
                   parent: null,
@@ -77,13 +77,14 @@ describe('Controls/_multiselection/Controller', () => {
                }],
                keyProperty: 'id'
             }),
+            root: null,
             keyProperty: 'id',
             parentProperty: 'parent',
             nodeProperty: 'nodeType',
             columns: [{}]
          });
          controller = new SelectionController({
-            model: model.getDisplay(),
+            model,
             strategy,
             selectedKeys: [],
             excludedKeys: []
@@ -137,7 +138,7 @@ describe('Controls/_multiselection/Controller', () => {
 
       it('all selected not by every item', () => {
          controller = new SelectionController({
-            model: model.getDisplay(),
+            model,
             strategy,
             selectedKeys: [null],
             excludedKeys: []
@@ -159,11 +160,11 @@ describe('Controls/_multiselection/Controller', () => {
 
       controller.setSelection({ selected: [null], excluded: [3] });
       controller.updateOptions({
-         model: model.getDisplay(),
+         model,
          strategy,
          filter: {searchValue: 'a'},
          strategyOptions: {
-            model: model.getDisplay()
+            model
          }
       });
 
@@ -177,11 +178,11 @@ describe('Controls/_multiselection/Controller', () => {
 
       controller.setSelection({ selected: [3], excluded: [] });
       controller.updateOptions({
-         model: model.getDisplay(),
+         model,
          strategy,
          filter: {searchValue: 'a'},
          strategyOptions: {
-            model: model.getDisplay()
+            model
          }
       });
 
@@ -191,11 +192,11 @@ describe('Controls/_multiselection/Controller', () => {
       controller.setSelection({ selected: [], excluded: [] });
       controller.setSelection({ selected: [2222], excluded: [] });
       controller.updateOptions({
-         model: model.getDisplay(),
+         model,
          strategy,
          filter: {searchValue: 'aф'},
          strategyOptions: {
-            model: model.getDisplay()
+            model
          }
       });
 
@@ -210,7 +211,7 @@ describe('Controls/_multiselection/Controller', () => {
    });
 
    it('onCollectionAdd', () => {
-      model.setItems(new RecordSet({
+      model.setCollection(new RecordSet({
          rawData: [
             { id: 1 },
             { id: 2 },
@@ -221,7 +222,7 @@ describe('Controls/_multiselection/Controller', () => {
       }), {});
 
       controller = new SelectionController({
-         model: model.getDisplay(),
+         model,
          strategy,
          selectedKeys: [1, 2, 3, 4],
          excludedKeys: []
@@ -235,7 +236,7 @@ describe('Controls/_multiselection/Controller', () => {
 
       // проверяем что не проставим селекшин для новых элементов, если уперлись в лимит
       controller.setLimit(3);
-      model.setItems(new RecordSet({
+      model.setCollection(new RecordSet({
          rawData: [
             { id: 1 },
             { id: 2 },
@@ -268,11 +269,11 @@ describe('Controls/_multiselection/Controller', () => {
       });
 
       it('remove all', () => {
-         const model = new ListViewModel({
-            items,
+         const model = new Collection({
+            collection: items,
             keyProperty: 'id'
          });
-         model.setItems(new RecordSet({
+         model.setCollection(new RecordSet({
             rawData: [],
             keyProperty: 'id'
          }), {});
@@ -395,18 +396,21 @@ describe('Controls/_multiselection/Controller', () => {
    describe('getSelectedItems', () => {
       let model;
       beforeEach(() => {
-         model = new ListViewModel({
-            items: [
-               { id: 1 },
-               { id: 2 },
-               { id: 3 },
-               { id: 4 }
-            ],
+         model = new Collection({
+            collection:  new RecordSet({
+               rawData: [
+                  { id: 1 },
+                  { id: 2 },
+                  { id: 3 },
+                  { id: 4 }
+               ],
+               keyProperty: 'id'
+            }),
             keyProperty: 'id'
          });
-         strategy = new FlatSelectionStrategy({model: model.getDisplay() });
+         strategy = new FlatSelectionStrategy({model });
          controller = new SelectionController({
-            model: model.getDisplay(),
+            model,
             strategy,
             filter: {},
             selectedKeys: [],
@@ -603,8 +607,9 @@ describe('Controls/_multiselection/Controller', () => {
       let model, controller, strategy;
 
       beforeEach(() => {
-         model = new SearchGridViewModel({
-            items,
+         model = new SearchGridCollection({
+            root: null,
+            collection: items,
             keyProperty: 'id',
             parentProperty: 'parent',
             nodeProperty: 'nodeType',
@@ -612,7 +617,7 @@ describe('Controls/_multiselection/Controller', () => {
          });
 
          strategy = new TreeSelectionStrategy({
-             model: model.getDisplay(),
+             model,
              selectDescendants: false,
              selectAncestors: false,
              rootId: null,
@@ -620,7 +625,7 @@ describe('Controls/_multiselection/Controller', () => {
          });
 
          controller = new SelectionController({
-            model: model.getDisplay(),
+            model,
             strategy,
             selectedKeys: [],
             excludedKeys: []
@@ -628,10 +633,10 @@ describe('Controls/_multiselection/Controller', () => {
       });
 
       it('onCollectionAdd', () => {
-         model.setItems(items, {});
+         model.setCollection(items, {});
 
          controller = new SelectionController({
-            model: model.getDisplay(),
+            model,
             strategy,
             selectedKeys: [1, 3],
             excludedKeys: []
@@ -648,7 +653,7 @@ describe('Controls/_multiselection/Controller', () => {
 
       it('getSelectionForModel', () => {
          controller = new SelectionController({
-            model: model.getDisplay(),
+            model,
             strategy,
             selectedKeys: [],
             excludedKeys: [],
