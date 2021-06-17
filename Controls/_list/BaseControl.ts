@@ -4889,6 +4889,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         const shiftPromise = new Promise((res) => { resolver = res; });
         this._handleLoadToDirection = this._sourceController.hasMoreData(direction);
         this._scrollController.shiftToDirection(direction).then((result) => {
+            if (this._destroyed) {
+                return;
+            }
             if (result) {
                 _private.handleScrollControllerResult(this, result);
                 this._syncLoadingIndicatorState = direction;
@@ -4896,6 +4899,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 resolver();
             } else {
                 this._loadMore(direction).then(() => {
+                    if (this._destroyed) {
+                        return;
+                    }
                     this._handleLoadToDirection = false;
                     resolver();
                 });

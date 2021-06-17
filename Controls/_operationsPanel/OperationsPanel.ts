@@ -202,7 +202,8 @@ Object.defineProperty(OperationsPanel, 'defaultProps', {
 
    get(): Partial<IOperationsPanelOptions> {
       return {
-         itemTemplate: ToolbarItemTemplate
+         itemTemplate: ToolbarItemTemplate,
+         fontColorStyle: 'operationsPanel'
       };
    }
 });
