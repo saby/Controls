@@ -121,6 +121,7 @@ export default class View extends Control<IViewControlOptions> {
 
    beginEdit(event: SyntheticEvent<MouseEvent>, res: boolean = false): void {
       this._cloneEditObject(this._options.editObject);
+      this._isCommitEdit = false;
       // TODO: res - это результат события со старым названием. Снести вместе со старым контролом 3.19.110
       const result = res || this._notify('beforeBeginEdit', [this._editObject], {
          bubbling: true
@@ -147,10 +148,10 @@ export default class View extends Control<IViewControlOptions> {
          return this._validate().addCallback((result) => {
             for (const key in result) {
                if (result.hasOwnProperty(key) && result[key]) {
+                  this._isCommitEdit = false;
                   return Deferred.success();
                }
             }
-            this._isCommitEdit = false;
             return this._endEdit(true);
          });
       }
@@ -177,6 +178,7 @@ export default class View extends Control<IViewControlOptions> {
       const result = this._notify('beforeEndEdit', [this._editObject, commit], {
          bubbling: true
       });
+      this._isCommitEdit = false;
 
       if (result === EDIT_CANCEL) {
          return Deferred.success();
