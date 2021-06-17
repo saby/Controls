@@ -220,7 +220,7 @@
 }
 
 .controls-Grid__row-cell_small_min_height {
-   min-height: var(--cell_small-min-height_grid);
+   min-height: var(--offset_2xl);
 }
 
 .controls-Grid__row-cell__content_colspaned {
@@ -249,7 +249,7 @@
 }
 
 .controls-Grid__row-cell_master {
-   font-size: var(--master_item_font-size_list);
+   font-size: var(--font-size_l);
    border-bottom: var(--master_item_separator_thickness_list) solid var(--master_item_background-color_list) ;
 }
 
@@ -576,11 +576,11 @@
 
 .controls-Grid__row-cell__content_baseline_2XL:before {
    content: '\200b';
-   font-size: var(--item_font-size_2xl_grid);
+   font-size: var(--font-size_2xl);
 }
 .controls-Grid__row-cell__content_baseline_default:before {
    content: '\200b';
-   font-size: var(--item_max-font-size_grid);
+   font-size: var(--font-size_2xl);
 }
 
 .controls-Grid__header-cell-content-block:before {
@@ -606,14 +606,14 @@
 }
 
 .controls-GridView__footer__cell__content {
-   min-height: var(--footer_min-height_list);
+   min-height: var(--inline_height_m);
    display: flex;
    align-items: baseline;
    flex-grow: 1;
 
    &::before {
       content: '\200b';
-      font-size: var(--footer_font-size_list);
+      font-size: var(--font-size_xl);
    }
 }
 
@@ -623,19 +623,19 @@
 
 // ЭТО ВСЁ ТОЛЬКО ДЛЯ СТАРЫХ СПИСКОВ, ДО 3100!
 .controls-GridView__footer_old > .controls-GridView__footer__cell {
-   min-height: var(--footer_min-height_list);
+   min-height: var(--inline_height_m);
    align-items: baseline;
    &::before {
       content: '\200b';
-      font-size: var(--footer_font-size_list);
+      font-size: var(--font-size_xl);
    }
 }
 
 .controls-GridView__newFooter__cell {
-   min-height: var(--footer_min-height_list);
+   min-height: var(--inline_height_m);
    &::before {
       content: '\200b';
-      font-size: var(--footer_font-size_list);
+      font-size: var(--font-size_xl);
    }
 }
 
@@ -693,7 +693,7 @@
 .controls-Grid__groupContent__spacingRight_default {
    padding-right: var(--item_padding-right_default_list);
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
-      right: var(--cell_spacing-right_m_grid);
+      right: var(--offset_m);
    }
 }
 
@@ -714,7 +714,7 @@
 .controls-Grid__groupContent__spacingRight_s {
    padding-right: var(--item_padding-right_s_list);
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
-      right: var(--cell_spacing-right_s_grid);
+      right: var(--offset_s);
    }
 }
 
@@ -723,7 +723,7 @@
 .controls-Grid__groupContent__spacingRight_m {
    padding-right: var(--item_padding-right_m_list);
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
-      right: var(--cell_spacing-right_m_grid);
+      right: var(--offset_m);
    }
 }
 
@@ -732,7 +732,7 @@
 .controls-Grid__groupContent__spacingRight_l {
    padding-right: var(--item_padding-right_l_list);
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
-      right: var(--cell_spacing-right_l_grid);
+      right: var(--offset_l);
    }
 }
 
@@ -741,7 +741,7 @@
 .controls-Grid__groupContent__spacingRight_xl {
    padding-right: var(--item_padding-right_xl_list);
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
-      right: var(--cell_spacing-right_xl_grid);
+      right: var(--offset_xl);
    }
 }
 
@@ -750,7 +750,7 @@
 .controls-Grid__groupContent__spacingRight_xxl {
    padding-right: var(--item_padding-right_2xl_list);
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
-      right: var(--cell_spacing-right_2xl_grid);
+      right: var(--offset_2xl);
    }
 }
 
@@ -814,7 +814,7 @@
 .controls-GridView__checkbox_position-custom {
    display: inline-block;
    // Высота чекбокса 18px и он ломает 17px базовую линию.
-   margin-top: calc(var(--item_max-font-size_grid) - var(--true_marker_size_checkbox));
+   margin-top: calc(var(--font-size_2xl) - var(--true_marker_size_checkbox));
 }
 
 .controls-Grid__row-cell__contentWrapper {
@@ -853,7 +853,7 @@
 .controls-Grid__row-cell_selected-master {
    font-weight: bold;
    color: var(--master_item_selected_text-color_list);
-   font-size: var(--master_item_selected_font-size_list);
+   font-size: var(--font-size_l);
 }
 
 .controls-Grid__cell_master {
@@ -1006,7 +1006,7 @@
 .controls-Grid__editArrow_style-default_background:before,
 .controls-Grid__editArrow-wrapper:before {
    content: '\200b';
-   font-size: var(--item_max-font-size_grid);
+   font-size: var(--font-size_2xl);
 }
 .controls-Grid__editArrow-icon {
    height: var(--edit-arrow_icon-size_grid);
@@ -1052,9 +1052,9 @@
 
 .controls-Grid__cell_tag {
    position: relative;
-   right: calc(-1 * var(--tag_offset-horizontal_gridView));
+   right: calc(-1 * var(--offset_2xs));
 
    .controls__tag {
-      top: calc(-1 * var(--tag_offset-vertical_gridView));
+      top: calc(-1 * var(--offset_l));
    }
 }

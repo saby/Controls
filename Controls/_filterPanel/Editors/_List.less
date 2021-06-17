@@ -1,8 +1,8 @@
 .controls-ListEditor__svg {
    display: inline-block;
    flex-shrink: 0;
-   width: var(--circle_size_filterViewPanel);
-   left: calc((var(--padding-left_filterViewPanel) - var(--circle_size_filterViewPanel)) / 2);
+   width: var(--icon-size_2xs);
+   left: calc((var(--offset_2xl) - var(--icon-size_2xs)) / 2);
    top: 0;
 }
 
@@ -21,19 +21,19 @@
 }
 
 .controls-ListEditor__column {
-   padding-left: var(--item_padding-left_filterViewPanel);
+   padding-left: var(--offset_2xs);
    overflow: hidden;
    text-overflow: ellipsis;
    white-space: nowrap;
 }
 
 .controls-EditorList__additional-column {
-   color: var(--item-additional-column_color_filterViewPanel);
+   color: var(--label_text-color);
 }
 
 .controls-Grid__row:hover {
    .controls-ListEditor__borderCircle {
-      stroke: var(--border-circle_color_filterViewPanel);
+      stroke: var(--border-color);
    }
 }
 
@@ -42,7 +42,7 @@
 }
 
 .controls-ListEditor__innerCircle_selected-default {
-   fill: var(--inner-circle_color-default_filterViewPanel);
+   fill: var(--marker_color);
 }
 
 .controls-ListEditor__innerCircle_unselected {
@@ -55,5 +55,5 @@
 }
 
 .controls-FilterEditors__list {
-   margin-left: calc(-1 * var(--padding-left_filterViewPanel));
+   margin-left: calc(-1 * var(--offset_2xl));
 }

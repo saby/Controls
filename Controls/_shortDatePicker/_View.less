@@ -28,7 +28,7 @@
    background-color: var(--background-color_shortDatePicker);
    border: var(--border-thickness_shortDatePicker) solid var(--border-color_shortDatePicker);
    box-shadow: var(--box-shadow-color_shortDatePicker) var(--box-shadow-size_shortDatePicker);
-   color: var(--item_text-color_shortDatePicker);
+   color: var(--text-color);
 }
 
 .controls-PeriodLiteDialog__footer {
@@ -69,7 +69,7 @@
 }
 
 .controls-PeriodLiteDialog__vLayout {
-   background-color: var(--item_background-color_shortDatePicker);
+   background-color: var(--background-color_shortDatePicker);
 }
 
 .controls-PeriodLiteDialog__vLayoutItem {
@@ -95,8 +95,8 @@
    height: 100%;
    width: 100%;
    box-sizing: border-box;
-   border: var(--item_border-thickness_shortDatePicker) solid var(--item_active_border-color_shortDatePicker);
-   background-color: var(--item_background-color_shortDatePicker);
+   border: var(--item_border-thickness_shortDatePicker) solid var(--item_hover_border-color_shortDatePicker);
+   background-color: var(--background-color_shortDatePicker);
 }
 
 .controls-PeriodLiteDialog__text-align-center {
@@ -110,7 +110,7 @@
 .controls-PeriodLiteDialog__close {
    position: absolute;
    top: calc(-1 * var(--item_border-thickness_shortDatePicker));
-   color: var(--closeButton_color_shortDatePicker);
+   color: var(--background-color);
    background-color: var(--closeButton_background-color_shortDatePicker);
    box-shadow: var(--closeButton_box-shadow_shortDatePicker);
    cursor: pointer;
@@ -200,7 +200,7 @@
    font-weight: var(--header_font-weight_shortDatePicker);
    height: var(--yearselector_height_shortDatePicker);
    line-height: var(--yearselector_height_shortDatePicker);
-   padding-left: calc(var(--quarterly_yearselector_padding-left_shortDatePicker) - var(--item_border-thickness_shortDatePicker));
+   padding-left: calc(var(--offset_m) - var(--item_border-thickness_shortDatePicker));
    align-self: stretch;
 }
 
@@ -287,7 +287,7 @@
 }
 
 .controls-PeriodLiteDialog-item__quarter-background {
-   background-color: var(--quarterly_quarters_background-color_shortDatePicker);
+   background-color: var(--background-color_shortDatePicker);
 }
 
 .controls-PeriodLiteDialog-item__quarter-background-transparent {
@@ -298,7 +298,7 @@
    display: flex;
    position: absolute;
    top: 0;
-   right: calc(var(--item_checkbox_offset-right_shortDatePicker) - var(--item_border-thickness_shortDatePicker));
+   right: calc(var(--offset_m) - var(--item_border-thickness_shortDatePicker));
    align-items: center;
    height: 100%;
 }
@@ -321,7 +321,7 @@
 
 .controls-PeriodLiteDialog__years-bold {
    font-weight: var(--header_font-weight_shortDatePicker);
-   color: var(--item_selected_text-color_shortDatePicker);
+   color: var(--link_text-color);
 }
 
 .controls-PeriodLiteDialog__years-prev,
@@ -343,14 +343,14 @@
 
 .controls-PeriodLiteDialog__selectedYear {
    font-weight: bold;
-   color: var(--grouping_text-color_shortDatePicker);
+   color: var(--primary_text-color);
 }
 
 .controls-PeriodLiteDialog__fullYear-listElement {
-   height: var(--grouping_height_shortDatePicker);
+   height: var(--item_height_shortDatePicker);
    background-color: var(--background-color_shortDatePicker);
-   color: var(--grouping_text-color_shortDatePicker);
-   padding-left: calc(var(--quarterly_yearselector_padding-left_shortDatePicker) - var(--item_border-thickness_shortDatePicker));
+   color: var(--primary_text-color);
+   padding-left: calc(var(--offset_m) - var(--item_border-thickness_shortDatePicker));
    border-top: var(--item_border-thickness_shortDatePicker) solid var(--item_border-color_shortDatePicker);
    border-left: var(--item_border-thickness_shortDatePicker) solid var(--item_border-color_shortDatePicker);
    border-right: var(--item_border-thickness_shortDatePicker) solid var(--item_border-color_shortDatePicker);
@@ -367,7 +367,7 @@
 }
 
 .controls-PeriodLiteDialog__fullPicker {
-   height: calc(var(--grouping_height_shortDatePicker) + var(--separator_thickness_shortDatePicker));
+   height: calc(var(--item_height_shortDatePicker) + var(--separator_thickness_shortDatePicker));
    &::after {
       border-bottom: solid var(--separator_thickness_shortDatePicker) var(--separator_color_shortDatePicker);
    }
@@ -449,11 +449,11 @@
    }
 
    .controls-PeriodLiteDialog-item__halfYear-caption:active {
-      color: var(--quarterly_quarters_active_text-color_shortDatePicker);
+      color: var(--quarterly_quarters_hover_text-color_shortDatePicker);
    }
 
    .controls-PeriodLiteDialog-item__quarter-caption:active {
-      color: var(--quarterly_quarters_active_text-color_shortDatePicker);
+      color: var(--quarterly_quarters_hover_text-color_shortDatePicker);
    }
 }
 
