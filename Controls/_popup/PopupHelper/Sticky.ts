@@ -1,7 +1,7 @@
 import {Control} from 'UI/Base';
 import Base from 'Controls/_popup/PopupHelper/Base';
 import StickyOpener from 'Controls/_popup/Opener/Sticky';
-import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
+import {IStickyPopupOptions, TActionOnScroll, TTarget} from 'Controls/_popup/interface/ISticky';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {Logger} from 'UI/Utils';
 import * as cInstance from 'Core/core-instance';
@@ -22,10 +22,16 @@ import * as randomId from 'Core/helpers/Number/randomId';
 export default class Sticky extends Base {
     protected _opener = StickyOpener;
     private _instanceId: string = randomId('stickyPopup-');
-    private _popupOptions: IStickyPopupOptions;
+    private _target: TTarget;
+    private _actionOnScroll: TActionOnScroll;
 
-    open(popupOptions: IStickyPopupOptions = {}): void {
-        this._popupOptions = popupOptions;
+    constructor(config: IStickyPopupOptions = {}) {
+        super(config);
+        this._updateState(config);
+    }
+
+    open(popupOptions: IStickyPopupOptions = {}): Promise<void> {
+        this._updateState(popupOptions);
         return super.open(popupOptions);
     }
 
@@ -45,13 +51,22 @@ export default class Sticky extends Base {
     }
 
     protected _scrollHandler(event: Event, scrollEvent: Event): void {
-        StickyOpener._scrollHandler(event, scrollEvent, this._popupOptions.actionOnScroll, this._popupId);
+        StickyOpener._scrollHandler(event, scrollEvent, this._actionOnScroll, this._popupId);
+    }
+
+    private _updateState(options: IStickyPopupOptions): void {
+        if (options.actionOnScroll) {
+            this._actionOnScroll = options.actionOnScroll;
+        }
+        if (options.target) {
+            this._target = options.target;
+        }
     }
 
     private _toggleActionOnScrollHandler(toggle: boolean): void {
-        const target = this._popupOptions.target as Control;
+        const target = this._target as Control;
         const isValidTarget = this._isTargetValid(target);
-        if (isValidTarget && this._popupOptions.actionOnScroll) {
+        if (isValidTarget && this._actionOnScroll) {
             if (toggle) {
                 RegisterUtil(target, 'scroll', this._scrollHandler.bind(this));
             } else {
