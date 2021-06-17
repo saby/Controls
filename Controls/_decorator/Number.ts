@@ -175,14 +175,18 @@ class NumberDecorator extends Control<INumberOptions> implements INumberFormat, 
         }
 
         if (abbreviationType && abbreviationType !== 'none') {
-            return abbreviateNumber(strNumber, abbreviationType);
+            return NumberDecorator._correctValue(abbreviateNumber(strNumber, abbreviationType));
         }
-
+        strNumber = NumberDecorator._correctValue(strNumber);
         if (useGrouping) {
             return splitIntoTriads(strNumber);
         }
 
         return strNumber;
+    }
+
+    private static _correctValue(value: string): string {
+        return value.replace('-', '- ');
     }
 
     private static _round: RoundingFn = (number, precision) => {

@@ -34,7 +34,7 @@ class ViewModel extends BaseViewModel<string | number, IViewModelOptions> {
         }
 
         const parsedNumber: Parser.IParsedNumber = Parser.parse(displayValue, this._options);
-        return format(parsedNumber, this._options, displayValue.length).value;
+        return format(parsedNumber, this._options, displayValue.length).value.replace('-', '- ');
     }
 
     protected _convertToValue(displayValue: string): string | number {

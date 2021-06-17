@@ -72,7 +72,7 @@ class Money extends Base<IMoneyOptions> implements INumberLength, IOnlyPositive 
     }
 
     private static integerPart(value: string, precision: number): string {
-        return value.substring(0, Money.calcStartFractionPart(value, precision));
+        return value.substring(0, Money.calcStartFractionPart(value, precision)).replace('-', '- ');
     }
 
     private static fractionPart(value: string, precision: number): string {
