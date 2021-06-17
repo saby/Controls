@@ -1,0 +1,14 @@
+<Controls.dragnDrop:Container name="dragNDrop" on:dragmove="_onDragMove()" on:documentdragend="_onDragEnd()">
+    <div class="controls-operationsPanelNew ws-flexbox ws-align-items-center"
+         on:click="_click('click')"
+         on:mousedown="_onMouseDown()">
+        <Controls.operations:MultiSelector
+                class="controls-operationsPanelNew__caption"
+                on:selectedTypeChanged="_selectedTypeChanged()"
+                scope="{{_operationPanelConfig}}"
+                fontColorStyle="default"
+                viewMode="link"/>
+        <div class="controls-operationsPanelNew__closeButton controls-icon icon-Close controls-icon_size-m controls-icon_style-unaccented"
+             on:click="_closePanel()"></div>
+    </div>
+</Controls.dragnDrop:Container>
