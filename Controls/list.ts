@@ -45,10 +45,9 @@ import BaseAction from 'Controls/_list/BaseAction';
 import LoadingIndicatorTemplate = require('wml!Controls/_list/PortionedSearchTemplate');
 import ContinueSearchTemplate = require('wml!Controls/_list/resources/ContinueSearchTemplate');
 import {default as DataContainer, IDataOptions} from 'Controls/_list/Data';
-import EditingTemplate = require('wml!Controls/_list/EditInPlace/EditingTemplate');
-import BaseEditingTemplate = EditingTemplate;
-import MoneyEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated/Money');
-import NumberEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated/Number');
+import * as EditingTemplate from 'wml!Controls/_list/EditInPlace/EditingTemplate';
+import * as MoneyEditingTemplate from 'wml!Controls/_list/EditInPlace/decorated/Money';
+import * as NumberEditingTemplate from 'wml!Controls/_list/EditInPlace/decorated/Number';
 import FooterTemplate = require('wml!Controls/_list/ListView/Footer');
 
 import {default as ListControl, LIST_EDITING_CONSTANTS as editing} from 'Controls/_list/BaseControl';
@@ -105,7 +104,8 @@ export {
     IDataOptions,
 
     EditingTemplate,
-    BaseEditingTemplate,
+    // TODO: Удалить по https://online.sbis.ru/opendoc.html?guid=d63d6b23-e271-4d0b-a015-1ad37408b76b
+    EditingTemplate as BaseEditingTemplate,
     MoneyEditingTemplate,
     NumberEditingTemplate,
     FooterTemplate,
