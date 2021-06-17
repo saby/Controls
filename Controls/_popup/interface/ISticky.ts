@@ -2,6 +2,9 @@ import {IBasePopupOptions, IOpener} from 'Controls/_popup/interface/IBaseOpener'
 import {Control} from 'UI/Base';
 import {IBackgroundStyleOptions} from 'Controls/interface';
 
+export type TActionOnScroll = 'close' | 'track' | 'none';
+export type TTarget = HTMLElement | EventTarget | Control<{}, void>;
+
 export interface IStickyPopupOptions extends IBasePopupOptions, IBackgroundStyleOptions {
     minWidth?: number;
     width?: number;
@@ -10,8 +13,8 @@ export interface IStickyPopupOptions extends IBasePopupOptions, IBackgroundStyle
     height?: number;
     maxHeight?: number;
 
-    target?: HTMLElement | EventTarget | Control;
-    actionOnScroll?: 'close' | 'track' | 'none';
+    target?: TTarget;
+    actionOnScroll?: TActionOnScroll;
     restrictiveContainer?: string | HTMLElement | Control;
     targetPoint?: IStickyPosition;
     direction?: IStickyPosition;
@@ -270,7 +273,7 @@ export interface IStickyOpener extends IOpener {
  * @function Controls/_popup/interface/IStickyOpener#open
  * @param {Controls/_popup/interface/IStickyOpener/PopupOptions.typedef} popupOptions Конфигурация прилипающего блока.
  * @return Promise<void>
- * @remark 
+ * @remark
  * При повторном вызове метода происходит перерисовка прилипающего блока с новыми опциями, которые переданы в аргументе popupOptions.
  * @example
  * <pre class="brush: html">
