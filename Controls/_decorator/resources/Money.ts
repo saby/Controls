@@ -176,6 +176,8 @@ export function calculateFormattedNumber(value: TValue, useGrouping: boolean, ab
         integer = useGrouping ? splitIntoTriads(integer) : integer;
     }
 
+    integer = correctValue(integer);
+
     return {
         integer,
         fraction,
@@ -209,6 +211,10 @@ function toString(value: TValue): string {
     }
 
     return value;
+}
+
+function correctValue(value: string): string {
+    return value.replace('-', '- ');
 }
 
 function splitValueIntoParts(value: string): string[] {
