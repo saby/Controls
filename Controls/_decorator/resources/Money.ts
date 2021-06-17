@@ -202,10 +202,6 @@ function toFormat(value: string): string {
     return value;
 }
 
-function correctValue(value: string): string {
-    return value.replace('-', '- ');
-}
-
 function toString(value: TValue): string {
     if (value === null) {
         return '0.' + ZERO_FRACTION_PATH;
@@ -215,6 +211,10 @@ function toString(value: TValue): string {
     }
 
     return value;
+}
+
+function correctValue(value: string): string {
+    return value.replace('-', '- ');
 }
 
 function splitValueIntoParts(value: string): string[] {
