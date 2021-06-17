@@ -505,6 +505,38 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }, false);
     }
 
+    /**
+     * Подскрол к выбранной вкладке
+     * @param key
+     * @private
+     */
+    private _scrollToTab(key: string): void {
+
+        // if (this._tabsContainer.scrollWidth <= document.documentElement.clientWidth) {
+        //     return;
+        // }
+        //
+        // const tabData = this._options.tabOptions?.source.data.find((item) => item.id === key);
+        //
+        // if (tabData) {
+        //     const tabElement = this._tabsContainer.querySelector(`[title="${tabData.title}"]`);
+        //
+        //     if (tabElement) {
+        //         const tabRect = tabElement.getBoundingClientRect();
+        //         const offsetX = Math.round(tabRect.left);
+        //
+        //         const canScroll = offsetX < 0 ||
+        //             Math.round(offsetX + tabRect.width) > document.documentElement.clientWidth;
+        //
+        //         if (canScroll) {
+        //             this._tabsContainer.scrollTo(offsetX === HEADER_INNER_OFFSET ?
+        //                 0 : (offsetX - HEADER_INNER_OFFSET), 0);
+        //         }
+        //     }
+        // }
+    }
+
+
     static _prepareStyle(style: string): string {
         if (style === 'default') {
             // 'Tabs/Buttons: Используются устаревшие стили. Используйте style = primary вместо style = default'
