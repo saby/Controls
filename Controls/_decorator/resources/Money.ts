@@ -238,10 +238,6 @@ function toFormat(value: string, precision: number): string {
     return value;
 }
 
-function correctValue(value: string): string {
-    return value.replace('-', '- ');
-}
-
 function toString(value: TValue, precision: number): string {
     if (value === null) {
         return '0' + (precision ? '.00' : '');
@@ -251,6 +247,10 @@ function toString(value: TValue, precision: number): string {
     }
 
     return value;
+}
+
+function correctValue(value: string): string {
+    return value.replace('-', '- ');
 }
 
 function splitValueIntoParts(value: string): string[] {
