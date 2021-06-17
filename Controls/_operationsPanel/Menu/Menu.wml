@@ -1,0 +1,24 @@
+<Controls.dropdown:Button
+        name="menu"
+        keyProperty="id"
+        source="{{_source}}"
+        displayProperty="title"
+        iconSize="m"
+        iconStyle="{{_options.iconStyle}}"
+        viewMode="{{_options.viewMode}}"
+        fontSize="m"
+        buttonStyle="{{_options.buttonStyle}}"
+        dropdownClassName="controls-OperationsPanel__menu_popup"
+        inlineHeight="{{_options.inlineHeight}}"
+        lazyItemsLoading="{{true}}"
+        caption=""
+        icon="icon-SettingsNew">
+    <ws:headerTemplate>
+        <invisible-node></invisible-node>
+    </ws:headerTemplate>
+    <ws:menuPopupOptions>
+        <ws:templateOptions
+                backgroundStyle="operationsPanel"/>
+    </ws:menuPopupOptions>
+</Controls.dropdown:Button>
+
