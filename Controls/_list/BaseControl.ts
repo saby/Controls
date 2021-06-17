@@ -987,7 +987,7 @@ const _private = {
         if (navigation) {
             switch (navigation.view) {
                 case 'infinity':
-                    result = !loadedList || !loadedList.getCount();
+                    result = !loadedList || (!loadedList.getCount() && _private.isPortionedLoad(this, loadedList));
                     break;
                 case 'maxCount':
                     result = _private.needLoadByMaxCountNavigation(listViewModel, navigation);
@@ -1613,15 +1613,9 @@ const _private = {
         }
     },
 
-    isPortionedLoad(self, items?: RecordSet = self._items): boolean {
+    isPortionedLoad(self, items: RecordSet = self._items): boolean {
         const metaData = items && items.getMetaData();
-        const loadBySearchValue = !!self._options.searchValue;
-
-        // Если в мета данных явно передано iterative: false, то поиск не итеративный,
-        // даже если ищут через строку поиска
-        return metaData && metaData.hasOwnProperty(PORTIONED_LOAD_META_FIELD) ?
-            metaData[PORTIONED_LOAD_META_FIELD] :
-            loadBySearchValue;
+        return !!(metaData && metaData[PORTIONED_LOAD_META_FIELD]);
     },
 
     checkPortionedSearchByScrollTriggerVisibility(self, scrollTriggerVisibility: boolean): void {
