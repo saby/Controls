@@ -315,7 +315,8 @@ export default class TreeGridCollection<
     // endregion itemsFactoryResolver
 
     protected _hasItemsToCreateResults(): boolean {
-        return this.getChildrenByRecordSet(this.getRoot().getContents()).length > 1;
+        const rootItems = this.getChildrenByRecordSet(this.getRoot().getContents());
+        return rootItems.length > (this._$resultsVisibility === 'visible' ? 0 : 1);
     }
 
     protected _initializeFooter(options: IOptions<S, T>): TreeGridFooterRow<S> {
