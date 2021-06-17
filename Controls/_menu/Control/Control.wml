@@ -7,7 +7,7 @@
                                                 controls-Menu__scroll"
                                        scrollbarVisible="{{_options.scrollbarVisible}}"
                                        topShadowVisibility="hidden"
-                                       bottomShadowVisibility="{{_options.footerContentTemplate ? 'auto' : 'hidden'}}">
+                                       bottomShadowVisibility="{{(_options.footerContentTemplate || _expandButtonVisible) ? 'auto' : 'hidden'}}">
                <Controls._menu.Render scope="{{_options}}"
                                       listModel="{{_listModel}}"
                                       on:itemClick="_itemClick()"
