@@ -4,17 +4,9 @@
    // Размеры и отступы
 
    --max-width_filterSimplePanel: 300px;
-   --apply-button_offset-left_filterSimplePanel: var(--offset_s);
-   --apply-button_offset-right_filterSimplePanel: var(--offset_l);
-   --apply-button_offset-top_filterSimplePanel: var(--offset_2xs);
-   --hierarchy-item_offset-left_filterSimplePanel: var(--offset_m);
-
    // Пустое значение
    --empty-item_text-color_filterSimplePanel: var(--primary_text-color);
    --empty-item_font-size_filterSimplePanel: var(--font-size_xs);
-
-
-
 
    // Переменные для основной панели фильтров
    //
@@ -23,7 +15,7 @@
    --background-color_vertical_filterPanel: #fdfdfd; //удалить https://online.sbis.ru/opendoc.html?guid=2c0afacd-9d23-4d13-b5a1-9a3b8c941d06
    --background-color_horizontal_filterPanel: #f4f4f4;
    --header_background-color_vertical_filterPanel: var(--background-color_vertical_filterPanel); //удалить https://online.sbis.ru/opendoc.html?guid=2c0afacd-9d23-4d13-b5a1-9a3b8c941d0)6
-   --header_background-color_horizontal_filterPanel: var(--background-color_horizontal_filterPanel);
+
 
    // Ширина панели
 
@@ -38,7 +30,7 @@
    --history_width_l_filterPanel: 400px;
 
    --padding-bottom_filterPanel: var(--offset_m);
-   --header-content_padding-right_filterPanel: var(--offset_l);
+
    --reset-button_offset-right_filterPanel: var(--offset_l);
 
    --popup_offset-vertical_filterPanel: -11px;
@@ -69,43 +61,23 @@
 
    // Элементы фильтра
 
-   --basic_item_text-color_filterPanel: var(--item_text-color_filterPanel);
-   --basic_item_font-size_filterPanel: var(--item_font-size_filterPanel);
-   --basic_item_height_filterPanel: var(--item_height_filterPanel);
    --basic_item_padding-bottom_filterPanel: var(--offset_2xs);
-
    --basic_item_reset-button_icon-size_filterPanel: var(--icon-size_s);
    --basic_item_reset-button_icon-color_filterPanel: #ccc;
-   --basic_item_reset-button_hover_icon-color_filterPanel: var(--basic_item_reset-button_icon-color_filterPanel);
-   --basic_item_reset-button_active_icon-color_filterPanel: var(--basic_item_reset-button_icon-color_filterPanel);
-
-
-
    // Переменные для блока дополнительных фильтров
    //
    // Размеры и отступы
 
    --extended_content_padding-left_filterPanel: var(--basic_content_padding-left_filterPanel);
-   --extended_content_padding-right_filterPanel: var(--basic_content_padding-right_filterPanel);
-   --extended_offset_filterPanel: var(--offset_m);
-   --extended_max-height_filterPanel: calc(var(--extended_item_height_filterPanel) * 5);
+
+
+   --extended_max-height_filterPanel: calc(var(--item_height_filterPanel) * 5);
    --extended_group_height_filterPanel: 40px;
 
    // Заголовок блока
 
-   --extended_heading_font-size_filterPanel: var(--font-size_l);
    --extended_heading_text-color_filterPanel: var(--secondary_text-color_heading);
-   --extended_heading_height_filterPanel: var(--inline_height_default);
    --extended_heading_padding-left_filterPanel: var(--offset_m);
-
-   // Элементы фильтра
-
-   --extended_item_text-color_filterPanel: var(--item_text-color_filterPanel);
-   --extended_item_font-size_filterPanel: var(--item_font-size_filterPanel);
-   --extended_item_padding-right_filterPanel: var(--offset_m);
-   --extended_item_height_filterPanel: var(--item_height_filterPanel);
-
-
 
    // Переменные для блока с историей фильтров
    //
@@ -122,20 +94,13 @@
 
    // Заголовок блока
 
-   --history_heading_font-size_filterPanel: var(--extended_heading_font-size_filterPanel);
    --history_heading_text-color_filterPanel: var(--item_text-color_filterPanel);
-   --history_heading_height_filterPanel: var(--extended_heading_height_filterPanel);
    --history_heading_padding-left_filterPanel: var(--extended_heading_padding-left_filterPanel);
 
    // Элементы истории
 
    --history_item_height_filterPanel: var(--item_height_filterPanel);
-   --history_item_font-size_filterPanel: var(--item_font-size_filterPanel);
-   --history_horizontal_item_text-color_filterPanel: var(--unaccented_text-color);
-   --history_horizontal_item_hover_text-color_filterPanel: var(--history_horizontal_item_text-color_filterPanel);
    --history_vertical_item_text-color_filterPanel: var(--item_text-color_filterPanel);
-   --history_vertical_item_hover_text-color_filterPanel: var(--history_vertical_item_text-color_filterPanel);
-   --history_horizontal_item_padding-vertical_filterPanel: var(--offset_s);
    --history_horizontal_item_max-height_filterPanel: calc(var(--history_item_height_filterPanel) * 2);
    --history_horizontal_item_line-height_filterPanel: 16px;
 
@@ -145,30 +110,12 @@
    --separator_color_filterPanel: #e4e4e4;
 
    // Кнопка закрепления
-
-   --history_item_pin-button_icon-size_filterPanel: var(--icon-size_s);
-   --history_item_pin-button_padding-left_filterPanel: var(--offset_m);
    --history_item_pin-button_icon-color_filterPanel: var(--unaccented_icon-color);
    --history_item_pin-button_hover_icon-color_filterPanel: var(--secondary_hover_icon-color);
    --history_item_pin-button_toggled_icon-color_filterPanel: var(--secondary_hover_icon-color);
 
-
-
    // Переменные для диалога редактирования избранного
-
    --width_filterFavoriteDialog: 400px;
-
    --content-padding-top_filterFavoriteDialog: 0;
-   --content-padding-right_filterFavoriteDialog: var(--offset_m);
-   --content-padding-bottom_filterFavoriteDialog: var(--offset_m);
-   --content-padding-left_filterFavoriteDialog: var(--header_padding-left_stack);
 
-   --checkbox-group_offset-top_filterFavoriteDialog: var(--offset_s);
-   --selector_padding-right_filterFavoriteDialog: var(--offset_l);
-   --deleteButton_offset-right_filterFavoriteDialog: var(--offset_l);
-
-
-
-   // Переменные для отдельных элементов панели фильтрации
-   --link_offset-right_filterPopupLookup: var(--offset_s);
 }

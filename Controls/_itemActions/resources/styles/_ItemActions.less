@@ -13,7 +13,7 @@
 }
 
 .controls-itemActionsV__wrapper-isEditing {
-  padding-left: var(--item_padding_itemActions);
+  padding-left: var(--offset_xs);
 }
 
 .controls-itemActionsV_visible {
@@ -31,12 +31,12 @@
 }
 
 .controls-itemActionsV_style_default {
-   background-color: var(--background-color_itemActions);
+   background-color: var(--item_hover_background-color_list);
 }
 
 .controls-itemActionsV_style_master {
   border-radius: var(--master_item_border-radius_list);
-   background-color: var(--master_background-color_itemActions);
+   background-color: var(--master_item_hover_background-color_list);
 }
 
 .controls-itemActionsV_outside {
@@ -53,13 +53,13 @@
     width: 0;
     height: 0;
     top:0;
-    border-top: var(--height_outside_itemActions) solid var(--background-color_itemActions);
+    border-top: var(--height_outside_itemActions) solid var(--item_hover_background-color_list);
     border-left: var(--corner_width_outside_itemActions) solid transparent;
     left: calc(-1 * var(--corner_width_outside_itemActions));
   }
 
   & .controls-itemActionsV__action-area_size {
-    width: calc(var(--item_area-size_outside_itemActions) + (var(--item_padding_itemActions) * 2));
+    width: calc(var(--item_area-size_outside_itemActions) + (var(--offset_xs) * 2));
     height: var(--item_area-size_outside_itemActions);
   }
 
@@ -68,15 +68,15 @@
   }
 
   &.controls-itemActionsV_style_default:before {
-    border-top-color: var(--background-color_itemActions);
+    border-top-color: var(--item_hover_background-color_list);
   }
 
   &.controls-itemActionsV_style_master:before {
-    border-top-color: var(--master_background-color_itemActions);
+    border-top-color: var(--master_item_hover_background-color_list);
   }
 
   &.controls-itemActionsV_editing:before {
-     border-top-color: var(--background-color_editing_itemActions);
+     border-top-color: var(--item_editing_background-color_list);
   }
 }
 
@@ -120,7 +120,7 @@
   padding-top: 0;
 }
 .controls-itemActionsV_editing {
-   background-color: var(--background-color_editing_itemActions);
+   background-color: var(--item_editing_background-color_list);
 }
 
 .controls-itemActionsV_editingToolbarVisible {
@@ -150,7 +150,7 @@
 }
 
 .controls-itemActionsV__action_padding {
-  padding: 0 var(--item_padding_itemActions);
+  padding: 0 var(--offset_xs);
 }
 
 .controls-itemActionsV_action_padding_null {
@@ -167,13 +167,13 @@
 }
 
 .controls-itemActionsV__action_icon_size_m {
-   .icon(var(--item_icon-size_itemActions), var(--item_icon_font-family_itemsActions));
+   .icon(var(--item_icon-size_itemActions), var(--icon_font-family_m));
    align-items: baseline;
 }
 
 .controls-itemActionsV__action_icon_size_s {
   font-size: var(--item_icon-size_editing_itemActions);
-  font-family: var(--item_icon_font-family_editing_itemsActions);
+  font-family: var(--icon_font-family_s);
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -211,7 +211,7 @@
 }
 
 .controls-itemActionsV__icon-with-title {
-   padding-right: var(--item_icon-offset_itemActions);
+   padding-right: var(--offset_xs);
 }
 
 // убрать после https://online.sbis.ru/opendoc.html?guid=c558bf80-4cd1-4854-a963-4af211246111
