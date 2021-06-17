@@ -10,7 +10,7 @@ define('Controls-demo/List/Tree/TreeWithPhoto', [
    'wml!Controls-demo/List/Tree/TreeWithPhoto-item40',
    'wml!Controls-demo/List/Tree/TreeWithPhoto-itemTwoLevels',
    'wml!Controls-demo/List/Tree/TreeWithPhoto-contentTwoLevels',
-   'Controls/treeGridOld'
+   'Controls/treeGrid'
 ], function(Base, template, MemorySource, resImages) {
    'use strict';
    var

@@ -29,6 +29,15 @@ export interface ICellPadding {
 }
 
 /**
+ * @typedef {Object} IDisplayTypeOptions
+ * @description Настройки для типа отображаемых данных.
+ * @property {searchHighlight} [searchHighlight=true] Подсветку данных при поиске (по умолчанию подсветка включена).
+ */
+export interface IDisplayTypeOptions {
+    searchHighlight?: boolean;
+}
+
+/**
  * @typedef {String} TCellAlign
  * @description Значения для выравнивания ячеек по горизонтали.
  * @variant left По левому краю.
@@ -194,7 +203,7 @@ export interface IColumn extends IColspanParams {
      *
      * По умолчанию Controls/grid:ColumnTemplate отображает значение поля, имя которого задано в конфигурации колонки в свойстве {@link displayProperty}. Также шаблон Controls/grid:ColumnTemplate поддерживает {@link Controls/grid:ColumnTemplate параметры}, с помощью которых можно изменить отображение ячейки.
      *
-     * При настройке пользовательского шаблона следует использовать директиву {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}. Также в опцию template можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@Link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ColumnTemplate.
+     * При настройке пользовательского шаблона следует использовать директиву {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}. Также в опцию template можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ColumnTemplate.
      *
      * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/columns/template/ руководстве разработчика}.
      * @see Controls/grid:ColumnTemplate
@@ -430,6 +439,22 @@ export interface IColumn extends IColspanParams {
     /**
      * @cfg {Object} Настройки для типа отображаемых данных.
      * @example
+     * В следующем примере показано как отключить подсветку данных при поиске.
+     *
+     * <pre class="brush: js">
+     * ...
+     * protected _columns: IColumn[] = [
+     *     {
+     *         displayProperty: 'price',
+     *         displayType: 'string',
+     *         displayTypeOptions: {
+     *             searchHighlight: false
+     *         }
+     *     },
+     * ...
+     * ]
+     * </pre>
+     * @example
      * В следующем примере показано как отобразить поле записи типа "деньги" без группировки триад цифр.
      *
      * <pre class="brush: js">
@@ -446,7 +471,7 @@ export interface IColumn extends IColspanParams {
      * ]
      * </pre>
      */
-    displayTypeOptions?: object;
+    displayTypeOptions?: IDisplayTypeOptions;
     fontColorStyle?: TFontColorStyle;
     /**
      * @cfg {string} Цвет фона колонки.

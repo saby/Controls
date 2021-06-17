@@ -59,6 +59,70 @@ define(
             hasMaximizePopup = BCInstacne._isAboveMaximizePopup({});
             assert.equal(hasMaximizePopup, true);
          });
+
+         it('getFakeDivMargins', () => {
+            let BCInstacne = new BaseController();
+            BCInstacne._getFakeDiv = () => {
+               return {
+                  currentStyle: {
+                     marginTop: '10.2px',
+                     marginLeft: '11.4px'
+                  }
+               };
+            };
+            BCInstacne._getContainerStyles = (container) => {
+               return container.currentStyle;
+            };
+
+            const item = {
+               popupOptions: {}
+            };
+
+            const margins = BCInstacne._getFakeDivMargins(item);
+            assert.equal(margins.left, 11.4);
+            assert.equal(margins.top, 10.2);
+         });
+
+         it('getMargins', () => {
+            let BCInstacne = new BaseController();
+            let margins = {
+               top: 1,
+               left: 2,
+            };
+            BCInstacne._getFakeDivMargins = () => margins;
+            let item = {
+               popupOptions: {
+                  maxWidth: 200,
+                  width: 150,
+                  maxHeight: 200
+               }
+            };
+            assert.deepEqual({
+               left: 0,
+               top: 0
+            }, BCInstacne._getMargins(item));
+
+            item.popupOptions.className = '1';
+            assert.deepEqual({
+               left: 2,
+               top: 1
+            }, BCInstacne._getMargins(item));
+
+            margins = {
+               top: 3,
+               left: 4,
+            };
+            assert.deepEqual({
+               left: 2,
+               top: 1
+            }, BCInstacne._getMargins(item));
+
+            item.popupOptions.className = '2';
+            assert.deepEqual({
+               left: 4,
+               top: 3
+            }, BCInstacne._getMargins(item));
+         });
       });
    }
 );

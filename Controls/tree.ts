@@ -1,5 +1,4 @@
 import { TreeControl } from 'Controls/_tree/TreeControl';
-import * as TreeViewModel from 'Controls/_tree/Tree/TreeViewModel';
 import { ITreeControlOptions } from 'Controls/_tree/interface/ITreeControlOptions';
 import ITree, { IOptions } from 'Controls/_tree/interface/ITree';
 import { default as ItemsView } from 'Controls/_tree/ItemsTree';
@@ -14,14 +13,13 @@ import * as ItemTemplate from 'wml!Controls/_tree/render/Item';
 
 /**
  * Библиотека контролов, позволяющая работать с иерархией.
- * @library Controls/tree
+ * @library
  * @includes ITreeControl Controls/_tree/interface/ITreeControl
  * @public
  * @author Аверкиев П.А.
  */
 export {
     TreeControl,
-    TreeViewModel,
     ITreeControlOptions,
     ITree,
     IOptions,

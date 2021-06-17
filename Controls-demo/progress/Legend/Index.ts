@@ -10,7 +10,7 @@ class Legend extends Control<IControlOptions> {
     protected _beforeMount(): void {
         this._dataWithTwoCategories = [
             {value: 50, className: '', title: 'Положительно'},
-            {value: 20, className: '', title: 'В работе'}
+            {value: 20, title: 'В работе'}
         ];
     }
 

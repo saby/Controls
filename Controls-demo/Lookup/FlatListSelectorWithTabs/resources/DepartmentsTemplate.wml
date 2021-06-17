@@ -23,8 +23,8 @@
                                     <ws:partial template="Controls/list:ItemTemplate">
                                         <ws:contentTemplate>
                                             <div class="controlsDemo-Selector__listItem">
-                                                <span class="controlsDemo__mr1_control">{{itemTemplate.itemData.item.get('department')}}</span>
-                                                <span class="controlsDemo-Selector__title">{{itemTemplate.itemData.item.get('owner')}}
+                                                <span class="controlsDemo__mr1_control">{{itemTemplate.item.contents.get('department')}}</span>
+                                                <span class="controlsDemo-Selector__title">{{itemTemplate.item.contents.get('owner')}}
                                                     <span class="controlsDemo-Selector__icon icon-16 icon-Company icon-disabled"></span> (78)
                                                 </span>
                                             </div>

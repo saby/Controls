@@ -13,9 +13,8 @@ import {LOCAL_MOVE_POSITION} from 'Types/source';
 //   selectedTypeChanged даже от MultiSelect
 //  https://online.sbis.ru/doc/0445b971-8675-42ef-b2bc-e68d7f82e0ac
 import * as Template from 'wml!Controls/_list/Mover/Mover';
-import {Dialog} from 'Controls/popup';
-import * as TreeItemsUtil from './resources/utils/TreeItemsUtil';
-import {ISelectionObject, TKeysSelection} from 'Controls/interface';
+import { Tree } from 'Controls/display';
+import {ISelectionObject} from 'Controls/interface';
 import {IHashMap} from 'Types/declarations';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 import {BEFORE_ITEMS_MOVE_RESULT, IMoveItemsParams} from './interface/IMoverAndRemover';
@@ -164,14 +163,13 @@ var _private = {
         //Поэтому воспользуемся проекцией, которая предоставляет необходимы функционал.
         //Для плоского списка можно получить следующий(предыдущий) элемент просто по индексу в рекордсете.
         if (self._options.parentProperty) {
-            display = TreeItemsUtil.getDefaultDisplayTree(self._items, {
+            display = new Tree({
+                collection: self._items,
                 keyProperty: self._keyProperty,
                 parentProperty: self._options.parentProperty,
-                nodeProperty: self._options.nodeProperty
+                nodeProperty: self._options.nodeProperty,
+                root: self._options.root !== undefined ? self._options.root : null
             });
-            if (self._options.root) {
-                display.setRoot(self._options.root)
-            }
             itemFromProjection = display.getItemBySourceItem(_private.getModelByItem(self, item));
             siblingItem = display[position === LOCAL_MOVE_POSITION.Before ? 'getPrevious' : 'getNext'](itemFromProjection);
             result = siblingItem ? siblingItem.getContents() : null;
@@ -191,10 +189,14 @@ var _private = {
         };
         if (contextDataOptions) {
             controllerOptions.source = newOptions.source || contextDataOptions.source;
-            self._source = controllerOptions.source;
             self._keyProperty = newOptions.keyProperty || contextDataOptions.keyProperty;
             self._filter = contextDataOptions.filter;
+        } else {
+            controllerOptions.source = newOptions.source;
+            self._keyProperty = newOptions.keyProperty;
+            self._filter = newOptions.filter;
         }
+        self._source = controllerOptions.source;
         if (newOptions.moveDialogTemplate) {
             controllerOptions.popupOptions = {
                 opener: self

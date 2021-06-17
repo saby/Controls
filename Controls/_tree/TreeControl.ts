@@ -56,7 +56,6 @@ export interface ITreeControlOptions extends IBaseControlOptions, IHierarchyOpti
     markItemByExpanderClick?: boolean;
     expanderSize?: 's'|'m'|'l'|'xl';
     markedLeafChangeCallback: Function;
-    useNewModel?: boolean;
     singleExpand?: boolean;
 }
 
@@ -94,6 +93,10 @@ const _private = {
     },
 
     toggleExpanded(self: TreeControl, dispItem: TreeItem): Promise<unknown> {
+        if (self.getViewModel().SupportExpand === false) {
+            return Promise.resolve();
+        }
+
         const item = dispItem.getContents();
         const nodeKey = item.getKey();
         const expanded = !self._expandController.isItemExpanded(nodeKey);
@@ -130,45 +133,40 @@ const _private = {
     doExpand(self: TreeControl, dispItem: TreeItem): Promise<unknown> {
         const item = dispItem.getContents();
         const nodeKey = item.getKey();
-        const expanded = !self._expandController.isItemExpanded(nodeKey);
+        const expandController = self._expandController;
+        const expanded = !expandController.isItemExpanded(nodeKey);
 
-        function doExpand(): void | Promise<unknown> {
-            const toggleResult = self._expandController.toggleItem(nodeKey, (newExpandedItems) => {
-                self.getViewModel().setHasMoreStorage(
-                    _private.prepareHasMoreStorage(
-                        self.getSourceController(),
-                        newExpandedItems
-                    )
-                );
-            });
-
-            function notify(results?: RecordSet[]): void {
-                if (results?.length) {
+        function doExpand(): Promise<unknown> {
+            return Promise
+                .resolve(expandController.toggleItem(nodeKey) as Promise<RecordSet[]>)
+                .then((results?: RecordSet[]) => {
+                    //region Применим новое состояние развернутости к моделе
+                    // Проставляем hasMoreStorage до простановки expandedItems,
+                    // чтобы футеры узлов правильно посчитать за один раз
                     self.getViewModel().setHasMoreStorage(
                         _private.prepareHasMoreStorage(
                             self.getSourceController(),
-                            self._expandController.getExpandedItems()
+                            expandController.getExpandedItems()
                         )
                     );
+                    expandController.applyStateToModel();
+                    //endregion
 
-                    if (self._options.nodeLoadCallback) {
+                    // Если задан callback на загрузку данных узла и загрузка была, то вызовем его
+                    if (self._options.nodeLoadCallback && results?.length) {
                         self._options.nodeLoadCallback(results[0], nodeKey);
                     }
-                }
 
-                // Актуализируем информацию по раскрытым узлам в sourceController, иначе на beforeUpdate
-                // применится старое состояние из sourceController
-                self.getSourceController()?.setExpandedItems(self._expandController.getExpandedItems());
-                self._notify('expandedItemsChanged', [self._expandController.getExpandedItems()]);
-                self._notify('collapsedItemsChanged', [self._expandController.getCollapsedItems()]);
-                self._notify(expanded ? 'afterItemExpand' : 'afterItemCollapse', [item]);
-            }
-
-            if (toggleResult instanceof Promise) {
-                return toggleResult.then(notify);
-            } else {
-                notify();
-            }
+                    //region Уведомим об изменении expandedItems
+                    const expandedItems = expandController.getExpandedItems();
+                    // Актуализируем информацию по раскрытым узлам в sourceController, иначе на beforeUpdate
+                    // применится старое состояние из sourceController
+                    self.getSourceController()?.setExpandedItems(expandedItems);
+                    self._notify('expandedItemsChanged', [expandedItems]);
+                    self._notify('collapsedItemsChanged', [expandController.getCollapsedItems()]);
+                    self._notify(expanded ? 'afterItemExpand' : 'afterItemCollapse', [item]);
+                    //endregion
+                });
         }
 
         // todo: удалить события itemExpand и itemCollapse в 20.2000.
@@ -179,7 +177,7 @@ const _private = {
         if (self._editingItem) {
             const listViewModel = self.getViewModel();
             shouldCancelEditing = _private.hasInParents(
-                self._options.useNewModel ? listViewModel : listViewModel.getDisplay(),
+                listViewModel,
                 self._editingItem.getContents().getKey(),
                 dispItem.contents.getKey()
             );
@@ -195,8 +193,7 @@ const _private = {
                 return result;
             });
         } else {
-            const result = doExpand();
-            return result || Promise.resolve();
+            return doExpand();
         }
     },
 
@@ -296,7 +293,7 @@ const _private = {
             const editingKey = self._editingItem.getContents().getKey();
             self._expandController.getExpandedItems().forEach((itemKey) => {
                 shouldCancelEditing = shouldCancelEditing || _private.hasInParents(
-                    self._options.useNewModel ? viewModel : viewModel.getDisplay(),
+                    viewModel,
                     editingKey,
                     itemKey
                 );
@@ -313,6 +310,8 @@ const _private = {
         } else {
             reset();
         }
+
+        self._expandController.applyStateToModel();
     },
 
     reloadItem(self: TreeControl, key: TKey) {
@@ -344,7 +343,7 @@ const _private = {
 
     applyReloadedNodes(self: TreeControl, viewModel, nodeKey, keyProp, nodeProp, newItems) {
         var itemsToRemove = [];
-        var items = self._options.useNewModel ? viewModel.getCollection() : viewModel.getItems();
+        var items = viewModel.getCollection();
         var checkItemForRemove = function(item) {
             if (newItems.getIndexByValue(keyProp, item.get(keyProp)) === -1) {
                 itemsToRemove.push(item);
@@ -521,7 +520,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             singleExpand: options.singleExpand,
             expandedItems: options.expandedItems,
             collapsedItems: options.collapsedItems,
-            useOldModel: !options.useNewModel,
             loader: this._expandLoader.bind(this)
         });
 
@@ -715,7 +713,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
         const currentExpandedItems = this._expandController.getExpandedItems();
         const expandedItemsFromSourceCtrl = sourceController && sourceController.getExpandedItems();
-        // Если в sourceController нет expandedItems, а у нас в опциях есть, значит нужно сбросить раскрытые узлы
+        // expandedItems в sourceController приоритетнее чем наши. Поэтому Если в sourceController
+        // нет expandedItems, а у нас есть, значит нужно сбросить раскрытые узлы
         const wasResetExpandedItems = !isSourceControllerLoading &&
             expandedItemsFromSourceCtrl && !expandedItemsFromSourceCtrl.length &&
             currentExpandedItems && currentExpandedItems.length;
@@ -729,14 +728,23 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 (searchValueChanged && newOptions.sourceController)
             ) {
                 if (viewModel) {
-                    const expandedItems = _private.getExpandedItems(this, newOptions, viewModel.getCollection(), newOptions.expandedItems);
-                    viewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems));
-
                     // Отключаем загрузку данных контроллером, т.к. все данные уже загружены
-                    // нужна только синхронизация expandedItems в моделе
+                    // нужно только проставить новое состояние в контроллер
                     this._expandController.disableLoader();
                     this._expandController.setExpandedItems(newOptions.expandedItems);
                     this._expandController.enableLoader();
+
+                    const expandedItems = _private.getExpandedItems(
+                        this,
+                        newOptions,
+                        viewModel.getCollection(),
+                        newOptions.expandedItems
+                    );
+
+                    // Проставляем hasMoreStorage до простановки expandedItems,
+                    // чтобы футеры узлов правильно посчитать за один раз
+                    viewModel.setHasMoreStorage(_private.prepareHasMoreStorage(sourceController, expandedItems));
+                    this._expandController.applyStateToModel();
                 }
             } else {
                 this._updateExpandedItemsAfterReload = true;
@@ -859,7 +867,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     protected _draggingItemMouseMove(itemData: TreeItem, event: SyntheticEvent<MouseEvent>): void {
         super._draggingItemMouseMove(itemData, event);
 
-        const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
+        const dispItem = itemData;
         const dndListController = this.getDndListController();
         const targetIsNotDraggableItem = dndListController.getDraggableItem()?.getContents() !== dispItem.getContents();
         if (dispItem['[Controls/_display/TreeItem]'] && dispItem.isNode() !== null && targetIsNotDraggableItem) {
@@ -923,7 +931,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const eventResult = superResult;
 
         if (eventResult !== false && this._options.expandByItemClick && item.get(this._options.nodeProperty) !== null) {
-            const display = this._options.useNewModel ? this._listViewModel : this._listViewModel.getDisplay();
+            const display = this._listViewModel;
             const dispItem = display.getItemBySourceItem(item);
 
             // Если в проекции нет такого элемента, по которому произошел клик, то это хлебная крошка, а не запись.
@@ -976,8 +984,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
 
         if (this._mouseDownExpanderKey === key && MouseUp.isButton(nativeEvent, MouseButtons.Left)) {
-            const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
-            _private.toggleExpanded(this, dispItem);
+            _private.toggleExpanded(this, itemData);
 
             if (this._options.markItemByExpanderClick) {
                 this.setMarkedKey(key);
@@ -1011,7 +1018,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             const sourceController = this.getSourceController();
             const expandedItems = _private.getExpandedItems(
                 this, options, loadedList,
-                this._updateExpandedItemsAfterReload ? options.expandedItems : this._listViewModel.getExpandedItems()
+                this._updateExpandedItemsAfterReload
+                    ? options.expandedItems
+                    : this._expandController.getExpandedItems()
             );
             if (sourceController) {
                 // Вызываем метод с флагом reBuildNodeFooters, т.к. после перезагрузки не будет события с добавлением
@@ -1020,7 +1029,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             }
 
             if (this._updateExpandedItemsAfterReload) {
+                this._expandController.disableLoader();
                 this._expandController.setExpandedItems(options.expandedItems);
+                this._expandController.applyStateToModel();
+                this._expandController.enableLoader();
+
                 this._updateExpandedItemsAfterReload = false;
             }
 
@@ -1372,9 +1385,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             if (hasExpander) {
                 result += ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
             }
-        } else if (!this._options.useNewModel) {
-            // в старой модели всегда добавляем отступ, удалить когда избавимся от старой модели
-            result += ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
         }
 
         return result;
@@ -1389,7 +1399,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     /**
      * Ф-ия, которая дёргается expandController'ом при раскрытии узла
      */
-    private _expandLoader(nodeKey: TKey): void | Promise<unknown> {
+    private _expandLoader(nodeKey: TKey): void | Promise<RecordSet | void> {
         const listViewModel = this.getViewModel();
         const baseSourceController = this.getSourceController();
         const dispItem = listViewModel.getItemBySourceKey(nodeKey);
@@ -1408,7 +1418,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             .load(undefined, nodeKey)
             .then((list) => {
                 this.hideIndicator();
-                return list;
+                return list as RecordSet;
             })
             .catch((error: Error) => {
                 if (error.isCanceled) {

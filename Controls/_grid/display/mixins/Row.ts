@@ -375,8 +375,8 @@ export default abstract class Row<T> {
             if (!lazy) {
                 this._initializeColumns();
             }
-            this._nextVersion();
         }
+        this._nextVersion();
     }
 
     private _$getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {

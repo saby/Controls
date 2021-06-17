@@ -111,6 +111,7 @@ export default class View extends Control<IOptions, IReceivedState> {
     protected _listConfiguration: IBrowserViewConfig;
     protected _tileCfg: TileController = null;
     protected _listCfg: ListController = null;
+    protected _dataContext: Record<string, any> = null;
     protected _masterDataSource: SourceController = null;
     protected _hasImageInItems: boolean = false;
     protected _itemToScroll: CrudEntityKey = null;
@@ -147,6 +148,10 @@ export default class View extends Control<IOptions, IReceivedState> {
         this._onDetailDataLoadCallback = this._onDetailDataLoadCallback.bind(this);
     }
 
+    private _processItems(items: RecordSet): void {
+        this._hasImageInItems = this._hasImages(items, this._detailExplorerOptions.imageProperty);
+    }
+
     protected _beforeMount(
         options?: IOptions,
         contexts?: object
@@ -154,6 +159,7 @@ export default class View extends Control<IOptions, IReceivedState> {
         this._dataContext = contexts.dataContext;
         if (this._dataContext.listsConfigs) {
             this._initState(options);
+            this._processItems(this._detailDataSource.getItems());
             this._processItemsMetadata(this._detailDataSource.getItems(), options);
             this._afterViewModeChanged(options);
         }
@@ -261,8 +267,7 @@ export default class View extends Control<IOptions, IReceivedState> {
     }
 
     private _processItemsMetadata(items: RecordSet, options: IOptions = this._options): void {
-        // Применим новую конфигурацию к отображению detail-списка
-        this._applyListConfiguration(getListConfiguration(items), options);
+        this._applyListConfiguration(options.listConfiguration || getListConfiguration(items), options);
     }
 
     /**
@@ -381,7 +386,14 @@ export default class View extends Control<IOptions, IReceivedState> {
      * Вызывает перезагрузку данных в detail-колонке
      */
     reload(): Promise<RecordSet> {
-        return this.children.detailList.reload();
+        const detailExplorer = this._children.detailList;
+        return detailExplorer.reload.apply(detailExplorer, arguments);
+    }
+
+    // нужно уметь реагировать на результат выполнения команд самостоятельно.
+    reloadMaster(): Promise<RecordSet> {
+        const masterExplorer = this._children.masterList;
+        return masterExplorer.reload.apply(masterExplorer, arguments);
     }
 
     reloadItem(): unknown {
@@ -408,9 +420,8 @@ export default class View extends Control<IOptions, IReceivedState> {
         const detailExplorer = this._children.detailList;
         return detailExplorer.moveItemDown.apply(detailExplorer, arguments);
     }
+
     //endregion
-
-
     //region base control overrides
     protected _notify(eventName: string, args?: unknown[], options?: { bubbling?: boolean }): unknown {
         if (!this._isMounted) {

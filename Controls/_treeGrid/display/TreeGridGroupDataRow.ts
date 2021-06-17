@@ -1,7 +1,6 @@
 import TreeGridDataRow, {IOptions as ITreeGridDataRowOptions} from 'Controls/_treeGrid/display/TreeGridDataRow';
-import {GridCell, IGridDataCellOptions, IItemTemplateParams} from 'Controls/grid';
-import { Model } from 'Types/entity';
-import {IColumn} from 'Controls/_grid/interface/IColumn';
+import {IColumn, GridCell, IGridDataCellOptions, IItemTemplateParams} from 'Controls/grid';
+import {Model} from 'Types/entity';
 import {IGroupNode} from 'Controls/display';
 
 export interface IOptions<T extends Model> extends ITreeGridDataRowOptions<T> {
@@ -54,6 +53,16 @@ export default class TreeGridGroupDataRow<T extends Model> extends TreeGridDataR
 
     isSticked(): boolean {
         return this.getOwner().isStickyHeader() && !this.isHiddenGroup();
+    }
+
+    getStickyHeaderMode(): string {
+        return 'replaceable';
+    }
+
+    getStickyHeaderPosition(): {} {
+        return {
+            vertical: 'top'
+        };
     }
 
     protected _getBaseItemClasses(style: string, theme: string): string {

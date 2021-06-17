@@ -1,9 +1,0 @@
-<div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_treeGrid-expandedItems">
-    <Controls.treeGridOld:View
-            keyProperty="id"
-            source="{{_viewSource}}"
-            columns="{{_columns}}"
-            parentProperty="parent"
-            expandByItemClick="{{true}}"
-            nodeProperty="type"/>
-</div>

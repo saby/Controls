@@ -7,11 +7,11 @@
                         scope="{{itemTemplate}}">
                 <ws:contentTemplate>
                     <div>
-                        {{contentTemplate.itemData.item.title}}
+                        {{contentTemplate.item.contents.title}}
                         <ws:for data="i in 10">
                             <div>Блок с иконкой {{i}}
                                 <Controls.icon:Icon
-                                        icon="{{contentTemplate.itemData.item.svgIcon}}"
+                                        icon="{{contentTemplate.item.contents.svgIcon}}"
                                         iconStyle="danger"
                                         iconSize="m"/>
                             </div>

@@ -182,22 +182,21 @@ class FormController extends ControllerBase<IFormController> {
     }
 
     protected _beforeUpdate(newOptions: IFormController): void {
-        this._crudController.setDataSource(newOptions.source);
-        if (newOptions.source) {
-            // Сбрасываем состояние, только если данные поменялись, иначе будет зацикливаться
-            // создание записи -> ошибка -> beforeUpdate
-            if (newOptions.source !== this._options.source) {
-                this._createMetaDataOnUpdate = null;
-            }
-        }
         const isPreloadWay = newOptions.initializingWay === INITIALIZING_WAY.PRELOAD;
         const createMetaData = newOptions.createMetaData;
         const needRead: boolean = !isPreloadWay && newOptions.key !== undefined && this._options.key !== newOptions.key;
         const needCreate: boolean = !isPreloadWay && newOptions.key === undefined &&
             !newOptions.record && this._createMetaDataOnUpdate !== createMetaData;
-        const updateRecord = () => {
+
+        const updateData = () => {
             if (newOptions.record && this._record !== newOptions.record) {
                 this._setRecord(newOptions.record);
+            }
+            if (newOptions.source && newOptions.source !== this._options.source) {
+                // Сбрасываем состояние, только если данные поменялись, иначе будет зацикливаться
+                // создание записи -> ошибка -> beforeUpdate
+                this._createMetaDataOnUpdate = null;
+                this._crudController.setDataSource(newOptions.source);
             }
         };
 
@@ -212,13 +211,13 @@ class FormController extends ControllerBase<IFormController> {
         if (needRead) {
             // Если текущий рекорд изменен, то покажем вопрос
             this._confirmRecordChangeHandler(() => {
+                updateData();
                 this.read(newOptions.key, newOptions.readMetaData);
-                updateRecord();
             }, () => {
                 this._tryDeleteNewRecord().then(() => {
                     this.read(newOptions.key, newOptions.readMetaData);
                 });
-                updateRecord();
+                updateData();
             });
         } else if (needCreate) {
             // Если нет ключа и записи - то вызовем метод создать.
@@ -229,21 +228,21 @@ class FormController extends ControllerBase<IFormController> {
             // вызов метода создать повторяется бесконечно. Нельзя чтобы контрол ддосил БЛ.
             this._confirmRecordChangeHandler(() => {
                 this._createMetaDataOnUpdate = createMetaData;
+                updateData();
                 this.create(newOptions.createMetaData).then(() => {
                     if (newOptions.hasOwnProperty('isNewRecord')) {
                         this._isNewRecord = newOptions.isNewRecord;
                     }
                     this._createMetaDataOnUpdate = null;
                 });
-                updateRecord();
             });
         } else {
             if (!this._isConfirmShowed) {
                 if (newOptions.hasOwnProperty('isNewRecord')) {
                     this._isNewRecord = newOptions.isNewRecord;
                 }
+                updateData();
             }
-            updateRecord();
         }
     }
 

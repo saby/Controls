@@ -1,0 +1,420 @@
+.controls-Tree__itemContentTreeWrapper {
+   display: flex;
+   align-items: baseline;
+   box-sizing: border-box;
+   position: relative;
+}
+.controls-TreeGrid__row_expander_position_right {
+   padding-left: var(--offset_s);
+}
+.controls-TreeGrid__row_default-expander_size_s, .controls-TreeGrid__row-expanderPadding_size_s {
+   padding-left: var(--expander_s_padding-left_treeGrid);
+   padding-right: var(--expander_s_padding-right_treeGrid);
+}
+.controls-TreeGrid__row_default-expander_size_m, .controls-TreeGrid__row-expanderPadding_size_m {
+   padding-left: var(--expander_m_padding-left_treeGrid);
+   padding-right: var(--expander_m_padding-right_treeGrid);
+}
+.controls-TreeGrid__row_default-expander_size_l, .controls-TreeGrid__row-expanderPadding_size_l {
+   padding-left: var(--expander_l_padding-left_treeGrid);
+   padding-right: var(--expander_l_padding-right_treeGrid);
+}
+.controls-TreeGrid__row_default-expander_size_xl, .controls-TreeGrid__row-expanderPadding_size_xl {
+   padding-left: var(--expander_xl_padding-left_treeGrid);
+   padding-right: var(--expander_xl_padding-right_treeGrid);
+}
+.controls-TreeGrid__row_default-expander_size_default, .controls-TreeGrid__row-expanderPadding_size_default {
+   padding-left: var(--expander_s_padding-left_treeGrid);
+   padding-right: var(--expander_s_padding-right_treeGrid);
+}
+
+.controls-TreeGrid__row_master-expander_size_default {
+   padding-left: var(--expander_s_padding-left_treeGrid);
+   padding-right: var(--expander_s_padding-right_treeGrid);
+}
+
+.controls-TreeGrid__row_master-expander_size_s {
+   padding-left: var(--expander_s_padding-left_treeGrid);
+   padding-right: var(--expander_s_padding-right_treeGrid);
+}
+
+.controls-TreeGrid__row_master-expander_size_m {
+   padding-left: var(--expander_m_padding-left_treeGrid);
+   padding-right: var(--expander_m_padding-right_treeGrid);
+}
+
+.controls-TreeGrid__row_master-expander_size_l {
+   padding-left: var(--expander_l_padding-left_treeGrid);
+   padding-right: var(--expander_l_padding-right_treeGrid);
+}
+
+.controls-TreeGrid__row_master-expander_size_xl {
+   padding-left: var(--expander_xl_padding-left_treeGrid);
+   padding-right: var(--expander_xl_padding-right_treeGrid);
+}
+
+.controls-TreeGrid__row-expander, .controls-TreeGrid__row-expanderPadding {
+   line-height: 1;
+   display: inline-block;
+   position: relative;
+   min-height: var(--expander_height_treeGrid);
+   min-width: var(--expander_width_treeGrid);
+}
+
+.controls-TreeGrid__node-footer-expanderPadding {
+   line-height: 1;
+   display: inline-block;
+   position: relative;
+   min-height: 0;
+   min-width: var(--expander_width_treeGrid);
+}
+
+.controls-TreeGridView__dragTargetNode:after {
+   content: '\200b';
+   border-top: var(--item_droppable_border_thickness_treeGrid) solid var(--item_droppable_border_color_treeGrid);
+   border-bottom: var(--item_droppable_border_thickness_treeGrid) solid var(--item_droppable_border_color_treeGrid);
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+
+   //the z-index is larger than itemActions so that itemActions does not overlap the folder border when drag'n'drop.
+   //Will be deleted by task: https://online.sbis.ru/opendoc.html?guid=7503eaab-e38a-4c6e-8f0d-940646d8bd28
+   z-index: 2;
+}
+.controls-TreeGridView__dragTargetNode_first:after {
+   content: '\200b';
+   border-left: var(--item_droppable_border_thickness_treeGrid) solid var(--item_droppable_border_color_treeGrid);
+}
+.controls-TreeGridView__dragTargetNode_last:after {
+   content: '\200b';
+   border-right: var(--item_droppable_border_thickness_treeGrid) solid var(--item_droppable_border_color_treeGrid);
+}
+.controls-TreeGrid__row-expanderPadding {
+   visibility: hidden;
+}
+
+.controls-TreeGrid__row-expander_node_default:before,
+.controls-TreeGrid__row-expander_emptyNode_default:before {
+   color: var(--node_expander_icon-color_treeGrid);
+   font-family: var(--node_expander_icon_font-family_treeGrid);
+   font-size: var(--node_expander_icon-size_treeGrid);
+   padding-left: calc(var(--expander_width_treeGrid) - var(--node_expander_icon-size_treeGrid));
+}
+
+.controls-TreeGrid__row-expander_hiddenNode_default:before {
+   color: var(--hidden-node_expander_icon-color_treeGrid);
+   font-family: var(--hidden-node_expander_icon_font-family_treeGrid);
+   font-size: var(--hidden-node_expander_icon-size_treeGrid);
+   padding-left: calc(var(--expander_width_treeGrid) - var(--hidden-node_expander_icon-size_treeGrid));
+}
+
+.controls-TreeGrid__row-expander_node_default:before,
+.controls-TreeGrid__row-expander_emptyNode_default:before {
+   position: relative;
+   bottom: calc(-1 * var(--expander_padding_icon-treeGrid));
+}
+
+.controls-TreeGrid__row-expander_hiddenNode_default:before {
+   position: relative;
+   bottom: calc(-1 * var(--expander_padding_icon-hidden-node-treeGrid));
+}
+
+.controls-TreeGrid__row-expander_node_master:before {
+   color: var(--master_node_expander_icon-color_treeGrid);
+   font-family: var(--node_expander_icon_font-family_treeGrid);
+   font-size: var(--master_node_expander_icon-size_treeGrid);
+   padding-left: calc(var(--expander_width_treeGrid) - var(--master_node_expander_icon-size_treeGrid));
+}
+
+.controls-TreeGrid__row-expander_hiddenNode_master:before {
+   color: var(--master_hidden-node_expander_icon-color_treeGrid);
+   font-family: var(--hidden-node_expander_icon_font-family_treeGrid);
+   font-size: var(--master_hidden-node_expander_icon-size_treeGrid);
+   padding-left: calc(var(--expander_width_treeGrid) - var(--master_hidden-node_expander_icon-size_treeGrid));
+}
+
+.controls-TreeGrid__row-expander:before {
+   user-select: none;
+   flex-shrink: 0;
+   cursor: pointer;
+   overflow: hidden;
+   text-align: center;
+   font-weight: normal; // https://online.sbis.ru/opendoc.html?guid=c9f0873b-3b20-4b73-a084-f67cc2c3071f
+}
+.controls-TreeGrid__row-expander_node_default_collapsed:before,
+.controls-TreeGrid__row-expander_node_master_collapsed:before {
+   content: var(--node_expander_collapsed_icon-content_treeGrid);
+}
+.controls-TreeGrid__row-expander_node_default_expanded:before,
+.controls-TreeGrid__row-expander_node_master_expanded:before {
+   content: var(--node_expander_icon-content_treeGrid);
+}
+
+.controls-TreeGrid__row-expander_emptyNode_default_collapsed:before,
+.controls-TreeGrid__row-expander_emptyNode_master_collapsed:before {
+   content: var(--empty-node_expander_collapsed_icon-content_treeGrid);
+}
+
+.controls-TreeGrid__row-expander_emptyNode_default_expanded:before,
+.controls-TreeGrid__row-expander_emptyNode_master_expanded:before {
+   content: var(--empty-node_expander_icon-content_treeGrid);
+}
+.controls-TreeGrid__row-expander_hiddenNode_default_collapsed:before,
+.controls-TreeGrid__row-expander_hiddenNode_master_collapsed:before {
+   content: var(--hidden-node_expander_collapsed_icon-content_treeGrid);
+}
+.controls-TreeGrid__row-expander_hiddenNode_default_expanded:before,
+.controls-TreeGrid__row-expander_hiddenNode_master_expanded:before {
+   content: var(--hidden-node_expander_icon-content_treeGrid);
+}
+
+.controls-TreeGrid__row {
+   display: inline-flex;
+}
+.controls-TreeGrid__row-levelPadding {
+   flex-shrink: 0;
+   display: inline-block;
+}
+
+//Классы совместимости для перехода со старого дизайна masterDetail на новый
+.controls-master-template-newDesign .controls-TreeGrid__nodeFooterContent_spacingRight-default {
+   padding-left: var(--item_padding-left_s_list);
+}
+
+.controls-TreeGrid__nodeFooterContent {
+   display: inline-flex;
+   align-items: baseline;
+   min-height: var(--node-footer_min-height);
+   box-sizing: border-box;
+   border-top-style: solid;
+}
+.ws-is-ie .controls-TreeGrid__nodeFooterContent {
+   display: flex;
+}
+.controls-TreeGrid__nodeFooterCell_columnSeparator-size_null {
+   border-left-width: 0;
+}
+.controls-TreeGrid__nodeFooterCell_columnSeparator-size_s {
+   border-left: var(--column_separator_s_thickness_grid) solid var(--column_separator_s_color_grid);
+}
+
+/* row separators for node */
+.controls-TreeGrid__nodeFooterContent_rowSeparatorSize-null {
+   border-top-width: 0;
+   padding-top: var(--node-footer_padding-top);
+}
+.controls-TreeGrid__nodeFooterContent_rowSeparatorSize-s {
+   border-top: var(--item-separator_s_thickness_list) solid var(--item_separator_s_color_list);
+   padding-top: calc(var(--node-footer_padding-top) - var(--item-separator_s_thickness_list));
+}
+.controls-TreeGrid__nodeFooterContent_rowSeparatorSize-l {
+   border-top: var(--item-separator_l_thickness_list) solid var(--item_separator_l_color_list);
+   padding-top: calc(var(--node-footer_padding-top) - var(--item-separator_l_thickness_list));
+}
+
+.controls-TreeGrid__nodeFooterContent:before {
+    content: '\200b';
+    font-size: var(--font-size_m);
+ }
+.controls-TreeGrid__row-levelPadding_size_default {
+   width: calc(var(--expander_s_padding-left_treeGrid) + var(--expander_s_padding-right_treeGrid) + var(--expander_width_treeGrid));
+}
+.controls-TreeGrid__row-levelPadding_size_s {
+   width: calc(var(--expander_s_padding-left_treeGrid) + var(--expander_s_padding-right_treeGrid) + var(--expander_width_treeGrid));
+}
+.controls-TreeGrid__row-levelPadding_size_m {
+   width: calc(var(--expander_m_padding-left_treeGrid) + var(--expander_m_padding-right_treeGrid) + var(--expander_width_treeGrid));
+}
+.controls-TreeGrid__row-levelPadding_size_l {
+   width: calc(var(--expander_l_padding-left_treeGrid) + var(--expander_l_padding-right_treeGrid) + var(--expander_width_treeGrid));
+}
+.controls-TreeGrid__row-levelPadding_size_xl{
+   width: calc(var(--expander_xl_padding-left_treeGrid) + var(--expander_xl_padding-right_treeGrid) + var(--expander_width_treeGrid));
+}
+// при поиске иерархический отступ по стандарту 20px
+.controls-TreeGrid__row-levelPadding_size_search {
+   width: var(--search-hierarchy_offset_treeGrid);
+}
+.controls-TreeGridView__footer__expanderPadding-default{
+   margin-left: calc(var(--expander_s_padding-left_treeGrid) + var(--expander_s_padding-right_treeGrid) + var(--expander_width_treeGrid));
+}
+.controls-TreeGridView__footer__expanderPadding-s{
+   margin-left: calc(var(--expander_s_padding-left_treeGrid) + var(--expander_s_padding-right_treeGrid) + var(--expander_width_treeGrid));
+}
+.controls-TreeGridView__footer__expanderPadding-m{
+   margin-left: calc(var(--expander_m_padding-left_treeGrid) + var(--expander_m_padding-right_treeGrid) + var(--expander_width_treeGrid));
+}
+.controls-TreeGridView__footer__expanderPadding-l{
+   margin-left: calc(var(--expander_l_padding-left_treeGrid) + var(--expander_l_padding-right_treeGrid) + var(--expander_width_treeGrid));
+}
+.controls-TreeGridView__footer__expanderPadding-xl{
+   margin-left: calc(var(--expander_xl_padding-left_treeGrid) + var(--expander_xl_padding-right_treeGrid) + var(--expander_width_treeGrid));
+}
+
+.controls-TreeGrid__row-cell {
+   align-items: baseline;
+}
+
+.controls-TreeGrid__row-cell_default.controls-TreeGrid__row-cell__node,
+.controls-TreeGrid__row-cell__node .controls-EditingTemplateText_size_default {
+  font-size: var(--node_font-size_treeGrid);
+}
+
+.controls-TreeGrid__row-cell_default.controls-TreeGrid__row-cell__hiddenNode,
+.controls-TreeGrid__row-cell__hiddenNode .controls-EditingTemplateText_size_default {
+  font-size: var(--font-size_xl);
+}
+
+.controls-TreeGrid__row-cell_default.controls-TreeGrid__row-cell__item,
+.controls-TreeGrid__row-cell__item .controls-EditingTemplateText_size_default {
+  font-size: var(--item_font-size_m_grid);
+}
+
+// Отступы подвала слева
+.controls-TreeGrid__nodeFooterContent_spacingLeft-default {
+   padding-left: var(--item_padding-left_default_list);
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingLeft-null {
+   padding-left: 0;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingLeft-xs {
+   padding-left: var(--item_padding-left_xs_list);
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingLeft-s {
+   padding-left: var(--item_padding-left_s_list);
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingLeft-m {
+   padding-left: var(--item_padding-left_m_list);
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingLeft-l {
+   padding-left: var(--item_padding-left_l_list);
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingLeft-xl {
+   padding-left: var(--item_padding-left_xl_list);
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingLeft-xxl {
+   padding-left: var(--item_padding-left_2xl_list);
+}
+
+// Отступы подвала справа
+.controls-TreeGrid__nodeFooterContent_spacingRight-default {
+   padding-right: var(--item_padding-right_default_list);
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingRight-null {
+   padding-right: 0;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingRight-xs {
+   padding-right: var(--item_padding-right_xs_list);
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingRight-s {
+   padding-right: var(--item_padding-right_s_list);
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingRight-m {
+   padding-right: var(--item_padding-right_m_list);
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingRight-l {
+   padding-right: var(--item_padding-right_l_list);
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingRight-xl {
+   padding-right: var(--item_padding-right_xl_list);
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingRight-xxl {
+   padding-right: var(--item_padding-right_2xl_list);
+}
+
+.controls-Grid__row-cell__content:not(.controls-Grid__row-ladder-cell__content).controls-TreeGrid__row-cell__firstColumn__contentSpacing_null {
+   padding-left: 0;
+}
+// For right vertiacal align of items inside block with display: table-cell.
+.controls-Grid_table-layout .controls-TreeGridView__row-cell_innerWrapper {
+   display: flex;
+   align-items: baseline;
+}
+
+// Master list sets ::before on selected item, witch overflows expander. It has z-index: 2 and pointer-events: none, but
+// Old IE doesn't support pointer-events.
+.ws-is-ie10 .controls-TreeGrid__row-expander {
+   z-index: 2;
+}
+
+.controls-Grid__row-cell-editing > .controls-TreeGridView__row-cell_innerWrapper > .controls-itemActionsV {
+   visibility: visible;
+   opacity: 1;
+}
+
+.controls-TreeGrid__row__searchBreadCrumbs_colspaned .controls-Grid__row-cell__content_colspaned {
+   position: relative;
+}
+.controls-TreeGrid__breadCrumbs_colspaned {
+   position: absolute;
+   left: 0;
+   right: 0;
+   padding-right: var(--item_padding-right_default_list);
+}
+
+.controls-TreeGrid__row__searchBreadCrumbs .controls-itemActionsV__container {
+   // При поиске в списке с горизонтальным скроллом, хлебная крошка фиксируется и растягивается,
+   // стек z-index'ов для операций над записью на хлебных крошках должен начинаться с z-index хлебной крошки (фиксированной колонки).
+   // https://online.sbis.ru/opendoc.html?guid=7ec6ad1a-6c9d-412d-b477-7935d81c82cc
+   z-index: 3;
+}
+.controls-TreeGrid__row__searchSeparator {
+}
+
+.controls-TreeGrid__row__searchSeparator_line_horizontal {
+   margin-top: var(--search-separator_padding-top_treeGrid);
+   margin-bottom: var(--search-separator_padding-bottom_treeGrid);
+   width: var(--search-separator_length_treeGrid);
+   height: var(--search-separator_thickness_treeGrid);
+   background-color: var(--search-separator_color_treeGrid);
+   display: block;
+}
+
+.ws-is-hover {
+   .controls-TreeGrid__row-expander_node_default:hover:before,
+   .controls-TreeGrid__row-expander_emptyNode_default:hover:before {
+      color: var(--node_expander_hover_icon-color_treeGrid);
+   }
+   .controls-TreeGrid__row-expander_hiddenNode_default:hover:before {
+      color: var(--hidden-node_expander_hover_icon-color_treeGrid);
+   }
+   .controls-TreeGrid__row-expander_node_master:hover:before {
+      color: var(--master_node_expander_hover_icon-color_treeGrid);
+   }
+   .controls-TreeGrid__row-expander_hiddenNode_master:hover:before {
+      color: var(--master_hidden-node_expander_hover_icon-color_treeGrid);
+   }
+
+   .controls-TreeGrid__row-expander_visibility_hover {
+      visibility: hidden;
+   }
+
+   .controls-Grid__row:hover .controls-TreeGrid__row-expander_visibility_hover {
+      visibility: visible;
+   }
+
+   .controls-BaseControl_showActions_visible .controls-ListView__item_showActions,
+   .controls-BaseControl_showActions_onhover .controls-ListView__item_showActions:hover,
+   .controls-BaseControl_showActions_delayed .controls-ListView__item_showActions:hover {
+      & > .controls-TreeGrid__row-cell > .controls-TreeGridView__row-cell_innerWrapper > .controls-itemActionsV {
+         visibility: visible;
+         opacity: 1;
+      }
+   }
+}

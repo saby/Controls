@@ -1,9 +1,10 @@
-import {Tree, TreeItem} from 'Controls/display';
-import {Model} from 'Types/entity';
-import {TKey} from 'Controls/interface';
-import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 import {Logger} from 'UI/Utils';
+import {Model} from 'Types/entity';
 import {isEqual} from 'Types/object';
+import {TKey} from 'Controls/interface';
+import {RecordSet} from 'Types/collection';
+import {Tree, TreeItem} from 'Controls/display';
+import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 
 /**
  * Интерфейс, описывающий структуру объекта конфигурации {@link Controller ExpandController}
@@ -14,9 +15,11 @@ export interface IOptions {
      */
     model?: Tree<Model, TreeItem<Model>>;
     /**
-     * Ф-ия загрузчик, которая будет вызвана перед разворачиванием итема
+     * Ф-ия загрузчик, которая будет вызвана перед разворачиванием итема.
+     * В случае удачной загрузки должна вернуть RecordSet с полученными данными.
+     * В случе неудачной загрузки либо рейзнуть ошибку либо вернуть void.
      */
-    loader?: (id: TKey) => void | Promise<unknown>;
+    loader?: (id: TKey) => void | Promise<RecordSet | void>;
     /**
      * Массив с идентификаторами развернутых узлов
      */
@@ -29,7 +32,6 @@ export interface IOptions {
      * true если на одном уровне может быть раскрыт только один узел
      */
     singleExpand?: boolean;
-    useOldModel?: boolean;
 }
 
 /**
@@ -70,6 +72,7 @@ export class Controller {
 
         if (newOptions.collapsedItems && !isEqual(this._collapsedItems, newOptions.collapsedItems)) {
             this.setCollapsedItems(newOptions.collapsedItems);
+            this._model?.setCollapsedItems(newOptions.collapsedItems);
         }
 
         // Обновление здесь expandedItems не реализовано т.к. пока не требуется из-за того что в treeControl
@@ -105,13 +108,15 @@ export class Controller {
     }
 
     /**
-     * Меняет признак свернутости/развернутости итема на противоположный
+     * Меняет признак свернутости/развернутости итема на противоположный.
+     * В случае раскрытия итема если его данные еще не были загружены вернет
+     * Promise с загруженными данными узла.
      */
-    toggleItem(itemId: TKey, callBeforeChangeModel?: Function): void | Promise<unknown> {
+    toggleItem(itemId: TKey): void | Promise<RecordSet[]> {
         if (this.isItemExpanded(itemId)) {
             this.collapseItem(itemId);
         } else {
-            return this.expandItem(itemId, callBeforeChangeModel);
+            return this.expandItem(itemId);
         }
     }
 
@@ -119,7 +124,7 @@ export class Controller {
      * Разворачивает итем с указанным itemId только в том случае если
      * он свернут в данный момент.
      */
-    expandItem(itemId: TKey, callBeforeChangeModel?: Function): void | Promise<unknown> {
+    expandItem(itemId: TKey): void | Promise<RecordSet[]> {
         // Если узел уже развернут или он не поддерживает разворачивание, то и делать ничего не надо
         if (this.isItemExpanded(itemId)) {
             return;
@@ -135,7 +140,7 @@ export class Controller {
             pushKey(newExpandedItems, itemId);
         }
 
-        return this._applyState(newExpandedItems, newCollapsedItems, callBeforeChangeModel);
+        return this._applyState(newExpandedItems, newCollapsedItems);
     }
 
     /**
@@ -206,18 +211,22 @@ export class Controller {
     }
 
     /**
-     * Выполняет анализ и обработку переданных данных после чего применяет их к моделе.
+     * Применяет текущее состояние схлопнутых и разхлопнутых узлов к моделе
+     */
+    applyStateToModel(): void {
+        this._model?.setCollapsedItems(this._collapsedItems);
+        this._model?.setExpandedItems(this._expandedItems);
+    }
+
+    /**
+     * Выполняет анализ и обработку переданных данных:
      * 1. Если опция singleExpand выставлена, то оставит только по одной id в expandedItems
      * для каждого уровня иерархии
      * 2. При схлапывании узла id его дочерних расхлопнутых узлов также выкидываются из expandedItems
      * 3. Если expandedItems и collapsedItems имеют пересечение, то это пересечение выкидывается из
      * expandedItems
      */
-    private _applyState(
-        expandedItems: TKey[] = [],
-        collapsedItems: TKey[] = [],
-        callBeforeChangeModel?: Function
-    ): void | Promise<unknown> {
+    private _applyState(expandedItems: TKey[] = [], collapsedItems: TKey[] = []): void | Promise<RecordSet[]> {
 
         let newExpandedItems = [...expandedItems];
         const newCollapsedItems = [...collapsedItems];
@@ -233,7 +242,7 @@ export class Controller {
                 const level = this._getItem(id).getLevel();
                 levels[level] = id;
             });
-            // свернем полученную карту обратно в массив тем самым оставив на каждом уровне
+            // Свернем полученную карту обратно в массив тем самым оставив на каждом уровне
             // только один развернутый итем
             newExpandedItems = Object.keys(levels).map((level) => levels[level]);
         }
@@ -266,10 +275,10 @@ export class Controller {
         // на актуальные данные и не пыталась раскрыть явно заданный расхлопнутый узел
         this._setCollapsedItems(newCollapsedItems);
 
-        return this._applyExpandedItems(newExpandedItems, callBeforeChangeModel);
+        return this._applyExpandedItems(newExpandedItems);
     }
 
-    private _applyExpandedItems(expandedItems: TKey[], callBeforeChangeModel?: Function): void | Promise<unknown> {
+    private _applyExpandedItems(expandedItems: TKey[]): void | Promise<RecordSet[]> {
         const expandDiff = ArraySimpleValuesUtil.getArrayDifference(this._expandedItems, expandedItems);
 
         // Если изменили с [...] на [null], то нужно загрузить все кроме явно схлопнутых
@@ -331,9 +340,6 @@ export class Controller {
             return Promise
                 .all(results)
                 .then((result) => {
-                    if (callBeforeChangeModel) {
-                        callBeforeChangeModel(expandedItems);
-                    }
                     this._setExpandedItems(expandedItems);
                     return result;
                 });
@@ -346,17 +352,10 @@ export class Controller {
 
     private _setExpandedItems(expandedItems: TKey[]): void {
         this._expandedItems = expandedItems;
-        this._model?.setExpandedItems(expandedItems);
     }
 
     private _setCollapsedItems(collapsedItems: TKey[]): void {
         this._collapsedItems = collapsedItems;
-        // В случае работы со старой моделью нужно ручками схлопнуть каждый итем,
-        // т.к. в старой моделе метод setCollapsedItems не меняет состояние итемов.
-        if (this._options.useOldModel) {
-            this._collapsedItems.forEach((id) => this._collapseItem(id));
-        }
-        this._model?.setCollapsedItems(collapsedItems);
     }
 
     /**
@@ -371,40 +370,9 @@ export class Controller {
      * Дополнительно в случе работы со старой моделью развернет
      * в ней итем с указанным itemId.
      */
-    private _expandItem(itemId: TKey): void | Promise<unknown> {
-        const expand = (result?) => {
-            const item = this._getItem(itemId);
-
-            if (item && item['[Controls/_display/TreeItem]'] && this._options.useOldModel) {
-                // tslint:disable-next-line:ban-ts-ignore
-                // @ts-ignore - метод старой модели принимает 2 параметра
-                this._model.toggleExpanded(item, true);
-            }
-
-            return result;
-        };
-
+    private _expandItem(itemId: TKey): void | Promise<RecordSet | void> {
         // Если в опциях указана ф-ия загрузчик и она включена, то вызовем её
-        const loadResult = this._options.loader && this._loaderIsEnabled ? this._options.loader(itemId) : undefined;
-        if (loadResult instanceof Promise) {
-            return loadResult.then(expand);
-        } else {
-            expand();
-        }
-    }
-
-    /**
-     * Сворачивает итем с указанным itemId.
-     * Метод актуален только при работе со старой моделью.
-     */
-    private _collapseItem(itemId: TKey): void {
-        const item = this._getItem(itemId);
-
-        if (item && item['[Controls/_display/TreeItem]'] && this._options.useOldModel) {
-            // tslint:disable-next-line:ban-ts-ignore
-            // @ts-ignore - метод старой модели принимает 2 параметра
-            this._model.toggleExpanded(item, false);
-        }
+        return this._options.loader && this._loaderIsEnabled ? this._options.loader(itemId) : undefined;
     }
 
     /**

@@ -25,7 +25,7 @@
         </Controls.search:InputContainer>
         <Controls.list:Remover name="remover"/>
         <Controls.list:Container>
-          <Controls.explorer:View useOldModel="{{ true }}"
+          <Controls.explorer:View
               attr:class="demo-Explorer ControlsDemo-Explorer"
               itemActions="{{_itemActions}}"
               displayProperty="title"

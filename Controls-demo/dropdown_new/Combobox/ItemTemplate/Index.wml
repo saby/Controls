@@ -7,10 +7,10 @@
                                     attr:class="ControlsDemo-DropdownCombobox__width">
             <ws:itemTemplate>
                 <ws:partial template="Controls/dropdown:ItemTemplate"
-                            itemData="{{itemTemplate.itemData}}"
+                            scope="{{ itemTemplate }}"
                             multiLine="{{true}}">
                     <ws:additionalTextTemplate>
-                        <div>{{itemTemplate.itemData.item.get('comment')}}</div>
+                        <div>{{itemTemplate.item.contents.get('comment')}}</div>
                     </ws:additionalTextTemplate>
                 </ws:partial>
             </ws:itemTemplate>

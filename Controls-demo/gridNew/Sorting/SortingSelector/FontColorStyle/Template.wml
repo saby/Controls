@@ -36,7 +36,7 @@
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label">fontColorStyle=label</div>
-        <Controls.gridOld:SortingSelector
+        <Controls.grid:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
                 fontColorStyle="label"/>

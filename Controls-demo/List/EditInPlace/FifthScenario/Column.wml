@@ -1,14 +1,14 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_L" itemData="{{itemData}}">
+<ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_L" scope="{{ _options }}">
    <ws:contentTemplate>
       <div attr:style="width: 100%; padding-right: 80px;">
          <ws:partial template="Controls/list:EditingTemplate"
                      attr:class="ControlsDemo-EipScenarios__editorWrapper"
-                     value="{{ itemData.item[itemData.column.displayProperty] }}"
-                     itemData="{{itemData}}"
-                     align="{{ itemData.column.align }}"
+                     value="{{ item.contents[column.config.displayProperty] }}"
+                     scope="{{ _options }}"
+                     align="{{ column.config.align }}"
                      enabled="{{true}}">
             <ws:editorTemplate>
-               <Controls.input:Text contrastBackground="{{true}}" bind:value="itemData.item[itemData.column.displayProperty]"
+               <Controls.input:Text contrastBackground="{{true}}" bind:value="item.contents[column.config.displayProperty]"
                                     textAlign="right"
                                     selectOnClick="{{ false }}" />
             </ws:editorTemplate>

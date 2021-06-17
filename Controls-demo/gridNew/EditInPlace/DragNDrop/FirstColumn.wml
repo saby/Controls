@@ -4,27 +4,27 @@
             <div style="padding-left: 6px; width: 100%;">
                 <div class="demo-EditableGrid__editor-flexWrapper" style="width: 100%;">
                     <div class="demo-EditableGrid__editor-flexWrapper">
-                        <Controls.input:Number contrastBackground="{{true}}" value="{{itemData.item.get('documentNum')}}" on:valueChanged="onChange('documentNum', itemData.item)" placeholder="Номер"/>
+                        <Controls.input:Number contrastBackground="{{true}}" value="{{item.contents.get('documentNum')}}" on:valueChanged="onChange('documentNum', item.contents)" placeholder="Номер"/>
                     </div>
                     <div class="demo-EditableGrid__editor-flexWrapper">
-                        <Controls.input:Money contrastBackground="{{true}}" value="{{itemData.item.get('taxBase')}}" on:valueChanged="onChange('taxBase', itemData.item)"  placeholder="Сумма"/>
+                        <Controls.input:Money contrastBackground="{{true}}" value="{{item.contents.get('taxBase')}}" on:valueChanged="onChange('taxBase', item.contents)"  placeholder="Сумма"/>
                     </div>
                 </div>
 
                 <div class="demo-EditableGrid__editor-flexWrapper demo-EditableGrid__editor-rowTopSpacing" style="width: 100%;">
                     <div>
 
-                        <Controls.input:Text contrastBackground="{{true}}" value="{{itemData.item.get('document')}}"  on:valueChanged="onChange('document', itemData.item)" placeholder="б/н"/>
-                        <Controls.input:Date contrastBackground="{{true}}" value="{{itemData.item.get('documentDate')}}" on:valueChanged="onChange('documentDate', itemData.item)"/>
+                        <Controls.input:Text contrastBackground="{{true}}" value="{{item.contents.get('document')}}"  on:valueChanged="onChange('document', item.contents)" placeholder="б/н"/>
+                        <Controls.input:Date contrastBackground="{{true}}" value="{{item.contents.get('documentDate')}}" on:valueChanged="onChange('documentDate', item.contents)"/>
                     </div>
                     <div>
-                        <Controls.input:Text contrastBackground="{{true}}" value="{{itemData.item.get('serviceContract')}}" on:valueChanged="onChange('serviceContract', itemData.item)" placeholder="Номер"/>
+                        <Controls.input:Text contrastBackground="{{true}}" value="{{item.contents.get('serviceContract')}}" on:valueChanged="onChange('serviceContract', item.contents)" placeholder="Номер"/>
                     </div>
                 </div>
 
 
                 <div class="demo-EditableGrid__editor-flexWrapper demo-EditableGrid__editor-rowTopSpacing" style="width: 100%;">
-                    <Controls.input:Text contrastBackground="{{true}}" value="{{itemData.item.get('description')}}" on:valueChanged="onChange('description', itemData.item)" placeholder="примечание" attr:style="width: 100%;"/>
+                    <Controls.input:Text contrastBackground="{{true}}" value="{{item.contents.get('description')}}" on:valueChanged="onChange('description', item.contents)" placeholder="примечание" attr:style="width: 100%;"/>
                 </div>
             </div>
         </ws:if>

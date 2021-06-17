@@ -164,8 +164,7 @@
             <ws:itemActionsTemplate>
                 <ws:partial
                         template="{{_itemActionsTemplate}}"
-                        scope="{{ _listViewModel.getActionsTemplateConfig(itemActionsTemplate) }}"
-                        useNewModel="{{ _options.useNewModel }}"/>
+                        scope="{{ _listViewModel.getActionsTemplateConfig(itemActionsTemplate) }}"/>
             </ws:itemActionsTemplate>
             <ws:swipeTemplate>
                 <ws:partial

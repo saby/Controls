@@ -9,7 +9,7 @@
          <ws:itemTemplate>
             <ws:partial template="Controls/menu:ItemTemplate">
                <ws:contentTemplate>
-                  <div>{{itemTemplate.itemData.item.get('title')}} city</div>
+                  <div>{{itemTemplate.item.contents.get('title')}} city</div>
                </ws:contentTemplate>
             </ws:partial>
          </ws:itemTemplate>

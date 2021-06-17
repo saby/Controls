@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { stub, spy } from 'sinon';
+import { assert as sinonAssert, spy } from 'sinon';
 
 import {
     Tree,
@@ -1739,6 +1739,14 @@ describe('Controls/_display/Tree', () => {
             assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
         });
 
+        it('setExpandedItems calls resetIsLastItem', () => {
+            const itemAt12 = rsTree.at(12);
+            const spyResetIsLastItem = spy(itemAt12, 'resetIsLastItem');
+            rsTree.setExpandedItems([1]);
+            sinonAssert.calledOnce(spyResetIsLastItem);
+            spyResetIsLastItem.restore();
+        });
+
         xit('setExpandedItems collapse childs', () => {
             rsTree.setExpandedItems([1]);
             rsTree.getItemBySourceKey(11).setExpanded(true);
@@ -1770,6 +1778,14 @@ describe('Controls/_display/Tree', () => {
             const currentVersion = rsTree.getVersion();
             rsTree.setCollapsedItems([1]);
             assert.equal(currentVersion, rsTree.getVersion());
+        });
+
+        it('setCollapsedItems calls resetIsLastItem', () => {
+            const itemAt12 = rsTree.at(12);
+            const spyResetIsLastItem = spy(itemAt12, 'resetIsLastItem');
+            rsTree.setCollapsedItems([1]);
+            sinonAssert.calledOnce(spyResetIsLastItem);
+            spyResetIsLastItem.restore();
         });
 
         it('toggleItem will not change version for another items', () => {

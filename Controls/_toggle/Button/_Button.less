@@ -8,7 +8,7 @@
 }
 
 .controls-Button_button_style-primary_toggled {
-   border-color: var(--primary_toggled_border-color_toggleButton_button);
+   border-color: var(--primary_color);
    border-width: var(--primary_toggled_border-thickness_toggleButton_button);
 }
 
@@ -57,7 +57,7 @@
 }
 
 .controls-Button_pushButton_style-readonly {
-   border-color: var(--readonly_border-color_toggleButton_pushButton);
+   border-color: var(--secondary_active_background-color_toggleButton_pushButton);
 }
 
 .controls-Button_pushButton_style-secondary_toggled {
@@ -77,7 +77,7 @@
 }
 
 .controls-Button_pushButton_style-readonly_toggled {
-   border-color: var(--readonly_toggled_border-color_toggleButton_pushButton);
+   border-color: var(--readonly_color);
 }
 
 //background
@@ -91,10 +91,6 @@
 
 .controls-Button_pushButton_style-secondary_toggled.controls-Button_bg-contrast {
    background-color: var(--secondary_contrast_toggled_background-color_toggleButton_pushButton);
-}
-
-.controls-Button_pushButton_style-secondary_toggled.controls-Button_bg-same {
-   background-color: var(--secondary_toggled_background-color_toggleButton_pushButton);
 }
 
 .controls-Button_pushButton_style-readonly.controls-Button_bg-contrast {
@@ -112,6 +108,7 @@
 
    .controls-Button_pushButton_style-secondary:hover.controls-Button_bg-same {
       background-color: var(--secondary_hover_background-color_toggleButton_pushButton);
+      border-color: var(--secondary_toggled_border-color_toggleButton_pushButton);
    }
 }
 
@@ -123,6 +120,7 @@
 
    .controls-Button_pushButton_style-secondary:active.controls-Button_bg-same {
       background-color: var(--secondary_hover_background-color_toggleButton_pushButton);
+      border-color: var(--secondary_toggled_border-color_toggleButton_pushButton);
    }
 }
 

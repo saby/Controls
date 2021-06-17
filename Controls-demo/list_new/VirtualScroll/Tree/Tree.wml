@@ -4,7 +4,7 @@
     </div>
     <Controls.scroll:Container
             attr:class="controlsDemo_fixedWidth500 controlsDemo__maxWidth500 controlsDemo__height500 controlsDemo__mb1">
-        <Controls.treeGridOld:View
+        <Controls.treeGrid:View
                 name="list"
                 source="{{_source}}"
                 parentProperty="parent"
@@ -19,6 +19,6 @@
                     <ws:Object displayProperty="title"/>
                 </ws:Array>
             </ws:columns>
-        </Controls.treeGridOld:View>
+        </Controls.treeGrid:View>
     </Controls.scroll:Container>
 </div>

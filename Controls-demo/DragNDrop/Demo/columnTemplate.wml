@@ -1,18 +1,18 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate" expanderSize="xl" itemData="{{itemData}}">
+<ws:partial template="Controls/grid:ColumnTemplate" expanderSize="xl" scope="{{ _options }}">
    <ws:contentTemplate>
       <div class="demo-DragNDrop__explorerItem">
          <ws:if data="{{itemData.dispItem.isNode()}}">
-            <span class="demo-DragNDrop__explorerItem_folderTitle controls-List_DragNDrop__notDraggable">{{itemData.item.title}}</span>
-            <ws:if data="{{itemData.item.get('shared')}}">
+            <span class="demo-DragNDrop__explorerItem_folderTitle controls-List_DragNDrop__notDraggable">{{item.contents.title}}</span>
+            <ws:if data="{{item.contents.get('shared')}}">
                <span class="demo-DragNDrop__explorerItem_shared icon-small icon-Publish2 icon-primary"></span>
             </ws:if>
          </ws:if>
          <ws:else>
-            <img class="demo-DragNDrop__explorerItem_photo" src="{{itemData.item.image}}"/>
+            <img class="demo-DragNDrop__explorerItem_photo" src="{{item.contents.image}}"/>
             <div class="demo-DragNDrop__explorerItem_row">
-               <span class="demo-DragNDrop__explorerItem_author controls-List_DragNDrop__notDraggable">{{itemData.item.title}}</span>
+               <span class="demo-DragNDrop__explorerItem_author controls-List_DragNDrop__notDraggable">{{item.contents.title}}</span>
                <div class="demo-DragNDrop__explorerItem_aboutTask">
-                  <span class="demo-DragNDrop__explorerItem__taskText controls-List_DragNDrop__notDraggable">{{itemData.item.text}}</span>
+                  <span class="demo-DragNDrop__explorerItem__taskText controls-List_DragNDrop__notDraggable">{{item.contents.text}}</span>
                </div>
             </div>
          </ws:else>

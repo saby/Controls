@@ -1,6 +1,6 @@
 /**
  * Набор полей контекста, используемых в платформенных контролах.
- * @library Controls/context
+ * @library
  * @includes ContextOptions Controls/_context/ContextOptions
  * @deprecated
  * @private

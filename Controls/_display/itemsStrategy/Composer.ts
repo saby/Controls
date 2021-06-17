@@ -174,10 +174,21 @@ export default class Composer<S, T> extends mixin<
             const options = {...(defaults || {})};
             if (source) {
                 options.source = source;
+            } else {
+                options.source = getSource(oldModules[oldModules.length - 1]) || undefined;
             }
             return new Module(options);
         };
-
+        const getSource = (Module) => {
+            let source = this._result;
+            if (!Module || !source) {
+                return null;
+            }
+            while (!(source instanceof Module)) {
+                source = source.source;
+            }
+            return source;
+        };
         // Just add or remove if last item affected
         if (this._result && index === this._modules.length + (onAdd ? -1 : 0)) {
             if (onAdd) {
@@ -188,8 +199,10 @@ export default class Composer<S, T> extends mixin<
             return;
         }
 
-        this._result = this._modules.reduce((memo, Module, index) => {
-            return wrap(memo, Module, this._options[index]);
+        const oldModules = [...this._modules];
+        const newModules = oldModules.splice(index);
+        this._result = newModules.reduce((memo, Module, reduceIndex) => {
+            return wrap(memo, Module, this._options[index + reduceIndex]);
         }, null);
     }
 

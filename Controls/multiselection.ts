@@ -1,6 +1,6 @@
 /**
  * Библиотека, которая предоставляет функционал для множественного выбора
- * @library Controls/multiselection
+ * @library
  * @includes IFlatSelectionStrategy Controls/_multiselection/IFlatSelectionStrategy
  * @includes ISelectionController Controls/_multiselection/ISelectionController
  * @includes ITreeSelectionStrategy Controls/_multiselection/ITreeSelectionStrategy

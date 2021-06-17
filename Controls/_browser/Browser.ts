@@ -274,6 +274,9 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         const sourceCallbackId = Store.onPropertyChanged('filterSource', (filterSource: IFilterItem[]) => {
                 this._filterItemsChanged(null, filterSource);
         });
+        const selectedTypeChangedCallbackId = Store.onPropertyChanged('selectedType', (type: string) => {
+            this._selectedTypeChangedHandler(null, type);
+        });
         const filterSourceCallbackId = Store.onPropertyChanged('filter',
            (filter: QueryWhereExpression<unknown>) => this._filterChanged(null, filter));
         const searchValueCallbackId = Store.onPropertyChanged('searchValue',
@@ -288,7 +291,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         return [
             sourceCallbackId,
             filterSourceCallbackId,
-            searchValueCallbackId
+            searchValueCallbackId,
+            selectedTypeChangedCallbackId
         ];
     }
 
@@ -498,10 +502,13 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._root = root;
         }
         if (root !== currentRoot && this._getSearchControllerSync()) {
-            this._resetSearch();
             this._inputSearchValue = '';
-            if (this._options.useStore) {
-                Store.sendCommand('resetSearch');
+
+            if (this._searchValue) {
+                this._resetSearch();
+                if (this._options.useStore) {
+                    Store.sendCommand('resetSearch');
+                }
             }
         }
     }

@@ -1,4 +1,0 @@
-<Controls._listRender.View
-   collection="Controls/display:ColumnsCollection"
-   render="Controls/listRender:Columns"
-   scope="{{ _options }}"/>

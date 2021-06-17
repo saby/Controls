@@ -20,7 +20,6 @@
                         bind:selectedKeys="_selectedKeys"
                         bind:excludedKeys="_excludedKeys"
                         attr:class="demo-Explorer ControlsDemo-Explorer"
-                        useNewModel="{{true}}"
                         keyProperty="id"
                         itemActions="{{_itemActions}}"
                         displayProperty="title"

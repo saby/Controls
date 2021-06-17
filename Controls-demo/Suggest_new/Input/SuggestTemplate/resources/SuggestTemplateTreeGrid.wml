@@ -1,5 +1,5 @@
 <Controls.suggestPopup:ListContainer attr:class="{{_options.classListWrapper}} {{_options.dialogMode ? 'controlsDemo__childWidth400'}}">
-    <Controls.treeGridOld:View columns="{{_columns}}"
+    <Controls.treeGrid:View columns="{{_columns}}"
                             displayProperty="title"
                             keyProperty="id"
                             expandedItems="{{[null]}}"

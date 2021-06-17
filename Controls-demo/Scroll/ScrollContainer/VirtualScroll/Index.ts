@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Scroll/ScrollContainer/VirtualScroll/Template');
 import {Memory} from 'Types/source';
 import {generateData} from '../../../list_new/DemoHelpers/DataCatalog';
-import {getCountriesStats, countries} from '../../../grid/DemoHelpers/DataCatalog';
+import {getCountriesStats, countries} from '../../../gridNew/DemoHelpers/DataCatalog';
 
 class DemoSource extends Memory {
     pending: Promise<any>;

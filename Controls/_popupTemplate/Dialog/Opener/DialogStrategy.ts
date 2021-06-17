@@ -21,16 +21,6 @@ interface IDialogPosition {
 }
 
 class DialogStrategy {
-
-    protected _validateCoordinate(position: IDialogPosition, maxHeight: number, maxWidth: number): IDialogPosition {
-        if (position.height > maxHeight) {
-            position.height = maxHeight;
-        }
-        if (position.width > maxWidth) {
-            position.width = maxWidth;
-        }
-        return position;
-    }
     /**
      * Returns popup position
      * @function Controls/_popupTemplate/Dialog/Opener/DialogStrategy#getPosition
@@ -53,6 +43,16 @@ class DialogStrategy {
             minWidth, maxWidth,
             minHeight, maxHeight
         };
+    }
+
+    private _validateCoordinate(position: IDialogPosition, maxHeight: number, maxWidth: number): IDialogPosition {
+        if (position.height > maxHeight) {
+            position.height = maxHeight;
+        }
+        if (position.width > maxWidth) {
+            position.width = maxWidth;
+        }
+        return position;
     }
 
     /**
@@ -82,13 +82,44 @@ class DialogStrategy {
                 horizontalPositionProperty
             );
         } else {
-            return this._getDefaultPosition(
+            const position: IDialogPosition = this._getDefaultPosition(
                 windowData,
                 containerSizes,
                 popupItem,
                 verticalPositionProperty,
                 horizontalPositionProperty
             );
+
+            this._updateCoordsByOptions(windowData, popupItem, position);
+            return position;
+        }
+    }
+
+    private _updateCoordsByOptions(windowData: IPopupPosition, popupItem: IPopupItem, position: IDialogPosition): void {
+        const topCoordinate = popupItem.targetCoords?.top || popupItem.popupOptions.top;
+        const bottomCoordinate = popupItem.targetCoords?.left || popupItem.popupOptions.left;
+
+        if (topCoordinate === undefined && bottomCoordinate === undefined) {
+            return;
+        }
+
+        const topOffset = popupItem.sizes?.margins?.top || 0 + popupItem.popupOptions.offset?.vertical || 0;
+        const leftOffset = popupItem.sizes?.margins?.left || 0 + popupItem.popupOptions.offset?.horizontal || 0;
+        const top = (topCoordinate || 0) + topOffset;
+        const left = (bottomCoordinate || 0) + leftOffset;
+
+        if (topCoordinate !== undefined) {
+            position.top = top;
+        }
+        if (bottomCoordinate !== undefined) {
+            // Calculating the left position when reducing the size of the browser window
+            const differenceWindowWidth: number =
+                (left + popupItem.popupOptions.width) - windowData.width;
+            if (differenceWindowWidth > 0) {
+                position.left = left - differenceWindowWidth;
+            } else {
+                position.left = left;
+            }
         }
     }
 

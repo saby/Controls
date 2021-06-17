@@ -30,7 +30,7 @@
    width: 100%;
    // добавляем минимальную ширину, чтобы обводка не обрезалась.
    // min-width = ширина домика + левый отступ + обводка справа.
-   min-width: calc(var(--home_icon-size_breadcrumbsPath) + var(--back_offset_breadcrumbsHeadingPath) + var(--droppable_padding-horizontal_breadcrumbsView));
+   min-width: calc(var(--home_icon-size_breadcrumbsPath) + var(--back_offset_breadcrumbsHeadingPath) + var(--offset_2xs));
 }
 
 .controls-BreadCrumbsPath__backButton {
@@ -75,8 +75,8 @@
 }
 
 .controls-BreadCrumbsPath__homeContainer.controls-BreadCrumbsView__dropTarget_withoutArrow:after {
-   left: calc(-1 * var(--droppable_padding-horizontal_breadcrumbsView));
-   right: calc(-1 * var(--droppable_padding-horizontal_breadcrumbsView));
+   left: calc(-1 * var(--offset_2xs));
+   right: calc(-1 * var(--offset_2xs));
 }
 
 .controls-BreadCrumbsPath__backButtonArrow-container {
@@ -101,7 +101,7 @@
 }
 
 .controls-Path__backButtonArrow_readonly {
-   color: var(--back_editButton_readonly_icon-color_breadcrumbsHeadingPath);
+   color: var(--readonly_color);
 }
 
 .controls-BreadCrumbsPath__backButton__container__only__withArrow {
@@ -113,7 +113,7 @@
 }
 
 .controls-BreadCrumbsPath__counter {
-   margin-left: var(--back_counter_offset_breadcrumbsHeadingPath);
+   margin-left: var(--offset_2xs);
 }
 
 .controls-BreadCrumbsPath__breadCrumbs {

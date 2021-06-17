@@ -9,7 +9,7 @@
                 <ws:partial
                         itemWidth="{{200}}"
                         template="Controls/tile:ItemTemplate"
-                        hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+                        hasTitle="{{itemTemplate.item.contents.isDocument}}"/>
         </ws:itemTemplate>
 </Controls.treeTile:View>
 </div>

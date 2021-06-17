@@ -1049,6 +1049,10 @@ describe('Controls/browser:Browser', () => {
 
            assert.equal(browser._root, 'test123');
            assert.equal(browser._getSearchControllerSync()._root, 'test123');
+           assert.equal(browser._getSourceController().getRoot(), null);
+
+           await browser._beforeUpdate(options);
+           assert.equal(browser._getSourceController().getRoot(), 'test123');
        });
 
        it('root changed, browser is in search mode', async () => {
