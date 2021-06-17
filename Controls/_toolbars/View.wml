@@ -21,6 +21,7 @@
                      controls-Toolbar__menu{{_options.contrastBackground ? '_contrastBackground'}}
                      controls-Toolbar__menu_{{_options.readOnly ? 'disabled': 'enabled'}}
                      controls-icon_style-{{_options.readOnly ? 'readonly': _options.iconStyle}}"
+              attr:data-qa="controls-Toolbar__menu"
               on:click="_onClickHandler()"
               on:mousedown="_mouseDownHandler()"
               on:mouseenter="_mouseEnterHandler()"
