@@ -211,8 +211,8 @@ class FormController extends ControllerBase<IFormController> {
         if (needRead) {
             // Если текущий рекорд изменен, то покажем вопрос
             this._confirmRecordChangeHandler(() => {
-                this.read(newOptions.key, newOptions.readMetaData);
                 updateData();
+                this.read(newOptions.key, newOptions.readMetaData);
             }, () => {
                 this._tryDeleteNewRecord().then(() => {
                     this.read(newOptions.key, newOptions.readMetaData);
@@ -228,13 +228,13 @@ class FormController extends ControllerBase<IFormController> {
             // вызов метода создать повторяется бесконечно. Нельзя чтобы контрол ддосил БЛ.
             this._confirmRecordChangeHandler(() => {
                 this._createMetaDataOnUpdate = createMetaData;
+                updateData();
                 this.create(newOptions.createMetaData).then(() => {
                     if (newOptions.hasOwnProperty('isNewRecord')) {
                         this._isNewRecord = newOptions.isNewRecord;
                     }
                     this._createMetaDataOnUpdate = null;
                 });
-                updateData();
             });
         } else {
             if (!this._isConfirmShowed) {

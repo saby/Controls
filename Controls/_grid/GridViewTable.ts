@@ -21,7 +21,11 @@ const GridViewTable = GridView.extend({
 
     _getGridViewClasses(options): string {
         const classes = GridViewTable.superclass._getGridViewClasses.apply(this, arguments);
-        return `${classes} controls-Grid_table-layout controls-Grid_table-layout_fixed`;
+
+        // При горизонтальном скролле ЕДИНСТВЕННО ВЕРНОЕ значение свойства table-layout - это auto.
+        // Такая настройка позволяет колонкам тянуться, тогда как fixed жестко ограничивает их ширины.
+        const isFixedLayout = options.columnScroll !== true;
+        return `${classes} controls-Grid_table-layout controls-Grid_table-layout_${isFixedLayout ? 'fixed' : 'auto'}`;
     },
 
     _getGridViewStyles(): string {

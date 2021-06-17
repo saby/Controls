@@ -125,7 +125,10 @@ define([
             return positiveCallback();
          };
          FC._crudController = {
-            setDataSource() {}
+            _source: null,
+            setDataSource(source) {
+               this._source = source;
+            }
          };
 
          FC._beforeUpdate({
@@ -136,9 +139,18 @@ define([
          assert.equal(createCalled, false);
 
          setRecordCalled = false;
+         const newSource = {};
+         let originRead = FC.read;
+         FC.read = () => {
+
+            // is source changed source will be setted before read
+            assert.equal(FC._crudController._source, newSource);
+            return originRead();
+         };
          FC._beforeUpdate({
             record: record,
-            key: 'key'
+            key: 'key',
+            source: newSource
          });
 
          assert.equal(setRecordCalled, true);
@@ -148,6 +160,7 @@ define([
 
          setRecordCalled = false;
          readCalled = false;
+         FC.read = originRead;
 
          // Рекорд должен обновиться, если показали окно и ответили "Нет"
          FC._confirmRecordChangeHandler = (positiveCallback, negativeCallback) => {

@@ -55,6 +55,16 @@ export default class TreeGridGroupDataRow<T extends Model> extends TreeGridDataR
         return this.getOwner().isStickyHeader() && !this.isHiddenGroup();
     }
 
+    getStickyHeaderMode(): string {
+        return 'replaceable';
+    }
+
+    getStickyHeaderPosition(): {} {
+        return {
+            vertical: 'top'
+        };
+    }
+
     protected _getBaseItemClasses(style: string, theme: string): string {
         let itemClasses = 'controls-ListView__itemV';
         if (!this.isHiddenGroup()) {
