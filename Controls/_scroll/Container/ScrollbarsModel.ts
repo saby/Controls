@@ -88,6 +88,9 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
 
     updateOptions(options: IScrollbarsOptions): void {
         for (let scrollbar of Object.keys(this._models)) {
+            // Будем показывать скроллбар до тех пор, пока пользователь не воспользовался колесиком мышки, даже если
+            // прикладник задал опцию scrollbarVisible=false.
+            // Таким образом пользователи без колесика мышки смогут скроллить контент.
             this._models[scrollbar].updateOptions({
                 ...options, scrollbarVisible: options.scrollbarVisible || (!this._wheelEventHappened && !this._useNativeScrollbar)
             });
