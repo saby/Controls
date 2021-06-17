@@ -174,11 +174,15 @@ const scrollToColumnEdge = (self): void => {
     }
 };
 
-const setScrollPosition = (self: TColumnScrollViewMixin, newPosition: number, immediate?: boolean): void => {
-    const correctedScrollPosition = self._$columnScrollController.setScrollPosition(newPosition, immediate);
-    self._children.horizontalScrollBar.setScrollPosition(correctedScrollPosition);
-    if (self._$dragScrollController) {
-        self._$dragScrollController.setScrollPosition(correctedScrollPosition);
+const setScrollPosition = (self: TColumnScrollViewMixin, position: number, immediate?: boolean): void => {
+    const oldScrollPosition = self._$columnScrollController.getScrollPosition();
+    const newPosition = self._$columnScrollController.setScrollPosition(position, immediate);
+    if (oldScrollPosition !== newPosition) {
+        self._children.horizontalScrollBar.setScrollPosition(newPosition);
+        if (self._$dragScrollController) {
+            self._$dragScrollController.setScrollPosition(newPosition);
+        }
+        self._notify('columnScroll', [newPosition], { bubbling: true });
     }
 };
 //#endregion
