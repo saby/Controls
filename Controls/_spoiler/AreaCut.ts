@@ -26,6 +26,13 @@ class AreaCut extends Cut {
     protected _value: string | null;
     protected _firstEditPassed: boolean = false;
 
+    protected _beforeMount(options: IAreaCutOptions): void {
+        if (options.value) {
+            this._firstEditPassed = true;
+            this._value = options.value;
+        }
+    }
+
     protected _beforeUpdate(options: IAreaCutOptions): void {
         if (!options.readOnly && !this._firstEditPassed) {
             this._expanded = true;
