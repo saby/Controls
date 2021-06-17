@@ -98,9 +98,9 @@ class PositionParamsCalculator implements IParamsCalculator {
             );
         }
 
-        if (typeof metaMore === 'boolean') {
+        if (typeof metaMore === 'boolean' || typeof metaMore === 'number') {
             if (queryDirection !== 'bothways') {
-                store.updateMetaMoreToDirection(queryDirection, metaMore);
+                store.updateMetaMoreToDirection(queryDirection, !!metaMore);
             } else {
                 Logger.error('NavigationController: Wrong type of \"more\" value. Must be Object');
             }
