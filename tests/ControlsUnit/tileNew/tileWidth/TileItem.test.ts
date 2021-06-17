@@ -18,7 +18,7 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
             it('tileSize priority tileWidthProperty, tileWidth ', () => {
                 const contents = {width: 250};
                 let item = new TileCollectionItem({tileWidth: 200, contents, tileWidthProperty: 'width', tileSize: 's'});
-                assert.equal(item.getTileWidth(), 164);
+                assert.equal(item.getTileWidth(), 160);
 
                 item = new TileCollectionItem({tileWidth: 200, contents, tileWidthProperty: 'width', tileSize: 's'});
                 assert.equal(item.getTileWidth(undefined, 'left', 'ellipsis'), 300);
