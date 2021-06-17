@@ -100,8 +100,24 @@ export default class Area extends BaseText<IAreaOptions> {
         this._notify('controlResize', [], {bubbling: true});
     }
 
+    private _isTextSelection(): boolean {
+        return this._viewModel.selection.start !== this._viewModel.selection.end;
+    }
+
     protected _keyDownHandler(event: SyntheticEvent<KeyboardEvent>): void {
-        const additionalProcessedKeys = ['ArrowUp', 'ArrowDown', 'Up', 'Down'];
+        let additionalProcessedKeys = ['ArrowUp', 'ArrowDown', 'Up', 'Down'];
+
+        // Не будем стопать событие keyDown, если текст не выделен и:
+        // 1. Каретка стоит в конце и нажали стрелку вниз.
+        // 2. Каретка стоит в начале и нажали стрелку вверх.
+        if (!this._isTextSelection()) {
+            if (this._viewModel.selection.end === this._viewModel.displayValue.length) {
+                additionalProcessedKeys = additionalProcessedKeys.filter((key) => key !== 'ArrowDown');
+            }
+            if (this._viewModel.selection.start === 0) {
+                additionalProcessedKeys = additionalProcessedKeys.filter((key) => key !== 'ArrowUp');
+            }
+        }
         processKeydownEvent(event, additionalProcessedKeys);
         this._newLineHandler(event, true);
     }
