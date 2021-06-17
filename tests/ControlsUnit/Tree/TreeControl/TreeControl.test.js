@@ -620,6 +620,9 @@ define([
             getItemBySourceKey: () => undefined
          };
 
+         treeControl._expandController = {
+            applyStateToModel: () => {}
+         };
          treeControl._needResetExpandedItems = true;
          treeControl._afterReloadCallback(treeControl._options);
          assert.deepEqual([], treeViewModel.getExpandedItems());
