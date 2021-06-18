@@ -127,7 +127,11 @@ export interface ITreeControlOptions extends IControlOptions {
  * @cfg {TemplateFunction|String} Пользовательский шаблон подвала развернутого узла в {@link Controls/treeGrid:View дереве}.
  * @default undefined
  * @remark
- * В области видимости шаблона доступен объект itemData, внутри доступно свойство item - запись, под которой отрисовывается шаблон.
+ * В области видимости шаблона доступна переменная **item**, из которой можно получить доступ к:
+ * 
+ * * свойству **contents** — это объект, который содержит данные элемента, под которым отрисовывается шаблон.
+ * * методу **getNode()** — возвращает объект (узел), внутри которого отображается шаблон.
+ * 
  * @demo Controls-demo/treeGrid/NodeFooter/NodeFooterTemplate/Index
  * @see nodeFooterVisibilityCallback
  * @see nodeLoadCallback
