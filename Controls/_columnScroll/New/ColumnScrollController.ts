@@ -606,7 +606,7 @@ export default class ColumnScrollController {
             const calcResult = () => {
                 const contentContainerSize = viewContainers.grid.scrollWidth;
                 const scrollContainerSize = isFullGridSupport ? viewContainers.grid.offsetWidth : viewContainers.gridWrapper.offsetWidth;
-                const header = 'results' in viewContainers ? viewContainers.results : viewContainers.header;
+                const header = 'header' in viewContainers ? viewContainers.header : viewContainers.results;
                 if (!header) {
                     throw Error('Header is missing!');
                 }
