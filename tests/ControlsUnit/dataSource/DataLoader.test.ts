@@ -129,6 +129,17 @@ describe('Controls/dataSource:loadData', () => {
         deepStrictEqual(loadDataResult[0], { testField: 'testValue', historyItems: [] });
     });
 
+    it('load with custom loader (promise rejected)', async () => {
+        const loadDataConfigCustomLoader = {
+            type: 'custom',
+            loadDataMethod: () => Promise.reject({ testField: 'testValue', historyItems: [] })
+        } as ILoadDataCustomConfig;
+        const loadDataResult = await getDataLoader().load([loadDataConfigCustomLoader]);
+
+        ok(loadDataResult.length === 1);
+        deepStrictEqual(loadDataResult[0], { testField: 'testValue', historyItems: [] });
+    });
+
     it('load with filterHistoryLoader', async () => {
         const historyItem = {
             name: 'title', value: 'Sasha', textValue: 'Sasha'

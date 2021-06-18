@@ -269,7 +269,7 @@ export default class DataLoader {
 
         sourceConfigs.forEach((loadConfig) => {
             if (loadConfig.type === 'custom') {
-                loadPromise = loadConfig.loadDataMethod(loadConfig.loadDataMethodArguments);
+                loadPromise = loadConfig.loadDataMethod(loadConfig.loadDataMethodArguments).catch((error) => error);
             } else {
                 loadPromise = loadDataByConfig(loadConfig, loadTimeout);
             }
