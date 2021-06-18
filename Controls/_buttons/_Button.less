@@ -157,7 +157,7 @@
    box-shadow: var(--box-shadow_button);
 }
 
-.controls-Button_functionalButton {
+.controls-Button_functionalButton.controls-Button_bg-contrast {
    box-shadow: var(--box-shadow_button_functionalButton);
 }
 
@@ -337,6 +337,9 @@
    border-color: var(--pale_border-color);
    background-color: var(--pale_contrast_background-color);
    box-shadow: none;
+   &.controls-Button_bg-contrast {
+      box-shadow: none;
+   }
 }
 
 .controls-Button_functionalButton_style-translucent > .controls-Button_functionalButton_style-pale,
@@ -349,6 +352,9 @@
    border-color: var(--readonly_border-color_button_functionalButton);
    background-color: var(--readonly_background-color_button_functionalButton);
    box-shadow: none;
+   &.controls-Button_bg-contrast {
+      box-shadow: none;
+   }
 }
 
 .ws-is-hover {
