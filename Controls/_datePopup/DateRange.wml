@@ -1,6 +1,7 @@
-<div class="controls_datePicker_theme-{{_options.theme}} controls-PeriodDialog-DateRange">
+<div data-qa="controls-PeriodDialog-DateRange" class="controls_datePicker_theme-{{_options.theme}} controls-PeriodDialog-DateRange">
    <div class="controls-PeriodDialog-DateRange__header">
-      <div class="controls-PeriodDialog-DateRange__year">{{_monthsPosition.getFullYear()}}</div>
+      <div data-qa="controls-PeriodDialog-DateRange__year"
+           class="controls-PeriodDialog-DateRange__year">{{_monthsPosition.getFullYear()}}</div>
       <div class="controls-PeriodDialog-DateRange-header-weekdays">
          <div for="weekday in _weekdaysCaptions"
               class="{{ _prepareCssClass('controls-PeriodDialog-DateRange-header-weekdays', null,
@@ -33,7 +34,8 @@
          <ws:monthTemplate>
             <ws:partial template="Controls/calendar:MonthListMonthTemplate">
                <ws:bodyTemplate>
-                  <div class="controls-PeriodDialog-DateRangeItem__months-btn"
+                  <div data-qa="controls-PeriodDialog-DateRangeItem__months-btn"
+                       class="controls-PeriodDialog-DateRangeItem__months-btn"
                        on:click="_scrollToMonth(monthTemplate.date.getFullYear(), monthTemplate.date.getMonth())" data-date="{{ _dateToId(monthTemplate.date) }}">
                      {{ _formatMonth(monthTemplate.date.getMonth()) }}
                   </div>
