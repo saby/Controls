@@ -100,7 +100,7 @@ define([
             };
 
             for (let i = 0; i < data.length; i++) {
-               tabs._children[`Tab${i}`] = {
+               tabs._children[`TabContent${i}`] = {
                   getBoundingClientRect: () => {
                      return {
                         left: i*10,
@@ -125,7 +125,6 @@ define([
             sinon.stub(Marker.default, 'getComputedStyle').returns({ borderLeftWidth: 0, borderRightWidth: 0 });
 
             tabs._mouseEnterHandler();
-            const right = tabs._marker.getOffset();
             assert.strictEqual(tabs._marker.getOffset(), 0);
 
             tabs._beforeUpdate({
@@ -533,7 +532,7 @@ define([
          it('should update marker model', () => {
             const tabs = new tabsMod.Buttons();
 
-            sinon.stub(Marker.default, 'getComputedStyle').returns({ borderLeftWidth: 0 });
+             sinon.stub(Marker.default, 'getComputedStyle').returns({ borderLeftWidth: 0, borderRightWidth: 0 });
 
             let items = new collection.RecordSet({
                rawData: data,
@@ -541,7 +540,7 @@ define([
             });
 
             const getBoundingClientRect = () => {
-               return { width: 10, left: 20 };
+               return { width: 10, left: 20, right: 30 };
             };
 
             tabs._container = { getBoundingClientRect };
