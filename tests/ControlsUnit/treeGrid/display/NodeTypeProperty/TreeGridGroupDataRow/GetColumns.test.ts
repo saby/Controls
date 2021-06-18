@@ -51,9 +51,16 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetCol
         multiSelectVisibility = 'hidden';
     });
 
-    it('multiSelectVisibility=visible', () => {
+    it('multiSelectVisibility=visible, total columns count should be 1', () => {
         multiSelectVisibility = 'visible';
         groupRow = getGroupRow();
         assert.equal(groupRow.getColumnsCount(),1);
+    });
+
+    it('multiSelectVisibility=visible, colspan should be 1 / 3', () => {
+        multiSelectVisibility = 'visible';
+        groupRow = getGroupRow();
+        const columns = groupRow.getColumns();
+        assert.equal(columns[0].getColspanStyles(), 'grid-column: 1 / 3;');
     });
 });
