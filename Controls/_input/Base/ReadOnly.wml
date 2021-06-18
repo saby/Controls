@@ -1,9 +1,8 @@
 <ws:if data="{{placeholderVisibility === 'editable' || value}}">
-    <div name="readOnlyField" class="controls-InputBase__field_readOnly controls-{{controlName}}__field_margin-{{horizontalPadding}}">{{value}}</div>
+    <div name="readOnlyField" class="controls-InputBase__field_readOnly">{{value}}</div>
 </ws:if>
 <ws:else>
-    <div class="controls-{{controlName}}__field_margin-{{horizontalPadding}}
-                controls-{{controlName}}__field_theme_{{_options.theme}}_margin-{{horizontalPadding}}">
+    <div>
         <ws:partial template="wml!Controls/_input/Base/PlaceholderWrapper"
                     attr:class="controls-InputBase__placeholder_readOnly"
                     placeholderTemplate="{{_options.placeholderTemplate}}"
