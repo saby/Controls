@@ -1,4 +1,4 @@
-<div class="controls-Search__buttons">
+<div class="controls_search_theme-{{_options.theme}} controls-Search__buttons">
    <ws:if data="{{options.leftFieldTemplate}}">
       <ws:partial template="{{options.leftFieldTemplate}}" />
    </ws:if>
