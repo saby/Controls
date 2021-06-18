@@ -53,7 +53,8 @@ export function defaultFontColorStyle(viewMode: string): string {
 
 export function simpleCssStyleGeneration(options: IButtonControlOptions): void {
     this._buttonStyle = options.readOnly ? 'readonly' : options.buttonStyle;
-    this._contrastBackground = options.contrastBackground;
+    this._contrastBackground = options.contrastBackground === undefined ?
+        options.viewMode === 'functionalButton' : options.contrastBackground;
     this._viewMode = options.viewMode;
     this._height = options.inlineHeight ? options.inlineHeight : defaultHeight(this._viewMode);
     this._fontColorStyle = options.fontColorStyle ? options.fontColorStyle : defaultFontColorStyle(this._viewMode);
@@ -187,7 +188,9 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
     }
 
     static getDefaultOptions(): object {
-        return getDefaultOptions();
+        const defaultOptions = getDefaultOptions();
+        delete defaultOptions.contrastBackground;
+        return defaultOptions;
     }
 }
 
