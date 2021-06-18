@@ -67,6 +67,7 @@
                                           on:markedKeyChanged="_notifyHandler('markedKeyChanged')"
                                           on:beforeMarkedKeyChanged="_notifyHandler('beforeMarkedKeyChanged')"
                                           on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
+                                          on:selectedLimitChanged="_notifyHandler('selectedLimitChanged')"
                                           on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
                                           on:beforeSelectionChanged="_notifyHandler('beforeSelectionChanged')"
                                           on:keyDown="_onExplorerKeyDown()"
