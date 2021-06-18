@@ -623,6 +623,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 /**
  * @cfg {Controls/_list/interface/IList/ItemPadding.typedef} Конфигурация отступов внутри элементов списка.
  * @name Controls/_list/interface/IList#itemPadding
+ * @demo Controls-demo/gridNew/ItemPaddingNull/Index
  */
 
 /*ENG
