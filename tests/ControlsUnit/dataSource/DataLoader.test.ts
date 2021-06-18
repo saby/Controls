@@ -246,4 +246,29 @@ describe('Controls/dataSource:loadData', () => {
         });
     });
 
+    it('load with timeout', async () => {
+        const fakeTimer = useFakeTimers();
+        const source = getSource();
+        const loadTimeOut = 5000;
+        const queryLoadTimeOut = 10000;
+        source.query = () => new Promise(() => {
+            Promise.resolve().then(() => {
+                fakeTimer.tick(queryLoadTimeOut);
+            });
+        });
+        const loadDataConfig = {
+            source,
+            filter: {}
+        };
+
+        const dataLoader = getDataLoader();
+        const loadDataResult = dataLoader.loadEvery([loadDataConfig], loadTimeOut);
+        return new Promise((resolve) => {
+            Promise.all(loadDataResult).then((loadResult) => {
+                ok(loadResult[0].sourceController.getLoadError().status === HTTPStatus.GatewayTimeout);
+                resolve();
+            });
+        });
+    });
+
 });
