@@ -1,5 +1,5 @@
 <ws:if data="{{!_options.newDesign}}">
-    <div class="controls-operationsPanelV{{ _initialized ? ' controls-operationsPanelV_initialized' : ' controls-operationsPanelV_notInitialized' }}">
+    <div class="controls_operations_theme-{{_options.theme}} controls-operationsPanelV{{ _initialized ? ' controls-operationsPanelV_initialized' : ' controls-operationsPanelV_notInitialized' }}">
         <Controls.operations:MultiSelector selectedKeys="{{ _options.selectedKeys }}"
                                            excludedKeys="{{ _options.excludedKeys }}"
                                            size="{{_options.multiSelectSize}}"
