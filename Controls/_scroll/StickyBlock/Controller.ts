@@ -349,7 +349,6 @@ class StickyHeaderController {
         if (isHidden(this._container)) {
             return;
         }
-        //123
 
         let heightChanged = false;
         let operation;
