@@ -264,7 +264,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         this._notify('stickyRegister', [{
             id: this._index,
             inst: this,
-            position: StickyBlock.getStickyPosition(this._options),
+            position: this._options.position,
             mode: this._options.mode,
             shadowVisibility: this._options.shadowVisibility
         }, true], {bubbling: true});
@@ -289,7 +289,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         this._model = new Model({
             topTarget: children.observationTargetTop,
             bottomTarget: children.observationTargetBottom,
-            position: StickyBlock.getStickyPosition(this._options)
+            position: this._options.position
         });
 
         RegisterUtil(this, 'scrollStateChanged', this._onScrollStateChanged);
@@ -474,7 +474,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         if (isInitializing || !scrollState.canVerticalScroll && !scrollState.canHorizontalScroll) {
             return;
         }
-        const position = StickyBlock.getStickyPosition(this._options);
+        const position = this._options.position;
         if ((position.vertical === 'top' || position.vertical === 'bottom' ||
             position.vertical === 'topBottom') &&
             scrollState.canVerticalScroll !== this._scrollState.canVerticalScroll) {
@@ -679,7 +679,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         fixedPosition = this._model ? this._model.fixedPosition : undefined;
         // Включаю оптимизацию для всех заголовков на ios, в 5100 проблем выявлено не было
         const isIosOptimizedMode = this._isMobileIOS && task1181007458 !== true;
-        const stickyPosition = StickyBlock.getStickyPosition({position: positionFromOptions});
+        const stickyPosition = positionFromOptions;
 
         const isStickedOnTop = stickyPosition.vertical && stickyPosition.vertical?.indexOf(POSITION.top) !== -1;
         const isStickedOnBottom = stickyPosition.vertical && stickyPosition.vertical?.toLowerCase().indexOf(POSITION.bottom) !== -1;
@@ -912,37 +912,12 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
     }
 
     private _updateCanShadowVisible(options: IStickyHeaderOptions): void {
-        const stickyPosition = StickyBlock.getStickyPosition(options);
+        const stickyPosition = options.position;
         const verticalPosition = (stickyPosition?.vertical || '').toLowerCase();
         const top: boolean = verticalPosition.includes(POSITION.bottom);
         const bottom: boolean = verticalPosition.includes(POSITION.top);
         if (this._canShadowVisible.top !== top || this._canShadowVisible.bottom !== bottom) {
             this._canShadowVisible = { top, bottom };
-        }
-    }
-
-    static getStickyPosition(options: IStickyHeaderOptions): Partial<{vertical: string, horizontal: string}> {
-        switch (options.position) {
-            case 'top':
-            case 'bottom':
-                return {
-                    vertical: options.position
-                };
-            case 'topbottom':
-                return  {
-                    vertical: 'topBottom'
-                };
-            case 'left':
-            case 'right':
-                return {
-                    horizontal: options.position
-                };
-            case 'leftright':
-                return {
-                    horizontal: 'leftRight'
-                };
-            default:
-                return options.position;
         }
     }
 

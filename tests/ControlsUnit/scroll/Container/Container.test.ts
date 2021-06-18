@@ -216,8 +216,8 @@ describe('Controls/scroll:Container', () => {
             canHorizontalScroll: true,
         };
 
-        it('should update _scrollCssClass, scrollMode: "vertical"', () => {
-            const component = createComponent(Container, {scrollMode: 'vertical'});
+        it('should update _scrollCssClass, scrollOrientation: "vertical"', () => {
+            const component = createComponent(Container, {scrollOrientation: 'vertical'});
             component._children = {
                 content: {
                     getBoundingClientRect: getBoundingClientRectMock
@@ -238,8 +238,8 @@ describe('Controls/scroll:Container', () => {
             component._updateState(state);
             assert.strictEqual(component._scrollCssClass, ' controls-Scroll__content_hideNativeScrollbar controls-Scroll-ContainerBase__scroll_vertical');
         });
-        it('should update _scrollCssClass, scrollMode: "verticalHorizontal"', () => { // controls-Scroll-ContainerBase__scroll_vertical
-            const component = createComponent(Container, {scrollMode: 'verticalHorizontal'});
+        it('should update _scrollCssClass, scrollOrientation: "verticalHorizontal"', () => { // controls-Scroll-ContainerBase__scroll_vertical
+            const component = createComponent(Container, {scrollOrientation: 'verticalHorizontal'});
             component._children = {
                 content: {
                     getBoundingClientRect: getBoundingClientRectMock
@@ -263,7 +263,7 @@ describe('Controls/scroll:Container', () => {
 
         describe('shadows', () => {
             it('should update shadows models if optimized shadows are enabled and there are sticky headers', () => {
-                const component = createComponent(Container, {scrollMode: 'vertical'});
+                const component = createComponent(Container, {scrollOrientation: 'vertical'});
                 component._isOptimizeShadowEnabled = true;
                 component._children = {
                     content: {
@@ -294,7 +294,7 @@ describe('Controls/scroll:Container', () => {
 
         describe('scrollbars', () => {
             it('should initialize scrollbars only after mouseenter', () => {
-                const component = createComponent(Container, {scrollMode: 'vertical'});
+                const component = createComponent(Container, {scrollOrientation: 'vertical'});
                 component._children = {
                     content: {
                         getBoundingClientRect: getBoundingClientRectMock
@@ -323,7 +323,7 @@ describe('Controls/scroll:Container', () => {
             });
 
             it('should initialize scrollbars in _updateState  after mouseenter', () => {
-                const component = createComponent(Container, {scrollMode: 'vertical'});
+                const component = createComponent(Container, {scrollOrientation: 'vertical'});
                 component._children = {
                     content: {
                         getBoundingClientRect: getBoundingClientRectMock
@@ -359,7 +359,7 @@ describe('Controls/scroll:Container', () => {
 
         describe('paging', () => {
             it('should update _contentWrapperCssClass if paging appears', () => {
-                const component = createComponent(Container, {scrollMode: 'vertical'});
+                const component = createComponent(Container, {scrollOrientation: 'vertical'});
                 component._children = {
                     content: {
                         getBoundingClientRect: getBoundingClientRectMock
@@ -369,7 +369,7 @@ describe('Controls/scroll:Container', () => {
                 component._updateState({
                     ...state
                 });
-                component._beforeUpdate({ scrollMode: 'vertical', pagingVisible: true });
+                component._beforeUpdate({ scrollOrientation: 'vertical', pagingVisible: true });
                 assert.include(component._contentWrapperCssClass, 'controls-Scroll__content_paging');
 
                 sinon.restore();
@@ -615,8 +615,8 @@ describe('Controls/scroll:Container', () => {
 
     describe('_positionChangedHandler', () => {
 
-        it('should update scrollTop, scrollMode: "vertical"', () => {
-            const component = createComponent(Container, {scrollMode: 'vertical'});
+        it('should update scrollTop, scrollOrientation: "vertical"', () => {
+            const component = createComponent(Container, {scrollOrientation: 'vertical'});
             component._children = {
                 content: {
                     getBoundingClientRect: getBoundingClientRectMock,
