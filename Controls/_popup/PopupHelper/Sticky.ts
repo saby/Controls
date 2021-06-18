@@ -3,7 +3,7 @@ import Base from 'Controls/_popup/PopupHelper/Base';
 import StickyOpener from 'Controls/_popup/Opener/Sticky';
 import {IStickyPopupOptions, TActionOnScroll, TTarget} from 'Controls/_popup/interface/ISticky';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
-import {Logger} from 'UI/Utils';
+import {goUpByControlTree} from 'UI/Focus';
 import * as cInstance from 'Core/core-instance';
 import * as randomId from 'Core/helpers/Number/randomId';
 
@@ -64,25 +64,24 @@ export default class Sticky extends Base {
     }
 
     private _toggleActionOnScrollHandler(toggle: boolean): void {
-        const target = this._target as Control;
-        const isValidTarget = this._isTargetValid(target);
-        if (isValidTarget && this._actionOnScroll) {
-            if (toggle) {
-                RegisterUtil(target, 'scroll', this._scrollHandler.bind(this));
-            } else {
-                UnregisterUtil(target, 'scroll');
+        if (this._actionOnScroll) {
+            const targetForSubscribe = this._getTargetForSubscribe(this._target);
+            if (targetForSubscribe) {
+                if (toggle) {
+                    RegisterUtil(targetForSubscribe, 'scroll', this._scrollHandler.bind(this));
+                } else {
+                    UnregisterUtil(targetForSubscribe, 'scroll');
+                }
             }
         }
     }
 
-    private _isTargetValid(target: Control): boolean {
+    private _getTargetForSubscribe(target: TTarget): Control {
         const baseControlName = 'UI/Base:Control';
         if (cInstance.instanceOfModule(target, baseControlName)) {
-            return true;
+            return target as Control;
+        } else if (target instanceof HTMLElement) {
+            return goUpByControlTree(target)[0];
         }
-        const helperName = 'Controls/popup:StickyOpener';
-        const errorMessage = 'Для того чтобы работала опция actionOnScroll, в опцию target нужно передать контрол';
-        Logger.warn(`${helperName}: ${errorMessage}`);
-        return false;
     }
 }
