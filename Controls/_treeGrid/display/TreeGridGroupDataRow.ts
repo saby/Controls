@@ -1,5 +1,5 @@
 import TreeGridDataRow, {IOptions as ITreeGridDataRowOptions} from 'Controls/_treeGrid/display/TreeGridDataRow';
-import {IColumn, GridCell, IGridDataCellOptions, IItemTemplateParams} from 'Controls/grid';
+import {IColumn, GridCell, IGridDataCellOptions, IItemTemplateParams, IInitializeColumnsOptions} from 'Controls/grid';
 import {Model} from 'Types/entity';
 import {IGroupNode} from 'Controls/display';
 
@@ -78,6 +78,13 @@ export default class TreeGridGroupDataRow<T extends Model> extends TreeGridDataR
             ...super._getColumnFactoryParams(column, columnIndex),
             isExpanded: this.isExpanded()
         };
+    }
+
+    protected _initializeColumns(options?: IInitializeColumnsOptions): void {
+        super._initializeColumns({
+            shouldAddMultiSelectCell: false,
+            shouldAddStickyLadderCells: false
+        });
     }
 
     getLevel(): number {
