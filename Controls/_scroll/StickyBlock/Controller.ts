@@ -349,6 +349,7 @@ class StickyHeaderController {
         if (isHidden(this._container)) {
             return;
         }
+        //123
 
         let heightChanged = false;
         let operation;
@@ -365,7 +366,7 @@ class StickyHeaderController {
                 if (operation) {
                     if (this._isHeaderOfGroup(header.index)) {
                         const groupHeader = this._getGroupByHeader(header);
-                        const groupInUpdateHeaders = Object.entries(updateHeaders).find((updateHeader) => updateHeader[1].header.id === groupHeader.id);
+                        const groupInUpdateHeaders = Object.entries(updateHeaders).find(([, updateHeader], ) => updateHeader.header.id === groupHeader.id);
                         if (!groupInUpdateHeaders) {
                             updateHeaders[groupHeader.id] = {
                                 header: groupHeader,
@@ -384,8 +385,8 @@ class StickyHeaderController {
             heightChanged = this._updateElementHeight(entry.target, entry.contentRect.height) || heightChanged;
         }
 
-        Object.entries(updateHeaders).forEach((updateHeader) => {
-            this._changeHeadersStackByHeader(updateHeader[1].header, updateHeader[1].operation);
+        Object.entries(updateHeaders).forEach(([, updateHeader], ) => {
+            this._changeHeadersStackByHeader(updateHeader.header, updateHeader.operation);
         });
 
         if (heightChanged) {
