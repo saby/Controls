@@ -11,7 +11,8 @@
       </div>
       <ws:if data="{{collapsedGroups[item] && _options.groupItems[item].textValue.length}}">
          <div class="controls-FilterViewPanel__group-result-container">
-            <div class="controls-FilterViewPanel__group-result_wrapper">
+            <div class="controls-FilterViewPanel__group-result_wrapper
+                        {{_options.viewMode === 'filterPanelStack' ? 'controls-FilterViewPanel__group-result_wrapper-contrast'}}">
                <div class="controls-FilterViewPanel__group-result">
                   {{_options.groupItems[item].textValue}}
                </div>
