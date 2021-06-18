@@ -1,4 +1,4 @@
-<div class="controls-operationsPanelV__container">
+<div class="controls_operations_theme-{{_options.theme}} controls-operationsPanelV__container">
     <ws:if data="{{_options.viewMode === 'link'}}">
         <div class="controls-MultiSelector__caption
                     controls-fontsize-{{_options.fontSize}}
