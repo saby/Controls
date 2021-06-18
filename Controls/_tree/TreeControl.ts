@@ -821,6 +821,15 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         return _private.toggleExpanded(this, item);
     }
 
+    /**
+     * Возвращает признак, была ли выполнена загрузка узла по переданному идентификатору
+     * @param {Types/source:CrudEntityKey} nodeKey Идентификатор узла
+     */
+    isLoadedNode(nodeKey: CrudEntityKey): boolean {
+        const sourceController = this.getSourceController();
+        return sourceController?.hasLoaded(nodeKey);
+    }
+
     protected _onClickMoreButton(e, dispItem?): void {
         if (dispItem) {
             const nodeKey = dispItem.getContents().getKey();
