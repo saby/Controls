@@ -211,7 +211,7 @@ describe('Controls/scroll:Container ScrollbarsModel', () => {
             model.updateOptions({scrollOrientation: SCROLL_MODE.VERTICAL_HORIZONTAL, scrollbarVisible: false});
             assert.isTrue(model._models.vertical.isVisible);
             assert.isTrue(model._models.horizontal.isVisible);
-            model.wheelEventHappened = true;
+            ScrollbarsModel.wheelEventHappened = true;
             model.updateOptions({scrollOrientation: SCROLL_MODE.VERTICAL_HORIZONTAL, scrollbarVisible: false});
             assert.isFalse(model._models.vertical.isVisible);
             assert.isFalse(model._models.horizontal.isVisible);
