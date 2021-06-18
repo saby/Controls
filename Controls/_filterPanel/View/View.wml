@@ -46,6 +46,7 @@
             <ws:groupTemplate>
                <ws:partial template="wml!Controls/_filterPanel/View/groupTemplate"
                            scope="{{groupTemplate}}"
+                           viewMode="{{_options.viewMode}}"
                            resetCaption="{{_resetCaption}}"
                            groupItems="{{_viewModel.getGroupItems()}}"/>
             </ws:groupTemplate>
