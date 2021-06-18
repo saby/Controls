@@ -224,4 +224,10 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
      * @cfg {String} Устанавливает имя поля элемента, значение которого будет отображено.
      */
     displayProperty?: string;
+
+    /**
+     * @name Controls/_tabs/interface/ITabsButtons#canShrink
+     * @cfg {Boolean} Определяет могут ли вкладки сжиматься. Если вкладки не могут сжиматься, то при недостатке места они скролятся по горизонтали.
+     */
+    canShrink: boolean
 }
