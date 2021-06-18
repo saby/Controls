@@ -103,3 +103,12 @@ export default class TreeGrid extends Grid implements ITreeGrid {
         };
     }
 }
+
+/**
+ * Загружает модель из {@link /doc/platform/developmentapl/interface-development/controls/list/source/ источника данных}, объединяет изменения в текущих данных и отображает элемент.
+ * @name Controls/treeGrid:View#reloadItem
+ * @function
+ * @param {String} key Идентификатор элемента коллекции, который должен быть перезагружен из источника.
+ * @param {Object} readMeta Метаинформация, которая будет передана методу запроса/чтения.
+ * @param {String} direction Если аргумент установлен в значение "depth", то перезагрузка происходит с сохранением загруженных записей, т.е. они остаются в списке на клиенте.
+ */
