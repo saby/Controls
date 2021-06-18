@@ -1,4 +1,4 @@
-<div class="controls-BreadCrumbsPath__backButton__wrapper {{_options.backButtonClass}}">
+<div class="controls_breadcrumbs_theme-{{_options.theme}} controls-BreadCrumbsPath__backButton__wrapper {{_options.backButtonClass}}">
     <div class="controls-BreadCrumbsPath__backButton__container
     {{( _options.showArrowOutsideOfBackButton || _options.displayMode === 'multiline' ) && _options.showActionButton ? ' controls-BreadCrumbsPath__backButton__container__only__withArrow'}}">
         <Controls.heading:Back attr:class="controls-BreadCrumbsPath__backButton"
