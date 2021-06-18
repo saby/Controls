@@ -365,7 +365,7 @@ class StickyHeaderController {
                 if (operation) {
                     if (this._isHeaderOfGroup(header.index)) {
                         const groupHeader = this._getGroupByHeader(header);
-                        const groupInUpdateHeaders = Object.entries(updateHeaders).find(([, updateHeader], ) => updateHeader.header.id === groupHeader.id);
+                        const groupInUpdateHeaders = Object.entries(updateHeaders).find(([, updateHeader]) => updateHeader.header.id === groupHeader.id);
                         if (!groupInUpdateHeaders) {
                             updateHeaders[groupHeader.id] = {
                                 header: groupHeader,
@@ -384,7 +384,7 @@ class StickyHeaderController {
             heightChanged = this._updateElementHeight(entry.target, entry.contentRect.height) || heightChanged;
         }
 
-        Object.entries(updateHeaders).forEach(([, updateHeader], ) => {
+        Object.entries(updateHeaders).forEach(([, updateHeader]) => {
             this._changeHeadersStackByHeader(updateHeader.header, updateHeader.operation);
         });
 
