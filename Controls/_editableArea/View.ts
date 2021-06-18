@@ -121,7 +121,6 @@ export default class View extends Control<IViewControlOptions> {
 
    beginEdit(event: SyntheticEvent<MouseEvent>, res: boolean = false): void {
       this._cloneEditObject(this._options.editObject);
-      this._isCommitEdit = false;
       // TODO: res - это результат события со старым названием. Снести вместе со старым контролом 3.19.110
       const result = res || this._notify('beforeBeginEdit', [this._editObject], {
          bubbling: true
