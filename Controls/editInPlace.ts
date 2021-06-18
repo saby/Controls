@@ -23,6 +23,10 @@ const JS_SELECTORS = {
 };
 
 export {JS_SELECTORS};
-export {Controller} from './_editInPlace/Controller';
+export {
+    Controller,
+    IBeforeBeginEditCallbackParams,
+    IBeforeEndEditCallbackParams
+} from './_editInPlace/Controller';
 export {CONSTANTS} from './_editInPlace/Types';
 export {InputActivationHelper as InputHelper} from './_editInPlace/InputActivationHelper';
