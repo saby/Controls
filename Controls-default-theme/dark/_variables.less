@@ -116,20 +116,6 @@
    //blocks
    --separator_color_block: #535c68;
 
-   //search
-   --reset-button_icon-color_searchInput: #999;
-   --background-color_searchInput: #424851;
-   --background-color_contrast_searchInput: #424851;
-   --border-color_searchInput: #656d79;
-   --border-color_focus_searchInput: #656d79;
-   --border-color_hover_searchInput: #656d79;
-   --caret-color_empty_searchInput: #ccc;
-   --border-color_contrast_searchInput: var(--border-color_searchInput);
-
-   //operations
-   --background-color_operationsPanel: #30343b;
-   --separator_color_operationsButton: #636c74;
-
    //FilterView
    --reset-button_icon-color_filterView: #999;
    --reset-button_color_filterPanel: var(--secondary_color);
@@ -303,4 +289,22 @@
 
 .controls_editableArea_theme-@{themeName} {
    --contrast_background-color_editableArea: var(--background-color);
+}
+
+.controls_search_theme-@{themeName} {
+   //search
+   --reset-button_icon-color_searchInput: #999;
+   --background-color_searchInput: #424851;
+   --background-color_contrast_searchInput: #424851;
+   --border-color_searchInput: #656d79;
+   --border-color_focus_searchInput: #656d79;
+   --border-color_hover_searchInput: #656d79;
+   --caret-color_empty_searchInput: #ccc;
+   --border-color_contrast_searchInput: var(--border-color_searchInput);
+}
+
+.controls_operations_theme-@{themeName} {
+   //operations
+   --background-color_operationsPanel: #30343b;
+   --separator_color_operationsButton: #636c74;
 }

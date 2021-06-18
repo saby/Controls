@@ -1,4 +1,4 @@
-<div class="controls-Search__expandable-search"
+<div class="controls_search_theme-{{_options.theme}} controls-Search__expandable-search"
      attr:data-qa="controls-expandableSearch">
     <ws:if data="{{_expanded}}">
         <div class="controls-Search__expandable-container

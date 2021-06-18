@@ -1,4 +1,4 @@
-<div class="controls-operationsPanelV__multiSelector">
+<div class="controls_operations_theme-{{_options.theme}} controls-operationsPanelV__multiSelector">
     <Controls._operations.MultiSelector.Checkbox
             selectedKeys="{{ _options.selectedKeys }}"
             selectedKeysCount="{{ _options.selectedKeysCount }}"
