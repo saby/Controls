@@ -58,7 +58,6 @@ interface IResizeObserver {
  *
  * @public
  * @extends UI/Base:Control
- * @class Controls/_scroll/StickyBlock
  *
  * @mixes Control/interface:IBackgroundStyle
  *
