@@ -12,7 +12,7 @@ const TEST_HOVER_UNFREEZE_TIMEOUT: number = 101;
 function createFakeMouseEvent(clientX?: number, clientY?: number, parentNode?: object): SyntheticEvent {
     const children = new Array(50);
     const itemContainer = {
-        parentNode: parentNode || {
+        parentNode: parentNode !== undefined ? parentNode : {
             children
         }
     } as undefined as HTMLElement;
