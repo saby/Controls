@@ -206,6 +206,8 @@ export function calculateFormattedNumber(
         integer = useGrouping ? splitIntoTriads(integer) : integer;
     }
 
+    integer = correctValue(integer);
+
     return {
         integer,
         fraction,
