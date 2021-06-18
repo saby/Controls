@@ -22,6 +22,11 @@ export const enum SHADOW_VISIBILITY {
     initial = 'initial'
 }
 
+export const enum STACK_OPERATION {
+    add = 'add',
+    remove = 'remove'
+}
+
 export const enum SHADOW_VISIBILITY_BY_CONTROLLER {
     visible = 'visible',
     hidden = 'hidden',

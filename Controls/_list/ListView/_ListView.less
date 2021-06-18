@@ -1,3 +1,7 @@
+.controls-ListViewV {
+   height: 100%;
+}
+
 .controls-ListView__itemV {
    position: relative;
 }
@@ -22,25 +26,25 @@
 
 .controls-ListView__itemV_marker_padding-default_image-l,
 .controls-ListView__itemV_marker_padding-l_image-l {
-   top: calc(var(--item_padding-top_l_list) + var(--item-separator_s_thickness_list));
+   top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list));
    height: var(--marker_height_padding-l_image-l_list);
 }
 
 .controls-ListView__itemV_marker_padding-default_image-m,
 .controls-ListView__itemV_marker_padding-l_image-m {
-   top: calc(var(--item_padding-top_l_list) + var(--item-separator_s_thickness_list));
+   top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list));
    height: var(--marker_height_padding-l_image-m_list);
 }
 
 .controls-ListView__itemV_marker_padding-default_image-s,
 .controls-ListView__itemV_marker_padding-l_image-s {
-   top: calc(var(--item_padding-top_l_list) + var(--item-separator_s_thickness_list));
+   top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list));
    height: var(--marker_height_padding-l_image-s_list);
 }
 
 .controls-ListView__itemV_marker_padding-default_image-xs,
 .controls-ListView__itemV_marker_padding-l_image-xs {
-   top: calc(var(--item_padding-top_l_list) + var(--item-separator_s_thickness_list));
+   top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list));
    height: var(--marker_height_padding-l_image-xs_list);
 }
 
@@ -154,10 +158,10 @@
 .controls-ListView__footer {
    display: flex;
    align-items: baseline;
-   min-height: var(--footer_min-height_list);
+   min-height: var(--inline_height_m);
    &::before {
       content: '\200b';
-      font-size: var(--footer_font-size_list);
+      font-size: var(--font-size_xl);
    }
 }
 
@@ -194,22 +198,22 @@
 .controls-ListView__item_default-topPadding_l,
 .controls-ListView__item_master-topPadding_l,
 .controls-ListView__itemV_marker_master_topPadding-l {
-   padding-top: calc(var(--item_padding-top_l_list) + var(--item-separator_s_thickness_list));
+   padding-top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list));
    &.controls-ListView__rowSeparator_size-s {
-      padding-top: var(--item_padding-top_l_list);
+      padding-top: var(--offset_xs);
    }
    &.controls-ListView__rowSeparator_size-l {
-      padding-top: calc(var(--item_padding-top_l_list) + var(--item-separator_s_thickness_list) - var(--item-separator_l_thickness_list));
+      padding-top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list) - var(--item-separator_l_thickness_list));
    }
 }
 
 .controls-ListView__item_default-topPadding_default {
-   padding-top: calc(var(--item_padding-top_default_list) + var(--item-separator_s_thickness_list));
+   padding-top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list));
    &.controls-ListView__rowSeparator_size-s {
-      padding-top: var(--item_padding-top_default_list);
+      padding-top: var(--offset_xs);
    }
    &.controls-ListView__rowSeparator_size-l {
-      padding-top: calc(var(--item_padding-top_default_list) + var(--item-separator_s_thickness_list) - var(--item-separator_l_thickness_list));
+      padding-top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list) - var(--item-separator_l_thickness_list));
    }
 }
 
@@ -232,11 +236,11 @@
 .controls-ListView__item_default-bottomPadding_l,
 .controls-ListView__item_master-bottomPadding_l,
 .controls-ListView__itemV_marker_master_bottomPadding-l {
-   padding-bottom: var(--item_padding-bottom_l_list);
+   padding-bottom: var(--offset_xs);
 }
 
 .controls-ListView__item_default-bottomPadding_default {
-   padding-bottom: var(--item_padding-bottom_default_list);
+   padding-bottom: var(--offset_xs);
 }
 
 .controls-ListView__item_master-bottomPadding_default {
@@ -386,7 +390,7 @@
 }
 .controls-ListView__item_dragging:after {
    height: var(--item_dragging_shadow-height_list);
-   box-shadow: 0 var(--item_dragging_shadow-bottom_height_list) var(--item_dragging_shadow-spread_list) var(--item_dragging_shadow-color_list);
+   box-shadow: 0 var(--item_dragging_shadow-height_list) var(--item_dragging_shadow-spread_list) var(--item_dragging_shadow-color_list);
    width: 100%;
    position: absolute;
    bottom: 0;
@@ -578,7 +582,7 @@
 }
 
 .controls-ListView__groupContent-rightTemplate {
-   padding-left: var(--grouping_right-template_padding-left_list);
+   padding-left: var(--offset_m);
    flex-shrink: 0;
 }
 
@@ -597,19 +601,19 @@
 }
 
 .controls-ListView__empty_topSpacing_s {
-   margin-top: var(--placeholder_padding-top_s_list);
+   margin-top: var(--offset_xs);
 }
 
 .controls-ListView__empty_topSpacing_m {
-   margin-top: var(--placeholder_padding-top_m_list);
+   margin-top: var(--offset_m);
 }
 
 .controls-ListView__empty_topSpacing_l {
-   margin-top: var(--placeholder_padding-top_l_list);
+   margin-top: var(--offset_l);
 }
 
 .controls-ListView__empty_topSpacing_xl {
-   margin-top: var(--placeholder_padding-top_xl_list);
+   margin-top: var(--offset_2xl);
 }
 
 .controls-ListView__empty_topSpacing_xxl {
@@ -625,19 +629,19 @@
 }
 
 .controls-ListView__empty_bottomSpacing_s {
-   margin-bottom: var(--placeholder_padding-bottom_s_list);
+   margin-bottom: var(--offset_xs);
 }
 
 .controls-ListView__empty_bottomSpacing_m {
-   margin-bottom: var(--placeholder_padding-bottom_m_list);
+   margin-bottom: var(--offset_m);
 }
 
 .controls-ListView__empty_bottomSpacing_l {
-   margin-bottom: var(--placeholder_padding-bottom_l_list);
+   margin-bottom: var(--offset_l);
 }
 
 .controls-ListView__empty_bottomSpacing_xl {
-   margin-bottom: var(--placeholder_padding-bottom_xl_list);
+   margin-bottom: var(--offset_2xl);
 }
 
 .controls-ListView__empty_bottomSpacing_xxl {
@@ -664,13 +668,13 @@
 }
 
 .controls-ListView__item__marked_master {
-   font-size: var(--master_item_selected_font-size_list);
+   font-size: var(--font-size_l);
    color: var(--master_item_selected_text-color_list);
    font-weight: bold;
 }
 
 .controls-ListView__item__unmarked_master {
-   font-size: var(--master_item_font-size_list);
+   font-size: var(--font-size_l);
 }
 
 .controls-ListView__itemContent_master {
@@ -679,7 +683,7 @@
 
    &:before {
       content: '\200b';
-      font-size: var(--item_font-size_2xl_grid);
+      font-size: var(--font-size_2xl);
    }
 }
 

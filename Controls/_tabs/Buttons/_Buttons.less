@@ -37,7 +37,7 @@
 
 .controls-Tabs__itemClickableArea_inlineHeight-s {
    &:before {
-      line-height: var(--item_height_s_tabs);
+      line-height: var(--item_height_tabs);
       font-size: var(--unselected_item_font-size_tabs);
    }
 }
@@ -62,7 +62,7 @@
 
 .controls-Tabs__itemClickableArea_markerThickness-s {
    &:after {
-      height: var(--marker_thickness-s_tabs);
+      height: var(--marker_thickness_tabs);
    }
 }
 
@@ -86,7 +86,7 @@
 }
 
 .controls-Tabs_inlineHeight-s {
-   height: var(--item_height_s_tabs);
+   height: var(--item_height_tabs);
 }
 
 .controls-Tabs_inlineHeight-l {
@@ -95,7 +95,7 @@
 
 .controls-Tabs_border-s {
    &:after {
-      height: var(--border-thickness_s_tabs);
+      height: var(--border-thickness_tabs);
    }
 }
 
@@ -109,6 +109,16 @@
    display: inline-flex;
    width: 100%;
    height: 100%;
+}
+
+.controls-Tabs__scrollWrapper {
+   overflow-x: scroll;
+   // hide scrollbar
+   -ms-overflow-style: none; /* for Internet Explorer, Edge */
+   scrollbar-width: none; /* for Firefox */
+   &::-webkit-scrollbar {
+      display: none; /* for Chrome, Safari, and Opera */
+   }
 }
 
 .controls-Tabs__space {
@@ -128,7 +138,7 @@
 
 .controls-Tabs__space_inlineHeight-s {
    &:before {
-      line-height: var(--item_height_s_tabs);
+      line-height: var(--item_height_tabs);
       font-size: var(--unselected_item_font-size_tabs);
    }
 }
@@ -160,7 +170,7 @@
 
 .controls-Tabs__item_inlineHeight-s {
    &:before {
-      line-height: var(--item_height_s_tabs);
+      line-height: var(--item_height_tabs);
       font-size: var(--unselected_item_font-size_tabs);
    }
 }
@@ -213,7 +223,7 @@
 
    .controls-Tabs__itemClickableArea_markerThickness-s:hover {
       &:after {
-         height: var(--marker_hover_thickness-s_tabs);
+         height: var(--marker_thickness_tabs);
       }
    }
 
@@ -224,19 +234,19 @@
    }
 
    .controls-Tabs__marker_thickness-s {
-      height: var(--marker_hover_thickness-s_tabs);
+      height: var(--marker_thickness_tabs);
    }
    .controls-Tabs__marker_thickness-l {
       height: var(--marker_hover_thickness-l_tabs);
    }
    .controls-Tabs__item_state_default:hover {
-      color: var(--unselected_item_hover_text-color_tabs);
+      color: var(--unselected_item_text-color_tabs);
    }
 }
 
 .controls-Tabs__item_view_main {
-   color: var(--main_item_text-color_tabs);
-   font-size: var(--main_item_font-size_tabs);
+   color: var(--text-color);
+   font-size: var(--font-size_4xl);
    font-weight: bold;
 }
 
@@ -273,7 +283,7 @@
 }
 
 .controls-Tabs_style_unaccented__item_state_selected {
-   color: var(--unaccented_item_text-color_tabs);
+   color: var(--text-color);
 }
 
 .controls-Tabs_style_secondary__item_state_selected {
@@ -309,7 +319,7 @@
 }
 
 .controls-Tabs__marker_thickness-s {
-   height: var(--marker_hover_thickness-s_tabs);
+   height: var(--marker_thickness_tabs);
 }
 .controls-Tabs__marker_thickness-l {
    height: var(--marker_hover_thickness-l_tabs);
@@ -320,7 +330,7 @@
 }
 
 .controls-Tabs__marker_style-unaccented {
-   background: var(--unaccented_item_text-color_tabs);
+   background: var(--text-color);
 }
 
 .controls-Tabs__marker_style-secondary {
@@ -340,7 +350,7 @@
    }
    &-s {
       &:after {
-         top: calc(50%~'-'(var(--main-tab-marker_length_tabs) / 2) ~'-'var(--marker_thickness-s_tabs));
+         top: calc(50%~'-'(var(--main-tab-marker_length_tabs) / 2) ~'-'var(--marker_thickness_tabs));
       }
    }
    &-l {

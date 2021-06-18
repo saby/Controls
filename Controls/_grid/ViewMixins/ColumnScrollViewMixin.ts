@@ -23,6 +23,7 @@ const ERROR_MESSAGES = {
  * контейнера-обертки.
  *
  * Некоторые специфические кейсы:
+ *  - не задали колонки или задали как пустой массив. Не показываем скролл, не создаем и ничего не проверяем.
  *  - таблица пустая, отображается пустое представление, шапка скрыта. Не строим контроллер, но считаем размеры.
  *      Ширины всех колонок могут быть настроены в px и их сумма будет превышать ширину контейнера-обертки.
  *      В таком случае шаблон пустого списка будет растянут на ширину всех колонок и "уедет" вправо.
@@ -37,6 +38,11 @@ const ERROR_MESSAGES = {
  * @return {Boolean} Флаг, указывающий, можно ли строить горизонтальный скролл.
  */
 const canShowColumnScroll = (self: TColumnScrollViewMixin, options: IAbstractViewOptions): boolean => {
+    // Нет колонок, горизонтальный скролл невозможен
+    if (!options.columns || !options.columns.length) {
+        return false;
+    }
+
     if (options.header instanceof Array && options.header.length === 0) {
         throw Error(ERROR_MESSAGES.HEADER_IS_EMPTY);
     }

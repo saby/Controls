@@ -12,6 +12,10 @@
    position: relative;
 }
 
+.controls-BaseControl__viewContainer_empty {
+   height: 100%;
+}
+
 /*
 https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 */
@@ -114,6 +118,17 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    // TODO: KINGO
    // Локальный индикатор загрузки на весь экран должен блокировать список, перекрывая кнопки навигации и скроллбар.
    z-index: 17;
+}
+
+.controls-BaseControl__emptyTemplate {
+   height: 100%;
+   display: flex;
+   align-items: center;
+}
+
+.controls-BaseControl__emptyTemplate__contentWrapper {
+   flex-shrink: 0;
+   flex-grow: 1;
 }
 
 .controls-BaseControl__loadingIndicator__state-attachToNull {
@@ -273,12 +288,12 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 .controls-BaseControl_paging-label {
    display: flex;
    align-items: baseline;
-   color: var(--pagesCounter_text-color_list);
-   font-size: var(--pagesCounter_font-size_list);
+   color: var(--label_text-color);
+   font-size: var(--font-size_s);
 }
 
 .controls-BaseControl_paging-pageSizeChooser {
-   margin-left: var(--pagesSelector_offset-left_list);
+   margin-left: var(--offset_2xs);
 }
 
 .controls-BaseControl__abortSearch {
@@ -352,13 +367,13 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 .controls-BaseControl__cut-container_s {
-   padding: var(--cut_padding-top_s_list) 0 var(--cut_padding-bottom_s_list);
+   padding: var(--offset_3xs) 0 var(--offset_2xs);
 }
 
 .controls-BaseControl__cut-container_m {
-   padding: var(--cut_padding-top_m_list) 0 var(--cut_padding-bottom_m_list);
+   padding: var(--offset_3xs) 0 var(--offset_xs);
 }
 
 .controls-BaseControl__cut-container_l {
-   padding: var(--cut_padding-top_l_list) 0 var(--cut_padding-bottom_l_list);
+   padding: var(--offset_xs) 0 var(--offset_m);
 }

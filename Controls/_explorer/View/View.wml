@@ -1,5 +1,6 @@
 <div class="controls_list_theme-{{_options.theme}} controls-Explorer" on:keyDown="_onExternalKeyDown()">
    <Controls.list:DataContainer
+      attr:style="height: 100%;"
       scope="{{_options}}"
       root="{{_getRoot(_options.root)}}"
       on:breadCrumbsItemsChanged="_onBreadcrumbsChanged()"
@@ -22,6 +23,7 @@
                on:itemClick="_onBreadCrumbsClick()"
             >
                <Controls.tree:TreeControl scope="{{_options}}"
+                                          attr:class="controls-Explorer__view"
                                           itemPadding="{{_itemPadding}}"
                                           header="{{content.header}}"
                                           columns="{{_columns}}"
