@@ -4,6 +4,7 @@
             keyProperty="id"
             attr:class="controlsDemo__inline-flex controlsDemo__maxWidth800"
             source="{{_viewSource}}"
+            itemActions="{{_itemActions}}"
             columns="{{_columns}}">
         <ws:editingConfig editOnClick="{{true}}" backgroundStyle="primary"/>
     </Controls.grid:View>
