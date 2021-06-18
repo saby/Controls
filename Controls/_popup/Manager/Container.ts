@@ -116,7 +116,7 @@ class Container extends Control<IControlOptions> {
     }
 
     getPopupById(id: string): Popup {
-        if (this._children.hasOwnProperty('id')) {
+        if (this._children.hasOwnProperty(id)) {
             return this._children[id] as Popup;
         }
     }
