@@ -14,7 +14,7 @@ function getBoundingClientRectMock() {
 
 describe('Controls/scroll:ContainerBase', () => {
    const options: IContainerBaseOptions = {
-      scrollMode: SCROLL_MODE.VERTICAL
+      scrollOrientation: SCROLL_MODE.VERTICAL
    };
 
    const contains: Function = () => false;
@@ -163,7 +163,7 @@ describe('Controls/scroll:ContainerBase', () => {
       it('should update state and generate events if ResizeObserver is not supported ', () => {
          const control: ContainerBase = new ContainerBase(options);
          control._beforeMount(options);
-         control._beforeUpdate({scrollMode: SCROLL_MODE.VERTICAL_HORIZONTAL});
+         control._beforeUpdate({scrollOrientation: SCROLL_MODE.VERTICAL_HORIZONTAL});
          assert.strictEqual(control._scrollCssClass, 'controls-Scroll-ContainerBase__scroll_verticalHorizontal');
       });
    });

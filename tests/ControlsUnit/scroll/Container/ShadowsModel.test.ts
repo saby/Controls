@@ -11,16 +11,16 @@ describe('Controls/scroll:Container ShadowsModel', () => {
 
     describe('constructor', () => {
         [{
-            scrollMode: SCROLL_MODE.VERTICAL,
+            scrollOrientation: SCROLL_MODE.VERTICAL,
             positions: ['top', 'bottom']
         }, {
-            scrollMode: SCROLL_MODE.VERTICAL_HORIZONTAL,
+            scrollOrientation: SCROLL_MODE.VERTICAL_HORIZONTAL,
             positions: ['top', 'bottom', 'left', 'right']
         }].forEach((test) => {
-            it(`should init shadow models. ${test.scrollMode}`, () => {
+            it(`should init shadow models. ${test.scrollOrientation}`, () => {
                 const component = new ShadowsModel({
                     ...getShadowsDefaultOptions(),
-                    scrollMode: test.scrollMode
+                    scrollOrientation: test.scrollOrientation
                 });
                 assert.hasAllKeys(component._models, test.positions);
                 for (let position of test.positions) {
@@ -86,7 +86,7 @@ describe('Controls/scroll:Container ShadowsModel', () => {
             it(test.title, () => {
                 const component = new ShadowsModel({
                     ...getShadowsDefaultOptions(),
-                    scrollMode: 'vertical',
+                    scrollOrientation: 'vertical',
                     ...test.options
                 });
                 component.updateScrollState(test.args);
@@ -142,7 +142,7 @@ describe('Controls/scroll:Container ShadowsModel', () => {
             it(`should ${!test.shouldCallNextVersion ? 'not' : ''} call next version ${index}`, () => {
                 const component = new ShadowsModel({
                     ...getShadowsDefaultOptions(),
-                    scrollMode: 'vertical'
+                    scrollOrientation: 'vertical'
                 });
 
                 component._models.top._isEnabled = true;
@@ -170,7 +170,7 @@ describe('Controls/scroll:Container ShadowsModel', () => {
         it('should`t update shadow visibility if it can scroll..', () => {
             const shadows = new ShadowsModel({
                 ...getShadowsDefaultOptions(),
-                scrollMode: SCROLL_MODE.VERTICAL
+                scrollOrientation: SCROLL_MODE.VERTICAL
             });
             shadows.updateScrollState({
                 canVerticalScroll: true,
@@ -188,7 +188,7 @@ describe('Controls/scroll:Container ShadowsModel', () => {
         it('should`t update shadow visibility if it doesn\'t scroll.', () => {
             const shadows = new ShadowsModel({
                 ...getShadowsDefaultOptions(),
-                scrollMode: SCROLL_MODE.VERTICAL
+                scrollOrientation: SCROLL_MODE.VERTICAL
             });
             shadows.updateScrollState({
                 canVerticalScroll: false,
@@ -205,7 +205,7 @@ describe('Controls/scroll:Container ShadowsModel', () => {
         it('should\' change "isEnabled" if there are fixed headers.', () => {
             const shadows = new ShadowsModel({
                 ...getShadowsDefaultOptions(),
-                scrollMode: SCROLL_MODE.VERTICAL
+                scrollOrientation: SCROLL_MODE.VERTICAL
             });
             shadows.setStickyFixed(true, true);
             const version = shadows.getVersion();
@@ -223,14 +223,14 @@ describe('Controls/scroll:Container ShadowsModel', () => {
         it('should return false if there is no visible shadows.', () => {
             const shadows = new ShadowsModel({
                 ...getShadowsDefaultOptions(),
-                scrollMode: SCROLL_MODE.VERTICAL
+                scrollOrientation: SCROLL_MODE.VERTICAL
             });
             assert.isFalse(shadows.hasVisibleShadow());
         });
         it('should return true if there is visible shadows.', () => {
             const shadows = new ShadowsModel({
                 ...getShadowsDefaultOptions(),
-                scrollMode: SCROLL_MODE.VERTICAL
+                scrollOrientation: SCROLL_MODE.VERTICAL
             });
             shadows.top._isVisible = true;
             assert.isTrue(shadows.hasVisibleShadow());
@@ -249,7 +249,7 @@ describe('Controls/scroll:Container ShadowsModel', () => {
             it('should ignore visibilityByInnerComponents when shadowVisibility is not "auto"', () => {
                 const shadows = new ShadowsModel({
                     topShadowVisibility: test.topShadowVisibility,
-                    scrollMode: SCROLL_MODE.VERTICAL
+                    scrollOrientation: SCROLL_MODE.VERTICAL
                 });
                 shadows.top._visibilityByInnerComponents = test.visibilityByInnerComponents;
                 const shadowVisible = shadows.top._getShadowEnable();

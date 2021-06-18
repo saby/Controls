@@ -43,7 +43,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         super(options);
 
         this._options = options;
-        const scrollOrientationOption = ContainerBase.getScrollOrientation(options);
+        const scrollOrientationOption = options.scrollOrientation;
 
         if (receivedState) {
             this._overflowHidden = receivedState.overflowHidden;
@@ -108,7 +108,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         }
 
         // Используем clientHeight в качестве offsetHeight если нижний скролбар не отбражается.
-        const isHorizontalScrollbarHidden = ContainerBase.getScrollOrientation(this._options) === SCROLL_MODE.VERTICAL &&
+        const isHorizontalScrollbarHidden = this._options.scrollOrientation === SCROLL_MODE.VERTICAL &&
             !detection.firefox && !detection.isIE;
         const overflowHidden = ScrollHeightFixUtil.calcHeightFix({
             scrollHeight: scrollState.scrollHeight,
@@ -205,7 +205,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     }
 
     private _getOverflowClass(): string {
-        switch (ContainerBase.getScrollOrientation(this._options)) {
+        switch (this._options.scrollOrientation) {
             case SCROLL_MODE.VERTICAL:
                 return ' controls-Scroll-ContainerBase__scroll_vertical';
             case SCROLL_MODE.HORIZONTAL:
