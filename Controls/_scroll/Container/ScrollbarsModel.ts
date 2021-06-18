@@ -38,7 +38,6 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     private _newState: IScrollState;
     private _container: HTMLElement;
     private _newPlaceholderSizes;
-    private _wheelEventHappened: boolean = false;
 
     constructor(options: IScrollbarsOptions, receivedState?: ISerializeState) {
         super(options);
@@ -92,7 +91,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
             // прикладник задал опцию scrollbarVisible=false.
             // Таким образом пользователи без колесика мышки смогут скроллить контент.
             this._models[scrollbar].updateOptions({
-                ...options, scrollbarVisible: options.scrollbarVisible || (!this._wheelEventHappened && !this._useNativeScrollbar)
+                ...options, scrollbarVisible: options.scrollbarVisible || (!ScrollbarsModel.wheelEventHappened && !this._useNativeScrollbar)
             });
         }
     }
@@ -272,12 +271,6 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         return this._models.vertical;
     }
 
-    set wheelEventHappened(value: boolean) {
-        this._wheelEventHappened = value;
-    }
-
-    get wheelEventHappened(): boolean {
-        return this._wheelEventHappened;
-    }
+    static wheelEventHappened: boolean = false;
 
 }

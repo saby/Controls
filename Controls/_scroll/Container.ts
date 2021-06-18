@@ -461,8 +461,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     }
 
     protected _onWheelHandler(): void {
-        if (!this._scrollbars.wheelEventHappened) {
-            this._scrollbars.wheelEventHappened = true;
+        if (!ScrollbarsModel.wheelEventHappened) {
+            ScrollbarsModel.wheelEventHappened = true;
         }
     }
 
