@@ -151,7 +151,9 @@ export default class View extends Control<IViewControlOptions> {
                   return Deferred.success();
                }
             }
-            return this._endEdit(true);
+            return this._endEdit(true).then(() => {
+               this._isCommitEdit = false;
+            });
          });
       }
    }
@@ -177,7 +179,6 @@ export default class View extends Control<IViewControlOptions> {
       const result = this._notify('beforeEndEdit', [this._editObject, commit], {
          bubbling: true
       });
-      this._isCommitEdit = false;
 
       if (result === EDIT_CANCEL) {
          return Deferred.success();
