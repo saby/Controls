@@ -100,7 +100,7 @@ function isNeedPrepareFilter(loadDataConfig: ILoadDataConfig): boolean {
 
 function getFilterController(options: IFilterControllerOptions): FilterController {
     const controllerClass = loadSync<typeof import('Controls/filter')>('Controls/filter').ControllerClass;
-    return new controllerClass(options);
+    return new controllerClass({...options});
 }
 
 function getSourceController(options: ILoadDataConfig): NewSourceController {
