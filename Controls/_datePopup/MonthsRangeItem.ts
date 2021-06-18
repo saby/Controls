@@ -40,7 +40,7 @@ export default class MonthsRangeItem extends Control<IMonthsRangeItemOptions> {
     protected _monthViewModel: modelViewModel = modelViewModel;
     protected _SELECTION_VIEW_TYPES: string = SELECTION_VIEW_TYPES;
     protected _FULL_HALF_YEAR: string = formatDate.FULL_HALF_YEAR;
-    protected  _FULL_QUATER: string =  formatDate.FULL_QUATER;
+    protected  _FULL_QUARTER: string =  formatDate.FULL_QUARTER;
     protected _quarterHovered: boolean;
     protected _halfYearHovered: boolean;
     protected _selectionViewType: string;
