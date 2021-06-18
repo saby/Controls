@@ -3,6 +3,7 @@
                     {{ newMode !== true? 'controls-MonthViewVDOM__tableRow-old' }}">
     <ws:if data="{{newMode !== true}}">
         <div for="indexOfDay, value in week"
+             data-qa="{{ value.selected ? 'controls-MonthViewVDOM__item-selected' }}"
              on:click="_dayClickHandler(value.date, value.isCurrentMonth)"
              on:mouseenter="_mouseEnterHandler(value.date, value.isCurrentMonth)"
              on:mouseleave="_mouseLeaveHandler(value.date, value.isCurrentMonth)"

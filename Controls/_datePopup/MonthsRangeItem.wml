@@ -9,7 +9,8 @@
             for="quarterIndex as quarter in halfYear.quarters"
             class="controls-PeriodDialog-MonthsRange__quarter
                   {{_quarterHovered === halfYearIndex*2 + quarterIndex ? ' controls-PeriodDialog-MonthsRange__quarter-hovered'}}">
-            <div class="controls-PeriodDialog-MonthsRange__quarterButton
+            <div data-qa="controls-PeriodDialog-MonthsRange__quarterButton"
+                 class="controls-PeriodDialog-MonthsRange__quarterButton
                         {{_quarterSelectionEnabled ? ' controls-PeriodDialog__cursor-pointer' }}"
                  title="{{_formatDate(_months[quarter.startMonth], _FULL_QUARTER)}}"
                on:click="_onQuarterClick(_months[quarter.startMonth])"
@@ -20,6 +21,7 @@
             <div
                   for="monthIndex as month in _months.slice(quarter.startMonth, quarter.startMonth + 3)"
                   class="{{_prepareItemClass(month)}} controls-PeriodDialog-MonthsRange__item"
+                  data-qa="{{ _getItemDataQA(month) }}"
                   tabindex="0"
                   data-date="{{ _dateToDataString(month) }}"
                   on:click="_onMonthClick(month)"
@@ -28,6 +30,7 @@
                   on:mouseleave="_onMonthMouseLeave(month)">
 
                <div
+                  data-qa="controls-PeriodDialog-MonthsRange__month_title"
                   class="controls-PeriodDialog-MonthsRange__month_title
                          {{_monthsSelectionEnabled ? ' controls-PeriodDialog__cursor-pointer' }}"
                   on:click="_onMonthTitleClick(month)"
@@ -39,6 +42,7 @@
                            {{_options.monthClickable && !_options.selectionProcessing ? ' controls-PeriodDialog-MonthsRange__monthWrapper_clickable controls-PeriodDialog-MonthsRange__monthWrapper_clickable'}}"
                   on:click="_onMonthBodyClick(month)">
                   <Controls.calendar:MonthView
+                     attr:data-qa="controls-PeriodDialog-MonthsRange__month"
                      attr:class="controls-PeriodDialog-MonthsRange__month"
                      monthViewModel="{{_monthViewModel}}"
 
@@ -67,7 +71,8 @@
             </div>
          </div>
       </div>
-      <div class="controls-PeriodDialog-MonthsRange__halfYearsPanel-button
+      <div data-qa="controls-PeriodDialog-MonthsRange__halfYearsPanel-button"
+           class="controls-PeriodDialog-MonthsRange__halfYearsPanel-button
                   {{_quarterSelectionEnabled ? ' controls-PeriodDialog__cursor-pointer' }}"
            title="{{_formatDate(_months[halfYear.startMonth], _FULL_HALF_YEAR)}}"
          on:click="_onHalfYearClick(_months[halfYear.startMonth])"
