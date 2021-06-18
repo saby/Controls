@@ -83,36 +83,19 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
     if (last && last !== root) {
         breadCrumbs = treeItemToBreadcrumbs.get(last);
         if (!breadCrumbs) {
-            // TODO удалить првоерку, когда полностью перейдем на новую модель https://online.sbis.ru/opendoc.html?guid=378971cd-b6a3-44ad-a264-745bd5a7f443
-            if (display?.createBreadcrumbsItem) {
-                breadCrumbs = display?.createBreadcrumbsItem({
-                    contents: null,
-                    last,
-                    multiSelectVisibility: display?.getMultiSelectVisibility(),
-                    multiSelectAccessibilityProperty: display?.getMultiSelectAccessibilityProperty()
-                });
-            } else {
-                breadCrumbs = new BreadcrumbsItem<S>({
-                    contents: null,
-                    last,
-                    owner: display,
-                    multiSelectVisibility: display?.getMultiSelectVisibility(),
-                    multiSelectAccessibilityProperty: display?.getMultiSelectAccessibilityProperty()
-                });
-            }
-
+            breadCrumbs = display?.createBreadcrumbsItem({
+                contents: null,
+                last,
+                multiSelectVisibility: display?.getMultiSelectVisibility(),
+                multiSelectAccessibilityProperty: display?.getMultiSelectAccessibilityProperty()
+            });
             treeItemToBreadcrumbs.set(last, breadCrumbs);
         }
     } else if (last === root && breadcrumbsToData.size > 0) {
         breadCrumbs = treeItemToBreadcrumbs.get(last);
 
         if (!breadCrumbs) {
-            // TODO удалить првоерку, когда полностью перейдем на новую модель https://online.sbis.ru/opendoc.html?guid=378971cd-b6a3-44ad-a264-745bd5a7f443
-            if (display?.createSearchSeparator) {
-                breadCrumbs = display.createSearchSeparator({});
-            } else {
-                breadCrumbs = new SearchSeparator({owner: display, source: item});
-            }
+            breadCrumbs = display?.createSearchSeparator({});
             treeItemToBreadcrumbs.set(item, breadCrumbs);
         }
     }
@@ -300,7 +283,8 @@ export default class SearchStrategy<S extends Model, T extends TreeItem<S> = Tre
         items.forEach((item, index) => {
             let resultItem = item;
 
-            if (item && item['[Controls/_display/TreeItem]'] && !item['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
+            if (item && item['[Controls/_display/TreeItem]'] &&
+                        !item['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
                 if (item.isNode()) {
                     // Check if there is a special item within the breadcrumbs
                     if (
