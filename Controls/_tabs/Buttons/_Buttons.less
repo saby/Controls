@@ -111,6 +111,16 @@
    height: 100%;
 }
 
+.controls-Tabs__scrollWrapper {
+   overflow-x: scroll;
+   // hide scrollbar
+   -ms-overflow-style: none; /* for Internet Explorer, Edge */
+   scrollbar-width: none; /* for Firefox */
+   &::-webkit-scrollbar {
+      display: none; /* for Chrome, Safari, and Opera */
+   }
+}
+
 .controls-Tabs__space {
    display: inline-flex;
    //TODO: по поручению опишут как и что должно сжиматься. Пока вешаю огромный flex-shrink на дыру между элементами вкладок, чтобы главная вкладка не начинала сжиматься раньше времени
