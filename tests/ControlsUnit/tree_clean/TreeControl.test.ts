@@ -80,6 +80,7 @@ function createTreeControl(
         });
 
         sourceController.setItems(new RecordSet({
+            keyProperty: cfgTreeControl.keyProperty,
             rawData: data
         }));
 
@@ -106,5 +107,25 @@ describe('Controls/tree/TreeControl', () => {
                 assert.isNotOk(treeControl._timeoutForExpandOnDrag);
             });
         });
+    });
+
+    it('toggleExpanded should be aborted if tree was destroyed', async () => {
+        const treeControl = createTreeControl();
+
+        treeControl._notify = (eName) => eName === 'beforeItemExpand' ? new Promise((resolve) => {
+            setTimeout(resolve, 10);
+        }) : undefined;
+
+        // Разворот узла
+        const togglePromise = treeControl.toggleExpanded(1) as Promise<void>;
+
+        // Разрушение контрола
+        treeControl._beforeUnmount();
+
+        await new Promise((resolve) => {
+            togglePromise.then(() => resolve(true)).catch(() => resolve(false));
+        }).then(isToggledSuccess => {
+            assert.isFalse(isToggledSuccess);
+        })
     });
 });
