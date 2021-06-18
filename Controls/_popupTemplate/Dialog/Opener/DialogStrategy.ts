@@ -57,9 +57,11 @@ class DialogStrategy {
         return position;
     }
 
-    private _resetMargins(position: IDialogPosition): void {
+    private _resetMargins(item: IPopupItem, position: IDialogPosition): void {
         // Сбрасываю все отступы, которые заданы на css. Они уже учтены в позиции
-        position.margin = 0;
+        if (item.targetCoords) {
+            position.margin = 0;
+        }
     }
 
     /**
