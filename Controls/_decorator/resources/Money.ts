@@ -6,7 +6,7 @@ import {IFontSizeOptions} from 'Controls/_interface/IFontSize';
 import {ITooltipOptions} from 'Controls/_interface/ITooltip';
 import {INumberFormatOptions} from 'Controls/_interface/INumberFormat';
 
-import {abbreviateNumber} from 'Controls/_decorator/resources/Formatter';
+import {abbreviateNumber, correctNumberValue} from 'Controls/_decorator/resources/Formatter';
 import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
 import numberToString from 'Controls/_decorator/inputUtils/toString';
 
@@ -176,7 +176,7 @@ export function calculateFormattedNumber(value: TValue, useGrouping: boolean, ab
         integer = useGrouping ? splitIntoTriads(integer) : integer;
     }
 
-    integer = correctValue(integer);
+    integer = correctNumberValue(integer);
 
     return {
         integer,
@@ -211,10 +211,6 @@ function toString(value: TValue): string {
     }
 
     return value;
-}
-
-function correctValue(value: string): string {
-    return value.replace('-', '- ');
 }
 
 function splitValueIntoParts(value: string): string[] {
