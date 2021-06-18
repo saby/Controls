@@ -526,7 +526,7 @@ class StickyHeaderController {
             const newHeaders: [] = [];
             this._delayedHeaders = this._delayedHeaders.filter((header: TRegisterEventData) => {
                 if (!isHidden(header.inst.getHeaderContainer())) {
-                    const headerPosition = StickyBlock.getStickyPosition(header);
+                    const headerPosition = header.position;
                     this._addToHeadersStack(header.id, headerPosition);
                     newHeaders.push(header.id);
                     return false;
