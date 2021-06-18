@@ -10,6 +10,7 @@ import {
     IDirection,
     ITriggerState,
     IContainerHeights,
+    IShadowVisibility,
     IScrollRestoreParams,
     IScrollControllerResult
 } from './ScrollContainer/interfaces';
@@ -67,7 +68,7 @@ export default class ScrollController {
     private _isRendering: boolean = false;
 
     private _placeholders: IPlaceholders;
-
+    private _shadowVisibility: IShadowVisibility;
     private _resetInEnd: boolean;
 
     // Флаг, который необходимо включать, чтобы не реагировать на скроллы происходящие вследствие
@@ -173,6 +174,10 @@ export default class ScrollController {
 
     getPlaceholders(): IPlaceholders {
         return this._placeholders;
+    }
+
+    getShadowVisibility(): IShadowVisibility {
+        return this._shadowVisibility;
     }
 
     setRendering(state: boolean): void {
@@ -410,10 +415,11 @@ export default class ScrollController {
         if (!this._options.needScrollCalculation) {
             return null;
         }
-        return {
+        this._shadowVisibility = {
             up: range.start > 0,
             down: range.stop < collection.getCount()
         };
+        return this._shadowVisibility;
     }
 
     private _setCollectionIndices(
