@@ -9,10 +9,10 @@ import HoverFreeze, {IHoverFreezeOptions} from 'Controls/_list/Controllers/Hover
 const TEST_HOVER_FREEZE_TIMEOUT: number = 201;
 const TEST_HOVER_UNFREEZE_TIMEOUT: number = 101;
 
-function createFakeMouseEvent(clientX?: number, clientY?: number): SyntheticEvent {
+function createFakeMouseEvent(clientX?: number, clientY?: number, parentNode?: object): SyntheticEvent {
     const children = new Array(50);
     const itemContainer = {
-        parentNode: {
+        parentNode: parentNode !== undefined ? parentNode : {
             children
         }
     } as undefined as HTMLElement;
@@ -134,6 +134,14 @@ describe('Controls/list/HoverFreeze', () => {
             assert.isFalse(isFreezeHoverCallbackCalled);
             clock.tick(TEST_HOVER_FREEZE_TIMEOUT);
             assert.isTrue(isFreezeHoverCallbackCalled);
+        });
+
+        it('should not freeze if DOM parent of record was removed (parentNode === null)', () => {
+            startEvent = createFakeMouseEvent(0, 0, null);
+            hoverFreeze.startFreezeHoverTimeout('key_1', startEvent, 0, 0);
+            assert.equal(hoverFreeze.getCurrentItemKey(), undefined);
+            clock.tick(TEST_HOVER_FREEZE_TIMEOUT);
+            assert.equal(hoverFreeze.getCurrentItemKey(), undefined);
         });
     });
 
