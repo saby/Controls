@@ -122,16 +122,6 @@ export default class YearsRange extends Control<IYearsRangeOptions> {
         return css.join(' ');
     }
 
-    protected _getItemDataQA(itemValue: number): string {
-        let dataQA;
-        if (itemValue === this._year) {
-            dataQA = 'controls-PeriodDialog-Years__item-displayed';
-        } else {
-            dataQA = 'controls-PeriodDialog-Years__rangeBtn';
-        }
-        return dataQA;
-    }
-
     private _changeYear(delta: number): void {
         this._lastYear = this._lastYear + delta;
         this._updateModel();

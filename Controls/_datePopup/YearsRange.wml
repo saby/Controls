@@ -15,7 +15,7 @@
          <div tabindex="0" class="controls-PeriodDialog-Years__rangeBtn
          {{ _options.keyboardActive ? 'controls-PeriodDialog-Years__rangeBtn_focus' }}
          {{_prepareItemClass(year.year) }}"
-            data-qa="{{ _getItemDataQA(year.year) }} "
+            data-qa="{{ year.year === this._year ? 'controls-PeriodDialog-Years__item-displayed' : 'controls-PeriodDialog-Years__rangeBtn' }} "
             attr:title="{[Выбрать год]}"
             on:keyDown="_onItemKeyDown(year.date)"
             on:click="_onItemClick(year.date)"
