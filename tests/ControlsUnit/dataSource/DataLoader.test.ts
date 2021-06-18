@@ -97,10 +97,13 @@ describe('Controls/dataSource:loadData', () => {
                 }
             ]
         } as ILoadDataConfig;
-        const loadDataResult = await getDataLoader().load<ILoadDataResult>([loadDataConfigWithFilter]);
+        const dataLoader = getDataLoader();
+        const loadDataResult = await dataLoader.load<ILoadDataResult>([loadDataConfigWithFilter]);
+        const filterController = dataLoader.getFilterController();
 
         ok(loadDataResult.length === 1);
         ok((loadDataResult[0]).data.getCount() === 1);
+        ok(filterController !== filterController._options.filterController);
         deepStrictEqual(
             (loadDataResult[0]).filter,
             {
