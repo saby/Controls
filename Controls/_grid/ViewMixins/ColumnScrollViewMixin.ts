@@ -54,10 +54,10 @@ const canShowColumnScroll = (self: TColumnScrollViewMixin, options: IAbstractVie
 
 const getViewHeader = (self) => {
     let header;
-    if ('results' in self._children) {
-        header = self._children.results;
-    } else if ('header' in self._children) {
+    if ('header' in self._children) {
         header = self._children.header;
+    } else if ('results' in self._children) {
+        header = self._children.results;
     } else {
         throw Error(ERROR_MESSAGES.MISSING_HEADER);
     }
