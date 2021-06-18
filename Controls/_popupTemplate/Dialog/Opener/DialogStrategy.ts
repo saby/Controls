@@ -38,6 +38,8 @@ class DialogStrategy {
         const positionCoordinates = this._getPositionCoordinates(windowData, containerSizes, item);
         const position = this._validateCoordinate(positionCoordinates, maxHeight, maxWidth);
 
+        this._resetMargins(position);
+
         return {
             ...position,
             minWidth, maxWidth,
@@ -53,6 +55,11 @@ class DialogStrategy {
             position.width = maxWidth;
         }
         return position;
+    }
+
+    private _resetMargins(position: IDialogPosition): void {
+        // Сбрасываю все отступы, которые заданы на css. Они уже учтены в позиции
+        position.margin = 0;
     }
 
     /**
