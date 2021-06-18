@@ -90,6 +90,10 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
             }
         }
 
+        if (this._$isFixed && this._$owner.getEditingConfig()?.mode === 'cell') {
+            classes += ' controls-Grid__row-cell_single-cell-editable_fixed';
+        }
+
         return classes;
     }
 
