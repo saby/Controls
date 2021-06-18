@@ -11,6 +11,7 @@
          <ws:partial template="{{contentTemplate}}"
                      text="{{text}}"
                      hasMoreText="{{hasMoreText}}"
+                     iconSize="{{iconSize}}"
                      icon="{{icon}}"
                      item="{{item}}"/>
       </ws:if>
