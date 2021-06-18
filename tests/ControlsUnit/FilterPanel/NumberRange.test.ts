@@ -1,5 +1,6 @@
 import {NumberRangeEditor} from 'Controls/filterPanel';
 import {assert} from 'chai';
+import {StickyOpener} from 'Controls/popup';
 
 describe('Controls/filterPanel:NumberRangeEditor', () => {
 
@@ -12,10 +13,12 @@ describe('Controls/filterPanel:NumberRangeEditor', () => {
                 closest: () => {}
             }
         };
-        numberRangeEditor._notify = (eventName, extendedValue) => {
-            textValue = extendedValue[0].textValue;
+        numberRangeEditor._notifyPropertyValueChanged = (extendedValue) => {
+            textValue = extendedValue.textValue;
             changesNotified = true;
         };
+
+        numberRangeEditor._applyButtonSticky = new StickyOpener();
 
         it('minValue is null', () => {
             numberRangeEditor._maxValue = 5;
@@ -47,6 +50,7 @@ describe('Controls/filterPanel:NumberRangeEditor', () => {
                 closest: () => {}
             }
         };
+        numberRangeEditor._applyButtonSticky = new StickyOpener();
 
         it('minValue is less than maxValue', () => {
             numberRangeEditor._maxValue = 5;
