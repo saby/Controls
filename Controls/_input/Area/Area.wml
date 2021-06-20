@@ -2,7 +2,7 @@
                         attr:style="{{
                             '--calculated-line-min-height_inputArea: calc(' + _minLines + ' * var(--line-height_' + _options.fontSize + '_inputArea)); ' +
                             '--calculated-line-min-height_inputArea-scroll: calc(' + _minLines + ' * var(--line-height_' + _options.fontSize + '_inputArea) + (2 * var(--padding-vertical_inputArea))); ' +
-                            '--calculated-line-max-height_inputArea-scroll: calc(' + _minLines + ' * var(--line-height_' + _options.fontSize + '_inputArea) + (2 * var(--padding-vertical_inputArea)));'
+                            '--calculated-line-max-height_inputArea-scroll: calc(' + _maxLines + ' * var(--line-height_' + _options.fontSize + '_inputArea) + (2 * var(--padding-vertical_inputArea)));'
                          }}"
                         attr:class="controls-Area controls-Area_line-height_{{_options.fontSize}}"
                         inlineHeight="{{_options.inlineHeight}}"
