@@ -1,0 +1,32 @@
+<div class="controlsDemo__wrapper controlsDemo__flex">
+    <Controls.grid:View
+            source="{{_viewSource}}"
+            columns="{{_columns}}">
+        <ws:footer>
+            <ws:Array>
+                <ws:Object/>
+                <ws:Object>
+                    <ws:template>
+                        <ws:partial template="Controls/grid:FooterColumnTemplate">
+                            <i>Колонка подвала</i>
+                        </ws:partial>
+                    </ws:template>
+                </ws:Object>
+                <ws:Object>
+                    <ws:template>
+                        <ws:partial template="Controls/grid:FooterColumnTemplate">
+                            <i>Колонка подвала</i>
+                        </ws:partial>
+                    </ws:template>
+                </ws:Object>
+                <ws:Object>
+                    <ws:template>
+                        <ws:partial template="Controls/grid:FooterColumnTemplate">
+                            <i>Колонка подвала</i>
+                        </ws:partial>
+                    </ws:template>
+                </ws:Object>
+            </ws:Array>
+        </ws:footer>
+    </Controls.grid:View>
+</div>
