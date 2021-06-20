@@ -4,6 +4,7 @@
 import {Control} from 'UI/Base';
 import Container from 'Controls/_popup/Manager/Container';
 import {IPopupItem, IPopupOptions, IPopupController} from 'Controls/_popup/interface/IPopup';
+import {getModuleByName, loadModule} from 'Controls/_popup/utils/moduleHelper';
 
 interface IContentData {
     left: number;
@@ -25,6 +26,7 @@ export default {
     _popupHeaderTheme: undefined,
     _theme: undefined,
     _popupSettingsController: undefined,
+    _popupPageConfigLoaderModule: undefined,
     setManager(manager: Control): void {
         this._manager = manager;
     },
@@ -110,7 +112,7 @@ export default {
         return this._callManager('show', arguments);
     },
 
-    loadData(dataLoaders): Promise<unknown> {
+    loadData(): Promise<unknown> {
         return this._callManager('loadData', arguments);
     },
 
@@ -148,5 +150,46 @@ export default {
 
     getRightTemplate(): string {
         return this._rightTemplate;
+    },
+
+    setPageTemplate(template: string): void {
+        this._pageTemplate = template;
+    },
+
+    getPageTemplate(): void {
+        return this._pageTemplate;
+    },
+
+    _getModuleByModuleName(moduleName: string, callback: Function): void {
+        const module = getModuleByName(moduleName);
+        if (module) {
+            callback(module);
+            return;
+        }
+        loadModule(moduleName).then((loadedModule) => {
+            callback(loadedModule);
+        });
+    },
+
+    getPageConfigLoaderModule(): string | void {
+        return this._popupPageConfigLoaderModule;
+    },
+
+    setPageConfigLoaderModule(module: string): void {
+        this._popupPageConfigLoaderModule = module;
+    },
+
+    getPageConfig(pageId: string): Promise<unknown> {
+        const configLoaderModule = this.getPageConfigLoaderModule();
+        if (!configLoaderModule) {
+            const message = 'При попытке открыть страницу в окне произошла ошибка.' +
+                'На приложении не задан модуль для получения конфигурации страницы.';
+            throw new Error(message);
+        }
+        return new Promise((resolve, reject) => {
+            this._getModuleByModuleName(configLoaderModule, (DataLoader) => {
+                DataLoader.getConfig('page/' + pageId).then(resolve, reject);
+            });
+        });
     }
 };
