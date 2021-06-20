@@ -184,9 +184,7 @@ class Base extends Control<IMasterDetail, string> {
         this._canResizing = this._isCanResizing(options);
         this._masterFixed = this._isMasterFixed(options);
         this._prepareLimitSizes(options);
-        if (masterDetailOptions) {
-            this._newDesign = masterDetailOptions.newDesign;
-        }
+        this._newDesign = masterDetailOptions?.newDesign || options.newDesing;
         if (receivedState) {
             this._currentWidth = receivedState;
         } else if (options.propStorageId) {

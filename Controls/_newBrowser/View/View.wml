@@ -111,6 +111,7 @@
         masterWidth="{{_options.master ? _options.master.width}}"
         masterMinWidth="{{_options.master ? _options.master.minWidth}}"
         masterMaxWidth="{{_options.master ? _options.master.maxWidth}}"
+        newDesign="{{_options.newDesign}}"
 >
 
     <ws:master>
