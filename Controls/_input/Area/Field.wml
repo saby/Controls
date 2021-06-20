@@ -1,6 +1,15 @@
 <div name="fieldWrapper"
      class="controls-Area__fieldWrapper controls-Area__field_margin-{{horizontalPadding}}">
    <div name="fakeField"
+        style="
+           {{
+               'min-height: ' + (
+                  isIE ?
+                     (lineHeightForIE * minLines) + 'px;' :
+                     'var(--calculated-line-min-height_inputArea);'
+               )
+           }}
+        "
         class="controls-Area__fakeField
                controls-Area__minHeight_countLines_{{minLines}}_size_{{heightLine}}">
       <ws:if data="{{value}}">{{value}}{{emptySymbol}}</ws:if>
