@@ -3,6 +3,7 @@
             keyProperty="key"
             source="{{_viewSource}}"
             colspanCallback="{{ _colspanCallback }}"
+            on:mousedown="_onMouseDown()"
             on:beforeBeginEdit="_onBeforeBeginEdit()">
         <ws:editingConfig editOnClick="{{true}}" sequentialEditing="{{true}}" autoAdd="{{true}}" toolbarVisibility="{{true}}"/>
         <ws:columns>
@@ -24,4 +25,14 @@
             </ws:Array>
         </ws:columns>
     </Controls.grid:View>
+
+    <div if="{{ _mouseDownLog.length }}">
+        <a href="#" class="controls-text-link controlsDemo-editingRow-grid-clearLog"
+           on:click="_clearLog()">Очистить</a>
+    </div>
+    <div>
+        <ws:for data="index, line in _mouseDownLog">
+            <div attr:key="{{ index }}"> {{ line }}</div>
+        </ws:for>
+    </div>
 </div>

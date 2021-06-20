@@ -4,24 +4,21 @@ import {Memory} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import * as cellTemplate from 'wml!Controls-demo/gridNew/EditInPlace/EditingRow/cellTemplate';
-import { Ports } from 'Controls-demo/gridNew/DemoHelpers/Data/Ports';
+import {Ports} from 'Controls-demo/gridNew/DemoHelpers/Data/Ports';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: Memory;
-    protected _documentSignMemory: Memory;
+    private _viewSource: Memory;
+    private _documentSignMemory: Memory;
+    private selectedKey: number = 1;
+    private _fakeId: number = 100;
+    private _cellTemplate: TemplateFunction;
+    private _mouseDownLog: string[] = [];
     private data: object[] = Ports.getData().map((cur) => this.getData(cur));
-    protected selectedKey: number = 1;
-    protected _fakeId: number = 100;
 
     private getData(data: object): object {
         for (const key in data) {
-            if (data[key]) {
-                data[key] = '' + data[key];
-            } else {
-                data[key] = '';
-            }
-
+            data[key] = `${data[key]}` || '';
         }
         return data;
     }
@@ -40,7 +37,7 @@ export default class extends Control {
         });
     }
 
-    protected _colspanCallback(item, column, columnIndex, isEditing) {
+    protected _colspanCallback(item, column, columnIndex, isEditing): 'end' {
         if (isEditing && columnIndex === 0) {
             return 'end';
         }
@@ -75,6 +72,14 @@ export default class extends Control {
 
     private onChange2 = (_: SyntheticEvent, key: number): void => {
         this.selectedKey = key;
+    }
+
+    _onMouseDown() {
+        this._mouseDownLog.push('on:mousedown');
+    }
+
+    _clearLog = () => {
+        this._mouseDownLog = [];
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
