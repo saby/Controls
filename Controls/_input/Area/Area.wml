@@ -23,30 +23,31 @@
                         on:tagClick="_notifyHandler('tagClick')"
                         on:tagHover="_notifyHandler('tagHover')">
    <ws:content>
-      <Controls.scroll:Container name="scroll"
-                                 attr:style="
-                                     {{
-                                          'min-height: ' + (
-                                             _isIE ?
-                                                (_lineHeightForIE[_options.fontSize] * _minLines + 4)  + 'px; ' :
-                                                'var(--calculated-line-min-height_inputArea-scroll); '
-                                          )
-                                     }}
-                                     {{
-                                          'max-height: ' + (
-                                             _maxLines ?
-                                             (
-                                                _isIE ?
-                                                 (_lineHeightForIE[_options.fontSize] * _maxLines + 4) + 'px; ' :
-                                                 'var(--calculated-line-max-height_inputArea-scroll);'
-                                             )
-                                          )
-                                     }}
-                                 "
-                                 attr:class="controls-Area__scroll controls-InputBase__field
-                                          controls-Area__minHeight_countLines_{{_minLines}}_size_{{_options.fontSize}}_indented
-                                          {{_maxLines ? 'controls-Area__maxHeight_countLines_' + _maxLines + '_size_' + _options.fontSize + '_indented'}}"
-                                  shadowMode="{{_options.shadowMode}}">
+      <Controls.scroll:Container
+         name="scroll"
+         attr:style="
+             {{
+                  'min-height: ' + (
+                     _isIE ?
+                        (_lineHeightForIE[_options.fontSize] * _minLines + 4)  + 'px; ' :
+                        'var(--calculated-line-min-height_inputArea-scroll); '
+                  )
+             }}
+             {{
+                  _maxLines ?
+                  (
+                     'max-height: ' + (
+                        _isIE ?
+                         (_lineHeightForIE[_options.fontSize] * _maxLines + 4) + 'px; ' :
+                         'var(--calculated-line-max-height_inputArea-scroll);'
+                     )
+                  )
+             }}
+         "
+         attr:class="controls-Area__scroll controls-InputBase__field
+            controls-Area__minHeight_countLines_{{_minLines}}_size_{{_options.fontSize}}_indented
+            {{_maxLines ? 'controls-Area__maxHeight_countLines_' + _maxLines + '_size_' + _options.fontSize + '_indented'}}"
+         shadowMode="{{_options.shadowMode}}">
          <ws:if data="{{_options.readOnly}}">
             <ws:partial options="{{_options}}"
                         scope="{{_readOnlyField.scope}}"
