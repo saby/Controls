@@ -93,7 +93,6 @@ export function getDefaultOptions(): object {
         iconStyle: 'secondary',
         iconSize: 'm',
         captionPosition: 'right',
-        contrastBackground: false,
         fontSize: 'm',
         buttonStyle: 'secondary'
     };
@@ -192,9 +191,7 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
     }
 
     static getDefaultOptions(): object {
-        const defaultOptions = getDefaultOptions();
-        delete defaultOptions.contrastBackground;
-        return defaultOptions;
+        return getDefaultOptions();
     }
 }
 
