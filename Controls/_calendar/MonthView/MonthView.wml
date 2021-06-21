@@ -1,9 +1,11 @@
-<div attr:class="controls-MonthViewVDOM
+<div data-qa="controls-MonthViewVDOM"
+     attr:class="controls-MonthViewVDOM
                  controls_calendar_theme-{{_options.theme}}
                   {{_options.newMode !== true? 'controls-MonthViewVDOM-old'}}
          {{rangeselect ? ' controls-RangeSelectable__rangeselect'}}" data-date="{{_dateToDataString(_month)}}">
    <ws:if data="{{_options.showCaption}}">
-      <div attr:class="controls-MonthViewVDOM__caption">
+      <div data-qa="controls-MonthViewVDOM__caption"
+           attr:class="controls-MonthViewVDOM__caption">
          <ws:partial
                  template="{{_options.captionTemplate}}"
                  caption="{{_caption}}"

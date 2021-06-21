@@ -98,7 +98,6 @@ export default class TreeGrid extends Grid implements ITreeGrid {
 
     static getOptionTypes(): object {
         return {
-            keyProperty: descriptor(String).required(),
             parentProperty: descriptor(String).required()
         };
     }

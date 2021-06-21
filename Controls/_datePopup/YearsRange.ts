@@ -114,9 +114,7 @@ export default class YearsRange extends Control<IYearsRangeOptions> {
 
         if (itemValue === this._year) {
             css.push('controls-PeriodDialog-Years__item-displayed');
-            css.push('controls-PeriodDialog-Years__item-displayed');
         } else if (itemValue === (new Date()).getFullYear()) {
-            css.push('controls-PeriodDialog-Years__item-current');
             css.push('controls-PeriodDialog-Years__item-current');
         } else {
             css.push('controls-PeriodDialog-Years__rangeBtn-regular');

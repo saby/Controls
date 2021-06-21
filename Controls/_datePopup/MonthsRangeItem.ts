@@ -203,9 +203,7 @@ export default class MonthsRangeItem extends Control<IMonthsRangeItemOptions> {
             this._options.selectionBaseValue, this._options.selectionHoveredValue) &&
             this._selectionViewType === SELECTION_VIEW_TYPES.months) {
             css.push('controls-PeriodDialog-MonthsRange__item-selected');
-            css.push('controls-PeriodDialog-MonthsRange__item-selected');
         } else {
-            css.push('controls-PeriodDialog-MonthsRange__item-unselected');
             css.push('controls-PeriodDialog-MonthsRange__item-unselected');
         }
 
@@ -232,6 +230,20 @@ export default class MonthsRangeItem extends Control<IMonthsRangeItemOptions> {
         }
 
         return css.join(' ');
+    }
+
+    protected _getItemDataQA(itemValue: Date): string {
+        let dataQA;
+        const startValue = this._options.startValue;
+        const endValue = this._options.endValue;
+        if (rangeSelectionUtils.isSelected(itemValue, startValue, endValue, this._options.selectionProcessing,
+            this._options.selectionBaseValue, this._options.selectionHoveredValue) &&
+            this._selectionViewType === SELECTION_VIEW_TYPES.months) {
+            dataQA = 'controls-PeriodDialog-MonthsRange__item-selected';
+        } else {
+            dataQA = 'controls-PeriodDialog-MonthsRange__item';
+        }
+        return dataQA;
     }
 
     private _calculateRangeSelectedCallback(startValue: Date, endValue: Date): Date[] {

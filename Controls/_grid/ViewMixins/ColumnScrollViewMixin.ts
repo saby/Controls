@@ -48,12 +48,13 @@ const canShowColumnScroll = (self: TColumnScrollViewMixin, options: IAbstractVie
     }
 
     // TODO: Все пограничные случаи следует описать в аннотации метода.
+    const model = self.getListModel();
     return Boolean(
-        !self._listModel.destroyed && (
+        !model.destroyed && (
             options.needShowEmptyTemplate ? (
                 options.headerVisibility === 'visible' ||
                 options.headerInEmptyListVisible === true
-            ) : !!self._listModel.getCount()
+            ) : !!model.getCount()
         )
     );
 };
@@ -70,9 +71,12 @@ const getViewHeader = (self) => {
     return header;
 };
 
+const hasCheckboxColumn = (options: IAbstractViewOptions): boolean => {
+    return options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
+};
+
 const isSizeAffectsOptionsChanged = (newOptions: IAbstractViewOptions, oldOptions: IAbstractViewOptions): boolean => {
     const changedOptions: Record<string, unknown> = _Options.getChangedOptions(newOptions, oldOptions);
-    const hasCheckboxColumn = (o) => o.multiSelectVisibility !== 'visible' && o.multiSelectPosition !== 'custom';
 
     return Boolean(
         changedOptions.hasOwnProperty('columns') ||
@@ -338,7 +342,7 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
         }
 
         if (this._options.stickyColumnsCount !== newOptions.stickyColumnsCount) {
-            this._listModel.setStickyColumnsCount(newOptions.stickyColumnsCount);
+            this.getListModel().setStickyColumnsCount(newOptions.stickyColumnsCount);
         }
     },
 
@@ -485,13 +489,16 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
 
     _getColumnScrollThumbStyles(options: IAbstractViewOptions): string {
         // TODO: Посмотреть на экшены, если не custom то добавить.
-        const hasMultiSelectColumn = options.multiSelectVisibility !== 'hidden'
-                                  && options.multiSelectPosition !== 'custom';
+        const hasMultiSelectColumn = hasCheckboxColumn(options);
         const hasItemActionsCell = this._columnScrollHasItemActionsCell(options);
         const stickyColumnsCount = this._getStickyLadderCellsCount(options);
 
+        // Пока обновление горизонтального скролла замороженно, актуальные колонки, по которым рисуется таблица
+        // находятся в модели, а не в опциях.
+        const columnsLength = (this._isColumnScrollFrozen() ? this.getListModel().getColumnsConfig() : options.columns).length;
+
         const startColumn = +hasMultiSelectColumn + stickyColumnsCount + (options.stickyColumnsCount || 1) + 1;
-        const endColumn = +hasMultiSelectColumn + +hasItemActionsCell + stickyColumnsCount + options.columns.length + 1;
+        const endColumn = +hasMultiSelectColumn + +hasItemActionsCell + stickyColumnsCount + columnsLength + 1;
 
         return `grid-column: ${startColumn} / ${endColumn};`;
     },

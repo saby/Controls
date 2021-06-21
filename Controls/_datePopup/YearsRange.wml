@@ -4,6 +4,7 @@
             on:keyDown="_prevNextBtnKeyDownHandler(-1)"
             on:click="_onPrevNextButtonClick(-1)"
             title="{[Предыдущий год]}"
+            data-qa="controls-PeriodDialog-Years__prevNextBtn__left"
             class="controls-PeriodDialog-Years__prevNextBtn_icon
             controls-PeriodDialog__cursor-pointer icon-MarkLeftBold controls-icon controls-icon_size-m
             {{ _options.keyboardActive ? 'controls-PeriodDialog-Years__prevNextBtn_icon_focus' }}">
@@ -14,6 +15,7 @@
          <div tabindex="0" class="controls-PeriodDialog-Years__rangeBtn
          {{ _options.keyboardActive ? 'controls-PeriodDialog-Years__rangeBtn_focus' }}
          {{_prepareItemClass(year.year) }}"
+            data-qa="{{ year.year === this._year ? 'controls-PeriodDialog-Years__item-displayed' : 'controls-PeriodDialog-Years__rangeBtn' }} "
             attr:title="{[Выбрать год]}"
             on:keyDown="_onItemKeyDown(year.date)"
             on:click="_onItemClick(year.date)"
@@ -28,6 +30,7 @@
                on:keyDown="_prevNextBtnKeyDownHandler(1)"
                on:click="_onPrevNextButtonClick(1)"
                title="{[Следующий год]}"
+               data-qa="controls-PeriodDialog-Years__prevNextBtn__right"
                class="controls-PeriodDialog-Years__prevNextBtn_icon
                controls-PeriodDialog__cursor-pointer icon-MarkRightBold controls-icon controls-icon_size-m
                {{ _options.keyboardActive ? 'controls-PeriodDialog-Years__prevNextBtn_icon_focus' }}">

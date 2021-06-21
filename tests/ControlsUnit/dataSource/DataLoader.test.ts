@@ -129,6 +129,17 @@ describe('Controls/dataSource:loadData', () => {
         deepStrictEqual(loadDataResult[0], { testField: 'testValue', historyItems: [] });
     });
 
+    it('load with custom loader (promise rejected)', async () => {
+        const loadDataConfigCustomLoader = {
+            type: 'custom',
+            loadDataMethod: () => Promise.reject({ testField: 'testValue', historyItems: [] })
+        } as ILoadDataCustomConfig;
+        const loadDataResult = await getDataLoader().load([loadDataConfigCustomLoader]);
+
+        ok(loadDataResult.length === 1);
+        deepStrictEqual(loadDataResult[0], { testField: 'testValue', historyItems: [] });
+    });
+
     it('load with filterHistoryLoader', async () => {
         const historyItem = {
             name: 'title', value: 'Sasha', textValue: 'Sasha'
@@ -243,6 +254,31 @@ describe('Controls/dataSource:loadData', () => {
         const loadDataResult = dataLoader.load([loadDataConfig]);
         return new Promise((resolve) => {
             loadDataResult.then((loadResult ) => {
+                ok(loadResult[0].sourceController.getLoadError().status === HTTPStatus.GatewayTimeout);
+                resolve();
+            });
+        });
+    });
+
+    it('load with timeout', async () => {
+        const fakeTimer = useFakeTimers();
+        const source = getSource();
+        const loadTimeOut = 5000;
+        const queryLoadTimeOut = 10000;
+        source.query = () => new Promise(() => {
+            Promise.resolve().then(() => {
+                fakeTimer.tick(queryLoadTimeOut);
+            });
+        });
+        const loadDataConfig = {
+            source,
+            filter: {}
+        };
+
+        const dataLoader = getDataLoader();
+        const loadDataResult = dataLoader.loadEvery([loadDataConfig], loadTimeOut);
+        return new Promise((resolve) => {
+            Promise.all(loadDataResult).then((loadResult) => {
                 ok(loadResult[0].sourceController.getLoadError().status === HTTPStatus.GatewayTimeout);
                 resolve();
             });
