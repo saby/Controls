@@ -304,6 +304,21 @@ describe('Controls/dataSource:SourceController', () => {
             ok(controller.getItems().getCount() === 2);
         });
 
+        it('load with multiNavigation',  async () => {
+            const pageSize = 3;
+            const allItemsCount = 4;
+            const navigation = getPagingNavigation(false, pageSize);
+            navigation.sourceConfig.multiNavigation = true;
+            const controller = getController({...getControllerOptions(), navigation});
+            const loadedItems = await controller.reload();
+            ok((loadedItems as RecordSet).getCount() === pageSize);
+
+            await controller.load('down');
+            ok(controller.getItems().getCount() === allItemsCount);
+            await controller.reload();
+            ok(controller.getItems().getCount() === allItemsCount);
+        });
+
         it('load with multiNavigation and without extendedItems',  async () => {
             const pageSize = 3;
             const navigation = getPagingNavigation(false, pageSize);
