@@ -5466,7 +5466,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // уведомлений о запуске редактирования происходить не должно, а дождаться построение
         // редактора невозможно(построение списка не будет завершено до выполнения данного промиса).
         return new Promise((resolve) => {
-            // Сразу прекращаем работу ховера, если она началась
+            // Принудительно прекращаем заморозку ховера
             if (_private.hasHoverFreezeController(this)) {
                 this._hoverFreezeController.unfreezeHover();
             }
