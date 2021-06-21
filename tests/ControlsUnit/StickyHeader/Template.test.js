@@ -170,7 +170,7 @@ define(
             });
 
             it('Move the bottom', function() {
-               inst._options.position = 'bottom';
+               inst._options.position = { vertical: 'bottom' };
                inst._options.theme = 'default';
                inst._options.content = function() {
                   return ''
@@ -257,7 +257,7 @@ define(
                inst._isStickySupport = true;
                inst._model.fixedPosition = 'bottom';
                inst._options.fixedZIndex = 2;
-               inst._options.position = 'bottom';
+               inst._options.position = { vertical: 'bottom' };
                inst._options.content = TemplateUtil.content;
                inst._options.theme = 'default';
 

@@ -339,7 +339,7 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         fastUpdate.measure(() => {
             for (const id of this._delayedHeaders) {
                 data = this._headers[id];
-                const stickyPosition = StickyBlock.getStickyPosition(data.inst._options);
+                const stickyPosition = data.inst._options.position;
                 for (const position of [POSITION.top, POSITION.bottom]) {
                     if (stickyPosition.vertical.indexOf(position) !== -1) {
                         offset = data.inst.getOffset(this._container, position);

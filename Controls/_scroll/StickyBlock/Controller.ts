@@ -399,7 +399,7 @@ class StickyHeaderController {
             // Если заголовок опять в будущем отобразится нужно будет пересчитать его offset.
             this._headers[header.id].offset = {};
         } else if (operation === STACK_OPERATION.add) {
-            const headerPosition = StickyBlock.getStickyPosition(this._headers[header.id]);
+            const headerPosition = this._headers[header.id].position;
             this._addToHeadersStack(header.id, headerPosition);
         }
     }
@@ -526,7 +526,7 @@ class StickyHeaderController {
             const newHeaders: [] = [];
             this._delayedHeaders = this._delayedHeaders.filter((header: TRegisterEventData) => {
                 if (!isHidden(header.inst.getHeaderContainer())) {
-                    const headerPosition = StickyBlock.getStickyPosition(header);
+                    const headerPosition = header.position;
                     this._addToHeadersStack(header.id, headerPosition);
                     newHeaders.push(header.id);
                     return false;

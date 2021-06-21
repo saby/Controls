@@ -135,7 +135,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const hasBottomHeaders = (): boolean => {
             const headers = Object.values(this._stickyHeaderController._headers);
             for (let i = 0; i < headers.length; i++) {
-                const position = StickyBlock.getStickyPosition({position: headers[i].position});
+                const position = headers[i].position;
                 if (position?.vertical === POSITION.BOTTOM || position?.horizontal === POSITION.RIGHT) {
                     return true;
                 }
@@ -164,7 +164,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             if (!this._paging) {
                 this._paging = new PagingModel();
             }
-            this._paging.isVisible = this._scrollModel.canVerticalScroll && ContainerBase.getScrollOrientation(this._options) !== 'none';
+            this._paging.isVisible = this._scrollModel.canVerticalScroll && this._options.scrollOrientation !== 'none';
             if (this._options.pagingMode !== options.pagingMode) {
                 this._paging.pagingMode = options.pagingMode;
             }
