@@ -1,11 +1,11 @@
 import IAction from './interface/IAction';
 import IActionOptions from './interface/IActionOptions';
-import {RemoveController} from 'Controls/list';
-import {Confirmation, IConfirmationOptions} from 'Controls/popup';
+import {IRemoveProvider} from 'Controls/_listActions/Remove/Provider';
+import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
 
 interface IOptions extends IActionOptions {
-    strategy: 'silent' | 'confirmation';
-    confirmationOptions: IConfirmationOptions;
+    providerName?: string;
+    providerOptions?: any;
 }
 
 /**
@@ -16,47 +16,25 @@ interface IOptions extends IActionOptions {
  * @author Крайнов Д.О.
  */
 export default class Remove implements IAction {
-    private _removeController: RemoveController;
     private _options: IOptions;
 
     constructor(options: IOptions) {
-        this._options = {...Remove.defaultOptions, ...options};
-        this._removeController = new RemoveController({
-            source: this._options.source
-        });
+        this._options = options;
     }
 
     execute(): Promise<string | void> {
-        const remove = () => {
-            return this._removeController.remove(
-                this._options.selection,
-                this._options.filter
-            ).then(() => 'fullReload');
-        };
-
-        return new Promise((resolve) => {
-            if (this._options.strategy === 'silent') {
-                resolve(remove());
-            } else {
-                const message = this._options.selection.selected.length === 1 ?
-                    'Вы действительно хотите удалить эту запись?' :
-                    'Вы действительно хотите удалить эти записи?';
-
-                return Confirmation.openPopup({
-                    message,
-                    ...this._options.confirmationOptions
-                }, null).then((result: boolean) => {
-                    if (result) {
-                        resolve(remove());
-                    } else {
-                        resolve();
-                    }
-                });
-            }
+        let providerName;
+        if (this._options.providerName) {
+            providerName = this._options.providerName;
+        }
+        return this._getProvider(providerName).then((provider) => {
+            return provider.execute({...this._options, ...this._options.providerOptions});
         });
     }
 
-    static defaultOptions: Partial<IOptions> = {
-        strategy: 'confirmation'
-    };
+    private _getProvider(providerName: string = 'Controls/listActions:RemoveProviderWithConfirm'): Promise<IRemoveProvider> {
+        return ModulesLoader.loadAsync(providerName).then((provider) => {
+            return new provider();
+        });
+    }
 }

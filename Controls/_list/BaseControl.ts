@@ -106,7 +106,7 @@ import {ISiblingStrategy} from './interface/ISiblingStrategy';
 import {FlatSiblingStrategy} from './Strategies/FlatSiblingStrategy';
 import {IMoveControllerOptions, MoveController} from './Controllers/MoveController';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
-import {RemoveController} from './Controllers/RemoveController';
+import {Remove as RemoveAction} from 'Controls/listActions';
 import {isLeftMouseButton} from 'Controls/popup';
 import {IMovableList} from './interface/IMovableList';
 import {saveConfig} from 'Controls/Application/SettingsController';
@@ -3181,11 +3181,17 @@ const _private = {
         return self._moveController;
     },
 
-    getRemoveController(self): RemoveController {
-        if (!self._removeController) {
-            self._removeController = new RemoveController({source: self._options.source});
-        }
-        return self._removeController;
+    getRemoveAction(self, selection: ISelectionObject, providerName?: string): RemoveAction {
+        return new RemoveAction({
+            source: self._options.source,
+            filter: self._options.filter,
+            selection,
+            providerName
+        });
+    },
+
+    removeItems(self, selection: ISelectionObject, providerName?: string): RemoveAction {
+        return this.getRemoveAction(self, selection, providerName).execute();
     },
 
     registerFormOperation(self): void {
@@ -3513,7 +3519,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _moveController = null;
 
     // Контроллер для удаления элементов из источника
-    _removeController = null;
+    _removeAction = null;
     _removedItems = [];
     _keyProperty = null;
 
@@ -4179,10 +4185,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (this._pagingVisible) {
                 this._pagingVisible = false;
             }
-        }
-
-        if (this._removeController) {
-            this._removeController.updateOptions({source: newOptions.source});
         }
 
         if (this._moveController) {
@@ -6216,12 +6218,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     // region remove
 
-    removeItems(selection: ISelectionObject): Promise<void> {
-        return _private.getRemoveController(this).remove(selection, this._options.filter);
+    removeItems(selection: ISelectionObject): Promise<string | void> {
+        return _private.removeItems(this, selection, 'Controls/listActions:RemoveProvider')
     }
 
-    removeItemsWithConfirmation(selection: ISelectionObject): Promise<void> {
-        return _private.getRemoveController(this).removeWithConfirmation(selection, this._options.filter);
+    removeItemsWithConfirmation(selection: ISelectionObject): Promise<string | void> {
+        return _private.removeItems(this, selection);
     }
 
     // endregion remove
