@@ -55,14 +55,14 @@ define('Controls/interface/IEditableList', [
     * @description Допустимые значения для свойства {@link Controls/interface/IEditableList/EditingConfig.typedef mode}.
     * @variant row Редактирование всей строки.
     * @variant cell Редактирование отдельной ячейки.
-    * @demo Controls-demo/grid/EditInPlace/SingleCellEditable/Index
+    * @demo Controls-demo/gridNew/EditInPlace/SingleCellEditable/Index
     */
 
    /*
     * @typedef {Enum} Controls/interface/IEditableList/TEditingMode
     * @variant row Editing of whole row.
     * @variant cell Editing of separated cell.
-    * @demo Controls-demo/grid/EditInPlace/SingleCellEditable/Index
+    * @demo Controls-demo/gridNew/EditInPlace/SingleCellEditable/Index
     */
 
    /**
