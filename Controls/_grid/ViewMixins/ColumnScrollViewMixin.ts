@@ -5,12 +5,14 @@ import {
     DragScrollController
 } from 'Controls/columnScroll';
 import {_Options, SyntheticEvent} from 'UI/Vdom';
+import {Logger} from 'UI/Utils';
 
 const ERROR_MESSAGES = {
     MISSING_HEADER: 'Невозможно отобразить горизонтальны скролл без заголовков или результатов сверху!',
     HEADER_IS_EMPTY: 'Опция Controls/grid:View::header задана как пустой массив. Такое значение является неправльным. Горизонтальный скролл не может быть создан при такой конфигурации.',
     TOO_FREEZE: 'Внутренняя ошибка Controls.grid:View! Ошибка ColumnScroll::IFreezable. Количество разморозок обновления размеров не равно количеству заморозок!',
-    NEEDLESS_CONTROLLER_ALREADY_EXISTS: 'Внутренняя ошибка Controls.grid:View! Горизонтальный скролл только должен появиться, но контроллер уже создан!',
+    NEEDLESS_COLUMN_SCROLL_CONTROLLER_ALREADY_EXISTS: 'Внутренняя ошибка Controls.grid:View! Горизонтальный скролл только должен появиться, но контроллер уже создан!',
+    NEEDLESS_DRAG_SCROLL_CONTROLLER_ALREADY_EXISTS: 'Внутренняя ошибка Controls.grid:View! Возмодность скроллирования мышью только включилась, но контроллер уже создан!',
     CALLED_POSITION_CHANGE_HANDLER: 'Внутренняя ошибка Controls.grid:View! Обработчик перемещения скроллбара горизонтального скролла был вызван при разрушенном контроллере скрола!'
 };
 
@@ -29,6 +31,9 @@ const ERROR_MESSAGES = {
  *      В таком случае шаблон пустого списка будет растянут на ширину всех колонок и "уедет" вправо.
  *  - таблица пустая, отображается пустое представление, шапка показывается. Аналогично предыдущему пункту, плюс
  *      шапка тоже "уедет". Следовательно нужно не только создать, но и показать.
+ *  - в таблице 1 запись, шапка скрыта, результаты отобразаются в режиме 'hasData', > 1. Не показываем скролл, т.к.
+ *      не можем без заголовков, однако иногда это может вызывать ошибочное поведение. Решение одно, изменить режим
+ *      отображения результатов на 'visible'.
  *  FIXME: Поддержаны не все варианты. Возможно, при пустом представлении тоже нужно создавать контроллеры для
  *   консистентноси, он будет обновляться при изменении размеров, но сам скролл колонок будет скрыт.
  *
@@ -44,13 +49,16 @@ const canShowColumnScroll = (self: TColumnScrollViewMixin, options: IAbstractVie
     }
 
     if (options.header instanceof Array && options.header.length === 0) {
-        throw Error(ERROR_MESSAGES.HEADER_IS_EMPTY);
+        Logger.error(ERROR_MESSAGES.HEADER_IS_EMPTY);
+        return false;
     }
 
     // TODO: Все пограничные случаи следует описать в аннотации метода.
     const model = self.getListModel();
     return Boolean(
         !model.destroyed && (
+            !!model.getHeader() || !!(model.getResults() && model.getResults().getResultsPosition() === 'top')
+        ) && (
             options.needShowEmptyTemplate ? (
                 options.headerVisibility === 'visible' ||
                 options.headerInEmptyListVisible === true
@@ -66,6 +74,8 @@ const getViewHeader = (self) => {
     } else if ('results' in self._children) {
         header = self._children.results;
     } else {
+        // Здесь не ошибка не должна обрабатываться, следует "жестко" упасть, т.к. отсутствие заголовков на
+        // этом этапе - внутренняя ошибка списка.
         throw Error(ERROR_MESSAGES.MISSING_HEADER);
     }
     return header;
@@ -247,7 +257,8 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
     _unFreezeColumnScroll(): void {
         this._$columnScrollFreezeCount--;
         if (this._$columnScrollFreezeCount < 0) {
-            throw Error(ERROR_MESSAGES.TOO_FREEZE);
+            Logger.error(ERROR_MESSAGES.TOO_FREEZE);
+            this._$columnScrollFreezeCount = 0;
         }
     },
     _isColumnScrollFrozen(): boolean {
@@ -377,7 +388,8 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
             shouldCheckSizes = true;
             shouldResetColumnScroll = true;
             if (this._$columnScrollController) {
-                throw Error(ERROR_MESSAGES.NEEDLESS_CONTROLLER_ALREADY_EXISTS);
+                Logger.error(ERROR_MESSAGES.NEEDLESS_COLUMN_SCROLL_CONTROLLER_ALREADY_EXISTS);
+                destroyColumnScroll(this);
             }
         }
 
@@ -393,7 +405,8 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
         ) {
             shouldCreateDragScroll = true;
             if (this._$dragScrollController) {
-                throw Error(ERROR_MESSAGES.NEEDLESS_CONTROLLER_ALREADY_EXISTS);
+                Logger.error(ERROR_MESSAGES.NEEDLESS_DRAG_SCROLL_CONTROLLER_ALREADY_EXISTS);
+                destroyColumnScroll(this);
             }
         }
 
