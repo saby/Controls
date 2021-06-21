@@ -1,4 +1,4 @@
-<div class="controls-TileView__itemActions_menu controls_list_theme-{{_options.theme}}" attr:data-qa="controls-TileView__itemActions_menu_popup">
+<div class="controls-TileView__itemActions_menu controls_list_theme-{{_options.theme}}" data-qa="controls-TileView__itemActions_menu_popup">
    <Controls.Container.Async
       templateName="Controls/popupTemplate:Sticky">
       <ws:partial
@@ -7,7 +7,7 @@
          <ws:headerContentTemplate>
             <div
                 class="controls-TileView__itemActions__menu_header"
-                attr:data-qa="controls-TileView__itemActions__menu_header"
+                data-qa="controls-TileView__itemActions__menu_header"
             >
                 <div
                     class="controls-TileView__itemActions__menu_header_title"
@@ -26,7 +26,7 @@
          <ws:bodyContentTemplate>
             <div
                 class="controls-TileView__itemActions__menu_content"
-                attr:data-qa="controls-TileView__itemActions__menu_content"
+                data-qa="controls-TileView__itemActions__menu_content"
             >
                <div class="controls-TileView__itemActions__menu_imageWrapper" style="min-width: {{_options.previewWidth}}px; min-height: {{_options.previewHeight}}px;">
                   <img class="contrls-TileView__itemActions_menu_image {{_options.imageClasses}}"

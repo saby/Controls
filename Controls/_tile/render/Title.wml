@@ -12,7 +12,7 @@
         <div
             class="{{ item.getTitleClasses(itemType, titleStyle, hasTitle, titleLines, titleColorStyle) }}"
             title="{{ item.getDisplayValue() }}"
-            attr:data-qa="controls-TileView__title"
+            data-qa="controls-TileView__title"
         >
             <div attr:itemprop="name" class="{{ item.getEllipsisClasses(itemType, titleLines, staticHeight, hasTitle) }}" style="{{ item.getTitleStyles(itemType, titleLines, textColor) }}">
                 <ws:if data="{{ item.getSearchValue() }}">

@@ -1,7 +1,7 @@
 <div
     attr:class="{{ (item || itemData).getInvisibleClasses() }}"
     attr:style="{{ (item || itemData).getItemStyles('invisible', width || itemWidth, staticHeight, imagePosition, imageViewMode) }}"
-    attr:data-qa="controls-TileView__item_invisible"
+    data-qa="controls-TileView__item_not_invisible"
 >
 </div>
 <ws:if data="{{ (item || itemData).isLastInvisibleItem() }}">
