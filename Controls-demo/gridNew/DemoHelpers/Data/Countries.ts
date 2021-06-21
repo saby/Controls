@@ -193,7 +193,7 @@ export const Countries = {
     ],
     getColumns: (): IColumn[] => [
         { displayProperty: 'number' },
-        { displayProperty: 'country' },
+        { displayProperty: 'country', displayType: 'string' },
         { displayProperty: 'capital' },
         { displayProperty: 'population' },
         { displayProperty: 'square' },
