@@ -53,7 +53,8 @@ export function defaultFontColorStyle(viewMode: string): string {
 
 export function simpleCssStyleGeneration(options: IButtonControlOptions): void {
     this._buttonStyle = options.readOnly ? 'readonly' : options.buttonStyle;
-    this._contrastBackground = options.contrastBackground;
+    this._contrastBackground = options.contrastBackground === undefined ?
+        options.viewMode === 'functionalButton' : options.contrastBackground;
     this._viewMode = options.viewMode;
     // todo временный костыль. Будет удален после https://online.sbis.ru/opendoc.html?guid=b10bc149-8b3a-42b6-a77a-ab021e132d99
     if (this._viewMode === 'onlinePageHeader') {
@@ -92,7 +93,6 @@ export function getDefaultOptions(): object {
         iconStyle: 'secondary',
         iconSize: 'm',
         captionPosition: 'right',
-        contrastBackground: false,
         fontSize: 'm',
         buttonStyle: 'secondary'
     };
