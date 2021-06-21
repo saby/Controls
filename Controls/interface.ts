@@ -83,3 +83,4 @@ export {IInputPlaceholder, IInputPlaceholderOptions} from './_interface/IInputPl
 export {IInputTag, IInputTagOptions} from './_interface/IInputTag';
 export {default as ITextValue} from './_interface/ITextValue';
 export {default as ISelectField, ISelectFieldsOptions} from './_interface/ISelectFields';
+export {default as IOnlyPositive, IOnlyPositiveOptions} from './_interface/IOnlyPositive';
