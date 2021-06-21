@@ -987,6 +987,20 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
     }
 
+    protected _getItemTemplate(
+        viewMode: string,
+        itemTemplate: TemplateFunction,
+        listItemTemplate: TemplateFunction,
+        tileItemTemplate: TemplateFunction
+    ) {
+        if (viewMode === 'tile') {
+            return tileItemTemplate;
+        } else if (viewMode === 'list') {
+            return listItemTemplate || itemTemplate;
+        }
+        return itemTemplate;
+    }
+
     /**
      * Возвращает идентификатор самого верхнего известного корневого узла.
      */
@@ -1330,6 +1344,32 @@ Object.defineProperty(Explorer, 'defaultProps', {
  *     <ws:tileGroupTemplate>
  *         <ws:partial template="Controls/list:GroupTemplate"/>
  *     </ws:tileGroupTemplate>
+ * </Controls.explorer:View>
+ * </pre>
+ * @see itemTemplate
+ * @see itemTemplateProperty
+ */
+
+/**
+ * @name Controls/_explorer/View#listItemTemplate
+ * @cfg {String|TemplateFunction} Шаблон отображения элемента в режиме "Список".
+ * @default undefined
+ * @markdown
+ * @remark
+ * Позволяет установить пользовательский шаблон отображения элемента (**именно шаблон**, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/list:ItemTemplate}.
+ *
+ * Также шаблон Controls/list:ItemTemplate поддерживает {@link Controls/list:ItemTemplate параметры}, с помощью которых можно изменить отображение элемента.
+ *
+ * В разделе "Примеры" показано как с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию listItemTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/list:ItemTemplate.
+ *
+ * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/item/ руководстве разработчика}.
+ * @example
+ * <pre class="brush: html; highlight: [3-5]">
+ * <!-- WML -->
+ * <Controls.explorer:View source="{{_viewSource}}" columns="{{_columns}}" viewMode="table" displayProperty="title" parentProperty="parent" nodeProperty="parent@">
+ *     <ws:listItemTemplate>
+ *         <ws:partial template="Controls/list:ItemTemplate" highlightOnHover="{{false}}" />
+ *     </ws:listItemTemplate>
  * </Controls.explorer:View>
  * </pre>
  * @see itemTemplate
