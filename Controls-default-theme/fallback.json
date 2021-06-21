@@ -256,7 +256,7 @@
   "--readonly_border-color_ArrowButton": "rgba(0, 0, 0, 0.08)",
   "--border-color_hover_ArrowButton": "#CCC",
   "--icon-color_ArrowButton": "#999",
-  "--hover_icon-color_ArrowButton": "var(--hover_text-color_button)",
+  "--hover_icon-color_ArrowButton": "var(--text-color_button)",
   "--readonly_icon-color_ArrowButton": "#CCC",
   "--width_ArrowButton": "var(--width_s_ArrowButton)",
   "--height_ArrowButton": "var(--height_s_ArrowButton)",
