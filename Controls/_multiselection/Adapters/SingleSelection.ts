@@ -23,7 +23,7 @@ class SingleSelection extends Control<IControlOptions> {
 
     protected _handleSelectedKeysChanged(event: SyntheticEvent, keys: number[]|string[], added: number[]|string[], deleted: number[]|string[]): void {
         event.stopPropagation();
-        const selectedKey = added[0] || deleted[0];
+        const selectedKey = added.length ? added[0] : deleted[0];
         this._notify('selectedKeyChanged', [selectedKey], {bubbling: true});
     }
 }
