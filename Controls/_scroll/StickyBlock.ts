@@ -62,6 +62,7 @@ interface IResizeObserver {
  * @mixes Control/interface:IBackgroundStyle
  *
  * @author Красильников А.С.
+ * @demo Controls-demo/Scroll/Container/StickyHeader/SomeSimpleHeaders/Index
  */
 
 /*
