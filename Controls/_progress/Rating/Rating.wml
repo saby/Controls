@@ -5,7 +5,7 @@
          {{'controls-icon_style-' + iconStyle}}"
          on:click="_clickStar()"></span>
 </ws:template>
-<div class="controls-rating ws-flexbox">
+<div class="controls-rating ws-flexbox controls-rating-{{_options.readOnly? 'read-only' : 'active'}}">
    <ws:for data="item in _stars">
       <ws:partial template="star"
                   attr:id="{{item.id + '_' + item.type}}"
