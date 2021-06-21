@@ -45,7 +45,7 @@ import 'css!Controls/treeGrid';
  *
  * @public
  * @author Авраменко А.С.
- * @demo Controls-demo/treeGrid/Base/TreeGridView/Index
+ * @demo Controls-demo/treeGridNew/Base/TreeGridView/Index
  */
 export default class TreeGrid extends Grid implements ITreeGrid {
     protected _viewName: TemplateFunction = null;

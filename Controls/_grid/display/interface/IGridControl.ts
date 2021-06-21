@@ -26,8 +26,8 @@ export interface IGridControl extends IList {
 /**
  * @name Controls/_grid/display/interface/IGridControl#ladderProperties
  * @cfg {Array.<String>} Массив с именами полей, по которым строится {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ лесенка}.
- * @demo Controls-demo/grid/Ladder/Sticky/Index В демо-примере настроено отображение данных "лесенкой" для свойств "photo" и "date". Дополнительно включено прилипание заголовка таблицы, а также прилипание по первой колонке (см. {@link Controls/grid:IColumn#stickyProperty stickyProperty}).
- * @demo Controls-demo/grid/LadderStickyMultiline/StickyMultiline/Index В демо-примере настроено отображение данных "лесенкой" для свойств "date" и "time". Дополнительно включено прилипание по первой колонке.
+ * @demo Controls-demo/gridNew/Ladder/Sticky/Index В демо-примере настроено отображение данных "лесенкой" для свойств "photo" и "date". Дополнительно включено прилипание заголовка таблицы, а также прилипание по первой колонке (см. {@link Controls/grid:IColumn#stickyProperty stickyProperty}).
+ * @demo Controls-demo/gridNew/LadderStickyMultiline/StickyMultiline/Index В демо-примере настроено отображение данных "лесенкой" для свойств "date" и "time". Дополнительно включено прилипание по первой колонке.
  * @example
  * <pre class="brush: js">
  * protected _ladderProperties: string[] = ['date', 'time'];
@@ -49,8 +49,8 @@ export interface IGridControl extends IList {
 /*
  * @name Controls/_grid/display/interface/IGridControl#ladderProperties
  * @cfg {Array.<String>} Array of fields that should be sticky.
- * @demo Controls-demo/grid/Ladder/Sticky/Index
- * @demo Controls-demo/grid/LadderStickyMultiline/StickyMultiline/Index
+ * @demo Controls-demo/gridNew/Ladder/Sticky/Index
+ * @demo Controls-demo/gridNew/LadderStickyMultiline/StickyMultiline/Index
  * @example
  * Set ladderProperties and render item template through the ladderWrapper:
  * <pre>
@@ -83,7 +83,7 @@ export interface IGridControl extends IList {
 /**
  * @name Controls/_grid/display/interface/IGridControl#header
  * @cfg {Array.<Controls/grid:IHeaderCell>} Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ шапки} таблицы.
- * @demo Controls-demo/grid/Header/Default/Index
+ * @demo Controls-demo/gridNew/Header/Default/Index
  * @example
  * Пример 1. Для первой ячейки задаём пользовательский шаблон.
  * <pre class="brush: html; highlight: [2,3,4,5,6,7,8]">
@@ -139,7 +139,7 @@ export interface IGridControl extends IList {
 /*
  * @name Controls/_grid/display/interface/IGridControl#header
  * @cfg {Array.<HeaderCell>} Describes grid's header.
- * @demo Controls-demo/grid/Header/Default/Index
+ * @demo Controls-demo/gridNew/Header/Default/Index
  * @remark
  * Base header content template for Controls/grid:View: "Controls/grid:HeaderContent".
  * @example
@@ -282,16 +282,16 @@ export interface IGridControl extends IList {
 /**
  * @name Controls/_grid/display/interface/IGridControl#stickyHeader
  * @cfg {Boolean} Закрепляет {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ шапку} таблицы.
- * @demo Controls-demo/grid/Header/NoSticky/Index В демо-примере опция stickyHeader установлена в значение false.
- * @demo Controls-demo/grid/Header/Sticky/Index В демо-примере опция stickyHeader установлена в значение true.
+ * @demo Controls-demo/gridNew/Header/NoSticky/Index В демо-примере опция stickyHeader установлена в значение false.
+ * @demo Controls-demo/gridNew/Header/Sticky/Index В демо-примере опция stickyHeader установлена в значение true.
  * @default true
  */
 
 /*
  * @name Controls/_grid/display/interface/IGridControl#stickyHeader
  * @cfg {Boolean} Fix the table header.
- * @demo Controls-demo/grid/Header/Sticky/Index
- * @demo Controls-demo/grid/Header/NoSticky/Index
+ * @demo Controls-demo/gridNew/Header/Sticky/Index
+ * @demo Controls-demo/gridNew/Header/NoSticky/Index
  * @default true
  */
 
@@ -346,7 +346,7 @@ export interface IGridControl extends IList {
  * @default 1
  * @remark
  * Колонка с чекбоксами {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/ множественного выбора} всегда зафиксирована и не входит в число stickyColumnsCount.
- * @demo Controls-demo/grid/ColumnScroll/Base/Index
+ * @demo Controls-demo/gridNew/ColumnScroll/Base/Index
  * @see columnScroll
  * @see columnScrollStartPosition
  * @see dragScrolling
@@ -359,7 +359,7 @@ export interface IGridControl extends IList {
  * @see Controls/_grid/display/interface/IGridControl#columnScroll
  * @remark
  * Multiple selection column is always fixed and does not count towards this number.
- * @demo Controls-demo/grid/ColumnScroll/Base/Index
+ * @demo Controls-demo/gridNew/ColumnScroll/Base/Index
  */
 
 /**
@@ -443,7 +443,7 @@ export interface IGridControl extends IList {
  * @name Controls/_grid/display/interface/IGridControl#resultsTemplate
  * @cfg {TemplateFunction|String} Пользовательский шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ строки итогов}.
  * @default undefined
- * @demo Controls-demo/grid/Results/ResultsTemplate/Index
+ * @demo Controls-demo/gridNew/Results/ResultsTemplate/Index
  * @markdown
  * @remark
  * Позволяет установить пользовательский шаблон отображения строки итогов (именно шаблон, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона Controls/grid:ResultsTemplate.
@@ -488,7 +488,7 @@ export interface IGridControl extends IList {
  * @name Controls/_grid/display/interface/IGridControl#resultsPosition
  * @cfg {Controls/_grid/display/interface/IGridControl/ResultsPosition.typedef|undefined} Позиция отображения {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ строки итогов}.
  * @default undefined
- * @demo Controls-demo/grid/Results/ResultsPosition/Index
+ * @demo Controls-demo/gridNew/Results/ResultsPosition/Index
  * @remark
  * В значении undefined строка итогов скрыта.
  * @result
@@ -513,7 +513,7 @@ export interface IGridControl extends IList {
 /**
  * @name Controls/_grid/display/interface/IGridControl#resultsVisibility
  * @cfg {Controls/_grid/display/interface/IGridControl/ResultsVisibility.typedef} Отображение {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ строки итогов} при наличии или отсутствии элементов.
- * @demo Controls-demo/grid/Results/FromMeta/Index
+ * @demo Controls-demo/gridNew/Results/FromMeta/Index
  * @remark
  * Для отображения строки итогов необходимо задать значение в опции {@link resultsPosition}.
  * @default hasdata
@@ -531,7 +531,7 @@ export interface IGridControl extends IList {
 /**
  * @name Controls/_grid/display/interface/IGridControl#headerVisibility
  * @cfg {Controls/_grid/display/interface/IGridControl/HeaderVisibility.typedef} Отображение {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ шапки} при наличии или отсутствии элементов.
- * @demo Controls-demo/grid/Header/HeaderVisibility/Index
+ * @demo Controls-demo/gridNew/Header/HeaderVisibility/Index
  * @default hasdata
  */
 
@@ -594,7 +594,7 @@ export interface IGridControl extends IList {
  * Чтобы стрелка отобразилась в прикладном шаблоне ячейки, необходимо в опции {@link Controls/grid:ColumnTemplate#contentTemplate contentTemplate} явно указать позицию стрелки. Для этого используется переменная editArrowTemplate из области видимости самого шаблона. Пример использования посмотрите {@link Controls/grid:ColumnTemplate#contentTemplate тут}.
  *
  * **Обратите внимание!** Для отображения стрелки по свайпу необходимо всегда указывать опцию showEditArrow=true, вне зависимости от того, используется прикладной шаблон или нет.
- * @demo Controls-demo/grid/ShowEditArrow/Index
+ * @demo Controls-demo/gridNew/ShowEditArrow/Index
  * @example
  * <pre class="brush: html; highlight: [5,12]">
  * <!-- WML -->
@@ -624,7 +624,7 @@ export interface IGridControl extends IList {
  * @cfg {Boolean} Allows showing button in first column on hover and in swipe menu.
  * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FEditArrow">Example</a>
  * @remark To place the button in the user column template, you should use the editArrowTemplate
- * @demo Controls-demo/grid/ShowEditArrow/Index
+ * @demo Controls-demo/gridNew/ShowEditArrow/Index
  * @example
  * <ws:partial template="{{editArrowTemplate}}" itemData="{{itemData}}"/>
  */

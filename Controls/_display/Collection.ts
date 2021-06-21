@@ -198,7 +198,7 @@ export interface IHasMoreData {
  * @variant row - Редактирование всей строки таблицы
  * @variant cell - Редактирование отдельных ячеек таблицы
  * @default row
- * @demo Controls-demo/grid/EditInPlace/SingleCellEditable/Index
+ * @demo Controls-demo/gridNew/EditInPlace/SingleCellEditable/Index
  */
 
 /*
@@ -206,7 +206,7 @@ export interface IHasMoreData {
  * @variant row - Editing of whole row.
  * @variant cell - Editing of separated cell.
  * @default row
- * @demo Controls-demo/grid/EditInPlace/SingleCellEditable/Index
+ * @demo Controls-demo/gridNew/EditInPlace/SingleCellEditable/Index
  */
 type TEditingMode = 'cell' | 'row';
 

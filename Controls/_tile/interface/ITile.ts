@@ -39,7 +39,7 @@
 /**
  * @cfg {Controls/_list/interface/IList/ItemPadding.typedef} Конфигурация внешних отступов плитки.
  * @name Controls/_tile/interface/ITile#itemsContainerPadding
- * @demo Controls-demo/Tile/ItemsContainerPadding/Index
+ * @demo Controls-demo/tileNew/ItemsContainerPadding/Index
  * @example
  * <pre class="brush: html; highlight: [4-8]"> 
  * <!-- WML -->
@@ -275,7 +275,7 @@
  *    </ws:itemTemplate>
  * </Controls.tile:View>
  * </pre>
- * @demo Controls-demo/Tile/TileMode/Dynamic/Index
+ * @demo Controls-demo/tileNew/TileMode/Dynamic/Index
  */
 
 /**
