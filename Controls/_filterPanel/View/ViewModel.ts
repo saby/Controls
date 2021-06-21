@@ -7,11 +7,12 @@ import {VersionableMixin} from 'Types/entity';
 import {mixin} from 'Types/util';
 import {FilterUtils} from 'Controls/filter';
 import * as coreClone from 'Core/core-clone';
+import {StickyOpener} from 'Controls/popup';
 
 interface IFilterViewModelOptions {
     source: IFilterItem[];
     collapsedGroups: string[] | number[];
-    filterViewMode: string;
+    applyButtonSticky: StickyOpener;
 }
 
 interface IFilterGroup {
@@ -59,7 +60,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
                 ...item.editorOptions,
                 ...{
                     viewMode: item.viewMode,
-                    filterViewMode: this._options.filterViewMode
+                    applyButtonSticky: this._options.applyButtonSticky
                 }};
             newSource.push({...item, ...{editorOptions}});
         });
@@ -110,7 +111,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
 
     setEditingObject(editingObject: Record<string, IExtendedPropertyValue>): void {
         this._editingObject = editingObject;
-        this._source = object.clone(this._source);
+        this._source = this._getSource(this._source);
         this._source.forEach((item) => {
             const editingItemProperty = editingObject[item.name];
             this._setValueToSourceItem(item, editingItemProperty);

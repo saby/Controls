@@ -25,7 +25,7 @@ export interface IItemTemplateParams {
     clickable?: boolean;
 }
 
-interface IInitializeColumnsOptions {
+export interface IInitializeColumnsOptions {
     shouldAddStickyLadderCells?: boolean;
     shouldAddMultiSelectCell?: boolean;
     addEmptyCellsForStickyLadder?: boolean;
@@ -424,14 +424,14 @@ export default abstract class Row<T> {
             let colspan = this._$getColspan(column, columnIndex);
             if (colspan === 'end') {
                 colspan = this.getColumnsConfig().length - columnIndex;
-                if (this.hasMultiSelectColumn() && shouldColspanWithMultiselect) {
-                    colspan++;
-                }
-                if (shouldColspanWithStickyLadderCells && this.isFullGridSupport()) {
-                    const stickyLadderProperties = this.getStickyLadderProperties(this.getColumnsConfig()[0]);
-                    const stickyLadderCellsCount = stickyLadderProperties && stickyLadderProperties.length || 0;
-                    colspan += stickyLadderCellsCount;
-                }
+            }
+            if (this.hasMultiSelectColumn() && shouldColspanWithMultiselect) {
+                colspan++;
+            }
+            if (shouldColspanWithStickyLadderCells && this.isFullGridSupport()) {
+                const stickyLadderProperties = this.getStickyLadderProperties(this.getColumnsConfig()[0]);
+                const stickyLadderCellsCount = stickyLadderProperties && stickyLadderProperties.length || 0;
+                colspan += stickyLadderCellsCount;
             }
             if (skipColumns) {
                 if (colspan === 1) {

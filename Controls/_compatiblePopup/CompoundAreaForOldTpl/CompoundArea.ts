@@ -76,7 +76,11 @@ var CompoundArea = CompoundContainer.extend([
          this._className += ' controls-CompoundArea-close_button';
       }
 
-      this._className += ` controls-CompoundArea_type-${_options.type || 'dialog'}`;
+      let type = _options.type || 'dialog';
+      if (type === 'dialog') {
+         type += `-${ _options.maximize ? 'maximized' : 'minimized' }`;
+      }
+      this._className += ` controls-CompoundArea_type-${type}`;
 
       this.subscribeTo(EnvEvent.Bus.channel('navigation'), 'onBeforeNavigate', this._onBeforeNavigate.bind(this));
 
