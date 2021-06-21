@@ -562,7 +562,7 @@
   "--background-color_infobox": "#f7f8fa",
   "--info_background-color_infobox": "#f2f2fe",
   "--font-size_infobox": "var(--font-size_l)",
-  "--marker-thickness_infobox": "var(--border-thickness_infobox)",
+  "--marker-thickness_infobox": "var(--border-thickness)",
   "--header_padding-left_dialog": "var(--offset_m)",
   "--header-min-height_dialog": "44px",
   "--header_lineheight_dialog": "27px",
