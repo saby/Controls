@@ -8266,7 +8266,7 @@ define([
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
             });
 
-            it('change markerVisibility on visible', () => {
+            xit('change markerVisibility on visible', () => {
                let newCfg = getCorrectBaseControlConfig({
                   ...cfg,
                   markerVisibility: 'onactivated'
