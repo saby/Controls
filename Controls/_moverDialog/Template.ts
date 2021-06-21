@@ -79,8 +79,9 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         this._itemActionVisibilityCallback = this._itemActionVisibilityCallback.bind(this);
     }
 
-    protected _itemsFilterMethod(item: Record): boolean {
+    protected _itemsFilterMethod(items: Record | Record[]): boolean {
         let result = true;
+        const item = Array.isArray(items) ? items[items.length - 1] : items;
 
         if (item.get) {
             result = this._options.movedItems.indexOf(item.get(this._options.keyProperty)) === -1;
