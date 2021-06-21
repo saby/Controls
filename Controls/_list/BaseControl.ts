@@ -6301,7 +6301,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _mouseEnter(event): void {
-        this._dragEnter(this._getDragObject());
+        if (this._listViewModel) {
+            this._dragEnter(this._getDragObject());
+        }
 
         // Нельзя отображать верхний индикатор, если уже отображается нижний и элементы не занимают весь вьюпорт
         // Верхний индикатор пересчитаем после подгрузки элементов
@@ -6324,7 +6326,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _mouseLeave(event): void {
-        this._dragLeave();
+        if (this._listViewModel) {
+            this._dragLeave();
+        }
     }
 
     __pagingChangePage(event, page) {
