@@ -120,6 +120,7 @@ export default class MultipleInputNew extends Control<IMultipleInputNewOptions> 
         if (this._notify('showSelector') !== false) {
             this.showSelector(lookupName);
         }
+        event.stopPropagation();
     }
 
     protected _itemClick(event: SyntheticEvent, lookupName: string, item: Model): void {
