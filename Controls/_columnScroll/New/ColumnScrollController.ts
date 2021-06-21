@@ -2,6 +2,7 @@ import {Guid} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {detection} from 'Env/Env';
 import {IContainers as IStyleContainers} from './StyleContainers/StyleContainers';
+import {Logger} from 'UI/Utils';
 
 export interface IControllerOptions {
     stickyColumnsCount?: number;
@@ -604,19 +605,21 @@ export default class ColumnScrollController {
 
     static shouldDrawColumnScroll(viewContainers, getFixedPartWidth, isFullGridSupport: boolean): IShouldDrawColumnScrollResult {
             const calcResult = () => {
-                const contentContainerSize = viewContainers.grid.scrollWidth;
-                const scrollContainerSize = isFullGridSupport ? viewContainers.grid.offsetWidth : viewContainers.gridWrapper.offsetWidth;
+                let contentContainerSize = 0;
+                let scrollContainerSize = 0;
+                let fixedColumnsWidth = 0;
                 const header = 'header' in viewContainers ? viewContainers.header : viewContainers.results;
+
                 if (!header) {
-                    throw Error('Header is missing!');
+                    Logger.error('Header is missing!');
+                } else {
+                    contentContainerSize = viewContainers.grid.scrollWidth;
+                    scrollContainerSize = isFullGridSupport ? viewContainers.grid.offsetWidth : viewContainers.gridWrapper.offsetWidth;
+                    fixedColumnsWidth = getFixedPartWidth(viewContainers.gridWrapper, header);
                 }
                 return {
                     status: contentContainerSize > scrollContainerSize,
-                    sizes: {
-                        scrollContainerSize,
-                        contentContainerSize,
-                        fixedColumnsWidth: getFixedPartWidth(viewContainers.gridWrapper, header)
-                    }
+                    sizes: {scrollContainerSize, contentContainerSize, fixedColumnsWidth}
                 };
             };
 
