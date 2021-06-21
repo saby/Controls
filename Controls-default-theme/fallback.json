@@ -218,7 +218,7 @@
   "--border-radius_4xl_button_functionalButton": "22px",
   "--border-radius_5xl_button_functionalButton": "24px",
   "--border-radius_default_button_functionalButton": "12px",
-  "--min-width_button_button": "calc(var(--inline_height_default) + var(--padding-horizontal_m_button) * 2)",
+  "--min-width_button_button": "calc(var(--inline_height_m) + var(--padding-horizontal_m_button) * 2)",
   "--text-color_button": "var(--text-color)",
   "--readonly_text-color_button": "var(--readonly_color)",
   "--readonly_text-color_button_button": "var(--readonly_text-color_button)",
@@ -256,7 +256,7 @@
   "--readonly_border-color_ArrowButton": "rgba(0, 0, 0, 0.08)",
   "--border-color_hover_ArrowButton": "#CCC",
   "--icon-color_ArrowButton": "#999",
-  "--hover_icon-color_ArrowButton": "var(--hover_text-color_button)",
+  "--hover_icon-color_ArrowButton": "var(--text-color_button)",
   "--readonly_icon-color_ArrowButton": "#CCC",
   "--width_ArrowButton": "var(--width_s_ArrowButton)",
   "--height_ArrowButton": "var(--height_s_ArrowButton)",
@@ -1044,7 +1044,7 @@
   "--item_font-size_menu": "var(--font-size_l)",
   "--item_text-color_menu": "var(--text-color)",
   "--empty-item_text-color_menu": "#ccc",
-
+  "--readonly_item_text-color_menu": "var(--readonly_color)",
   "--item_height_menu": "32px",
   "--item_padding-horizontal_s_menu": "var(--offset_2xs)",
   "--item_padding-horizontal_l_menu": "var(--offset_m)",
@@ -1056,7 +1056,9 @@
 
   "--hierarchy_icon_offset-right_menu": "var(--offset_xs)",
   "--hierarchy_icon_offset-left_menu": "var(--offset_xs)",
-
+  "--pin-button_offset-right_menu": "var(--offset_m)",
+  "--pin-button_icon-size_menu": "var(--icon-size_s)",
+  "--pin-button_offset-left_menu": "var(--offset_xs)",
   "--marker_width_menu": "6px",
   "--marker_height_menu": "9px",
   "--marker_color_menu": "#d94700",
@@ -1568,9 +1570,9 @@
   "--danger_text-color_decorator_fraction": "#ceb1b1",
   "--stroked_line-color_decorator": "#999",
 
-  "--monthview_width_monthSlider": "calc(var(--monthview_item_width_monthSlider) * 7 + var(--monthview_item_border-thickness_monthSlider) * 8)",
+  "--monthview_width_monthSlider": "calc(var(--monthview_item_height_monthSlider) * 7 + var(--monthview_item_border-thickness_monthSlider) * 8)",
   "--monthview_height_monthSlider": "calc(var(--weekdays_height_monthSlider) + var(--header_height_monthSlider) + 6 * (var(--monthview_item_height_monthSlider) + var(--monthview_item_border-thickness_monthSlider)))",
-
+  "--monthview_item_border-thickness_monthSlider": "var(--border-thickness)",
   "--header_height_monthSlider": "28px",
   "--arrow_icon-size_monthSlider": "var(--icon-size_s)",
   "--heading_text-color_monthSlider": "#587AB0",
