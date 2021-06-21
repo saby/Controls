@@ -117,7 +117,10 @@ export default class MultipleInputNew extends Control<IMultipleInputNewOptions> 
     }
 
     protected _showSelector(event: SyntheticEvent, lookupName: string): void {
-        this.showSelector(lookupName);
+        if (this._notify('showSelector') !== false) {
+            this.showSelector(lookupName);
+        }
+        event.stopPropagation();
     }
 
     protected _itemClick(event: SyntheticEvent, lookupName: string, item: Model): void {
@@ -126,6 +129,12 @@ export default class MultipleInputNew extends Control<IMultipleInputNewOptions> 
 
     protected _choose(event: SyntheticEvent, lookupName: string, item: Model): void {
         this._notify('choose', [item, lookupName]);
+    }
+
+    protected _proxyEvent(event: SyntheticEvent, eventName: string, lookupName: string): void {
+        const eventArgsIndex = 3;
+        const args = Array.prototype.slice.call(arguments, eventArgsIndex);
+        return this._notify(eventName, args.concat(lookupName));
     }
 
     showSelector(lookupName: string, popupOptions?: IStackPopupOptions): void {

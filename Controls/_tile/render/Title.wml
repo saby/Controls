@@ -1,12 +1,19 @@
 <div class="{{ item.getTitleWrapperClasses(itemType, titleLines, gradientType, titleStyle) }}"
-     style="{{ item.getTitleWrapperStyles(itemType, imageViewMode, imagePosition, gradientColor) }}">
+    style="{{ item.getTitleWrapperStyles(itemType, imageViewMode, imagePosition, gradientColor) }}">
     <ws:if data="{{ (item || itemData).shouldDisplayGradient(itemType, imageEffect, imageViewMode, imagePosition, 'title') }}">
-        <div class="{{ (item || itemData).getGradientClasses(itemType, gradientType) }}"
-             style="{{ (item || itemData).getGradientStyles(itemType, gradientColor, gradientType) }}"></div>
+        <div
+            class="{{ (item || itemData).getGradientClasses(itemType, gradientType) }}"
+            style="{{ (item || itemData).getGradientStyles(itemType, gradientColor, gradientType) }}"
+        >
+        </div>
     </ws:if>
 
     <ws:if data="{{ item.shouldDisplayTitle(itemType) }}">
-        <div class="{{ item.getTitleClasses(itemType, titleStyle, hasTitle, titleLines, titleColorStyle) }}" title="{{ item.getDisplayValue() }}">
+        <div
+            class="{{ item.getTitleClasses(itemType, titleStyle, hasTitle, titleLines, titleColorStyle) }}"
+            title="{{ item.getDisplayValue() }}"
+            data-qa="controls-TileView__title"
+        >
             <div attr:itemprop="name" class="{{ item.getEllipsisClasses(itemType, titleLines, staticHeight, hasTitle) }}" style="{{ item.getTitleStyles(itemType, titleLines, textColor) }}">
                 <ws:if data="{{ item.getSearchValue() }}">
                     <Controls.decorator:Highlight highlightedValue="{{ item.getSearchValue() }}" className="{{highlightClassName}}">

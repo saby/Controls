@@ -1480,7 +1480,9 @@ const _private = {
      * Обработать прокрутку списка виртуальным скроллом
      */
     handleListScroll(self, params) {
-
+        if (_private.hasHoverFreezeController(self) && _private.isAllowedHoverFreeze(self)) {
+            self._hoverFreezeController.unfreezeHover();
+        }
     },
 
     getTopOffsetForItemsContainer(self, itemsContainer) {
@@ -4874,6 +4876,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     }
                     this._handleLoadToDirection = false;
                     resolver();
+                }).catch((error) => {
+                    return error;
                 });
             }
         });
@@ -5404,7 +5408,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return new Promise((resolve) => {
             // Редактирование может запуститься при построении.
             const eventResult = this._isMounted ? this._notify('beforeBeginEdit', params.toArray()) : undefined;
-            _private.removeShowActionsClass(this);
             if (this._savedItemClickArgs && this._isMounted) {
                 // itemClick стреляет, даже если после клика начался старт редактирования, но itemClick
                 // обязательно должен случиться после события beforeBeginEdit.
@@ -5470,8 +5473,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // уведомлений о запуске редактирования происходить не должно, а дождаться построение
         // редактора невозможно(построение списка не будет завершено до выполнения данного промиса).
         return new Promise((resolve) => {
+            // Принудительно прекращаем заморозку ховера
+            if (_private.hasHoverFreezeController(this)) {
+                this._hoverFreezeController.unfreezeHover();
+            }
             // Операции над записью должны быть обновлены до отрисовки строки редактирования,
             // иначе будет "моргание" операций.
+            _private.removeShowActionsClass(this);
             _private.updateItemActions(this, this._options, item);
             this._continuationEditingDirection = null;
 
@@ -6295,7 +6303,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _mouseEnter(event): void {
-        this._dragEnter(this._getDragObject());
+        if (this._listViewModel) {
+            this._dragEnter(this._getDragObject());
+        }
 
         // Нельзя отображать верхний индикатор, если уже отображается нижний и элементы не занимают весь вьюпорт
         // Верхний индикатор пересчитаем после подгрузки элементов
@@ -6318,7 +6328,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _mouseLeave(event): void {
-        this._dragLeave();
+        if (this._listViewModel) {
+            this._dragLeave();
+        }
     }
 
     __pagingChangePage(event, page) {
@@ -6402,6 +6414,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // и закрытию окна. Для ios отключаю реакцию на скролл, событие скролла стрельнуло на body.
         if (detection.isMobileIOS && (scrollEvent.target === document.body || scrollEvent.target === document)) {
             return;
+        }
+        if (_private.hasHoverFreezeController(this) && _private.isAllowedHoverFreeze(this)) {
+            this._hoverFreezeController.unfreezeHover();
         }
         _private.closeActionsMenu(this);
     }
@@ -6713,7 +6728,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             hasPaging: !!this._pagingVisible,
             loadingIndicatorState: indicatorState,
             theme: this._options.theme,
-            isPortionedSearchInProgress: !!this._portionedSearchInProgress,
+            isPortionedSearchInProgress: !!this._portionedSearchInProgress && this._loadingIndicatorState === state,
             attachLoadTopTriggerToNull: this._attachLoadTopTriggerToNull,
             attachLoadDownTriggerToNull: this._attachLoadDownTriggerToNull,
             attachLoadTopTriggerToNullOption: this._options.attachLoadTopTriggerToNull

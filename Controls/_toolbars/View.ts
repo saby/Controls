@@ -254,15 +254,16 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         });
     }
 
-    private _setSourceByItems(items: TItem): void {
+    private _setSourceByItems(items: TItems): void {
         if (!this._sourceByItems) {
             this._sourceByItems = this._createMemory(items);
         }
     }
 
-    private _getSynchronousSourceForMenu(): ICrudPlus {
-        if (this._options.items) {
-            this._setSourceByItems(this._options.items);
+    private _getSynchronousSourceForMenu(menuItems?: TItems): ICrudPlus {
+        const items = menuItems || this._options.items;
+        if (items) {
+            this._setSourceByItems(items);
             return this._sourceByItems;
         }
         if (this._source) {
@@ -409,7 +410,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             this._menuSource = this._options.menuSource;
         } else {
             const menuItems = Toolbar._calcMenuItems(this._items);
-            const source = this._options.source || this._getSynchronousSourceForMenu();
+            const source = this._options.source || this._getSynchronousSourceForMenu(menuItems);
             this._menuSource = this._createPrefetchProxy(source, menuItems);
         }
     }

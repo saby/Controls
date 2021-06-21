@@ -4,14 +4,8 @@
             source="{{_viewSource}}"
             columns="{{_columns}}"
             parentProperty="parent"
+            colspanCallback="{{ _colspanCallback }}"
             nodeProperty="type">
         <ws:editingConfig editOnClick="{{true}}" enabled="{{true}}"/>
-        <ws:itemTemplate>
-            <ws:partial template="Controls/grid:RowEditor">
-                <div style="padding-bottom: 30px">
-                    Расширенный шаблон редактирования
-                </div>
-            </ws:partial>
-        </ws:itemTemplate>
     </Controls.treeGrid:View>
 </div>

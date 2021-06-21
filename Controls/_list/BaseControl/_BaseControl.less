@@ -127,8 +127,9 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 .controls-BaseControl__emptyTemplate__contentWrapper {
-   flex-shrink: 0;
+   // Пустое представление обязано и расширяться и сжиматья, подстраиваясь под список
    flex-grow: 1;
+   max-width: 100%;
 }
 
 .controls-BaseControl__loadingIndicator__state-attachToNull {

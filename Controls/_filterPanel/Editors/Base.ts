@@ -9,7 +9,7 @@ export abstract class BaseEditor extends Control<IControlOptions> {
     protected _editorTarget: HTMLElement | EventTarget | Control<{}, void>;
 
     protected _notifyPropertyValueChanged(value: object, needCollapse?: boolean): void {
-        if (needCollapse) {
+        if (needCollapse || !this._options.applyButtonSticky) {
             this._hideApplyButton();
             this._notify('propertyValueChanged', [value], {bubbling: true});
         } else {
