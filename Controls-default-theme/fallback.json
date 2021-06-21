@@ -218,7 +218,7 @@
   "--border-radius_4xl_button_functionalButton": "22px",
   "--border-radius_5xl_button_functionalButton": "24px",
   "--border-radius_default_button_functionalButton": "12px",
-  "--min-width_button_button": "calc(var(--inline_height_default_button) + var(--padding-horizontal_m_button) * 2)",
+  "--min-width_button_button": "calc(var(--inline_height_default) + var(--padding-horizontal_m_button) * 2)",
   "--text-color_button": "var(--text-color)",
   "--readonly_text-color_button": "var(--readonly_color)",
   "--readonly_text-color_button_button": "var(--readonly_text-color_button)",
@@ -974,7 +974,7 @@
 
   "--toolbar_padding-right_editableArea": "5px",
 
-  "--height_applyButton_editableArea": "var(--inline_height_m_button)",
+  "--height_applyButton_editableArea": "var(--inline_height_m)",
 
   "--border-radius_applyButton_editableArea": "12px",
   "--box-shadow_applyButton_editableArea": "0 1px 4px rgba(0, 0, 0, 0.05)",
@@ -983,7 +983,7 @@
 
   "--text-shadow_applyButton_editableArea": "var(--text-shadow_button)",
   "--icon-size_applyButton_editableArea": "var(--icon-size_s)",
-  "--height_closeButton_editableArea": "var(--inline_height_m_button)",
+  "--height_closeButton_editableArea": "var(--inline_height_m)",
   "--width_closeButton_editableArea": "24px",
   "--border-thickness_closeButton_editableArea": "0",
   "--border-color_closeButton_editableArea": "var(--border-color_closeButton_toolButton)",
